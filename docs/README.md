@@ -1,0 +1,30 @@
+# Tervain documentation
+
+Status: foundation outline, 29 September 2026. No runtime is implemented by these documents.
+
+## Reading paths
+
+| Reader / task | Read in order |
+| --- | --- |
+| Understand the game | [Vision](vision.md) → [setting](world/setting.md) → [factions](world/factions.md) → [slice](production/vertical-slice.md). |
+| Design a quest | [Gameplay](design/gameplay.md) → [factions](world/factions.md) → [quests and consequences](design/quests-and-consequences.md) → [narrative](world/narrative.md). |
+| Start implementation | [Decisions](decisions.md) → [architecture](engineering/architecture.md) → [shared assets](engineering/shared-assets.md) → [slice](production/vertical-slice.md). |
+| Make environment or character art | [Art/audio/UI](art/art-audio-ui.md) → [setting](world/setting.md) → [shared assets](engineering/shared-assets.md). |
+| Plan the project | [Vision](vision.md) → [roadmap](production/roadmap.md) → [decisions](decisions.md). |
+| Check a source or assumption | [Reference ledger](references.md) → the dated upstream record named there. |
+
+## Document authority
+
+The [decision register](decisions.md) records owner-established direction. Domain documents expand it with proposed implementation and lore. In a conflict, preserve the explicit user decision, identify the inconsistency, and update the affected documents together. A long description or precise number does not make a proposal approved or implemented.
+
+## Shared vocabulary
+
+- **Tervain:** selected game title; proposed local setting name. Its precise geographic scale is open.
+- **Templars:** working label for our original ecological religious order; final formal name and identity are open.
+- **Accord of the Wells:** proposed original founding settlement around shared water, sanctuary, and land obligations.
+- **Bellwether Vale / Rillford:** proposed first-playable valley and village.
+- **The Dry Bell:** proposed first complete quest.
+- **Slice:** the bounded experience in the [slice brief](production/vertical-slice.md), not the whole eventual game.
+- **Target:** an intended result to test. **Measured:** a result with a build, device, settings, and procedure attached.
+
+All of the proper nouns below the selected title are working design material. Their inclusion is permission to iterate on a coherent proposal, not a claim that naming, localization, or commercial clearance is complete.

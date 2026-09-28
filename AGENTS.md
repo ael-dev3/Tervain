@@ -1,0 +1,26 @@
+# Working in Tervain
+
+Tervain is in pre-production. Start with README.md, docs/vision.md, and docs/decisions.md.
+
+## Maintain the intended game
+
+- Preserve the owner-established direction: original serious single-player Steam high fantasy; a Templar-inspired order; diverse local factions away from Warpkeep's future main conflict; little warping; no initial keep-management focus.
+- Treat Hyperion and Gothic 3 as creative references. Write original characters, doctrine, plots, dialogue, geography, and visual expression.
+- The working labels Templars, Hegemony, Core, and Ousters describe this project's discussion. Do not import the books' canon as this game's history.
+- Label newly invented lore, system choices, numerical targets, and estimates as proposals until a decision is recorded. Do not turn prototype assumptions into owner decisions.
+- Keep systems and story consistent across the setting, faction, quest, and slice documents. Update affected links and the decision register when a choice changes.
+
+## Work honestly and usefully
+
+- Report implemented behavior, proposed design, measured results, and unverified goals separately.
+- Do not present installed tools, a chosen engine, published assets, Steam compatibility, or performance as verified without evidence.
+- Preserve unrelated work. This repository has no authority over Warpkeep deployments, live accounts, releases, or economies.
+- Prefer a working vertical slice to broad framework or content expansion. Infrastructure should serve the next demonstrated player experience.
+- Read and record source/license information before copying sibling code or assets. Use docs/engineering/shared-assets.md for the inventory convention.
+- Document why a technical choice helps the player and how its tradeoff was evaluated.
+
+## Checks appropriate to the change
+
+For documentation, check relative links, consistency, spelling of identifiers, and `git diff --check`. For implementation, use the actual repository commands when they exist and select meaningful checks for the changed behavior. There is no build or automated game test suite in the foundation seed.
+
+Do not add a nominal test suite simply to test the wording of these documents. Do not claim a runtime passes because Markdown checks passed.
