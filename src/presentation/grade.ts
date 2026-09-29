@@ -81,7 +81,9 @@ export class Grade {
   enabled = true;
 
   constructor(private renderer: THREE.WebGLRenderer, opts: GradeOptions) {
-    this.target = new THREE.WebGLRenderTarget(4, 4, { type: THREE.HalfFloatType, samples: opts.msaa ? 4 : 0, depthBuffer: true, colorSpace: THREE.LinearSRGBColorSpace });
+    // Half-float targets need a WebGL2 colour-buffer extension; without one fall back to 8 bits (sun highlights clip, nothing else breaks).
+    const half = renderer.extensions.has('EXT_color_buffer_float') || renderer.extensions.has('EXT_color_buffer_half_float');
+    this.target = new THREE.WebGLRenderTarget(4, 4, { type: half ? THREE.HalfFloatType : THREE.UnsignedByteType, samples: opts.msaa ? 4 : 0, depthBuffer: true, colorSpace: THREE.LinearSRGBColorSpace });
     this.target.texture.minFilter = THREE.LinearFilter;
     this.target.texture.magFilter = THREE.LinearFilter;
     this.material = new THREE.ShaderMaterial({
