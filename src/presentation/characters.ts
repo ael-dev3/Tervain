@@ -1,6 +1,10 @@
 import * as THREE from 'three';
 import type { Accessory, NpcDef } from '../content/npcs';
 import { PAL } from './kit';
+import type { AssetNeed } from './assets/library';
+
+/** Assets this module wants loaded before the world is built. */
+export const NEEDS: AssetNeed[] = [];
 
 /**
  * Procedural low-poly people and creatures built from primitives. They are honest

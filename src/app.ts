@@ -24,11 +24,12 @@ import { DialogueView, type DlgChoice } from './presentation/ui/dialogueView';
 import { MapView } from './presentation/ui/map';
 import { PanelHost, aboutPanel, controlsPanel, describeMissing, inventoryPanel, journalPanel, noticePanel, pauseMenu, settingsPanel, sluicePanel, slotsPanel, type PanelActions, type PanelCtx } from './presentation/ui/panels';
 import { h, clear } from './presentation/ui/dom';
+import { AssetLibrary } from './presentation/assets/library';
 import { WorldScene } from './presentation/world';
 
 type Mode = 'loading' | 'title' | 'play' | 'dead';
 
-const GAME_VERSION = '0.1.0';
+const GAME_VERSION = '0.0.1';
 const REVISION = typeof __SOURCE_REVISION__ === 'string' ? __SOURCE_REVISION__ : 'dev';
 
 export class App {
@@ -39,6 +40,7 @@ export class App {
   audio = new AudioEngine(() => this.settings);
   renderer!: THREE.WebGLRenderer;
   world!: WorldScene;
+  library: AssetLibrary = AssetLibrary.empty();
   cam = new CameraRig();
   player = new Player();
   npcs: NpcActor[] = [];
@@ -85,6 +87,9 @@ export class App {
   /* ================================ boot ================================ */
 
   async init() {
+    const qp = new URLSearchParams(location.search);
+    const qq = qp.get('quality');
+    if (qp.has('shot') && (qq === 'low' || qq === 'medium' || qq === 'high')) this.settings.quality = qq;
     this.input = new Input(this.canvas, () => this.settings);
     this.applyUiSettings();
     this.buildShell();
@@ -107,7 +112,12 @@ export class App {
 
     // Let the loading text paint before the (synchronous) valley build.
     await new Promise((r) => setTimeout(r, 30));
-    this.buildWorld();
+    try {
+      this.library = await AssetLibrary.open();
+    } catch (e) {
+      console.warn('shared assets unavailable; using procedural art', e);
+    }
+    await this.buildWorld();
 
     this.audio.onCaption = (t) => this.settings.captions && this.hud.caption(t);
     this.game.subscribe((ev) => this.onGameEvents(ev));
@@ -128,9 +138,39 @@ export class App {
 
     this.enterTitle();
     this.loadingEl.classList.add('off');
+    this.applyShotParams();
     this.last = performance.now();
     requestAnimationFrame((t) => this.frame(t));
     (window as unknown as { tervain: App }).tervain = this;
+  }
+
+  /**
+   * Developer aid: `?shot=1&place=rillford&yaw=0.6&pitch=0.3&dist=12&hour=11&hud=0` starts a new game, frames a
+   * view, settles the world, and sets document.title to READY so tools/shot.mjs can capture it headlessly.
+   */
+  private applyShotParams() {
+    const q = new URLSearchParams(location.search);
+    if (!q.has('shot')) return;
+    const num = (k: string, d: number) => (q.has(k) ? Number(q.get(k)) : d);
+    this.startNew();
+    this.pendingOpening = -1;
+    this.game.state.npcs.caravan_master.met = true;
+    const place = q.get('place') as PlaceId | null;
+    if (q.has('x') && q.has('z')) this.player.setPosition(num('x', 0), num('z', 0), num('face', 0), this.world.terrain);
+    else if (place && place in PLACES) this.teleport(place);
+    this.cam.yaw = num('yaw', 0);
+    this.cam.pitch = num('pitch', 0.25);
+    this.cam.wantDist = num('dist', 6);
+    this.debugTime(num('hour', 11));
+    if (q.get('hud') === '0') this.hud.show(false);
+    this.settings.reducedMotion = true;
+    this.applyUiSettings();
+    for (let i = 0; i < num('settle', 120); i++) {
+      this.step(1 / 30);
+      this.input.endFrame();
+    }
+    this.hud.show(q.get('hud') !== '0');
+    document.title = 'READY';
   }
 
   private buildShell() {
@@ -147,9 +187,11 @@ export class App {
     };
   }
 
-  private buildWorld() {
+  private async buildWorld() {
     if (this.world) this.disposeWorld();
-    this.world = new WorldScene(this.game.state, this.settings);
+    this.world = await WorldScene.create(this.game.state, this.settings, this.library, (p) => {
+      this.loadingEl.textContent = `${S('menu.loading')} ${p.loaded}/${p.total}`;
+    });
     this.world.scene.add(this.player.group);
     this.applyQualityToRenderer();
     // Actors
@@ -209,9 +251,12 @@ export class App {
     this.applyUiSettings();
     if (reload && this.renderer) {
       const before = { x: this.player.x, z: this.player.z, yaw: this.player.yaw };
-      this.buildWorld();
-      this.player.setPosition(before.x, before.z, before.yaw, this.world.terrain);
-      this.world.scene.add(this.player.group);
+      this.loadingEl.classList.remove('off');
+      void this.buildWorld().then(() => {
+        this.player.setPosition(before.x, before.z, before.yaw, this.world.terrain);
+        this.world.scene.add(this.player.group);
+        this.loadingEl.classList.add('off');
+      });
     }
   }
 
@@ -382,7 +427,7 @@ export class App {
       focus.copy(this.cam.camera.position);
       focus.y = 0;
       this.updateActors(dt, hour);
-      this.world.update(dt, state, new THREE.Vector3(-14, 0, -86), this.settings, hour);
+      this.world.update(dt, state, new THREE.Vector3(-14, 0, -86), this.settings, hour, this.cam.camera);
       this.dialogue.update(dt);
       this.audioUpdate(dt, this.cam.camera.position, hour);
       this.render();
@@ -448,7 +493,7 @@ export class App {
     }
 
     // World presentation
-    this.world.update(dt, state, new THREE.Vector3(this.player.x, this.player.y, this.player.z), this.settings, hour);
+    this.world.update(dt, state, new THREE.Vector3(this.player.x, this.player.y, this.player.z), this.settings, hour, this.cam.camera);
     this.dialogue.update(dt);
     this.audioUpdate(dt, this.cam.camera.position, hour);
 
@@ -1254,7 +1299,7 @@ export class App {
     const lines = [
       `frames ${st.frames}  median ${st.median.toFixed(1)} ms  p95 ${st.p95.toFixed(1)}  p99 ${st.p99.toFixed(1)}  max ${st.max.toFixed(1)}`,
       `draw calls ${info.render.calls}  triangles ${info.render.triangles}  geometries ${info.memory.geometries}  textures ${info.memory.textures}`,
-      `veg: ${JSON.stringify(this.world.veg.stats)}  build ${this.world.buildStats.ms.toFixed(0)} ms`,
+      `modules: ${this.world.modules.map((m) => `${m.name} ${JSON.stringify(m.module.stats?.() ?? {})}`).join(' | ')}  build ${this.world.buildStats.ms.toFixed(0)} ms`,
       `build ${GAME_VERSION} rev ${REVISION}  quality ${this.settings.quality}  dpr ${this.renderer.getPixelRatio()}  ${window.innerWidth}x${window.innerHeight}`,
       `player ${this.player.x.toFixed(1)}, ${this.player.z.toFixed(1)}  hp ${s.player.health}  clock ${formatClock(s.clock)} day ${clockDay(s.clock) + 1}`,
       `phase ${s.quest.phase}  gate ${s.quest.gate}  alloc ${s.quest.allocation ?? '-'}  entry ${s.quest.entry ?? '-'}`,

@@ -97,7 +97,7 @@ export type LoadResult =
   | { ok: true; state: WorldState; summary: SaveSummary; recovered: null | 'previous' | 'temporary' }
   | { ok: false; kind: 'missing' | 'corrupt' | 'incompatible'; message: string };
 
-export const GAME_BUILD = 'prototype-0.1.0';
+export const GAME_BUILD = 'prototype-0.0.1';
 
 /** FNV-1a 32-bit: catches truncation and accidental edits, not tampering. */
 export function checksum(text: string): string {

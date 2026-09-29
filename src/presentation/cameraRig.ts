@@ -11,7 +11,7 @@ export class CameraRig {
   readonly camera = new THREE.PerspectiveCamera(58, 1, 0.25, 1400);
   yaw = 0;
   pitch = 0.32;
-  private wantDist = 5.4;
+  wantDist = 5.4;
   private curDist = 5.4;
   private target = new THREE.Vector3();
   private smoothTarget = new THREE.Vector3();

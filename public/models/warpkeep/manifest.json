@@ -1,0 +1,3613 @@
+{
+ "schema": 1,
+ "generatedBy": "tools/import-warpkeep-assets.mjs",
+ "source": {
+  "repository": "https://github.com/ael-dev3/Warpkeep",
+  "commit": "786c0b2be6f2d2e7eb2de02ef3b6826c8907fc32",
+  "note": "Byte-exact copies of runtime GLBs from public/models/hegemony/. Nothing is transformed."
+ },
+ "terms": {
+  "status": "LicenseRef-Warpkeep-Provenance-Required",
+  "summary": "Used in Tervain on the project owner's instruction (2026-09-29). Warpkeep's ASSETS-LICENSE.md records these files as use-authorised runtime assets, not as an open-content licence; per-set provenance is in Warpkeep-Assets. Redistribution beyond the owner's own projects is not granted by this repository.",
+  "ledger": "https://github.com/ael-dev3/Warpkeep/blob/main/ASSETS-LICENSE.md",
+  "archive": "https://github.com/ael-dev3/Warpkeep-Assets"
+ },
+ "totals": {
+  "files": 209,
+  "bytes": 23676804,
+  "assets": 76
+ },
+ "assets": [
+  {
+   "id": "building.city-barracks",
+   "lods": {
+    "balanced": {
+     "file": "building/inner-keep-city-barracks-balanced-3a22b6e910d4dd1b.glb",
+     "bytes": 629352,
+     "sha256": "3a22b6e910d4dd1b6f105eae9bd0234eaf65821e0dcd65ff59e6311f54638201",
+     "triangles": 7550,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      16,
+      10.1,
+      13
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/landmarks/inner-keep-city-barracks-balanced-3a22b6e910d4dd1b.glb"
+    },
+    "compact": {
+     "file": "building/inner-keep-city-barracks-compact-7f90bd96932b7fea.glb",
+     "bytes": 504080,
+     "sha256": "7f90bd96932b7fea1e2541c103657b248bf86f0a4a9bd38c9b03e3b5bd487404",
+     "triangles": 5488,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      16,
+      10.1,
+      13
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/landmarks/inner-keep-city-barracks-compact-7f90bd96932b7fea.glb"
+    }
+   }
+  },
+  {
+   "id": "building.city-mill",
+   "lods": {
+    "balanced": {
+     "file": "building/inner-keep-city-mill-balanced-0963ee142eb0d8ea.glb",
+     "bytes": 293168,
+     "sha256": "0963ee142eb0d8ea711aac7594610eade84eebd2eb3540868bb7ca7c07474cd7",
+     "triangles": 2792,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      9.3,
+      7.123,
+      7.472
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/buildings/inner-keep-city-mill-balanced-0963ee142eb0d8ea.glb"
+    },
+    "compact": {
+     "file": "building/inner-keep-city-mill-compact-80419c9566ea5ab5.glb",
+     "bytes": 121080,
+     "sha256": "80419c9566ea5ab5053f8d8f411655fe1b9ee26a040333bb380ff7d4d6d3a322",
+     "triangles": 1224,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      9.3,
+      7.123,
+      7.5
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/buildings/inner-keep-city-mill-compact-80419c9566ea5ab5.glb"
+    },
+    "high": {
+     "file": "building/inner-keep-city-mill-high-8613faf8ac5a61f5.glb",
+     "bytes": 478660,
+     "sha256": "8613faf8ac5a61f50cb6464cc9c2c8391f9f12fc087c2419cc5ac5827e905a8c",
+     "triangles": 4900,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      9.3,
+      7.123,
+      7.5
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/buildings/inner-keep-city-mill-high-8613faf8ac5a61f5.glb"
+    }
+   }
+  },
+  {
+   "id": "building.city-stoneworks",
+   "lods": {
+    "balanced": {
+     "file": "building/inner-keep-city-stoneworks-balanced-81f8818339900c2f.glb",
+     "bytes": 305380,
+     "sha256": "81f8818339900c2f50329e1a9f593600afe916d32b89eee2295121b308005b73",
+     "triangles": 2792,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      9,
+      5.39,
+      7.172
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/buildings/inner-keep-city-stoneworks-balanced-81f8818339900c2f.glb"
+    },
+    "compact": {
+     "file": "building/inner-keep-city-stoneworks-compact-174fd2f984065937.glb",
+     "bytes": 134400,
+     "sha256": "174fd2f984065937d5a4a22800512047c064b528ce0b1e3a448f461574be61cc",
+     "triangles": 1224,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      9,
+      5.39,
+      7.172
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/buildings/inner-keep-city-stoneworks-compact-174fd2f984065937.glb"
+    },
+    "high": {
+     "file": "building/inner-keep-city-stoneworks-high-01df9557bccaed14.glb",
+     "bytes": 508540,
+     "sha256": "01df9557bccaed14b44bcc0efa4971283f08632572aa892c1e6fb6261f22a913",
+     "triangles": 4900,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      9,
+      5.39,
+      7.2
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/buildings/inner-keep-city-stoneworks-high-01df9557bccaed14.glb"
+    }
+   }
+  },
+  {
+   "id": "building.lumber-camp",
+   "lods": {
+    "balanced": {
+     "file": "building/inner-keep-lumber-camp-balanced-d8f33e487545f44a.glb",
+     "bytes": 314132,
+     "sha256": "d8f33e487545f44afc28a770466c3503957e6f4658e39034540f50ce67f52c7a",
+     "triangles": 2954,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      8.6,
+      6.033,
+      6.772
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/buildings/inner-keep-lumber-camp-balanced-d8f33e487545f44a.glb"
+    },
+    "compact": {
+     "file": "building/inner-keep-lumber-camp-compact-1be188b3bb6a90b5.glb",
+     "bytes": 116200,
+     "sha256": "1be188b3bb6a90b5362b2fd1a30d6ce292de333d0a1f6e688743ced43174b6bf",
+     "triangles": 1082,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      8.56,
+      6.033,
+      6.772
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/buildings/inner-keep-lumber-camp-compact-1be188b3bb6a90b5.glb"
+    },
+    "high": {
+     "file": "building/inner-keep-lumber-camp-high-a4f6831dd6ddcb09.glb",
+     "bytes": 532928,
+     "sha256": "a4f6831dd6ddcb0956b6338b6d206985928f6d67443122ec7766390778b84191",
+     "triangles": 5712,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      8.6,
+      6.05,
+      6.8
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/buildings/inner-keep-lumber-camp-high-a4f6831dd6ddcb09.glb"
+    }
+   }
+  },
+  {
+   "id": "citizen.basilica-warden",
+   "lods": {
+    "balanced": {
+     "file": "citizen/inner-keep-basilica-warden-balanced-797df2ac1595c1ca.glb",
+     "bytes": 137068,
+     "sha256": "797df2ac1595c1caf02178660944276773fe06e4314b1564d7b070aba9ac5502",
+     "triangles": 1452,
+     "skinned": true,
+     "animations": [
+      "Greet",
+      "Idle",
+      "Walk",
+      "Work"
+     ],
+     "size": [
+      1.211,
+      2.445,
+      0.633
+     ],
+     "minY": 0.005,
+     "source": "public/models/hegemony/inner-keep/population/citizen/inner-keep-basilica-warden-balanced-797df2ac1595c1ca.glb"
+    },
+    "compact": {
+     "file": "citizen/inner-keep-basilica-warden-compact-901fcf144078ea31.glb",
+     "bytes": 46684,
+     "sha256": "901fcf144078ea310c11f9c6491ac455a112d3c8d02aebd1f5f9574b306a5a62",
+     "triangles": 884,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.211,
+      2.445,
+      0.632
+     ],
+     "minY": -0.1,
+     "source": "public/models/hegemony/inner-keep/population/citizen/inner-keep-basilica-warden-compact-901fcf144078ea31.glb"
+    }
+   }
+  },
+  {
+   "id": "citizen.bell-herald",
+   "lods": {
+    "balanced": {
+     "file": "citizen/inner-keep-bell-herald-balanced-9db372f360e55674.glb",
+     "bytes": 139012,
+     "sha256": "9db372f360e5567474612c3c57564a34ac98dbe5f062e1fb3529c3787118d94f",
+     "triangles": 1512,
+     "skinned": true,
+     "animations": [
+      "Greet",
+      "Idle",
+      "Walk",
+      "Work"
+     ],
+     "size": [
+      1.267,
+      2.085,
+      0.759
+     ],
+     "minY": 0.005,
+     "source": "public/models/hegemony/inner-keep/population/citizen/inner-keep-bell-herald-balanced-9db372f360e55674.glb"
+    },
+    "compact": {
+     "file": "citizen/inner-keep-bell-herald-compact-8906c8b6513dbe24.glb",
+     "bytes": 47484,
+     "sha256": "8906c8b6513dbe24cca09a1e8653af425fbee22eb3591910b5f4ff937026a88b",
+     "triangles": 908,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.247,
+      2.085,
+      0.782
+     ],
+     "minY": -0.1,
+     "source": "public/models/hegemony/inner-keep/population/citizen/inner-keep-bell-herald-compact-8906c8b6513dbe24.glb"
+    }
+   }
+  },
+  {
+   "id": "citizen.chirurgeon-apothecary",
+   "lods": {
+    "balanced": {
+     "file": "citizen/inner-keep-chirurgeon-apothecary-balanced-68c52942e9673098.glb",
+     "bytes": 161932,
+     "sha256": "68c52942e9673098a510f4e02efd596479716341bc3ad7046d58d90c6ceb45c7",
+     "triangles": 1824,
+     "skinned": true,
+     "animations": [
+      "Greet",
+      "Idle",
+      "Walk",
+      "Work"
+     ],
+     "size": [
+      0.978,
+      2.077,
+      0.675
+     ],
+     "minY": 0.005,
+     "source": "public/models/hegemony/inner-keep/population/citizen/inner-keep-chirurgeon-apothecary-balanced-68c52942e9673098.glb"
+    },
+    "compact": {
+     "file": "citizen/inner-keep-chirurgeon-apothecary-compact-5060e336435c66e2.glb",
+     "bytes": 54348,
+     "sha256": "5060e336435c66e2a9895f17b852e8f58bee8154b30f7738f73b14cbedef79bf",
+     "triangles": 984,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      0.977,
+      2.077,
+      0.669
+     ],
+     "minY": -0.1,
+     "source": "public/models/hegemony/inner-keep/population/citizen/inner-keep-chirurgeon-apothecary-compact-5060e336435c66e2.glb"
+    }
+   }
+  },
+  {
+   "id": "citizen.cistern-warden",
+   "lods": {
+    "balanced": {
+     "file": "citizen/inner-keep-cistern-warden-balanced-e6baa9401689e30a.glb",
+     "bytes": 143716,
+     "sha256": "e6baa9401689e30a285615889d91c76aeba23efcc0e7cb9b9e6eaffa88958c75",
+     "triangles": 1640,
+     "skinned": true,
+     "animations": [
+      "Greet",
+      "Idle",
+      "Walk",
+      "Work"
+     ],
+     "size": [
+      1.476,
+      2.005,
+      0.658
+     ],
+     "minY": 0.005,
+     "source": "public/models/hegemony/inner-keep/population/citizen/inner-keep-cistern-warden-balanced-e6baa9401689e30a.glb"
+    },
+    "compact": {
+     "file": "citizen/inner-keep-cistern-warden-compact-78dfc68d6f10e194.glb",
+     "bytes": 50548,
+     "sha256": "78dfc68d6f10e194e558bd17103395735393e8b6dec7ba8da5b54e153b0312ff",
+     "triangles": 1016,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.476,
+      2.005,
+      0.643
+     ],
+     "minY": -0.1,
+     "source": "public/models/hegemony/inner-keep/population/citizen/inner-keep-cistern-warden-compact-78dfc68d6f10e194.glb"
+    }
+   }
+  },
+  {
+   "id": "citizen.ember-lamplighter",
+   "lods": {
+    "balanced": {
+     "file": "citizen/inner-keep-ember-lamplighter-balanced-599200017f3e3a3d.glb",
+     "bytes": 157472,
+     "sha256": "599200017f3e3a3d992d9b848ee90e789157e6c8770bfc16b93dbe54184c4535",
+     "triangles": 1696,
+     "skinned": true,
+     "animations": [
+      "Greet",
+      "Idle",
+      "Walk",
+      "Work"
+     ],
+     "size": [
+      1.277,
+      2.396,
+      0.614
+     ],
+     "minY": 0.005,
+     "source": "public/models/hegemony/inner-keep/population/citizen/inner-keep-ember-lamplighter-balanced-599200017f3e3a3d.glb"
+    },
+    "compact": {
+     "file": "citizen/inner-keep-ember-lamplighter-compact-1bb943eba0ec8114.glb",
+     "bytes": 58524,
+     "sha256": "1bb943eba0ec8114ecf1c17ec66adc797bea4f0b96d69d400ef71460a75aab2c",
+     "triangles": 1056,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.278,
+      2.396,
+      0.622
+     ],
+     "minY": -0.1,
+     "source": "public/models/hegemony/inner-keep/population/citizen/inner-keep-ember-lamplighter-compact-1bb943eba0ec8114.glb"
+    }
+   }
+  },
+  {
+   "id": "citizen.emberfoot-courier",
+   "lods": {
+    "balanced": {
+     "file": "citizen/inner-keep-emberfoot-courier-balanced-f7d399621be2dbd2.glb",
+     "bytes": 248820,
+     "sha256": "f7d399621be2dbd2c57104b8d95e6cbdb83586474e8bfd3c2d29c6a3c18ae0a1",
+     "triangles": 3020,
+     "skinned": true,
+     "animations": [
+      "Greet",
+      "Idle",
+      "Walk",
+      "Work"
+     ],
+     "size": [
+      1.28,
+      2.52,
+      2.23
+     ],
+     "minY": 0.01,
+     "source": "public/models/hegemony/inner-keep/population/citizen/inner-keep-emberfoot-courier-balanced-f7d399621be2dbd2.glb"
+    },
+    "compact": {
+     "file": "citizen/inner-keep-emberfoot-courier-compact-ff89e129ad744cdf.glb",
+     "bytes": 95168,
+     "sha256": "ff89e129ad744cdf95a7f6a3b4bc234aa94c9e9d69efb193c9645d22744e23b1",
+     "triangles": 1732,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.28,
+      2.52,
+      2.23
+     ],
+     "minY": -1.47,
+     "source": "public/models/hegemony/inner-keep/population/citizen/inner-keep-emberfoot-courier-compact-ff89e129ad744cdf.glb"
+    }
+   }
+  },
+  {
+   "id": "citizen.shellback-shrine-tender",
+   "lods": {
+    "balanced": {
+     "file": "citizen/inner-keep-shellback-shrine-tender-balanced-65f276dfe3947f94.glb",
+     "bytes": 231248,
+     "sha256": "65f276dfe3947f94b9b5cd14242f69d9cf3f25f23ee3eb738d0a1c2a480abe26",
+     "triangles": 2856,
+     "skinned": true,
+     "animations": [
+      "Greet",
+      "Idle",
+      "Walk",
+      "Work"
+     ],
+     "size": [
+      1.56,
+      2.905,
+      2.5
+     ],
+     "minY": 0.005,
+     "source": "public/models/hegemony/inner-keep/population/citizen/inner-keep-shellback-shrine-tender-balanced-65f276dfe3947f94.glb"
+    },
+    "compact": {
+     "file": "citizen/inner-keep-shellback-shrine-tender-compact-8c0c01a5bb0ea918.glb",
+     "bytes": 82084,
+     "sha256": "8c0c01a5bb0ea918ebe32369fcc145e7c1af5745598f8b99d07e6e5a43200e21",
+     "triangles": 1588,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.56,
+      2.905,
+      2.5
+     ],
+     "minY": -1.395,
+     "source": "public/models/hegemony/inner-keep/population/citizen/inner-keep-shellback-shrine-tender-compact-8c0c01a5bb0ea918.glb"
+    }
+   }
+  },
+  {
+   "id": "citizen.ward-peacekeeper",
+   "lods": {
+    "balanced": {
+     "file": "citizen/inner-keep-ward-peacekeeper-balanced-78f3dde74069cdfc.glb",
+     "bytes": 234140,
+     "sha256": "78f3dde74069cdfcf8c844716da454981303bf4f88292151d0508da5ba0698b0",
+     "triangles": 1594,
+     "skinned": true,
+     "animations": [
+      "Greet",
+      "Idle",
+      "Walk",
+      "Work"
+     ],
+     "size": [
+      1.27,
+      2.025,
+      0.692
+     ],
+     "minY": 0.005,
+     "source": "public/models/hegemony/inner-keep/population/citizen/inner-keep-ward-peacekeeper-balanced-78f3dde74069cdfc.glb"
+    },
+    "compact": {
+     "file": "citizen/inner-keep-ward-peacekeeper-compact-d6d867fad68548c1.glb",
+     "bytes": 56256,
+     "sha256": "d6d867fad68548c1259b3aa64ad78a24a8ae9a594b9e54c3abd2f6241b0fd0df",
+     "triangles": 996,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.259,
+      2.025,
+      0.714
+     ],
+     "minY": -0.1,
+     "source": "public/models/hegemony/inner-keep/population/citizen/inner-keep-ward-peacekeeper-compact-d6d867fad68548c1.glb"
+    }
+   }
+  },
+  {
+   "id": "node.logging-camp",
+   "lods": {
+    "balanced": {
+     "file": "node/hegemony-logging-camp-balanced-227046f89c4150ee.glb",
+     "bytes": 460656,
+     "sha256": "227046f89c4150eec5b908cc75e162fa9ad489be123fc941714f9ad294b73593",
+     "triangles": 3318,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      12.463,
+      6.67,
+      9.66
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/gathering-nodes/logging-camp/hegemony-logging-camp-balanced-227046f89c4150ee.glb"
+    },
+    "compact": {
+     "file": "node/hegemony-logging-camp-compact-ecea536ae18ef3ef.glb",
+     "bytes": 236252,
+     "sha256": "ecea536ae18ef3ef5c6dc5eda158fa33d8e5d3a1e7848478c248a32efac1eccf",
+     "triangles": 1698,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      12.463,
+      6.67,
+      9.66
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/gathering-nodes/logging-camp/hegemony-logging-camp-compact-ecea536ae18ef3ef.glb"
+    },
+    "high": {
+     "file": "node/hegemony-logging-camp-high-a68c133a4a50654b.glb",
+     "bytes": 689328,
+     "sha256": "a68c133a4a50654bc611de2b66e6d0d42729aaf0b91b59b7d2b7749566826f70",
+     "triangles": 5030,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      12.463,
+      6.67,
+      9.66
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/gathering-nodes/logging-camp/hegemony-logging-camp-high-a68c133a4a50654b.glb"
+    }
+   }
+  },
+  {
+   "id": "node.stone-quarry",
+   "lods": {
+    "balanced": {
+     "file": "node/hegemony-stone-quarry-balanced-44573c53850a31ec.glb",
+     "bytes": 337788,
+     "sha256": "44573c53850a31ec0178f88918d18471309016a5b4edffdcf1d3e42670109925",
+     "triangles": 3346,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      12.952,
+      5.61,
+      10.343
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/gathering-nodes/stone-quarry/hegemony-stone-quarry-balanced-44573c53850a31ec.glb"
+    },
+    "compact": {
+     "file": "node/hegemony-stone-quarry-compact-b4dbbc1c55a67c12.glb",
+     "bytes": 166720,
+     "sha256": "b4dbbc1c55a67c120df2f2b54852e30a2de980254216821b4a599a10e2e5030e",
+     "triangles": 1654,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      12.952,
+      5.52,
+      10.343
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/gathering-nodes/stone-quarry/hegemony-stone-quarry-compact-b4dbbc1c55a67c12.glb"
+    },
+    "high": {
+     "file": "node/hegemony-stone-quarry-high-a4a3258f1f28a7d8.glb",
+     "bytes": 558036,
+     "sha256": "a4a3258f1f28a7d85658b32a0257d3ca5cb810b8f7a010fd5ebbf7cde12c7537",
+     "triangles": 5362,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      12.952,
+      5.625,
+      10.343
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/gathering-nodes/stone-quarry/hegemony-stone-quarry-high-a4a3258f1f28a7d8.glb"
+    }
+   }
+  },
+  {
+   "id": "node.wheat-farm",
+   "lods": {
+    "balanced": {
+     "file": "node/hegemony-wheat-farm-balanced-bab5cbb18b45b6a5.glb",
+     "bytes": 1182004,
+     "sha256": "bab5cbb18b45b6a565e2070d4b3f6ed17916e81f70be72203f704eeb86260403",
+     "triangles": 10906,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      12.463,
+      10.093,
+      9.66
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/gathering-nodes/wheat-farm/hegemony-wheat-farm-balanced-bab5cbb18b45b6a5.glb"
+    },
+    "compact": {
+     "file": "node/hegemony-wheat-farm-compact-a34bfdafd6b8923c.glb",
+     "bytes": 567908,
+     "sha256": "a34bfdafd6b8923c7cf90071d3ad097858fd59ca8df5cd2e776f44b967e9e3e6",
+     "triangles": 5416,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      12.463,
+      10.093,
+      9.66
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/gathering-nodes/wheat-farm/hegemony-wheat-farm-compact-a34bfdafd6b8923c.glb"
+    }
+   }
+  },
+  {
+   "id": "palisade.gate-frame-6m",
+   "lods": {
+    "balanced": {
+     "file": "palisade/inner-keep-palisade-gate-frame-6m-balanced-af67ba3dc8085d80.glb",
+     "bytes": 40448,
+     "sha256": "af67ba3dc8085d8095a8c63d2d6b61f701c796ccb041241ea767b8eacd0e252e",
+     "triangles": 462,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      6,
+      5,
+      1.3
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-gate-frame-6m-balanced-af67ba3dc8085d80.glb"
+    },
+    "compact": {
+     "file": "palisade/inner-keep-palisade-gate-frame-6m-compact-c144a11a4f496e4b.glb",
+     "bytes": 25560,
+     "sha256": "c144a11a4f496e4ba1ec147d23c2b8df769ba33b56abe8a0d6f723b471f6c5f7",
+     "triangles": 286,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      6,
+      5,
+      1.3
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-gate-frame-6m-compact-c144a11a4f496e4b.glb"
+    },
+    "high": {
+     "file": "palisade/inner-keep-palisade-gate-frame-6m-high-d4f580ae04a3b94e.glb",
+     "bytes": 46112,
+     "sha256": "d4f580ae04a3b94ebcd18050d6affaa8d85858502f7308759d27ded3439d718f",
+     "triangles": 542,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      6,
+      5,
+      1.3
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-gate-frame-6m-high-d4f580ae04a3b94e.glb"
+    }
+   }
+  },
+  {
+   "id": "palisade.gate-leaf-left",
+   "lods": {
+    "balanced": {
+     "file": "palisade/inner-keep-palisade-gate-leaf-left-balanced-8b7009dccabeb38b.glb",
+     "bytes": 14604,
+     "sha256": "8b7009dccabeb38bad03b490dee1f273837f314ce414ad1e4efc6c50a857cb2b",
+     "triangles": 172,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      2.1,
+      3.45,
+      0.28
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-gate-leaf-left-balanced-8b7009dccabeb38b.glb"
+    },
+    "compact": {
+     "file": "palisade/inner-keep-palisade-gate-leaf-left-compact-6653afb68006acb2.glb",
+     "bytes": 9896,
+     "sha256": "6653afb68006acb2faeac7b2bf76d544a633f064a8167e9ab23fb79369a91ce8",
+     "triangles": 108,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      2.1,
+      3.45,
+      0.28
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-gate-leaf-left-compact-6653afb68006acb2.glb"
+    },
+    "high": {
+     "file": "palisade/inner-keep-palisade-gate-leaf-left-high-a3e3e5eb7b13568e.glb",
+     "bytes": 22860,
+     "sha256": "a3e3e5eb7b13568eb63c4b8e5cfdef6bad516502b87d5729a8125fc1ed373861",
+     "triangles": 276,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      2.1,
+      3.45,
+      0.28
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-gate-leaf-left-high-a3e3e5eb7b13568e.glb"
+    }
+   }
+  },
+  {
+   "id": "palisade.gate-leaf-right",
+   "lods": {
+    "balanced": {
+     "file": "palisade/inner-keep-palisade-gate-leaf-right-balanced-e59ec83f925c9741.glb",
+     "bytes": 14604,
+     "sha256": "e59ec83f925c9741c4dcf0824b82bc735948e28abdebd91bac34d515a23a5734",
+     "triangles": 172,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      2.1,
+      3.45,
+      0.28
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-gate-leaf-right-balanced-e59ec83f925c9741.glb"
+    },
+    "compact": {
+     "file": "palisade/inner-keep-palisade-gate-leaf-right-compact-5b7e4895ecf8f2d5.glb",
+     "bytes": 9900,
+     "sha256": "5b7e4895ecf8f2d5d4bed541fa7886243a7e3395df6f55812c7e657d01b2cbad",
+     "triangles": 108,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      2.1,
+      3.45,
+      0.28
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-gate-leaf-right-compact-5b7e4895ecf8f2d5.glb"
+    },
+    "high": {
+     "file": "palisade/inner-keep-palisade-gate-leaf-right-high-0b397bb750ba886e.glb",
+     "bytes": 22936,
+     "sha256": "0b397bb750ba886ecdb02e3ae53d4b4fef8459b07bc579347b599a3483716fee",
+     "triangles": 276,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      2.1,
+      3.45,
+      0.28
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-gate-leaf-right-high-0b397bb750ba886e.glb"
+    }
+   }
+  },
+  {
+   "id": "palisade.wall-corner-90",
+   "lods": {
+    "balanced": {
+     "file": "palisade/inner-keep-palisade-wall-corner-90-balanced-c138e93283e0daf6.glb",
+     "bytes": 65916,
+     "sha256": "c138e93283e0daf61684e5b300c4e481a96b149c5af1e0cd548bd9b796b74415",
+     "triangles": 564,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4,
+      3.2,
+      4
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-wall-corner-90-balanced-c138e93283e0daf6.glb"
+    },
+    "compact": {
+     "file": "palisade/inner-keep-palisade-wall-corner-90-compact-7a9f51fa1355fc6c.glb",
+     "bytes": 47216,
+     "sha256": "7a9f51fa1355fc6cb126abd44d8b12008af9b794f2cfb6a5588eaf23f9d598f7",
+     "triangles": 400,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4,
+      3.2,
+      4
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-wall-corner-90-compact-7a9f51fa1355fc6c.glb"
+    },
+    "high": {
+     "file": "palisade/inner-keep-palisade-wall-corner-90-high-6641c3b823412e2f.glb",
+     "bytes": 99648,
+     "sha256": "6641c3b823412e2f9fe949005a7b9d75090e65e8dcda2bc962a5cb39a621ae59",
+     "triangles": 860,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4,
+      3.2,
+      4
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-wall-corner-90-high-6641c3b823412e2f.glb"
+    }
+   }
+  },
+  {
+   "id": "palisade.wall-straight-4m",
+   "lods": {
+    "balanced": {
+     "file": "palisade/inner-keep-palisade-wall-straight-4m-balanced-c16ecc1c5ea8adba.glb",
+     "bytes": 39960,
+     "sha256": "c16ecc1c5ea8adba8a987256ef37964f426ecf026148ebeccd0a021a01ceb8fa",
+     "triangles": 336,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4,
+      3.2,
+      0.65
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-wall-straight-4m-balanced-c16ecc1c5ea8adba.glb"
+    },
+    "compact": {
+     "file": "palisade/inner-keep-palisade-wall-straight-4m-compact-d0d33e6da38ed1f7.glb",
+     "bytes": 27636,
+     "sha256": "d0d33e6da38ed1f73e60903a81bd52da99e4d093a672bfe801bbb54d13349156",
+     "triangles": 228,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4,
+      3.2,
+      0.65
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-wall-straight-4m-compact-d0d33e6da38ed1f7.glb"
+    },
+    "high": {
+     "file": "palisade/inner-keep-palisade-wall-straight-4m-high-00cdf8624e12b594.glb",
+     "bytes": 70956,
+     "sha256": "00cdf8624e12b594303c749d777e248e031effe3831bae88641e8c90852c9263",
+     "triangles": 608,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4,
+      3.2,
+      0.65
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-wall-straight-4m-high-00cdf8624e12b594.glb"
+    }
+   }
+  },
+  {
+   "id": "palisade.wall-straight-8m",
+   "lods": {
+    "balanced": {
+     "file": "palisade/inner-keep-palisade-wall-straight-8m-balanced-d3f7ad3299cfc932.glb",
+     "bytes": 71424,
+     "sha256": "d3f7ad3299cfc9327b51d383a64528006d464713f68824a3fb919273d21bcfb4",
+     "triangles": 612,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      8,
+      3.2,
+      0.65
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-wall-straight-8m-balanced-d3f7ad3299cfc932.glb"
+    },
+    "compact": {
+     "file": "palisade/inner-keep-palisade-wall-straight-8m-compact-70aa97418582b41b.glb",
+     "bytes": 48620,
+     "sha256": "70aa97418582b41ba0b149ac9d87eceb198cba47cf4862ac05ba25898f567abc",
+     "triangles": 412,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      8,
+      3.2,
+      0.65
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-wall-straight-8m-compact-70aa97418582b41b.glb"
+    },
+    "high": {
+     "file": "palisade/inner-keep-palisade-wall-straight-8m-high-84d5d73d4b56baa9.glb",
+     "bytes": 132520,
+     "sha256": "84d5d73d4b56baa9a93d86e1541bebd0c4bd38556f4ae7256bdabb962fd22107",
+     "triangles": 1148,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      8,
+      3.2,
+      0.65
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/palisade/inner-keep-palisade-wall-straight-8m-high-84d5d73d4b56baa9.glb"
+    }
+   }
+  },
+  {
+   "id": "prop.boulder-cluster-3m",
+   "lods": {
+    "balanced": {
+     "file": "prop/inner-keep-boulder-cluster-3m-balanced-90235d94748ba8f9.glb",
+     "bytes": 17604,
+     "sha256": "90235d94748ba8f91223a2bc68712a6036782a27cdd150bb7f2de81152a5092b",
+     "triangles": 140,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3,
+      1.5,
+      2.4
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-boulder-cluster-3m-balanced-90235d94748ba8f9.glb"
+    },
+    "compact": {
+     "file": "prop/inner-keep-boulder-cluster-3m-compact-06849c7703cc1e17.glb",
+     "bytes": 15324,
+     "sha256": "06849c7703cc1e171511d35387d0fb96a8756005a4c4a469d3ef5931455652b9",
+     "triangles": 120,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3,
+      1.5,
+      2.4
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-boulder-cluster-3m-compact-06849c7703cc1e17.glb"
+    },
+    "high": {
+     "file": "prop/inner-keep-boulder-cluster-3m-high-a1859faf45ecf03e.glb",
+     "bytes": 19884,
+     "sha256": "a1859faf45ecf03e8bda8ff28a6c4440ec64bb3331d62b1f836806f3672140e5",
+     "triangles": 160,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3,
+      1.5,
+      2.4
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-boulder-cluster-3m-high-a1859faf45ecf03e.glb"
+    }
+   }
+  },
+  {
+   "id": "prop.clipped-boxwood-mound",
+   "lods": {
+    "balanced": {
+     "file": "prop/inner-keep-clipped-boxwood-mound-balanced-6e447757d3a205d9.glb",
+     "bytes": 23248,
+     "sha256": "6e447757d3a205d94684b3634f9e39e2fc1c35bc68517919c4ad12322e7625d8",
+     "triangles": 220,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.941,
+      1.521,
+      1.94
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-clipped-boxwood-mound-balanced-6e447757d3a205d9.glb"
+    },
+    "compact": {
+     "file": "prop/inner-keep-clipped-boxwood-mound-compact-c01e8db707adf31b.glb",
+     "bytes": 10844,
+     "sha256": "c01e8db707adf31ba0c5546b26800c5b0d573a9acfdb1a4e7dec711b0725cb98",
+     "triangles": 96,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.94,
+      1.506,
+      1.94
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-clipped-boxwood-mound-compact-c01e8db707adf31b.glb"
+    },
+    "high": {
+     "file": "prop/inner-keep-clipped-boxwood-mound-high-71bd32a43e6f81dd.glb",
+     "bytes": 53212,
+     "sha256": "71bd32a43e6f81dd312e41f4396b7a5db5cbbeedf56133afc601c7d18a3a52b6",
+     "triangles": 540,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.967,
+      1.516,
+      1.94
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-clipped-boxwood-mound-high-71bd32a43e6f81dd.glb"
+    }
+   }
+  },
+  {
+   "id": "prop.cobble-plaza-6m",
+   "lods": {
+    "balanced": {
+     "file": "prop/inner-keep-cobble-plaza-6m-balanced-965d83a7e208b704.glb",
+     "bytes": 149684,
+     "sha256": "965d83a7e208b70466b6cbec00a2ec647982a180087dbcb579c0ccb97a0d31e9",
+     "triangles": 1744,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      6,
+      0.162,
+      6
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-cobble-plaza-6m-balanced-965d83a7e208b704.glb"
+    },
+    "compact": {
+     "file": "prop/inner-keep-cobble-plaza-6m-compact-767384a66fae7938.glb",
+     "bytes": 100384,
+     "sha256": "767384a66fae79389a105143a9b2585c9fb6cf3ea49123347602fe3fcec923cd",
+     "triangles": 1172,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      6,
+      0.162,
+      6
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-cobble-plaza-6m-compact-767384a66fae7938.glb"
+    },
+    "high": {
+     "file": "prop/inner-keep-cobble-plaza-6m-high-85662cda60bedecf.glb",
+     "bytes": 197828,
+     "sha256": "85662cda60bedecf3d0d9ff88c2c5e3fa5756db051bcae38beff010996927fb4",
+     "triangles": 2292,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      6,
+      0.162,
+      6
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-cobble-plaza-6m-high-85662cda60bedecf.glb"
+    }
+   }
+  },
+  {
+   "id": "prop.cobble-road-straight-4m",
+   "lods": {
+    "balanced": {
+     "file": "prop/inner-keep-cobble-road-straight-4m-balanced-54b23ca15974c825.glb",
+     "bytes": 66360,
+     "sha256": "54b23ca15974c825b7c99dd25603672a984836703f8872967d5148fd3ac67c98",
+     "triangles": 752,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4,
+      0.14,
+      2.4
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-cobble-road-straight-4m-balanced-54b23ca15974c825.glb"
+    },
+    "compact": {
+     "file": "prop/inner-keep-cobble-road-straight-4m-compact-6d838a7ea65cf313.glb",
+     "bytes": 45048,
+     "sha256": "6d838a7ea65cf3132b499d10a4bff8709d6e8203ec84473aef44bc0a322135e0",
+     "triangles": 512,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4,
+      0.14,
+      2.4
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-cobble-road-straight-4m-compact-6d838a7ea65cf313.glb"
+    },
+    "high": {
+     "file": "prop/inner-keep-cobble-road-straight-4m-high-2066fd90088760b6.glb",
+     "bytes": 87600,
+     "sha256": "2066fd90088760b630a14c17412e47b2b28afa846e70ea56dd4ce1db13d2fad2",
+     "triangles": 992,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4,
+      0.14,
+      2.4
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-cobble-road-straight-4m-high-2066fd90088760b6.glb"
+    }
+   }
+  },
+  {
+   "id": "prop.directional-signpost",
+   "lods": {
+    "balanced": {
+     "file": "prop/inner-keep-directional-signpost-balanced-1e41b951b18a6395.glb",
+     "bytes": 97376,
+     "sha256": "1e41b951b18a6395483776d851b1bfc95c40c80a626dcf2121f38e99a3dce10c",
+     "triangles": 1354,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.956,
+      3.37,
+      0.949
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-directional-signpost-balanced-1e41b951b18a6395.glb"
+    },
+    "compact": {
+     "file": "prop/inner-keep-directional-signpost-compact-8afe0112a0de6af8.glb",
+     "bytes": 40756,
+     "sha256": "8afe0112a0de6af81bc7e4d121a445aec55f0975e5178746865378ed5f0eaf18",
+     "triangles": 498,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.956,
+      3.37,
+      0.934
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-directional-signpost-compact-8afe0112a0de6af8.glb"
+    },
+    "high": {
+     "file": "prop/inner-keep-directional-signpost-high-8ab4ca08af77c67b.glb",
+     "bytes": 165248,
+     "sha256": "8ab4ca08af77c67b1c6b5c7256e698ccb04a83338e13d732a76df8bfbda968bc",
+     "triangles": 2298,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.956,
+      3.37,
+      0.948
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-directional-signpost-high-8ab4ca08af77c67b.glb"
+    }
+   }
+  },
+  {
+   "id": "prop.dirt-road-curve-90-4m",
+   "lods": {
+    "balanced": {
+     "file": "prop/inner-keep-dirt-road-curve-90-4m-balanced-e3c0221f0b8a5338.glb",
+     "bytes": 12780,
+     "sha256": "e3c0221f0b8a5338f8609d0ad774f80257ccb1196bd8eef6348ea203b47a44eb",
+     "triangles": 132,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4,
+      0.12,
+      4
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-dirt-road-curve-90-4m-balanced-e3c0221f0b8a5338.glb"
+    },
+    "compact": {
+     "file": "prop/inner-keep-dirt-road-curve-90-4m-compact-8434a330607f9993.glb",
+     "bytes": 9560,
+     "sha256": "8434a330607f99930427ed88b5f86ab614a2b0d5413f44cfd41208cf314328ab",
+     "triangles": 100,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4,
+      0.12,
+      4
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-dirt-road-curve-90-4m-compact-8434a330607f9993.glb"
+    },
+    "high": {
+     "file": "prop/inner-keep-dirt-road-curve-90-4m-high-b93f180794c8de5c.glb",
+     "bytes": 15060,
+     "sha256": "b93f180794c8de5c15d0fcaa4c999ba2d35465051e3fb7e83af4b4d4d9f90cde",
+     "triangles": 152,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4,
+      0.12,
+      4
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-dirt-road-curve-90-4m-high-b93f180794c8de5c.glb"
+    }
+   }
+  },
+  {
+   "id": "prop.dirt-road-straight-4m",
+   "lods": {
+    "balanced": {
+     "file": "prop/inner-keep-dirt-road-straight-4m-balanced-cec2db4515a24d8f.glb",
+     "bytes": 13280,
+     "sha256": "cec2db4515a24d8f67ec985ac2c8cfb6cdb14126d958fc0048fbc8f133234ffe",
+     "triangles": 140,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4,
+      0.12,
+      2.4
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-dirt-road-straight-4m-balanced-cec2db4515a24d8f.glb"
+    },
+    "compact": {
+     "file": "prop/inner-keep-dirt-road-straight-4m-compact-88065d72da8b6ceb.glb",
+     "bytes": 10064,
+     "sha256": "88065d72da8b6ceb9777e3e7af1425ee16eddcde90f2e213d91e741587bff21b",
+     "triangles": 108,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4,
+      0.12,
+      2.4
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-dirt-road-straight-4m-compact-88065d72da8b6ceb.glb"
+    },
+    "high": {
+     "file": "prop/inner-keep-dirt-road-straight-4m-high-d572f8bc4e9d38d4.glb",
+     "bytes": 15560,
+     "sha256": "d572f8bc4e9d38d4439b81175267052b7dd25d185cc6281c9f0b4b55d0b1bc1b",
+     "triangles": 160,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4,
+      0.12,
+      2.4
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-dirt-road-straight-4m-high-d572f8bc4e9d38d4.glb"
+    }
+   }
+  },
+  {
+   "id": "prop.dirt-road-t-junction-4m",
+   "lods": {
+    "balanced": {
+     "file": "prop/inner-keep-dirt-road-t-junction-4m-balanced-0278db0236891174.glb",
+     "bytes": 13648,
+     "sha256": "0278db0236891174005901c8e08c7f69f7e6aba7a9d6e49dc2fe8b287f466512",
+     "triangles": 136,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4,
+      0.12,
+      4
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-dirt-road-t-junction-4m-balanced-0278db0236891174.glb"
+    },
+    "compact": {
+     "file": "prop/inner-keep-dirt-road-t-junction-4m-compact-07c1f95ab8841bb0.glb",
+     "bytes": 10432,
+     "sha256": "07c1f95ab8841bb0fc28a24ffcf20dd45f4e1ff2c50356576ecc7177b35ebcfd",
+     "triangles": 104,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4,
+      0.12,
+      4
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-dirt-road-t-junction-4m-compact-07c1f95ab8841bb0.glb"
+    },
+    "high": {
+     "file": "prop/inner-keep-dirt-road-t-junction-4m-high-8df463a83ecdf544.glb",
+     "bytes": 15928,
+     "sha256": "8df463a83ecdf544af9e5069a0c02cb6ac93056a070bd2b40afe632eb5b6cf54",
+     "triangles": 156,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4,
+      0.12,
+      4
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-dirt-road-t-junction-4m-high-8df463a83ecdf544.glb"
+    }
+   }
+  },
+  {
+   "id": "prop.formal-hedge-corner",
+   "lods": {
+    "balanced": {
+     "file": "prop/inner-keep-formal-hedge-corner-balanced-088946fbca5f5b86.glb",
+     "bytes": 18452,
+     "sha256": "088946fbca5f5b86e551e3727a2d79229dea7ff4be987f84a0317457ee495476",
+     "triangles": 196,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.955,
+      1.353,
+      3.951
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-formal-hedge-corner-balanced-088946fbca5f5b86.glb"
+    },
+    "compact": {
+     "file": "prop/inner-keep-formal-hedge-corner-compact-0074e6825468a2c8.glb",
+     "bytes": 15692,
+     "sha256": "0074e6825468a2c8c502f8d2d80ca2be0f1c88d3f68e76e59c53e109173b403e",
+     "triangles": 140,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.955,
+      1.353,
+      3.951
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-formal-hedge-corner-compact-0074e6825468a2c8.glb"
+    },
+    "high": {
+     "file": "prop/inner-keep-formal-hedge-corner-high-e87710f79704b117.glb",
+     "bytes": 58904,
+     "sha256": "e87710f79704b1174db6dc4f21ee5c600b78ad876c3a6bb823d18a3c755414d6",
+     "triangles": 576,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.142,
+      1.353,
+      4.026
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-formal-hedge-corner-high-e87710f79704b117.glb"
+    }
+   }
+  },
+  {
+   "id": "prop.formal-hedge-straight",
+   "lods": {
+    "balanced": {
+     "file": "prop/inner-keep-formal-hedge-straight-balanced-d619e7c26a496ba5.glb",
+     "bytes": 19592,
+     "sha256": "d619e7c26a496ba566ba04c4d7bc85169ddf8b954329cb4a920aff673be9c096",
+     "triangles": 168,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.01,
+      1.342,
+      1.191
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-formal-hedge-straight-balanced-d619e7c26a496ba5.glb"
+    },
+    "compact": {
+     "file": "prop/inner-keep-formal-hedge-straight-compact-3724b124e4504f98.glb",
+     "bytes": 8992,
+     "sha256": "3724b124e4504f98aee923745e89e9f29fb426a07a62f029c766d069cf377357",
+     "triangles": 88,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.92,
+      1.28,
+      0.9
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-formal-hedge-straight-compact-3724b124e4504f98.glb"
+    },
+    "high": {
+     "file": "prop/inner-keep-formal-hedge-straight-high-ba22ccdbef21b42c.glb",
+     "bytes": 68556,
+     "sha256": "ba22ccdbef21b42c63084f9536ea1722ecd84a4b834e5efbe9e78582093377cf",
+     "triangles": 648,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.028,
+      1.342,
+      1.366
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-formal-hedge-straight-high-ba22ccdbef21b42c.glb"
+    }
+   }
+  },
+  {
+   "id": "prop.masonry-rubble-2m",
+   "lods": {
+    "balanced": {
+     "file": "prop/inner-keep-masonry-rubble-2m-balanced-02f591b8bf2362c4.glb",
+     "bytes": 33836,
+     "sha256": "02f591b8bf2362c4adb3f87a18cc114ce8f523a5589031708510bcd731627650",
+     "triangles": 372,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      2,
+      0.8,
+      1.6
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-masonry-rubble-2m-balanced-02f591b8bf2362c4.glb"
+    },
+    "compact": {
+     "file": "prop/inner-keep-masonry-rubble-2m-compact-06a6458760fcc83f.glb",
+     "bytes": 31700,
+     "sha256": "06a6458760fcc83f43765670fa838b0e5596fd81d7c485a1c0b953d5834943ff",
+     "triangles": 352,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      2,
+      0.8,
+      1.6
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-masonry-rubble-2m-compact-06a6458760fcc83f.glb"
+    },
+    "high": {
+     "file": "prop/inner-keep-masonry-rubble-2m-high-ff69c805c0321fbf.glb",
+     "bytes": 36120,
+     "sha256": "ff69c805c0321fbff395c59c71fb33d6bd45d6be809fd097a1e2dc45a22fa916",
+     "triangles": 392,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      2,
+      0.8,
+      1.6
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-masonry-rubble-2m-high-ff69c805c0321fbf.glb"
+    }
+   }
+  },
+  {
+   "id": "prop.picket-fence-4m",
+   "lods": {
+    "balanced": {
+     "file": "prop/inner-keep-picket-fence-4m-balanced-63f09802eac8c246.glb",
+     "bytes": 39716,
+     "sha256": "63f09802eac8c246525a14da9c65cd568c2bde636cc7fca09d62e5d7f4335981",
+     "triangles": 480,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4,
+      1.25,
+      0.3
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-picket-fence-4m-balanced-63f09802eac8c246.glb"
+    },
+    "compact": {
+     "file": "prop/inner-keep-picket-fence-4m-compact-8d62f006b21fd721.glb",
+     "bytes": 36884,
+     "sha256": "8d62f006b21fd7212d6c21e60098627d43740da324a0e334071546ae0868e1ac",
+     "triangles": 440,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4,
+      1.25,
+      0.3
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-picket-fence-4m-compact-8d62f006b21fd721.glb"
+    },
+    "high": {
+     "file": "prop/inner-keep-picket-fence-4m-high-a3a5044e87569151.glb",
+     "bytes": 43968,
+     "sha256": "a3a5044e875691516c47e230ce221c4dee70ea22ec86bb4c8fec07a6f66176e8",
+     "triangles": 540,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4,
+      1.25,
+      0.3
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-picket-fence-4m-high-a3a5044e87569151.glb"
+    }
+   }
+  },
+  {
+   "id": "prop.roofed-noticeboard",
+   "lods": {
+    "balanced": {
+     "file": "prop/inner-keep-roofed-noticeboard-balanced-91976a7e7e6ec54f.glb",
+     "bytes": 149576,
+     "sha256": "91976a7e7e6ec54f9e75e41b1ffbd37212b3864e0bad65825b590c09064b375e",
+     "triangles": 2068,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      2.92,
+      3.306,
+      0.98
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-roofed-noticeboard-balanced-91976a7e7e6ec54f.glb"
+    },
+    "compact": {
+     "file": "prop/inner-keep-roofed-noticeboard-compact-dfd35c9c36f2f4da.glb",
+     "bytes": 46428,
+     "sha256": "dfd35c9c36f2f4dad94744c0a429be592526f65e3485436893174b1930317bc4",
+     "triangles": 532,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      2.92,
+      3.305,
+      0.98
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-roofed-noticeboard-compact-dfd35c9c36f2f4da.glb"
+    },
+    "high": {
+     "file": "prop/inner-keep-roofed-noticeboard-high-8d45890e63829407.glb",
+     "bytes": 304108,
+     "sha256": "8d45890e63829407533065e01e277ec788734c5b5212216a5ca4329511e8e2a8",
+     "triangles": 4156,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      2.92,
+      3.308,
+      0.98
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-roofed-noticeboard-high-8d45890e63829407.glb"
+    }
+   }
+  },
+  {
+   "id": "prop.stone-curb-2m",
+   "lods": {
+    "balanced": {
+     "file": "prop/inner-keep-stone-curb-2m-balanced-6a34e355098ba968.glb",
+     "bytes": 23968,
+     "sha256": "6a34e355098ba968c26831b6e97c232d1420b5976259b7ed378679c10d76f44a",
+     "triangles": 264,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      2,
+      0.3,
+      0.45
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-stone-curb-2m-balanced-6a34e355098ba968.glb"
+    },
+    "compact": {
+     "file": "prop/inner-keep-stone-curb-2m-compact-ad9a56588710e3e9.glb",
+     "bytes": 20248,
+     "sha256": "ad9a56588710e3e9e3cf29c31666e4a187c310329db6b82e44a1e1055f128b5e",
+     "triangles": 220,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      2,
+      0.3,
+      0.45
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-stone-curb-2m-compact-ad9a56588710e3e9.glb"
+    },
+    "high": {
+     "file": "prop/inner-keep-stone-curb-2m-high-46cbb80d3b92d3f3.glb",
+     "bytes": 26536,
+     "sha256": "46cbb80d3b92d3f336fbc6a7234d7c18933757cb3f40a82afc12cd867bbd7532",
+     "triangles": 284,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      2,
+      0.3,
+      0.45
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-stone-curb-2m-high-46cbb80d3b92d3f3.glb"
+    }
+   }
+  },
+  {
+   "id": "prop.stone-pedestal-brazier",
+   "lods": {
+    "balanced": {
+     "file": "prop/inner-keep-stone-pedestal-brazier-balanced-6e9b6f425e081277.glb",
+     "bytes": 98792,
+     "sha256": "6e9b6f425e0812773ae4b7688a871b949ab794612d99a3f5ff74faa86afdc4a2",
+     "triangles": 1352,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.25,
+      2.64,
+      1.25
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-stone-pedestal-brazier-balanced-6e9b6f425e081277.glb"
+    },
+    "compact": {
+     "file": "prop/inner-keep-stone-pedestal-brazier-compact-35a276eee41bbb72.glb",
+     "bytes": 35728,
+     "sha256": "35a276eee41bbb72e80a2229fc53965f6226c7305167d3a4f633f796920de3aa",
+     "triangles": 404,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.25,
+      2.64,
+      1.25
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-stone-pedestal-brazier-compact-35a276eee41bbb72.glb"
+    },
+    "high": {
+     "file": "prop/inner-keep-stone-pedestal-brazier-high-c6d2485ca58328e1.glb",
+     "bytes": 168348,
+     "sha256": "c6d2485ca58328e1863c8c9179f909bec28fdc7aaaf4601720a3de36ca71daf8",
+     "triangles": 2296,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.25,
+      2.64,
+      1.25
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-stone-pedestal-brazier-high-c6d2485ca58328e1.glb"
+    }
+   }
+  },
+  {
+   "id": "prop.timber-bench",
+   "lods": {
+    "balanced": {
+     "file": "prop/inner-keep-timber-bench-balanced-625b24648f9fbdae.glb",
+     "bytes": 146084,
+     "sha256": "625b24648f9fbdae18675b5b48cd9f5f7dcf33209a6c1dd7f96195a8b3ec0c72",
+     "triangles": 2068,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.08,
+      2.148,
+      0.957
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-timber-bench-balanced-625b24648f9fbdae.glb"
+    },
+    "compact": {
+     "file": "prop/inner-keep-timber-bench-compact-b77c20806cdf61e2.glb",
+     "bytes": 39596,
+     "sha256": "b77c20806cdf61e25b6619bb432ec4bbf7f862c017f0b54bf2dec28564b14628",
+     "triangles": 484,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.08,
+      2.148,
+      0.94
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-timber-bench-compact-b77c20806cdf61e2.glb"
+    },
+    "high": {
+     "file": "prop/inner-keep-timber-bench-high-e96e0add043678ad.glb",
+     "bytes": 255436,
+     "sha256": "e96e0add043678ad3ab14a7f0bbae1b57f1ba714da731f77b20fcddb8685617f",
+     "triangles": 3588,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.08,
+      2.148,
+      0.957
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-timber-bench-high-e96e0add043678ad.glb"
+    }
+   }
+  },
+  {
+   "id": "prop.timber-post-lamp",
+   "lods": {
+    "balanced": {
+     "file": "prop/inner-keep-timber-post-lamp-balanced-381b847971a6cc54.glb",
+     "bytes": 169416,
+     "sha256": "381b847971a6cc547c2a9e60a0b61b6e17830db7be867ad31ce2989ea2a087ab",
+     "triangles": 2408,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.32,
+      3.434,
+      0.78
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-timber-post-lamp-balanced-381b847971a6cc54.glb"
+    },
+    "compact": {
+     "file": "prop/inner-keep-timber-post-lamp-compact-5f35fa874a95c04b.glb",
+     "bytes": 69320,
+     "sha256": "5f35fa874a95c04bbd8c2abef9f31e48c988c7ad7d8a149edf36f12ca49a053e",
+     "triangles": 868,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.32,
+      3.432,
+      0.78
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-timber-post-lamp-compact-5f35fa874a95c04b.glb"
+    },
+    "high": {
+     "file": "prop/inner-keep-timber-post-lamp-high-bf0d7f23315858a8.glb",
+     "bytes": 267500,
+     "sha256": "bf0d7f23315858a81f43f5738b4268324728619580b0b7348cc216cad5b48b7b",
+     "triangles": 3784,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.32,
+      3.435,
+      0.78
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-timber-post-lamp-high-bf0d7f23315858a8.glb"
+    }
+   }
+  },
+  {
+   "id": "prop.timber-water-trough",
+   "lods": {
+    "balanced": {
+     "file": "prop/inner-keep-timber-water-trough-balanced-6425e366ed4276e8.glb",
+     "bytes": 174120,
+     "sha256": "6425e366ed4276e8c79638ac2656b6d807303e705284555ff2c53ecc27cbe819",
+     "triangles": 2444,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.43,
+      1.48,
+      1.264
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-timber-water-trough-balanced-6425e366ed4276e8.glb"
+    },
+    "compact": {
+     "file": "prop/inner-keep-timber-water-trough-compact-76408969d1a42d95.glb",
+     "bytes": 57996,
+     "sha256": "76408969d1a42d952efb3ed420441894fc23e78f0e2be5c9645b849c3b064a13",
+     "triangles": 684,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.43,
+      1.48,
+      1.264
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-timber-water-trough-compact-76408969d1a42d95.glb"
+    },
+    "high": {
+     "file": "prop/inner-keep-timber-water-trough-high-66a56aae3d4a762c.glb",
+     "bytes": 309984,
+     "sha256": "66a56aae3d4a762ceeba8f996eec0942a3af88e5866c991f46d76113e5d1f0a1",
+     "triangles": 4260,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.43,
+      1.48,
+      1.264
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/town-items/inner-keep-timber-water-trough-high-66a56aae3d4a762c.glb"
+    }
+   }
+  },
+  {
+   "id": "stone.breached-keep-wall",
+   "lods": {
+    "balanced": {
+     "file": "stone/inner-keep-breached-keep-wall-balanced-914de93f1e8928c8.glb",
+     "bytes": 31344,
+     "sha256": "914de93f1e8928c8ca8074e11cae85279896d12106a4ef1c191da606d515359d",
+     "triangles": 316,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4,
+      2.8,
+      1.1
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/stone/inner-keep-breached-keep-wall-balanced-914de93f1e8928c8.glb"
+    },
+    "compact": {
+     "file": "stone/inner-keep-breached-keep-wall-compact-95131380fca529e6.glb",
+     "bytes": 11900,
+     "sha256": "95131380fca529e6ddd376d969dab523a67ff911c505ab744bd7fbbc2b0667c7",
+     "triangles": 100,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4,
+      2.8,
+      1.1
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/stone/inner-keep-breached-keep-wall-compact-95131380fca529e6.glb"
+    },
+    "high": {
+     "file": "stone/inner-keep-breached-keep-wall-high-802c1017e987e03b.glb",
+     "bytes": 33148,
+     "sha256": "802c1017e987e03b5fe13fe98f520dcf91cf222681086d6ceafac6e4cf9d7b47",
+     "triangles": 328,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4,
+      2.8,
+      1.1
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/stone/inner-keep-breached-keep-wall-high-802c1017e987e03b.glb"
+    }
+   }
+  },
+  {
+   "id": "stone.canopied-keep-well",
+   "lods": {
+    "balanced": {
+     "file": "stone/inner-keep-canopied-keep-well-balanced-750ea19f085dd660.glb",
+     "bytes": 30176,
+     "sha256": "750ea19f085dd660f533878df932aaa66ae47e52224623434ce8c60539282a99",
+     "triangles": 368,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.4,
+      3.6,
+      3.4
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/stone/inner-keep-canopied-keep-well-balanced-750ea19f085dd660.glb"
+    },
+    "compact": {
+     "file": "stone/inner-keep-canopied-keep-well-compact-8628434c2c8c3fde.glb",
+     "bytes": 14736,
+     "sha256": "8628434c2c8c3fde21d33511c5c8726b4a6f9406e99421c74efd4b598efe0bd4",
+     "triangles": 172,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.4,
+      3.6,
+      3.4
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/stone/inner-keep-canopied-keep-well-compact-8628434c2c8c3fde.glb"
+    },
+    "high": {
+     "file": "stone/inner-keep-canopied-keep-well-high-fa7b15b156fc13cb.glb",
+     "bytes": 40056,
+     "sha256": "fa7b15b156fc13cbf656d3e8b74d537e02d218b24bc9c90fb472c0cc94eb7cc8",
+     "triangles": 504,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.4,
+      3.6,
+      3.4
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/stone/inner-keep-canopied-keep-well-high-fa7b15b156fc13cb.glb"
+    }
+   }
+  },
+  {
+   "id": "stone.collapsed-courtyard-arch",
+   "lods": {
+    "balanced": {
+     "file": "stone/inner-keep-collapsed-courtyard-arch-balanced-db433981ff318419.glb",
+     "bytes": 24780,
+     "sha256": "db433981ff318419d2e6ce3cf8c7a71bf6dc4c209e3a523496584bb374d82783",
+     "triangles": 240,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.4,
+      4,
+      1.6
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/stone/inner-keep-collapsed-courtyard-arch-balanced-db433981ff318419.glb"
+    },
+    "compact": {
+     "file": "stone/inner-keep-collapsed-courtyard-arch-compact-bb8b41dbe991314c.glb",
+     "bytes": 16208,
+     "sha256": "bb8b41dbe991314cc150e75499d4f81acf4161adbea8ad7648a2581156d60c8d",
+     "triangles": 156,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.4,
+      4,
+      1.6
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/stone/inner-keep-collapsed-courtyard-arch-compact-bb8b41dbe991314c.glb"
+    },
+    "high": {
+     "file": "stone/inner-keep-collapsed-courtyard-arch-high-087f2557b6595d60.glb",
+     "bytes": 25504,
+     "sha256": "087f2557b6595d60e9b4d22182dfc9e3a62ef6f0d2bd152fb42ae57292e25b55",
+     "triangles": 252,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.4,
+      4,
+      1.6
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/stone/inner-keep-collapsed-courtyard-arch-high-087f2557b6595d60.glb"
+    }
+   }
+  },
+  {
+   "id": "stone.masonry-rubble-cluster",
+   "lods": {
+    "balanced": {
+     "file": "stone/inner-keep-masonry-rubble-cluster-balanced-33f632b032467856.glb",
+     "bytes": 22612,
+     "sha256": "33f632b03246785611834444499b0d4678bd75a12b21c0b03c86b07fb5b2e037",
+     "triangles": 220,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.2,
+      1.1,
+      2.6
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/stone/inner-keep-masonry-rubble-cluster-balanced-33f632b032467856.glb"
+    },
+    "compact": {
+     "file": "stone/inner-keep-masonry-rubble-cluster-compact-fbcc413bfd0f0cee.glb",
+     "bytes": 14304,
+     "sha256": "fbcc413bfd0f0ceeefc893ac71c6aaa004b79669adedc41a0dd47e18a4f3e0f3",
+     "triangles": 136,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.2,
+      1.1,
+      2.6
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/stone/inner-keep-masonry-rubble-cluster-compact-fbcc413bfd0f0cee.glb"
+    },
+    "high": {
+     "file": "stone/inner-keep-masonry-rubble-cluster-high-9bed961f4df79a58.glb",
+     "bytes": 26768,
+     "sha256": "9bed961f4df79a584d2f43b3fbcadf896ecf0d5b61c290bc203d321c4e995c65",
+     "triangles": 264,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.2,
+      1.1,
+      2.6
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/stone/inner-keep-masonry-rubble-cluster-high-9bed961f4df79a58.glb"
+    }
+   }
+  },
+  {
+   "id": "tree.birch-fresh-slender",
+   "lods": {
+    "balanced": {
+     "file": "tree/hegemony-tree-birch-fresh-slender-balanced-15a26cfd16e85098.glb",
+     "bytes": 47776,
+     "sha256": "15a26cfd16e850986a17e30f4808e9cbb708150282028ef6578ac74e20347691",
+     "triangles": 246,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.215,
+      7.469,
+      3.006
+     ],
+     "minY": -0.007,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-birch-fresh-slender-balanced-15a26cfd16e85098.glb"
+    },
+    "compact": {
+     "file": "tree/hegemony-tree-birch-fresh-slender-compact-00e35224cae7d02c.glb",
+     "bytes": 19928,
+     "sha256": "00e35224cae7d02ca64a7a36790ba5d8df290c42ec439a5a25ac0bbcf579b744",
+     "triangles": 95,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.215,
+      7.463,
+      2.604
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-birch-fresh-slender-compact-00e35224cae7d02c.glb"
+    },
+    "high": {
+     "file": "tree/hegemony-tree-birch-fresh-slender-high-83d359766360259f.glb",
+     "bytes": 79296,
+     "sha256": "83d359766360259ffe2bf802d66ba7e402ee05cbd04ce2c007e447bff3c7648c",
+     "triangles": 440,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.215,
+      7.469,
+      3.006
+     ],
+     "minY": -0.007,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-birch-fresh-slender-high-83d359766360259f.glb"
+    }
+   }
+  },
+  {
+   "id": "tree.birch-golden-lean",
+   "lods": {
+    "balanced": {
+     "file": "tree/hegemony-tree-birch-golden-lean-balanced-1b32e77807d3c376.glb",
+     "bytes": 47888,
+     "sha256": "1b32e77807d3c376912e8e36d22aa8d6c56891ca8aa06aa273ac2722c70d60b9",
+     "triangles": 246,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.266,
+      7.051,
+      2.772
+     ],
+     "minY": -0.006,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-birch-golden-lean-balanced-1b32e77807d3c376.glb"
+    },
+    "compact": {
+     "file": "tree/hegemony-tree-birch-golden-lean-compact-56158b8ea9ac8049.glb",
+     "bytes": 19916,
+     "sha256": "56158b8ea9ac804960c61d7574811051cfc6ef4526ae7b75c3da264f754d0c1a",
+     "triangles": 95,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.266,
+      7.045,
+      2.772
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-birch-golden-lean-compact-56158b8ea9ac8049.glb"
+    },
+    "high": {
+     "file": "tree/hegemony-tree-birch-golden-lean-high-4c8d1d81e764164f.glb",
+     "bytes": 79224,
+     "sha256": "4c8d1d81e764164f1be932a0a2bcdaf5706472760ce206309380d79c028b7b69",
+     "triangles": 440,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.266,
+      7.051,
+      2.772
+     ],
+     "minY": -0.006,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-birch-golden-lean-high-4c8d1d81e764164f.glb"
+    }
+   }
+  },
+  {
+   "id": "tree.cypress-ancient-dark",
+   "lods": {
+    "balanced": {
+     "file": "tree/hegemony-tree-cypress-ancient-dark-balanced-4d2a943ffb892868.glb",
+     "bytes": 38728,
+     "sha256": "4d2a943ffb892868bc73a67d51581c42432a5a2c65b709520d5e84dacc6b89ae",
+     "triangles": 196,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.549,
+      7.035,
+      1.461
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-cypress-ancient-dark-balanced-4d2a943ffb892868.glb"
+    },
+    "compact": {
+     "file": "tree/hegemony-tree-cypress-ancient-dark-compact-d4c484980c31a2e2.glb",
+     "bytes": 16776,
+     "sha256": "d4c484980c31a2e2b8e40b9e0eb5e8e4be97354b696e50dfee47660840b18f59",
+     "triangles": 78,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.393,
+      7.027,
+      1.382
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-cypress-ancient-dark-compact-d4c484980c31a2e2.glb"
+    },
+    "high": {
+     "file": "tree/hegemony-tree-cypress-ancient-dark-high-d0254fbe6c511e31.glb",
+     "bytes": 64968,
+     "sha256": "d0254fbe6c511e31bcb9715401e9b55307071446d6c1314249bc4ef2b8e21a39",
+     "triangles": 350,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.549,
+      7.087,
+      1.461
+     ],
+     "minY": -0.001,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-cypress-ancient-dark-high-d0254fbe6c511e31.glb"
+    }
+   }
+  },
+  {
+   "id": "tree.cypress-golden-columnar",
+   "lods": {
+    "balanced": {
+     "file": "tree/hegemony-tree-cypress-golden-columnar-balanced-95a4e032238724df.glb",
+     "bytes": 38744,
+     "sha256": "95a4e032238724dfb2f1eca34e7f2bb2f633d0c371505d4dad99e1eeb9a89150",
+     "triangles": 196,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.238,
+      7.914,
+      1.243
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-cypress-golden-columnar-balanced-95a4e032238724df.glb"
+    },
+    "compact": {
+     "file": "tree/hegemony-tree-cypress-golden-columnar-compact-d3131739f5140617.glb",
+     "bytes": 16788,
+     "sha256": "d3131739f5140617f18c230e0d05841fa1cd5aa48ab675767a908cbcfdae4b43",
+     "triangles": 78,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.176,
+      7.905,
+      1.126
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-cypress-golden-columnar-compact-d3131739f5140617.glb"
+    },
+    "high": {
+     "file": "tree/hegemony-tree-cypress-golden-columnar-high-8169fb87e6e0563d.glb",
+     "bytes": 65164,
+     "sha256": "8169fb87e6e0563d604fbc014844e54db104244a941ba6459177cf24e575ac33",
+     "triangles": 350,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.238,
+      7.973,
+      1.243
+     ],
+     "minY": -0.001,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-cypress-golden-columnar-high-8169fb87e6e0563d.glb"
+    }
+   }
+  },
+  {
+   "id": "tree.fir-alpine-lime",
+   "lods": {
+    "balanced": {
+     "file": "tree/hegemony-tree-fir-alpine-lime-balanced-d9074bc47d69a880.glb",
+     "bytes": 111876,
+     "sha256": "d9074bc47d69a880dabef041c8c77900c902a1103ab81dade4b79e9b1b7ee9ba",
+     "triangles": 590,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      5.274,
+      6.782,
+      5.26
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-fir-alpine-lime-balanced-d9074bc47d69a880.glb"
+    },
+    "compact": {
+     "file": "tree/hegemony-tree-fir-alpine-lime-compact-044ec0642e200b04.glb",
+     "bytes": 42416,
+     "sha256": "044ec0642e200b040084409cee577c276aa257661cfece594b67cc17d248fead",
+     "triangles": 216,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      5.284,
+      6.782,
+      5.265
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-fir-alpine-lime-compact-044ec0642e200b04.glb"
+    },
+    "high": {
+     "file": "tree/hegemony-tree-fir-alpine-lime-high-2e56bdecf6f2a0be.glb",
+     "bytes": 195028,
+     "sha256": "2e56bdecf6f2a0beaf3b35ef63bd12081f417ed16b22498adff9a18ded5cbc20",
+     "triangles": 1104,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      5.274,
+      6.775,
+      5.26
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-fir-alpine-lime-high-2e56bdecf6f2a0be.glb"
+    }
+   }
+  },
+  {
+   "id": "tree.fir-silver-young",
+   "lods": {
+    "balanced": {
+     "file": "tree/hegemony-tree-fir-silver-young-balanced-232b7414c486cad4.glb",
+     "bytes": 112000,
+     "sha256": "232b7414c486cad4cf65ccc64985522a92e267794cbc77d6ed55c85b7ef498c5",
+     "triangles": 590,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.306,
+      7.46,
+      4.394
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-fir-silver-young-balanced-232b7414c486cad4.glb"
+    },
+    "compact": {
+     "file": "tree/hegemony-tree-fir-silver-young-compact-bf4127e8fee1157c.glb",
+     "bytes": 42420,
+     "sha256": "bf4127e8fee1157c6386d902d3d5c70276c2a8a1370c0cd6f37fc5a8edddf90f",
+     "triangles": 216,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.325,
+      7.46,
+      4.384
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-fir-silver-young-compact-bf4127e8fee1157c.glb"
+    },
+    "high": {
+     "file": "tree/hegemony-tree-fir-silver-young-high-9de182a4e75469ce.glb",
+     "bytes": 195392,
+     "sha256": "9de182a4e75469ce6846d83d00ede9825a81336a7fbd308201708b9d63e9d22c",
+     "triangles": 1104,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.306,
+      7.452,
+      4.394
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-fir-silver-young-high-9de182a4e75469ce.glb"
+    }
+   }
+  },
+  {
+   "id": "tree.ik-courtyard-linden-teardrop",
+   "lods": {
+    "balanced": {
+     "file": "tree/inner-keep-courtyard-linden-teardrop-balanced-70e50e8f3cc5de23.glb",
+     "bytes": 74720,
+     "sha256": "70e50e8f3cc5de23351a599c89be9250917f33ea61460b9331e3ef43ac4220a7",
+     "triangles": 536,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      2.902,
+      5.2,
+      2.064
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/trees/inner-keep-courtyard-linden-teardrop-balanced-70e50e8f3cc5de23.glb"
+    },
+    "compact": {
+     "file": "tree/inner-keep-courtyard-linden-teardrop-compact-556a89c1ad3f6a31.glb",
+     "bytes": 25840,
+     "sha256": "556a89c1ad3f6a3110ce83423b47d610b00f3ae30bcc573829f7e32dabeb0f8b",
+     "triangles": 180,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      2.765,
+      5.2,
+      1.377
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/trees/inner-keep-courtyard-linden-teardrop-compact-556a89c1ad3f6a31.glb"
+    },
+    "high": {
+     "file": "tree/inner-keep-courtyard-linden-teardrop-high-e1f548983c081308.glb",
+     "bytes": 164384,
+     "sha256": "e1f548983c08130897d6a30b0500a1534429d97e7412c92c26a339af9346b660",
+     "triangles": 1204,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      2.876,
+      5.2,
+      2.04
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/trees/inner-keep-courtyard-linden-teardrop-high-e1f548983c081308.glb"
+    }
+   }
+  },
+  {
+   "id": "tree.ik-giant-ancient-cedar",
+   "lods": {
+    "balanced": {
+     "file": "tree/inner-keep-giant-ancient-cedar-balanced-6563723d5f37cb00.glb",
+     "bytes": 56864,
+     "sha256": "6563723d5f37cb00c7bac2ab8fc631b5dbd4dffbbc2bf3ef6477cddb845ed7f1",
+     "triangles": 488,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      13.105,
+      11.311,
+      9.922
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/trees/inner-keep-giant-ancient-cedar-balanced-6563723d5f37cb00.glb"
+    },
+    "compact": {
+     "file": "tree/inner-keep-giant-ancient-cedar-compact-48d82b31a418db32.glb",
+     "bytes": 29584,
+     "sha256": "48d82b31a418db32438e06b67b4c56f7c154471655acba2ed193cbf4393e6d12",
+     "triangles": 245,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      13.105,
+      11.315,
+      9.993
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/trees/inner-keep-giant-ancient-cedar-compact-48d82b31a418db32.glb"
+    },
+    "high": {
+     "file": "tree/inner-keep-giant-ancient-cedar-high-a27d4410172bfba2.glb",
+     "bytes": 96164,
+     "sha256": "a27d4410172bfba24cee062b448e416ec5174c4bcf3fc600fa70d1ae12471fdd",
+     "triangles": 896,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      13.105,
+      11.311,
+      9.922
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/trees/inner-keep-giant-ancient-cedar-high-a27d4410172bfba2.glb"
+    }
+   }
+  },
+  {
+   "id": "tree.ik-pruned-ornamental-three-tier",
+   "lods": {
+    "balanced": {
+     "file": "tree/inner-keep-pruned-ornamental-three-tier-balanced-72bdcd76ef4bf9f4.glb",
+     "bytes": 74636,
+     "sha256": "72bdcd76ef4bf9f4cd84f76c094212ce4433c53b19164769dfd7b05dd285cef4",
+     "triangles": 536,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      2.746,
+      4.7,
+      2.685
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/trees/inner-keep-pruned-ornamental-three-tier-balanced-72bdcd76ef4bf9f4.glb"
+    },
+    "compact": {
+     "file": "tree/inner-keep-pruned-ornamental-three-tier-compact-6995d4e430b3b1ba.glb",
+     "bytes": 23084,
+     "sha256": "6995d4e430b3b1babfe866dc0fc80ef617e502ce3fe0ef9a3b5adae96821a627",
+     "triangles": 160,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      2.35,
+      4.7,
+      1.901
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/trees/inner-keep-pruned-ornamental-three-tier-compact-6995d4e430b3b1ba.glb"
+    },
+    "high": {
+     "file": "tree/inner-keep-pruned-ornamental-three-tier-high-8bbe6ec99f51822b.glb",
+     "bytes": 175604,
+     "sha256": "8bbe6ec99f51822bd9790b021b68d4f372ccf6a4d8aa9498d614d7924a0f06ad",
+     "triangles": 1284,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      2.788,
+      4.7,
+      2.738
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/trees/inner-keep-pruned-ornamental-three-tier-high-8bbe6ec99f51822b.glb"
+    }
+   }
+  },
+  {
+   "id": "tree.maple-ember-crown",
+   "lods": {
+    "balanced": {
+     "file": "tree/hegemony-tree-maple-ember-crown-balanced-79da66170ae6443e.glb",
+     "bytes": 61772,
+     "sha256": "79da66170ae6443e8d98dd455d77742a6ea0b9fdb6b70909d715e1e334d7bbbf",
+     "triangles": 320,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.895,
+      5.62,
+      3.63
+     ],
+     "minY": -0.028,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-maple-ember-crown-balanced-79da66170ae6443e.glb"
+    },
+    "compact": {
+     "file": "tree/hegemony-tree-maple-ember-crown-compact-498e0fb11472b33a.glb",
+     "bytes": 25304,
+     "sha256": "498e0fb11472b33a082268e70b868f4530be84d446ba250e54b7493d039c5c13",
+     "triangles": 124,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.871,
+      5.016,
+      3.438
+     ],
+     "minY": -0.008,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-maple-ember-crown-compact-498e0fb11472b33a.glb"
+    },
+    "high": {
+     "file": "tree/hegemony-tree-maple-ember-crown-high-c816a3522172dd1e.glb",
+     "bytes": 101672,
+     "sha256": "c816a3522172dd1ebf2806ec5f159634f7c8af2da6941fc6d58b4eb0998edac3",
+     "triangles": 572,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.895,
+      5.921,
+      3.637
+     ],
+     "minY": -0.028,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-maple-ember-crown-high-c816a3522172dd1e.glb"
+    }
+   }
+  },
+  {
+   "id": "tree.maple-meadow-round",
+   "lods": {
+    "balanced": {
+     "file": "tree/hegemony-tree-maple-meadow-round-balanced-d6b459095b00c08a.glb",
+     "bytes": 61776,
+     "sha256": "d6b459095b00c08a9f77bdb487b4cfa4bf5a603c9cb2a968db87dc99a576829d",
+     "triangles": 320,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.925,
+      5.854,
+      3.334
+     ],
+     "minY": -0.029,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-maple-meadow-round-balanced-d6b459095b00c08a.glb"
+    },
+    "compact": {
+     "file": "tree/hegemony-tree-maple-meadow-round-compact-85b513a162ebcaf9.glb",
+     "bytes": 25312,
+     "sha256": "85b513a162ebcaf957a71b67a1dbf4afb832cf72bc3529ec428735bd66631716",
+     "triangles": 124,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.893,
+      5.225,
+      3.334
+     ],
+     "minY": -0.008,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-maple-meadow-round-compact-85b513a162ebcaf9.glb"
+    },
+    "high": {
+     "file": "tree/hegemony-tree-maple-meadow-round-high-a519b4341eb0ee96.glb",
+     "bytes": 101560,
+     "sha256": "a519b4341eb0ee96f8fa967f763bd9934eb74e254661b2d54bc20354e5045e90",
+     "triangles": 572,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.925,
+      6.167,
+      3.334
+     ],
+     "minY": -0.029,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-maple-meadow-round-high-a519b4341eb0ee96.glb"
+    }
+   }
+  },
+  {
+   "id": "tree.oak-gnarled-amber",
+   "lods": {
+    "balanced": {
+     "file": "tree/hegemony-tree-oak-gnarled-amber-balanced-2ef2442a1e75da60.glb",
+     "bytes": 69904,
+     "sha256": "2ef2442a1e75da60761bc6dd455bc0f23bfac0b9fd50bd52314719d32584742a",
+     "triangles": 364,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      5.929,
+      5.408,
+      4.119
+     ],
+     "minY": -0.102,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-oak-gnarled-amber-balanced-2ef2442a1e75da60.glb"
+    },
+    "compact": {
+     "file": "tree/hegemony-tree-oak-gnarled-amber-compact-24dc6a72c9171f33.glb",
+     "bytes": 29216,
+     "sha256": "24dc6a72c9171f33b30f29f09df6e9ccfa6fde35b0ca2e9a621195959bbb1f2d",
+     "triangles": 145,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      5.929,
+      4.811,
+      4.238
+     ],
+     "minY": -0.002,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-oak-gnarled-amber-compact-24dc6a72c9171f33.glb"
+    },
+    "high": {
+     "file": "tree/hegemony-tree-oak-gnarled-amber-high-89ea745f1d5e4949.glb",
+     "bytes": 115708,
+     "sha256": "89ea745f1d5e4949c0af2dba78ee34d2da6d8e29c3dd9e09b0787057e928b25e",
+     "triangles": 650,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      6.102,
+      5.406,
+      4.119
+     ],
+     "minY": -0.1,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-oak-gnarled-amber-high-89ea745f1d5e4949.glb"
+    }
+   }
+  },
+  {
+   "id": "tree.oak-spring-broad",
+   "lods": {
+    "balanced": {
+     "file": "tree/hegemony-tree-oak-spring-broad-balanced-eca7d04626717a92.glb",
+     "bytes": 69896,
+     "sha256": "eca7d04626717a9241fa780140736ba9ab6fb0e07c5930fd3e16a0e4ded3eddb",
+     "triangles": 364,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      5.863,
+      5.705,
+      3.55
+     ],
+     "minY": -0.108,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-oak-spring-broad-balanced-eca7d04626717a92.glb"
+    },
+    "compact": {
+     "file": "tree/hegemony-tree-oak-spring-broad-compact-0275d403ad952c37.glb",
+     "bytes": 29212,
+     "sha256": "0275d403ad952c37c854852a82f8aea4b2f3a9a18c5e25ab2f80c082524e5f2c",
+     "triangles": 145,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      5.863,
+      5.075,
+      3.577
+     ],
+     "minY": -0.002,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-oak-spring-broad-compact-0275d403ad952c37.glb"
+    },
+    "high": {
+     "file": "tree/hegemony-tree-oak-spring-broad-high-251706f103d5e7af.glb",
+     "bytes": 115940,
+     "sha256": "251706f103d5e7af400b6dde4c2d2aa84304c60efdad4b1aafb90acf9ce53d8d",
+     "triangles": 650,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      6.064,
+      5.703,
+      3.55
+     ],
+     "minY": -0.106,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-oak-spring-broad-high-251706f103d5e7af.glb"
+    }
+   }
+  },
+  {
+   "id": "tree.pine-alpine",
+   "lods": {
+    "balanced": {
+     "file": "tree/hegemony-tree-pine-alpine-balanced-c4e353df6bb8207e.glb",
+     "bytes": 63236,
+     "sha256": "c4e353df6bb8207e976a9d9d75dce25d5ab37d72cc716a85070c4ef74fba0061",
+     "triangles": 328,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      5.047,
+      7.415,
+      4.184
+     ],
+     "minY": -0.02,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-pine-alpine-balanced-c4e353df6bb8207e.glb"
+    },
+    "compact": {
+     "file": "tree/hegemony-tree-pine-alpine-compact-a2b5cab2cdd5d669.glb",
+     "bytes": 26396,
+     "sha256": "a2b5cab2cdd5d66971896d13a42469919ca28dc9f3cc3b1005a6cf7b3755abfb",
+     "triangles": 130,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      5.047,
+      7.417,
+      3.62
+     ],
+     "minY": -0.023,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-pine-alpine-compact-a2b5cab2cdd5d669.glb"
+    },
+    "high": {
+     "file": "tree/hegemony-tree-pine-alpine-high-78964fd53ab62938.glb",
+     "bytes": 106296,
+     "sha256": "78964fd53ab62938ebcc5afdbe9df6c3e655dbf78971b983307ed4cf87ddb7c9",
+     "triangles": 586,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      5.047,
+      7.415,
+      4.184
+     ],
+     "minY": -0.02,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-pine-alpine-high-78964fd53ab62938.glb"
+    }
+   }
+  },
+  {
+   "id": "tree.pine-windblown-blue",
+   "lods": {
+    "balanced": {
+     "file": "tree/hegemony-tree-pine-windblown-blue-balanced-25708dd15d9fff0a.glb",
+     "bytes": 63272,
+     "sha256": "25708dd15d9fff0ab7b15dfca5e93442d2175499b395aad6fadd632a23f20c3a",
+     "triangles": 328,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      5.404,
+      6.988,
+      3.938
+     ],
+     "minY": -0.019,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-pine-windblown-blue-balanced-25708dd15d9fff0a.glb"
+    },
+    "compact": {
+     "file": "tree/hegemony-tree-pine-windblown-blue-compact-5c44abbfc1f80895.glb",
+     "bytes": 26436,
+     "sha256": "5c44abbfc1f80895fdeb338e596d6404c34b69c9eeb708123af85774485354c1",
+     "triangles": 130,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      5.404,
+      6.99,
+      3.938
+     ],
+     "minY": -0.021,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-pine-windblown-blue-compact-5c44abbfc1f80895.glb"
+    },
+    "high": {
+     "file": "tree/hegemony-tree-pine-windblown-blue-high-c6a00c442659c010.glb",
+     "bytes": 105856,
+     "sha256": "c6a00c442659c010f0d7eb4a522cf8239c272d4dffb09fd1c84d1832d3d23aae",
+     "triangles": 586,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      5.404,
+      6.988,
+      3.938
+     ],
+     "minY": -0.019,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-pine-windblown-blue-high-c6a00c442659c010.glb"
+    }
+   }
+  },
+  {
+   "id": "tree.regular",
+   "lods": {
+    "balanced": {
+     "file": "tree/hegemony-tree-regular-balanced-c77293af2d83c210.glb",
+     "bytes": 72128,
+     "sha256": "c77293af2d83c21052d128b2faf05c7c5e7f857405c72921dbc42940e2e674c9",
+     "triangles": 374,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.598,
+      6.592,
+      2.539
+     ],
+     "minY": -0.072,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-regular-balanced-c77293af2d83c210.glb"
+    },
+    "compact": {
+     "file": "tree/hegemony-tree-regular-compact-02e443d0bfa94a4a.glb",
+     "bytes": 29332,
+     "sha256": "02e443d0bfa94a4a53390ce8d625652ad837d3550119e2b72553633357621bb8",
+     "triangles": 144,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.712,
+      6.618,
+      2.735
+     ],
+     "minY": -0.092,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-regular-compact-02e443d0bfa94a4a.glb"
+    },
+    "high": {
+     "file": "tree/hegemony-tree-regular-high-5e2fcf234d834950.glb",
+     "bytes": 118704,
+     "sha256": "5e2fcf234d834950d6bade356a3431192232f6a631fab0d2f29983c208ff6d42",
+     "triangles": 668,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.598,
+      6.57,
+      2.539
+     ],
+     "minY": -0.049,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-regular-high-5e2fcf234d834950.glb"
+    }
+   }
+  },
+  {
+   "id": "tree.regular-cool-evergreen",
+   "lods": {
+    "balanced": {
+     "file": "tree/hegemony-tree-regular-cool-evergreen-balanced-3068821eb1c441d7.glb",
+     "bytes": 72208,
+     "sha256": "3068821eb1c441d7ec52730880b9d51a2d06af580975ebd8d426ee8550ba168e",
+     "triangles": 374,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.617,
+      7.383,
+      2.65
+     ],
+     "minY": -0.08,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-regular-cool-evergreen-balanced-3068821eb1c441d7.glb"
+    },
+    "compact": {
+     "file": "tree/hegemony-tree-regular-cool-evergreen-compact-1e2859a7d1d35ba5.glb",
+     "bytes": 29412,
+     "sha256": "1e2859a7d1d35ba5967820e12e508141b0b05ba9058a0ce4e5b533984cbfdd78",
+     "triangles": 144,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.611,
+      7.412,
+      2.623
+     ],
+     "minY": -0.104,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-regular-cool-evergreen-compact-1e2859a7d1d35ba5.glb"
+    },
+    "high": {
+     "file": "tree/hegemony-tree-regular-cool-evergreen-high-5f76ac38738f1c88.glb",
+     "bytes": 119084,
+     "sha256": "5f76ac38738f1c88ed90fbd058dbd41733fa66e70e20002a190e92a1284f1984",
+     "triangles": 668,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.617,
+      7.358,
+      2.65
+     ],
+     "minY": -0.055,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-regular-cool-evergreen-high-5f76ac38738f1c88.glb"
+    }
+   }
+  },
+  {
+   "id": "tree.regular-deep-forest",
+   "lods": {
+    "balanced": {
+     "file": "tree/hegemony-tree-regular-deep-forest-balanced-0865e92147da454a.glb",
+     "bytes": 72196,
+     "sha256": "0865e92147da454a30fd79f74268b4ab654b071fcd865420f44246f4e190282e",
+     "triangles": 374,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.695,
+      6.394,
+      2.903
+     ],
+     "minY": -0.07,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-regular-deep-forest-balanced-0865e92147da454a.glb"
+    },
+    "compact": {
+     "file": "tree/hegemony-tree-regular-deep-forest-compact-ed3ea8b76c41da9c.glb",
+     "bytes": 29400,
+     "sha256": "ed3ea8b76c41da9c6eb166689ec83c93b485373fdb5d00b026c421d03a80338d",
+     "triangles": 144,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.879,
+      6.419,
+      3.05
+     ],
+     "minY": -0.09,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-regular-deep-forest-compact-ed3ea8b76c41da9c.glb"
+    },
+    "high": {
+     "file": "tree/hegemony-tree-regular-deep-forest-high-47a1a716f3f57888.glb",
+     "bytes": 119732,
+     "sha256": "47a1a716f3f5788860169f19ee8deaac7ec8010ffcae0ea83a9bc40f6bb52bff",
+     "triangles": 668,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.695,
+      6.372,
+      2.903
+     ],
+     "minY": -0.048,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-regular-deep-forest-high-47a1a716f3f57888.glb"
+    }
+   }
+  },
+  {
+   "id": "tree.regular-ember-maple",
+   "lods": {
+    "balanced": {
+     "file": "tree/hegemony-tree-regular-ember-maple-balanced-e8ba1803bbe07468.glb",
+     "bytes": 72196,
+     "sha256": "e8ba1803bbe074682ad92cfe1f3f4b358659e1611e53d40efe1ab148be08898e",
+     "triangles": 374,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.326,
+      6.526,
+      3.006
+     ],
+     "minY": -0.071,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-regular-ember-maple-balanced-e8ba1803bbe07468.glb"
+    },
+    "compact": {
+     "file": "tree/hegemony-tree-regular-ember-maple-compact-8756ffaa76140747.glb",
+     "bytes": 29404,
+     "sha256": "8756ffaa76140747a1abade1b1cfc2c717acc4939f0108ed18e585c9b270f04f",
+     "triangles": 144,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.358,
+      6.552,
+      3.17
+     ],
+     "minY": -0.092,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-regular-ember-maple-compact-8756ffaa76140747.glb"
+    },
+    "high": {
+     "file": "tree/hegemony-tree-regular-ember-maple-high-99abe9b02ee98bf6.glb",
+     "bytes": 119072,
+     "sha256": "99abe9b02ee98bf6ab91c87f7f361b106d1003c939e2eb1f1f1aa56b14f7b9a0",
+     "triangles": 668,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.326,
+      6.504,
+      3.006
+     ],
+     "minY": -0.049,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-regular-ember-maple-high-99abe9b02ee98bf6.glb"
+    }
+   }
+  },
+  {
+   "id": "tree.regular-golden-grove",
+   "lods": {
+    "balanced": {
+     "file": "tree/hegemony-tree-regular-golden-grove-balanced-087a651b163d10cf.glb",
+     "bytes": 72200,
+     "sha256": "087a651b163d10cf0949e9c16491231a6c643d3375657c5b537ef9a3b655fe12",
+     "triangles": 374,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.976,
+      6.197,
+      2.564
+     ],
+     "minY": -0.067,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-regular-golden-grove-balanced-087a651b163d10cf.glb"
+    },
+    "compact": {
+     "file": "tree/hegemony-tree-regular-golden-grove-compact-b0054a6d4e3fb528.glb",
+     "bytes": 29404,
+     "sha256": "b0054a6d4e3fb5281e5c4ccc5286dc625655f50d6c2157f932a0e88190721228",
+     "triangles": 144,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      5.044,
+      6.221,
+      2.519
+     ],
+     "minY": -0.087,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-regular-golden-grove-compact-b0054a6d4e3fb528.glb"
+    },
+    "high": {
+     "file": "tree/hegemony-tree-regular-golden-grove-high-cb1a14312c2554f3.glb",
+     "bytes": 118476,
+     "sha256": "cb1a14312c2554f312a21a49d2d22b0eed12a47f50f5d3f4e1f1f097c9e7a46f",
+     "triangles": 668,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.976,
+      6.175,
+      2.564
+     ],
+     "minY": -0.046,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-regular-golden-grove-high-cb1a14312c2554f3.glb"
+    }
+   }
+  },
+  {
+   "id": "tree.regular-sunlit-lime",
+   "lods": {
+    "balanced": {
+     "file": "tree/hegemony-tree-regular-sunlit-lime-balanced-36c5cdfcee796d7f.glb",
+     "bytes": 72196,
+     "sha256": "36c5cdfcee796d7f8d47e4007ae94019393c74d3386b42aab6900b4a7093b533",
+     "triangles": 374,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.206,
+      7.054,
+      2.339
+     ],
+     "minY": -0.077,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-regular-sunlit-lime-balanced-36c5cdfcee796d7f.glb"
+    },
+    "compact": {
+     "file": "tree/hegemony-tree-regular-sunlit-lime-compact-3f6ee40deee26896.glb",
+     "bytes": 29400,
+     "sha256": "3f6ee40deee26896eb26a4848b53ffa0efb66510217aab4508aec91475a209ff",
+     "triangles": 144,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.284,
+      7.081,
+      2.434
+     ],
+     "minY": -0.099,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-regular-sunlit-lime-compact-3f6ee40deee26896.glb"
+    },
+    "high": {
+     "file": "tree/hegemony-tree-regular-sunlit-lime-high-2f778f3a74dd6de0.glb",
+     "bytes": 118592,
+     "sha256": "2f778f3a74dd6de002de4e5d3f83b96e16c7a6b390b0f6489647ee9508d8e3ea",
+     "triangles": 668,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.206,
+      7.029,
+      2.339
+     ],
+     "minY": -0.053,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-regular-sunlit-lime-high-2f778f3a74dd6de0.glb"
+    }
+   }
+  },
+  {
+   "id": "tree.spruce-deep-narrow",
+   "lods": {
+    "balanced": {
+     "file": "tree/hegemony-tree-spruce-deep-narrow-balanced-0272637284758aaa.glb",
+     "bytes": 69192,
+     "sha256": "0272637284758aaa2e848519fb97a788267363aaaf6d2059d7c0053f59518969",
+     "triangles": 364,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.835,
+      7.782,
+      3.771
+     ],
+     "minY": -0.005,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-spruce-deep-narrow-balanced-0272637284758aaa.glb"
+    },
+    "compact": {
+     "file": "tree/hegemony-tree-spruce-deep-narrow-compact-cf67e8d66d2c65a4.glb",
+     "bytes": 28868,
+     "sha256": "cf67e8d66d2c65a46a8d98053efe86a62830d593650256a34d40fa71ae4f316d",
+     "triangles": 146,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.835,
+      7.793,
+      3.771
+     ],
+     "minY": -0.005,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-spruce-deep-narrow-compact-cf67e8d66d2c65a4.glb"
+    },
+    "high": {
+     "file": "tree/hegemony-tree-spruce-deep-narrow-high-e95b4b424487a2ab.glb",
+     "bytes": 114044,
+     "sha256": "e95b4b424487a2ab0251871316e8d305f322b7856538aed48a6c72c375271480",
+     "triangles": 652,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      3.835,
+      7.781,
+      3.771
+     ],
+     "minY": -0.005,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-spruce-deep-narrow-high-e95b4b424487a2ab.glb"
+    }
+   }
+  },
+  {
+   "id": "tree.spruce-sunlit-dense",
+   "lods": {
+    "balanced": {
+     "file": "tree/hegemony-tree-spruce-sunlit-dense-balanced-3b436d529f6405ef.glb",
+     "bytes": 67936,
+     "sha256": "3b436d529f6405efbd51bdb0f408f61fb01b16fb055e62b3a6af66cc299eebe9",
+     "triangles": 364,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.562,
+      7.062,
+      4.318
+     ],
+     "minY": -0.005,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-spruce-sunlit-dense-balanced-3b436d529f6405ef.glb"
+    },
+    "compact": {
+     "file": "tree/hegemony-tree-spruce-sunlit-dense-compact-06c7ee4adf7fdc23.glb",
+     "bytes": 28096,
+     "sha256": "06c7ee4adf7fdc23650e94d18c99bff9df378f6220ab4c996f4647651c9a3804",
+     "triangles": 146,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.562,
+      7.071,
+      4.318
+     ],
+     "minY": -0.005,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-spruce-sunlit-dense-compact-06c7ee4adf7fdc23.glb"
+    },
+    "high": {
+     "file": "tree/hegemony-tree-spruce-sunlit-dense-high-0f858ef30bdfb1a7.glb",
+     "bytes": 112972,
+     "sha256": "0f858ef30bdfb1a767a4fc5ba1c8c24aa75955a344d68061977f35fd66502944",
+     "triangles": 652,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      4.562,
+      7.061,
+      4.318
+     ],
+     "minY": -0.005,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-spruce-sunlit-dense-high-0f858ef30bdfb1a7.glb"
+    }
+   }
+  },
+  {
+   "id": "tree.willow-lemon-weeping",
+   "lods": {
+    "balanced": {
+     "file": "tree/hegemony-tree-willow-lemon-weeping-balanced-ca0d0e4a54312a46.glb",
+     "bytes": 88764,
+     "sha256": "ca0d0e4a54312a4681f7b8916baebcd9f35e11f9e52866c8ee9b29fb4c4770ca",
+     "triangles": 474,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      5.647,
+      5.21,
+      4.067
+     ],
+     "minY": -0.078,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-willow-lemon-weeping-balanced-ca0d0e4a54312a46.glb"
+    },
+    "compact": {
+     "file": "tree/hegemony-tree-willow-lemon-weeping-compact-e2da964fef66675d.glb",
+     "bytes": 37604,
+     "sha256": "e2da964fef66675d1b9fdd22e24ed43fa97cead154c29f3655c1aba35e47d51f",
+     "triangles": 190,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      5.647,
+      5.161,
+      3.449
+     ],
+     "minY": -0.029,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-willow-lemon-weeping-compact-e2da964fef66675d.glb"
+    },
+    "high": {
+     "file": "tree/hegemony-tree-willow-lemon-weeping-high-bbf6eb8eea8b677f.glb",
+     "bytes": 148104,
+     "sha256": "bbf6eb8eea8b677f4e0fcf388f2205a8fd2c08d6ee667d7cfcb5226a7b1051bf",
+     "triangles": 846,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      5.647,
+      5.207,
+      4.067
+     ],
+     "minY": -0.074,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-willow-lemon-weeping-high-bbf6eb8eea8b677f.glb"
+    }
+   }
+  },
+  {
+   "id": "tree.willow-river-mist",
+   "lods": {
+    "balanced": {
+     "file": "tree/hegemony-tree-willow-river-mist-balanced-545b967805851a9c.glb",
+     "bytes": 88744,
+     "sha256": "545b967805851a9cad9710038e335359e9076bc617e1092b0bdae9ad250e3b5a",
+     "triangles": 474,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      6.1,
+      4.897,
+      4.371
+     ],
+     "minY": -0.073,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-willow-river-mist-balanced-545b967805851a9c.glb"
+    },
+    "compact": {
+     "file": "tree/hegemony-tree-willow-river-mist-compact-96367ac3373d8c7d.glb",
+     "bytes": 37584,
+     "sha256": "96367ac3373d8c7d47c85bc237ed554f43797fc484ba51c4ad429a6cedb8fcd5",
+     "triangles": 190,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      6.1,
+      4.851,
+      3.993
+     ],
+     "minY": -0.027,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-willow-river-mist-compact-96367ac3373d8c7d.glb"
+    },
+    "high": {
+     "file": "tree/hegemony-tree-willow-river-mist-high-cafb8b9d246fb6fd.glb",
+     "bytes": 148324,
+     "sha256": "cafb8b9d246fb6fd5b31523dd8ac9e93362e9885616675eceb288da3141d85f6",
+     "triangles": 846,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      6.1,
+      4.894,
+      4.371
+     ],
+     "minY": -0.07,
+     "source": "public/models/hegemony/environment/trees/hegemony-tree-willow-river-mist-high-cafb8b9d246fb6fd.glb"
+    }
+   }
+  },
+  {
+   "id": "unit.bulwark",
+   "lods": {
+    "balanced": {
+     "file": "unit/inner-keep-bulwark-balanced-4a0e1fd2470259ea.glb",
+     "bytes": 303004,
+     "sha256": "4a0e1fd2470259ea60f4428c7ad2e5f7f1469c7272ccdfa65fc4b04acda669d4",
+     "triangles": 2362,
+     "skinned": true,
+     "animations": [
+      "Attack",
+      "Idle",
+      "Walk"
+     ],
+     "size": [
+      1.431,
+      2.03,
+      0.652
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/population/infantry/inner-keep-bulwark-balanced-4a0e1fd2470259ea.glb"
+    },
+    "compact": {
+     "file": "unit/inner-keep-bulwark-compact-1cc92a6d96a4ffc2.glb",
+     "bytes": 188336,
+     "sha256": "1cc92a6d96a4ffc2a8b8b9651419517662aaa56244513521c870ff527e4a601e",
+     "triangles": 1690,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.431,
+      2.03,
+      0.667
+     ],
+     "minY": -0.105,
+     "source": "public/models/hegemony/inner-keep/population/infantry/inner-keep-bulwark-compact-1cc92a6d96a4ffc2.glb"
+    }
+   }
+  },
+  {
+   "id": "unit.dusk-ranger",
+   "lods": {
+    "balanced": {
+     "file": "unit/inner-keep-dusk-ranger-balanced-24020097cc18b248.glb",
+     "bytes": 310084,
+     "sha256": "24020097cc18b2488c65219485b7386773c9781ae619f6ebf27f1b2a8ea246ea",
+     "triangles": 2370,
+     "skinned": true,
+     "animations": [
+      "Attack",
+      "Idle",
+      "Special",
+      "Walk"
+     ],
+     "size": [
+      1.095,
+      2.015,
+      1.336
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/population/ranged/inner-keep-dusk-ranger-balanced-24020097cc18b248.glb"
+    },
+    "compact": {
+     "file": "unit/inner-keep-dusk-ranger-compact-c707df9a6fcf23a1.glb",
+     "bytes": 92004,
+     "sha256": "c707df9a6fcf23a1dbd9560e759b4cf494bc27b8f3e0ec6621c240a179522d85",
+     "triangles": 1552,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.061,
+      2.015,
+      1.351
+     ],
+     "minY": -0.105,
+     "source": "public/models/hegemony/inner-keep/population/ranged/inner-keep-dusk-ranger-compact-c707df9a6fcf23a1.glb"
+    }
+   }
+  },
+  {
+   "id": "unit.honor-guard",
+   "lods": {
+    "balanced": {
+     "file": "unit/inner-keep-honor-guard-balanced-66f157c4dc9bcd4f.glb",
+     "bytes": 320440,
+     "sha256": "66f157c4dc9bcd4ffaec17081f5019a168f9b69009293518f89eb366864a7c67",
+     "triangles": 2586,
+     "skinned": true,
+     "animations": [
+      "Attack",
+      "Idle",
+      "Walk"
+     ],
+     "size": [
+      1.411,
+      2.28,
+      0.652
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/population/infantry/inner-keep-honor-guard-balanced-66f157c4dc9bcd4f.glb"
+    },
+    "compact": {
+     "file": "unit/inner-keep-honor-guard-compact-105926a9ac1be2fa.glb",
+     "bytes": 194620,
+     "sha256": "105926a9ac1be2fac529109367cecbfcdc409f5812b2d7eea2f4925c8e63156f",
+     "triangles": 1770,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.411,
+      2.11,
+      0.667
+     ],
+     "minY": -0.105,
+     "source": "public/models/hegemony/inner-keep/population/infantry/inner-keep-honor-guard-compact-105926a9ac1be2fa.glb"
+    }
+   }
+  },
+  {
+   "id": "unit.legionary",
+   "lods": {
+    "balanced": {
+     "file": "unit/inner-keep-legionary-balanced-e7361bc20051055d.glb",
+     "bytes": 306080,
+     "sha256": "e7361bc20051055d40b90e6415ddee117883dda5d7b1b38317a76e99bb704faa",
+     "triangles": 2410,
+     "skinned": true,
+     "animations": [
+      "Attack",
+      "Idle",
+      "Walk"
+     ],
+     "size": [
+      1.485,
+      2.23,
+      0.654
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/population/infantry/inner-keep-legionary-balanced-e7361bc20051055d.glb"
+    },
+    "compact": {
+     "file": "unit/inner-keep-legionary-compact-abb4a2ef93b80cb0.glb",
+     "bytes": 188676,
+     "sha256": "abb4a2ef93b80cb05212906860911ee9d54eb0cbe11a92a812b8510753e8a03a",
+     "triangles": 1690,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.485,
+      2.03,
+      0.669
+     ],
+     "minY": -0.105,
+     "source": "public/models/hegemony/inner-keep/population/infantry/inner-keep-legionary-compact-abb4a2ef93b80cb0.glb"
+    }
+   }
+  },
+  {
+   "id": "unit.longbow-warden",
+   "lods": {
+    "balanced": {
+     "file": "unit/inner-keep-longbow-warden-balanced-496ac58752dfd060.glb",
+     "bytes": 331228,
+     "sha256": "496ac58752dfd060239a8687a2efe2bee50340f948a1c0221f3e6b750bea4f9c",
+     "triangles": 2698,
+     "skinned": true,
+     "animations": [
+      "Attack",
+      "Idle",
+      "Special",
+      "Walk"
+     ],
+     "size": [
+      1.18,
+      2.23,
+      1.416
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/population/ranged/inner-keep-longbow-warden-balanced-496ac58752dfd060.glb"
+    },
+    "compact": {
+     "file": "unit/inner-keep-longbow-warden-compact-63d2d79b4b1f5736.glb",
+     "bytes": 104560,
+     "sha256": "63d2d79b4b1f573663aac88ff343dbee1bd985755888d4ef1fb579180e7861c6",
+     "triangles": 1788,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.163,
+      2.03,
+      1.431
+     ],
+     "minY": -0.105,
+     "source": "public/models/hegemony/inner-keep/population/ranged/inner-keep-longbow-warden-compact-63d2d79b4b1f5736.glb"
+    }
+   }
+  },
+  {
+   "id": "unit.vanguard",
+   "lods": {
+    "balanced": {
+     "file": "unit/inner-keep-vanguard-balanced-e62df99856c02f99.glb",
+     "bytes": 305928,
+     "sha256": "e62df99856c02f9964ac4303600abcf7c9f40879bd52bbabbce75a6330538176",
+     "triangles": 2402,
+     "skinned": true,
+     "animations": [
+      "Attack",
+      "Idle",
+      "Walk"
+     ],
+     "size": [
+      1.515,
+      2.208,
+      0.696
+     ],
+     "minY": 0,
+     "source": "public/models/hegemony/inner-keep/population/infantry/inner-keep-vanguard-balanced-e62df99856c02f99.glb"
+    },
+    "compact": {
+     "file": "unit/inner-keep-vanguard-compact-ee76a1bc2cbb5285.glb",
+     "bytes": 188192,
+     "sha256": "ee76a1bc2cbb528576cd6706a18c169fa8af0783cc5bb81e0b8f9294ac19b266",
+     "triangles": 1682,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      1.515,
+      2.03,
+      0.711
+     ],
+     "minY": -0.105,
+     "source": "public/models/hegemony/inner-keep/population/infantry/inner-keep-vanguard-compact-ee76a1bc2cbb5285.glb"
+    }
+   }
+  },
+  {
+   "id": "wildlife.rabbit",
+   "lods": {
+    "balanced": {
+     "file": "wildlife/inner-keep-lowlands-rabbit-balanced-daeb493a827ecbd6.glb",
+     "bytes": 86340,
+     "sha256": "daeb493a827ecbd605c6ad25d83b84050e6a0ad29e96619c9d86c57c37be1f6a",
+     "triangles": 350,
+     "skinned": true,
+     "animations": [
+      "Alert",
+      "Idle",
+      "Nibble",
+      "Walk"
+     ],
+     "size": [
+      0.192,
+      0.265,
+      0.343
+     ],
+     "minY": 0.002,
+     "source": "public/models/hegemony/inner-keep/wildlife/rabbit/inner-keep-lowlands-rabbit-balanced-daeb493a827ecbd6.glb"
+    },
+    "high": {
+     "file": "wildlife/inner-keep-lowlands-rabbit-high-735f7d72457acfb2.glb",
+     "bytes": 129388,
+     "sha256": "735f7d72457acfb20581cfcacbd8908eab3ef36d5640b63ecb134bbaa7a10b1d",
+     "triangles": 726,
+     "skinned": true,
+     "animations": [
+      "Alert",
+      "Idle",
+      "Nibble",
+      "Walk"
+     ],
+     "size": [
+      0.199,
+      0.265,
+      0.336
+     ],
+     "minY": 0.002,
+     "source": "public/models/hegemony/inner-keep/wildlife/rabbit/inner-keep-lowlands-rabbit-high-735f7d72457acfb2.glb"
+    }
+   }
+  },
+  {
+   "id": "wildlife.rabbit-shared",
+   "lods": {
+    "compact": {
+     "file": "wildlife/hegemony-lowlands-rabbit-compact-2ecc7b1adf4c1d79.glb",
+     "bytes": 14808,
+     "sha256": "2ecc7b1adf4c1d79b7ca2d5ea9a6727ed3f6d9072047466082bb912d34ea930c",
+     "triangles": 146,
+     "skinned": false,
+     "animations": [],
+     "size": [
+      0.162,
+      0.265,
+      0.338
+     ],
+     "minY": 0.002,
+     "source": "public/models/hegemony/environment/wildlife/rabbit/hegemony-lowlands-rabbit-compact-2ecc7b1adf4c1d79.glb"
+    }
+   }
+  }
+ ]
+}

@@ -11,7 +11,15 @@ import { Terrain, distToPolyline } from '../world/terrain';
 import { SkyRig } from './sky';
 import { buildFarMountains, buildTerrainMesh } from './terrainMesh';
 import { buildScenery, type SceneryHandles } from './scenery';
-import { buildVegetation, type VegetationResult } from './vegetation';
+import { buildForest } from './forest';
+import { buildGroundcover } from './groundcover';
+import { buildWildlife } from './wildlife';
+import { buildEnvironment, type EnvironmentHandle } from './environment';
+import { Exclusions, type SwayUniforms } from './vegetation';
+import { ALL_NEEDS } from './assets/needs';
+import type { AssetLibrary, LoadProgress } from './assets/library';
+import { setSharedLibrary } from './assets/library';
+import type { BuildContext, FrameContext, SceneModule } from './context';
 import { buildWater, type WaterSystem } from './waterMesh';
 import type { Settings } from '../platform/settings';
 
@@ -23,7 +31,12 @@ export class WorldScene {
   readonly nav: NavGrid;
   readonly sky: SkyRig;
   readonly water: WaterSystem;
-  readonly veg: VegetationResult;
+  readonly sway: SwayUniforms = { uTime: { value: 0 }, uWind: { value: 1 } };
+  readonly library: AssetLibrary;
+  /** Forest, ground cover, wildlife: updated every frame with the shared frame context. */
+  readonly modules: { name: string; module: SceneModule }[] = [];
+  private environment: EnvironmentHandle;
+  private groundcover: ReturnType<typeof buildGroundcover>;
   readonly scenery: SceneryHandles;
   readonly terrainMesh: THREE.Mesh;
   private lanternLights: THREE.PointLight[] = [];
@@ -45,8 +58,16 @@ export class WorldScene {
   view: WorldView;
   buildStats: { ms: number } = { ms: 0 };
 
-  constructor(state: WorldState, settings: Settings) {
+  /** Loads every model the scene modules asked for, then builds the world. */
+  static async create(state: WorldState, settings: Settings, library: AssetLibrary, onProgress?: (p: LoadProgress) => void): Promise<WorldScene> {
+    setSharedLibrary(library);
+    await library.preload(ALL_NEEDS, onProgress);
+    return new WorldScene(state, settings, library);
+  }
+
+  private constructor(state: WorldState, settings: Settings, library: AssetLibrary) {
     const t0 = performance.now();
+    this.library = library;
     this.terrain = new Terrain();
     this.colliders = buildStaticColliders();
     this.terrainMesh = buildTerrainMesh(this.terrain);
@@ -57,8 +78,13 @@ export class WorldScene {
     this.scene.fog = this.sky.fog;
     this.water = buildWater(this.terrain);
     this.scene.add(this.water.group);
-    this.veg = buildVegetation(this.terrain, this.colliders, settings.quality);
-    this.scene.add(this.veg.group);
+    const ctx: BuildContext = { terrain: this.terrain, colliders: this.colliders, library, quality: settings.quality, settings, sway: this.sway, excl: new Exclusions(this.terrain) };
+    const forest = buildForest(ctx);
+    this.groundcover = buildGroundcover(ctx);
+    const wildlife = buildWildlife(ctx);
+    this.modules.push({ name: 'forest', module: forest }, { name: 'groundcover', module: this.groundcover }, { name: 'wildlife', module: wildlife });
+    for (const m of this.modules) this.scene.add(m.module.group);
+    this.environment = buildEnvironment(this.scene, settings.quality);
     this.scenery = buildScenery(this.terrain, this.colliders);
     this.scene.add(this.scenery.group);
     this.nav = new NavGrid(this.terrain, this.colliders);
@@ -198,19 +224,22 @@ export class WorldScene {
   }
 
   /** Move the whole scene forward: sky, water, foliage, animated props. */
-  update(dt: number, state: WorldState, focus: THREE.Vector3, settings: Settings, hour: number) {
+  update(dt: number, state: WorldState, focus: THREE.Vector3, settings: Settings, hour: number, camera: THREE.Camera) {
     this.time += dt;
     this.view = worldView(state);
     const v = this.view;
     const reduced = settings.reducedMotion;
-    this.veg.uniforms.uTime.value = this.time;
-    this.veg.uniforms.uWind.value = reduced ? 0.25 : 1;
+    this.sway.uTime.value = this.time;
+    this.sway.uWind.value = reduced ? 0.25 : 1;
     this.sky.brightness = settings.brightness;
     this.sky.update(hour, focus, dt, reduced);
     const night = this.sky.state.nightness;
     this.scenery.setNight(night);
     const light = 0.42 + 0.58 * (1 - night);
     this.water.update(dt, this.time, v.flow, light);
+    const frame: FrameContext = { time: this.time, camera, focus, nightness: night, sunDir: this.sky.state.sunDir, reducedMotion: reduced, hour, view: v, quality: settings.quality };
+    this.environment.update(dt, frame);
+    for (const m of this.modules) m.module.update(dt, frame);
 
     // Lanterns: the three nearest to the focus get real light at night.
     const ls = this.scenery.lanternPositions;

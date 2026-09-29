@@ -22,6 +22,10 @@ import {
 import { mulberry32 } from '../world/noise';
 import type { Terrain } from '../world/terrain';
 import { Kit, PAL, makeStdMaterial, paint, transform } from './kit';
+import type { AssetNeed } from './assets/library';
+
+/** Assets this module wants loaded before the world is built. */
+export const NEEDS: AssetNeed[] = [];
 
 export function makeTextTexture(w: number, h: number, draw: (ctx: CanvasRenderingContext2D, w: number, h: number) => void): THREE.CanvasTexture {
   const c = document.createElement('canvas');
