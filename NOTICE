@@ -10,10 +10,11 @@ This product includes material from the Warpkeep project (https://github.com/ael
    Warpkeep's Apache-2.0 licensed software (https://www.apache.org/licenses/LICENSE-2.0).
    They have been rewritten and modified for Tervain.
 
-2. Runtime 3D models. The files under public/models/warpkeep/ are byte-exact copies of runtime
+2. Runtime 3D models. The files under assets/warpkeep/ are byte-exact copies of runtime
    GLB files from Warpkeep at revision 786c0b2be6f2d2e7eb2de02ef3b6826c8907fc32, with their
    provenance in Warpkeep-Assets (https://github.com/ael-dev3/Warpkeep-Assets). They are used
    with the project owner's authorisation and are NOT offered under an open-content licence.
-   See docs/engineering/asset-inventory.md and public/models/warpkeep/manifest.json.
+   They are archived and are not built into the published site in 0.0.2.
+   See docs/engineering/asset-inventory.md and assets/warpkeep/manifest.json.
 
 Warpkeep names, logos and the Hegemony identity are not licensed by this notice.

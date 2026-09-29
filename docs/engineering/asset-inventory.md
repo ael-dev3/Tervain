@@ -4,9 +4,13 @@ Status: **imported and in use in the browser prototype (0.0.x)**; not yet checke
 
 Tervain and Warpkeep are set in the same world and are meant to share technology and assets ([A10](../decisions.md)). On 29 September 2026 the project owner instructed that Tervain use the same assets and technology as [Warpkeep](https://github.com/ael-dev3/Warpkeep) and [Warpkeep-Assets](https://github.com/ael-dev3/Warpkeep-Assets). This document records exactly what was taken and on what terms.
 
+## Status of the archive (0.0.2)
+
+The GLBs described below live in `assets/warpkeep/` (outside `public/`, so they are not built into the site). The 0.0.2 scene does not use them and does not publish them; the owner's direction of 29 September 2026 (decisions A12–A14) asks for a rugged, Gothic 3-style look that the shared models' bright, chunky forms do not give, so the scene is generated in code instead. They stay archived, with provenance and terms, as candidates for retexturing or for a later decision. Publishing them remains an owner decision under the terms recorded here.
+
 ## What was imported
 
-`tools/import-warpkeep-assets.mjs` copies an explicit selection of Warpkeep's **runtime GLBs** (`public/models/hegemony/…`) byte for byte into `public/models/warpkeep/` and writes `public/models/warpkeep/manifest.json`, which the game loads as its catalog. The manifest pins, for every file, the source path, size, SHA-256, triangle count, bounding size, skinning and animation names, and, once, the source repository and commit.
+`tools/import-warpkeep-assets.mjs` copies an explicit selection of Warpkeep's **runtime GLBs** (`public/models/hegemony/…`) byte for byte into `assets/warpkeep/` and writes `assets/warpkeep/manifest.json`, which the game loads as its catalog. The manifest pins, for every file, the source path, size, SHA-256, triangle count, bounding size, skinning and animation names, and, once, the source repository and commit.
 
 | Field | Value |
 | --- | --- |
@@ -42,7 +46,7 @@ Warpkeep's software is Apache-2.0 ([LICENSING.md](https://github.com/ael-dev3/Wa
 
 | Field | Record |
 | --- | --- |
-| Identity | Catalog ids in `public/models/warpkeep/manifest.json` (for example `tree.oak-spring-broad`) |
+| Identity | Catalog ids in `assets/warpkeep/manifest.json` (for example `tree.oak-spring-broad`) |
 | Source | Repository, commit and per-file source path in the manifest |
 | Integrity | Per-file SHA-256 in the manifest; filenames also carry the source hash prefix |
 | Authorship and terms | As above; per-set provenance lives in Warpkeep-Assets |

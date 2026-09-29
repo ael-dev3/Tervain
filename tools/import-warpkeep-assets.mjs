@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Copies a pinned, explicit selection of Warpkeep runtime GLBs into public/models/warpkeep/
+ * Copies a pinned, explicit selection of Warpkeep runtime GLBs into assets/warpkeep/
  * and writes the machine-readable catalog the game loads (manifest.json) and the inventory
  * record required by docs/engineering/shared-assets.md.
  *
@@ -22,7 +22,7 @@ if (!src) {
 const root = path.resolve(src);
 const models = path.join(root, 'public', 'models', 'hegemony');
 const sourceCommit = execSync('git rev-parse HEAD', { cwd: root }).toString().trim();
-const out = path.resolve('public/models/warpkeep');
+const out = path.resolve('assets/warpkeep');
 
 /** Reads the JSON chunk of a GLB and summarises it. */
 function readGlb(file) {

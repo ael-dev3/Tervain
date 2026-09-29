@@ -1,5 +1,7 @@
 # Sharing technology and assets with Warpkeep
 
+> **Update, 29 September 2026.** Shared *technology* (wind, sky light, grass tiles) is in use; the imported Warpkeep *models* are archived in `assets/warpkeep/` and are not used or published in 0.0.x because they conflict with the Gothic 3 direction (decisions A10, A12). The requirements below still govern any later use.
+
 Status: **reuse plan and dated inventory of candidates. A first import is done and recorded in [asset-inventory.md](asset-inventory.md)** (209 runtime GLBs from Warpkeep at `786c0b2`, used by the browser prototype under the owner's authorisation). The rest of this document remains the plan for further reuse. Checked 29 September 2026.
 
 ## Purpose
