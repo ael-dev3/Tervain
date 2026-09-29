@@ -92,8 +92,9 @@ export function worldView(s: WorldState): WorldView {
   if (s.quest.gate === 'jammed') noticeboard.push('board.gate_jammed');
   if (s.quest.gate === 'stabilized' && !committed) noticeboard.push('board.gate_braced');
   if (committed && alloc) {
-    noticeboard.push(`board.alloc_${alloc}`);
-    if (hasFact(s, 'public_statement_posted')) noticeboard.push('board.public_statement');
+    const partialWitness = alloc === 'rotation' && hasFact(s, 'rotation_caretaker_witness');
+    noticeboard.push(partialWitness ? 'board.alloc_rotation_partial' : `board.alloc_${alloc}`);
+    if (hasFact(s, 'public_statement_posted') || partialWitness) noticeboard.push('board.public_statement');
     if (hasFact(s, 'public_account_misleading')) noticeboard.push('board.account_flood_only');
     else if (alloc === 'rotation') noticeboard.push('board.rotation_witnesses');
     if (hasFact(s, 'emergency_allocation')) noticeboard.push('board.emergency_expires');

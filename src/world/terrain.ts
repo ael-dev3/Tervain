@@ -1,15 +1,29 @@
-import { clamp, fbm, lerp, smoothstep } from './noise';
+import { clamp, fbm, lerp, ridged, smoothstep, warp } from './noise';
+import { lighthouseRock, shapeCoast, shoreDistance } from './coast';
 import {
+  ANCHORS,
+  BELL,
+  BUILDINGS,
+  COASTAL,
   DECKS,
   DEEP_WATER,
   FORD,
+  INSPECT_LOCATIONS,
   LEDGE,
+  LEDGER,
+  LIGHTHOUSE,
   OVERLOOK_BUMP,
+  PICKUP_LOCATIONS,
+  RITE_ALTAR,
   ROADS,
+  SEA_LEVEL,
+  SHORTCUT,
   SHRINE_PLATEAU,
+  SLUICE,
   SPRING_POOL,
   STREAMS,
   VALLEY,
+  WAGON,
   WORLD,
   type StreamSpec,
   type V2,
@@ -44,28 +58,111 @@ const bump = (x: number, z: number, cx: number, cz: number, r: number, h: number
   return h * (1 - smoothstep(core, 1, d));
 };
 
-/** Ground height before rivers are carved. */
-export function baseHeight(x: number, z: number): number {
-  const rx = (x - VALLEY.cx) / VALLEY.rx;
-  const rz = (z - VALLEY.cz) / VALLEY.rz;
-  const r = Math.hypot(rx, rz);
+/** Normalised radius of the playable land: the union of the vale and the coastal plain (below 1 is inside). */
+export function realmRadius(x: number, z: number): number {
+  const a = Math.hypot((x - VALLEY.cx) / VALLEY.rx, (z - VALLEY.cz) / VALLEY.rz);
+  const b = Math.hypot((x - COASTAL.cx) / COASTAL.rx, (z - COASTAL.cz) / COASTAL.rz);
+  return Math.min(a, b);
+}
 
+function cellHash(ix: number, iz: number, k: number): number {
+  let h = Math.imul(ix, 374761393) ^ Math.imul(iz, 668265263) ^ Math.imul(k, 2147483647);
+  h = Math.imul(h ^ (h >>> 13), 1274126177);
+  h ^= h >>> 16;
+  return (h >>> 0) / 4294967296;
+}
+
+/** Undulating open ground: broad domain-warped swells with rougher hummocks on top. Heath, not lawn. */
+function heath(x: number, z: number): number {
+  const [wx, wz] = warp(x, z, 70, 16, 81);
+  return 3.6 * fbm(wx / 62, wz / 62, 4, 3) + 1.5 * fbm(x / 17, z / 17, 3, 5) + 0.32 * fbm(x / 5.5, z / 5.5, 2, 9);
+}
+
+/** Weathered knolls and rock outcrops scattered over open ground. */
+function outcrops(x: number, z: number): number {
+  const CELL = 40;
+  const cx = Math.floor(x / CELL);
+  const cz = Math.floor(z / CELL);
+  let best = 0;
+  for (let i = -1; i <= 1; i++) {
+    for (let j = -1; j <= 1; j++) {
+      const gx = cx + i;
+      const gz = cz + j;
+      if (cellHash(gx, gz, 1) > 0.45) continue;
+      const ox = (gx + cellHash(gx, gz, 2)) * CELL;
+      const oz = (gz + cellHash(gx, gz, 3)) * CELL;
+      const r = 7 + cellHash(gx, gz, 4) * 14;
+      const d = Math.hypot(x - ox, z - oz) / r;
+      if (d >= 1) continue;
+      const hgt = 1.8 + cellHash(gx, gz, 5) * 4.4;
+      best = Math.max(best, hgt * (1 - smoothstep(0.1, 1, d)) * (0.65 + 0.7 * ridged(x / 5, z / 5, 2, 91)));
+    }
+  }
+  return best;
+}
+
+let keepClear: { x: number; z: number; r: number }[] | null = null;
+/** 0 next to paths, water and anything the story uses; 1 in open country. Outcrops fade out where it is low. */
+export function clearanceAt(x: number, z: number): number {
+  if (!keepClear) {
+    keepClear = [];
+    for (const a of Object.values(ANCHORS)) keepClear.push({ x: a.x, z: a.z, r: 9 });
+    for (const p of INSPECT_LOCATIONS) keepClear.push({ x: p.x, z: p.z, r: 9 });
+    for (const p of PICKUP_LOCATIONS) keepClear.push({ x: p.x, z: p.z, r: 9 });
+    for (const b of BUILDINGS) keepClear.push({ x: b.x, z: b.z, r: Math.max(b.w, b.d) * 0.8 + 6 });
+    for (const q of [BELL, SLUICE.control, SHORTCUT.lever, RITE_ALTAR, LEDGER, WAGON, LIGHTHOUSE]) keepClear.push({ x: q.x, z: q.z, r: 10 });
+  }
+  let c = 1;
+  for (const k of keepClear) {
+    const d = Math.hypot(x - k.x, z - k.z);
+    if (d < k.r) c = Math.min(c, smoothstep(k.r * 0.45, k.r, d));
+  }
+  for (const r of ROADS) c = Math.min(c, smoothstep(r.width * 0.5 + 0.5, r.width * 0.5 + 5.5, distToPolyline(x, z, r.points).d));
+  for (const st of STREAMS) c = Math.min(c, smoothstep(st.halfWidth + 1, st.halfWidth + 9, distToPolyline(x, z, st.points).d));
+  return c;
+}
+
+/** Keeps dry land dry: heights well below sea level are eased up so hollows in the heath are never flooded by the sea plane. */
+function softFloor(h: number): number {
+  const f = 0.5;
+  const t = (h - f) * 1.3;
+  return f + (t > 18 ? t : Math.log1p(Math.exp(t))) / 1.3;
+}
+
+interface Pad {
+  x: number;
+  z: number;
+  r: number;
+  level: number;
+}
+let pads: Pad[] | null = null;
+
+/** Ground height before pads, coast and rivers: mountains, hills, heath and outcrops. */
+function coreHeight(x: number, z: number): number {
+  const r = realmRadius(x, z);
   const m = smoothstep(0.8, 1.16, r);
   const ridge = 0.55 + 0.45 * fbm(x / 55 + 9, z / 55 - 4, 4, 7);
   let h = m * (44 + 30 * ridge) + Math.max(0, r - 1.16) * 80;
+  // Weathered mountain flanks: eroded gullies and ribs at two scales, so the far walls have structure and not a smooth skin.
+  h += m * (30 * (ridged(x / 54 + 3, z / 54 - 7, 4, 111) - 0.3) + 9 * (ridged(x / 16, z / 16, 3, 113) - 0.35));
 
   const shrine = bump(x, z, SHRINE_PLATEAU.x, SHRINE_PLATEAU.z, SHRINE_PLATEAU.r, SHRINE_PLATEAU.h, 0.5);
   const overlook = bump(x, z, OVERLOOK_BUMP.x, OVERLOOK_BUMP.z, OVERLOOK_BUMP.r, OVERLOOK_BUMP.h, 0.4);
   const ledge = bump(x, z, LEDGE.x, LEDGE.z, LEDGE.r, LEDGE.h, 0.5);
 
   const calm = 1 - clamp((shrine + overlook + ledge) / 8, 0, 0.85);
-  const rolling = (2.4 * fbm(x / 46, z / 46, 3, 3) + 0.7 * fbm(x / 13, z / 13, 2, 5)) * calm;
+  const rolling = heath(x, z) * calm;
   // The land climbs gently toward the north-east where the quarry is cut into the hillside.
   const hillside = Math.min(20, 0.1 * Math.max(0, x - 80) + 0.1 * Math.max(0, -z - 25));
   const crags = Math.max(0, fbm(x / 8, z / 8, 3, 11)) * Math.min(1, hillside / 6) * 1.4;
   // The gully north of the Cut: a cliff drop that makes the ledge a dead end on that side.
   const gully = -bump(x, z, LEDGE.x, LEDGE.z - 26, 17, 9, 0.4);
-  h += rolling + shrine + overlook + hillside + crags + gully;
+  const sd = shoreDistance(x, z);
+  // The coastal plain climbs from the dunes toward the overlook and fades out again before the vale.
+  const rise = 3.2 * smoothstep(10, 110, sd) * (1 - smoothstep(120, 200, sd));
+  h += rolling + shrine + overlook + hillside + crags + gully + rise;
+  if (x < -30) h += lighthouseRock(x, z) + outcrops(x, z) * clearanceAt(x, z) * smoothstep(20, 60, sd);
+  else h += outcrops(x, z) * clearanceAt(x, z) * 0.7;
 
   // Village fields: gently flatten so buildings sit on the ground.
   const vd = Math.hypot(x - 4, z - 8) / 42;
@@ -74,14 +171,40 @@ export function baseHeight(x: number, z: number): number {
   const qd = Math.hypot(x - 88, z + 20) / 34;
   h = lerp(h, 2.1, (1 - smoothstep(0.3, 1, qd)) * 0.95);
   // Shrine forecourt and spring plateau stay level around the buildings.
-  const sd = Math.hypot(x - -28, z + 100) / 26;
-  h = lerp(h, SHRINE_PLATEAU.h - 0.4, (1 - smoothstep(0.5, 1, sd)) * 0.9);
-  // Overlook shelf where the caravan stops.
+  const sdd = Math.hypot(x - -28, z + 100) / 26;
+  h = lerp(h, SHRINE_PLATEAU.h - 0.4, (1 - smoothstep(0.5, 1, sdd)) * 0.9);
+  // Overlook shelf where the road tops the rise.
   const od = Math.hypot(x + 136, z - 28) / 14;
-  h = lerp(h, 10.4, (1 - smoothstep(0.4, 1, od)) * 0.95);
+  h = lerp(h, 9.6, (1 - smoothstep(0.4, 1, od)) * 0.95);
   // Ledge floor.
   const ld = Math.hypot(x - LEDGE.x, z - LEDGE.z) / 11;
   h = lerp(h, 9.2, (1 - smoothstep(0.5, 1, ld)) * 0.9);
+  return h;
+}
+
+/** Ground height before rivers are carved. */
+export function baseHeight(x: number, z: number): number {
+  let h = softFloor(coreHeight(x, z));
+  if (!pads) {
+    pads = [];
+    for (const b of BUILDINGS) {
+      if (b.kind === 'fisher' || b.kind === 'store' || b.kind === 'keeper') {
+        const r = Math.max(b.w, b.d) * 0.72 + 3;
+        pads.push({ x: b.x, z: b.z, r, level: shapeCoast(b.x, b.z, coreHeight(b.x, b.z)) + 0.15 });
+      }
+    }
+    // The lighthouse stands on a levelled ledge of its rock.
+    pads.push({ x: LIGHTHOUSE.x, z: LIGHTHOUSE.z, r: 9, level: shapeCoast(LIGHTHOUSE.x, LIGHTHOUSE.z, coreHeight(LIGHTHOUSE.x, LIGHTHOUSE.z)) });
+    // The strand where the caravan and the fire stand: trodden flat above the tide line.
+    pads.push({ x: -249, z: 33, r: 13, level: shapeCoast(-249, 33, coreHeight(-249, 33)) });
+  }
+  if (x < -170) {
+    h = shapeCoast(x, z, h);
+    for (const p of pads) {
+      const d = Math.hypot(x - p.x, z - p.z) / p.r;
+      if (d < 1) h = lerp(h, p.level, (1 - smoothstep(0.55, 1, d)) * 0.97);
+    }
+  }
   return h;
 }
 
@@ -218,12 +341,18 @@ export class Terrain {
   }
 
   valleyRadius(x: number, z: number): number {
-    return Math.hypot((x - VALLEY.cx) / VALLEY.rx, (z - VALLEY.cz) / VALLEY.rz);
+    return realmRadius(x, z);
+  }
+
+  /** How far the ground is below sea level here (0 on dry land). */
+  seaDepth(x: number, z: number): number {
+    if (shoreDistance(x, z) > 8) return 0;
+    return Math.max(0, SEA_LEVEL - this.heightAt(x, z));
   }
 
   isDeepWater(x: number, z: number): boolean {
     if (this.deckAt(x, z)) return false;
-    return this.carveAt(x, z) > DEEP_WATER;
+    return this.carveAt(x, z) > DEEP_WATER || this.seaDepth(x, z) > DEEP_WATER;
   }
 
   /** Whether a walking character may stand here (ignoring dynamic colliders). */

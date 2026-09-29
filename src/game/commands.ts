@@ -244,7 +244,7 @@ export function execute(s: WorldState, cmd: Command): CommandResult {
       if (s.locationChanges.shortcut === 'open') return fail('already_open');
       s.locationChanges.shortcut = 'open';
       s.facts.shortcut_opened = true;
-      events.push({ t: 'shortcut' });
+      events.push({ t: 'shortcut' }, { t: 'autosave', reason: 'shortcut_opened' });
       // The gate gives the stranded worker a way round the ledge; she leaves under her own power.
       if (s.npcs.maintenance_worker.available && !hasFact(s, 'ila_rescued')) {
         s.facts.ila_rescued = true;
@@ -266,7 +266,7 @@ export function execute(s: WorldState, cmd: Command): CommandResult {
       const n = s.npcs.maintenance_worker;
       n.trust = clampTrust(n.trust + 1);
       enterInvestigation(s, 'worker', events);
-      events.push({ t: 'worker_rescued', method: cmd.method });
+      events.push({ t: 'worker_rescued', method: cmd.method }, { t: 'autosave', reason: 'worker_rescued' });
       return ok();
     }
 
@@ -289,7 +289,7 @@ export function execute(s: WorldState, cmd: Command): CommandResult {
         deliverDueReports(s, events);
       }
       s.facts.archive_via = cmd.method;
-      events.push({ t: 'archive', method: cmd.method });
+      events.push({ t: 'archive', method: cmd.method }, { t: 'autosave', reason: 'archive_access' });
       return ok();
     }
 
@@ -308,7 +308,7 @@ export function execute(s: WorldState, cmd: Command): CommandResult {
       s.inventory.votive_reed = itemCount(s, 'votive_reed') - 1;
       s.facts.rite_done = true;
       s.facts.rite_calm_until = s.clock + RITE_CALM_MIN;
-      events.push({ t: 'item', id: 'votive_reed', delta: -1 }, { t: 'rite' });
+      events.push({ t: 'item', id: 'votive_reed', delta: -1 }, { t: 'rite' }, { t: 'autosave', reason: 'rite' });
       return ok();
     }
 

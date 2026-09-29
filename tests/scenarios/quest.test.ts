@@ -301,3 +301,20 @@ describe('one-time rewards and atomic effects', () => {
     expect(g.state.inventory.sluice_brace).toBe(1);
   });
 });
+
+describe('rotation settles once', () => {
+  it('a witnessed rotation completes, pays once, and cannot be settled twice', () => {
+    const g = newGame();
+    stabilized(g);
+    g.state.facts.consent_mara = true;
+    g.state.facts.consent_edda = true;
+    g.state.facts.consent_darin = true;
+    must(g, { t: 'commitAllocation', allocation: 'rotation' });
+    g.tickClock(APPLY_DELAY_MIN + 1);
+    must(g, { t: 'settle', via: 'test' });
+    expect(g.state.inventory.witness_cord).toBe(1);
+    expect(g.state.inventory.coin).toBe(6 + REWARD_COIN);
+    expect(g.dispatch({ t: 'settle', via: 'again' })).toMatchObject({ ok: false });
+    expect(g.state.inventory.coin).toBe(6 + REWARD_COIN);
+  });
+});

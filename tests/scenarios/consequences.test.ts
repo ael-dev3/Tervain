@@ -214,3 +214,58 @@ describe('training', () => {
     expect(g.dispatch({ t: 'train', skill: 'steady_guard' })).toMatchObject({ ok: false, reason: 'need_payment' });
   });
 });
+
+describe('review fixes: content that used to be unreachable or misleading', () => {
+  it('the waterkeeper still answers about the sluice after the player has inspected the crack', () => {
+    const g = newGame();
+    must(g, { t: 'inspect', pointId: 'sluice_crack' });
+    talk(g, 'spring_steward', ['edda_spring']);
+    const choices = g.choices('edda_hub');
+    expect(choices.some((c) => c.choice.next === 'edda_sluice' && !c.locked)).toBe(true);
+    talk(g, 'spring_steward', ['edda_sluice', 'edda_hub']);
+    expect(g.state.facts.edda_confirms_crack).toBe(true);
+  });
+
+  it('a worker who left by the lever thanks the player for the gate, not for clearing the ledge', () => {
+    const g = newGame();
+    must(g, { t: 'openShortcut' });
+    expect(pickEntryNode(g.state, 'maintenance_worker')).toBe('ila_testimony_shortcut');
+    talk(g, 'maintenance_worker', ['ila_hub']);
+    expect(g.state.evidence.worker_testimony).toBeDefined();
+    expect(g.state.inventory.poultice).toBe(2);
+  });
+
+  it('caretakers introduce themselves once and then the ordinary dialogue returns (training stays available)', () => {
+    const g = newGame();
+    must(g, { t: 'setUnavailable', npc: 'spring_steward', cause: 'test' });
+    expect(pickEntryNode(g.state, 'shrine_warden')).toBe('harrow_caretaker');
+    talk(g, 'shrine_warden', ['harrow_hub']);
+    expect(pickEntryNode(g.state, 'shrine_warden')).toBe('harrow_intro');
+    g.state.npcs.shrine_warden.met = true;
+    expect(pickEntryNode(g.state, 'shrine_warden')).toBe('harrow_hub2');
+  });
+
+  it('a rotation with an absent decision-maker says so on the noticeboard instead of claiming full witnesses', () => {
+    const g = newGame();
+    investigate(g);
+    takeKit(g);
+    must(g, { t: 'stabilizeGate' });
+    must(g, { t: 'setUnavailable', npc: 'quarry_foreman', cause: 'test' });
+    g.state.facts.consent_mara = true;
+    g.state.facts.consent_edda = true;
+    must(g, { t: 'commitAllocation', allocation: 'rotation' });
+    const board = worldView(g.state).noticeboard;
+    expect(board).toContain('board.alloc_rotation_partial');
+    expect(board).toContain('board.public_statement');
+    expect(board).not.toContain('board.alloc_rotation');
+  });
+
+  it('quest-changing acts request an autosave', () => {
+    const g = newGame();
+    const seen: string[] = [];
+    g.subscribe((events) => events.forEach((e) => e.t === 'autosave' && seen.push(e.reason)));
+    must(g, { t: 'openShortcut' });
+    must(g, { t: 'archiveAccess', method: 'trespass' });
+    expect(seen).toEqual(expect.arrayContaining(['shortcut_opened', 'archive_access']));
+  });
+});

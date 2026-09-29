@@ -35,7 +35,7 @@ const CLAIM_FACTS = [
   'told_ledger',
 ] as const;
 
-export const PLACE_ORDER: PlaceId[] = ['overlook', 'rillford', 'ford', 'spring_shrine', 'sluice', 'quarry', 'the_cut', 'archive'];
+export const PLACE_ORDER: PlaceId[] = ['shore', 'lantern_point', 'overlook', 'rillford', 'ford', 'spring_shrine', 'sluice', 'quarry', 'the_cut', 'archive'];
 
 const CLAIMED_PLACE_FACTS: Partial<Record<PlaceId, string>> = {
   spring_shrine: 'told_shrine',

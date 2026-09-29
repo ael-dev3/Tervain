@@ -134,3 +134,43 @@ describe('persistent state across reload', () => {
     expect(reload(g).state.defeated.cut_creature).toBe(true);
   });
 });
+
+describe('review fixes: save handling', () => {
+  it('a reload while committed keeps the arrangement and still lets it settle once', () => {
+    const { saves } = fresh();
+    const g = newGame();
+    investigate(g);
+    takeKit(g);
+    must(g, { t: 'stabilizeGate' });
+    must(g, { t: 'commitAllocation', allocation: 'rillford' });
+    saves.save('slot-1', g.state);
+    const r = saves.load('slot-1');
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    const g2 = new Game(r.state);
+    expect(g2.state.quest.phase).toBe('committed');
+    g2.tickClock(APPLY_DELAY_MIN + 1);
+    must(g2, { t: 'settle', via: 'test' });
+    expect(g2.dispatch({ t: 'settle', via: 'again' })).toMatchObject({ ok: false });
+  });
+
+  it('a corrupt current save never replaces the good previous save', () => {
+    const { mem, saves } = fresh();
+    const g = newGame();
+    must(g, { t: 'inspect', pointId: 'dry_channel' });
+    saves.save('slot-1', g.state);
+    must(g, { t: 'inspect', pointId: 'spring_sediment' });
+    saves.save('slot-1', g.state);
+    const cur = 'tervain:save:slot-1:cur';
+    mem.set(cur, mem.get(cur)!.slice(0, 120));
+    // Saving again must not copy the damaged file over the previous good one.
+    saves.save('slot-1', g.state);
+    const prev = saves.load('slot-1');
+    expect(prev.ok).toBe(true);
+    if (prev.ok) expect(prev.state.evidence.reduced_spring_flow).toBeDefined();
+    // The previous copy is still the first good write, not the damaged file.
+    const prevRaw = JSON.parse(mem.get('tervain:save:slot-1:prev')!);
+    expect(prevRaw.state.evidence.dry_channel).toBeDefined();
+    expect(prevRaw.state.evidence.reduced_spring_flow).toBeUndefined();
+  });
+});

@@ -1,4 +1,4 @@
-import { ARCHIVE_SHUTTER, BUILDINGS, DECKS, SHORTCUT, WORLD, bySpec, type BuildingSpec } from './layout';
+import { ARCHIVE_SHUTTER, BUILDINGS, DECKS, LIGHTHOUSE, SHORTCUT, WAGON, WORLD, bySpec, type BuildingSpec } from './layout';
 
 /** Simple 2D collision shapes on the ground plane. Trunks block movement; most leaves do not. */
 export interface CircleCollider {
@@ -244,7 +244,9 @@ export function buildStaticColliders(): Colliders {
   // Bell tower base, well, wagon, quarry stacks and crates.
   c.circle('bell_tower', -1, 4, 1.5);
   c.circle('well', -6, 18, 1.5);
-  c.box('wagon', -139.5, 29.5, 2.6, 1.3, 1.2);
+  c.box('wagon', WAGON.x, WAGON.z, 2.6, 1.3, WAGON.yaw);
+  // The lighthouse shaft. Its door faces south, onto the levelled ledge.
+  c.circle('lighthouse', LIGHTHOUSE.x, LIGHTHOUSE.z, LIGHTHOUSE.r + 0.25);
   c.box('stack_a', 92, -16, 2.2, 1.4, 0.3);
   c.box('stack_b', 84, -32, 2.6, 1.6, -0.2);
   c.box('stack_c', 98, -26, 1.6, 1.6, 0.6);

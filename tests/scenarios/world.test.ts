@@ -4,18 +4,23 @@ import { validateContent } from '../../src/content/validate';
 import { buildStaticColliders } from '../../src/world/colliders';
 import {
   ANCHORS,
+  DECKS,
   ENEMY_SPAWNS,
   INSPECT_LOCATIONS,
   LEDGER,
+  LIGHTHOUSE,
   MAINT_ROUTE,
   PICKUP_LOCATIONS,
   PLACES,
+  RESULT_CHECKS,
+  ARCHIVE_SHUTTER,
   RITE_ALTAR,
   SHORTCUT,
   SLUICE,
   SPAWN,
   type V2,
 } from '../../src/world/layout';
+import { coastX, shoreDistance } from '../../src/world/coast';
 import { NavGrid } from '../../src/world/nav';
 import { Terrain } from '../../src/world/terrain';
 
@@ -57,6 +62,10 @@ describe('world layout', () => {
     expect(INSPECT_LOCATIONS.filter((p) => !reachable(p)).map((p) => p.id)).toEqual([]);
     expect(open({ x: RITE_ALTAR.x, z: RITE_ALTAR.z + 2.4 }), 'altar approach').toBe(true);
     expect(open({ x: SLUICE.control.x, z: SLUICE.control.z }), 'sluice control').toBe(true);
+    // Every interaction point that lives on a specific object must have somewhere to stand within its reach.
+    const reachable2 = (p: { x: number; z: number; r: number }) => [0.8, p.r * 0.5, p.r * 0.9].some((rr) => Array.from({ length: 16 }, (_, k) => ({ x: p.x + Math.cos((k / 16) * Math.PI * 2) * rr, z: p.z + Math.sin((k / 16) * Math.PI * 2) * rr })).some(open));
+    expect(RESULT_CHECKS.filter((p) => !reachable2(p)).map((p) => p.id), 'result checks').toEqual([]);
+    expect(reachable2(ARCHIVE_SHUTTER), 'archive shutter').toBe(true);
     expect(open({ x: SHORTCUT.lever.x, z: SHORTCUT.lever.z }), 'lever').toBe(true);
     expect(ENEMY_SPAWNS.filter((e) => !open(e)).map((e) => e.id)).toEqual([]);
   });
@@ -67,7 +76,8 @@ describe('world layout', () => {
       expect(path, name).not.toBeNull();
     });
 
-  route('overlook → village square', SPAWN, ANCHORS.village_square!);
+  route('strand → village square', SPAWN, ANCHORS.village_square!);
+  route('strand → overlook', SPAWN, { x: -136, z: 26 });
   route('village → dry channel', ANCHORS.village_square!, ANCHORS.dry_channel!);
   route('village → sluice control', ANCHORS.village_square!, SLUICE.control);
   route('sluice → shrine altar', SLUICE.control, { x: RITE_ALTAR.x, z: RITE_ALTAR.z + 2.4 });
@@ -136,9 +146,38 @@ describe('world layout', () => {
     expect(MAINT_ROUTE.filter((p) => !terrain.walkable(p.x, p.z)).map((p) => `${p.x},${p.z}`)).toEqual([]);
   });
 
-  it('terrain rises into mountains that stop movement at the valley edge', () => {
-    expect(terrain.walkable(-190, 0)).toBe(false);
-    expect(terrain.heightAt(-180, -100)).toBeGreaterThan(20);
+  it('terrain rises into mountains that stop movement at the edge of the land', () => {
+    expect(terrain.walkable(195, 0)).toBe(false);
+    expect(terrain.heightAt(-200, -138)).toBeGreaterThan(20);
     expect(terrain.walkable(0, 8)).toBe(true);
+  });
+
+  it('the strand: the player wakes on dry sand above the tide, with the sea deep beyond the shallows', () => {
+    expect(terrain.heightAt(SPAWN.x, SPAWN.z)).toBeGreaterThan(0.2);
+    expect(terrain.heightAt(SPAWN.x, SPAWN.z)).toBeLessThan(2.5);
+    // Wading is allowed a short way out; the open sea is not walkable.
+    expect(terrain.walkable(coastX(30) - 2, 30)).toBe(true);
+    expect(terrain.walkable(coastX(30) - 40, 30)).toBe(false);
+    expect(terrain.isDeepWater(coastX(30) - 40, 30)).toBe(true);
+    expect(terrain.seaDepth(0, 8)).toBe(0);
+  });
+
+  it('the coast stays wet where it should: no flooded hollows inland of the shore', () => {
+    let flooded = 0;
+    for (let x = -270; x < -150; x += 6) for (let z = -160; z < 160; z += 6) if (shoreDistance(x, z) > 10 && terrain.heightAt(x, z) < -0.2 && terrain.valleyRadius(x, z) < 1) flooded++;
+    expect(flooded).toBe(0);
+  });
+
+  it('Lantern Point is a rocky headland the player can climb to the lighthouse door', () => {
+    expect(terrain.heightAt(LIGHTHOUSE.x, LIGHTHOUSE.z)).toBeGreaterThan(4);
+    expect(nav.findPath(SPAWN, ANCHORS.lantern_door!)).not.toBeNull();
+    expect(nav.findPath(ANCHORS.lantern_door!, ANCHORS.village_square!)).not.toBeNull();
+  });
+
+  it('the jetty is walkable over the shallows and reaches out past the wading line', () => {
+    const j = DECKS.find((d) => d.id === 'jetty')!;
+    expect(terrain.walkable(j.x - j.hx + 1, j.z)).toBe(true);
+    expect(terrain.deckAt(j.x - j.hx + 1, j.z)).not.toBeNull();
+    expect(terrain.groundAt(j.x - j.hx + 1, j.z)).toBeGreaterThan(terrain.heightAt(j.x - j.hx + 1, j.z));
   });
 });

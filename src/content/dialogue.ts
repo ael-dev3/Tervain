@@ -49,10 +49,10 @@ const enter = (trigger: string): Effect => ({ t: 'enter', trigger });
 const ev = (id: EvidenceId, via: 'observed' | 'testimony' | 'document', source: string): Effect => ({ t: 'evidence', id, via, source });
 
 /* =====================================================================
- * Joss Merrin — caravan master at the overlook (opening)
+ * Joss Merrin — caravan master on the strand (opening)
  * ===================================================================== */
 N('joss_intro', 'caravan_master',
-  'Rillford is as far as the wagon goes. The ford road washed out in the thaw, and listen — that bell has been ringing since dawn. It is their drought bell. I have your six coin against passage; it will not stretch far. Walk down, find work, and I will turn the wagon when the road is fit.',
+  'Rillford is as far as the wagon goes. The ford road washed out in the thaw, and listen — that bell has been ringing since dawn. It is their drought bell. I have your six coin against passage; it will not stretch far. Walk inland, over the overlook, and find work; I will turn the wagon when the road is fit.',
   [
     ['What does the bell mean?', 'joss_bell', { intent: 'ask', fx: [met('caravan_master')] }],
     ['Where do I find work?', 'joss_work', { intent: 'ask', fx: [met('caravan_master')] }],
@@ -84,7 +84,7 @@ N('joss_after', 'caravan_master',
  * Mara Venn — Rillford reeve (Hearth League)
  * ===================================================================== */
 N('mara_intro', 'rillford_reeve',
-  'You came down from the overlook, so you heard the bell. It has not rung in my term until today. I am Mara Venn; Rillford elected me to keep it fed, and this morning I have very little to feed anyone with.',
+  'You came in along the shore road and over the overlook, so you heard the bell. It has not rung in my term until today. I am Mara Venn; Rillford elected me to keep it fed, and this morning I have very little to feed anyone with.',
   [
     ['What has happened to the water?', 'mara_cause', { intent: 'ask', fx: [met('rillford_reeve')] }],
     ['I need work and a bed. I can help.', 'mara_offer', { intent: 'offer', fx: [met('rillford_reeve')] }],
@@ -188,7 +188,7 @@ N('edda_hub', 'spring_steward',
   'The spring is quiet today. What would you ask?',
   [
     ['What is wrong with the flow?', 'edda_flow', { intent: 'ask', when: [NE('reduced_spring_flow')] }],
-    ['You know the sluice. What state is it in?', 'edda_sluice', { intent: 'ask', locked: true, when: [F('saw_sluice_damage'), NE('cracked_sluice')] }],
+    ['You know the sluice. What state is it in?', 'edda_sluice', { intent: 'ask', locked: true, when: [F('saw_sluice_damage'), NF('edda_confirms_crack')] }],
     ['The inspection log skips the week before the thaw.', 'edda_admits', { intent: 'accuse', locked: true, when: [F('saw_inspection_gap'), NF('edda_admits_deferral')] }],
     ['May I read the rotation records in the archive?', 'edda_archive_yes', { intent: 'ask', locked: true, when: [NF('edda_permission'), NF('archive_access_lost'), E('reduced_spring_flow')] }],
     ['Teach me the spring rite.', 'edda_rite', { intent: 'ask', locked: true, when: [NF('rite_taught'), E('reduced_spring_flow')] }],
@@ -356,6 +356,17 @@ N('ila_testimony', 'maintenance_worker',
     setFact('procedure_known'),
     { t: 'grant', id: 'ila_thanks', items: { poultice: 2 } },
   ]);
+N('ila_testimony_shortcut', 'maintenance_worker',
+  'You opened the gate! I walked the old track round the ledge and never met the beast. Here is what I saw before it came: fresh fractures on the support beside the gate, silt across the intake, and the seep in the quarry gully feeding the wrong channel. Close the gate slowly, from the downstream side, with the brace set before you turn the wheel. Do it that way and it will not surge.',
+  [
+    ['Thank you. That helps.', 'ila_hub', { intent: 'agree' }],
+  ],
+  [
+    ev('worker_testimony', 'testimony', 'ila.testimony'),
+    ev('reduced_spring_flow', 'testimony', 'ila.testimony'),
+    setFact('procedure_known'),
+    { t: 'grant', id: 'ila_thanks', items: { poultice: 2 } },
+  ]);
 N('ila_hub', 'maintenance_worker',
   'I am not going anywhere until my legs agree. What do you want to know?',
   [
@@ -462,7 +473,8 @@ N('harrow_hub2', 'shrine_warden', 'Anything else?',
   ]);
 N('harrow_caretaker', 'shrine_warden',
   'The Sister is gone. I keep the shrine and the noticeboard now. If the valley needs a waterkeeper\'s witness, I will stand — though it will not carry the weight hers did.',
-  [['I understand.', 'end', { intent: 'leave' }]]);
+  [['I understand.', 'harrow_hub', { intent: 'agree' }], ['Another time.', 'end', { intent: 'leave' }]],
+  [setFact('harrow_caretaker_told')]);
 
 N('bess_default', 'mill_hand',
   'The wheel has been dry since the flood. Without water I have nothing to grind — I stand here so the reeve sees somebody is minding it.',
@@ -479,7 +491,8 @@ N('pell_quarry', 'quarry_hand', 'We cut. We load. There is a guard at the sluice
 N('pell_rotation', 'quarry_hand', 'Night crew. My eyes are a bag of sand. But they pay us, and the board says it is fair, so I say nothing.', [['Rest when you can.', 'end', { intent: 'leave' }]]);
 N('pell_caretaker', 'quarry_hand',
   'Foreman Kest is gone. Somebody has to sign for the crew. If the reeve and the steward want a witness for the quarry, it is me — I will carry it as well as I can.',
-  [['Thank you.', 'end', { intent: 'leave' }]]);
+  [['Thank you.', 'end', { intent: 'leave' }]],
+  [setFact('pell_caretaker_told')]);
 
 N('hesper_default', 'village_baker',
   'No water, no dough. If you have not looked at the dry channel behind the mill, do. The reeve is trying, but you cannot ask a bucket to do a river\'s work.',
@@ -489,7 +502,8 @@ N('hesper_quarry', 'village_baker', 'Half a bucket a day and a long queue at the
 N('hesper_rotation', 'village_baker', 'Bread in the daytime, when the mill turns. Nights the flour sits. It is a strange rhythm, but the board says it is ours.', [['Good.', 'end', { intent: 'leave' }]]);
 N('hesper_caretaker', 'village_baker',
   'Mara is gone. Someone has to mind the noticeboard and speak for the village. I will — I am not the reeve, but I know every household.',
-  [['I understand.', 'end', { intent: 'leave' }]]);
+  [['I understand.', 'end', { intent: 'leave' }]],
+  [setFact('hesper_caretaker_told')]);
 
 /* =====================================================================
  * Entry rules: first matching rule chooses the opening node
@@ -534,6 +548,7 @@ export const ENTRY_RULES: Record<NpcId, EntryRule[]> = {
   ],
   maintenance_worker: [
     { when: [F('ila_rescued'), settled], node: 'ila_after' },
+    { when: [F('ila_rescued'), F('ila_method', 'shortcut'), NE('worker_testimony')], node: 'ila_testimony_shortcut' },
     { when: [F('ila_rescued'), NE('worker_testimony')], node: 'ila_testimony' },
     { when: [F('ila_rescued')], node: 'ila_hub' },
     { when: [{ t: 'any', c: [{ t: 'defeated', id: 'cut_creature' }, F('shortcut_opened')] }], node: 'ila_free_router' },
@@ -551,7 +566,7 @@ export const ENTRY_RULES: Record<NpcId, EntryRule[]> = {
     { node: 'sel_hub' },
   ],
   shrine_warden: [
-    { when: [{ t: 'avail', npc: 'spring_steward', is: false }], node: 'harrow_caretaker' },
+    { when: [{ t: 'avail', npc: 'spring_steward', is: false }, NF('harrow_caretaker_told')], node: 'harrow_caretaker' },
     { when: [notMet('shrine_warden')], node: 'harrow_intro' },
     { node: 'harrow_hub2' },
   ],
@@ -562,14 +577,14 @@ export const ENTRY_RULES: Record<NpcId, EntryRule[]> = {
     { node: 'bess_default' },
   ],
   quarry_hand: [
-    { when: [{ t: 'avail', npc: 'quarry_foreman', is: false }], node: 'pell_caretaker' },
+    { when: [{ t: 'avail', npc: 'quarry_foreman', is: false }, NF('pell_caretaker_told')], node: 'pell_caretaker' },
     { when: [settled, alloc('rillford')], node: 'pell_rillford' },
     { when: [settled, alloc('quarry')], node: 'pell_quarry' },
     { when: [settled, alloc('rotation')], node: 'pell_rotation' },
     { node: 'pell_default' },
   ],
   village_baker: [
-    { when: [{ t: 'avail', npc: 'rillford_reeve', is: false }], node: 'hesper_caretaker' },
+    { when: [{ t: 'avail', npc: 'rillford_reeve', is: false }, NF('hesper_caretaker_told')], node: 'hesper_caretaker' },
     { when: [settled, alloc('rillford')], node: 'hesper_rillford' },
     { when: [settled, alloc('quarry')], node: 'hesper_quarry' },
     { when: [settled, alloc('rotation')], node: 'hesper_rotation' },

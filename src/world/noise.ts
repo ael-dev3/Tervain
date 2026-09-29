@@ -53,3 +53,24 @@ export const smoothstep = (a: number, b: number, x: number) => {
   const t = clamp((x - a) / (b - a), 0, 1);
   return t * t * (3 - 2 * t);
 };
+
+/** Ridged fractal noise in 0..1: sharp crests where the underlying noise crosses zero. Good for rock and gullies. */
+export function ridged(x: number, z: number, octaves = 4, seed = 1): number {
+  let amp = 0.5;
+  let freq = 1;
+  let sum = 0;
+  let norm = 0;
+  for (let i = 0; i < octaves; i++) {
+    const n = 1 - Math.abs(valueNoise(x * freq, z * freq, seed + i * 17) * 2 - 1);
+    sum += n * n * amp;
+    norm += amp;
+    amp *= 0.5;
+    freq *= 2;
+  }
+  return sum / norm;
+}
+
+/** Position warped by a low-frequency vector field, so features stop lining up with the grid. */
+export function warp(x: number, z: number, scale: number, amount: number, seed = 1): [number, number] {
+  return [x + amount * fbm(x / scale, z / scale, 2, seed), z + amount * fbm(x / scale + 5.2, z / scale - 3.7, 2, seed + 40)];
+}
