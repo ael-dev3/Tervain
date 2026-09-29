@@ -14,6 +14,7 @@ import { makeTerrainTextures, type TerrainTextures } from './terrainTextures';
 import { buildScenery, type SceneryHandles } from './settlement';
 import { buildFlora } from './flora';
 import { buildScatter } from './scatter';
+import { buildAmbient } from './ambient';
 import { buildGroundcover } from './groundcover';
 import { buildWildlife } from './wildlife';
 import { buildEnvironment, type EnvironmentHandle } from './environment';
@@ -99,7 +100,8 @@ export class WorldScene {
     const scatter = buildScatter(ctx);
     this.groundcover = buildGroundcover(ctx);
     const wildlife = buildWildlife(ctx);
-    this.modules.push({ name: 'forest', module: forest }, { name: 'scatter', module: scatter }, { name: 'groundcover', module: this.groundcover }, { name: 'wildlife', module: wildlife });
+    const ambient = buildAmbient(ctx);
+    this.modules.push({ name: 'forest', module: forest }, { name: 'scatter', module: scatter }, { name: 'groundcover', module: this.groundcover }, { name: 'wildlife', module: wildlife }, { name: 'ambient', module: ambient });
     for (const m of this.modules) this.scene.add(m.module.group);
     this.environment = buildEnvironment(this.scene, settings.quality);
     this.scenery = buildScenery(this.terrain, this.colliders, settings.quality);
