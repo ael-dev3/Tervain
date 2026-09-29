@@ -21,6 +21,6 @@ Tervain is in pre-production. Start with README.md, docs/vision.md, and docs/dec
 
 ## Checks appropriate to the change
 
-For documentation, check relative links, consistency, spelling of identifiers, and `git diff --check`. For implementation, use the actual repository commands when they exist and select meaningful checks for the changed behavior. There is no build or automated game test suite in the foundation seed.
+For documentation, check relative links, consistency, spelling of identifiers, and `git diff --check`. For implementation, run the repository commands: `npm run typecheck`, `npm test` (scenario tests over quest logic, persistence and world layout), and `npm run build`. Exercise the running game for visual, input, and interaction changes; the tests do not cover rendering or feel.
 
-Do not add a nominal test suite simply to test the wording of these documents. Do not claim a runtime passes because Markdown checks passed.
+Do not add a nominal test suite simply to test the wording of these documents. Do not claim a runtime passes because Markdown checks passed, and do not quote a frame-rate or capacity result without the build, device, settings and procedure behind it. Keep `src/game` and `src/content` free of renderer code so quest behavior stays testable without a browser.

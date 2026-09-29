@@ -8,9 +8,23 @@ An original order currently called the **Templars** anchors the setting. Its ter
 
 ## Repository status
 
-**Foundation / pre-production — seeded 29 September 2026.**
+**Foundation / pre-production — seeded 29 September 2026; first playable prototype added the same day.**
 
-This repository currently contains a design and production outline. It does not yet contain an engine, playable build, imported asset pack, Steam integration, or measured performance results. The detailed setting and first quest are development proposals, not claims of an implemented game.
+This repository contains a design and production outline and, since the prototype, a browser-playable build of the first slice. It does not contain a desktop package, imported asset pack, Steam integration, or measured performance results. The detailed setting and first quest are development proposals; the prototype implements them as a test, and every model in it is a placeholder. See [what is real and what is representation](docs/engineering/prototype.md).
+
+## Play the prototype
+
+**[▶ Play Bellwether Vale — The Dry Bell](https://ael-dev3.github.io/Tervain/)** (a desktop browser with WebGL; keyboard and mouse or a controller)
+
+A vertical-slice test in a compact valley: investigate a failing water supply, brace a damaged sluice, decide who goes without, and see the valley change. Saves stay in your browser. The [prototype notes](docs/engineering/prototype.md) list controls, options, limitations, and how to measure performance on your own device. No performance result is claimed.
+
+```bash
+npm install
+npm run dev        # local server
+npm run typecheck  # TypeScript 7, strict
+npm test           # quest, persistence and world scenario tests
+npm run build      # static build in dist/
+```
 
 ### Direction established by the owner
 
@@ -29,7 +43,7 @@ This repository currently contains a design and production outline. It does not 
 - A locally significant outsider protagonist with freedom to earn several factions' trust.
 - A central struggle over emergency rule and town freedoms, with divided Templars and independent northern and desert powers.
 - A compact authored region before committing to a large continent.
-- TypeScript and Three.js as the first technical candidate, validated in a packaged desktop prototype before an engine decision.
+- TypeScript and Three.js as the first technical candidate. A browser prototype now exists; validation in a packaged desktop prototype is still needed before an engine decision.
 - **Bellwether Vale / “The Dry Bell”** as a 30–45 minute vertical slice about a damaged waterway and three competing needs.
 
 The [decision register](docs/decisions.md) distinguishes these categories and records unresolved choices.
@@ -46,6 +60,7 @@ The [decision register](docs/decisions.md) distinguishes these categories and re
 | [Quests and consequences](docs/design/quests-and-consequences.md) | Concrete first quest, evidence, decisions, persistent consequences, and authoring rules. |
 | [Art, audio, and interface](docs/art/art-audio-ui.md) | Lush 3D world, material and silhouette language, motion, sound, and readable presentation. |
 | [Architecture](docs/engineering/architecture.md) | Candidate stack, simulation boundaries, saves, desktop packaging, performance, and engine evaluation. |
+| [Prototype](docs/engineering/prototype.md) | The playable build: controls, options, what is real versus placeholder, testing, save recovery, and known limitations. |
 | [Shared technology and assets](docs/engineering/shared-assets.md) | Verified upstream references, reuse candidates, adaptation work, and source records. |
 | [Vertical slice](docs/production/vertical-slice.md) | A bounded first playable with dependencies and observable acceptance criteria. |
 | [Roadmap and risks](docs/production/roadmap.md) | Milestones, stop/continue criteria, delivery risks, and expansion decisions. |
@@ -56,7 +71,7 @@ For navigation by role, see the [documentation index](docs/README.md).
 
 ## First development objective
 
-Build a small, packaged scene in which one character can walk through a convincing landscape, fight a readable encounter, talk to a resident, change a local condition, save, close the game, and return to the changed world. Measure this before building more regions.
+Build a small, packaged scene in which one character can walk through a convincing landscape, fight a readable encounter, talk to a resident, change a local condition, save, close the game, and return to the changed world. Measure this before building more regions. The browser prototype exercises that loop; it has not yet been packaged or measured on a reference device.
 
 The first complete slice should make a player care about Rillford's water dispute and understand the cost of their chosen resolution. Forest beauty, combat feel, and narrative consequence must work together in the same build.
 

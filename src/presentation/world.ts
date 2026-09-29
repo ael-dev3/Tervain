@@ -1,0 +1,273 @@
+import * as THREE from 'three';
+import { NPCS } from '../content/npcs';
+import { S } from '../content/strings';
+import { hasFact } from '../game/state';
+import type { WorldState } from '../game/types';
+import { worldView, type WorldView } from '../game/worldView';
+import { buildStaticColliders, type Colliders } from '../world/colliders';
+import { BELL, MILL_WHEEL, RITE_ALTAR, SHORTCUT, SLUICE, STREAMS, WORLD } from '../world/layout';
+import { NavGrid } from '../world/nav';
+import { Terrain, distToPolyline } from '../world/terrain';
+import { SkyRig } from './sky';
+import { buildFarMountains, buildTerrainMesh } from './terrainMesh';
+import { buildScenery, type SceneryHandles } from './scenery';
+import { buildVegetation, type VegetationResult } from './vegetation';
+import { buildWater, type WaterSystem } from './waterMesh';
+import type { Settings } from '../platform/settings';
+
+/** Everything static in Bellwether Vale, plus the presentation that follows durable state. */
+export class WorldScene {
+  readonly scene = new THREE.Scene();
+  readonly terrain: Terrain;
+  readonly colliders: Colliders;
+  readonly nav: NavGrid;
+  readonly sky: SkyRig;
+  readonly water: WaterSystem;
+  readonly veg: VegetationResult;
+  readonly scenery: SceneryHandles;
+  readonly terrainMesh: THREE.Mesh;
+  private lanternLights: THREE.PointLight[] = [];
+  private wheelSpin = 0;
+  private bellSwing = 0;
+  private bellTimer = 0;
+  private gateOpen = 0;
+  private leverT = 0;
+  private doorT = 0;
+  private shutterT = 0;
+  private braceT = 0;
+  private wheelTurn = 0;
+  private lastNoticeKey = '';
+  private dust: THREE.Points;
+  private dustData: { x: number; y: number; z: number; vx: number; vy: number; vz: number; life: number }[] = [];
+  private riteRing: THREE.Mesh;
+  private riteT = 0;
+  time = 0;
+  view: WorldView;
+  buildStats: { ms: number } = { ms: 0 };
+
+  constructor(state: WorldState, settings: Settings) {
+    const t0 = performance.now();
+    this.terrain = new Terrain();
+    this.colliders = buildStaticColliders();
+    this.terrainMesh = buildTerrainMesh(this.terrain);
+    this.scene.add(this.terrainMesh);
+    this.scene.add(buildFarMountains());
+    this.sky = new SkyRig(settings.quality === 'low' ? 1024 : settings.quality === 'medium' ? 2048 : 4096);
+    this.scene.add(this.sky.group);
+    this.scene.fog = this.sky.fog;
+    this.water = buildWater(this.terrain);
+    this.scene.add(this.water.group);
+    this.veg = buildVegetation(this.terrain, this.colliders, settings.quality);
+    this.scene.add(this.veg.group);
+    this.scenery = buildScenery(this.terrain, this.colliders);
+    this.scene.add(this.scenery.group);
+    this.nav = new NavGrid(this.terrain, this.colliders);
+
+    // A few real lights near the player make lanterns matter at night without a per-lantern cost.
+    for (let i = 0; i < 3; i++) {
+      const l = new THREE.PointLight(0xffb060, 0, 16, 1.6);
+      this.lanternLights.push(l);
+      this.scene.add(l);
+    }
+
+    // Quarry dust.
+    const dustGeo = new THREE.BufferGeometry();
+    dustGeo.setAttribute('position', new THREE.Float32BufferAttribute(new Float32Array(90 * 3), 3));
+    const puff = document.createElement('canvas');
+    puff.width = puff.height = 32;
+    const pctx = puff.getContext('2d')!;
+    const grad = pctx.createRadialGradient(16, 16, 1, 16, 16, 15);
+    grad.addColorStop(0, 'rgba(255,255,255,0.9)');
+    grad.addColorStop(1, 'rgba(255,255,255,0)');
+    pctx.fillStyle = grad;
+    pctx.fillRect(0, 0, 32, 32);
+    this.dust = new THREE.Points(dustGeo, new THREE.PointsMaterial({ color: 0xd9d0b5, size: 1.1, map: new THREE.CanvasTexture(puff), transparent: true, opacity: 0.55, depthWrite: false }));
+    this.dust.frustumCulled = false;
+    this.scene.add(this.dust);
+    for (let i = 0; i < 90; i++) this.dustData.push({ x: 0, y: -100, z: 0, vx: 0, vy: 0, vz: 0, life: 0 });
+
+    // Rite ring effect at the altar.
+    this.riteRing = new THREE.Mesh(new THREE.RingGeometry(0.6, 0.72, 40), new THREE.MeshBasicMaterial({ color: 0x9ad8d0, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false }));
+    this.riteRing.rotation.x = -Math.PI / 2;
+    this.riteRing.position.set(RITE_ALTAR.x, this.terrain.heightAt(RITE_ALTAR.x, RITE_ALTAR.z) + 1.3, RITE_ALTAR.z);
+    this.scene.add(this.riteRing);
+
+    this.view = worldView(state);
+    this.syncStatic(state, true);
+    this.buildStats.ms = performance.now() - t0;
+  }
+
+  /** Apply durable state that is not animated: doors, pickups, brace, gate, boards. Instant when `snap`. */
+  syncStatic(state: WorldState, snap = false) {
+    this.view = worldView(state);
+    const v = this.view;
+    const sc = this.scenery;
+    // Colliders that follow state.
+    this.colliders.setActive('archive_door', v.archiveDoor === 'locked');
+    this.colliders.setActive('archive_shutter', v.archiveShutter !== 'forced');
+    this.colliders.setActive('shortcut_gate', !v.shortcutOpen);
+    // Visual targets.
+    this.doorT = v.archiveDoor === 'open' ? 1 : 0;
+    this.shutterT = v.archiveShutter === 'forced' ? 1 : 0;
+    this.gateOpen = v.shortcutOpen ? 1 : 0;
+    this.leverT = v.shortcutOpen ? 1 : 0;
+    this.braceT = v.gate === 'stabilized' ? 1 : 0;
+    sc.sluiceCracks.visible = v.gate !== 'stabilized';
+    sc.scheduleBoard.visible = v.scheduleBoard;
+    sc.contractGuardPost.visible = v.contractGuard;
+    sc.quarryBanner.visible = true;
+    for (const [id, obj] of Object.entries(sc.pickups)) obj.visible = state.locationChanges[`pickup:${id}`] !== 'taken';
+    const key = v.noticeboard.join('|');
+    if (key !== this.lastNoticeKey) {
+      this.lastNoticeKey = key;
+      sc.noticeCanvasSetter(S('board.title'), v.noticeboard.map((k) => S(k)));
+    }
+    if (snap) {
+      sc.archiveDoor.rotation.y = this.scenery.archiveDoor.rotation.y;
+      this.applyDynamic(1, true);
+    }
+    this.nav.ensureFresh();
+  }
+
+  /** Where the bell rings from, for spatial audio. */
+  get bellPosition() {
+    return this.scenery.bellPos;
+  }
+
+  ringBell() {
+    this.bellSwing = 1;
+  }
+
+  playRite() {
+    this.riteT = 1;
+  }
+
+  emitDust(dt: number, intensity: number) {
+    if (intensity <= 0) return;
+    for (const p of this.dustData) {
+      if (p.life <= 0 && Math.random() < dt * 3 * intensity) {
+        const src = this.scenery.dustEmitters[Math.floor(Math.random() * this.scenery.dustEmitters.length)]!;
+        p.x = src.x + (Math.random() - 0.5) * 2;
+        p.y = src.y + Math.random() * 0.6;
+        p.z = src.z + (Math.random() - 0.5) * 2;
+        p.vx = (Math.random() - 0.5) * 0.6 - 0.3;
+        p.vy = 0.5 + Math.random() * 0.5;
+        p.vz = (Math.random() - 0.5) * 0.6;
+        p.life = 1.6 + Math.random();
+      }
+    }
+  }
+
+  /** Nearest distance to any watercourse, for the ambience bed. */
+  waterProximity(x: number, z: number): number {
+    let d = Infinity;
+    for (const s of STREAMS) d = Math.min(d, distToPolyline(x, z, s.points).d);
+    return Math.max(0, 1 - d / 26);
+  }
+
+  private applyDynamic(dt: number, snap = false) {
+    const sc = this.scenery;
+    const k = snap ? 1 : 1 - Math.exp(-dt * 2.4);
+    const lerpTo = (cur: number, target: number) => cur + (target - cur) * k;
+    // Archive door swings open; shutter swings outward; gate leaf lifts; lever throws.
+    sc.archiveDoor.rotation.y = this.scenery.archiveDoor.rotation.y;
+    const doorTarget = this.doorT * -1.75;
+    const shutterTarget = this.shutterT * 1.2;
+    const dParent = sc.archiveDoor;
+    dParent.userData.open = lerpTo((dParent.userData.open as number) ?? 0, doorTarget);
+    const base = (dParent.userData.baseYaw as number | undefined) ?? dParent.rotation.y;
+    dParent.userData.baseYaw = base;
+    dParent.rotation.y = base + (dParent.userData.open as number);
+    const sParent = sc.archiveShutter;
+    sParent.userData.open = lerpTo((sParent.userData.open as number) ?? 0, shutterTarget);
+    sParent.rotation.x = -(sParent.userData.open as number);
+    const g = sc.shortcutGate;
+    g.userData.open = lerpTo((g.userData.open as number) ?? 0, this.gateOpen * 1.55);
+    const gBase = (g.userData.baseYaw as number | undefined) ?? SHORTCUT.gate.yaw;
+    g.userData.baseYaw = gBase;
+    g.rotation.y = gBase + (g.userData.open as number);
+    sc.shortcutLever.rotation.z = lerpTo(sc.shortcutLever.rotation.z, this.leverT ? 0.7 : -0.7);
+    // Sluice: the leaf hangs low and askew when damaged/jammed, sits square once braced.
+    const gate = this.view.gate;
+    const tilt = gate === 'jammed' ? 0.22 : gate === 'damaged' ? 0.07 : 0;
+    const lift = gate === 'jammed' ? 0.5 : gate === 'damaged' ? 0.25 : -0.05;
+    sc.sluiceGate.rotation.z = lerpTo(sc.sluiceGate.rotation.z, tilt);
+    sc.sluiceGate.position.y = lerpTo(sc.sluiceGate.position.y, this.terrain.heightAt(SLUICE.gateCenter.x, SLUICE.gateCenter.z) + 1.55 + lift);
+    sc.sluiceBrace.visible = this.braceT > 0.5;
+    sc.sluiceWheel.rotation.y += dt * this.wheelTurn;
+  }
+
+  /** Move the whole scene forward: sky, water, foliage, animated props. */
+  update(dt: number, state: WorldState, focus: THREE.Vector3, settings: Settings, hour: number) {
+    this.time += dt;
+    this.view = worldView(state);
+    const v = this.view;
+    const reduced = settings.reducedMotion;
+    this.veg.uniforms.uTime.value = this.time;
+    this.veg.uniforms.uWind.value = reduced ? 0.25 : 1;
+    this.sky.brightness = settings.brightness;
+    this.sky.update(hour, focus, dt, reduced);
+    const night = this.sky.state.nightness;
+    this.scenery.setNight(night);
+    const light = 0.42 + 0.58 * (1 - night);
+    this.water.update(dt, this.time, v.flow, light);
+
+    // Lanterns: the three nearest to the focus get real light at night.
+    const ls = this.scenery.lanternPositions;
+    const order = ls.map((p, i) => ({ i, d: p.distanceToSquared(focus) })).sort((a, b) => a.d - b.d);
+    for (let k = 0; k < this.lanternLights.length; k++) {
+      const l = this.lanternLights[k]!;
+      const o = order[k];
+      if (o) l.position.copy(ls[o.i]!);
+      l.intensity = 14 * Math.max(0, night - 0.15) * (o && o.d < 40 * 40 ? 1 : 0);
+    }
+
+    // Mill wheel turns when the allocation gives the mill water.
+    const target = v.millTurning ? 0.7 : 0;
+    this.wheelSpin += (target - this.wheelSpin) * (1 - Math.exp(-dt * 0.8));
+    this.scenery.millWheel.rotation.x += dt * this.wheelSpin;
+    // Bell swing: decays after each ring.
+    this.bellSwing = Math.max(0, this.bellSwing - dt * 0.35);
+    this.scenery.bell.rotation.z = Math.sin(this.time * 4.2) * 0.55 * this.bellSwing;
+    this.bellTimer += dt;
+    this.applyDynamic(dt);
+
+    // Quarry dust and the rite ring.
+    const working = v.quarryState === 'working' || v.quarryState === 'night_shift';
+    this.emitDust(dt, working ? 1 : 0);
+    const arr = this.dust.geometry.attributes.position as THREE.BufferAttribute;
+    this.dustData.forEach((p, i) => {
+      if (p.life > 0) {
+        p.life -= dt;
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+        p.z += p.vz * dt;
+        arr.setXYZ(i, p.x, p.y, p.z);
+      } else arr.setXYZ(i, 0, -200, 0);
+    });
+    arr.needsUpdate = true;
+    if (this.riteT > 0) {
+      this.riteT = Math.max(0, this.riteT - dt * 0.4);
+      const s = 1 + (1 - this.riteT) * 6;
+      this.riteRing.scale.set(s, s, s);
+      (this.riteRing.material as THREE.MeshBasicMaterial).opacity = this.riteT * 0.8;
+    }
+    // Ledger glows faintly while the archive is accessible; the archive lamp is emissive via lantern lights.
+    this.scenery.ledger.rotation.y = Math.sin(this.time * 0.8) * 0.05;
+    void hasFact;
+    void NPCS;
+    void BELL;
+    void MILL_WHEEL;
+    void WORLD;
+  }
+
+  /** Spin the control wheel while the gate is being worked. */
+  setWheelTurning(v: number) {
+    this.wheelTurn = v;
+  }
+
+  /** Whether the player is standing inside the archive (roofed) for audio and camera decisions. */
+  insideArchive(x: number, z: number): boolean {
+    return Math.abs(x + 46) < 3.6 && Math.abs(z + 102) < 3.1;
+  }
+}

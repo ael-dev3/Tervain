@@ -1,6 +1,6 @@
 # Technical architecture and engine decision
 
-Status: **proposed architecture; no runtime exists in this repository yet.** The selected language, renderer, desktop shell, physics library, and platform set remain decisions to validate. See [P01–P04 and O04–O06](../decisions.md).
+Status: **proposed architecture, with a first browser prototype that follows its module boundaries** (see [prototype notes](prototype.md)). The selected language, renderer, desktop shell, physics library, and platform set remain decisions to validate. See [P01–P04 and O04–O06](../decisions.md). Nothing here has been measured on a reference device.
 
 ## Objective
 
@@ -49,7 +49,7 @@ Asset catalog: exact revisions / hashes / transforms / runtime variants
 
 The renderer displays state. A UI click, animation callback, or loading event should not independently grant an item or resolve a quest. Simulation commands own meaningful effects and create presentation events. This makes saving and automated scenario checks possible without a renderer.
 
-A minimal proposed implementation layout, to be created only when implementation begins:
+The prototype uses this layout (with `src/content` and `src/game` free of renderer code so scenarios run in Node):
 
 ```text
 src/game/          world state, commands, progression, quests

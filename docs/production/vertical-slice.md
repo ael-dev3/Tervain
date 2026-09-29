@@ -1,6 +1,6 @@
 # First complete playable: Bellwether Vale
 
-Status: **proposed scope and acceptance brief**. Nothing here is implemented yet. Foundation dated 29 September 2026.
+Status: **proposed scope and acceptance brief**. A first browser prototype implements most of the content list and the story loop; it has not been checked against the acceptance table below and does not meet all of it (see [prototype notes](../engineering/prototype.md) for what is real, placeholder, and unmeasured). Foundation dated 29 September 2026.
 
 ## Purpose
 

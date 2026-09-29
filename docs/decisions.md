@@ -72,3 +72,4 @@ These are scope boundaries for the foundation, not permanent bans. A later owner
 | Date | Change | Status |
 | --- | --- | --- |
 | 2026-09-29 | Selected Tervain; seeded original game outline and a proposed first playable. | A01–A11 recorded; P01–P15 proposed; O01–O12 unresolved. |
+| 2026-09-29 | Built a browser prototype of the first slice in TypeScript 7 with Three.js and Vite; documented in [prototype notes](engineering/prototype.md). | Evidence for P04, P09, P10 and P12 only. No decision changed: no engine or desktop runtime is selected, nothing is measured on a reference device, and the prototype uses no shared asset (O10). O12 is unchanged: residents cannot be killed in play, only made absent through a debug or harness state. |

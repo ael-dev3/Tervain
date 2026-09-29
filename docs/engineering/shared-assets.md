@@ -1,6 +1,6 @@
 # Sharing technology and assets with Warpkeep
 
-Status: **reuse plan and dated inventory of candidates, not a completed import**. Checked 29 September 2026. This seed contains documentation only.
+Status: **reuse plan and dated inventory of candidates, not a completed import**. Checked 29 September 2026. The first browser prototype generates all of its geometry, textures and audio in code and imports nothing from the sources below.
 
 ## Purpose
 
