@@ -69,7 +69,7 @@ The Myrtana set has 52 SpeedTree definitions in five size classes (XS to XXL): D
 | Light, haze and grade | `sky.ts` (keyframes, `FogExp2`), `environment.ts`, `grade.ts` |
 | Coast and headland | `world/coast.ts`, `world/terrain.ts`, `sea.ts`, `groundSplat.ts` |
 | Empty heath, distant forests | `flora.ts` (placement), `ground/habitat.ts`, `ground/grass.ts` |
-| Rough buildings | `structures.ts`, `buildings.ts`, `roofs.ts`, `settlement.ts` |
+| Rough buildings, the palisade and its gate | `structures.ts`, `buildings.ts`, `props.ts`, `roofs.ts`, `settlement.ts` |
 | Worn people | `humanGeo.ts`, `characters.ts` |
 
 ## Not done, and why

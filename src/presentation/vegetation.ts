@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { ANCHORS, BUILDINGS, DECKS, FIELDS, INSPECT_LOCATIONS, LIGHTHOUSE, PICKUP_LOCATIONS, PLACES, SPRING_POOL, STREAMS, STRAND, WAGON } from '../world/layout';
+import { ANCHORS, BUILDINGS, DECKS, FIELDS, INSPECT_LOCATIONS, LIGHTHOUSE, PALISADE, PICKUP_LOCATIONS, PLACES, SPRING_POOL, STREAMS, STRAND, WAGON } from '../world/layout';
 import { distToPolyline, roadWeight, type Terrain } from '../world/terrain';
 
 export interface SwayUniforms {
@@ -104,6 +104,7 @@ export class Exclusions {
     for (const c of this.circles) if (Math.hypot(x - c.x, z - c.z) < c.r + pad) return true;
     if (roadWeight(x, z) > 0.04) return true;
     if (this.terrain.carveAt(x, z) > 0.02) return true;
+    if (x < -195 && x > -255 && distToPolyline(x, z, PALISADE.points as unknown as { x: number; z: number }[]).d < 3.5 + pad) return true;
     for (const f of FIELDS) {
       const dx = x - f.x;
       const dz = z - f.z;

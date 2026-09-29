@@ -214,7 +214,7 @@ export function buildScatter(ctx: BuildContext): SceneModule & { counts: { rocks
     const len = 1.2 + rng() * 3.2;
     const yaw = rng() * Math.PI;
     const r = 0.05 + rng() * 0.11;
-    const tint: RGB = [0.62 + rng() * 0.1, 0.58 + rng() * 0.1, 0.5 + rng() * 0.08];
+    const tint: RGB = [0.3 + rng() * 0.08, 0.26 + rng() * 0.07, 0.2 + rng() * 0.06];
     const cx = Math.cos(yaw) * len * 0.5;
     const cz = Math.sin(yaw) * len * 0.5;
     R.get('bark').rod(x - cx, y + r * 0.7, z - cz, x + cx, y + r * 0.7 + (rng() - 0.5) * 0.2, z + cz, r, 6, tint, { rEnd: r * (0.5 + rng() * 0.4), jit: 0.2 });

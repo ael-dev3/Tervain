@@ -10,6 +10,7 @@ import {
   LEDGER,
   LIGHTHOUSE,
   MAINT_ROUTE,
+  PALISADE,
   PICKUP_LOCATIONS,
   PLACES,
   RESULT_CHECKS,
@@ -172,6 +173,14 @@ describe('world layout', () => {
     expect(terrain.heightAt(LIGHTHOUSE.x, LIGHTHOUSE.z)).toBeGreaterThan(4);
     expect(nav.findPath(SPAWN, ANCHORS.lantern_door!)).not.toBeNull();
     expect(nav.findPath(ANCHORS.lantern_door!, ANCHORS.village_square!)).not.toBeNull();
+  });
+
+  it('the stockade leaves the shore track open through its gate and the player can still reach the village', () => {
+    const gate = { x: -219.2, z: (PALISADE.gate.z0 + PALISADE.gate.z1) / 2 };
+    expect(open(gate, 0.4), 'gate opening').toBe(true);
+    // The wall itself blocks: a point on the wall line away from the gate is not standable.
+    expect(colliders.blocked(-219.97, 40, 0.4), 'wall').toBe(true);
+    expect(nav.findPath({ x: -230, z: 29 }, { x: -205, z: 31 })).not.toBeNull();
   });
 
   it('the jetty is walkable over the shallows and reaches out past the wading line', () => {

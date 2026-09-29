@@ -289,6 +289,17 @@ export const ENEMY_SPAWNS: EnemySpawn[] = [
 export const WAGON = { x: -252, z: 37.5, yaw: 1.2 };
 /** The lighthouse tower: a stone shaft on the rock at the tip of Lantern Point. */
 export const LIGHTHOUSE = { x: -324, z: 104, r: 3.3, h: 17, rockH: 12, rockR: 44 } as const;
+/**
+ * The fishing camp's landward palisade: a stockade of upright logs curving behind the camp, with a gate where the shore track passes
+ * through and a watch platform beside it (Ardea is a palisaded place). The ends are open: it is old and unfinished.
+ */
+export const PALISADE = {
+  points: [{ x: -229, z: 4 }, { x: -223, z: 14 }, { x: -220, z: 23 }, { x: -219.2, z: 36 }, { x: -221.5, z: 48 }, { x: -227, z: 60 }, { x: -236, z: 71 }] as V2[],
+  /** The gap the track runs through, as a range of z along the near-vertical stretch of the wall. */
+  gate: { z0: 26.6, z1: 31.4 },
+  tower: { x: -221.6, z: 22.6, yaw: 0.16 },
+} as const;
+
 /** The strand: where boats are hauled up, nets are hung and the caravan camps. */
 export const STRAND = { x: -258, z: 44, r: 40 } as const;
 export const BORDER_SIGN = { x: 122, z: 70 };

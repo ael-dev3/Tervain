@@ -13,6 +13,7 @@ import {
   LEDGER,
   LIGHTHOUSE,
   OVERLOOK_BUMP,
+  PALISADE,
   PICKUP_LOCATIONS,
   RITE_ALTAR,
   ROADS,
@@ -119,6 +120,7 @@ export function clearanceAt(x: number, z: number): number {
   }
   for (const r of ROADS) c = Math.min(c, smoothstep(r.width * 0.5 + 0.5, r.width * 0.5 + 5.5, distToPolyline(x, z, r.points).d));
   for (const st of STREAMS) c = Math.min(c, smoothstep(st.halfWidth + 1, st.halfWidth + 9, distToPolyline(x, z, st.points).d));
+  if (x < -200 && x > -250) c = Math.min(c, smoothstep(3, 8, distToPolyline(x, z, PALISADE.points as unknown as V2[]).d));
   return c;
 }
 

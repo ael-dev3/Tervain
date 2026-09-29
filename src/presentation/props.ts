@@ -348,3 +348,90 @@ export function benchSet(R: Region, rnd: Rnd, x: number, y: number, z: number, y
 }
 
 export { hash3 };
+
+/** A stockade of upright logs along a polyline, with two rails and a gap left for a gate. Colliders come from `palisadeBoxes` in world/colliders.ts. */
+export function palisade(R: Region, rnd: Rnd, pts: { x: number; z: number }[], gate: { z0: number; z1: number }, groundAt: (x: number, z: number) => number) {
+  const railPts: [number, number, number][][] = [[], []];
+  for (let i = 0; i < pts.length - 1; i++) {
+    const a = pts[i]!;
+    const b = pts[i + 1]!;
+    const len = Math.hypot(b.x - a.x, b.z - a.z);
+    const dx = (b.x - a.x) / len;
+    const dz = (b.z - a.z) / len;
+    let s = 0;
+    while (s < len) {
+      const x = a.x + dx * s + (rnd() - 0.5) * 0.06;
+      const z = a.z + dz * s + (rnd() - 0.5) * 0.06;
+      s += 0.24 + rnd() * 0.05;
+      if (z > gate.z0 && z < gate.z1) continue;
+      const y = groundAt(x, z);
+      const h = 3.5 + rnd() * 1.1 - (rnd() < 0.07 ? 1.6 : 0);
+      const r = 0.1 + rnd() * 0.04;
+      const lx = (rnd() - 0.5) * 0.1;
+      const lz = (rnd() - 0.5) * 0.1;
+      const tint: [number, number, number] = [0.5 + rnd() * 0.16, 0.44 + rnd() * 0.12, 0.36 + rnd() * 0.1];
+      R.get('bark').rod(x, y - 0.5, z, x + lx, y + h, z + lz, r, 6, tint, { rEnd: r * 0.92, jit: 0.18 });
+      // Sharpened top: most logs, not all.
+      if (rnd() < 0.88) R.get('bark').cyl(0.012, r * 0.92, 0.3 + rnd() * 0.15, 6, x + lx, y + h, z + lz, tint, { jit: 0.12 });
+    }
+    for (let k = 0; k < 2; k++) {
+      const ph = k === 0 ? 1.25 : 2.7;
+      const n = Math.max(2, Math.round(len / 1.4));
+      for (let q = 0; q <= n; q++) {
+        const t = (q / n) * len;
+        const x = a.x + dx * t;
+        const z = a.z + dz * t;
+        if (z > gate.z0 - 0.2 && z < gate.z1 + 0.2) {
+          if (railPts[k]!.length > 1) R.timber.tube(railPts[k]!, 0.055, 4, jitterTone(TINT.woodDark, rnd, 0.14));
+          railPts[k] = [];
+          continue;
+        }
+        railPts[k]!.push([x - dz * 0.14, groundAt(x, z) + ph + (rnd() - 0.5) * 0.06, z + dx * 0.14]);
+      }
+    }
+  }
+  for (let k = 0; k < 2; k++) if (railPts[k]!.length > 1) R.timber.tube(railPts[k]!, 0.055, 4, jitterTone(TINT.woodDark, rnd, 0.14));
+}
+
+/** The gate: two great posts, a lintel, and two leaves standing open. Centre at (x, z) on the wall line, opening along z. */
+export function stockadeGate(R: Region, rnd: Rnd, x: number, z: number, width: number, groundAt: (x: number, z: number) => number) {
+  const y = groundAt(x, z);
+  const ctx = R.ctx;
+  ctx.push(x, y, z, 0);
+  for (const s of [-1, 1]) {
+    R.bark.rod(0, -0.6, s * (width / 2 + 0.15), 0.02, 5.6, s * (width / 2 + 0.15), 0.24, 7, jitterTone(0xb0a48c, rnd, 0.16), { rEnd: 0.2, jit: 0.14 });
+    R.stone.box(0.7, 0.4, 0.7, 0, -0.15, s * (width / 2 + 0.15), jitterTone(TINT.stone, rnd, 0.14), { jit: 0.14, ry: rnd() });
+    // The leaf, swung open toward the inside of the camp.
+    ctx.push(0.05, 0, s * (width / 2 - 0.05), s * 1.25);
+    for (let i = 0; i < 7; i++) R.planks.box(0.22, 3.6 - (rnd() < 0.15 ? 0.3 : 0), 0.08, 0, 0, s * (0.15 + i * 0.3) * -1, jitterTone(TINT.wood, rnd, 0.18), { jit: 0.14, grain: 'y' });
+    R.metal.box(0.04, 0.1, 2.1, 0, 0.7, s * -1.05, TINT.iron, { jit: 0.05 });
+    R.metal.box(0.04, 0.1, 2.1, 0, 2.6, s * -1.05, TINT.iron, { jit: 0.05 });
+    ctx.pop();
+  }
+  R.timber.box(0.38, 0.36, width + 1.2, 0, 4.5, 0, jitterTone(TINT.woodDark, rnd, 0.12), { jit: 0.1, grain: 'z', rx: 0.01 });
+  R.timber.box(0.24, 0.24, width + 1.4, 0, 3.9, 0, jitterTone(TINT.woodDark, rnd, 0.12), { jit: 0.1, grain: 'z' });
+  ctx.pop();
+}
+
+/** A watch platform on four legs beside the gate: a ladder, a plank deck, a rail and a small shingled roof. */
+export function watchtower(R: Region, rnd: Rnd, x: number, z: number, yaw: number, groundAt: (x: number, z: number) => number, roof: (R: Region, y: number) => void) {
+  const y = groundAt(x, z);
+  const ctx = R.ctx;
+  ctx.push(x, y, z, yaw);
+  const H = 5.2;
+  for (const sx of [-1, 1]) for (const sz of [-1, 1]) R.bark.rod(sx * 1.4, -0.5, sz * 1.4, sx * 1.32, H + 2.0, sz * 1.32, 0.15, 6, jitterTone(0xb0a48c, rnd, 0.16), { jit: 0.12 });
+  for (const yy of [1.6, 3.5]) for (const s of [-1, 1]) {
+    R.timber.box(2.9, 0.12, 0.12, 0, yy, s * 1.38, jitterTone(TINT.woodDark, rnd, 0.1), { grain: 'x', jit: 0.1 });
+    R.timber.box(0.12, 0.12, 2.9, s * 1.38, yy + 0.1, 0, jitterTone(TINT.woodDark, rnd, 0.1), { grain: 'z', jit: 0.1 });
+  }
+  for (let i = 0; i < 13; i++) R.planks.box(3.2, 0.09, 0.22, 0, H - 0.09, -1.5 + i * 0.25, jitterTone(TINT.wood, rnd, 0.2), { jit: 0.14, grain: 'x', ry: (rnd() - 0.5) * 0.02 });
+  for (const s of [-1, 1]) {
+    R.timber.box(3.0, 0.08, 0.08, 0, H + 0.95, s * 1.45, jitterTone(TINT.woodDark, rnd, 0.1), { grain: 'x', jit: 0.1 });
+    R.timber.box(0.08, 0.08, 3.0, s * 1.45, H + 0.95, 0, jitterTone(TINT.woodDark, rnd, 0.1), { grain: 'z', jit: 0.1 });
+  }
+  for (let i = 0; i < 9; i++) R.timber.box(0.5, 0.06, 0.06, -1.1, 0.3 + i * 0.58, 1.6, jitterTone(TINT.wood, rnd, 0.12), { jit: 0.1, rz: -0.04 });
+  R.timber.rod(-1.35, -0.2, 1.62, -0.85, H, 1.62, 0.04, 4, jitterTone(TINT.woodDark, rnd, 0.1), { caps: false });
+  R.timber.rod(-0.85, -0.2, 1.62, -0.85, H, 1.62, 0.04, 4, jitterTone(TINT.woodDark, rnd, 0.1), { caps: false });
+  roof(R, H + 2.0);
+  ctx.pop();
+}

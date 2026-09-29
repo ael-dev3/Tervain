@@ -1,4 +1,4 @@
-import { ARCHIVE_SHUTTER, BUILDINGS, DECKS, LIGHTHOUSE, SHORTCUT, WAGON, WORLD, bySpec, type BuildingSpec } from './layout';
+import { ARCHIVE_SHUTTER, BUILDINGS, DECKS, LIGHTHOUSE, PALISADE, SHORTCUT, WAGON, WORLD, bySpec, type BuildingSpec } from './layout';
 
 /** Simple 2D collision shapes on the ground plane. Trunks block movement; most leaves do not. */
 export interface CircleCollider {
@@ -203,6 +203,27 @@ export class Colliders {
   }
 }
 
+/** The stockade as collision boxes [x, z, halfLength, yaw] in runs of about 3 m, with a gap left for the gate. */
+export function palisadeBoxes(): [number, number, number, number][] {
+  const out: [number, number, number, number][] = [];
+  const pts = PALISADE.points;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const a = pts[i]!;
+    const b = pts[i + 1]!;
+    const len = Math.hypot(b.x - a.x, b.z - a.z);
+    const dx = (b.x - a.x) / len;
+    const dz = (b.z - a.z) / len;
+    for (let c0 = 0; c0 < len; c0 += 3) {
+      const c1 = Math.min(len, c0 + 3);
+      const mx = a.x + (dx * (c0 + c1)) / 2;
+      const mz = a.z + (dz * (c0 + c1)) / 2;
+      if (mz > PALISADE.gate.z0 - 0.4 && mz < PALISADE.gate.z1 + 0.4) continue;
+      out.push([mx, mz, (c1 - c0) / 2, Math.atan2(dx, dz)]);
+    }
+  }
+  return out;
+}
+
 function wallBox(c: Colliders, id: string, b: BuildingSpec, lx0: number, lx1: number, lz0: number, lz1: number, activeId = id) {
   // local rectangle -> world box
   const cx = (lx0 + lx1) / 2;
@@ -257,6 +278,9 @@ export function buildStaticColliders(): Colliders {
     c.box(`${d.id}_rail_n`, d.x, d.z - d.hz - 0.05, d.hx - 0.4, 0.1, d.yaw);
     c.box(`${d.id}_rail_s`, d.x, d.z + d.hz + 0.05, d.hx - 0.4, 0.1, d.yaw);
   }
+  // The fishing camp's stockade and its watch platform.
+  for (const [x, z, hl, yaw] of palisadeBoxes()) c.box('palisade', x, z, 0.2, hl, yaw);
+  c.box('watchtower', PALISADE.tower.x, PALISADE.tower.z, 1.6, 1.6, PALISADE.tower.yaw);
   // Sluice posts flank the gate.
   c.circle('sluice_post_w', 6.5, -57.6, 0.6);
   c.circle('sluice_post_e', 13.5, -58.5, 0.8);

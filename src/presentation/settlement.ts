@@ -9,6 +9,7 @@ import {
   FIELDS,
   LEDGER,
   MILL_WHEEL,
+  PALISADE,
   PICKUP_LOCATIONS,
   RITE_ALTAR,
   SHORTCUT,
@@ -22,7 +23,7 @@ import { mulberry32 } from '../world/noise';
 import type { Terrain } from '../world/terrain';
 import { Ctx, hash3 } from './buildKit';
 import { buildLighthouse, buildStandard, cairn, groundOf, type BuildOut } from './buildings';
-import { boat, benchSet, campfire, cart, fence, fishRack, jetty, netRack, oar, pot, ropeCoil, wagon, well, wreck } from './props';
+import { boat, benchSet, campfire, cart, fence, fishRack, jetty, netRack, oar, palisade, pot, ropeCoil, stockadeGate, wagon, watchtower, well, wreck } from './props';
 import { MaterialSet, Region } from './regions';
 import { TINT, barrel, crate, door, fieldstone, foundation, jitterTone, quoins, roofFor, sack, slab, windowAt, woodpile, type Rnd } from './structures';
 import type { AssetNeed } from './assets/library';
@@ -584,6 +585,12 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     const keeper = bySpec('keeper_cottage');
     const kd = localToWorld(keeper, keeper.w / 2 - 0.8, keeper.d / 2 + 0.55);
     woodpile(R, rnd, kd.x, kd.z, keeper.yaw, 1.5, 4);
+    // The stockade behind the camp, its gate on the shore track, and the watch platform beside it.
+    palisade(R, rnd, PALISADE.points as unknown as { x: number; z: number }[], PALISADE.gate, gy);
+    const gateZ = (PALISADE.gate.z0 + PALISADE.gate.z1) / 2;
+    stockadeGate(R, rnd, -219.2, gateZ, PALISADE.gate.z1 - PALISADE.gate.z0, gy);
+    watchtower(R, rnd, PALISADE.tower.x, PALISADE.tower.z, PALISADE.tower.yaw, gy, (RR, yy) => roofFor(RR, 'hip', 'shingle', 3.4, 3.4, yy, 88, { pitch: 0.7 }));
+    lanternPositions.push(new THREE.Vector3(-219.6, gy(-219.2, gateZ) + 3.7, gateZ - 1.5));
     colliders.circle('camp_fire', fire.x, fire.z, 0.7);
     colliders.box('camp_barrels', -237.4, 66.6, 1.0, 0.6, 0);
     colliders.box('camp_crates', -243.6, 40.4, 0.7, 0.6, 0);
