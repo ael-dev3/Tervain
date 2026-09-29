@@ -1,12 +1,11 @@
 import * as THREE from 'three';
-import { WIND_GLSL, type SwayUniforms } from './vegetation';
+import { TREE_SWAY_MULTIPLIER, WIND_GLSL, type SwayUniforms } from './vegetation';
 import { barkTextures, leafTexture, type BarkKind, type LeafKind } from './treeTextures';
 
 /**
  * Tree materials: standard PBR with vertex colour tint, bark with a normal map, alpha-cut leaf cards with alpha-to-coverage
- * (so the edges are smooth when multisampling is on), and one shared wind. The wind is Warpkeep's rooted-sway idea
- * (see vegetation.ts): each vertex carries how far it may move, and every tree sways with the same gust field. Leaves also
- * glow a little when the sun is behind them, which is most of what makes a canopy look like leaves.
+ * (so the edges are smooth when multisampling is on). The rooted-sway shader is retained, but tree and leaf motion is
+ * paused for this patch; ground-cover wind remains separate. Leaves also glow a little when the sun is behind them.
  */
 
 const SWAY_VERT = /* glsl */ `
@@ -25,7 +24,7 @@ function injectSway(shader: { uniforms: Record<string, { value: unknown }>; vert
       '#include <begin_vertex>',
       `#include <begin_vertex>
       #ifdef USE_INSTANCING
-        transformed += tvSwayLocal(instanceMatrix, aSway, uTime, uWind);
+        transformed += tvSwayLocal(instanceMatrix, aSway, uTime, uWind * ${TREE_SWAY_MULTIPLIER.toFixed(1)});
       #endif`,
     );
 }

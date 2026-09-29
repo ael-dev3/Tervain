@@ -7,6 +7,10 @@ export interface SwayUniforms {
   uWind: { value: number };
 }
 
+/** Tree and leaf sway is paused for the current patch after motion review. */
+export const TREE_SWAY_ENABLED = false;
+export const TREE_SWAY_MULTIPLIER = TREE_SWAY_ENABLED ? 1 : 0;
+
 /** Standard material whose vertices bend with `aSway` so branch and canopy motion stays attached. */
 export function makeSwayMaterial(u: SwayUniforms, opts: { side?: THREE.Side; flat?: boolean } = {}) {
   const mat = new THREE.MeshStandardMaterial({ vertexColors: true, flatShading: opts.flat ?? true, roughness: 0.95, metalness: 0, side: opts.side ?? THREE.FrontSide });
@@ -25,7 +29,7 @@ export function makeSwayMaterial(u: SwayUniforms, opts: { side?: THREE.Side; fla
           #endif
           float ph = ip.x * 0.31 + ip.z * 0.27;
           float gust = sin(uTime * 0.35 + ip.x * 0.02) * 0.5 + 0.5;
-          float w = sin(uTime * 1.5 + ph + position.y * 0.7) * aSway * uWind * (0.55 + gust * 0.6);
+          float w = sin(uTime * 1.5 + ph + position.y * 0.7) * aSway * uWind * (0.55 + gust * 0.6) * ${TREE_SWAY_MULTIPLIER.toFixed(1)};
           transformed.x += w * 0.55;
           transformed.z += w * 0.3;
         }`,
@@ -122,4 +126,3 @@ export function streamDistance(x: number, z: number) {
   for (const s of STREAMS) d = Math.min(d, distToPolyline(x, z, s.points).d);
   return Math.min(d, Math.hypot(x - SPRING_POOL.x, z - SPRING_POOL.z) - SPRING_POOL.r);
 }
-

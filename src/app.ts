@@ -30,10 +30,10 @@ import { AssetLibrary } from './presentation/assets/library';
 import { ALL_NEEDS } from './presentation/assets/needs';
 import { setRigShadow } from './presentation/characters';
 import { WorldScene } from './presentation/world';
+import { GAME_VERSION } from './version';
 
 type Mode = 'loading' | 'title' | 'play' | 'dead';
 
-const GAME_VERSION = '0.0.2';
 const REVISION = typeof __SOURCE_REVISION__ === 'string' ? __SOURCE_REVISION__ : 'dev';
 
 export class App {

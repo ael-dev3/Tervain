@@ -23,6 +23,7 @@ Foundation date: 29 September 2026.
 | A13 | The initial area is modelled as closely as possible on Ardea from Gothic 3: a coast with a lighthouse, a beach, a great deal of empty terrain, some trees, and forests in the distance. | Owner direction of 29 Sep 2026. Implemented as the Grey Strand and Lantern Point, with the player arriving by wagon on the beach and walking inland over the heath to the overlook and Rillford. The Bellwether Vale slice (P09) follows it. |
 | A14 | Local Gothic 3 files are for inspiration and measurement only. | Nothing from Gothic 3 is extracted into the repository, shipped, or used as an asset; the reference note records observations. |
 | A15 | The version stays 0.0.x until the owner approves a move to 0.1. | Owner direction. The current build is 0.0.2. |
+| A16 | Pause tree and leaf sway animation for the current patch. | Owner direction; ground-cover wind is a separate effect. Revisit tree motion after visual review. |
 
 ## Proposed development baseline
 
@@ -78,3 +79,4 @@ These are scope boundaries for the foundation, not permanent bans. A later owner
 | 2026-09-29 | Selected Tervain; seeded original game outline and a proposed first playable. | A01–A11 recorded; P01–P15 proposed; O01–O12 unresolved. |
 | 2026-09-29 | Built a browser prototype of the first slice in TypeScript 7 with Three.js and Vite; documented in [prototype notes](engineering/prototype.md). | Evidence for P04, P09, P10 and P12 only. No decision changed: no engine or desktop runtime is selected, nothing is measured on a reference device, and the prototype uses no shared asset (O10). O12 is unchanged: residents cannot be killed in play, only made absent through a debug or harness state. |
 | 2026-09-29 | Owner direction: Gothic 3 look, an Ardea-like coastal start, local files for inspiration only, version stays 0.0.x. Rebuilt the presentation: new coast and headland, textured terrain, sea, trees with leaf cards, weathered buildings, worn people, a grade pass. | A12–A15 recorded; P11 superseded; A10 clarified. See [prototype notes](engineering/prototype.md). Version 0.0.2. No gameplay decision changed; O10 is unchanged (no shared model is used). |
+| 2026-09-30 | Enforced the `0.0.x` version hold in Vite and paused procedural tree/leaf sway for the current patch. | A15–A16; runtime title, debug panel and save build stamp share `package.json` version. Ground-cover wind and other scene animations remain separate. |

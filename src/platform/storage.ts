@@ -1,5 +1,6 @@
 import { createInitialState } from '../game/state';
 import { CONTENT_REVISION, NPC_IDS, SAVE_FORMAT_VERSION, type WorldState } from '../game/types';
+import { GAME_BUILD } from '../version';
 
 /**
  * Local saves behind a narrow adapter (architecture.md, "Saves and progression continuity").
@@ -96,8 +97,6 @@ interface Envelope {
 export type LoadResult =
   | { ok: true; state: WorldState; summary: SaveSummary; recovered: null | 'previous' | 'temporary' }
   | { ok: false; kind: 'missing' | 'corrupt' | 'incompatible'; message: string };
-
-export const GAME_BUILD = 'prototype-0.0.2';
 
 /** FNV-1a 32-bit: catches truncation and accidental edits, not tampering. */
 export function checksum(text: string): string {
