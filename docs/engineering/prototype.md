@@ -42,7 +42,7 @@ Text size (80–180%), reduced motion (steadier camera, no shake, calmer foliage
 
 | Area | Implemented for real | Representation or placeholder | Not implemented |
 | --- | --- | --- | --- |
-| World | One authored valley from a single layout that drives rendering, collision, navigation, NPC anchors and interaction points. | All geometry is generated from primitives at load. Terrain is a height field with hand-placed hills, not a sculpted authored level. | A second region, a level editor, streaming. |
+| World | One authored valley from a single layout that drives rendering, collision, navigation, NPC anchors and interaction points. | Terrain, houses and small props are generated in code at load; trees, larger buildings, people and props are the shared Warpkeep models. Terrain is a height field with hand-placed hills, not a sculpted authored level. | A second region, a level editor, streaming. |
 | People | Eleven named residents with schedules, grid A\* navigation, doorway hiding at night, ambient remarks, and durable absence for any principal (via the debug panel and scenario tests). | Bodies are one shared primitive rig with costume variations; four principals are told apart by silhouette and colour only. No facial animation. | Voice acting, killing residents in play (see [O12](../decisions.md)), a modular character pipeline. |
 | Story state | A renderer-free simulation: facts, evidence with provenance, phases, atomic one-time grants, `observed_by` versus `known_to`, delayed reports, saved pending reports, three allocations, forced-gate recovery. | Dialogue is authored data with generated string keys, in English only. | Localization, a dialogue authoring tool. |
 | Combat | Light and heavy attacks, block with a short perfect-block window, evasive step with invulnerability frames, stamina with a no-lock guard, telegraphed hostile attacks, a stagger rule, persistent defeated encounters. | One humanoid archetype and one creature, hand-tuned. | Weapon variety, ranged threats, bosses. |
@@ -52,7 +52,7 @@ Text size (80–180%), reduced motion (steadier camera, no shake, calmer foliage
 | Saves | Versioned envelope, checksum, temporary-write-then-verify, previous-save recovery, corrupt versus incompatible messages, size bound, forward-compatible merge. | Backed by browser local storage. | Desktop file access, cloud sync, a migration test corpus. |
 | Packaging | A static web build with no service dependency; works offline once loaded. | — | An Electron or other desktop package, Steam integration, controller verification on real devices, Steam Deck testing. |
 
-No asset from Warpkeep, Warpkeep-Assets, or any third party is used. The prototype therefore adds nothing to the [shared-asset inventory](shared-assets.md). The `Mesure Avancée` track is not used.
+The prototype uses runtime models imported byte for byte from Warpkeep (trees, buildings, props, people, a rabbit), recorded in the [asset inventory](asset-inventory.md), plus procedural geometry, textures and audio generated in code. No music or audio file from Warpkeep is used; the `Mesure Avancée` track is not used.
 
 ## How to run it
 

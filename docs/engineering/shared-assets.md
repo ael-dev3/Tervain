@@ -1,6 +1,6 @@
 # Sharing technology and assets with Warpkeep
 
-Status: **reuse plan and dated inventory of candidates, not a completed import**. Checked 29 September 2026. The first browser prototype generates all of its geometry, textures and audio in code and imports nothing from the sources below.
+Status: **reuse plan and dated inventory of candidates. A first import is done and recorded in [asset-inventory.md](asset-inventory.md)** (209 runtime GLBs from Warpkeep at `786c0b2`, used by the browser prototype under the owner's authorisation). The rest of this document remains the plan for further reuse. Checked 29 September 2026.
 
 ## Purpose
 
