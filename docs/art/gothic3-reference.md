@@ -74,4 +74,4 @@ The Myrtana set has 52 SpeedTree definitions in five size classes (XS to XXL): D
 
 ## Not done, and why
 
-The reference has real depth of field and bloom; Tervain has neither yet (one grade pass only). Gothic 3's placement of Ardea's own buildings was not reproduced because it was not read. Performance has not been measured on any device; the frame counts in `docs/engineering/prototype.md` are headless-browser counts, not a frame-rate claim.
+The reference has real depth of field and bloom; Tervain has a modest bloom (medium and high presets only, in `grade.ts`) and no depth of field yet. Gothic 3's placement of Ardea's own buildings was not reproduced because it was not read. Performance has not been measured on any device; the frame counts in `docs/engineering/prototype.md` are headless-browser counts, not a frame-rate claim.

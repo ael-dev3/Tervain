@@ -213,7 +213,7 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
           void main() {
             // Bright along the axis, soft at the silhouette, thinning with distance from the lamp.
             float c = pow(abs(dot(normalize(vN), normalize(vV))), 2.2);
-            float a = uAlpha * c * pow(1.0 - vT, 1.3) * smoothstep(0.0, 0.03, vT);
+            float a = uAlpha * c * pow(max(1.0 - vT, 0.0), 1.3) * smoothstep(0.0, 0.03, vT);
             gl_FragColor = vec4(uColor, a);
           }`,
         transparent: true,

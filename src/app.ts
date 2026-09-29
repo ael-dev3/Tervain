@@ -271,6 +271,7 @@ export class App {
     const q = this.settings.quality;
     this.renderer.shadowMap.enabled = q !== 'low';
     this.grade.setMsaa(q !== 'low');
+    this.grade.bloom = q !== 'low';
     this.applyPixelRatio();
   }
 

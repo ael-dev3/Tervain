@@ -136,8 +136,8 @@ function stone(n: number): [Field, number] {
     const edge = sstep(0.0, 0.11, a.f2[o]! - a.f1[o]!);
     const tone = 0.22 + a.id[o]! * 0.3;
     const warm = 0.85 + (a.id[o]! - 0.5) * 0.3;
-    let c: RGB = [tone * warm * 1.05, tone * 0.98, tone * 0.88 / warm];
-    const k = (0.35 + 0.65 * edge) * (0.82 + grit[o]! * 0.4);
+    let c: RGB = [tone * warm * 1.14, tone * 1.0, tone * 0.78 / warm];
+    const k = (0.4 + 0.6 * edge) * (0.84 + grit[o]! * 0.36);
     c = [c[0] * k, c[1] * k, c[2] * k];
     // damp lower patches: dark green-grey
     c = mixc(c, [0.16, 0.19, 0.14], sstep(0.62, 0.85, low[o]!) * 0.4);
@@ -153,8 +153,8 @@ function cobble(n: number): [Field, number] {
   for (let o = 0; o < n * n; o++) {
     const edge = sstep(0.0, 0.2, a.f2[o]! - a.f1[o]!);
     const tone = 0.2 + a.id[o]! * 0.26;
-    let c: RGB = [tone * 1.02, tone, tone * 0.9];
-    const k = (0.28 + 0.72 * edge) * (0.85 + grit[o]! * 0.3);
+    let c: RGB = [tone * 1.12, tone, tone * 0.8];
+    const k = (0.32 + 0.68 * edge) * (0.85 + grit[o]! * 0.3);
     c = [c[0] * k, c[1] * k, c[2] * k];
     set(f, o, c, clamp01(edge * 0.7 + (1 - a.f1[o]!) * 0.3));
   }

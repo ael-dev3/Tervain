@@ -92,11 +92,12 @@ function outcrops(x: number, z: number): number {
       if (cellHash(gx, gz, 1) > 0.45) continue;
       const ox = (gx + cellHash(gx, gz, 2)) * CELL;
       const oz = (gz + cellHash(gx, gz, 3)) * CELL;
-      const r = 7 + cellHash(gx, gz, 4) * 14;
-      const d = Math.hypot(x - ox, z - oz) / r;
+      const r = 9 + cellHash(gx, gz, 4) * 16;
+      // A warped, flat-crowned knoll rather than a cone: the distance is bent by noise and the top is a plateau.
+      const d = Math.hypot(x - ox + 3.2 * fbm(x / 9, z / 9, 2, 95), z - oz + 3.2 * fbm(x / 9 + 7, z / 9, 2, 96)) / r;
       if (d >= 1) continue;
-      const hgt = 1.8 + cellHash(gx, gz, 5) * 4.4;
-      best = Math.max(best, hgt * (1 - smoothstep(0.1, 1, d)) * (0.65 + 0.7 * ridged(x / 5, z / 5, 2, 91)));
+      const hgt = 1.4 + cellHash(gx, gz, 5) * 3.0;
+      best = Math.max(best, hgt * (1 - smoothstep(0.35, 1, d)) * (0.7 + 0.5 * ridged(x / 5, z / 5, 2, 91)));
     }
   }
   return best;
