@@ -7,11 +7,11 @@ import { PLACES, ROADS, STREAMS, WORLD } from '../../world/layout';
 import type { Terrain } from '../../world/terrain';
 import { h } from './dom';
 
-const X0 = -172;
+const X0 = -330;
 const X1 = 168;
 const Z0 = -128;
-const Z1 = 98;
-const PX = 3; // canvas pixels per metre
+const Z1 = 152;
+const PX = 2.2; // canvas pixels per metre
 export const MAP_W = (X1 - X0) * PX;
 export const MAP_H = (Z1 - Z0) * PX;
 
@@ -58,6 +58,13 @@ export class MapView {
         r -= edge * 70;
         g -= edge * 70;
         b -= edge * 60;
+        // The sea: a cool grey-green wash, deeper further out.
+        if (x < -170 && h0 < 0) {
+          const d = Math.min(1, -h0 / 10);
+          r = 128 - d * 46;
+          g = 158 - d * 44;
+          b = 158 - d * 30;
+        }
         const k = 1 + shade;
         const idx = (j * w + i) * 4;
         img.data[idx] = Math.max(0, Math.min(255, r * k));

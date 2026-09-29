@@ -52,11 +52,13 @@ Choices are allowed to be difficult without concealing their basic stakes. A neg
 
 Evidence in the slice: the resolution changes at least three perceivable details and persists after quitting and loading.
 
-### 5. Lush, coherent, responsive 3D
+### 5. Rugged, coherent, responsive 3D
+
+**Direction of 29 September 2026:** the look is old-school Gothic 3 (rugged, rough, human, not cartoonish) and the first area is an Ardea-like coast; see [art direction](art/art-audio-ui.md#direction-update-29-september-2026) and decisions A12–A14. The paragraphs below were written earlier and are read with that change.
 
 Use the existing vegetation and terrain work as a starting advantage. Build connected branches, convincing canopy masses, varied ground cover, working settlements, moving animals, and restrained ambient animation. Detail should reinforce habitat, composition, and interaction.
 
-The proposed visual approach is stylized, materially readable low-poly 3D with richer desktop composition and close-view treatment. Dense foliage is valuable only if camera movement, combat readability, and frame pacing remain comfortable. Lighting reveals forms; camera motion communicates control.
+The approach is materially readable 3D with rugged, weathered surfaces and richer desktop composition and close-view treatment (no longer stylized low-poly). Dense foliage is valuable only if camera movement, combat readability, and frame pacing remain comfortable. Lighting reveals forms; camera motion communicates control.
 
 ### 6. A complete single-player experience
 

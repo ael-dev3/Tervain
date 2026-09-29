@@ -110,6 +110,11 @@ export function loadSettings(): Settings {
       volumes: { ...base.volumes, ...(parsed.volumes ?? {}) },
       bindings: { ...base.bindings, ...(parsed.bindings ?? {}) },
     };
+    // A stored binding list may be sparse or hold stray values from an older build: keep only real strings.
+    for (const a of ACTIONS) {
+      const list = merged.bindings[a];
+      merged.bindings[a] = Array.isArray(list) ? list.filter((c): c is string => typeof c === 'string' && c.length > 0) : [...DEFAULT_BINDINGS[a]];
+    }
     merged.textScale = Math.max(0.8, Math.min(1.8, merged.textScale));
     merged.brightness = Math.max(0.6, Math.min(1.6, merged.brightness));
     merged.mouseSensitivity = Math.max(0.2, Math.min(3, merged.mouseSensitivity));
@@ -128,7 +133,8 @@ export function saveSettings(s: Settings) {
 }
 
 /** Human-readable label for a binding code. */
-export function codeLabel(code: string): string {
+export function codeLabel(code: string | null | undefined): string {
+  if (!code) return '—';
   if (code.startsWith('Mouse')) return ['Left click', 'Middle click', 'Right click'][Number(code.slice(5))] ?? code;
   if (code.startsWith('Key')) return code.slice(3);
   if (code.startsWith('Digit')) return code.slice(5);

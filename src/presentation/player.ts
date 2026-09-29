@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { cliffiness, shoreDistance } from '../world/coast';
 import type { Game } from '../game/game';
 import type { Input } from '../platform/input';
 import type { Settings } from '../platform/settings';
@@ -117,9 +118,10 @@ export class Player {
 
   private surfaceAt(ctx: PlayerCtx): SurfaceKind {
     if (ctx.terrain.deckAt(this.x, this.z)) return 'deck';
-    if (ctx.terrain.carveAt(this.x, this.z) > 0.12) return 'water';
+    if (ctx.terrain.carveAt(this.x, this.z) > 0.12 || ctx.terrain.seaDepth(this.x, this.z) > 0.12) return 'water';
     if (roadWeight(this.x, this.z) > 0.55) return 'road';
     if (ctx.terrain.slopeAt(this.x, this.z) > 0.5) return 'stone';
+    if (shoreDistance(this.x, this.z) < 26 && cliffiness(this.z) < 0.5 && this.x < -200) return 'sand';
     return 'grass';
   }
 
@@ -182,7 +184,7 @@ export class Player {
     if (this.blocking && facing && this.state === 'free') {
       if (this.blockTime < PERFECT_BLOCK_WINDOW) {
         ctx.audio.hit('perfect');
-        from.parried();
+        from.parried(this.x, this.z);
         this.shake = Math.max(this.shake, 0.1);
         ctx.onHurt(0, true);
         return;

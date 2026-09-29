@@ -14,9 +14,11 @@ import { Input } from './platform/input';
 import { codeLabel, loadSettings } from './platform/settings';
 import { BrowserStore, SaveStore, SLOT_IDS, type SlotId } from './platform/storage';
 import { ENEMY_SPAWNS, PLACES, SPAWN, SLUICE, RITE_ALTAR, type V2 } from './world/layout';
+import { coastX } from './world/coast';
 import { EnemyActor, NpcActor, type ActorContext, type EnemyContext } from './presentation/actors';
 import { AudioEngine } from './presentation/audio';
 import { CameraRig } from './presentation/cameraRig';
+import { Grade } from './presentation/grade';
 import { buildInteractables, type Interactable } from './presentation/interactions';
 import { Player } from './presentation/player';
 import { Hud } from './presentation/ui/hud';
@@ -25,11 +27,13 @@ import { MapView } from './presentation/ui/map';
 import { PanelHost, aboutPanel, controlsPanel, describeMissing, inventoryPanel, journalPanel, noticePanel, pauseMenu, settingsPanel, sluicePanel, slotsPanel, type PanelActions, type PanelCtx } from './presentation/ui/panels';
 import { h, clear } from './presentation/ui/dom';
 import { AssetLibrary } from './presentation/assets/library';
+import { ALL_NEEDS } from './presentation/assets/needs';
+import { setRigShadow } from './presentation/characters';
 import { WorldScene } from './presentation/world';
 
 type Mode = 'loading' | 'title' | 'play' | 'dead';
 
-const GAME_VERSION = '0.0.1';
+const GAME_VERSION = '0.0.2';
 const REVISION = typeof __SOURCE_REVISION__ === 'string' ? __SOURCE_REVISION__ : 'dev';
 
 export class App {
@@ -39,6 +43,8 @@ export class App {
   input!: Input;
   audio = new AudioEngine(() => this.settings);
   renderer!: THREE.WebGLRenderer;
+  grade!: Grade;
+  private lastFrameDt = 1 / 60;
   world!: WorldScene;
   library: AssetLibrary = AssetLibrary.empty();
   cam = new CameraRig();
@@ -75,6 +81,10 @@ export class App {
   private bench: { active: boolean; frames: number[]; startedAt: number; result: string | null } = { active: false, frames: [], startedAt: 0, result: null };
   private lockingOut = false;
   private lastHint = '';
+  /** Monotonic seconds for ambient audio scheduling; unlike world time it survives a world rebuild. */
+  private audioClock = 0;
+  private archiveWasOccupied = false;
+  private autosaveTimer = 90;
   private bubbleState = new Map<string, { text: string; until: number }>();
   private threatUntil = 0;
   private vignetteLevel = 0;
@@ -96,7 +106,7 @@ export class App {
     this.loadingEl.textContent = S('menu.loading');
 
     try {
-      this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: this.settings.quality !== 'low', powerPreference: 'high-performance' });
+      this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: false, powerPreference: 'high-performance' });
     } catch {
       this.loadingEl.textContent = S('menu.webgl');
       return;
@@ -106,16 +116,20 @@ export class App {
     this.renderer.toneMappingExposure = 1.22;
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
+    this.grade = new Grade(this.renderer, { msaa: this.settings.quality !== 'low' });
     this.applyPixelRatio();
     window.addEventListener('resize', () => this.onResize());
     this.onResize();
 
     // Let the loading text paint before the (synchronous) valley build.
     await new Promise((r) => setTimeout(r, 30));
-    try {
-      this.library = await AssetLibrary.open();
-    } catch (e) {
-      console.warn('shared assets unavailable; using procedural art', e);
+    // The 0.0.x scene is built from primitives and generated textures; the shared-model library is only opened when a module asks for a model.
+    if (ALL_NEEDS.length > 0) {
+      try {
+        this.library = await AssetLibrary.open();
+      } catch (e) {
+        console.warn('shared assets unavailable; using procedural art', e);
+      }
     }
     await this.buildWorld();
 
@@ -133,7 +147,16 @@ export class App {
     window.addEventListener('pointerdown', first, { once: false });
     window.addEventListener('keydown', first, { once: false });
     this.canvas.addEventListener('mousedown', () => {
-      if (this.mode === 'play' && this.overlay === 'none' && !this.input.locked) this.wantLock();
+      if (this.mode === 'play' && this.overlay === 'none' && !this.input.locked) {
+        this.input.swallowClick = true;
+        this.wantLock();
+      }
+    });
+    document.addEventListener('keydown', (e) => this.onUiKey(e), true);
+    // A closed tab or a hidden page keeps the run: progress is written when the page is hidden.
+    window.addEventListener('pagehide', () => this.autosaveQuiet());
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') this.autosaveQuiet();
     });
 
     this.enterTitle();
@@ -162,6 +185,21 @@ export class App {
     this.cam.pitch = num('pitch', 0.25);
     this.cam.wantDist = num('dist', 6);
     this.debugTime(num('hour', 11));
+    const camv = q.get('cam')?.split(',').map(Number);
+    if (camv && camv.length === 6 && camv.every((n) => Number.isFinite(n))) this.cam.manual = { p: new THREE.Vector3(camv[0], camv[1], camv[2]), look: new THREE.Vector3(camv[3], camv[4], camv[5]) };
+    const fov = q.get('fov');
+    if (fov) {
+      this.cam.camera.fov = Number(fov);
+      this.cam.camera.updateProjectionMatrix();
+    }
+    for (const name of (q.get('hide') ?? '').split(',').filter(Boolean)) {
+      const m = this.world.modules.find((x) => x.name === name);
+      if (m) m.module.group.visible = false;
+      else if (name === 'scenery') this.world.scenery.group.visible = false;
+      else if (name === 'water') this.world.water.group.visible = false;
+      else if (name === 'sea') this.world.sea.group.visible = false;
+      else if (name === 'actors') for (const a of [...this.npcs.map((n) => n.rig.root), ...this.enemies.map((e) => e.rig.root), this.player.group]) a.visible = false;
+    }
     if (q.get('hud') === '0') this.hud.show(false);
     this.settings.reducedMotion = true;
     this.applyUiSettings();
@@ -179,8 +217,12 @@ export class App {
     this.titleEl = h('div', { class: 'title' });
     this.debugPre = h('pre', { class: 'debug' });
     this.debugEl = h('div', { class: 'panel glass', style: { position: 'absolute', right: '12px', top: '90px', width: 'min(420px, 92vw)', maxHeight: '80vh', overflow: 'auto', display: 'none', pointerEvents: 'auto', zIndex: '5' } });
-    this.uiRoot.append(this.hud.el, this.dialogue.el, this.panels.el, this.titleEl, this.debugEl, this.loadingEl);
+    this.uiRoot.append(this.hud.el, this.dialogue.el, this.titleEl, this.panels.el, this.debugEl, this.loadingEl);
     this.panels.onEmpty = () => this.onPanelsClosed();
+    this.panels.onChange = () => {
+      // A pending rebind never outlives the screen it was started on.
+      this.input.captureNext = null;
+    };
     this.panels.onOpen = () => {
       this.input.uiOpen = true;
       this.releaseLock();
@@ -205,19 +247,30 @@ export class App {
 
   private disposeWorld() {
     const scene = this.world.scene;
+    const disposeMaterial = (mat: THREE.Material) => {
+      for (const v of Object.values(mat) as unknown[]) if (v && (v as THREE.Texture).isTexture) (v as THREE.Texture).dispose();
+      const u = (mat as THREE.ShaderMaterial).uniforms;
+      if (u) for (const x of Object.values(u)) if (x && (x.value as THREE.Texture | undefined)?.isTexture) (x.value as THREE.Texture).dispose();
+      mat.dispose();
+    };
     scene.traverse((o) => {
       const m = o as THREE.Mesh;
       if (m.geometry) m.geometry.dispose();
-      const mat = (m as THREE.Mesh).material as THREE.Material | THREE.Material[] | undefined;
-      if (Array.isArray(mat)) mat.forEach((x) => x.dispose());
-      else mat?.dispose();
+      const mat = m.material as THREE.Material | THREE.Material[] | undefined;
+      if (Array.isArray(mat)) mat.forEach(disposeMaterial);
+      else if (mat) disposeMaterial(mat);
+      if ((o as THREE.InstancedMesh).isInstancedMesh) (o as THREE.InstancedMesh).dispose();
+      if ((o as THREE.Light).isLight) (o as THREE.Light & { dispose?: () => void }).dispose?.();
     });
+    scene.environment?.dispose();
     scene.clear();
+    this.world.dispose();
   }
 
   private applyQualityToRenderer() {
     const q = this.settings.quality;
     this.renderer.shadowMap.enabled = q !== 'low';
+    this.grade.setMsaa(q !== 'low');
     this.applyPixelRatio();
   }
 
@@ -230,7 +283,10 @@ export class App {
   private onResize() {
     const w = window.innerWidth;
     const h2 = window.innerHeight;
+    this.applyPixelRatio();
     this.renderer.setSize(w, h2, false);
+    const dpr = this.renderer.getPixelRatio();
+    this.grade.setSize(w * dpr, h2 * dpr);
     this.cam.setAspect(w / h2);
   }
 
@@ -277,6 +333,7 @@ export class App {
     this.releaseLock();
     this.buildTitle();
     this.titleEl.classList.add('on');
+    this.focusTitle();
     this.debugEl.style.display = 'none';
     this.worldDirty = true;
   }
@@ -302,6 +359,10 @@ export class App {
     this.titleEl.append(
       h('div', { class: 'card glass' }, h('h1', {}, S('game.title').toUpperCase()), h('div', { class: 'subtitle' }, S('game.subtitle')), h('p', { class: 'tagline' }, S('game.tagline')), menu, h('div', { class: 'hint-line' }, `v${GAME_VERSION} · ${REVISION}`)),
     );
+    this.focusTitle();
+  }
+
+  private focusTitle() {
     (this.titleEl.querySelector('[data-nav]') as HTMLElement | null)?.focus();
   }
 
@@ -377,6 +438,7 @@ export class App {
         e.rig.root.visible = false;
       } else {
         e.state = 'idle';
+        e.engaged = false;
         e.hp = e.maxHp;
         e.x = e.spawn.x;
         e.z = e.spawn.z;
@@ -392,10 +454,13 @@ export class App {
   /* ============================== main loop ============================== */
 
   private frame(now: number) {
-    const rawDt = Math.min(0.25, (now - this.last) / 1000);
+    const interval = (now - this.last) / 1000;
     this.last = now;
-    const dt = Math.min(0.05, rawDt);
-    this.recordFrame(rawDt);
+    const dt = Math.min(0.05, interval);
+    this.lastFrameDt = dt;
+    // Frame times are recorded uncapped (only the simulation step is clamped); a hidden tab is ignored.
+    if (interval < 5) this.recordFrame(interval);
+    this.audioClock += dt;
     try {
       this.step(dt);
     } catch (e) {
@@ -414,9 +479,11 @@ export class App {
     }
 
     if (this.mode === 'loading') return;
+    const overlayAtStart = this.overlay;
     this.handleGlobalInput();
 
-    const playing = this.mode === 'play' && this.overlay === 'none';
+    // The frame in which an overlay closes stays paused, so the press that closed it cannot also act in the world.
+    const playing = this.mode === 'play' && this.overlay === 'none' && overlayAtStart === 'none';
     if (this.bench.active) this.stepBenchmark(dt);
 
     const hour = hourOfDay(state.clock + this.clockAcc);
@@ -434,8 +501,25 @@ export class App {
       return;
     }
 
+    // A sealed archive never traps someone inside: the door and shutter only close behind the player once they are out.
+    const inArchive = this.world.insideArchive(this.player.x, this.player.z);
+    if (inArchive !== this.archiveWasOccupied) {
+      this.archiveWasOccupied = inArchive;
+      this.worldDirty = true;
+      const lm = this.game.state.locationChanges;
+      if (!inArchive && (lm.archive_shutter === 'sealed' || lm.archive_door === 'locked') && this.game.state.facts.archive_reported === true) {
+        this.hud.toast(S('toast.archive.sealed_now'), 'bad');
+      }
+    }
+    this.world.playerInArchive = inArchive;
+
     // Time only passes while the world is running freely.
     if (playing) {
+      this.autosaveTimer -= dt;
+      if (this.autosaveTimer <= 0) {
+        this.autosaveTimer = 90;
+        this.autosaveQuiet();
+      }
       this.game.addPlaySeconds(dt);
       this.clockAcc += dt * CLOCK_RATE;
       if (this.clockAcc >= 0.5) {
@@ -494,6 +578,7 @@ export class App {
 
     // World presentation
     this.world.update(dt, state, new THREE.Vector3(this.player.x, this.player.y, this.player.z), this.settings, hour, this.cam.camera);
+    this.updateRigShadows();
     this.dialogue.update(dt);
     this.audioUpdate(dt, this.cam.camera.position, hour);
 
@@ -504,8 +589,18 @@ export class App {
     void focus;
   }
 
+  /** People beyond a short distance stop casting shadows; the shadow map only covers the near ground anyway. */
+  private updateRigShadows() {
+    const c = this.cam.camera.position;
+    for (const a of [...this.npcs, ...this.enemies]) {
+      const p = a.rig.root.position;
+      setRigShadow(a.rig, (p.x - c.x) ** 2 + (p.z - c.z) ** 2 < 55 * 55);
+    }
+  }
+
   private render() {
-    this.renderer.render(this.world.scene, this.cam.camera);
+    this.grade.setLook({ night: this.world.sky.state.nightness });
+    this.grade.render(this.world.scene, this.cam.camera, this.lastFrameDt);
   }
 
   /* ============================== input glue ============================== */
@@ -525,9 +620,12 @@ export class App {
     this.handleMenuPad();
     if (this.mode !== 'play') return;
     if (this.overlay !== 'dialogue') {
-      if (inp.pressed('journal')) this.togglePanel('journal');
-      if (inp.pressed('map')) this.togglePanel('map');
-      if (inp.pressed('inventory')) this.togglePanel('inventory');
+      // Tab, M and I only toggle their own panel; inside another panel Tab is ordinary focus movement.
+      const open = this.panels.isOpen;
+      const padBusy = inp.device === 'gamepad' && open;
+      if (inp.pressed('journal') && !padBusy && (!open || this.panelKind === 'journal')) this.togglePanel('journal');
+      if (inp.pressed('map') && (!open || this.panelKind === 'map')) this.togglePanel('map');
+      if (inp.pressed('inventory') && !padBusy && (!open || this.panelKind === 'inventory')) this.togglePanel('inventory');
     }
     if (this.overlay === 'none') {
       if (inp.pressed('quicksave')) this.saveTo('quick');
@@ -539,16 +637,73 @@ export class App {
 
   private handleMenuPad() {
     // Gamepad confirm/back inside dialogue and panels.
+    let handled = false;
     if (this.overlay === 'dialogue') {
-      if (this.input.padButtonPressed(0)) this.dialogue.confirmFocused();
-      if (this.input.padButtonPressed(1)) this.endDialogue();
+      if (this.input.padButtonPressed(0)) {
+        this.dialogue.confirmFocused();
+        handled = true;
+      }
+      if (this.input.padButtonPressed(1)) {
+        this.endDialogue();
+        handled = true;
+      }
     } else if (this.panels.isOpen || this.mode === 'title') {
-      if (this.input.padButtonPressed(0)) this.panels.activateFocused();
-      if (this.input.padButtonPressed(1) && this.panels.isOpen) this.panels.back();
+      if (this.input.padButtonPressed(0)) {
+        this.panels.activateFocused();
+        handled = true;
+      }
+      if (this.input.padButtonPressed(1) && this.panels.isOpen) {
+        this.panels.back();
+        handled = true;
+      }
     }
+    // Menu presses belong to the menu; they must not also become an attack, a dodge or a new conversation.
+    if (handled) this.input.consumePad();
+  }
+
+  /** Arrow keys move focus between menu items (Tab and Space are left to the browser for focus and activation). */
+  private onUiKey(e: KeyboardEvent) {
+    if (this.dialogue.open) return;
+    if (!(this.mode === 'title' || this.panels.isOpen)) return;
+    if (this.input.captureNext) return;
+    const el = document.activeElement as HTMLElement | null;
+    const isRange = el instanceof HTMLInputElement && el.type === 'range';
+    const isSelect = el instanceof HTMLSelectElement;
+    const vertical = e.code === 'ArrowDown' || e.code === 'ArrowUp';
+    const horizontal = e.code === 'ArrowLeft' || e.code === 'ArrowRight';
+    if (!vertical && !horizontal) return;
+    if (isSelect) return; // arrows change the option natively
+    if (isRange && horizontal) return; // arrows adjust the slider natively
+    e.preventDefault();
+    e.stopPropagation();
+    const step = e.code === 'ArrowDown' || e.code === 'ArrowRight' ? 1 : -1;
+    if (this.panels.isOpen) this.panels.navigate(0, step);
+    else {
+      const items = [...this.titleEl.querySelectorAll<HTMLElement>('[data-nav]')];
+      const i = items.indexOf(el as HTMLElement);
+      items[(i + step + items.length) % items.length]?.focus();
+    }
+    this.audio.uiMove();
   }
 
   private onPadNavigate(dx: number, dy: number) {
+    const focused = document.activeElement as HTMLElement | null;
+    if (dx !== 0 && dy === 0 && this.panels.isOpen && focused) {
+      if (focused instanceof HTMLInputElement && focused.type === 'range') {
+        const step = Number(focused.step) || 1;
+        focused.value = String(Math.max(Number(focused.min), Math.min(Number(focused.max), Number(focused.value) + dx * step)));
+        focused.dispatchEvent(new Event('input', { bubbles: true }));
+        this.audio.uiMove();
+        return;
+      }
+      if (focused instanceof HTMLSelectElement) {
+        const n = focused.options.length;
+        focused.selectedIndex = (focused.selectedIndex + dx + n) % n;
+        focused.dispatchEvent(new Event('change', { bubbles: true }));
+        this.audio.uiMove();
+        return;
+      }
+    }
     if (this.overlay === 'dialogue') this.dialogue.navigate(dy !== 0 ? dy : dx);
     else if (this.panels.isOpen) this.panels.navigate(dx, dy);
     else if (this.mode === 'title') {
@@ -582,6 +737,7 @@ export class App {
   private onPanelsClosed() {
     this.panelKind = 'none';
     this.mapCanvas = null;
+    if (this.mode === 'title') this.focusTitle();
     if (this.mode === 'play') {
       this.input.uiOpen = false;
       this.wantLock();
@@ -978,6 +1134,8 @@ export class App {
           break;
         case 'place':
           this.hud.toast(S('toast.place', { name: S(`place.${e.id}`) }), 'evidence');
+          // Discovering somewhere new moves the respawn point there.
+          this.checkpoint = { x: this.player.x, z: this.player.z, yaw: this.player.yaw };
           break;
         case 'worker_rescued':
           this.hud.toast(S(e.method === 'shortcut' ? 'toast.shortcut.rescued' : 'toast.rescued'), 'good');
@@ -1012,12 +1170,18 @@ export class App {
     if (r.ok) {
       this.checkpoint = { x: this.player.x, z: this.player.z, yaw: this.player.yaw };
       this.hud.toast(S('menu.saved', { slot: S('menu.slot.auto') }));
-    }
+    } else this.hud.toast(S('menu.savefailed', { reason: r.message }), 'bad');
     void reason;
   }
 
+  /** A brand-new run that has done nothing yet must not replace an earlier autosave. */
+  private hasProgress(): boolean {
+    const s = this.game.state;
+    return s.quest.phase !== 'unseen' || Object.keys(s.evidence).length > 0 || Object.keys(s.grants).length > 0 || s.playSeconds > 90;
+  }
+
   private autosaveQuiet() {
-    if (this.mode !== 'play') return;
+    if (this.mode !== 'play' || !this.hasProgress()) return;
     this.stamp();
     this.saves.save('auto', this.game.state);
   }
@@ -1167,8 +1331,9 @@ export class App {
       windAmount: Math.min(1, 0.3 + camPos.y / 60),
       quarryNear: Math.max(0, 1 - quarryD / 60),
       quarryWorking: v.quarryState === 'working' || v.quarryState === 'night_shift',
-      time: this.world.time,
+      time: this.audioClock,
       underRoof: this.world.insideArchive(camPos.x, camPos.z),
+      seaProximity: Math.exp(-Math.max(0, camPos.x - coastX(camPos.z)) / 95),
     });
     void hour;
   }
@@ -1397,9 +1562,10 @@ export class App {
         `build ${GAME_VERSION} rev ${REVISION}  quality ${this.settings.quality}  viewport ${window.innerWidth}x${window.innerHeight} @${this.renderer.getPixelRatio()}x`,
         `gpu ${gpu}`,
         `ua ${navigator.userAgent}`,
+        `game hour ${formatClock(this.game.state.clock)}  phase ${this.game.state.quest.phase} (not pinned during the run)`,
         `frames ${a.length}  median ${q(0.5).toFixed(2)} ms  p95 ${q(0.95).toFixed(2)} ms  p99 ${q(0.99).toFixed(2)} ms  worst ${(a[a.length - 1] ?? 0).toFixed(1)} ms`,
         `last-frame draw calls ${info.render.calls}  triangles ${info.render.triangles}`,
-        'Frame times are wall-clock intervals between animation frames (capped by the display refresh rate).',
+        'Frame times are wall-clock intervals between animation frames, recorded uncapped; they are limited by the display refresh rate.',
       ].join('\n');
       this.bench.active = false;
       this.debugEl.style.display = '';

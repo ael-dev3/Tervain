@@ -20,6 +20,8 @@ export class CameraRig {
   benchPath: { p: THREE.Vector3; look: THREE.Vector3 }[] = [];
   benchT = 0;
   private shakeT = 0;
+  /** Developer aid (tools/shot.mjs `cam=`): a fixed camera position and target that overrides following. */
+  manual: { p: THREE.Vector3; look: THREE.Vector3 } | null = null;
 
   setAspect(a: number) {
     this.camera.aspect = a;
@@ -37,6 +39,11 @@ export class CameraRig {
   }
 
   follow(dt: number, px: number, py: number, pz: number, terrain: Terrain, colliders: Colliders, reducedMotion: boolean, shake: number, heightOffset = 1.55) {
+    if (this.manual) {
+      this.camera.position.copy(this.manual.p);
+      this.camera.lookAt(this.manual.look);
+      return;
+    }
     this.target.set(px, py + heightOffset, pz);
     const k = reducedMotion ? 1 : 1 - Math.exp(-dt * 14);
     this.smoothTarget.lerp(this.target, this.smoothTarget.distanceToSquared(this.target) > 400 ? 1 : k);
@@ -92,19 +99,21 @@ export class CameraRig {
     return Math.abs(lx) < c.hw + 0.75 && Math.abs(lz) < c.hd + 0.75;
   }
 
-  /** Slow orbit above the spring overlook for the title screen; static under reduced motion. */
+  /**
+   * The title view: a slow drift above the Grey Strand, looking along the beach to the lighthouse on Lantern Point with the sea
+   * to the right. Static under reduced motion.
+   */
   title(dt: number, terrain: Terrain, reducedMotion: boolean) {
-    if (!reducedMotion) this.titleAngle += dt * 0.035;
-    const cx = -14;
-    const cz = -86;
-    const a = 2.35 + Math.sin(this.titleAngle) * 0.5;
-    const r = 34;
-    const x = cx + Math.cos(a) * r;
-    const z = cz + Math.sin(a) * r;
-    const y = terrain.heightAt(x, z) + 10 + Math.sin(this.titleAngle * 0.7) * 1.5;
+    if (!reducedMotion) this.titleAngle += dt * 0.05;
+    const t = this.titleAngle;
+    const x = -262 + Math.sin(t * 0.9) * 7;
+    const z = 2 + Math.cos(t * 0.7) * 5;
+    const y = terrain.heightAt(x, z) + 4.6 + Math.sin(t * 0.6) * 0.7;
     this.camera.position.set(x, y, z);
-    this.camera.lookAt(cx, terrain.heightAt(cx, cz) + 2.5, cz);
-    this.smoothTarget.set(cx, terrain.heightAt(cx, cz), cz);
+    const lx = -322 + Math.sin(t * 0.5) * 5;
+    const lz = 98;
+    this.camera.lookAt(lx, terrain.heightAt(-322, 98) + 11 + Math.sin(t * 0.8) * 1.2, lz);
+    this.smoothTarget.set(-290, terrain.heightAt(-290, 50), 50);
     void PLACES;
   }
 

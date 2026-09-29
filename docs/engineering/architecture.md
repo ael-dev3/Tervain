@@ -49,7 +49,7 @@ Asset catalog: exact revisions / hashes / transforms / runtime variants
 
 The renderer displays state. A UI click, animation callback, or loading event should not independently grant an item or resolve a quest. Simulation commands own meaningful effects and create presentation events. This makes saving and automated scenario checks possible without a renderer.
 
-The prototype uses this layout (with `src/content` and `src/game` free of renderer code so scenarios run in Node):
+The prototype uses part of this layout: `src/game` and `src/content` (free of renderer code, so scenarios run in Node), `src/world`, `src/presentation`, `src/platform` and `tests/scenarios`. `src/game` is the simulation and `src/content` the authored data; the `tools/assets`, streaming and desktop-adapter entries below are still proposals, and the layout is otherwise a loose fit:
 
 ```text
 src/game/          world state, commands, progression, quests
@@ -62,6 +62,22 @@ tests/scenarios/   meaningful gameplay/persistence scenarios
 ```
 
 Do not create placeholder packages for all possible systems. Start with the few modules the prototype actually uses; extract common code only after the boundary is understood.
+
+### Presentation modules in 0.0.2
+
+`src/world` is renderer-free and owns the geography: `layout.ts` (data), `coast.ts` (shoreline, beach, cliffs; a pure function of position), `terrain.ts` (height field, walkability, sea depth), `colliders.ts`, `nav.ts`. `src/presentation` reads it and never writes back:
+
+| Module | Responsibility |
+| --- | --- |
+| `terrainTextures.ts`, `terrainMaterial.ts`, `groundSplat.ts`, `terrainMesh.ts` | Eight generated ground layers, a height-blended PBR shader, and the per-vertex layer weights derived from height, slope, water, shore and roads. |
+| `sea.ts`, `waterMesh.ts` | The sea (depth from the terrain, foam, sky reflection) and the stream ribbons. |
+| `sky.ts`, `skyState.ts`, `environment.ts`, `grade.ts` | Day/night keyframes, exponential fog, image-based light generated from the sky, and the final grade pass. |
+| `flora.ts`, `treeGen.ts`, `treeTextures.ts`, `treeMaterials.ts`, `ground/` | Procedural trees at three levels of detail with hand culling, leaf and needle cards, bark, streamed grass. |
+| `scatter.ts` | Rocks, pebbles, driftwood, wrack and reeds in 96 m merged chunks. |
+| `settlement.ts`, `buildings.ts`, `structures.ts`, `props.ts`, `roofs.ts`, `buildKit.ts`, `regions.ts`, `buildingTextures.ts` | Buildings and props authored as merged, textured geometry per region; the handles the world animates (doors, wheel, bell, gate, lighthouse beam). |
+| `characters.ts`, `humanGeo.ts` | People and creatures: sculpted heads, lofted torsos, tapered limbs, joints that bend, per-joint merged meshes. |
+
+`WorldScene.create` is asynchronous only so the ground textures can be generated in slices while the loading text repaints; everything else is built synchronously in the constructor. The scene modules share one contract (`context.ts`): they build from a `BuildContext` and update from a `FrameContext`, and never touch game state.
 
 ## Simulation and animation
 

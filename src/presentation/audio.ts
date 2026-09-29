@@ -5,7 +5,7 @@ import type { Settings } from '../platform/settings';
  * this source. Independent master/music/effects/ambience/dialogue levels; essential
  * non-verbal cues also raise a caption event so they never depend on sound alone.
  */
-export type SurfaceKind = 'grass' | 'road' | 'stone' | 'water' | 'deck';
+export type SurfaceKind = 'grass' | 'road' | 'stone' | 'water' | 'deck' | 'sand';
 
 export class AudioEngine {
   private ctx: AudioContext | null = null;
@@ -15,6 +15,8 @@ export class AudioEngine {
   private wind: { gain: GainNode; filter: BiquadFilterNode } | null = null;
   private water: { gain: GainNode; filter: BiquadFilterNode } | null = null;
   private mill: { gain: GainNode } | null = null;
+  private sea: { rumble: GainNode; hiss: GainNode } | null = null;
+  private nextGull = 0;
   private nextBird = 0;
   private nextCricket = 0;
   private nextNote = 0;
@@ -123,10 +125,37 @@ export class AudioEngine {
     ms.connect(mf).connect(mg).connect(this.buses.ambience);
     ms.start();
     this.mill = { gain: mg };
+    // The sea: a deep swell rumble and a bright hiss of spray, both breathing with the waves (a slow LFO, a little out of step).
+    const rs = this.noiseSrc();
+    const rf = ctx.createBiquadFilter();
+    rf.type = 'lowpass';
+    rf.frequency.value = 240;
+    const rg = ctx.createGain();
+    rg.gain.value = 0;
+    rs.connect(rf).connect(rg).connect(this.buses.ambience);
+    rs.start();
+    const hs = this.noiseSrc();
+    const hf = ctx.createBiquadFilter();
+    hf.type = 'bandpass';
+    hf.frequency.value = 3000;
+    hf.Q.value = 0.6;
+    const hg = ctx.createGain();
+    hg.gain.value = 0;
+    hs.connect(hf).connect(hg).connect(this.buses.ambience);
+    hs.start();
+    for (const [g, f, depth] of [[rg, 0.12, 0.05], [hg, 0.15, 0.03]] as const) {
+      const o = ctx.createOscillator();
+      o.frequency.value = f;
+      const og = ctx.createGain();
+      og.gain.value = depth;
+      o.connect(og).connect(g.gain);
+      o.start();
+    }
+    this.sea = { rumble: rg, hiss: hg };
   }
 
   /** Per-frame ambience update. */
-  update(dt: number, e: { nightness: number; waterProximity: number; flow: number; millNear: number; millTurning: boolean; windAmount: number; quarryNear: number; quarryWorking: boolean; time: number; underRoof: boolean }) {
+  update(dt: number, e: { nightness: number; waterProximity: number; flow: number; millNear: number; millTurning: boolean; windAmount: number; quarryNear: number; quarryWorking: boolean; time: number; underRoof: boolean; seaProximity?: number }) {
     if (!this.ctx || !this.wind || !this.water || !this.mill) return;
     const t = this.ctx.currentTime;
     const roof = e.underRoof ? 0.35 : 1;
@@ -135,6 +164,15 @@ export class AudioEngine {
     this.water.gain.gain.setTargetAtTime(wl, t, 0.4);
     this.water.filter.frequency.setTargetAtTime(700 + 1400 * e.flow, t, 0.5);
     this.mill.gain.gain.setTargetAtTime(e.millTurning ? 0.16 * e.millNear : 0.0, t, 0.5);
+    const sp = (e.seaProximity ?? 0) * roof;
+    if (this.sea) {
+      this.sea.rumble.gain.setTargetAtTime(0.16 * sp, t, 0.8);
+      this.sea.hiss.gain.setTargetAtTime(0.06 * sp * sp, t, 0.8);
+    }
+    if ((e.seaProximity ?? 0) > 0.35 && e.time > this.nextGull && e.nightness < 0.5 && !e.underRoof) {
+      this.gull((e.seaProximity ?? 0));
+      this.nextGull = e.time + 5 + Math.random() * 12;
+    }
     // Birds by day, crickets by night.
     if (e.time > this.nextBird && e.nightness < 0.4 && !e.underRoof) {
       this.chirp();
@@ -207,6 +245,39 @@ export class AudioEngine {
     }
   }
 
+  /** A gull: two falling cries with a quaver, coming from somewhere over the water. */
+  private gull(near: number) {
+    const ctx = this.ctx!;
+    const t0 = ctx.currentTime;
+    const n = 2 + Math.floor(Math.random() * 3);
+    const base = 900 + Math.random() * 280;
+    for (let i = 0; i < n; i++) {
+      const t = t0 + i * 0.34;
+      const o = ctx.createOscillator();
+      o.type = 'sawtooth';
+      o.frequency.setValueAtTime(base * 1.25, t);
+      o.frequency.exponentialRampToValueAtTime(base * 0.72, t + 0.28);
+      const q = ctx.createOscillator();
+      q.frequency.value = 38;
+      const qg = ctx.createGain();
+      qg.gain.value = 40;
+      q.connect(qg).connect(o.frequency);
+      const f = ctx.createBiquadFilter();
+      f.type = 'bandpass';
+      f.frequency.value = 1900;
+      f.Q.value = 1.4;
+      const g = ctx.createGain();
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(0.028 * near, t + 0.04);
+      g.gain.exponentialRampToValueAtTime(0.0008, t + 0.3);
+      o.connect(f).connect(g).connect(this.buses.ambience);
+      o.start(t);
+      q.start(t);
+      o.stop(t + 0.34);
+      q.stop(t + 0.34);
+    }
+  }
+
   private cricket() {
     if (!this.ctx) return;
     for (let i = 0; i < 3; i++) this.tone(4300, 0.04, 'square', 0.006, this.buses.ambience, i * 0.07, 0.005, 0, 6000);
@@ -252,6 +323,11 @@ export class AudioEngine {
         break;
       case 'road':
         this.burst(0.09, 700 + Math.random() * 200, 0.9, v, this.buses.effects);
+        break;
+      case 'sand':
+        // Soft and gritty: a low, slightly hissing crunch.
+        this.burst(0.14, 520 + Math.random() * 160, 0.6, v * 0.85, this.buses.effects, 'lowpass');
+        this.burst(0.05, 2600 + Math.random() * 500, 1.2, v * 0.35, this.buses.effects, 'highpass');
         break;
       default:
         this.burst(0.11, 420 + Math.random() * 120, 0.7, v * 0.9, this.buses.effects, 'lowpass');

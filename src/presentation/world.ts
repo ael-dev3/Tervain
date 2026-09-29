@@ -10,8 +10,10 @@ import { NavGrid } from '../world/nav';
 import { Terrain, distToPolyline } from '../world/terrain';
 import { SkyRig } from './sky';
 import { buildFarMountains, buildTerrainMesh } from './terrainMesh';
-import { buildScenery, type SceneryHandles } from './scenery';
-import { buildForest } from './forest';
+import { makeTerrainTextures, type TerrainTextures } from './terrainTextures';
+import { buildScenery, type SceneryHandles } from './settlement';
+import { buildFlora } from './flora';
+import { buildScatter } from './scatter';
 import { buildGroundcover } from './groundcover';
 import { buildWildlife } from './wildlife';
 import { buildEnvironment, type EnvironmentHandle } from './environment';
@@ -21,6 +23,7 @@ import type { AssetLibrary, LoadProgress } from './assets/library';
 import { setSharedLibrary } from './assets/library';
 import type { BuildContext, FrameContext, SceneModule } from './context';
 import { buildWater, type WaterSystem } from './waterMesh';
+import { buildSea, type SeaHandle } from './sea';
 import type { Settings } from '../platform/settings';
 
 /** Everything static in Bellwether Vale, plus the presentation that follows durable state. */
@@ -31,6 +34,7 @@ export class WorldScene {
   readonly nav: NavGrid;
   readonly sky: SkyRig;
   readonly water: WaterSystem;
+  readonly sea: SeaHandle;
   readonly sway: SwayUniforms = { uTime: { value: 0 }, uWind: { value: 1 } };
   readonly library: AssetLibrary;
   /** Forest, ground cover, wildlife: updated every frame with the shared frame context. */
@@ -55,6 +59,8 @@ export class WorldScene {
   private riteRing: THREE.Mesh;
   private riteT = 0;
   time = 0;
+  /** Set by the app each frame: true while the player is standing inside the archive. */
+  playerInArchive = false;
   view: WorldView;
   buildStats: { ms: number } = { ms: 0 };
 
@@ -62,15 +68,23 @@ export class WorldScene {
   static async create(state: WorldState, settings: Settings, library: AssetLibrary, onProgress?: (p: LoadProgress) => void): Promise<WorldScene> {
     setSharedLibrary(library);
     await library.preload(ALL_NEEDS, onProgress);
-    return new WorldScene(state, settings, library);
+    // Ground textures are generated, not downloaded; yield between layers so the loading text keeps painting.
+    const tex = await makeTerrainTextures(settings.quality === 'low' ? 256 : 512, () => new Promise((r) => setTimeout(r, 0)));
+    return new WorldScene(state, settings, library, tex);
   }
 
-  private constructor(state: WorldState, settings: Settings, library: AssetLibrary) {
+  /** Release GPU resources the scene graph does not own. */
+  dispose() {
+    this.terrainTex.dispose();
+    this.scenery.dispose();
+  }
+
+  private constructor(state: WorldState, settings: Settings, library: AssetLibrary, private terrainTex: TerrainTextures) {
     const t0 = performance.now();
     this.library = library;
     this.terrain = new Terrain();
     this.colliders = buildStaticColliders();
-    this.terrainMesh = buildTerrainMesh(this.terrain);
+    this.terrainMesh = buildTerrainMesh(this.terrain, terrainTex);
     this.scene.add(this.terrainMesh);
     this.scene.add(buildFarMountains());
     this.sky = new SkyRig(settings.quality === 'low' ? 1024 : settings.quality === 'medium' ? 2048 : 4096);
@@ -78,14 +92,17 @@ export class WorldScene {
     this.scene.fog = this.sky.fog;
     this.water = buildWater(this.terrain);
     this.scene.add(this.water.group);
+    this.sea = buildSea(this.terrain);
+    this.scene.add(this.sea.group);
     const ctx: BuildContext = { terrain: this.terrain, colliders: this.colliders, library, quality: settings.quality, settings, sway: this.sway, excl: new Exclusions(this.terrain) };
-    const forest = buildForest(ctx);
+    const forest = buildFlora(ctx);
+    const scatter = buildScatter(ctx);
     this.groundcover = buildGroundcover(ctx);
     const wildlife = buildWildlife(ctx);
-    this.modules.push({ name: 'forest', module: forest }, { name: 'groundcover', module: this.groundcover }, { name: 'wildlife', module: wildlife });
+    this.modules.push({ name: 'forest', module: forest }, { name: 'scatter', module: scatter }, { name: 'groundcover', module: this.groundcover }, { name: 'wildlife', module: wildlife });
     for (const m of this.modules) this.scene.add(m.module.group);
     this.environment = buildEnvironment(this.scene, settings.quality);
-    this.scenery = buildScenery(this.terrain, this.colliders);
+    this.scenery = buildScenery(this.terrain, this.colliders, settings.quality);
     this.scene.add(this.scenery.group);
     this.nav = new NavGrid(this.terrain, this.colliders);
 
@@ -129,8 +146,10 @@ export class WorldScene {
     const v = this.view;
     const sc = this.scenery;
     // Colliders that follow state.
-    this.colliders.setActive('archive_door', v.archiveDoor === 'locked');
-    this.colliders.setActive('archive_shutter', v.archiveShutter !== 'forced');
+    // Never close the room around someone who is inside it; the app resyncs when they step out.
+    const occupied = this.playerInArchive;
+    this.colliders.setActive('archive_door', v.archiveDoor === 'locked' && !occupied);
+    this.colliders.setActive('archive_shutter', v.archiveShutter !== 'forced' && !occupied);
     this.colliders.setActive('shortcut_gate', !v.shortcutOpen);
     // Visual targets.
     this.doorT = v.archiveDoor === 'open' ? 1 : 0;
@@ -235,8 +254,10 @@ export class WorldScene {
     this.sky.update(hour, focus, dt, reduced);
     const night = this.sky.state.nightness;
     this.scenery.setNight(night);
+    this.scenery.update(dt, this.time, night);
     const light = 0.42 + 0.58 * (1 - night);
     this.water.update(dt, this.time, v.flow, light);
+    this.sea.update(dt, this.time);
     const frame: FrameContext = { time: this.time, camera, focus, nightness: night, sunDir: this.sky.state.sunDir, reducedMotion: reduced, hour, view: v, quality: settings.quality };
     this.environment.update(dt, frame);
     for (const m of this.modules) m.module.update(dt, frame);

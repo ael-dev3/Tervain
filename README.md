@@ -10,13 +10,13 @@ An original order currently called the **Templars** anchors the setting. Its ter
 
 **Foundation / pre-production — seeded 29 September 2026; first playable prototype added the same day.**
 
-This repository contains a design and production outline and, since the prototype, a browser-playable build of the first slice. It does not contain a desktop package, imported asset pack, Steam integration, or measured performance results. The detailed setting and first quest are development proposals; the prototype implements them as a test, and every model in it is a placeholder. See [what is real and what is representation](docs/engineering/prototype.md).
+This repository contains a design and production outline and, since the prototype, a browser-playable build of the first slice. It does not contain a desktop package, a shipped asset pack, Steam integration, or measured performance results. Version 0.0.2; the number stays 0.0.x until the owner approves 0.1. The detailed setting and first quest are development proposals; the prototype implements them as a test, and every model in it is a placeholder. See [what is real and what is representation](docs/engineering/prototype.md).
 
 ## Play the prototype
 
-**[▶ Play Bellwether Vale — The Dry Bell](https://ael-dev3.github.io/Tervain/)** (a desktop browser with WebGL; keyboard and mouse or a controller)
+**[▶ Play — The Grey Strand to Bellwether Vale](https://ael-dev3.github.io/Tervain/)** (a desktop browser with WebGL; keyboard and mouse or a controller)
 
-A vertical-slice test in a compact valley: investigate a failing water supply, brace a damaged sluice, decide who goes without, and see the valley change. Saves stay in your browser. The [prototype notes](docs/engineering/prototype.md) list controls, options, limitations, and how to measure performance on your own device. No performance result is claimed.
+You arrive by wagon on a grey beach under a lighthouse and walk inland over open heath to a valley village. A vertical-slice test: investigate a failing water supply, brace a damaged sluice, decide who goes without, and see the valley change. The look follows the owner's Gothic 3 direction (see [look reference](docs/art/gothic3-reference.md)). Saves stay in your browser. The [prototype notes](docs/engineering/prototype.md) list controls, options, limitations, and how to measure performance on your own device. No performance result is claimed.
 
 ```bash
 npm install
@@ -58,7 +58,8 @@ The [decision register](docs/decisions.md) distinguishes these categories and re
 | [Narrative](docs/world/narrative.md) | Proposed campaign structure, viewpoints, mysteries, and endings. |
 | [Gameplay](docs/design/gameplay.md) | Exploration, combat, progression, NPCs, economy, navigation, and accessibility. |
 | [Quests and consequences](docs/design/quests-and-consequences.md) | Concrete first quest, evidence, decisions, persistent consequences, and authoring rules. |
-| [Art, audio, and interface](docs/art/art-audio-ui.md) | Lush 3D world, material and silhouette language, motion, sound, and readable presentation. |
+| [Art, audio, and interface](docs/art/art-audio-ui.md) | Gothic 3-style rugged 3D world, material and silhouette language, motion, sound, and readable presentation. |
+| [Gothic 3 look reference](docs/art/gothic3-reference.md) | Measurements and design rules from the owner's local Gothic 3 install (inspiration only). |
 | [Architecture](docs/engineering/architecture.md) | Candidate stack, simulation boundaries, saves, desktop packaging, performance, and engine evaluation. |
 | [Prototype](docs/engineering/prototype.md) | The playable build: controls, options, what is real versus placeholder, testing, save recovery, and known limitations. |
 | [Shared technology and assets](docs/engineering/shared-assets.md) | Verified upstream references, reuse candidates, adaptation work, and source records. |

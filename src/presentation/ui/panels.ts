@@ -52,6 +52,8 @@ export class PanelHost {
   private stack: Frame[] = [];
   onEmpty: (() => void) | null = null;
   onOpen: (() => void) | null = null;
+  /** Fired whenever the visible screen changes or closes. */
+  onChange: (() => void) | null = null;
 
   constructor() {
     this.el = h('div', { class: 'panel-root' });
@@ -94,6 +96,7 @@ export class PanelHost {
   back() {
     const top = this.stack.pop();
     top?.onClose?.();
+    this.onChange?.();
     if (this.stack.length === 0) {
       this.el.classList.remove('on');
       clear(this.el);
@@ -108,6 +111,7 @@ export class PanelHost {
     }
     this.el.classList.remove('on');
     clear(this.el);
+    this.onChange?.();
     this.onEmpty?.();
   }
 
@@ -393,10 +397,23 @@ export function slotsPanel(ctx: PanelCtx, mode: 'save' | 'load'): HTMLElement {
         'div',
         { class: 'row' },
         h('button', { class: `btn${mode === 'load' && !l.ok ? ' disabled' : ''}`, 'data-nav': true, onClick: () => (mode === 'save' ? ctx.actions.save(slot) : l.ok ? ctx.actions.load(slot) : null) }, mode === 'save' ? S('menu.save') : S('menu.load')),
-        l.ok || (!res.ok && res.kind === 'corrupt') ? h('button', { class: 'btn danger', 'data-nav': true, onClick: () => {
-          ctx.saves.delete(slot);
-          ctx.host.replaceTop(slotsPanel(ctx, mode));
-        } }, S('menu.delete')) : null,
+        // Deleting is only offered for a damaged slot, and asks first (a healthy save is overwritten from Save instead).
+        !res.ok && res.kind === 'corrupt'
+          ? (() => {
+              const b = h('button', { class: 'btn danger', 'data-nav': true }, S('menu.delete'));
+              let armed = false;
+              b.addEventListener('click', () => {
+                if (!armed) {
+                  armed = true;
+                  b.textContent = S('menu.deleteconfirm');
+                  return;
+                }
+                ctx.saves.delete(slot);
+                ctx.host.replaceTop(slotsPanel(ctx, mode));
+              });
+              return b;
+            })()
+          : null,
       ),
     );
   });
@@ -497,41 +514,62 @@ export function settingsPanel(ctx: PanelCtx): HTMLElement {
 
 function bindRow(ctx: PanelCtx, action: Action, commit: () => void): HTMLElement {
   const st = ctx.settings;
+  const label = (idx: number) => (st.bindings[action][idx] ? codeLabel(st.bindings[action][idx]!) : S('set.unbound'));
+  const note = h('span', { class: 'muted', role: 'status', 'aria-live': 'polite' });
   const slotBtn = (idx: number) => {
-    const b = h('button', { class: 'btn', 'data-nav': true, 'aria-label': `${S(`action.${action}`)} ${idx + 1}` }, st.bindings[action][idx] ? codeLabel(st.bindings[action][idx]!) : S('set.unbound'));
-    b.addEventListener('click', () => {
-      b.textContent = S('set.press');
+    const btn = h('button', { class: 'btn', 'data-nav': true, 'aria-label': `${S(`action.${action}`)} ${idx + 1}` }, label(idx));
+    const restore = () => {
+      btn.textContent = label(idx);
+    };
+    const assign = (code: string, displaced: Action | null) => {
+      if (displaced) {
+        // A true swap: the other action takes the key this slot held (or is left unbound and we say so).
+        const old = st.bindings[action][idx];
+        st.bindings[displaced] = st.bindings[displaced].filter((c) => c !== code);
+        if (old) st.bindings[displaced].push(old);
+        note.textContent = old
+          ? S('set.swapped', { other: S(`action.${displaced}`), key: codeLabel(old) })
+          : S('set.unbound_other', { other: S(`action.${displaced}`) });
+      } else note.textContent = '';
+      st.bindings[action][idx] = code;
+      st.bindings[action] = st.bindings[action].filter(Boolean);
+      commit();
+      ctx.toast(S('toast.bound', { action: S(`action.${action}`), key: codeLabel(code) }), 'good');
+      ctx.host.replaceTop(settingsPanel(ctx));
+    };
+    btn.addEventListener('click', () => {
+      btn.textContent = S('set.press');
+      note.textContent = S('set.cancelhint');
+      ctx.input.captureCancel = () => {
+        restore();
+        note.textContent = '';
+      };
       ctx.input.captureNext = (code) => {
         if (code === 'Escape') {
-          b.textContent = st.bindings[action][idx] ? codeLabel(st.bindings[action][idx]!) : S('set.unbound');
+          restore();
+          note.textContent = '';
           return;
         }
         const conflict = findConflict(st.bindings, action, code);
-        if (conflict) {
-          // First press reports the conflict; a second identical press swaps.
-          ctx.toast(S('toast.bindconflict', { key: codeLabel(code), action: S(`action.${conflict}`) }), 'bad');
-          b.textContent = S('set.press');
-          ctx.input.captureNext = (code2) => {
-            if (code2 === code) {
-              st.bindings[conflict] = st.bindings[conflict].filter((c) => c !== code);
-              st.bindings[action][idx] = code;
-              commit();
-              ctx.host.replaceTop(settingsPanel(ctx));
-            } else {
-              b.textContent = st.bindings[action][idx] ? codeLabel(st.bindings[action][idx]!) : S('set.unbound');
-            }
-          };
+        if (!conflict) {
+          assign(code, null);
           return;
         }
-        st.bindings[action][idx] = code;
-        commit();
-        ctx.toast(S('toast.bound', { action: S(`action.${action}`), key: codeLabel(code) }), 'good');
-        b.textContent = codeLabel(code);
+        // First press reports the conflict; pressing the same key again swaps the two.
+        note.textContent = S('toast.bindconflict', { key: codeLabel(code), action: S(`action.${conflict}`) });
+        ctx.toast(note.textContent, 'bad');
+        ctx.input.captureNext = (code2) => {
+          if (code2 === code) assign(code, conflict);
+          else {
+            restore();
+            note.textContent = '';
+          }
+        };
       };
     });
-    return b;
+    return btn;
   };
-  return h('div', { class: 'bind' }, h('span', {}, S(`action.${action}`)), slotBtn(0), slotBtn(1));
+  return h('div', { class: 'bind' }, h('span', {}, S(`action.${action}`)), slotBtn(0), slotBtn(1), note);
 }
 
 void DEFAULT_BINDINGS;

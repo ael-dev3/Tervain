@@ -1,6 +1,21 @@
 # Art, animation, audio, and interface direction
 
-**Status:** proposed production direction. The owner has established a serious, polished, original high-fantasy Steam game with a Templar-inspired order and useful sharing with Warpkeep. Lush stylized low-poly 3D, calm camera motion, bright readable lighting, and a translucent menu carry forward compatible Warpkeep preferences; they require a Tervain-specific benchmark rather than being treated as approved finished designs. See [vision](../vision.md), [decisions](../decisions.md), and [shared asset requirements](../engineering/shared-assets.md).
+**Status:** the visual direction below is **superseded in part by the owner's direction of 29 September 2026** (decisions A12–A14): the game looks like old-school Gothic 3, not like a bright stylized low-poly world, and the first area is modelled on Ardea. Read the [Direction update](#direction-update-29-september-2026) first; where it conflicts with later paragraphs, it wins. The owner has established a serious, polished, original high-fantasy Steam game with a Templar-inspired order and useful sharing with Warpkeep; calm camera motion and a translucent menu carry forward and still require a Tervain-specific benchmark. See [vision](../vision.md), [decisions](../decisions.md), and [shared asset requirements](../engineering/shared-assets.md).
+
+## Direction update, 29 September 2026
+
+The owner asked for old-school Gothic 3: **not cartoonish, rugged, rough around the edges, not perfect, not smooth, human**, with the first area as close to Ardea as possible (a lighthouse, a beach, a great deal of empty terrain, some trees, forests in the distance). Measurements and the design rules taken from the local game are in the [Gothic 3 look reference](gothic3-reference.md); nothing is copied from it.
+
+What this changes in practice:
+
+- **Palette and light.** Dark, dirty, desaturated albedo; low warm sun, cool shade, heavy haze (exponential fog), filmic tone mapping and one grade pass (split toning, S-curve, vignette, grain). Grass is dry olive, timber is grey-black, plaster is stained lime. The bright limestone, lime plaster and green grass of the earlier palette are retired.
+- **Composition.** Wide, empty ground with sparse features. Forests stand on the higher ground and in the distance; the heath carries a few lone wind-bent pines, dead trees and scrub. Landmarks are large and low or tall and thin: the lighthouse shaft is 17 m.
+- **Shapes.** Nothing is square. Posts lean, boards sit at different depths, roofs are built course by course and sag, stones are uneven, doors and shutters hang wrong.
+- **Vegetation.** Trees are skeletons of curved tapering tubes with leaf or needle cards hung on them (each card is a twig of individual leaves), at three levels of detail. Foliage is olive and dusty, not green; some leaves are dying.
+- **People.** Worn and human: sculpted faces with brow, nose and jaw, tapered limbs with bending knees and elbows, layered wool and leather in earth colours with dirty hems.
+- **The player's first minute.** The wagon has stopped on a grey beach; the sea is on one side, the jetty and lighthouse are ahead, and the road to Rillford leaves inland over open heath.
+
+The "three regional identities" table and the paragraphs that follow are otherwise still the plan for Alder Basin, Rimeward Heights and Saltward Expanse, but their colours are now read as *materials seen in Gothic 3 light*: dark, worn and muted.
 
 ## Visual promise
 

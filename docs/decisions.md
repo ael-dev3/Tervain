@@ -2,7 +2,7 @@
 
 Foundation date: 29 September 2026.
 
-**Accepted** means explicitly established by the owner in the project conversation. **Proposed** means a concrete recommendation to test or refine. **Open** means no choice has been made. **Deferred** means deliberately outside the first implementation scope. No entry below claims an implemented capability.
+**Accepted** means explicitly established by the owner in the project conversation. **Proposed** means a concrete recommendation to test or refine. **Open** means no choice has been made. **Deferred** means deliberately outside the first implementation scope. No entry in the decision tables claims an implemented capability; the change log at the end links to the prototype notes, which say what is implemented.
 
 ## Accepted direction
 
@@ -17,8 +17,12 @@ Foundation date: 29 September 2026.
 | A07 | Local faction interactions should be diverse. | Independent regional interests and internal disagreements are central. |
 | A08 | No keep-management focus; little warping initially. | Travel and personal participation carry the early experience. |
 | A09 | Minimize science-fiction presentation here. | The local world should sustain a high-fantasy reading. |
-| A10 | Share suitable assets and technology with Warpkeep. | Deliberate reuse and separate product/runtime responsibilities. |
+| A10 | Share suitable assets and technology with Warpkeep. | Deliberate reuse and separate product/runtime responsibilities. Shared **technology** (Three.js, the rooted wind model, a generated image-based sky light, streamed grass tiles) is used, with attribution. Warpkeep's runtime **models** are imported and archived under `assets/warpkeep/` but are not used or published in 0.0.x: their chunky, bright look conflicts with A12. See [shared assets](engineering/shared-assets.md). |
 | A11 | Seed the Tervain repository with a detailed outline. | This foundation is authorized documentation work, not authorization to release a game or alter Warpkeep production. |
+| A12 | The game must look like old-school Gothic 3: not cartoonish; rugged, rough around the edges, not perfect, not smooth, human. | Owner direction of 29 Sep 2026. Supersedes P11's lush stylized low-poly and bright lighting. See [Gothic 3 look reference](art/gothic3-reference.md) and the [art direction](art/art-audio-ui.md). |
+| A13 | The initial area is modelled as closely as possible on Ardea from Gothic 3: a coast with a lighthouse, a beach, a great deal of empty terrain, some trees, and forests in the distance. | Owner direction of 29 Sep 2026. Implemented as the Grey Strand and Lantern Point, with the player arriving by wagon on the beach and walking inland over the heath to the overlook and Rillford. The Bellwether Vale slice (P09) follows it. |
+| A14 | Local Gothic 3 files are for inspiration and measurement only. | Nothing from Gothic 3 is extracted into the repository, shipped, or used as an asset; the reference note records observations. |
+| A15 | The version stays 0.0.x until the owner approves a move to 0.1. | Owner direction. The current build is 0.0.2. |
 
 ## Proposed development baseline
 
@@ -32,9 +36,9 @@ Foundation date: 29 September 2026.
 | P06 | Tervain is also the name of the local setting. | Decide whether it denotes a region, island, continent, or country before final map production. |
 | P07 | Accord of the Wells, Alder Basin, Rimeward Heights, and Saltward Expanse form a working original setting. | World/narrative review. All invented lore and dates remain proposals. |
 | P08 | Six working powers: Templars, Hearth League, Marcher Houses, Rimeward Clans, Salt Concord, Ash Witnesses. | Test whether each has a distinct function and manageable content needs. |
-| P09 | Bellwether Vale / Rillford / “The Dry Bell” is the first complete slice. | Narrative and traversal prototype before polished environment production. |
+| P09 | Bellwether Vale / Rillford / “The Dry Bell” is the first complete slice, entered from the Grey Strand (see A13). | Narrative and traversal prototype before polished environment production. |
 | P10 | Slice target: 30–45 minute first pass; one main quest plus two supporting encounters; at most 12 named residents. | Playtest comprehension, pacing, performance, and authoring effort. |
-| P11 | Lush stylized low-poly 3D, practical materials, calm motion, and readable close-view details. | Art benchmark using original or appropriately sourced assets. Carries forward compatible Warpkeep art preferences. |
+| P11 | ~~Lush stylized low-poly 3D, practical materials, calm motion, and readable close-view details.~~ **Superseded by A12.** Calm motion, practical materials and readable close-view detail remain; lush, stylized, bright and low-poly do not. | Art benchmark using original or appropriately sourced assets. |
 | P12 | Local witnessed reputation; consequences expressed in routines, routes, supplies, and dialogue. | Quest state and persistence proof. |
 | P13 | Compact authored playable spaces with procedural tools for controlled dressing. | Traversal and encounter iteration. |
 | P14 | One melee kit, one utility rite, one creature family, and one hostile humanoid archetype in the slice. | Combat feel and production effort evaluation. |
@@ -73,3 +77,4 @@ These are scope boundaries for the foundation, not permanent bans. A later owner
 | --- | --- | --- |
 | 2026-09-29 | Selected Tervain; seeded original game outline and a proposed first playable. | A01–A11 recorded; P01–P15 proposed; O01–O12 unresolved. |
 | 2026-09-29 | Built a browser prototype of the first slice in TypeScript 7 with Three.js and Vite; documented in [prototype notes](engineering/prototype.md). | Evidence for P04, P09, P10 and P12 only. No decision changed: no engine or desktop runtime is selected, nothing is measured on a reference device, and the prototype uses no shared asset (O10). O12 is unchanged: residents cannot be killed in play, only made absent through a debug or harness state. |
+| 2026-09-29 | Owner direction: Gothic 3 look, an Ardea-like coastal start, local files for inspiration only, version stays 0.0.x. Rebuilt the presentation: new coast and headland, textured terrain, sea, trees with leaf cards, weathered buildings, worn people, a grade pass. | A12–A15 recorded; P11 superseded; A10 clarified. See [prototype notes](engineering/prototype.md). Version 0.0.2. No gameplay decision changed; O10 is unchanged (no shared model is used). |

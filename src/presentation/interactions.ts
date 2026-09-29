@@ -1,8 +1,7 @@
 import { S } from '../content/strings';
-import { INSPECT_POINTS } from '../content/inspect';
 import { NPCS } from '../content/npcs';
 import type { App } from '../app';
-import { hasFact } from '../game/state';
+import { hasFact, phaseIndex } from '../game/state';
 import { ARCHIVE_SHUTTER, BELL, INSPECT_LOCATIONS, LEDGER, MILL_WHEEL, PICKUP_LOCATIONS, RESULT_CHECKS, RITE_ALTAR, SHORTCUT, SLUICE, bySpec, frontOf } from '../world/layout';
 import type { NpcId } from '../game/types';
 
@@ -41,13 +40,13 @@ export function buildInteractables(app: App): Interactable[] {
 
   // Observations.
   for (const p of INSPECT_LOCATIONS) {
-    const pt = INSPECT_POINTS[p.id]!;
     list.push({
       id: `inspect:${p.id}`,
       pos: () => ({ x: p.x, z: p.z }),
       r: p.r,
       prompt: () => S(`prompt.inspect.${p.id}`),
-      enabled: () => (pt.requires ? true : true),
+      // Once an allocation is committed the same spot is where the result is checked; inspecting it again adds nothing.
+      enabled: () => (p.id === 'dry_channel' ? phaseIndex(st().quest.phase) < phaseIndex('committed') : true),
       act: () => app.inspect(p.id),
     });
   }

@@ -36,8 +36,12 @@ export class Input {
   gamepadConnected = false;
   /** Set by the UI while typing/rebinding so gameplay keys are ignored. */
   captureNext: ((code: string) => void) | null = null;
-  /** When true, only pause/UI actions are reported (menus and dialogue are open). */
+  /** True while menus, panels or dialogue are open: the browser keeps Tab, Space and the arrows for focus and buttons. */
   uiOpen = false;
+  /** Called when a pending rebind is cancelled (for example by a left click), so the UI can restore its label. */
+  captureCancel: (() => void) | null = null;
+  /** Set by the app when a click only exists to recapture the pointer; that click is not a gameplay press. */
+  swallowClick = false;
   padAxes = { lx: 0, ly: 0, rx: 0, ry: 0 };
   private toggles: Partial<Record<Action, boolean>> = {};
   private prevHeld: Partial<Record<Action, boolean>> = {};
@@ -79,7 +83,7 @@ export class Input {
     const tag = (e.target as HTMLElement | null)?.tagName;
     const typing = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
     if (typing && e.code !== 'Escape') return;
-    if (Input.BLOCKED_DEFAULTS.has(e.code) && !typing) {
+    if (Input.BLOCKED_DEFAULTS.has(e.code) && !typing && !this.uiOpen) {
       const b = this.getSettings().bindings;
       if (ACTIONS.some((a) => b[a].includes(e.code))) e.preventDefault();
     }
@@ -95,9 +99,19 @@ export class Input {
     this.device = 'keyboard';
     if (this.captureNext) {
       e.preventDefault();
+      // A left click is how the player operates the interface, so it cancels a rebind instead of becoming the binding.
+      if (e.button === 0) {
+        this.captureNext = null;
+        this.captureCancel?.();
+        return;
+      }
       const cb = this.captureNext;
       this.captureNext = null;
       cb(`Mouse${e.button}`);
+      return;
+    }
+    if (this.swallowClick) {
+      this.swallowClick = false;
       return;
     }
     // Only clicks that reach the 3D view count as gameplay input; UI panels handle their own clicks.
@@ -247,6 +261,12 @@ export class Input {
 
   zoom(): number {
     return this.wheel;
+  }
+
+  /** Drop this frame's button presses so a press that closed a menu does not also act in the world. */
+  consumePad() {
+    this.padPressed.clear();
+    this.pressedCodes.clear();
   }
 
   /** Whether the pressed action was caused by a device other than keyboard (for prompt glyphs). */

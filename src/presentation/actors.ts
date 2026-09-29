@@ -323,8 +323,10 @@ export class EnemyActor {
   }
 
   /** Called when the player perfectly blocks this enemy's strike. */
-  parried() {
+  parried(fromX = this.x, fromZ = this.z) {
     if (this.state === 'dead') return;
+    const d = Math.hypot(this.x - fromX, this.z - fromZ) || 1;
+    this.dashDir = { x: (this.x - fromX) / d, z: (this.z - fromZ) / d };
     this.state = 'stagger';
     this.t = 1.1;
     this.rig.hitFlash = 0.5;
@@ -382,8 +384,8 @@ export class EnemyActor {
       case 'idle': {
         if (p.alive && dist < this.cfg.notice) {
           const facing = Math.atan2(dx, dz);
-          let da = Math.abs(((facing - this.yaw + Math.PI) % (Math.PI * 2)) - Math.PI);
-          if (da > Math.PI) da = Math.PI * 2 - da;
+          // Shortest angular difference, valid however far the stored yaw has drifted.
+          const da = Math.abs(Math.atan2(Math.sin(facing - this.yaw), Math.cos(facing - this.yaw)));
           const seen = dist < 4.5 || da < 1.25;
           const blocked = ctx.colliders.segmentBlocked(this.x, this.z, p.x, p.z);
           if (seen && !blocked && fromSpawn < this.cfg.leash) {
@@ -457,6 +459,8 @@ export class EnemyActor {
           const cos = d > 0 ? ((p.x - this.x) * ax + (p.z - this.z) * az) / d : 1;
           if (d < this.cfg.reach + 0.5 && cos > 0.35 && p.alive) ctx.strikePlayer(this, this.cfg.damage, this.cfg.heavy);
         }
+        // A perfect block parries during the strike call: keep the stagger instead of overwriting it.
+        if (this.state !== 'strike') break;
         if (this.t >= this.cfg.strike) {
           this.state = 'recover';
           this.t = 0;

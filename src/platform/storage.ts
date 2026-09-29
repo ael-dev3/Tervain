@@ -97,7 +97,7 @@ export type LoadResult =
   | { ok: true; state: WorldState; summary: SaveSummary; recovered: null | 'previous' | 'temporary' }
   | { ok: false; kind: 'missing' | 'corrupt' | 'incompatible'; message: string };
 
-export const GAME_BUILD = 'prototype-0.0.1';
+export const GAME_BUILD = 'prototype-0.0.2';
 
 /** FNV-1a 32-bit: catches truncation and accidental edits, not tampering. */
 export function checksum(text: string): string {
@@ -219,7 +219,8 @@ export class SaveStore {
         return { ok: false, message: 'The written save did not verify; the previous save was kept.' };
       }
       const current = this.store.get(this.key(slot, 'cur'));
-      if (current !== null) this.store.set(this.key(slot, 'prev'), current);
+      // Keep the previous save only if the current one is itself intact; otherwise leave the older good copy alone.
+      if (current !== null && this.decode(current).ok) this.store.set(this.key(slot, 'prev'), current);
       this.store.set(this.key(slot, 'cur'), text);
       this.store.remove(this.key(slot, 'tmp'));
       return { ok: true };

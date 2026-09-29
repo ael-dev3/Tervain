@@ -3,7 +3,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
 
 /**
- * Loader and catalog for the runtime GLBs shared with Warpkeep (see public/models/warpkeep/manifest.json,
+ * Loader and catalog for the runtime GLBs shared with Warpkeep (see assets/warpkeep/manifest.json,
  * docs/engineering/asset-inventory.md and tools/import-warpkeep-assets.mjs). The GLBs are byte-exact
  * copies; this module never rewrites them, it only decodes and (optionally) instances them.
  */

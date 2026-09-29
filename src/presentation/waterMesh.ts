@@ -49,12 +49,12 @@ void main() {
   float w1 = sin(vAlong * 1.3 - uTime * speed + vAcross * 3.0);
   float w2 = sin(vAlong * 0.55 - uTime * speed * 0.7 - vAcross * 5.0);
   float ripple = smoothstep(0.55, 0.95, w1 * w2 * 0.5 + 0.5);
-  col += vec3(0.16, 0.2, 0.2) * ripple * (0.4 + uFlow);
+  col += vec3(0.07, 0.09, 0.09) * ripple * (0.4 + uFlow);
   float foam = smoothstep(0.82, 1.0, edge) * 0.55;
-  col = mix(col, vec3(0.9, 0.95, 0.92), foam * (0.4 + 0.6 * uFlow));
+  col = mix(col, vec3(0.62, 0.66, 0.62), foam * (0.3 + 0.5 * uFlow));
   // Thin water over mud reads brown-green.
   col = mix(col, vec3(0.42, 0.42, 0.3), (1.0 - smoothstep(0.05, 0.5, uFlow)) * 0.55);
-  col *= uLight;
+  col *= uLight * 0.62;
   float alpha = mix(0.55, 0.86, smoothstep(0.1, 0.8, uFlow)) * (1.0 - smoothstep(0.88, 1.0, edge) * 0.35);
   gl_FragColor = vec4(col, alpha);
   #include <fog_fragment>

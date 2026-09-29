@@ -405,6 +405,8 @@ kbd,
 
 .dialogue.on {
   display: block;
+  max-height: calc(100vh - 36px);
+  overflow-y: auto;
 }
 
 .dlg-name {

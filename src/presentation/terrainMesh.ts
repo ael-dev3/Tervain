@@ -1,83 +1,21 @@
 import * as THREE from 'three';
-import { FIELDS, STREAMS, WORLD } from '../world/layout';
-import { clamp, fbm, lerp, smoothstep } from '../world/noise';
-import { distToPolyline, roadWeight, type Terrain } from '../world/terrain';
+import { clamp, fbm, ridged, smoothstep } from '../world/noise';
+import type { Terrain } from '../world/terrain';
 import { PAL } from './kit';
+import { groundSplat } from './groundSplat';
+import { createTerrainMaterial } from './terrainMaterial';
+import type { TerrainTextures } from './terrainTextures';
 
-const c1 = new THREE.Color();
 const c2 = new THREE.Color();
 
-function waterDistance(x: number, z: number): number {
-  let d = Infinity;
-  for (const s of STREAMS) d = Math.min(d, distToPolyline(x, z, s.points).d);
-  return d;
-}
-
-function inField(x: number, z: number) {
-  for (const f of FIELDS) {
-    const dx = x - f.x;
-    const dz = z - f.z;
-    const lx = dx * Math.cos(f.yaw) - dz * Math.sin(f.yaw);
-    const lz = dx * Math.sin(f.yaw) + dz * Math.cos(f.yaw);
-    if (Math.abs(lx) < f.w / 2 && Math.abs(lz) < f.d / 2) return { f, lx, lz };
-  }
-  return null;
-}
-
-/** Colour of the ground at a point: moisture, slope, altitude, tracks and cultivated rows. */
-export function groundColor(terrain: Terrain, x: number, z: number, out: THREE.Color): THREE.Color {
-  const h = terrain.heightAt(x, z);
-  const slope = terrain.slopeAt(x, z);
-  const carve = terrain.carveAt(x, z);
-  const n = fbm(x / 22, z / 22, 3, 21) * 0.5 + 0.5;
-  const n2 = fbm(x / 6, z / 6, 2, 33) * 0.5 + 0.5;
-  const wet = 1 - smoothstep(3, 26, waterDistance(x, z));
-  const dry = clamp(1 - wet * 1.2, 0, 1) * smoothstep(0.35, 0.75, n);
-
-  c1.setHex(PAL.grassA).lerp(c2.setHex(PAL.grassB), n2);
-  c1.lerp(c2.setHex(PAL.moss), wet * 0.55);
-  c1.lerp(c2.setHex(PAL.grassGold), dry * 0.55);
-
-  // Forest floor darkens on hills with a soft noise mask.
-  const forest = smoothstep(0.55, 0.85, fbm(x / 35 + 40, z / 35 - 12, 3, 44) * 0.5 + 0.5) * smoothstep(3, 8, h);
-  c1.lerp(c2.setHex(PAL.forest), forest * 0.6);
-
-  // Cultivated rows.
-  const field = inField(x, z);
-  if (field) {
-    const stripe = 0.5 + 0.5 * Math.sin(field.lz * 2.6);
-    const base = field.f.crop === 'grain' ? PAL.grassGold : field.f.crop === 'greens' ? PAL.leafB : PAL.dirt;
-    c2.setHex(base).lerp(c1.clone().setHex(PAL.mud), stripe * 0.35);
-    c1.lerp(c2, 0.85);
-  }
-
-  // Rock on steep faces and high ground.
-  const rock = smoothstep(0.5, 0.85, slope) + smoothstep(22, 46, h) * 0.8;
-  c2.setHex(PAL.rockA).lerp(c1.clone().setHex(PAL.rockB), n2);
-  if (h > 40) c2.lerp(c1.clone().setHex(PAL.rockHigh), smoothstep(40, 70, h));
-  c1.lerp(c2, clamp(rock, 0, 1));
-
-  // Tracks and roads.
-  const road = roadWeight(x, z);
-  if (road > 0) {
-    c2.setHex(PAL.dirt).lerp(c1.clone().setHex(PAL.grassGold), n2 * 0.35);
-    c1.lerp(c2, road * 0.92);
-  }
-
-  // Channel beds: mud that shows whether or not water runs over it.
-  if (carve > 0.03) {
-    c2.setHex(PAL.mud).lerp(c1.clone().setHex(PAL.mudDry), n2 * 0.5);
-    c1.lerp(c2, clamp(carve * 1.8, 0, 1));
-  }
-  return out.copy(c1);
-}
-
-export function buildTerrainMesh(terrain: Terrain): THREE.Mesh {
+export function buildTerrainMesh(terrain: Terrain, tex: TerrainTextures): THREE.Mesh {
   const w = terrain.nx + 1;
   const h = terrain.nz + 1;
   const pos = new Float32Array(w * h * 3);
-  const col = new Float32Array(w * h * 3);
-  const color = new THREE.Color();
+  const splatA = new Float32Array(w * h * 4);
+  const splatB = new Float32Array(w * h * 4);
+  const wet = new Float32Array(w * h);
+  const sp = new Float32Array(8);
   for (let j = 0; j < h; j++) {
     for (let i = 0; i < w; i++) {
       const k = j * w + i;
@@ -86,13 +24,11 @@ export function buildTerrainMesh(terrain: Terrain): THREE.Mesh {
       pos[k * 3] = x;
       pos[k * 3 + 1] = terrain.vertexHeight(i, j);
       pos[k * 3 + 2] = z;
-      groundColor(terrain, x, z, color);
-      // Subtle vertex-level variation keeps the flat-shaded facets readable.
-      const v = (Math.sin(i * 12.9898 + j * 78.233) * 43758.5453) % 1;
-      const jit = (v - Math.floor(v) - 0.5) * 0.05;
-      col[k * 3] = clamp(color.r + jit, 0, 1);
-      col[k * 3 + 1] = clamp(color.g + jit, 0, 1);
-      col[k * 3 + 2] = clamp(color.b + jit, 0, 1);
+      wet[k] = groundSplat(terrain, x, z, sp);
+      for (let q = 0; q < 4; q++) {
+        splatA[k * 4 + q] = sp[q]!;
+        splatB[k * 4 + q] = sp[4 + q]!;
+      }
     }
   }
   const idx = new Uint32Array(terrain.nx * terrain.nz * 6);
@@ -113,38 +49,51 @@ export function buildTerrainMesh(terrain: Terrain): THREE.Mesh {
   }
   const geo = new THREE.BufferGeometry();
   geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-  geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+  geo.setAttribute('aSplatA', new THREE.BufferAttribute(splatA, 4));
+  geo.setAttribute('aSplatB', new THREE.BufferAttribute(splatB, 4));
+  geo.setAttribute('aWet', new THREE.BufferAttribute(wet, 1));
   geo.setIndex(new THREE.BufferAttribute(idx, 1));
   geo.computeVertexNormals();
-  const mat = new THREE.MeshStandardMaterial({ vertexColors: true, flatShading: true, roughness: 1, metalness: 0 });
-  const mesh = new THREE.Mesh(geo, mat);
+  geo.computeBoundingSphere();
+  const mesh = new THREE.Mesh(geo, createTerrainMaterial(tex));
   mesh.receiveShadow = true;
   mesh.matrixAutoUpdate = false;
+  mesh.name = 'terrain';
   return mesh;
 }
 
-/** A skirt of distant peaks beyond the playable world so the horizon has parallax and no visible edge. */
+/**
+ * A skirt of distant hills beyond the playable land so the horizon has parallax and no visible edge. On the west the skirt sinks below
+ * the sea: the horizon there is open water.
+ */
 export function buildFarMountains(): THREE.Mesh {
-  const rings = 3;
-  const segs = 72;
+  const rings = 5;
+  const segs = 220;
   const positions: number[] = [];
   const colors: number[] = [];
   const indices: number[] = [];
   const color = new THREE.Color();
-  const cx = 0;
+  const cx = -30;
   const cz = -20;
   for (let r = 0; r <= rings; r++) {
     for (let s = 0; s <= segs; s++) {
       const a = (s / segs) * Math.PI * 2;
-      const rad = 380 + r * 260;
-      const noise = fbm(Math.cos(a) * 3 + r, Math.sin(a) * 3 - r, 4, 91) * 0.5 + 0.5;
-      const peak = (r === 0 ? 40 : r === 1 ? 150 : r === 2 ? 210 : 140) + noise * (r === 0 ? 60 : 140);
-      const jag = fbm(a * 20 + r * 7, r * 3, 3, 12) * 30;
-      const y = r === rings ? peak * 0.5 : peak + jag;
-      positions.push(cx + Math.cos(a) * rad * 1.15, y - (r === 0 ? 12 : 0), cz + Math.sin(a) * rad * 0.9);
+      const rad = 380 + r * 170 + 30 * fbm(a * 4 + r, r * 2, 2, 3);
+      const cs = Math.cos(a);
+      const sn = Math.sin(a);
+      // Sharp ridges in three octaves, tall in the middle rings and falling off into the distance.
+      const ridge = ridged(cs * 5 + r * 1.7 + 4, sn * 5 - r * 2.3, 4, 17);
+      const crest = ridged(a * 30 + r * 5, r * 3, 3, 23);
+      const envelope = r === 0 ? 0.35 : r === 1 ? 0.75 : r === 2 ? 1 : r === 3 ? 0.9 : r === 4 ? 0.7 : 0.4;
+      let y = envelope * (28 + 240 * ridge + 60 * crest) - (r === 0 ? 22 : 0);
+      const west = smoothstep(-0.1, -0.55, cs);
+      y = y * (1 - west) + west * -6;
+      positions.push(cx + cs * rad * 1.25, y, cz + sn * rad * 0.95);
       const t = clamp(y / 260, 0, 1);
-      color.setHex(PAL.forest).lerp(c2.setHex(PAL.rockA), smoothstep(0.15, 0.6, t)).lerp(c2.setHex(0xe0e2e4), smoothstep(0.8, 1, t) * 0.35);
-      colors.push(color.r, color.g, color.b);
+      color.setHex(PAL.forest).lerp(c2.setHex(PAL.rockB), smoothstep(0.12, 0.55, t)).lerp(c2.setHex(0x9a9a98), smoothstep(0.75, 1, t) * 0.3);
+      // Banding: darker forested lower slopes, lighter screes, streaks along the ridges.
+      const bandK = 0.8 + 0.4 * ridged(a * 45 + r * 9, y * 0.02, 2, 31);
+      colors.push(color.r * bandK, color.g * bandK, color.b * bandK);
     }
   }
   const row = segs + 1;
@@ -161,7 +110,5 @@ export function buildFarMountains(): THREE.Mesh {
   geo.computeVertexNormals();
   const mesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ vertexColors: true, flatShading: true, roughness: 1, fog: true, side: THREE.DoubleSide }));
   mesh.matrixAutoUpdate = false;
-  void lerp;
-  void WORLD;
   return mesh;
 }
