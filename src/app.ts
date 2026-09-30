@@ -3,7 +3,6 @@ import { NPCS } from './content/npcs';
 import { S } from './content/strings';
 import { CLOCK_RATE } from './game/constants';
 import { Game } from './game/game';
-import { getNode } from './game/dialogue';
 import { nextHint } from './game/hints';
 import { INSPECT_POINTS } from './content/inspect';
 import { ITEMS } from './content/items';
@@ -23,14 +22,16 @@ import { Grade } from './presentation/grade';
 import { buildInteractables, type Interactable } from './presentation/interactions';
 import { Player } from './presentation/player';
 import { Hud } from './presentation/ui/hud';
-import { DialogueView, type DlgChoice } from './presentation/ui/dialogueView';
 import { MapView } from './presentation/ui/map';
-import { PanelHost, aboutPanel, controlsPanel, describeMissing, inventoryPanel, journalPanel, noticePanel, pauseMenu, settingsPanel, sluicePanel, slotsPanel, type PanelActions, type PanelCtx } from './presentation/ui/panels';
+import { PanelHost, aboutPanel, controlsPanel, inventoryPanel, journalPanel, noticePanel, pauseMenu, settingsPanel, sluicePanel, slotsPanel, type PanelActions, type PanelCtx } from './presentation/ui/panels';
 import { h, clear } from './presentation/ui/dom';
+import { createMenuScreen } from './presentation/ui/menuView';
+import { installMenuMaterials } from './presentation/ui/menuMaterials';
 import { AssetLibrary } from './presentation/assets/library';
 import { ALL_NEEDS } from './presentation/assets/needs';
 import { setRigShadow } from './presentation/characters';
 import { WorldScene } from './presentation/world';
+import { MenuScene } from './presentation/menuScene';
 import { disposeSceneResources } from './presentation/disposeScene';
 import { GAME_VERSION } from './version';
 
@@ -48,13 +49,13 @@ export class App {
   grade!: Grade;
   private lastFrameDt = 1 / 60;
   world!: WorldScene;
+  private menuScene!: MenuScene;
   library: AssetLibrary = AssetLibrary.empty();
   cam = new CameraRig();
   player = new Player();
   npcs: NpcActor[] = [];
   enemies: EnemyActor[] = [];
   hud = new Hud();
-  dialogue = new DialogueView();
   panels = new PanelHost();
   mapView = new MapView();
   interactables: Interactable[] = [];
@@ -67,16 +68,12 @@ export class App {
   private debugPre!: HTMLElement;
   private mapCanvas: HTMLCanvasElement | null = null;
   private panelKind: 'none' | 'pause' | 'journal' | 'inventory' | 'map' | 'notice' | 'sluice' | 'other' = 'none';
-  private dlgNpc: NpcActor | null = null;
-  private dlgNode = '';
-  private dlgNarrator = false;
   private frameClock = new FrameClock();
   private worldBuilding = false;
   private clockAcc = 0;
   private worldDirty = true;
   private bellClock = 4;
   private checkpoint = { x: SPAWN.x, z: SPAWN.z, yaw: SPAWN.yaw };
-  private pendingOpening = 0;
   private hitStop = 0;
   private frameTimes: number[] = [];
   private fpsSmooth = 60;
@@ -106,6 +103,8 @@ export class App {
     this.input = new Input(this.canvas, () => this.settings);
     this.applyUiSettings();
     this.buildShell();
+    // The menu surfaces (dust, leather, bronze, parchment) also dress the loading screen, so make them first.
+    installMenuMaterials();
     this.loadingEl.textContent = S('menu.loading');
 
     try {
@@ -120,6 +119,7 @@ export class App {
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
     this.grade = new Grade(this.renderer, { msaa: this.settings.quality !== 'low' });
+    this.menuScene = new MenuScene({ quality: this.settings.quality });
     this.applyPixelRatio();
     window.addEventListener('resize', () => this.onResize());
     this.onResize();
@@ -138,8 +138,6 @@ export class App {
 
     this.audio.onCaption = (t) => this.settings.captions && this.hud.caption(t);
     this.game.subscribe((ev) => this.onGameEvents(ev));
-    this.dialogue.onChoose = (i) => this.onDialogueChoose(i);
-    this.dialogue.onExit = () => this.endDialogue();
     this.input.onNavigate = (dx, dy) => this.onPadNavigate(dx, dy);
 
     document.addEventListener('pointerlockchange', () => this.onPointerLockChange());
@@ -185,8 +183,6 @@ export class App {
     if (!q.has('shot')) return;
     const num = (k: string, d: number) => (q.has(k) ? Number(q.get(k)) : d);
     this.startNew();
-    this.pendingOpening = -1;
-    this.game.state.npcs.caravan_master.met = true;
     const place = q.get('place') as PlaceId | null;
     if (q.has('x') && q.has('z')) this.player.setPosition(num('x', 0), num('z', 0), num('face', 0), this.world.terrain);
     else if (place && place in PLACES) this.teleport(place);
@@ -221,7 +217,7 @@ export class App {
     }
     if (Object.keys(grade).length) this.grade.setLook(grade);
     if (q.has('bloom')) this.grade.setBloom(q.get('bloom') !== '0');
-    this.settings.reducedMotion = true;
+    this.settings.reducedMotion = q.get('motion') !== '1';
     this.applyUiSettings();
     for (let i = 0; i < num('settle', 120); i++) {
       this.step(1 / 30);
@@ -237,13 +233,16 @@ export class App {
     this.titleEl = h('div', { class: 'title' });
     this.debugPre = h('pre', { class: 'debug' });
     this.debugEl = h('div', { class: 'panel surface-paper', style: { position: 'absolute', right: '12px', top: '90px', width: 'min(420px, 92vw)', maxHeight: '80vh', overflow: 'auto', display: 'none', pointerEvents: 'auto', zIndex: '5' } });
-    this.uiRoot.append(this.hud.el, this.dialogue.el, this.titleEl, this.panels.el, this.debugEl, this.loadingEl);
+    this.uiRoot.append(this.hud.el, this.titleEl, this.panels.el, this.debugEl, this.loadingEl);
     this.panels.onEmpty = () => this.onPanelsClosed();
     this.panels.onChange = () => {
       // A pending rebind never outlives the screen it was started on.
       this.input.captureNext = null;
+      this.titleEl.inert = this.panels.isOpen;
+      this.syncMenuHudVisibility();
     };
     this.panels.onOpen = () => {
+      this.titleEl.inert = true;
       this.input.uiOpen = true;
       this.releaseLock();
     };
@@ -300,6 +299,7 @@ export class App {
     const dpr = this.renderer.getPixelRatio();
     this.grade.setSize(w * dpr, h2 * dpr);
     this.cam.setAspect(w / h2);
+    this.menuScene.resize(w, h2);
   }
 
   /* ============================== settings ============================== */
@@ -319,6 +319,12 @@ export class App {
     if (reload && this.renderer) {
       const before = { x: this.player.x, z: this.player.z, yaw: this.player.yaw };
       this.loadingEl.classList.remove('off');
+      // The menu vigil follows the graphics preset too (it is on screen while Settings is open).
+      if (this.menuScene.quality !== this.settings.quality) {
+        this.menuScene.dispose();
+        this.menuScene = new MenuScene({ quality: this.settings.quality });
+        this.menuScene.resize(window.innerWidth, window.innerHeight);
+      }
       void this.buildWorld().then(() => {
         this.player.setPosition(before.x, before.z, before.yaw, this.world.terrain);
         this.world.scene.add(this.player.group);
@@ -329,8 +335,7 @@ export class App {
 
   /* =========================== mode transitions ========================== */
 
-  get overlay(): 'none' | 'dialogue' | 'panel' {
-    if (this.dialogue.open) return 'dialogue';
+  get overlay(): 'none' | 'panel' {
     if (this.panels.isOpen) return 'panel';
     return 'none';
   }
@@ -338,7 +343,6 @@ export class App {
   private enterTitle() {
     this.mode = 'title';
     this.hud.show(false);
-    this.dialogue.hide();
     this.panels.closeAll();
     this.input.uiOpen = true;
     this.releaseLock();
@@ -367,9 +371,7 @@ export class App {
       btn(S('menu.controls'), () => this.panels.push(controlsPanel(this.panelCtx()))),
       btn(S('menu.about'), () => this.panels.push(aboutPanel(this.panelCtx()))),
     );
-    this.titleEl.append(
-      h('div', { class: 'card surface-timber' }, h('h1', {}, S('game.title').toUpperCase()), h('div', { class: 'subtitle' }, S('game.subtitle')), h('p', { class: 'tagline' }, S('game.tagline')), menu, h('div', { class: 'hint-line' }, `v${GAME_VERSION}`)),
-    );
+    this.titleEl.append(createMenuScreen({ menu, subtitle: S('menu.affiliation'), version: GAME_VERSION, variant: 'title' }));
     this.focusTitle();
   }
 
@@ -381,7 +383,7 @@ export class App {
     this.panels.push(
       h(
         'div',
-        {},
+        { class: 'tv-confirm' },
         h('h1', {}, S('menu.new')),
         h('p', {}, S('menu.newconfirm')),
         h('div', { class: 'row', style: { marginTop: '12px' } }, h('button', { class: 'btn primary', 'data-nav': true, onClick: () => {
@@ -396,15 +398,21 @@ export class App {
   startNew() {
     this.game.replaceState(createInitialState('slot-1'));
     this.beginPlay(null);
-    this.pendingOpening = 1.4;
+    // A brief notice leaves movement, look and the world clock running. The journal keeps the premise.
+    this.hud.toast(S('arrival.wake'));
+    this.hud.caption(S('arrival.controls', {
+      move: this.input.label('forward', codeLabel),
+      interact: this.input.label('interact', codeLabel),
+      journal: this.input.label('journal', codeLabel),
+    }));
   }
 
   private beginPlay(fromLoad: { recovered: null | 'previous' | 'temporary' } | null) {
     this.titleEl.classList.remove('on');
     this.panels.closeAll();
-    this.dialogue.hide();
     this.mode = 'play';
     this.hud.show(true);
+    this.syncMenuHudVisibility();
     this.hud.showFade(false);
     this.input.uiOpen = false;
     this.clockAcc = 0;
@@ -501,19 +509,17 @@ export class App {
     const playing = this.mode === 'play' && this.overlay === 'none' && overlayAtStart === 'none';
     if (this.bench.active) this.stepBenchmark(dt);
 
-    const hour = hourOfDay(state.clock + this.clockAcc);
-    const focus = new THREE.Vector3(this.player.x, this.player.y, this.player.z);
-
-    if (this.mode === 'title') {
-      this.cam.title(dt, this.world.terrain, this.settings.reducedMotion);
-      focus.copy(this.cam.camera.position);
-      focus.y = 0;
-      this.updateActors(dt, hour);
-      this.world.update(dt, state, new THREE.Vector3(-14, 0, -86), this.settings, hour, this.cam.camera);
-      this.audioUpdate(dt, this.cam.camera.position, hour);
+    if (this.menuBackgroundActive) {
+      // The menu vigil is cosmetic. No patrols or game clock run beneath it.
+      this.menuScene.update(dt, this.settings.reducedMotion);
+      // An open headland: wind, and the sea breaking somewhere below. Only the existing procedural beds play.
+      this.audio.update(dt, { nightness: 0.3, waterProximity: 0, seaProximity: 0.32, flow: 0,
+        millNear: 0, millTurning: false, windAmount: 0.6, quarryNear: 0,
+        quarryWorking: false, time: this.audioClock, underRoof: false });
       this.render();
       return;
     }
+    const hour = hourOfDay(state.clock + this.clockAcc);
 
     // A sealed archive never traps someone inside: the door and shutter only close behind the player once they are out.
     const inArchive = this.world.insideArchive(this.player.x, this.player.z);
@@ -543,17 +549,9 @@ export class App {
     }
 
     // Camera look
-    if (playing || this.overlay === 'dialogue') {
+    if (playing) {
       const look = this.input.look(dt);
-      if (playing) this.cam.applyLook(look.yaw, look.pitch, this.input.zoom());
-    }
-
-    if (playing && this.pendingOpening > 0) {
-      this.pendingOpening -= dt;
-      if (this.pendingOpening <= 0) {
-        const joss = this.npcs.find((n) => n.id === 'caravan_master');
-        if (joss && !this.game.state.npcs.caravan_master.met) this.startDialogue(joss);
-      }
+      this.cam.applyLook(look.yaw, look.pitch, this.input.zoom());
     }
 
     // Simulation
@@ -597,7 +595,6 @@ export class App {
     if (this.panelKind === 'map' && this.mapCanvas) this.renderMap();
     this.updateDebug(dt);
     this.render();
-    void focus;
   }
 
   /** People beyond a short distance stop casting shadows; the shadow map only covers the near ground anyway. */
@@ -610,8 +607,34 @@ export class App {
   }
 
   private render() {
+    if (this.menuBackgroundActive) {
+      this.menuScene.prepare(this.renderer);
+      this.renderer.toneMappingExposure = 1.05 * this.settings.brightness;
+      if (!this.worldLook) this.worldLook = this.grade.getLook();
+      this.grade.setLook({ ...App.MENU_LOOK, night: 0 });
+      this.grade.render(this.menuScene.scene, this.menuScene.camera, this.settings.reducedMotion ? 0 : this.lastFrameDt);
+      return;
+    }
+    this.renderer.toneMappingExposure = 1.22;
+    if (this.worldLook) {
+      this.grade.setLook(this.worldLook);
+      this.worldLook = null;
+    }
     this.grade.setLook({ night: this.world.sky.state.nightness });
-    this.grade.render(this.world.scene, this.cam.camera, this.lastFrameDt);
+    this.grade.render(this.world.scene, this.cam.camera, this.lastFrameDt, this.world.waterRenderInputs(this.settings));
+  }
+
+  /** The menu's picture is rougher than play: an old painted backdrop, grainy and darkened at the edges. */
+  private static readonly MENU_LOOK = { saturation: 0.9, contrast: 1.07, vignette: 0.3, grain: 0.03, chromatic: 0.0012 };
+  private worldLook: ReturnType<Grade['getLook']> | null = null;
+
+  private get menuBackgroundActive() {
+    return this.mode === 'title' || (this.panelKind === 'pause' && this.panels.isOpen);
+  }
+
+  private syncMenuHudVisibility() {
+    // Nested pause forms retain the courtyard even though the top panel is now paper.
+    this.hud.el.classList.toggle('menu-hidden', this.menuBackgroundActive);
   }
 
   /* ============================== input glue ============================== */
@@ -624,20 +647,17 @@ export class App {
       return;
     }
     if (inp.pressed('pause')) {
-      if (this.overlay === 'dialogue') this.endDialogue();
-      else if (this.panels.isOpen) this.panels.back();
+      if (this.panels.isOpen) this.panels.back();
       else if (this.mode === 'play') this.openPause();
     }
     this.handleMenuPad();
     if (this.mode !== 'play') return;
-    if (this.overlay !== 'dialogue') {
-      // Tab, M and I only toggle their own panel; inside another panel Tab is ordinary focus movement.
-      const open = this.panels.isOpen;
-      const padBusy = inp.device === 'gamepad' && open;
-      if (inp.pressed('journal') && !padBusy && (!open || this.panelKind === 'journal')) this.togglePanel('journal');
-      if (inp.pressed('map') && (!open || this.panelKind === 'map')) this.togglePanel('map');
-      if (inp.pressed('inventory') && !padBusy && (!open || this.panelKind === 'inventory')) this.togglePanel('inventory');
-    }
+    // Tab, M and I only toggle their own panel; inside another panel Tab is ordinary focus movement.
+    const open = this.panels.isOpen;
+    const padBusy = inp.device === 'gamepad' && open;
+    if (inp.pressed('journal') && !padBusy && (!open || this.panelKind === 'journal')) this.togglePanel('journal');
+    if (inp.pressed('map') && (!open || this.panelKind === 'map')) this.togglePanel('map');
+    if (inp.pressed('inventory') && !padBusy && (!open || this.panelKind === 'inventory')) this.togglePanel('inventory');
     if (this.overlay === 'none') {
       if (inp.pressed('quicksave')) this.saveTo('quick');
       if (inp.pressed('quickload')) this.loadSlot('quick');
@@ -647,20 +667,12 @@ export class App {
   }
 
   private handleMenuPad() {
-    // Gamepad confirm/back inside dialogue and panels.
+    // Gamepad confirm/back inside panels.
     let handled = false;
-    if (this.overlay === 'dialogue') {
+    if (this.panels.isOpen || this.mode === 'title') {
       if (this.input.padButtonPressed(0)) {
-        this.dialogue.confirmFocused();
-        handled = true;
-      }
-      if (this.input.padButtonPressed(1)) {
-        this.endDialogue();
-        handled = true;
-      }
-    } else if (this.panels.isOpen || this.mode === 'title') {
-      if (this.input.padButtonPressed(0)) {
-        this.panels.activateFocused();
+        if (this.panels.isOpen) this.panels.activateFocused();
+        else if (this.titleEl.contains(document.activeElement)) (document.activeElement as HTMLElement).click();
         handled = true;
       }
       if (this.input.padButtonPressed(1) && this.panels.isOpen) {
@@ -668,15 +680,21 @@ export class App {
         handled = true;
       }
     }
-    // Menu presses belong to the menu; they must not also become an attack, a dodge or a new conversation.
+    // Menu presses belong to the menu; they must not also become an attack, a dodge or a world interaction.
     if (handled) this.input.consumePad();
   }
 
   /** Arrow keys move focus between menu items (Tab and Space are left to the browser for focus and activation). */
   private onUiKey(e: KeyboardEvent) {
-    if (this.dialogue.open) return;
     if (!(this.mode === 'title' || this.panels.isOpen)) return;
     if (this.input.captureNext) return;
+    // Preserve the bound Tab toggle for a directly opened record panel. Nested menus use Tab for focus.
+    const record = this.panelKind;
+    if (e.code === 'Tab' && this.panels.depth === 1 && (record === 'journal' || record === 'map' || record === 'inventory') && this.settings.bindings[record].includes(e.code)) {
+      e.preventDefault();
+      return;
+    }
+    if (this.panels.trapTab(e)) return;
     const el = document.activeElement as HTMLElement | null;
     const isRange = el instanceof HTMLInputElement && el.type === 'range';
     const isSelect = el instanceof HTMLSelectElement;
@@ -715,8 +733,7 @@ export class App {
         return;
       }
     }
-    if (this.overlay === 'dialogue') this.dialogue.navigate(dy !== 0 ? dy : dx);
-    else if (this.panels.isOpen) this.panels.navigate(dx, dy);
+    if (this.panels.isOpen) this.panels.navigate(dx, dy);
     else if (this.mode === 'title') {
       const items = [...this.titleEl.querySelectorAll<HTMLElement>('[data-nav]')];
       const i = items.indexOf(document.activeElement as HTMLElement);
@@ -746,6 +763,7 @@ export class App {
   }
 
   private onPanelsClosed() {
+    this.titleEl.inert = false;
     this.panelKind = 'none';
     this.mapCanvas = null;
     if (this.mode === 'title') this.focusTitle();
@@ -833,76 +851,17 @@ export class App {
     this.panels.push(noticePanel(this.panelCtx()), { narrow: true });
   }
 
-  /* ============================= dialogue ============================== */
+  /* ========================= silent observation ========================= */
 
-  startDialogue(npc: NpcActor) {
-    const node = this.game.entryNode(npc.id);
-    if (!node) return;
-    this.dlgNpc = npc;
-    npc.talking = true;
-    this.dlgNarrator = false;
-    this.input.uiOpen = true;
-    this.releaseLock();
-    this.audio.interact();
-    this.showNode(node);
+  /** 0.0.5 is an exploration opening: looking at a person never picks a conversation reply. */
+  observeNpc(npc: NpcActor) {
+    const observation = this.game.observeNpc(npc.id);
+    if (observation.ok) this.hud.toast(S(observation.key));
   }
 
-  private showNarration(text: string, name = '') {
-    this.dlgNpc = null;
-    this.dlgNarrator = true;
-    this.dlgNode = '__narration';
-    this.input.uiOpen = true;
-    this.releaseLock();
-    this.dialogue.show({ name, title: '', text, choices: [{ index: 0, label: S('dlg.continue'), locked: false, reasons: [] }] });
-  }
-
-  private showNode(nodeId: string) {
-    this.dlgNode = nodeId;
-    this.game.showNode(nodeId);
-    const node = getNode(nodeId);
-    if (!node) {
-      this.endDialogue();
-      return;
-    }
-    const state = this.game.state;
-    const speaker = node.speaker === 'narrator' ? null : NPCS[node.speaker];
-    const choices: DlgChoice[] = this.game.choices(nodeId).map((v) => ({
-      index: v.index,
-      label: S(v.choice.text),
-      intent: v.choice.intent,
-      locked: v.locked,
-      reasons: v.locked ? describeMissing(v.missing, state) : [],
-    }));
-    this.dialogue.show({ name: speaker?.name ?? '', title: speaker ? S(speaker.titleKey) : '', text: S(node.text), choices });
-    this.worldDirty = true;
-  }
-
-  private onDialogueChoose(index: number) {
-    if (this.dlgNarrator) {
-      this.endDialogue();
-      return;
-    }
-    const r = this.game.choose(this.dlgNode, index);
-    if (!r.ok) {
-      this.hud.toast(S('dlg.failed', { reason: r.reason }), 'bad');
-      this.showNode(this.dlgNode);
-      return;
-    }
-    this.audio.uiConfirm();
-    if (r.next === 'end') this.endDialogue();
-    else this.showNode(r.next);
-  }
-
-  endDialogue() {
-    this.dialogue.hide();
-    if (this.dlgNpc) this.dlgNpc.talking = false;
-    this.dlgNpc = null;
-    this.dlgNarrator = false;
-    if (this.mode === 'play') {
-      this.input.uiOpen = false;
-      this.wantLock();
-    }
-    this.worldDirty = true;
+  /** Inspection text is nonblocking; its evidence and personal observations remain in the journal. */
+  private showObservation(text: string) {
+    this.hud.toast(text, 'evidence');
   }
 
   /* ============================= interactions ============================= */
@@ -958,7 +917,7 @@ export class App {
       this.openNotice();
       return;
     }
-    this.showNarration(S(pt.noticeKey), S('prompt.inspect'));
+    this.showObservation(S(pt.noticeKey));
   }
 
   pickup(id: string, item: ItemId, qty: number) {
@@ -1034,7 +993,7 @@ export class App {
     const r = this.game.dispatch({ t: 'readLedger' });
     if (!r.ok) return;
     this.audio.journal();
-    this.showNarration(S('narr.ledger'), S('prompt.ledger'));
+    this.showObservation(S('narr.ledger'));
   }
 
   performRite() {
@@ -1456,7 +1415,7 @@ export class App {
         btn('Heal + stamina', () => this.debugHeal()),
       ),
       h('h2', {}, 'Benchmark'),
-      h('p', { class: 'muted' }, 'Runs a fixed camera route (about 55 s) and reports median/95th/99th percentile frame times for this device, renderer and quality preset.'),
+      h('p', { class: 'muted' }, 'Runs a fixed camera route from the landing through the woodland and town (about 72 s) and reports median/95th/99th percentile frame times for this device, renderer and quality preset.'),
       h('div', { class: 'pillrow' }, btn('Run benchmark route', () => this.startBenchmark()), btn('Copy report', () => navigator.clipboard?.writeText(this.debugPre.textContent ?? ''))),
     );
   }
@@ -1469,11 +1428,13 @@ export class App {
     const info = this.renderer.info;
     const st = this.frameStats();
     const s = this.game.state;
+    const audio = this.audio.diagnostics;
     const lines = [
       `frames ${st.frames}  median ${st.median.toFixed(1)} ms  p95 ${st.p95.toFixed(1)}  p99 ${st.p99.toFixed(1)}  max ${st.max.toFixed(1)}`,
       `draw calls ${info.render.calls}  triangles ${info.render.triangles}  geometries ${info.memory.geometries}  textures ${info.memory.textures}`,
       `modules: ${this.world.modules.map((m) => `${m.name} ${JSON.stringify(m.module.stats?.() ?? {})}`).join(' | ')}  build ${this.world.buildStats.ms.toFixed(0)} ms`,
       `build ${GAME_VERSION} rev ${REVISION}  quality ${this.settings.quality}  dpr ${this.renderer.getPixelRatio()}  ${window.innerWidth}x${window.innerHeight}`,
+      `audio ${audio.state}  voices ${audio.voices}  ${audio.sampleRate} Hz  device-reported base buffer ${audio.baseLatency === null ? 'unavailable' : `${(audio.baseLatency * 1000).toFixed(1)} ms`}`,
       `player ${this.player.x.toFixed(1)}, ${this.player.z.toFixed(1)}  hp ${s.player.health}  clock ${formatClock(s.clock)} day ${clockDay(s.clock) + 1}`,
       `phase ${s.quest.phase}  gate ${s.quest.gate}  alloc ${s.quest.allocation ?? '-'}  entry ${s.quest.entry ?? '-'}`,
       `evidence ${EVIDENCE_IDS.filter((e) => s.evidence[e]).join(', ') || '-'}`,
@@ -1536,6 +1497,9 @@ export class App {
     const T = this.world.terrain;
     const H = (x: number, z: number, up: number) => new THREE.Vector3(x, T.heightAt(x, z) + up, z);
     const route: { p: THREE.Vector3; look: THREE.Vector3 }[] = [
+      { p: H(SPAWN.x, SPAWN.z, 3), look: H(-243, 22, 2) },
+      { p: H(-224, 22, 2.6), look: H(-202, 12, 3) },
+      { p: H(-178, 12, 2.6), look: H(-150, 24, 3) },
       { p: H(-128, 22, 3), look: H(-90, 18, 2) },
       { p: H(-60, 16, 2.5), look: H(0, 8, 2) },
       { p: H(-8, 20, 2.2), look: H(10, 4, 2) },

@@ -15,7 +15,8 @@ export function nextHint(s: WorldState): Hint {
   if (q.phase === 'settled') return { key: 'hint.settled', place: null };
   if (q.phase === 'committed') return { key: 'hint.check_result', place: 'rillford' };
   if (q.phase === 'decision_ready') return { key: 'hint.decide', place: 'sluice' };
-  if (!s.discovered.rillford && q.phase === 'unseen') return { key: 'hint.walk_to_rillford', place: 'rillford' };
+  if (!s.discovered.deepwood && !s.discovered.rillford && q.phase === 'unseen') return { key: 'hint.find_woodland_track', place: null };
+  if (!s.discovered.rillford && q.phase === 'unseen') return { key: 'hint.follow_woodland_track', place: null };
   if (q.phase === 'unseen') return { key: 'hint.look_around', place: 'rillford' };
   if (q.gate === 'jammed') return { key: 'hint.jammed', place: 'sluice' };
   if (!has('dry_channel')) return { key: 'hint.see_dry_channel', place: 'rillford' };

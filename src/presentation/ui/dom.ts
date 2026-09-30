@@ -28,6 +28,13 @@ export function clear(el: Element) {
   while (el.firstChild) el.removeChild(el.firstChild);
 }
 
+/** Native controls inside the visible modal, in browser Tab order. Decorations never enter this list. */
+export function focusableElements(root: HTMLElement): HTMLElement[] {
+  const selector = 'button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), a[href], [tabindex]';
+  return [...root.querySelectorAll<HTMLElement>(selector)]
+    .filter((element) => element.tabIndex >= 0 && element.offsetParent !== null && !element.closest('[inert]'));
+}
+
 /** Move focus among `[data-nav]` elements inside root (for keyboard and controller menus). */
 export function moveFocus(root: HTMLElement, dx: number, dy: number) {
   const items = [...root.querySelectorAll<HTMLElement>('[data-nav]:not([disabled])')].filter((e) => e.offsetParent !== null);

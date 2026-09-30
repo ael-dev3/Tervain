@@ -2,6 +2,8 @@
 
 Status: proposed sequence. No calendar release date, staffing level, funding, or full-game duration has been agreed.
 
+The current `0.0.5` pass is an owner-directed forest-arrival exploration revision ([A27](../decisions.md)). It moves settlement inland and removes dialogue windows while retaining the earlier simulation and authored graphs. This does not complete M1–M4 or the full Dry Bell player loop; conversation-dependent quest/service access needs future interface work. Current implementation and validation status are in the [release handoff](releases/0.0.5.md).
+
 ## Milestones
 
 | Stage | Deliverable | Exit evidence | Scope guard |

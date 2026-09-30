@@ -1,9 +1,9 @@
 {
   "name": "tervain",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "private": true,
   "type": "module",
-  "description": "Tervain vertical-slice prototype: Bellwether Vale / The Dry Bell",
+  "description": "Tervain exploration prototype: silent Grey Strand arrival / Templar deepwood",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",

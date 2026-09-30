@@ -1,4 +1,5 @@
 import { applyEffects, execute } from './commands';
+import { NPC_OBSERVATIONS } from '../content/arrival';
 import { getNode, pickEntryNode, visibleChoices } from './dialogue';
 import { cloneState, createInitialState, evalAll } from './state';
 import type { Command, CommandResult, GameEvent, NpcId, WorldState } from './types';
@@ -62,6 +63,12 @@ export class Game {
   tickClock(minutes: number) {
     if (minutes <= 0) return;
     this.dispatch({ t: 'advanceClock', minutes });
+  }
+
+  /** Observe a visible person without speaking, meeting them or choosing their quest branch. */
+  observeNpc(npc: NpcId): { ok: true; key: string } | { ok: false } {
+    if (!this.state.npcs[npc].available) return { ok: false };
+    return { ok: true, key: NPC_OBSERVATIONS[npc] };
   }
 
   /* ---------- Dialogue ---------- */

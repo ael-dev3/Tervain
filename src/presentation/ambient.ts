@@ -1,12 +1,11 @@
 import * as THREE from 'three';
-import { ANCHORS } from '../world/layout';
+import { ANCHORS, bySpec, frontOf } from '../world/layout';
 import type { BuildContext, FrameContext, SceneModule } from './context';
 import { createHumanoid, poseRig, setRigShadow, type Look, type Mode, type Rig } from './characters';
 
 /**
- * People who live on the coast but are not part of the story: a fisherman mending a net, a woman by the fire, the lighthouse keeper.
- * They carry no state, say nothing and cannot be interacted with; they exist so the first place is inhabited (Ardea is a place with
- * people in it). They are drawn with the same rig as everyone else and hold a pose loop. Presentation only.
+ * Silent residents of the inland hamlet. Their positions follow the relocated buildings and hearth;
+ * the landing strand itself has no occupied camp. They carry no quest state.
  */
 
 interface Spec {
@@ -23,10 +22,11 @@ interface Spec {
 }
 
 const FIRE = ANCHORS.strand_fire!;
-const DOOR = ANCHORS.lantern_door!;
+const DOOR = frontOf(bySpec('keeper_cottage'), 2.4);
+const MENDER = frontOf(bySpec('net_store'), 2.4);
 
 const SPECS: Spec[] = [
-  { look: { skin: 0xb98866, primary: 0x4a4a3c, secondary: 0x2e2a24, hair: 0x6a6660, height: 1.0, girth: 1.08, accessory: 'pack' }, x: -230.4, z: 47.9, yaw: -2.24, cycle: [['work', 9], ['idle', 4], ['work', 7]], sleeps: true, radius: 0.45 },
+  { look: { skin: 0xb98866, primary: 0x4a4a3c, secondary: 0x2e2a24, hair: 0x6a6660, height: 1.0, girth: 1.08, accessory: 'pack' }, x: MENDER.x, z: MENDER.z, yaw: bySpec('net_store').yaw + Math.PI, cycle: [['work', 9], ['idle', 4], ['work', 7]], sleeps: true, radius: 0.45 },
   { look: { skin: 0xc79a72, primary: 0x5a4a3a, secondary: 0x6a6a52, hair: 0x3a2a1a, height: 0.94, girth: 0.9, accessory: 'shawl' }, x: FIRE.x + 1.6, z: FIRE.z + 1.5, yaw: -2.5, cycle: [['sit', 12], ['talk', 4], ['sit', 8]], sleeps: true, radius: 0.4 },
   { look: { skin: 0xb0805c, primary: 0x3e4048, secondary: 0x28262a, hair: 0x8a8880, height: 1.03, girth: 1.0, accessory: 'coat', accent: 0x6a5a3a }, x: DOOR.x + 2.6, z: DOOR.z - 1.2, yaw: -1.7, cycle: [['idle', 14], ['talk', 3], ['idle', 9]], sleeps: false, radius: 0.45 },
 ];

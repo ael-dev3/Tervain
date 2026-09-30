@@ -63,20 +63,22 @@ tests/scenarios/   meaningful gameplay/persistence scenarios
 
 Do not create placeholder packages for all possible systems. Start with the few modules the prototype actually uses; extract common code only after the boundary is understood.
 
-### Presentation modules in 0.0.4
+### Presentation modules in 0.0.5
 
-`src/world` is renderer-free and owns the geography: `layout.ts` (data), `coast.ts` (shoreline, beach, cliffs; a pure function of position), `terrain.ts` (height field, walkability, sea depth), `colliders.ts`, `nav.ts`. `src/presentation` reads it and never writes back:
+`src/world` is renderer-free and owns the geography: `layout.ts` (data), `coast.ts` (shoreline, beach, cliffs), `forest.ts` (shared habitat mask), `terrain.ts` (height field, walkability, sea depth), `colliders.ts`, `nav.ts`. `src/presentation` reads it and never writes back:
 
 | Module | Responsibility |
 | --- | --- |
 | `terrainTextures.ts`, `terrainMaterial.ts`, `groundSplat.ts`, `terrainMesh.ts` | Eight generated ground layers, a height-blended PBR shader, and the per-vertex layer weights derived from height, slope, water, shore and roads. |
 | `sea.ts`, `waterMesh.ts` | The sea (depth from the terrain, foam, sky reflection) and the stream ribbons. |
 | `sky.ts`, `skyState.ts`, `environment.ts`, `grade.ts` | Day/night keyframes, exponential fog, image-based light generated from the sky, and the final grade pass. |
-| `floraPopulation.ts`, `flora.ts`, `treeGen.ts`, `treeTextures.ts`, `treeMaterials.ts`, `ground/` | Canonical blocking trees across presets; three rendering levels of detail with hand culling, leaf and needle cards, bark, streamed grass. Tree sway remains paused. |
+| `floraPopulation.ts`, `flora.ts`, `treeGen.ts`, `treeTextures.ts`, `treeMaterials.ts`, `ground/` | Canonical blocking trees across presets; three rendering levels of detail with hand culling, leaf and needle cards, bark, streamed grass. Static camera views skip unchanged flora/floor instance uploads; movement, turns, and projection changes still refresh. Tree sway remains paused. |
+| `forestFloor.ts`, `forestLandmarks.ts`, `woodlandAir.ts` | Original grounded woodland detail, carved waymarkers and roofless remains, and local cool depth haze/motes within the shared Deepwood footprint. No imported reference asset or WebGPU renderer. |
 | `scatterPopulation.ts`, `scatter.ts` | Canonical blocking rocks with preset-dependent decorative thinning; pebbles, driftwood, wrack and reeds in 96 m merged chunks. |
 | `settlement.ts`, `buildings.ts`, `structures.ts`, `props.ts`, `roofs.ts`, `buildKit.ts`, `regions.ts`, `buildingTextures.ts` | Buildings and props authored as merged, textured geometry per region; the handles the world animates (doors, wheel, bell, gate, lighthouse beam). |
 | `characters.ts`, `humanGeo.ts`, `npcStyle.ts` | People and creatures: stable resident identities, sculpted heads, lofted torsos, tapered limbs, joints that bend, task-specific gestures, per-joint merged meshes. |
 | `riteResponse.ts`, `disposeScene.ts`, `platform/frameTiming.ts` | Grounded rite presentation, scene resource ownership, and visible-frame timing with a fresh baseline after backgrounding. |
+| `menuScene.ts`, `menu/`, `ui/menuArtwork.ts`, `ui/menuMaterials.ts` | Separate native 3D Templar vigil, original cast wordmark and material forms, one approved Hegemony standard, still menu camera, and a cosmetic clock that freezes in Reduced Motion. No gameplay-state ownership. |
 
 `WorldScene.create` is asynchronous only so the ground textures can be generated in slices while the loading text repaints; everything else is built synchronously in the constructor. The scene modules share one contract (`context.ts`): they build from a `BuildContext` and update from a `FrameContext`, and never touch game state.
 
@@ -91,6 +93,8 @@ The first character controller needs reliable walking, running, grounded steps, 
 NPC schedules choose goals such as work, rest, shelter, or a specific quest location. Navigation carries them there. Quest changes can replace a goal; offscreen residents need only a bounded schedule/state update. Persistent simulation of every animal or falling leaf is outside the slice.
 
 ## Quest and dialogue architecture
+
+The current `0.0.5` presentation exposes NPC observation rather than conversation windows. `App` no longer mounts `DialogueView`; `Game.observeNpc` returns an authored notice without changing meeting/trust state or applying dialogue effects. Environmental inspection and the ledger provide nonblocking text with persistent evidence. The pure dialogue graph and quest commands below are retained for future interface work and tests; their existence is not proof that all conversation-dependent resolutions remain player-accessible. New-game amnesia is a fact, while format-1 legacy saves keep their own progress without receiving that opening fact. See the [prototype scope](prototype.md#forest-arrival-pass-30-september-2026).
 
 Use stable content identifiers with display text separated for localization. Author conditions, effects, and links as validated data where useful; reserve scripts for behavior that genuinely needs them. Definitions should identify who knows a fact, how it was learned, and what local institution can act on it.
 

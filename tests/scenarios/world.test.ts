@@ -4,7 +4,6 @@ import { validateContent } from '../../src/content/validate';
 import { buildStaticColliders } from '../../src/world/colliders';
 import {
   ANCHORS,
-  DECKS,
   ENEMY_SPAWNS,
   INSPECT_LOCATIONS,
   LEDGER,
@@ -176,18 +175,13 @@ describe('world layout', () => {
     expect(nav.findPath(ANCHORS.lantern_door!, ANCHORS.village_square!)).not.toBeNull();
   });
 
-  it('the stockade leaves the shore track open through its gate and the player can still reach the village', () => {
-    const gate = { x: -219.2, z: (PALISADE.gate.z0 + PALISADE.gate.z1) / 2 };
+  it('the inland stockade leaves the arrival track open through its gate and the player can still reach the village', () => {
+    const gate = { x: PALISADE.gate.x, z: (PALISADE.gate.z0 + PALISADE.gate.z1) / 2 };
     expect(open(gate, 0.4), 'gate opening').toBe(true);
     // The wall itself blocks: a point on the wall line away from the gate is not standable.
-    expect(colliders.blocked(-219.97, 40, 0.4), 'wall').toBe(true);
-    expect(nav.findPath({ x: -230, z: 29 }, { x: -205, z: 31 })).not.toBeNull();
-  });
-
-  it('the jetty is walkable over the shallows and reaches out past the wading line', () => {
-    const j = DECKS.find((d) => d.id === 'jetty')!;
-    expect(terrain.walkable(j.x - j.hx + 1, j.z)).toBe(true);
-    expect(terrain.deckAt(j.x - j.hx + 1, j.z)).not.toBeNull();
-    expect(terrain.groundAt(j.x - j.hx + 1, j.z)).toBeGreaterThan(terrain.heightAt(j.x - j.hx + 1, j.z));
+    const a = PALISADE.points[3]!;
+    const b = PALISADE.points[4]!;
+    expect(colliders.blocked((a.x + b.x) / 2, (a.z + b.z) / 2, 0.4), 'wall').toBe(true);
+    expect(nav.findPath({ x: -101, z: 19 }, { x: -78, z: 16 })).not.toBeNull();
   });
 });

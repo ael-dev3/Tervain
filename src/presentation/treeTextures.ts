@@ -100,9 +100,9 @@ function twig(c: CanvasRenderingContext2D, m: CanvasRenderingContext2D, pts: [nu
 function leafyTwig(kind: 'oak' | 'birch' | 'willow', seed: number): THREE.CanvasTexture {
   const S = 512;
   const cfg = {
-    oak: { hue: 80, sat: 42, lit: 33, n: 30, len: 136, wid: 84, lobes: 5, serr: 0, taper: 0.9 },
-    birch: { hue: 72, sat: 44, lit: 36, n: 42, len: 96, wid: 72, lobes: 0, serr: 1, taper: 0.7 },
-    willow: { hue: 68, sat: 38, lit: 34, n: 44, len: 150, wid: 30, lobes: 0, serr: 0, taper: 0.8 },
+    oak: { hue: 101, sat: 34, lit: 37, n: 34, len: 136, wid: 84, lobes: 5, serr: 0, taper: 0.9 },
+    birch: { hue: 91, sat: 37, lit: 39, n: 42, len: 96, wid: 72, lobes: 0, serr: 1, taper: 0.7 },
+    willow: { hue: 96, sat: 34, lit: 36, n: 44, len: 150, wid: 30, lobes: 0, serr: 0, taper: 0.8 },
   }[kind];
   return cardTexture(
     S,
@@ -145,7 +145,7 @@ function needleTuft(seed: number): THREE.CanvasTexture {
         const cx = S / 2 + (rnd() - 0.5) * 18;
         const cy = S / 2 + (rnd() - 0.5) * 18;
         const bend = (rnd() - 0.5) * 0.3;
-        const col = hsl(112 + (rnd() - 0.5) * 30, 28 + rnd() * 12, 22 + rnd() * 14);
+        const col = hsl(126 + (rnd() - 0.5) * 26, 27 + rnd() * 12, 28 + rnd() * 16);
         for (const ctx of [c, m]) {
           ctx.strokeStyle = ctx === m ? '#fff' : col;
           ctx.lineWidth = 6.5;
@@ -216,10 +216,10 @@ function crownBlob(seed: number): THREE.CanvasTexture {
         const x = S / 2 + Math.cos(a) * r;
         const y = S / 2 + Math.sin(a) * r * 0.86;
         const shade = 1 - (r / rim) * 0.25;
-        leaf(c, m, x, y, rnd() * Math.PI * 2, 34 + rnd() * 22, 22 + rnd() * 12, hsl(80 + (rnd() - 0.5) * 24, 36 + rnd() * 12, (24 + rnd() * 14) * shade), hsl(80, 30, 34), { lobes: 3 });
+        leaf(c, m, x, y, rnd() * Math.PI * 2, 34 + rnd() * 22, 22 + rnd() * 12, hsl(102 + (rnd() - 0.5) * 24, 32 + rnd() * 12, (31 + rnd() * 14) * shade), hsl(100, 30, 40), { lobes: 3 });
       }
     },
-    hsl(80, 36, 26),
+    hsl(102, 34, 32),
   );
 }
 
@@ -240,7 +240,7 @@ function coniferSilhouette(seed: number): THREE.CanvasTexture {
         const hgt = H * 0.17;
         const jag: number[] = [];
         for (let k = 0; k <= 8; k++) jag.push((k % 2 ? 9 : -3) + (rnd() - 0.5) * 8);
-        const lum = 20 + rnd() * 9 - t * 3;
+        const lum = 27 + rnd() * 10 - t * 3;
         for (const ctx of [c, m]) {
           ctx.fillStyle = ctx === m ? '#fff' : hsl(135 + (rnd() - 0.5) * 10, 26, lum);
           ctx.beginPath();
@@ -342,6 +342,8 @@ export function barkTextures(kind: BarkKind, n = 256): BarkTextures {
         const cross = pnoise(u, v, 22, 15, 206);
         ht = sstep(0.15, 0.95, f) * 0.8 + cross * 0.15 + fine[o]! * 0.1;
         base = mixc([0.1, 0.085, 0.07], [0.31, 0.27, 0.22], ht);
+        const moss = sstep(0.61, 0.86, low[o]!) * (0.5 + fine[o]! * 0.5);
+        base = mixc(base, [0.16, 0.22, 0.12], moss * 0.5);
       } else if (kind === 'pine') {
         const p = plates!;
         const edge = sstep(0.02, 0.22, p.f2[o]! - p.f1[o]!);

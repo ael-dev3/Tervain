@@ -38,7 +38,7 @@ export class CameraRig {
     if (zoom !== 0) this.wantDist = Math.max(2.6, Math.min(9, this.wantDist + zoom * 0.004));
   }
 
-  follow(dt: number, px: number, py: number, pz: number, terrain: Terrain, colliders: Colliders, reducedMotion: boolean, shake: number, heightOffset = 1.55) {
+  follow(dt: number, px: number, py: number, pz: number, terrain: Pick<Terrain, 'groundAt'>, colliders: Colliders, reducedMotion: boolean, shake: number, heightOffset = 1.55) {
     if (this.manual) {
       this.camera.position.copy(this.manual.p);
       this.camera.lookAt(this.manual.look);
@@ -55,6 +55,9 @@ export class CameraRig {
     const dirZ = -Math.cos(this.yaw) * cp;
 
     let allowed = this.wantDist;
+    // One broad-phase lookup covers the whole boom. Rebuilding a Set and candidate
+    // array at every marching step was unnecessary work in the dense woodland.
+    const candidates = colliders.near(this.smoothTarget.x, this.smoothTarget.z, this.wantDist + 1.4);
     // March along the boom; stop before terrain or a collider.
     const steps = 14;
     for (let i = 1; i <= steps; i++) {
@@ -67,8 +70,10 @@ export class CameraRig {
         allowed = Math.max(0.9, d - 0.5);
         break;
       }
-      if (colliders.near(x, z, 1.4).some((c) => {
-        if (c.kind === 'circle') return c.id.startsWith('tree:') ? false : Math.hypot(x - c.x, z - c.z) < c.r + 0.7 && y < ground + 5;
+      if (candidates.some((c) => {
+        // The tree collision disc represents its connected trunk/root volume.
+        // Leaves have no colliders. Ignoring this disc let the camera enter trunks.
+        if (c.kind === 'circle') return Math.hypot(x - c.x, z - c.z) < c.r + 0.7 && (c.id.startsWith('tree:') || y < ground + 5);
         return this.inBox(c, x, z) && y < ground + 6;
       })) {
         allowed = Math.max(0.9, d - 0.6);

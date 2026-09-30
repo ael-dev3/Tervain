@@ -1,4 +1,5 @@
-import { ORCHARD, WORLD } from '../world/layout';
+import { DEEPWOOD, ORCHARD, WORLD } from '../world/layout';
+import { deepwoodCover } from '../world/forest';
 import { cliffiness, shoreDistance } from '../world/coast';
 import { fbm, mulberry32, smoothstep } from '../world/noise';
 import { realmRadius, type Terrain } from '../world/terrain';
@@ -30,8 +31,9 @@ export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slope
   const trees: FloraTree[] = [];
   let id = 0;
 
-  const RADIUS: Record<Species, number> = { oak: 0.55, birch: 0.25, pine: 0.38, fir: 0.34, shorepine: 0.34, dead: 0.42, orchard: 0.28, shrub: 0 };
+  const RADIUS: Record<Species, number> = { oak: 1.12, birch: 0.34, pine: 0.64, fir: 0.58, shorepine: 0.4, dead: 0.42, orchard: 0.28, shrub: 0 };
   const put = (sp: Species, x: number, z: number, scale = 1, collide = true) => {
+    if (bad(x, z, collide ? RADIUS[sp] * scale + 0.55 : 0.4)) return;
     const y = terrain.heightAt(x, z) - 0.06;
     const r = collide ? RADIUS[sp] * scale : 0;
     const collisionId = r > 0 ? `tree:${id++}` : null;
@@ -46,31 +48,23 @@ export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slope
   const bad = (x: number, z: number, pad = 0.5) => {
     if (realmRadius(x, z) > 0.97) return true;
     const sd = shoreDistance(x, z);
-    if (sd < 16) return true;
+    if (sd < DEEPWOOD.shoreClearance) return true;
     if (terrain.slopeAt(x, z) > 0.62) return true;
     if (terrain.heightAt(x, z) < 0.3) return true;
     return excl.blocked(x, z, pad);
   };
 
-  /* ---- Forests on the coastal plain: two belts back from the road, and the hill above the overlook ---- */
-  const cell = 6.4;
+  /* ---- Deepwood: a continuous layered canopy between the deserted landing and the inland settlement ---- */
+  const cell = 6.2;
   for (let gz = WORLD.minZ + 8; gz < WORLD.maxZ - 8; gz += cell) {
     for (let gx = WORLD.minX + 8; gx < WORLD.maxX - 8; gx += cell) {
       const x = gx + (rng() - 0.5) * cell * 0.9;
       const z = gz + (rng() - 0.5) * cell * 0.9;
       if (bad(x, z, 0.9)) continue;
-      const sd = shoreDistance(x, z);
       const h = terrain.heightAt(x, z);
+      const forest = deepwoodCover(x, z);
       let density = 0;
-      if (x < -120) {
-        // Coastal plain: forest only well back from the shore and away from the road.
-        const north = smoothstep(-34, -74, z);
-        const south = smoothstep(104, 130, z);
-        const patches = smoothstep(0.34, 0.62, fbm(x / 34 + 3, z / 34 - 8, 3, 51) * 0.5 + 0.5);
-        density = Math.max(north, south) * (0.35 + 0.65 * patches) * smoothstep(34, 86, sd);
-        // A wind-shaped stand of scrub pine on the rise below the overlook.
-        density = Math.max(density, smoothstep(0.55, 0.8, fbm(x / 22 - 11, z / 22 + 6, 3, 57) * 0.5 + 0.5) * smoothstep(90, 130, sd) * 0.5);
-      } else {
+      if (x >= -120) {
         const wd = streamDistance(x, z);
         const forestN = fbm(x / 38 + 10, z / 38 - 20, 3, 44) * 0.5 + 0.5;
         const wet = 1 - smoothstep(4, 30, wd);
@@ -78,18 +72,43 @@ export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slope
         const vd = Math.hypot(x - 4, z - 8);
         density *= smoothstep(30, 62, vd);
       }
+      const patches = fbm(x / 32 + 3, z / 32 - 8, 3, 51) * 0.5 + 0.5;
+      density = Math.max(density, forest * (0.8 + patches * 0.18));
       if (rng() > density) continue;
       const damp = 1 - smoothstep(4, 30, streamDistance(x, z));
       const pick = rng();
+      if (forest > 0.2) {
+        // Tall columnar upper canopy alternates with spreading hardwoods and a deliberately shorter birch stratum.
+        // Scales and obstacle radii are authored together, before any graphics selection happens.
+        const sp: Species = pick < 0.31 ? 'oak' : pick < 0.59 ? 'pine' : pick < 0.83 ? 'fir' : 'birch';
+        const sc = sp === 'birch' ? 0.66 + rng() * 0.36 : sp === 'oak' ? 0.98 + rng() * 0.3 : 1.13 + rng() * 0.26;
+        if (!bad(x, z, RADIUS[sp] * sc + 0.55)) put(sp, x, z, sc);
+        if (rng() < 0.36) {
+          const sx = x + 2.5 + rng() * 1.3;
+          const sz = z + (rng() - 0.5) * 4;
+          if (!bad(sx, sz, 0.4)) put('shrub', sx, sz, 0.6 + rng() * 0.6, false);
+        }
+        // Young hardwoods fill occasional gaps below the old canopy, rooted in the same real terrain.
+        if (rng() < 0.15) {
+          const sx = x - 2.8;
+          const sz = z + 2.5;
+          const sc = 0.42 + rng() * 0.19;
+          if (!bad(sx, sz, RADIUS.oak * sc + 0.55)) put('oak', sx, sz, sc);
+        }
+        continue;
+      }
       const conifers = h > 8 || x < -120;
       if (conifers && pick < 0.5) put(rng() < 0.55 ? 'pine' : 'fir', x, z, 0.8 + rng() * 0.45);
       else if (damp > 0.4 && pick < 0.75) put('birch', x, z, 0.85 + rng() * 0.4);
       else put(pick < 0.7 ? 'oak' : 'birch', x, z, 0.75 + rng() * 0.5);
-      if (rng() < 0.16) put('shrub', x + 2 + rng() * 2.5, z + (rng() - 0.5) * 3, 0.9 + rng() * 0.6, false);
+      if (rng() < 0.16) {
+        const sx = x + 2 + rng() * 2.5, sz = z + (rng() - 0.5) * 3;
+        if (!bad(sx, sz)) put('shrub', sx, sz, 0.9 + rng() * 0.6, false);
+      }
     }
   }
 
-  /* ---- The open heath: rare, characterful lone trees, mostly leaning with the wind or dead ---- */
+  /* ---- The exposed forest margin: rare wind-bent specimens well inland of the empty sand ---- */
   {
     const c = 34;
     for (let gz = -140; gz < 150; gz += c) {
@@ -97,14 +116,17 @@ export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slope
         if (rng() > 0.36) continue;
         const x = gx + rng() * c;
         const z = gz + rng() * c;
-        if (bad(x, z, 2.5) || shoreDistance(x, z) < 26) continue;
+        if (bad(x, z, 2.5) || shoreDistance(x, z) < DEEPWOOD.shoreClearance + 8 || deepwoodCover(x, z) > 0.2) continue;
         const pick = rng();
         const sp: Species = pick < 0.36 ? 'shorepine' : pick < 0.62 ? 'dead' : pick < 0.82 ? 'oak' : 'birch';
         const sc = sp === 'oak' ? 0.8 + rng() * 0.3 : 0.85 + rng() * 0.35;
         put(sp, x, z, sc);
         // Scrub gathers at the foot of a lone tree.
         const n = 2 + Math.floor(rng() * 4);
-        for (let k = 0; k < n; k++) put('shrub', x + (rng() - 0.5) * 8, z + (rng() - 0.5) * 8, 0.8 + rng() * 0.7, false);
+        for (let k = 0; k < n; k++) {
+          const sx = x + (rng() - 0.5) * 8, sz = z + (rng() - 0.5) * 8;
+          if (!bad(sx, sz)) put('shrub', sx, sz, 0.8 + rng() * 0.7, false);
+        }
       }
     }
     // Scrub across the heath and on the dunes: gorse and heather, thin and patchy.
@@ -115,7 +137,8 @@ export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slope
         const z = gz + rng() * sc;
         const p = fbm(x / 16, z / 16, 3, 71) * 0.5 + 0.5;
         if (rng() > smoothstep(0.42, 0.72, p) * 0.7) continue;
-        if (realmRadius(x, z) > 0.97 || shoreDistance(x, z) < 12 || terrain.slopeAt(x, z) > 0.7 || excl.blocked(x, z, 0.5)) continue;
+        if (bad(x, z)) continue;
+        if (deepwoodCover(x, z) > 0.25) continue;
         if (cliffiness(z) > 0.6 && shoreDistance(x, z) < 30) continue;
         put('shrub', x, z, 0.7 + rng() * 0.9, false);
       }
@@ -145,7 +168,7 @@ export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slope
       const x = gx + (rng() - 0.5) * pineStep;
       const z = gz + (rng() - 0.5) * pineStep;
       const rr = realmRadius(x, z);
-      if (rr < 0.86 || shoreDistance(x, z) < 30) continue;
+      if (rr < 0.86 || shoreDistance(x, z) < DEEPWOOD.shoreClearance + 8 || excl.blocked(x, z, 1)) continue;
       if (terrain.slopeAt(x, z) > 1.25) continue;
       if (rng() < 0.3) continue;
       put(rng() < 0.6 ? 'fir' : 'pine', x, z, 1.05 + rng() * 1.2, false);

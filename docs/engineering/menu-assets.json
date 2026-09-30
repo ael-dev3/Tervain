@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "snapshotDate": "2026-09-30",
+  "assets": [
+    {
+      "id": "warpkeep.hegemony.emblem.2026-09-27",
+      "displayName": "Approved Hegemony emblem for the Tervain menu",
+      "category": "faction-identity-texture",
+      "source": {
+        "repository": "ael-dev3/Warpkeep-Assets",
+        "revision": "5394111926a8f728ef91a9436bc8d7266296869e",
+        "repositoryPath": "previews/hegemony-emblem-2026-09-27/hegemony-emblem-master-1254.png",
+        "releaseTag": "hegemony-emblem-2026-09-27",
+        "attachment": "warpkeep-hegemony-emblem-2026-09-27-master.png",
+        "provenancePath": "provenance/hegemony-emblem-2026-09-27.md",
+        "suppliedBy": "Ael",
+        "suppliedFilename": "ChatGPT Image Sep 27, 2026, 04_44_09 PM.png",
+        "creationDisclosure": "Supplied filename identifies a ChatGPT image; no specific generation model or service version independently verified."
+      },
+      "runtime": {
+        "path": "public/assets/menu/hegemony-emblem.png",
+        "bytes": 1486312,
+        "sha256": "26e8664b1db0acf3e6db443caf46ef13e45fe9de794749e431b7c2e3d6fb8774",
+        "width": 1254,
+        "height": 1254,
+        "bitDepth": 8,
+        "colorType": "RGBA",
+        "alpha": true,
+        "preparation": "Byte-exact copy; no crop, repaint, background removal or metadata stripping; caBX chunk retained.",
+        "intendedUse": "The single Hegemony standard in the native 3D menu (desert market in 0.0.4; Templar vigil since 0.0.5, A26); base-URL-aware loading.",
+        "renderPreparation": "Since 0.0.5 the renderer draws the unchanged master into a canvas at runtime and weathers the copy for the one standard (A24): lower saturation and value, rubbed-thin patches, weave and mud over the cloth, and a matching light-through map in which the emblem blocks the low sun. No other surface carries the emblem. The bundled PNG is not modified."
+      },
+      "terms": {
+        "spdx": null,
+        "upstreamStatus": "public-archive-authorized-no-separate-open-license",
+        "tervainAuthority": "Owner explicitly confirmed Templars as part of Hegemony and requested the approved emblem in the Tervain menu on 2026-09-30 (A21-A22).",
+        "credit": "Hegemony emblem supplied by Ael for the Warpkeep project; preserved from the September 27 source archive.",
+        "boundary": "Specific Tervain menu-use authorization; no general open-content, third-party, trademark, endorsement or unrelated-asset grant asserted."
+      },
+      "verification": {
+        "date": "2026-09-30",
+        "sourceAndRuntimeByteEquality": true,
+        "sizeSha256AndPngHeader": "verified locally",
+        "sceneIntegrationAndVisualQa": "0.0.4: rendered on native fabric in local production-preview review. 0.0.5: rendered weathered on the vigil standard in local headless-browser captures; CPU tests cover print, missing-image fallback and late-load-after-dispose. The integrated 0.0.5 revision passed local production-browser review on b2a62ab; current coverage is recorded in docs/production/releases/0.0.5.md.",
+        "fallbackAndDisposal": "Six CPU-only scene regression tests; no browser HTTP-failure simulation performed.",
+        "publication": "Integrated from PR #3 into the combined 0.0.5 revision and locally validated; publication pending. See docs/production/releases/0.0.5.md.",
+        "desktopPackage": "not verified"
+      }
+    }
+  ]
+}

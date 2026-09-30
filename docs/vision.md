@@ -16,9 +16,11 @@ This pitch is a starting point. The title Tervain is selected; the protagonist, 
 
 Tervain is a parallel development project sharing useful assets and technology with Warpkeep. It is intended for Steam, single-player, serious in tone, with deeper original lore and a high level of polish. The desired experiential reference is Gothic 3. Hyperion supplies inspiration for narrative structure and layered faction relationships.
 
-The Templar-inspired order is the local center of gravity. It should be removed from Warpkeep's future main Hegemony–Core–Ousters conflict, while participating in a diverse web of local relationships. The initial game has little warping and no keep-management focus. Science-fiction presentation should be minimal in this part of the shared setting.
+The Templar-inspired order is the local center of gravity and **is part of the Hegemony** (owner clarification A21). Its local story remains away from Warpkeep's future main Hegemony–Core–Ousters conflict while participating in a diverse web of regional relationships. This distance from the war does not make the order separate from the Hegemony. The initial game has little warping and no keep-management focus. Science-fiction presentation should be minimal in this part of the shared setting. Detailed institutional hierarchy and doctrine remain proposals.
 
 The owner's intention is original work. References inform the questions we ask and the experience we seek; they do not establish imported characters, doctrine, terminology bundles, histories, scenes, or quests.
+
+For `0.0.5`, the owner selected a sparse amnesiac beach arrival followed by a dense woodland journey before the first inland settlement, with no dialogue windows ([A27](decisions.md)). Boring Forest supplies a visual and rendering reference for that journey. The Hegemony-affiliated Templars appear through original environmental traces; their detailed woodland history, the protagonist's past, and the cause of amnesia remain proposals. This is an exploration revision, not evidence that the complete Dry Bell negotiation interface or a Steam package exists. See the [current prototype scope](engineering/prototype.md#forest-arrival-pass-30-september-2026).
 
 ## Design pillars
 
@@ -58,7 +60,7 @@ Evidence in the slice: the resolution changes at least three perceivable details
 
 Use the existing vegetation and terrain work as a starting advantage. Build connected branches, convincing canopy masses, varied ground cover, working settlements, moving animals, and restrained ambient animation. Detail should reinforce habitat, composition, and interaction.
 
-The approach is materially readable 3D with rugged, weathered surfaces and richer desktop composition and close-view treatment (no longer stylized low-poly). Dense foliage is valuable only if camera movement, combat readability, and frame pacing remain comfortable. Lighting reveals forms; camera motion communicates control.
+The approach is materially readable 3D with rugged, weathered surfaces and richer desktop composition and close-view treatment. A20 establishes theatrical fantasy exaggeration: expressive silhouettes, oversized ornament, broad painted value/color groups, and rich earthy contrast. Dense foliage is valuable only if camera movement, combat readability, and frame pacing remain comfortable. Lighting reveals forms; camera motion communicates control.
 
 ### 6. A complete single-player experience
 
@@ -74,14 +76,14 @@ High fantasy appears in sacred landscapes, strange creatures, a believable relat
 
 The order's original faith must have ordinary adherents and worthwhile practices, as well as institutional failures. Nature can be dangerous; preservation can demand a human cost. Neither faith nor technological development should function as a universal moral label.
 
-The inherited Warpkeep menu preference for calm, animated native 3D is a useful art reference. Tervain's own menu, typography, crest, score, and protagonist presentation must be selected for this game's tone.
+The menu is a native 3D scene that should feel as if it belongs in Gothic 3, in the Hyperion-inspired shared world with heavy Templar influence (A26): a Templar warden's dusk vigil on a headland, rough and human, with one weathered Hegemony standard bearing the approved emblem (A24). The earlier desert market (A22) is superseded for the menu; neither scene is authorization to build a new gameplay region. Typography and scene geometry remain original; score and protagonist presentation still need separate selection for this game's tone.
 
 ## Product relationship to Warpkeep
 
 | Dimension | Warpkeep direction | Tervain direction |
 | --- | --- | --- |
 | Main experience | Persistent social strategy, personal keep, shared world. | Single-player exploration, encounters, character growth, and local choices. |
-| Long-term conflict | Owner-envisioned Hegemony–Core–Ousters conflict. | Templar-centered region with independent faction disputes. |
+| Long-term conflict | Owner-envisioned Hegemony–Core–Ousters conflict. | Hegemony-affiliated Templars in a region of local faction disputes away from that main war. |
 | Platform priority | Mobile-friendly online experience. | Steam desktop release; exact supported operating systems to decide. |
 | State ownership | Live services and shared authoritative state. | Proposed local saves and a self-contained simulation. |
 | Shared value | Original assets, terrain/rendering techniques, tooling. | Improvements returned as reusable art/tooling when genuinely common. |

@@ -1,6 +1,6 @@
 # Tervain documentation
 
-Status: foundation outline, 29 September 2026, plus notes on the browser prototype and its [0.0.4 revision](production/releases/0.0.4.md). Design documents propose; the [prototype notes](engineering/prototype.md) and dated release notes distinguish implemented behavior from outstanding validation.
+Status: foundation outline, 29 September 2026, plus notes on the browser prototype and its current [0.0.5 forest and menu revision](production/releases/0.0.5.md). The [0.0.4 notes](production/releases/0.0.4.md) preserve earlier construction, menu, and water evidence. Design documents propose; the [prototype notes](engineering/prototype.md) and dated release notes distinguish implemented behavior from outstanding validation.
 
 ## Reading paths
 
@@ -9,7 +9,7 @@ Status: foundation outline, 29 September 2026, plus notes on the browser prototy
 | Understand the game | [Vision](vision.md) → [setting](world/setting.md) → [factions](world/factions.md) → [slice](production/vertical-slice.md). |
 | Design a quest | [Gameplay](design/gameplay.md) → [factions](world/factions.md) → [quests and consequences](design/quests-and-consequences.md) → [narrative](world/narrative.md). |
 | Start implementation | [Decisions](decisions.md) → [architecture](engineering/architecture.md) → [prototype](engineering/prototype.md) → [shared assets](engineering/shared-assets.md) → [slice](production/vertical-slice.md). |
-| Play or test the build | [Prototype](engineering/prototype.md) → [0.0.4 changes and handoff](production/releases/0.0.4.md) → [slice acceptance](production/vertical-slice.md). |
+| Play or test the build | [Prototype](engineering/prototype.md) → [0.0.5 scope and handoff](production/releases/0.0.5.md) → [future slice acceptance](production/vertical-slice.md). |
 | Make environment or character art | [Art/audio/UI](art/art-audio-ui.md) → [setting](world/setting.md) → [shared assets](engineering/shared-assets.md). |
 | Plan the project | [Vision](vision.md) → [roadmap](production/roadmap.md) → [decisions](decisions.md). |
 | Check a source or assumption | [Reference ledger](references.md) → the dated upstream record named there. |
@@ -25,6 +25,8 @@ The [decision register](decisions.md) records owner-established direction. Domai
 - **Accord of the Wells:** proposed original founding settlement around shared water, sanctuary, and land obligations.
 - **Bellwether Vale / Rillford:** proposed first-playable valley and village.
 - **The Dry Bell:** proposed first complete quest.
+- **Deepwood:** working label and internal habitat footprint for the `0.0.5` arrival forest; its history is not approved canon.
+- **Inland waystation:** the former beach camp moved beyond the forest walk, before Rillford; it is not a new regional town or quest chain.
 - **Slice:** the bounded experience in the [slice brief](production/vertical-slice.md), not the whole eventual game.
 - **Target:** an intended result to test. **Measured:** a result with a build, device, settings, and procedure attached.
 

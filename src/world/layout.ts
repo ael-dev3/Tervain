@@ -1,8 +1,8 @@
 import type { EncounterId, PlaceId } from '../game/types';
 
 /**
- * The single authored source for the geography: the Grey Strand and Lantern Point on the west coast, the heath
- * road climbing to the overlook, and Bellwether Vale beyond it. Terrain, collision, navigation,
+ * The single authored source for the geography: the empty Grey Strand and Lantern Point on the west coast, the
+ * deepwood road to an inland waystation, and Bellwether Vale beyond it. Terrain, collision, navigation,
  * NPC anchors and interaction points all derive from these numbers, so a pretty riverbank is
  * never an invisible wall (architecture.md, "Terrain and content authoring").
  *
@@ -91,8 +91,6 @@ export interface DeckSpec {
 }
 export const DECKS: DeckSpec[] = [
   { id: 'footbridge', x: 36.6, z: 1.2, hx: 6.4, hz: 1.4, yaw: 0, y: 0.75 },
-  // The fishermen's jetty: a plank walkway on piles running out over the shallows.
-  { id: 'jetty', x: -271, z: 58, hx: 13, hz: 1.1, yaw: 0, y: 0.9 },
 ];
 
 export interface RoadSpec {
@@ -100,13 +98,58 @@ export interface RoadSpec {
   points: V2[];
 }
 
+/** The continuous arrival trail: quiet sand, closed woodland, inland waystation, then Rillford. */
+export const ARRIVAL_ROUTE: V2[] = [
+  { x: -252, z: 31 }, { x: -230, z: 25 }, { x: -208, z: 12 }, { x: -182, z: 10 },
+  { x: -160, z: 23 }, { x: -138, z: 30 }, { x: -110, z: 22 }, { x: -80, z: 16 },
+  { x: -50, z: 12 }, { x: -25, z: 10 }, { x: 2, z: 8 },
+];
+export const ARRIVAL_TRAIL_WIDTH = 4.2;
+/** One readable fingerpost at the real shore/woodland fork; the board's point faces east toward Rillford. */
+export const ARRIVAL_SIGN = { x: -248, z: 38, yaw: 0, target: 'rillford', label: 'RILLFORD', boardWidth: 3.75, boardHeight: 0.76, boardBottom: 2.52 } as const;
+
+/** Low wooded hogbacks and a dry swale give the inland route a varied silhouette without enclosing the beach in mountains. */
+export const FOREST_HILLS = [
+  { id: 'north_hogback', x: -194, z: -44, rx: 60, rz: 27, yaw: -0.18, h: 10.5 },
+  { id: 'south_hogback', x: -167, z: 68, rx: 47, rz: 30, yaw: 0.34, h: 11 },
+  { id: 'western_knoll', x: -218, z: -6, rx: 31, rz: 18, yaw: 0.4, h: 5.2 },
+] as const;
+export const FOREST_SWALE = {
+  width: 11,
+  depth: 2.8,
+  points: [{ x: -225, z: -1 }, { x: -208, z: -14 }, { x: -191, z: -15 }, { x: -171, z: -9 }, { x: -150, z: -14 }, { x: -129, z: -2 }] as V2[],
+} as const;
+
+/** The authored old-growth footprint; the population, floor shading and waymarks share it. */
+export const FOREST_REGION = { minX: -238, maxX: -66, minZ: -104, maxZ: 112, shoreClearance: 34 } as const;
+export const DEEPWOOD = FOREST_REGION;
+export const INLAND_HAMLET = { x: -82, z: 34, r: 29 } as const;
+/** Native trade/work props move with the waystation; their geometry and collision share these points. */
+export const HAMLET_PROPS = {
+  barrels: [{ x: -82, z: 52.4 }, { x: -80.8, z: 52.8 }],
+  crates: [{ x: -89, z: 26.5 }, { x: -89.1, z: 27.3 }],
+  handcart: { x: -89, z: 41, yaw: 0.3 },
+  firewood: { x: -87, z: 36, yaw: 0.6 },
+  rope: { x: -91, z: 39 },
+  pots: { x: -101, z: 37 },
+} as const;
+/** A lone storm-wreck is the landing's environmental clue, rather than a lived-in fishing camp. */
+export const ARRIVAL_WRECK = { x: -274, z: -10, yaw: 1.05, length: 9 } as const;
+/** Proposed forest stewardship traces; these are carved trail stones, not a new faction insignia. */
+export const FOREST_WAYMARKERS: (V2 & { yaw: number })[] = [
+  { x: -230, z: 32, yaw: -0.4 }, { x: -190, z: 3, yaw: 0.35 },
+  { x: -149, z: 36, yaw: -0.25 }, { x: -121, z: 14, yaw: 0.15 },
+];
+/** Low, roofless roadside remains, with a south entrance and a missing north wall. */
+export const FOREST_RUIN = { x: -180, z: -22, hx: 5.5, hz: 4, yaw: 0.15, r: 8.5 } as const;
+
 export const ROADS: RoadSpec[] = [
-  // The shore track from the strand up over the heath to the overlook, then the arrival road to the village square.
-  { width: 3.4, points: [{ x: -252, z: 31 }, { x: -232, z: 27 }, { x: -212, z: 30 }, { x: -190, z: 36 }, { x: -168, z: 35 }, { x: -150, z: 31 }, { x: -136, z: 26 }] },
-  { width: 4.2, points: [{ x: -136, z: 26 }, { x: -110, z: 22 }, { x: -80, z: 16 }, { x: -50, z: 12 }, { x: -25, z: 10 }, { x: 2, z: 8 }] },
-  // The strand track south along the beach and up the rock to Lantern Point, and the path to the jetty.
-  { width: 2.2, points: [{ x: -258, z: 44 }, { x: -262, z: 62 }, { x: -274, z: 78 }, { x: -292, z: 90 }, { x: -310, z: 98 }, { x: -322, z: 106 }] },
-  { width: 2.0, points: [{ x: -250, z: 40 }, { x: -252, z: 52 }, { x: -250, z: 60 }] },
+  { width: ARRIVAL_TRAIL_WIDTH, points: ARRIVAL_ROUTE.slice(0, 7) },
+  { width: ARRIVAL_TRAIL_WIDTH, points: ARRIVAL_ROUTE.slice(6) },
+  // A faint strand track south along the beach and up the rock to Lantern Point.
+  { width: 2.2, points: [ARRIVAL_ROUTE[0]!, { x: -258, z: 44 }, { x: -262, z: 62 }, { x: -274, z: 78 }, { x: -292, z: 90 }, { x: -310, z: 98 }, { x: -322, z: 106 }] },
+  // Inland waystation lanes join the main trail instead of ending at empty coastal props.
+  { width: 2.2, points: [{ x: -93, z: 19 }, { x: -91, z: 30 }, { x: -85, z: 40 }, { x: -83, z: 52 }, { x: -90, z: 62 }] },
   // Village square to the footbridge and the cut track to the quarry.
   { width: 3.6, points: [{ x: 2, z: 8 }, { x: 14, z: 8 }, { x: 28, z: 4 }, { x: 37, z: 1 }, { x: 50, z: -8 }, { x: 66, z: -20 }, { x: 82, z: -24 }] },
   // Mill lane north to the sluice, then the steps up to the shrine.
@@ -157,11 +200,11 @@ export const BUILDINGS: BuildingSpec[] = [
   { id: 'archive', kind: 'archive', x: -46, z: -102, w: 8, d: 7, h: 3.4, yaw: 0, wall: 'stone', roof: 'gable' },
   { id: 'quarry_office', kind: 'office', x: 76, z: -14, w: 7, d: 5, h: 2.9, yaw: -0.2, wall: 'timber', roof: 'lean' },
   { id: 'crew_bunks', kind: 'bunks', x: 98, z: -10, w: 9, d: 5, h: 2.6, yaw: 0.3, wall: 'timber', roof: 'lean' },
-  { id: 'overlook_lodge', kind: 'lodge', x: -150, z: 40, w: 6, d: 5, h: 2.8, yaw: 0.6, wall: 'stone', roof: 'lean' },
-  // The fishing camp on the dunes behind the strand, and the keeper's cottage under Lantern Point.
-  { id: 'fisher_house', kind: 'fisher', x: -236, z: 60, w: 9.5, d: 7, h: 3.1, yaw: -0.35, wall: 'timber', roof: 'gable' },
-  { id: 'net_store', kind: 'store', x: -241, z: 42, w: 5.5, d: 4.6, h: 2.5, yaw: 0.5, wall: 'timber', roof: 'lean' },
-  { id: 'keeper_cottage', kind: 'keeper', x: -294, z: 118, w: 6.5, d: 5.2, h: 2.7, yaw: 0.9, wall: 'stone', roof: 'gable' },
+  { id: 'overlook_lodge', kind: 'lodge', x: -58, z: -14, w: 6, d: 5, h: 2.8, yaw: 0.6, wall: 'stone', roof: 'lean' },
+  // Existing building identifiers survive the move to a wood-and-stone waystation well inland.
+  { id: 'fisher_house', kind: 'fisher', x: -80, z: 46, w: 9.5, d: 7, h: 3.1, yaw: -0.35, wall: 'timber', roof: 'gable' },
+  { id: 'net_store', kind: 'store', x: -85, z: 28, w: 5.5, d: 4.6, h: 2.5, yaw: 0.5, wall: 'timber', roof: 'lean' },
+  { id: 'keeper_cottage', kind: 'keeper', x: -96, z: 59, w: 6.5, d: 5.2, h: 2.7, yaw: 0.9, wall: 'stone', roof: 'gable' },
 ];
 
 export const bySpec = (id: string): BuildingSpec => {
@@ -200,7 +243,8 @@ export interface Anchor extends V2 {
 const a = (p: V2, yaw = 0): Anchor => ({ x: p.x, z: p.z, yaw });
 
 export const ANCHORS: Record<string, Anchor> = {
-  overlook_wagon: a({ x: -249, z: 34 }, 1.2),
+  arrival_sign: a(ARRIVAL_SIGN),
+  overlook_wagon: a({ x: -93, z: 22 }, 1.2),
   village_square: a({ x: 3, z: 9 }, 0),
   noticeboard: a({ x: 5, z: 12.9 }, Math.PI),
   village_well: a({ x: -6, z: 21.8 }, 0),
@@ -222,12 +266,13 @@ export const ANCHORS: Record<string, Anchor> = {
   crew_bunks: a(frontOf(bySpec('crew_bunks'), 1.4), 0),
   cut_ledge: a({ x: 122, z: -72 }, 3.1),
   ford_camp: a({ x: 44, z: 31 }, 1.0),
-  strand_fire: a({ x: -246, z: 28 }, 0),
+  strand_fire: a({ x: -103, z: 16 }, 0),
   lantern_door: a({ x: -318, z: 113 }, 0),
 };
 
 export const PLACES: Record<PlaceId, { x: number; z: number; r: number }> = {
   shore: { x: -256, z: 32, r: 30 },
+  deepwood: { x: -182, z: 14, r: 45 },
   lantern_point: { x: -318, z: 104, r: 24 },
   overlook: { x: -136, z: 26, r: 14 },
   rillford: { x: 4, z: 8, r: 34 },
@@ -239,8 +284,9 @@ export const PLACES: Record<PlaceId, { x: number; z: number; r: number }> = {
   archive: { x: -46, z: -100, r: 8 },
 };
 
-/** The player arrives on the strand, at the water's edge, facing along the beach toward Lantern Point. */
-export const SPAWN = { x: -257, z: 27, yaw: Math.atan2(-0.25, 1) };
+/** The player wakes alone above the tide, facing the faint track inland into the trees. */
+const LANDING = { x: -268, z: 27 };
+export const SPAWN = { ...LANDING, yaw: Math.atan2(ARRIVAL_ROUTE[0]!.x - LANDING.x, ARRIVAL_ROUTE[0]!.z - LANDING.z) };
 
 export interface WorldPoint {
   id: string;
@@ -252,6 +298,8 @@ export interface WorldPoint {
 
 /** Physical observation points; each maps to an entry in content/inspect.ts. */
 export const INSPECT_LOCATIONS: WorldPoint[] = [
+  { id: 'arrival_wreckage', x: -272, z: -8, r: 3.2 },
+  { id: 'templar_waymarker', x: FOREST_WAYMARKERS[0]!.x, z: FOREST_WAYMARKERS[0]!.z, r: 3.2 },
   { id: 'dry_channel', x: -13.5, z: 5, r: 3.2 },
   { id: 'spring_sediment', x: -6, z: -86, r: 4 },
   { id: 'town_diversion', x: 12, z: -46, r: 4 },
@@ -300,21 +348,21 @@ export const ENEMY_SPAWNS: EnemySpawn[] = [
   { id: 'cut_creature', kind: 'thornback', x: 110, z: -56, leash: 15 },
 ];
 
-export const WAGON = { x: -252, z: 37.5, yaw: 1.2 };
+export const WAGON = { x: -96, z: 25.5, yaw: 1.2 };
 /** The lighthouse tower: a stone shaft on the rock at the tip of Lantern Point. */
 export const LIGHTHOUSE = { x: -324, z: 104, r: 3.3, h: 17, rockH: 12, rockR: 44 } as const;
 /**
- * The fishing camp's landward palisade: a stockade of upright logs curving behind the camp, with a gate where the shore track passes
- * through and a watch platform beside it (Ardea is a palisaded place). The ends are open: it is old and unfinished.
+ * The inland waystation's landward palisade: a low old stockade with an open gate on the arrival road.
+ * Its ends remain open, so the forest is explored freely rather than fenced into a corridor.
  */
 export const PALISADE = {
-  points: [{ x: -229, z: 4 }, { x: -223, z: 14 }, { x: -220, z: 23 }, { x: -219.2, z: 36 }, { x: -221.5, z: 48 }, { x: -227, z: 60 }, { x: -236, z: 71 }] as V2[],
+  points: [{ x: -101, z: -8 }, { x: -95, z: 2 }, { x: -92, z: 11 }, { x: -91.2, z: 24 }, { x: -93.5, z: 36 }, { x: -99, z: 48 }, { x: -108, z: 59 }] as V2[],
   /** The gap the track runs through, as a range of z along the near-vertical stretch of the wall. */
-  gate: { z0: 26.6, z1: 31.4 },
-  tower: { x: -221.6, z: 22.6, yaw: 0.16 },
+  gate: { x: -91.6, z0: 14.6, z1: 19.4 },
+  tower: { x: -93.6, z: 10.6, yaw: 0.16 },
 } as const;
 
-/** The strand: where boats are hauled up, nets are hung and the caravan camps. */
+/** The mostly empty landing strand; the inhabited waystation is inland beyond the woods. */
 export const STRAND = { x: -258, z: 44, r: 40 } as const;
 export const BORDER_SIGN = { x: 122, z: 70 };
 export const BELL_TOWER = { x: -1, z: 4 };
@@ -322,12 +370,12 @@ export const WELL = { x: -6, z: 18 };
 export const MILL_WHEEL = { x: -14.6, z: -8, r: 2.6 };
 export const SPRING_POOL = { x: -8, z: -94, r: 8 };
 export const SHRINE_PLATEAU = { x: -28, z: -102, r: 44, h: 7 };
-export const OVERLOOK_BUMP = { x: -140, z: 30, r: 46, h: 8 };
+export const OVERLOOK_BUMP = { x: -140, z: 30, r: 46, h: 4.8 };
 export const LEDGE = { x: 122, z: -72, r: 12, h: 0 };
 
 /** Bench and lantern positions for the environment art. */
 export const LANTERNS: V2[] = [
-  { x: -244, z: 34 }, { x: -230, z: 52 }, { x: -292, z: 116 }, { x: 2, z: 12 }, { x: 22, z: 4 }, { x: -20, z: -3 }, { x: -8, z: 32 }, { x: 14, z: 21 },
+  { x: -88, z: 20 }, { x: -74, z: 38 }, { x: -94, z: 62 }, { x: 2, z: 12 }, { x: 22, z: 4 }, { x: -20, z: -3 }, { x: -8, z: 32 }, { x: 14, z: 21 },
   { x: -16, z: -96 }, { x: -44, z: -95 }, { x: 88, z: -20 }, { x: 78, z: -10 }, { x: -132, z: 30 },
 ];
 

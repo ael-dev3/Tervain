@@ -14,6 +14,16 @@ export interface InspectPoint {
 }
 
 export const INSPECT_POINTS: Record<string, InspectPoint> = {
+  arrival_wreckage: {
+    id: 'arrival_wreckage',
+    effects: [{ t: 'fact', key: 'saw_arrival_wreckage' }],
+    noticeKey: 'inspect.arrival_wreckage',
+  },
+  templar_waymarker: {
+    id: 'templar_waymarker',
+    effects: [{ t: 'fact', key: 'saw_templar_waymarker' }],
+    noticeKey: 'inspect.templar_waymarker',
+  },
   dry_channel: {
     id: 'dry_channel',
     effects: [

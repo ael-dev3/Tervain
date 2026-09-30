@@ -8,7 +8,13 @@ Tervain is the working name for the region in which the game takes place; whethe
 
 The player encounters inhabited countryside: charcoal burners buying bread, seasonal workers sleeping above a stable, shrines repaired with mismatched stone, patrols asking for toll papers, and families arguing about whether their children should leave. Great institutions become understandable through these lives. Wilderness offers danger and discovery, but settlements have routes, resources, and histories that explain their presence.
 
-The wider universe may contain powers associated with Warpkeep. Their central conflict remains outside this story. No prior knowledge of Warpkeep is required, and no chapter depends on an invasion by those powers, a hidden machine intelligence, or a revelation that local magic is technology.
+The setting shares Warpkeep's wider world, and the Templars are part of the Hegemony (owner clarification A21). The Hegemony–Core–Ousters main conflict remains outside this local story. No prior knowledge of Warpkeep is required, and no chapter depends on an invasion by those powers, a hidden machine intelligence, or a revelation that local magic is technology. The formal hierarchy, timeline, and doctrine beyond that confirmed affiliation remain proposed or open.
+
+## Current arrival direction, 0.0.5
+
+[A27](../decisions.md) establishes a sparse strand, an amnesiac opening, dense woodland before the first inland settlement, and no dialogue windows for this patch. The working **Deepwood** is an authored habitat within the existing coast-to-valley map, not another campaign region. The old beach camp moves to an inland waystation; Rillford remains farther along the route. Tall mixed crowns, a birch layer, moss, ferns, fallen timber, stone trail markers, and roofless roadside remains carry the journey. Three wooded hogbacks and a dry swale shape the ground beside the graded road; a timber Rillford fingerpost at the coast/trail junction points inland without blocking the lane. These are authored geography and navigation, not new campaign history.
+
+The marks and remains are original proposed traces of Templar stewardship within the Hegemony. They establish visual continuity without deciding who built them, how old they are, or what sacred doctrine they encode. The landing hull and amnesiac observations likewise do not prove the protagonist's identity or cause of memory loss. Environmental inspections and the journal introduce this material; NPC observation does not become a conversation or grant a faction relationship. Implementation and validation status are recorded in the [0.0.5 handoff](../production/releases/0.0.5.md).
 
 ## Three regional identities
 

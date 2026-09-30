@@ -1,8 +1,8 @@
 # Sharing technology and assets with Warpkeep
 
-> **Update, 29 September 2026.** Shared *technology* (wind, sky light, grass tiles) is in use; the imported Warpkeep *models* are archived in `assets/warpkeep/` and are not used or published in 0.0.x because they conflict with the Gothic 3 direction (decisions A10, A12). The requirements below still govern any later use.
+> **Update, 30 September 2026.** Shared *technology* (wind, sky light, grass tiles) is in use; the imported Warpkeep *models* are archived in `assets/warpkeep/` and are not used or published in 0.0.x because they conflict with the Gothic 3 direction (decisions A10, A12). A21 confirms Templars within the Hegemony, and A22 specifically authorizes the exact September 27 Hegemony emblem for the native 3D menu. Its [source, terms, hash, and current verification](asset-inventory.md#approved-hegemony-menu-emblem-30-september-2026) are separate from the historical model import. The requirements below still govern other reuse.
 
-Status: **reuse plan and dated inventory of candidates. A first import is done and recorded in [asset-inventory.md](asset-inventory.md)** (209 runtime GLBs from Warpkeep at `786c0b2`, used by the browser prototype under the owner's authorisation). The rest of this document remains the plan for further reuse. Checked 29 September 2026.
+Status: **reuse plan and dated inventory of candidates. A first import and the approved menu emblem are recorded in [asset-inventory.md](asset-inventory.md)** (209 runtime GLBs from Warpkeep at `786c0b2`, historically used under owner authorization, now archive-only; exact emblem copied on 30 September). The rest of this document remains the plan for further reuse. Earlier source snapshots below were checked on 29 September; the menu source was rechecked on 30 September.
 
 ## Purpose
 
@@ -23,6 +23,8 @@ The benefit should be visible: a better original tree may improve both a mobile 
 
 PR states and release availability can change. Recheck at import time and pin the source actually consumed. None of these references authorizes this task to merge sibling PRs or publish pending attachments.
 
+For the September 30 menu revision, fresh read-only fetches still resolved main to the recorded Warpkeep `786c0b2` and Assets `1e5c49e`. The approved September 27 emblem exists on Assets' inspected branch revision `5394111926a8f728ef91a9436bc8d7266296869e` and in its published archive release. Main snapshots and that asset branch are not interchangeable. No Templar record was found in the inspected main source/docs; Hegemony affiliation is confirmed by the owner's current instruction, rather than inferred from absent repository lore.
+
 The v3 PR reports 40 GLBs, 60 painted atlases, 20 tree-bearing biome designs, near variants of 311–1,098 triangles and mobile variants of 80–277. Those are upstream reported model counts, not measurements of Tervain's renderer. The prepared ZIP is reported as 7,180,652 bytes, SHA-256 `039d2fb736b4a58857b84ba11c321208e1a9e8ca54eb1922d6684237144f547e`. Verify the downloaded archive and its member manifest before treating it as the expected source.
 
 ## Candidate assessment
@@ -34,6 +36,7 @@ The v3 PR reports 40 GLBs, 60 painted atlases, 20 tree-bearing biome designs, ne
 | Modular stone/timber/building parts | Village, shrine, quarry, walls, bridges, and work structures. | Inspect accessible interiors, door sizes, ground contacts, close-view materials, collision, and cultural identity. |
 | Citizen/animal models and rigs | Starting rig study, ambient movement, possible selected residents or wildlife. | Confirm forward axis and units; inspect loops, feet/hands, retargeting, proportions, and combat/emote needs. |
 | Castle and rooftop guardian | Reference for authored 3D composition, animation, and source organization. | Tervain's setting does not require the guardian or a castle-centered menu. Character/source rights and narrative fit require separate treatment. |
+| Approved September 27 Hegemony emblem | Selected for the menu under explicit owner authority (A21–A22); since 0.0.5 it is painted, weathered, into the single standard of the Templar vigil (A24, A26). | Preserve exact bytes and source boundary, load through the base URL, integrate on native cloth, and verify rendering/fallback; no invented replacement seal. |
 | Music and sounds | Production reference or possible selected licensed material. | Confirm actual reuse scope, loops/stems, regional tone, loudness, interruptions, attribution, and fatigue in extended play. |
 | Model viewers and validators | Inspect variants, geometry, materials, animation, and release manifests. | Adapt as offline development tools; avoid bundling unnecessary viewer code in the game. |
 
@@ -74,7 +77,9 @@ Warpkeep's software license does not automatically cover every model, image, or 
 
 The earlier WoW tree inspections and Gothic references can inform silhouette, canopy density, material economy, and level composition. Extracted game files, their textures, animations, and recognizable designs are not Tervain's asset library. Build original assets or use assets under actual compatible terms. The BlendSwap example has its own source record and must be treated individually.
 
-Likewise, the original Warplet references, previous emblem, music attachment, and generated concept media carry their recorded source boundaries. A historical upload or publication approval is not a blanket relicensing statement for everything in the archive.
+Boring Forest is a visual and public-source study for the `0.0.5` woodland, not an asset or code import. Its initial composition and client implementation were observed; pointer-lock entry failed, so no walked reference route or performance comparison was completed. No affirmative custom-asset license was established. Tervain's trees, floor detail, waymarkers, and haze remain original code-authored work. See the [study record](../references.md#boring-forest-study-30-september-2026).
+
+Likewise, the original Warplet references, previous emblems, music attachment, and generated concept media carry their recorded source boundaries. A historical upload or publication approval is not a blanket relicensing statement for everything in the archive. The current Hegemony menu emblem is a specifically owner-authorized selection, not a general grant over the rest of the archive.
 
 ## First reuse experiment
 

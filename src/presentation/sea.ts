@@ -1,27 +1,42 @@
 import * as THREE from 'three';
-import { WORLD } from '../world/layout';
 import type { Terrain } from '../world/terrain';
 import { sharedNoise } from './noiseTextures';
 import { SKY } from './skyState';
+import { buildSeaGeometry } from './seaGeometry';
+import { detachWaterOptics, makeWaterOpticsUniforms, WATER_OPTICS_GLSL } from './waterOptics';
 
-/**
- * The sea: a large plane at sea level with depth taken from the terrain, so the shallows are see-through and pale where the
- * sand is close, and the deep water is dark grey-green. Slow swell, two layers of wind ripples, foam that runs up the beach and
- * back with each wave, a soft glint of the sun, and a Fresnel reflection of the sky colour. One mesh, one draw call.
- */
-
+/** Original layered coastal waves, depth transmission and laced surf, on a stitched ocean mesh. */
 const VERT = /* glsl */ `
 attribute float aDepth;
+attribute float aShore;
 uniform float uTime;
 varying float vDepth;
+varying float vShore;
 varying vec3 vWorld;
+varying vec3 vNormal;
+varying float vCrest;
 #include <fog_pars_vertex>
+void wave(vec2 dir, float wavelength, float amplitude, vec2 xz, inout float height, inout vec2 slope) {
+  float k = 6.2831853 / wavelength;
+  float phase = dot(dir, xz) * k - sqrt(9.81 * k) * uTime * 0.65;
+  height += amplitude * (sin(phase) + 0.16 * sin(phase * 2.0));
+  slope += amplitude * k * (cos(phase) + 0.32 * cos(phase * 2.0)) * dir;
+}
 void main() {
-  vDepth = aDepth;
   vec3 p = position;
-  float swell = sin(p.x * 0.045 + uTime * 0.55) * 0.5 + sin(p.z * 0.06 - uTime * 0.42 + p.x * 0.02) * 0.5;
-  p.y += swell * 0.09 * smoothstep(0.2, 2.5, aDepth);
-  vWorld = p;
+  float h = 0.0;
+  vec2 slope = vec2(0.0);
+  wave(normalize(vec2(1.0, 0.18)), 23.0, 0.24, p.xz, h, slope);
+  wave(normalize(vec2(0.92, -0.39)), 11.0, 0.11, p.xz, h, slope);
+  wave(normalize(vec2(0.68, 0.73)), 6.0, 0.045, p.xz, h, slope);
+  wave(normalize(vec2(-0.28, 0.96)), 3.8, 0.018, p.xz, h, slope);
+  float shoreDamping = smoothstep(0.04, 2.0, aDepth);
+  p.y += h * shoreDamping;
+  vNormal = normalize(vec3(-slope.x * shoreDamping, 1.0, -slope.y * shoreDamping));
+  vCrest = h * shoreDamping;
+  vDepth = aDepth + h * shoreDamping;
+  vShore = aShore;
+  vWorld = (modelMatrix * vec4(p, 1.0)).xyz;
   vec4 mvPosition = modelViewMatrix * vec4(p, 1.0);
   gl_Position = projectionMatrix * mvPosition;
   #include <fog_vertex>
@@ -29,6 +44,7 @@ void main() {
 
 const FRAG = /* glsl */ `
 uniform float uTime;
+uniform float uDetail;
 uniform vec3 uTop;
 uniform vec3 uHorizon;
 uniform vec3 uSunDir;
@@ -36,145 +52,105 @@ uniform vec3 uSunColor;
 uniform float uSunI;
 uniform float uNight;
 uniform sampler2D uNoise;
+uniform sampler2D uCells;
 varying float vDepth;
+varying float vShore;
 varying vec3 vWorld;
+varying vec3 vNormal;
+varying float vCrest;
 #include <fog_pars_fragment>
-
-vec2 grad(vec2 p) { return (texture2D(uNoise, p).gb - 0.5) * 4.0; }
-
+${WATER_OPTICS_GLSL}
 void main() {
+  float d = max(vDepth, 0.0);
+  float landMask = smoothstep(-0.035, 0.065, vDepth);
+  if (landMask < 0.005) discard;
   vec3 V = normalize(cameraPosition - vWorld);
-  float dist = length(cameraPosition - vWorld);
-  // Ripples: two crossing layers, faded with distance so the far sea does not shimmer.
-  vec2 uv1 = vWorld.xz * 0.085 + vec2(uTime * 0.012, uTime * 0.007);
-  vec2 uv2 = vWorld.xz * 0.23 + vec2(-uTime * 0.02, uTime * 0.014);
-  vec2 g = grad(uv1) * 0.5 + grad(uv2) * 0.35;
-  g *= 1.0 - smoothstep(20.0, 260.0, dist) * 0.92;
-  vec3 N = normalize(vec3(-g.x * 0.16, 1.0, -g.y * 0.16));
+  float distanceToCamera = length(cameraPosition - vWorld);
+  vec2 uv = vWorld.xz * 0.075 + vec2(-uTime * 0.008, uTime * 0.005);
+  vec2 uv2 = vWorld.xz * 0.24 + vec2(uTime * 0.012, -uTime * 0.009);
+  vec2 ripple = (texture2D(uNoise, uv).gb - 0.5) * 0.65;
+  ripple += (texture2D(uNoise, uv2).gb - 0.5) * 0.4 * uDetail;
+  ripple *= (1.0 - smoothstep(18.0, 220.0, distanceToCamera)) * smoothstep(0.02, 0.5, d);
+  vec3 N = normalize(vNormal + vec3(-ripple.x * 0.65, 0.0, -ripple.y * 0.65));
+  float facing = clamp(dot(N, V), 0.0, 1.0);
+  float fresnel = 0.025 + 0.975 * pow(1.0 - facing, 5.0);
   vec3 R = reflect(-V, N);
-  float fres = 0.02 + 0.98 * pow(1.0 - clamp(dot(N, V), 0.0, 1.0), 5.0);
-
-  float dRaw = vDepth;
-  float d = max(dRaw, 0.0);
-  float landMask = smoothstep(-0.06, 0.1, dRaw);
-  // Colour of the water itself: sandy and pale in the shallows, deep grey-green further out.
-  vec3 shallow = vec3(0.19, 0.25, 0.22);
-  vec3 mid = vec3(0.08, 0.15, 0.16);
-  vec3 deep = vec3(0.035, 0.075, 0.095);
-  vec3 body = mix(shallow, mid, smoothstep(0.1, 2.2, d));
-  body = mix(body, deep, smoothstep(2.0, 9.0, d));
-  float light = mix(0.28, 1.0, (1.0 - uNight)) * (0.55 + 0.35 * clamp(uSunI, 0.0, 1.6));
-  body *= light;
-
-  // What the water reflects: the sky towards the horizon, brighter at the sun.
-  float up = clamp(R.y, 0.0, 1.0);
-  vec3 sky = mix(uHorizon, uTop, pow(up, 0.45));
+  float day = 1.0 - uNight;
+  float light = 0.18 + day * (0.5 + min(uSunI, 2.2) * 0.22);
+  vec3 shallow = vec3(0.045, 0.235, 0.215);
+  vec3 deep = vec3(0.012, 0.07, 0.105);
+  vec3 body = mix(shallow, deep, 1.0 - exp(-d * 0.22)) * light;
+  body = waterTransmission(body, N, vWorld, d, 1.25);
+  float cell = texture2D(uCells, vWorld.xz * 0.12 + ripple * 0.05 + vec2(uTime * 0.0015, -uTime * 0.001)).b;
+  float caustic = (1.0 - smoothstep(0.015, 0.11, cell)) * (1.0 - smoothstep(1.0, 4.0, d)) * smoothstep(0.05, 0.45, d);
+  body += vec3(0.012, 0.027, 0.022) * caustic * day * uDetail * facing;
+  vec3 sky = mix(uHorizon, uTop, pow(clamp(R.y, 0.0, 1.0), 0.5));
+  vec3 reflected = waterReflection(sky, N, vWorld);
   float sd = max(dot(R, uSunDir), 0.0);
-  vec3 refl = sky + uSunColor * (pow(sd, 90.0) * 1.8 + pow(sd, 12.0) * 0.12) * uSunI * (1.0 - uNight);
-  vec3 col = mix(body, refl, clamp(fres, 0.0, 0.85));
-
-  // Foam. Each wave runs up the sand and slips back: a band whose edge moves with time and with a little noise.
-  float wob = texture2D(uNoise, vWorld.zx * 0.05 + vec2(uTime * 0.01, 0.0)).r;
-  float run = 0.55 + 0.45 * sin(uTime * 0.8 + vWorld.z * 0.07 + wob * 5.0);
-  float edge = d - run * 0.9 + (wob - 0.5) * 0.5;
-  float foamBand = (1.0 - smoothstep(0.0, 0.35, edge)) * smoothstep(-0.55, -0.1, edge);
-  float lace = smoothstep(0.35, 0.75, texture2D(uNoise, vWorld.xz * 0.6 + uTime * 0.02).r);
-  float foam = clamp(foamBand * (0.55 + 0.6 * lace), 0.0, 1.0);
-  // A thin permanent lip of foam at the very edge, and a hint of breaking foam over the shoal.
-  foam = max(foam, (1.0 - smoothstep(0.0, 0.22, d)) * 0.55 * landMask);
-  foam = max(foam, smoothstep(2.4, 1.2, d) * smoothstep(0.4, 1.0, d) * lace * 0.16);
-  vec3 foamCol = vec3(0.7, 0.72, 0.68) * light * (1.0 - 0.45 * uNight);
-  col = mix(col, foamCol, foam);
-
-  // Transparent over the shallows so the sand shows through; opaque a little way out.
-  float alpha = mix(0.0, 1.0, smoothstep(0.02, 0.5, d)) * mix(0.62, 1.0, smoothstep(0.4, 3.0, d));
-  alpha = max(alpha, foam) * landMask;
-  if (alpha < 0.01) discard;
-  gl_FragColor = vec4(col, alpha);
+  reflected += uSunColor * (pow(sd, 96.0) * 1.2 + pow(sd, 18.0) * 0.04) * uSunI * day;
+  vec3 color = mix(body, reflected, clamp(fresnel, 0.025, 0.92));
+  float backlight = pow(max(dot(V, -uSunDir), 0.0), 3.0);
+  color += shallow * max(vCrest, 0.0) * backlight * day * 0.5;
+  // Receding shore wash: narrow cell-edge lace instead of solid white noise blobs.
+  float noise = texture2D(uNoise, vWorld.xz * 0.048 + vec2(0.0, uTime * 0.002)).r;
+  float phase = vShore * 0.65 - uTime * 0.7 + vWorld.z * 0.025 + noise * 1.4;
+  float run = 0.16 + 0.22 * (0.5 + 0.5 * sin(uTime * 0.75 + vWorld.z * 0.035));
+  float edge = d - run;
+  float wash = (1.0 - smoothstep(0.06, 0.28, abs(edge))) * smoothstep(-0.015, 0.08, d);
+  float breaker = pow(max(sin(phase), 0.0), 7.0) * smoothstep(0.3, 0.9, d) * (1.0 - smoothstep(1.0, 2.8, d));
+  vec2 churn = vWorld.xz * 0.11 + vec2(sin(vWorld.z * 0.9), cos(vWorld.x * 0.7)) * 0.027;
+  float laceCell = texture2D(uCells, churn + vec2(-uTime * 0.004, uTime * 0.003)).b;
+  float lace = 1.0 - smoothstep(0.01, 0.085, laceCell);
+  float pockets = texture2D(uNoise, vWorld.xz * 0.26 + vec2(-uTime * 0.008, uTime * 0.002)).r;
+  float breakup = smoothstep(0.36, 0.68, pockets);
+  float foam = clamp(wash * (0.035 + lace * 0.46) + breaker * (0.04 + lace * 0.29), 0.0, 0.7);
+  foam *= breakup * (0.65 + noise * 0.35);
+  // A small broken lip where submerged rocks cut the surface, using captured depth.
+  foam += waterContactEdge(vWorld) * smoothstep(0.45, 1.0, d) * (0.08 + lace * 0.28) * breakup;
+  foam = min(foam, 0.8);
+  vec3 foamColor = vec3(0.72, 0.78, 0.73) * light;
+  color = mix(color, foamColor, foam);
+  float alpha = uWaterCapture > 0.5 ? landMask : landMask * mix(0.14, 1.0, smoothstep(0.02, 2.5, d));
+  alpha = max(alpha, foam * landMask);
+  gl_FragColor = vec4(color, alpha);
   #include <fog_fragment>
+  #include <tonemapping_fragment>
+  #include <colorspace_fragment>
 }`;
 
 export interface SeaHandle {
   group: THREE.Group;
-  update(dt: number, time: number): void;
+  mesh: THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>;
+  update(dt: number, time: number, reducedMotion?: boolean, reduceEffects?: boolean): void;
+  /** Detach Grade-owned borrowed attachments before generic scene cleanup. */
+  dispose(): void;
 }
 
-/** The whole sea in one mesh: 2 m cells over the near sea (where depth comes from the terrain) and one big skirt beyond. */
-export function buildSea(terrain: Terrain): SeaHandle {
-  const NEAR_X1 = -180;
-  const cell = 3;
-  const x0 = WORLD.minX;
-  const nx = Math.ceil((NEAR_X1 - x0) / cell);
-  const z0 = WORLD.minZ - 12;
-  const z1 = WORLD.maxZ + 12;
-  const nz = Math.ceil((z1 - z0) / cell);
-  const pos: number[] = [];
-  const depth: number[] = [];
-  const idx: number[] = [];
-  for (let j = 0; j <= nz; j++) {
-    for (let i = 0; i <= nx; i++) {
-      const x = x0 + i * cell;
-      const z = z0 + j * cell;
-      pos.push(x, 0, z);
-      depth.push(-terrain.heightAt(x, z) + (x < WORLD.minX + 2 ? 14 : 0));
-    }
-  }
-  const row = nx + 1;
-  for (let j = 0; j < nz; j++) {
-    for (let i = 0; i < nx; i++) {
-      const a = j * row + i;
-      idx.push(a, a + row, a + 1, a + 1, a + row, a + row + 1);
-    }
-  }
-  // Skirt: a wide frame around the near grid, deep everywhere.
-  const base = pos.length / 3;
-  const R = 5200;
-  const skirt: [number, number][] = [
-    [x0 - R, z0 - R], [NEAR_X1 + R, z0 - R], [NEAR_X1 + R, z1 + R], [x0 - R, z1 + R],
-    [x0, z0], [NEAR_X1, z0], [NEAR_X1, z1], [x0, z1],
-  ];
-  for (const [x, z] of skirt) {
-    pos.push(x, 0, z);
-    depth.push(16);
-  }
-  const q = (a: number, b: number, c: number, d: number) => idx.push(base + a, base + b, base + c, base + a, base + c, base + d);
-  q(0, 1, 5, 4); // north
-  q(1, 2, 6, 5); // east
-  q(2, 3, 7, 6); // south
-  q(3, 0, 4, 7); // west
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
-  geo.setAttribute('aDepth', new THREE.Float32BufferAttribute(depth, 1));
-  geo.setIndex(idx);
-  const uniforms = {
-    uTime: { value: 0 },
-    uTop: SKY.top,
-    uHorizon: SKY.horizon,
-    uSunDir: SKY.sunDir,
-    uSunColor: SKY.sunColor,
-    uSunI: SKY.sunI,
-    uNight: SKY.night,
-    uNoise: { value: sharedNoise().detail as THREE.Texture },
-  };
+export function buildSea(terrain: Terrain, quality: 'low' | 'medium' | 'high' = 'medium'): SeaHandle {
+  const noise = sharedNoise();
   const mat = new THREE.ShaderMaterial({
-    uniforms: { ...THREE.UniformsUtils.clone(THREE.UniformsLib.fog), ...uniforms },
-    vertexShader: VERT,
-    fragmentShader: FRAG,
-    transparent: true,
-    depthWrite: false,
-    fog: true,
-    side: THREE.DoubleSide,
-  });
-  const mesh = new THREE.Mesh(geo, mat);
-  mesh.frustumCulled = false;
-  mesh.renderOrder = 2;
-  mesh.name = 'sea';
-  const group = new THREE.Group();
-  group.add(mesh);
-  return {
-    group,
-    update(_dt, time) {
-      mat.uniforms.uTime!.value = time;
+    uniforms: {
+      ...THREE.UniformsUtils.clone(THREE.UniformsLib.fog), ...makeWaterOpticsUniforms(),
+      uTime: { value: 0 }, uDetail: { value: quality === 'low' ? 0 : 1 },
+      uTop: SKY.top, uHorizon: SKY.horizon, uSunDir: SKY.sunDir, uSunColor: SKY.sunColor,
+      uSunI: SKY.sunI, uNight: SKY.night,
+      uNoise: { value: noise.detail }, uCells: { value: noise.cell },
     },
+    vertexShader: VERT, fragmentShader: FRAG,
+    transparent: true, depthWrite: false, fog: true, side: THREE.FrontSide,
+  });
+  const mesh = new THREE.Mesh(buildSeaGeometry(terrain, quality), mat);
+  mesh.frustumCulled = false;
+  mesh.renderOrder = 2; mesh.name = 'sea';
+  const group = new THREE.Group(); group.add(mesh);
+  let clock = 0;
+  return {
+    group, mesh,
+    update(dt, _time, reducedMotion = false, reduceEffects = false) {
+      if (!reducedMotion && Number.isFinite(dt) && dt > 0) clock += dt;
+      mat.uniforms.uTime!.value = clock;
+      mat.uniforms.uDetail!.value = quality === 'low' || reduceEffects ? 0 : 1;
+    },
+    dispose() { detachWaterOptics(mat); },
   };
 }

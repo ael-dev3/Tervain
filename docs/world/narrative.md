@@ -2,6 +2,8 @@
 
 > Status: PROPOSED original story material, not approved canon or a commitment to launch scope. The accepted direction is serious single-player high fantasy, meaningful faction interactions, and a world understandable independently of Warpkeep. Every plot, person, ending, and historical interpretation below is a working proposal. See [vision](../vision.md), [setting](setting.md), and [factions](factions.md).
 
+The Templars' Hegemony affiliation is confirmed by the owner (A21). The proposed local campaign remains away from the main Hegemony–Core–Ousters war; affiliation alone does not settle the order's response to each local dispute or adopt the narrative details below as canon.
+
 ## Narrative promise
 
 The player earns a place in a landscape whose inhabitants already have relationships, obligations, and unresolved arguments. Exploration changes what the player knows; knowledge changes which actions become credible; actions change who can live, work, travel, or exercise authority in a place.
@@ -10,7 +12,9 @@ The proposed central question is: **Who has the right to change a shared inherit
 
 The wider dramatic pressure is a Marcher coalition extending emergency rule across Alder Basin while League towns defend their charters and the Templars dispute their own role. This produces occupied crossings, relief delivered under coercive terms, sanctuary disputes, armed resistance, and opportunities to demand enforceable limits. Water is Bellwether's immediate problem; political authority, livelihood, faith, violence, and belonging sustain the wider campaign. The north and desert pursue their own interests rather than becoming automatic extensions of this struggle.
 
-The player should have a personal reason to seek livelihood and standing, not automatic status as a chosen savior. A flexible proposed opening is arrival with a work caravan delayed by a damaged crossing. The player needs passage and payment. Their background can explain basic capabilities without deciding ancestry, religion, or final allegiance. Exact background options remain open pending production scope.
+The player should have a personal reason to seek livelihood and standing, not automatic status as a chosen savior. The earlier work-caravan opening is superseded for the current patch by [A27](../decisions.md): new games begin alone on the sparse Grey Strand with no remembered name or journey, then follow the woodland trail toward inland people. Environmental observations and a journal carry the opening; `0.0.5` offers no conversation windows. The cause of memory loss, actual past, ancestry, religion, and final allegiance remain original story proposals. Amnesia must not automatically imply chosen status, imported Hyperion history, or a predetermined faction membership.
+
+The campaign and Dry Bell sequences below remain future narrative design. Their renderer-free quest/dialogue data survives in the prototype, but the observation-only NPC interface does not currently offer testimony, training, or negotiated consent. See the [current prototype scope](../engineering/prototype.md) before treating a designed branch as a player-accessible feature.
 
 ## Dramatic rules
 

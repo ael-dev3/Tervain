@@ -4,19 +4,23 @@
 
 Tervain is being developed toward a Steam release. Its creative starting point is the freedom, regional character, dangerous travel, and faction encounters of *Gothic 3*, together with the layered perspectives, religious tensions, and complicated loyalties of *Hyperion*. The world, characters, faiths, visual identity, and stories will be original.
 
-An original order currently called the **Templars** anchors the setting. Its territories sit away from the future Hegemony–Core–Ousters conflict envisioned for Warpkeep. Local people still have their own arguments about land, water, work, authority, belief, and survival. Their lives provide the substance of this game.
+An original order currently called the **Templars** anchors the setting. **The Templars are part of the Hegemony**, as clarified by the owner on 30 September. Their local story sits away from the future Hegemony–Core–Ousters conflict envisioned for Warpkeep. Local people still have their own arguments about land, water, work, authority, belief, and survival. Their lives provide the substance of this game.
 
 ## Repository status
 
 **Foundation / pre-production — seeded 29 September 2026; first playable prototype added the same day.**
 
-This repository contains a design and production outline and a browser-playable build of the first slice. It does not contain a desktop package, a shipped asset pack, or Steam integration. Version **0.0.4** revises construction, coastal presentation, people, interface, and runtime stability; see the [patch notes and validation limits](docs/production/releases/0.0.4.md). The build guard enforces the 0.0.x line until the quality gate is met and the owner approves 0.1. See the [versioning policy](docs/production/versioning.md) and [what is real and what is representation](docs/engineering/prototype.md).
+This repository contains a design and production outline and a browser-playable exploration prototype. It does not contain a desktop package, a shipped asset pack, or Steam integration. Version **0.0.5** gives the opening a sparse amnesiac landing, a dense woodland journey, and settlements farther inland. Conversation windows are removed for this pass; the earlier Dry Bell simulation and dialogue data remain for future work, rather than a claim of a complete negotiation UI. Claude’s menu PR #3 is integrated into the same revision. The hilly terrain, road/sign, camera, and audio corrections are implemented. The combined revision is integrated and locally validated; publication remains pending. See the [0.0.5 handoff](docs/production/releases/0.0.5.md). The build guard enforces the 0.0.x line until the quality gate is met and the owner approves 0.1. See the [versioning policy](docs/production/versioning.md) and [what is real and what is representation](docs/engineering/prototype.md).
+
+**Menu, 0.0.5 (A26):** a Templar warden keeps a dusk vigil on a headland above the sea: an ancient tree with a hermit’s door in its roots and pilgrims’ rags on its boughs, a campfire, standing stones, one weathered Hegemony standard, and Lantern Point’s lighthouse against the sunset. The name is cast in pitted bronze with a sword for the I; choices use dark leather inside a notched bronze panel, forms use torn parchment, and dust and scratches weather the picture. This replaces the desert market and its title treatment while retaining the name Tervain, original lettering, and the single approved emblem. The [menu vigil notes](docs/production/releases/0.0.5-menu-vigil.md) preserve PR #3’s separate implementation and headless review; they do not validate the combined forest, terrain, or audio revision.
+
+Layered coastal waves, depth-based transmission, world reflections, and the Low/Reduced Effects fallback remain from `0.0.4`. Gameplay tree and leaf sway stays paused. The [0.0.4 notes](docs/production/releases/0.0.4.md) preserve earlier menu, water, and construction checks as historical evidence.
 
 ## Play the prototype
 
 **[▶ Play — The Grey Strand to Bellwether Vale](https://ael-dev3.github.io/Tervain/)** (a desktop browser with WebGL; keyboard and mouse or a controller)
 
-You arrive by wagon on a grey beach under a lighthouse and walk inland over open heath to a valley village. A vertical-slice test: investigate a failing water supply, brace a damaged sluice, decide who goes without, and see the valley change. The look follows the owner's Gothic 3 direction (see [look reference](docs/art/gothic3-reference.md)). Saves stay in your browser. The [prototype notes](docs/engineering/prototype.md) list controls, options, limitations, and how to measure performance on your own device. No performance result is claimed.
+The `0.0.5` opening leaves you on the grey strand with no remembered name. Follow an old trail under overlapping crowns, past moss, ferns, carved waystones, and roofless roadside remains, before reaching an inland waystation and Rillford. Inspect environmental clues, observe people without opening conversations, and read your journal. The forest takes strong visual inspiration from [Boring Forest](https://boring-forest.vercel.app/), with original code-authored geometry and materials. Saves stay in your browser; format-1 `0.0.4` saves remain compatible. The public link may still serve an earlier revision until the new build is published. The [prototype notes](docs/engineering/prototype.md) distinguish current controls from retained simulation systems and record the remaining checks. The [combined handoff](docs/production/releases/0.0.5.md) records local browser validation and its dated benchmark; reference-device acceptance remains unverified.
 
 ```bash
 npm install
@@ -30,11 +34,13 @@ npm run build      # static build in dist/
 
 - Name: **Tervain**.
 - Serious, polished, single-player high fantasy aimed at Steam.
-- A Templar-inspired original order and diverse regional faction interactions.
+- A Templar-inspired original order within the Hegemony and diverse regional faction interactions.
 - Narrative inspiration from *Hyperion* and experiential inspiration from *Gothic 3*.
 - Distance from Warpkeep's eventual main faction war; minimal science-fiction presentation.
 - No keep-management focus and little warping in the initial game.
 - Share suitable technology and assets with Warpkeep while giving Tervain its own identity.
+- A sparse amnesiac beach arrival, dense Templar-associated woodland, inland settlements, and no dialogue windows for `0.0.5`.
+- A native 3D Templar dusk-vigil menu with one approved Hegemony standard, hilly inland terrain, clear first-town road/sign guidance, and audio work to reduce clipping and scheduling load.
 
 ### Proposed foundation to test
 
@@ -73,7 +79,7 @@ For navigation by role, see the [documentation index](docs/README.md).
 
 ## First development objective
 
-Build a small, packaged scene in which one character can walk through a convincing landscape, fight a readable encounter, talk to a resident, change a local condition, save, close the game, and return to the changed world. Measure this before building more regions. The browser prototype exercises that loop; it has not yet been packaged or measured on a reference device.
+Build a small, packaged scene in which one character can walk through a convincing landscape, fight a readable encounter, talk to a resident, change a local condition, save, close the game, and return to the changed world. Measure this before building more regions. The earlier browser prototype exercised the simulation loop. The current `0.0.5` pass focuses on exploration and omits conversation windows, so the full negotiation loop needs a future player interface. It has not been packaged or measured on a reference device.
 
 The first complete slice should make a player care about Rillford's water dispute and understand the cost of their chosen resolution. Forest beauty, combat feel, and narrative consequence must work together in the same build.
 
