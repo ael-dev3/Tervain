@@ -5,16 +5,29 @@ No project-wide licence has been selected for this repository yet (see docs/deci
 
 This product includes material from the Warpkeep project (https://github.com/ael-dev3/Warpkeep):
 
-1. Software techniques. Source files in src/presentation/ whose header reads
-   "Adapted from ael-dev3/Warpkeep <path> @786c0b2" contain code derived from
-   Warpkeep's Apache-2.0 licensed software (https://www.apache.org/licenses/LICENSE-2.0).
-   They have been rewritten and modified for Tervain.
+1. Software techniques. The following files identify adaptations or rewritten ports
+   of Warpkeep software at revision 786c0b2be6f2d2e7eb2de02ef3b6826c8907fc32:
+   src/presentation/environment.ts, src/presentation/vegetation.ts,
+   src/presentation/ground/grass.ts, src/presentation/ground/patchMaterial.ts,
+   and src/presentation/ground/tileStream.ts. Their headers name the original
+   source paths and describe Tervain's changes. The applicable license is
+   Apache-2.0 (https://www.apache.org/licenses/LICENSE-2.0); its complete,
+   unmodified text is in public/third-party-notices.txt and the production build.
+
+   Applicable upstream attribution retained from that revision's NOTICE:
+
+   Warpkeep
+   Copyright 2026 Warpkeep contributors
+
+   Warpkeep includes third-party dependencies and externally governed assets under
+   their own terms. See package manifests, lockfiles, ASSETS-LICENSE.md, and the
+   dated provenance records for applicable notices and exceptions.
 
 2. Runtime 3D models. The files under assets/warpkeep/ are byte-exact copies of runtime
    GLB files from Warpkeep at revision 786c0b2be6f2d2e7eb2de02ef3b6826c8907fc32, with their
    provenance in Warpkeep-Assets (https://github.com/ael-dev3/Warpkeep-Assets). They are used
    with the project owner's authorisation and are NOT offered under an open-content licence.
-   They are archived and are not built into the published site in 0.0.2.
+   They are archived and are not built into the published 0.0.5 site.
    See docs/engineering/asset-inventory.md and assets/warpkeep/manifest.json.
 
 Warpkeep names, logos and the Hegemony identity are not licensed by this notice.
