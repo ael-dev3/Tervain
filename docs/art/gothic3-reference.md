@@ -1,10 +1,12 @@
 # Gothic 3 look reference: Ardea and the Myrtana coast
 
-**Status:** owner direction (see decisions A12–A15) and the measurements behind it. This is a study for *inspiration*. Nothing from Gothic 3 is copied, extracted into the repository or shipped: the measurements below were read from the owner's licensed local install with read-only tools, and every texture, mesh, tree and sound in Tervain is generated or authored here.
+**Status:** owner direction (see decisions A12–A15 and A20) and the measurements behind it. This is a study for *inspiration*. Nothing from Gothic 3 is copied, extracted into the repository or shipped: the measurements below were read from the owner's licensed local install with read-only tools, and every texture, mesh, tree and sound in Tervain is generated or authored here. The owner's 30 September clarification governs how these measurements are interpreted for art direction.
 
 ## What the owner asked for
 
 The first place the player sees should be as close to Ardea in Gothic 3 as possible: a coast with a lighthouse, a beach, a great deal of empty terrain, some trees and forests in the distance. The whole game should look like old-school Gothic 3: not cartoonish, rugged, rough around the edges, not perfect, not smooth, human.
+
+On 30 September the owner clarified the intended reading: **similarly exaggerated fantasy**, rather than clinical realism. Heavy expressive shapes, oversized ornament, broad painted value/color groups, rich earthy reds/golds, warm/cool contrast, and selective large wear belong to the direction. “Not cartoonish” retains a serious rugged tone; it does not require photorealism, plain framing, or universal desaturation. Control and body text remain accessible, motion remains calm, and all assets remain original. This art clarification does not introduce lore or gameplay systems, and the version remains `0.0.4`.
 
 ## How the reference was read
 
@@ -24,7 +26,7 @@ The first place the player sees should be as close to Ardea in Gothic 3 as possi
 
 ## The colours
 
-Every albedo is dark and desaturated. Mean sRGB of the decoded textures:
+The sampled albedos have low mean sRGB values. These measurements summarize base textures; they do not describe the complete lit image or prescribe the saturation, ornament, and painted grouping of Tervain's art. The recorded mean sRGB values remain:
 
 | Surface | Mean sRGB |
 | --- | --- |
@@ -53,19 +55,21 @@ The Myrtana set has 52 SpeedTree definitions in five size classes (XS to XXL): D
 
 ## Design rules taken from this
 
-1. **Dark albedo, strong light.** Textures are dark and dirty; the sun, haze and a filmic curve bring the colour up. Nothing is bright.
+1. **Weathered bases, dramatic color and light.** Earthy surface values support broad painted color groups, rich reds/golds, and strong warm/cool relationships. Sun, haze, and expressive shading shape the finished image; low texture means do not prohibit luminous carved edges or vivid dyed cloth.
 2. **Empty is the point.** The strand and the heath are open ground with tufts and stones; trees are rare and characterful; forests stand back on the higher ground and in the distance.
 3. **Scale is big.** Buildings are large and low, towers are tall, and a person is small against them. The lighthouse shaft is 17 m; pines run to 19–25 m.
-4. **Nothing is square.** Posts lean, boards stand at different depths, stones are uneven, roofs sag, doors hang wrong, tools lie where they were dropped.
+4. **Heavy, expressive irregular forms.** Posts lean, thick rails and stones carry uneven profiles, roofs sag, and cloth folds deeply. Enlarge selected carving and ornament to strengthen the silhouette; keep the geometry connected and useful spaces navigable.
 5. **Weathered materials.** Timber is grey-black, plaster is stained and peeling, rope is frayed, iron is rusted; hems of clothes are dirty.
 6. **People are worn.** Thin, tired, mended. Faces have brows and jaws; hands are big; clothes are wool and leather in earth colours.
-7. **Haze, not clarity.** Distance dissolves into warm grey. Far forests are silhouettes.
+7. **Atmospheric drama.** Warm/cool separation and broad value groups give the scene its fantasy mood. Distant forests resolve into silhouettes, while close expressive shapes retain deliberate painted emphasis. Core interface text stays accessible.
 
 ## Where each rule lives in the code
 
+This maps the existing `0.0.4` world treatment to its source. A20 is the accepted direction, not a claim that every world asset already has the revised exaggeration pass.
+
 | Rule | Implemented in |
 | --- | --- |
-| Dark palette | `kit.ts` (`PAL`), `terrainTextures.ts`, `buildingTextures.ts`, `treeTextures.ts`, `treeGen.ts` (`LEAF_GAIN`), `humanGeo.ts` |
+| Weathered base palette | `kit.ts` (`PAL`), `terrainTextures.ts`, `buildingTextures.ts`, `treeTextures.ts`, `treeGen.ts` (`LEAF_GAIN`), `humanGeo.ts` |
 | Light, haze and grade | `sky.ts` (keyframes, `FogExp2`), `environment.ts`, `grade.ts` |
 | Coast and headland | `world/coast.ts`, `world/terrain.ts`, `sea.ts`, `groundSplat.ts` |
 | Empty heath, distant forests | `flora.ts` (placement), `ground/habitat.ts`, `ground/grass.ts` |
@@ -74,4 +78,4 @@ The Myrtana set has 52 SpeedTree definitions in five size classes (XS to XXL): D
 
 ## Not done, and why
 
-The reference has real depth of field and bloom; Tervain has a modest bloom (medium and high presets only, in `grade.ts`) and no depth of field yet. Gothic 3's placement of Ardea's own buildings was not reproduced because it was not read. Performance has not been measured on any device; the frame counts in `docs/engineering/prototype.md` are headless-browser counts, not a frame-rate claim.
+The reference has real depth of field and bloom; Tervain has a modest bloom (medium and high presets only, in `grade.ts`) and no depth of field yet. Gothic 3's placement of Ardea's own buildings was not reproduced because it was not read. Reference-hardware performance remains unverified. The [prototype notes](../engineering/prototype.md) distinguish historical headless counts from the later local browser run recorded with its limits in the [0.0.4 release notes](../production/releases/0.0.4.md).

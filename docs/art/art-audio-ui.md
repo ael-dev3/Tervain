@@ -1,6 +1,6 @@
 # Art, animation, audio, and interface direction
 
-**Status:** the visual direction below is **superseded in part by the owner's directions of 29–30 September 2026** (decisions A12–A14, A17, A19): the game looks like old-school Gothic 3, not like a bright stylized low-poly world, and the first area is modelled on Ardea. Read the [Direction updates](#direction-update-29-september-2026) first; where they conflict with later paragraphs, they win. The owner has established a serious, polished, original high-fantasy Steam game with a Templar-inspired order and useful sharing with Warpkeep. Keep calm camera motion and accessibility; use the material UI direction below instead of the superseded glass proposal. See [vision](../vision.md), [decisions](../decisions.md), and [shared asset requirements](../engineering/shared-assets.md).
+**Status:** the visual direction below is **superseded in part by the owner's directions of 29–30 September 2026** (decisions A12–A14, A17, A19–A20): the game takes Gothic 3's rugged fantasy exaggeration as its reference, and the first area is modelled on Ardea. Read the [Direction updates](#direction-update-29-september-2026) and [exaggeration clarification](#fantasy-exaggeration-clarification-30-september-2026) first; where they conflict with later paragraphs, they win. The owner has established a serious, polished, original high-fantasy Steam game with a Templar-inspired order and useful sharing with Warpkeep. Keep calm camera motion and accessible controls. See [vision](../vision.md), [decisions](../decisions.md), and [shared asset requirements](../engineering/shared-assets.md).
 
 ## Direction update, 29 September 2026
 
@@ -8,14 +8,22 @@ The owner asked for old-school Gothic 3: **not cartoonish, rugged, rough around 
 
 What this changes in practice:
 
-- **Palette and light.** Dark, dirty, desaturated albedo; low warm sun, cool shade, heavy haze (exponential fog), filmic tone mapping and one grade pass (split toning, S-curve, vignette, grain). Grass is dry olive, timber is grey-black, plaster is stained lime. The bright limestone, lime plaster and green grass of the earlier palette are retired.
+- **Palette and light.** Weathered earthy bases, low warm sun, cool shade, haze, and deliberate painted color/value groups. Rich reds, ochres, golds, and warm/cool accents support the fantasy expression established in A20. The reference's low mean albedo values inform surface weathering; they do not require a uniformly desaturated or plain finished image.
 - **Composition.** Wide, empty ground with sparse features. Forests stand on the higher ground and in the distance; the heath carries a few lone wind-bent pines, dead trees and scrub. Landmarks are large and low or tall and thin: the lighthouse shaft is 17 m.
 - **Shapes.** Nothing is square. Posts lean, boards sit at different depths, roofs are built course by course and sag, stones are uneven, doors and shutters hang wrong.
 - **Vegetation.** Trees are skeletons of curved tapering tubes with leaf or needle cards hung on them (each card is a twig of individual leaves), at three levels of detail. Foliage is olive and dusty, not green; some leaves are dying.
 - **People.** Worn and human: sculpted faces with brow, nose and jaw, tapered limbs with bending knees and elbows, layered wool and leather in earth colours with dirty hems.
 - **The player's first minute.** The wagon has stopped on a grey beach; the sea is on one side, the jetty and lighthouse are ahead, and the road to Rillford leaves inland over open heath.
 
-The "three regional identities" table and the paragraphs that follow are otherwise still the plan for Alder Basin, Rimeward Heights and Saltward Expanse, but their colours are now read as *materials seen in Gothic 3 light*: dark, worn and muted.
+The "three regional identities" table and the paragraphs that follow are otherwise still the plan for Alder Basin, Rimeward Heights and Saltward Expanse. Their colors should read as weathered materials grouped through deliberate fantasy painting and lighting, with expressive warm/cool relationships.
+
+## Fantasy exaggeration clarification, 30 September 2026
+
+The owner clarified that Gothic 3 does not pursue clinical realism and asked for a similarly **exaggerated** style (A20). A12's “not cartoonish” establishes a serious rugged fantasy tone; it does not prescribe photoreal proportions, constant desaturation, small restrained ornament, or a plain interface.
+
+Use heavy expressive silhouettes, oversized carved and forged ornament, broad painted planes of light and shade, earthy reds and golds, and strong warm/cool relationships. Weathering should be selective and substantial: larger chips, worn raised edges, deep folds, and irregular joins that support the dominant shape. Preserve connected geometry and purposeful materials. The title and pause menu are the immediate revision scope; this direction does not claim that every world asset has already been reworked.
+
+Control labels, settings, records, and other core body text retain scalable, accessible lettering and clear focus. Artwork can be theatrical while the player can still read and operate the interface. Keep calm motion, original assets, and the `0.0.4` hold. This visual clarification adds no faction lore, ritual meaning, or game systems.
 
 ## Visual promise
 
@@ -51,11 +59,11 @@ Terrain should establish catchments, drainage, erosion, and routes. Bellwether's
 
 ## Materials, light, and people
 
-Use broad readable material values with selective close-view detail. Stone, cloth, wood, leather, metal, and foliage should respond differently to light. Authored color variation and restrained roughness detail support stylization; busy photographic noise does not automatically create quality. Share atlases where it reduces material switches without making every building look identical. Validate texture seams, texel density, edge padding, and normal orientation under moving daylight.
+Use broad painted material values and color groups with selective close-view detail. Stone, cloth, wood, leather, metal, and foliage should respond differently to light. Exaggerated relief, warm/cool color variation, and larger selective wear support the rugged fantasy style. Share atlases where it reduces material switches without making every building look identical. Validate texture seams, texel density, edge padding, and normal orientation under moving daylight.
 
 Default daytime lighting should reveal faces, paths, and material forms. Use a clear directional sun, gentle sky fill, restrained atmospheric haze, and deliberate contact shadows. Forest shade may be cool but should not turn every conversation into a silhouette. Night lighting must preserve navigation and enemy anticipation; expose adjustment in the player settings. Bright fire is localized, with bounded flicker and no rapid full-screen exposure pumping.
 
-Characters need believable proportions, readable expressions, practical costume layers, and distinct posture. Age, body build, hair, complexion, mending, tools, and regional clothing provide variety without replacing every person's identity with a faction uniform. The slice's 12 named residents share a practical rig and modular base where suitable; the four quest principals need recognizable silhouettes and faces. A single creature family receives complete movement and idle treatment before the bestiary expands.
+Characters need expressive grounded proportions, readable expressions, practical costume layers, and distinct posture. Age, body build, hair, complexion, mending, tools, and regional clothing provide variety without replacing every person's identity with a faction uniform. The slice's 12 named residents share a practical rig and modular base where suitable; the four quest principals need recognizable silhouettes and faces. A single creature family receives complete movement and idle treatment before the bestiary expands.
 
 ## Animation and camera
 
@@ -74,6 +82,8 @@ The proposed title menu looks into a small real 3D place associated with Tervain
 **Owner direction, 30 September 2026:** remove the cartoonish glass/card/pill interface. Use a coherent family of paper and ink for records and maps; dark timber and leather for inventory and restrained menu framing; stone and iron for structural accents; and soot-dark, quiet backing only where over-world text needs contrast. Do not use default blur, frosted glass, broad rounded cards, or enchanted-looking selection glow. Keep the live world visible around the title menu, preserve the calm camera and access settings, and make the high-contrast option fully opaque with strong outlines. Small text must remain readable over the actual scene.
 
 **Title and pause reference, 30 September 2026 (A19):** the owner selected hanging weathered red cloth with simple centered menu text, a large carved wordmark, and an ornamented weathered frame. Author Tervain's own textile, frame, and lettering; no reference-game asset is copied. Keep the real world visible around the cloth and preserve native text/button interaction, clear focus, text scaling, and calm motion. Settings, controls, confirmations, and record panels keep paper and ink rather than inheriting the decorative cloth treatment. This is a presentation follow-up within `0.0.4`, not a version promotion.
+
+**Exaggerated menu treatment (A20):** enlarge the expressive carved lettering and frame relief, deepen the textile's substantial folds, and group the image through earthy crimson, warm gold, and cooler surrounding shadow. Ornateness belongs in the large decorative forms; core choice labels and form text keep clear hierarchy and focus. Selective chunky wear supports the theatrical silhouette. The revised artwork is implemented and locally reviewed, prepared for review in unmerged PR #2; publication remains pending. See the [menu follow-up](../production/releases/0.0.4.md#menu-presentation-follow-up) for the observed checks and limits.
 
 Typography, iconography, and a future Tervain emblem need an original coherent family. Fantasy character can live in headings and framing; body text must remain easy to read. Avoid imitation of a reference game's exact lettering. A journal distinguishes observations, testimony, and conclusions without requiring color recognition. Interaction prompts show the current input device and use consistent verbs.
 

@@ -857,7 +857,12 @@ select {
   display: grid;
   justify-items: center;
   color: #f0e3c9;
-  background: radial-gradient(ellipse at 50% 38%, transparent 22%, rgba(14, 16, 12, 0.2) 61%, rgba(9, 12, 9, 0.8) 100%);
+  /* Broad painted light masses give the menu theatrical colour without changing the playable world's grade. */
+  background:
+    linear-gradient(180deg, rgba(3, 35, 41, 0.58), transparent 57%, rgba(87, 31, 3, 0.42)),
+    radial-gradient(ellipse at 12% 72%, rgba(220, 119, 15, 0.4), transparent 49%),
+    radial-gradient(ellipse at 88% 28%, rgba(6, 69, 71, 0.34), transparent 55%),
+    radial-gradient(ellipse at 50% 38%, transparent 20%, rgba(18, 11, 7, 0.2) 58%, rgba(7, 10, 9, 0.88) 100%);
 }
 
 .menu-frame-art {
@@ -869,7 +874,7 @@ select {
 
 .menu-banner {
   position: relative;
-  width: min(470px, 44vw);
+  width: min(510px, 46vw);
   height: calc(100% - 28px);
   margin-top: 8px;
   min-height: 0;
@@ -908,7 +913,7 @@ select {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: min(88vw, 1000px);
+  width: min(94vw, 1150px);
   height: auto;
   aspect-ratio: 1000 / 220;
   transform: translate(-50%, -50%);
@@ -917,10 +922,10 @@ select {
 
 .menu-subtitle {
   margin: 0;
-  color: #e0c895;
+  color: #e8c286;
   font: small-caps 1rem / 1.35 Georgia, 'Times New Roman', serif;
   letter-spacing: 0.12em;
-  text-shadow: 0 2px 3px #170806;
+  text-shadow: 0 2px 3px #170806, 0 0 1px #160906;
 }
 
 .menu-choices {
@@ -946,10 +951,10 @@ select {
   border: 1px solid transparent;
   border-radius: 0;
   background: transparent;
-  color: #ece1c9;
-  font: bold 1.3rem / 1.15 Georgia, 'Times New Roman', serif;
+  color: #f4dfb6;
+  font: bold 1.34rem / 1.15 Georgia, 'Times New Roman', serif;
   text-align: center;
-  text-shadow: 0 2px 2px #130704, 1px 0 2px #1a0905;
+  text-shadow: 0 3px 2px #130704, 1px 0 2px #1a0905, -1px 0 1px #1a0905;
 }
 
 .menu-choices .btn.primary {
@@ -962,6 +967,7 @@ select {
 .menu-choices .btn:focus-visible {
   color: #ffe9ac;
   background: linear-gradient(90deg, transparent, rgba(198, 160, 83, 0.12), transparent);
+  outline: none;
 }
 
 .menu-choices .btn:focus-visible {
@@ -1014,7 +1020,7 @@ select {
 }
 
 .menu-pause .menu-heading h1 { height: clamp(70px, 17vh, 160px); }
-.menu-pause .menu-wordmark-art { width: min(75vw, 740px); }
+.menu-pause .menu-wordmark-art { width: min(86vw, 900px); }
 
 .surface-paper :is(button, input, select):focus-visible {
   outline-color: #44311e;
@@ -1024,10 +1030,30 @@ body.high-contrast .menu-choices .btn { color: #fff; }
 body.high-contrast .menu-choices .btn:focus-visible { outline-color: #fff; }
 body.high-contrast .menu-subtitle,
 body.high-contrast .menu-build { color: #fff; }
-body.reduce-effects .menu-screen { background: rgba(9, 12, 9, 0.2); }
+body.high-contrast .menu-cloth-texture,
+body.high-contrast .menu-cloth-seal { display: none; }
+body.reduce-effects .menu-screen {
+  background: linear-gradient(180deg, rgba(3, 35, 41, 0.5), rgba(72, 27, 4, 0.3));
+}
 body.reduce-effects .menu-screen [filter] { filter: none; }
 
 @media (max-width: 760px) {
+  /* Keep the iron rim and rivets proportionate rather than stretching wide-screen scrollwork. */
+  .menu-frame-art { display: none; }
+  .menu-screen::after {
+    content: '';
+    position: absolute;
+    inset: 9px;
+    z-index: 3;
+    border: 2px solid #9a7740;
+    box-shadow: 0 0 0 3px #201b13, inset 0 0 0 1px #d0ac62;
+    background:
+      radial-gradient(circle at 7px 7px, #d6b369 2px, #604724 4px, #171812 7px, transparent 8px),
+      radial-gradient(circle at calc(100% - 7px) 7px, #d6b369 2px, #604724 4px, #171812 7px, transparent 8px),
+      radial-gradient(circle at 7px calc(100% - 7px), #d6b369 2px, #604724 4px, #171812 7px, transparent 8px),
+      radial-gradient(circle at calc(100% - 7px) calc(100% - 7px), #d6b369 2px, #604724 4px, #171812 7px, transparent 8px);
+    pointer-events: none;
+  }
   .menu-banner { width: min(440px, 88vw); }
   .menu-banner-content { inset-inline: 11%; }
   .menu-heading { padding-top: 2vh; }
