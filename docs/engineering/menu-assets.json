@@ -41,9 +41,9 @@
         "date": "2026-09-30",
         "sourceAndRuntimeByteEquality": true,
         "sizeSha256AndPngHeader": "verified locally",
-        "sceneIntegrationAndVisualQa": "0.0.4: rendered on native fabric in local production-preview review. 0.0.5: rendered weathered on the vigil standard in local headless-browser captures; CPU tests cover print, missing-image fallback and late-load-after-dispose.",
+        "sceneIntegrationAndVisualQa": "0.0.4: rendered on native fabric in local production-preview review. 0.0.5: rendered weathered on the vigil standard in local headless-browser captures; CPU tests cover print, missing-image fallback and late-load-after-dispose. The integrated 0.0.5 revision passed local production-browser review on b2a62ab; current coverage is recorded in docs/production/releases/0.0.5.md.",
         "fallbackAndDisposal": "Six CPU-only scene regression tests; no browser HTTP-failure simulation performed.",
-        "publication": "Locally reviewed in unmerged PR #2 and the stacked 0.0.5 menu PR; publication pending.",
+        "publication": "Integrated from PR #3 into the combined 0.0.5 revision and locally validated; publication pending. See docs/production/releases/0.0.5.md.",
         "desktopPackage": "not verified"
       }
     }
