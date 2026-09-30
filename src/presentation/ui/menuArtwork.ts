@@ -465,6 +465,36 @@ function normalize3(v: [number, number, number]): [number, number, number] {
   return [v[0] / l, v[1] / l, v[2] / l];
 }
 
+/**
+ * Trim an image to what can actually be seen (alpha above `threshold`) plus an even `margin`, so the casting's box is
+ * its letters: centred on whatever it is centred over, and standing directly on what lies below it.
+ */
+export function cropToContent(img: WordmarkImage, margin: number, threshold = 4): WordmarkImage {
+  let x0 = img.w;
+  let y0 = img.h;
+  let x1 = -1;
+  let y1 = -1;
+  for (let y = 0; y < img.h; y++) {
+    for (let x = 0; x < img.w; x++) {
+      if (img.data[(y * img.w + x) * 4 + 3]! <= threshold) continue;
+      if (x < x0) x0 = x;
+      if (x > x1) x1 = x;
+      if (y < y0) y0 = y;
+      if (y > y1) y1 = y;
+    }
+  }
+  if (x1 < 0) return img;
+  x0 = Math.max(0, x0 - margin);
+  y0 = Math.max(0, y0 - margin);
+  x1 = Math.min(img.w - 1, x1 + margin);
+  y1 = Math.min(img.h - 1, y1 + margin);
+  const w = x1 - x0 + 1;
+  const h = y1 - y0 + 1;
+  const data = new Uint8ClampedArray(w * h * 4);
+  for (let y = 0; y < h; y++) data.set(img.data.subarray(((y0 + y) * img.w + x0) * 4, ((y0 + y) * img.w + x0 + w) * 4), y * w * 4);
+  return { w, h, data };
+}
+
 /* ------------------------------------------------------------------ DOM ------------------------------------------------------------------ */
 
 let cached: HTMLCanvasElement | null = null;
@@ -478,7 +508,7 @@ export function createMenuWordmark(): HTMLCanvasElement | null {
   if (!cached) {
     const dpr = Math.min(2, window.devicePixelRatio || 1);
     const width = Math.round(Math.min(2000, Math.max(900, Math.min(window.innerWidth, 1100) * dpr)));
-    const img = renderWordmark(width);
+    const img = cropToContent(renderWordmark(width), Math.round(width * 0.006));
     const c = document.createElement('canvas');
     c.width = img.w;
     c.height = img.h;

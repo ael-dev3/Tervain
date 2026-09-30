@@ -62,21 +62,65 @@ function barkTint(p: V3, up: number, seed: number): V3 {
   return c;
 }
 
+/** Signed difference between two angles, in (-pi, pi]. */
+const angDiff = (a: number, b: number) => Math.atan2(Math.sin(a - b), Math.cos(a - b));
+const smooth = (a: number, b: number, x: number) => {
+  const t = Math.max(0, Math.min(1, (x - a) / (b - a)));
+  return t * t * (3 - 2 * t);
+};
+/** The trunk's axis: it leans and wanders a little as it rises. `h` runs 0..1 from below the ground to the fork. */
+const trunkCenter = (h: number): V3 => [0.35 * Math.sin(h * 2.1) + 0.6 * h * h, h * 6.6 - 0.9, -0.25 * h - 0.2 * Math.sin(h * 3.3)];
+
+/** Where the hermit's door is cut into the trunk (see menuCamp). */
+export interface TreeDoorSpec {
+  /** The ring angle the door faces, tree-local: a trunk point at angle a lies toward (cos a, 0, sin a). */
+  az: number;
+  /** Half the width of the face cut flat for the door and its posts, metres. */
+  halfWidth: number;
+  /** Height of the flat face above the ground at its foot (the lintel's top), metres. */
+  height: number;
+}
+
+/**
+ * The flat face cut for the door, tree-local: a vertical plane facing `normal` through `origin`, which is centred across
+ * the face and lies on the ground at its foot.
+ */
+export interface TreeDoorFace {
+  origin: V3;
+  normal: V3;
+}
+
 /**
  * The trunk as a loft of noisy rings. Seven buttress lobes swell toward the ground and are pulled down below it so each
- * becomes a root; the rings above are lumpy and slightly twisted.
+ * becomes a root; the rings above are lumpy and slightly twisted. With a door, a flat face is adzed into the front of the
+ * bole for it, the buttresses step aside to stand either side of it, and the bark rounds over into the cut at its edges.
  */
-function trunk(m: Mesh3, rng: () => number) {
-  const rings = 34;
-  const seg = 40;
+function trunk(m: Mesh3, rng: () => number, door: TreeDoorSpec | undefined, ground: (x: number, z: number) => number) {
+  const rings = 44;
+  const seg = 56;
   const lobes: { a: number; amp: number; sharp: number }[] = [];
   for (let k = 0; k < 7; k++) lobes.push({ a: (k / 7) * Math.PI * 2 + (rng() - 0.5) * 0.5, amp: 0.55 + rng() * 0.75, sharp: 5 + rng() * 6 });
+  if (door) {
+    // The door stands between two roots: the nearest buttress on each side moves to flank it, and none swells in front.
+    const nearest = (sign: number) =>
+      lobes.reduce<(typeof lobes)[number] | undefined>((best, l) => {
+        const d = angDiff(l.a, door.az) * sign;
+        return d >= 0 && (!best || d < angDiff(best.a, door.az) * sign) ? l : best;
+      }, undefined);
+    const right = nearest(1);
+    const left = nearest(-1);
+    if (right) Object.assign(right, { a: door.az + 0.78, amp: Math.max(right.amp, 0.9) });
+    if (left && left !== right) Object.assign(left, { a: door.az - 0.78, amp: Math.max(left.amp, 0.9) });
+    for (const l of lobes) if (Math.abs(angDiff(l.a, door.az)) < 0.7) l.a = door.az + Math.sign(angDiff(l.a, door.az) || 1) * 0.78;
+  }
   const base = m.n;
-  const center = (h: number): V3 => [0.35 * Math.sin(h * 2.1) + 0.6 * h * h, h * 6.6 - 0.9, -0.25 * h - 0.2 * Math.sin(h * 3.3)];
+  const pts: V3[] = [];
+  const ups: number[] = [];
   for (let r = 0; r <= rings; r++) {
     const h = r / rings;
-    const c = center(h);
-    const R = 1.25 * (1 + 0.8 * Math.pow(1 - h, 5)) * (1 - 0.22 * h);
+    const c = trunkCenter(h);
+    // A massive, short bole: nearly four metres across at the foot, still over three at head height.
+    const R = 1.5 * (1 + 0.6 * Math.pow(1 - h, 3.5)) * (1 - 0.33 * h);
     const twist = h * 0.6;
     for (let s = 0; s <= seg; s++) {
       const th = (s / seg) * Math.PI * 2;
@@ -87,9 +131,47 @@ function trunk(m: Mesh3, rng: () => number) {
       const rr = R * (1 + b * flare * 1.25 + gn * 0.16 + Math.sin(th * 3 + h * 9) * 0.03);
       // Roots dive: the bottom ring is pulled under the ground more where a lobe is strong.
       const dip = h < 0.08 ? -b * (0.08 - h) * 9 : 0;
-      const p: V3 = [c[0] + Math.cos(th) * rr, c[1] + dip, c[2] + Math.sin(th) * rr];
-      const up = h < 0.25 ? b * flare : 0;
-      m.v(p, (th / (Math.PI * 2)) * 6, h * 7.5, barkTint(p, up, 5));
+      pts.push([c[0] + Math.cos(th) * rr, c[1] + dip, c[2] + Math.sin(th) * rr]);
+      ups.push(h < 0.25 ? b * flare : 0);
+    }
+  }
+  let face: TreeDoorFace | undefined;
+  if (door) {
+    const n: V3 = [Math.cos(door.az), 0, Math.sin(door.az)];
+    const t: V3 = [n[2], 0, -n[0]];
+    const foot = trunkCenter(0.14);
+    const top0 = ground(foot[0] + n[0] * 1.6, foot[2] + n[2] * 1.6) + door.height;
+    const c0 = trunkCenter((top0 * 0.5 + 0.9) / 6.6);
+    // The face lies as deep as the bark just outside the posts, so the frame meets bark on both sides and nothing floats.
+    let depth = Infinity;
+    for (const p of pts) {
+      if (p[1] < top0 * 0.3 || p[1] > top0) continue;
+      const x = (p[0] - c0[0]) * t[0] + (p[2] - c0[2]) * t[2];
+      const z = (p[0] - c0[0]) * n[0] + (p[2] - c0[2]) * n[2];
+      if (z > 0 && Math.abs(Math.abs(x) - door.halfWidth) < 0.12) depth = Math.min(depth, z);
+    }
+    if (!Number.isFinite(depth)) depth = 1.2;
+    const ox = c0[0] + n[0] * depth;
+    const oz = c0[2] + n[2] * depth;
+    // The foot of the face is the lower of the ground at the face and just in front of it, where the step goes.
+    const o: V3 = [ox, Math.min(ground(ox, oz), ground(ox + n[0] * 0.3, oz + n[2] * 0.3)) - 0.02, oz];
+    const top = o[1] + door.height;
+    for (const p of pts) {
+      const x = (p[0] - o[0]) * t[0] + (p[2] - o[2]) * t[2];
+      const z = (p[0] - o[0]) * n[0] + (p[2] - o[2]) * n[2];
+      if (z <= 0) continue;
+      const w = (1 - smooth(door.halfWidth, door.halfWidth + 0.3, Math.abs(x))) * (1 - smooth(top, top + 0.3, p[1]));
+      p[0] -= n[0] * z * w;
+      p[2] -= n[2] * z * w;
+    }
+    face = { origin: o, normal: n };
+  }
+  for (let r = 0; r <= rings; r++) {
+    const h = r / rings;
+    for (let s = 0; s <= seg; s++) {
+      const k = r * (seg + 1) + s;
+      const p = pts[k]!;
+      m.v(p, (s / seg) * 6, h * 7.5, barkTint(p, ups[k]!, 5));
     }
   }
   for (let r = 0; r < rings; r++) {
@@ -99,7 +181,7 @@ function trunk(m: Mesh3, rng: () => number) {
       m.idx.push(a, b, a + 1, a + 1, b, b + 1);
     }
   }
-  return center(1);
+  return { top: trunkCenter(1), lobes, face };
 }
 
 /** A tapered, lumpy tube along a polyline, with rings aligned by parallel transport so it never corkscrews. */
@@ -154,18 +236,33 @@ export interface AncientTree {
   leaves: THREE.BufferGeometry;
   /** Twig ends that carry foliage, and the dead limb's ends, for the crows and ribbons. */
   perches: V3[];
-  /** Low boughs where pilgrims could reach to tie a ribbon. */
-  lowBoughs: { p: V3; dir: V3 }[];
+  /** Points along the low boughs where pilgrims could reach to tie a ribbon: the centreline, its direction, the bough's radius there. */
+  lowBoughs: { p: V3; dir: V3; r: number }[];
+  /** The surface roots' centrelines and radii, so nothing else is set down on them. */
+  roots: { pts: V3[]; r0: number; r1: number }[];
+  /** The flat face cut for the door, when one was asked for. */
+  door?: TreeDoorFace;
+  /** The crown's reach: horizontal radius from the trunk's axis at the fork, and the heights of its lowest and highest leaves. */
+  crown: { x: number; z: number; radius: number; bottom: number; top: number };
   height: number;
   stats: { woodTris: number; leafCards: number };
 }
 
-export function buildAncientTree(seed = 1207, opts: { leafCards?: number } = {}): AncientTree {
+export interface AncientTreeOptions {
+  leafCards?: number;
+  door?: TreeDoorSpec;
+  /** Ground height under a tree-local point, tree-local metres; surface roots follow it half-buried. Flat at y = 0 if absent. */
+  ground?: (x: number, z: number) => number;
+}
+
+export function buildAncientTree(seed = 1207, opts: AncientTreeOptions = {}): AncientTree {
   const rng = mulberry32(seed);
   const wood = new Mesh3();
-  const top = trunk(wood, rng);
+  const ground = opts.ground ?? (() => 0);
+  const { top, lobes, face } = trunk(wood, rng, opts.door, ground);
   const perches: V3[] = [];
-  const lowBoughs: { p: V3; dir: V3 }[] = [];
+  const lowBoughs: { p: V3; dir: V3; r: number }[] = [];
+  const roots: { pts: V3[]; r0: number; r1: number }[] = [];
   const crownC: V3 = [top[0], top[1] + 4.5, top[2]];
   /** Leaf sites: where a cluster of leafy twigs hangs, and the direction the twig grew. */
   const sites: { p: V3; dir: V3 }[] = [];
@@ -235,35 +332,80 @@ export function buildAncientTree(seed = 1207, opts: { leafCards?: number } = {})
       }
     }
   }
-  // Two old low boughs reaching out toward the camp: this is where the pilgrims' rags hang.
-  for (const [az, h] of [[0.75, 0.34], [2.6, 0.42]] as const) {
-    const from: V3 = [0.35 * Math.sin(h * 2.1) + 0.6 * h * h, h * 6.6 - 0.9, -0.25 * h - 0.2 * Math.sin(h * 3.3)];
+  // Two old low boughs reaching out either side of the door: this is where the pilgrims' rags hang. Neither grows out
+  // beside the door, and neither sags into the ground: a bough that low would long since have been cut back.
+  for (const [az0, h, len] of [[0.25, 0.42, 6.8], [2.6, 0.46, 8]] as const) {
+    let az: number = az0;
+    if (opts.door && Math.abs(angDiff(az, opts.door.az)) < 1.0) az = opts.door.az + Math.sign(angDiff(az, opts.door.az) || 1) * 1.0;
+    const from = trunkCenter(h);
     const dir: V3 = [Math.cos(az), 0.2, Math.sin(az)];
-    const pts = growPath(from, dir, 8, 10, 0.42, 0.11);
-    tube(wood, pts, 0.42, 0.05, 80, false);
-    // Kept bare: this is where the rags and lanterns hang, and the sunset shows through.
-    for (let i = 2; i < pts.length; i++) lowBoughs.push({ p: pts[i]!, dir: normv(sub(pts[i]!, pts[i - 1]!)) });
-    for (let q = 0; q < 6; q++) {
-      const a2 = pts[2 + q]!;
-      const up = q % 2 === 0 ? 0.55 : -0.15;
-      const tp = growPath(a2, normv([dir[0] + (rng() - 0.5) * 1.4, up, dir[2] + (rng() - 0.5) * 1.4]), 1.2 + rng() * 1.6, 4, 0.8, 0.06);
-      tube(wood, tp, 0.07 - q * 0.006, 0.015, 90 + q, false);
+    const pts = growPath(from, dir, len, 10, 0.42, 0.08);
+    for (let i = 1; i < pts.length; i++) {
+      const p = pts[i]!;
+      p[1] = Math.max(p[1], ground(p[0], p[2]) + 1.9);
     }
+    const r0 = 0.38;
+    const r1 = 0.045;
+    tube(wood, pts, r0, r1, 80, false);
+    // Kept bare: this is where the rags and lanterns hang, and the sunset shows through.
+    for (let i = 2; i < pts.length; i++) lowBoughs.push({ p: pts[i]!, dir: normv(sub(pts[i]!, pts[i - 1]!)), r: r0 + ((r1 - r0) * i) / (pts.length - 1) });
+    // A few side twigs, spreading and climbing rather than hanging, stopped short of anyone's head; the end of the bough
+    // breaks into a small fork instead of stopping blunt.
+    const tip = pts[pts.length - 1]!;
+    const tipDir = normv(sub(tip, pts[pts.length - 2]!));
+    const twigs: { from: V3; dir: V3; len: number; r: number }[] = [];
+    for (let q = 0; q < 6; q++) {
+      const up = q % 2 === 0 ? 0.55 : 0.12;
+      twigs.push({ from: pts[2 + q]!, dir: normv([dir[0] + (rng() - 0.5) * 1.4, up, dir[2] + (rng() - 0.5) * 1.4]), len: 1.0 + rng() * 1.3, r: 0.07 - q * 0.006 });
+    }
+    for (let q = 0; q < 3; q++) {
+      twigs.push({ from: tip, dir: normv([tipDir[0] + (rng() - 0.5) * 0.9, tipDir[1] + 0.1 + rng() * 0.35, tipDir[2] + (rng() - 0.5) * 0.9]), len: 0.6 + rng() * 0.8, r: r1 });
+    }
+    twigs.forEach((t, q) => {
+      const tp = growPath(t.from, t.dir, t.len, 4, 0.8, 0.04);
+      const cut = tp.findIndex((p) => p[1] < ground(p[0], p[2]) + 1.7);
+      const twig = cut < 0 ? tp : tp.slice(0, cut);
+      if (twig.length >= 2) tube(wood, twig, t.r, 0.012, 90 + q, false);
+    });
   }
-  // Surface roots crawling out from the buttresses, half buried.
-  for (let k = 0; k < 7; k++) {
-    const a = (k / 7) * Math.PI * 2 + rng() * 0.6;
-    const from: V3 = [Math.cos(a) * 2.1, 0.12, Math.sin(a) * 2.1];
-    const pts: V3[] = [from];
-    let p = from;
-    let d: V3 = [Math.cos(a), -0.02, Math.sin(a)];
-    for (let i = 0; i < 6; i++) {
-      d = normv([d[0] + (rng() - 0.5) * 0.7, -0.03, d[2] + (rng() - 0.5) * 0.7]);
-      p = addv(p, mulv(d, 0.7 + rng() * 0.5));
-      p[1] = 0.06 - i * 0.035;
+  // Surface roots: each buttress runs on into a root that crawls over the ground half buried and dives at its tip. None
+  // crosses the ground in front of the door.
+  /** Moves a root's point sideways until the root, at radius r, is clear of the doorway and its step. */
+  const clearOfDoor = (p: V3, r: number): V3 => {
+    if (!face || !opts.door) return p;
+    const n = face.normal;
+    const dx = p[0] - face.origin[0];
+    const dz = p[2] - face.origin[2];
+    const x = dx * n[2] - dz * n[0];
+    const z = dx * n[0] + dz * n[2];
+    const need = opts.door.halfWidth + r + 0.12;
+    if (z < -(r + 0.4) || Math.abs(x) >= need) return p;
+    const push = (Math.sign(x) || 1) * (need - Math.abs(x));
+    return [p[0] + n[2] * push, p[1], p[2] - n[0] * push];
+  };
+  for (let k = 0; k < lobes.length; k++) {
+    const a = lobes[k]!.a + (rng() - 0.5) * 0.2;
+    const c = trunkCenter(0.14);
+    let p: V3 = [c[0] + Math.cos(a) * 1.5, 0, c[2] + Math.sin(a) * 1.5];
+    const r0 = 0.3 + rng() * 0.14;
+    const r1 = 0.05;
+    const steps = 6;
+    const pts: V3[] = [];
+    let d: V3 = [Math.cos(a), 0, Math.sin(a)];
+    for (let i = 0; i <= steps; i++) {
+      const f = i / steps;
+      const r = r0 + (r1 - r0) * f;
+      if (i > 0) {
+        d = normv([d[0] + (rng() - 0.5) * 0.7, 0, d[2] + (rng() - 0.5) * 0.7]);
+        p = addv(p, mulv(d, 0.7 + rng() * 0.5));
+      }
+      p = clearOfDoor(p, r);
+      // Most of the root's back shows above the ground near the trunk; the tip is under it.
+      p = [p[0], ground(p[0], p[2]) - r * (0.2 + 1.05 * f * f), p[2]];
       pts.push(p);
     }
-    tube(wood, pts, 0.3 + rng() * 0.14, 0.05, 100 + k, false);
+    tube(wood, pts, r0, r1, 100 + k, false);
+    roots.push({ pts, r0, r1 });
   }
 
   // Leaf cards: each card is a twig of leaves. Clustered round the sites, facing out of the crown, darker inside it.
@@ -301,15 +443,22 @@ export function buildAncientTree(seed = 1207, opts: { leafCards?: number } = {})
   // Cards light like a crown, not like flat planes: normals point out of the crown's centre (and a little up).
   const lp = leafGeo.getAttribute('position') as THREE.BufferAttribute;
   const ln = leafGeo.getAttribute('normal') as THREE.BufferAttribute;
+  const crown = { x: top[0], z: top[2], radius: 0, bottom: Infinity, top: -Infinity };
   for (let i = 0; i < lp.count; i++) {
     const d = normv(addv(mulv(normv([lp.getX(i) - crownC[0], lp.getY(i) - crownC[1], lp.getZ(i) - crownC[2]]), 0.75), [0, 0.35, 0]));
     ln.setXYZ(i, d[0], d[1], d[2]);
+    crown.radius = Math.max(crown.radius, Math.hypot(lp.getX(i) - crown.x, lp.getZ(i) - crown.z));
+    crown.bottom = Math.min(crown.bottom, lp.getY(i));
+    crown.top = Math.max(crown.top, lp.getY(i));
   }
   return {
     wood: woodGeo,
     leaves: leafGeo,
     perches,
     lowBoughs,
+    roots,
+    door: face,
+    crown,
     height: top[1] + 11,
     stats: { woodTris: (woodGeo.index?.count ?? 0) / 3, leafCards: cards },
   };

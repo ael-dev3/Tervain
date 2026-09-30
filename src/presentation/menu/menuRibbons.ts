@@ -35,7 +35,8 @@ export function buildRibbons(anchors: THREE.Vector3[], time: { value: number }, 
     const base = pos.length / 3;
     for (let i = 0; i <= seg; i++) {
       const t = i / seg;
-      const y = a.y - 0.04 - t * len;
+      // The anchor is the knot, tucked just inside the bough.
+      const y = a.y - t * len;
       // Ends fray narrower; the lower part is stained darker.
       const narrow = 1 - t * 0.35;
       const dirt = 1 - t * 0.35;

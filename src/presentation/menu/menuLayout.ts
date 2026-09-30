@@ -18,6 +18,38 @@ export const MENU_STONES = { x: 19.5, z: -31 };
 /** Lantern Point, far off on its own headland, standing against the sunset. */
 export const MENU_LIGHTHOUSE = { x: -160, z: -520 };
 
+/** A patch of ground something stands on, which scattered stones, litter and grass keep out of. */
+export interface Keep {
+  x: number;
+  z: number;
+  r: number;
+}
+
+/** A fast test for "is (x, z) at least `r` clear of every claimed patch?", bucketed on a coarse grid. */
+export function keepTest(keep: readonly Keep[], cell = 2): (x: number, z: number, r: number) => boolean {
+  const grid = new Map<number, Keep[]>();
+  const key = (i: number, j: number) => i * 100003 + j;
+  let reach = 0;
+  for (const k of keep) {
+    reach = Math.max(reach, k.r);
+    const id = key(Math.floor(k.x / cell), Math.floor(k.z / cell));
+    const list = grid.get(id);
+    if (list) list.push(k);
+    else grid.set(id, [k]);
+  }
+  return (x, z, r) => {
+    const span = Math.ceil((reach + r) / cell);
+    const ci = Math.floor(x / cell);
+    const cj = Math.floor(z / cell);
+    for (let i = ci - span; i <= ci + span; i++) {
+      for (let j = cj - span; j <= cj + span; j++) {
+        for (const k of grid.get(key(i, j)) ?? []) if ((x - k.x) ** 2 + (z - k.z) ** 2 <= (k.r + r) ** 2) return false;
+      }
+    }
+    return true;
+  };
+}
+
 /** The cart track: a centreline from behind the camera, past the camp, to the brow. */
 export const MENU_TRACK: [number, number][] = [
   [0.4, 18],

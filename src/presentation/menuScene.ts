@@ -7,18 +7,20 @@ import { barkTextures, leafTexture } from './treeTextures';
 import { makeTerrainTextures, type TerrainTextures } from './terrainTextures';
 import { createTerrainMaterial } from './terrainMaterial';
 import type { SwayUniforms } from './vegetation';
-import { MENU_SUN_DIR, createMenuSky } from './menu/menuSky';
-import { MENU_BANNER, MENU_CAMERA, MENU_FIRE, MENU_TREE } from './menu/menuLayout';
+import { MENU_SEA_LEVEL, MENU_SUN_DIR, createMenuSky } from './menu/menuSky';
+import { MENU_BANNER, MENU_CAMERA, MENU_FIRE, MENU_TREE, menuHeight } from './menu/menuLayout';
 import { buildMenuGrass, buildMenuGroundGeometry, buildPuddles, restHeight } from './menu/menuLand';
 import { buildAncientTree } from './menu/menuTree';
 import { buildMenuFire } from './menu/menuFire';
 import { buildMenuBanner, type CanvasSource } from './menu/menuBanner';
-import { buildBannerHardware, buildMenuCamp } from './menu/menuCamp';
+import { HERMIT_DOOR, buildBannerHardware, buildMenuCamp } from './menu/menuCamp';
 import { buildMenuFar } from './menu/menuFar';
 import { buildMenuAir } from './menu/menuAir';
 import { buildRibbons } from './menu/menuRibbons';
 
 export type MenuQuality = 'low' | 'medium' | 'high';
+
+const UP = new THREE.Vector3(0, 1, 0);
 
 /** Everything the scene needs that touches the DOM or generates textures, so tests can build the scene without either. */
 export interface MenuResources {
@@ -135,9 +137,10 @@ export class MenuScene {
           .replace('diffuseColor.rgb = tAlb;', 'diffuseColor.rgb = tAlb * vec3(0.6, 0.58, 0.55); tDn *= 0.18;')
           // Sample a blurrier level of every layer: smeared, trodden mud instead of crisp pebbles.
           .replace('vec2 tGx = dFdx(tXZ);', 'vec2 tGx = dFdx(tXZ) * 2.6;')
-          .replace('vec2 tGy = dFdy(tXZ);', 'vec2 tGy = dFdy(tXZ) * 2.6;');
+          // Below the waterline the sky dome's sea shows instead: the shore is where the cliff meets it, with no step.
+          .replace('vec2 tGy = dFdy(tXZ);', `vec2 tGy = dFdy(tXZ) * 2.6;\nif (vWorldPos.y < ${MENU_SEA_LEVEL.toFixed(2)}) discard;`);
       };
-      m.customProgramCacheKey = () => 'tervain-terrain-menu-v1';
+      m.customProgramCacheKey = () => 'tervain-terrain-menu-v2';
       this.ground.material = m;
       this.owned.push(m);
     });
@@ -146,12 +149,26 @@ export class MenuScene {
     this.scene.add(puddles);
     this.owned.push(puddles.geometry, puddles.material as THREE.Material);
 
-    this.grass = buildMenuGrass(q, this.sway);
-    this.scene.add(this.grass.mesh);
-    this.owned.push(this.grass);
-
-    // The ancient tree, its bark and leaves.
-    const tree = buildAncientTree(1207, { leafCards: q === 'low' ? 900 : q === 'medium' ? 1500 : 2200 });
+    // The ancient tree, its bark and leaves. The hermit's door is cut into the side of the trunk that faces the camera,
+    // turned a little to the left so it stands between the two low boughs.
+    const treeRoot = new THREE.Group();
+    treeRoot.name = 'Menu_Ancient_Tree';
+    const ty = restHeight(MENU_TREE.x, MENU_TREE.z, 2.5) + 0.1;
+    treeRoot.position.set(MENU_TREE.x, ty, MENU_TREE.z);
+    treeRoot.rotation.y = 0.35;
+    treeRoot.updateMatrixWorld(true);
+    const tmp = new THREE.Vector3();
+    const groundLocal = (x: number, z: number) => {
+      treeRoot.localToWorld(tmp.set(x, 0, z));
+      return menuHeight(tmp.x, tmp.z) - ty;
+    };
+    const doorYaw = Math.atan2(MENU_CAMERA.x - MENU_TREE.x, MENU_CAMERA.z - MENU_TREE.z) - 0.27;
+    const doorDir = new THREE.Vector3(Math.sin(doorYaw), 0, Math.cos(doorYaw)).applyAxisAngle(UP, -treeRoot.rotation.y);
+    const tree = buildAncientTree(1207, {
+      leafCards: q === 'low' ? 900 : q === 'medium' ? 1500 : 2200,
+      door: { az: Math.atan2(doorDir.z, doorDir.x), halfWidth: HERMIT_DOOR.faceHalfWidth, height: HERMIT_DOOR.faceTop },
+      ground: groundLocal,
+    });
     const bark = this.res.bark();
     const woodMat = new THREE.MeshStandardMaterial({ map: bark.map, normalMap: bark.normal, vertexColors: true, roughness: 0.97, metalness: 0 });
     woodMat.normalScale.set(1.4, 1.4);
@@ -176,11 +193,6 @@ export class MenuScene {
       );
     };
     leafMat.customProgramCacheKey = () => 'tervain-menu-leaf';
-    const treeRoot = new THREE.Group();
-    treeRoot.name = 'Menu_Ancient_Tree';
-    const ty = restHeight(MENU_TREE.x, MENU_TREE.z, 2.5) + 0.1;
-    treeRoot.position.set(MENU_TREE.x, ty, MENU_TREE.z);
-    treeRoot.rotation.y = 0.35;
     const woodMesh = new THREE.Mesh(tree.wood, woodMat);
     woodMesh.castShadow = woodMesh.receiveShadow = true;
     woodMesh.name = 'Menu_Ancient_Tree_Wood';
@@ -193,14 +205,11 @@ export class MenuScene {
     this.owned.push(tree.wood, tree.leaves, woodMat, leafMat, bark.map, bark.normal, leafTex);
     this.stats.leafCards = tree.stats.leafCards;
 
-    // The hermit's door sits on the real bark, on the side facing the camera.
-    const toCam = new THREE.Vector2(MENU_CAMERA.x - MENU_TREE.x, MENU_CAMERA.z - MENU_TREE.z).normalize();
-    const doorFacing = Math.atan2(toCam.x, toCam.y) - 0.18;
-    const doorDir = new THREE.Vector3(Math.sin(doorFacing), 0, Math.cos(doorFacing));
-    const ray = new THREE.Raycaster(new THREE.Vector3(MENU_TREE.x, ty + 1.2, MENU_TREE.z).addScaledVector(doorDir, 8), doorDir.clone().negate(), 0, 10);
-    const hit = ray.intersectObject(woodMesh)[0];
-    const doorAt = hit ? hit.point.clone().addScaledVector(doorDir, -0.12) : new THREE.Vector3(MENU_TREE.x, ty, MENU_TREE.z).addScaledVector(doorDir, 1.6);
-    doorAt.y = restHeight(doorAt.x, doorAt.z, 0.6) + 0.1;
+    // The door stands on the flat face the tree cut for it.
+    const face = tree.door!;
+    const doorAt = treeRoot.localToWorld(new THREE.Vector3(...face.origin));
+    const doorNormal = new THREE.Vector3(...face.normal).applyAxisAngle(UP, treeRoot.rotation.y);
+    const doorFacing = Math.atan2(doorNormal.x, doorNormal.z);
 
     // Camp, standing stones, banner hardware: the playable kit's rugged materials, merged per material.
     this.mats = this.res.materials(q === 'low' ? 128 : 256);
@@ -208,23 +217,26 @@ export class MenuScene {
     const glow = this.mats.get('glow') as THREE.MeshBasicMaterial;
     if (glow.color) glow.color.setRGB(0.62, 0.24, 0.05);
     const R = new Region('Menu_Camp_Static', new Ctx());
-    this.camp = buildMenuCamp(R, doorAt, doorFacing);
-    // Rags and a few iron lanterns hang from the bare low boughs.
-    const boughs = tree.lowBoughs.map((b) => ({ p: treeRoot.localToWorld(new THREE.Vector3(...b.p)), r: 0.14 }));
+    const worldRoots = tree.roots.map((r) => ({ ...r, pts: r.pts.map((p) => treeRoot.localToWorld(new THREE.Vector3(...p))) }));
+    this.camp = buildMenuCamp(R, { at: doorAt, facing: doorFacing }, { x: MENU_TREE.x, z: MENU_TREE.z, r: 2.9, roots: worldRoots });
+
+    // Rags and a few iron lanterns hang from the bare low boughs: tied round the bough itself, never from the air beside it.
+    const boughs = tree.lowBoughs.map((b) => ({
+      p: treeRoot.localToWorld(new THREE.Vector3(...b.p)),
+      dir: new THREE.Vector3(...b.dir).applyAxisAngle(UP, treeRoot.rotation.y),
+      r: b.r,
+    }));
     const rng = mulberry32(19);
-    const anchors: THREE.Vector3[] = [];
-    for (const b of boughs) {
-      const n = 1 + Math.floor(rng() * 2.4);
-      for (let k = 0; k < n; k++) anchors.push(b.p.clone().add(new THREE.Vector3((rng() - 0.5) * 0.5, -b.r, (rng() - 0.5) * 0.5)));
-    }
-    const rags = buildRibbons(anchors, this.ribbonTime);
-    this.scene.add(rags.mesh);
-    this.owned.push(rags);
-    for (const i of [2, 7, 10]) {
+    const hooks: THREE.Vector3[] = [];
+    for (const i of [2, 7, 10, 5, 13, 16]) {
       const b = boughs[i];
-      if (!b) continue;
-      const top = b.p.clone().add(new THREE.Vector3(0, -b.r, 0));
-      const drop = 0.55 + rng() * 0.5;
+      if (!b || hooks.length >= 3) continue;
+      // The hook is on the bough's underside; the lantern hangs clear of the ground and of anyone walking under it.
+      const top = b.p.clone().add(new THREE.Vector3(0, -b.r * 0.8, 0));
+      const clearance = top.y - menuHeight(top.x, top.z) - 1.55;
+      if (clearance < 0.45 || hooks.some((h) => h.distanceTo(top) < 1.5)) continue;
+      const drop = Math.min(0.55 + rng() * 0.5, clearance - 0.33);
+      hooks.push(top);
       R.vc.tube([[top.x, top.y, top.z], [top.x + 0.02, top.y - drop * 0.5, top.z], [top.x, top.y - drop, top.z]], 0.008, 3, 0x2a2622);
       const ly = top.y - drop;
       R.metal.cyl(0.0, 0.1, 0.1, 6, top.x, ly - 0.1, top.z, 0x3a342c);
@@ -235,6 +247,28 @@ export class MenuScene {
         R.metal.rod(top.x + Math.cos(a) * 0.085, ly - 0.32, top.z + Math.sin(a) * 0.085, top.x + Math.cos(a) * 0.085, ly - 0.1, top.z + Math.sin(a) * 0.085, 0.008, 3, 0x2a2622);
       }
     }
+    const anchors: THREE.Vector3[] = [];
+    for (let i = 0; i < boughs.length; i++) {
+      const b = boughs[i]!;
+      const prev = boughs[i - 1];
+      const n = 1 + Math.floor(rng() * 2.4);
+      for (let k = 0; k < n; k++) {
+        // Slide back along the bough toward the previous point (the segment the tube really follows), then tuck the knot
+        // just inside the bough's underside so the rag hangs from the wood.
+        const s = rng();
+        const along = prev && prev.p.distanceTo(b.p) < 1.2 ? s * 0.45 : 0;
+        const p = along > 0 ? b.p.clone().lerp(prev!.p, along) : b.p.clone();
+        const r = along > 0 ? b.r + (prev!.r - b.r) * along : b.r;
+        p.y -= r * 0.7;
+        const ground = menuHeight(p.x, p.z);
+        // A rag swings up to a third of a metre in the wind; keep it that far and more from a lantern's chain.
+        if (p.y - ground < 1.4 || hooks.some((h) => h.distanceTo(p) < 0.6) || anchors.some((a) => a.distanceTo(p) < 0.12)) continue;
+        anchors.push(p);
+      }
+    }
+    const rags = buildRibbons(anchors, this.ribbonTime);
+    this.scene.add(rags.mesh);
+    this.owned.push(rags);
     this.banner = buildMenuBanner(this.res.canvas, this.res.emblemUrl, (x, z) => restHeight(x, z, 0.5), buildBannerHardware(R, mulberry32(77)));
     this.banner.group.position.set(MENU_BANNER.x, restHeight(MENU_BANNER.x, MENU_BANNER.z, 0.8), MENU_BANNER.z);
     const staticGroup = R.toGroup(this.mats, { isStatic: true, shadows: q !== 'low' });
@@ -245,6 +279,11 @@ export class MenuScene {
       if (m.isMesh) this.owned.push(m.geometry);
     });
 
+    // Heath grass everywhere nothing else stands.
+    this.grass = buildMenuGrass(q, this.sway, this.camp.keep);
+    this.scene.add(this.grass.mesh);
+    this.owned.push(this.grass);
+
     // Fire, far country, air.
     const fx = MENU_FIRE.x;
     const fz = MENU_FIRE.z;
@@ -254,8 +293,10 @@ export class MenuScene {
     this.far = buildMenuFar(noise);
     this.scene.add(this.far.group);
     this.owned.push(this.far);
-    const crowCentre = new THREE.Vector3(MENU_TREE.x + 9, ty + 8.5, MENU_TREE.z - 10);
-    this.air = buildMenuAir({ noise, fog, crowCentre, quality: q });
+    // Crows wheel over the headland beyond the tree, never through its crown.
+    const crown = treeRoot.localToWorld(new THREE.Vector3(tree.crown.x, 0, tree.crown.z));
+    const crowCentre = new THREE.Vector3(MENU_TREE.x + 17, ty + 11, MENU_TREE.z - 17);
+    this.air = buildMenuAir({ noise, fog, crowCentre, quality: q, avoid: { x: crown.x, z: crown.z, r: tree.crown.radius, top: ty + tree.crown.top } });
     this.scene.add(this.air.group);
     this.owned.push(this.air);
 
@@ -299,13 +340,13 @@ export class MenuScene {
     sun.shadow.bias = -0.0004;
     sun.shadow.normalBias = 0.04;
     this.scene.add(sun, sun.target);
-    // Warm lights at the hermit's door and window.
-    const [door, win] = this.camp.lanterns;
+    // Warm lights: the lantern by the hermit's door, and lamplight through the grille in it.
+    const [lantern, grille] = this.camp.lanterns;
     const doorLight = new THREE.PointLight(0xffa04c, 7, 8, 1.8);
-    doorLight.position.copy(door!);
-    const winLight = new THREE.PointLight(0xff9a48, 2.5, 4, 2);
-    winLight.position.copy(win!).add(new THREE.Vector3(0, 0, 0.3));
-    this.scene.add(doorLight, winLight);
+    doorLight.position.copy(lantern!);
+    const grilleLight = new THREE.PointLight(0xff9a48, 2.5, 4, 2);
+    grilleLight.position.copy(grille!);
+    this.scene.add(doorLight, grilleLight);
   }
 
   /**

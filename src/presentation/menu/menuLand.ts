@@ -4,7 +4,7 @@ import { createGrassPatch } from '../ground/grass';
 import { createPatchMaterial, createPushers } from '../ground/patchMaterial';
 import type { SwayUniforms } from '../vegetation';
 import { MENU_SKY_GLSL, MENU_SUN_DIR, MENU_SEA_LEVEL, menuSkyUniforms } from './menuSky';
-import { MENU_FIRE, MENU_TREE, browZ, menuHeight, menuSplat, trackDistance } from './menuLayout';
+import { MENU_FIRE, MENU_TREE, browZ, keepTest, menuHeight, menuSplat, trackDistance, type Keep } from './menuLayout';
 
 /**
  * The ground of the menu vigil: a muddy hilltop camp above the sea. The mesh is a rectilinear grid that is fine near the
@@ -167,9 +167,9 @@ export function puddleSpots(): PuddleSpot[] {
     if (!Number.isFinite(by) || rng() < 0.35 || z > 2.5) continue;
     spots.push({ x: bx, z, rx: 0.3 + rng() * 0.35, rz: 0.9 + rng() * 1.6, yaw: (rng() - 0.5) * 0.3 });
   }
-  // The camp hollow.
+  // The camp hollow: one off to the left, one in front of the fire where the flames glint in it.
   spots.push({ x: MENU_FIRE.x - 2.3, z: MENU_FIRE.z + 1.9, rx: 0.7, rz: 0.5, yaw: 0.6 });
-  spots.push({ x: MENU_FIRE.x + 1.6, z: MENU_FIRE.z - 2.2, rx: 0.45, rz: 0.8, yaw: -0.4 });
+  spots.push({ x: MENU_FIRE.x - 0.9, z: MENU_FIRE.z + 2.6, rx: 0.42, rz: 0.75, yaw: -0.5 });
   return spots;
 }
 
@@ -249,7 +249,8 @@ const cDead = new THREE.Color().setHex(0x4e3f2c);
  * Heath grass as instanced tufts, using the playable ground cover's blade geometry and wind shader so it moves like the
  * game's grass. Placement follows the splat: none in the mud, taller and more golden at the brow where nobody treads.
  */
-export function buildMenuGrass(quality: 'low' | 'medium' | 'high', sway: SwayUniforms) {
+export function buildMenuGrass(quality: 'low' | 'medium' | 'high', sway: SwayUniforms, keep: readonly Keep[] = []) {
+  const free = keepTest(keep);
   const blades = quality === 'high' ? 11 : quality === 'medium' ? 9 : 6;
   const target = quality === 'high' ? 7200 : quality === 'medium' ? 4600 : 2200;
   const patch = createGrassPatch(blades, 7071);
@@ -285,6 +286,8 @@ export function buildMenuGrass(quality: 'low' | 'medium' | 'high', sway: SwayUni
     const campD = Math.hypot(x - MENU_FIRE.x, z - MENU_FIRE.z);
     const treeD = Math.hypot(x - MENU_TREE.x, z - MENU_TREE.z);
     if (campD < 3.4 || treeD < 3.2) continue;
+    // Nothing grows through a stone, a root, a step or a peg.
+    if (!free(x, z, 0.12)) continue;
     if (rng() > green * (0.55 + 0.45 * smoothstep(1.2, 4, d))) continue;
     const y = menuHeight(x, z) - 0.03;
     const edge = smoothstep(b + 12, b + 1, z);
