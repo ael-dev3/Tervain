@@ -1,5 +1,5 @@
 import { createInitialState } from '../game/state';
-import { CONTENT_REVISION, NPC_IDS, SAVE_FORMAT_VERSION, type WorldState } from '../game/types';
+import { ARMED_START_REVISIONS, CONTENT_REVISION, NPC_IDS, SAVE_FORMAT_VERSION, WRECK_BLADE_PICKUP, type WorldState } from '../game/types';
 import { GAME_BUILD } from '../version';
 
 /**
@@ -143,6 +143,12 @@ export function reviveState(raw: unknown): WorldState | null {
   if (!isObj(merged.defeated)) merged.defeated = {};
   if (!isObj(merged.discovered)) merged.discovered = {};
   if (!isObj(merged.locationChanges)) merged.locationChanges = {};
+  // Saves from before the unarmed start were made by a player who already carried a blade: keep them armed, and
+  // treat the wreck's sword as the one they carry.
+  if (typeof raw.contentRevision === 'string' && ARMED_START_REVISIONS.includes(raw.contentRevision)) {
+    merged.inventory = { ...merged.inventory, rusted_sword: Math.max(1, merged.inventory.rusted_sword ?? 0) };
+    merged.locationChanges = { ...merged.locationChanges, [`pickup:${WRECK_BLADE_PICKUP}`]: 'taken' };
+  }
   return merged;
 }
 

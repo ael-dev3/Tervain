@@ -17,6 +17,7 @@ import {
   SLUICE,
   WAGON,
   WELL,
+  WRECK,
   bySpec,
 } from '../world/layout';
 import { coastX } from '../world/coast';
@@ -558,9 +559,16 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     crate(R, rnd, -244, gy(-244, 41), 40, 0.8, 0.55, 0.6, 0.3);
     crate(R, rnd, -243.2, gy(-243.2, 40.6) + 0.55, 40.4, 0.6, 0.45, 0.5, -0.2);
     woodpile(R, rnd, -229, 54, 0.6, 1.6, 4);
-    // Wreck of a hull on the beach north of the strand, and a few cairns.
-    const wz = -14;
-    wreck(R, rnd, shoreAt(wz) + 13, gy(shoreAt(wz) + 13, wz) - 0.1, wz, 1.05, 9);
+    // Wreck of a hull on the beach north of the strand (the first blade lies in it), a stove-in sea chest beside it,
+    // and a few cairns.
+    const wz = WRECK.z;
+    wreck(R, rnd, shoreAt(wz) + 13, gy(shoreAt(wz) + 13, wz) - 0.1, wz, WRECK.yaw, WRECK.len);
+    {
+      const bx = shoreAt(wz) + 14.9;
+      const bz = wz + 1.6;
+      crate(R, rnd, bx, gy(bx, bz) - 0.12, bz, 0.72, 0.4, 0.46, 0.5);
+      R.planks.box(0.7, 0.04, 0.44, bx + 0.12, gy(bx, bz) + 0.3, bz - 0.34, jitterTone(TINT.wood, rnd, 0.12), { rx: 1.1, ry: 0.5, jit: 0.1 });
+    }
     for (const [cx, cz] of [[-256, 12], [-249, 76], [-214, 30], [-306, 96], [-299, 86]] as const) cairn(R, rnd, cx, gy(cx, cz), cz, 4 + Math.floor(rnd() * 3));
     // Lobster pots and a coil at the lighthouse foot, and a stack of firewood at the keeper's door.
     const keeper = bySpec('keeper_cottage');
@@ -826,6 +834,15 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
       } else if (pk.id === 'quarry_wrench') {
         D.metal.rod(0, 0.1, 0, 0.75, 0.42, 0, 0.045, 5, TINT.iron, { jit: 0.06 });
         D.metal.lathe([0.16, -0.03, 0.2, 0, 0.16, 0.03], 8, 0.78, 0.44, 0, TINT.iron, { jit: 0.06, rx: Math.PI / 2 });
+      } else if (pk.id === 'wreck_blade') {
+        // A salt-eaten sword half sunk in the sand, lying across the way a walker comes up the beach from the strand.
+        D.ctx.push(0, 0, 0, Math.PI / 2 + 0.25, 0.06, 0.04);
+        D.metal.box(0.046, 0.012, 0.82, 0, 0.0, 0.1, jitterTone(0x5e5046, rnd, 0.1), { jit: 0.08 });
+        D.metal.box(0.012, 0.016, 0.8, 0, 0.004, 0.1, jitterTone(0x4a3c30, rnd, 0.1), { jit: 0.08 });
+        D.metal.box(0.19, 0.03, 0.035, 0, 0.0, -0.32, jitterTone(0x3c3a36, rnd, 0.08), { jit: 0.06 });
+        D.timber.rod(0, 0.015, -0.34, 0, 0.015, -0.47, 0.016, 6, jitterTone(0x3a2a1c, rnd, 0.1), { jit: 0.06 });
+        D.metal.lathe([0.02, -0.018, 0.024, 0, 0.02, 0.018], 7, 0, 0.015, -0.49, jitterTone(0x44403a, rnd, 0.08), { jit: 0.05, rx: Math.PI / 2 });
+        D.ctx.pop();
       } else {
         D.planks.box(0.9, 0.5, 0.6, 0, 0, 0, jitterTone(TINT.wood, rnd, 0.14), { jit: 0.1, grain: 'x' });
         D.timber.box(0.95, 0.14, 0.65, 0, 0.5, 0, jitterTone(TINT.woodDark, rnd, 0.1), { jit: 0.1, grain: 'x' });

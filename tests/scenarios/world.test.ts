@@ -78,6 +78,7 @@ describe('world layout', () => {
     });
 
   route('strand → village square', SPAWN, ANCHORS.village_square!);
+  route('strand → the blade in the wreck', SPAWN, PICKUP_LOCATIONS.find((p) => p.id === 'wreck_blade')!);
   route('strand → overlook', SPAWN, { x: -136, z: 26 });
   route('village → dry channel', ANCHORS.village_square!, ANCHORS.dry_channel!);
   route('village → sluice control', ANCHORS.village_square!, SLUICE.control);

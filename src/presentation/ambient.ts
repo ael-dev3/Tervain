@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { ANCHORS } from '../world/layout';
 import type { BuildContext, FrameContext, SceneModule } from './context';
-import { createHumanoid, poseRig, setRigShadow, type Look, type Mode, type Rig } from './characters';
+import { createAmbientRig, poseRig, setRigShadow, type AmbientStyle, type Look, type Mode, type Rig } from './characters';
 
 /**
  * People who live on the coast but are not part of the story: a fisherman mending a net, a woman by the fire, the lighthouse keeper.
@@ -11,6 +11,7 @@ import { createHumanoid, poseRig, setRigShadow, type Look, type Mode, type Rig }
 
 interface Spec {
   look: Look;
+  style: AmbientStyle;
   x: number;
   z: number;
   yaw: number;
@@ -26,9 +27,36 @@ const FIRE = ANCHORS.strand_fire!;
 const DOOR = ANCHORS.lantern_door!;
 
 const SPECS: Spec[] = [
-  { look: { skin: 0xb98866, primary: 0x4a4a3c, secondary: 0x2e2a24, hair: 0x6a6660, height: 1.0, girth: 1.08, accessory: 'pack' }, x: -230.4, z: 47.9, yaw: -2.24, cycle: [['work', 9], ['idle', 4], ['work', 7]], sleeps: true, radius: 0.45 },
-  { look: { skin: 0xc79a72, primary: 0x5a4a3a, secondary: 0x6a6a52, hair: 0x3a2a1a, height: 0.94, girth: 0.9, accessory: 'shawl' }, x: FIRE.x + 1.6, z: FIRE.z + 1.5, yaw: -2.5, cycle: [['sit', 12], ['talk', 4], ['sit', 8]], sleeps: true, radius: 0.4 },
-  { look: { skin: 0xb0805c, primary: 0x3e4048, secondary: 0x28262a, hair: 0x8a8880, height: 1.03, girth: 1.0, accessory: 'coat', accent: 0x6a5a3a }, x: DOOR.x + 2.6, z: DOOR.z - 1.2, yaw: -1.7, cycle: [['idle', 14], ['talk', 3], ['idle', 9]], sleeps: false, radius: 0.45 },
+  {
+    look: { skin: 0xb98866, primary: 0x4a4a3c, secondary: 0x2e2a24, hair: 0x6a6660, height: 1.0, girth: 1.08, accessory: 'pack' },
+    style: { build: 'man', cut: 'short', beard: 'full', age: 0.62, faceSeed: 12011 },
+    x: -230.4,
+    z: 47.9,
+    yaw: -2.24,
+    cycle: [['work', 9], ['idle', 4], ['work', 7]],
+    sleeps: true,
+    radius: 0.45,
+  },
+  {
+    look: { skin: 0xc79a72, primary: 0x5a4a3a, secondary: 0x6a6a52, hair: 0x3a2a1a, height: 1.0, girth: 0.9, accessory: 'shawl' },
+    style: { build: 'woman', cut: 'bun', beard: 'none', age: 0.45, faceSeed: 12107 },
+    x: FIRE.x + 1.6,
+    z: FIRE.z + 1.5,
+    yaw: -2.5,
+    cycle: [['sit', 12], ['talk', 4], ['sit', 8]],
+    sleeps: true,
+    radius: 0.4,
+  },
+  {
+    look: { skin: 0xb0805c, primary: 0x3e4048, secondary: 0x28262a, hair: 0x8a8880, height: 1.03, girth: 1.0, accessory: 'coat', accent: 0x6a5a3a },
+    style: { build: 'man', cut: 'short', beard: 'full', age: 0.8, faceSeed: 12203 },
+    x: DOOR.x + 2.6,
+    z: DOOR.z - 1.2,
+    yaw: -1.7,
+    cycle: [['idle', 14], ['talk', 3], ['idle', 9]],
+    sleeps: false,
+    radius: 0.45,
+  },
 ];
 
 export function buildAmbient(ctx: BuildContext): SceneModule & { counts: { people: number } } {
@@ -37,7 +65,7 @@ export function buildAmbient(ctx: BuildContext): SceneModule & { counts: { peopl
   group.name = 'ambient';
   const people: { rig: Rig; spec: Spec; t: number }[] = [];
   SPECS.forEach((spec, i) => {
-    const rig = createHumanoid(spec.look);
+    const rig = createAmbientRig(spec.look, spec.style);
     rig.root.position.set(spec.x, terrain.heightAt(spec.x, spec.z), spec.z);
     rig.root.rotation.y = spec.yaw;
     group.add(rig.root);

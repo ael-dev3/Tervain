@@ -1,6 +1,6 @@
 # Art, animation, audio, and interface direction
 
-**Status:** the visual direction below is **superseded in part by the owner's directions of 29–30 September 2026** (decisions A12–A14, A17, A19–A25): the game takes Gothic 3's rugged fantasy exaggeration as its reference, and the playable first area is modelled on Ardea. Read the [Direction updates](#direction-update-29-september-2026), [exaggeration clarification](#fantasy-exaggeration-clarification-30-september-2026), [water update](#water-presentation-update-30-september-2026), and [menu direction](#menu-and-interface) first; where they conflict with later paragraphs, they win. The owner has established a serious, polished, original high-fantasy Steam game with Hegemony-affiliated Templars and useful sharing with Warpkeep. Keep calm camera motion and accessible controls. See [vision](../vision.md), [decisions](../decisions.md), and [shared asset requirements](../engineering/shared-assets.md).
+**Status:** the visual direction below is **superseded in part by the owner's directions of 29–30 September 2026** (decisions A12–A14, A17, A19–A27): the game takes Gothic 3's rugged fantasy exaggeration as its reference, and the playable first area is modelled on Ardea. Read the [Direction updates](#direction-update-29-september-2026), [exaggeration clarification](#fantasy-exaggeration-clarification-30-september-2026), [people update](#people-update-30-september-2026), [water update](#water-presentation-update-30-september-2026), and [menu direction](#menu-and-interface) first; where they conflict with later paragraphs, they win. The owner has established a serious, polished, original high-fantasy Steam game with Hegemony-affiliated Templars and useful sharing with Warpkeep. Keep calm camera motion and accessible controls. See [vision](../vision.md), [decisions](../decisions.md), and [shared asset requirements](../engineering/shared-assets.md).
 
 ## Direction update, 29 September 2026
 
@@ -12,7 +12,7 @@ What this changes in practice:
 - **Composition.** Wide, empty ground with sparse features. Forests stand on the higher ground and in the distance; the heath carries a few lone wind-bent pines, dead trees and scrub. Landmarks are large and low or tall and thin: the lighthouse shaft is 17 m.
 - **Shapes.** Nothing is square. Posts lean, boards sit at different depths, roofs are built course by course and sag, stones are uneven, doors and shutters hang wrong.
 - **Vegetation.** Trees are skeletons of curved tapering tubes with leaf or needle cards hung on them (each card is a twig of individual leaves), at three levels of detail. Foliage is olive and dusty, not green; some leaves are dying.
-- **People.** Worn and human: sculpted faces with brow, nose and jaw, tapered limbs with bending knees and elbows, layered wool and leather in earth colours with dirty hems.
+- **People.** Worn and human, built the way Gothic 3 builds its people (A27; see the [people update](#people-update-30-september-2026)): skinned bodies, sculpted and painted faces, hair and beards, big working hands, and layered wool, linen and leather in earth colours with dirty hems.
 - **The player's first minute.** The wagon has stopped on a grey beach; the sea is on one side, the jetty and lighthouse are ahead, and the road to Rillford leaves inland over open heath.
 
 The "three regional identities" table and the paragraphs that follow are otherwise still the plan for Alder Basin, Rimeward Heights and Saltward Expanse. Their colors should read as weathered materials grouped through deliberate fantasy painting and lighting, with expressive warm/cool relationships.
@@ -24,6 +24,14 @@ The owner clarified that Gothic 3 does not pursue clinical realism and asked for
 Use heavy expressive silhouettes, oversized carved and forged ornament, broad painted planes of light and shade, earthy reds and golds, and strong warm/cool relationships. Weathering should be selective and substantial: larger chips, worn raised edges, deep folds, and irregular joins that support the dominant shape. Preserve connected geometry and purposeful materials. The title and pause menu are the immediate revision scope; this direction does not claim that every world asset has already been reworked.
 
 Control labels, settings, records, and other core body text retain scalable, accessible lettering and clear focus. Artwork can be theatrical while the player can still read and operate the interface. Keep calm motion, original assets, and the `0.0.4` hold. This visual clarification adds no faction lore, ritual meaning, or game systems.
+
+## People update, 30 September 2026
+
+The owner asked for the player and the NPCs to be a lot more like Gothic 3, from a study of its local NPC files, and for the main character to start without weapons or shields (A27). The [look reference](gothic3-reference.md#people) records what the actor files showed.
+
+People are modular and skinned, as Gothic 3's are: one skeleton each, with the body and every garment weighted to it so joints and skirts bend without gaps, a separate denser head, and hair and beards as shells. Proportions follow the measured bodies (crotch at half height, shoulders at 0.83, a head of about an eighth), heads sit low on thick necks, and hands are large with separate fingers. Faces are sculpted (brow ridge, sockets, nose, lips, cheekbones, jaw) and painted in their own texture: brows, shadowed sockets, stubble and painted short beards, hair on the scalp for a soft hairline, age lines. Eyes sit behind heavy lids. Clothes are layers with turned edges, and the silhouette says who someone is: a trader's long coat and felt hat, a reeve's dress and shawl, a Templar sister's robe and scapular, a warden's quilted gambeson over mail, a quarryman's jerkin, a hood with a soft point. Wear, weave, leather grain, quilting and mail are tiling detail maps over vertex colour. Everything is generated in code; the costumes and the builds of residents whose pronouns are not documented are proposals (P17).
+
+The wanderer arrives in a plain tunic with nothing in hand or at the hip (P16 proposes the first blade in the beach wreck). See the [people notes](../production/releases/0.0.5-people.md).
 
 ## Visual promise
 
@@ -79,7 +87,7 @@ Movement must agree with intention and ground contact. Walk direction matches fa
 
 Work loops have contact and purpose: a hammer reaches a surface, a bucket reaches water, and a worker carries an object to a destination. Idle variety includes breathing, weight shifts, observation, rest, and small social gestures with asynchronous timing. Do not make everyone rock continuously. Animals pause, look, and resume; birds need believable launch and landing transitions if they occupy reachable perches.
 
-Combat animations clearly expose preparation, impact, recovery, and interruption. Weapons, hands, shields, and bodies remain connected through the full motion. Verify hit timing against the visible weapon path. The spring rite is restrained and physical: practiced hand movement, water response, and a readable completion cue, rather than a large unexplained explosion of light.
+Combat animations clearly expose preparation, impact, recovery, and interruption. Weapons, hands, any shields, and bodies remain connected through the full motion; fists and blades each have their own guard and strikes. Verify hit timing against the visible weapon path. The spring rite is restrained and physical: practiced hand movement, water response, and a readable completion cue, rather than a large unexplained explosion of light.
 
 Use a stable third-person camera as the proposed baseline. Collision resolution should ease around obstacles without rapid zoom oscillation. Manual control takes priority over idle presentation. Screen shake, motion blur, head bob, and flashes need independent controls or minimal defaults. Menu cameras may make a very slow authored move, but must settle for reading and respect reduced-motion preferences.
 

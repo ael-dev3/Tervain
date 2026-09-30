@@ -30,7 +30,7 @@ The slice needs one elevation change, one alternate path, one dangerous crossing
 
 ## Grounded combat and magic
 
-The proposed combat foundation is readable commitment: attacks have visible preparation, active time, and recovery. Position, stamina, reach, and timing matter. Begin with one one-handed weapon, a shield, and one hostile combatant type. Add a basic attack, a committed heavy attack, a guarded block, a short evasive step, and clear stagger rules. Avoid attack cancellation that removes all risk and enemies that track the player through an entire committed swing.
+The proposed combat foundation is readable commitment: attacks have visible preparation, active time, and recovery. Position, stamina, reach, and timing matter. The player begins unarmed, as the Gothic heroes do (A27), and finds one one-handed weapon early (proposed in P16: a rusted sword in the beach wreck); there is no shield in the slice. Begin with that weapon, bare fists before it, and one hostile combatant type. Add a basic attack, a committed heavy attack, a guarded block, a short evasive step, and clear stagger rules. Avoid attack cancellation that removes all risk and enemies that track the player through an entire committed swing.
 
 Health and stamina are sufficient for the first slice. Exhaustion prevents repeated heavy attacks and sprinting but must not trap the player in an unavoidable damage loop. Damage reactions must distinguish blocked, resisted, and clean hits. No equipment degradation, injury simulation, or layered status-effect economy is required to prove the loop.
 

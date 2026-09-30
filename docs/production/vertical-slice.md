@@ -30,7 +30,7 @@ Use one connected compact exterior with at most two small accessible interiors. 
 - At most twelve named residents, with four principal quest actors: Mara Venn, Sister Edda Sorn, Darin Kest, and Ila Rusk.
 - Three represented local interests: the Hearth League village, Templar spring stewardship, and a quarry under a Marcher contract. Other factions can appear through one bounded secondary voice or a piece of trade context.
 - One player body/rig for production testing; final customization remains open.
-- One melee weapon kit and one utility rite. A second weapon class is optional only after the required experience works.
+- One melee weapon kit and one utility rite. The player starts unarmed and finds the weapon in the world (A27, P16). A second weapon class is optional only after the required experience works.
 - One hostile humanoid archetype and one creature family, reused thoughtfully; no boss or large siege requirement.
 - One limited service/training interaction, a useful item reward, and a small inventory.
 - One day/night transition with a few readable work/rest changes. Heavy weather is optional polish.

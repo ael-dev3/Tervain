@@ -81,6 +81,7 @@ export const EN: Record<string, string> = {
   'prompt.pickup.quarry_brace': 'Take the spare sluice brace',
   'prompt.pickup.quarry_wrench': 'Take the gate wrench',
   'prompt.pickup.side_path_cache': 'Open the hidden cache',
+  'prompt.pickup.wreck_blade': 'Take the sword from the wreck',
   'prompt.lever': 'Pull the maintenance lever',
   'prompt.sluice': 'Work the sluice controls',
   'prompt.archive_door.locked': 'Try the archive door',
@@ -140,6 +141,7 @@ export const EN: Record<string, string> = {
   'toast.unlocked.key': 'You unlock the archive with the borrowed key.',
   'toast.brace.taken': 'Rillford will want this brace back in one piece.',
   'toast.cache': 'A small store of coin, left by someone who never came back for it.',
+  'toast.blade': 'Salt has eaten at it, but the edge still holds. Better than bare hands.',
   'toast.caption.bell': '[The drought bell tolls]',
   'toast.caption.bell.allclear': '[A bright, even peal]',
 
@@ -223,6 +225,8 @@ export const EN: Record<string, string> = {
   /* ---------- Items ---------- */
   'item.coin': 'Coin',
   'item.coin.desc': 'Small change from three regions.',
+  'item.rusted_sword': 'Rusted sword',
+  'item.rusted_sword.desc': 'A plain arming sword from the wreck on the strand, pitted by salt. Worn on the hip; drawn when you fight.',
   'item.sluice_brace': 'Spare sluice brace',
   'item.sluice_brace.desc': "Rillford's spare timber brace, lent to the quarry. Sets against a cracked support.",
   'item.gate_wrench': 'Gate wrench',
@@ -242,8 +246,9 @@ export const EN: Record<string, string> = {
   'pickup.brace': 'Spare sluice brace',
   'pickup.wrench': 'Gate wrench',
   'pickup.cache': 'Hidden cache',
+  'pickup.wreck_blade': 'Rusted sword',
   'skill.steady_guard': 'Steady Guard',
-  'skill.steady_guard.desc': 'Holding the shield costs 40% less stamina.',
+  'skill.steady_guard.desc': 'Holding your guard costs 40% less stamina.',
 
   /* ---------- Journal ---------- */
   'journal.title': 'Journal',
@@ -385,6 +390,7 @@ export const EN: Record<string, string> = {
   'evidence.worker_testimony': "Ila's testimony",
 
   /* ---------- Guidance hints ---------- */
+  'hint.search_wreck': 'You have nothing to fight with. Search the old wreck on the beach, north of where you woke.',
   'hint.walk_to_rillford': 'Follow the road down into Rillford.',
   'hint.look_around': 'Talk to the reeve, or look at the channels for yourself.',
   'hint.see_dry_channel': 'Look at the dry channel behind the mill.',

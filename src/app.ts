@@ -1016,6 +1016,7 @@ export class App {
     this.worldDirty = true;
     if (id === 'quarry_brace') this.hud.toast(S('toast.brace.taken'));
     if (id === 'side_path_cache') this.hud.toast(S('toast.cache'));
+    if (id === 'wreck_blade') this.hud.toast(S('toast.blade'));
   }
 
   pullLever() {
@@ -1541,6 +1542,7 @@ export class App {
   }
 
   private debugKit() {
+    this.game.dispatch({ t: 'pickup', pickupId: 'wreck_blade', item: 'rusted_sword', qty: 1 });
     this.game.dispatch({ t: 'pickup', pickupId: 'quarry_brace', item: 'sluice_brace', qty: 1 });
     this.game.dispatch({ t: 'pickup', pickupId: 'quarry_wrench', item: 'gate_wrench', qty: 1 });
     this.worldDirty = true;

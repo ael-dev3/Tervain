@@ -7,8 +7,15 @@ describe('authored NPC presentation profiles', () => {
     const ids = NPC_LIST.map((npc) => npc.id);
     expect(Object.keys(NPC_STYLES).sort()).toEqual([...ids].sort());
     expect(ids.map((id) => npcStyle(id).faceSeed)).toHaveLength(new Set(ids.map((id) => npcStyle(id).faceSeed)).size);
-    expect(npcStyle('rillford_reeve')).toMatchObject({ hair: 'long', beard: false });
-    expect(npcStyle('maintenance_worker')).toMatchObject({ hair: 'long', beard: false });
+    expect(npcStyle('rillford_reeve')).toMatchObject({ hair: 'long', beard: 'none', build: 'woman' });
+    expect(npcStyle('maintenance_worker')).toMatchObject({ hair: 'long', beard: 'none', build: 'woman' });
+  });
+
+  it('gives beards only to builds that grow them', () => {
+    for (const npc of NPC_LIST) {
+      const s = npcStyle(npc.id);
+      if (s.build !== 'man') expect(s.beard, npc.id).toBe('none');
+    }
   });
 
   it('keeps human task loops distinct and within the authored animation vocabulary', () => {

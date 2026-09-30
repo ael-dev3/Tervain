@@ -15,6 +15,8 @@ export function nextHint(s: WorldState): Hint {
   if (q.phase === 'settled') return { key: 'hint.settled', place: null };
   if (q.phase === 'committed') return { key: 'hint.check_result', place: 'rillford' };
   if (q.phase === 'decision_ready') return { key: 'hint.decide', place: 'sluice' };
+  // The wanderer arrives with nothing: before the road inland, the wreck on the beach holds a blade.
+  if (!s.discovered.rillford && q.phase === 'unseen' && (s.inventory.rusted_sword ?? 0) < 1 && s.locationChanges['pickup:wreck_blade'] !== 'taken') return { key: 'hint.search_wreck', place: 'shore' };
   if (!s.discovered.rillford && q.phase === 'unseen') return { key: 'hint.walk_to_rillford', place: 'rillford' };
   if (q.phase === 'unseen') return { key: 'hint.look_around', place: 'rillford' };
   if (q.gate === 'jammed') return { key: 'hint.jammed', place: 'sluice' };

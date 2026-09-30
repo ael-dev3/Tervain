@@ -38,7 +38,7 @@ const page = await openPage(url.href, { w, h });
 try {
   let ready = false;
   for (let i = 0; i < 240; i++) {
-    if ((await page.eval('document.title')) === 'READY') {
+    if ((await page.eval('return document.title')) === 'READY') {
       ready = true;
       break;
     }

@@ -263,11 +263,15 @@ export const INSPECT_LOCATIONS: WorldPoint[] = [
   { id: 'saltward_kit', x: 15, z: 20.5, r: 2.4 },
 ];
 
-export const PICKUP_LOCATIONS: (WorldPoint & { item: 'sluice_brace' | 'gate_wrench' | 'coin' | 'poultice'; qty: number; nameKey: string })[] = [
+export const PICKUP_LOCATIONS: (WorldPoint & { item: 'sluice_brace' | 'gate_wrench' | 'coin' | 'poultice' | 'rusted_sword'; qty: number; nameKey: string })[] = [
   { id: 'quarry_brace', x: 90, z: -12, r: 2.6, item: 'sluice_brace', qty: 1, nameKey: 'pickup.brace' },
   { id: 'quarry_wrench', x: 91.6, z: -13, r: 2.6, item: 'gate_wrench', qty: 1, nameKey: 'pickup.wrench' },
   { id: 'side_path_cache', x: 112, z: 62, r: 3, item: 'coin', qty: 8, nameKey: 'pickup.cache' },
+  // The wanderer arrives with nothing; the first blade lies in the hull of the wreck on the beach north of the strand.
+  { id: 'wreck_blade', x: -271.5, z: -14.2, r: 2.4, item: 'rusted_sword', qty: 1, nameKey: 'pickup.wreck_blade' },
 ];
+/** The wreck on the beach north of the strand (its hull centre and heading), which holds the first blade. */
+export const WRECK = { z: -14, yaw: 1.05, len: 9 } as const;
 
 export const SHORTCUT = { lever: { x: 92.6, z: -8.4, r: 2.6 }, gate: { x: 100, z: -19, hw: 1.2, hd: 0.5, yaw: 0.9 } };
 

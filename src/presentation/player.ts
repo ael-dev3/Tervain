@@ -8,7 +8,7 @@ import type { Terrain } from '../world/terrain';
 import { roadWeight } from '../world/terrain';
 import { DECKS } from '../world/layout';
 import type { AudioEngine, SurfaceKind } from './audio';
-import { createPlayerRig, poseRig, setSash, applyFlash, type Mode, type Pose, type Rig } from './characters';
+import { createPlayerRig, poseRig, setArmed, setSash, applyFlash, type Mode, type Pose, type Rig } from './characters';
 import { EnemyActor, NpcActor, lerpAngle } from './actors';
 
 export type PlayerState = 'free' | 'light' | 'heavy' | 'dodge' | 'hurt' | 'channel' | 'dead';
@@ -19,6 +19,41 @@ const DUR = { light: 0.62, heavy: 1.05, dodge: 0.4, hurt: 0.38 };
 /** Portion of the action after which the blow lands. */
 const HIT_AT = { light: 0.45, heavy: 0.6 };
 export const PERFECT_BLOCK_WINDOW = 0.18;
+
+/**
+ * What the wanderer fights with (proposal). Like the Gothic heroes they arrive with nothing; fists are quick but weak and
+ * short, and a guard of bare forearms softens a blow without turning it. The first blade lies in the wreck on the strand.
+ */
+export interface Arms {
+  light: number;
+  heavy: number;
+  range: { light: number; heavy: number };
+  arc: { light: number; heavy: number };
+  dur: { light: number; heavy: number };
+  cost: { light: number; heavy: number };
+  /** Share of a blocked blow that still lands (fresh, tired); a perfect block with a blade parries. */
+  guard: { fresh: number; tired: number; perfect: number | 'parry' };
+}
+export const FISTS: Arms = {
+  light: 7,
+  heavy: 15,
+  range: { light: 1.6, heavy: 1.8 },
+  arc: { light: 0.85, heavy: 1.0 },
+  dur: { light: 0.5, heavy: 0.9 },
+  cost: { light: 9, heavy: 24 },
+  guard: { fresh: 0.6, tired: 0.85, perfect: 0.35 },
+};
+export const BLADE: Arms = {
+  light: 19,
+  heavy: 42,
+  range: { light: 2.35, heavy: 2.7 },
+  arc: { light: 1.05, heavy: 1.25 },
+  dur: { light: DUR.light, heavy: DUR.heavy },
+  cost: { light: COST.light, heavy: COST.heavy },
+  guard: { fresh: 0.3, tired: 0.6, perfect: 'parry' },
+};
+/** Seconds without a fight before the blade goes back on the hip. */
+const SHEATHE_AFTER = 6;
 
 export interface PlayerCtx {
   terrain: Terrain;
@@ -70,10 +105,26 @@ export class Player {
   lastMoveSpeed = 0;
   private wasBlocking = false;
   mode: Mode = 'idle';
+  /** Whether the blade is in hand (only when the wanderer has one). */
+  drawn = false;
+  private calm = 0;
+  private shown: 'none' | 'sheathed' | 'drawn' | null = null;
 
   constructor() {
     this.rig = createPlayerRig();
     this.group.add(this.rig.root);
+    this.showArms('none');
+  }
+
+  /** The wanderer's weapon, from what they carry. */
+  arms(game: Game): Arms {
+    return (game.state.inventory.rusted_sword ?? 0) > 0 ? BLADE : FISTS;
+  }
+
+  private showArms(state: 'none' | 'sheathed' | 'drawn') {
+    if (this.shown === state) return;
+    this.shown = state;
+    setArmed(this.rig, state);
   }
 
   get alive() {
@@ -158,10 +209,10 @@ export class Player {
     return moved;
   }
 
-  private startAction(kind: 'light' | 'heavy') {
+  private startAction(kind: 'light' | 'heavy', arms: Arms) {
     this.state = kind;
     this.heavy = kind === 'heavy';
-    this.dur = DUR[kind];
+    this.dur = arms.dur[kind];
     this.timer = 0;
     this.hitDone = false;
     this.blocking = false;
@@ -182,7 +233,10 @@ export class Player {
     const f = this.facing;
     const facing = (dx / d) * f.x + (dz / d) * f.z > 0.17;
     if (this.blocking && facing && this.state === 'free') {
-      if (this.blockTime < PERFECT_BLOCK_WINDOW) {
+      const arms = this.arms(ctx.game);
+      const perfect = this.blockTime < PERFECT_BLOCK_WINDOW;
+      // Only a blade turns a blow aside; a guard of bare forearms softens it.
+      if (perfect && arms.guard.perfect === 'parry') {
         ctx.audio.hit('perfect');
         from.parried(this.x, this.z);
         this.shake = Math.max(this.shake, 0.1);
@@ -192,7 +246,8 @@ export class Player {
       const skill = ctx.game.state.skills.includes('steady_guard') ? 0.6 : 1;
       const cost = COST.blockHit * skill * (heavy ? 1.6 : 1);
       const tired = this.stamina < cost * 0.5;
-      const dmg = Math.round(damage * (tired ? 0.6 : 0.3));
+      const share = perfect && typeof arms.guard.perfect === 'number' ? arms.guard.perfect : tired ? arms.guard.tired : arms.guard.fresh;
+      const dmg = Math.round(damage * share);
       this.spend(cost);
       ctx.audio.hit('block');
       this.shake = Math.max(this.shake, 0.18);
@@ -270,14 +325,15 @@ export class Player {
     if (sprintHeld && this.exhausted) inp.clearToggle('sprint');
 
     // Actions (edge-triggered).
+    const arms = this.arms(ctx.game);
     if (control && this.state === 'free') {
       if (inp.pressed('attack') && !this.blocking) {
-        this.startAction('light');
-        this.spend(COST.light);
+        this.startAction('light', arms);
+        this.spend(arms.cost.light);
         ctx.audio.swing(false);
-      } else if (inp.pressed('heavy') && !this.exhausted && this.stamina >= COST.heavy * 0.6) {
-        this.startAction('heavy');
-        this.spend(COST.heavy);
+      } else if (inp.pressed('heavy') && !this.exhausted && this.stamina >= arms.cost.heavy * 0.6) {
+        this.startAction('heavy', arms);
+        this.spend(arms.cost.heavy);
         ctx.audio.swing(true);
       } else if (inp.pressed('dodge') && !this.exhausted && this.stamina >= COST.dodge * 0.6) {
         this.state = 'dodge';
@@ -295,6 +351,19 @@ export class Player {
         this.staminaPause = 0.4;
       }
     }
+
+    // The blade comes out for a fight and goes back on the hip once things are quiet.
+    const hasBlade = arms === BLADE;
+    const engaged = ctx.enemies.some((e) => e.alive && e.engaged && Math.hypot(e.x - this.x, e.z - this.z) < 18);
+    if (!hasBlade) this.drawn = false;
+    else if (this.state === 'light' || this.state === 'heavy' || this.blocking || engaged) {
+      this.drawn = true;
+      this.calm = 0;
+    } else if (this.state === 'free') {
+      this.calm += dt;
+      if (this.calm > SHEATHE_AFTER) this.drawn = false;
+    }
+    this.showArms(!hasBlade ? 'none' : this.drawn ? 'drawn' : 'sheathed');
 
     // State timers.
     let speed = 0;
@@ -448,8 +517,10 @@ export class Player {
 
   /** Resolve the moment a swing lands against everything in its arc. */
   private resolveBlow(ctx: PlayerCtx) {
-    const range = this.heavy ? 2.7 : 2.35;
-    const half = this.heavy ? 1.25 : 1.05;
+    const arms = this.arms(ctx.game);
+    const kind = this.heavy ? 'heavy' : 'light';
+    const range = arms.range[kind];
+    const half = arms.arc[kind];
     const f = this.facing;
     let any = false;
     for (const e of ctx.enemies) {
@@ -460,7 +531,7 @@ export class Player {
       if (d > range + e.radius) continue;
       const ang = Math.acos(Math.max(-1, Math.min(1, (dx * f.x + dz * f.z) / (d || 1))));
       if (ang > half) continue;
-      const dmg = this.heavy ? 42 : 19;
+      const dmg = arms[kind];
       const killed = e.takeHit(dmg, this.heavy, this.x, this.z);
       ctx.audio.hit('flesh');
       ctx.onHitEnemy(e, killed, this.heavy);
