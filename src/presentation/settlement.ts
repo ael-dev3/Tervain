@@ -553,9 +553,17 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     R.ctx.push(0, gy(wood.x, wood.z), 0);
     woodpile(R, rnd, wood.x, wood.z, wood.yaw, 1.6, 4);
     R.ctx.pop();
-    // The only authored hull left on the strand: a storm-broken environmental clue.
+    // The only authored hull left on the strand: a storm-broken environmental clue. The wanderer's first blade lies in
+    // it (a pickup), beside a stove-in sea chest.
     const wr = ARRIVAL_WRECK;
     wreck(region('coast'), rnd, wr.x, gy(wr.x, wr.z) - 0.1, wr.z, wr.yaw, wr.length);
+    {
+      const C = region('coast');
+      const bx = wr.x + 1.9;
+      const bz = wr.z + 1.6;
+      crate(C, rnd, bx, gy(bx, bz) - 0.12, bz, 0.72, 0.4, 0.46, 0.5);
+      C.planks.box(0.7, 0.04, 0.44, bx + 0.12, gy(bx, bz) + 0.3, bz - 0.34, jitterTone(TINT.wood, rnd, 0.12), { rx: 1.1, ry: 0.5, jit: 0.1 });
+    }
     // Firewood at the former keeper's cottage now belongs to the inland waystation.
     const keeper = bySpec('keeper_cottage');
     const kd = localToWorld(keeper, keeper.w / 2 - 0.8, keeper.d / 2 + 0.55);
@@ -818,6 +826,16 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
       } else if (pk.id === 'quarry_wrench') {
         D.metal.rod(0, 0.1, 0, 0.75, 0.42, 0, 0.045, 5, TINT.iron, { jit: 0.06 });
         D.metal.lathe([0.16, -0.03, 0.2, 0, 0.16, 0.03], 8, 0.78, 0.44, 0, TINT.iron, { jit: 0.06, rx: Math.PI / 2 });
+      } else if (pk.id === 'wreck_blade') {
+        // A salt-eaten sword the storm drove point-first into the sand inside the hull. It leans along the keel so the
+        // hilt stands above the side planks for a walker coming up the beach from the landing (blade along local +z).
+        D.ctx.push(0, 0.34, 0, ARRIVAL_WRECK.yaw + Math.PI, Math.PI / 2 - 0.6, 0.08);
+        D.metal.box(0.046, 0.012, 0.82, 0, 0.0, 0.1, jitterTone(0x5e5046, rnd, 0.1), { jit: 0.08 });
+        D.metal.box(0.012, 0.016, 0.8, 0, 0.004, 0.1, jitterTone(0x4a3c30, rnd, 0.1), { jit: 0.08 });
+        D.metal.box(0.19, 0.03, 0.035, 0, 0.0, -0.32, jitterTone(0x3c3a36, rnd, 0.08), { jit: 0.06 });
+        D.timber.rod(0, 0.015, -0.34, 0, 0.015, -0.47, 0.016, 6, jitterTone(0x3a2a1c, rnd, 0.1), { jit: 0.06 });
+        D.metal.lathe([0.02, -0.018, 0.024, 0, 0.02, 0.018], 7, 0, 0.015, -0.49, jitterTone(0x44403a, rnd, 0.08), { jit: 0.05, rx: Math.PI / 2 });
+        D.ctx.pop();
       } else {
         D.planks.box(0.9, 0.5, 0.6, 0, 0, 0, jitterTone(TINT.wood, rnd, 0.14), { jit: 0.1, grain: 'x' });
         D.timber.box(0.95, 0.14, 0.65, 0, 0.5, 0, jitterTone(TINT.woodDark, rnd, 0.1), { jit: 0.1, grain: 'x' });

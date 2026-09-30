@@ -311,11 +311,21 @@ export const INSPECT_LOCATIONS: WorldPoint[] = [
   { id: 'saltward_kit', x: 15, z: 20.5, r: 2.4 },
 ];
 
-export const PICKUP_LOCATIONS: (WorldPoint & { item: 'sluice_brace' | 'gate_wrench' | 'coin' | 'poultice'; qty: number; nameKey: string })[] = [
+export const PICKUP_LOCATIONS: (WorldPoint & { item: 'sluice_brace' | 'gate_wrench' | 'coin' | 'poultice' | 'rusted_sword'; qty: number; nameKey: string })[] = [
   { id: 'quarry_brace', x: 90, z: -12, r: 2.6, item: 'sluice_brace', qty: 1, nameKey: 'pickup.brace' },
   { id: 'quarry_wrench', x: 91.6, z: -13, r: 2.6, item: 'gate_wrench', qty: 1, nameKey: 'pickup.wrench' },
   { id: 'side_path_cache', x: 112, z: 62, r: 3, item: 'coin', qty: 8, nameKey: 'pickup.cache' },
+  // The wanderer arrives with nothing; the first blade lies inside the hull of the wreck on the beach, north of the
+  // landing: near the middle of the hull and 0.7 m from the keel on the landing side, so the sea chest does not hide it.
+  { id: 'wreck_blade', ...inWreck(-0.7, 0.2), r: 2.4, item: 'rusted_sword', qty: 1, nameKey: 'pickup.wreck_blade' },
 ];
+
+/** A point in the arrival wreck's own frame (x across the hull, z along it) in world coordinates. */
+function inWreck(x: number, z: number): V2 {
+  const c = Math.cos(ARRIVAL_WRECK.yaw);
+  const s = Math.sin(ARRIVAL_WRECK.yaw);
+  return { x: ARRIVAL_WRECK.x + x * c + z * s, z: ARRIVAL_WRECK.z - x * s + z * c };
+}
 
 export const SHORTCUT = { lever: { x: 92.6, z: -8.4, r: 2.6 }, gate: { x: 100, z: -19, hw: 1.2, hd: 0.5, yaw: 0.9 } };
 

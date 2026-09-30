@@ -3,7 +3,21 @@
 // (docs/engineering/architecture.md: "The renderer displays state").
 
 export const SAVE_FORMAT_VERSION = 1;
-export const CONTENT_REVISION = 'deepwood-proto-0.0.5';
+export const CONTENT_REVISION = 'deepwood-proto-0.0.5-unarmed';
+/**
+ * Content revisions from before the wanderer began unarmed. A save from one of these was made by a player who already
+ * carried a blade, so loading it hands them the wreck's sword rather than silently taking their weapon away.
+ */
+export const ARMED_START_REVISIONS: readonly string[] = [
+  'bellwether-proto-0.1',
+  'bellwether-proto-0.0.1',
+  'bellwether-proto-0.0.2',
+  'bellwether-proto-0.0.3',
+  'bellwether-proto-0.0.4',
+  'deepwood-proto-0.0.5',
+];
+/** The first weapon: found in the wreck on the strand. */
+export const WRECK_BLADE_PICKUP = 'wreck_blade';
 
 export type QuestPhase = 'unseen' | 'investigating' | 'decision_ready' | 'committed' | 'settled';
 export const PHASE_ORDER: readonly QuestPhase[] = ['unseen', 'investigating', 'decision_ready', 'committed', 'settled'];
@@ -69,6 +83,7 @@ export const PARTIES: readonly Party[] = ['mara', 'edda', 'darin'];
 
 export type ItemId =
   | 'coin'
+  | 'rusted_sword'
   | 'sluice_brace'
   | 'gate_wrench'
   | 'archive_key'

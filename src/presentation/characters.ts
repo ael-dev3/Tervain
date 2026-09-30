@@ -3,17 +3,25 @@ import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js
 import type { Accessory, NpcDef } from '../content/npcs';
 import { PAL } from './kit';
 import { mulberry32 } from '../world/noise';
-import { makeTexPair } from './buildingTextures';
-import { beardGeometry, bootGeometry, drape, handGeometry, hairGeometry, headGeometry, hex, limb, loft, weather, type RGB, type Section } from './humanGeo';
-import { npcStyle, type HairStyle, type WorkGesture } from './npcStyle';
+import { limb, loft as rigidLoft, type RGB, type Section } from './humanGeo';
+import { npcStyle, type WorkGesture } from './npcStyle';
 import type { AssetNeed } from './assets/library';
+import { Frame } from './human/frame';
+import { buildHead, type HairCut, type HeadFit } from './human/head';
+import { makeFaceShape, type BeardStyle, type Build } from './human/headShape';
+import { dress, dressHead, Meshers, sashBand, type Outfit } from './human/dress';
+import { clothTexture, eyeTexture, faceTexture, strandTexture, type ClothKind } from './human/humanTex';
+import { banditOutfit, lookOutfit, npcOutfit, playerOutfit, linear } from './human/outfits';
+import { BI, BONES, box, ellipsoid, loft, Mesher, mul3, rigid, tube, type BoneName, type V3 } from './human/skin';
 
 /** Assets this module wants loaded before the world is built. */
 export const NEEDS: AssetNeed[] = [];
 
 /**
- * Procedural low-poly people and creatures built from primitives. They are honest
- * placeholders: one shared humanoid rig, distinct silhouettes through costume and proportion.
+ * People and creatures. People are built the way Gothic 3 builds its actors (docs/art/gothic3-reference.md#people): one
+ * skeleton per person, a skinned body dressed in layered clothes, a separate sculpted and painted head with eyes, lids,
+ * ears, hair and beard, and props (a blade, a scabbard) hung on the bones. Everything is generated in code; nothing is
+ * taken from Gothic 3. The Thornback is a rigid creature rig.
  */
 
 export type Mode =
@@ -46,26 +54,37 @@ export interface Pose {
   workGesture?: WorkGesture;
 }
 
+/** What a person has in hand: nothing (fists) or a blade. */
+export type Grip = 'none' | 'blade';
+
 export interface Rig {
   root: THREE.Group;
   /** Root of the visual body; lowered when sitting and rotated when defeated. */
   body: THREE.Group;
-  hips: THREE.Group;
-  torso: THREE.Group;
-  head: THREE.Group;
-  armL: THREE.Group;
-  armR: THREE.Group;
-  legL: THREE.Group;
-  legR: THREE.Group;
+  hips: THREE.Object3D;
+  torso: THREE.Object3D;
+  head: THREE.Object3D;
+  armL: THREE.Object3D;
+  armR: THREE.Object3D;
+  legL: THREE.Object3D;
+  legR: THREE.Object3D;
   /** Joints that only humanoids have: knees and elbows bend as they move. */
-  kneeL?: THREE.Group;
-  kneeR?: THREE.Group;
-  elbowL?: THREE.Group;
-  elbowR?: THREE.Group;
+  kneeL?: THREE.Object3D;
+  kneeR?: THREE.Object3D;
+  elbowL?: THREE.Object3D;
+  elbowR?: THREE.Object3D;
+  /** The weapon in hand (shown while drawn). */
   weapon: THREE.Object3D | null;
+  /** Kept for API stability: nobody carries a shield now. */
   shield: THREE.Object3D | null;
+  /** An empty scabbard on the hip, and the hilt that shows in it while the blade is sheathed. */
+  scabbard: THREE.Object3D | null;
+  sheathed: THREE.Object3D | null;
+  grip: Grip;
   sash: THREE.Mesh | null;
   height: number;
+  /** Bind height of the hip joint. */
+  hipY: number;
   cur: Record<string, number>;
   materials: THREE.MeshStandardMaterial[];
   hitFlash: number;
@@ -73,9 +92,6 @@ export interface Rig {
   /** Whether the rig currently casts shadows (see setRigShadow). */
   shadowOn?: boolean;
 }
-
-/** Kept for API stability: rigs own their materials now, so there is nothing to clear. */
-const stdCache = { clear() {} };
 
 export interface Look {
   skin: number;
@@ -90,287 +106,427 @@ export interface Look {
 
 const ANGLE_KEYS = ['legL', 'legR', 'armLx', 'armLz', 'armRx', 'armRz', 'torsoX', 'torsoZ', 'headX', 'headY', 'lower', 'bodyX', 'bodyY', 'kneeL', 'kneeR', 'elbowL', 'elbowR'] as const;
 
-/** A stable small integer from a look, so the same NPC always gets the same face, hair and build details. */
-function lookSeed(look: Look, identitySeed?: number): number {
-  if (identitySeed !== undefined) return identitySeed >>> 0;
-  let h = 2166136261;
-  for (const v of [look.skin, look.primary, look.secondary, look.hair, Math.round(look.height * 100), Math.round(look.girth * 100)]) {
-    h = Math.imul(h ^ (v | 0), 16777619);
-    h ^= h >>> 15;
+/* ================================================================ people */
+
+export interface PersonSpec {
+  build: Build;
+  height: number;
+  girth: number;
+  outfit: Outfit;
+  hair: RGB;
+  cut: HairCut;
+  beard: BeardStyle;
+  age: number;
+  faceSeed: number;
+  /** A week's growth on a beardless man's jaw (0..1). */
+  stubble: number;
+  weather: number;
+  /** What the person carries. A 'blade' starts drawn in hand; 'sheathed' hangs at the hip. */
+  weapon?: 'blade' | 'club' | 'sheathed';
+  sash?: boolean;
+}
+
+const IRISES: RGB[] = [
+  [0.09, 0.05, 0.022],
+  [0.13, 0.075, 0.03],
+  [0.16, 0.12, 0.05],
+  [0.1, 0.13, 0.15],
+  [0.1, 0.12, 0.08],
+  [0.06, 0.035, 0.018],
+];
+
+const clothKinds: ClothKind[] = ['linen', 'wool', 'leather', 'padded', 'mail', 'felt'];
+
+function materialFor(key: string, face: THREE.Texture | null, eye: THREE.Texture | null): THREE.MeshStandardMaterial {
+  if (key === 'skin') return new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.62 });
+  if (key === 'face') return new THREE.MeshStandardMaterial({ vertexColors: true, map: face, roughness: 0.6 });
+  if (key === 'eyes') return new THREE.MeshStandardMaterial({ map: eye, roughness: 0.2 });
+  if (key === 'hair') return new THREE.MeshStandardMaterial({ vertexColors: true, map: strandTexture(), roughness: 0.74, side: THREE.DoubleSide });
+  if (key === 'metal') return new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.42, metalness: 0.62 });
+  if (key === 'mail') return new THREE.MeshStandardMaterial({ vertexColors: true, map: clothTexture('mail'), roughness: 0.5, metalness: 0.55, side: THREE.DoubleSide });
+  if ((clothKinds as string[]).includes(key)) {
+    return new THREE.MeshStandardMaterial({ vertexColors: true, map: clothTexture(key as ClothKind), roughness: key === 'leather' ? 0.68 : key === 'felt' ? 0.9 : 0.95, side: THREE.DoubleSide });
   }
-  return h >>> 0;
+  return new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.9 });
 }
 
-let clothNormal: THREE.Texture | null = null;
-function clothNormalMap(): THREE.Texture {
-  if (!clothNormal) {
-    const t = makeTexPair('cloth', 128, 4).normal.clone();
-    t.repeat.set(5, 9);
-    t.needsUpdate = true;
-    clothNormal = t;
-  }
-  return clothNormal;
-}
+const PARENT: Record<BoneName, BoneName | null> = {
+  hips: null,
+  torso: 'hips',
+  head: 'torso',
+  armL: 'torso',
+  elbowL: 'armL',
+  armR: 'torso',
+  elbowR: 'armR',
+  legL: 'hips',
+  kneeL: 'legL',
+  legR: 'hips',
+  kneeR: 'legR',
+};
 
-function vcMat(rough: number, o: { cloth?: boolean; metal?: number; side?: THREE.Side } = {}): THREE.MeshStandardMaterial {
-  const m = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: rough, metalness: o.metal ?? 0, side: o.side ?? THREE.FrontSide });
-  if (o.cloth) {
-    m.normalMap = clothNormalMap();
-    m.normalScale.set(0.9, 0.9);
-  }
-  return m;
-}
+/** Build one person: skeleton, skinned body, clothes, head, props. */
+export function createPersonRig(p: PersonSpec): Rig {
+  const frame = new Frame(p.build, p.height, p.girth);
+  const ms = new Meshers(() => new Mesher());
+  const fit = dress(frame, p.outfit, ms);
+  const shape = makeFaceShape(p.faceSeed, p.build, p.age);
+  const o = p.outfit;
+  const covered = !!(o.hood || o.hat || o.helmet || o.scarf);
+  const J = frame.joints();
+  const headFit: HeadFit = buildHead(
+    { face: ms.get('face'), skin: ms.get('skin'), eyes: ms.get('eyes'), hair: ms.get('hair') },
+    { shape, skin: o.skin, hair: p.hair, iris: IRISES[p.faceSeed % IRISES.length]!, cut: p.cut, beard: p.beard, age: p.age, seed: p.faceSeed, covered },
+    { origin: J.head, scale: frame.headScale, head: frame.weights('head'), hair: frame.weights('hair'), backZ: (y) => frame.backZ(y) - fit.outerGrow, shoulderY: frame.shoulderY },
+  );
+  dressHead(frame, o, ms, headFit, fit.outerGrow);
 
-function put(geo: THREE.BufferGeometry, m: THREE.Material, parent: THREE.Object3D, x = 0, y = 0, z = 0, shadow = true): THREE.Mesh {
-  const me = new THREE.Mesh(geo, m);
-  me.position.set(x, y, z);
-  me.castShadow = shadow;
-  parent.add(me);
-  return me;
-}
-
-/** Muted, worn colour from a hex: pulled toward grey-brown and darkened, so nobody wears a fresh dye. */
-function worn(h: number, k = 0.8): RGB {
-  const c = hex(h);
-  const l = (c[0] + c[1] + c[2]) / 3;
-  return [(c[0] * 0.72 + l * 0.28) * k, (c[1] * 0.72 + l * 0.28) * k * 0.98, (c[2] * 0.72 + l * 0.28) * k * 0.94];
-}
-
-export function createHumanoid(look: Look, opts: { weapon?: boolean; shield?: boolean; cloak?: boolean; sash?: boolean; identitySeed?: number; beard?: boolean; hairStyle?: HairStyle; age?: number } = {}): Rig {
-  // Each rig owns its materials so a hit flash on one character never tints another.
-  stdCache.clear();
-  const seed = lookSeed(look, opts.identitySeed);
-  const rnd = mulberry32(seed);
+  // Skeleton.
   const root = new THREE.Group();
   const body = new THREE.Group();
   root.add(body);
-  const H = look.height;
-  const G = look.girth;
-  body.scale.set(G, H, G);
+  const bones = {} as Record<BoneName, THREE.Bone>;
+  for (const name of BONES) {
+    const b = new THREE.Bone();
+    b.name = name;
+    bones[name] = b;
+  }
+  for (const name of BONES) {
+    const par = PARENT[name];
+    const at = J[name];
+    const pp: [number, number, number] = par ? J[par] : [0, 0, 0];
+    bones[name].position.set(at[0] - pp[0], at[1] - pp[1], at[2] - pp[2]);
+    (par ? bones[par] : body).add(bones[name]);
+  }
+  root.updateMatrixWorld(true);
+  const skeleton = new THREE.Skeleton(BONES.map((n) => bones[n]));
 
-  const skinM = vcMat(0.7);
-  const clothM = vcMat(0.96, { cloth: true, side: THREE.DoubleSide });
-  const leatherM = vcMat(0.72);
-  const hairM = vcMat(0.8);
-  const metalM = vcMat(0.45, { metal: 0.55 });
-  const materials = [skinM, clothM, leatherM, hairM, metalM];
-
-  const skin = worn(look.skin, 0.78);
-  const pri = worn(look.primary, 0.78);
-  const sec = worn(look.secondary, 0.72);
-  const acc = worn(look.accent ?? look.secondary, 0.8);
-  const leather = mix3(worn(0x5a4230, 0.7), sec, 0.15);
-  const hairC = worn(look.hair, 0.85);
-  // Named characters receive explicit authored face traits. Generic actors retain seeded variation.
-  const beard = opts.beard ?? seed % 5 < 2;
-  const hairStyle: HairStyle = opts.hairStyle ?? (seed % 9 === 0 ? 'bald' : seed % 3 === 0 ? 'tied' : 'short');
-  const longSleeve = look.accessory !== 'apron' && look.accessory !== 'shawl';
-  const trousers = mix3(sec, [0.1, 0.09, 0.08], 0.25);
-
-  const hips = new THREE.Group();
-  hips.position.y = 0.95;
-  body.add(hips);
-
-  // Legs: thigh and shin in trousers, boots. Each leg has a knee that bends.
-  const legs: THREE.Group[] = [];
-  const knees: THREE.Group[] = [];
-  for (const sx of [-1, 1]) {
-    const leg = new THREE.Group();
-    leg.position.set(sx * 0.115, 0, 0);
-    const thigh = limb(0.098, 0.068, 0.47, { bulge: 0.1, at: 0.25, top: trousers, bottom: mul3(trousers, 0.92), seed: seed + sx, dirt: 0.12 });
-    weather(thigh, seed + 3 * sx, 0.1, -0.47, 0);
-    put(thigh, clothM, leg);
-    const knee = new THREE.Group();
-    knee.position.y = -0.46;
-    const shin = limb(0.068, 0.054, 0.45, { bulge: 0.14, at: 0.2, top: mul3(trousers, 0.92), bottom: mul3(trousers, 0.78), seed: seed + 5 + sx, dirt: 0.3 });
-    weather(shin, seed + 7 * sx, 0.3, -0.45, 0);
-    put(shin, clothM, knee);
-    put(bootGeometry(leather, seed + sx), leatherM, knee, 0, -0.31, 0.0);
-    leg.add(knee);
-    hips.add(leg);
-    legs.push(leg);
-    knees.push(knee);
+  // Textures and materials, one skinned mesh per material.
+  const skinTone = o.skin;
+  const face = faceTexture(shape, {
+    skin: skinTone,
+    hair: p.hair,
+    stubble: p.stubble,
+    age: p.age,
+    scalp: p.cut === 'bald' ? 'fringe' : 'full',
+    beard: p.beard,
+    fine: p.build === 'woman',
+    weather: p.weather,
+    seed: p.faceSeed,
+  });
+  const eye = eyeTexture(IRISES[p.faceSeed % IRISES.length]!);
+  const materials: THREE.MeshStandardMaterial[] = [];
+  const sphere = new THREE.Sphere(new THREE.Vector3(0, 0.95 * frame.H, 0), 2.0 * frame.H);
+  const addSkinned = (geo: THREE.BufferGeometry, mat: THREE.MeshStandardMaterial) => {
+    const mesh = new THREE.SkinnedMesh(geo, mat);
+    body.add(mesh);
+    mesh.bind(skeleton);
+    mesh.boundingSphere = sphere.clone();
+    mesh.castShadow = true;
+    return mesh;
+  };
+  for (const [key, m] of ms.entries()) {
+    const geo = m.geometry();
+    if (!geo) continue;
+    const mat = materialFor(key, face, eye);
+    materials.push(mat);
+    addSkinned(geo, mat);
   }
 
-  const torso = new THREE.Group();
-  hips.add(torso);
-  // Tunic: a loft from below the hip to the collar, wide in the shoulders, flared at the hem.
-  const hemY = look.accessory === 'coat' || look.accessory === 'robe' ? -0.3 : -0.2;
-  const tunicSecs: Section[] = [
-    { y: hemY, rx: 0.225, rz: 0.165, color: mul3(pri, 0.62) },
-    { y: -0.05, rx: 0.195, rz: 0.145, color: mul3(pri, 0.8) },
-    { y: 0.1, rx: 0.16, rz: 0.125, color: pri },
-    { y: 0.26, rx: 0.19, rz: 0.15, color: pri },
-    { y: 0.4, rx: 0.2, rz: 0.15, color: mul3(pri, 1.02) },
-    { y: 0.5, rx: 0.205, rz: 0.13, color: mul3(pri, 1.04) },
-    { y: 0.565, rx: 0.16, rz: 0.1, color: pri },
-    { y: 0.62, rx: 0.09, rz: 0.075, color: pri },
-    { y: 0.65, rx: 0.062, rz: 0.062, color: mul3(pri, 0.9) },
-  ];
-  const tunic = loft(tunicSecs, 14, { wobble: 0.025, seed, capBottom: false, capTop: false });
-  weather(tunic, seed + 11, 0.32, hemY, 0.6);
-  put(tunic, clothM, torso);
-  // Belt and buckle.
-  const belt = loft(
-    [
-      { y: 0.04, rx: 0.176, rz: 0.124, color: mul3(leather, 0.9) },
-      { y: 0.105, rx: 0.176, rz: 0.124, color: leather },
-    ],
-    14,
-    { seed, capTop: true, capBottom: true },
-  );
-  belt.deleteAttribute('uv');
-  put(belt, leatherM, torso);
-  put(flat(new THREE.BoxGeometry(0.035, 0.04, 0.012).translate(0.02, 0.07, 0.127), 0.4), metalM, torso);
-  // Neck.
-  const neck = loft(
-    [
-      { y: 0.6, rx: 0.052, rz: 0.05, color: mul3(skin, 0.95) },
-      { y: 0.72, rx: 0.045, rz: 0.045, color: skin },
-    ],
-    8,
-    { seed, capBottom: false, capTop: false },
-  );
-  neck.deleteAttribute('uv');
-  put(neck, skinM, torso);
-
-  // Head.
-  const head = new THREE.Group();
-  head.position.y = 0.72;
-  torso.add(head);
-  put(headGeometry(skin, { seed, beard, age: opts.age ?? (seed % 7) / 7 }), skinM, head);
-  const eyeWhiteM = new THREE.MeshStandardMaterial({ color: 0xbdb5a2, roughness: 0.75 });
-  const irisM = new THREE.MeshStandardMaterial({ color: 0x51402c, roughness: 0.55 });
-  const pupilM = new THREE.MeshStandardMaterial({ color: 0x171512, roughness: 0.35 });
-  materials.push(eyeWhiteM, irisM, pupilM);
-  for (const sx of [-1, 1]) {
-    const eye = put(new THREE.SphereGeometry(0.013, 8, 6), eyeWhiteM, head, sx * 0.032, 0.153, 0.088, false);
-    eye.scale.set(1.05, 0.76, 0.52);
-    const iris = put(new THREE.SphereGeometry(0.0062, 7, 5), irisM, head, sx * 0.031, 0.153, 0.095, false);
-    iris.scale.set(1, 0.92, 0.56);
-    const pupil = put(new THREE.SphereGeometry(0.0029, 6, 4), pupilM, head, sx * 0.031, 0.153, 0.098, false);
-    pupil.scale.set(1, 1, 0.6);
-    const ear = put(flatC(new THREE.SphereGeometry(0.02, 6, 5), mul3(skin, 0.92)), skinM, head, sx * 0.076, 0.11, -0.006);
-    ear.scale.set(0.5, 1.3, 0.9);
-  }
-  const hair = hairGeometry(hairC, { seed, style: hairStyle });
-  if (hair) put(hair, hairM, head);
-  if (beard) put(beardGeometry(mul3(hairC, 0.9), seed + 2, seed % 4 === 0), hairM, head);
-
-  // Arms: sleeve, elbow, forearm, hand. The elbow bends.
-  const arms: THREE.Group[] = [];
-  const elbows: THREE.Group[] = [];
-  for (const sx of [-1, 1]) {
-    const arm = new THREE.Group();
-    arm.position.set(sx * 0.2, 0.55, 0);
-    put(limb(0.055, 0.043, 0.3, { bulge: 0.15, at: 0.3, top: pri, bottom: mul3(pri, 0.9), seed: seed + 9 + sx, dirt: 0.15 }), clothM, arm);
-    put(flatC(new THREE.SphereGeometry(0.062, 8, 6).translate(0, 0.005, 0), pri), clothM, arm);
-    const elbow = new THREE.Group();
-    elbow.position.y = -0.29;
-    const fore = longSleeve
-      ? limb(0.043, 0.033, 0.27, { bulge: 0.08, at: 0.3, top: mul3(pri, 0.9), bottom: mul3(pri, 0.7), seed: seed + 13 + sx, dirt: 0.25 })
-      : limb(0.042, 0.032, 0.27, { bulge: 0.08, at: 0.3, top: skin, bottom: mul3(skin, 0.93), seed: seed + 13 + sx, dirt: 0.05 });
-    put(fore, longSleeve ? clothM : skinM, elbow);
-    if (longSleeve) put(handGeometry(skin, seed + sx).translate(0, -0.27, 0), skinM, elbow);
-    else put(handGeometry(skin, seed + sx).translate(0, -0.27, 0), skinM, elbow);
-    // Wrist wrap.
-    put(limb(0.036, 0.034, 0.03, { top: leather, bottom: leather, bulge: 0, seed }).translate(0, -0.24, 0), leatherM, elbow);
-    arm.add(elbow);
-    torso.add(arm);
-    arms.push(arm);
-    elbows.push(elbow);
-  }
-
-  addAccessory(look, torso, hips, head, { clothM, leatherM, metalM, skinM, pri, sec, acc, leather, seed, rnd });
-
-  let weapon: THREE.Object3D | null = null;
-  let shield: THREE.Object3D | null = null;
-  if (opts.weapon) {
-    const w = new THREE.Group();
-    const steel: RGB = [0.5, 0.52, 0.55];
-    // A well-used blade: dark, pitted, nicked along one edge; a plain guard; a leather-bound grip.
-    const bladeGeo = loft(
-      [
-        { y: 0.1, rx: 0.026, rz: 0.006, color: mul3(steel, 0.8) },
-        { y: 0.4, rx: 0.024, rz: 0.006, color: steel },
-        { y: 0.68, rx: 0.02, rz: 0.005, color: mul3(steel, 1.1) },
-        { y: 0.76, rx: 0.004, rz: 0.003, color: steel },
-      ],
-      4,
-      { seed, capBottom: true, capTop: true },
-    );
-    bladeGeo.deleteAttribute('uv');
-    put(bladeGeo, metalM, w);
-    put(new THREE.BoxGeometry(0.19, 0.03, 0.04).translate(0, 0.09, 0), leatherM, w);
-    put(limb(0.022, 0.02, 0.15, { top: leather, bottom: mul3(leather, 0.8), bulge: 0, seed }).translate(0, 0.08, 0), leatherM, w);
-    put(new THREE.SphereGeometry(0.026, 6, 5).translate(0, -0.08, 0), metalM, w);
-    for (const g of w.children) {
-      const gg = (g as THREE.Mesh).geometry;
-      if (!gg.attributes.color) gg.setAttribute('color', new THREE.Float32BufferAttribute(new Float32Array(gg.attributes.position!.count * 3).fill(0.32), 3));
-    }
-    w.position.set(0, -0.29, 0.025);
-    w.rotation.x = 2.5;
-    elbows[1]!.add(w);
-    weapon = w;
-  }
-  if (opts.shield) {
-    const s = new THREE.Group();
-    const wood: RGB = mix3(worn(look.accent ?? PAL.templarBlue, 0.6), [0.16, 0.12, 0.09], 0.35);
-    const disc = flatC(new THREE.CylinderGeometry(0.3, 0.3, 0.045, 22).rotateX(Math.PI / 2), wood);
-    const dpos = disc.attributes.position as THREE.BufferAttribute;
-    for (let i = 0; i < dpos.count; i++) dpos.setZ(i, dpos.getZ(i) + (Math.hypot(dpos.getX(i), dpos.getY(i)) < 0.1 ? 0.02 : 0));
-    put(disc, leatherM, s);
-    // Planks show as darker seams across the face.
-    for (const dx of [-0.1, 0.1]) put(flatC(new THREE.BoxGeometry(0.012, 0.58, 0.02).translate(dx, 0, 0.026), mul3(wood, 0.55)), leatherM, s);
-    const boss = put(new THREE.SphereGeometry(0.075, 8, 6), metalM, s, 0, 0, 0.045);
-    flat(boss.geometry, 0.36);
-    const rim = put(new THREE.TorusGeometry(0.295, 0.014, 5, 24), metalM, s, 0, 0, 0.01);
-    flat(rim.geometry, 0.3);
-    s.position.set(-0.08, -0.3, 0.12);
-    s.rotation.y = 0.25;
-    elbows[0]!.add(s);
-    shield = s;
-  }
+  // The sash of local standing, recoloured at runtime.
   let sash: THREE.Mesh | null = null;
-  if (opts.sash) {
-    sash = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.72, 0.3), new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.95 }));
-    sash.position.set(0.02, 0.32, 0);
-    sash.rotation.z = -0.62;
-    sash.visible = false;
-    torso.add(sash);
-  }
-  if (opts.cloak) {
-    const cl = mul3(pri, 0.9);
-    const cloak = cloakGeometry(cl, seed);
-    put(cloak, clothM, torso);
+  if (p.sash) {
+    const sm = new Mesher();
+    sashBand(frame, sm, fit.outerGrow);
+    const geo = sm.geometry();
+    if (geo) {
+      const mat = new THREE.MeshStandardMaterial({ color: 0xffffff, vertexColors: true, map: clothTexture('wool'), roughness: 0.95, side: THREE.DoubleSide });
+      materials.push(mat);
+      sash = addSkinned(geo, mat);
+      sash.visible = false;
+    }
   }
 
-  mergeRigMeshes(root);
+  // Props on the bones: a blade or club in the right hand, a scabbard on the left hip.
+  const metalM = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.5, metalness: 0.6 });
+  const leatherM = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.7, map: clothTexture('leather') });
+  const woodM = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.85 });
+  materials.push(metalM, leatherM, woodM);
+  const hs = frame.handScale * frame.H;
+  const hand = new THREE.Object3D();
+  hand.position.set(0.013 * hs, -frame.fore - 0.058 * hs, 0.012 * hs);
+  hand.rotation.x = 1.9;
+  bones.elbowR.add(hand);
+  let weapon: THREE.Object3D | null = null;
+  let scabbard: THREE.Object3D | null = null;
+  let sheathed: THREE.Object3D | null = null;
+  if (p.weapon === 'club') {
+    weapon = clubModel(woodM, leatherM, metalM);
+    hand.add(weapon);
+  } else if (p.weapon) {
+    const blade = swordModel(metalM, leatherM, true);
+    hand.add(blade);
+    weapon = blade;
+    const sc = scabbardModel(leatherM, metalM);
+    const t = frame.trunk(fit.beltY);
+    sc.position.set(t.w + fit.outerGrow + 0.022, fit.beltY - 0.02 * frame.H - frame.hipY, 0.035);
+    sc.rotation.set(0.52, 0, 0.12);
+    bones.hips.add(sc);
+    scabbard = sc;
+    const hilt = swordModel(metalM, leatherM, false);
+    hilt.rotation.x = Math.PI;
+    hilt.position.y = 0.0;
+    sc.add(hilt);
+    sheathed = hilt;
+  }
+  for (const holder of [hand, scabbard]) if (holder) holder.traverse((c) => ((c as THREE.Mesh).isMesh ? ((c as THREE.Mesh).castShadow = true) : null));
+
   const cur: Record<string, number> = {};
   for (const k of ANGLE_KEYS) cur[k] = 0;
-  return {
+  const rig: Rig = {
     root,
     body,
-    hips,
-    torso,
-    head,
-    armL: arms[0]!,
-    armR: arms[1]!,
-    legL: legs[0]!,
-    legR: legs[1]!,
-    kneeL: knees[0],
-    kneeR: knees[1],
-    elbowL: elbows[0],
-    elbowR: elbows[1],
+    hips: bones.hips,
+    torso: bones.torso,
+    head: bones.head,
+    armL: bones.armL,
+    armR: bones.armR,
+    legL: bones.legL,
+    legR: bones.legR,
+    kneeL: bones.kneeL,
+    kneeR: bones.kneeR,
+    elbowL: bones.elbowL,
+    elbowR: bones.elbowR,
     weapon,
-    shield,
+    shield: null,
+    scabbard,
+    sheathed,
+    grip: 'none',
     sash,
-    height: 1.8 * H,
+    height: 1.8 * frame.H,
+    hipY: frame.hipY,
     cur,
     materials,
     hitFlash: 0,
     kind: 'humanoid',
   };
+  setArmed(rig, p.weapon === 'sheathed' ? 'sheathed' : p.weapon ? 'drawn' : 'none');
+  return rig;
+}
+
+/** Show the blade in hand, in its scabbard, or not at all (no scabbard either). */
+export function setArmed(rig: Rig, state: 'none' | 'sheathed' | 'drawn') {
+  if (rig.weapon) rig.weapon.visible = state === 'drawn';
+  if (rig.scabbard) rig.scabbard.visible = state !== 'none';
+  if (rig.sheathed) rig.sheathed.visible = state === 'sheathed';
+  rig.grip = state === 'drawn' && rig.weapon ? 'blade' : 'none';
+}
+
+/* ---------------------------------------------------------------- weapons */
+
+/** A plain arming sword, pitted and rust-flecked: blade up +y from the grip at the origin. `blade` false gives the hilt alone. */
+function swordModel(metalM: THREE.Material, leatherM: THREE.Material, blade: boolean): THREE.Group {
+  const g = new THREE.Group();
+  const metal = new Mesher();
+  const leather = new Mesher();
+  const w = rigid('hips');
+  const steel: RGB = [0.34, 0.34, 0.35];
+  const rust: RGB = [0.22, 0.12, 0.06];
+  if (blade) {
+    const rnd = mulberry32(31);
+    const rings = [];
+    const n = 12;
+    for (let i = 0; i <= n; i++) {
+      const k = i / n;
+      const y = 0.085 + k * 0.76;
+      const hw = k < 0.86 ? 0.022 - 0.008 * k : 0.0152 * (1 - (k - 0.86) / 0.14) + 0.0008;
+      const pit = rnd();
+      rings.push({ y, w: hw, f: 0.0042 * (1 - 0.5 * k), b: 0.0042 * (1 - 0.5 * k), p: 1.3, c: pit < 0.4 ? rust : pit < 0.7 ? mul3(steel, 0.8) : steel });
+    }
+    loft(metal, rings, { sides: 8, wf: w, capBottom: true, capTop: true, shade: (th, _y, c) => (Math.abs(Math.sin(th)) > 0.9 ? mul3(c, 1.25) : c) });
+  }
+  // Guard, grip wrapped in leather, pommel.
+  box(metal, [0, 0.074, 0], [0.095, 0.011, 0.014], [0.24, 0.23, 0.22], w);
+  ellipsoid(metal, [0.098, 0.074, 0], [0.013, 0.013, 0.013], [0.26, 0.25, 0.24], w, { ws: 6, hs: 4 });
+  ellipsoid(metal, [-0.098, 0.074, 0], [0.013, 0.013, 0.013], [0.26, 0.25, 0.24], w, { ws: 6, hs: 4 });
+  const grip = [];
+  for (let i = 0; i <= 6; i++) grip.push({ y: -0.058 + i * 0.019, w: 0.0145, f: 0.0125, b: 0.0125, p: 2, c: (i % 2 ? [0.12, 0.08, 0.05] : [0.16, 0.11, 0.07]) as RGB });
+  loft(leather, grip, { sides: 8, wf: w });
+  ellipsoid(metal, [0, -0.075, 0], [0.021, 0.019, 0.021], [0.28, 0.27, 0.25], w, { ws: 8, hs: 6 });
+  for (const [m, mat] of [
+    [metal, metalM],
+    [leather, leatherM],
+  ] as const) {
+    const geo = m.geometry();
+    if (geo) g.add(new THREE.Mesh(geo, mat));
+  }
+  return g;
+}
+
+/** A knotted club with a few nails in its head (the Gothic games' crudest weapon). */
+function clubModel(woodM: THREE.Material, leatherM: THREE.Material, metalM: THREE.Material): THREE.Group {
+  const g = new THREE.Group();
+  const wood = new Mesher();
+  const leather = new Mesher();
+  const metal = new Mesher();
+  const w = rigid('hips');
+  const pts: V3[] = [];
+  const radii: number[] = [];
+  for (let i = 0; i <= 8; i++) {
+    const k = i / 8;
+    pts.push([Math.sin(k * 3) * 0.008, -0.09 + k * 0.82, Math.cos(k * 2.4) * 0.006]);
+    radii.push(0.018 + 0.03 * k * k);
+  }
+  tube(wood, pts, radii, pts.map((_, i) => mul3([0.22, 0.15, 0.09], 0.8 + 0.2 * Math.sin(i * 1.7))), { sides: 9, wf: w, capStart: true, capEnd: true, up: [0, 0, 1] });
+  for (const [y, a] of [
+    [0.45, 0.4],
+    [0.58, 2.2],
+    [0.66, 4.1],
+  ] as const) ellipsoid(wood, [Math.cos(a) * 0.035, y, Math.sin(a) * 0.035], [0.018, 0.022, 0.018], [0.18, 0.12, 0.07], w, { ws: 6, hs: 4 });
+  for (let i = 0; i < 7; i++) {
+    const a = i * 2.39;
+    const y = 0.55 + (i % 3) * 0.06;
+    const r = 0.018 + 0.03 * ((y + 0.09) / 0.82) ** 2;
+    box(metal, [Math.cos(a) * (r + 0.008), y, Math.sin(a) * (r + 0.008)], [0.006, 0.003, 0.003], [0.2, 0.18, 0.16], w, [[Math.cos(a), 0, Math.sin(a)], [0, 1, 0], [-Math.sin(a), 0, Math.cos(a)]]);
+  }
+  const grip = [];
+  for (let i = 0; i <= 5; i++) grip.push({ y: -0.07 + i * 0.026, w: 0.021, f: 0.021, b: 0.021, p: 2, c: (i % 2 ? [0.12, 0.08, 0.05] : [0.15, 0.1, 0.06]) as RGB });
+  loft(leather, grip, { sides: 8, wf: w });
+  for (const [m, mat] of [
+    [wood, woodM],
+    [leather, leatherM],
+    [metal, metalM],
+  ] as const) {
+    const geo = m.geometry();
+    if (geo) g.add(new THREE.Mesh(geo, mat));
+  }
+  return g;
+}
+
+/** A leather scabbard with an iron locket and chape; its mouth at the origin, hanging down -y. */
+function scabbardModel(leatherM: THREE.Material, metalM: THREE.Material): THREE.Group {
+  const g = new THREE.Group();
+  const leather = new Mesher();
+  const metal = new Mesher();
+  const w = rigid('hips');
+  const rings = [];
+  for (let i = 0; i <= 8; i++) {
+    const k = i / 8;
+    rings.push({ y: -0.78 + k * 0.78, w: 0.021 + 0.011 * k, f: 0.009 + 0.003 * k, b: 0.009 + 0.003 * k, p: 1.8, c: mul3([0.16, 0.11, 0.07], 0.85 + 0.15 * k) as RGB });
+  }
+  loft(leather, rings, { sides: 10, wf: w, capBottom: true });
+  loft(metal, [0, 1].map((i) => ({ y: -0.05 + i * 0.045, w: 0.035, f: 0.015, b: 0.015, p: 1.8, c: [0.22, 0.21, 0.2] as RGB })), { sides: 10, wf: w, lipTop: 0.002 });
+  loft(metal, [0, 1].map((i) => ({ y: -0.8 + i * 0.07, w: 0.023, f: 0.011, b: 0.011, p: 1.8, c: [0.2, 0.19, 0.18] as RGB })), { sides: 10, wf: w, capBottom: true });
+  // The frog: a loop of strap up to the belt.
+  box(leather, [0, 0.03, 0], [0.018, 0.035, 0.016], [0.12, 0.08, 0.05], w);
+  for (const [m, mat] of [
+    [leather, leatherM],
+    [metal, metalM],
+  ] as const) {
+    const geo = m.geometry();
+    if (geo) g.add(new THREE.Mesh(geo, mat));
+  }
+  return g;
+}
+
+/* ---------------------------------------------------------------- who is who */
+
+export function createNpcRig(def: NpcDef): Rig {
+  const st = npcStyle(def.id);
+  return createPersonRig({
+    build: st.build,
+    height: def.look.height,
+    girth: def.look.girth,
+    outfit: npcOutfit(def.id, def.look, st.faceSeed),
+    hair: linear(def.look.hair),
+    cut: st.hair,
+    beard: st.beard,
+    age: st.age,
+    faceSeed: st.faceSeed,
+    stubble: st.build === 'man' && st.beard === 'none' ? 0.5 : st.build === 'man' ? 0.3 : 0,
+    weather: def.faction === 'marcher' || def.faction === 'traveler' ? 0.8 : 0.45,
+    weapon: def.id === 'shrine_warden' ? 'sheathed' : undefined,
+  });
+}
+
+/** The wanderer's look (a proposal): a Gothic hero's plain start, unarmed. */
+export const PLAYER_LOOK: Look = { skin: 0xd2a07c, primary: 0x4d5a44, secondary: 0x6a5a44, hair: 0x3a2818, height: 1.0, girth: 1.0, accessory: 'none', accent: PAL.templarBlue };
+
+export function createPlayerRig(): Rig {
+  const rig = createPersonRig({
+    build: 'man',
+    height: PLAYER_LOOK.height,
+    girth: PLAYER_LOOK.girth,
+    outfit: playerOutfit(PLAYER_LOOK),
+    hair: linear(PLAYER_LOOK.hair),
+    cut: 'short',
+    beard: 'short',
+    age: 0.3,
+    faceSeed: 4127,
+    stubble: 0.5,
+    weather: 0.6,
+    // The blade exists on the rig but stays hidden until the wanderer finds one (see setArmed).
+    weapon: 'sheathed',
+    sash: true,
+  });
+  setArmed(rig, 'none');
+  return rig;
+}
+
+export function createBanditRig(variant: number): Rig {
+  const look: Look = { skin: 0xb98866, primary: variant ? 0x4a3a34 : 0x3f4a3a, secondary: 0x2a2a2a, hair: 0x2a2018, height: 1.04 + variant * 0.05, girth: 1.08, accessory: 'hood' };
+  return createPersonRig({
+    build: 'man',
+    height: look.height,
+    girth: look.girth,
+    outfit: banditOutfit(look, variant),
+    hair: linear(look.hair),
+    cut: 'short',
+    beard: variant ? 'full' : 'short',
+    age: 0.35 + variant * 0.2,
+    faceSeed: 6007 + variant * 131,
+    stubble: 0.8,
+    weather: 0.9,
+    weapon: variant ? 'club' : 'blade',
+  });
+}
+
+export interface AmbientStyle {
+  build: Build;
+  cut: HairCut;
+  beard: BeardStyle;
+  age: number;
+  faceSeed: number;
+}
+
+/** People who live on the coast but are not part of the story, dressed from their look's accessory. */
+export function createAmbientRig(look: Look, style: AmbientStyle): Rig {
+  return createPersonRig({
+    build: style.build,
+    height: look.height,
+    girth: look.girth,
+    outfit: lookOutfit(look, style.faceSeed, style.build === 'woman'),
+    hair: linear(look.hair),
+    cut: style.cut,
+    beard: style.beard,
+    age: style.age,
+    faceSeed: style.faceSeed,
+    stubble: style.build === 'man' ? 0.5 : 0,
+    weather: 0.8,
+  });
+}
+
+/* ================================================================ the Thornback */
+
+function vcMat(rough: number): THREE.MeshStandardMaterial {
+  return new THREE.MeshStandardMaterial({ vertexColors: true, roughness: rough, metalness: 0 });
+}
+
+function put(geo: THREE.BufferGeometry, m: THREE.Material, parent: THREE.Object3D, x = 0, y = 0, z = 0): THREE.Mesh {
+  const me = new THREE.Mesh(geo, m);
+  me.position.set(x, y, z);
+  me.castShadow = true;
+  parent.add(me);
+  return me;
 }
 
 function flatC(g: THREE.BufferGeometry, c: RGB): THREE.BufferGeometry {
@@ -385,166 +541,13 @@ function flatC(g: THREE.BufferGeometry, c: RGB): THREE.BufferGeometry {
   return g;
 }
 
-const mix3 = (a: RGB, b: RGB, t: number): RGB => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
-const mul3 = (a: RGB, k: number): RGB => [a[0] * k, a[1] * k, a[2] * k];
-
-/** A cloak from the shoulders down the back, open at the front, with a ragged hem and a weight of folds. */
-function cloakGeometry(color: RGB, seed: number): THREE.BufferGeometry {
-  const secs: Section[] = [];
-  const steps = 8;
-  for (let i = 0; i <= steps; i++) {
-    const t = i / steps;
-    secs.push({ y: -0.6 + t * 1.22, rx: 0.2 + (1 - t) * 0.12, rz: 0.15 + (1 - t) * 0.13, cz: -0.02 - (1 - t) * 0.035, color: mul3(color, 0.6 + 0.4 * t) });
-  }
-  return loft(secs, 16, { wobble: 0.09, seed, capBottom: false, capTop: false, open: true, arc: [Math.PI * 0.86, Math.PI * 2.14] });
-}
-
-interface AccCtx {
-  clothM: THREE.Material;
-  leatherM: THREE.Material;
-  metalM: THREE.Material;
-  skinM: THREE.Material;
-  pri: RGB;
-  sec: RGB;
-  acc: RGB;
-  leather: RGB;
-  seed: number;
-  rnd: () => number;
-}
-
-const flat = (g: THREE.BufferGeometry, v: number) => flatC(g, [v, v, v]);
-
-function addAccessory(look: Look, torso: THREE.Group, hips: THREE.Group, head: THREE.Group, c: AccCtx) {
-  const { clothM, leatherM, metalM, pri, sec, acc, leather, seed } = c;
-  switch (look.accessory) {
-    case 'shawl': {
-      const s = drape(
-        [
-          { y: 0.3, rx: 0.27, rz: 0.19, color: mul3(sec, 0.7) },
-          { y: 0.46, rx: 0.26, rz: 0.17, color: sec },
-          { y: 0.6, rx: 0.16, rz: 0.11, color: mul3(sec, 0.9) },
-        ],
-        16,
-        seed + 1,
-        0.08,
-      );
-      put(s, clothM, torso);
-      put(drape([{ y: -0.66, rx: 0.32, rz: 0.24, color: mul3(pri, 0.55) }, { y: -0.3, rx: 0.24, rz: 0.19, color: mul3(pri, 0.75) }, { y: 0.0, rx: 0.19, rz: 0.14, color: pri }], 16, seed + 2, 0.1), clothM, hips);
-      break;
-    }
-    case 'robe': {
-      put(drape([{ y: -0.82, rx: 0.34, rz: 0.27, color: mul3(pri, 0.6) }, { y: -0.4, rx: 0.26, rz: 0.2, color: mul3(pri, 0.82) }, { y: 0.0, rx: 0.2, rz: 0.15, color: pri }], 18, seed + 1, 0.1), clothM, hips);
-      put(loft([{ y: 0.03, rx: 0.196, rz: 0.147, color: acc }, { y: 0.08, rx: 0.196, rz: 0.147, color: acc }], 14, { seed }), leatherM, torso);
-      put(flatC(new THREE.BoxGeometry(0.11, 1.0, 0.31).translate(0, 0.1, 0), mul3(sec, 0.9)), clothM, torso);
-      put(drape([{ y: 0.5, rx: 0.19, rz: 0.15, color: mul3(pri, 0.85) }, { y: 0.62, rx: 0.13, rz: 0.11, color: pri }, { y: 0.74, rx: 0.09, rz: 0.09, color: mul3(pri, 0.8) }], 12, seed + 3, 0.05), clothM, torso);
-      break;
-    }
-    case 'helmet': {
-      const dome = loft(
-        [
-          { y: 0.16, rx: 0.098, rz: 0.108, cz: -0.004, color: [0.34, 0.33, 0.3] },
-          { y: 0.21, rx: 0.088, rz: 0.098, cz: -0.004, color: [0.4, 0.39, 0.36] },
-          { y: 0.265, rx: 0.05, rz: 0.06, cz: -0.004, color: [0.44, 0.43, 0.4] },
-          { y: 0.29, rx: 0.008, rz: 0.01, cz: -0.004, color: [0.42, 0.4, 0.36] },
-        ],
-        12,
-        { wobble: 0.02, seed, capBottom: false },
-      );
-      dome.deleteAttribute('uv');
-      put(dome, metalM, head);
-      put(flat(new THREE.BoxGeometry(0.016, 0.07, 0.012).translate(0, 0.16, 0.098), 0.4), metalM, head);
-      put(loft([{ y: 0.06, rx: 0.27, rz: 0.17, color: mul3(leather, 0.8) }, { y: 0.12, rx: 0.25, rz: 0.16, color: leather }], 12, { seed }), leatherM, torso);
-      break;
-    }
-    case 'satchel': {
-      const bag = new THREE.BoxGeometry(0.24, 0.22, 0.1).translate(0.22, -0.1, 0.06);
-      put(flat(bag, 0.24), leatherM, hips);
-      const strap = loft([{ y: 0.03, rx: 0.045, rz: 0.008, cz: 0.132, color: leather }, { y: 0.62, rx: 0.045, rz: 0.008, cz: 0.12, color: leather }], 4, { seed });
-      strap.deleteAttribute('uv');
-      const sm = put(strap, leatherM, torso);
-      sm.rotation.z = 0.6;
-      put(drape([{ y: 0.15, rx: 0.1, rz: 0.11, cz: -0.004, color: sec }, { y: 0.21, rx: 0.088, rz: 0.098, cz: -0.004, color: mul3(sec, 0.9) }, { y: 0.265, rx: 0.05, rz: 0.06, cz: -0.004, color: mul3(sec, 0.85) }], 12, seed + 4, 0.02), clothM, head);
-      break;
-    }
-    case 'apron': {
-      const ap = drape([{ y: -0.45, rx: 0.16, rz: 0.11, cz: 0.13, color: [0.5, 0.46, 0.38] }, { y: -0.1, rx: 0.15, rz: 0.1, cz: 0.132, color: [0.58, 0.54, 0.44] }, { y: 0.3, rx: 0.12, rz: 0.09, cz: 0.14, color: [0.6, 0.56, 0.46] }], 12, seed + 5, 0.05);
-      // Only the front half.
-      const pa = ap.attributes.position as THREE.BufferAttribute;
-      for (let i = 0; i < pa.count; i++) if (pa.getZ(i) < 0.09) pa.setZ(i, 0.09);
-      weather(ap, seed + 6, 0.35, -0.45, 0.3);
-      put(ap, clothM, hips);
-      break;
-    }
-    case 'hat': {
-      const brim = loft([{ y: 0.235, rx: 0.2, rz: 0.2, color: mul3(sec, 0.8) }, { y: 0.245, rx: 0.19, rz: 0.19, color: sec }, { y: 0.252, rx: 0.1, rz: 0.1, color: mul3(sec, 0.9) }], 14, { wobble: 0.09, seed, capBottom: true, capTop: false });
-      brim.deleteAttribute('uv');
-      put(brim, leatherM, head);
-      const crown = loft([{ y: 0.25, rx: 0.098, rz: 0.104, color: sec }, { y: 0.3, rx: 0.088, rz: 0.094, color: mul3(sec, 1.05) }, { y: 0.335, rx: 0.07, rz: 0.076, color: mul3(sec, 0.95) }], 12, { wobble: 0.04, seed, capBottom: false });
-      crown.deleteAttribute('uv');
-      put(crown, leatherM, head);
-      break;
-    }
-    case 'cloak': {
-      put(cloakGeometry(sec, seed + 3), clothM, torso);
-      break;
-    }
-    case 'ledger': {
-      put(flat(new THREE.BoxGeometry(0.2, 0.26, 0.05).translate(0.17, 0.02, 0.2), 0.16), leatherM, torso);
-      put(cloakGeometry(mul3(sec, 0.9), seed + 7), clothM, torso);
-      break;
-    }
-    case 'coat': {
-      put(drape([{ y: -0.62, rx: 0.3, rz: 0.22, color: mul3(pri, 0.6) }, { y: -0.3, rx: 0.24, rz: 0.19, color: mul3(pri, 0.82) }, { y: 0.02, rx: 0.2, rz: 0.15, color: pri }], 16, seed + 1, 0.09), clothM, hips);
-      put(drape([{ y: 0.5, rx: 0.235, rz: 0.13, color: acc }, { y: 0.62, rx: 0.15, rz: 0.1, color: mul3(acc, 0.9) }], 14, seed + 8, 0.02), clothM, torso);
-      break;
-    }
-    case 'hood': {
-      const hood = drape([{ y: 0.12, rx: 0.115, rz: 0.125, cz: -0.006, color: mul3(pri, 0.85) }, { y: 0.22, rx: 0.1, rz: 0.11, cz: -0.006, color: pri }, { y: 0.31, rx: 0.045, rz: 0.06, cz: -0.02, color: mul3(pri, 0.9) }], 14, seed + 2, 0.02);
-      put(hood, clothM, head);
-      put(cloakGeometry(pri, seed + 9), clothM, torso);
-      break;
-    }
-    case 'pack': {
-      put(flat(new THREE.BoxGeometry(0.3, 0.38, 0.16).translate(0, 0.28, -0.2), 0.2), leatherM, torso);
-      put(flat(new THREE.CylinderGeometry(0.055, 0.055, 0.34, 8).rotateZ(Math.PI / 2).translate(0, 0.52, -0.22), 0.28), clothM, torso);
-      put(drape([{ y: 0.15, rx: 0.1, rz: 0.11, cz: -0.004, color: sec }, { y: 0.23, rx: 0.09, rz: 0.1, cz: -0.004, color: mul3(sec, 0.92) }, { y: 0.28, rx: 0.06, rz: 0.07, cz: -0.004, color: mul3(sec, 0.85) }], 12, seed + 4, 0.02), clothM, head);
-      break;
-    }
-    default:
-      break;
-  }
-}
-
-
-export function createNpcRig(def: NpcDef): Rig {
-  const face = npcStyle(def.id);
-  return createHumanoid(def.look, { identitySeed: face.faceSeed, beard: face.beard, hairStyle: face.hair, age: face.age });
-}
-
-export function createPlayerRig(): Rig {
-  return createHumanoid(
-    { skin: 0xd2a07c, primary: 0x4d5a44, secondary: 0x6a5a44, hair: 0x3a2818, height: 1.0, girth: 1.0, accessory: 'none', accent: PAL.templarBlue },
-    { weapon: true, shield: true, cloak: true, sash: true },
-  );
-}
-
-export function createBanditRig(variant: number): Rig {
-  const rig = createHumanoid(
-    { skin: 0xb98866, primary: variant ? 0x4a3a34 : 0x3f4a3a, secondary: 0x2a2a2a, hair: 0x2a2018, height: 1.04 + variant * 0.05, girth: 1.08, accessory: 'hood' },
-    { weapon: true },
-  );
-  if (rig.weapon) rig.weapon.scale.set(1.3, 1.0, 1.3);
-  return rig;
-}
-
 export function createThornback(): Rig {
-  stdCache.clear();
   const seed = 4242;
   const rnd = mulberry32(seed);
   const root = new THREE.Group();
   const body = new THREE.Group();
   root.add(body);
-  const hideM = vcMat(0.92, { cloth: false });
+  const hideM = vcMat(0.92);
   const boneM = vcMat(0.6);
   const hideC: RGB = [0.13, 0.1, 0.075];
   const hide2C: RGB = [0.09, 0.075, 0.06];
@@ -564,7 +567,7 @@ export function createThornback(): Rig {
     const rz = 0.5 * Math.sin(Math.PI * (0.1 + t * 0.8)) + 0.1;
     trunkSecs.push({ y: -len / 2 + t * len, rx: rx * (t > 0.6 ? 1.1 : 1), rz, color: mul3(hideC, 0.8 + 0.5 * rnd()) });
   }
-  const trunk = loft(trunkSecs, 14, { wobble: 0.09, seed, capBottom: true, capTop: true });
+  const trunk = rigidLoft(trunkSecs, 14, { wobble: 0.09, seed, capBottom: true, capTop: true });
   trunk.rotateX(Math.PI / 2);
   trunk.deleteAttribute('uv');
   put(trunk, hideM, torso);
@@ -587,7 +590,7 @@ export function createThornback(): Rig {
     { y: 0.55, rx: 0.12, rz: 0.11, color: mul3(hide2C, 1.2) },
     { y: 0.66, rx: 0.06, rz: 0.055, color: mul3(hide2C, 1.3) },
   ];
-  const snout = loft(snoutSecs, 10, { wobble: 0.06, seed: seed + 1, capBottom: true, capTop: true });
+  const snout = rigidLoft(snoutSecs, 10, { wobble: 0.06, seed: seed + 1, capBottom: true, capTop: true });
   snout.rotateX(Math.PI / 2);
   snout.deleteAttribute('uv');
   put(snout, hideM, head, 0, -0.04, 0.2);
@@ -595,12 +598,16 @@ export function createThornback(): Rig {
     const tusk = put(flatC(new THREE.ConeGeometry(0.05, 0.36, 5).translate(0, 0.18, 0), boneC), boneM, head, sx * 0.16, -0.16, 0.66);
     tusk.rotation.x = -1.05;
     tusk.rotation.z = -sx * 0.25;
-    const eye = put(flatC(new THREE.SphereGeometry(0.034, 6, 5), [0.8, 0.62, 0.12]), hideM, head, sx * 0.2, 0.1, 0.45);
-    void eye;
+    put(flatC(new THREE.SphereGeometry(0.034, 6, 5), [0.8, 0.62, 0.12]), hideM, head, sx * 0.2, 0.1, 0.45);
   }
   // Legs: thick thighs tapering to splayed, clawed feet.
   const legs: THREE.Group[] = [];
-  for (const [sx, sz] of [[-1, 0.72], [1, 0.72], [-1, -0.7], [1, -0.7]] as const) {
+  for (const [sx, sz] of [
+    [-1, 0.72],
+    [1, 0.72],
+    [-1, -0.7],
+    [1, -0.7],
+  ] as const) {
     const leg = new THREE.Group();
     leg.position.set(sx * 0.48, -0.1, sz);
     put(limb(0.17, 0.08, 0.72, { bulge: 0.25, at: 0.25, top: hideC, bottom: mul3(hideC, 0.7), seed: seed + Math.round(sx * 3 + sz * 5), dirt: 0.2 }), hideM, leg, 0, 0, 0);
@@ -627,8 +634,12 @@ export function createThornback(): Rig {
     legR: legs[3]!,
     weapon: null,
     shield: null,
+    scabbard: null,
+    sheathed: null,
+    grip: 'none',
     sash: null,
     height: 1.4,
+    hipY: 0.8,
     cur,
     materials: [hideM, boneM],
     hitFlash: 0,
@@ -636,20 +647,26 @@ export function createThornback(): Rig {
   };
 }
 
+/* ================================================================ posing */
+
 const lerpA = (cur: number, target: number, k: number) => cur + (target - cur) * k;
 const TAU = Math.PI * 2;
 
-/** Set pose targets from a mode and ease the rig toward them. dt is seconds. */
+/**
+ * Set pose targets from a mode and ease the rig toward them. dt is seconds. The right arm (-x) holds the weapon; the
+ * attack and guard poses depend on whether it holds a blade or fights with fists.
+ */
 export function poseRig(rig: Rig, p: Pose, dt: number) {
   const a: Record<string, number> = {};
   for (const k of ANGLE_KEYS) a[k] = 0;
   const amp = p.amp;
   const sw = Math.sin(p.time * TAU);
   const cw = Math.cos(p.time * TAU);
-  a.kneeL = 0.08;
-  a.kneeR = 0.08;
-  a.elbowL = -0.22;
-  a.elbowR = -0.22;
+  const blade = rig.grip === 'blade';
+  a.kneeL = 0.06;
+  a.kneeR = 0.06;
+  a.elbowL = -0.18;
+  a.elbowR = -0.18;
   const breathe = Math.sin(p.time * 1.6) * 0.012;
   const speed = p.speed;
   let fast = 12;
@@ -659,13 +676,20 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
   } else {
     switch (p.mode) {
       case 'idle':
-        a.armLx = 0.05 + breathe * 3;
-        a.armRx = 0.05 - breathe * 3;
-        a.armLz = 0.1;
-        a.armRz = -0.1;
+        // Arms hang a little away from the body (+z lifts the left arm outward, -z the right).
+        a.armLx = 0.04 + breathe * 3;
+        a.armRx = 0.04 - breathe * 3;
+        a.armLz = 0.11;
+        a.armRz = -0.11;
         a.headY = Math.sin(p.time * 0.4) * 0.15 * amp;
-        a.headX = 0.07;
-        a.torsoX = 0.06 + breathe;
+        a.headX = 0.05;
+        a.torsoX = 0.04 + breathe;
+        if (blade) {
+          // Blade held low and forward, ready.
+          a.armRx = -0.28;
+          a.armRz = 0.12;
+          a.elbowR = -0.55;
+        }
         break;
       case 'walk':
       case 'run': {
@@ -675,30 +699,51 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
         a.legR = -sw * swing;
         a.armLx = -sw * swing * 0.8;
         a.armRx = sw * swing * 0.8;
-        a.torsoX = 0.08 + run * 0.16;
+        a.armLz = 0.1;
+        a.armRz = -0.1;
+        a.torsoX = 0.06 + run * 0.14;
         a.torsoZ = sw * 0.03 * amp;
-        a.lower = -Math.abs(sw) * 0.04 * amp;
-        a.kneeL = 0.12 + swing * 1.1 * Math.max(0, -cw);
-        a.kneeR = 0.12 + swing * 1.1 * Math.max(0, cw);
+        a.lower = -Math.abs(sw) * 0.035 * amp;
+        a.kneeL = 0.1 + swing * 1.1 * Math.max(0, -cw);
+        a.kneeR = 0.1 + swing * 1.1 * Math.max(0, cw);
         a.elbowL = -0.24 - swing * 0.9 * Math.max(0, sw);
         a.elbowR = -0.24 - swing * 0.9 * Math.max(0, -sw);
+        if (blade) {
+          a.armRx = -0.25 + sw * swing * 0.3;
+          a.armRz = 0.12;
+          a.elbowR = -0.6;
+        }
         fast = 14;
         break;
       }
       case 'attack_light': {
-        // windup 0-0.35, strike 0.35-0.6, recovery
+        // wind-up 0-0.35, strike 0.35-0.6, recovery
         const t = p.t;
         const wind = t < 0.35 ? t / 0.35 : 1;
         const strike = t >= 0.35 && t < 0.6 ? (t - 0.35) / 0.25 : t >= 0.6 ? 1 : 0;
         const recover = t >= 0.6 ? (t - 0.6) / 0.4 : 0;
-        a.armRx = -2.4 * wind + 3.3 * strike - 0.9 * recover;
-        a.armRz = -0.35;
-        a.torsoX = 0.15 + 0.2 * strike - 0.12 * wind * (1 - strike);
-        a.bodyY = -0.5 * wind * (1 - strike) + 0.7 * strike * (1 - recover);
-        a.armLx = 0.5;
-        a.legL = 0.4 * strike;
-        a.legR = -0.3 * strike;
-        a.elbowR = -1.3 * wind * (1 - strike) - 0.1;
+        if (blade) {
+          // A forehand cut: up and back over the right shoulder, down across the body.
+          a.armRx = -2.4 * wind + 3.2 * strike - 0.8 * recover;
+          a.armRz = -0.3 * wind * (1 - strike) + 0.45 * strike * (1 - recover);
+          a.torsoX = 0.12 + 0.2 * strike - 0.1 * wind * (1 - strike);
+          a.bodyY = -0.5 * wind * (1 - strike) + 0.65 * strike * (1 - recover);
+          a.armLx = 0.35;
+          a.elbowR = -1.2 * wind * (1 - strike) - 0.1;
+        } else {
+          // A jab: the fist drawn to the chin, driven straight out, pulled back.
+          const out = strike * (1 - recover);
+          a.armRx = 0.15 * wind * (1 - strike) - 1.45 * out;
+          a.armRz = 0.12 * out;
+          a.elbowR = -2.1 * (1 - out) * Math.min(1, wind * 2) - 0.12;
+          a.armLx = -0.85;
+          a.armLz = -0.2;
+          a.elbowL = -1.9;
+          a.torsoX = 0.1 + 0.12 * out;
+          a.bodyY = -0.3 * wind * (1 - strike) + 0.42 * out;
+        }
+        a.legL = 0.35 * strike * (1 - recover * 0.5);
+        a.legR = -0.25 * strike * (1 - recover * 0.5);
         a.kneeL = 0.3 + 0.3 * wind;
         fast = 26;
         break;
@@ -708,28 +753,55 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
         const wind = t < 0.5 ? t / 0.5 : 1;
         const strike = t >= 0.5 && t < 0.68 ? (t - 0.5) / 0.18 : t >= 0.68 ? 1 : 0;
         const recover = t >= 0.68 ? (t - 0.68) / 0.32 : 0;
-        a.armRx = -3.0 * wind + 4.0 * strike - 0.9 * recover;
-        a.armLx = -1.6 * wind + 1.4 * strike;
-        a.torsoX = -0.25 * wind * (1 - strike) + 0.4 * strike * (1 - recover);
+        if (blade) {
+          // Overhead, both hands on the hilt.
+          a.armRx = -3.0 * wind + 4.0 * strike - 0.9 * recover;
+          a.armLx = -2.6 * wind + 3.2 * strike - 0.4 * recover;
+          a.armLz = -0.3 * wind;
+          a.torsoX = -0.25 * wind * (1 - strike) + 0.4 * strike * (1 - recover);
+          a.elbowR = -1.5 * wind * (1 - strike) - 0.1;
+          a.elbowL = -1.2 * wind * (1 - strike) - 0.2;
+        } else {
+          // A swinging hook from out wide, the whole body turning into it.
+          const out = strike * (1 - recover);
+          a.armRx = 0.35 * wind * (1 - strike) - 1.3 * out;
+          a.armRz = -0.7 * wind * (1 - strike) + 0.55 * out;
+          a.elbowR = -1.6 * (1 - out * 0.5) - 0.1;
+          a.armLx = -0.8;
+          a.armLz = -0.2;
+          a.elbowL = -1.9;
+          a.bodyY = -0.7 * wind * (1 - strike) + 0.85 * out;
+          a.torsoX = 0.05 + 0.2 * out;
+        }
         a.lower = -0.1 * strike;
         a.legL = 0.5 * strike;
         a.legR = -0.4 * strike;
-        a.elbowR = -1.5 * wind * (1 - strike) - 0.1;
-        a.elbowL = -1.0 * wind * (1 - strike) - 0.1;
         a.kneeL = 0.4 + 0.3 * wind;
         fast = 24;
         break;
       }
       case 'block':
-        a.armLx = -1.45;
-        a.armLz = 0.25;
-        a.armRx = -0.5;
+        if (blade) {
+          // The blade raised across the body, the other fist behind it.
+          a.armRx = -1.2;
+          a.armRz = 0.4;
+          a.elbowR = -1.25;
+          a.armLx = -0.55;
+          a.elbowL = -1.4;
+        } else {
+          // Forearms up before the face.
+          a.armLx = -0.95;
+          a.armRx = -0.95;
+          a.armLz = -0.3;
+          a.armRz = 0.3;
+          a.elbowL = -2.0;
+          a.elbowR = -2.0;
+          a.headX = 0.12;
+        }
         a.torsoX = 0.12;
         a.lower = -0.06;
         a.legL = 0.25;
         a.legR = -0.2;
-        a.elbowL = -1.1;
-        a.elbowR = -0.7;
         a.kneeL = 0.35;
         a.kneeR = 0.3;
         break;
@@ -762,18 +834,22 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
       }
       case 'telegraph': {
         // A visible wind-up so a hostile's attack can be read before it lands.
-        const t = p.t;
-        a.armRx = -2.7 * Math.min(1, t * 1.4);
-        a.elbowR = -1.3 * Math.min(1, t * 1.4);
-        a.torsoX = -0.3 * Math.min(1, t * 1.4);
+        const t = Math.min(1, p.t * 1.4);
+        a.armRx = -2.7 * t;
+        a.armRz = -0.25 * t;
+        a.elbowR = -1.3 * t;
+        a.torsoX = -0.3 * t;
         a.bodyY = -0.4;
+        a.armLx = -0.5 * t;
         fast = 14;
         break;
       }
       case 'strike': {
-        const t = p.t;
-        a.armRx = -2.7 + 4.4 * Math.min(1, t * 3);
-        a.torsoX = 0.4 * Math.min(1, t * 3);
+        const t = Math.min(1, p.t * 3);
+        a.armRx = -2.7 + 4.2 * t;
+        a.armRz = 0.4 * t;
+        a.torsoX = 0.4 * t;
+        a.bodyY = 0.5 * t;
         a.legL = 0.5;
         a.legR = -0.4;
         fast = 26;
@@ -868,7 +944,7 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
         break;
       case 'talk': {
         a.armRx = -0.9 + Math.sin(p.time * 2.2) * 0.35;
-        a.armRz = -0.4;
+        a.armRz = 0.4;
         a.elbowR = -0.9 - Math.sin(p.time * 2.2) * 0.3;
         a.armLx = 0.1;
         a.headX = Math.sin(p.time * 1.7) * 0.1;
@@ -892,6 +968,7 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
   for (const key of ANGLE_KEYS) rig.cur[key] = lerpA(rig.cur[key]!, a[key]!, k);
   const c = rig.cur as Record<(typeof ANGLE_KEYS)[number], number>;
   if (rig.kind === 'humanoid') {
+    const scale = rig.hipY / 0.95;
     rig.legL.rotation.x = c.legL;
     rig.legR.rotation.x = c.legR;
     rig.armL.rotation.set(c.armLx, 0, c.armLz);
@@ -902,15 +979,14 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
     if (rig.kneeR) rig.kneeR.rotation.x = c.kneeR;
     if (rig.elbowL) rig.elbowL.rotation.x = c.elbowL;
     if (rig.elbowR) rig.elbowR.rotation.x = c.elbowR;
-    rig.hips.position.y = 0.95 + c.lower;
+    rig.hips.position.y = rig.hipY + c.lower * scale;
     rig.body.rotation.x = c.bodyX;
-    rig.body.position.y = c.bodyX !== 0 ? 0.22 * Math.abs(c.bodyX) / 1.5 : 0;
+    rig.body.position.y = c.bodyX !== 0 ? (0.22 * scale * Math.abs(c.bodyX)) / 1.5 : 0;
   }
   // Hit flash tints materials briefly.
   if (rig.hitFlash > 0) {
     rig.hitFlash = Math.max(0, rig.hitFlash - dt * 4);
   }
-  void breathe;
 }
 
 function poseCreature(rig: Rig, p: Pose, a: Record<string, number>) {
@@ -953,18 +1029,14 @@ function poseCreature(rig: Rig, p: Pose, a: Record<string, number>) {
       a.headX = 0.2 + Math.sin(p.time * 1.1) * 0.08;
       a.torsoX = Math.sin(p.time * 1.6) * 0.015;
   }
-  // The creature's rig writes onto its own joints directly.
+  // The creature's rig writes onto its own joints directly (creature poses are coarse).
   const c = rig.cur;
-  const setLeg = (leg: THREE.Group, v: number) => {
-    leg.rotation.x = v;
-  };
-  // Apply immediately (creature poses are coarse).
   const k = 0.35;
   for (const key of ANGLE_KEYS) c[key] = lerpA(c[key]!, a[key]!, k);
-  setLeg(rig.armL, c.armLx!);
-  setLeg(rig.armR, c.armRx!);
-  setLeg(rig.legL, c.legL!);
-  setLeg(rig.legR, c.legR!);
+  rig.armL.rotation.x = c.armLx!;
+  rig.armR.rotation.x = c.armRx!;
+  rig.legL.rotation.x = c.legL!;
+  rig.legR.rotation.x = c.legR!;
   rig.torso.rotation.x = c.torsoX!;
   rig.head.rotation.x = c.headX!;
   rig.hips.position.y = 0.8 + c.lower!;
@@ -981,7 +1053,7 @@ function uniformAttrs(g: THREE.BufferGeometry): THREE.BufferGeometry {
   return out;
 }
 
-/** Merge the parts of each joint that share a material into one mesh: a person is a couple of dozen draws, not forty. */
+/** Merge the parts of each joint that share a material into one mesh (the creature's rigid parts). */
 export function mergeRigMeshes(root: THREE.Object3D) {
   const groups: THREE.Object3D[] = [];
   root.traverse((o) => {
@@ -991,7 +1063,7 @@ export function mergeRigMeshes(root: THREE.Object3D) {
     const byMat = new Map<THREE.Material, THREE.Mesh[]>();
     for (const c of g.children) {
       const m = c as THREE.Mesh;
-      if (!m.isMesh || m.children.length) continue;
+      if (!m.isMesh || m.children.length || (m as THREE.SkinnedMesh).isSkinnedMesh) continue;
       const mat = m.material as THREE.Material;
       const arr = byMat.get(mat) ?? [];
       arr.push(m);
@@ -1040,3 +1112,5 @@ export function setSash(rig: Rig, color: number | null) {
   rig.sash.visible = color !== null;
   if (color !== null) (rig.sash.material as THREE.MeshStandardMaterial).color.setHex(color);
 }
+
+export { BI };

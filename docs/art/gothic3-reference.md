@@ -1,6 +1,6 @@
 # Gothic 3 look reference: Ardea and the Myrtana coast
 
-**Status:** owner direction (see decisions A12–A15, A20, and A22) and the measurements behind it. This is a study for *inspiration*. Nothing from Gothic 3 is copied, extracted into the repository or shipped: the measurements below were read from the owner's licensed local install with read-only tools. Tervain scene geometry is generated or authored here; the approved Hegemony emblem is specifically reused from its recorded Warpkeep source. The owner's 30 September clarification governs how these measurements are interpreted for art direction.
+**Status:** owner direction (see decisions A12–A15, A20, A22, A26 and A29) and the measurements behind it. This is a study for *inspiration*. Nothing from Gothic 3 is copied, extracted into the repository or shipped: the measurements below were read from the owner's licensed local install with read-only tools. Tervain scene geometry is generated or authored here; the approved Hegemony emblem is specifically reused from its recorded Warpkeep source. The owner's 30 September clarification governs how these measurements are interpreted for art direction.
 
 ## What the owner asked for
 
@@ -64,7 +64,7 @@ The Myrtana set has 52 SpeedTree definitions in five size classes (XS to XXL): D
 3. **Scale is big.** Buildings are large and low, towers are tall, and a person is small against them. The lighthouse shaft is 17 m; pines run to 19–25 m.
 4. **Heavy, expressive irregular forms.** Posts lean, thick rails and stones carry uneven profiles, roofs sag, and cloth folds deeply. Enlarge selected carving and ornament to strengthen the silhouette; keep the geometry connected and useful spaces navigable.
 5. **Weathered materials.** Timber is grey-black, plaster is stained and peeling, rope is frayed, iron is rusted; hems of clothes are dirty.
-6. **People are worn.** Thin, tired, mended. Faces have brows and jaws; hands are big; clothes are wool and leather in earth colours.
+6. **People are worn.** Thin, tired, mended. Faces have brows and jaws and are painted, not smooth; hands are big; clothes are layers of wool, linen and leather in earth colours. See [People](#people).
 7. **Atmospheric drama.** Warm/cool separation and broad value groups give the scene its fantasy mood. Distant forests resolve into silhouettes, while close expressive shapes retain deliberate painted emphasis. Core interface text stays accessible.
 
 ## Where each rule lives in the code
@@ -73,12 +73,12 @@ This maps the existing `0.0.4` world treatment to its source. A20 is the accepte
 
 | Rule | Implemented in |
 | --- | --- |
-| Weathered base palette | `kit.ts` (`PAL`), `terrainTextures.ts`, `buildingTextures.ts`, `treeTextures.ts`, `treeGen.ts` (`LEAF_GAIN`), `humanGeo.ts` |
+| Weathered base palette | `kit.ts` (`PAL`), `terrainTextures.ts`, `buildingTextures.ts`, `treeTextures.ts`, `treeGen.ts` (`LEAF_GAIN`), `human/outfits.ts` |
 | Light, haze and grade | `sky.ts` (keyframes, `FogExp2`), `environment.ts`, `grade.ts` |
 | Coast and headland | `world/coast.ts`, `world/terrain.ts`, `sea.ts`, `groundSplat.ts` |
 | Empty heath, distant forests | `flora.ts` (placement), `ground/habitat.ts`, `ground/grass.ts` |
 | Rough buildings, the palisade and its gate | `structures.ts`, `buildings.ts`, `props.ts`, `roofs.ts`, `settlement.ts` |
-| Worn people | `humanGeo.ts`, `characters.ts` |
+| Worn people | `characters.ts`, `human/` (skeleton and weights, heads and painted faces, clothes, costumes), `npcStyle.ts`; see [People](#people) |
 
 ## The title menu
 
@@ -95,6 +95,20 @@ Studied on 30 September 2026 for the menu rework (A26), read-only, from the same
 | Sound | `GUI_Open` / `GUI_Close`: soft 0.45–0.5 s breaths of noise; `GUI_SelChange`: a 35 ms dry tick; under the menu, an 11.5 s crackling-fire loop and a 17.4 s wind-gust loop. |
 
 What Tervain takes from it: a dark picture with amber light and a cool upper sky; rough cast metal for the name; choices as plain worn lettering in a sunken, framed, dark panel; parchment for forms and oxblood for a confirmation; dust and scratches over everything; and the way the pieces hold together: a frame filled from its rule to the field, choices as touching cells, the name standing directly on its panel, and a confirmation that never shows over the choices. What it does not take: any image, font, sound, proportion or measurement, logo shape or ornament. Tervain's backdrop is a live 3D scene, its frame has no interlace corners and no outer border (A25), and its lettering is original. Synthesized interface tones were removed in 0.0.4; the current menu keeps its procedural wind/surf bed and adds the owner's separately supplied **The Sovereign's Oath** under A28, as recorded in the [score inventory](../engineering/menu-score.md). No Gothic 3 audio is used.
+
+## People
+
+Studied on 30 September 2026 for the character rework (A29), read-only, from the same install, alongside the owner's own study of the actor geometry (Rimy3D OBJ inspection exports of the body, head, hair and beard resources, with the template and world-layer references behind them). Rasterised views and decoded textures stayed in a scratch folder; nothing is in the repository.
+
+| Finding | Value |
+| --- | --- |
+| Construction | Actors are modular and skinned: an NPC template links a skeleton (`G3_Hero_Skeleton`), a body (45 `G3_Hero_Body_*` resources: peasants, slaves, bandits, mercenaries, paladins, women, the player…) and a head; hair (47) and beards (43) are separate small meshes hung on the head. Named people reuse the parts: Ardea's Jack is the Peasant body with Zuben's head. |
+| Budgets | Bodies 2,051–6,237 vertex records and about 4,000–11,400 triangles; heads 452–3,519 records; hair 39–757, beards 22–125. A head carries separate skin, eye and mouth material regions. |
+| Proportions | Measured on the ordinary bodies as fractions of stature: crotch 0.50, waist 0.65, chest 0.74, shoulder line 0.83, shoulder span 0.29, arm 0.38; the head is about an eighth of the height. Arms spread about 132 units at 173–188 units tall; costume, not the skeleton, changes the silhouette's depth (a slave 33 units deep, a paladin 50, a nomad 77). |
+| Faces and clothes | Faces are painted: hair on the scalp, heavy brows, shadowed sockets, stubble and painted beards, warm ears and noses. Clothes are layered with hard edges (collars, cuffs, belts, folded boot tops, wrapped shins, straps), and wear and weave live in the textures. Hands are large, with separate fingers. |
+| The hero at the start | The player's template inventory holds only `Head_Player` and `Body_Player`: no weapon and no shield. Among the weapons in the data are a stick (1.4 m long), a club (0.9 m), rusty one- and two-handed swords (1.1 m and 1.8 m) and a rusty axe (1.1 m). |
+
+What Tervain takes: skinned people on one skeleton each, a separate denser head with eyes set behind lids, hair and beards as separate shells over painted hair and stubble, the measured proportions and a head of about an eighth, large working hands, layered costumes whose silhouette says who someone is, and a hero who starts with nothing and takes up arms from what the land offers. What it does not take: any mesh, texture, skeleton, animation, face, costume design or name. Tervain's people are generated in code from original shapes, and the numbers above are used as proportions, not copied geometry. See the [people notes](../production/releases/0.0.5-people.md).
 
 ## Not done, and why
 

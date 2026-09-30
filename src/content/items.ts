@@ -4,11 +4,12 @@ export interface ItemDef {
   id: ItemId;
   nameKey: string;
   descKey: string;
-  kind: 'currency' | 'tool' | 'quest' | 'consumable' | 'clothing';
+  kind: 'currency' | 'tool' | 'quest' | 'consumable' | 'clothing' | 'weapon';
 }
 
 export const ITEMS: Record<ItemId, ItemDef> = {
   coin: { id: 'coin', nameKey: 'item.coin', descKey: 'item.coin.desc', kind: 'currency' },
+  rusted_sword: { id: 'rusted_sword', nameKey: 'item.rusted_sword', descKey: 'item.rusted_sword.desc', kind: 'weapon' },
   sluice_brace: { id: 'sluice_brace', nameKey: 'item.sluice_brace', descKey: 'item.sluice_brace.desc', kind: 'quest' },
   gate_wrench: { id: 'gate_wrench', nameKey: 'item.gate_wrench', descKey: 'item.gate_wrench.desc', kind: 'tool' },
   archive_key: { id: 'archive_key', nameKey: 'item.archive_key', descKey: 'item.archive_key.desc', kind: 'quest' },
@@ -20,4 +21,4 @@ export const ITEMS: Record<ItemId, ItemDef> = {
 };
 
 /** Ordering for the small inventory panel. */
-export const ITEM_ORDER: ItemId[] = ['coin', 'poultice', 'sluice_brace', 'gate_wrench', 'votive_reed', 'archive_key', 'league_sash', 'contract_band', 'witness_cord'];
+export const ITEM_ORDER: ItemId[] = ['rusted_sword', 'coin', 'poultice', 'sluice_brace', 'gate_wrench', 'votive_reed', 'archive_key', 'league_sash', 'contract_band', 'witness_cord'];

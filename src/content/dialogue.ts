@@ -456,14 +456,14 @@ N('harrow_key', 'shrine_warden',
     { t: 'cmd', cmd: { t: 'archiveAccess', method: 'borrowed_key' } },
   ] }]]);
 N('harrow_train', 'shrine_warden',
-  'Steady Guard: raise the shield and it costs you 40% less stamina to hold it, so you can wait out a heavy blow instead of running from it. Ten coin — or nothing, if you have already proved you can stand in front of something dangerous.',
+  'Steady Guard: raise your guard, blade or bare arms, and it costs you 40% less stamina to hold it, so you can wait out a heavy blow instead of running from it. Ten coin — or nothing, if you have already proved you can stand in front of something dangerous.',
   [
     ['Pay ten coin and learn it.', 'harrow_trained', { intent: 'train', locked: true, when: [{ t: 'not', c: { t: 'anyDefeated' } }, { t: 'item', id: 'coin', min: 10 }], fx: [{ t: 'cmd', cmd: { t: 'train', skill: 'steady_guard' } }] }],
     ['Show him what you have done. Learn it for free.', 'harrow_trained', { intent: 'train', locked: true, when: [{ t: 'anyDefeated' }], fx: [{ t: 'cmd', cmd: { t: 'train', skill: 'steady_guard' } }] }],
     ['Not now.', 'end', { intent: 'leave' }],
   ]);
 N('harrow_trained', 'shrine_warden',
-  'Good. Feet apart, shield high, and do not flinch. That is all of it. Come back if you need to remember.',
+  'Good. Feet apart, guard high, and do not flinch. That is all of it. Come back if you need to remember.',
   [['Thank you.', 'end', { intent: 'leave' }]]);
 N('harrow_hub2', 'shrine_warden', 'Anything else?',
   [

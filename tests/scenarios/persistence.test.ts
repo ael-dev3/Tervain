@@ -114,7 +114,9 @@ describe('save envelope and recovery', () => {
     expect(result.state.player).toEqual(g.state.player);
     expect(result.state.quest).toEqual(g.state.quest);
     expect(result.state.evidence).toEqual(g.state.evidence);
-    expect(result.state.inventory).toEqual(g.state.inventory);
+    // A 0.0.4 wanderer already carried a blade; loading hands them the wreck's sword (A29).
+    expect(result.state.inventory).toEqual({ ...g.state.inventory, rusted_sword: 1 });
+    expect(result.state.locationChanges['pickup:wreck_blade']).toBe('taken');
     expect(result.state.npcs.rillford_reeve).toEqual(g.state.npcs.rillford_reeve);
     expect(result.state.locationChanges.archive_door).toBe('open');
     expect(result.state.facts.edda_permission).toBe(true);
