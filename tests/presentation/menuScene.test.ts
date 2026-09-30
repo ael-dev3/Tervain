@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { MenuScene, type MenuResources } from '../../src/presentation/menuScene';
+import { MenuScene, type MenuResources, type MenuAwakeningState } from '../../src/presentation/menuScene';
 import type { MatKey } from '../../src/presentation/regions';
 
 /** A 2D context stand-in that records nothing and returns inert objects; enough for the banner painters. */
@@ -72,9 +72,9 @@ function resources(): { res: MenuResources; resolveEmblem(img: unknown): void; m
 }
 
 const built: MenuScene[] = [];
-function fixture(quality: 'low' | 'medium' | 'high' = 'high'): Fixture {
+function fixture(quality: 'low' | 'medium' | 'high' = 'high', trafficSeed = 0, trafficTime = 0, awakening?: MenuAwakeningState): Fixture {
   const r = resources();
-  const menu = new MenuScene({ quality, resources: r.res });
+  const menu = new MenuScene({ quality, resources: r.res, trafficSeed, trafficTime, awakening });
   built.push(menu);
   return { menu, resolveEmblem: r.resolveEmblem };
 }
@@ -183,6 +183,96 @@ describe('menu vigil scene', () => {
     b.update(0.03, false);
     expect(snapshot(a)).toEqual(snapshot(b));
     expect(snapshot(a)).not.toEqual(held);
+  });
+
+  it('retains the ship routes and exact phase when the graphics scene is rebuilt', () => {
+    const a = fixture('medium', 28491).menu;
+    for (let i = 0; i < 130; i++) a.update(0.05, false);
+    const traffic = a.trafficState;
+    const b = fixture('high', traffic.seed, traffic.elapsed).menu;
+    const pose = (m: MenuScene) => {
+      const values: number[] = [];
+      m.scene.getObjectByName('Menu_Ships')!.traverse((o) => {
+        values.push(...o.position.toArray(), ...o.quaternion.toArray(), ...o.scale.toArray());
+        if (o instanceof THREE.Mesh) {
+          const mat = o.material as THREE.ShaderMaterial;
+          if (mat.uniforms?.uOpacity) values.push(mat.uniforms.uOpacity.value);
+        }
+      });
+      return values;
+    };
+    expect(b.trafficState).toEqual(traffic);
+    expect(pose(b)).toEqual(pose(a));
+    a.update(0.03, false);
+    b.update(0.03, false);
+    expect(pose(b)).toEqual(pose(a));
+  });
+
+  it('starts a fresh traffic visit without resetting the menu clock or adding resources', () => {
+    const menu = fixture('low', 71).menu;
+    menu.update(0.05, false);
+    const before = snapshot(menu);
+    const shipGroup = menu.scene.getObjectByName('Menu_Ships');
+    const stats = { ...menu.stats };
+    menu.beginTrafficVisit(91);
+    expect(menu.trafficState).toEqual({ seed: 91, elapsed: 0 });
+    expect(menu.scene.getObjectByName('Menu_Ships')).toBe(shipGroup);
+    expect(menu.stats).toEqual(stats);
+    expect(snapshot(menu)).not.toEqual(before);
+    const held = snapshot(menu);
+    menu.update(30, true);
+    expect(snapshot(menu)).toEqual(held);
+    expect(menu.trafficState.elapsed).toBe(0);
+    menu.update(0.04, false);
+    expect(menu.trafficState.elapsed).toBeCloseTo(0.04);
+  });
+
+  it('uses the actual score clock for the doorway instead of elapsed menu frames, and holds when playback is inactive', () => {
+    const menu = fixture('medium').menu;
+    const music = { time: 29, duration: 214.2, playing: true, gain: 0.352 };
+    menu.update(40, false, music);
+    expect(menu.awakeningState.time).toBe(29);
+    expect(menu.doorOpening).toBe(0);
+    menu.update(0, false, { ...music, time: 40 });
+    expect(menu.awakeningState.time).toBe(40);
+    expect(menu.doorOpening).toBe(1);
+    expect(menu.scene.getObjectByName('Menu_Hermitage_Wisps')!.visible).toBe(true);
+    const hinge = menu.scene.getObjectByName('Menu_Tree_Door_Hinge')!;
+    expect(hinge.rotation.y).toBeLessThan(-1);
+    menu.update(0.05, false, { ...music, time: 70, playing: false, gain: 0 });
+    expect(menu.awakeningState.time).toBe(40);
+    expect(hinge.rotation.y).toBeLessThan(-1);
+    expect(menu.scene.getObjectByName('Menu_Hermitage_Wisps')!.visible).toBe(false);
+    menu.update(0.05, false, { ...music, time: 0.02 });
+    expect(menu.doorOpening).toBe(0);
+    expect(hinge.rotation.y).toBeCloseTo(0);
+  });
+
+  it('holds the full grove pose in Reduced Motion then reacquires native song time without drift', () => {
+    const menu = fixture('low').menu;
+    const music = { time: 50, duration: 214.2, playing: true, gain: 0.352 };
+    menu.update(0.03, false, music);
+    const head = (menu.scene.getObjectByName('Menu_Wisp_Pearl_Cores') as THREE.Mesh).geometry.getAttribute('aHead');
+    const heldHeads = Array.from(head.array);
+    const held = snapshot(menu);
+    menu.update(20, true, { ...music, time: 90 });
+    expect(menu.awakeningState.time).toBe(50);
+    expect(snapshot(menu)).toEqual(held);
+    expect(Array.from(head.array)).toEqual(heldHeads);
+    menu.update(0, false, { ...music, time: 90 });
+    expect(menu.awakeningState.time).toBe(90);
+    expect(Array.from(head.array)).not.toEqual(heldHeads);
+  });
+
+  it('rebuilds at the retained doorway and first sixteen spirit poses on a quality change', () => {
+    const a = fixture('medium').menu;
+    a.update(0.04, false, { time: 80.5, duration: 214.2, playing: true, gain: 0.352 });
+    const b = fixture('low', a.trafficState.seed, a.trafficState.elapsed, a.awakeningState).menu;
+    expect(b.awakeningState).toEqual(a.awakeningState);
+    expect(b.doorOpening).toBe(a.doorOpening);
+    expect(b.scene.getObjectByName('Menu_Tree_Door_Hinge')!.rotation.y).toBe(a.scene.getObjectByName('Menu_Tree_Door_Hinge')!.rotation.y);
+    const head = (m: MenuScene) => (m.scene.getObjectByName('Menu_Wisp_Pearl_Cores') as THREE.Mesh).geometry.getAttribute('aHead').array;
+    expect(Array.from(head(b))).toEqual(Array.from(head(a)).slice(0, 16 * 4));
   });
 
   it('prints the emblem when it arrives and stays usable when it never does', async () => {

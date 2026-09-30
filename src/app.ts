@@ -50,6 +50,8 @@ export class App {
   private lastFrameDt = 1 / 60;
   world!: WorldScene;
   private menuScene!: MenuScene;
+  private menuVisitActive = false;
+  private menuVisitCounter = 0;
   library: AssetLibrary = AssetLibrary.empty();
   cam = new CameraRig();
   player = new Player();
@@ -323,8 +325,10 @@ export class App {
       this.loadingEl.classList.remove('off');
       // The menu vigil follows the graphics preset too (it is on screen while Settings is open).
       if (this.menuScene.quality !== this.settings.quality) {
+        const traffic = this.menuScene.trafficState;
+        const awakening = this.menuScene.awakeningState;
         this.menuScene.dispose();
-        this.menuScene = new MenuScene({ quality: this.settings.quality });
+        this.menuScene = new MenuScene({ quality: this.settings.quality, trafficSeed: traffic.seed, trafficTime: traffic.elapsed, awakening });
         this.menuScene.resize(window.innerWidth, window.innerHeight);
       }
       void this.buildWorld().then(() => {
@@ -343,6 +347,8 @@ export class App {
   }
 
   private enterTitle() {
+    // Returning from pause to the title is a fresh launch even though both screens use the menu scene.
+    this.menuVisitActive = false;
     this.mode = 'title';
     this.hud.show(false);
     this.panels.closeAll();
@@ -529,7 +535,7 @@ export class App {
 
     if (this.menuBackgroundActive) {
       // The menu vigil is cosmetic. No patrols or game clock run beneath it.
-      this.menuScene.update(dt, this.settings.reducedMotion);
+      this.menuScene.update(dt, this.settings.reducedMotion, this.audio.menuMusicPlayback);
       // An open headland: wind and distant sea beneath the owner-supplied menu score.
       this.audio.update(dt, { nightness: 0.3, waterProximity: 0, seaProximity: 0.32, flow: 0,
         millNear: 0, millTurning: false, windAmount: 0.6, quarryNear: 0,
@@ -653,8 +659,19 @@ export class App {
 
   private syncMenuHudVisibility() {
     // Nested pause forms retain the courtyard even though the top panel is now paper.
-    this.hud.el.classList.toggle('menu-hidden', this.menuBackgroundActive);
-    this.audio.setMenuActive(this.menuBackgroundActive);
+    const active = this.menuBackgroundActive;
+    if (active && !this.menuVisitActive) {
+      const previous = this.menuScene.trafficState.seed;
+      const entropy = new Uint32Array(1);
+      let seed = globalThis.crypto?.getRandomValues
+        ? globalThis.crypto.getRandomValues(entropy)[0]!
+        : (Date.now() ^ Math.imul(++this.menuVisitCounter, 0x9e3779b9)) >>> 0;
+      if (seed === previous) seed = (seed + 1) >>> 0;
+      this.menuScene.beginTrafficVisit(seed);
+    }
+    this.menuVisitActive = active;
+    this.hud.el.classList.toggle('menu-hidden', active);
+    this.audio.setMenuActive(active);
   }
 
   /* ============================== input glue ============================== */
@@ -1435,6 +1452,9 @@ export class App {
         btn('Toggle Ila absent', () => this.debugToggleNpc('maintenance_worker')),
         btn('Heal + stamina', () => this.debugHeal()),
       ),
+      h('h2', {}, 'Menu score timing'),
+      h('p', { class: 'small' }, 'Seeks the actual menu song for doorway, wisp and loop review; has no effect in gameplay.'),
+      h('div', { class: 'pillrow' }, ...[28, 30, 40, 60, 205, 211].map((time) => btn(`Score → ${Math.floor(time / 60)}:${String(time % 60).padStart(2, '0')}`, () => this.audio.seekMenuMusic(time)))),
       h('h2', {}, 'Benchmark'),
       h('p', { class: 'muted' }, 'Runs a fixed camera route from the landing through the woodland and town (about 72 s) and reports median/95th/99th percentile frame times for this device, renderer and quality preset.'),
       h('div', { class: 'pillrow' }, btn('Run benchmark route', () => this.startBenchmark()), btn('Copy report', () => navigator.clipboard?.writeText(this.debugPre.textContent ?? ''))),
@@ -1457,6 +1477,8 @@ export class App {
       `build ${GAME_VERSION} rev ${REVISION}  quality ${this.settings.quality}  dpr ${this.renderer.getPixelRatio()}  ${window.innerWidth}x${window.innerHeight}`,
       `audio ${audio.state}  voices ${audio.voices}  ${audio.sampleRate} Hz  device-reported base buffer ${audio.baseLatency === null ? 'unavailable' : `${(audio.baseLatency * 1000).toFixed(1)} ms`}`,
       `menu score ${audio.music.state}  ${audio.music.currentTime.toFixed(1)} / ${Number.isFinite(audio.music.duration) ? audio.music.duration.toFixed(1) : 'loading'} s`,
+      `menu ships ${this.menuScene.stats.ships}  visit ${this.menuScene.trafficState.seed.toString(16)}  ${this.menuScene.trafficState.elapsed.toFixed(1)} s`,
+      `menu grove ${this.menuScene.stats.wisps} wisps  score ${this.menuScene.awakeningState.time.toFixed(2)} s  door ${(this.menuScene.doorOpening * 100).toFixed(0)}%  audible ${this.audio.menuMusicPlayback.playing} gain ${this.audio.menuMusicPlayback.gain.toFixed(3)}`,
       `player ${this.player.x.toFixed(1)}, ${this.player.z.toFixed(1)}  hp ${s.player.health}  clock ${formatClock(s.clock)} day ${clockDay(s.clock) + 1}`,
       `phase ${s.quest.phase}  gate ${s.quest.gate}  alloc ${s.quest.allocation ?? '-'}  entry ${s.quest.entry ?? '-'}`,
       `evidence ${EVIDENCE_IDS.filter((e) => s.evidence[e]).join(', ') || '-'}`,

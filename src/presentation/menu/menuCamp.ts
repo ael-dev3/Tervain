@@ -3,7 +3,8 @@ import { mulberry32 } from '../../world/noise';
 import { campfire } from '../props';
 import { rockShapes } from '../scatter';
 import { TINT, jitterTone, sack, type Rnd } from '../structures';
-import { Region } from '../regions';
+import { Region, type MatKey } from '../regions';
+import { Ctx } from '../buildKit';
 import { buildCloakedFigure, type CloakedFigure } from './menuFigure';
 import { MENU_BANNER, MENU_FIRE, MENU_STONES, browZ, menuHeight, trackDistance, type Keep } from './menuLayout';
 import { puddleSpots, restHeight } from './menuLand';
@@ -79,7 +80,7 @@ function woodpile(R: Region, rnd: Rnd, x: number, z: number, yaw: number) {
 }
 
 /** Door-local sizes: the opening, and the posts that frame it. The tree cuts its flat face to fit (see menuScene). */
-export const HERMIT_DOOR = { width: 0.86, height: 1.72, post: 0.15, faceHalfWidth: 0.6, faceTop: 1.95 };
+export const HERMIT_DOOR = { width: 0.86, height: 1.72, post: 0.15, faceHalfWidth: 0.6, faceTop: 1.95, hingeZ: 0.085 };
 
 /**
  * The hermit's door, set into the flat face adzed into the tree: rough posts and a crooked lintel sunk into the bark, a
@@ -89,7 +90,7 @@ export const HERMIT_DOOR = { width: 0.86, height: 1.72, post: 0.15, faceHalfWidt
  * Door-local frame: x across the face (to the right, seen from outside), y up from the ground, z out of the face; the face
  * itself is z = 0. Returns the world positions of the lantern and the grille.
  */
-function hermitDoor(R: Region, rnd: Rnd, at: THREE.Vector3, facing: number, claims: Claims): THREE.Vector3[] {
+function hermitDoor(R: Region, rnd: Rnd, at: THREE.Vector3, facing: number, claims: Claims, mats: { get(key: MatKey): THREE.Material }) {
   const ctx = R.ctx;
   ctx.push(at.x, at.y, at.z, facing);
   const { width: W, height: H, post: P } = HERMIT_DOOR;
@@ -98,11 +99,17 @@ function hermitDoor(R: Region, rnd: Rnd, at: THREE.Vector3, facing: number, clai
   R.timber.box(P, H + 0.33, 0.2, -(W / 2 + P / 2), -0.15, -0.02, wood, { grain: 'y', rz: 0.015, jit: 0.1 });
   R.timber.box(P, H + 0.3, 0.2, W / 2 + P / 2, -0.15, -0.02, wood, { grain: 'y', rz: -0.02, jit: 0.1 });
   R.timber.box(W + 2 * P + 0.14, 0.2, 0.24, 0.02, H, -0.03, wood, { grain: 'x', rz: 0.025, jit: 0.1 });
-  // Lamplight behind the planks: dim through the gaps, bright behind the grille.
-  R.glow.box(W, H, 0.004, 0, 0.02, 0.008, 0x3a3a3a, { jit: 0 });
+  // The leaf is a separate native rig: its hinge remains exactly on the left post as the wood swings outward.
+  const leaf = new Region('Menu_Tree_Door_Leaf', new Ctx());
+  // The pin sits just in front of the post. This offset preserves the closed pose and keeps the leaf out of the timber
+  // when it swings, rather than rotating its thickness through the solid post.
+  const hingeZ = HERMIT_DOOR.hingeZ;
+  leaf.ctx.push(W / 2, 0, -hingeZ);
+  // Lamplight and grille move with the leaf, rather than leaving an illuminated window floating in the aperture.
+  leaf.glow.box(W, H, 0.004, 0, 0.02, 0.008, 0x3a3a3a, { jit: 0 });
   const gy0 = 1.12;
   const gy1 = 1.38;
-  R.glow.box(0.42, gy1 - gy0, 0.004, 0, gy0, 0.012, 0xffffff, { jit: 0 });
+  leaf.glow.box(0.42, gy1 - gy0, 0.004, 0, gy0, 0.012, 0xffffff, { jit: 0 });
   // Four planks with finger-wide gaps; the middle two are cut round the grille.
   const pw = 0.2;
   for (let i = 0; i < 4; i++) {
@@ -110,16 +117,48 @@ function hermitDoor(R: Region, rnd: Rnd, at: THREE.Vector3, facing: number, clai
     const tone = jitterTone(TINT.wood, rnd, 0.16);
     const top = H - 0.01 - rnd() * 0.03;
     if (i === 1 || i === 2) {
-      R.planks.box(pw, gy0 - 0.02, 0.05, x, 0.02, 0.045, tone, { grain: 'y', jit: 0.12 });
-      R.planks.box(pw, top - gy1, 0.05, x, gy1, 0.045, tone, { grain: 'y', jit: 0.12 });
+      leaf.planks.box(pw, gy0 - 0.02, 0.05, x, 0.02, 0.045, tone, { grain: 'y', jit: 0.12 });
+      leaf.planks.box(pw, top - gy1, 0.05, x, gy1, 0.045, tone, { grain: 'y', jit: 0.12 });
     } else {
-      R.planks.box(pw, top - 0.02, 0.05, x, 0.02, 0.045, tone, { grain: 'y', jit: 0.12 });
+      leaf.planks.box(pw, top - 0.02, 0.05, x, 0.02, 0.045, tone, { grain: 'y', jit: 0.12 });
     }
   }
-  for (const bx of [-0.1, 0, 0.1]) R.metal.rod(bx, gy0 - 0.01, 0.05, bx, gy1 + 0.01, 0.05, 0.011, 4, iron);
-  R.metal.rod(-0.21, (gy0 + gy1) / 2, 0.055, 0.21, (gy0 + gy1) / 2, 0.055, 0.01, 4, iron);
-  for (const y of [0.3, 1.5]) R.metal.box(W - 0.02, 0.06, 0.012, 0, y, 0.076, iron, { jit: 0.06 });
-  R.metal.box(0.05, 0.06, 0.03, 0.3, 0.9, 0.085, iron);
+  for (const bx of [-0.1, 0, 0.1]) leaf.metal.rod(bx, gy0 - 0.01, 0.05, bx, gy1 + 0.01, 0.05, 0.011, 4, iron);
+  leaf.metal.rod(-0.21, (gy0 + gy1) / 2, 0.055, 0.21, (gy0 + gy1) / 2, 0.055, 0.01, 4, iron);
+  for (const y of [0.3, 1.5]) leaf.metal.box(W - 0.02, 0.06, 0.012, 0, y, 0.076, iron, { jit: 0.06 });
+  leaf.metal.box(0.05, 0.06, 0.03, 0.3, 0.9, 0.085, iron);
+  leaf.ctx.pop();
+  const root = new THREE.Group();
+  root.name = 'Menu_Tree_Door';
+  root.position.copy(at);
+  root.rotation.y = facing;
+  const hinge = new THREE.Group();
+  hinge.name = 'Menu_Tree_Door_Hinge';
+  hinge.position.set(-W / 2, 0, hingeZ);
+  const leafGroup = leaf.toGroup(mats, { shadows: true });
+  hinge.add(leafGroup);
+  root.add(hinge);
+  // Solid floor, side reveals and ceiling frame a shallow cavity inside the actual cut in the bark.
+  R.timber.box(0.06, H, 0.64, -W / 2 + 0.03, 0, -0.32, 0x322f28, { grain: 'y', jit: 0.035 });
+  R.timber.box(0.06, H, 0.64, W / 2 - 0.03, 0, -0.32, 0x322f28, { grain: 'y', jit: 0.035 });
+  R.timber.box(W, 0.06, 0.64, 0, H - 0.06, -0.32, 0x35332b, { grain: 'x', jit: 0.035 });
+  R.timber.box(W, 0.06, 0.64, 0, 0, -0.32, 0x35332b, { grain: 'x', jit: 0.035 });
+  const glowGeometry = new THREE.PlaneGeometry(W - 0.10, H - 0.10);
+  const glowMaterial = new THREE.ShaderMaterial({
+    uniforms: { uOpening: { value: 0 }, uEnergy: { value: 0 } },
+    vertexShader: 'varying vec2 vUv; void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}',
+    fragmentShader: `varying vec2 vUv; uniform float uOpening; uniform float uEnergy;
+      void main(){ vec2 q=(vUv-0.5)*vec2(1.0,0.65); float light=exp(-dot(q,q)*10.0);
+      vec3 col=mix(vec3(0.009,0.012,0.01),vec3(0.19,0.54,0.45),uOpening*light*(0.36+0.18*uEnergy));
+      gl_FragColor=vec4(col,1.0);
+      #include <tonemapping_fragment>
+      #include <colorspace_fragment>
+      }`,
+  });
+  const interior = new THREE.Mesh(glowGeometry, glowMaterial);
+  interior.name = 'Menu_Tree_Door_Interior';
+  interior.position.set(0, H / 2, -0.58);
+  root.add(interior);
   // A worn step stone.
   R.stone.box(W + 0.36, 0.14, 0.46, 0, -0.1, 0.27, jitterTone(TINT.stoneDark, rnd, 0.12), { jit: 0.1, ry: 0.03 });
   // A lantern on an iron bracket from the right post; the glass is lit.
@@ -149,7 +188,10 @@ function hermitDoor(R: Region, rnd: Rnd, at: THREE.Vector3, facing: number, clai
   claims.add(front.x, front.z, 0.85);
   claims.add(foot.x, foot.z, 0.2);
   ctx.pop();
-  return lights;
+  return { group: root, hinge, lights, glowMaterial, dispose() {
+    leafGroup.traverse((o) => { if ((o as THREE.Mesh).isMesh) (o as THREE.Mesh).geometry.dispose(); });
+    glowGeometry.dispose(); glowMaterial.dispose();
+  } };
 }
 
 /** A standing stone, or one lying where it fell: the playable rock texture on a split slab. */
@@ -267,6 +309,7 @@ export interface MenuCamp {
   lanterns: THREE.Vector3[];
   /** Ground claimed by everything placed here, for the grass. */
   keep: readonly Keep[];
+  setDoorOpening(opening: number, energy: number): void;
   update(time: number, dt: number, amp: number): void;
   dispose(): void;
 }
@@ -284,7 +327,7 @@ export interface CampTree {
  * Build everything static in the camp into `R`, and the living warden as his own rig. `door` places the hermit's door on
  * the flat face the tree cut for it (world position of the face at the ground, and the yaw of its outward normal).
  */
-export function buildMenuCamp(R: Region, door: { at: THREE.Vector3; facing: number }, tree: CampTree): MenuCamp {
+export function buildMenuCamp(R: Region, door: { at: THREE.Vector3; facing: number }, tree: CampTree, mats: { get(key: MatKey): THREE.Material }): MenuCamp {
   const rnd = mulberry32(51);
   const claims = new Claims();
   const group = new THREE.Group();
@@ -387,7 +430,9 @@ export function buildMenuCamp(R: Region, door: { at: THREE.Vector3; facing: numb
   claims.add(MENU_BANNER.x, MENU_BANNER.z, 0.95);
   for (const [px, pz] of BANNER_PEGS) claims.add(MENU_BANNER.x + px, MENU_BANNER.z + pz, 0.25);
 
-  const lanterns = hermitDoor(R, rnd, door.at, door.facing, claims);
+  const doorway = hermitDoor(R, rnd, door.at, door.facing, claims, mats);
+  const lanterns = doorway.lights;
+  group.add(doorway.group);
 
   // Field stones along the verges and round the roots, on free ground only.
   for (let i = 0; i < 70; i++) {
@@ -437,17 +482,31 @@ export function buildMenuCamp(R: Region, door: { at: THREE.Vector3; facing: numb
   warden.group.rotation.y = Math.atan2(fx - seat.x, fz - seat.z) + 0.15;
   warden.group.name = 'Menu_Warden';
   group.add(warden.group);
+  let disposed = false;
 
   return {
     group,
     warden,
     lanterns,
     keep: claims.keep,
+    setDoorOpening(opening: number, energy: number) {
+      if (disposed) return;
+      const amount = Number.isFinite(opening) ? THREE.MathUtils.clamp(opening, 0, 1) : 0;
+      doorway.hinge.rotation.y = -amount * 1.34;
+      doorway.glowMaterial.uniforms.uOpening!.value = amount;
+      doorway.glowMaterial.uniforms.uEnergy!.value = Number.isFinite(energy) ? THREE.MathUtils.clamp(energy, 0, 1) : 0;
+      doorway.group.updateMatrixWorld(true);
+      lanterns[1]!.set(HERMIT_DOOR.width / 2, 1.25, 0.315).applyMatrix4(doorway.hinge.matrixWorld);
+    },
     update(time: number, _dt: number, amp: number) {
+      if (disposed) return;
       warden.update(time, amp);
     },
     dispose() {
+      if (disposed) return;
+      disposed = true;
       warden.dispose();
+      doorway.dispose();
     },
   };
 }
