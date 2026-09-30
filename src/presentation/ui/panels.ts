@@ -11,8 +11,12 @@ import type { Allocation, Cond, ItemId, WorldState } from '../../game/types';
 import { type Input } from '../../platform/input';
 import { ACTIONS, DEFAULT_BINDINGS, codeLabel, defaultSettings, findConflict, saveSettings, type Action, type Settings } from '../../platform/settings';
 import { SLOT_IDS, type LoadResult, type SaveStore, type SlotId } from '../../platform/storage';
-import { clear, focusFirst, h, moveFocus } from './dom';
+import { clear, focusableElements, focusFirst, h, moveFocus } from './dom';
 import { EVIDENCE_IDS } from '../../game/types';
+import { GAME_VERSION } from '../../version';
+import { createMenuScreen } from './menuView';
+
+let panelLabelId = 0;
 
 export interface PanelActions {
   resume(): void;
@@ -42,6 +46,7 @@ export interface PanelCtx {
 interface Frame {
   content: HTMLElement;
   narrow: boolean;
+  returnFocus: HTMLElement | null;
   onClose?: () => void;
   refresh?: () => HTMLElement;
 }
@@ -72,7 +77,7 @@ export class PanelHost {
 
   push(content: HTMLElement, opts: { narrow?: boolean; onClose?: () => void; refresh?: () => HTMLElement } = {}) {
     const wasEmpty = this.stack.length === 0;
-    this.stack.push({ content, narrow: !!opts.narrow, onClose: opts.onClose, refresh: opts.refresh });
+    this.stack.push({ content, narrow: !!opts.narrow, returnFocus: document.activeElement as HTMLElement | null, onClose: opts.onClose, refresh: opts.refresh });
     this.render();
     if (wasEmpty) this.onOpen?.();
   }
@@ -96,12 +101,14 @@ export class PanelHost {
   back() {
     const top = this.stack.pop();
     top?.onClose?.();
-    this.onChange?.();
     if (this.stack.length === 0) {
       this.el.classList.remove('on');
       clear(this.el);
+      this.onChange?.();
       this.onEmpty?.();
-    } else this.render();
+      const trigger = top?.returnFocus;
+      if (trigger?.isConnected && trigger.offsetParent !== null && !trigger.closest('[inert]')) trigger.focus();
+    } else this.render(top?.returnFocus ?? true);
   }
 
   closeAll() {
@@ -115,14 +122,26 @@ export class PanelHost {
     this.onEmpty?.();
   }
 
-  private render(focus = true) {
+  private render(focus: boolean | HTMLElement = true) {
     const top = this.stack[this.stack.length - 1];
     if (!top) return;
     clear(this.el);
-    const panel = h('div', { class: `panel surface-paper${top.narrow ? ' narrow' : ''}`, role: 'dialog' }, top.content);
+    const menu = top.content.classList.contains('menu-screen');
+    const heading = top.content.querySelector<HTMLElement>('h1, h2');
+    if (heading && !heading.id) heading.id = `tervain-panel-heading-${panelLabelId++}`;
+    const panel = h('div', {
+      class: menu ? 'panel panel-menu' : `panel surface-paper${top.narrow ? ' narrow' : ''}`,
+      role: 'dialog',
+      'aria-modal': 'true',
+      'aria-labelledby': heading?.id,
+      'aria-label': heading ? null : S('game.title'),
+      tabindex: '-1',
+    }, top.content);
     this.el.append(panel);
     this.el.classList.add('on');
-    if (focus) focusFirst(panel);
+    this.onChange?.();
+    if (typeof focus !== 'boolean' && panel.contains(focus) && focus.offsetParent !== null) focus.focus();
+    else if (focus) focusFirst(panel);
   }
 
   navigate(dx: number, dy: number) {
@@ -130,7 +149,29 @@ export class PanelHost {
   }
 
   activateFocused() {
-    (document.activeElement as HTMLElement | null)?.click();
+    const active = document.activeElement as HTMLElement | null;
+    if (this.isOpen && active && this.el.contains(active)) active.click();
+  }
+
+  /** App calls this after its rebind-capture guard so Tab can still be assigned as a game key. */
+  trapTab(event: KeyboardEvent): boolean {
+    if (!this.isOpen || event.code !== 'Tab') return false;
+    const panel = this.el.firstElementChild as HTMLElement | null;
+    if (!panel) return false;
+    event.preventDefault();
+    event.stopPropagation();
+    const controls = focusableElements(panel);
+    if (controls.length === 0) {
+      panel.focus();
+      return true;
+    }
+    const active = document.activeElement as HTMLElement | null;
+    const index = active ? controls.indexOf(active) : -1;
+    const next = index < 0 ? (event.shiftKey ? controls.length - 1 : 0) : (index + (event.shiftKey ? -1 : 1) + controls.length) % controls.length;
+    const target = controls[next] ?? panel;
+    target.focus();
+    target.scrollIntoView({ block: 'nearest' });
+    return true;
   }
 }
 
@@ -367,22 +408,18 @@ function showCommitConfirm(ctx: PanelCtx, a: Allocation) {
 
 export function pauseMenu(ctx: PanelCtx): HTMLElement {
   const b = (label: string, fn: () => void, primary = false) => h('button', { class: `btn${primary ? ' primary' : ''}`, 'data-nav': true, onClick: fn }, label);
-  return h(
+  const menu = h(
     'div',
-    {},
-    h('h1', {}, S('game.title')),
-    h(
-      'div',
-      { class: 'menu-list' },
-      b(S('menu.resume'), () => ctx.actions.resume(), true),
-      b(S('menu.save'), () => ctx.host.push(slotsPanel(ctx, 'save'))),
-      b(S('menu.load'), () => ctx.host.push(slotsPanel(ctx, 'load'))),
-      b(S('journal.title'), () => ctx.host.push(journalPanel(ctx))),
-      b(S('menu.settings'), () => ctx.host.push(settingsPanel(ctx))),
-      b(S('menu.controls'), () => ctx.host.push(controlsPanel(ctx))),
-      b(S('menu.quit'), () => ctx.actions.quitToTitle()),
-    ),
+    { class: 'menu-list' },
+    b(S('menu.resume'), () => ctx.actions.resume(), true),
+    b(S('menu.save'), () => ctx.host.push(slotsPanel(ctx, 'save'))),
+    b(S('menu.load'), () => ctx.host.push(slotsPanel(ctx, 'load'))),
+    b(S('journal.title'), () => ctx.host.push(journalPanel(ctx))),
+    b(S('menu.settings'), () => ctx.host.push(settingsPanel(ctx))),
+    b(S('menu.controls'), () => ctx.host.push(controlsPanel(ctx))),
+    b(S('menu.quit'), () => ctx.actions.quitToTitle()),
   );
+  return createMenuScreen({ menu, subtitle: 'Journey paused', version: GAME_VERSION, variant: 'pause' });
 }
 
 export function slotsPanel(ctx: PanelCtx, mode: 'save' | 'load'): HTMLElement {

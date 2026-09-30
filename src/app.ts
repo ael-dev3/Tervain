@@ -27,6 +27,7 @@ import { DialogueView, type DlgChoice } from './presentation/ui/dialogueView';
 import { MapView } from './presentation/ui/map';
 import { PanelHost, aboutPanel, controlsPanel, describeMissing, inventoryPanel, journalPanel, noticePanel, pauseMenu, settingsPanel, sluicePanel, slotsPanel, type PanelActions, type PanelCtx } from './presentation/ui/panels';
 import { h, clear } from './presentation/ui/dom';
+import { createMenuScreen } from './presentation/ui/menuView';
 import { AssetLibrary } from './presentation/assets/library';
 import { ALL_NEEDS } from './presentation/assets/needs';
 import { setRigShadow } from './presentation/characters';
@@ -242,8 +243,10 @@ export class App {
     this.panels.onChange = () => {
       // A pending rebind never outlives the screen it was started on.
       this.input.captureNext = null;
+      this.titleEl.inert = this.panels.isOpen;
     };
     this.panels.onOpen = () => {
+      this.titleEl.inert = true;
       this.input.uiOpen = true;
       this.releaseLock();
     };
@@ -367,9 +370,7 @@ export class App {
       btn(S('menu.controls'), () => this.panels.push(controlsPanel(this.panelCtx()))),
       btn(S('menu.about'), () => this.panels.push(aboutPanel(this.panelCtx()))),
     );
-    this.titleEl.append(
-      h('div', { class: 'card surface-timber' }, h('h1', {}, S('game.title').toUpperCase()), h('div', { class: 'subtitle' }, S('game.subtitle')), h('p', { class: 'tagline' }, S('game.tagline')), menu, h('div', { class: 'hint-line' }, `v${GAME_VERSION}`)),
-    );
+    this.titleEl.append(createMenuScreen({ menu, subtitle: S('game.subtitle'), version: GAME_VERSION, variant: 'title' }));
     this.focusTitle();
   }
 
@@ -660,7 +661,8 @@ export class App {
       }
     } else if (this.panels.isOpen || this.mode === 'title') {
       if (this.input.padButtonPressed(0)) {
-        this.panels.activateFocused();
+        if (this.panels.isOpen) this.panels.activateFocused();
+        else if (this.titleEl.contains(document.activeElement)) (document.activeElement as HTMLElement).click();
         handled = true;
       }
       if (this.input.padButtonPressed(1) && this.panels.isOpen) {
@@ -677,6 +679,13 @@ export class App {
     if (this.dialogue.open) return;
     if (!(this.mode === 'title' || this.panels.isOpen)) return;
     if (this.input.captureNext) return;
+    // Preserve the bound Tab toggle for a directly opened record panel. Nested menus use Tab for focus.
+    const record = this.panelKind;
+    if (e.code === 'Tab' && this.panels.depth === 1 && (record === 'journal' || record === 'map' || record === 'inventory') && this.settings.bindings[record].includes(e.code)) {
+      e.preventDefault();
+      return;
+    }
+    if (this.panels.trapTab(e)) return;
     const el = document.activeElement as HTMLElement | null;
     const isRange = el instanceof HTMLInputElement && el.type === 'range';
     const isSelect = el instanceof HTMLSelectElement;
@@ -746,6 +755,7 @@ export class App {
   }
 
   private onPanelsClosed() {
+    this.titleEl.inert = false;
     this.panelKind = 'none';
     this.mapCanvas = null;
     if (this.mode === 'title') this.focusTitle();
