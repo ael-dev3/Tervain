@@ -18,8 +18,12 @@ import { buildMenuFar } from './menu/menuFar';
 import { buildMenuAir } from './menu/menuAir';
 import { buildRibbons } from './menu/menuRibbons';
 import { buildMenuShips } from './menu/menuShips';
+import { buildMenuWisps, sampleMenuAwakening } from './menu/menuWisps';
+import { MENU_SCORE_FEATURE_INFO, sampleMenuScore } from './menu/menuScoreFeatures';
+import type { MenuMusicPlayback } from './audio';
 
 export type MenuQuality = 'low' | 'medium' | 'high';
+export interface MenuAwakeningState { time: number; duration: number; gain: number }
 
 const UP = new THREE.Vector3(0, 1, 0);
 
@@ -76,7 +80,7 @@ function browserResources(): MenuResources {
 export class MenuScene {
   readonly scene = new THREE.Scene();
   readonly camera = new THREE.PerspectiveCamera(MENU_CAMERA.fov, 16 / 9, 0.2, 2600);
-  readonly stats = { triangles: 0, meshes: 0, grassTufts: 0, leafCards: 0, banners: 1, lights: 0, ships: 0 };
+  readonly stats = { triangles: 0, meshes: 0, grassTufts: 0, leafCards: 0, banners: 1, lights: 0, ships: 0, wisps: 0 };
   readonly quality: MenuQuality;
   private readonly res: MenuResources;
   private readonly sway: SwayUniforms = { uTime: { value: 0 }, uWind: { value: 0.8 } };
@@ -85,6 +89,11 @@ export class MenuScene {
   private readonly fire: ReturnType<typeof buildMenuFire>;
   private readonly far: ReturnType<typeof buildMenuFar>;
   private readonly ships: ReturnType<typeof buildMenuShips>;
+  private readonly wisps: ReturnType<typeof buildMenuWisps>;
+  private readonly awakening: MenuAwakeningState;
+  private grilleLight!: THREE.PointLight;
+  private readonly grilleWarm = new THREE.Color(0xff9a48);
+  private readonly grilleCool = new THREE.Color(0x87ffe1);
   private readonly air: ReturnType<typeof buildMenuAir>;
   private readonly camp: ReturnType<typeof buildMenuCamp>;
   private readonly banner: ReturnType<typeof buildMenuBanner>;
@@ -102,12 +111,15 @@ export class MenuScene {
   private readonly baseFov = MENU_CAMERA.fov;
   static readonly MAX_FOV = 76;
 
-  constructor(opts: { quality?: MenuQuality; resources?: MenuResources; trafficSeed?: number; trafficTime?: number } = {}) {
+  constructor(opts: { quality?: MenuQuality; resources?: MenuResources; trafficSeed?: number; trafficTime?: number; awakening?: MenuAwakeningState } = {}) {
     this.quality = opts.quality ?? 'high';
     this.res = opts.resources ?? browserResources();
     // Deterministic standalone construction; the app supplies a fresh seed on each actual menu entry.
     this.trafficSeed = (opts.trafficSeed ?? 0) >>> 0;
     this.trafficOffset = Number.isFinite(opts.trafficTime) ? Math.max(0, opts.trafficTime!) : 0;
+    this.awakening = { time: Number.isFinite(opts.awakening?.time) ? Math.max(0, opts.awakening!.time) : 0,
+      duration: Number.isFinite(opts.awakening?.duration) && opts.awakening!.duration > 0 ? opts.awakening!.duration : MENU_SCORE_FEATURE_INFO.duration,
+      gain: Number.isFinite(opts.awakening?.gain) ? THREE.MathUtils.clamp(opts.awakening!.gain, 0, 1) : 0 };
     const q = this.quality;
     this.scene.name = 'Tervain_Templar_Vigil';
     const fog = new THREE.FogExp2(new THREE.Color().setHex(0x2b2b28), 0.0105);
@@ -174,7 +186,8 @@ export class MenuScene {
     const doorDir = new THREE.Vector3(Math.sin(doorYaw), 0, Math.cos(doorYaw)).applyAxisAngle(UP, -treeRoot.rotation.y);
     const tree = buildAncientTree(1207, {
       leafCards: q === 'low' ? 900 : q === 'medium' ? 1500 : 2200,
-      door: { az: Math.atan2(doorDir.z, doorDir.x), halfWidth: HERMIT_DOOR.faceHalfWidth, height: HERMIT_DOOR.faceTop },
+      door: { az: Math.atan2(doorDir.z, doorDir.x), halfWidth: HERMIT_DOOR.faceHalfWidth, height: HERMIT_DOOR.faceTop,
+        opening: { width: HERMIT_DOOR.width, height: HERMIT_DOOR.height } },
       ground: groundLocal,
     });
     const bark = this.res.bark();
@@ -226,7 +239,11 @@ export class MenuScene {
     if (glow.color) glow.color.setRGB(0.62, 0.24, 0.05);
     const R = new Region('Menu_Camp_Static', new Ctx());
     const worldRoots = tree.roots.map((r) => ({ ...r, pts: r.pts.map((p) => treeRoot.localToWorld(new THREE.Vector3(...p))) }));
-    this.camp = buildMenuCamp(R, { at: doorAt, facing: doorFacing }, { x: MENU_TREE.x, z: MENU_TREE.z, r: 2.9, roots: worldRoots });
+    this.camp = buildMenuCamp(R, { at: doorAt, facing: doorFacing }, { x: MENU_TREE.x, z: MENU_TREE.z, r: 2.9, roots: worldRoots }, this.mats);
+    this.wisps = buildMenuWisps({ doorAt, doorFacing, treeCentre: new THREE.Vector3(MENU_TREE.x, ty, MENU_TREE.z), quality: q });
+    this.scene.add(this.wisps.group);
+    this.owned.push(this.wisps);
+    this.stats.wisps = this.wisps.stats.wisps;
 
     // Rags and a few iron lanterns hang from the bare low boughs: tied round the bough itself, never from the air beside it.
     const boughs = tree.lowBoughs.map((b) => ({
@@ -358,6 +375,7 @@ export class MenuScene {
     doorLight.position.copy(lantern!);
     const grilleLight = new THREE.PointLight(0xff9a48, 2.5, 4, 2);
     grilleLight.position.copy(grille!);
+    this.grilleLight = grilleLight;
     this.scene.add(doorLight, grilleLight);
   }
 
@@ -395,10 +413,16 @@ export class MenuScene {
   }
 
   /** Advances the menu clock. Reduced motion holds everything exactly where it is. */
-  update(dt: number, reducedMotion: boolean) {
+  update(dt: number, reducedMotion: boolean, music?: MenuMusicPlayback) {
     if (this.disposed || reducedMotion) return;
     const step = Number.isFinite(dt) ? Math.max(0, Math.min(dt, 0.05)) : 0;
     this.time += step;
+    if (music) {
+      // The score owns this clock. Browser buffering, mute and pause cannot let a separate visual timer drift ahead.
+      if (music.playing && Number.isFinite(music.time)) this.awakening.time = Math.max(0, music.time);
+      this.awakening.gain = music.playing && Number.isFinite(music.gain) ? THREE.MathUtils.clamp(music.gain, 0, 1) : 0;
+      if (Number.isFinite(music.duration) && music.duration > 0) this.awakening.duration = music.duration;
+    }
     this.pose(this.time, step);
   }
 
@@ -416,6 +440,10 @@ export class MenuScene {
     return { seed: this.trafficSeed, elapsed: Math.max(0, this.time - this.trafficEpoch + this.trafficOffset) };
   }
 
+  get awakeningState(): MenuAwakeningState { return { ...this.awakening }; }
+
+  get doorOpening() { return sampleMenuAwakening(this.awakening.time, this.awakening.duration).opening; }
+
   private pose(t: number, step: number) {
     this.sway.uTime.value = t;
     this.ribbonTime.value = t;
@@ -426,6 +454,13 @@ export class MenuScene {
     this.air.update(t);
     this.banner.update(t, 1);
     this.camp.update(t, step, 1);
+    const score = sampleMenuScore(this.awakening.time);
+    const opening = this.doorOpening;
+    this.camp.setDoorOpening(opening, score.energy);
+    this.wisps.update(this.awakening.time, this.awakening.gain, this.awakening.duration);
+    this.grilleLight.position.copy(this.camp.lanterns[1]!);
+    this.grilleLight.color.copy(this.grilleWarm).lerp(this.grilleCool, opening * 0.78);
+    this.grilleLight.intensity = 2.5 + opening * (0.7 + score.energy * 0.5);
   }
 
   /** Idempotent. Shared caches (tree textures, building textures, noise) belong to their generators and are not freed here. */

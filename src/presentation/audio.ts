@@ -34,6 +34,16 @@ export const MENU_MUSIC_SOURCES = {
   aac: `${import.meta.env.BASE_URL}assets/audio/the-sovereigns-oath.m4a`,
 };
 export type MenuMusicState = 'locked' | 'muted' | 'loading' | 'playing' | 'paused' | 'blocked' | 'unavailable';
+export interface MenuMusicPlayback {
+  /** Native stream position in seconds, including its reset at a loop boundary. */
+  readonly time: number;
+  /** Zero until finite stream metadata is available. */
+  readonly duration: number;
+  /** The menu score is actively playing through an audible, running mix. */
+  readonly playing: boolean;
+  /** Current track-envelope × Music × Master × media volume; zero when inactive. */
+  readonly gain: number;
+}
 
 /**
  * A six-second brown-noise loop with a raised-cosine overlap at its join.
@@ -109,6 +119,7 @@ export class AudioEngine {
   private musicState: MenuMusicState = 'locked';
   private musicGeneration = 0;
   private musicPending = false;
+  private musicBuffering = false;
   private musicPauseTimer: ReturnType<typeof setTimeout> | null = null;
   private musicSeek = 0;
   private musicListeners: [string, EventListener][] = [];
@@ -170,6 +181,30 @@ export class AudioEngine {
 
   get menuMusicState() { return this.musicState; }
 
+  /** Read-only media snapshot for score-led visuals; never advances a second clock. */
+  get menuMusicPlayback(): MenuMusicPlayback {
+    const media = this.music;
+    const time = media && Number.isFinite(media.currentTime) ? Math.max(0, media.currentTime) : 0;
+    const duration = media && Number.isFinite(media.duration) && media.duration > 0 ? media.duration : 0;
+    const mixGain = media && this.musicEnvelope && this.ctx
+      ? unit(this.musicEnvelope.gain.value) * unit(this.buses.music.gain.value)
+        * unit(this.master.gain.value) * unit(media.volume) : 0;
+    const playing = !!media && this.wantsMusic && this.ready && !this.musicPending && !this.musicBuffering
+      && !media.paused && !media.ended && !media.seeking && !media.muted && !media.error
+      && media.readyState >= 3 && this.musicState === 'playing' && mixGain > 0;
+    return { time, duration, playing, gain: playing ? mixGain : 0 };
+  }
+
+  /** F3 review transport only: seek the real menu stream, never fabricate a visual clock or allocate another player. */
+  seekMenuMusic(seconds: number): boolean {
+    const media = this.music;
+    if (!this.menuActive || this.disposed || !media || !Number.isFinite(seconds) || !Number.isFinite(media.duration) || media.duration <= 0) return false;
+    try {
+      media.currentTime = Math.max(0, Math.min(media.duration - 0.05, seconds));
+      return true;
+    } catch { return false; }
+  }
+
   private setMusicState(state: MenuMusicState) {
     if (state === this.musicState) return;
     this.musicState = state;
@@ -192,6 +227,7 @@ export class AudioEngine {
     // Native streaming keeps the whole song out of an AudioBuffer in memory.
     const media = new window.Audio();
     this.music = media;
+    this.musicBuffering = false;
     media.preload = 'none';
     media.loop = true;
     media.volume = 1;
@@ -218,7 +254,11 @@ export class AudioEngine {
       media.addEventListener(type, listener);
       this.musicListeners.push([type, listener]);
     };
-    listen('playing', () => { if (this.wantsMusic) this.setMusicState('playing'); });
+    listen('playing', () => {
+      this.musicBuffering = false;
+      if (this.wantsMusic) this.setMusicState('playing');
+    });
+    listen('waiting', () => { this.musicBuffering = true; });
     listen('loadedmetadata', () => {
       if (this.musicSeek > 0) {
         try { media.currentTime = this.musicSeek; } catch { /* unseekable media still plays */ }
@@ -232,6 +272,7 @@ export class AudioEngine {
     if (!this.music || this.disposed) return;
     this.musicGeneration++;
     this.musicPending = false;
+    this.musicBuffering = false;
     if (!this.musicFallbackUsed) {
       this.musicFallbackUsed = true;
       this.musicSeek = Number.isFinite(this.music.currentTime) ? this.music.currentTime : 0;
@@ -438,6 +479,7 @@ export class AudioEngine {
     this.clearMusicPause();
     this.musicGeneration++;
     this.musicPending = false;
+    this.musicBuffering = false;
     if (this.music) {
       for (const [type, listener] of this.musicListeners) this.music.removeEventListener(type, listener);
       this.music.pause();

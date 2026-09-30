@@ -130,6 +130,9 @@ class Media {
   volume = 1;
   paused = true;
   readyState = 4;
+  ended = false;
+  seeking = false;
+  muted = false;
   currentTime = 0;
   duration = 214.2;
   error: { code: number } | null = null;
@@ -587,5 +590,138 @@ describe('streamed owner-supplied menu score', () => {
     expect(ctx.sources).toHaveLength(4);
     audio.dispose();
     expect(ctx.gains[9]!.disconnect).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('read-only native menu score playback snapshot', () => {
+  it('remains inert before gesture/media creation and follows native time through a loop without a second clock', async () => {
+    const { audio, ctx, media, makeMedia } = musicFixture();
+    audio.setMenuActive(true);
+    for (let i = 0; i < 10; i++) expect(audio.menuMusicPlayback).toEqual({ time: 0, duration: 0, playing: false, gain: 0 });
+    expect(makeMedia).not.toHaveBeenCalled();
+    audio.resume();
+    await flushMusic();
+    const nodes = ctx.nodes.length;
+    media.currentTime = 107.123456;
+    ctx.currentTime = 10000;
+    expect(audio.menuMusicPlayback).toEqual({ time: 107.123456, duration: 214.2, playing: true, gain: 0.8 * 0.55 * 0.8 });
+    for (let i = 0; i < 100; i++) audio.update(1 / 60, environment({ time: i * 100 }));
+    expect(audio.menuMusicPlayback.time).toBe(107.123456);
+    media.currentTime = 0.017;
+    expect(audio.menuMusicPlayback.time).toBe(0.017);
+    expect(audio.menuMusicPlayback.playing).toBe(true);
+    expect(ctx.nodes).toHaveLength(nodes);
+    expect(media.play).toHaveBeenCalledTimes(1);
+    audio.dispose();
+    expect(audio.menuMusicPlayback).toEqual({ time: 0, duration: 0, playing: false, gain: 0 });
+  });
+
+  it('reports only audible menu playback through Master/Music, media controls and the running context', async () => {
+    const { audio, ctx, media, settings } = musicFixture();
+    audio.setMenuActive(true); audio.resume();
+    await flushMusic();
+    media.currentTime = 32.5;
+    settings.volumes.master = 0.5;
+    settings.volumes.music = 0.25;
+    media.volume = 0.5;
+    audio.applySettings();
+    expect(audio.menuMusicPlayback.gain).toBeCloseTo(0.8 * 0.25 * 0.5 * 0.5);
+    media.muted = true;
+    expect(audio.menuMusicPlayback).toMatchObject({ time: 32.5, playing: false, gain: 0 });
+    media.muted = false;
+    media.volume = 0;
+    expect(audio.menuMusicPlayback.playing).toBe(false);
+    media.volume = 1;
+    ctx.state = 'suspended';
+    expect(audio.menuMusicPlayback.playing).toBe(false);
+    ctx.state = 'running';
+    settings.volumes.music = 0;
+    audio.applySettings();
+    expect(audio.menuMusicPlayback).toMatchObject({ time: 32.5, playing: false, gain: 0 });
+    settings.volumes.music = 0.25;
+    audio.applySettings();
+    await flushMusic();
+    expect(audio.menuMusicPlayback.playing).toBe(true);
+    audio.setPageHidden(true);
+    expect(audio.menuMusicPlayback).toMatchObject({ time: 32.5, playing: false, gain: 0 });
+    audio.setPageHidden(false);
+    await flushMusic();
+    expect(audio.menuMusicPlayback.playing).toBe(true);
+    audio.setMenuActive(false);
+    expect(audio.menuMusicPlayback).toMatchObject({ time: 32.5, playing: false, gain: 0 });
+    audio.setMenuActive(true);
+    expect(audio.menuMusicPlayback.playing).toBe(true);
+    audio.dispose();
+  });
+
+  it('freezes visual playback while pending, buffering, paused, seeking, ended or errored without modifying stream position', async () => {
+    const { audio, media } = musicFixture();
+    let resolvePlay = () => {};
+    media.play.mockImplementationOnce(() => new Promise<void>((resolve) => { resolvePlay = resolve; media.paused = false; }));
+    audio.setMenuActive(true); audio.resume();
+    media.currentTime = 8.25;
+    expect(audio.menuMusicPlayback).toMatchObject({ time: 8.25, playing: false, gain: 0 });
+    resolvePlay();
+    await flushMusic();
+    expect(audio.menuMusicPlayback.playing).toBe(true);
+    media.emit('waiting');
+    expect(audio.menuMusicPlayback).toMatchObject({ time: 8.25, playing: false, gain: 0 });
+    media.emit('playing');
+    expect(audio.menuMusicPlayback.playing).toBe(true);
+    media.readyState = 2;
+    expect(audio.menuMusicPlayback.playing).toBe(false);
+    media.readyState = 4;
+    for (const flag of ['paused', 'seeking', 'ended'] as const) {
+      media[flag] = true;
+      expect(audio.menuMusicPlayback).toMatchObject({ time: 8.25, playing: false, gain: 0 });
+      media[flag] = false;
+      expect(audio.menuMusicPlayback.playing).toBe(true);
+    }
+    media.error = { code: 3 };
+    expect(audio.menuMusicPlayback.playing).toBe(false);
+    media.error = null;
+    expect(media.currentTime).toBe(8.25);
+    expect(media.play).toHaveBeenCalledTimes(1);
+    audio.dispose();
+  });
+
+  it('seeks the real menu stream for timing review without restarting or creating another source', async () => {
+    const { audio, media, ctx } = musicFixture();
+    expect(audio.seekMenuMusic(30)).toBe(false);
+    audio.setMenuActive(true); audio.resume();
+    await flushMusic();
+    const nodeCount = ctx.nodes.length;
+    expect(audio.seekMenuMusic(28)).toBe(true);
+    expect(audio.menuMusicPlayback.time).toBe(28);
+    expect(audio.seekMenuMusic(40)).toBe(true);
+    expect(audio.menuMusicPlayback.time).toBe(40);
+    expect(audio.seekMenuMusic(-1)).toBe(true);
+    expect(media.currentTime).toBe(0);
+    expect(audio.seekMenuMusic(1000)).toBe(true);
+    expect(media.currentTime).toBeCloseTo(media.duration - 0.05);
+    expect(audio.seekMenuMusic(NaN)).toBe(false);
+    expect(media.play).toHaveBeenCalledTimes(1);
+    expect(ctx.nodes).toHaveLength(nodeCount);
+    audio.setMenuActive(false);
+    expect(audio.seekMenuMusic(30)).toBe(false);
+    audio.dispose();
+    expect(audio.seekMenuMusic(30)).toBe(false);
+  });
+
+  it('keeps unknown/nonfinite metadata finite without replacing the native position with duration or animation time', async () => {
+    const { audio, media } = musicFixture();
+    audio.setMenuActive(true); audio.resume();
+    await flushMusic();
+    media.currentTime = 21.125;
+    media.duration = NaN;
+    expect(audio.menuMusicPlayback).toMatchObject({ time: 21.125, duration: 0 });
+    media.duration = Infinity;
+    expect(audio.menuMusicPlayback.duration).toBe(0);
+    media.currentTime = NaN;
+    expect(audio.menuMusicPlayback.time).toBe(0);
+    media.currentTime = 21.125;
+    media.duration = 214.2;
+    expect(audio.menuMusicPlayback).toMatchObject({ time: 21.125, duration: 214.2 });
+    audio.dispose();
   });
 });
