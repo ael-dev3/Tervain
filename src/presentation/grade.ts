@@ -196,6 +196,12 @@ export class Grade {
     if (o.chromatic !== undefined) u.uChromatic!.value = Math.max(0, Math.min(0.01, o.chromatic));
   }
 
+  /** The current look, so a caller can switch to another (the menu's) and restore this one exactly afterwards. */
+  getLook(): { saturation: number; contrast: number; vignette: number; grain: number; chromatic: number } {
+    const u = this.material.uniforms;
+    return { saturation: u.uSaturation!.value, contrast: u.uContrast!.value, vignette: u.uVignette!.value, grain: u.uGrain!.value, chromatic: u.uChromatic!.value };
+  }
+
   /** Individual visual controls for repeatable look-development captures. */
   setBloom(on: boolean) {
     this.bloom = on;

@@ -74,7 +74,7 @@ High fantasy appears in sacred landscapes, strange creatures, a believable relat
 
 The order's original faith must have ordinary adherents and worthwhile practices, as well as institutional failures. Nature can be dangerous; preservation can demand a human cost. Neither faith nor technological development should function as a universal moral label.
 
-The owner selected an original native 3D desert-market menu with sand, palms, spices, silk, and gentle cloth wind (A22), with the exact approved Hegemony emblem integrated into fabric. This is menu presentation, not a replacement for the playable Grey Strand coast or authorization to build a desert gameplay region. The decorative invented seal and static lone-banner treatment are superseded. Typography and scene geometry remain original; score and protagonist presentation still need separate selection for this game's tone.
+The menu is a native 3D scene that should feel as if it belongs in Gothic 3, in the Hyperion-inspired shared world with heavy Templar influence (A26): a Templar warden's dusk vigil on a headland, rough and human, with one weathered Hegemony standard bearing the approved emblem (A24). The earlier desert market (A22) is superseded for the menu; neither scene is authorization to build a new gameplay region. Typography and scene geometry remain original; score and protagonist presentation still need separate selection for this game's tone.
 
 ## Product relationship to Warpkeep
 

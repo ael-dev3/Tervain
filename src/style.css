@@ -825,7 +825,16 @@ select {
   font-size: 0.82rem;
 }
 
-/* ---------- Hanging-cloth title and pause menus ---------- */
+/* ---------- Title and pause menus: the vigil ---------- */
+:root {
+  --menu-serif: 'Palatino Linotype', 'Book Antiqua', Palatino, 'URW Palladio L', P052, 'TeX Gyre Pagella', Georgia, serif;
+  --menu-ink: #d6c49c;
+  --menu-ink-hot: #f0dbaa;
+  --menu-ink-dim: #a8916a;
+  --menu-bronze: #9c7440;
+  --menu-verdigris: #3d5f57;
+}
+
 .title {
   position: absolute;
   inset: 0;
@@ -854,129 +863,220 @@ select {
   width: 100%;
   height: 100%;
   isolation: isolate;
-  display: grid;
-  justify-items: center;
-  color: #f0e3c9;
+  color: var(--menu-ink);
+  font-family: var(--menu-serif);
 }
 
-.menu-banner {
-  position: relative;
-  width: min(350px, 42vh, 70vw);
-  height: 100%;
-  min-height: 0;
-}
-
-.menu-banner-content {
+/* Dust, lint and old scratches over the whole picture, and the dark burnt edge of an old canvas. */
+.menu-grime {
   position: absolute;
-  inset: 8% 0 10%;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 120% 90% at 50% 46%, transparent 52%, rgba(6, 4, 2, 0.34) 78%, rgba(4, 3, 2, 0.72) 100%),
+    var(--tv-grime-dark, none) 0 0 / 512px 512px repeat;
+  mix-blend-mode: multiply;
+  opacity: 0.85;
+}
+
+.menu-grime::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--tv-grime-light, none) 137px 61px / 512px 512px repeat;
+  mix-blend-mode: screen;
+  opacity: 0.55;
+}
+
+.menu-column {
+  position: relative;
+  z-index: 1;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
+  padding: clamp(14px, 4.5vh, 48px) 16px clamp(10px, 2.5vh, 26px);
   min-height: 0;
+  /* Large text never clips a choice: the whole column scrolls instead. */
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #7c5f36 transparent;
 }
 
 .menu-heading {
-  position: relative;
   flex: 0 0 auto;
-  padding-top: 0;
-  padding-bottom: clamp(12px, 2vh, 24px);
+  /* The cast name gives way as the text grows, so the choices keep their room. */
+  width: min(66vw, calc(860px / var(--ui-scale)));
   text-align: center;
 }
 
-.menu-heading h1 {
-  position: relative;
-  height: clamp(90px, 20vh, 180px);
-  margin: 0;
+.menu-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.9em;
+  margin: 0 auto;
+  width: min(100%, 560px);
+  color: #bfa577;
+  font: 400 0.9rem/1.3 var(--menu-serif);
+  font-variant: small-caps;
+  letter-spacing: 0.3em;
+  text-transform: lowercase;
+  text-shadow: 0 1px 1px #000, 0 0 6px rgba(0, 0, 0, 0.8);
+}
+
+.menu-kicker::before,
+.menu-kicker::after {
+  content: '';
+  flex: 1 1 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(176, 138, 80, 0.85) 35%, rgba(120, 90, 52, 0.75));
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.9);
+}
+
+.menu-kicker::after {
+  transform: scaleX(-1);
+}
+
+.menu-kicker span {
+  white-space: nowrap;
+}
+
+.menu-mark {
+  margin: clamp(2px, 1vh, 10px) 0 0;
+  line-height: 0;
 }
 
 .menu-wordmark-art {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: min(82vw, 900px);
+  width: 100%;
   height: auto;
-  aspect-ratio: 1000 / 210;
-  transform: translate(-50%, -50%);
-  overflow: visible;
+  display: block;
 }
 
-.menu-subtitle {
-  margin: 0;
-  color: #e8c286;
-  font: small-caps 1rem / 1.35 Georgia, 'Times New Roman', serif;
-  letter-spacing: 0.12em;
-  text-shadow: 0 2px 3px #170806, 0 0 1px #160906;
+.menu-mark-fallback {
+  display: block;
+  font: 600 3.4rem/1.1 var(--menu-serif);
+  letter-spacing: 0.16em;
+  color: #b88a4c;
+  text-shadow: 0 3px 2px #000;
+}
+
+/* The choices sit in a sunken panel of dark oiled leather in a notched bronze frame. */
+.menu-well {
+  position: relative;
+  flex: 0 0 auto;
+  min-height: 0;
+  display: flex;
+  margin-top: clamp(10px, 4.5vh, 46px);
+  width: min(94vw, calc(clamp(280px, 26vw, 370px) * var(--ui-scale)));
+  padding: 12px 10px;
+  border: 22px solid #2a1f15;
+  border-image: var(--tv-bronze-frame) 38 / 22px stretch;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0) 16%, rgba(0, 0, 0, 0.04) 82%, rgba(0, 0, 0, 0.4)),
+    var(--tv-leather, #1a130e) 0 0 / 256px 256px repeat;
+  background-clip: padding-box;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.7);
+}
+
+.menu-well::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--tv-grime-dark, none) 40px 90px / 384px 384px repeat;
+  opacity: 0.6;
+  mix-blend-mode: multiply;
 }
 
 .menu-choices {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   justify-content: safe center;
   flex: 1 1 auto;
   min-height: 0;
+  width: 100%;
   gap: 0;
   overflow: auto;
   overscroll-behavior: contain;
-  padding: 5px 7px;
   scrollbar-width: thin;
-  scrollbar-color: #a08b60 #251529;
+  scrollbar-color: #7c5f36 #140e09;
 }
 
 .menu-choices .btn {
   position: relative;
   flex: 0 0 auto;
-  min-height: 44px;
+  min-height: 42px;
   margin: 0;
-  padding: 7px 10px;
-  border: 1px solid transparent;
+  padding: 7px 26px;
+  border: 0;
   border-radius: 0;
   background: transparent;
-  color: #f4dfb6;
-  font: bold 1.34rem / 1.15 Georgia, 'Times New Roman', serif;
+  color: var(--menu-ink);
+  font: 600 1.3rem/1.2 var(--menu-serif);
+  letter-spacing: 0.035em;
   text-align: center;
-  text-shadow: 0 3px 2px #130704, 1px 0 2px #1a0905, -1px 0 1px #1a0905;
+  text-shadow: 0 1px 0 #000, 0 0 7px rgba(0, 0, 0, 0.85);
+  filter: url(#tv-rough-ink);
 }
 
 .menu-choices .btn.primary {
   background: transparent;
-  border-color: transparent;
-  color: #f7ecd4;
+  color: var(--menu-ink);
 }
 
+/* Selection: the leather under the word is rubbed lighter, like a place touched a thousand times, and two small iron
+   marks stand at its ends. No glow. */
 .menu-choices .btn:hover,
 .menu-choices .btn:focus-visible {
-  color: #ffe9ac;
-  background: linear-gradient(90deg, transparent, rgba(198, 160, 83, 0.12), transparent);
+  color: var(--menu-ink-hot);
+  background:
+    linear-gradient(90deg, transparent 2%, rgba(118, 84, 44, 0.28) 20%, rgba(130, 94, 50, 0.34) 50%, rgba(118, 84, 44, 0.28) 80%, transparent 98%),
+    var(--tv-grime-dark, none) 0 0 / 256px 256px repeat;
   outline: none;
 }
 
 .menu-choices .btn:focus-visible {
-  outline: 2px solid #e8cb84;
-  outline-offset: -2px;
+  outline: 1px solid rgba(206, 170, 106, 0.75);
+  outline-offset: -3px;
 }
 
+.menu-choices .btn:hover::before,
+.menu-choices .btn:hover::after,
 .menu-choices .btn:focus-visible::before,
 .menu-choices .btn:focus-visible::after {
   content: '';
   position: absolute;
   top: 50%;
-  width: 4px;
-  height: 4px;
-  transform: translateY(-50%) rotate(45deg);
-  background: #ffe7a3;
+  width: 7px;
+  height: 7px;
+  margin-top: -3.5px;
+  transform: rotate(45deg);
+  background: linear-gradient(135deg, #c79a5a, #5a3f22 70%);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.8);
 }
 
-.menu-choices .btn:focus-visible::before { left: 2px; }
-.menu-choices .btn:focus-visible::after { right: 2px; }
+.menu-choices .btn:hover::before,
+.menu-choices .btn:focus-visible::before {
+  left: 9px;
+}
+
+.menu-choices .btn:hover::after,
+.menu-choices .btn:focus-visible::after {
+  right: 9px;
+}
 
 .menu-build {
   flex: 0 0 auto;
-  margin-top: clamp(8px, 2vh, 22px);
-  text-align: center;
-  color: #d4bf96;
-  font: 0.72rem / 1.35 Georgia, 'Times New Roman', serif;
-  letter-spacing: 0.08em;
-  text-shadow: 0 2px 2px #160704;
+  margin-top: auto;
+  padding-top: 10px;
+  color: rgba(196, 172, 128, 0.62);
+  font: 400 0.72rem/1.3 var(--menu-serif);
+  letter-spacing: 0.16em;
+  font-variant: small-caps;
+  text-shadow: 0 1px 1px #000;
 }
 
 .panel.panel-menu {
@@ -987,64 +1087,192 @@ select {
   max-height: none;
   padding: 0;
   overflow: hidden;
-  color: #f0e3c9;
+  color: var(--menu-ink);
+  background: none;
+  border: 0;
+  border-image: none;
 }
 
-.panel-root:has(.panel-menu) { background: transparent; }
+.panel-root:has(.panel-menu) {
+  background: transparent;
+}
 
 #ui:has(.panel-root.on .panel-menu) #hud {
   visibility: hidden;
 }
 
-#hud.menu-hidden { visibility: hidden; }
-
-.menu-pause .menu-heading {
-  padding-top: 0;
-  padding-bottom: clamp(8px, 2vh, 20px);
+#hud.menu-hidden {
+  visibility: hidden;
 }
 
-.menu-pause .menu-heading h1 { height: clamp(70px, 18vh, 160px); }
-.menu-pause .menu-wordmark-art { width: min(74vw, 760px); }
+.menu-pause .menu-heading {
+  width: min(50vw, calc(640px / var(--ui-scale)));
+}
 
 .surface-paper :is(button, input, select):focus-visible {
   outline-color: #44311e;
 }
 
-body.high-contrast .menu-choices .btn { color: #fff; }
-body.high-contrast .menu-choices .btn:focus-visible { outline-color: #fff; }
-body.high-contrast .menu-subtitle,
-body.high-contrast .menu-build { color: #fff; }
-body.reduce-effects .menu-screen [filter] { filter: none; }
+body.high-contrast .menu-grime,
+body.reduce-effects .menu-grime,
+body.high-contrast .menu-well::after {
+  display: none;
+}
+
+body.high-contrast .menu-well {
+  border: 2px solid #fff;
+  border-image: none;
+  background: #000;
+}
+
+body.high-contrast .menu-choices .btn,
+body.high-contrast .menu-kicker,
+body.high-contrast .menu-build {
+  color: #fff;
+  filter: none;
+}
+
+body.high-contrast .menu-choices .btn:focus-visible {
+  outline: 2px solid #fff;
+}
+
+body.reduce-effects .menu-choices .btn {
+  filter: none;
+}
 
 @media (max-width: 760px) {
-  .menu-banner { width: min(350px, 70vw); }
-  .menu-banner-content { inset-inline: 4%; }
-  .menu-heading { padding-top: 0; }
-  .menu-heading h1 { height: clamp(64px, 12vh, 96px); }
-  .menu-wordmark-art { width: 86vw; }
-  .menu-subtitle { font-size: 0.85rem; letter-spacing: 0.05em; }
-  .menu-choices .btn { font-size: 1.18rem; }
+  .menu-heading,
+  .menu-pause .menu-heading {
+    width: min(92vw, 560px);
+  }
+  .menu-kicker {
+    letter-spacing: 0.2em;
+    font-size: 0.72rem;
+  }
+  .menu-well {
+    width: min(92vw, 360px);
+  }
+  .menu-choices .btn {
+    font-size: 1.16rem;
+  }
 }
 
 @media (max-height: 580px) {
-  .menu-banner-content { inset-block: 7% 9%; }
-  .menu-heading { padding-top: 0; padding-bottom: 5px; }
-  .menu-heading h1,
-  .menu-pause .menu-heading h1 { height: 70px; }
-  .menu-wordmark-art,
-  .menu-pause .menu-wordmark-art { width: min(80vw, 600px); }
-  .menu-build { margin-top: 5px; }
+  .menu-column {
+    padding-top: 8px;
+  }
+  .menu-heading,
+  .menu-pause .menu-heading {
+    width: min(52vw, 520px);
+  }
+  .menu-well {
+    margin-top: 6px;
+    padding-block: 4px;
+  }
+  .menu-choices .btn {
+    min-height: 34px;
+    padding-block: 3px;
+    font-size: 1.08rem;
+  }
 }
 
 @media (max-height: 420px) {
   /* Very short windows scroll the complete content rather than squeezing actions to zero height. */
-  .menu-banner-content { overflow-y: auto; scrollbar-width: thin; scrollbar-color: #a08b60 #251529; }
-  .menu-heading h1,
-  .menu-pause .menu-heading h1 { height: 48px; }
-  .menu-wordmark-art,
-  .menu-pause .menu-wordmark-art { width: 100%; }
-  .menu-choices { flex: 0 0 auto; overflow: visible; padding-inline: 0; }
-  .menu-choices .btn { padding-inline: 4px; font-size: 1rem; overflow-wrap: anywhere; }
+  .menu-column {
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+  .menu-well {
+    flex: 0 0 auto;
+  }
+  .menu-choices {
+    flex: 0 0 auto;
+    overflow: visible;
+  }
+  .menu-choices .btn {
+    font-size: 1rem;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* ---------- Parchment forms, and the oxblood leather of a confirmation ---------- */
+.tv-materials .panel.surface-paper {
+  position: relative;
+  background: transparent;
+  border: 26px solid transparent;
+  border-image: var(--tv-parchment) 56 fill / 26px round;
+  color: #2a2016;
+  filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.55));
+}
+
+/* Broad stains and a sun-browned corner across the whole sheet (the tiled texture only carries fibre). */
+.tv-materials .panel.surface-paper::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 75%, rgba(110, 70, 28, 0.16), transparent 70%),
+    radial-gradient(ellipse 40% 30% at 18% 82%, rgba(90, 60, 30, 0.12), transparent 70%),
+    radial-gradient(ellipse 50% 40% at 62% 12%, rgba(120, 84, 40, 0.1), transparent 70%);
+  mix-blend-mode: multiply;
+}
+
+.tv-materials .panel.surface-paper:has(> .tv-confirm)::before {
+  display: none;
+}
+
+.tv-materials .panel.surface-paper h1,
+.tv-materials .panel.surface-paper h2 {
+  font-family: var(--menu-serif);
+  color: #5a2a1c;
+  letter-spacing: 0.02em;
+}
+
+.tv-materials .panel.surface-paper h1::first-letter {
+  color: #7a2418;
+}
+
+.tv-materials .panel.surface-paper .btn {
+  font-family: var(--menu-serif);
+  background: rgba(60, 42, 24, 0.07);
+  border: 1px solid rgba(80, 58, 34, 0.6);
+  box-shadow: inset 0 0 0 1px rgba(255, 240, 210, 0.12);
+}
+
+.tv-materials .panel.surface-paper .btn.primary {
+  background: rgba(96, 40, 26, 0.16);
+  border-color: rgba(96, 40, 26, 0.75);
+}
+
+.tv-materials .panel.surface-paper:has(> .tv-confirm) {
+  border: 22px solid #2a0d0a;
+  border-image: var(--tv-bronze-frame) 38 / 18px stretch;
+  background: var(--tv-oxblood) 0 0 / 256px 256px repeat;
+  background-clip: padding-box;
+  color: var(--menu-ink);
+}
+
+.tv-materials .panel.surface-paper:has(> .tv-confirm) h1 {
+  color: var(--menu-ink-hot);
+}
+
+.tv-materials .panel.surface-paper:has(> .tv-confirm) .btn {
+  color: var(--menu-ink);
+  border-color: rgba(206, 170, 106, 0.5);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+body.high-contrast.tv-materials .panel.surface-paper,
+body.reduce-effects.tv-materials .panel.surface-paper {
+  border: 2px solid #655844;
+  border-image: none;
+  background: var(--surface-paper);
+  filter: none;
+}
+
+body.high-contrast.tv-materials .panel.surface-paper {
+  border-color: #fff;
 }
 
 .loading {
@@ -1052,12 +1280,23 @@ body.reduce-effects .menu-screen [filter] { filter: none; }
   inset: 0;
   display: grid;
   place-items: center;
-  background: #0d1015;
-  color: var(--gold);
-  font-family: Georgia, serif;
-  font-size: 1.2rem;
-  letter-spacing: 0.08em;
+  background: radial-gradient(ellipse 70% 60% at 50% 46%, #1c1610 0%, #0b0907 72%), #0b0907;
+  color: #bfa577;
+  font: 400 1.05rem/1.3 var(--menu-serif);
+  font-variant: small-caps;
+  letter-spacing: 0.3em;
+  text-transform: lowercase;
+  text-shadow: 0 1px 1px #000;
   pointer-events: auto;
+}
+
+.loading::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--tv-grime-dark, none) 0 0 / 512px 512px repeat;
+  opacity: 0.7;
 }
 
 .loading.off {
