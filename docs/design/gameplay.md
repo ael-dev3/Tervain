@@ -2,6 +2,8 @@
 
 **Status:** proposed design baseline, not an implementation claim. The confirmed direction is a serious single-player Steam fantasy RPG, an original world centered on a Templar-inspired order within the Hegemony (A21), meaningful relationships among regional factions, and technology/assets shared where useful with Warpkeep. Camera, combat, progression, and detailed systems below remain proposals; accepted menu presentation direction is recorded separately under A22. See [decisions](../decisions.md).
 
+**Current `0.0.5` boundary (A26):** a sparse amnesiac landing, dense forest journey, and first settlement inland. Conversation windows are removed; NPC Observe produces nonblocking text without marking a meeting, changing trust, or choosing a quest reply. Environmental inspection and readable records use notices with persistent journal evidence. Movement, combat, world interactions, menus, and saves remain, while the earlier quest/dialogue graph is retained for future interface work. Conversation-dependent services and full water negotiations described below are future design, not current acceptance claims. See the [prototype](../engineering/prototype.md#forest-arrival-pass-30-september-2026).
+
 ## The experience we are designing
 
 The player arrives somewhere that was functioning before their arrival. People have trades, allegiances, fears, and practical problems. Exploration reveals why they disagree; preparation gives the player leverage; taking a position changes relationships and material conditions. The world should reward attention to a ford, a locked storeroom, or a nervous worker as much as attention to a quest marker.
@@ -23,6 +25,8 @@ The [setting](../world/setting.md) and [factions](../world/factions.md) explain 
 Proposed movement starts with walking, running, a stamina-limited sprint, a modest jump, and explicit low obstacle traversal. Unrestricted climbing, swimming combat, mounts, and parkour are expansion decisions. Terrain readability takes priority over movement complexity: a traversable slope must look different from a cliff, and a fence must behave consistently.
 
 Bellwether Vale provides one legible network: Rillford, its ford, a quarry route, a spring shrine, and the damaged sluice. A safer road takes longer; a narrow maintenance path bypasses a confrontation; a conspicuous locked route grants access only through permission, a key, or trespass. Each shortcut should have a world reason to exist. Avoid placing invisible walls across plausible openings.
+
+The current arrival route precedes that network: sparse strand → dense woodland → relocated waystation → Rillford. Habitat blending, grounded floor detail, trail markers, and connected canopy masses should give that transition depth while keeping movement clearance. Dense decoration is not a reason to block the authored trail or detach a visual tree from its collision proxy. Gameplay tree and leaf motion remains paused.
 
 Navigation combines landmarks, spoken directions, a hand-drawn-style regional map, and optional objective indicators. The journal records directions accurately; players need not memorize dialogue. An exploration setting can suppress destination markers without hiding essential accessibility information. Distinguish an NPC's claimed location from a verified one. Mark approximate search areas as approximate.
 

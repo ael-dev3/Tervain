@@ -3,7 +3,6 @@ import { NPCS } from './content/npcs';
 import { S } from './content/strings';
 import { CLOCK_RATE } from './game/constants';
 import { Game } from './game/game';
-import { getNode } from './game/dialogue';
 import { nextHint } from './game/hints';
 import { INSPECT_POINTS } from './content/inspect';
 import { ITEMS } from './content/items';
@@ -23,9 +22,8 @@ import { Grade } from './presentation/grade';
 import { buildInteractables, type Interactable } from './presentation/interactions';
 import { Player } from './presentation/player';
 import { Hud } from './presentation/ui/hud';
-import { DialogueView, type DlgChoice } from './presentation/ui/dialogueView';
 import { MapView } from './presentation/ui/map';
-import { PanelHost, aboutPanel, controlsPanel, describeMissing, inventoryPanel, journalPanel, noticePanel, pauseMenu, settingsPanel, sluicePanel, slotsPanel, type PanelActions, type PanelCtx } from './presentation/ui/panels';
+import { PanelHost, aboutPanel, controlsPanel, inventoryPanel, journalPanel, noticePanel, pauseMenu, settingsPanel, sluicePanel, slotsPanel, type PanelActions, type PanelCtx } from './presentation/ui/panels';
 import { h, clear } from './presentation/ui/dom';
 import { createMenuScreen } from './presentation/ui/menuView';
 import { AssetLibrary } from './presentation/assets/library';
@@ -57,7 +55,6 @@ export class App {
   npcs: NpcActor[] = [];
   enemies: EnemyActor[] = [];
   hud = new Hud();
-  dialogue = new DialogueView();
   panels = new PanelHost();
   mapView = new MapView();
   interactables: Interactable[] = [];
@@ -70,16 +67,12 @@ export class App {
   private debugPre!: HTMLElement;
   private mapCanvas: HTMLCanvasElement | null = null;
   private panelKind: 'none' | 'pause' | 'journal' | 'inventory' | 'map' | 'notice' | 'sluice' | 'other' = 'none';
-  private dlgNpc: NpcActor | null = null;
-  private dlgNode = '';
-  private dlgNarrator = false;
   private frameClock = new FrameClock();
   private worldBuilding = false;
   private clockAcc = 0;
   private worldDirty = true;
   private bellClock = 4;
   private checkpoint = { x: SPAWN.x, z: SPAWN.z, yaw: SPAWN.yaw };
-  private pendingOpening = 0;
   private hitStop = 0;
   private frameTimes: number[] = [];
   private fpsSmooth = 60;
@@ -142,8 +135,6 @@ export class App {
 
     this.audio.onCaption = (t) => this.settings.captions && this.hud.caption(t);
     this.game.subscribe((ev) => this.onGameEvents(ev));
-    this.dialogue.onChoose = (i) => this.onDialogueChoose(i);
-    this.dialogue.onExit = () => this.endDialogue();
     this.input.onNavigate = (dx, dy) => this.onPadNavigate(dx, dy);
 
     document.addEventListener('pointerlockchange', () => this.onPointerLockChange());
@@ -189,8 +180,6 @@ export class App {
     if (!q.has('shot')) return;
     const num = (k: string, d: number) => (q.has(k) ? Number(q.get(k)) : d);
     this.startNew();
-    this.pendingOpening = -1;
-    this.game.state.npcs.caravan_master.met = true;
     const place = q.get('place') as PlaceId | null;
     if (q.has('x') && q.has('z')) this.player.setPosition(num('x', 0), num('z', 0), num('face', 0), this.world.terrain);
     else if (place && place in PLACES) this.teleport(place);
@@ -241,7 +230,7 @@ export class App {
     this.titleEl = h('div', { class: 'title' });
     this.debugPre = h('pre', { class: 'debug' });
     this.debugEl = h('div', { class: 'panel surface-paper', style: { position: 'absolute', right: '12px', top: '90px', width: 'min(420px, 92vw)', maxHeight: '80vh', overflow: 'auto', display: 'none', pointerEvents: 'auto', zIndex: '5' } });
-    this.uiRoot.append(this.hud.el, this.dialogue.el, this.titleEl, this.panels.el, this.debugEl, this.loadingEl);
+    this.uiRoot.append(this.hud.el, this.titleEl, this.panels.el, this.debugEl, this.loadingEl);
     this.panels.onEmpty = () => this.onPanelsClosed();
     this.panels.onChange = () => {
       // A pending rebind never outlives the screen it was started on.
@@ -337,8 +326,7 @@ export class App {
 
   /* =========================== mode transitions ========================== */
 
-  get overlay(): 'none' | 'dialogue' | 'panel' {
-    if (this.dialogue.open) return 'dialogue';
+  get overlay(): 'none' | 'panel' {
     if (this.panels.isOpen) return 'panel';
     return 'none';
   }
@@ -346,7 +334,6 @@ export class App {
   private enterTitle() {
     this.mode = 'title';
     this.hud.show(false);
-    this.dialogue.hide();
     this.panels.closeAll();
     this.input.uiOpen = true;
     this.releaseLock();
@@ -402,13 +389,18 @@ export class App {
   startNew() {
     this.game.replaceState(createInitialState('slot-1'));
     this.beginPlay(null);
-    this.pendingOpening = 1.4;
+    // A brief notice leaves movement, look and the world clock running. The journal keeps the premise.
+    this.hud.toast(S('arrival.wake'));
+    this.hud.caption(S('arrival.controls', {
+      move: this.input.label('forward', codeLabel),
+      interact: this.input.label('interact', codeLabel),
+      journal: this.input.label('journal', codeLabel),
+    }));
   }
 
   private beginPlay(fromLoad: { recovered: null | 'previous' | 'temporary' } | null) {
     this.titleEl.classList.remove('on');
     this.panels.closeAll();
-    this.dialogue.hide();
     this.mode = 'play';
     this.hud.show(true);
     this.syncMenuHudVisibility();
@@ -547,17 +539,9 @@ export class App {
     }
 
     // Camera look
-    if (playing || this.overlay === 'dialogue') {
+    if (playing) {
       const look = this.input.look(dt);
-      if (playing) this.cam.applyLook(look.yaw, look.pitch, this.input.zoom());
-    }
-
-    if (playing && this.pendingOpening > 0) {
-      this.pendingOpening -= dt;
-      if (this.pendingOpening <= 0) {
-        const joss = this.npcs.find((n) => n.id === 'caravan_master');
-        if (joss && !this.game.state.npcs.caravan_master.met) this.startDialogue(joss);
-      }
+      this.cam.applyLook(look.yaw, look.pitch, this.input.zoom());
     }
 
     // Simulation
@@ -643,20 +627,17 @@ export class App {
       return;
     }
     if (inp.pressed('pause')) {
-      if (this.overlay === 'dialogue') this.endDialogue();
-      else if (this.panels.isOpen) this.panels.back();
+      if (this.panels.isOpen) this.panels.back();
       else if (this.mode === 'play') this.openPause();
     }
     this.handleMenuPad();
     if (this.mode !== 'play') return;
-    if (this.overlay !== 'dialogue') {
-      // Tab, M and I only toggle their own panel; inside another panel Tab is ordinary focus movement.
-      const open = this.panels.isOpen;
-      const padBusy = inp.device === 'gamepad' && open;
-      if (inp.pressed('journal') && !padBusy && (!open || this.panelKind === 'journal')) this.togglePanel('journal');
-      if (inp.pressed('map') && (!open || this.panelKind === 'map')) this.togglePanel('map');
-      if (inp.pressed('inventory') && !padBusy && (!open || this.panelKind === 'inventory')) this.togglePanel('inventory');
-    }
+    // Tab, M and I only toggle their own panel; inside another panel Tab is ordinary focus movement.
+    const open = this.panels.isOpen;
+    const padBusy = inp.device === 'gamepad' && open;
+    if (inp.pressed('journal') && !padBusy && (!open || this.panelKind === 'journal')) this.togglePanel('journal');
+    if (inp.pressed('map') && (!open || this.panelKind === 'map')) this.togglePanel('map');
+    if (inp.pressed('inventory') && !padBusy && (!open || this.panelKind === 'inventory')) this.togglePanel('inventory');
     if (this.overlay === 'none') {
       if (inp.pressed('quicksave')) this.saveTo('quick');
       if (inp.pressed('quickload')) this.loadSlot('quick');
@@ -666,18 +647,9 @@ export class App {
   }
 
   private handleMenuPad() {
-    // Gamepad confirm/back inside dialogue and panels.
+    // Gamepad confirm/back inside panels.
     let handled = false;
-    if (this.overlay === 'dialogue') {
-      if (this.input.padButtonPressed(0)) {
-        this.dialogue.confirmFocused();
-        handled = true;
-      }
-      if (this.input.padButtonPressed(1)) {
-        this.endDialogue();
-        handled = true;
-      }
-    } else if (this.panels.isOpen || this.mode === 'title') {
+    if (this.panels.isOpen || this.mode === 'title') {
       if (this.input.padButtonPressed(0)) {
         if (this.panels.isOpen) this.panels.activateFocused();
         else if (this.titleEl.contains(document.activeElement)) (document.activeElement as HTMLElement).click();
@@ -688,13 +660,12 @@ export class App {
         handled = true;
       }
     }
-    // Menu presses belong to the menu; they must not also become an attack, a dodge or a new conversation.
+    // Menu presses belong to the menu; they must not also become an attack, a dodge or a world interaction.
     if (handled) this.input.consumePad();
   }
 
   /** Arrow keys move focus between menu items (Tab and Space are left to the browser for focus and activation). */
   private onUiKey(e: KeyboardEvent) {
-    if (this.dialogue.open) return;
     if (!(this.mode === 'title' || this.panels.isOpen)) return;
     if (this.input.captureNext) return;
     // Preserve the bound Tab toggle for a directly opened record panel. Nested menus use Tab for focus.
@@ -742,8 +713,7 @@ export class App {
         return;
       }
     }
-    if (this.overlay === 'dialogue') this.dialogue.navigate(dy !== 0 ? dy : dx);
-    else if (this.panels.isOpen) this.panels.navigate(dx, dy);
+    if (this.panels.isOpen) this.panels.navigate(dx, dy);
     else if (this.mode === 'title') {
       const items = [...this.titleEl.querySelectorAll<HTMLElement>('[data-nav]')];
       const i = items.indexOf(document.activeElement as HTMLElement);
@@ -861,76 +831,17 @@ export class App {
     this.panels.push(noticePanel(this.panelCtx()), { narrow: true });
   }
 
-  /* ============================= dialogue ============================== */
+  /* ========================= silent observation ========================= */
 
-  startDialogue(npc: NpcActor) {
-    const node = this.game.entryNode(npc.id);
-    if (!node) return;
-    this.dlgNpc = npc;
-    npc.talking = true;
-    this.dlgNarrator = false;
-    this.input.uiOpen = true;
-    this.releaseLock();
-    this.audio.interact();
-    this.showNode(node);
+  /** 0.0.5 is an exploration opening: looking at a person never picks a conversation reply. */
+  observeNpc(npc: NpcActor) {
+    const observation = this.game.observeNpc(npc.id);
+    if (observation.ok) this.hud.toast(S(observation.key));
   }
 
-  private showNarration(text: string, name = '') {
-    this.dlgNpc = null;
-    this.dlgNarrator = true;
-    this.dlgNode = '__narration';
-    this.input.uiOpen = true;
-    this.releaseLock();
-    this.dialogue.show({ name, title: '', text, choices: [{ index: 0, label: S('dlg.continue'), locked: false, reasons: [] }] });
-  }
-
-  private showNode(nodeId: string) {
-    this.dlgNode = nodeId;
-    this.game.showNode(nodeId);
-    const node = getNode(nodeId);
-    if (!node) {
-      this.endDialogue();
-      return;
-    }
-    const state = this.game.state;
-    const speaker = node.speaker === 'narrator' ? null : NPCS[node.speaker];
-    const choices: DlgChoice[] = this.game.choices(nodeId).map((v) => ({
-      index: v.index,
-      label: S(v.choice.text),
-      intent: v.choice.intent,
-      locked: v.locked,
-      reasons: v.locked ? describeMissing(v.missing, state) : [],
-    }));
-    this.dialogue.show({ name: speaker?.name ?? '', title: speaker ? S(speaker.titleKey) : '', text: S(node.text), choices });
-    this.worldDirty = true;
-  }
-
-  private onDialogueChoose(index: number) {
-    if (this.dlgNarrator) {
-      this.endDialogue();
-      return;
-    }
-    const r = this.game.choose(this.dlgNode, index);
-    if (!r.ok) {
-      this.hud.toast(S('dlg.failed', { reason: r.reason }), 'bad');
-      this.showNode(this.dlgNode);
-      return;
-    }
-    this.audio.uiConfirm();
-    if (r.next === 'end') this.endDialogue();
-    else this.showNode(r.next);
-  }
-
-  endDialogue() {
-    this.dialogue.hide();
-    if (this.dlgNpc) this.dlgNpc.talking = false;
-    this.dlgNpc = null;
-    this.dlgNarrator = false;
-    if (this.mode === 'play') {
-      this.input.uiOpen = false;
-      this.wantLock();
-    }
-    this.worldDirty = true;
+  /** Inspection text is nonblocking; its evidence and personal observations remain in the journal. */
+  private showObservation(text: string) {
+    this.hud.toast(text, 'evidence');
   }
 
   /* ============================= interactions ============================= */
@@ -986,7 +897,7 @@ export class App {
       this.openNotice();
       return;
     }
-    this.showNarration(S(pt.noticeKey), S('prompt.inspect'));
+    this.showObservation(S(pt.noticeKey));
   }
 
   pickup(id: string, item: ItemId, qty: number) {
@@ -1062,7 +973,7 @@ export class App {
     const r = this.game.dispatch({ t: 'readLedger' });
     if (!r.ok) return;
     this.audio.journal();
-    this.showNarration(S('narr.ledger'), S('prompt.ledger'));
+    this.showObservation(S('narr.ledger'));
   }
 
   performRite() {

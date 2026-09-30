@@ -77,6 +77,8 @@ Warpkeep's software license does not automatically cover every model, image, or 
 
 The earlier WoW tree inspections and Gothic references can inform silhouette, canopy density, material economy, and level composition. Extracted game files, their textures, animations, and recognizable designs are not Tervain's asset library. Build original assets or use assets under actual compatible terms. The BlendSwap example has its own source record and must be treated individually.
 
+Boring Forest is a visual and public-source study for the `0.0.5` woodland, not an asset or code import. Its initial composition and client implementation were observed; pointer-lock entry failed, so no walked reference route or performance comparison was completed. No affirmative custom-asset license was established. Tervain's trees, floor detail, waymarkers, and haze remain original code-authored work. See the [study record](../references.md#boring-forest-study-30-september-2026).
+
 Likewise, the original Warplet references, previous emblems, music attachment, and generated concept media carry their recorded source boundaries. A historical upload or publication approval is not a blanket relicensing statement for everything in the archive. The current Hegemony menu emblem is a specifically owner-authorized selection, not a general grant over the rest of the archive.
 
 ## First reuse experiment

@@ -1,10 +1,20 @@
 # Art, animation, audio, and interface direction
 
-**Status:** the visual direction below is **superseded in part by the owner's directions of 29–30 September 2026** (decisions A12–A14, A17, A19–A25): the game takes Gothic 3's rugged fantasy exaggeration as its reference, and the playable first area is modelled on Ardea. Read the [Direction updates](#direction-update-29-september-2026), [exaggeration clarification](#fantasy-exaggeration-clarification-30-september-2026), [water update](#water-presentation-update-30-september-2026), and [menu direction](#menu-and-interface) first; where they conflict with later paragraphs, they win. The owner has established a serious, polished, original high-fantasy Steam game with Hegemony-affiliated Templars and useful sharing with Warpkeep. Keep calm camera motion and accessible controls. See [vision](../vision.md), [decisions](../decisions.md), and [shared asset requirements](../engineering/shared-assets.md).
+**Status:** the visual direction below is **superseded in part by the owner's directions of 29–30 September 2026** (decisions A12–A14, A17, A19–A26). Gothic 3 supplies rugged fantasy exaggeration; A26 revises the coastal opening into sparse strand, dense woodland, and settlement farther inland, with Boring Forest as a strong reference. Read the [forest update](#forest-arrival-direction-005), earlier [direction update](#direction-update-29-september-2026), [exaggeration clarification](#fantasy-exaggeration-clarification-30-september-2026), [water update](#water-presentation-update-30-september-2026), and [menu direction](#menu-and-interface) first. Later owner decisions win where these passages differ. Keep original high fantasy, Hegemony-affiliated Templars, calm camera motion, and accessible controls. See [vision](../vision.md), [decisions](../decisions.md), and [shared asset requirements](../engineering/shared-assets.md).
+
+## Forest arrival direction, 0.0.5
+
+[A26](../decisions.md) establishes a sparse amnesiac beach arrival and a dense forest journey before the first inhabited stop. The old beach camp moves inland; it should not fill the opening with stalls, wagon, or residents. The Deepwood is part of the same coast-to-valley map, with a continuous trail to the waystation and Rillford. Its detailed history and the protagonist's past remain original story proposals.
+
+Study [Boring Forest](https://boring-forest.vercel.app/) for layered depth: tall trunk columns with rooted volume, overlapping crowns at different heights, open paths inside dense growth, moss, fern and litter layers, and warm light against cooler distant forms. Tervain implements these qualities with original oak/pine/fir forms, a birch layer, ground-set fallen wood and fungi, four carved trail stones, and roofless roadside remains. Local haze and quiet motes separate nearby trunks from deeper crowns. The traces suggest Hegemony-affiliated Templar stewardship without creating another crest, importing Hyperion lore, or deciding a formal doctrine.
+
+Gameplay tree and leaf sway remains paused. Floor plants should stay grounded; route clearance, branch/leaf connections, crown coverage, LOD transitions, shadow/alpha cost, and camera obstruction need review together. Quiet motes and ground-cover motion are separate from the tree hold and respect the existing comfort settings. No Boring Forest code, mesh, texture, or other asset is imported, and no renderer switch or reference FPS result is claimed. Study covered the initial composition and public client source; pointer-lock entry failed. See the [reference record](../references.md#boring-forest-study-30-september-2026).
+
+NPC observation and environmental inspection use nonblocking notices, with no dialogue windows. Environmental evidence persists in the journal; looking at a person does not create a meeting or relationship change. Native menu/panel semantics remain. Implementation is in progress; final visual, journey, and automated checks are pending in the [0.0.5 handoff](../production/releases/0.0.5.md). The dated menu/water checks below remain evidence for `0.0.4` rather than acceptance of this forest opening.
 
 ## Direction update, 29 September 2026
 
-The owner asked for old-school Gothic 3: **not cartoonish, rugged, rough around the edges, not perfect, not smooth, human**, with the first area as close to Ardea as possible (a lighthouse, a beach, a great deal of empty terrain, some trees, forests in the distance). Measurements and the design rules taken from the local game are in the [Gothic 3 look reference](gothic3-reference.md); nothing is copied from it.
+The owner asked for old-school Gothic 3: **not cartoonish, rugged, rough around the edges, not perfect, not smooth, human**, with the first area as close to Ardea as possible (a lighthouse, a beach, a great deal of empty terrain, some trees, forests in the distance). This is the historical coastal brief; A26 supersedes its wagon/open-heath opening with an amnesiac strand and dense woodland journey. Measurements and design rules from the local game remain in the [Gothic 3 look reference](gothic3-reference.md); nothing is copied from it.
 
 What this changes in practice:
 
@@ -13,7 +23,7 @@ What this changes in practice:
 - **Shapes.** Nothing is square. Posts lean, boards sit at different depths, roofs are built course by course and sag, stones are uneven, doors and shutters hang wrong.
 - **Vegetation.** Trees are skeletons of curved tapering tubes with leaf or needle cards hung on them (each card is a twig of individual leaves), at three levels of detail. Foliage is olive and dusty, not green; some leaves are dying.
 - **People.** Worn and human: sculpted faces with brow, nose and jaw, tapered limbs with bending knees and elbows, layered wool and leather in earth colours with dirty hems.
-- **The player's first minute.** The wagon has stopped on a grey beach; the sea is on one side, the jetty and lighthouse are ahead, and the road to Rillford leaves inland over open heath.
+- **Historical first minute, superseded by A26.** The earlier wagon stood on a grey beach, with jetty/lighthouse ahead and an inland road over open heath. The current opening uses an amnesiac strand and dense woodland instead.
 
 The "three regional identities" table and the paragraphs that follow are otherwise still the plan for Alder Basin, Rimeward Heights and Saltward Expanse. Their colors should read as weathered materials grouped through deliberate fantasy painting and lighting, with expressive warm/cool relationships.
 
@@ -23,7 +33,7 @@ The owner clarified that Gothic 3 does not pursue clinical realism and asked for
 
 Use heavy expressive silhouettes, oversized carved and forged ornament, broad painted planes of light and shade, earthy reds and golds, and strong warm/cool relationships. Weathering should be selective and substantial: larger chips, worn raised edges, deep folds, and irregular joins that support the dominant shape. Preserve connected geometry and purposeful materials. The title and pause menu are the immediate revision scope; this direction does not claim that every world asset has already been reworked.
 
-Control labels, settings, records, and other core body text retain scalable, accessible lettering and clear focus. Artwork can be theatrical while the player can still read and operate the interface. Keep calm motion, original assets, and the `0.0.4` hold. This visual clarification adds no faction lore, ritual meaning, or game systems.
+Control labels, settings, records, and other core body text retain scalable, accessible lettering and clear focus. Artwork can be theatrical while the player can still read and operate the interface. Keep calm motion, original assets, and the `0.0.x` hold. This visual clarification adds no faction lore, ritual meaning, or game systems.
 
 ## Visual promise
 

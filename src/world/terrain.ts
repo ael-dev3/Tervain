@@ -2,6 +2,7 @@ import { clamp, fbm, lerp, ridged, smoothstep, warp } from './noise';
 import { lighthouseRock, shapeCoast, shoreDistance } from './coast';
 import {
   ANCHORS,
+  ARRIVAL_ROUTE,
   ARCHIVE_ROOM,
   BELL,
   BUILDINGS,
@@ -9,6 +10,8 @@ import {
   DECKS,
   DEEP_WATER,
   FORD,
+  FOREST_RUIN,
+  FOREST_WAYMARKERS,
   INSPECT_LOCATIONS,
   LEDGE,
   LEDGER,
@@ -22,6 +25,7 @@ import {
   SHORTCUT,
   SHRINE_PLATEAU,
   SLUICE,
+  SPAWN,
   SPRING_POOL,
   STREAMS,
   VALLEY,
@@ -113,6 +117,8 @@ export function clearanceAt(x: number, z: number): number {
     for (const p of INSPECT_LOCATIONS) keepClear.push({ x: p.x, z: p.z, r: 9 });
     for (const p of PICKUP_LOCATIONS) keepClear.push({ x: p.x, z: p.z, r: 9 });
     for (const b of BUILDINGS) keepClear.push({ x: b.x, z: b.z, r: Math.max(b.w, b.d) * 0.8 + 6 });
+    for (const p of FOREST_WAYMARKERS) keepClear.push({ x: p.x, z: p.z, r: 3.2 });
+    keepClear.push({ x: FOREST_RUIN.x, z: FOREST_RUIN.z, r: FOREST_RUIN.r + 3 });
     for (const q of [BELL, SLUICE.control, SHORTCUT.lever, RITE_ALTAR, LEDGER, WAGON, LIGHTHOUSE]) keepClear.push({ x: q.x, z: q.z, r: 10 });
   }
   let c = 1;
@@ -122,7 +128,7 @@ export function clearanceAt(x: number, z: number): number {
   }
   for (const r of ROADS) c = Math.min(c, smoothstep(r.width * 0.5 + 0.5, r.width * 0.5 + 5.5, distToPolyline(x, z, r.points).d));
   for (const st of STREAMS) c = Math.min(c, smoothstep(st.halfWidth + 1, st.halfWidth + 9, distToPolyline(x, z, st.points).d));
-  if (x < -200 && x > -250) c = Math.min(c, smoothstep(3, 8, distToPolyline(x, z, PALISADE.points as unknown as V2[]).d));
+  c = Math.min(c, smoothstep(3, 8, distToPolyline(x, z, PALISADE.points as unknown as V2[]).d));
   return c;
 }
 
@@ -196,7 +202,7 @@ function coreHeight(x: number, z: number): number {
   h = lerp(h, SHRINE_PLATEAU.h - 0.4, (1 - smoothstep(0.5, 1, sdd)) * 0.9);
   // Overlook shelf where the road tops the rise.
   const od = Math.hypot(x + 136, z - 28) / 14;
-  h = lerp(h, 9.6, (1 - smoothstep(0.4, 1, od)) * 0.95);
+  h = lerp(h, 5.8, (1 - smoothstep(0.4, 1, od)) * 0.95);
   // Ledge floor.
   const ld = Math.hypot(x - LEDGE.x, z - LEDGE.z) / 11;
   h = lerp(h, 9.2, (1 - smoothstep(0.5, 1, ld)) * 0.9);
@@ -209,24 +215,39 @@ export function baseHeight(x: number, z: number): number {
   if (!pads) {
     pads = [];
     for (const b of BUILDINGS) {
-      if (b.kind === 'fisher' || b.kind === 'store' || b.kind === 'keeper') {
+      if (b.kind === 'fisher' || b.kind === 'store' || b.kind === 'keeper' || b.kind === 'lodge') {
         const r = Math.max(b.w, b.d) * 0.72 + 3;
-        pads.push({ x: b.x, z: b.z, r, level: shapeCoast(b.x, b.z, coreHeight(b.x, b.z)) + 0.15 });
+        const h = softFloor(coreHeight(b.x, b.z));
+        pads.push({ x: b.x, z: b.z, r, level: (b.x < -170 ? shapeCoast(b.x, b.z, h) : h) + 0.15 });
       }
     }
     // The lighthouse stands on a levelled ledge of its rock.
     pads.push({ x: LIGHTHOUSE.x, z: LIGHTHOUSE.z, r: 9, level: shapeCoast(LIGHTHOUSE.x, LIGHTHOUSE.z, coreHeight(LIGHTHOUSE.x, LIGHTHOUSE.z)) });
-    // The strand where the caravan and the fire stand: trodden flat above the tide line.
-    pads.push({ x: -249, z: 33, r: 13, level: shapeCoast(-249, 33, coreHeight(-249, 33)) });
+    // A small safe waking place on the sand; no camp-sized coastal terrace remains.
+    pads.push({ x: SPAWN.x, z: SPAWN.z, r: 6, level: shapeCoast(SPAWN.x, SPAWN.z, softFloor(coreHeight(SPAWN.x, SPAWN.z))) });
   }
-  if (x < -170) {
-    h = shapeCoast(x, z, h);
-    for (const p of pads) {
-      const d = Math.hypot(x - p.x, z - p.z) / p.r;
-      if (d < 1) h = lerp(h, p.level, (1 - smoothstep(0.55, 1, d)) * 0.97);
-    }
+  if (x < -170) h = shapeCoast(x, z, h);
+  for (const p of pads) {
+    const d = Math.hypot(x - p.x, z - p.z) / p.r;
+    if (d < 1) h = lerp(h, p.level, (1 - smoothstep(0.62, 1, d)) * 0.99);
   }
+  h = arrivalRoadGrade(x, z, h);
   return archiveTerrace(x, z, h);
+}
+
+let arrivalGrades: number[] | null = null;
+/** A softly cut woodland trail follows a continuous grade, keeping the authored road walkable across hummocks. */
+function arrivalRoadGrade(x: number, z: number, h: number): number {
+  const near = distToPolyline(x, z, ARRIVAL_ROUTE);
+  const width = near.seg < 6 ? 3.4 : 4.2;
+  const influence = 1 - smoothstep(width / 2 + 0.4, width / 2 + 4, near.d);
+  if (influence <= 0) return h;
+  arrivalGrades ??= ARRIVAL_ROUTE.map((p) => {
+    const level = softFloor(coreHeight(p.x, p.z));
+    return p.x < -170 ? shapeCoast(p.x, p.z, level) : level;
+  });
+  const grade = lerp(arrivalGrades[near.seg]!, arrivalGrades[near.seg + 1]!, near.t);
+  return lerp(h, grade, influence);
 }
 
 export function carveDepthAt(x: number, z: number): number {

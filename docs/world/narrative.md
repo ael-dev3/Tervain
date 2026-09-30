@@ -12,7 +12,9 @@ The proposed central question is: **Who has the right to change a shared inherit
 
 The wider dramatic pressure is a Marcher coalition extending emergency rule across Alder Basin while League towns defend their charters and the Templars dispute their own role. This produces occupied crossings, relief delivered under coercive terms, sanctuary disputes, armed resistance, and opportunities to demand enforceable limits. Water is Bellwether's immediate problem; political authority, livelihood, faith, violence, and belonging sustain the wider campaign. The north and desert pursue their own interests rather than becoming automatic extensions of this struggle.
 
-The player should have a personal reason to seek livelihood and standing, not automatic status as a chosen savior. A flexible proposed opening is arrival with a work caravan delayed by a damaged crossing. The player needs passage and payment. Their background can explain basic capabilities without deciding ancestry, religion, or final allegiance. Exact background options remain open pending production scope.
+The player should have a personal reason to seek livelihood and standing, not automatic status as a chosen savior. The earlier work-caravan opening is superseded for the current patch by [A26](../decisions.md): new games begin alone on the sparse Grey Strand with no remembered name or journey, then follow the woodland trail toward inland people. Environmental observations and a journal carry the opening; `0.0.5` offers no conversation windows. The cause of memory loss, actual past, ancestry, religion, and final allegiance remain original story proposals. Amnesia must not automatically imply chosen status, imported Hyperion history, or a predetermined faction membership.
+
+The campaign and Dry Bell sequences below remain future narrative design. Their renderer-free quest/dialogue data survives in the prototype, but the observation-only NPC interface does not currently offer testimony, training, or negotiated consent. See the [current prototype scope](../engineering/prototype.md) before treating a designed branch as a player-accessible feature.
 
 ## Dramatic rules
 

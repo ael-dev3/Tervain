@@ -20,6 +20,8 @@ The Templar-inspired order is the local center of gravity and **is part of the H
 
 The owner's intention is original work. References inform the questions we ask and the experience we seek; they do not establish imported characters, doctrine, terminology bundles, histories, scenes, or quests.
 
+For `0.0.5`, the owner selected a sparse amnesiac beach arrival followed by a dense woodland journey before the first inland settlement, with no dialogue windows ([A26](decisions.md)). Boring Forest supplies a visual and rendering reference for that journey. The Hegemony-affiliated Templars appear through original environmental traces; their detailed woodland history, the protagonist's past, and the cause of amnesia remain proposals. This is an exploration revision, not evidence that the complete Dry Bell negotiation interface or a Steam package exists. See the [current prototype scope](engineering/prototype.md#forest-arrival-pass-30-september-2026).
+
 ## Design pillars
 
 ### 1. A land worth learning

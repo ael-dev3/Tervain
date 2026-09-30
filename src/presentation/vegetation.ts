@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { ANCHORS, BUILDINGS, DECKS, FIELDS, INSPECT_LOCATIONS, LIGHTHOUSE, PALISADE, PICKUP_LOCATIONS, PLACES, SPRING_POOL, STREAMS, STRAND, WAGON } from '../world/layout';
+import { ANCHORS, BUILDINGS, DECKS, FIELDS, FOREST_RUIN, FOREST_WAYMARKERS, INSPECT_LOCATIONS, LIGHTHOUSE, PALISADE, PICKUP_LOCATIONS, PLACES, ROADS, SPAWN, SPRING_POOL, STREAMS, STRAND, WAGON } from '../world/layout';
 import { distToPolyline, roadWeight, type Terrain } from '../world/terrain';
 
 export interface SwayUniforms {
@@ -101,14 +101,17 @@ export class Exclusions {
     this.circles.push({ x: 10, z: -58, r: 9 }, { x: -20, z: -98, r: 20 }, { x: -46, z: -100, r: 10 }, { x: 96, z: -8, r: 8 }, { x: 100, z: -19, r: 5 });
     for (const d of DECKS) this.circles.push({ x: d.x, z: d.z, r: d.hx + 3 });
     // The strand, the wagon and the foot of the lighthouse stay open ground.
-    this.circles.push({ x: STRAND.x, z: STRAND.z, r: 26 }, { x: WAGON.x, z: WAGON.z, r: 7 }, { x: LIGHTHOUSE.x, z: LIGHTHOUSE.z, r: 13 });
+    this.circles.push({ x: STRAND.x, z: STRAND.z, r: 26 }, { x: SPAWN.x, z: SPAWN.z, r: 32 }, { x: WAGON.x, z: WAGON.z, r: 7 }, { x: LIGHTHOUSE.x, z: LIGHTHOUSE.z, r: 13 });
+    for (const marker of FOREST_WAYMARKERS) this.circles.push({ x: marker.x, z: marker.z, r: 2.4 });
+    this.circles.push({ x: FOREST_RUIN.x, z: FOREST_RUIN.z, r: FOREST_RUIN.r + 0.5 });
   }
 
   blocked(x: number, z: number, pad = 0): boolean {
     for (const c of this.circles) if (Math.hypot(x - c.x, z - c.z) < c.r + pad) return true;
     if (roadWeight(x, z) > 0.04) return true;
+    for (const road of ROADS) if (distToPolyline(x, z, road.points).d < road.width * 0.5 + pad) return true;
     if (this.terrain.carveAt(x, z) > 0.02) return true;
-    if (x < -195 && x > -255 && distToPolyline(x, z, PALISADE.points as unknown as { x: number; z: number }[]).d < 3.5 + pad) return true;
+    if (distToPolyline(x, z, PALISADE.points).d < 3.5 + pad) return true;
     for (const f of FIELDS) {
       const dx = x - f.x;
       const dz = z - f.z;

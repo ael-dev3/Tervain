@@ -35,7 +35,7 @@ const CLAIM_FACTS = [
   'told_ledger',
 ] as const;
 
-export const PLACE_ORDER: PlaceId[] = ['shore', 'lantern_point', 'overlook', 'rillford', 'ford', 'spring_shrine', 'sluice', 'quarry', 'the_cut', 'archive'];
+export const PLACE_ORDER: PlaceId[] = ['shore', 'lantern_point', 'deepwood', 'overlook', 'rillford', 'ford', 'spring_shrine', 'sluice', 'quarry', 'the_cut', 'archive'];
 
 const CLAIMED_PLACE_FACTS: Partial<Record<PlaceId, string>> = {
   spring_shrine: 'told_shrine',
@@ -74,6 +74,9 @@ export function buildJournal(s: WorldState): JournalView {
   if (hasFact(s, 'saw_fish_nests')) observed.push({ id: 'obs:fish', key: 'journal.obs.saw_fish_nests' });
   if (hasFact(s, 'saw_saltward_kit')) observed.push({ id: 'obs:kit', key: 'journal.obs.saw_saltward_kit' });
 
+  if (hasFact(s, 'saw_arrival_wreckage')) observed.push({ id: 'obs:arrival_wreckage', key: 'journal.obs.arrival_wreckage' });
+  if (hasFact(s, 'saw_templar_waymarker')) observed.push({ id: 'obs:templar_waymarker', key: 'journal.obs.templar_waymarker' });
+
   // Contradictions produce a new question, never a hidden reputation penalty.
   if (hasFact(s, 'claim_foreman_spring_failing') && !s.evidence.reduced_spring_flow) {
     questions.push({ id: 'q:spring', key: 'journal.q.spring_failing_or_silted' });
@@ -109,7 +112,7 @@ export function buildJournal(s: WorldState): JournalView {
 
   const people = NPC_IDS.map((npc) => ({ npc, met: s.npcs[npc].met, available: s.npcs[npc].available }));
 
-  const leadKey = s.quest.entry ? `journal.lead.${s.quest.entry.split(':')[0]}` : null;
+  const leadKey = s.quest.entry ? `journal.lead.${s.quest.entry.split(':')[0]}` : hasFact(s, 'arrival_amnesia') ? 'journal.lead.arrival' : null;
 
   return {
     leadKey,
@@ -119,6 +122,6 @@ export function buildJournal(s: WorldState): JournalView {
     questions,
     places,
     people,
-    statusKey: `journal.status.${s.quest.phase}`,
+    statusKey: s.quest.phase === 'unseen' && hasFact(s, 'arrival_amnesia') ? 'journal.status.arrival' : `journal.status.${s.quest.phase}`,
   };
 }

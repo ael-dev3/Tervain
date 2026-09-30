@@ -4,10 +4,11 @@ import { SPECIES, buildTreeVariant, type TreeVariant } from './treeGen';
 import { leafMaterial, woodMaterial, disposeTreeMaterials } from './treeMaterials';
 import { disposeTreeTextures } from './treeTextures';
 import { createFloraPopulation, selectFloraPopulation, registerFloraColliders, FLORA_VARIANTS, FLORA_MAX_DISTANCE, floraLod, type FloraTree } from './floraPopulation';
+import { buildForestFloor } from './forestFloor';
 
 /**
- * Trees and shrubs. The open heath around the strand is nearly empty: a lone wind-bent pine, a dead oak, a knot of scrub by a
- * boulder. Forests stand back on the higher ground north and south of the road, and pine and fir mark the distant wooded rises. Every
+ * Trees and shrubs. An empty strand gives way to a layered old-growth woodland: flared oak roots under tall pine/fir columns,
+ * a lower birch stratum and native fern/moss floor. The trail remains open under the interlocking crowns. Every
  * tree is one of a few seeded variants per species, drawn as instances at one of three levels of detail chosen by distance
  * and culled by hand each few frames, so the canonical trunks remain present across graphics presets while decorative scrub can be thinned.
  */
@@ -25,6 +26,8 @@ export function buildFlora(ctx: BuildContext): SceneModule & { counts: { trees: 
   const population = createFloraPopulation(terrain, excl);
   registerFloraColliders(population, colliders);
   const { trees, obstacles } = selectFloraPopulation(population, quality);
+  const forestFloor = buildForestFloor(terrain, excl, quality);
+  group.add(forestFloor.group);
 
   /* Developer aid: `?lineup=x,z` plants one of every species in rows near a point, and `?lod=0|1|2` forces a level of detail. */
   const q = typeof location !== 'undefined' ? new URLSearchParams(location.search) : new URLSearchParams();
@@ -67,7 +70,8 @@ export function buildFlora(ctx: BuildContext): SceneModule & { counts: { trees: 
         if (!m) continue;
         m.count = 0;
         m.frustumCulled = false;
-        m.castShadow = quality === 'high' ? l < 2 : quality === 'medium' && l === 0;
+        // The middle preset renders LOD1 close to the player; that canopy must cast shadows too.
+        m.castShadow = quality !== 'low' && l < 2;
         m.receiveShadow = true;
         // Give every instance a colour slot now so the buffer exists when we start writing matrices.
         m.setColorAt(0, white.setRGB(1, 1, 1));
@@ -151,6 +155,7 @@ export function buildFlora(ctx: BuildContext): SceneModule & { counts: { trees: 
     counts: { trees: trees.length, triangles: Math.round(triangles) },
     update(dt: number, f: FrameContext) {
       if (disposed) return;
+      forestFloor.update(dt, f);
       sinceUpdate += dt;
       const cam = f.camera;
       const moved = Math.hypot(cam.position.x - lastCam.x, cam.position.z - lastCam.z);
@@ -161,10 +166,11 @@ export function buildFlora(ctx: BuildContext): SceneModule & { counts: { trees: 
       cam.updateMatrixWorld();
       refresh(cam);
     },
-    stats: () => ({ trees: trees.length, treeObstacles: obstacles.length, treesDrawn: visible, treeTris: Math.round(drawTris) }),
+    stats: () => ({ trees: trees.length, treeObstacles: obstacles.length, treesDrawn: visible, treeTris: Math.round(drawTris), ...forestFloor.stats?.() }),
     dispose() {
       if (disposed) return;
       disposed = true;
+      forestFloor.dispose?.();
       for (const batch of batches) {
         for (const mesh of batch.meshes) {
           mesh.wood?.dispose();

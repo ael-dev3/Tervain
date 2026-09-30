@@ -1,22 +1,16 @@
 /**
- * Original Tervain title artwork, drawn as seven vector glyphs rather than a font.
- * The approved Hegemony identity informs its gold, blade and diamond vocabulary;
- * no reference-game artwork, sibling glyph meshes or replacement faction seal is used.
- * The title is static and decorative: MenuView keeps the accessible game name.
+ * Original Tervain inscription, authored as vector silhouettes and metal facets.
+ * Gold, tapered points and the blade-I connect it to the shared Hegemony identity.
+ * It contains no separate seal or copied reference lettering. MenuView supplies
+ * the accessible heading; this artwork stays static and decorative.
  */
-
 const SVG_NS = 'http://www.w3.org/2000/svg';
 let wordmarkInstance = 0;
 
-/**
- * Monumental brass lettering with narrow, tapered serifs and restrained relief.
- * A lowered V anchors the inscription; the I's diamond pommel and blade-shaped foot
- * are part of the glyph silhouette. The remaining letters share one cap and baseline.
- */
 export function createMenuWordmark(): SVGSVGElement {
   const svg = document.createElementNS(SVG_NS, 'svg');
   const id = `tervain-menu-wordmark-${wordmarkInstance++}`;
-  svg.setAttribute('viewBox', '0 0 1000 210');
+  svg.setAttribute('viewBox', '0 0 1020 250');
   svg.setAttribute('width', '100%');
   svg.setAttribute('height', '100%');
   svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
@@ -27,62 +21,74 @@ export function createMenuWordmark(): SVGSVGElement {
   svg.style.pointerEvents = 'none';
   svg.innerHTML = `
     <defs>
-      <linearGradient id="${id}-face" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#fff0bc"/>
-        <stop offset=".19" stop-color="#f0d08b"/>
-        <stop offset=".43" stop-color="#d5a04a"/>
-        <stop offset=".58" stop-color="#efd091"/>
-        <stop offset=".79" stop-color="#b98035"/>
-        <stop offset="1" stop-color="#e6c278"/>
+      <linearGradient id="${id}-face" x1="0" y1="0" x2=".14" y2="1">
+        <stop offset="0" stop-color="#fff0b8"/>
+        <stop offset=".22" stop-color="#e5b34e"/>
+        <stop offset=".43" stop-color="#a96320"/>
+        <stop offset=".48" stop-color="#e2ac43"/>
+        <stop offset=".61" stop-color="#f9d989"/>
+        <stop offset=".83" stop-color="#b67627"/>
+        <stop offset="1" stop-color="#ebbc60"/>
       </linearGradient>
-      <linearGradient id="${id}-bevel" x1="0" y1="0" x2=".28" y2="1">
-        <stop offset="0" stop-color="#fff4cb"/>
-        <stop offset=".3" stop-color="#b18440"/>
-        <stop offset=".52" stop-color="#f4d591"/>
-        <stop offset=".72" stop-color="#5b3e22"/>
-        <stop offset="1" stop-color="#c49346"/>
+      <linearGradient id="${id}-bevel" x1="0" y1="0" x2=".65" y2="1">
+        <stop offset="0" stop-color="#fff4c7"/>
+        <stop offset=".25" stop-color="#d6a14a"/>
+        <stop offset=".46" stop-color="#744721"/>
+        <stop offset=".58" stop-color="#f3ce7b"/>
+        <stop offset="1" stop-color="#70451e"/>
       </linearGradient>
-      <linearGradient id="${id}-facet" x1="0" y1="0" x2="1" y2=".18">
-        <stop offset="0" stop-color="#fff5ce" stop-opacity=".76"/>
-        <stop offset=".48" stop-color="#e9c171" stop-opacity=".18"/>
-        <stop offset="1" stop-color="#604120" stop-opacity=".6"/>
+      <linearGradient id="${id}-lit-plane" x1="0" y1="0" x2="1" y2=".28">
+        <stop offset="0" stop-color="#fff6d4" stop-opacity=".9"/>
+        <stop offset=".52" stop-color="#f1ce7e" stop-opacity=".45"/>
+        <stop offset="1" stop-color="#dc9837" stop-opacity=".12"/>
       </linearGradient>
-      <filter id="${id}-shadow" x="-5%" y="-14%" width="112%" height="138%" color-interpolation-filters="sRGB">
-        <feDropShadow dx="0" dy="4" stdDeviation="2" flood-color="#0c1114" flood-opacity=".78"/>
+      <linearGradient id="${id}-recess" x1="0" y1="0" x2="1" y2=".1">
+        <stop offset="0" stop-color="#754017" stop-opacity=".1"/>
+        <stop offset=".66" stop-color="#633415" stop-opacity=".48"/>
+        <stop offset="1" stop-color="#48291b" stop-opacity=".75"/>
+      </linearGradient>
+      <filter id="${id}-shadow" x="-6%" y="-10%" width="115%" height="140%" color-interpolation-filters="sRGB">
+        <feDropShadow dx="1" dy="7" stdDeviation="3" flood-color="#100e0d" flood-opacity=".8"/>
       </filter>
-      <g id="${id}-letters" transform="translate(28 8)" fill-rule="evenodd">
-        <path id="${id}-glyph-t" d="M0 28H118L122 53H116L109 43H73V143L87 151V157H36V151L50 143V43H13L6 53H0Z"/>
-        <path id="${id}-glyph-e" d="M136 28H240L242 51H237L226 42H178V80H213L222 72H227V105H222L214 95H178V143H228L238 132H244L240 157H136V151L152 143V42L136 34Z"/>
-        <path id="${id}-glyph-r" d="M256 28H320Q368 28 368 61Q368 89 338 94L364 138L383 151V157H348L308 99H298V143L313 151V157H256V151L272 143V42L256 34ZM298 42V84H318Q342 84 342 63Q342 42 318 42Z"/>
-        <path id="${id}-glyph-v" d="M396 28H452V34L438 43L481 145L522 43L508 34V28H559V34L546 44L490 173L480 180L470 173L411 44L396 34Z"/>
-        <path id="${id}-glyph-a" d="M571 151L586 142L631 23H645L686 142L704 151V157H651V151L665 143L656 116H607L598 143L613 151V157H571ZM613 100H650L632 48Z"/>
-        <path id="${id}-glyph-i" d="M757 6L768 17L761 28H780V34L768 42V141L757 172L746 141V42L734 34V28H753L746 17ZM757 12L752 17L757 23L762 17Z"/>
-        <path id="${id}-glyph-n" d="M801 28H837L902 131V42L885 34V28H940V34L924 42V157H908L840 52V143L857 151V157H801V151L817 143V42L801 34Z"/>
+      <g id="${id}-letters" transform="translate(32 10)" fill-rule="evenodd">
+        <path d="M0 48H118L123 88L115 84L105 67H75V176L87 187L91 198H32L36 187L51 176V67H15L4 86L-4 88Z"/>
+        <path d="M140 48H246L250 86L241 81L230 66H184V107H217L229 95L232 96V139L229 140L217 124H184V177H231L249 157L254 159L248 198H139L145 185L155 176V69L141 58Z"/>
+        <path d="M267 48H332Q380 48 380 86Q380 115 348 121L377 171L403 193V199H361L317 127H309V176L326 189V198H267L273 185L284 176V69L268 59ZM309 66V110H329Q355 110 355 88Q355 66 329 66Z"/>
+        <path d="M401 48H462L456 60L445 68L487 158L528 68L517 61L512 48H569L564 62L551 71L495 204L485 214L475 203L419 71L406 61Z"/>
+        <path d="M575 186L589 176L637 43H650L694 176L711 186L716 198H656L660 187L671 177L661 147H615L605 177L619 187L623 198H571ZM621 130H655L639 83Z"/>
+        <path d="M765 14L782 34L775 51H791L796 62L779 74V172L765 215L751 172V74L734 62L739 51H755L748 34ZM765 23L757 34L765 43L773 34Z"/>
+        <path d="M812 48H850L914 160V71L896 60L892 48H952L948 60L934 71V198H914L850 91V176L868 189V198H811L817 185L828 176V70L811 58Z"/>
       </g>
       <clipPath id="${id}-cut"><use href="#${id}-letters"/></clipPath>
     </defs>
-    <g filter="url(#${id}-shadow)" paint-order="stroke fill" stroke-linejoin="bevel">
-      <use href="#${id}-letters" transform="translate(1.7 3.4)" fill="#25211e" stroke="#0e1519" stroke-width="6.2"/>
-      <use href="#${id}-letters" fill="#75512b" stroke="#302c24" stroke-width="5.2"/>
-      <use href="#${id}-letters" fill="url(#${id}-face)" stroke="url(#${id}-bevel)" stroke-width="3.4"/>
-      <g clip-path="url(#${id}-cut)" transform="translate(0 0)">
-        <use href="#${id}-letters" transform="translate(1.5 1.8)" fill="none" stroke="#775025" stroke-width="3.2" opacity=".58"/>
-        <use href="#${id}-letters" transform="translate(-1.1 -1.1)" fill="none" stroke="#fff1c5" stroke-width="1.3" opacity=".88"/>
-        <g transform="translate(28 8)">
-          <path d="M55 46 61 41 68 46V140L61 148 55 142ZM157 44 164 38 173 44V141L164 150 157 144ZM277 44 285 38 293 45V141L285 150 277 144ZM416 45 426 41 481 166 477 170ZM638 32 645 52 679 142 672 147ZM751 43 757 36 763 43V139L757 160 751 139ZM822 44 830 38 835 45V142L829 150 822 144ZM907 44 914 38 919 44V141L914 151 907 144Z"
-            fill="url(#${id}-facet)"/>
-          <path d="M10 33H112M141 33H234M143 151H234M262 33H319Q358 34 361 57M404 33H445M516 33H551M637 29 677 143M741 33H774M807 33H834M892 33H933"
-            fill="none" stroke="#fff3ce" stroke-width="1.2" opacity=".8"/>
-          <path d="M57 49V137M159 48V138M279 48V138M754 47V137M824 48V138M910 49V139"
-            fill="none" stroke="#fff1c7" stroke-width=".8" opacity=".62"/>
-          <path d="M306 91Q344 91 351 70M307 101 350 149M612 110H650M443 48 481 140M840 47 907 148"
-            fill="none" stroke="#7e542c" stroke-width="1.4" opacity=".55"/>
-          <path d="M480 149 482 156 486 158 482 160 480 168 478 160 474 158 478 156Z"
-            fill="#fff0bc" stroke="#9a713c" stroke-width=".6" opacity=".92"/>
-          <path d="M757 30V39M757 43V157" fill="none" stroke="#fff2c3" stroke-width="1.5" opacity=".87"/>
+    <g filter="url(#${id}-shadow)" stroke-linejoin="bevel" paint-order="stroke fill">
+      <use href="#${id}-letters" transform="translate(3.5 6.5)" fill="#3a281e" stroke="#111314" stroke-width="8"/>
+      <use href="#${id}-letters" fill="#94602d" stroke="#38291e" stroke-width="7"/>
+      <use href="#${id}-letters" fill="url(#${id}-face)" stroke="url(#${id}-bevel)" stroke-width="4.8"/>
+      <g clip-path="url(#${id}-cut)">
+        <!-- Offset edges are clipped to the face, forming light and recessed inner bevels. -->
+        <use href="#${id}-letters" transform="translate(2.2 2.8)" fill="none" stroke="#5b331c" stroke-width="5.6" opacity=".64"/>
+        <use href="#${id}-letters" transform="translate(-1.8 -1.8)" fill="none" stroke="#fff0be" stroke-width="2.4" opacity=".88"/>
+        <g transform="translate(32 10)">
+          <!-- Broad planes follow the actual stems; they never float outside a glyph. -->
+          <path d="M55 73L63 65L69 74V173L63 184L55 177ZM160 72L168 64L177 71V175L168 187L160 178ZM289 71L297 64L303 72V175L297 187L289 179ZM424 72L434 66L485 188L484 204L477 198ZM643 55L650 71L686 175L679 184L664 144ZM754 76L765 67V196L758 172ZM833 73L842 64L846 77V175L840 187L833 179ZM919 73L925 64L929 75V176L925 188L919 184Z"
+            fill="url(#${id}-lit-plane)"/>
+          <path d="M64 76L71 72V177L64 188ZM170 73L179 69V180L170 191ZM298 74L305 70V180L298 192ZM322 124L333 122L377 190L363 190ZM488 176L534 73L544 66L493 200L486 206ZM640 85L650 116L686 184L676 183L659 139ZM766 74L776 78V171L767 197ZM849 71L854 64L916 177L916 190L848 75ZM926 75L931 70V188L926 193Z"
+            fill="url(#${id}-recess)"/>
+          <path d="M3 54H113L117 72M145 54H241L245 73M146 191H242M273 54H331Q365 54 371 78M408 54H453M519 54H559M644 50L686 176M739 57H790M818 54H846M899 54H945"
+            fill="none" stroke="#fff1c5" stroke-width="1.5" opacity=".9"/>
+          <path d="M63 77V171M168 76V171M297 77V171M840 78V171M925 78V172M765 76V195"
+            fill="none" stroke="#633b20" stroke-width="1.4" opacity=".76"/>
+          <path d="M62 78V169M167 77V169M296 78V169M839 79V169M924 79V170M763.5 76V192"
+            fill="none" stroke="#fff1bf" stroke-width="1" opacity=".83"/>
+          <path d="M315 117H330Q354 117 365 103M322 130L367 188M621 139H654M438 73L483 173M855 83L909 177M753 34L765 19L777 34M757 47L765 50L773 47M741 63H789"
+            fill="none" stroke="#fff0b7" stroke-width="1.5" opacity=".72"/>
+          <!-- A few authored chisel marks give scale without a noisy generated texture. -->
+          <path d="M25 60L38 61M82 58L99 57M164 94L171 93M209 186L222 184M291 153L297 151M356 74L361 72M471 148L476 151M631 67L637 65M673 188L684 186M759 113L764 111M851 61L857 63M920 146L926 144"
+            fill="none" stroke="#704321" stroke-width="1" opacity=".3"/>
         </g>
       </g>
-      <use href="#${id}-letters" fill="none" stroke="#edd6a0" stroke-width=".65" opacity=".64"/>
+      <use href="#${id}-letters" fill="none" stroke="#f1d392" stroke-width=".7" opacity=".65"/>
     </g>
   `;
   return svg;

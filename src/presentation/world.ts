@@ -28,6 +28,8 @@ import { buildSea, type SeaHandle } from './sea';
 import type { WaterRenderInputs } from './waterRenderPass';
 import type { Settings } from '../platform/settings';
 import { buildRiteResponse, type RiteResponse } from './riteResponse';
+import { buildForestLandmarks } from './forestLandmarks';
+import { buildWoodlandAir } from './woodlandAir';
 
 /** Everything static in Bellwether Vale, plus the presentation that follows durable state. */
 export class WorldScene {
@@ -103,12 +105,19 @@ export class WorldScene {
     this.scene.add(this.sea.group);
     this.waterMeshes = [...Object.values(this.water.ribbons).map(r => r.mesh), this.water.pool, this.sea.mesh] as WaterRenderInputs['meshes'];
     const ctx: BuildContext = { terrain: this.terrain, colliders: this.colliders, library, quality: settings.quality, settings, sway: this.sway, excl: new Exclusions(this.terrain) };
+    const landmarks = buildForestLandmarks(this.terrain, this.colliders, settings.quality);
     const forest = buildFlora(ctx);
     const scatter = buildScatter(ctx);
+    const ambient = buildAmbient(ctx);
     this.groundcover = buildGroundcover(ctx);
     const wildlife = buildWildlife(ctx);
-    const ambient = buildAmbient(ctx);
-    this.modules.push({ name: 'forest', module: forest }, { name: 'scatter', module: scatter }, { name: 'groundcover', module: this.groundcover }, { name: 'wildlife', module: wildlife }, { name: 'ambient', module: ambient });
+    const air = buildWoodlandAir(ctx, this.sky.fog);
+    this.modules.push(
+      { name: 'forest', module: forest }, { name: 'scatter', module: scatter },
+      { name: 'groundcover', module: this.groundcover }, { name: 'wildlife', module: wildlife },
+      { name: 'ambient', module: ambient }, { name: 'woodland air', module: air },
+      { name: 'woodland landmarks', module: { group: landmarks.group, update() {}, stats: () => landmarks.stats, dispose: () => landmarks.dispose() } },
+    );
     for (const m of this.modules) this.scene.add(m.module.group);
     this.environment = buildEnvironment(this.scene, settings.quality);
     this.scenery = buildScenery(this.terrain, this.colliders, settings.quality);

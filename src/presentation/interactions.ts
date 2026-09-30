@@ -31,9 +31,9 @@ export function buildInteractables(app: App): Interactable[] {
       id: `npc:${npc.id}`,
       pos: () => ({ x: npc.x, z: npc.z }),
       r: def.interactRadius ?? 2.7,
-      prompt: () => S('prompt.talk', { name: def.name }),
-      enabled: () => !npc.hidden && st().npcs[npc.id].available && game.entryNode(npc.id) !== null && app.noThreatNear(),
-      act: () => app.startDialogue(npc),
+      prompt: () => S('prompt.observe', { name: def.name }),
+      enabled: () => !npc.hidden && st().npcs[npc.id].available && app.noThreatNear(),
+      act: () => app.observeNpc(npc),
       priority: -1,
     });
   }

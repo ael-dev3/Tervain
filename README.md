@@ -10,19 +10,15 @@ An original order currently called the **Templars** anchors the setting. **The T
 
 **Foundation / pre-production — seeded 29 September 2026; first playable prototype added the same day.**
 
-This repository contains a design and production outline and a browser-playable build of the first slice. It does not contain a desktop package, a shipped asset pack, or Steam integration. Version **0.0.4** revises construction, coastal presentation, people, interface, and runtime stability; see the [patch notes and validation limits](docs/production/releases/0.0.4.md). The build guard enforces the 0.0.x line until the quality gate is met and the owner approves 0.1. See the [versioning policy](docs/production/versioning.md) and [what is real and what is representation](docs/engineering/prototype.md).
+This repository contains a design and production outline and a browser-playable exploration prototype. It does not contain a desktop package, a shipped asset pack, or Steam integration. Version **0.0.5** gives the opening a sparse amnesiac landing, a dense woodland journey, and settlements farther inland. Conversation windows are removed for this pass; the earlier Dry Bell simulation and dialogue data remain for future work, rather than a claim of a complete negotiation UI. Local implementation and automated checks are complete; final browser review and publication remain pending. See the [0.0.5 handoff](docs/production/releases/0.0.5.md). The build guard enforces the 0.0.x line until the quality gate is met and the owner approves 0.1. See the [versioning policy](docs/production/versioning.md) and [what is real and what is representation](docs/engineering/prototype.md).
 
-The menu revision replaces the static hanging-banner composition with an original native 3D desert market: sand, palms, spices, silk, and gentle cloth wind. Its latest correction gives the scene exactly one Hegemony banner on a grounded timber post, with unmarked merchant silk, textile rolls, folded cloth, spices, and pottery elsewhere. The correction is implemented and locally reviewed within unmerged PR #2. The playable coast remains the Grey Strand. The [earlier menu handoff](docs/production/releases/0.0.4.md#native-3d-desert-market-menu-follow-up) preserves the first scene's checks; the [composition correction](docs/production/releases/0.0.4.md#market-composition-correction) records the latest pass separately. Publication remains pending.
-
-The menu now has no outer border, and its **Tervain** wordmark uses original gold-and-dark fantasy lettering that fits the Hegemony-affiliated Templars and shared Warpkeep identity. The name and one-banner market remain. This title treatment is implemented and locally reviewed within `0.0.4` and unmerged PR #2; publication remains pending. See the [wordmark handoff](docs/production/releases/0.0.4.md#borderless-templar-wordmark).
-
-The same `0.0.4` revision improves coastal and inland water with layered waves, depth-based transmission, world reflections, clearer shallows, and finer shoreline foam. Low quality and Reduced Effects use a cheaper fallback; Reduced Motion freezes the cosmetic water phase. See the [water handoff](docs/production/releases/0.0.4.md#water-presentation-follow-up) for the reference, implementation, checks, and limits.
+The separate native 3D silk-and-spice market retains one grounded Hegemony banner and gentle cloth wind. The `0.0.5` title refines Tervain's seven original glyphs with wedge serifs, deeper bronze relief, gold facets, engraved channels, and a blade-like I; title/pause containers explicitly remove outer borders, backgrounds, and shadows. Layered coastal waves, depth-based transmission, world reflections, and their Low/Reduced Effects fallback remain. Gameplay tree and leaf sway stays paused. The [0.0.4 notes](docs/production/releases/0.0.4.md) preserve earlier menu, water, and construction checks as historical evidence; current title/forest review is recorded separately.
 
 ## Play the prototype
 
 **[▶ Play — The Grey Strand to Bellwether Vale](https://ael-dev3.github.io/Tervain/)** (a desktop browser with WebGL; keyboard and mouse or a controller)
 
-You arrive by wagon on a grey beach under a lighthouse and walk inland over open heath to a valley village. A vertical-slice test: investigate a failing water supply, brace a damaged sluice, decide who goes without, and see the valley change. The look follows the owner's Gothic 3 direction (see [look reference](docs/art/gothic3-reference.md)). Saves stay in your browser. The [prototype notes](docs/engineering/prototype.md) list controls, options, limitations, and how to measure performance on your own device. No performance result is claimed.
+The `0.0.5` opening leaves you on the grey strand with no remembered name. Follow an old trail under overlapping crowns, past moss, ferns, carved waystones, and roofless roadside remains, before reaching an inland waystation and Rillford. Inspect environmental clues, observe people without opening conversations, and read your journal. The forest takes strong visual inspiration from [Boring Forest](https://boring-forest.vercel.app/), with original code-authored geometry and materials. Saves stay in your browser; format-1 `0.0.4` saves remain compatible. The public link may still serve an earlier revision until the new build is published. The [prototype notes](docs/engineering/prototype.md) distinguish current controls from retained simulation systems and record the remaining checks. No performance result is claimed.
 
 ```bash
 npm install
@@ -41,6 +37,7 @@ npm run build      # static build in dist/
 - Distance from Warpkeep's eventual main faction war; minimal science-fiction presentation.
 - No keep-management focus and little warping in the initial game.
 - Share suitable technology and assets with Warpkeep while giving Tervain its own identity.
+- A sparse amnesiac beach arrival, dense Templar-associated woodland, inland settlements, and no dialogue windows for `0.0.5`.
 
 ### Proposed foundation to test
 
@@ -79,7 +76,7 @@ For navigation by role, see the [documentation index](docs/README.md).
 
 ## First development objective
 
-Build a small, packaged scene in which one character can walk through a convincing landscape, fight a readable encounter, talk to a resident, change a local condition, save, close the game, and return to the changed world. Measure this before building more regions. The browser prototype exercises that loop; it has not yet been packaged or measured on a reference device.
+Build a small, packaged scene in which one character can walk through a convincing landscape, fight a readable encounter, talk to a resident, change a local condition, save, close the game, and return to the changed world. Measure this before building more regions. The earlier browser prototype exercised the simulation loop. The current `0.0.5` pass focuses on exploration and omits conversation windows, so the full negotiation loop needs a future player interface. It has not been packaged or measured on a reference device.
 
 The first complete slice should make a player care about Rillford's water dispute and understand the cost of their chosen resolution. Forest beauty, combat feel, and narrative consequence must work together in the same build.
 

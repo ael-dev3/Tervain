@@ -3,7 +3,7 @@
 // (docs/engineering/architecture.md: "The renderer displays state").
 
 export const SAVE_FORMAT_VERSION = 1;
-export const CONTENT_REVISION = 'bellwether-proto-0.0.4';
+export const CONTENT_REVISION = 'deepwood-proto-0.0.5';
 
 export type QuestPhase = 'unseen' | 'investigating' | 'decision_ready' | 'committed' | 'settled';
 export const PHASE_ORDER: readonly QuestPhase[] = ['unseen', 'investigating', 'decision_ready', 'committed', 'settled'];
@@ -86,6 +86,7 @@ export type PlaceId =
   | 'shore'
   | 'lantern_point'
   | 'overlook'
+  | 'deepwood'
   | 'rillford'
   | 'ford'
   | 'spring_shrine'
