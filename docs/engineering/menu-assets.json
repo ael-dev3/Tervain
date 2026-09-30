@@ -41,9 +41,9 @@
         "date": "2026-09-30",
         "sourceAndRuntimeByteEquality": true,
         "sizeSha256AndPngHeader": "verified locally",
-        "sceneIntegrationAndVisualQa": "0.0.4: rendered on native fabric in local production-preview review. 0.0.5: rendered weathered on the vigil standard in local headless-browser captures; CPU tests cover print, missing-image fallback and late-load-after-dispose. The integrated 0.0.5 revision passed local production-browser review on b2a62ab; current coverage is recorded in docs/production/releases/0.0.5.md.",
+        "sceneIntegrationAndVisualQa": "0.0.4: rendered on native fabric in local production-preview review. 0.0.5: rendered weathered on the vigil standard in local headless-browser captures; CPU tests cover print, missing-image fallback and late-load-after-dispose. Combined production-browser reviews passed on b2a62ab and, after the late placement/frame integration, f0dc24c; actual coverage is recorded in docs/production/releases/0.0.5.md.",
         "fallbackAndDisposal": "Six CPU-only scene regression tests; no browser HTTP-failure simulation performed.",
-        "publication": "Integrated from PR #3 into the combined 0.0.5 revision and locally validated; publication pending. See docs/production/releases/0.0.5.md.",
+        "publication": "Integrated and locally validated on f0dc24c; source published on codex/0-0-5-templar-forest. PR #4 is merged; this source record tracks the late follow-up branch. Public Pages hosting is unavailable (deploy 404; private:true, has_pages:false). See docs/production/releases/0.0.5.md#publication.",
         "desktopPackage": "not verified"
       }
     }
