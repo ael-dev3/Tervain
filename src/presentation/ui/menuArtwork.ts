@@ -107,28 +107,37 @@ export function wordmarkShapes(): Shape {
   const cut: P2[][] = [];
   const T = 28;
   const B = 158;
+  // Each letter was cast on its own and set by hand: a fraction of a degree of tilt and a unit or two of height,
+  // never on a perfect line. [first shape index, first cut index, centre x, centre y, degrees, lift]
+  const marks: [number, number, number, number, number, number][] = [];
+  const mark = (cx: number, cy: number, deg: number, lift: number) => marks.push([add.length, cut.length, cx, cy, deg, lift]);
+  mark(60, 95, -0.9, 1.5);
   // T
   add.push(bar(2, 36, 118, 36, 19, 19));
   add.push(wedge(5, 44, -7, 24, 15), wedge(115, 44, 7, 24, 15));
   add.push(stem(60, 40, B, 31, 1.3));
   serifs(60, 42, B, 31, 14, add, 'bottom');
+  mark(196, 93, 0.6, -1);
   // E
   add.push(stem(162, T + 2, B - 2, 30, 1.25));
   serifs(162, T + 2, B - 2, 30, 12, add);
   add.push(bar(150, 36, 240, 34, 19, 15), wedge(238, 40, 6, 22, 13));
   add.push(bar(170, 93, 226, 93, 15, 12), wedge(224, 93, 6, -11, 8), wedge(224, 93, 6, 11, 8));
   add.push(bar(150, 150, 246, 152, 19, 15), wedge(244, 146, 7, -24, 13));
+  mark(332, 93, -0.45, 2);
   // R
   add.push(stem(288, T + 2, B - 2, 30, 1.25));
   serifs(288, T + 2, B - 2, 30, 12, add);
   add.push(curve([282, 36], [376, 25], [366, 70], 19, 26));
   add.push(curve([366, 65], [357, 101], [292, 99], 26, 16));
   add.push(bar(312, 98, 372, 151, 21, 27), bar(364, 154, 398, 155, 8, 5), wedge(392, 156, 15, -2, 7));
+  mark(490, 105, 0.8, 0);
   // V (lowered, meeting in a blade point)
   add.push(bar(424, 33, 493, 180, 31, 14));
   add.push(bar(560, 33, 496, 178, 16, 11));
   serifs(424, T + 2, B, 31, 13, add, 'top');
   add.push(wedge(560, 34, 13, -3, 10), wedge(560, 34, -13, -3, 10), bar(547, 29, 573, 29, 6, 6));
+  mark(646, 90, -0.7, -1.5);
   // A
   add.push(bar(592, B - 2, 644, 22, 16, 17));
   add.push(bar(640, 21, 700, B - 2, 20, 32));
@@ -136,6 +145,7 @@ export function wordmarkShapes(): Shape {
   add.push(bar(612, 112, 678, 112, 13, 13));
   add.push(bar(575, B - 1, 610, B - 1, 7, 7), wedge(577, B - 2, -9, 2, 7));
   add.push(bar(680, B - 1, 722, B - 1, 7, 7), wedge(720, B - 2, 9, 2, 7));
+  mark(764, 95, 0.3, 0);
   // I as a sword, point down: pommel, grip, cross-guard with drooping quillons, a long blade with a fuller.
   add.push(diamond(764, 9, 12, 12));
   cut.push(diamond(764, 9, 4, 5));
@@ -154,12 +164,31 @@ export function wordmarkShapes(): Shape {
     [765, 140],
     [763, 140],
   ]);
+  mark(883, 93, 0.5, 1);
   // N
   add.push(stem(834, T + 2, B - 2, 18, 1.3));
   add.push(stem(932, T + 2, B - 2, 18, 1.3));
   add.push(bar(832, T + 4, 934, B - 4, 32, 27));
   serifs(834, T + 2, B - 2, 18, 12, add, 'both');
   serifs(932, T + 2, B - 2, 18, 12, add, 'top');
+  for (let k = 0; k < marks.length; k++) {
+    const [a0, c0, cx, cy, deg, lift] = marks[k]!;
+    const a1 = k + 1 < marks.length ? marks[k + 1]![0] : add.length;
+    const c1 = k + 1 < marks.length ? marks[k + 1]![1] : cut.length;
+    const r = (deg * Math.PI) / 180;
+    const cs = Math.cos(r);
+    const sn = Math.sin(r);
+    const settle = (poly: P2[]) => {
+      for (const p of poly) {
+        const x = p[0] - cx;
+        const y = p[1] - cy;
+        p[0] = cx + x * cs - y * sn;
+        p[1] = cy + x * sn + y * cs + lift;
+      }
+    };
+    for (let i = a0; i < a1; i++) settle(add[i]!);
+    for (let i = c0; i < c1; i++) settle(cut[i]!);
+  }
   return { add, cut };
 }
 
