@@ -11,6 +11,7 @@ import { installMenuMaterials } from './menuMaterials';
  */
 export function createMenuScreen(options: {
   menu: HTMLElement;
+  musicControl?: HTMLElement;
   subtitle: string;
   version: string;
   variant: 'title' | 'pause';
@@ -26,5 +27,5 @@ export function createMenuScreen(options: {
         h('p', { class: 'menu-kicker' }, h('span', {}, options.subtitle)),
         h('h1', { class: 'menu-mark' }, h('span', { class: art ? 'visually-hidden' : 'menu-mark-fallback' }, 'Tervain'), art)),
       h('div', { class: 'menu-well' }, options.menu),
-      h('footer', { class: 'menu-build' }, `v${options.version} · pre-alpha`)));
+      h('footer', { class: 'menu-build' }, h('span', {}, `v${options.version} · pre-alpha`), options.musicControl)));
 }

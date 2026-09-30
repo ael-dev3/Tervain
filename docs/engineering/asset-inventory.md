@@ -53,6 +53,14 @@ The owner explicitly requested the approved Hegemony identity for Tervain's nati
 
 [Machine-readable menu asset record](menu-assets.json) preserves these coordinates and authorization separately from the historical GLB manifest. The July pixel-art emblem and retired unresolved logo candidates remain separate historical records; neither is imported as a substitute.
 
+## Owner-supplied menu score, 30 September 2026
+
+The owner supplied **The Sovereign's Oath.m4a** directly for the Tervain menu and requested its main-game integration as part of `0.0.5`, plus a video spanning the complete song ([A28](../decisions.md)). This is separate from the Warpkeep import: no music from the shared archive is selected.
+
+The unchanged source is archived at [assets/audio/source/the-sovereigns-oath-original.m4a](../../assets/audio/source/the-sovereigns-oath-original.m4a). It contains 214.200 seconds of stereo, 48 kHz Opus audio in an MP4 container, plus an unused timed-text stream. The runtime primary [Ogg/Opus](../../public/assets/audio/the-sovereigns-oath.ogg) is an audio-only stream copy; the [AAC/M4A fallback](../../public/assets/audio/the-sovereigns-oath.m4a) is encoded for compatibility. Both are locally served media; the menu's Master/Music controls retain mix headroom. The song is not an in-world soundtrack or a new sound-effects library.
+
+The [human-readable source record](menu-score.md) and [machine-readable audio inventory](menu-audio-assets.json) pin sizes, hashes, media properties, preparation, and source disclosure. Embedded metadata says the source was made with Suno; authorship, model/version and service/account terms were not independently verified. The owner instruction records this particular Tervain use, repository delivery and requested video. No separate open-content grant or independent ownership finding is asserted. Final integration, browser, video and publication evidence belongs to the [0.0.5 handoff](../production/releases/0.0.5.md).
+
 ## Terms
 
 Warpkeep's own [asset ledger](https://github.com/ael-dev3/Warpkeep/blob/main/ASSETS-LICENSE.md) records these runtime files as **use-authorised** (`LicenseRef-Warpkeep-Provenance-Required`), not as open content: presence in a repository does not establish ownership, an open licence, or general redistribution rights, and each source set keeps its dated provenance record in Warpkeep-Assets. Some sets were produced with generation tools (see the creation disclosure in Warpkeep-Assets' README).

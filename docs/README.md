@@ -13,6 +13,7 @@ Status: foundation outline, 29 September 2026, plus notes on the browser prototy
 | Make environment or character art | [Art/audio/UI](art/art-audio-ui.md) → [setting](world/setting.md) → [shared assets](engineering/shared-assets.md). |
 | Plan the project | [Vision](vision.md) → [roadmap](production/roadmap.md) → [decisions](decisions.md). |
 | Check a source or assumption | [Reference ledger](references.md) → the dated upstream record named there. |
+| Check menu music provenance | [The Sovereign's Oath source record](engineering/menu-score.md) → [audio inventory](engineering/menu-audio-assets.json) → [0.0.5 handoff](production/releases/0.0.5.md). |
 
 ## Document authority
 

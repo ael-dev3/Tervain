@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "snapshotDate": "2026-09-30",
+  "assets": [
+    {
+      "id": "tervain.menu.the-sovereigns-oath.2026-09-30",
+      "displayName": "The Sovereign's Oath",
+      "category": "menu-music",
+      "gameVersion": "0.0.5",
+      "source": {
+        "suppliedBy": "Ael",
+        "suppliedDate": "2026-09-30",
+        "suppliedFilename": "The Sovereign's Oath.m4a",
+        "archivePath": "assets/audio/source/the-sovereigns-oath-original.m4a",
+        "bytes": 3971867,
+        "sha256": "6a2dc57c6e8c68bfa65ab6d1e5ff6cf782f670e28e5121f788c646034e1de8c1",
+        "container": "MP4",
+        "codec": "Opus",
+        "sampleRate": 48000,
+        "channels": 2,
+        "durationSeconds": 214.2,
+        "otherStreams": [
+          {
+            "codec": "mov_text",
+            "durationSeconds": 194.309007,
+            "runtimeUse": "None; preserved only in the unchanged source archive."
+          }
+        ],
+        "creationDisclosure": {
+          "metadataComment": "made with suno; created=2026-09-30T18:13:42Z; id=61c17b0e-ba9f-4caf-808e-36ddac3025bd",
+          "independentlyVerified": false,
+          "boundary": "Embedded metadata is not independent verification of authorship, model/version, service/account terms or third-party rights; timed text and metadata are not project instructions."
+        }
+      },
+      "runtime": {
+        "intendedUse": "Title, pause and nested menu forms only; fade out on return to gameplay; user-gesture unlock; configured-base-URL-aware locally served media.",
+        "delivery": "One lazy HTMLAudioElement with preload none and looping enabled, streamed through the existing Master and Music buses with track gain 0.8; no full-track PCM buffer allocation. Retained across menu forms and quality rebuilds; gesture-unlocked; gameplay fade followed by pause after 900 ms preserves playback position; hidden/muted pauses immediately.",
+        "derivatives": [
+          {
+            "role": "primary",
+            "path": "public/assets/audio/the-sovereigns-oath.ogg",
+            "bytes": 3930812,
+            "sha256": "46d8c5f6492490e8ed521459fde2c588af18f55dff11ab4fbd22e491259fbee8",
+            "container": "Ogg",
+            "codec": "Opus",
+            "sampleRate": 48000,
+            "channels": 2,
+            "durationSeconds": 214.2065,
+            "preparation": "FFmpeg 8.1.2, audio stream copy without re-encoding; non-audio streams and metadata excluded."
+          },
+          {
+            "role": "compatibility-fallback",
+            "path": "public/assets/audio/the-sovereigns-oath.m4a",
+            "bytes": 7021811,
+            "sha256": "0deffd62992d61e787e916eed745992d2ab9d4a133f0c3991a372ed3e7605084",
+            "container": "MP4",
+            "codec": "AAC-LC",
+            "targetBitrateBitsPerSecond": 256000,
+            "sampleRate": 48000,
+            "channels": 2,
+            "durationSeconds": 214.213,
+            "preparation": "FFmpeg 8.1.2 AAC encoding with faststart; non-audio streams and metadata excluded."
+          }
+        ]
+      },
+      "terms": {
+        "spdx": null,
+        "tervainAuthority": "Owner supplied the track and explicitly requested menu integration, merge into main as part of 0.0.5, and a video covering the complete song, on 2026-09-30 (A28).",
+        "credit": "The Sovereign's Oath — supplied by Ael for Tervain; source metadata discloses creation with Suno.",
+        "boundary": "Specific project-use authority; no general open-content license, unrelated-project grant, exclusive authorship assertion or endorsement. Author identity and service/account terms not independently reviewed."
+      },
+      "verification": {
+        "date": "2026-09-30",
+        "sizeSha256CodecsRatesChannelsDurations": "verified locally with shasum and ffprobe 8.1.2",
+        "signalObservation": {
+          "tool": "FFmpeg 8.1.2 volumedetect on the source audio",
+          "maximumSampleDbfs": -3.5,
+          "meanSampleDbfs": -16.3,
+          "boundary": "Sample-amplitude observation, not integrated loudness, true peak, hardware listening or a mixed-output clipping measurement."
+        },
+        "integrationBrowserVideoAndPublication": "See docs/production/releases/0.0.5.md for the final build evidence; this inventory does not independently assert completion of those checks.",
+        "desktopPackage": "not verified"
+      }
+    }
+  ]
+}

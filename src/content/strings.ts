@@ -9,6 +9,8 @@ export const EN: Record<string, string> = {
   'game.title': 'Tervain',
   'game.subtitle': 'The Grey Strand · The Deepwood · Bellwether Vale',
   'menu.affiliation': 'Templars of the Hegemony',
+  'menu.music.play': 'Play menu music',
+  'menu.music.gesture': 'Music starts after a click or key press. Adjust Master and Music in Settings.',
   'game.tagline': 'An empty shore. A forgotten name. A path beneath the old trees.',
   'menu.continue': 'Continue',
   'menu.new': 'New Game',
