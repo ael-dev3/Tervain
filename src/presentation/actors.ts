@@ -7,6 +7,7 @@ import { ANCHORS, MAINT_ROUTE, type EnemySpawn, type V2 } from '../world/layout'
 import type { NavGrid } from '../world/nav';
 import type { Terrain } from '../world/terrain';
 import { applyFlash, createBanditRig, createNpcRig, createThornback, poseRig, type Mode, type Pose, type Rig } from './characters';
+import { npcStyle } from './npcStyle';
 
 const hourIn = (h: number, from: number, to: number) => (from <= to ? h >= from && h < to : h >= from || h < to);
 
@@ -200,7 +201,7 @@ export class NpcActor {
     }
     this.mode = mode;
     this.anim += dt * (moving ? 1.05 : 0.3);
-    const pose: Pose = { mode, speed: moving ? 0.55 : 0, time: mode === 'work' ? this.clock : this.anim, t: 0, amp: ctx.reducedMotion ? 0.4 : 1 };
+    const pose: Pose = { mode, speed: moving ? 0.55 : 0, time: mode === 'work' || mode === 'sit' ? this.clock : this.anim, t: 0, amp: ctx.reducedMotion ? 0.4 : 1, workGesture: npcStyle(this.def.id).work };
     if (!this.hidden) poseRig(this.rig, pose, dt);
 
     // Ambient remarks when the player passes close.

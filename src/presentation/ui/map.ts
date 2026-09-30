@@ -146,11 +146,13 @@ export class MapView {
     // Suggested next stop
     if (opts.guidance && opts.hintPlace) {
       const p = PLACES[opts.hintPlace];
-      const pulse = 0.5 + 0.5 * Math.sin(opts.time * 3);
-      ctx.strokeStyle = `rgba(160, 60, 40, ${0.5 + pulse * 0.4})`;
-      ctx.lineWidth = 3;
+      // A fixed map annotation reads like a route note and stays legible with motion reduced.
+      ctx.strokeStyle = '#6f3428';
+      ctx.fillStyle = 'rgba(111, 52, 40, 0.12)';
+      ctx.lineWidth = 2;
       ctx.beginPath();
-      ctx.arc(px(p.x), pz(p.z), 18 + pulse * 6, 0, Math.PI * 2);
+      ctx.arc(px(p.x), pz(p.z), 19, 0, Math.PI * 2);
+      ctx.fill();
       ctx.stroke();
     }
 

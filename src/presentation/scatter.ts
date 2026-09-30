@@ -1,13 +1,13 @@
 import * as THREE from 'three';
-import { cliffiness, coastX, shoreDistance } from '../world/coast';
-import { LIGHTHOUSE, STRAND } from '../world/layout';
+import { coastX } from '../world/coast';
 import { clamp, fbm, mulberry32, ridged, smoothstep } from '../world/noise';
-import { clearanceAt, realmRadius } from '../world/terrain';
+import { clearanceAt } from '../world/terrain';
 import { Ctx } from './buildKit';
 import type { BuildContext, SceneModule } from './context';
 import { makeTexPair } from './buildingTextures';
 import { Region, type MatKey } from './regions';
 import { streamDistance } from './groundSplat';
+import { createScatterPopulation, registerScatterColliders, SCATTER_SHAPES, selectScatterPopulation } from './scatterPopulation';
 
 /**
  * Stones and the things the sea leaves: boulders and scree, pebbles at the tide line, driftwood, wrack (weed), reeds by the
@@ -92,7 +92,6 @@ function rockGeometry(seed: number, detail: 1 | 2, tone: RGB): THREE.BufferGeome
 }
 
 /** Sea stacks, cliffs and boulders share a handful of seeded shapes per size class; each placed rock picks one and is scaled and turned. */
-const SHAPES = 6;
 
 let sharedShapes: { big: THREE.BufferGeometry[]; small: THREE.BufferGeometry[] } | null = null;
 const ROCK_TONES: RGB[] = [[1.0, 0.95, 0.88], [0.88, 0.86, 0.8], [1.08, 0.95, 0.82], [0.8, 0.8, 0.78]];
@@ -101,8 +100,8 @@ const ROCK_TONES: RGB[] = [[1.0, 0.95, 0.88], [0.88, 0.86, 0.8], [1.08, 0.95, 0.
 export function rockShapes() {
   if (!sharedShapes) {
     sharedShapes = {
-      big: Array.from({ length: SHAPES }, (_, i) => rockGeometry(100 + i, 2, ROCK_TONES[i % ROCK_TONES.length]!)),
-      small: Array.from({ length: SHAPES }, (_, i) => rockGeometry(200 + i, 1, ROCK_TONES[(i + 1) % ROCK_TONES.length]!)),
+      big: Array.from({ length: SCATTER_SHAPES }, (_, i) => rockGeometry(100 + i, 2, ROCK_TONES[i % ROCK_TONES.length]!)),
+      small: Array.from({ length: SCATTER_SHAPES }, (_, i) => rockGeometry(200 + i, 1, ROCK_TONES[(i + 1) % ROCK_TONES.length]!)),
     };
   }
   return sharedShapes;
@@ -112,7 +111,8 @@ export function buildScatter(ctx: BuildContext): SceneModule & { counts: { rocks
   const { terrain, colliders, quality } = ctx;
   const group = new THREE.Group();
   group.name = 'scatter';
-  const rng = mulberry32(8080);
+  // Debris has its own random stream; visual density never affects rock obstacle authoring.
+  const rng = mulberry32(8081);
   const regions = new Map<string, Region>();
   const region = (x: number, z: number) => {
     const key = `${Math.floor(x / 96)}:${Math.floor(z / 96)}`;
@@ -125,87 +125,21 @@ export function buildScatter(ctx: BuildContext): SceneModule & { counts: { rocks
   };
   const density = quality === 'low' ? 0.55 : quality === 'medium' ? 0.8 : 1;
   const shapes = rockShapes();
-  let rocks = 0;
-  let cid = 0;
-  const placeRock = (x: number, z: number, size: number, o: { sink?: number; collide?: boolean; squash?: number; yOff?: number } = {}) => {
-    const y = terrain.heightAt(x, z);
+  const population = createScatterPopulation(terrain, ctx.excl);
+  registerScatterColliders(population, colliders);
+  const plan = selectScatterPopulation(population, quality);
+  const rocks = plan.rocks.length;
+  for (const rock of plan.rocks) {
+    const { x, y, z, size } = rock;
     const R = region(x, z);
     const list = size > 0.55 ? shapes.big : shapes.small;
-    const g = list[Math.floor(rng() * list.length)]!;
+    const g = list[rock.shape]!;
     const B = R.get('rock' as MatKey);
-    R.ctx.push(x, y + (o.yOff ?? 0) + size * 0.25 * (1 - (o.sink ?? 0.35)), z, rng() * Math.PI * 2, (rng() - 0.5) * 0.25, (rng() - 0.5) * 0.25);
-    R.ctx.matrix.scale(new THREE.Vector3(size, size * (o.squash ?? 1), size * (0.8 + rng() * 0.4)));
-    B.addGeometry(g, null, 0.9 + rng() * 0.2, 0.06, size);
+    R.ctx.push(x, y, z, rock.yaw, rock.rx, rock.rz);
+    R.ctx.matrix.scale(new THREE.Vector3(size, size * rock.squash, size * rock.zScale));
+    B.addGeometry(g, null, rock.tint, 0.06, size);
     R.ctx.pop();
-    rocks++;
-    if (o.collide && size > 0.8) colliders.circle(`rock:${cid++}`, x, z, size * 0.72);
-  };
-
-  /* ---- Beach: cobbles and pebbles at the tide line and the shingle band behind it ---- */
-  for (let z = -170; z < 170; z += 3.2) {
-    if (cliffiness(z) > 0.85) continue;
-    for (let k = 0; k < 3 * density; k++) {
-      const sd = 0.5 + rng() * 11;
-      const zz = z + rng() * 3.2;
-      const xs = coastX(zz) + sd;
-      if (realmRadius(xs, zz) > 0.97 || terrain.heightAt(xs, zz) < 0.05) continue;
-      const n = 3 + Math.floor(rng() * 6);
-      for (let q = 0; q < n; q++) placeRock(xs + (rng() - 0.5) * 1.6, zz + (rng() - 0.5) * 1.6, 0.06 + rng() * 0.2, { sink: 0.5 });
-    }
   }
-  /* ---- Rocks in the surf and along cliff feet; sea stacks off the point ---- */
-  for (let z = -170; z < 170; z += 2.6) {
-    const cl = cliffiness(z);
-    const dens = (0.12 + cl * 0.8) * density;
-    if (rng() > dens) continue;
-    const sd = -22 + rng() * 34;
-    const px = coastX(z) + sd;
-    if (px < -375) continue;
-    const h = terrain.heightAt(px, z);
-    if (h < -2.2) continue;
-    if (h < 0.4 || cl > 0.4) placeRock(px, z, 0.5 + rng() * (0.9 + cl * 1.8), { sink: 0.5, collide: h > -0.6, squash: 1.1 });
-  }
-  for (const [x, z, s] of [[-366, 82, 4.6], [-372, 96, 3.4], [-360, 120, 5.4], [-355, 132, 3.6], [-344, 60, 3.0], [-330, 150, 4.2]] as const) {
-    const y = terrain.heightAt(x, z);
-    if (y < -0.3 && y > -6) placeRock(x, z, s, { sink: 0.25, squash: 1.7, yOff: 0.4 });
-  }
-
-  /* ---- Heath erratics and knoll boulders ---- */
-  for (let gz = -160; gz < 165; gz += 9.5) {
-    for (let gx = -290; gx < 190; gx += 9.5) {
-      const x = gx + rng() * 9.5;
-      const z = gz + rng() * 9.5;
-      if (realmRadius(x, z) > 0.98) continue;
-      const sd = shoreDistance(x, z);
-      if (sd < 14) continue;
-      const slope = terrain.slopeAt(x, z);
-      const rockiness = ridged(x / 14, z / 14, 3, 33) + slope * 0.6;
-      if (rng() > smoothstep(0.42, 0.85, rockiness) * 0.55 * density) continue;
-      if (clearanceAt(x, z) < 0.5) continue;
-      if (streamDistance(x, z) < 3) continue;
-      placeRock(x, z, 0.35 + rng() * rng() * 2.2, { collide: true, sink: 0.4 });
-    }
-  }
-  // Scree and fallen blocks below the mountain flanks.
-  for (let i = 0; i < 260 * density; i++) {
-    const a = rng() * Math.PI * 2;
-    const rr = 1.0 + rng() * 0.25;
-    const x = -60 + Math.cos(a) * 230 * rr * (a > 1.6 && a < 4.7 ? 1.3 : 1);
-    const z = -20 + Math.sin(a) * 140 * rr;
-    if (realmRadius(x, z) < 0.9 || realmRadius(x, z) > 1.1) continue;
-    if (terrain.slopeAt(x, z) > 1.3 || shoreDistance(x, z) < 30) continue;
-    placeRock(x, z, 1.2 + rng() * 3.4, { sink: 0.4 });
-  }
-  // The foot of the lighthouse rock: a ring of tumbled blocks.
-  for (let i = 0; i < 22; i++) {
-    const a = rng() * Math.PI * 2;
-    const rr = 12 + rng() * 26;
-    const x = LIGHTHOUSE.x + Math.cos(a) * rr;
-    const z = LIGHTHOUSE.z + Math.sin(a) * rr;
-    if (terrain.heightAt(x, z) < 0.4) continue;
-    placeRock(x, z, 0.7 + rng() * 1.8, { sink: 0.35, collide: true });
-  }
-  void STRAND;
 
   /* ---- Driftwood, wrack and reeds ---- */
   const drift = (x: number, z: number) => {

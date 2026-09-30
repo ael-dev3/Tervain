@@ -1,4 +1,4 @@
-import { ARCHIVE_SHUTTER, BUILDINGS, DECKS, LIGHTHOUSE, PALISADE, SHORTCUT, WAGON, WORLD, bySpec, type BuildingSpec } from './layout';
+import { ARCHIVE_ROOM, ARCHIVE_SHUTTER, BUILDINGS, DECKS, LIGHTHOUSE, PALISADE, SHORTCUT, WAGON, WORLD, bySpec, type BuildingSpec } from './layout';
 
 /** Simple 2D collision shapes on the ground plane. Trunks block movement; most leaves do not. */
 export interface CircleCollider {
@@ -241,20 +241,19 @@ export function buildStaticColliders(): Colliders {
     if (b.kind === 'archive') {
       const hw = b.w / 2;
       const hd = b.d / 2;
-      const t = 0.3;
-      const gap = 1.0; // half-width of the door and shutter openings
+      const { wallThickness: t, doorHalfWidth: gap, shutterHalfWidth: sw } = ARCHIVE_ROOM;
       // south (front) wall with door gap
       wallBox(c, 'archive_wall', b, -hw, -gap, hd - t, hd + t);
       wallBox(c, 'archive_wall', b, gap, hw, hd - t, hd + t);
       // north wall with shutter gap
-      wallBox(c, 'archive_wall', b, -hw, -gap * 0.8, -hd - t, -hd + t);
-      wallBox(c, 'archive_wall', b, gap * 0.8, hw, -hd - t, -hd + t);
+      wallBox(c, 'archive_wall', b, -hw, -sw, -hd - t, -hd + t);
+      wallBox(c, 'archive_wall', b, sw, hw, -hd - t, -hd + t);
       // side walls
       wallBox(c, 'archive_wall', b, -hw - t, -hw + t, -hd, hd);
       wallBox(c, 'archive_wall', b, hw - t, hw + t, -hd, hd);
       // dynamic: door and shutter fill the openings until opened
       wallBox(c, 'archive_door', b, -gap, gap, hd - t, hd + t, 'archive_door');
-      wallBox(c, 'archive_shutter', b, -gap * 0.8, gap * 0.8, -hd - t, -hd + t, 'archive_shutter');
+      wallBox(c, 'archive_shutter', b, -sw, sw, -hd - t, -hd + t, 'archive_shutter');
     } else {
       c.box(`b:${b.id}`, b.x, b.z, b.w / 2, b.d / 2, b.yaw);
     }

@@ -2,3 +2,6 @@
 
 /** Short git revision of the source the bundle was built from (injected by vite.config.ts). */
 declare const __SOURCE_REVISION__: string;
+
+/** Product version from package.json; Vite enforces the active pre-0.1 quality hold. */
+declare const __GAME_VERSION__: string;

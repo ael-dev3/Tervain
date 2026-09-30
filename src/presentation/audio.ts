@@ -1,9 +1,10 @@
 import type { Settings } from '../platform/settings';
 
 /**
- * Procedural audio: no sample files, so nothing in the prototype needs a licence beyond
- * this source. Independent master/music/effects/ambience/dialogue levels; essential
- * non-verbal cues also raise a caption event so they never depend on sound alone.
+ * Audio facade for the prototype. Until sourced and reviewed recordings are available,
+ * ordinary UI, dialogue, footstep and combat contacts stay deliberately quiet. The
+ * broad wind/water beds remain procedural; semantic captions are raised
+ * independently of AudioContext availability and volume settings.
  */
 export type SurfaceKind = 'grass' | 'road' | 'stone' | 'water' | 'deck' | 'sand';
 
@@ -14,14 +15,8 @@ export class AudioEngine {
   private noiseBuf: AudioBuffer | null = null;
   private wind: { gain: GainNode; filter: BiquadFilterNode } | null = null;
   private water: { gain: GainNode; filter: BiquadFilterNode } | null = null;
-  private mill: { gain: GainNode } | null = null;
   private sea: { rumble: GainNode; hiss: GainNode } | null = null;
-  private nextGull = 0;
-  private nextBird = 0;
-  private nextCricket = 0;
-  private nextNote = 0;
-  private nextHammer = 0;
-  private musicStep = 0;
+  private pageHidden = false;
   onCaption: ((text: string) => void) | null = null;
   enabled = true;
 
@@ -29,6 +24,7 @@ export class AudioEngine {
 
   /** Must be called from a user gesture. */
   resume() {
+    if (this.pageHidden) return;
     if (!this.ctx) {
       const AC = window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       if (!AC) {
@@ -48,11 +44,20 @@ export class AudioEngine {
       this.startBeds();
       this.applySettings();
     }
-    if (this.ctx.state === 'suspended') void this.ctx.resume();
+    if (this.ctx.state === 'suspended') void this.ctx.resume().catch(() => undefined);
+  }
+
+  /** Suspend the whole context so looping sources and their LFO clocks stop in a hidden tab. */
+  setPageHidden(hidden: boolean) {
+    this.pageHidden = hidden;
+    if (!this.ctx || this.ctx.state === 'closed') return;
+    // Queue both transitions, including a quick hide/show before suspend has resolved.
+    const transition = hidden ? this.ctx.suspend() : this.ctx.resume();
+    void transition.catch(() => undefined);
   }
 
   get ready() {
-    return this.ctx !== null && this.ctx.state === 'running';
+    return !this.pageHidden && this.ctx !== null && this.ctx.state === 'running';
   }
 
   private makeNoise(seconds: number) {
@@ -115,16 +120,6 @@ export class AudioEngine {
     ns.connect(nf).connect(ng).connect(this.buses.ambience);
     ns.start();
     this.water = { gain: ng, filter: nf };
-    // Mill wheel: slow creaking thump.
-    const ms = this.noiseSrc();
-    const mf = ctx.createBiquadFilter();
-    mf.type = 'lowpass';
-    mf.frequency.value = 260;
-    const mg = ctx.createGain();
-    mg.gain.value = 0;
-    ms.connect(mf).connect(mg).connect(this.buses.ambience);
-    ms.start();
-    this.mill = { gain: mg };
     // The sea: a deep swell rumble and a bright hiss of spray, both breathing with the waves (a slow LFO, a little out of step).
     const rs = this.noiseSrc();
     const rf = ctx.createBiquadFilter();
@@ -156,289 +151,85 @@ export class AudioEngine {
 
   /** Per-frame ambience update. */
   update(dt: number, e: { nightness: number; waterProximity: number; flow: number; millNear: number; millTurning: boolean; windAmount: number; quarryNear: number; quarryWorking: boolean; time: number; underRoof: boolean; seaProximity?: number }) {
-    if (!this.ctx || !this.wind || !this.water || !this.mill) return;
+    if (this.pageHidden || !this.ctx || !this.wind || !this.water) return;
     const t = this.ctx.currentTime;
     const roof = e.underRoof ? 0.35 : 1;
     this.wind.gain.gain.setTargetAtTime(0.05 * (0.5 + e.windAmount) * roof, t, 0.6);
     const wl = e.waterProximity * (0.05 + 0.35 * e.flow) * roof;
     this.water.gain.gain.setTargetAtTime(wl, t, 0.4);
     this.water.filter.frequency.setTargetAtTime(700 + 1400 * e.flow, t, 0.5);
-    this.mill.gain.gain.setTargetAtTime(e.millTurning ? 0.16 * e.millNear : 0.0, t, 0.5);
     const sp = (e.seaProximity ?? 0) * roof;
     if (this.sea) {
       this.sea.rumble.gain.setTargetAtTime(0.16 * sp, t, 0.8);
       this.sea.hiss.gain.setTargetAtTime(0.06 * sp * sp, t, 0.8);
     }
-    if ((e.seaProximity ?? 0) > 0.35 && e.time > this.nextGull && e.nightness < 0.5 && !e.underRoof) {
-      this.gull((e.seaProximity ?? 0));
-      this.nextGull = e.time + 5 + Math.random() * 12;
-    }
-    // Birds by day, crickets by night.
-    if (e.time > this.nextBird && e.nightness < 0.4 && !e.underRoof) {
-      this.chirp();
-      this.nextBird = e.time + 2.5 + Math.random() * 6;
-    }
-    if (e.time > this.nextCricket && e.nightness > 0.5 && !e.underRoof) {
-      this.cricket();
-      this.nextCricket = e.time + 0.5 + Math.random() * 1.5;
-    }
-    if (e.quarryWorking && e.quarryNear > 0.05 && e.time > this.nextHammer) {
-      this.hammer(e.quarryNear);
-      this.nextHammer = e.time + 0.55 + Math.random() * 0.5;
-    }
-    // Sparse generative music: a phrase every so often, mostly silence.
-    if (e.time > this.nextNote) {
-      this.phrase();
-      this.nextNote = e.time + 9 + Math.random() * 14;
-    }
+    // Wildlife, quarry impacts and the placeholder score remain silent until they can
+    // be supplied as locally packaged, provenance-checked, reviewed audio assets.
+    void e.nightness;
+    void e.millNear;
+    void e.millTurning;
+    void e.quarryNear;
+    void e.quarryWorking;
+    void e.time;
     void dt;
   }
 
-  private tone(freq: number, dur: number, type: OscillatorType, vol: number, bus: GainNode, at = 0, attack = 0.02, detune = 0, lp = 0) {
-    const ctx = this.ctx!;
-    const t = ctx.currentTime + at;
-    const o = ctx.createOscillator();
-    o.type = type;
-    o.frequency.value = freq;
-    o.detune.value = detune;
-    const g = ctx.createGain();
-    g.gain.setValueAtTime(0.0001, t);
-    g.gain.linearRampToValueAtTime(vol, t + attack);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-    let node: AudioNode = o;
-    if (lp > 0) {
-      const f = ctx.createBiquadFilter();
-      f.type = 'lowpass';
-      f.frequency.value = lp;
-      o.connect(f);
-      node = f;
-    }
-    node.connect(g).connect(bus);
-    o.start(t);
-    o.stop(t + dur + 0.05);
-  }
-
-  private burst(dur: number, freq: number, q: number, vol: number, bus: GainNode, type: BiquadFilterType = 'bandpass', at = 0, sweep = 0) {
-    const ctx = this.ctx!;
-    const t = ctx.currentTime + at;
-    const s = this.noiseSrc(false);
-    const f = ctx.createBiquadFilter();
-    f.type = type;
-    f.frequency.setValueAtTime(freq, t);
-    if (sweep !== 0) f.frequency.exponentialRampToValueAtTime(Math.max(60, freq * sweep), t + dur);
-    f.Q.value = q;
-    const g = ctx.createGain();
-    g.gain.setValueAtTime(vol, t);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-    s.connect(f).connect(g).connect(bus);
-    s.start(t, Math.random() * 1.5);
-    s.stop(t + dur + 0.05);
-  }
-
-  /* ---- ambient one-shots ---- */
-  private chirp() {
-    if (!this.ctx) return;
-    const base = 2200 + Math.random() * 1600;
-    const n = 2 + Math.floor(Math.random() * 3);
-    for (let i = 0; i < n; i++) {
-      this.tone(base * (1 + i * 0.08), 0.09, 'sine', 0.035, this.buses.ambience, i * 0.11, 0.01);
-    }
-  }
-
-  /** A gull: two falling cries with a quaver, coming from somewhere over the water. */
-  private gull(near: number) {
-    const ctx = this.ctx!;
-    const t0 = ctx.currentTime;
-    const n = 2 + Math.floor(Math.random() * 3);
-    const base = 900 + Math.random() * 280;
-    for (let i = 0; i < n; i++) {
-      const t = t0 + i * 0.34;
-      const o = ctx.createOscillator();
-      o.type = 'sawtooth';
-      o.frequency.setValueAtTime(base * 1.25, t);
-      o.frequency.exponentialRampToValueAtTime(base * 0.72, t + 0.28);
-      const q = ctx.createOscillator();
-      q.frequency.value = 38;
-      const qg = ctx.createGain();
-      qg.gain.value = 40;
-      q.connect(qg).connect(o.frequency);
-      const f = ctx.createBiquadFilter();
-      f.type = 'bandpass';
-      f.frequency.value = 1900;
-      f.Q.value = 1.4;
-      const g = ctx.createGain();
-      g.gain.setValueAtTime(0, t);
-      g.gain.linearRampToValueAtTime(0.028 * near, t + 0.04);
-      g.gain.exponentialRampToValueAtTime(0.0008, t + 0.3);
-      o.connect(f).connect(g).connect(this.buses.ambience);
-      o.start(t);
-      q.start(t);
-      o.stop(t + 0.34);
-      q.stop(t + 0.34);
-    }
-  }
-
-  private cricket() {
-    if (!this.ctx) return;
-    for (let i = 0; i < 3; i++) this.tone(4300, 0.04, 'square', 0.006, this.buses.ambience, i * 0.07, 0.005, 0, 6000);
-  }
-
-  private hammer(near: number) {
-    if (!this.ctx) return;
-    this.burst(0.06, 2400, 6, 0.28 * near, this.buses.ambience, 'bandpass');
-    this.tone(880, 0.2, 'triangle', 0.05 * near, this.buses.ambience, 0, 0.002, 0, 3000);
-  }
-
-  private phrase() {
-    if (!this.ctx) return;
-    const ctx = this.ctx;
-    // D dorian, intimate and sparse: bowed-ish saw through a low-pass, occasional soft second voice.
-    const scale = [146.83, 164.81, 174.61, 196.0, 220.0, 246.94, 261.63, 293.66, 329.63];
-    const notes = 3 + Math.floor(Math.random() * 3);
-    let idx = 2 + Math.floor(Math.random() * 4);
-    for (let i = 0; i < notes; i++) {
-      idx = Math.max(0, Math.min(scale.length - 1, idx + Math.floor(Math.random() * 5) - 2));
-      const f = scale[idx]!;
-      const at = i * (1.6 + Math.random() * 1.2);
-      this.tone(f, 4.6, 'sawtooth', 0.045, this.buses.music, at, 1.2, Math.random() * 10 - 5, 900);
-      this.tone(f * 1.5, 4.0, 'sine', 0.02, this.buses.music, at + 0.3, 1.4);
-      if (i === 0) this.tone(f / 2, 7, 'sine', 0.05, this.buses.music, at, 2.0);
-    }
-    this.musicStep++;
-    void ctx;
-  }
-
   /* ---- effects ---- */
-  footstep(surface: SurfaceKind, running: boolean) {
-    if (!this.ctx) return;
-    const v = running ? 0.14 : 0.09;
-    switch (surface) {
-      case 'water':
-        this.burst(0.16, 900 + Math.random() * 300, 1.2, v * 1.3, this.buses.effects, 'lowpass');
-        break;
-      case 'stone':
-      case 'deck':
-        this.burst(0.06, 1600 + Math.random() * 300, 1.5, v, this.buses.effects);
-        this.tone(140, 0.08, 'triangle', v * 0.5, this.buses.effects, 0, 0.002);
-        break;
-      case 'road':
-        this.burst(0.09, 700 + Math.random() * 200, 0.9, v, this.buses.effects);
-        break;
-      case 'sand':
-        // Soft and gritty: a low, slightly hissing crunch.
-        this.burst(0.14, 520 + Math.random() * 160, 0.6, v * 0.85, this.buses.effects, 'lowpass');
-        this.burst(0.05, 2600 + Math.random() * 500, 1.2, v * 0.35, this.buses.effects, 'highpass');
-        break;
-      default:
-        this.burst(0.11, 420 + Math.random() * 120, 0.7, v * 0.9, this.buses.effects, 'lowpass');
-    }
+  footstep(_surface: SurfaceKind, _running: boolean) {
+    // Surface-specific recordings are required before a boot contact is emitted.
   }
 
-  swing(heavy: boolean) {
-    if (!this.ctx) return;
-    this.burst(heavy ? 0.32 : 0.2, 900, 1.2, heavy ? 0.22 : 0.16, this.buses.effects, 'bandpass', 0, 3);
+  swing(_heavy: boolean) {
+    // A synthesized sweep reads as an electronic effect; keep the contact quiet for now.
   }
 
-  hit(kind: 'flesh' | 'block' | 'perfect') {
-    if (!this.ctx) return;
-    if (kind === 'flesh') {
-      this.burst(0.12, 260, 0.7, 0.4, this.buses.effects, 'lowpass');
-      this.tone(96, 0.18, 'sine', 0.3, this.buses.effects, 0, 0.004);
-    } else {
-      this.tone(1180, 0.32, 'triangle', 0.16, this.buses.effects, 0, 0.002);
-      this.tone(1760, 0.24, 'sine', 0.1, this.buses.effects, 0, 0.002);
-      this.burst(0.05, 3200, 3, 0.25, this.buses.effects);
-      if (kind === 'perfect') this.tone(2350, 0.4, 'sine', 0.1, this.buses.effects, 0.03, 0.002);
-    }
+  hit(_kind: 'flesh' | 'block' | 'perfect') {
+    // Combat outcome remains visible in the existing health, stamina and hit reactions.
   }
 
   hurt() {
-    if (!this.ctx) return;
-    this.tone(180, 0.22, 'sawtooth', 0.12, this.buses.effects, 0, 0.005, 0, 700);
-    this.tone(140, 0.3, 'sawtooth', 0.1, this.buses.effects, 0.05, 0.005, 0, 600);
+    // Replace with a reviewed, licensed exertion cue before enabling.
   }
 
   growl() {
-    if (!this.ctx) return;
-    this.tone(70, 0.7, 'sawtooth', 0.14, this.buses.effects, 0, 0.1, 0, 300);
-    this.tone(84, 0.7, 'sawtooth', 0.1, this.buses.effects, 0.05, 0.1, 6, 260);
     this.caption('[A low growl]');
   }
 
   pickup() {
-    if (!this.ctx) return;
-    this.tone(660, 0.25, 'triangle', 0.14, this.buses.effects, 0, 0.005);
-    this.tone(990, 0.35, 'sine', 0.1, this.buses.effects, 0.08, 0.005);
+    // The item toast is the feedback until a material-specific sample is available.
   }
 
   interact() {
-    if (!this.ctx) return;
-    this.tone(520, 0.1, 'triangle', 0.1, this.buses.effects, 0, 0.003);
+    // The world interaction supplies visual state and caption feedback where needed.
   }
 
   uiMove() {
-    if (!this.ctx) return;
-    this.tone(700, 0.05, 'sine', 0.05, this.buses.effects, 0, 0.002);
+    // Navigation remains silent to avoid a musical interface.
   }
 
   uiConfirm() {
-    if (!this.ctx) return;
-    this.tone(560, 0.09, 'triangle', 0.09, this.buses.effects, 0, 0.003);
-    this.tone(840, 0.14, 'sine', 0.07, this.buses.effects, 0.05, 0.003);
+    // Focus and pressed states carry confirmation feedback.
   }
 
   journal() {
-    if (!this.ctx) return;
-    this.burst(0.12, 2200, 1, 0.1, this.buses.effects, 'highpass');
-    this.tone(392, 0.3, 'sine', 0.06, this.buses.effects, 0.05);
+    // Reading is silent until there is a reviewed page-turn sample.
   }
 
-  blip(pitch: number) {
-    if (!this.ctx) return;
-    this.tone(pitch, 0.05, 'triangle', 0.028, this.buses.dialogue, 0, 0.004, 0, 1800);
-  }
-
-  gateCreak() {
-    if (!this.ctx) return;
-    const ctx = this.ctx;
-    const t = ctx.currentTime;
-    const o = ctx.createOscillator();
-    o.type = 'sawtooth';
-    o.frequency.setValueAtTime(90, t);
-    o.frequency.linearRampToValueAtTime(58, t + 1.4);
-    const f = ctx.createBiquadFilter();
-    f.type = 'lowpass';
-    f.frequency.value = 500;
-    const g = ctx.createGain();
-    g.gain.setValueAtTime(0.0001, t);
-    g.gain.linearRampToValueAtTime(0.13, t + 0.2);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + 1.5);
-    o.connect(f).connect(g).connect(this.buses.effects);
-    o.start(t);
-    o.stop(t + 1.6);
-    this.burst(0.9, 300, 1, 0.12, this.buses.effects, 'lowpass', 0.1);
-    this.caption('[The sluice gate groans]');
+  gateCreak(caption = '[The sluice gate groans]') {
+    this.caption(caption);
   }
 
   waterSurge() {
-    if (!this.ctx) return;
-    this.burst(2.4, 500, 0.8, 0.28, this.buses.effects, 'lowpass', 0, 3.4);
+    this.caption('[Water begins to rush through the channel]');
   }
 
   rite() {
-    if (!this.ctx) return;
-    [392, 523.25, 659.25, 783.99].forEach((f, i) => this.tone(f, 2.6, 'sine', 0.08, this.buses.effects, i * 0.18, 0.4));
-    this.burst(1.6, 1800, 2, 0.08, this.buses.effects, 'bandpass', 0.1, 0.4);
-    this.caption('[A calm rising chord]');
+    this.caption('[Water settles at the spring]');
   }
 
-  /** A struck bell with inharmonic partials. gain is 0..1 (distance already applied). */
-  bell(gain: number, bright = false) {
-    if (!this.ctx || gain <= 0.01) return;
-    const base = bright ? 392 : 246;
-    const partials = [1, 2.0, 2.76, 5.4, 8.9];
-    partials.forEach((p, i) => this.tone(base * p, 3.2 / (1 + i * 0.5), 'sine', 0.22 * gain / (1 + i * 0.6), this.buses.effects, 0, 0.003));
-    this.burst(0.05, 2800, 2, 0.15 * gain, this.buses.effects);
+  /** Keep the story bell silent until a reviewed acoustic recording is available. */
+  bell(_gain: number, _bright = false) {
+    // The app raises its separate semantic caption when a bell event matters.
   }
 
   caption(text: string) {

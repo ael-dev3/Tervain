@@ -17,7 +17,7 @@ export interface V2 {
 
 export const WORLD = { minX: -380, maxX: 200, minZ: -170, maxZ: 170, cell: 2 } as const;
 
-/** Elliptical valley: outside radius 1 the mountains close in and movement is stopped. */
+/** Elliptical playable region: beyond its low heath boundary, movement is stopped. */
 export const VALLEY = { cx: 0, cz: -20, rx: 192, rz: 138 } as const;
 /** The coastal plain west of the vale. The playable land is the union of the two ellipses; the sea takes the rest. */
 export const COASTAL = { cx: -225, cz: 20, rx: 170, rz: 165 } as const;
@@ -169,6 +169,20 @@ export const bySpec = (id: string): BuildingSpec => {
   if (!b) throw new Error(`no building ${id}`);
   return b;
 };
+
+/** Shared dimensions of the enterable archive: shell, moving leaves and walking surface agree. */
+export const ARCHIVE_ROOM = {
+  wallBase: 0.2,
+  wallThickness: 0.3,
+  floorBase: 0.1,
+  floorTop: 0.24,
+  doorHalfWidth: 1.0,
+  doorHeight: 2.5,
+  shutterHalfWidth: 0.8,
+  shutterBottom: 0.7,
+  shutterTop: 3.0,
+  roofPitch: 0.5,
+} as const;
 
 /** A point in front of a building's door (local +z), offset outward. */
 export function frontOf(b: BuildingSpec, out: number, side = 0): V2 {

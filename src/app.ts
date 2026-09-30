@@ -11,6 +11,7 @@ import { hasFact, hourOfDay, evalAll, createInitialState, formatClock, clockDay,
 import { EVIDENCE_IDS, type Allocation, type Command, type GameEvent, type ItemId, type NpcId, type PlaceId, type WorldState } from './game/types';
 import { worldView } from './game/worldView';
 import { Input } from './platform/input';
+import { FrameClock } from './platform/frameTiming';
 import { codeLabel, loadSettings } from './platform/settings';
 import { BrowserStore, SaveStore, SLOT_IDS, type SlotId } from './platform/storage';
 import { ENEMY_SPAWNS, PLACES, SPAWN, SLUICE, RITE_ALTAR, type V2 } from './world/layout';
@@ -30,10 +31,11 @@ import { AssetLibrary } from './presentation/assets/library';
 import { ALL_NEEDS } from './presentation/assets/needs';
 import { setRigShadow } from './presentation/characters';
 import { WorldScene } from './presentation/world';
+import { disposeSceneResources } from './presentation/disposeScene';
+import { GAME_VERSION } from './version';
 
 type Mode = 'loading' | 'title' | 'play' | 'dead';
 
-const GAME_VERSION = '0.0.2';
 const REVISION = typeof __SOURCE_REVISION__ === 'string' ? __SOURCE_REVISION__ : 'dev';
 
 export class App {
@@ -68,7 +70,8 @@ export class App {
   private dlgNpc: NpcActor | null = null;
   private dlgNode = '';
   private dlgNarrator = false;
-  private last = 0;
+  private frameClock = new FrameClock();
+  private worldBuilding = false;
   private clockAcc = 0;
   private worldDirty = true;
   private bellClock = 4;
@@ -137,7 +140,6 @@ export class App {
     this.game.subscribe((ev) => this.onGameEvents(ev));
     this.dialogue.onChoose = (i) => this.onDialogueChoose(i);
     this.dialogue.onExit = () => this.endDialogue();
-    this.dialogue.onBlip = () => this.audio.blip(this.dlgNarrator ? 300 : 220 + ((this.dlgNode.length * 37) % 120));
     this.input.onNavigate = (dx, dy) => this.onPadNavigate(dx, dy);
 
     document.addEventListener('pointerlockchange', () => this.onPointerLockChange());
@@ -153,16 +155,23 @@ export class App {
       }
     });
     document.addEventListener('keydown', (e) => this.onUiKey(e), true);
-    // A closed tab or a hidden page keeps the run: progress is written when the page is hidden.
+    // Save on backgrounding, and freeze simulation/audio even if the browser still calls RAF.
     window.addEventListener('pagehide', () => this.autosaveQuiet());
     document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'hidden') this.autosaveQuiet();
+      const hidden = document.visibilityState === 'hidden';
+      this.frameClock.setHidden(hidden);
+      this.audio.setPageHidden(hidden);
+      this.input.consumePad();
+      this.input.endFrame();
+      if (hidden) this.autosaveQuiet();
     });
 
     this.enterTitle();
     this.loadingEl.classList.add('off');
     this.applyShotParams();
-    this.last = performance.now();
+    this.frameClock.setHidden(document.visibilityState === 'hidden');
+    this.audio.setPageHidden(document.visibilityState === 'hidden');
+    this.frameClock.tick(performance.now());
     requestAnimationFrame((t) => this.frame(t));
     (window as unknown as { tervain: App }).tervain = this;
   }
@@ -201,6 +210,17 @@ export class App {
       else if (name === 'actors') for (const a of [...this.npcs.map((n) => n.rig.root), ...this.enemies.map((e) => e.rig.root), this.player.group]) a.visible = false;
     }
     if (q.get('hud') === '0') this.hud.show(false);
+    // Look-development controls are intentionally query-only: each post effect can be isolated in a repeatable shot.
+    const controls = ['saturation', 'contrast', 'vignette', 'grain', 'chromatic'] as const;
+    const grade: Partial<Record<(typeof controls)[number], number>> = {};
+    for (const key of controls) {
+      if (q.has(key)) {
+        const value = Number(q.get(key));
+        if (Number.isFinite(value)) grade[key] = value;
+      }
+    }
+    if (Object.keys(grade).length) this.grade.setLook(grade);
+    if (q.has('bloom')) this.grade.setBloom(q.get('bloom') !== '0');
     this.settings.reducedMotion = true;
     this.applyUiSettings();
     for (let i = 0; i < num('settle', 120); i++) {
@@ -216,7 +236,7 @@ export class App {
     this.loadingEl = h('div', { class: 'loading' }, S('menu.loading'));
     this.titleEl = h('div', { class: 'title' });
     this.debugPre = h('pre', { class: 'debug' });
-    this.debugEl = h('div', { class: 'panel glass', style: { position: 'absolute', right: '12px', top: '90px', width: 'min(420px, 92vw)', maxHeight: '80vh', overflow: 'auto', display: 'none', pointerEvents: 'auto', zIndex: '5' } });
+    this.debugEl = h('div', { class: 'panel surface-paper', style: { position: 'absolute', right: '12px', top: '90px', width: 'min(420px, 92vw)', maxHeight: '80vh', overflow: 'auto', display: 'none', pointerEvents: 'auto', zIndex: '5' } });
     this.uiRoot.append(this.hud.el, this.dialogue.el, this.titleEl, this.panels.el, this.debugEl, this.loadingEl);
     this.panels.onEmpty = () => this.onPanelsClosed();
     this.panels.onChange = () => {
@@ -230,41 +250,32 @@ export class App {
   }
 
   private async buildWorld() {
-    if (this.world) this.disposeWorld();
-    this.world = await WorldScene.create(this.game.state, this.settings, this.library, (p) => {
-      this.loadingEl.textContent = `${S('menu.loading')} ${p.loaded}/${p.total}`;
-    });
-    this.world.scene.add(this.player.group);
-    this.applyQualityToRenderer();
-    // Actors
-    this.npcs = Object.values(NPCS).map((d) => new NpcActor(d));
-    for (const n of this.npcs) this.world.scene.add(n.rig.root);
-    this.enemies = ENEMY_SPAWNS.map((s) => new EnemyActor(s));
-    for (const e of this.enemies) this.world.scene.add(e.rig.root);
-    this.interactables = buildInteractables(this);
-    this.syncWorldFromState(true);
+    this.worldBuilding = true;
+    try {
+      // Shared flora caches must be released before replacement assets are constructed.
+      if (this.world) this.disposeWorld();
+      this.world = await WorldScene.create(this.game.state, this.settings, this.library, (p) => {
+        this.loadingEl.textContent = `${S('menu.loading')} ${p.loaded}/${p.total}`;
+      });
+      this.world.scene.add(this.player.group);
+      this.applyQualityToRenderer();
+      // Actors
+      this.npcs = Object.values(NPCS).map((d) => new NpcActor(d));
+      for (const n of this.npcs) this.world.scene.add(n.rig.root);
+      this.enemies = ENEMY_SPAWNS.map((s) => new EnemyActor(s));
+      for (const e of this.enemies) this.world.scene.add(e.rig.root);
+      this.interactables = buildInteractables(this);
+      this.syncWorldFromState(true);
+    } finally {
+      this.worldBuilding = false;
+    }
   }
 
   private disposeWorld() {
     const scene = this.world.scene;
-    const disposeMaterial = (mat: THREE.Material) => {
-      for (const v of Object.values(mat) as unknown[]) if (v && (v as THREE.Texture).isTexture) (v as THREE.Texture).dispose();
-      const u = (mat as THREE.ShaderMaterial).uniforms;
-      if (u) for (const x of Object.values(u)) if (x && (x.value as THREE.Texture | undefined)?.isTexture) (x.value as THREE.Texture).dispose();
-      mat.dispose();
-    };
-    scene.traverse((o) => {
-      const m = o as THREE.Mesh;
-      if (m.geometry) m.geometry.dispose();
-      const mat = m.material as THREE.Material | THREE.Material[] | undefined;
-      if (Array.isArray(mat)) mat.forEach(disposeMaterial);
-      else if (mat) disposeMaterial(mat);
-      if ((o as THREE.InstancedMesh).isInstancedMesh) (o as THREE.InstancedMesh).dispose();
-      if ((o as THREE.Light).isLight) (o as THREE.Light & { dispose?: () => void }).dispose?.();
-    });
-    scene.environment?.dispose();
-    scene.clear();
-    this.world.dispose();
+    // This rig persists across quality/world rebuilds and keeps its GPU resources.
+    scene.remove(this.player.group);
+    disposeSceneResources(scene, () => this.world.dispose(), [this.player.group]);
   }
 
   private applyQualityToRenderer() {
@@ -299,7 +310,6 @@ export class App {
     document.body.classList.toggle('high-contrast', s.highContrast);
     document.body.classList.toggle('reduce-effects', s.reduceEffects);
     document.body.classList.toggle('reduced-motion', s.reducedMotion);
-    this.dialogue.reducedMotion = s.reducedMotion;
     this.audio.applySettings();
     if (this.world) this.world.sky.brightness = s.brightness;
   }
@@ -358,7 +368,7 @@ export class App {
       btn(S('menu.about'), () => this.panels.push(aboutPanel(this.panelCtx()))),
     );
     this.titleEl.append(
-      h('div', { class: 'card glass' }, h('h1', {}, S('game.title').toUpperCase()), h('div', { class: 'subtitle' }, S('game.subtitle')), h('p', { class: 'tagline' }, S('game.tagline')), menu, h('div', { class: 'hint-line' }, `v${GAME_VERSION} · ${REVISION}`)),
+      h('div', { class: 'card surface-timber' }, h('h1', {}, S('game.title').toUpperCase()), h('div', { class: 'subtitle' }, S('game.subtitle')), h('p', { class: 'tagline' }, S('game.tagline')), menu, h('div', { class: 'hint-line' }, `v${GAME_VERSION}`)),
     );
     this.focusTitle();
   }
@@ -455,18 +465,22 @@ export class App {
   /* ============================== main loop ============================== */
 
   private frame(now: number) {
-    const interval = (now - this.last) / 1000;
-    this.last = now;
-    const dt = Math.min(0.05, interval);
-    this.lastFrameDt = dt;
-    // Frame times are recorded uncapped (only the simulation step is clamped); a hidden tab is ignored.
-    if (interval < 5) this.recordFrame(interval);
-    this.audioClock += dt;
-    try {
-      this.step(dt);
-    } catch (e) {
-      console.error(e);
+    const frame = this.frameClock.tick(now);
+    if (frame && !this.worldBuilding) {
+      const { interval, dt } = frame;
+      this.lastFrameDt = dt;
+      if (interval < 5) this.recordFrame(interval);
+      this.audioClock += dt;
+      try {
+        this.step(dt);
+      } catch (e) {
+        console.error(e);
+      }
+    } else if (document.visibilityState !== 'hidden' && !this.worldBuilding) {
+      // Baseline a held controller after returning; its old press must not become an attack.
+      this.input.poll(0);
     }
+    this.input.consumePad();
     this.input.endFrame();
     requestAnimationFrame((t) => this.frame(t));
   }
@@ -496,7 +510,6 @@ export class App {
       focus.y = 0;
       this.updateActors(dt, hour);
       this.world.update(dt, state, new THREE.Vector3(-14, 0, -86), this.settings, hour, this.cam.camera);
-      this.dialogue.update(dt);
       this.audioUpdate(dt, this.cam.camera.position, hour);
       this.render();
       return;
@@ -545,7 +558,7 @@ export class App {
 
     // Simulation
     const hitStopped = this.hitStop > 0;
-    if (hitStopped) this.hitStop -= dt;
+    if (playing && hitStopped) this.hitStop -= dt;
     if (playing && this.mode === 'play' && !hitStopped) {
       this.player.update(dt, this.playerContext(true));
       this.updateEnemies(dt);
@@ -553,11 +566,9 @@ export class App {
     } else if (this.mode === 'dead') {
       this.player.update(dt, this.playerContext(false));
       this.updateEnemies(dt * 0.25);
-    } else {
-      // Paused or in conversation: characters keep breathing but nothing advances.
-      this.player.update(0.0001, this.playerContext(false));
     }
-    this.updateActors(playing ? dt : dt * 0.15, hour);
+    // Reading freezes controller/action timers and patrol routes as well as the world clock.
+    if (playing) this.updateActors(dt, hour);
 
     // Interaction
     if (playing) this.updateInteraction();
@@ -580,7 +591,6 @@ export class App {
     // World presentation
     this.world.update(dt, state, new THREE.Vector3(this.player.x, this.player.y, this.player.z), this.settings, hour, this.cam.camera);
     this.updateRigShadows();
-    this.dialogue.update(dt);
     this.audioUpdate(dt, this.cam.camera.position, hour);
 
     this.updateHud(dt);
@@ -963,7 +973,7 @@ export class App {
   pullLever() {
     const r = this.game.dispatch({ t: 'openShortcut' });
     if (!r.ok) return;
-    this.audio.gateCreak();
+    this.audio.gateCreak('[The trail gate opens]');
     this.hud.toast(S('toast.shortcut'), 'good');
     this.worldDirty = true;
     this.world.syncStatic(this.game.state, false);
@@ -986,7 +996,7 @@ export class App {
     const r = this.game.dispatch(cmd);
     if (r.ok) {
       this.hud.toast(S(cmd.t === 'archiveAccess' && cmd.method === 'borrowed_key' ? 'toast.unlocked.key' : 'toast.archive.open'), 'good');
-      this.audio.gateCreak();
+      this.audio.gateCreak('[The archive door opens]');
       this.world.syncStatic(this.game.state, false);
     } else this.hud.toast(S('toast.archive.withdrawn'), 'bad');
   }
@@ -1012,7 +1022,7 @@ export class App {
       this.hud.toast(S(r.reason === 'sealed' ? 'toast.archive.sealed' : 'toast.nothing'));
       return;
     }
-    this.audio.gateCreak();
+    this.audio.gateCreak('[The archive shutter is forced open]');
     this.hud.toast(S('toast.archive.forced'));
     this.world.syncStatic(this.game.state, false);
     // A witness cue the player can act on: the observer calls out.
@@ -1053,15 +1063,13 @@ export class App {
 
   private beginBrace() {
     this.panels.closeAll();
-    const s = this.game.state;
-    void s;
-    const started = this.player.beginChannel(S('sluice.brace.working'), 2.8, () => {
+    this.player.beginChannel(S('sluice.brace.working'), 2.8, () => {
       const r = this.game.dispatch({ t: 'stabilizeGate' });
       if (!r.ok) {
         this.hud.toast(S(`toast.need.${r.reason.replace('need_', '')}`), 'bad');
         return;
       }
-      this.audio.gateCreak();
+      this.audio.gateCreak('[The sluice brace locks into place]');
       this.world.syncStatic(this.game.state, false);
       const events = r.events;
       if (events.some((e) => e.t === 'surge')) {
@@ -1071,14 +1079,13 @@ export class App {
       } else this.hud.toast(S('toast.calm'), 'good');
       this.hud.toast(S('toast.gate.stable'), 'good');
     });
-    if (started) this.audio.gateCreak();
   }
 
   private doForce() {
     this.panels.closeAll();
     const r = this.game.dispatch({ t: 'forceGate', observedBy: [] });
     if (!r.ok) return;
-    this.audio.gateCreak();
+    this.audio.gateCreak('[The sluice jams hard against its frame]');
     this.player.shake = 0.4;
     this.hud.toast(S('toast.gate.jammed'), 'bad');
     this.world.syncStatic(this.game.state, false);

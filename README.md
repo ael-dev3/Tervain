@@ -10,7 +10,7 @@ An original order currently called the **Templars** anchors the setting. Its ter
 
 **Foundation / pre-production — seeded 29 September 2026; first playable prototype added the same day.**
 
-This repository contains a design and production outline and, since the prototype, a browser-playable build of the first slice. It does not contain a desktop package, a shipped asset pack, Steam integration, or measured performance results. Version 0.0.2; the number stays 0.0.x until the owner approves 0.1. The detailed setting and first quest are development proposals; the prototype implements them as a test, and every model in it is a placeholder. See [what is real and what is representation](docs/engineering/prototype.md).
+This repository contains a design and production outline and a browser-playable build of the first slice. It does not contain a desktop package, a shipped asset pack, or Steam integration. Version **0.0.4** revises construction, coastal presentation, people, interface, and runtime stability; see the [patch notes and validation limits](docs/production/releases/0.0.4.md). The build guard enforces the 0.0.x line until the quality gate is met and the owner approves 0.1. See the [versioning policy](docs/production/versioning.md) and [what is real and what is representation](docs/engineering/prototype.md).
 
 ## Play the prototype
 
@@ -62,6 +62,7 @@ The [decision register](docs/decisions.md) distinguishes these categories and re
 | [Gothic 3 look reference](docs/art/gothic3-reference.md) | Measurements and design rules from the owner's local Gothic 3 install (inspiration only). |
 | [Architecture](docs/engineering/architecture.md) | Candidate stack, simulation boundaries, saves, desktop packaging, performance, and engine evaluation. |
 | [Prototype](docs/engineering/prototype.md) | The playable build: controls, options, what is real versus placeholder, testing, save recovery, and known limitations. |
+| [Versioning and quality gate](docs/production/versioning.md) | The enforced 0.0.x hold and proposed evidence required before 0.1.0. |
 | [Shared technology and assets](docs/engineering/shared-assets.md) | Verified upstream references, reuse candidates, adaptation work, and source records. |
 | [Vertical slice](docs/production/vertical-slice.md) | A bounded first playable with dependencies and observable acceptance criteria. |
 | [Roadmap and risks](docs/production/roadmap.md) | Milestones, stop/continue criteria, delivery risks, and expansion decisions. |

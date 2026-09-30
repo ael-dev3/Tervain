@@ -1,0 +1,16 @@
+Local production-preview benchmark; not reference-hardware acceptance.
+Captured before the release commit, so debug revision f4bc0fe is the prior HEAD.
+The compiled code includes the complete 0.0.4 revision documented here.
+Bundle: index-BbU9dIPV.js
+SHA-256: c6d4f7184c30301ad62e5bc6b34c70abae1408d24dc94530a59a8aaa0ac0430b
+Procedure: fresh new game, leave opening conversation, developer camera route.
+Normal motion; medium quality; no scene freeze or pinned game clock.
+
+date 2026-09-30T07:43:53.667Z
+build 0.0.4 rev f4bc0fe  quality medium  viewport 1422x800 @0.8999999761581421x
+gpu ANGLE (Apple, ANGLE Metal Renderer: Apple M5, Unspecified Version)
+ua Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36
+game hour 08:34  phase unseen (not pinned during the run)
+frames 3241  median 16.70 ms  p95 18.10 ms  p99 18.60 ms  worst 18.8 ms
+last-frame draw calls 499  triangles 648371
+Frame times are wall-clock intervals between animation frames, recorded uncapped; they are limited by the display refresh rate.

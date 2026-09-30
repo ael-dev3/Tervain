@@ -212,6 +212,12 @@ export class Batch {
     nx /= l;
     ny /= l;
     nz /= l;
+    // A flipped face reverses both its visible side and its lighting normal.
+    if (o.flip) {
+      nx = -nx;
+      ny = -ny;
+      nz = -nz;
+    }
     const uv = o.uv ?? [0, 0, Math.hypot(bx - ax, by - ay, bz - az), 0, Math.hypot(cx - ax, cy - ay, cz - az), Math.hypot(dx - ax, dy - ay, dz - az), 0, Math.hypot(dx - ax, dy - ay, dz - az)];
     const nu = Math.max(1, o.nu ?? 1);
     const nvv = Math.max(1, o.nv ?? 1);
@@ -344,7 +350,6 @@ export class Batch {
    * pairs from bottom to top. Smooth shading follows the profile; `flat` gives hard facets.
    */
   lathe(profile: number[], seg: number, x: number, y: number, z: number, c: Col | ((i: number, t: number) => RGB), o: LatheOpts = {}) {
-    const rotated = !!(o.ry || o.rx || o.rz);
     this.ctx.push(x, y, z, o.ry ?? 0, o.rx ?? 0, o.rz ?? 0);
     const n = profile.length / 2;
     const col0 = typeof c === 'function' ? null : asRGB(c);
@@ -383,10 +388,14 @@ export class Batch {
       }
       const row = seg + 1;
       for (let i = 0; i < n - 1; i++) {
+        const r0 = profile[i * 2]!;
+        const r1 = profile[(i + 1) * 2]!;
         for (let s = 0; s < seg; s++) {
           const a = base + i * row + s;
-          this.tri(a, a + 1, a + row + 1);
-          this.tri(a, a + row + 1, a + row);
+          // Advance up the profile before advancing around the ring: +y cross +angle
+          // points outward. At a pole only one triangle has an actual surface area.
+          if (r1 >= 1e-5) this.tri(a, a + row, a + row + 1);
+          if (r0 >= 1e-5) this.tri(a, a + row + 1, a + 1);
         }
       }
     } else {
@@ -401,13 +410,13 @@ export class Batch {
           const a1 = ((s + 1) / seg) * Math.PI * 2;
           const q = [r0 * Math.cos(a0), y0, r0 * Math.sin(a0), r0 * Math.cos(a1), y0, r0 * Math.sin(a1), r1 * Math.cos(a1), y1, r1 * Math.sin(a1), r1 * Math.cos(a0), y1, r1 * Math.sin(a0)];
           const kk = k * (1 + (hash3(x + s, y + i, z) - 0.5) * 0.08);
+          if (r0 < 1e-5 && r1 < 1e-5) continue;
           if (r1 < 1e-5) this.tri3(q[0]!, q[1]!, q[2]!, q[9]!, q[10]!, q[11]!, q[3]!, q[4]!, q[5]!, cc, kk);
-          else if (r0 < 1e-5) this.tri3(q[0]!, q[1]!, q[2]!, q[6]!, q[7]!, q[8]!, q[3]!, q[4]!, q[5]!, cc, kk);
+          else if (r0 < 1e-5) this.tri3(q[0]!, q[1]!, q[2]!, q[9]!, q[10]!, q[11]!, q[6]!, q[7]!, q[8]!, cc, kk);
           else this.quad([q[0]!, q[1]!, q[2]!, q[3]!, q[4]!, q[5]!, q[6]!, q[7]!, q[8]!, q[9]!, q[10]!, q[11]!], cc, { k: kk, flip: true, amp });
         }
       }
     }
-    void rotated;
     this.ctx.pop();
   }
 

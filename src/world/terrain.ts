@@ -2,6 +2,7 @@ import { clamp, fbm, lerp, ridged, smoothstep, warp } from './noise';
 import { lighthouseRock, shapeCoast, shoreDistance } from './coast';
 import {
   ANCHORS,
+  ARCHIVE_ROOM,
   BELL,
   BUILDINGS,
   COASTAL,
@@ -140,14 +141,31 @@ interface Pad {
 }
 let pads: Pad[] | null = null;
 
-/** Ground height before pads, coast and rivers: mountains, hills, heath and outcrops. */
+const archive = BUILDINGS.find((b) => b.kind === 'archive')!;
+let archivePadLevel: number | null = null;
+
+/** A cut-and-filled terrace supports the archive and both entrances, including the terrain grid's interpolation margin. */
+function archiveTerrace(x: number, z: number, height: number): number {
+  archivePadLevel ??= softFloor(coreHeight(archive.x, archive.z));
+  const dx = x - archive.x;
+  const dz = z - archive.z;
+  const c = Math.cos(archive.yaw);
+  const s = Math.sin(archive.yaw);
+  const lx = dx * c - dz * s;
+  const lz = dx * s + dz * c;
+  const hx = archive.w / 2 + WORLD.cell;
+  const hz = archive.d / 2 + 5 + WORLD.cell;
+  const outside = Math.hypot(Math.max(0, Math.abs(lx) - hx), Math.max(0, Math.abs(lz) - hz));
+  return lerp(height, archivePadLevel, 1 - smoothstep(0, 4, outside));
+}
+
+/** Ground height before pads, coast and rivers: low coastal rises, heath, and outcrops. */
 function coreHeight(x: number, z: number): number {
   const r = realmRadius(x, z);
-  const m = smoothstep(0.8, 1.16, r);
-  const ridge = 0.55 + 0.45 * fbm(x / 55 + 9, z / 55 - 4, 4, 7);
-  let h = m * (44 + 30 * ridge) + Math.max(0, r - 1.16) * 80;
-  // Weathered mountain flanks: eroded gullies and ribs at two scales, so the far walls have structure and not a smooth skin.
-  h += m * (30 * (ridged(x / 54 + 3, z / 54 - 7, 4, 111) - 0.3) + 9 * (ridged(x / 16, z / 16, 3, 113) - 0.35));
+  const edge = smoothstep(0.92, 1.24, r);
+  const ridge = 0.55 + 0.45 * fbm(x / 90 + 9, z / 90 - 4, 3, 7);
+  // A low wooded rise closes the playable boundary without an alpine wall over the coast and village.
+  let h = edge * (5 + 10 * ridge) + Math.max(0, r - 1.24) * 4;
 
   const shrine = bump(x, z, SHRINE_PLATEAU.x, SHRINE_PLATEAU.z, SHRINE_PLATEAU.r, SHRINE_PLATEAU.h, 0.5);
   const overlook = bump(x, z, OVERLOOK_BUMP.x, OVERLOOK_BUMP.z, OVERLOOK_BUMP.r, OVERLOOK_BUMP.h, 0.4);
@@ -208,7 +226,7 @@ export function baseHeight(x: number, z: number): number {
       if (d < 1) h = lerp(h, p.level, (1 - smoothstep(0.55, 1, d)) * 0.97);
     }
   }
-  return h;
+  return archiveTerrace(x, z, h);
 }
 
 export function carveDepthAt(x: number, z: number): number {
@@ -318,10 +336,29 @@ export class Terrain {
     return null;
   }
 
-  /** Height a character stands on: terrain, or a deck when on one. */
+  /** Height a character stands on: terrain, a deck, or the archive's rendered plank floor. */
   groundAt(x: number, z: number): number {
     const deck = this.deckAt(x, z);
     const t = this.heightAt(x, z);
+    const dx = x - archive.x;
+    const dz = z - archive.z;
+    const c = Math.cos(archive.yaw);
+    const s = Math.sin(archive.yaw);
+    const lx = dx * c - dz * s;
+    const lz = dx * s + dz * c;
+    const hd = archive.d / 2;
+    const wall = ARCHIVE_ROOM.wallThickness;
+    // The forced rear entry retains its stone sill; feet step onto it instead of passing through the slab.
+    if (Math.abs(lx) <= ARCHIVE_ROOM.shutterHalfWidth + 1e-6 && Math.abs(lz + hd) <= wall + 1e-6) {
+      return Math.max(t, this.heightAt(archive.x, archive.z) + ARCHIVE_ROOM.shutterBottom);
+    }
+    if (Math.abs(lx) <= ARCHIVE_ROOM.doorHalfWidth + 1e-6 && lz >= hd - wall - 1e-6 && lz <= hd + wall + 0.2 + 1e-6) {
+      return Math.max(t, this.heightAt(archive.x, archive.z) + ARCHIVE_ROOM.floorTop);
+    }
+    if (Math.abs(lx) <= archive.w / 2 - ARCHIVE_ROOM.wallThickness + 1e-6 && Math.abs(lz) <= archive.d / 2 - ARCHIVE_ROOM.wallThickness + 1e-6) {
+      // Every point used by groundOf lies on the flat terrace, so its average equals this grid-sampled base.
+      return Math.max(t, this.heightAt(archive.x, archive.z) + ARCHIVE_ROOM.floorTop);
+    }
     return deck ? Math.max(deck.y, t) : t;
   }
 

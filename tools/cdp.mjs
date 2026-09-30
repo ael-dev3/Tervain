@@ -12,9 +12,12 @@ import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const candidates = [
   process.env.CHROME,
+  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+  '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
   'C:/Program Files/Google/Chrome/Application/chrome.exe',
   'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',
   '/usr/bin/google-chrome',
@@ -26,10 +29,12 @@ export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.
   if (!browser) throw new Error('no Chrome/Edge found; set CHROME');
   const port = 9300 + Math.floor(Math.random() * 500);
   const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'tervain-cdp-'));
-  const proc = spawn(browser, [
-    '--headless=new', '--no-sandbox', '--hide-scrollbars', '--use-angle=d3d11', '--ignore-gpu-blocklist', '--enable-unsafe-swiftshader',
+  const browserArgs = [
+    '--headless=new', '--no-sandbox', '--hide-scrollbars', '--ignore-gpu-blocklist', '--enable-unsafe-swiftshader',
     `--remote-debugging-port=${port}`, `--user-data-dir=${profile}`, `--window-size=${w},${h}`, 'about:blank',
-  ], { stdio: 'ignore' });
+  ];
+  if (process.platform === 'win32') browserArgs.splice(4, 0, '--use-angle=d3d11');
+  const proc = spawn(browser, browserArgs, { stdio: 'ignore' });
   let targets = null;
   for (let i = 0; i < 60 && !targets; i++) {
     try {
@@ -102,7 +107,7 @@ export async function openPage(url = process.env.TERVAIN_URL ?? 'http://127.0.0.
   return page;
 }
 
-if (process.argv[2]) {
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url) && process.argv[2]) {
   const mod = await import(path.resolve(process.argv[2]).replace(/\\/g, '/').replace(/^([A-Za-z]):/, 'file:///$1:'));
   const page = await openPage();
   try {

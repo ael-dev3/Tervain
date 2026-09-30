@@ -147,9 +147,10 @@ describe('world layout', () => {
     expect(MAINT_ROUTE.filter((p) => !terrain.walkable(p.x, p.z)).map((p) => `${p.x},${p.z}`)).toEqual([]);
   });
 
-  it('terrain rises into mountains that stop movement at the edge of the land', () => {
+  it('keeps the coastal horizon low while the world boundary still stops movement', () => {
     expect(terrain.walkable(195, 0)).toBe(false);
-    expect(terrain.heightAt(-200, -138)).toBeGreaterThan(20);
+    expect(terrain.heightAt(-200, -138)).toBeLessThan(20);
+    expect(terrain.heightAt(0, 160)).toBeLessThan(20);
     expect(terrain.walkable(0, 8)).toBe(true);
   });
 

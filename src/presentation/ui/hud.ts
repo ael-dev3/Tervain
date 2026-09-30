@@ -59,17 +59,17 @@ export class Hud {
     this.healthFill = h('i');
     this.staminaFill = h('i');
     this.staminaBar = h('div', { class: 'bar stamina' }, this.staminaFill, h('span', {}, S('hud.stamina')));
-    const bars = h('div', { class: 'hud-bars glass' }, h('div', { class: 'bar health' }, this.healthFill, h('span', {}, S('hud.health'))), this.staminaBar);
+    const bars = h('div', { class: 'hud-bars surface-soot' }, h('div', { class: 'bar health' }, this.healthFill, h('span', {}, S('hud.health'))), this.staminaBar);
     this.objText = h('div', { class: 'obj-text' });
-    this.objWrap = h('div', { class: 'hud-top-left glass' }, h('div', { class: 'obj-title' }, S('hud.objective')), this.objText);
+    this.objWrap = h('div', { class: 'hud-top-left surface-soot' }, h('div', { class: 'obj-title' }, S('hud.objective')), this.objText);
     this.coinEl = h('div', { class: 'coin' });
     this.timeEl = h('div', {});
-    const topRight = h('div', { class: 'hud-top-right glass' }, this.timeEl, this.coinEl);
-    this.fpsEl = h('div', { class: 'hud-fps glass' });
-    this.promptEl = h('div', { class: 'prompt glass' });
+    const topRight = h('div', { class: 'hud-top-right surface-soot' }, this.timeEl, this.coinEl);
+    this.fpsEl = h('div', { class: 'hud-fps surface-soot' });
+    this.promptEl = h('div', { class: 'prompt surface-soot' });
     this.channelLabel = h('div');
     this.channelFill = h('i');
-    this.channelEl = h('div', { class: 'channel glass' }, this.channelLabel, h('div', { class: 'bar' }, this.channelFill));
+    this.channelEl = h('div', { class: 'channel surface-soot' }, this.channelLabel, h('div', { class: 'bar' }, this.channelFill));
     this.toasts = h('div', { class: 'toasts', 'aria-live': 'polite' });
     this.captions = h('div', { class: 'captions', 'aria-live': 'polite' });
     this.bubbles = h('div', { class: 'bubbles' });
@@ -132,7 +132,7 @@ export class Hud {
     if (text === this.lastToast && now - this.lastToastAt < 1500) return;
     this.lastToast = text;
     this.lastToastAt = now;
-    const el = h('div', { class: `toast glass ${kind}` }, text);
+    const el = h('div', { class: `toast surface-soot ${kind}` }, text);
     this.toasts.append(el);
     while (this.toasts.children.length > 4) this.toasts.firstElementChild?.remove();
     setTimeout(() => el.remove(), 4200 + text.length * 25);
@@ -161,7 +161,7 @@ export class Hud {
       seen.add(b.id);
       let el = this.bubbleEls.get(b.id);
       if (!el) {
-        el = h('div', { class: 'bubble glass' }, b.text);
+        el = h('div', { class: 'bubble surface-soot' }, b.text);
         this.bubbles.append(el);
         this.bubbleEls.set(b.id, el);
       }
