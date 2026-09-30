@@ -7,8 +7,17 @@ import { buildAncientTree } from '../../src/presentation/menu/menuTree';
 import { slabGeometry } from '../../src/presentation/menu/menuStones';
 import { buildCloakedFigure } from '../../src/presentation/menu/menuFigure';
 import { weatherEmblemPixels } from '../../src/presentation/menu/menuBanner';
+import { HERMIT_DOOR, campLayout, standingStones } from '../../src/presentation/menu/menuCamp';
 
 const finite = (a: ArrayLike<number>) => Array.from(a).every(Number.isFinite);
+
+/** Distance from a point to a segment in the ground plane. */
+function segDist(x: number, z: number, ax: number, az: number, bx: number, bz: number) {
+  const dx = bx - ax;
+  const dz = bz - az;
+  const u = Math.max(0, Math.min(1, ((x - ax) * dx + (z - az) * dz) / (dx * dx + dz * dz)));
+  return Math.hypot(x - (ax + dx * u), z - (az + dz * u));
+}
 
 describe('menu headland', () => {
   it('is standable where people and things are, and falls away to the sea beyond the brow', () => {
@@ -92,6 +101,69 @@ describe('ancient tree', () => {
     expect(a.lowBoughs.length).toBeGreaterThan(8);
     expect(a.perches.length).toBeGreaterThan(3);
   });
+
+  it('cuts a flat face for the door that nothing crosses, with bark coming forward to the posts on both sides', () => {
+    const ground = (x: number, z: number) => 0.35 + 0.04 * z - 0.02 * x;
+    const t = buildAncientTree(1207, { leafCards: 200, door: { az: 1.68, halfWidth: HERMIT_DOOR.faceHalfWidth, height: HERMIT_DOOR.faceTop }, ground });
+    const face = t.door!;
+    expect(face).toBeDefined();
+    const [nx, , nz] = face.normal;
+    // The door stands on the ground at the face's foot.
+    expect(Math.abs(face.origin[1] - ground(face.origin[0], face.origin[2]))).toBeLessThan(0.1);
+    const pos = t.wood.getAttribute('position');
+    let inFront = 0;
+    const edge = new Map<number, number>();
+    for (let i = 0; i < pos.count; i++) {
+      const dx = pos.getX(i) - face.origin[0];
+      const dz = pos.getZ(i) - face.origin[2];
+      const x = dx * nz - dz * nx;
+      const z = dx * nx + dz * nz;
+      const y = pos.getY(i) - face.origin[1];
+      // Nothing of the tree (bark, bough or root) stands in front of the doorway.
+      if (Math.abs(x) < HERMIT_DOOR.faceHalfWidth - 0.02 && y > 0 && y < HERMIT_DOOR.faceTop - 0.02 && z > 0.002 && z < 3) inFront++;
+      // Beside the posts the bark comes forward at least as far as the posts' backs, so no post stands proud in air.
+      if (Math.abs(x) > HERMIT_DOOR.width / 2 + 0.05 && Math.abs(x) < HERMIT_DOOR.faceHalfWidth + 0.12 && y > 0.2 && y < 1.8 && z > -1) {
+        const band = Math.floor(y / 0.4) * 2 + (x > 0 ? 1 : 0);
+        edge.set(band, Math.max(edge.get(band) ?? -Infinity, z));
+      }
+    }
+    expect(inFront).toBe(0);
+    expect(edge.size).toBeGreaterThanOrEqual(8);
+    for (const z of edge.values()) expect(z).toBeGreaterThan(-0.12);
+  });
+
+  it('lays its roots over the ground half buried, diving at the tips', () => {
+    const ground = (x: number, z: number) => 0.3 * Math.sin(x * 0.4) + 0.05 * z;
+    const t = buildAncientTree(1207, { leafCards: 100, ground });
+    expect(t.roots.length).toBeGreaterThanOrEqual(5);
+    for (const r of t.roots) {
+      r.pts.forEach((p, i) => {
+        const f = i / (r.pts.length - 1);
+        const rad = r.r0 + (r.r1 - r.r0) * f;
+        const g = ground(p[0], p[2]);
+        expect(p[1]).toBeLessThan(g);
+        if (f <= 0.5) expect(p[1] + rad).toBeGreaterThan(g);
+        if (f === 1) expect(p[1] + rad).toBeLessThan(g);
+      });
+    }
+  });
+
+  it('holds its low boughs and their twigs overhead: away from the trunk, wood is a root at the ground or a bough above a head', () => {
+    const ground = (x: number, z: number) => 0.3 + 0.08 * z - 0.03 * x;
+    const t = buildAncientTree(1207, { leafCards: 100, ground });
+    for (const b of t.lowBoughs) expect(b.p[1] - ground(b.p[0], b.p[2])).toBeGreaterThan(1.9 - 1e-6);
+    for (let i = 1; i < t.lowBoughs.length; i++) expect(t.lowBoughs[i]!.r).toBeGreaterThan(0.04);
+    const pos = t.wood.getAttribute('position');
+    let between = 0;
+    for (let i = 0; i < pos.count; i++) {
+      const x = pos.getX(i);
+      const z = pos.getZ(i);
+      if (Math.hypot(x - 0.3, z + 0.2) < 3.4) continue;
+      const h = pos.getY(i) - ground(x, z);
+      if (h > 0.6 && h < 1.3) between++;
+    }
+    expect(between).toBe(0);
+  });
 });
 
 describe('standing stones', () => {
@@ -111,6 +183,119 @@ describe('standing stones', () => {
     for (let i = 0; i < pos.count; i++) count.set(key(i), (count.get(key(i)) ?? 0) + 1);
     const shared = [...count.values()].filter((c) => c >= 2).length;
     expect(shared).toBeGreaterThan(40);
+  });
+
+  it('stand apart and planted, the fallen one lies on the turf, and the dolmen cap rests on its uprights', () => {
+    const { slabs, cap, uprights } = standingStones();
+    const v = new THREE.Vector3();
+    const inWorld = slabs.map((s) => slabGeometry(s.spec).applyMatrix4(s.matrix));
+    // No stone's surface reaches into another's bounds, taken in the other's own frame.
+    for (let b = 0; b < slabs.length; b++) {
+      const own = slabGeometry(slabs[b]!.spec);
+      own.computeBoundingBox();
+      const box = own.boundingBox!.expandByScalar(-0.03);
+      const inv = slabs[b]!.matrix.clone().invert();
+      for (let a = 0; a < slabs.length; a++) {
+        if (a === b) continue;
+        const pos = inWorld[a]!.getAttribute('position');
+        let inside = 0;
+        for (let i = 0; i < pos.count; i++) if (box.containsPoint(v.fromBufferAttribute(pos, i).applyMatrix4(inv))) inside++;
+        expect(inside, `stone ${a} in stone ${b}`).toBe(0);
+      }
+    }
+    // Upright stones are sunk below the turf at every corner, however the ground slopes.
+    for (const s of slabs.filter((q) => !q.lying)) {
+      for (const [sx, sz] of [[-1, -1], [1, -1], [1, 1], [-1, 1]] as const) {
+        v.set((sx * s.spec.w) / 2, 0, (sz * s.spec.d) / 2).applyMatrix4(s.matrix);
+        expect(v.y).toBeLessThan(menuHeight(v.x, v.z));
+      }
+    }
+    // The fallen one: its underside below the turf along its whole length, its back well above it.
+    const lying = slabs.filter((q) => q.lying);
+    expect(lying).toHaveLength(1);
+    const f = lying[0]!;
+    for (let t = 0.05; t < 1; t += 0.1) {
+      v.set(0, f.spec.h * t, (-f.spec.d / 2) * (1 - 0.12 * t)).applyMatrix4(f.matrix);
+      expect(v.y).toBeLessThan(menuHeight(v.x, v.z) + 0.02);
+      v.set(0, f.spec.h * t, (f.spec.d / 2) * (1 - 0.12 * t)).applyMatrix4(f.matrix);
+      expect(v.y).toBeGreaterThan(menuHeight(v.x, v.z) + 0.15);
+    }
+    // Each upright's highest point sits just inside the cap's flat underside, under the cap.
+    const capInv = cap.matrix.clone().invert();
+    for (const u of uprights) {
+      const pos = slabGeometry(u.spec).applyMatrix4(u.matrix).getAttribute('position');
+      let highest = 0;
+      for (let i = 1; i < pos.count; i++) if (pos.getY(i) > pos.getY(highest)) highest = i;
+      const at = new THREE.Vector3().fromBufferAttribute(pos, highest).applyMatrix4(capInv);
+      expect(at.y).toBeGreaterThan(0);
+      expect(at.y).toBeLessThan(0.1);
+      expect(Math.abs(at.x)).toBeLessThan(1.6);
+      expect(Math.abs(at.z)).toBeLessThan(0.85);
+    }
+  });
+});
+
+describe('the camp', () => {
+  it('keeps the gear, the woodpile, the waystone and the puddles apart; only the warden overlaps his log', () => {
+    const L = campLayout();
+    /** A footprint: signed distance from its outline, and points on and inside the outline. */
+    type Shape = { name: string; at: (x: number, z: number) => number; samples: [number, number][] };
+    const ring = (x: number, z: number, r: number) => Array.from({ length: 48 }, (_, k): [number, number] => [x + Math.cos((k / 48) * Math.PI * 2) * r, z + Math.sin((k / 48) * Math.PI * 2) * r]);
+    const circle = (name: string, c: { x: number; z: number; r: number }): Shape => ({
+      name,
+      at: (x, z) => Math.hypot(x - c.x, z - c.z) - c.r,
+      samples: [[c.x, c.z], ...ring(c.x, c.z, c.r)],
+    });
+    const capsule = (name: string, c: { ax: number; az: number; bx: number; bz: number; r: number }): Shape => ({
+      name,
+      at: (x, z) => segDist(x, z, c.ax, c.az, c.bx, c.bz) - c.r,
+      samples: Array.from({ length: 9 }, (_, i) => ring(c.ax + ((c.bx - c.ax) * i) / 8, c.az + ((c.bz - c.az) * i) / 8, c.r)).flat(),
+    });
+    const shapes: Shape[] = [
+      circle('fire', L.fire),
+      ...L.tripod.map((t, i) => circle(`tripod ${i}`, t)),
+      circle('warden', L.warden),
+      capsule('log', L.log),
+      circle('sack', L.sack),
+      capsule('bedroll', L.bed),
+      circle('sword', L.sword),
+      circle('woodpile', L.woodpile),
+      circle('waystone', L.waystone),
+    ];
+    // Clearance of one footprint from another: the nearest of the second's points to the first's outline.
+    const gap = (a: Shape, b: Shape) => Math.min(...b.samples.map(([x, z]) => a.at(x, z)));
+    for (let i = 0; i < shapes.length; i++) {
+      for (let j = 0; j < shapes.length; j++) {
+        if (i === j) continue;
+        const names = [shapes[i]!.name, shapes[j]!.name].sort().join(' / ');
+        if (names === 'log / warden') continue;
+        expect(gap(shapes[i]!, shapes[j]!), names).toBeGreaterThan(0.02);
+      }
+    }
+    // Puddles, rims wobbling out to a third beyond their radii, lie clear of all of it.
+    for (const p of puddleSpots()) {
+      const pts: [number, number][] = [];
+      for (const s of [0, 0.5, 1]) {
+        for (let k = 0; k < 36; k++) {
+          const a = (k / 36) * Math.PI * 2;
+          const lx = Math.cos(a) * p.rx * 1.34 * s;
+          const lz = Math.sin(a) * p.rz * 1.34 * s;
+          pts.push([p.x + lx * Math.cos(p.yaw) - lz * Math.sin(p.yaw), p.z + lx * Math.sin(p.yaw) + lz * Math.cos(p.yaw)]);
+        }
+      }
+      const inPuddle = ([x, z]: [number, number]) => {
+        const dx = x - p.x;
+        const dz = z - p.z;
+        const lx = dx * Math.cos(p.yaw) + dz * Math.sin(p.yaw);
+        const lz = -dx * Math.sin(p.yaw) + dz * Math.cos(p.yaw);
+        return (lx / (p.rx * 1.34)) ** 2 + (lz / (p.rz * 1.34)) ** 2 < 1;
+      };
+      for (const s of shapes) {
+        const where = `puddle at ${p.x.toFixed(1)},${p.z.toFixed(1)} / ${s.name}`;
+        expect(Math.min(...pts.map(([x, z]) => s.at(x, z))), where).toBeGreaterThan(0);
+        expect(s.samples.some(inPuddle), where).toBe(false);
+      }
+    }
   });
 });
 

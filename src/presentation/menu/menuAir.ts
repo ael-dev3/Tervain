@@ -152,6 +152,8 @@ export function buildMenuAir(opts: {
   fog: THREE.FogExp2;
   crowCentre: THREE.Vector3;
   quality: 'low' | 'medium' | 'high';
+  /** A vertical cylinder (a tree's crown) the crows keep out of unless they fly above its top. */
+  avoid?: { x: number; z: number; r: number; top: number };
 }): MenuAir {
   const group = new THREE.Group();
   group.name = 'Menu_Air';
@@ -160,7 +162,8 @@ export function buildMenuAir(opts: {
   const rng = mulberry32(8123);
   const disposables: { dispose(): void }[] = [];
 
-  // Crows.
+  // Crows. Each circles an ellipse (radius r across, 0.7 r deep); with a wing span about a metre and a height that
+  // wobbles by 0.8 m, one that flies at the crown's height keeps its whole circle a margin outside the crown.
   const nCrows = 6;
   const cg = crowGeometry();
   const geo = new THREE.InstancedBufferGeometry();
@@ -169,8 +172,15 @@ export function buildMenuAir(opts: {
   const path = new Float32Array(nCrows * 4);
   const params = new Float32Array(nCrows * 4);
   for (let i = 0; i < nCrows; i++) {
-    path.set([opts.crowCentre.x + (rng() - 0.5) * 6, opts.crowCentre.z + (rng() - 0.5) * 5, 5 + rng() * 9, (0.18 + rng() * 0.16) * (rng() < 0.5 ? -1 : 1)], i * 4);
-    params.set([opts.crowCentre.y + (rng() - 0.5) * 3, rng() * Math.PI * 2, 0.5 + rng() * 0.18, 5.2 + rng() * 1.5], i * 4);
+    const cx = opts.crowCentre.x + (rng() - 0.5) * 6;
+    const cz = opts.crowCentre.z + (rng() - 0.5) * 5;
+    let r = 5 + rng() * 9;
+    const speed = (0.18 + rng() * 0.16) * (rng() < 0.5 ? -1 : 1);
+    const y = opts.crowCentre.y + (rng() - 0.5) * 3;
+    const a = opts.avoid;
+    if (a && y - 1.5 < a.top) r = Math.max(2, Math.min(r, Math.hypot(cx - a.x, cz - a.z) - a.r - 2));
+    path.set([cx, cz, r, speed], i * 4);
+    params.set([y, rng() * Math.PI * 2, 0.5 + rng() * 0.18, 5.2 + rng() * 1.5], i * 4);
   }
   geo.setAttribute('aPath', new THREE.InstancedBufferAttribute(path, 4));
   geo.setAttribute('aParams', new THREE.InstancedBufferAttribute(params, 4));

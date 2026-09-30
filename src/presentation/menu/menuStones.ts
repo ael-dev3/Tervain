@@ -18,6 +18,10 @@ export interface SlabSpec {
   h: number;
   d: number;
   seed: number;
+  /** Where the sides start, local y: below the ground for a standing stone (default -0.5), 0 for a capstone. */
+  below?: number;
+  /** Close the underside, for a stone whose bottom can be seen (a capstone). */
+  bottom?: boolean;
 }
 
 export function slabGeometry(spec: SlabSpec): THREE.BufferGeometry {
@@ -33,7 +37,7 @@ export function slabGeometry(spec: SlabSpec): THREE.BufferGeometry {
   const slant = (rng() - 0.5) * 0.9;
   const notchX = (rng() - 0.5) * w * 0.6;
   const notchDepth = 0.08 + rng() * 0.12;
-  const below = -0.5;
+  const below = spec.below ?? -0.5;
   const topAt = (x: number, z: number) =>
     h * (1 - 0.12 * Math.abs((x / w) * 2)) + slant * (x / w) * h * 0.25 - Math.max(0, notchDepth * h - Math.abs(x - notchX) * 1.3) + z * 0.1;
   const displaced = (p: V3, topness: number): V3 => {
@@ -95,6 +99,8 @@ export function slabGeometry(spec: SlabSpec): THREE.BufferGeometry {
     const z = (hd - d * v) * 0.88;
     return [x, topAt(x, z), z];
   }, nu, nw, true);
+  // The underside runs from the -z edge to the +z edge so it faces down; its rim matches the sides' bottom edges.
+  if (spec.bottom) faceGrid((u, v) => [-hw + w * u, below, -hd + d * v], nu, nw, false);
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
   g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
