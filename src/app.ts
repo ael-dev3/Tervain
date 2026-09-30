@@ -7,7 +7,7 @@ import { nextHint } from './game/hints';
 import { INSPECT_POINTS } from './content/inspect';
 import { ITEMS } from './content/items';
 import { hasFact, hourOfDay, evalAll, createInitialState, formatClock, clockDay, evalCond } from './game/state';
-import { EVIDENCE_IDS, type Allocation, type Command, type GameEvent, type ItemId, type NpcId, type PlaceId, type WorldState } from './game/types';
+import { EVIDENCE_IDS, WRECK_BLADE_PICKUP, type Allocation, type Command, type GameEvent, type ItemId, type NpcId, type PlaceId, type WorldState } from './game/types';
 import { worldView } from './game/worldView';
 import { Input } from './platform/input';
 import { FrameClock } from './platform/frameTiming';
@@ -1183,7 +1183,12 @@ export class App {
   /** A brand-new run that has done nothing yet must not replace an earlier autosave. */
   private hasProgress(): boolean {
     const s = this.game.state;
-    return s.quest.phase !== 'unseen' || Object.keys(s.evidence).length > 0 || Object.keys(s.grants).length > 0 || s.playSeconds > 90;
+    // Finding the first blade is progress even before the investigation or timed autosave.
+    return s.quest.phase !== 'unseen'
+      || Object.keys(s.evidence).length > 0
+      || Object.keys(s.grants).length > 0
+      || s.locationChanges[`pickup:${WRECK_BLADE_PICKUP}`] === 'taken'
+      || s.playSeconds > 90;
   }
 
   private autosaveQuiet() {

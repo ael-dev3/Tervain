@@ -7,6 +7,8 @@ export function disposeSceneResources(scene: THREE.Scene, disposeOwned: () => vo
   const resources = new Set<Resource>();
   const disposed = new Set<Resource>();
   const retained = new Set<Resource>();
+  const skeletons = new Map<THREE.Skeleton, THREE.Texture | null>();
+  const retainedSkeletons = new Set<THREE.Skeleton>();
   const visitMaterial = (mat: THREE.Material, visit: (resource: Resource) => void) => {
     visit(mat);
     for (const value of Object.values(mat) as unknown[]) {
@@ -19,17 +21,22 @@ export function disposeSceneResources(scene: THREE.Scene, disposeOwned: () => vo
       }
     }
   };
-  const visitObject = (object: THREE.Object3D, visit: (resource: Resource) => void) => {
+  const visitObject = (object: THREE.Object3D, visit: (resource: Resource) => void, visitSkeleton: (skeleton: THREE.Skeleton) => void) => {
     const mesh = object as THREE.Mesh;
     if (mesh.geometry) visit(mesh.geometry);
     const material = mesh.material as THREE.Material | THREE.Material[] | undefined;
     if (Array.isArray(material)) material.forEach((mat) => visitMaterial(mat, visit));
     else if (material) visitMaterial(material, visit);
+    const skinned = object as THREE.SkinnedMesh;
+    if (skinned.isSkinnedMesh && skinned.skeleton) {
+      visitSkeleton(skinned.skeleton);
+      if (skinned.skeleton.boneTexture) visit(skinned.skeleton.boneTexture);
+    }
   };
   // A detached persistent rig can still share a texture with an old NPC material.
   // Keep that dependency alive as well as its own meshes and materials.
-  for (const root of retainedObjects) root.traverse((object) => visitObject(object, (resource) => retained.add(resource)));
-  scene.traverse((object) => visitObject(object, (resource) => resources.add(resource)));
+  for (const root of retainedObjects) root.traverse((object) => visitObject(object, (resource) => retained.add(resource), (skeleton) => retainedSkeletons.add(skeleton)));
+  scene.traverse((object) => visitObject(object, (resource) => resources.add(resource), (skeleton) => skeletons.set(skeleton, skeleton.boneTexture)));
   if (scene.environment) resources.add(scene.environment);
   const listeners = new Map<Resource, () => void>();
   for (const resource of resources) {
@@ -39,13 +46,20 @@ export function disposeSceneResources(scene: THREE.Scene, disposeOwned: () => vo
   }
   try {
     disposeOwned();
+    // Several costume meshes share one skeleton. Its GPU bone texture lives on
+    // the skeleton, outside material maps; release it once unless it is borrowed
+    // by a persistent rig or a module already released it during its hook.
+    for (const [skeleton, boneTexture] of skeletons) {
+      if (retainedSkeletons.has(skeleton) || (boneTexture && (retained.has(boneTexture) || disposed.has(boneTexture)))) continue;
+      skeleton.dispose();
+    }
     const release = (resource: Resource) => {
       if (disposed.has(resource) || retained.has(resource)) return;
       disposed.add(resource);
       resource.dispose();
     };
     scene.traverse((object) => {
-      visitObject(object, release);
+      visitObject(object, release, () => {});
       if ((object as THREE.InstancedMesh).isInstancedMesh) (object as THREE.InstancedMesh).dispose();
       if ((object as THREE.Light).isLight) (object as THREE.Light & { dispose?: () => void }).dispose?.();
     });
