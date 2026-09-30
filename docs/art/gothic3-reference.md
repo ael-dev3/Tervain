@@ -10,7 +10,7 @@ On 30 September the owner clarified the intended reading: **similarly exaggerate
 
 The later A22 menu direction uses an original native 3D desert market with sand, palms, spices, silk, and gentle cloth wind. It replaces the static lone-banner/beach menu, while the playable coastal start remains Ardea-inspired. The approved Hegemony emblem appears as integrated fabric identity under a specific owner authorization, not as a copied Gothic asset or an invented replacement symbol. The coastal measurements below do not claim to measure or reconstruct Gothic 3's desert market.
 
-The subsequent `0.0.5` direction ([A26](../decisions.md)) keeps a sparse coastal landing but replaces the former wagon/open-heath introduction with amnesia, a dense original woodland trail, and settlement farther inland. Boring Forest supplies the additional forest reference; these historical Gothic measurements do not validate the new forest or its performance. No dialogue windows are offered in that exploration pass. See the [current prototype scope](../engineering/prototype.md#forest-arrival-pass-30-september-2026) and [forest study](../references.md#boring-forest-study-30-september-2026).
+The subsequent `0.0.5` direction ([A27](../decisions.md)) keeps a sparse coastal landing but replaces the former wagon/open-heath introduction with amnesia, a dense original woodland trail, and settlement farther inland. Boring Forest supplies the additional forest reference; these historical Gothic measurements do not validate the new forest or its performance. No dialogue windows are offered in that exploration pass. See the [current prototype scope](../engineering/prototype.md#forest-arrival-pass-30-september-2026) and [forest study](../references.md#boring-forest-study-30-september-2026).
 
 ## How the reference was read
 
@@ -79,6 +79,22 @@ This maps the existing `0.0.4` world treatment to its source. A20 is the accepte
 | Empty heath, distant forests | `flora.ts` (placement), `ground/habitat.ts`, `ground/grass.ts` |
 | Rough buildings, the palisade and its gate | `structures.ts`, `buildings.ts`, `props.ts`, `roofs.ts`, `settlement.ts` |
 | Worn people | `humanGeo.ts`, `characters.ts` |
+
+## The title menu
+
+Studied on 30 September 2026 for the menu rework (A26), read-only, from the same install; decoded images and sounds stayed in a scratch folder and nothing is in the repository.
+
+| Finding | Value |
+| --- | --- |
+| Main menu backdrop | `G3_HUD_View_Menu_Main_Back` (1024 × 1024, shown at 1024 × 768): a scratched, painted dusk. Mean sRGB: zenith (17, 28, 32); upper sky (43, 61, 61); horizon glow (144, 105, 31); ruined cliff (60, 31, 9); lit ground (104, 47, 11). Median luminance is 31 of 255 and the 95th percentile 111: a very dark picture with amber highlights. |
+| Frame and panel | A thin double bronze rule inset round the screen with interlace corner ornaments; a central dark panel (mean (14, 9, 0)) framed in bronze with stepped, notched corners and a thin teal inner line. The logo is pitted cast metal. |
+| Layout | `g3.gui.res` places the choices at 1024 × 768 as 252 × 32 buttons, one above another and centred (New Game, Load, Save, Options, Credits, Quit); Back sits in a small bronze tab at the bottom. |
+| Lettering | The GUI resources name Times New Roman, which the engine substitutes with its bundled `Gothic3.ttf`: a heavy, rough-edged, uncial-flavoured serif. |
+| GUI theme | One 2048² atlas (`theme_g3_00.dds`): thin pitted bronze rails, a grey grunge plate behind buttons with a soft sunken inner shadow, a brass cursor, a round dented bronze knob, an amber progress fill. |
+| Other screens | Options and file screens reuse the collage backdrop with dark list panels; the loading screen is a parchment map with sepia concept sketches and a bronze bar; a confirmation is oxblood leather with a thin brass edge; in-game letters and books are stained parchment. |
+| Sound | `GUI_Open` / `GUI_Close`: soft 0.45–0.5 s breaths of noise; `GUI_SelChange`: a 35 ms dry tick; under the menu, an 11.5 s crackling-fire loop and a 17.4 s wind-gust loop. |
+
+What Tervain takes from it: a dark picture with amber light and a cool upper sky; rough cast metal for the name; choices as plain worn lettering in a sunken, framed, dark panel; parchment for forms and oxblood for a confirmation; dust and scratches over everything. What it does not take: any image, font, sound, layout measurement, logo shape or ornament. Tervain's backdrop is a live 3D scene, its frame has no interlace corners and no outer border (A25), its lettering is original, and its menu makes no sound of its own (synthesized interface tones were removed in 0.0.4; the existing procedural wind bed plays until reviewed recordings exist).
 
 ## Not done, and why
 

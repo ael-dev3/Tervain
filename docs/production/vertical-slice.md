@@ -14,7 +14,7 @@ The proposed first pass is **30–45 minutes**. A developer can replay important
 
 | Place | Experience to prove |
 | --- | --- |
-| Sparse strand, Deepwood trail, inland waystation and overlook | Amnesiac environmental introduction, canopy-depth traversal, landmark orientation, and safe first movement before Rillford. A26 establishes this opening; detailed history remains proposed. |
+| Sparse strand, Deepwood trail, inland waystation and overlook | Amnesiac environmental introduction, canopy-depth traversal, landmark orientation, and safe first movement before Rillford. A27 establishes this opening; detailed history remains proposed. |
 | Rillford | Daily routines, dialogue, service/training, evidence of water shortage. |
 | Spring shrine and wetland | Templar work and belief expressed through place, ecological stake, utility interaction. |
 | Damaged sluice | Readable physical problem, inspection, repair/stabilization and changed water presentation. |
@@ -49,7 +49,7 @@ These are caps to protect learning and polish. Cutting a decorative feature is p
 7. Revisit the village/route and perceive the result through at least three details.
 8. Save, close the application, reopen it, and find the same outcome with appropriate follow-up dialogue.
 
-The current opening shape is established by A26: sparse strand, no remembered identity, dense woodland, and people farther inland. The protagonist's actual past and the cause of amnesia remain proposals. The complete quest sequence above is a future interface target; `0.0.5` replaces NPC conversations with nonblocking observation. When conversation returns, it should explain the stakes without requiring a lore encyclopedia.
+The current opening shape is established by A27: sparse strand, no remembered identity, dense woodland, and people farther inland. The protagonist's actual past and the cause of amnesia remain proposals. The complete quest sequence above is a future interface target; `0.0.5` replaces NPC conversations with nonblocking observation. When conversation returns, it should explain the stakes without requiring a lore encyclopedia.
 
 ## Deliverable package
 

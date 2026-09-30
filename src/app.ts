@@ -26,6 +26,7 @@ import { MapView } from './presentation/ui/map';
 import { PanelHost, aboutPanel, controlsPanel, inventoryPanel, journalPanel, noticePanel, pauseMenu, settingsPanel, sluicePanel, slotsPanel, type PanelActions, type PanelCtx } from './presentation/ui/panels';
 import { h, clear } from './presentation/ui/dom';
 import { createMenuScreen } from './presentation/ui/menuView';
+import { installMenuMaterials } from './presentation/ui/menuMaterials';
 import { AssetLibrary } from './presentation/assets/library';
 import { ALL_NEEDS } from './presentation/assets/needs';
 import { setRigShadow } from './presentation/characters';
@@ -102,6 +103,8 @@ export class App {
     this.input = new Input(this.canvas, () => this.settings);
     this.applyUiSettings();
     this.buildShell();
+    // The menu surfaces (dust, leather, bronze, parchment) also dress the loading screen, so make them first.
+    installMenuMaterials();
     this.loadingEl.textContent = S('menu.loading');
 
     try {
@@ -116,7 +119,7 @@ export class App {
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
     this.grade = new Grade(this.renderer, { msaa: this.settings.quality !== 'low' });
-    this.menuScene = new MenuScene();
+    this.menuScene = new MenuScene({ quality: this.settings.quality });
     this.applyPixelRatio();
     window.addEventListener('resize', () => this.onResize());
     this.onResize();
@@ -316,6 +319,12 @@ export class App {
     if (reload && this.renderer) {
       const before = { x: this.player.x, z: this.player.z, yaw: this.player.yaw };
       this.loadingEl.classList.remove('off');
+      // The menu vigil follows the graphics preset too (it is on screen while Settings is open).
+      if (this.menuScene.quality !== this.settings.quality) {
+        this.menuScene.dispose();
+        this.menuScene = new MenuScene({ quality: this.settings.quality });
+        this.menuScene.resize(window.innerWidth, window.innerHeight);
+      }
       void this.buildWorld().then(() => {
         this.player.setPosition(before.x, before.z, before.yaw, this.world.terrain);
         this.world.scene.add(this.player.group);
@@ -374,7 +383,7 @@ export class App {
     this.panels.push(
       h(
         'div',
-        {},
+        { class: 'tv-confirm' },
         h('h1', {}, S('menu.new')),
         h('p', {}, S('menu.newconfirm')),
         h('div', { class: 'row', style: { marginTop: '12px' } }, h('button', { class: 'btn primary', 'data-nav': true, onClick: () => {
@@ -503,9 +512,10 @@ export class App {
     if (this.menuBackgroundActive) {
       // The menu is a separate cosmetic courtyard. No coast, patrols, or game clock run beneath it.
       this.menuScene.update(dt, this.settings.reducedMotion);
-      this.audio.update(dt, { nightness: 0, waterProximity: 0, seaProximity: 0, flow: 0,
-        millNear: 0, millTurning: false, windAmount: 0.35, quarryNear: 0,
-        quarryWorking: false, time: this.audioClock, underRoof: true });
+      // An open headland: wind, and the sea breaking somewhere below. Only the existing procedural beds play.
+      this.audio.update(dt, { nightness: 0.3, waterProximity: 0, seaProximity: 0.32, flow: 0,
+        millNear: 0, millTurning: false, windAmount: 0.6, quarryNear: 0,
+        quarryWorking: false, time: this.audioClock, underRoof: false });
       this.render();
       return;
     }
@@ -598,15 +608,25 @@ export class App {
 
   private render() {
     if (this.menuBackgroundActive) {
-      this.renderer.toneMappingExposure = 1.22 * this.settings.brightness;
-      this.grade.setLook({ night: 0 });
+      this.menuScene.prepare(this.renderer);
+      this.renderer.toneMappingExposure = 1.05 * this.settings.brightness;
+      if (!this.worldLook) this.worldLook = this.grade.getLook();
+      this.grade.setLook({ ...App.MENU_LOOK, night: 0 });
       this.grade.render(this.menuScene.scene, this.menuScene.camera, this.settings.reducedMotion ? 0 : this.lastFrameDt);
       return;
     }
     this.renderer.toneMappingExposure = 1.22;
+    if (this.worldLook) {
+      this.grade.setLook(this.worldLook);
+      this.worldLook = null;
+    }
     this.grade.setLook({ night: this.world.sky.state.nightness });
     this.grade.render(this.world.scene, this.cam.camera, this.lastFrameDt, this.world.waterRenderInputs(this.settings));
   }
+
+  /** The menu's picture is rougher than play: an old painted backdrop, grainy and darkened at the edges. */
+  private static readonly MENU_LOOK = { saturation: 0.9, contrast: 1.07, vignette: 0.3, grain: 0.03, chromatic: 0.0012 };
+  private worldLook: ReturnType<Grade['getLook']> | null = null;
 
   private get menuBackgroundActive() {
     return this.mode === 'title' || (this.panelKind === 'pause' && this.panels.isOpen);

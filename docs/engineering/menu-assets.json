@@ -4,7 +4,7 @@
   "assets": [
     {
       "id": "warpkeep.hegemony.emblem.2026-09-27",
-      "displayName": "Approved Hegemony emblem for the Tervain desert-market menu",
+      "displayName": "Approved Hegemony emblem for the Tervain menu",
       "category": "faction-identity-texture",
       "source": {
         "repository": "ael-dev3/Warpkeep-Assets",
@@ -27,8 +27,8 @@
         "colorType": "RGBA",
         "alpha": true,
         "preparation": "Byte-exact copy; no crop, repaint, background removal or metadata stripping; caBX chunk retained.",
-        "intendedUse": "Integrated into native 3D desert-market menu fabric; base-URL-aware loading.",
-        "renderPreparation": "Renderer composites the unchanged master into the single banner on a grounded timber post and bracket (A24); central silk, awnings, textile samples and trading goods have no emblem. The bundled PNG is not modified."
+        "intendedUse": "The single Hegemony standard in the native 3D menu (desert market in 0.0.4; Templar vigil since 0.0.5, A26); base-URL-aware loading.",
+        "renderPreparation": "Since 0.0.5 the renderer draws the unchanged master into a canvas at runtime and weathers the copy for the one standard (A24): lower saturation and value, rubbed-thin patches, weave and mud over the cloth, and a matching light-through map in which the emblem blocks the low sun. No other surface carries the emblem. The bundled PNG is not modified."
       },
       "terms": {
         "spdx": null,
@@ -41,9 +41,9 @@
         "date": "2026-09-30",
         "sourceAndRuntimeByteEquality": true,
         "sizeSha256AndPngHeader": "verified locally",
-        "sceneIntegrationAndVisualQa": "Rendered on native fabric in local production-preview browser review; emblem aspect preserved.",
+        "sceneIntegrationAndVisualQa": "0.0.4: rendered on native fabric in local production-preview review. 0.0.5: rendered weathered on the vigil standard in local headless-browser captures; CPU tests cover print, missing-image fallback and late-load-after-dispose.",
         "fallbackAndDisposal": "Six CPU-only scene regression tests; no browser HTTP-failure simulation performed.",
-        "publication": "Revision locally reviewed in unmerged PR #2; publication pending.",
+        "publication": "Locally reviewed in unmerged PR #2 and the stacked 0.0.5 menu PR; publication pending.",
         "desktopPackage": "not verified"
       }
     }

@@ -20,7 +20,7 @@ The Templar-inspired order is the local center of gravity and **is part of the H
 
 The owner's intention is original work. References inform the questions we ask and the experience we seek; they do not establish imported characters, doctrine, terminology bundles, histories, scenes, or quests.
 
-For `0.0.5`, the owner selected a sparse amnesiac beach arrival followed by a dense woodland journey before the first inland settlement, with no dialogue windows ([A26](decisions.md)). Boring Forest supplies a visual and rendering reference for that journey. The Hegemony-affiliated Templars appear through original environmental traces; their detailed woodland history, the protagonist's past, and the cause of amnesia remain proposals. This is an exploration revision, not evidence that the complete Dry Bell negotiation interface or a Steam package exists. See the [current prototype scope](engineering/prototype.md#forest-arrival-pass-30-september-2026).
+For `0.0.5`, the owner selected a sparse amnesiac beach arrival followed by a dense woodland journey before the first inland settlement, with no dialogue windows ([A27](decisions.md)). Boring Forest supplies a visual and rendering reference for that journey. The Hegemony-affiliated Templars appear through original environmental traces; their detailed woodland history, the protagonist's past, and the cause of amnesia remain proposals. This is an exploration revision, not evidence that the complete Dry Bell negotiation interface or a Steam package exists. See the [current prototype scope](engineering/prototype.md#forest-arrival-pass-30-september-2026).
 
 ## Design pillars
 
@@ -76,7 +76,7 @@ High fantasy appears in sacred landscapes, strange creatures, a believable relat
 
 The order's original faith must have ordinary adherents and worthwhile practices, as well as institutional failures. Nature can be dangerous; preservation can demand a human cost. Neither faith nor technological development should function as a universal moral label.
 
-The owner selected an original native 3D desert-market menu with sand, palms, spices, silk, and gentle cloth wind (A22), with the exact approved Hegemony emblem integrated into fabric. This is menu presentation, not a replacement for the playable Grey Strand coast or authorization to build a desert gameplay region. The decorative invented seal and static lone-banner treatment are superseded. Typography and scene geometry remain original; score and protagonist presentation still need separate selection for this game's tone.
+The menu is a native 3D scene that should feel as if it belongs in Gothic 3, in the Hyperion-inspired shared world with heavy Templar influence (A26): a Templar warden's dusk vigil on a headland, rough and human, with one weathered Hegemony standard bearing the approved emblem (A24). The earlier desert market (A22) is superseded for the menu; neither scene is authorization to build a new gameplay region. Typography and scene geometry remain original; score and protagonist presentation still need separate selection for this game's tone.
 
 ## Product relationship to Warpkeep
 

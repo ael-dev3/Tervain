@@ -78,6 +78,7 @@ Do not create placeholder packages for all possible systems. Start with the few 
 | `settlement.ts`, `buildings.ts`, `structures.ts`, `props.ts`, `roofs.ts`, `buildKit.ts`, `regions.ts`, `buildingTextures.ts` | Buildings and props authored as merged, textured geometry per region; the handles the world animates (doors, wheel, bell, gate, lighthouse beam). |
 | `characters.ts`, `humanGeo.ts`, `npcStyle.ts` | People and creatures: stable resident identities, sculpted heads, lofted torsos, tapered limbs, joints that bend, task-specific gestures, per-joint merged meshes. |
 | `riteResponse.ts`, `disposeScene.ts`, `platform/frameTiming.ts` | Grounded rite presentation, scene resource ownership, and visible-frame timing with a fresh baseline after backgrounding. |
+| `menuScene.ts`, `menu/`, `ui/menuArtwork.ts`, `ui/menuMaterials.ts` | Separate native 3D Templar vigil, original cast wordmark and material forms, one approved Hegemony standard, still menu camera, and a cosmetic clock that freezes in Reduced Motion. No gameplay-state ownership. |
 
 `WorldScene.create` is asynchronous only so the ground textures can be generated in slices while the loading text repaints; everything else is built synchronously in the constructor. The scene modules share one contract (`context.ts`): they build from a `BuildContext` and update from a `FrameContext`, and never touch game state.
 

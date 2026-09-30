@@ -1,6 +1,6 @@
 # Tervain documentation
 
-Status: foundation outline, 29 September 2026, plus notes on the browser prototype and its current [0.0.5 exploration revision](production/releases/0.0.5.md). The [0.0.4 notes](production/releases/0.0.4.md) preserve earlier construction, menu, and water evidence. Design documents propose; the [prototype notes](engineering/prototype.md) and dated release notes distinguish implemented behavior from outstanding validation.
+Status: foundation outline, 29 September 2026, plus notes on the browser prototype and its current [0.0.5 forest and menu revision](production/releases/0.0.5.md). The [0.0.4 notes](production/releases/0.0.4.md) preserve earlier construction, menu, and water evidence. Design documents propose; the [prototype notes](engineering/prototype.md) and dated release notes distinguish implemented behavior from outstanding validation.
 
 ## Reading paths
 

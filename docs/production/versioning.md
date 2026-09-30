@@ -2,7 +2,7 @@
 
 Status: **owner-established hold on the `0.0.x` line; proposed quality evidence for promotion.**
 
-The current package version is `0.0.5`; publication and validation status are recorded in the [release handoff](releases/0.0.5.md). Keep subsequent development builds in `0.0.x`. Do not promote to `0.1.0` until the game has crossed its quality threshold and the owner approves that promotion. Vite rejects versions outside `0.0.x` and rejects a mismatched lockfile, so dev, test, and production builds cannot silently drift to `0.1`.
+The current package version is `0.0.5`; final combined validation and publication are pending and recorded in the [release handoff](releases/0.0.5.md). Keep subsequent development builds in `0.0.x`. Do not promote to `0.1.0` until the game has crossed its quality threshold and the owner approves that promotion. Vite rejects versions outside `0.0.x` and rejects a mismatched lockfile, so dev, test, and production builds cannot silently drift to `0.1`.
 
 `package.json` is the version source. The running title screen, debug/benchmark reports, and save build stamp use the same injected package version. Do not maintain separate hand-edited runtime version strings. Save schema compatibility remains controlled by `SAVE_FORMAT_VERSION`; the stable content identifier is separate, and changing the visible build number does not itself invalidate an existing save.
 

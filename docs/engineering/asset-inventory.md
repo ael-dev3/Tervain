@@ -34,7 +34,7 @@ Not imported in the original GLB selection: the castles, the Grand Covenant Cath
 
 ## Approved Hegemony menu emblem, 30 September 2026
 
-The owner explicitly requested the approved Hegemony identity for Tervain's native 3D desert-market menu. This particular reuse is authorized by that instruction (A21–A22), not by a general open-content license or mere repository presence. The other scene geometry is originally authored for Tervain; Gothic 3 is inspiration only.
+The owner explicitly requested the approved Hegemony identity for Tervain's native 3D menu (first the desert market, since 0.0.5 the Templar vigil under A26, where it is the single weathered standard of A24). This particular reuse is authorized by that instruction (A21–A22), not by a general open-content license or mere repository presence. The other scene geometry is originally authored for Tervain; Gothic 3 is inspiration only.
 
 | Field | Record |
 | --- | --- |
