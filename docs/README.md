@@ -11,8 +11,10 @@ Status: foundation outline, 29 September 2026, plus notes on the browser prototy
 | Start implementation | [Decisions](decisions.md) → [architecture](engineering/architecture.md) → [prototype](engineering/prototype.md) → [shared assets](engineering/shared-assets.md) → [slice](production/vertical-slice.md). |
 | Play or test the build | [Prototype](engineering/prototype.md) → [0.0.5 scope and handoff](production/releases/0.0.5.md) → [future slice acceptance](production/vertical-slice.md). |
 | Make environment or character art | [Art/audio/UI](art/art-audio-ui.md) → [setting](world/setting.md) → [shared assets](engineering/shared-assets.md). |
+| Work on the people or the unarmed start | [People notes](production/releases/0.0.5-people.md) → [Gothic 3 people study](art/gothic3-reference.md#people) → [people update](art/art-audio-ui.md#people-update-30-september-2026). |
 | Plan the project | [Vision](vision.md) → [roadmap](production/roadmap.md) → [decisions](decisions.md). |
 | Check a source or assumption | [Reference ledger](references.md) → the dated upstream record named there. |
+| Check menu music provenance | [The Sovereign's Oath source record](engineering/menu-score.md) → [audio inventory](engineering/menu-audio-assets.json) → [0.0.5 handoff](production/releases/0.0.5.md). |
 
 ## Document authority
 

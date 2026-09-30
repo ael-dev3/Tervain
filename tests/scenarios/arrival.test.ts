@@ -18,7 +18,7 @@ describe('0.0.5 silent arrival', () => {
       leadKey: 'journal.lead.arrival', statusKey: 'journal.status.arrival', reported: [],
     });
     // Guidance describes the visible landscape rather than disclosing an undiscovered town on the map: the
-    // wanderer arrives unarmed (A28), so it first points at the wreck on the strand, then at the woodland track.
+    // wanderer arrives unarmed (A29), so it first points at the wreck on the strand, then at the woodland track.
     expect(nextHint(g.state)).toEqual({ key: 'hint.search_wreck', place: null });
     must(g, { t: 'pickup', pickupId: 'wreck_blade', item: 'rusted_sword', qty: 1 });
     expect(nextHint(g.state)).toEqual({ key: 'hint.find_woodland_track', place: null });

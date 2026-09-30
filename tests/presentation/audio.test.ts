@@ -1,8 +1,8 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { defaultSettings } from '../../src/platform/settings';
-import { AudioEngine, ambienceMix, ambienceNoise, type AmbienceEnvironment } from '../../src/presentation/audio';
+import { AudioEngine, MENU_MUSIC_SOURCES, ambienceMix, ambienceNoise, type AmbienceEnvironment } from '../../src/presentation/audio';
 
-afterEach(() => vi.unstubAllGlobals());
+afterEach(() => { vi.unstubAllGlobals(); vi.useRealTimers(); });
 
 describe('semantic audio captions', () => {
   it('delivers event captions with no audio device and all volumes muted', () => {
@@ -100,6 +100,7 @@ class Context {
   gains: Gain[] = [];
   sources: Source[] = [];
   filters: Filter[] = [];
+  mediaSources: Node[] = [];
   bufferData: Float32Array | null = null;
   createGain = () => {
     const node = new Gain(); this.nodes.push(node); this.gains.push(node); return node;
@@ -110,6 +111,9 @@ class Context {
   createBufferSource = () => {
     const node = new Source(); this.nodes.push(node); this.sources.push(node); return node;
   };
+  createMediaElementSource = (_media: HTMLAudioElement) => {
+    const node = new Node(); this.nodes.push(node); this.mediaSources.push(node); return node;
+  };
   createBuffer = (_channels: number, length: number, rate: number) => {
     this.bufferData = new Float32Array(length);
     return { duration: length / rate, getChannelData: (_channel: number) => this.bufferData! };
@@ -117,6 +121,46 @@ class Context {
   resume = vi.fn(() => { this.state = 'running'; return Promise.resolve(); });
   suspend = vi.fn(() => { this.state = 'suspended'; return Promise.resolve(); });
   close = vi.fn(() => { this.state = 'closed'; return Promise.resolve(); });
+}
+
+class Media {
+  src = '';
+  loop = false;
+  preload = '';
+  volume = 1;
+  paused = true;
+  currentTime = 0;
+  duration = 214.2;
+  error: { code: number } | null = null;
+  listeners = new Map<string, EventListener[]>();
+  canPlayType = vi.fn((_type: string) => 'probably');
+  play = vi.fn(() => { this.paused = false; return Promise.resolve(); });
+  pause = vi.fn(() => { this.paused = true; });
+  load = vi.fn();
+  removeAttribute = vi.fn((name: string) => { if (name === 'src') this.src = ''; });
+  addEventListener = vi.fn((type: string, listener: EventListener) => {
+    this.listeners.set(type, [...this.listeners.get(type) ?? [], listener]);
+  });
+  removeEventListener = vi.fn((type: string, listener: EventListener) => {
+    this.listeners.set(type, (this.listeners.get(type) ?? []).filter((l) => l !== listener));
+  });
+  emit(type: string) { for (const listener of this.listeners.get(type) ?? []) listener(new Event(type)); }
+}
+
+function musicFixture(settings = defaultSettings(), supported = true) {
+  const ctx = new Context();
+  const media = new Media();
+  media.canPlayType.mockReturnValue(supported ? 'probably' : '');
+  const makeMedia = vi.fn(function () { return media; });
+  vi.stubGlobal('window', { AudioContext: vi.fn(function () { return ctx; }), Audio: makeMedia });
+  const audio = new AudioEngine(() => settings);
+  return { audio, ctx, media, makeMedia, settings };
+}
+
+async function flushMusic() {
+  await Promise.resolve();
+  await Promise.resolve();
+  await Promise.resolve();
 }
 
 function audioFixture(settings = defaultSettings()) {
@@ -294,5 +338,233 @@ describe('audio graph lifetime and automation', () => {
     expect(caption).toHaveBeenCalledWith('[The sluice gate groans]');
     expect(audio.ready).toBe(false);
     expect(audio.enabled).toBe(false);
+  });
+});
+
+describe('streamed owner-supplied menu score', () => {
+  it('waits for a gesture, then streams once through Music and Master without decoding a song buffer', async () => {
+    const { audio, ctx, media, makeMedia } = musicFixture();
+    audio.setMenuActive(true);
+    expect(audio.menuMusicState).toBe('locked');
+    expect(makeMedia).not.toHaveBeenCalled();
+    audio.resume();
+    await flushMusic();
+    expect(makeMedia).toHaveBeenCalledTimes(1);
+    expect(ctx.mediaSources).toHaveLength(1);
+    expect(media.src).toBe(MENU_MUSIC_SOURCES.opus);
+    expect(media.preload).toBe('none');
+    expect(media.loop).toBe(true);
+    expect(media.volume).toBe(1);
+    expect(audio.menuMusicState).toBe('playing');
+    const envelope = ctx.gains[9]!;
+    expect(ctx.mediaSources[0]!.connect).toHaveBeenCalledWith(envelope);
+    expect(envelope.connect).toHaveBeenCalledWith(ctx.gains[1]);
+    expect(envelope.gain.setTargetAtTime).toHaveBeenCalledWith(0.8, 0, 0.15);
+    // Repeated menu gestures and quality/menu refreshes retain one media element.
+    audio.resume(); audio.setMenuActive(true); audio.resume();
+    expect(makeMedia).toHaveBeenCalledTimes(1);
+    expect(media.play).toHaveBeenCalledTimes(1);
+    expect(ctx.sources).toHaveLength(4);
+    expect(ctx.bufferData).toHaveLength(48000);
+    expect(audio.diagnostics.music).toMatchObject({ state: 'playing', source: MENU_MUSIC_SOURCES.opus, duration: 214.2 });
+    audio.dispose();
+  });
+
+  it('selects the AAC fallback without trying Opus when the codec is unsupported', async () => {
+    const { audio, media } = musicFixture(defaultSettings(), false);
+    audio.setMenuActive(true); audio.resume();
+    await flushMusic();
+    expect(media.src).toBe(MENU_MUSIC_SOURCES.aac);
+    expect(media.canPlayType).toHaveBeenCalledWith('audio/ogg; codecs="opus"');
+    expect(audio.menuMusicState).toBe('playing');
+    audio.dispose();
+  });
+
+  it('falls back once on a media error and preserves position when metadata becomes available', async () => {
+    const { audio, ctx, media, makeMedia } = musicFixture();
+    audio.setMenuActive(true); audio.resume();
+    await flushMusic();
+    media.currentTime = 73;
+    media.paused = true;
+    media.emit('error');
+    expect(media.src).toBe(MENU_MUSIC_SOURCES.aac);
+    media.currentTime = 0;
+    media.emit('loadedmetadata');
+    await flushMusic();
+    expect(media.currentTime).toBe(73);
+    expect(media.play).toHaveBeenCalledTimes(2);
+    expect(ctx.mediaSources).toHaveLength(1);
+    expect(makeMedia).toHaveBeenCalledTimes(1);
+    media.emit('error');
+    expect(audio.menuMusicState).toBe('unavailable');
+    expect(media.load).toHaveBeenCalledTimes(1);
+    audio.dispose();
+  });
+
+  it('does not start a muted stream and responds to Master/Music without affecting other buses', async () => {
+    const settings = defaultSettings();
+    settings.volumes.music = 0;
+    const { audio, ctx, media, makeMedia } = musicFixture(settings);
+    audio.setMenuActive(true); audio.resume();
+    expect(makeMedia).not.toHaveBeenCalled();
+    expect(audio.menuMusicState).toBe('muted');
+    settings.volumes.music = 0.75;
+    audio.applySettings();
+    await flushMusic();
+    expect(ctx.gains[1]!.gain.value).toBe(0.75);
+    expect(audio.menuMusicState).toBe('playing');
+    media.currentTime = 45;
+    settings.volumes.master = 0;
+    audio.applySettings();
+    expect(media.paused).toBe(true);
+    expect(audio.menuMusicState).toBe('muted');
+    const ambience = ctx.gains[3]!.gain.value;
+    settings.volumes.master = 1;
+    audio.applySettings();
+    await flushMusic();
+    expect(media.paused).toBe(false);
+    expect(media.currentTime).toBe(45);
+    expect(ctx.gains[3]!.gain.value).toBe(ambience);
+    expect(makeMedia).toHaveBeenCalledTimes(1);
+    audio.dispose();
+  });
+
+  it('fades before pausing for gameplay, resumes the same position and cancels a pending fade on quick return', async () => {
+    vi.useFakeTimers();
+    const { audio, ctx, media } = musicFixture();
+    audio.setMenuActive(true); audio.resume();
+    await flushMusic();
+    media.currentTime = 89;
+    ctx.currentTime = 89;
+    audio.setMenuActive(false);
+    expect(ctx.gains[9]!.gain.setTargetAtTime).toHaveBeenLastCalledWith(0, 89, 0.15);
+    expect(media.paused).toBe(false);
+    vi.advanceTimersByTime(899);
+    expect(media.paused).toBe(false);
+    vi.advanceTimersByTime(1);
+    expect(media.paused).toBe(true);
+    expect(media.currentTime).toBe(89);
+    audio.setMenuActive(true);
+    await flushMusic();
+    expect(media.play).toHaveBeenCalledTimes(2);
+    expect(media.currentTime).toBe(89);
+    audio.setMenuActive(false);
+    vi.advanceTimersByTime(100);
+    audio.setMenuActive(true);
+    vi.advanceTimersByTime(1000);
+    expect(media.paused).toBe(false);
+    expect(media.play).toHaveBeenCalledTimes(2);
+    audio.dispose();
+  });
+
+  it('pauses immediately while hidden and resumes without resetting or duplicating the stream', async () => {
+    const { audio, ctx, media, makeMedia } = musicFixture();
+    audio.setMenuActive(true); audio.resume();
+    await flushMusic();
+    media.currentTime = 121.2;
+    audio.setPageHidden(true);
+    expect(media.paused).toBe(true);
+    expect(ctx.suspend).toHaveBeenCalledTimes(1);
+    audio.resume();
+    expect(media.play).toHaveBeenCalledTimes(1);
+    audio.setPageHidden(false);
+    await flushMusic();
+    expect(ctx.resume).toHaveBeenCalledTimes(1);
+    expect(media.paused).toBe(false);
+    expect(media.currentTime).toBe(121.2);
+    expect(makeMedia).toHaveBeenCalledTimes(1);
+    expect(ctx.mediaSources).toHaveLength(1);
+    audio.dispose();
+  });
+
+  it('preserves the leave-menu pause deadline through repeated gameplay gestures', async () => {
+    vi.useFakeTimers();
+    const { audio, media } = musicFixture();
+    audio.setMenuActive(true); audio.resume();
+    await flushMusic();
+    audio.setMenuActive(false);
+    // The app calls resume on every keydown/pointerdown, including held-key repeat.
+    for (let i = 0; i < 8; i++) {
+      vi.advanceTimersByTime(100);
+      audio.resume();
+      expect(media.paused).toBe(false);
+    }
+    vi.advanceTimersByTime(99);
+    audio.resume();
+    expect(media.paused).toBe(false);
+    vi.advanceTimersByTime(1);
+    expect(media.paused).toBe(true);
+    audio.resume();
+    expect(media.play).toHaveBeenCalledTimes(1);
+    expect(vi.getTimerCount()).toBe(0);
+    audio.dispose();
+  });
+
+  it('contains rejected play promises and waits for a fresh gesture instead of retrying each frame', async () => {
+    const { audio, media } = musicFixture();
+    media.play.mockImplementationOnce(() => Promise.reject(new Error('autoplay blocked')));
+    audio.setMenuActive(true); audio.resume();
+    await flushMusic();
+    expect(audio.menuMusicState).toBe('blocked');
+    for (let i = 0; i < 120; i++) { audio.update(1 / 120, environment()); audio.setMenuActive(true); }
+    expect(media.play).toHaveBeenCalledTimes(1);
+    audio.resume();
+    await flushMusic();
+    expect(media.play).toHaveBeenCalledTimes(2);
+    expect(audio.menuMusicState).toBe('playing');
+    audio.dispose();
+  });
+
+  it('ignores late play promises after backgrounding and allows a fresh visible request', async () => {
+    const { audio, media } = musicFixture();
+    let resolvePlay = () => {};
+    media.play.mockImplementationOnce(() => new Promise<void>((resolve) => { resolvePlay = resolve; media.paused = false; }));
+    audio.setMenuActive(true); audio.resume();
+    expect(audio.menuMusicState).toBe('loading');
+    audio.setPageHidden(true);
+    resolvePlay();
+    await flushMusic();
+    expect(media.paused).toBe(true);
+    expect(audio.menuMusicState).toBe('paused');
+    audio.setPageHidden(false);
+    await flushMusic();
+    expect(media.play).toHaveBeenCalledTimes(2);
+    expect(audio.menuMusicState).toBe('playing');
+    audio.dispose();
+  });
+
+  it('releases listeners, media data, pending fades and every connected node exactly once', async () => {
+    vi.useFakeTimers();
+    const { audio, ctx, media, makeMedia } = musicFixture();
+    audio.setMenuActive(true); audio.resume();
+    await flushMusic();
+    audio.setMenuActive(false);
+    audio.dispose();
+    audio.dispose();
+    vi.advanceTimersByTime(1000);
+    audio.resume(); audio.setMenuActive(true);
+    expect(media.pause).toHaveBeenCalledTimes(1);
+    expect(media.removeAttribute).toHaveBeenCalledExactlyOnceWith('src');
+    expect(media.load).toHaveBeenCalledTimes(1);
+    expect([...media.listeners.values()].every((listeners) => listeners.length === 0)).toBe(true);
+    expect(ctx.nodes.every((node) => node.disconnect.mock.calls.length === 1)).toBe(true);
+    expect(makeMedia).toHaveBeenCalledTimes(1);
+    expect(ctx.close).toHaveBeenCalledTimes(1);
+  });
+
+  it('keeps the ambience graph usable if media graph creation fails and cleans a failed partial stream', async () => {
+    const { audio, ctx, media } = musicFixture();
+    ctx.createMediaElementSource = () => { throw new Error('media graph unavailable'); };
+    audio.setMenuActive(true);
+    expect(() => audio.resume()).not.toThrow();
+    await flushMusic();
+    expect(audio.ready).toBe(true);
+    expect(audio.menuMusicState).toBe('unavailable');
+    expect(media.play).not.toHaveBeenCalled();
+    expect(media.removeAttribute).toHaveBeenCalledWith('src');
+    expect(ctx.gains[9]!.disconnect).toHaveBeenCalledTimes(1);
+    expect(ctx.sources).toHaveLength(4);
+    audio.dispose();
+    expect(ctx.gains[9]!.disconnect).toHaveBeenCalledTimes(1);
   });
 });
