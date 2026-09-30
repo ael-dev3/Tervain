@@ -859,13 +859,6 @@ select {
   color: #f0e3c9;
 }
 
-.menu-frame-art {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  pointer-events: none;
-}
-
 .menu-banner {
   position: relative;
   width: min(350px, 42vh, 70vw);
@@ -892,7 +885,7 @@ select {
 
 .menu-heading h1 {
   position: relative;
-  height: clamp(90px, 22vh, 220px);
+  height: clamp(90px, 20vh, 180px);
   margin: 0;
 }
 
@@ -900,9 +893,9 @@ select {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: min(94vw, 1150px);
+  width: min(82vw, 900px);
   height: auto;
-  aspect-ratio: 1000 / 220;
+  aspect-ratio: 1000 / 210;
   transform: translate(-50%, -50%);
   overflow: visible;
 }
@@ -1010,8 +1003,8 @@ select {
   padding-bottom: clamp(8px, 2vh, 20px);
 }
 
-.menu-pause .menu-heading h1 { height: clamp(70px, 17vh, 160px); }
-.menu-pause .menu-wordmark-art { width: min(86vw, 900px); }
+.menu-pause .menu-heading h1 { height: clamp(70px, 18vh, 160px); }
+.menu-pause .menu-wordmark-art { width: min(74vw, 760px); }
 
 .surface-paper :is(button, input, select):focus-visible {
   outline-color: #44311e;
@@ -1024,27 +1017,11 @@ body.high-contrast .menu-build { color: #fff; }
 body.reduce-effects .menu-screen [filter] { filter: none; }
 
 @media (max-width: 760px) {
-  /* Keep the iron rim and rivets proportionate rather than stretching wide-screen scrollwork. */
-  .menu-frame-art { display: none; }
-  .menu-screen::after {
-    content: '';
-    position: absolute;
-    inset: 9px;
-    z-index: 3;
-    border: 2px solid #9a7740;
-    box-shadow: 0 0 0 3px #201b13, inset 0 0 0 1px #d0ac62;
-    background:
-      radial-gradient(circle at 7px 7px, #d6b369 2px, #604724 4px, #171812 7px, transparent 8px),
-      radial-gradient(circle at calc(100% - 7px) 7px, #d6b369 2px, #604724 4px, #171812 7px, transparent 8px),
-      radial-gradient(circle at 7px calc(100% - 7px), #d6b369 2px, #604724 4px, #171812 7px, transparent 8px),
-      radial-gradient(circle at calc(100% - 7px) calc(100% - 7px), #d6b369 2px, #604724 4px, #171812 7px, transparent 8px);
-    pointer-events: none;
-  }
   .menu-banner { width: min(350px, 70vw); }
   .menu-banner-content { inset-inline: 4%; }
   .menu-heading { padding-top: 0; }
-  .menu-heading h1 { height: clamp(64px, 18vh, 140px); }
-  .menu-wordmark-art { width: 94vw; }
+  .menu-heading h1 { height: clamp(64px, 12vh, 96px); }
+  .menu-wordmark-art { width: 86vw; }
   .menu-subtitle { font-size: 0.85rem; letter-spacing: 0.05em; }
   .menu-choices .btn { font-size: 1.18rem; }
 }
@@ -1066,7 +1043,8 @@ body.reduce-effects .menu-screen [filter] { filter: none; }
   .menu-pause .menu-heading h1 { height: 48px; }
   .menu-wordmark-art,
   .menu-pause .menu-wordmark-art { width: 100%; }
-  .menu-choices { flex: 0 0 auto; overflow: visible; }
+  .menu-choices { flex: 0 0 auto; overflow: visible; padding-inline: 0; }
+  .menu-choices .btn { padding-inline: 4px; font-size: 1rem; overflow-wrap: anywhere; }
 }
 
 .loading {

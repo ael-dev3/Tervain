@@ -1,5 +1,5 @@
 import { h } from './dom';
-import { createMenuFrame, createMenuWordmark } from './menuArtwork';
+import { createMenuWordmark } from './menuArtwork';
 
 /** Native controls float over the shared 3D silk courtyard; the cloth belongs to MenuScene. */
 export function createMenuScreen(options: {
@@ -11,7 +11,6 @@ export function createMenuScreen(options: {
   options.menu.classList.add('menu-choices');
   options.menu.setAttribute('aria-label', options.variant === 'title' ? 'Main menu' : 'Pause menu');
   return h('div', { class: `menu-screen menu-${options.variant}` },
-    createMenuFrame(),
     h('div', { class: 'menu-banner' },
       h('div', { class: 'menu-banner-content' },
         h('header', { class: 'menu-heading' },

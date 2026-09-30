@@ -14,6 +14,8 @@ This repository contains a design and production outline and a browser-playable 
 
 The menu revision replaces the static hanging-banner composition with an original native 3D desert market: sand, palms, spices, silk, and gentle cloth wind. Its latest correction gives the scene exactly one Hegemony banner on a grounded timber post, with unmarked merchant silk, textile rolls, folded cloth, spices, and pottery elsewhere. The correction is implemented and locally reviewed within unmerged PR #2. The playable coast remains the Grey Strand. The [earlier menu handoff](docs/production/releases/0.0.4.md#native-3d-desert-market-menu-follow-up) preserves the first scene's checks; the [composition correction](docs/production/releases/0.0.4.md#market-composition-correction) records the latest pass separately. Publication remains pending.
 
+The menu now has no outer border, and its **Tervain** wordmark uses original gold-and-dark fantasy lettering that fits the Hegemony-affiliated Templars and shared Warpkeep identity. The name and one-banner market remain. This title treatment is implemented and locally reviewed within `0.0.4` and unmerged PR #2; publication remains pending. See the [wordmark handoff](docs/production/releases/0.0.4.md#borderless-templar-wordmark).
+
 The same `0.0.4` revision improves coastal and inland water with layered waves, depth-based transmission, world reflections, clearer shallows, and finer shoreline foam. Low quality and Reduced Effects use a cheaper fallback; Reduced Motion freezes the cosmetic water phase. See the [water handoff](docs/production/releases/0.0.4.md#water-presentation-follow-up) for the reference, implementation, checks, and limits.
 
 ## Play the prototype
