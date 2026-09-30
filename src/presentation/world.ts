@@ -25,6 +25,7 @@ import { setSharedLibrary } from './assets/library';
 import type { BuildContext, FrameContext, SceneModule } from './context';
 import { buildWater, type WaterSystem } from './waterMesh';
 import { buildSea, type SeaHandle } from './sea';
+import type { WaterRenderInputs } from './waterRenderPass';
 import type { Settings } from '../platform/settings';
 import { buildRiteResponse, type RiteResponse } from './riteResponse';
 
@@ -37,6 +38,7 @@ export class WorldScene {
   readonly sky: SkyRig;
   readonly water: WaterSystem;
   readonly sea: SeaHandle;
+  private waterMeshes: WaterRenderInputs['meshes'];
   readonly sway: SwayUniforms = { uTime: { value: 0 }, uWind: { value: 1 } };
   readonly library: AssetLibrary;
   /** Forest, ground cover, wildlife: updated every frame with the shared frame context. */
@@ -76,6 +78,8 @@ export class WorldScene {
 
   /** Release GPU resources the scene graph does not own. */
   dispose() {
+    this.water.dispose();
+    this.sea.dispose();
     this.environment.dispose?.();
     for (const m of this.modules) m.module.dispose?.();
     this.riteResponse.dispose();
@@ -95,8 +99,9 @@ export class WorldScene {
     this.scene.fog = this.sky.fog;
     this.water = buildWater(this.terrain);
     this.scene.add(this.water.group);
-    this.sea = buildSea(this.terrain);
+    this.sea = buildSea(this.terrain, settings.quality);
     this.scene.add(this.sea.group);
+    this.waterMeshes = [...Object.values(this.water.ribbons).map(r => r.mesh), this.water.pool, this.sea.mesh] as WaterRenderInputs['meshes'];
     const ctx: BuildContext = { terrain: this.terrain, colliders: this.colliders, library, quality: settings.quality, settings, sway: this.sway, excl: new Exclusions(this.terrain) };
     const forest = buildFlora(ctx);
     const scatter = buildScatter(ctx);
@@ -203,6 +208,11 @@ export class WorldScene {
     }
   }
 
+  waterRenderInputs(settings: Settings): WaterRenderInputs {
+    return { meshes: this.waterMeshes, seaMaterial: this.sea.mesh.material, quality: settings.quality,
+      enabled: settings.quality !== 'low' && !settings.reduceEffects, reducedMotion: settings.reducedMotion };
+  }
+
   /** Nearest distance to any watercourse, for the ambience bed. */
   waterProximity(x: number, z: number): number {
     let d = Infinity;
@@ -256,8 +266,8 @@ export class WorldScene {
     this.scenery.setNight(night);
     this.scenery.update(dt, this.time, night);
     const light = 0.42 + 0.58 * (1 - night);
-    this.water.update(dt, this.time, v.flow, light);
-    this.sea.update(dt, this.time);
+    this.water.update(dt, this.time, v.flow, light, reduced, settings.reduceEffects);
+    this.sea.update(dt, this.time, reduced, settings.reduceEffects);
     const frame: FrameContext = { time: this.time, camera, focus, nightness: night, sunDir: this.sky.state.sunDir, reducedMotion: reduced, hour, view: v, quality: settings.quality };
     this.environment.update(dt, frame);
     for (const m of this.modules) m.module.update(dt, frame);

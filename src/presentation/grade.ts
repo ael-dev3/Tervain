@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import { WaterRenderPass, type WaterRenderInputs } from './waterRenderPass';
+import { detachWaterOptics } from './waterOptics';
 
 /**
  * The final image. The scene is drawn into a half-float target (multisampled where the quality allows), then one
@@ -116,6 +118,7 @@ export class Grade {
   private w = 1;
   private h = 1;
   private time = 0;
+  private waterPass = new WaterRenderPass();
   enabled = true;
   /** Off on the low preset: it costs three small passes. */
   bloom = true;
@@ -206,9 +209,21 @@ export class Grade {
     this.target.dispose();
   }
 
-  render(scene: THREE.Scene, camera: THREE.Camera, dt: number) {
+  private dropWaterDepth() {
+    const depth = this.target.depthTexture;
+    if (!depth) return;
+    // Detach first: Three's target cleanup otherwise also dispatches depth.dispose().
+    this.target.depthTexture = null;
+    this.target.dispose();
+    depth.dispose();
+  }
+
+  render(scene: THREE.Scene, camera: THREE.Camera, dt: number, water?: WaterRenderInputs) {
     this.renderer.info.reset();
     if (!this.enabled) {
+      if (water) for (const mesh of water.meshes) detachWaterOptics(mesh.material);
+      this.waterPass.releaseTargets();
+      this.dropWaterDepth();
       this.renderer.render(scene, camera);
       return;
     }
@@ -217,8 +232,22 @@ export class Grade {
     const r = this.renderer;
     // Tone mapping belongs to the final pass (three applies it only when drawing to the screen); the scene itself is
     // written in linear light.
-    r.setRenderTarget(this.target);
-    r.render(scene, camera);
+    let sceneColor = this.target.texture;
+    if (water) {
+      const capture = water.enabled && water.quality !== 'low';
+      if (capture && !this.target.depthTexture) {
+        this.target.dispose();
+        this.target.depthTexture = new THREE.DepthTexture(this.w, this.h, THREE.UnsignedIntType);
+      } else if (!capture && this.target.depthTexture) {
+        this.dropWaterDepth();
+      }
+      sceneColor = this.waterPass.render(r, scene, camera, this.target, dt, water);
+    } else {
+      r.setRenderTarget(this.target);
+      r.render(scene, camera);
+    }
+    this.material.uniforms.tScene!.value = sceneColor;
+    this.brightMat.uniforms.tScene!.value = sceneColor;
     if (this.bloom) {
       // Bright pass into a quarter-resolution target, then a horizontal and a vertical blur.
       this.quad.material = this.brightMat;
@@ -241,6 +270,8 @@ export class Grade {
   }
 
   dispose() {
+    this.waterPass.dispose();
+    this.dropWaterDepth();
     this.target.dispose();
     this.bloomA.dispose();
     this.bloomB.dispose();

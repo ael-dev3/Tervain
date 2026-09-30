@@ -16,6 +16,7 @@ The [decision register](decisions.md) is the concise record. The detailed origin
 | Gothic 3 | Regional freedom, inhabited landscapes, local reputation, dangerous travel, trainers, faction encounters, everyday work. | Geography, quests, named groups, characters, assets, music and combat implementation. |
 | WoW tree studies from the prior asset work | Canopy mass, silhouette hierarchy, connected geometry, efficient foliage presentation. | Runtime meshes, textures, animation and setting-specific designs. |
 | Owner's Warpkeep 0.4 art discussions | Calm native 3D menu, lush environment, readable light, coherent materials and purposeful ambient animation. | Original UI hierarchy, scene geometry, score, resident identity, and close-view composition; reuse the specifically approved Hegemony emblem under its recorded source boundary. |
+| [Three.js Water Pro live demo](https://www.threejswaterpro.com/) and [primary documentation](https://docs.threejswaterpro.com/) | Layered waves, Fresnel response, clear shallows, depth color, reflections, and shore foam; owner-selected water reference (A23). | Original WebGL shaders and geometry suited to Tervain's coast and quest channels. No vendor code, assets, package, or purchased product is included; its FFT/WebGPU implementation is not adopted. |
 
 [Gothic 3 official manual](https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/39500/manuals/G3_Manual_UK.pdf) provides a primary reference for its regional/faction presentation. [Dan Simmons' interview](https://www.writerswrite.com/journal/dan-simmons-9012) discusses his fictional religions. These are creative context, not technical requirements or a license to adapt the works.
 
@@ -42,8 +43,9 @@ The approved September 27 emblem is recorded on Assets' [inspected branch revisi
 ## Technical sources
 
 - [Three.js documentation](https://threejs.org/docs/): renderer/import API reference to consult at implementation time.
+- [Three.js Reflector](https://threejs.org/docs/pages/Reflector.html): the existing dependency's WebGL planar-reflection addon is used for the optional coastal capture; its [source](https://github.com/mrdoob/three.js/blob/r186/examples/jsm/objects/Reflector.js) and [MIT license](https://github.com/mrdoob/three.js/blob/r186/LICENSE) were checked against the installed Three.js `0.186.1` package. No additional rendering dependency was added. Tervain's wave, foam, transmission, and composite orchestration code is original.
 - [Electron security guidance](https://www.electronjs.org/docs/latest/tutorial/security): candidate shell boundaries; Electron is not yet selected.
 - [Steam Input](https://partner.steamgames.com/doc/features/steam_controller/getting_started_for_devs): optional platform input integration reference.
 - [Steam Cloud](https://partner.steamgames.com/doc/features/cloud): optional save synchronization reference.
 
-These sources were checked during outline preparation. Pin implementation dependencies and recheck platform requirements when development begins. No runtime, desktop package, Steam integration, or hardware benchmark was executed as part of the documentation seed.
+The platform entries record outline research; the water reference and Reflector entries were added during the 30 September implementation follow-up. Recheck platform requirements before packaging. No runtime, desktop package, Steam integration, or hardware benchmark was executed as part of the documentation seed; subsequent implementation and local review are recorded in the [prototype notes](engineering/prototype.md#water-presentation-follow-up-30-september-2026).

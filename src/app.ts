@@ -225,7 +225,7 @@ export class App {
     }
     if (Object.keys(grade).length) this.grade.setLook(grade);
     if (q.has('bloom')) this.grade.setBloom(q.get('bloom') !== '0');
-    this.settings.reducedMotion = true;
+    this.settings.reducedMotion = q.get('motion') !== '1';
     this.applyUiSettings();
     for (let i = 0; i < num('settle', 120); i++) {
       this.step(1 / 30);
@@ -621,7 +621,7 @@ export class App {
     }
     this.renderer.toneMappingExposure = 1.22;
     this.grade.setLook({ night: this.world.sky.state.nightness });
-    this.grade.render(this.world.scene, this.cam.camera, this.lastFrameDt);
+    this.grade.render(this.world.scene, this.cam.camera, this.lastFrameDt, this.world.waterRenderInputs(this.settings));
   }
 
   private get menuBackgroundActive() {

@@ -18,3 +18,7 @@ This product includes material from the Warpkeep project (https://github.com/ael
    See docs/engineering/asset-inventory.md and assets/warpkeep/manifest.json.
 
 Warpkeep names, logos and the Hegemony identity are not licensed by this notice.
+
+This product uses Three.js, including its unmodified Reflector addon, under the MIT
+License (copyright 2010-2026 three.js authors). The full copyright and permission
+notice is retained in public/third-party-notices.txt and copied into the site build.

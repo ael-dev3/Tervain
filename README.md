@@ -14,6 +14,8 @@ This repository contains a design and production outline and a browser-playable 
 
 The current menu revision replaces the static hanging-banner composition with an original native 3D desert market: sand, palms, spices, silk, gentle cloth wind, and the approved Hegemony emblem integrated into fabric. The playable coast remains the Grey Strand. The revision is implemented and locally reviewed in unmerged PR #2; publication is pending. The [menu handoff](docs/production/releases/0.0.4.md#native-3d-desert-market-menu-follow-up) records its checks and distinguishes it from the published prototype.
 
+The same `0.0.4` revision improves coastal and inland water with layered waves, depth-based transmission, world reflections, clearer shallows, and finer shoreline foam. Low quality and Reduced Effects use a cheaper fallback; Reduced Motion freezes the cosmetic water phase. See the [water handoff](docs/production/releases/0.0.4.md#water-presentation-follow-up) for the reference, implementation, checks, and limits.
+
 ## Play the prototype
 
 **[▶ Play — The Grey Strand to Bellwether Vale](https://ael-dev3.github.io/Tervain/)** (a desktop browser with WebGL; keyboard and mouse or a controller)
