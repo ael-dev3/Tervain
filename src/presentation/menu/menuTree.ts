@@ -79,6 +79,8 @@ export interface TreeDoorSpec {
   halfWidth: number;
   /** Height of the flat face above the ground at its foot (the lintel's top), metres. */
   height: number;
+  /** An actual aperture in the flattened bark, with the frame hiding its precisely clipped edges. */
+  opening?: { width: number; height: number };
 }
 
 /**
@@ -182,6 +184,55 @@ function trunk(m: Mesh3, rng: () => number, door: TreeDoorSpec | undefined, grou
     }
   }
   return { top: trunkCenter(1), lobes, face };
+}
+
+/** Carve the completed wood mesh, so inward-curving secondary wood cannot remain inside the doorway. */
+function carveDoorPocket(m: Mesh3, face: TreeDoorFace, opening: { width: number; height: number }) {
+  const triangles = m.idx;
+  m.idx = [];
+  for (let i = 0; i < triangles.length; i += 3) {
+    const tri = triangles.slice(i, i + 3);
+    const n = face.normal;
+    const tangent: V3 = [n[2], 0, -n[0]];
+    const vertices = tri.map((i) => {
+      const p: V3 = [m.pos[i! * 3]!, m.pos[i! * 3 + 1]!, m.pos[i! * 3 + 2]!];
+      const d = sub(p, face.origin);
+      return { p, x: d[0] * tangent[0] + d[2] * tangent[2], y: d[1], z: d[0] * n[0] + d[2] * n[2],
+        u: m.uv[i! * 2]!, v: m.uv[i! * 2 + 1]!, c: [m.col[i! * 3]!, m.col[i! * 3 + 1]!, m.col[i! * 3 + 2]!] as V3 };
+    });
+    // Cut a shallow pocket, including the curved bark just behind/proud of the flat face. The rear bole stays solid.
+    const hw = opening.width / 2;
+    const hh = opening.height;
+    if (vertices.every((v) => v.z <= -0.70) || vertices.every((v) => v.x <= -hw) || vertices.every((v) => v.x >= hw)
+      || vertices.every((v) => v.y <= 0) || vertices.every((v) => v.y >= hh)) { m.idx.push(...tri); continue; }
+    type Vertex = (typeof vertices)[number];
+    const clip = (poly: Vertex[], axis: 'x' | 'y' | 'z', edge: number, sign: number): Vertex[] => {
+      const out: Vertex[] = [];
+      for (let i = 0; i < poly.length; i++) {
+        const p = poly[i]!;
+        const q = poly[(i + 1) % poly.length]!;
+        const dp = (p[axis] - edge) * sign;
+        const dq = (q[axis] - edge) * sign;
+        if (dp >= 0) out.push(p);
+        if ((dp >= 0) !== (dq >= 0)) {
+          const t = dp / (dp - dq);
+          const mix = (a: number, b: number) => a + (b - a) * t;
+          out.push({ p: p.p.map((v, k) => mix(v, q.p[k]!)) as V3, c: p.c.map((v, k) => mix(v, q.c[k]!)) as V3,
+            x: mix(p.x, q.x), y: mix(p.y, q.y), z: mix(p.z, q.z), u: mix(p.u, q.u), v: mix(p.v, q.v) });
+        }
+      }
+      return out;
+    };
+    // Subtract the rectangular aperture by partitioning the triangle into disjoint strips.
+    const middle = clip(clip(vertices, 'x', -hw, 1), 'x', hw, -1);
+    const inside = clip(clip(middle, 'y', 0, 1), 'y', hh, -1);
+    const strips = [clip(vertices, 'x', -hw, -1), clip(vertices, 'x', hw, 1), clip(middle, 'y', 0, -1), clip(middle, 'y', hh, 1), clip(inside, 'z', -0.70, -1)];
+    for (const poly of strips) {
+      if (poly.length < 3) continue;
+      const ids = poly.map((v) => m.v(v.p, v.u, v.v, v.c));
+      for (let k = 1; k < ids.length - 1; k++) m.idx.push(ids[0]!, ids[k]!, ids[k + 1]!);
+    }
+  }
 }
 
 /** A tapered, lumpy tube along a polyline, with rings aligned by parallel transport so it never corkscrews. */
@@ -438,6 +489,7 @@ export function buildAncientTree(seed = 1207, opts: AncientTreeOptions = {}): An
     leaves.idx.push(b, b + 1, b + 2, b, b + 2, b + 3);
     cards++;
   }
+  if (face && opts.door?.opening) carveDoorPocket(wood, face, opts.door.opening);
   const woodGeo = wood.geometry();
   const leafGeo = leaves.geometry();
   // Cards light like a crown, not like flat planes: normals point out of the crown's centre (and a little up).
