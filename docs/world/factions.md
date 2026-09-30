@@ -1,6 +1,6 @@
 # Factions and relationships
 
-> Status: PROPOSED original faction design, not approved canon. A Templar-centered high-fantasy setting with diverse independent factions is accepted direction; all names other than the game title, institutions, wings, characters, and relationships below are working proposals. “Templars” is an internal working label whose final in-world name remains unresolved. See [vision](../vision.md) and [decisions](../decisions.md).
+> Status: PROPOSED original faction detail. A Templar-centered high-fantasy setting with diverse regional factions is accepted direction, and **the Templars are part of the Hegemony** under owner clarification A21. Their formal name, hierarchy, doctrine, internal wings, characters, and detailed relationships below remain working proposals. Hegemony affiliation does not import Hyperion's canon or move the local campaign into Warpkeep's main war. See [vision](../vision.md) and [decisions](../decisions.md).
 
 ## How faction membership should work
 
@@ -11,6 +11,8 @@ The player begins without mandatory allegiance. Access grows through practical s
 ## Six proposed powers
 
 ### Templars: keepers of places and obligations
+
+**Confirmed affiliation:** part of the Hegemony (A21). The proposed local functions below describe this original order's possible work; they do not define a final Hegemony hierarchy or grant every local institution the same allegiance. The owner selected the approved Hegemony emblem for the menu (A22), rather than a new invented Templar seal.
 
 **Purpose:** Preserve the conditions that sustain inhabited landscapes and honor the presences bound to them. Their power comes from archives, sanctuary rights, waterkeeping knowledge, rites, and trusted intermediaries. They cannot maintain every channel or protect every sanctuary alone.
 

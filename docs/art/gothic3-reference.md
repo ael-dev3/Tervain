@@ -1,12 +1,14 @@
 # Gothic 3 look reference: Ardea and the Myrtana coast
 
-**Status:** owner direction (see decisions A12–A15 and A20) and the measurements behind it. This is a study for *inspiration*. Nothing from Gothic 3 is copied, extracted into the repository or shipped: the measurements below were read from the owner's licensed local install with read-only tools, and every texture, mesh, tree and sound in Tervain is generated or authored here. The owner's 30 September clarification governs how these measurements are interpreted for art direction.
+**Status:** owner direction (see decisions A12–A15, A20, and A22) and the measurements behind it. This is a study for *inspiration*. Nothing from Gothic 3 is copied, extracted into the repository or shipped: the measurements below were read from the owner's licensed local install with read-only tools. Tervain scene geometry is generated or authored here; the approved Hegemony emblem is specifically reused from its recorded Warpkeep source. The owner's 30 September clarification governs how these measurements are interpreted for art direction.
 
 ## What the owner asked for
 
 The first place the player sees should be as close to Ardea in Gothic 3 as possible: a coast with a lighthouse, a beach, a great deal of empty terrain, some trees and forests in the distance. The whole game should look like old-school Gothic 3: not cartoonish, rugged, rough around the edges, not perfect, not smooth, human.
 
 On 30 September the owner clarified the intended reading: **similarly exaggerated fantasy**, rather than clinical realism. Heavy expressive shapes, oversized ornament, broad painted value/color groups, rich earthy reds/golds, warm/cool contrast, and selective large wear belong to the direction. “Not cartoonish” retains a serious rugged tone; it does not require photorealism, plain framing, or universal desaturation. Control and body text remain accessible, motion remains calm, and all assets remain original. This art clarification does not introduce lore or gameplay systems, and the version remains `0.0.4`.
+
+The later A22 menu direction uses an original native 3D desert market with sand, palms, spices, silk, and gentle cloth wind. It replaces the static lone-banner/beach menu, while the playable coastal start remains Ardea-inspired. The approved Hegemony emblem appears as integrated fabric identity under a specific owner authorization, not as a copied Gothic asset or an invented replacement symbol. The coastal measurements below do not claim to measure or reconstruct Gothic 3's desert market.
 
 ## How the reference was read
 

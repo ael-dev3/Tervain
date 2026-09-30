@@ -8,7 +8,7 @@ Tervain is the working name for the region in which the game takes place; whethe
 
 The player encounters inhabited countryside: charcoal burners buying bread, seasonal workers sleeping above a stable, shrines repaired with mismatched stone, patrols asking for toll papers, and families arguing about whether their children should leave. Great institutions become understandable through these lives. Wilderness offers danger and discovery, but settlements have routes, resources, and histories that explain their presence.
 
-The wider universe may contain powers associated with Warpkeep. Their central conflict remains outside this story. No prior knowledge of Warpkeep is required, and no chapter depends on an invasion by those powers, a hidden machine intelligence, or a revelation that local magic is technology.
+The setting shares Warpkeep's wider world, and the Templars are part of the Hegemony (owner clarification A21). The Hegemony–Core–Ousters main conflict remains outside this local story. No prior knowledge of Warpkeep is required, and no chapter depends on an invasion by those powers, a hidden machine intelligence, or a revelation that local magic is technology. The formal hierarchy, timeline, and doctrine beyond that confirmed affiliation remain proposed or open.
 
 ## Three regional identities
 

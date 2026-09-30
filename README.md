@@ -4,13 +4,15 @@
 
 Tervain is being developed toward a Steam release. Its creative starting point is the freedom, regional character, dangerous travel, and faction encounters of *Gothic 3*, together with the layered perspectives, religious tensions, and complicated loyalties of *Hyperion*. The world, characters, faiths, visual identity, and stories will be original.
 
-An original order currently called the **Templars** anchors the setting. Its territories sit away from the future Hegemony–Core–Ousters conflict envisioned for Warpkeep. Local people still have their own arguments about land, water, work, authority, belief, and survival. Their lives provide the substance of this game.
+An original order currently called the **Templars** anchors the setting. **The Templars are part of the Hegemony**, as clarified by the owner on 30 September. Their local story sits away from the future Hegemony–Core–Ousters conflict envisioned for Warpkeep. Local people still have their own arguments about land, water, work, authority, belief, and survival. Their lives provide the substance of this game.
 
 ## Repository status
 
 **Foundation / pre-production — seeded 29 September 2026; first playable prototype added the same day.**
 
 This repository contains a design and production outline and a browser-playable build of the first slice. It does not contain a desktop package, a shipped asset pack, or Steam integration. Version **0.0.4** revises construction, coastal presentation, people, interface, and runtime stability; see the [patch notes and validation limits](docs/production/releases/0.0.4.md). The build guard enforces the 0.0.x line until the quality gate is met and the owner approves 0.1. See the [versioning policy](docs/production/versioning.md) and [what is real and what is representation](docs/engineering/prototype.md).
+
+The current menu revision replaces the static hanging-banner composition with an original native 3D desert market: sand, palms, spices, silk, gentle cloth wind, and the approved Hegemony emblem integrated into fabric. The playable coast remains the Grey Strand. The revision is implemented and locally reviewed in unmerged PR #2; publication is pending. The [menu handoff](docs/production/releases/0.0.4.md#native-3d-desert-market-menu-follow-up) records its checks and distinguishes it from the published prototype.
 
 ## Play the prototype
 
@@ -30,7 +32,7 @@ npm run build      # static build in dist/
 
 - Name: **Tervain**.
 - Serious, polished, single-player high fantasy aimed at Steam.
-- A Templar-inspired original order and diverse regional faction interactions.
+- A Templar-inspired original order within the Hegemony and diverse regional faction interactions.
 - Narrative inspiration from *Hyperion* and experiential inspiration from *Gothic 3*.
 - Distance from Warpkeep's eventual main faction war; minimal science-fiction presentation.
 - No keep-management focus and little warping in the initial game.

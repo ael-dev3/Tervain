@@ -32,6 +32,7 @@ import { AssetLibrary } from './presentation/assets/library';
 import { ALL_NEEDS } from './presentation/assets/needs';
 import { setRigShadow } from './presentation/characters';
 import { WorldScene } from './presentation/world';
+import { MenuScene } from './presentation/menuScene';
 import { disposeSceneResources } from './presentation/disposeScene';
 import { GAME_VERSION } from './version';
 
@@ -49,6 +50,7 @@ export class App {
   grade!: Grade;
   private lastFrameDt = 1 / 60;
   world!: WorldScene;
+  private menuScene!: MenuScene;
   library: AssetLibrary = AssetLibrary.empty();
   cam = new CameraRig();
   player = new Player();
@@ -121,6 +123,7 @@ export class App {
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
     this.grade = new Grade(this.renderer, { msaa: this.settings.quality !== 'low' });
+    this.menuScene = new MenuScene();
     this.applyPixelRatio();
     window.addEventListener('resize', () => this.onResize());
     this.onResize();
@@ -244,6 +247,7 @@ export class App {
       // A pending rebind never outlives the screen it was started on.
       this.input.captureNext = null;
       this.titleEl.inert = this.panels.isOpen;
+      this.syncMenuHudVisibility();
     };
     this.panels.onOpen = () => {
       this.titleEl.inert = true;
@@ -303,6 +307,7 @@ export class App {
     const dpr = this.renderer.getPixelRatio();
     this.grade.setSize(w * dpr, h2 * dpr);
     this.cam.setAspect(w / h2);
+    this.menuScene.resize(w, h2);
   }
 
   /* ============================== settings ============================== */
@@ -370,7 +375,7 @@ export class App {
       btn(S('menu.controls'), () => this.panels.push(controlsPanel(this.panelCtx()))),
       btn(S('menu.about'), () => this.panels.push(aboutPanel(this.panelCtx()))),
     );
-    this.titleEl.append(createMenuScreen({ menu, subtitle: S('game.subtitle'), version: GAME_VERSION, variant: 'title' }));
+    this.titleEl.append(createMenuScreen({ menu, subtitle: S('menu.affiliation'), version: GAME_VERSION, variant: 'title' }));
     this.focusTitle();
   }
 
@@ -406,6 +411,7 @@ export class App {
     this.dialogue.hide();
     this.mode = 'play';
     this.hud.show(true);
+    this.syncMenuHudVisibility();
     this.hud.showFade(false);
     this.input.uiOpen = false;
     this.clockAcc = 0;
@@ -502,19 +508,16 @@ export class App {
     const playing = this.mode === 'play' && this.overlay === 'none' && overlayAtStart === 'none';
     if (this.bench.active) this.stepBenchmark(dt);
 
-    const hour = hourOfDay(state.clock + this.clockAcc);
-    const focus = new THREE.Vector3(this.player.x, this.player.y, this.player.z);
-
-    if (this.mode === 'title') {
-      this.cam.title(dt, this.world.terrain, this.settings.reducedMotion);
-      focus.copy(this.cam.camera.position);
-      focus.y = 0;
-      this.updateActors(dt, hour);
-      this.world.update(dt, state, new THREE.Vector3(-14, 0, -86), this.settings, hour, this.cam.camera);
-      this.audioUpdate(dt, this.cam.camera.position, hour);
+    if (this.menuBackgroundActive) {
+      // The menu is a separate cosmetic courtyard. No coast, patrols, or game clock run beneath it.
+      this.menuScene.update(dt, this.settings.reducedMotion);
+      this.audio.update(dt, { nightness: 0, waterProximity: 0, seaProximity: 0, flow: 0,
+        millNear: 0, millTurning: false, windAmount: 0.35, quarryNear: 0,
+        quarryWorking: false, time: this.audioClock, underRoof: true });
       this.render();
       return;
     }
+    const hour = hourOfDay(state.clock + this.clockAcc);
 
     // A sealed archive never traps someone inside: the door and shutter only close behind the player once they are out.
     const inArchive = this.world.insideArchive(this.player.x, this.player.z);
@@ -598,7 +601,6 @@ export class App {
     if (this.panelKind === 'map' && this.mapCanvas) this.renderMap();
     this.updateDebug(dt);
     this.render();
-    void focus;
   }
 
   /** People beyond a short distance stop casting shadows; the shadow map only covers the near ground anyway. */
@@ -611,8 +613,24 @@ export class App {
   }
 
   private render() {
+    if (this.menuBackgroundActive) {
+      this.renderer.toneMappingExposure = 1.22 * this.settings.brightness;
+      this.grade.setLook({ night: 0 });
+      this.grade.render(this.menuScene.scene, this.menuScene.camera, this.settings.reducedMotion ? 0 : this.lastFrameDt);
+      return;
+    }
+    this.renderer.toneMappingExposure = 1.22;
     this.grade.setLook({ night: this.world.sky.state.nightness });
     this.grade.render(this.world.scene, this.cam.camera, this.lastFrameDt);
+  }
+
+  private get menuBackgroundActive() {
+    return this.mode === 'title' || (this.panelKind === 'pause' && this.panels.isOpen);
+  }
+
+  private syncMenuHudVisibility() {
+    // Nested pause forms retain the courtyard even though the top panel is now paper.
+    this.hud.el.classList.toggle('menu-hidden', this.menuBackgroundActive);
   }
 
   /* ============================== input glue ============================== */

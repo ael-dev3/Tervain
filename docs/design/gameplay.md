@@ -1,6 +1,6 @@
 # Gameplay design
 
-**Status:** proposed design baseline, not an implementation claim. The confirmed direction is a serious single-player Steam fantasy RPG, an original world centered on a Templar-inspired order, meaningful relationships among regional factions, and technology/assets shared where useful with Warpkeep. Camera, combat, progression, and exact interface decisions below remain proposals; see [decisions](../decisions.md).
+**Status:** proposed design baseline, not an implementation claim. The confirmed direction is a serious single-player Steam fantasy RPG, an original world centered on a Templar-inspired order within the Hegemony (A21), meaningful relationships among regional factions, and technology/assets shared where useful with Warpkeep. Camera, combat, progression, and detailed systems below remain proposals; accepted menu presentation direction is recorded separately under A22. See [decisions](../decisions.md).
 
 ## The experience we are designing
 

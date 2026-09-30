@@ -4,7 +4,7 @@ Foundation date: 29 September 2026. This ledger separates the owner's direction,
 
 ## Primary project direction
 
-The owner selected **Tervain** and requested a detailed repository seed. The owner described a serious original high-fantasy single-player Steam project with Gothic 3 as its experiential target, Hyperion as a principal narrative-structure inspiration, a Templar-inspired order outside Warpkeep's eventual Hegemony–Core–Ousters main conflict, diverse faction interactions, no initial keep-management focus, little warping, and shared suitable assets/technology.
+The owner selected **Tervain** and requested a detailed repository seed. The owner described a serious original high-fantasy single-player Steam project with Gothic 3 as its experiential target, Hyperion as a principal narrative-structure inspiration, a Templar-inspired order away from Warpkeep's eventual Hegemony–Core–Ousters main conflict, diverse faction interactions, no initial keep-management focus, little warping, and shared suitable assets/technology. On 30 September the owner explicitly clarified that **the Templars are part of the Hegemony** (A21), and selected an original native 3D desert-market menu with the approved Hegemony emblem and gentle cloth wind (A22). Distance from the war is not separation from that affiliation.
 
 The [decision register](decisions.md) is the concise record. The detailed original lore in this seed was proposed during preparation and has not been separately adopted as final canon.
 
@@ -15,7 +15,7 @@ The [decision register](decisions.md) is the concise record. The detailed origin
 | Dan Simmons, Hyperion Cantos | Conflicting viewpoints, institutions with mixed motives, ecology and religion, local lives amid distant powers. | Names/identities, histories, sacred teachings, plot, dialogue, characters and imagery. |
 | Gothic 3 | Regional freedom, inhabited landscapes, local reputation, dangerous travel, trainers, faction encounters, everyday work. | Geography, quests, named groups, characters, assets, music and combat implementation. |
 | WoW tree studies from the prior asset work | Canopy mass, silhouette hierarchy, connected geometry, efficient foliage presentation. | Runtime meshes, textures, animation and setting-specific designs. |
-| Owner's Warpkeep 0.4 art discussions | Calm native 3D menu, lush environment, readable light, coherent materials and purposeful ambient animation. | Tervain's final crest, UI hierarchy, score, resident identity, and close-view composition. |
+| Owner's Warpkeep 0.4 art discussions | Calm native 3D menu, lush environment, readable light, coherent materials and purposeful ambient animation. | Original UI hierarchy, scene geometry, score, resident identity, and close-view composition; reuse the specifically approved Hegemony emblem under its recorded source boundary. |
 
 [Gothic 3 official manual](https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/39500/manuals/G3_Manual_UK.pdf) provides a primary reference for its regional/faction presentation. [Dan Simmons' interview](https://www.writerswrite.com/journal/dan-simmons-9012) discusses his fictional religions. These are creative context, not technical requirements or a license to adapt the works.
 
@@ -30,6 +30,14 @@ The [decision register](decisions.md) is the concise record. The detailed origin
 - [Emblem/castle/music PR #37](https://github.com/ael-dev3/Warpkeep-Assets/pull/37): candidate art/audio archive context, not automatic Tervain selection.
 
 An older local Warpkeep checkout was also consulted for product direction and candidate geography. Its proposed Greater Realm atlas is not treated as Tervain's map or as current shipped geography. The game's proposed Alder Basin / Rimeward / Saltward layout is original working design in this repository.
+
+### September 30 lore and menu-source recheck
+
+Both sibling `AGENTS.md` files, their sharing/provenance rules, faction records, asset catalog, emblem source manifest, release manifest, and license ledger were read before this import. Fresh read-only fetches of main resolved to the same Warpkeep `786c0b2` and Assets `1e5c49e` snapshots above. No Templar record was found in those main source/docs or the inspected local sibling docs, so the affiliation is an accepted owner correction rather than a claim that those repositories already document it.
+
+The sibling records do establish Hegemony civic/religious imagery: the Grand Covenant Cathedral, Basilica Warden church-order role, Shellback Shrine Tender, and Ward Peacekeeper appear in the [asset catalog](https://github.com/ael-dev3/Warpkeep-Assets/blob/1e5c49e9819ea50cf4e03675bb05868f90f06fdc/docs/archive/2026-09-08-asset-catalog.md#hegemony-keep-citizens) and game asset records. Those are useful identity context, not proof of a final Templar doctrine, hierarchy, or history. No such details are imported by this menu change.
+
+The approved September 27 emblem is recorded on Assets' [inspected branch revision `5394111`](https://github.com/ael-dev3/Warpkeep-Assets/tree/5394111926a8f728ef91a9436bc8d7266296869e), not the fetched main snapshot. Its [provenance](https://github.com/ael-dev3/Warpkeep-Assets/blob/5394111926a8f728ef91a9436bc8d7266296869e/provenance/hegemony-emblem-2026-09-27.md) and [source manifest](https://github.com/ael-dev3/Warpkeep-Assets/blob/5394111926a8f728ef91a9436bc8d7266296869e/manifests/hegemony-emblem-2026-09-27.source.json) identify the exact transparent gold-and-violet master and published archive release. The [Tervain inventory](engineering/asset-inventory.md#approved-hegemony-menu-emblem-30-september-2026) records its verified 1,486,312 bytes, SHA-256, runtime path, and current owner-specific use authorization. No general open-content or trademark grant is inferred.
 
 ## Technical sources
 

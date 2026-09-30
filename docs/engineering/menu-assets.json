@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "snapshotDate": "2026-09-30",
+  "assets": [
+    {
+      "id": "warpkeep.hegemony.emblem.2026-09-27",
+      "displayName": "Approved Hegemony emblem for the Tervain desert-market menu",
+      "category": "faction-identity-texture",
+      "source": {
+        "repository": "ael-dev3/Warpkeep-Assets",
+        "revision": "5394111926a8f728ef91a9436bc8d7266296869e",
+        "repositoryPath": "previews/hegemony-emblem-2026-09-27/hegemony-emblem-master-1254.png",
+        "releaseTag": "hegemony-emblem-2026-09-27",
+        "attachment": "warpkeep-hegemony-emblem-2026-09-27-master.png",
+        "provenancePath": "provenance/hegemony-emblem-2026-09-27.md",
+        "suppliedBy": "Ael",
+        "suppliedFilename": "ChatGPT Image Sep 27, 2026, 04_44_09 PM.png",
+        "creationDisclosure": "Supplied filename identifies a ChatGPT image; no specific generation model or service version independently verified."
+      },
+      "runtime": {
+        "path": "public/assets/menu/hegemony-emblem.png",
+        "bytes": 1486312,
+        "sha256": "26e8664b1db0acf3e6db443caf46ef13e45fe9de794749e431b7c2e3d6fb8774",
+        "width": 1254,
+        "height": 1254,
+        "bitDepth": 8,
+        "colorType": "RGBA",
+        "alpha": true,
+        "preparation": "Byte-exact copy; no crop, repaint, background removal or metadata stripping; caBX chunk retained.",
+        "intendedUse": "Integrated into native 3D desert-market menu fabric; base-URL-aware loading.",
+        "renderPreparation": "Renderer composites the unchanged master into originally authored cloth CanvasTextures, using full-color side standards and a lower-alpha central print; the bundled PNG is not modified."
+      },
+      "terms": {
+        "spdx": null,
+        "upstreamStatus": "public-archive-authorized-no-separate-open-license",
+        "tervainAuthority": "Owner explicitly confirmed Templars as part of Hegemony and requested the approved emblem in the Tervain menu on 2026-09-30 (A21-A22).",
+        "credit": "Hegemony emblem supplied by Ael for the Warpkeep project; preserved from the September 27 source archive.",
+        "boundary": "Specific Tervain menu-use authorization; no general open-content, third-party, trademark, endorsement or unrelated-asset grant asserted."
+      },
+      "verification": {
+        "date": "2026-09-30",
+        "sourceAndRuntimeByteEquality": true,
+        "sizeSha256AndPngHeader": "verified locally",
+        "sceneIntegrationAndVisualQa": "Rendered on native fabric in local production-preview browser review; emblem aspect preserved.",
+        "fallbackAndDisposal": "Six CPU-only scene regression tests; no browser HTTP-failure simulation performed.",
+        "publication": "Revision locally reviewed in unmerged PR #2; publication pending.",
+        "desktopPackage": "not verified"
+      }
+    }
+  ]
+}

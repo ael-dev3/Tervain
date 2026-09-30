@@ -1,6 +1,6 @@
 # Shared asset inventory (Warpkeep → Tervain)
 
-Status: **imported and in use in the browser prototype (0.0.x)**; not yet checked in a desktop package. Follows the inventory convention in [shared-assets.md](shared-assets.md).
+Status, 30 September 2026: **209 historical runtime GLBs remain archived outside the published build; the exact approved Hegemony emblem is integrated into the locally reviewed native 3D menu revision.** Source-byte verification and local browser rendering pass; revision publication, browser HTTP-failure simulation, and desktop-package checks remain pending or unverified. Follows the inventory convention in [shared-assets.md](shared-assets.md).
 
 Tervain and Warpkeep are set in the same world and are meant to share technology and assets ([A10](../decisions.md)). On 29 September 2026 the project owner instructed that Tervain use the same assets and technology as [Warpkeep](https://github.com/ael-dev3/Warpkeep) and [Warpkeep-Assets](https://github.com/ael-dev3/Warpkeep-Assets). This document records exactly what was taken and on what terms.
 
@@ -10,7 +10,7 @@ The GLBs described below live in `assets/warpkeep/` (outside `public/`, so they 
 
 ## What was imported
 
-`tools/import-warpkeep-assets.mjs` copies an explicit selection of Warpkeep's **runtime GLBs** (`public/models/hegemony/…`) byte for byte into `assets/warpkeep/` and writes `assets/warpkeep/manifest.json`, which the game loads as its catalog. The manifest pins, for every file, the source path, size, SHA-256, triangle count, bounding size, skinning and animation names, and, once, the source repository and commit.
+`tools/import-warpkeep-assets.mjs` copied an explicit selection of Warpkeep's **runtime GLBs** (`public/models/hegemony/…`) byte for byte into `assets/warpkeep/` and wrote `assets/warpkeep/manifest.json` for the first import's catalog. The manifest pins, for every file, the source path, size, SHA-256, triangle count, bounding size, skinning and animation names, and, once, the source repository and commit. The current scene does not load those archived models.
 
 | Field | Value |
 | --- | --- |
@@ -30,13 +30,34 @@ The GLBs described below live in `assets/warpkeep/` (outside `public/`, so they 
 | `unit.*` | 6 | 12 | Infantry and ranged units, rigged (Attack, Idle, Walk, Special) |
 | `wildlife.*` | 2 | 3 | Rabbit |
 
-Not imported: the castles, the Grand Covenant Cathedral, cavalry and mounted units, gold-mine assets, the Warpkeep title letters and emblem, all audio and music (including the menu score), video, and every image. The Hegemony emblem and crest textures embedded in some unit models are replaced at load time; Tervain does not use the Hegemony's identity ([A06](../decisions.md)).
+Not imported in the original GLB selection: the castles, the Grand Covenant Cathedral, cavalry and mounted units, gold-mine assets, the Warpkeep title letters and emblem, all audio and music (including the menu score), video, and every image. The earlier decision to replace embedded crest textures is historical. Owner clarification A21 now confirms Templars within the Hegemony, and A22 authorizes the exact emblem import below; the archived GLBs are still outside the runtime build.
+
+## Approved Hegemony menu emblem, 30 September 2026
+
+The owner explicitly requested the approved Hegemony identity for Tervain's native 3D desert-market menu. This particular reuse is authorized by that instruction (A21–A22), not by a general open-content license or mere repository presence. The other scene geometry is originally authored for Tervain; Gothic 3 is inspiration only.
+
+| Field | Record |
+| --- | --- |
+| Identity | `warpkeep.hegemony.emblem.2026-09-27` — current approved gold sword, sweeping wings, two stars, and violet circular center |
+| Source repository/revision | `ael-dev3/Warpkeep-Assets` at `5394111926a8f728ef91a9436bc8d7266296869e` on its September 27 emblem branch; this is distinct from fetched main `1e5c49e9819ea50cf4e03675bb05868f90f06fdc` |
+| Exact source | `previews/hegemony-emblem-2026-09-27/hegemony-emblem-master-1254.png` ([pinned file](https://github.com/ael-dev3/Warpkeep-Assets/blob/5394111926a8f728ef91a9436bc8d7266296869e/previews/hegemony-emblem-2026-09-27/hegemony-emblem-master-1254.png)) |
+| Published archive | Release `hegemony-emblem-2026-09-27`, attachment `warpkeep-hegemony-emblem-2026-09-27-master.png` ([source record](https://github.com/ael-dev3/Warpkeep-Assets/blob/5394111926a8f728ef91a9436bc8d7266296869e/provenance/hegemony-emblem-2026-09-27.md)) |
+| Runtime path | [public/assets/menu/hegemony-emblem.png](../../public/assets/menu/hegemony-emblem.png); resolve through the configured base URL |
+| Integrity | 1,486,312 bytes; SHA-256 `26e8664b1db0acf3e6db443caf46ef13e45fe9de794749e431b7c2e3d6fb8774` |
+| Image | 1254×1254, 8-bit RGBA PNG, transparency retained |
+| Preparation | Byte-exact copy: no crop, repaint, background removal, metadata stripping, or new generation; existing `caBX` chunk retained |
+| Creation disclosure | Ael supplied `ChatGPT Image Sep 27, 2026, 04_44_09 PM.png`; the specific generation model/service version was not independently verified |
+| Terms and credit | Supplied by Ael for the Warpkeep project; exact archive permits recorded public deposit/release distribution but asserts no separate open license. Current owner instruction specifically authorizes this Tervain menu use; no general third-party, trademark, endorsement, or unrelated-asset grant is asserted |
+| Scene use | Renderer prints the master onto originally authored cloth CanvasTextures, with full-color side standards and a quieter central print behind controls. The bundled master stays unchanged; no invented seal or freestanding emblem plaque |
+| Verification/state | Local byte equality, size, SHA-256, and PNG header checked on 30 September. Production-preview browser rendered the approved emblem on native fabric without stretched aspect. CPU-only scene tests cover fallback guards and disposal; browser HTTP-failure simulation and desktop-package validation remain unverified. Revision locally reviewed, publication pending |
+
+[Machine-readable menu asset record](menu-assets.json) preserves these coordinates and authorization separately from the historical GLB manifest. The July pixel-art emblem and retired unresolved logo candidates remain separate historical records; neither is imported as a substitute.
 
 ## Terms
 
 Warpkeep's own [asset ledger](https://github.com/ael-dev3/Warpkeep/blob/main/ASSETS-LICENSE.md) records these runtime files as **use-authorised** (`LicenseRef-Warpkeep-Provenance-Required`), not as open content: presence in a repository does not establish ownership, an open licence, or general redistribution rights, and each source set keeps its dated provenance record in Warpkeep-Assets. Some sets were produced with generation tools (see the creation disclosure in Warpkeep-Assets' README).
 
-For Tervain the project owner (the rights-holder in both repositories) instructed their use and, when asked, chose to make this repository public and to serve the game from GitHub Pages. That publishes these files. It is the owner's decision under the terms above; it does not turn the files into open content, and nothing in this repository grants anyone else rights to them. If the owner later wants the assets withheld from the public site, run the import tool with an empty selection and rebuild; the game falls back to procedural art.
+For the historical first import, the project owner instructed their use and chose to make this repository public and serve the game from GitHub Pages. That records the project's specific-use authority; it is not an independent ownership review, an open-content grant, or a new right for other users. The current build keeps these GLBs outside `public/` and uses procedural scene geometry. The menu emblem's current specific authorization and source boundary are recorded separately above.
 
 ## Technology reused
 

@@ -2,6 +2,8 @@
 
 > Status: PROPOSED original story material, not approved canon or a commitment to launch scope. The accepted direction is serious single-player high fantasy, meaningful faction interactions, and a world understandable independently of Warpkeep. Every plot, person, ending, and historical interpretation below is a working proposal. See [vision](../vision.md), [setting](setting.md), and [factions](factions.md).
 
+The Templars' Hegemony affiliation is confirmed by the owner (A21). The proposed local campaign remains away from the main Hegemony–Core–Ousters war; affiliation alone does not settle the order's response to each local dispute or adopt the narrative details below as canon.
+
 ## Narrative promise
 
 The player earns a place in a landscape whose inhabitants already have relationships, obligations, and unresolved arguments. Exploration changes what the player knows; knowledge changes which actions become credible; actions change who can live, work, travel, or exercise authority in a place.

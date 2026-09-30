@@ -8,6 +8,7 @@ export const EN: Record<string, string> = {
   /* ---------- Titles and menus ---------- */
   'game.title': 'Tervain',
   'game.subtitle': 'The Grey Strand · Bellwether Vale',
+  'menu.affiliation': 'Templars of the Hegemony',
   'game.tagline': 'A broken sluice. A thirsty vale. One choice for every household.',
   'menu.continue': 'Continue',
   'menu.new': 'New Game',

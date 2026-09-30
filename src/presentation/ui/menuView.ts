@@ -1,7 +1,7 @@
 import { h } from './dom';
-import { createMenuBannerArt, createMenuFrame, createMenuWordmark } from './menuArtwork';
+import { createMenuFrame, createMenuWordmark } from './menuArtwork';
 
-/** The title and pause screen share one cloth-and-metal composition and native controls. */
+/** Native controls float over the shared 3D silk courtyard; the cloth belongs to MenuScene. */
 export function createMenuScreen(options: {
   menu: HTMLElement;
   subtitle: string;
@@ -13,7 +13,6 @@ export function createMenuScreen(options: {
   return h('div', { class: `menu-screen menu-${options.variant}` },
     createMenuFrame(),
     h('div', { class: 'menu-banner' },
-      createMenuBannerArt(),
       h('div', { class: 'menu-banner-content' },
         h('header', { class: 'menu-heading' },
           h('h1', {}, h('span', { class: 'visually-hidden' }, 'Tervain'), createMenuWordmark()),

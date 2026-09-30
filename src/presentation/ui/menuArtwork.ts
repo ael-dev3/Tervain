@@ -1,11 +1,11 @@
 /**
- * Original Tervain menu ornament. Authored vectors suggest worked metal, dyed cloth,
+ * Original Tervain menu ornament. Authored vectors suggest worked metal
  * and carved lettering; they contain no image files or artwork from the reference game.
  * All surface effects are static, and the decorations stay outside the focus order.
  */
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
-const instances = { frame: 0, banner: 0, wordmark: 0 };
+const instances = { frame: 0, wordmark: 0 };
 
 function artwork(kind: keyof typeof instances, viewBox: string, contents: (prefix: string) => string, stretch = true): SVGSVGElement {
   const svg = document.createElementNS(SVG_NS, 'svg');
@@ -23,7 +23,7 @@ function artwork(kind: keyof typeof instances, viewBox: string, contents: (prefi
   return svg;
 }
 
-/** Heavy worked-iron perimeter with oversized brass scrolls and bell medallions. */
+/** Heavy worked-iron perimeter with oversized brass scrolls and forged rivets. */
 export function createMenuFrame(): SVGSVGElement {
   return artwork('frame', '0 0 1600 1000', (id) => `
     <defs>
@@ -62,8 +62,7 @@ export function createMenuFrame(): SVGSVGElement {
         <path d="m15 39 24-24 28 26-27 27z" fill="url(#${id}-brass)" stroke="#ebc882" stroke-width="1"/>
         <circle cx="40" cy="40" r="18" fill="#20292d" stroke="#704921" stroke-width="3"/>
         <circle cx="40" cy="40" r="15" fill="url(#${id}-iron)" stroke="#c89950" stroke-width="1.4"/>
-        <path d="M31 47h18l-4-5V34a5 5 0 0 0-10 0v8zM32 50h16" fill="url(#${id}-brass)" stroke="#ebcb88" stroke-width=".8"/>
-        <circle cx="40" cy="52" r="2" fill="#d6b16c"/>
+        <circle cx="40" cy="40" r="5" fill="url(#${id}-brass)" stroke="#ebcb88" stroke-width=".8"/>
         <path d="M72 49c-8 4-10 10-6 15 4 5 11 3 11-3m-28 11c4-8 10-10 15-6 5 4 3 11-3 11"
           fill="none" stroke="#97804e" stroke-width="1.2"/>
         <path d="M53 29c10-9 18-11 30-10M29 53c-9 10-11 18-10 30" fill="none" stroke="#dfc994" stroke-width=".7"/>
@@ -81,8 +80,7 @@ export function createMenuFrame(): SVGSVGElement {
           fill="url(#${id}-iron)" stroke="#8c764b" stroke-width="1.5"/>
         <path d="M-41 0c17-2 20-6 28-8L0-21 13-8c8 2 11 6 28 8-17 2-20 6-28 8L0 21-13 8c-8-2-11-6-28-8z"
           fill="none" stroke="url(#${id}-brass)" stroke-width="2"/>
-        <path d="M-6 8h12M-8 5l3-3V-6a5 5 0 0 1 10 0v8l3 3z" fill="url(#${id}-brass)" stroke="#b9a67a" stroke-width=".5"/>
-        <circle cy="9" r="1.6" fill="#ccb88a"/>
+        <path d="m0-6 6 6-6 6-6-6z" fill="url(#${id}-brass)" stroke="#b9a67a" stroke-width=".5"/>
       </g>
     </defs>
     <rect x="34" y="34" width="1532" height="932" rx="5" fill="none" stroke="#070d13" stroke-width="27" opacity=".85"/>
@@ -112,94 +110,6 @@ export function createMenuFrame(): SVGSVGElement {
     <use href="#${id}-crest" transform="translate(800 954) scale(1.45 -1.45)"/>
     <use href="#${id}-crest" transform="translate(41 500) rotate(90) scale(1.2)"/>
     <use href="#${id}-crest" transform="translate(1559 500) rotate(-90) scale(1.2)"/>
-  `);
-}
-
-/** Long hanging textile. Overlay the menu inside x88..332, y130..710 in the 420×880 frame. */
-export function createMenuBannerArt(): SVGSVGElement {
-  return artwork('banner', '0 0 420 880', (id) => `
-    <defs>
-      <linearGradient id="${id}-cloth" x1="0" x2="1">
-        <stop stop-color="#170a08"/><stop offset=".1" stop-color="#572019"/>
-        <stop offset=".22" stop-color="#883c29"/><stop offset=".34" stop-color="#3e1010"/>
-        <stop offset=".49" stop-color="#280c0d"/><stop offset=".66" stop-color="#64201c"/>
-        <stop offset=".79" stop-color="#7c3324"/><stop offset=".9" stop-color="#351010"/><stop offset="1" stop-color="#170908"/>
-      </linearGradient>
-      <linearGradient id="${id}-gold" x2="0" y2="1">
-        <stop stop-color="#cba96a"/><stop offset=".3" stop-color="#68502d"/>
-        <stop offset=".5" stop-color="#b08a45"/><stop offset="1" stop-color="#483321"/>
-      </linearGradient>
-      <linearGradient id="${id}-rod" x2="0" y2="1">
-        <stop stop-color="#22231c"/><stop offset=".22" stop-color="#bdab76"/>
-        <stop offset=".38" stop-color="#79653d"/><stop offset=".72" stop-color="#3d3523"/>
-        <stop offset="1" stop-color="#171b15"/>
-      </linearGradient>
-      <linearGradient id="${id}-shade" x2="0" y2="1">
-        <stop stop-color="#070805" stop-opacity=".42"/><stop offset=".13" stop-color="#070805" stop-opacity="0"/>
-        <stop offset=".76" stop-color="#070805" stop-opacity="0"/><stop offset="1" stop-color="#070805" stop-opacity=".34"/>
-      </linearGradient>
-      <linearGradient id="${id}-fold" x1="0" x2="1">
-        <stop stop-color="#120907" stop-opacity=".62"/><stop offset=".42" stop-color="#130907" stop-opacity=".06"/>
-        <stop offset=".67" stop-color="#cd7445" stop-opacity=".36"/><stop offset="1" stop-color="#35130f" stop-opacity=".12"/>
-      </linearGradient>
-      <pattern id="${id}-weave" width="9" height="9" patternUnits="userSpaceOnUse">
-        <path d="M0 2h9M0 6.5h9" stroke="#be8467" stroke-width=".55" opacity=".06"/>
-        <path d="M2 0v9M6.5 0v9" stroke="#100b08" stroke-width=".9" opacity=".12"/>
-      </pattern>
-      <pattern id="${id}-worn" width="71" height="93" patternUnits="userSpaceOnUse">
-        <path d="M12 8v13m34 30v7m-37 31 7-2m43-64h3" stroke="#db9f88" stroke-width=".8" opacity=".07"/>
-        <path d="M53 14v10m-27 39v6m32 9h4" stroke="#170908" stroke-width="1.1" opacity=".1"/>
-      </pattern>
-      <path id="${id}-shape" d="M51 66c74-4 244-4 318 0l-8 673-5 53-5 2 3 21-4 36-61-32-4-7-6 1-69-40-82 43-7-2-4 8-51 29-4-48 3-7-6-47z"/>
-      <clipPath id="${id}-cut"><use href="#${id}-shape"/></clipPath>
-      <g id="${id}-seal" fill="none" stroke-linejoin="bevel" stroke-linecap="square">
-        <path d="M165 242C78 228 27 162 36 58m129 184c87-14 138-80 129-184M50 99 26 81l6-20 28 28m-6 46-29-8 2-22 35 22m9 42-31 1-8-23 39 14m25 39-29 11-17-20 38 4m43 29-23 18-22-13 41-5m180-115 24-18-6-20-28 28m6 46 29-8-2-22-35 22m-9 42 31 1 8-23-39 14m-25 39 29 11 17-20-38 4m-43 29 23 18 22-13-41-5"/>
-        <path d="M101 174v-84c0-55 128-55 128 0v84M105 84h120M125 61h80M132 80v84m66-84v84"/>
-        <path d="M145 123c0-25 40-25 40 0v28l12 15h-64l12-15zM139 175h52m-28-8v16m2-91v11"/>
-        <ellipse cx="165" cy="185" rx="89" ry="20"/>
-        <path d="M76 185v32c26 34 152 34 178 0v-32M77 204c24 32 151 32 176 0M103 198v30m31-23v34m31-33v36m31-37v34m31-41v30M124 241l41 15 41-15"/>
-      </g>
-      <filter id="${id}-shadow" x="-15%" y="-6%" width="130%" height="116%" color-interpolation-filters="sRGB">
-        <feDropShadow dx="3" dy="9" stdDeviation="5" flood-color="#090a06" flood-opacity=".65"/>
-      </filter>
-    </defs>
-    <g filter="url(#${id}-shadow)">
-      <rect x="21" y="34" width="378" height="15" rx="4" fill="url(#${id}-rod)" stroke="#25271e" stroke-width="2.2"/>
-      <path d="M33 38h354" stroke="#d1bd83" stroke-width=".9" opacity=".7"/>
-      <path d="M19 30v23m382-23v23" stroke="#2c2e22" stroke-width="9" stroke-linecap="round"/>
-      <path d="M19 31v21m382-21v21" stroke="url(#${id}-gold)" stroke-width="4" stroke-linecap="round"/>
-      <circle cx="19" cy="41" r="9" fill="url(#${id}-rod)" stroke="#9e8755" stroke-width="1.8"/>
-      <circle cx="401" cy="41" r="9" fill="url(#${id}-rod)" stroke="#9e8755" stroke-width="1.8"/>
-      <path d="M78 31h27v41H78zM142 31h24v40h-24zM254 31h24v40h-24zM315 31h27v41h-27z"
-        fill="#5b1b1c" stroke="#1c120d" stroke-width="1.2"/>
-      <path d="M83 34v36m17-36v36m47-36v35m14-35v35m98-35v35m14-35v35m47-36v36m17-36v36"
-        stroke="#b79a59" stroke-width=".65" stroke-dasharray="2 2" opacity=".85"/>
-      <use href="#${id}-shape" fill="url(#${id}-cloth)" stroke="#190c09" stroke-width="2"/>
-      <g clip-path="url(#${id}-cut)">
-        <path d="M55 64C73 207 52 439 66 635l5 223 39-20C95 591 104 337 83 63z" fill="#100808" opacity=".54"/>
-        <path d="M82 64c37 177 0 393 36 742l41-22c-34-251-5-487-24-721z" fill="url(#${id}-fold)"/>
-        <path d="M133 63c-17 226 12 445 3 740l29-26c-9-269-21-489-7-714z" fill="#170b09" opacity=".26"/>
-        <path d="M221 63c-31 222-9 481-1 724l69 45c-28-295-3-526-19-768z" fill="url(#${id}-fold)" opacity=".7"/>
-        <path d="M291 63c39 207 12 451 21 775l27 12c-5-286 26-575 3-787z" fill="url(#${id}-fold)"/>
-        <path d="M342 64c-2 228 16 511-5 776l36 24V63z" fill="#100808" opacity=".5"/>
-        <path d="M103 65c24 221-8 451 27 716M310 65c31 254-1 481 17 743" fill="none" stroke="#b85d37" stroke-width="3" opacity=".18"/>
-        <use class="menu-cloth-texture" href="#${id}-shape" fill="url(#${id}-weave)"/>
-        <use class="menu-cloth-texture" href="#${id}-shape" fill="url(#${id}-worn)"/>
-        <use href="#${id}-shape" fill="url(#${id}-shade)"/>
-        <g class="menu-cloth-seal" transform="translate(53 494) scale(.95)" opacity=".16">
-          <use href="#${id}-seal" stroke="#160c09" stroke-width="10" transform="translate(1.5 2)"/>
-          <use href="#${id}-seal" stroke="#ba8e47" stroke-width="6"/>
-          <use href="#${id}-seal" stroke="#e0bd79" stroke-width="1.4" transform="translate(-1 -1)"/>
-        </g>
-      </g>
-      <path d="M65 79c69-4 221-4 290 0l-8 658-5 88-57-29-7-1-68-39-70 37-8 1-54 32-5-89z" fill="none" stroke="#25120c" stroke-width="10"/>
-      <path d="M65 79c69-4 221-4 290 0l-8 658-5 88-57-29-7-1-68-39-70 37-8 1-54 32-5-89z" fill="none" stroke="url(#${id}-gold)" stroke-width="6"/>
-      <path d="M73 87c66-4 208-4 274 0l-8 647-5 79-124-65-125 66-5-79z" fill="none" stroke="#c2a066" stroke-width="1.8" opacity=".7"/>
-      <path d="M59 77l8 661 6 100 137-73 134 72 6-99 11-660" fill="none" stroke="#c1a174" stroke-width="1.5" stroke-dasharray="5 5" opacity=".6"/>
-      <path d="M77 108h266M78 115h264" stroke="#92703e" stroke-width="3" opacity=".7"/>
-      <path d="M166 111h88m-83-9 10 9-10 9m78-18-10 9 10 9" fill="none" stroke="#c4a26b" stroke-width="2.4" opacity=".75"/>
-      <path d="m201 742 9-17 9 17-9 17z" fill="#ad8040" stroke="#d2b176" stroke-width="1.3" opacity=".8"/>
-    </g>
   `);
 }
 

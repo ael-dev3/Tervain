@@ -857,12 +857,6 @@ select {
   display: grid;
   justify-items: center;
   color: #f0e3c9;
-  /* Broad painted light masses give the menu theatrical colour without changing the playable world's grade. */
-  background:
-    linear-gradient(180deg, rgba(3, 35, 41, 0.58), transparent 57%, rgba(87, 31, 3, 0.42)),
-    radial-gradient(ellipse at 12% 72%, rgba(220, 119, 15, 0.4), transparent 49%),
-    radial-gradient(ellipse at 88% 28%, rgba(6, 69, 71, 0.34), transparent 55%),
-    radial-gradient(ellipse at 50% 38%, transparent 20%, rgba(18, 11, 7, 0.2) 58%, rgba(7, 10, 9, 0.88) 100%);
 }
 
 .menu-frame-art {
@@ -874,21 +868,14 @@ select {
 
 .menu-banner {
   position: relative;
-  width: min(510px, 46vw);
-  height: calc(100% - 28px);
-  margin-top: 8px;
+  width: min(350px, 42vh, 70vw);
+  height: 100%;
   min-height: 0;
-}
-
-.menu-banner-art {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
 }
 
 .menu-banner-content {
   position: absolute;
-  inset: 12% 12% 15%;
+  inset: 8% 0 10%;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -898,7 +885,7 @@ select {
 .menu-heading {
   position: relative;
   flex: 0 0 auto;
-  padding-top: clamp(18px, 4vh, 48px);
+  padding-top: 0;
   padding-bottom: clamp(12px, 2vh, 24px);
   text-align: center;
 }
@@ -939,7 +926,7 @@ select {
   overscroll-behavior: contain;
   padding: 5px 7px;
   scrollbar-width: thin;
-  scrollbar-color: #a08b60 #3a1711;
+  scrollbar-color: #a08b60 #251529;
 }
 
 .menu-choices .btn {
@@ -1010,9 +997,13 @@ select {
   color: #f0e3c9;
 }
 
+.panel-root:has(.panel-menu) { background: transparent; }
+
 #ui:has(.panel-root.on .panel-menu) #hud {
   visibility: hidden;
 }
+
+#hud.menu-hidden { visibility: hidden; }
 
 .menu-pause .menu-heading {
   padding-top: 0;
@@ -1030,11 +1021,6 @@ body.high-contrast .menu-choices .btn { color: #fff; }
 body.high-contrast .menu-choices .btn:focus-visible { outline-color: #fff; }
 body.high-contrast .menu-subtitle,
 body.high-contrast .menu-build { color: #fff; }
-body.high-contrast .menu-cloth-texture,
-body.high-contrast .menu-cloth-seal { display: none; }
-body.reduce-effects .menu-screen {
-  background: linear-gradient(180deg, rgba(3, 35, 41, 0.5), rgba(72, 27, 4, 0.3));
-}
 body.reduce-effects .menu-screen [filter] { filter: none; }
 
 @media (max-width: 760px) {
@@ -1054,9 +1040,9 @@ body.reduce-effects .menu-screen [filter] { filter: none; }
       radial-gradient(circle at calc(100% - 7px) calc(100% - 7px), #d6b369 2px, #604724 4px, #171812 7px, transparent 8px);
     pointer-events: none;
   }
-  .menu-banner { width: min(440px, 88vw); }
-  .menu-banner-content { inset-inline: 11%; }
-  .menu-heading { padding-top: 2vh; }
+  .menu-banner { width: min(350px, 70vw); }
+  .menu-banner-content { inset-inline: 4%; }
+  .menu-heading { padding-top: 0; }
   .menu-heading h1 { height: clamp(64px, 18vh, 140px); }
   .menu-wordmark-art { width: 94vw; }
   .menu-subtitle { font-size: 0.85rem; letter-spacing: 0.05em; }
@@ -1064,7 +1050,7 @@ body.reduce-effects .menu-screen [filter] { filter: none; }
 }
 
 @media (max-height: 580px) {
-  .menu-banner-content { inset-block: 11% 14%; }
+  .menu-banner-content { inset-block: 7% 9%; }
   .menu-heading { padding-top: 0; padding-bottom: 5px; }
   .menu-heading h1,
   .menu-pause .menu-heading h1 { height: 70px; }
@@ -1075,7 +1061,7 @@ body.reduce-effects .menu-screen [filter] { filter: none; }
 
 @media (max-height: 420px) {
   /* Very short windows scroll the complete content rather than squeezing actions to zero height. */
-  .menu-banner-content { overflow-y: auto; scrollbar-width: thin; scrollbar-color: #a08b60 #3a1711; }
+  .menu-banner-content { overflow-y: auto; scrollbar-width: thin; scrollbar-color: #a08b60 #251529; }
   .menu-heading h1,
   .menu-pause .menu-heading h1 { height: 48px; }
   .menu-wordmark-art,
