@@ -129,6 +129,7 @@ class Media {
   preload = '';
   volume = 1;
   paused = true;
+  readyState = 4;
   currentTime = 0;
   duration = 214.2;
   error: { code: number } | null = null;
@@ -474,6 +475,26 @@ describe('streamed owner-supplied menu score', () => {
     expect(media.currentTime).toBe(121.2);
     expect(makeMedia).toHaveBeenCalledTimes(1);
     expect(ctx.mediaSources).toHaveLength(1);
+    audio.dispose();
+  });
+
+  it('restores truthful playing state on a quick menu return without requiring another playing event', async () => {
+    vi.useFakeTimers();
+    const { audio, media } = musicFixture();
+    audio.setMenuActive(true); audio.resume();
+    await flushMusic();
+    expect(audio.menuMusicState).toBe('playing');
+    media.currentTime = 101;
+    audio.setMenuActive(false);
+    expect(audio.menuMusicState).toBe('paused');
+    vi.advanceTimersByTime(100);
+    media.currentTime = 101.1;
+    audio.setMenuActive(true);
+    expect(audio.menuMusicState).toBe('playing');
+    expect(audio.diagnostics.music.currentTime).toBe(101.1);
+    expect(media.play).toHaveBeenCalledTimes(1);
+    expect(media.pause).not.toHaveBeenCalled();
+    expect(vi.getTimerCount()).toBe(0);
     audio.dispose();
   });
 

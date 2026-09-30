@@ -274,7 +274,13 @@ export class AudioEngine {
       this.makeMusic();
       if (!this.music || !this.musicEnvelope || !this.ctx) return;
       this.target(this.musicEnvelope.gain, MUSIC_HEADROOM, this.ctx.currentTime, MUSIC_FADE_SECONDS);
-      if (!this.music.paused || this.musicPending) return;
+      if (this.musicPending) return;
+      if (!this.music.paused) {
+        // Returning during the fade keeps playback alive, so no new native
+        // playing event will arrive to restore the menu's diagnostic state.
+        this.setMusicState(this.music.readyState >= 3 ? 'playing' : 'loading');
+        return;
+      }
       const media = this.music;
       const generation = this.musicGeneration;
       this.musicPending = true;

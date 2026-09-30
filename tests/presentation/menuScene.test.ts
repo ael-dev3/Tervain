@@ -72,9 +72,9 @@ function resources(): { res: MenuResources; resolveEmblem(img: unknown): void; m
 }
 
 const built: MenuScene[] = [];
-function fixture(quality: 'low' | 'medium' | 'high' = 'high'): Fixture {
+function fixture(quality: 'low' | 'medium' | 'high' = 'high', trafficSeed = 0, trafficTime = 0): Fixture {
   const r = resources();
-  const menu = new MenuScene({ quality, resources: r.res });
+  const menu = new MenuScene({ quality, resources: r.res, trafficSeed, trafficTime });
   built.push(menu);
   return { menu, resolveEmblem: r.resolveEmblem };
 }
@@ -183,6 +183,48 @@ describe('menu vigil scene', () => {
     b.update(0.03, false);
     expect(snapshot(a)).toEqual(snapshot(b));
     expect(snapshot(a)).not.toEqual(held);
+  });
+
+  it('retains the ship routes and exact phase when the graphics scene is rebuilt', () => {
+    const a = fixture('medium', 28491).menu;
+    for (let i = 0; i < 130; i++) a.update(0.05, false);
+    const traffic = a.trafficState;
+    const b = fixture('high', traffic.seed, traffic.elapsed).menu;
+    const pose = (m: MenuScene) => {
+      const values: number[] = [];
+      m.scene.getObjectByName('Menu_Ships')!.traverse((o) => {
+        values.push(...o.position.toArray(), ...o.quaternion.toArray(), ...o.scale.toArray());
+        if (o instanceof THREE.Mesh) {
+          const mat = o.material as THREE.ShaderMaterial;
+          if (mat.uniforms?.uOpacity) values.push(mat.uniforms.uOpacity.value);
+        }
+      });
+      return values;
+    };
+    expect(b.trafficState).toEqual(traffic);
+    expect(pose(b)).toEqual(pose(a));
+    a.update(0.03, false);
+    b.update(0.03, false);
+    expect(pose(b)).toEqual(pose(a));
+  });
+
+  it('starts a fresh traffic visit without resetting the menu clock or adding resources', () => {
+    const menu = fixture('low', 71).menu;
+    menu.update(0.05, false);
+    const before = snapshot(menu);
+    const shipGroup = menu.scene.getObjectByName('Menu_Ships');
+    const stats = { ...menu.stats };
+    menu.beginTrafficVisit(91);
+    expect(menu.trafficState).toEqual({ seed: 91, elapsed: 0 });
+    expect(menu.scene.getObjectByName('Menu_Ships')).toBe(shipGroup);
+    expect(menu.stats).toEqual(stats);
+    expect(snapshot(menu)).not.toEqual(before);
+    const held = snapshot(menu);
+    menu.update(30, true);
+    expect(snapshot(menu)).toEqual(held);
+    expect(menu.trafficState.elapsed).toBe(0);
+    menu.update(0.04, false);
+    expect(menu.trafficState.elapsed).toBeCloseTo(0.04);
   });
 
   it('prints the emblem when it arrives and stays usable when it never does', async () => {

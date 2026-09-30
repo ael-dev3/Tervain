@@ -50,6 +50,8 @@ export class App {
   private lastFrameDt = 1 / 60;
   world!: WorldScene;
   private menuScene!: MenuScene;
+  private menuVisitActive = false;
+  private menuVisitCounter = 0;
   library: AssetLibrary = AssetLibrary.empty();
   cam = new CameraRig();
   player = new Player();
@@ -323,8 +325,9 @@ export class App {
       this.loadingEl.classList.remove('off');
       // The menu vigil follows the graphics preset too (it is on screen while Settings is open).
       if (this.menuScene.quality !== this.settings.quality) {
+        const traffic = this.menuScene.trafficState;
         this.menuScene.dispose();
-        this.menuScene = new MenuScene({ quality: this.settings.quality });
+        this.menuScene = new MenuScene({ quality: this.settings.quality, trafficSeed: traffic.seed, trafficTime: traffic.elapsed });
         this.menuScene.resize(window.innerWidth, window.innerHeight);
       }
       void this.buildWorld().then(() => {
@@ -343,6 +346,8 @@ export class App {
   }
 
   private enterTitle() {
+    // Returning from pause to the title is a fresh launch even though both screens use the menu scene.
+    this.menuVisitActive = false;
     this.mode = 'title';
     this.hud.show(false);
     this.panels.closeAll();
@@ -653,8 +658,19 @@ export class App {
 
   private syncMenuHudVisibility() {
     // Nested pause forms retain the courtyard even though the top panel is now paper.
-    this.hud.el.classList.toggle('menu-hidden', this.menuBackgroundActive);
-    this.audio.setMenuActive(this.menuBackgroundActive);
+    const active = this.menuBackgroundActive;
+    if (active && !this.menuVisitActive) {
+      const previous = this.menuScene.trafficState.seed;
+      const entropy = new Uint32Array(1);
+      let seed = globalThis.crypto?.getRandomValues
+        ? globalThis.crypto.getRandomValues(entropy)[0]!
+        : (Date.now() ^ Math.imul(++this.menuVisitCounter, 0x9e3779b9)) >>> 0;
+      if (seed === previous) seed = (seed + 1) >>> 0;
+      this.menuScene.beginTrafficVisit(seed);
+    }
+    this.menuVisitActive = active;
+    this.hud.el.classList.toggle('menu-hidden', active);
+    this.audio.setMenuActive(active);
   }
 
   /* ============================== input glue ============================== */
@@ -1457,6 +1473,7 @@ export class App {
       `build ${GAME_VERSION} rev ${REVISION}  quality ${this.settings.quality}  dpr ${this.renderer.getPixelRatio()}  ${window.innerWidth}x${window.innerHeight}`,
       `audio ${audio.state}  voices ${audio.voices}  ${audio.sampleRate} Hz  device-reported base buffer ${audio.baseLatency === null ? 'unavailable' : `${(audio.baseLatency * 1000).toFixed(1)} ms`}`,
       `menu score ${audio.music.state}  ${audio.music.currentTime.toFixed(1)} / ${Number.isFinite(audio.music.duration) ? audio.music.duration.toFixed(1) : 'loading'} s`,
+      `menu ships ${this.menuScene.stats.ships}  visit ${this.menuScene.trafficState.seed.toString(16)}  ${this.menuScene.trafficState.elapsed.toFixed(1)} s`,
       `player ${this.player.x.toFixed(1)}, ${this.player.z.toFixed(1)}  hp ${s.player.health}  clock ${formatClock(s.clock)} day ${clockDay(s.clock) + 1}`,
       `phase ${s.quest.phase}  gate ${s.quest.gate}  alloc ${s.quest.allocation ?? '-'}  entry ${s.quest.entry ?? '-'}`,
       `evidence ${EVIDENCE_IDS.filter((e) => s.evidence[e]).join(', ') || '-'}`,

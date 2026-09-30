@@ -17,6 +17,7 @@ import { HERMIT_DOOR, buildBannerHardware, buildMenuCamp } from './menu/menuCamp
 import { buildMenuFar } from './menu/menuFar';
 import { buildMenuAir } from './menu/menuAir';
 import { buildRibbons } from './menu/menuRibbons';
+import { buildMenuShips } from './menu/menuShips';
 
 export type MenuQuality = 'low' | 'medium' | 'high';
 
@@ -70,12 +71,12 @@ function browserResources(): MenuResources {
  * and built from the playable game's own generators, so it reads as the same rugged world.
  *
  * The camera is fixed. Fire, smoke, sparks, the standard, the grass, crows, dust, clouds, mist and the far lighthouse
- * beam run on one clock that stops entirely in reduced motion; nothing here advances game state.
+ * beam and distant ships run on one clock that stops entirely in reduced motion; nothing here advances game state.
  */
 export class MenuScene {
   readonly scene = new THREE.Scene();
   readonly camera = new THREE.PerspectiveCamera(MENU_CAMERA.fov, 16 / 9, 0.2, 2600);
-  readonly stats = { triangles: 0, meshes: 0, grassTufts: 0, leafCards: 0, banners: 1, lights: 0 };
+  readonly stats = { triangles: 0, meshes: 0, grassTufts: 0, leafCards: 0, banners: 1, lights: 0, ships: 0 };
   readonly quality: MenuQuality;
   private readonly res: MenuResources;
   private readonly sway: SwayUniforms = { uTime: { value: 0 }, uWind: { value: 0.8 } };
@@ -83,6 +84,7 @@ export class MenuScene {
   private readonly sky: ReturnType<typeof createMenuSky>;
   private readonly fire: ReturnType<typeof buildMenuFire>;
   private readonly far: ReturnType<typeof buildMenuFar>;
+  private readonly ships: ReturnType<typeof buildMenuShips>;
   private readonly air: ReturnType<typeof buildMenuAir>;
   private readonly camp: ReturnType<typeof buildMenuCamp>;
   private readonly banner: ReturnType<typeof buildMenuBanner>;
@@ -93,13 +95,19 @@ export class MenuScene {
   private terrainTex: TerrainTextures | null = null;
   private env: THREE.Texture | null = null;
   private time = 0;
+  private trafficSeed = 0;
+  private trafficEpoch = 0;
+  private trafficOffset = 0;
   private disposed = false;
   private readonly baseFov = MENU_CAMERA.fov;
   static readonly MAX_FOV = 76;
 
-  constructor(opts: { quality?: MenuQuality; resources?: MenuResources } = {}) {
+  constructor(opts: { quality?: MenuQuality; resources?: MenuResources; trafficSeed?: number; trafficTime?: number } = {}) {
     this.quality = opts.quality ?? 'high';
     this.res = opts.resources ?? browserResources();
+    // Deterministic standalone construction; the app supplies a fresh seed on each actual menu entry.
+    this.trafficSeed = (opts.trafficSeed ?? 0) >>> 0;
+    this.trafficOffset = Number.isFinite(opts.trafficTime) ? Math.max(0, opts.trafficTime!) : 0;
     const q = this.quality;
     this.scene.name = 'Tervain_Templar_Vigil';
     const fog = new THREE.FogExp2(new THREE.Color().setHex(0x2b2b28), 0.0105);
@@ -293,6 +301,10 @@ export class MenuScene {
     this.far = buildMenuFar(noise);
     this.scene.add(this.far.group);
     this.owned.push(this.far);
+    this.ships = buildMenuShips(this.trafficSeed, q);
+    this.scene.add(this.ships.group);
+    this.owned.push(this.ships);
+    this.stats.ships = this.ships.stats.ships;
     // Crows wheel over the headland beyond the tree, never through its crown.
     const crown = treeRoot.localToWorld(new THREE.Vector3(tree.crown.x, 0, tree.crown.z));
     const crowCentre = new THREE.Vector3(MENU_TREE.x + 17, ty + 11, MENU_TREE.z - 17);
@@ -390,12 +402,27 @@ export class MenuScene {
     this.pose(this.time, step);
   }
 
+  /** A new title/pause visit gets new routes. Nested forms keep this visit; graphics rebuilds retain its exact phase. */
+  beginTrafficVisit(seed: number) {
+    if (this.disposed) return;
+    this.trafficSeed = seed >>> 0;
+    this.trafficEpoch = this.time;
+    this.trafficOffset = 0;
+    this.ships.reset(this.trafficSeed);
+    this.ships.update(0);
+  }
+
+  get trafficState() {
+    return { seed: this.trafficSeed, elapsed: Math.max(0, this.time - this.trafficEpoch + this.trafficOffset) };
+  }
+
   private pose(t: number, step: number) {
     this.sway.uTime.value = t;
     this.ribbonTime.value = t;
     this.sky.update(t);
     this.fire.update(t);
     this.far.update(t);
+    this.ships.update(Math.max(0, t - this.trafficEpoch + this.trafficOffset));
     this.air.update(t);
     this.banner.update(t, 1);
     this.camp.update(t, step, 1);

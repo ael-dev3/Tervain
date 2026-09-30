@@ -53,6 +53,10 @@ The owner explicitly requested the approved Hegemony identity for Tervain's nati
 
 [Machine-readable menu asset record](menu-assets.json) preserves these coordinates and authorization separately from the historical GLB manifest. The July pixel-art emblem and retired unresolved logo candidates remain separate historical records; neither is imported as a substitute.
 
+## Original procedural menu vessels, 30 September 2026
+
+Menu sea traffic under A29 is original procedural geometry in [menuShips.ts](../../src/presentation/menu/menuShips.ts), not an imported GLB. Three native connected hull/rig/sail silhouettes (two on Low) and shared wakes use vertex colors and the existing dusk shader colors without additional image files. Seeded voyages are generated at each menu opening; nested forms and graphics rebuilds retain the phase. No extra faction emblem, third-party model, ship faction or naval gameplay is introduced. See the [0.0.5 handoff](../production/releases/0.0.5.md#living-sea-traffic).
+
 ## Owner-supplied menu score, 30 September 2026
 
 The owner supplied **The Sovereign's Oath.m4a** directly for the Tervain menu and requested its main-game integration as part of `0.0.5`, plus a video spanning the complete song ([A28](../decisions.md)). This is separate from the Warpkeep import: no music from the shared archive is selected.
