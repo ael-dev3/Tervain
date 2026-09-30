@@ -1,0 +1,24 @@
+Local production-preview run; not reference-hardware acceptance.
+Procedure: F3 fixed 72-second camera route on build b2a62ab, Medium quality, Reduced Motion/Reduced Effects off, 1422x800 CSS viewport at browser DPR 0.9. Player remains at the landing; game clock advances. Route spans the beach, forest, town and wider valley. The counts below the BENCHMARK heading are the final route frame, not whole-world totals.
+No subjective audio listening or end-to-end latency measurement was performed.
+
+frames 900  median 16.7 ms  p95 17.4  p99 17.7  max 17.7
+draw calls 724  triangles 1389321  geometries 804  textures 69
+modules: forest {"trees":1341,"treeObstacles":1026,"treesDrawn":1069,"treeTris":383879,"forestFloorPieces":991,"forestFloorDrawn":155} | scatter {"rocks":873,"scatterTris":89792} | groundcover {"grassInstances":575,"grassTris":15525,"grassDraws":17,"grassTiles":48} | wildlife {"gulls":10,"chimneys":11} | ambient {"people":3} | woodland air {"woodlandMotes":96} | woodland landmarks {"markers":4,"ruins":1,"signs":1,"triangles":3006,"meshes":15}  build 438 ms
+build 0.0.5 rev b2a62ab  quality medium  dpr 0.8999999761581421  1422x800
+audio running  voices 4  48000 Hz  device-reported base buffer 5.3 ms
+player -268.0, 27.0  hp 100  clock 09:26 day 1
+phase unseen  gate damaged  alloc -  entry -
+evidence -
+facts arrival_amnesia
+defeated -  pending reports 0  known 0
+
+BENCHMARK
+date 2026-09-30T16:59:12.545Z
+build 0.0.5 rev b2a62ab  quality medium  viewport 1422x800 @0.8999999761581421x
+gpu ANGLE (Apple, ANGLE Metal Renderer: Apple M5, Unspecified Version)
+ua Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36
+game hour 08:59  phase unseen (not pinned during the run)
+frames 4321  median 16.70 ms  p95 17.10 ms  p99 17.50 ms  worst 17.7 ms
+last-frame draw calls 549  triangles 765809
+Frame times are wall-clock intervals between animation frames, recorded uncapped; they are limited by the display refresh rate.

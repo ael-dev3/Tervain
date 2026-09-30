@@ -1,12 +1,11 @@
 import * as THREE from 'three';
-import { ANCHORS } from '../world/layout';
+import { ANCHORS, bySpec, frontOf } from '../world/layout';
 import type { BuildContext, FrameContext, SceneModule } from './context';
 import { createAmbientRig, poseRig, setRigShadow, type AmbientStyle, type Look, type Mode, type Rig } from './characters';
 
 /**
- * People who live on the coast but are not part of the story: a fisherman mending a net, a woman by the fire, the lighthouse keeper.
- * They carry no state, say nothing and cannot be interacted with; they exist so the first place is inhabited (Ardea is a place with
- * people in it). They are drawn with the same rig as everyone else and hold a pose loop. Presentation only.
+ * Silent residents of the inland hamlet. Their positions follow the relocated buildings and hearth;
+ * the landing strand itself has no occupied camp. They carry no quest state.
  */
 
 interface Spec {
@@ -24,15 +23,16 @@ interface Spec {
 }
 
 const FIRE = ANCHORS.strand_fire!;
-const DOOR = ANCHORS.lantern_door!;
+const DOOR = frontOf(bySpec('keeper_cottage'), 2.4);
+const MENDER = frontOf(bySpec('net_store'), 2.4);
 
 const SPECS: Spec[] = [
   {
     look: { skin: 0xb98866, primary: 0x4a4a3c, secondary: 0x2e2a24, hair: 0x6a6660, height: 1.0, girth: 1.08, accessory: 'pack' },
     style: { build: 'man', cut: 'short', beard: 'full', age: 0.62, faceSeed: 12011 },
-    x: -230.4,
-    z: 47.9,
-    yaw: -2.24,
+    x: MENDER.x,
+    z: MENDER.z,
+    yaw: bySpec('net_store').yaw + Math.PI,
     cycle: [['work', 9], ['idle', 4], ['work', 7]],
     sleeps: true,
     radius: 0.45,

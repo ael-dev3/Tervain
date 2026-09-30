@@ -1,4 +1,5 @@
 import { APPLY_DELAY_MIN } from './constants';
+import { SPAWN } from '../world/layout';
 import {
   CONTENT_REVISION,
   NPC_IDS,
@@ -39,7 +40,8 @@ export function createInitialState(slotId = 'slot-1'): WorldState {
       reactions: [],
     },
     evidence: {},
-    facts: {},
+    // The opening remembers no identity or passage; legacy saves retain their own facts.
+    facts: { arrival_amnesia: true },
     grants: {},
     inventory: { coin: 6 },
     skills: [],
@@ -48,8 +50,8 @@ export function createInitialState(slotId = 'slot-1'): WorldState {
     defeated: {},
     discovered: {},
     locationChanges: {},
-    // Overlook spawn; refined by the world layout at new-game time.
-    player: { x: -132, y: 0, z: 26, yaw: Math.PI * 0.5, health: 100, maxHealth: 100 },
+    // The renderer refines height; authored position and facing share the world landing source.
+    player: { ...SPAWN, y: 0, health: 100, maxHealth: 100 },
   };
 }
 

@@ -2,6 +2,8 @@
 
 **Status:** original proposal for Tervain. Names, dialogue premises, and outcomes below are design material, not shipped content or established player choices. The slice contains **one main quest and two short supporting encounters**, for a 30–45 minute first pass. Broader campaign principles are included to guide future work; they are not additional slice requirements.
 
+**Current patch boundary:** `0.0.5` is the silent forest-arrival exploration pass under [A27](../decisions.md). New-game amnesia and environmental observations persist, but NPC Observe does not apply dialogue entry/choice effects, mark a person met, or grant trust. The earlier Dry Bell commands and dialogue graphs remain renderer-free data and scenario coverage. This does not make every negotiation, testimony, or training path below accessible through the current player interface. Environmental records can still be inspected nonmodally and reviewed in the journal. See the [prototype scope](../engineering/prototype.md#forest-arrival-pass-30-september-2026).
+
 ## Narrative contract
 
 A quest begins with people needing something in the world. It should remain understandable without a floating marker. The player can learn enough to act through conversation, physical evidence, or exploration. Information changes available actions or their reliability. At least one decision changes something the player can subsequently see, hear, use, or lose.

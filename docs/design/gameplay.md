@@ -1,6 +1,8 @@
 # Gameplay design
 
-**Status:** proposed design baseline, not an implementation claim. The confirmed direction is a serious single-player Steam fantasy RPG, an original world centered on a Templar-inspired order within the Hegemony (A21), meaningful relationships among regional factions, and technology/assets shared where useful with Warpkeep. Camera, combat, progression, and detailed systems below remain proposals; accepted menu presentation direction is recorded separately under A22. See [decisions](../decisions.md).
+**Status:** proposed design baseline, not an implementation claim. The confirmed direction is a serious single-player Steam fantasy RPG, an original world centered on a Templar-inspired order within the Hegemony (A21), meaningful relationships among regional factions, and technology/assets shared where useful with Warpkeep. Camera, combat, progression, and detailed systems below remain proposals; accepted menu presentation direction is recorded separately under A26. See [decisions](../decisions.md).
+
+**Current `0.0.5` boundary (A27):** a sparse amnesiac landing, dense forest journey, and first settlement inland. Conversation windows are removed; NPC Observe produces nonblocking text without marking a meeting, changing trust, or choosing a quest reply. Environmental inspection and readable records use notices with persistent journal evidence. Movement, combat, world interactions, menus, and saves remain, while the earlier quest/dialogue graph is retained for future interface work. Conversation-dependent services and full water negotiations described below are future design, not current acceptance claims. See the [prototype](../engineering/prototype.md#forest-arrival-pass-30-september-2026).
 
 ## The experience we are designing
 
@@ -24,13 +26,15 @@ Proposed movement starts with walking, running, a stamina-limited sprint, a mode
 
 Bellwether Vale provides one legible network: Rillford, its ford, a quarry route, a spring shrine, and the damaged sluice. A safer road takes longer; a narrow maintenance path bypasses a confrontation; a conspicuous locked route grants access only through permission, a key, or trespass. Each shortcut should have a world reason to exist. Avoid placing invisible walls across plausible openings.
 
+The current arrival route precedes that network: sparse strand → dense woodland → relocated waystation → Rillford. Habitat blending, grounded floor detail, trail markers, and connected canopy masses should give that transition depth while keeping movement clearance. Dense decoration is not a reason to block the authored trail or detach a visual tree from its collision proxy. Gameplay tree and leaf motion remains paused.
+
 Navigation combines landmarks, spoken directions, a hand-drawn-style regional map, and optional objective indicators. The journal records directions accurately; players need not memorize dialogue. An exploration setting can suppress destination markers without hiding essential accessibility information. Distinguish an NPC's claimed location from a verified one. Mark approximate search areas as approximate.
 
 The slice needs one elevation change, one alternate path, one dangerous crossing, and sightlines that teach their relationships. It does not need a procedurally generated continent. Discovery rewards include a route, useful evidence, a service, or a small resource cache; not every interesting ruin requires another collectible category.
 
 ## Grounded combat and magic
 
-The proposed combat foundation is readable commitment: attacks have visible preparation, active time, and recovery. Position, stamina, reach, and timing matter. The player begins unarmed, as the Gothic heroes do (A27), and finds one one-handed weapon early (proposed in P16: a rusted sword in the beach wreck); there is no shield in the slice. Begin with that weapon, bare fists before it, and one hostile combatant type. Add a basic attack, a committed heavy attack, a guarded block, a short evasive step, and clear stagger rules. Avoid attack cancellation that removes all risk and enemies that track the player through an entire committed swing.
+The proposed combat foundation is readable commitment: attacks have visible preparation, active time, and recovery. Position, stamina, reach, and timing matter. The player begins unarmed, as the Gothic heroes do (A28), and finds one one-handed weapon early (proposed in P16: a rusted sword in the storm-wreck on the arrival strand); there is no shield in the slice. Begin with that weapon, bare fists before it, and one hostile combatant type. Add a basic attack, a committed heavy attack, a guarded block, a short evasive step, and clear stagger rules. Avoid attack cancellation that removes all risk and enemies that track the player through an entire committed swing.
 
 Health and stamina are sufficient for the first slice. Exhaustion prevents repeated heavy attacks and sprinting but must not trap the player in an unavoidable damage loop. Damage reactions must distinguish blocked, resisted, and clean hits. No equipment degradation, injury simulation, or layered status-effect economy is required to prove the loop.
 

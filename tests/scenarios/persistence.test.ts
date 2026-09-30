@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { APPLY_DELAY_MIN } from '../../src/game/constants';
+import { CONTENT_REVISION, SAVE_FORMAT_VERSION } from '../../src/game/types';
 import { Game } from '../../src/game/game';
 import { MemoryStore, SaveStore, checksum } from '../../src/platform/storage';
 import { investigate, must, newGame, takeKit } from './helpers';
@@ -80,6 +81,45 @@ describe('save envelope and recovery', () => {
     const r = saves.load('slot-1');
     expect(r.ok).toBe(true);
     if (r.ok) expect(r.state.skills).toEqual([]);
+  });
+
+  it('loads a format-1 0.0.4 save without imposing the new amnesiac opening or erasing prior progress', () => {
+    const { mem, saves } = fresh();
+    const g = newGame();
+    investigate(g);
+    takeKit(g);
+    must(g, { t: 'stabilizeGate' });
+    g.state.npcs.rillford_reeve.met = true;
+    g.state.npcs.rillford_reeve.trust = 2;
+    g.state.facts.edda_permission = true;
+    g.state.locationChanges.archive_door = 'open';
+    g.state.player = { x: 20, y: 1.2, z: 8, yaw: 0.7, health: 73, maxHealth: 100 };
+    // The previous build used format 1 and did not contain an arrival_amnesia fact.
+    delete g.state.facts.arrival_amnesia;
+    g.state.contentRevision = 'bellwether-proto-0.0.4';
+    saves.save('slot-1', g.state);
+    const env = JSON.parse(mem.get('tervain:save:slot-1:cur')!);
+    env.gameBuild = 'prototype-0.0.4';
+    env.contentRevision = 'bellwether-proto-0.0.4';
+    env.saveFormatVersion = 1;
+    env.checksum = checksum(JSON.stringify(env.state));
+    mem.set('tervain:save:slot-1:cur', JSON.stringify(env));
+    const result = saves.load('slot-1');
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(SAVE_FORMAT_VERSION).toBe(1);
+    expect(result.summary.gameBuild).toBe('prototype-0.0.4');
+    expect(result.state.contentRevision).toBe(CONTENT_REVISION);
+    expect(result.state.facts.arrival_amnesia).toBeUndefined();
+    expect(result.state.player).toEqual(g.state.player);
+    expect(result.state.quest).toEqual(g.state.quest);
+    expect(result.state.evidence).toEqual(g.state.evidence);
+    // A 0.0.4 wanderer already carried a blade; loading hands them the wreck's sword (A28).
+    expect(result.state.inventory).toEqual({ ...g.state.inventory, rusted_sword: 1 });
+    expect(result.state.locationChanges['pickup:wreck_blade']).toBe('taken');
+    expect(result.state.npcs.rillford_reeve).toEqual(g.state.npcs.rillford_reeve);
+    expect(result.state.locationChanges.archive_door).toBe('open');
+    expect(result.state.facts.edda_permission).toBe(true);
   });
 
   it('latest() picks the most recently written slot', () => {

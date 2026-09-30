@@ -1,6 +1,6 @@
 # First complete playable: Bellwether Vale
 
-Status: **proposed scope and acceptance brief**. A first browser prototype implements most of the content list and the story loop; it has not been checked against the acceptance table below and does not meet all of it (see [prototype notes](../engineering/prototype.md) for what is real, placeholder, and unmeasured). Foundation dated 29 September 2026.
+Status: **proposed scope and acceptance brief**. The earlier browser prototype established renderer-free story systems. The current `0.0.5` forest-arrival pass removes conversation windows and focuses on exploration; it does not offer the full negotiation interface or meet the acceptance table below. See [prototype notes](../engineering/prototype.md) for what is implemented, retained, placeholder, and unmeasured. Foundation dated 29 September 2026.
 
 ## Purpose
 
@@ -14,7 +14,7 @@ The proposed first pass is **30–45 minutes**. A developer can replay important
 
 | Place | Experience to prove |
 | --- | --- |
-| Arrival road and overlook | Landmark orientation, view of the valley, safe first movement. |
+| Sparse strand, Deepwood trail, inland waystation and overlook | Amnesiac environmental introduction, canopy-depth traversal, landmark orientation, and safe first movement before Rillford. A27 establishes this opening; detailed history remains proposed. |
 | Rillford | Daily routines, dialogue, service/training, evidence of water shortage. |
 | Spring shrine and wetland | Templar work and belief expressed through place, ecological stake, utility interaction. |
 | Damaged sluice | Readable physical problem, inspection, repair/stabilization and changed water presentation. |
@@ -30,7 +30,7 @@ Use one connected compact exterior with at most two small accessible interiors. 
 - At most twelve named residents, with four principal quest actors: Mara Venn, Sister Edda Sorn, Darin Kest, and Ila Rusk.
 - Three represented local interests: the Hearth League village, Templar spring stewardship, and a quarry under a Marcher contract. Other factions can appear through one bounded secondary voice or a piece of trade context.
 - One player body/rig for production testing; final customization remains open.
-- One melee weapon kit and one utility rite. The player starts unarmed and finds the weapon in the world (A27, P16). A second weapon class is optional only after the required experience works.
+- One melee weapon kit and one utility rite. The player starts unarmed and finds the weapon in the world (A28, P16). A second weapon class is optional only after the required experience works.
 - One hostile humanoid archetype and one creature family, reused thoughtfully; no boss or large siege requirement.
 - One limited service/training interaction, a useful item reward, and a small inventory.
 - One day/night transition with a few readable work/rest changes. Heavy weather is optional polish.
@@ -49,7 +49,7 @@ These are caps to protect learning and polish. Cutting a decorative feature is p
 7. Revisit the village/route and perceive the result through at least three details.
 8. Save, close the application, reopen it, and find the same outcome with appropriate follow-up dialogue.
 
-The exact opening and protagonist are proposals. Dialogue must allow the player to understand the stakes without first reading a lore encyclopedia.
+The current opening shape is established by A27: sparse strand, no remembered identity, dense woodland, and people farther inland. The protagonist's actual past and the cause of amnesia remain proposals. The complete quest sequence above is a future interface target; `0.0.5` replaces NPC conversations with nonblocking observation. When conversation returns, it should explain the stakes without requiring a lore encyclopedia.
 
 ## Deliverable package
 

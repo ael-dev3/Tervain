@@ -2,12 +2,14 @@ import * as THREE from 'three';
 import type { Colliders } from '../world/colliders';
 import {
   ANCHORS,
+  ARRIVAL_WRECK,
   ARCHIVE_ROOM,
   BELL_TOWER,
   BORDER_SIGN,
   BUILDINGS,
   DECKS,
   FIELDS,
+  HAMLET_PROPS,
   LEDGER,
   MILL_WHEEL,
   PALISADE,
@@ -17,15 +19,13 @@ import {
   SLUICE,
   WAGON,
   WELL,
-  WRECK,
   bySpec,
 } from '../world/layout';
-import { coastX } from '../world/coast';
 import { mulberry32 } from '../world/noise';
 import type { Terrain } from '../world/terrain';
 import { Ctx, hash3 } from './buildKit';
-import { buildArchiveShell, buildLighthouse, buildStandard, cairn, groundOf, type BuildOut } from './buildings';
-import { boat, benchSet, campfire, cart, fence, fishRack, jetty, netRack, oar, palisade, pot, ropeCoil, stockadeGate, wagon, watchtower, well, wreck } from './props';
+import { buildArchiveShell, buildLighthouse, buildStandard, groundOf, type BuildOut } from './buildings';
+import { benchSet, campfire, cart, fence, palisade, pot, ropeCoil, stockadeGate, wagon, watchtower, well, wreck } from './props';
 import { MaterialSet, Region } from './regions';
 import { TINT, barrel, buildShrineHallShell, crate, door, fieldstone, jitterTone, roofFor, sack, windowAt, woodpile, type Rnd } from './structures';
 import type { AssetNeed } from './assets/library';
@@ -504,14 +504,10 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     R.cloth.box(0.6, 0.8, 0.05, lp.x, gy(hut.x, hut.z) + 1.0, lp.z, jitterTone(TINT.cloth, rnd, 0.08), { ry: hut.yaw, jit: 0.08 });
   }
 
-  /* ---------------- Footbridge, jetty ---------------- */
+  /* ---------------- Inland footbridge ---------------- */
   for (const d of DECKS) {
-    const R = region(d.id === 'jetty' ? 'coast' : 'village');
+    const R = region('village');
     const rnd: Rnd = mulberry32(6000 + Math.floor(d.x));
-    if (d.id === 'jetty') {
-      jetty(R, rnd, d, (x, z) => terrain.heightAt(x, z));
-      continue;
-    }
     R.ctx.push(d.x, 0, d.z, d.yaw);
     let px = -d.hx;
     while (px < d.hx - 0.1) {
@@ -528,66 +524,62 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     R.ctx.pop();
   }
 
-  /* ---------------- Wagon on the strand, lodge, camp ---------------- */
+  /* ---------------- Inland waystation, with an otherwise quiet landing beach ---------------- */
   {
-    const R = region('coast');
+    const R = region('heath');
     const rnd: Rnd = mulberry32(6100);
     wagon(R, rnd, WAGON.x, gy(WAGON.x, WAGON.z), WAGON.z, WAGON.yaw);
     lanternPositions.push(new THREE.Vector3(WAGON.x + 2.6, gy(WAGON.x, WAGON.z) + 2.2, WAGON.z + 1.6));
     R.timber.box(0.1, 2.2, 0.1, WAGON.x + 2.6, gy(WAGON.x, WAGON.z), WAGON.z + 1.6, TINT.woodDark, { grain: 'y' });
     R.glow.box(0.3, 0.3, 0.3, WAGON.x + 2.6, gy(WAGON.x, WAGON.z) + 2.05, WAGON.z + 1.6, 0xffffff, { jit: 0 });
-    // The fire ring, the racks and the boats on the strand.
+    // The wagon, rest fire and work supplies are reached only after the woodland walk.
     const fire = ANCHORS.strand_fire!;
     campfire(R, rnd, fire.x, gy(fire.x, fire.z), fire.z);
     benchSet(R, rnd, fire.x + 1.6, gy(fire.x + 1.6, fire.z + 1), fire.z + 1, 0.4);
     lanternPositions.push(new THREE.Vector3(fire.x, gy(fire.x, fire.z) + 1.0, fire.z));
-    const shoreAt = (z: number) => coastX(z);
-    const b1z = 47;
-    boat(R, rnd, shoreAt(b1z) + 9, gy(shoreAt(b1z) + 9, b1z) + 0.05, b1z, 1.35, { len: 5.1, beam: 1.8, tilt: 0.05 });
-    oar(R, rnd, shoreAt(b1z) + 11.6, gy(shoreAt(b1z) + 11.6, b1z + 1.4) + 0.3, b1z + 1.4, shoreAt(b1z) + 9.2, gy(shoreAt(b1z) + 9.2, b1z + 2.6) + 0.06, b1z + 2.6);
-    const b2z = 68;
-    boat(R, rnd, shoreAt(b2z) + 12, gy(shoreAt(b2z) + 12, b2z), b2z, 0.5, { len: 4.4, beam: 1.6, overturned: true, sunk: -0.5 });
-    const b3z = 9;
-    boat(R, rnd, shoreAt(b3z) + 4.5, gy(shoreAt(b3z) + 4.5, b3z) + 0.15, b3z, 1.9, { len: 3.9, beam: 1.5, tilt: 0.16, sunk: 0.35 });
-    netRack(R, rnd, -232, gy(-232, 46), 46, -0.35, 3.4);
-    netRack(R, rnd, -233, gy(-233, 52), 52.5, -0.42, 3.0);
-    fishRack(R, rnd, -222, gy(-222, 62), 66, 0.5);
-    for (let i = 0; i < 4; i++) pot(R, rnd, -252 + i * 0.8 + rnd() * 0.4, gy(-252, 60), 57.5 + rnd());
-    ropeCoil(R, rnd, -246, gy(-246, 58), 55, 0.4);
-    barrel(R, rnd, -238, gy(-238, 66.4), 66.4, 1);
-    barrel(R, rnd, -236.8, gy(-236.8, 66.8), 66.8, 0.9);
-    crate(R, rnd, -244, gy(-244, 41), 40, 0.8, 0.55, 0.6, 0.3);
-    crate(R, rnd, -243.2, gy(-243.2, 40.6) + 0.55, 40.4, 0.6, 0.45, 0.5, -0.2);
-    woodpile(R, rnd, -229, 54, 0.6, 1.6, 4);
-    // Wreck of a hull on the beach north of the strand (the first blade lies in it), a stove-in sea chest beside it,
-    // and a few cairns.
-    const wz = WRECK.z;
-    wreck(R, rnd, shoreAt(wz) + 13, gy(shoreAt(wz) + 13, wz) - 0.1, wz, WRECK.yaw, WRECK.len);
-    {
-      const bx = shoreAt(wz) + 14.9;
-      const bz = wz + 1.6;
-      crate(R, rnd, bx, gy(bx, bz) - 0.12, bz, 0.72, 0.4, 0.46, 0.5);
-      R.planks.box(0.7, 0.04, 0.44, bx + 0.12, gy(bx, bz) + 0.3, bz - 0.34, jitterTone(TINT.wood, rnd, 0.12), { rx: 1.1, ry: 0.5, jit: 0.1 });
+    const pots = HAMLET_PROPS.pots;
+    for (let i = 0; i < 4; i++) {
+      const x = pots.x + i * 0.8 + rnd() * 0.4;
+      const z = pots.z + rnd();
+      pot(R, rnd, x, gy(x, z), z);
     }
-    for (const [cx, cz] of [[-256, 12], [-249, 76], [-214, 30], [-306, 96], [-299, 86]] as const) cairn(R, rnd, cx, gy(cx, cz), cz, 4 + Math.floor(rnd() * 3));
-    // Lobster pots and a coil at the lighthouse foot, and a stack of firewood at the keeper's door.
+    const rope = HAMLET_PROPS.rope;
+    ropeCoil(R, rnd, rope.x, gy(rope.x, rope.z), rope.z, 0.4);
+    for (const [i, p] of HAMLET_PROPS.barrels.entries()) barrel(R, rnd, p.x, gy(p.x, p.z), p.z, i === 0 ? 1 : 0.9);
+    for (const [i, p] of HAMLET_PROPS.crates.entries()) crate(R, rnd, p.x, gy(p.x, p.z), p.z, i === 0 ? 0.8 : 0.6, i === 0 ? 0.55 : 0.45, i === 0 ? 0.6 : 0.5, i === 0 ? 0.3 : -0.2);
+    const cartAt = HAMLET_PROPS.handcart;
+    cart(R, rnd, cartAt.x, gy(cartAt.x, cartAt.z), cartAt.z, cartAt.yaw);
+    const wood = HAMLET_PROPS.firewood;
+    R.ctx.push(0, gy(wood.x, wood.z), 0);
+    woodpile(R, rnd, wood.x, wood.z, wood.yaw, 1.6, 4);
+    R.ctx.pop();
+    // The only authored hull left on the strand: a storm-broken environmental clue. The wanderer's first blade lies in
+    // it (a pickup), beside a stove-in sea chest.
+    const wr = ARRIVAL_WRECK;
+    wreck(region('coast'), rnd, wr.x, gy(wr.x, wr.z) - 0.1, wr.z, wr.yaw, wr.length);
+    {
+      const C = region('coast');
+      const bx = wr.x + 1.9;
+      const bz = wr.z + 1.6;
+      crate(C, rnd, bx, gy(bx, bz) - 0.12, bz, 0.72, 0.4, 0.46, 0.5);
+      C.planks.box(0.7, 0.04, 0.44, bx + 0.12, gy(bx, bz) + 0.3, bz - 0.34, jitterTone(TINT.wood, rnd, 0.12), { rx: 1.1, ry: 0.5, jit: 0.1 });
+    }
+    // Firewood at the former keeper's cottage now belongs to the inland waystation.
     const keeper = bySpec('keeper_cottage');
     const kd = localToWorld(keeper, keeper.w / 2 - 0.8, keeper.d / 2 + 0.55);
+    R.ctx.push(0, gy(kd.x, kd.z), 0);
     woodpile(R, rnd, kd.x, kd.z, keeper.yaw, 1.5, 4);
-    // The stockade behind the camp, its gate on the shore track, and the watch platform beside it.
+    R.ctx.pop();
+    // The old stockade's opening follows the same authoring data as the road and collision.
     palisade(R, rnd, PALISADE.points as unknown as { x: number; z: number }[], PALISADE.gate, gy);
     const gateZ = (PALISADE.gate.z0 + PALISADE.gate.z1) / 2;
-    stockadeGate(R, rnd, -219.2, gateZ, PALISADE.gate.z1 - PALISADE.gate.z0, gy);
+    stockadeGate(R, rnd, PALISADE.gate.x, gateZ, PALISADE.gate.z1 - PALISADE.gate.z0, gy);
     watchtower(R, rnd, PALISADE.tower.x, PALISADE.tower.z, PALISADE.tower.yaw, gy, (RR, yy) => roofFor(RR, 'hip', 'shingle', 3.4, 3.4, yy, 88, { pitch: 0.7 }));
-    lanternPositions.push(new THREE.Vector3(-219.6, gy(-219.2, gateZ) + 3.7, gateZ - 1.5));
+    lanternPositions.push(new THREE.Vector3(PALISADE.gate.x - 0.4, gy(PALISADE.gate.x, gateZ) + 3.7, gateZ - 1.5));
     colliders.circle('camp_fire', fire.x, fire.z, 0.7);
-    colliders.box('camp_barrels', -237.4, 66.6, 1.0, 0.6, 0);
-    colliders.box('camp_crates', -243.6, 40.4, 0.7, 0.6, 0);
-    colliders.box('boat_a', shoreAt(b1z) + 9, b1z, 0.9, 2.5, 1.35);
-    colliders.box('boat_b', shoreAt(b2z) + 12, b2z, 0.9, 2.2, 0.5);
-    colliders.box('net_rack_a', -232, 46, 1.7, 0.2, -0.35);
-    colliders.box('net_rack_b', -233, 52.5, 1.5, 0.2, -0.42);
-    colliders.box('fish_rack', -222, 66, 1.5, 0.2, 0.5);
+    for (const p of HAMLET_PROPS.barrels) colliders.circle('camp_barrel', p.x, p.z, 0.4);
+    for (const p of HAMLET_PROPS.crates) colliders.box('camp_crate', p.x, p.z, 0.45, 0.35, 0);
+    colliders.box('camp_handcart', cartAt.x, cartAt.z, 0.65, 1.1, cartAt.yaw);
   }
 
   /* ---------------- Quarry ---------------- */
@@ -835,8 +827,9 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
         D.metal.rod(0, 0.1, 0, 0.75, 0.42, 0, 0.045, 5, TINT.iron, { jit: 0.06 });
         D.metal.lathe([0.16, -0.03, 0.2, 0, 0.16, 0.03], 8, 0.78, 0.44, 0, TINT.iron, { jit: 0.06, rx: Math.PI / 2 });
       } else if (pk.id === 'wreck_blade') {
-        // A salt-eaten sword half sunk in the sand, lying across the way a walker comes up the beach from the strand.
-        D.ctx.push(0, 0, 0, Math.PI / 2 + 0.25, 0.06, 0.04);
+        // A salt-eaten sword the storm drove point-first into the sand inside the hull. It leans along the keel so the
+        // hilt stands above the side planks for a walker coming up the beach from the landing (blade along local +z).
+        D.ctx.push(0, 0.34, 0, ARRIVAL_WRECK.yaw + Math.PI, Math.PI / 2 - 0.6, 0.08);
         D.metal.box(0.046, 0.012, 0.82, 0, 0.0, 0.1, jitterTone(0x5e5046, rnd, 0.1), { jit: 0.08 });
         D.metal.box(0.012, 0.016, 0.8, 0, 0.004, 0.1, jitterTone(0x4a3c30, rnd, 0.1), { jit: 0.08 });
         D.metal.box(0.19, 0.03, 0.035, 0, 0.0, -0.32, jitterTone(0x3c3a36, rnd, 0.08), { jit: 0.06 });
