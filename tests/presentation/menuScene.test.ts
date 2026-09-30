@@ -163,7 +163,7 @@ describe('native desert menu scene', () => {
 
   it('keeps the camera steady, central cloth height consistent, and narrow-screen cloth within the viewport on repeated resize', () => {
     const menu = fixture();
-    const cloth = menu.scene.getObjectByName('Hegemony_Central_Woven_Silk') as THREE.Mesh;
+    const cloth = menu.scene.getObjectByName('Merchant_Central_Woven_Silk') as THREE.Mesh;
     const originalCamera = [...menu.camera.position.toArray(), ...menu.camera.quaternion.toArray()];
     const projected = () => {
       menu.scene.updateMatrixWorld(true); menu.camera.updateMatrixWorld(true);
@@ -216,14 +216,18 @@ describe('native desert menu scene', () => {
     loadedImage.onload!();
     expect(maps.length).toBeGreaterThan(0);
     const printed = maps.filter((texture) => (texture.image as CanvasMock).context.drawImage.mock.calls.length > 0);
-    expect(printed.length).toBeGreaterThanOrEqual(3);
+    expect(printed).toHaveLength(1);
     for (const texture of maps) {
       const draws = (texture.image as CanvasMock).context.drawImage.mock.calls.length;
       expect(draws).toBeLessThanOrEqual(1);
       expect(texture.version > versions[maps.indexOf(texture)]!).toBe(draws === 1);
     }
-    const central = loaded.scene.getObjectByName('Hegemony_Central_Woven_Silk') as THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial>;
-    expect(printed).toContain(central.material.map);
+    const central = loaded.scene.getObjectByName('Merchant_Central_Woven_Silk') as THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial>;
+    expect(printed).not.toContain(central.material.map);
+    const banner = loaded.scene.getObjectByName('Hegemony_Post_Banner_Silk') as THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial>;
+    expect(printed).toContain(banner.material.map);
+    expect(banner.parent!.name).toBe('Hegemony_Banner_Post');
+    expect(renderables(loaded.scene).filter(mesh => (mesh as THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial>).material.map === printed[0])).toEqual([banner]);
     const fallback = fixture(), failedImage = images[1]!;
     failedImage.onerror!();
     expect(failedImage.onload).toBeNull(); expect(failedImage.onerror).toBeNull();
