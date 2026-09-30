@@ -3,16 +3,16 @@ import { beforeAll, describe, expect, it, vi } from 'vitest';
 import { NPC_LIST } from '../../src/content/npcs';
 import { buildAmbient } from '../../src/presentation/ambient';
 import type { BuildContext } from '../../src/presentation/context';
-import { forestLandmarkGeometry } from '../../src/presentation/forestLandmarks';
+import { buildForestLandmarks, forestLandmarkGeometry } from '../../src/presentation/forestLandmarks';
 import { createFloraPopulation, registerFloraColliders } from '../../src/presentation/floraPopulation';
 import { createScatterPopulation, registerScatterColliders } from '../../src/presentation/scatterPopulation';
 import { Exclusions } from '../../src/presentation/vegetation';
 import { buildStaticColliders } from '../../src/world/colliders';
-import { ANCHORS, ARRIVAL_ROUTE, ARRIVAL_WRECK, BUILDINGS, DECKS, FOREST_REGION, FOREST_RUIN, FOREST_WAYMARKERS, HAMLET_PROPS, INLAND_HAMLET, INSPECT_LOCATIONS, PALISADE, PLACES, SPAWN, WAGON, type V2 } from '../../src/world/layout';
+import { ANCHORS, ARRIVAL_ROUTE, ARRIVAL_SIGN, ARRIVAL_TRAIL_WIDTH, ARRIVAL_WRECK, BUILDINGS, DECKS, FOREST_HILLS, FOREST_REGION, FOREST_RUIN, FOREST_SWALE, FOREST_WAYMARKERS, HAMLET_PROPS, INLAND_HAMLET, INSPECT_LOCATIONS, PALISADE, PLACES, ROADS, SPAWN, WAGON, type V2 } from '../../src/world/layout';
 import { shoreDistance } from '../../src/world/coast';
 import { deepwoodCover } from '../../src/world/forest';
 import { NavGrid } from '../../src/world/nav';
-import { distToPolyline, Terrain } from '../../src/world/terrain';
+import { distToPolyline, forestRelief, roadWeight, Terrain } from '../../src/world/terrain';
 
 let terrain: Terrain;
 let colliders: ReturnType<typeof buildStaticColliders>;
@@ -42,6 +42,40 @@ beforeAll(() => {
 });
 
 describe('quiet landing and deepwood arrival', () => {
+  it('releases its native landmark geometry, sign surfaces and owned textures once, clearing the scene before fallback cleanup', () => {
+    vi.stubGlobal('document', {
+      createElement: () => {
+        const canvas = { width: 0, height: 0, getContext: () => ({ canvas, clearRect() {}, fillText() {} }) };
+        return canvas;
+      },
+    });
+    try {
+      const handle = buildForestLandmarks(terrain, buildStaticColliders(), 'medium');
+      const geometries = new Set<THREE.BufferGeometry>();
+      const materials = new Set<THREE.Material>();
+      const textures = new Set<THREE.Texture>();
+      handle.group.traverse((object) => {
+        if (!(object instanceof THREE.Mesh)) return;
+        geometries.add(object.geometry);
+        for (const material of Array.isArray(object.material) ? object.material : [object.material]) {
+          materials.add(material);
+          const textured = material as THREE.MeshStandardMaterial;
+          if (textured.map) textures.add(textured.map);
+          if (textured.normalMap) textures.add(textured.normalMap);
+        }
+      });
+      expect(geometries.size).toBe(handle.stats.meshes);
+      expect(textures.size).toBe(6);
+      const disposals = [...geometries, ...materials, ...textures].map((resource) => vi.spyOn(resource, 'dispose'));
+      handle.dispose();
+      handle.dispose();
+      expect(handle.group.children).toHaveLength(0);
+      expect(disposals.every((spy) => spy.mock.calls.length === 1)).toBe(true);
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+
   it('wakes on dry, walkable beach sand facing the actual first inland track point', () => {
     expect(shoreDistance(SPAWN.x, SPAWN.z)).toBeGreaterThan(5);
     expect(shoreDistance(SPAWN.x, SPAWN.z)).toBeLessThan(10);
@@ -75,7 +109,7 @@ describe('quiet landing and deepwood arrival', () => {
 
   it('builds finite native landmarks with buried footings and real visible geometry for every obstacle', () => {
     const regions = forestLandmarkGeometry(terrain, { circle: () => undefined, box: () => undefined });
-    expect(regions).toHaveLength(FOREST_WAYMARKERS.length + 1);
+    expect(regions).toHaveLength(FOREST_WAYMARKERS.length + 2);
     for (const [index, region] of regions.entries()) {
       expect(region.tris).toBeGreaterThan(0);
       for (const batch of region.batches.values()) {
@@ -107,16 +141,21 @@ describe('quiet landing and deepwood arrival', () => {
     expect(ARRIVAL_WRECK.x).toBeLessThan(FOREST_REGION.minX);
   });
 
-  it('has a continuous walkable road from the sparse strand through woodland to the first hamlet', () => {
+  it('keeps a continuous person-wide road from the sparse strand through woodland to the first hamlet', () => {
     const failures: string[] = [];
     for (let segment = 0; segment < ARRIVAL_ROUTE.length - 1; segment++) {
       const a = ARRIVAL_ROUTE[segment]!;
       const b = ARRIVAL_ROUTE[segment + 1]!;
-      const steps = Math.ceil(Math.hypot(b.x - a.x, b.z - a.z));
+      const length = Math.hypot(b.x - a.x, b.z - a.z);
+      const steps = Math.ceil(length);
       for (let step = 0; step <= steps; step++) {
         const t = step / steps;
         const p = { x: a.x + (b.x - a.x) * t, z: a.z + (b.z - a.z) * t };
-        if (!terrain.walkable(p.x, p.z, 0.8) || colliders.blocked(p.x, p.z, 0.55)) failures.push(`${segment}:${step}@${p.x.toFixed(1)},${p.z.toFixed(1)}`);
+        for (const side of [-1, 0, 1]) {
+          const x = p.x - side * (b.z - a.z) / length;
+          const z = p.z + side * (b.x - a.x) / length;
+          if (!terrain.walkable(x, z, 0.8) || colliders.blocked(x, z, 0.55)) failures.push(`${segment}:${step}:${side}@${x.toFixed(1)},${z.toFixed(1)}`);
+        }
       }
     }
     expect(failures).toEqual([]);
@@ -124,6 +163,49 @@ describe('quiet landing and deepwood arrival', () => {
     expect(nav.findPath(ANCHORS.overlook_wagon!, ANCHORS.village_square!)).not.toBeNull();
     expect(INLAND_HAMLET.x).toBeGreaterThan(FOREST_REGION.minX + 145);
     expect(nav.findPath(SPAWN, { x: PALISADE.gate.x, z: (PALISADE.gate.z0 + PALISADE.gate.z1) / 2 })).not.toBeNull();
+  });
+
+  it('marks the actual coast/woodland fork with a grounded sign outside the clear arrival lane', () => {
+    const junction = ARRIVAL_ROUTE[0]!;
+    expect(ROADS[2]!.points[0]).toEqual(junction);
+    expect(nav.findPath(SPAWN, { x: ARRIVAL_SIGN.x, z: ARRIVAL_SIGN.z - 1.8 })).not.toBeNull();
+    expect(colliders.blocked(ARRIVAL_SIGN.x, ARRIVAL_SIGN.z, 0.55)).toBe(true);
+    expect(distToPolyline(ARRIVAL_SIGN.x, ARRIVAL_SIGN.z, ARRIVAL_ROUTE).d).toBeGreaterThan(ARRIVAL_TRAIL_WIDTH / 2 + 1);
+    // Physical pointer direction agrees with the route's first inland leg and its destination.
+    const pointEast = { x: Math.cos(ARRIVAL_SIGN.yaw), z: -Math.sin(ARRIVAL_SIGN.yaw) };
+    expect(pointEast.x * (PLACES.rillford.x - ARRIVAL_SIGN.x) + pointEast.z * (PLACES.rillford.z - ARRIVAL_SIGN.z)).toBeGreaterThan(0);
+    expect(ARRIVAL_SIGN.boardWidth).toBeGreaterThan(3);
+    for (const segment of [1, 2, 3, 4, 5]) {
+      const a = ARRIVAL_ROUTE[segment]!;
+      const b = ARRIVAL_ROUTE[segment + 1]!;
+      const length = Math.hypot(b.x - a.x, b.z - a.z);
+      const x = (a.x + b.x) / 2;
+      const z = (a.z + b.z) / 2;
+      // Both sides of a person-wide strip carry the visible worn-earth layer and have no movement obstacle.
+      for (const side of [-1, 0, 1]) {
+        const sx = x + side * -(b.z - a.z) / length;
+        const sz = z + side * (b.x - a.x) / length;
+        expect(roadWeight(sx, sz)).toBeGreaterThan(0.95);
+        expect(terrain.walkable(sx, sz, 0.8)).toBe(true);
+        expect(colliders.blocked(sx, sz, 0.55)).toBe(false);
+      }
+    }
+  });
+
+  it('adds distinct wooded crests and a dry hollow away from the graded walking road', () => {
+    for (const hill of FOREST_HILLS) {
+      const near = distToPolyline(hill.x, hill.z, ARRIVAL_ROUTE);
+      const a = ARRIVAL_ROUTE[near.seg]!;
+      const b = ARRIVAL_ROUTE[near.seg + 1]!;
+      const road = { x: a.x + (b.x - a.x) * near.t, z: a.z + (b.z - a.z) * near.t };
+      expect(terrain.heightAt(hill.x, hill.z) - terrain.heightAt(road.x, road.z), hill.id).toBeGreaterThan(2.5);
+    }
+    expect(forestRelief(FOREST_HILLS[0]!.x, FOREST_HILLS[0]!.z)).toBeGreaterThan(8);
+    expect(forestRelief(FOREST_SWALE.points[4]!.x, FOREST_SWALE.points[4]!.z)).toBeLessThan(-1.5);
+    expect(forestRelief(SPAWN.x, SPAWN.z)).toBe(0);
+    expect(FOREST_SWALE.points.every((point) => terrain.heightAt(point.x, point.z) > 0.2)).toBe(true);
+    // Traversal stays graded while nearby banks and gullies vary in elevation.
+    expect(ARRIVAL_ROUTE.every((point) => Math.abs(forestRelief(point.x, point.z)) < 0.001)).toBe(true);
   });
 
   it('grounds moved buildings on low terraces without returning a mountain wall to the coast', () => {

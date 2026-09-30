@@ -56,6 +56,12 @@ function fixture() {
 
 const fixtures: ReturnType<typeof fixture>[] = [];
 function setup() { const f = fixture(); fixtures.push(f); return f; }
+function coastalView(f: ReturnType<typeof fixture>) {
+  f.camera.position.set(-300, 3, 4);
+  f.camera.lookAt(-300, 0, 0);
+  f.meshes[0]!.position.x = -300;
+  f.meshes[0]!.rotation.x = -Math.PI / 2;
+}
 
 afterEach(() => {
   for (const f of fixtures.splice(0)) {
@@ -67,6 +73,106 @@ afterEach(() => {
 });
 
 describe('water capture/composite orchestration', () => {
+  it('skips capture and copy when water is outside the camera frustum, detaches stale bindings, and reuses its targets on return', () => {
+    const f = setup();
+    f.render();
+    const composite = f.draws[1]!.target!;
+    const dispose = vi.spyOn(composite, 'dispose');
+    const masks = f.meshes.map(m => m.layers.mask);
+    f.meshes.forEach(m => { m.position.x = 500; });
+    f.draws.length = 0;
+    expect(f.render()).toBe(f.source.texture);
+    expect(f.draws).toHaveLength(1);
+    expect(f.draws[0]!.scene).toBe(f.scene);
+    expect(f.draws[0]!.target).toBe(f.source);
+    expect(f.draws[0]!.autoClear).toBe(true);
+    expect(f.renderer.autoClear).toBe(false);
+    expect(f.renderer.getRenderTarget()).toBe(f.previousTarget);
+    expect(f.meshes.map(m => m.layers.mask)).toEqual(masks);
+    expect(dispose).not.toHaveBeenCalled();
+    for (const mesh of f.meshes) {
+      expect(mesh.material.uniforms.uWaterCapture!.value).toBe(0);
+      expect(mesh.material.uniforms.tWaterColor!.value).toBeNull();
+      expect(mesh.material.uniforms.tWaterDepth!.value).toBeNull();
+    }
+    f.camera.lookAt(500, 0, 0);
+    f.draws.length = 0;
+    f.render();
+    expect(f.draws).toHaveLength(3);
+    expect(f.draws[1]!.target).toBe(composite);
+  });
+
+  it('restores caller state when the direct offscreen-water draw fails', () => {
+    const f = setup();
+    f.meshes.forEach(mesh => { mesh.position.x = 500; });
+    const cameraMask = f.camera.layers.mask, meshMasks = f.meshes.map(mesh => mesh.layers.mask);
+    f.renderer.render.mockImplementation(() => { throw new Error('direct draw failed'); });
+    expect(f.render).toThrow('direct draw failed');
+    expect(f.renderer.getRenderTarget()).toBe(f.previousTarget);
+    expect(f.renderer.autoClear).toBe(false);
+    expect(f.camera.layers.mask).toBe(cameraMask);
+    expect(f.meshes.map(mesh => mesh.layers.mask)).toEqual(meshMasks);
+    expect(f.renderer.shadowMap.autoUpdate).toBe(true);
+    expect(f.renderer.xr.enabled).toBe(true);
+  });
+
+  it.each(['hidden-parent', 'hidden-material', 'unseen-layer'] as const)('uses one scene draw for %s water even when its geometry intersects the view', (mode) => {
+    const f = setup();
+    if (mode === 'hidden-parent') {
+      const parent = new THREE.Group();
+      f.scene.add(parent); parent.add(...f.meshes); parent.visible = false;
+    }
+    if (mode === 'hidden-material') f.meshes.forEach(m => { m.material.visible = false; });
+    if (mode === 'unseen-layer') f.meshes.forEach(m => { m.layers.set(4); });
+    expect(f.render()).toBe(f.source.texture);
+    expect(f.draws).toHaveLength(1);
+    expect(f.meshes.every(m => m.material.uniforms.uWaterCapture!.value === 0)).toBe(true);
+  });
+
+  it('checks transformed world bounds and conservatively retains crests just beyond the static geometry edge', () => {
+    const f = setup();
+    const parent = new THREE.Group();
+    f.scene.add(parent); parent.add(...f.meshes);
+    parent.position.x = 400;
+    f.render();
+    expect(f.draws).toHaveLength(1);
+    parent.position.set(0, 0, 0);
+    f.camera.lookAt(0, 0, 0);
+    f.camera.updateMatrixWorld();
+    f.meshes[1]!.visible = false;
+    const geometry = f.meshes[0]!.geometry;
+    geometry.computeBoundingBox();
+    // Move the tiny test surface until the bare geometry misses the lower edge, while a sub-metre crest can enter it.
+    const frustum = new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(f.camera.projectionMatrix, f.camera.matrixWorldInverse));
+    let edgeY = 0;
+    for (let y = -0.05; y > -12; y -= 0.05) {
+      const box = geometry.boundingBox!.clone().translate(new THREE.Vector3(0, y, 0));
+      if (!frustum.intersectsBox(box) && frustum.intersectsBox(box.clone().expandByScalar(0.45))) { edgeY = y; break; }
+    }
+    expect(edgeY).toBeLessThan(0);
+    f.meshes[0]!.position.y = edgeY;
+    f.draws.length = 0;
+    f.render();
+    expect(f.draws).toHaveLength(3);
+  });
+
+  it('captures visible inland water without rendering a planar sea reflection behind the camera', () => {
+    const f = setup();
+    coastalView(f);
+    f.meshes[1]!.position.x = -300;
+    f.meshes[0]!.position.x = -700;
+    f.render();
+    expect(f.draws).toHaveLength(3);
+    expect(f.input.seaMaterial.uniforms.uWaterReflectionReady!.value).toBe(0);
+    expect(f.meshes[0]!.visible).toBe(true);
+    f.camera.lookAt(-700, 0, 0);
+    f.draws.length = 0;
+    f.render();
+    expect(f.draws).toHaveLength(4);
+    expect(f.draws[0]!.camera).not.toBe(f.camera);
+    expect(f.input.seaMaterial.uniforms.uWaterReflectionReady!.value).toBe(1);
+  });
+
   it('draws the base scene once, copies its depth, and samples only the distinct source during the water draw', () => {
     const f = setup();
     const originalMask = f.camera.layers.mask;
@@ -199,7 +305,7 @@ describe('water capture/composite orchestration', () => {
 
   it('hides water in the planar capture and restores renderer/visibility state on reflection failure', () => {
     const f = setup();
-    f.camera.position.set(-300, 3, 4);
+    coastalView(f);
     f.camera.updateMatrixWorld();
     f.meshes[1]!.visible = false;
     const mask = f.camera.layers.mask;
@@ -226,7 +332,7 @@ describe('water capture/composite orchestration', () => {
 
   it('freezes a valid planar reflection for reduced motion, refreshes after camera movement, and owns its private resources', () => {
     const f = setup();
-    f.camera.position.set(-300, 3, 4);
+    coastalView(f);
     f.input.reducedMotion = true;
     f.render();
     expect(f.draws).toHaveLength(4);
@@ -255,7 +361,7 @@ describe('water capture/composite orchestration', () => {
 
   it.each([['medium', 1 / 10], ['high', 1 / 15]] as const)('caps %s reflection refresh despite continuous camera movement', (quality, interval) => {
     const f = setup();
-    f.camera.position.set(-300, 3, 4);
+    coastalView(f);
     f.input.quality = quality;
     f.render();
     f.draws.length = 0;
@@ -271,7 +377,7 @@ describe('water capture/composite orchestration', () => {
 
   it('invalidates the reduced-motion reflection after a world rebuild even with an unchanged camera', () => {
     const f = setup();
-    f.camera.position.set(-300, 3, 4);
+    coastalView(f);
     f.input.reducedMotion = true;
     f.render();
     const reflectionTarget = f.draws[0]!.target;

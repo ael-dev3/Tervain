@@ -375,7 +375,11 @@ function buildBroadleaf(sp: Species, lod: 0 | 1, seed: number): { wood: Acc; lea
           const td = norm(add(add(bd, [rnd() - 0.5, rnd() * 0.4, rnd() - 0.5]), mul(norm(sub(at2, crownC)), 0.4)));
           const tp = grow(at2, td, bl * 0.45, 3, rnd, { curl: 0.6, gravity: b.gravity * 0.6 });
           const tr = tubeRnd();
-          if (det.depth > 1) tube(wood, tp, tp.map((_, i) => 0.026 * (1 - i * 0.28)), { sides: 3, color: spec.barkColor, sway, capEnd: true, uRep: 1, vLen: 1 }, tr);
+          const twigPts = det.depth > 1 ? tp : [tp[0]!, tp[1]!, tp[3]!];
+          const twigRadii = det.depth > 1 ? tp.map((_, i) => 0.026 * (1 - i * 0.28)) : [0.026, 0.026 * 0.72, 0.026 * 0.16];
+          // The middle LOD retains a cheap twig through both foliage attachment sites. Omitting its wood while
+          // keeping the terminal fans would leave floating leaves beyond the surviving parent bough.
+          tube(wood, twigPts, twigRadii, { sides: 3, color: spec.barkColor, sway, capEnd: true, uRep: 1, vLen: 1 }, tr);
           sites.push({ p: tp[tp.length - 1]!, dir: norm(sub(tp[tp.length - 1]!, tp[tp.length - 2]!)), t: 1 });
           sites.push({ p: tp[1]!, dir: td, t: 0.5 });
         }

@@ -8,6 +8,73 @@ import type { Settings } from '../platform/settings';
  */
 export type SurfaceKind = 'grass' | 'road' | 'stone' | 'water' | 'deck' | 'sand';
 
+export interface AmbienceEnvironment {
+  nightness: number;
+  waterProximity: number;
+  flow: number;
+  millNear: number;
+  millTurning: boolean;
+  windAmount: number;
+  quarryNear: number;
+  quarryWorking: boolean;
+  time: number;
+  underRoof: boolean;
+  seaProximity?: number;
+}
+
+const unit = (value: number) => Number.isFinite(value) ? Math.max(0, Math.min(1, value)) : 0;
+const AUTOMATION_INTERVAL = 0.1;
+
+/**
+ * A six-second brown-noise loop with a raised-cosine overlap at its join.
+ * Its end continues naturally into the beginning instead of jumping to a fresh
+ * random sample. Remove DC and reserve mix headroom before sharing this buffer.
+ */
+export function ambienceNoise(sampleRate: number, seconds = 6, random = Math.random): Float32Array {
+  const length = Math.max(2, Math.round(sampleRate * seconds));
+  const overlap = Math.min(Math.floor(length / 3), Math.max(1, Math.round(sampleRate * 0.18)));
+  const raw = new Float32Array(length + overlap);
+  let last = 0;
+  for (let i = 0; i < raw.length; i++) {
+    last = (last + 0.06 * (random() * 2 - 1)) / 1.06;
+    raw[i] = last;
+  }
+  const data = new Float32Array(length);
+  let sum = 0;
+  for (let i = 0; i < length; i++) {
+    const weight = i < overlap ? 0.5 - 0.5 * Math.cos(Math.PI * i / overlap) : 1;
+    const value = i < overlap ? raw[length + i]! * (1 - weight) + raw[i]! * weight : raw[i]!;
+    data[i] = value;
+    sum += value;
+  }
+  const mean = sum / length;
+  let peak = 0;
+  for (let i = 0; i < length; i++) {
+    data[i] = data[i]! - mean;
+    peak = Math.max(peak, Math.abs(data[i]!));
+  }
+  // Do not amplify a nearly silent/degenerate random source.
+  const gain = peak > 0.000001 ? Math.min(3.2, 0.6 / peak) : 0;
+  for (let i = 0; i < length; i++) data[i] = data[i]! * gain;
+  return data;
+}
+
+/** Audio-clock breathing is multiplied by proximity: a distant sea stays silent. */
+export function ambienceMix(e: AmbienceEnvironment, audioTime: number) {
+  const t = Number.isFinite(audioTime) ? audioTime : 0;
+  const roof = e.underRoof ? 0.35 : 1;
+  const flow = unit(e.flow);
+  const sea = unit(e.seaProximity ?? 0) * roof;
+  return {
+    wind: 0.05 * (0.5 + unit(e.windAmount)) * roof * (0.88 + 0.12 * Math.sin(t * 0.2)),
+    windFrequency: 420 + 120 * Math.sin(t * Math.PI * 0.22),
+    water: unit(e.waterProximity) * (0.05 + 0.35 * flow) * roof,
+    waterFrequency: 700 + 1400 * flow,
+    rumble: 0.16 * sea * (0.72 + 0.24 * Math.sin(t * 0.75) + 0.04 * Math.sin(t * 1.09)),
+    hiss: 0.06 * sea * sea * (0.57 + 0.38 * Math.sin(t * 0.75 + 0.65) + 0.05 * Math.sin(t * 1.21)),
+  };
+}
+
 export class AudioEngine {
   private ctx: AudioContext | null = null;
   private master!: GainNode;
@@ -16,6 +83,12 @@ export class AudioEngine {
   private wind: { gain: GainNode; filter: BiquadFilterNode } | null = null;
   private water: { gain: GainNode; filter: BiquadFilterNode } | null = null;
   private sea: { rumble: GainNode; hiss: GainNode } | null = null;
+  private readonly nodes = new Set<AudioNode>();
+  private readonly sources = new Set<AudioBufferSourceNode>();
+  private readonly targets = new WeakMap<AudioParam, number>();
+  private lastAutomation = -Infinity;
+  private disposed = false;
+  private resuming = false;
   private pageHidden = false;
   onCaption: ((text: string) => void) | null = null;
   enabled = true;
@@ -24,154 +97,192 @@ export class AudioEngine {
 
   /** Must be called from a user gesture. */
   resume() {
-    if (this.pageHidden) return;
+    if (this.pageHidden || this.disposed) return;
     if (!this.ctx) {
       const AC = window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       if (!AC) {
         this.enabled = false;
         return;
       }
-      this.ctx = new AC();
-      this.master = this.ctx.createGain();
-      this.master.connect(this.ctx.destination);
-      const mk = () => {
-        const g = this.ctx!.createGain();
-        g.connect(this.master);
-        return g;
-      };
-      this.buses = { music: mk(), effects: mk(), ambience: mk(), dialogue: mk() };
-      this.noiseBuf = this.makeNoise(2);
-      this.startBeds();
-      this.applySettings();
+      try {
+        this.ctx = new AC({ latencyHint: 'interactive' });
+        this.master = this.own(this.ctx.createGain());
+        this.master.gain.value = unit(this.getSettings().volumes.master);
+        this.master.connect(this.ctx.destination);
+        const mk = (level: number) => {
+          const g = this.own(this.ctx!.createGain());
+          g.gain.value = unit(level);
+          g.connect(this.master);
+          return g;
+        };
+        const v = this.getSettings().volumes;
+        this.buses = { music: mk(v.music), effects: mk(v.effects), ambience: mk(v.ambience), dialogue: mk(v.dialogue) };
+        this.noiseBuf = this.makeNoise();
+        this.startBeds();
+      } catch {
+        // Audio-device or graph creation must not interrupt input or the game.
+        this.releaseGraph();
+        this.enabled = false;
+        return;
+      }
     }
-    if (this.ctx.state === 'suspended') void this.ctx.resume().catch(() => undefined);
+    this.enabled = this.ctx.state !== 'closed';
+    if (this.ctx.state !== 'running' && this.ctx.state !== 'closed' && !this.resuming) {
+      this.resuming = true;
+      void this.ctx.resume().catch(() => undefined).finally(() => { this.resuming = false; });
+    }
   }
 
-  /** Suspend the whole context so looping sources and their LFO clocks stop in a hidden tab. */
+  /** Suspend looping sources and the audio clock in a hidden tab. */
   setPageHidden(hidden: boolean) {
     this.pageHidden = hidden;
-    if (!this.ctx || this.ctx.state === 'closed') return;
+    if (this.disposed || !this.ctx || this.ctx.state === 'closed') return;
+    this.lastAutomation = -Infinity;
     // Queue both transitions, including a quick hide/show before suspend has resolved.
     const transition = hidden ? this.ctx.suspend() : this.ctx.resume();
     void transition.catch(() => undefined);
   }
 
   get ready() {
-    return !this.pageHidden && this.ctx !== null && this.ctx.state === 'running';
+    return !this.disposed && !this.pageHidden && this.ctx !== null && this.ctx.state === 'running';
   }
 
-  private makeNoise(seconds: number) {
+  /** Device-reported values for the developer panel, not an end-to-end latency claim. */
+  get diagnostics() {
+    return {
+      state: this.ctx?.state ?? 'not initialized',
+      sampleRate: this.ctx?.sampleRate ?? 0,
+      baseLatency: this.ctx?.baseLatency ?? null,
+      voices: this.sources.size,
+    };
+  }
+
+  private own<T extends AudioNode>(node: T): T {
+    this.nodes.add(node);
+    return node;
+  }
+
+  private makeNoise() {
     const ctx = this.ctx!;
-    const buf = ctx.createBuffer(1, ctx.sampleRate * seconds, ctx.sampleRate);
-    const d = buf.getChannelData(0);
-    let last = 0;
-    for (let i = 0; i < d.length; i++) {
-      const w = Math.random() * 2 - 1;
-      last = (last + 0.06 * w) / 1.06; // brown-ish
-      d[i] = last * 3.2;
-    }
+    const data = ambienceNoise(ctx.sampleRate);
+    const buf = ctx.createBuffer(1, data.length, ctx.sampleRate);
+    buf.getChannelData(0).set(data);
     return buf;
   }
 
-  private noiseSrc(loop = true) {
-    const s = this.ctx!.createBufferSource();
+  private startNoise(filter: BiquadFilterNode, offset: number, rate: number) {
+    const s = this.own(this.ctx!.createBufferSource());
     s.buffer = this.noiseBuf;
-    s.loop = loop;
-    return s;
+    s.loop = true;
+    s.playbackRate.value = rate;
+    s.connect(filter);
+    this.sources.add(s);
+    s.start(this.ctx!.currentTime, offset);
+  }
+
+  /** Replace the previous ramp instead of accumulating per-frame automation. */
+  private target(param: AudioParam, value: number, time: number, smoothing: number) {
+    const previous = this.targets.get(param);
+    if (previous !== undefined && Math.abs(previous - value) < 0.000001) return;
+    this.targets.set(param, value);
+    if (typeof param.cancelAndHoldAtTime === 'function') param.cancelAndHoldAtTime(time);
+    else {
+      const current = param.value;
+      param.cancelScheduledValues(time);
+      param.setValueAtTime(current, time);
+    }
+    param.setTargetAtTime(value, time, smoothing);
   }
 
   applySettings() {
-    if (!this.ctx) return;
+    if (this.disposed || !this.ctx || this.ctx.state === 'closed') return;
     const v = this.getSettings().volumes;
     const t = this.ctx.currentTime;
-    this.master.gain.setTargetAtTime(v.master, t, 0.05);
-    this.buses.music.gain.setTargetAtTime(v.music, t, 0.05);
-    this.buses.effects.gain.setTargetAtTime(v.effects, t, 0.05);
-    this.buses.ambience.gain.setTargetAtTime(v.ambience, t, 0.05);
-    this.buses.dialogue.gain.setTargetAtTime(v.dialogue, t, 0.05);
+    this.target(this.master.gain, unit(v.master), t, 0.035);
+    this.target(this.buses.music.gain, unit(v.music), t, 0.035);
+    this.target(this.buses.effects.gain, unit(v.effects), t, 0.035);
+    this.target(this.buses.ambience.gain, unit(v.ambience), t, 0.035);
+    this.target(this.buses.dialogue.gain, unit(v.dialogue), t, 0.035);
   }
 
   private startBeds() {
     const ctx = this.ctx!;
-    // Wind: band-passed brown noise with a slow LFO on level.
-    const ws = this.noiseSrc();
-    const wf = ctx.createBiquadFilter();
+    // Separate offsets and playback rates avoid four phase-correlated copies.
+    const wf = this.own(ctx.createBiquadFilter());
     wf.type = 'bandpass';
     wf.frequency.value = 420;
     wf.Q.value = 0.5;
-    const wg = ctx.createGain();
+    const wg = this.own(ctx.createGain());
     wg.gain.value = 0.0;
-    ws.connect(wf).connect(wg).connect(this.buses.ambience);
-    ws.start();
-    const lfo = ctx.createOscillator();
-    lfo.frequency.value = 0.11;
-    const lg = ctx.createGain();
-    lg.gain.value = 120;
-    lfo.connect(lg).connect(wf.frequency);
-    lfo.start();
+    wf.connect(wg).connect(this.buses.ambience);
+    this.startNoise(wf, 0.19, 0.91);
     this.wind = { gain: wg, filter: wf };
     // Water: low-passed noise whose level follows proximity and flow.
-    const ns = this.noiseSrc();
-    const nf = ctx.createBiquadFilter();
+    const nf = this.own(ctx.createBiquadFilter());
     nf.type = 'lowpass';
     nf.frequency.value = 1400;
-    const ng = ctx.createGain();
+    const ng = this.own(ctx.createGain());
     ng.gain.value = 0;
-    ns.connect(nf).connect(ng).connect(this.buses.ambience);
-    ns.start();
+    nf.connect(ng).connect(this.buses.ambience);
+    this.startNoise(nf, 1.73, 1.013);
     this.water = { gain: ng, filter: nf };
-    // The sea: a deep swell rumble and a bright hiss of spray, both breathing with the waves (a slow LFO, a little out of step).
-    const rs = this.noiseSrc();
-    const rf = ctx.createBiquadFilter();
+    // Sea envelopes remain positive and vanish with actual proximity.
+    const rf = this.own(ctx.createBiquadFilter());
     rf.type = 'lowpass';
     rf.frequency.value = 240;
-    const rg = ctx.createGain();
+    const rg = this.own(ctx.createGain());
     rg.gain.value = 0;
-    rs.connect(rf).connect(rg).connect(this.buses.ambience);
-    rs.start();
-    const hs = this.noiseSrc();
-    const hf = ctx.createBiquadFilter();
+    rf.connect(rg).connect(this.buses.ambience);
+    this.startNoise(rf, 3.11, 0.773);
+    const hf = this.own(ctx.createBiquadFilter());
     hf.type = 'bandpass';
     hf.frequency.value = 3000;
     hf.Q.value = 0.6;
-    const hg = ctx.createGain();
+    const hg = this.own(ctx.createGain());
     hg.gain.value = 0;
-    hs.connect(hf).connect(hg).connect(this.buses.ambience);
-    hs.start();
-    for (const [g, f, depth] of [[rg, 0.12, 0.05], [hg, 0.15, 0.03]] as const) {
-      const o = ctx.createOscillator();
-      o.frequency.value = f;
-      const og = ctx.createGain();
-      og.gain.value = depth;
-      o.connect(og).connect(g.gain);
-      o.start();
-    }
+    hf.connect(hg).connect(this.buses.ambience);
+    this.startNoise(hf, 4.37, 1.087);
     this.sea = { rumble: rg, hiss: hg };
   }
 
-  /** Per-frame ambience update. */
-  update(dt: number, e: { nightness: number; waterProximity: number; flow: number; millNear: number; millTurning: boolean; windAmount: number; quarryNear: number; quarryWorking: boolean; time: number; underRoof: boolean; seaProximity?: number }) {
-    if (this.pageHidden || !this.ctx || !this.wind || !this.water) return;
+  /** Called per frame; graph automation is capped at ten updates per audio second. */
+  update(_dt: number, e: AmbienceEnvironment) {
+    if (!this.ready || !this.ctx || !this.wind || !this.water || !this.sea) return;
     const t = this.ctx.currentTime;
-    const roof = e.underRoof ? 0.35 : 1;
-    this.wind.gain.gain.setTargetAtTime(0.05 * (0.5 + e.windAmount) * roof, t, 0.6);
-    const wl = e.waterProximity * (0.05 + 0.35 * e.flow) * roof;
-    this.water.gain.gain.setTargetAtTime(wl, t, 0.4);
-    this.water.filter.frequency.setTargetAtTime(700 + 1400 * e.flow, t, 0.5);
-    const sp = (e.seaProximity ?? 0) * roof;
-    if (this.sea) {
-      this.sea.rumble.gain.setTargetAtTime(0.16 * sp, t, 0.8);
-      this.sea.hiss.gain.setTargetAtTime(0.06 * sp * sp, t, 0.8);
-    }
+    if (t - this.lastAutomation < AUTOMATION_INTERVAL) return;
+    this.lastAutomation = t;
+    const mix = ambienceMix(e, t);
+    this.target(this.wind.gain.gain, mix.wind, t, 0.35);
+    this.target(this.wind.filter.frequency, mix.windFrequency, t, 0.35);
+    this.target(this.water.gain.gain, mix.water, t, 0.18);
+    this.target(this.water.filter.frequency, mix.waterFrequency, t, 0.25);
+    this.target(this.sea.rumble.gain, mix.rumble, t, 0.3);
+    this.target(this.sea.hiss.gain, mix.hiss, t, 0.25);
     // Wildlife, quarry impacts and the placeholder score remain silent until they can
     // be supplied as locally packaged, provenance-checked, reviewed audio assets.
-    void e.nightness;
-    void e.millNear;
-    void e.millTurning;
-    void e.quarryNear;
-    void e.quarryWorking;
-    void e.time;
-    void dt;
+  }
+
+  private releaseGraph() {
+    for (const source of this.sources) {
+      try { source.stop(); } catch { /* a partially created source may not have started */ }
+    }
+    this.sources.clear();
+    for (const node of this.nodes) node.disconnect();
+    this.nodes.clear();
+    const ctx = this.ctx;
+    this.ctx = null;
+    this.noiseBuf = null;
+    this.wind = this.water = this.sea = null;
+    if (ctx && ctx.state !== 'closed') void ctx.close().catch(() => undefined);
+  }
+
+  /** Stop owned loops and release the device once when the app is actually torn down. */
+  dispose() {
+    if (this.disposed) return;
+    this.disposed = true;
+    this.enabled = false;
+    this.onCaption = null;
+    this.releaseGraph();
   }
 
   /* ---- effects ---- */

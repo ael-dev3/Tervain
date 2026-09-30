@@ -95,8 +95,14 @@ describe('Deepwood floor', () => {
     const frame: FrameContext = { camera, time: 0, focus: camera.position.clone(), nightness: 0, sunDir: new THREE.Vector3(0.4, 1, 0.6).normalize(), reducedMotion: false, hour: 9, view: worldView(createInitialState()), quality: 'medium' };
     floor.update(1, frame);
     expect(floor.stats!().forestFloorDrawn).toBeGreaterThan(10);
+    const uploaded = meshes.map((m) => m.instanceMatrix.version);
     floor.update(1, frame);
+    meshes.forEach((m, i) => expect(m.instanceMatrix.version).toBe(uploaded[i]));
     meshes.forEach((m, i) => expect(Array.from(m.geometry.getAttribute('position').array)).toEqual(snapshots[i]));
+    camera.lookAt(-200, camera.position.y, 22);
+    camera.updateMatrixWorld();
+    floor.update(1, frame);
+    meshes.forEach((m, i) => expect(m.instanceMatrix.version).toBeGreaterThan(uploaded[i]!));
     camera.position.set(180, 10, 150);
     camera.lookAt(190, 10, 155);
     camera.updateMatrixWorld();

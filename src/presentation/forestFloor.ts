@@ -227,6 +227,8 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
   }
   let disposed = false, elapsed = 1, visible = 0;
   const lastCamera = new THREE.Vector3(1e9, 0, 0);
+  const lastRotation = new THREE.Quaternion();
+  const lastProjection = new THREE.Matrix4();
   const frustum = new THREE.Frustum(), pv = new THREE.Matrix4(), sphere = new THREE.Sphere();
   const limit = quality === 'low' ? 56 : quality === 'medium' ? 92 : 128;
   return {
@@ -235,8 +237,11 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
       if (disposed) return;
       elapsed += dt;
       if (elapsed < 0.16 && f.camera.position.distanceTo(lastCamera) < 1.5) return;
+      if (f.camera.position.distanceToSquared(lastCamera) < 0.0004 && Math.abs(f.camera.quaternion.dot(lastRotation)) > 0.999999 && f.camera.projectionMatrix.equals(lastProjection)) return;
       elapsed = 0;
       lastCamera.copy(f.camera.position);
+      lastRotation.copy(f.camera.quaternion);
+      lastProjection.copy(f.camera.projectionMatrix);
       f.camera.updateMatrixWorld();
       pv.multiplyMatrices(f.camera.projectionMatrix, f.camera.matrixWorldInverse);
       frustum.setFromProjectionMatrix(pv);

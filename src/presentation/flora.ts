@@ -94,6 +94,8 @@ export function buildFlora(ctx: BuildContext): SceneModule & { counts: { trees: 
   const col = new THREE.Color();
   let sinceUpdate = 1;
   const lastCam = new THREE.Vector3(1e9, 0, 0);
+  const lastRotation = new THREE.Quaternion();
+  const lastProjection = new THREE.Matrix4();
   let visible = 0;
   let drawTris = 0;
   let disposed = false;
@@ -161,8 +163,13 @@ export function buildFlora(ctx: BuildContext): SceneModule & { counts: { trees: 
       const moved = Math.hypot(cam.position.x - lastCam.x, cam.position.z - lastCam.z);
       // Rotation matters as much as position: turning the camera reveals new trees.
       if (sinceUpdate < 0.12 && moved < 1.5) return;
+      // The population is static. An idle camera needs no instance-buffer uploads
+      // or repeated culling; rotation and projection changes still refresh it.
+      if (moved < 0.02 && Math.abs(cam.quaternion.dot(lastRotation)) > 0.999999 && cam.projectionMatrix.equals(lastProjection)) return;
       sinceUpdate = 0;
       lastCam.copy(cam.position);
+      lastRotation.copy(cam.quaternion);
+      lastProjection.copy(cam.projectionMatrix);
       cam.updateMatrixWorld();
       refresh(cam);
     },

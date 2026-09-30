@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { defaultSettings } from '../../src/platform/settings';
-import { AudioEngine } from '../../src/presentation/audio';
+import { AudioEngine, ambienceMix, ambienceNoise, type AmbienceEnvironment } from '../../src/presentation/audio';
 
 afterEach(() => vi.unstubAllGlobals());
 
@@ -51,5 +51,248 @@ describe('semantic audio captions', () => {
     await Promise.resolve();
     expect(ctx.suspend).toHaveBeenCalledTimes(1);
     expect(ctx.resume).toHaveBeenCalledTimes(1);
+  });
+});
+
+const environment = (overrides: Partial<AmbienceEnvironment> = {}): AmbienceEnvironment => ({
+  nightness: 0, waterProximity: 1, flow: 1, millNear: 0, millTurning: false,
+  windAmount: 1, quarryNear: 0, quarryWorking: false, time: 0, underRoof: false,
+  seaProximity: 1, ...overrides,
+});
+
+function seededRandom(seed: number) {
+  let state = seed;
+  return () => {
+    state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+    return state / 0x100000000;
+  };
+}
+
+class Param {
+  value = 1;
+  setTargetAtTime = vi.fn((value: number, _time: number, _constant: number) => { this.value = value; });
+  cancelAndHoldAtTime = vi.fn((_time: number) => undefined);
+  cancelScheduledValues = vi.fn((_time: number) => undefined);
+  setValueAtTime = vi.fn((value: number, _time: number) => { this.value = value; });
+}
+
+class Node {
+  connect = vi.fn((node: Node) => node);
+  disconnect = vi.fn();
+}
+
+class Gain extends Node { gain = new Param(); }
+class Filter extends Node { frequency = new Param(); Q = new Param(); type = ''; }
+class Source extends Node {
+  buffer: { duration: number } | null = null;
+  loop = false;
+  playbackRate = new Param();
+  start = vi.fn((_when: number, _offset: number) => undefined);
+  stop = vi.fn();
+}
+
+class Context {
+  state = 'running';
+  currentTime = 0;
+  sampleRate = 8000;
+  destination = new Node();
+  nodes: Node[] = [];
+  gains: Gain[] = [];
+  sources: Source[] = [];
+  filters: Filter[] = [];
+  bufferData: Float32Array | null = null;
+  createGain = () => {
+    const node = new Gain(); this.nodes.push(node); this.gains.push(node); return node;
+  };
+  createBiquadFilter = () => {
+    const node = new Filter(); this.nodes.push(node); this.filters.push(node); return node;
+  };
+  createBufferSource = () => {
+    const node = new Source(); this.nodes.push(node); this.sources.push(node); return node;
+  };
+  createBuffer = (_channels: number, length: number, rate: number) => {
+    this.bufferData = new Float32Array(length);
+    return { duration: length / rate, getChannelData: (_channel: number) => this.bufferData! };
+  };
+  resume = vi.fn(() => { this.state = 'running'; return Promise.resolve(); });
+  suspend = vi.fn(() => { this.state = 'suspended'; return Promise.resolve(); });
+  close = vi.fn(() => { this.state = 'closed'; return Promise.resolve(); });
+}
+
+function audioFixture(settings = defaultSettings()) {
+  const ctx = new Context();
+  const makeContext = vi.fn(function (_options: AudioContextOptions) { return ctx; });
+  vi.stubGlobal('window', { AudioContext: makeContext });
+  const audio = new AudioEngine(() => settings);
+  audio.resume();
+  return { ctx, audio, settings, makeContext };
+}
+
+describe('ambience signal and mix', () => {
+  it('has no isolated loop-boundary impulse, DC offset or overloaded PCM peak', () => {
+    for (const seed of [15, 7005, 9021]) {
+      const data = ambienceNoise(8000, 6, seededRandom(seed));
+      expect(data).toHaveLength(48000);
+      let sum = 0;
+      let peak = 0;
+      let maximumStep = 0;
+      for (let i = 0; i < data.length; i++) {
+        const value = data[i]!;
+        expect(Number.isFinite(value)).toBe(true);
+        sum += value;
+        peak = Math.max(peak, Math.abs(value));
+        if (i) maximumStep = Math.max(maximumStep, Math.abs(value - data[i - 1]!));
+      }
+      expect(Math.abs(sum / data.length)).toBeLessThan(0.000001);
+      expect(peak).toBeLessThanOrEqual(0.600001);
+      expect(peak).toBeGreaterThan(0.3);
+      // The seam is an ordinary filtered-noise step, not a reset-to-zero click.
+      expect(Math.abs(data[0]! - data[data.length - 1]!)).toBeLessThanOrEqual(maximumStep);
+    }
+    expect(ambienceNoise(100, 1, () => 0.5).every((value) => value === 0)).toBe(true);
+  });
+
+  it('makes surf vanish at zero proximity and keeps every full-volume envelope positive with headroom', () => {
+    for (let time = 0; time < 60; time += 0.037) {
+      const distant = ambienceMix(environment({ seaProximity: 0 }), time);
+      expect(distant.rumble).toBe(0);
+      expect(distant.hiss).toBe(0);
+      const near = ambienceMix(environment(), time);
+      const levels = [near.wind, near.water, near.rumble, near.hiss];
+      expect(levels.every((value) => Number.isFinite(value) && value >= 0)).toBe(true);
+      expect(levels.reduce((sum, value) => sum + value, 0) * 0.6).toBeLessThan(0.42);
+      const sheltered = ambienceMix(environment({ underRoof: true }), time);
+      expect(sheltered.wind).toBeCloseTo(near.wind * 0.35);
+      expect(sheltered.water).toBeCloseTo(near.water * 0.35);
+      expect(sheltered.rumble).toBeCloseTo(near.rumble * 0.35);
+      expect(sheltered.hiss).toBeCloseTo(near.hiss * 0.35 * 0.35);
+    }
+    const invalid = ambienceMix(environment({ flow: Infinity, waterProximity: NaN, windAmount: -10, seaProximity: -1 }), NaN);
+    expect(Object.values(invalid).every(Number.isFinite)).toBe(true);
+    expect(invalid.water).toBe(0);
+    expect(invalid.rumble).toBe(0);
+  });
+});
+
+describe('audio graph lifetime and automation', () => {
+  it('initializes exactly one loop graph with independent source phases and rates', () => {
+    const { ctx, audio, makeContext } = audioFixture();
+    const count = ctx.nodes.length;
+    audio.resume();
+    audio.resume();
+    expect(makeContext).toHaveBeenCalledExactlyOnceWith({ latencyHint: 'interactive' });
+    expect(ctx.nodes).toHaveLength(count);
+    expect(ctx.sources).toHaveLength(4);
+    expect(new Set(ctx.sources.map((source) => source.start.mock.calls[0]![1])).size).toBe(4);
+    expect(new Set(ctx.sources.map((source) => source.playbackRate.value)).size).toBe(4);
+    expect(ctx.sources.every((source) => source.loop && source.buffer?.duration === 6)).toBe(true);
+    // A single buffer is shared; repeated gestures do not allocate duplicate beds.
+    expect(new Set(ctx.sources.map((source) => source.buffer)).size).toBe(1);
+    expect(audio.ready).toBe(true);
+    audio.dispose();
+  });
+
+  it('starts muted immediately and clamps corrupt or out-of-range stored volumes', () => {
+    const settings = defaultSettings();
+    settings.volumes = { master: 0, ambience: 0, effects: 100, music: NaN, dialogue: -1 };
+    const { ctx, audio } = audioFixture(settings);
+    expect(ctx.gains[0]!.gain.value).toBe(0);
+    expect(ctx.gains[1]!.gain.value).toBe(0);
+    expect(ctx.gains[2]!.gain.value).toBe(1);
+    expect(ctx.gains[3]!.gain.value).toBe(0);
+    expect(ctx.gains[4]!.gain.value).toBe(0);
+    expect(ctx.gains.slice(5).every((node) => node.gain.value === 0)).toBe(true);
+    settings.volumes.master = Infinity;
+    audio.applySettings();
+    expect(ctx.gains[0]!.gain.setTargetAtTime.mock.calls.at(-1)![0]).toBe(0);
+    audio.dispose();
+  });
+
+  it('bounds automation independently of render rate and skips unchanged settings or inactive contexts', async () => {
+    const { ctx, audio } = audioFixture();
+    for (let frame = 0; frame < 120; frame++) {
+      ctx.currentTime = frame / 120;
+      audio.update(1 / 120, environment({ waterProximity: 0, seaProximity: 0 }));
+    }
+    const wind = ctx.gains[5]!.gain;
+    expect(wind.setTargetAtTime.mock.calls.length).toBeGreaterThan(1);
+    expect(wind.setTargetAtTime.mock.calls.length).toBeLessThanOrEqual(11);
+    expect(wind.cancelAndHoldAtTime).toHaveBeenCalledTimes(wind.setTargetAtTime.mock.calls.length);
+    // An unchanged dry channel schedules only its first zero target.
+    expect(ctx.gains[6]!.gain.setTargetAtTime).toHaveBeenCalledTimes(1);
+    audio.applySettings();
+    const settingsCalls = ctx.gains[0]!.gain.setTargetAtTime.mock.calls.length;
+    audio.applySettings();
+    expect(ctx.gains[0]!.gain.setTargetAtTime).toHaveBeenCalledTimes(settingsCalls);
+    audio.setPageHidden(true);
+    ctx.currentTime = 2;
+    const count = wind.setTargetAtTime.mock.calls.length;
+    audio.update(1, environment());
+    expect(wind.setTargetAtTime).toHaveBeenCalledTimes(count);
+    audio.setPageHidden(false);
+    await Promise.resolve();
+    audio.update(0, environment());
+    expect(wind.setTargetAtTime).toHaveBeenCalledTimes(count + 1);
+    ctx.state = 'suspended';
+    ctx.currentTime = 3;
+    audio.update(1, environment());
+    expect(wind.setTargetAtTime).toHaveBeenCalledTimes(count + 1);
+    audio.dispose();
+  });
+
+  it('stops sources, disconnects nodes and releases the context exactly once', () => {
+    const { ctx, audio, makeContext } = audioFixture();
+    audio.dispose();
+    audio.dispose();
+    audio.resume();
+    audio.update(1, environment());
+    audio.applySettings();
+    expect(ctx.sources.every((source) => source.stop.mock.calls.length === 1)).toBe(true);
+    expect(ctx.nodes.every((node) => node.disconnect.mock.calls.length === 1)).toBe(true);
+    expect(ctx.close).toHaveBeenCalledTimes(1);
+    expect(makeContext).toHaveBeenCalledTimes(1);
+    expect(audio.ready).toBe(false);
+  });
+
+  it('holds the present value before replacing ramps on older AudioParam implementations', () => {
+    const { ctx, audio } = audioFixture();
+    const master = ctx.gains[0]!.gain;
+    Object.defineProperty(master, 'cancelAndHoldAtTime', { value: undefined });
+    const current = master.value;
+    ctx.currentTime = 0.7;
+    audio.applySettings();
+    expect(master.cancelScheduledValues).toHaveBeenCalledWith(0.7);
+    expect(master.setValueAtTime).toHaveBeenCalledWith(current, 0.7);
+    expect(master.setTargetAtTime).toHaveBeenCalledWith(current, 0.7, 0.035);
+    audio.dispose();
+  });
+
+  it('releases a partially created graph and allows a later gesture to retry', () => {
+    const ctx = new Context();
+    ctx.createBuffer = () => { throw new Error('buffer allocation unavailable'); };
+    vi.stubGlobal('window', { AudioContext: vi.fn(function () { return ctx; }) });
+    const audio = new AudioEngine(defaultSettings);
+    expect(() => audio.resume()).not.toThrow();
+    expect(ctx.nodes.every((node) => node.disconnect.mock.calls.length === 1)).toBe(true);
+    expect(ctx.close).toHaveBeenCalledTimes(1);
+    expect(audio.ready).toBe(false);
+    const retry = new Context();
+    vi.stubGlobal('window', { AudioContext: vi.fn(function () { return retry; }) });
+    audio.resume();
+    expect(audio.ready).toBe(true);
+    expect(retry.sources).toHaveLength(4);
+    audio.dispose();
+  });
+
+  it('keeps input and captions available when device creation fails', () => {
+    vi.stubGlobal('window', { AudioContext: class { constructor() { throw new Error('device unavailable'); } } });
+    const audio = new AudioEngine(defaultSettings);
+    const caption = vi.fn();
+    audio.onCaption = caption;
+    expect(() => audio.resume()).not.toThrow();
+    audio.gateCreak();
+    expect(caption).toHaveBeenCalledWith('[The sluice gate groans]');
+    expect(audio.ready).toBe(false);
+    expect(audio.enabled).toBe(false);
   });
 });

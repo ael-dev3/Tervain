@@ -510,7 +510,7 @@ export class App {
     if (this.bench.active) this.stepBenchmark(dt);
 
     if (this.menuBackgroundActive) {
-      // The menu is a separate cosmetic courtyard. No coast, patrols, or game clock run beneath it.
+      // The menu vigil is cosmetic. No patrols or game clock run beneath it.
       this.menuScene.update(dt, this.settings.reducedMotion);
       // An open headland: wind, and the sea breaking somewhere below. Only the existing procedural beds play.
       this.audio.update(dt, { nightness: 0.3, waterProximity: 0, seaProximity: 0.32, flow: 0,
@@ -1415,7 +1415,7 @@ export class App {
         btn('Heal + stamina', () => this.debugHeal()),
       ),
       h('h2', {}, 'Benchmark'),
-      h('p', { class: 'muted' }, 'Runs a fixed camera route (about 55 s) and reports median/95th/99th percentile frame times for this device, renderer and quality preset.'),
+      h('p', { class: 'muted' }, 'Runs a fixed camera route from the landing through the woodland and town (about 72 s) and reports median/95th/99th percentile frame times for this device, renderer and quality preset.'),
       h('div', { class: 'pillrow' }, btn('Run benchmark route', () => this.startBenchmark()), btn('Copy report', () => navigator.clipboard?.writeText(this.debugPre.textContent ?? ''))),
     );
   }
@@ -1428,11 +1428,13 @@ export class App {
     const info = this.renderer.info;
     const st = this.frameStats();
     const s = this.game.state;
+    const audio = this.audio.diagnostics;
     const lines = [
       `frames ${st.frames}  median ${st.median.toFixed(1)} ms  p95 ${st.p95.toFixed(1)}  p99 ${st.p99.toFixed(1)}  max ${st.max.toFixed(1)}`,
       `draw calls ${info.render.calls}  triangles ${info.render.triangles}  geometries ${info.memory.geometries}  textures ${info.memory.textures}`,
       `modules: ${this.world.modules.map((m) => `${m.name} ${JSON.stringify(m.module.stats?.() ?? {})}`).join(' | ')}  build ${this.world.buildStats.ms.toFixed(0)} ms`,
       `build ${GAME_VERSION} rev ${REVISION}  quality ${this.settings.quality}  dpr ${this.renderer.getPixelRatio()}  ${window.innerWidth}x${window.innerHeight}`,
+      `audio ${audio.state}  voices ${audio.voices}  ${audio.sampleRate} Hz  device-reported base buffer ${audio.baseLatency === null ? 'unavailable' : `${(audio.baseLatency * 1000).toFixed(1)} ms`}`,
       `player ${this.player.x.toFixed(1)}, ${this.player.z.toFixed(1)}  hp ${s.player.health}  clock ${formatClock(s.clock)} day ${clockDay(s.clock) + 1}`,
       `phase ${s.quest.phase}  gate ${s.quest.gate}  alloc ${s.quest.allocation ?? '-'}  entry ${s.quest.entry ?? '-'}`,
       `evidence ${EVIDENCE_IDS.filter((e) => s.evidence[e]).join(', ') || '-'}`,
@@ -1495,6 +1497,9 @@ export class App {
     const T = this.world.terrain;
     const H = (x: number, z: number, up: number) => new THREE.Vector3(x, T.heightAt(x, z) + up, z);
     const route: { p: THREE.Vector3; look: THREE.Vector3 }[] = [
+      { p: H(SPAWN.x, SPAWN.z, 3), look: H(-243, 22, 2) },
+      { p: H(-224, 22, 2.6), look: H(-202, 12, 3) },
+      { p: H(-178, 12, 2.6), look: H(-150, 24, 3) },
       { p: H(-128, 22, 3), look: H(-90, 18, 2) },
       { p: H(-60, 16, 2.5), look: H(0, 8, 2) },
       { p: H(-8, 20, 2.2), look: H(10, 4, 2) },

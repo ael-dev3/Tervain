@@ -51,6 +51,31 @@ describe('Deepwood forest canopy', () => {
     expect(TREE_SWAY_MULTIPLIER).toBe(0);
   });
 
+  it('connects every retained middle-LOD broadleaf fan to actual surviving twig or bough geometry', () => {
+    const triangle = new THREE.Triangle(), root = new THREE.Vector3(), nearest = new THREE.Vector3();
+    for (const sp of ['oak', 'birch', 'orchard'] as const) {
+      for (let variant = 1; variant <= 3; variant++) {
+        const m = model(sp, variant);
+        const wood = m.lods[1].wood!, leaf = m.lods[1].leaf!;
+        const w = wood.getAttribute('position'), l = leaf.getAttribute('position'), index = wood.index!;
+        // Each double-sided card contributes eight vertices. Its bottom edge centre is the atlas stem root.
+        for (let card = 0; card < l.count; card += 8) {
+          root.set((l.getX(card) + l.getX(card + 1)) * 0.5, (l.getY(card) + l.getY(card + 1)) * 0.5, (l.getZ(card) + l.getZ(card + 1)) * 0.5);
+          let distance = Infinity;
+          for (let i = 0; i < index.count; i += 3) {
+            triangle.a.fromBufferAttribute(w, index.getX(i));
+            triangle.b.fromBufferAttribute(w, index.getX(i + 1));
+            triangle.c.fromBufferAttribute(w, index.getX(i + 2));
+            triangle.closestPointToPoint(root, nearest);
+            distance = Math.min(distance, root.distanceToSquared(nearest));
+            if (distance < 0.001) break;
+          }
+          expect(Math.sqrt(distance), `${sp}:${variant} fan ${card / 8} must retain its supporting wood`).toBeLessThan(0.075);
+        }
+      }
+    }
+  });
+
   it('keeps the same main trunk path across near/middle LODs and uses finite bounded geometry with grounded roots', () => {
     for (const sp of ['oak', 'birch', 'pine', 'fir'] as const) {
       for (let variant = 1; variant <= 3; variant++) {

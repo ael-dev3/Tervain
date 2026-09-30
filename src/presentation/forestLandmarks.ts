@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import type { Colliders } from '../world/colliders';
-import { FOREST_RUIN, FOREST_WAYMARKERS } from '../world/layout';
+import { ARRIVAL_SIGN, FOREST_RUIN, FOREST_WAYMARKERS } from '../world/layout';
 import { mulberry32 } from '../world/noise';
 import type { Terrain } from '../world/terrain';
 import { Ctx } from './buildKit';
@@ -11,7 +11,7 @@ import { jitterTone, type Rnd } from './structures';
 
 export interface ForestLandmarkHandles {
   group: THREE.Group;
-  stats: { markers: number; ruins: number; triangles: number; meshes: number };
+  stats: { markers: number; ruins: number; signs: number; triangles: number; meshes: number };
   dispose(): void;
 }
 
@@ -88,7 +88,50 @@ export function forestLandmarkGeometry(terrain: Pick<Terrain, 'heightAt'>, colli
     R.ctx.pop();
     regions.push(R);
   }
+
+  {
+    const sign = ARRIVAL_SIGN;
+    const R = new Region('arrival-rillford-fingerpost', new Ctx());
+    const y = ground(sign.x, sign.z);
+    const left = -sign.boardWidth / 2;
+    const tip = sign.boardWidth / 2;
+    const end = tip - 0.5;
+    const bottom = sign.boardBottom;
+    const top = bottom + sign.boardHeight;
+    const middle = (bottom + top) / 2;
+    R.ctx.push(sign.x, y, sign.z, sign.yaw);
+    R.stone.box(0.65, 0.44, 0.65, 0, -0.3, 0, 0xaba58c, { jit: 0.15, ry: 0.12 });
+    R.timber.box(0.23, 3.7, 0.23, 0, -0.3, 0, 0xbb9564, { grain: 'y', jit: 0.14 });
+    R.timber.box(end - left, sign.boardHeight, 0.24, (left + end) / 2, bottom, 0, 0x967349, { grain: 'x', jit: 0.1, sub: 0.7 });
+    // A real solid fingerboard points east; its two readable faces both describe the same world direction.
+    const wood = 0x967349;
+    R.timber.tri3(end, bottom, 0.12, tip, middle, 0.12, end, top, 0.12, wood);
+    R.timber.tri3(end, top, -0.12, tip, middle, -0.12, end, bottom, -0.12, wood);
+    R.timber.quad([end, top, 0.12, tip, middle, 0.12, tip, middle, -0.12, end, top, -0.12], wood);
+    R.timber.quad([tip, middle, 0.12, end, bottom, 0.12, end, bottom, -0.12, tip, middle, -0.12], wood);
+    R.timber.rod(-0.58, bottom - 0.06, -0.16, 0, bottom - 0.64, -0.16, 0.055, 5, 0xb89a67, { jit: 0.14 });
+    R.timber.rod(0.58, bottom - 0.06, -0.16, 0, bottom - 0.64, -0.16, 0.055, 5, 0xb89a67, { jit: 0.14 });
+    for (const z of [-0.136, 0.136]) for (const x of [-0.08, 0.08]) R.metal.box(0.055, 0.055, 0.022, x, bottom + 0.27, z, 0x504d42, { jit: 0 });
+    R.ctx.pop();
+    colliders.circle('arrival-signpost', sign.x, sign.z, 0.32);
+    regions.push(R);
+  }
   return regions;
+}
+
+/** Original painted lettering printed directly onto the native wooden fingerboard, readable from both sides. */
+export function drawArrivalSignFace(ctx: CanvasRenderingContext2D, back = false): void {
+  const w = ctx.canvas.width;
+  const h = ctx.canvas.height;
+  ctx.clearRect(0, 0, w, h);
+  ctx.fillStyle = '#f3e9bf';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.font = `bold ${Math.round(h * 0.43)}px Georgia, serif`;
+  ctx.fillText(back ? `← ${ARRIVAL_SIGN.label}` : `${ARRIVAL_SIGN.label} →`, w / 2, h * 0.4, w * 0.94);
+  ctx.font = `bold ${Math.round(h * 0.155)}px Georgia, serif`;
+  ctx.fillStyle = '#ded0a2';
+  ctx.fillText('INLAND ROAD', w / 2, h * 0.8, w * 0.78);
 }
 
 /** Compact, independently culled landmarks reuse original procedural masonry; no external asset dependency. */
@@ -97,23 +140,61 @@ export function buildForestLandmarks(terrain: Terrain, colliders: Colliders, qua
   const stone = new THREE.MeshStandardMaterial({ vertexColors: true, map: pair.map, normalMap: pair.normal, roughness: 0.98 });
   stone.normalScale.set(0.8, 0.8);
   const moss = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 1 });
+  const woodPair = makeTexPair('timber', quality === 'low' ? 128 : 192, 8);
+  const wood = new THREE.MeshStandardMaterial({ vertexColors: true, map: woodPair.map, normalMap: woodPair.normal, roughness: 0.94 });
+  const metal = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.65, metalness: 0.25 });
   const group = new THREE.Group();
   group.name = 'deepwood-native-landmarks';
   const regions = forestLandmarkGeometry(terrain, colliders);
-  for (const region of regions) group.add(region.toGroup({ get: (key) => key === 'stone' ? stone : moss }));
-  const stats = { markers: FOREST_WAYMARKERS.length, ruins: 1, triangles: regions.reduce((sum, region) => sum + region.tris, 0), meshes: regions.reduce((sum, region) => sum + region.batches.size, 0) };
+  for (const region of regions) group.add(region.toGroup({ get: (key) => key === 'stone' ? stone : key === 'timber' ? wood : key === 'metal' ? metal : moss }));
+  const labels: THREE.MeshBasicMaterial[] = [];
+  const labelMaps: THREE.CanvasTexture[] = [];
+  for (const back of [false, true]) {
+    const canvas = document.createElement('canvas');
+    canvas.width = 1024;
+    canvas.height = 256;
+    drawArrivalSignFace(canvas.getContext('2d')!, back);
+    const map = new THREE.CanvasTexture(canvas);
+    map.colorSpace = THREE.SRGBColorSpace;
+    map.anisotropy = 4;
+    const material = new THREE.MeshBasicMaterial({ map, transparent: true, depthWrite: false });
+    const label = new THREE.Mesh(new THREE.PlaneGeometry(ARRIVAL_SIGN.boardWidth - 0.61, ARRIVAL_SIGN.boardHeight - 0.085), material);
+    label.name = back ? 'rillford-sign-painted-back' : 'rillford-sign-painted-front';
+    const c = Math.cos(ARRIVAL_SIGN.yaw);
+    const s = Math.sin(ARRIVAL_SIGN.yaw);
+    const face = back ? -0.125 : 0.125;
+    label.position.set(ARRIVAL_SIGN.x - 0.25 * c + face * s, terrain.heightAt(ARRIVAL_SIGN.x, ARRIVAL_SIGN.z) + ARRIVAL_SIGN.boardBottom + ARRIVAL_SIGN.boardHeight / 2, ARRIVAL_SIGN.z + 0.25 * s + face * c);
+    label.rotation.y = ARRIVAL_SIGN.yaw + (back ? Math.PI : 0);
+    label.updateMatrix();
+    label.matrixAutoUpdate = false;
+    label.castShadow = false;
+    group.add(label);
+    labels.push(material);
+    labelMaps.push(map);
+  }
+  const stats = { markers: FOREST_WAYMARKERS.length, ruins: 1, signs: 1, triangles: regions.reduce((sum, region) => sum + region.tris, 0) + 4, meshes: regions.reduce((sum, region) => sum + region.batches.size, 0) + 2 };
   group.userData.stats = stats;
+  let disposed = false;
   return {
     group,
     stats,
     dispose() {
+      if (disposed) return;
+      disposed = true;
       group.traverse((object) => {
         if (object instanceof THREE.Mesh) object.geometry.dispose();
       });
       stone.dispose();
       moss.dispose();
+      wood.dispose();
+      metal.dispose();
+      for (const material of labels) material.dispose();
+      for (const map of labelMaps) map.dispose();
       pair.map.dispose();
       pair.normal.dispose();
+      woodPair.map.dispose();
+      woodPair.normal.dispose();
+      group.clear();
     },
   };
 }

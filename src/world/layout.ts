@@ -104,6 +104,21 @@ export const ARRIVAL_ROUTE: V2[] = [
   { x: -160, z: 23 }, { x: -138, z: 30 }, { x: -110, z: 22 }, { x: -80, z: 16 },
   { x: -50, z: 12 }, { x: -25, z: 10 }, { x: 2, z: 8 },
 ];
+export const ARRIVAL_TRAIL_WIDTH = 4.2;
+/** One readable fingerpost at the real shore/woodland fork; the board's point faces east toward Rillford. */
+export const ARRIVAL_SIGN = { x: -248, z: 38, yaw: 0, target: 'rillford', label: 'RILLFORD', boardWidth: 3.75, boardHeight: 0.76, boardBottom: 2.52 } as const;
+
+/** Low wooded hogbacks and a dry swale give the inland route a varied silhouette without enclosing the beach in mountains. */
+export const FOREST_HILLS = [
+  { id: 'north_hogback', x: -194, z: -44, rx: 60, rz: 27, yaw: -0.18, h: 10.5 },
+  { id: 'south_hogback', x: -167, z: 68, rx: 47, rz: 30, yaw: 0.34, h: 11 },
+  { id: 'western_knoll', x: -218, z: -6, rx: 31, rz: 18, yaw: 0.4, h: 5.2 },
+] as const;
+export const FOREST_SWALE = {
+  width: 11,
+  depth: 2.8,
+  points: [{ x: -225, z: -1 }, { x: -208, z: -14 }, { x: -191, z: -15 }, { x: -171, z: -9 }, { x: -150, z: -14 }, { x: -129, z: -2 }] as V2[],
+} as const;
 
 /** The authored old-growth footprint; the population, floor shading and waymarks share it. */
 export const FOREST_REGION = { minX: -238, maxX: -66, minZ: -104, maxZ: 112, shoreClearance: 34 } as const;
@@ -129,10 +144,10 @@ export const FOREST_WAYMARKERS: (V2 & { yaw: number })[] = [
 export const FOREST_RUIN = { x: -180, z: -22, hx: 5.5, hz: 4, yaw: 0.15, r: 8.5 } as const;
 
 export const ROADS: RoadSpec[] = [
-  { width: 3.4, points: ARRIVAL_ROUTE.slice(0, 7) },
-  { width: 4.2, points: ARRIVAL_ROUTE.slice(6) },
+  { width: ARRIVAL_TRAIL_WIDTH, points: ARRIVAL_ROUTE.slice(0, 7) },
+  { width: ARRIVAL_TRAIL_WIDTH, points: ARRIVAL_ROUTE.slice(6) },
   // A faint strand track south along the beach and up the rock to Lantern Point.
-  { width: 2.2, points: [{ x: -258, z: 44 }, { x: -262, z: 62 }, { x: -274, z: 78 }, { x: -292, z: 90 }, { x: -310, z: 98 }, { x: -322, z: 106 }] },
+  { width: 2.2, points: [ARRIVAL_ROUTE[0]!, { x: -258, z: 44 }, { x: -262, z: 62 }, { x: -274, z: 78 }, { x: -292, z: 90 }, { x: -310, z: 98 }, { x: -322, z: 106 }] },
   // Inland waystation lanes join the main trail instead of ending at empty coastal props.
   { width: 2.2, points: [{ x: -93, z: 19 }, { x: -91, z: 30 }, { x: -85, z: 40 }, { x: -83, z: 52 }, { x: -90, z: 62 }] },
   // Village square to the footbridge and the cut track to the quarry.
@@ -228,6 +243,7 @@ export interface Anchor extends V2 {
 const a = (p: V2, yaw = 0): Anchor => ({ x: p.x, z: p.z, yaw });
 
 export const ANCHORS: Record<string, Anchor> = {
+  arrival_sign: a(ARRIVAL_SIGN),
   overlook_wagon: a({ x: -93, z: 22 }, 1.2),
   village_square: a({ x: 3, z: 9 }, 0),
   noticeboard: a({ x: 5, z: 12.9 }, Math.PI),

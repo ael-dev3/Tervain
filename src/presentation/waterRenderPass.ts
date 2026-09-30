@@ -22,6 +22,9 @@ export class WaterRenderPass {
   private reflectionCameraRotation = new THREE.Quaternion();
   private reflectionProjection = new THREE.Matrix4();
   private inverseReflectionWorld = new THREE.Matrix4();
+  private visibilityFrustum = new THREE.Frustum();
+  private visibilityProjection = new THREE.Matrix4();
+  private visibilityBox = new THREE.Box3();
   private copyScene = new THREE.Scene();
   private reflectionGroup = new THREE.Group();
   private copyCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
@@ -68,12 +71,25 @@ export class WaterRenderPass {
     this.copyMaterial.uniforms.tDepth!.value = source.depthTexture;
   }
 
+  /** Conservative world-space boxes retain wave crests and changing channel levels at screen edges. */
+  private waterInView(mesh: THREE.Mesh<THREE.BufferGeometry, THREE.ShaderMaterial>, camera: THREE.Camera): boolean {
+    if (!camera.layers.test(mesh.layers) || !mesh.material.visible) return false;
+    for (let parent: THREE.Object3D | null = mesh; parent; parent = parent.parent) if (!parent.visible) return false;
+    mesh.updateWorldMatrix(true, false);
+    if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
+    if (!mesh.geometry.boundingBox || mesh.geometry.boundingBox.isEmpty()) return false;
+    // Sea relief is bounded below 0.48 m; inland bounds already include all hydraulic levels and ripples.
+    // A full metre in local space deliberately overestimates both so visibility never clips an animated crest.
+    this.visibilityBox.copy(mesh.geometry.boundingBox).expandByScalar(1).applyMatrix4(mesh.matrixWorld);
+    return this.visibilityFrustum.intersectsBox(this.visibilityBox);
+  }
+
   private captureReflection(renderer: THREE.WebGLRenderer, scene: THREE.Scene, camera: THREE.Camera,
     source: THREE.WebGLRenderTarget, dt: number, input: WaterRenderInputs) {
     const u = input.seaMaterial.uniforms;
     u.uWaterReflectionReady!.value = 0;
     // Inland water needs transmission, but no extra full-world reflection render.
-    if (camera.position.x > -190 || camera.position.y < 0.08 || !input.meshes.some(m => m.name === 'sea' && m.visible)) return;
+    if (camera.position.x > -190 || camera.position.y < 0.08 || !input.meshes.some(m => m.name === 'sea' && this.waterInView(m, camera))) return;
     if (this.reflectionScene !== scene) { this.reflectionValid = false; this.reflectionScene = scene; }
     const size = input.quality === 'high' ? 512 : 384;
     if (!this.reflector) {
@@ -129,6 +145,19 @@ export class WaterRenderPass {
       const previous = renderer.getRenderTarget();
       try { renderer.setRenderTarget(source); renderer.render(scene, camera); }
       finally { renderer.setRenderTarget(previous); }
+      return source.texture;
+    }
+    camera.updateMatrixWorld();
+    this.visibilityProjection.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+    this.visibilityFrustum.setFromProjectionMatrix(this.visibilityProjection);
+    if (!input.meshes.some(mesh => this.waterInView(mesh, camera))) {
+      // Looking inland needs one scene render, with no full-resolution copy or second water traversal. Retain
+      // private targets for turning back toward the shore rather than reallocating them at every visibility change.
+      input.meshes.forEach(mesh => detachWaterOptics(mesh.material));
+      if (Number.isFinite(dt) && dt > 0) this.reflectionAge += dt;
+      const previous = renderer.getRenderTarget(), previousAutoClear = renderer.autoClear;
+      try { renderer.autoClear = true; renderer.setRenderTarget(source); renderer.render(scene, camera); }
+      finally { renderer.autoClear = previousAutoClear; renderer.setRenderTarget(previous); }
       return source.texture;
     }
     this.prepare(source);

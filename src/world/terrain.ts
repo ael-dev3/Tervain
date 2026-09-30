@@ -3,6 +3,7 @@ import { lighthouseRock, shapeCoast, shoreDistance } from './coast';
 import {
   ANCHORS,
   ARRIVAL_ROUTE,
+  ARRIVAL_TRAIL_WIDTH,
   ARCHIVE_ROOM,
   BELL,
   BUILDINGS,
@@ -10,8 +11,10 @@ import {
   DECKS,
   DEEP_WATER,
   FORD,
+  FOREST_HILLS,
   FOREST_RUIN,
   FOREST_WAYMARKERS,
+  FOREST_SWALE,
   INSPECT_LOCATIONS,
   LEDGE,
   LEDGER,
@@ -63,6 +66,29 @@ const bump = (x: number, z: number, cx: number, cz: number, r: number, h: number
   const d = Math.hypot(x - cx, z - cz) / r;
   return h * (1 - smoothstep(core, 1, d));
 };
+
+/** Authored low relief: long rounded wooded crests above a shallow dry swale, eased away from the road shoulder. */
+export function forestRelief(x: number, z: number): number {
+  const coast = smoothstep(28, 54, shoreDistance(x, z));
+  if (coast <= 0) return 0;
+  let hills = 0;
+  for (const hill of FOREST_HILLS) {
+    const dx = x - hill.x;
+    const dz = z - hill.z;
+    const c = Math.cos(hill.yaw);
+    const s = Math.sin(hill.yaw);
+    const rx = (dx * c - dz * s) / hill.rx;
+    const rz = (dx * s + dz * c) / hill.rz;
+    const d = Math.hypot(rx, rz);
+    if (d >= 1) continue;
+    hills += hill.h * (1 - smoothstep(0.08, 1, d));
+  }
+  const near = distToPolyline(x, z, ARRIVAL_ROUTE).d;
+  const shoulder = smoothstep(ARRIVAL_TRAIL_WIDTH / 2 + 1.5, 12, near);
+  const swaleDistance = distToPolyline(x, z, FOREST_SWALE.points).d;
+  const swale = FOREST_SWALE.depth * (1 - smoothstep(0, FOREST_SWALE.width, swaleDistance));
+  return (hills - swale) * shoulder * coast;
+}
 
 /** Normalised radius of the playable land: the union of the vale and the coastal plain (below 1 is inside). */
 export function realmRadius(x: number, z: number): number {
@@ -187,7 +213,7 @@ function coreHeight(x: number, z: number): number {
   const sd = shoreDistance(x, z);
   // The coastal plain climbs from the dunes toward the overlook and fades out again before the vale.
   const rise = 3.2 * smoothstep(10, 110, sd) * (1 - smoothstep(120, 200, sd));
-  h += rolling + shrine + overlook + hillside + crags + gully + rise;
+  h += rolling + shrine + overlook + hillside + crags + gully + rise + forestRelief(x, z);
   if (x < -30) h += lighthouseRock(x, z) + outcrops(x, z) * clearanceAt(x, z) * smoothstep(20, 60, sd);
   else h += outcrops(x, z) * clearanceAt(x, z) * 0.7;
 
@@ -239,7 +265,7 @@ let arrivalGrades: number[] | null = null;
 /** A softly cut woodland trail follows a continuous grade, keeping the authored road walkable across hummocks. */
 function arrivalRoadGrade(x: number, z: number, h: number): number {
   const near = distToPolyline(x, z, ARRIVAL_ROUTE);
-  const width = near.seg < 6 ? 3.4 : 4.2;
+  const width = ARRIVAL_TRAIL_WIDTH;
   const influence = 1 - smoothstep(width / 2 + 0.4, width / 2 + 4, near.d);
   if (influence <= 0) return h;
   arrivalGrades ??= ARRIVAL_ROUTE.map((p) => {
