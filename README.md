@@ -16,6 +16,8 @@ This repository contains a design and production outline and a browser-playable 
 
 Layered coastal waves, depth-based transmission, world reflections, and the Low/Reduced Effects fallback remain from `0.0.4`. Gameplay tree and leaf sway stays paused. The [0.0.4 notes](docs/production/releases/0.0.4.md) preserve earlier menu, water, and construction checks as historical evidence.
 
+**Menu music (A28):** the owner-supplied **The Sovereign's Oath** accompanies the title and pause menus under the existing Master and Music controls. Its 3:34.2 source, audio-only browser derivatives, specific project-use authority, and creation disclosure are recorded in the [menu score inventory](docs/engineering/menu-score.md). Gameplay ambience remains procedural; this adds no in-world score, dialogue recordings, or contact effects. The [0.0.5 handoff](docs/production/releases/0.0.5.md) tracks integration checks and the requested full-song menu video.
+
 ## Run the prototype locally
 
 Use the local commands below with a desktop WebGL browser and keyboard/mouse or a controller. Public GitHub Pages hosting currently returns 404; see the [publication and hosting record](docs/production/releases/0.0.5.md#publication).

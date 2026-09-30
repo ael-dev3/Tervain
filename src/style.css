@@ -1100,6 +1100,21 @@ body:has(.panel-root.on) .title .menu-well {
   text-shadow: 0 1px 1px #000;
 }
 
+.menu-build .menu-music-unlock {
+  display: block;
+  margin: 7px 0 0 auto;
+  padding: 4px 0;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  border-radius: 0;
+  background: transparent;
+  color: var(--menu-ink);
+  font: inherit;
+  letter-spacing: 0.08em;
+}
+
+.menu-build .menu-music-unlock[hidden] { display: none; }
+
 .panel.panel-menu {
   position: absolute;
   inset: 0;

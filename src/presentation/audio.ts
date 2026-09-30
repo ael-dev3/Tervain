@@ -1,7 +1,8 @@
 import type { Settings } from '../platform/settings';
 
 /**
- * Audio facade for the prototype. Until sourced and reviewed recordings are available,
+ * Audio facade for the prototype. The owner-supplied menu score streams through
+ * the music bus; until sourced and reviewed recordings are available,
  * ordinary UI, dialogue, footstep and combat contacts stay deliberately quiet. The
  * broad wind/water beds remain procedural; semantic captions are raised
  * independently of AudioContext availability and volume settings.
@@ -24,6 +25,15 @@ export interface AmbienceEnvironment {
 
 const unit = (value: number) => Number.isFinite(value) ? Math.max(0, Math.min(1, value)) : 0;
 const AUTOMATION_INTERVAL = 0.1;
+const MUSIC_HEADROOM = 0.8;
+const MUSIC_FADE_SECONDS = 0.15;
+const MUSIC_PAUSE_DELAY = 900;
+export const MENU_MUSIC_TITLE = "The Sovereign's Oath";
+export const MENU_MUSIC_SOURCES = {
+  opus: `${import.meta.env.BASE_URL}assets/audio/the-sovereigns-oath.ogg`,
+  aac: `${import.meta.env.BASE_URL}assets/audio/the-sovereigns-oath.m4a`,
+};
+export type MenuMusicState = 'locked' | 'muted' | 'loading' | 'playing' | 'paused' | 'blocked' | 'unavailable';
 
 /**
  * A six-second brown-noise loop with a raised-cosine overlap at its join.
@@ -90,7 +100,20 @@ export class AudioEngine {
   private disposed = false;
   private resuming = false;
   private pageHidden = false;
+  private menuActive = false;
+  private musicUnlocked = false;
+  private music: HTMLAudioElement | null = null;
+  private musicEnvelope: GainNode | null = null;
+  private musicSource = '';
+  private musicFallbackUsed = false;
+  private musicState: MenuMusicState = 'locked';
+  private musicGeneration = 0;
+  private musicPending = false;
+  private musicPauseTimer: ReturnType<typeof setTimeout> | null = null;
+  private musicSeek = 0;
+  private musicListeners: [string, EventListener][] = [];
   onCaption: ((text: string) => void) | null = null;
+  onMusicState: ((state: MenuMusicState) => void) | null = null;
   enabled = true;
 
   constructor(private getSettings: () => Settings) {}
@@ -98,10 +121,12 @@ export class AudioEngine {
   /** Must be called from a user gesture. */
   resume() {
     if (this.pageHidden || this.disposed) return;
+    this.musicUnlocked = true;
     if (!this.ctx) {
       const AC = window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       if (!AC) {
         this.enabled = false;
+        this.setMusicState('unavailable');
         return;
       }
       try {
@@ -123,6 +148,7 @@ export class AudioEngine {
         // Audio-device or graph creation must not interrupt input or the game.
         this.releaseGraph();
         this.enabled = false;
+        this.setMusicState('unavailable');
         return;
       }
     }
@@ -131,11 +157,146 @@ export class AudioEngine {
       this.resuming = true;
       void this.ctx.resume().catch(() => undefined).finally(() => { this.resuming = false; });
     }
+    // Calling play in the same gesture unlocks browser media playback too.
+    this.syncMusic();
+  }
+
+  /** Menus share one stream; scene/quality rebuilds never allocate another score. */
+  setMenuActive(active: boolean) {
+    if (active === this.menuActive || this.disposed) return;
+    this.menuActive = active;
+    this.syncMusic();
+  }
+
+  get menuMusicState() { return this.musicState; }
+
+  private setMusicState(state: MenuMusicState) {
+    if (state === this.musicState) return;
+    this.musicState = state;
+    this.onMusicState?.(state);
+  }
+
+  private get wantsMusic() {
+    const v = this.getSettings().volumes;
+    return this.menuActive && this.musicUnlocked && !this.pageHidden && !this.disposed
+      && unit(v.master) > 0 && unit(v.music) > 0 && this.ctx !== null && this.ctx.state !== 'closed';
+  }
+
+  private clearMusicPause() {
+    if (this.musicPauseTimer !== null) clearTimeout(this.musicPauseTimer);
+    this.musicPauseTimer = null;
+  }
+
+  private makeMusic() {
+    if (this.music || !this.ctx) return;
+    // Native streaming keeps the whole song out of an AudioBuffer in memory.
+    const media = new window.Audio();
+    this.music = media;
+    media.preload = 'none';
+    media.loop = true;
+    media.volume = 1;
+    this.musicFallbackUsed = !media.canPlayType('audio/ogg; codecs="opus"');
+    this.musicSource = this.musicFallbackUsed ? MENU_MUSIC_SOURCES.aac : MENU_MUSIC_SOURCES.opus;
+    media.src = this.musicSource;
+    let envelope: GainNode | null = null;
+    let source: MediaElementAudioSourceNode | null = null;
+    try {
+      envelope = this.own(this.ctx.createGain());
+      envelope.gain.value = 0;
+      source = this.own(this.ctx.createMediaElementSource(media));
+      source.connect(envelope).connect(this.buses.music);
+      this.musicEnvelope = envelope;
+    } catch (error) {
+      for (const node of [source, envelope]) if (node) { node.disconnect(); this.nodes.delete(node); }
+      media.pause();
+      media.removeAttribute('src');
+      media.load();
+      this.music = null;
+      throw error;
+    }
+    const listen = (type: string, listener: EventListener) => {
+      media.addEventListener(type, listener);
+      this.musicListeners.push([type, listener]);
+    };
+    listen('playing', () => { if (this.wantsMusic) this.setMusicState('playing'); });
+    listen('loadedmetadata', () => {
+      if (this.musicSeek > 0) {
+        try { media.currentTime = this.musicSeek; } catch { /* unseekable media still plays */ }
+        this.musicSeek = 0;
+      }
+    });
+    listen('error', () => this.musicError());
+  }
+
+  private musicError() {
+    if (!this.music || this.disposed) return;
+    this.musicGeneration++;
+    this.musicPending = false;
+    if (!this.musicFallbackUsed) {
+      this.musicFallbackUsed = true;
+      this.musicSeek = Number.isFinite(this.music.currentTime) ? this.music.currentTime : 0;
+      this.musicSource = MENU_MUSIC_SOURCES.aac;
+      this.music.src = this.musicSource;
+      this.music.load();
+      this.syncMusic();
+    } else {
+      this.music.pause();
+      this.setMusicState('unavailable');
+    }
+  }
+
+  private syncMusic() {
+    if (!this.wantsMusic) {
+      // Invalidate an outstanding play request; showing or unmuting may issue a
+      // fresh request even if the old browser promise has not settled yet.
+      this.musicGeneration++;
+      this.musicPending = false;
+      if (this.musicEnvelope && this.ctx) this.target(this.musicEnvelope.gain, 0, this.ctx.currentTime, MUSIC_FADE_SECONDS);
+      if (this.music && !this.music.paused) {
+        if (this.pageHidden || !this.menuActive && this.ctx?.state !== 'running'
+          || unit(this.getSettings().volumes.master) === 0 || unit(this.getSettings().volumes.music) === 0) {
+          this.clearMusicPause();
+          this.music.pause();
+        } else if (this.musicPauseTimer === null) {
+          // Six time constants leave less than 0.25% before pausing the stream.
+          this.musicPauseTimer = setTimeout(() => {
+            this.musicPauseTimer = null;
+            if (!this.wantsMusic) this.music?.pause();
+          }, MUSIC_PAUSE_DELAY);
+        }
+      }
+      this.setMusicState(this.menuActive && !this.musicUnlocked ? 'locked'
+        : this.menuActive && (unit(this.getSettings().volumes.master) === 0 || unit(this.getSettings().volumes.music) === 0) ? 'muted' : 'paused');
+      return;
+    }
+    this.clearMusicPause();
+    try {
+      this.makeMusic();
+      if (!this.music || !this.musicEnvelope || !this.ctx) return;
+      this.target(this.musicEnvelope.gain, MUSIC_HEADROOM, this.ctx.currentTime, MUSIC_FADE_SECONDS);
+      if (!this.music.paused || this.musicPending) return;
+      const media = this.music;
+      const generation = this.musicGeneration;
+      this.musicPending = true;
+      this.setMusicState('loading');
+      void media.play().then(() => {
+        if (!this.wantsMusic) media.pause();
+        if (generation !== this.musicGeneration || this.disposed) return;
+        if (this.wantsMusic) this.setMusicState('playing');
+      }).catch(() => {
+        // Autoplay, offline and decoder failures cannot block the menu. A new
+        // gesture may retry; no per-frame retry or unhandled rejection is raised.
+        if (generation === this.musicGeneration && this.wantsMusic) this.setMusicState(media.error ? 'unavailable' : 'blocked');
+      }).finally(() => { if (generation === this.musicGeneration) this.musicPending = false; });
+    } catch {
+      this.setMusicState('unavailable');
+    }
   }
 
   /** Suspend looping sources and the audio clock in a hidden tab. */
   setPageHidden(hidden: boolean) {
     this.pageHidden = hidden;
+    this.syncMusic();
     if (this.disposed || !this.ctx || this.ctx.state === 'closed') return;
     this.lastAutomation = -Infinity;
     // Queue both transitions, including a quick hide/show before suspend has resolved.
@@ -154,6 +315,10 @@ export class AudioEngine {
       sampleRate: this.ctx?.sampleRate ?? 0,
       baseLatency: this.ctx?.baseLatency ?? null,
       voices: this.sources.size,
+      music: {
+        state: this.musicState, source: this.musicSource,
+        currentTime: this.music?.currentTime ?? 0, duration: this.music?.duration ?? 0,
+      },
     };
   }
 
@@ -203,6 +368,7 @@ export class AudioEngine {
     this.target(this.buses.effects.gain, unit(v.effects), t, 0.035);
     this.target(this.buses.ambience.gain, unit(v.ambience), t, 0.035);
     this.target(this.buses.dialogue.gain, unit(v.dialogue), t, 0.035);
+    this.syncMusic();
   }
 
   private startBeds() {
@@ -258,11 +424,23 @@ export class AudioEngine {
     this.target(this.water.filter.frequency, mix.waterFrequency, t, 0.25);
     this.target(this.sea.rumble.gain, mix.rumble, t, 0.3);
     this.target(this.sea.hiss.gain, mix.hiss, t, 0.25);
-    // Wildlife, quarry impacts and the placeholder score remain silent until they can
+    // Wildlife and quarry impacts remain silent until they can
     // be supplied as locally packaged, provenance-checked, reviewed audio assets.
   }
 
   private releaseGraph() {
+    this.clearMusicPause();
+    this.musicGeneration++;
+    this.musicPending = false;
+    if (this.music) {
+      for (const [type, listener] of this.musicListeners) this.music.removeEventListener(type, listener);
+      this.music.pause();
+      this.music.removeAttribute('src');
+      this.music.load();
+      this.music = null;
+    }
+    this.musicListeners = [];
+    this.musicEnvelope = null;
     for (const source of this.sources) {
       try { source.stop(); } catch { /* a partially created source may not have started */ }
     }
@@ -282,6 +460,7 @@ export class AudioEngine {
     this.disposed = true;
     this.enabled = false;
     this.onCaption = null;
+    this.onMusicState = null;
     this.releaseGraph();
   }
 

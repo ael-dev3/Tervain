@@ -63,6 +63,7 @@ export class App {
 
   mode: Mode = 'loading';
   private titleEl!: HTMLElement;
+  private musicUnlockEl: HTMLButtonElement | null = null;
   private loadingEl!: HTMLElement;
   private debugEl!: HTMLElement;
   private debugPre!: HTMLElement;
@@ -137,6 +138,7 @@ export class App {
     await this.buildWorld();
 
     this.audio.onCaption = (t) => this.settings.captions && this.hud.caption(t);
+    this.audio.onMusicState = () => this.syncMusicUnlock();
     this.game.subscribe((ev) => this.onGameEvents(ev));
     this.input.onNavigate = (dx, dy) => this.onPadNavigate(dx, dy);
 
@@ -348,6 +350,7 @@ export class App {
     this.releaseLock();
     this.buildTitle();
     this.titleEl.classList.add('on');
+    this.syncMenuHudVisibility();
     this.focusTitle();
     this.debugEl.style.display = 'none';
     this.worldDirty = true;
@@ -371,12 +374,27 @@ export class App {
       btn(S('menu.controls'), () => this.panels.push(controlsPanel(this.panelCtx()))),
       btn(S('menu.about'), () => this.panels.push(aboutPanel(this.panelCtx()))),
     );
-    this.titleEl.append(createMenuScreen({ menu, subtitle: S('menu.affiliation'), version: GAME_VERSION, variant: 'title' }));
+    this.musicUnlockEl = h('button', {
+      class: 'btn menu-music-unlock', 'data-nav': true,
+      title: S('menu.music.gesture'),
+      onClick: () => this.audio.resume(),
+    }, S('menu.music.play')) as HTMLButtonElement;
+    this.titleEl.append(createMenuScreen({ menu, subtitle: S('menu.affiliation'), version: GAME_VERSION, variant: 'title', musicControl: this.musicUnlockEl }));
+    this.syncMusicUnlock();
     this.focusTitle();
   }
 
   private focusTitle() {
     (this.titleEl.querySelector('[data-nav]') as HTMLElement | null)?.focus();
+  }
+
+  private syncMusicUnlock() {
+    if (!this.musicUnlockEl) return;
+    const state = this.audio.menuMusicState;
+    this.musicUnlockEl.hidden = state !== 'locked' && state !== 'blocked';
+    this.musicUnlockEl.toggleAttribute('data-nav', !this.musicUnlockEl.hidden);
+    // A successful music gesture must not leave keyboard focus on a hidden item.
+    if (this.musicUnlockEl.hidden && document.activeElement === this.musicUnlockEl) this.focusTitle();
   }
 
   private confirmNew() {
@@ -512,10 +530,11 @@ export class App {
     if (this.menuBackgroundActive) {
       // The menu vigil is cosmetic. No patrols or game clock run beneath it.
       this.menuScene.update(dt, this.settings.reducedMotion);
-      // An open headland: wind, and the sea breaking somewhere below. Only the existing procedural beds play.
+      // An open headland: wind and distant sea beneath the owner-supplied menu score.
       this.audio.update(dt, { nightness: 0.3, waterProximity: 0, seaProximity: 0.32, flow: 0,
         millNear: 0, millTurning: false, windAmount: 0.6, quarryNear: 0,
         quarryWorking: false, time: this.audioClock, underRoof: false });
+      this.updateDebug(dt);
       this.render();
       return;
     }
@@ -635,12 +654,14 @@ export class App {
   private syncMenuHudVisibility() {
     // Nested pause forms retain the courtyard even though the top panel is now paper.
     this.hud.el.classList.toggle('menu-hidden', this.menuBackgroundActive);
+    this.audio.setMenuActive(this.menuBackgroundActive);
   }
 
   /* ============================== input glue ============================== */
 
   private handleGlobalInput() {
     const inp = this.input;
+    if (inp.pressedKey('Backquote') || inp.pressedKey('F3')) this.toggleDebug();
     if (this.mode === 'title') {
       if (inp.pressed('pause') && this.panels.isOpen) this.panels.back();
       this.handleMenuPad();
@@ -663,7 +684,6 @@ export class App {
       if (inp.pressed('quickload')) this.loadSlot('quick');
       if (inp.pressed('heal')) this.usePoultice();
     }
-    if (this.input.pressedKey('Backquote') || this.input.pressedKey('F3')) this.toggleDebug();
   }
 
   private handleMenuPad() {
@@ -671,6 +691,7 @@ export class App {
     let handled = false;
     if (this.panels.isOpen || this.mode === 'title') {
       if (this.input.padButtonPressed(0)) {
+        this.audio.resume();
         if (this.panels.isOpen) this.panels.activateFocused();
         else if (this.titleEl.contains(document.activeElement)) (document.activeElement as HTMLElement).click();
         handled = true;
@@ -1435,6 +1456,7 @@ export class App {
       `modules: ${this.world.modules.map((m) => `${m.name} ${JSON.stringify(m.module.stats?.() ?? {})}`).join(' | ')}  build ${this.world.buildStats.ms.toFixed(0)} ms`,
       `build ${GAME_VERSION} rev ${REVISION}  quality ${this.settings.quality}  dpr ${this.renderer.getPixelRatio()}  ${window.innerWidth}x${window.innerHeight}`,
       `audio ${audio.state}  voices ${audio.voices}  ${audio.sampleRate} Hz  device-reported base buffer ${audio.baseLatency === null ? 'unavailable' : `${(audio.baseLatency * 1000).toFixed(1)} ms`}`,
+      `menu score ${audio.music.state}  ${audio.music.currentTime.toFixed(1)} / ${Number.isFinite(audio.music.duration) ? audio.music.duration.toFixed(1) : 'loading'} s`,
       `player ${this.player.x.toFixed(1)}, ${this.player.z.toFixed(1)}  hp ${s.player.health}  clock ${formatClock(s.clock)} day ${clockDay(s.clock) + 1}`,
       `phase ${s.quest.phase}  gate ${s.quest.gate}  alloc ${s.quest.allocation ?? '-'}  entry ${s.quest.entry ?? '-'}`,
       `evidence ${EVIDENCE_IDS.filter((e) => s.evidence[e]).join(', ') || '-'}`,
