@@ -23,26 +23,18 @@ export class DialogueView {
   private titleEl: HTMLElement;
   private textEl: HTMLElement;
   private choicesEl: HTMLElement;
-  private full = '';
-  private shown = 0;
-  private timer = 0;
   private active = false;
   private choices: DlgChoice[] = [];
   private buttons: HTMLElement[] = [];
   onChoose: ((index: number) => void) | null = null;
   onExit: (() => void) | null = null;
-  onBlip: (() => void) | null = null;
-  reducedMotion = false;
 
   constructor() {
     this.nameEl = h('div', { class: 'dlg-name' });
     this.titleEl = h('div', { class: 'dlg-title' });
     this.textEl = h('div', { class: 'dlg-text', 'aria-live': 'polite' });
     this.choicesEl = h('div', { class: 'dlg-choices', role: 'list', 'aria-label': S('dlg.choose') });
-    this.el = h('div', { class: 'dialogue glass', role: 'dialog', 'aria-label': 'Conversation' }, this.nameEl, this.titleEl, this.textEl, this.choicesEl);
-    this.el.addEventListener('click', (e) => {
-      if (this.shown < this.full.length && !(e.target as HTMLElement).closest('.choice')) this.completeText();
-    });
+    this.el = h('div', { class: 'dialogue surface-timber', role: 'dialog', 'aria-label': 'Conversation' }, this.nameEl, this.titleEl, this.textEl, this.choicesEl);
     document.addEventListener('keydown', this.onKey, true);
   }
 
@@ -55,10 +47,8 @@ export class DialogueView {
     this.el.classList.add('on');
     this.nameEl.textContent = d.name;
     this.titleEl.textContent = d.title;
-    this.full = d.text;
     this.choices = d.choices;
-    this.shown = this.reducedMotion ? this.full.length : 0;
-    this.textEl.textContent = this.full.slice(0, this.shown);
+    this.textEl.textContent = d.text;
     this.renderChoices();
     const first = this.buttons.find((b) => !b.classList.contains('locked'));
     first?.focus();
@@ -98,30 +88,11 @@ export class DialogueView {
     });
   }
 
-  private completeText() {
-    this.shown = this.full.length;
-    this.textEl.textContent = this.full;
-  }
-
   private pick(i: number) {
     const c = this.choices[i];
     if (!c) return;
-    if (this.shown < this.full.length) this.completeText();
     if (c.locked) return;
     this.onChoose?.(c.index);
-  }
-
-  update(dt: number) {
-    if (!this.active || this.shown >= this.full.length) return;
-    this.timer += dt;
-    const step = Math.floor(this.timer * 70);
-    if (step > 0) {
-      this.timer -= step / 70;
-      const prev = this.shown;
-      this.shown = Math.min(this.full.length, this.shown + step);
-      this.textEl.textContent = this.full.slice(0, this.shown);
-      if (Math.floor(prev / 5) !== Math.floor(this.shown / 5)) this.onBlip?.();
-    }
   }
 
   private onKey = (e: KeyboardEvent) => {
@@ -148,18 +119,12 @@ export class DialogueView {
       this.buttons[(cur + dir + n) % n]?.focus();
       return;
     }
-    if (e.code === 'Space' && this.shown < this.full.length) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.completeText();
-    }
   };
 
   /** Controller/button-based confirm on the focused choice. */
   confirmFocused() {
     const i = this.buttons.indexOf(document.activeElement as HTMLElement);
     if (i >= 0) this.pick(i);
-    else if (this.shown < this.full.length) this.completeText();
   }
 
   navigate(dy: number) {

@@ -63,7 +63,7 @@ tests/scenarios/   meaningful gameplay/persistence scenarios
 
 Do not create placeholder packages for all possible systems. Start with the few modules the prototype actually uses; extract common code only after the boundary is understood.
 
-### Presentation modules in 0.0.2
+### Presentation modules in 0.0.4
 
 `src/world` is renderer-free and owns the geography: `layout.ts` (data), `coast.ts` (shoreline, beach, cliffs; a pure function of position), `terrain.ts` (height field, walkability, sea depth), `colliders.ts`, `nav.ts`. `src/presentation` reads it and never writes back:
 
@@ -72,10 +72,11 @@ Do not create placeholder packages for all possible systems. Start with the few 
 | `terrainTextures.ts`, `terrainMaterial.ts`, `groundSplat.ts`, `terrainMesh.ts` | Eight generated ground layers, a height-blended PBR shader, and the per-vertex layer weights derived from height, slope, water, shore and roads. |
 | `sea.ts`, `waterMesh.ts` | The sea (depth from the terrain, foam, sky reflection) and the stream ribbons. |
 | `sky.ts`, `skyState.ts`, `environment.ts`, `grade.ts` | Day/night keyframes, exponential fog, image-based light generated from the sky, and the final grade pass. |
-| `flora.ts`, `treeGen.ts`, `treeTextures.ts`, `treeMaterials.ts`, `ground/` | Procedural trees at three levels of detail with hand culling, leaf and needle cards, bark, streamed grass. |
-| `scatter.ts` | Rocks, pebbles, driftwood, wrack and reeds in 96 m merged chunks. |
+| `floraPopulation.ts`, `flora.ts`, `treeGen.ts`, `treeTextures.ts`, `treeMaterials.ts`, `ground/` | Canonical blocking trees across presets; three rendering levels of detail with hand culling, leaf and needle cards, bark, streamed grass. Tree sway remains paused. |
+| `scatterPopulation.ts`, `scatter.ts` | Canonical blocking rocks with preset-dependent decorative thinning; pebbles, driftwood, wrack and reeds in 96 m merged chunks. |
 | `settlement.ts`, `buildings.ts`, `structures.ts`, `props.ts`, `roofs.ts`, `buildKit.ts`, `regions.ts`, `buildingTextures.ts` | Buildings and props authored as merged, textured geometry per region; the handles the world animates (doors, wheel, bell, gate, lighthouse beam). |
-| `characters.ts`, `humanGeo.ts` | People and creatures: sculpted heads, lofted torsos, tapered limbs, joints that bend, per-joint merged meshes. |
+| `characters.ts`, `humanGeo.ts`, `npcStyle.ts` | People and creatures: stable resident identities, sculpted heads, lofted torsos, tapered limbs, joints that bend, task-specific gestures, per-joint merged meshes. |
+| `riteResponse.ts`, `disposeScene.ts`, `platform/frameTiming.ts` | Grounded rite presentation, scene resource ownership, and visible-frame timing with a fresh baseline after backgrounding. |
 
 `WorldScene.create` is asynchronous only so the ground textures can be generated in slices while the loading text repaints; everything else is built synchronously in the constructor. The scene modules share one contract (`context.ts`): they build from a `BuildContext` and update from a `FrameContext`, and never touch game state.
 

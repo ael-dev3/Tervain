@@ -54,6 +54,7 @@ uniform float uContrast;
 uniform float uVignette;
 uniform float uGrain;
 uniform float uNight;
+uniform float uChromatic;
 uniform vec2 uTexel;
 varying vec2 vUv;
 
@@ -67,10 +68,10 @@ float hash12(vec2 p) {
 
 void main() {
   vec3 c = texture2D(tScene, vUv).rgb;
-  // A whisper of chromatic softness at the edges of the frame: cheap, and it reads as an old lens rather than a sensor.
+  // Keep lens separation available to the developer benchmark, but off for the shipped natural image.
   vec2 d = vUv - 0.5;
   float r2 = dot(d, d);
-  vec2 off = d * r2 * 0.0035;
+  vec2 off = d * r2 * uChromatic;
   c.r = mix(c.r, texture2D(tScene, vUv + off).r, 0.6);
   c.b = mix(c.b, texture2D(tScene, vUv - off).b, 0.6);
   c += texture2D(tBloom, vUv).rgb * uBloom;
@@ -88,7 +89,7 @@ void main() {
   // Saturation and an S-curve around mid grey.
   l = dot(c, vec3(0.2126, 0.7152, 0.0722));
   c = mix(vec3(l), c, uSaturation);
-  c = clamp((c - 0.5) * uContrast + 0.5 + (0.0 - 0.02), 0.0, 1.0);
+  c = clamp((c - 0.5) * uContrast + 0.5 + 0.008, 0.0, 1.0);
   // Vignette.
   float v = smoothstep(0.95, 0.28, length(d * vec2(1.0, 0.86)));
   c *= mix(1.0 - uVignette, 1.0, v);
@@ -118,7 +119,7 @@ export class Grade {
   enabled = true;
   /** Off on the low preset: it costs three small passes. */
   bloom = true;
-  private bloomStrength = 0.34;
+  private bloomStrength = 0.24;
 
   constructor(private renderer: THREE.WebGLRenderer, opts: GradeOptions) {
     // Half-float targets need a WebGL2 colour-buffer extension; without one fall back to 8 bits (sun highlights clip, nothing else breaks).
@@ -130,13 +131,14 @@ export class Grade {
       uniforms: {
         tScene: { value: this.target.texture },
         tBloom: { value: null as THREE.Texture | null },
-        uBloom: { value: 0.34 },
+        uBloom: { value: 0.24 },
         uTime: { value: 0 },
-        uSaturation: { value: 0.86 },
-        uContrast: { value: 1.1 },
-        uVignette: { value: 0.32 },
-        uGrain: { value: 0.03 },
+        uSaturation: { value: 0.97 },
+        uContrast: { value: 1.01 },
+        uVignette: { value: 0.08 },
+        uGrain: { value: 0.003 },
         uNight: { value: 0 },
+        uChromatic: { value: 0 },
         uTexel: { value: new THREE.Vector2(1, 1) },
       },
       vertexShader: VERT,
@@ -181,13 +183,19 @@ export class Grade {
     this.blurMat.uniforms.uTexel!.value.set(1 / bw, 1 / bh);
   }
 
-  setLook(o: { saturation?: number; contrast?: number; vignette?: number; grain?: number; night?: number }) {
+  setLook(o: { saturation?: number; contrast?: number; vignette?: number; grain?: number; night?: number; chromatic?: number }) {
     const u = this.material.uniforms;
     if (o.saturation !== undefined) u.uSaturation!.value = o.saturation;
     if (o.contrast !== undefined) u.uContrast!.value = o.contrast;
     if (o.vignette !== undefined) u.uVignette!.value = o.vignette;
     if (o.grain !== undefined) u.uGrain!.value = o.grain;
     if (o.night !== undefined) u.uNight!.value = o.night;
+    if (o.chromatic !== undefined) u.uChromatic!.value = Math.max(0, Math.min(0.01, o.chromatic));
+  }
+
+  /** Individual visual controls for repeatable look-development captures. */
+  setBloom(on: boolean) {
+    this.bloom = on;
   }
 
   /** Turn multisampling on or off (quality setting). */

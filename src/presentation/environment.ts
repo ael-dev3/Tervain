@@ -19,9 +19,9 @@ interface Spec {
 }
 
 const SPECS: Record<Quality, Spec> = {
-  high: { w: 128, h: 64, intensity: 0.85 },
-  medium: { w: 128, h: 64, intensity: 0.8 },
-  low: { w: 64, h: 32, intensity: 0.7 },
+  high: { w: 128, h: 64, intensity: 0.95 },
+  medium: { w: 128, h: 64, intensity: 0.9 },
+  low: { w: 64, h: 32, intensity: 0.8 },
 };
 
 /** Seconds of real time between regenerations. The day is 24 minutes long, so the sky changes very slowly. */
@@ -183,4 +183,4 @@ export function buildEnvironment(scene: THREE.Scene, quality: Quality): Environm
 }
 
 /** Overall exposure. 1.22 was the flat value before the environment light was added. */
-const EXPOSURE_BASE = 1.0;
+const EXPOSURE_BASE = 1.1;

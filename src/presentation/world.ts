@@ -5,11 +5,11 @@ import { hasFact } from '../game/state';
 import type { WorldState } from '../game/types';
 import { worldView, type WorldView } from '../game/worldView';
 import { buildStaticColliders, type Colliders } from '../world/colliders';
-import { BELL, MILL_WHEEL, RITE_ALTAR, SHORTCUT, SLUICE, STREAMS, WORLD } from '../world/layout';
+import { BELL, MILL_WHEEL, SHORTCUT, SLUICE, STREAMS, WORLD } from '../world/layout';
 import { NavGrid } from '../world/nav';
 import { Terrain, distToPolyline } from '../world/terrain';
 import { SkyRig } from './sky';
-import { buildFarMountains, buildTerrainMesh } from './terrainMesh';
+import { buildTerrainMesh } from './terrainMesh';
 import { makeTerrainTextures, type TerrainTextures } from './terrainTextures';
 import { buildScenery, type SceneryHandles } from './settlement';
 import { buildFlora } from './flora';
@@ -26,6 +26,7 @@ import type { BuildContext, FrameContext, SceneModule } from './context';
 import { buildWater, type WaterSystem } from './waterMesh';
 import { buildSea, type SeaHandle } from './sea';
 import type { Settings } from '../platform/settings';
+import { buildRiteResponse, type RiteResponse } from './riteResponse';
 
 /** Everything static in Bellwether Vale, plus the presentation that follows durable state. */
 export class WorldScene {
@@ -57,8 +58,7 @@ export class WorldScene {
   private lastNoticeKey = '';
   private dust: THREE.Points;
   private dustData: { x: number; y: number; z: number; vx: number; vy: number; vz: number; life: number }[] = [];
-  private riteRing: THREE.Mesh;
-  private riteT = 0;
+  private riteResponse: RiteResponse;
   time = 0;
   /** Set by the app each frame: true while the player is standing inside the archive. */
   playerInArchive = false;
@@ -76,6 +76,9 @@ export class WorldScene {
 
   /** Release GPU resources the scene graph does not own. */
   dispose() {
+    this.environment.dispose?.();
+    for (const m of this.modules) m.module.dispose?.();
+    this.riteResponse.dispose();
     this.terrainTex.dispose();
     this.scenery.dispose();
   }
@@ -87,7 +90,6 @@ export class WorldScene {
     this.colliders = buildStaticColliders();
     this.terrainMesh = buildTerrainMesh(this.terrain, terrainTex);
     this.scene.add(this.terrainMesh);
-    this.scene.add(buildFarMountains());
     this.sky = new SkyRig(settings.quality === 'low' ? 1024 : settings.quality === 'medium' ? 2048 : 4096);
     this.scene.add(this.sky.group);
     this.scene.fog = this.sky.fog;
@@ -131,11 +133,7 @@ export class WorldScene {
     this.scene.add(this.dust);
     for (let i = 0; i < 90; i++) this.dustData.push({ x: 0, y: -100, z: 0, vx: 0, vy: 0, vz: 0, life: 0 });
 
-    // Rite ring effect at the altar.
-    this.riteRing = new THREE.Mesh(new THREE.RingGeometry(0.6, 0.72, 40), new THREE.MeshBasicMaterial({ color: 0x9ad8d0, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false }));
-    this.riteRing.rotation.x = -Math.PI / 2;
-    this.riteRing.position.set(RITE_ALTAR.x, this.terrain.heightAt(RITE_ALTAR.x, RITE_ALTAR.z) + 1.3, RITE_ALTAR.z);
-    this.scene.add(this.riteRing);
+    this.riteResponse = buildRiteResponse(this.scenery.riteBowl);
 
     this.view = worldView(state);
     this.syncStatic(state, true);
@@ -186,7 +184,7 @@ export class WorldScene {
   }
 
   playRite() {
-    this.riteT = 1;
+    this.riteResponse.play();
   }
 
   emitDust(dt: number, intensity: number) {
@@ -284,7 +282,7 @@ export class WorldScene {
     this.bellTimer += dt;
     this.applyDynamic(dt);
 
-    // Quarry dust and the rite ring.
+    // Quarry dust and the local response of the rite's bowl, water and altar.
     const working = v.quarryState === 'working' || v.quarryState === 'night_shift';
     this.emitDust(dt, working ? 1 : 0);
     const arr = this.dust.geometry.attributes.position as THREE.BufferAttribute;
@@ -298,12 +296,7 @@ export class WorldScene {
       } else arr.setXYZ(i, 0, -200, 0);
     });
     arr.needsUpdate = true;
-    if (this.riteT > 0) {
-      this.riteT = Math.max(0, this.riteT - dt * 0.4);
-      const s = 1 + (1 - this.riteT) * 6;
-      this.riteRing.scale.set(s, s, s);
-      (this.riteRing.material as THREE.MeshBasicMaterial).opacity = this.riteT * 0.8;
-    }
+    this.riteResponse.update(dt, reduced, night);
     // Ledger glows faintly while the archive is accessible; the archive lamp is emissive via lantern lights.
     this.scenery.ledger.rotation.y = Math.sin(this.time * 0.8) * 0.05;
     void hasFact;

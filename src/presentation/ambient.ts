@@ -50,7 +50,7 @@ export function buildAmbient(ctx: BuildContext): SceneModule & { counts: { peopl
     counts: { people: people.length },
     update(dt: number, f: FrameContext) {
       f.camera.getWorldPosition(cam);
-      for (const p of people) {
+      people.forEach((p, i) => {
         p.t += dt;
         const total = p.spec.cycle.reduce((a, c) => a + c[1], 0);
         let u = p.t % total;
@@ -63,12 +63,13 @@ export function buildAmbient(ctx: BuildContext): SceneModule & { counts: { peopl
           u -= d;
         }
         p.rig.root.visible = !(p.spec.sleeps && f.nightness > 0.75);
-        if (!p.rig.root.visible) continue;
+        colliders.setActive(`ambient:${i}`, p.rig.root.visible);
+        if (!p.rig.root.visible) return;
         const dx = p.rig.root.position.x - cam.x;
         const dz = p.rig.root.position.z - cam.z;
         setRigShadow(p.rig, dx * dx + dz * dz < 55 * 55);
-        poseRig(p.rig, { mode, speed: 0, time: f.time + p.t * 0.13, t: u / 3, amp: f.reducedMotion ? 0.35 : 1 }, dt);
-      }
+        poseRig(p.rig, { mode, speed: 0, time: f.time + p.t * 0.13, t: u / 3, amp: f.reducedMotion ? 0.35 : 1, workGesture: i === 0 ? 'mending' : 'general' }, dt);
+      });
     },
     stats: () => ({ people: people.length }),
     dispose() {

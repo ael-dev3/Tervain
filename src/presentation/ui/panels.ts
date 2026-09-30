@@ -119,7 +119,7 @@ export class PanelHost {
     const top = this.stack[this.stack.length - 1];
     if (!top) return;
     clear(this.el);
-    const panel = h('div', { class: `panel glass${top.narrow ? ' narrow' : ''}`, role: 'dialog' }, top.content);
+    const panel = h('div', { class: `panel surface-paper${top.narrow ? ' narrow' : ''}`, role: 'dialog' }, top.content);
     this.el.append(panel);
     this.el.classList.add('on');
     if (focus) focusFirst(panel);
@@ -218,7 +218,7 @@ export function journalPanel(ctx: PanelCtx): HTMLElement {
     j.leadKey ? h('p', { class: 'jitem' }, S(j.leadKey)) : null,
     h('div', { class: 'cols3' }, col(S('journal.observed'), j.observed), col(S('journal.reported'), j.reported), col(S('journal.concluded'), j.concluded)),
     j.questions.length > 0 ? h('div', { class: 'jcol', style: { marginTop: '14px' } }, h('h2', {}, S('journal.questions')), j.questions.map((q) => h('p', { class: 'jitem q' }, S(q.key)))) : null,
-    h('div', { class: 'cols3', style: { marginTop: '14px' } }, h('div', { class: 'jcol' }, h('h2', {}, S('journal.places')), places), h('div', { class: 'jcol', style: { gridColumn: 'span 2' } }, h('h2', {}, S('journal.people')), people.length ? people : h('div', { class: 'muted' }, S('journal.empty')))),
+    h('div', { class: 'cols3', style: { marginTop: '14px' } }, h('div', { class: 'jcol' }, h('h2', {}, S('journal.places')), places), h('div', { class: 'jcol jcol-wide' }, h('h2', {}, S('journal.people')), people.length ? people : h('div', { class: 'muted' }, S('journal.empty')))),
     h('div', { class: 'row', style: { marginTop: '14px' } }, closeBtn(ctx)),
   );
 }
@@ -440,12 +440,12 @@ export function settingsPanel(ctx: PanelCtx): HTMLElement {
   const toggle = (label: string, key: keyof Settings, desc?: string) =>
     h(
       'div',
-      { class: 'setting' },
-      h('label', { for: `s-${String(key)}` }, label),
+      { class: 'setting setting-toggle' },
       h('input', { id: `s-${String(key)}`, type: 'checkbox', 'data-nav': true, checked: st[key] === true ? true : null, onChange: (e: Event) => {
         (st[key] as boolean) = (e.target as HTMLInputElement).checked;
         commit();
       } }),
+      h('label', { for: `s-${String(key)}` }, label),
       desc ? h('div', { class: 'desc' }, desc) : null,
     );
   const range = (label: string, get: () => number, set: (v: number) => void, min: number, max: number, step: number, fmt: (v: number) => string) => {

@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import type { Batch } from './buildKit';
 import { asRGB, hash3, mulc, rgb, type Col, type RGB } from './buildKit';
 import type { Region } from './regions';
-import { hipRoof, gableRoof, leanRoof, ROOFS } from './roofs';
+import { hipRoof, gableRoof, leanRoof, ROOFS, type RoofResult } from './roofs';
 import { rockShapes } from './scatter';
 
 /**
@@ -50,6 +50,8 @@ export function post(B: Batch, rnd: Rnd, x: number, z: number, h: number, w: num
 /** Rough stones set round a footprint, sunk into the ground, so the building stands on rubble and not on a plinth of boxes. */
 export function foundation(R: Region, rnd: Rnd, w: number, d: number, top: number, sink: number, tint = TINT.stoneDark) {
   const B = R.stone;
+  // Rubble is the visible facing; this recessed plinth seals its seams and carries the wall/floor down into the earth.
+  B.bx(-w / 2 + 0.08, -sink, -d / 2 + 0.08, w / 2 - 0.08, top + 0.02, d / 2 - 0.08, jitterTone(tint, rnd, 0.06), { jit: 0.02, amp: 0.06 });
   const run = (len: number, place: (t: number, sw: number) => [number, number, number]) => {
     let t = -len / 2;
     while (t < len / 2 - 0.2) {
@@ -91,7 +93,7 @@ export function slab(B: Batch, w: number, h: number, d: number, y0: number, tint
 export function timberFrame(R: Region, rnd: Rnd, w: number, d: number, h: number, y0: number) {
   const B = R.timber;
   const t = TINT.woodDark;
-  for (const sx of [-1, 1]) for (const sz of [-1, 1]) post(B, rnd, sx * (w / 2 + 0.02), sz * (d / 2 + 0.02), h + 0.1, 0.26, jitterTone(t, rnd, 0.1), 0.2);
+  for (const sx of [-1, 1]) for (const sz of [-1, 1]) post(B, rnd, sx * (w / 2 + 0.02), sz * (d / 2 + 0.02), y0 + h + 0.1, 0.26, jitterTone(t, rnd, 0.1), 0.2);
   const rails = [y0 + 0.02, y0 + h * 0.46, y0 + h - 0.05];
   for (const y of rails) {
     for (const sz of [-1, 1]) B.bx(-w / 2 - 0.05, y, sz * (d / 2 + 0.03) - 0.09, w / 2 + 0.05, y + 0.17, sz * (d / 2 + 0.03) + 0.09, jitterTone(t, rnd, 0.12), { grain: 'x', jit: 0.1 });
@@ -130,6 +132,8 @@ export function quoins(R: Region, rnd: Rnd, w: number, d: number, h: number, y0:
 
 export interface DoorOpts {
   x?: number;
+  /** Threshold height above the building's ground frame. */
+  y?: number;
   w?: number;
   h?: number;
   /** Depth of the wall surface in the local frame (z of the wall face). */
@@ -143,16 +147,22 @@ export function door(R: Region, rnd: Rnd, o: DoorOpts) {
   const h = o.h ?? 2.05;
   const x = o.x ?? 0;
   const z = o.z;
+  const base = o.y ?? 0;
+  R.ctx.push(0, base, 0);
   const T = R.timber;
   T.box(0.2, h + 0.2, 0.2, x - w / 2 - 0.1, -0.05, z + 0.08, jitterTone(TINT.woodDark, rnd), { rz: (rnd() - 0.5) * 0.02, grain: 'y', jit: 0.1 });
   T.box(0.2, h + 0.2, 0.2, x + w / 2 + 0.1, -0.05, z + 0.08, jitterTone(TINT.woodDark, rnd), { rz: (rnd() - 0.5) * 0.02, grain: 'y', jit: 0.1 });
   T.box(w + 0.7, 0.24, 0.24, x, h + 0.02, z + 0.08, jitterTone(TINT.woodDark, rnd), { rz: (rnd() - 0.5) * 0.03, grain: 'x', jit: 0.1 });
   const P = R.planks;
+  R.vc.box(w, h, 0.045, x, 0, z + 0.015, 0x17110c, { jit: 0, amp: 0 });
   const n = Math.round(w / 0.2);
   for (let i = 0; i < n; i++) P.box((w / n) * 0.94, h - (rnd() < 0.15 ? 0.05 : 0), 0.05, x - w / 2 + (i + 0.5) * (w / n), 0, z + 0.05 + (rnd() - 0.5) * 0.02, jitterTone(TINT.woodPale, rnd, 0.18), { grain: 'y', jit: 0.14 });
   for (const yy of [0.35, h - 0.4]) R.metal.box(w * 0.9, 0.09, 0.03, x, yy, z + 0.095, TINT.iron, { jit: 0.08 });
   R.metal.box(0.09, 0.09, 0.05, x + w * 0.32, h * 0.5, z + 0.1, TINT.iron, { jit: 0.05 });
-  R.stone.box(w + 0.7, 0.16, 0.7, x, -0.08, z + 0.42, jitterTone(TINT.stone, rnd, 0.16), { ry: (rnd() - 0.5) * 0.1, jit: 0.14 });
+  R.ctx.pop();
+  // Full-depth treads meet both the ground and the raised threshold, rather than floating slabs.
+  R.stone.box(w + 0.7, base + 0.16, 0.7, x, -0.08, z + 0.42, jitterTone(TINT.stone, rnd, 0.12), { jit: 0.1 });
+  if (base > 0.15) R.stone.box(w + 0.9, base * 0.5 + 0.08, 0.5, x, -0.08, z + 0.96, jitterTone(TINT.stoneDark, rnd, 0.12), { jit: 0.1 });
 }
 
 export interface WindowOpts {
@@ -218,12 +228,69 @@ export function roofFor(R: Region, kind: 'gable' | 'hip' | 'lean', style: RoofKi
 }
 
 /** The triangular fill of a gable end, in plank or plaster. */
-export function gableEnd(R: Region, side: 1 | -1, w: number, d: number, y: number, rise: number, mat: 'planks' | 'plaster' | 'stone') {
+export function gableEnd(R: Region, side: 1 | -1, w: number, d: number, y: number, rise: number, mat: 'planks' | 'plaster' | 'stone', knee = 0, thickness = 0.24) {
   const ctx = R.ctx;
   const hs = d / 2;
   ctx.push(side * (w / 2), y, 0, (side * Math.PI) / 2);
-  R.get(mat).prism([[-hs, 0], [hs, 0], [0, rise]], -0.12, 0.05, rgb(mat === 'stone' ? TINT.stone : mat === 'plaster' ? TINT.plaster : TINT.wood), { jit: 0.06, amp: 0.1 });
+  const profile: [number, number][] = knee > 0 ? [[-hs, 0], [hs, 0], [hs, knee], [0, rise], [-hs, knee]] : [[-hs, 0], [hs, 0], [0, rise]];
+  R.get(mat).prism(profile, -thickness * 0.5, thickness * 0.5, mulc(rgb(mat === 'stone' ? TINT.stone : mat === 'plaster' ? TINT.plaster : TINT.wood), TONE_GAIN), { jit: 0.06, amp: 0.1 });
   ctx.pop();
+}
+
+/** Structural wall infill follows the actual overhanging roof, including its raised wall/eave intersection. */
+export function roofWallInfill(R: Region, kind: 'gable' | 'hip' | 'lean', w: number, d: number, wallTop: number, roof: RoofResult, mat: 'planks' | 'plaster' | 'stone', thickness = 0.24) {
+  const base = wallTop - 0.04;
+  const upper = roof.ridgeY - 0.03; // Meets the roof's structural shell inside its thickness.
+  const slope = Math.tan(roof.pitch);
+  const tint = mulc(rgb(mat === 'stone' ? TINT.stone : mat === 'plaster' ? TINT.plaster : TINT.wood), TONE_GAIN);
+  if (kind === 'hip') {
+    const B = R.get(mat);
+    const hw = w / 2, hd = d / 2, t = thickness / 2;
+    // Equal overhangs put the hip roof at one height around the wall perimeter. Its
+    // joint follows the slope across the wall thickness, including the four miters.
+    const outerY = upper - (Math.min(w, d) / 2 + t) * slope;
+    const innerY = upper - (Math.min(w, d) / 2 - t) * slope;
+    const outer: [number, number][] = [[-hw - t, hd + t], [hw + t, hd + t], [hw + t, -hd - t], [-hw - t, -hd - t]];
+    const inner: [number, number][] = [[-hw + t, hd - t], [hw - t, hd - t], [hw - t, -hd + t], [-hw + t, -hd + t]];
+    const point = (p: [number, number], y: number) => [p[0], y, p[1]];
+    for (let i = 0; i < 4; i++) {
+      const next = (i + 1) % 4;
+      const oa = outer[i]!, ob = outer[next]!, ia = inner[i]!, ib = inner[next]!;
+      B.quad([...point(oa, outerY), ...point(ob, outerY), ...point(ib, innerY), ...point(ia, innerY)], tint, { amp: 0.08 });
+      B.quad([...point(oa, base), ...point(ia, base), ...point(ib, base), ...point(ob, base)], tint, { amp: 0.08 });
+      B.quad([...point(oa, base), ...point(ob, base), ...point(ob, outerY), ...point(oa, outerY)], tint, { amp: 0.08 });
+      B.quad([...point(ib, base), ...point(ia, base), ...point(ia, innerY), ...point(ib, innerY)], tint, { amp: 0.08 });
+    }
+    return;
+  }
+  if (kind === 'gable') {
+    const knee = Math.max(0, upper - d / 2 * slope - base);
+    for (const side of [-1, 1] as const) gableEnd(R, side, w, d, base, upper - base, mat, knee, thickness);
+    return;
+  }
+  const high = upper - (roof.halfSpan - d / 2) * slope;
+  const low = high - d * slope;
+  for (const side of [-1, 1] as const) {
+    R.ctx.push(side * w / 2, base, 0, side * Math.PI / 2);
+    // Local profile x maps to -side*z: keep the high edge at the building's rear (-z).
+    const left = side === 1 ? low : high;
+    const right = side === 1 ? high : low;
+    R.get(mat).prism([[-d / 2, 0], [d / 2, 0], [d / 2, right - base], [-d / 2, left - base]], -thickness * 0.5, thickness * 0.5, tint, { jit: 0.04, amp: 0.08 });
+    R.ctx.pop();
+  }
+  R.get(mat).bx(-w / 2, base, -d / 2 - thickness * 0.5, w / 2, high, -d / 2 + thickness * 0.5, tint, { jit: 0.03, amp: 0.08 });
+  if (low > base) R.get(mat).bx(-w / 2, base, d / 2 - thickness * 0.5, w / 2, low, d / 2 + thickness * 0.5, tint, { jit: 0.03, amp: 0.08 });
+}
+
+/** The shrine's static stone shell, with a sloped wall joint under all four hip roof planes. */
+export function buildShrineHallShell(R: Region, rnd: Rnd, w: number, d: number, h: number, sink: number): RoofResult {
+  foundation(R, rnd, w + 0.6, d + 0.6, 0.7, sink);
+  R.vc.bx(-w / 2 + 0.05, 0.4, -d / 2 + 0.05, w / 2 - 0.05, 0.5 + h, d / 2 - 0.05, 0x1a1712, { jit: 0, amp: 0 });
+  slab(R.stone, w, h, d, 0.5, jitterTone(TINT.stone, rnd, 0.05), 0.9);
+  quoins(R, rnd, w, d, h, 0.5);
+  const roof = roofFor(R, 'hip', 'slate', w, d, 0.5 + h, 41, { pitch: 0.55 });
+  roofWallInfill(R, 'hip', w, d, 0.5 + h, roof, 'stone');
+  return roof;
 }
 
 /** A hanging lantern: bracket and a glowing cage. Registered for the night lights by the caller. */

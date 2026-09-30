@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import type { BuildingSpec } from '../world/layout';
-import { LIGHTHOUSE } from '../world/layout';
+import { ARCHIVE_ROOM, LIGHTHOUSE } from '../world/layout';
 import { mulberry32 } from '../world/noise';
 import type { Terrain } from '../world/terrain';
 import { hash3, mulc, rgb } from './buildKit';
@@ -13,13 +13,13 @@ import {
   door,
   fieldstone,
   foundation,
-  gableEnd,
   jitterTone,
   lantern,
   plankFace,
   post,
   quoins,
   roofFor,
+  roofWallInfill,
   sack,
   slab,
   timberFrame,
@@ -94,9 +94,10 @@ export function buildStandard(R: Region, terrain: Terrain, b: BuildingSpec, out:
       plankFace(R, rnd, len, wallH, y0, TINT.wood);
       ctx.pop();
     }
-    for (const sx of [-1, 1]) for (const sz of [-1, 1]) post(R.timber, rnd, sx * (b.w / 2 + 0.02), sz * (b.d / 2 + 0.02), wallH + 0.15, 0.24, jitterTone(TINT.woodDark, rnd, 0.1), 0.2);
+    for (const sx of [-1, 1]) for (const sz of [-1, 1]) post(R.timber, rnd, sx * (b.w / 2 + 0.02), sz * (b.d / 2 + 0.02), y0 + wallH + 0.15, 0.24, jitterTone(TINT.woodDark, rnd, 0.1), 0.2);
     // A rough rail along the eave line and another at waist height.
     for (const y of [y0 + wallH - 0.08, y0 + wallH * 0.42]) for (const sz of [-1, 1]) R.timber.bx(-b.w / 2 - 0.04, y, sz * (b.d / 2 + 0.06) - 0.06, b.w / 2 + 0.04, y + 0.14, sz * (b.d / 2 + 0.06) + 0.06, jitterTone(TINT.woodDark, rnd, 0.1), { grain: 'x', jit: 0.1 });
+    for (const y of [y0 + wallH - 0.08, y0 + wallH * 0.42]) for (const sx of [-1, 1]) R.timber.bx(sx * (b.w / 2 + 0.06) - 0.06, y, -b.d / 2 - 0.04, sx * (b.w / 2 + 0.06) + 0.06, y + 0.14, b.d / 2 + 0.04, jitterTone(TINT.woodDark, rnd, 0.1), { grain: 'z', jit: 0.1 });
   } else if (b.wall === 'plaster') {
     slab(R.plaster, b.w, wallH, b.d, y0, jitterTone(TINT.plaster, rnd, 0.06));
     timberFrame(R, rnd, b.w, b.d, wallH, y0);
@@ -108,24 +109,28 @@ export function buildStandard(R: Region, terrain: Terrain, b: BuildingSpec, out:
   // Roof.
   const style = roofStyleOf(b);
   const roof = roofFor(R, b.roof, style, b.w, b.d, y0 + wallH, Math.floor(hash3(b.x, b.z, 5) * 1000), { pitch: b.roof === 'lean' ? 0.3 : style === 'thatch' ? 0.82 : undefined });
-  if (b.roof === 'gable') {
-    const rise = (b.d / 2) * Math.tan(roof.pitch);
-    for (const s of [-1, 1] as const) gableEnd(R, s, b.w, b.d, y0 + wallH - 0.02, rise, wallMat(b));
+  roofWallInfill(R, b.roof, b.w, b.d, y0 + wallH, roof, wallMat(b));
+  if (b.wall !== 'stone' && b.roof === 'gable') {
+    const eaveY = roof.ridgeY - b.d / 2 * Math.tan(roof.pitch) - 0.04;
+    for (const sx of [-1, 1]) {
+      const x = sx * (b.w / 2 + 0.13);
+      R.timber.box(0.14, roof.ridgeY - y0 - wallH, 0.14, x, y0 + wallH, 0, jitterTone(TINT.woodDark, rnd), { grain: 'y', jit: 0.04 });
+      for (const sz of [-1, 1]) R.timber.rod(x, eaveY, sz * b.d / 2, x, roof.ridgeY - 0.06, 0, 0.05, 4, jitterTone(TINT.woodDark, rnd));
+    }
   }
   // Ridge sag: a beam under the ridge that visibly dips.
   if (b.roof === 'gable') R.timber.bx(-b.w / 2 - 0.2, roof.ridgeY - 0.35, -0.08, b.w / 2 + 0.2, roof.ridgeY - 0.2, 0.08, jitterTone(TINT.woodDark, rnd, 0.1), { jit: 0.08 });
 
   // Door and windows.
   const doorX = (rnd() - 0.5) * b.w * 0.2;
-  door(R, rnd, { x: doorX, z: b.d / 2 + 0.03 });
-  const nW = Math.max(1, Math.floor(b.w / 3.4));
-  for (let i = 0; i < nW; i++) {
-    const wx = -b.w / 2 + ((i + 1) * b.w) / (nW + 1);
-    if (Math.abs(wx - doorX) < 1.5) continue;
-    windowAt(R, rnd, { x: wx, y: y0 + wallH * 0.45, z: b.d / 2 + 0.02, shutters: true });
+  door(R, rnd, { x: doorX, y: y0, z: b.d / 2 + 0.03 });
+  for (const side of [-1, 1]) {
+    const wx = side * Math.min(b.w * 0.32, b.w / 2 - 0.75);
+    if (Math.abs(wx - doorX) >= 1.25) windowAt(R, rnd, { x: wx, y: y0 + wallH * 0.45, z: b.d / 2 + 0.02, shutters: true });
   }
   windowAt(R, rnd, { x: b.w / 2 + 0.02, y: y0 + wallH * 0.45, z: (rnd() - 0.5) * b.d * 0.4, ry: Math.PI / 2 });
   windowAt(R, rnd, { x: -b.w / 2 - 0.02, y: y0 + wallH * 0.45, z: (rnd() - 0.5) * b.d * 0.4, ry: -Math.PI / 2 });
+  for (const side of [-1, 1]) windowAt(R, rnd, { x: side * b.w * 0.24, y: y0 + wallH * 0.45, z: -b.d / 2 - 0.02, ry: Math.PI });
 
   // Chimney.
   if (b.kind !== 'lodge' && b.kind !== 'office' && b.kind !== 'bunks' && b.kind !== 'store') chimney(R, rnd, b.w * 0.28, -b.d * 0.12, y0 + wallH - 0.5, roof.rise + 1.6);
@@ -157,6 +162,41 @@ export function buildStandard(R: Region, terrain: Terrain, b: BuildingSpec, out:
     R.vc.box(0.46, 0.34, 0.06, b.w / 2 + 0.9, 0.38, 0.33, 0x0c0a08, { jit: 0 });
   }
   ctx.pop();
+}
+
+/** The archive has a real interior: closed wall/roof joints, backed foundations and measured openings for its moving leaves. */
+export function buildArchiveShell(R: Region, terrain: Terrain, b: BuildingSpec): number {
+  const { avg, lo } = groundOf(terrain, b);
+  const rnd = mulberry32(4403);
+  const hw = b.w / 2;
+  const hd = b.d / 2;
+  const { wallBase, wallThickness: t, floorBase, floorTop, doorHalfWidth: gap, doorHeight, shutterHalfWidth: sw, shutterBottom, shutterTop, roofPitch } = ARCHIVE_ROOM;
+  const top = wallBase + b.h;
+  const seg = (x0: number, x1: number, z0: number, z1: number, y0: number = wallBase, y1: number = top) => R.stone.bx(x0, y0, z0, x1, y1, z1, jitterTone(TINT.stone, rnd, 0.05), { sub: 0.8, amp: 0.1 });
+  R.ctx.push(b.x, avg, b.z, b.yaw);
+  foundation(R, rnd, b.w + t * 2, b.d + t * 2, floorBase, avg - lo + 0.35);
+  seg(-hw, -gap, hd - t, hd + t);
+  seg(gap, hw, hd - t, hd + t);
+  seg(-gap, gap, hd - t, hd + t, wallBase + doorHeight);
+  seg(-hw, -sw, -hd - t, -hd + t);
+  seg(sw, hw, -hd - t, -hd + t);
+  seg(-sw, sw, -hd - t, -hd + t, wallBase, shutterBottom);
+  seg(-sw, sw, -hd - t, -hd + t, shutterTop);
+  seg(-hw - t, -hw + t, -hd, hd);
+  seg(hw - t, hw + t, -hd, hd);
+  R.planks.bx(-hw + t - 0.08, floorBase, -hd + t - 0.08, hw - t + 0.08, floorTop, hd - t + 0.08, jitterTone(TINT.woodDark, rnd, 0.1), { jit: 0.1, grain: 'x' });
+  // Floor reaches the front threshold; the rear opening retains its climbable stone sill.
+  R.stone.box(gap * 2 + 0.2, floorTop + 0.08, 0.95, 0, -0.08, hd + 0.08, jitterTone(TINT.stoneDark, rnd), { jit: 0.04 });
+  const roof = roofFor(R, 'gable', 'slate', b.w, b.d, top, 61, { pitch: roofPitch });
+  roofWallInfill(R, 'gable', b.w, b.d, top, roof, 'stone', t * 2);
+  for (const sx of [-1, 1]) {
+    R.timber.box(0.14, doorHeight + 0.12, 0.12, sx * (gap + 0.06), wallBase - 0.02, hd + t + 0.01, jitterTone(TINT.woodDark, rnd), { grain: 'y', jit: 0.04 });
+    R.timber.box(0.12, shutterTop - shutterBottom + 0.14, 0.13, sx * (sw + 0.06), shutterBottom - 0.07, -hd - t - 0.01, jitterTone(TINT.woodDark, rnd), { grain: 'y', jit: 0.04 });
+  }
+  R.timber.box(gap * 2 + 0.28, 0.14, 0.12, 0, wallBase + doorHeight - 0.04, hd + t + 0.01, jitterTone(TINT.woodDark, rnd), { grain: 'x', jit: 0.04 });
+  for (const y of [shutterBottom - 0.08, shutterTop - 0.04]) R.timber.box(sw * 2 + 0.24, 0.12, 0.13, 0, y, -hd - t - 0.01, jitterTone(TINT.woodDark, rnd), { grain: 'x', jit: 0.04 });
+  R.ctx.pop();
+  return avg;
 }
 
 /** The lighthouse: a stone shaft on the rock of Lantern Point, banded and stained, a corbelled gallery, a lantern room and a dark cap. */

@@ -5,6 +5,7 @@ import { PAL } from './kit';
 import { mulberry32 } from '../world/noise';
 import { makeTexPair } from './buildingTextures';
 import { beardGeometry, bootGeometry, drape, handGeometry, hairGeometry, headGeometry, hex, limb, loft, weather, type RGB, type Section } from './humanGeo';
+import { npcStyle, type HairStyle, type WorkGesture } from './npcStyle';
 import type { AssetNeed } from './assets/library';
 
 /** Assets this module wants loaded before the world is built. */
@@ -41,6 +42,8 @@ export interface Pose {
   t: number;
   /** Extra amplitude multiplier; reduced motion lowers it. */
   amp: number;
+  /** Authored, restrained task motion; no gameplay state is inferred from the gesture. */
+  workGesture?: WorkGesture;
 }
 
 export interface Rig {
@@ -88,7 +91,8 @@ export interface Look {
 const ANGLE_KEYS = ['legL', 'legR', 'armLx', 'armLz', 'armRx', 'armRz', 'torsoX', 'torsoZ', 'headX', 'headY', 'lower', 'bodyX', 'bodyY', 'kneeL', 'kneeR', 'elbowL', 'elbowR'] as const;
 
 /** A stable small integer from a look, so the same NPC always gets the same face, hair and build details. */
-function lookSeed(look: Look): number {
+function lookSeed(look: Look, identitySeed?: number): number {
+  if (identitySeed !== undefined) return identitySeed >>> 0;
   let h = 2166136261;
   for (const v of [look.skin, look.primary, look.secondary, look.hair, Math.round(look.height * 100), Math.round(look.girth * 100)]) {
     h = Math.imul(h ^ (v | 0), 16777619);
@@ -132,10 +136,10 @@ function worn(h: number, k = 0.8): RGB {
   return [(c[0] * 0.72 + l * 0.28) * k, (c[1] * 0.72 + l * 0.28) * k * 0.98, (c[2] * 0.72 + l * 0.28) * k * 0.94];
 }
 
-export function createHumanoid(look: Look, opts: { weapon?: boolean; shield?: boolean; cloak?: boolean; sash?: boolean } = {}): Rig {
+export function createHumanoid(look: Look, opts: { weapon?: boolean; shield?: boolean; cloak?: boolean; sash?: boolean; identitySeed?: number; beard?: boolean; hairStyle?: HairStyle; age?: number } = {}): Rig {
   // Each rig owns its materials so a hit flash on one character never tints another.
   stdCache.clear();
-  const seed = lookSeed(look);
+  const seed = lookSeed(look, opts.identitySeed);
   const rnd = mulberry32(seed);
   const root = new THREE.Group();
   const body = new THREE.Group();
@@ -157,9 +161,9 @@ export function createHumanoid(look: Look, opts: { weapon?: boolean; shield?: bo
   const acc = worn(look.accent ?? look.secondary, 0.8);
   const leather = mix3(worn(0x5a4230, 0.7), sec, 0.15);
   const hairC = worn(look.hair, 0.85);
-  const womanish = look.accessory === 'shawl' || look.accessory === 'apron';
-  const beard = !womanish && (seed % 5 < 2 || look.accessory === 'helmet' || look.accessory === 'pack');
-  const hairStyle: 'short' | 'long' | 'tied' | 'bald' = womanish ? (seed % 2 ? 'long' : 'tied') : seed % 9 === 0 ? 'bald' : seed % 3 === 0 ? 'tied' : 'short';
+  // Named characters receive explicit authored face traits. Generic actors retain seeded variation.
+  const beard = opts.beard ?? seed % 5 < 2;
+  const hairStyle: HairStyle = opts.hairStyle ?? (seed % 9 === 0 ? 'bald' : seed % 3 === 0 ? 'tied' : 'short');
   const longSleeve = look.accessory !== 'apron' && look.accessory !== 'shawl';
   const trousers = mix3(sec, [0.1, 0.09, 0.08], 0.25);
 
@@ -234,11 +238,18 @@ export function createHumanoid(look: Look, opts: { weapon?: boolean; shield?: bo
   const head = new THREE.Group();
   head.position.y = 0.72;
   torso.add(head);
-  put(headGeometry(skin, { seed, beard, age: (seed % 7) / 7 }), skinM, head);
-  const eyeM = new THREE.MeshStandardMaterial({ color: 0x141210, roughness: 0.3 });
+  put(headGeometry(skin, { seed, beard, age: opts.age ?? (seed % 7) / 7 }), skinM, head);
+  const eyeWhiteM = new THREE.MeshStandardMaterial({ color: 0xbdb5a2, roughness: 0.75 });
+  const irisM = new THREE.MeshStandardMaterial({ color: 0x51402c, roughness: 0.55 });
+  const pupilM = new THREE.MeshStandardMaterial({ color: 0x171512, roughness: 0.35 });
+  materials.push(eyeWhiteM, irisM, pupilM);
   for (const sx of [-1, 1]) {
-    const eye = put(new THREE.SphereGeometry(0.0115, 7, 5), eyeM, head, sx * 0.031, 0.152, 0.086, false);
-    eye.scale.set(1.05, 0.75, 0.6);
+    const eye = put(new THREE.SphereGeometry(0.013, 8, 6), eyeWhiteM, head, sx * 0.032, 0.153, 0.088, false);
+    eye.scale.set(1.05, 0.76, 0.52);
+    const iris = put(new THREE.SphereGeometry(0.0062, 7, 5), irisM, head, sx * 0.031, 0.153, 0.095, false);
+    iris.scale.set(1, 0.92, 0.56);
+    const pupil = put(new THREE.SphereGeometry(0.0029, 6, 4), pupilM, head, sx * 0.031, 0.153, 0.098, false);
+    pupil.scale.set(1, 1, 0.6);
     const ear = put(flatC(new THREE.SphereGeometry(0.02, 6, 5), mul3(skin, 0.92)), skinM, head, sx * 0.076, 0.11, -0.006);
     ear.scale.set(0.5, 1.3, 0.9);
   }
@@ -506,7 +517,8 @@ function addAccessory(look: Look, torso: THREE.Group, hips: THREE.Group, head: T
 
 
 export function createNpcRig(def: NpcDef): Rig {
-  return createHumanoid(def.look);
+  const face = npcStyle(def.id);
+  return createHumanoid(def.look, { identitySeed: face.faceSeed, beard: face.beard, hairStyle: face.hair, age: face.age });
 }
 
 export function createPlayerRig(): Rig {
@@ -768,16 +780,69 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
         break;
       }
       case 'work': {
-        const s = Math.sin(p.time * 5.2);
-        a.armRx = -1.2 - 1.3 * Math.max(0, s);
-        a.armLx = -0.9;
-        a.elbowR = -0.8 - 0.7 * Math.max(0, s);
-        a.elbowL = -0.9;
-        a.kneeL = 0.3;
-        a.kneeR = 0.25;
-        a.torsoX = 0.25 + 0.2 * (1 - Math.max(0, s));
-        a.legL = 0.2;
-        a.legR = -0.2;
+        const s = Math.sin(p.time * 2.3);
+        const reach = Math.max(0, s);
+        switch (p.workGesture ?? 'general') {
+          case 'mending':
+            a.armRx = -0.68 - 0.08 * s;
+            a.armLx = -0.72 + 0.06 * s;
+            a.elbowR = -0.74 - 0.06 * reach;
+            a.elbowL = -0.72 + 0.05 * reach;
+            a.headX = 0.08 + 0.04 * reach;
+            a.torsoX = 0.02;
+            break;
+          case 'measuring':
+            a.armRx = -0.82 - 0.14 * reach;
+            a.armLx = -0.4 - 0.08 * s;
+            a.elbowR = -0.52;
+            a.elbowL = -0.58;
+            a.headX = 0.1 + 0.08 * reach;
+            a.torsoX = 0.08 + 0.04 * reach;
+            break;
+          case 'ledger':
+          case 'writing':
+            a.armRx = -0.72 - 0.035 * s;
+            a.armLx = -0.68 + 0.025 * s;
+            a.elbowR = -0.78 - (p.workGesture === 'writing' ? 0.06 * reach : 0);
+            a.elbowL = -0.72;
+            a.headX = 0.09 + 0.05 * reach;
+            a.torsoX = 0.04;
+            break;
+          case 'stonework':
+            a.armRx = -0.72 - 0.34 * reach;
+            a.armLx = -0.5;
+            a.elbowR = -0.68 - 0.16 * reach;
+            a.elbowL = -0.72;
+            a.headX = 0.06;
+            a.torsoX = 0.12 + 0.08 * reach;
+            a.kneeL = 0.16;
+            a.kneeR = 0.14;
+            break;
+          case 'baking':
+            a.armRx = -0.58 - 0.12 * reach;
+            a.armLx = -0.58 - 0.1 * (1 - reach);
+            a.elbowR = -0.58;
+            a.elbowL = -0.58;
+            a.torsoX = 0.03;
+            break;
+          case 'guard':
+            a.armLx = -0.18;
+            a.armRx = -0.12;
+            a.armLz = 0.08;
+            a.armRz = -0.08;
+            a.headY = Math.sin(p.time * 0.36) * 0.12;
+            a.torsoX = 0.025;
+            break;
+          case 'general':
+            a.armRx = -0.78 - 0.32 * reach;
+            a.armLx = -0.62;
+            a.elbowR = -0.66 - 0.18 * reach;
+            a.elbowL = -0.7;
+            a.torsoX = 0.12 + 0.06 * (1 - reach);
+            a.legL = 0.1;
+            a.legR = -0.08;
+            break;
+        }
         fast = 18;
         break;
       }
@@ -792,6 +857,14 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
         a.kneeR = 1.5;
         a.elbowL = -0.8;
         a.elbowR = -0.7;
+        if (p.workGesture === 'writing') {
+          const s = Math.sin(p.time * 2.1);
+          a.armLx = -0.48 + 0.02 * s;
+          a.armRx = -0.64 - 0.04 * s;
+          a.elbowL = -0.58;
+          a.elbowR = -0.78;
+          a.headX = 0.08 + 0.04 * Math.max(0, s);
+        }
         break;
       case 'talk': {
         a.armRx = -0.9 + Math.sin(p.time * 2.2) * 0.35;

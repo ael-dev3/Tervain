@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import type { Colliders } from '../world/colliders';
 import {
   ANCHORS,
+  ARCHIVE_ROOM,
   BELL_TOWER,
   BORDER_SIGN,
   BUILDINGS,
@@ -22,10 +23,10 @@ import { coastX } from '../world/coast';
 import { mulberry32 } from '../world/noise';
 import type { Terrain } from '../world/terrain';
 import { Ctx, hash3 } from './buildKit';
-import { buildLighthouse, buildStandard, cairn, groundOf, type BuildOut } from './buildings';
+import { buildArchiveShell, buildLighthouse, buildStandard, cairn, groundOf, type BuildOut } from './buildings';
 import { boat, benchSet, campfire, cart, fence, fishRack, jetty, netRack, oar, palisade, pot, ropeCoil, stockadeGate, wagon, watchtower, well, wreck } from './props';
 import { MaterialSet, Region } from './regions';
-import { TINT, barrel, crate, door, fieldstone, foundation, jitterTone, quoins, roofFor, sack, slab, windowAt, woodpile, type Rnd } from './structures';
+import { TINT, barrel, buildShrineHallShell, crate, door, fieldstone, jitterTone, roofFor, sack, windowAt, woodpile, type Rnd } from './structures';
 import type { AssetNeed } from './assets/library';
 
 /** Assets this module wants loaded before the world is built (none: everything here is built from primitives). */
@@ -246,23 +247,19 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     const { avg, lo } = groundOf(terrain, hall);
     const rnd: Rnd = mulberry32(4401);
     R.ctx.push(hall.x, avg, hall.z, 0);
-    foundation(R, rnd, hall.w + 0.6, hall.d + 0.6, 0.7, avg - lo + 0.4);
-    R.vc.bx(-hall.w / 2 + 0.05, 0.4, -hall.d / 2 + 0.05, hall.w / 2 - 0.05, 0.5 + hall.h, hall.d / 2 - 0.05, 0x1a1712, { jit: 0, amp: 0 });
-    slab(R.stone, hall.w, hall.h, hall.d, 0.5, jitterTone(TINT.stone, rnd, 0.05), 0.9);
-    quoins(R, rnd, hall.w, hall.d, hall.h, 0.5);
-    roofFor(R, 'hip', 'slate', hall.w, hall.d, 0.5 + hall.h, 41, { pitch: 0.55 });
+    buildShrineHallShell(R, rnd, hall.w, hall.d, hall.h, avg - lo + 0.4);
     // Colonnade of stone drums.
     for (let i = -3; i <= 3; i++) {
       const cx = (i * (hall.w - 1.5)) / 6;
       const cz = hall.d / 2 + 0.8;
-      R.stone.lathe([0.42, 0, 0.36, 0.3, 0.3, 0.6, 0.28, hall.h - 0.6, 0.34, hall.h - 0.4, 0.4, hall.h - 0.2], 10, cx, 0.1, cz, jitterTone(TINT.stone, rnd, 0.08), { jit: 0.08, amp: 0.1 });
+      R.stone.lathe([0.42, 0, 0.36, 0.3, 0.3, 0.6, 0.28, hall.h - 0.35, 0.34, hall.h - 0.1, 0.4, hall.h + 0.05], 10, cx, 0.1, cz, jitterTone(TINT.stone, rnd, 0.08), { jit: 0.08, amp: 0.1 });
       colliders.circle('shrine_col', hall.x + cx, hall.z + cz, 0.36);
     }
     R.stone.bx(-hall.w / 2 - 0.3, 0.5 + hall.h - 0.5, hall.d / 2 + 0.2, hall.w / 2 + 0.3, 0.5 + hall.h - 0.1, hall.d / 2 + 1.4, jitterTone(TINT.stoneDark, rnd, 0.06), { jit: 0.05 });
     // Great door and two windows, steps.
-    door(R, rnd, { x: 0, z: hall.d / 2 + 0.05, w: 1.9, h: 3.0 });
+    door(R, rnd, { x: 0, y: 0.5, z: hall.d / 2 + 0.05, w: 1.9, h: 3.0 });
     for (const dx of [-3.6, 3.6]) windowAt(R, rnd, { x: dx, y: 2.4, z: hall.d / 2 + 0.03, w: 0.8, h: 1.3 });
-    for (let i = 0; i < 3; i++) R.stone.box(4.4 - i * 0.3, 0.2, 1.0, 0, -0.1 + i * 0.05, hall.d / 2 + 2.3 + i * 0.7, jitterTone(TINT.stone, rnd, 0.14), { ry: (rnd() - 0.5) * 0.05, jit: 0.12 });
+    for (let i = 0; i < 3; i++) R.stone.box(4.4 + i * 0.3, 0.63 - i * 0.17, 0.72, 0, -0.08, hall.d / 2 + 1.15 + i * 0.67, jitterTone(TINT.stone, rnd, 0.12), { jit: 0.08 });
     const lp = R.ctx.toWorld(6.4, 2.4, hall.d / 2 + 1.6);
     lanternPositions.push(lp.clone());
     R.timber.box(0.12, 2.3, 0.12, 6.4, 0, hall.d / 2 + 1.6, jitterTone(TINT.woodDark, rnd), { grain: 'y' });
@@ -295,7 +292,7 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
 
   /* ---------------- Archive: an enterable stone room with a plank door and a shutter ---------------- */
   const arch = bySpec('archive');
-  const archY = groundOf(terrain, arch).avg;
+  const archY = buildArchiveShell(region('shrine'), terrain, arch);
   let archiveDoor!: THREE.Object3D;
   let archiveShutter!: THREE.Object3D;
   let ledger!: THREE.Object3D;
@@ -304,27 +301,8 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     const rnd: Rnd = mulberry32(4403);
     const hw = arch.w / 2;
     const hd = arch.d / 2;
-    const t = 0.3;
-    const gap = 1.0;
+    const { wallBase, wallThickness: t, doorHalfWidth: gap, doorHeight, shutterHalfWidth: sw, shutterBottom, shutterTop } = ARCHIVE_ROOM;
     R.ctx.push(arch.x, archY, arch.z, arch.yaw);
-    const seg = (lx0: number, lx1: number, lz0: number, lz1: number) => {
-      R.stone.bx(lx0, 0.2, lz0, lx1, 0.2 + arch.h, lz1, jitterTone(TINT.stone, rnd, 0.05), { sub: 0.8, amp: 0.1 });
-    };
-    seg(-hw, -gap, hd - t, hd + t);
-    seg(gap, hw, hd - t, hd + t);
-    seg(-hw, -gap * 0.8, -hd - t, -hd + t);
-    seg(gap * 0.8, hw, -hd - t, -hd + t);
-    seg(-hw - t, -hw + t, -hd, hd);
-    seg(hw - t, hw + t, -hd, hd);
-    R.stone.bx(-gap - 0.15, 0.2 + arch.h - 0.7, hd - t, gap + 0.15, 0.2 + arch.h, hd + t, jitterTone(TINT.stoneDark, rnd, 0.06), { jit: 0.05 });
-    R.stone.bx(-gap * 0.8 - 0.1, 0.2, -hd - t, gap * 0.8 + 0.1, 0.7, -hd + t, jitterTone(TINT.stoneDark, rnd, 0.06), { jit: 0.05 });
-    R.stone.bx(-gap * 0.8 - 0.1, 0.2 + arch.h - 0.6, -hd - t, gap * 0.8 + 0.1, 0.2 + arch.h, -hd + t, jitterTone(TINT.stoneDark, rnd, 0.06), { jit: 0.05 });
-    R.planks.bx(-hw + 0.2, 0.1, -hd + 0.2, hw - 0.2, 0.24, hd - 0.2, jitterTone(TINT.woodDark, rnd, 0.1), { jit: 0.1, grain: 'x' });
-    roofFor(R, 'gable', 'slate', arch.w, arch.d, 0.2 + arch.h, 61, { pitch: 0.5 });
-    for (const s of [-1, 1] as const) {
-      R.stone.prism([[-hd, 0], [hd, 0], [0, hd * Math.tan(0.5)]], -0.15, 0.05, jitterTone(TINT.stone, rnd, 0.06), { jit: 0.05 });
-      void s;
-    }
     // Shelves along the west wall, a desk and lamp.
     for (let i = 0; i < 3; i++) {
       const sz = -1.6 + i * 1.6;
@@ -343,10 +321,11 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     const rd = mulberry32(4404);
     archiveDoor = new THREE.Group();
     const dp = localToWorld(arch, -gap, hd);
-    archiveDoor.position.set(dp.x, archY + 0.2, dp.z);
+    archiveDoor.position.set(dp.x, archY + wallBase, dp.z);
     archiveDoor.rotation.y = arch.yaw;
     const leaf = dyn('archive-door', (D) => {
-      for (let i = 0; i < 8; i++) D.planks.box(0.26, 2.5 + (rd() - 0.5) * 0.04, 0.07, gap * 2 * ((i + 0.5) / 8), 0, 0, jitterTone(TINT.wood, rd, 0.18), { jit: 0.14, grain: 'y' });
+      D.planks.box(gap * 2 + 0.02, doorHeight + 0.02, 0.08, gap, -0.01, -0.025, jitterTone(TINT.woodDark, rd, 0.04), { grain: 'y', jit: 0.02 });
+      for (let i = 0; i < 8; i++) D.planks.box(0.26, doorHeight + (rd() - 0.5) * 0.04, 0.07, gap * 2 * ((i + 0.5) / 8), 0, 0, jitterTone(TINT.wood, rd, 0.18), { jit: 0.14, grain: 'y' });
       for (const yy of [0.4, 1.9]) D.metal.box(gap * 2 * 0.9, 0.1, 0.03, gap, yy, 0.05, TINT.iron, { jit: 0.05 });
       D.metal.box(0.1, 0.1, 0.05, gap * 1.7, 1.2, 0.06, TINT.iron, { jit: 0.05 });
     });
@@ -356,10 +335,12 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     // Shutter hinged at the top, swinging outward.
     archiveShutter = new THREE.Group();
     const sp = localToWorld(arch, 0, -hd - t);
-    archiveShutter.position.set(sp.x, archY + 0.2 + arch.h - 0.65, sp.z);
+    archiveShutter.position.set(sp.x, archY + shutterTop, sp.z);
     archiveShutter.rotation.y = arch.yaw;
     const sh = dyn('archive-shutter', (D) => {
-      for (let i = 0; i < 6; i++) D.planks.box(gap * 1.6 / 6 * 0.95, 1.9, 0.06, -gap * 0.8 + (i + 0.5) * (gap * 1.6 / 6), -1.9, -0.02, jitterTone(TINT.wood, rd, 0.16), { jit: 0.12, grain: 'y' });
+      const height = shutterTop - shutterBottom;
+      D.planks.box(sw * 2 + 0.02, height + 0.02, 0.06, 0, -height - 0.01, 0.01, jitterTone(TINT.woodDark, rd, 0.04), { grain: 'y', jit: 0.02 });
+      for (let i = 0; i < 6; i++) D.planks.box(sw * 2 / 6 * 0.95, height, 0.06, -sw + (i + 0.5) * (sw * 2 / 6), -height, -0.02, jitterTone(TINT.wood, rd, 0.16), { jit: 0.12, grain: 'y' });
       D.metal.box(gap * 1.5, 0.08, 0.03, 0, -0.5, -0.05, TINT.iron, { jit: 0.05 });
     });
     group.remove(sh);
@@ -383,7 +364,7 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     R.ctx.pop();
     bell.position.set(BELL_TOWER.x, bellPos.y + 3.5, BELL_TOWER.z);
     const body = dyn('bell', (D) => {
-      D.metal.lathe([0.1, -0.04, 0.3, -0.1, 0.34, -0.5, 0.42, -0.72, 0.6, -0.92, 0.62, -0.96], 14, 0, 0, 0, jitterTone(0x8a6a3a, rnd, 0.1), { jit: 0.06, amp: 0.08 });
+      D.metal.lathe([0.62, -0.96, 0.6, -0.92, 0.42, -0.72, 0.34, -0.5, 0.3, -0.1, 0.1, -0.04], 14, 0, 0, 0, jitterTone(0x8a6a3a, rnd, 0.1), { jit: 0.06, amp: 0.08 });
       D.metal.blob(0.11, 0.11, 0.11, 0, -0.98, 0, TINT.iron, { seg: 6, rings: 3, lump: 0.08, seed: 9, smooth: true });
       D.timber.box(0.7, 0.12, 0.16, 0, 0, 0, TINT.woodDark, { jit: 0.05 });
     });

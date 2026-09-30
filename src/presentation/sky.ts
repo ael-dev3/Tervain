@@ -363,7 +363,7 @@ export class SkyRig {
     SKY.brightness.value = br;
     const hemiI = (a.hemiI + (b.hemiI - a.hemiI) * t) * (0.85 + 0.35 * br) * (1 + (br - 1) * nightAmt * 0.8);
     // The generated environment map supplies part of the sky fill once it is running.
-    const target = SKY.ibl.value > 0.5 ? 0.42 : 1;
+    const target = SKY.ibl.value > 0.5 ? 0.78 : 1;
     this.hemiScale += (target - this.hemiScale) * (1 - Math.exp(-dt * 3));
     this.hemi.intensity = hemiI * this.hemiScale;
     SKY.ambient.value.copy(this.hemi.color).multiplyScalar(hemiI * 0.6 + 0.05);
