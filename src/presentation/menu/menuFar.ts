@@ -38,6 +38,8 @@ varying vec3 vW;
 varying vec3 vN;
 ${MENU_SKY_GLSL}
 void main() {
+  // Land under the waterline is left to the sky dome's sea, so every shore is a clean line.
+  if (vW.y < ${MENU_SEA_LEVEL.toFixed(2)}) discard;
   vec3 v = vW - cameraPosition;
   float dist = length(v);
   vec3 d = v / dist;
@@ -152,17 +154,26 @@ export function buildMenuFar(noise: THREE.Texture): MenuFar {
   const lx = L.x;
   const lz = L.z;
   const ly = MENU_SEA_LEVEL + headH(lx, lz);
+  // The tower's foot and the house's walls run down into the rock, so they sit on the knob however it slopes.
   const tower = new THREE.LatheGeometry(
-    [new THREE.Vector2(3.6, 0), new THREE.Vector2(3.4, 1.2), new THREE.Vector2(2.9, 12), new THREE.Vector2(2.6, 16.5), new THREE.Vector2(3.3, 16.8), new THREE.Vector2(3.3, 17.3), new THREE.Vector2(2.1, 17.4), new THREE.Vector2(2.1, 19.6), new THREE.Vector2(2.6, 19.8), new THREE.Vector2(0.3, 21.4)],
+    [new THREE.Vector2(3.7, -2.5), new THREE.Vector2(3.6, 0), new THREE.Vector2(3.4, 1.2), new THREE.Vector2(2.9, 12), new THREE.Vector2(2.6, 16.5), new THREE.Vector2(3.3, 16.8), new THREE.Vector2(3.3, 17.3), new THREE.Vector2(2.1, 17.4), new THREE.Vector2(2.1, 19.6), new THREE.Vector2(2.6, 19.8), new THREE.Vector2(0.3, 21.4)],
     10,
   );
   const towerMesh = add(tower, hazeMaterial(0x0d0c0c, 0x1c1a18, 0.0007, 0, noise), 'Menu_Far_Lighthouse');
   towerMesh.position.set(lx, ly, lz);
   towerMesh.updateMatrix();
-  const cottage = new THREE.BoxGeometry(9, 4.5, 6);
-  cottage.translate(0, 2.25, 0);
+  const hx = lx + 9;
+  const hz = lz + 4;
+  const under: number[] = [];
+  for (const [dx, dz] of [[0, 0], [-4.5, -3], [4.5, -3], [4.5, 3], [-4.5, 3]] as const) {
+    under.push(headH(hx + dx * Math.cos(0.4) + dz * Math.sin(0.4), hz - dx * Math.sin(0.4) + dz * Math.cos(0.4)));
+  }
+  const floor = MENU_SEA_LEVEL + Math.max(...under);
+  const footing = Math.max(...under) - Math.min(...under) + 1;
+  const cottage = new THREE.BoxGeometry(9, 4.5 + footing, 6);
+  cottage.translate(0, (4.5 - footing) / 2, 0);
   const cot = add(cottage, hazeMaterial(0x0c0b0a, 0x1a1816, 0.0008, 0, noise), 'Menu_Far_Keeper_House');
-  cot.position.set(lx + 9, ly - 0.5, lz + 4);
+  cot.position.set(hx, floor, hz);
   cot.rotation.y = 0.4;
   cot.updateMatrix();
   const lampPos = new THREE.Vector3(lx, ly + 18.5, lz);
@@ -220,11 +231,13 @@ export function buildMenuFar(noise: THREE.Texture): MenuFar {
     const m = blob(x, z, cx, cz, rx, rz, rot, 0.35, seed);
     return m * (hgt * (0.6 + 0.4 * ridged(x * 0.008 + seed, z * 0.008, 3, seed)) + 4 * fbm(x * 0.06, z * 0.06, 2, seed + 1)) - (1 - m) * 6;
   };
-  add(landGrid(-340, -60, -330, -120, 60, 44, hill(21, -210, -225, 150, 80, 0.2, 55)), hazeMaterial(0x0e1411, 0x1e2620, 0.0026, 1, noise), 'Menu_Far_Wood_Hill_Near');
-  add(landGrid(-620, -180, -620, -330, 60, 40, hill(22, -400, -470, 230, 110, 0.1, 80)), hazeMaterial(0x121815, 0x222a24, 0.0021, 1, noise), 'Menu_Far_Wood_Hill_Mid');
-  // The far coast across the bay: a thin band on the horizon, nearly swallowed by the haze.
+  // Each grid reaches past its hill's wobbling outline on every side, so no hill ends in a sheer cut where its grid stops.
+  add(landGrid(-390, -30, -340, -110, 76, 48, hill(21, -210, -225, 150, 80, 0.2, 55)), hazeMaterial(0x0e1411, 0x1e2620, 0.0026, 1, noise), 'Menu_Far_Wood_Hill_Near');
+  add(landGrid(-660, -130, -620, -320, 72, 42, hill(22, -400, -470, 230, 110, 0.1, 80)), hazeMaterial(0x121815, 0x222a24, 0.0021, 1, noise), 'Menu_Far_Wood_Hill_Mid');
+  // The far coast across the bay: a thin band on the horizon, nearly swallowed by the haze. Both ends sink into the sea
+  // before the grid stops, so the band ends in low points rather than sheer cuts.
   add(landGrid(-1600, 200, -2300, -1500, 70, 20, (x, z) => {
-    const m = smoothstep(-1740, -1880, z + fbm(x * 0.004, 0, 2, 31) * 120);
+    const m = smoothstep(-1740, -1880, z + fbm(x * 0.004, 0, 2, 31) * 120) * smoothstep(200, 30, x) * smoothstep(-1600, -1430, x);
     return m * (22 + 30 * ridged(x * 0.003, z * 0.003, 3, 32)) - (1 - m) * 5;
   }), hazeMaterial(0x1a1b1c, 0x2a2a28, 0.0012, 0.5, noise), 'Menu_Far_Coast');
 

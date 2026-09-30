@@ -131,6 +131,29 @@ describe('menu vigil scene', () => {
     expect(pole.position.y).toBeLessThan(1);
   });
 
+  it('flies the crows round the headland outside the tree crown', () => {
+    const { menu } = fixture('low');
+    const crows = menu.scene.getObjectByName('Menu_Crows') as THREE.Mesh;
+    const path = crows.geometry.getAttribute('aPath');
+    const params = crows.geometry.getAttribute('aParams');
+    const leaves = menu.scene.getObjectByName('Menu_Ancient_Tree_Leaves') as THREE.Mesh;
+    const lp = leaves.geometry.getAttribute('position');
+    const pts = Array.from({ length: lp.count }, (_, i) => new THREE.Vector3().fromBufferAttribute(lp, i).applyMatrix4(leaves.matrixWorld));
+    expect(path.count).toBeGreaterThan(3);
+    let nearest = Infinity;
+    for (let c = 0; c < path.count; c++) {
+      const [cx, cz, r, y] = [path.getX(c), path.getY(c), path.getZ(c), params.getX(c)];
+      for (let k = 0; k < 48; k++) {
+        const a = (k / 48) * Math.PI * 2;
+        const x = cx + Math.cos(a) * r;
+        const z = cz + Math.sin(a) * r * 0.7;
+        // The flight path bobs 0.8 m and a leaf card is up to two metres across.
+        for (const p of pts) if (Math.abs(p.y - y) < 2.8) nearest = Math.min(nearest, Math.hypot(p.x - x, p.z - z));
+      }
+    }
+    expect(nearest).toBeGreaterThan(1.5);
+  });
+
   it('keeps the camera still across resizes and widens the view on narrow screens', () => {
     const { menu } = fixture();
     const before = [...menu.camera.position.toArray(), ...menu.camera.quaternion.toArray()];
