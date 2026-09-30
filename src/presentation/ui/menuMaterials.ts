@@ -122,76 +122,127 @@ export function paintLeather(n = 256, seed = 81, tint: [number, number, number] 
 }
 
 /**
- * A 9-slice frame of old cast bronze: an outer rail and an inner rail with a dark channel between, corners stepped in
- * with a notch, the inner edge lined with verdigris. The centre is transparent (the leather shows through).
- * Returns the pixels and the slice width in pixels.
+ * A 9-slice frame cast in one piece of old bronze, solid from its outer edge to the leather it holds, so the frame and
+ * the panel read as one object with nothing of the scene showing between them. From the outside in: a raised rail whose
+ * corners step in round a square notch, a groove, a broad recessed face of tarnished bronze with a boss at each corner,
+ * another groove, a raised inner bead, a lip of verdigris, and a thin shadow where the bead meets the leather. (The
+ * measured Gothic 3 panels are built the same way, rule, mat, inner line, dark field, with every band filled.)
+ *
+ * The profile scales with `slice` (drawn at 48). Everything within `slice` of the edge is opaque except the corner
+ * notches and a soft dark outline outside the rail; the centre is transparent for the leather behind. The face's grain
+ * repeats with the edge tiles' period, so a `round` border-image shows no seam along the sides. Returns the pixels and
+ * the slice width in pixels.
  */
-export function paintBronzeFrame(size = 120, slice = 38, seed = 91): { pixels: Pixels; slice: number } {
+export function paintBronzeFrame(size = 192, slice = 48, seed = 91): { pixels: Pixels; slice: number } {
   const p = px(size, size);
-  const noise = fbmField(size, 12, 12, 3, seed);
-  const pit = fbmField(size, 40, 40, 2, seed + 1);
+  const u = slice / 48;
+  const period = Math.max(8, size - 2 * slice);
+  const tile = (field: Float32Array) => (x: number, y: number) => field[((((y - slice) % period) + period) % period) * period + ((((x - slice) % period) + period) % period)]!;
+  const noise = tile(fbmField(period, 6, 6, 3, seed));
+  const fine = tile(fbmField(period, 24, 24, 2, seed + 1));
+  const blot = tile(fbmField(period, 3, 3, 3, seed + 3));
   const rng = mulberry32(seed + 2);
-  const notch = 11;
-  // The frame's outline at inset t: a rectangle with a square notch stepped into each corner. A rail is the band between
-  // two such outlines, so it follows the notch.
-  const inN = (x: number, y: number, t: number) => {
-    const dx = Math.min(x, size - 1 - x);
-    const dy = Math.min(y, size - 1 - y);
-    return dx >= t && dy >= t && !(dx < t + notch && dy < t + notch);
+  const notch = 14 * u;
+  // Bands, as depths in from the outer outline (the rail and face follow the notched outline; the bead is square).
+  const EDGE = 1 * u;
+  const RAIL = 6 * u;
+  const GROOVE = 7.5 * u;
+  const FACE = 38 * u;
+  const BEAD0 = 39.5 * u;
+  const BEAD1 = 43.5 * u;
+  const LIP = 46.5 * u;
+  const END = 48 * u;
+  const bronze = (k: number, n: number): [number, number, number] => {
+    const tarnish = sstep(0.55, 0.85, n) * 0.4;
+    return [150 * k * (1 - tarnish) + 58 * k * tarnish, 112 * k * (1 - tarnish) + 76 * k * tarnish, 62 * k * (1 - tarnish) + 60 * k * tarnish];
   };
-  const onRail = (x: number, y: number, t: number, w: number) => inN(x, y, t) && !inN(x, y, t + w);
+  const bosses = [
+    [26 * u, 26 * u],
+    [size - 1 - 26 * u, 26 * u],
+    [26 * u, size - 1 - 26 * u],
+    [size - 1 - 26 * u, size - 1 - 26 * u],
+  ];
+  const bossR = 6 * u;
   for (let y = 0; y < size; y++) {
     for (let x = 0; x < size; x++) {
       const o = y * size + x;
-      const outer = onRail(x, y, 2, 6);
-      const inner = onRail(x, y, 12, 3);
-      const verd = onRail(x, y, 15, 1);
-      const channel = !outer && !inner && onRail(x, y, 8, 4);
-      let r = 0;
-      let g = 0;
-      let b = 0;
+      const dx = Math.min(x, size - 1 - x);
+      const dy = Math.min(y, size - 1 - y);
+      const m = Math.min(dx, dy);
+      const outer = Math.min(m, Math.max(dx, dy) - notch);
+      const inner = m;
+      let rgb: [number, number, number] = [0, 0, 0];
       let a = 0;
-      if (outer || inner) {
-        // Bronze: warm, uneven, pitted, darker in the pits and brighter on the worn crown of each rail.
-        const n = noise[o]!;
-        const pits = sstep(0.62, 0.8, pit[o]!);
-        const crown = outer ? 1 - Math.abs(((Math.min(x, size - 1 - x, y, size - 1 - y) - 2) / 6) * 2 - 1) : 0.6;
-        const k = (0.55 + n * 0.55 + crown * 0.35) * (1 - pits * 0.55);
-        r = 150 * k;
-        g = 112 * k;
-        b = 62 * k;
-        // Tarnish creeping in green-brown.
-        const tarnish = sstep(0.55, 0.8, n) * 0.35;
-        r = r * (1 - tarnish) + 60 * tarnish;
-        g = g * (1 - tarnish) + 78 * tarnish;
-        b = b * (1 - tarnish) + 62 * tarnish;
+      // Light from the upper left: the top and left members catch it, the bottom and right fall into shade, and the
+      // corners meet on a mitre, as the four cast lengths of a real frame would.
+      const side = Math.min(x, y, size - 1 - x, size - 1 - y);
+      const light = side === y ? 1.14 : side === x ? 1.06 : side === size - 1 - x ? 0.9 : 0.82;
+      const n = noise(x, y);
+      const f = fine(x, y);
+      if (outer < 0 || inner >= END) {
+        a = 0;
+      } else if (outer < EDGE) {
+        rgb = [8, 6, 4];
+        a = 230;
+      } else if (outer < RAIL) {
+        // The raised outer rail: bright along its worn crown, darker in its pits.
+        const crown = 1 - Math.abs(((outer - EDGE) / (RAIL - EDGE)) * 2 - 1);
+        const pits = sstep(0.62, 0.8, f);
+        rgb = bronze((0.5 + n * 0.45 + crown * 0.5) * (1 - pits * 0.5) * light, n);
         a = 255;
-      } else if (verd) {
-        const k = 0.7 + noise[o]! * 0.5;
-        r = 44 * k;
-        g = 84 * k;
-        b = 76 * k;
-        a = 220;
-      } else if (channel) {
-        r = 10;
-        g = 8;
-        b = 6;
-        a = 235;
+      } else if (outer < GROOVE || (inner >= FACE && inner < BEAD0)) {
+        rgb = [12, 9, 6];
+        a = 255;
+      } else if (inner < FACE) {
+        // The recessed face: blackened, tarnished bronze, darkest where it meets the rails, with green in its hollows.
+        const edge = Math.min(outer - GROOVE, FACE - inner);
+        const sunk = 1 - sstep(0, 4 * u, edge) * 0.35;
+        const k = (0.32 + n * 0.22 + (f - 0.5) * 0.1) * (1.25 - sunk * 0.5) * light;
+        const green = sstep(0.62, 0.85, blot(x, y)) * 0.45;
+        rgb = [110 * k * (1 - green) + 40 * green * k * 2, 80 * k * (1 - green) + 64 * green * k * 2, 46 * k * (1 - green) + 54 * green * k * 2];
+        a = 255;
+        for (const [bx, by] of bosses) {
+          const d = Math.hypot(x - bx!, y - by!);
+          if (d > bossR + 1) continue;
+          // A domed rivet head lit from the upper left, with a dark ring where it sits in the face.
+          if (d > bossR) {
+            rgb = [14, 10, 7];
+          } else {
+            const nx = (x - bx!) / bossR;
+            const ny = (y - by!) / bossR;
+            const nz = Math.sqrt(Math.max(0, 1 - nx * nx - ny * ny));
+            const lit = Math.max(0, -nx * 0.5 - ny * 0.55 + nz * 0.67);
+            rgb = bronze(0.35 + lit * 0.85, n);
+          }
+        }
+      } else if (inner < BEAD1) {
+        const crown = 1 - Math.abs(((inner - BEAD0) / (BEAD1 - BEAD0)) * 2 - 1);
+        rgb = bronze((0.45 + n * 0.4 + crown * 0.45) * light, n);
+        a = 255;
+      } else if (inner < LIP) {
+        const k = (0.75 + n * 0.45) * light;
+        rgb = [34 * k, 70 * k, 64 * k];
+        a = 255;
+      } else {
+        // The dark seam where the bead meets the leather (opaque: nothing is painted behind the frame, and the leather's
+        // own shadow is drawn by the stylesheet inside it).
+        rgb = [10, 7, 5];
+        a = 255;
       }
-      p.data[o * 4] = r;
-      p.data[o * 4 + 1] = g;
-      p.data[o * 4 + 2] = b;
+      p.data[o * 4] = rgb[0];
+      p.data[o * 4 + 1] = rgb[1];
+      p.data[o * 4 + 2] = rgb[2];
       p.data[o * 4 + 3] = a;
     }
   }
-  // A few nicks and dents knocked out of the outer rail.
-  for (let i = 0; i < 10; i++) {
-    const t = rng();
+  // Nicks and dents knocked out of the outer rail, in the repeating stretch of each side.
+  for (let i = 0; i < 12; i++) {
+    const along = slice + rng() * period;
+    const across = EDGE + 1 + rng() * (RAIL - EDGE - 2);
     const side = Math.floor(rng() * 4);
-    const along = slice + t * (size - 2 * slice);
-    const x = side === 0 ? along : side === 1 ? along : side === 2 ? 3 + rng() * 4 : size - 4 - rng() * 4;
-    const y = side === 0 ? 3 + rng() * 4 : side === 1 ? size - 4 - rng() * 4 : along;
-    speck(p, x, y, 0.8 + rng() * 1.2, [30, 22, 14], 0.8);
+    const x = side < 2 ? along : side === 2 ? across : size - 1 - across;
+    const y = side === 0 ? across : side === 1 ? size - 1 - across : along;
+    speck(p, x, y, 0.7 + rng() * 1.1 * u, [26, 19, 12], 0.8);
   }
   return { pixels: p, slice };
 }
