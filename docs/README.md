@@ -1,6 +1,6 @@
 # Tervain documentation
 
-Status: foundation outline, 29 September 2026, plus notes on the browser prototype: its [0.0.5 forest and menu revision](production/releases/0.0.5.md) and the current [0.0.7 menu grove](production/releases/0.0.7.md). The [0.0.4 notes](production/releases/0.0.4.md) preserve earlier construction, menu, and water evidence. Design documents propose; the [prototype notes](engineering/prototype.md) and dated release notes distinguish implemented behavior from outstanding validation.
+Status: foundation outline, 29 September 2026, plus notes on the browser prototype: its historical [0.0.5 forest and menu revision](production/releases/0.0.5.md), public [0.0.7 menu grove](production/releases/0.0.7.md), and local [0.0.8 desktop world-polish candidate](production/releases/0.0.8-world-polish.md). Tervain is for PC; mobile/touch work is outside the current scope. The [0.0.4 notes](production/releases/0.0.4.md) preserve earlier construction, menu, and water evidence. Design documents propose; the [prototype notes](engineering/prototype.md) and dated release notes distinguish implemented behavior from outstanding validation.
 
 ## Reading paths
 
@@ -9,7 +9,8 @@ Status: foundation outline, 29 September 2026, plus notes on the browser prototy
 | Understand the game | [Vision](vision.md) → [setting](world/setting.md) → [factions](world/factions.md) → [slice](production/vertical-slice.md). |
 | Design a quest | [Gameplay](design/gameplay.md) → [factions](world/factions.md) → [quests and consequences](design/quests-and-consequences.md) → [narrative](world/narrative.md). |
 | Start implementation | [Decisions](decisions.md) → [architecture](engineering/architecture.md) → [prototype](engineering/prototype.md) → [shared assets](engineering/shared-assets.md) → [slice](production/vertical-slice.md). |
-| Play or test the build | [Prototype](engineering/prototype.md) → [0.0.5 scope and handoff](production/releases/0.0.5.md) → [future slice acceptance](production/vertical-slice.md). |
+| Play or test the build | [Prototype](engineering/prototype.md) → [0.0.8 candidate handoff](production/releases/0.0.8-world-polish.md) → [public 0.0.7 record](production/releases/0.0.7.md) → [future slice acceptance](production/vertical-slice.md). |
+| Work on item controls and world pickups | [0.0.8 inventory/hotbar/map/pickups](production/releases/0.0.8-world-polish.md#inventory-hotbar-map-and-world-pickups) → [controls and save recovery](engineering/prototype.md) → [A35 scope](decisions.md). |
 | Make environment or character art | [Art/audio/UI](art/art-audio-ui.md) → [setting](world/setting.md) → [shared assets](engineering/shared-assets.md). |
 | Work on the people or the unarmed start | [People notes](production/releases/0.0.5-people.md) → [Gothic 3 people study](art/gothic3-reference.md#people) → [people update](art/art-audio-ui.md#people-update-30-september-2026). |
 | Plan the project | [Vision](vision.md) → [roadmap](production/roadmap.md) → [decisions](decisions.md). |

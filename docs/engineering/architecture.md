@@ -2,6 +2,8 @@
 
 Status: **proposed architecture, with a first browser prototype that follows its module boundaries** (see [prototype notes](prototype.md)). The selected language, renderer, desktop shell, physics library, and platform set remain decisions to validate. See [P01–P04 and O04–O06](../decisions.md). Nothing here has been measured on a reference device.
 
+The owner's latest platform direction is **PC only** ([A34](../decisions.md)); mobile/touch work is not a requirement. The public browser prototype is `0.0.7`; the local `0.0.8` candidate implements player/world collision, finite camera obstruction, supported-height persistence, desktop interface, and connected construction. The expanded A35 scope adds command-owned equipment/consumption and quick-slot bindings, one-time world pickups, and map interaction/pin state. Saves carry binding/equipment/marker/taken-item data; map pan/zoom are presentation state retained across panel reopen, not currently serialized across page reload. Its [handoff](../production/releases/0.0.8-world-polish.md) separates implementation from final runtime acceptance and publication. That local work does not decide the desktop shell, final OS support list, or minimum hardware.
+
 ## Objective
 
 Support a responsive third-person character, a convincing outdoor scene, a handful of active NPCs, authored encounters, branching local quests, and reliable persistent state in a packaged single-player application. Keep the cost of creating the next good location manageable.
