@@ -605,7 +605,7 @@ export function slotsPanel(ctx: PanelCtx, mode: 'save' | 'load'): HTMLElement {
 }
 
 export function aboutPanel(ctx: PanelCtx): HTMLElement {
-  return h('div', {}, h('h1', {}, S('menu.about')), h('p', {}, S('about.body')), h('div', { class: 'row', style: { marginTop: '14px' } }, closeBtn(ctx, S('menu.back'))));
+  return h('div', {}, h('h1', {}, S('menu.about')), h('p', {}, S('about.body', { version: GAME_VERSION })), h('div', { class: 'row', style: { marginTop: '14px' } }, closeBtn(ctx, S('menu.back'))));
 }
 
 export function controlsPanel(ctx: PanelCtx): HTMLElement {

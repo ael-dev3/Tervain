@@ -47,7 +47,7 @@ export const EN: Record<string, string> = {
   'menu.savetime': '{day} · {phase} · {play}',
   'menu.day': 'Day {n}',
   'about.body':
-    'This is the 0.0.5 browser exploration prototype: a solitary arrival with no remembered name, an empty grey strand, a dense old woodland and an inland settlement. The opening uses environmental clues and a journal; there are no conversation windows in this patch. The earlier water-dispute systems remain in the prototype, with their dialogue graph retained for future work. Original models and textures are built in code. This is an early game build, without measured device-performance or Steam claims. See docs/engineering/prototype.md for its implemented scope.',
+    'Tervain {version} is a PC-focused exploration pre-alpha: a solitary arrival with no remembered name, a grey strand, dense old woodland and an inland settlement. Gather provisions, plants and salvage; manage your inventory and an initially empty ten-slot item and weapon bar; explore with a journal and a map that keeps your personal marker. This build combines the world, movement and collision improvements with repaintable skinned characters. The opening uses environmental clues without conversation windows. The earlier water-dispute systems and dialogue graph remain for future work. Models and default textures are original and built in code. Steam packaging and minimum PC requirements are not yet established. See docs/engineering/prototype.md for the implemented scope.',
 
   /* ---------- Silent arrival ---------- */
   'arrival.wake': 'Salt on your lips. No memory of your name, or how you reached this shore.',
