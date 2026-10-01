@@ -1,14 +1,18 @@
 import * as THREE from 'three';
 import { describe, expect, it, vi } from 'vitest';
-import { createBanditRig, createPlayerRig } from '../../src/presentation/characters';
+import { createBanditRig, createPlayerRig, personBuildOptions } from '../../src/presentation/characters';
 import { disposeSceneResources } from '../../src/presentation/disposeScene';
+
+// These tests check people's geometry, projection and paint logic, not texture resolution: paint small sheets inline.
+personBuildOptions.sheetSize = 256;
 
 const rigSkeleton = (root: THREE.Object3D) => {
   const meshes: THREE.SkinnedMesh[] = [];
   root.traverse((object) => {
     if ((object as THREE.SkinnedMesh).isSkinnedMesh) meshes.push(object as THREE.SkinnedMesh);
   });
-  expect(meshes.length).toBeGreaterThan(1);
+  // A person is one skinned mesh; the player's sash is a second on the same skeleton.
+  expect(meshes.length).toBeGreaterThanOrEqual(1);
   const skeleton = meshes[0]!.skeleton;
   expect(meshes.every((mesh) => mesh.skeleton === skeleton)).toBe(true);
   // The renderer makes this texture on the first draw; no WebGL context is

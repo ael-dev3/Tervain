@@ -8,9 +8,15 @@ import { npcStyle, type WorkGesture } from './npcStyle';
 import type { AssetNeed } from './assets/library';
 import { Frame } from './human/frame';
 import { buildHead, type HairCut, type HeadFit } from './human/head';
-import { makeFaceShape, type BeardStyle, type Build } from './human/headShape';
-import { dress, dressHead, Meshers, sashBand, type Outfit } from './human/dress';
-import { clothTexture, eyeTexture, faceTexture, strandTexture, type ClothKind } from './human/humanTex';
+import { makeFaceShape, type BeardStyle, type Build, type FaceShape } from './human/headShape';
+import { dress, dressHead, sashBand, type Outfit } from './human/dress';
+import type { PaintSpec } from './human/paint';
+import { buildPersonMesh, placeholderSheet, sheetTexture, Wardrobe } from './human/person';
+import { decodeSheetImage, overrideTexture, overrideUrl } from './human/overrides';
+import type { SheetLayout } from './human/sheet';
+import type { SheetJob, SheetResult } from './human/sheetJob';
+import { personMaterial } from './human/sheetMaterial';
+import { paintSheetJob, track } from './human/sheetPool';
 import { banditOutfit, lookOutfit, npcOutfit, playerOutfit, linear } from './human/outfits';
 import { BI, BONES, box, ellipsoid, loft, Mesher, mul3, rigid, tube, type BoneName, type V3 } from './human/skin';
 
@@ -22,6 +28,10 @@ export const NEEDS: AssetNeed[] = [];
  * skeleton per person, a skinned body dressed in layered clothes, a separate sculpted and painted head with eyes, lids,
  * ears, hair and beard, and props (a blade, a scabbard) hung on the bones. Everything is generated in code; nothing is
  * taken from Gothic 3. The Thornback is a rigid creature rig.
+ *
+ * Each person is one skinned mesh coloured by one texture sheet: a model sheet of the person seen from the front, the
+ * sides and the back, with the head large below (human/sheet.ts). The sheet is painted in code; an image dropped into
+ * src/assets/people/<id>.png replaces it (human/overrides.ts, docs/art/people-retexture.md).
  */
 
 export type Mode =
@@ -52,6 +62,34 @@ export interface Pose {
   amp: number;
   /** Authored, restrained task motion; no gameplay state is inferred from the gesture. */
   workGesture?: WorkGesture;
+  /**
+   * A resident's idle routine while standing: who they are (seed) and a clock in seconds. Without it a person stands in
+   * the plain idle (the player, hostiles). `force` holds one variant (the people tool).
+   */
+  idle?: { seed: number; clock: number; force?: IdleVariant };
+}
+
+/** What a resident does with themselves while standing, chosen in turn by their idle routine (presentation only). */
+export const IDLE_VARIANTS = ['rest', 'arms crossed', 'hands on hips', 'hands behind back', 'look around', 'scratch head', 'shift weight'] as const;
+export type IdleVariant = (typeof IDLE_VARIANTS)[number];
+
+/** Seconds each idle turn lasts, and how often each variant comes up (rest most often). */
+const IDLE_TURN = 7;
+const IDLE_ODDS: readonly number[] = [4, 2, 2, 2, 2, 1, 2];
+
+/** The variant a resident's routine is on at a time: deterministic for a seed, changing every turn. */
+export function idleVariant(seed: number, clock: number): IdleVariant {
+  const turn = Math.floor(clock / IDLE_TURN);
+  let h = Math.imul(seed | 0, 0x9e3779b1) ^ Math.imul(turn, 0x85ebca6b);
+  h = Math.imul(h ^ (h >>> 15), 0x2c1b3c6d);
+  h = (h ^ (h >>> 13)) >>> 0;
+  const total = IDLE_ODDS.reduce((a, b) => a + b, 0);
+  let pick = (h % 1000) / 1000 * total;
+  for (let i = 0; i < IDLE_ODDS.length; i++) {
+    pick -= IDLE_ODDS[i]!;
+    if (pick < 0) return IDLE_VARIANTS[i]!;
+  }
+  return 'rest';
 }
 
 /** What a person has in hand: nothing (fists) or a blade. */
@@ -91,6 +129,30 @@ export interface Rig {
   kind: 'humanoid' | 'thornback';
   /** Whether the rig currently casts shadows (see setRigShadow). */
   shadowOn?: boolean;
+  /** A person's skinned mesh, its sheet and how the sheet was laid out (people only). */
+  person?: PersonRigInfo;
+}
+
+export interface PersonRigInfo {
+  /** The name a replacement sheet is filed under (src/assets/people/<id>.png). */
+  id: string;
+  mesh: THREE.SkinnedMesh;
+  material: THREE.MeshStandardMaterial;
+  /** The sheet in use: a placeholder until the painted sheet (or a replacement image) arrives. */
+  sheet: THREE.Texture;
+  /** Where the sheet came from. */
+  source: 'pending' | 'painted' | 'override';
+  parts: readonly PaintSpec[];
+  /** Resolves once the sheet is applied and the person is shown. */
+  ready: Promise<void>;
+  /** The sheet's layout and timings once known; with `personBuildOptions.keepSheetData`, its pixels, projection and job. */
+  sheetData: { layout?: SheetLayout; result?: SheetResult; job?: SheetJob; vertices: number; triangles: number };
+  /** Heights (bind pose, metres) of the joints and features, for guide lines on the sheet's template. */
+  guides: { body: { label: string; y: number }[]; head: { label: string; y: number }[] };
+  /** What the person was built from (the export tool describes them from it). */
+  spec: PersonSpec;
+  /** Dress the person in a sheet image (a URL) laid out like theirs; used for replacement sheets and by the people tool. */
+  applyImage: (url: string) => Promise<void>;
 }
 
 export interface Look {
@@ -104,7 +166,7 @@ export interface Look {
   accent?: number;
 }
 
-const ANGLE_KEYS = ['legL', 'legR', 'armLx', 'armLz', 'armRx', 'armRz', 'torsoX', 'torsoZ', 'headX', 'headY', 'lower', 'bodyX', 'bodyY', 'kneeL', 'kneeR', 'elbowL', 'elbowR'] as const;
+const ANGLE_KEYS = ['legL', 'legR', 'armLx', 'armLy', 'armLz', 'armRx', 'armRy', 'armRz', 'torsoX', 'torsoZ', 'headX', 'headY', 'lower', 'bodyX', 'bodyY', 'kneeL', 'kneeR', 'elbowL', 'elbowR'] as const;
 
 /* ================================================================ people */
 
@@ -124,7 +186,20 @@ export interface PersonSpec {
   /** What the person carries. A 'blade' starts drawn in hand; 'sheathed' hangs at the hip. */
   weapon?: 'blade' | 'club' | 'sheathed';
   sash?: boolean;
+  /** Who this is, for a replacement sheet (src/assets/people/<id>.png). */
+  id: string;
+  /** Sheet size in pixels (square). */
+  sheetSize?: number;
 }
+
+export const personBuildOptions = {
+  /** Keep each person's projection and painted pixels on the rig (the people tool and the sheet export need them). */
+  keepSheetData: false,
+  /** Default sheet size (square, pixels). */
+  sheetSize: 1024,
+  /** Ignore replacement images in src/assets/people (to compare with the painted sheets). */
+  ignoreOverrides: false,
+};
 
 const IRISES: RGB[] = [
   [0.09, 0.05, 0.022],
@@ -134,21 +209,6 @@ const IRISES: RGB[] = [
   [0.1, 0.12, 0.08],
   [0.06, 0.035, 0.018],
 ];
-
-const clothKinds: ClothKind[] = ['linen', 'wool', 'leather', 'padded', 'mail', 'felt'];
-
-function materialFor(key: string, face: THREE.Texture | null, eye: THREE.Texture | null): THREE.MeshStandardMaterial {
-  if (key === 'skin') return new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.62 });
-  if (key === 'face') return new THREE.MeshStandardMaterial({ vertexColors: true, map: face, roughness: 0.6 });
-  if (key === 'eyes') return new THREE.MeshStandardMaterial({ map: eye, roughness: 0.2 });
-  if (key === 'hair') return new THREE.MeshStandardMaterial({ vertexColors: true, map: strandTexture(), roughness: 0.74, side: THREE.DoubleSide });
-  if (key === 'metal') return new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.42, metalness: 0.62 });
-  if (key === 'mail') return new THREE.MeshStandardMaterial({ vertexColors: true, map: clothTexture('mail'), roughness: 0.5, metalness: 0.55, side: THREE.DoubleSide });
-  if ((clothKinds as string[]).includes(key)) {
-    return new THREE.MeshStandardMaterial({ vertexColors: true, map: clothTexture(key as ClothKind), roughness: key === 'leather' ? 0.68 : key === 'felt' ? 0.9 : 0.95, side: THREE.DoubleSide });
-  }
-  return new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.9 });
-}
 
 const PARENT: Record<BoneName, BoneName | null> = {
   hips: null,
@@ -164,21 +224,45 @@ const PARENT: Record<BoneName, BoneName | null> = {
   kneeR: 'legR',
 };
 
+/** Where the joints and the features are (bind-pose heights), for the guide lines on a sheet's template. */
+function personGuides(f: Frame, beltY: number, s: FaceShape, headY: number, headScale: number): PersonRigInfo['guides'] {
+  const at = (unitY: number) => headY + (unitY * s.sy + s.cy) * headScale;
+  return {
+    body: [
+      { label: 'ankle', y: f.hipY - f.thigh - f.shin },
+      { label: 'knee', y: f.hipY - f.thigh },
+      { label: 'hip', y: f.hipY },
+      { label: 'belt', y: beltY },
+      { label: 'shoulder', y: f.shoulderY },
+      { label: 'chin', y: at(-1) },
+      { label: 'eyes', y: at(s.eyeY) },
+    ],
+    head: [
+      { label: 'chin', y: at(-1) },
+      { label: 'mouth', y: at(s.mouthY) },
+      { label: 'nose', y: at(s.noseBaseY) },
+      { label: 'eyes', y: at(s.eyeY) },
+      { label: 'brows', y: at(s.browY) },
+      { label: 'hairline', y: at(s.hairFront) },
+    ],
+  };
+}
+
 /** Build one person: skeleton, skinned body, clothes, head, props. */
 export function createPersonRig(p: PersonSpec): Rig {
   const frame = new Frame(p.build, p.height, p.girth);
-  const ms = new Meshers(() => new Mesher());
-  const fit = dress(frame, p.outfit, ms);
+  const wd = new Wardrobe();
+  const fit = dress(frame, p.outfit, wd);
   const shape = makeFaceShape(p.faceSeed, p.build, p.age);
   const o = p.outfit;
   const covered = !!(o.hood || o.hat || o.helmet || o.scarf);
   const J = frame.joints();
   const headFit: HeadFit = buildHead(
-    { face: ms.get('face'), skin: ms.get('skin'), eyes: ms.get('eyes'), hair: ms.get('hair') },
+    wd,
     { shape, skin: o.skin, hair: p.hair, iris: IRISES[p.faceSeed % IRISES.length]!, cut: p.cut, beard: p.beard, age: p.age, seed: p.faceSeed, covered },
     { origin: J.head, scale: frame.headScale, head: frame.weights('head'), hair: frame.weights('hair'), backZ: (y) => frame.backZ(y) - fit.outerGrow, shoulderY: frame.shoulderY },
   );
-  dressHead(frame, o, ms, headFit, fit.outerGrow);
+  dressHead(frame, o, wd, headFit, fit.outerGrow);
 
   // Skeleton.
   const root = new THREE.Group();
@@ -200,21 +284,31 @@ export function createPersonRig(p: PersonSpec): Rig {
   root.updateMatrixWorld(true);
   const skeleton = new THREE.Skeleton(BONES.map((n) => bones[n]));
 
-  // Textures and materials, one skinned mesh per material.
-  const skinTone = o.skin;
-  const face = faceTexture(shape, {
-    skin: skinTone,
-    hair: p.hair,
-    stubble: p.stubble,
-    age: p.age,
-    scalp: p.cut === 'bald' ? 'fringe' : 'full',
-    beard: p.beard,
-    fine: p.build === 'woman',
-    weather: p.weather,
-    seed: p.faceSeed,
+  // One skinned mesh and one sheet for the whole person. The face is painted in the head's own (u, v) and projected
+  // into the face panel with everything else.
+  const keep = personBuildOptions.keepSheetData;
+  const built = buildPersonMesh(wd, {
+    size: p.sheetSize ?? personBuildOptions.sheetSize,
+    joints: J,
+    keep,
+    face: {
+      shape,
+      n: 256,
+      paint: {
+        skin: o.skin,
+        hair: p.hair,
+        stubble: p.stubble,
+        age: p.age,
+        scalp: p.cut === 'bald' ? 'fringe' : 'full',
+        beard: p.beard,
+        fine: p.build === 'woman',
+        weather: p.weather,
+        seed: p.faceSeed,
+      },
+    },
   });
-  const eye = eyeTexture(IRISES[p.faceSeed % IRISES.length]!);
-  const materials: THREE.MeshStandardMaterial[] = [];
+  const material = personMaterial(placeholderSheet());
+  const materials: THREE.MeshStandardMaterial[] = [material];
   const sphere = new THREE.Sphere(new THREE.Vector3(0, 0.95 * frame.H, 0), 2.0 * frame.H);
   const addSkinned = (geo: THREE.BufferGeometry, mat: THREE.MeshStandardMaterial) => {
     const mesh = new THREE.SkinnedMesh(geo, mat);
@@ -224,12 +318,58 @@ export function createPersonRig(p: PersonSpec): Rig {
     mesh.castShadow = true;
     return mesh;
   };
-  for (const [key, m] of ms.entries()) {
-    const geo = m.geometry();
-    if (!geo) continue;
-    const mat = materialFor(key, face, eye);
-    materials.push(mat);
-    addSkinned(geo, mat);
+  const personMesh = addSkinned(built.geometry, material);
+  personMesh.name = 'person';
+  // Hidden until its sheet arrives (the loading screen waits for every sheet; see sheetsSettled).
+  personMesh.visible = false;
+  const person: PersonRigInfo = {
+    id: p.id,
+    mesh: personMesh,
+    material,
+    sheet: material.map!,
+    source: 'pending',
+    parts: wd.parts,
+    ready: Promise.resolve(),
+    sheetData: { vertices: built.vertices, triangles: built.triangles, job: keep ? built.job : undefined },
+    guides: personGuides(frame, fit.beltY, shape, J.head[1], frame.headScale),
+    spec: p,
+    applyImage: () => Promise.resolve(),
+  };
+  const show = (r: SheetResult, tex: THREE.Texture, source: 'painted' | 'override') => {
+    built.apply(r);
+    const old = material.map;
+    material.map = tex;
+    old?.dispose();
+    person.sheet = tex;
+    person.source = source;
+    person.sheetData.layout = r.layout;
+    if (keep) person.sheetData.result = r;
+    personMesh.visible = true;
+  };
+  const paint = () => {
+    const r = paintSheetJob(built.job);
+    const done = (res: SheetResult) => show(res, sheetTexture(res.pixels!, res.layout.width, `sheet:${p.id}`), 'painted');
+    if (r instanceof Promise) return r.then(done);
+    done(r);
+    return Promise.resolve();
+  };
+  person.applyImage = async (src: string) => {
+    // A replacement image: project at its size (no painting) and fill its background gaps from the coverage.
+    const { pixels, size } = await decodeSheetImage(src);
+    const job = paintSheetJob({ ...built.job, size, skipPaint: true, keep: false });
+    const r = job instanceof Promise ? await job : job;
+    show(r, overrideTexture(pixels, r.covered, size, `sheet:${p.id}:override`), 'override');
+  };
+  const url = personBuildOptions.ignoreOverrides ? null : overrideUrl(p.id);
+  if (url && typeof document !== 'undefined') {
+    person.ready = track(
+      person.applyImage(url).catch((err: unknown) => {
+        console.warn(`replacement sheet for ${p.id} could not be used; painting it instead`, err);
+        return paint();
+      }),
+    );
+  } else {
+    person.ready = paint();
   }
 
   // The sash of local standing, recoloured at runtime.
@@ -239,7 +379,7 @@ export function createPersonRig(p: PersonSpec): Rig {
     sashBand(frame, sm, fit.outerGrow);
     const geo = sm.geometry();
     if (geo) {
-      const mat = new THREE.MeshStandardMaterial({ color: 0xffffff, vertexColors: true, map: clothTexture('wool'), roughness: 0.95, side: THREE.DoubleSide });
+      const mat = new THREE.MeshStandardMaterial({ color: 0xffffff, vertexColors: true, roughness: 0.95, side: THREE.DoubleSide });
       materials.push(mat);
       sash = addSkinned(geo, mat);
       sash.visible = false;
@@ -248,7 +388,7 @@ export function createPersonRig(p: PersonSpec): Rig {
 
   // Props on the bones: a blade or club in the right hand, a scabbard on the left hip.
   const metalM = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.5, metalness: 0.6 });
-  const leatherM = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.7, map: clothTexture('leather') });
+  const leatherM = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.7 });
   const woodM = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.85 });
   materials.push(metalM, leatherM, woodM);
   const hs = frame.handScale * frame.H;
@@ -308,6 +448,7 @@ export function createPersonRig(p: PersonSpec): Rig {
     materials,
     hitFlash: 0,
     kind: 'humanoid',
+    person,
   };
   setArmed(rig, p.weapon === 'sheathed' ? 'sheathed' : p.weapon ? 'drawn' : 'none');
   return rig;
@@ -445,6 +586,7 @@ export function createNpcRig(def: NpcDef): Rig {
     stubble: st.build === 'man' && st.beard === 'none' ? 0.5 : st.build === 'man' ? 0.3 : 0,
     weather: def.faction === 'marcher' || def.faction === 'traveler' ? 0.8 : 0.45,
     weapon: def.id === 'shrine_warden' ? 'sheathed' : undefined,
+    id: def.id,
   });
 }
 
@@ -467,6 +609,7 @@ export function createPlayerRig(): Rig {
     // The blade exists on the rig but stays hidden until the wanderer finds one (see setArmed).
     weapon: 'sheathed',
     sash: true,
+    id: 'player',
   });
   setArmed(rig, 'none');
   return rig;
@@ -487,10 +630,13 @@ export function createBanditRig(variant: number): Rig {
     stubble: 0.8,
     weather: 0.9,
     weapon: variant ? 'club' : 'blade',
+    id: variant ? 'bandit_b' : 'bandit_a',
   });
 }
 
 export interface AmbientStyle {
+  /** Who this is, for a replacement sheet. */
+  id: string;
   build: Build;
   cut: HairCut;
   beard: BeardStyle;
@@ -512,6 +658,7 @@ export function createAmbientRig(look: Look, style: AmbientStyle): Rig {
     faceSeed: style.faceSeed,
     stubble: style.build === 'man' ? 0.5 : 0,
     weather: 0.8,
+    id: style.id,
   });
 }
 
@@ -675,7 +822,7 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
     poseCreature(rig, p, a);
   } else {
     switch (p.mode) {
-      case 'idle':
+      case 'idle': {
         // Arms hang a little away from the body (+z lifts the left arm outward, -z the right).
         a.armLx = 0.04 + breathe * 3;
         a.armRx = 0.04 - breathe * 3;
@@ -689,8 +836,16 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
           a.armRx = -0.28;
           a.armRz = 0.12;
           a.elbowR = -0.55;
+        } else if (p.idle) {
+          // A resident's routine: something to do with themselves while they stand, as the Gothic games' people fold
+          // their arms, look about or scratch their heads (proposal; presentation only).
+          const c = p.idle.clock;
+          const v = p.idle.force ?? idleVariant(p.idle.seed, c);
+          idlePose(a, v, c, amp);
+          fast = 3.2;
         }
         break;
+      }
       case 'walk':
       case 'run': {
         const run = p.mode === 'run' ? 1 : 0;
@@ -971,8 +1126,9 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
     const scale = rig.hipY / 0.95;
     rig.legL.rotation.x = c.legL;
     rig.legR.rotation.x = c.legR;
-    rig.armL.rotation.set(c.armLx, 0, c.armLz);
-    rig.armR.rotation.set(c.armRx, 0, c.armRz);
+    // y turns the arm about its own length (the forearm folds across the body, not forward).
+    rig.armL.rotation.set(c.armLx, c.armLy, c.armLz);
+    rig.armR.rotation.set(c.armRx, c.armRy, c.armRz);
     rig.torso.rotation.set(c.torsoX, c.bodyY * 0.6, c.torsoZ);
     rig.head.rotation.set(c.headX, c.headY, 0);
     if (rig.kneeL) rig.kneeL.rotation.x = c.kneeL;
@@ -986,6 +1142,67 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
   // Hit flash tints materials briefly.
   if (rig.hitFlash > 0) {
     rig.hitFlash = Math.max(0, rig.hitFlash - dt * 4);
+  }
+}
+
+/** Targets for one idle variant (on top of the plain idle already in `a`). */
+function idlePose(a: Record<string, number>, v: IdleVariant, clock: number, amp: number) {
+  switch (v) {
+    case 'rest':
+      break;
+    case 'arms crossed':
+      // Upper arms close to the body, turned in, forearms folded across the chest, the right over the left.
+      a.armLx = -0.22;
+      a.armRx = -0.3;
+      a.armLy = -1.2;
+      a.armRy = 1.2;
+      a.armLz = -0.06;
+      a.armRz = 0.06;
+      a.elbowL = -1.55;
+      a.elbowR = -1.72;
+      a.headX = 0.02;
+      break;
+    case 'hands on hips':
+      a.armLz = 0.52;
+      a.armRz = -0.52;
+      a.armLx = 0.18;
+      a.armRx = 0.18;
+      a.elbowL = -1.25;
+      a.elbowR = -1.25;
+      a.torsoX = 0.01;
+      a.headX = -0.03;
+      break;
+    case 'hands behind back':
+      a.armLx = 0.42;
+      a.armRx = 0.42;
+      a.armLz = -0.04;
+      a.armRz = 0.04;
+      a.elbowL = -0.85;
+      a.elbowR = -0.85;
+      a.headX = 0.02;
+      break;
+    case 'look around':
+      // A slow look from one side to the other, the shoulders following a little.
+      a.headY = Math.sin(clock * 0.55) * 0.75 * amp;
+      a.bodyY = Math.sin(clock * 0.55 - 0.6) * 0.18 * amp;
+      a.headX = -0.04;
+      break;
+    case 'scratch head':
+      a.armRx = -2.45;
+      a.armRz = -0.4;
+      a.elbowR = -2.15 + 0.07 * Math.sin(clock * 13) * amp;
+      a.headX = 0.12;
+      a.headY = -0.12;
+      break;
+    case 'shift weight':
+      // Weight on the right leg, the left knee easy, the hips dropped a touch to that side.
+      a.legL = -0.07;
+      a.kneeL = 0.3;
+      a.legR = 0.03;
+      a.lower = -0.012;
+      a.torsoZ = 0.045;
+      a.armLz = 0.15;
+      break;
   }
 }
 

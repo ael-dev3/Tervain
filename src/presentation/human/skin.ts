@@ -2,10 +2,14 @@ import * as THREE from 'three';
 import { mulberry32 } from '../../world/noise';
 
 /**
- * Geometry for skinned people. Every part of a person (body, clothes, head, hair) is written into a `Mesher` per material
- * in the rig's bind pose, each vertex carrying up to four bone weights, and becomes one SkinnedMesh on a shared skeleton.
+ * Geometry for skinned people. Every part of a person (body, clothes, head, hair) is written into a `Mesher` in the rig's
+ * bind pose, each vertex carrying up to four bone weights, and the person becomes one SkinnedMesh on its skeleton.
  * Gothic 3 builds its actors the same way (skinned bodies with separate heads and hair on one skeleton), and it is what
  * lets a shoulder, knee or skirt bend without the gaps and interpenetration of rigid segments.
+ *
+ * Each vertex also records which painted part it belongs to (`part`, an index into the person's part table) and where it
+ * lies on that part (`PA` local attributes), so the sheet painter can draw hems, seams, trims and folds that land on the
+ * modelled ones (sheet.ts, paint.ts).
  */
 
 export type RGB = [number, number, number];
@@ -32,6 +36,33 @@ export const sstep = (a: number, b: number, x: number) => {
 export const mix3 = (a: RGB, b: RGB, t: number): RGB => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
 export const mul3 = (a: RGB, k: number): RGB => [a[0] * k, a[1] * k, a[2] * k];
 
+/**
+ * Local paint attributes per vertex:
+ *   0 lu    across the surface: metres of arc from the front for lofts, 0..1 round a tube or sphere
+ *   1 lv    along it: bind height for lofts (distance along a foot), metres along a tube, 0..1 down a sphere
+ *   2 e0    distance to the lower (or starting) edge, metres; 9 if none
+ *   3 e1    distance to the upper (or end) edge
+ *   4 e2    distance to an opening's edge (an open coat's front, an apron's sides)
+ *   5 fold  the fold's push at this vertex (m), negative in a valley
+ *   6..9    primitive-specific: lofts (angle from the front, ring fraction, 1 on a turned edge); spheres (unit direction);
+ *           tubes (angle 0..1, fraction along); the head grid (unused); lids (row, upper)
+ */
+export const PA = 10;
+export const NO_EDGE = 9;
+const ZERO_PA: readonly number[] = new Array(PA).fill(0);
+
+export interface MesherData {
+  pos: Float32Array;
+  col: Float32Array;
+  uv: Float32Array;
+  skinIndex: Uint16Array;
+  skinWeight: Float32Array;
+  index: Uint32Array;
+  welds: Uint32Array;
+  pa: Float32Array;
+  part: Uint16Array;
+}
+
 export class Mesher {
   private readonly p: number[] = [];
   private readonly c: number[] = [];
@@ -40,6 +71,10 @@ export class Mesher {
   private readonly sw: number[] = [];
   private readonly ix: number[] = [];
   private readonly welds: number[] = [];
+  private readonly pa: number[] = [];
+  private readonly pid: number[] = [];
+  /** The painted part that new vertices belong to (an index into the person's part table). */
+  part = 0;
 
   get count() {
     return this.p.length / 3;
@@ -49,12 +84,12 @@ export class Mesher {
     return this.ix.length / 3;
   }
 
-  vert(x: number, y: number, z: number, col: RGB, u: number, v: number, w: Influence[]): number {
+  vert(x: number, y: number, z: number, col: RGB, u: number, v: number, w: Influence[], a: readonly number[] = ZERO_PA): number {
     this.p.push(x, y, z);
     this.c.push(col[0], col[1], col[2]);
     this.t.push(u, v);
     // Keep the four strongest influences, normalised.
-    const s = w.filter((e) => e[1] > 1e-4).sort((a, b) => b[1] - a[1]);
+    const s = w.filter((e) => e[1] > 1e-4).sort((p, q) => q[1] - p[1]);
     let tot = 0;
     for (let i = 0; i < Math.min(4, s.length); i++) tot += s[i]![1];
     for (let i = 0; i < 4; i++) {
@@ -62,6 +97,8 @@ export class Mesher {
       this.si.push(e ? e[0] : 0);
       this.sw.push(e && tot > 0 ? e[1] / tot : i === 0 && !e ? 1 : 0);
     }
+    for (let k = 0; k < PA; k++) this.pa.push(a[k] ?? 0);
+    this.pid.push(this.part);
     return this.count - 1;
   }
 
@@ -78,55 +115,86 @@ export class Mesher {
     return [this.p[i * 3]!, this.p[i * 3 + 1]!, this.p[i * 3 + 2]!];
   }
 
+  /** Change the local attributes of a vertex already written (for primitives that learn them afterwards). */
+  setAttr(i: number, k: number, value: number) {
+    this.pa[i * PA + k] = value;
+  }
+
+  data(): MesherData {
+    return {
+      pos: new Float32Array(this.p),
+      col: new Float32Array(this.c),
+      uv: new Float32Array(this.t),
+      skinIndex: new Uint16Array(this.si),
+      skinWeight: new Float32Array(this.sw),
+      index: new Uint32Array(this.ix),
+      welds: new Uint32Array(this.welds),
+      pa: new Float32Array(this.pa),
+      part: new Uint16Array(this.pid),
+    };
+  }
+
+  /** A plain skinned geometry with vertex colours (props and the sash, which are not painted into a sheet). */
   geometry(): THREE.BufferGeometry | null {
     const n = this.count;
     if (n === 0 || this.ix.length === 0) return null;
-    const P = this.p;
-    const nrm = new Float32Array(n * 3);
-    for (let i = 0; i < this.ix.length; i += 3) {
-      const a = this.ix[i]!;
-      const b = this.ix[i + 1]!;
-      const c = this.ix[i + 2]!;
-      const ax = P[a * 3]!, ay = P[a * 3 + 1]!, az = P[a * 3 + 2]!;
-      const e1x = P[b * 3]! - ax, e1y = P[b * 3 + 1]! - ay, e1z = P[b * 3 + 2]! - az;
-      const e2x = P[c * 3]! - ax, e2y = P[c * 3 + 1]! - ay, e2z = P[c * 3 + 2]! - az;
-      const fx = e1y * e2z - e1z * e2y;
-      const fy = e1z * e2x - e1x * e2z;
-      const fz = e1x * e2y - e1y * e2x;
-      for (const v of [a, b, c]) {
-        nrm[v * 3] = nrm[v * 3]! + fx;
-        nrm[v * 3 + 1] = nrm[v * 3 + 1]! + fy;
-        nrm[v * 3 + 2] = nrm[v * 3 + 2]! + fz;
-      }
-    }
-    for (let i = 0; i < this.welds.length; i += 2) {
-      const a = this.welds[i]!;
-      const b = this.welds[i + 1]!;
-      for (let k = 0; k < 3; k++) {
-        const s = nrm[a * 3 + k]! + nrm[b * 3 + k]!;
-        nrm[a * 3 + k] = s;
-        nrm[b * 3 + k] = s;
-      }
-    }
-    for (let i = 0; i < n; i++) {
-      const x = nrm[i * 3]!;
-      const y = nrm[i * 3 + 1]!;
-      const z = nrm[i * 3 + 2]!;
-      const l = Math.hypot(x, y, z) || 1;
-      nrm[i * 3] = x / l;
-      nrm[i * 3 + 1] = y / l;
-      nrm[i * 3 + 2] = z / l;
-    }
+    const d = this.data();
+    const nrm = smoothNormals(d.pos, d.index, d.welds);
     const g = new THREE.BufferGeometry();
-    g.setAttribute('position', new THREE.Float32BufferAttribute(P, 3));
+    g.setAttribute('position', new THREE.BufferAttribute(d.pos, 3));
     g.setAttribute('normal', new THREE.BufferAttribute(nrm, 3));
-    g.setAttribute('color', new THREE.Float32BufferAttribute(this.c, 3));
-    g.setAttribute('uv', new THREE.Float32BufferAttribute(this.t, 2));
-    g.setAttribute('skinIndex', new THREE.Uint16BufferAttribute(this.si, 4));
-    g.setAttribute('skinWeight', new THREE.Float32BufferAttribute(this.sw, 4));
-    g.setIndex(n > 65535 ? new THREE.Uint32BufferAttribute(this.ix, 1) : new THREE.Uint16BufferAttribute(this.ix, 1));
+    g.setAttribute('color', new THREE.BufferAttribute(d.col, 3));
+    g.setAttribute('uv', new THREE.BufferAttribute(d.uv, 2));
+    g.setAttribute('skinIndex', new THREE.BufferAttribute(d.skinIndex, 4));
+    g.setAttribute('skinWeight', new THREE.BufferAttribute(d.skinWeight, 4));
+    g.setIndex(n > 65535 ? new THREE.BufferAttribute(d.index, 1) : new THREE.BufferAttribute(new Uint16Array(d.index), 1));
     return g;
   }
+}
+
+/** Area-weighted vertex normals; `welds` pairs vertices at one place (texture seams) that share a normal. */
+export function smoothNormals(pos: Float32Array, index: ArrayLike<number>, welds: ArrayLike<number> = []): Float32Array {
+  const n = pos.length / 3;
+  const nrm = new Float32Array(n * 3);
+  for (let i = 0; i < index.length; i += 3) {
+    const a = index[i]!;
+    const b = index[i + 1]!;
+    const c = index[i + 2]!;
+    const ax = pos[a * 3]!, ay = pos[a * 3 + 1]!, az = pos[a * 3 + 2]!;
+    const e1x = pos[b * 3]! - ax, e1y = pos[b * 3 + 1]! - ay, e1z = pos[b * 3 + 2]! - az;
+    const e2x = pos[c * 3]! - ax, e2y = pos[c * 3 + 1]! - ay, e2z = pos[c * 3 + 2]! - az;
+    const fx = e1y * e2z - e1z * e2y;
+    const fy = e1z * e2x - e1x * e2z;
+    const fz = e1x * e2y - e1y * e2x;
+    nrm[a * 3] = nrm[a * 3]! + fx;
+    nrm[a * 3 + 1] = nrm[a * 3 + 1]! + fy;
+    nrm[a * 3 + 2] = nrm[a * 3 + 2]! + fz;
+    nrm[b * 3] = nrm[b * 3]! + fx;
+    nrm[b * 3 + 1] = nrm[b * 3 + 1]! + fy;
+    nrm[b * 3 + 2] = nrm[b * 3 + 2]! + fz;
+    nrm[c * 3] = nrm[c * 3]! + fx;
+    nrm[c * 3 + 1] = nrm[c * 3 + 1]! + fy;
+    nrm[c * 3 + 2] = nrm[c * 3 + 2]! + fz;
+  }
+  for (let i = 0; i < welds.length; i += 2) {
+    const a = welds[i]!;
+    const b = welds[i + 1]!;
+    for (let k = 0; k < 3; k++) {
+      const s = nrm[a * 3 + k]! + nrm[b * 3 + k]!;
+      nrm[a * 3 + k] = s;
+      nrm[b * 3 + k] = s;
+    }
+  }
+  for (let i = 0; i < n; i++) {
+    const x = nrm[i * 3]!;
+    const y = nrm[i * 3 + 1]!;
+    const z = nrm[i * 3 + 2]!;
+    const l = Math.sqrt(x * x + y * y + z * z) || 1;
+    nrm[i * 3] = x / l;
+    nrm[i * 3 + 1] = y / l;
+    nrm[i * 3 + 2] = z / l;
+  }
+  return nrm;
 }
 
 /* ---------------------------------------------------------------- lofts */
@@ -201,9 +269,14 @@ export function loft(m: Mesher, rings: Ring[], o: LoftOpts) {
   for (const r of rings) circ += perimeter(r);
   circ /= Math.max(1, rings.length);
   const uScale = (circ * (t1 - t0)) / (2 * Math.PI) / tile;
+  // Edges are the lowest and highest rings, whichever way the loft runs (a boot's shaft is lofted downward).
+  const yLo = Math.min(rings[0]!.y, rings[rings.length - 1]!.y);
+  const yHi = Math.max(rings[0]!.y, rings[rings.length - 1]!.y);
   const starts: number[] = [];
-  const addRing = (r: Ring, i: number, grow: number, dy: number, dark: number) => {
+  const a: number[] = new Array(PA).fill(0);
+  const addRing = (r: Ring, i: number, grow: number, dy: number, dark: number, lip: number) => {
     const start = m.count;
+    const radius = perimeter(r) / (2 * Math.PI);
     for (let k = 0; k <= S; k++) {
       const th = t0 + ((t1 - t0) * k) / S;
       const n = wob ? wob * (Math.sin(3 * th + ph0 + i * 0.7) * 0.6 + Math.sin(5 * th + ph1 - i * 1.3) * 0.4) : 0;
@@ -216,33 +289,49 @@ export function loft(m: Mesher, rings: Ring[], o: LoftOpts) {
       let col = o.shade ? o.shade(th, y, r.c, x, z) : r.c;
       if (dark !== 1) col = mul3(col, dark);
       const q: V3 = o.map ? o.map(x, y, z) : [x, y, z];
-      m.vert(q[0], q[1], q[2], col, (k / S) * uScale, r.y / tile, o.wf(q[0], q[1], q[2]));
+      a[0] = th * radius;
+      a[1] = r.y;
+      a[2] = Math.max(0, r.y - yLo);
+      a[3] = Math.max(0, yHi - r.y);
+      a[4] = closed ? NO_EDGE : Math.min(th - t0, t1 - th) * radius;
+      a[5] = push + n * radius;
+      a[6] = th;
+      a[7] = rings.length > 1 ? i / (rings.length - 1) : 0;
+      a[8] = lip !== 0 ? 1 : 0;
+      a[9] = 0;
+      m.vert(q[0], q[1], q[2], col, (k / S) * uScale, r.y / tile, o.wf(q[0], q[1], q[2]), a);
     }
     if (closed) m.weld(start, start + S);
     return start;
   };
-  if (o.lipBottom) starts.push(addRing(rings[0]!, -1, -o.lipBottom, o.lipBottom * 0.4, 0.72));
-  rings.forEach((r, i) => starts.push(addRing(r, i, 0, 0, 1)));
-  if (o.lipTop) starts.push(addRing(rings[rings.length - 1]!, rings.length, -o.lipTop, -o.lipTop * 0.4, 0.78));
+  if (o.lipBottom) starts.push(addRing(rings[0]!, -1, -o.lipBottom, o.lipBottom * 0.4, 0.72, -1));
+  rings.forEach((r, i) => starts.push(addRing(r, i, 0, 0, 1, 0)));
+  if (o.lipTop) starts.push(addRing(rings[rings.length - 1]!, rings.length, -o.lipTop, -o.lipTop * 0.4, 0.78, 1));
   for (let i = 0; i < starts.length - 1; i++) {
     for (let k = 0; k < S; k++) {
-      const a = starts[i]! + k;
-      const b = a + 1;
+      const p = starts[i]! + k;
+      const b = p + 1;
       const d = starts[i + 1]! + k;
       const c = d + 1;
-      m.tri(a, b, c);
-      m.tri(a, c, d);
+      m.tri(p, b, c);
+      m.tri(p, c, d);
     }
   }
   const cap = (ringStart: number, r: Ring, top: boolean) => {
     const cx = r.cx ?? 0;
     const cz = r.cz ?? 0;
     const q: V3 = o.map ? o.map(cx, r.y, cz) : [cx, r.y, cz];
-    const ctr = m.vert(q[0], q[1], q[2], o.shade ? o.shade(0, r.y, r.c, cx, cz) : r.c, 0.5 * uScale, r.y / tile, o.wf(q[0], q[1], q[2]));
+    a.fill(0);
+    a[1] = r.y;
+    a[2] = Math.max(0, r.y - yLo);
+    a[3] = Math.max(0, yHi - r.y);
+    a[4] = NO_EDGE;
+    a[8] = 2;
+    const ctr = m.vert(q[0], q[1], q[2], o.shade ? o.shade(0, r.y, r.c, cx, cz) : r.c, 0.5 * uScale, r.y / tile, o.wf(q[0], q[1], q[2]), a);
     for (let k = 0; k < S; k++) {
-      const a = ringStart + k;
-      if (top) m.tri(ctr, a, a + 1);
-      else m.tri(ctr, a + 1, a);
+      const p = ringStart + k;
+      if (top) m.tri(ctr, p, p + 1);
+      else m.tri(ctr, p + 1, p);
     }
   };
   if (o.capBottom) cap(starts[0]!, rings[0]!, false);
@@ -306,8 +395,11 @@ export function tube(m: Mesher, pts: V3[], radii: number[] | number, colors: RGB
   const flat = o.flat ?? 1;
   const tw = o.twist ?? 0;
   const tile = o.tile ?? 0.1;
+  let total = 0;
+  for (let i = 1; i < N; i++) total += Math.hypot(...sub(pts[i]!, pts[i - 1]!));
   let along = 0;
   const starts: number[] = [];
+  const a: number[] = new Array(PA).fill(0);
   for (let i = 0; i < N; i++) {
     if (i > 0) along += Math.hypot(...sub(pts[i]!, pts[i - 1]!));
     const [n, b] = frames[i]!;
@@ -316,34 +408,47 @@ export function tube(m: Mesher, pts: V3[], radii: number[] | number, colors: RGB
     const lift = scl(n, (o.lift ?? 0) * r * flat);
     const start = m.count;
     for (let k = 0; k <= S; k++) {
-      const a = (k / S) * Math.PI * 2 + tw;
-      const off = add(scl(n, Math.cos(a) * r * flat), scl(b, Math.sin(a) * r));
+      const ang = (k / S) * Math.PI * 2 + tw;
+      const off = add(scl(n, Math.cos(ang) * r * flat), scl(b, Math.sin(ang) * r));
       const p = add(add(c, off), lift);
-      m.vert(p[0], p[1], p[2], col(i), k / S, along / tile, o.wf(c[0], c[1], c[2]));
+      a[0] = k / S;
+      a[1] = along;
+      a[2] = along;
+      a[3] = total - along;
+      a[4] = NO_EDGE;
+      a[6] = k / S;
+      a[7] = total > 0 ? along / total : 0;
+      m.vert(p[0], p[1], p[2], col(i), k / S, along / tile, o.wf(c[0], c[1], c[2]), a);
     }
     m.weld(start, start + S);
     starts.push(start);
   }
   for (let i = 0; i < N - 1; i++) {
     for (let k = 0; k < S; k++) {
-      const a = starts[i]! + k;
-      const b = a + 1;
+      const p = starts[i]! + k;
+      const b = p + 1;
       const d = starts[i + 1]! + k;
       const c = d + 1;
       // (tangent, normal, binormal) is right-handed whichever way the path runs, so this winding always faces outward.
-      m.tri(a, b, c);
-      m.tri(a, c, d);
+      m.tri(p, b, c);
+      m.tri(p, c, d);
     }
   }
   const cap = (i: number, end: boolean) => {
     const c = pts[i]!;
     const [n] = frames[i]!;
     const lift = scl(n, (o.lift ?? 0) * rad(i) * flat);
-    const ctr = m.vert(c[0] + lift[0], c[1] + lift[1], c[2] + lift[2], col(i), 0.5, along / tile, o.wf(c[0], c[1], c[2]));
+    a.fill(0);
+    a[1] = end ? total : 0;
+    a[2] = end ? total : 0;
+    a[3] = end ? 0 : total;
+    a[4] = NO_EDGE;
+    a[7] = end ? 1 : 0;
+    const ctr = m.vert(c[0] + lift[0], c[1] + lift[1], c[2] + lift[2], col(i), 0.5, along / tile, o.wf(c[0], c[1], c[2]), a);
     for (let k = 0; k < S; k++) {
-      const a = starts[i]! + k;
-      if (end) m.tri(ctr, a, a + 1);
-      else m.tri(ctr, a + 1, a);
+      const p = starts[i]! + k;
+      if (end) m.tri(ctr, p, p + 1);
+      else m.tri(ctr, p + 1, p);
     }
   };
   if (o.capStart) cap(0, false);
@@ -365,19 +470,29 @@ export function box(m: Mesher, c: V3, h: V3, col: RGB, wf: WeightFn, axes: [V3, 
     [corner(1, -1, -1), corner(-1, -1, -1), corner(-1, 1, -1), corner(1, 1, -1)],
   ];
   const w = wf(c[0], c[1], c[2]);
-  for (const f of faces) {
-    const i0 = m.vert(...f[0], col, 0, 0, w);
-    const i1 = m.vert(...f[1], col, 1, 0, w);
-    const i2 = m.vert(...f[2], col, 1, 1, w);
-    const i3 = m.vert(...f[3], col, 0, 1, w);
-    m.tri(i0, i1, i2);
-    m.tri(i0, i2, i3);
-  }
+  const a: number[] = new Array(PA).fill(0);
+  a[2] = a[3] = a[4] = NO_EDGE;
+  faces.forEach((f, fi) => {
+    a[6] = fi;
+    const uvs: [number, number][] = [
+      [0, 0],
+      [1, 0],
+      [1, 1],
+      [0, 1],
+    ];
+    const ids = f.map((p, k) => {
+      a[0] = uvs[k]![0];
+      a[1] = uvs[k]![1];
+      return m.vert(p[0], p[1], p[2], col, uvs[k]![0], uvs[k]![1], w, a);
+    });
+    m.tri(ids[0]!, ids[1]!, ids[2]!);
+    m.tri(ids[0]!, ids[2]!, ids[3]!);
+  });
 }
 
 /**
- * An ellipsoid (UV sphere) with three.js SphereGeometry's parameterisation, so a texture's (0.25, 0.5) lands on its +z
- * pole. `basis` orients it; `shape` may reshape each unit direction (for ears, pouches, caps).
+ * An ellipsoid (UV sphere) with three.js SphereGeometry's parameterisation. `basis` orients it; `shape` may reshape each
+ * unit direction (for ears, pouches, caps). Its local paint attributes carry the (reshaped) unit direction.
  */
 export function ellipsoid(
   m: Mesher,
@@ -393,28 +508,35 @@ export function ellipsoid(
   const [th0, th1] = o.theta ?? [0, Math.PI];
   const w = wf(c[0], c[1], c[2]);
   const rows: number[] = [];
+  const a: number[] = new Array(PA).fill(0);
+  a[2] = a[3] = a[4] = NO_EDGE;
   for (let iy = 0; iy <= hs; iy++) {
     const th = th0 + ((th1 - th0) * iy) / hs;
     const start = m.count;
     for (let ix = 0; ix <= ws; ix++) {
       const ph = (ix / ws) * Math.PI * 2;
-      let d: V3 = [-Math.cos(ph) * Math.sin(th), Math.cos(th), Math.sin(ph) * Math.sin(th)];
-      if (o.shape) d = o.shape(d);
+      const d0: V3 = [-Math.cos(ph) * Math.sin(th), Math.cos(th), Math.sin(ph) * Math.sin(th)];
+      const d = o.shape ? o.shape(d0) : d0;
       const lx = d[0] * r[0];
       const ly = d[1] * r[1];
       const lz = d[2] * r[2];
       const p = add(add(add(c, scl(ax, lx)), scl(ay, ly)), scl(az, lz));
-      m.vert(p[0], p[1], p[2], typeof col === 'function' ? col(d) : col, ix / ws, 1 - iy / hs, w);
+      a[0] = ix / ws;
+      a[1] = iy / hs;
+      a[6] = d0[0];
+      a[7] = d0[1];
+      a[8] = d0[2];
+      m.vert(p[0], p[1], p[2], typeof col === 'function' ? col(d) : col, ix / ws, 1 - iy / hs, w, a);
     }
     m.weld(start, start + ws);
     rows.push(start);
   }
   for (let iy = 0; iy < hs; iy++) {
     for (let ix = 0; ix < ws; ix++) {
-      const a = rows[iy]! + ix;
+      const p = rows[iy]! + ix;
       const b = rows[iy + 1]! + ix;
-      if (iy !== 0 || th0 > 0) m.tri(a, b, a + 1);
-      if (iy !== hs - 1 || th1 < Math.PI) m.tri(a + 1, b, b + 1);
+      if (iy !== 0 || th0 > 0) m.tri(p, b, p + 1);
+      if (iy !== hs - 1 || th1 < Math.PI) m.tri(p + 1, b, b + 1);
     }
   }
 }

@@ -1,10 +1,14 @@
 import { mulberry32, valueNoise } from '../../world/noise';
-import { beardAt, eyeBase, hairlineAt, headPoint, headSection, sculpt, toHead, type BeardStyle, type FaceShape } from './headShape';
-import { ellipsoid, mix3, mul3, sstep, tube, type Mesher, type RGB, type V3, type WeightFn } from './skin';
+import { beardAt, EYE_INSET, eyeBase, hairlineAt, headPoint, headSection, sculpt, toHead, unwarpU, unwarpV, type BeardStyle, type FaceShape } from './headShape';
+import type { PaintSpec } from './paint';
+import type { Wardrobe } from './person';
+import { ellipsoid, mix3, mul3, NO_EDGE, PA, sstep, tube, type RGB, type V3, type WeightFn } from './skin';
 
 /**
  * A head assembled like Gothic 3's: a sculpted, painted head mesh; eyeballs set into the sockets behind lid shells; ears;
  * and hair and beard as separate shells grown from the scalp and jaw regions of the same surface (docs/art/gothic3-reference.md#people).
+ * Everything here goes into the head's part of the person's sheet, except a braid long enough to lie on the back, which
+ * is painted with the body.
  */
 
 export type HairCut = 'short' | 'cropped' | 'long' | 'tied' | 'bun' | 'bald';
@@ -21,13 +25,6 @@ export interface HeadSpec {
   seed: number;
   /** Something covers the crown (hood, hat, helmet, scarf): keep the hair shell low and thin under it. */
   covered: boolean;
-}
-
-export interface HeadTargets {
-  face: Mesher;
-  skin: Mesher;
-  eyes: Mesher;
-  hair: Mesher;
 }
 
 export interface HeadContext {
@@ -51,6 +48,11 @@ export interface HeadFit {
   centerZ: number;
   /** How far forward the forehead reaches just above the brows (headwear must clear it). */
   browZ: number;
+  /** Bind-space heights of the chin's underside and the base of the nose. */
+  chinY: number;
+  noseY: number;
+  /** The sculpted head's horizontal extent row by row (bind space): half-width, front and back. */
+  sections: { y: number; w: number; f: number; b: number }[];
 }
 
 const WS = 48;
@@ -62,9 +64,13 @@ export function greyed(hair: RGB, age: number): RGB {
   return mix3(hair, [0.34, 0.33, 0.31], k);
 }
 
-export function buildHead(t: HeadTargets, spec: HeadSpec, ctx: HeadContext): HeadFit {
+export function buildHead(wd: Wardrobe, spec: HeadSpec, ctx: HeadContext): HeadFit {
   const s = spec.shape;
   const { origin, scale } = ctx;
+  const part = (surface: PaintSpec['surface'], piece: string, extra: Partial<PaintSpec> = {}): PaintSpec => ({ surface, piece, seed: spec.seed, ...extra });
+  const face = wd.useHead(part('face', 'face'));
+  const a: number[] = new Array(PA).fill(0);
+  a[2] = a[3] = a[4] = NO_EDGE;
   const P = (p: readonly [number, number, number]): V3 => {
     const m = toHead(s, p);
     return [origin[0] + m[0] * scale, origin[1] + m[1] * scale, origin[2] + m[2] * scale];
@@ -76,18 +82,20 @@ export function buildHead(t: HeadTargets, spec: HeadSpec, ctx: HeadContext): Hea
   const rows: number[] = [];
   for (let iy = 0; iy <= HS; iy++) {
     const v = iy / HS;
-    const start = t.face.count;
+    const start = face.count;
     for (let ix = 0; ix <= WS; ix++) {
       const u = ix / WS;
       const hp = headPoint(s, u, v);
       const p = P(sculpt(s, hp));
       grid.push(p);
       base.push(hp);
-      // A little occlusion under the jaw; the painted face carries the rest.
-      const ao = 1 - 0.18 * sstep(-0.8, -1, hp.y);
-      t.face.vert(p[0], p[1], p[2], [ao, ao, ao], u, v, ctx.head(p[0], p[1], p[2]));
+      // Its place on the head grid is all the painter needs: the face map is painted in the same (u, v). The skin colour
+      // is the template's block-in.
+      a[0] = u;
+      a[1] = v;
+      face.vert(p[0], p[1], p[2], spec.skin, u * 5, v * 2, ctx.head(p[0], p[1], p[2]), a);
     }
-    t.face.weld(start, start + WS);
+    face.weld(start, start + WS);
     rows.push(start);
   }
   for (let iy = 0; iy < HS; iy++) {
@@ -96,8 +104,8 @@ export function buildHead(t: HeadTargets, spec: HeadSpec, ctx: HeadContext): Hea
       const b = a + 1;
       const d = rows[iy + 1]! + ix;
       const c = d + 1;
-      t.face.tri(a, b, c);
-      t.face.tri(a, c, d);
+      face.tri(a, b, c);
+      face.tri(a, c, d);
     }
   }
   {
@@ -111,8 +119,10 @@ export function buildHead(t: HeadTargets, spec: HeadSpec, ctx: HeadContext): Hea
       cy += p[1] / WS;
       cz += p[2] / WS;
     }
-    const ctr = t.face.vert(cx, cy - 0.002 * scale, cz, [0.8, 0.8, 0.8], 0.5, 0, ctx.head(cx, cy, cz));
-    for (let ix = 0; ix < WS; ix++) t.face.tri(ctr, rows[0]! + ix + 1, rows[0]! + ix);
+    a[0] = 0.5;
+    a[1] = 0;
+    const ctr = face.vert(cx, cy - 0.002 * scale, cz, spec.skin, 2.5, 0, ctx.head(cx, cy, cz), a);
+    for (let ix = 0; ix < WS; ix++) face.tri(ctr, rows[0]! + ix + 1, rows[0]! + ix);
   }
   const at = (ix: number, iy: number) => grid[iy * (WS + 1) + ix]!;
   const bi = (ix: number, iy: number) => base[iy * (WS + 1) + ix]!;
@@ -133,27 +143,28 @@ export function buildHead(t: HeadTargets, spec: HeadSpec, ctx: HeadContext): Hea
   /* ---- eyes and lids ---- */
   const skinC = spec.skin;
   const eb = eyeBase(s);
-  const R = (s.build === 'woman' ? 0.0112 : 0.0118) * scale;
+  const R = s.eyeR * scale;
   for (const sx of [-1, 1]) {
     const surf = P([sx * eb.x, eb.y, eb.z]);
-    const ctr: V3 = [surf[0], surf[1], surf[2] - R - 0.0024 * scale];
+    const ctr: V3 = [surf[0], surf[1], surf[2] - R - EYE_INSET * scale];
     // Each eye looks a little outward and down.
     const yaw = sx * 0.07;
     const pitch = -0.04;
     const fwd: V3 = [Math.sin(yaw) * Math.cos(pitch), Math.sin(pitch), Math.cos(yaw) * Math.cos(pitch)];
     const right: V3 = [Math.cos(yaw), 0, -Math.sin(yaw)];
     const up: V3 = [fwd[1] * right[2] - fwd[2] * right[1], fwd[2] * right[0] - fwd[0] * right[2], fwd[0] * right[1] - fwd[1] * right[0]];
-    ellipsoid(t.eyes, ctr, [R, R, R], [1, 1, 1], ctx.head, { ws: 16, hs: 12, basis: [right, up, fwd] });
+    ellipsoid(wd.useHead(part('eye', 'eye', { tint: spec.iris })), ctr, [R, R, R], [1, 1, 1], ctx.head, { ws: 16, hs: 12, basis: [right, up, fwd] });
     // Lids: shells over the eyeball with an almond opening between them; the upper lid's margin carries the lashes.
     const temporal = sx;
     const lidRows = 5;
     const cols = 12;
-    const phiMax = 1.32;
-    const openW = 0.96;
+    // The opening is about as wide as a real eye's (some 30 mm) and a third as high, so the white shows at its corners.
+    const phiMax = 1.45;
+    const openW = 1.15;
     // An almond: the upper lid's arch peaks toward the nose, the lower lid is flatter; the corners lie a little low.
-    const lidOpen = s.build === 'woman' ? 0.27 : s.build === 'neutral' ? 0.25 : 0.23;
+    const lidOpen = s.lidOpen;
     const upperEdge = (ph: number) => lidOpen * Math.pow(Math.max(0, 1 - (ph / openW) ** 2), 0.8) + 0.01 - 0.05 * (ph / openW);
-    const lowerEdge = (ph: number) => -0.19 * Math.pow(Math.max(0, 1 - (ph / openW) ** 2), 0.9) - 0.03 + 0.03 * (ph / openW);
+    const lowerEdge = (ph: number) => -0.27 * Math.pow(Math.max(0, 1 - (ph / openW) ** 2), 0.9) - 0.03 + 0.03 * (ph / openW);
     const lidPoint = (ph: number, el: number, rr: number): V3 => {
       const lx = Math.sin(ph) * Math.cos(el) * temporal;
       const ly = Math.sin(el);
@@ -161,12 +172,13 @@ export function buildHead(t: HeadTargets, spec: HeadSpec, ctx: HeadContext): Hea
       return [ctr[0] + (right[0] * lx + up[0] * ly + fwd[0] * lz) * rr, ctr[1] + (right[1] * lx + up[1] * ly + fwd[1] * lz) * rr, ctr[2] + (right[2] * lx + up[2] * ly + fwd[2] * lz) * rr];
     };
     for (const upper of [true, false]) {
-      const start = t.skin.count;
+      const lid = wd.useHead(part('lid', upper ? 'upper eyelid' : 'lower eyelid'));
+      const start = lid.count;
       for (let r = 0; r <= lidRows + 1; r++) {
         for (let c = 0; c <= cols; c++) {
           const ph = -phiMax + (2 * phiMax * c) / cols;
           const edge = upper ? upperEdge(ph) : lowerEdge(ph);
-          const far = upper ? 1.3 : -1.25;
+          const far = upper ? 0.95 : -0.9;
           let el: number;
           let rr: number;
           let col: RGB;
@@ -178,13 +190,21 @@ export function buildHead(t: HeadTargets, spec: HeadSpec, ctx: HeadContext): Hea
           } else {
             const k = (r - 1) / lidRows;
             el = edge + (far - edge) * k;
-            // The lid swells a little, then tucks into the socket where the head surface takes over.
-            rr = R * (1.06 + 0.05 * Math.sin(k * Math.PI) + 0.45 * sstep(0.6, 1, k));
+            // The lid hugs the eyeball, a little thicker at its fold, then sinks back under the face round the socket.
+            rr = R * (1.035 + 0.025 * Math.sin(k * Math.PI) - 0.1 * sstep(0.55, 1, k));
             const lash = upper && r === 1 ? 0.5 : 0;
             col = mul3(skinC, (0.74 - 0.12 * (1 - k)) * (1 - lash));
           }
           const p = lidPoint(ph, el, rr);
-          t.skin.vert(p[0], p[1], p[2], col, 0, 0, ctx.head(p[0], p[1], p[2]));
+          // The lid takes its colour from the painted face just round the eye, so it never reads as a separate cup.
+          const hx = (p[0] - origin[0]) / scale / s.sx;
+          const hy = ((p[1] - origin[1]) / scale - s.cy) / s.sy;
+          const hz = ((p[2] - origin[2]) / scale - s.cz) / s.sz;
+          a[0] = unwarpU(Math.atan2(hx, hz));
+          a[1] = unwarpV(Math.max(-1, Math.min(1, hy)));
+          a[6] = r;
+          a[7] = upper ? 1 : 0;
+          lid.vert(p[0], p[1], p[2], col, c / cols, r / (lidRows + 1), ctx.head(p[0], p[1], p[2]), a);
         }
       }
       // Rows run away from the opening and columns toward the temple; pick the winding that faces away from the eyeball.
@@ -196,11 +216,11 @@ export function buildHead(t: HeadTargets, spec: HeadSpec, ctx: HeadContext): Hea
           const d = a + cols + 1;
           const e = d + 1;
           if (flip) {
-            t.skin.tri(a, e, b);
-            t.skin.tri(a, d, e);
+            lid.tri(a, e, b);
+            lid.tri(a, d, e);
           } else {
-            t.skin.tri(a, b, e);
-            t.skin.tri(a, e, d);
+            lid.tri(a, b, e);
+            lid.tri(a, e, d);
           }
         }
       }
@@ -227,7 +247,7 @@ export function buildHead(t: HeadTargets, spec: HeadSpec, ctx: HeadContext): Hea
       const ctr: V3 = [root[0] + out[0] * 0.006 * size, root[1], root[2] + out[2] * 0.006 * size - 0.004 * size];
       const earC = mix3(skinC, [skinC[0] * 1.08, skinC[1] * 0.86, skinC[2] * 0.82], 0.5);
       ellipsoid(
-        t.skin,
+        wd.useHead(part('ear', 'ear')),
         ctr,
         [0.007 * size, 0.028 * size, 0.016 * size],
         (d) => mul3(earC, d[0] > 0.2 ? 0.72 + 0.28 * Math.min(1, (d[1] * d[1] + d[2] * d[2]) * 1.6) : 0.92),
@@ -259,6 +279,7 @@ export function buildHead(t: HeadTargets, spec: HeadSpec, ctx: HeadContext): Hea
   let backZ = Infinity;
   /** A shell over part of the head grid: only quads with some weight are kept, only their vertices are written. */
   const shell = (
+    hair: ReturnType<Wardrobe['useHead']>,
     weightAt: (ix: number, iy: number) => number,
     thickAt: (ix: number, iy: number, k: number) => number,
     colAt: (ix: number, iy: number, k: number) => RGB,
@@ -284,7 +305,10 @@ export function buildHead(t: HeadTargets, spec: HeadSpec, ctx: HeadContext): Hea
         const th = thickAt(ix % WS, iy, k);
         const dv = drop ? drop(ix % WS, iy, k) : ([0, 0, 0] as V3);
         const q: V3 = [p[0] + n[0] * th + dv[0], p[1] + n[1] * th + dv[1], p[2] + n[2] * th + dv[2]];
-        v = t.hair.vert(q[0], q[1], q[2], colAt(ix % WS, iy, k), (ix / WS) * 10, (iy / HS) * 3, ctx.hair(q[0], q[1], q[2]));
+        a[0] = ix / WS;
+        a[1] = iy / HS;
+        a[6] = k;
+        v = hair.vert(q[0], q[1], q[2], colAt(ix % WS, iy, k), (ix / WS) * 10, (iy / HS) * 3, ctx.hair(q[0], q[1], q[2]), a);
         index.set(key, v);
         if (k > 0.05) {
           crownY = Math.max(crownY, q[1]);
@@ -293,18 +317,18 @@ export function buildHead(t: HeadTargets, spec: HeadSpec, ctx: HeadContext): Hea
           backZ = Math.min(backZ, q[2]);
         }
         // The seam columns are the same place.
-        if (ix === WS && index.has(iy * (WS + 1))) t.hair.weld(index.get(iy * (WS + 1))!, v);
-        if (ix === 0 && index.has(iy * (WS + 1) + WS)) t.hair.weld(index.get(iy * (WS + 1) + WS)!, v);
+        if (ix === WS && index.has(iy * (WS + 1))) hair.weld(index.get(iy * (WS + 1))!, v);
+        if (ix === 0 && index.has(iy * (WS + 1) + WS)) hair.weld(index.get(iy * (WS + 1) + WS)!, v);
       }
       return v;
     };
     for (const [ix, iy] of keep) {
-      const a = vid(ix, iy);
-      const b = vid(ix + 1, iy);
-      const c = vid(ix + 1, iy + 1);
-      const d = vid(ix, iy + 1);
-      t.hair.tri(a, b, c);
-      t.hair.tri(a, c, d);
+      const p0 = vid(ix, iy);
+      const p1 = vid(ix + 1, iy);
+      const p2 = vid(ix + 1, iy + 1);
+      const p3 = vid(ix, iy + 1);
+      hair.tri(p0, p1, p2);
+      hair.tri(p0, p2, p3);
     }
   };
   const cutT: Record<HairCut, number> = { short: 0.009, cropped: 0.0045, long: 0.008, tied: 0.008, bun: 0.008, bald: 0 };
@@ -312,17 +336,19 @@ export function buildHead(t: HeadTargets, spec: HeadSpec, ctx: HeadContext): Hea
   if (spec.cut !== 'bald') {
     // The shell starts a little inside the painted hairline, so its edge always sinks into painted hair rather than skin.
     shell(
+      wd.useHead(part('hair', 'hair')),
       (ix, iy) => {
         const b = bi(ix, iy);
-        return sstep(0.03, 0.18, hairlineAt(s, b.x, b.y, b.z));
+        return sstep(0.02, 0.32, hairlineAt(s, b.x, b.y, b.z));
       },
       (ix, iy, k) => {
         const b = bi(ix, iy);
         const pole = sstep(0.8, 0.97, iy / HS);
-        const lump = 1 + (0.5 * valueNoise(ix * 0.9 + lumpPh, iy * 0.7, spec.seed) - 0.25) * (1 - pole);
+        // Broad lumps and long locks running from the crown, so the hair is not a moulded cap.
+        const lump = 1 + (0.6 * valueNoise(ix * 0.9 + lumpPh, iy * 0.7, spec.seed) - 0.3 + 0.5 * (valueNoise(ix * 2.7 + lumpPh, iy * 0.22, spec.seed + 1) - 0.5)) * (1 - pole);
         const top = 0.75 + 0.45 * sstep(-0.2, 0.7, b.y);
-        // Thin toward the hairline so the painted fringe, not the shell's edge, draws the line.
-        return T * Math.pow(k, 1.5) * lump * top - 0.0018 * scale * (1 - k);
+        // Thin over a wide band toward the hairline, so the painted fringe, not the shell's edge, draws the line.
+        return T * k * k * lump * top - 0.0018 * scale * (1 - k);
       },
       (ix, iy, k) => {
         const b = bi(ix, iy);
@@ -360,10 +386,11 @@ export function buildHead(t: HeadTargets, spec: HeadSpec, ctx: HeadContext): Hea
       radii.push(r * (0.8 + 0.3 * lump));
       cols.push(mul3(hairC, (i % 2 ? 0.8 : 0.98) * (0.95 - 0.15 * k)));
     }
-    tube(t.hair, pts, radii, cols, { sides: 8, wf: ctx.hair, capEnd: true, up: [0, 0, -1], tile: 0.05 });
+    // The braid lies on the back, outside the head's part of the sheet: it is painted with the body.
+    tube(wd.use(part('fur', 'braid')), pts, radii, cols, { sides: 8, wf: ctx.hair, capEnd: true, up: [0, 0, -1], tile: 0.05 });
     // A leather tie below the last plait.
     const e = pts[pts.length - 3]!;
-    tube(t.hair, [e, [e[0], e[1] - 0.012 * scale, e[2]]], 0.015 * scale, [0.14, 0.1, 0.07], { sides: 8, wf: ctx.hair, up: [0, 0, -1], capStart: true, capEnd: true });
+    tube(wd.use(part('leather', 'hair tie')), [e, [e[0], e[1] - 0.012 * scale, e[2]]], 0.015 * scale, [0.14, 0.1, 0.07], { sides: 8, wf: ctx.hair, up: [0, 0, -1], capStart: true, capEnd: true });
   }
   // Tied hair: a short tail at the nape; a bun sits higher on the back of the head.
   if ((spec.cut === 'tied' || spec.cut === 'bun') && !spec.covered) {
@@ -372,7 +399,7 @@ export function buildHead(t: HeadTargets, spec: HeadSpec, ctx: HeadContext): Hea
     const occ = P([0, lvl, lsec.cz - lsec.b * 1.02])[2];
     const oy = P([0, lvl, 0])[1];
     if (spec.cut === 'bun') {
-      ellipsoid(t.hair, [origin[0], oy, occ - 0.02 * scale], [0.04 * scale, 0.034 * scale, 0.03 * scale], (d) => mul3(hairC, 0.85 + 0.15 * d[1]), ctx.head, { ws: 10, hs: 8 });
+      ellipsoid(wd.useHead(part('fur', 'bun')), [origin[0], oy, occ - 0.02 * scale], [0.04 * scale, 0.034 * scale, 0.03 * scale], (d) => mul3(hairC, 0.85 + 0.15 * d[1]), ctx.head, { ws: 10, hs: 8 });
     } else {
       const pts: V3[] = [];
       const radii: number[] = [];
@@ -381,8 +408,8 @@ export function buildHead(t: HeadTargets, spec: HeadSpec, ctx: HeadContext): Hea
         pts.push([origin[0] + Math.sin(k * 2.2 + spec.seed) * 0.006 * scale, oy - k * 0.15 * scale, occ - 0.01 * scale - Math.sin(k * 1.6) * 0.03 * scale]);
         radii.push((0.02 - 0.011 * k) * scale);
       }
-      tube(t.hair, pts, radii, mul3(hairC, 0.9), { sides: 8, wf: ctx.hair, capEnd: true, up: [0, 0, -1], tile: 0.05 });
-      tube(t.hair, [pts[1]!, [pts[1]![0], pts[1]![1] - 0.012 * scale, pts[1]![2] - 0.002 * scale]], 0.021 * scale, [0.12, 0.09, 0.06], { sides: 8, wf: ctx.hair, up: [0, 0, -1] });
+      tube(wd.useHead(part('fur', 'hair tail')), pts, radii, mul3(hairC, 0.9), { sides: 8, wf: ctx.hair, capEnd: true, up: [0, 0, -1], tile: 0.05 });
+      tube(wd.useHead(part('leather', 'hair tie')), [pts[1]!, [pts[1]![0], pts[1]![1] - 0.012 * scale, pts[1]![2] - 0.002 * scale]], 0.021 * scale, [0.12, 0.09, 0.06], { sides: 8, wf: ctx.hair, up: [0, 0, -1] });
     }
   }
 
@@ -392,6 +419,7 @@ export function buildHead(t: HeadTargets, spec: HeadSpec, ctx: HeadContext): Hea
     const bt = (full ? 0.01 : spec.beard === 'goatee' ? 0.006 : 0.0035) * scale;
     const beardC = mul3(greyed(spec.hair, Math.min(1, spec.age + 0.1)), 0.92);
     shell(
+      wd.useHead(part('beard', 'beard')),
       (ix, iy) => {
         const b = bi(ix, iy);
         return beardAt(s, spec.beard, b.x, b.y, b.z);
@@ -420,5 +448,32 @@ export function buildHead(t: HeadTargets, spec: HeadSpec, ctx: HeadContext): Hea
   const browY = P([0, s.browY, 0])[1];
   const fsec = headSection(s, s.browY + 0.12);
   const browZ = P([0, s.browY + 0.12, fsec.cz + fsec.f + 0.06 * s.browK])[2];
-  return { crownY, browY, halfW, front: Math.max(frontZ, browZ), back: backZ, centerZ: origin[2] + s.cz * scale, browZ };
+  // The sculpted head row by row, for things worn over the face (a scarf pulled up to the nose).
+  const sections: HeadFit['sections'] = [];
+  for (let iy = 0; iy <= HS; iy++) {
+    let w = 0;
+    let fz = -Infinity;
+    let bz = Infinity;
+    let y = 0;
+    for (let ix = 0; ix < WS; ix++) {
+      const p = at(ix, iy);
+      w = Math.max(w, Math.abs(p[0] - origin[0]));
+      fz = Math.max(fz, p[2]);
+      bz = Math.min(bz, p[2]);
+      y += p[1] / WS;
+    }
+    sections.push({ y, w, f: fz, b: bz });
+  }
+  return {
+    crownY,
+    browY,
+    halfW,
+    front: Math.max(frontZ, browZ),
+    back: backZ,
+    centerZ: origin[2] + s.cz * scale,
+    browZ,
+    chinY: P([0, -1, 0])[1],
+    noseY: P([0, s.noseBaseY, 0])[1],
+    sections,
+  };
 }

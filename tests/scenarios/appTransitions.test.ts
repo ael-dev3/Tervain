@@ -8,8 +8,10 @@ import { defaultSettings } from '../../src/platform/settings';
 import { FrameClock } from '../../src/platform/frameTiming';
 import { WorldScene } from '../../src/presentation/world';
 import { MenuScene } from '../../src/presentation/menuScene';
+import { track } from '../../src/presentation/human/sheetPool';
 
 const menuFailure = vi.hoisted(() => ({ next: false }));
+const stagedActors = vi.hoisted(() => ({ roots: [] as unknown[] }));
 vi.mock('three', async (importOriginal) => {
   const actual = await importOriginal<typeof import('three')>();
   return { ...actual, WebGLRenderer: class {
@@ -23,9 +25,19 @@ vi.mock('../../src/presentation/actors', () => ({
   NpcActor: class {
     id: string; x = 0; y = 0; z = 0;
     rig = { root: new THREE.Group() };
-    constructor(definition: { id: string }) { this.id = definition.id; }
+    constructor(definition: { id: string }) {
+      this.id = definition.id;
+      this.rig.root.add(new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshBasicMaterial()));
+      stagedActors.roots.push(this.rig.root);
+    }
   },
-  EnemyActor: class { rig = { root: new THREE.Group() }; },
+  EnemyActor: class {
+    rig = { root: new THREE.Group() };
+    constructor() {
+      this.rig.root.add(new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshBasicMaterial()));
+      stagedActors.roots.push(this.rig.root);
+    }
+  },
 }));
 vi.mock('../../src/presentation/menuScene', () => ({
   MenuScene: class {
@@ -107,7 +119,7 @@ function fixture() {
   return { app, input, canvas, document, key, call };
 }
 
-afterEach(() => { menuFailure.next = false; vi.restoreAllMocks(); vi.useRealTimers(); vi.unstubAllGlobals(); });
+afterEach(() => { menuFailure.next = false; stagedActors.roots.length = 0; vi.restoreAllMocks(); vi.useRealTimers(); vi.unstubAllGlobals(); });
 
 function deferred<T>() {
   let resolve!: (value: T) => void;
@@ -134,6 +146,35 @@ function rebuildFixture() {
 async function finishReload(app: object) { await Reflect.get(app, 'qualityReload'); }
 
 describe('actual application world transitions', () => {
+  it('settles staged painters and releases their final textures when world construction fails', async () => {
+    const { app, oldWorld, call } = rebuildFixture();
+    const painting = deferred<void>();
+    track(painting.promise);
+    vi.spyOn(WorldScene, 'create').mockRejectedValueOnce(new Error('scene allocation'));
+    const build = call('buildWorld') as Promise<void>;
+    const failed = vi.fn();
+    const observed = build.catch(failed);
+    await Promise.resolve();
+    expect(stagedActors.roots.length).toBeGreaterThan(0);
+    expect(failed).not.toHaveBeenCalled();
+    const mesh = (stagedActors.roots[0] as THREE.Group).children[0] as THREE.Mesh<THREE.BufferGeometry, THREE.MeshBasicMaterial>;
+    const lateTexture = new THREE.DataTexture(new Uint8Array([255, 255, 255, 255]), 1, 1);
+    const textureDisposed = vi.spyOn(lateTexture, 'dispose');
+    const geometryDisposed = vi.spyOn(mesh.geometry, 'dispose');
+    const materialDisposed = vi.spyOn(mesh.material, 'dispose');
+    // A painter completes after the world rejected, but before its owning cast is released.
+    mesh.material.map = lateTexture;
+    painting.resolve();
+    await observed;
+    expect(failed).toHaveBeenCalledWith(expect.objectContaining({ message: 'scene allocation' }));
+    expect(textureDisposed).toHaveBeenCalledOnce();
+    expect(geometryDisposed).toHaveBeenCalledOnce();
+    expect(materialDisposed).toHaveBeenCalledOnce();
+    expect(oldWorld.dispose).toHaveBeenCalledOnce();
+    expect(Reflect.get(app, 'worldBuildFailed')).toBe(true);
+    expect(Reflect.get(app, 'worldBuilding')).toBe(false);
+  });
+
   it('quickloading while already playing clears held movement, toggles and queued jump', () => {
     const { app, input, key, call } = fixture();
     key('KeyW'); key('ShiftLeft'); key('KeyB'); key('Space');

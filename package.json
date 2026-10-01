@@ -9,7 +9,9 @@
     "build": "tsc --noEmit && vite build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "people:sheets": "node tools/export-people-sheets.mjs",
+    "people:check": "node tools/export-people-sheets.mjs --check"
   },
   "devDependencies": {
     "@types/node": "^26.6.3",

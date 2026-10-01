@@ -31,7 +31,8 @@ import { createMenuScreen } from './presentation/ui/menuView';
 import { installMenuMaterials } from './presentation/ui/menuMaterials';
 import { AssetLibrary } from './presentation/assets/library';
 import { ALL_NEEDS } from './presentation/assets/needs';
-import { setRigShadow } from './presentation/characters';
+import { personBuildOptions, setRigShadow } from './presentation/characters';
+import { sheetsSettled } from './presentation/human/sheetPool';
 import { WorldScene } from './presentation/world';
 import { MenuScene } from './presentation/menuScene';
 import { disposeSceneResources } from './presentation/disposeScene';
@@ -300,24 +301,45 @@ export class App {
   private async buildWorld() {
     this.worldBuilding = true;
     this.worldBuildFailed = false;
+    // Keep staged actors owned until the new world adopts them, including on a failed build.
+    const stagedCast = new THREE.Scene();
+    const npcs: NpcActor[] = [];
+    const enemies: EnemyActor[] = [];
     try {
       // Shared flora caches must be released before replacement assets are constructed.
       if (this.world) this.disposeWorld();
+      // Residents' sheets are half the size on Low (a quarter of the texture memory); the player keeps a full one.
+      personBuildOptions.sheetSize = this.settings.quality === 'low' ? 512 : 1024;
+      // Actors first: their texture sheets are painted on worker threads while the valley is built.
+      for (const definition of Object.values(NPCS)) {
+        const npc = new NpcActor(definition);
+        npcs.push(npc);
+        stagedCast.add(npc.rig.root);
+      }
+      for (const spawn of ENEMY_SPAWNS) {
+        const enemy = new EnemyActor(spawn);
+        enemies.push(enemy);
+        stagedCast.add(enemy.rig.root);
+      }
       this.world = await WorldScene.create(this.game.state, structuredClone(this.settings), this.library, (p) => {
         this.loadingEl.textContent = `${S('menu.loading')} ${p.loaded}/${p.total}`;
       });
       this.worldDisposed = false;
       this.world.scene.add(this.player.group);
       this.applyQualityToRenderer();
-      // Actors
-      this.npcs = Object.values(NPCS).map((d) => new NpcActor(d));
+      this.npcs = npcs;
       for (const n of this.npcs) this.world.scene.add(n.rig.root);
-      this.enemies = ENEMY_SPAWNS.map((s) => new EnemyActor(s));
+      this.enemies = enemies;
       for (const e of this.enemies) this.world.scene.add(e.rig.root);
       this.interactables = buildInteractables(this);
       this.syncWorldFromState(true);
+      // People's sheets are painted on worker threads; keep the loading screen up until every one is on.
+      await sheetsSettled();
     } catch (error) {
       this.worldBuildFailed = true;
+      // Settle late painters before releasing their targets, so recovery cannot leak replaced textures.
+      await sheetsSettled();
+      disposeSceneResources(stagedCast, () => {}, [this.player.group]);
       throw error;
     } finally {
       this.worldBuilding = false;
