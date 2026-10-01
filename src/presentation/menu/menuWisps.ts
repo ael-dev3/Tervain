@@ -1,329 +1,385 @@
 import * as THREE from 'three';
-import { mulberry32 } from '../../world/noise';
-import { sampleMenuScore, type MenuScoreSample } from './menuScoreFeatures';
+import { GROVE_HOMECOMING, GROVE_TRAIL, groveSpiritBand, type MenuGrove } from './menuGrove';
+import { createWispLighting, type WispLighting } from './menuWispLight';
 
-export interface MenuAwakening {
-  opening: number;
-  reveal: number;
-  returning: number;
-}
-
-const TAU = Math.PI * 2;
-const TRAIL_SEGMENTS = 6;
-const TRAIL_SECONDS = 1.5;
-const unit = (value: number) => Number.isFinite(value) ? Math.max(0, Math.min(1, value)) : 0;
-const durationOf = (duration: number) => Number.isFinite(duration) && duration > 0 ? duration : 214.2;
-const clockOf = (time: number, duration: number) => Number.isFinite(time) ? Math.max(0, Math.min(duration, time)) : 0;
-const smooth = (start: number, end: number, value: number) => {
-  const t = unit((value - start) / (end - start));
-  return t * t * (3 - 2 * t);
-};
-
-/** Original source-time choreography, separate from the score's measured spectral features. */
-export function sampleMenuAwakening(time: number, duration = 214.2): MenuAwakening {
-  const d = durationOf(duration);
-  const t = clockOf(time, d);
-  return {
-    opening: smooth(30, 39, t) * (1 - smooth(d - 6, d - 0.5, t)),
-    reveal: smooth(31, 42, t) * (1 - smooth(d - 5, d - 2.5, t)),
-    returning: smooth(d - 10, d - 4, t),
-  };
-}
+/**
+ * How the hermitage's spirits look (0.0.7, A32): living lights rather than pearls. Each is a camera-facing flame of
+ * light — a white-hot heart in a coloured glow that flickers at its rim and streaks back along its flight — with a
+ * fading ribbon drawn through the path it actually flew and a few sparks shed along it. Colour follows the band of the
+ * score the spirit dances to (cool for low notes near the roots, warm for the high ones in the crown); brightness,
+ * size, flare and the sparks follow that band's measured level and the score's accents, so the tree shows the music.
+ *
+ * Three additive draws, texture-free, depth-tested against the tree (the bole hides spirits behind it) and never
+ * writing depth. Positions come from the grove simulation in the tree's own frame; the group carries the tree's place.
+ * The brightest spirits near the wood also light it (menuWispLight).
+ */
 
 export interface MenuWisps {
   group: THREE.Group;
+  lights: WispLighting;
   stats: { wisps: number; triangles: number; meshes: number };
-  /** Absolute native song time. Repeating a frozen time reproduces every point and pulse exactly. */
-  update(time: number, gain: number, duration: number): void;
+  /** Draw the grove's current pose. `gain` is the score's audible mix: zero hides the spirits. */
+  update(grove: MenuGrove, gain: number, camera: THREE.Camera): void;
+  setPixelScale(scale: number): void;
   dispose(): void;
 }
 
-const CORE_VERT = /* glsl */ `
-attribute vec4 aHead;
-attribute vec3 aTint;
-attribute vec2 aLife;
-varying vec3 vN;
-varying vec3 vTint;
-varying vec2 vLife;
+/** Linear spirit colours by band: sub, bass, low-mid, mid, high-mid, presence. */
+export const WISP_COLOURS: readonly (readonly [number, number, number])[] = [
+  [0.48, 0.4, 1.0],
+  [0.22, 0.62, 1.0],
+  [0.16, 0.95, 0.8],
+  [0.52, 1.0, 0.42],
+  [1.0, 0.74, 0.3],
+  [1.0, 0.42, 0.62],
+];
+export const WISP_COUNTS = { low: 16, medium: 28, high: 40 } as const;
+const LIGHTS = { low: 3, medium: 5, high: 7 } as const;
+const MOTES = 6;
+
+const GLOW_VERT = /* glsl */ `
+attribute vec4 aCentre;
+attribute vec4 aColour;
+attribute vec4 aMotion;
+varying vec2 vQ;
+varying vec2 vOff;
+varying vec4 vColour;
+varying float vSeed;
 void main() {
-  vN = normalize(normalMatrix * normal);
-  vTint = aTint;
-  vLife = aLife;
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(aHead.xyz + position * aHead.w, 1.0);
+  vec4 c = modelViewMatrix * vec4(aCentre.xyz, 1.0);
+  vec3 vel = mat3(modelViewMatrix) * aMotion.xyz;
+  float speed = length(vel.xy);
+  vec2 along = speed > 1e-3 ? vel.xy / speed : vec2(0.0, 1.0);
+  vec2 across = vec2(-along.y, along.x);
+  // The trailing half stretches back along the flight, a little more the faster it goes.
+  float stretch = 1.0 + clamp(speed * 0.085, 0.0, 1.15);
+  vec2 q = position.xy;
+  vec2 off = along * q.x * (q.x < 0.0 ? stretch : 1.0) + across * q.y;
+  c.xy += off * aCentre.w;
+  vQ = q;
+  vOff = off;
+  vColour = aColour;
+  vSeed = aMotion.w;
+  gl_Position = projectionMatrix * c;
 }`;
 
-const CORE_FRAG = /* glsl */ `
-varying vec3 vN;
-varying vec3 vTint;
-varying vec2 vLife;
+const GLOW_FRAG = /* glsl */ `
+uniform float uTime;
+varying vec2 vQ;
+varying vec2 vOff;
+varying vec4 vColour;
+varying float vSeed;
 void main() {
-  vec3 n = normalize(vN);
-  float face = max(dot(n, normalize(vec3(-0.25, 0.5, 1.0))), 0.0);
-  float pearl = 0.74 + 0.26 * face;
-  vec3 col = mix(vTint, vec3(0.94, 0.98, 0.96), pearl);
-  col *= (0.86 + 0.4 * face) * (0.82 + 0.3 * vLife.y);
-  gl_FragColor = vec4(col, vLife.x);
-}`;
-
-const HALO_VERT = /* glsl */ `
-attribute vec4 aHead;
-attribute vec3 aTint;
-attribute vec2 aLife;
-varying vec2 vUv;
-varying vec3 vTint;
-varying vec2 vLife;
-void main() {
-  vUv = uv;
-  vTint = aTint;
-  vLife = aLife;
-  vec4 centre = modelViewMatrix * vec4(aHead.xyz, 1.0);
-  centre.xy += position.xy * aHead.w * 6.0;
-  gl_Position = projectionMatrix * centre;
-}`;
-
-const HALO_FRAG = /* glsl */ `
-varying vec2 vUv;
-varying vec3 vTint;
-varying vec2 vLife;
-void main() {
-  vec2 p = vUv * 2.0 - 1.0;
-  float r2 = dot(p, p);
+  float r2 = dot(vQ, vQ);
   if (r2 > 1.0) discard;
-  float halo = exp(-r2 * 5.0) * (1.0 - smoothstep(0.6, 1.0, r2));
-  gl_FragColor = vec4(vTint * (0.72 + vLife.y * 0.55), halo * vLife.x * 0.58);
+  // The rim breathes unevenly, like a flame, never like a lamp.
+  float a = atan(vQ.y, vQ.x);
+  float flick = 0.84 + 0.16 * sin(a * 3.0 + uTime * 7.3 + vSeed * 17.0) * sin(a * 5.0 - uTime * 4.7 + vSeed * 5.0);
+  float core = exp(-r2 * 30.0);
+  float inner = exp(-r2 * 8.0 / flick);
+  float halo = exp(-r2 * 3.0) * (1.0 - r2);
+  vec3 tint = vColour.rgb;
+  // A small tongue of flame licks upward from the heart of each spirit and flickers in height.
+  float lick = 0.22 + 0.06 * sin(uTime * 9.0 + vSeed * 31.0) + 0.04 * sin(uTime * 15.0 + vSeed * 7.0);
+  float tongue = exp(-vOff.x * vOff.x * 34.0 - (vOff.y - lick) * (vOff.y - lick) * 14.0) * smoothstep(-0.05, 0.12, vOff.y);
+  vec3 col = tint * (inner * 0.95 + halo * 0.13 + tongue * 0.6) + mix(tint, vec3(1.0, 0.98, 0.94), 0.42) * core * 1.7;
+  gl_FragColor = vec4(col * vColour.a, 1.0);
 }`;
 
 const TRAIL_VERT = /* glsl */ `
-attribute vec4 aHead;
-attribute vec3 aTint;
-attribute vec2 aLife;
-attribute vec4 aTrail0;
-attribute vec4 aTrail1;
-attribute vec4 aTrail2;
-attribute vec4 aTrail3;
-attribute vec4 aTrail4;
-attribute vec4 aTrail5;
-attribute vec4 aTrail6;
-varying vec2 vUv;
-varying vec3 vTint;
-varying float vLife;
+attribute vec3 aTangent;
+attribute vec4 aTrail;
+attribute vec3 aColour;
+varying float vAge;
+varying float vSide;
+varying vec3 vColour;
+varying float vIntensity;
 void main() {
-  float k = uv.y * 6.0;
-  vec4 p;
-  vec3 before;
-  vec3 after;
-  if (k < 0.5) { p = aTrail0; before = aTrail0.xyz; after = aTrail1.xyz; }
-  else if (k < 1.5) { p = aTrail1; before = aTrail0.xyz; after = aTrail2.xyz; }
-  else if (k < 2.5) { p = aTrail2; before = aTrail1.xyz; after = aTrail3.xyz; }
-  else if (k < 3.5) { p = aTrail3; before = aTrail2.xyz; after = aTrail4.xyz; }
-  else if (k < 4.5) { p = aTrail4; before = aTrail3.xyz; after = aTrail5.xyz; }
-  else if (k < 5.5) { p = aTrail5; before = aTrail4.xyz; after = aTrail6.xyz; }
-  else { p = aTrail6; before = aTrail5.xyz; after = aTrail6.xyz; }
-  vec4 centre = modelViewMatrix * vec4(p.xyz, 1.0);
-  vec3 tangent = mat3(modelViewMatrix) * (after - before);
-  vec2 side = vec2(-tangent.y, tangent.x);
-  side = length(side) > 0.0001 ? normalize(side) : vec2(1.0, 0.0);
-  float width = aHead.w * 0.6 * (1.0 - uv.y * 0.78);
-  centre.xy += side * position.x * width;
-  vUv = uv;
-  vTint = aTint;
-  vLife = p.w * (0.7 + aLife.y * 0.25);
-  gl_Position = projectionMatrix * centre;
+  vec4 c = modelViewMatrix * vec4(position, 1.0);
+  vec3 t = mat3(modelViewMatrix) * aTangent;
+  vec2 side = vec2(-t.y, t.x);
+  float l = length(side);
+  side = l > 1e-5 ? side / l : vec2(1.0, 0.0);
+  c.xy += side * aTrail.x * aTrail.z;
+  vAge = aTrail.y;
+  vSide = aTrail.x;
+  vColour = aColour;
+  vIntensity = aTrail.w;
+  gl_Position = projectionMatrix * c;
 }`;
 
 const TRAIL_FRAG = /* glsl */ `
-varying vec2 vUv;
-varying vec3 vTint;
-varying float vLife;
+varying float vAge;
+varying float vSide;
+varying vec3 vColour;
+varying float vIntensity;
 void main() {
-  float x = vUv.x * 2.0 - 1.0;
-  float edge = exp(-x * x * 3.0) * (1.0 - smoothstep(0.72, 1.0, abs(x)));
-  float tail = pow(max(0.0, 1.0 - vUv.y), 1.5);
-  gl_FragColor = vec4(mix(vTint, vec3(0.8, 0.91, 0.88), 0.16), edge * tail * vLife * 0.58);
+  float across = exp(-vSide * vSide * 2.6);
+  float along = pow(max(0.0, 1.0 - vAge), 1.7);
+  gl_FragColor = vec4(vColour * (across * along * vIntensity), 1.0);
 }`;
 
-function instanceGeometry(base: THREE.BufferGeometry, count: number): THREE.InstancedBufferGeometry {
-  const geometry = new THREE.InstancedBufferGeometry();
-  geometry.setIndex(base.index);
-  for (const [name, attribute] of Object.entries(base.attributes)) geometry.setAttribute(name, attribute);
-  geometry.instanceCount = count;
-  geometry.boundingSphere = new THREE.Sphere(new THREE.Vector3(0, 6, 0), 17);
-  base.dispose();
-  return geometry;
-}
+const MOTE_VERT = /* glsl */ `
+attribute vec4 aMote;
+attribute vec3 aColour;
+uniform float uPixel;
+varying vec3 vColour;
+varying float vIntensity;
+void main() {
+  vec4 c = modelViewMatrix * vec4(position, 1.0);
+  gl_Position = projectionMatrix * c;
+  gl_PointSize = max(1.0, aMote.x * uPixel);
+  vColour = aColour;
+  vIntensity = aMote.y;
+}`;
 
-/**
- * Native, modestly faceted pearl spirits and soft connected comet tails. All particles share three draws; their
- * trajectories and historical trail points are functions of the source clock, not previous rendered frames.
- * The colour family is stable per spirit. Measured bands warm/cool its light, gently change its radius and pulse.
- */
-export function buildMenuWisps(options: {
-  doorAt: THREE.Vector3;
-  doorFacing: number;
-  treeCentre: THREE.Vector3;
-  quality: 'low' | 'medium' | 'high';
-}): MenuWisps {
-  const count = options.quality === 'low' ? 16 : options.quality === 'medium' ? 24 : 30;
+const MOTE_FRAG = /* glsl */ `
+varying vec3 vColour;
+varying float vIntensity;
+void main() {
+  vec2 p = gl_PointCoord * 2.0 - 1.0;
+  float r2 = dot(p, p);
+  if (r2 > 1.0) discard;
+  // A small soft spark with a faint four-point glint.
+  float glint = exp(-abs(p.x) * 9.0) * exp(-abs(p.y) * 1.6) + exp(-abs(p.y) * 9.0) * exp(-abs(p.x) * 1.6);
+  float spark = exp(-r2 * 6.0) + glint * 0.35;
+  gl_FragColor = vec4(mix(vColour, vec3(1.0), 0.4) * spark * vIntensity, 1.0);
+}`;
+
+const hash = (a: number, b: number) => {
+  const s = Math.sin(a * 12.9898 + b * 78.233) * 43758.5453;
+  return s - Math.floor(s);
+};
+
+export function buildMenuWisps(options: { tree: { x: number; y: number; z: number; yaw: number }; quality: 'low' | 'medium' | 'high' }): MenuWisps {
+  const count = WISP_COUNTS[options.quality];
+  const lights = createWispLighting(LIGHTS[options.quality]);
   const group = new THREE.Group();
   group.name = 'Menu_Hermitage_Wisps';
-  group.position.copy(options.treeCentre);
+  group.position.set(options.tree.x, options.tree.y, options.tree.z);
+  group.rotation.y = options.tree.yaw;
   group.visible = false;
-  const facing = Number.isFinite(options.doorFacing) ? options.doorFacing : 0;
-  const nx = Math.sin(facing);
-  const nz = Math.cos(facing);
-  const door = options.doorAt.clone().sub(options.treeCentre);
-  const frontAngle = Math.atan2(door.x + nx * 0.5 + 1.2, door.z + nz * 0.5);
-  const rng = mulberry32(930517);
-  const birth = new Float64Array(count);
-  const birthMotion = new Float64Array(count);
-  const returnAngle = new Float64Array(count);
-  const variation = new Float64Array(count);
-  const phase = new Float64Array(count);
-  const baseColours = [0x70b8ff, 0x4edc9e, 0x4de8de, 0xb68eff, 0xffc06f, 0xff8cab].map((hex) => new THREE.Color(hex));
-  const heads = new THREE.InstancedBufferAttribute(new Float32Array(count * 4), 4).setUsage(THREE.DynamicDrawUsage);
-  const tint = new THREE.InstancedBufferAttribute(new Float32Array(count * 3), 3).setUsage(THREE.DynamicDrawUsage);
-  const life = new THREE.InstancedBufferAttribute(new Float32Array(count * 2), 2).setUsage(THREE.DynamicDrawUsage);
-  const trail = Array.from({ length: TRAIL_SEGMENTS + 1 }, () =>
-    new THREE.InstancedBufferAttribute(new Float32Array(count * 4), 4).setUsage(THREE.DynamicDrawUsage));
-  const samples: MenuScoreSample[] = Array.from({ length: TRAIL_SEGMENTS + 1 }, () => sampleMenuScore(0));
-  const buildSample = sampleMenuScore(0);
-  const returnSample = sampleMenuScore(0);
-  const scratch = new Float64Array(4);
+  group.updateMatrixWorld(true);
+
+  // ---- Glow flames: one camera-facing quad per spirit. ----
+  const quad = new THREE.PlaneGeometry(2, 2);
+  const glowGeometry = new THREE.InstancedBufferGeometry();
+  glowGeometry.setIndex(quad.index);
+  glowGeometry.setAttribute('position', quad.getAttribute('position'));
+  glowGeometry.instanceCount = count;
+  const centre = new THREE.InstancedBufferAttribute(new Float32Array(count * 4), 4).setUsage(THREE.DynamicDrawUsage);
+  const colour = new THREE.InstancedBufferAttribute(new Float32Array(count * 4), 4).setUsage(THREE.DynamicDrawUsage);
+  const motion = new THREE.InstancedBufferAttribute(new Float32Array(count * 4), 4).setUsage(THREE.DynamicDrawUsage);
+  glowGeometry.setAttribute('aCentre', centre);
+  glowGeometry.setAttribute('aColour', colour);
+  glowGeometry.setAttribute('aMotion', motion);
+  glowGeometry.boundingSphere = new THREE.Sphere(new THREE.Vector3(0, 5, 0), 16);
+  quad.dispose();
+  const time = { value: 0 };
+  const additive = { transparent: true, depthTest: true, depthWrite: false, blending: THREE.AdditiveBlending, toneMapped: false } as const;
+  const glowMaterial = new THREE.ShaderMaterial({ vertexShader: GLOW_VERT, fragmentShader: GLOW_FRAG, uniforms: { uTime: time }, ...additive });
+
+  // ---- Ribbons through each spirit's recent path. ----
+  const points = GROVE_TRAIL + 1;
+  const verts = count * points * 2;
+  const trailGeometry = new THREE.BufferGeometry();
+  const trailPos = new THREE.BufferAttribute(new Float32Array(verts * 3), 3).setUsage(THREE.DynamicDrawUsage);
+  const trailTan = new THREE.BufferAttribute(new Float32Array(verts * 3), 3).setUsage(THREE.DynamicDrawUsage);
+  const trailInfo = new THREE.BufferAttribute(new Float32Array(verts * 4), 4).setUsage(THREE.DynamicDrawUsage);
+  const trailColour = new THREE.BufferAttribute(new Float32Array(verts * 3), 3).setUsage(THREE.DynamicDrawUsage);
+  trailGeometry.setAttribute('position', trailPos);
+  trailGeometry.setAttribute('aTangent', trailTan);
+  trailGeometry.setAttribute('aTrail', trailInfo);
+  trailGeometry.setAttribute('aColour', trailColour);
+  const index: number[] = [];
   for (let i = 0; i < count; i++) {
-    birth[i] = 31.2 + i * 0.29 + rng() * 0.04;
-    variation[i] = rng();
-    phase[i] = rng() * TAU;
-    sampleMenuScore(birth[i]!, buildSample);
-    birthMotion[i] = buildSample.motion;
+    for (let k = 0; k < points - 1; k++) {
+      const a = (i * points + k) * 2;
+      index.push(a, a + 1, a + 2, a + 1, a + 3, a + 2);
+    }
+  }
+  trailGeometry.setIndex(index);
+  trailGeometry.boundingSphere = new THREE.Sphere(new THREE.Vector3(0, 5, 0), 16);
+  const trailMaterial = new THREE.ShaderMaterial({ vertexShader: TRAIL_VERT, fragmentShader: TRAIL_FRAG, side: THREE.DoubleSide, forceSinglePass: true, ...additive });
+
+  // ---- Sparks shed along the paths. ----
+  const motes = count * MOTES;
+  const moteGeometry = new THREE.BufferGeometry();
+  const motePos = new THREE.BufferAttribute(new Float32Array(motes * 3), 3).setUsage(THREE.DynamicDrawUsage);
+  const moteInfo = new THREE.BufferAttribute(new Float32Array(motes * 4), 4).setUsage(THREE.DynamicDrawUsage);
+  const moteColour = new THREE.BufferAttribute(new Float32Array(motes * 3), 3).setUsage(THREE.DynamicDrawUsage);
+  moteGeometry.setAttribute('position', motePos);
+  moteGeometry.setAttribute('aMote', moteInfo);
+  moteGeometry.setAttribute('aColour', moteColour);
+  moteGeometry.boundingSphere = new THREE.Sphere(new THREE.Vector3(0, 5, 0), 16);
+  const pixel = { value: 1 };
+  const moteMaterial = new THREE.ShaderMaterial({ vertexShader: MOTE_VERT, fragmentShader: MOTE_FRAG, uniforms: { uPixel: pixel }, ...additive });
+
+  const glow = new THREE.Mesh(glowGeometry, glowMaterial);
+  glow.name = 'Menu_Wisp_Flames';
+  glow.renderOrder = 6;
+  const trail = new THREE.Mesh(trailGeometry, trailMaterial);
+  trail.name = 'Menu_Wisp_Trails';
+  trail.renderOrder = 5;
+  const sparks = new THREE.Points(moteGeometry, moteMaterial);
+  sparks.name = 'Menu_Wisp_Sparks';
+  sparks.renderOrder = 7;
+  for (const o of [trail, glow, sparks]) {
+    o.castShadow = o.receiveShadow = false;
+    o.frustumCulled = false;
+    group.add(o);
   }
 
-  const core = instanceGeometry(new THREE.IcosahedronGeometry(1, 0), count);
-  const halo = instanceGeometry(new THREE.PlaneGeometry(2, 2), count);
-  const strip = new THREE.PlaneGeometry(2, 1, 1, TRAIL_SEGMENTS);
-  // Tail vertices index a historical centreline point rather than a flat plane in world space.
-  for (let i = 0; i < strip.attributes.position!.count; i++) strip.attributes.position!.setY(i, 0);
-  const tail = instanceGeometry(strip, count);
-  for (const geometry of [core, halo, tail]) {
-    geometry.setAttribute('aHead', heads);
-    geometry.setAttribute('aTint', tint);
-    geometry.setAttribute('aLife', life);
-  }
-  for (let i = 0; i < trail.length; i++) tail.setAttribute(`aTrail${i}`, trail[i]!);
-
-  const coreMaterial = new THREE.ShaderMaterial({
-    vertexShader: CORE_VERT, fragmentShader: CORE_FRAG, transparent: true, depthTest: true, depthWrite: false,
-    toneMapped: false,
-  });
-  const haloMaterial = new THREE.ShaderMaterial({
-    vertexShader: HALO_VERT, fragmentShader: HALO_FRAG, transparent: true, depthTest: true, depthWrite: false,
-    blending: THREE.AdditiveBlending, side: THREE.DoubleSide, forceSinglePass: true, toneMapped: false,
-  });
-  const tailMaterial = new THREE.ShaderMaterial({
-    vertexShader: TRAIL_VERT, fragmentShader: TRAIL_FRAG, transparent: true, depthTest: true, depthWrite: false,
-    blending: THREE.AdditiveBlending, side: THREE.DoubleSide, forceSinglePass: true, toneMapped: false,
-  });
-  for (const [name, geometry, material, order] of [
-    ['Menu_Wisp_Pearl_Cores', core, coreMaterial, 5],
-    ['Menu_Wisp_Radial_Halos', halo, haloMaterial, 3],
-    ['Menu_Wisp_Connected_Tails', tail, tailMaterial, 4],
-  ] as const) {
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.name = name;
-    mesh.renderOrder = order;
-    mesh.castShadow = mesh.receiveShadow = false;
-    group.add(mesh);
-  }
-
-  let cachedDuration = -1;
-  let previousTime = -1;
-  let previousGain = -1;
-  let previousDuration = -1;
+  const intensity = new Float32Array(count);
+  const order: number[] = [];
+  const view = new THREE.Vector3();
+  const modelView = new THREE.Matrix4();
   let disposed = false;
-  /** Fill one pose in an existing array. Angles return around the bark before the last radial approach. */
-  const pose = (i: number, t: number, d: number, score: MenuScoreSample) => {
-    const v = variation[i]!;
-    const age = Math.max(0, t - birth[i]!);
-    const emerge = smooth(0, 2.5, age);
-    const returning = smooth(d - 10 - v * 0.35, d - 4 - v * 0.15, t);
-    const direction = i % 2 ? -1 : 1;
-    // A few spirits always process along the visible front-right bark and roots.
-    // Others gradually separate into full orbits instead of sharing two birth-time clusters.
-    const frontProcession = i % 5 < 2;
-    const angle0 = frontProcession
-      ? 1.24 + Math.sin(score.motion * 0.105 + phase[i]!) * 0.28
-      : frontAngle + direction * (score.motion - birthMotion[i]!) * (0.13 + v * 0.025)
-        + (phase[i]! - Math.PI) * smooth(2.5, 14, age);
-    const angle = angle0 + (returnAngle[i]! - angle0) * smooth(0, 0.8, returning);
-    const radiusX = 4.2 + v * 0.45;
-    const radiusZ = 3.8 + v * 0.65 + (i % 3) * 0.4;
-    const rise = smooth(0, 9, age);
-    const height = frontProcession ? 1.35 + (i % 4) * 0.94 * rise : 1.55 + (i % 3) * 3.7 * rise;
-    const orbitX = -1.2 + Math.sin(angle) * radiusX;
-    const orbitZ = Math.cos(angle) * radiusZ;
-    const orbitY = height + Math.sin(score.motion * 0.19 + phase[i]!) * (frontProcession ? 0.2 : 0.26 + (i % 3) * 0.28);
-    const across = (v - 0.5) * 0.14;
-    const portalX = door.x + nx * 0.13 + nz * across;
-    const portalZ = door.z + nz * 0.13 - nx * across;
-    const portalY = door.y + 0.86 + v * 0.12;
-    const radialReturn = smooth(0.7, 1, returning);
-    scratch[0] = portalX + (orbitX - portalX) * emerge * (1 - radialReturn);
-    scratch[1] = portalY + (orbitY - portalY) * emerge * (1 - returning);
-    scratch[2] = portalZ + (orbitZ - portalZ) * emerge * (1 - radialReturn);
-    scratch[3] = smooth(0, 1.1, age) * (1 - smooth(d - 5, d - 2.5, t));
+  let lastTime = -1;
+  let lastGain = -1;
+
+  const clearLights = () => {
+    for (const c of lights.uniforms.uWispColours.value) c.set(0, 0, 0, 0);
   };
 
   return {
     group,
-    stats: { wisps: count, triangles: count * (20 + 2 + TRAIL_SEGMENTS * 2), meshes: 3 },
-    update(time, gain, duration) {
+    lights,
+    stats: { wisps: count, triangles: count * 2 + count * (points - 1) * 2, meshes: 3 },
+    setPixelScale(scale: number) {
+      pixel.value = Number.isFinite(scale) ? Math.max(0.5, Math.min(2, scale)) : 1;
+    },
+    update(grove, gain, camera) {
       if (disposed) return;
-      const d = durationOf(duration);
-      const t = clockOf(time, d);
-      const g = unit(gain);
-      if (t === previousTime && g === previousGain && d === previousDuration) return;
-      previousTime = t; previousGain = g; previousDuration = d;
-      group.visible = g > 0 && t > 31.2 && t < d - 2.5;
-      if (!group.visible) return;
-      if (cachedDuration !== d) {
-        sampleMenuScore(Math.max(0, d - 10), returnSample);
-        for (let i = 0; i < count; i++) {
-          const age = Math.max(0, d - 10 - birth[i]!);
-          const angle = i % 5 < 2
-            ? 1.24 + Math.sin(returnSample.motion * 0.105 + phase[i]!) * 0.28 - frontAngle
-            : (i % 2 ? -1 : 1) * (returnSample.motion - birthMotion[i]!) * (0.13 + variation[i]! * 0.025)
-              + (phase[i]! - Math.PI) * smooth(2.5, 14, age);
-          returnAngle[i] = frontAngle + Math.round(angle / TAU) * TAU;
-        }
-        cachedDuration = d;
+      const g = Number.isFinite(gain) ? Math.max(0, Math.min(1, gain)) : 0;
+      // The door shut fast behind the last of them: nothing to see until the song comes round again.
+      group.visible = g > 0 && grove.awake && grove.doorAngle > 0.01;
+      if (!group.visible) {
+        clearLights();
+        lastTime = -1;
+        return;
       }
-      for (let k = 0; k <= TRAIL_SEGMENTS; k++) sampleMenuScore(Math.max(0, t - k * TRAIL_SECONDS / TRAIL_SEGMENTS), samples[k]!);
-      const score = samples[0]!;
-      const perceptualGain = Math.sqrt(g);
+      if (grove.time === lastTime && g === lastGain) return;
+      lastTime = grove.time;
+      lastGain = g;
+      time.value = grove.time;
+      const rh = grove.rhythm;
+      const perceptual = Math.sqrt(g) * 1.25;
+      const treble = 0.5 * (rh.bands[4]! + rh.bands[5]!);
+      const flash = Math.min(1.4, rh.accent);
+      // Coming home they gather close before the door: a little dimmer, so the crowd stays a ring of lights, not a glare.
+      const homecoming = 1 - 0.35 * Math.max(0, Math.min(1, (grove.time - GROVE_HOMECOMING) / 3));
       for (let i = 0; i < count; i++) {
-        pose(i, t, d, score);
-        const family = i % 6;
-        const band = family === 1 || family === 4 ? score.bass : family === 0 || family === 2 ? score.mid : score.treble;
-        const radius = 0.13 + variation[i]! * 0.012 + score.energy * 0.018 + band * 0.007;
-        heads.setXYZW(i, scratch[0]!, scratch[1]!, scratch[2]!, radius);
-        const colour = baseColours[family]!;
-        const warmth = 0.06 + score.mid * 0.08;
-        tint.setXYZ(i, colour.r * (0.8 + band * 0.2) + warmth, colour.g * (0.8 + band * 0.2) + warmth, colour.b * (0.8 + band * 0.2) + warmth);
-        life.setXY(i, scratch[3]! * perceptualGain, 0.65 + score.energy * 0.6 + band * 0.3 + score.onset * 0.07);
-        for (let k = 0; k <= TRAIL_SEGMENTS; k++) {
-          pose(i, Math.max(0, t - k * TRAIL_SECONDS / TRAIL_SEGMENTS), d, samples[k]!);
-          trail[k]!.setXYZW(i, scratch[0]!, scratch[1]!, scratch[2]!, scratch[3]! * perceptualGain);
+        const b = groveSpiritBand(i);
+        const level = rh.bands[b]!;
+        const c = WISP_COLOURS[b]!;
+        const x = grove.position[i * 3]!;
+        const y = grove.position[i * 3 + 1]!;
+        const z = grove.position[i * 3 + 2]!;
+        const bump = grove.bump[i]!;
+        // Dimmer while still in the hollow: a crowd of them in so small a space would only be a white blur.
+        const shown = 0.22 + 0.78 * grove.outside[i]!;
+        const lit = (0.32 + 0.95 * Math.pow(level, 1.4) + 0.35 * flash + 0.5 * bump) * perceptual * shown * homecoming;
+        intensity[i] = lit;
+        centre.setXYZW(i, x, y, z, (0.5 + 0.22 * level + 0.1 * flash + 0.1 * bump) * (0.55 + 0.45 * shown));
+        colour.setXYZW(i, c[0], c[1], c[2], lit);
+        motion.setXYZW(i, grove.velocity[i * 3]!, grove.velocity[i * 3 + 1]!, grove.velocity[i * 3 + 2]!, hash(i, 1));
+        // Ribbon: head, then the ring of past samples from newest to oldest.
+        const base = i * points * 2;
+        const width = 0.075 + 0.07 * level;
+        for (let k = 0; k < points; k++) {
+          let px: number;
+          let py: number;
+          let pz: number;
+          if (k === 0) {
+            px = x;
+            py = y;
+            pz = z;
+          } else {
+            const slot = (grove.trailHead - (k - 1) + GROVE_TRAIL * 2) % GROVE_TRAIL;
+            const o = (i * GROVE_TRAIL + slot) * 3;
+            px = grove.trail[o]!;
+            py = grove.trail[o + 1]!;
+            pz = grove.trail[o + 2]!;
+          }
+          const age = k / (points - 1);
+          for (let s = 0; s < 2; s++) {
+            const v = base + k * 2 + s;
+            trailPos.setXYZ(v, px, py, pz);
+            trailInfo.setXYZW(v, s === 0 ? -1 : 1, age, width * (1 - age * 0.7), lit * 0.85);
+            trailColour.setXYZ(v, c[0], c[1], c[2]);
+          }
+        }
+        // Tangents from neighbouring ribbon points.
+        for (let k = 0; k < points; k++) {
+          const a = base + Math.max(0, k - 1) * 2;
+          const n = base + Math.min(points - 1, k + 1) * 2;
+          const tx = trailPos.getX(a) - trailPos.getX(n);
+          const ty = trailPos.getY(a) - trailPos.getY(n);
+          const tz = trailPos.getZ(a) - trailPos.getZ(n);
+          trailTan.setXYZ(base + k * 2, tx, ty, tz);
+          trailTan.setXYZ(base + k * 2 + 1, tx, ty, tz);
+        }
+        // Sparks: each rides one past sample and drifts down and aside as it ages; seeded by that sample's own step.
+        for (let m = 0; m < MOTES; m++) {
+          const k = 2 + m * 3;
+          const slot = (grove.trailHead - k + GROVE_TRAIL * 2) % GROVE_TRAIL;
+          const o = (i * GROVE_TRAIL + slot) * 3;
+          const born = grove.trailStep - k * 2;
+          const age = k / GROVE_TRAIL;
+          const hx = hash(born, i * 7 + m) - 0.5;
+          const hz = hash(i * 13 + m, born) - 0.5;
+          const v = i * MOTES + m;
+          motePos.setXYZ(v, grove.trail[o]! + hx * 0.5 * age, grove.trail[o + 1]! - 0.22 * age * age + (hash(born, m) - 0.5) * 0.15, grove.trail[o + 2]! + hz * 0.5 * age);
+          const twinkle = 0.55 + 0.45 * Math.sin(grove.time * 13 + hash(born, i) * 40);
+          moteInfo.setXYZW(v, 2.2 + 2.6 * level, (1 - age) * (1 - age) * twinkle * (0.25 + 1.1 * treble + 0.5 * flash) * lit, 0, 0);
+          moteColour.setXYZ(v, c[0], c[1], c[2]);
         }
       }
-      heads.needsUpdate = tint.needsUpdate = life.needsUpdate = true;
-      for (let k = 0; k < trail.length; k++) trail[k]!.needsUpdate = true;
+      for (const a of [centre, colour, motion]) a.needsUpdate = true;
+      for (const a of [trailPos, trailTan, trailInfo, trailColour, motePos, moteInfo, moteColour]) a.needsUpdate = true;
+
+      // ---- Light on the wood: the brightest spirits closest to it, faded in and out without popping. ----
+      const L = lights.count;
+      if (L > 0) {
+        order.length = 0;
+        for (let i = 0; i < count; i++) order.push(i);
+        const weight = (i: number) => {
+          const c = Math.max(0, grove.clearance(grove.position[i * 3]!, grove.position[i * 3 + 1]!, grove.position[i * 3 + 2]!));
+          return intensity[i]! / (1 + c * c * 0.8);
+        };
+        const w = order.map(weight);
+        order.sort((a, b) => w[b]! - w[a]! || a - b);
+        const cut = w[order[L] ?? -1] ?? 0;
+        modelView.multiplyMatrices(camera.matrixWorldInverse, group.matrixWorld);
+        for (let k = 0; k < L; k++) {
+          const i = order[k];
+          const light = lights.uniforms.uWispLights.value[k]!;
+          const tint = lights.uniforms.uWispColours.value[k]!;
+          if (i === undefined) {
+            tint.set(0, 0, 0, 0);
+            continue;
+          }
+          view.set(grove.position[i * 3]!, grove.position[i * 3 + 1]!, grove.position[i * 3 + 2]!).applyMatrix4(modelView);
+          light.set(view.x, view.y, view.z, 4.2);
+          const fade = w[i]! > 0 ? Math.max(0, 1 - cut / w[i]!) : 0;
+          const c = WISP_COLOURS[groveSpiritBand(i)]!;
+          const power = intensity[i]! * fade * 1.6;
+          tint.set(c[0] * power, c[1] * power, c[2] * power, grove.outside[i]!);
+        }
+      }
     },
     dispose() {
       if (disposed) return;
       disposed = true;
       group.visible = false;
       group.clear();
-      core.dispose(); halo.dispose(); tail.dispose();
-      coreMaterial.dispose(); haloMaterial.dispose(); tailMaterial.dispose();
+      glowGeometry.dispose();
+      trailGeometry.dispose();
+      moteGeometry.dispose();
+      glowMaterial.dispose();
+      trailMaterial.dispose();
+      moteMaterial.dispose();
     },
   };
 }

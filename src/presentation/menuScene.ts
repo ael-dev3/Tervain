@@ -10,7 +10,7 @@ import type { SwayUniforms } from './vegetation';
 import { MENU_SEA_LEVEL, MENU_SUN_DIR, createMenuSky } from './menu/menuSky';
 import { MENU_BANNER, MENU_CAMERA, MENU_FIRE, MENU_TREE, menuHeight } from './menu/menuLayout';
 import { buildMenuGrass, buildMenuGroundGeometry, buildPuddles, restHeight } from './menu/menuLand';
-import { buildAncientTree } from './menu/menuTree';
+import { TREE_HOLLOW, buildAncientTree } from './menu/menuTree';
 import { buildMenuFire } from './menu/menuFire';
 import { buildMenuBanner, type CanvasSource } from './menu/menuBanner';
 import { HERMIT_DOOR, buildBannerHardware, buildMenuCamp } from './menu/menuCamp';
@@ -18,8 +18,10 @@ import { buildMenuFar } from './menu/menuFar';
 import { buildMenuAir } from './menu/menuAir';
 import { buildRibbons } from './menu/menuRibbons';
 import { buildMenuShips } from './menu/menuShips';
-import { buildMenuWisps, sampleMenuAwakening } from './menu/menuWisps';
-import { MENU_SCORE_FEATURE_INFO, sampleMenuScore } from './menu/menuScoreFeatures';
+import { buildMenuWisps } from './menu/menuWisps';
+import { buildMenuHollow } from './menu/menuHollow';
+import { GROVE_DOOR_OPEN, GROVE_MAX_SPIRITS, createMenuGrove, type MenuGrove } from './menu/menuGrove';
+import { MENU_SCORE_FEATURE_INFO } from './menu/menuScoreFeatures';
 import type { MenuMusicPlayback } from './audio';
 
 export type MenuQuality = 'low' | 'medium' | 'high';
@@ -90,6 +92,9 @@ export class MenuScene {
   private readonly far: ReturnType<typeof buildMenuFar>;
   private readonly ships: ReturnType<typeof buildMenuShips>;
   private readonly wisps: ReturnType<typeof buildMenuWisps>;
+  private readonly hollow: ReturnType<typeof buildMenuHollow>;
+  /** The awakening's simulation: pure data, handed to the next scene on a graphics rebuild so it never re-runs. */
+  readonly grove: MenuGrove;
   private readonly awakening: MenuAwakeningState;
   private grilleLight!: THREE.PointLight;
   private readonly grilleWarm = new THREE.Color(0xff9a48);
@@ -111,7 +116,7 @@ export class MenuScene {
   private readonly baseFov = MENU_CAMERA.fov;
   static readonly MAX_FOV = 76;
 
-  constructor(opts: { quality?: MenuQuality; resources?: MenuResources; trafficSeed?: number; trafficTime?: number; awakening?: MenuAwakeningState } = {}) {
+  constructor(opts: { quality?: MenuQuality; resources?: MenuResources; trafficSeed?: number; trafficTime?: number; awakening?: MenuAwakeningState; grove?: MenuGrove } = {}) {
     this.quality = opts.quality ?? 'high';
     this.res = opts.resources ?? browserResources();
     // Deterministic standalone construction; the app supplies a fresh seed on each actual menu entry.
@@ -160,7 +165,12 @@ export class MenuScene {
           // Below the waterline the sky dome's sea shows instead: the shore is where the cliff meets it, with no step.
           .replace('vec2 tGy = dFdy(tXZ);', `vec2 tGy = dFdy(tXZ) * 2.6;\nif (vWorldPos.y < ${MENU_SEA_LEVEL.toFixed(2)}) discard;`);
       };
-      m.customProgramCacheKey = () => 'tervain-terrain-menu-v2';
+      const ground = m.onBeforeCompile;
+      m.onBeforeCompile = (sh, r) => {
+        ground.call(m, sh, r);
+        this.wisps.lights.patch(sh);
+      };
+      m.customProgramCacheKey = () => `tervain-terrain-menu-v3-${this.wisps.lights.key}`;
       this.ground.material = m;
       this.owned.push(m);
     });
@@ -193,6 +203,10 @@ export class MenuScene {
     const bark = this.res.bark();
     const woodMat = new THREE.MeshStandardMaterial({ map: bark.map, normalMap: bark.normal, vertexColors: true, roughness: 0.97, metalness: 0 });
     woodMat.normalScale.set(1.4, 1.4);
+    // The spirits light the bark as they pass (menuWispLight); built before the wisps so the materials can share it.
+    const wispLight = buildMenuWisps({ tree: { x: MENU_TREE.x, y: ty, z: MENU_TREE.z, yaw: treeRoot.rotation.y }, quality: q });
+    woodMat.onBeforeCompile = (sh) => wispLight.lights.patch(sh);
+    woodMat.customProgramCacheKey = () => `tervain-menu-bark-${wispLight.lights.key}`;
     bark.map.wrapS = bark.map.wrapT = THREE.RepeatWrapping;
     bark.normal.wrapS = bark.normal.wrapT = THREE.RepeatWrapping;
     const leafTex = this.res.leaf();
@@ -212,8 +226,9 @@ export class MenuScene {
         }
         #endif`,
       );
+      wispLight.lights.patch(sh);
     };
-    leafMat.customProgramCacheKey = () => 'tervain-menu-leaf';
+    leafMat.customProgramCacheKey = () => `tervain-menu-leaf-${wispLight.lights.key}`;
     const woodMesh = new THREE.Mesh(tree.wood, woodMat);
     woodMesh.castShadow = woodMesh.receiveShadow = true;
     woodMesh.name = 'Menu_Ancient_Tree_Wood';
@@ -240,10 +255,14 @@ export class MenuScene {
     const R = new Region('Menu_Camp_Static', new Ctx());
     const worldRoots = tree.roots.map((r) => ({ ...r, pts: r.pts.map((p) => treeRoot.localToWorld(new THREE.Vector3(...p))) }));
     this.camp = buildMenuCamp(R, { at: doorAt, facing: doorFacing }, { x: MENU_TREE.x, z: MENU_TREE.z, r: 2.9, roots: worldRoots }, this.mats);
-    this.wisps = buildMenuWisps({ doorAt, doorFacing, treeCentre: new THREE.Vector3(MENU_TREE.x, ty, MENU_TREE.z), quality: q });
+    this.wisps = wispLight;
     this.scene.add(this.wisps.group);
     this.owned.push(this.wisps);
     this.stats.wisps = this.wisps.stats.wisps;
+    // The hollow behind the door: carved heartwood lit by its own heart and by the spirits inside it.
+    this.hollow = buildMenuHollow(face, { lights: this.wisps.lights });
+    treeRoot.add(this.hollow.mesh);
+    this.owned.push(this.hollow);
 
     // Rags and a few iron lanterns hang from the bare low boughs: tied round the bough itself, never from the air beside it.
     const boughs = tree.lowBoughs.map((b) => ({
@@ -253,6 +272,7 @@ export class MenuScene {
     }));
     const rng = mulberry32(19);
     const hooks: THREE.Vector3[] = [];
+    const lanternCentres: THREE.Vector3[] = [];
     for (const i of [2, 7, 10, 5, 13, 16]) {
       const b = boughs[i];
       if (!b || hooks.length >= 3) continue;
@@ -264,6 +284,7 @@ export class MenuScene {
       hooks.push(top);
       R.vc.tube([[top.x, top.y, top.z], [top.x + 0.02, top.y - drop * 0.5, top.z], [top.x, top.y - drop, top.z]], 0.008, 3, 0x2a2622);
       const ly = top.y - drop;
+      lanternCentres.push(new THREE.Vector3(top.x, ly - 0.2, top.z));
       R.metal.cyl(0.0, 0.1, 0.1, 6, top.x, ly - 0.1, top.z, 0x3a342c);
       R.glow.cyl(0.075, 0.075, 0.2, 6, top.x, ly - 0.3, top.z, 0xffffff, { jit: 0 });
       R.metal.cyl(0.1, 0.1, 0.03, 6, top.x, ly - 0.33, top.z, 0x3a342c);
@@ -291,6 +312,22 @@ export class MenuScene {
         anchors.push(p);
       }
     }
+    // The awakening: one deterministic simulation of the door and every spirit, in the tree's own frame. A graphics
+    // rebuild hands the running one over (same tree, same score), so nothing is re-simulated.
+    this.grove = opts.grove && opts.grove.count === GROVE_MAX_SPIRITS ? opts.grove : createMenuGrove({
+      trunk: tree.trunk,
+      capsules: tree.capsules,
+      leafSites: tree.leafSites,
+      ground: groundLocal,
+      door: face,
+      aperture: { width: HERMIT_DOOR.width, height: HERMIT_DOOR.height, hingeZ: HERMIT_DOOR.hingeZ },
+      hollow: TREE_HOLLOW,
+      boughs: tree.lowBoughs.map((b) => ({ p: b.p, r: b.r })),
+      lanterns: lanternCentres.map((c) => {
+        const l = treeRoot.worldToLocal(c.clone());
+        return [l.x, l.y, l.z] as [number, number, number];
+      }),
+    }, GROVE_MAX_SPIRITS);
     const rags = buildRibbons(anchors, this.ribbonTime);
     this.scene.add(rags.mesh);
     this.owned.push(rags);
@@ -331,6 +368,8 @@ export class MenuScene {
 
     this.buildLights();
     this.scene.updateMatrixWorld(true);
+    this.camera.updateMatrixWorld(true);
+    this.hollow.setView(this.camera, treeRoot);
     this.scene.traverse((o) => {
       const m = o as THREE.Mesh;
       if (m.isMesh && m.geometry) {
@@ -410,6 +449,7 @@ export class MenuScene {
     const px = Math.min(2, Math.max(0.5, height / 720));
     this.fire.setPixelScale(px);
     this.air.setPixelScale(px);
+    this.wisps.setPixelScale(px);
   }
 
   /** Advances the menu clock. Reduced motion holds everything exactly where it is. */
@@ -442,7 +482,11 @@ export class MenuScene {
 
   get awakeningState(): MenuAwakeningState { return { ...this.awakening }; }
 
-  get doorOpening() { return sampleMenuAwakening(this.awakening.time, this.awakening.duration).opening; }
+  /** How far the hermit's door stands open (0 shut, 1 against its stop), from the awakening's hinge. */
+  get doorOpening() {
+    this.grove.advanceTo(this.awakening.time);
+    return this.grove.doorAngle / GROVE_DOOR_OPEN;
+  }
 
   private pose(t: number, step: number) {
     this.sway.uTime.value = t;
@@ -454,13 +498,20 @@ export class MenuScene {
     this.air.update(t);
     this.banner.update(t, 1);
     this.camp.update(t, step, 1);
-    const score = sampleMenuScore(this.awakening.time);
-    const opening = this.doorOpening;
-    this.camp.setDoorOpening(opening, score.energy);
-    this.wisps.update(this.awakening.time, this.awakening.gain, this.awakening.duration);
+    // The score's own clock drives the awakening; repeating a time changes nothing.
+    this.grove.advanceTo(this.awakening.time);
+    const opening = this.grove.doorAngle / GROVE_DOOR_OPEN;
+    this.camp.setDoorAngle(this.grove.doorAngle);
+    this.wisps.update(this.grove, this.awakening.gain, this.camera);
+    // The hollow's heart beats with the low notes and flares on the accents while the score is audible.
+    const rh = this.grove.rhythm;
+    const low = 0.5 * (rh.bands[0]! + rh.bands[1]!);
+    const audible = this.awakening.gain > 0 ? 1 : 0.35;
+    const heart = (0.3 + 1.7 * Math.pow(low, 1.5) + 0.8 * Math.min(1.2, rh.accent)) * audible;
+    this.hollow.update({ opening, heart, warm: 1, time: this.awakening.time });
     this.grilleLight.position.copy(this.camp.lanterns[1]!);
     this.grilleLight.color.copy(this.grilleWarm).lerp(this.grilleCool, opening * 0.78);
-    this.grilleLight.intensity = 2.5 + opening * (0.7 + score.energy * 0.5);
+    this.grilleLight.intensity = 2.5 + opening * (0.7 + low * 0.6);
   }
 
   /** Idempotent. Shared caches (tree textures, building textures, noise) belong to their generators and are not freed here. */

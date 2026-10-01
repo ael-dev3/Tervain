@@ -1,6 +1,6 @@
 # Tervain documentation
 
-Status: foundation outline, 29 September 2026, plus notes on the browser prototype and its current [0.0.5 forest and menu revision](production/releases/0.0.5.md). The [0.0.4 notes](production/releases/0.0.4.md) preserve earlier construction, menu, and water evidence. Design documents propose; the [prototype notes](engineering/prototype.md) and dated release notes distinguish implemented behavior from outstanding validation.
+Status: foundation outline, 29 September 2026, plus notes on the browser prototype: its [0.0.5 forest and menu revision](production/releases/0.0.5.md) and the current [0.0.7 menu grove](production/releases/0.0.7.md). The [0.0.4 notes](production/releases/0.0.4.md) preserve earlier construction, menu, and water evidence. Design documents propose; the [prototype notes](engineering/prototype.md) and dated release notes distinguish implemented behavior from outstanding validation.
 
 ## Reading paths
 
@@ -14,6 +14,7 @@ Status: foundation outline, 29 September 2026, plus notes on the browser prototy
 | Work on the people or the unarmed start | [People notes](production/releases/0.0.5-people.md) → [Gothic 3 people study](art/gothic3-reference.md#people) → [people update](art/art-audio-ui.md#people-update-30-september-2026). |
 | Plan the project | [Vision](vision.md) → [roadmap](production/roadmap.md) → [decisions](decisions.md). |
 | Check a source or assumption | [Reference ledger](references.md) → the dated upstream record named there. |
+| Work on the menu grove (door, hollow, spirits) | [Grove record](engineering/menu-grove-score.md) → [score analysis guide](../tools/README-menu-score-analysis.md) → [0.0.7 notes](production/releases/0.0.7.md). |
 | Check menu music provenance | [The Sovereign's Oath source record](engineering/menu-score.md) → [audio inventory](engineering/menu-audio-assets.json) → [0.0.5 handoff](production/releases/0.0.5.md). |
 
 ## Document authority
