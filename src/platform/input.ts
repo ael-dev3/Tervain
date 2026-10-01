@@ -37,14 +37,23 @@ export class Input {
   /** Set by the UI while typing/rebinding so gameplay keys are ignored. */
   captureNext: ((code: string) => void) | null = null;
   /** True while menus, panels or dialogue are open: the browser keeps Tab, Space and the arrows for focus and buttons. */
-  uiOpen = false;
+  private menuOpen = false;
+  get uiOpen() { return this.menuOpen; }
+  set uiOpen(open: boolean) {
+    if (open === this.menuOpen) return;
+    this.reset();
+    this.menuOpen = open;
+  }
   /** Called when a pending rebind is cancelled (for example by a left click), so the UI can restore its label. */
   captureCancel: (() => void) | null = null;
   /** Set by the app when a click only exists to recapture the pointer; that click is not a gameplay press. */
   swallowClick = false;
   padAxes = { lx: 0, ly: 0, rx: 0, ry: 0 };
   private toggles: Partial<Record<Action, boolean>> = {};
-  private prevHeld: Partial<Record<Action, boolean>> = {};
+  private toggledThisFrame = new Set<Action>();
+  private blockedCodes = new Set<string>();
+  private blockedPad = new Set<number>();
+  private stickNeedsNeutral = false;
   /** Reported once per gamepad D-pad/stick menu step. */
   onNavigate: ((dx: number, dy: number) => void) | null = null;
   private navCooldown = 0;
@@ -66,6 +75,11 @@ export class Input {
     window.addEventListener('gamepaddisconnected', () => {
       this.gamepadConnected = navigator.getGamepads?.().some((g) => g) ?? false;
       this.padDown.clear();
+      this.padPressed.clear();
+      this.padAxes = { lx: 0, ly: 0, rx: 0, ry: 0 };
+      this.blockedPad.clear();
+      this.toggles = {};
+      if (!this.gamepadConnected) this.device = 'keyboard';
     });
   }
 
@@ -81,8 +95,14 @@ export class Input {
       return;
     }
     const tag = (e.target as HTMLElement | null)?.tagName;
-    const typing = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
+    const typing = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (e.target as HTMLElement | null)?.isContentEditable;
     if (typing && e.code !== 'Escape') return;
+    // Space/Enter belong to a focused hotbar button's native activation, never a simultaneous world jump or attack.
+    if (['Space', 'Enter', 'NumpadEnter'].includes(e.code) && (e.target as HTMLElement | null)?.closest?.('button, [role="button"]')) return;
+    if (this.blockedCodes.has(e.code)) {
+      if (e.repeat) return;
+      this.blockedCodes.delete(e.code);
+    }
     if (Input.BLOCKED_DEFAULTS.has(e.code) && !typing && !this.uiOpen) {
       const b = this.getSettings().bindings;
       if (ACTIONS.some((a) => b[a].includes(e.code))) e.preventDefault();
@@ -93,6 +113,7 @@ export class Input {
 
   private onKeyUp = (e: KeyboardEvent) => {
     this.down.delete(e.code);
+    this.blockedCodes.delete(e.code);
   };
 
   private onMouseDown = (e: MouseEvent) => {
@@ -110,13 +131,15 @@ export class Input {
       cb(`Mouse${e.button}`);
       return;
     }
+    if (this.uiOpen) return;
     if (this.swallowClick) {
       this.swallowClick = false;
       return;
     }
     // Only clicks that reach the 3D view count as gameplay input; UI panels handle their own clicks.
     const t = e.target as HTMLElement | null;
-    if (t && t.id !== 'view' && !document.pointerLockElement) return;
+    if (t !== this.target && !this.locked) return;
+    if (document.pointerLockElement && !this.locked) return;
     const code = `Mouse${e.button}`;
     this.down.add(code);
     this.pressedCodes.add(code);
@@ -124,27 +147,44 @@ export class Input {
 
   private onMouseUp = (e: MouseEvent) => {
     this.down.delete(`Mouse${e.button}`);
+    this.blockedCodes.delete(`Mouse${e.button}`);
   };
 
   private onMouseMove = (e: MouseEvent) => {
-    if (!document.pointerLockElement && e.buttons === 0) return;
-    if (document.pointerLockElement || (e.buttons & 1) === 1) {
+    if (this.uiOpen || (document.pointerLockElement && !this.locked)) return;
+    if (!this.locked && e.buttons === 0) return;
+    if (this.locked || (e.buttons & 1) === 1) {
       const t = e.target as HTMLElement | null;
-      if (!document.pointerLockElement && t?.id !== 'view') return;
+      if (!this.locked && t !== this.target) return;
       this.lookX += e.movementX;
       this.lookY += e.movementY;
     }
   };
 
   private onWheel = (e: WheelEvent) => {
-    this.wheel += e.deltaY;
+    if (this.uiOpen || (!this.locked && e.target !== this.target) || !Number.isFinite(e.deltaY)) return;
+    const pixels = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1);
+    this.wheel += Math.max(-400, Math.min(400, pixels));
   };
 
-  private releaseAll = () => {
+  /** A modal transition, blur or hidden tab must discard buffered actions and wait for held buttons to release. */
+  reset() {
+    for (const code of this.down) this.blockedCodes.add(code);
+    for (const button of this.padDown) this.blockedPad.add(button);
     this.down.clear();
+    this.pressedCodes.clear();
     this.padDown.clear();
+    this.padPressed.clear();
     this.toggles = {};
-  };
+    this.toggledThisFrame.clear();
+    this.padAxes = { lx: 0, ly: 0, rx: 0, ry: 0 };
+    this.stickNeedsNeutral = true;
+    this.lookX = this.lookY = this.wheel = 0;
+    this.swallowClick = false;
+    this.navCooldown = 0;
+  }
+
+  private releaseAll = () => this.reset();
 
   /** Poll the gamepad once per frame, before gameplay reads any action. */
   poll(dt: number) {
@@ -154,15 +194,24 @@ export class Input {
     this.padPressed.clear();
     if (!pad) {
       this.padAxes = { lx: 0, ly: 0, rx: 0, ry: 0 };
+      this.padDown.clear();
+      this.blockedPad.clear();
+      this.gamepadConnected = false;
       return;
     }
     this.gamepadConnected = true;
     const dz = (v: number) => (Math.abs(v) < 0.18 ? 0 : (v - Math.sign(v) * 0.18) / 0.82);
     this.padAxes = { lx: dz(pad.axes[0] ?? 0), ly: dz(pad.axes[1] ?? 0), rx: dz(pad.axes[2] ?? 0), ry: dz(pad.axes[3] ?? 0) };
+    if (this.stickNeedsNeutral) {
+      if (Object.values(this.padAxes).every((axis) => axis === 0)) this.stickNeedsNeutral = false;
+      else this.padAxes = { lx: 0, ly: 0, rx: 0, ry: 0 };
+    }
     const now = new Set<number>();
     pad.buttons.forEach((b, i) => {
       if (b.pressed || b.value > 0.6) now.add(i);
     });
+    for (const i of this.blockedPad) if (!now.has(i)) this.blockedPad.delete(i);
+    for (const i of this.blockedPad) now.delete(i);
     for (const i of now) if (!this.padDown.has(i)) this.padPressed.add(i);
     this.padDown = now;
     if (now.size > 0 || Math.abs(this.padAxes.lx) + Math.abs(this.padAxes.ly) + Math.abs(this.padAxes.rx) > 0.4) this.device = 'gamepad';
@@ -218,7 +267,10 @@ export class Input {
     const s = this.getSettings();
     const toggle = (a === 'sprint' && s.toggleSprint) || (a === 'block' && s.toggleBlock);
     if (!toggle) return this.isDown(a);
-    if (this.pressed(a)) this.toggles[a] = !this.toggles[a];
+    if (this.pressed(a) && !this.toggledThisFrame.has(a)) {
+      this.toggles[a] = !this.toggles[a];
+      this.toggledThisFrame.add(a);
+    }
     return this.toggles[a] === true;
   }
 
@@ -228,6 +280,7 @@ export class Input {
 
   /** Movement vector: x right, y forward; length ≤ 1. */
   move(): { x: number; y: number } {
+    if (this.uiOpen) return { x: 0, y: 0 };
     let x = 0;
     let y = 0;
     if (this.isDown('right')) x += 1;
@@ -246,6 +299,7 @@ export class Input {
 
   /** Camera input in radians for this frame. */
   look(dt: number): { yaw: number; pitch: number } {
+    if (this.uiOpen) return { yaw: 0, pitch: 0 };
     const s = this.getSettings();
     const mouse = 0.0022 * s.mouseSensitivity;
     let yaw = -this.lookX * mouse;
@@ -260,7 +314,7 @@ export class Input {
   }
 
   zoom(): number {
-    return this.wheel;
+    return this.uiOpen ? 0 : this.wheel;
   }
 
   /** Drop this frame's button presses so a press that closed a menu does not also act in the world. */
@@ -286,7 +340,7 @@ export class Input {
     this.lookX = 0;
     this.lookY = 0;
     this.wheel = 0;
-    for (const a of ACTIONS) this.prevHeld[a] = this.isDown(a);
+    this.toggledThisFrame.clear();
   }
 
   requestPointerLock() {

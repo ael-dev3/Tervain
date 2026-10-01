@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import type { Colliders } from '../world/colliders';
+import type { Colliders, VerticalBounds } from '../world/colliders';
 import { ARRIVAL_SIGN, FOREST_RUIN, FOREST_WAYMARKERS } from '../world/layout';
 import { mulberry32 } from '../world/noise';
 import type { Terrain } from '../world/terrain';
@@ -15,6 +15,22 @@ export interface ForestLandmarkHandles {
   dispose(): void;
 }
 
+/** Measure the authored world vertices, including slopes and leaning pieces, without generating another mesh. */
+function physicalBounds(region: Region): () => VerticalBounds {
+  const starts = new Map([...region.batches].map(([key, batch]) => [key, batch.p.n]));
+  return () => {
+    let minY = Infinity;
+    let maxY = -Infinity;
+    for (const [key, batch] of region.batches) {
+      for (let i = (starts.get(key) ?? 0) + 1; i < batch.p.n; i += 3) {
+        minY = Math.min(minY, batch.p.a[i]!);
+        maxY = Math.max(maxY, batch.p.a[i]!);
+      }
+    }
+    return { minY, maxY };
+  };
+}
+
 /** Authored native stonework. No faction logo, imported art or animated tree transform is involved. */
 export function forestLandmarkGeometry(terrain: Pick<Terrain, 'heightAt'>, colliders: Pick<Colliders, 'circle' | 'box'>): Region[] {
   const regions: Region[] = [];
@@ -27,6 +43,7 @@ export function forestLandmarkGeometry(terrain: Pick<Terrain, 'heightAt'>, colli
     const R = new Region(`deepwood-waymarker:${index}`, new Ctx());
     const rnd = mulberry32(8300 + index);
     const base = Math.min(...[-0.6, 0, 0.6].flatMap((dx) => [-0.6, 0, 0.6].map((dz) => ground(mark.x + dx, mark.z + dz)))) - 0.12;
+    const bounds = physicalBounds(R);
     R.ctx.push(mark.x, base, mark.z, mark.yaw);
     // Broad buried plinth, tapering weathered shaft and chipped cap make one grounded piece.
     R.stone.box(1.08, 0.3, 0.92, 0, 0, 0, 0xb9b9a1, { jit: 0.1, sub: 0.45 });
@@ -38,7 +55,7 @@ export function forestLandmarkGeometry(terrain: Pick<Terrain, 'heightAt'>, colli
     moss(R, rnd, -0.25, 0.3, 0.24, 0.3);
     moss(R, rnd, 0.21, 0.29, -0.24, 0.26);
     R.ctx.pop();
-    colliders.circle(`forest-waymarker:${index}`, mark.x, mark.z, 0.58);
+    colliders.circle(`forest-waymarker:${index}`, mark.x, mark.z, 0.58, true, bounds());
     regions.push(R);
   }
 
@@ -53,7 +70,7 @@ export function forestLandmarkGeometry(terrain: Pick<Terrain, 'heightAt'>, colli
       const steps = Math.ceil(length / 0.85);
       const yaw = Math.atan2(x1 - x0, z1 - z0);
       const center = R.ctx.toWorld((x0 + x1) / 2, 0, (z0 + z1) / 2);
-      colliders.box(`forest-ruin:${id}`, center.x, center.z, 0.32, length / 2, spec.yaw + yaw);
+      const bounds = physicalBounds(R);
       for (let step = 0; step < steps; step++) {
         const t = (step + 0.5) / steps;
         const lx = x0 + (x1 - x0) * t;
@@ -67,6 +84,7 @@ export function forestLandmarkGeometry(terrain: Pick<Terrain, 'heightAt'>, colli
         }
         if (step % 2 === 0) moss(R, rnd, lx, y + rows * 0.36, lz, 0.24 + rnd() * 0.12);
       }
+      colliders.box(`forest-ruin:${id}`, center.x, center.z, 0.32, length / 2, spec.yaw + yaw, true, bounds());
     };
     wall('east', spec.hx, -spec.hz, spec.hx, spec.hz, 4);
     wall('west', -spec.hx, -spec.hz, -spec.hx, spec.hz - 2.1, 3);
@@ -75,8 +93,9 @@ export function forestLandmarkGeometry(terrain: Pick<Terrain, 'heightAt'>, colli
     // The missing north wall and broad south doorway leave a genuinely open, explorable shelter.
     for (const [lx, lz] of [[-4.7, -4.2], [4.7, -4.1]] as const) {
       const p = R.ctx.toWorld(lx, 0, lz);
+      const bounds = physicalBounds(R);
       R.stone.box(1.2, 0.48, 0.8, lx, ground(p.x, p.z) - 0.16, lz, 0xa7ad8d, { jit: 0.17, ry: 0.12 });
-      colliders.box('forest-ruin:north-stump', p.x, p.z, 0.6, 0.4, spec.yaw + 0.12);
+      colliders.box('forest-ruin:north-stump', p.x, p.z, 0.6, 0.4, spec.yaw + 0.12, true, bounds());
     }
     // A few buried foundation slabs suggest a former rest place without adding an occupied settlement.
     for (const [lx, lz] of [[-3, 1.2], [-1.2, 1.6], [0.7, 1.1], [2.7, 1.7], [-2.1, -0.8]] as const) {
@@ -99,6 +118,7 @@ export function forestLandmarkGeometry(terrain: Pick<Terrain, 'heightAt'>, colli
     const bottom = sign.boardBottom;
     const top = bottom + sign.boardHeight;
     const middle = (bottom + top) / 2;
+    const bounds = physicalBounds(R);
     R.ctx.push(sign.x, y, sign.z, sign.yaw);
     R.stone.box(0.65, 0.44, 0.65, 0, -0.3, 0, 0xaba58c, { jit: 0.15, ry: 0.12 });
     R.timber.box(0.23, 3.7, 0.23, 0, -0.3, 0, 0xbb9564, { grain: 'y', jit: 0.14 });
@@ -113,7 +133,7 @@ export function forestLandmarkGeometry(terrain: Pick<Terrain, 'heightAt'>, colli
     R.timber.rod(0.58, bottom - 0.06, -0.16, 0, bottom - 0.64, -0.16, 0.055, 5, 0xb89a67, { jit: 0.14 });
     for (const z of [-0.136, 0.136]) for (const x of [-0.08, 0.08]) R.metal.box(0.055, 0.055, 0.022, x, bottom + 0.27, z, 0x504d42, { jit: 0 });
     R.ctx.pop();
-    colliders.circle('arrival-signpost', sign.x, sign.z, 0.32);
+    colliders.circle('arrival-signpost', sign.x, sign.z, 0.32, true, bounds());
     regions.push(R);
   }
   return regions;

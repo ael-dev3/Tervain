@@ -1,4 +1,6 @@
 import { createInitialState } from '../game/state';
+import { normalizeEquippedWeapon, normalizeInventory, normalizeQuickSlots } from '../game/inventory';
+import { validMapMarker } from '../game/map';
 import { ARMED_START_REVISIONS, CONTENT_REVISION, NPC_IDS, SAVE_FORMAT_VERSION, WRECK_BLADE_PICKUP, type WorldState } from '../game/types';
 import { GAME_BUILD } from '../version';
 
@@ -129,6 +131,10 @@ export function reviveState(raw: unknown): WorldState | null {
     player: { ...base.player, ...(p as unknown as WorldState['player']) },
     offenses: { pending: [], known: [], ...(isObj(raw.offenses) ? (raw.offenses as unknown as WorldState['offenses']) : {}) },
     npcs: { ...base.npcs },
+    inventory: normalizeInventory(raw.inventory),
+    quickSlots: normalizeQuickSlots(raw.quickSlots),
+    equippedWeapon: null,
+    mapMarker: validMapMarker(raw.mapMarker) ? { x: raw.mapMarker.x, z: raw.mapMarker.z } : null,
     saveFormatVersion: SAVE_FORMAT_VERSION,
     contentRevision: CONTENT_REVISION,
   };
@@ -136,8 +142,9 @@ export function reviveState(raw: unknown): WorldState | null {
     const n = (raw.npcs as Record<string, unknown>)[id];
     if (isObj(n)) merged.npcs[id] = { ...base.npcs[id], ...(n as unknown as WorldState['npcs'][typeof id]) };
   }
+  if (!isNum(merged.player.maxHealth) || merged.player.maxHealth <= 0) merged.player.maxHealth = base.player.maxHealth;
   merged.player.health = Math.max(0, Math.min(merged.player.maxHealth, merged.player.health));
-  if (!Array.isArray(merged.skills)) merged.skills = [];
+  merged.skills = Array.isArray(raw.skills) && raw.skills.includes('steady_guard') ? ['steady_guard'] : [];
   if (!isObj(merged.evidence)) merged.evidence = {};
   if (!isObj(merged.grants)) merged.grants = {};
   if (!isObj(merged.defeated)) merged.defeated = {};
@@ -149,6 +156,11 @@ export function reviveState(raw: unknown): WorldState | null {
     merged.inventory = { ...merged.inventory, rusted_sword: Math.max(1, merged.inventory.rusted_sword ?? 0) };
     merged.locationChanges = { ...merged.locationChanges, [`pickup:${WRECK_BLADE_PICKUP}`]: 'taken' };
   }
+  // Older builds armed the player whenever the sword was carried. Preserve that behavior only when the new
+  // equipment field was absent; an explicit null records the player's deliberate choice to go unarmed.
+  merged.equippedWeapon = normalizeEquippedWeapon(
+    Object.hasOwn(raw, 'equippedWeapon') ? raw.equippedWeapon : 'rusted_sword', merged.inventory,
+  );
   return merged;
 }
 

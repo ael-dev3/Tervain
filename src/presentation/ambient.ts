@@ -29,7 +29,7 @@ const MENDER = frontOf(bySpec('net_store'), 2.4);
 const SPECS: Spec[] = [
   {
     look: { skin: 0xb98866, primary: 0x4a4a3c, secondary: 0x2e2a24, hair: 0x6a6660, height: 1.0, girth: 1.08, accessory: 'pack' },
-    style: { build: 'man', cut: 'short', beard: 'full', age: 0.62, faceSeed: 12011 },
+    style: { id: 'fisher', build: 'man', cut: 'short', beard: 'full', age: 0.62, faceSeed: 12011 },
     x: MENDER.x,
     z: MENDER.z,
     yaw: bySpec('net_store').yaw + Math.PI,
@@ -39,7 +39,7 @@ const SPECS: Spec[] = [
   },
   {
     look: { skin: 0xc79a72, primary: 0x5a4a3a, secondary: 0x6a6a52, hair: 0x3a2a1a, height: 1.0, girth: 0.9, accessory: 'shawl' },
-    style: { build: 'woman', cut: 'bun', beard: 'none', age: 0.45, faceSeed: 12107 },
+    style: { id: 'fireside', build: 'woman', cut: 'bun', beard: 'none', age: 0.45, faceSeed: 12107 },
     x: FIRE.x + 1.6,
     z: FIRE.z + 1.5,
     yaw: -2.5,
@@ -49,7 +49,7 @@ const SPECS: Spec[] = [
   },
   {
     look: { skin: 0xb0805c, primary: 0x3e4048, secondary: 0x28262a, hair: 0x8a8880, height: 1.03, girth: 1.0, accessory: 'coat', accent: 0x6a5a3a },
-    style: { build: 'man', cut: 'short', beard: 'full', age: 0.8, faceSeed: 12203 },
+    style: { id: 'keeper', build: 'man', cut: 'short', beard: 'full', age: 0.8, faceSeed: 12203 },
     x: DOOR.x + 2.6,
     z: DOOR.z - 1.2,
     yaw: -1.7,
@@ -58,6 +58,9 @@ const SPECS: Spec[] = [
     radius: 0.45,
   },
 ];
+
+/** Who the hamlet's people are (for the people lineup and the sheet export). */
+export const AMBIENT_PEOPLE: readonly { look: Look; style: AmbientStyle }[] = SPECS.map((s) => ({ look: s.look, style: s.style }));
 
 export function buildAmbient(ctx: BuildContext): SceneModule & { counts: { people: number } } {
   const { terrain, colliders } = ctx;
@@ -96,7 +99,19 @@ export function buildAmbient(ctx: BuildContext): SceneModule & { counts: { peopl
         const dx = p.rig.root.position.x - cam.x;
         const dz = p.rig.root.position.z - cam.z;
         setRigShadow(p.rig, dx * dx + dz * dz < 55 * 55);
-        poseRig(p.rig, { mode, speed: 0, time: f.time + p.t * 0.13, t: u / 3, amp: f.reducedMotion ? 0.35 : 1, workGesture: i === 0 ? 'mending' : 'general' }, dt);
+        poseRig(
+          p.rig,
+          {
+            mode,
+            speed: 0,
+            time: f.time + p.t * 0.13,
+            t: u / 3,
+            amp: f.reducedMotion ? 0.35 : 1,
+            workGesture: i === 0 ? 'mending' : 'general',
+            idle: f.reducedMotion ? undefined : { seed: p.spec.style.faceSeed, clock: p.t },
+          },
+          dt,
+        );
       });
     },
     stats: () => ({ people: people.length }),

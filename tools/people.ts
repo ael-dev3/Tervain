@@ -3,15 +3,24 @@
  *
  *   npm run dev, then open http://127.0.0.1:5173/tools/people.html
  *   ?pose=walk|block|attack_light|... &t=0.5 (action progress) &only=player,rillford_reeve &armed=drawn|sheathed|none
+ *   &sheet=2048 (sheet size) &painted=1 (ignore replacement sheets in src/assets/people)
  *
- * Drag to orbit, wheel to zoom. `window.people` exposes the scene for scripted captures (tools/cdp.mjs). Not part of the build.
+ * Drag to orbit, wheel to zoom. Drop a sheet image (PNG/JPG/WebP laid out like `npm run people:sheets` exports) onto the
+ * page to dress the chosen person in it at once. `window.people` exposes the scene for scripted captures (tools/cdp.mjs).
+ * Not part of the build.
  */
 import * as THREE from 'three';
 import { NPC_LIST } from '../src/content/npcs';
-import { createAmbientRig, createBanditRig, createNpcRig, createPlayerRig, poseRig, setArmed, setSash, type Mode, type Rig } from '../src/presentation/characters';
+import { AMBIENT_PEOPLE } from '../src/presentation/ambient';
+import { createAmbientRig, createBanditRig, createNpcRig, createPlayerRig, IDLE_VARIANTS, personBuildOptions, poseRig, setArmed, setSash, type IdleVariant, type Mode, type Rig } from '../src/presentation/characters';
+import { sheetsSettled } from '../src/presentation/human/sheetPool';
 import { npcStyle } from '../src/presentation/npcStyle';
 
 const params = new URLSearchParams(location.search);
+// Keep each sheet's pixels so they can be shown and saved (`people.sheetUrl(id)`).
+personBuildOptions.keepSheetData = true;
+if (params.has('sheet')) personBuildOptions.sheetSize = Number(params.get('sheet'));
+if (params.get('painted') === '1') personBuildOptions.ignoreOverrides = true;
 const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
 renderer.setPixelRatio(Math.min(2, devicePixelRatio));
 renderer.setSize(innerWidth, innerHeight);
@@ -55,9 +64,7 @@ add('player', createPlayerRig);
 for (const def of NPC_LIST) add(def.id, () => createNpcRig(def));
 add('bandit_a', () => createBanditRig(0));
 add('bandit_b', () => createBanditRig(1));
-add('fisher', () => createAmbientRig({ skin: 0xb98866, primary: 0x4a4a3c, secondary: 0x2e2a24, hair: 0x6a6660, height: 1.0, girth: 1.08, accessory: 'pack' }, { build: 'man', cut: 'short', beard: 'full', age: 0.62, faceSeed: 12011 }));
-add('fireside', () => createAmbientRig({ skin: 0xc79a72, primary: 0x5a4a3a, secondary: 0x6a6a52, hair: 0x3a2a1a, height: 1.0, girth: 0.9, accessory: 'shawl' }, { build: 'woman', cut: 'bun', beard: 'none', age: 0.45, faceSeed: 12107 }));
-add('keeper', () => createAmbientRig({ skin: 0xb0805c, primary: 0x3e4048, secondary: 0x28262a, hair: 0x8a8880, height: 1.03, girth: 1.0, accessory: 'coat', accent: 0x6a5a3a }, { build: 'man', cut: 'short', beard: 'full', age: 0.8, faceSeed: 12203 }));
+for (const a of AMBIENT_PEOPLE) add(a.style.id, () => createAmbientRig(a.look, a.style));
 
 const spacing = 1.25;
 entries.forEach((e, i) => {
@@ -102,11 +109,15 @@ addEventListener('resize', () => {
 const mode = (params.get('pose') ?? 'idle') as Mode;
 const actionT = Number(params.get('t') ?? 0.5);
 let time = 0;
+// ?idle=routine runs the residents' idle routines; ?idle=<variant> holds one variant (see IDLE_VARIANTS).
+const idleParam = params.get('idle');
+const idleForce = (IDLE_VARIANTS as readonly string[]).includes(idleParam ?? '') ? (idleParam as IdleVariant) : undefined;
 function pose(dt: number) {
-  for (const e of entries) {
+  entries.forEach((e, i) => {
     const work = NPC_LIST.some((d) => d.id === e.id) ? npcStyle(e.id as (typeof NPC_LIST)[number]['id']).work : 'general';
-    poseRig(e.rig, { mode, speed: 0.8, time, t: actionT, amp: 1, workGesture: work }, dt);
-  }
+    const idle = idleParam ? { seed: 977 * (i + 1), clock: time, force: idleForce } : undefined;
+    poseRig(e.rig, { mode, speed: 0.8, time, t: actionT, amp: 1, workGesture: work, idle }, dt);
+  });
 }
 function frame(dt: number) {
   time += dt;
@@ -115,7 +126,8 @@ function frame(dt: number) {
 }
 let last = performance.now();
 function loop(now: number) {
-  frame(Math.min(0.05, (now - last) / 1000));
+  // A frame timestamp can precede the end of a long build; never step backwards.
+  frame(Math.max(0, Math.min(0.05, (now - last) / 1000)));
   last = now;
   requestAnimationFrame(loop);
 }
@@ -147,9 +159,59 @@ function view(id: string | null, dir = 'front', fov = 30) {
   placeCamera();
   renderer.render(scene, camera);
 }
-function setPose(m: Mode, t = 0.5, seconds = 1) {
-  for (const e of entries) for (let i = 0; i < Math.round(seconds * 60); i++) poseRig(e.rig, { mode: m, speed: 0.8, time: i / 60, t, amp: 1 }, 1 / 60);
+/** Hold a pose for everyone (for captures); `idle` holds one of the residents' idle variants. */
+function setPose(m: Mode, t = 0.5, seconds = 1, idle?: IdleVariant) {
+  for (const e of entries) {
+    for (let i = 0; i < Math.round(seconds * 60); i++) poseRig(e.rig, { mode: m, speed: 0.8, time: i / 60, t, amp: 1, idle: idle ? { seed: 1, clock: i / 60, force: idle } : undefined }, 1 / 60);
+  }
   renderer.render(scene, camera);
 }
-(window as unknown as { people: unknown }).people = { scene, camera, renderer, entries, view, setPose, THREE, setArmed };
+/** A person's painted sheet as a PNG data URL (image order, top row first). */
+function sheetUrl(id: string): string | null {
+  const e = entries.find((x) => x.id === id);
+  const r = e?.rig.person?.sheetData.result;
+  if (!r?.image) return null;
+  const { width, height } = r.layout;
+  const c = document.createElement('canvas');
+  c.width = width;
+  c.height = height;
+  const ctx = c.getContext('2d')!;
+  const img = ctx.createImageData(width, height);
+  img.data.set(r.image);
+  ctx.putImageData(img, 0, 0);
+  return c.toDataURL('image/png');
+}
+/** Dress a person in a sheet image (a URL), as a file in src/assets/people would. */
+async function applySheet(id: string, url: string) {
+  const e = entries.find((x) => x.id === id);
+  if (!e?.rig.person) throw new Error(`no person ${id}`);
+  await e.rig.person.applyImage(url);
+}
+
+// Drop a sheet image onto the page to try it on the chosen person.
+const panel = document.createElement('div');
+panel.style.cssText = 'position:fixed;left:12px;top:12px;padding:8px 10px;background:#000a;color:#e8e0cc;font:13px system-ui;border-radius:6px';
+const pick = document.createElement('select');
+for (const e of entries) pick.add(new Option(e.id, e.id));
+const note = document.createElement('span');
+note.textContent = '  drop a sheet image here to try it on';
+panel.append(pick, note);
+document.body.append(panel);
+pick.onchange = () => view(pick.value, 'three');
+addEventListener('dragover', (ev) => ev.preventDefault());
+addEventListener('drop', (ev) => {
+  ev.preventDefault();
+  const file = ev.dataTransfer?.files[0];
+  if (!file) return;
+  const url = URL.createObjectURL(file);
+  note.textContent = `  applying ${file.name}…`;
+  applySheet(pick.value, url)
+    .then(() => (note.textContent = `  ${file.name} on ${pick.value}`))
+    .catch((err: unknown) => (note.textContent = `  could not use ${file.name}: ${String(err)}`));
+});
+
+(window as unknown as { people: unknown }).people = { scene, camera, renderer, entries, view, setPose, THREE, setArmed, sheetUrl, applySheet };
+const t0 = performance.now();
+await sheetsSettled();
+console.log(`sheets settled ${(performance.now() - t0).toFixed(1)} ms after the builds`);
 document.title = 'READY';

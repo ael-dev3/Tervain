@@ -23,8 +23,12 @@ node tools/menu-film-server.mjs
 Open **http://127.0.0.1:5180/tools/menu-film.html**. The server binds only to `127.0.0.1`. After the menu textures,
 Hegemony emblem, shaders, and sky lighting finish preparing, the page exposes two buttons:
 
-- **Record 5-second test**: inspect image composition, actual animation, dimensions, and frame pacing before a full run.
+- **Record 5-second wisp test**: inspect image composition, actual animation, dimensions, and frame pacing before a full run.
 - **Record full song**: record **216 seconds** of menu motion, slightly longer than the approved score.
+
+The test starts at song time **0:40**, during the wisp sequence. The full recording always starts at **0:00**, even
+after running a test. The recorder passes elapsed song time to the native menu animation, so the tree door and wisps
+follow the same score timeline as the game. The version footer comes from the current game's `GAME_VERSION`.
 
 Keep the recorder page active and visible throughout the recording. Background tabs can throttle animation or canvas
 capture. The preview scales to the window, while the underlying render and recorded canvas remain 1920 × 1080 pixels.
@@ -42,6 +46,8 @@ Override it when launching the server:
 TERVAIN_MENU_FILM_OUTPUT='/absolute/path/to/menu-film-output' node tools/menu-film-server.mjs
 ```
 
+If the default port is occupied, set `TERVAIN_MENU_FILM_PORT` (for example `5182`) and open the corresponding local URL.
+
 Each run creates a new `test-motion-<UUID>.webm` or `menu-motion-<UUID>.webm` file. Existing files are never overwritten.
 Interrupted or failed runs remain partial files and are reported as incomplete. `GET /__menu_film/status` exposes local
 recording progress; recording write endpoints accept requests only from this recorder's own local origin.
@@ -49,18 +55,18 @@ recording progress; recording write endpoints accept requests only from this rec
 ## Add the complete song
 
 The captured WebM has no audio. After the full recording completes, mux the **complete approved AAC score** separately.
-For the 0.0.5 score, its AAC track lasts about **214.213 seconds**; the film ends at the next full 30 fps frame,
+For **The Sovereign's Oath**, its AAC track lasts **214.213 seconds**; the film ends at the next full 30 fps frame,
 **214.233333 seconds** (6,427 frames). The following command encodes the native menu motion to H.264 and copies the whole
 AAC track without an additional audio encode. Do not add `-shortest`, audio fades, or an audio duration trim.
 
 ```sh
 ffmpeg -i '/absolute/path/menu-motion-UUID.webm' \
-  -i '/absolute/path/the-sovereigns-oath-menu.m4a' \
+  -i 'public/assets/audio/the-sovereigns-oath.m4a' \
   -map 0:v:0 -map 1:a:0 \
   -vf 'fps=30,trim=end_frame=6427,setpts=PTS-STARTPTS' \
   -c:v libx264 -preset slow -crf 18 -pix_fmt yuv420p \
   -c:a copy -movflags +faststart \
-  '/absolute/path/Tervain-0.0.5-The-Sovereigns-Oath-menu.mp4'
+  '/absolute/path/Tervain-menu-The-Sovereigns-Oath.mp4'
 ```
 
 Use an AAC source for `-c:a copy`; the Opus game asset is not interchangeable with it. If the approved song changes,

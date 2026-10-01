@@ -3,6 +3,7 @@ import { SPAWN } from '../world/layout';
 import {
   CONTENT_REVISION,
   NPC_IDS,
+  QUICK_SLOT_COUNT,
   SAVE_FORMAT_VERSION,
   type Cond,
   type FactValue,
@@ -44,6 +45,9 @@ export function createInitialState(slotId = 'slot-1'): WorldState {
     facts: { arrival_amnesia: true },
     grants: {},
     inventory: { coin: 6 },
+    quickSlots: Array.from({ length: QUICK_SLOT_COUNT }, () => null),
+    equippedWeapon: null,
+    mapMarker: null,
     skills: [],
     npcs,
     offenses: { pending: [], known: [] },

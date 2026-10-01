@@ -1,14 +1,15 @@
 import * as THREE from 'three';
 import type { Colliders } from '../world/colliders';
 import type { Terrain } from '../world/terrain';
-import { PLACES } from '../world/layout';
+import { BUILDINGS, LIGHTHOUSE, PLACES } from '../world/layout';
+import { CAMERA_CLEARANCE, cameraColliderEntry } from './cameraObstruction';
 
 /**
  * A stable third-person camera. Obstruction shortens the boom immediately but lets it
  * lengthen slowly, so it never oscillates against an edge or fights the input.
  */
 export class CameraRig {
-  readonly camera = new THREE.PerspectiveCamera(58, 1, 0.25, 1400);
+  readonly camera = new THREE.PerspectiveCamera(58, 1, 0.1, 1400);
   yaw = 0;
   pitch = 0.32;
   wantDist = 5.4;
@@ -16,6 +17,16 @@ export class CameraRig {
   private target = new THREE.Vector3();
   private smoothTarget = new THREE.Vector3();
   private titleAngle = 0;
+  private initialized = false;
+  /** Used to hide the local body only when the boom is forced inside it. */
+  get bodyVisible() { return this.manual !== null || this.curDist >= 0.85; }
+
+  /** Teleports, respawns and loads must never inherit the previous pivot or a compressed boom. */
+  reset() {
+    this.initialized = false;
+    this.curDist = this.wantDist;
+    this.shakeT = 0;
+  }
   mode: 'follow' | 'title' | 'bench' = 'follow';
   benchPath: { p: THREE.Vector3; look: THREE.Vector3 }[] = [];
   benchT = 0;
@@ -29,13 +40,13 @@ export class CameraRig {
   }
 
   lookAtYaw(yaw: number) {
-    this.yaw = yaw;
+    if (Number.isFinite(yaw)) this.yaw = yaw;
   }
 
   applyLook(dyaw: number, dpitch: number, zoom: number) {
-    this.yaw += dyaw;
-    this.pitch = Math.max(-0.15, Math.min(1.25, this.pitch + dpitch));
-    if (zoom !== 0) this.wantDist = Math.max(2.6, Math.min(9, this.wantDist + zoom * 0.004));
+    if (Number.isFinite(dyaw)) this.yaw = Math.atan2(Math.sin(this.yaw + dyaw), Math.cos(this.yaw + dyaw));
+    if (Number.isFinite(dpitch)) this.pitch = Math.max(-0.15, Math.min(1.25, this.pitch + dpitch));
+    if (Number.isFinite(zoom) && zoom !== 0) this.wantDist = Math.max(2.6, Math.min(9, this.wantDist + zoom * 0.004));
   }
 
   follow(dt: number, px: number, py: number, pz: number, terrain: Pick<Terrain, 'groundAt'>, colliders: Colliders, reducedMotion: boolean, shake: number, heightOffset = 1.55) {
@@ -45,40 +56,63 @@ export class CameraRig {
       return;
     }
     this.target.set(px, py + heightOffset, pz);
-    const k = reducedMotion ? 1 : 1 - Math.exp(-dt * 14);
-    this.smoothTarget.lerp(this.target, this.smoothTarget.distanceToSquared(this.target) > 400 ? 1 : k);
+    const k = reducedMotion ? 1 : 1 - Math.exp(-Math.max(0, dt) * 18);
+    if (!this.initialized || this.smoothTarget.distanceToSquared(this.target) > 100) {
+      this.smoothTarget.copy(this.target);
+      this.initialized = true;
+    } else {
+      // Horizontal pivot lag pulled the camera through walls on corners and made steering feel floaty.
+      this.smoothTarget.x = px;
+      this.smoothTarget.z = pz;
+      this.smoothTarget.y += (this.target.y - this.smoothTarget.y) * k;
+    }
 
-    // Boom direction from yaw/pitch (camera sits behind the view direction).
     const cp = Math.cos(this.pitch);
     const dirX = -Math.sin(this.yaw) * cp;
     const dirY = Math.sin(this.pitch);
     const dirZ = -Math.cos(this.yaw) * cp;
-
+    const desired = {
+      x: this.smoothTarget.x + dirX * this.wantDist,
+      y: this.smoothTarget.y + dirY * this.wantDist,
+      z: this.smoothTarget.z + dirZ * this.wantDist,
+    };
     let allowed = this.wantDist;
-    // One broad-phase lookup covers the whole boom. Rebuilding a Set and candidate
-    // array at every marching step was unnecessary work in the dense woodland.
-    const candidates = colliders.near(this.smoothTarget.x, this.smoothTarget.z, this.wantDist + 1.4);
-    // March along the boom; stop before terrain or a collider.
-    const steps = 14;
+    const candidates = colliders.near(px, pz, this.wantDist + CAMERA_CLEARANCE);
+    for (const c of candidates) {
+      const building = c.id.startsWith('b:') ? BUILDINGS.find((b) => `b:${b.id}` === c.id) : null;
+      const height = c.id === 'lighthouse' ? LIGHTHOUSE.h + 2
+        : c.id.startsWith('tree:') ? 20
+        : building ? building.h + Math.min(building.w, building.d) * 0.6
+        : c.id.startsWith('archive_') ? 3.4 : 5;
+      const t = cameraColliderEntry(this.smoothTarget, desired, c, terrain.groundAt(c.x, c.z), height);
+      if (t !== null) allowed = Math.min(allowed, Math.max(0.04, t * this.wantDist - 0.025));
+    }
+    // The rendered terrain is piecewise planar. A short spatial march followed by bisection finds bank contact
+    // independently of frame rate, rather than stepping over a bank in fourteen widely spaced samples.
+    const steps = Math.ceil(this.wantDist / 0.12);
+    let previous = 0;
     for (let i = 1; i <= steps; i++) {
-      const d = (this.wantDist * i) / steps;
-      const x = this.smoothTarget.x + dirX * d;
-      const y = this.smoothTarget.y + dirY * d;
-      const z = this.smoothTarget.z + dirZ * d;
-      const ground = terrain.groundAt(x, z);
-      if (y < ground + 0.35) {
-        allowed = Math.max(0.9, d - 0.5);
+      const d = this.wantDist * i / steps;
+      if (d > allowed) break;
+      const clear = (distance: number) => {
+        const x = this.smoothTarget.x + dirX * distance;
+        const z = this.smoothTarget.z + dirZ * distance;
+        const r = CAMERA_CLEARANCE;
+        const floor = Math.max(terrain.groundAt(x,z), terrain.groundAt(x-r,z), terrain.groundAt(x+r,z), terrain.groundAt(x,z-r), terrain.groundAt(x,z+r));
+        return this.smoothTarget.y + dirY * distance >= floor + r;
+      };
+      if (!clear(d)) {
+        let lo = previous;
+        let hi = d;
+        for (let j = 0; j < 12; j++) {
+          const mid = (lo + hi) / 2;
+          if (clear(mid)) lo = mid;
+          else hi = mid;
+        }
+        allowed = Math.min(allowed, Math.max(0.04, lo - 0.025));
         break;
       }
-      if (candidates.some((c) => {
-        // The tree collision disc represents its connected trunk/root volume.
-        // Leaves have no colliders. Ignoring this disc let the camera enter trunks.
-        if (c.kind === 'circle') return Math.hypot(x - c.x, z - c.z) < c.r + 0.7 && (c.id.startsWith('tree:') || y < ground + 5);
-        return this.inBox(c, x, z) && y < ground + 6;
-      })) {
-        allowed = Math.max(0.9, d - 0.6);
-        break;
-      }
+      previous = d;
     }
     // Shorten instantly; lengthen slowly.
     if (allowed < this.curDist) this.curDist = allowed;
@@ -88,20 +122,15 @@ export class CameraRig {
     const cz = this.smoothTarget.z + dirZ * this.curDist;
     cy = Math.max(cy, terrain.groundAt(cx, cz) + 0.45);
     this.camera.position.set(cx, cy, cz);
-    if (!reducedMotion && shake > 0) {
+    if (!reducedMotion && shake > 0 && this.curDist > 1) {
       this.shakeT += dt * 60;
-      this.camera.position.x += Math.sin(this.shakeT * 1.7) * shake * 0.12;
-      this.camera.position.y += Math.cos(this.shakeT * 2.3) * shake * 0.1;
+      const kick = Math.min(0.04, shake * 0.12);
+      const lateral = Math.sin(this.shakeT * 1.7) * kick;
+      this.camera.position.x += Math.cos(this.yaw) * lateral;
+      this.camera.position.z -= Math.sin(this.yaw) * lateral;
+      this.camera.position.y += Math.cos(this.shakeT * 2.3) * kick;
     }
     this.camera.lookAt(this.smoothTarget);
-  }
-
-  private inBox(c: { x: number; z: number; hw: number; hd: number; yaw: number }, x: number, z: number) {
-    const dx = x - c.x;
-    const dz = z - c.z;
-    const lx = dx * Math.cos(c.yaw) - dz * Math.sin(c.yaw);
-    const lz = dx * Math.sin(c.yaw) + dz * Math.cos(c.yaw);
-    return Math.abs(lx) < c.hw + 0.75 && Math.abs(lz) < c.hd + 0.75;
   }
 
   /**

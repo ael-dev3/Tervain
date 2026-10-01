@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { isWorldPickupItem } from '../content/pickups';
 import { ANCHORS, BUILDINGS, DECKS, FIELDS, FOREST_RUIN, FOREST_WAYMARKERS, INSPECT_LOCATIONS, LIGHTHOUSE, PALISADE, PICKUP_LOCATIONS, PLACES, ROADS, SPAWN, SPRING_POOL, STREAMS, STRAND, WAGON } from '../world/layout';
 import { distToPolyline, roadWeight, type Terrain } from '../world/terrain';
 
@@ -93,7 +94,7 @@ export class Exclusions {
     for (const b of BUILDINGS) this.circles.push({ x: b.x, z: b.z, r: Math.hypot(b.w, b.d) / 2 + 3.2 });
     for (const a of Object.values(ANCHORS)) this.circles.push({ x: a.x, z: a.z, r: 3.5 });
     for (const p of INSPECT_LOCATIONS) this.circles.push({ x: p.x, z: p.z, r: p.r + 1.5 });
-    for (const p of PICKUP_LOCATIONS) this.circles.push({ x: p.x, z: p.z, r: 3.5 });
+    for (const p of PICKUP_LOCATIONS) this.circles.push({ x: p.x, z: p.z, r: isWorldPickupItem(p.item) ? 0.8 : 3.5 });
     for (const p of Object.values(PLACES)) {
       if (p.r < 20) this.circles.push({ x: p.x, z: p.z, r: 3 });
     }

@@ -63,7 +63,7 @@ describe('world layout', () => {
     expect(open({ x: RITE_ALTAR.x, z: RITE_ALTAR.z + 2.4 }), 'altar approach').toBe(true);
     expect(open({ x: SLUICE.control.x, z: SLUICE.control.z }), 'sluice control').toBe(true);
     // Every interaction point that lives on a specific object must have somewhere to stand within its reach.
-    const reachable2 = (p: { x: number; z: number; r: number }) => [0.8, p.r * 0.5, p.r * 0.9].some((rr) => Array.from({ length: 16 }, (_, k) => ({ x: p.x + Math.cos((k / 16) * Math.PI * 2) * rr, z: p.z + Math.sin((k / 16) * Math.PI * 2) * rr })).some(open));
+    const reachable2 = (p: { x: number; z: number; r: number }) => [0.8, p.r * 0.5, p.r * 0.9].some((rr) => Array.from({ length: 16 }, (_, k) => ({ x: p.x + Math.cos((k / 16) * Math.PI * 2) * rr, z: p.z + Math.sin((k / 16) * Math.PI * 2) * rr })).some((point) => open(point)));
     expect(RESULT_CHECKS.filter((p) => !reachable2(p)).map((p) => p.id), 'result checks').toEqual([]);
     expect(reachable2(ARCHIVE_SHUTTER), 'archive shutter').toBe(true);
     expect(open({ x: SHORTCUT.lever.x, z: SHORTCUT.lever.z }), 'lever').toBe(true);

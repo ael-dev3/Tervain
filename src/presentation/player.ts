@@ -3,10 +3,12 @@ import { cliffiness, shoreDistance } from '../world/coast';
 import type { Game } from '../game/game';
 import type { Input } from '../platform/input';
 import type { Settings } from '../platform/settings';
-import type { Colliders } from '../world/colliders';
+import type { Collider, Colliders } from '../world/colliders';
 import type { Terrain } from '../world/terrain';
 import { roadWeight } from '../world/terrain';
-import { DECKS } from '../world/layout';
+import { LIGHTHOUSE } from '../world/layout';
+import { lighthouseSurfacesAt, lighthouseTreadTop } from '../world/lighthouse';
+import { PLAYER_BODY_HEIGHT, PLAYER_BODY_RADIUS, PLAYER_FOOT_CLEARANCE, supportedPlayerHeight } from '../world/playerPlacement';
 import type { AudioEngine, SurfaceKind } from './audio';
 import { createPlayerRig, poseRig, setArmed, setSash, applyFlash, type Mode, type Pose, type Rig } from './characters';
 import { EnemyActor, NpcActor, lerpAngle } from './actors';
@@ -54,6 +56,11 @@ export const BLADE: Arms = {
 };
 /** Seconds without a fight before the blade goes back on the hip. */
 const SHEATHE_AFTER = 6;
+const PLAYER_RADIUS = PLAYER_BODY_RADIUS;
+const STEP_HEIGHT = 0.8;
+const GROUND_FOLLOW_DROP = 0.5;
+/** Sample terrain along the whole move, so a sprint/dodge cannot skip a steep face or water strip. */
+const TERRAIN_STEP = 0.16;
 
 export interface PlayerCtx {
   terrain: Terrain;
@@ -97,13 +104,12 @@ export class Player {
   private dodgeDir = { x: 0, z: 0 };
   private stepDist = 0;
   private clock = 0;
-  private hurtStagger = false;
+  private gaitTime = 0;
   channel: { label: string; t: number; dur: number; done: () => void } | null = null;
   shake = 0;
   inWater = false;
   surface: SurfaceKind = 'grass';
   lastMoveSpeed = 0;
-  private wasBlocking = false;
   mode: Mode = 'idle';
   /** Whether the blade is in hand (only when the wanderer has one). */
   drawn = false;
@@ -116,9 +122,32 @@ export class Player {
     this.showArms('none');
   }
 
-  /** The wanderer's weapon, from what they carry. */
+  /** Ownership and equipment are distinct: carrying the wreck's blade never silently equips it. */
   arms(game: Game): Arms {
-    return (game.state.inventory.rusted_sword ?? 0) > 0 ? BLADE : FISTS;
+    return game.state.equippedWeapon === 'rusted_sword' && (game.state.inventory.rusted_sword ?? 0) > 0 ? BLADE : FISTS;
+  }
+
+  /** Equipment changes remain visible while inventory pauses the world; an unfinished blow cannot change weapon halfway through. */
+  syncEquipment(game: Game, draw = false) {
+    if (this.state === 'light' || this.state === 'heavy') {
+      this.state = 'free';
+      this.timer = this.dur = 0;
+      this.hitDone = true;
+    }
+    this.blocking = false;
+    this.blockTime = 0;
+    const armed = this.arms(game) === BLADE;
+    this.drawn = armed && draw;
+    this.calm = 0;
+    this.showArms(!armed ? 'none' : this.drawn ? 'drawn' : 'sheathed');
+  }
+
+  /** Re-selecting the held blade readies it without cancelling a blow or dropping guard. */
+  readyWeapon(game: Game) {
+    if (!this.alive || this.arms(game) !== BLADE) return;
+    this.drawn = true;
+    this.calm = 0;
+    this.showArms('drawn');
   }
 
   private showArms(state: 'none' | 'sheathed' | 'drawn') {
@@ -139,14 +168,32 @@ export class Player {
     return { x: Math.sin(this.yaw), z: Math.cos(this.yaw) };
   }
 
-  setPosition(x: number, z: number, yaw: number, terrain: Terrain) {
+  setPosition(x: number, z: number, yaw: number, terrain: Terrain, feetY?: number) {
     this.x = x;
     this.z = z;
     this.yaw = yaw;
-    this.y = terrain.groundAt(x, z);
-    this.vy = 0;
+    this.y = supportedPlayerHeight(terrain, x, z, feetY);
+    this.vx = this.vy = this.vz = 0;
     this.grounded = true;
     this.state = 'free';
+    this.timer = this.dur = 0;
+    this.hitDone = false;
+    this.heavy = false;
+    this.iframes = 0;
+    this.shake = 0;
+    this.blocking = false;
+    this.blockTime = 0;
+    this.dodgeDir = { x: 0, z: 0 };
+    this.lastMoveSpeed = 0;
+    this.stepDist = 0;
+    this.gaitTime = 0;
+    this.staminaPause = 0;
+    this.exhausted = this.stamina <= 0.01;
+    this.drawn = false;
+    this.calm = 0;
+    this.inWater = false;
+    this.mode = 'idle';
+    this.rig.hitFlash = 0;
     this.channel = null;
     this.rig.root.position.set(x, this.y, z);
     this.rig.root.rotation.y = yaw;
@@ -157,6 +204,7 @@ export class Player {
     this.state = 'channel';
     this.channel = { label, t: 0, dur, done };
     this.blocking = false;
+    this.vx = this.vz = this.lastMoveSpeed = 0;
     return true;
   }
 
@@ -169,6 +217,13 @@ export class Player {
 
   private surfaceAt(ctx: PlayerCtx): SurfaceKind {
     if (ctx.terrain.deckAt(this.x, this.z)) return 'deck';
+    const support = this.supportAt(this.x, this.z, ctx);
+    if (support > ctx.terrain.groundAt(this.x, this.z) + 0.02) {
+      // The lighthouse list also contains low stone doorsteps; only the elevated stair/gallery treads are wood.
+      const wood = lighthouseSurfacesAt(this.x, this.z).some((height) => height >= lighthouseTreadTop(0) - 1e-6 &&
+        Math.abs(ctx.terrain.heightAt(LIGHTHOUSE.x, LIGHTHOUSE.z) + height - support) < 0.02);
+      return wood ? 'deck' : 'stone';
+    }
     if (ctx.terrain.carveAt(this.x, this.z) > 0.12 || ctx.terrain.seaDepth(this.x, this.z) > 0.12) return 'water';
     if (roadWeight(this.x, this.z) > 0.55) return 'road';
     if (ctx.terrain.slopeAt(this.x, this.z) > 0.5) return 'stone';
@@ -176,37 +231,84 @@ export class Player {
     return 'grass';
   }
 
-  /** Try to move by (dx, dz) with collision, slope, step and water rules; slides along obstacles. */
+  private supportAt(x: number, z: number, ctx: PlayerCtx): number {
+    return ctx.terrain.supportAt(x, z, this.y);
+  }
+
+  /** Living people are contact volumes, not unrestricted post-physics position pushes. */
+  private contacts(ctx: PlayerCtx): Collider[] {
+    const contacts: Collider[] = [];
+    for (const n of ctx.npcs) {
+      if (n.hidden || !ctx.game.state.npcs[n.id]?.available) continue;
+      contacts.push({ id: `person:${n.id}`, kind: 'circle', x: n.x, z: n.z, r: 0.35, active: true, minY: n.y, maxY: n.y + 2.1 });
+    }
+    for (const e of ctx.enemies) {
+      if (!e.alive) continue;
+      contacts.push({ id: `enemy:${e.id}`, kind: 'circle', x: e.x, z: e.z, r: e.radius, active: true, minY: e.y, maxY: e.y + 2.1 });
+    }
+    return contacts;
+  }
+
+  /** Actors can approach a stationary player. Correct those contacts through the same swept scenery constraint. */
+  private settleContacts(ctx: PlayerCtx) {
+    const bounds = { minY: this.y + PLAYER_FOOT_CLEARANCE, maxY: this.y + PLAYER_BODY_HEIGHT };
+    const target = ctx.colliders.resolve(this.x, this.z, PLAYER_RADIUS, undefined, bounds, this.contacts(ctx));
+    if (!target.hit) return;
+    const safe = ctx.colliders.move(this.x, this.z, target.x - this.x, target.z - this.z, PLAYER_RADIUS, undefined, bounds);
+    const ground = this.supportAt(safe.x, safe.z, ctx);
+    if (!ctx.terrain.walkable(safe.x, safe.z, 0.95, this.y) || ground - this.y > (this.grounded ? STEP_HEIGHT : 0.18)) return;
+    if (ctx.colliders.blocked(safe.x, safe.z, PLAYER_RADIUS, bounds)) return;
+    this.x = safe.x;
+    this.z = safe.z;
+    if (this.grounded && this.y - ground <= GROUND_FOLLOW_DROP) this.y = ground;
+  }
+
+  /** Sweep every move (including dodge, attack and recoil), then slide only along legal terrain. */
   private tryMove(dx: number, dz: number, ctx: PlayerCtx): boolean {
-    let moved = false;
+    const beforeX = this.x;
+    const beforeZ = this.z;
+    const contacts = this.contacts(ctx);
+    const count = Math.max(1, Math.ceil(Math.hypot(dx, dz) / TERRAIN_STEP));
+    const sx = dx / count;
+    const sz = dz / count;
+    let boundaryReported = false;
     const attempt = (mx: number, mz: number) => {
-      if (Math.abs(mx) < 1e-6 && Math.abs(mz) < 1e-6) return false;
-      let nx = this.x + mx;
-      let nz = this.z + mz;
-      const r = ctx.colliders.resolve(nx, nz, 0.4);
-      nx = r.x;
-      nz = r.z;
-      if (!ctx.terrain.walkable(nx, nz)) {
-        if (ctx.terrain.valleyRadius(nx, nz) > 1.02) ctx.onBoundary();
+      if (Math.abs(mx) < 1e-8 && Math.abs(mz) < 1e-8) return false;
+      const bounds = { minY: this.y + PLAYER_FOOT_CLEARANCE, maxY: this.y + PLAYER_BODY_HEIGHT };
+      const result = ctx.colliders.move(this.x, this.z, mx, mz, PLAYER_RADIUS, undefined, bounds, contacts);
+      const nx = result.x;
+      const nz = result.z;
+      const g = this.supportAt(nx, nz, ctx);
+      if (!ctx.terrain.walkable(nx, nz, 0.95, this.y) || g - this.y > (this.grounded ? STEP_HEIGHT : 0.18)) {
+        if (!boundaryReported && ctx.terrain.valleyRadius(nx, nz) > 1.02) {
+          boundaryReported = true;
+          ctx.onBoundary();
+        }
         return false;
       }
-      const g = ctx.terrain.groundAt(nx, nz);
-      if (this.grounded && g - this.y > 0.8) return false;
-      if (!this.grounded && g - this.y > 0.35 && this.vy < 0) {
-        /* landing above ground handled below */
-      }
+      // If a crowded doorway cannot satisfy every contact, retain the last scenery-safe position.
+      if (ctx.colliders.blocked(nx, nz, PLAYER_RADIUS, bounds)) return false;
       this.x = nx;
       this.z = nz;
-      return true;
+      if (this.grounded) {
+        if (this.y - g > GROUND_FOLLOW_DROP) this.grounded = false;
+        else this.y = g;
+      }
+      for (const normal of result.normals) {
+        const inward = this.vx * normal.x + this.vz * normal.z;
+        if (inward < 0) { this.vx -= normal.x * inward; this.vz -= normal.z * inward; }
+      }
+      return Math.hypot(nx - beforeX, nz - beforeZ) > 1e-7;
     };
-    if (attempt(dx, dz)) moved = true;
-    else {
-      // Slide: try each axis on its own.
-      const a = attempt(dx, 0);
-      const b = attempt(0, dz);
-      moved = a || b;
+    for (let i = 0; i < count; i++) {
+      if (!attempt(sx, sz)) {
+        // Terrain/water edges do not have authored planes; the two legal axes still give a useful slide.
+        const xFirst = Math.abs(sx) >= Math.abs(sz);
+        if (xFirst) { attempt(sx, 0); attempt(0, sz); }
+        else { attempt(0, sz); attempt(sx, 0); }
+      }
     }
-    return moved;
+    return Math.hypot(this.x - beforeX, this.z - beforeZ) > 1e-6;
   }
 
   private startAction(kind: 'light' | 'heavy', arms: Arms) {
@@ -226,7 +328,9 @@ export class Player {
 
   /** Damage from an enemy strike. Handles block, perfect block, dodge invulnerability and guard break. */
   receiveHit(damage: number, heavy: boolean, from: EnemyActor, ctx: PlayerCtx) {
-    if (this.state === 'dead' || this.iframes > 0) return;
+    if (!ctx.controllable || this.state === 'dead' || this.iframes > 0) return;
+    // A strike cannot land through scenery or on someone on a different floor.
+    if (Math.abs(from.y - this.y) > 2.1 || ctx.colliders.cast(this.x, this.z, from.x, from.z, 0, undefined, { minY: Math.min(this.y, from.y) + 0.65, maxY: Math.max(this.y, from.y) + 1.35 })) return;
     const dx = from.x - this.x;
     const dz = from.z - this.z;
     const d = Math.hypot(dx, dz) || 1;
@@ -257,6 +361,7 @@ export class Player {
         this.timer = 0;
         this.dur = DUR.hurt;
         this.blocking = false;
+        this.vx = this.vz = 0;
       }
       this.applyDamage(dmg, true, ctx);
       return;
@@ -273,7 +378,7 @@ export class Player {
     const kx = -dx / d;
     const kz = -dz / d;
     this.tryMove(kx * 0.5, kz * 0.5, ctx);
-    this.hurtStagger = true;
+    this.vx = this.vz = 0;
   }
 
   private applyDamage(amount: number, blocked: boolean, ctx: PlayerCtx) {
@@ -283,11 +388,23 @@ export class Player {
       this.state = 'dead';
       this.timer = 0;
       this.blocking = false;
+      this.vx = this.vz = 0;
       ctx.onDeath();
     }
   }
 
   update(dt: number, ctx: PlayerCtx) {
+    if (!Number.isFinite(dt) || dt <= 0) return;
+    // Reading/paused controls may still request a pose; never drift or finish an action behind that UI.
+    if (!ctx.controllable && this.alive) {
+      this.vx = this.vz = this.lastMoveSpeed = 0;
+      this.blocking = false;
+      this.applyPose(0, ctx);
+      return;
+    }
+    this.settleContacts(ctx);
+    const frameX = this.x;
+    const frameZ = this.z;
     this.clock += dt;
     const inp = ctx.input;
     const control = ctx.controllable;
@@ -327,15 +444,15 @@ export class Player {
     // Actions (edge-triggered).
     const arms = this.arms(ctx.game);
     if (control && this.state === 'free') {
-      if (inp.pressed('attack') && !this.blocking) {
+      if (inp.pressed('attack') && !this.blocking && this.stamina >= arms.cost.light) {
         this.startAction('light', arms);
         this.spend(arms.cost.light);
         ctx.audio.swing(false);
-      } else if (inp.pressed('heavy') && !this.exhausted && this.stamina >= arms.cost.heavy * 0.6) {
+      } else if (inp.pressed('heavy') && !this.exhausted && this.stamina >= arms.cost.heavy) {
         this.startAction('heavy', arms);
         this.spend(arms.cost.heavy);
         ctx.audio.swing(true);
-      } else if (inp.pressed('dodge') && !this.exhausted && this.stamina >= COST.dodge * 0.6) {
+      } else if (inp.pressed('dodge') && !this.exhausted && this.stamina >= COST.dodge) {
         this.state = 'dodge';
         this.timer = 0;
         this.dur = DUR.dodge;
@@ -344,7 +461,7 @@ export class Player {
         this.spend(COST.dodge);
         this.dodgeDir = hasInput ? { x: wx, z: wz } : { x: -fx, z: -fz };
         this.yaw = Math.atan2(this.dodgeDir.x, this.dodgeDir.z);
-      } else if (inp.pressed('jump') && this.grounded) {
+      } else if (inp.pressed('jump') && this.grounded && this.stamina >= COST.jump) {
         this.vy = 5.4;
         this.grounded = false;
         this.stamina = Math.max(0, this.stamina - COST.jump);
@@ -366,12 +483,13 @@ export class Player {
     this.showArms(!hasBlade ? 'none' : this.drawn ? 'drawn' : 'sheathed');
 
     // State timers.
+    let pendingBlow = false;
     let speed = 0;
     switch (this.state) {
       case 'free': {
         const target = sprinting ? 6.0 : this.blocking ? 1.9 : 3.5;
         const back = mv.y < -0.3 && !this.blocking ? 0.7 : 1;
-        speed = hasInput ? target * back * Math.max(0.35, mag) : 0;
+        speed = hasInput ? target * back * mag : 0;
         break;
       }
       case 'light':
@@ -381,20 +499,23 @@ export class Player {
         const p = this.timer / this.dur;
         // Lunge slightly during the blow, and let the player steer the swing a little.
         speed = p < hitAt + 0.2 ? (this.heavy ? 1.2 : 1.6) : 0;
-        if (hasInput && p < hitAt) this.yaw = lerpAngle(this.yaw, Math.atan2(wx, wz), 0.06);
+        if (hasInput && p < hitAt) this.yaw = lerpAngle(this.yaw, Math.atan2(wx, wz), 1 - Math.exp(-dt * 4));
         if (!this.hitDone && p >= hitAt) {
           this.hitDone = true;
-          this.resolveBlow(ctx);
+          pendingBlow = true;
         }
-        if (this.timer >= this.dur) this.state = 'free';
+        if (this.timer >= this.dur) { this.state = 'free'; speed = 0; }
         break;
       }
       case 'dodge': {
+        const from = Math.min(this.dur, this.timer);
+        const to = Math.min(this.dur, this.timer + dt);
         this.timer += dt;
         speed = 0;
-        const p = this.timer / this.dur;
-        const v = (1 - p) * 13;
-        this.tryMove(this.dodgeDir.x * v * dt, this.dodgeDir.z * v * dt, ctx);
+        // Integral of the authored deceleration: equal dodge distance at 30/60/120 Hz, no backwards final frame.
+        const distance = 13 * ((to - from) - (to * to - from * from) / (2 * this.dur));
+        this.vx = this.vz = 0;
+        this.tryMove(this.dodgeDir.x * distance, this.dodgeDir.z * distance, ctx);
         if (this.timer >= this.dur) this.state = 'free';
         break;
       }
@@ -422,17 +543,30 @@ export class Player {
     }
 
     // Horizontal motion with light inertia.
-    const targetVx = wx * speed;
-    const targetVz = wz * speed;
+    const lunging = this.state === 'light' || this.state === 'heavy';
+    const forward = this.facing;
+    const targetVx = (lunging ? forward.x : wx) * speed;
+    const targetVz = (lunging ? forward.z : wz) * speed;
     const accel = this.grounded ? 38 : 8;
-    const k = 1 - Math.exp(-dt * accel * 0.35);
+    const rate = accel * 0.35;
+    const k = 1 - Math.exp(-dt * rate);
+    const displacementX = targetVx * dt + (this.vx - targetVx) * k / rate;
+    const displacementZ = targetVz * dt + (this.vz - targetVz) * k / rate;
     this.vx += (targetVx - this.vx) * k;
     this.vz += (targetVz - this.vz) * k;
     if (this.state !== 'dodge' && (Math.abs(this.vx) > 0.01 || Math.abs(this.vz) > 0.01)) {
-      const sf = ctx.terrain.carveAt(this.x, this.z) > 0.12 && !ctx.terrain.deckAt(this.x, this.z) ? 0.72 : 1;
-      this.tryMove(this.vx * dt * sf, this.vz * dt * sf, ctx);
+      const sf = (ctx.terrain.carveAt(this.x, this.z) > 0.12 || ctx.terrain.seaDepth(this.x, this.z) > 0.12) && !ctx.terrain.deckAt(this.x, this.z) ? 0.72 : 1;
+      const fromX = this.x;
+      const fromZ = this.z;
+      const intendedX = displacementX * sf;
+      const intendedZ = displacementZ * sf;
+      this.tryMove(intendedX, intendedZ, ctx);
+      const actualX = this.x - fromX;
+      const actualZ = this.z - fromZ;
+      if (Math.abs(actualX - intendedX) > 0.001) this.vx = actualX / (dt * sf);
+      if (Math.abs(actualZ - intendedZ) > 0.001) this.vz = actualZ / (dt * sf);
     }
-    this.lastMoveSpeed = Math.hypot(this.vx, this.vz);
+    this.lastMoveSpeed = Math.hypot(this.x - frameX, this.z - frameZ) / dt;
 
     // Facing.
     if (this.state === 'free') {
@@ -440,28 +574,29 @@ export class Player {
       else if (this.lastMoveSpeed > 0.4 && hasInput) this.yaw = lerpAngle(this.yaw, Math.atan2(this.vx, this.vz), 1 - Math.exp(-dt * 12));
     }
 
-    // Gravity and grounding.
-    const ground = ctx.terrain.groundAt(this.x, this.z);
+    // Feet follow legal small steps exactly; leaving a ledge starts a fall instead of snapping to its bottom.
+    const ground = this.supportAt(this.x, this.z, ctx);
     if (this.grounded) {
-      // Follow the ground, but step down gently so slopes do not make the character hop.
-      this.y += (ground - this.y) * Math.min(1, dt * 28);
-      if (Math.abs(ground - this.y) > 0.6) this.y = ground;
-      if (this.y - ground > 0.4) {
-        this.grounded = false;
-      }
+      if (this.y - ground > GROUND_FOLLOW_DROP) this.grounded = false;
+      else { this.y = ground; this.vy = 0; }
     }
     if (!this.grounded) {
-      this.vy -= 17 * dt;
-      this.y += this.vy * dt;
-      if (this.y <= ground) {
+      // Analytic ballistic step keeps jump height and fall travel consistent across frame rates.
+      const nextY = this.y + this.vy * dt - 0.5 * 17 * dt * dt;
+      const ceiling = ctx.colliders.ceilingAt(this.x, this.z, PLAYER_RADIUS, this.y + PLAYER_BODY_HEIGHT, nextY + PLAYER_BODY_HEIGHT);
+      this.y = ceiling === null ? nextY : ceiling - PLAYER_BODY_HEIGHT - 0.0001;
+      this.vy = ceiling === null ? this.vy - 17 * dt : 0;
+      if (this.vy <= 0 && this.y <= ground) {
         this.y = ground;
         this.vy = 0;
         this.grounded = true;
       }
     }
 
+    if (pendingBlow) this.resolveBlow(ctx);
+
     // Stamina.
-    if (sprinting && this.lastMoveSpeed > 1) {
+    if (sprinting && this.state === 'free' && this.lastMoveSpeed > 1) {
       this.stamina = Math.max(0, this.stamina - 12 * dt);
       this.staminaPause = 0.5;
       if (this.stamina <= 0.01) {
@@ -482,34 +617,11 @@ export class Player {
       this.stepDist += this.lastMoveSpeed * dt;
       const stride = sprinting ? 2.2 : 1.85;
       if (this.stepDist > stride) {
-        this.stepDist = 0;
+        this.stepDist -= stride;
         ctx.audio.footstep(this.surface, sprinting);
       }
-    } else if (this.lastMoveSpeed < 0.3) this.stepDist = 1.4;
+    } else if (this.lastMoveSpeed < 0.3) this.stepDist = 0;
 
-    // Push out of other characters so the player cannot walk through them.
-    for (const n of ctx.npcs) {
-      if (n.hidden || !ctx.game.state.npcs[n.id].available) continue;
-      const dx = this.x - n.x;
-      const dz = this.z - n.z;
-      const dd = Math.hypot(dx, dz);
-      if (dd < 0.75 && dd > 1e-4) {
-        this.x = n.x + (dx / dd) * 0.75;
-        this.z = n.z + (dz / dd) * 0.75;
-      }
-    }
-    for (const e of ctx.enemies) {
-      if (!e.alive) continue;
-      const dx = this.x - e.x;
-      const dz = this.z - e.z;
-      const dd = Math.hypot(dx, dz);
-      const min = 0.4 + e.radius;
-      if (dd < min && dd > 1e-4) {
-        this.x = e.x + (dx / dd) * min;
-        this.z = e.z + (dz / dd) * min;
-      }
-    }
-    void DECKS;
 
     this.applyPose(dt, ctx);
     ctx.game.setPlayerTransform(this.x, this.y, this.z, this.yaw);
@@ -528,7 +640,8 @@ export class Player {
       const dx = e.x - this.x;
       const dz = e.z - this.z;
       const d = Math.hypot(dx, dz);
-      if (d > range + e.radius) continue;
+      if (d > range + e.radius || Math.abs(e.y - this.y) > 2.1) continue;
+      if (ctx.colliders.cast(this.x, this.z, e.x, e.z, 0, undefined, { minY: Math.min(this.y, e.y) + 0.65, maxY: Math.max(this.y, e.y) + 1.35 })) continue;
       const ang = Math.acos(Math.max(-1, Math.min(1, (dx * f.x + dz * f.z) / (d || 1))));
       if (ang > half) continue;
       const dmg = arms[kind];
@@ -575,8 +688,10 @@ export class Player {
     if (!this.grounded && this.state === 'free') mode = 'run';
     this.mode = mode;
     const speedNorm = Math.min(1, this.lastMoveSpeed / (mode === 'run' ? 6 : 3.5));
-    const gaitRate = mode === 'run' ? 1.55 : 1.15;
-    const pose: Pose = { mode, speed: speedNorm, time: this.clock * gaitRate * (0.5 + speedNorm * 0.6), t, amp: ctx.settings.reducedMotion ? 0.6 : 1 };
+    // Integrate gait phase from actual travel. Multiplying a lifetime clock by changing speed made legs snap on turns/stops.
+    const gait = mode === 'walk' || mode === 'run';
+    if (gait && this.grounded) this.gaitTime += this.lastMoveSpeed * dt / (mode === 'run' ? 4.4 : 3.7);
+    const pose: Pose = { mode, speed: speedNorm, time: gait ? this.gaitTime : this.clock, t, amp: ctx.settings.reducedMotion ? 0.6 : 1 };
     poseRig(this.rig, pose, dt);
     applyFlash(this.rig, this.rig.hitFlash);
     if (this.rig.hitFlash > 0) this.rig.hitFlash = Math.max(0, this.rig.hitFlash - dt * 4);
@@ -586,7 +701,5 @@ export class Player {
     const inv = g.inventory;
     const sash = (inv.league_sash ?? 0) > 0 ? 0x4d7a54 : (inv.contract_band ?? 0) > 0 ? 0x8a3a30 : (inv.witness_cord ?? 0) > 0 ? 0xd9c98a : null;
     setSash(this.rig, sash);
-    void this.wasBlocking;
-    void this.hurtStagger;
   }
 }

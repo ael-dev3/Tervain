@@ -14,11 +14,13 @@ import { sharedNoise } from '../src/presentation/noiseTextures';
 import { MaterialSet } from '../src/presentation/regions';
 import { barkTextures, leafTexture } from '../src/presentation/treeTextures';
 import { makeTerrainTextures } from '../src/presentation/terrainTextures';
+import { GAME_VERSION } from '../src/version';
 
 const WIDTH = 1920;
 const HEIGHT = 1080;
 const FPS = 30;
 const FULL_DURATION = 216;
+const SONG_DURATION = 214.213;
 const style = document.createElement('style');
 style.textContent = `
   html,body { overflow:auto; height:auto; min-height:100%; background:#131617; }
@@ -49,10 +51,10 @@ const status = document.querySelector<HTMLOutputElement>('#film-status')!;
 const progress = document.querySelector<HTMLProgressElement>('#film-progress')!;
 const fullButton = document.querySelector<HTMLButtonElement>('#film-record')!;
 const testButton = document.querySelector<HTMLButtonElement>('#film-test')!;
-const choices = ['Continue', 'New Game', 'Load', 'Settings', 'Controls', 'About this build'];
+const choices = ['New Game', 'Load', 'Settings', 'Controls', 'About this build'];
 layout.append(createMenuScreen({
   menu: h('div', { class: 'menu-list' }, choices.map((label) => h('button', { class: 'btn', type: 'button' }, label))),
-  subtitle: 'Templars of the Hegemony', version: '0.0.5', variant: 'title',
+  subtitle: 'Templars of the Hegemony', version: GAME_VERSION, variant: 'title',
 }));
 
 function pixelsCanvas(pixels: Pixels) {
@@ -255,6 +257,8 @@ let recording = false;
 let lastFrame = 0;
 let recordStarted = 0;
 let recordDuration = 0;
+let recordOffset = 0;
+let previewTime = 0;
 let recorder: MediaRecorder | null = null;
 let writeQueue = Promise.resolve();
 let uploadError: Error | null = null;
@@ -283,6 +287,7 @@ async function start(kind: 'test' | 'full') {
   captureFrames = 0;
   writeQueue = Promise.resolve();
   recordDuration = kind === 'test' ? 5 : FULL_DURATION;
+  recordOffset = kind === 'test' ? 40 : 0;
   progress.max = recordDuration;
   progress.value = 0;
   try {
@@ -302,6 +307,7 @@ async function start(kind: 'test' | 'full') {
     };
     recorder.onstop = async () => {
       recording = false;
+      previewTime = Math.min(SONG_DURATION, recordOffset + recordDuration);
       stream.getTracks().forEach((track) => track.stop());
       status.value = 'Saving the last recording chunks…';
       await writeQueue;
@@ -318,7 +324,10 @@ async function start(kind: 'test' | 'full') {
       recorder = null;
       setButtons(true);
     };
+    // Settle the score pose before starting the encoder so frame zero never inherits a preview seek.
+    drawFrame(0, recordOffset);
     recordStarted = performance.now();
+    lastFrame = recordStarted;
     recording = true;
     recorder.start(1000);
     document.title = 'RECORDING — Tervain menu film';
@@ -332,16 +341,21 @@ async function start(kind: 'test' | 'full') {
   }
 }
 
+function drawFrame(dt: number, songTime: number) {
+  menu.update(dt, false, { time: Math.min(SONG_DURATION, songTime), duration: SONG_DURATION, playing: true, gain: 0.5 });
+  grade.render(menu.scene, menu.camera, dt);
+  ctx.drawImage(renderer.domElement, 0, 0, WIDTH, HEIGHT);
+  drawGrime(ctx);
+  ctx.drawImage(overlay, 0, 0);
+}
+
 function render(now: number) {
   if (!ready) return;
   if (now - lastFrame >= 1000 / FPS - .7) {
     const dt = lastFrame ? (now - lastFrame) / 1000 : 1 / FPS;
     lastFrame = now;
-    menu.update(dt, false);
-    grade.render(menu.scene, menu.camera, dt);
-    ctx.drawImage(renderer.domElement, 0, 0, WIDTH, HEIGHT);
-    drawGrime(ctx);
-    ctx.drawImage(overlay, 0, 0);
+    const songTime = recording ? recordOffset + (now - recordStarted) / 1000 : previewTime;
+    drawFrame(dt, songTime);
     renderedFrames++;
     if (recording) captureFrames++;
   }
@@ -378,6 +392,7 @@ async function boot() {
     menu = new MenuScene({ quality: 'high', resources });
     menu.resize(WIDTH, HEIGHT);
     grade = new Grade(renderer, { msaa: true });
+    grade.bloom = true;
     grade.setSize(WIDTH, HEIGHT);
     grade.setLook({ saturation: .9, contrast: 1.07, vignette: .3, grain: .03, chromatic: .0012, night: 0 });
     const assets = await Promise.all(pending);
@@ -389,7 +404,7 @@ async function boot() {
     for (let i = 0; i < 90; i++) { menu.update(1 / FPS, false); grade.render(menu.scene, menu.camera, 1 / FPS); }
     ready = true;
     document.title = 'READY — Tervain menu film';
-    status.value = `Ready · ${mime} · High quality · ${menu.stats.triangles.toLocaleString()} menu triangles · Choose a test or the full 216-second recording. Song audio is muxed into the final video afterwards.`;
+    status.value = `Ready · ${GAME_VERSION} · ${mime} · High quality · ${menu.stats.triangles.toLocaleString()} menu triangles · Test starts at the 0:40 wisp cue. Full recording starts at score time zero; complete song audio is muxed afterwards.`;
     setButtons(true);
     requestAnimationFrame(render);
   } catch (error) {

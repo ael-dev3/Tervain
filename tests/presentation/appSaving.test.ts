@@ -65,4 +65,30 @@ describe('quiet autosaving when leaving the arrival strand', () => {
     expect(loaded.state.playSeconds).toBe(300);
     expect(loaded.state.inventory.rusted_sword ?? 0).toBe(0);
   });
+  it('quiet-saves a new provision, binding and pin before the first periodic save', () => {
+    const { app } = session();
+    app.game.dispatch({ t: 'pickup', pickupId: 'strand_apple', item: 'shore_apple', qty: 1 });
+    app.game.dispatch({ t: 'assignQuickSlot', slot: 2, item: 'shore_apple' });
+    app.game.dispatch({ t: 'setMapMarker', marker: { x: -230, z: 21 } });
+    app.quitToTitle();
+    const loaded = app.saves.load('auto'); expect(loaded.ok).toBe(true);
+    if (!loaded.ok) return;
+    expect(loaded.state.playSeconds).toBe(20);
+    expect(loaded.state.inventory.shore_apple).toBe(1);
+    expect(loaded.state.locationChanges['pickup:strand_apple']).toBe('taken');
+    expect(loaded.state.quickSlots[2]).toBe('shore_apple');
+    expect(loaded.state.mapMarker).toEqual({ x: -230, z: 21 });
+  });
+  it('quiet-saves a deliberately cleared pin even when no other arrival progress exists', () => {
+    const { app } = session();
+    app.game.state.mapMarker = { x: -230, z: 21 };
+    app.game.dispatch({ t: 'setMapMarker', marker: null });
+    Reflect.apply(Reflect.get(App.prototype, 'onGameEvents'), app, [[{ t: 'mapMarker', marker: null }]]);
+    app.quitToTitle();
+    const loaded = app.saves.load('auto'); expect(loaded.ok).toBe(true);
+    if (!loaded.ok) return;
+    expect(loaded.state.playSeconds).toBe(20);
+    expect(loaded.state.mapMarker).toBeNull();
+  });
+
 });

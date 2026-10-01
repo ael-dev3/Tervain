@@ -201,7 +201,17 @@ export class NpcActor {
     }
     this.mode = mode;
     this.anim += dt * (moving ? 1.05 : 0.3);
-    const pose: Pose = { mode, speed: moving ? 0.55 : 0, time: mode === 'work' || mode === 'sit' ? this.clock : this.anim, t: 0, amp: ctx.reducedMotion ? 0.4 : 1, workGesture: npcStyle(this.def.id).work };
+    const style = npcStyle(this.def.id);
+    const pose: Pose = {
+      mode,
+      speed: moving ? 0.55 : 0,
+      time: mode === 'work' || mode === 'sit' ? this.clock : this.anim,
+      t: 0,
+      amp: ctx.reducedMotion ? 0.4 : 1,
+      workGesture: style.work,
+      // Standing about, a resident folds their arms, looks round, shifts their weight (still when motion is reduced).
+      idle: ctx.reducedMotion ? undefined : { seed: style.faceSeed, clock: this.clock },
+    };
     if (!this.hidden) poseRig(this.rig, pose, dt);
 
     // Ambient remarks when the player passes close.

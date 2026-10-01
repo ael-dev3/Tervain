@@ -1,19 +1,16 @@
 import { S } from '../../content/strings';
 import { PLACE_ORDER } from '../../game/journal';
 import { hasFact } from '../../game/state';
-import type { PlaceId, WorldState } from '../../game/types';
+import type { MapMarker, PlaceId, WorldState } from '../../game/types';
 import { worldView } from '../../game/worldView';
-import { PLACES, ROADS, STREAMS, WORLD } from '../../world/layout';
+import { PLACES, ROADS, STREAMS } from '../../world/layout';
 import type { Terrain } from '../../world/terrain';
 import { h } from './dom';
+import { validMapMarker } from '../../game/map';
 
-const X0 = -330;
-const X1 = 168;
-const Z0 = -128;
-const Z1 = 152;
-const PX = 2.2; // canvas pixels per metre
-export const MAP_W = (X1 - X0) * PX;
-export const MAP_H = (Z1 - Z0) * PX;
+import { MAP_BOUNDS, MAP_H, MAP_W, MAP_PIXELS_PER_METRE as PX, mapHeading, mapX as px, mapZ as pz, placeMapLabel, clampMapView, fullMapView, mapCanvasPoint, mapWorldAt, panMap, zoomMapAt, type MapViewport, type MapLabel } from './mapProjection';
+export { MAP_W, MAP_H } from './mapProjection';
+const { x0: X0, x1: X1, z0: Z0, z1: Z1 } = MAP_BOUNDS;
 
 const CLAIMED: Partial<Record<PlaceId, string>> = {
   spring_shrine: 'told_shrine',
@@ -25,12 +22,45 @@ const CLAIMED: Partial<Record<PlaceId, string>> = {
   archive: 'told_archive_door',
 };
 
-const px = (x: number) => (x - X0) * PX;
-const pz = (z: number) => (z - Z0) * PX;
+
+type MapOptions = { state: WorldState; terrain: Terrain; player: { x: number; z: number; yaw: number }; hintPlace: PlaceId | null; guidance: boolean; time: number; reducedMotion?: boolean };
 
 /** A hand-drawn-style regional map built from what the player has seen and been told. */
 export class MapView {
   private bg: HTMLCanvasElement | null = null;
+  private terrain: Terrain | null = null;
+  onMarker: ((marker: MapMarker | null) => void) | null = null;
+  private view: MapViewport = fullMapView();
+  private target: MapViewport = fullMapView();
+  private lastTime = 0;
+  private opts: MapOptions | null = null;
+  private status: HTMLElement | null = null;
+  private places: HTMLSelectElement | null = null;
+  private clearPin: HTMLButtonElement | null = null;
+  private placeSignature = 'uninitialised';
+  private knownPlaceIds: PlaceId[] = [];
+
+  private knownPlaces(state: WorldState) {
+    return PLACE_ORDER.filter((id) => state.discovered[id] || (CLAIMED[id] !== undefined && hasFact(state, CLAIMED[id]!)));
+  }
+  private centre(x: number, z: number) {
+    this.target = clampMapView({ x: px(x), y: pz(z), zoom: Math.max(2, this.target.zoom) });
+  }
+  private syncControls(opts: MapOptions) {
+    const known = this.knownPlaces(opts.state);
+    const signature = known.map((id) => `${id}:${!!opts.state.discovered[id]}`).join('|');
+    if (this.places && signature !== this.placeSignature) {
+      const previous = this.places.value;
+      this.placeSignature = signature; this.knownPlaceIds = known;
+      this.places.replaceChildren(h('option', { value: '' }, 'Known places…'), ...known.map((id) => h('option', { value: id }, `${S(`place.${id}`)}${opts.state.discovered[id] ? '' : ' · approximate'}`)));
+      this.places.value = known.includes(previous as PlaceId) ? previous : '';
+    }
+    const marker = opts.state.mapMarker;
+    if (this.clearPin) this.clearPin.disabled = marker === null;
+    const pinText = marker ? ` · Pin ${Math.round(marker.x)}, ${Math.round(marker.z)} · ${Math.round(Math.hypot(marker.x - opts.player.x, marker.z - opts.player.z))} m away` : ' · No waypoint';
+    const text = `${Math.round(this.target.zoom * 100)}%${pinText}`;
+    if (this.status && this.status.textContent !== text) this.status.textContent = text;
+  }
 
   private buildBackground(terrain: Terrain) {
     const w = Math.round(MAP_W / 2);
@@ -51,9 +81,9 @@ export class MapView {
         const inside = terrain.valleyRadius(x, z);
         // Parchment green below, rock brown above; hachure-like shading from the slope.
         const t = Math.max(0, Math.min(1, h0 / 30));
-        let r = 214 - t * 60;
-        let g = 208 - t * 40;
-        let b = 168 - t * 40;
+        let r = 215 - t * 34;
+        let g = 190 - t * 39;
+        let b = 142 - t * 34;
         const edge = Math.max(0, Math.min(1, (inside - 0.9) / 0.15));
         r -= edge * 70;
         g -= edge * 70;
@@ -65,7 +95,9 @@ export class MapView {
           g = 158 - d * 44;
           b = 158 - d * 30;
         }
-        const k = 1 + shade;
+        const grain = (Math.sin(i * 72.3 + j * 27.9) * 0.5 + Math.sin(i * 0.021 + j * 0.015) * 0.5) * 0.016;
+        const contour = h0 > 2 && Math.abs(h0 / 6 - Math.round(h0 / 6)) < 0.024 ? -0.08 : 0;
+        const k = 1 + shade * 0.6 + grain + contour;
         const idx = (j * w + i) * 4;
         img.data[idx] = Math.max(0, Math.min(255, r * k));
         img.data[idx + 1] = Math.max(0, Math.min(255, g * k));
@@ -75,14 +107,26 @@ export class MapView {
     }
     ctx.putImageData(img, 0, 0);
     this.bg = c;
+    this.terrain = terrain;
   }
 
-  render(canvas: HTMLCanvasElement, opts: { state: WorldState; terrain: Terrain; player: { x: number; z: number; yaw: number }; hintPlace: PlaceId | null; guidance: boolean; time: number }) {
-    if (!this.bg) this.buildBackground(opts.terrain);
-    canvas.width = MAP_W;
-    canvas.height = MAP_H;
+  render(canvas: HTMLCanvasElement, opts: MapOptions) {
+    this.opts = opts;
+    const now = performance.now();
+    const dt = this.lastTime ? Math.min(.05, (now - this.lastTime) / 1000) : .05;
+    this.lastTime = now;
+    const blend = opts.reducedMotion ? 1 : 1 - Math.exp(-dt * 18);
+    this.view = clampMapView({ x: this.view.x + (this.target.x - this.view.x) * blend, y: this.view.y + (this.target.y - this.view.y) * blend, zoom: this.view.zoom + (this.target.zoom - this.view.zoom) * blend });
+    this.syncControls(opts);
+    if (!this.bg || this.terrain !== opts.terrain) this.buildBackground(opts.terrain);
+    if (canvas.width !== MAP_W) canvas.width = MAP_W;
+    if (canvas.height !== MAP_H) canvas.height = MAP_H;
     const ctx = canvas.getContext('2d')!;
     ctx.imageSmoothingEnabled = true;
+    ctx.save();
+    ctx.translate(MAP_W / 2, MAP_H / 2);
+    ctx.scale(this.view.zoom, this.view.zoom);
+    ctx.translate(-this.view.x, -this.view.y);
     ctx.drawImage(this.bg!, 0, 0, MAP_W, MAP_H);
     const view = worldView(opts.state);
 
@@ -114,7 +158,8 @@ export class MapView {
 
     // Places
     ctx.font = 'italic 20px Georgia, serif';
-    ctx.textAlign = 'center';
+    ctx.textAlign = 'left';
+    const occupied: MapLabel[] = [];
     for (const id of PLACE_ORDER) {
       const p = PLACES[id];
       const discovered = opts.state.discovered[id] === true;
@@ -128,8 +173,11 @@ export class MapView {
         ctx.beginPath();
         ctx.arc(x, y, 6, 0, Math.PI * 2);
         ctx.fill();
+        const text = S(`place.${id}`);
+        const label = placeMapLabel(x, y, ctx.measureText(text).width, occupied);
+        occupied.push(label);
         ctx.fillStyle = '#2a1e12';
-        ctx.fillText(S(`place.${id}`), x, y - 12);
+        ctx.fillText(text, label.x, label.y + 19);
       } else {
         ctx.strokeStyle = 'rgba(58, 44, 28, 0.85)';
         ctx.lineWidth = 2;
@@ -138,13 +186,16 @@ export class MapView {
         ctx.arc(x, y, Math.max(26, p.r * PX * 0.9), 0, Math.PI * 2);
         ctx.stroke();
         ctx.setLineDash([]);
-        ctx.fillStyle = 'rgba(42, 30, 18, 0.8)';
-        ctx.fillText(`${S(`place.${id}`)} (${S('map.approx')})`, x, y - Math.max(30, p.r * PX * 0.9) - 6);
+        const text = `${S(`place.${id}`)} (${S('map.approx')})`;
+        const label = placeMapLabel(x, y - p.r * PX * 0.7, ctx.measureText(text).width, occupied);
+        occupied.push(label);
+        ctx.fillStyle = 'rgba(42, 30, 18, 0.9)';
+        ctx.fillText(text, label.x, label.y + 19);
       }
     }
 
     // Suggested next stop
-    if (opts.guidance && opts.hintPlace) {
+    if (opts.guidance && opts.hintPlace && this.knownPlaces(opts.state).includes(opts.hintPlace)) {
       const p = PLACES[opts.hintPlace];
       // A fixed map annotation reads like a route note and stays legible with motion reduced.
       ctx.strokeStyle = '#6f3428';
@@ -156,12 +207,22 @@ export class MapView {
       ctx.stroke();
     }
 
+    // A personal pin is a note, not discovery or a navigable route guarantee.
+    const marker = opts.state.mapMarker;
+    if (marker) {
+      ctx.save(); ctx.translate(px(marker.x), pz(marker.z));
+      ctx.strokeStyle = '#682d20'; ctx.fillStyle = '#fff1c8'; ctx.lineWidth = 2 / this.view.zoom;
+      ctx.beginPath(); ctx.arc(0, -8 / this.view.zoom, 6 / this.view.zoom, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, -2 / this.view.zoom); ctx.lineTo(0, 9 / this.view.zoom); ctx.stroke();
+      ctx.restore();
+    }
+
     // Player marker (an arrow, not just colour)
     const ax = px(opts.player.x);
     const az = pz(opts.player.z);
     ctx.save();
     ctx.translate(ax, az);
-    ctx.rotate(-opts.player.yaw + Math.PI);
+    ctx.rotate(mapHeading(opts.player.yaw));
     ctx.fillStyle = '#b02a20';
     ctx.strokeStyle = '#fff';
     ctx.lineWidth = 2;
@@ -175,11 +236,14 @@ export class MapView {
     ctx.stroke();
     ctx.restore();
 
+    ctx.restore();
+
     // Compass and frame
     ctx.strokeStyle = 'rgba(58, 44, 28, 0.9)';
     ctx.lineWidth = 4;
     ctx.strokeRect(4, 4, MAP_W - 8, MAP_H - 8);
     ctx.fillStyle = '#3a2c1c';
+    ctx.textAlign = 'center';
     ctx.font = 'bold 22px Georgia, serif';
     ctx.fillText('N', MAP_W - 36, 40);
     ctx.beginPath();
@@ -189,11 +253,77 @@ export class MapView {
     ctx.font = 'italic 18px Georgia, serif';
     ctx.textAlign = 'left';
     ctx.fillText(S('map.note'), 16, MAP_H - 14);
-    void WORLD;
+    canvas.setAttribute('aria-label', `${S('map.title')}. ${S('map.you')}: ${Math.round(opts.player.x)}, ${Math.round(opts.player.z)}. ${this.knownPlaces(opts.state).map((id) => S(`place.${id}`)).join(', ')}. ${Math.round(this.target.zoom * 100)} percent zoom. ${marker ? `Waypoint ${Math.round(marker.x)}, ${Math.round(marker.z)}.` : 'No waypoint.'}`);
   }
 
   element(): { wrap: HTMLElement; canvas: HTMLCanvasElement } {
-    const canvas = h('canvas', { role: 'img', 'aria-label': S('map.title') });
-    return { wrap: h('div', { class: 'map-wrap' }, canvas), canvas };
+    this.placeSignature = 'uninitialised'; this.lastTime = 0;
+    const canvas = h('canvas', { role: 'img', tabindex: 0, 'aria-label': S('map.title'), 'aria-describedby': 'regional-map-controls' });
+    const point = (event: PointerEvent | WheelEvent) => {
+      return mapCanvasPoint(event.clientX, event.clientY, canvas.getBoundingClientRect());
+    };
+    let drag: { id: number; x: number; y: number; moved: boolean } | null = null;
+    canvas.addEventListener('wheel', (event) => {
+      event.preventDefault(); event.stopPropagation();
+      const p = point(event);
+      const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? canvas.clientHeight : 1);
+      this.target = zoomMapAt(this.target, this.target.zoom * Math.exp(-Math.max(-160, Math.min(160, delta)) * .0035), p.x, p.y);
+    }, { passive: false });
+    canvas.addEventListener('pointerdown', (event) => {
+      if (event.button !== 0) return;
+      event.preventDefault(); canvas.focus(); canvas.setPointerCapture(event.pointerId);
+      this.target = { ...this.view };
+      const p = point(event); drag = { id: event.pointerId, ...p, moved: false };
+    });
+    canvas.addEventListener('pointermove', (event) => {
+      if (!drag || event.pointerId !== drag.id) return;
+      const p = point(event), dx = p.x - drag.x, dy = p.y - drag.y;
+      if (!drag.moved && Math.hypot(dx, dy) <= 6) return;
+      drag.moved = true;
+      this.target = panMap(this.target, dx, dy); this.view = { ...this.target };
+      drag.x = p.x; drag.y = p.y;
+    });
+    canvas.addEventListener('pointerup', (event) => {
+      if (!drag || event.pointerId !== drag.id) return;
+      if (!drag.moved) {
+        const p = point(event), marker = mapWorldAt(this.view, p.x, p.y);
+        if (validMapMarker(marker)) this.onMarker?.(marker);
+      }
+      drag = null;
+      if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+    });
+    canvas.addEventListener('pointercancel', () => { drag = null; });
+    canvas.addEventListener('lostpointercapture', () => { drag = null; });
+    canvas.addEventListener('keydown', (event) => {
+      const delta = 70;
+      const arrows: Record<string, [number, number]> = { ArrowLeft: [delta, 0], ArrowRight: [-delta, 0], ArrowUp: [0, delta], ArrowDown: [0, -delta] };
+      const movement = arrows[event.code];
+      if (movement) this.target = panMap(this.target, ...movement);
+      else if (event.code === 'Equal' || event.code === 'NumpadAdd') this.target = zoomMapAt(this.target, this.target.zoom * 1.35);
+      else if (event.code === 'Minus' || event.code === 'NumpadSubtract') this.target = zoomMapAt(this.target, this.target.zoom / 1.35);
+      else if (event.code === 'Home') this.target = fullMapView();
+      else if (event.code === 'Enter' || event.code === 'Space') { const marker = mapWorldAt(this.view, MAP_W / 2, MAP_H / 2); if (validMapMarker(marker)) this.onMarker?.(marker); }
+      else if (event.code === 'Delete') this.onMarker?.(null);
+      else return;
+      event.preventDefault(); event.stopPropagation();
+    });
+    const button = (label: string, action: () => void, accessible = label) => h('button', { class: 'btn', type: 'button', 'data-nav': true, 'aria-label': accessible, onClick: action }, label);
+    this.clearPin = button('Clear pin', () => this.onMarker?.(null));
+    this.places = h('select', { 'aria-label': 'Known places', 'data-nav': true });
+    const selectedPlace = () => this.knownPlaceIds.find((id) => id === this.places?.value);
+    this.status = h('span', { class: 'map-status', role: 'status', 'aria-live': 'polite' });
+    const controls = h('div', { class: 'map-controls' },
+      button('−', () => { this.target = zoomMapAt(this.target, this.target.zoom / 1.35); }, 'Zoom out'),
+      button('+', () => { this.target = zoomMapAt(this.target, this.target.zoom * 1.35); }, 'Zoom in'),
+      button('Fit', () => { this.target = fullMapView(); }, 'Show full map'),
+      button('You', () => { if (this.opts) this.centre(this.opts.player.x, this.opts.player.z); }, 'Centre map on you'),
+      this.clearPin, this.places,
+      button('Show place', () => { const id = selectedPlace(); if (id) this.centre(PLACES[id].x, PLACES[id].z); }),
+      button('Pin place', () => { const id = selectedPlace(); if (id) this.onMarker?.({ x: PLACES[id].x, z: PLACES[id].z }); }));
+    return { wrap: h('div', { class: 'map-record' }, controls,
+      h('div', { class: 'map-wrap' }, canvas),
+      h('div', { class: 'map-legend' }, h('span', { class: 'legend-player' }, `▲ ${S('map.you')}`), h('span', {}, `● ${S('journal.place.verified')}`), h('span', {}, `◌ ${S('journal.place.claimed')}`), h('span', { class: 'legend-route' }, `○ ${S('map.suggested')}`), this.status),
+      h('p', { class: 'map-caption', id: 'regional-map-controls' }, 'Scroll to zoom · drag to pan · click to pin. Keyboard: arrows to pan, +/− to zoom, Enter to pin the centre, Home to fit.')),
+      canvas };
   }
 }

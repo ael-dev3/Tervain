@@ -9,7 +9,9 @@ import { createServer } from 'vite';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 // Recordings are intentionally outside the source repository and never part of its production bundle.
 const outputDir = resolve(process.env.TERVAIN_MENU_FILM_OUTPUT || resolve(root, '../tervain-menu-film-output'));
-const origin = 'http://127.0.0.1:5180';
+const port = Number(process.env.TERVAIN_MENU_FILM_PORT || 5180);
+if (!Number.isInteger(port) || port < 1024 || port > 65535) throw new Error('Invalid local recorder port.');
+const origin = `http://127.0.0.1:${port}`;
 const MAX_CHUNK = 24 * 1024 * 1024;
 const MAX_TOTAL = 1024 * 1024 * 1024;
 let active = null;
@@ -35,7 +37,7 @@ async function body(req, limit) {
 
 const server = await createServer({
   root,
-  server: { host: '127.0.0.1', port: 5180, strictPort: true },
+  server: { host: '127.0.0.1', port, strictPort: true },
   plugins: [{
     name: 'tervain-local-menu-film',
     configureServer(vite) {

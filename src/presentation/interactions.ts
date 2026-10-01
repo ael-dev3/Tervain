@@ -4,10 +4,14 @@ import type { App } from '../app';
 import { hasFact, phaseIndex } from '../game/state';
 import { ARCHIVE_SHUTTER, BELL, INSPECT_LOCATIONS, LEDGER, MILL_WHEEL, PICKUP_LOCATIONS, RESULT_CHECKS, RITE_ALTAR, SHORTCUT, SLUICE, bySpec, frontOf } from '../world/layout';
 import type { NpcId } from '../game/types';
+import { isWorldPickupItem, WORLD_PICKUP_MODELS } from '../content/pickups';
+import { worldPickupTargetY } from './worldPickups';
 
 export interface Interactable {
   id: string;
-  pos(): { x: number; z: number };
+  pos(): { x: number; z: number; y?: number };
+  /** The surface being operated may be solid; intervening scenery still blocks the action. */
+  ignoreColliders?: readonly string[];
   r: number;
   prompt(): string;
   enabled(): boolean;
@@ -29,7 +33,7 @@ export function buildInteractables(app: App): Interactable[] {
     const def = NPCS[npc.id as NpcId];
     list.push({
       id: `npc:${npc.id}`,
-      pos: () => ({ x: npc.x, z: npc.z }),
+      pos: () => ({ x: npc.x, y: npc.y + 1.1, z: npc.z }),
       r: def.interactRadius ?? 2.7,
       prompt: () => S('prompt.observe', { name: def.name }),
       enabled: () => !npc.hidden && st().npcs[npc.id].available && app.noThreatNear(),
@@ -42,6 +46,8 @@ export function buildInteractables(app: App): Interactable[] {
   for (const p of INSPECT_LOCATIONS) {
     list.push({
       id: `inspect:${p.id}`,
+      // Only the observed object's own solid is exempt; nearby walls still obstruct it.
+      ignoreColliders: p.id === 'templar_waymarker' ? ['forest-waymarker:0'] : p.id === 'saltward_kit' ? ['kit_table'] : undefined,
       pos: () => ({ x: p.x, z: p.z }),
       r: p.r,
       prompt: () => S(`prompt.inspect.${p.id}`),
@@ -55,9 +61,9 @@ export function buildInteractables(app: App): Interactable[] {
   for (const pk of PICKUP_LOCATIONS) {
     list.push({
       id: `pickup:${pk.id}`,
-      pos: () => ({ x: pk.x, z: pk.z }),
+      pos: () => ({ x: pk.x, z: pk.z, y: worldPickupTargetY(app.world?.scenery.pickups[pk.id]) }),
       r: pk.r,
-      prompt: () => S(`prompt.pickup.${pk.id}`),
+      prompt: () => isWorldPickupItem(pk.item) ? S('prompt.pickup', { name: S(WORLD_PICKUP_MODELS[pk.item].nameKey) }) : S(`prompt.pickup.${pk.id}`),
       enabled: () => st().locationChanges[`pickup:${pk.id}`] !== 'taken',
       act: () => app.pickup(pk.id, pk.item, pk.qty),
       priority: -0.5,
@@ -113,6 +119,7 @@ export function buildInteractables(app: App): Interactable[] {
   // The spring rite.
   list.push({
     id: 'rite',
+    ignoreColliders: ['altar'],
     pos: () => RITE_ALTAR,
     r: RITE_ALTAR.r,
     prompt: () => (hasFact(st(), 'rite_taught') ? S('prompt.rite') : S('prompt.rite.notaught')),

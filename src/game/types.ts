@@ -89,11 +89,21 @@ export type ItemId =
   | 'archive_key'
   | 'votive_reed'
   | 'poultice'
+  | 'shore_apple'
+  | 'bread'
+  | 'healing_herb'
+  | 'field_mushroom'
+  | 'iron_scrap'
   | 'league_sash'
   | 'contract_band'
   | 'witness_cord';
 
 export type SkillId = 'steady_guard';
+
+export const QUICK_SLOT_COUNT = 10;
+/** Item actions today; a future active-skill action can extend this vocabulary without granting placeholder skills. */
+export type QuickSlot = ItemId | null;
+export interface MapMarker { x: number; z: number }
 
 export type EncounterId = 'cut_creature' | 'ford_bandit_a' | 'ford_bandit_b';
 
@@ -181,6 +191,10 @@ export interface WorldState {
   facts: Record<string, FactValue>;
   grants: Record<string, true>;
   inventory: Partial<Record<ItemId, number>>;
+  /** Player-created bindings. A depleted consumable keeps its binding until reassigned. */
+  quickSlots: QuickSlot[];
+  equippedWeapon: ItemId | null;
+  mapMarker: MapMarker | null;
   skills: SkillId[];
   npcs: Record<NpcId, NpcState>;
   offenses: { pending: PendingReport[]; known: KnownOffense[] };
@@ -246,6 +260,10 @@ export type Command =
   | { t: 'setAvailable'; npc: NpcId }
   | { t: 'advanceClock'; minutes: number }
   | { t: 'useItem'; item: ItemId }
+  | { t: 'assignQuickSlot'; slot: number; item: ItemId | null }
+  | { t: 'swapQuickSlots'; from: number; to: number }
+  | { t: 'equipWeapon'; item: ItemId | null }
+  | { t: 'setMapMarker'; marker: MapMarker | null }
   | { t: 'damagePlayer'; amount: number }
   | { t: 'healPlayer'; amount: number }
   | { t: 'setFact'; key: string; value: FactValue }
@@ -261,6 +279,9 @@ export type GameEvent =
   | { t: 'autosave'; reason: string }
   | { t: 'report'; offense: OffenseKind; to: NpcId }
   | { t: 'item'; id: ItemId; delta: number }
+  | { t: 'quickSlots' }
+  | { t: 'equipment'; item: ItemId | null }
+  | { t: 'mapMarker'; marker: MapMarker | null }
   | { t: 'skill'; id: SkillId }
   | { t: 'place'; id: PlaceId }
   | { t: 'npc'; npc: NpcId; available: boolean }

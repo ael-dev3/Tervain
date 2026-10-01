@@ -1,11 +1,14 @@
 import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
 import { NPC_LIST } from '../../src/content/npcs';
-import { createBanditRig, createNpcRig, createPlayerRig, poseRig, setArmed, type Rig } from '../../src/presentation/characters';
+import { createBanditRig, createNpcRig, createPlayerRig, IDLE_VARIANTS, idleVariant, personBuildOptions, poseRig, setArmed, type Rig } from '../../src/presentation/characters';
 import { makeFaceShape, unwarpV, warpV } from '../../src/presentation/human/headShape';
 import { clothPixels, facePixels, type FacePaint } from '../../src/presentation/human/humanTex';
 import { BONES } from '../../src/presentation/human/skin';
 import { BLADE, FISTS } from '../../src/presentation/player';
+// These tests check people's geometry, projection and paint logic, not texture resolution: paint small sheets inline.
+personBuildOptions.sheetSize = 256;
+
 
 const skinned = (rig: Rig) => {
   const out: THREE.SkinnedMesh[] = [];
@@ -16,12 +19,16 @@ const skinned = (rig: Rig) => {
 };
 
 describe('people are skinned, dressed and armed as the story needs', () => {
-  it('builds every named person on one eleven-bone skeleton with finite, normalised skin weights', () => {
+  it('builds every named person as one painted, skinned mesh on one eleven-bone skeleton with finite, normalised skin weights', () => {
     for (const def of NPC_LIST) {
       const rig = createNpcRig(def);
       const meshes = skinned(rig);
-      // Skin, face, eyes and at least two kinds of cloth.
-      expect(meshes.length, def.id).toBeGreaterThanOrEqual(5);
+      // Body, costume and head in one mesh with one sheet (only the player adds a sash).
+      expect(meshes.length, def.id).toBe(1);
+      expect(rig.person?.mesh, def.id).toBe(meshes[0]);
+      expect(rig.person!.source, def.id).toBe('painted');
+      expect(rig.person!.mesh.visible, def.id).toBe(true);
+      expect(rig.person!.id).toBe(def.id);
       const skeleton = meshes[0]!.skeleton;
       expect(skeleton.bones.map((b) => b.name)).toEqual([...BONES]);
       for (const m of meshes) {
@@ -40,18 +47,23 @@ describe('people are skinned, dressed and armed as the story needs', () => {
   });
 
   it('stands on the ground and is the height its look asks for, with a head about an eighth of it', () => {
-    const rig = createPlayerRig();
+    personBuildOptions.keepSheetData = true;
+    let rig: Rig;
+    try {
+      rig = createPlayerRig();
+    } finally {
+      personBuildOptions.keepSheetData = false;
+    }
+    const job = rig.person!.sheetData.job!;
+    const parts = rig.person!.parts;
     let lo = Infinity;
     let hi = -Infinity;
     let faceLo = Infinity;
-    for (const m of skinned(rig)) {
-      const pos = m.geometry.attributes.position as THREE.BufferAttribute;
-      const isFace = (m.material as THREE.MeshStandardMaterial).map?.name.startsWith('face');
-      for (let i = 0; i < pos.count; i++) {
-        lo = Math.min(lo, pos.getY(i));
-        hi = Math.max(hi, pos.getY(i));
-        if (isFace) faceLo = Math.min(faceLo, pos.getY(i));
-      }
+    for (let i = 0; i < job.pos.length / 3; i++) {
+      const y = job.pos[i * 3 + 1]!;
+      lo = Math.min(lo, y);
+      hi = Math.max(hi, y);
+      if (parts[job.part[i]!]!.surface === 'face') faceLo = Math.min(faceLo, y);
     }
     expect(lo).toBeGreaterThan(-0.005);
     expect(lo).toBeLessThan(0.03);
@@ -97,6 +109,29 @@ describe('people are skinned, dressed and armed as the story needs', () => {
         const e = b.matrixWorld.elements;
         expect(e.every((v) => Number.isFinite(v)), mode).toBe(true);
       }
+    }
+  });
+
+  it('gives residents a steady idle routine: one variant per turn, all of them in time, never a broken pose', () => {
+    expect(idleVariant(2207, 3)).toBe(idleVariant(2207, 3));
+    // Within one turn the variant holds; across turns every variant comes up, rest the most often.
+    expect(idleVariant(2207, 7.1)).toBe(idleVariant(2207, 13.9));
+    const counts = new Map<string, number>();
+    for (let turn = 0; turn < 400; turn++) {
+      const v = idleVariant(4409, turn * 7 + 1);
+      counts.set(v, (counts.get(v) ?? 0) + 1);
+    }
+    expect([...counts.keys()].sort()).toEqual([...IDLE_VARIANTS].sort());
+    expect(Math.max(...counts.values())).toBe(counts.get('rest'));
+    // Two residents are not in step.
+    let same = 0;
+    for (let turn = 0; turn < 50; turn++) if (idleVariant(1103, turn * 7) === idleVariant(6619, turn * 7)) same++;
+    expect(same).toBeLessThan(30);
+    const rig = createNpcRig(NPC_LIST[0]!);
+    for (const v of IDLE_VARIANTS) {
+      for (let i = 0; i < 40; i++) poseRig(rig, { mode: 'idle', speed: 0, time: i / 30, t: 0, amp: 1, idle: { seed: 1, clock: i / 30, force: v } }, 1 / 30);
+      rig.root.updateMatrixWorld(true);
+      for (const b of [rig.armL, rig.armR, rig.elbowL!, rig.head, rig.kneeL!]) expect(b.matrixWorld.elements.every((x) => Number.isFinite(x)), v).toBe(true);
     }
   });
 

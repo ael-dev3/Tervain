@@ -1,4 +1,4 @@
-import { ITEMS, ITEM_ORDER } from '../../content/items';
+import { hotbarEligible, itemAction, ITEMS } from '../../content/items';
 import { NPCS } from '../../content/npcs';
 import { S } from '../../content/strings';
 import { TRAINING_COST } from '../../game/constants';
@@ -11,10 +11,14 @@ import type { Allocation, Cond, ItemId, WorldState } from '../../game/types';
 import { type Input } from '../../platform/input';
 import { ACTIONS, DEFAULT_BINDINGS, codeLabel, defaultSettings, findConflict, saveSettings, type Action, type Settings } from '../../platform/settings';
 import { SLOT_IDS, type LoadResult, type SaveStore, type SlotId } from '../../platform/storage';
-import { clear, focusableElements, focusFirst, h, moveFocus } from './dom';
+import { clear, focusableElements, focusFirst, h, moveFocus, visibleControl } from './dom';
 import { EVIDENCE_IDS } from '../../game/types';
 import { GAME_VERSION } from '../../version';
 import { createMenuScreen } from './menuView';
+import { icon } from './icons';
+import { INVENTORY_GROUPS, inventoryItems, QUICK_SLOT_COUNT, quickSlotFromCode, quickSlotLabel, type InventoryGroup } from './uiModel';
+import { QuickSlotBar } from './hotbar';
+import { bindQuickDrag } from './quickDrag';
 
 let panelLabelId = 0;
 
@@ -25,6 +29,9 @@ export interface PanelActions {
   newGame(): void;
   quitToTitle(): void;
   useItem(item: ItemId): void;
+  assignQuickSlot(slot: number, item: ItemId | null): void;
+  swapQuickSlots(from: number, to: number): void;
+  equipWeapon(item: ItemId | null): void;
   brace(): void;
   force(): void;
   commit(a: Allocation): void;
@@ -99,6 +106,7 @@ export class PanelHost {
   }
 
   back() {
+    if (!this.stack.length) return;
     const top = this.stack.pop();
     top?.onClose?.();
     if (this.stack.length === 0) {
@@ -107,11 +115,13 @@ export class PanelHost {
       this.onChange?.();
       this.onEmpty?.();
       const trigger = top?.returnFocus;
-      if (trigger?.isConnected && trigger.offsetParent !== null && !trigger.closest('[inert]')) trigger.focus();
+      if (trigger?.isConnected && visibleControl(trigger)) trigger.focus();
     } else this.render(top?.returnFocus ?? true);
   }
 
   closeAll() {
+    if (!this.stack.length) return;
+    const returnFocus = this.stack[0]?.returnFocus;
     while (this.stack.length > 0) {
       const top = this.stack.pop();
       top?.onClose?.();
@@ -120,11 +130,15 @@ export class PanelHost {
     clear(this.el);
     this.onChange?.();
     this.onEmpty?.();
+    if (returnFocus?.isConnected && visibleControl(returnFocus)) returnFocus.focus();
   }
 
   private render(focus: boolean | HTMLElement = true) {
     const top = this.stack[this.stack.length - 1];
     if (!top) return;
+    const active = document.activeElement as HTMLElement | null;
+    const key = active && this.el.contains(active) ? active.dataset.focusKey : undefined;
+    const oldScroll = this.el.firstElementChild?.scrollTop ?? 0;
     clear(this.el);
     const menu = top.content.classList.contains('menu-screen');
     const heading = top.content.querySelector<HTMLElement>('h1, h2');
@@ -140,8 +154,10 @@ export class PanelHost {
     this.el.append(panel);
     this.el.classList.add('on');
     this.onChange?.();
-    if (typeof focus !== 'boolean' && panel.contains(focus) && focus.offsetParent !== null) focus.focus();
-    else if (focus) focusFirst(panel);
+    const matching = key ? [...panel.querySelectorAll<HTMLElement>('[data-focus-key]')].find((control) => control.dataset.focusKey === key && visibleControl(control) && !control.hasAttribute('disabled')) : null;
+    if (typeof focus !== 'boolean' && panel.contains(focus) && visibleControl(focus)) focus.focus();
+    else if (matching) { matching.focus(); panel.scrollTop = oldScroll; }
+    else if (focus || key) focusFirst(panel);
   }
 
   navigate(dx: number, dy: number) {
@@ -230,65 +246,196 @@ export function slotLabel(res: LoadResult, slot: SlotId): { title: string; meta:
   };
 }
 
-const closeBtn = (ctx: PanelCtx, label = S('menu.close')) => h('button', { class: 'btn', 'data-nav': true, onClick: () => ctx.host.back() }, label);
+const closeBtn = (ctx: PanelCtx, label = S('menu.close')) => h('button', { class: 'btn', type: 'button', 'data-nav': true, 'data-focus-key': 'close-record', onClick: () => ctx.host.back() }, label);
 
 /* ---------------------------------------------------------------- journal */
 
-export function journalPanel(ctx: PanelCtx): HTMLElement {
-  const s = ctx.game.state;
-  const j = buildJournal(s);
-  const col = (title: string, items: { key: string; params?: Record<string, string | number> }[], cls = '') =>
-    h(
-      'div',
-      { class: 'jcol' },
-      h('h2', {}, title),
-      items.length === 0 ? h('div', { class: 'muted' }, S('journal.empty')) : items.map((e) => h('p', { class: `jitem ${cls}` }, S(e.key, e.params))),
-    );
-  const places = j.places.map((p) => h('div', { class: 'row split' }, h('span', {}, S(`place.${p.id}`)), h('span', { class: 'muted' }, S(`journal.place.${p.status}`))));
-  const people = j.people
-    .filter((p) => p.met || !p.available)
-    .map((p) => {
-      const def = NPCS[p.npc];
-      return h('div', { class: 'jitem' }, h('div', {}, `${def.name} — ${S(def.titleKey)}`), h('div', { class: 'muted' }, p.available ? S(def.sleepsKey) : S('journal.person.absent')));
+interface RecordPage { key: string; label: string; content: HTMLElement; count?: number }
+let recordPageId = 0;
+
+/** Material tabs keep one Tab stop; arrows/Home/End select pages without moving outside the record. */
+function recordTabs(pages: RecordPage[], initially = pages[0]?.key): HTMLElement {
+  const prefix = `record-${recordPageId++}`;
+  const tabs = h('div', { class: 'record-tabs', role: 'tablist' });
+  const body = h('div', { class: 'record-pages' });
+  const buttons: HTMLButtonElement[] = [];
+  const select = (key: string) => {
+    pages.forEach((page, i) => {
+      const active = page.key === key;
+      page.content.hidden = !active;
+      buttons[i]!.setAttribute('aria-selected', String(active));
+      buttons[i]!.tabIndex = active ? 0 : -1;
     });
-  return h(
-    'div',
-    {},
-    h('h1', {}, S('journal.title')),
-    h('p', { class: 'sub' }, S(j.statusKey)),
-    j.leadKey ? h('p', { class: 'jitem' }, S(j.leadKey)) : null,
-    h('div', { class: 'cols3' }, col(S('journal.observed'), j.observed), col(S('journal.reported'), j.reported), col(S('journal.concluded'), j.concluded)),
-    j.questions.length > 0 ? h('div', { class: 'jcol', style: { marginTop: '14px' } }, h('h2', {}, S('journal.questions')), j.questions.map((q) => h('p', { class: 'jitem q' }, S(q.key)))) : null,
-    h('div', { class: 'cols3', style: { marginTop: '14px' } }, h('div', { class: 'jcol' }, h('h2', {}, S('journal.places')), places), h('div', { class: 'jcol jcol-wide' }, h('h2', {}, S('journal.people')), people.length ? people : h('div', { class: 'muted' }, S('journal.empty')))),
-    h('div', { class: 'row', style: { marginTop: '14px' } }, closeBtn(ctx)),
-  );
+  };
+  pages.forEach((page, i) => {
+    const id = `${prefix}-${page.key}`;
+    page.content.id = `${id}-page`;
+    page.content.classList.add('record-page');
+    page.content.setAttribute('role', 'tabpanel');
+    page.content.setAttribute('aria-labelledby', id);
+    const button = h('button', {
+      class: 'record-tab', type: 'button', role: 'tab', id,
+      'aria-controls': page.content.id, 'data-nav': true, 'data-focus-key': `tab-${page.key}`,
+      onClick: () => select(page.key), onFocus: () => select(page.key),
+      onKeydown: (event: KeyboardEvent) => {
+        let next: number | undefined;
+        if (event.code === 'ArrowLeft') next = (i - 1 + pages.length) % pages.length;
+        if (event.code === 'ArrowRight') next = (i + 1) % pages.length;
+        if (event.code === 'Home') next = 0;
+        if (event.code === 'End') next = pages.length - 1;
+        if (next === undefined) return;
+        event.preventDefault(); event.stopPropagation(); buttons[next]!.focus();
+      },
+    }, h('span', { class: 'record-tab-label' }, page.label), page.count === undefined ? null : h('small', {}, String(page.count)));
+    buttons.push(button); tabs.append(button); body.append(page.content);
+  });
+  select(initially ?? pages[0]!.key);
+  return h('div', { class: 'record-body' }, tabs, body);
+}
+
+export function journalPanel(ctx: PanelCtx): HTMLElement {
+  const j = buildJournal(ctx.game.state);
+  const entries = (items: { key: string; params?: Record<string, string | number> }[]) =>
+    h('div', { class: 'journal-entries' }, items.length ? items.map((entry, i) => h('article', { class: 'journal-entry' }, h('span', { class: 'entry-number', 'aria-hidden': 'true' }, String(i + 1).padStart(2, '0')), h('p', {}, S(entry.key, entry.params)))) : h('p', { class: 'record-empty' }, S('journal.empty')));
+  const knownPlaces = j.places.filter((p) => p.status !== 'unknown');
+  const knownPeople = j.people.filter((p) => p.met || !p.available);
+  const pages: RecordPage[] = [
+    { key: 'observed', label: S('journal.observed'), count: j.observed.length, content: entries(j.observed) },
+    { key: 'reported', label: S('journal.reported'), count: j.reported.length, content: entries(j.reported) },
+    { key: 'concluded', label: S('journal.concluded'), count: j.concluded.length, content: entries(j.concluded) },
+    { key: 'questions', label: S('journal.questions'), count: j.questions.length, content: entries(j.questions) },
+    { key: 'places', label: S('journal.places'), count: knownPlaces.length, content: h('div', { class: 'journal-entries' }, knownPlaces.length ? knownPlaces.map((p) => h('article', { class: 'journal-entry' }, icon('map'), h('div', {}, h('strong', {}, S(`place.${p.id}`)), h('p', { class: 'muted' }, S(`journal.place.${p.status}`))))) : h('p', { class: 'record-empty' }, S('journal.empty'))) },
+    { key: 'people', label: S('journal.people'), count: knownPeople.length, content: h('div', { class: 'journal-entries' }, knownPeople.length ? knownPeople.map((p) => {
+      const def = NPCS[p.npc];
+      return h('article', { class: 'journal-entry' }, h('div', {}, h('strong', {}, `${def.name} — ${S(def.titleKey)}`), h('p', { class: 'muted' }, p.available ? S(def.sleepsKey) : S('journal.person.absent'))));
+    }) : h('p', { class: 'record-empty' }, S('journal.empty'))) },
+  ];
+  return h('div', { class: 'game-record journal-record' },
+    h('header', { class: 'record-heading' }, icon('journal'), h('div', {}, h('h1', {}, S('journal.title')), h('p', { class: 'sub' }, S(j.statusKey)))),
+    h('div', { class: 'journal-layout' },
+      h('aside', { class: 'record-summary' }, h('h2', {}, S('journal.status')), j.leadKey ? h('p', {}, S(j.leadKey)) : null, h('p', { class: 'record-date' }, S('hud.time', { n: clockDay(ctx.game.state.clock) + 1, time: formatClock(ctx.game.state.clock) }))),
+      recordTabs(pages)),
+    h('footer', { class: 'record-footer' }, h('span', { class: 'muted' }, 'Notes distinguish what you saw, heard and learned.'), closeBtn(ctx)));
 }
 
 /* -------------------------------------------------------------- inventory */
 
+const GROUP_LABELS: Record<InventoryGroup, string> = { all: 'All', weapon: 'Weapons', tool: 'Tools', quest: 'Keepsakes', consumable: 'Remedies', clothing: 'Clothing', material: 'Materials' };
+
 export function inventoryPanel(ctx: PanelCtx): HTMLElement {
   const s = ctx.game.state;
-  const rows = ITEM_ORDER.filter((id) => (s.inventory[id] ?? 0) > 0).map((id) => {
-    const def = ITEMS[id];
-    const n = s.inventory[id] ?? 0;
-    return h(
-      'div',
-      { class: 'inv-item' },
-      h('div', {}, h('strong', {}, S(def.nameKey)), h('div', { class: 'muted' }, S(def.descKey))),
-      h('span', { class: 'badge' }, `×${n}`),
-      id === 'poultice' ? h('button', { class: 'btn', 'data-nav': true, onClick: () => ctx.actions.useItem('poultice') }, S('inv.use')) : h('span'),
-    );
+  const previous = ctx.host.el.querySelector<HTMLElement>('.inventory-record');
+  const previousScroll = previous?.querySelector<HTMLElement>('.inventory-layout')?.scrollTop ?? 0;
+  let group: InventoryGroup = INVENTORY_GROUPS.find((g) => g === previous?.dataset.inventoryGroup) ?? 'all';
+  let selected: ItemId | null = inventoryItems(s).find((id) => id === previous?.dataset.selectedItem) ?? inventoryItems(s)[0] ?? null;
+  let selectedSlot = Math.max(0, Math.min(QUICK_SLOT_COUNT - 1, Number(previous?.dataset.selectedSlot) || 0));
+  const grid = h('div', { class: 'inventory-grid', 'data-nav-grid': true, 'aria-label': 'Carried items' });
+  const detail = h('section', { class: 'inventory-detail', 'aria-label': 'Selected item' });
+  const record = h('div', { class: 'game-record inventory-record' });
+  const mutate = (action: () => void, focusSlot?: number) => {
+    action();
+    ctx.host.replaceTop(inventoryPanel(ctx));
+    if (focusSlot !== undefined) ctx.host.el.querySelector<HTMLElement>(`[data-quick-slot="${focusSlot}"]`)?.focus();
+  };
+  const filters = h('div', { class: 'inventory-filters', role: 'group', 'aria-label': 'Item categories' });
+  const filterButtons = new Map<InventoryGroup, HTMLButtonElement>();
+  const slotSelection = h('span', { class: 'hotbar-selection' });
+  const clearSlot = h('button', { class: 'btn', type: 'button', 'data-nav': true, 'data-focus-key': 'quick-clear', onClick: () => mutate(() => ctx.actions.assignQuickSlot(selectedSlot, null), selectedSlot) }, 'Clear');
+  const move = (direction: number) => {
+    const to = selectedSlot + direction;
+    if (to < 0 || to >= QUICK_SLOT_COUNT || !s.quickSlots[selectedSlot]) return;
+    const from = selectedSlot;
+    selectedSlot = to; record.dataset.selectedSlot = String(to);
+    mutate(() => ctx.actions.swapQuickSlots(from, to), to);
+  };
+  const moveLeft = h('button', { class: 'btn', type: 'button', 'data-nav': true, 'data-focus-key': 'quick-left', onClick: () => move(-1), 'aria-label': 'Swap selected binding with the slot to its left' }, 'Move left');
+  const moveRight = h('button', { class: 'btn', type: 'button', 'data-nav': true, 'data-focus-key': 'quick-right', onClick: () => move(1), 'aria-label': 'Swap selected binding with the slot to its right' }, 'Move right');
+  let hotbar: QuickSlotBar;
+  const syncSlot = () => {
+    record.dataset.selectedSlot = String(selectedSlot);
+    hotbar.select(selectedSlot);
+    slotSelection.textContent = `Slot ${quickSlotLabel(selectedSlot)}`;
+    clearSlot.disabled = !s.quickSlots[selectedSlot];
+    moveLeft.disabled = !s.quickSlots[selectedSlot] || selectedSlot === 0;
+    moveRight.disabled = !s.quickSlots[selectedSlot] || selectedSlot === QUICK_SLOT_COUNT - 1;
+    const assignButton = detail.querySelector<HTMLElement>('[data-focus-key="quick-assign"]');
+    if (assignButton) assignButton.textContent = `Assign to slot ${quickSlotLabel(selectedSlot)}`;
+  };
+  const assignSelected = (slot: number) => {
+    selectedSlot = slot; syncSlot();
+    if (selected && hotbarEligible(selected) && (s.inventory[selected] ?? 0) > 0) mutate(() => ctx.actions.assignQuickSlot(slot, selected), slot);
+    else ctx.toast('Select a carried weapon or remedy to assign it.', '');
+  };
+  hotbar = new QuickSlotBar({ mode: 'assign', onActivate: assignSelected, onSelect: (slot) => { selectedSlot = slot; syncSlot(); },
+    onAssign: (slot, item) => { selectedSlot = slot; record.dataset.selectedSlot = String(slot); mutate(() => ctx.actions.assignQuickSlot(slot, item), slot); },
+    onSwap: (from, to) => { selectedSlot = to; record.dataset.selectedSlot = String(to); mutate(() => ctx.actions.swapQuickSlots(from, to), to); },
   });
-  const skills = s.skills.map((k) => h('div', { class: 'jitem' }, h('strong', {}, S(`skill.${k}`)), h('div', { class: 'muted' }, S(`skill.${k}.desc`))));
-  return h(
-    'div',
-    {},
-    h('h1', {}, S('inv.title')),
-    rows.length ? rows : h('p', { class: 'muted' }, S('inv.empty')),
-    h('h2', {}, S('inv.skills')),
-    skills.length ? skills : h('p', { class: 'muted' }, S('inv.noskills')),
-    h('div', { class: 'row', style: { marginTop: '14px' } }, closeBtn(ctx)),
-  );
+  hotbar.update({ quickSlots: s.quickSlots, inventory: s.inventory, equippedWeapon: s.equippedWeapon, health: s.player.health, maxHealth: s.player.maxHealth });
+  const renderDetail = () => {
+    clear(detail);
+    record.dataset.inventoryGroup = group;
+    record.dataset.selectedItem = selected ?? '';
+    grid.querySelectorAll<HTMLElement>('[data-item-id]').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.itemId === selected)));
+    if (!selected) { detail.append(h('p', { class: 'record-empty' }, S('inv.empty'))); return; }
+    const def = ITEMS[selected];
+    const id = selected;
+    const equipped = s.equippedWeapon === id;
+    detail.append(h('div', { class: 'item-portrait' }, icon(id)), h('div', { class: 'item-description' }, h('h2', {}, S(def.nameKey)), h('p', {}, S(def.descKey)), h('p', { class: 'item-kind' }, `${GROUP_LABELS[def.kind === 'currency' ? 'all' : def.kind]} · ×${s.inventory[id] ?? 0}${equipped ? ' · Equipped' : ''}`)));
+    const actions = h('div', { class: 'inventory-item-actions row' });
+    if (itemAction(id) === 'consume') actions.append(h('button', {
+      class: 'btn primary', type: 'button', 'data-nav': true, 'data-focus-key': 'use-selected-item', disabled: s.player.health >= s.player.maxHealth,
+      onClick: () => mutate(() => ctx.actions.useItem(id)),
+    }, `${S('inv.use')} · restore ${def.healAmount ?? 0} health`));
+    if (itemAction(id) === 'equip') actions.append(h('button', {
+      class: 'btn primary', type: 'button', 'data-nav': true, 'data-focus-key': 'equip-selected-item', onClick: () => mutate(() => ctx.actions.equipWeapon(equipped ? null : id)),
+    }, equipped ? 'Unequip' : 'Equip'));
+    if (hotbarEligible(id)) actions.append(h('button', { class: 'btn', type: 'button', 'data-nav': true, 'data-focus-key': 'quick-assign', onClick: () => assignSelected(selectedSlot) }, `Assign to slot ${quickSlotLabel(selectedSlot)}`));
+    if (actions.childElementCount) detail.append(actions);
+  };
+  const renderGrid = () => {
+    const ids = inventoryItems(s, group);
+    if (!ids.includes(selected!)) selected = ids[0] ?? null;
+    clear(grid);
+    if (!ids.length) grid.append(h('p', { class: 'record-empty' }, group === 'all' ? S('inv.empty') : 'Nothing in this category.'));
+    for (const id of ids) {
+      const n = s.inventory[id] ?? 0;
+      const choose = () => { selected = id; renderDetail(); };
+      const cell = h('button', { class: `item-cell item-${ITEMS[id].kind}${s.equippedWeapon === id ? ' item-equipped' : ''}`, type: 'button', draggable: 'false', 'data-nav': true, 'data-item-id': id, 'data-focus-key': `item-${id}`, 'aria-label': `${S(ITEMS[id].nameKey)} · ${n}${s.equippedWeapon === id ? ' · equipped' : ''}`, title: S(ITEMS[id].nameKey), onFocus: choose, onClick: choose }, icon(id), h('span', { class: 'item-cell-name' }, S(ITEMS[id].nameKey)), h('span', { class: 'item-quantity' }, String(n)), s.equippedWeapon === id ? h('span', { class: 'item-equipped-label', 'aria-hidden': 'true' }, 'Equipped') : null);
+      if (hotbarEligible(id)) bindQuickDrag(cell, {
+        value: () => { if ((ctx.game.state.inventory[id] ?? 0) <= 0) return null; choose(); return { item: id, from: null }; },
+        scope: () => record,
+        drop: (value, slot) => hotbar.receiveDrop(value, slot),
+      });
+      grid.append(cell);
+    }
+    filterButtons.forEach((button, key) => button.setAttribute('aria-pressed', String(group === key)));
+    renderDetail();
+  };
+  for (const key of INVENTORY_GROUPS) {
+    const button = h('button', { class: 'record-tab', type: 'button', 'data-nav': true, 'data-focus-key': `filter-${key}`, onClick: () => { group = key; renderGrid(); } }, GROUP_LABELS[key]);
+    filterButtons.set(key, button); filters.append(button);
+  }
+  const skills = s.skills.map((key) => h('div', { class: 'learned-skill' }, h('strong', {}, S(`skill.${key}`)), h('p', {}, S(`skill.${key}.desc`))));
+  const layout = h('div', { class: 'inventory-layout' },
+    h('aside', { class: 'record-summary' }, h('h2', {}, 'The wanderer'), h('dl', { class: 'record-stats' }, h('dt', {}, S('hud.health')), h('dd', {}, `${Math.round(s.player.health)} / ${s.player.maxHealth}`), h('dt', {}, S('hud.coin')), h('dd', {}, String(s.inventory.coin ?? 0))), h('h2', {}, S('inv.skills')), skills.length ? skills : h('p', { class: 'muted' }, S('inv.noskills'))),
+    h('div', { class: 'inventory-main' }, filters, grid, detail));
+  record.append(
+    h('header', { class: 'record-heading' }, icon('inventory'), h('div', {}, h('h1', {}, S('inv.title')), h('p', { class: 'sub' }, 'What you carry, and what you have learned.'))),
+    layout,
+    h('section', { class: 'hotbar-editor', 'aria-label': 'Quick slot assignment' },
+      h('div', { class: 'hotbar-editor-heading' }, h('h2', {}, 'Quick slots'), h('div', { class: 'hotbar-tools' }, slotSelection, clearSlot, moveLeft, moveRight)),
+      hotbar.el, h('p', { class: 'hotbar-help' }, 'Select an item, then click a slot or press 1–0 to assign. Drag bindings to swap; Delete clears a focused slot.')),
+    h('footer', { class: 'record-footer' }, h('span', { class: 'muted' }, 'Weapons equip. Remedies restore health. Keepsakes remain in your pack.'), closeBtn(ctx)));
+  record.addEventListener('keydown', (event) => {
+    const slot = quickSlotFromCode(event.code);
+    if (slot === null || event.repeat || event.shiftKey || event.ctrlKey || event.metaKey || event.altKey || (event.target instanceof Element && event.target.closest('input, select, textarea, [contenteditable]'))) return;
+    event.preventDefault(); event.stopPropagation(); assignSelected(slot);
+  });
+  renderGrid();
+  syncSlot();
+  // Assignment rerenders the modal from authoritative state; retain the scrolled item list as well as selection.
+  queueMicrotask(() => { if (record.isConnected) layout.scrollTop = previousScroll; });
+  return record;
 }
 
 /* ------------------------------------------------------------- noticeboard */
@@ -366,7 +513,7 @@ export function sluicePanel(ctx: PanelCtx): HTMLElement {
           h('p', { class: 'kind' }, S(`sluice.alloc.${a}.kind`)),
           reasons.map((r) => h('p', { class: 'need' }, `${S('hud.requires')} ${r}`)),
           a === 'rotation' && !reasons.length && s.npcs.quarry_foreman.available && s.npcs.rillford_reeve.available && s.npcs.spring_steward.available ? null : a === 'rotation' && [s.npcs.quarry_foreman, s.npcs.rillford_reeve, s.npcs.spring_steward].some((n) => !n.available) ? h('p', { class: 'need' }, S('sluice.alloc.caretaker')) : null,
-          h('div', { class: 'row', style: { marginTop: '6px' } }, h('button', { class: `btn primary${disabled ? ' disabled' : ''}`, 'data-nav': true, onClick: () => (disabled || committedAlready ? null : showCommitConfirm(ctx, a)) }, S(`sluice.alloc.${a}`))),
+          h('div', { class: 'row', style: { marginTop: '6px' } }, h('button', { class: 'btn primary', disabled: disabled || committedAlready, 'data-nav': true, onClick: () => (disabled || committedAlready ? null : showCommitConfirm(ctx, a)) }, S(`sluice.alloc.${a}`))),
         ),
       );
     }
@@ -433,11 +580,11 @@ export function slotsPanel(ctx: PanelCtx, mode: 'save' | 'load'): HTMLElement {
       h(
         'div',
         { class: 'row' },
-        h('button', { class: `btn${mode === 'load' && !l.ok ? ' disabled' : ''}`, 'data-nav': true, onClick: () => (mode === 'save' ? ctx.actions.save(slot) : l.ok ? ctx.actions.load(slot) : null) }, mode === 'save' ? S('menu.save') : S('menu.load')),
+        h('button', { class: 'btn', disabled: mode === 'load' && !l.ok, 'data-nav': true, 'data-focus-key': `${mode}-${slot}`, onClick: () => (mode === 'save' ? ctx.actions.save(slot) : l.ok ? ctx.actions.load(slot) : null) }, mode === 'save' ? S('menu.save') : S('menu.load')),
         // Deleting is only offered for a damaged slot, and asks first (a healthy save is overwritten from Save instead).
         !res.ok && res.kind === 'corrupt'
           ? (() => {
-              const b = h('button', { class: 'btn danger', 'data-nav': true }, S('menu.delete'));
+              const b = h('button', { class: 'btn danger', 'data-nav': true, 'data-focus-key': `delete-${slot}` }, S('menu.delete'));
               let armed = false;
               b.addEventListener('click', () => {
                 if (!armed) {
@@ -478,7 +625,7 @@ export function settingsPanel(ctx: PanelCtx): HTMLElement {
     h(
       'div',
       { class: 'setting setting-toggle' },
-      h('input', { id: `s-${String(key)}`, type: 'checkbox', 'data-nav': true, checked: st[key] === true ? true : null, onChange: (e: Event) => {
+      h('input', { id: `s-${String(key)}`, type: 'checkbox', 'data-nav': true, 'data-focus-key': `setting-${String(key)}`, checked: st[key] === true ? true : null, onChange: (e: Event) => {
         (st[key] as boolean) = (e.target as HTMLInputElement).checked;
         commit();
       } }),
@@ -487,7 +634,7 @@ export function settingsPanel(ctx: PanelCtx): HTMLElement {
     );
   const range = (label: string, get: () => number, set: (v: number) => void, min: number, max: number, step: number, fmt: (v: number) => string) => {
     const out = h('span', { class: 'muted' }, fmt(get()));
-    const input = h('input', { type: 'range', min, max, step, value: get(), 'data-nav': true, 'aria-label': label });
+    const input = h('input', { type: 'range', min, max, step, value: get(), 'data-nav': true, 'data-focus-key': `setting-${label}`, 'aria-label': label });
     input.addEventListener('input', () => {
       set(Number(input.value));
       out.textContent = fmt(get());
@@ -500,7 +647,7 @@ export function settingsPanel(ctx: PanelCtx): HTMLElement {
   const bindings = ACTIONS.map((a) => bindRow(ctx, a, commit));
   const quality = h(
     'select',
-    { 'data-nav': true, 'aria-label': S('set.quality'), onChange: (e: Event) => {
+    { 'data-nav': true, 'data-focus-key': 'setting-quality', 'aria-label': S('set.quality'), onChange: (e: Event) => {
       st.quality = (e.target as HTMLSelectElement).value as Settings['quality'];
       commit(true);
     } },
@@ -539,7 +686,7 @@ export function settingsPanel(ctx: PanelCtx): HTMLElement {
     h(
       'div',
       { class: 'row', style: { marginTop: '14px' } },
-      h('button', { class: 'btn', 'data-nav': true, onClick: () => {
+      h('button', { class: 'btn', 'data-nav': true, 'data-focus-key': 'settings-reset', onClick: () => {
         Object.assign(st, defaultSettings());
         commit(true);
         ctx.host.replaceTop(settingsPanel(ctx));
@@ -554,7 +701,7 @@ function bindRow(ctx: PanelCtx, action: Action, commit: () => void): HTMLElement
   const label = (idx: number) => (st.bindings[action][idx] ? codeLabel(st.bindings[action][idx]!) : S('set.unbound'));
   const note = h('span', { class: 'muted', role: 'status', 'aria-live': 'polite' });
   const slotBtn = (idx: number) => {
-    const btn = h('button', { class: 'btn', 'data-nav': true, 'aria-label': `${S(`action.${action}`)} ${idx + 1}` }, label(idx));
+    const btn = h('button', { class: 'btn', 'data-nav': true, 'data-focus-key': `binding-${action}-${idx}`, 'aria-label': `${S(`action.${action}`)} ${idx + 1}` }, label(idx));
     const restore = () => {
       btn.textContent = label(idx);
     };
