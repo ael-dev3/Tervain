@@ -5,9 +5,9 @@ import { CLOCK_RATE } from './game/constants';
 import { Game } from './game/game';
 import { nextHint } from './game/hints';
 import { INSPECT_POINTS } from './content/inspect';
-import { ITEMS } from './content/items';
+import { ITEMS, itemAction } from './content/items';
 import { hasFact, hourOfDay, evalAll, createInitialState, formatClock, clockDay, evalCond } from './game/state';
-import { EVIDENCE_IDS, WRECK_BLADE_PICKUP, type Allocation, type Command, type GameEvent, type ItemId, type NpcId, type PlaceId, type WorldState } from './game/types';
+import { EVIDENCE_IDS, type Allocation, type Command, type GameEvent, type ItemId, type NpcId, type PlaceId, type WorldState } from './game/types';
 import { worldView } from './game/worldView';
 import { Input } from './platform/input';
 import { FrameClock } from './platform/frameTiming';
@@ -15,11 +15,13 @@ import { codeLabel, loadSettings } from './platform/settings';
 import { BrowserStore, SaveStore, SLOT_IDS, type SlotId } from './platform/storage';
 import { ENEMY_SPAWNS, PLACES, SPAWN, SLUICE, RITE_ALTAR, type V2 } from './world/layout';
 import { coastX } from './world/coast';
+import { canPlayerStandAt, supportedPlayerHeight } from './world/playerPlacement';
 import { EnemyActor, NpcActor, type ActorContext, type EnemyContext } from './presentation/actors';
 import { AudioEngine } from './presentation/audio';
 import { CameraRig } from './presentation/cameraRig';
 import { Grade } from './presentation/grade';
 import { buildInteractables, type Interactable } from './presentation/interactions';
+import { chooseInteractable } from './presentation/interactionTarget';
 import { Player } from './presentation/player';
 import { Hud } from './presentation/ui/hud';
 import { MapView } from './presentation/ui/map';
@@ -73,11 +75,20 @@ export class App {
   private panelKind: 'none' | 'pause' | 'journal' | 'inventory' | 'map' | 'notice' | 'sluice' | 'other' = 'none';
   private frameClock = new FrameClock();
   private worldBuilding = false;
+  private worldBuildFailed = false;
+  private worldDisposed = false;
+  private menuSceneDisposed = false;
+  private rebuildRetry: HTMLButtonElement | null = null;
+  private rebuildFocus: HTMLElement | null = null;
   private clockAcc = 0;
   private worldDirty = true;
+  private inventoryNotesChanged = false;
   private bellClock = 4;
-  private checkpoint = { x: SPAWN.x, z: SPAWN.z, yaw: SPAWN.yaw };
+  private checkpoint: { x: number; y?: number; z: number; yaw: number } = { x: SPAWN.x, z: SPAWN.z, yaw: SPAWN.yaw };
   private hitStop = 0;
+  private deathRemaining = 0;
+  private qualityReload: Promise<void> | null = null;
+  private reloadAgain = false;
   private frameTimes: number[] = [];
   private fpsSmooth = 60;
   private debugTimer = 0;
@@ -137,7 +148,25 @@ export class App {
         console.warn('shared assets unavailable; using procedural art', e);
       }
     }
-    await this.buildWorld();
+    this.pauseForWorldBuild();
+    try {
+      await this.buildWorld();
+    } catch (error) {
+      // Keep this initialization pending: its listeners and RAF are installed once, after recovery.
+      await new Promise<void>((resolve) => {
+        const retry = async () => {
+          this.pauseForWorldBuild();
+          try {
+            await this.buildWorld();
+            resolve();
+          } catch (nextError) {
+            this.showWorldBuildFailure(nextError, retry);
+          }
+        };
+        this.showWorldBuildFailure(error, retry);
+      });
+    }
+    this.finishWorldBuild();
 
     this.audio.onCaption = (t) => this.settings.captions && this.hud.caption(t);
     this.audio.onMusicState = () => this.syncMusicUnlock();
@@ -163,11 +192,16 @@ export class App {
       const hidden = document.visibilityState === 'hidden';
       this.frameClock.setHidden(hidden);
       this.audio.setPageHidden(hidden);
-      this.input.consumePad();
-      this.input.endFrame();
-      if (hidden) this.autosaveQuiet();
+      this.input.reset();
+      if (hidden) {
+        this.autosaveQuiet();
+        if (this.mode === 'play' && this.overlay === 'none' && !this.bench.active) this.openPause();
+      }
     });
 
+    window.addEventListener('blur', () => {
+      if (this.mode === 'play' && this.overlay === 'none' && !this.bench.active) this.openPause();
+    });
     this.enterTitle();
     this.loadingEl.classList.add('off');
     this.applyShotParams();
@@ -188,7 +222,8 @@ export class App {
     const num = (k: string, d: number) => (q.has(k) ? Number(q.get(k)) : d);
     this.startNew();
     const place = q.get('place') as PlaceId | null;
-    if (q.has('x') && q.has('z')) this.player.setPosition(num('x', 0), num('z', 0), num('face', 0), this.world.terrain);
+    const feet = q.has('feet') ? Number(q.get('feet')) : NaN;
+    if (q.has('x') && q.has('z')) this.player.setPosition(num('x', 0), num('z', 0), num('face', 0), this.world.terrain, Number.isFinite(feet) ? feet : undefined);
     else if (place && place in PLACES) this.teleport(place);
     this.cam.yaw = num('yaw', 0);
     this.cam.pitch = num('pitch', 0.25);
@@ -233,33 +268,45 @@ export class App {
 
   private buildShell() {
     clear(this.uiRoot);
-    this.loadingEl = h('div', { class: 'loading' }, S('menu.loading'));
+    this.loadingEl = h('div', { class: 'loading', style: { zIndex: '6' } }, S('menu.loading'));
     this.titleEl = h('div', { class: 'title' });
     this.debugPre = h('pre', { class: 'debug' });
     this.debugEl = h('div', { class: 'panel surface-paper', style: { position: 'absolute', right: '12px', top: '90px', width: 'min(420px, 92vw)', maxHeight: '80vh', overflow: 'auto', display: 'none', pointerEvents: 'auto', zIndex: '5' } });
     this.uiRoot.append(this.hud.el, this.titleEl, this.panels.el, this.debugEl, this.loadingEl);
+    this.hud.onQuickSlotActivate = (slot) => this.activateQuickSlot(slot);
+    this.hud.onAssignQuickSlot = (slot, item) => this.assignQuickSlot(slot, item);
+    this.hud.onSwapQuickSlots = (from, to) => this.swapQuickSlots(from, to);
+    this.mapView.onMarker = (marker) => {
+      if (this.mode !== 'play' || this.worldPaused || this.panelKind !== 'map') return;
+      const result = this.game.dispatch({ t: 'setMapMarker', marker });
+      if (result.ok) this.audio.uiConfirm();
+    };
     this.panels.onEmpty = () => this.onPanelsClosed();
     this.panels.onChange = () => {
       // A pending rebind never outlives the screen it was started on.
       this.input.captureNext = null;
-      this.titleEl.inert = this.panels.isOpen;
+      this.titleEl.inert = this.panels.isOpen || this.worldPaused;
+      this.hud.el.inert = this.panels.isOpen || this.mode !== 'play' || this.worldPaused;
       this.syncMenuHudVisibility();
     };
     this.panels.onOpen = () => {
       this.titleEl.inert = true;
       this.input.uiOpen = true;
+      this.player.vx = this.player.vz = this.player.lastMoveSpeed = 0;
       this.releaseLock();
     };
   }
 
   private async buildWorld() {
     this.worldBuilding = true;
+    this.worldBuildFailed = false;
     try {
       // Shared flora caches must be released before replacement assets are constructed.
       if (this.world) this.disposeWorld();
-      this.world = await WorldScene.create(this.game.state, this.settings, this.library, (p) => {
+      this.world = await WorldScene.create(this.game.state, structuredClone(this.settings), this.library, (p) => {
         this.loadingEl.textContent = `${S('menu.loading')} ${p.loaded}/${p.total}`;
       });
+      this.worldDisposed = false;
       this.world.scene.add(this.player.group);
       this.applyQualityToRenderer();
       // Actors
@@ -269,16 +316,76 @@ export class App {
       for (const e of this.enemies) this.world.scene.add(e.rig.root);
       this.interactables = buildInteractables(this);
       this.syncWorldFromState(true);
+    } catch (error) {
+      this.worldBuildFailed = true;
+      throw error;
     } finally {
       this.worldBuilding = false;
     }
   }
 
   private disposeWorld() {
-    const scene = this.world.scene;
+    if (!this.world || this.worldDisposed) return;
+    const world = this.world;
+    this.worldDisposed = true;
+    const scene = world.scene;
     // This rig persists across quality/world rebuilds and keeps its GPU resources.
     scene.remove(this.player.group);
-    disposeSceneResources(scene, () => this.world.dispose(), [this.player.group]);
+    disposeSceneResources(scene, () => world.dispose(), [this.player.group]);
+  }
+
+  private get worldPaused() {
+    return this.worldBuilding || this.worldBuildFailed || !!this.qualityReload;
+  }
+
+  private pauseForWorldBuild() {
+    if (!this.worldPaused) this.rebuildFocus = document.activeElement as HTMLElement | null;
+    this.worldBuildFailed = false;
+    this.rebuildRetry = null;
+    this.loadingEl.textContent = S('menu.loading');
+    this.loadingEl.classList.remove('off');
+    this.loadingEl.setAttribute('role', 'status');
+    this.loadingEl.removeAttribute('aria-label');
+    this.titleEl.inert = this.panels.el.inert = this.hud.el.inert = this.debugEl.inert = true;
+    this.input.captureNext = null;
+    this.input.captureCancel = null;
+    this.input.uiOpen = true;
+    this.input.reset();
+    this.releaseLock();
+  }
+
+  private finishWorldBuild() {
+    if (this.worldBuildFailed) return;
+    this.loadingEl.classList.add('off');
+    this.loadingEl.removeAttribute('role');
+    this.loadingEl.removeAttribute('aria-label');
+    this.rebuildRetry = null;
+    this.titleEl.inert = this.panels.isOpen;
+    this.panels.el.inert = this.debugEl.inert = false;
+    this.hud.el.inert = this.panels.isOpen || this.mode !== 'play';
+    this.input.uiOpen = this.panels.isOpen || this.mode !== 'play';
+    this.input.reset();
+    this.rebuildFocus?.focus();
+    this.rebuildFocus = null;
+  }
+
+  private showWorldBuildFailure(error: unknown, retry: () => void | Promise<void>) {
+    console.error('Graphics rebuild failed', error);
+    this.worldBuildFailed = true;
+    // A confirmation held during construction is not a fresh press on Retry.
+    this.input.poll(0);
+    this.input.reset();
+    this.loadingEl.classList.remove('off');
+    this.loadingEl.setAttribute('role', 'alertdialog');
+    this.loadingEl.setAttribute('aria-label', 'Graphics could not be rebuilt');
+    this.rebuildRetry = h('button', { class: 'btn primary', onClick: () => {
+      if (!this.worldBuilding && !this.qualityReload) void retry();
+    } }, 'Retry graphics');
+    clear(this.loadingEl);
+    this.loadingEl.append(h('div', { style: { maxWidth: '32rem', padding: '24px', textAlign: 'center' } },
+      h('h1', {}, 'Graphics could not be rebuilt.'),
+      h('p', {}, 'Play is paused. Retry to continue.'), this.rebuildRetry));
+    this.rebuildRetry.focus();
   }
 
   private applyQualityToRenderer() {
@@ -303,7 +410,7 @@ export class App {
     const dpr = this.renderer.getPixelRatio();
     this.grade.setSize(w * dpr, h2 * dpr);
     this.cam.setAspect(w / h2);
-    this.menuScene.resize(w, h2);
+    if (!this.menuSceneDisposed) this.menuScene.resize(w, h2);
   }
 
   /* ============================== settings ============================== */
@@ -315,29 +422,48 @@ export class App {
     document.body.classList.toggle('reduce-effects', s.reduceEffects);
     document.body.classList.toggle('reduced-motion', s.reducedMotion);
     this.audio.applySettings();
-    if (this.world) this.world.sky.brightness = s.brightness;
+    if (this.world && !this.worldDisposed) this.world.sky.brightness = s.brightness;
   }
 
   applySettings(reload = false) {
     this.applyUiSettings();
     if (reload && this.renderer) {
-      const before = { x: this.player.x, z: this.player.z, yaw: this.player.yaw };
-      this.loadingEl.classList.remove('off');
-      // The menu vigil follows the graphics preset too (it is on screen while Settings is open).
-      if (this.menuScene.quality !== this.settings.quality) {
-        const traffic = this.menuScene.trafficState;
-        const awakening = this.menuScene.awakeningState;
-        // The awakening's simulation is pure data and the same for every preset: hand it over rather than re-run it.
-        const grove = this.menuScene.grove;
-        this.menuScene.dispose();
-        this.menuScene = new MenuScene({ quality: this.settings.quality, trafficSeed: traffic.seed, trafficTime: traffic.elapsed, awakening, grove });
-        this.menuScene.resize(window.innerWidth, window.innerHeight);
-      }
-      void this.buildWorld().then(() => {
-        this.player.setPosition(before.x, before.z, before.yaw, this.world.terrain);
-        this.world.scene.add(this.player.group);
-        this.loadingEl.classList.add('off');
+      this.reloadAgain = true;
+      if (this.qualityReload) return;
+      this.pauseForWorldBuild();
+      this.qualityReload = this.reloadQuality().finally(() => {
+        this.qualityReload = null;
+        this.finishWorldBuild();
       });
+    }
+  }
+
+  private async reloadQuality() {
+    try {
+      while (this.reloadAgain) {
+        this.reloadAgain = false;
+        if (this.menuSceneDisposed || this.menuScene.quality !== this.settings.quality) {
+          const traffic = this.menuScene.trafficState;
+          const awakening = this.menuScene.awakeningState;
+          const grove = this.menuScene.grove;
+          if (!this.menuSceneDisposed) {
+            this.menuSceneDisposed = true;
+            this.menuScene.dispose();
+          }
+          this.menuScene = new MenuScene({ quality: this.settings.quality, trafficSeed: traffic.seed, trafficTime: traffic.elapsed, awakening, grove });
+          this.menuSceneDisposed = false;
+          this.menuScene.resize(window.innerWidth, window.innerHeight);
+        }
+        await this.buildWorld();
+        // The player rig and action state survive graphics rebuilds; do not rewind to a stale pre-load transform.
+        const safe = this.safePosition(this.player.x, this.player.z, this.player.y);
+        if (safe.x !== this.player.x || safe.z !== this.player.z) {
+          this.player.setPosition(safe.x, safe.z, this.player.yaw, this.world.terrain, safe.y);
+          this.cam.reset();
+        }
+      }
+    } catch (error) {
+      this.showWorldBuildFailure(error, () => this.applySettings(true));
     }
   }
 
@@ -422,6 +548,7 @@ export class App {
   }
 
   startNew() {
+    if (this.worldPaused) return;
     this.game.replaceState(createInitialState('slot-1'));
     this.beginPlay(null);
     // A brief notice leaves movement, look and the world clock running. The journal keeps the premise.
@@ -434,23 +561,32 @@ export class App {
   }
 
   private beginPlay(fromLoad: { recovered: null | 'previous' | 'temporary' } | null) {
+    if (this.worldPaused) return;
+    this.inventoryNotesChanged = false;
     this.titleEl.classList.remove('on');
     this.panels.closeAll();
     this.mode = 'play';
     this.hud.show(true);
     this.syncMenuHudVisibility();
+    this.hud.el.inert = false;
     this.hud.showFade(false);
     this.input.uiOpen = false;
+    // Quickload can begin while already playing, so uiOpen may not change at all.
+    // Every load/new game discards the old world's held keys, toggles and queued actions.
+    this.input.reset();
     this.clockAcc = 0;
     this.syncWorldFromState(true);
     const p = this.game.state.player;
-    const safe = this.safePosition(p.x, p.z);
+    const safe = this.safePosition(p.x, p.z, p.y);
     const fresh = fromLoad === null;
     const start = fresh ? { x: SPAWN.x, z: SPAWN.z, yaw: SPAWN.yaw } : { x: safe.x, z: safe.z, yaw: p.yaw };
-    this.player.setPosition(start.x, start.z, start.yaw, this.world.terrain);
-    this.cam.yaw = start.yaw + Math.PI * 0.0;
+    this.player.setPosition(start.x, start.z, start.yaw, this.world.terrain, fresh ? undefined : safe.y);
+    this.cam.yaw = start.yaw;
+    this.cam.reset();
+    this.hitStop = this.deathRemaining = 0;
+    this.player.group.visible = true;
     this.cam.pitch = 0.3;
-    this.checkpoint = { ...start };
+    this.checkpoint = { ...start, y: this.player.y };
     this.game.setPlayerTransform(this.player.x, this.player.y, this.player.z, this.player.yaw);
     this.bellClock = 3;
     if (fromLoad?.recovered) this.hud.toast(S(`menu.recovered.${fromLoad.recovered}`));
@@ -459,20 +595,22 @@ export class App {
   }
 
   /** Player positions that are no longer standable (geometry changed between builds) fall back to a safe place. */
-  private safePosition(x: number, z: number): V2 {
-    const ok = this.world.terrain.walkable(x, z) && !this.world.colliders.blocked(x, z, 0.45);
-    if (ok) return { x, z };
+  private safePosition(x: number, z: number, feetY?: number): V2 & { y: number } {
+    const { terrain, colliders } = this.world;
+    if (canPlayerStandAt(terrain, colliders, x, z, feetY)) return { x, z, y: supportedPlayerHeight(terrain, x, z, feetY) };
     const cell = this.world.nav.nearestOpen(x, z, 10);
-    if (cell) return this.world.nav.cellCenter(cell.i, cell.j);
-    return { x: SPAWN.x, z: SPAWN.z };
+    const position = cell ? this.world.nav.cellCenter(cell.i, cell.j) : { x: SPAWN.x, z: SPAWN.z };
+    return { ...position, y: terrain.groundAt(position.x, position.z) };
   }
 
   quitToTitle() {
+    if (this.worldPaused) return;
     this.autosaveQuiet();
     this.enterTitle();
   }
 
   private syncWorldFromState(snap: boolean) {
+    this.player.syncEquipment(this.game);
     this.world.syncStatic(this.game.state, snap);
     const ctx = this.actorContext();
     for (const n of this.npcs) n.snapToGoal(ctx);
@@ -500,7 +638,7 @@ export class App {
 
   private frame(now: number) {
     const frame = this.frameClock.tick(now);
-    if (frame && !this.worldBuilding) {
+    if (frame && !this.worldPaused) {
       const { interval, dt } = frame;
       this.lastFrameDt = dt;
       if (interval < 5) this.recordFrame(interval);
@@ -510,7 +648,11 @@ export class App {
       } catch (e) {
         console.error(e);
       }
-    } else if (document.visibilityState !== 'hidden' && !this.worldBuilding) {
+    } else if (document.visibilityState !== 'hidden' && this.worldBuildFailed && !this.worldBuilding && !this.qualityReload) {
+      // Recovery owns controller confirmation; no world or hidden menu action runs underneath it.
+      this.input.poll(frame?.dt ?? 0);
+      if (this.input.padButtonPressed(0)) this.rebuildRetry?.click();
+    } else if (document.visibilityState !== 'hidden' && !this.worldPaused) {
       // Baseline a held controller after returning; its old press must not become an attack.
       this.input.poll(0);
     }
@@ -520,6 +662,7 @@ export class App {
   }
 
   private step(dt: number) {
+    if (this.worldPaused) return;
     this.input.poll(dt);
     const state = this.game.state;
     if (this.worldDirty) {
@@ -591,6 +734,8 @@ export class App {
     } else if (this.mode === 'dead') {
       this.player.update(dt, this.playerContext(false));
       this.updateEnemies(dt * 0.25);
+      this.deathRemaining = Math.max(0, this.deathRemaining - dt);
+      if (this.deathRemaining === 0) this.respawn();
     }
     // Reading freezes controller/action timers and patrol routes as well as the world clock.
     if (playing) this.updateActors(dt, hour);
@@ -611,6 +756,7 @@ export class App {
     if (this.cam.mode === 'follow' && !this.bench.active) {
       const sitting = 0;
       this.cam.follow(dt, this.player.x, this.player.y, this.player.z, this.world.terrain, this.world.colliders, this.settings.reducedMotion, this.player.shake, 1.55 + sitting);
+      this.player.group.visible = this.cam.bodyVisible;
     }
 
     // World presentation
@@ -634,6 +780,7 @@ export class App {
   }
 
   private render() {
+    if (this.worldPaused) return;
     if (this.menuBackgroundActive) {
       this.menuScene.prepare(this.renderer);
       this.renderer.toneMappingExposure = 1.05 * this.settings.brightness;
@@ -660,6 +807,7 @@ export class App {
   }
 
   private syncMenuHudVisibility() {
+    if (this.worldPaused) return;
     // Nested pause forms retain the courtyard even though the top panel is now paper.
     const active = this.menuBackgroundActive;
     if (active && !this.menuVisitActive) {
@@ -702,6 +850,10 @@ export class App {
       if (inp.pressed('quicksave')) this.saveTo('quick');
       if (inp.pressed('quickload')) this.loadSlot('quick');
       if (inp.pressed('heal')) this.usePoultice();
+      for (let slot = 0; slot < 10; slot++) {
+        const key = (slot + 1) % 10;
+        if (inp.pressedKey(`Digit${key}`) || inp.pressedKey(`Numpad${key}`)) { this.activateQuickSlot(slot); break; }
+      }
     }
   }
 
@@ -726,16 +878,21 @@ export class App {
 
   /** Arrow keys move focus between menu items (Tab and Space are left to the browser for focus and activation). */
   private onUiKey(e: KeyboardEvent) {
-    if (!(this.mode === 'title' || this.panels.isOpen)) return;
-    if (this.input.captureNext) return;
-    // Preserve the bound Tab toggle for a directly opened record panel. Nested menus use Tab for focus.
-    const record = this.panelKind;
-    if (e.code === 'Tab' && this.panels.depth === 1 && (record === 'journal' || record === 'map' || record === 'inventory') && this.settings.bindings[record].includes(e.code)) {
-      e.preventDefault();
+    if (e.defaultPrevented) return;
+    if (this.worldPaused) {
+      if (this.worldBuildFailed && e.code === 'Tab') {
+        e.preventDefault();
+        this.rebuildRetry?.focus();
+      }
       return;
     }
+    if (!(this.mode === 'title' || this.panels.isOpen)) return;
+    if (this.input.captureNext) return;
     if (this.panels.trapTab(e)) return;
     const el = document.activeElement as HTMLElement | null;
+    // The map consumes its arrows/+/- locally; capture-phase menu navigation must not steal those keys first.
+    if (el?.matches('.map-wrap canvas')) return;
+    if (el?.closest('[role="tablist"]') && ['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.code)) return;
     const isRange = el instanceof HTMLInputElement && el.type === 'range';
     const isSelect = el instanceof HTMLSelectElement;
     const vertical = e.code === 'ArrowDown' || e.code === 'ArrowUp';
@@ -746,7 +903,7 @@ export class App {
     e.preventDefault();
     e.stopPropagation();
     const step = e.code === 'ArrowDown' || e.code === 'ArrowRight' ? 1 : -1;
-    if (this.panels.isOpen) this.panels.navigate(0, step);
+    if (this.panels.isOpen) this.panels.navigate(horizontal ? step : 0, vertical ? step : 0);
     else {
       const items = [...this.titleEl.querySelectorAll<HTMLElement>('[data-nav]')];
       const i = items.indexOf(el as HTMLElement);
@@ -756,6 +913,10 @@ export class App {
   }
 
   private onPadNavigate(dx: number, dy: number) {
+    if (this.worldPaused) {
+      this.rebuildRetry?.focus();
+      return;
+    }
     const focused = document.activeElement as HTMLElement | null;
     if (dx !== 0 && dy === 0 && this.panels.isOpen && focused) {
       if (focused instanceof HTMLInputElement && focused.type === 'range') {
@@ -783,6 +944,7 @@ export class App {
   }
 
   private wantLock() {
+    if (this.mode !== 'play' || this.overlay !== 'none' || this.worldPaused) return;
     this.wantPlayLock = true;
     this.input.requestPointerLock();
   }
@@ -795,6 +957,11 @@ export class App {
   }
 
   private onPointerLockChange() {
+    // A browser may finish an earlier asynchronous request after a modal opens.
+    if (this.input.locked && (!this.wantPlayLock || this.mode !== 'play' || this.overlay !== 'none' || this.worldPaused)) {
+      this.releaseLock();
+      return;
+    }
     // Escape while locked exits the lock without a key event; treat it as a request to pause.
     if (!document.pointerLockElement && this.mode === 'play' && this.overlay === 'none' && !this.lockingOut && this.wantPlayLock) {
       this.wantPlayLock = false;
@@ -803,9 +970,16 @@ export class App {
   }
 
   private onPanelsClosed() {
-    this.titleEl.inert = false;
     this.panelKind = 'none';
     this.mapCanvas = null;
+    if (this.worldPaused) {
+      this.titleEl.inert = this.hud.el.inert = true;
+      this.input.uiOpen = true;
+      return;
+    }
+    this.titleEl.inert = false;
+    this.input.uiOpen = this.mode !== 'play';
+    this.hud.el.inert = this.mode !== 'play';
     if (this.mode === 'title') this.focusTitle();
     if (this.mode === 'play') {
       this.input.uiOpen = false;
@@ -838,10 +1012,10 @@ export class App {
       load: (slot) => this.loadSlot(slot),
       newGame: () => this.startNew(),
       quitToTitle: () => this.quitToTitle(),
-      useItem: (item) => {
-        if (item === 'poultice') this.usePoultice();
-        this.panels.replaceTop(inventoryPanel(this.panelCtx()));
-      },
+      useItem: (item) => this.useInventoryItem(item),
+      assignQuickSlot: (slot, item) => this.assignQuickSlot(slot, item),
+      swapQuickSlots: (from, to) => this.swapQuickSlots(from, to),
+      equipWeapon: (item) => this.equipWeapon(item),
       brace: () => this.beginBrace(),
       force: () => this.doForce(),
       commit: (a) => this.doCommit(a),
@@ -851,11 +1025,13 @@ export class App {
   }
 
   private openPause() {
+    if (this.worldPaused) return;
     this.panelKind = 'pause';
     this.panels.push(pauseMenu(this.panelCtx()), { narrow: true });
   }
 
   private togglePanel(kind: 'journal' | 'inventory' | 'map') {
+    if (this.worldPaused) return;
     if (this.panelKind === kind && this.panels.isOpen) {
       this.panels.closeAll();
       return;
@@ -869,7 +1045,7 @@ export class App {
       const { wrap, canvas } = this.mapView.element();
       this.mapCanvas = canvas;
       const close = h('button', { class: 'btn', 'data-nav': true, onClick: () => this.panels.back() }, S('menu.close'));
-      this.panels.push(h('div', {}, h('h1', {}, S('map.title')), wrap, h('div', { class: 'row', style: { marginTop: '10px' } }, close)));
+      this.panels.push(h('div', { class: 'game-record' }, h('h1', {}, S('map.title')), wrap, h('div', { class: 'row', style: { marginTop: '10px' } }, close)));
       this.renderMap();
     }
   }
@@ -877,7 +1053,7 @@ export class App {
   private renderMap() {
     if (!this.mapCanvas) return;
     const hint = nextHint(this.game.state);
-    this.mapView.render(this.mapCanvas, { state: this.game.state, terrain: this.world.terrain, player: { x: this.player.x, z: this.player.z, yaw: this.player.yaw }, hintPlace: hint.place, guidance: this.settings.guidance, time: this.world.time });
+    this.mapView.render(this.mapCanvas, { state: this.game.state, terrain: this.world.terrain, player: { x: this.player.x, z: this.player.z, yaw: this.player.yaw }, hintPlace: hint.place, guidance: this.settings.guidance, time: this.world.time, reducedMotion: this.settings.reducedMotion });
   }
 
   openSluice() {
@@ -908,26 +1084,7 @@ export class App {
 
   private updateInteraction() {
     const p = this.player;
-    const f = p.facing;
-    let best: Interactable | null = null;
-    let bestScore = Infinity;
-    for (const it of this.interactables) {
-      if (!it.enabled()) continue;
-      const pos = it.pos();
-      const dx = pos.x - p.x;
-      const dz = pos.z - p.z;
-      const d = Math.hypot(dx, dz);
-      if (d > it.r) continue;
-      const facing = d < 1.4 ? 1 : (dx * f.x + dz * f.z) / (d || 1);
-      // Also accept what the camera is looking toward, so it works while backing away.
-      const cf = Math.sin(this.cam.yaw) * dx + Math.cos(this.cam.yaw) * dz;
-      if (facing < 0.05 && cf / (d || 1) < 0.2) continue;
-      const score = d + (it.priority ?? 0) * 2;
-      if (score < bestScore) {
-        best = it;
-        bestScore = score;
-      }
-    }
+    const best = chooseInteractable(this.interactables, p, this.cam.yaw, this.world.terrain, this.world.colliders);
     this.target = best;
     if (best && p.state === 'free') {
       this.hud.setPrompt(this.input.label('interact', codeLabel), best.prompt());
@@ -1104,14 +1261,54 @@ export class App {
     this.hud.toast(S(`sluice.alloc.${a}.gain`), 'good');
   }
 
-  usePoultice() {
-    const r = this.game.dispatch({ t: 'useItem', item: 'poultice' });
-    if (r.ok) {
-      this.hud.toast(S('toast.poultice'), 'good');
-      this.audio.pickup();
-    } else if (r.reason === 'already_healthy') this.hud.toast(S('toast.noheal'));
-    else this.hud.toast(S('toast.nopoultice'));
+  private inventoryActionAllowed() {
+    return this.mode === 'play' && !this.worldPaused && this.player.alive;
   }
+
+  private assignQuickSlot(slot: number, item: ItemId | null) {
+    if (!this.inventoryActionAllowed()) return;
+    const result = this.game.dispatch({ t: 'assignQuickSlot', slot, item });
+    if (result.ok) this.audio.uiConfirm();
+  }
+
+  private swapQuickSlots(from: number, to: number) {
+    if (!this.inventoryActionAllowed()) return;
+    const result = this.game.dispatch({ t: 'swapQuickSlots', from, to });
+    if (result.ok) this.audio.uiConfirm();
+  }
+
+  private activateQuickSlot(slot: number) {
+    if (!this.inventoryActionAllowed() || this.overlay !== 'none' || !Number.isInteger(slot) || slot < 0 || slot >= 10) return;
+    const item = this.game.state.quickSlots[slot];
+    if (!item || (this.game.state.inventory[item] ?? 0) <= 0) return;
+    this.input.consumePad();
+    if (itemAction(item) === 'equip') this.equipWeapon(item);
+    else if (itemAction(item) === 'consume') this.useInventoryItem(item);
+  }
+
+  private equipWeapon(item: ItemId | null) {
+    if (!this.inventoryActionAllowed()) return;
+    const previous = this.game.state.equippedWeapon;
+    const result = this.game.dispatch({ t: 'equipWeapon', item });
+    if (!result.ok) return;
+    // Actual equipment events synchronize once. Re-selecting a held blade must preserve its current action.
+    if (previous === item && item !== null) this.player.readyWeapon(this.game);
+    this.audio.uiConfirm();
+  }
+
+  private useInventoryItem(item: ItemId) {
+    if (!this.inventoryActionAllowed()) return;
+    const before = this.game.state.player.health;
+    const result = this.game.dispatch({ t: 'useItem', item });
+    if (result.ok) {
+      const healed = Math.round(this.game.state.player.health - before);
+      this.hud.toast(item === 'poultice' ? S('toast.poultice') : `${S(ITEMS[item].nameKey)} · +${healed} health`, 'good');
+      this.audio.pickup();
+    } else if (result.reason === 'already_healthy') this.hud.toast(S('toast.noheal'));
+    else if (result.reason === 'missing_item') this.hud.toast(item === 'poultice' ? S('toast.nopoultice') : `${S(ITEMS[item].nameKey)} is no longer carried.`);
+  }
+
+  usePoultice() { this.useInventoryItem('poultice'); }
 
   /* =============================== game events =============================== */
 
@@ -1119,6 +1316,15 @@ export class App {
     this.worldDirty = true;
     for (const e of events) {
       switch (e.t) {
+        case 'equipment':
+          this.inventoryNotesChanged = true;
+          this.input.clearToggle('block');
+          this.player.syncEquipment(this.game, e.item !== null);
+          break;
+        case 'quickSlots':
+        case 'mapMarker':
+          this.inventoryNotesChanged = true;
+          break;
         case 'evidence':
           this.hud.toast(S(`toast.evidence.${e.via}`, { name: S(`evidence.${e.id}`) }), 'evidence');
           this.audio.journal();
@@ -1143,7 +1349,7 @@ export class App {
         case 'place':
           this.hud.toast(S('toast.place', { name: S(`place.${e.id}`) }), 'evidence');
           // Discovering somewhere new moves the respawn point there.
-          this.checkpoint = { x: this.player.x, z: this.player.z, yaw: this.player.yaw };
+          this.checkpoint = { x: this.player.x, y: this.player.y, z: this.player.z, yaw: this.player.yaw };
           break;
         case 'worker_rescued':
           this.hud.toast(S(e.method === 'shortcut' ? 'toast.shortcut.rescued' : 'toast.rescued'), 'good');
@@ -1164,6 +1370,7 @@ export class App {
   }
 
   saveTo(slot: SlotId) {
+    if (this.worldPaused) return;
     if (this.mode !== 'play') return;
     this.stamp();
     const r = this.saves.save(slot, this.game.state);
@@ -1176,7 +1383,7 @@ export class App {
     this.stamp();
     const r = this.saves.save('auto', this.game.state);
     if (r.ok) {
-      this.checkpoint = { x: this.player.x, z: this.player.z, yaw: this.player.yaw };
+      this.checkpoint = { x: this.player.x, y: this.player.y, z: this.player.z, yaw: this.player.yaw };
       this.hud.toast(S('menu.saved', { slot: S('menu.slot.auto') }));
     } else this.hud.toast(S('menu.savefailed', { reason: r.message }), 'bad');
     void reason;
@@ -1185,11 +1392,15 @@ export class App {
   /** A brand-new run that has done nothing yet must not replace an earlier autosave. */
   private hasProgress(): boolean {
     const s = this.game.state;
-    // Finding the first blade is progress even before the investigation or timed autosave.
+    // Loose provisions and deliberate binding/pin edits are progress before the investigation or timed autosave.
     return s.quest.phase !== 'unseen'
       || Object.keys(s.evidence).length > 0
       || Object.keys(s.grants).length > 0
-      || s.locationChanges[`pickup:${WRECK_BLADE_PICKUP}`] === 'taken'
+      || Object.entries(s.locationChanges).some(([key, value]) => key.startsWith('pickup:') && value === 'taken')
+      || this.inventoryNotesChanged
+      || s.quickSlots.some((item) => item !== null)
+      || s.equippedWeapon !== null
+      || s.mapMarker !== null
       || s.playSeconds > 90;
   }
 
@@ -1200,6 +1411,7 @@ export class App {
   }
 
   loadSlot(slot: SlotId) {
+    if (this.worldPaused) return;
     const r = this.saves.load(slot);
     if (!r.ok) {
       this.hud.toast(S('menu.loadfailed', { reason: r.message }), 'bad');
@@ -1285,19 +1497,23 @@ export class App {
   private onPlayerDeath() {
     this.mode = 'dead';
     this.hud.showFade(true, S('hud.fallen.title'), S('hud.fallen.body'));
-    setTimeout(() => this.respawn(), 3600);
+    this.deathRemaining = 3.6;
+    this.input.reset();
   }
 
   private respawn() {
     if (this.mode !== 'dead') return;
     this.game.dispatch({ t: 'healPlayer', amount: 100 });
-    const cp = this.safePosition(this.checkpoint.x, this.checkpoint.z);
-    this.player.setPosition(cp.x, cp.z, this.checkpoint.yaw, this.world.terrain);
+    const cp = this.safePosition(this.checkpoint.x, this.checkpoint.z, this.checkpoint.y);
+    this.player.setPosition(cp.x, cp.z, this.checkpoint.yaw, this.world.terrain, cp.y);
     this.player.stamina = 100;
     for (const e of this.enemies) e.reset(this.world);
     this.hud.showFade(false);
     this.mode = 'play';
     this.cam.yaw = this.checkpoint.yaw;
+    this.cam.reset();
+    this.hitStop = 0;
+    this.input.reset();
   }
 
   private checkDiscoveries() {
@@ -1355,7 +1571,7 @@ export class App {
 
   private project(v: THREE.Vector3): { x: number; y: number; on: boolean } {
     const p = v.clone().project(this.cam.camera);
-    return { x: (p.x * 0.5 + 0.5) * window.innerWidth, y: (-p.y * 0.5 + 0.5) * window.innerHeight, on: p.z < 1 && Math.abs(p.x) < 1.1 && Math.abs(p.y) < 1.1 };
+    return { x: (p.x * 0.5 + 0.5) * window.innerWidth, y: (-p.y * 0.5 + 0.5) * window.innerHeight, on: p.z >= -1 && p.z <= 1 && Math.abs(p.x) < 1.1 && Math.abs(p.y) < 1.1 };
   }
 
   private updateHud(dt: number) {
@@ -1369,11 +1585,15 @@ export class App {
       stamina: this.player.stamina,
       exhausted: this.player.exhausted,
       coin: s.inventory.coin ?? 0,
-      poultice: s.inventory.poultice ?? 0,
+      quickSlots: s.quickSlots,
+      inventory: s.inventory,
+      equippedWeapon: s.equippedWeapon,
       timeText: S('hud.time', { n: clockDay(s.clock) + 1, time: formatClock(s.clock + this.clockAcc) }),
       objective: obj,
       fps: this.settings.showFps ? S('hud.fps', { fps: Math.round(this.fpsSmooth), ms: (1000 / Math.max(1, this.fpsSmooth)).toFixed(1) }) : null,
       blocking: this.player.blocking,
+      heading: this.cam.yaw,
+      accessKeys: { inventory: this.input.label('inventory', codeLabel), journal: this.input.label('journal', codeLabel), map: this.input.label('map', codeLabel) },
     });
     // Ambient remarks and nameplates
     const now = performance.now();
@@ -1487,7 +1707,7 @@ export class App {
       `menu score ${audio.music.state}  ${audio.music.currentTime.toFixed(1)} / ${Number.isFinite(audio.music.duration) ? audio.music.duration.toFixed(1) : 'loading'} s`,
       `menu ships ${this.menuScene.stats.ships}  visit ${this.menuScene.trafficState.seed.toString(16)}  ${this.menuScene.trafficState.elapsed.toFixed(1)} s`,
       `menu grove ${this.menuScene.stats.wisps} of ${this.menuScene.grove.count} spirits drawn  sim ${this.menuScene.grove.stats.steps} steps  score ${this.menuScene.awakeningState.time.toFixed(2)} s  door ${(this.menuScene.doorOpening * 100).toFixed(0)}%  audible ${this.audio.menuMusicPlayback.playing} gain ${this.audio.menuMusicPlayback.gain.toFixed(3)}`,
-      `player ${this.player.x.toFixed(1)}, ${this.player.z.toFixed(1)}  hp ${s.player.health}  clock ${formatClock(s.clock)} day ${clockDay(s.clock) + 1}`,
+      `player ${this.player.x.toFixed(1)}, ${this.player.y.toFixed(1)}, ${this.player.z.toFixed(1)}  hp ${s.player.health}  clock ${formatClock(s.clock)} day ${clockDay(s.clock) + 1}`,
       `phase ${s.quest.phase}  gate ${s.quest.gate}  alloc ${s.quest.allocation ?? '-'}  entry ${s.quest.entry ?? '-'}`,
       `evidence ${EVIDENCE_IDS.filter((e) => s.evidence[e]).join(', ') || '-'}`,
       `facts ${Object.keys(s.facts).sort().join(', ') || '-'}`,
@@ -1502,6 +1722,7 @@ export class App {
     const c = this.world.nav.nearestOpen(p.x, p.z, 12);
     const pos = c ? this.world.nav.cellCenter(c.i, c.j) : { x: p.x, z: p.z };
     this.player.setPosition(pos.x, pos.z, this.player.yaw, this.world.terrain);
+    this.cam.reset();
     this.cam.follow(1, pos.x, this.player.y, pos.z, this.world.terrain, this.world.colliders, true, 0);
   }
 

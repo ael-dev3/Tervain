@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import type { Colliders } from '../world/colliders';
+import { addCartColliders, type Colliders, type VerticalBounds } from '../world/colliders';
 import {
   ANCHORS,
   ARRIVAL_WRECK,
@@ -18,6 +18,7 @@ import {
   SHORTCUT,
   SLUICE,
   WAGON,
+  VILLAGE_HANDCART,
   WELL,
   bySpec,
 } from '../world/layout';
@@ -29,6 +30,7 @@ import { benchSet, campfire, cart, fence, palisade, pot, ropeCoil, stockadeGate,
 import { MaterialSet, Region } from './regions';
 import { TINT, barrel, buildShrineHallShell, crate, door, fieldstone, jitterTone, roofFor, sack, windowAt, woodpile, type Rnd } from './structures';
 import type { AssetNeed } from './assets/library';
+import { buildWorldPickups, isWorldPickupItem } from './worldPickups';
 
 /** Assets this module wants loaded before the world is built (none: everything here is built from primitives). */
 export const NEEDS: AssetNeed[] = [];
@@ -148,6 +150,22 @@ function localToWorld(b: { x: number; z: number; yaw: number }, lx: number, lz: 
   return { x: b.x + lx * c + lz * s, z: b.z - lx * s + lz * c };
 }
 
+/** Retain the real vertical span of the next authored prop, including leaning pieces and uneven terrain. */
+function physicalBounds(region: Region): () => VerticalBounds {
+  const starts = new Map([...region.batches].map(([key, batch]) => [key, batch.p.n]));
+  return () => {
+    let minY = Infinity;
+    let maxY = -Infinity;
+    for (const [key, batch] of region.batches) {
+      for (let i = (starts.get(key) ?? 0) + 1; i < batch.p.n; i += 3) {
+        minY = Math.min(minY, batch.p.a[i]!);
+        maxY = Math.max(maxY, batch.p.a[i]!);
+      }
+    }
+    return { minY, maxY };
+  };
+}
+
 export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'low' | 'medium' | 'high' = 'high'): SceneryHandles {
   const group = new THREE.Group();
   group.name = 'settlement';
@@ -253,8 +271,9 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     for (let i = -3; i <= 3; i++) {
       const cx = (i * (hall.w - 1.5)) / 6;
       const cz = hall.d / 2 + 0.8;
+      const bounds = physicalBounds(R);
       R.stone.lathe([0.42, 0, 0.36, 0.3, 0.3, 0.6, 0.28, hall.h - 0.35, 0.34, hall.h - 0.1, 0.4, hall.h + 0.05], 10, cx, 0.1, cz, jitterTone(TINT.stone, rnd, 0.08), { jit: 0.08, amp: 0.1 });
-      colliders.circle('shrine_col', hall.x + cx, hall.z + cz, 0.36);
+      colliders.circle('shrine_col', hall.x + cx, hall.z + cz, 0.36, true, bounds());
     }
     R.stone.bx(-hall.w / 2 - 0.3, 0.5 + hall.h - 0.5, hall.d / 2 + 0.2, hall.w / 2 + 0.3, 0.5 + hall.h - 0.1, hall.d / 2 + 1.4, jitterTone(TINT.stoneDark, rnd, 0.06), { jit: 0.05 });
     // Great door and two windows, steps.
@@ -393,6 +412,7 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     const nx = 5;
     const nz = 15.4;
     const y0 = gy(nx, nz);
+    const bounds = physicalBounds(R);
     R.timber.box(0.17, 2.7, 0.17, nx - 1.25, y0 - 0.1, nz, jitterTone(TINT.woodDark, rnd), { grain: 'y', rz: 0.02 });
     R.timber.box(0.17, 2.6, 0.17, nx + 1.25, y0 - 0.1, nz, jitterTone(TINT.woodDark, rnd), { grain: 'y', rz: -0.015 });
     R.timber.box(3.1, 0.15, 0.26, nx, y0 + 2.5, nz, jitterTone(TINT.woodDark, rnd), { grain: 'x', rz: 0.012 });
@@ -401,7 +421,7 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     board.position.set(nx, y0 + 1.6, nz - 0.14);
     board.rotation.y = Math.PI;
     group.add(board);
-    colliders.box('noticeboard', nx, nz, 1.4, 0.3, 0);
+    colliders.box('noticeboard', nx, nz, 1.4, 0.3, 0, true, bounds());
   }
 
   /* ---------------- Well ---------------- */
@@ -534,7 +554,9 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     R.glow.box(0.3, 0.3, 0.3, WAGON.x + 2.6, gy(WAGON.x, WAGON.z) + 2.05, WAGON.z + 1.6, 0xffffff, { jit: 0 });
     // The wagon, rest fire and work supplies are reached only after the woodland walk.
     const fire = ANCHORS.strand_fire!;
+    const fireBounds = physicalBounds(R);
     campfire(R, rnd, fire.x, gy(fire.x, fire.z), fire.z);
+    const fireLimits = fireBounds();
     benchSet(R, rnd, fire.x + 1.6, gy(fire.x + 1.6, fire.z + 1), fire.z + 1, 0.4);
     lanternPositions.push(new THREE.Vector3(fire.x, gy(fire.x, fire.z) + 1.0, fire.z));
     const pots = HAMLET_PROPS.pots;
@@ -576,10 +598,10 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     stockadeGate(R, rnd, PALISADE.gate.x, gateZ, PALISADE.gate.z1 - PALISADE.gate.z0, gy);
     watchtower(R, rnd, PALISADE.tower.x, PALISADE.tower.z, PALISADE.tower.yaw, gy, (RR, yy) => roofFor(RR, 'hip', 'shingle', 3.4, 3.4, yy, 88, { pitch: 0.7 }));
     lanternPositions.push(new THREE.Vector3(PALISADE.gate.x - 0.4, gy(PALISADE.gate.x, gateZ) + 3.7, gateZ - 1.5));
-    colliders.circle('camp_fire', fire.x, fire.z, 0.7);
-    for (const p of HAMLET_PROPS.barrels) colliders.circle('camp_barrel', p.x, p.z, 0.4);
-    for (const p of HAMLET_PROPS.crates) colliders.box('camp_crate', p.x, p.z, 0.45, 0.35, 0);
-    colliders.box('camp_handcart', cartAt.x, cartAt.z, 0.65, 1.1, cartAt.yaw);
+    colliders.circle('camp_fire', fire.x, fire.z, 0.7, true, fireLimits);
+    for (const [i, p] of HAMLET_PROPS.barrels.entries()) colliders.circle('camp_barrel', p.x, p.z, 0.4, true, { minY: gy(p.x, p.z), maxY: gy(p.x, p.z) + (i === 0 ? 1 : 0.9) });
+    for (const [i, p] of HAMLET_PROPS.crates.entries()) colliders.box('camp_crate', p.x, p.z, 0.45, 0.35, 0, true, { minY: gy(p.x, p.z) - 0.01, maxY: gy(p.x, p.z) + (i === 0 ? 0.55 : 0.45) + 0.01 });
+    addCartColliders(colliders, 'camp_handcart', cartAt.x, cartAt.z, cartAt.yaw, 'handcart', gy(cartAt.x, cartAt.z));
   }
 
   /* ---------------- Quarry ---------------- */
@@ -594,8 +616,9 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
       const bw = 3 + rnd() * 3.5;
       const bh = 1.6 + rnd() * 2.6;
       const y = gy(bx, bz);
+      const bounds = physicalBounds(R);
       fieldstone(R, rnd, bx, y - 0.6, bz, bw * 0.55, bh * 0.75, (2 + rnd() * 2.5) * 0.55);
-      colliders.box(`face:${i}`, bx, bz, bw / 2, 1.5, 0);
+      colliders.box(`face:${i}`, bx, bz, bw / 2, 1.5, 0, true, bounds());
     }
     dustEmitters.push(new THREE.Vector3(99, gy(99, -29) + 1.2, -29), new THREE.Vector3(100, gy(100, -22) + 1, -22));
     const stacks: [number, number, number, number, number][] = [[92, -16, 2.2, 1.4, 0.3], [84, -32, 2.6, 1.6, -0.2], [98, -26, 1.6, 1.6, 0.6]];
@@ -701,9 +724,13 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     // Terrace wall: mismatched repairs.
     for (let i = 0; i < 9; i++) {
       const x = -34 + i * 2.6;
-      R.stone.box(2.5, 0.75 + rnd() * 0.2, 0.5, x, gy(x, -90) - 0.15, -90, jitterTone(i % 3 === 0 ? TINT.stone : TINT.stoneDark, rnd, 0.14), { ry: (rnd() - 0.5) * 0.06, jit: 0.14, sub: 0.6 });
+      const height = 0.75 + rnd() * 0.2;
+      const tone = jitterTone(i % 3 === 0 ? TINT.stone : TINT.stoneDark, rnd, 0.14);
+      const yaw = (rnd() - 0.5) * 0.06;
+      const bounds = physicalBounds(R);
+      R.stone.box(2.5, height, 0.5, x, gy(x, -90) - 0.15, -90, tone, { ry: yaw, jit: 0.14, sub: 0.6 });
+      colliders.box(`terrace_wall:${i}`, x, -90, 1.25, 0.25, yaw, true, bounds());
     }
-    colliders.box('terrace_wall', -22.8, -90, 11.8, 0.3, 0);
     const lp = new THREE.Vector3(-16, gy(-16, -96) + 2.1, -96);
     lanternPositions.push(lp);
     R.timber.box(0.1, 2.2, 0.1, -16, gy(-16, -96) - 0.05, -96, jitterTone(TINT.woodDark, rnd, 0.1), { grain: 'y' });
@@ -715,11 +742,13 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     const R = region('village');
     const rnd: Rnd = mulberry32(6400);
     const fenceRun = (pts: [number, number][]) => {
+      const bounds = physicalBounds(R);
       fence(R, rnd, pts, gy);
+      const limits = bounds();
       for (let i = 0; i < pts.length - 1; i++) {
         const [ax, az] = pts[i]!;
         const [bx, bz] = pts[i + 1]!;
-        colliders.box('fence', (ax + bx) / 2, (az + bz) / 2, 0.12, Math.hypot(bx - ax, bz - az) / 2, Math.atan2(bx - ax, bz - az));
+        colliders.box('fence', (ax + bx) / 2, (az + bz) / 2, 0.12, Math.hypot(bx - ax, bz - az) / 2, Math.atan2(bx - ax, bz - az), true, limits);
       }
     };
     for (const f of FIELDS) {
@@ -735,7 +764,7 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     for (const [x, z] of [[-24, 56], [16, 72], [46, 68]] as const) {
       const y = gy(x, z);
       R.thatch.lathe([1.2, 0, 1.3, 0.6, 1.1, 1.3, 0.8, 1.7, 0.4, 2.1, 0.05, 2.35], 9, x, y - 0.05, z, jitterTone(TINT.thatch, rnd, 0.12), { jit: 0.1, amp: 0.16 });
-      colliders.circle('hay', x, z, 1.2);
+      colliders.circle('hay', x, z, 1.2, true, { minY: y - 0.05, maxY: y + 2.3 });
     }
   }
 
@@ -746,12 +775,14 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     const x = 92;
     const z = 40;
     const y = gy(x, z);
+    const ruinBounds = physicalBounds(R);
     for (let i = 0; i < 6; i++) fieldstone(R, rnd, x - 2.9 + i * 1.15, y - 0.1, z - 2.3, 0.6 + rnd() * 0.3, 0.5 + rnd() * 0.5, 0.36);
-    colliders.box('ruin_wall', x, z - 2.3, 4, 0.4, 0);
+    colliders.box('ruin_wall', x, z - 2.3, 4, 0.4, 0, true, ruinBounds());
     const by = gy(BORDER_SIGN.x, BORDER_SIGN.z);
+    const signBounds = physicalBounds(R);
     R.timber.box(0.13, 2.3, 0.13, BORDER_SIGN.x, by - 0.1, BORDER_SIGN.z, jitterTone(TINT.woodDark, rnd, 0.1), { grain: 'y', rz: 0.03 });
     for (let i = 0; i < 3; i++) R.planks.box(1.5, 0.3, 0.06, BORDER_SIGN.x, by + 1.35 + i * 0.36, BORDER_SIGN.z + 0.05, jitterTone(TINT.wood, rnd, 0.14), { ry: i * 0.3 - 0.3, jit: 0.12, grain: 'x' });
-    colliders.circle('border_sign', BORDER_SIGN.x, BORDER_SIGN.z, 0.4);
+    colliders.circle('border_sign', BORDER_SIGN.x, BORDER_SIGN.z, 0.4, true, signBounds());
   }
 
   /* ---------------- Benches, barrels, crates ---------------- */
@@ -762,14 +793,15 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     const barrels: [number, number][] = [[-16.5, 2.4], [16.4, 21], [-136.5, 31.5], [88, -13], [-14.4, -3]];
     for (const [x, z] of barrels) {
       barrel(R, rnd, x, gy(x, z) - 0.02, z, 1);
-      colliders.circle('barrel', x, z, 0.5);
+      colliders.circle('barrel', x, z, 0.5, true, { minY: gy(x, z) - 0.02, maxY: gy(x, z) + 0.98 });
     }
     const ky = gy(15, 20.5);
     R.planks.box(1.0, 0.75, 0.6, 15, ky, 20.5, jitterTone(TINT.wood, rnd, 0.1), { jit: 0.1, grain: 'x' });
     R.metal.box(0.5, 0.06, 0.16, 15, ky + 0.78, 20.5, 0x8a7a3a, { jit: 0.1 });
     R.timber.box(0.06, 1.3, 0.06, 15.4, ky + 0.75, 20.5, 0xc2b07a, { jit: 0.05 });
-    colliders.box('kit_table', 15, 20.5, 0.55, 0.35, 0);
-    cart(R, rnd, 21, gy(21, 24), 24, 0.7);
+    colliders.box('kit_table', 15, 20.5, 0.55, 0.35, 0, true, { minY: ky, maxY: ky + 0.84 });
+    colliders.circle('kit_staff', 15.4, 20.5, Math.hypot(0.03, 0.03), true, { minY: ky + 0.75, maxY: ky + 2.05 });
+    cart(R, rnd, VILLAGE_HANDCART.x, gy(VILLAGE_HANDCART.x, VILLAGE_HANDCART.z), VILLAGE_HANDCART.z, VILLAGE_HANDCART.yaw);
     sack(R, rnd, -3, gy(-3, 12.5), 12.5, 1);
     for (const [x, z] of [[-14.4, -3], [-136.5, 31.5]] as const) void x, void z;
   }
@@ -816,6 +848,7 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
   /* ---------------- Pickups ---------------- */
   const pickups: Record<string, THREE.Object3D> = {};
   for (const pk of PICKUP_LOCATIONS) {
+    if (isWorldPickupItem(pk.item)) continue;
     const y = gy(pk.x, pk.z);
     const rnd: Rnd = mulberry32(Math.floor(hash3(pk.x, pk.z, 3) * 1e9));
     const g = dyn(`pickup-${pk.id}`, (D) => {
@@ -845,6 +878,9 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     g.position.set(pk.x, y, pk.z);
     pickups[pk.id] = g;
   }
+  const loosePickups = buildWorldPickups(terrain, PICKUP_LOCATIONS, mats);
+  group.add(loosePickups.group);
+  Object.assign(pickups, loosePickups.objects);
 
   /* ---------------- Merge the regions ---------------- */
   for (const R of regions.values()) group.add(R.toGroup(mats, { isStatic: true, shadows: true }));

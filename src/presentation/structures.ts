@@ -316,7 +316,8 @@ export function woodpile(R: Region, rnd: Rnd, x: number, z: number, yaw: number,
 
 export function barrel(R: Region, rnd: Rnd, x: number, y: number, z: number, s = 1) {
   const r = 0.36 * s;
-  R.planks.lathe([r * 0.82, 0, r, 0.32 * s, r * 1.06, 0.62 * s, r, 0.92 * s, r * 0.84, 1.0 * s], 10, x, y, z, jitterTone(TINT.wood, rnd, 0.16), { jit: 0.1 });
+  // The head and foot are part of the profile: cargo barrels remain closed when seen from the elevated camera.
+  R.planks.lathe([0, 0, r * 0.82, 0, r, 0.32 * s, r * 1.06, 0.62 * s, r, 0.92 * s, r * 0.84, 1.0 * s, 0, 1.0 * s], 10, x, y, z, jitterTone(TINT.wood, rnd, 0.16), { jit: 0.1 });
   for (const hy of [0.16, 0.5, 0.84]) R.metal.lathe([r * (0.86 + hy * 0.18) + 0.01, hy * s, r * (0.86 + hy * 0.18) + 0.03, (hy + 0.05) * s], 10, x, y, z, TINT.iron, { jit: 0.05 });
 }
 

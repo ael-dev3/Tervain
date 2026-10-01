@@ -17,6 +17,7 @@ import type { BuildContext } from '../context';
 import { groundSplat } from '../groundSplat';
 import { LAYER } from '../terrainTextures';
 import { shoreDistance } from '../../world/coast';
+import { isWorldPickupItem } from '../../content/pickups';
 
 /**
  * A cheap, lazily evaluated map of where plants may grow and what kind of ground it is.
@@ -126,17 +127,18 @@ export class Habitat {
     if (Array.isArray(circles)) {
       for (const c of circles) {
         if (BUILDINGS.some((b) => Math.abs(b.x - c.x) < 1e-6 && Math.abs(b.z - c.z) < 1e-6)) continue;
-        this.softCircles.push({ x: c.x, z: c.z, hard: c.r < 8 ? c.r * 0.5 : c.r - 3.5 });
+        const looseItem = PICKUP_LOCATIONS.some((p) => isWorldPickupItem(p.item) && p.x === c.x && p.z === c.z);
+        this.softCircles.push({ x: c.x, z: c.z, hard: looseItem ? 0.25 : c.r < 8 ? c.r * 0.5 : c.r - 3.5 });
       }
     } else {
       for (const a of Object.values(ANCHORS)) this.softCircles.push({ x: a.x, z: a.z, hard: 1.8 });
       for (const p of INSPECT_LOCATIONS) this.softCircles.push({ x: p.x, z: p.z, hard: p.r + 0.5 });
-      for (const p of PICKUP_LOCATIONS) this.softCircles.push({ x: p.x, z: p.z, hard: 1.8 });
+      for (const p of PICKUP_LOCATIONS) this.softCircles.push({ x: p.x, z: p.z, hard: isWorldPickupItem(p.item) ? 0.25 : 1.8 });
       for (const p of Object.values(PLACES)) if (p.r < 20) this.softCircles.push({ x: p.x, z: p.z, hard: 1.5 });
     }
     // Interaction points always keep a clear disc for the player, whatever the helper says.
     for (const p of INSPECT_LOCATIONS) this.softCircles.push({ x: p.x, z: p.z, hard: Math.max(2, p.r * 0.7) });
-    for (const p of PICKUP_LOCATIONS) this.softCircles.push({ x: p.x, z: p.z, hard: 2 });
+    for (const p of PICKUP_LOCATIONS) this.softCircles.push({ x: p.x, z: p.z, hard: isWorldPickupItem(p.item) ? 0.25 : 2 });
 
     this.noiseForest = this.trees.length < 30;
   }

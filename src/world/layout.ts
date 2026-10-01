@@ -1,4 +1,4 @@
-import type { EncounterId, PlaceId } from '../game/types';
+import type { EncounterId, ItemId, PlaceId } from '../game/types';
 
 /**
  * The single authored source for the geography: the empty Grey Strand and Lantern Point on the west coast, the
@@ -311,13 +311,48 @@ export const INSPECT_LOCATIONS: WorldPoint[] = [
   { id: 'saltward_kit', x: 15, z: 20.5, r: 2.4 },
 ];
 
-export const PICKUP_LOCATIONS: (WorldPoint & { item: 'sluice_brace' | 'gate_wrench' | 'coin' | 'poultice' | 'rusted_sword'; qty: number; nameKey: string })[] = [
+export const PICKUP_LOCATIONS: (WorldPoint & { item: ItemId; qty: number; nameKey: string; yaw?: number })[] = [
   { id: 'quarry_brace', x: 90, z: -12, r: 2.6, item: 'sluice_brace', qty: 1, nameKey: 'pickup.brace' },
   { id: 'quarry_wrench', x: 91.6, z: -13, r: 2.6, item: 'gate_wrench', qty: 1, nameKey: 'pickup.wrench' },
   { id: 'side_path_cache', x: 112, z: 62, r: 3, item: 'coin', qty: 8, nameKey: 'pickup.cache' },
   // The wanderer arrives with nothing; the first blade lies inside the hull of the wreck on the beach, north of the
   // landing: near the middle of the hull and 0.7 m from the keel on the landing side, so the sea chest does not hide it.
   { id: 'wreck_blade', ...inWreck(-0.7, 0.2), r: 2.4, item: 'rusted_sword', qty: 1, nameKey: 'pickup.wreck_blade' },
+  // Loose storm provisions remain sparse on the shore; there is no lived-in coastal camp or automatic respawn.
+  { id: 'strand_apple', x: -266, z: 31, r: 1.85, item: 'shore_apple', qty: 1, nameKey: 'item.shore_apple', yaw: 0.4 },
+  { id: 'tide_bread', x: -266, z: 12, r: 1.85, item: 'bread', qty: 1, nameKey: 'item.bread', yaw: 1.1 },
+  { id: 'wreck_iron_a', x: -269, z: -6, r: 1.85, item: 'iron_scrap', qty: 1, nameKey: 'item.iron_scrap', yaw: -0.4 },
+  { id: 'wreck_iron_b', x: -266, z: -14, r: 1.85, item: 'iron_scrap', qty: 1, nameKey: 'item.iron_scrap', yaw: 0.9 },
+  { id: 'shoretrack_apple', x: -246, z: 31, r: 1.85, item: 'shore_apple', qty: 1, nameKey: 'item.shore_apple', yaw: 2.1 },
+  { id: 'dune_herb', x: -253, z: 47, r: 1.85, item: 'healing_herb', qty: 1, nameKey: 'item.healing_herb', yaw: 0.8 },
+  // Close to the trail rather than concealed inside geometry: the woodland rewards looking without turning into a loot field.
+  { id: 'deepwood_mushroom_a', x: -225, z: 22, r: 1.85, item: 'field_mushroom', qty: 1, nameKey: 'item.field_mushroom', yaw: 0.3 },
+  { id: 'deepwood_herb_a', x: -214, z: 16, r: 1.85, item: 'healing_herb', qty: 1, nameKey: 'item.healing_herb', yaw: 2.2 },
+  { id: 'deepwood_mushroom_b', x: -198, z: 7, r: 1.85, item: 'field_mushroom', qty: 1, nameKey: 'item.field_mushroom', yaw: -0.7 },
+  { id: 'deepwood_apple_a', x: -184, z: 12, r: 1.85, item: 'shore_apple', qty: 1, nameKey: 'item.shore_apple', yaw: 1.9 },
+  { id: 'deepwood_herb_b', x: -169, z: 24, r: 1.85, item: 'healing_herb', qty: 1, nameKey: 'item.healing_herb', yaw: -1.2 },
+  { id: 'deepwood_mushroom_c', x: -156, z: 26, r: 1.85, item: 'field_mushroom', qty: 1, nameKey: 'item.field_mushroom', yaw: 1.2 },
+  { id: 'deepwood_mushroom_d', x: -140, z: 33, r: 1.85, item: 'field_mushroom', qty: 1, nameKey: 'item.field_mushroom', yaw: 2.8 },
+  { id: 'deepwood_herb_c', x: -125, z: 26, r: 1.85, item: 'healing_herb', qty: 1, nameKey: 'item.healing_herb', yaw: 0.1 },
+  { id: 'oldtrack_iron', x: -113, z: 19, r: 1.85, item: 'iron_scrap', qty: 1, nameKey: 'item.iron_scrap', yaw: 1.5 },
+  { id: 'waystation_apple_a', x: -104, z: 14, r: 1.85, item: 'shore_apple', qty: 1, nameKey: 'item.shore_apple', yaw: 0.6 },
+  { id: 'waystation_bread_a', x: -101, z: 22, r: 1.85, item: 'bread', qty: 1, nameKey: 'item.bread', yaw: -0.6 },
+  { id: 'waystation_apple_b', x: -90, z: 46, r: 1.85, item: 'shore_apple', qty: 1, nameKey: 'item.shore_apple', yaw: 1.4 },
+  { id: 'waystation_bread_b', x: -89, z: 34, r: 1.85, item: 'bread', qty: 1, nameKey: 'item.bread', yaw: 0.3 },
+  { id: 'waystation_iron', x: -102, z: 46, r: 1.85, item: 'iron_scrap', qty: 1, nameKey: 'item.iron_scrap', yaw: 2.3 },
+  { id: 'waystation_herb', x: -81, z: 59, r: 1.85, item: 'healing_herb', qty: 1, nameKey: 'item.healing_herb', yaw: -0.4 },
+  // The keeper compound's exterior; neither house nor lantern room hides an unreachable item.
+  { id: 'lantern_iron', x: -315, z: 110, r: 1.85, item: 'iron_scrap', qty: 1, nameKey: 'item.iron_scrap', yaw: 0.7 },
+  { id: 'lantern_herb', x: -311, z: 101, r: 1.85, item: 'healing_herb', qty: 1, nameKey: 'item.healing_herb', yaw: 1.6 },
+  { id: 'lantern_bread', x: -334, z: 111.5, r: 1.85, item: 'bread', qty: 1, nameKey: 'item.bread', yaw: -0.8 },
+  { id: 'lantern_apple', x: -327, z: 114, r: 1.85, item: 'shore_apple', qty: 1, nameKey: 'item.shore_apple', yaw: 1.4 },
+  { id: 'rillford_apple', x: -18, z: 32, r: 1.85, item: 'shore_apple', qty: 1, nameKey: 'item.shore_apple', yaw: 0.2 },
+  { id: 'rillford_bread', x: 7, z: 32, r: 1.85, item: 'bread', qty: 1, nameKey: 'item.bread', yaw: 2.2 },
+  { id: 'rillford_mushroom', x: -26, z: 12, r: 1.85, item: 'field_mushroom', qty: 1, nameKey: 'item.field_mushroom', yaw: -1.1 },
+  { id: 'rillford_herb', x: 24, z: 4, r: 1.85, item: 'healing_herb', qty: 1, nameKey: 'item.healing_herb', yaw: 0.7 },
+  { id: 'quarry_iron', x: 70, z: -17, r: 1.85, item: 'iron_scrap', qty: 1, nameKey: 'item.iron_scrap', yaw: 1.9 },
+  { id: 'quarry_mushroom', x: 67, z: -24, r: 1.85, item: 'field_mushroom', qty: 1, nameKey: 'item.field_mushroom', yaw: 0.8 },
+  { id: 'quarry_herb', x: 86, z: -3, r: 1.85, item: 'healing_herb', qty: 1, nameKey: 'item.healing_herb', yaw: -0.2 },
 ];
 
 /** A point in the arrival wreck's own frame (x across the hull, z along it) in world coordinates. */
@@ -359,8 +394,34 @@ export const ENEMY_SPAWNS: EnemySpawn[] = [
 ];
 
 export const WAGON = { x: -96, z: 25.5, yaw: 1.2 };
+/** Connected wagon dimensions, shared by the mesh and collision authoring. Longitudinal axis is local x. */
+export const WAGON_CONSTRUCTION = {
+  length: 4.6, width: 2.2, wheelRadius: 0.74, wheelTrack: 1.3,
+  axleXs: [-1.55, 1.55] as readonly number[], bedTop: 1.16,
+  sideTop: 2.06, shaftStart: 1.55, shaftEnd: 4.8,
+  shaftStartY: 0.83, shaftEndY: 0.045, shaftZ: 0.55,
+} as const;
+/** The two-wheel utility cart follows the same construction at a smaller scale. */
+export const HANDCART_CONSTRUCTION = {
+  length: 2.1, width: 1.3, wheelRadius: 0.54, wheelTrack: 0.85,
+  axleXs: [-0.16] as readonly number[], bedTop: 0.8,
+  sideTop: 1.42, shaftStart: -0.16, shaftEnd: 3.4,
+  shaftStartY: 0.64, shaftEndY: 0.045, shaftZ: 0.4,
+} as const;
+/** The existing town utility cart; parking grade, mesh and collision use one pose. */
+export const VILLAGE_HANDCART = { x: 21, z: 24, yaw: 0.7 } as const;
 /** The lighthouse tower: a stone shaft on the rock at the tip of Lantern Point. */
 export const LIGHTHOUSE = { x: -324, z: 104, r: 3.3, h: 17, rockH: 12, rockR: 44 } as const;
+/** The original keeper compound and stair use the same measurements for rendering, standing support and collision. */
+export const LIGHTHOUSE_CONSTRUCTION = {
+  shaftTop: 15.8, shaftTopRadius: 2.94,
+  stairInner: 3.48, stairOuter: 4.84, stairStart: -Math.PI / 2,
+  stairBottom: 0.38, stairTop: 15.8, stairSteps: 92, treadThickness: 0.14,
+  railHeight: 1.05, galleryInner: 2.99, galleryOuter: 4.84,
+  // A real stairwell through the upper gallery gives the final climb full headroom.
+  galleryOpeningStart: 19 * Math.PI / 16, galleryOpeningEnd: 3 * Math.PI / 2,
+  house: { x: -6.4, z: 0, w: 8, d: 6.4, wallBase: 0.38, wallTop: 4.5, roofPitch: 0.86, roofTop: 8.87 },
+} as const;
 /**
  * The inland waystation's landward palisade: a low old stockade with an open gate on the arrival road.
  * Its ends remain open, so the forest is explored freely rather than fenced into a corridor.

@@ -1,5 +1,8 @@
 import { clamp, fbm, lerp, ridged, smoothstep, warp } from './noise';
 import { lighthouseRock, shapeCoast, shoreDistance } from './coast';
+import { lighthouseSurfacesAt } from './lighthouse';
+import { buildingStepSurfacesAt } from './buildingEntries';
+import { isWorldPickupItem } from '../content/pickups';
 import {
   ANCHORS,
   ARRIVAL_ROUTE,
@@ -15,6 +18,8 @@ import {
   FOREST_RUIN,
   FOREST_WAYMARKERS,
   FOREST_SWALE,
+  HAMLET_PROPS,
+  HANDCART_CONSTRUCTION,
   INSPECT_LOCATIONS,
   LEDGE,
   LEDGER,
@@ -33,6 +38,8 @@ import {
   STREAMS,
   VALLEY,
   WAGON,
+  WAGON_CONSTRUCTION,
+  VILLAGE_HANDCART,
   WORLD,
   type StreamSpec,
   type V2,
@@ -141,7 +148,7 @@ export function clearanceAt(x: number, z: number): number {
     keepClear = [];
     for (const a of Object.values(ANCHORS)) keepClear.push({ x: a.x, z: a.z, r: 9 });
     for (const p of INSPECT_LOCATIONS) keepClear.push({ x: p.x, z: p.z, r: 9 });
-    for (const p of PICKUP_LOCATIONS) keepClear.push({ x: p.x, z: p.z, r: 9 });
+    for (const p of PICKUP_LOCATIONS) keepClear.push({ x: p.x, z: p.z, r: isWorldPickupItem(p.item) ? 1.1 : 9 });
     for (const b of BUILDINGS) keepClear.push({ x: b.x, z: b.z, r: Math.max(b.w, b.d) * 0.8 + 6 });
     for (const p of FOREST_WAYMARKERS) keepClear.push({ x: p.x, z: p.z, r: 3.2 });
     keepClear.push({ x: FOREST_RUIN.x, z: FOREST_RUIN.z, r: FOREST_RUIN.r + 3 });
@@ -257,8 +264,49 @@ export function baseHeight(x: number, z: number): number {
     const d = Math.hypot(x - p.x, z - p.z) / p.r;
     if (d < 1) h = lerp(h, p.level, (1 - smoothstep(0.62, 1, d)) * 0.99);
   }
+  // The keeper's joined foundation, first stair and door approach share one cut terrace on the headland.
+  // Its falloff stays outside the compound so sand and rock cannot pierce the house or first treads.
+  const lighthouseDistance = Math.hypot(x - LIGHTHOUSE.x, z - LIGHTHOUSE.z);
+  if (lighthouseDistance < 17) {
+    const level = shapeCoast(LIGHTHOUSE.x, LIGHTHOUSE.z, coreHeight(LIGHTHOUSE.x, LIGHTHOUSE.z));
+    h = lerp(h, level, 1 - smoothstep(14, 17, lighthouseDistance));
+  }
   h = arrivalRoadGrade(x, z, h);
+  h = vehicleParkingGrade(x, z, h);
   return archiveTerrace(x, z, h);
+}
+
+interface ParkingGrade { x: number; z: number; yaw: number; minX: number; maxX: number; halfZ: number; margin: number; level: number }
+let parkingGrades: ParkingGrade[] | null = null;
+/** A small working-yard cut supports the wheels and grounded drawbars; the surrounding hills and road stay authored. */
+function vehicleParkingGrade(x: number, z: number, h: number): number {
+  if (parkingGrades === null) {
+    // Empty first: the three unmodified centre samples below can call baseHeight without recursive initialization.
+    parkingGrades = [];
+    const poses = [
+      { pose: WAGON, vehicle: WAGON_CONSTRUCTION },
+      { pose: HAMLET_PROPS.handcart, vehicle: HANDCART_CONSTRUCTION },
+      { pose: VILLAGE_HANDCART, vehicle: HANDCART_CONSTRUCTION },
+    ];
+    const authored = poses.map(({ pose, vehicle }) => ({
+      ...pose, level: baseHeight(pose.x, pose.z), minX: -vehicle.length / 2 - 0.12,
+      maxX: vehicle.shaftEnd + 0.12, halfZ: vehicle.wheelTrack + vehicle.wheelRadius * 0.285 + 0.12,
+      // The 2 m terrain grid's vertices must also lie on the pad for its interpolated triangles to be truly flat.
+      margin: WORLD.cell * (Math.abs(Math.cos(pose.yaw)) + Math.abs(Math.sin(pose.yaw))) + 0.12,
+    }));
+    parkingGrades.push(...authored);
+  }
+  for (const p of parkingGrades) {
+    const dx = x - p.x, dz = z - p.z;
+    if (Math.hypot(dx, dz) > p.maxX + p.margin + 5) continue;
+    const c = Math.cos(p.yaw), s = Math.sin(p.yaw);
+    const lx = dx * c - dz * s, lz = dx * s + dz * c;
+    const outsideX = Math.max(p.minX - p.margin - lx, lx - p.maxX - p.margin, 0);
+    const outsideZ = Math.max(Math.abs(lz) - p.halfZ - p.margin, 0);
+    const outside = Math.hypot(outsideX, outsideZ);
+    if (outside < 2.8) h = lerp(h, p.level, 1 - smoothstep(0, 2.8, outside));
+  }
+  return h;
 }
 
 let arrivalGrades: number[] | null = null;
@@ -409,6 +457,21 @@ export class Terrain {
     return deck ? Math.max(deck.y, t) : t;
   }
 
+  /** Standing support selected from the current feet height: a high gallery never teleports someone off the ground. */
+  supportAt(x: number, z: number, feetY: number): number {
+    const ground = this.groundAt(x, z);
+    let support = ground;
+    const surfaces = buildingStepSurfacesAt(x, z, (px, pz) => this.heightAt(px, pz));
+    if (x - LIGHTHOUSE.x >= -11 && x - LIGHTHOUSE.x <= 5 && Math.abs(z - LIGHTHOUSE.z) <= 5) {
+      const base = this.heightAt(LIGHTHOUSE.x, LIGHTHOUSE.z);
+      for (const localY of lighthouseSurfacesAt(x, z)) surfaces.push(base + localY);
+    }
+    for (const surface of surfaces) {
+      if (surface <= feetY + 0.8 + 1e-6 && surface >= feetY - 0.8 - 1e-6) support = Math.max(support, surface);
+    }
+    return support;
+  }
+
   slopeAt(x: number, z: number): number {
     const e = 0.9;
     const dx = (this.heightAt(x + e, z) - this.heightAt(x - e, z)) / (2 * e);
@@ -443,11 +506,12 @@ export class Terrain {
   }
 
   /** Whether a walking character may stand here (ignoring dynamic colliders). */
-  walkable(x: number, z: number, maxSlope = 0.95): boolean {
+  walkable(x: number, z: number, maxSlope = 0.95, feetY?: number): boolean {
     if (x < WORLD.minX + 4 || x > WORLD.maxX - 4 || z < WORLD.minZ + 4 || z > WORLD.maxZ - 4) return false;
     if (this.valleyRadius(x, z) > 1.02) return false;
     if (this.isDeepWater(x, z)) return false;
     if (this.deckAt(x, z)) return true;
+    if (feetY !== undefined && this.supportAt(x, z, feetY) > this.groundAt(x, z) + 0.02) return true;
     return this.slopeAt(x, z) <= maxSlope;
   }
 }

@@ -30,6 +30,7 @@ import type { Settings } from '../platform/settings';
 import { buildRiteResponse, type RiteResponse } from './riteResponse';
 import { buildForestLandmarks } from './forestLandmarks';
 import { buildWoodlandAir } from './woodlandAir';
+import { setPickupVisible } from './worldPickups';
 
 /** Everything static in Bellwether Vale, plus the presentation that follows durable state. */
 export class WorldScene {
@@ -93,7 +94,7 @@ export class WorldScene {
     const t0 = performance.now();
     this.library = library;
     this.terrain = new Terrain();
-    this.colliders = buildStaticColliders();
+    this.colliders = buildStaticColliders(this.terrain);
     this.terrainMesh = buildTerrainMesh(this.terrain, terrainTex);
     this.scene.add(this.terrainMesh);
     this.sky = new SkyRig(settings.quality === 'low' ? 1024 : settings.quality === 'medium' ? 2048 : 4096);
@@ -175,7 +176,7 @@ export class WorldScene {
     sc.scheduleBoard.visible = v.scheduleBoard;
     sc.contractGuardPost.visible = v.contractGuard;
     sc.quarryBanner.visible = true;
-    for (const [id, obj] of Object.entries(sc.pickups)) obj.visible = state.locationChanges[`pickup:${id}`] !== 'taken';
+    for (const [id, obj] of Object.entries(sc.pickups)) setPickupVisible(obj, state.locationChanges[`pickup:${id}`] !== 'taken');
     const key = v.noticeboard.join('|');
     if (key !== this.lastNoticeKey) {
       this.lastNoticeKey = key;

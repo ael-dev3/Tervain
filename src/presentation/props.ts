@@ -1,4 +1,6 @@
+import { HANDCART_CONSTRUCTION, WAGON_CONSTRUCTION } from '../world/layout';
 import { hash3 } from './buildKit';
+import { vehicleFrame } from './wagonGeometry';
 import type { Region } from './regions';
 import { TINT, barrel, crate, fieldstone, jitterTone, sack, type Rnd } from './structures';
 
@@ -233,75 +235,26 @@ export function well(R: Region, rnd: Rnd, x: number, y: number, z: number) {
   ctx.pop();
 }
 
-/** A handcart: two wheels, a plank bed and shafts. */
+/** A two-wheel utility cart with a connected axle, spoked felloes, rails and grounded shafts. */
 export function cart(R: Region, rnd: Rnd, x: number, y: number, z: number, yaw: number) {
-  const ctx = R.ctx;
-  ctx.push(x, y, z, yaw);
-  R.planks.box(1.7, 0.1, 1.0, 0, 0.55, 0, jitterTone(TINT.wood, rnd, 0.14), { jit: 0.1, grain: 'x' });
-  for (const s of [-1, 1]) {
-    R.planks.box(1.7, 0.4, 0.06, 0, 0.6, s * 0.5, jitterTone(TINT.wood, rnd, 0.14), { jit: 0.1, grain: 'x', rz: (rnd() - 0.5) * 0.03 });
-    ctx.push(0, 0.45, s * 0.62, 0, 0, Math.PI / 2);
-    R.timber.lathe([0.44, -0.04, 0.47, 0, 0.44, 0.04], 12, 0, 0, 0, jitterTone(TINT.woodDark, rnd, 0.1), { jit: 0.08 });
-    for (let k = 0; k < 6; k++) {
-      const a = (k / 6) * Math.PI;
-      R.timber.box(0.06, 0.02, 0.86, 0, 0, 0, jitterTone(TINT.wood, rnd, 0.1), { ry: 0, rx: a, jit: 0.08 });
-    }
-    ctx.pop();
-  }
-  R.timber.rod(0.8, 0.5, -0.4, 2.2, 0.35, -0.3, 0.04, 5, jitterTone(TINT.woodDark, rnd, 0.1), { jit: 0.08 });
-  R.timber.rod(0.8, 0.5, 0.4, 2.2, 0.35, 0.3, 0.04, 5, jitterTone(TINT.woodDark, rnd, 0.1), { jit: 0.08 });
-  sack(R, rnd, -0.3, 0.6, 0.1, 1.1);
-  crate(R, rnd, 0.3, 0.6, -0.1, 0.5, 0.4, 0.5, 0.3);
-  ctx.pop();
+  R.ctx.push(x, y, z, yaw);
+  vehicleFrame(R, rnd, HANDCART_CONSTRUCTION);
+  sack(R, rnd, -0.36, HANDCART_CONSTRUCTION.bedTop, 0.12, 1.05);
+  crate(R, rnd, 0.34, HANDCART_CONSTRUCTION.bedTop, -0.12, 0.54, 0.44, 0.55, 0.12);
+  R.ctx.pop();
 }
 
-/** A wagon of the caravan master: a big covered wagon, canvas patched, wheels spoked, a shaft laid down. */
+/** Open freight wagon: two axles bear a plank body; the long shafts, wheels and cargo are one grounded assembly. */
 export function wagon(R: Region, rnd: Rnd, x: number, y: number, z: number, yaw: number) {
-  const ctx = R.ctx;
-  ctx.push(x, y, z, yaw);
-  const bed = 0.95;
-  R.planks.box(4.6, 0.16, 2.2, 0, bed, 0, jitterTone(TINT.wood, rnd, 0.14), { jit: 0.1, grain: 'x' });
-  for (const s of [-1, 1]) {
-    R.planks.box(4.6, 0.6, 0.08, 0, bed + 0.1, s * 1.08, jitterTone(TINT.wood, rnd, 0.14), { jit: 0.1, grain: 'x', rz: (rnd() - 0.5) * 0.02 });
-    for (const wx of [-1.5, 1.5]) {
-      ctx.push(wx, 0.62, s * 1.22, 0, 0, Math.PI / 2);
-      R.timber.lathe([0.66, -0.06, 0.7, 0, 0.66, 0.06], 16, 0, 0, 0, jitterTone(TINT.woodDark, rnd, 0.1), { jit: 0.08 });
-      R.metal.lathe([0.7, -0.03, 0.72, 0, 0.7, 0.03], 16, 0, 0, 0, TINT.iron, { jit: 0.05 });
-      for (let k = 0; k < 8; k++) R.timber.box(0.07, 0.03, 1.25, 0, 0, 0, jitterTone(TINT.wood, rnd, 0.1), { rx: (k / 8) * Math.PI, jit: 0.08 });
-      R.timber.cyl(0.1, 0.1, 0.24, 8, 0, -0.12, 0, jitterTone(TINT.woodDark, rnd, 0.1), { jit: 0.06 });
-      ctx.pop();
-    }
-  }
-  // Canvas hood over bows, patched and slack.
-  for (let i = 0; i < 5; i++) {
-    const bx = -1.7 + i * 0.85;
-    const pts: [number, number, number][] = [];
-    for (let k = 0; k <= 8; k++) {
-      const a = (k / 8) * Math.PI;
-      pts.push([bx, bed + 0.2 + Math.sin(a) * 1.3, -Math.cos(a) * 1.05]);
-    }
-    R.timber.tube(pts, 0.035, 4, jitterTone(TINT.woodDark, rnd, 0.1));
-  }
-  const segs = 9;
-  for (let i = 0; i < 4; i++) {
-    const x0 = -1.7 + i * 0.85;
-    const x1 = x0 + 0.85;
-    for (let k = 0; k < segs; k++) {
-      const a0 = (k / segs) * Math.PI;
-      const a1 = ((k + 1) / segs) * Math.PI;
-      const sag = -0.05 * Math.sin(((x0 + x1) / 2) * 3);
-      R.cloth.quad([x0, bed + 0.2 + Math.sin(a0) * 1.32 + sag, -Math.cos(a0) * 1.07, x1, bed + 0.2 + Math.sin(a0) * 1.32 + sag, -Math.cos(a0) * 1.07, x1, bed + 0.2 + Math.sin(a1) * 1.32 + sag, -Math.cos(a1) * 1.07, x0, bed + 0.2 + Math.sin(a1) * 1.32 + sag, -Math.cos(a1) * 1.07], jitterTone(i % 2 ? 0xc8bca0 : 0xb8ad94, rnd, 0.1), { uv: [0, 0, 1, 0, 1, 1, 0, 1], amp: 0.12, flip: true });
-    }
-  }
-  // Shaft, laid down.
-  R.timber.rod(2.2, 0.6, -0.5, 4.4, 0.18, -0.35, 0.06, 5, jitterTone(TINT.woodDark, rnd, 0.1), { jit: 0.08 });
-  R.timber.rod(2.2, 0.6, 0.5, 4.4, 0.18, 0.35, 0.06, 5, jitterTone(TINT.woodDark, rnd, 0.1), { jit: 0.08 });
-  // Cargo: barrels, sacks, a chest.
-  barrel(R, rnd, -1.4, bed + 0.1, 0.4, 0.8);
-  barrel(R, rnd, -0.9, bed + 0.1, -0.5, 0.8);
-  sack(R, rnd, 0.9, bed + 0.1, 0.4, 1.1);
-  crate(R, rnd, 1.4, bed + 0.1, -0.5, 0.8, 0.5, 0.6, 0.2);
-  ctx.pop();
+  R.ctx.push(x, y, z, yaw);
+  vehicleFrame(R, rnd, WAGON_CONSTRUCTION);
+  const bed = WAGON_CONSTRUCTION.bedTop;
+  // Cargo leaves the middle open, so the assembled bed, axles and end boards remain readable.
+  barrel(R, rnd, -1.42, bed, 0.42, 0.8);
+  barrel(R, rnd, -0.92, bed, -0.45, 0.8);
+  sack(R, rnd, 0.85, bed, 0.42, 1.1);
+  crate(R, rnd, 1.42, bed, -0.38, 0.78, 0.58, 0.64, 0.12);
+  R.ctx.pop();
 }
 
 /** A shipwreck: a few ribs and strakes of a hull half buried in the sand. */

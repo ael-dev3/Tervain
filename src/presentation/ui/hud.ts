@@ -1,5 +1,9 @@
 import { S } from '../../content/strings';
 import { h, clear } from './dom';
+import { icon } from './icons';
+import { resourceFraction } from './uiModel';
+import type { ItemId } from '../../game/types';
+import { QuickSlotBar } from './hotbar';
 
 export interface HudData {
   health: number;
@@ -7,11 +11,16 @@ export interface HudData {
   stamina: number;
   exhausted: boolean;
   coin: number;
-  poultice: number;
+  quickSlots: readonly (ItemId | null)[];
+  inventory: Partial<Record<ItemId, number>>;
+  equippedWeapon: ItemId | null;
   timeText: string;
   objective: string | null;
   fps: string | null;
   blocking: boolean;
+  /** View heading in world radians: zero looks toward positive Z (south on the map). */
+  heading?: number;
+  accessKeys?: Partial<Record<'inventory' | 'journal' | 'map', string>>;
 }
 
 export interface Bubble {
@@ -32,8 +41,18 @@ export interface Tag {
 export class Hud {
   readonly el: HTMLElement;
   private healthFill: HTMLElement;
+  private healthBar: HTMLElement;
+  private healthValue: HTMLElement;
   private staminaBar: HTMLElement;
   private staminaFill: HTMLElement;
+  private staminaValue: HTMLElement;
+  private compassNeedle: HTMLElement;
+  private guard: HTMLElement;
+  private hotbar: QuickSlotBar;
+  private accessHints: HTMLElement;
+  onQuickSlotActivate: ((slot: number) => void) | null = null;
+  onAssignQuickSlot: ((slot: number, item: ItemId | null) => void) | null = null;
+  onSwapQuickSlots: ((from: number, to: number) => void) | null = null;
   private coinEl: HTMLElement;
   private timeEl: HTMLElement;
   private objWrap: HTMLElement;
@@ -58,15 +77,27 @@ export class Hud {
   constructor() {
     this.healthFill = h('i');
     this.staminaFill = h('i');
-    this.staminaBar = h('div', { class: 'bar stamina' }, this.staminaFill, h('span', {}, S('hud.stamina')));
-    const bars = h('div', { class: 'hud-bars surface-soot' }, h('div', { class: 'bar health' }, this.healthFill, h('span', {}, S('hud.health'))), this.staminaBar);
+    this.healthValue = h('span', { class: 'meter-value' });
+    this.staminaValue = h('span', { class: 'meter-value' });
+    this.healthBar = h('div', { class: 'bar health', role: 'progressbar', 'aria-label': S('hud.health'), 'aria-valuemin': 0 }, this.healthFill, h('span', { class: 'meter-label' }, S('hud.health')), this.healthValue);
+    this.staminaBar = h('div', { class: 'bar stamina', role: 'progressbar', 'aria-label': S('hud.stamina'), 'aria-valuemin': 0, 'aria-valuemax': 100 }, this.staminaFill, h('span', { class: 'meter-label' }, S('hud.stamina')), this.staminaValue);
+    this.guard = h('div', { class: 'guard-state', 'aria-live': 'polite' }, S('action.block'));
+    const bars = h('div', { class: 'hud-bars' }, this.guard, this.healthBar, this.staminaBar);
     this.objText = h('div', { class: 'obj-text' });
     this.objWrap = h('div', { class: 'hud-top-left surface-soot' }, h('div', { class: 'obj-title' }, S('hud.objective')), this.objText);
     this.coinEl = h('div', { class: 'coin' });
     this.timeEl = h('div', {});
-    const topRight = h('div', { class: 'hud-top-right surface-soot' }, this.timeEl, this.coinEl);
+    const topRight = h('div', { class: 'hud-top-right' }, this.timeEl, this.coinEl);
+    this.compassNeedle = h('div', { class: 'compass-needle', 'aria-hidden': 'true' }, h('i'));
+    const compass = h('div', { class: 'hud-compass', role: 'img', 'aria-label': 'Compass · north' }, icon('compass'), this.compassNeedle, h('b', { class: 'compass-n' }, 'N'), h('b', { class: 'compass-s' }, 'S'), h('b', { class: 'compass-e' }, 'E'), h('b', { class: 'compass-w' }, 'W'));
+    this.hotbar = new QuickSlotBar({ mode: 'activate', onActivate: (slot) => this.onQuickSlotActivate?.(slot), onAssign: (slot, item) => this.onAssignQuickSlot?.(slot, item), onSwap: (from, to) => this.onSwapQuickSlots?.(from, to) });
+    this.hotbar.el.classList.add('hud-hotbar');
+    this.accessHints = h('div', { class: 'hud-access-hints' });
+    topRight.append(this.accessHints);
     this.fpsEl = h('div', { class: 'hud-fps surface-soot' });
-    this.promptEl = h('div', { class: 'prompt surface-soot' });
+    // Keep optional diagnostics in the time/purse column rather than across a wrapped objective.
+    topRight.append(this.fpsEl);
+    this.promptEl = h('div', { class: 'prompt surface-soot', role: 'status' });
     this.channelLabel = h('div');
     this.channelFill = h('i');
     this.channelEl = h('div', { class: 'channel surface-soot' }, this.channelLabel, h('div', { class: 'bar' }, this.channelFill));
@@ -76,7 +107,9 @@ export class Hud {
     this.threat = h('div', { class: 'threat' });
     this.vignette = h('div', { class: 'vignette' });
     this.fade = h('div', { class: 'fade' });
-    this.el = h('div', { id: 'hud', class: 'hud' }, this.vignette, this.bubbles, bars, this.objWrap, topRight, this.fpsEl, this.promptEl, this.channelEl, this.toasts, this.captions, this.threat, this.fade);
+    // One flow keeps a long remapped key hint, a held action and captions from occupying the same screen position.
+    const messages = h('div', { class: 'hud-messages' }, this.channelEl, this.promptEl, this.captions);
+    this.el = h('div', { id: 'hud', class: 'hud' }, this.vignette, this.bubbles, bars, compass, this.hotbar.el, this.objWrap, topRight, messages, this.toasts, this.threat, this.fade);
     this.el.style.display = 'none';
   }
 
@@ -85,11 +118,25 @@ export class Hud {
   }
 
   update(d: HudData) {
-    this.healthFill.style.width = `${Math.max(0, Math.min(1, d.health / d.maxHealth)) * 100}%`;
-    this.staminaFill.style.width = `${Math.max(0, Math.min(1, d.stamina / 100)) * 100}%`;
+    const health = resourceFraction(d.health, d.maxHealth);
+    const stamina = resourceFraction(d.stamina, 100);
+    const maximum = Number.isFinite(d.maxHealth) ? Math.max(0, d.maxHealth) : 0;
+    this.healthFill.style.width = `${health * 100}%`;
+    this.staminaFill.style.width = `${stamina * 100}%`;
+    this.healthValue.textContent = `${Math.round(health * maximum)} / ${Math.round(maximum)}`;
+    this.staminaValue.textContent = String(Math.round(stamina * 100));
+    this.healthBar.setAttribute('aria-valuemax', String(maximum));
+    this.healthBar.setAttribute('aria-valuenow', String(Math.round(health * maximum)));
+    this.staminaBar.setAttribute('aria-valuenow', String(Math.round(stamina * 100)));
+    this.healthBar.classList.toggle('low', health <= 0.25);
     this.staminaBar.classList.toggle('exhausted', d.exhausted);
-    (this.staminaBar.querySelector('span') as HTMLElement).textContent = d.exhausted ? S('hud.exhausted') : S('hud.stamina');
-    this.coinEl.textContent = `${S('hud.coin')}: ${d.coin}${d.poultice > 0 ? `  ·  ✚ ${d.poultice}` : ''}`;
+    (this.staminaBar.querySelector('.meter-label') as HTMLElement).textContent = d.exhausted ? S('hud.exhausted') : S('hud.stamina');
+    this.coinEl.textContent = `${S('hud.coin')}: ${d.coin}`;
+    this.guard.classList.toggle('on', d.blocking);
+    if (d.heading !== undefined && Number.isFinite(d.heading)) this.compassNeedle.style.transform = `rotate(${(Math.PI - d.heading) * 180 / Math.PI}deg)`;
+    this.hotbar.update(d);
+    const access = `${d.accessKeys?.inventory ?? 'I'} Inventory · ${d.accessKeys?.journal ?? 'Tab'} Journal · ${d.accessKeys?.map ?? 'M'} Map`;
+    if (this.accessHints.textContent !== access) this.accessHints.textContent = access;
     this.timeEl.textContent = d.timeText;
     if (d.objective) {
       this.objWrap.style.display = '';
@@ -124,7 +171,7 @@ export class Hud {
     }
     this.channelEl.classList.add('on');
     this.channelLabel.textContent = label;
-    this.channelFill.style.width = `${Math.max(0, Math.min(1, frac)) * 100}%`;
+    this.channelFill.style.width = `${resourceFraction(frac, 1) * 100}%`;
   }
 
   toast(text: string, kind: '' | 'evidence' | 'good' | 'bad' = '') {
@@ -165,6 +212,7 @@ export class Hud {
         this.bubbles.append(el);
         this.bubbleEls.set(b.id, el);
       }
+      if (el.textContent !== b.text) el.textContent = b.text;
       el.style.left = `${b.x}px`;
       el.style.top = `${b.y}px`;
     }
@@ -188,7 +236,9 @@ export class Hud {
       }
       (el.querySelector('.tname') as HTMLElement).textContent = t.text;
       const bar = el.querySelector('.ebar i') as HTMLElement | null;
-      if (bar && t.frac !== undefined) bar.style.width = `${Math.max(0, Math.min(1, t.frac)) * 100}%`;
+      const barWrap = el.querySelector<HTMLElement>('.ebar');
+      if (barWrap) barWrap.style.display = t.frac === undefined ? 'none' : '';
+      if (bar && t.frac !== undefined) bar.style.width = `${resourceFraction(t.frac, 1) * 100}%`;
       el.style.left = `${t.x}px`;
       el.style.top = `${t.y}px`;
     }

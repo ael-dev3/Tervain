@@ -1,5 +1,8 @@
 import { INSPECT_POINTS } from '../content/inspect';
+import { hotbarEligible, isItemId, itemAction, ITEMS } from '../content/items';
 import { APPLY_DELAY_MIN, REPORT_DELAY_MIN, REWARD_COIN, RITE_CALM_MIN, TRAINING_COST } from './constants';
+import { validQuantity, validQuickSlot } from './inventory';
+import { validMapMarker } from './map';
 import { evalAll, hasFact, itemCount, phaseIndex } from './state';
 import {
   DECISION_MAKERS,
@@ -46,6 +49,9 @@ export function applyEffect(s: WorldState, e: Effect, events: GameEvent[]): stri
     }
     case 'grant': {
       if (s.grants[e.id]) return null; // one-time rewards: repeating dialogue never duplicates them
+      for (const [id, qty] of Object.entries(e.items)) {
+        if (!isItemId(id) || !validQuantity(qty) || !validQuantity(itemCount(s, id) + qty)) return 'invalid_item';
+      }
       s.grants[e.id] = true;
       for (const [id, qty] of Object.entries(e.items) as [ItemId, number][]) {
         s.inventory[id] = (s.inventory[id] ?? 0) + qty;
@@ -54,9 +60,15 @@ export function applyEffect(s: WorldState, e: Effect, events: GameEvent[]): stri
       return null;
     }
     case 'item': {
+      if (!isItemId(e.id) || !Number.isSafeInteger(e.delta)) return 'invalid_item';
       const cur = itemCount(s, e.id);
       if (cur + e.delta < 0) return `missing_item:${e.id}`;
+      if (!validQuantity(cur + e.delta)) return 'invalid_quantity';
       s.inventory[e.id] = cur + e.delta;
+      if (s.equippedWeapon === e.id && s.inventory[e.id] === 0) {
+        s.equippedWeapon = null;
+        events.push({ t: 'equipment', item: null });
+      }
       events.push({ t: 'item', id: e.id, delta: e.delta });
       return null;
     }
@@ -232,6 +244,9 @@ export function execute(s: WorldState, cmd: Command): CommandResult {
     }
 
     case 'pickup': {
+      if (typeof cmd.pickupId !== 'string' || !/^[a-z][a-z0-9_]{0,95}$/.test(cmd.pickupId)) return fail('unknown_pickup');
+      if (!isItemId(cmd.item)) return fail('unknown_item');
+      if (!validQuantity(cmd.qty) || cmd.qty === 0 || !validQuantity(itemCount(s, cmd.item) + cmd.qty)) return fail('invalid_quantity');
       const key = `pickup:${cmd.pickupId}`;
       if (s.locationChanges[key] === 'taken') return fail('already_taken');
       s.locationChanges[key] = 'taken';
@@ -415,6 +430,7 @@ export function execute(s: WorldState, cmd: Command): CommandResult {
     }
 
     case 'train': {
+      if (cmd.skill !== 'steady_guard') return fail('unknown_skill');
       if (s.skills.includes(cmd.skill)) return fail('already_known');
       if (!s.npcs.shrine_warden.available) return fail('trainer_unavailable');
       const competent = Object.keys(s.defeated).length > 0;
@@ -457,20 +473,66 @@ export function execute(s: WorldState, cmd: Command): CommandResult {
     }
 
     case 'useItem': {
-      if (cmd.item !== 'poultice') return fail('not_usable');
-      if (itemCount(s, 'poultice') < 1) return fail('missing_item');
+      if (!isItemId(cmd.item)) return fail('unknown_item');
+      if (itemAction(cmd.item) !== 'consume') return fail('not_usable');
+      if (itemCount(s, cmd.item) < 1) return fail('missing_item');
       if (s.player.health >= s.player.maxHealth) return fail('already_healthy');
-      s.inventory.poultice = itemCount(s, 'poultice') - 1;
-      s.player.health = Math.min(s.player.maxHealth, s.player.health + 40);
-      events.push({ t: 'item', id: 'poultice', delta: -1 });
+      s.inventory[cmd.item] = itemCount(s, cmd.item) - 1;
+      s.player.health = Math.min(s.player.maxHealth, s.player.health + ITEMS[cmd.item].healAmount!);
+      events.push({ t: 'item', id: cmd.item, delta: -1 });
+      return ok();
+    }
+
+    case 'assignQuickSlot': {
+      if (!validQuickSlot(cmd.slot)) return fail('invalid_slot');
+      if (cmd.item !== null) {
+        if (!isItemId(cmd.item)) return fail('unknown_item');
+        if (!hotbarEligible(cmd.item)) return fail('not_usable');
+        if (itemCount(s, cmd.item) < 1) return fail('missing_item');
+        // One binding per item. Assignment moves the binding, never the carried stack.
+        for (let i = 0; i < s.quickSlots.length; i++) if (s.quickSlots[i] === cmd.item) s.quickSlots[i] = null;
+      }
+      s.quickSlots[cmd.slot] = cmd.item;
+      events.push({ t: 'quickSlots' });
+      return ok();
+    }
+
+    case 'swapQuickSlots': {
+      if (!validQuickSlot(cmd.from) || !validQuickSlot(cmd.to)) return fail('invalid_slot');
+      if (cmd.from === cmd.to) return ok();
+      const item = s.quickSlots[cmd.from] ?? null;
+      s.quickSlots[cmd.from] = s.quickSlots[cmd.to] ?? null;
+      s.quickSlots[cmd.to] = item;
+      events.push({ t: 'quickSlots' });
+      return ok();
+    }
+
+    case 'equipWeapon': {
+      if (cmd.item !== null) {
+        if (!isItemId(cmd.item)) return fail('unknown_item');
+        if (itemAction(cmd.item) !== 'equip') return fail('not_weapon');
+        if (itemCount(s, cmd.item) < 1) return fail('missing_item');
+      }
+      if (s.equippedWeapon === cmd.item) return ok();
+      s.equippedWeapon = cmd.item;
+      events.push({ t: 'equipment', item: cmd.item });
+      return ok();
+    }
+
+    case 'setMapMarker': {
+      if (cmd.marker !== null && !validMapMarker(cmd.marker)) return fail('invalid_marker');
+      s.mapMarker = cmd.marker === null ? null : { x: cmd.marker.x, z: cmd.marker.z };
+      events.push({ t: 'mapMarker', marker: s.mapMarker });
       return ok();
     }
 
     case 'damagePlayer':
+      if (!Number.isFinite(cmd.amount)) return fail('invalid_amount');
       s.player.health = Math.max(0, s.player.health - Math.max(0, cmd.amount));
       return ok();
 
     case 'healPlayer':
+      if (!Number.isFinite(cmd.amount)) return fail('invalid_amount');
       s.player.health = Math.min(s.player.maxHealth, s.player.health + Math.max(0, cmd.amount));
       return ok();
 
@@ -480,4 +542,3 @@ export function execute(s: WorldState, cmd: Command): CommandResult {
       return ok();
   }
 }
-
