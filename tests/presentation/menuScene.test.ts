@@ -252,7 +252,7 @@ describe('menu vigil scene', () => {
     const menu = fixture('low').menu;
     const music = { time: 50, duration: 214.2, playing: true, gain: 0.352 };
     menu.update(0.03, false, music);
-    const head = (menu.scene.getObjectByName('Menu_Wisp_Pearl_Cores') as THREE.Mesh).geometry.getAttribute('aHead');
+    const head = (menu.scene.getObjectByName('Menu_Wisp_Flames') as THREE.Mesh).geometry.getAttribute('aCentre');
     const heldHeads = Array.from(head.array);
     const held = snapshot(menu);
     menu.update(20, true, { ...music, time: 90 });
@@ -271,8 +271,23 @@ describe('menu vigil scene', () => {
     expect(b.awakeningState).toEqual(a.awakeningState);
     expect(b.doorOpening).toBe(a.doorOpening);
     expect(b.scene.getObjectByName('Menu_Tree_Door_Hinge')!.rotation.y).toBe(a.scene.getObjectByName('Menu_Tree_Door_Hinge')!.rotation.y);
-    const head = (m: MenuScene) => (m.scene.getObjectByName('Menu_Wisp_Pearl_Cores') as THREE.Mesh).geometry.getAttribute('aHead').array;
+    const head = (m: MenuScene) => (m.scene.getObjectByName('Menu_Wisp_Flames') as THREE.Mesh).geometry.getAttribute('aCentre').array;
     expect(Array.from(head(b))).toEqual(Array.from(head(a)).slice(0, 16 * 4));
+  });
+
+  it('hands the running awakening to a rebuilt scene, so a graphics change never re-simulates the dance', () => {
+    const a = fixture('high').menu;
+    a.update(0.04, false, { time: 120.25, duration: 214.2, playing: true, gain: 0.352 });
+    const steps = a.grove.stats.steps;
+    expect(steps).toBeGreaterThan(5000);
+    const b = new MenuScene({ quality: 'low', resources: resources().res, awakening: a.awakeningState, grove: a.grove });
+    built.push(b);
+    expect(b.grove).toBe(a.grove);
+    b.update(0.04, false, { time: 120.25, duration: 214.2, playing: true, gain: 0.352 });
+    expect(b.grove.stats.steps).toBe(steps);
+    expect(b.doorOpening).toBe(a.doorOpening);
+    expect(b.stats.wisps).toBe(16);
+    expect(a.stats.wisps).toBe(40);
   });
 
   it('prints the emblem when it arrives and stays usable when it never does', async () => {

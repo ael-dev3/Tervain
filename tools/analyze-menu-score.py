@@ -35,7 +35,7 @@ def sha256(path: pathlib.Path) -> str:
 
 
 def checked_audio() -> tuple[dict, dict, pathlib.Path]:
-    manifest = json.loads((ROOT / "docs/engineering/menu-audio-assets.json").read_text())
+    manifest = json.loads((ROOT / "docs/engineering/menu-audio-assets.json").read_text(encoding="utf-8"))
     asset = next(a for a in manifest["assets"] if a["id"] == "tervain.menu.the-sovereigns-oath.2026-09-30")
     source = asset["source"]
     runtime = next(d for d in asset["runtime"]["derivatives"] if d["role"] == "primary")
@@ -184,10 +184,12 @@ def main() -> None:
     data, raw, settings = envelopes(path, source["durationSeconds"], ffmpeg)
     result = module(source, runtime, data, settings)
     if args.check:
-        if not OUTPUT.exists() or OUTPUT.read_text() != result:
+        if not OUTPUT.exists() or OUTPUT.read_text(encoding="utf-8") != result:
             raise SystemExit("Feature module differs; run the script without --check to regenerate it.")
     else:
-        OUTPUT.write_text(result)
+        # Explicit UTF-8 and LF: the module holds non-ASCII text, and a platform default must neither fail half-way
+        # through the write nor change the line endings.
+        OUTPUT.write_text(result, encoding="utf-8", newline="\n")
     summary = {
         "output": str(OUTPUT.relative_to(ROOT)), "moduleBytes": len(result.encode()), "payloadBytes": data.nbytes,
         "frames": len(data), "durationSeconds": source["durationSeconds"], "featuresAt30Seconds": dict(zip(FEATURES, (data[30 * RATE] / 255).round(3).tolist())),

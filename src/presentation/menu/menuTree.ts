@@ -93,6 +93,36 @@ export interface TreeDoorFace {
 }
 
 /**
+ * The hollow behind the door, in the door frame (x across the face, y up from its foot, z out of it): a short tunnel the
+ * size of the aperture, then a chamber carved into the heart of the bole. Everything of the tree inside these two boxes
+ * is cut away; the hollow's own walls (menuHollow) lie inside them.
+ */
+export const TREE_HOLLOW = {
+  /** The tunnel through the face: the aperture, from just in front of the face back to `tunnelDepth`. */
+  tunnelDepth: 0.35,
+  /** The chamber box behind the tunnel. */
+  halfWidth: 0.82,
+  height: 2.32,
+  depth: 1.75,
+} as const;
+
+/**
+ * The trunk as the wisps meet it: ring centres up the bole and, for each ring, the bark's distance from that centre at
+ * evenly spaced angles (after the door's face has been adzed flat). Tree-local metres; angle 0 is +x, increasing toward +z.
+ */
+export interface TreeTrunkShape {
+  rings: number;
+  segments: number;
+  /** (rings + 1) × [x, y, z] ring centres. */
+  centres: Float64Array;
+  /** (rings + 1) × segments radii (the closing seam duplicate is dropped). */
+  radii: Float32Array;
+}
+
+/** Tapered capsules along the limbs, boughs and roots, tree-local: [ax, ay, az, bx, by, bz, ra, rb] per segment. */
+export type TreeCapsules = Float32Array;
+
+/**
  * The trunk as a loft of noisy rings. Seven buttress lobes swell toward the ground and are pulled down below it so each
  * becomes a root; the rings above are lumpy and slightly twisted. With a door, a flat face is adzed into the front of the
  * bole for it, the buttresses step aside to stand either side of it, and the bark rounds over into the cut at its edges.
@@ -183,11 +213,24 @@ function trunk(m: Mesh3, rng: () => number, door: TreeDoorSpec | undefined, grou
       m.idx.push(a, b, a + 1, a + 1, b, b + 1);
     }
   }
-  return { top: trunkCenter(1), lobes, face };
+  // The bark's reach from each ring's centre, for anything that must fly round the bole without passing through it.
+  const shape: TreeTrunkShape = { rings, segments: seg, centres: new Float64Array((rings + 1) * 3), radii: new Float32Array((rings + 1) * seg) };
+  for (let r = 0; r <= rings; r++) {
+    const c = trunkCenter(r / rings);
+    shape.centres.set(c, r * 3);
+    for (let s = 0; s < seg; s++) {
+      const p = pts[r * (seg + 1) + s]!;
+      shape.radii[r * seg + s] = Math.hypot(p[0] - c[0], p[2] - c[2]);
+    }
+  }
+  return { top: trunkCenter(1), lobes, face, shape };
 }
 
-/** Carve the completed wood mesh, so inward-curving secondary wood cannot remain inside the doorway. */
-function carveDoorPocket(m: Mesh3, face: TreeDoorFace, opening: { width: number; height: number }) {
+/**
+ * Carve the completed wood mesh with a box in the door frame, so no bark, bough or root remains inside the doorway or the
+ * hollow behind it: triangles are split into the strips outside the box and the part inside is dropped.
+ */
+function carveDoorBox(m: Mesh3, face: TreeDoorFace, box: { hw: number; y0: number; y1: number; z0: number; z1: number }) {
   const triangles = m.idx;
   m.idx = [];
   for (let i = 0; i < triangles.length; i += 3) {
@@ -200,11 +243,12 @@ function carveDoorPocket(m: Mesh3, face: TreeDoorFace, opening: { width: number;
       return { p, x: d[0] * tangent[0] + d[2] * tangent[2], y: d[1], z: d[0] * n[0] + d[2] * n[2],
         u: m.uv[i! * 2]!, v: m.uv[i! * 2 + 1]!, c: [m.col[i! * 3]!, m.col[i! * 3 + 1]!, m.col[i! * 3 + 2]!] as V3 };
     });
-    // Cut a shallow pocket, including the curved bark just behind/proud of the flat face. The rear bole stays solid.
-    const hw = opening.width / 2;
-    const hh = opening.height;
-    if (vertices.every((v) => v.z <= -0.70) || vertices.every((v) => v.x <= -hw) || vertices.every((v) => v.x >= hw)
-      || vertices.every((v) => v.y <= 0) || vertices.every((v) => v.y >= hh)) { m.idx.push(...tri); continue; }
+    const hw = box.hw;
+    if (vertices.every((v) => v.z <= box.z0) || vertices.every((v) => v.z >= box.z1) || vertices.every((v) => v.x <= -hw)
+      || vertices.every((v) => v.x >= hw) || vertices.every((v) => v.y <= box.y0) || vertices.every((v) => v.y >= box.y1)) {
+      m.idx.push(...tri);
+      continue;
+    }
     type Vertex = (typeof vertices)[number];
     const clip = (poly: Vertex[], axis: 'x' | 'y' | 'z', edge: number, sign: number): Vertex[] => {
       const out: Vertex[] = [];
@@ -223,10 +267,11 @@ function carveDoorPocket(m: Mesh3, face: TreeDoorFace, opening: { width: number;
       }
       return out;
     };
-    // Subtract the rectangular aperture by partitioning the triangle into disjoint strips.
+    // Subtract the box by partitioning the triangle into disjoint strips outside each of its six faces in turn.
     const middle = clip(clip(vertices, 'x', -hw, 1), 'x', hw, -1);
-    const inside = clip(clip(middle, 'y', 0, 1), 'y', hh, -1);
-    const strips = [clip(vertices, 'x', -hw, -1), clip(vertices, 'x', hw, 1), clip(middle, 'y', 0, -1), clip(middle, 'y', hh, 1), clip(inside, 'z', -0.70, -1)];
+    const inside = clip(clip(middle, 'y', box.y0, 1), 'y', box.y1, -1);
+    const strips = [clip(vertices, 'x', -hw, -1), clip(vertices, 'x', hw, 1), clip(middle, 'y', box.y0, -1), clip(middle, 'y', box.y1, 1),
+      clip(inside, 'z', box.z0, -1), clip(inside, 'z', box.z1, 1)];
     for (const poly of strips) {
       if (poly.length < 3) continue;
       const ids = poly.map((v) => m.v(v.p, v.u, v.v, v.c));
@@ -235,9 +280,20 @@ function carveDoorPocket(m: Mesh3, face: TreeDoorFace, opening: { width: number;
   }
 }
 
-/** A tapered, lumpy tube along a polyline, with rings aligned by parallel transport so it never corkscrews. */
-function tube(m: Mesh3, pts: V3[], r0: number, r1: number, seed: number, capEnd: boolean) {
+/**
+ * A tapered, lumpy tube along a polyline, with rings aligned by parallel transport so it never corkscrews. Segments thick
+ * enough to matter to anything flying past are recorded in `caps` as tapered capsules.
+ */
+function tube(m: Mesh3, pts: V3[], r0: number, r1: number, seed: number, capEnd: boolean, caps?: number[]) {
   const n = pts.length;
+  if (caps) {
+    for (let i = 0; i < n - 1; i++) {
+      const ra = r0 + ((r1 - r0) * i) / (n - 1);
+      const rb = r0 + ((r1 - r0) * (i + 1)) / (n - 1);
+      if (Math.max(ra, rb) < 0.06) break;
+      caps.push(...pts[i]!, ...pts[i + 1]!, ra * 1.08, rb * 1.08);
+    }
+  }
   const seg = r0 > 0.4 ? 14 : r0 > 0.15 ? 9 : 6;
   const base = m.n;
   let ref: V3 = Math.abs(normv(sub(pts[1]!, pts[0]!))[1]) > 0.9 ? [1, 0, 0] : [0, 1, 0];
@@ -296,6 +352,12 @@ export interface AncientTree {
   /** The crown's reach: horizontal radius from the trunk's axis at the fork, and the heights of its lowest and highest leaves. */
   crown: { x: number; z: number; radius: number; bottom: number; top: number };
   height: number;
+  /** The bole's measured shape, for anything that flies round it. */
+  trunk: TreeTrunkShape;
+  /** Limbs, boughs and surface roots as tapered capsules. */
+  capsules: TreeCapsules;
+  /** Where clusters of leafy twigs hang (tree-local): the crown's perches for anything small and bright. */
+  leafSites: V3[];
   stats: { woodTris: number; leafCards: number };
 }
 
@@ -310,7 +372,8 @@ export function buildAncientTree(seed = 1207, opts: AncientTreeOptions = {}): An
   const rng = mulberry32(seed);
   const wood = new Mesh3();
   const ground = opts.ground ?? (() => 0);
-  const { top, lobes, face } = trunk(wood, rng, opts.door, ground);
+  const { top, lobes, face, shape } = trunk(wood, rng, opts.door, ground);
+  const caps: number[] = [];
   const perches: V3[] = [];
   const lowBoughs: { p: V3; dir: V3; r: number }[] = [];
   const roots: { pts: V3[]; r0: number; r1: number }[] = [];
@@ -345,7 +408,7 @@ export function buildAncientTree(seed = 1207, opts: AncientTreeOptions = {}): An
     const dir: V3 = [Math.cos(mn.az) * Math.cos(mn.el), Math.sin(mn.el), Math.sin(mn.az) * Math.cos(mn.el)];
     const pts = growPath(addv(top, mulv(dir, -0.5)), dir, mn.len * (mn.dead ? 0.6 : 1), 8, 0.35, mn.dead ? 0.02 : 0.07);
     const r0 = mn.dead ? 0.6 : 0.72;
-    tube(wood, pts, r0, mn.dead ? 0.36 : 0.16, 11, mn.dead);
+    tube(wood, pts, r0, mn.dead ? 0.36 : 0.16, 11, mn.dead, caps);
     if (mn.dead) {
       perches.push(pts[pts.length - 1]!, pts[pts.length - 3]!);
       // A couple of dead stubs off the broken limb.
@@ -353,7 +416,7 @@ export function buildAncientTree(seed = 1207, opts: AncientTreeOptions = {}): An
         const at = pts[2 + j * 2]!;
         const sd = normv(addv(dir, [rng() - 0.5, rng() * 0.6, rng() - 0.5]));
         const sp = growPath(at, sd, 1.6 + rng() * 1.4, 3, 0.5, 0.03);
-        tube(wood, sp, 0.14, 0.05, 40 + j, true);
+        tube(wood, sp, 0.14, 0.05, 40 + j, true, caps);
         perches.push(sp[sp.length - 1]!);
       }
       continue;
@@ -371,7 +434,7 @@ export function buildAncientTree(seed = 1207, opts: AncientTreeOptions = {}): An
       const bp = growPath(at, bd, bl, 5, 0.55, 0.05);
       const f = ti / (pts.length - 1);
       const br = (0.72 + (0.16 - 0.72) * f) * 0.55;
-      tube(wood, bp, br, 0.045, 20 + j, false);
+      tube(wood, bp, br, 0.045, 20 + j, false, caps);
       sites.push({ p: bp[bp.length - 1]!, dir: normv(sub(bp[bp.length - 1]!, bp[bp.length - 2]!)) });
       for (let q = 0; q < 3; q++) {
         const a2 = bp[1 + Math.floor(rng() * (bp.length - 2))]!;
@@ -397,7 +460,7 @@ export function buildAncientTree(seed = 1207, opts: AncientTreeOptions = {}): An
     }
     const r0 = 0.38;
     const r1 = 0.045;
-    tube(wood, pts, r0, r1, 80, false);
+    tube(wood, pts, r0, r1, 80, false, caps);
     // Kept bare: this is where the rags and lanterns hang, and the sunset shows through.
     for (let i = 2; i < pts.length; i++) lowBoughs.push({ p: pts[i]!, dir: normv(sub(pts[i]!, pts[i - 1]!)), r: r0 + ((r1 - r0) * i) / (pts.length - 1) });
     // A few side twigs, spreading and climbing rather than hanging, stopped short of anyone's head; the end of the bough
@@ -455,7 +518,7 @@ export function buildAncientTree(seed = 1207, opts: AncientTreeOptions = {}): An
       p = [p[0], ground(p[0], p[2]) - r * (0.2 + 1.05 * f * f), p[2]];
       pts.push(p);
     }
-    tube(wood, pts, r0, r1, 100 + k, false);
+    tube(wood, pts, r0, r1, 100 + k, false, caps);
     roots.push({ pts, r0, r1 });
   }
 
@@ -489,7 +552,13 @@ export function buildAncientTree(seed = 1207, opts: AncientTreeOptions = {}): An
     leaves.idx.push(b, b + 1, b + 2, b, b + 2, b + 3);
     cards++;
   }
-  if (face && opts.door?.opening) carveDoorPocket(wood, face, opts.door.opening);
+  if (face && opts.door?.opening) {
+    // The doorway through the face, then the hollow chamber behind it (TREE_HOLLOW). Low boughs that start at the bole's
+    // axis and roots that start inside its wall would otherwise cross the hollow.
+    const { width, height } = opts.door.opening;
+    carveDoorBox(wood, face, { hw: width / 2, y0: 0, y1: height, z0: -TREE_HOLLOW.tunnelDepth, z1: 10 });
+    carveDoorBox(wood, face, { hw: TREE_HOLLOW.halfWidth, y0: -0.05, y1: TREE_HOLLOW.height, z0: -TREE_HOLLOW.depth, z1: -TREE_HOLLOW.tunnelDepth });
+  }
   const woodGeo = wood.geometry();
   const leafGeo = leaves.geometry();
   // Cards light like a crown, not like flat planes: normals point out of the crown's centre (and a little up).
@@ -512,6 +581,9 @@ export function buildAncientTree(seed = 1207, opts: AncientTreeOptions = {}): An
     door: face,
     crown,
     height: top[1] + 11,
+    trunk: shape,
+    capsules: new Float32Array(caps),
+    leafSites: sites.map((s) => s.p),
     stats: { woodTris: (woodGeo.index?.count ?? 0) / 3, leafCards: cards },
   };
 }
