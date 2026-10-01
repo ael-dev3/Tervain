@@ -100,6 +100,8 @@ export function npcOutfit(id: NpcId, look: LookLike, seed: number): Outfit {
         belt: { color: LEATHER_DARK, metal: IRON, pouch: LEATHER },
         bracers: LEATHER_DARK,
         helmet: IRON,
+        furCollar: worn(0x5e4c3a, 0.78),
+        gloves: LEATHER_DARK,
       };
     case 'maintenance_worker':
       return {
@@ -112,6 +114,7 @@ export function npcOutfit(id: NpcId, look: LookLike, seed: number): Outfit {
         outer: { kind: 'tunic', color: pri, cloth: 'wool', hem: 0.26, sleeve: 'none', neck: 'open', trim: sec },
         belt: { color: LEATHER, metal: IRON, pouch: LEATHER },
         satchel: { color: [sec[0] * 0.35 + LEATHER[0] * 0.65, sec[1] * 0.35 + LEATHER[1] * 0.65, sec[2] * 0.35 + LEATHER[2] * 0.65], strap: LEATHER_DARK },
+        neckScarf: { color: sec },
       };
     case 'estate_steward':
       return {
@@ -146,10 +149,13 @@ export function npcOutfit(id: NpcId, look: LookLike, seed: number): Outfit {
         legs: { color: LEATHER_DARK, cloth: 'wool', baggy: 0.3 },
         feet: { kind: 'boots', color: LEATHER_DARK, cuff: true },
         mail: [0.3, 0.3, 0.31],
-        outer: { kind: 'gambeson', color: pri, cloth: 'padded', hem: 0.26, sleeve: 'long', neck: 'high', trim: acc },
+        // Undyed padding under the order's blue, so the tabard reads.
+        outer: { kind: 'gambeson', color: worn(0x8c8270, 0.8), cloth: 'padded', hem: 0.26, sleeve: 'long', neck: 'high', trim: acc },
         belt: { color: LEATHER_DARK, metal: BRASS },
         bracers: LEATHER_DARK,
         pauldrons: LEATHER_DARK,
+        tabard: { color: [pri[0] * 0.92, pri[1] * 0.92, pri[2] * 0.95], trim: acc },
+        gloves: LEATHER_DARK,
       };
     case 'mill_hand':
       return {
@@ -176,6 +182,8 @@ export function npcOutfit(id: NpcId, look: LookLike, seed: number): Outfit {
         belt: { color: LEATHER, metal: IRON, knife: true },
         bracers: LEATHER,
         pack: { color: LEATHER, roll: worn(0x6a5a44, 0.7) },
+        headband: worn(0xa44c30, 0.84),
+        neckScarf: { color: worn(0xb0a07c, 0.72) },
       };
     case 'village_baker':
       return {
@@ -210,7 +218,7 @@ export function lookOutfit(look: LookLike, seed: number, woman: boolean): Outfit
   };
   switch (look.accessory) {
     case 'pack':
-      return { ...base, outer: { kind: 'vest', color: pri, cloth: 'wool', hem: -0.1, sleeve: 'none', neck: 'open' }, pack: { color: LEATHER, roll: sec } };
+      return { ...base, outer: { kind: 'vest', color: pri, cloth: 'wool', hem: -0.1, sleeve: 'none', neck: 'open' }, pack: { color: LEATHER, roll: sec }, neckScarf: { color: worn(0x6a6a5a, 0.72) } };
     case 'shawl':
       return {
         ...base,
@@ -229,6 +237,7 @@ export function lookOutfit(look: LookLike, seed: number, woman: boolean): Outfit
         feet: { kind: 'boots', color: LEATHER_DARK, cuff: true },
         outer: { kind: 'coat', color: pri, cloth: 'wool', hem: 0.52, sleeve: 'long', neck: 'high', open: true, trim: acc },
         hat: worn(0x2e2a26, 0.7),
+        furCollar: worn(0xb8aa8a, 0.74),
       };
     case 'hood':
       return { ...base, hood: pri };
@@ -270,5 +279,8 @@ export function banditOutfit(look: LookLike, variant: number): Outfit {
     bracers: LEATHER_DARK,
     pauldrons: variant ? LEATHER_DARK : undefined,
     hood: [pri[0] * 0.7, pri[1] * 0.7, pri[2] * 0.7],
+    neckScarf: variant ? undefined : { color: worn(0x3c342a, 0.8), mask: true },
+    shoulderGuard: variant ? undefined : LEATHER_DARK,
+    furCollar: variant ? worn(0x3e342a, 0.8) : undefined,
   };
 }

@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 import { NPC_LIST } from '../../src/content/npcs';
 import { buildAmbient } from '../../src/presentation/ambient';
+import { personBuildOptions } from '../../src/presentation/characters';
 import type { BuildContext } from '../../src/presentation/context';
 import { buildForestLandmarks, forestLandmarkGeometry } from '../../src/presentation/forestLandmarks';
 import { createFloraPopulation, registerFloraColliders } from '../../src/presentation/floraPopulation';
@@ -13,6 +14,9 @@ import { shoreDistance } from '../../src/world/coast';
 import { deepwoodCover } from '../../src/world/forest';
 import { NavGrid } from '../../src/world/nav';
 import { distToPolyline, forestRelief, roadWeight, Terrain } from '../../src/world/terrain';
+
+// These tests check people's geometry, projection and paint logic, not texture resolution: paint small sheets inline.
+personBuildOptions.sheetSize = 256;
 
 let terrain: Terrain;
 let colliders: ReturnType<typeof buildStaticColliders>;

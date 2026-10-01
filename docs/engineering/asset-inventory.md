@@ -67,6 +67,18 @@ The unchanged source is archived at [assets/audio/source/the-sovereigns-oath-ori
 
 The [human-readable source record](menu-score.md) and [machine-readable audio inventory](menu-audio-assets.json) pin sizes, hashes, media properties, preparation, and source disclosure. Embedded metadata says the source was made with Suno; authorship, model/version and service/account terms were not independently verified. The owner instruction records this particular Tervain use, repository delivery and requested video. No separate open-content grant or independent ownership finding is asserted. Final integration, browser, video and publication evidence belongs to the [0.0.5 handoff](../production/releases/0.0.5.md).
 
+## Replacement people sheets (0.0.8)
+
+Since `0.0.8` ([A33](../decisions.md)) every person's texture is a sheet the game paints in code at load; painted sheets are not files and need no record. An image saved as `src/assets/people/<id>.png` (or `.jpg`, `.jpeg`, `.webp`) replaces one person's painted sheet, and Vite bundles it into the build. The [retexture guide](../art/people-retexture.md) describes the layout, the export and the rules.
+
+**No replacement sheet is installed.** Before one is committed, check it with `npm run people:check` and record it here; leave nothing in the folder without a row:
+
+| Id | File | Size and SHA-256 | Made (date, by whom, how: tool or model and version when known, prompt, starting files) | Terms | Owner approval |
+| --- | --- | --- | --- | --- | --- |
+| — | none installed | — | — | — | — |
+
+A sheet made with an image-generation service carries that service's terms; record them as they are rather than asserting a rights review. Inputs must be original or the project's own exports: no Gothic 3 or Gothic Remake files, screenshots or concept art ([A14](../decisions.md)), and no real person's likeness. No emblem or lettering appears on clothing without an owner decision ([A24](../decisions.md)).
+
 ## Terms
 
 Warpkeep's own [asset ledger](https://github.com/ael-dev3/Warpkeep/blob/main/ASSETS-LICENSE.md) records these runtime files as **use-authorised** (`LicenseRef-Warpkeep-Provenance-Required`), not as open content: presence in a repository does not establish ownership, an open licence, or general redistribution rights, and each source set keeps its dated provenance record in Warpkeep-Assets. Some sets were produced with generation tools (see the creation disclosure in Warpkeep-Assets' README).

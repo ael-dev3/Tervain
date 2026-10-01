@@ -1,6 +1,6 @@
 {
   "name": "tervain",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "private": true,
   "type": "module",
   "description": "Tervain exploration prototype: silent Grey Strand arrival / Templar deepwood",
@@ -9,7 +9,9 @@
     "build": "tsc --noEmit && vite build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "people:sheets": "node tools/export-people-sheets.mjs",
+    "people:check": "node tools/export-people-sheets.mjs --check"
   },
   "devDependencies": {
     "@types/node": "^26.6.3",

@@ -29,7 +29,8 @@ import { createMenuScreen } from './presentation/ui/menuView';
 import { installMenuMaterials } from './presentation/ui/menuMaterials';
 import { AssetLibrary } from './presentation/assets/library';
 import { ALL_NEEDS } from './presentation/assets/needs';
-import { setRigShadow } from './presentation/characters';
+import { personBuildOptions, setRigShadow } from './presentation/characters';
+import { sheetsSettled } from './presentation/human/sheetPool';
 import { WorldScene } from './presentation/world';
 import { MenuScene } from './presentation/menuScene';
 import { disposeSceneResources } from './presentation/disposeScene';
@@ -257,18 +258,24 @@ export class App {
     try {
       // Shared flora caches must be released before replacement assets are constructed.
       if (this.world) this.disposeWorld();
+      // Residents' sheets are half the size on Low (a quarter of the texture memory); the player keeps a full one.
+      personBuildOptions.sheetSize = this.settings.quality === 'low' ? 512 : 1024;
+      // Actors first: their texture sheets are painted on worker threads while the valley is built.
+      const npcs = Object.values(NPCS).map((d) => new NpcActor(d));
+      const enemies = ENEMY_SPAWNS.map((s) => new EnemyActor(s));
       this.world = await WorldScene.create(this.game.state, this.settings, this.library, (p) => {
         this.loadingEl.textContent = `${S('menu.loading')} ${p.loaded}/${p.total}`;
       });
       this.world.scene.add(this.player.group);
       this.applyQualityToRenderer();
-      // Actors
-      this.npcs = Object.values(NPCS).map((d) => new NpcActor(d));
+      this.npcs = npcs;
       for (const n of this.npcs) this.world.scene.add(n.rig.root);
-      this.enemies = ENEMY_SPAWNS.map((s) => new EnemyActor(s));
+      this.enemies = enemies;
       for (const e of this.enemies) this.world.scene.add(e.rig.root);
       this.interactables = buildInteractables(this);
       this.syncWorldFromState(true);
+      // People's sheets are painted on worker threads; keep the loading screen up until every one is on.
+      await sheetsSettled();
     } finally {
       this.worldBuilding = false;
     }

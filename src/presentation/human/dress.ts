@@ -2,6 +2,8 @@ import { mulberry32 } from '../../world/noise';
 import type { Frame } from './frame';
 import type { HeadFit } from './head';
 import type { ClothKind } from './humanTex';
+import type { PaintSpec, Surface } from './paint';
+import type { Wardrobe } from './person';
 import { box, ellipsoid, loft, mix3, mul3, sstep, tube, type Mesher, type Ring, type RGB, type V3, type WeightFn } from './skin';
 
 /**
@@ -9,8 +11,9 @@ import { box, ellipsoid, loft, mix3, mul3, sstep, tube, type Mesher, type Ring, 
  * leg wraps, an outer garment whose silhouette says who someone is (tunic, jerkin, gambeson, coat, dress, robe), a belt
  * with its pouch, and the pieces a role adds (apron, shawl, scapular, hood, hat, helmet, pack). Every layer is offset
  * from the one beneath and ends in a visible turned edge, so the costume reads in hard-edged layers at a distance
- * (docs/art/gothic3-reference.md#people). Colours are vertex colours; the weave, leather grain, quilting and mail come
- * from tiling detail maps on each material.
+ * (docs/art/gothic3-reference.md#people). Each piece is a painted part of the person's sheet (paint.ts): it says what it
+ * is made of and how worn it is, and the painter draws its mud, folds, seams, stitched edges and patches; colours here are
+ * the base the painter starts from.
  */
 
 export type Neck = 'crew' | 'laced' | 'open' | 'high' | 'square';
@@ -39,30 +42,29 @@ export interface Outfit {
   pack?: { color: RGB; roll: RGB };
   satchel?: { color: RGB; strap: RGB };
   ledger?: RGB;
+  /** A thick fur collar round the shoulders and the upper back. */
+  furCollar?: RGB;
+  /** A cloth wound round the neck; `mask` pulls it up over the mouth and nose. */
+  neckScarf?: { color: RGB; mask?: boolean };
+  /** One riveted leather guard on the left shoulder, strapped across the chest. */
+  shoulderGuard?: RGB;
+  /** A cloth band round the head above the brows, knotted at the back. */
+  headband?: RGB;
+  /** A sleeveless cloth panel before and behind, over the outer garment and under the belt. */
+  tabard?: { color: RGB; trim?: RGB };
+  /** Leather gloves. */
+  gloves?: RGB;
   /** 0 clean .. 1 caked. */
   dirt: number;
   seed: number;
 }
 
-export type MatKey = 'skin' | ClothKind | 'metal';
-
-export class Meshers {
-  private readonly map = new Map<string, Mesher>();
-  constructor(private readonly make: () => Mesher) {}
-  get(key: string): Mesher {
-    let m = this.map.get(key);
-    if (!m) {
-      m = this.make();
-      this.map.set(key, m);
-    }
-    return m;
-  }
-  entries(): [string, Mesher][] {
-    return [...this.map.entries()];
-  }
-}
-
 const SHIRT = 0.006;
+/** Side seams, at the person's left and right. */
+const SIDE_SEAMS = [Math.PI / 2, -Math.PI / 2];
+
+/** A painted part of a costume: what it is, what it is made of, and the costume's own wear. */
+const partOf = (o: Outfit) => (surface: Surface, piece: string, extra: Partial<PaintSpec> = {}): PaintSpec => ({ surface, piece, seed: o.seed, dirt: o.dirt, ...extra });
 const TROUSERS = 0.011;
 
 /** Where the belt sits, what the outer layer grows by, and what the head wears: shared by the pieces. */
@@ -76,17 +78,18 @@ interface Fit {
   skirt: (y: number, grow: number) => Ring;
 }
 
-export function dress(f: Frame, o: Outfit, ms: Meshers): Fit {
+export function dress(f: Frame, o: Outfit, wd: Wardrobe): Fit {
   const H = f.H;
   const rnd = mulberry32((o.seed ^ 0x2545f491) >>> 0);
   const ph = rnd() * 10;
   const trunkW = f.weights('trunk');
   const skirtW = f.weights('skirt');
-  const skin = ms.get('skin');
-  const wear = (hemY: number, dirt = o.dirt) => (th: number, y: number, c: RGB, x: number, z: number): RGB => {
-    const hem = dirt * (1 - sstep(hemY, hemY + 0.32, y));
-    const blot = 0.9 + 0.1 * Math.sin(x * 29 + ph) * Math.sin(z * 23 + y * 13 - ph * 0.7);
-    const k = (1 - hem * 0.38) * blot * (1 - 0.04 * Math.cos(th * 2));
+  const P = partOf(o);
+  const skinPart = P('skin', 'skin', { dirt: o.dirt * 0.6 });
+  // A faint unevenness in the base colour; mud, folds and wear are painted (paint.ts).
+  const wear = (_hemY: number, _dirt = o.dirt) => (th: number, y: number, c: RGB, x: number, z: number): RGB => {
+    const blot = 0.95 + 0.05 * Math.sin(x * 29 + ph) * Math.sin(z * 23 + y * 13 - ph * 0.7);
+    const k = blot * (1 - 0.03 * Math.cos(th * 2));
     return [c[0] * k, c[1] * k * 0.99, c[2] * k * 0.97];
   };
   const folds = (amp: number, from: number, to: number, n = 7) => (th: number, y: number) => amp * sstep(from, to, y) * Math.sin(th * n + ph + y * 3.1);
@@ -104,11 +107,25 @@ export function dress(f: Frame, o: Outfit, ms: Meshers): Fit {
 
   // Neck and the top of the chest (under the collar); hands.
   loft(
-    skin,
+    wd.use(skinPart),
     [1.3, 1.36, 1.42, 1.46, 1.49, 1.51, 1.53, 1.555, 1.58, 1.61, 1.64].map((k) => f.trunkRing(k * H, 0, mul3(o.skin, k > 1.5 ? 1 : 0.94))),
     { sides: 16, wf: trunkW, tile: 0.3 },
   );
-  for (const side of [1, -1]) hand(f, skin, side, o.skin);
+  const handPart = o.gloves ? P('leather', 'glove', { stitch: 0.003 }) : skinPart;
+  for (const side of [1, -1]) {
+    hand(f, wd, handPart, side, o.gloves ?? o.skin);
+    if (o.gloves) {
+      // The glove's flared cuff round the wrist.
+      const s0 = f.upper + f.fore - 0.055 * H;
+      const s1 = f.upper + f.fore + 0.006;
+      loft(wd.use(P('leather', 'glove cuff', { stitch: 0.004 })), [f.armRing(side, s1, 0.004, mul3(o.gloves, 0.9)), f.armRing(side, (s0 + s1) / 2, 0.009, o.gloves), f.armRing(side, s0, 0.016, mul3(o.gloves, 1.05))], {
+        sides: 12,
+        wf: f.weights(side > 0 ? 'armL' : 'armR'),
+        lipTop: 0.003,
+        tile: 0.2,
+      });
+    }
+  }
 
   /* ---------------------------------------------------------------- sleeves: what covers each arm, and bare skin below */
   const outerSleeve = outer && outer.sleeve !== 'none' ? outer.sleeve : null;
@@ -127,16 +144,16 @@ export function dress(f: Frame, o: Outfit, ms: Meshers): Fit {
         const s = s1 + ((s0 - s1) * i) / n;
         secs.push(f.armRing(side, s, 0, mul3(o.skin, 0.96 + 0.04 * (i / n))));
       }
-      loft(skin, secs, { sides: 10, wf: f.weights(side > 0 ? 'armL' : 'armR'), capTop: s0 < 0 });
+      loft(wd.use(skinPart), secs, { sides: 10, wf: f.weights(side > 0 ? 'armL' : 'armR'), capTop: s0 < 0 });
     }
   }
 
   /* ---------------------------------------------------------------- shirt */
   if (o.shirt) {
     const sh = o.shirt;
-    const m = ms.get(sh.cloth);
-    const c = mul3(sh.color, 1.08);
     const tuckY = 0.99 * H;
+    const m = wd.use(P(sh.cloth, 'shirt', { hemY: tuckY, seams: SIDE_SEAMS, sweat: 0.35 + 0.5 * o.dirt, stitch: 0.006 }));
+    const c = mul3(sh.color, 1.08);
     const ys = [tuckY, 1.06 * H, 1.14 * H, 1.22 * H, 1.3 * H, 1.37 * H, 1.42 * H, 1.455 * H, 1.48 * H, 1.505 * H, 1.53 * H];
     const vDepth = sh.neck === 'laced' || sh.neck === 'open' ? 0.075 * H : sh.neck === 'square' ? 0.06 * H : 0;
     loft(
@@ -154,19 +171,20 @@ export function dress(f: Frame, o: Outfit, ms: Meshers): Fit {
         push: folds(0.003, 1.0 * H, 1.3 * H, 5),
       },
     );
-    if (sh.neck === 'laced') laces(f, ms.get('leather'), 1.43 * H, 1.52 * H, SHIRT + 0.004, [0.16, 0.11, 0.07], trunkW);
+    if (sh.neck === 'laced') laces(f, wd.use(P('leather', 'laces')), 1.43 * H, 1.52 * H, SHIRT + 0.004, [0.16, 0.11, 0.07], trunkW);
     // Shirt sleeves show when nothing covers them, or peek out below a shorter outer sleeve.
     const shirtEnd = sleeveEnd(sh.sleeve);
     const outerEnd = outerSleeve ? sleeveEnd(outerSleeve) : 0;
     if (shirtEnd > outerEnd + 0.02) {
-      for (const side of [1, -1]) sleeve(f, m, side, Math.max(-0.034 * H, outerEnd - 0.05), shirtEnd, SHIRT + 0.002, c, sh.sleeve, o.seed + side, wear(0));
+      const sleevePart = P(sh.cloth, 'shirt sleeve', { hemY: f.shoulderY - shirtEnd, stitch: 0.006 });
+      for (const side of [1, -1]) sleeve(f, wd.use(sleevePart), side, Math.max(-0.034 * H, outerEnd - 0.05), shirtEnd, SHIRT + 0.002, c, sh.sleeve, o.seed + side, wear(0));
     }
   }
 
   /* ---------------------------------------------------------------- trousers */
   {
     const lg = o.legs;
-    const m = ms.get(lg.cloth);
+    const m = wd.use(P(lg.cloth, 'trousers', { hemY: 0, seams: SIDE_SEAMS, patches: o.dirt > 0.45 ? 2 : 0, stitch: 0.006 }));
     const c = mul3(lg.color, 1.06);
     // Seat and hips: from inside the thighs to the waistband.
     const ys = [0.82, 0.87, 0.92, 0.97, 1.03, 1.09, 1.13].map((k) => k * H);
@@ -188,13 +206,13 @@ export function dress(f: Frame, o: Outfit, ms: Meshers): Fit {
   }
 
   /* ---------------------------------------------------------------- feet */
-  for (const side of [1, -1]) feet(f, ms, side, o, wear);
+  for (const side of [1, -1]) feet(f, wd, P, side, o, wear);
 
   /* ---------------------------------------------------------------- mail, under the outer layer */
   if (o.mail) {
-    const m = ms.get('mail');
     const c = o.mail;
     const hemY = f.hipY - 0.38 * H;
+    const m = wd.use(P('mail', 'mail shirt', { hemY }));
     const ys: number[] = [];
     for (let y = 1.47 * H; y > hemY; y -= 0.06 * H) ys.push(y);
     ys.push(hemY);
@@ -205,11 +223,19 @@ export function dress(f: Frame, o: Outfit, ms: Meshers): Fit {
 
   /* ---------------------------------------------------------------- outer garment */
   if (outer) {
-    const m = ms.get(outer.cloth);
     const c = mul3(outer.color, 1.06);
     const trim = outer.trim ?? mul3(outer.color, 0.7);
     const g = outerGrow;
     const hemY = f.hipY - outer.hem * H;
+    const outerPart = P(outer.cloth, outer.kind, {
+      hemY,
+      stitch: 0.007,
+      seams: outer.kind === 'vest' || outer.cloth === 'leather' ? undefined : SIDE_SEAMS,
+      pattern: outer.cloth === 'leather' ? 'panels' : undefined,
+      patches: o.dirt > 0.5 && outer.cloth !== 'leather' ? 1 : 0,
+      trim: outer.trim && (outer.kind === 'dress' || outer.kind === 'robe' || outer.kind === 'coat') ? { color: outer.trim, edge: 'bottom', width: 0.03 } : undefined,
+    });
+    const m = wd.use(outerPart);
     const long = outer.hem > 0.3;
     const topY = outer.kind === 'vest' || outer.kind === 'jerkin' ? 1.475 * H : 1.525 * H;
     // Body of the garment down to the hips.
@@ -232,9 +258,9 @@ export function dress(f: Frame, o: Outfit, ms: Meshers): Fit {
     );
     if (outer.neck === 'high') {
       // A standing collar.
-      loft(m, [1.5, 1.525, 1.56].map((k, i) => f.trunkRing(k * H, g + 0.006 - i * 0.002, mul3(trim, 1))), { sides: 18, wf: trunkW, lipTop: 0.006, tile: 0.2 });
+      loft(wd.use(P(outer.cloth, 'collar', { stitch: 0.005 })), [1.5, 1.525, 1.56].map((k, i) => f.trunkRing(k * H, g + 0.006 - i * 0.002, mul3(trim, 1))), { sides: 18, wf: trunkW, lipTop: 0.006, tile: 0.2 });
     }
-    if (outer.neck === 'laced') laces(f, ms.get('leather'), 1.36 * H, 1.47 * H, g + 0.004, [0.12, 0.08, 0.05], trunkW);
+    if (outer.neck === 'laced') laces(f, wd.use(P('leather', 'laces')), 1.36 * H, 1.47 * H, g + 0.004, [0.12, 0.08, 0.05], trunkW);
     // Skirt from the waist to the hem, round both legs; it follows the legs as they move.
     if (hemY < 1.02 * H) {
       const kFlare = outer.kind === 'robe' ? 0.07 : outer.kind === 'dress' ? 0.06 : outer.kind === 'coat' ? 0.05 : 0.035;
@@ -248,7 +274,7 @@ export function dress(f: Frame, o: Outfit, ms: Meshers): Fit {
       const secs: Ring[] = [];
       const n = long ? 9 : 5;
       for (let i = 0; i <= n; i++) secs.push(skirtAt(hemY + ((1.02 * H - hemY) * i) / n, 0));
-      loft(m, secs, {
+      loft(wd.use(outerPart), secs, {
         sides: 26,
         wf: skirtW,
         tile: 0.24,
@@ -262,7 +288,8 @@ export function dress(f: Frame, o: Outfit, ms: Meshers): Fit {
     // Sleeves.
     if (outer.sleeve !== 'none') {
       const end = sleeveEnd(outer.sleeve);
-      for (const side of [1, -1]) sleeve(f, m, side, -0.036 * H, end, SHIRT + 0.009 + (outer.kind === 'gambeson' ? 0.006 : 0), c, outer.sleeve, o.seed + 17 + side, wear(0), trim);
+      const sleevePart = P(outer.cloth, `${outer.kind} sleeve`, { hemY: f.shoulderY - end, stitch: 0.007 });
+      for (const side of [1, -1]) sleeve(f, wd.use(sleevePart), side, -0.036 * H, end, SHIRT + 0.009 + (outer.kind === 'gambeson' ? 0.006 : 0), c, outer.sleeve, o.seed + 17 + side, wear(0), trim);
       fit.sleeveGrow = SHIRT + 0.009;
     }
     // Trim down the front of an open coat.
@@ -275,8 +302,26 @@ export function dress(f: Frame, o: Outfit, ms: Meshers): Fit {
           const th = 0.2 * side;
           pts.push([r.w * Math.sin(th) * 0.9, y, r.f * Math.cos(th) + 0.004]);
         }
-        tube(m, pts, 0.017, trim, { sides: 4, wf: skirtW, flat: 0.3, up: [0, 0, 1], tile: 0.2, twist: Math.PI / 4 });
+        tube(wd.use(P(outer.cloth, 'facing', { stitch: 0.004 })), pts, 0.017, trim, { sides: 4, wf: skirtW, flat: 0.3, up: [0, 0, 1], tile: 0.2, twist: Math.PI / 4 });
       }
+    }
+  }
+
+  /* ---------------------------------------------------------------- tabard */
+  if (o.tabard) {
+    // A panel of plain cloth before and behind, from the shoulders to below the hips, over whatever is worn beneath.
+    const c = mul3(o.tabard.color, 1.04);
+    const hemY = f.hipY - 0.32 * H;
+    const part = P('wool', 'tabard', { hemY, stitch: 0.006, trim: o.tabard.trim ? { color: o.tabard.trim, edge: 'bottom', width: 0.035 } : undefined });
+    for (const back of [false, true]) {
+      const ys: number[] = [];
+      for (let i = 0; i <= 12; i++) ys.push(hemY + ((1.47 * H - hemY) * i) / 12);
+      const a0 = back ? Math.PI - 0.85 : -0.85;
+      loft(
+        wd.use(part),
+        ys.map((y) => (y < 1.02 * H ? { ...fit.skirt(y, 0.014), c } : f.trunkRing(y, outerGrow + 0.012, c))),
+        { sides: 10, wf: skirtW, arc: [a0, a0 + 1.7], lipBottom: 0.004, tile: 0.25, push: folds(0.004, 1.0 * H, hemY, 5), seed: o.seed + 41 },
+      );
     }
   }
 
@@ -284,8 +329,9 @@ export function dress(f: Frame, o: Outfit, ms: Meshers): Fit {
   if (o.belt) {
     const b = o.belt;
     const y = fit.beltY;
-    const g = outerGrow + 0.006;
-    const m = ms.get(b.rope ? 'linen' : 'leather');
+    const g = outerGrow + 0.006 + (o.tabard ? 0.012 : 0);
+    const beltPart = b.rope ? P('rope', 'rope belt') : P('leather', 'belt', { stitch: 0.0045 });
+    const m = wd.use(beltPart);
     if (b.rope) {
       const pts: V3[] = [];
       for (let i = 0; i <= 24; i++) {
@@ -305,28 +351,30 @@ export function dress(f: Frame, o: Outfit, ms: Meshers): Fit {
       // The buckle and the strap's end, unless an apron's bib covers them.
       if (!o.apron?.bib) {
         const front = f.trunk(y).f + g + 0.006;
-        box(ms.get('metal'), [0.012, y, front], [0.024, 0.026 * H, 0.004], b.metal, trunkW);
-        box(m, [-0.045, y, front - 0.002], [0.03, 0.016 * H, 0.003], mul3(b.color, 0.8), trunkW);
+        box(wd.use(P('metal', 'buckle')), [0.012, y, front], [0.024, 0.026 * H, 0.004], b.metal, trunkW);
+        box(wd.use(beltPart), [-0.045, y, front - 0.002], [0.03, 0.016 * H, 0.003], mul3(b.color, 0.8), trunkW);
       }
     }
     if (b.pouch) {
       const t = f.trunk(y);
       const px = -(t.w * 0.72 + g);
       const pz = t.f * 0.55 + g;
-      ellipsoid(ms.get('leather'), [px, y - 0.075 * H, pz], [0.055, 0.065 * H, 0.03], (d) => mul3(b.pouch!, 0.8 + 0.2 * d[1]), f.weights('hips'), { ws: 8, hs: 6, basis: [[Math.cos(0.8), 0, Math.sin(0.8)], [0, 1, 0], [-Math.sin(0.8), 0, Math.cos(0.8)]] });
-      box(ms.get('leather'), [px + 0.004, y - 0.03 * H, pz + 0.018], [0.045, 0.012, 0.012], mul3(b.pouch, 0.7), f.weights('hips'), [[Math.cos(0.8), 0, -Math.sin(0.8)], [0, 1, 0], [Math.sin(0.8), 0, Math.cos(0.8)]]);
+      const pouch = P('leather', 'pouch', { stitch: 0.005 });
+      ellipsoid(wd.use(pouch), [px, y - 0.075 * H, pz], [0.055, 0.065 * H, 0.03], (d) => mul3(b.pouch!, 0.8 + 0.2 * d[1]), f.weights('hips'), { ws: 8, hs: 6, basis: [[Math.cos(0.8), 0, Math.sin(0.8)], [0, 1, 0], [-Math.sin(0.8), 0, Math.cos(0.8)]] });
+      box(wd.use(pouch), [px + 0.004, y - 0.03 * H, pz + 0.018], [0.045, 0.012, 0.012], mul3(b.pouch, 0.7), f.weights('hips'), [[Math.cos(0.8), 0, -Math.sin(0.8)], [0, 1, 0], [Math.sin(0.8), 0, Math.cos(0.8)]]);
     }
     if (b.knife) {
       const t = f.trunk(y);
       const kx = t.w * 0.5;
       const kz = -(t.b + g) * 0.9;
-      tube(ms.get('leather'), [[kx, y + 0.01, kz], [kx + 0.01, y - 0.2 * H, kz - 0.02]], [0.018, 0.01], [0.13, 0.09, 0.06], { sides: 5, wf: f.weights('hips'), flat: 0.5, capEnd: true, up: [0, 0, -1] });
+      tube(wd.use(P('leather', 'knife sheath')), [[kx, y + 0.01, kz], [kx + 0.01, y - 0.2 * H, kz - 0.02]], [0.018, 0.01], [0.13, 0.09, 0.06], { sides: 5, wf: f.weights('hips'), flat: 0.5, capEnd: true, up: [0, 0, -1] });
     }
   }
 
   /* ---------------------------------------------------------------- bracers, pauldrons */
   if (o.bracers) {
-    const m = ms.get('leather');
+    const bracer = P('leather', 'bracer', { stitch: 0.005 });
+    const lace = P('leather', 'bracer lace');
     for (const side of [1, -1]) {
       const secs: Ring[] = [];
       const s0 = f.upper + f.fore - 0.02 * H;
@@ -335,7 +383,7 @@ export function dress(f: Frame, o: Outfit, ms: Meshers): Fit {
         const s = s0 + ((s1 - s0) * i) / 4;
         secs.push(f.armRing(side, s, fit.sleeveGrow + 0.007 + 0.004 * (i / 4), mul3(o.bracers, 0.9 + 0.1 * (i / 4))));
       }
-      loft(m, secs, { sides: 10, wf: f.weights(side > 0 ? 'armL' : 'armR'), lipTop: 0.003, lipBottom: 0.003, tile: 0.2 });
+      loft(wd.use(bracer), secs, { sides: 10, wf: f.weights(side > 0 ? 'armL' : 'armR'), lipTop: 0.003, lipBottom: 0.003, tile: 0.2 });
       for (const k of [0.3, 0.7]) {
         const s = s0 + (s1 - s0) * k;
         const r = f.armRing(side, s, fit.sleeveGrow + 0.012, o.bracers);
@@ -344,12 +392,12 @@ export function dress(f: Frame, o: Outfit, ms: Meshers): Fit {
           const th = (i / 10) * Math.PI * 2;
           pts.push([r.cx! + r.w * Math.sin(th), r.y, (r.cz ?? 0) + r.f * Math.cos(th)]);
         }
-        tube(m, pts, 0.003, [0.1, 0.07, 0.05], { sides: 4, wf: f.weights(side > 0 ? 'armL' : 'armR'), up: [0, 1, 0] });
+        tube(wd.use(lace), pts, 0.003, [0.1, 0.07, 0.05], { sides: 4, wf: f.weights(side > 0 ? 'armL' : 'armR'), up: [0, 1, 0] });
       }
     }
   }
   if (o.pauldrons) {
-    const m = ms.get('leather');
+    const m = wd.use(P('leather', 'pauldron', { pattern: 'rivets', stitch: 0.006 }));
     for (const side of [1, -1]) {
       const c: V3 = [side * (f.shoulderX - 0.01), f.shoulderY + 0.012 * H, 0];
       // A dome whose axis tips outward over the shoulder; the basis stays right-handed on both sides.
@@ -367,12 +415,31 @@ export function dress(f: Frame, o: Outfit, ms: Meshers): Fit {
       });
     }
   }
+  if (o.shoulderGuard) {
+    // One heavy guard on the left shoulder, layered plates riveted together, held by a strap across the chest.
+    const m = wd.use(P('leather', 'shoulder guard', { pattern: 'rivets', stitch: 0.006 }));
+    const cs = Math.cos(0.42);
+    const sn = Math.sin(0.42);
+    const basis: [V3, V3, V3] = [
+      [cs, -sn, 0],
+      [sn, cs, 0],
+      [0, 0, 1],
+    ];
+    for (const [k, r] of [
+      [0, [0.1, 0.075, 0.11]],
+      [1, [0.085, 0.06, 0.1]],
+    ] as const) {
+      const c: V3 = [f.shoulderX + 0.005 + 0.03 * k, f.shoulderY + 0.02 * H - 0.045 * k, 0];
+      ellipsoid(m, c, [r[0], r[1], r[2]], (d) => mul3(o.shoulderGuard!, (0.72 + 0.28 * d[1]) * (k ? 0.92 : 1)), f.weights('armL'), { ws: 14, hs: 6, theta: [0, 1.3], basis });
+    }
+    bandolier(f, wd.use(P('leather', 'guard strap', { stitch: 0.004 })), 1, outerGrow + 0.01, 0.016, mul3(o.shoulderGuard, 0.8), f.weights('trunk'));
+  }
 
   /* ---------------------------------------------------------------- apron, scapular, shawl */
   if (o.apron) {
-    const m = ms.get('linen');
     const c = mul3(o.apron.color, 1.05);
     const hemY = f.hipY - 0.4 * H;
+    const m = wd.use(P('linen', 'apron', { hemY, dirt: o.dirt * 0.5, stitch: 0.006 }));
     const top = o.apron.bib ? 1.36 * H : fit.beltY + 0.02 * H;
     const ys: number[] = [];
     for (let i = 0; i <= 8; i++) ys.push(hemY + ((top - hemY) * i) / 8);
@@ -413,7 +480,7 @@ export function dress(f: Frame, o: Outfit, ms: Meshers): Fit {
     }
   }
   if (o.scapular) {
-    const m = ms.get('wool');
+    const m = wd.use(P('wool', 'scapular', { hemY: f.hipY - 0.78 * H, stitch: 0.006 }));
     const c = mul3(o.scapular, 1.05);
     const hemY = f.hipY - 0.78 * H;
     for (const back of [false, true]) {
@@ -428,7 +495,7 @@ export function dress(f: Frame, o: Outfit, ms: Meshers): Fit {
     }
   }
   if (o.shawl) {
-    const m = ms.get('wool');
+    const m = wd.use(P('wool', 'shawl', { stitch: 0.006 }));
     const c = mul3(o.shawl, 1.05);
     // A triangle of wool round the shoulders: its point hangs down the back, its two ends cross over the breast and
     // are tucked into the belt.
@@ -458,7 +525,7 @@ export function dress(f: Frame, o: Outfit, ms: Meshers): Fit {
 
   /* ---------------------------------------------------------------- cloak */
   if (o.cloak) {
-    const m = ms.get('wool');
+    const m = wd.use(P('wool', 'cloak', { hemY: f.hipY - 0.66 * H, dirt: Math.min(1, o.dirt + 0.2) }));
     const c = mul3(o.cloak.color, 1.02);
     const hemY = f.hipY - 0.66 * H;
     const secs: Ring[] = [];
@@ -492,18 +559,72 @@ export function dress(f: Frame, o: Outfit, ms: Meshers): Fit {
       shade: wear(hemY, o.dirt + 0.2),
     });
     const r = f.trunkRing(1.5 * H, outerGrow + 0.03, c);
-    ellipsoid(ms.get('metal'), [0, 1.5 * H, r.f + 0.004], [0.018, 0.018, 0.006], o.cloak.clasp, trunkW, { ws: 8, hs: 6 });
+    ellipsoid(wd.use(P('metal', 'clasp')), [0, 1.5 * H, r.f + 0.004], [0.018, 0.018, 0.006], o.cloak.clasp, trunkW, { ws: 8, hs: 6 });
+  }
+
+  /* ---------------------------------------------------------------- fur, neck cloth */
+  if (o.furCollar) {
+    // A thick, shaggy collar of pelts over the shoulders and the upper back, ragged at its lower edge.
+    const c = o.furCollar;
+    const rnd2 = mulberry32((o.seed ^ 0x7f4a7c15) >>> 0);
+    const ph2 = rnd2() * 6.28;
+    // Rings from the upper chest to the base of the neck: round over the shoulders, rising to a thick roll at the neck.
+    const ys = [1.385, 1.415, 1.445, 1.475, 1.5, 1.525, 1.55, 1.57].map((k) => k * H);
+    const shoulders = f.shoulderX + f.armR(0.04 * H) * 0.45 + outerGrow + 0.03;
+    const last = ys.length - 1;
+    loft(
+      wd.use(P('fur', 'fur collar', { tint: mix3(c, [0.42, 0.38, 0.33], 0.55), dirt: o.dirt * 0.5, hemY: 1.38 * H })),
+      ys.map((y, i) => {
+        const t = i / last;
+        // Over the shoulders the collar is as wide as they are; at the neck it closes in round it.
+        const k = sstep(1.565 * H, 1.45 * H, y);
+        const thick = 0.022 + 0.026 * Math.sin(t * Math.PI * 0.85);
+        const r = f.trunkRing(Math.min(y, 1.53 * H), outerGrow + thick, c);
+        const w = Math.max(r.w, shoulders * k + (r.w + 0.012) * (1 - k));
+        return { ...r, y, w, f: r.f + 0.012 * k, b: r.b + 0.02 * k, p: 2.0, c: mul3(c, 0.68 + 0.32 * t) };
+      }),
+      {
+        sides: 36,
+        wf: trunkW,
+        wobble: 0.11,
+        seed: o.seed + 47,
+        lipBottom: 0.014,
+        lipTop: 0.01,
+        tile: 0.15,
+        // Ragged: tufts hang lower here and there round the edge.
+        lift: (th, y) => (y < 1.39 * H ? -0.028 * H * Math.max(0, Math.sin(th * 7 + ph2)) * Math.max(0, Math.sin(th * 3 - ph2)) : 0),
+        push: (th, y) => 0.007 * Math.sin(th * 13 + ph2 + y * 30) + 0.004 * Math.sin(th * 29 - ph2),
+      },
+    );
+  }
+  if (o.neckScarf && !o.neckScarf.mask) {
+    // A length of cloth wound twice round the neck, its ends tucked under.
+    const c = o.neckScarf.color;
+    const m = wd.use(P('linen', 'neck scarf', { dirt: o.dirt * 0.8, hemY: 1.4 * H }));
+    for (const [k, y] of [
+      [0, 1.515 * H],
+      [1, 1.49 * H],
+    ] as const) {
+      const pts: V3[] = [];
+      for (let i = 0; i <= 28; i++) {
+        const th = (i / 28) * Math.PI * 2;
+        const r = f.trunkRing(y, 0.006 + 0.004 * k, c);
+        // Wound on the slant, bunched a little at the front.
+        pts.push([r.w * Math.sin(th), y - 0.01 * Math.cos(th) * (k ? 1 : -1), (Math.cos(th) > 0 ? r.f : r.b) * Math.cos(th) + 0.004 * Math.max(0, Math.cos(th))]);
+      }
+      tube(m, pts, 0.015 + 0.003 * k, mul3(c, 0.9 + 0.1 * k), { sides: 6, wf: trunkW, up: (p) => [p[0], 0, p[2]], tile: 0.15, flat: 0.5, lift: 0.6 });
+    }
   }
 
   /* ---------------------------------------------------------------- back and side */
   if (o.pack) {
-    const m = ms.get('leather');
+    const m = wd.use(P('leather', 'pack', { stitch: 0.006 }));
     const y = 1.27 * H;
     const back = f.trunk(y).b + outerGrow + 0.07;
     const torso = f.weights('torso');
     box(m, [0, y, -back], [0.14, 0.17 * H, 0.065], mul3(o.pack.color, 0.9), torso);
     box(m, [0, y + 0.07 * H, -back - 0.066], [0.12, 0.08 * H, 0.004], mul3(o.pack.color, 0.7), torso);
-    tube(ms.get('wool'), [[-0.17, y + 0.2 * H, -back + 0.01], [0.17, y + 0.2 * H, -back + 0.01]], 0.05, o.pack.roll, { sides: 10, wf: torso, capStart: true, capEnd: true, up: [0, 1, 0] });
+    tube(wd.use(P('wool', 'bedroll')), [[-0.17, y + 0.2 * H, -back + 0.01], [0.17, y + 0.2 * H, -back + 0.01]], 0.05, o.pack.roll, { sides: 10, wf: torso, capStart: true, capEnd: true, up: [0, 1, 0] });
     for (const side of [1, -1]) {
       const g = outerGrow + 0.008;
       const x = side * 0.1 * Math.sqrt(f.G);
@@ -519,11 +640,11 @@ export function dress(f: Frame, o: Outfit, ms: Meshers): Fit {
         [side * underArm, 1.26 * H, -0.02],
         [side * 0.12, y - 0.1 * H, -back + 0.05],
       ];
-      tube(m, pts, 0.024, mul3(o.pack.color, 0.75), { sides: 4, wf: trunkW, flat: 0.2, up: outward(f), twist: Math.PI / 4, lift: 0.7 });
+      tube(wd.use(P('leather', 'pack strap', { stitch: 0.004 })), pts, 0.024, mul3(o.pack.color, 0.75), { sides: 4, wf: trunkW, flat: 0.2, up: outward(f), twist: Math.PI / 4, lift: 0.7 });
     }
   }
   if (o.satchel) {
-    const m = ms.get('leather');
+    const m = wd.use(P('leather', 'satchel', { stitch: 0.006 }));
     const bagY = f.hipY + 0.02 * H;
     const t = f.hipsRing(bagY, outerGrow + 0.02, o.satchel.color);
     // A soft leather bag: a rounded box, slumped at the bottom, its flap over the top.
@@ -541,17 +662,18 @@ export function dress(f: Frame, o: Outfit, ms: Meshers): Fit {
     bandolier(f, m, -1, outerGrow + 0.012, 0.02, o.satchel.strap, trunkW);
   }
   if (o.ledger) {
-    const m = ms.get('leather');
+    const m = wd.use(P('leather', 'ledger'));
     const t = f.trunk(fit.beltY);
     box(m, [t.w + outerGrow + 0.03, fit.beltY - 0.1 * H, 0.03], [0.02, 0.12 * H, 0.09], o.ledger, f.weights('hips'), [[1, 0, 0], [0, Math.cos(0.12), Math.sin(0.12)], [0, -Math.sin(0.12), Math.cos(0.12)]]);
-    box(m, [t.w + outerGrow + 0.052, fit.beltY - 0.1 * H, 0.03], [0.002, 0.105 * H, 0.078], [0.52, 0.47, 0.36], f.weights('hips'));
+    box(wd.use(P('linen', 'pages', { dirt: 0 })), [t.w + outerGrow + 0.052, fit.beltY - 0.1 * H, 0.03], [0.002, 0.105 * H, 0.078], [0.52, 0.47, 0.36], f.weights('hips'));
   }
   return fit;
 }
 
 /** Headwear, fitted round the head that was built (hood, scarf, hat, helmet, cowl). */
-export function dressHead(f: Frame, o: Outfit, ms: Meshers, head: HeadFit, outerGrow: number) {
+export function dressHead(f: Frame, o: Outfit, wd: Wardrobe, head: HeadFit, outerGrow: number) {
   const H = f.H;
+  const P = partOf(o);
   const headW = f.weights('head');
   const trunkW = f.weights('trunk');
   const cx = 0;
@@ -561,7 +683,7 @@ export function dressHead(f: Frame, o: Outfit, ms: Meshers, head: HeadFit, outer
   const collar = (color: RGB, lo: number) => {
     const ys = [lo, 1.4, 1.46, 1.5, 1.535].map((k) => k * H);
     loft(
-      ms.get('wool'),
+      wd.use(P('wool', 'hood collar', { stitch: 0.006 })),
       ys.map((y, i) => {
         const r = f.trunkRing(y, outerGrow + 0.014 + 0.008 * (1 - i / 4), color);
         const shoulders = f.shoulderX + f.armR(0.04 * H) * 0.7 + outerGrow + 0.012;
@@ -572,7 +694,7 @@ export function dressHead(f: Frame, o: Outfit, ms: Meshers, head: HeadFit, outer
     );
   };
   if (o.hood) {
-    const m = ms.get('wool');
+    const hoodPart = P('wool', 'hood', { stitch: 0.006 });
     const c = o.hood;
     collar(mul3(c, 0.95), 1.32);
     // The hood: round the back and sides of the head, open at the face, rounding over the crown.
@@ -604,8 +726,8 @@ export function dressHead(f: Frame, o: Outfit, ms: Meshers, head: HeadFit, outer
     const open = 0.82;
     const lower = rings.slice(0, split + 1);
     const upper = rings.slice(split);
-    loft(m, lower, { sides: 18, wf: headW, arc: [open, Math.PI * 2 - open], lipBottom: 0.004, tile: 0.2, wobble: 0.02, seed: o.seed + 33 });
-    loft(m, upper, { sides: 22, wf: headW, capTop: true, tile: 0.2, wobble: 0.02, seed: o.seed + 34 });
+    loft(wd.use(hoodPart), lower, { sides: 18, wf: headW, arc: [open, Math.PI * 2 - open], lipBottom: 0.004, tile: 0.2, wobble: 0.02, seed: o.seed + 33 });
+    loft(wd.use(hoodPart), upper, { sides: 22, wf: headW, capTop: true, tile: 0.2, wobble: 0.02, seed: o.seed + 34 });
     // The face opening's turned edge: up one side, across the brow, down the other.
     const edge: V3[] = [];
     const at = (r: Ring, th: number): V3 => [r.w * Math.sin(th), r.y, (Math.cos(th) > 0 ? r.f : r.b) * Math.cos(th) + (r.cz ?? 0)];
@@ -613,12 +735,12 @@ export function dressHead(f: Frame, o: Outfit, ms: Meshers, head: HeadFit, outer
     const top = lower[lower.length - 1]!;
     for (let i = 1; i < 6; i++) edge.push(at(top, -open + (2 * open * i) / 6));
     for (const r of [...lower].reverse()) edge.push(at(r, open));
-    tube(m, edge, 0.011, mul3(c, 0.72), { sides: 5, wf: headW, flat: 0.7, up: (p) => [p[0], 0, p[2] - midZ] });
+    tube(wd.use(P('wool', 'hood edge')), edge, 0.011, mul3(c, 0.72), { sides: 5, wf: headW, flat: 0.7, up: (p) => [p[0], 0, p[2] - midZ] });
   } else if (o.cowl) {
     collar(o.cowl, 1.34);
   }
   if (o.scarf) {
-    const m = ms.get('linen');
+    const m = wd.use(P('linen', 'headscarf', { stitch: 0.005 }));
     const c = o.scarf;
     const ys: number[] = [];
     const y0 = head.browY + 0.008;
@@ -639,8 +761,65 @@ export function dressHead(f: Frame, o: Outfit, ms: Meshers, head: HeadFit, outer
     ellipsoid(m, [0, ky, kz], [0.022, 0.016, 0.014], c, headW, { ws: 8, hs: 6 });
     for (const side of [1, -1]) tube(m, [[side * 0.008, ky - 0.01, kz], [side * 0.02, ky - 0.08, kz - 0.015]], [0.014, 0.008], mul3(c, 0.85), { sides: 4, wf: f.weights('hair'), flat: 0.3, capEnd: true, up: [0, 0, -1] });
   }
+  // The sculpted head at a height, from its row-by-row sections.
+  const secAt = (y: number) => {
+    const s = head.sections;
+    if (y <= s[0]!.y) return s[0]!;
+    for (let i = 0; i < s.length - 1; i++) {
+      const a = s[i]!;
+      const b = s[i + 1]!;
+      if (y <= b.y) {
+        const t = (y - a.y) / Math.max(1e-6, b.y - a.y);
+        return { y, w: a.w + (b.w - a.w) * t, f: a.f + (b.f - a.f) * t, b: a.b + (b.b - a.b) * t };
+      }
+    }
+    return s[s.length - 1]!;
+  };
+  if (o.neckScarf?.mask) {
+    // A cloth pulled up over the mouth and nose and knotted behind: hanging from the nose, loose under the chin.
+    const c = o.neckScarf.color;
+    const yTop = head.noseY + 0.024;
+    const yBot = head.chinY - 0.055;
+    const noseF = secAt(head.noseY + 0.012).f;
+    const rings: Ring[] = [];
+    for (let i = 0; i <= 10; i++) {
+      const y = yBot + ((yTop - yBot) * i) / 10;
+      const sec = secAt(Math.max(y, head.chinY + 0.006));
+      const front = Math.max(sec.f, noseF - 0.45 * (head.noseY - y));
+      rings.push({ y, w: sec.w + 0.008, f: front - cz + 0.008, b: cz - sec.b + 0.01, cx, cz, p: 2.2, c: mul3(c, 0.82 + 0.18 * (i / 10)) });
+    }
+    loft(wd.use(P('linen', 'face scarf', { dirt: o.dirt * 0.6, hemY: yBot, stitch: 0.005 })), rings, {
+      sides: 28,
+      wf: f.weights('hair'),
+      lipTop: 0.004,
+      lipBottom: 0.004,
+      wobble: 0.035,
+      seed: o.seed + 51,
+      tile: 0.15,
+      push: (th, y) => 0.003 * Math.sin(th * 9 + y * 80),
+    });
+  }
+  if (o.headband && !o.hood && !o.hat && !o.helmet) {
+    // A band of cloth round the head above the brows, knotted at the back.
+    const c = o.headband;
+    const m = wd.use(P('linen', 'headband', { dirt: o.dirt * 0.7, hemY: head.browY }));
+    const y0 = head.browY + 0.03;
+    loft(
+      m,
+      [0, 1, 2].map((i) => {
+        const y = y0 + i * 0.012;
+        const sec = secAt(y);
+        return { y, w: sec.w + 0.016, f: Math.max(sec.f, head.browZ) - cz + 0.008, b: cz - sec.b + 0.017, cx, cz, p: 2.2, c: mul3(c, 0.88 + 0.06 * i) };
+      }),
+      { sides: 24, wf: headW, lipTop: 0.003, lipBottom: 0.003, tile: 0.12, wobble: 0.02, seed: o.seed + 53 },
+    );
+    const sec = secAt(y0 + 0.012);
+    const kz = sec.b - 0.02;
+    ellipsoid(m, [0, y0 + 0.012, kz], [0.018, 0.014, 0.012], c, headW, { ws: 8, hs: 6 });
+    for (const side of [1, -1]) tube(m, [[side * 0.006, y0 + 0.006, kz - 0.004], [side * 0.022, y0 - 0.07, kz - 0.02]], [0.012, 0.007], mul3(c, 0.85), { sides: 4, wf: f.weights('hair'), flat: 0.3, capEnd: true, up: [0, 0, -1] });
+  }
   if (o.hat) {
-    const m = ms.get('felt');
+    const m = wd.use(P('felt', 'hat'));
     const c = o.hat;
     const y0 = head.browY + 0.02;
     // Brim: a soft felt disc drooping at front and back; crown: low and rounded, dented a little on top.
@@ -658,10 +837,10 @@ export function dressHead(f: Frame, o: Outfit, ms: Meshers, head: HeadFit, outer
       }),
       { sides: 18, wf: headW, capTop: true, tile: 0.2, wobble: 0.04, seed: o.seed + 37 },
     );
-    loft(m, [0, 1].map((i) => ({ y: y0 + 0.006 + i * 0.022, w: head.halfW + 0.015, f: halfD + 0.013, b: halfD + 0.015, cx, cz: midZ, p: 2.2, c: [0.08, 0.06, 0.045] as RGB })), { sides: 18, wf: headW });
+    loft(wd.use(P('leather', 'hat band')), [0, 1].map((i) => ({ y: y0 + 0.006 + i * 0.022, w: head.halfW + 0.015, f: halfD + 0.013, b: halfD + 0.015, cx, cz: midZ, p: 2.2, c: [0.08, 0.06, 0.045] as RGB })), { sides: 18, wf: headW });
   }
   if (o.helmet) {
-    const m = ms.get('metal');
+    const m = wd.use(P('metal', 'helmet'));
     const c = o.helmet;
     // An iron kettle hat: a low dome with a ridge, sitting above the brows, its brim sloping steeply down all round.
     const y0 = head.browY + 0.03;
@@ -735,7 +914,8 @@ function sleeve(f: Frame, m: Mesher, side: number, s0: number, s1: number, grow:
 }
 
 /** A hand hanging at the wrist: palm, four fingers and a thumb, relaxed and a little curled. */
-function hand(f: Frame, m: Mesher, side: number, skin: RGB) {
+function hand(f: Frame, wd: Wardrobe, part: PaintSpec, side: number, skin: RGB) {
+  const finger = { ...part, piece: part.surface === 'skin' ? 'finger' : `${part.piece} finger` };
   const hs = f.handScale * f.H;
   const wf = f.weights(side > 0 ? 'armL' : 'armR');
   const wx = side * f.shoulderX;
@@ -753,7 +933,7 @@ function hand(f: Frame, m: Mesher, side: number, skin: RGB) {
   for (const [dy, hw, th] of rows) {
     palm.push({ y: wy + dy, w: th * hs, f: hw * hs, b: hw * hs * 0.95, cx: wx - side * 0.002, cz: 0.004 * hs, p: 2.6, c: mul3(skin, dy < -palmL * 0.5 ? 0.97 : 1) });
   }
-  loft(m, palm, { sides: 12, wf, capBottom: true });
+  loft(wd.use(part), palm, { sides: 12, wf, capBottom: true });
   // Fingers from the knuckles, curling toward the palm (inward, -x on the left hand).
   const lens: [number, number, number, number][] = [
     [0.028, 0.044, 0.026, 0.02],
@@ -774,24 +954,31 @@ function hand(f: Frame, m: Mesher, side: number, skin: RGB) {
       pts.push(p);
     }
     const r0 = (i === 3 ? 0.0082 : 0.0095) * hs;
-    tube(m, pts, [r0, r0 * 0.94, r0 * 0.86, r0 * 0.74], [mul3(skin, 1.02), skin, mul3(skin, 0.98), [skin[0] * 1.02, skin[1] * 0.92, skin[2] * 0.9]], { sides: 6, wf, capEnd: true, up: [side, 0, 0] });
+    tube(wd.use(finger), pts, [r0, r0 * 0.94, r0 * 0.86, r0 * 0.74], [mul3(skin, 1.02), skin, mul3(skin, 0.98), [skin[0] * 1.02, skin[1] * 0.92, skin[2] * 0.9]], { sides: 6, wf, capEnd: true, up: [side, 0, 0] });
   });
   // Thumb: from the base of the palm, forward and down, turned to face the fingers.
   const t0: V3 = [wx - side * 0.006 * hs, wy - 0.02 * hs, 0.03 * hs];
   const t1: V3 = [wx - side * 0.014 * hs, wy - 0.05 * hs, 0.047 * hs];
   const t2: V3 = [wx - side * 0.022 * hs, wy - 0.075 * hs, 0.05 * hs];
   const t3: V3 = [wx - side * 0.028 * hs, wy - 0.095 * hs, 0.044 * hs];
-  tube(m, [t0, t1, t2, t3], [0.013 * hs, 0.011 * hs, 0.0095 * hs, 0.008 * hs], skin, { sides: 6, wf, capEnd: true, up: [side, 0, 0] });
+  tube(wd.use(finger), [t0, t1, t2, t3], [0.013 * hs, 0.011 * hs, 0.0095 * hs, 0.008 * hs], skin, { sides: 6, wf, capEnd: true, up: [side, 0, 0] });
 }
 
 /** Boots or shoes, the foot, and leg wraps. */
-function feet(f: Frame, ms: Meshers, side: number, o: Outfit, wear: (hemY: number, dirt?: number) => (th: number, y: number, c: RGB, x: number, z: number) => RGB) {
+function feet(
+  f: Frame,
+  wd: Wardrobe,
+  P: (surface: Surface, piece: string, extra?: Partial<PaintSpec>) => PaintSpec,
+  side: number,
+  o: Outfit,
+  wear: (hemY: number, dirt?: number) => (th: number, y: number, c: RGB, x: number, z: number) => RGB,
+) {
   const H = f.H;
-  const m = ms.get('leather');
+  const boots = o.feet.kind === 'boots';
+  const m = wd.use(P('leather', boots ? 'boot' : 'shoe', { hemY: 0, dirt: Math.min(1, o.dirt + 0.3), stitch: 0.006 }));
   const wf = f.weights(side > 0 ? 'legL' : 'legR');
   const fx = side * (f.hipX + 0.004);
   const c = mul3(o.feet.color, 1.05);
-  const boots = o.feet.kind === 'boots';
   const topS = boots ? f.thigh + 0.11 * H : f.thigh + f.shin - 0.05 * H;
   const ankleS = f.thigh + f.shin;
   // The shaft: from below the ankle up over the trousers.
@@ -842,7 +1029,7 @@ function feet(f: Frame, ms: Meshers, side: number, o: Outfit, wear: (hemY: numbe
   box(m, [fx, 0.014 * H, heelZ + 0.035 * H], [0.034 * H, 0.014 * H, 0.035 * H], mul3(c, 0.35), wf);
   // Leg wraps over the trousers, from the ankle to below the knee.
   if (o.feet.wraps && !boots) {
-    const lm = ms.get('linen');
+    const lm = wd.use(P('linen', 'leg wraps', { hemY: 0 }));
     const s0 = ankleS - 0.03 * H;
     const s1 = f.thigh + 0.06 * H;
     // Bands wound upward, each overlapping the last, then a cord crossed over them and tied below the knee.
@@ -873,7 +1060,7 @@ function feet(f: Frame, ms: Meshers, side: number, o: Outfit, wear: (hemY: numbe
       [-1, 2.2],
     ] as const) {
       const cord = helix(2, TROUSERS + 0.009, dir, ph);
-      tube(ms.get('leather'), cord, 0.0028, [0.1, 0.075, 0.05], { sides: 4, wf, up: (p) => [p[0] - fx, 0, p[2]] });
+      tube(wd.use(P('leather', 'cord')), cord, 0.0028, [0.1, 0.075, 0.05], { sides: 4, wf, up: (p) => [p[0] - fx, 0, p[2]] });
     }
   }
 }

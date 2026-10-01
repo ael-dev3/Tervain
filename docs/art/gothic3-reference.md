@@ -1,6 +1,6 @@
 # Gothic 3 look reference: Ardea and the Myrtana coast
 
-**Status:** owner direction (see decisions A12–A15, A20, A22, A26 and A29) and the measurements behind it. This is a study for *inspiration*. Nothing from Gothic 3 is copied, extracted into the repository or shipped: the measurements below were read from the owner's licensed local install with read-only tools. Tervain scene geometry is generated or authored here; the approved Hegemony emblem is specifically reused from its recorded Warpkeep source. The owner's 30 September clarification governs how these measurements are interpreted for art direction.
+**Status:** owner direction (see decisions A12–A15, A20, A22, A26, A31 and A33) and the measurements behind it. This is a study for *inspiration*. Nothing from Gothic 3 is copied, extracted into the repository or shipped: the measurements below were read from the owner's licensed local install with read-only tools. Tervain scene geometry is generated or authored here; the approved Hegemony emblem is specifically reused from its recorded Warpkeep source. The owner's 30 September clarification governs how these measurements are interpreted for art direction.
 
 ## What the owner asked for
 
@@ -78,7 +78,7 @@ This maps the existing `0.0.4` world treatment to its source. A20 is the accepte
 | Coast and headland | `world/coast.ts`, `world/terrain.ts`, `sea.ts`, `groundSplat.ts` |
 | Empty heath, distant forests | `flora.ts` (placement), `ground/habitat.ts`, `ground/grass.ts` |
 | Rough buildings, the palisade and its gate | `structures.ts`, `buildings.ts`, `props.ts`, `roofs.ts`, `settlement.ts` |
-| Worn people | `characters.ts`, `human/` (skeleton and weights, heads and painted faces, clothes, costumes), `npcStyle.ts`; see [People](#people) |
+| Worn people | `characters.ts`, `human/` (skeleton and weights, heads, clothes, costumes, and the painted model sheet), `npcStyle.ts`; see [People](#people) |
 
 ## The title menu
 
@@ -98,7 +98,7 @@ What Tervain takes from it: a dark picture with amber light and a cool upper sky
 
 ## People
 
-Studied on 30 September 2026 for the character rework (A29), read-only, from the same install, alongside the owner's own study of the actor geometry (Rimy3D OBJ inspection exports of the body, head, hair and beard resources, with the template and world-layer references behind them). Rasterised views and decoded textures stayed in a scratch folder; nothing is in the repository.
+Studied on 30 September 2026 for the character rework (A31), read-only, from the same install, alongside the owner's own study of the actor geometry (Rimy3D OBJ inspection exports of the body, head, hair and beard resources, with the template and world-layer references behind them). Rasterised views and decoded textures stayed in a scratch folder; nothing is in the repository.
 
 | Finding | Value |
 | --- | --- |
@@ -109,6 +109,20 @@ Studied on 30 September 2026 for the character rework (A29), read-only, from the
 | The hero at the start | The player's template inventory holds only `Head_Player` and `Body_Player`: no weapon and no shield. Among the weapons in the data are a stick (1.4 m long), a club (0.9 m), rusty one- and two-handed swords (1.1 m and 1.8 m) and a rusty axe (1.1 m). |
 
 What Tervain takes: skinned people on one skeleton each, a separate denser head with eyes set behind lids, hair and beards as separate shells over painted hair and stubble, the measured proportions and a head of about an eighth, large working hands, layered costumes whose silhouette says who someone is, and a hero who starts with nothing and takes up arms from what the land offers. What it does not take: any mesh, texture, skeleton, animation, face, costume design or name. Tervain's people are generated in code from original shapes, and the numbers above are used as proportions, not copied geometry. See the [people notes](../production/releases/0.0.5-people.md).
+
+The owner's text notes, supplied with the `0.0.8` request (A33), add that a body is painted in one to three material groups. Tervain `0.0.8` follows the principle rather than the layout: one painted texture per person, laid out as a character model sheet so it can be repainted (see the [retexture guide](people-retexture.md)).
+
+## Gothic 1 Remake: people at rest
+
+Studied on 1 October 2026 for the `0.0.8` NPC rework (A33), read-only, from the owner's local install of the Gothic 1 Remake (`Build83_CL174209`, about 36 GB, of which 27.4 GB is packed game data). The same terms apply as for Gothic 3 (A14): the packed archives were not opened or extracted, and only loose images and JSON shipped as plain files were viewed. Study crops stayed in a scratch folder; nothing is in the repository.
+
+| Finding | Value |
+| --- | --- |
+| Glossary | 170 character entries with sketch portraits (500 × 264), 96 creatures and 36 locations. Roles read from the silhouette's top: pelts and fur on the shoulders, a single strapped plate, cloth wound at the neck or over the mouth, bands, hoods and caps, gloves and wraps over rough, mended layers. |
+| Story paintings | 50 loading-screen paintings at 3840 × 2160. |
+| Activity spots | `InteractionSpots.json`, 9.97 MB, holds 10,765 placed spots. Their tags name what people do where they stand: standing around, looking around, scratching an ear, eating, drinking, sitting at a campfire, small talk, sharpening a weapon, carving wood, keeping watch, sleeping, digging. |
+
+What Tervain takes: the reading that shoulders, neck, head and hands carry a role, answered with original costume pieces (a fur collar, a wound neck cloth and face cloth, a single shoulder guard, a headband, a tabard, gloves). It also takes the idea that people at rest busy themselves, answered with an idle routine of its own (P18). What it does not take: any image, model, texture, animation, data, name, character or costume design. See the [0.0.8 notes](../production/releases/0.0.8.md).
 
 ## Not done, and why
 
