@@ -116,8 +116,8 @@ export class Player {
   private calm = 0;
   private shown: 'none' | 'sheathed' | 'drawn' | null = null;
 
-  constructor() {
-    this.rig = createPlayerRig();
+  constructor(rig: Rig = createPlayerRig()) {
+    this.rig = rig;
     this.group.add(this.rig.root);
     this.showArms('none');
   }
@@ -194,6 +194,7 @@ export class Player {
     this.inWater = false;
     this.mode = 'idle';
     this.rig.hitFlash = 0;
+    this.rig.hero?.reset();
     this.channel = null;
     this.rig.root.position.set(x, this.y, z);
     this.rig.root.rotation.y = yaw;
@@ -613,7 +614,7 @@ export class Player {
     // Footsteps and surface.
     this.surface = this.surfaceAt(ctx);
     this.inWater = this.surface === 'water';
-    if (this.grounded && this.lastMoveSpeed > 0.8 && (this.state === 'free')) {
+    if (!this.rig.hero && this.grounded && this.lastMoveSpeed > 0.8 && (this.state === 'free')) {
       this.stepDist += this.lastMoveSpeed * dt;
       const stride = sprinting ? 2.2 : 1.85;
       if (this.stepDist > stride) {
@@ -624,6 +625,9 @@ export class Player {
 
 
     this.applyPose(dt, ctx);
+    // The imported rig reports actual heel strikes; surface sounds follow its visible contacts.
+    const footfalls = this.rig.hero?.consumeFootfalls() ?? 0;
+    for (let i = 0; i < footfalls; i++) ctx.audio.footstep(this.surface, sprinting);
     ctx.game.setPlayerTransform(this.x, this.y, this.z, this.yaw);
   }
 
@@ -691,7 +695,13 @@ export class Player {
     // Integrate gait phase from actual travel. Multiplying a lifetime clock by changing speed made legs snap on turns/stops.
     const gait = mode === 'walk' || mode === 'run';
     if (gait && this.grounded) this.gaitTime += this.lastMoveSpeed * dt / (mode === 'run' ? 4.4 : 3.7);
-    const pose: Pose = { mode, speed: speedNorm, time: gait ? this.gaitTime : this.clock, t, amp: ctx.settings.reducedMotion ? 0.6 : 1 };
+    const pose: Pose = {
+      mode, speed: speedNorm, time: gait ? this.gaitTime : this.clock, t,
+      amp: ctx.settings.reducedMotion ? 0.6 : 1,
+      grounded: this.grounded,
+      travel: this.grounded && gait ? this.lastMoveSpeed * dt : 0,
+      moveSpeed: this.lastMoveSpeed,
+    };
     poseRig(this.rig, pose, dt);
     applyFlash(this.rig, this.rig.hitFlash);
     if (this.rig.hitFlash > 0) this.rig.hitFlash = Math.max(0, this.rig.hitFlash - dt * 4);

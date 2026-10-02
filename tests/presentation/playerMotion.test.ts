@@ -10,6 +10,7 @@ import { Colliders, buildStaticColliders } from '../../src/world/colliders';
 import { LIGHTHOUSE, LIGHTHOUSE_CONSTRUCTION as L } from '../../src/world/layout';
 import { LIGHTHOUSE_STAIR_ANGLE, lighthouseTreadTop } from '../../src/world/lighthouse';
 import { Terrain } from '../../src/world/terrain';
+import { poseRig } from '../../src/presentation/characters';
 
 // This is controller/physics coverage, with real game state and colliders; sculpted rendering is tested separately.
 vi.mock('../../src/presentation/characters', () => ({
@@ -43,6 +44,24 @@ function setup(ground: (x: number, z: number) => number = () => 0, walkable: (x:
 beforeEach(() => vi.clearAllMocks());
 
 describe('player motion and action contacts', () => {
+  it('feeds the imported hero resolved travel and uses its heel strikes instead of duplicate distance sounds', () => {
+    const s = setup();
+    const footfalls = vi.fn().mockReturnValueOnce(1).mockReturnValue(0);
+    Reflect.set(s.player.rig, 'hero', { consumeFootfalls: footfalls, reset: vi.fn() });
+    s.setMove(0, 1);
+    for (let i = 0; i < 150; i++) s.tick();
+    expect(s.player.z).toBeGreaterThan(7);
+    expect(s.audio.footstep).toHaveBeenCalledOnce();
+    const travelling = vi.mocked(poseRig).mock.calls.at(-1)![1];
+    expect(travelling.grounded).toBe(true);
+    expect(travelling.travel).toBeCloseTo(s.player.lastMoveSpeed / 60, 8);
+    s.ctx.colliders.box('wall', 0, s.player.z + 1, 4, 0.02);
+    for (let i = 0; i < 150; i++) s.tick();
+    const blocked = vi.mocked(poseRig).mock.calls.at(-1)![1];
+    expect(blocked.travel).toBe(0);
+    expect(blocked.moveSpeed).toBeLessThan(0.01);
+    expect(s.audio.footstep).toHaveBeenCalledOnce();
+  });
   it('walks into a wall and then stands still without treadmill footsteps', () => {
     const s = setup();
     s.ctx.colliders.box('wall', 0, 1, 4, 0.02);

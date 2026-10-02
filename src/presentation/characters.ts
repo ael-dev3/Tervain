@@ -19,6 +19,8 @@ import { personMaterial } from './human/sheetMaterial';
 import { paintSheetJob, track } from './human/sheetPool';
 import { banditOutfit, lookOutfit, npcOutfit, playerOutfit, linear } from './human/outfits';
 import { BI, BONES, box, ellipsoid, loft, Mesher, mul3, rigid, tube, type BoneName, type V3 } from './human/skin';
+import { poseHeroRig } from './hero/rig';
+import type { HeroAnimationController } from './hero/animation';
 
 /** Assets this module wants loaded before the world is built. */
 export const NEEDS: AssetNeed[] = [];
@@ -60,6 +62,10 @@ export interface Pose {
   t: number;
   /** Extra amplitude multiplier; reduced motion lowers it. */
   amp: number;
+  /** Imported hero locomotion uses controller travel, never clip root motion. */
+  grounded?: boolean;
+  travel?: number;
+  moveSpeed?: number;
   /** Authored, restrained task motion; no gameplay state is inferred from the gesture. */
   workGesture?: WorkGesture;
   /**
@@ -96,6 +102,8 @@ export function idleVariant(seed: number, clock: number): IdleVariant {
 export type Grip = 'none' | 'blade';
 
 export interface Rig {
+  /** The approved main hero has its own skeleton and distance-aware animation. */
+  hero?: HeroAnimationController;
   root: THREE.Group;
   /** Root of the visual body; lowered when sitting and rotated when defeated. */
   body: THREE.Group;
@@ -804,6 +812,7 @@ const TAU = Math.PI * 2;
  * attack and guard poses depend on whether it holds a blade or fights with fists.
  */
 export function poseRig(rig: Rig, p: Pose, dt: number) {
+  if (poseHeroRig(rig, p, dt)) return;
   const a: Record<string, number> = {};
   for (const k of ANGLE_KEYS) a[k] = 0;
   const amp = p.amp;
