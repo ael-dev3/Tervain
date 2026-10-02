@@ -36,5 +36,7 @@ export default defineConfig(({ command }) => ({
   test: {
     include: ['tests/**/*.test.ts'],
     environment: 'node',
+    // Geometry and inline painting are CPU-heavy; avoid competing workers causing spurious timeouts.
+    maxWorkers: 2,
   },
 }));

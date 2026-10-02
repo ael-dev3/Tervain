@@ -19,7 +19,7 @@ Loading is shared and cached, resolves through the built page's base URL, checks
 Final checks on 2 October 2026:
 
 - `npm run typecheck` — pass.
-- `npm test -- --maxWorkers=2` — **680 tests in 63 files**, pass (50.58 s). The unrestricted local worker run encountered a pre-existing all-NPC painting test's five-second timeout while native previews were running; limiting local concurrency passed the unchanged test and the complete suite. Workflow triggers/checks remain unchanged.
+- `npm test` — **707 tests in 63 files**, pass (48.32 s), using the configured two-worker limit. The initial integration also passed 680 tests with that limit before the aggregate full-cast checks were split into named cases; the increased count reflects the same coverage with per-model failure reporting.
 - `npm run build` — pass; the existing single-bundle size warning remains (1.497 MB minified / 498.45 kB gzip).
 - `node tools/import-main-hero.mjs --check` — pass: exact shipped hash/size, 49,500 triangles, 30 joints and five clips.
 - `git diff --check` — pass.
@@ -30,8 +30,16 @@ Native desktop browser review used the actual game and production build, plus a 
 
 For future art review, run `npm run dev` and open `/tools/hero-motion-preview.html`. It offers the actual game adapter's walk, sprint, idle, attack, guard, dodge, airborne and defeated poses, equipment states, camera rotation and normal/half/quarter speed. This development page is outside the production build's entry points.
 
+## CI timeout correction
+
+The first [PR build](https://github.com/ael-dev3/Tervain/actions/runs/37066311931), against `fdb14e7147ff2e79057ea8141908ba495164483f`, passed type checking and 679 tests, including every new hero test. The existing aggregate character-sheet test took 5,104 ms and exceeded its unchanged 5,000 ms timeout. The build and artifact steps therefore did not run.
+
+The full-cast sheet and NPC geometry checks now use a named test case for each model. All surface, material, detail-layer, vertex-part, finite-attribute, skin-weight, skeleton and triangle-budget assertions are preserved; actual model identities and catalog uniqueness remain checked. CPU-heavy geometry and inline painting tests use two workers to avoid contention. No timeout was raised, test skipped, required check removed or workflow trigger changed. The default test command passes locally after this correction; remote validation is pending at this source checkpoint.
+
 ## Publication boundary and Actions preflight
 
-The change is prepared as a focused feature branch, `codex/wanderer-main-character`. A main merge/deployment is separate from creating its reviewable PR; do not claim the hosted game contains this hero until the merge and successful deployment are verified.
+The change is published for review as [PR #11](https://github.com/ael-dev3/Tervain/pull/11) on `codex/wanderer-main-character`. A main merge/deployment is separate from creating its reviewable PR; do not claim the hosted game contains this hero until the merge and successful deployment are verified.
 
 The read-only UTC-day preflight inspected all 43 available repository runs across workflows, branches and actors. On 2 October there were zero created/started/updated runs, zero queued/in-progress runs and no rerun attempts; every retrieved run had attempt 1. The server exposed one active workflow, `.github/workflows/pages.yml`, with a main-only push trigger, pull-request trigger and manual dispatch. There are no scheduled or downstream `workflow_run` chains in that workflow. A feature-branch push adds no run; creating one PR adds one Ubuntu build run and no deployment. The latest PR build took 43 seconds of runner time; conservatively estimate **1–3 runner minutes** for the larger hero checkout and tests. Monthly usage is **unknown**; no billing permissions were expanded. Refresh the preflight immediately before any remote action and preserve all required checks.
+
+The first PR run consumed about 55 seconds of runner time and was not manually rerun. The corrective push is one coherent update and is expected to add one pull-request synchronize build, conservatively another **1–3 runner minutes**; a description-only edit has no matching event under the default pull-request trigger. Check the current UTC-day history again immediately before either action.
