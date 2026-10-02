@@ -19,29 +19,27 @@ const skinned = (rig: Rig) => {
 };
 
 describe('people are skinned, dressed and armed as the story needs', () => {
-  it('builds every named person as one painted, skinned mesh on one eleven-bone skeleton with finite, normalised skin weights', () => {
-    for (const def of NPC_LIST) {
-      const rig = createNpcRig(def);
-      const meshes = skinned(rig);
-      // Body, costume and head in one mesh with one sheet (only the player adds a sash).
-      expect(meshes.length, def.id).toBe(1);
-      expect(rig.person?.mesh, def.id).toBe(meshes[0]);
-      expect(rig.person!.source, def.id).toBe('painted');
-      expect(rig.person!.mesh.visible, def.id).toBe(true);
-      expect(rig.person!.id).toBe(def.id);
-      const skeleton = meshes[0]!.skeleton;
-      expect(skeleton.bones.map((b) => b.name)).toEqual([...BONES]);
-      for (const m of meshes) {
-        expect(m.skeleton).toBe(skeleton);
-        const pos = m.geometry.attributes.position as THREE.BufferAttribute;
-        const wt = m.geometry.attributes.skinWeight as THREE.BufferAttribute;
-        const ix = m.geometry.attributes.skinIndex as THREE.BufferAttribute;
-        for (let i = 0; i < pos.count; i++) {
-          expect(Number.isFinite(pos.getX(i) + pos.getY(i) + pos.getZ(i)), `${def.id} position`).toBe(true);
-          const sum = wt.getX(i) + wt.getY(i) + wt.getZ(i) + wt.getW(i);
-          expect(Math.abs(sum - 1), `${def.id} weights`).toBeLessThan(1e-4);
-          expect(Math.max(ix.getX(i), ix.getY(i), ix.getZ(i), ix.getW(i))).toBeLessThan(BONES.length);
-        }
+  it.each(NPC_LIST)('builds $id as one painted skinned mesh on an eleven-bone skeleton with finite normalized skin weights', (def) => {
+    const rig = createNpcRig(def);
+    const meshes = skinned(rig);
+    // Body, costume and head in one mesh with one sheet (only the player adds a sash).
+    expect(meshes.length, def.id).toBe(1);
+    expect(rig.person?.mesh, def.id).toBe(meshes[0]);
+    expect(rig.person!.source, def.id).toBe('painted');
+    expect(rig.person!.mesh.visible, def.id).toBe(true);
+    expect(rig.person!.id).toBe(def.id);
+    const skeleton = meshes[0]!.skeleton;
+    expect(skeleton.bones.map((b) => b.name)).toEqual([...BONES]);
+    for (const m of meshes) {
+      expect(m.skeleton).toBe(skeleton);
+      const pos = m.geometry.attributes.position as THREE.BufferAttribute;
+      const wt = m.geometry.attributes.skinWeight as THREE.BufferAttribute;
+      const ix = m.geometry.attributes.skinIndex as THREE.BufferAttribute;
+      for (let i = 0; i < pos.count; i++) {
+        expect(Number.isFinite(pos.getX(i) + pos.getY(i) + pos.getZ(i)), `${def.id} position`).toBe(true);
+        const sum = wt.getX(i) + wt.getY(i) + wt.getZ(i) + wt.getW(i);
+        expect(Math.abs(sum - 1), `${def.id} weights`).toBeLessThan(1e-4);
+        expect(Math.max(ix.getX(i), ix.getY(i), ix.getZ(i), ix.getW(i))).toBeLessThan(BONES.length);
       }
     }
   });

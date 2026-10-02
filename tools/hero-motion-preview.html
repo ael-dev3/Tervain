@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tervain · Main hero motion review</title>
+<style>
+  *{box-sizing:border-box}body{margin:0;background:#1b2021;color:#e5e1d5;font:14px system-ui}canvas{display:block;width:100vw;height:100vh}
+  aside{position:absolute;left:18px;top:18px;width:260px;padding:18px;background:#20282aed;border:1px solid #626157;border-radius:8px}
+  h1{font:600 21px Georgia;margin:0 0 12px}label{display:block;margin-top:12px}select,button{font:inherit;width:100%;margin-top:5px;background:#343e40;color:inherit;border:1px solid #7c8076;border-radius:4px;padding:7px}
+  p{line-height:1.5;color:#c3c5bd}output{white-space:pre-line;font:12px monospace;display:block;margin-top:14px}
+</style>
+<canvas id="view" aria-label="Rotatable playable hero motion preview"></canvas>
+<aside><h1>Weathered Wanderer</h1><p>The game's actual hero rig and action adapter. Drag to rotate; scroll to zoom. The ground travels beneath him at the selected gait speed.</p>
+<label>Motion<select id="motion"><option value="walk">Walk</option><option value="run">Sprint</option><option value="idle">Idle</option><option value="attack_light">Light attack</option><option value="attack_heavy">Heavy attack</option><option value="block">Guard</option><option value="dodge">Dodge</option><option value="jump">Airborne</option><option value="dead">Defeated</option></select></label>
+<label>Equipment<select id="equipment"><option value="none">Unarmed</option><option value="sheathed">Sword at hip</option><option value="drawn">Sword drawn</option></select></label>
+<label>Playback<select id="speed"><option value="1">Normal speed</option><option value="0.5">Half speed</option><option value="0.25">Quarter speed</option></select></label>
+<button id="pause">Pause</button><button id="front">Front view</button><button id="side">Side view</button><button id="rear">Rear view</button><output id="status">Loading approved model…</output>
+</aside>
+<script type="module">
+import * as THREE from 'three';
+import { loadMainHero } from '../src/presentation/mainHero.ts';
+import { createHeroRig } from '../src/presentation/hero/rig.ts';
+import { poseRig, setArmed } from '../src/presentation/characters.ts';
+const canvas=document.querySelector('#view');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;
+const scene=new THREE.Scene();scene.background=new THREE.Color(0x242d30);scene.add(new THREE.HemisphereLight(0xe1edf5,0x74624a,2.5));
+const sun=new THREE.DirectionalLight(0xffe0b3,3.5);sun.position.set(3,6,4);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-4;sun.shadow.camera.right=4;sun.shadow.camera.top=4;sun.shadow.camera.bottom=-4;scene.add(sun);
+const fill=new THREE.DirectionalLight(0xa5c5e8,1.2);fill.position.set(-4,3,-3);scene.add(fill);
+const plane=new THREE.Mesh(new THREE.PlaneGeometry(50,50),new THREE.MeshStandardMaterial({color:0x64675b,roughness:1}));plane.rotation.x=-Math.PI/2;plane.receiveShadow=true;scene.add(plane);
+const grid=new THREE.GridHelper(24,48,0x979a88,0x777c6e);grid.position.y=0.002;scene.add(grid);
+const camera=new THREE.PerspectiveCamera(36,1,0.05,100);let yaw=0.55,pitch=0.1,dist=4.8,paused=false,time=0,ground=0,mode='walk';
+let rig;const status=document.querySelector('#status');
+try{rig=createHeroRig(await loadMainHero());scene.add(rig.root);}catch(error){status.textContent=String(error);throw error;}
+document.querySelector('#motion').addEventListener('change',event=>{mode=event.target.value;time=ground=0;rig.hero.reset();});
+document.querySelector('#equipment').addEventListener('change',event=>setArmed(rig,event.target.value));
+document.querySelector('#pause').addEventListener('click',event=>{paused=!paused;event.target.textContent=paused?'Resume':'Pause';});
+document.querySelector('#front').onclick=()=>{yaw=0;pitch=0.08;};document.querySelector('#side').onclick=()=>{yaw=Math.PI/2;pitch=0.08;};document.querySelector('#rear').onclick=()=>{yaw=Math.PI;pitch=0.08;};
+let pointer=null;canvas.addEventListener('pointerdown',event=>{pointer={x:event.clientX,y:event.clientY};canvas.setPointerCapture(event.pointerId);});canvas.addEventListener('pointerup',()=>pointer=null);
+canvas.addEventListener('pointermove',event=>{if(!pointer)return;yaw-=(event.clientX-pointer.x)*0.008;pitch=THREE.MathUtils.clamp(pitch+(event.clientY-pointer.y)*0.005,-0.15,0.75);pointer={x:event.clientX,y:event.clientY};});canvas.addEventListener('wheel',event=>{event.preventDefault();dist=THREE.MathUtils.clamp(dist+event.deltaY*0.004,2.2,10);},{passive:false});
+let previous=performance.now();function frame(now){const dt=Math.min(0.05,(now-previous)/1000)*Number(document.querySelector('#speed').value);previous=now;const velocity=mode==='walk'?3.5:mode==='run'?6:0;
+if(!paused){time+=dt;ground=(ground+velocity*dt)%0.5;grid.position.z=-ground;const airborne=mode==='jump';const duration=mode==='attack_heavy'?1.3:mode==='attack_light'?0.65:mode==='dodge'?0.48:1.6;const t=(time%duration)/duration;
+rig.root.position.y=airborne?Math.sin(t*Math.PI)*0.7:0;poseRig(rig,{mode:airborne?'run':mode,speed:velocity/(mode==='run'?6:3.5),time,t,amp:1,grounded:!airborne,travel:velocity*dt,moveSpeed:velocity},dt);}
+const w=innerWidth,h=innerHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();camera.position.set(Math.sin(yaw)*dist,1.02+Math.sin(pitch)*dist,Math.cos(yaw)*Math.cos(pitch)*dist);camera.lookAt(0,1.02,0);renderer.render(scene,camera);
+const d=rig.hero.diagnostics;status.textContent=`49,500 body triangles\n${mode} · ${velocity.toFixed(1)} m/s\nphase ${d.phase.toFixed(3)} · cycle ${d.cycleMetres.toFixed(2)} m\n30 joints · approved PBR textures`;requestAnimationFrame(frame);}requestAnimationFrame(frame);
+</script>
+</html>

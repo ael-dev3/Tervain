@@ -317,7 +317,7 @@ describe('actual application world transitions', () => {
     const canvas = { addEventListener: vi.fn() };
     const audio = { resume: vi.fn(), setPageHidden: vi.fn() };
     Object.assign(app, {
-      canvas, audio, buildShell: vi.fn(), applyPixelRatio: vi.fn(), onResize: vi.fn(),
+      canvas, audio, buildShell: vi.fn(), prepareMainHero: vi.fn().mockResolvedValue(undefined), applyPixelRatio: vi.fn(), onResize: vi.fn(),
       enterTitle: vi.fn(() => Reflect.set(app, 'mode', 'title')), applyShotParams: vi.fn(),
     });
     vi.stubGlobal('location', { search: '' });

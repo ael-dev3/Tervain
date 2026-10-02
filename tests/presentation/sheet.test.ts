@@ -24,6 +24,15 @@ function kept<T>(make: () => T): T {
   }
 }
 
+// Keep the same full-cast coverage, but give each model its own failure label and timeout.
+const sheetPeople: { id: string; make: () => Rig }[] = [
+  { id: 'player', make: createPlayerRig },
+  ...NPC_LIST.map((def) => ({ id: def.id, make: () => createNpcRig(def) })),
+  { id: 'bandit_a', make: () => createBanditRig(0) },
+  { id: 'bandit_b', make: () => createBanditRig(1) },
+  ...AMBIENT_PEOPLE.map((person) => ({ id: person.style.id, make: () => createAmbientRig(person.look, person.style) })),
+];
+
 const inside = (r: SheetRegion, px: number, py: number) => px >= r.x - 0.5 && px <= r.x + r.w + 0.5 && py >= r.y - 0.5 && py <= r.y + r.h + 0.5;
 
 describe('the sheet: a model sheet of the person', () => {
@@ -155,26 +164,26 @@ describe('the sheet: a model sheet of the person', () => {
     for (let o = 3; o < a.image!.length; o += 4) if (a.image![o] !== 255) throw new Error(`transparent texel at ${(o - 3) / 4}`);
   });
 
-  it('gives every part a known surface, a material and a detail layer, and every vertex a part', () => {
-    const people: Rig[] = kept(() => [createPlayerRig(), ...NPC_LIST.map((d) => createNpcRig(d)), createBanditRig(0), createBanditRig(1), ...AMBIENT_PEOPLE.map((p) => createAmbientRig(p.look, p.style))]);
-    const ids = new Set<string>();
-    for (const rig of people) {
-      const p = rig.person!;
-      ids.add(p.id);
-      for (const spec of p.parts) {
-        const [rough, metal, layer] = SURFACE_MATERIAL[spec.surface];
-        expect(rough).toBeGreaterThan(0);
-        expect(metal).toBeGreaterThanOrEqual(0);
-        expect(DETAIL_LAYERS).toContain(layer);
-      }
-      const job = p.sheetData.job!;
-      for (let i = 0; i < job.part.length; i++) expect(job.part[i]!).toBeLessThan(p.parts.length);
-      for (let i = 0; i < job.pa.length; i++) if (!Number.isFinite(job.pa[i]!)) throw new Error(`${p.id}: paint attribute ${i} is not finite`);
-      // Inside the provisional character budget (docs/art/art-audio-ui.md).
-      expect(p.sheetData.triangles, p.id).toBeLessThanOrEqual(20000);
+  it.each(sheetPeople)('$id gives every part a known surface/material/detail layer and every vertex a part', ({ id, make }) => {
+    const rig = kept(make);
+    const p = rig.person!;
+    expect(p.id).toBe(id);
+    for (const spec of p.parts) {
+      const [rough, metal, layer] = SURFACE_MATERIAL[spec.surface];
+      expect(rough).toBeGreaterThan(0);
+      expect(metal).toBeGreaterThanOrEqual(0);
+      expect(DETAIL_LAYERS).toContain(layer);
     }
-    // Every person has their own id for a replacement sheet.
-    expect(ids.size).toBe(people.length);
+    const job = p.sheetData.job!;
+    for (let i = 0; i < job.part.length; i++) expect(job.part[i]!).toBeLessThan(p.parts.length);
+    for (let i = 0; i < job.pa.length; i++) if (!Number.isFinite(job.pa[i]!)) throw new Error(`${p.id}: paint attribute ${i} is not finite`);
+    // Inside the provisional character budget (docs/art/art-audio-ui.md).
+    expect(p.sheetData.triangles, p.id).toBeLessThanOrEqual(20000);
+  });
+
+  it('gives every checked person a unique replacement-sheet id', () => {
+    // The per-person checks above also verify the actual rig id against this catalog.
+    expect(new Set(sheetPeople.map((person) => person.id)).size).toBe(sheetPeople.length);
   });
 
   it('puts the new costume pieces on the people meant to wear them', () => {
