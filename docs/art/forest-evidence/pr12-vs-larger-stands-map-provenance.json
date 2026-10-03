@@ -1,0 +1,104 @@
+{
+  "method": "Independent CPU vector and Pillow diagrams, generated from existing exported populations. No browser, GPU, game asset, production source or navigation mutation.",
+  "bounds": {
+    "minX": -260,
+    "maxX": -40,
+    "minZ": -115,
+    "maxZ": 125
+  },
+  "woodlandEnvelope": {
+    "minX": -238,
+    "maxX": -66,
+    "minZ": -104,
+    "maxZ": 112
+  },
+  "pixelsPerMetre": 2.5,
+  "panelScopes": {
+    "pr12": {
+      "plottedPlants": 576,
+      "envelopePlants": 502,
+      "envelopeCanonicalTrunks": 387
+    },
+    "larger-stands": {
+      "plottedPlants": 458,
+      "envelopePlants": 384,
+      "envelopeCanonicalTrunks": 282
+    }
+  },
+  "canonicalCandidateDenominator": "radius>0 and nonempty standId and familyRole; not a fixed region or whole-build species ratio",
+  "canonicalCandidateCounts": {
+    "pine": 190,
+    "fir": 6,
+    "birch": 8,
+    "oak": 52
+  },
+  "canonicalCandidateN": 256,
+  "clearings": [
+    {
+      "id": "north_hogback_glade",
+      "x": -180,
+      "z": -58,
+      "rx": 16,
+      "rz": 11,
+      "yaw": -0.28
+    },
+    {
+      "id": "south_hogback_glade",
+      "x": -181,
+      "z": 80,
+      "rx": 19,
+      "rz": 13,
+      "yaw": 0.32
+    }
+  ],
+  "inputs": [
+    {
+      "path": "C:\\Users\\heyas\\Documents\\Codex\\2026-10-03\\task\\audit\\stands\\pr12-metrics.json",
+      "sha256": "5cafa64165df645b0edb2e9a0498c88eea87751a7c11e60f11a8e4c4eb53c96b",
+      "generatedAt": "2026-10-03T11:42:48.036Z",
+      "sourceHashes": {
+        "src/presentation/floraPopulation.ts": "7354176445d219c6122ffa639ace0fe9731ff4d0cc47c7a01bfbfef704e8f259",
+        "src/world/forest.ts": "e76eb6138c5ef9578c789533cab96900ba064156ec7e0170e42d848ced0b4402",
+        "src/world/layout.ts": "907bed0d8715ef59acb747eb3e27cefc91893a1c50d4d254c894a717d5faf247",
+        "src/presentation/treeGen.ts": "f7a1002dcb255d6453a74515c4fa27209add37df1e2fd4d2cc02d8b3bfc2d0a4",
+        "src/presentation/forestFloor.ts": "7934a3ae84103a23159ed8753ee9a805bdc64399b3217b4cb1fb41fc1fc6eed5"
+      }
+    },
+    {
+      "path": "C:\\Users\\heyas\\Documents\\Codex\\2026-10-03\\task\\audit\\stands\\larger-stands-metrics.json",
+      "sha256": "a690dd9aef1233a9e6be6f29340a20e5d84098b8d61c132c68e01a6ed8cd025c",
+      "generatedAt": "2026-10-03T11:42:48.512Z",
+      "sourceHashes": {
+        "src/presentation/floraPopulation.ts": "2b6fa0706b5ca3b0a231ffcdc45922124f63f113f92f77391c2f41ceb6d204bb",
+        "src/world/forest.ts": "0ab1a40ee1bf264fa4d3bd60b3b49b41ee8615e2816825bd1d640072e0807d05",
+        "src/world/layout.ts": "907bed0d8715ef59acb747eb3e27cefc91893a1c50d4d254c894a717d5faf247",
+        "src/presentation/treeGen.ts": "f7a1002dcb255d6453a74515c4fa27209add37df1e2fd4d2cc02d8b3bfc2d0a4",
+        "src/world/forestStands.ts": "b5de83b438f4d06c1481608e43eb33d1ee9f599415b870148f627d17fa41ce54",
+        "src/presentation/forestFloor.ts": "78244a379ca207be1e1c05b945c2760e299c92e27f091235f20ea3e50dd72a31"
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "name": "pr12-vs-larger-stands-group-ids.png",
+      "bytes": 445591,
+      "sha256": "617fdc2a3f9ca0fcc76277ca693be1acaca6a1e0c289012a4b2e7c3e7a1f43ad"
+    },
+    {
+      "name": "pr12-vs-larger-stands-group-ids.svg",
+      "bytes": 129716,
+      "sha256": "1211da6aa72230d60ca04ca9d68e59f37697fc9584be0e132d386ea04db6f4e9"
+    },
+    {
+      "name": "pr12-vs-larger-stands-species-age.png",
+      "bytes": 413499,
+      "sha256": "0281d470c99a9341e006541dbbf3a002ce10b99402c369b52d322c451418838c"
+    },
+    {
+      "name": "pr12-vs-larger-stands-species-age.svg",
+      "bytes": 119712,
+      "sha256": "c52062f4918380410fd6a99eb795cc6a51a16f794acdb22bd6bfb69c464b97a1"
+    }
+  ],
+  "limits": "Point locations only; age markers are symbolic. No crown union, actual canopy coverage, sky visibility, path navigation or performance measurement. Proposed clearing ellipses are overlaid on PR12 for geographic comparison."
+}

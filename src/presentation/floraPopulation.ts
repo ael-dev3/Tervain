@@ -1,5 +1,6 @@
 import { ARRIVAL_ROUTE, DEEPWOOD, ORCHARD, WORLD } from '../world/layout';
-import { deepwoodCover, forestOpeningCover } from '../world/forest';
+import { deepwoodCover, forestOpeningCover, forestClearingCover, forestClearingDistance } from '../world/forest';
+import { forestStandAt, FOREST_CROWN_ENVELOPE, type ForestFamilyRole } from '../world/forestStands';
 import { cliffiness, shoreDistance } from '../world/coast';
 import { fbm, mulberry32, smoothstep } from '../world/noise';
 import { distToPolyline, realmRadius, type Terrain } from '../world/terrain';
@@ -17,6 +18,8 @@ export interface FloraTree {
   decorationRank: number;
   /** Optional for developer lineups; generated wild trees expose their authoring cohorts. */
   groveId?: string;
+  standId?: string;
+  familyRole?: ForestFamilyRole;
   age?: TreeAge;
 }
 
@@ -32,7 +35,7 @@ function hashKey(key: string, salt = 0): number {
 }
 const randomFor = (key: string, salt = 0) => mulberry32(hashKey(key, salt));
 type CanopySpecies = 'oak' | 'pine' | 'fir' | 'birch';
-interface Grove { id: string; x: number; z: number; radius: number; dominant: CanopySpecies; companion: CanopySpecies; accent: CanopySpecies; tint: number }
+interface Grove { id: string; x: number; z: number; radius: number; dominant: CanopySpecies; companion: CanopySpecies; accent: CanopySpecies; tint: number; role?: ForestFamilyRole; regrowth?: number }
 interface Candidate { key: string; priority: number; footprint: number; tree: FloraTree }
 
 /** Coordinate-keyed groves and symmetric spacing keep the layout stable through local authoring edits. */
@@ -66,16 +69,19 @@ export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slope
   const put = (key: string, sp: Species, x: number, z: number, scale = 1, collide = true, age: TreeAge = 'mature', site?: Grove) => {
     const footprint = sp === 'shrub' ? 0.4 * scale : RADIUS[sp] * scale;
     if (bad(x, z, footprint + 0.55)) return;
+    const crown = sp in FOREST_CROWN_ENVELOPE ? FOREST_CROWN_ENVELOPE[sp as CanopySpecies] * scale : footprint;
+    if (forestClearingDistance(x, z) < crown + 0.5) return;
     const rnd = randomFor(key, 211), radius = collide ? RADIUS[sp] * scale : 0;
     candidates.push({ key, priority: randomFor(key, 431)(), footprint, tree: {
       sp, v: Math.floor(rnd() * FLORA_VARIANTS), x, y: terrain.heightAt(x, z) - 0.06, z, s: scale,
       yaw: rnd() * Math.PI * 2, tint: (site?.tint ?? 0.98) * (0.97 + rnd() * 0.06), radius,
       collisionId: radius > 0 ? `tree:${key}` : null, decorationRank: randomFor(key, 619)(),
-      ...(site ? { groveId: site.id } : {}), age,
+      ...(site ? { groveId: site.id, ...(site.role ? { standId: site.id, familyRole: site.role } : {}) } : {}), age,
     } });
   };
-  const ageAndScale = (sp: CanopySpecies, rnd: () => number): { age: TreeAge; scale: number } => {
-    const pick = rnd(), age: TreeAge = pick < 0.15 ? 'veteran' : pick < 0.75 ? 'mature' : pick < 0.95 ? 'young' : 'sapling';
+  const ageAndScale = (sp: CanopySpecies, rnd: () => number, regrowth = 0.5): { age: TreeAge; scale: number } => {
+    const pick = rnd(), veteran = 0.22 - regrowth * 0.14, mature = 0.84 - regrowth * 0.18;
+    const age: TreeAge = pick < veteran ? 'veteran' : pick < mature ? 'mature' : pick < 0.95 ? 'young' : 'sapling';
     const tier = sp === 'birch' ? 0.76 : sp === 'oak' ? 1 : 1.16;
     const scale = age === 'veteran' ? 1.22 + rnd() * 0.24 : age === 'mature' ? 0.94 + rnd() * 0.25 : age === 'young' ? 0.55 + rnd() * 0.24 : 0.28 + rnd() * 0.16;
     return { age, scale: scale * tier };
@@ -96,23 +102,31 @@ export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slope
         density = (smoothstep(0.52, 0.8, noise) * 0.8 + wet * 0.3 + smoothstep(4, 12, height) * 0.26)
           * smoothstep(30, 62, Math.hypot(x - 4, z - 8));
       }
-      const patch = smoothstep(-0.32, 0.5, fbm(x / 28 + 3, z / 28 - 8, 3, 51));
+      const patch = smoothstep(-0.32, 0.5, fbm(x / 61 + 3, z / 61 - 8, 3, 51));
       const shoulder = 0.42 + 0.58 * smoothstep(3.4, 10 + fbm(x / 19, z / 19, 2, 71) * 2.5, distToPolyline(x, z, ARRIVAL_ROUTE).d);
-      density = Math.max(density, forest * (0.4 + patch * 0.5) * shoulder * forestOpeningCover(x, z));
+      density = Math.max(density, forest * (0.60 + patch * 0.26) * shoulder * forestOpeningCover(x, z)) * forestClearingCover(x, z);
       if (rnd() > density) continue;
       const g = grovesAt(x, z), selected = rnd() < g.blend ? g.second : g.first, pick = rnd();
       let sp: CanopySpecies = pick < 0.76 ? selected.dominant : pick < 0.94 ? selected.companion : selected.accent;
+      let site = selected;
+      if (forest > 0.15) {
+        const stand = forestStandAt(x, z);
+        sp = stand.sp;
+        site = { ...selected, id: stand.id, tint: stand.tint, role: stand.role, regrowth: stand.regrowth };
+      }
       if (forest <= 0.15) sp = height > 8 ? (rnd() < 0.6 ? 'pine' : 'fir') : wet > 0.4 ? 'birch' : sp;
-      const { age, scale } = ageAndScale(sp, rnd);
-      put(key, sp, x, z, scale, true, age, selected);
+      const { age, scale } = ageAndScale(sp, rnd, site.regrowth);
+      put(key, sp, x, z, scale, true, age, site);
       if (forest > 0.2 && age !== 'sapling' && rnd() < 0.18) {
         const child = randomFor(`${key}:sapling`, 13), angle = child() * Math.PI * 2, reach = 3.5 + child() * 2.8;
-        put(`${key}:sapling`, selected.dominant, x + Math.cos(angle) * reach, z + Math.sin(angle) * reach,
-          0.28 + child() * 0.18, true, 'sapling', selected);
+        const cx = x + Math.cos(angle) * reach, cz = z + Math.sin(angle) * reach;
+        const stand = forestStandAt(cx, cz);
+        put(`${key}:sapling`, stand.sp, cx, cz, 0.28 + child() * 0.18, true, 'sapling',
+          { ...site, id: stand.id, role: stand.role, tint: stand.tint });
       }
       if (rnd() < (forest > 0.2 ? 0.3 : 0.16)) {
         const child = randomFor(`${key}:scrub`, 17), angle = child() * Math.PI * 2, reach = 2.2 + child() * 2.7;
-        put(`${key}:scrub`, 'shrub', x + Math.cos(angle) * reach, z + Math.sin(angle) * reach, 0.6 + child() * 0.7, false, 'young', selected);
+        put(`${key}:scrub`, 'shrub', x + Math.cos(angle) * reach, z + Math.sin(angle) * reach, 0.6 + child() * 0.7, false, 'young', site);
       }
     }
   }

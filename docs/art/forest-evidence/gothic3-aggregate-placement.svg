@@ -1,0 +1,332 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="830" viewBox="0 0 1500 830">
+<rect width="1500" height="830" fill="#f5f2ea"/>
+<style>text{font-family:Arial,sans-serif;fill:#253c32}.title{font-size:27px}.body{font-size:18px}.small{font-size:15px}</style>
+<text class="title" x="35" y="48">Gothic3: stored vegetation composition changes across space</text>
+<text class="body" x="35" y="85">Aggregate diagnostic from original local build1.60. Not a screenshot or reconstructed game scene.</text>
+<text class="title" x="35" y="132">Ardea surroundings</text>
+<text class="small" x="35" y="154">68 stored SpeedTrees / shrubs, 200m square</text>
+<rect x="35" y="510" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="85" y="510" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="135" y="510" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="185" y="510" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="202" y="543" style="fill:white">4</text>
+<rect x="235" y="510" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="285" y="510" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="302" y="543" style="fill:white">1</text>
+<rect x="335" y="510" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="385" y="510" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="35" y="460" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="52" y="493" style="fill:white">1</text>
+<rect x="85" y="460" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="102" y="493" style="fill:white">1</text>
+<rect x="135" y="460" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="152" y="493" style="fill:white">1</text>
+<rect x="185" y="460" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="235" y="460" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="285" y="460" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="335" y="460" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="385" y="460" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="35" y="410" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="85" y="410" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="135" y="410" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="185" y="410" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="235" y="410" width="50" height="50" fill="#759b6b" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="252" y="443" style="fill:white">5</text>
+<rect x="285" y="410" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="302" y="443" style="fill:white">3</text>
+<rect x="335" y="410" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="385" y="410" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="35" y="360" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="52" y="393" style="fill:white">1</text>
+<rect x="85" y="360" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="102" y="393" style="fill:white">1</text>
+<rect x="135" y="360" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="185" y="360" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="202" y="393" style="fill:white">10</text>
+<rect x="235" y="360" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="252" y="393" style="fill:white">6</text>
+<rect x="285" y="360" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="302" y="393" style="fill:white">5</text>
+<rect x="335" y="360" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="352" y="393" style="fill:white">1</text>
+<rect x="385" y="360" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="35" y="310" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="85" y="310" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="135" y="310" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="152" y="343" style="fill:white">4</text>
+<rect x="185" y="310" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="202" y="343" style="fill:white">7</text>
+<rect x="235" y="310" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="252" y="343" style="fill:white">6</text>
+<rect x="285" y="310" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="335" y="310" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="385" y="310" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="35" y="260" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="85" y="260" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="135" y="260" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="152" y="293" style="fill:white">2</text>
+<rect x="185" y="260" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="235" y="260" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="252" y="293" style="fill:white">1</text>
+<rect x="285" y="260" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="302" y="293" style="fill:white">1</text>
+<rect x="335" y="260" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="385" y="260" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="35" y="210" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="85" y="210" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="135" y="210" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="185" y="210" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="235" y="210" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="285" y="210" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="302" y="243" style="fill:white">1</text>
+<rect x="335" y="210" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="385" y="210" width="50" height="50" fill="#759b6b" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="402" y="243" style="fill:white">1</text>
+<rect x="35" y="160" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="85" y="160" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="135" y="160" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="152" y="193" style="fill:white">1</text>
+<rect x="185" y="160" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="202" y="193" style="fill:white">1</text>
+<rect x="235" y="160" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="285" y="160" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="335" y="160" width="50" height="50" fill="#759b6b" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="352" y="193" style="fill:white">3</text>
+<rect x="385" y="160" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="35" y="599">25m cells: 62% empty; count CV 1.92</text>
+<text class="body" x="35" y="626">Same family nearest: 41.2%</text>
+<text class="body" x="35" y="653">Shuffled-label baseline: 32.3%</text>
+<text class="body" x="35" y="680">Median nearest spacing: 1.1m</text>
+<text class="title" x="525" y="132">Reddock approach</text>
+<text class="small" x="525" y="154">109 stored SpeedTrees / shrubs, 200m square</text>
+<rect x="525" y="510" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="542" y="543" style="fill:white">10</text>
+<rect x="575" y="510" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="592" y="543" style="fill:white">12</text>
+<rect x="625" y="510" width="50" height="50" fill="#759b6b" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="642" y="543" style="fill:white">9</text>
+<rect x="675" y="510" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="692" y="543" style="fill:white">12</text>
+<rect x="725" y="510" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="742" y="543" style="fill:white">7</text>
+<rect x="775" y="510" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="792" y="543" style="fill:white">1</text>
+<rect x="825" y="510" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="842" y="543" style="fill:white">1</text>
+<rect x="875" y="510" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="892" y="543" style="fill:white">1</text>
+<rect x="525" y="460" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="542" y="493" style="fill:white">7</text>
+<rect x="575" y="460" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="592" y="493" style="fill:white">6</text>
+<rect x="625" y="460" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="642" y="493" style="fill:white">8</text>
+<rect x="675" y="460" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="692" y="493" style="fill:white">10</text>
+<rect x="725" y="460" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="742" y="493" style="fill:white">3</text>
+<rect x="775" y="460" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="825" y="460" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="875" y="460" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="525" y="410" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="575" y="410" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="592" y="443" style="fill:white">1</text>
+<rect x="625" y="410" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="642" y="443" style="fill:white">2</text>
+<rect x="675" y="410" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="692" y="443" style="fill:white">4</text>
+<rect x="725" y="410" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="775" y="410" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="825" y="410" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="875" y="410" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="892" y="443" style="fill:white">1</text>
+<rect x="525" y="360" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="575" y="360" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="625" y="360" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="675" y="360" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="725" y="360" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="742" y="393" style="fill:white">1</text>
+<rect x="775" y="360" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="825" y="360" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="875" y="360" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="525" y="310" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="575" y="310" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="592" y="343" style="fill:white">1</text>
+<rect x="625" y="310" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="675" y="310" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="725" y="310" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="775" y="310" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="792" y="343" style="fill:white">1</text>
+<rect x="825" y="310" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="875" y="310" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="892" y="343" style="fill:white">1</text>
+<rect x="525" y="260" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="575" y="260" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="625" y="260" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="642" y="293" style="fill:white">1</text>
+<rect x="675" y="260" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="692" y="293" style="fill:white">1</text>
+<rect x="725" y="260" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="775" y="260" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="825" y="260" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="875" y="260" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="892" y="293" style="fill:white">1</text>
+<rect x="525" y="210" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="575" y="210" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="625" y="210" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="675" y="210" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="692" y="243" style="fill:white">1</text>
+<rect x="725" y="210" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="775" y="210" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="825" y="210" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="875" y="210" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="525" y="160" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="542" y="193" style="fill:white">1</text>
+<rect x="575" y="160" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="625" y="160" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="642" y="193" style="fill:white">1</text>
+<rect x="675" y="160" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="692" y="193" style="fill:white">2</text>
+<rect x="725" y="160" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="742" y="193" style="fill:white">1</text>
+<rect x="775" y="160" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="825" y="160" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="875" y="160" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="892" y="193" style="fill:white">1</text>
+<text class="body" x="525" y="599">25m cells: 53% empty; count CV 1.84</text>
+<text class="body" x="525" y="626">Same family nearest: 31.2%</text>
+<text class="body" x="525" y="653">Shuffled-label baseline: 20.4%</text>
+<text class="body" x="525" y="680">Median nearest spacing: 4.8m</text>
+<text class="title" x="1015" y="132">Geldern forest sample</text>
+<text class="small" x="1015" y="154">462 stored SpeedTrees / shrubs, 200m square</text>
+<rect x="1015" y="510" width="50" height="50" fill="#759b6b" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1032" y="543" style="fill:white">2</text>
+<rect x="1065" y="510" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1082" y="543" style="fill:white">12</text>
+<rect x="1115" y="510" width="50" height="50" fill="#ca8f61" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1132" y="543" style="fill:white">6</text>
+<rect x="1165" y="510" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1182" y="543" style="fill:white">18</text>
+<rect x="1215" y="510" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1232" y="543" style="fill:white">7</text>
+<rect x="1265" y="510" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1282" y="543" style="fill:white">12</text>
+<rect x="1315" y="510" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1332" y="543" style="fill:white">8</text>
+<rect x="1365" y="510" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1382" y="543" style="fill:white">17</text>
+<rect x="1015" y="460" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1032" y="493" style="fill:white">8</text>
+<rect x="1065" y="460" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1082" y="493" style="fill:white">5</text>
+<rect x="1115" y="460" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1132" y="493" style="fill:white">13</text>
+<rect x="1165" y="460" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1182" y="493" style="fill:white">1</text>
+<rect x="1215" y="460" width="50" height="50" fill="#759b6b" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1232" y="493" style="fill:white">2</text>
+<rect x="1265" y="460" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="1315" y="460" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="1365" y="460" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1382" y="493" style="fill:white">1</text>
+<rect x="1015" y="410" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1032" y="443" style="fill:white">3</text>
+<rect x="1065" y="410" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="1115" y="410" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1132" y="443" style="fill:white">4</text>
+<rect x="1165" y="410" width="50" height="50" fill="#759b6b" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1182" y="443" style="fill:white">3</text>
+<rect x="1215" y="410" width="50" height="50" fill="#759b6b" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1232" y="443" style="fill:white">2</text>
+<rect x="1265" y="410" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="1315" y="410" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1332" y="443" style="fill:white">2</text>
+<rect x="1365" y="410" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1382" y="443" style="fill:white">16</text>
+<rect x="1015" y="360" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="1065" y="360" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1082" y="393" style="fill:white">7</text>
+<rect x="1115" y="360" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1132" y="393" style="fill:white">6</text>
+<rect x="1165" y="360" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1182" y="393" style="fill:white">4</text>
+<rect x="1215" y="360" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="1265" y="360" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1282" y="393" style="fill:white">19</text>
+<rect x="1315" y="360" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1332" y="393" style="fill:white">17</text>
+<rect x="1365" y="360" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1382" y="393" style="fill:white">9</text>
+<rect x="1015" y="310" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1032" y="343" style="fill:white">11</text>
+<rect x="1065" y="310" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1082" y="343" style="fill:white">13</text>
+<rect x="1115" y="310" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1132" y="343" style="fill:white">11</text>
+<rect x="1165" y="310" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1182" y="343" style="fill:white">1</text>
+<rect x="1215" y="310" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1232" y="343" style="fill:white">11</text>
+<rect x="1265" y="310" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1282" y="343" style="fill:white">4</text>
+<rect x="1315" y="310" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1332" y="343" style="fill:white">8</text>
+<rect x="1365" y="310" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1382" y="343" style="fill:white">16</text>
+<rect x="1015" y="260" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1032" y="293" style="fill:white">6</text>
+<rect x="1065" y="260" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1082" y="293" style="fill:white">18</text>
+<rect x="1115" y="260" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1132" y="293" style="fill:white">13</text>
+<rect x="1165" y="260" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="1215" y="260" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="1265" y="260" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1282" y="293" style="fill:white">19</text>
+<rect x="1315" y="260" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1332" y="293" style="fill:white">28</text>
+<rect x="1365" y="260" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1382" y="293" style="fill:white">12</text>
+<rect x="1015" y="210" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="1065" y="210" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="1115" y="210" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1132" y="243" style="fill:white">11</text>
+<rect x="1165" y="210" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1182" y="243" style="fill:white">1</text>
+<rect x="1215" y="210" width="50" height="50" fill="#759b6b" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1232" y="243" style="fill:white">2</text>
+<rect x="1265" y="210" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1282" y="243" style="fill:white">4</text>
+<rect x="1315" y="210" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1332" y="243" style="fill:white">24</text>
+<rect x="1365" y="210" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1382" y="243" style="fill:white">10</text>
+<rect x="1015" y="160" width="50" height="50" fill="#e7e4dd" stroke="#f5f2ea" stroke-width="2"/>
+<rect x="1065" y="160" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1082" y="193" style="fill:white">4</text>
+<rect x="1115" y="160" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1132" y="193" style="fill:white">5</text>
+<rect x="1165" y="160" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1182" y="193" style="fill:white">7</text>
+<rect x="1215" y="160" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1232" y="193" style="fill:white">8</text>
+<rect x="1265" y="160" width="50" height="50" fill="#315f4e" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1282" y="193" style="fill:white">8</text>
+<rect x="1315" y="160" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1332" y="193" style="fill:white">2</text>
+<rect x="1365" y="160" width="50" height="50" fill="#a2b751" stroke="#f5f2ea" stroke-width="2"/>
+<text class="body" x="1382" y="193" style="fill:white">1</text>
+<text class="body" x="1015" y="599">25m cells: 17% empty; count CV 0.92</text>
+<text class="body" x="1015" y="626">Same family nearest: 41.1%</text>
+<text class="body" x="1015" y="653">Shuffled-label baseline: 39.8%</text>
+<text class="body" x="1015" y="680">Median nearest spacing: 2.7m</text>
+<text class="body" x="35" y="728">Cell color = most common named model family; number = all stored SpeedTrees in that cell.</text>
+<rect x="35" y="745" width="23" height="23" fill="#a2b751"/>
+<text class="body" x="66" y="764">CarolinaBuckthorn</text>
+<rect x="360" y="745" width="23" height="23" fill="#315f4e"/>
+<text class="body" x="391" y="764">DouglasFir</text>
+<rect x="685" y="745" width="23" height="23" fill="#759b6b"/>
+<text class="body" x="716" y="764">BulfordHolly</text>
+<rect x="1010" y="745" width="23" height="23" fill="#ca8f61"/>
+<text class="body" x="1041" y="764">Other models</text>
+<text class="small" x="35" y="809">World units /100 use g3blend conversion convention. Runtime sector activation and terrain/path context were not verified.</text></svg>

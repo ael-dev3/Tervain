@@ -40,9 +40,10 @@ describe('cohesive woodland placement', () => {
     }
     const independent = [...counts.values()].reduce((sum, count) => sum + (count / trees.length) ** 2, 0);
     expect(matching / trees.length).toBeGreaterThan(independent + 0.15);
-    // Avoid obtaining a high match score by filling the entire forest with one species.
-    expect(counts.size).toBeGreaterThanOrEqual(3);
-    expect(Math.max(...counts.values()) / trees.length).toBeLessThan(0.65);
+    // A pine-led regional palette is intentional. Regional accepted ratios and long-range
+    // clustering are checked in forestStands.test.ts rather than imposing an old global mix.
+    expect(counts.size).toBeGreaterThanOrEqual(2);
+    expect(trees.some(tree => tree.familyRole === 'secondary')).toBe(true);
   });
 
   it('keeps all distant transforms, appearance and obstacle identities unchanged after local exclusions', () => {
