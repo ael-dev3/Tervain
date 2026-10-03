@@ -1,40 +1,81 @@
 import * as THREE from 'three';
 import { deepwoodCover } from '../world/forest';
 import { WORLD } from '../world/layout';
-import { mulberry32 } from '../world/noise';
+import { fbm, mulberry32, smoothstep } from '../world/noise';
 import { realmRadius, type Terrain } from '../world/terrain';
 import type { Exclusions } from './vegetation';
 import type { Quality, SceneModule } from './context';
 import { barkTextures } from './treeTextures';
+import { createFloraPopulation, type FloraTree } from './floraPopulation';
+import { streamDistance } from './vegetation';
 
 export type ForestFloorKind = 'fern' | 'moss' | 'litter' | 'log' | 'fungi';
-export interface ForestFloorPiece { kind: ForestFloorKind; x: number; y: number; z: number; nx: number; nz: number; yaw: number; scale: number; rank: number; variant: number }
+export interface ForestFloorPiece { id: string; kind: ForestFloorKind; x: number; y: number; z: number; nx: number; nz: number; yaw: number; scale: number; rank: number; variant: number; parentLogId?: string }
 
 /** Authored once, then graphics settings thin only nonblocking ankle-height detail. */
-export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 'slopeAt' | 'carveAt'>, exclusions: Pick<Exclusions, 'blocked'>): ForestFloorPiece[] {
-  const rnd = mulberry32(50419);
+export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 'slopeAt' | 'carveAt'>, exclusions: Pick<Exclusions, 'blocked'>, trees: readonly FloraTree[] = createFloraPopulation(terrain, exclusions)): ForestFloorPiece[] {
+  let rnd = mulberry32(50419);
   const out: ForestFloorPiece[] = [];
+  const trunks = trees.filter((t) => t.radius > 0);
+  const hash = new Map<string, FloraTree[]>();
+  for (const t of trunks) {
+    const key = `${Math.floor(t.x / 16)}:${Math.floor(t.z / 16)}`;
+    const bucket = hash.get(key) ?? []; bucket.push(t); hash.set(key, bucket);
+  }
+  const nearby = (x: number, z: number) => {
+    const local: FloraTree[] = [];
+    for (let i = Math.floor((x - 16) / 16); i <= Math.floor((x + 16) / 16); i++) {
+      for (let j = Math.floor((z - 16) / 16); j <= Math.floor((z + 16) / 16); j++) local.push(...(hash.get(`${i}:${j}`) ?? []));
+    }
+    return local;
+  };
+  const canopyAt = (x: number, z: number, local: readonly FloraTree[]) => {
+    let cover = 0;
+    for (const t of local) {
+      const reach = (t.sp === 'oak' ? 6.5 : t.sp === 'birch' ? 4 : 4.8) * t.s;
+      cover += Math.exp(-((x - t.x) ** 2 + (z - t.z) ** 2) / (reach * reach));
+    }
+    return 1 - Math.exp(-cover);
+  };
   const put = (kind: ForestFloorKind, x: number, z: number, scale: number, variant: number) => {
     if (realmRadius(x, z) > 0.97 || terrain.heightAt(x, z) < 0.35 || terrain.carveAt(x, z) > 0.01 || terrain.slopeAt(x, z) > 0.62 || exclusions.blocked(x, z, kind === 'log' ? 2.6 : 0.45)) return;
     if (kind === 'log' && terrain.slopeAt(x, z) > 0.22) return;
+    if (nearby(x, z).some((t) => Math.hypot(t.x - x, t.z - z) < t.radius + (kind === 'log' ? scale * 1.7 + 0.25 : 0.24))) return;
     const rank = mulberry32(Math.imul(Math.round(x * 100), 71303) ^ Math.imul(Math.round(z * 100), 31231))();
     const nx = (terrain.heightAt(x - 0.4, z) - terrain.heightAt(x + 0.4, z)) / 0.8;
     const nz = (terrain.heightAt(x, z - 0.4) - terrain.heightAt(x, z + 0.4)) / 0.8;
-    out.push({ kind, x, y: terrain.heightAt(x, z), z, nx, nz, yaw: rnd() * Math.PI * 2, scale, rank, variant });
+    const piece: ForestFloorPiece = { id: `floor:${kind}:${x.toFixed(4)}:${z.toFixed(4)}`, kind, x, y: terrain.heightAt(x, z), z, nx, nz, yaw: rnd() * Math.PI * 2, scale, rank, variant };
+    out.push(piece);
+    return piece;
   };
   // Clumps leave changing gaps rather than a uniform lawn; the forest and the playable trail share one habitat mask.
   const step = 4.8;
   for (let gz = WORLD.minZ + 5; gz < WORLD.maxZ - 5; gz += step) {
     for (let gx = WORLD.minX + 5; gx < WORLD.maxX - 5; gx += step) {
+      // Independent cell streams keep unrelated floor positions fixed when a nearby exclusion changes.
+      rnd = mulberry32(50419 ^ Math.imul(Math.round(gx * 10), 71303) ^ Math.imul(Math.round(gz * 10), 31231));
       const x = gx + (rnd() - 0.5) * step * 0.8;
       const z = gz + (rnd() - 0.5) * step * 0.8;
       const cover = deepwoodCover(x, z);
-      if (cover < 0.1 || rnd() > cover * 0.76) continue;
-      put('fern', x, z, 0.72 + rnd() * 0.65, Math.floor(rnd() * 3));
-      if (rnd() < 0.28) put('moss', x + 0.8, z - 0.55, 0.6 + rnd() * 0.8, 0);
-      if (rnd() < 0.4) put('litter', x - 1, z + 1, 0.85 + rnd() * 0.75, Math.floor(rnd() * 2));
-      if (rnd() < 0.045) put('log', x + 1.4, z - 1.8, 0.65 + rnd() * 0.65, Math.floor(rnd() * 2));
-      if (rnd() < 0.1) put('fungi', x - 0.55, z - 0.8, 0.7 + rnd() * 0.6, 0);
+      if (cover < 0.1) continue;
+      const canopy = canopyAt(x, z, nearby(x, z));
+      const wet = 1 - smoothstep(5, 32, streamDistance(x, z));
+      const colony = smoothstep(-0.35, 0.45, fbm(x / 11, z / 11, 2, 50420));
+      if (rnd() < cover * canopy * (0.35 + colony * 0.6 + wet * 0.3)) put('fern', x, z, 0.55 + rnd() * 0.7, Math.floor(rnd() * 3));
+      if (rnd() < cover * canopy * (0.15 + wet * 0.3)) put('moss', x + 0.8, z - 0.55, 0.6 + rnd() * 0.8, 0);
+      if (rnd() < cover * canopy * 0.65) put('litter', x - 1, z + 1, 0.85 + rnd() * 0.75, Math.floor(rnd() * 2));
+      if (rnd() < cover * canopy * 0.05) {
+        const log = put('log', x + 1.4, z - 1.8, 0.65 + rnd() * 0.65, Math.floor(rnd() * 2));
+        if (log) {
+          const fungusScale = 0.7 + rnd() * 0.6;
+          // The log lies along local X. Leave room beside its radius and the whole three-cap cluster,
+          // including their slope rotations, instead of placing mushrooms inside the timber's axis.
+          const offset = 0.35 * log.scale + 0.36 * fungusScale + 0.04;
+          const side = log.variant ? -1 : 1;
+          const fungus = put('fungi', log.x + Math.sin(log.yaw) * offset * side, log.z + Math.cos(log.yaw) * offset * side, fungusScale, 0);
+          if (fungus) { fungus.rank = log.rank; fungus.parentLogId = log.id; }
+        }
+      }
     }
   }
   return out;
@@ -42,7 +83,9 @@ export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 
 
 export function selectForestFloorPopulation(population: readonly ForestFloorPiece[], quality: Quality): ForestFloorPiece[] {
   const keep = quality === 'low' ? 0.38 : quality === 'medium' ? 0.68 : 1;
-  return population.filter((p) => p.rank < keep);
+  const selected = population.filter((p) => p.rank < keep);
+  const logs = new Set(selected.filter((p) => p.kind === 'log').map((p) => p.id));
+  return selected.filter((p) => !p.parentLogId || logs.has(p.parentLogId));
 }
 
 class FloorGeometry {
@@ -193,8 +236,8 @@ function floorGeometry(kind: ForestFloorKind, variant: number) {
 }
 
 /** Native forest detail shares flora ownership and disposal. No collider is needed for these low, nonblocking pieces. */
-export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quality: Quality): SceneModule {
-  const population = createForestFloorPopulation(terrain, exclusions);
+export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quality: Quality, trees?: readonly FloraTree[]): SceneModule {
+  const population = createForestFloorPopulation(terrain, exclusions, trees);
   const pieces = selectForestFloorPopulation(population, quality);
   const group = new THREE.Group();
   group.name = 'deepwood_forest_floor';
@@ -236,7 +279,8 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
     update(dt, f) {
       if (disposed) return;
       elapsed += dt;
-      if (elapsed < 0.16 && f.camera.position.distanceTo(lastCamera) < 1.5) return;
+      const turned = Math.abs(f.camera.quaternion.dot(lastRotation)) < 0.9998;
+      if (elapsed < 0.16 && f.camera.position.distanceTo(lastCamera) < 1.5 && !turned && f.camera.projectionMatrix.equals(lastProjection)) return;
       if (f.camera.position.distanceToSquared(lastCamera) < 0.0004 && Math.abs(f.camera.quaternion.dot(lastRotation)) > 0.999999 && f.camera.projectionMatrix.equals(lastProjection)) return;
       elapsed = 0;
       lastCamera.copy(f.camera.position);
