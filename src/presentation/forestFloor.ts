@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { deepwoodCover } from '../world/forest';
+import { deepwoodCover, forestClearingCover, forestClearingDistance } from '../world/forest';
 import { WORLD } from '../world/layout';
 import { fbm, mulberry32, smoothstep } from '../world/noise';
 import { realmRadius, type Terrain } from '../world/terrain';
@@ -40,6 +40,7 @@ export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 
   const put = (kind: ForestFloorKind, x: number, z: number, scale: number, variant: number) => {
     if (realmRadius(x, z) > 0.97 || terrain.heightAt(x, z) < 0.35 || terrain.carveAt(x, z) > 0.01 || terrain.slopeAt(x, z) > 0.62 || exclusions.blocked(x, z, kind === 'log' ? 2.6 : 0.45)) return;
     if (kind === 'log' && terrain.slopeAt(x, z) > 0.22) return;
+    if (forestClearingDistance(x, z) < (kind === 'log' ? scale * 1.7 : 0.4)) return;
     if (nearby(x, z).some((t) => Math.hypot(t.x - x, t.z - z) < t.radius + (kind === 'log' ? scale * 1.7 + 0.25 : 0.24))) return;
     const rank = mulberry32(Math.imul(Math.round(x * 100), 71303) ^ Math.imul(Math.round(z * 100), 31231))();
     const nx = (terrain.heightAt(x - 0.4, z) - terrain.heightAt(x + 0.4, z)) / 0.8;
@@ -56,7 +57,7 @@ export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 
       rnd = mulberry32(50419 ^ Math.imul(Math.round(gx * 10), 71303) ^ Math.imul(Math.round(gz * 10), 31231));
       const x = gx + (rnd() - 0.5) * step * 0.8;
       const z = gz + (rnd() - 0.5) * step * 0.8;
-      const cover = deepwoodCover(x, z);
+      const cover = deepwoodCover(x, z) * forestClearingCover(x, z);
       if (cover < 0.1) continue;
       const canopy = canopyAt(x, z, nearby(x, z));
       const wet = 1 - smoothstep(5, 32, streamDistance(x, z));

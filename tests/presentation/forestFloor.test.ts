@@ -46,7 +46,10 @@ describe('Deepwood floor', () => {
 
   it('creates repeatable fern, litter, moss, fallen timber and fungi layers inside the woodland, keeping arrival sand and relics clear', () => {
     expect(createForestFloorPopulation(terrain, exclusions)).toEqual(population);
-    expect(population.length).toBeGreaterThan(650);
+    // Broad clearings deliberately remove clutter. Actual canopy must supply a woodland floor,
+    // while removing that canopy must remove the shade-dependent layer rather than meeting an old count.
+    expect(population.some(p => p.kind === 'fern' && deepwoodCover(p.x, p.z) > 0.5)).toBe(true);
+    expect(createForestFloorPopulation(terrain, exclusions, [])).toEqual([]);
     expect(new Set(population.map((p) => p.kind))).toEqual(new Set(['fern', 'moss', 'litter', 'log', 'fungi']));
     for (const p of population) {
       expect(deepwoodCover(p.x, p.z)).toBeGreaterThan(0.05);

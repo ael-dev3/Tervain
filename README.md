@@ -34,6 +34,8 @@ Layered coastal waves, depth-based transmission, world reflections, and the Low/
 
 **People, 0.0.8 (A36):** a massive rework for repainting, after a read-only study of the local Gothic 1 Remake files and the owner's notes. Each person is now one skinned mesh wearing one painted texture laid out as a character model sheet: the whole figure from the front, the sides and the back, and the face and head large. `npm run people:sheets` exports every sheet with a template, parts map, masks and a prompt for Codex or an image model, `npm run people:check` tests a repainted sheet against the person's shape, and a repainted image in `src/assets/people/` replaces the paint. Eyes and faces are reworked, new costume pieces (fur collars, neck and face cloths, a shoulder guard, a headband, a tabard, gloves) mark roles, and residents standing idle fold their arms, look about or scratch their heads. See the [retexture guide](docs/art/people-retexture.md) and the [0.0.8 notes](docs/production/releases/0.0.8.md).
 
+The separate unmerged [larger woodland stand candidate](docs/art/forest-stands-2026-10-03.md) follows forest PR12 with a regional 75/20/5 family target, broad coherent patches and canopy-aware natural clearings. The [original Gothic 3 study](docs/art/gothic3-vegetation-study.md) distinguishes measurements from that design target. This candidate does not change the currently hosted release.
+
 ## Run the prototype locally
 
 Use the local commands below for development. To play without installing anything, open the [hosted preview](https://ael-dev3.github.io/Tervain/). The earlier hosting outage is preserved in the dated [0.0.5 publication record](docs/production/releases/0.0.5.md#publication).

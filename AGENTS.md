@@ -22,6 +22,7 @@ Tervain is in pre-production. Start with README.md, docs/vision.md, and docs/dec
 - The working labels Templars, Hegemony, Core, and Ousters describe this project's discussion. Do not import the books' canon as this game's history.
 - Label newly invented lore, system choices, numerical targets, and estimates as proposals until a decision is recorded. Do not turn prototype assumptions into owner decisions.
 - Keep systems and story consistent across the setting, faction, quest, and slice documents. Update affected links and the decision register when a choice changes.
+- Woodland stands (A37, 3 October 2026): document the original Gothic 3 vegetation study and compose much larger coherent tree-family clusters with broad natural clearings. The owner's approximate 75% dominant / 20% secondary / 5% other mix is a Tervain regional target, not a universal Gothic 3 measurement or a quota in every small patch. Preserve route readability, deterministic canonical collisions, sparse arrival and static gameplay trees. See docs/art/gothic3-vegetation-study.md and docs/art/forest-stands-2026-10-03.md; geometric defaults remain prototype controls under visual review.
 
 ## Work honestly and usefully
 
