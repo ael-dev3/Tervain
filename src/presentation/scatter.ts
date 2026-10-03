@@ -125,7 +125,8 @@ export function buildScatter(ctx: BuildContext): SceneModule & { counts: { rocks
   };
   const density = quality === 'low' ? 0.55 : quality === 'medium' ? 0.8 : 1;
   const shapes = rockShapes();
-  const population = createScatterPopulation(terrain, ctx.excl);
+  const trunks = colliders.all.filter((c) => c.kind === 'circle' && c.id.startsWith('tree:')).map((c) => ({ x: c.x, z: c.z, radius: c.kind === 'circle' ? c.r : 0 }));
+  const population = createScatterPopulation(terrain, ctx.excl, trunks);
   registerScatterColliders(population, colliders);
   const plan = selectScatterPopulation(population, quality);
   const rocks = plan.rocks.length;

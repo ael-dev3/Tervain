@@ -163,7 +163,7 @@ interface CardOpts {
   sway: number;
 }
 
-/** One alpha card: a double-sided quad (two quads back to back, so the smoothed normal is the same from both sides). */
+/** One alpha card: the DoubleSide leaf material shades this single quad with its crown normal on both faces. */
 function card(acc: Acc, c: V3, o: CardOpts, rnd: Rnd) {
   const v = norm(o.up);
   let u = cross(v, o.normal);
@@ -175,17 +175,10 @@ function card(acc: Acc, c: V3, o: CardOpts, rnd: Rnd) {
   const uvs = [0, 0, 1, 0, 1, 1, 0, 1];
   const k = 0.88 + rnd() * 0.24;
   const col: RGB = [o.color[0] * k, o.color[1] * k, o.color[2] * k];
-  for (let side = 0; side < 2; side++) {
-    const ids: number[] = [];
-    for (let i = 0; i < 4; i++) ids.push(acc.vert(corners[i]!, o.normal, uvs[i * 2]!, uvs[i * 2 + 1]!, col, o.sway));
-    if (side === 0) {
-      acc.tri(ids[0]!, ids[1]!, ids[2]!);
-      acc.tri(ids[0]!, ids[2]!, ids[3]!);
-    } else {
-      acc.tri(ids[0]!, ids[2]!, ids[1]!);
-      acc.tri(ids[0]!, ids[3]!, ids[2]!);
-    }
-  }
+  const ids: number[] = [];
+  for (let i = 0; i < 4; i++) ids.push(acc.vert(corners[i]!, o.normal, uvs[i * 2]!, uvs[i * 2 + 1]!, col, o.sway));
+  acc.tri(ids[0]!, ids[1]!, ids[2]!);
+  acc.tri(ids[0]!, ids[2]!, ids[3]!);
 }
 
 /** A tuft card standing in a plane through `axis`: two crossed quads, for needle bursts seen from any side. */
@@ -199,17 +192,10 @@ function crossedTuft(acc: Acc, c: V3, size: number, normal: V3, color: RGB, sway
     const hs = size / 2;
     const corners: V3[] = [sub(sub(c, mul(u, hs)), mul(v, hs)), sub(add(c, mul(u, hs)), mul(v, hs)), add(add(c, mul(u, hs)), mul(v, hs)), add(sub(c, mul(u, hs)), mul(v, hs))];
     const uvs = [0, 0, 1, 0, 1, 1, 0, 1];
-    for (let side = 0; side < 2; side++) {
-      const ids: number[] = [];
-      for (let i = 0; i < 4; i++) ids.push(acc.vert(corners[i]!, normal, uvs[i * 2]!, uvs[i * 2 + 1]!, color, sway));
-      if (side === 0) {
-        acc.tri(ids[0]!, ids[1]!, ids[2]!);
-        acc.tri(ids[0]!, ids[2]!, ids[3]!);
-      } else {
-        acc.tri(ids[0]!, ids[2]!, ids[1]!);
-        acc.tri(ids[0]!, ids[3]!, ids[2]!);
-      }
-    }
+    const ids: number[] = [];
+    for (let i = 0; i < 4; i++) ids.push(acc.vert(corners[i]!, normal, uvs[i * 2]!, uvs[i * 2 + 1]!, color, sway));
+    acc.tri(ids[0]!, ids[1]!, ids[2]!);
+    acc.tri(ids[0]!, ids[2]!, ids[3]!);
   }
 }
 
@@ -570,16 +556,9 @@ function buildFar(sp: Species, height: number, crownR: number, crownBase: number
       const c3 = add(c0, [0, h, 0]);
       const col: RGB = [tint[0] * 0.7, tint[1] * 0.7, tint[2] * 0.7];
       const nrm: V3 = [0, 0.8, 0.2];
-      for (let side = 0; side < 2; side++) {
-        const ids = [c0, c1, c2, c3].map((p, i) => leaf.vert(p, nrm, [0, 1, 1, 0][i]!, [0, 0, 1, 1][i]!, col, 0.2 * height));
-        if (side === 0) {
-          leaf.tri(ids[0]!, ids[1]!, ids[2]!);
-          leaf.tri(ids[0]!, ids[2]!, ids[3]!);
-        } else {
-          leaf.tri(ids[0]!, ids[2]!, ids[1]!);
-          leaf.tri(ids[0]!, ids[3]!, ids[2]!);
-        }
-      }
+      const ids = [c0, c1, c2, c3].map((p, i) => leaf.vert(p, nrm, [0, 1, 1, 0][i]!, [0, 0, 1, 1][i]!, col, 0.2 * height));
+      leaf.tri(ids[0]!, ids[1]!, ids[2]!);
+      leaf.tri(ids[0]!, ids[2]!, ids[3]!);
     }
   } else {
     const n = sp === 'shrub' ? 2 : 4;
@@ -594,16 +573,9 @@ function buildFar(sp: Species, height: number, crownR: number, crownBase: number
       const corners: V3[] = [sub(sub(c, mul(u, w / 2)), mul(v, halfHeight)), sub(add(c, mul(u, w / 2)), mul(v, halfHeight)), add(add(c, mul(u, w / 2)), mul(v, halfHeight)), add(sub(c, mul(u, w / 2)), mul(v, halfHeight))];
       const col: RGB = [tint[0] * 0.75, tint[1] * 0.75, tint[2] * 0.75];
       const nrm: V3 = [0, 1, 0];
-      for (let side = 0; side < 2; side++) {
-        const ids = corners.map((p, i) => leaf.vert(p, nrm, [0, 1, 1, 0][i]!, [0, 0, 1, 1][i]!, col, 0.15 * height));
-        if (side === 0) {
-          leaf.tri(ids[0]!, ids[1]!, ids[2]!);
-          leaf.tri(ids[0]!, ids[2]!, ids[3]!);
-        } else {
-          leaf.tri(ids[0]!, ids[2]!, ids[1]!);
-          leaf.tri(ids[0]!, ids[3]!, ids[2]!);
-        }
-      }
+      const ids = corners.map((p, i) => leaf.vert(p, nrm, [0, 1, 1, 0][i]!, [0, 0, 1, 1][i]!, col, 0.15 * height));
+      leaf.tri(ids[0]!, ids[1]!, ids[2]!);
+      leaf.tri(ids[0]!, ids[2]!, ids[3]!);
     }
   }
   return { wood, leaf };
