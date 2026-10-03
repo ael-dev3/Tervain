@@ -24,6 +24,8 @@ Tervain is in pre-production. Start with README.md, docs/vision.md, and docs/dec
 - Label newly invented lore, system choices, numerical targets, and estimates as proposals until a decision is recorded. Do not turn prototype assumptions into owner decisions.
 - Keep systems and story consistent across the setting, faction, quest, and slice documents. Update affected links and the decision register when a choice changes.
 
+- Solitary Pine woodland (A38): replace the ordinary world's dark conifer render families pine/fir/shorepine, including their distant treeline, with the owner's optimized pine. Preserve canonical population and obstacle IDs, lighter broadleaf families, separate menu grove, paused gameplay tree/leaf sway and 0.0.8. Keep the owner-approved source proportions: only grounding and uniform scaling, no trunk squeezing or nonlinear crown deformation. Collision footprints must match imported wood and keep authored routes clear. Keep matching close/middle/far geometry and per-world resource ownership. See docs/engineering/solitary-pine.md.
+
 ## Work honestly and usefully
 
 - Report implemented behavior, proposed design, measured results, and unverified goals separately.

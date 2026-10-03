@@ -31,6 +31,7 @@ import { buildRiteResponse, type RiteResponse } from './riteResponse';
 import { buildForestLandmarks } from './forestLandmarks';
 import { buildWoodlandAir } from './woodlandAir';
 import { setPickupVisible } from './worldPickups';
+import { loadSolitaryPine, type PineTemplates } from './solitaryPine';
 
 /** Everything static in Bellwether Vale, plus the presentation that follows durable state. */
 export class WorldScene {
@@ -74,9 +75,12 @@ export class WorldScene {
   static async create(state: WorldState, settings: Settings, library: AssetLibrary, onProgress?: (p: LoadProgress) => void): Promise<WorldScene> {
     setSharedLibrary(library);
     await library.preload(ALL_NEEDS, onProgress);
+    onProgress?.({ loaded: 0, total: 1, label: 'Solitary Pine woodland' });
+    const pine = await loadSolitaryPine();
+    onProgress?.({ loaded: 1, total: 1, label: 'Solitary Pine woodland' });
     // Ground textures are generated, not downloaded; yield between layers so the loading text keeps painting.
     const tex = await makeTerrainTextures(settings.quality === 'low' ? 256 : 512, () => new Promise((r) => setTimeout(r, 0)));
-    return new WorldScene(state, settings, library, tex);
+    return new WorldScene(state, settings, library, tex, pine);
   }
 
   /** Release GPU resources the scene graph does not own. */
@@ -90,7 +94,7 @@ export class WorldScene {
     this.scenery.dispose();
   }
 
-  private constructor(state: WorldState, settings: Settings, library: AssetLibrary, private terrainTex: TerrainTextures) {
+  private constructor(state: WorldState, settings: Settings, library: AssetLibrary, private terrainTex: TerrainTextures, pine: PineTemplates) {
     const t0 = performance.now();
     this.library = library;
     this.terrain = new Terrain();
@@ -107,7 +111,7 @@ export class WorldScene {
     this.waterMeshes = [...Object.values(this.water.ribbons).map(r => r.mesh), this.water.pool, this.sea.mesh] as WaterRenderInputs['meshes'];
     const ctx: BuildContext = { terrain: this.terrain, colliders: this.colliders, library, quality: settings.quality, settings, sway: this.sway, excl: new Exclusions(this.terrain) };
     const landmarks = buildForestLandmarks(this.terrain, this.colliders, settings.quality);
-    const forest = buildFlora(ctx);
+    const forest = buildFlora(ctx, pine);
     const scatter = buildScatter(ctx);
     const ambient = buildAmbient(ctx);
     this.groundcover = buildGroundcover(ctx);

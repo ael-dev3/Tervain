@@ -187,10 +187,10 @@ export function selectFloraPopulation(population: readonly FloraTree[], quality:
   };
 }
 
-/** Add canonical obstacles without consulting the graphics settings or the decorative render selection. */
-export function registerFloraColliders(population: readonly FloraTree[], colliders: Pick<Colliders, 'circle'>): void {
+/** Add stable obstacles before graphics selection. Imported trees can supply a matching wood footprint. */
+export function registerFloraColliders(population: readonly FloraTree[], colliders: Pick<Colliders, 'circle'>, radiusFor: (tree: FloraTree) => number = (tree) => tree.radius): void {
   for (const tree of population) {
-    if (tree.collisionId && tree.radius > 0) colliders.circle(tree.collisionId, tree.x, tree.z, tree.radius);
+    if (tree.collisionId && tree.radius > 0) colliders.circle(tree.collisionId, tree.x, tree.z, radiusFor(tree));
   }
 }
 

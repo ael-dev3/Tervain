@@ -4,6 +4,8 @@
 
 Status: **reuse plan and dated inventory of candidates. A first import and the approved menu emblem are recorded in [asset-inventory.md](asset-inventory.md)** (209 runtime GLBs from Warpkeep at `786c0b2`, historically used under owner authorization, now archive-only; exact emblem copied on 30 September). The rest of this document remains the plan for further reuse. Earlier source snapshots below were checked on 29 September; the menu source was rechecked on 30 September.
 
+**Current selections, 3 October 2026.** A37 uses the owner's approved [Weathered Wanderer](main-hero.md) as the playable hero, and A38 uses the owner-supplied [Solitary Pine](solitary-pine.md) for the ordinary world's dark conifers. Their recorded game-use authority and runtime derivatives are separate from the archived Warpkeep model catalog. They do not establish a general open-content license or change the dated source snapshots below. Version remains `0.0.8`; NPCs, broadleaf trees and the separate menu grove retain their current pipelines.
+
 ## Purpose
 
 Share the expensive foundations that serve both games: original vegetation, modular scenery, texture/source workflows, rigging conventions, model inspection, terrain knowledge, and small reusable renderer utilities. Let each game select its own runtime content, platform requirements, fiction, and composition.
@@ -77,7 +79,7 @@ Warpkeep's software license does not automatically cover every model, image, or 
 
 The earlier WoW tree inspections and Gothic references can inform silhouette, canopy density, material economy, and level composition. Extracted game files, their textures, animations, and recognizable designs are not Tervain's asset library. Build original assets or use assets under actual compatible terms. The BlendSwap example has its own source record and must be treated individually.
 
-Boring Forest is a visual and public-source study for the `0.0.5` woodland, not an asset or code import. Its initial composition and client implementation were observed; pointer-lock entry failed, so no walked reference route or performance comparison was completed. No affirmative custom-asset license was established. Tervain's trees, floor detail, waymarkers, and haze remain original code-authored work. See the [study record](../references.md#boring-forest-study-30-september-2026).
+Boring Forest is a visual and public-source study for the `0.0.5` woodland, not an asset or code import. Its initial composition and client implementation were observed; pointer-lock entry failed, so no walked reference route or performance comparison was completed. No affirmative custom-asset license was established. That dated pass used original code-authored trees, floor detail, waymarkers and haze. The current broadleaf/dead trees, shrubs, floor detail, waymarkers and haze retain that pipeline; A38 conifers instead use the owner's optimized [Solitary Pine](solitary-pine.md), preserving canonical placement and obstacle identities with source-matching trunk footprints. See the [study record](../references.md#boring-forest-study-30-september-2026).
 
 Likewise, the original Warplet references, previous emblems, music attachment, and generated concept media carry their recorded source boundaries. A historical upload or publication approval is not a blanket relicensing statement for everything in the archive. The current Hegemony menu emblem is a specifically owner-authorized selection, not a general grant over the rest of the archive.
 

@@ -1,0 +1,349 @@
+{
+  "schemaVersion": 1,
+  "id": "vegetation.solitary-pine.2026-10-03",
+  "label": "Solitary Pine woodland",
+  "category": "vegetation",
+  "version": "2026-10-03",
+  "gameVersion": "0.0.8",
+  "source": {
+    "file": "Meshy_AI_Solitary_Pine_1002211944_texture.glb",
+    "sha256": "c8319b1c996a5af3add735d1519aacc469375d03cf2efa3e55d74ba1ce31acca",
+    "hashRecord": "outputs/solitary-pine-cards/optimization-report.json (source measured during optimization)",
+    "triangles": 276680,
+    "history": "Owner-supplied Meshy export; optimized wood, original needle-card artwork and derivative LODs prepared in Blender.",
+    "authority": "Owner supplied the model and requested optimization and Tervain integration. Specific project-use authority; no general open-content licence or independent account-rights review is asserted.",
+    "attribution": "Owner-supplied Meshy Solitary Pine; Tervain foliage-card and LOD adaptation.",
+    "sourceArchive": "Editable Blender scenes, masters, scripts and audits retained in local outputs/solitary-pine-cards; the supplied source was unchanged during optimization."
+  },
+  "runtime": [
+    {
+      "level": "near",
+      "path": "public/models/flora/solitary-pine-under-10k.glb",
+      "bytes": 4773764,
+      "sha256": "86b9af6fb0b71c07d1576c97b8a75be7375dd516dd2494d88a9ab1d555c4c042",
+      "triangles": 9706,
+      "meshes": 2,
+      "images": [
+        {
+          "mimeType": "image/png",
+          "width": 2048,
+          "height": 2048,
+          "embeddedBytes": 2145619
+        },
+        {
+          "mimeType": "image/jpeg",
+          "width": 1024,
+          "height": 1024,
+          "embeddedBytes": 554765
+        },
+        {
+          "mimeType": "image/png",
+          "width": 1024,
+          "height": 1024,
+          "embeddedBytes": 1356758
+        }
+      ],
+      "materials": [
+        {
+          "doubleSided": false,
+          "name": "Pine bark - source-baked closed wood",
+          "pbrMetallicRoughness": {
+            "baseColorTexture": {
+              "index": 0
+            },
+            "metallicFactor": 0,
+            "roughnessFactor": 0.8999999761581421
+          },
+          "alphaMode": "OPAQUE"
+        },
+        {
+          "alphaCutoff": 0.42,
+          "alphaMode": "MASK",
+          "doubleSided": true,
+          "extensions": {
+            "KHR_materials_specular": {
+              "specularFactor": 0.4399999976158142
+            }
+          },
+          "name": "Pine needles \u2022 masked two-sided cards",
+          "normalTexture": {
+            "index": 1,
+            "scale": 0.6499999761581421
+          },
+          "pbrMetallicRoughness": {
+            "baseColorTexture": {
+              "index": 2
+            },
+            "metallicFactor": 0,
+            "roughnessFactor": 0.8700000047683716
+          }
+        }
+      ],
+      "requiredExtensions": []
+    },
+    {
+      "level": "mid",
+      "path": "public/models/flora/solitary-pine-mid.glb",
+      "bytes": 3355388,
+      "sha256": "3379a32a9de01dd11b6858f940e4d104c849a6d4891ddaf61c59cab76f61448c",
+      "triangles": 3610,
+      "meshes": 2,
+      "images": [
+        {
+          "mimeType": "image/jpeg",
+          "width": 1024,
+          "height": 1024,
+          "embeddedBytes": 554765
+        },
+        {
+          "mimeType": "image/png",
+          "width": 1024,
+          "height": 1024,
+          "embeddedBytes": 1356758
+        },
+        {
+          "mimeType": "image/png",
+          "width": 1024,
+          "height": 1024,
+          "embeddedBytes": 1079165
+        }
+      ],
+      "materials": [
+        {
+          "alphaCutoff": 0.42,
+          "alphaMode": "MASK",
+          "doubleSided": true,
+          "extensions": {
+            "KHR_materials_specular": {
+              "specularFactor": 0.4399999976158142
+            }
+          },
+          "name": "Pine needles \u2022 masked two-sided cards",
+          "normalTexture": {
+            "index": 0,
+            "scale": 0.6499999761581421
+          },
+          "pbrMetallicRoughness": {
+            "baseColorTexture": {
+              "index": 1
+            },
+            "metallicFactor": 0,
+            "roughnessFactor": 0.8700000047683716
+          }
+        },
+        {
+          "doubleSided": false,
+          "name": "Pine mid dedicated source-baked bark",
+          "pbrMetallicRoughness": {
+            "baseColorTexture": {
+              "index": 2
+            },
+            "metallicFactor": 0,
+            "roughnessFactor": 0.8999999761581421
+          },
+          "alphaMode": "OPAQUE"
+        }
+      ],
+      "requiredExtensions": []
+    },
+    {
+      "level": "far",
+      "path": "public/models/flora/solitary-pine-far.glb",
+      "bytes": 1152868,
+      "sha256": "c0eae639a95f6dbf15d2b3811b4c083fffb1f1ee7557dee16d3cba96f1d91427",
+      "triangles": 48,
+      "meshes": 1,
+      "images": [
+        {
+          "mimeType": "image/png",
+          "width": 1024,
+          "height": 1024,
+          "embeddedBytes": 860156
+        },
+        {
+          "mimeType": "image/png",
+          "width": 1024,
+          "height": 1024,
+          "embeddedBytes": 287729
+        }
+      ],
+      "materials": [
+        {
+          "alphaMode": "MASK",
+          "doubleSided": true,
+          "name": "Pine far source-baked impostor",
+          "pbrMetallicRoughness": {
+            "baseColorTexture": {
+              "index": 0
+            },
+            "metallicFactor": 0,
+            "roughnessFactor": 1
+          },
+          "alphaCutoff": 0.42
+        }
+      ],
+      "requiredExtensions": []
+    }
+  ],
+  "geometry": {
+    "units": "metres",
+    "upAxis": "+Y",
+    "grounding": "Translate native near minimum Y (-0.0031039975583553314) to zero, then scale by species/seed.",
+    "near": {
+      "woodTriangles": 4378,
+      "foliageTriangles": 5328,
+      "cards": 666,
+      "clusters": 99
+    },
+    "mid": {
+      "primaryWoodTriangles": 1486,
+      "cappedSupportTriangles": 792,
+      "foliageTriangles": 1332,
+      "cards": 666,
+      "clusters": 99
+    },
+    "far": {
+      "crossedSilhouettePlanes": 4,
+      "verticalSegmentsPerPlane": 6,
+      "billboarding": false
+    },
+    "partsPerLod": [
+      2,
+      2,
+      1
+    ]
+  },
+  "motion": {
+    "treeSway": false,
+    "leafSway": false,
+    "rig": null,
+    "proprietaryRuntime": null
+  },
+  "worldUse": {
+    "species": [
+      "pine",
+      "fir",
+      "shorepine"
+    ],
+    "canonicalCount": 490,
+    "fixedObstacles": 397,
+    "presetCandidates": {
+      "low": 436,
+      "medium": 458,
+      "high": 490
+    },
+    "canonicalPositionsYawScaleIds": "Unchanged",
+    "geometryTransform": "Flatten source node transforms; ground root; one uniform scale by species/seed. No radial trunk fit or nonlinear crown profile.",
+    "collisions": "Same 397 conifer obstacle IDs/positions on every preset; source wood near/mid triangles clipped to 2.6m player clearance, including 6cm buried origin; greatest radial extent plus 3cm padding. Other family radii unchanged.",
+    "routes": "Road centerlines, pickup/interaction approaches and all 32 core/NPC/override routes validated.",
+    "nominalHeights": {
+      "pine": 25,
+      "fir": 22,
+      "shorepine": 8.5
+    },
+    "otherFamiliesAndMenuGrove": "Preserved"
+  },
+  "rendering": {
+    "foliage": "PBR MASK cutoff 0.42; double-sided; standard embedded PNG/JPEG",
+    "nearBark": "Closed source-derived wood; fresh unwrap and 2k original-source albedo bake; roughness 0.90; no inherited normal/ORM maps",
+    "midBark": "Dedicated fresh unwrap and 1k source-albedo bake; roughness 0.90; no normal map",
+    "needleSharing": "Near/mid share the identical needle material within one world",
+    "ownership": "Cached CPU templates; world-owned geometry/material/texture clones and idempotent disposal",
+    "selection": "Existing instancing, culling and distance LOD selection retained",
+    "colorSpace": "Color/emissive maps use glTF sRGB intent; normals/ORM remain linear data",
+    "gpuResidency": "No reference-device residency measurement claimed"
+  },
+  "verification": {
+    "reviewer": "Codex",
+    "dateUTC": "2026-10-03",
+    "state": "Local source candidate validated; source PR publication is separate from live deployment",
+    "checks": [
+      {
+        "command": "npm run typecheck",
+        "result": "passed"
+      },
+      {
+        "command": "npm test",
+        "result": "722 tests in 67 files passed in 115.41s; final near and unchanged mid, preceding only the final far texture/plane export"
+      },
+      {
+        "command": "npx vitest run tests/presentation/solitaryPine.test.ts tests/presentation/pineForestIntegration.test.ts tests/presentation/solitaryPineLoading.test.ts tests/presentation/pineRoutes.test.ts",
+        "result": "15 tests in 4 files passed in 12.71s against all three final binaries"
+      },
+      {
+        "command": "npm run build",
+        "result": "passed; existing Vite large-chunk advisory retained"
+      },
+      {
+        "command": "node tools/check-solitary-pine.mjs",
+        "result": "all final hashes, bytes, budgets and embedded-image/material contracts verified"
+      },
+      {
+        "check": "Khronos glTF Validator 2.0.0-dev.3.10",
+        "result": [
+          {
+            "name": "solitary-pine-under-10k.glb",
+            "errors": 0,
+            "warnings": 0,
+            "infos": 1,
+            "triangles": 9706
+          },
+          {
+            "name": "solitary-pine-mid.glb",
+            "errors": 0,
+            "warnings": 0,
+            "infos": 1,
+            "triangles": 3610
+          },
+          {
+            "name": "solitary-pine-far.glb",
+            "errors": 0,
+            "warnings": 0,
+            "infos": 2,
+            "triangles": 48
+          }
+        ]
+      },
+      {
+        "check": "Actual desktop production renderer",
+        "result": {
+          "presets": [
+            {
+              "quality": "low",
+              "solitaryPines": 436,
+              "treeObstacles": 1033,
+              "ready": true
+            },
+            {
+              "quality": "medium",
+              "solitaryPines": 458,
+              "treeObstacles": 1033,
+              "ready": true
+            },
+            {
+              "quality": "high",
+              "solitaryPines": 490,
+              "treeObstacles": 1033,
+              "ready": true
+            }
+          ],
+          "logs": [],
+          "restoredQuality": "high"
+        },
+        "observations": "Closed wood and source bark replace pale stretched strips; lower needle sprays remain volumetric. Uniform geometry, no animated deformation. No renderer/loading warnings or errors in the final review. No frame-rate benchmark is claimed."
+      },
+      {
+        "check": "Routes and collision",
+        "result": "All 1033 obstacle IDs/positions retained; 397 conifer footprints match close source wood across presets. Continuous road centerlines and all pickup/interaction approaches clear at .55m player pad; all 32 core/NPC/override routes connected."
+      },
+      {
+        "check": "Source fidelity",
+        "result": "Every delivered position, UV and authored normal checked after uniform grounding/scaling, for all three species and seeds; no nonlinear trunk or crown deformation."
+      },
+      {
+        "check": "Documentation",
+        "result": "Relative links and git diff --check pass"
+      }
+    ]
+  }
+}

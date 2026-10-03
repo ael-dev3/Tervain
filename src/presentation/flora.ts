@@ -5,6 +5,7 @@ import { leafMaterial, woodMaterial, disposeTreeMaterials } from './treeMaterial
 import { disposeTreeTextures } from './treeTextures';
 import { createFloraPopulation, selectFloraPopulation, registerFloraColliders, FLORA_VARIANTS, FLORA_MAX_DISTANCE, floraLod, type FloraTree } from './floraPopulation';
 import { buildForestFloor } from './forestFloor';
+import { createPineForest, isPineSpecies, type PineTemplates } from './solitaryPine';
 
 /**
  * Trees and shrubs. An empty strand gives way to a layered old-growth woodland: flared oak roots under tall pine/fir columns,
@@ -19,12 +20,14 @@ interface Batch {
   trees: FloraTree[];
 }
 
-export function buildFlora(ctx: BuildContext): SceneModule & { counts: { trees: number; triangles: number } } {
+export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): SceneModule & { counts: { trees: number; triangles: number } } {
   const { terrain, colliders, quality, sway, excl } = ctx;
   const group = new THREE.Group();
   group.name = 'flora';
+  const pine = createPineForest(pineTemplates);
   const population = createFloraPopulation(terrain, excl);
-  registerFloraColliders(population, colliders);
+  registerFloraColliders(population, colliders, (tree) => isPineSpecies(tree.sp)
+    ? pine.collisionRadius(tree.sp, tree.v + 1, tree.s) : tree.radius);
   const { trees, obstacles } = selectFloraPopulation(population, quality);
   const forestFloor = buildForestFloor(terrain, excl, quality);
   group.add(forestFloor.group);
@@ -45,13 +48,14 @@ export function buildFlora(ctx: BuildContext): SceneModule & { counts: { trees: 
   }
 
   /* ---- Build the meshes ---- */
+  const solitaryPines = trees.filter((tree) => isPineSpecies(tree.sp)).length;
   const batches: Batch[] = [];
   const bySpecVariant = new Map<string, Batch>();
   for (const t of trees) {
     const key = `${t.sp}:${t.v}`;
     let b = bySpecVariant.get(key);
     if (!b) {
-      b = { variant: buildTreeVariant(t.sp, t.v + 1), meshes: [], trees: [] };
+      b = { variant: isPineSpecies(t.sp) ? pine.variant(t.sp, t.v + 1) : buildTreeVariant(t.sp, t.v + 1), meshes: [], trees: [] };
       bySpecVariant.set(key, b);
       batches.push(b);
     }
@@ -63,13 +67,15 @@ export function buildFlora(ctx: BuildContext): SceneModule & { counts: { trees: 
     const v = b.variant;
     for (let l = 0; l < 3; l++) {
       const lod = v.lods[l]!;
-      const wood = lod.wood ? new THREE.InstancedMesh(lod.wood, woodMaterial(v.bark, sway), b.trees.length) : null;
+      const pineMaterials = isPineSpecies(v.species) ? pine.materials[l]! : null;
+      const wood = lod.wood ? new THREE.InstancedMesh(lod.wood, pineMaterials ? pineMaterials.wood! : woodMaterial(v.bark, sway), b.trees.length) : null;
       const leafTex = l === 2 ? v.crownTexture : v.leafTexture;
-      const leaf = lod.leaf ? new THREE.InstancedMesh(lod.leaf, leafMaterial(leafTex, sway), b.trees.length) : null;
+      const leaf = lod.leaf ? new THREE.InstancedMesh(lod.leaf, pineMaterials ? pineMaterials.leaf : leafMaterial(leafTex, sway), b.trees.length) : null;
       for (const m of [wood, leaf]) {
         if (!m) continue;
         m.count = 0;
         m.frustumCulled = false;
+        m.name = `${isPineSpecies(v.species) ? 'solitary-pine' : v.species}:${l}:${m === wood ? 'wood' : 'foliage'}`;
         // The middle preset renders LOD1 close to the player; that canopy must cast shadows too.
         m.castShadow = quality !== 'low' && l < 2;
         m.receiveShadow = true;
@@ -173,7 +179,7 @@ export function buildFlora(ctx: BuildContext): SceneModule & { counts: { trees: 
       cam.updateMatrixWorld();
       refresh(cam);
     },
-    stats: () => ({ trees: trees.length, treeObstacles: obstacles.length, treesDrawn: visible, treeTris: Math.round(drawTris), ...forestFloor.stats?.() }),
+    stats: () => ({ trees: trees.length, solitaryPines, treeObstacles: obstacles.length, treesDrawn: visible, treeTris: Math.round(drawTris), ...forestFloor.stats?.() }),
     dispose() {
       if (disposed) return;
       disposed = true;
@@ -183,11 +189,12 @@ export function buildFlora(ctx: BuildContext): SceneModule & { counts: { trees: 
           mesh.wood?.dispose();
           mesh.leaf?.dispose();
         }
-        for (const lod of batch.variant.lods) {
+        for (const lod of isPineSpecies(batch.variant.species) ? [] : batch.variant.lods) {
           lod.wood?.dispose();
           lod.leaf?.dispose();
         }
       }
+      pine.dispose();
       disposeTreeMaterials();
       disposeTreeTextures();
       // The module owns these cached resources; fallback scene cleanup handles everything else.
