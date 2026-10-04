@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
-import { makeWaterOpticsUniforms, waterAbsorptionCoefficients, WATER_DEPTH_VALIDITY } from '../../src/presentation/waterOptics';
+import { makeWaterOpticsUniforms, waterAbsorptionCoefficients, waterHighlightLobe, WATER_DEPTH_VALIDITY } from '../../src/presentation/waterOptics';
 
 const transmit = (metres: number, clarity: number) => waterAbsorptionCoefficients(clarity).toArray().map(absorption => Math.exp(-absorption * metres));
 
@@ -32,6 +32,40 @@ describe('water absorption in metres', () => {
     expect(coast.uWaterAbsorption.value.equals(waterAbsorptionCoefficients(0.92))).toBe(true);
     expect(waterAbsorptionCoefficients(0).equals(waterAbsorptionCoefficients(0.2))).toBe(true);
     for (const clarity of [Number.NaN, Infinity, -Infinity]) expect(() => makeWaterOpticsUniforms(clarity)).toThrow(RangeError);
+  });
+});
+
+// Numerical hemisphere integration calibrates the lobe independently of the
+// GLSL implementation. These are lighting math tests, not GPU pixel evidence.
+describe('pixel-footprint water highlight calibration', () => {
+  it.each([18, 22, 112, 160])('retains the integrated light of the %s-power sun lobe while broadening an unresolved peak', power => {
+    const steps = 16384;
+    const integrate = (footprintSquared: number) => {
+      let sum = 0;
+      // dOmega = 2*pi*d(cos(theta)); midpoint quadrature over the hemisphere.
+      for (let i = 0; i < steps; i++) sum += waterHighlightLobe((i + 0.5) / steps, power, footprintSquared);
+      return sum * 2 * Math.PI / steps;
+    };
+    const expectedEnergy = 2 * Math.PI / (power + 1);
+    for (const footprint of [0, 0.0025, 0.04, 0.25, 1]) {
+      expect(integrate(footprint)).toBeCloseTo(expectedEnergy, 6);
+      expect(waterHighlightLobe(1, power, footprint)).toBeLessThanOrEqual(1);
+    }
+    expect(waterHighlightLobe(1, power, 0.25)).toBeLessThan(waterHighlightLobe(1, power, 0));
+    // A broader finite reflection occupies more than just its exact brightest pixel.
+    expect(waterHighlightLobe(0.9, power, 0.25)).toBeGreaterThan(waterHighlightLobe(0.9, power, 0));
+  });
+
+  it('approaches the original resolved highlight continuously and rejects poisoned derivative inputs', () => {
+    for (const alignment of [0, 0.2, 0.75, 0.98, 1]) {
+      expect(waterHighlightLobe(alignment, 112, 0)).toBeCloseTo(Math.pow(alignment, 112), 12);
+      expect(waterHighlightLobe(alignment, 112, 1e-8)).toBeCloseTo(waterHighlightLobe(alignment, 112, 0), 6);
+    }
+    expect(waterHighlightLobe(-1, 112, 0.1)).toBe(0);
+    expect(waterHighlightLobe(2, 112, 0)).toBe(1);
+    for (const args of [[NaN, 112, 0], [1, Infinity, 0], [1, 0, 0], [1, -1, 0], [1, 112, -1], [1, 112, Infinity]]) {
+      expect(() => waterHighlightLobe(args[0]!, args[1]!, args[2]!)).toThrow(RangeError);
+    }
   });
 });
 

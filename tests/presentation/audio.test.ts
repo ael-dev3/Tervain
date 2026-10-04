@@ -346,6 +346,67 @@ describe('audio graph lifetime and automation', () => {
 });
 
 describe('streamed owner-supplied menu score', () => {
+  it('keeps a terminal decoder failure unavailable when its queued native pause event arrives afterwards', async () => {
+    const { audio, media, ctx } = musicFixture(defaultSettings(), false);
+    audio.setMenuActive(true); audio.resume(); await flushMusic();
+    media.error = { code: 3 }; media.emit('error');
+    expect(audio.menuMusicState).toBe('unavailable');
+    media.emit('pause');
+    expect(audio.menuMusicState).toBe('unavailable');
+    expect(audio.menuMusicPlayback).toMatchObject({ playing: false, gain: 0 });
+    // Even if a browser clears the error object before delivering the queued event, the terminal state is preserved.
+    media.error = null; media.emit('pause');
+    expect(audio.menuMusicState).toBe('unavailable');
+    expect(media.play).toHaveBeenCalledTimes(1); expect(ctx.mediaSources).toHaveLength(1);
+    audio.dispose();
+  });
+
+  it('does not report a stale queued pause after the same healthy stream has already resumed', async () => {
+    const { audio, media } = musicFixture();
+    audio.setMenuActive(true); audio.resume(); await flushMusic();
+    media.paused = false; media.emit('pause');
+    expect(audio.menuMusicState).toBe('playing');
+    expect(audio.menuMusicPlayback.playing).toBe(true);
+    expect(media.play).toHaveBeenCalledTimes(1);
+    audio.dispose();
+  });
+
+  it('reports native buffering and seeking truthfully through settings/gesture refreshes without retrying or duplicating the score', async () => {
+    const { audio, media, ctx } = musicFixture();
+    audio.setMenuActive(true); audio.resume(); await flushMusic();
+    const nodes = ctx.nodes.length;
+    media.currentTime = 73; media.emit('waiting');
+    expect(audio.menuMusicState).toBe('loading');
+    audio.applySettings(); audio.resume();
+    expect(audio.menuMusicState).toBe('loading');
+    expect(audio.menuMusicPlayback).toMatchObject({ time: 73, playing: false, gain: 0 });
+    media.emit('playing'); expect(audio.menuMusicState).toBe('playing');
+    media.seeking = true; media.emit('seeking');
+    expect(audio.menuMusicState).toBe('loading');
+    audio.resume(); expect(audio.menuMusicState).toBe('loading');
+    media.currentTime = 88; media.seeking = false; media.emit('seeked');
+    expect(audio.menuMusicState).toBe('playing');
+    expect(audio.menuMusicPlayback).toMatchObject({ time: 88, playing: true });
+    expect(media.play).toHaveBeenCalledTimes(1);
+    expect(ctx.nodes).toHaveLength(nodes); expect(ctx.mediaSources).toHaveLength(1);
+    audio.dispose();
+  });
+
+  it('reports a native media pause and resumes the same position only on a fresh gesture', async () => {
+    const { audio, media, ctx } = musicFixture();
+    audio.setMenuActive(true); audio.resume(); await flushMusic();
+    media.currentTime = 101; media.paused = true; media.emit('pause');
+    expect(audio.menuMusicState).toBe('paused');
+    expect(audio.menuMusicPlayback).toMatchObject({ time: 101, playing: false, gain: 0 });
+    for (let i = 0; i < 20; i++) audio.update(1 / 60, environment());
+    expect(media.play).toHaveBeenCalledTimes(1);
+    audio.resume(); await flushMusic();
+    expect(audio.menuMusicState).toBe('playing');
+    expect(media.currentTime).toBe(101);
+    expect(media.play).toHaveBeenCalledTimes(2); expect(ctx.mediaSources).toHaveLength(1);
+    audio.dispose();
+  });
+
   it('waits for a gesture, then streams once through Music and Master without decoding a song buffer', async () => {
     const { audio, ctx, media, makeMedia } = musicFixture();
     audio.setMenuActive(true);

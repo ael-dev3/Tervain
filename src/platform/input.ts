@@ -34,6 +34,7 @@ export class Input {
   private lookX = 0;
   private lookY = 0;
   private wheel = 0;
+  private capturedContextMenu = false;
   device: Device = 'keyboard';
   gamepadConnected = false;
   /** Set by the UI while typing/rebinding so gameplay keys are ignored. */
@@ -69,7 +70,8 @@ export class Input {
     window.addEventListener('wheel', this.onWheel, { passive: true });
     window.addEventListener('blur', this.releaseAll);
     window.addEventListener('contextmenu', (e) => {
-      if (document.pointerLockElement || (e.target as HTMLElement)?.id === 'view') e.preventDefault();
+      if (this.capturedContextMenu || document.pointerLockElement || (e.target as HTMLElement)?.id === 'view') e.preventDefault();
+      this.capturedContextMenu = false;
     });
     window.addEventListener('gamepadconnected', () => {
       this.gamepadConnected = true;
@@ -89,18 +91,33 @@ export class Input {
 
   private onKeyDown = (e: KeyboardEvent) => {
     this.device = 'keyboard';
+    if (e.defaultPrevented || e.isComposing) return;
     if (this.captureNext) {
       e.preventDefault();
+      // A held conflicting key cannot act as the second confirmation press; the player must release and press it again.
+      if (e.repeat || !e.code) return;
       const cb = this.captureNext;
       this.captureNext = null;
       cb(e.code);
       return;
     }
+    // Unbound modifiers belong to browser/OS shortcuts. Explicitly assigning and holding a modifier (for example Ctrl
+    // sprint or Alt guard) makes its combinations ordinary game input instead. Every modifier in the chord must qualify.
+    const modifiers = [[e.ctrlKey, 'Control'], [e.metaKey, 'Meta'], [e.altKey, 'Alt']] as const;
+    const chord = modifiers.some(([active]) => active) && !/^(Control|Meta|Alt)(Left|Right)$/.test(e.code);
+    const bindings = this.getSettings().bindings;
+    const boundChord = chord && modifiers.every(([active, name]) => !active || ['Left', 'Right'].some((side) => {
+      const code = `${name}${side}`;
+      return this.down.has(code) && ACTIONS.some((action) => bindings[action].includes(code));
+    }));
+    if (chord && !boundChord) return;
     const tag = (e.target as HTMLElement | null)?.tagName;
     const typing = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (e.target as HTMLElement | null)?.isContentEditable;
     if (typing && e.code !== 'Escape') return;
     // Space/Enter belong to a focused hotbar button's native activation, never a simultaneous world jump or attack.
     if (['Space', 'Enter', 'NumpadEnter'].includes(e.code) && (e.target as HTMLElement | null)?.closest?.('button, [role="button"]')) return;
+    // Only explicitly owned gameplay combinations suppress a conflicting browser shortcut. Modal controls retain them.
+    if (boundChord && !this.uiOpen && ACTIONS.some((action) => bindings[action].includes(e.code))) e.preventDefault();
     if (this.blockedCodes.has(e.code)) {
       if (e.repeat) return;
       this.blockedCodes.delete(e.code);
@@ -130,6 +147,7 @@ export class Input {
       }
       const cb = this.captureNext;
       this.captureNext = null;
+      this.capturedContextMenu = e.button === 2;
       cb(`Mouse${e.button}`);
       return;
     }
@@ -186,7 +204,13 @@ export class Input {
     this.navCooldown = 0;
   }
 
-  private releaseAll = () => this.reset();
+  private releaseAll = () => {
+    const cancelling = this.captureNext !== null, cancel = this.captureCancel;
+    this.captureNext = this.captureCancel = null;
+    this.capturedContextMenu = false;
+    this.reset();
+    if (cancelling) cancel?.();
+  };
 
   /** Poll the gamepad once per frame, before gameplay reads any action. */
   poll(dt: number) {

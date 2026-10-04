@@ -129,6 +129,23 @@ describe('the player and camera share the authored lighthouse surfaces', () => {
     }
   });
 
+  it.each([20, 30, 60, 120])('lands a fast descending body on the real gallery without skipping its narrow support window at %i Hz', (hz) => {
+    const point = stairPoint(93);
+    const floor = terrain.heightAt(LIGHTHOUSE.x, LIGHTHOUSE.z) + L.stairTop;
+    const s = setup();
+    s.player.setPosition(point.x, point.z, 0, terrain, floor);
+    s.player.y = floor + 0.9;
+    s.player.vy = -60;
+    s.player.grounded = false;
+    for (let frame = 0; frame < 10; frame++) {
+      s.tick(hz);
+      expect(s.player.y).toBeGreaterThanOrEqual(floor - 1e-6);
+    }
+    expect(s.player.grounded).toBe(true);
+    expect(s.player.y).toBeCloseTo(floor, 6);
+    expect(s.player.surface).toBe('deck');
+  });
+
   it('restores a stone doorstep save on a rotated house and retains its stone footstep surface', () => {
     const building = bySpec('fisher_house');
     const entry = buildingEntry(building);

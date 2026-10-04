@@ -1447,7 +1447,7 @@ export class App {
   }
 
   private autosave(reason: string) {
-    if (this.mode !== 'play') return;
+    if (this.mode !== 'play' || this.worldPaused) return;
     this.stamp();
     const r = this.saves.save('auto', this.game.state);
     if (r.ok) {
@@ -1473,7 +1473,9 @@ export class App {
   }
 
   private autosaveQuiet() {
-    if (this.mode !== 'play' || !this.hasProgress()) return;
+    // Backgrounding can happen while the old graphics/physics world has been
+    // disposed and its replacement is still loading. Never snapshot that gap.
+    if (this.mode !== 'play' || this.worldPaused || !this.hasProgress()) return;
     this.stamp();
     this.saves.save('auto', this.game.state);
   }

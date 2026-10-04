@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { App } from '../../src/app';
 import { Game } from '../../src/game/game';
 import { WRECK_BLADE_PICKUP } from '../../src/game/types';
@@ -92,4 +92,32 @@ describe('quiet autosaving when leaving the arrival strand', () => {
     expect(loaded.state.mapMarker).toBeNull();
   });
 
+});
+
+describe('autosaving across graphics replacement', () => {
+  it.each(['worldBuilding', 'worldBuildFailed', 'qualityReload'] as const)(
+    'keeps the last durable save while %s prevents use of the physical world',
+    (pause) => {
+      const { app, memory, original } = session();
+      app.game.addPlaySeconds(120);
+      const retiredSnapshot = vi.fn(() => { throw new Error('Retired physical world'); });
+      Reflect.set(app, 'world', { physics: { snapshot: retiredSnapshot } });
+      Reflect.set(app, pause, pause === 'qualityReload' ? Promise.resolve() : true);
+
+      // Both the visibility/pagehide path and a pending gameplay autosave must
+      // preserve the previous save rather than read disposed bodies.
+      Reflect.apply(Reflect.get(App.prototype, 'autosaveQuiet'), app, []);
+      Reflect.apply(Reflect.get(App.prototype, 'autosave'), app, ['pending event']);
+
+      expect(retiredSnapshot).not.toHaveBeenCalled();
+      expect(memory.get('tervain:save:auto:cur')).toBe(original);
+
+      Reflect.set(app, pause, pause === 'qualityReload' ? null : false);
+      Reflect.set(app, 'world', { physics: { snapshot: () => [] } });
+      Reflect.apply(Reflect.get(App.prototype, 'autosaveQuiet'), app, []);
+      const resumed = app.saves.load('auto');
+      expect(resumed.ok).toBe(true);
+      if (resumed.ok) expect(resumed.state.playSeconds).toBe(140);
+    },
+  );
 });

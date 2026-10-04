@@ -33,6 +33,83 @@ function controls() {
 afterEach(()=>vi.unstubAllGlobals());
 
 describe('input across world and interface boundaries',()=>{
+  it('requires a fresh press to confirm a conflicting rebind rather than accepting held-key autorepeat', () => {
+    const { input, key, release } = controls();
+    const confirm = vi.fn();
+    input.captureNext = () => { input.captureNext = confirm; };
+    key('KeyW');
+    for (let i = 0; i < 20; i++) key('KeyW', true);
+    expect(confirm).not.toHaveBeenCalled();
+    expect(input.pressed('forward')).toBe(false);
+    release('KeyW'); key('KeyW');
+    expect(confirm).toHaveBeenCalledExactlyOnceWith('KeyW');
+  });
+  it('leaves consumed controls, composing input and browser shortcut chords out of world movement and hotbar queues', () => {
+    const { input, emit } = controls();
+    for (const properties of [{ defaultPrevented: true }, { isComposing: true }, { ctrlKey: true }, { metaKey: true }, { altKey: true }]) {
+      emit('keydown', { code: 'KeyW', target: { tagName: 'BODY' }, ...properties });
+      emit('keydown', { code: 'Digit1', target: { tagName: 'BODY' }, ...properties });
+      expect(input.move().y).toBe(0);
+      expect(input.pressedKey('Digit1')).toBe(false);
+    }
+  });
+  it('still allows a modifier key itself to be bound as an ordinary action', () => {
+    const { input, emit, settings } = controls();
+    settings.bindings.sprint = ['ControlLeft'];
+    emit('keydown', { code: 'ControlLeft', ctrlKey: true, target: { tagName: 'BODY' } });
+    expect(input.held('sprint')).toBe(true);
+  });
+  it.each([['ControlLeft', 'ctrlKey', 'sprint'], ['AltLeft', 'altKey', 'block']] as const)('lets an explicitly held %s binding combine with movement and jump', (code, flag, action) => {
+    const { input, emit, settings, release } = controls();
+    settings.bindings[action] = [code];
+    emit('keydown', { code, [flag]: true, target: { tagName: 'BODY' } });
+    emit('keydown', { code: 'KeyW', [flag]: true, target: { tagName: 'BODY' } });
+    emit('keydown', { code: 'Space', [flag]: true, target: { tagName: 'BODY' } });
+    expect(input.held(action)).toBe(true); expect(input.move().y).toBe(1); expect(input.pressed('jump')).toBe(true);
+    release('KeyW'); release('Space'); release(code); input.endFrame();
+    emit('keydown', { code: 'KeyW', [flag]: true, target: { tagName: 'BODY' } });
+    expect(input.move().y).toBe(0);
+  });
+  it('suppresses only actually bound gameplay combinations and retains browser shortcuts inside modal controls', () => {
+    const { input, emit, settings } = controls(); settings.bindings.sprint = ['ControlLeft'];
+    emit('keydown', { code: 'ControlLeft', ctrlKey: true, target: { tagName: 'BODY' } });
+    const game = vi.fn(); emit('keydown', { code: 'KeyS', ctrlKey: true, target: { tagName: 'BODY' }, preventDefault: game });
+    expect(input.move().y).toBe(-1); expect(game).toHaveBeenCalledOnce();
+    const browser = vi.fn(); emit('keydown', { code: 'KeyP', ctrlKey: true, target: { tagName: 'BODY' }, preventDefault: browser });
+    expect(browser).not.toHaveBeenCalled();
+    input.uiOpen = true;
+    emit('keydown', { code: 'ControlLeft', ctrlKey: true, target: { tagName: 'BODY' } });
+    const modal = vi.fn(); emit('keydown', { code: 'KeyS', ctrlKey: true, target: { tagName: 'INPUT' }, preventDefault: modal });
+    expect(modal).not.toHaveBeenCalled(); expect(input.move().y).toBe(0);
+  });
+  it('does not turn an additional unbound modifier into gameplay because another modifier was explicitly assigned', () => {
+    const { input, emit, settings } = controls(); settings.bindings.sprint = ['ControlLeft'];
+    emit('keydown', { code: 'ControlLeft', ctrlKey: true, target: { tagName: 'BODY' } });
+    emit('keydown', { code: 'AltLeft', ctrlKey: true, altKey: true, target: { tagName: 'BODY' } });
+    emit('keydown', { code: 'KeyW', ctrlKey: true, altKey: true, target: { tagName: 'BODY' } });
+    expect(input.move().y).toBe(0);
+  });
+  it('cancels a pending rebind on focus loss instead of capturing the first gameplay key after returning', () => {
+    const { input, emit, key } = controls();
+    const capture = vi.fn(), cancel = vi.fn();
+    input.captureNext = capture; input.captureCancel = cancel;
+    emit('blur'); key('KeyW');
+    expect(capture).not.toHaveBeenCalled(); expect(cancel).toHaveBeenCalledOnce();
+    expect(input.captureNext).toBeNull(); expect(input.captureCancel).toBeNull();
+    expect(input.move().y).toBe(1);
+  });
+  it('binds a captured right-click without also opening the browser context menu over the settings panel', () => {
+    const { input, emit } = controls();
+    const capture = vi.fn(); input.captureNext = capture;
+    emit('mousedown', { button: 2, target: { tagName: 'BUTTON' } });
+    expect(capture).toHaveBeenCalledExactlyOnceWith('Mouse2');
+    const preventDefault = vi.fn();
+    emit('contextmenu', { target: { tagName: 'BUTTON' }, preventDefault });
+    expect(preventDefault).toHaveBeenCalledOnce();
+    const laterContext = vi.fn();
+    emit('contextmenu', { target: { tagName: 'BUTTON' }, preventDefault: laterContext });
+    expect(laterContext).not.toHaveBeenCalled();
+  });
   it('leaves hotbar button activation keys to the browser without queuing a gameplay jump',()=>{
     const {input,emit,key}=controls();
     emit('keydown',{code:'Space',repeat:false,target:{tagName:'BUTTON',closest:()=>({})}});

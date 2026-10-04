@@ -270,13 +270,20 @@ export class MapView {
       this.target = zoomMapAt(this.target, this.target.zoom * Math.exp(-Math.max(-160, Math.min(160, delta)) * .0035), p.x, p.y);
     }, { passive: false });
     canvas.addEventListener('pointerdown', (event) => {
-      if (event.button !== 0) return;
-      event.preventDefault(); canvas.focus(); canvas.setPointerCapture(event.pointerId);
+      if (event.button !== 0 || event.isPrimary === false) return;
+      event.preventDefault(); canvas.focus();
+      // Capture may be refused after focus/window changes. Local chart clicks and subsequent controls remain usable.
+      try { canvas.setPointerCapture(event.pointerId); } catch { /* continue within the canvas without global capture */ }
       this.target = { ...this.view };
       const p = point(event); drag = { id: event.pointerId, ...p, moved: false };
     });
     canvas.addEventListener('pointermove', (event) => {
       if (!drag || event.pointerId !== drag.id) return;
+      if ((event.buttons & 1) === 0) {
+        const pointer = drag.id; drag = null;
+        if (canvas.hasPointerCapture(pointer)) canvas.releasePointerCapture(pointer);
+        return;
+      }
       const p = point(event), dx = p.x - drag.x, dy = p.y - drag.y;
       if (!drag.moved && Math.hypot(dx, dy) <= 6) return;
       drag.moved = true;

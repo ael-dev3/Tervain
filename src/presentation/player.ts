@@ -256,6 +256,19 @@ export class Player {
     return Math.max(ctx.terrain.supportAt(x, z, feetY), ctx.physics?.supportAt(x, z, feetY) ?? -Infinity);
   }
 
+  /** Reachable standing windows select stairs for walking, but a fast fall must also meet surfaces crossed this frame. */
+  private fallingSupport(nextY: number, support: number, ctx: PlayerCtx): number {
+    if (nextY >= this.y || support >= this.y - STEP_HEIGHT) return support;
+    const samples = Math.min(64, Math.max(1, Math.ceil((this.y - nextY) / 0.4)));
+    for (let i = 1; i <= samples; i++) {
+      const feetY = this.y + (nextY - this.y) * i / samples;
+      const crossed = this.supportAt(this.x, this.z, ctx, feetY);
+      // A nearby overhead tread is never a foothold above the descending body's previous feet.
+      if (crossed <= this.y + 1e-6) support = Math.max(support, crossed);
+    }
+    return support;
+  }
+
   /** Source-supported rocks use the modest ledge budget; authored stairs retain their established step height. */
   private stepHeightAt(x: number, z: number, support: number, ctx: PlayerCtx): number {
     const rock = ctx.terrain.rockSupportAt?.(x, z, this.y);
@@ -645,7 +658,7 @@ export class Player {
     }
 
     // Feet follow legal small steps exactly; leaving a ledge starts a fall instead of snapping to its bottom.
-    const ground = this.supportAt(this.x, this.z, ctx);
+    let ground = this.supportAt(this.x, this.z, ctx);
     if (this.grounded) {
       if (this.y - ground > GROUND_FOLLOW_DROP) this.grounded = false;
       else { this.y = ground; this.vy = 0; }
@@ -653,6 +666,7 @@ export class Player {
     if (!this.grounded) {
       // Analytic ballistic step keeps jump height and fall travel consistent across frame rates.
       const nextY = this.y + this.vy * dt - 0.5 * GRAVITY * dt * dt;
+      ground = this.fallingSupport(nextY, ground, ctx);
       const staticCeiling = ctx.colliders.ceilingAt(this.x, this.z, PLAYER_RADIUS, this.y + PLAYER_BODY_HEIGHT, nextY + PLAYER_BODY_HEIGHT);
       const movableCeiling = ctx.physics?.ceilingAt(this.x, this.z, PLAYER_RADIUS, this.y + PLAYER_BODY_HEIGHT, nextY + PLAYER_BODY_HEIGHT) ?? null;
       const ceiling = staticCeiling === null ? movableCeiling : movableCeiling === null ? staticCeiling : Math.min(staticCeiling, movableCeiling);

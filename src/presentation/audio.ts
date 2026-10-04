@@ -258,7 +258,25 @@ export class AudioEngine {
       this.musicBuffering = false;
       if (this.wantsMusic) this.setMusicState('playing');
     });
-    listen('waiting', () => { this.musicBuffering = true; });
+    listen('waiting', () => {
+      this.musicBuffering = true;
+      if (this.wantsMusic) this.setMusicState('loading');
+    });
+    listen('seeking', () => {
+      this.musicBuffering = true;
+      if (this.wantsMusic) this.setMusicState('loading');
+    });
+    listen('seeked', () => {
+      this.musicBuffering = media.readyState < 3;
+      if (this.wantsMusic && !media.paused) this.setMusicState(this.musicBuffering ? 'loading' : 'playing');
+    });
+    // Native pause/media controls and buffering can change playback independently of our play() promise. Diagnostic/UI
+    // state must describe that real stream without starting a retry loop or allocating another score.
+    listen('pause', () => {
+      // pause() queues a native event: it may arrive after a terminal decoder error was already reported, or after a
+      // replacement source resumed. Neither delayed event is evidence that the current, healthy stream was paused.
+      if (this.wantsMusic && media.paused && !media.error && this.musicState !== 'unavailable') this.setMusicState('paused');
+    });
     listen('loadedmetadata', () => {
       if (this.musicSeek > 0) {
         try { media.currentTime = this.musicSeek; } catch { /* unseekable media still plays */ }
@@ -319,7 +337,7 @@ export class AudioEngine {
       if (!this.music.paused) {
         // Returning during the fade keeps playback alive, so no new native
         // playing event will arrive to restore the menu's diagnostic state.
-        this.setMusicState(this.music.readyState >= 3 ? 'playing' : 'loading');
+        this.setMusicState(!this.musicBuffering && !this.music.seeking && this.music.readyState >= 3 ? 'playing' : 'loading');
         return;
       }
       const media = this.music;
@@ -329,7 +347,7 @@ export class AudioEngine {
       void media.play().then(() => {
         if (!this.wantsMusic) media.pause();
         if (generation !== this.musicGeneration || this.disposed) return;
-        if (this.wantsMusic) this.setMusicState('playing');
+        if (this.wantsMusic) this.setMusicState(!this.musicBuffering && !media.seeking && media.readyState >= 3 ? 'playing' : 'loading');
       }).catch(() => {
         // Autoplay, offline and decoder failures cannot block the menu. A new
         // gesture may retry; no per-frame retry or unhandled rejection is raised.

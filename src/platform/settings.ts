@@ -102,28 +102,38 @@ export function defaultSettings(): Settings {
 
 const KEY = 'tervain:settings';
 
+const record = (value: unknown): Record<string, unknown> => value !== null && typeof value === 'object' && !Array.isArray(value)
+  ? value as Record<string, unknown> : {};
+const bounded = (value: unknown, fallback: number, min: number, max: number): number => typeof value === 'number' && Number.isFinite(value)
+  ? Math.max(min, Math.min(max, value)) : fallback;
+const boolean = (value: unknown, fallback: boolean): boolean => typeof value === 'boolean' ? value : fallback;
+
 export function loadSettings(): Settings {
   const base = defaultSettings();
   try {
     const raw = localStorage.getItem(KEY);
     if (!raw) return base;
-    const parsed = JSON.parse(raw) as Partial<Settings>;
+    const parsed = record(JSON.parse(raw));
+    const volumes = record(parsed.volumes), bindings = record(parsed.bindings);
     const merged: Settings = {
       ...base,
-      ...parsed,
-      volumes: { ...base.volumes, ...(parsed.volumes ?? {}) },
-      bindings: { ...base.bindings, ...(parsed.bindings ?? {}) },
+      volumes: { ...base.volumes },
+      bindings: { ...base.bindings },
     };
-    // A stored binding list may be sparse or hold stray values from an older build: keep only real strings.
+    // Local preferences are untrusted historical data. Invalid graphics presets must never reach a renderer rebuild,
+    // and a string such as "false" must not enable toggled sprint or freeze menu motion through truthiness.
+    merged.quality = parsed.quality === 'low' || parsed.quality === 'medium' || parsed.quality === 'high' ? parsed.quality : base.quality;
+    merged.textScale = bounded(parsed.textScale, base.textScale, 0.8, 1.8);
+    merged.brightness = bounded(parsed.brightness, base.brightness, 0.6, 1.6);
+    merged.mouseSensitivity = bounded(parsed.mouseSensitivity, base.mouseSensitivity, 0.2, 3);
+    const flags = ['reducedMotion', 'highContrast', 'reduceEffects', 'guidance', 'showFps', 'barks', 'captions', 'invertY', 'toggleSprint', 'toggleBlock'] as const;
+    for (const flag of flags) merged[flag] = boolean(parsed[flag], base[flag]);
+    for (const bus of ['master', 'music', 'effects', 'ambience', 'dialogue'] as const) merged.volumes[bus] = bounded(volumes[bus], base.volumes[bus], 0, 1);
+    // Preserve deliberately empty actions and every real key, while rejecting sparse/foreign entries and duplicates.
     for (const a of ACTIONS) {
-      const list = merged.bindings[a];
-      merged.bindings[a] = Array.isArray(list) ? list.filter((c): c is string => typeof c === 'string' && c.length > 0) : [...DEFAULT_BINDINGS[a]];
+      const list = bindings[a];
+      merged.bindings[a] = Array.isArray(list) ? [...new Set(list.filter((c): c is string => typeof c === 'string' && /^[A-Za-z][A-Za-z0-9]{0,63}$/.test(c)))] : [...DEFAULT_BINDINGS[a]];
     }
-    merged.textScale = Math.max(0.8, Math.min(1.8, merged.textScale));
-    merged.brightness = Math.max(0.6, Math.min(1.6, merged.brightness));
-    merged.mouseSensitivity = Math.max(0.2, Math.min(3, merged.mouseSensitivity));
-    // Only a real saved boolean expresses the player's inversion preference; stale strings must not invert the camera.
-    merged.invertY = typeof parsed.invertY === 'boolean' ? parsed.invertY : base.invertY;
     return merged;
   } catch {
     return base;

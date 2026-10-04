@@ -20,6 +20,8 @@ export class WaterRenderPass {
   private reflectionLight = new THREE.Vector2(Infinity, Infinity);
   private reflectionCameraPosition = new THREE.Vector3(Infinity, Infinity, Infinity);
   private reflectionCameraRotation = new THREE.Quaternion();
+  private currentCameraPosition = new THREE.Vector3();
+  private currentCameraRotation = new THREE.Quaternion();
   private reflectionProjection = new THREE.Matrix4();
   private inverseReflectionWorld = new THREE.Matrix4();
   private visibilityFrustum = new THREE.Frustum();
@@ -98,14 +100,27 @@ export class WaterRenderPass {
     const u = input.seaMaterial.uniforms;
     u.uWaterReflectionReady!.value = 0;
     // Only visible sea needs a planar capture; a map longitude is not a visibility boundary.
-    if (camera.position.y < 0.08 || !input.meshes.some(m => m.name === 'sea' && this.waterInView(m, camera))) return;
+    camera.getWorldPosition(this.currentCameraPosition);
+    camera.getWorldQuaternion(this.currentCameraRotation);
+    if (this.currentCameraPosition.y <= 0.08 || !input.meshes.some(m => m.name === 'sea' && this.waterInView(m, camera))) return;
     if (this.reflectionScene !== scene) { this.reflectionValid = false; this.reflectionScene = scene; }
     const size = input.quality === 'high' ? 512 : 384;
+    if (this.reflector && this.reflector.getRenderTarget().texture.type !== source.texture.type) {
+      this.reflector.dispose(); this.reflector.geometry.dispose(); this.reflector = null;
+      this.reflectionValid = false;
+    }
     if (!this.reflector) {
       this.reflector = new Reflector(new THREE.PlaneGeometry(1, 1), { textureWidth: size, textureHeight: size, multisample: 0, clipBias: 0.002 });
       this.reflector.rotation.x = -Math.PI / 2;
       this.reflector.updateMatrixWorld(true);
       this.reflector.getRenderTarget().texture.type = source.texture.type;
+      // Capture mip levels prefilter distant stone/trees without another scene
+      // pass. The water shader supplies valid gradients even at discarded shores.
+      const texture = this.reflector.getRenderTarget().texture;
+      texture.colorSpace = THREE.LinearSRGBColorSpace;
+      texture.minFilter = THREE.LinearMipmapLinearFilter;
+      texture.magFilter = THREE.LinearFilter;
+      texture.generateMipmaps = true;
     }
     const target = this.reflector.getRenderTarget();
     if (target.width !== size) { target.setSize(size, size); this.reflectionValid = false; }
@@ -114,8 +129,8 @@ export class WaterRenderPass {
     // orbiting or zooming it must follow every rendered camera pose; throttling
     // it here makes reflected shorelines jump by 0.39–0.59 m at running speed.
     // Only numerical camera noise is ignored, not ordinary slow movement.
-    const moved = this.reflectionCameraPosition.distanceToSquared(camera.position) > 1e-8
-      || this.reflectionCameraRotation.angleTo(camera.quaternion) > 1e-5
+    const moved = this.reflectionCameraPosition.distanceToSquared(this.currentCameraPosition) > 1e-8
+      || this.reflectionCameraRotation.angleTo(this.currentCameraRotation) > 1e-5
       || !this.reflectionProjection.equals(camera.projectionMatrix);
     const sun = Number(u.uSunI?.value ?? 0), night = Number(u.uNight?.value ?? 0);
     const lightingChanged = Math.abs(this.reflectionLight.x - sun) > 0.025 || Math.abs(this.reflectionLight.y - night) > 0.02;
@@ -129,11 +144,12 @@ export class WaterRenderPass {
       try {
         for (const mesh of input.meshes) mesh.visible = false;
         renderer.autoClear = true;
+        this.reflectionValid = false;
         this.reflector.getReflectionCamera(camera).layers.mask = camera.layers.mask & ~2;
         this.reflector.onBeforeRender(renderer, scene, camera, this.reflector.geometry, this.reflector.material as THREE.Material, this.reflectionGroup);
         this.reflectionValid = true; this.reflectionAge = 0;
-        this.reflectionCameraPosition.copy(camera.position);
-        this.reflectionCameraRotation.copy(camera.quaternion);
+        this.reflectionCameraPosition.copy(this.currentCameraPosition);
+        this.reflectionCameraRotation.copy(this.currentCameraRotation);
         this.reflectionProjection.copy(camera.projectionMatrix);
         this.reflectionLight.set(sun, night);
       } finally {
@@ -147,7 +163,9 @@ export class WaterRenderPass {
       // Reflector's matrix maps local plane space; our shader supplies world coordinates.
       u.uWaterReflectionMatrix!.value.copy((this.reflector.material as THREE.ShaderMaterial).uniforms.textureMatrix!.value)
         .multiply(this.inverseReflectionWorld.copy(this.reflector.matrixWorld).invert());
-      u.uWaterReflectionReady!.value = 1;
+      // Approaching the mean sea plane fades to sky instead of flipping the
+      // reflected coastline on/off at the planar camera's safe clipping height.
+      u.uWaterReflectionReady!.value = THREE.MathUtils.smoothstep(this.currentCameraPosition.y, 0.08, 0.35);
     }
   }
 
@@ -157,12 +175,12 @@ export class WaterRenderPass {
     if (!input.enabled || input.quality === 'low' || !source.depthTexture) {
       input.meshes.forEach(mesh => detachWaterOptics(mesh.material));
       this.releaseTargets();
-      const previous = renderer.getRenderTarget();
-      try { renderer.setRenderTarget(source); renderer.render(scene, camera); }
-      finally { renderer.setRenderTarget(previous); }
+      const previous = renderer.getRenderTarget(), previousAutoClear = renderer.autoClear;
+      try { renderer.autoClear = true; renderer.setRenderTarget(source); renderer.render(scene, camera); }
+      finally { renderer.autoClear = previousAutoClear; renderer.setRenderTarget(previous); }
       return source.texture;
     }
-    camera.updateMatrixWorld();
+    camera.updateWorldMatrix(true, false);
     this.visibilityProjection.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
     this.visibilityFrustum.setFromProjectionMatrix(this.visibilityProjection);
     if (!input.meshes.some(mesh => this.waterInView(mesh, camera))) {
@@ -181,7 +199,7 @@ export class WaterRenderPass {
     try {
       camera.updateMatrixWorld();
       this.captureReflection(renderer, scene, camera, source, dt, input);
-      for (const mesh of input.meshes) mesh.layers.set(1);
+      input.meshes.forEach((mesh, i) => { mesh.layers.mask = (oldMask & meshMasks[i]!) !== 0 ? 2 : 0; });
       camera.layers.mask = oldMask & ~2;
       renderer.autoClear = true;
       renderer.setRenderTarget(source); renderer.render(scene, camera);
