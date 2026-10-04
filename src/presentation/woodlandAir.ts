@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { DEEPWOOD } from '../world/layout';
 import { deepwoodCover } from '../world/forest';
-import { mulberry32 } from '../world/noise';
+import { mulberry32, smoothstep } from '../world/noise';
 import type { BuildContext, SceneModule } from './context';
 
 /** Local depth haze, not a new weather state: the sky resets the base fog before every update. */
@@ -44,9 +44,11 @@ export function buildWoodlandAir(ctx: Pick<BuildContext, 'terrain' | 'quality'>,
       fog.density = woodlandFog(fog.density, cover, f.nightness);
       haze.copy(dayHaze).lerp(nightHaze, f.nightness);
       fog.color.lerp(haze, cover * 0.32);
-      motes.visible = cover > 0.02;
       material.color.setHex(f.nightness > 0.45 ? 0xb8cfa1 : 0xe3d4a4);
-      material.opacity = 0.25 + f.nightness * 0.25;
+      // Habitat cover already blends across the woodland edge; follow it instead of revealing the entire
+      // pollen patch at a single cover threshold while its particles are still in the player's view.
+      material.opacity = (0.25 + f.nightness * 0.25) * smoothstep(0, 0.18, cover);
+      motes.visible = material.opacity > 0;
       if (!f.reducedMotion) clock += dt;
       seeds.forEach((p, i) => {
         positions[i * 3] = p.x + Math.sin(clock * 0.15 + p.p) * 0.75;

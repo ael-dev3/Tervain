@@ -24,11 +24,12 @@ function fixture() {
   const previousTarget = new THREE.WebGLRenderTarget(7, 5);
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(60, 2, 0.25, 900);
-  camera.position.set(0, 2, 4); // Inland: no extra planar reflection render in the capture tests.
+  camera.position.set(0, 2, 4); // Inland: only the stream lies in view in the capture tests.
   camera.layers.enable(5);
   const meshes = ['sea', 'stream'].map((name, index) => {
     const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({ uniforms: makeWaterOpticsUniforms() }));
     mesh.name = name;
+    if (!index) mesh.position.x = -300;
     if (index) mesh.layers.enable(6);
     scene.add(mesh);
     return mesh;
@@ -96,6 +97,7 @@ describe('water capture/composite orchestration', () => {
       expect(mesh.material.uniforms.tWaterDepth!.value).toBeNull();
     }
     f.camera.lookAt(500, 0, 0);
+    f.meshes[0]!.position.x = -300; // The stream re-enters view; the sea remains behind the camera.
     f.draws.length = 0;
     f.render();
     expect(f.draws).toHaveLength(3);
@@ -140,6 +142,7 @@ describe('water capture/composite orchestration', () => {
     f.camera.lookAt(0, 0, 0);
     f.camera.updateMatrixWorld();
     f.meshes[1]!.visible = false;
+    f.meshes[0]!.position.x = 0;
     const geometry = f.meshes[0]!.geometry;
     geometry.computeBoundingBox();
     // Move the tiny test surface until the bare geometry misses the lower edge, while a sub-metre crest can enter it.
@@ -153,7 +156,7 @@ describe('water capture/composite orchestration', () => {
     f.meshes[0]!.position.y = edgeY;
     f.draws.length = 0;
     f.render();
-    expect(f.draws).toHaveLength(3);
+    expect(f.draws).toHaveLength(4); // Visible sea also receives its planar reflection at any map position.
   });
 
   it('captures visible inland water without rendering a planar sea reflection behind the camera', () => {
@@ -170,6 +173,25 @@ describe('water capture/composite orchestration', () => {
     f.render();
     expect(f.draws).toHaveLength(4);
     expect(f.draws[0]!.camera).not.toBe(f.camera);
+    expect(f.input.seaMaterial.uniforms.uWaterReflectionReady!.value).toBe(1);
+  });
+
+  it('retains the same visible-sea reflection while crossing the former inland longitude cutoff', () => {
+    const f = setup();
+    coastalView(f);
+    f.meshes[0]!.position.x = -250;
+    f.camera.position.x = -190.1;
+    f.camera.lookAt(-250, 0, 0);
+    f.render();
+    expect(f.draws).toHaveLength(4);
+    const target = f.draws[0]!.target;
+    expect(f.input.seaMaterial.uniforms.uWaterReflectionReady!.value).toBe(1);
+    f.camera.position.x = -189.9;
+    f.camera.lookAt(-250, 0, 0);
+    f.draws.length = 0;
+    f.pass.render(f.renderer as unknown as THREE.WebGLRenderer, f.scene, f.camera, f.source, 0.2, f.input);
+    expect(f.draws).toHaveLength(4);
+    expect(f.draws[0]!.target).toBe(target);
     expect(f.input.seaMaterial.uniforms.uWaterReflectionReady!.value).toBe(1);
   });
 

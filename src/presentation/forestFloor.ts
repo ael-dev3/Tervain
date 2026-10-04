@@ -8,6 +8,7 @@ import type { Quality, SceneModule } from './context';
 import { barkTextures } from './treeTextures';
 import { createFloraPopulation, type FloraTree } from './floraPopulation';
 import { streamDistance } from './vegetation';
+import { attachInstanceDistanceVisibility, smoothDistanceFade, type InstanceDistanceVisibility } from './distanceVisibility';
 
 export type ForestFloorKind = 'fern' | 'moss' | 'litter' | 'log' | 'fungi';
 export interface ForestFloorPiece { id: string; kind: ForestFloorKind; x: number; y: number; z: number; nx: number; nz: number; yaw: number; scale: number; rank: number; variant: number; parentLogId?: string }
@@ -88,6 +89,13 @@ export function selectForestFloorPopulation(population: readonly ForestFloorPiec
   const logs = new Set(selected.filter((p) => p.kind === 'log').map((p) => p.id));
   return selected.filter((p) => !p.parentLogId || logs.has(p.parentLogId));
 }
+
+/** Keep solid forest details at their authored size; reduce distant coverage gradually over a broad band. */
+export const FOREST_FLOOR_DISTANCE: Readonly<Record<Quality, { start: number; end: number }>> = {
+  high: { start: 112, end: 208 },
+  medium: { start: 88, end: 168 },
+  low: { start: 64, end: 128 },
+};
 
 class FloorGeometry {
   pos: number[] = [];
@@ -253,7 +261,7 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
     batch.push(p);
     batches.set(key, batch);
   }
-  const owned: { geometry: THREE.BufferGeometry; mesh: THREE.InstancedMesh; pieces: ForestFloorPiece[] }[] = [];
+  const owned: { geometry: THREE.BufferGeometry; mesh: THREE.InstancedMesh; pieces: ForestFloorPiece[]; transforms: THREE.Matrix4[]; bounds: THREE.Sphere[]; visibility: InstanceDistanceVisibility }[] = [];
   const matrix = new THREE.Matrix4(), rotation = new THREE.Quaternion(), position = new THREE.Vector3(), scale = new THREE.Vector3();
   const up = new THREE.Vector3(0, 1, 0), normal = new THREE.Vector3(), yaw = new THREE.Quaternion(), col = new THREE.Color();
   for (const [key, batch] of batches) {
@@ -266,50 +274,73 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
     mesh.frustumCulled = false;
     mesh.count = 0;
     mesh.setColorAt(0, col.setScalar(1));
-    owned.push({ geometry, mesh, pieces: batch });
+    const transforms: THREE.Matrix4[] = [], bounds: THREE.Sphere[] = [];
+    for (const p of batch) {
+      position.set(p.x, p.y, p.z);
+      normal.set(p.nx, 1, p.nz).normalize();
+      rotation.setFromUnitVectors(up, normal).multiply(yaw.setFromAxisAngle(up, p.yaw));
+      scale.setScalar(p.scale);
+      matrix.compose(position, rotation, scale);
+      transforms.push(matrix.clone());
+      if (!geometry.boundingSphere) geometry.computeBoundingSphere();
+      const bound = geometry.boundingSphere!.clone().applyMatrix4(matrix);
+      bound.radius += 2; // Retain detail just outside the view, so turning does not reveal a stale cull.
+      bounds.push(bound);
+    }
+    owned.push({ geometry, mesh, pieces: batch, transforms, bounds, visibility: attachInstanceDistanceVisibility(mesh) });
     group.add(mesh);
   }
-  let disposed = false, elapsed = 1, visible = 0;
+  let disposed = false, visible = 0, sinceRefresh = 1, lastShadowPresent = false;
   const lastCamera = new THREE.Vector3(1e9, 0, 0);
   const lastRotation = new THREE.Quaternion();
   const lastProjection = new THREE.Matrix4();
+  const lastShadowFrustum = new THREE.Frustum(), shadowPlaneNormalDelta = new THREE.Vector3();
+  const hasCasters = owned.some((b) => b.mesh.castShadow);
   const frustum = new THREE.Frustum(), pv = new THREE.Matrix4(), sphere = new THREE.Sphere();
-  const limit = quality === 'low' ? 56 : quality === 'medium' ? 92 : 128;
+  const fade = FOREST_FLOOR_DISTANCE[quality];
   return {
     group,
     update(dt, f) {
       if (disposed) return;
-      elapsed += dt;
-      const turned = Math.abs(f.camera.quaternion.dot(lastRotation)) < 0.9998;
-      if (elapsed < 0.16 && f.camera.position.distanceTo(lastCamera) < 1.5 && !turned && f.camera.projectionMatrix.equals(lastProjection)) return;
-      if (f.camera.position.distanceToSquared(lastCamera) < 0.0004 && Math.abs(f.camera.quaternion.dot(lastRotation)) > 0.999999 && f.camera.projectionMatrix.equals(lastProjection)) return;
-      elapsed = 0;
+      sinceRefresh += dt;
+      // Distance coverage and view-edge culling follow every moving frame. Stationary scenes keep their uploads.
+      const cameraChanged = f.camera.position.distanceToSquared(lastCamera) >= 1e-12 || Math.abs(f.camera.quaternion.dot(lastRotation)) <= 0.9999999999 || !f.camera.projectionMatrix.equals(lastProjection);
+      const shadowPresent = hasCasters && !!f.shadowFrustum;
+      const shadowChanged = shadowPresent !== lastShadowPresent || (shadowPresent && !f.shadowFrustum!.planes.every((plane, i) => plane.equals(lastShadowFrustum.planes[i]!)));
+      const shadowGuardExceeded = shadowPresent && lastShadowPresent && f.shadowFrustum!.planes.some((plane, i) => {
+        const previous = lastShadowFrustum.planes[i]!;
+        return Math.abs(plane.constant - previous.constant) + 600 * shadowPlaneNormalDelta.copy(plane.normal).sub(previous.normal).length() > 1;
+      });
+      // The same two-metre guard used by tree casters lets ordinary sun drift refresh at most five times
+      // per second. Large hour/focus changes and shadow enable/disable changes are immediate.
+      if (!cameraChanged && (!shadowChanged || (!shadowGuardExceeded && shadowPresent === lastShadowPresent && sinceRefresh < 0.2))) return;
+      sinceRefresh = 0;
       lastCamera.copy(f.camera.position);
       lastRotation.copy(f.camera.quaternion);
       lastProjection.copy(f.camera.projectionMatrix);
+      lastShadowPresent = shadowPresent;
+      if (f.shadowFrustum) lastShadowFrustum.copy(f.shadowFrustum);
       f.camera.updateMatrixWorld();
       pv.multiplyMatrices(f.camera.projectionMatrix, f.camera.matrixWorldInverse);
       frustum.setFromProjectionMatrix(pv);
       visible = 0;
       for (const b of owned) {
         let count = 0;
-        for (const p of b.pieces) {
-          if (Math.hypot(p.x - f.camera.position.x, p.z - f.camera.position.z) > limit) continue;
-          sphere.center.set(p.x, p.y + 0.35, p.z);
-          sphere.radius = p.kind === 'log' ? 2.5 * p.scale : 1.8 * p.scale;
-          if (!frustum.intersectsSphere(sphere)) continue;
-          position.set(p.x, p.y, p.z);
-          normal.set(p.nx, 1, p.nz).normalize();
-          rotation.setFromUnitVectors(up, normal).multiply(yaw.setFromAxisAngle(up, p.yaw));
-          scale.setScalar(p.scale);
-          matrix.compose(position, rotation, scale);
-          b.mesh.setMatrixAt(count, matrix);
+        for (let i = 0; i < b.pieces.length; i++) {
+          const p = b.pieces[i]!;
+          const coverage = smoothDistanceFade(Math.hypot(p.x - f.camera.position.x, p.z - f.camera.position.z), fade.start, fade.end);
+          if (coverage <= 0) continue;
+          sphere.copy(b.bounds[i]!);
+          if (!frustum.intersectsSphere(sphere) && !(b.mesh.castShadow && f.shadowFrustum?.intersectsSphere(sphere))) continue;
+          b.mesh.setMatrixAt(count, b.transforms[i]!);
           b.mesh.setColorAt(count, col.setScalar(0.85 + p.rank * 0.23));
+          b.visibility.coverage.setXY(count, 0, coverage);
           count++;
         }
         b.mesh.count = count;
         b.mesh.instanceMatrix.needsUpdate = true;
         if (b.mesh.instanceColor) b.mesh.instanceColor.needsUpdate = true;
+        b.visibility.coverage.needsUpdate = true;
         visible += count;
       }
     },
@@ -317,7 +348,7 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
     dispose() {
       if (disposed) return;
       disposed = true;
-      for (const { geometry, mesh } of owned) { mesh.dispose(); geometry.dispose(); }
+      for (const { geometry, mesh, visibility } of owned) { visibility.dispose(); mesh.dispose(); geometry.dispose(); }
       material.dispose();
       logMaterial.dispose();
       group.clear();

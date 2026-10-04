@@ -8,6 +8,7 @@ import type { Colliders } from '../world/colliders';
 import type { Quality } from './context';
 import type { Species } from './treeGen';
 import { streamDistance, type Exclusions } from './vegetation';
+import { smoothDistanceFade } from './distanceVisibility';
 
 export type TreeAge = 'veteran' | 'mature' | 'young' | 'sapling';
 export interface FloraTree {
@@ -208,9 +209,24 @@ export function registerFloraColliders(population: readonly FloraTree[], collide
     if (tree.collisionId && tree.radius > 0) colliders.circle(tree.collisionId, tree.x, tree.z, radiusFor(tree));
   }
 }
-export const FLORA_MAX_DISTANCE = 760;
+// Keep cheap crown cards beyond the playable realm, then fade into the distance haze.
+export const FLORA_FADE_START = 900;
+export const FLORA_MAX_DISTANCE = 1020;
+export const FLORA_LOD_BANDS: Record<Quality, { near: readonly [number, number]; middle: readonly [number, number] }> = {
+  high: { near: [36, 48], middle: [116, 148] },
+  medium: { near: [24, 36], middle: [104, 136] },
+  low: { near: [0, 0], middle: [64, 96] },
+};
+/** Adjacent levels share complementary pixel coverage over broad distance bands.
+ * Low keeps real middle-detail trunks locally; it never pays for close source meshes. */
+export function floraLodWeights(quality: Quality, distance: number): readonly [number, number, number] {
+  const bands = FLORA_LOD_BANDS[quality];
+  const near = quality === 'low' ? 0 : smoothDistanceFade(distance, ...bands.near);
+  const middle = smoothDistanceFade(distance, ...bands.middle);
+  return [near, middle - near, 1 - middle];
+}
+/** Dominant level for inspections and non-render consumers. Actual drawing crossfades both adjacent levels. */
 export function floraLod(quality: Quality, distance: number): 0 | 1 | 2 {
-  const near = quality === 'high' ? 40 : quality === 'medium' ? 28 : 0;
-  const middle = quality === 'high' ? 128 : quality === 'medium' ? 112 : 72;
-  return distance < near ? 0 : distance < middle ? 1 : 2;
+  const weights = floraLodWeights(quality, distance);
+  return weights[0] >= weights[1] && weights[0] >= weights[2] ? 0 : weights[1] >= weights[2] ? 1 : 2;
 }

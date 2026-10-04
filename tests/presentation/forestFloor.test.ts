@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { describe, expect, it, vi } from 'vitest';
-import { buildForestFernGeometry, buildForestFloor, buildForestLitterGeometry, createForestFloorPopulation, selectForestFloorPopulation } from '../../src/presentation/forestFloor';
+import { buildForestFernGeometry, buildForestFloor, buildForestLitterGeometry, createForestFloorPopulation, selectForestFloorPopulation, FOREST_FLOOR_DISTANCE } from '../../src/presentation/forestFloor';
 import { Terrain } from '../../src/world/terrain';
 import { Exclusions } from '../../src/presentation/vegetation';
 import { deepwoodCover } from '../../src/world/forest';
@@ -153,6 +153,7 @@ describe('Deepwood floor', () => {
     expect(meshes.length).toBeGreaterThan(5);
     const geometryDisposals = meshes.map((m) => vi.spyOn(m.geometry, 'dispose'));
     const bufferDisposals = meshes.map((m) => vi.spyOn(m, 'dispose'));
+    const shadowDisposals = meshes.flatMap((m) => [vi.spyOn(m.customDepthMaterial!, 'dispose'), vi.spyOn(m.customDistanceMaterial!, 'dispose')]);
     const materials = new Set(meshes.map((m) => m.material as THREE.MeshStandardMaterial));
     const materialDisposals = [...materials].map((m) => vi.spyOn(m, 'dispose'));
     const logMaterial = [...materials].find((m) => m.map)!;
@@ -183,6 +184,7 @@ describe('Deepwood floor', () => {
     floor.dispose!();
     geometryDisposals.forEach((spy) => expect(spy).toHaveBeenCalledTimes(1));
     bufferDisposals.forEach((spy) => expect(spy).toHaveBeenCalledTimes(1));
+    shadowDisposals.forEach((spy) => expect(spy).toHaveBeenCalledTimes(1));
     materialDisposals.forEach((spy) => expect(spy).toHaveBeenCalledTimes(1));
     expect(barkDisposal).not.toHaveBeenCalled();
     expect(normalDisposal).not.toHaveBeenCalled();
@@ -190,5 +192,91 @@ describe('Deepwood floor', () => {
     expect(barkDisposal).toHaveBeenCalledTimes(1);
     expect(normalDisposal).toHaveBeenCalledTimes(1);
     expect(floor.group.children).toHaveLength(0);
+  });
+
+  it('keeps fallen timber at its authored size through the former cutoff and fades continuously on small moving frames', () => {
+    const target = population.find((p) => p.kind === 'log')!;
+    const floor = buildForestFloor(terrain, exclusions, 'high');
+    const mesh = floor.group.getObjectByName(`forest_floor_log:${target.variant}`) as THREE.InstancedMesh;
+    const coverage = mesh.geometry.getAttribute('aDistanceCoverage') as THREE.InstancedBufferAttribute;
+    const camera = new THREE.PerspectiveCamera(65, 1.6, 0.1, 600);
+    const frame: FrameContext = { camera, time: 0, focus: camera.position.clone(), nightness: 0, sunDir: new THREE.Vector3(0.4, 1, 0.6).normalize(), reducedMotion: false, hour: 9, view: worldView(createInitialState()), quality: 'high' };
+    const matrix = new THREE.Matrix4(), point = new THREE.Vector3(), scale = new THREE.Vector3(), rotation = new THREE.Quaternion();
+    const sample = (distance: number) => {
+      camera.position.set(target.x, target.y + 0.3, target.z + distance);
+      camera.lookAt(target.x, target.y + 0.3, target.z);
+      camera.updateMatrixWorld();
+      floor.update(1 / 240, frame);
+      for (let i = 0; i < mesh.count; i++) {
+        mesh.getMatrixAt(i, matrix);
+        matrix.decompose(point, rotation, scale);
+        if (point.distanceTo(new THREE.Vector3(target.x, target.y, target.z)) < 0.001) {
+          expect(scale.x).toBeCloseTo(target.scale, 5);
+          expect(scale.y).toBeCloseTo(target.scale, 5);
+          expect(scale.z).toBeCloseTo(target.scale, 5);
+          return coverage.getY(i);
+        }
+      }
+      return 0;
+    };
+    const distances = FOREST_FLOOR_DISTANCE.high;
+    expect(sample(distances.start)).toBe(1);
+    expect(sample(128)).toBeGreaterThan(0.9); // Former hard cutoff is now inside a gradual fade.
+    expect(sample((distances.start + distances.end) / 2)).toBeCloseTo(0.5, 5);
+    const upload = coverage.version;
+    const before = sample(160.001);
+    expect(coverage.version).toBeGreaterThan(upload);
+    expect(before).toBeLessThan(0.5);
+    expect(before).toBeGreaterThan(0.4999);
+    expect(sample(distances.end - 0.1)).toBeGreaterThan(0);
+    expect(sample(distances.end + 0.1)).toBe(0);
+    floor.dispose!();
+    disposeTreeTextures();
+  });
+
+  it('retains offscreen fern casters only in the sun volume and refreshes slow idle shadow drift within its preload guard', () => {
+    const target = population.find((p) => p.kind === 'fern')!;
+    const floor = buildForestFloor(terrain, exclusions, 'high');
+    const mesh = floor.group.getObjectByName(`forest_floor_fern:${target.variant}`) as THREE.InstancedMesh;
+    const camera = new THREE.PerspectiveCamera(65, 1.6, 0.1, 600);
+    camera.position.set(target.x, target.y + 0.4, target.z + 10);
+    camera.lookAt(target.x, target.y + 0.4, target.z + 30); // The fern is completely behind the view.
+    camera.updateMatrixWorld();
+    const frame: FrameContext = { camera, time: 0, focus: camera.position.clone(), nightness: 0, sunDir: new THREE.Vector3(0.4, 1, 0.6).normalize(), shadowFrustum: null, reducedMotion: false, hour: 9, view: worldView(createInitialState()), quality: 'high' };
+    const matrix = new THREE.Matrix4(), point = new THREE.Vector3();
+    const containsTarget = () => {
+      for (let i = 0; i < mesh.count; i++) {
+        mesh.getMatrixAt(i, matrix);
+        point.setFromMatrixPosition(matrix);
+        if (point.distanceTo(new THREE.Vector3(target.x, target.y, target.z)) < 0.001) return true;
+      }
+      return false;
+    };
+    floor.update(1 / 240, frame);
+    expect(containsTarget()).toBe(false);
+    const shadowCamera = new THREE.OrthographicCamera(-3, 3, 3, -3, 0.1, 30);
+    const shadowMatrix = new THREE.Matrix4();
+    const shadowAt = (x: number) => {
+      shadowCamera.position.set(x, target.y + 10, target.z);
+      shadowCamera.lookAt(x, target.y, target.z);
+      shadowCamera.updateMatrixWorld();
+      return new THREE.Frustum().setFromProjectionMatrix(shadowMatrix.multiplyMatrices(shadowCamera.projectionMatrix, shadowCamera.matrixWorldInverse));
+    };
+    frame.shadowFrustum = shadowAt(target.x);
+    floor.update(1 / 240, frame);
+    expect(containsTarget()).toBe(true);
+    const coverage = mesh.geometry.getAttribute('aDistanceCoverage') as THREE.InstancedBufferAttribute;
+    const upload = coverage.version;
+    frame.shadowFrustum = shadowAt(target.x + 0.01);
+    floor.update(1 / 240, frame);
+    expect(coverage.version).toBe(upload);
+    floor.update(0.21, frame);
+    expect(coverage.version).toBeGreaterThan(upload);
+    // A jump beyond the guarded volume refreshes immediately, even if the previous upload was this frame.
+    frame.shadowFrustum = shadowAt(target.x + 100);
+    floor.update(1 / 240, frame);
+    expect(containsTarget()).toBe(false);
+    floor.dispose!();
+    disposeTreeTextures();
   });
 });

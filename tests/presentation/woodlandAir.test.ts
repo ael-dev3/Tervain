@@ -78,4 +78,24 @@ describe('shared woodland habitat and atmosphere', () => {
     expect(geometryDisposes).toBe(1);
     expect(materialDisposes).toBe(1);
   });
+
+  it('fades the pollen patch continuously through the woodland boundary instead of appearing at full opacity', () => {
+    const fog = new THREE.FogExp2(0xa6b0ad, 0.0029);
+    const air = buildWoodlandAir({ terrain, quality: 'medium' }, fog);
+    const points = air.group.children[0] as THREE.Points<THREE.BufferGeometry, THREE.PointsMaterial>;
+    let previous = 0, maximumStep = 0, oldThresholdOpacity = 1;
+    for (let x = -270; x < -70; x += 0.1) {
+      fog.density = 0.0029;
+      air.update(1 / 60, frame(x, 10));
+      const opacity = points.material.opacity;
+      const cover = deepwoodCover(x, 10);
+      maximumStep = Math.max(maximumStep, Math.abs(opacity - previous));
+      if (cover > 0.019 && cover < 0.021) oldThresholdOpacity = Math.min(oldThresholdOpacity, opacity);
+      expect(points.visible).toBe(opacity > 0);
+      previous = opacity;
+    }
+    expect(maximumStep).toBeLessThan(0.025);
+    expect(oldThresholdOpacity).toBeLessThan(0.012);
+    air.dispose?.();
+  });
 });

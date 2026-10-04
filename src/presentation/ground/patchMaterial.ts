@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import type { SwayUniforms } from '../vegetation';
+import { DISTANCE_DITHER_GLSL } from '../distanceVisibility';
 
 /**
  * Material for the streamed ground-cover layers (grass patches, flower clusters).
@@ -59,6 +60,7 @@ varying float vGH;
 varying float vGSun;
 varying float vGGust;
 varying vec3 vGWorld;
+varying float vGCoverage;
 `;
 
 const NORMAL_CODE = /* glsl */ `
@@ -73,7 +75,9 @@ float gHT = aBlade.y;
 float gD = distance(aBase.xyz, cameraPosition);
 float gQ = pow(1.0 - smoothstep(uFade.x, uFade.y, gD), uFade.w);
 float gKeep = smoothstep(0.0, 0.12, gQ - aBase.w);
-float gSc = gKeep * mix(1.0, uFade.z, 1.0 - gQ);
+// Rank fades coverage rather than collapsing an entire tuft into its anchor.
+float gSc = mix(1.0, uFade.z, 1.0 - gQ);
+vGCoverage = gKeep;
 vec3 gp = position;
 gp.xz *= aShape.y * gSc;
 gp.y *= aShape.z * gSc;
@@ -127,6 +131,8 @@ varying float vGH;
 varying float vGSun;
 varying float vGGust;
 varying vec3 vGWorld;
+varying float vGCoverage;
+${DISTANCE_DITHER_GLSL}
 `;
 
 export interface PatchMaterial {
@@ -156,7 +162,7 @@ export function createPatchMaterial(sway: SwayUniforms, pushers: THREE.Vector4[]
     const v0 = shader.vertexShader;
     const f0 = shader.fragmentShader;
     const need = ['#include <beginnormal_vertex>', '#include <begin_vertex>', '#include <common>'];
-    const needF = ['#include <color_fragment>', '#include <normal_fragment_maps>', '#include <lights_fragment_end>', '#include <common>'];
+    const needF = ['#include <color_fragment>', '#include <normal_fragment_maps>', '#include <lights_fragment_end>', '#include <common>', '#include <alphatest_fragment>'];
     if (!need.every((m) => v0.includes(m)) || !needF.every((m) => f0.includes(m))) {
       failed = true;
       console.warn('ground cover shader chunks changed; layer disabled');
@@ -170,6 +176,7 @@ export function createPatchMaterial(sway: SwayUniforms, pushers: THREE.Vector4[]
       .replace('#include <begin_vertex>', POSITION_CODE);
     shader.fragmentShader = f0
       .replace('#include <common>', `#include <common>\n${FRAG_DECL}`)
+      .replace('#include <alphatest_fragment>', '#include <alphatest_fragment>\nif (tvDistanceNoise(gl_FragCoord.xy) >= vGCoverage) discard;')
       .replace('#include <color_fragment>', 'diffuseColor.rgb = vGCol * (0.94 + 0.12 * vGGust);')
       .replace('#include <normal_fragment_maps>', '#include <normal_fragment_maps>\nnormal = normalize(vNormal);\nnonPerturbedNormal = normal;')
       .replace(
@@ -182,6 +189,6 @@ export function createPatchMaterial(sway: SwayUniforms, pushers: THREE.Vector4[]
         }`,
       );
   };
-  material.customProgramCacheKey = () => `tervain-patch-v1-${opts.vertexColors ? 'c' : 'g'}`;
+  material.customProgramCacheKey = () => `tervain-patch-v2-distance-${opts.vertexColors ? 'c' : 'g'}`;
   return { material, uniforms, ok: () => !failed };
 }

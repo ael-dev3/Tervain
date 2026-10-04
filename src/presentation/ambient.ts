@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { ANCHORS, bySpec, frontOf } from '../world/layout';
 import type { BuildContext, FrameContext, SceneModule } from './context';
-import { createAmbientRig, poseRig, setRigShadow, type AmbientStyle, type Look, type Mode, type Rig } from './characters';
+import { createAmbientRig, poseRig, type AmbientStyle, type Look, type Mode, type Rig } from './characters';
 
 /**
  * Silent residents of the inland hamlet. Their positions follow the relocated buildings and hearth;
@@ -75,12 +75,10 @@ export function buildAmbient(ctx: BuildContext): SceneModule & { counts: { peopl
     colliders.circle(`ambient:${i}`, spec.x, spec.z, spec.radius);
     people.push({ rig, spec, t: i * 5.3 });
   });
-  const cam = new THREE.Vector3();
   return {
     group,
     counts: { people: people.length },
     update(dt: number, f: FrameContext) {
-      f.camera.getWorldPosition(cam);
       people.forEach((p, i) => {
         p.t += dt;
         const total = p.spec.cycle.reduce((a, c) => a + c[1], 0);
@@ -96,9 +94,8 @@ export function buildAmbient(ctx: BuildContext): SceneModule & { counts: { peopl
         p.rig.root.visible = !(p.spec.sleeps && f.nightness > 0.75);
         colliders.setActive(`ambient:${i}`, p.rig.root.visible);
         if (!p.rig.root.visible) return;
-        const dx = p.rig.root.position.x - cam.x;
-        const dz = p.rig.root.position.z - cam.z;
-        setRigShadow(p.rig, dx * dx + dz * dz < 55 * 55);
+        // The shadow camera culls actual rig bounds. A separate player-distance
+        // cutoff removed still-visible shadows as the camera crossed 55 metres.
         poseRig(
           p.rig,
           {
