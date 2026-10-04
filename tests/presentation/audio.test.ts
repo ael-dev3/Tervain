@@ -102,6 +102,14 @@ class Context {
   filters: Filter[] = [];
   mediaSources: Node[] = [];
   bufferData: Float32Array | null = null;
+  listeners = new Map<string, EventListener[]>();
+  addEventListener = vi.fn((type: string, listener: EventListener) => {
+    this.listeners.set(type, [...this.listeners.get(type) ?? [], listener]);
+  });
+  removeEventListener = vi.fn((type: string, listener: EventListener) => {
+    this.listeners.set(type, (this.listeners.get(type) ?? []).filter((entry) => entry !== listener));
+  });
+  emit(type: string) { for (const listener of this.listeners.get(type) ?? []) listener(new Event(type)); }
   createGain = () => {
     const node = new Gain(); this.nodes.push(node); this.gains.push(node); return node;
   };
@@ -346,6 +354,80 @@ describe('audio graph lifetime and automation', () => {
 });
 
 describe('streamed owner-supplied menu score', () => {
+  it('exposes unexpected output suspension truthfully without an automatic retry or a second media clock', async () => {
+    const { audio, ctx, media, makeMedia } = musicFixture();
+    const states = vi.fn(); audio.onMusicState = states;
+    audio.setMenuActive(true); audio.resume(); await flushMusic();
+    media.currentTime = 60;
+    ctx.state = 'suspended'; ctx.emit('statechange');
+    expect(audio.menuMusicState).toBe('blocked');
+    expect(states).toHaveBeenLastCalledWith('blocked');
+    expect(audio.menuMusicPlayback).toMatchObject({ time: 60, playing: false, gain: 0 });
+    for (let i = 0; i < 120; i++) audio.update(1 / 60, environment());
+    expect(ctx.resume).not.toHaveBeenCalled(); expect(media.play).toHaveBeenCalledTimes(1);
+    audio.resume({ retryPending: true }); await flushMusic();
+    expect(audio.menuMusicState).toBe('playing');
+    expect(audio.menuMusicPlayback).toMatchObject({ time: 60, playing: true });
+    expect(ctx.resume).toHaveBeenCalledTimes(1);
+    expect(makeMedia).toHaveBeenCalledTimes(1); expect(ctx.mediaSources).toHaveLength(1);
+    expect(media.play).toHaveBeenCalledTimes(1);
+    audio.dispose();
+    expect(ctx.listeners.get('statechange')).toEqual([]);
+  });
+
+  it('retains a visible recovery state after rejected resume and allows the next explicit Play gesture to retry', async () => {
+    const { audio, ctx, media } = musicFixture();
+    audio.setMenuActive(true); audio.resume(); await flushMusic();
+    media.currentTime = 73;
+    ctx.state = 'suspended'; ctx.emit('statechange');
+    ctx.resume.mockImplementationOnce(() => Promise.reject(new Error('fresh gesture required')));
+    audio.resume(); await flushMusic();
+    expect(audio.menuMusicState).toBe('blocked');
+    audio.applySettings(); expect(audio.menuMusicState).toBe('blocked');
+    expect(audio.menuMusicPlayback).toMatchObject({ time: 73, playing: false });
+    expect(ctx.resume).toHaveBeenCalledTimes(1);
+    audio.resume({ retryPending: true }); await flushMusic();
+    expect(audio.menuMusicState).toBe('playing');
+    expect(ctx.resume).toHaveBeenCalledTimes(2);
+    expect(ctx.mediaSources).toHaveLength(1); expect(media.currentTime).toBe(73);
+    audio.dispose();
+  });
+
+  it('allows an explicit Play gesture to bypass a browser-held pending resume without stale completion changing the new state', async () => {
+    const { audio, ctx, media } = musicFixture();
+    audio.setMenuActive(true); audio.resume(); await flushMusic();
+    ctx.state = 'suspended'; ctx.emit('statechange');
+    let oldResume = () => {};
+    ctx.resume.mockImplementationOnce(() => new Promise<void>((resolve) => { oldResume = resolve; }));
+    audio.resume(); audio.resume();
+    expect(ctx.resume).toHaveBeenCalledTimes(1);
+    expect(audio.menuMusicState).toBe('blocked');
+    audio.resume({ retryPending: true }); await flushMusic();
+    expect(ctx.resume).toHaveBeenCalledTimes(2);
+    expect(audio.menuMusicState).toBe('playing');
+    oldResume(); await flushMusic();
+    expect(audio.menuMusicState).toBe('playing');
+    expect(media.play).toHaveBeenCalledTimes(1); expect(ctx.mediaSources).toHaveLength(1);
+    audio.dispose();
+  });
+
+  it('keeps hidden, muted and terminal-error states distinct when the output context changes', async () => {
+    const { audio, ctx, media, settings } = musicFixture(defaultSettings(), false);
+    audio.setMenuActive(true); audio.resume(); await flushMusic();
+    audio.setPageHidden(true); ctx.emit('statechange');
+    expect(audio.menuMusicState).toBe('paused');
+    settings.volumes.music = 0;
+    audio.setPageHidden(false); await flushMusic(); ctx.emit('statechange');
+    expect(audio.menuMusicState).toBe('muted');
+    settings.volumes.music = 0.55; audio.applySettings(); await flushMusic();
+    media.error = { code: 3 }; media.emit('error');
+    expect(audio.menuMusicState).toBe('unavailable');
+    ctx.state = 'suspended'; ctx.emit('statechange');
+    expect(audio.menuMusicState).toBe('unavailable');
+    expect(audio.menuMusicPlayback.playing).toBe(false);
+    audio.dispose();
+  });
+
   it('keeps a terminal decoder failure unavailable when its queued native pause event arrives afterwards', async () => {
     const { audio, media, ctx } = musicFixture(defaultSettings(), false);
     audio.setMenuActive(true); audio.resume(); await flushMusic();

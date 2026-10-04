@@ -558,7 +558,7 @@ export class App {
     this.musicUnlockEl = h('button', {
       class: 'btn menu-music-unlock', 'data-nav': true,
       title: S('menu.music.gesture'),
-      onClick: () => this.audio.resume(),
+      onClick: () => this.audio.resume({ retryPending: true }),
     }, S('menu.music.play')) as HTMLButtonElement;
     this.titleEl.append(createMenuScreen({ menu, subtitle: S('menu.affiliation'), version: GAME_VERSION, variant: 'title', musicControl: this.musicUnlockEl }));
     this.syncMusicUnlock();

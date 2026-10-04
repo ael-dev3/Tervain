@@ -109,6 +109,7 @@ export class AudioEngine {
   private lastAutomation = -Infinity;
   private disposed = false;
   private resuming = false;
+  private contextResumeGeneration = 0;
   private pageHidden = false;
   private menuActive = false;
   private musicUnlocked = false;
@@ -129,8 +130,8 @@ export class AudioEngine {
 
   constructor(private getSettings: () => Settings) {}
 
-  /** Must be called from a user gesture. */
-  resume() {
+  /** Must be called from a user gesture. The explicit Play control may retry a browser-held pending resume request. */
+  resume(options: { retryPending?: boolean } = {}) {
     if (this.pageHidden || this.disposed) return;
     this.musicUnlocked = true;
     if (!this.ctx) {
@@ -142,6 +143,7 @@ export class AudioEngine {
       }
       try {
         this.ctx = new AC({ latencyHint: 'interactive' });
+        this.ctx.addEventListener('statechange', this.onContextStateChange);
         this.master = this.own(this.ctx.createGain());
         this.master.gain.value = unit(this.getSettings().volumes.master);
         this.master.connect(this.ctx.destination);
@@ -164,9 +166,14 @@ export class AudioEngine {
       }
     }
     this.enabled = this.ctx.state !== 'closed';
-    if (this.ctx.state !== 'running' && this.ctx.state !== 'closed' && !this.resuming) {
+    if (this.ctx.state !== 'running' && this.ctx.state !== 'closed' && (!this.resuming || options.retryPending)) {
+      const ctx = this.ctx, generation = ++this.contextResumeGeneration;
       this.resuming = true;
-      void this.ctx.resume().catch(() => undefined).finally(() => { this.resuming = false; });
+      void ctx.resume().then(() => {
+        if (this.ctx === ctx && generation === this.contextResumeGeneration) this.onContextStateChange();
+      }).catch(() => {
+        if (this.ctx === ctx && generation === this.contextResumeGeneration) this.onContextStateChange();
+      }).finally(() => { if (generation === this.contextResumeGeneration) this.resuming = false; });
     }
     // Calling play in the same gesture unlocks browser media playback too.
     this.syncMusic();
@@ -206,10 +213,23 @@ export class AudioEngine {
   }
 
   private setMusicState(state: MenuMusicState) {
+    // A native media element can be ready and unpaused while its WebAudio destination is suspended. The title must
+    // expose its gesture control rather than claiming audible playback or inventing progress for the grove clock.
+    if ((state === 'playing' || state === 'loading') && this.wantsMusic && this.ctx?.state !== 'running') state = 'blocked';
     if (state === this.musicState) return;
     this.musicState = state;
     this.onMusicState?.(state);
   }
+
+  private onContextStateChange = () => {
+    if (!this.ctx || this.disposed || this.pageHidden || !this.menuActive || !this.musicUnlocked) return;
+    if (this.ctx.state === 'closed') { this.setMusicState('unavailable'); return; }
+    // Muted/hidden menus and terminal media errors keep their own meaning. Unexpected suspension only affects a score
+    // the player actually wants to hear; this event handler never calls context.resume() or starts a retry timer.
+    if (!this.wantsMusic || this.music?.error || this.musicState === 'unavailable') return;
+    if (this.ctx.state !== 'running') this.setMusicState('blocked');
+    else this.syncMusic();
+  };
 
   private get wantsMusic() {
     const v = this.getSettings().volumes;
@@ -365,8 +385,9 @@ export class AudioEngine {
     if (this.disposed || !this.ctx || this.ctx.state === 'closed') return;
     this.lastAutomation = -Infinity;
     // Queue both transitions, including a quick hide/show before suspend has resolved.
-    const transition = hidden ? this.ctx.suspend() : this.ctx.resume();
-    void transition.catch(() => undefined);
+    const ctx = this.ctx, transition = hidden ? ctx.suspend() : ctx.resume();
+    void transition.then(() => { if (this.ctx === ctx) this.onContextStateChange(); })
+      .catch(() => { if (this.ctx === ctx) this.onContextStateChange(); });
   }
 
   get ready() {
@@ -496,6 +517,8 @@ export class AudioEngine {
   private releaseGraph() {
     this.clearMusicPause();
     this.musicGeneration++;
+    this.contextResumeGeneration++;
+    this.resuming = false;
     this.musicPending = false;
     this.musicBuffering = false;
     if (this.music) {
@@ -514,6 +537,7 @@ export class AudioEngine {
     for (const node of this.nodes) node.disconnect();
     this.nodes.clear();
     const ctx = this.ctx;
+    ctx?.removeEventListener('statechange', this.onContextStateChange);
     this.ctx = null;
     this.noiseBuf = null;
     this.wind = this.water = this.sea = null;
