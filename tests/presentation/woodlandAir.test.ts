@@ -79,6 +79,51 @@ describe('shared woodland habitat and atmosphere', () => {
     expect(materialDisposes).toBe(1);
   });
 
+  it('masks square point corners with a soft round silhouette while retaining built-in fog and depth behavior', () => {
+    const air = buildWoodlandAir({ terrain, quality: 'medium' }, new THREE.FogExp2(0xa6b0ad, 0.0029));
+    const points = air.group.children[0] as THREE.Points<THREE.BufferGeometry, THREE.PointsMaterial>;
+    const original = THREE.ShaderLib.points;
+    const shader = { uniforms: {}, vertexShader: original.vertexShader, fragmentShader: original.fragmentShader } as Parameters<THREE.Material['onBeforeCompile']>[0];
+    points.material.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
+    expect(shader.vertexShader).toBe(original.vertexShader);
+    expect(shader.fragmentShader).toContain('length(gl_PointCoord - vec2(0.5))');
+    expect(shader.fragmentShader).toContain('if (woodlandMoteRadius >= 0.5) discard;');
+    expect(shader.fragmentShader).toContain('1.0 - smoothstep(0.10, 0.5, woodlandMoteRadius)');
+    expect(shader.fragmentShader).toContain('diffuseColor.a *= woodlandMoteMask * woodlandMoteMask;');
+    for (const include of ['alphatest_fragment', 'map_particle_fragment', 'logdepthbuf_fragment', 'tonemapping_fragment', 'colorspace_fragment', 'fog_fragment']) {
+      expect(shader.fragmentShader).toContain(`#include <${include}>`);
+    }
+    expect(points.material.customProgramCacheKey()).toBe('tervain-woodland-rounded-motes-v1');
+    expect(points.material.depthTest).toBe(true);
+    expect(points.material.depthWrite).toBe(false);
+    expect(points.material.sizeAttenuation).toBe(true);
+    expect(points.material.fog).toBe(true);
+    expect(points.material.map).toBeNull();
+    expect(points.material.alphaMap).toBeNull();
+    air.dispose?.();
+  });
+
+  it('keeps every mote within its gentle local drift envelope across long and irregular frame intervals', () => {
+    const air = buildWoodlandAir({ terrain, quality: 'high' }, new THREE.FogExp2(0xa6b0ad, 0.0029));
+    const points = air.group.children[0] as THREE.Points<THREE.BufferGeometry, THREE.PointsMaterial>;
+    air.update(0, frame(-182, 14));
+    const initial = [...points.geometry.getAttribute('position').array];
+    for (const dt of [1 / 60, 0.027, 0.1, 2, 11, 60, 600, 3600]) {
+      air.update(dt, frame(-182, 14));
+      const current = points.geometry.getAttribute('position').array;
+      for (let i = 0; i < current.length; i += 3) {
+        expect(Number.isFinite(current[i])).toBe(true);
+        expect(Number.isFinite(current[i + 1])).toBe(true);
+        expect(Number.isFinite(current[i + 2])).toBe(true);
+        // Differences between any two phases are at most twice each authored drift radius.
+        expect(Math.abs(current[i]! - initial[i]!)).toBeLessThanOrEqual(1.5001);
+        expect(Math.abs(current[i + 1]! - initial[i + 1]!)).toBeLessThanOrEqual(0.7001);
+        expect(Math.abs(current[i + 2]! - initial[i + 2]!)).toBeLessThanOrEqual(1.3001);
+      }
+    }
+    air.dispose?.();
+  });
+
   it('fades the pollen patch continuously through the woodland boundary instead of appearing at full opacity', () => {
     const fog = new THREE.FogExp2(0xa6b0ad, 0.0029);
     const air = buildWoodlandAir({ terrain, quality: 'medium' }, fog);

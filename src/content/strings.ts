@@ -450,7 +450,7 @@ export const EN: Record<string, string> = {
   'set.display': 'Display and comfort',
   'set.text': 'Text size',
   'set.reduced': 'Reduced motion',
-  'set.reduced.desc': 'Steadier camera; freezes water waves and menu animation.',
+  'set.reduced.desc': 'Steadier camera; freezes falling leaves, water waves and menu animation.',
   'set.contrast': 'High-contrast interface',
   'set.contrast.desc': 'Opaque panels and stronger outlines.',
   'set.effects': 'Reduced effects',

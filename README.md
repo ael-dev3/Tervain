@@ -54,6 +54,8 @@ The [0.0.9 world-contact follow-up](docs/production/releases/0.0.9-world-contact
 
 The [0.0.9 visibility follow-up](docs/production/releases/0.0.9-draw-continuity.md) improves tree detail transitions, grass and forest-floor reach, streaming and screen-edge bounds, and removes abrupt lighting/reflection cutoffs while keeping the approved tree shapes.
 
+The [woodland air follow-up](docs/production/releases/0.0.9-falling-leaves.md) rounds the formerly rectangular pollen particles and adds sparse, gently drifting detached leaves beneath real broadleaf crowns. Trunks, branches and attached foliage remain still; Reduced Motion freezes the detached leaves.
+
 ## Run the prototype locally
 
 Use the local commands below for development. To play without installing anything, open the [hosted preview](https://ael-dev3.github.io/Tervain/). The earlier hosting outage is preserved in the dated [0.0.5 publication record](docs/production/releases/0.0.5.md#publication).
