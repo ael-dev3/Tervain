@@ -71,6 +71,18 @@ exploration milestone is an implementation choice; full game equivalence,
 native gameplay and completion are not established. Third-party assets retain
 their actual terms; no relicensing is implied.
 
+Later on 4 October 2026 the owner asked Claude to help rebuild Gothic 3 "at
+highest level possible as a study material for what we are building with
+Tervain", with the aim of playing the whole game in the browser from a Tervain
+URL to compare the two games' feel, and then to make pull requests "in a way
+that you feel ethically comfortable with". Claude's contribution is a separate
+[study viewer at `/gothic3-local/`](engineering/gothic3-local.md): it reads the
+visitor's own installed copy in the browser and adds no game data to the
+repository or the site. It does not change the `/gothic3/` entry or its files.
+Its code is original, written from observed file formats; its trees, sky
+palette, water and vegetation fading are engineering choices, not measurements
+of the game.
+
 ## Proposed development baseline
 
 | ID | Proposal | Evaluate / revise when |
@@ -150,3 +162,5 @@ These are scope boundaries for the foundation, not permanent bans. A later owner
 | 2026-10-04 | Implemented the owner-authorized `0.0.10` revision: full source tree forms on High, original close bark detail, finer terrain textures and source-plane subdivision, rooted folded grass, daylight/contact shadows, wet-triangle water-pass bounds, nine movable work supplies, and more physical steep-ground movement. | A44. Rapier 0.21 steps at 60 Hz; F lifts/drops and R throws. Cargo uses source-tree wood while player/NPC/navigation footprints remain canonical. Format-1 saves preserve object poses, not velocities or held state. No source GLBs or Valve content are imported/changed by this revision. Component checks are separate from the passing final local checks/targeted native review and final-source live acceptance in [0.0.10](production/releases/0.0.10.md). Greater High workload is deliberate; reference-hardware cost is unmeasured. |
 
 | 2026-10-04 | Integrated the owner-supplied six-clip Wanderer rig into `0.0.10`, replacing the old synthetic walk/run leg solver with authored locomotion and stride-calibrated speeds. | A45. Source curves/textures remain preserved in an under-100k derivative. Native review and final local/publication evidence belong to the [animation handoff](engineering/main-hero-animations-0.0.10.md); the earlier A37 hero record is historical. |
+
+| 2026-10-04 | Added the separate `/gothic3-local/` study viewer: Ardea drawn from the visitor's own Gothic 3 installation, read in the browser, with original code for the archives, resources, images, meshes, material graphs, world cells, ground vegetation, trees, water and sky. No game data in the repository or on Pages. | Owner request of 4 Oct 2026 (see the Gothic 3 section above); not a Tervain release change. Typecheck, 906 tests in 89 files (including the viewer's synthetic-fixture tests) and the production build pass locally. Rendering was reviewed in headless Chrome on one fast machine only; no slower-hardware result. See [the viewer's record](engineering/gothic3-local.md). |

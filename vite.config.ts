@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 import packageJson from './package.json' with { type: 'json' };
 import packageLock from './package-lock.json' with { type: 'json' };
 import { defineConfig } from 'vitest/config';
+import { gothic3LocalData } from './tools/gothic3LocalData.ts';
 
 if (!/^0\.0\.\d+$/.test(packageJson.version)) {
   throw new Error(`Tervain must stay on the 0.0.x build line until its quality gate is met (got ${packageJson.version}).`);
@@ -26,6 +27,8 @@ function sourceRevision(): string {
 // The site is served from https://ael-dev3.github.io/Tervain/ so assets need a repo-relative base.
 export default defineConfig(({ command }) => ({
   base: command === 'build' ? './' : '/',
+  // Development only: serves a local Gothic 3 Data folder (G3_DATA) to /gothic3-local/; see tools/gothic3LocalData.ts.
+  plugins: [gothic3LocalData()],
   define: {
     __GAME_VERSION__: JSON.stringify(packageJson.version),
     __SOURCE_REVISION__: JSON.stringify(sourceRevision()),
@@ -35,6 +38,7 @@ export default defineConfig(({ command }) => ({
       input: {
         tervain: fileURLToPath(new URL('./index.html', import.meta.url)),
         gothic3: fileURLToPath(new URL('./gothic3/index.html', import.meta.url)),
+        gothic3Local: fileURLToPath(new URL('./gothic3-local/index.html', import.meta.url)),
       },
     },
     target: 'es2023',

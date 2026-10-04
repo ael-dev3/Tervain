@@ -24,6 +24,12 @@ See [current scope, controls and port plan](docs/engineering/gothic3-browser-por
 The [rebuilding process](docs/engineering/gothic3-rebuilding-process.md) explains
 the native study, asset conversion, TypeScript runtime and remaining gameplay work.
 
+[Gothic 3 from your own install](https://ael-dev3.github.io/Tervain/gothic3-local/)
+is a separate study viewer: point it at your installed copy of Gothic 3 and it
+draws Ardea in the browser with its own renderer, reading the game files in
+your tab. No game files are hosted for it. See its
+[record, controls and limits](docs/engineering/gothic3-local.md).
+
 **Foundation / pre-production — seeded 29 September 2026; first playable prototype added the same day.**
 
 This repository contains a design and production outline and a browser-playable exploration prototype. The owner-authorized **0.0.10** source builds on published **0.0.9** with complete source trees on High, detailed bark/terrain/grass, nine movable supplies, more physical steep-ground movement and the supplied Wanderer walk/run rig. The [0.0.10 release record](docs/production/releases/0.0.10.md) records passing baseline checks and native review; that baseline was published through PR #18. Follow-up acceptance requires checking the deployed source revision and its assets, as well as the version. The [0.0.9 record](docs/production/releases/0.0.9.md) preserves the prior approved hero/pine/woodland integration. Its exploration content builds on **0.0.5**, with a sparse amnesiac landing, dense woodland, and settlements farther inland. The music-reactive hermitage, menu score, procedural ships, and Claude's Templar vigil remain integrated. Conversation windows remain removed; retained Dry Bell simulation and dialogue data do not establish a complete current negotiation UI. This is a browser prototype without a desktop package or Steam integration. The build guard enforces the **0.0.x** line until the quality gate is met and the owner approves 0.1. See the [versioning policy](docs/production/versioning.md) and [prototype boundaries](docs/engineering/prototype.md).
