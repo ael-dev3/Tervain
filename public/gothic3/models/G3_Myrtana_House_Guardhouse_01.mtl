@@ -1,0 +1,34 @@
+newmtl G3_Architecture_Bricks_01_C
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Architecture_Bricks_01_Diffuse_03.png
+
+newmtl G3_Architecture_Bricks_02_A
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Architecture_Bricks_02_Diffuse_01.jpg
+
+newmtl G3_Architecture_StairHouse_02_A
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Architecture_stairHouse_02_Diffuse_01.jpg
+
+newmtl G3_Architecture_Wood_07_A
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Architecture_Wood_07_Diffuse_01.png
+
+newmtl G3_Architecture_Wood_09_A
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Architecture_Wood_09_Diffuse_01.png

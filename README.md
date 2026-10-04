@@ -14,6 +14,16 @@ The hosted browser prototype is published from `main` through GitHub Pages; the 
 
 ## Repository status
 
+### Separate Gothic 3 reconstruction
+
+The owner also requested a TypeScript Gothic 3 browser port as a second URL.
+[Ardea — first exploration milestone](https://ael-dev3.github.io/Tervain/gothic3/)
+has its own entry, assets and saves. It is an incomplete reconstruction using
+selected local game data; it does not replace Tervain's original world.
+See [current scope, controls and port plan](docs/engineering/gothic3-browser-port.md).
+The [rebuilding process](docs/engineering/gothic3-rebuilding-process.md) explains
+the native study, asset conversion, TypeScript runtime and remaining gameplay work.
+
 **Foundation / pre-production — seeded 29 September 2026; first playable prototype added the same day.**
 
 This repository contains a design and production outline and a browser-playable exploration prototype. The owner-approved **0.0.9** release source combines the Weathered Wanderer hero, source-faithful Solitary Pine and larger coherent woodland stands with the published **0.0.8** desktop world/item/map/people systems. Combined validation and publication acceptance are recorded in the [0.0.9 release record](docs/production/releases/0.0.9.md); the hosted version must be verified after deployment. Its exploration content builds on **0.0.5**, with a sparse amnesiac landing, dense woodland, and settlements farther inland. The music-reactive hermitage, menu score, procedural ships, and Claude's Templar vigil remain integrated. Conversation windows remain removed; retained Dry Bell simulation and dialogue data do not establish a complete current negotiation UI. This is a browser prototype without a desktop package or Steam integration. The build guard enforces the **0.0.x** line until the quality gate is met and the owner approves 0.1. See the [versioning policy](docs/production/versioning.md) and [prototype boundaries](docs/engineering/prototype.md).

@@ -1,0 +1,5 @@
+newmtl EMFX_Default
+
+newmtl G3_Animation_Body_HeroSlavePants_01_A|
+map_Kd ../textures/G3_Human_Slave_Body_Diffuse_S1.jpg
+

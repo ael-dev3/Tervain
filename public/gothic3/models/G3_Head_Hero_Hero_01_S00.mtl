@@ -1,0 +1,8 @@
+newmtl EMFX_Default
+
+newmtl G3_Human_HERO_Face_Diffuse_01_A|
+map_Kd ../textures/G3_Animation_Head_Hero_01_S1.jpg
+
+newmtl G3_Human_HERO_Face_Diffuse_01_B|
+map_Kd ../textures/G3_Animation_Head_Hero_01_S1.jpg
+

@@ -1,0 +1,11 @@
+newmtl EMFX_Default
+
+newmtl G3_Animation_Head_Eyes_01
+map_Kd ../textures/G3_Animation_Head_Eyes_01_S4.jpg
+
+newmtl G3_Animation_Head_Main_01
+map_Kd ../textures/G3_Animation_Head_Main_01_S12.jpg
+
+newmtl G3_Animation_Head_Mouth_01
+map_Kd ../textures/G3_Animation_Head_Mouth_01_S1.jpg
+

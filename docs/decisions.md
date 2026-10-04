@@ -52,6 +52,20 @@ Foundation date: 29 September 2026.
 | A41 | Make Lantern Point reachable along a proper walking path and enterable lighthouse; keep world sizes believable, plant every tree firmly into the terrain, and use a regular third-person camera without default inversion. | Owner follow-up of 4 Oct 2026, with a screenshot of the steep rocky lighthouse approach. Keep the 0.0.x line, source-faithful tree proportions and paused tree motion. Exact grades, dimensions and grounding depths are implementation choices to validate. See [world-contact follow-up](production/releases/0.0.9-world-contact.md). |
 | A42 | Improve draw distance so visible scenery does not pop in and out. | Owner follow-up of 4 Oct 2026. Keep distant silhouettes, gradual detail changes, conservative bounds and continuous streamed vegetation under review. Preserve source shapes, grounding, collision identities and paused gameplay tree motion. Numerical ranges remain implementation controls. See [visibility follow-up](production/releases/0.0.9-draw-continuity.md). |
 
+## Separate Gothic 3 reconstruction
+
+On 4 October 2026 the owner requested a TypeScript reconstruction of the local
+Gothic 3 installation at a second URL in this repository. After being told that
+Tervain and its Pages site are public, the owner explicitly chose to host it
+there anyway. The separate `/gothic3/` entry is documented in
+[the port record](engineering/gothic3-browser-port.md).
+
+This is a separate reference-game project, not a change to Tervain's original
+characters, setting or approved 0.0.9 release content. Its first Ardea
+exploration milestone is an implementation choice; full game equivalence,
+native gameplay and completion are not established. Third-party assets retain
+their actual terms; no relicensing is implied.
+
 ## Proposed development baseline
 
 | ID | Proposal | Evaluate / revise when |

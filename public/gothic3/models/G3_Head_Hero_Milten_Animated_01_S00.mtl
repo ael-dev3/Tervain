@@ -1,0 +1,8 @@
+newmtl EMFX_Default
+
+newmtl G3_Animation_Head_Special_Milten_01
+map_Kd ../textures/G3_Animation_Head_Milten_diffuse_S1.jpg
+
+newmtl G3_Human_Milten_Hair_01
+map_Kd ../textures/G3_Human_Milten_Hair_Diffuse_01.jpg
+

@@ -1,0 +1,516 @@
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { NativeAssets, assetUrl } from './assets';
+import { ExplorerController } from './controls';
+import { ARDEA_PEOPLE, ARDEA_QUESTS, PORT_SCOPE } from './content';
+import type { ArdeaScene, ScenePerson } from './types';
+import './style.css';
+
+// This is an independent port milestone. It does not import Tervain simulation,
+// menus, lore, saves, proprietary native libraries, or the reconstructed engine.
+const SAVE_KEY = 'gothic3:ardea:exploration:v1';
+const canvas = document.querySelector<HTMLCanvasElement>('#world')!;
+const ui = document.querySelector<HTMLDivElement>('#interface')!;
+ui.innerHTML = '<header class="masthead"><div class="eyebrow">Gothic 3 · browser port</div><h1>Ardea</h1><p id="world-caption">Recovered local scene · first exploration milestone</p></header>' +
+  '<nav class="toolbar"><button id="explore-button">Explore</button><button id="inspect-button">Models <kbd>Tab</kbd></button><button id="journal-button">Journal <kbd>J</kbd></button><button id="map-button">Map <kbd>M</kbd></button><button id="save-button">Save <kbd>P</kbd></button><button id="help-button">Help</button><a href="../">Tervain ↗</a></nav>' +
+  '<div class="crosshair" id="crosshair"></div><div class="prompt hidden" id="prompt"></div><div class="toast hidden" id="toast" role="status"></div>' +
+  '<footer class="bottom"><div class="keys" id="keys"><kbd>W A S D</kbd> move &nbsp; <kbd>Shift</kbd> run &nbsp; drag mouse / click for mouse look<br><kbd>E</kbd> inspect person &nbsp; <kbd>F</kbd> fly &nbsp; <kbd>R</kbd> return to arrival &nbsp; <kbd>Esc</kbd> release mouse</div><div class="coordinate"><span id="coordinates">Loading native scene</span><div class="scope-tag">Work in progress · native gameplay still being rewritten</div></div></footer>' +
+  '<section class="inspector panel hidden" id="inspector"><div class="eyebrow">Original geometry</div><h2>Character inspection</h2><select id="model-select" aria-label="Character model"></select><div class="row"><button id="wire-button">Wireframe</button><button id="spin-button">Rotate</button><button id="frame-button">Frame</button></div><p>Drag to rotate · wheel to zoom · right-drag to pan.</p><p id="model-info">Native body and head; exported bind pose.</p><div class="source" id="model-source"></div></section>' +
+  '<section class="modal panel hidden" id="modal" aria-label="Information"><button class="close" id="modal-close" aria-label="Close panel">×</button><div id="modal-content"></div></section>' +
+  '<div class="map hidden" id="map"><span class="map-label">ARDEA · LOCAL POSITIONS</span><canvas id="map-view" width="488" height="488" aria-label="Local positions map"></canvas></div>' +
+  '<div class="loading" id="loading"><section class="intro"><div class="eyebrow">Gothic 3 · TypeScript reconstruction</div><h1>Ardea</h1><h2>The shore of Myrtana</h2><p>Walk through the recovered scene. Meet its original character models. Inspect their geometry, materials and placement.</p><div class="rule"></div><p>This first browser milestone brings the local assets into a new renderer. The original combat, quests, animation and world streaming are still being rebuilt.</p><div class="progress"><span id="progress"></span></div><div class="load-status" id="load-status">Reading scene manifest…</div><button class="primary" id="start-button" disabled>Enter Ardea</button><small>Independent from Tervain’s original game.<br>Keyboard and mouse · WebGL · local browser saves</small></section></div>';
+
+const element = <T extends HTMLElement = HTMLElement>(id: string): T => document.getElementById(id) as T;
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+renderer.setSize(innerWidth, innerHeight);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+// Preview brightness is a browser choice; the original lighting is not ported.
+renderer.toneMappingExposure = 3;
+const world = new THREE.Scene();
+world.background = new THREE.Color(0x94abb4);
+world.fog = new THREE.Fog(0x94abb4, 350, 1000);
+world.add(new THREE.HemisphereLight(0xe6f0f0, 0x77725c, 2.2));
+world.add(new THREE.AmbientLight(0xf0eadd, 0.5));
+const sunlight = new THREE.DirectionalLight(0xffedcf, 2.4);
+sunlight.position.set(-90, 140, -60);
+world.add(sunlight);
+const camera = new THREE.PerspectiveCamera(65, innerWidth / innerHeight, 0.06, 2200);
+const assets = new NativeAssets(renderer);
+const sceneObjects: THREE.Object3D[] = [];
+const peopleObjects = new Map<string, THREE.Group>();
+const failures: string[] = [];
+let manifest: ArdeaScene;
+let started = false;
+let inspectMode = false;
+let selectedPerson: ScenePerson | null = null;
+let nearest: ScenePerson | null = null;
+let modalOpen = false;
+let spinning = false;
+let wireframe = false;
+let toastUntil = 0;
+let inspectRequest = 0;
+let inspectorModel: THREE.Group | null = null;
+let mapShown = false;
+let lastFrame = performance.now();
+let lastHud = 0;
+
+const inspection = new THREE.Scene();
+inspection.background = new THREE.Color(0x303d36);
+inspection.add(new THREE.HemisphereLight(0xf0f0df, 0x515044, 2.1));
+inspection.add(new THREE.AmbientLight(0xf0eadd, 0.5));
+const inspectionLight = new THREE.DirectionalLight(0xffead1, 2.8);
+inspectionLight.position.set(-3, 5, -4);
+inspection.add(inspectionLight);
+const inspectionFill = new THREE.DirectionalLight(0xc5dbea, 0.7);
+inspectionFill.position.set(3, 2, 3);
+inspection.add(inspectionFill);
+const grid = new THREE.GridHelper(6, 30, 0x7a8870, 0x414e43);
+grid.position.y = -0.006;
+inspection.add(grid);
+const inspectCamera = new THREE.PerspectiveCamera(38, innerWidth / innerHeight, 0.01, 100);
+const orbit = new OrbitControls(inspectCamera, canvas);
+orbit.enableDamping = true;
+orbit.minDistance = 0.2;
+orbit.maxDistance = 20;
+orbit.enabled = false;
+
+const explorer = new ExplorerController(camera, canvas, (action) => {
+  if (action === 'interact') inspectNearby();
+  if (action === 'inspect') void setInspection(!inspectMode);
+  if (action === 'journal') showJournal();
+  if (action === 'save') save();
+  if (action === 'reset') { explorer.reset(); notify('Returned to the original scene arrival point.'); }
+  if (action === 'map') toggleMap();
+  if (action === 'fly') notify(explorer.fly ? 'Free flight · Space up · Q down' : 'Grounded exploration');
+});
+explorer.active = false;
+
+function paragraph(parent: HTMLElement, text: string, className?: string): void {
+  const p = document.createElement('p');
+  p.textContent = text;
+  if (className) p.className = className;
+  parent.appendChild(p);
+}
+
+function notify(message: string): void {
+  element('toast').textContent = message;
+  element('toast').classList.remove('hidden');
+  toastUntil = performance.now() + 5000;
+}
+
+function releaseMouse(): void {
+  if (document.pointerLockElement === canvas) document.exitPointerLock();
+}
+
+function openPanel(title: string): HTMLElement {
+  releaseMouse();
+  modalOpen = true;
+  explorer.active = false;
+  const content = element('modal-content');
+  content.replaceChildren();
+  const eyebrow = document.createElement('div');
+  eyebrow.className = 'eyebrow';
+  eyebrow.textContent = 'Ardea · browser milestone';
+  const h2 = document.createElement('h2');
+  h2.textContent = title;
+  content.append(eyebrow, h2);
+  element('modal').classList.remove('hidden');
+  return content;
+}
+
+function closePanel(): void {
+  modalOpen = false;
+  element('modal').classList.add('hidden');
+  explorer.active = started && !inspectMode;
+}
+
+function inspectNearby(): void {
+  if (!nearest || inspectMode) return;
+  const person = nearest;
+  const content = openPanel(person.name);
+  const facts = ARDEA_PEOPLE.find((entry) => entry.id.toLowerCase() === person.id.toLowerCase() || entry.name.toLowerCase() === person.name.toLowerCase());
+  paragraph(content, facts?.role ?? 'Person placed in the original Ardea scene.');
+  paragraph(content, facts?.summary ?? 'This character’s model and position are read from the local game’s compiled world data.');
+  paragraph(content, 'This is character inspection. Original dialogue, voice playback and quest actions are not enabled in this milestone.');
+  if (facts?.questIds.length) {
+    const h3 = document.createElement('h3');
+    h3.textContent = 'Original quest references';
+    content.append(h3);
+    for (const id of facts.questIds) {
+      const quest = ARDEA_QUESTS.find((entry) => entry.id === id);
+      paragraph(content, quest ? quest.title + ' — ' + quest.summary : id);
+    }
+  }
+  const button = document.createElement('button');
+  button.textContent = 'Inspect 3D model';
+  button.onclick = () => { closePanel(); void setInspection(true, person.id); };
+  content.append(button);
+  paragraph(content, person.source + (person.body ? ' · ' + person.body : '') + (person.head ? ' · ' + person.head : ''), 'source');
+}
+
+function showJournal(): void {
+  const content = openPanel('Port journal');
+  paragraph(content, 'Original quests recovered from the installed game. They are reference data here; no quest is automatically started or completed.');
+  for (const quest of ARDEA_QUESTS) {
+    const h3 = document.createElement('h3');
+    h3.textContent = quest.title;
+    content.append(h3);
+    paragraph(content, quest.summary);
+    paragraph(content, quest.implemented ? 'Implemented in this milestone.' : 'Original gameplay not yet ported.', 'warnings');
+    paragraph(content, quest.id + ' · ' + quest.source, 'source');
+  }
+}
+
+function showHelp(): void {
+  const content = openPanel('Controls & current scope');
+  paragraph(content, 'WASD / arrows: move. Shift: run. Drag to look, or click the scene for captured mouse look. Escape releases the pointer. E inspects a nearby person.');
+  paragraph(content, 'F toggles free flight; Space moves up and Q moves down. R returns to the arrival point. P saves your camera position locally. Tab switches to character models; drag to rotate, wheel to zoom, right-drag to pan. M opens the local position map.');
+  const brightnessLabel = document.createElement('label');
+  brightnessLabel.textContent = 'Preview brightness ';
+  const brightness = document.createElement('input');
+  brightness.type = 'range';
+  brightness.min = '0.5'; brightness.max = '5'; brightness.step = '0.1';
+  brightness.value = String(renderer.toneMappingExposure);
+  brightness.setAttribute('aria-label', 'Preview brightness');
+  brightness.oninput = () => { renderer.toneMappingExposure = Number(brightness.value); };
+  brightnessLabel.append(brightness);
+  content.append(brightnessLabel);
+  paragraph(content, 'Preview lighting and brightness are adjustable browser approximations. The native lighting and material shader graphs have not been reproduced.');
+  const h3 = document.createElement('h3');
+  h3.textContent = 'Current port boundaries';
+  content.append(h3);
+  const ul = document.createElement('ul');
+  for (const text of PORT_SCOPE) {
+    const li = document.createElement('li');
+    li.textContent = text;
+    ul.append(li);
+  }
+  content.append(ul);
+  for (const note of manifest?.notes ?? []) paragraph(content, note);
+  if (failures.length) paragraph(content, 'Asset load issues: ' + failures.join('; '), 'warnings');
+  const source = document.createElement('a');
+  source.href = assetUrl('source-manifest.json');
+  source.textContent = 'Open asset provenance';
+  source.target = '_blank';
+  source.rel = 'noopener';
+  content.append(source);
+}
+
+function save(): void {
+  if (!started) return;
+  try {
+    localStorage.setItem(SAVE_KEY, JSON.stringify({ version: 1, ...explorer.getState() }));
+    notify('Exploration position saved in this browser. Gothic 3 and Tervain saves are separate.');
+  } catch { notify('Browser storage is unavailable. Exploration can continue.'); }
+}
+
+function restore(): void {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) return;
+    const value = JSON.parse(raw) as { version?: number; position?: unknown; yaw?: unknown; pitch?: unknown; fly?: unknown };
+    const position = value.position;
+    if (value.version !== 1 || !Array.isArray(position) || position.length !== 3 ||
+        !position.every((part) => typeof part === 'number' && Number.isFinite(part)) ||
+        typeof value.yaw !== 'number' || !Number.isFinite(value.yaw) ||
+        typeof value.pitch !== 'number' || !Number.isFinite(value.pitch)) return;
+    const bounds = manifest.bounds;
+    if (position[0] < bounds.min[0] - 100 || position[0] > bounds.max[0] + 100 ||
+        position[2] < bounds.min[2] - 100 || position[2] > bounds.max[2] + 100 ||
+        position[1] < bounds.min[1] - 100 || position[1] > bounds.max[1] + 1000) return;
+    explorer.fly = value.fly === true;
+    explorer.teleport([position[0], position[1], position[2]], value.yaw, value.pitch);
+    notify('Restored your saved exploration position.');
+  } catch { /* A malformed or unavailable local save never prevents a start. */ }
+}
+
+async function character(person: ScenePerson): Promise<THREE.Group> {
+  const group = new THREE.Group();
+  for (const key of [person.body, person.head]) {
+    if (!key) continue;
+    const model = manifest.models?.[key];
+    if (!model) continue;
+    group.add(await assets.model(model));
+  }
+  if (!group.children.length) throw new Error('No exported body/head for ' + person.name);
+  group.name = person.name;
+  group.userData.source = person.source;
+  return group;
+}
+
+function frameInspector(): void {
+  if (!inspectorModel) return;
+  const bounds = new THREE.Box3().setFromObject(inspectorModel);
+  const size = bounds.getSize(new THREE.Vector3());
+  const center = bounds.getCenter(new THREE.Vector3());
+  const vfov = THREE.MathUtils.degToRad(inspectCamera.fov);
+  const hfov = 2 * Math.atan(Math.tan(vfov / 2) * inspectCamera.aspect);
+  const distance = Math.max(size.y / (2 * Math.tan(vfov / 2)), size.x / (2 * Math.tan(hfov / 2))) * 1.3;
+  orbit.target.copy(center);
+  // Original Gothic 3 exported characters face -Z.
+  inspectCamera.position.set(center.x + distance * 0.14, center.y + size.y * 0.08, center.z - distance);
+  orbit.update();
+}
+
+function updateWireframe(): void {
+  inspectorModel?.traverse((object) => {
+    if (!(object instanceof THREE.Mesh)) return;
+    for (const material of Array.isArray(object.material) ? object.material : [object.material]) {
+      (material as THREE.MeshPhongMaterial).wireframe = wireframe;
+    }
+  });
+}
+
+async function selectModel(id: string): Promise<void> {
+  const person = [...manifest.people, ...(manifest.inspectionPeople ?? [])].find((entry) => entry.id === id);
+  if (!person) return;
+  const token = ++inspectRequest;
+  element('model-info').textContent = 'Loading ' + person.name + '…';
+  try {
+    const group = await character(person);
+    if (token !== inspectRequest) return;
+    if (inspectorModel) {
+      inspection.remove(inspectorModel);
+      inspectorModel.traverse((object) => {
+        if (object instanceof THREE.Mesh) {
+          for (const material of Array.isArray(object.material) ? object.material : [object.material]) material.dispose();
+        }
+      });
+    }
+    // Inspector owns materials, preserving world materials when wireframe toggles.
+    group.traverse((object) => {
+      if (object instanceof THREE.Mesh) {
+        object.material = Array.isArray(object.material) ? object.material.map((material) => material.clone()) : object.material.clone();
+      }
+    });
+    const box = new THREE.Box3().setFromObject(group);
+    const center = box.getCenter(new THREE.Vector3());
+    group.position.set(-center.x, -box.min.y, -center.z);
+    inspection.add(group);
+    inspectorModel = group;
+    selectedPerson = person;
+    updateWireframe();
+    frameInspector();
+    let triangles = 0;
+    let meshes = 0;
+    group.traverse((object) => {
+      if (object instanceof THREE.Mesh) {
+        meshes++;
+        triangles += (object.geometry.index?.count ?? object.geometry.getAttribute('position').count) / 3;
+      }
+    });
+    element('model-info').textContent = person.name + ' · ' + Math.round(triangles).toLocaleString() + ' triangles · ' + meshes + ' material meshes. Original body + head in exported bind pose; native skinning, hair attachments and clips are not included.';
+    element('model-source').textContent = person.source + ' · ' + (person.body ?? '') + ' · ' + (person.head ?? '');
+  } catch (error) {
+    element('model-info').textContent = 'Could not load this character: ' + String(error);
+  }
+}
+
+async function setInspection(enabled: boolean, id?: string): Promise<void> {
+  if (!started) return;
+  releaseMouse();
+  closePanel();
+  inspectMode = enabled;
+  orbit.enabled = enabled;
+  updateInspectorViewport();
+  explorer.active = !enabled;
+  element('inspector').classList.toggle('hidden', !enabled);
+  element('crosshair').classList.toggle('hidden', enabled);
+  element('prompt').classList.add('hidden');
+  element('world-caption').textContent = enabled ? 'Native character geometry · exported bind pose' : 'Recovered local scene · first exploration milestone';
+  element('keys').textContent = enabled ? 'Drag to rotate · wheel to zoom · right-drag to pan · Tab returns to Ardea' : 'WASD move · Shift run · drag / click for mouse look · E inspect · F fly · R reset · Esc release';
+  if (enabled) {
+    const selected = id ?? selectedPerson?.id ?? manifest.inspectionPeople?.[0]?.id ?? manifest.people.find((entry) => entry.body && entry.head)?.id;
+    if (selected) {
+      element<HTMLSelectElement>('model-select').value = selected;
+      await selectModel(selected);
+    }
+  }
+}
+
+function toggleMap(): void {
+  mapShown = !mapShown;
+  element('map').classList.toggle('hidden', !mapShown);
+}
+
+function updateInspectorViewport(): { x: number; y: number; w: number; h: number } {
+  // Codex can put a desktop browser in a narrow side panel. Reserve space for
+  // the controls rather than covering the character's face with that panel.
+  const viewport = innerWidth < 900
+    ? { x: 0, y: 235, w: innerWidth, h: Math.max(200, innerHeight - 235) }
+    : { x: 380, y: 0, w: Math.max(200, innerWidth - 380), h: innerHeight };
+  inspectCamera.aspect = viewport.w / viewport.h;
+  inspectCamera.updateProjectionMatrix();
+  return viewport;
+}
+
+function drawMap(): void {
+  if (!manifest || !mapShown) return;
+  const mapCanvas = element<HTMLCanvasElement>('map-view');
+  const context = mapCanvas.getContext('2d');
+  if (!context) return;
+  const size = mapCanvas.width;
+  context.fillStyle = '#15241c';
+  context.fillRect(0, 0, size, size);
+  const min = manifest.bounds.min, max = manifest.bounds.max;
+  const scale = (size - 60) / Math.max(1, max[0] - min[0], max[2] - min[2]);
+  const mapPoint = (x: number, z: number): [number, number] => [30 + (x - min[0]) * scale, 30 + (z - min[2]) * scale];
+  context.strokeStyle = '#40503a';
+  context.lineWidth = 1;
+  for (let i = 30; i < size; i += 40) {
+    context.beginPath(); context.moveTo(i, 30); context.lineTo(i, size - 20); context.stroke();
+    context.beginPath(); context.moveTo(30, i); context.lineTo(size - 20, i); context.stroke();
+  }
+  context.fillStyle = '#d7bd86';
+  for (const person of manifest.people) {
+    const point = mapPoint(person.position[0], person.position[2]);
+    context.beginPath(); context.arc(point[0], point[1], 3, 0, Math.PI * 2); context.fill();
+  }
+  const state = explorer.getState();
+  const point = mapPoint(state.position[0], state.position[2]);
+  context.save();
+  context.translate(point[0], point[1]); context.rotate(-state.yaw);
+  context.fillStyle = '#e9e7d5';
+  context.beginPath(); context.moveTo(0, -9); context.lineTo(6, 7); context.lineTo(0, 4); context.lineTo(-6, 7); context.closePath(); context.fill();
+  context.restore();
+}
+
+async function boot(): Promise<void> {
+  const response = await fetch(assetUrl('scene.json'));
+  if (!response.ok) throw new Error('Scene manifest HTTP ' + response.status);
+  manifest = await response.json() as ArdeaScene;
+  if (manifest.units !== 'metres' || !Array.isArray(manifest.meshes) || !manifest.meshes.length) throw new Error('No recovered world geometry in this scene manifest.');
+  const total = manifest.meshes.length + manifest.people.length;
+  let done = 0;
+  const progress = (label: string): void => {
+    element('load-status').textContent = label + ' · ' + done + ' / ' + total;
+    element('progress').style.width = (done / Math.max(1, total) * 100) + '%';
+  };
+  // Bound parallel downloads and parser allocations while showing the scene.
+  const jobs: (() => Promise<void>)[] = [
+    ...manifest.meshes.map((entry) => async () => {
+      try {
+        const object = await assets.model({ obj: entry.obj, mtl: entry.mtl, source: entry.source, materials: entry.materials });
+        object.position.fromArray(entry.position);
+        if (entry.quaternion) object.quaternion.fromArray(entry.quaternion);
+        if (entry.scale) object.scale.fromArray(entry.scale);
+        object.name = entry.name;
+        object.userData.kind = entry.kind;
+        world.add(object);
+        object.updateMatrixWorld(true);
+        sceneObjects.push(object);
+      } catch (error) { failures.push(entry.name + ': ' + String(error)); }
+      done++; progress('Recovering Ardea');
+    }),
+    ...manifest.people.map((person) => async () => {
+      try {
+        const group = await character(person);
+        group.position.fromArray(person.position);
+        group.rotation.y = person.rotationY ?? 0;
+        world.add(group);
+        peopleObjects.set(person.id, group);
+      } catch (error) { failures.push(person.name + ': ' + String(error)); }
+      done++; progress('Placing original characters');
+    }),
+  ];
+  let next = 0;
+  await Promise.all(Array.from({ length: 4 }, async () => {
+    while (next < jobs.length) {
+      const job = jobs[next++];
+      if (job) await job();
+    }
+  }));
+  if (!sceneObjects.length) throw new Error('None of the native world meshes could load. ' + failures.slice(0, 3).join('; '));
+  const spawn: [number, number, number] = [...manifest.spawn];
+  if (!manifest.spawnIsEye) spawn[1] += 1.65;
+  explorer.setWorld(sceneObjects, spawn, manifest.spawnYaw ?? 0);
+  const options = element<HTMLSelectElement>('model-select');
+  for (const person of [...(manifest.inspectionPeople ?? []), ...manifest.people]) {
+    if (!person.body || !person.head) continue;
+    const option = document.createElement('option');
+    option.value = person.id;
+    option.textContent = person.name;
+    options.appendChild(option);
+  }
+  element('load-status').textContent = sceneObjects.length + ' scene objects · ' + peopleObjects.size + ' characters ready' + (failures.length ? ' · ' + failures.length + ' load warnings' : '');
+  element<HTMLButtonElement>('start-button').disabled = false;
+}
+
+element('start-button').onclick = () => {
+  started = true;
+  element('loading').classList.add('hidden');
+  explorer.active = true;
+  restore();
+  canvas.focus();
+  if (failures.length) notify('Scene loaded with ' + failures.length + ' asset warnings. See Help for details.');
+};
+element('explore-button').onclick = () => { void setInspection(false); closePanel(); };
+element('inspect-button').onclick = () => { void setInspection(!inspectMode); };
+element('journal-button').onclick = showJournal;
+element('help-button').onclick = showHelp;
+element('map-button').onclick = toggleMap;
+element('save-button').onclick = save;
+element('modal-close').onclick = closePanel;
+element<HTMLSelectElement>('model-select').onchange = (event) => { void selectModel((event.target as HTMLSelectElement).value); };
+element('frame-button').onclick = frameInspector;
+element('wire-button').onclick = () => { wireframe = !wireframe; element('wire-button').textContent = wireframe ? 'Solid view' : 'Wireframe'; updateWireframe(); };
+element('spin-button').onclick = () => { spinning = !spinning; element('spin-button').textContent = spinning ? 'Stop rotation' : 'Rotate'; };
+document.addEventListener('keydown', (event) => {
+  if (event.code === 'Escape') closePanel();
+  if (!event.defaultPrevented && inspectMode && event.code === 'Tab' && !(event.target instanceof HTMLSelectElement)) {
+    event.preventDefault(); void setInspection(false);
+  }
+});
+window.addEventListener('resize', () => {
+  renderer.setSize(innerWidth, innerHeight);
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  updateInspectorViewport();
+});
+document.addEventListener('visibilitychange', () => {
+  lastFrame = performance.now();
+  if (document.hidden) releaseMouse();
+});
+
+function frame(now: number): void {
+  requestAnimationFrame(frame);
+  const dt = Math.min((now - lastFrame) / 1000, 0.05);
+  lastFrame = now;
+  if (document.hidden) return;
+  if (inspectMode) {
+    const viewport = updateInspectorViewport();
+    renderer.setViewport(viewport.x, viewport.y, viewport.w, viewport.h);
+    if (spinning && inspectorModel && !matchMedia('(prefers-reduced-motion: reduce)').matches) inspectorModel.rotation.y += dt * 0.22;
+    orbit.update();
+    renderer.render(inspection, inspectCamera);
+  } else {
+    renderer.setViewport(0, 0, innerWidth, innerHeight);
+    if (started && !modalOpen) explorer.update(dt);
+    renderer.render(world, camera);
+  }
+  if (now - lastHud > 180 && started) {
+    lastHud = now;
+    const position = explorer.position;
+    element('coordinates').textContent = position.x.toFixed(1) + ' / ' + position.y.toFixed(1) + ' / ' + position.z.toFixed(1) + ' m · ' + (explorer.fly ? 'FREE FLIGHT' : explorer.groundFallback ? 'NO GROUND SUPPORT' : explorer.grounded ? 'GROUNDED' : 'FALLING');
+    nearest = null;
+    let distance = 4;
+    if (!inspectMode) for (const person of manifest.people) {
+      const delta = Math.hypot(person.position[0] - position.x, person.position[2] - position.z);
+      if (delta < distance && Math.abs(person.position[1] - (position.y - 1.65)) < 4) { nearest = person; distance = delta; }
+    }
+    element('prompt').classList.toggle('hidden', !nearest || inspectMode || modalOpen);
+    if (nearest) element('prompt').textContent = 'E · inspect ' + nearest.name;
+    drawMap();
+  }
+  if (toastUntil && now > toastUntil) { element('toast').classList.add('hidden'); toastUntil = 0; }
+}
+requestAnimationFrame(frame);
+void boot().catch((error) => {
+  element('load-status').textContent = 'Could not open the recovered scene: ' + String(error);
+  element('load-status').classList.add('warnings');
+  const retry = element<HTMLButtonElement>('start-button');
+  retry.disabled = false; retry.textContent = 'Reload scene'; retry.onclick = () => location.reload();
+  console.error(error);
+});

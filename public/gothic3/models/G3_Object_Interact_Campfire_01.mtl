@@ -1,0 +1,34 @@
+newmtl G3_Architecture_Iron_01_A
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Architecture_Iron_01_Diffuse_01.jpg
+
+newmtl G3_Architecture_Rope_01_01_A
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Architecture_Rope_01_Diffuse_02.jpg
+
+newmtl G3_Architecture_Wood_04_C
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Architecture_Wood_04_Diffuse_03.jpg
+
+newmtl G3_Architecture_Wood_Burned_01_A
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Architecture_Wood_Burned_01_Diffuse_01.jpg
+
+newmtl G3_Nature_Wall_Stone_01_B
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Nature_Wall_Stone_07_Diffuse_02.png

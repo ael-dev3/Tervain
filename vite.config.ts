@@ -1,4 +1,5 @@
 import { execSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import packageJson from './package.json' with { type: 'json' };
 import packageLock from './package-lock.json' with { type: 'json' };
 import { defineConfig } from 'vitest/config';
@@ -30,6 +31,12 @@ export default defineConfig(({ command }) => ({
     __SOURCE_REVISION__: JSON.stringify(sourceRevision()),
   },
   build: {
+    rolldownOptions: {
+      input: {
+        tervain: fileURLToPath(new URL('./index.html', import.meta.url)),
+        gothic3: fileURLToPath(new URL('./gothic3/index.html', import.meta.url)),
+      },
+    },
     target: 'es2023',
     chunkSizeWarningLimit: 1200,
   },

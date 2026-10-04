@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Gothic 3 browser port in progress: explore the recovered Ardea scene and inspect its original character models." />
+    <meta name="theme-color" content="#171b18" />
+    <title>Gothic 3 — Ardea browser port</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3 27 28H5z' fill='%23bba478'/%3E%3C/svg%3E" />
+  </head>
+  <body>
+    <main id="app">
+      <canvas id="world" aria-label="Ardea 3D world" tabindex="0"></canvas>
+      <div id="interface"></div>
+    </main>
+    <noscript>This browser port needs JavaScript and WebGL.</noscript>
+    <script type="module" src="/src/gothic3/main.ts"></script>
+  </body>
+</html>
