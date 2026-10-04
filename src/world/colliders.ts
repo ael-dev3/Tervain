@@ -1,5 +1,6 @@
-import { ARCHIVE_ROOM, ARCHIVE_SHUTTER, BUILDINGS, DECKS, HANDCART_CONSTRUCTION, LIGHTHOUSE, LIGHTHOUSE_CONSTRUCTION, PALISADE, SHORTCUT, WAGON, WAGON_CONSTRUCTION, WORLD, bySpec, type BuildingSpec } from './layout';
-import { LIGHTHOUSE_STAIR_ANGLE, lighthouseTreadTop } from './lighthouse';
+import { ARCHIVE_ROOM, ARCHIVE_SHUTTER, BUILDINGS, DECKS, HANDCART_CONSTRUCTION, LIGHTHOUSE, LIGHTHOUSE_CONSTRUCTION, MILL_WHEEL, PALISADE, SHORTCUT, WAGON, WAGON_CONSTRUCTION, WELL, WELL_CONSTRUCTION, WORLD, type BuildingSpec } from './layout';
+import { LIGHTHOUSE_DOOR_OUTER_WIDTH, LIGHTHOUSE_STAIR_ANGLE, lighthouseTreadTop, lighthouseWallSectors } from './lighthouse';
+import { MILL_WHEEL_CONSTRUCTION as M, millWheelPlacement } from './millWheel';
 import type { Terrain } from './terrain';
 
 /** Absolute vertical bounds are optional: old callers keep their ground-plane collision contract. */
@@ -411,22 +412,78 @@ export function buildStaticColliders(terrain?: Pick<Terrain, 'heightAt'>): Colli
     }
   }
   // The mill wheel and its pit sit against the mill's east wall.
-  const mill = bySpec('mill');
-  c.box('mill_pit', mill.x + mill.w / 2 + 1.5, mill.z, 1.6, 2.2, 0);
+  const millGround = terrain ?? { heightAt: () => 0 };
+  const mp = millWheelPlacement(millGround);
+  c.box('mill_pit', mp.x, mp.z, M.halfWidth, MILL_WHEEL.r, 0, true, { minY: mp.y - MILL_WHEEL.r, maxY: mp.y + MILL_WHEEL.r });
+  c.box('mill_axle', mp.x + (mp.innerAxle + M.outerAxle) / 2, mp.z, (M.outerAxle - mp.innerAxle) / 2, 0.17, 0, true, { minY: mp.y - 0.17, maxY: mp.y + 0.17 });
+  c.box('mill_outer_bearing', mp.x + M.bearingX, mp.z, 0.2, M.bearingHalfDepth, 0, true, { minY: Math.min(millGround.heightAt(mp.x + M.bearingX, mp.z - 0.58), millGround.heightAt(mp.x + M.bearingX, mp.z + 0.58)) - 0.08, maxY: mp.y + 0.2 });
+  c.box('mill_wall_bearing', mp.x + mp.innerAxle + 0.3, mp.z, 0.32, 0.3, 0, true, { minY: mp.y - 0.44, maxY: mp.y + 0.08 });
   // Bell tower base, well, wagon, quarry stacks and crates.
   c.circle('bell_tower', -1, 4, 1.5);
   c.circle('well', -6, 18, 1.5);
   const relativeBounds = (x: number, z: number, min: number, max: number): VerticalBounds => terrain
     ? { minY: terrain.heightAt(x, z) + min, maxY: terrain.heightAt(x, z) + max } : {};
+  // Finite posts and hood protect the camera without filling the air around a low well ring.
+  const well = WELL_CONSTRUCTION, wc = Math.cos(well.yaw), ws = Math.sin(well.yaw);
+  const wb = (min: number, max: number) => relativeBounds(WELL.x, WELL.z, min, max);
+  for (const side of [-1, 1]) c.box('well-post', WELL.x + side * well.postX * wc, WELL.z - side * well.postX * ws,
+    well.postWidth / 2 + 0.055, well.postWidth / 2 + 0.01, well.yaw, true,
+    wb(well.postBottom - 0.01, well.postBottom + well.postHeight + 0.01));
+  c.box('well-beam', WELL.x, WELL.z, well.beamWidth / 2, well.beamDepth / 2, well.yaw, true,
+    wb(well.beamBottom - 0.026, well.beamBottom + well.beamHeight + 0.026));
+  // Short slices approximate the solid pitched hood, leaving empty space above its sloping eaves.
+  const hoodSlices = 12, slice = well.hoodWidth / hoodSlices;
+  for (let i = 0; i < hoodSlices; i++) {
+    const left = -well.hoodWidth / 2 + i * slice, right = left + slice, center = (left + right) / 2;
+    const nearest = Math.min(Math.abs(left), Math.abs(right));
+    const top = well.hoodBottom + well.hoodRise * (1 - nearest / (well.hoodWidth / 2));
+    c.box('well-hood', WELL.x + center * wc, WELL.z - center * ws, slice / 2, well.hoodDepth / 2, well.yaw, true,
+      wb(well.hoodBottom, top));
+  }
   addCartColliders(c, 'wagon', WAGON.x, WAGON.z, WAGON.yaw, 'wagon', terrain?.heightAt(WAGON.x, WAGON.z));
   // Finite compound volumes let the stair pass above its connected keeper's house.
   const L = LIGHTHOUSE_CONSTRUCTION;
   const lb = (min: number, max: number) => relativeBounds(LIGHTHOUSE.x, LIGHTHOUSE.z, min, max);
-  c.circle('lighthouse', LIGHTHOUSE.x, LIGHTHOUSE.z, LIGHTHOUSE.r + 0.055, true, lb(-1, L.shaftTop));
-  c.box('lighthouse-door', LIGHTHOUSE.x, LIGHTHOUSE.z + 3.55, 1.05, 0.18, 0, true, lb(L.house.wallBase, 2.92));
-  c.box('lighthouse-house-door', LIGHTHOUSE.x + L.house.x - 0.65, LIGHTHOUSE.z + L.house.d / 2 + 0.23, 0.95, 0.2, 0, true, lb(L.house.wallBase, 2.9));
+  // The tower's ground room is a hollow ring with the same open south sector as its mesh.
+  const towerSector = (a0: number, a1: number, bottom: number, top: number) => {
+    const mid = (a0 + a1) / 2, half = (a1 - a0) / 2;
+    const inner = L.room.radius * Math.cos(half), outer = LIGHTHOUSE.r + 0.08;
+    const radius = (inner + outer) / 2;
+    c.box('lighthouse-wall', LIGHTHOUSE.x + radius * Math.cos(mid), LIGHTHOUSE.z + radius * Math.sin(mid),
+      (outer - inner) / 2, outer * Math.sin(half), -mid, true, lb(bottom, top));
+  };
+  for (const sector of lighthouseWallSectors()) towerSector(sector.a0, sector.a1, L.room.floorTop, L.room.floorTop + L.room.doorHeight);
+  for (let i = 0; i < L.room.wallSegments; i++) towerSector(i * Math.PI * 2 / L.room.wallSegments,
+    (i + 1) * Math.PI * 2 / L.room.wallSegments, L.room.floorTop + L.room.doorHeight, L.room.ceilingBottom);
+  c.circle('lighthouse', LIGHTHOUSE.x, LIGHTHOUSE.z, LIGHTHOUSE.r + 0.065, true, lb(L.room.ceilingBottom, L.shaftTop));
+  c.circle('lighthouse-room-floor', LIGHTHOUSE.x, LIGHTHOUSE.z, L.room.radius, true,
+    { ...lb(L.room.floorTop - 0.08, L.room.floorTop), supportOnly: true });
+  c.box('lighthouse-room-threshold', LIGHTHOUSE.x, LIGHTHOUSE.z + LIGHTHOUSE.r - 0.52, L.room.doorHalfWidth, 0.6, 0, true,
+    { ...lb(L.room.floorTop - 0.08, L.room.floorTop), supportOnly: true });
+  // Leaves stand open beside each entrance. Their collisions match the native hinged geometry.
+  const openLeaf = (id: string, x: number, z: number, width: number, height: number, floor: number) =>
+    c.box(id, x - width / 2 - 0.1, z + 0.15 + (width - 0.08) / 2, 0.06, (width - 0.08) / 2, 0, true, lb(floor, floor + height));
+  openLeaf('lighthouse-door', LIGHTHOUSE.x, LIGHTHOUSE.z + LIGHTHOUSE.r + 0.015, LIGHTHOUSE_DOOR_OUTER_WIDTH, L.room.doorHeight, L.room.floorTop);
+  openLeaf('lighthouse-house-door', LIGHTHOUSE.x + L.house.x + L.house.doorX, LIGHTHOUSE.z + L.house.d / 2 + 0.06, L.house.doorHalfWidth * 2, L.house.doorHeight, L.house.floorTop);
   c.circle('lighthouse-lantern', LIGHTHOUSE.x, LIGHTHOUSE.z, 2.78, true, lb(L.stairTop, L.stairTop + 4.9));
-  c.box('lighthouse-house', LIGHTHOUSE.x + L.house.x, LIGHTHOUSE.z + L.house.z, L.house.w / 2, L.house.d / 2, 0, true, lb(-0.55, L.house.roofTop));
+  const h = L.house, hx = LIGHTHOUSE.x + h.x, hz = LIGHTHOUSE.z + h.z, hw = h.w / 2, hd = h.d / 2, wall = h.wallThickness;
+  const keeperWall = (left: number, right: number, back: number, front: number, bottom: number, top: number) =>
+    c.box('lighthouse-house', hx + (left + right) / 2, hz + (back + front) / 2,
+      (right - left) / 2, (front - back) / 2, 0, true, lb(bottom, top));
+  keeperWall(-hw, -hw + wall, -hd, hd, h.wallBase, h.wallTop);
+  keeperWall(hw - wall, hw, -hd, hd, h.wallBase, h.wallTop);
+  keeperWall(-hw + wall, hw - wall, -hd, -hd + wall, h.wallBase, h.wallTop);
+  keeperWall(-hw + wall, h.doorX - h.doorHalfWidth, hd - wall, hd + 0.1, h.wallBase, h.wallTop);
+  keeperWall(h.doorX + h.doorHalfWidth, hw - wall, hd - wall, hd + 0.1, h.wallBase, h.wallTop);
+  keeperWall(h.doorX - h.doorHalfWidth, h.doorX + h.doorHalfWidth, hd - wall, hd + 0.1, h.floorTop + h.doorHeight, h.wallTop);
+  c.box('lighthouse-house-floor', hx, hz, hw - wall, hd - wall, 0, true,
+    { ...lb(h.floorTop - 0.06, h.floorTop), supportOnly: true });
+  c.box('lighthouse-house-loft', hx, hz, hw - wall, hd - wall, 0, true, lb(h.ceilingBottom, h.roofTop));
+  for (const px of [-2.5, 0, 2.5]) c.box('lighthouse-house-beam', hx + px, hz, 0.09, hd - wall, 0, true, lb(h.ceilingBottom - 0.2, h.ceilingBottom));
+  c.box('lighthouse-room-bench', LIGHTHOUSE.x, LIGHTHOUSE.z - 1.75, 0.9, 0.32, 0, true, lb(L.room.floorTop, L.room.floorTop + 0.84));
+  c.box('lighthouse-room-shelf', LIGHTHOUSE.x - 1.7, LIGHTHOUSE.z - 0.5, 0.43, 0.25, 0, true, lb(L.room.floorTop, L.room.floorTop + 0.18));
+  c.box('lighthouse-house-cot', hx - 2.05, hz - 1.9, 1.03, 0.48, 0, true, lb(h.floorTop, h.floorTop + 0.49));
+  c.box('lighthouse-house-table', hx + 1.7, hz - 1.7, 0.78, 0.41, 0, true, lb(h.floorTop, h.floorTop + 0.88));
   for (const px of [-L.house.w / 2 + 0.3, L.house.w / 2 - 0.3]) {
     c.box('lighthouse-porch-post', LIGHTHOUSE.x + L.house.x + px, LIGHTHOUSE.z + L.house.z + L.house.d / 2 + 1.9, 0.12, 0.12, 0, true, lb(-0.55, 2.95));
   }

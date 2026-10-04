@@ -188,7 +188,7 @@
   "geometry": {
     "units": "metres",
     "upAxis": "+Y",
-    "grounding": "Translate native near minimum Y (-0.0031039975583553314) to zero, then scale by species/seed.",
+    "grounding": "Asset space: flatten native node transforms, translate near minimum Y (-0.0031039975583553314) to zero, then apply one uniform species/seed scale. Instance space: one downward translation from actual basal wood polygons against the visible terrain; no vertex distortion.",
     "near": {
       "woodTriangles": 4378,
       "foliageTriangles": 5328,
@@ -232,16 +232,53 @@
       "medium": 271,
       "high": 281
     },
-    "canonicalPositionsYawScaleIds": "Stable coordinate-keyed A39 stand layout; actual source-wood footprints govern acceptance before spacing, road/building exclusions and downstream scatter.",
-    "geometryTransform": "Flatten source node transforms; ground root; one uniform scale by species/seed. No radial trunk fit or nonlinear crown profile.",
-    "collisions": "Same 233 conifer and 376 total tree obstacle IDs/positions on every preset; source wood near/mid triangles clipped to 2.6m player clearance including 6cm buried origin, greatest radial extent plus 3cm padding.",
+    "canonicalPositionsYawScaleIds": "Stable coordinate-keyed A39 stand x/z, yaw, uniform scale and obstacle IDs; A41 derives instance Y from actual root/terrain contact. Grounding runs before the source-wood footprint governs acceptance, spacing, road/building exclusions and downstream scatter.",
+    "geometryTransform": "Flatten source node transforms; normalize native root height; one uniform scale by species/seed. Apply yaw and instance uniform scale, then translate the whole instance down to embed every woody root footprint. No radial trunk fit, crown profile, tilt or vertex deformation.",
+    "collisions": "Same 233 conifer and 376 total tree obstacle IDs/xz positions on every preset. Clip near/mid wood triangles to 2.6m above the terrain at the tree centre, including the actual instance burial depth; greatest radial extent plus 3cm padding. Grounding and collision radius are resolved before placement acceptance; 11 conifer circles expand where lowered branches enter the player slab.",
     "routes": "Road centerlines, pickup/interaction approaches and all 32 core/NPC/override routes validated.",
     "nominalHeights": {
       "pine": 25,
       "fir": 22,
       "shorepine": 8.5
     },
-    "otherFamiliesAndMenuGrove": "Other families retain their asset pipeline within the calibrated stand composition; menu grove preserved."
+    "otherFamiliesAndMenuGrove": "Other families retain their asset pipeline within the calibrated stand composition; menu grove preserved.",
+    "groundContact": {
+      "decision": "A41",
+      "implementation": "src/presentation/treeGrounding.ts",
+      "releaseRecord": "docs/production/releases/0.0.9-world-contact.md",
+      "basalClipPlaneMetres": 0.025,
+      "soilOverlapMetres": 0.06,
+      "terrainSampling": "Exact root-polygon intersections with the rendered terrain grid and diagonal facets, including terrain vertices inside broad root caps. Woody geometry from every available near/middle/far LOD supplies contact; the pine far silhouette shares the same grounded instance transform.",
+      "allOrdinaryWorldFamilies": [
+        "pine",
+        "fir",
+        "shorepine",
+        "oak",
+        "birch",
+        "dead",
+        "orchard",
+        "shrub"
+      ],
+      "canonicalHighPlacements": 612,
+      "presets": {
+        "low": 482,
+        "medium": 547,
+        "high": 612
+      },
+      "medianBurialMetres": 0.16997960820089775,
+      "maximumBurialMetres": 2.1902552143098806,
+      "maximumTreeBurialFraction": 0.06501043958326773,
+      "maximumShrubBurialMetres": 0.27314293688526003,
+      "worstAbsoluteBurial": {
+        "sp": "pine",
+        "x": 142.6714693375021,
+        "z": -72.80422614452898,
+        "sink": 2.1902552143098806,
+        "height": 38.6260984147565,
+        "sinkFraction": 0.05670402407179514
+      },
+      "measurements": "Current final-terrain local automated audit; no follow-up hosted or native acceptance implied."
+    }
   },
   "rendering": {
     "foliage": "PBR MASK cutoff 0.42; double-sided; standard embedded PNG/JPEG",
@@ -353,7 +390,8 @@
         "check": "Documentation",
         "result": "git diff --check and release documentation relative links validated before publication"
       }
-    ]
+    ],
+    "scope": "Historical published A40 combined 0.0.9 baseline, before the A41 world-contact follow-up; A41 evidence is kept separately below."
   },
   "componentVerification": {
     "label": "2026-10-03 standalone source-pine candidate; before the combined A39 forest layout",
@@ -475,5 +513,38 @@
         }
       ]
     }
+  },
+  "worldContactVerification": {
+    "reviewer": "Codex",
+    "dateUTC": "2026-10-04",
+    "scope": "A41 local tree-grounding follow-up to the published combined 0.0.9 baseline; historical baseline verification above remains unchanged.",
+    "releaseRecord": "docs/production/releases/0.0.9-world-contact.md",
+    "checks": [
+      {
+        "command": "npx vitest run tests/presentation/floraPopulation.test.ts tests/presentation/pineForestComposition.test.ts tests/presentation/pineForestIntegration.test.ts tests/presentation/treeGrounding.test.ts tests/presentation/pineRoutes.test.ts",
+        "result": "25 tests in 5 files passed against the final lighthouse terrain and unchanged runtime GLBs."
+      },
+      {
+        "check": "Actual geometry contact",
+        "result": "Actual InstancedMesh matrices and basal wood vertices checked for every selected placement at all three forced LODs on Low/Medium/High. Dense barycentric root-face scans, terrain-facet crossings and an interior ground-dip regression cover contact between vertices; all 8 families and 3 variants are covered."
+      },
+      {
+        "check": "Collision and navigation",
+        "result": "Lowered conifer vertices and crossing triangle edges fit the registered player-clearance circles. Source-aware exclusions, spacing and downstream rock/floor placement remain valid; all 32 core/NPC/override routes pass with actual grounded-tree and rock collisions."
+      },
+      {
+        "command": "npm run typecheck",
+        "result": "passed"
+      },
+      {
+        "command": "node tools/check-solitary-pine.mjs",
+        "result": "near/mid/far hashes, bytes and triangle budgets unchanged and verified"
+      },
+      {
+        "command": "git diff --check",
+        "result": "passed"
+      }
+    ],
+    "acceptance": "Combined full-suite, native world/camera inspection and any hosted publication evidence belong to the follow-up release record; this focused component record does not assert those outcomes."
   }
 }

@@ -3,6 +3,29 @@ import { LIGHTHOUSE, LIGHTHOUSE_CONSTRUCTION as L } from './layout';
 const TAU = Math.PI * 2;
 export const LIGHTHOUSE_STAIR_ANGLE = TAU / L.stairSteps;
 export const LIGHTHOUSE_STAIR_RISE = (L.stairTop - L.stairBottom) / L.stairSteps;
+export const LIGHTHOUSE_DOOR_HALF_ANGLE = Math.asin(L.room.doorHalfWidth / L.room.radius);
+export const LIGHTHOUSE_DOOR_OUTER_WIDTH = 2 * (LIGHTHOUSE.r + 0.08) * Math.sin(LIGHTHOUSE_DOOR_HALF_ANGLE);
+
+/** Closed stone wedges surround the keeper's tower room; the south-facing opening remains genuinely hollow. */
+export function lighthouseWallSectors(): { a0: number; a1: number }[] {
+  const start = Math.PI / 2 + LIGHTHOUSE_DOOR_HALF_ANGLE;
+  const span = TAU - LIGHTHOUSE_DOOR_HALF_ANGLE * 2;
+  return Array.from({ length: L.room.wallSegments }, (_, i) => ({
+    a0: start + span * i / L.room.wallSegments,
+    a1: start + span * (i + 1) / L.room.wallSegments,
+  }));
+}
+
+/** Floor and threshold footprint of the actual open rooms. No floor is offered through a wall or into the sea. */
+export function lighthouseFloorAt(x: number, z: number): number | null {
+  const dx = x - LIGHTHOUSE.x, dz = z - LIGHTHOUSE.z;
+  if (Math.hypot(dx, dz) <= L.room.radius + 1e-6 ||
+    Math.abs(dx) <= L.room.doorHalfWidth + 1e-6 && dz >= 0 && dz <= LIGHTHOUSE.r + 0.08) return L.room.floorTop;
+  const h = L.house, hx = dx - h.x, hz = dz - h.z;
+  if (Math.abs(hx) <= h.w / 2 - h.wallThickness && Math.abs(hz) <= h.d / 2 - h.wallThickness ||
+    Math.abs(hx - h.doorX) <= h.doorHalfWidth && hz >= h.d / 2 - h.wallThickness && hz <= h.d / 2 + 0.1) return h.floorTop;
+  return null;
+}
 
 /** Top of the rendered tread, not an invisible ramp or the height of the rail. */
 export function lighthouseTreadTop(index: number): number {
@@ -21,11 +44,10 @@ function inSector(radius: number, angle: number, inner: number, outer: number, s
 export function lighthouseSurfacesAt(x: number, z: number): number[] {
   const dx = x - LIGHTHOUSE.x, dz = z - LIGHTHOUSE.z;
   const surfaces: number[] = [];
-  // Both closed doorways have the same two solid stone treads drawn by structures.door.
-  // They are safe external supports even though the house and shaft themselves are not enterable.
+  // The two open entrances have solid stone treads meeting their real interior floors.
   for (const entry of [
-    { x: 0, z: LIGHTHOUSE.r + 0.015, width: 1.22 },
-    { x: L.house.x - 0.65, z: L.house.d / 2 + 0.06, width: 1.3 },
+    { x: 0, z: LIGHTHOUSE.r + 0.015, width: LIGHTHOUSE_DOOR_OUTER_WIDTH },
+    { x: L.house.x + L.house.doorX, z: L.house.d / 2 + 0.06, width: L.house.doorHalfWidth * 2 },
   ]) {
     if (Math.abs(dx - entry.x) <= (entry.width + 0.7) / 2 && Math.abs(dz - entry.z - 0.42) <= 0.35) surfaces.push(L.house.wallBase + 0.08);
     if (Math.abs(dx - entry.x) <= (entry.width + 0.9) / 2 && Math.abs(dz - entry.z - 0.96) <= 0.25) surfaces.push(L.house.wallBase * 0.5);

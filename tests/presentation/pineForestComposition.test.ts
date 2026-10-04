@@ -4,6 +4,8 @@ import { createFloraPopulation, FLORA_EDIT_INFLUENCE, FLORA_TRUNK_GAP, registerF
 import { createForestFloorPopulation } from '../../src/presentation/forestFloor';
 import { createScatterPopulation, registerScatterColliders } from '../../src/presentation/scatterPopulation';
 import { createPineForest, isPineSpecies, type PineForest } from '../../src/presentation/solitaryPine';
+import { buildTreeVariant, type TreeVariant } from '../../src/presentation/treeGen';
+import { groundedTreeY } from '../../src/presentation/treeGrounding';
 import { Exclusions } from '../../src/presentation/vegetation';
 import { Colliders, buildStaticColliders, type CircleCollider } from '../../src/world/colliders';
 import { ANCHORS, PICKUP_LOCATIONS, RITE_ALTAR, ROADS, SHORTCUT, SLUICE, SPAWN, type V2 } from '../../src/world/layout';
@@ -13,30 +15,41 @@ import { pineTemplates } from './pineFixture';
 
 let forest: PineForest, terrain: Terrain, exclusions: Exclusions;
 let legacy: FloraTree[], population: FloraTree[], trunks: Colliders;
+const variants = new Map<string, TreeVariant>();
+const groundFor = (tree: Readonly<FloraTree>) => {
+  const key = `${tree.sp}:${tree.v}`;
+  let variant = variants.get(key);
+  if (!variant) { variant = isPineSpecies(tree.sp) ? forest.variant(tree.sp, tree.v + 1) : buildTreeVariant(tree.sp, tree.v + 1); variants.set(key, variant); }
+  return groundedTreeY(terrain, tree, variant);
+};
 const footprintFor = (tree: Readonly<FloraTree>, fallback: number) => isPineSpecies(tree.sp)
-  ? forest.collisionRadius(tree.sp, tree.v + 1, tree.s) : fallback;
+  ? forest.collisionRadius(tree.sp, tree.v + 1, tree.s, terrain.heightAt(tree.x, tree.z) - tree.y) : fallback;
 
 beforeAll(async () => {
   forest = createPineForest(await pineTemplates());
   terrain = new Terrain(); exclusions = new Exclusions(terrain);
   legacy = createFloraPopulation(terrain, exclusions);
-  population = createFloraPopulation(terrain, exclusions, footprintFor);
+  population = createFloraPopulation(terrain, exclusions, footprintFor, groundFor);
   trunks = new Colliders(); registerFloraColliders(population, trunks);
 });
-afterAll(() => forest.dispose());
+afterAll(() => {
+  forest.dispose();
+  for (const variant of variants.values()) if (!isPineSpecies(variant.species)) for (const lod of variant.lods) { lod.wood?.dispose(); lod.leaf?.dispose(); }
+});
 
 describe('source pine footprints in the regional forest composition', () => {
   it('keeps callback-free authoring and every surviving coordinate-keyed appearance unchanged', () => {
     expect(createFloraPopulation(terrain, exclusions, (_tree, fallback) => fallback)).toEqual(legacy);
-    expect(createFloraPopulation(terrain, exclusions, footprintFor)).toEqual(population);
+    expect(createFloraPopulation(terrain, exclusions, footprintFor, groundFor)).toEqual(population);
     const byId = new Map(legacy.filter((tree) => tree.collisionId).map((tree) => [tree.collisionId, tree]));
     let common = 0;
     for (const tree of population.filter((tree) => tree.radius > 0)) {
       const original = byId.get(tree.collisionId);
       if (!original) continue;
-      const { radius: oldRadius, ...oldAppearance } = original;
-      const { radius, ...appearance } = tree;
-      expect(appearance).toEqual(oldAppearance); common++;
+      const { radius: oldRadius, y: oldY, ...oldAppearance } = original;
+      const { radius, y, ...appearance } = tree;
+      expect(appearance).toEqual(oldAppearance);
+      expect(y).toBeLessThanOrEqual(oldY); common++;
       if (!isPineSpecies(tree.sp)) expect(radius).toBe(oldRadius);
     }
     expect(common).toBeGreaterThan(100);
@@ -50,7 +63,7 @@ describe('source pine footprints in the regional forest composition', () => {
     for (const tree of obstacles) {
       const circle = circles.get(tree.collisionId!)!;
       expect([circle.x, circle.z, circle.r]).toEqual([tree.x, tree.z, tree.radius]);
-      if (isPineSpecies(tree.sp)) expect(tree.radius).toBe(forest.collisionRadius(tree.sp, tree.v + 1, tree.s));
+      if (isPineSpecies(tree.sp)) expect(tree.radius).toBe(forest.collisionRadius(tree.sp, tree.v + 1, tree.s, terrain.heightAt(tree.x, tree.z) - tree.y));
       expect(exclusions.blocked(tree.x, tree.z, tree.radius + 0.55)).toBe(false);
     }
     for (const quality of ['low', 'medium', 'high'] as const) {

@@ -61,6 +61,27 @@ const roofStyleOf = (b: BuildingSpec): RoofKind => {
 
 const wallMat = (b: BuildingSpec) => (b.wall === 'stone' ? 'stone' : b.wall === 'timber' ? 'planks' : 'plaster');
 
+/** Exterior cargo rests on its own terrain footprint, independently of the building's level foundation frame.
+ * Sink the lowest point slightly through the lowest local ground sample so the downhill edge never hovers.
+ * Moving only the newly authored vertices preserves the shell, doorsteps, shapes and decorative RNG sequence.
+ */
+function groundExteriorProp(R: Region, terrain: Terrain, author: () => void) {
+  const starts = new Map([...R.batches].map(([key, batch]) => [key, batch.p.n]));
+  author();
+  let bottom = Infinity, lowestGround = Infinity;
+  for (const [key, batch] of R.batches) {
+    for (let i = starts.get(key) ?? 0; i < batch.p.n; i += 3) {
+      bottom = Math.min(bottom, batch.p.a[i + 1]!);
+      lowestGround = Math.min(lowestGround, terrain.heightAt(batch.p.a[i]!, batch.p.a[i + 2]!));
+    }
+  }
+  if (!Number.isFinite(bottom + lowestGround)) return;
+  const shift = lowestGround - bottom - 0.02;
+  for (const [key, batch] of R.batches) {
+    for (let i = (starts.get(key) ?? 0) + 1; i < batch.p.n; i += 3) batch.p.a[i]! += shift;
+  }
+}
+
 /** Any ordinary building: foundation, walls in the chosen material, sagging roof, door, windows, chimney, and the clutter of use. */
 export function buildStandard(R: Region, terrain: Terrain, b: BuildingSpec, out: BuildOut) {
   const { avg, lo } = groundOf(terrain, b);
@@ -128,15 +149,15 @@ export function buildStandard(R: Region, terrain: Terrain, b: BuildingSpec, out:
   const lp = ctx.toWorld(doorX + 0.95, y0 + 2.2, b.d / 2 + 0.35);
   out.lanterns.push(lp.clone());
   lantern(R, doorX + 0.95, y0 + 2.4, b.d / 2 + 0.15);
-  if (b.kind === 'house' || b.kind === 'reeve' || b.kind === 'inn') woodpile(R, rnd, b.w / 2 - 0.8, b.d / 2 + 0.55, (rnd() - 0.5) * 0.3, 1.5, 4);
+  if (b.kind === 'house' || b.kind === 'reeve' || b.kind === 'inn') groundExteriorProp(R, terrain, () => woodpile(R, rnd, b.w / 2 - 0.8, b.d / 2 + 0.55, (rnd() - 0.5) * 0.3, 1.5, 4));
   if (b.kind === 'house') {
-    barrel(R, rnd, -b.w / 2 + 0.7, 0, b.d / 2 + 0.7, 1);
-    sack(R, rnd, -b.w / 2 + 1.5, 0, b.d / 2 + 0.6, 1);
+    groundExteriorProp(R, terrain, () => barrel(R, rnd, -b.w / 2 + 0.7, 0, b.d / 2 + 0.7, 1));
+    groundExteriorProp(R, terrain, () => sack(R, rnd, -b.w / 2 + 1.5, 0, b.d / 2 + 0.6, 1));
   }
   if (b.kind === 'store' || b.kind === 'bunks' || b.kind === 'office') {
-    crate(R, rnd, b.w / 2 - 0.9, 0, b.d / 2 + 0.7, 0.8, 0.55, 0.6, 0.2);
-    crate(R, rnd, b.w / 2 - 1.5, 0, b.d / 2 + 0.75, 0.6, 0.45, 0.5, -0.3);
-    barrel(R, rnd, -b.w / 2 + 0.7, 0, b.d / 2 + 0.6, 0.9);
+    groundExteriorProp(R, terrain, () => crate(R, rnd, b.w / 2 - 0.9, 0, b.d / 2 + 0.7, 0.8, 0.55, 0.6, 0.2));
+    groundExteriorProp(R, terrain, () => crate(R, rnd, b.w / 2 - 1.8, 0, b.d / 2 + 0.75, 0.6, 0.45, 0.5, -0.3));
+    groundExteriorProp(R, terrain, () => barrel(R, rnd, -b.w / 2 + 0.7, 0, b.d / 2 + 0.6, 0.9));
   }
   if (b.kind === 'inn') {
     // Hanging sign on an iron bracket, and benches outside.
@@ -146,9 +167,11 @@ export function buildStandard(R: Region, terrain: Terrain, b: BuildingSpec, out:
   }
   if (b.kind === 'bakery') {
     // A bread oven built against the side wall: stone body, domed top, dark mouth.
-    R.stone.box(1.6, 0.9, 1.4, b.w / 2 + 0.9, 0, -0.4, jitterTone(TINT.stone, rnd, 0.1), { jit: 0.1 });
-    R.stone.blob(0.85, 0.5, 0.72, b.w / 2 + 0.9, 0.85, -0.4, jitterTone(TINT.stone, rnd, 0.1), { seg: 9, rings: 4, lump: 0.1, seed: 4, smooth: true });
-    R.vc.box(0.46, 0.34, 0.06, b.w / 2 + 0.9, 0.38, 0.33, 0x0c0a08, { jit: 0 });
+    groundExteriorProp(R, terrain, () => {
+      R.stone.box(1.6, 0.9, 1.4, b.w / 2 + 0.9, 0, -0.4, jitterTone(TINT.stone, rnd, 0.1), { jit: 0.1 });
+      R.stone.blob(0.85, 0.5, 0.72, b.w / 2 + 0.9, 0.85, -0.4, jitterTone(TINT.stone, rnd, 0.1), { seg: 9, rings: 4, lump: 0.1, seed: 4, smooth: true });
+      R.vc.box(0.46, 0.34, 0.06, b.w / 2 + 0.9, 0.38, 0.33, 0x0c0a08, { jit: 0 });
+    });
   }
   ctx.pop();
 }

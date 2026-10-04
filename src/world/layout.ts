@@ -106,7 +106,17 @@ export const ARRIVAL_ROUTE: V2[] = [
 ];
 export const ARRIVAL_TRAIL_WIDTH = 4.2;
 /** One readable fingerpost at the real shore/woodland fork; the board's point faces east toward Rillford. */
-export const ARRIVAL_SIGN = { x: -248, z: 38, yaw: 0, target: 'rillford', label: 'RILLFORD', boardWidth: 3.75, boardHeight: 0.76, boardBottom: 2.52 } as const;
+export const ARRIVAL_SIGN = { x: -248, z: 38, yaw: 0, target: 'rillford', label: 'RILLFORD', boardWidth: 1.85, boardHeight: 0.4, boardBottom: 1.78 } as const;
+
+/** A keeper's pack track climbs the landward shoulder rather than scaling Lantern Point's rock face. */
+export const LANTERN_TRAIL_WIDTH = 3.2;
+export const LANTERN_ROUTE: V2[] = [
+  ARRIVAL_ROUTE[0]!, { x: -258, z: 44 }, { x: -262, z: 62 }, { x: -274, z: 78 },
+  { x: -287, z: 88 }, { x: -297, z: 99 }, { x: -300, z: 117 },
+  { x: -314, z: 121 }, { x: -322, z: 115 }, { x: -324, z: 110 },
+];
+/** The first four points retain the strand; these metre heights form the gentle cut above it. null meets the native shore/terrace. */
+export const LANTERN_GRADE: readonly (number | null)[] = [null, null, null, null, 2.2, 4.6, 7.3, 10.4, null, null];
 
 /** Low wooded hogbacks and a dry swale give the inland route a varied silhouette without enclosing the beach in mountains. */
 export const FOREST_HILLS = [
@@ -146,8 +156,8 @@ export const FOREST_RUIN = { x: -180, z: -22, hx: 5.5, hz: 4, yaw: 0.15, r: 8.5 
 export const ROADS: RoadSpec[] = [
   { width: ARRIVAL_TRAIL_WIDTH, points: ARRIVAL_ROUTE.slice(0, 7) },
   { width: ARRIVAL_TRAIL_WIDTH, points: ARRIVAL_ROUTE.slice(6) },
-  // A faint strand track south along the beach and up the rock to Lantern Point.
-  { width: 2.2, points: [ARRIVAL_ROUTE[0]!, { x: -258, z: 44 }, { x: -262, z: 62 }, { x: -274, z: 78 }, { x: -292, z: 90 }, { x: -310, z: 98 }, { x: -322, z: 106 }] },
+  // A continuous worn-earth keeper's trail with a graded climb and level doorway forecourt.
+  { width: LANTERN_TRAIL_WIDTH, points: LANTERN_ROUTE },
   // Inland waystation lanes join the main trail instead of ending at empty coastal props.
   { width: 2.2, points: [{ x: -93, z: 19 }, { x: -91, z: 30 }, { x: -85, z: 40 }, { x: -83, z: 52 }, { x: -90, z: 62 }] },
   // Village square to the footbridge and the cut track to the quarry.
@@ -420,7 +430,8 @@ export const LIGHTHOUSE_CONSTRUCTION = {
   railHeight: 1.05, galleryInner: 2.99, galleryOuter: 4.84,
   // A real stairwell through the upper gallery gives the final climb full headroom.
   galleryOpeningStart: 19 * Math.PI / 16, galleryOpeningEnd: 3 * Math.PI / 2,
-  house: { x: -6.4, z: 0, w: 8, d: 6.4, wallBase: 0.38, wallTop: 4.5, roofPitch: 0.86, roofTop: 8.87 },
+  room: { radius: 2.7, floorTop: 0.46, ceilingBottom: 3.6, doorHalfWidth: 1.05, doorHeight: 2.8, wallSegments: 40 },
+  house: { x: -6.4, z: 0, w: 8, d: 6.4, wallBase: 0.38, floorTop: 0.46, wallTop: 4.5, roofPitch: 0.86, roofTop: 8.87, wallThickness: 0.3, doorX: -0.65, doorHalfWidth: 1, doorHeight: 2.5, ceilingBottom: 3.55 },
 } as const;
 /**
  * The inland waystation's landward palisade: a low old stockade with an open gate on the arrival road.
@@ -438,7 +449,13 @@ export const STRAND = { x: -258, z: 44, r: 40 } as const;
 export const BORDER_SIGN = { x: 122, z: 70 };
 export const BELL_TOWER = { x: -1, z: 4 };
 export const WELL = { x: -6, z: 18 };
-export const MILL_WHEEL = { x: -14.6, z: -8, r: 2.6 };
+/** Shared human-scale well construction; its authored yaw lets camera and body collision follow the real posts and hood. */
+export const WELL_CONSTRUCTION = {
+  yaw: 0.22, postX: 1.05, postWidth: 0.16, postBottom: 0.2, postHeight: 2.3,
+  beamWidth: 2.5, beamBottom: 2.35, beamHeight: 0.16, beamDepth: 0.16,
+  hoodWidth: 3, hoodDepth: 1.8, hoodBottom: 2.48, hoodRise: 0.9,
+} as const;
+export const MILL_WHEEL = { x: -13.95, z: -8, r: 2.81 };
 export const SPRING_POOL = { x: -8, z: -94, r: 8 };
 export const SHRINE_PLATEAU = { x: -28, z: -102, r: 44, h: 7 };
 export const OVERLOOK_BUMP = { x: -140, z: 30, r: 46, h: 4.8 };

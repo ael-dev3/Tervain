@@ -45,7 +45,9 @@ export class CameraRig {
 
   applyLook(dyaw: number, dpitch: number, zoom: number) {
     if (Number.isFinite(dyaw)) this.yaw = Math.atan2(Math.sin(this.yaw + dyaw), Math.cos(this.yaw + dyaw));
-    if (Number.isFinite(dpitch)) this.pitch = Math.max(-0.15, Math.min(1.25, this.pitch + dpitch));
+    // Let players look up at the lighthouse and tree crowns instead of stopping only nine degrees above level.
+    // The same swept boom clearance still keeps low camera angles outside terrain and scenery.
+    if (Number.isFinite(dpitch)) this.pitch = Math.max(-0.65, Math.min(1.25, this.pitch + dpitch));
     if (Number.isFinite(zoom) && zoom !== 0) this.wantDist = Math.max(2.6, Math.min(9, this.wantDist + zoom * 0.004));
   }
 

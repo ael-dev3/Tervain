@@ -109,8 +109,8 @@ function woodRadius(lods: TreeVariant['lods'], top: number): number {
 export interface PineForest {
   variant(species: PineSpecies, seed: number): TreeVariant;
   materials: readonly { wood: THREE.Material | null; leaf: THREE.Material }[];
-  /** Conservative wood footprint through the player clearance slab, including the 6cm buried origin. */
-  collisionRadius(species: PineSpecies, seed: number, instanceScale: number): number;
+  /** Conservative wood footprint through the player clearance slab, including the actual buried origin. */
+  collisionRadius(species: PineSpecies, seed: number, instanceScale: number, groundDepth?: number): number;
   dispose(): void;
 }
 
@@ -181,9 +181,9 @@ export function createPineForest(templates: PineTemplates): PineForest {
       variants.set(key, tree);
       return tree;
     },
-    collisionRadius(species, seed, instanceScale) {
+    collisionRadius(species, seed, instanceScale, groundDepth = 0.06) {
       const tree = this.variant(species, seed);
-      return woodRadius(tree.lods, 2.66 / instanceScale) * instanceScale + 0.03;
+      return woodRadius(tree.lods, (2.6 + groundDepth) / instanceScale) * instanceScale + 0.03;
     },
     dispose() {
       if (disposed) return;

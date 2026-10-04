@@ -1,12 +1,12 @@
 import * as THREE from 'three';
-import { LIGHTHOUSE, LIGHTHOUSE_CONSTRUCTION as L } from '../world/layout';
-import { LIGHTHOUSE_STAIR_ANGLE, lighthouseTreadTop } from '../world/lighthouse';
+import { LANTERN_ROUTE, LANTERN_TRAIL_WIDTH, LIGHTHOUSE, LIGHTHOUSE_CONSTRUCTION as L } from '../world/layout';
+import { LIGHTHOUSE_DOOR_OUTER_WIDTH, LIGHTHOUSE_STAIR_ANGLE, lighthouseTreadTop, lighthouseWallSectors } from '../world/lighthouse';
 import { mulberry32 } from '../world/noise';
 import type { Terrain } from '../world/terrain';
 import type { Batch, Col } from './buildKit';
 import type { Region } from './regions';
 import type { RoofResult } from './roofs';
-import { TINT, chimney, door, foundation, jitterTone, lantern, quoins, roofWallInfill, timberFrame, windowAt, woodpile, type Rnd } from './structures';
+import { TINT, chimney, jitterTone, lantern, quoins, roofWallInfill, windowAt, woodpile, type Rnd } from './structures';
 
 type V3 = [number, number, number];
 const radial = (r: number, a: number, y: number): V3 => [r * Math.cos(a), y, r * Math.sin(a)];
@@ -29,7 +29,7 @@ export function radialPlank(B: Batch, inner: number, outer: number, a0: number, 
 function plankRoof(R: Region, rnd: Rnd, w: number, d: number, wallTop: number, pitch: number, lean = false): RoofResult {
   const width = w + 0.9, span = d / 2 + 0.6;
   const eave = wallTop - 0.06, rise = (lean ? span * 2 : span) * Math.tan(pitch);
-  const boards = Math.ceil(width / 0.3), courses = lean ? 1 : 4;
+  const boards = Math.ceil(width / 0.32), courses = lean ? 1 : 4;
   for (const side of lean ? [1] : [-1, 1]) {
     for (let i = 0; i < boards; i++) {
       const x0 = -width / 2 + i * width / boards, x1 = x0 + width / boards;
@@ -57,6 +57,56 @@ function plankRoof(R: Region, rnd: Rnd, w: number, d: number, wallTop: number, p
   return { rise, ridgeY: eave + rise, halfSpan: span, pitch, slope: (lean ? span * 2 : span) / Math.cos(pitch) };
 }
 
+/** An open door is a real hinged leaf beside the opening, with no dark plane sealing the passage. */
+function openEntry(R: Region, rnd: Rnd, x: number, z: number, width: number, height: number, floor: number) {
+  for (const side of [-1, 1]) R.timber.box(0.18, height + 0.22, 0.24,
+    x + side * (width / 2 + 0.09), floor - 0.06, z + 0.04, jitterTone(TINT.woodDark, rnd), { grain: 'y', jit: 0.015 });
+  R.timber.box(width + 0.6, 0.22, 0.27, x, floor + height, z + 0.04, jitterTone(TINT.woodDark, rnd), { grain: 'x', jit: 0.015 });
+  const hinge = x - width / 2 - 0.1;
+  R.ctx.push(hinge, floor, z + 0.15, Math.PI / 2);
+  R.planks.box(width - 0.08, height - 0.08, 0.085, -(width - 0.08) / 2, 0, 0, jitterTone(TINT.woodPale, rnd, 0.1), { grain: 'y', jit: 0.02, sub: 0.4 });
+  for (const y of [0.4, height - 0.42]) R.metal.box(width - 0.18, 0.09, 0.1, -(width - 0.08) / 2, y, 0, TINT.iron, { jit: 0 });
+  R.metal.box(0.075, 0.12, 0.06, -(width - 0.3), height * 0.5, 0.07, TINT.iron, { jit: 0 });
+  R.ctx.pop();
+  // The old external doorstep remains physically joined to the now open threshold.
+  R.stone.box(width + 0.7, L.house.wallBase + 0.16, 0.7, x, -0.08, z + 0.42, jitterTone(TINT.stone, rnd, 0.06), { jit: 0 });
+  R.stone.box(width + 0.9, L.house.wallBase * 0.5 + 0.08, 0.5, x, -0.08, z + 0.96, jitterTone(TINT.stoneDark, rnd, 0.06), { jit: 0 });
+}
+
+/** Low buried coping stones mark the cut track's edge; the continuous dirt surface stays the terrain itself. */
+function keeperTrackEdges(R: Region, terrain: Terrain, rnd: Rnd) {
+  for (let segment = 3; segment < LANTERN_ROUTE.length - 2; segment++) {
+    const a = LANTERN_ROUTE[segment]!, b = LANTERN_ROUTE[segment + 1]!;
+    const length = Math.hypot(b.x - a.x, b.z - a.z), dx = (b.x - a.x) / length, dz = (b.z - a.z) / length;
+    for (let along = 1.6; along < length - 1; along += 2.5) {
+      const side = segment % 2 ? 1 : -1;
+      const edge = LANTERN_TRAIL_WIDTH / 2 + 0.38;
+      const x = a.x + dx * along - dz * edge * side, z = a.z + dz * along + dx * edge * side;
+      // These low stones are embedded into the grade, outside the whole player walking strip.
+      R.stone.box(0.65 + rnd() * 0.2, 0.32, 0.3, x, terrain.heightAt(x, z) - 0.18, z,
+        jitterTone(TINT.stoneDark, rnd, 0.13), { ry: Math.atan2(-dz, dx), jit: 0.04, amp: 0.1 });
+    }
+  }
+}
+
+/** Closed buried footing with rubble facing below the floor; unlike a closed-house footing it cannot pierce the doorway. */
+function keeperFoundation(R: Region, rnd: Rnd, sink: number) {
+  const h = L.house, top = h.floorTop - 0.06;
+  R.stone.box(h.w - 0.12, sink + top, h.d - 0.12, 0, -sink, 0,
+    jitterTone(TINT.stoneDark, rnd, 0.07), { jit: 0, amp: 0.1 });
+  for (const side of [-1, 1]) {
+    const nx = Math.ceil(h.w / 0.8), nz = Math.ceil(h.d / 0.8);
+    for (let i = 0; i < nx; i++) {
+      const x = -h.w / 2 + (i + 0.5) * h.w / nx;
+      R.stone.box(h.w / nx * 0.98, sink + top, 0.46, x, -sink, side * (h.d / 2 - 0.05),
+        jitterTone(TINT.stoneDark, rnd, 0.13), { jit: 0.02, amp: 0.1 });
+    }
+    for (let i = 0; i < nz; i++) R.stone.box(0.46, sink + top, h.d / nz * 0.98,
+      side * (h.w / 2 - 0.05), -sink, -h.d / 2 + (i + 0.5) * h.d / nz,
+      jitterTone(TINT.stoneDark, rnd, 0.13), { jit: 0.02, amp: 0.1 });
+  }
+}
+
 /** Heavy stone tower, connected timber stair and keeper's house. All geometry is original and batched by material. */
 export function authorLighthouse(R: Region, terrain: Terrain, out: { lanterns: THREE.Vector3[] }): { lampY: number; lampWorld: THREE.Vector3; base: number } {
   const { x, z, r } = LIGHTHOUSE;
@@ -65,6 +115,7 @@ export function authorLighthouse(R: Region, terrain: Terrain, out: { lanterns: T
   const ctx = R.ctx;
   const stone = () => jitterTone(TINT.stone, rnd, 0.11);
   const dark = () => jitterTone(TINT.woodDark, rnd, 0.11);
+  keeperTrackEdges(R, terrain, rnd);
   ctx.push(x, base, z);
   // The connected rubble plinth sinks below the lowest local sample instead of perching on boulders.
   let lowest = base;
@@ -73,9 +124,20 @@ export function authorLighthouse(R: Region, terrain: Terrain, out: { lanterns: T
   R.stone.cyl(r + 0.28, r + 0.52, sink + L.house.wallBase, 28, 0, -sink, 0, stone(), { jit: 0.03, amp: 0.12 });
   const radiusAt = (y: number) => r + (L.shaftTopRadius - r) * y / L.shaftTop;
   // Irregular masonry courses silhouette the shaft; texture carries the small stones instead of thousands of boxes.
-  const profile: number[] = [r + 0.08, L.house.wallBase];
+  // The ground store is hollow, with thick closed masonry walls and a genuine south door gap.
+  for (const sector of lighthouseWallSectors()) {
+    radialPlank(R.stone, L.room.radius, r + 0.08, sector.a0, sector.a1,
+      L.room.floorTop + L.room.doorHeight, L.room.doorHeight, stone());
+  }
+  for (let i = 0; i < L.room.wallSegments; i++) radialPlank(R.stone, L.room.radius, r + 0.065,
+    i * Math.PI * 2 / L.room.wallSegments, (i + 1) * Math.PI * 2 / L.room.wallSegments,
+    L.room.ceilingBottom, L.room.ceilingBottom - L.room.floorTop - L.room.doorHeight, stone());
+  R.stone.cyl(L.room.radius, L.room.radius, 0.08, 40, 0, L.room.floorTop - 0.08, 0, stone(), { jit: 0, amp: 0.08 });
+  R.stone.box(L.room.doorHalfWidth * 2, 0.08, 1.2, 0, L.room.floorTop - 0.08, r - 0.52, stone(), { jit: 0, sub: 0.6 });
+  R.stone.cyl(r + 0.065, r + 0.065, 0.22, 40, 0, L.room.ceilingBottom, 0, stone(), { jit: 0, amp: 0.08 });
+  const profile: number[] = [radiusAt(L.room.ceilingBottom), L.room.ceilingBottom];
   for (let i = 1; i <= 32; i++) {
-    const y = L.house.wallBase + i * (L.shaftTop - L.house.wallBase) / 32;
+    const y = L.room.ceilingBottom + i * (L.shaftTop - L.room.ceilingBottom) / 32;
     profile.push(radiusAt(y) + (i % 4 === 0 ? 0.055 : 0), y);
   }
   R.stone.lathe(profile, 28, 0, 0, 0, stone(), { jit: 0.025, amp: 0.14 });
@@ -84,8 +146,14 @@ export function authorLighthouse(R: Region, terrain: Terrain, out: { lanterns: T
     const rr = radiusAt(yy);
     R.stone.lathe([rr + 0.02, yy - 0.11, rr + 0.09, yy - 0.06, rr + 0.09, yy + 0.1, rr + 0.02, yy + 0.14], 28, 0, 0, 0, jitterTone(TINT.stoneDark, rnd, 0.08), { jit: 0.02 });
   }
-  // South-facing closed door, sill and squared stone lintel are integral to the tower's base.
-  door(R, rnd, { x: 0, y: L.house.wallBase, z: r + 0.015, w: 1.22, h: 2.32 });
+  const towerDoorWidth = LIGHTHOUSE_DOOR_OUTER_WIDTH;
+  openEntry(R, rnd, 0, r + 0.015, towerDoorWidth, L.room.doorHeight, L.room.floorTop);
+  // A working room with oil barrels and a simple bench gives the entrance a believable purpose.
+  R.planks.box(1.75, 0.16, 0.6, 0, L.room.floorTop + 0.67, -1.75, jitterTone(TINT.wood, rnd), { jit: 0.02 });
+  for (const px of [-0.68, 0.68]) R.timber.box(0.13, 0.67, 0.42, px, L.room.floorTop, -1.75, dark(), { jit: 0.02 });
+  R.stone.box(0.85, 0.18, 0.5, -1.7, L.room.floorTop, -0.5, stone(), { jit: 0.02 });
+  lantern(R, 1.7, 2.95, -1.4);
+  out.lanterns.push(ctx.toWorld(1.7, 2.65, -1));
   for (const [a, yy] of [[0.1, 5.2], [1.9, 9.2], [4.6, 12.4]] as const) {
     ctx.push(Math.cos(a) * radiusAt(yy), yy, Math.sin(a) * radiusAt(yy), Math.PI / 2 - a);
     R.vc.box(0.28, 1.1, 0.04, 0, 0, 0.04, 0x171712, { jit: 0, amp: 0 });
@@ -143,14 +211,45 @@ export function authorLighthouse(R: Region, terrain: Terrain, out: { lanterns: T
   // Keeper's house: a tall, steep roof meeting stone lower walls and a timber loft. The eastern wall joins the shaft.
   const house = L.house;
   ctx.push(house.x, 0, house.z);
-  foundation(R, rnd, house.w, house.d, house.wallBase, sink, TINT.stoneDark);
-  R.stone.box(house.w, 2.1, house.d, 0, house.wallBase, 0, stone(), { sub: 0.85, jit: 0.015, amp: 0.13 });
-  R.planks.box(house.w, house.wallTop - house.wallBase - 2.1, house.d, 0, house.wallBase + 2.1, 0, jitterTone(TINT.wood, rnd, 0.09), { sub: 0.85, grain: 'y', jit: 0.015 });
+  keeperFoundation(R, rnd, sink);
+  const hw = house.w / 2, hd = house.d / 2, wall = house.wallThickness;
+  const roomWall = (B: Batch, bottom: number, top: number, tint: Col) => {
+    B.bx(-hw, bottom, -hd, -hw + wall, top, hd, tint, { sub: 0.75, jit: 0, amp: 0.1 });
+    B.bx(hw - wall, bottom, -hd, hw, top, hd, tint, { sub: 0.75, jit: 0, amp: 0.1 });
+    B.bx(-hw + wall, bottom, -hd, hw - wall, top, -hd + wall, tint, { sub: 0.75, jit: 0, amp: 0.1 });
+    const doorTop = house.floorTop + house.doorHeight;
+    if (bottom < doorTop) {
+      const lowerTop = Math.min(top, doorTop);
+      B.bx(-hw + wall, bottom, hd - wall, house.doorX - house.doorHalfWidth, lowerTop, hd, tint, { sub: 0.75, jit: 0, amp: 0.1 });
+      B.bx(house.doorX + house.doorHalfWidth, bottom, hd - wall, hw - wall, lowerTop, hd, tint, { sub: 0.75, jit: 0, amp: 0.1 });
+    }
+    if (top > doorTop) B.bx(-hw + wall, Math.max(bottom, doorTop), hd - wall, hw - wall, top, hd, tint, { sub: 0.75, jit: 0, amp: 0.1 });
+  };
+  roomWall(R.stone, house.wallBase, house.wallBase + 2.1, stone());
+  roomWall(R.planks, house.wallBase + 2.1, house.wallTop, jitterTone(TINT.wood, rnd, 0.09));
+  // Real floor, loft underside and beams seal the room without filling its playable air volume.
+  R.planks.box(house.w - wall * 2, 0.06, house.d - wall * 2, 0, house.floorTop - 0.06, 0, jitterTone(TINT.woodPale, rnd, 0.1), { sub: 1.3, jit: 0 });
+  R.stone.box(house.doorHalfWidth * 2, 0.06, wall + 0.12, house.doorX, house.floorTop - 0.06, hd - wall / 2 + 0.06, stone(), { jit: 0 });
+  R.planks.box(house.w - wall * 2, 0.15, house.d - wall * 2, 0, house.ceilingBottom, 0, jitterTone(TINT.wood, rnd), { sub: 1.3, jit: 0 });
+  for (const px of [-2.5, 0, 2.5]) R.timber.box(0.18, 0.2, house.d - wall * 2, px, house.ceilingBottom - 0.2, 0, dark(), { grain: 'z', jit: 0 });
+  // A keeper's cot and work table use human-scale silhouettes without blocking the central entry aisle.
+  R.timber.box(2.05, 0.35, 0.95, -2.05, house.floorTop, -1.9, dark(), { jit: 0.02 });
+  R.cloth.box(1.92, 0.13, 0.85, -2.05, house.floorTop + 0.35, -1.9, 0x756958, { jit: 0.02, amp: 0.12 });
+  R.planks.box(1.55, 0.12, 0.8, 1.7, house.floorTop + 0.75, -1.7, jitterTone(TINT.wood, rnd), { jit: 0.02 });
+  for (const px of [1.12, 2.28]) for (const pz of [-1.98, -1.42]) R.timber.box(0.1, 0.75, 0.1, px, house.floorTop, pz, dark(), { jit: 0.02 });
   quoins(R, rnd, house.w, house.d, 2.1, house.wallBase);
-  timberFrame(R, rnd, house.w, house.d, house.wallTop - house.wallBase, house.wallBase);
+  // Sills/studs are split at the doorway; no decorative timber crosses the player's passage.
+  for (const sx of [-1, 1]) for (const sz of [-1, 1]) R.timber.box(0.24, house.wallTop + 0.1, 0.24, sx * hw, 0, sz * hd, dark(), { grain: 'y', jit: 0.02 });
+  for (const yy of [house.wallBase, 2.48, house.wallTop - 0.1]) {
+    for (const sx of [-1, 1]) R.timber.box(0.2, 0.17, house.d, sx * hw, yy, 0, dark(), { grain: 'z', jit: 0.02 });
+    R.timber.box(house.w, 0.17, 0.2, 0, yy, -hd, dark(), { grain: 'x', jit: 0.02 });
+    if (yy >= house.floorTop + house.doorHeight) R.timber.box(house.w, 0.17, 0.2, 0, yy, hd, dark(), { grain: 'x', jit: 0.02 });
+    else for (const [left, right] of [[-hw, house.doorX - house.doorHalfWidth], [house.doorX + house.doorHalfWidth, hw]])
+      R.timber.box(right! - left!, 0.17, 0.2, (left! + right!) / 2, yy, hd, dark(), { grain: 'x', jit: 0.02 });
+  }
   const roof = plankRoof(R, rnd, house.w, house.d, house.wallTop, house.roofPitch);
   roofWallInfill(R, 'gable', house.w, house.d, house.wallTop, roof, 'planks');
-  door(R, rnd, { x: -0.65, y: house.wallBase, z: house.d / 2 + 0.06, w: 1.3, h: 2.2 });
+  openEntry(R, rnd, house.doorX, house.d / 2 + 0.06, house.doorHalfWidth * 2, house.doorHeight, house.floorTop);
   windowAt(R, rnd, { x: -2.7, y: 2.7, z: house.d / 2 + 0.035, w: 1.05, h: 1.05 });
   windowAt(R, rnd, { x: 2, y: 2.7, z: house.d / 2 + 0.035, w: 0.85, h: 1.05 });
   windowAt(R, rnd, { x: -house.w / 2 - 0.035, y: house.wallTop + 0.6, z: 0, ry: -Math.PI / 2, w: 1.15, h: 1.1 });

@@ -179,7 +179,11 @@ describe('quiet landing and deepwood arrival', () => {
     // Physical pointer direction agrees with the route's first inland leg and its destination.
     const pointEast = { x: Math.cos(ARRIVAL_SIGN.yaw), z: -Math.sin(ARRIVAL_SIGN.yaw) };
     expect(pointEast.x * (PLACES.rillford.x - ARRIVAL_SIGN.x) + pointEast.z * (PLACES.rillford.z - ARRIVAL_SIGN.z)).toBeGreaterThan(0);
-    expect(ARRIVAL_SIGN.boardWidth).toBeGreaterThan(3);
+    // A readable shoulder/eye-height fingerboard, rather than a four-metre billboard.
+    expect(ARRIVAL_SIGN.boardWidth).toBeGreaterThan(1.2);
+    expect(ARRIVAL_SIGN.boardWidth).toBeLessThan(2.2);
+    expect(ARRIVAL_SIGN.boardBottom).toBeGreaterThan(1.4);
+    expect(ARRIVAL_SIGN.boardBottom + ARRIVAL_SIGN.boardHeight).toBeLessThan(2.4);
     for (const segment of [1, 2, 3, 4, 5]) {
       const a = ARRIVAL_ROUTE[segment]!;
       const b = ARRIVAL_ROUTE[segment + 1]!;

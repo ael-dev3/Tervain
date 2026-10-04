@@ -39,9 +39,10 @@ interface Grove { id: string; x: number; z: number; radius: number; dominant: Ca
 interface Candidate { key: string; priority: number; footprint: number; tree: FloraTree }
 
 /** Coordinate-keyed groves and symmetric spacing keep the layout stable through local authoring edits.
- * Optional imported-source footprints govern exclusions and spacing before candidates are accepted. */
+ * Optional source geometry supplies grounding first, then footprints for exclusions and spacing. */
 export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slopeAt' | 'carveAt'>, excl: Pick<Exclusions, 'blocked'>,
-  footprintFor?: (tree: Readonly<FloraTree>, legacyFootprint: number) => number): FloraTree[] {
+  footprintFor?: (tree: Readonly<FloraTree>, legacyFootprint: number) => number,
+  groundFor?: (tree: Readonly<FloraTree>) => number): FloraTree[] {
   const candidates: Candidate[] = [], groves = new Map<string, Grove>();
   const grove = (ix: number, iz: number): Grove => {
     const id = `grove:${ix}:${iz}`, found = groves.get(id);
@@ -69,6 +70,8 @@ export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slope
     || shoreDistance(x, z) < DEEPWOOD.shoreClearance || terrain.slopeAt(x, z) > 0.62
     || terrain.heightAt(x, z) < 0.3 || excl.blocked(x, z, pad);
   const put = (key: string, sp: Species, x: number, z: number, scale = 1, collide = true, age: TreeAge = 'mature', site?: Grove) => {
+    // Avoid constructing and sampling source roots at a site already excluded even without padding.
+    if (bad(x, z, 0)) return;
     const legacyFootprint = sp === 'shrub' ? 0.4 * scale : RADIUS[sp] * scale;
     const rnd = randomFor(key, 211), radius = collide ? RADIUS[sp] * scale : 0;
     // Appearance has its own cell stream: evaluating a rejected claim never changes its neighbours.
@@ -78,6 +81,10 @@ export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slope
       collisionId: radius > 0 ? `tree:${key}` : null, decorationRank: randomFor(key, 619)(),
       ...(site ? { groveId: site.id, ...(site.role ? { standId: site.id, familyRole: site.role } : {}) } : {}), age,
     };
+    if (groundFor) {
+      tree.y = groundFor(tree);
+      if (!Number.isFinite(tree.y)) throw new Error('Tree ground contact must be finite.');
+    }
     const footprint = footprintFor?.(tree, legacyFootprint) ?? legacyFootprint;
     if (!Number.isFinite(footprint) || footprint < 0) throw new Error('Tree footprint must be finite and nonnegative.');
     if (bad(x, z, footprint + 0.55)) return;

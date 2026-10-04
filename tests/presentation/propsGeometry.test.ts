@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
 import { Ctx } from '../../src/presentation/buildKit';
 import { authorLighthouse, radialPlank } from '../../src/presentation/lighthouse';
-import { cart, wagon } from '../../src/presentation/props';
+import { cart, wagon, well } from '../../src/presentation/props';
 import { Region } from '../../src/presentation/regions';
 import { barrel } from '../../src/presentation/structures';
 import { spokedWheel } from '../../src/presentation/wagonGeometry';
@@ -14,19 +14,51 @@ import type { Terrain } from '../../src/world/terrain';
 const material = new THREE.MeshBasicMaterial({ side: THREE.FrontSide });
 const flat = { heightAt: () => 0 } as unknown as Terrain;
 const group = (r: Region) => { const g = r.toGroup({ get: () => material }); g.updateMatrixWorld(true); return g; };
-const hits = (g: THREE.Group, p: THREE.Vector3, d = new THREE.Vector3(0, -1, 0)) => new THREE.Raycaster(p, d).intersectObject(g);
+const hits = (g: THREE.Object3D, p: THREE.Vector3, d = new THREE.Vector3(0, -1, 0)) => new THREE.Raycaster(p, d).intersectObject(g);
 const dispose = (g: THREE.Group) => g.traverse((o) => { if (o instanceof THREE.Mesh) o.geometry.dispose(); });
 
 function validGeometry(r: Region) {
   for (const batch of r.batches.values()) {
+    let nonFinite = 0, worstIndex = -1;
     for (const floats of [batch.p, batch.nr, batch.uv, batch.co]) {
-      for (let i = 0; i < floats.n; i++) expect(Number.isFinite(floats.a[i]!)).toBe(true);
+      for (let i = 0; i < floats.n; i++) if (!Number.isFinite(floats.a[i]!)) nonFinite++;
     }
-    for (let i = 0; i < batch.ix.n; i++) expect(batch.ix.a[i]!).toBeLessThan(batch.nv);
+    for (let i = 0; i < batch.ix.n; i++) worstIndex = Math.max(worstIndex, batch.ix.a[i]!);
+    // Every written float and index is still visited; aggregate diagnostics avoid CPU contention from assertion allocation.
+    expect(nonFinite, `${r.name}:${batch.key} non-finite geometry values`).toBe(0);
+    expect(worstIndex, `${r.name}:${batch.key} largest referenced vertex`).toBeLessThan(batch.nv);
   }
 }
 
 describe('connected coast props', () => {
+  it.each([1, 7, 18])('the well hood rests on its actual crossbeam and grounded posts (seed %i)', (seed) => {
+    const random = mulberry32(seed);
+    const yaw = random() * 0.5;
+    const r = new Region('well', new Ctx());
+    well(r, mulberry32(seed), 0, 0, 0);
+    const g = group(r);
+    const roof = g.getObjectByName('well:thatch') as THREE.Mesh;
+    const timber = g.getObjectByName('well:timber') as THREE.Mesh;
+    const stone = g.getObjectByName('well:stone') as THREE.Mesh;
+    const roofBounds = new THREE.Box3().setFromObject(roof);
+    const beamTop = hits(timber, new THREE.Vector3(0, 3, 0))[0];
+    expect(beamTop).toBeDefined();
+    expect(roofBounds.min.y).toBeGreaterThan(2.4);
+    expect(roofBounds.min.y).toBeLessThan(beamTop!.point.y);
+    expect(roofBounds.max.y).toBeGreaterThan(3.3);
+    for (const sign of [-1, 1]) {
+      const x = sign * 1.05 * Math.cos(yaw), z = -sign * 1.05 * Math.sin(yaw);
+      const post = hits(timber, new THREE.Vector3(x, -0.5, z), new THREE.Vector3(0, 1, 0))[0];
+      const ring = hits(stone, new THREE.Vector3(x, 1, z))[0];
+      const hood = hits(roof, new THREE.Vector3(x, 2, z), new THREE.Vector3(0, 1, 0))[0];
+      expect(post).toBeDefined(); expect(ring).toBeDefined(); expect(hood).toBeDefined();
+      expect(post!.point.y).toBeLessThan(ring!.point.y);
+      expect(hood!.point.y).toBeLessThanOrEqual(2.5);
+    }
+    validGeometry(r);
+    dispose(g);
+  });
+
   it('a radial tread has top, underside and four outward-facing edges with no open boundary', () => {
     const r = new Region('tread', new Ctx());
     radialPlank(r.planks, 3.5, 4.85, 0.1, 0.18, 2.3, 0.14, 0xa28b6e);
@@ -99,7 +131,7 @@ describe('connected coast props', () => {
     dispose(g);
   });
 
-  it('the lighthouse has real supported treads, a closed keeper compound and a lamp matching the native beam position', () => {
+  it('the lighthouse has supported treads, complete keeper roofs and lamps matching their native light positions', () => {
     const r = new Region('lighthouse', new Ctx());
     const out = { lanterns: [] as THREE.Vector3[] };
     const result = authorLighthouse(r, flat, out);
@@ -124,7 +156,9 @@ describe('connected coast props', () => {
     expect(foundation[0]).toBeDefined();
     expect(result.lampWorld.y).toBeCloseTo(L.stairTop + 1.3);
     expect(result.lampY).toBeCloseTo(result.lampWorld.y);
-    expect(out.lanterns).toHaveLength(1);
+    expect(out.lanterns).toHaveLength(2);
+    expect(out.lanterns[0]!.toArray()).toEqual([LIGHTHOUSE.x + 1.7, 2.65, LIGHTHOUSE.z - 1]);
+    expect(out.lanterns[1]!.toArray()).toEqual([LIGHTHOUSE.x + L.house.x - 1.65, 2.4, LIGHTHOUSE.z + L.house.d / 2 + 0.6]);
     validGeometry(r);
     expect(r.tris).toBeLessThan(20000);
     dispose(g);
