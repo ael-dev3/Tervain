@@ -1,0 +1,12 @@
+/* ENTRY 201c76b0 | FUN_201c76b0 | STATUS decompiled | 1 ms */
+
+undefined4 __thiscall FUN_201c76b0(int param_1,int param_2)
+
+{
+  if ((*(int *)(param_1 + 0x38) != 0) && (param_2 == *(int *)(param_1 + 0x38))) {
+    return 1;
+  }
+  return 0;
+}
+
+

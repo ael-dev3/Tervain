@@ -1,0 +1,34 @@
+/* ENTRY 200021fd | gCInventory_PS::RemoveListener | STATUS decompiled | 9 ms */
+
+/* public: virtual void __thiscall gCInventory_PS::RemoveListener(class gCInventoryListener *) */
+
+void __thiscall gCInventory_PS::RemoveListener(gCInventory_PS *this,gCInventoryListener *param_1)
+
+{
+  uint uVar1;
+  uint uVar2;
+  int *piVar3;
+  
+                    /* 0x21fd  6093  ?RemoveListener@gCInventory_PS@@UAEXPAVgCInventoryListener@@@Z
+                        */
+  if (param_1 != (gCInventoryListener *)0x0) {
+    uVar1 = (this->gCInventory_PS_data).offset_0x38;
+    uVar2 = 0;
+    if (0 < (int)uVar1) {
+      piVar3 = (this->gCInventory_PS_data).offset_0x34;
+      do {
+        if ((gCInventoryListener *)*piVar3 == param_1) goto LAB_201acd37;
+        uVar2 = uVar2 + 1;
+        piVar3 = piVar3 + 2;
+      } while ((int)uVar2 < (int)uVar1);
+    }
+    uVar2 = 0xffffffff;
+LAB_201acd37:
+    if (uVar2 < uVar1) {
+      *(undefined1 *)((int)(this->gCInventory_PS_data).offset_0x34 + uVar2 * 8 + 4) = 0;
+    }
+  }
+  return;
+}
+
+

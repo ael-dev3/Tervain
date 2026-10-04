@@ -1,0 +1,23 @@
+/* ENTRY 200121c5 | gCInventory_PS::FindStackIndex | STATUS decompiled | 8 ms */
+
+/* public: int __thiscall gCInventory_PS::FindStackIndex(class bCPropertyID const &,enum
+   gEInventoryFindQuality,unsigned long,int)const  */
+
+int __thiscall
+gCInventory_PS::FindStackIndex
+          (gCInventory_PS *this,bCPropertyID *param_1,gEInventoryFindQuality param_2,ulong param_3,
+          int param_4)
+
+{
+  undefined4 uVar1;
+  int iVar2;
+  
+                    /* 0x121c5  2836
+                       ?FindStackIndex@gCInventory_PS@@QBEHABVbCPropertyID@@W4gEInventoryFindQuality@@KH@Z
+                        */
+  uVar1 = thunk_FUN_201d2240(param_1);
+  iVar2 = FUN_2001a9e2(uVar1,param_2,param_3,param_4);
+  return iVar2;
+}
+
+

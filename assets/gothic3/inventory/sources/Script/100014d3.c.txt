@@ -1,0 +1,26 @@
+/* ENTRY 100014d3 | PSInventory::CreateItems | STATUS decompiled | 15 ms */
+
+/* public: int __thiscall PSInventory::CreateItems(class Template const &,unsigned long,int) */
+
+int __thiscall
+PSInventory::CreateItems(PSInventory *this,Template *param_1,ulong param_2,int param_3)
+
+{
+  bool bVar1;
+  bCPropertyID *pbVar2;
+  int iVar3;
+  
+                    /* 0x14d3  1435  ?CreateItems@PSInventory@@QAEHABVTemplate@@KH@Z */
+  if (*(int *)this == 0) {
+    return -1;
+  }
+  bVar1 = Template::IsValid(param_1);
+  if (!bVar1) {
+    return -1;
+  }
+  pbVar2 = Template::operator_class_bCPropertyID_const_(param_1);
+  iVar3 = gCInventory_PS::CreateItems(*(gCInventory_PS **)this,pbVar2,param_2,param_3);
+  return iVar3;
+}
+
+

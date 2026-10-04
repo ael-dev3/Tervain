@@ -1,0 +1,19 @@
+/* ENTRY 20013fb6 | gCInventoryStack::SetType | STATUS decompiled | 5 ms */
+
+/* public: void __thiscall gCInventoryStack::SetType(class bTPropertyContainer<enum gEStackType>
+   const &) */
+
+void __thiscall
+gCInventoryStack::SetType(gCInventoryStack *this,bTPropertyContainer<gEStackType> *param_1)
+
+{
+                    /* 0x13fb6  7176
+                       ?SetType@gCInventoryStack@@QAEXABV?$bTPropertyContainer@W4gEStackType@@@@@Z
+                        */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"Type",false);
+  (*(code *)(this->gCInventoryStack_data).offset_0x10[7])(param_1);
+  (*this->vftablePtr->NotifyPropertyValueChangedExitEx)(this,"Type",false);
+  return;
+}
+
+

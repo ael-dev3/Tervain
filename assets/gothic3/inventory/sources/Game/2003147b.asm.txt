@@ -1,0 +1,2 @@
+; 2003147b ??0gCInventoryStack@@QAE@XZ
+2003147b | e990691900 | JMP 0x201c7e10

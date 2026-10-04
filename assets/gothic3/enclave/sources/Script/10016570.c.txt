@@ -1,0 +1,74 @@
+/* ENTRY 10016570 | FUN_10016570 | STATUS decompiled | 37 ms */
+
+undefined4 * __thiscall FUN_10016570(void *this,undefined4 *param_1)
+
+{
+  bool bVar1;
+  bTObjArray<eCEntityProxy> *pbVar2;
+  Entity *this_00;
+  bCMemoryAdmin *this_01;
+  int iVar3;
+  int iVar4;
+  int iVar5;
+  void *pvVar6;
+  void *local_bc;
+  int local_b8;
+  undefined4 local_b4;
+  eCEntity *local_b0;
+  int local_ac;
+  Entity local_a8 [168];
+  
+  iVar4 = 0;
+  local_bc = (void *)0x0;
+  local_b8 = 0;
+  local_b4 = 0;
+  if (*(gCEnclave_PS **)this != (gCEnclave_PS *)0x0) {
+    local_ac = 0;
+    pbVar2 = gCEnclave_PS::GetMembers(*(gCEnclave_PS **)this);
+    if (0 < *(int *)(pbVar2 + 4)) {
+      iVar3 = 0;
+      do {
+        pbVar2 = gCEnclave_PS::GetMembers(*(gCEnclave_PS **)this);
+        bVar1 = eCEntityProxy::IsEntityIDValid((eCEntityProxy *)(*(int *)pbVar2 + iVar3));
+        if (bVar1) {
+          pbVar2 = gCEnclave_PS::GetMembers(*(gCEnclave_PS **)this);
+          local_b0 = eCEntityProxy::GetEntity((eCEntityProxy *)(*(int *)pbVar2 + iVar3));
+          iVar5 = iVar4 + 1;
+          thunk_FUN_10016f20(&local_bc,iVar5,(iVar5 != 0) - 1);
+          *(eCEntity **)((int)local_bc + iVar5 * 4 + -4) = local_b0;
+          local_b8 = iVar5;
+        }
+        else {
+          this_00 = (Entity *)Entity::Entity(local_a8);
+          local_b0 = Entity::operator_class_eCEntity_(this_00);
+          iVar5 = iVar4 + 1;
+          thunk_FUN_10016f20(&local_bc,iVar5,(iVar5 != 0) - 1);
+          *(eCEntity **)((int)local_bc + iVar5 * 4 + -4) = local_b0;
+          local_b8 = iVar5;
+          Entity::~Entity(local_a8);
+        }
+        iVar4 = iVar4 + 1;
+        local_ac = local_ac + 1;
+        iVar3 = iVar3 + 0x1c;
+        pbVar2 = gCEnclave_PS::GetMembers(*(gCEnclave_PS **)this);
+      } while (local_ac < *(int *)(pbVar2 + 4));
+    }
+    *param_1 = 0;
+    param_1[1] = 0;
+    param_1[2] = 0;
+    thunk_FUN_10017540(param_1,(int *)&local_bc);
+    if ((&stack0x00000000 != (undefined1 *)0xbc) && (local_bc != (void *)0x0)) {
+      pvVar6 = local_bc;
+      this_01 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(this_01,pvVar6);
+    }
+    return param_1;
+  }
+  *param_1 = 0;
+  param_1[1] = 0;
+  param_1[2] = 0;
+  thunk_FUN_10017540(param_1,(int *)&local_bc);
+  return param_1;
+}
+
+

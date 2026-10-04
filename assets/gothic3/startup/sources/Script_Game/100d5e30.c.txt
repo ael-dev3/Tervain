@@ -1,0 +1,120 @@
+/* ENTRY 100d5e30 | FUN_100d5e30 | STATUS decompiled | 75 ms */
+
+undefined4 FUN_100d5e30(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  Entity *this;
+  gEAIMode gVar3;
+  int iVar4;
+  Entity aEStack_2b4 [148];
+  undefined4 uStack_220;
+  gCScriptProcessingUnit *pgStack_21c;
+  undefined1 *puStack_218;
+  Entity *pEVar5;
+  Entity local_1f8 [44];
+  PSNavigation local_1cc [4];
+  PSNpc local_1c8 [116];
+  Entity local_154 [4];
+  Entity local_150 [164];
+  Entity local_ac [4];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_1f8);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_1f8,peVar2);
+  }
+  else {
+    Entity::operator=(local_1f8,param_2);
+  }
+  Entity::Entity(local_150);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_150,peVar2);
+  }
+  else {
+    Entity::operator=(local_150,param_3);
+  }
+  pEVar5 = local_a8;
+  this = (Entity *)Entity::GetPlayer();
+  bVar1 = Entity::operator==(this,pEVar5);
+  Entity::~Entity(local_ac);
+  if (bVar1) {
+    puStack_218 = &stack0xfffffe04;
+    pgStack_21c = param_1;
+    uStack_220 = 0x100d5ef2;
+    thunk_FUN_100d5850();
+  }
+  bVar1 = PSNavigation::IsValid(local_1cc);
+  if (!bVar1) {
+LAB_100d5f00:
+    Entity::~Entity(local_154);
+    Entity::~Entity((Entity *)&stack0xfffffe04);
+    return 0;
+  }
+  bVar1 = PSNpc::HasStatusEffects(local_1c8,0x80);
+  if (bVar1) goto LAB_100d5f00;
+  gVar3 = PSRoutine::PropertyAIMode::operator_enum_gEAIMode((PropertyAIMode *)local_1f8);
+  if (gVar3 != 9) {
+    Entity::Entity(aEStack_2b4,(Entity *)&stack0xfffffe04);
+    thunk_FUN_100d3240();
+    puStack_218 = &stack0xfffffe04;
+    pgStack_21c = param_1;
+    uStack_220 = 0x100d5f71;
+    thunk_FUN_10045e20();
+    Entity::Entity(aEStack_2b4,(Entity *)&stack0xfffffe04);
+    thunk_FUN_100d56b0();
+    puStack_218 = &stack0xfffffe04;
+    pgStack_21c = param_1;
+    uStack_220 = 0x100d5f9a;
+    thunk_FUN_10046af0();
+    Entity::Entity(aEStack_2b4,(Entity *)&stack0xfffffe04);
+    thunk_FUN_100d3340();
+    puStack_218 = &stack0xfffffe04;
+    pgStack_21c = param_1;
+    uStack_220 = 0x100d5fc3;
+    thunk_FUN_10046370();
+  }
+  Entity::Entity(aEStack_2b4,(Entity *)&stack0xfffffe04);
+  thunk_FUN_100d3430();
+  Entity::Entity(aEStack_2b4,(Entity *)&stack0xfffffe04);
+  thunk_FUN_100d34b0();
+  bVar1 = PSNpc::HasStatusEffects(local_1c8,1);
+  if (bVar1) {
+LAB_100d6018:
+    puStack_218 = &stack0xfffffe04;
+    pgStack_21c = param_1;
+    uStack_220 = 0x100d602c;
+    iVar4 = thunk_FUN_100458c0();
+    if (iVar4 < 1) {
+      gVar3 = PSRoutine::PropertyAIMode::operator_enum_gEAIMode((PropertyAIMode *)local_1f8);
+      if ((gVar3 != 6) && (((int)gVar3 < 8 || (9 < (int)gVar3)))) {
+        PSRoutine::FullStop((PSRoutine *)local_1f8);
+        puStack_218 = (undefined1 *)0x100d6061;
+        bCString::bCString((bCString *)&stack0xfffffdf0,"ZS_RagDollDead");
+        PSRoutine::SetTask((PSRoutine *)local_1f8);
+        goto LAB_100d6098;
+      }
+    }
+  }
+  else {
+    bVar1 = PSNpc::HasStatusEffects(local_1c8,4);
+    if (bVar1) goto LAB_100d6018;
+    bVar1 = PSNpc::HasStatusEffects(local_1c8,0x100);
+    if (bVar1) goto LAB_100d6018;
+  }
+  Entity::Entity(aEStack_2b4,(Entity *)&stack0xfffffe04);
+  thunk_FUN_100d5510();
+  puStack_218 = &stack0xfffffe04;
+  pgStack_21c = param_1;
+  uStack_220 = 0x100d6098;
+  thunk_FUN_100d3730();
+LAB_100d6098:
+  Entity::~Entity(local_154);
+  Entity::~Entity((Entity *)&stack0xfffffe04);
+  return 1;
+}
+
+

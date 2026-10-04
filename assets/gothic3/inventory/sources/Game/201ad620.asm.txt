@@ -1,0 +1,36 @@
+; 201ad620 FUN_201ad620
+201ad620 | 80b9e400000000 | CMP byte ptr [ECX + 0xe4],0x0
+201ad627 | 745f | JZ 0x201ad688
+201ad629 | 8b01 | MOV EAX,dword ptr [ECX]
+201ad62b | 8b5068 | MOV EDX,dword ptr [EAX + 0x68]
+201ad62e | 56 | PUSH ESI
+201ad62f | c681e400000000 | MOV byte ptr [ECX + 0xe4],0x0
+201ad636 | ffd2 | CALL EDX
+201ad638 | 8bf0 | MOV ESI,EAX
+201ad63a | 85f6 | TEST ESI,ESI
+201ad63c | 7425 | JZ 0x201ad663
+201ad63e | 8bce | MOV ECX,ESI
+201ad640 | ff152c6d7d20 | CALL dword ptr [0x207d6d2c]
+201ad646 | 8b00 | MOV EAX,dword ptr [EAX]
+201ad648 | 50 | PUSH EAX
+201ad649 | 68a0d36720 | PUSH 0x2067d3a0
+201ad64e | ff1510897d20 | CALL dword ptr [0x207d8910]
+201ad654 | 83c408 | ADD ESP,0x8
+201ad657 | c7863001000000000000 | MOV dword ptr [ESI + 0x130],0x0
+201ad661 | 5e | POP ESI
+201ad662 | c3 | RET
+; 201ad663 LAB_201ad663
+201ad663 | 8b0de8887d20 | MOV ECX,dword ptr [0x207d88e8]
+201ad669 | 8b11 | MOV EDX,dword ptr [ECX]
+201ad66b | 52 | PUSH EDX
+201ad66c | 6aff | PUSH -0x1
+201ad66e | 6a00 | PUSH 0x0
+201ad670 | 6a00 | PUSH 0x0
+201ad672 | 6840d36720 | PUSH 0x2067d340
+201ad677 | 6a03 | PUSH 0x3
+201ad679 | ff15ec887d20 | CALL dword ptr [0x207d88ec]
+201ad67f | 8bc8 | MOV ECX,EAX
+201ad681 | ff15f0887d20 | CALL dword ptr [0x207d88f0]
+201ad687 | 5e | POP ESI
+; 201ad688 LAB_201ad688
+201ad688 | c3 | RET

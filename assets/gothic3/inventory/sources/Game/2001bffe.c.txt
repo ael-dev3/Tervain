@@ -1,0 +1,20 @@
+/* ENTRY 2001bffe | gCInventorySlot::ApplyDefaults | STATUS decompiled | 8 ms */
+
+/* protected: void __thiscall gCInventorySlot::ApplyDefaults(void) */
+
+void __thiscall gCInventorySlot::ApplyDefaults(gCInventorySlot *this)
+
+{
+  bCObjectBase bStack_8;
+  undefined4 uStack_4;
+  
+                    /* 0x1bffe  1956  ?ApplyDefaults@gCInventorySlot@@IAEXXZ */
+  bCObjectBase::bCObjectBase(&bStack_8);
+  bStack_8 = (bCObjectBase)&bTPropertyContainer<gESlot>::vftable;
+  uStack_4 = 0;
+  (*(code *)(this->gCInventorySlot_data).offset_0x30[7])(&bStack_8);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  return;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 2001d0ac | gCInventoryStack::GetSortIndex | STATUS decompiled | 98 ms */
+
+/* public: int const & __thiscall gCInventoryStack::GetSortIndex(void)const  */
+
+int * __thiscall gCInventoryStack::GetSortIndex(gCInventoryStack *this)
+
+{
+                    /* 0x1d0ac  4461  ?GetSortIndex@gCInventoryStack@@QBEABHXZ */
+  return &(this->gCInventoryStack_data).offset_0xc;
+}
+
+

@@ -1,0 +1,36 @@
+; 201cfa90 FUN_201cfa90
+201cfa90 | 56 | PUSH ESI
+201cfa91 | 57 | PUSH EDI
+201cfa92 | 8b7c240c | MOV EDI,dword ptr [ESP + 0xc]
+201cfa96 | 8bf1 | MOV ESI,ECX
+201cfa98 | 3b7e04 | CMP EDI,dword ptr [ESI + 0x4]
+201cfa9b | 7332 | JNC 0x201cfacf
+201cfa9d | 8b06 | MOV EAX,dword ptr [ESI]
+201cfa9f | 8b0cb8 | MOV ECX,dword ptr [EAX + EDI*0x4]
+201cfaa2 | e8aa9be3ff | CALL 0x20009651
+201cfaa7 | 84c0 | TEST AL,AL
+201cfaa9 | 57 | PUSH EDI
+201cfaaa | 740e | JZ 0x201cfaba
+201cfaac | 8bce | MOV ECX,ESI
+201cfaae | e842cde5ff | CALL 0x2002c7f5
+201cfab3 | 5f | POP EDI
+201cfab4 | b001 | MOV AL,0x1
+201cfab6 | 5e | POP ESI
+201cfab7 | c20400 | RET 0x4
+; 201cfaba LAB_201cfaba
+201cfaba | 6898136820 | PUSH 0x20681398
+201cfabf | ff1510897d20 | CALL dword ptr [0x207d8910]
+201cfac5 | 83c408 | ADD ESP,0x8
+201cfac8 | 5f | POP EDI
+201cfac9 | 32c0 | XOR AL,AL
+201cfacb | 5e | POP ESI
+201cfacc | c20400 | RET 0x4
+; 201cfacf LAB_201cfacf
+201cfacf | 57 | PUSH EDI
+201cfad0 | 6830136820 | PUSH 0x20681330
+201cfad5 | ff1510897d20 | CALL dword ptr [0x207d8910]
+201cfadb | 83c408 | ADD ESP,0x8
+201cfade | 5f | POP EDI
+201cfadf | 32c0 | XOR AL,AL
+201cfae1 | 5e | POP ESI
+201cfae2 | c20400 | RET 0x4

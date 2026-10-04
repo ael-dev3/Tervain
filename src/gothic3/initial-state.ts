@@ -2,6 +2,8 @@ import questReceiptText from '../../assets/gothic3/dialogue/initial-quests-outpu
 import type { NativeQuest, NativeSource } from './catalog';
 import { gameplayResources } from './native-data';
 import { NativeQuests, QuestStatus } from './quest-state';
+import { loadBrowserInfoState } from './info-state';
+import type { NativeInfoState } from './info-state';
 import type { NativeClock, QuestHost, QuestLogPair } from './quest-state';
 import { readNativeResource } from './resource';
 import type { ResourceReceipt } from './resource';
@@ -103,6 +105,8 @@ export interface OriginalInitialState {
   questDocument: InitialQuestDocument;
   /** Seeded state only. The default host rejects all attempted effects. */
   quests: NativeQuests;
+  /** Explicit fresh-world INI profile, before startup; not a restored save. */
+  infos: NativeInfoState;
   view: { xp: number; learningPointsAttributes: number; learningPointsPerks: number; chapter: number;
     level: number; playerGameEvents: string[]; inventory: InitializedInventoryStack[]; equipment: InitializedEquipment[] };
   pendingStartup: { explicitQuestRuns: string[]; callbacks: unknown[]; notes: string[] };
@@ -242,9 +246,10 @@ export async function loadOriginalInitialState(host: QuestHost = sourceOnlyQuest
   if (receipt.schema !== 'gothic3-initial-quests-output-v1' || receipt.output?.path !== 'initial-quests.json') {
     throw new Error('Invalid separate initial-quest receipt');
   }
-  const [sourcePlayer, sourceClock, definitions, sourceQuests] = await Promise.all([
+  const [sourcePlayer, sourceClock, definitions, sourceQuests, infos] = await Promise.all([
     gameplayResources.read<InitializedPlayerSeed>(playerPath), gameplayResources.read<InitialWorldClock>(clockPath),
     gameplayResources.read<NativeQuest[]>(questPath), readNativeResource<InitialQuestDocument>('dialogue/' + receipt.output.path, receipt.output),
+    loadBrowserInfoState(),
   ]);
   validatePlayer(sourcePlayer);
   validateClock(sourceClock, sourcePlayer);
@@ -258,7 +263,7 @@ export async function loadOriginalInitialState(host: QuestHost = sourceOnlyQuest
     quests.seed(record.id, { status: record.status, counters: record.counters, startedAt: record.startedAt,
       logKeys: record.logKeys, logPairs: record.logPairs });
   }
-  return { scope: 'source-state-with-partial-player-startup-and-unapplied-quest-startup', player, clock, questDocument, quests,
+  return { scope: 'source-state-with-partial-player-startup-and-unapplied-quest-startup', player, clock, questDocument, quests, infos,
     view: { xp: player.memory.XP, learningPointsAttributes: player.memory.LPAttribs, learningPointsPerks: player.memory.LPPerks,
       chapter: player.memory.Chapter, level: player.serialized.npc.Level as number,
       playerGameEvents: [...player.memory.PlayerKnows.items], inventory: player.inventory.stacks, equipment: player.inventory.equipment },

@@ -22,8 +22,10 @@ separate converter run offline during preparation.
 
 The earlier local study inventoried and hashed the installation, extracted
 38 archives containing 107,370 file records, and recorded which archive layer
-is the selected static candidate for each logical resource. Runtime zero-byte
-and deletion-entry semantics remain unproved. Those complete archive contents and native
+is the selected static candidate for each logical resource. That broad index
+does not establish every runtime zero-byte/deletion-entry behavior. The later
+InfoManager study in section 10 verifies the specific compiled-info deletion
+and fallback path. Those complete archive contents and native
 binaries are kept outside this repository. The published derivatives cover the
 rendered Ardea scene and the indexed animation, gameplay and world foundations
 described below.
@@ -522,7 +524,8 @@ asynchronous commands finish. The native Given exclusions are conditions
 9/51/52, InfoType 0/4, Permanent and player ownership. Fresh omitted Permanent
 defaults to false, while serialized InfoManager overrides remain separate.
 Distance checks scale NPC-target distance by 0.25. Fresh INI defaults alone do
-not establish restored Given state.
+not establish restored Given state. Section 10 adds the separate, verified
+ordinary-world-read Given seed; native save restoration remains unsupported.
 
 [combat.ts](../../src/gothic3/combat.ts) provides bounded Hero fist/single-hand
 Impact/Blade calculations, guards, death eligibility, native skill activation
@@ -570,3 +573,181 @@ and hosted derivatives described above. The two entries remain separate; a
 working landscape renderer is only one component of rebuilding a finishable
 game. The remaining runtime milestones in section 6 still require startup,
 inventory, AI, contacts, dialogue, quests and saves to work together.
+
+## 10. Rebuild initialization before enabling gameplay
+
+This checkpoint adds source-backed inventory, InfoManager, startup and enclave
+planners. The scene inspector uses the new read-only facts. A complete native
+session and NPC simulation are still pending; these modules do not make the
+browser game finishable.
+
+### Select the real InfoManager provider
+
+The latest `Projects_compiled.p01` entry for
+`compiledinfos_G3_World_01.bin` is empty and has the deletion attribute
+`0x8000`. Original VFS instructions show that it suppresses the same name in
+lower archive layers. Choosing the most recent **nonempty** file would
+therefore select an obsolete catalog.
+
+The ordinary InfoManager read tries the compiled table where appropriate and
+falls back to INIs when that lookup fails and entity patching is enabled.
+The source `GetInfoDir` prefix selects exactly 4,381 current-world INI records.
+The former `.pak` and `.p00` tables have 4,260 and 4,265 records respectively;
+they are preserved as separate historical providers, never merged into the
+current table.
+
+All 4,381 current INIs explicitly set `InfoGiven=false`. Stored `Permanent`
+is true for 197, explicitly false for 4,076 and absent for 108. The missing
+properties retain the native fresh-factory false default. Stored Permanent
+alone does not determine derived dialogue permanence or availability.
+
+The selected world InfoManager is class version 4 with no runtime tail. Its
+ordinary `Read` skips the older runtime-overlay branch. `ReadSaveGame` is a
+different route; its Given packets must be restored separately. Permanent is
+not a field of those packets.
+
+[info-state.ts](../../src/gothic3/info-state.ts) loads independently hash-pinned
+providers and guards Given lookups/updates by the info's exact archive, path
+and hash. An unsupported restore invalidates those facts instead of resetting
+them to convenient defaults. `loadBrowserInfoState()` uses an explicit fresh
+`G3_World_01` profile with patching enabled, the deleted compiled lookup and
+no `noinfos` command-line skip. This is a browser initialization choice backed
+by the specified source route; it is not a capture of a running native game.
+The source document records its assumptions and unapplied callbacks.
+
+### Recreate stacks through the original inventory operations
+
+[inventory.ts](../../src/gothic3/inventory.ts) ports bounded `CreateItems`,
+`AssureItems`, `AssureItemsEx`, quickslot, Learn and skill-activation behavior.
+It retains native signed/unsigned arithmetic, template GUID identity and
+ordered callback notifications. Assure sums exact-quality matching stacks and
+creates only a shortfall. Its selected stack is the last matching unlinked
+stack, or the first linked match when no unlinked match exists.
+
+Original vtable/import/export bytes bind stack property Enter/Exit hooks to
+SharedBase methods which return true without effects. `CreateItems` assigns a
+template proxy; it does not spawn an ItemWorld or execute that template's Skill
+or Spell handlers. From an empty serialized stack list, the 121 original
+assurances leave 116 stacks intrinsically Learned=false and explicitly set
+five true. The two serialized Head/Body equipment references preserve their
+original item and template GUIDs.
+
+External inventory listeners are a separate runtime boundary. An omitted or
+unknown registry rejects mutations before they start. A caller must supply a
+complete ordered registry; passing an empty registry explicitly asserts that
+it is complete and empty. The inspector instead reads the intrinsic projection
+through [inventory-source.ts](../../src/gothic3/inventory-source.ts), which
+performs no creation, listener or equipment calls. It does not assert that a
+native session has no listeners.
+
+The supported `Give` foundation selects the first **any-quality** donor stack
+and transfers that stack's actual quality. Only a player donor is clamped to
+that first stack's amount. It never combines donor stacks or creates a gift
+when the donor has none. Ordinary unlinked transfers retain source removal,
+recipient creation and quest-notification ordering. Physical unlink/equip,
+mission-item special branches and localized transfer messages still need
+their host implementations. Equipment plans are decisions, not completed
+physical/stat effects; starting weapon equipment has not been established.
+
+### Preserve the original new-game callback order
+
+[startup.ts](../../src/gothic3/startup.ts) loads a hash-verified recipe and
+plans the installed build's new-game mode 0 callbacks. `OnInit` invokes twelve
+helper resets in native order, including the 63-row action-transition table,
+entity caches, flags and distance entries. `OnGameStartUp` then performs:
+
+1. Script entity-cache reset and Hero Chapter=1.
+2. The temple-door height repair and Yepas alignment repair.
+3. Larson's `Start` navigation routine.
+4. Ardea alignment=1, Raid=true and Revolution=true.
+5. `NotifyEnclave(Hero, Ardea_Orkboss, 2)`.
+6. `RunQuest Xardas_FindXardas`.
+7. Gorn's `OnExit_Gorn` ROI callback assignment.
+8. Eighteen player stat setters, attribute LP=0 and `InventoryPopulate(...,0)`.
+
+The Gorn exit callback was absent from the original C/function index. Offline
+PE disassembly recovered its complete 412-byte body and direct branch
+boundaries. It does nothing when `Gorn_ShowReddock` is Open. Otherwise it calls
+CloseQuest, selects `GothaPrison`, moves to the selected working point and
+clears ExitROIScript. That conditional is preserved as compiled. Its spatial
+ROI scheduling has not been rebuilt.
+
+The source also requires session prerequisites and later work: clock resume,
+engine warmup, menu return, intro/audio restoration and ongoing AI/ROI/contact
+scheduling. The recovered 757-byte `OnReturnFromMenu` body refreshes NPC
+HP/SP maxima while preserving percentages; it is retained as evidence, not
+claimed as an executed browser lifecycle step.
+
+The startup host prepares every effect against a detached draft, then commits
+one revision-checked state change. Plans and receipts are frozen and single
+use. Missing handlers reject the entire transaction without applying a prefix.
+`gameplayReady` remains false even after a bounded callback plan succeeds.
+
+### Port Ardea raid entry without inventing active NPCs
+
+[enclave.ts](../../src/gothic3/enclave.ts) plans the source-proven event 2,
+Status 0→1 raid-entry path. Its gate compares **Other** with Other's enclave:
+at startup that is Ardea_Orkboss versus Ardea, not Hero versus Ardea.
+Political-attitude result 1 identifies same-side defenders, and result 4
+identifies their opponents. The full eight-by-eight switch table and
+chapter-dependent entries are recorded from original PE data.
+
+Membership comes from the enclave's cached proxies. An empty cache is built
+from NavigationAdmin's registered navigation property sets whose NPC enclave
+ID matches. Rendered NPCs are insufficient evidence for that live registry.
+Processing range is a live navigation byte, not a browser distance guess.
+
+AIModes 6, 9 and 8 exclude defenders from the eligible count but retain them
+in the total count. The signed native threshold selects liberated Status 2
+only when `eligible * 5 < total`; equality at 20% and zero/zero select Status 1.
+The supported branch preserves party detachment, Status assignment, ordered
+FullStop/ContinueRoutine calls and distance-ordered recruitment toward ten
+active members per side. Recruitment uses GroundBias=None, AniState=2 and
+StartGoto(Player, walk mode 3).
+
+Party clears require proved postconditions, because a native true return alone
+does not establish a changed Party proxy. The status return/read and subsequent
+member/distance facts also require host postconditions. Native float32 squared
+distances are required; tied distances need the original qsort permutation.
+Unknown facts produce no plan effects. Liberation, its quest/mission-item/death
+callback chain, other events and actual AI/task execution remain unsupported.
+
+### Evidence and reproduction
+
+These audits overlap some earlier functions; their counts must not be added
+as a count of unique ported engine methods.
+
+| Boundary | Evidence in this checkpoint | Implementation boundary |
+| --- | --- | --- |
+| Inventory | 136 entries, 2,772 instructions and 7,666 bytes matched to original PEs | Unknown observers, physical equipment and special transfer paths remain |
+| Startup | 75 functions, 7,220 listed/decoded instructions and 154 checked evidence files | Complete session, navigation, tasks and ROI remain |
+| Enclave | 23 bodies, 1,883 instructions and 6,822 bytes matched to original PEs; 256-byte political switch table | Raid-entry planner requires a complete native host |
+| Info state | 2,348 instructions matched to original DLLs, plus 421 matched to the separately labeled unpacked executable derivative | Fresh-world provider selection; native save restoration remains |
+
+The derivative executable's evidence is explicitly distinguished from original
+PE evidence. None of these tools executes an installed Gothic 3 binary.
+
+```powershell
+python tools/gothic3/research_info_runtime.py --study <LOCAL_GOTHIC3_STUDY> --installation <LOCAL_GOTHIC3_INSTALLATION>
+python tools/gothic3/freeze_info_state.py
+python tools/gothic3/research_native_inventory.py --study <LOCAL_GOTHIC3_STUDY>
+python tools/gothic3/research_native_startup.py --study <LOCAL_GOTHIC3_STUDY> --capstone-path <CAPSTONE_5_0_7_PACKAGE_DIRECTORY>
+python tools/gothic3/research_native_enclave.py --study <LOCAL_GOTHIC3_STUDY>
+python tools/gothic3/freeze_initialization_checkpoint.py
+```
+
+See each tool's arguments and the separate `assets/gothic3/{inventory,startup,
+enclave,info-state}` receipts. The original broad gameplay receipt is preserved;
+these findings have their own source/output receipts.
+
+The final checkpoint tool checks frozen bytes and catalog source identities.
+It records the files present; it does not run or certify a typecheck, build,
+browser inspection or native playthrough. Those validations need their own
+evidence for the source being reviewed.
+
+The candidate's source is reviewed separately from live deployment. The latest
+new PR checks were refused before any workflow steps because GitHub reported
+an account payment or spending-limit issue. A source-only checkpoint branch
+can be reviewed without treating it as a successful Pages release. The live
+site remains at its last successfully deployed revision until required CI and
+deployment are available again; no checks or triggers are bypassed.

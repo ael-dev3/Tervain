@@ -1,0 +1,2 @@
+; 200021fd ?RemoveListener@gCInventory_PS@@UAEXPAVgCInventoryListener@@@Z
+200021fd | e90eab1a00 | JMP 0x201acd10

@@ -1,0 +1,32 @@
+/* ENTRY 2001b199 | gCInventory_PS::OnStackCreate | STATUS decompiled | 14 ms */
+
+/* public: virtual void __thiscall gCInventory_PS::OnStackCreate(int,class gCInventoryStack const *)
+    */
+
+void __thiscall
+gCInventory_PS::OnStackCreate(gCInventory_PS *this,int param_1,gCInventoryStack *param_2)
+
+{
+  int iVar1;
+  int iVar2;
+  undefined4 *puVar3;
+  int iVar4;
+  
+                    /* 0x1b199  5627  ?OnStackCreate@gCInventory_PS@@UAEXHPBVgCInventoryStack@@@Z */
+  iVar1 = *(int *)&(this->gCInventory_PS_data).field_0x24;
+  iVar4 = 0;
+  if (0 < iVar1) {
+    do {
+      iVar2 = *(int *)&(this->gCInventory_PS_data).field_0x20;
+      puVar3 = *(undefined4 **)(iVar2 + iVar4 * 8);
+      if ((puVar3 != (undefined4 *)0x0) && (*(char *)(iVar2 + iVar4 * 8 + 4) != '\0')) {
+        (**(code **)*puVar3)(param_1,param_2);
+      }
+      iVar4 = iVar4 + 1;
+    } while (iVar4 < iVar1);
+  }
+  PurgeListeners((gCInventory_PS *)&this[-1].gCInventory_PS_data.field_0xa0);
+  return;
+}
+
+

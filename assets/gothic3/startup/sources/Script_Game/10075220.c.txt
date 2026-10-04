@@ -1,0 +1,145 @@
+/* ENTRY 10075220 | FUN_10075220 | STATUS decompiled | 111 ms */
+
+undefined4
+FUN_10075220(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3,float param_4)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  float fVar3;
+  gEPoliticalAlignment gVar4;
+  bCString *pbVar5;
+  long lVar6;
+  bCMemoryAdmin *this;
+  gEPlayerCrime gVar7;
+  code *pcVar8;
+  undefined4 local_36c;
+  gEPlayerCrime local_368;
+  gEEnclaveStatus gStack_364;
+  float local_360;
+  void *local_35c;
+  int local_358;
+  gEPoliticalAlignment local_350;
+  Entity local_34c [4];
+  Entity local_348 [128];
+  PropertyPoliticalAlignment local_2c8 [4];
+  PropertyStatus local_2c4 [24];
+  Entity local_2ac [8];
+  Entity local_2a4 [48];
+  PSPlayerMemory local_274 [4];
+  PropertyPoliticalAlignment local_270 [120];
+  Entity local_1f8 [124];
+  PropertyPoliticalAlignment local_17c [44];
+  Entity local_150 [156];
+  Entity local_b4 [124];
+  PSQuestManager local_38 [56];
+  
+  Entity::Entity(local_150);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_150,peVar2);
+  }
+  else {
+    Entity::operator=(local_150,param_2);
+  }
+  Entity::Entity(local_1f8);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_1f8,peVar2);
+  }
+  else {
+    Entity::operator=(local_1f8,param_3);
+  }
+  Entity::Entity(local_348,local_1f8);
+  local_360 = param_4;
+  fVar3 = (float)PSEnclave::PropertyStatus::operator_enum_gEEnclaveStatus(local_2c4);
+  if (local_360 != fVar3) {
+    pcVar8 = ~Entity_exref;
+    if (local_360 != 1.4013e-45) {
+      if (local_360 == 2.8026e-45) {
+        Entity::GetWorldEntity();
+        PSQuestManager::OnEnclaveStateChanged(local_38,local_34c);
+        Entity::GetPlayer();
+        gVar4 = PSEnclave::PropertyPoliticalAlignment::operator_enum_gEPoliticalAlignment(local_17c)
+        ;
+        pbVar5 = (bCString *)Entity::GetName((Entity *)&local_350);
+        bVar1 = operator!=("Ardea",pbVar5);
+        bCString::~bCString((bCString *)&stack0xfffffc8c);
+        if (bVar1) {
+          lVar6 = PSPlayerMemory::GetPoliticalCrimeCount(local_274,gVar4);
+          PSPlayerMemory::SetPoliticalCrimeCount(local_274,gVar4,lVar6 + 1);
+        }
+        pcVar8 = ~Entity_exref;
+        Entity::~Entity(local_2ac);
+        Entity::~Entity(local_b4);
+      }
+      else {
+        local_368 = 100;
+        PSEnclave::PropertyPlayerFame::operator=((PropertyPlayerFame *)local_2c4,(long *)&local_368)
+        ;
+        local_368 = 0;
+        PSEnclave::PropertyKnownPlayerCrime::operator=
+                  ((PropertyKnownPlayerCrime *)local_2c4,&local_368);
+        gVar7 = 0;
+        do {
+          PSEnclave::SetCrimeCount((PSEnclave *)local_2c4,gVar7,0);
+          PSEnclave::SetSuspectComment((PSEnclave *)local_2c4,gVar7,0);
+          gVar7 = gVar7 + 1;
+        } while ((int)gVar7 < 5);
+        local_36c = local_36c & 0xffffff;
+        PSEnclave::PropertyRaid::operator=((PropertyRaid *)local_2c4,(bool *)((int)&local_36c + 3));
+        local_36c = local_36c & 0xffffff;
+        PSEnclave::PropertyRevolution::operator=
+                  ((PropertyRevolution *)local_2c4,(bool *)((int)&local_36c + 3));
+        PSEnclave::GetMembers((PSEnclave *)local_2c4);
+        local_36c = 0;
+        if (0 < local_358) {
+          do {
+            Entity::Entity(local_2a4,*(eCEntity **)((int)local_35c + local_36c * 4));
+            gVar4 = PSNpc::PropertyPoliticalAlignment::operator_enum_gEPoliticalAlignment(local_270)
+            ;
+            if (gVar4 != 7) {
+              local_350 = PSEnclave::PropertyPoliticalAlignment::operator_enum_gEPoliticalAlignment
+                                    (local_2c8);
+              PSNpc::PropertyPoliticalAlignment::operator=(local_270,&local_350);
+              local_368 = 0;
+              PSNpc::PropertyLastPlayerAR::operator=((PropertyLastPlayerAR *)local_270,&local_368);
+              local_368 = 0;
+              PSNpc::PropertyAttackReason::operator=((PropertyAttackReason *)local_270,&local_368);
+              local_368 = 0;
+              PSNpc::PropertyLastFightAgainstPlayer::operator=
+                        ((PropertyLastFightAgainstPlayer *)local_270,&local_368);
+              local_368 = 0;
+              PSNpc::PropertyLastPlayerCrime::operator=
+                        ((PropertyLastPlayerCrime *)local_270,&local_368);
+              PSNpc::PropertyLastFightComment::operator=
+                        ((PropertyLastFightComment *)local_270,(bool *)&stack0xfffffc93);
+              local_360 = 0.0;
+              PSNpc::PropertyLastFightTimestamp::operator=
+                        ((PropertyLastFightTimestamp *)local_270,&local_360);
+            }
+            Entity::~Entity(local_2a4);
+            local_36c = local_36c + 1;
+          } while ((int)local_36c < local_358);
+        }
+        pcVar8 = ~Entity_exref;
+        if ((&stack0x00000000 != (undefined1 *)0x35c) && (local_35c != (void *)0x0)) {
+          this = bCMemoryAdmin::GetInstance();
+          bCMemoryAdmin::Free(this,local_35c);
+          pcVar8 = ~Entity_exref;
+        }
+      }
+    }
+    PSEnclave::PropertyStatus::operator=((PropertyStatus *)local_2c8,&gStack_364);
+    (*pcVar8)();
+    (*pcVar8)();
+    (*pcVar8)();
+    return 1;
+  }
+  Entity::~Entity(local_348);
+  Entity::~Entity(local_1f8);
+  Entity::~Entity(local_150);
+  return 0;
+}
+
+

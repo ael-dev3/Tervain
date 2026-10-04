@@ -1,0 +1,4 @@
+; 200307f1 ?GetUseType@gCInventorySlot@@QBE?AW4gEUseType@@XZ
+200307f1 | e9caf81800 | JMP 0x201c00c0
+; 200307f6 gCMusicEventTransition::Execute
+; 200307f6 Ordinal_2780

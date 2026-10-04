@@ -1,0 +1,26 @@
+/* ENTRY 20017f53 | gCInventoryStack::MustSplitBeforeLinking | STATUS decompiled | 5 ms */
+
+/* public: bool __thiscall gCInventoryStack::MustSplitBeforeLinking(enum gESlot,class eCEntity
+   *)const  */
+
+bool __thiscall
+gCInventoryStack::MustSplitBeforeLinking(gCInventoryStack *this,gESlot param_1,eCEntity *param_2)
+
+{
+  bool bVar1;
+  gESlot gVar2;
+  
+                    /* 0x17f53  5330
+                       ?MustSplitBeforeLinking@gCInventoryStack@@QBE_NW4gESlot@@PAVeCEntity@@@Z */
+  gVar2 = gCInventorySlot::GetAlternativeEquipSlot((gCInventorySlot *)this,param_2);
+  if (gVar2 != 0) {
+    return true;
+  }
+  gVar2 = gCInventorySlot::GetPrimaryEquipSlot((gCInventorySlot *)this,param_2);
+  if ((gVar2 != 0xe) || (bVar1 = true, param_1 != 1)) {
+    bVar1 = false;
+  }
+  return bVar1;
+}
+
+

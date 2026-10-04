@@ -1,0 +1,46 @@
+/* ENTRY 2001eb87 | gCInventory_PS::AddListener | STATUS decompiled | 15 ms */
+
+/* public: virtual void __thiscall gCInventory_PS::AddListener(class gCInventoryListener *) */
+
+void __thiscall gCInventory_PS::AddListener(gCInventory_PS *this,gCInventoryListener *param_1)
+
+{
+  undefined4 *puVar1;
+  uint uVar2;
+  uint uVar3;
+  int *piVar4;
+  int iVar5;
+  
+                    /* 0x1eb87  1884  ?AddListener@gCInventory_PS@@UAEXPAVgCInventoryListener@@@Z */
+  if (param_1 != (gCInventoryListener *)0x0) {
+    uVar2 = (this->gCInventory_PS_data).offset_0x38;
+    uVar3 = 0;
+    if (0 < (int)uVar2) {
+      piVar4 = (this->gCInventory_PS_data).offset_0x34;
+      do {
+        if ((gCInventoryListener *)*piVar4 == param_1) goto LAB_201acfb9;
+        uVar3 = uVar3 + 1;
+        piVar4 = piVar4 + 2;
+      } while ((int)uVar3 < (int)uVar2);
+    }
+    uVar3 = 0xffffffff;
+LAB_201acfb9:
+    if (uVar3 < uVar2) {
+      *(undefined1 *)((int)(this->gCInventory_PS_data).offset_0x34 + uVar3 * 8 + 4) = 1;
+    }
+    else {
+      iVar5 = (this->gCInventory_PS_data).offset_0x38 + 1;
+      thunk_FUN_201a9ee0(iVar5,(iVar5 != 0) - 1);
+      (this->gCInventory_PS_data).offset_0x38 = iVar5;
+      puVar1 = (undefined4 *)((int)(this->gCInventory_PS_data).offset_0x34 + iVar5 * 8 + -8);
+      *puVar1 = param_1;
+      *(undefined1 *)(puVar1 + 1) = 1;
+    }
+    if ((this->gCInventory_PS_data).offset_0x38 == 1) {
+      thunk_FUN_201cefb0(&this->vftablePtr);
+    }
+  }
+  return;
+}
+
+

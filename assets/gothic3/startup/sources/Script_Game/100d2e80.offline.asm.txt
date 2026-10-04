@@ -1,0 +1,228 @@
+; Offline original-PE disassembly; not a Ghidra C export.
+100d2e80 | 81ecbc020000 | sub esp, 0x2bc
+100d2e86 | 53 | push ebx
+100d2e87 | 8b1d84652210 | mov ebx, dword ptr [0x10226584]
+100d2e8d | 55 | push ebp
+100d2e8e | 56 | push esi
+100d2e8f | 57 | push edi
+100d2e90 | 8d8c24d4000000 | lea ecx, [esp + 0xd4]
+100d2e97 | ffd3 | call ebx
+100d2e99 | 8b8424d4020000 | mov eax, dword ptr [esp + 0x2d4]
+100d2ea0 | 85c0 | test eax, eax
+100d2ea2 | 8b2d80652210 | mov ebp, dword ptr [0x10226580]
+100d2ea8 | 8bb424d0020000 | mov esi, dword ptr [esp + 0x2d0]
+100d2eaf | 8b3d70662210 | mov edi, dword ptr [0x10226670]
+100d2eb5 | 7514 | jne 0x100d2ecb
+100d2eb7 | 8bce | mov ecx, esi
+100d2eb9 | ff1518632210 | call dword ptr [0x10226318] | ?GetSelfEntity@gCScriptProcessingUnit@@QAEPAVeCEntity@@XZ
+100d2ebf | 50 | push eax
+100d2ec0 | 8d8c24d8000000 | lea ecx, [esp + 0xd8]
+100d2ec7 | ffd7 | call edi
+100d2ec9 | eb0a | jmp 0x100d2ed5
+100d2ecb | 50 | push eax
+100d2ecc | 8d8c24d8000000 | lea ecx, [esp + 0xd8]
+100d2ed3 | ffd5 | call ebp
+100d2ed5 | 8d8c247c010000 | lea ecx, [esp + 0x17c]
+100d2edc | ffd3 | call ebx
+100d2ede | 8b8424d8020000 | mov eax, dword ptr [esp + 0x2d8]
+100d2ee5 | 33db | xor ebx, ebx
+100d2ee7 | 3bc3 | cmp eax, ebx
+100d2ee9 | 7514 | jne 0x100d2eff
+100d2eeb | 8bce | mov ecx, esi
+100d2eed | ff1520632210 | call dword ptr [0x10226320] | ?GetOtherEntity@gCScriptProcessingUnit@@QAEPAVeCEntity@@XZ
+100d2ef3 | 50 | push eax
+100d2ef4 | 8d8c2480010000 | lea ecx, [esp + 0x180]
+100d2efb | ffd7 | call edi
+100d2efd | eb0a | jmp 0x100d2f09
+100d2eff | 50 | push eax
+100d2f00 | 8d8c2480010000 | lea ecx, [esp + 0x180]
+100d2f07 | ffd5 | call ebp
+100d2f09 | 8d442418 | lea eax, [esp + 0x18]
+100d2f0d | 50 | push eax
+100d2f0e | ff1530662210 | call dword ptr [0x10226630] | ?GetNPCs@Entity@@SG?AV?$bTObjArray@VEntity@@@@XZ
+100d2f14 | 395c241c | cmp dword ptr [esp + 0x1c], ebx
+100d2f18 | 8b2d906f2210 | mov ebp, dword ptr [0x10226f90]
+100d2f1e | 895c2424 | mov dword ptr [esp + 0x24], ebx
+100d2f22 | 0f8ee7010000 | jle 0x100d310f
+100d2f28 | 895c2410 | mov dword ptr [esp + 0x10], ebx
+100d2f2c | 8d642400 | lea esp, [esp]
+100d2f30 | 8b4c2418 | mov ecx, dword ptr [esp + 0x18]
+100d2f34 | 8b542410 | mov edx, dword ptr [esp + 0x10]
+100d2f38 | 8b3d38652210 | mov edi, dword ptr [0x10226538]
+100d2f3e | 03d1 | add edx, ecx
+100d2f40 | 52 | push edx
+100d2f41 | 8d4c2430 | lea ecx, [esp + 0x30]
+100d2f45 | ffd7 | call edi
+100d2f47 | 8d44242c | lea eax, [esp + 0x2c]
+100d2f4b | 50 | push eax
+100d2f4c | 8d8c2428020000 | lea ecx, [esp + 0x228]
+100d2f53 | 51 | push ecx
+100d2f54 | ff1514652210 | call dword ptr [0x10226514] | ?GetPlayer@Entity@@SG?AV1@XZ
+100d2f5a | 8bc8 | mov ecx, eax
+100d2f5c | ff1528652210 | call dword ptr [0x10226528] | ??8Entity@@QBE_NABV0@@Z
+100d2f62 | 8d8c2424020000 | lea ecx, [esp + 0x224]
+100d2f69 | 8ad8 | mov bl, al
+100d2f6b | ffd5 | call ebp
+100d2f6d | 84db | test bl, bl
+100d2f6f | 0f8487000000 | je 0x100d2ffc
+100d2f75 | 8d542428 | lea edx, [esp + 0x28]
+100d2f79 | 52 | push edx
+100d2f7a | 8d4c2434 | lea ecx, [esp + 0x34]
+100d2f7e | ff154c662210 | call dword ptr [0x1022664c] | ?GetCurrentTask@PSRoutine@@QBE?AVbCString@@XZ
+100d2f84 | 50 | push eax
+100d2f85 | 6864ac2010 | push 0x1020ac64 | 'PS_Normal'
+100d2f8a | ff150c732210 | call dword ptr [0x1022730c] | ??8@YG_NPBDABVbCString@@@Z
+100d2f90 | 8d4c2428 | lea ecx, [esp + 0x28]
+100d2f94 | 8ad8 | mov bl, al
+100d2f96 | ff153c732210 | call dword ptr [0x1022733c] | ??1bCString@@QAE@XZ
+100d2f9c | 84db | test bl, bl
+100d2f9e | 0f8448010000 | je 0x100d30ec
+100d2fa4 | 81eca8000000 | sub esp, 0xa8
+100d2faa | 8d8424d4000000 | lea eax, [esp + 0xd4]
+100d2fb1 | 8bcc | mov ecx, esp
+100d2fb3 | 50 | push eax
+100d2fb4 | ffd7 | call edi
+100d2fb6 | b9dc032210 | mov ecx, 0x102203dc
+100d2fbb | e89ffef2ff | call 0x10002e5f
+100d2fc0 | 3c01 | cmp al, 1
+100d2fc2 | 751c | jne 0x100d2fe0
+100d2fc4 | 8d4c2414 | lea ecx, [esp + 0x14]
+100d2fc8 | 51 | push ecx
+100d2fc9 | 8d4c2448 | lea ecx, [esp + 0x48]
+100d2fcd | c744241801000000 | mov dword ptr [esp + 0x18], 1
+100d2fd5 | ff15cc6c2210 | call dword ptr [0x10226ccc] | ??4PropertyFocusLookAtMode@PSFocus@@QAEAAV01@ABW4gEFocusLookAt@@@Z
+100d2fdb | e90c010000 | jmp 0x100d30ec
+100d2fe0 | 8d542414 | lea edx, [esp + 0x14]
+100d2fe4 | 52 | push edx
+100d2fe5 | 8d4c2448 | lea ecx, [esp + 0x48]
+100d2fe9 | c744241800000000 | mov dword ptr [esp + 0x18], 0
+100d2ff1 | ff15cc6c2210 | call dword ptr [0x10226ccc] | ??4PropertyFocusLookAtMode@PSFocus@@QAEAAV01@ABW4gEFocusLookAt@@@Z
+100d2ff7 | e9f0000000 | jmp 0x100d30ec
+100d2ffc | a100652210 | mov eax, dword ptr [0x10226500]
+100d3001 | 6a00 | push 0
+100d3003 | 50 | push eax
+100d3004 | 8d4c2434 | lea ecx, [esp + 0x34]
+100d3008 | 51 | push ecx
+100d3009 | 56 | push esi
+100d300a | e8e9f6f2ff | call 0x100026f8
+100d300f | 8b1500652210 | mov edx, dword ptr [0x10226500]
+100d3015 | 6a00 | push 0
+100d3017 | 8bf8 | mov edi, eax
+100d3019 | 52 | push edx
+100d301a | 8d442434 | lea eax, [esp + 0x34]
+100d301e | 50 | push eax
+100d301f | 56 | push esi
+100d3020 | e8ff01f3ff | call 0x10003224
+100d3025 | 8b0d00652210 | mov ecx, dword ptr [0x10226500]
+100d302b | 50 | push eax
+100d302c | 51 | push ecx
+100d302d | 8d542434 | lea edx, [esp + 0x34]
+100d3031 | 52 | push edx
+100d3032 | 56 | push esi
+100d3033 | e80d04f3ff | call 0x10003445
+100d3038 | a100652210 | mov eax, dword ptr [0x10226500]
+100d303d | 6a00 | push 0
+100d303f | 50 | push eax
+100d3040 | 8d4c2434 | lea ecx, [esp + 0x34]
+100d3044 | 51 | push ecx
+100d3045 | 56 | push esi
+100d3046 | e8d901f3ff | call 0x10003224
+100d304b | 8bc8 | mov ecx, eax
+100d304d | 0fafcf | imul ecx, edi
+100d3050 | b81f85eb51 | mov eax, 0x51eb851f
+100d3055 | f7e9 | imul ecx
+100d3057 | c1fa05 | sar edx, 5
+100d305a | 8bc2 | mov eax, edx
+100d305c | c1e81f | shr eax, 0x1f
+100d305f | 03c2 | add eax, edx
+100d3061 | 8b1500652210 | mov edx, dword ptr [0x10226500]
+100d3067 | 50 | push eax
+100d3068 | 52 | push edx
+100d3069 | 8d442434 | lea eax, [esp + 0x34]
+100d306d | 50 | push eax
+100d306e | 56 | push esi
+100d306f | e886f4f2ff | call 0x100024fa
+100d3074 | 8b0d00652210 | mov ecx, dword ptr [0x10226500]
+100d307a | 6a00 | push 0
+100d307c | 51 | push ecx
+100d307d | 8d542434 | lea edx, [esp + 0x34]
+100d3081 | 52 | push edx
+100d3082 | 56 | push esi
+100d3083 | e85bf2f2ff | call 0x100022e3
+100d3088 | 6a00 | push 0
+100d308a | 8bf8 | mov edi, eax
+100d308c | a100652210 | mov eax, dword ptr [0x10226500]
+100d3091 | 50 | push eax
+100d3092 | 8d4c2434 | lea ecx, [esp + 0x34]
+100d3096 | 51 | push ecx
+100d3097 | 56 | push esi
+100d3098 | e8e5f3f2ff | call 0x10002482
+100d309d | 8b1500652210 | mov edx, dword ptr [0x10226500]
+100d30a3 | 50 | push eax
+100d30a4 | 52 | push edx
+100d30a5 | 8d442434 | lea eax, [esp + 0x34]
+100d30a9 | 50 | push eax
+100d30aa | 56 | push esi
+100d30ab | e8d6e0f2ff | call 0x10001186
+100d30b0 | 8b0d00652210 | mov ecx, dword ptr [0x10226500]
+100d30b6 | 6a00 | push 0
+100d30b8 | 51 | push ecx
+100d30b9 | 8d542434 | lea edx, [esp + 0x34]
+100d30bd | 52 | push edx
+100d30be | 56 | push esi
+100d30bf | e8bef3f2ff | call 0x10002482
+100d30c4 | 8bc8 | mov ecx, eax
+100d30c6 | 0fafcf | imul ecx, edi
+100d30c9 | b81f85eb51 | mov eax, 0x51eb851f
+100d30ce | f7e9 | imul ecx
+100d30d0 | c1fa05 | sar edx, 5
+100d30d3 | 8bc2 | mov eax, edx
+100d30d5 | c1e81f | shr eax, 0x1f
+100d30d8 | 03c2 | add eax, edx
+100d30da | 50 | push eax
+100d30db | a100652210 | mov eax, dword ptr [0x10226500]
+100d30e0 | 50 | push eax
+100d30e1 | 8d4c2434 | lea ecx, [esp + 0x34]
+100d30e5 | 51 | push ecx
+100d30e6 | 56 | push esi
+100d30e7 | e81df9f2ff | call 0x10002a09
+100d30ec | 8d4c242c | lea ecx, [esp + 0x2c]
+100d30f0 | ffd5 | call ebp
+100d30f2 | 8b442424 | mov eax, dword ptr [esp + 0x24]
+100d30f6 | 81442410a8000000 | add dword ptr [esp + 0x10], 0xa8
+100d30fe | 83c001 | add eax, 1
+100d3101 | 3b44241c | cmp eax, dword ptr [esp + 0x1c]
+100d3105 | 89442424 | mov dword ptr [esp + 0x24], eax
+100d3109 | 0f8c21feffff | jl 0x100d2f30
+100d310f | 8b5c2418 | mov ebx, dword ptr [esp + 0x18]
+100d3113 | 33ff | xor edi, edi
+100d3115 | 3bdf | cmp ebx, edi
+100d3117 | 7438 | je 0x100d3151
+100d3119 | 8b742420 | mov esi, dword ptr [esp + 0x20]
+100d311d | 3bf7 | cmp esi, edi
+100d311f | 7415 | je 0x100d3136
+100d3121 | 8bcb | mov ecx, ebx
+100d3123 | 83ee01 | sub esi, 1
+100d3126 | ffd5 | call ebp
+100d3128 | 81c3a8000000 | add ebx, 0xa8
+100d312e | 3bf7 | cmp esi, edi
+100d3130 | 75ef | jne 0x100d3121
+100d3132 | 8b5c2418 | mov ebx, dword ptr [esp + 0x18]
+100d3136 | 53 | push ebx
+100d3137 | ff1504732210 | call dword ptr [0x10227304] | ?GetInstance@bCMemoryAdmin@@SGAAV1@XZ
+100d313d | 8bc8 | mov ecx, eax
+100d313f | ff1500732210 | call dword ptr [0x10227300] | ?Free@bCMemoryAdmin@@QAEXPAX@Z
+100d3145 | 897c2418 | mov dword ptr [esp + 0x18], edi
+100d3149 | 897c241c | mov dword ptr [esp + 0x1c], edi
+100d314d | 897c2420 | mov dword ptr [esp + 0x20], edi
+100d3151 | 8d8c247c010000 | lea ecx, [esp + 0x17c]
+100d3158 | ffd5 | call ebp
+100d315a | 8d8c24d4000000 | lea ecx, [esp + 0xd4]
+100d3161 | ffd5 | call ebp
+100d3163 | 5f | pop edi
+100d3164 | 5e | pop esi
+100d3165 | 5d | pop ebp
+100d3166 | b801000000 | mov eax, 1
+100d316b | 5b | pop ebx
+100d316c | 81c4bc020000 | add esp, 0x2bc
+100d3172 | c21000 | ret 0x10

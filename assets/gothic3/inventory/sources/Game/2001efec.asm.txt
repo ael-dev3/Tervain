@@ -1,0 +1,2 @@
+; 2001efec ?Destroy@gCInventoryStack@@UAEXXZ
+2001efec | e97f841a00 | JMP 0x201c7470

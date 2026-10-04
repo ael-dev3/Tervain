@@ -1,0 +1,253 @@
+/* ENTRY 204332a0 | FUN_204332a0 | STATUS decompiled | 278 ms */
+
+undefined4
+FUN_204332a0(gCInventory_PS *param_1,eCDynamicEntity *param_2,eCTemplateEntity *param_3,uint param_4
+            )
+
+{
+  gCInventory_PS *pgVar1;
+  bool bVar2;
+  bCMessageAdmin *pbVar3;
+  gCInventoryStack *pgVar4;
+  gCSession *pgVar5;
+  eCDynamicEntity *peVar6;
+  eCEntity *peVar7;
+  bCString *pbVar8;
+  eCLocString *peVar9;
+  bCUnicodeString *pbVar10;
+  gCGUIManager *pgVar11;
+  eCDynamicEntity *peVar12;
+  gCInventory_PS *this;
+  uint uVar13;
+  int *unaff_retaddr;
+  wchar_t *pwVar14;
+  char *pcVar15;
+  bEMessageTypes bVar16;
+  char *pcVar17;
+  bCUnicodeString *pbVar18;
+  gEGameMessageType gVar19;
+  char *pcVar20;
+  int iVar21;
+  int iVar22;
+  bCString *pbVar23;
+  bCUnicodeString abStack_c [4];
+  bCUnicodeString abStack_8 [4];
+  eCLocString aeStack_4 [4];
+  
+  if (param_1 == (gCInventory_PS *)0x0) {
+    this = (gCInventory_PS *)0x0;
+  }
+  else {
+    this = (gCInventory_PS *)(**(code **)(*(int *)param_1 + 0xec))();
+  }
+  if (param_2 == (eCDynamicEntity *)0x0) {
+    param_1 = (gCInventory_PS *)param_2;
+  }
+  else {
+    param_1 = (gCInventory_PS *)(**(code **)(*(int *)param_2 + 0xec))();
+  }
+  iVar22 = (int)param_3;
+  if (this == (gCInventory_PS *)0x0) {
+    iVar22 = *(int *)g_iDefaultMessagePriority_exref;
+    pcVar20 = "gCInfo_PS::Give: Can\'t transfer items, source entity without inventory.";
+  }
+  else {
+    if (param_1 != (gCInventory_PS *)0x0) {
+      pgVar4 = gCInventory_PS::GetStack(this,(int)param_3);
+      if (pgVar4 == (gCInventoryStack *)0x0) {
+        iVar22 = *(int *)g_iDefaultMessagePriority_exref;
+        pcVar20 = "gCInfo_PS::Give: Invalid stack index, can\'t perform transfer.";
+      }
+      else {
+        param_3 = eCTemplateEntityProxy::GetEntity((eCTemplateEntityProxy *)(pgVar4 + 0xc));
+        if (param_3 != (eCTemplateEntity *)0x0) {
+          pgVar5 = (gCSession *)gCSession::GetInstance();
+          peVar6 = gCSession::GetPlayer(pgVar5);
+          peVar7 = (*this->vftablePtr->GetEntity)(this);
+          pgVar1 = param_1;
+          uVar13 = param_4;
+          if ((peVar7 == (eCEntity *)peVar6) &&
+             (uVar13 = *(uint *)(pgVar4 + 0x3c), param_4 < *(uint *)(pgVar4 + 0x3c))) {
+            uVar13 = param_4;
+          }
+          bVar2 = gCInventory_PS::TransferItemsTo(this,param_1,iVar22,uVar13,0);
+          if (!bVar2) {
+            iVar22 = *(int *)g_iDefaultMessagePriority_exref;
+            iVar21 = -1;
+            pcVar17 = (char *)0x0;
+            pcVar15 = (char *)0x0;
+            pcVar20 = "gCInfo_PS::Give: gCInventory_PS::TransferItems failed";
+            bVar16 = 3;
+            pbVar3 = bCMessageAdmin::GetInstance();
+            bCMessageAdmin::OnMessage(pbVar3,bVar16,pcVar20,pcVar15,pcVar17,iVar21,iVar22);
+            return 0;
+          }
+          pbVar23 = (bCString *)&DAT_207cfff0;
+          pbVar8 = eCEntity::GetName((eCEntity *)param_3);
+          bVar2 = bCString::CompareNoCaseFast(pbVar8,pbVar23);
+          if (bVar2) {
+            pgVar5 = (gCSession *)gCSession::GetInstance();
+            peVar6 = gCSession::GetPlayer(pgVar5);
+            peVar7 = (*this->vftablePtr->GetEntity)(this);
+            if (peVar7 == (eCEntity *)peVar6) {
+              bCUnicodeString::bCUnicodeString((bCUnicodeString *)&param_4);
+              bCString::bCString((bCString *)&param_1,"GO_GoldGiven");
+              peVar9 = (eCLocString *)eCLocString::eCLocString(aeStack_4,(bCString *)&param_1);
+              eCLocString::GetString(peVar9);
+              pbVar18 = (bCUnicodeString *)&DAT_2069a0d4;
+              pwVar14 = (wchar_t *)&param_3;
+              pbVar10 = (bCUnicodeString *)bCUnicodeString::bCUnicodeString(abStack_c,uVar13);
+              pbVar10 = (bCUnicodeString *)bCUnicodeString::operator+(pbVar10,pwVar14);
+              pbVar10 = (bCUnicodeString *)bCUnicodeString::operator+(pbVar10,pbVar18);
+              bCUnicodeString::operator=((bCUnicodeString *)&param_2,pbVar10);
+              bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0x00000000);
+              bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&param_1);
+              bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffffec);
+              bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffff0);
+              eCLocString::~eCLocString((eCLocString *)abStack_c);
+              bCString::~bCString((bCString *)aeStack_4);
+              gVar19 = 2;
+              pbVar10 = (bCUnicodeString *)&param_2;
+              pgVar5 = (gCSession *)gCSession::GetInstance();
+              pgVar11 = (gCGUIManager *)gCSession::GetGUIManager(pgVar5);
+              gCGUIManager::PrintGameMessage(pgVar11,pbVar10,gVar19);
+              bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&param_2);
+            }
+            pgVar5 = (gCSession *)gCSession::GetInstance();
+            param_2 = gCSession::GetPlayer(pgVar5);
+            peVar6 = (eCDynamicEntity *)(**(code **)(*(int *)pgVar1 + 0x68))();
+            if (peVar6 == param_2) {
+              bCUnicodeString::bCUnicodeString((bCUnicodeString *)&param_2);
+              bCString::bCString((bCString *)aeStack_4,"GO_GoldTaken");
+              peVar9 = (eCLocString *)
+                       eCLocString::eCLocString
+                                 ((eCLocString *)&stack0xffffffec,(bCString *)aeStack_4);
+              eCLocString::GetString(peVar9);
+              pbVar18 = (bCUnicodeString *)&DAT_2069a0d4;
+              pwVar14 = (wchar_t *)&param_1;
+              pbVar10 = (bCUnicodeString *)bCUnicodeString::bCUnicodeString(abStack_c,uVar13);
+              pbVar10 = (bCUnicodeString *)bCUnicodeString::operator+(pbVar10,pwVar14);
+              pbVar10 = (bCUnicodeString *)bCUnicodeString::operator+(pbVar10,pbVar18);
+              bCUnicodeString::operator=((bCUnicodeString *)&stack0x00000000,pbVar10);
+              bCUnicodeString::~bCUnicodeString(abStack_8);
+              bCUnicodeString::~bCUnicodeString((bCUnicodeString *)aeStack_4);
+              bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffffec);
+              bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffffe8);
+              eCLocString::~eCLocString((eCLocString *)&stack0xffffffe4);
+              bCString::~bCString((bCString *)abStack_c);
+              gVar19 = 3;
+              pbVar10 = (bCUnicodeString *)register0x00000010;
+              pgVar5 = (gCSession *)gCSession::GetInstance();
+              pgVar11 = (gCGUIManager *)gCSession::GetGUIManager(pgVar5);
+              gCGUIManager::PrintGameMessage(pgVar11,pbVar10,gVar19);
+              bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0x00000000);
+              return 1;
+            }
+          }
+          else {
+            bCString::bCString((bCString *)&param_2,"FO_");
+            pbVar8 = eCEntity::GetName((eCEntity *)param_3);
+            bCString::operator+=((bCString *)&param_2,pbVar8);
+            pgVar5 = (gCSession *)gCSession::GetInstance();
+            peVar6 = gCSession::GetPlayer(pgVar5);
+            peVar7 = (*this->vftablePtr->GetEntity)(this);
+            if (peVar7 == (eCEntity *)peVar6) {
+              bCUnicodeString::bCUnicodeString((bCUnicodeString *)&param_4);
+              if (1 < uVar13) {
+                pwVar14 = (wchar_t *)&param_3;
+                pbVar10 = (bCUnicodeString *)
+                          bCUnicodeString::bCUnicodeString((bCUnicodeString *)aeStack_4,uVar13);
+                pbVar10 = (bCUnicodeString *)bCUnicodeString::operator+(pbVar10,pwVar14);
+                bCUnicodeString::operator=((bCUnicodeString *)&param_3,pbVar10);
+                bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&param_2);
+                bCUnicodeString::~bCUnicodeString(abStack_8);
+              }
+              peVar9 = (eCLocString *)
+                       eCLocString::eCLocString((eCLocString *)abStack_8,(bCString *)&param_1);
+              eCLocString::GetString(peVar9);
+              bCUnicodeString::operator+=((bCUnicodeString *)&param_3,(bCUnicodeString *)&param_2);
+              bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&param_2);
+              eCLocString::~eCLocString((eCLocString *)abStack_8);
+              bCUnicodeString::operator+=((bCUnicodeString *)&param_3,L" ");
+              bCString::bCString((bCString *)&param_2,"GO_ItemGiven");
+              peVar9 = (eCLocString *)
+                       eCLocString::eCLocString((eCLocString *)abStack_c,(bCString *)&param_2);
+              pbVar10 = (bCUnicodeString *)eCLocString::GetString(peVar9);
+              bCUnicodeString::operator+=((bCUnicodeString *)&param_3,pbVar10);
+              bCUnicodeString::~bCUnicodeString(abStack_8);
+              eCLocString::~eCLocString((eCLocString *)abStack_c);
+              bCString::~bCString((bCString *)&param_2);
+              gVar19 = 2;
+              pbVar10 = (bCUnicodeString *)&param_3;
+              pgVar5 = (gCSession *)gCSession::GetInstance();
+              pgVar11 = (gCGUIManager *)gCSession::GetGUIManager(pgVar5);
+              gCGUIManager::PrintGameMessage(pgVar11,pbVar10,gVar19);
+              bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&param_3);
+            }
+            pgVar5 = (gCSession *)gCSession::GetInstance();
+            peVar6 = gCSession::GetPlayer(pgVar5);
+            peVar12 = (eCDynamicEntity *)(**(code **)(*unaff_retaddr + 0x68))();
+            if (peVar12 == peVar6) {
+              bCUnicodeString::bCUnicodeString((bCUnicodeString *)&param_3);
+              if (1 < uVar13) {
+                pwVar14 = (wchar_t *)register0x00000010;
+                pbVar10 = (bCUnicodeString *)
+                          bCUnicodeString::bCUnicodeString((bCUnicodeString *)&param_2,uVar13);
+                pbVar10 = (bCUnicodeString *)bCUnicodeString::operator+(pbVar10,pwVar14);
+                bCUnicodeString::operator=((bCUnicodeString *)&param_2,pbVar10);
+                bCUnicodeString::~bCUnicodeString((bCUnicodeString *)aeStack_4);
+                bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&param_1);
+              }
+              peVar9 = (eCLocString *)
+                       eCLocString::eCLocString((eCLocString *)&param_2,(bCString *)&param_1);
+              eCLocString::GetString(peVar9);
+              bCUnicodeString::operator+=
+                        ((bCUnicodeString *)&param_3,(bCUnicodeString *)&stack0x00000000);
+              bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0x00000000);
+              eCLocString::~eCLocString((eCLocString *)&param_2);
+              bCUnicodeString::operator+=((bCUnicodeString *)&param_3,L" ");
+              bCString::bCString((bCString *)&stack0x00000000,"GO_ItemTaken");
+              peVar9 = (eCLocString *)
+                       eCLocString::eCLocString
+                                 ((eCLocString *)abStack_8,(bCString *)&stack0x00000000);
+              pbVar10 = (bCUnicodeString *)eCLocString::GetString(peVar9);
+              bCUnicodeString::operator+=((bCUnicodeString *)&param_3,pbVar10);
+              bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&param_2);
+              eCLocString::~eCLocString((eCLocString *)abStack_8);
+              bCString::~bCString((bCString *)&stack0x00000000);
+              gVar19 = 3;
+              pbVar10 = (bCUnicodeString *)&param_3;
+              pgVar5 = (gCSession *)gCSession::GetInstance();
+              pgVar11 = (gCGUIManager *)gCSession::GetGUIManager(pgVar5);
+              gCGUIManager::PrintGameMessage(pgVar11,pbVar10,gVar19);
+              bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&param_3);
+            }
+            bCString::~bCString((bCString *)&param_1);
+          }
+          return 1;
+        }
+        iVar22 = *(int *)g_iDefaultMessagePriority_exref;
+        pcVar20 = "gCInfo_PS::Give: Stack has no template, can\'t perform transfer.";
+        param_3 = (eCTemplateEntity *)0x0;
+      }
+      pcVar17 = (char *)0x0;
+      iVar21 = -1;
+      bVar16 = 3;
+      pcVar15 = pcVar17;
+      pbVar3 = bCMessageAdmin::GetInstance();
+      bCMessageAdmin::OnMessage(pbVar3,bVar16,pcVar20,pcVar17,pcVar15,iVar21,iVar22);
+      return 0;
+    }
+    iVar22 = *(int *)g_iDefaultMessagePriority_exref;
+    pcVar20 = "gCInfo_PS::Give: Can\'t transfer items, destination entity without inventory.";
+  }
+  pcVar17 = (char *)0x0;
+  iVar21 = -1;
+  bVar16 = 3;
+  pcVar15 = pcVar17;
+  pbVar3 = bCMessageAdmin::GetInstance();
+  bCMessageAdmin::OnMessage(pbVar3,bVar16,pcVar20,pcVar17,pcVar15,iVar21,iVar22);
+  return 0;
+}
+
+

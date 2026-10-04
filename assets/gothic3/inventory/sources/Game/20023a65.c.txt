@@ -1,0 +1,18 @@
+/* ENTRY 20023a65 | gCInventoryStack::SetQuickSlot | STATUS decompiled | 6 ms */
+
+/* public: void __thiscall gCInventoryStack::SetQuickSlot(int const &) */
+
+void __thiscall gCInventoryStack::SetQuickSlot(gCInventoryStack *this,int *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x23a65  6915  ?SetQuickSlot@gCInventoryStack@@QAEXABH@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"QuickSlot",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->gCInventoryStack_data).offset_0x8 = *param_1;
+  (*pNVar1)(this,"QuickSlot",false);
+  return;
+}
+
+

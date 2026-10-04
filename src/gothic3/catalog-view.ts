@@ -1,5 +1,7 @@
 import { NativeCatalog } from './catalog';
 import type { NativeInfo } from './catalog';
+import { loadBrowserInfoState } from './info-state';
+import type { NativeInfoState } from './info-state';
 
 export const catalog = new NativeCatalog();
 
@@ -15,7 +17,7 @@ function source(parent: HTMLElement, record: { source: { archive: string; path: 
   text(parent, record.source.archive + ' · ' + record.source.path + ' · SHA-256 ' + record.source.sha256, 'p', 'source');
 }
 
-function infoRecord(parent: HTMLElement, info: NativeInfo): void {
+function infoRecord(parent: HTMLElement, info: NativeInfo, flags: NativeInfoState): void {
   const details = document.createElement('details');
   const title = document.createElement('summary');
   const first = info.commands.find((command) => command.command.toLowerCase() === 'description') ??
@@ -24,6 +26,12 @@ function infoRecord(parent: HTMLElement, info: NativeInfo): void {
   details.append(title);
   const condition = info.conditionType === null ? 'Unresolved condition' : catalog.enums.infoConditionType[String(info.conditionType)] ?? String(info.conditionType);
   text(details, condition + (info.quest ? ' · ' + info.quest : '') + (info.parent ? ' · parent ' + info.parent : ''), 'p', 'record-meta');
+  const given = flags.given(info);
+  const initial = flags.source(info.id);
+  text(details, given.known && initial ? 'Fresh-world source flags · Given ' + given.value +
+    ' · stored Permanent ' + initial.permanent +
+    (initial.sourcePermanent === null ? ' (factory default)' : '') + '. Startup and eligibility are not evaluated here.' :
+    'Fresh-world flags unresolved: ' + (given.known ? 'missing source record' : given.reason), 'p', 'record-meta');
   for (const command of info.commands) {
     if (!command.command) continue;
     const kind = command.command.toLowerCase();
@@ -45,14 +53,14 @@ export async function showOriginalDialogue(parent: HTMLElement, owner: string): 
   parent.append(view);
   text(view, 'Reading original dialogue…');
   try {
-    await catalog.load();
+    const [, flags] = await Promise.all([catalog.load(), loadBrowserInfoState()]);
     if (!view.isConnected) return;
     view.replaceChildren();
     const infos = catalog.forOwner(owner);
     if (!infos.length) { text(view, 'No original dialogue records have this owner name.'); return; }
     text(view, 'Original dialogue', 'h3');
     text(view, infos.length + ' source records · ' + catalog.language + '. These records include conditional conversations; their availability and actions are still being rebuilt.');
-    for (const info of infos) infoRecord(view, info);
+    for (const info of infos) infoRecord(view, info, flags);
   } catch (error) {
     if (view.isConnected) { view.replaceChildren(); text(view, 'Original dialogue could not load: ' + String(error), 'p', 'warnings'); }
   }

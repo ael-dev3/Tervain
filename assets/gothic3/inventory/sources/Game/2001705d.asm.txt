@@ -1,0 +1,2 @@
+; 2001705d ?EquipStack@gCInventory_PS@@QAE_NH@Z
+2001705d | e9be9a1900 | JMP 0x201b0b20

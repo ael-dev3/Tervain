@@ -1,0 +1,4 @@
+; 100014d3 ?CreateItems@PSInventory@@QAEHABVTemplate@@KH@Z
+100014d3 | e938880100 | JMP 0x10019d10
+; 100014d8 PSParticle::PropertyUseCollision::operator=
+; 100014d8 Ordinal_759

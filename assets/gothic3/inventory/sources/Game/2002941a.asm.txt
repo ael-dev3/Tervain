@@ -1,0 +1,2 @@
+; 2002941a ?EquipStackToSlot@gCInventory_PS@@QAE_NHW4gESlot@@@Z
+2002941a | e9817b1800 | JMP 0x201b0fa0

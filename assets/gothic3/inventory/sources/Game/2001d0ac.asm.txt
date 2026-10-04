@@ -1,0 +1,2 @@
+; 2001d0ac ?GetSortIndex@gCInventoryStack@@QBEABHXZ
+2001d0ac | e93f200600 | JMP 0x2007f0f0

@@ -1,0 +1,10 @@
+/* ENTRY 201b0e00 | FUN_201b0e00 | STATUS decompiled | 1 ms */
+
+void FUN_201b0e00(void)
+
+{
+  thunk_FUN_201cf7a0();
+  return;
+}
+
+

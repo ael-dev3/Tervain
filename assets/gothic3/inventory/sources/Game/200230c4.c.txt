@@ -1,0 +1,18 @@
+/* ENTRY 200230c4 | gCInventoryStack::IsEquippedToSlot | STATUS decompiled | 3 ms */
+
+/* public: bool __thiscall gCInventoryStack::IsEquippedToSlot(enum gESlot)const  */
+
+bool __thiscall gCInventoryStack::IsEquippedToSlot(gCInventoryStack *this,gESlot param_1)
+
+{
+  gESlot gVar1;
+  
+                    /* 0x230c4  5146  ?IsEquippedToSlot@gCInventoryStack@@QBE_NW4gESlot@@@Z */
+  gVar1 = (this->gCInventorySlot_data).offset_0x34;
+  if ((gVar1 != 0) && (param_1 == gVar1)) {
+    return true;
+  }
+  return false;
+}
+
+

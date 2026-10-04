@@ -1,0 +1,10 @@
+/* ENTRY 201c7d40 | FUN_201c7d40 | STATUS decompiled | 3 ms */
+
+undefined4 __fastcall FUN_201c7d40(gCInventoryStack *param_1)
+
+{
+  gCInventoryStack::ApplyDefaults(param_1);
+  return 1;
+}
+
+

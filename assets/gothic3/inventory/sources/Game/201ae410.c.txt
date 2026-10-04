@@ -1,0 +1,10 @@
+/* ENTRY 201ae410 | FUN_201ae410 | STATUS decompiled | 1 ms */
+
+void FUN_201ae410(undefined4 param_1,undefined4 param_2,undefined4 param_3)
+
+{
+  thunk_FUN_201d0210(param_1,param_3,param_2);
+  return;
+}
+
+

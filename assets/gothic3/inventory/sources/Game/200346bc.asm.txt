@@ -1,0 +1,2 @@
+; 200346bc ?IsLinked@gCInventorySlot@@QBE_NXZ
+200346bc | e95fb91800 | JMP 0x201c0020

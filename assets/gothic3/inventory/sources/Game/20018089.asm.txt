@@ -1,0 +1,4 @@
+; 20018089 ?IsEmpty@gCInventoryStack@@QBE_NXZ
+20018089 | e9f2f31a00 | JMP 0x201c7480
+; 2001808e gCAttribute::SetBaseValue
+; 2001808e Ordinal_6247

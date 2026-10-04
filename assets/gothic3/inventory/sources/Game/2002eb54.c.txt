@@ -1,0 +1,78 @@
+/* ENTRY 2002eb54 | gCInventoryStack::OnApplyStats | STATUS decompiled | 43 ms */
+
+/* protected: virtual void __thiscall gCInventoryStack::OnApplyStats(class eCEntity *,class eCEntity
+   *) */
+
+void __thiscall
+gCInventoryStack::OnApplyStats(gCInventoryStack *this,eCEntity *param_1,eCEntity *param_2)
+
+{
+  bool bVar1;
+  eCTemplateEntity *peVar2;
+  gCPlayerMemory_PS *this_00;
+  eCEntityPropertySet *peVar3;
+  int iVar4;
+  
+                    /* 0x2eb54  5353  ?OnApplyStats@gCInventoryStack@@MAEXPAVeCEntity@@0@Z */
+  if (param_1 == (eCEntity *)0x0) {
+    this_00 = (gCPlayerMemory_PS *)0x0;
+    param_1 = (eCEntity *)0x0;
+  }
+  else {
+    this_00 = (gCPlayerMemory_PS *)(**(code **)(*(int *)param_1 + 0xec))(0x3c);
+    param_1 = (eCEntity *)(**(code **)(*(int *)param_1 + 0xec))(0x1f);
+  }
+  if (param_2 == (eCEntity *)0x0) {
+    iVar4 = 0;
+  }
+  else {
+    iVar4 = (**(code **)(*(int *)param_2 + 0xec))(0x30);
+  }
+  if (((this_00 != (gCPlayerMemory_PS *)0x0) && (iVar4 != 0)) && (param_1 != (eCEntity *)0x0)) {
+    peVar2 = eCTemplateEntityProxy::GetEntity((eCTemplateEntityProxy *)(iVar4 + 0x4c));
+    if (peVar2 == (eCTemplateEntity *)0x0) {
+      peVar3 = (eCEntityPropertySet *)0x0;
+    }
+    else {
+      peVar3 = eCEntity::GetPropertySet((eCEntity *)peVar2,0x69);
+    }
+    bVar1 = gCInventory_PS::IsEquipped((gCInventory_PS *)param_1,(gCArmorSet_PS *)peVar3);
+    if (bVar1) {
+      gCPlayerMemory_PS::ApplyMod
+                (this_00,(bCString *)(peVar3 + 0x5c),*(int *)(peVar3 + 0x68),
+                 *(EAttribModOperation *)(peVar3 + 100));
+      gCPlayerMemory_PS::ApplyMod
+                (this_00,(bCString *)(peVar3 + 0x6c),*(int *)(peVar3 + 0x78),
+                 *(EAttribModOperation *)(peVar3 + 0x74));
+      gCPlayerMemory_PS::ApplyMod
+                (this_00,(bCString *)(peVar3 + 0x7c),*(int *)(peVar3 + 0x88),
+                 *(EAttribModOperation *)(peVar3 + 0x84));
+      gCPlayerMemory_PS::ApplyMod
+                (this_00,(bCString *)(peVar3 + 0x8c),*(int *)(peVar3 + 0x98),
+                 *(EAttribModOperation *)(peVar3 + 0x94));
+      peVar2 = eCTemplateEntityProxy::GetEntity((eCTemplateEntityProxy *)(peVar3 + 0x9c));
+      gCInventory_PS::ActivateSkill((gCInventory_PS *)param_1,peVar2);
+      peVar2 = eCTemplateEntityProxy::GetEntity((eCTemplateEntityProxy *)(peVar3 + 0xa8));
+      gCInventory_PS::ActivateSkill((gCInventory_PS *)param_1,peVar2);
+    }
+    gCPlayerMemory_PS::ApplyMod
+              (this_00,(bCString *)(iVar4 + 0xcc),*(int *)(iVar4 + 0xd8),
+               *(EAttribModOperation *)(iVar4 + 0xd4));
+    gCPlayerMemory_PS::ApplyMod
+              (this_00,(bCString *)(iVar4 + 0xdc),*(int *)(iVar4 + 0xe8),
+               *(EAttribModOperation *)(iVar4 + 0xe4));
+    gCPlayerMemory_PS::ApplyMod
+              (this_00,(bCString *)(iVar4 + 0xec),*(int *)(iVar4 + 0xf8),
+               *(EAttribModOperation *)(iVar4 + 0xf4));
+    gCPlayerMemory_PS::ApplyMod
+              (this_00,(bCString *)(iVar4 + 0xfc),*(int *)(iVar4 + 0x108),
+               *(EAttribModOperation *)(iVar4 + 0x104));
+    peVar2 = eCTemplateEntityProxy::GetEntity((eCTemplateEntityProxy *)(iVar4 + 300));
+    gCInventory_PS::ActivateSkill((gCInventory_PS *)param_1,peVar2);
+    peVar2 = eCTemplateEntityProxy::GetEntity((eCTemplateEntityProxy *)(iVar4 + 0x138));
+    gCInventory_PS::ActivateSkill((gCInventory_PS *)param_1,peVar2);
+  }
+  return;
+}
+
+

@@ -1,0 +1,18 @@
+/* ENTRY 2000119f | gCInventoryStack::SetQuality | STATUS decompiled | 6 ms */
+
+/* public: void __thiscall gCInventoryStack::SetQuality(int const &) */
+
+void __thiscall gCInventoryStack::SetQuality(gCInventoryStack *this,int *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x119f  6911  ?SetQuality@gCInventoryStack@@QAEXABH@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"Quality",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->gCInventoryStack_data).offset_0x4 = *param_1;
+  (*pNVar1)(this,"Quality",false);
+  return;
+}
+
+

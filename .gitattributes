@@ -5,5 +5,22 @@ public/gothic3/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/combat/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/dialogue/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/terrain/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/inventory/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/startup/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/info-state/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/enclave/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+# These implementations/producers are individually byte-pinned by native receipts.
+src/gothic3/inventory.ts -text -eol
+src/gothic3/startup.ts -text -eol
+src/gothic3/info-state.ts -text -eol
+src/gothic3/enclave.ts -text -eol
+tools/gothic3/research_native_inventory.py -text -eol
+tools/gothic3/research_native_startup.py -text -eol
+tools/gothic3/research_info_runtime.py -text -eol
+tools/gothic3/research_native_enclave.py -text -eol
+tools/gothic3/freeze_info_state.py -text -eol
 # Hash-preserved native study excerpts include original blank-line spacing.
 assets/gothic3/combat/sources/** -whitespace
+assets/gothic3/inventory/sources/** -whitespace
+assets/gothic3/startup/sources/** -whitespace
+assets/gothic3/enclave/sources/** -whitespace

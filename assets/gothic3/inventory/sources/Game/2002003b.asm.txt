@@ -1,0 +1,2 @@
+; 2002003b ?SetAmount@gCInventoryStack@@QAEXABH@Z
+2002003b | e9b0ef0500 | JMP 0x2007eff0

@@ -1,0 +1,22 @@
+/* ENTRY 10019d10 | FUN_10019d10 | STATUS decompiled | 8 ms */
+
+int __thiscall FUN_10019d10(void *this,Template *param_1,ulong param_2,ulong param_3)
+
+{
+  bool bVar1;
+  bCPropertyID *pbVar2;
+  int iVar3;
+  
+  if (*(int *)this == 0) {
+    return -1;
+  }
+  bVar1 = Template::IsValid(param_1);
+  if (!bVar1) {
+    return -1;
+  }
+  pbVar2 = Template::operator_class_bCPropertyID_const_(param_1);
+  iVar3 = gCInventory_PS::CreateItems(*(gCInventory_PS **)this,pbVar2,param_2,param_3);
+  return iVar3;
+}
+
+

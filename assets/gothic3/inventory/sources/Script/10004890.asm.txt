@@ -1,0 +1,2 @@
+; 10004890 ?AssureItemsEx@PSInventory@@QAEHABVTemplate@@KHH_N@Z
+10004890 | e91b5d0100 | JMP 0x1001a5b0

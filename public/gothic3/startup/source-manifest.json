@@ -1,0 +1,786 @@
+{
+  "schema": "gothic3-native-startup-manifest-v1",
+  "version": 1,
+  "nativeDocument": {
+    "url": "startup/native-startup.json",
+    "sha256": "04fda37dd255ea66505f6ff863b338c15a45b7a4b89b5b4853b66122ef909f3d",
+    "bytes": 210418
+  },
+  "researchTool": {
+    "path": "tools/gothic3/research_native_startup.py",
+    "sha256": "e9f221c8a169e323cddc78b46a5af444c86ad0f57e5fad117d12dae9068476c3"
+  },
+  "evidenceFiles": [
+    {
+      "path": "EVIDENCE.md",
+      "sha256": "9a8588abe588543e97a275e1c8a769194596bb479798987769e140be4e896258",
+      "bytes": 1862
+    },
+    {
+      "path": "native-startup.json",
+      "sha256": "04fda37dd255ea66505f6ff863b338c15a45b7a4b89b5b4853b66122ef909f3d",
+      "bytes": 210418
+    },
+    {
+      "path": "sources/Game/200087ab.asm.txt",
+      "sha256": "c33e77c4e1f65cbaf261fc4000c2dad9ab37eeead1d5cb24ff058ae16b9eeaa9",
+      "bytes": 98
+    },
+    {
+      "path": "sources/Game/200087ab.c.txt",
+      "sha256": "4638ba243a6ef01b508c003869c4e4b12a7c864ba609ad2a969c71b1ebbd10bc",
+      "bytes": 7205
+    },
+    {
+      "path": "sources/Game/20033096.asm.txt",
+      "sha256": "5d9aa5d0d4ea14df0600311cb33cfe02110525aa304d8f4f7485783dbfb69da5",
+      "bytes": 88
+    },
+    {
+      "path": "sources/Game/20033096.c.txt",
+      "sha256": "75d84f623111ae751a0678ad6e1e68b9a6d17cebe1c39520ad0868299e29a3f2",
+      "bytes": 2314
+    },
+    {
+      "path": "sources/Game/20374e90.asm.txt",
+      "sha256": "b11f3b636602742c9cd9c357ea6d640c31f3ee895e6774def91f2508d3cce0ad",
+      "bytes": 2989
+    },
+    {
+      "path": "sources/Game/20374e90.c.txt",
+      "sha256": "7984a88e59061f70d646b99f89d4009970ee5798ebb3e7a8d5b83c6298a4b126",
+      "bytes": 2040
+    },
+    {
+      "path": "sources/Game/20376690.asm.txt",
+      "sha256": "f0c2de00ef17e627462ffdf61b9bddcd16eb3f1cc9f44382300bc215293de073",
+      "bytes": 11794
+    },
+    {
+      "path": "sources/Game/20376690.c.txt",
+      "sha256": "d85a5c2a5f3bf7347108b0d1df386a5a999ccc083307a37dcbbb3925bd1d72b1",
+      "bytes": 6988
+    },
+    {
+      "path": "sources/Script_Game/10009400.asm.txt",
+      "sha256": "6178d6434fc03941f9843d61c523c91ed53d0f6f60608edfdcf63415616bb802",
+      "bytes": 44
+    },
+    {
+      "path": "sources/Script_Game/10009400.c.txt",
+      "sha256": "2f41385fcb3dfd2aaac7ca3925c817a0b78fd4d319d8fbc29f7c450674ec575d",
+      "bytes": 105
+    },
+    {
+      "path": "sources/Script_Game/10009680.asm.txt",
+      "sha256": "bd9e8e2687b78c0f4141844f32572a33e6486eb3f4fd3ae6f14a9d291038a57c",
+      "bytes": 400
+    },
+    {
+      "path": "sources/Script_Game/10009680.c.txt",
+      "sha256": "da3f5538d2bb8c5a2e20409a4a7179ef70a5c46722d09569b0aaef343167aa3e",
+      "bytes": 255
+    },
+    {
+      "path": "sources/Script_Game/1000a6f0.asm.txt",
+      "sha256": "d1c2dd45fa99fc3e1f526eb0d54c2f35bae53add89f25c3347dc16b60c609a38",
+      "bytes": 87
+    },
+    {
+      "path": "sources/Script_Game/1000a6f0.c.txt",
+      "sha256": "afe43e2f6246c392dbad96b78dc83862925c7e7aed00889d2d86bcdefdd1e364",
+      "bytes": 147
+    },
+    {
+      "path": "sources/Script_Game/1000a800.asm.txt",
+      "sha256": "3b1c11a9b47f0f61ed606ef1127a3919bea2db0a7c6afed072a8b241fbab6b4c",
+      "bytes": 358
+    },
+    {
+      "path": "sources/Script_Game/1000a800.c.txt",
+      "sha256": "5dd39452bcc024c1bc98dc464173fa0741d3139c10b5c27cc4cab989863bf284",
+      "bytes": 275
+    },
+    {
+      "path": "sources/Script_Game/1000a9a0.asm.txt",
+      "sha256": "7f79ae0fd82f25ea7adf721e5ee40a6e867bff3ef6b3a5491e997e4eb659ba8e",
+      "bytes": 1151
+    },
+    {
+      "path": "sources/Script_Game/1000a9a0.c.txt",
+      "sha256": "a1a4a0aeee4b0017ef1b20eb6b881f3c1e0fbb51e7e3d6963e4ea5c3b583dac4",
+      "bytes": 550
+    },
+    {
+      "path": "sources/Script_Game/1000adc0.asm.txt",
+      "sha256": "58bd7f20c697010f71ec103818ef918f7ce8f49ed307529ba37a4bd3485531c6",
+      "bytes": 44
+    },
+    {
+      "path": "sources/Script_Game/1000adc0.c.txt",
+      "sha256": "85e14c8bd7ef1bdec2f227e6ea79b8d7e43d5803c3098deaf36ca7b673175fff",
+      "bytes": 105
+    },
+    {
+      "path": "sources/Script_Game/1000b3e0.asm.txt",
+      "sha256": "78f593514a2a82f4dd1b2f49568407a1ed8863de681cc55ac14dd18830fade70",
+      "bytes": 44
+    },
+    {
+      "path": "sources/Script_Game/1000b3e0.c.txt",
+      "sha256": "46487c932dde6d1f12a863102464a8f863340c4ef57fcb09f17da438cd601c2b",
+      "bytes": 105
+    },
+    {
+      "path": "sources/Script_Game/1000b4a0.asm.txt",
+      "sha256": "8a482e6ead581ce04da6ad96ea3de7d71b695824cd549fc47bffd0ac7d405fa5",
+      "bytes": 827
+    },
+    {
+      "path": "sources/Script_Game/1000b4a0.c.txt",
+      "sha256": "b921a1fa199d8a3f1242eaa5925745a8c1e41c19632c65fbfb7ccde1d7d58684",
+      "bytes": 408
+    },
+    {
+      "path": "sources/Script_Game/1000e380.asm.txt",
+      "sha256": "a8118f8f597562606066a9f8e3ea4954e61512ac007c832e84ff766872c99f7f",
+      "bytes": 20650
+    },
+    {
+      "path": "sources/Script_Game/1000e380.c.txt",
+      "sha256": "cf5c104ae6cdab8eb2517ca8974409dee4d9dd4a9522d37920a47fb7d6ece497",
+      "bytes": 5534
+    },
+    {
+      "path": "sources/Script_Game/1000ebc0.asm.txt",
+      "sha256": "b4be1c661c67a881fc279a8555252c502705900a5439ee17ecb23b992664a32f",
+      "bytes": 709
+    },
+    {
+      "path": "sources/Script_Game/1000ebc0.c.txt",
+      "sha256": "7721cb0ebd9e56bcdee833a9c8443fba390790f2284b93ac224da3d83b7974db",
+      "bytes": 348
+    },
+    {
+      "path": "sources/Script_Game/1000ed50.asm.txt",
+      "sha256": "3203290ecbc8006e265364bd782aba8519fe30f0737e8843e2788bbc2481776c",
+      "bytes": 1025
+    },
+    {
+      "path": "sources/Script_Game/1000ed50.c.txt",
+      "sha256": "8e145e2e0a565ef0804ea7bb4df33b8679a9639534976feb562db5ce1c35d300",
+      "bytes": 600
+    },
+    {
+      "path": "sources/Script_Game/1000ee40.asm.txt",
+      "sha256": "b48ed974a11e292c4e9301c64405131283c497d71069aefdac786130be2a8306",
+      "bytes": 3299
+    },
+    {
+      "path": "sources/Script_Game/1000ee40.c.txt",
+      "sha256": "ddf946a4544eafdc57dbd14d45d35a19c014dcf453712c99310226582188d393",
+      "bytes": 1284
+    },
+    {
+      "path": "sources/Script_Game/10015990.asm.txt",
+      "sha256": "f1d67c2977df20deafda0c24d33c10da84a9f0c5545a6403b7e3f58acb51ac07",
+      "bytes": 1818
+    },
+    {
+      "path": "sources/Script_Game/10015990.c.txt",
+      "sha256": "937afca1a212eb8c944e0961f3a07b255db5fac1280a6ba2f1ffb57e26ca0bb0",
+      "bytes": 855
+    },
+    {
+      "path": "sources/Script_Game/10016160.asm.txt",
+      "sha256": "79ec52806c4095fcc997aaa6d38323e8013c18a3acbfe2b1dcc6c38bfcea7107",
+      "bytes": 1808
+    },
+    {
+      "path": "sources/Script_Game/10016160.c.txt",
+      "sha256": "c48aff8afb71bf9bdbe4d94b47d82d319e894a588ce33c43b4c87e27e739d27f",
+      "bytes": 652
+    },
+    {
+      "path": "sources/Script_Game/100183e0.asm.txt",
+      "sha256": "0cde246a4f29ec0569d889b66261575de0e26b271be857497e30ac5932def026",
+      "bytes": 10775
+    },
+    {
+      "path": "sources/Script_Game/100183e0.c.txt",
+      "sha256": "79cbfaf2c9a2eb9428ede485309e1f49e73f7b90f628a06fc82a45f1e65d54f4",
+      "bytes": 4829
+    },
+    {
+      "path": "sources/Script_Game/100443c0.asm.txt",
+      "sha256": "6ca5fe3052ef3c9338be0454cb6abc459e3340aa9ff70fcf8f2b2c7766090c03",
+      "bytes": 2279
+    },
+    {
+      "path": "sources/Script_Game/100443c0.c.txt",
+      "sha256": "9e34e51332ab46ba224a493fe9192dea7e74412f08ad62a5c4d34857c514ac87",
+      "bytes": 926
+    },
+    {
+      "path": "sources/Script_Game/10044490.asm.txt",
+      "sha256": "3cd511a58a7c4799304d4bf364dc2b2bd40d3c45a39c751fbd9adb92d707b2ac",
+      "bytes": 2279
+    },
+    {
+      "path": "sources/Script_Game/10044490.c.txt",
+      "sha256": "78cceaf1c190f81e255c66e786fb75b2afc8934eba941ee0814996e3b06b4878",
+      "bytes": 927
+    },
+    {
+      "path": "sources/Script_Game/10044560.asm.txt",
+      "sha256": "ab33627679b88054fe5f7ab3be812443826a3f4b9e6eb907fb8de06dc0e5b160",
+      "bytes": 2279
+    },
+    {
+      "path": "sources/Script_Game/10044560.c.txt",
+      "sha256": "0fa2221fe9b04da57ceb5e02fac9a1d14e1eee3ab3a662108b8e72397c82c2f7",
+      "bytes": 930
+    },
+    {
+      "path": "sources/Script_Game/10044630.asm.txt",
+      "sha256": "39c29756299c7f8c59e51791fd0c68fff3733c56c4e07e65df6868ebd56e4773",
+      "bytes": 2279
+    },
+    {
+      "path": "sources/Script_Game/10044630.c.txt",
+      "sha256": "e449bf1c7edc422111597e86d45ea0d554df84e6ebcd3c07fda648fadb90eaef",
+      "bytes": 925
+    },
+    {
+      "path": "sources/Script_Game/10044700.asm.txt",
+      "sha256": "2fd1f31f60af43d121ed9153be21bc0a04410f30b4947d430c744110d0b5f28a",
+      "bytes": 2279
+    },
+    {
+      "path": "sources/Script_Game/10044700.c.txt",
+      "sha256": "ea79be5929b2a738794558497c073e18e2329006be2604653e66495b75a29531",
+      "bytes": 926
+    },
+    {
+      "path": "sources/Script_Game/100447d0.asm.txt",
+      "sha256": "6c2bf0fe3f77e8b664b9e726eb159592093b7af96c3bffff3eefe58979a2a2dd",
+      "bytes": 2279
+    },
+    {
+      "path": "sources/Script_Game/100447d0.c.txt",
+      "sha256": "dbcda9095eb0e6a2289ce990a21a9314d39f0b86deffa69b0dbb88efbca6e7fe",
+      "bytes": 923
+    },
+    {
+      "path": "sources/Script_Game/10044f00.asm.txt",
+      "sha256": "9112c930b2b8d98b866ca6149824ec972372e2eb7bd3c249db077c4f68e43995",
+      "bytes": 2279
+    },
+    {
+      "path": "sources/Script_Game/10044f00.c.txt",
+      "sha256": "5d1b5a612300bd4782a3f1d6ffd7b797afafb466a44474dbf0107803b3c37d9f",
+      "bytes": 934
+    },
+    {
+      "path": "sources/Script_Game/10044fd0.asm.txt",
+      "sha256": "07aa1ce2f29a8aa87177c01e1be658747aa5e41c260377c85216b91b45e65b97",
+      "bytes": 2279
+    },
+    {
+      "path": "sources/Script_Game/10044fd0.c.txt",
+      "sha256": "2bd2396ca61bc062129f65b9169a3f4920ccf2e8011d1f4a1663ff437feac231",
+      "bytes": 934
+    },
+    {
+      "path": "sources/Script_Game/100450a0.asm.txt",
+      "sha256": "e3e38b51100ec635eb2365e68e5ce1f628f2d0c852e2a72279b5886cee182781",
+      "bytes": 2279
+    },
+    {
+      "path": "sources/Script_Game/100450a0.c.txt",
+      "sha256": "0bd1f4fb29ac929c5bed1ccc707e6866969f2eae4b58c3e0aa926303cf7b360e",
+      "bytes": 935
+    },
+    {
+      "path": "sources/Script_Game/10045170.asm.txt",
+      "sha256": "0e3c4d1cbc8a7de3d0844eca451d2b4c01bfbd1bc28d1d06f8705313ba4d0211",
+      "bytes": 2279
+    },
+    {
+      "path": "sources/Script_Game/10045170.c.txt",
+      "sha256": "4f83d69bbdf504a926faf58010c3243586f44e2dfb28c77b4b9fb5f3816e734b",
+      "bytes": 932
+    },
+    {
+      "path": "sources/Script_Game/10045240.asm.txt",
+      "sha256": "89201c9249716336a6aca28ca8f414f230383dc77b13fe31c64d310218e69cc3",
+      "bytes": 2279
+    },
+    {
+      "path": "sources/Script_Game/10045240.c.txt",
+      "sha256": "7d0de6e04965c46e8e5168402399906e2df4c683c233a26de9d8e6bb1d76340e",
+      "bytes": 931
+    },
+    {
+      "path": "sources/Script_Game/10045310.asm.txt",
+      "sha256": "52162436762ac5e57ccd1b81be93200709fcc9a4616107d8579bc916d23d54ba",
+      "bytes": 2279
+    },
+    {
+      "path": "sources/Script_Game/10045310.c.txt",
+      "sha256": "fbdf24982e33ab0c7c5e8e13185ff90777f44eb82a8cabe3f3f2d34481ea0317",
+      "bytes": 937
+    },
+    {
+      "path": "sources/Script_Game/10045b20.asm.txt",
+      "sha256": "9defc90707974a873064670e13e5efcc6d3dfe7bdb8708eb27554bb1207332ec",
+      "bytes": 4108
+    },
+    {
+      "path": "sources/Script_Game/10045b20.c.txt",
+      "sha256": "0f96a328264512e96896e6c678a408c4cc471fdb681d47be51906422ae29c970",
+      "bytes": 1824
+    },
+    {
+      "path": "sources/Script_Game/10045c90.asm.txt",
+      "sha256": "48cc992cdd32971f4fd7afe7d315d9a1cd9327b0dd90d5861a44752fe300f46f",
+      "bytes": 4504
+    },
+    {
+      "path": "sources/Script_Game/10045c90.c.txt",
+      "sha256": "7f4ed77ce17f84ba8b046800fc3148b1042771054a02e4064c62fec657a4cc5f",
+      "bytes": 1964
+    },
+    {
+      "path": "sources/Script_Game/100461d0.asm.txt",
+      "sha256": "60fbec22a1351d3a2b2b3aaa62b5feca058e82f9d0a3bf288a556e350e05518f",
+      "bytes": 2279
+    },
+    {
+      "path": "sources/Script_Game/100461d0.c.txt",
+      "sha256": "4fb87bcc1ddd2819977f7a82650522bd8774d7f05e7abbada463f710beb307b7",
+      "bytes": 928
+    },
+    {
+      "path": "sources/Script_Game/100462a0.asm.txt",
+      "sha256": "293315d1692393beee56c7624f71457eba2e178214e8bb8d3a06cc21134a7f43",
+      "bytes": 2279
+    },
+    {
+      "path": "sources/Script_Game/100462a0.c.txt",
+      "sha256": "33874a4b3478ca373db5cb4c790a7a98ad05c22311d1e4cd0ec42afa264017e2",
+      "bytes": 931
+    },
+    {
+      "path": "sources/Script_Game/100467f0.asm.txt",
+      "sha256": "97d691535c798937dbafa2e4b00c27a23c14367135a73a15775f6604f26bb69e",
+      "bytes": 4108
+    },
+    {
+      "path": "sources/Script_Game/100467f0.c.txt",
+      "sha256": "5efeb20c155d2939ea77c47787c259e0c78a0db9a417e8b8447be513d497661a",
+      "bytes": 1895
+    },
+    {
+      "path": "sources/Script_Game/10046960.asm.txt",
+      "sha256": "2161453c18b4aa2ce14632ac5d4e0a14db18b8a3fc7b1b2e58a91a42f025d6f9",
+      "bytes": 4504
+    },
+    {
+      "path": "sources/Script_Game/10046960.c.txt",
+      "sha256": "af1ad4418f73e97b23c5cee293910c7de02494ca76e165d7aa1e11fb39fcf53f",
+      "bytes": 2057
+    },
+    {
+      "path": "sources/Script_Game/10075220.asm.txt",
+      "sha256": "bd98b683bb872913b61fafae7a15fb69dee44dac1f0619c6b90fb9e1e3d86b42",
+      "bytes": 9918
+    },
+    {
+      "path": "sources/Script_Game/10075220.c.txt",
+      "sha256": "46863fdcb9fd660e09342df50d1de97bbb6cf864a390ebd0a07cc6df9b3735fb",
+      "bytes": 5377
+    },
+    {
+      "path": "sources/Script_Game/100755e0.asm.txt",
+      "sha256": "640fac1a014403a62decebff34ec5f917a759b077d5d2d2ed3fbe1ee48f71680",
+      "bytes": 39325
+    },
+    {
+      "path": "sources/Script_Game/100755e0.c.txt",
+      "sha256": "176e065e1af1f68fae9832a3d7b43407783e0f5982787feaa686a13fd0093512",
+      "bytes": 18231
+    },
+    {
+      "path": "sources/Script_Game/10077540.asm.txt",
+      "sha256": "731651a1e0ceae409006f13c8f4a345ceb2aa1f54415c1b73faa638a2daacafa",
+      "bytes": 2180
+    },
+    {
+      "path": "sources/Script_Game/10077540.c.txt",
+      "sha256": "ee9f10e26f8e7d392e2aaccbeedaa414e3867c66e929ea57421064be50917b7f",
+      "bytes": 861
+    },
+    {
+      "path": "sources/Script_Game/100901f0.asm.txt",
+      "sha256": "21c2fce8a5efab10cf176f76a20909b6f8c16497f971f361c33644141167c9fa",
+      "bytes": 54523
+    },
+    {
+      "path": "sources/Script_Game/100901f0.c.txt",
+      "sha256": "1d22974d610485734933542696b9085404a0a793a260c53799afe43b10cea3df",
+      "bytes": 20050
+    },
+    {
+      "path": "sources/Script_Game/10091ad0.asm.txt",
+      "sha256": "92af67550c0333a8deb053496decd501d6ec0953a8cdb9af4666a090722aa430",
+      "bytes": 2145
+    },
+    {
+      "path": "sources/Script_Game/10091ad0.c.txt",
+      "sha256": "aa2c9e8d002b76c480f43ae73b8a7a59618044675fa57dcf738f1e4d19cf23d4",
+      "bytes": 804
+    },
+    {
+      "path": "sources/Script_Game/100cfa10.asm.txt",
+      "sha256": "af0a61806b662839a3c47bf6334328d091821ea7dd89549ede7e6ae2533ba014",
+      "bytes": 3902
+    },
+    {
+      "path": "sources/Script_Game/100cfa10.c.txt",
+      "sha256": "156342a425d0c3cf51cf49f326976318c274ac0d6a19e694a9d1bf9c89c3886b",
+      "bytes": 2417
+    },
+    {
+      "path": "sources/Script_Game/100cfb70.asm.txt",
+      "sha256": "99a43c7210164180893057027a4c89b471b739a2207cd0b4fe1a1ca20a2041f2",
+      "bytes": 13167
+    },
+    {
+      "path": "sources/Script_Game/100cfb70.c.txt",
+      "sha256": "62a0641a2f333eed116ac03ca27e53735a64dcde9952967e8c29fe95389964ec",
+      "bytes": 5390
+    },
+    {
+      "path": "sources/Script_Game/100d0470.asm.txt",
+      "sha256": "dc053df90012c0f630c1999948a8f423502914ad279dee255231f7c3d0841dde",
+      "bytes": 2911
+    },
+    {
+      "path": "sources/Script_Game/100d0470.c.txt",
+      "sha256": "0089ec1a82f54f6b1cd57a87f36fd770708ec2da43b83e70c0100fabb20a5e93",
+      "bytes": 1038
+    },
+    {
+      "path": "sources/Script_Game/100d2e80.offline.asm.txt",
+      "sha256": "46ebe66bf437bec7cc137f12fb41a4b081a2e692be4dd5b55ab419b5ab0b4d1a",
+      "bytes": 9139
+    },
+    {
+      "path": "sources/Script_Game/100d3590.offline.asm.txt",
+      "sha256": "345691dee34b177b147ec7cebf83bae02911b8bcc53d9bcf077d7a6183e9e3b2",
+      "bytes": 4964
+    },
+    {
+      "path": "sources/Script_Game/100d5e30.asm.txt",
+      "sha256": "a014c6c79d53963374e686165d846a984990c3ec15d0ce90998aba7e16d68724",
+      "bytes": 7377
+    },
+    {
+      "path": "sources/Script_Game/100d5e30.c.txt",
+      "sha256": "71c6216c8490cf0f87953dcaa6a95835fa8e9a02d424a3748fb4a9f82edc4dc6",
+      "bytes": 3562
+    },
+    {
+      "path": "sources/Script_Game/1010a010.asm.txt",
+      "sha256": "d744cfb0ee2c0c1fd225353161c8d0481805f1af625f7b79a2214b41d714d95d",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/1010a010.c.txt",
+      "sha256": "f29f0379a76a675565c4c8db09ae3e6d3e36e668a13734b7666ba956d64d4e6f",
+      "bytes": 409
+    },
+    {
+      "path": "sources/Script_Game/10128500.asm.txt",
+      "sha256": "26471e5e9a1b3d22c621fb3a12200b79cdac78660d691fe863dc4e2e450e5dd5",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/10128500.c.txt",
+      "sha256": "96dfbb429cf1c483e32be421ba1fcf7b3ca1ac76e8c59d68de9559b6757c2692",
+      "bytes": 399
+    },
+    {
+      "path": "sources/Script_Game/10128570.asm.txt",
+      "sha256": "31bf477b9094fd434cc7aad66689cb3066db924b19c558f74472bf8ed56ddfc8",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/10128570.c.txt",
+      "sha256": "0335a7c268dfc5f75adcba5d40e37a28d5d555ce1a4452d671c7cc83b2344549",
+      "bytes": 400
+    },
+    {
+      "path": "sources/Script_Game/101285e0.asm.txt",
+      "sha256": "a8bb456b49d5e93e9d8db14a49c6a8b61630f3b25fe9bb0de68ccb9f9419f50b",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/101285e0.c.txt",
+      "sha256": "065bd918dce5873f599cd725a6f6cbc0614a24364480a6042cf4a37a5a6f7db8",
+      "bytes": 403
+    },
+    {
+      "path": "sources/Script_Game/10128650.asm.txt",
+      "sha256": "5531e826cc4a2e34b353e4778d31039d0da1ec52d67e0cd34de58394bf016670",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/10128650.c.txt",
+      "sha256": "3abffbd53648623608b63b3382097131fbd20df21a287ef8208c2a9b74a2d62e",
+      "bytes": 398
+    },
+    {
+      "path": "sources/Script_Game/101286c0.asm.txt",
+      "sha256": "99ee88af320a900ce4d4008aabab9d3b590a56bfeaa87773953926de856a0c75",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/101286c0.c.txt",
+      "sha256": "35bf2ca5fdb4c105c9c7d9a897b21bf795fc61aa091c7163443d5196da840d2f",
+      "bytes": 399
+    },
+    {
+      "path": "sources/Script_Game/10128730.asm.txt",
+      "sha256": "3e41ea90a475b916d2f42e3fbc68022fa40633cd0e2b74353a57df5a5765e5ad",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/10128730.c.txt",
+      "sha256": "208f2475a749d413a7c5150be3f3e67d7b3ed139974132b32730f971cfa087ae",
+      "bytes": 397
+    },
+    {
+      "path": "sources/Script_Game/10128ce0.asm.txt",
+      "sha256": "ebd35e5c2daf6e603dc2bf0857708c71911a5e6bccfdc06ba53d10a7535b8b9a",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/10128ce0.c.txt",
+      "sha256": "2c374ada342a2fa30e885fd93492bdd49183228d6ff8c4ca94d5c8e04dedd2c9",
+      "bytes": 407
+    },
+    {
+      "path": "sources/Script_Game/10128d50.asm.txt",
+      "sha256": "9c7c414c6ff810e10affc69c526b49a310135c2f5e23c39aea8c06e5a64968b1",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/10128d50.c.txt",
+      "sha256": "7181b9721e1980309a533c1db5f19a336b13ed152d55bbde1b36f42decc59c78",
+      "bytes": 407
+    },
+    {
+      "path": "sources/Script_Game/10128dc0.asm.txt",
+      "sha256": "7bc76323b6da3ac7a6123b2cd9b30693aa69355f45567384bfa02a79b0b8616f",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/10128dc0.c.txt",
+      "sha256": "692bf880332b123aed43c7fae07ec7088c4f6c90d3dc7afacf17239887201f0b",
+      "bytes": 408
+    },
+    {
+      "path": "sources/Script_Game/10128e30.asm.txt",
+      "sha256": "5fbb30b1215e11720a47df3edd9522d419c71931ba884e905bc57f8b0d18ba14",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/10128e30.c.txt",
+      "sha256": "d06885f7710888c4e577e5dfa18db86c0f357faed541779694329bd020ea6d61",
+      "bytes": 405
+    },
+    {
+      "path": "sources/Script_Game/10128ea0.asm.txt",
+      "sha256": "129ea73fee38bb9b0319e42e20b163c0c9618cb7c613e65f3a54a03b08d47e62",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/10128ea0.c.txt",
+      "sha256": "0c4e5e54f3afa0fd3dad6d4fce47acf9f05d6a0197b75d043f841bfa67498c38",
+      "bytes": 404
+    },
+    {
+      "path": "sources/Script_Game/10128f10.asm.txt",
+      "sha256": "e203f8216a3130f1809c077e45c1cec2ed50fbe1fd631a01e1cee88cb7226ebd",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/10128f10.c.txt",
+      "sha256": "471d96e1366189b0f1646430a21fe743dafc9cc3097739425f3ea287036d6966",
+      "bytes": 410
+    },
+    {
+      "path": "sources/Script_Game/10129370.asm.txt",
+      "sha256": "01c9efac9cb223026696bc44f0b5d2e210d7a85d6853ade5c7b38fc0c3d8198a",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/10129370.c.txt",
+      "sha256": "94e971d5c5375e34b045063782dc8d79989a82a0765c6dba2308f79aabfa06a3",
+      "bytes": 400
+    },
+    {
+      "path": "sources/Script_Game/101293e0.asm.txt",
+      "sha256": "e5b94fe72d444806790948ee103612ccc1024b3ef4889189c8ecafc8311c50de",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/101293e0.c.txt",
+      "sha256": "6629e878ae6bac9a9d44ad4cc8a475956ad8e3178fe7c510103953b3317a6b30",
+      "bytes": 403
+    },
+    {
+      "path": "sources/Script_Game/10129680.asm.txt",
+      "sha256": "bd3a3acafc7707dd94ef71f957c5e16a2de9aa882a4daa497469a344e742e2cb",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/10129680.c.txt",
+      "sha256": "94152bbd07f14dbb3ca93b0ad88d424bc431442db8e7aa3d5b24f2830b123707",
+      "bytes": 401
+    },
+    {
+      "path": "sources/Script_Game/101296f0.asm.txt",
+      "sha256": "3050d20f1418deb56f201b4fcf89bb30ee815b149c29e8df84ca6c904d634c5d",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/101296f0.c.txt",
+      "sha256": "3428937dfe3c33977510e094910feee674a72c1be921668118295e1e2f06039e",
+      "bytes": 404
+    },
+    {
+      "path": "sources/Script_Game/10129990.asm.txt",
+      "sha256": "cdc3b22706f58a86a3d4d1c59312abc74dd968e2bbd0a2f354b8d104ba32da66",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/10129990.c.txt",
+      "sha256": "e434bd75345f7783918b3da281ffc507a65daeb703a1848b8df85ebd9b615412",
+      "bytes": 404
+    },
+    {
+      "path": "sources/Script_Game/10129a00.asm.txt",
+      "sha256": "0821ed989e2c72bf1cbfc19da97f93eac0eae7929c70f61ece2c84372836f637",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/10129a00.c.txt",
+      "sha256": "7226200731d6ab62e7ddb8f4311f07afc4d4eea7584d648e375e790736e8e592",
+      "bytes": 407
+    },
+    {
+      "path": "sources/Script_Game/1014b790.asm.txt",
+      "sha256": "78579037f702bc90d3f8fe5c8de711bc6d51d0de717cfd6aad074da0459e7652",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/1014b790.c.txt",
+      "sha256": "42c200de242d75839bf9ab7acc492b92f243c374d69ff565374d80b8a547e7fd",
+      "bytes": 390
+    },
+    {
+      "path": "sources/Script_Game/1014b800.asm.txt",
+      "sha256": "3cc10e1ce4c6e6320a3802c093c30c4bcfaced3cd1ce4279788b75118ddb5b4f",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/1014b800.c.txt",
+      "sha256": "1fb2ccd4f82b62d462ca54acc05f142d351226ba3bba85d536d28e50fb30b2f7",
+      "bytes": 396
+    },
+    {
+      "path": "sources/Script_Game/1014c1e0.asm.txt",
+      "sha256": "6a7db6fefdfd93ba595ab311a791c25bc0bb36ff4b3aa9acba0dc079251af761",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/1014c1e0.c.txt",
+      "sha256": "8298f1bc2209481920286794b70c6ef0efc787147146b90b63ae722627784c45",
+      "bytes": 412
+    },
+    {
+      "path": "sources/Script_Game/10152b20.asm.txt",
+      "sha256": "44345c9842c84a2ace73e825fa1dc789587f31f1adaaa523c489dff03c3fa2d5",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/10152b20.c.txt",
+      "sha256": "811573eb48474ee4635ea5af3f6f2bf35ab03b2fbcf4337eee3b977b7e091888",
+      "bytes": 423
+    },
+    {
+      "path": "sources/Script_Game/10152c00.asm.txt",
+      "sha256": "ef25da1c25d2ba3f387d52936a967396c232d3a00e335488d711ee2c1c20bd56",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/10152c00.c.txt",
+      "sha256": "c69353a142df02524646c81afcad2c374ae94453f9ee38d5c5c628b6d7722b65",
+      "bytes": 413
+    },
+    {
+      "path": "sources/Script_Game/101703d0.asm.txt",
+      "sha256": "bc6690ada3c777b34e44f1ef8c068e4cbfe0b6bf77ab3533daa0227f527600a5",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/101703d0.c.txt",
+      "sha256": "9893a84f64d3fa03f3ea0a738c26504c2716497dab16ac00d22161a567bf41c2",
+      "bytes": 408
+    },
+    {
+      "path": "sources/Script_Game/10171250.asm.txt",
+      "sha256": "f378c02faec4be72e76fedf002f086ec74df10e456b8f21beb8dbf1f3bfb4b4e",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/10171250.c.txt",
+      "sha256": "2750e4ba079f67bb7c31adcfdae90f18148b2b8c7a364245f13d7226e570aef1",
+      "bytes": 393
+    },
+    {
+      "path": "sources/Script_Game/101742a0.asm.txt",
+      "sha256": "40666c233c7b227601b9b2c78174de9aa6eae79364be893bc6f23db66da4cf80",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/101742a0.c.txt",
+      "sha256": "36d23b554bd67495a9c91652e8fcadf8129ef5f49baeb8d2e93d7322af079933",
+      "bytes": 415
+    },
+    {
+      "path": "sources/Script_Game/101749e0.asm.txt",
+      "sha256": "7b317d4a06a7148095ca3a64b84ddead283e5a6bf82e039d5dd7dbe3026da09d",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/101749e0.c.txt",
+      "sha256": "04dc4f9d78009b5440e1817e977d7181b906454a4889dec8ded4a4afbc5041d2",
+      "bytes": 393
+    },
+    {
+      "path": "sources/Script_Game/10174a50.asm.txt",
+      "sha256": "8585c21a5f0ba3a56a1bfdb49b6d58c2ac3e1211dcacfa3e52c73908734217a7",
+      "bytes": 881
+    },
+    {
+      "path": "sources/Script_Game/10174a50.c.txt",
+      "sha256": "42153a94a57110f16b25c8e0528823f044be6b218bcd01711eb62564b7e381d1",
+      "bytes": 398
+    }
+  ],
+  "instructionsAudited": 7220
+}

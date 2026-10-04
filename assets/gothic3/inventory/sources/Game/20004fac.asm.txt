@@ -1,0 +1,2 @@
+; 20004fac ?TransferStackTo@gCInventory_PS@@QAE_NPAV1@HW4gEStackType@@@Z
+20004fac | e9bfb41a00 | JMP 0x201b0470

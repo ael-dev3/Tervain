@@ -1,0 +1,2 @@
+; 200247f3 ?CreateItems@gCInventory_PS@@QAEHPBVeCTemplateEntity@@KK@Z
+200247f3 | e9189c1800 | JMP 0x201ae410

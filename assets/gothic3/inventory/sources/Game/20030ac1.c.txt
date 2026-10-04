@@ -1,0 +1,62 @@
+/* ENTRY 20030ac1 | gCInventorySlot::GetEquipSlots | STATUS decompiled | 9 ms */
+
+/* public: static bool __stdcall gCInventorySlot::GetEquipSlots(enum gEUseType,enum gESlot &,enum
+   gESlot &,class eCEntity const *) */
+
+bool gCInventorySlot::GetEquipSlots
+               (gEUseType param_1,gESlot *param_2,gESlot *param_3,eCEntity *param_4)
+
+{
+                    /* 0x30ac1  3378
+                       ?GetEquipSlots@gCInventorySlot@@SG_NW4gEUseType@@AAW4gESlot@@1PBVeCEntity@@@Z
+                        */
+  *param_2 = 0;
+  *param_3 = 0;
+  switch(param_1) {
+  case 2:
+    *param_2 = 6;
+    *param_3 = 5;
+    return true;
+  case 3:
+  case 0xc:
+  case 0x33:
+  case 0x34:
+    *param_2 = 6;
+    return true;
+  case 4:
+  case 7:
+    *param_2 = 0xe;
+    return true;
+  case 5:
+  case 6:
+    *param_2 = 7;
+    return true;
+  default:
+    *param_2 = 0;
+    return true;
+  case 9:
+    *param_2 = 5;
+    return true;
+  case 10:
+    *param_2 = 9;
+    return true;
+  case 0xb:
+    *param_2 = 0x12;
+    return true;
+  case 0xd:
+    *param_2 = 0xb;
+    return true;
+  case 0xe:
+    *param_2 = 0xc;
+    *param_3 = 0xd;
+    return true;
+  case 0x70:
+    *param_2 = 0xf;
+    return true;
+  case 0x72:
+    *param_2 = 0x11;
+    return true;
+  }
+}
+
+

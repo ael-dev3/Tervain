@@ -1,0 +1,2 @@
+; 20023a65 ?SetQuickSlot@gCInventoryStack@@QAEXABH@Z
+20023a65 | e946b60500 | JMP 0x2007f0b0

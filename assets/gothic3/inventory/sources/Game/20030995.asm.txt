@@ -1,0 +1,2 @@
+; 20030995 ?LearnSkill@gCInventory_PS@@QAE_NPBVeCTemplateEntity@@@Z
+20030995 | e996df1700 | JMP 0x201ae930

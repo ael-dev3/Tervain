@@ -1,0 +1,30 @@
+; 201c7630 bTPropertyContainer<gEStackType>::bTPropertyContainer<gEStackType>_Constructor_or_Destructor
+201c7630 | 83ec08 | SUB ESP,0x8
+201c7633 | 53 | PUSH EBX
+201c7634 | 56 | PUSH ESI
+201c7635 | 8bf1 | MOV ESI,ECX
+201c7637 | e8c249e5ff | CALL 0x2001bffe
+201c763c | 33db | XOR EBX,EBX
+201c763e | 8d4c2408 | LEA ECX,[ESP + 0x8]
+201c7642 | c7463c01000000 | MOV dword ptr [ESI + 0x3c],0x1
+201c7649 | 895e40 | MOV dword ptr [ESI + 0x40],EBX
+201c764c | c74644ffffffff | MOV dword ptr [ESI + 0x44],0xffffffff
+201c7653 | 895e58 | MOV dword ptr [ESI + 0x58],EBX
+201c7656 | 895e5c | MOV dword ptr [ESI + 0x5c],EBX
+201c7659 | 885e54 | MOV byte ptr [ESI + 0x54],BL
+201c765c | ff1500877d20 | CALL dword ptr [0x207d8700]
+201c7662 | 8b464c | MOV EAX,dword ptr [ESI + 0x4c]
+201c7665 | 8b401c | MOV EAX,dword ptr [EAX + 0x1c]
+201c7668 | 8d4e4c | LEA ECX,[ESI + 0x4c]
+201c766b | 8d542408 | LEA EDX,[ESP + 0x8]
+201c766f | 52 | PUSH EDX
+201c7670 | c744240c54c26520 | MOV dword ptr [ESP + 0xc],0x2065c254
+201c7678 | 895c2410 | MOV dword ptr [ESP + 0x10],EBX
+201c767c | ffd0 | CALL EAX
+201c767e | 8d4c2408 | LEA ECX,[ESP + 0x8]
+201c7682 | c744240854c26520 | MOV dword ptr [ESP + 0x8],0x2065c254
+201c768a | ff1500887d20 | CALL dword ptr [0x207d8800]
+201c7690 | 5e | POP ESI
+201c7691 | 5b | POP EBX
+201c7692 | 83c408 | ADD ESP,0x8
+201c7695 | c3 | RET

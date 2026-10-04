@@ -1,0 +1,2 @@
+; 20032a5b ?TransferItemsTo@gCInventory_PS@@QAE_NPAV1@HHW4gEStackType@@@Z
+20032a5b | e9d0d31700 | JMP 0x201afe30

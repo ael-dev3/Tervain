@@ -1,0 +1,45 @@
+{
+  "schema": "gothic3-native-inventory-manifest-v1",
+  "schemaVersion": 1,
+  "evidence": "native-inventory-evidence.json",
+  "startingInventory": "starting-inventory.json",
+  "scope": "bounded-source-backed-inventory-core",
+  "inputs": [
+    {
+      "module": "Game",
+      "studyPath": "00_Original_Runtime/Game.dll",
+      "sha256": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+      "bytes": 8228864
+    },
+    {
+      "module": "Script",
+      "studyPath": "00_Original_Runtime/Script.dll",
+      "sha256": "9375605676faaae44a50d48539a7b3995bed471e099ef573666221a044cd4e08",
+      "bytes": 847872
+    },
+    {
+      "module": "SharedBase",
+      "studyPath": "00_Original_Runtime/SharedBase.dll",
+      "sha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
+      "bytes": 1409024
+    }
+  ],
+  "outputs": [
+    {
+      "url": "native-inventory-evidence.json",
+      "sha256": "6388d8486a8f15eea400c68c7f1a4cbd6eb5a2d83300f8f05dc51be2b7653bf6",
+      "bytes": 479382
+    },
+    {
+      "url": "starting-inventory.json",
+      "sha256": "ebf29a284f2352d10a9852264468200c86a5929c138798f423d4a74b4f93479b",
+      "bytes": 315710
+    }
+  ],
+  "audit": {
+    "selectedEntries": 136,
+    "instructionRecords": 2772,
+    "matchedInstructionBytes": 7666,
+    "allInstructionBytesMatch": true
+  }
+}

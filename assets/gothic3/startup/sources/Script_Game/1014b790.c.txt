@@ -1,0 +1,17 @@
+/* ENTRY 1014b790 | FUN_1014b790 | STATUS decompiled | 7 ms */
+
+void FUN_1014b790(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Enclave\\Enclave.cpp");
+  bCString::bCString(local_8,"NotifyEnclave");
+  thunk_FUN_10017a50(local_8,thunk_FUN_100755e0,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

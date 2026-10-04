@@ -1,0 +1,23 @@
+/* ENTRY 2001aa69 | gCInventory_PS::CreateItems | STATUS decompiled | 8 ms */
+
+/* public: int __thiscall gCInventory_PS::CreateItems(class eCTemplateEntity const *,unsigned
+   long,unsigned long,enum gEStackType) */
+
+int __thiscall
+gCInventory_PS::CreateItems
+          (gCInventory_PS *this,eCTemplateEntity *param_1,ulong param_2,ulong param_3,
+          gEStackType param_4)
+
+{
+  int iVar1;
+  
+                    /* 0x1aa69  2449
+                       ?CreateItems@gCInventory_PS@@QAEHPBVeCTemplateEntity@@KKW4gEStackType@@@Z */
+  iVar1 = bTPropertyContainer<gEStackType>::
+          bTPropertyContainer<gEStackType>_Constructor_or_Destructor
+                    ((bTPropertyContainer<gEStackType> *)&(this->gCInventory_PS_data).field_0x18,
+                     param_1,param_3,param_2,param_4);
+  return iVar1;
+}
+
+

@@ -1,0 +1,4 @@
+; 2000e3c7 ?FindSkillStackIndex@gCInventory_PS@@ABEHPBVeCTemplateEntity@@@Z
+2000e3c7 | e9c4031a00 | JMP 0x201ae790
+; 2000e3d6 LAB_2000e3d6
+2000e3d6 | e9a5b45300 | JMP 0x20549880

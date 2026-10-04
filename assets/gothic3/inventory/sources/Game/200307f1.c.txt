@@ -1,0 +1,26 @@
+/* ENTRY 200307f1 | gCInventorySlot::GetUseType | STATUS decompiled | 9 ms */
+
+/* public: enum gEUseType __thiscall gCInventorySlot::GetUseType(void)const  */
+
+gEUseType __thiscall gCInventorySlot::GetUseType(gCInventorySlot *this)
+
+{
+  eCTemplateEntity *this_00;
+  eCEntityPropertySet *peVar1;
+  
+                    /* 0x307f1  4656  ?GetUseType@gCInventorySlot@@QBE?AW4gEUseType@@XZ */
+  this_00 = eCTemplateEntityProxy::GetEntity
+                      ((eCTemplateEntityProxy *)&(this->gCInventorySlot_data).field_0x8);
+  if (this_00 == (eCTemplateEntity *)0x0) {
+    GE_MESSAGEF_WARN("gCInventorySlot::GetUseType -> Template item is invalid.");
+    return 0;
+  }
+  peVar1 = eCEntity::GetPropertySet((eCEntity *)this_00,0x31);
+  if (peVar1 != (eCEntityPropertySet *)0x0) {
+    return *(gEUseType *)(peVar1 + 0x58);
+  }
+  GE_MESSAGEF_WARN("gCInventorySlot::GetUseType -> Template item misses gCInteraction_PS.");
+  return 0;
+}
+
+

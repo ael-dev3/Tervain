@@ -1,0 +1,2 @@
+; 20030ac1 ?GetEquipSlots@gCInventorySlot@@SG_NW4gEUseType@@AAW4gESlot@@1PBVeCEntity@@@Z
+20030ac1 | e9faef1800 | JMP 0x201bfac0

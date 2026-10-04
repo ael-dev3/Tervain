@@ -1,0 +1,19 @@
+/* ENTRY 10016480 | FUN_10016480 | STATUS decompiled | 9 ms */
+
+void __thiscall FUN_10016480(int *param_1,Entity *param_2)
+
+{
+  Entity *this;
+  
+  thunk_FUN_10016410(param_1[1] + 1);
+  this = (Entity *)(param_1[1] * 0xa8 + -0xa8 + *param_1);
+  Entity::~Entity(this);
+  _memset(this,0,0xa8);
+  if (this != (Entity *)0x0) {
+    Entity::Entity(this);
+  }
+  Entity::operator=(this,param_2);
+  return;
+}
+
+

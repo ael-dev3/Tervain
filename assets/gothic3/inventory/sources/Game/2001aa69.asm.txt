@@ -1,0 +1,4 @@
+; 2001aa69 ?CreateItems@gCInventory_PS@@QAEHPBVeCTemplateEntity@@KKW4gEStackType@@@Z
+2001aa69 | e982391900 | JMP 0x201ae3f0
+; 2001aa6e gCNPC_PS::SetVoice
+; 2001aa6e Ordinal_7201

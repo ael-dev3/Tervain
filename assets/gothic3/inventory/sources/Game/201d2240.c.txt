@@ -1,0 +1,22 @@
+/* ENTRY 201d2240 | FUN_201d2240 | STATUS decompiled | 6 ms */
+
+undefined4 FUN_201d2240(bCPropertyID *param_1)
+
+{
+  eCSceneAdmin *this;
+  eCNode *peVar1;
+  undefined4 uVar2;
+  
+  this = (eCSceneAdmin *)thunk_FUN_200ae8e0();
+  if (this != (eCSceneAdmin *)0x0) {
+    peVar1 = eCSceneAdmin::GetEntity(this,param_1,2);
+    if (peVar1 != (eCNode *)0x0) {
+      uVar2 = ___RTDynamicCast(peVar1,0,&eCNode::RTTI_Type_Descriptor,
+                               &eCTemplateEntity::RTTI_Type_Descriptor,0);
+      return uVar2;
+    }
+  }
+  return 0;
+}
+
+
