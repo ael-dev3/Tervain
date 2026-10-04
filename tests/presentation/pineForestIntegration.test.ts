@@ -167,4 +167,30 @@ describe('world forest render substitution', () => {
     frame.shadowFrustum = null; forest.update(0.001, frame); expect(targetPresent()).toBe(false);
     forest.dispose!(); vi.unstubAllGlobals();
   });
+
+  it('animates detached leaves with an idle camera while the actual tree matrices stay still, and freezes in Reduced Motion', () => {
+    vi.stubGlobal('location', { search: '' });
+    const quality = 'medium', colliders = new Colliders();
+    const forest = buildFlora({ terrain, excl, colliders, quality, settings: { ...defaultSettings(), quality }, library: AssetLibrary.empty(), sway: { uTime: { value: 0 }, uWind: { value: 0 } } }, templates);
+    const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 1400);
+    camera.position.set(-200, 3, 12); camera.lookAt(-180, 5, 12); camera.updateMatrixWorld();
+    const frame: FrameContext = { camera, quality, time: 1, focus: new THREE.Vector3(-200, terrain.heightAt(-200, 12), 12), nightness: 0, sunDir: new THREE.Vector3(1, 1, 1), reducedMotion: false, hour: 11, view: worldView(createInitialState()) };
+    forest.update(0.1, frame);
+    const leaves = forest.group.getObjectByName('detached-leaves') as THREE.InstancedMesh;
+    expect(leaves.isInstancedMesh).toBe(true);
+    expect(leaves.count).toBeGreaterThan(0);
+    const leafPose = [...leaves.instanceMatrix.array];
+    const treeMeshes = forest.group.children.filter(object => (object as THREE.InstancedMesh).isInstancedMesh) as THREE.InstancedMesh[];
+    const treePoses = treeMeshes.map(mesh => [...mesh.instanceMatrix.array]);
+    forest.update(1, frame);
+    expect([...leaves.instanceMatrix.array]).not.toEqual(leafPose);
+    expect(treeMeshes.map(mesh => [...mesh.instanceMatrix.array])).toEqual(treePoses);
+    const heldLeafPose = [...leaves.instanceMatrix.array];
+    frame.time = 100; frame.reducedMotion = true;
+    forest.update(10, frame);
+    expect([...leaves.instanceMatrix.array]).toEqual(heldLeafPose);
+    expect(treeMeshes.map(mesh => [...mesh.instanceMatrix.array])).toEqual(treePoses);
+    expect(colliders.all).toEqual(canonical.all);
+    forest.dispose!(); vi.unstubAllGlobals();
+  });
 });

@@ -29,6 +29,18 @@ export function buildWoodlandAir(ctx: Pick<BuildContext, 'terrain' | 'quality'>,
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3).setUsage(THREE.DynamicDrawUsage));
   const material = new THREE.PointsMaterial({ color: 0xe3d4a4, size: 0.12, transparent: true, opacity: 0.3, depthWrite: false, fog: true });
+  // An untextured GL point fills its entire square footprint. Keep the stock point shader's
+  // depth, fog and perspective behavior, but soften a circular silhouette before alpha testing.
+  // This needs no canvas/texture allocation and cannot leave opaque corners in the canopy.
+  material.onBeforeCompile = shader => {
+    shader.fragmentShader = shader.fragmentShader.replace('#include <alphatest_fragment>', `
+      float woodlandMoteRadius = length(gl_PointCoord - vec2(0.5));
+      if (woodlandMoteRadius >= 0.5) discard;
+      float woodlandMoteMask = 1.0 - smoothstep(0.10, 0.5, woodlandMoteRadius);
+      diffuseColor.a *= woodlandMoteMask * woodlandMoteMask;
+      #include <alphatest_fragment>`);
+  };
+  material.customProgramCacheKey = () => 'tervain-woodland-rounded-motes-v1';
   const motes = new THREE.Points(geometry, material);
   motes.frustumCulled = false;
   group.add(motes);

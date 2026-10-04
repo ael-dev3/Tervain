@@ -5,6 +5,7 @@ import { leafMaterial, woodMaterial, disposeTreeMaterials } from './treeMaterial
 import { disposeTreeTextures } from './treeTextures';
 import { createFloraPopulation, selectFloraPopulation, registerFloraColliders, FLORA_VARIANTS, FLORA_FADE_START, FLORA_MAX_DISTANCE, floraLodWeights, type FloraTree } from './floraPopulation';
 import { buildForestFloor } from './forestFloor';
+import { buildFallingLeaves } from './fallingLeaves';
 import { createPineForest, isPineSpecies, type PineTemplates } from './solitaryPine';
 import { groundedTreeY } from './treeGrounding';
 import { attachInstanceDistanceVisibility, smoothDistanceFade, type InstanceDistanceVisibility } from './distanceVisibility';
@@ -112,6 +113,10 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): Sce
     triangles += v.lods[0].tris * b.trees.length;
   }
 
+  // Detached leaves have their own motion; approved trunks, branches and canopy meshes remain static.
+  const fallingLeaves = buildFallingLeaves(terrain, quality, trees, variantFor);
+  group.add(fallingLeaves.group);
+
   /* ---- Per-frame selection ---- */
   const frustum = new THREE.Frustum();
   const pv = new THREE.Matrix4();
@@ -201,6 +206,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): Sce
     update(dt: number, f: FrameContext) {
       if (disposed) return;
       forestFloor.update(dt, f);
+      fallingLeaves.update(dt, f);
       sinceRefresh += dt;
       const cam = f.camera;
       const moved = cam.position.distanceTo(lastCam);
@@ -227,11 +233,12 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): Sce
       cam.updateMatrixWorld();
       refresh(cam, f.shadowFrustum);
     },
-    stats: () => ({ trees: trees.length, solitaryPines, treeObstacles: obstacles.length, treesDrawn: visible, treeTris: Math.round(drawTris), ...forestFloor.stats?.() }),
+    stats: () => ({ trees: trees.length, solitaryPines, treeObstacles: obstacles.length, treesDrawn: visible, treeTris: Math.round(drawTris), ...forestFloor.stats?.(), ...fallingLeaves.stats?.() }),
     dispose() {
       if (disposed) return;
       disposed = true;
       forestFloor.dispose?.();
+      fallingLeaves.dispose?.();
       for (const batch of batches) {
         for (const visibility of batch.visibility) { visibility.wood?.dispose(); visibility.leaf?.dispose(); }
         for (const mesh of batch.meshes) {
