@@ -10,15 +10,46 @@ import type { FrameContext } from '../../src/presentation/context';
 import { createInitialState } from '../../src/game/state';
 import { worldView } from '../../src/game/worldView';
 import { disposeTreeTextures } from '../../src/presentation/treeTextures';
+import { createFloraPopulation } from '../../src/presentation/floraPopulation';
 
 const terrain = new Terrain();
 const exclusions = new Exclusions(terrain);
 const population = createForestFloorPopulation(terrain, exclusions);
 
 describe('Deepwood floor', () => {
+  it('follows actual canopy, keeps trunk footings clear, and attaches fungi to accepted fallen timber', () => {
+    const trees = createFloraPopulation(terrain, exclusions);
+    expect(createForestFloorPopulation(terrain, exclusions, [])).toEqual([]);
+    const grounded = createForestFloorPopulation(terrain, exclusions, trees);
+    expect(grounded).toEqual(createForestFloorPopulation(terrain, exclusions, trees));
+    const logs = grounded.filter((p) => p.kind === 'log');
+    const fungi = grounded.filter((p) => p.kind === 'fungi');
+    expect(logs.length).toBeGreaterThan(0);
+    expect(fungi.length).toBeGreaterThan(0);
+    expect(new Set(grounded.map((p) => p.id)).size).toBe(grounded.length);
+    for (const fungus of fungi) {
+      const log = logs.find((p) => p.id === fungus.parentLogId)!;
+      expect(log).toBeDefined();
+      expect(fungus.rank).toBe(log.rank);
+      expect(fungus.y).toBe(terrain.heightAt(fungus.x, fungus.z));
+      const dx = fungus.x - log.x, dz = fungus.z - log.z;
+      expect(dx * Math.cos(log.yaw) - dz * Math.sin(log.yaw)).toBeCloseTo(0, 8);
+      expect(Math.hypot(dx, dz)).toBeLessThan(1.1);
+    }
+    const trunks = trees.filter((t) => t.radius > 0);
+    let minimumFootingGap = Infinity;
+    for (const piece of grounded) for (const tree of trunks) {
+      minimumFootingGap = Math.min(minimumFootingGap, Math.hypot(piece.x - tree.x, piece.z - tree.z) - tree.radius);
+    }
+    expect(minimumFootingGap).toBeGreaterThanOrEqual(0.24);
+  });
+
   it('creates repeatable fern, litter, moss, fallen timber and fungi layers inside the woodland, keeping arrival sand and relics clear', () => {
     expect(createForestFloorPopulation(terrain, exclusions)).toEqual(population);
-    expect(population.length).toBeGreaterThan(650);
+    // Broad clearings deliberately remove clutter. Actual canopy must supply a woodland floor,
+    // while removing that canopy must remove the shade-dependent layer rather than meeting an old count.
+    expect(population.some(p => p.kind === 'fern' && deepwoodCover(p.x, p.z) > 0.5)).toBe(true);
+    expect(createForestFloorPopulation(terrain, exclusions, [])).toEqual([]);
     expect(new Set(population.map((p) => p.kind))).toEqual(new Set(['fern', 'moss', 'litter', 'log', 'fungi']));
     for (const p of population) {
       expect(deepwoodCover(p.x, p.z)).toBeGreaterThan(0.05);
@@ -42,6 +73,46 @@ describe('Deepwood floor', () => {
     expect(low.every((p) => medium.includes(p))).toBe(true);
     expect(medium.every((p) => high.includes(p))).toBe(true);
     expect(high).toEqual(population);
+    for (const selected of [low, medium, high]) {
+      const logs = new Set(selected.filter((p) => p.kind === 'log').map((p) => p.id));
+      expect(selected.filter((p) => p.kind === 'fungi').every((p) => !!p.parentLogId && logs.has(p.parentLogId))).toBe(true);
+    }
+    const fungus = population.find((p) => p.kind === 'fungi')!;
+    expect(selectForestFloorPopulation([fungus], 'high')).toEqual([]);
+  });
+
+  it('keeps grounded fungi geometry beside fallen logs after both pieces follow their local slopes', () => {
+    const floor = buildForestFloor(terrain, exclusions, 'high');
+    try {
+      const meshes = floor.group.children as THREE.InstancedMesh[];
+      const fungusGeometry = meshes.find((m) => m.name === 'forest_floor_fungi:0')!.geometry;
+      const up = new THREE.Vector3(0, 1, 0), normal = new THREE.Vector3(), rotation = new THREE.Quaternion(), yaw = new THREE.Quaternion();
+      const matrixFor = (piece: (typeof population)[number]) => {
+        normal.set(piece.nx, 1, piece.nz).normalize();
+        rotation.setFromUnitVectors(up, normal).multiply(yaw.setFromAxisAngle(up, piece.yaw));
+        return new THREE.Matrix4().compose(new THREE.Vector3(piece.x, piece.y, piece.z), rotation, new THREE.Vector3().setScalar(piece.scale));
+      };
+      const point = new THREE.Vector3();
+      let minimumCylinderClearance = Infinity;
+      for (const fungus of population.filter((p) => p.kind === 'fungi')) {
+        const log = population.find((p) => p.id === fungus.parentLogId)!;
+        const geometry = meshes.find((m) => m.name === `forest_floor_log:${log.variant}`)!.geometry;
+        geometry.computeBoundingBox();
+        const intoLog = matrixFor(log).invert().multiply(matrixFor(fungus));
+        const vertices = fungusGeometry.getAttribute('position');
+        for (let i = 0; i < vertices.count; i++) {
+          point.fromBufferAttribute(vertices, i).applyMatrix4(intoLog);
+          if (point.x >= geometry.boundingBox!.min.x && point.x <= geometry.boundingBox!.max.x) {
+            // A cylinder of the log's maximum radius conservatively encloses its tapered surface.
+            minimumCylinderClearance = Math.min(minimumCylinderClearance, Math.hypot(point.y - 0.12, point.z) - 0.22);
+          }
+        }
+      }
+      expect(minimumCylinderClearance).toBeGreaterThan(0);
+    } finally {
+      floor.dispose?.();
+      disposeTreeTextures();
+    }
   });
 
   it('builds finite indexed fern leaflets joined to seven curved midribs, with a grounded root and affordable geometry', () => {
@@ -101,7 +172,7 @@ describe('Deepwood floor', () => {
     meshes.forEach((m, i) => expect(Array.from(m.geometry.getAttribute('position').array)).toEqual(snapshots[i]));
     camera.lookAt(-200, camera.position.y, 22);
     camera.updateMatrixWorld();
-    floor.update(1, frame);
+    floor.update(0.01, frame);
     meshes.forEach((m, i) => expect(m.instanceMatrix.version).toBeGreaterThan(uploaded[i]!));
     camera.position.set(180, 10, 150);
     camera.lookAt(190, 10, 155);

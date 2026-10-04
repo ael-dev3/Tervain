@@ -3,7 +3,7 @@ import { afterAll, describe, expect, it } from 'vitest';
 import { createFloraPopulation, floraLod, selectFloraPopulation } from '../../src/presentation/floraPopulation';
 import { buildTreeVariant, type Species } from '../../src/presentation/treeGen';
 import { Exclusions, TREE_SWAY_MULTIPLIER } from '../../src/presentation/vegetation';
-import { deepwoodCover } from '../../src/world/forest';
+import { deepwoodCover, forestOpeningCover } from '../../src/world/forest';
 import { shoreDistance } from '../../src/world/coast';
 import { Terrain } from '../../src/world/terrain';
 import { ARRIVAL_ROUTE, DEEPWOOD, FOREST_RUIN, FOREST_WAYMARKERS, SPAWN } from '../../src/world/layout';
@@ -22,19 +22,37 @@ const model = (sp: Species, variant: number) => {
 afterAll(() => { for (const tree of models.values()) for (const lod of tree.lods) { lod.wood?.dispose(); lod.leaf?.dispose(); } });
 
 describe('Deepwood forest canopy', () => {
-  it('surrounds the entire arrival trail with a dense rooted hardwood/conifer forest and a lower birch layer, leaving the landing open', () => {
+  it('surrounds closed arrival reaches with layered canopy and wooded depth while leaving light pockets and the landing open', () => {
     const core = population.filter((p) => p.radius > 0 && deepwoodCover(p.x, p.z) > 0.8);
-    expect(core.length).toBeGreaterThan(450);
     const types = new Set(core.map((p) => p.sp));
     expect(types).toEqual(new Set(['oak', 'pine', 'fir', 'birch']));
     const sandTrees = population.filter((p) => shoreDistance(p.x, p.z) < DEEPWOOD.shoreClearance || Math.hypot(p.x - SPAWN.x, p.z - SPAWN.z) < 30);
     expect(sandTrees).toEqual([]);
-    expect(core.filter((p) => model(p.sp, p.v + 1).height * p.s > 30).length).toBeGreaterThan(60);
-    expect(core.filter((p) => p.sp === 'birch' && model(p.sp, p.v + 1).height * p.s < 16).length).toBeGreaterThan(30);
-    // Both sides of the winding path have depth, not just a single decorative avenue of trees.
-    const left = core.filter((p) => p.z < 2), right = core.filter((p) => p.z > 42);
-    expect(left.length).toBeGreaterThan(160);
-    expect(right.length).toBeGreaterThan(140);
+    const heights = core.map(p => model(p.sp, p.v + 1).height * p.s);
+    // A lower stratum may be young members of the local stand, rather than unrelated birches everywhere.
+    expect(heights.filter(height => height < 16).length / core.length).toBeGreaterThan(0.15);
+    expect(heights.filter(height => height > 25).length / core.length).toBeGreaterThan(0.3);
+    const closedSamples: { canopy: boolean; depth: boolean }[] = [];
+    for (let i = 0; i < ARRIVAL_ROUTE.length - 1; i++) {
+      const a = ARRIVAL_ROUTE[i]!, b = ARRIVAL_ROUTE[i + 1]!;
+      const length = Math.hypot(b.x - a.x, b.z - a.z), dx = (b.x - a.x) / length, dz = (b.z - a.z) / length;
+      for (let step = 0; step < length; step += 5) {
+        const x = a.x + dx * step, z = a.z + dz * step;
+        // Judge enclosed reaches before the overlook/settlement reveal, not the deliberately open transition.
+        if (x < DEEPWOOD.minX + 18 || x > -150 || deepwoodCover(x, z) < 0.8 || forestOpeningCover(x, z) < 0.65) continue;
+        const nearby = population.filter(p => p.radius > 0 && Math.hypot(p.x - x, p.z - z) < 35);
+        const lateral = (p: typeof nearby[number]) => (p.x - x) * -dz + (p.z - z) * dx;
+        const depth = [-1, 1].every(side => nearby.some(p => lateral(p) * side > 4 && lateral(p) * side < 15)
+          && nearby.some(p => lateral(p) * side >= 15));
+        // Crown envelopes are a composition proxy; native screenshots still verify actual leaf/sky coverage.
+        const canopy = nearby.some(p => model(p.sp, p.v + 1).height * p.s > 12
+          && Math.hypot(p.x - x, p.z - z) <= model(p.sp, p.v + 1).crownRadius * p.s);
+        closedSamples.push({ canopy, depth });
+      }
+    }
+    expect(closedSamples.length).toBeGreaterThan(5);
+    expect(closedSamples.filter(sample => sample.canopy).length / closedSamples.length).toBeGreaterThan(0.75);
+    expect(closedSamples.filter(sample => sample.depth).length / closedSamples.length).toBeGreaterThan(0.75);
     for (const p of core) {
       expect(Math.hypot(p.x - FOREST_RUIN.x, p.z - FOREST_RUIN.z)).toBeGreaterThan(FOREST_RUIN.r + p.radius);
       for (const marker of FOREST_WAYMARKERS) expect(Math.hypot(p.x - marker.x, p.z - marker.z)).toBeGreaterThan(2.4 + p.radius);
@@ -58,8 +76,8 @@ describe('Deepwood forest canopy', () => {
         const m = model(sp, variant);
         const wood = m.lods[1].wood!, leaf = m.lods[1].leaf!;
         const w = wood.getAttribute('position'), l = leaf.getAttribute('position'), index = wood.index!;
-        // Each double-sided card contributes eight vertices. Its bottom edge centre is the atlas stem root.
-        for (let card = 0; card < l.count; card += 8) {
+        // Each card contributes four vertices; the material shades both faces. Its bottom edge centre is the atlas stem root.
+        for (let card = 0; card < l.count; card += 4) {
           root.set((l.getX(card) + l.getX(card + 1)) * 0.5, (l.getY(card) + l.getY(card + 1)) * 0.5, (l.getZ(card) + l.getZ(card + 1)) * 0.5);
           let distance = Infinity;
           for (let i = 0; i < index.count; i += 3) {
@@ -70,7 +88,7 @@ describe('Deepwood forest canopy', () => {
             distance = Math.min(distance, root.distanceToSquared(nearest));
             if (distance < 0.001) break;
           }
-          expect(Math.sqrt(distance), `${sp}:${variant} fan ${card / 8} must retain its supporting wood`).toBeLessThan(0.075);
+          expect(Math.sqrt(distance), `${sp}:${variant} fan ${card / 4} must retain its supporting wood`).toBeLessThan(0.075);
         }
       }
     }

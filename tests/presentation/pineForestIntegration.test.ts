@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
 import { buildFlora } from '../../src/presentation/flora';
-import { createFloraPopulation, registerFloraColliders } from '../../src/presentation/floraPopulation';
+import { createFloraPopulation, registerFloraColliders, selectFloraPopulation } from '../../src/presentation/floraPopulation';
 import { pineTemplates } from './pineFixture';
 import { createPineForest, isPineSpecies, type PineTemplates } from '../../src/presentation/solitaryPine';
 import { Colliders } from '../../src/world/colliders';
@@ -34,14 +34,17 @@ describe('world forest render substitution', () => {
   for (const quality of ['low', 'medium', 'high'] as const) it(`replaces every conifer and retains canonical obstacles on ${quality}`, () => {
     const terrain = new Terrain(), excl = new Exclusions(terrain), colliders = new Colliders();
     const source = createPineForest(templates), canonical = new Colliders();
-    registerFloraColliders(createFloraPopulation(terrain, excl), canonical, (tree) => isPineSpecies(tree.sp)
-      ? source.collisionRadius(tree.sp, tree.v + 1, tree.s) : tree.radius);
+    const population = createFloraPopulation(terrain, excl, (tree, footprint) => isPineSpecies(tree.sp)
+      ? source.collisionRadius(tree.sp, tree.v + 1, tree.s) : footprint);
+    registerFloraColliders(population, canonical);
     source.dispose();
     const forest = buildFlora({ terrain, excl, colliders, quality, settings: { ...defaultSettings(), quality }, library: AssetLibrary.empty(), sway: { uTime: { value: 0 }, uWind: { value: 0 } } }, templates);
     expect(colliders.all).toEqual(canonical.all);
-    expect(forest.stats!().solitaryPines).toBe({ low: 436, medium: 458, high: 490 }[quality]);
+    expect(forest.stats!().solitaryPines).toBe({ low: 259, medium: 271, high: 281 }[quality]);
     const imported = forest.group.children.filter((object) => object.name.startsWith('solitary-pine:')) as THREE.InstancedMesh[];
-    expect(imported).toHaveLength(40); // Eight populated species/seed batches × two close parts + one distant card mesh.
+    const batches = new Set(selectFloraPopulation(population, quality).trees.filter((tree) => isPineSpecies(tree.sp)).map((tree) => `${tree.sp}:${tree.v}`));
+    // Every populated source batch owns two near parts, two middle parts and one far card mesh.
+    expect(imported).toHaveLength(batches.size * 5);
     expect(imported.filter((mesh) => mesh.name === 'solitary-pine:2:foliage').every((mesh) => mesh.geometry.index!.count / 3 === 48)).toBe(true);
     const camera = new THREE.PerspectiveCamera(60, 1.7, 0.1, 900);
     camera.position.set(-170, 12, 70); camera.lookAt(-100, 15, 0); camera.updateMatrixWorld();

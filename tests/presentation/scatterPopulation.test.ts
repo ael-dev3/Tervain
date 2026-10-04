@@ -21,6 +21,19 @@ beforeAll(() => {
 });
 
 describe('canonical rock population', () => {
+  it('keeps boulder and tree movement footprints apart without changing unrelated rock identities', () => {
+    const trunks = createFloraPopulation(terrain, exclusions).filter((t) => t.radius > 0);
+    const combined = createScatterPopulation(terrain, exclusions, trunks);
+    expect(createScatterPopulation(terrain, exclusions, trunks)).toEqual(combined);
+    const byId = new Map(population.filter((r) => r.collisionId).map((r) => [r.collisionId, r]));
+    for (const rock of combined.filter((r) => r.radius > 0)) {
+      expect(rock).toEqual(byId.get(rock.collisionId));
+      for (const tree of trunks) expect(Math.hypot(rock.x - tree.x, rock.z - tree.z)).toBeGreaterThanOrEqual(rock.radius + tree.radius + 0.35);
+    }
+    expect(combined.filter((r) => r.radius > 0).length).toBeGreaterThan(20);
+    for (const quality of presets) expect(selectScatterPopulation(combined, quality).obstacles).toEqual(selectScatterPopulation(combined, 'high').obstacles);
+  });
+
   it('authors deterministic obstacle identities and visible rock shapes without graphics settings', () => {
     expect(createScatterPopulation(terrain, exclusions)).toEqual(population);
     const obstacles = population.filter((rock) => rock.radius > 0);

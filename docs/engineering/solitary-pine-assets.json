@@ -4,7 +4,7 @@
   "label": "Solitary Pine woodland",
   "category": "vegetation",
   "version": "2026-10-03",
-  "gameVersion": "0.0.8",
+  "gameVersion": "0.0.9",
   "source": {
     "file": "Meshy_AI_Solitary_Pine_1002211944_texture.glb",
     "sha256": "c8319b1c996a5af3add735d1519aacc469375d03cf2efa3e55d74ba1ce31acca",
@@ -225,23 +225,23 @@
       "fir",
       "shorepine"
     ],
-    "canonicalCount": 490,
-    "fixedObstacles": 397,
+    "canonicalCount": 281,
+    "fixedObstacles": 233,
     "presetCandidates": {
-      "low": 436,
-      "medium": 458,
-      "high": 490
+      "low": 259,
+      "medium": 271,
+      "high": 281
     },
-    "canonicalPositionsYawScaleIds": "Unchanged",
+    "canonicalPositionsYawScaleIds": "Stable coordinate-keyed A39 stand layout; actual source-wood footprints govern acceptance before spacing, road/building exclusions and downstream scatter.",
     "geometryTransform": "Flatten source node transforms; ground root; one uniform scale by species/seed. No radial trunk fit or nonlinear crown profile.",
-    "collisions": "Same 397 conifer obstacle IDs/positions on every preset; source wood near/mid triangles clipped to 2.6m player clearance, including 6cm buried origin; greatest radial extent plus 3cm padding. Other family radii unchanged.",
+    "collisions": "Same 233 conifer and 376 total tree obstacle IDs/positions on every preset; source wood near/mid triangles clipped to 2.6m player clearance including 6cm buried origin, greatest radial extent plus 3cm padding.",
     "routes": "Road centerlines, pickup/interaction approaches and all 32 core/NPC/override routes validated.",
     "nominalHeights": {
       "pine": 25,
       "fir": 22,
       "shorepine": 8.5
     },
-    "otherFamiliesAndMenuGrove": "Preserved"
+    "otherFamiliesAndMenuGrove": "Other families retain their asset pipeline within the calibrated stand composition; menu grove preserved."
   },
   "rendering": {
     "foliage": "PBR MASK cutoff 0.42; double-sided; standard embedded PNG/JPEG",
@@ -255,8 +255,8 @@
   },
   "verification": {
     "reviewer": "Codex",
-    "dateUTC": "2026-10-03",
-    "state": "Local source candidate validated; source PR publication is separate from live deployment",
+    "dateUTC": "2026-10-04",
+    "state": "Combined 0.0.9 source validated locally; remote checks and hosted acceptance are recorded in the release delivery report.",
     "checks": [
       {
         "command": "npm run typecheck",
@@ -264,11 +264,7 @@
       },
       {
         "command": "npm test",
-        "result": "722 tests in 67 files passed in 115.41s; final near and unchanged mid, preceding only the final far texture/plane export"
-      },
-      {
-        "command": "npx vitest run tests/presentation/solitaryPine.test.ts tests/presentation/pineForestIntegration.test.ts tests/presentation/solitaryPineLoading.test.ts tests/presentation/pineRoutes.test.ts",
-        "result": "15 tests in 4 files passed in 12.71s against all three final binaries"
+        "result": "753 tests in 71 files passed in 18.95s against all three final GLBs and combined stand layout"
       },
       {
         "command": "npm run build",
@@ -276,7 +272,7 @@
       },
       {
         "command": "node tools/check-solitary-pine.mjs",
-        "result": "all final hashes, bytes, budgets and embedded-image/material contracts verified"
+        "result": "final SHA-256 hashes, bytes, budgets and embedded-image/material contracts verified"
       },
       {
         "check": "Khronos glTF Validator 2.0.0-dev.3.10",
@@ -310,40 +306,174 @@
           "presets": [
             {
               "quality": "low",
-              "solitaryPines": 436,
-              "treeObstacles": 1033,
+              "trees": 482,
+              "solitaryPines": 259,
+              "treeObstacles": 376,
+              "forestFloorPieces": 97,
+              "rocks": 629,
               "ready": true
             },
             {
               "quality": "medium",
-              "solitaryPines": 458,
-              "treeObstacles": 1033,
+              "trees": 547,
+              "solitaryPines": 271,
+              "treeObstacles": 376,
+              "forestFloorPieces": 183,
+              "rocks": 855,
               "ready": true
             },
             {
               "quality": "high",
-              "solitaryPines": 490,
-              "treeObstacles": 1033,
+              "trees": 612,
+              "solitaryPines": 281,
+              "treeObstacles": 376,
+              "forestFloorPieces": 259,
+              "rocks": 1063,
               "ready": true
             }
           ],
           "logs": [],
           "restoredQuality": "high"
         },
-        "observations": "Closed wood and source bark replace pale stretched strips; lower needle sprays remain volumetric. Uniform geometry, no animated deformation. No renderer/loading warnings or errors in the final review. No frame-rate benchmark is claimed."
+        "observations": "Rendered woodland hero and source-grounded closed bark/volumetric needles reviewed; no stretched strips or animated tree deformation. Low, Medium and High rebuilds preserved current player position. Main and pause menus show 0.0.9. No renderer/loading warnings or errors observed. No benchmark or native saved-file reload claim."
       },
       {
-        "check": "Routes and collision",
-        "result": "All 1033 obstacle IDs/positions retained; 397 conifer footprints match close source wood across presets. Continuous road centerlines and all pickup/interaction approaches clear at .55m player pad; all 32 core/NPC/override routes connected."
+        "check": "Routes, collisions and clearings",
+        "result": "All 32 core/NPC/override routes connected with static, actual-wood tree and rock obstacles; road minimum clearance 1.653m beyond .55m player pad. Both rotated clearing cores pass independent delivered-geometry checks for every conifer, yaw/scale and all LODs. Saved-position recovery covered by regression tests."
       },
       {
         "check": "Source fidelity",
-        "result": "Every delivered position, UV and authored normal checked after uniform grounding/scaling, for all three species and seeds; no nonlinear trunk or crown deformation."
+        "result": "Delivered positions, UVs and authored normals checked after uniform grounding/scaling for all three species and seeds; no nonlinear trunk/crown fitting."
+      },
+      {
+        "check": "Forest composition",
+        "result": "Tagged region: 101 pine,24 oak,10 fir/birch,135 total. Broad companion fields calibrated to 34x8m and12x32m without deforming source geometry."
       },
       {
         "check": "Documentation",
-        "result": "Relative links and git diff --check pass"
+        "result": "git diff --check and release documentation relative links validated before publication"
       }
     ]
+  },
+  "componentVerification": {
+    "label": "2026-10-03 standalone source-pine candidate; before the combined A39 forest layout",
+    "gameVersion": "0.0.8",
+    "worldUse": {
+      "species": [
+        "pine",
+        "fir",
+        "shorepine"
+      ],
+      "canonicalCount": 490,
+      "fixedObstacles": 397,
+      "presetCandidates": {
+        "low": 436,
+        "medium": 458,
+        "high": 490
+      },
+      "canonicalPositionsYawScaleIds": "Unchanged",
+      "geometryTransform": "Flatten source node transforms; ground root; one uniform scale by species/seed. No radial trunk fit or nonlinear crown profile.",
+      "collisions": "Same 397 conifer obstacle IDs/positions on every preset; source wood near/mid triangles clipped to 2.6m player clearance, including 6cm buried origin; greatest radial extent plus 3cm padding. Other family radii unchanged.",
+      "routes": "Road centerlines, pickup/interaction approaches and all 32 core/NPC/override routes validated.",
+      "nominalHeights": {
+        "pine": 25,
+        "fir": 22,
+        "shorepine": 8.5
+      },
+      "otherFamiliesAndMenuGrove": "Preserved"
+    },
+    "verification": {
+      "reviewer": "Codex",
+      "dateUTC": "2026-10-03",
+      "state": "Local source candidate validated; source PR publication is separate from live deployment",
+      "checks": [
+        {
+          "command": "npm run typecheck",
+          "result": "passed"
+        },
+        {
+          "command": "npm test",
+          "result": "722 tests in 67 files passed in 115.41s; final near and unchanged mid, preceding only the final far texture/plane export"
+        },
+        {
+          "command": "npx vitest run tests/presentation/solitaryPine.test.ts tests/presentation/pineForestIntegration.test.ts tests/presentation/solitaryPineLoading.test.ts tests/presentation/pineRoutes.test.ts",
+          "result": "15 tests in 4 files passed in 12.71s against all three final binaries"
+        },
+        {
+          "command": "npm run build",
+          "result": "passed; existing Vite large-chunk advisory retained"
+        },
+        {
+          "command": "node tools/check-solitary-pine.mjs",
+          "result": "all final hashes, bytes, budgets and embedded-image/material contracts verified"
+        },
+        {
+          "check": "Khronos glTF Validator 2.0.0-dev.3.10",
+          "result": [
+            {
+              "name": "solitary-pine-under-10k.glb",
+              "errors": 0,
+              "warnings": 0,
+              "infos": 1,
+              "triangles": 9706
+            },
+            {
+              "name": "solitary-pine-mid.glb",
+              "errors": 0,
+              "warnings": 0,
+              "infos": 1,
+              "triangles": 3610
+            },
+            {
+              "name": "solitary-pine-far.glb",
+              "errors": 0,
+              "warnings": 0,
+              "infos": 2,
+              "triangles": 48
+            }
+          ]
+        },
+        {
+          "check": "Actual desktop production renderer",
+          "result": {
+            "presets": [
+              {
+                "quality": "low",
+                "solitaryPines": 436,
+                "treeObstacles": 1033,
+                "ready": true
+              },
+              {
+                "quality": "medium",
+                "solitaryPines": 458,
+                "treeObstacles": 1033,
+                "ready": true
+              },
+              {
+                "quality": "high",
+                "solitaryPines": 490,
+                "treeObstacles": 1033,
+                "ready": true
+              }
+            ],
+            "logs": [],
+            "restoredQuality": "high"
+          },
+          "observations": "Closed wood and source bark replace pale stretched strips; lower needle sprays remain volumetric. Uniform geometry, no animated deformation. No renderer/loading warnings or errors in the final review. No frame-rate benchmark is claimed."
+        },
+        {
+          "check": "Routes and collision",
+          "result": "All 1033 obstacle IDs/positions retained; 397 conifer footprints match close source wood across presets. Continuous road centerlines and all pickup/interaction approaches clear at .55m player pad; all 32 core/NPC/override routes connected."
+        },
+        {
+          "check": "Source fidelity",
+          "result": "Every delivered position, UV and authored normal checked after uniform grounding/scaling, for all three species and seeds; no nonlinear trunk or crown deformation."
+        },
+        {
+          "check": "Documentation",
+          "result": "Relative links and git diff --check pass"
+        }
+      ]
+    }
   }
 }

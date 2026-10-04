@@ -1,0 +1,577 @@
+{
+  "status": "PASS",
+  "matchedPairs": 9,
+  "cameraMaximumTranslationDrift_m": 0,
+  "cameraMaximumAngularDrift_rad": 4.2146848510894035e-08,
+  "cameraMaximumProjectionDrift": 0,
+  "culling": {
+    "method": "Native forest module update in fresh Chrome: zero-dt stationary180-degree pan,2m vertical change and projection change. instanceMatrix.version counts buffer dirty marks, not hardware upload/GPU timing.",
+    "treeMeshes": 120,
+    "idleMatrixDirtyMarks": 0,
+    "immediatePanMatrixDirtyMarks": 120,
+    "immediateVerticalMatrixDirtyMarks": 120,
+    "immediateProjectionMatrixDirtyMarks": 120,
+    "stats": {
+      "trees": 937,
+      "treeObstacles": 626,
+      "treesDrawn": 306,
+      "treeTris": 316502,
+      "forestFloorPieces": 539,
+      "forestFloorDrawn": 139
+    },
+    "clock": 663.7333333333331,
+    "phase": "unseen",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+    "console": [
+      "[debug] [vite] connecting...",
+      "[debug] [vite] connected.",
+      "[warning] THREE.WebGLProgram: Program Info Log: (210,81-129): warning X4122: sum of 0.996094 and -2.98545e-017 cannot be represented accurately in double precision\n(209,37-61): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision\n(210,82-106): warning X4122: sum of 1 and -1.49272e-017 cannot be represented accurately in double precision\n(209,37-61): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision\n(210,82-106): warning X4122: sum of 1 and -1.66644e-018 cannot be represented accurately in double precision"
+    ]
+  },
+  "worldPlants": 937,
+  "blockingTrunks": 626,
+  "floorPresets": {
+    "high": {
+      "n": 539,
+      "byKind": {
+        "fern": 224,
+        "litter": 254,
+        "moss": 51,
+        "log": 5,
+        "fungi": 5
+      }
+    },
+    "medium": {
+      "n": 381,
+      "byKind": {
+        "fern": 155,
+        "litter": 183,
+        "moss": 33,
+        "log": 5,
+        "fungi": 5
+      }
+    },
+    "low": {
+      "n": 197,
+      "byKind": {
+        "fern": 65,
+        "litter": 106,
+        "log": 4,
+        "fungi": 4,
+        "moss": 18
+      }
+    }
+  },
+  "canonicalStandMembers": {
+    "allAges": {
+      "n": 256,
+      "species": {
+        "pine": 190,
+        "fir": 6,
+        "birch": 8,
+        "oak": 52
+      },
+      "speciesShare": {
+        "pine": 0.7421875,
+        "fir": 0.0234375,
+        "birch": 0.03125,
+        "oak": 0.203125
+      },
+      "crownDiskAreaProxy": {
+        "method": "Sum of geometric crown-disc areas, not union coverage, true foliage area or visibility. Highlights differing silhouette weights even when stem ratios match.",
+        "totalBySpecies_m2": {
+          "pine": 45973.09575397516,
+          "fir": 807.6619149610137,
+          "birch": 1562.3075405729612,
+          "oak": 42378.85973808238
+        },
+        "shareBySpecies": {
+          "pine": 0.50674735771461,
+          "fir": 0.00890260998570727,
+          "birch": 0.017220837647299474,
+          "oak": 0.46712919465238323
+        }
+      },
+      "mixtureBaseline": 0.5936279296875,
+      "nearestSameSpecies": 0.875,
+      "distanceBandCoherence": [
+        {
+          "lo": 0,
+          "hi": 10,
+          "n": 565,
+          "same": 468,
+          "sameShare": 0.8283185840707965,
+          "excessOverMixture": 0.2346906543832965
+        },
+        {
+          "lo": 10,
+          "hi": 25,
+          "n": 2563,
+          "same": 1825,
+          "sameShare": 0.7120561841591885,
+          "excessOverMixture": 0.11842825447168848
+        },
+        {
+          "lo": 25,
+          "hi": 40,
+          "n": 3619,
+          "same": 2181,
+          "sameShare": 0.6026526664824537,
+          "excessOverMixture": 0.009024736794953747
+        },
+        {
+          "lo": 40,
+          "hi": 60,
+          "n": 5822,
+          "same": 3270,
+          "sameShare": 0.5616626588801099,
+          "excessOverMixture": -0.03196527080739009
+        },
+        {
+          "lo": 60,
+          "hi": 80,
+          "n": 6383,
+          "same": 3516,
+          "sameShare": 0.5508381638727871,
+          "excessOverMixture": -0.04278976581471294
+        },
+        {
+          "lo": 80,
+          "hi": 120,
+          "n": 10150,
+          "same": 5848,
+          "sameShare": 0.5761576354679803,
+          "excessOverMixture": -0.017470294219519733
+        },
+        {
+          "lo": 120,
+          "hi": 200,
+          "n": 3538,
+          "same": 2216,
+          "sameShare": 0.6263425664217072,
+          "excessOverMixture": 0.03271463673420716
+        }
+      ]
+    },
+    "matureVeteran": {
+      "n": 171,
+      "species": {
+        "pine": 122,
+        "fir": 4,
+        "birch": 7,
+        "oak": 38
+      },
+      "speciesShare": {
+        "pine": 0.7134502923976608,
+        "fir": 0.023391812865497075,
+        "birch": 0.04093567251461988,
+        "oak": 0.2222222222222222
+      },
+      "crownDiskAreaProxy": {
+        "method": "Sum of geometric crown-disc areas, not union coverage, true foliage area or visibility. Highlights differing silhouette weights even when stem ratios match.",
+        "totalBySpecies_m2": {
+          "pine": 41030.78499111506,
+          "fir": 776.4349410769457,
+          "birch": 1496.9167368436736,
+          "oak": 38601.81130701276
+        },
+        "shareBySpecies": {
+          "pine": 0.5009500043038827,
+          "fir": 0.009479591656811014,
+          "birch": 0.01827604433906819,
+          "oak": 0.47129435970023803
+        }
+      },
+      "mixtureBaseline": 0.560616941965049,
+      "nearestSameSpecies": 0.8713450292397661,
+      "distanceBandCoherence": [
+        {
+          "lo": 0,
+          "hi": 10,
+          "n": 249,
+          "same": 210,
+          "sameShare": 0.8433734939759037,
+          "excessOverMixture": 0.2827565520108547
+        },
+        {
+          "lo": 10,
+          "hi": 25,
+          "n": 1145,
+          "same": 767,
+          "sameShare": 0.6698689956331878,
+          "excessOverMixture": 0.10925205366813884
+        },
+        {
+          "lo": 25,
+          "hi": 40,
+          "n": 1640,
+          "same": 951,
+          "sameShare": 0.5798780487804878,
+          "excessOverMixture": 0.0192611068154388
+        },
+        {
+          "lo": 40,
+          "hi": 60,
+          "n": 2591,
+          "same": 1328,
+          "sameShare": 0.5125434195291393,
+          "excessOverMixture": -0.04807352243590968
+        },
+        {
+          "lo": 60,
+          "hi": 80,
+          "n": 2897,
+          "same": 1494,
+          "sameShare": 0.5157059026579219,
+          "excessOverMixture": -0.04491103930712703
+        },
+        {
+          "lo": 80,
+          "hi": 120,
+          "n": 4496,
+          "same": 2449,
+          "sameShare": 0.5447064056939501,
+          "excessOverMixture": -0.01591053627109884
+        },
+        {
+          "lo": 120,
+          "hi": 200,
+          "n": 1517,
+          "same": 912,
+          "sameShare": 0.6011865524060646,
+          "excessOverMixture": 0.04056961044101559
+        }
+      ]
+    },
+    "youngSapling": {
+      "n": 85,
+      "species": {
+        "pine": 68,
+        "fir": 2,
+        "oak": 14,
+        "birch": 1
+      },
+      "speciesShare": {
+        "pine": 0.8,
+        "fir": 0.023529411764705882,
+        "oak": 0.16470588235294117,
+        "birch": 0.011764705882352941
+      },
+      "crownDiskAreaProxy": {
+        "method": "Sum of geometric crown-disc areas, not union coverage, true foliage area or visibility. Highlights differing silhouette weights even when stem ratios match.",
+        "totalBySpecies_m2": {
+          "pine": 4942.310762860119,
+          "fir": 31.226973884067945,
+          "oak": 3777.0484310696215,
+          "birch": 65.39080372928771
+        },
+        "shareBySpecies": {
+          "pine": 0.560608402087857,
+          "fir": 0.0035420888671629735,
+          "oak": 0.42843220249570474,
+          "birch": 0.0074173065492754
+        }
+      },
+      "mixtureBaseline": 0.6678200692041524,
+      "nearestSameSpecies": 0.8470588235294118,
+      "distanceBandCoherence": [
+        {
+          "lo": 0,
+          "hi": 10,
+          "n": 59,
+          "same": 49,
+          "sameShare": 0.8305084745762712,
+          "excessOverMixture": 0.16268840537211882
+        },
+        {
+          "lo": 10,
+          "hi": 25,
+          "n": 252,
+          "same": 195,
+          "sameShare": 0.7738095238095238,
+          "excessOverMixture": 0.10598945460537146
+        },
+        {
+          "lo": 25,
+          "hi": 40,
+          "n": 373,
+          "same": 243,
+          "sameShare": 0.6514745308310992,
+          "excessOverMixture": -0.016345538373053192
+        },
+        {
+          "lo": 40,
+          "hi": 60,
+          "n": 660,
+          "same": 439,
+          "sameShare": 0.6651515151515152,
+          "excessOverMixture": -0.0026685540526372176
+        },
+        {
+          "lo": 60,
+          "hi": 80,
+          "n": 666,
+          "same": 432,
+          "sameShare": 0.6486486486486487,
+          "excessOverMixture": -0.019171420555503693
+        },
+        {
+          "lo": 80,
+          "hi": 120,
+          "n": 1140,
+          "same": 729,
+          "sameShare": 0.6394736842105263,
+          "excessOverMixture": -0.028346384993626073
+        },
+        {
+          "lo": 120,
+          "hi": 200,
+          "n": 420,
+          "same": 283,
+          "sameShare": 0.6738095238095239,
+          "excessOverMixture": 0.00598945460537148
+        }
+      ]
+    },
+    "familyRoles": {
+      "dominant": 190,
+      "other": 14,
+      "secondary": 52
+    },
+    "adultPhysicalGroups": {
+      "method": "Physical extent of exported standId/groveId groups, not nominal radius. Small groups and clipping affect results; label/hull extent alone does not establish contiguous visual mass.",
+      "allGroups": [
+        {
+          "id": "deepwood_pines",
+          "n": 131,
+          "species": {
+            "pine": 122,
+            "fir": 4,
+            "birch": 5
+          },
+          "majority": "pine",
+          "majorityShare": 0.9312977099236641,
+          "centroid": {
+            "x": -156.10586714742436,
+            "z": -7.028464363550614
+          },
+          "centeredD80_m": 144.312365590786,
+          "centeredD90_m": 168.50366687928457,
+          "maxPairDiameter_m": 196.60308890113402,
+          "convexHullArea_m2": 19463.146191128348,
+          "equivalentHullDiameter_m": 157.4206066419075,
+          "hull": [
+            [
+              -223.5841753395184,
+              63.47226165471598
+            ],
+            [
+              -223.41611989289083,
+              -25.52002440545244
+            ],
+            [
+              -223.1384617843668,
+              -49.55127623640934
+            ],
+            [
+              -217.6852188669474,
+              -66.4872783863079
+            ],
+            [
+              -198.9593912291856,
+              -85.83003761724108
+            ],
+            [
+              -183.40555207973847,
+              -92.7180743705668
+            ],
+            [
+              -169.62317452113183,
+              -90.18887465177573
+            ],
+            [
+              -137.8700464305612,
+              -83.91880303371701
+            ],
+            [
+              -93.20268039888279,
+              -37.586777926646185
+            ],
+            [
+              -85.98571650289973,
+              0.7672837988519874
+            ],
+            [
+              -135.42178937697827,
+              82.27173092817887
+            ],
+            [
+              -139.83459201767153,
+              88.03819034809712
+            ],
+            [
+              -150.6221384602696,
+              101.13244112248533
+            ]
+          ]
+        },
+        {
+          "id": "swale_oaks",
+          "n": 21,
+          "species": {
+            "oak": 19,
+            "birch": 2
+          },
+          "majority": "oak",
+          "majorityShare": 0.9047619047619048,
+          "centroid": {
+            "x": -188.7947260625045,
+            "z": -0.569941410452055
+          },
+          "centeredD80_m": 47.79042270398431,
+          "centeredD90_m": 53.609406735767976,
+          "maxPairDiameter_m": 66.9809067163272,
+          "convexHullArea_m2": 1583.1883258498392,
+          "equivalentHullDiameter_m": 44.89741622003513,
+          "hull": [
+            [
+              -228.27536925175252,
+              5.010601036548598
+            ],
+            [
+              -210.46539708886792,
+              -9.171167353261279
+            ],
+            [
+              -190.0666798442233,
+              -15.12330201141538
+            ],
+            [
+              -167.0351168122612,
+              -13.894092541532608
+            ],
+            [
+              -161.46933216415385,
+              0.1737349859205839
+            ],
+            [
+              -162.7794988808319,
+              5.887618293198741
+            ],
+            [
+              -187.4493217383142,
+              19.782052863957343
+            ],
+            [
+              -196.17760752409728,
+              21.489233074542117
+            ]
+          ]
+        },
+        {
+          "id": "eastern_oaks",
+          "n": 19,
+          "species": {
+            "oak": 19
+          },
+          "majority": "oak",
+          "majorityShare": 1,
+          "centroid": {
+            "x": -117.16682041966767,
+            "z": 64.86369642001823
+          },
+          "centeredD80_m": 41.369913629491634,
+          "centeredD90_m": 46.382765355555655,
+          "maxPairDiameter_m": 52.20608113706709,
+          "convexHullArea_m2": 858.4529328367689,
+          "equivalentHullDiameter_m": 33.06079583708857,
+          "hull": [
+            [
+              -128.04508186428387,
+              62.19614723632112
+            ],
+            [
+              -126.58658112179532,
+              48.8698060950823
+            ],
+            [
+              -115.63895907399288,
+              35.40312538597731
+            ],
+            [
+              -106.44775806527163,
+              36.86717376065904
+            ],
+            [
+              -106.37503344686745,
+              67.79379965259227
+            ],
+            [
+              -107.37946206776934,
+              71.35422382792457
+            ],
+            [
+              -112.06358110584362,
+              87.4866312210774
+            ],
+            [
+              -121.36552393271631,
+              85.11803736800793
+            ]
+          ]
+        }
+      ],
+      "nGroupsAtLeast10": 3,
+      "medianCenteredD80_m": 47.79042270398431
+    }
+  },
+  "clearings": {
+    "method": "Both builds sampled at the new candidate clearing sites, with identical rotated ellipse cores.",
+    "sites": [
+      {
+        "id": "north_hogback_glade",
+        "x": -180,
+        "z": -58,
+        "rx": 16,
+        "rz": 11,
+        "yaw": -0.28,
+        "method": "2m ellipse sampling; >12m geometric envelope around all non-shrub trees, including off-domain/nonblocking horizon trees. Proxy only; no leaf/sky pixel measurement.",
+        "nSamples": 136,
+        "tallCanopyWithin20m": 0,
+        "centerTrunkClearance_m": 27.33808696587727,
+        "centerCrownClearance_m": 17.539939230649605,
+        "proxyOpenFraction": 1,
+        "proxyClearance5mFraction": 1,
+        "bestTrunkClearance_m": 28.101342051969965,
+        "bestCrownClearance_m": 19.16501774105791
+      },
+      {
+        "id": "south_hogback_glade",
+        "x": -181,
+        "z": 80,
+        "rx": 19,
+        "rz": 13,
+        "yaw": 0.32,
+        "method": "2m ellipse sampling; >12m geometric envelope around all non-shrub trees, including off-domain/nonblocking horizon trees. Proxy only; no leaf/sky pixel measurement.",
+        "nSamples": 188,
+        "tallCanopyWithin20m": 0,
+        "centerTrunkClearance_m": 28.33327840424032,
+        "centerCrownClearance_m": 18.385372495417684,
+        "proxyOpenFraction": 1,
+        "proxyClearance5mFraction": 1,
+        "bestTrunkClearance_m": 37.76690397218961,
+        "bestCrownClearance_m": 28.791229582960632
+      }
+    ]
+  },
+  "geometryLimits": "Crown discs and cohort extent are geometric proxies, not visible coverage, true botanical stands or statistical significance. Main-camera shadow/reflection selection, root/rock fitting and farLOD silhouette risks remain.",
+  "postMeasurementCommentOnlyChange": {
+    "path": "src/world/forestStands.ts",
+    "measuredSha256": "b5de83b438f4d06c1481608e43eb33d1ee9f599415b870148f627d17fa41ce54",
+    "finalSha256": "0aaf4e490bb725b7149f79389cd36a428d4187b694e690073bd26b38c43160e4",
+    "change": "Only one descriptive comment changed: 5\u201310m claim replaced by actual9m noise coordinates/.07 normalized amplitude. Runtime code unchanged. Historical measured hashes retained.",
+    "independentlyVerified": "Replacing the final exact comment bytes with the measured comment reconstructs the full measured SHA256.",
+    "oldComment": "// A 5-10 m scalloped transition retains contiguous companion interiors and broad primary masses.",
+    "newComment": "// Scallop the binary family boundary with 9 m noise coordinates and .07 normalized amplitude."
+  }
+}

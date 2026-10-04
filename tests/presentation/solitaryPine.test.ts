@@ -86,14 +86,17 @@ describe('delivered Solitary Pine forest', () => {
   });
 
   it('matches all dark conifers including the distant ring, on every preset without thinning collision obstacles', () => {
-    const terrain = new Terrain(), population = createFloraPopulation(terrain, new Exclusions(terrain));
-    expect(population.filter((tree) => isPineSpecies(tree.sp))).toHaveLength(490);
-    for (const [quality, count] of [['low', 436], ['medium', 458], ['high', 490]] as const) {
+    const forest = createPineForest(templates);
+    const terrain = new Terrain(), population = createFloraPopulation(terrain, new Exclusions(terrain), (tree, footprint) => isPineSpecies(tree.sp)
+      ? forest.collisionRadius(tree.sp, tree.v + 1, tree.s) : footprint);
+    expect(population.filter((tree) => isPineSpecies(tree.sp))).toHaveLength(281);
+    for (const [quality, count] of [['low', 259], ['medium', 271], ['high', 281]] as const) {
       const plan = selectFloraPopulation(population, quality);
       expect(plan.trees.filter((tree) => isPineSpecies(tree.sp))).toHaveLength(count);
-      expect(plan.obstacles.filter((tree) => isPineSpecies(tree.sp))).toHaveLength(397);
+      expect(plan.obstacles.filter((tree) => isPineSpecies(tree.sp))).toHaveLength(233);
     }
     expect(['oak', 'birch', 'orchard', 'dead', 'shrub'].some((species) => isPineSpecies(species as 'oak'))).toBe(false);
+    forest.dispose();
   });
 
   it('owns each world’s GPU resources, shares needle materials, and retains separate remeshed bark through disposal/rebuilds', () => {

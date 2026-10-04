@@ -110,7 +110,7 @@ Warpkeep's software is Apache-2.0 ([LICENSING.md](https://github.com/ael-dev3/Wa
 
 ## Solitary Pine woodland (A38)
 
-The owner-supplied Meshy pine replaces all ordinary dark conifers in 0.0.8, including the distant treeline. Three hosted GLBs contain the 9,706-triangle near tree and matching middle/far geometry. [Provenance and render contract](solitary-pine.md) and [runtime inventory](solitary-pine-assets.json) record authority, hashes, counts and source-matching collision footprints. Source/master files remain in the workshop, separate from the earlier Warpkeep catalog above.
+The owner-supplied Meshy pine replaces all ordinary dark conifers, including the distant treeline, in the combined `0.0.9` release. Three hosted GLBs contain the 9,706-triangle near tree and matching middle/far geometry. [Provenance and render contract](solitary-pine.md) and [runtime inventory](solitary-pine-assets.json) record authority, hashes, counts and source-matching collision footprints. A39's larger woodland layout and final combined population/checks are recorded separately in the [0.0.9 release](../production/releases/0.0.9.md); dated component results remain historical. Source/master files remain in the workshop, separate from the earlier Warpkeep catalog above.
 
 ## Not yet done
 

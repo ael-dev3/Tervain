@@ -20,7 +20,8 @@ const radiusFor = (tree: FloraTree) => isPineSpecies(tree.sp)
 beforeAll(async () => {
   forest = createPineForest(await pineTemplates());
   terrain = new Terrain();
-  population = createFloraPopulation(terrain, new Exclusions(terrain));
+  population = createFloraPopulation(terrain, new Exclusions(terrain), (tree, footprint) => isPineSpecies(tree.sp)
+    ? forest.collisionRadius(tree.sp, tree.v + 1, tree.s) : footprint);
   trunks = new Colliders();
   registerFloraColliders(population, trunks, radiusFor);
 });
@@ -30,8 +31,8 @@ describe('source-proportion pine collision and routes', () => {
   it('retains canonical identities and positions on every preset while matching conifer wood and keeping other radii', () => {
     const snapshot = structuredClone(population);
     const canonical = population.filter((tree) => tree.collisionId !== null);
-    expect(canonical).toHaveLength(1033);
-    expect(canonical.filter((tree) => isPineSpecies(tree.sp))).toHaveLength(397);
+    expect(canonical).toHaveLength(376);
+    expect(canonical.filter((tree) => isPineSpecies(tree.sp))).toHaveLength(233);
     const circles = trunks.all as CircleCollider[];
     expect(circles).toHaveLength(canonical.length);
     expect(circles.every((circle) => circle.kind === 'circle')).toBe(true);
@@ -40,8 +41,8 @@ describe('source-proportion pine collision and routes', () => {
       const circle = byId.get(tree.collisionId!)!;
       expect([circle.x, circle.z], tree.collisionId!).toEqual([tree.x, tree.z]);
       if (isPineSpecies(tree.sp)) {
-        // The source's root flare is substantially wider than the old generated conifer trunk.
-        expect(circle.r, tree.collisionId!).toBeGreaterThan(tree.radius * 2);
+        // Authored population, rendered wood and movement use one source-matching footprint.
+        expect(circle.r, tree.collisionId!).toBe(tree.radius);
       } else {
         expect(circle.r, tree.collisionId!).toBe(tree.radius);
       }

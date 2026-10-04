@@ -32,8 +32,9 @@ beforeAll(() => {
   terrain = new Terrain();
   colliders = buildStaticColliders();
   const exclusions = new Exclusions(terrain);
-  registerFloraColliders(createFloraPopulation(terrain, exclusions), colliders);
-  registerScatterColliders(createScatterPopulation(terrain, exclusions), colliders);
+  const trees = createFloraPopulation(terrain, exclusions);
+  registerFloraColliders(trees, colliders);
+  registerScatterColliders(createScatterPopulation(terrain, exclusions, trees), colliders);
   forestLandmarkGeometry(terrain, colliders);
   for (const p of HAMLET_PROPS.barrels) colliders.circle('camp_barrel', p.x, p.z, 0.4);
   for (const p of HAMLET_PROPS.crates) colliders.box('camp_crate', p.x, p.z, 0.45, 0.35, 0);

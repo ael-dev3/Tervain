@@ -1,0 +1,6852 @@
+{
+  "status": "PASS",
+  "method": "Nine exact camera pairs versus verified PR12; fresh diagnostic browser profiles, day0/hour11 fixture. After native pose recording, camera/player framing is fixed and player simulation paused for composition images. Original lossless PNGs remain in audit/stands/captures-verified outside source.",
+  "embeddedRevisionLimit": "PR12 preview embeds d0dc8de from earlier server startup; actual PR12 source is verified by Git HEAD87f48cb and exact served/local hashes. Candidate dirty source also uses base revision87f48cb. Source files, not only the header, identify each build.",
+  "pairChecks": [
+    {
+      "name": "trail",
+      "before": "pr12-trail.png",
+      "after": "stands-trail.png",
+      "translationDriftMetres": 0,
+      "angularDriftRadians": 2.9802322387695312e-08,
+      "matrixWorldMaxDrift": 0,
+      "projectionMaxDrift": 0,
+      "playerAnchorDriftMetres": 0
+    },
+    {
+      "name": "entry",
+      "before": "pr12-entry.png",
+      "after": "stands-entry.png",
+      "translationDriftMetres": 0,
+      "angularDriftRadians": 0,
+      "matrixWorldMaxDrift": 1.6653345369377348e-16,
+      "projectionMaxDrift": 0,
+      "playerAnchorDriftMetres": 0
+    },
+    {
+      "name": "grove",
+      "before": "pr12-grove.png",
+      "after": "stands-grove.png",
+      "translationDriftMetres": 0,
+      "angularDriftRadians": 0,
+      "matrixWorldMaxDrift": 1.6653345369377348e-16,
+      "projectionMaxDrift": 0,
+      "playerAnchorDriftMetres": 0
+    },
+    {
+      "name": "margin",
+      "before": "pr12-margin.png",
+      "after": "stands-margin.png",
+      "translationDriftMetres": 0,
+      "angularDriftRadians": 0,
+      "matrixWorldMaxDrift": 0,
+      "projectionMaxDrift": 0,
+      "playerAnchorDriftMetres": 0
+    },
+    {
+      "name": "trail-low",
+      "before": "pr12-trail-low.png",
+      "after": "stands-trail-low.png",
+      "translationDriftMetres": 0,
+      "angularDriftRadians": 2.9802322387695312e-08,
+      "matrixWorldMaxDrift": 0,
+      "projectionMaxDrift": 0,
+      "playerAnchorDriftMetres": 0
+    },
+    {
+      "name": "overview",
+      "before": "pr12-overview.png",
+      "after": "stands-overview.png",
+      "translationDriftMetres": 0,
+      "angularDriftRadians": 4.2146848510894035e-08,
+      "matrixWorldMaxDrift": 0,
+      "projectionMaxDrift": 0,
+      "playerAnchorDriftMetres": 0
+    },
+    {
+      "name": "canopy-plan",
+      "before": "pr12-canopy-plan.png",
+      "after": "stands-canopy-plan.png",
+      "translationDriftMetres": 0,
+      "angularDriftRadians": 0,
+      "matrixWorldMaxDrift": 0,
+      "projectionMaxDrift": 0,
+      "playerAnchorDriftMetres": 0
+    },
+    {
+      "name": "north-clearing-ground",
+      "before": "pr12-north-clearing-ground.png",
+      "after": "stands-north-clearing-ground.png",
+      "translationDriftMetres": 0,
+      "angularDriftRadians": 0,
+      "matrixWorldMaxDrift": 0,
+      "projectionMaxDrift": 0,
+      "playerAnchorDriftMetres": 0
+    },
+    {
+      "name": "south-clearing-ground",
+      "before": "pr12-south-clearing-ground.png",
+      "after": "stands-south-clearing-ground.png",
+      "translationDriftMetres": 0,
+      "angularDriftRadians": 0,
+      "matrixWorldMaxDrift": 0,
+      "projectionMaxDrift": 0,
+      "playerAnchorDriftMetres": 0
+    }
+  ],
+  "images": [
+    {
+      "name": "trail",
+      "side": "pr12",
+      "file": "pr12-trail.jpg",
+      "bytes": 215983,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "jpegQuality": 84,
+      "originalPNG": "pr12-trail.png",
+      "originalPNGSha256": "255f2e9ca73ffc5c761c654196b8bae0ef3065aa637e94b7ae66a1b22b2446dc",
+      "jpegSha256": "55ac9eb1c280c19d28ec4fad741bb939719217619eeab34fb3d1ba0be4af119a",
+      "encoding": "RGB JPEG, unchanged dimensions/framing; no palette adjustment or content edits"
+    },
+    {
+      "name": "trail",
+      "side": "stands",
+      "file": "stands-trail.jpg",
+      "bytes": 177920,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "jpegQuality": 84,
+      "originalPNG": "stands-trail.png",
+      "originalPNGSha256": "abfb235ebbc9912de3840d53ef47cf30df3b36c01743c834888cadaa4198915a",
+      "jpegSha256": "4af7e8efe1e332830630bea7b6bc078676ee9124be2f845fe30b665144987457",
+      "encoding": "RGB JPEG, unchanged dimensions/framing; no palette adjustment or content edits"
+    },
+    {
+      "name": "entry",
+      "side": "pr12",
+      "file": "pr12-entry.jpg",
+      "bytes": 221942,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "jpegQuality": 84,
+      "originalPNG": "pr12-entry.png",
+      "originalPNGSha256": "f1536c388c2dfeeb3350519a7b97d7ceb43107f330eb659d66bac2e3c3ffaecc",
+      "jpegSha256": "2d023ca9bd3d1ac7fe88e6410ebdd91e063c80ba3847d6f78ea29b6a4e7badc1",
+      "encoding": "RGB JPEG, unchanged dimensions/framing; no palette adjustment or content edits"
+    },
+    {
+      "name": "entry",
+      "side": "stands",
+      "file": "stands-entry.jpg",
+      "bytes": 213576,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "jpegQuality": 84,
+      "originalPNG": "stands-entry.png",
+      "originalPNGSha256": "9b3cb0c61bf7505dcf8c3514358a3939788863c58af69543582f0db7cefffd1e",
+      "jpegSha256": "44d544017e70985f773ce5e6c548c50067f851c9b587e115509713f1691a22ae",
+      "encoding": "RGB JPEG, unchanged dimensions/framing; no palette adjustment or content edits"
+    },
+    {
+      "name": "grove",
+      "side": "pr12",
+      "file": "pr12-grove.jpg",
+      "bytes": 216365,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "jpegQuality": 84,
+      "originalPNG": "pr12-grove.png",
+      "originalPNGSha256": "9ac24fe3479d73190f827d4858cb8978fe0ffce1cb214d173c8d5482d32c5591",
+      "jpegSha256": "3d29e16ad706f994d20de0155f525da9deb9a7e8b975319fc70edacb508bb730",
+      "encoding": "RGB JPEG, unchanged dimensions/framing; no palette adjustment or content edits"
+    },
+    {
+      "name": "grove",
+      "side": "stands",
+      "file": "stands-grove.jpg",
+      "bytes": 189411,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "jpegQuality": 84,
+      "originalPNG": "stands-grove.png",
+      "originalPNGSha256": "89f259def3079b345e2b2f088389e0d9679b21a432d714e1e226f845d118a8c2",
+      "jpegSha256": "1a670a15ba54b6f6b22321d72176c4b2f05ea1f6f89b6809b97d3ade0dfb3bec",
+      "encoding": "RGB JPEG, unchanged dimensions/framing; no palette adjustment or content edits"
+    },
+    {
+      "name": "margin",
+      "side": "pr12",
+      "file": "pr12-margin.jpg",
+      "bytes": 215506,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "jpegQuality": 84,
+      "originalPNG": "pr12-margin.png",
+      "originalPNGSha256": "c17140ce6adb0450c17b2a38bbe29c33620bb73f84bcd4cf6a6573b8439812aa",
+      "jpegSha256": "8308d501ffddd278b96e5b2ef575ac066d101275ece4db8aba9c87c804ec0990",
+      "encoding": "RGB JPEG, unchanged dimensions/framing; no palette adjustment or content edits"
+    },
+    {
+      "name": "margin",
+      "side": "stands",
+      "file": "stands-margin.jpg",
+      "bytes": 194148,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "jpegQuality": 84,
+      "originalPNG": "stands-margin.png",
+      "originalPNGSha256": "1200e0f1c2ad326da1acb10b1c42317fb45042ec77d0fb75cdf73c62218b8096",
+      "jpegSha256": "e5b24e5be887ea1a2d51b1d723977d14be1c456a5323bcaa90192331ab9c4476",
+      "encoding": "RGB JPEG, unchanged dimensions/framing; no palette adjustment or content edits"
+    },
+    {
+      "name": "trail-low",
+      "side": "pr12",
+      "file": "pr12-trail-low.jpg",
+      "bytes": 197725,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "jpegQuality": 84,
+      "originalPNG": "pr12-trail-low.png",
+      "originalPNGSha256": "60fe74fbed1ce84b711c7fd8bdd049dc897d2869c13655bb1cb7de4d345cb821",
+      "jpegSha256": "0e228a41af1814d57e458f7f518d5e71a55cb64279e25a77ac7dfbc696d99b52",
+      "encoding": "RGB JPEG, unchanged dimensions/framing; no palette adjustment or content edits"
+    },
+    {
+      "name": "trail-low",
+      "side": "stands",
+      "file": "stands-trail-low.jpg",
+      "bytes": 183824,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "jpegQuality": 84,
+      "originalPNG": "stands-trail-low.png",
+      "originalPNGSha256": "73f32656f27fe15d5bb0515304f38bdee5526da152ed434f4937244695ad0fe4",
+      "jpegSha256": "9b29e18b9cc0ff72100771664ba48e21035d6321f2ed7b5fc7145c57eda86dc8",
+      "encoding": "RGB JPEG, unchanged dimensions/framing; no palette adjustment or content edits"
+    },
+    {
+      "name": "overview",
+      "side": "pr12",
+      "file": "pr12-overview.jpg",
+      "bytes": 77617,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "jpegQuality": 84,
+      "originalPNG": "pr12-overview.png",
+      "originalPNGSha256": "2fe92fb29bcd6c28e99330a6ab37e56bb276b84d3ed5255c9e0f6816e4fb5faf",
+      "jpegSha256": "ac39303544c377b4d53d4cb3d3e5fd5648c35fbf5702fc37b4a202c87731e66d",
+      "encoding": "RGB JPEG, unchanged dimensions/framing; no palette adjustment or content edits"
+    },
+    {
+      "name": "overview",
+      "side": "stands",
+      "file": "stands-overview.jpg",
+      "bytes": 61535,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "jpegQuality": 84,
+      "originalPNG": "stands-overview.png",
+      "originalPNGSha256": "8bc330346b7ff1b47d7b226bfa33a9ff9260a1027de6f1e6a9ea679d81c1984f",
+      "jpegSha256": "32d31c4eab8d801eb9424343577efc098517a25e6a86260f61a03e2767ad7f59",
+      "encoding": "RGB JPEG, unchanged dimensions/framing; no palette adjustment or content edits"
+    },
+    {
+      "name": "canopy-plan",
+      "side": "pr12",
+      "file": "pr12-canopy-plan.jpg",
+      "bytes": 17273,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "jpegQuality": 84,
+      "originalPNG": "pr12-canopy-plan.png",
+      "originalPNGSha256": "31b8d2897bf59a27d2b6b19d0a67e94739804cb6d9dc497090da6daa9fcd58b1",
+      "jpegSha256": "4496ad761378e30b8663d8a4527be4032aeaa46f4ad158bc385dbd68b668ffa8",
+      "encoding": "RGB JPEG, unchanged dimensions/framing; no palette adjustment or content edits"
+    },
+    {
+      "name": "canopy-plan",
+      "side": "stands",
+      "file": "stands-canopy-plan.jpg",
+      "bytes": 16108,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "jpegQuality": 84,
+      "originalPNG": "stands-canopy-plan.png",
+      "originalPNGSha256": "f3594d6688c85f95616e6b8c954c41ee74b18afd83289062d48e4ef23f10927b",
+      "jpegSha256": "ab58dfcbfc81b22fd965c71a8494eed85a59d9e75afc3ec118e5f62eb83b0deb",
+      "encoding": "RGB JPEG, unchanged dimensions/framing; no palette adjustment or content edits"
+    },
+    {
+      "name": "north-clearing-ground",
+      "side": "pr12",
+      "file": "pr12-north-clearing-ground.jpg",
+      "bytes": 219698,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "jpegQuality": 84,
+      "originalPNG": "pr12-north-clearing-ground.png",
+      "originalPNGSha256": "142857dc5d83fd39dd711003161e73ab231dac48d362e582920385a4708c7227",
+      "jpegSha256": "bbec7a134beddc2ac9cc104f25cc27835aec0336f969fb6dd659a90ac6b8467c",
+      "encoding": "RGB JPEG, unchanged dimensions/framing; no palette adjustment or content edits"
+    },
+    {
+      "name": "north-clearing-ground",
+      "side": "stands",
+      "file": "stands-north-clearing-ground.jpg",
+      "bytes": 225793,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "jpegQuality": 84,
+      "originalPNG": "stands-north-clearing-ground.png",
+      "originalPNGSha256": "5d79ee2012e60c25f44179fc492c74c2bc64602c55042da9aa2f4b33a1e8b058",
+      "jpegSha256": "64b580b8613a4f3fc6226927f85bc3130830290404a5dcb1c1adff3b83348d4e",
+      "encoding": "RGB JPEG, unchanged dimensions/framing; no palette adjustment or content edits"
+    },
+    {
+      "name": "south-clearing-ground",
+      "side": "pr12",
+      "file": "pr12-south-clearing-ground.jpg",
+      "bytes": 220554,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "jpegQuality": 84,
+      "originalPNG": "pr12-south-clearing-ground.png",
+      "originalPNGSha256": "7e9617b0532da2795cfabb7b22a5a49dcb7ca470903c2cd6bc97f6df9f237c6e",
+      "jpegSha256": "3b4623e713db4a830a188cb464bdb08b4bf63ce2537f85014fe7531fce617b55",
+      "encoding": "RGB JPEG, unchanged dimensions/framing; no palette adjustment or content edits"
+    },
+    {
+      "name": "south-clearing-ground",
+      "side": "stands",
+      "file": "stands-south-clearing-ground.jpg",
+      "bytes": 221497,
+      "dimensions": [
+        1280,
+        720
+      ],
+      "jpegQuality": 84,
+      "originalPNG": "stands-south-clearing-ground.png",
+      "originalPNGSha256": "e047bac4801ac6b4030a2473ee72114a2be0269f4628c2202c786ea6e8136adf",
+      "jpegSha256": "92bcd66f1b6a73fc2ddf4c303cc4f0753ed1acc8042d64967c10fb7c7eb7ee89",
+      "encoding": "RGB JPEG, unchanged dimensions/framing; no palette adjustment or content edits"
+    }
+  ],
+  "sources": [
+    {
+      "label": "pr12",
+      "git": {
+        "head": "87f48cbed253cd9b48eb03d2454fba7c046cabed",
+        "dirty": "",
+        "lockfileSha256": "c066a536f7a63006db5223033030229c8b033ffecc64b22716d2c6239c20cc88"
+      },
+      "files": [
+        {
+          "relative": "src/presentation/floraPopulation.ts",
+          "responseSha256": "0775106578d41d42fa42d77b0952758dca8c2d696a2d79a76605dc192d60010a",
+          "rawSourceSha256": "7354176445d219c6122ffa639ace0fe9731ff4d0cc47c7a01bfbfef704e8f259",
+          "localSha256": "7354176445d219c6122ffa639ace0fe9731ff4d0cc47c7a01bfbfef704e8f259",
+          "rawSourceMatchesLocal": true
+        },
+        {
+          "relative": "src/world/forest.ts",
+          "responseSha256": "d93474b38326ef40dd19511914d1f9c2b22f15b65fdd74009e4798903474459b",
+          "rawSourceSha256": "e76eb6138c5ef9578c789533cab96900ba064156ec7e0170e42d848ced0b4402",
+          "localSha256": "e76eb6138c5ef9578c789533cab96900ba064156ec7e0170e42d848ced0b4402",
+          "rawSourceMatchesLocal": true
+        },
+        {
+          "relative": "src/presentation/flora.ts",
+          "responseSha256": "d2965361652474860086089144dd171feabbac2e3f12caeac5027ad1d75ae9a1",
+          "rawSourceSha256": "e87debb8fa9e914c79d3b069055ffd0df0ed9ee25534f600a1422c56f0593952",
+          "localSha256": "e87debb8fa9e914c79d3b069055ffd0df0ed9ee25534f600a1422c56f0593952",
+          "rawSourceMatchesLocal": true
+        },
+        {
+          "relative": "src/presentation/forestFloor.ts",
+          "responseSha256": "5c3d953d79e92244340da68fda3d6188783751535ddf79b907168591763000dc",
+          "rawSourceSha256": "7934a3ae84103a23159ed8753ee9a805bdc64399b3217b4cb1fb41fc1fc6eed5",
+          "localSha256": "7934a3ae84103a23159ed8753ee9a805bdc64399b3217b4cb1fb41fc1fc6eed5",
+          "rawSourceMatchesLocal": true
+        },
+        {
+          "relative": "src/presentation/treeGen.ts",
+          "responseSha256": "193282eac060529df8712ea99f8ab62ef0ac1430c17079d85617d04cf5f27a12",
+          "rawSourceSha256": "f7a1002dcb255d6453a74515c4fa27209add37df1e2fd4d2cc02d8b3bfc2d0a4",
+          "localSha256": "f7a1002dcb255d6453a74515c4fa27209add37df1e2fd4d2cc02d8b3bfc2d0a4",
+          "rawSourceMatchesLocal": true
+        },
+        {
+          "relative": "src/app.ts",
+          "responseSha256": "e8ec66b5f3f30f1dccf3a8550ec9083381f9f531f63dce1cee833e63ce3c8d4e",
+          "rawSourceSha256": "6e0fbeab3a19cd7989a86777e8c6f4d208bcf1f95dceec7d6b8a4af3ec665139",
+          "localSha256": "6e0fbeab3a19cd7989a86777e8c6f4d208bcf1f95dceec7d6b8a4af3ec665139",
+          "rawSourceMatchesLocal": true
+        },
+        {
+          "relative": "src/presentation/cameraRig.ts",
+          "responseSha256": "4d34abb848b8ec5d3d1e503c1cce9e53274299d6098c612d0a1d2de3a609f0e1",
+          "rawSourceSha256": "f97d9587dde088426984ba13918cb111f82beddac9f5fce4d05913db68a5ee90",
+          "localSha256": "f97d9587dde088426984ba13918cb111f82beddac9f5fce4d05913db68a5ee90",
+          "rawSourceMatchesLocal": true
+        }
+      ]
+    },
+    {
+      "label": "stands",
+      "git": {
+        "head": "87f48cbed253cd9b48eb03d2454fba7c046cabed",
+        "dirty": "M AGENTS.md\n M README.md\n M docs/art/gothic3-reference.md\n M docs/decisions.md\n M src/presentation/floraPopulation.ts\n M src/presentation/forestFloor.ts\n M src/world/forest.ts\n M tests/presentation/forestCohesion.test.ts\n M tests/presentation/forestFloor.test.ts\n?? docs/art/forest-evidence/\n?? docs/art/forest-stands-2026-10-03.md\n?? docs/art/gothic3-vegetation-study.md\n?? src/world/forestStands.ts\n?? tests/presentation/forestStands.test.ts",
+        "lockfileSha256": "c066a536f7a63006db5223033030229c8b033ffecc64b22716d2c6239c20cc88"
+      },
+      "files": [
+        {
+          "relative": "src/presentation/floraPopulation.ts",
+          "responseSha256": "ebd248fc147ad04dd66ab135130159efb24e4665f778d26886814ac78fb46430",
+          "rawSourceSha256": "2b6fa0706b5ca3b0a231ffcdc45922124f63f113f92f77391c2f41ceb6d204bb",
+          "localSha256": "2b6fa0706b5ca3b0a231ffcdc45922124f63f113f92f77391c2f41ceb6d204bb",
+          "rawSourceMatchesLocal": true
+        },
+        {
+          "relative": "src/world/forest.ts",
+          "responseSha256": "74f53083597fee937065531e1a59a0bb3e7e44a66174ff94d31c91849c280ab8",
+          "rawSourceSha256": "0ab1a40ee1bf264fa4d3bd60b3b49b41ee8615e2816825bd1d640072e0807d05",
+          "localSha256": "0ab1a40ee1bf264fa4d3bd60b3b49b41ee8615e2816825bd1d640072e0807d05",
+          "rawSourceMatchesLocal": true
+        },
+        {
+          "relative": "src/presentation/flora.ts",
+          "responseSha256": "948dc42d7872f8b78110112b35342bd14c88126c0c5459e4720081ec6f5c89f1",
+          "rawSourceSha256": "e87debb8fa9e914c79d3b069055ffd0df0ed9ee25534f600a1422c56f0593952",
+          "localSha256": "e87debb8fa9e914c79d3b069055ffd0df0ed9ee25534f600a1422c56f0593952",
+          "rawSourceMatchesLocal": true
+        },
+        {
+          "relative": "src/presentation/forestFloor.ts",
+          "responseSha256": "12a8f3982f272d26e5e5067b9eee579b180e97e98ddb4d28aa11ef262bf90e13",
+          "rawSourceSha256": "78244a379ca207be1e1c05b945c2760e299c92e27f091235f20ea3e50dd72a31",
+          "localSha256": "78244a379ca207be1e1c05b945c2760e299c92e27f091235f20ea3e50dd72a31",
+          "rawSourceMatchesLocal": true
+        },
+        {
+          "relative": "src/presentation/treeGen.ts",
+          "responseSha256": "0100f6ffbce1c764f126dfff317230ffdb585a4d7454c1e2cd2c57b58dac7c99",
+          "rawSourceSha256": "f7a1002dcb255d6453a74515c4fa27209add37df1e2fd4d2cc02d8b3bfc2d0a4",
+          "localSha256": "f7a1002dcb255d6453a74515c4fa27209add37df1e2fd4d2cc02d8b3bfc2d0a4",
+          "rawSourceMatchesLocal": true
+        },
+        {
+          "relative": "src/app.ts",
+          "responseSha256": "c4884a11425fbe08d7d819e7c92012dafc669b5ecd5fe3bc7456983a53984c07",
+          "rawSourceSha256": "6e0fbeab3a19cd7989a86777e8c6f4d208bcf1f95dceec7d6b8a4af3ec665139",
+          "localSha256": "6e0fbeab3a19cd7989a86777e8c6f4d208bcf1f95dceec7d6b8a4af3ec665139",
+          "rawSourceMatchesLocal": true
+        },
+        {
+          "relative": "src/presentation/cameraRig.ts",
+          "responseSha256": "392622aa81f07219d59cca93ded91459c1a926aeeb953d342a2e60606eeb0711",
+          "rawSourceSha256": "f97d9587dde088426984ba13918cb111f82beddac9f5fce4d05913db68a5ee90",
+          "localSha256": "f97d9587dde088426984ba13918cb111f82beddac9f5fce4d05913db68a5ee90",
+          "rawSourceMatchesLocal": true
+        },
+        {
+          "relative": "src/world/forestStands.ts",
+          "responseSha256": "6ebb58fb488878eac4e9f0826554c9ff635eb0210cc10711513f95ed3c02fb04",
+          "rawSourceSha256": "b5de83b438f4d06c1481608e43eb33d1ee9f599415b870148f627d17fa41ce54",
+          "localSha256": "b5de83b438f4d06c1481608e43eb33d1ee9f599415b870148f627d17fa41ce54",
+          "rawSourceMatchesLocal": true
+        }
+      ]
+    }
+  ],
+  "records": [
+    {
+      "label": "pr12",
+      "name": "trail",
+      "purpose": "Established woodland trail, High",
+      "build": {
+        "version": "0.0.8",
+        "revision": "d0dc8de"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "devicePixelRatio": 1,
+        "rendererPixelRatio": 1,
+        "bufferWidth": 1280,
+        "bufferHeight": 720
+      },
+      "camera": {
+        "position": [
+          -181,
+          4.589702879050442,
+          9.187034396377417
+        ],
+        "quaternion": [
+          0,
+          0.992197667229329,
+          0.12467473338522772,
+          0
+        ],
+        "direction": [
+          0,
+          -0.24740395925452302,
+          0.9689124217106448
+        ],
+        "matrixWorld": [
+          -0.9999999999999998,
+          0,
+          0,
+          0,
+          0,
+          0.9689124217106447,
+          0.24740395925452296,
+          0,
+          0,
+          0.24740395925452296,
+          -0.9689124217106446,
+          0,
+          -181,
+          4.589702879050442,
+          9.187034396377417,
+          1
+        ],
+        "matrixWorldInverse": [
+          -0.9999999999999996,
+          0,
+          0,
+          0,
+          0,
+          0.9689124217106448,
+          0.24740395925452296,
+          0,
+          0,
+          0.24740395925452296,
+          -0.9689124217106445,
+          0,
+          -180.99999999999994,
+          -6.719928814944343,
+          7.76592108125407,
+          1
+        ],
+        "projectionMatrix": [
+          1.0147768623401758,
+          0,
+          0,
+          0,
+          0,
+          1.8040477552714236,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 58,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "player": {
+        "x": -181,
+        "y": 1.5554090738296509,
+        "z": 15,
+        "yaw": 1.3258176636680326
+      },
+      "clock": {
+        "minutes": 660,
+        "accumulator": 0,
+        "day": 0,
+        "hour": 11,
+        "phase": "unseen",
+        "suppressedTickCalls": 0
+      },
+      "settings": {
+        "textScale": 1,
+        "reducedMotion": true,
+        "highContrast": false,
+        "reduceEffects": false,
+        "brightness": 1,
+        "quality": "high",
+        "guidance": true,
+        "showFps": false,
+        "barks": true,
+        "captions": true,
+        "mouseSensitivity": 1,
+        "invertY": false,
+        "toggleSprint": false,
+        "toggleBlock": false,
+        "volumes": {
+          "master": 0.8,
+          "music": 0.55,
+          "effects": 0.8,
+          "ambience": 0.7,
+          "dialogue": 0.8
+        },
+        "bindings": {
+          "forward": [
+            "KeyW",
+            "ArrowUp"
+          ],
+          "back": [
+            "KeyS",
+            "ArrowDown"
+          ],
+          "left": [
+            "KeyA",
+            "ArrowLeft"
+          ],
+          "right": [
+            "KeyD",
+            "ArrowRight"
+          ],
+          "sprint": [
+            "ShiftLeft"
+          ],
+          "jump": [
+            "Space"
+          ],
+          "interact": [
+            "KeyE"
+          ],
+          "attack": [
+            "Mouse0",
+            "KeyJ"
+          ],
+          "heavy": [
+            "KeyK"
+          ],
+          "block": [
+            "Mouse2",
+            "KeyL"
+          ],
+          "dodge": [
+            "KeyQ"
+          ],
+          "heal": [
+            "KeyH"
+          ],
+          "journal": [
+            "Tab"
+          ],
+          "map": [
+            "KeyM"
+          ],
+          "inventory": [
+            "KeyI"
+          ],
+          "camLeft": [
+            "KeyZ"
+          ],
+          "camRight": [
+            "KeyC"
+          ],
+          "quicksave": [
+            "F5"
+          ],
+          "quickload": [
+            "F9"
+          ],
+          "pause": [
+            "Escape"
+          ]
+        }
+      },
+      "grade": {
+        "saturation": 0.97,
+        "contrast": 1.01,
+        "vignette": 0.08,
+        "grain": 0.003,
+        "chromatic": 0
+      },
+      "bloom": true,
+      "modules": [
+        {
+          "name": "forest",
+          "stats": {
+            "trees": 1055,
+            "treeObstacles": 731,
+            "treesDrawn": 239,
+            "treeTris": 343559,
+            "forestFloorPieces": 933,
+            "forestFloorDrawn": 237
+          }
+        },
+        {
+          "name": "scatter",
+          "stats": {
+            "rocks": 1069,
+            "scatterTris": 106186
+          }
+        },
+        {
+          "name": "groundcover",
+          "stats": {
+            "grassInstances": 6384,
+            "grassTris": 210672,
+            "grassDraws": 64,
+            "grassTiles": 68
+          }
+        },
+        {
+          "name": "wildlife",
+          "stats": {
+            "gulls": 16,
+            "chimneys": 11
+          }
+        },
+        {
+          "name": "ambient",
+          "stats": {
+            "people": 3
+          }
+        },
+        {
+          "name": "woodland air",
+          "stats": {
+            "woodlandMotes": 144
+          }
+        },
+        {
+          "name": "woodland landmarks",
+          "stats": {
+            "markers": 4,
+            "ruins": 1,
+            "signs": 1,
+            "triangles": 3006,
+            "meshes": 15
+          }
+        }
+      ],
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "nativeCamera": {
+        "position": [
+          -181,
+          4.589702879050442,
+          9.187034396377417
+        ],
+        "quaternion": [
+          0,
+          0.992197667229329,
+          0.12467473338522772,
+          0
+        ],
+        "direction": [
+          0,
+          -0.24740395925452302,
+          0.9689124217106448
+        ],
+        "matrixWorld": [
+          -0.9999999999999998,
+          0,
+          0,
+          0,
+          0,
+          0.9689124217106447,
+          0.24740395925452296,
+          0,
+          0,
+          0.24740395925452296,
+          -0.9689124217106446,
+          0,
+          -181,
+          4.589702879050442,
+          9.187034396377417,
+          1
+        ],
+        "matrixWorldInverse": [
+          -0.9999999999999996,
+          0,
+          0,
+          0,
+          0,
+          0.9689124217106448,
+          0.24740395925452296,
+          0,
+          0,
+          0.24740395925452296,
+          -0.9689124217106445,
+          0,
+          -180.99999999999994,
+          -6.719928814944343,
+          7.76592108125407,
+          1
+        ],
+        "projectionMatrix": [
+          1.0147768623401758,
+          0,
+          0,
+          0,
+          0,
+          1.8040477552714236,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 58,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "nativePlayer": {
+        "x": -181,
+        "y": 1.5554090738296509,
+        "z": 15,
+        "yaw": 1.3258176636680326
+      },
+      "nativeCandidateDriftFromBaseline": null
+    },
+    {
+      "label": "stands",
+      "name": "trail",
+      "purpose": "Established woodland trail, High",
+      "build": {
+        "version": "0.0.8",
+        "revision": "87f48cb"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "devicePixelRatio": 1,
+        "rendererPixelRatio": 1,
+        "bufferWidth": 1280,
+        "bufferHeight": 720
+      },
+      "camera": {
+        "position": [
+          -181,
+          4.589702879050442,
+          9.187034396377417
+        ],
+        "quaternion": [
+          0,
+          0.992197667229329,
+          0.12467473338522772,
+          0
+        ],
+        "direction": [
+          0,
+          -0.24740395925452302,
+          0.9689124217106448
+        ],
+        "matrixWorld": [
+          -0.9999999999999998,
+          0,
+          0,
+          0,
+          0,
+          0.9689124217106447,
+          0.24740395925452296,
+          0,
+          0,
+          0.24740395925452296,
+          -0.9689124217106446,
+          0,
+          -181,
+          4.589702879050442,
+          9.187034396377417,
+          1
+        ],
+        "matrixWorldInverse": [
+          -0.9999999999999996,
+          0,
+          0,
+          0,
+          0,
+          0.9689124217106448,
+          0.24740395925452296,
+          0,
+          0,
+          0.24740395925452296,
+          -0.9689124217106445,
+          0,
+          -180.99999999999994,
+          -6.719928814944343,
+          7.76592108125407,
+          1
+        ],
+        "projectionMatrix": [
+          1.0147768623401758,
+          0,
+          0,
+          0,
+          0,
+          1.8040477552714236,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 58,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "player": {
+        "x": -181,
+        "y": 1.5554090738296509,
+        "z": 15,
+        "yaw": 1.3258176636680326
+      },
+      "clock": {
+        "minutes": 660,
+        "accumulator": 0,
+        "day": 0,
+        "hour": 11,
+        "phase": "unseen",
+        "suppressedTickCalls": 0
+      },
+      "settings": {
+        "textScale": 1,
+        "reducedMotion": true,
+        "highContrast": false,
+        "reduceEffects": false,
+        "brightness": 1,
+        "quality": "high",
+        "guidance": true,
+        "showFps": false,
+        "barks": true,
+        "captions": true,
+        "mouseSensitivity": 1,
+        "invertY": false,
+        "toggleSprint": false,
+        "toggleBlock": false,
+        "volumes": {
+          "master": 0.8,
+          "music": 0.55,
+          "effects": 0.8,
+          "ambience": 0.7,
+          "dialogue": 0.8
+        },
+        "bindings": {
+          "forward": [
+            "KeyW",
+            "ArrowUp"
+          ],
+          "back": [
+            "KeyS",
+            "ArrowDown"
+          ],
+          "left": [
+            "KeyA",
+            "ArrowLeft"
+          ],
+          "right": [
+            "KeyD",
+            "ArrowRight"
+          ],
+          "sprint": [
+            "ShiftLeft"
+          ],
+          "jump": [
+            "Space"
+          ],
+          "interact": [
+            "KeyE"
+          ],
+          "attack": [
+            "Mouse0",
+            "KeyJ"
+          ],
+          "heavy": [
+            "KeyK"
+          ],
+          "block": [
+            "Mouse2",
+            "KeyL"
+          ],
+          "dodge": [
+            "KeyQ"
+          ],
+          "heal": [
+            "KeyH"
+          ],
+          "journal": [
+            "Tab"
+          ],
+          "map": [
+            "KeyM"
+          ],
+          "inventory": [
+            "KeyI"
+          ],
+          "camLeft": [
+            "KeyZ"
+          ],
+          "camRight": [
+            "KeyC"
+          ],
+          "quicksave": [
+            "F5"
+          ],
+          "quickload": [
+            "F9"
+          ],
+          "pause": [
+            "Escape"
+          ]
+        }
+      },
+      "grade": {
+        "saturation": 0.97,
+        "contrast": 1.01,
+        "vignette": 0.08,
+        "grain": 0.003,
+        "chromatic": 0
+      },
+      "bloom": true,
+      "modules": [
+        {
+          "name": "forest",
+          "stats": {
+            "trees": 937,
+            "treeObstacles": 626,
+            "treesDrawn": 202,
+            "treeTris": 297077,
+            "forestFloorPieces": 539,
+            "forestFloorDrawn": 117
+          }
+        },
+        {
+          "name": "scatter",
+          "stats": {
+            "rocks": 1071,
+            "scatterTris": 106546
+          }
+        },
+        {
+          "name": "groundcover",
+          "stats": {
+            "grassInstances": 6056,
+            "grassTris": 199848,
+            "grassDraws": 64,
+            "grassTiles": 68
+          }
+        },
+        {
+          "name": "wildlife",
+          "stats": {
+            "gulls": 16,
+            "chimneys": 11
+          }
+        },
+        {
+          "name": "ambient",
+          "stats": {
+            "people": 3
+          }
+        },
+        {
+          "name": "woodland air",
+          "stats": {
+            "woodlandMotes": 144
+          }
+        },
+        {
+          "name": "woodland landmarks",
+          "stats": {
+            "markers": 4,
+            "ruins": 1,
+            "signs": 1,
+            "triangles": 3006,
+            "meshes": 15
+          }
+        }
+      ],
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "nativeCamera": {
+        "position": [
+          -181,
+          4.589706143289073,
+          9.187021612582985
+        ],
+        "quaternion": [
+          0,
+          0.992197667229329,
+          0.12467473338522772,
+          0
+        ],
+        "direction": [
+          0,
+          -0.24740395925452302,
+          0.9689124217106448
+        ],
+        "matrixWorld": [
+          -0.9999999999999998,
+          0,
+          0,
+          0,
+          0,
+          0.9689124217106447,
+          0.24740395925452296,
+          0,
+          0,
+          0.24740395925452296,
+          -0.9689124217106446,
+          0,
+          -181,
+          4.589706143289073,
+          9.187021612582985,
+          1
+        ],
+        "matrixWorldInverse": [
+          -0.9999999999999996,
+          0,
+          0,
+          0,
+          0,
+          0.9689124217106448,
+          0.24740395925452296,
+          0,
+          0,
+          0.24740395925452296,
+          -0.9689124217106445,
+          0,
+          -180.99999999999994,
+          -6.719928814944342,
+          7.765907887291287,
+          1
+        ],
+        "projectionMatrix": [
+          1.0147768623401758,
+          0,
+          0,
+          0,
+          0,
+          1.8040477552714236,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 58,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "nativePlayer": {
+        "x": -181,
+        "y": 1.5554090738296509,
+        "z": 15,
+        "yaw": 1.3258176636680326
+      },
+      "nativeCandidateDriftFromBaseline": {
+        "camera": {
+          "translationDriftMetres": 1.3193962782826849e-05,
+          "angularDriftRadians": 2.9802322387695312e-08,
+          "matrixWorldMaxDrift": 1.2783794431925344e-05,
+          "projectionMaxDrift": 0
+        },
+        "playerTranslationMetres": 0
+      }
+    },
+    {
+      "label": "pr12",
+      "name": "entry",
+      "purpose": "Established entrance looking inland; positive yaw intentionally matches capture-local",
+      "build": {
+        "version": "0.0.8",
+        "revision": "d0dc8de"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "devicePixelRatio": 1,
+        "rendererPixelRatio": 1,
+        "bufferWidth": 1280,
+        "bufferHeight": 720
+      },
+      "camera": {
+        "position": [
+          -247.87990960527412,
+          3.8740482220974295,
+          24.995317669440006
+        ],
+        "quaternion": [
+          -0.07056477280176178,
+          -0.703854274290177,
+          -0.0706209878068477,
+          0.703293999323234
+        ],
+        "direction": [
+          0.98006626709333,
+          -0.19866933079506133,
+          0.0007804531942319228
+        ],
+        "matrixWorld": [
+          -0.0007963267107333749,
+          -1.3877787807814457e-17,
+          0.9999996829318345,
+          0,
+          0.19866926780334104,
+          0.9800665778412416,
+          0.00015820569471562684,
+          0,
+          -0.9800662670933298,
+          0.19866933079506127,
+          -0.0007804531942319226,
+          0,
+          -247.87990960527412,
+          3.8740482220974295,
+          24.995317669440006,
+          1
+        ],
+        "matrixWorldInverse": [
+          -0.0007963267107334878,
+          0.19866926780334107,
+          -0.9800662670933297,
+          0,
+          1.3959102970750867e-17,
+          0.9800665778412416,
+          0.1986693307950613,
+          0,
+          0.9999996829318346,
+          0.00015820569471566246,
+          -0.0007804531942322512,
+          0,
+          -25.192703137293368,
+          45.445340559418675,
+          -243.68888458650892,
+          1
+        ],
+        "projectionMatrix": [
+          1.0147768623401758,
+          0,
+          0,
+          0,
+          0,
+          1.8040477552714236,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 58,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "player": {
+        "x": -242,
+        "y": 1.1321311593055725,
+        "z": 25,
+        "yaw": 0
+      },
+      "clock": {
+        "minutes": 660,
+        "accumulator": 0,
+        "day": 0,
+        "hour": 11,
+        "phase": "unseen",
+        "suppressedTickCalls": 0
+      },
+      "settings": {
+        "textScale": 1,
+        "reducedMotion": true,
+        "highContrast": false,
+        "reduceEffects": false,
+        "brightness": 1,
+        "quality": "high",
+        "guidance": true,
+        "showFps": false,
+        "barks": true,
+        "captions": true,
+        "mouseSensitivity": 1,
+        "invertY": false,
+        "toggleSprint": false,
+        "toggleBlock": false,
+        "volumes": {
+          "master": 0.8,
+          "music": 0.55,
+          "effects": 0.8,
+          "ambience": 0.7,
+          "dialogue": 0.8
+        },
+        "bindings": {
+          "forward": [
+            "KeyW",
+            "ArrowUp"
+          ],
+          "back": [
+            "KeyS",
+            "ArrowDown"
+          ],
+          "left": [
+            "KeyA",
+            "ArrowLeft"
+          ],
+          "right": [
+            "KeyD",
+            "ArrowRight"
+          ],
+          "sprint": [
+            "ShiftLeft"
+          ],
+          "jump": [
+            "Space"
+          ],
+          "interact": [
+            "KeyE"
+          ],
+          "attack": [
+            "Mouse0",
+            "KeyJ"
+          ],
+          "heavy": [
+            "KeyK"
+          ],
+          "block": [
+            "Mouse2",
+            "KeyL"
+          ],
+          "dodge": [
+            "KeyQ"
+          ],
+          "heal": [
+            "KeyH"
+          ],
+          "journal": [
+            "Tab"
+          ],
+          "map": [
+            "KeyM"
+          ],
+          "inventory": [
+            "KeyI"
+          ],
+          "camLeft": [
+            "KeyZ"
+          ],
+          "camRight": [
+            "KeyC"
+          ],
+          "quicksave": [
+            "F5"
+          ],
+          "quickload": [
+            "F9"
+          ],
+          "pause": [
+            "Escape"
+          ]
+        }
+      },
+      "grade": {
+        "saturation": 0.97,
+        "contrast": 1.01,
+        "vignette": 0.08,
+        "grain": 0.003,
+        "chromatic": 0
+      },
+      "bloom": true,
+      "modules": [
+        {
+          "name": "forest",
+          "stats": {
+            "trees": 1055,
+            "treeObstacles": 731,
+            "treesDrawn": 907,
+            "treeTris": 364161,
+            "forestFloorPieces": 933,
+            "forestFloorDrawn": 385
+          }
+        },
+        {
+          "name": "scatter",
+          "stats": {
+            "rocks": 1069,
+            "scatterTris": 106186
+          }
+        },
+        {
+          "name": "groundcover",
+          "stats": {
+            "grassInstances": 4377,
+            "grassTris": 144441,
+            "grassDraws": 43,
+            "grassTiles": 69
+          }
+        },
+        {
+          "name": "wildlife",
+          "stats": {
+            "gulls": 16,
+            "chimneys": 11
+          }
+        },
+        {
+          "name": "ambient",
+          "stats": {
+            "people": 3
+          }
+        },
+        {
+          "name": "woodland air",
+          "stats": {
+            "woodlandMotes": 144
+          }
+        },
+        {
+          "name": "woodland landmarks",
+          "stats": {
+            "markers": 4,
+            "ruins": 1,
+            "signs": 1,
+            "triangles": 3006,
+            "meshes": 15
+          }
+        }
+      ],
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "nativeCamera": {
+        "position": [
+          -247.87990960527412,
+          3.8740482220974295,
+          24.995317669440006
+        ],
+        "quaternion": [
+          -0.07056477280176171,
+          -0.703854274290177,
+          -0.07062098780684761,
+          0.703293999323234
+        ],
+        "direction": [
+          0.98006626709333,
+          -0.1986693307950611,
+          0.0007804531942319228
+        ],
+        "matrixWorld": [
+          -0.0007963267107333749,
+          1.3877787807814457e-17,
+          0.9999996829318345,
+          0,
+          0.19866926780334082,
+          0.9800665778412416,
+          0.00015820569471561297,
+          0,
+          -0.9800662670933298,
+          0.19866933079506105,
+          -0.0007804531942319226,
+          0,
+          -247.87990960527412,
+          3.8740482220974295,
+          24.995317669440006,
+          1
+        ],
+        "matrixWorldInverse": [
+          -0.0007963267107334822,
+          0.19866926780334085,
+          -0.9800662670933297,
+          0,
+          4.098284211995206e-17,
+          0.9800665778412416,
+          0.19866933079506108,
+          0,
+          0.9999996829318345,
+          0.00015820569471564866,
+          -0.000780453194232254,
+          0,
+          -25.192703137293368,
+          45.44534055941862,
+          -243.68888458650892,
+          1
+        ],
+        "projectionMatrix": [
+          1.0147768623401758,
+          0,
+          0,
+          0,
+          0,
+          1.8040477552714236,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 58,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "nativePlayer": {
+        "x": -242,
+        "y": 1.1321311593055725,
+        "z": 25,
+        "yaw": 0
+      },
+      "nativeCandidateDriftFromBaseline": null
+    },
+    {
+      "label": "stands",
+      "name": "entry",
+      "purpose": "Established entrance looking inland; positive yaw intentionally matches capture-local",
+      "build": {
+        "version": "0.0.8",
+        "revision": "87f48cb"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "devicePixelRatio": 1,
+        "rendererPixelRatio": 1,
+        "bufferWidth": 1280,
+        "bufferHeight": 720
+      },
+      "camera": {
+        "position": [
+          -247.87990960527412,
+          3.8740482220974295,
+          24.995317669440006
+        ],
+        "quaternion": [
+          -0.07056477280176184,
+          -0.703854274290177,
+          -0.07062098780684775,
+          0.703293999323234
+        ],
+        "direction": [
+          0.98006626709333,
+          -0.1986693307950615,
+          0.0007804531942319228
+        ],
+        "matrixWorld": [
+          -0.0007963267107333749,
+          -1.3877787807814457e-17,
+          0.9999996829318345,
+          0,
+          0.1986692678033412,
+          0.9800665778412416,
+          0.00015820569471562684,
+          0,
+          -0.9800662670933298,
+          0.19866933079506144,
+          -0.0007804531942319226,
+          0,
+          -247.87990960527412,
+          3.8740482220974295,
+          24.995317669440006,
+          1
+        ],
+        "matrixWorldInverse": [
+          -0.0007963267107334878,
+          0.1986692678033412,
+          -0.9800662670933297,
+          0,
+          1.4094628242311555e-17,
+          0.9800665778412416,
+          0.19866933079506147,
+          0,
+          0.9999996829318347,
+          0.00015820569471566257,
+          -0.0007804531942322512,
+          0,
+          -25.19270313729337,
+          45.44534055941871,
+          -243.68888458650892,
+          1
+        ],
+        "projectionMatrix": [
+          1.0147768623401758,
+          0,
+          0,
+          0,
+          0,
+          1.8040477552714236,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 58,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "player": {
+        "x": -242,
+        "y": 1.1321311593055725,
+        "z": 25,
+        "yaw": 0
+      },
+      "clock": {
+        "minutes": 660,
+        "accumulator": 0,
+        "day": 0,
+        "hour": 11,
+        "phase": "unseen",
+        "suppressedTickCalls": 0
+      },
+      "settings": {
+        "textScale": 1,
+        "reducedMotion": true,
+        "highContrast": false,
+        "reduceEffects": false,
+        "brightness": 1,
+        "quality": "high",
+        "guidance": true,
+        "showFps": false,
+        "barks": true,
+        "captions": true,
+        "mouseSensitivity": 1,
+        "invertY": false,
+        "toggleSprint": false,
+        "toggleBlock": false,
+        "volumes": {
+          "master": 0.8,
+          "music": 0.55,
+          "effects": 0.8,
+          "ambience": 0.7,
+          "dialogue": 0.8
+        },
+        "bindings": {
+          "forward": [
+            "KeyW",
+            "ArrowUp"
+          ],
+          "back": [
+            "KeyS",
+            "ArrowDown"
+          ],
+          "left": [
+            "KeyA",
+            "ArrowLeft"
+          ],
+          "right": [
+            "KeyD",
+            "ArrowRight"
+          ],
+          "sprint": [
+            "ShiftLeft"
+          ],
+          "jump": [
+            "Space"
+          ],
+          "interact": [
+            "KeyE"
+          ],
+          "attack": [
+            "Mouse0",
+            "KeyJ"
+          ],
+          "heavy": [
+            "KeyK"
+          ],
+          "block": [
+            "Mouse2",
+            "KeyL"
+          ],
+          "dodge": [
+            "KeyQ"
+          ],
+          "heal": [
+            "KeyH"
+          ],
+          "journal": [
+            "Tab"
+          ],
+          "map": [
+            "KeyM"
+          ],
+          "inventory": [
+            "KeyI"
+          ],
+          "camLeft": [
+            "KeyZ"
+          ],
+          "camRight": [
+            "KeyC"
+          ],
+          "quicksave": [
+            "F5"
+          ],
+          "quickload": [
+            "F9"
+          ],
+          "pause": [
+            "Escape"
+          ]
+        }
+      },
+      "grade": {
+        "saturation": 0.97,
+        "contrast": 1.01,
+        "vignette": 0.08,
+        "grain": 0.003,
+        "chromatic": 0
+      },
+      "bloom": true,
+      "modules": [
+        {
+          "name": "forest",
+          "stats": {
+            "trees": 937,
+            "treeObstacles": 626,
+            "treesDrawn": 818,
+            "treeTris": 269927,
+            "forestFloorPieces": 539,
+            "forestFloorDrawn": 307
+          }
+        },
+        {
+          "name": "scatter",
+          "stats": {
+            "rocks": 1071,
+            "scatterTris": 106546
+          }
+        },
+        {
+          "name": "groundcover",
+          "stats": {
+            "grassInstances": 4476,
+            "grassTris": 147708,
+            "grassDraws": 43,
+            "grassTiles": 69
+          }
+        },
+        {
+          "name": "wildlife",
+          "stats": {
+            "gulls": 16,
+            "chimneys": 11
+          }
+        },
+        {
+          "name": "ambient",
+          "stats": {
+            "people": 3
+          }
+        },
+        {
+          "name": "woodland air",
+          "stats": {
+            "woodlandMotes": 144
+          }
+        },
+        {
+          "name": "woodland landmarks",
+          "stats": {
+            "markers": 4,
+            "ruins": 1,
+            "signs": 1,
+            "triangles": 3006,
+            "meshes": 15
+          }
+        }
+      ],
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "nativeCamera": {
+        "position": [
+          -247.8798956679541,
+          3.8740453968618933,
+          24.99531768053867
+        ],
+        "quaternion": [
+          -0.07056477280176164,
+          -0.703854274290177,
+          -0.07062098780684754,
+          0.703293999323234
+        ],
+        "direction": [
+          0.98006626709333,
+          -0.1986693307950609,
+          0.0007804531942319228
+        ],
+        "matrixWorld": [
+          -0.0007963267107333749,
+          1.3877787807814457e-17,
+          0.9999996829318345,
+          0,
+          0.1986692678033406,
+          0.9800665778412417,
+          0.00015820569471561297,
+          0,
+          -0.9800662670933298,
+          0.19866933079506086,
+          -0.0007804531942319226,
+          0,
+          -247.8798956679541,
+          3.8740453968618933,
+          24.99531768053867,
+          1
+        ],
+        "matrixWorldInverse": [
+          -0.0007963267107334768,
+          0.19866926780334063,
+          -0.9800662670933298,
+          0,
+          6.803368632346539e-17,
+          0.9800665778412416,
+          0.19866933079506086,
+          0,
+          0.9999996829318346,
+          0.0001582056947156077,
+          -0.0007804531942322624,
+          0,
+          -25.192703137293364,
+          45.445340559418575,
+          -243.68887036571542,
+          1
+        ],
+        "projectionMatrix": [
+          1.0147768623401758,
+          0,
+          0,
+          0,
+          0,
+          1.8040477552714236,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 58,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "nativePlayer": {
+        "x": -242,
+        "y": 1.1321311593055725,
+        "z": 25,
+        "yaw": 0
+      },
+      "nativeCandidateDriftFromBaseline": {
+        "camera": {
+          "translationDriftMetres": 1.422079353437989e-05,
+          "angularDriftRadians": 0,
+          "matrixWorldMaxDrift": 1.3937320034074219e-05,
+          "projectionMaxDrift": 0
+        },
+        "playerTranslationMetres": 0
+      }
+    },
+    {
+      "label": "pr12",
+      "name": "grove",
+      "purpose": "Established cross-grove depth and palette",
+      "build": {
+        "version": "0.0.8",
+        "revision": "d0dc8de"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "devicePixelRatio": 1,
+        "rendererPixelRatio": 1,
+        "bufferWidth": 1280,
+        "bufferHeight": 720
+      },
+      "camera": {
+        "position": [
+          -177.1585018997763,
+          3.7697523720247723,
+          9.995348257557175
+        ],
+        "quaternion": [
+          -0.08110584880509251,
+          0.7027158170757568,
+          0.08117046129546192,
+          0.7021564483320216
+        ],
+        "direction": [
+          -0.9736660862867573,
+          -0.22797752353518863,
+          0.0007753565576860133
+        ],
+        "matrixWorld": [
+          -0.0007963267107331529,
+          -2.7755575615628914e-17,
+          -0.9999996829318346,
+          0,
+          -0.22797745125077348,
+          0.9736663950053748,
+          0.0001815445914378211,
+          0,
+          0.9736660862867573,
+          0.22797752353518863,
+          -0.0007753565576860133,
+          0,
+          -177.1585018997763,
+          3.7697523720247723,
+          9.995348257557175,
+          1
+        ],
+        "matrixWorldInverse": [
+          -0.0007963267107331194,
+          -0.22797745125077343,
+          0.973666086286757,
+          0,
+          -3.9004173155166016e-17,
+          0.9736663950053747,
+          0.22797752353518855,
+          0,
+          -0.9999996829318345,
+          0.00018154459143783966,
+          -0.0007753565576860429,
+          0,
+          9.854269041254184,
+          -44.06043953406432,
+          171.64155634588295,
+          0.9999999999999998
+        ],
+        "projectionMatrix": [
+          1.0147768623401758,
+          0,
+          0,
+          0,
+          0,
+          1.8040477552714236,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 58,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "player": {
+        "x": -183,
+        "y": 0.8520039319992065,
+        "z": 10,
+        "yaw": 0
+      },
+      "clock": {
+        "minutes": 660,
+        "accumulator": 0,
+        "day": 0,
+        "hour": 11,
+        "phase": "unseen",
+        "suppressedTickCalls": 0
+      },
+      "settings": {
+        "textScale": 1,
+        "reducedMotion": true,
+        "highContrast": false,
+        "reduceEffects": false,
+        "brightness": 1,
+        "quality": "high",
+        "guidance": true,
+        "showFps": false,
+        "barks": true,
+        "captions": true,
+        "mouseSensitivity": 1,
+        "invertY": false,
+        "toggleSprint": false,
+        "toggleBlock": false,
+        "volumes": {
+          "master": 0.8,
+          "music": 0.55,
+          "effects": 0.8,
+          "ambience": 0.7,
+          "dialogue": 0.8
+        },
+        "bindings": {
+          "forward": [
+            "KeyW",
+            "ArrowUp"
+          ],
+          "back": [
+            "KeyS",
+            "ArrowDown"
+          ],
+          "left": [
+            "KeyA",
+            "ArrowLeft"
+          ],
+          "right": [
+            "KeyD",
+            "ArrowRight"
+          ],
+          "sprint": [
+            "ShiftLeft"
+          ],
+          "jump": [
+            "Space"
+          ],
+          "interact": [
+            "KeyE"
+          ],
+          "attack": [
+            "Mouse0",
+            "KeyJ"
+          ],
+          "heavy": [
+            "KeyK"
+          ],
+          "block": [
+            "Mouse2",
+            "KeyL"
+          ],
+          "dodge": [
+            "KeyQ"
+          ],
+          "heal": [
+            "KeyH"
+          ],
+          "journal": [
+            "Tab"
+          ],
+          "map": [
+            "KeyM"
+          ],
+          "inventory": [
+            "KeyI"
+          ],
+          "camLeft": [
+            "KeyZ"
+          ],
+          "camRight": [
+            "KeyC"
+          ],
+          "quicksave": [
+            "F5"
+          ],
+          "quickload": [
+            "F9"
+          ],
+          "pause": [
+            "Escape"
+          ]
+        }
+      },
+      "grade": {
+        "saturation": 0.97,
+        "contrast": 1.01,
+        "vignette": 0.08,
+        "grain": 0.003,
+        "chromatic": 0
+      },
+      "bloom": true,
+      "modules": [
+        {
+          "name": "forest",
+          "stats": {
+            "trees": 1055,
+            "treeObstacles": 731,
+            "treesDrawn": 103,
+            "treeTris": 202007,
+            "forestFloorPieces": 933,
+            "forestFloorDrawn": 60
+          }
+        },
+        {
+          "name": "scatter",
+          "stats": {
+            "rocks": 1069,
+            "scatterTris": 106186
+          }
+        },
+        {
+          "name": "groundcover",
+          "stats": {
+            "grassInstances": 6240,
+            "grassTris": 205920,
+            "grassDraws": 59,
+            "grassTiles": 68
+          }
+        },
+        {
+          "name": "wildlife",
+          "stats": {
+            "gulls": 16,
+            "chimneys": 11
+          }
+        },
+        {
+          "name": "ambient",
+          "stats": {
+            "people": 3
+          }
+        },
+        {
+          "name": "woodland air",
+          "stats": {
+            "woodlandMotes": 144
+          }
+        },
+        {
+          "name": "woodland landmarks",
+          "stats": {
+            "markers": 4,
+            "ruins": 1,
+            "signs": 1,
+            "triangles": 3006,
+            "meshes": 15
+          }
+        }
+      ],
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "nativeCamera": {
+        "position": [
+          -177.1585018997763,
+          3.7697523720247723,
+          9.995348257557175
+        ],
+        "quaternion": [
+          -0.08110584880509258,
+          0.7027158170757568,
+          0.081170461295462,
+          0.7021564483320216
+        ],
+        "direction": [
+          -0.9736660862867572,
+          -0.22797752353518885,
+          0.0007753565576860133
+        ],
+        "matrixWorld": [
+          -0.0007963267107331529,
+          0,
+          -0.9999996829318347,
+          0,
+          -0.2279774512507737,
+          0.9736663950053748,
+          0.00018154459143784885,
+          0,
+          0.9736660862867572,
+          0.22797752353518885,
+          -0.0007753565576860133,
+          0,
+          -177.1585018997763,
+          3.7697523720247723,
+          9.995348257557175,
+          1
+        ],
+        "matrixWorldInverse": [
+          -0.0007963267107331258,
+          -0.22797745125077368,
+          0.9736660862867571,
+          0,
+          -1.2197274440461922e-17,
+          0.9736663950053747,
+          0.2279775235351888,
+          0,
+          -0.9999996829318344,
+          0.00018154459143786684,
+          -0.0007753565576860366,
+          0,
+          9.854269041254183,
+          -44.060439534064365,
+          171.64155634588295,
+          1
+        ],
+        "projectionMatrix": [
+          1.0147768623401758,
+          0,
+          0,
+          0,
+          0,
+          1.8040477552714236,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 58,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "nativePlayer": {
+        "x": -183,
+        "y": 0.8520039319992065,
+        "z": 10,
+        "yaw": 0
+      },
+      "nativeCandidateDriftFromBaseline": null
+    },
+    {
+      "label": "stands",
+      "name": "grove",
+      "purpose": "Established cross-grove depth and palette",
+      "build": {
+        "version": "0.0.8",
+        "revision": "87f48cb"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "devicePixelRatio": 1,
+        "rendererPixelRatio": 1,
+        "bufferWidth": 1280,
+        "bufferHeight": 720
+      },
+      "camera": {
+        "position": [
+          -177.1585018997763,
+          3.7697523720247723,
+          9.995348257557175
+        ],
+        "quaternion": [
+          -0.08110584880509245,
+          0.7027158170757568,
+          0.08117046129546188,
+          0.7021564483320216
+        ],
+        "direction": [
+          -0.9736660862867573,
+          -0.22797752353518846,
+          0.0007753565576860133
+        ],
+        "matrixWorld": [
+          -0.0007963267107331529,
+          1.3877787807814457e-17,
+          -0.9999996829318346,
+          0,
+          -0.22797745125077334,
+          0.9736663950053748,
+          0.00018154459143786272,
+          0,
+          0.9736660862867573,
+          0.22797752353518846,
+          -0.0007753565576860133,
+          0,
+          -177.1585018997763,
+          3.7697523720247723,
+          9.995348257557175,
+          1
+        ],
+        "matrixWorldInverse": [
+          -0.0007963267107331354,
+          -0.22797745125077337,
+          0.9736660862867572,
+          0,
+          2.8650042407929455e-17,
+          0.9736663950053749,
+          0.22797752353518846,
+          0,
+          -0.9999996829318346,
+          0.00018154459143790718,
+          -0.0007753565576860273,
+          0,
+          9.854269041254181,
+          -44.060439534064315,
+          171.64155634588298,
+          1
+        ],
+        "projectionMatrix": [
+          1.0147768623401758,
+          0,
+          0,
+          0,
+          0,
+          1.8040477552714236,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 58,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "player": {
+        "x": -183,
+        "y": 0.8520039319992065,
+        "z": 10,
+        "yaw": 0
+      },
+      "clock": {
+        "minutes": 660,
+        "accumulator": 0,
+        "day": 0,
+        "hour": 11,
+        "phase": "unseen",
+        "suppressedTickCalls": 0
+      },
+      "settings": {
+        "textScale": 1,
+        "reducedMotion": true,
+        "highContrast": false,
+        "reduceEffects": false,
+        "brightness": 1,
+        "quality": "high",
+        "guidance": true,
+        "showFps": false,
+        "barks": true,
+        "captions": true,
+        "mouseSensitivity": 1,
+        "invertY": false,
+        "toggleSprint": false,
+        "toggleBlock": false,
+        "volumes": {
+          "master": 0.8,
+          "music": 0.55,
+          "effects": 0.8,
+          "ambience": 0.7,
+          "dialogue": 0.8
+        },
+        "bindings": {
+          "forward": [
+            "KeyW",
+            "ArrowUp"
+          ],
+          "back": [
+            "KeyS",
+            "ArrowDown"
+          ],
+          "left": [
+            "KeyA",
+            "ArrowLeft"
+          ],
+          "right": [
+            "KeyD",
+            "ArrowRight"
+          ],
+          "sprint": [
+            "ShiftLeft"
+          ],
+          "jump": [
+            "Space"
+          ],
+          "interact": [
+            "KeyE"
+          ],
+          "attack": [
+            "Mouse0",
+            "KeyJ"
+          ],
+          "heavy": [
+            "KeyK"
+          ],
+          "block": [
+            "Mouse2",
+            "KeyL"
+          ],
+          "dodge": [
+            "KeyQ"
+          ],
+          "heal": [
+            "KeyH"
+          ],
+          "journal": [
+            "Tab"
+          ],
+          "map": [
+            "KeyM"
+          ],
+          "inventory": [
+            "KeyI"
+          ],
+          "camLeft": [
+            "KeyZ"
+          ],
+          "camRight": [
+            "KeyC"
+          ],
+          "quicksave": [
+            "F5"
+          ],
+          "quickload": [
+            "F9"
+          ],
+          "pause": [
+            "Escape"
+          ]
+        }
+      },
+      "grade": {
+        "saturation": 0.97,
+        "contrast": 1.01,
+        "vignette": 0.08,
+        "grain": 0.003,
+        "chromatic": 0
+      },
+      "bloom": true,
+      "modules": [
+        {
+          "name": "forest",
+          "stats": {
+            "trees": 937,
+            "treeObstacles": 626,
+            "treesDrawn": 122,
+            "treeTris": 234278,
+            "forestFloorPieces": 539,
+            "forestFloorDrawn": 64
+          }
+        },
+        {
+          "name": "scatter",
+          "stats": {
+            "rocks": 1071,
+            "scatterTris": 106546
+          }
+        },
+        {
+          "name": "groundcover",
+          "stats": {
+            "grassInstances": 5893,
+            "grassTris": 194469,
+            "grassDraws": 59,
+            "grassTiles": 68
+          }
+        },
+        {
+          "name": "wildlife",
+          "stats": {
+            "gulls": 16,
+            "chimneys": 11
+          }
+        },
+        {
+          "name": "ambient",
+          "stats": {
+            "people": 3
+          }
+        },
+        {
+          "name": "woodland air",
+          "stats": {
+            "woodlandMotes": 144
+          }
+        },
+        {
+          "name": "woodland landmarks",
+          "stats": {
+            "markers": 4,
+            "ruins": 1,
+            "signs": 1,
+            "triangles": 3006,
+            "meshes": 15
+          }
+        }
+      ],
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "nativeCamera": {
+        "position": [
+          -177.15851498764383,
+          3.769749307586489,
+          9.995348267979397
+        ],
+        "quaternion": [
+          -0.08110584880509246,
+          0.7027158170757568,
+          0.08117046129546189,
+          0.7021564483320216
+        ],
+        "direction": [
+          -0.9736660862867573,
+          -0.22797752353518852,
+          0.0007753565576860133
+        ],
+        "matrixWorld": [
+          -0.0007963267107331529,
+          1.3877787807814457e-17,
+          -0.9999996829318346,
+          0,
+          -0.2279774512507734,
+          0.9736663950053748,
+          0.0001815445914378766,
+          0,
+          0.9736660862867573,
+          0.22797752353518852,
+          -0.0007753565576860133,
+          0,
+          -177.15851498764383,
+          3.769749307586489,
+          9.995348267979397,
+          1
+        ],
+        "matrixWorldInverse": [
+          -0.0007963267107331322,
+          -0.22797745125077337,
+          0.9736660862867572,
+          0,
+          1.509751525186065e-17,
+          0.9736663950053749,
+          0.22797752353518852,
+          0,
+          -0.9999996829318346,
+          0.00018154459143788015,
+          -0.0007753565576860337,
+          0,
+          9.854269041254183,
+          -44.060439534064315,
+          171.64156978772687,
+          1
+        ],
+        "projectionMatrix": [
+          1.0147768623401758,
+          0,
+          0,
+          0,
+          0,
+          1.8040477552714236,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 58,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "nativePlayer": {
+        "x": -183,
+        "y": 0.8520039319992065,
+        "z": 10,
+        "yaw": 0
+      },
+      "nativeCandidateDriftFromBaseline": {
+        "camera": {
+          "translationDriftMetres": 1.3441843886838429e-05,
+          "angularDriftRadians": 0,
+          "matrixWorldMaxDrift": 1.3087867529293362e-05,
+          "projectionMaxDrift": 0
+        },
+        "playerTranslationMetres": 0
+      }
+    },
+    {
+      "label": "pr12",
+      "name": "margin",
+      "purpose": "Established side margin and straight-wall artifact check",
+      "build": {
+        "version": "0.0.8",
+        "revision": "d0dc8de"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "devicePixelRatio": 1,
+        "rendererPixelRatio": 1,
+        "bufferWidth": 1280,
+        "bufferHeight": 720
+      },
+      "camera": {
+        "position": [
+          -261,
+          18,
+          -48
+        ],
+        "quaternion": [
+          -0.052917183677449436,
+          -0.7051239406456478,
+          -0.052917183677449436,
+          0.7051239406456479
+        ],
+        "direction": [
+          0.9887990866865883,
+          -0.14925269233005078,
+          -2.220446049250313e-16
+        ],
+        "matrixWorld": [
+          2.220446049250313e-16,
+          -1.3877787807814457e-17,
+          1,
+          0,
+          0.14925269233005078,
+          0.9887990866865883,
+          -1.3877787807814457e-17,
+          0,
+          -0.9887990866865883,
+          0.14925269233005078,
+          2.220446049250313e-16,
+          0,
+          -261,
+          18,
+          -48,
+          1
+        ],
+        "matrixWorldInverse": [
+          2.2162879974745677e-16,
+          0.14925269233005078,
+          -0.9887990866865883,
+          0,
+          -1.941841119282617e-17,
+          0.9887990866865883,
+          0.14925269233005078,
+          0,
+          1,
+          -1.941841119282617e-17,
+          2.2162879974745677e-16,
+          0,
+          48.00000000000006,
+          21.15656913778466,
+          -260.76311008714043,
+          1
+        ],
+        "projectionMatrix": [
+          1.080552446421281,
+          0,
+          0,
+          0,
+          0,
+          1.9209821269711662,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 55,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "player": {
+        "x": -210,
+        "y": 14.349456787109375,
+        "z": -48,
+        "yaw": 0
+      },
+      "clock": {
+        "minutes": 660,
+        "accumulator": 0,
+        "day": 0,
+        "hour": 11,
+        "phase": "unseen",
+        "suppressedTickCalls": 0
+      },
+      "settings": {
+        "textScale": 1,
+        "reducedMotion": true,
+        "highContrast": false,
+        "reduceEffects": false,
+        "brightness": 1,
+        "quality": "high",
+        "guidance": true,
+        "showFps": false,
+        "barks": true,
+        "captions": true,
+        "mouseSensitivity": 1,
+        "invertY": false,
+        "toggleSprint": false,
+        "toggleBlock": false,
+        "volumes": {
+          "master": 0.8,
+          "music": 0.55,
+          "effects": 0.8,
+          "ambience": 0.7,
+          "dialogue": 0.8
+        },
+        "bindings": {
+          "forward": [
+            "KeyW",
+            "ArrowUp"
+          ],
+          "back": [
+            "KeyS",
+            "ArrowDown"
+          ],
+          "left": [
+            "KeyA",
+            "ArrowLeft"
+          ],
+          "right": [
+            "KeyD",
+            "ArrowRight"
+          ],
+          "sprint": [
+            "ShiftLeft"
+          ],
+          "jump": [
+            "Space"
+          ],
+          "interact": [
+            "KeyE"
+          ],
+          "attack": [
+            "Mouse0",
+            "KeyJ"
+          ],
+          "heavy": [
+            "KeyK"
+          ],
+          "block": [
+            "Mouse2",
+            "KeyL"
+          ],
+          "dodge": [
+            "KeyQ"
+          ],
+          "heal": [
+            "KeyH"
+          ],
+          "journal": [
+            "Tab"
+          ],
+          "map": [
+            "KeyM"
+          ],
+          "inventory": [
+            "KeyI"
+          ],
+          "camLeft": [
+            "KeyZ"
+          ],
+          "camRight": [
+            "KeyC"
+          ],
+          "quicksave": [
+            "F5"
+          ],
+          "quickload": [
+            "F9"
+          ],
+          "pause": [
+            "Escape"
+          ]
+        }
+      },
+      "grade": {
+        "saturation": 0.97,
+        "contrast": 1.01,
+        "vignette": 0.08,
+        "grain": 0.003,
+        "chromatic": 0
+      },
+      "bloom": true,
+      "modules": [
+        {
+          "name": "forest",
+          "stats": {
+            "trees": 1055,
+            "treeObstacles": 731,
+            "treesDrawn": 907,
+            "treeTris": 296429,
+            "forestFloorPieces": 933,
+            "forestFloorDrawn": 364
+          }
+        },
+        {
+          "name": "scatter",
+          "stats": {
+            "rocks": 1069,
+            "scatterTris": 106186
+          }
+        },
+        {
+          "name": "groundcover",
+          "stats": {
+            "grassInstances": 7063,
+            "grassTris": 233079,
+            "grassDraws": 41,
+            "grassTiles": 64
+          }
+        },
+        {
+          "name": "wildlife",
+          "stats": {
+            "gulls": 16,
+            "chimneys": 11
+          }
+        },
+        {
+          "name": "ambient",
+          "stats": {
+            "people": 3
+          }
+        },
+        {
+          "name": "woodland air",
+          "stats": {
+            "woodlandMotes": 144
+          }
+        },
+        {
+          "name": "woodland landmarks",
+          "stats": {
+            "markers": 4,
+            "ruins": 1,
+            "signs": 1,
+            "triangles": 3006,
+            "meshes": 15
+          }
+        }
+      ],
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "nativeCamera": {
+        "position": [
+          -261,
+          18,
+          -48
+        ],
+        "quaternion": [
+          -0.05291718367744953,
+          -0.7051239406456478,
+          -0.05291718367744953,
+          0.7051239406456479
+        ],
+        "direction": [
+          0.9887990866865883,
+          -0.14925269233005106,
+          -2.220446049250313e-16
+        ],
+        "matrixWorld": [
+          2.220446049250313e-16,
+          -1.3877787807814457e-17,
+          1,
+          0,
+          0.14925269233005106,
+          0.9887990866865882,
+          -1.3877787807814457e-17,
+          0,
+          -0.9887990866865883,
+          0.14925269233005106,
+          2.220446049250313e-16,
+          0,
+          -261,
+          18,
+          -48,
+          1
+        ],
+        "matrixWorldInverse": [
+          2.1955750255355527e-16,
+          0.1492526923300511,
+          -0.9887990866865882,
+          0,
+          -3.3140755102423445e-17,
+          0.9887990866865883,
+          0.1492526923300511,
+          0,
+          1,
+          -5.696067283229033e-18,
+          2.237000969413582e-16,
+          0,
+          48.00000000000006,
+          21.156569137784746,
+          -260.76311008714043,
+          1
+        ],
+        "projectionMatrix": [
+          1.080552446421281,
+          0,
+          0,
+          0,
+          0,
+          1.9209821269711662,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 55,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "nativePlayer": {
+        "x": -210,
+        "y": 14.349456787109375,
+        "z": -48,
+        "yaw": 0
+      },
+      "nativeCandidateDriftFromBaseline": null
+    },
+    {
+      "label": "stands",
+      "name": "margin",
+      "purpose": "Established side margin and straight-wall artifact check",
+      "build": {
+        "version": "0.0.8",
+        "revision": "87f48cb"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "devicePixelRatio": 1,
+        "rendererPixelRatio": 1,
+        "bufferWidth": 1280,
+        "bufferHeight": 720
+      },
+      "camera": {
+        "position": [
+          -261,
+          18,
+          -48
+        ],
+        "quaternion": [
+          -0.052917183677449436,
+          -0.7051239406456478,
+          -0.052917183677449436,
+          0.7051239406456479
+        ],
+        "direction": [
+          0.9887990866865883,
+          -0.14925269233005078,
+          -2.220446049250313e-16
+        ],
+        "matrixWorld": [
+          2.220446049250313e-16,
+          -1.3877787807814457e-17,
+          1,
+          0,
+          0.14925269233005078,
+          0.9887990866865883,
+          -1.3877787807814457e-17,
+          0,
+          -0.9887990866865883,
+          0.14925269233005078,
+          2.220446049250313e-16,
+          0,
+          -261,
+          18,
+          -48,
+          1
+        ],
+        "matrixWorldInverse": [
+          2.2162879974745677e-16,
+          0.14925269233005078,
+          -0.9887990866865883,
+          0,
+          -1.941841119282617e-17,
+          0.9887990866865883,
+          0.14925269233005078,
+          0,
+          1,
+          -1.941841119282617e-17,
+          2.2162879974745677e-16,
+          0,
+          48.00000000000006,
+          21.15656913778466,
+          -260.76311008714043,
+          1
+        ],
+        "projectionMatrix": [
+          1.080552446421281,
+          0,
+          0,
+          0,
+          0,
+          1.9209821269711662,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 55,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "player": {
+        "x": -210,
+        "y": 14.349456787109375,
+        "z": -48,
+        "yaw": 0
+      },
+      "clock": {
+        "minutes": 660,
+        "accumulator": 0,
+        "day": 0,
+        "hour": 11,
+        "phase": "unseen",
+        "suppressedTickCalls": 0
+      },
+      "settings": {
+        "textScale": 1,
+        "reducedMotion": true,
+        "highContrast": false,
+        "reduceEffects": false,
+        "brightness": 1,
+        "quality": "high",
+        "guidance": true,
+        "showFps": false,
+        "barks": true,
+        "captions": true,
+        "mouseSensitivity": 1,
+        "invertY": false,
+        "toggleSprint": false,
+        "toggleBlock": false,
+        "volumes": {
+          "master": 0.8,
+          "music": 0.55,
+          "effects": 0.8,
+          "ambience": 0.7,
+          "dialogue": 0.8
+        },
+        "bindings": {
+          "forward": [
+            "KeyW",
+            "ArrowUp"
+          ],
+          "back": [
+            "KeyS",
+            "ArrowDown"
+          ],
+          "left": [
+            "KeyA",
+            "ArrowLeft"
+          ],
+          "right": [
+            "KeyD",
+            "ArrowRight"
+          ],
+          "sprint": [
+            "ShiftLeft"
+          ],
+          "jump": [
+            "Space"
+          ],
+          "interact": [
+            "KeyE"
+          ],
+          "attack": [
+            "Mouse0",
+            "KeyJ"
+          ],
+          "heavy": [
+            "KeyK"
+          ],
+          "block": [
+            "Mouse2",
+            "KeyL"
+          ],
+          "dodge": [
+            "KeyQ"
+          ],
+          "heal": [
+            "KeyH"
+          ],
+          "journal": [
+            "Tab"
+          ],
+          "map": [
+            "KeyM"
+          ],
+          "inventory": [
+            "KeyI"
+          ],
+          "camLeft": [
+            "KeyZ"
+          ],
+          "camRight": [
+            "KeyC"
+          ],
+          "quicksave": [
+            "F5"
+          ],
+          "quickload": [
+            "F9"
+          ],
+          "pause": [
+            "Escape"
+          ]
+        }
+      },
+      "grade": {
+        "saturation": 0.97,
+        "contrast": 1.01,
+        "vignette": 0.08,
+        "grain": 0.003,
+        "chromatic": 0
+      },
+      "bloom": true,
+      "modules": [
+        {
+          "name": "forest",
+          "stats": {
+            "trees": 937,
+            "treeObstacles": 626,
+            "treesDrawn": 837,
+            "treeTris": 231897,
+            "forestFloorPieces": 539,
+            "forestFloorDrawn": 227
+          }
+        },
+        {
+          "name": "scatter",
+          "stats": {
+            "rocks": 1071,
+            "scatterTris": 106546
+          }
+        },
+        {
+          "name": "groundcover",
+          "stats": {
+            "grassInstances": 7169,
+            "grassTris": 236577,
+            "grassDraws": 41,
+            "grassTiles": 64
+          }
+        },
+        {
+          "name": "wildlife",
+          "stats": {
+            "gulls": 16,
+            "chimneys": 11
+          }
+        },
+        {
+          "name": "ambient",
+          "stats": {
+            "people": 3
+          }
+        },
+        {
+          "name": "woodland air",
+          "stats": {
+            "woodlandMotes": 144
+          }
+        },
+        {
+          "name": "woodland landmarks",
+          "stats": {
+            "markers": 4,
+            "ruins": 1,
+            "signs": 1,
+            "triangles": 3006,
+            "meshes": 15
+          }
+        }
+      ],
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "nativeCamera": {
+        "position": [
+          -261,
+          18,
+          -48
+        ],
+        "quaternion": [
+          -0.05291718367744953,
+          -0.7051239406456478,
+          -0.05291718367744953,
+          0.7051239406456479
+        ],
+        "direction": [
+          0.9887990866865883,
+          -0.14925269233005106,
+          -2.220446049250313e-16
+        ],
+        "matrixWorld": [
+          2.220446049250313e-16,
+          -1.3877787807814457e-17,
+          1,
+          0,
+          0.14925269233005106,
+          0.9887990866865882,
+          -1.3877787807814457e-17,
+          0,
+          -0.9887990866865883,
+          0.14925269233005106,
+          2.220446049250313e-16,
+          0,
+          -261,
+          18,
+          -48,
+          1
+        ],
+        "matrixWorldInverse": [
+          2.1955750255355527e-16,
+          0.1492526923300511,
+          -0.9887990866865882,
+          0,
+          -3.3140755102423445e-17,
+          0.9887990866865883,
+          0.1492526923300511,
+          0,
+          1,
+          -5.696067283229033e-18,
+          2.237000969413582e-16,
+          0,
+          48.00000000000006,
+          21.156569137784746,
+          -260.76311008714043,
+          1
+        ],
+        "projectionMatrix": [
+          1.080552446421281,
+          0,
+          0,
+          0,
+          0,
+          1.9209821269711662,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 55,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "nativePlayer": {
+        "x": -210,
+        "y": 14.349456787109375,
+        "z": -48,
+        "yaw": 0
+      },
+      "nativeCandidateDriftFromBaseline": {
+        "camera": {
+          "translationDriftMetres": 0,
+          "angularDriftRadians": 0,
+          "matrixWorldMaxDrift": 0,
+          "projectionMaxDrift": 0
+        },
+        "playerTranslationMetres": 0
+      }
+    },
+    {
+      "label": "pr12",
+      "name": "trail-low",
+      "purpose": "Established Low trail; canonical tree layout continuity",
+      "build": {
+        "version": "0.0.8",
+        "revision": "d0dc8de"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "devicePixelRatio": 1,
+        "rendererPixelRatio": 1,
+        "bufferWidth": 1280,
+        "bufferHeight": 720
+      },
+      "camera": {
+        "position": [
+          -181,
+          4.5897095427084285,
+          9.187008299377933
+        ],
+        "quaternion": [
+          0,
+          0.992197667229329,
+          0.12467473338522772,
+          0
+        ],
+        "direction": [
+          0,
+          -0.24740395925452302,
+          0.9689124217106448
+        ],
+        "matrixWorld": [
+          -0.9999999999999998,
+          0,
+          0,
+          0,
+          0,
+          0.9689124217106447,
+          0.24740395925452296,
+          0,
+          0,
+          0.24740395925452296,
+          -0.9689124217106446,
+          0,
+          -181,
+          4.5897095427084285,
+          9.187008299377933,
+          1
+        ],
+        "matrixWorldInverse": [
+          -0.9999999999999996,
+          0,
+          0,
+          0,
+          0,
+          0.9689124217106448,
+          0.24740395925452296,
+          0,
+          0,
+          0.24740395925452296,
+          -0.9689124217106445,
+          0,
+          -180.99999999999994,
+          -6.719928814944343,
+          7.765894146931731,
+          1
+        ],
+        "projectionMatrix": [
+          1.0147768623401758,
+          0,
+          0,
+          0,
+          0,
+          1.8040477552714236,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 58,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "player": {
+        "x": -181,
+        "y": 1.5554090738296509,
+        "z": 15,
+        "yaw": 1.3258176636680326
+      },
+      "clock": {
+        "minutes": 660,
+        "accumulator": 0,
+        "day": 0,
+        "hour": 11,
+        "phase": "unseen",
+        "suppressedTickCalls": 0
+      },
+      "settings": {
+        "textScale": 1,
+        "reducedMotion": true,
+        "highContrast": false,
+        "reduceEffects": false,
+        "brightness": 1,
+        "quality": "low",
+        "guidance": true,
+        "showFps": false,
+        "barks": true,
+        "captions": true,
+        "mouseSensitivity": 1,
+        "invertY": false,
+        "toggleSprint": false,
+        "toggleBlock": false,
+        "volumes": {
+          "master": 0.8,
+          "music": 0.55,
+          "effects": 0.8,
+          "ambience": 0.7,
+          "dialogue": 0.8
+        },
+        "bindings": {
+          "forward": [
+            "KeyW",
+            "ArrowUp"
+          ],
+          "back": [
+            "KeyS",
+            "ArrowDown"
+          ],
+          "left": [
+            "KeyA",
+            "ArrowLeft"
+          ],
+          "right": [
+            "KeyD",
+            "ArrowRight"
+          ],
+          "sprint": [
+            "ShiftLeft"
+          ],
+          "jump": [
+            "Space"
+          ],
+          "interact": [
+            "KeyE"
+          ],
+          "attack": [
+            "Mouse0",
+            "KeyJ"
+          ],
+          "heavy": [
+            "KeyK"
+          ],
+          "block": [
+            "Mouse2",
+            "KeyL"
+          ],
+          "dodge": [
+            "KeyQ"
+          ],
+          "heal": [
+            "KeyH"
+          ],
+          "journal": [
+            "Tab"
+          ],
+          "map": [
+            "KeyM"
+          ],
+          "inventory": [
+            "KeyI"
+          ],
+          "camLeft": [
+            "KeyZ"
+          ],
+          "camRight": [
+            "KeyC"
+          ],
+          "quicksave": [
+            "F5"
+          ],
+          "quickload": [
+            "F9"
+          ],
+          "pause": [
+            "Escape"
+          ]
+        }
+      },
+      "grade": {
+        "saturation": 0.97,
+        "contrast": 1.01,
+        "vignette": 0.08,
+        "grain": 0.003,
+        "chromatic": 0
+      },
+      "bloom": false,
+      "modules": [
+        {
+          "name": "forest",
+          "stats": {
+            "trees": 869,
+            "treeObstacles": 731,
+            "treesDrawn": 192,
+            "treeTris": 139333,
+            "forestFloorPieces": 350,
+            "forestFloorDrawn": 25
+          }
+        },
+        {
+          "name": "scatter",
+          "stats": {
+            "rocks": 635,
+            "scatterTris": 68354
+          }
+        },
+        {
+          "name": "groundcover",
+          "stats": {
+            "grassInstances": 1005,
+            "grassTris": 18090,
+            "grassDraws": 23,
+            "grassTiles": 27
+          }
+        },
+        {
+          "name": "wildlife",
+          "stats": {
+            "gulls": 6,
+            "chimneys": 11
+          }
+        },
+        {
+          "name": "ambient",
+          "stats": {
+            "people": 3
+          }
+        },
+        {
+          "name": "woodland air",
+          "stats": {
+            "woodlandMotes": 48
+          }
+        },
+        {
+          "name": "woodland landmarks",
+          "stats": {
+            "markers": 4,
+            "ruins": 1,
+            "signs": 1,
+            "triangles": 3006,
+            "meshes": 15
+          }
+        }
+      ],
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "nativeCamera": {
+        "position": [
+          -181,
+          4.5897095427084285,
+          9.187008299377933
+        ],
+        "quaternion": [
+          0,
+          0.992197667229329,
+          0.12467473338522772,
+          0
+        ],
+        "direction": [
+          0,
+          -0.24740395925452302,
+          0.9689124217106448
+        ],
+        "matrixWorld": [
+          -0.9999999999999998,
+          0,
+          0,
+          0,
+          0,
+          0.9689124217106447,
+          0.24740395925452296,
+          0,
+          0,
+          0.24740395925452296,
+          -0.9689124217106446,
+          0,
+          -181,
+          4.5897095427084285,
+          9.187008299377933,
+          1
+        ],
+        "matrixWorldInverse": [
+          -0.9999999999999996,
+          0,
+          0,
+          0,
+          0,
+          0.9689124217106448,
+          0.24740395925452296,
+          0,
+          0,
+          0.24740395925452296,
+          -0.9689124217106445,
+          0,
+          -180.99999999999994,
+          -6.719928814944343,
+          7.765894146931731,
+          1
+        ],
+        "projectionMatrix": [
+          1.0147768623401758,
+          0,
+          0,
+          0,
+          0,
+          1.8040477552714236,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 58,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "nativePlayer": {
+        "x": -181,
+        "y": 1.5554090738296509,
+        "z": 15,
+        "yaw": 1.3258176636680326
+      },
+      "nativeCandidateDriftFromBaseline": null
+    },
+    {
+      "label": "stands",
+      "name": "trail-low",
+      "purpose": "Established Low trail; canonical tree layout continuity",
+      "build": {
+        "version": "0.0.8",
+        "revision": "87f48cb"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "devicePixelRatio": 1,
+        "rendererPixelRatio": 1,
+        "bufferWidth": 1280,
+        "bufferHeight": 720
+      },
+      "camera": {
+        "position": [
+          -181,
+          4.5897095427084285,
+          9.187008299377933
+        ],
+        "quaternion": [
+          0,
+          0.992197667229329,
+          0.12467473338522772,
+          0
+        ],
+        "direction": [
+          0,
+          -0.24740395925452302,
+          0.9689124217106448
+        ],
+        "matrixWorld": [
+          -0.9999999999999998,
+          0,
+          0,
+          0,
+          0,
+          0.9689124217106447,
+          0.24740395925452296,
+          0,
+          0,
+          0.24740395925452296,
+          -0.9689124217106446,
+          0,
+          -181,
+          4.5897095427084285,
+          9.187008299377933,
+          1
+        ],
+        "matrixWorldInverse": [
+          -0.9999999999999996,
+          0,
+          0,
+          0,
+          0,
+          0.9689124217106448,
+          0.24740395925452296,
+          0,
+          0,
+          0.24740395925452296,
+          -0.9689124217106445,
+          0,
+          -180.99999999999994,
+          -6.719928814944343,
+          7.765894146931731,
+          1
+        ],
+        "projectionMatrix": [
+          1.0147768623401758,
+          0,
+          0,
+          0,
+          0,
+          1.8040477552714236,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 58,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "player": {
+        "x": -181,
+        "y": 1.5554090738296509,
+        "z": 15,
+        "yaw": 1.3258176636680326
+      },
+      "clock": {
+        "minutes": 660,
+        "accumulator": 0,
+        "day": 0,
+        "hour": 11,
+        "phase": "unseen",
+        "suppressedTickCalls": 0
+      },
+      "settings": {
+        "textScale": 1,
+        "reducedMotion": true,
+        "highContrast": false,
+        "reduceEffects": false,
+        "brightness": 1,
+        "quality": "low",
+        "guidance": true,
+        "showFps": false,
+        "barks": true,
+        "captions": true,
+        "mouseSensitivity": 1,
+        "invertY": false,
+        "toggleSprint": false,
+        "toggleBlock": false,
+        "volumes": {
+          "master": 0.8,
+          "music": 0.55,
+          "effects": 0.8,
+          "ambience": 0.7,
+          "dialogue": 0.8
+        },
+        "bindings": {
+          "forward": [
+            "KeyW",
+            "ArrowUp"
+          ],
+          "back": [
+            "KeyS",
+            "ArrowDown"
+          ],
+          "left": [
+            "KeyA",
+            "ArrowLeft"
+          ],
+          "right": [
+            "KeyD",
+            "ArrowRight"
+          ],
+          "sprint": [
+            "ShiftLeft"
+          ],
+          "jump": [
+            "Space"
+          ],
+          "interact": [
+            "KeyE"
+          ],
+          "attack": [
+            "Mouse0",
+            "KeyJ"
+          ],
+          "heavy": [
+            "KeyK"
+          ],
+          "block": [
+            "Mouse2",
+            "KeyL"
+          ],
+          "dodge": [
+            "KeyQ"
+          ],
+          "heal": [
+            "KeyH"
+          ],
+          "journal": [
+            "Tab"
+          ],
+          "map": [
+            "KeyM"
+          ],
+          "inventory": [
+            "KeyI"
+          ],
+          "camLeft": [
+            "KeyZ"
+          ],
+          "camRight": [
+            "KeyC"
+          ],
+          "quicksave": [
+            "F5"
+          ],
+          "quickload": [
+            "F9"
+          ],
+          "pause": [
+            "Escape"
+          ]
+        }
+      },
+      "grade": {
+        "saturation": 0.97,
+        "contrast": 1.01,
+        "vignette": 0.08,
+        "grain": 0.003,
+        "chromatic": 0
+      },
+      "bloom": false,
+      "modules": [
+        {
+          "name": "forest",
+          "stats": {
+            "trees": 761,
+            "treeObstacles": 626,
+            "treesDrawn": 158,
+            "treeTris": 128983,
+            "forestFloorPieces": 197,
+            "forestFloorDrawn": 23
+          }
+        },
+        {
+          "name": "scatter",
+          "stats": {
+            "rocks": 637,
+            "scatterTris": 68714
+          }
+        },
+        {
+          "name": "groundcover",
+          "stats": {
+            "grassInstances": 855,
+            "grassTris": 15390,
+            "grassDraws": 23,
+            "grassTiles": 27
+          }
+        },
+        {
+          "name": "wildlife",
+          "stats": {
+            "gulls": 6,
+            "chimneys": 11
+          }
+        },
+        {
+          "name": "ambient",
+          "stats": {
+            "people": 3
+          }
+        },
+        {
+          "name": "woodland air",
+          "stats": {
+            "woodlandMotes": 48
+          }
+        },
+        {
+          "name": "woodland landmarks",
+          "stats": {
+            "markers": 4,
+            "ruins": 1,
+            "signs": 1,
+            "triangles": 3006,
+            "meshes": 15
+          }
+        }
+      ],
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "nativeCamera": {
+        "position": [
+          -181,
+          4.589695701723976,
+          9.187062505065686
+        ],
+        "quaternion": [
+          0,
+          0.992197667229329,
+          0.12467473338522765,
+          0
+        ],
+        "direction": [
+          0,
+          -0.2474039592545229,
+          0.9689124217106448
+        ],
+        "matrixWorld": [
+          -0.9999999999999998,
+          0,
+          0,
+          0,
+          0,
+          0.9689124217106448,
+          0.24740395925452285,
+          0,
+          0,
+          0.24740395925452285,
+          -0.9689124217106446,
+          0,
+          -181,
+          4.589695701723976,
+          9.187062505065686,
+          1
+        ],
+        "matrixWorldInverse": [
+          -1.0000000000000002,
+          0,
+          0,
+          0,
+          0,
+          0.9689124217106448,
+          0.24740395925452294,
+          0,
+          0,
+          0.24740395925452294,
+          -0.9689124217106451,
+          0,
+          -181.00000000000006,
+          -6.71992881494434,
+          7.765950091810282,
+          1
+        ],
+        "projectionMatrix": [
+          1.0147768623401758,
+          0,
+          0,
+          0,
+          0,
+          1.8040477552714236,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 58,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "nativePlayer": {
+        "x": -181,
+        "y": 1.5554090738296509,
+        "z": 15,
+        "yaw": 1.3258176636680326
+      },
+      "nativeCandidateDriftFromBaseline": {
+        "camera": {
+          "translationDriftMetres": 5.5944878545328675e-05,
+          "angularDriftRadians": 2.9802322387695312e-08,
+          "matrixWorldMaxDrift": 5.420568775349466e-05,
+          "projectionMaxDrift": 0
+        },
+        "playerTranslationMetres": 0
+      }
+    },
+    {
+      "label": "pr12",
+      "name": "overview",
+      "purpose": "Existing broad oblique panorama; stand bodies, broad clearings, edges and silhouettes",
+      "build": {
+        "version": "0.0.8",
+        "revision": "d0dc8de"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "devicePixelRatio": 1,
+        "rendererPixelRatio": 1,
+        "bufferWidth": 1280,
+        "bufferHeight": 720
+      },
+      "camera": {
+        "position": [
+          -160,
+          110,
+          155
+        ],
+        "quaternion": [
+          -0.29568448108018436,
+          -0.031788247330690265,
+          -0.009845222361042821,
+          0.9547058534316454
+        ],
+        "direction": [
+          0.054874692663997804,
+          -0.5652093344391782,
+          -0.82312038995997
+        ],
+        "matrixWorld": [
+          0.9977851578566089,
+          3.469446951953614e-18,
+          0.0665190105237737,
+          0,
+          0.03759716566569482,
+          0.8249475184900075,
+          -0.5639574849854243,
+          0,
+          -0.054874692663997804,
+          0.5652093344391782,
+          0.82312038995997,
+          0,
+          -160,
+          110,
+          155,
+          1
+        ],
+        "matrixWorldInverse": [
+          0.9977851578566089,
+          0.03759716566569482,
+          -0.054874692663997804,
+          0,
+          0,
+          0.8249475184900074,
+          0.5652093344391782,
+          0,
+          0.0665190105237737,
+          -0.5639574849854243,
+          0.82312038995997,
+          0,
+          149.3351786258725,
+          2.684729645351118,
+          -198.53663805834458,
+          1
+        ],
+        "projectionMatrix": [
+          1.080552446421281,
+          0,
+          0,
+          0,
+          0,
+          1.9209821269711662,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 55,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "player": {
+        "x": -180,
+        "y": 1.3253477811813354,
+        "z": 10,
+        "yaw": 0
+      },
+      "clock": {
+        "minutes": 660,
+        "accumulator": 0,
+        "day": 0,
+        "hour": 11,
+        "phase": "unseen",
+        "suppressedTickCalls": 0
+      },
+      "settings": {
+        "textScale": 1,
+        "reducedMotion": true,
+        "highContrast": false,
+        "reduceEffects": false,
+        "brightness": 1,
+        "quality": "high",
+        "guidance": true,
+        "showFps": false,
+        "barks": true,
+        "captions": true,
+        "mouseSensitivity": 1,
+        "invertY": false,
+        "toggleSprint": false,
+        "toggleBlock": false,
+        "volumes": {
+          "master": 0.8,
+          "music": 0.55,
+          "effects": 0.8,
+          "ambience": 0.7,
+          "dialogue": 0.8
+        },
+        "bindings": {
+          "forward": [
+            "KeyW",
+            "ArrowUp"
+          ],
+          "back": [
+            "KeyS",
+            "ArrowDown"
+          ],
+          "left": [
+            "KeyA",
+            "ArrowLeft"
+          ],
+          "right": [
+            "KeyD",
+            "ArrowRight"
+          ],
+          "sprint": [
+            "ShiftLeft"
+          ],
+          "jump": [
+            "Space"
+          ],
+          "interact": [
+            "KeyE"
+          ],
+          "attack": [
+            "Mouse0",
+            "KeyJ"
+          ],
+          "heavy": [
+            "KeyK"
+          ],
+          "block": [
+            "Mouse2",
+            "KeyL"
+          ],
+          "dodge": [
+            "KeyQ"
+          ],
+          "heal": [
+            "KeyH"
+          ],
+          "journal": [
+            "Tab"
+          ],
+          "map": [
+            "KeyM"
+          ],
+          "inventory": [
+            "KeyI"
+          ],
+          "camLeft": [
+            "KeyZ"
+          ],
+          "camRight": [
+            "KeyC"
+          ],
+          "quicksave": [
+            "F5"
+          ],
+          "quickload": [
+            "F9"
+          ],
+          "pause": [
+            "Escape"
+          ]
+        }
+      },
+      "grade": {
+        "saturation": 0.97,
+        "contrast": 1.01,
+        "vignette": 0.08,
+        "grain": 0.003,
+        "chromatic": 0
+      },
+      "bloom": true,
+      "modules": [
+        {
+          "name": "forest",
+          "stats": {
+            "trees": 1055,
+            "treeObstacles": 731,
+            "treesDrawn": 858,
+            "treeTris": 318063,
+            "forestFloorPieces": 933,
+            "forestFloorDrawn": 313
+          }
+        },
+        {
+          "name": "scatter",
+          "stats": {
+            "rocks": 1069,
+            "scatterTris": 106186
+          }
+        },
+        {
+          "name": "groundcover",
+          "stats": {
+            "grassInstances": 0,
+            "grassTris": 0,
+            "grassDraws": 0,
+            "grassTiles": 2
+          }
+        },
+        {
+          "name": "wildlife",
+          "stats": {
+            "gulls": 16,
+            "chimneys": 11
+          }
+        },
+        {
+          "name": "ambient",
+          "stats": {
+            "people": 3
+          }
+        },
+        {
+          "name": "woodland air",
+          "stats": {
+            "woodlandMotes": 144
+          }
+        },
+        {
+          "name": "woodland landmarks",
+          "stats": {
+            "markers": 4,
+            "ruins": 1,
+            "signs": 1,
+            "triangles": 3006,
+            "meshes": 15
+          }
+        }
+      ],
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "nativeCamera": {
+        "position": [
+          -160,
+          110,
+          155
+        ],
+        "quaternion": [
+          -0.2956844810801847,
+          -0.03178824733069036,
+          -0.009845222361042868,
+          0.9547058534316454
+        ],
+        "direction": [
+          0.05487469266399795,
+          -0.5652093344391788,
+          -0.8231203899599695
+        ],
+        "matrixWorld": [
+          0.9977851578566089,
+          -6.938893903907228e-18,
+          0.06651901052377392,
+          0,
+          0.037597165665694994,
+          0.824947518490007,
+          -0.5639574849854249,
+          0,
+          -0.05487469266399795,
+          0.5652093344391788,
+          0.8231203899599695,
+          0,
+          -160,
+          110,
+          155,
+          1
+        ],
+        "matrixWorldInverse": [
+          0.9977851578566089,
+          0.03759716566569499,
+          -0.05487469266399795,
+          0,
+          -1.0408340855860843e-17,
+          0.8249475184900069,
+          0.5652093344391788,
+          0,
+          0.06651901052377392,
+          -0.5639574849854249,
+          0.8231203899599695,
+          0,
+          149.33517862587246,
+          2.684729645351272,
+          -198.5366380583446,
+          1
+        ],
+        "projectionMatrix": [
+          1.080552446421281,
+          0,
+          0,
+          0,
+          0,
+          1.9209821269711662,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 55,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "nativePlayer": {
+        "x": -180,
+        "y": 1.3253477811813354,
+        "z": 10,
+        "yaw": 0
+      },
+      "nativeCandidateDriftFromBaseline": null
+    },
+    {
+      "label": "stands",
+      "name": "overview",
+      "purpose": "Existing broad oblique panorama; stand bodies, broad clearings, edges and silhouettes",
+      "build": {
+        "version": "0.0.8",
+        "revision": "87f48cb"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "devicePixelRatio": 1,
+        "rendererPixelRatio": 1,
+        "bufferWidth": 1280,
+        "bufferHeight": 720
+      },
+      "camera": {
+        "position": [
+          -160,
+          110,
+          155
+        ],
+        "quaternion": [
+          -0.29568448108018436,
+          -0.031788247330690265,
+          -0.009845222361042821,
+          0.9547058534316454
+        ],
+        "direction": [
+          0.054874692663997804,
+          -0.5652093344391782,
+          -0.82312038995997
+        ],
+        "matrixWorld": [
+          0.9977851578566089,
+          3.469446951953614e-18,
+          0.0665190105237737,
+          0,
+          0.03759716566569482,
+          0.8249475184900075,
+          -0.5639574849854243,
+          0,
+          -0.054874692663997804,
+          0.5652093344391782,
+          0.82312038995997,
+          0,
+          -160,
+          110,
+          155,
+          1
+        ],
+        "matrixWorldInverse": [
+          0.9977851578566089,
+          0.03759716566569482,
+          -0.054874692663997804,
+          0,
+          0,
+          0.8249475184900074,
+          0.5652093344391782,
+          0,
+          0.0665190105237737,
+          -0.5639574849854243,
+          0.82312038995997,
+          0,
+          149.3351786258725,
+          2.684729645351118,
+          -198.53663805834458,
+          1
+        ],
+        "projectionMatrix": [
+          1.080552446421281,
+          0,
+          0,
+          0,
+          0,
+          1.9209821269711662,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 55,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "player": {
+        "x": -180,
+        "y": 1.3253477811813354,
+        "z": 10,
+        "yaw": 0
+      },
+      "clock": {
+        "minutes": 660,
+        "accumulator": 0,
+        "day": 0,
+        "hour": 11,
+        "phase": "unseen",
+        "suppressedTickCalls": 0
+      },
+      "settings": {
+        "textScale": 1,
+        "reducedMotion": true,
+        "highContrast": false,
+        "reduceEffects": false,
+        "brightness": 1,
+        "quality": "high",
+        "guidance": true,
+        "showFps": false,
+        "barks": true,
+        "captions": true,
+        "mouseSensitivity": 1,
+        "invertY": false,
+        "toggleSprint": false,
+        "toggleBlock": false,
+        "volumes": {
+          "master": 0.8,
+          "music": 0.55,
+          "effects": 0.8,
+          "ambience": 0.7,
+          "dialogue": 0.8
+        },
+        "bindings": {
+          "forward": [
+            "KeyW",
+            "ArrowUp"
+          ],
+          "back": [
+            "KeyS",
+            "ArrowDown"
+          ],
+          "left": [
+            "KeyA",
+            "ArrowLeft"
+          ],
+          "right": [
+            "KeyD",
+            "ArrowRight"
+          ],
+          "sprint": [
+            "ShiftLeft"
+          ],
+          "jump": [
+            "Space"
+          ],
+          "interact": [
+            "KeyE"
+          ],
+          "attack": [
+            "Mouse0",
+            "KeyJ"
+          ],
+          "heavy": [
+            "KeyK"
+          ],
+          "block": [
+            "Mouse2",
+            "KeyL"
+          ],
+          "dodge": [
+            "KeyQ"
+          ],
+          "heal": [
+            "KeyH"
+          ],
+          "journal": [
+            "Tab"
+          ],
+          "map": [
+            "KeyM"
+          ],
+          "inventory": [
+            "KeyI"
+          ],
+          "camLeft": [
+            "KeyZ"
+          ],
+          "camRight": [
+            "KeyC"
+          ],
+          "quicksave": [
+            "F5"
+          ],
+          "quickload": [
+            "F9"
+          ],
+          "pause": [
+            "Escape"
+          ]
+        }
+      },
+      "grade": {
+        "saturation": 0.97,
+        "contrast": 1.01,
+        "vignette": 0.08,
+        "grain": 0.003,
+        "chromatic": 0
+      },
+      "bloom": true,
+      "modules": [
+        {
+          "name": "forest",
+          "stats": {
+            "trees": 937,
+            "treeObstacles": 626,
+            "treesDrawn": 739,
+            "treeTris": 197297,
+            "forestFloorPieces": 539,
+            "forestFloorDrawn": 160
+          }
+        },
+        {
+          "name": "scatter",
+          "stats": {
+            "rocks": 1071,
+            "scatterTris": 106546
+          }
+        },
+        {
+          "name": "groundcover",
+          "stats": {
+            "grassInstances": 0,
+            "grassTris": 0,
+            "grassDraws": 0,
+            "grassTiles": 2
+          }
+        },
+        {
+          "name": "wildlife",
+          "stats": {
+            "gulls": 16,
+            "chimneys": 11
+          }
+        },
+        {
+          "name": "ambient",
+          "stats": {
+            "people": 3
+          }
+        },
+        {
+          "name": "woodland air",
+          "stats": {
+            "woodlandMotes": 144
+          }
+        },
+        {
+          "name": "woodland landmarks",
+          "stats": {
+            "markers": 4,
+            "ruins": 1,
+            "signs": 1,
+            "triangles": 3006,
+            "meshes": 15
+          }
+        }
+      ],
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "nativeCamera": {
+        "position": [
+          -160,
+          110,
+          155
+        ],
+        "quaternion": [
+          -0.2956844810801847,
+          -0.03178824733069036,
+          -0.009845222361042868,
+          0.9547058534316454
+        ],
+        "direction": [
+          0.05487469266399795,
+          -0.5652093344391788,
+          -0.8231203899599695
+        ],
+        "matrixWorld": [
+          0.9977851578566089,
+          -6.938893903907228e-18,
+          0.06651901052377392,
+          0,
+          0.037597165665694994,
+          0.824947518490007,
+          -0.5639574849854249,
+          0,
+          -0.05487469266399795,
+          0.5652093344391788,
+          0.8231203899599695,
+          0,
+          -160,
+          110,
+          155,
+          1
+        ],
+        "matrixWorldInverse": [
+          0.9977851578566089,
+          0.03759716566569499,
+          -0.05487469266399795,
+          0,
+          -1.0408340855860843e-17,
+          0.8249475184900069,
+          0.5652093344391788,
+          0,
+          0.06651901052377392,
+          -0.5639574849854249,
+          0.8231203899599695,
+          0,
+          149.33517862587246,
+          2.684729645351272,
+          -198.5366380583446,
+          1
+        ],
+        "projectionMatrix": [
+          1.080552446421281,
+          0,
+          0,
+          0,
+          0,
+          1.9209821269711662,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 55,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "nativePlayer": {
+        "x": -180,
+        "y": 1.3253477811813354,
+        "z": 10,
+        "yaw": 0
+      },
+      "nativeCandidateDriftFromBaseline": {
+        "camera": {
+          "translationDriftMetres": 0,
+          "angularDriftRadians": 0,
+          "matrixWorldMaxDrift": 0,
+          "projectionMaxDrift": 0
+        },
+        "playerTranslationMetres": 0
+      }
+    },
+    {
+      "label": "pr12",
+      "name": "canopy-plan",
+      "purpose": "Proposed near-top-down perspective diagnostic over the full original forest envelope; not orthographic, not an instance census, horizontal-distance LOD still applies",
+      "build": {
+        "version": "0.0.8",
+        "revision": "d0dc8de"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "devicePixelRatio": 1,
+        "rendererPixelRatio": 1,
+        "bufferWidth": 1280,
+        "bufferHeight": 720
+      },
+      "camera": {
+        "position": [
+          -152,
+          245,
+          4
+        ],
+        "quaternion": [
+          0,
+          0.7071082543241405,
+          0.7071053080458856,
+          0
+        ],
+        "direction": [
+          0,
+          -0.9999999999913195,
+          4.166666666582941e-06
+        ],
+        "matrixWorld": [
+          -1,
+          0,
+          0,
+          0,
+          0,
+          4.166666666582941e-06,
+          0.9999999999913195,
+          0,
+          0,
+          0.9999999999913195,
+          -4.166666666582941e-06,
+          0,
+          -152,
+          245,
+          4,
+          1
+        ],
+        "matrixWorldInverse": [
+          -1,
+          0,
+          0,
+          0,
+          0,
+          4.166666666582941e-06,
+          0.9999999999913195,
+          0,
+          0,
+          0.9999999999913195,
+          -4.166666666582941e-06,
+          0,
+          -152,
+          -4.001020833298591,
+          -244.99998333120664,
+          1
+        ],
+        "projectionMatrix": [
+          1.080552446421281,
+          0,
+          0,
+          0,
+          0,
+          1.9209821269711662,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 55,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "player": {
+        "x": -152,
+        "y": 5.657663822174072,
+        "z": 4,
+        "yaw": 0
+      },
+      "clock": {
+        "minutes": 660,
+        "accumulator": 0,
+        "day": 0,
+        "hour": 11,
+        "phase": "unseen",
+        "suppressedTickCalls": 0
+      },
+      "settings": {
+        "textScale": 1,
+        "reducedMotion": true,
+        "highContrast": false,
+        "reduceEffects": false,
+        "brightness": 1,
+        "quality": "high",
+        "guidance": true,
+        "showFps": false,
+        "barks": true,
+        "captions": true,
+        "mouseSensitivity": 1,
+        "invertY": false,
+        "toggleSprint": false,
+        "toggleBlock": false,
+        "volumes": {
+          "master": 0.8,
+          "music": 0.55,
+          "effects": 0.8,
+          "ambience": 0.7,
+          "dialogue": 0.8
+        },
+        "bindings": {
+          "forward": [
+            "KeyW",
+            "ArrowUp"
+          ],
+          "back": [
+            "KeyS",
+            "ArrowDown"
+          ],
+          "left": [
+            "KeyA",
+            "ArrowLeft"
+          ],
+          "right": [
+            "KeyD",
+            "ArrowRight"
+          ],
+          "sprint": [
+            "ShiftLeft"
+          ],
+          "jump": [
+            "Space"
+          ],
+          "interact": [
+            "KeyE"
+          ],
+          "attack": [
+            "Mouse0",
+            "KeyJ"
+          ],
+          "heavy": [
+            "KeyK"
+          ],
+          "block": [
+            "Mouse2",
+            "KeyL"
+          ],
+          "dodge": [
+            "KeyQ"
+          ],
+          "heal": [
+            "KeyH"
+          ],
+          "journal": [
+            "Tab"
+          ],
+          "map": [
+            "KeyM"
+          ],
+          "inventory": [
+            "KeyI"
+          ],
+          "camLeft": [
+            "KeyZ"
+          ],
+          "camRight": [
+            "KeyC"
+          ],
+          "quicksave": [
+            "F5"
+          ],
+          "quickload": [
+            "F9"
+          ],
+          "pause": [
+            "Escape"
+          ]
+        }
+      },
+      "grade": {
+        "saturation": 0.97,
+        "contrast": 1.01,
+        "vignette": 0.08,
+        "grain": 0.003,
+        "chromatic": 0
+      },
+      "bloom": true,
+      "modules": [
+        {
+          "name": "forest",
+          "stats": {
+            "trees": 1055,
+            "treeObstacles": 731,
+            "treesDrawn": 815,
+            "treeTris": 923513,
+            "forestFloorPieces": 933,
+            "forestFloorDrawn": 933
+          }
+        },
+        {
+          "name": "scatter",
+          "stats": {
+            "rocks": 1069,
+            "scatterTris": 106186
+          }
+        },
+        {
+          "name": "groundcover",
+          "stats": {
+            "grassInstances": 0,
+            "grassTris": 0,
+            "grassDraws": 0,
+            "grassTiles": 2
+          }
+        },
+        {
+          "name": "wildlife",
+          "stats": {
+            "gulls": 16,
+            "chimneys": 11
+          }
+        },
+        {
+          "name": "ambient",
+          "stats": {
+            "people": 3
+          }
+        },
+        {
+          "name": "woodland air",
+          "stats": {
+            "woodlandMotes": 144
+          }
+        },
+        {
+          "name": "woodland landmarks",
+          "stats": {
+            "markers": 4,
+            "ruins": 1,
+            "signs": 1,
+            "triangles": 3006,
+            "meshes": 15
+          }
+        }
+      ],
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "nativeCamera": {
+        "position": [
+          -152,
+          245,
+          4
+        ],
+        "quaternion": [
+          0,
+          0.7071082543241405,
+          0.7071053080458855,
+          0
+        ],
+        "direction": [
+          0,
+          -0.9999999999913196,
+          4.166666666582942e-06
+        ],
+        "matrixWorld": [
+          -0.9999999999999996,
+          0,
+          0,
+          0,
+          0,
+          4.166666666916008e-06,
+          0.9999999999913194,
+          0,
+          0,
+          0.9999999999913194,
+          -4.166666666582941e-06,
+          0,
+          -152,
+          245,
+          4,
+          1
+        ],
+        "matrixWorldInverse": [
+          -0.9999999999999996,
+          0,
+          0,
+          0,
+          0,
+          4.16666666658294e-06,
+          0.9999999999913194,
+          0,
+          0,
+          0.9999999999913194,
+          -4.166666666249873e-06,
+          0,
+          -151.99999999999994,
+          -4.001020833298591,
+          -244.99998333120658,
+          1
+        ],
+        "projectionMatrix": [
+          1.080552446421281,
+          0,
+          0,
+          0,
+          0,
+          1.9209821269711662,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 55,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "nativePlayer": {
+        "x": -152,
+        "y": 5.657663822174072,
+        "z": 4,
+        "yaw": 0
+      },
+      "nativeCandidateDriftFromBaseline": null
+    },
+    {
+      "label": "stands",
+      "name": "canopy-plan",
+      "purpose": "Proposed near-top-down perspective diagnostic over the full original forest envelope; not orthographic, not an instance census, horizontal-distance LOD still applies",
+      "build": {
+        "version": "0.0.8",
+        "revision": "87f48cb"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "devicePixelRatio": 1,
+        "rendererPixelRatio": 1,
+        "bufferWidth": 1280,
+        "bufferHeight": 720
+      },
+      "camera": {
+        "position": [
+          -152,
+          245,
+          4
+        ],
+        "quaternion": [
+          0,
+          0.7071082543241405,
+          0.7071053080458856,
+          0
+        ],
+        "direction": [
+          0,
+          -0.9999999999913195,
+          4.166666666582941e-06
+        ],
+        "matrixWorld": [
+          -1,
+          0,
+          0,
+          0,
+          0,
+          4.166666666582941e-06,
+          0.9999999999913195,
+          0,
+          0,
+          0.9999999999913195,
+          -4.166666666582941e-06,
+          0,
+          -152,
+          245,
+          4,
+          1
+        ],
+        "matrixWorldInverse": [
+          -1,
+          0,
+          0,
+          0,
+          0,
+          4.166666666582941e-06,
+          0.9999999999913195,
+          0,
+          0,
+          0.9999999999913195,
+          -4.166666666582941e-06,
+          0,
+          -152,
+          -4.001020833298591,
+          -244.99998333120664,
+          1
+        ],
+        "projectionMatrix": [
+          1.080552446421281,
+          0,
+          0,
+          0,
+          0,
+          1.9209821269711662,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 55,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "player": {
+        "x": -152,
+        "y": 5.657663822174072,
+        "z": 4,
+        "yaw": 0
+      },
+      "clock": {
+        "minutes": 660,
+        "accumulator": 0,
+        "day": 0,
+        "hour": 11,
+        "phase": "unseen",
+        "suppressedTickCalls": 0
+      },
+      "settings": {
+        "textScale": 1,
+        "reducedMotion": true,
+        "highContrast": false,
+        "reduceEffects": false,
+        "brightness": 1,
+        "quality": "high",
+        "guidance": true,
+        "showFps": false,
+        "barks": true,
+        "captions": true,
+        "mouseSensitivity": 1,
+        "invertY": false,
+        "toggleSprint": false,
+        "toggleBlock": false,
+        "volumes": {
+          "master": 0.8,
+          "music": 0.55,
+          "effects": 0.8,
+          "ambience": 0.7,
+          "dialogue": 0.8
+        },
+        "bindings": {
+          "forward": [
+            "KeyW",
+            "ArrowUp"
+          ],
+          "back": [
+            "KeyS",
+            "ArrowDown"
+          ],
+          "left": [
+            "KeyA",
+            "ArrowLeft"
+          ],
+          "right": [
+            "KeyD",
+            "ArrowRight"
+          ],
+          "sprint": [
+            "ShiftLeft"
+          ],
+          "jump": [
+            "Space"
+          ],
+          "interact": [
+            "KeyE"
+          ],
+          "attack": [
+            "Mouse0",
+            "KeyJ"
+          ],
+          "heavy": [
+            "KeyK"
+          ],
+          "block": [
+            "Mouse2",
+            "KeyL"
+          ],
+          "dodge": [
+            "KeyQ"
+          ],
+          "heal": [
+            "KeyH"
+          ],
+          "journal": [
+            "Tab"
+          ],
+          "map": [
+            "KeyM"
+          ],
+          "inventory": [
+            "KeyI"
+          ],
+          "camLeft": [
+            "KeyZ"
+          ],
+          "camRight": [
+            "KeyC"
+          ],
+          "quicksave": [
+            "F5"
+          ],
+          "quickload": [
+            "F9"
+          ],
+          "pause": [
+            "Escape"
+          ]
+        }
+      },
+      "grade": {
+        "saturation": 0.97,
+        "contrast": 1.01,
+        "vignette": 0.08,
+        "grain": 0.003,
+        "chromatic": 0
+      },
+      "bloom": true,
+      "modules": [
+        {
+          "name": "forest",
+          "stats": {
+            "trees": 937,
+            "treeObstacles": 626,
+            "treesDrawn": 697,
+            "treeTris": 666935,
+            "forestFloorPieces": 539,
+            "forestFloorDrawn": 539
+          }
+        },
+        {
+          "name": "scatter",
+          "stats": {
+            "rocks": 1071,
+            "scatterTris": 106546
+          }
+        },
+        {
+          "name": "groundcover",
+          "stats": {
+            "grassInstances": 0,
+            "grassTris": 0,
+            "grassDraws": 0,
+            "grassTiles": 2
+          }
+        },
+        {
+          "name": "wildlife",
+          "stats": {
+            "gulls": 16,
+            "chimneys": 11
+          }
+        },
+        {
+          "name": "ambient",
+          "stats": {
+            "people": 3
+          }
+        },
+        {
+          "name": "woodland air",
+          "stats": {
+            "woodlandMotes": 144
+          }
+        },
+        {
+          "name": "woodland landmarks",
+          "stats": {
+            "markers": 4,
+            "ruins": 1,
+            "signs": 1,
+            "triangles": 3006,
+            "meshes": 15
+          }
+        }
+      ],
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "nativeCamera": {
+        "position": [
+          -152,
+          245,
+          4
+        ],
+        "quaternion": [
+          0,
+          0.7071082543241405,
+          0.7071053080458855,
+          0
+        ],
+        "direction": [
+          0,
+          -0.9999999999913196,
+          4.166666666582942e-06
+        ],
+        "matrixWorld": [
+          -0.9999999999999996,
+          0,
+          0,
+          0,
+          0,
+          4.166666666916008e-06,
+          0.9999999999913194,
+          0,
+          0,
+          0.9999999999913194,
+          -4.166666666582941e-06,
+          0,
+          -152,
+          245,
+          4,
+          1
+        ],
+        "matrixWorldInverse": [
+          -0.9999999999999996,
+          0,
+          0,
+          0,
+          0,
+          4.16666666658294e-06,
+          0.9999999999913194,
+          0,
+          0,
+          0.9999999999913194,
+          -4.166666666249873e-06,
+          0,
+          -151.99999999999994,
+          -4.001020833298591,
+          -244.99998333120658,
+          1
+        ],
+        "projectionMatrix": [
+          1.080552446421281,
+          0,
+          0,
+          0,
+          0,
+          1.9209821269711662,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 55,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "nativePlayer": {
+        "x": -152,
+        "y": 5.657663822174072,
+        "z": 4,
+        "yaw": 0
+      },
+      "nativeCandidateDriftFromBaseline": {
+        "camera": {
+          "translationDriftMetres": 0,
+          "angularDriftRadians": 4.2146848510894035e-08,
+          "matrixWorldMaxDrift": 0,
+          "projectionMaxDrift": 0
+        },
+        "playerTranslationMetres": 0
+      }
+    },
+    {
+      "label": "pr12",
+      "name": "north-clearing-ground",
+      "purpose": "Matched ground view from inside the northwest edge of proposed candidate north_hogback_glade (-180,-58); terrain-relative manual camera, not a native follow/collision test",
+      "build": {
+        "version": "0.0.8",
+        "revision": "d0dc8de"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "devicePixelRatio": 1,
+        "rendererPixelRatio": 1,
+        "bufferWidth": 1280,
+        "bufferHeight": 720
+      },
+      "camera": {
+        "position": [
+          -191,
+          10.340158557891845,
+          -63
+        ],
+        "quaternion": [
+          0.005172920857342105,
+          -0.8574495826492671,
+          0.008621534762236835,
+          0.5144697495895606
+        ],
+        "direction": [
+          0.8821745471084953,
+          0.020107685363599057,
+          0.470493091791197
+        ],
+        "matrixWorld": [
+          -0.4705882352941173,
+          -1.734723475976807e-18,
+          0.8823529411764711,
+          0,
+          -0.017742075320822705,
+          0.9997978200562945,
+          -0.009462440171105427,
+          0,
+          -0.8821745471084955,
+          -0.02010768536359906,
+          -0.47049309179119714,
+          0,
+          -191,
+          10.340158557891845,
+          -63,
+          1
+        ],
+        "matrixWorldInverse": [
+          -0.4705882352941172,
+          -0.017742075320822708,
+          -0.8821745471084954,
+          0,
+          -1.734723475976807e-18,
+          0.9997978200562945,
+          -0.02010768536359906,
+          0,
+          0.8823529411764708,
+          -0.00946244017110543,
+          -0.47049309179119686,
+          0,
+          -34.29411764705873,
+          -14.322938102273483,
+          -197.92848662567621,
+          1
+        ],
+        "projectionMatrix": [
+          1.0147768623401758,
+          0,
+          0,
+          0,
+          0,
+          1.8040477552714236,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 58,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "player": {
+        "x": -180,
+        "y": 8.405740737915039,
+        "z": -58,
+        "yaw": 0
+      },
+      "clock": {
+        "minutes": 660,
+        "accumulator": 0,
+        "day": 0,
+        "hour": 11,
+        "phase": "unseen",
+        "suppressedTickCalls": 0
+      },
+      "settings": {
+        "textScale": 1,
+        "reducedMotion": true,
+        "highContrast": false,
+        "reduceEffects": false,
+        "brightness": 1,
+        "quality": "high",
+        "guidance": true,
+        "showFps": false,
+        "barks": true,
+        "captions": true,
+        "mouseSensitivity": 1,
+        "invertY": false,
+        "toggleSprint": false,
+        "toggleBlock": false,
+        "volumes": {
+          "master": 0.8,
+          "music": 0.55,
+          "effects": 0.8,
+          "ambience": 0.7,
+          "dialogue": 0.8
+        },
+        "bindings": {
+          "forward": [
+            "KeyW",
+            "ArrowUp"
+          ],
+          "back": [
+            "KeyS",
+            "ArrowDown"
+          ],
+          "left": [
+            "KeyA",
+            "ArrowLeft"
+          ],
+          "right": [
+            "KeyD",
+            "ArrowRight"
+          ],
+          "sprint": [
+            "ShiftLeft"
+          ],
+          "jump": [
+            "Space"
+          ],
+          "interact": [
+            "KeyE"
+          ],
+          "attack": [
+            "Mouse0",
+            "KeyJ"
+          ],
+          "heavy": [
+            "KeyK"
+          ],
+          "block": [
+            "Mouse2",
+            "KeyL"
+          ],
+          "dodge": [
+            "KeyQ"
+          ],
+          "heal": [
+            "KeyH"
+          ],
+          "journal": [
+            "Tab"
+          ],
+          "map": [
+            "KeyM"
+          ],
+          "inventory": [
+            "KeyI"
+          ],
+          "camLeft": [
+            "KeyZ"
+          ],
+          "camRight": [
+            "KeyC"
+          ],
+          "quicksave": [
+            "F5"
+          ],
+          "quickload": [
+            "F9"
+          ],
+          "pause": [
+            "Escape"
+          ]
+        }
+      },
+      "grade": {
+        "saturation": 0.97,
+        "contrast": 1.01,
+        "vignette": 0.08,
+        "grain": 0.003,
+        "chromatic": 0
+      },
+      "bloom": true,
+      "modules": [
+        {
+          "name": "forest",
+          "stats": {
+            "trees": 1055,
+            "treeObstacles": 731,
+            "treesDrawn": 790,
+            "treeTris": 548384,
+            "forestFloorPieces": 933,
+            "forestFloorDrawn": 426
+          }
+        },
+        {
+          "name": "scatter",
+          "stats": {
+            "rocks": 1069,
+            "scatterTris": 106186
+          }
+        },
+        {
+          "name": "groundcover",
+          "stats": {
+            "grassInstances": 7784,
+            "grassTris": 256872,
+            "grassDraws": 60,
+            "grassTiles": 71
+          }
+        },
+        {
+          "name": "wildlife",
+          "stats": {
+            "gulls": 16,
+            "chimneys": 11
+          }
+        },
+        {
+          "name": "ambient",
+          "stats": {
+            "people": 3
+          }
+        },
+        {
+          "name": "woodland air",
+          "stats": {
+            "woodlandMotes": 144
+          }
+        },
+        {
+          "name": "woodland landmarks",
+          "stats": {
+            "markers": 4,
+            "ruins": 1,
+            "signs": 1,
+            "triangles": 3006,
+            "meshes": 15
+          }
+        }
+      ],
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "nativeCamera": {
+        "position": [
+          -191,
+          10.340158557891845,
+          -63
+        ],
+        "quaternion": [
+          0.005172920857342091,
+          -0.8574495826492671,
+          0.008621534762236817,
+          0.5144697495895603
+        ],
+        "direction": [
+          0.8821745471084952,
+          0.020107685363599016,
+          0.47049309179119725
+        ],
+        "matrixWorld": [
+          -0.4705882352941173,
+          0,
+          0.8823529411764706,
+          0,
+          -0.017742075320822656,
+          0.9997978200562945,
+          -0.009462440171105417,
+          0,
+          -0.882174547108495,
+          -0.020107685363599012,
+          -0.47049309179119714,
+          0,
+          -191,
+          10.340158557891845,
+          -63,
+          1
+        ],
+        "matrixWorldInverse": [
+          -0.4705882352941174,
+          -0.017742075320822663,
+          -0.8821745471084953,
+          0,
+          1.734723475976807e-18,
+          0.9997978200562945,
+          -0.02010768536359901,
+          0,
+          0.8823529411764707,
+          -0.009462440171105408,
+          -0.4704930917911971,
+          0,
+          -34.294117647058776,
+          -14.322938102273472,
+          -197.9284866256762,
+          1
+        ],
+        "projectionMatrix": [
+          1.0147768623401758,
+          0,
+          0,
+          0,
+          0,
+          1.8040477552714236,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 58,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "nativePlayer": {
+        "x": -180,
+        "y": 8.405740737915039,
+        "z": -58,
+        "yaw": 0
+      },
+      "nativeCandidateDriftFromBaseline": null
+    },
+    {
+      "label": "stands",
+      "name": "north-clearing-ground",
+      "purpose": "Matched ground view from inside the northwest edge of proposed candidate north_hogback_glade (-180,-58); terrain-relative manual camera, not a native follow/collision test",
+      "build": {
+        "version": "0.0.8",
+        "revision": "87f48cb"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "devicePixelRatio": 1,
+        "rendererPixelRatio": 1,
+        "bufferWidth": 1280,
+        "bufferHeight": 720
+      },
+      "camera": {
+        "position": [
+          -191,
+          10.340158557891845,
+          -63
+        ],
+        "quaternion": [
+          0.005172920857342105,
+          -0.8574495826492671,
+          0.008621534762236835,
+          0.5144697495895606
+        ],
+        "direction": [
+          0.8821745471084953,
+          0.020107685363599057,
+          0.470493091791197
+        ],
+        "matrixWorld": [
+          -0.4705882352941173,
+          -1.734723475976807e-18,
+          0.8823529411764711,
+          0,
+          -0.017742075320822705,
+          0.9997978200562945,
+          -0.009462440171105427,
+          0,
+          -0.8821745471084955,
+          -0.02010768536359906,
+          -0.47049309179119714,
+          0,
+          -191,
+          10.340158557891845,
+          -63,
+          1
+        ],
+        "matrixWorldInverse": [
+          -0.4705882352941172,
+          -0.017742075320822708,
+          -0.8821745471084954,
+          0,
+          -1.734723475976807e-18,
+          0.9997978200562945,
+          -0.02010768536359906,
+          0,
+          0.8823529411764708,
+          -0.00946244017110543,
+          -0.47049309179119686,
+          0,
+          -34.29411764705873,
+          -14.322938102273483,
+          -197.92848662567621,
+          1
+        ],
+        "projectionMatrix": [
+          1.0147768623401758,
+          0,
+          0,
+          0,
+          0,
+          1.8040477552714236,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 58,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "player": {
+        "x": -180,
+        "y": 8.405740737915039,
+        "z": -58,
+        "yaw": 0
+      },
+      "clock": {
+        "minutes": 660,
+        "accumulator": 0,
+        "day": 0,
+        "hour": 11,
+        "phase": "unseen",
+        "suppressedTickCalls": 0
+      },
+      "settings": {
+        "textScale": 1,
+        "reducedMotion": true,
+        "highContrast": false,
+        "reduceEffects": false,
+        "brightness": 1,
+        "quality": "high",
+        "guidance": true,
+        "showFps": false,
+        "barks": true,
+        "captions": true,
+        "mouseSensitivity": 1,
+        "invertY": false,
+        "toggleSprint": false,
+        "toggleBlock": false,
+        "volumes": {
+          "master": 0.8,
+          "music": 0.55,
+          "effects": 0.8,
+          "ambience": 0.7,
+          "dialogue": 0.8
+        },
+        "bindings": {
+          "forward": [
+            "KeyW",
+            "ArrowUp"
+          ],
+          "back": [
+            "KeyS",
+            "ArrowDown"
+          ],
+          "left": [
+            "KeyA",
+            "ArrowLeft"
+          ],
+          "right": [
+            "KeyD",
+            "ArrowRight"
+          ],
+          "sprint": [
+            "ShiftLeft"
+          ],
+          "jump": [
+            "Space"
+          ],
+          "interact": [
+            "KeyE"
+          ],
+          "attack": [
+            "Mouse0",
+            "KeyJ"
+          ],
+          "heavy": [
+            "KeyK"
+          ],
+          "block": [
+            "Mouse2",
+            "KeyL"
+          ],
+          "dodge": [
+            "KeyQ"
+          ],
+          "heal": [
+            "KeyH"
+          ],
+          "journal": [
+            "Tab"
+          ],
+          "map": [
+            "KeyM"
+          ],
+          "inventory": [
+            "KeyI"
+          ],
+          "camLeft": [
+            "KeyZ"
+          ],
+          "camRight": [
+            "KeyC"
+          ],
+          "quicksave": [
+            "F5"
+          ],
+          "quickload": [
+            "F9"
+          ],
+          "pause": [
+            "Escape"
+          ]
+        }
+      },
+      "grade": {
+        "saturation": 0.97,
+        "contrast": 1.01,
+        "vignette": 0.08,
+        "grain": 0.003,
+        "chromatic": 0
+      },
+      "bloom": true,
+      "modules": [
+        {
+          "name": "forest",
+          "stats": {
+            "trees": 937,
+            "treeObstacles": 626,
+            "treesDrawn": 703,
+            "treeTris": 321536,
+            "forestFloorPieces": 539,
+            "forestFloorDrawn": 274
+          }
+        },
+        {
+          "name": "scatter",
+          "stats": {
+            "rocks": 1071,
+            "scatterTris": 106546
+          }
+        },
+        {
+          "name": "groundcover",
+          "stats": {
+            "grassInstances": 8998,
+            "grassTris": 296934,
+            "grassDraws": 60,
+            "grassTiles": 71
+          }
+        },
+        {
+          "name": "wildlife",
+          "stats": {
+            "gulls": 16,
+            "chimneys": 11
+          }
+        },
+        {
+          "name": "ambient",
+          "stats": {
+            "people": 3
+          }
+        },
+        {
+          "name": "woodland air",
+          "stats": {
+            "woodlandMotes": 144
+          }
+        },
+        {
+          "name": "woodland landmarks",
+          "stats": {
+            "markers": 4,
+            "ruins": 1,
+            "signs": 1,
+            "triangles": 3006,
+            "meshes": 15
+          }
+        }
+      ],
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "nativeCamera": {
+        "position": [
+          -191,
+          10.340158557891845,
+          -63
+        ],
+        "quaternion": [
+          0.005172920857342091,
+          -0.8574495826492671,
+          0.008621534762236817,
+          0.5144697495895603
+        ],
+        "direction": [
+          0.8821745471084952,
+          0.020107685363599016,
+          0.47049309179119725
+        ],
+        "matrixWorld": [
+          -0.4705882352941173,
+          0,
+          0.8823529411764706,
+          0,
+          -0.017742075320822656,
+          0.9997978200562945,
+          -0.009462440171105417,
+          0,
+          -0.882174547108495,
+          -0.020107685363599012,
+          -0.47049309179119714,
+          0,
+          -191,
+          10.340158557891845,
+          -63,
+          1
+        ],
+        "matrixWorldInverse": [
+          -0.4705882352941174,
+          -0.017742075320822663,
+          -0.8821745471084953,
+          0,
+          1.734723475976807e-18,
+          0.9997978200562945,
+          -0.02010768536359901,
+          0,
+          0.8823529411764707,
+          -0.009462440171105408,
+          -0.4704930917911971,
+          0,
+          -34.294117647058776,
+          -14.322938102273472,
+          -197.9284866256762,
+          1
+        ],
+        "projectionMatrix": [
+          1.0147768623401758,
+          0,
+          0,
+          0,
+          0,
+          1.8040477552714236,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 58,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "nativePlayer": {
+        "x": -180,
+        "y": 8.405740737915039,
+        "z": -58,
+        "yaw": 0
+      },
+      "nativeCandidateDriftFromBaseline": {
+        "camera": {
+          "translationDriftMetres": 0,
+          "angularDriftRadians": 4.2146848510894035e-08,
+          "matrixWorldMaxDrift": 0,
+          "projectionMaxDrift": 0
+        },
+        "playerTranslationMetres": 0
+      }
+    },
+    {
+      "label": "pr12",
+      "name": "south-clearing-ground",
+      "purpose": "Matched ground view from inside the west edge of proposed candidate south_hogback_glade (-181,80); terrain-relative manual camera, not a native follow/collision test",
+      "build": {
+        "version": "0.0.8",
+        "revision": "d0dc8de"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "devicePixelRatio": 1,
+        "rendererPixelRatio": 1,
+        "bufferWidth": 1280,
+        "bufferHeight": 720
+      },
+      "camera": {
+        "position": [
+          -194,
+          9.859149074554443,
+          76
+        ],
+        "quaternion": [
+          0.0018392304753369973,
+          -0.8443282054090367,
+          0.0028982263015608603,
+          0.5358153591175966
+        ],
+        "direction": [
+          0.9047973801764412,
+          0.006865084299417744,
+          0.425787002435972
+        ],
+        "matrixWorld": [
+          -0.4257970363298793,
+          -8.673617379884035e-19,
+          0.9048187022009943,
+          0,
+          -0.006211656666299585,
+          0.9999764350311271,
+          -0.0029231325488468596,
+          0,
+          -0.9047973801764412,
+          -0.006865084299417744,
+          -0.425787002435972,
+          0,
+          -194,
+          9.859149074554443,
+          76,
+          1
+        ],
+        "matrixWorldInverse": [
+          -0.4257970363298793,
+          -0.006211656666299584,
+          -0.9047973801764413,
+          0,
+          -1.734723475976807e-18,
+          0.9999764350311271,
+          -0.0068650842994177445,
+          0,
+          0.9048187022009943,
+          -0.00292313254884686,
+          -0.425787002435972,
+          0,
+          -151.37084641527215,
+          -10.841820063563146,
+          -143.1031956795784,
+          1
+        ],
+        "projectionMatrix": [
+          1.0147768623401758,
+          0,
+          0,
+          0,
+          0,
+          1.8040477552714236,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 58,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "player": {
+        "x": -181,
+        "y": 9.774227619171143,
+        "z": 80,
+        "yaw": 0
+      },
+      "clock": {
+        "minutes": 660,
+        "accumulator": 0,
+        "day": 0,
+        "hour": 11,
+        "phase": "unseen",
+        "suppressedTickCalls": 0
+      },
+      "settings": {
+        "textScale": 1,
+        "reducedMotion": true,
+        "highContrast": false,
+        "reduceEffects": false,
+        "brightness": 1,
+        "quality": "high",
+        "guidance": true,
+        "showFps": false,
+        "barks": true,
+        "captions": true,
+        "mouseSensitivity": 1,
+        "invertY": false,
+        "toggleSprint": false,
+        "toggleBlock": false,
+        "volumes": {
+          "master": 0.8,
+          "music": 0.55,
+          "effects": 0.8,
+          "ambience": 0.7,
+          "dialogue": 0.8
+        },
+        "bindings": {
+          "forward": [
+            "KeyW",
+            "ArrowUp"
+          ],
+          "back": [
+            "KeyS",
+            "ArrowDown"
+          ],
+          "left": [
+            "KeyA",
+            "ArrowLeft"
+          ],
+          "right": [
+            "KeyD",
+            "ArrowRight"
+          ],
+          "sprint": [
+            "ShiftLeft"
+          ],
+          "jump": [
+            "Space"
+          ],
+          "interact": [
+            "KeyE"
+          ],
+          "attack": [
+            "Mouse0",
+            "KeyJ"
+          ],
+          "heavy": [
+            "KeyK"
+          ],
+          "block": [
+            "Mouse2",
+            "KeyL"
+          ],
+          "dodge": [
+            "KeyQ"
+          ],
+          "heal": [
+            "KeyH"
+          ],
+          "journal": [
+            "Tab"
+          ],
+          "map": [
+            "KeyM"
+          ],
+          "inventory": [
+            "KeyI"
+          ],
+          "camLeft": [
+            "KeyZ"
+          ],
+          "camRight": [
+            "KeyC"
+          ],
+          "quicksave": [
+            "F5"
+          ],
+          "quickload": [
+            "F9"
+          ],
+          "pause": [
+            "Escape"
+          ]
+        }
+      },
+      "grade": {
+        "saturation": 0.97,
+        "contrast": 1.01,
+        "vignette": 0.08,
+        "grain": 0.003,
+        "chromatic": 0
+      },
+      "bloom": true,
+      "modules": [
+        {
+          "name": "forest",
+          "stats": {
+            "trees": 1055,
+            "treeObstacles": 731,
+            "treesDrawn": 341,
+            "treeTris": 328132,
+            "forestFloorPieces": 933,
+            "forestFloorDrawn": 170
+          }
+        },
+        {
+          "name": "scatter",
+          "stats": {
+            "rocks": 1069,
+            "scatterTris": 106186
+          }
+        },
+        {
+          "name": "groundcover",
+          "stats": {
+            "grassInstances": 7669,
+            "grassTris": 253077,
+            "grassDraws": 56,
+            "grassTiles": 75
+          }
+        },
+        {
+          "name": "wildlife",
+          "stats": {
+            "gulls": 16,
+            "chimneys": 11
+          }
+        },
+        {
+          "name": "ambient",
+          "stats": {
+            "people": 3
+          }
+        },
+        {
+          "name": "woodland air",
+          "stats": {
+            "woodlandMotes": 144
+          }
+        },
+        {
+          "name": "woodland landmarks",
+          "stats": {
+            "markers": 4,
+            "ruins": 1,
+            "signs": 1,
+            "triangles": 3006,
+            "meshes": 15
+          }
+        }
+      ],
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "nativeCamera": {
+        "position": [
+          -194,
+          9.859149074554443,
+          76
+        ],
+        "quaternion": [
+          0.0018392304753369942,
+          -0.8443282054090367,
+          0.002898226301560858,
+          0.5358153591175965
+        ],
+        "direction": [
+          0.9047973801764413,
+          0.0068650842994177385,
+          0.4257870024359721
+        ],
+        "matrixWorld": [
+          -0.4257970363298793,
+          1.3010426069826053e-18,
+          0.9048187022009941,
+          0,
+          -0.0062116566662995774,
+          0.9999764350311271,
+          -0.0029231325488468596,
+          0,
+          -0.9047973801764411,
+          -0.006865084299417737,
+          -0.425787002435972,
+          0,
+          -194,
+          9.859149074554443,
+          76,
+          1
+        ],
+        "matrixWorldInverse": [
+          -0.4257970363298796,
+          -0.006211656666299577,
+          -0.9047973801764406,
+          0,
+          -2.168404344971007e-18,
+          0.999976435031127,
+          -0.006865084299417735,
+          0,
+          0.9048187022009936,
+          -0.0029231325488468605,
+          -0.4257870024359723,
+          0,
+          -151.37084641527213,
+          -10.841820063563144,
+          -143.10319567957822,
+          1
+        ],
+        "projectionMatrix": [
+          1.0147768623401758,
+          0,
+          0,
+          0,
+          0,
+          1.8040477552714236,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 58,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "nativePlayer": {
+        "x": -181,
+        "y": 9.774227619171143,
+        "z": 80,
+        "yaw": 0
+      },
+      "nativeCandidateDriftFromBaseline": null
+    },
+    {
+      "label": "stands",
+      "name": "south-clearing-ground",
+      "purpose": "Matched ground view from inside the west edge of proposed candidate south_hogback_glade (-181,80); terrain-relative manual camera, not a native follow/collision test",
+      "build": {
+        "version": "0.0.8",
+        "revision": "87f48cb"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 720,
+        "devicePixelRatio": 1,
+        "rendererPixelRatio": 1,
+        "bufferWidth": 1280,
+        "bufferHeight": 720
+      },
+      "camera": {
+        "position": [
+          -194,
+          9.859149074554443,
+          76
+        ],
+        "quaternion": [
+          0.0018392304753369973,
+          -0.8443282054090367,
+          0.0028982263015608603,
+          0.5358153591175966
+        ],
+        "direction": [
+          0.9047973801764412,
+          0.006865084299417744,
+          0.425787002435972
+        ],
+        "matrixWorld": [
+          -0.4257970363298793,
+          -8.673617379884035e-19,
+          0.9048187022009943,
+          0,
+          -0.006211656666299585,
+          0.9999764350311271,
+          -0.0029231325488468596,
+          0,
+          -0.9047973801764412,
+          -0.006865084299417744,
+          -0.425787002435972,
+          0,
+          -194,
+          9.859149074554443,
+          76,
+          1
+        ],
+        "matrixWorldInverse": [
+          -0.4257970363298793,
+          -0.006211656666299584,
+          -0.9047973801764413,
+          0,
+          -1.734723475976807e-18,
+          0.9999764350311271,
+          -0.0068650842994177445,
+          0,
+          0.9048187022009943,
+          -0.00292313254884686,
+          -0.425787002435972,
+          0,
+          -151.37084641527215,
+          -10.841820063563146,
+          -143.1031956795784,
+          1
+        ],
+        "projectionMatrix": [
+          1.0147768623401758,
+          0,
+          0,
+          0,
+          0,
+          1.8040477552714236,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 58,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "player": {
+        "x": -181,
+        "y": 9.774227619171143,
+        "z": 80,
+        "yaw": 0
+      },
+      "clock": {
+        "minutes": 660,
+        "accumulator": 0,
+        "day": 0,
+        "hour": 11,
+        "phase": "unseen",
+        "suppressedTickCalls": 0
+      },
+      "settings": {
+        "textScale": 1,
+        "reducedMotion": true,
+        "highContrast": false,
+        "reduceEffects": false,
+        "brightness": 1,
+        "quality": "high",
+        "guidance": true,
+        "showFps": false,
+        "barks": true,
+        "captions": true,
+        "mouseSensitivity": 1,
+        "invertY": false,
+        "toggleSprint": false,
+        "toggleBlock": false,
+        "volumes": {
+          "master": 0.8,
+          "music": 0.55,
+          "effects": 0.8,
+          "ambience": 0.7,
+          "dialogue": 0.8
+        },
+        "bindings": {
+          "forward": [
+            "KeyW",
+            "ArrowUp"
+          ],
+          "back": [
+            "KeyS",
+            "ArrowDown"
+          ],
+          "left": [
+            "KeyA",
+            "ArrowLeft"
+          ],
+          "right": [
+            "KeyD",
+            "ArrowRight"
+          ],
+          "sprint": [
+            "ShiftLeft"
+          ],
+          "jump": [
+            "Space"
+          ],
+          "interact": [
+            "KeyE"
+          ],
+          "attack": [
+            "Mouse0",
+            "KeyJ"
+          ],
+          "heavy": [
+            "KeyK"
+          ],
+          "block": [
+            "Mouse2",
+            "KeyL"
+          ],
+          "dodge": [
+            "KeyQ"
+          ],
+          "heal": [
+            "KeyH"
+          ],
+          "journal": [
+            "Tab"
+          ],
+          "map": [
+            "KeyM"
+          ],
+          "inventory": [
+            "KeyI"
+          ],
+          "camLeft": [
+            "KeyZ"
+          ],
+          "camRight": [
+            "KeyC"
+          ],
+          "quicksave": [
+            "F5"
+          ],
+          "quickload": [
+            "F9"
+          ],
+          "pause": [
+            "Escape"
+          ]
+        }
+      },
+      "grade": {
+        "saturation": 0.97,
+        "contrast": 1.01,
+        "vignette": 0.08,
+        "grain": 0.003,
+        "chromatic": 0
+      },
+      "bloom": true,
+      "modules": [
+        {
+          "name": "forest",
+          "stats": {
+            "trees": 937,
+            "treeObstacles": 626,
+            "treesDrawn": 271,
+            "treeTris": 159265,
+            "forestFloorPieces": 539,
+            "forestFloorDrawn": 72
+          }
+        },
+        {
+          "name": "scatter",
+          "stats": {
+            "rocks": 1071,
+            "scatterTris": 106546
+          }
+        },
+        {
+          "name": "groundcover",
+          "stats": {
+            "grassInstances": 8848,
+            "grassTris": 291984,
+            "grassDraws": 56,
+            "grassTiles": 75
+          }
+        },
+        {
+          "name": "wildlife",
+          "stats": {
+            "gulls": 16,
+            "chimneys": 11
+          }
+        },
+        {
+          "name": "ambient",
+          "stats": {
+            "people": 3
+          }
+        },
+        {
+          "name": "woodland air",
+          "stats": {
+            "woodlandMotes": 144
+          }
+        },
+        {
+          "name": "woodland landmarks",
+          "stats": {
+            "markers": 4,
+            "ruins": 1,
+            "signs": 1,
+            "triangles": 3006,
+            "meshes": 15
+          }
+        }
+      ],
+      "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+      "nativeCamera": {
+        "position": [
+          -194,
+          9.859149074554443,
+          76
+        ],
+        "quaternion": [
+          0.0018392304753369942,
+          -0.8443282054090367,
+          0.002898226301560858,
+          0.5358153591175965
+        ],
+        "direction": [
+          0.9047973801764413,
+          0.0068650842994177385,
+          0.4257870024359721
+        ],
+        "matrixWorld": [
+          -0.4257970363298793,
+          1.3010426069826053e-18,
+          0.9048187022009941,
+          0,
+          -0.0062116566662995774,
+          0.9999764350311271,
+          -0.0029231325488468596,
+          0,
+          -0.9047973801764411,
+          -0.006865084299417737,
+          -0.425787002435972,
+          0,
+          -194,
+          9.859149074554443,
+          76,
+          1
+        ],
+        "matrixWorldInverse": [
+          -0.4257970363298796,
+          -0.006211656666299577,
+          -0.9047973801764406,
+          0,
+          -2.168404344971007e-18,
+          0.999976435031127,
+          -0.006865084299417735,
+          0,
+          0.9048187022009936,
+          -0.0029231325488468605,
+          -0.4257870024359723,
+          0,
+          -151.37084641527213,
+          -10.841820063563144,
+          -143.10319567957822,
+          1
+        ],
+        "projectionMatrix": [
+          1.0147768623401758,
+          0,
+          0,
+          0,
+          0,
+          1.8040477552714236,
+          0,
+          0,
+          0,
+          0,
+          -1.0001428673476676,
+          -1,
+          0,
+          0,
+          -0.20001428673476676,
+          0
+        ],
+        "fov": 58,
+        "aspect": 1.7777777777777777,
+        "near": 0.1,
+        "far": 1400
+      },
+      "nativePlayer": {
+        "x": -181,
+        "y": 9.774227619171143,
+        "z": 80,
+        "yaw": 0
+      },
+      "nativeCandidateDriftFromBaseline": {
+        "camera": {
+          "translationDriftMetres": 0,
+          "angularDriftRadians": 0,
+          "matrixWorldMaxDrift": 0,
+          "projectionMaxDrift": 0
+        },
+        "playerTranslationMetres": 0
+      }
+    }
+  ]
+}

@@ -25,11 +25,11 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): Sce
   const group = new THREE.Group();
   group.name = 'flora';
   const pine = createPineForest(pineTemplates);
-  const population = createFloraPopulation(terrain, excl);
-  registerFloraColliders(population, colliders, (tree) => isPineSpecies(tree.sp)
-    ? pine.collisionRadius(tree.sp, tree.v + 1, tree.s) : tree.radius);
+  const population = createFloraPopulation(terrain, excl, (tree, legacyFootprint) => isPineSpecies(tree.sp)
+    ? pine.collisionRadius(tree.sp, tree.v + 1, tree.s) : legacyFootprint);
+  registerFloraColliders(population, colliders);
   const { trees, obstacles } = selectFloraPopulation(population, quality);
-  const forestFloor = buildForestFloor(terrain, excl, quality);
+  const forestFloor = buildForestFloor(terrain, excl, quality, population);
   group.add(forestFloor.group);
 
   /* Developer aid: `?lineup=x,z` plants one of every species in rows near a point, and `?lod=0|1|2` forces a level of detail. */
@@ -134,7 +134,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): Sce
         pos.set(t.x, t.y, t.z);
         scl.set(t.s, t.s, t.s);
         mtx.compose(pos, quat, scl);
-        col.setRGB(t.tint, t.tint * (0.97 + (t.yaw % 0.05)), t.tint * 0.95);
+        // The stand supplies a shared value group; turning a tree must not change its colour.
+        col.setRGB(t.tint, t.tint * 0.99, t.tint * 0.95);
         if (m.wood) {
           m.wood.setMatrixAt(i, mtx);
           m.wood.setColorAt(i, col);
@@ -166,9 +167,10 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): Sce
       forestFloor.update(dt, f);
       sinceUpdate += dt;
       const cam = f.camera;
-      const moved = Math.hypot(cam.position.x - lastCam.x, cam.position.z - lastCam.z);
+      const moved = cam.position.distanceTo(lastCam);
+      const turned = Math.abs(cam.quaternion.dot(lastRotation)) < 0.9998;
       // Rotation matters as much as position: turning the camera reveals new trees.
-      if (sinceUpdate < 0.12 && moved < 1.5) return;
+      if (sinceUpdate < 0.12 && moved < 1.5 && !turned && cam.projectionMatrix.equals(lastProjection)) return;
       // The population is static. An idle camera needs no instance-buffer uploads
       // or repeated culling; rotation and projection changes still refresh it.
       if (moved < 0.02 && Math.abs(cam.quaternion.dot(lastRotation)) > 0.999999 && cam.projectionMatrix.equals(lastProjection)) return;
