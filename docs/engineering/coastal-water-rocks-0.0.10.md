@@ -1,0 +1,31 @@
+# Coastal water and rock contact in 0.0.10
+
+The owner reported flat water, polished coastal cliffs, poorly seated stones and difficult ordinary rock travel on 4 October 2026. [A46](../decisions.md) keeps this follow-up within **0.0.10**. It changes Tervain's original procedural surfaces and contacts; no external models, textures, new dependencies or separate Gothic 3 assets are imported.
+
+## Water shape and depth
+
+[`sea.ts`](../../src/presentation/sea.ts) uses three connected swells with 34/18/10 m wavelengths and 0.35/0.21/0.08 m amplitudes, plus a restrained 0.12 harmonic. These wavelengths resolve on the existing High coastal grid. Their conservative combined height envelope is **±0.7168 m**, inside the water pass's existing 1 m crest margin. The coast and stitched horizon geometry remain unchanged: High sea geometry is **37,164 triangles**. Swell displacement damps between 0.04 and 1.8 m mean bed depth, keeping the shallows clear of the bed across phases.
+
+The vertex relief and fragment slope share one wave definition. Surface normals account for the derivative of shoreline damping; unresolved swell normals and fine wind ripples fade with distance. The shared [`waterOptics.ts`](../../src/presentation/waterOptics.ts) converts captured camera-axis depth to distance along the viewing ray before absorption. Metre-based Beer–Lambert transmission attenuates red more quickly than green and blue. Refraction is projected from a bounded world-distance bend rather than a fixed screen offset. Deeper blue-green body colour, restrained reflection distortion and broken shore wash make the shallow-to-deep transition visible. Streams retain their own material controls through the shared optics helper.
+
+No render passes, reflection frequency changes or additional sea triangles are introduced. Wet-triangle visibility bounds use the same wave envelope and damping. World/menu pause, hidden-tab suspension and Reduced Motion retain their existing clock ownership. Shader changes can still affect GPU cost; no reference-PC performance claim is made.
+
+## Natural stone surfaces
+
+The former shore-distance wetness marked elevated lighthouse rock as soaked. [`groundSplat.ts`](../../src/presentation/groundSplat.ts) now limits sea splash wetness by actual height above sea level. The seabed branch also requires submerged ground, including where the raised lighthouse outcrop reaches seaward of the approximate coast. Upper cliffs remain dry while the tidal band and underwater bed stay damp.
+
+[`terrainMaterial.ts`](../../src/presentation/terrainMaterial.ts) gives dry stone 0.98 roughness and damp stone a 0.78 target, with restrained environmental reflection. Fixed world-axis triplanar colour and correctly oriented relief replace the previous normal-dependent projection. Original generated fractures, coarse plates, irregular strata and mineral grain in [`terrainTextures.ts`](../../src/presentation/terrainTextures.ts) and [`buildingTextures.ts`](../../src/presentation/buildingTextures.ts) add weathered stone detail. Relief changes shading, not the terrain height grid or collision surface. Rock face UVs provide real texture coverage on scattered boulders.
+
+## Grounded rocks and travel
+
+[`rockGeometry.ts`](../../src/presentation/rockGeometry.ts) owns the shared seeded fractured shapes and their exact transformed contact buffers. Broader, lower crowns provide usable ledges while large outcrops retain substantial sides. Grounding samples the whole rotated, scaled cut base against the authoritative terrain instead of balancing each stone on its centre sample. Seabed stacks retain their authored raised placement.
+
+Stones at least 0.35 m in nominal size have finite source-triangle contacts and remain visible on every preset. Smaller embedded pebbles remain cosmetic. These are size controls, not the rendered diameter. The current canonical/flora population yields **264 physical rock meshes / 40,420 triangles**, with **124** retained navigation circles and **140** additional finite surfaces that add no NPC fences. [`RealmPhysics`](../../src/world/physics.ts) resolves the player capsule against those triangles and movable cargo. Standing queries use finite upward faces and curved-foot edge support, rather than an infinite blocking circle or the rock's bounding box. Save restoration uses the same support registry and full-capsule clearance against neighbouring rock faces.
+
+The low rock step is bounded at **0.48 m**. A source-supported lift checks the entire raised capsule sweep and overhead clearance; the facet climbing limit is **54°**. Rock lifts also respect finite static overhead planks. This added gate applies to rock support, preserving the authored stair movement contract. Existing authored walk/run speeds, ballistic jump, deep-water limits, graded lighthouse route and architecture contacts remain. This enables ordinary stone steps and jump landings without unrestricted wall climbing or snapping to distant high crowns. The hero's outer root follows physics; authored animation curves remain intact. Exact foot-bone IK is not added.
+
+NPC/navigation routes retain their existing approximate canonical rock circles and identities. Player rock triangles are a deliberate exception to the earlier canonical static-world contact statement; tree and architecture player footprints remain canonical. Cargo also contacts the exact rock triangles. This is not a conversion of every world mesh to a physical surface.
+
+## Verification and publication
+
+Targeted regressions cover elevation-limited shore wetness, deterministic textures, unchanged terrain planes, differentiated wave slopes, shallow-bed clearance, depth absorption, exact transformed rock buffers and base embedding, finite curved-foot support, walking/jump landings at 30/60/120 Hz, save restoration and tall-rock blocking. Final combined checks, native GPU/input review and publication evidence are recorded in the [release record](../production/releases/0.0.10.md). Mathematical and shader-assembly tests alone do not establish visual quality or actual GPU compilation.

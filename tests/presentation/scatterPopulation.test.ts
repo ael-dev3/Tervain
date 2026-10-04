@@ -57,6 +57,10 @@ describe('canonical rock population', () => {
     expect(plans[0]!.rocks.every((rock) => plans[1]!.rocks.includes(rock))).toBe(true);
     expect(plans[1]!.rocks.every((rock) => plans[2]!.rocks.includes(rock))).toBe(true);
     expect(plans[2]!.rocks).toEqual(population);
+    for (const plan of plans) {
+      expect(population.filter(rock => rock.contact).every(rock => plan.rocks.includes(rock))).toBe(true);
+      expect(plan.rocks.filter(rock => rock.contact).map(rock => rock.contact!.id)).toEqual(plans[2]!.rocks.filter(rock => rock.contact).map(rock => rock.contact!.id));
+    }
     const collections = plans.map((plan) => {
       const colliders = new Colliders();
       registerScatterColliders(plan.rocks, colliders);
@@ -64,6 +68,7 @@ describe('canonical rock population', () => {
     });
     for (const colliders of collections) {
       expect(colliders.all).toEqual(collections[2]!.all);
+      expect(colliders.rockMeshes).toEqual(collections[2]!.rockMeshes);
       for (const rock of plans[2]!.obstacles) expect(colliders.blocked(rock.x, rock.z, 0.55)).toBe(true);
     }
   });

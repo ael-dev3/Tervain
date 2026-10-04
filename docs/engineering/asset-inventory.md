@@ -121,3 +121,7 @@ The owner-supplied Meshy pine replaces all ordinary dark conifers, including the
 ## Current animated Wanderer (A45, 0.0.10)
 
 The owner-supplied All Animations GLB supersedes A37's runtime selection. The [current embedded model](../../public/models/hero/weathered-wanderer-animated-hero.glb) uses an under-100k reduction, 66-joint Mixamo skin and all six source clips. Original JPEG PBR payloads and authored curves are retained through a uniform 1.899 m normalization; no texture generation is part of this import. See [provenance](main-hero-animations-assets.json), [current hero record](main-hero.md) and [stride/integration evidence](main-hero-animations-0.0.10.md). The earlier 49,500-triangle binary/record remain historical audit assets and are not loaded by gameplay.
+
+## Original coastal follow-up in 0.0.10
+
+A46 revises original procedural [sea waves](../../src/presentation/sea.ts), [water optics](../../src/presentation/waterOptics.ts), generated stone textures and the shared seeded [rock geometry](../../src/presentation/rockGeometry.ts). Source triangles supply finite player/cargo contacts. No new third-party model, bitmap, dependency or separate Gothic 3 content is copied. Existing shader/source attribution remains in place. See [coastal water and rocks](coastal-water-rocks-0.0.10.md).

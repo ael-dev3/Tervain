@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
-import { buildSea, seaVisibilityBounds, type SeaHandle } from '../../src/presentation/sea';
+import { buildSea, sampleSeaSurface, SEA_MAX_WAVE_HEIGHT, seaVisibilityBounds, type SeaHandle } from '../../src/presentation/sea';
 import { disposeSceneResources } from '../../src/presentation/disposeScene';
 import { sharedNoise } from '../../src/presentation/noiseTextures';
 import { SKY } from '../../src/presentation/skyState';
@@ -167,5 +167,44 @@ describe('coastal sea handle', () => {
     expect(geometryDispose).toHaveBeenCalledTimes(1); expect(materialDispose).toHaveBeenCalledTimes(1);
     for (const dispose of borrowedDisposals) expect(dispose).not.toHaveBeenCalled();
     expect(scene.children).toHaveLength(0);
+  });
+});
+
+describe('resolved sea relief', () => {
+  it('matches independently differentiated surface slopes, including the shoreline attenuation gradient', () => {
+    const epsilon = 0.0001;
+    for (const [x, z, seconds, depth] of [[-291, 27, 0, 0.22], [-302, 80, 3.7, 0.9], [-341, 106, 8.2, 12]]) {
+      const gradient = [-0.16, 0.09] as const;
+      const sample = sampleSeaSurface(x!, z!, seconds!, depth!, gradient);
+      const left = sampleSeaSurface(x! - epsilon, z!, seconds!, depth! - epsilon * gradient[0]);
+      const right = sampleSeaSurface(x! + epsilon, z!, seconds!, depth! + epsilon * gradient[0]);
+      const north = sampleSeaSurface(x!, z! - epsilon, seconds!, depth! - epsilon * gradient[1]);
+      const south = sampleSeaSurface(x!, z! + epsilon, seconds!, depth! + epsilon * gradient[1]);
+      expect(sample.slopeX).toBeCloseTo((right.height - left.height) / (2 * epsilon), 6);
+      expect(sample.slopeZ).toBeCloseTo((south.height - north.height) / (2 * epsilon), 6);
+    }
+  });
+
+  it('keeps every crest/trough inside the visibility margin and above the bed through all shore depths', () => {
+    expect(SEA_MAX_WAVE_HEIGHT).toBeLessThan(0.72);
+    for (const depth of [-3, -0.05, 0, 0.04, 0.08, 0.2, 0.5, 0.85, 1.2, 1.8, 12]) {
+      for (let i = 0; i < 144; i++) {
+        const wave = sampleSeaSurface(-345 + i * 0.73, -76 + i * 0.41, i * 0.317, depth);
+        expect(Math.abs(wave.height)).toBeLessThanOrEqual(SEA_MAX_WAVE_HEIGHT);
+        if (depth <= 0.04) Object.values(wave).forEach(value => expect(Math.abs(value)).toBe(0));
+        else expect(depth + wave.height, 'a receding wave cannot expose an invented trough below its terrain bed').toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it('provides real modest swell relief through a full cycle and smoothly joins the static waterline', () => {
+    const heights = Array.from({ length: 600 }, (_, i) => sampleSeaSurface(-322, 82, i / 30, 4).height);
+    const peakToTrough = Math.max(...heights) - Math.min(...heights);
+    expect(peakToTrough).toBeGreaterThan(0.8);
+    expect(peakToTrough).toBeLessThan(1.44);
+    const shallow = sampleSeaSurface(-322, 82, 2, 0.04001, [-0.2, 0.1]);
+    expect(Math.abs(shallow.height)).toBeLessThan(1e-9);
+    expect(Math.abs(shallow.slopeX)).toBeLessThan(1e-5);
+    expect(Math.abs(shallow.slopeZ)).toBeLessThan(1e-5);
   });
 });

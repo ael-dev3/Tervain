@@ -1,3 +1,4 @@
+import { ROCK_STEP_HEIGHT } from '../world/rockContacts';
 import * as THREE from 'three';
 import { cliffiness, shoreDistance } from '../world/coast';
 import type { Game } from '../game/game';
@@ -252,6 +253,13 @@ export class Player {
     return Math.max(ctx.terrain.supportAt(x, z, feetY), ctx.physics?.supportAt(x, z, feetY) ?? -Infinity);
   }
 
+  /** Source-supported rocks use the modest ledge budget; authored stairs retain their established step height. */
+  private stepHeightAt(x: number, z: number, support: number, ctx: PlayerCtx): number {
+    const rock = ctx.terrain.rockSupportAt?.(x, z, this.y);
+    return rock !== null && rock !== undefined && support > ctx.terrain.groundAt(x, z) + .02 &&
+      Math.abs(rock - support) < .01 ? ROCK_STEP_HEIGHT : STEP_HEIGHT;
+  }
+
   /** A hillside is contact geometry, not a horizontal fence derived from a slope cutoff. */
   private travelAllowed(x: number, z: number, feetY: number, ctx: PlayerCtx): boolean {
     return ctx.terrain.walkable(x, z, Infinity, feetY);
@@ -289,7 +297,7 @@ export class Player {
 
   /** A movable-body slide may not place the player inside an actor or back through static scenery. */
   private contactClear(x: number, y: number, z: number, ctx: PlayerCtx, people: readonly Collider[]): boolean {
-    const bounds = { minY: y + PLAYER_FOOT_CLEARANCE, maxY: y + PLAYER_BODY_HEIGHT };
+    const bounds = { minY: y + PLAYER_FOOT_CLEARANCE, maxY: y + PLAYER_BODY_HEIGHT, excludePrecise: Boolean(ctx.physics) };
     if (ctx.colliders.blocked(x, z, PLAYER_RADIUS, bounds)) return false;
     const clear = ctx.colliders.resolve(x, z, PLAYER_RADIUS, undefined, bounds, people);
     return Math.hypot(clear.x - x, clear.z - z) < 0.001;
@@ -297,15 +305,18 @@ export class Player {
 
   /** Actors can approach a stationary player. Correct those contacts through the same swept scenery constraint. */
   private settleContacts(ctx: PlayerCtx) {
-    const bounds = { minY: this.y + PLAYER_FOOT_CLEARANCE, maxY: this.y + PLAYER_BODY_HEIGHT };
+    const bounds = { minY: this.y + PLAYER_FOOT_CLEARANCE, maxY: this.y + PLAYER_BODY_HEIGHT, excludePrecise: Boolean(ctx.physics) };
     const people = this.contacts(ctx);
     const target = ctx.colliders.resolve(this.x, this.z, PLAYER_RADIUS, undefined, bounds, people);
     if (!target.hit) return;
     const scenerySafe = ctx.colliders.move(this.x, this.z, target.x - this.x, target.z - this.z, PLAYER_RADIUS, undefined, bounds);
     const safe = ctx.physics?.move(this.x, this.y, this.z, scenerySafe.x - this.x, scenerySafe.z - this.z, this.grounded) ?? { ...scenerySafe, y: this.y };
     const ground = this.supportAt(safe.x, safe.z, ctx, safe.y);
-    if (!this.travelAllowed(safe.x, safe.z, safe.y, ctx) || ground - this.y > (this.grounded ? STEP_HEIGHT : 0.18)) return;
-    if (!this.contactClear(safe.x, safe.y, safe.z, ctx, people)) return;
+    if (!this.travelAllowed(safe.x, safe.z, safe.y, ctx) || ground - this.y > (this.grounded ? this.stepHeightAt(safe.x, safe.z, ground, ctx) : 0.18)) return;
+    if (this.grounded && ground > this.y && this.stepHeightAt(safe.x, safe.z, ground, ctx) === ROCK_STEP_HEIGHT &&
+      ctx.colliders.ceilingAt(safe.x, safe.z, PLAYER_RADIUS,
+      this.y + PLAYER_BODY_HEIGHT, ground + PLAYER_BODY_HEIGHT) !== null) return;
+    if (!this.contactClear(safe.x, this.grounded ? Math.max(safe.y, ground) : safe.y, safe.z, ctx, people)) return;
     this.x = safe.x;
     this.z = safe.z;
     if (this.grounded && this.y - ground <= GROUND_FOLLOW_DROP) this.y = ground;
@@ -322,21 +333,25 @@ export class Player {
     let boundaryReported = false;
     const attempt = (mx: number, mz: number) => {
       if (Math.abs(mx) < 1e-8 && Math.abs(mz) < 1e-8) return false;
-      const bounds = { minY: this.y + PLAYER_FOOT_CLEARANCE, maxY: this.y + PLAYER_BODY_HEIGHT };
+      const bounds = { minY: this.y + PLAYER_FOOT_CLEARANCE, maxY: this.y + PLAYER_BODY_HEIGHT, excludePrecise: Boolean(ctx.physics) };
       const result = ctx.colliders.move(this.x, this.z, mx, mz, PLAYER_RADIUS, undefined, bounds, contacts);
       const physical = ctx.physics?.move(this.x, this.y, this.z, result.x - this.x, result.z - this.z, this.grounded) ?? { ...result, y: this.y };
       const nx = physical.x;
       const nz = physical.z;
       const g = this.supportAt(nx, nz, ctx, physical.y);
-      if (!this.travelAllowed(nx, nz, physical.y, ctx) || g - this.y > (this.grounded ? STEP_HEIGHT : 0.18)) {
+      if (!this.travelAllowed(nx, nz, physical.y, ctx) || g - this.y > (this.grounded ? this.stepHeightAt(nx, nz, g, ctx) : 0.18)) {
         if (!boundaryReported && ctx.terrain.valleyRadius(nx, nz) > 1.02) {
           boundaryReported = true;
           ctx.onBoundary();
         }
         return false;
       }
+      // Lifting onto a supported stone must not push the head through an authored deck/ceiling.
+      if (this.grounded && g > this.y && this.stepHeightAt(nx, nz, g, ctx) === ROCK_STEP_HEIGHT &&
+        ctx.colliders.ceilingAt(nx, nz, PLAYER_RADIUS,
+        this.y + PLAYER_BODY_HEIGHT, g + PLAYER_BODY_HEIGHT) !== null) return false;
       // If a crowded doorway cannot satisfy every contact, retain the last scenery-safe position.
-      if (!this.contactClear(nx, physical.y, nz, ctx, contacts)) return false;
+      if (!this.contactClear(nx, this.grounded ? Math.max(physical.y, g) : physical.y, nz, ctx, contacts)) return false;
       this.x = nx;
       this.z = nz;
       if (this.grounded) {

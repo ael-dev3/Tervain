@@ -1,3 +1,6 @@
+import { groundedRockY, rockContactGeometry, SCATTER_SHAPES } from './rockGeometry';
+import type { PhysicalRockGeometry } from '../world/physicsGeometry';
+export { SCATTER_SHAPES } from './rockGeometry';
 import { cliffiness, coastX, shoreDistance } from '../world/coast';
 import type { Colliders } from '../world/colliders';
 import { LIGHTHOUSE } from '../world/layout';
@@ -7,7 +10,6 @@ import type { Quality } from './context';
 import { streamDistance } from './groundSplat';
 import type { Exclusions } from './vegetation';
 
-export const SCATTER_SHAPES = 6;
 
 export interface ScatterRock {
   kind: 'beach' | 'surf' | 'stack' | 'erratic' | 'lighthouse';
@@ -25,6 +27,7 @@ export interface ScatterRock {
   radius: number;
   collisionId: string | null;
   decorationRank: number;
+  contact?: PhysicalRockGeometry;
 }
 
 /** Author rocks once. Neither graphics detail nor decorative geometry can change movement obstacles. */
@@ -47,15 +50,19 @@ export function createScatterPopulation(terrain: Pick<Terrain, 'heightAt' | 'slo
     // decorative pebbles can still gather beneath roots without adding invisible movement obstacles.
     if (radius > 0 && trunks.some((tree) => tree.radius > 0 && Math.hypot(x - tree.x, z - tree.z) < radius + tree.radius + 0.35)) return;
     const decorationRank = mulberry32(Math.imul(Math.round(x * 100), 73856093) ^ Math.imul(Math.round(z * 100), 19349663))();
-    rocks.push({
-      kind, x, z, size,
-      y: terrain.heightAt(x, z) + (options.yOff ?? 0) + size * 0.25 * (1 - options.sink),
+    const rock: ScatterRock = {
+      kind, x, z, size, y: 0,
       squash: options.squash ?? 1,
       ...appearance,
       radius,
       collisionId: radius > 0 ? `rock:${kind}:${x.toFixed(4)}:${z.toFixed(4)}` : null,
       decorationRank,
-    });
+    };
+    rock.y = groundedRockY(rock, (px, pz) => terrain.heightAt(px, pz), size * (.02 + options.sink * .09));
+    // Sea stacks intentionally rise above their seabed; ordinary boulders are grounded native pieces.
+    if (kind === 'stack') rock.y += options.yOff ?? 0;
+    if (size >= .35) rock.contact = rockContactGeometry(rock, rock.collisionId ?? `rock-surface:${kind}:${x.toFixed(4)}:${z.toFixed(4)}`);
+    rocks.push(rock);
   };
 
   // The authored high-detail pebble pass keeps its existing seed stream. Presets thin the result afterward.
@@ -109,13 +116,15 @@ export function createScatterPopulation(terrain: Pick<Terrain, 'heightAt' | 'slo
 export function selectScatterPopulation(population: readonly ScatterRock[], quality: Quality): { rocks: ScatterRock[]; obstacles: ScatterRock[] } {
   const density = quality === 'low' ? 0.55 : quality === 'medium' ? 0.8 : 1;
   return {
-    rocks: population.filter((rock) => rock.radius > 0 || rock.kind === 'stack' || rock.decorationRank < density),
+    rocks: population.filter((rock) => rock.contact || rock.radius > 0 || rock.kind === 'stack' || rock.decorationRank < density),
     obstacles: population.filter((rock) => rock.radius > 0),
   };
 }
 
-export function registerScatterColliders(population: readonly ScatterRock[], colliders: Pick<Colliders, 'circle'>): void {
+export function registerScatterColliders(population: readonly ScatterRock[], colliders: Pick<Colliders, 'circle' | 'registerRockMesh'>): void {
   for (const rock of population) {
-    if (rock.collisionId && rock.radius > 0) colliders.circle(rock.collisionId, rock.x, rock.z, rock.radius);
+    if (rock.contact) colliders.registerRockMesh(rock.contact);
+    if (rock.collisionId && rock.radius > 0) colliders.circle(rock.collisionId, rock.x, rock.z, rock.radius, true, rock.contact
+      ? { minY: rock.contact.bounds.minY, maxY: rock.contact.bounds.maxY, rockMesh: rock.contact } : {});
   }
 }

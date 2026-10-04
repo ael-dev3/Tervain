@@ -266,24 +266,31 @@ function rock(n: number): [Field, number] {
   const f = newField(n);
   const warp = fbmField(n, 3, 3, 3, 401);
   const strata = fbmField(n, 2, 15, 3, 402);
-  const grain = fbmField(n, 64, 64, 3, 403);
+  const grain = fbmField(n, 56, 56, 3, 403);
   const lichenF = fbmField(n, 7, 7, 4, 404);
-  const cr = voronoi(n, 6, 405, 0.9);
-  const cr2 = voronoi(n, 13, 406, 0.9);
+  const cr = voronoi(n, 6, 405, 0.94, 10);
+  const cr2 = voronoi(n, 15, 406, 0.9, 11);
+  const coarse = fbmField(n, 17, 21, 3, 407);
   for (let o = 0; o < n * n; o++) {
-    const band = strata[o]! + (warp[o]! - 0.5) * 0.35;
+    const band = clamp01(strata[o]! + (warp[o]! - 0.5) * 0.35);
     const edge = Math.min(cr.f2[o]! - cr.f1[o]!, (cr2.f2[o]! - cr2.f1[o]!) * 1.4);
-    const crack = 1 - sstep(0.02, 0.08, edge);
-    let c = mixc([0.22, 0.205, 0.185], [0.4, 0.375, 0.34], band);
-    c = mixc(c, [0.3, 0.26, 0.2], sstep(0.55, 0.9, cr2.id[o]!) * 0.35);
-    const g = 0.8 + grain[o]! * 0.4;
+    const fractured = sstep(0.32, 0.68, warp[o]!);
+    const crack = (1 - sstep(0.005, 0.055, edge)) * fractured;
+    const lip = sstep(0.012, 0.036, edge) * (1 - sstep(0.036, 0.095, edge)) * fractured;
+    const plate = sstep(0.27, 0.73, cr.id[o]!);
+    let c = mixc([0.235, 0.215, 0.19], [0.455, 0.425, 0.375], band * 0.55 + plate * 0.28 + coarse[o]! * 0.17);
+    c = mixc(c, [0.335, 0.28, 0.215], sstep(0.55, 0.9, cr2.id[o]!) * 0.3);
+    const g = 0.76 + grain[o]! * 0.36 + coarse[o]! * 0.12;
     c = [c[0] * g, c[1] * g, c[2] * g];
     const lich = sstep(0.64, 0.8, lichenF[o]!) * sstep(0.35, 0.6, grain[o]!);
-    c = mixc(c, [0.3, 0.3, 0.16], lich * 0.4);
-    c = [c[0] * (1 - crack * 0.6), c[1] * (1 - crack * 0.6), c[2] * (1 - crack * 0.6)];
-    set(f, o, c, clamp01(0.4 + band * 0.4 - crack * 0.45 + grain[o]! * 0.15));
+    c = mixc(c, [0.365, 0.365, 0.2], lich * 0.4);
+    const shade = 1 - crack * 0.46 + lip * 0.09;
+    const speck = rnd(o, 408);
+    const mineral = speck > 0.984 ? 1.12 : speck < 0.035 ? 0.79 : 1;
+    c = [c[0] * shade * mineral, c[1] * shade * mineral, c[2] * shade * mineral];
+    set(f, o, c, clamp01(0.24 + band * 0.29 + plate * 0.13 + sstep(0.46, 0.53, band) * 0.045 + coarse[o]! * 0.11 - crack * 0.22 + lip * 0.065 + grain[o]! * 0.14));
   }
-  return [f, 5];
+  return [f, 7];
 }
 
 const MAKERS: Record<TexKey, (n: number) => [Field, number]> = { plaster, timber, planks, stone, cobble, tile, thatch, slate, cloth, bark, rock };
