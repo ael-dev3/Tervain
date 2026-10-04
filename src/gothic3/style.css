@@ -54,6 +54,17 @@ kbd { display: inline-block; padding: 1px 5px; border: 1px solid #b4bda374; bord
 .inspector .row { display: flex; gap: 7px; margin-top: 13px; }
 .inspector .row button { flex: 1; font-size: 11px; padding: 8px; }
 .inspector p { font-size: 11px; line-height: 1.7; color: #bac5b2; }
+#animation-controls { display: grid; grid-template-columns: 1fr auto; gap: 7px; margin-top: 12px; }
+#animation-controls label { grid-column: 1 / -1; font-size: 10px; color: var(--gold); }
+#animation-controls select { min-width: 0; font-size: 10px; }
+#animation-controls button { font-size: 10px; padding: 7px; }
+.catalog-controls { display: flex; gap: 8px; margin: 16px 0; }
+.catalog-controls input { flex: 1; min-width: 0; color: #eee9db; background: #253027; padding: 9px; border: 1px solid #68705c; border-radius: 3px; pointer-events: auto; }
+.catalog-controls select { min-width: 100px; }
+.modal details { border-top: 1px solid #485741; padding: 13px 0; }
+.modal summary { cursor: pointer; color: #e0d3b5; line-height: 1.6; }
+.modal .record-meta { font-size: 10px; color: #a3b399; }
+.modal .dialogue-line { border-left: 2px solid #687b56; padding-left: 12px; }
 .map { position: absolute; right: 28px; bottom: 100px; width: 270px; height: 270px; border: 1px solid #9b9771; background: #14251df2; padding: 13px; pointer-events: auto; }
 .map canvas { width: 100%; height: 100%; }
 .map .map-label { position: absolute; left: 18px; top: 17px; font-size: 10px; color: #d4c28e; letter-spacing: .14em; }
@@ -61,7 +72,7 @@ kbd { display: inline-block; padding: 1px 5px; border: 1px solid #b4bda374; bord
 .hidden { display: none !important; }
 @media (max-width: 1050px) { .masthead { top: 18px; left: 20px; } .toolbar { right: 20px; gap: 4px; } .toolbar button { padding: 7px; } h1 { font-size: 32px; } .toolbar a { display: none; } .bottom { left: 20px; right: 20px; } }
 @media (max-width: 900px) {
-  .inspector { top: auto; bottom: 91px; left: 20px; width: calc(100vw - 40px); padding: 11px; max-height: 146px; overflow: auto; }
+  .inspector { top: auto; bottom: 91px; left: 20px; width: calc(100vw - 40px); padding: 11px; max-height: 224px; overflow: auto; }
   .inspector h2, .inspector .eyebrow, .inspector .source, .inspector p:not(#model-info) { display: none; }
   .inspector .row { margin-top: 7px; }
   .inspector p { font-size: 10px; margin: 7px 0 0; }

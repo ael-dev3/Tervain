@@ -1,0 +1,4298 @@
+{
+  "version": 1,
+  "engineSHA256": "d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3",
+  "originalEnginePath": "00_Original_Runtime/Engine.dll",
+  "manifestSHA256": "9d32e81585203dce8b35dc6b6550b3719caa821f9eb3e4eaea0940b520da930f",
+  "nativeJSONSHA256": "80e274ba176b88d4780937d6794a1bf5d3f8988be76f5ee820c41f697697c97e",
+  "glbSHA256": "ec27fd070dcb50537ff5427a1488f1551cc2037ab32e92fb35a353e1b92cbba5",
+  "runtimeAdapter": "src/gothic3/native-motion.ts",
+  "runtimeAdapterSHA256": "a8f5bcd9e8c2bc8046552380090ec51ccf7404363e01cef69a146c3262139b4d",
+  "packingConstant": {
+    "address": "30822a70",
+    "section": ".rdata",
+    "fileOffset": 8530544,
+    "rawBytes": "00000000c0ffdf40",
+    "double": 32767.0
+  },
+  "decompressionConstant": {
+    "address": "30822a80",
+    "section": ".rdata",
+    "fileOffset": 8530560,
+    "rawBytes": "000000002000003f",
+    "double": 3.0518509447574615e-05
+  },
+  "functions": [
+    {
+      "entry": "300f0090",
+      "end": "300f00f8",
+      "file": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00084.c",
+      "line": 9193,
+      "meaning": "Pack original raw quaternion components using double32767 and CRT truncation into signed16 shorts.",
+      "instructions": [
+        {
+          "line": 251259,
+          "text": "300f0090 | f30f10442404 | MOVSS XMM0,dword ptr [ESP + 0x4]"
+        },
+        {
+          "line": 251260,
+          "text": "300f0096 | 56 | PUSH ESI"
+        },
+        {
+          "line": 251261,
+          "text": "300f0097 | 8bf1 | MOV ESI,ECX"
+        },
+        {
+          "line": 251262,
+          "text": "300f0099 | 33c0 | XOR EAX,EAX"
+        },
+        {
+          "line": 251263,
+          "text": "300f009b | 57 | PUSH EDI"
+        },
+        {
+          "line": 251264,
+          "text": "300f009c | 8b7c2410 | MOV EDI,dword ptr [ESP + 0x10]"
+        },
+        {
+          "line": 251265,
+          "text": "300f00a0 | 668906 | MOV word ptr [ESI],AX"
+        },
+        {
+          "line": 251266,
+          "text": "300f00a3 | 66894602 | MOV word ptr [ESI + 0x2],AX"
+        },
+        {
+          "line": 251267,
+          "text": "300f00a7 | 66894604 | MOV word ptr [ESI + 0x4],AX"
+        },
+        {
+          "line": 251268,
+          "text": "300f00ab | f30f114608 | MOVSS dword ptr [ESI + 0x8],XMM0"
+        },
+        {
+          "line": 251269,
+          "text": "300f00b0 | 66c74606ff7f | MOV word ptr [ESI + 0x6],0x7fff"
+        },
+        {
+          "line": 251270,
+          "text": "300f00b6 | d907 | FLD float ptr [EDI]"
+        },
+        {
+          "line": 251271,
+          "text": "300f00b8 | dd05702a8230 | FLD double ptr [0x30822a70]"
+        },
+        {
+          "line": 251272,
+          "text": "300f00be | dcc9 | FMUL ST1"
+        },
+        {
+          "line": 251273,
+          "text": "300f00c0 | d9c9 | FXCH"
+        },
+        {
+          "line": 251274,
+          "text": "300f00c2 | e8991f5800 | CALL 0x30672060"
+        },
+        {
+          "line": 251275,
+          "text": "300f00c7 | 668906 | MOV word ptr [ESI],AX"
+        },
+        {
+          "line": 251276,
+          "text": "300f00ca | d94704 | FLD float ptr [EDI + 0x4]"
+        },
+        {
+          "line": 251277,
+          "text": "300f00cd | d8c9 | FMUL ST1"
+        },
+        {
+          "line": 251278,
+          "text": "300f00cf | e88c1f5800 | CALL 0x30672060"
+        },
+        {
+          "line": 251279,
+          "text": "300f00d4 | 66894602 | MOV word ptr [ESI + 0x2],AX"
+        },
+        {
+          "line": 251280,
+          "text": "300f00d8 | d94708 | FLD float ptr [EDI + 0x8]"
+        },
+        {
+          "line": 251281,
+          "text": "300f00db | d8c9 | FMUL ST1"
+        },
+        {
+          "line": 251282,
+          "text": "300f00dd | e87e1f5800 | CALL 0x30672060"
+        },
+        {
+          "line": 251283,
+          "text": "300f00e2 | 66894604 | MOV word ptr [ESI + 0x4],AX"
+        },
+        {
+          "line": 251284,
+          "text": "300f00e6 | d84f0c | FMUL float ptr [EDI + 0xc]"
+        },
+        {
+          "line": 251285,
+          "text": "300f00e9 | e8721f5800 | CALL 0x30672060"
+        },
+        {
+          "line": 251286,
+          "text": "300f00ee | 66894606 | MOV word ptr [ESI + 0x6],AX"
+        },
+        {
+          "line": 251287,
+          "text": "300f00f2 | 5f | POP EDI"
+        },
+        {
+          "line": 251288,
+          "text": "300f00f3 | 8bc6 | MOV EAX,ESI"
+        },
+        {
+          "line": 251289,
+          "text": "300f00f5 | 5e | POP ESI"
+        },
+        {
+          "line": 251290,
+          "text": "300f00f6 | c20800 | RET 0x8"
+        }
+      ],
+      "sourceSHA256": "20695c13424880a8d78a291aeb2d37c63fd7573a6c2a240845fb885bd11fa6f5"
+    },
+    {
+      "entry": "30672060",
+      "end": "3067210a",
+      "file": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00168.c",
+      "line": 8581,
+      "meaning": "Truncate floating point to integer; SSE branch explicitly uses CVTTSD2SI, fallback corrects round-to-nearest toward zero.",
+      "instructions": [
+        {
+          "line": 1718598,
+          "text": "30672060 | 833d687eaf3000 | CMP dword ptr [0x30af7e68],0x0"
+        },
+        {
+          "line": 1718599,
+          "text": "30672067 | 742d | JZ 0x30672096"
+        },
+        {
+          "line": 1718600,
+          "text": "30672069 | 55 | PUSH EBP"
+        },
+        {
+          "line": 1718601,
+          "text": "3067206a | 8bec | MOV EBP,ESP"
+        },
+        {
+          "line": 1718602,
+          "text": "3067206c | 83ec08 | SUB ESP,0x8"
+        },
+        {
+          "line": 1718603,
+          "text": "3067206f | 83e4f8 | AND ESP,0xfffffff8"
+        },
+        {
+          "line": 1718604,
+          "text": "30672072 | dd1c24 | FSTP double ptr [ESP]"
+        },
+        {
+          "line": 1718605,
+          "text": "30672075 | f20f2c0424 | CVTTSD2SI EAX,qword ptr [ESP]"
+        },
+        {
+          "line": 1718606,
+          "text": "3067207a | c9 | LEAVE"
+        },
+        {
+          "line": 1718607,
+          "text": "3067207b | c3 | RET"
+        },
+        {
+          "line": 1718609,
+          "text": "30672096 | 55 | PUSH EBP"
+        },
+        {
+          "line": 1718610,
+          "text": "30672097 | 8bec | MOV EBP,ESP"
+        },
+        {
+          "line": 1718611,
+          "text": "30672099 | 83ec20 | SUB ESP,0x20"
+        },
+        {
+          "line": 1718612,
+          "text": "3067209c | 83e4f0 | AND ESP,0xfffffff0"
+        },
+        {
+          "line": 1718613,
+          "text": "3067209f | d9c0 | FLD ST0"
+        },
+        {
+          "line": 1718614,
+          "text": "306720a1 | d9542418 | FST float ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1718615,
+          "text": "306720a5 | df7c2410 | FISTP qword ptr [ESP + 0x10]"
+        },
+        {
+          "line": 1718616,
+          "text": "306720a9 | df6c2410 | FILD qword ptr [ESP + 0x10]"
+        },
+        {
+          "line": 1718617,
+          "text": "306720ad | 8b542418 | MOV EDX,dword ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1718618,
+          "text": "306720b1 | 8b442410 | MOV EAX,dword ptr [ESP + 0x10]"
+        },
+        {
+          "line": 1718619,
+          "text": "306720b5 | 85c0 | TEST EAX,EAX"
+        },
+        {
+          "line": 1718620,
+          "text": "306720b7 | 743c | JZ 0x306720f5"
+        },
+        {
+          "line": 1718622,
+          "text": "306720b9 | dee9 | FSUBP"
+        },
+        {
+          "line": 1718623,
+          "text": "306720bb | 85d2 | TEST EDX,EDX"
+        },
+        {
+          "line": 1718624,
+          "text": "306720bd | 791e | JNS 0x306720dd"
+        },
+        {
+          "line": 1718625,
+          "text": "306720bf | d91c24 | FSTP float ptr [ESP]"
+        },
+        {
+          "line": 1718626,
+          "text": "306720c2 | 8b0c24 | MOV ECX,dword ptr [ESP]"
+        },
+        {
+          "line": 1718627,
+          "text": "306720c5 | 81f100000080 | XOR ECX,0x80000000"
+        },
+        {
+          "line": 1718628,
+          "text": "306720cb | 81c1ffffff7f | ADD ECX,0x7fffffff"
+        },
+        {
+          "line": 1718629,
+          "text": "306720d1 | 83d000 | ADC EAX,0x0"
+        },
+        {
+          "line": 1718630,
+          "text": "306720d4 | 8b542414 | MOV EDX,dword ptr [ESP + 0x14]"
+        },
+        {
+          "line": 1718631,
+          "text": "306720d8 | 83d200 | ADC EDX,0x0"
+        },
+        {
+          "line": 1718632,
+          "text": "306720db | eb2c | JMP 0x30672109"
+        },
+        {
+          "line": 1718634,
+          "text": "306720dd | d91c24 | FSTP float ptr [ESP]"
+        },
+        {
+          "line": 1718635,
+          "text": "306720e0 | 8b0c24 | MOV ECX,dword ptr [ESP]"
+        },
+        {
+          "line": 1718636,
+          "text": "306720e3 | 81c1ffffff7f | ADD ECX,0x7fffffff"
+        },
+        {
+          "line": 1718637,
+          "text": "306720e9 | 83d800 | SBB EAX,0x0"
+        },
+        {
+          "line": 1718638,
+          "text": "306720ec | 8b542414 | MOV EDX,dword ptr [ESP + 0x14]"
+        },
+        {
+          "line": 1718639,
+          "text": "306720f0 | 83da00 | SBB EDX,0x0"
+        },
+        {
+          "line": 1718640,
+          "text": "306720f3 | eb14 | JMP 0x30672109"
+        },
+        {
+          "line": 1718642,
+          "text": "306720f5 | 8b542414 | MOV EDX,dword ptr [ESP + 0x14]"
+        },
+        {
+          "line": 1718643,
+          "text": "306720f9 | f7c2ffffff7f | TEST EDX,0x7fffffff"
+        },
+        {
+          "line": 1718644,
+          "text": "306720ff | 75b8 | JNZ 0x306720b9"
+        },
+        {
+          "line": 1718645,
+          "text": "30672101 | d95c2418 | FSTP float ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1718646,
+          "text": "30672105 | d95c2418 | FSTP float ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1718648,
+          "text": "30672109 | c9 | LEAVE"
+        },
+        {
+          "line": 1718649,
+          "text": "3067210a | c3 | RET"
+        }
+      ],
+      "sourceSHA256": "ecef8a3709916bf17b907182955a619ef9ffaee2291b7a5eeea106d4e13179c8"
+    },
+    {
+      "entry": "3064ebd0",
+      "end": "3064ecab",
+      "file": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00166.c",
+      "line": 17051,
+      "meaning": "Native MotionPart default constructor installs the quaternion-specific LinearQuaternionInterpolator vtable.",
+      "instructions": [
+        {
+          "line": 1679725,
+          "text": "3064ebd0 | 6aff | PUSH -0x1"
+        },
+        {
+          "line": 1679726,
+          "text": "3064ebd2 | 68d8d27230 | PUSH 0x3072d2d8"
+        },
+        {
+          "line": 1679727,
+          "text": "3064ebd7 | 64a100000000 | MOV EAX,FS:[0x0]"
+        },
+        {
+          "line": 1679728,
+          "text": "3064ebdd | 50 | PUSH EAX"
+        },
+        {
+          "line": 1679729,
+          "text": "3064ebde | 51 | PUSH ECX"
+        },
+        {
+          "line": 1679730,
+          "text": "3064ebdf | 53 | PUSH EBX"
+        },
+        {
+          "line": 1679731,
+          "text": "3064ebe0 | 56 | PUSH ESI"
+        },
+        {
+          "line": 1679732,
+          "text": "3064ebe1 | 57 | PUSH EDI"
+        },
+        {
+          "line": 1679733,
+          "text": "3064ebe2 | a1ec43ad30 | MOV EAX,[0x30ad43ec]"
+        },
+        {
+          "line": 1679734,
+          "text": "3064ebe7 | 33c4 | XOR EAX,ESP"
+        },
+        {
+          "line": 1679735,
+          "text": "3064ebe9 | 50 | PUSH EAX"
+        },
+        {
+          "line": 1679736,
+          "text": "3064ebea | 8d442414 | LEA EAX,[ESP + 0x14]"
+        },
+        {
+          "line": 1679737,
+          "text": "3064ebee | 64a300000000 | MOV FS:[0x0],EAX"
+        },
+        {
+          "line": 1679738,
+          "text": "3064ebf4 | 8bf1 | MOV ESI,ECX"
+        },
+        {
+          "line": 1679739,
+          "text": "3064ebf6 | 89742410 | MOV dword ptr [ESP + 0x10],ESI"
+        },
+        {
+          "line": 1679740,
+          "text": "3064ebfa | 33db | XOR EBX,EBX"
+        },
+        {
+          "line": 1679741,
+          "text": "3064ebfc | 53 | PUSH EBX"
+        },
+        {
+          "line": 1679742,
+          "text": "3064ebfd | 53 | PUSH EBX"
+        },
+        {
+          "line": 1679743,
+          "text": "3064ebfe | c7061c1d8230 | MOV dword ptr [ESI],0x30821d1c"
+        },
+        {
+          "line": 1679744,
+          "text": "3064ec04 | 895e04 | MOV dword ptr [ESI + 0x4],EBX"
+        },
+        {
+          "line": 1679745,
+          "text": "3064ec07 | 895e08 | MOV dword ptr [ESI + 0x8],EBX"
+        },
+        {
+          "line": 1679746,
+          "text": "3064ec0a | 895e0c | MOV dword ptr [ESI + 0xc],EBX"
+        },
+        {
+          "line": 1679747,
+          "text": "3064ec0d | e8aed70100 | CALL 0x3066c3c0"
+        },
+        {
+          "line": 1679748,
+          "text": "3064ec12 | 8d7e14 | LEA EDI,[ESI + 0x14]"
+        },
+        {
+          "line": 1679749,
+          "text": "3064ec15 | 53 | PUSH EBX"
+        },
+        {
+          "line": 1679750,
+          "text": "3064ec16 | 8bcf | MOV ECX,EDI"
+        },
+        {
+          "line": 1679751,
+          "text": "3064ec18 | 895c2420 | MOV dword ptr [ESP + 0x20],EBX"
+        },
+        {
+          "line": 1679752,
+          "text": "3064ec1c | e83fe6ffff | CALL 0x3064d260"
+        },
+        {
+          "line": 1679753,
+          "text": "3064ec21 | 0f57c0 | XORPS XMM0,XMM0"
+        },
+        {
+          "line": 1679754,
+          "text": "3064ec24 | f30f100d34848130 | MOVSS XMM1,dword ptr [0x30818434]"
+        },
+        {
+          "line": 1679755,
+          "text": "3064ec2c | c70798068930 | MOV dword ptr [EDI],0x30890698"
+        },
+        {
+          "line": 1679756,
+          "text": "3064ec32 | 895e38 | MOV dword ptr [ESI + 0x38],EBX"
+        },
+        {
+          "line": 1679757,
+          "text": "3064ec35 | 895e3c | MOV dword ptr [ESI + 0x3c],EBX"
+        },
+        {
+          "line": 1679758,
+          "text": "3064ec38 | 895e40 | MOV dword ptr [ESI + 0x40],EBX"
+        },
+        {
+          "line": 1679759,
+          "text": "3064ec3b | 885e52 | MOV byte ptr [ESI + 0x52],BL"
+        },
+        {
+          "line": 1679760,
+          "text": "3064ec3e | f30f114648 | MOVSS dword ptr [ESI + 0x48],XMM0"
+        },
+        {
+          "line": 1679761,
+          "text": "3064ec43 | f30f114e4c | MOVSS dword ptr [ESI + 0x4c],XMM1"
+        },
+        {
+          "line": 1679762,
+          "text": "3064ec48 | 885e51 | MOV byte ptr [ESI + 0x51],BL"
+        },
+        {
+          "line": 1679763,
+          "text": "3064ec4b | b801000000 | MOV EAX,0x1"
+        },
+        {
+          "line": 1679764,
+          "text": "3064ec50 | 894644 | MOV dword ptr [ESI + 0x44],EAX"
+        },
+        {
+          "line": 1679765,
+          "text": "3064ec53 | 884650 | MOV byte ptr [ESI + 0x50],AL"
+        },
+        {
+          "line": 1679766,
+          "text": "3064ec56 | b94c068930 | MOV ECX,0x3089064c"
+        },
+        {
+          "line": 1679767,
+          "text": "3064ec5b | 894e34 | MOV dword ptr [ESI + 0x34],ECX"
+        },
+        {
+          "line": 1679768,
+          "text": "3064ec5e | 895e58 | MOV dword ptr [ESI + 0x58],EBX"
+        },
+        {
+          "line": 1679769,
+          "text": "3064ec61 | 895e5c | MOV dword ptr [ESI + 0x5c],EBX"
+        },
+        {
+          "line": 1679770,
+          "text": "3064ec64 | 895e60 | MOV dword ptr [ESI + 0x60],EBX"
+        },
+        {
+          "line": 1679771,
+          "text": "3064ec67 | 894664 | MOV dword ptr [ESI + 0x64],EAX"
+        },
+        {
+          "line": 1679772,
+          "text": "3064ec6a | 884670 | MOV byte ptr [ESI + 0x70],AL"
+        },
+        {
+          "line": 1679773,
+          "text": "3064ec6d | 885e72 | MOV byte ptr [ESI + 0x72],BL"
+        },
+        {
+          "line": 1679774,
+          "text": "3064ec70 | f30f114668 | MOVSS dword ptr [ESI + 0x68],XMM0"
+        },
+        {
+          "line": 1679775,
+          "text": "3064ec75 | f30f114e6c | MOVSS dword ptr [ESI + 0x6c],XMM1"
+        },
+        {
+          "line": 1679776,
+          "text": "3064ec7a | 885e71 | MOV byte ptr [ESI + 0x71],BL"
+        },
+        {
+          "line": 1679777,
+          "text": "3064ec7d | 894e54 | MOV dword ptr [ESI + 0x54],ECX"
+        },
+        {
+          "line": 1679778,
+          "text": "3064ec80 | f30f114674 | MOVSS dword ptr [ESI + 0x74],XMM0"
+        },
+        {
+          "line": 1679779,
+          "text": "3064ec85 | f30f114678 | MOVSS dword ptr [ESI + 0x78],XMM0"
+        },
+        {
+          "line": 1679780,
+          "text": "3064ec8a | f30f11467c | MOVSS dword ptr [ESI + 0x7c],XMM0"
+        },
+        {
+          "line": 1679781,
+          "text": "3064ec8f | f30f118e80000000 | MOVSS dword ptr [ESI + 0x80],XMM1"
+        },
+        {
+          "line": 1679782,
+          "text": "3064ec97 | 8bc6 | MOV EAX,ESI"
+        },
+        {
+          "line": 1679783,
+          "text": "3064ec99 | 8b4c2414 | MOV ECX,dword ptr [ESP + 0x14]"
+        },
+        {
+          "line": 1679784,
+          "text": "3064ec9d | 64890d00000000 | MOV dword ptr FS:[0x0],ECX"
+        },
+        {
+          "line": 1679785,
+          "text": "3064eca4 | 59 | POP ECX"
+        },
+        {
+          "line": 1679786,
+          "text": "3064eca5 | 5f | POP EDI"
+        },
+        {
+          "line": 1679787,
+          "text": "3064eca6 | 5e | POP ESI"
+        },
+        {
+          "line": 1679788,
+          "text": "3064eca7 | 5b | POP EBX"
+        },
+        {
+          "line": 1679789,
+          "text": "3064eca8 | 83c410 | ADD ESP,0x10"
+        },
+        {
+          "line": 1679790,
+          "text": "3064ecab | c3 | RET"
+        }
+      ],
+      "sourceSHA256": "2430c42aa4eb835fc96b1fdec27751760ac99e30973f5b34db0fb5fb6812ee73"
+    },
+    {
+      "entry": "3064e8d0",
+      "end": "3064e996",
+      "file": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00166.c",
+      "line": 16862,
+      "meaning": "Decode signed16 components with widened float32 reciprocal constant, then call3064e790.",
+      "instructions": [
+        {
+          "line": 1679488,
+          "text": "3064e8d0 | 83ec10 | SUB ESP,0x10"
+        },
+        {
+          "line": 1679489,
+          "text": "3064e8d3 | 8b442414 | MOV EAX,dword ptr [ESP + 0x14]"
+        },
+        {
+          "line": 1679490,
+          "text": "3064e8d7 | 8b490c | MOV ECX,dword ptr [ECX + 0xc]"
+        },
+        {
+          "line": 1679491,
+          "text": "3064e8da | 8d0440 | LEA EAX,[EAX + EAX*0x2]"
+        },
+        {
+          "line": 1679492,
+          "text": "3064e8dd | 0fbf1481 | MOVSX EDX,word ptr [ECX + EAX*0x4]"
+        },
+        {
+          "line": 1679493,
+          "text": "3064e8e1 | 8d0481 | LEA EAX,[ECX + EAX*0x4]"
+        },
+        {
+          "line": 1679494,
+          "text": "3064e8e4 | 8b4c2420 | MOV ECX,dword ptr [ESP + 0x20]"
+        },
+        {
+          "line": 1679495,
+          "text": "3064e8e8 | 89542414 | MOV dword ptr [ESP + 0x14],EDX"
+        },
+        {
+          "line": 1679496,
+          "text": "3064e8ec | 51 | PUSH ECX"
+        },
+        {
+          "line": 1679497,
+          "text": "3064e8ed | db442418 | FILD dword ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1679498,
+          "text": "3064e8f1 | dd05802a8230 | FLD double ptr [0x30822a80]"
+        },
+        {
+          "line": 1679499,
+          "text": "3064e8f7 | dcc9 | FMUL ST1"
+        },
+        {
+          "line": 1679500,
+          "text": "3064e8f9 | d9c9 | FXCH"
+        },
+        {
+          "line": 1679501,
+          "text": "3064e8fb | d919 | FSTP float ptr [ECX]"
+        },
+        {
+          "line": 1679502,
+          "text": "3064e8fd | 0fbf5002 | MOVSX EDX,word ptr [EAX + 0x2]"
+        },
+        {
+          "line": 1679503,
+          "text": "3064e901 | 89542418 | MOV dword ptr [ESP + 0x18],EDX"
+        },
+        {
+          "line": 1679504,
+          "text": "3064e905 | db442418 | FILD dword ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1679505,
+          "text": "3064e909 | d8c9 | FMUL ST1"
+        },
+        {
+          "line": 1679506,
+          "text": "3064e90b | d95904 | FSTP float ptr [ECX + 0x4]"
+        },
+        {
+          "line": 1679507,
+          "text": "3064e90e | 0fbf5004 | MOVSX EDX,word ptr [EAX + 0x4]"
+        },
+        {
+          "line": 1679508,
+          "text": "3064e912 | 89542418 | MOV dword ptr [ESP + 0x18],EDX"
+        },
+        {
+          "line": 1679509,
+          "text": "3064e916 | db442418 | FILD dword ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1679510,
+          "text": "3064e91a | d8c9 | FMUL ST1"
+        },
+        {
+          "line": 1679511,
+          "text": "3064e91c | d95908 | FSTP float ptr [ECX + 0x8]"
+        },
+        {
+          "line": 1679512,
+          "text": "3064e91f | 0fbf5006 | MOVSX EDX,word ptr [EAX + 0x6]"
+        },
+        {
+          "line": 1679513,
+          "text": "3064e923 | 89542418 | MOV dword ptr [ESP + 0x18],EDX"
+        },
+        {
+          "line": 1679514,
+          "text": "3064e927 | db442418 | FILD dword ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1679515,
+          "text": "3064e92b | d8c9 | FMUL ST1"
+        },
+        {
+          "line": 1679516,
+          "text": "3064e92d | d9590c | FSTP float ptr [ECX + 0xc]"
+        },
+        {
+          "line": 1679517,
+          "text": "3064e930 | 0fbf500c | MOVSX EDX,word ptr [EAX + 0xc]"
+        },
+        {
+          "line": 1679518,
+          "text": "3064e934 | 89542418 | MOV dword ptr [ESP + 0x18],EDX"
+        },
+        {
+          "line": 1679519,
+          "text": "3064e938 | 0fbf500e | MOVSX EDX,word ptr [EAX + 0xe]"
+        },
+        {
+          "line": 1679520,
+          "text": "3064e93c | db442418 | FILD dword ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1679521,
+          "text": "3064e940 | 89542418 | MOV dword ptr [ESP + 0x18],EDX"
+        },
+        {
+          "line": 1679522,
+          "text": "3064e944 | 0fbf5010 | MOVSX EDX,word ptr [EAX + 0x10]"
+        },
+        {
+          "line": 1679523,
+          "text": "3064e948 | d8c9 | FMUL ST1"
+        },
+        {
+          "line": 1679524,
+          "text": "3064e94a | 0fbf4012 | MOVSX EAX,word ptr [EAX + 0x12]"
+        },
+        {
+          "line": 1679525,
+          "text": "3064e94e | d95c2404 | FSTP float ptr [ESP + 0x4]"
+        },
+        {
+          "line": 1679526,
+          "text": "3064e952 | db442418 | FILD dword ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1679527,
+          "text": "3064e956 | 89542418 | MOV dword ptr [ESP + 0x18],EDX"
+        },
+        {
+          "line": 1679528,
+          "text": "3064e95a | 8d542404 | LEA EDX,[ESP + 0x4]"
+        },
+        {
+          "line": 1679529,
+          "text": "3064e95e | d8c9 | FMUL ST1"
+        },
+        {
+          "line": 1679530,
+          "text": "3064e960 | d95c2408 | FSTP float ptr [ESP + 0x8]"
+        },
+        {
+          "line": 1679531,
+          "text": "3064e964 | db442418 | FILD dword ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1679532,
+          "text": "3064e968 | 89442418 | MOV dword ptr [ESP + 0x18],EAX"
+        },
+        {
+          "line": 1679533,
+          "text": "3064e96c | d8c9 | FMUL ST1"
+        },
+        {
+          "line": 1679534,
+          "text": "3064e96e | d95c240c | FSTP float ptr [ESP + 0xc]"
+        },
+        {
+          "line": 1679535,
+          "text": "3064e972 | db442418 | FILD dword ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1679536,
+          "text": "3064e976 | dec9 | FMULP"
+        },
+        {
+          "line": 1679537,
+          "text": "3064e978 | d95c2410 | FSTP float ptr [ESP + 0x10]"
+        },
+        {
+          "line": 1679538,
+          "text": "3064e97c | dd44241c | FLD double ptr [ESP + 0x1c]"
+        },
+        {
+          "line": 1679539,
+          "text": "3064e980 | d95c2418 | FSTP float ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1679540,
+          "text": "3064e984 | d9442418 | FLD float ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1679541,
+          "text": "3064e988 | d91c24 | FSTP float ptr [ESP]"
+        },
+        {
+          "line": 1679542,
+          "text": "3064e98b | 52 | PUSH EDX"
+        },
+        {
+          "line": 1679543,
+          "text": "3064e98c | e8fffdffff | CALL 0x3064e790"
+        },
+        {
+          "line": 1679544,
+          "text": "3064e991 | 83c410 | ADD ESP,0x10"
+        },
+        {
+          "line": 1679545,
+          "text": "3064e994 | c21000 | RET 0x10"
+        }
+      ],
+      "sourceSHA256": "2430c42aa4eb835fc96b1fdec27751760ac99e30973f5b34db0fb5fb6812ee73"
+    },
+    {
+      "entry": "3064e790",
+      "end": "3064e869",
+      "file": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00166.c",
+      "line": 16842,
+      "meaning": "Choose shortest quaternion sign by endpoint dot product and blend four components linearly, no slerp.",
+      "instructions": [
+        {
+          "line": 1679408,
+          "text": "3064e790 | 83ec14 | SUB ESP,0x14"
+        },
+        {
+          "line": 1679409,
+          "text": "3064e793 | d944241c | FLD float ptr [ESP + 0x1c]"
+        },
+        {
+          "line": 1679410,
+          "text": "3064e797 | 8b542418 | MOV EDX,dword ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1679411,
+          "text": "3064e79b | d9c0 | FLD ST0"
+        },
+        {
+          "line": 1679412,
+          "text": "3064e79d | d9e8 | FLD1"
+        },
+        {
+          "line": 1679413,
+          "text": "3064e79f | dee1 | FSUBRP"
+        },
+        {
+          "line": 1679414,
+          "text": "3064e7a1 | d95c2410 | FSTP float ptr [ESP + 0x10]"
+        },
+        {
+          "line": 1679415,
+          "text": "3064e7a5 | d94104 | FLD float ptr [ECX + 0x4]"
+        },
+        {
+          "line": 1679416,
+          "text": "3064e7a8 | d95c2408 | FSTP float ptr [ESP + 0x8]"
+        },
+        {
+          "line": 1679417,
+          "text": "3064e7ac | d902 | FLD float ptr [EDX]"
+        },
+        {
+          "line": 1679418,
+          "text": "3064e7ae | d95c2404 | FSTP float ptr [ESP + 0x4]"
+        },
+        {
+          "line": 1679419,
+          "text": "3064e7b2 | d901 | FLD float ptr [ECX]"
+        },
+        {
+          "line": 1679420,
+          "text": "3064e7b4 | d91c24 | FSTP float ptr [ESP]"
+        },
+        {
+          "line": 1679421,
+          "text": "3064e7b7 | d94108 | FLD float ptr [ECX + 0x8]"
+        },
+        {
+          "line": 1679422,
+          "text": "3064e7ba | d95c240c | FSTP float ptr [ESP + 0xc]"
+        },
+        {
+          "line": 1679423,
+          "text": "3064e7be | d9410c | FLD float ptr [ECX + 0xc]"
+        },
+        {
+          "line": 1679424,
+          "text": "3064e7c1 | d95c2418 | FSTP float ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1679425,
+          "text": "3064e7c5 | d90424 | FLD float ptr [ESP]"
+        },
+        {
+          "line": 1679426,
+          "text": "3064e7c8 | d9c0 | FLD ST0"
+        },
+        {
+          "line": 1679427,
+          "text": "3064e7ca | d9442404 | FLD float ptr [ESP + 0x4]"
+        },
+        {
+          "line": 1679428,
+          "text": "3064e7ce | d9c0 | FLD ST0"
+        },
+        {
+          "line": 1679429,
+          "text": "3064e7d0 | deca | FMULP ST2"
+        },
+        {
+          "line": 1679430,
+          "text": "3064e7d2 | d94204 | FLD float ptr [EDX + 0x4]"
+        },
+        {
+          "line": 1679431,
+          "text": "3064e7d5 | d9442408 | FLD float ptr [ESP + 0x8]"
+        },
+        {
+          "line": 1679432,
+          "text": "3064e7d9 | d9c0 | FLD ST0"
+        },
+        {
+          "line": 1679433,
+          "text": "3064e7db | deca | FMULP ST2"
+        },
+        {
+          "line": 1679434,
+          "text": "3064e7dd | d9cb | FXCH ST3"
+        },
+        {
+          "line": 1679435,
+          "text": "3064e7df | dec1 | FADDP"
+        },
+        {
+          "line": 1679436,
+          "text": "3064e7e1 | d94208 | FLD float ptr [EDX + 0x8]"
+        },
+        {
+          "line": 1679437,
+          "text": "3064e7e4 | d944240c | FLD float ptr [ESP + 0xc]"
+        },
+        {
+          "line": 1679438,
+          "text": "3064e7e8 | d9c0 | FLD ST0"
+        },
+        {
+          "line": 1679439,
+          "text": "3064e7ea | deca | FMULP ST2"
+        },
+        {
+          "line": 1679440,
+          "text": "3064e7ec | d9ca | FXCH ST2"
+        },
+        {
+          "line": 1679441,
+          "text": "3064e7ee | dec1 | FADDP"
+        },
+        {
+          "line": 1679442,
+          "text": "3064e7f0 | d9442418 | FLD float ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1679443,
+          "text": "3064e7f4 | d84a0c | FMUL float ptr [EDX + 0xc]"
+        },
+        {
+          "line": 1679444,
+          "text": "3064e7f7 | dec1 | FADDP"
+        },
+        {
+          "line": 1679445,
+          "text": "3064e7f9 | d95c240c | FSTP float ptr [ESP + 0xc]"
+        },
+        {
+          "line": 1679446,
+          "text": "3064e7fd | d944240c | FLD float ptr [ESP + 0xc]"
+        },
+        {
+          "line": 1679447,
+          "text": "3064e801 | d9ee | FLDZ"
+        },
+        {
+          "line": 1679448,
+          "text": "3064e803 | dff1 | FCOMIP ST0,ST1"
+        },
+        {
+          "line": 1679449,
+          "text": "3064e805 | ddd8 | FSTP ST0"
+        },
+        {
+          "line": 1679450,
+          "text": "3064e807 | 761c | JBE 0x3064e825"
+        },
+        {
+          "line": 1679451,
+          "text": "3064e809 | f30f10057cf98130 | MOVSS XMM0,dword ptr [0x3081f97c]"
+        },
+        {
+          "line": 1679452,
+          "text": "3064e811 | dddc | FSTP ST4"
+        },
+        {
+          "line": 1679453,
+          "text": "3064e813 | f30f5c44241c | SUBSS XMM0,dword ptr [ESP + 0x1c]"
+        },
+        {
+          "line": 1679454,
+          "text": "3064e819 | f30f1144241c | MOVSS dword ptr [ESP + 0x1c],XMM0"
+        },
+        {
+          "line": 1679455,
+          "text": "3064e81f | d944241c | FLD float ptr [ESP + 0x1c]"
+        },
+        {
+          "line": 1679456,
+          "text": "3064e823 | d9cc | FXCH ST4"
+        },
+        {
+          "line": 1679458,
+          "text": "3064e825 | d9442410 | FLD float ptr [ESP + 0x10]"
+        },
+        {
+          "line": 1679459,
+          "text": "3064e829 | d9c0 | FLD ST0"
+        },
+        {
+          "line": 1679460,
+          "text": "3064e82b | decd | FMULP ST5"
+        },
+        {
+          "line": 1679461,
+          "text": "3064e82d | d9c5 | FLD ST5"
+        },
+        {
+          "line": 1679462,
+          "text": "3064e82f | decb | FMULP ST3"
+        },
+        {
+          "line": 1679463,
+          "text": "3064e831 | d9cc | FXCH ST4"
+        },
+        {
+          "line": 1679464,
+          "text": "3064e833 | dec2 | FADDP ST2,ST0"
+        },
+        {
+          "line": 1679465,
+          "text": "3064e835 | d9c9 | FXCH"
+        },
+        {
+          "line": 1679466,
+          "text": "3064e837 | d919 | FSTP float ptr [ECX]"
+        },
+        {
+          "line": 1679467,
+          "text": "3064e839 | d94204 | FLD float ptr [EDX + 0x4]"
+        },
+        {
+          "line": 1679468,
+          "text": "3064e83c | d8cc | FMUL ST4"
+        },
+        {
+          "line": 1679469,
+          "text": "3064e83e | d9c3 | FLD ST3"
+        },
+        {
+          "line": 1679470,
+          "text": "3064e840 | decb | FMULP ST3"
+        },
+        {
+          "line": 1679471,
+          "text": "3064e842 | dec2 | FADDP ST2,ST0"
+        },
+        {
+          "line": 1679472,
+          "text": "3064e844 | d9c9 | FXCH"
+        },
+        {
+          "line": 1679473,
+          "text": "3064e846 | d95904 | FSTP float ptr [ECX + 0x4]"
+        },
+        {
+          "line": 1679474,
+          "text": "3064e849 | d94208 | FLD float ptr [EDX + 0x8]"
+        },
+        {
+          "line": 1679475,
+          "text": "3064e84c | d8cb | FMUL ST3"
+        },
+        {
+          "line": 1679476,
+          "text": "3064e84e | d9c2 | FLD ST2"
+        },
+        {
+          "line": 1679477,
+          "text": "3064e850 | deca | FMULP ST2"
+        },
+        {
+          "line": 1679478,
+          "text": "3064e852 | dec1 | FADDP"
+        },
+        {
+          "line": 1679479,
+          "text": "3064e854 | d95908 | FSTP float ptr [ECX + 0x8]"
+        },
+        {
+          "line": 1679480,
+          "text": "3064e857 | d84c2418 | FMUL float ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1679481,
+          "text": "3064e85b | d9420c | FLD float ptr [EDX + 0xc]"
+        },
+        {
+          "line": 1679482,
+          "text": "3064e85e | deca | FMULP ST2"
+        },
+        {
+          "line": 1679483,
+          "text": "3064e860 | dec1 | FADDP"
+        },
+        {
+          "line": 1679484,
+          "text": "3064e862 | d9590c | FSTP float ptr [ECX + 0xc]"
+        },
+        {
+          "line": 1679485,
+          "text": "3064e865 | 83c414 | ADD ESP,0x14"
+        },
+        {
+          "line": 1679486,
+          "text": "3064e868 | c20800 | RET 0x8"
+        }
+      ],
+      "sourceSHA256": "2430c42aa4eb835fc96b1fdec27751760ac99e30973f5b34db0fb5fb6812ee73"
+    },
+    {
+      "entry": "30663630",
+      "end": "30663c60",
+      "file": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00167.c",
+      "line": 15182,
+      "meaning": "Motion-layer blend obtains part pose, blends with underlying/bind pose using30663190, calls30663330 normalization.",
+      "instructions": [
+        {
+          "line": 1702195,
+          "text": "30663630 | 81ec90000000 | SUB ESP,0x90"
+        },
+        {
+          "line": 1702196,
+          "text": "30663636 | 0f57c0 | XORPS XMM0,XMM0"
+        },
+        {
+          "line": 1702197,
+          "text": "30663639 | f30f100d34848130 | MOVSS XMM1,dword ptr [0x30818434]"
+        },
+        {
+          "line": 1702198,
+          "text": "30663641 | 53 | PUSH EBX"
+        },
+        {
+          "line": 1702199,
+          "text": "30663642 | 56 | PUSH ESI"
+        },
+        {
+          "line": 1702200,
+          "text": "30663643 | 8bb4249c000000 | MOV ESI,dword ptr [ESP + 0x9c]"
+        },
+        {
+          "line": 1702201,
+          "text": "3066364a | 8b8678010000 | MOV EAX,dword ptr [ESI + 0x178]"
+        },
+        {
+          "line": 1702202,
+          "text": "30663650 | 57 | PUSH EDI"
+        },
+        {
+          "line": 1702203,
+          "text": "30663651 | 8bf9 | MOV EDI,ECX"
+        },
+        {
+          "line": 1702204,
+          "text": "30663653 | 8b4f08 | MOV ECX,dword ptr [EDI + 0x8]"
+        },
+        {
+          "line": 1702205,
+          "text": "30663656 | 8d5c241c | LEA EBX,[ESP + 0x1c]"
+        },
+        {
+          "line": 1702206,
+          "text": "3066365a | f30f1144241c | MOVSS dword ptr [ESP + 0x1c],XMM0"
+        },
+        {
+          "line": 1702207,
+          "text": "30663660 | f30f11442420 | MOVSS dword ptr [ESP + 0x20],XMM0"
+        },
+        {
+          "line": 1702208,
+          "text": "30663666 | f30f11442424 | MOVSS dword ptr [ESP + 0x24],XMM0"
+        },
+        {
+          "line": 1702209,
+          "text": "3066366c | f30f114c2428 | MOVSS dword ptr [ESP + 0x28],XMM1"
+        },
+        {
+          "line": 1702210,
+          "text": "30663672 | f30f11442444 | MOVSS dword ptr [ESP + 0x44],XMM0"
+        },
+        {
+          "line": 1702211,
+          "text": "30663678 | f30f11442448 | MOVSS dword ptr [ESP + 0x48],XMM0"
+        },
+        {
+          "line": 1702212,
+          "text": "3066367e | f30f1144244c | MOVSS dword ptr [ESP + 0x4c],XMM0"
+        },
+        {
+          "line": 1702213,
+          "text": "30663684 | f30f114c2450 | MOVSS dword ptr [ESP + 0x50],XMM1"
+        },
+        {
+          "line": 1702214,
+          "text": "3066368a | 8b11 | MOV EDX,dword ptr [ECX]"
+        },
+        {
+          "line": 1702215,
+          "text": "3066368c | 53 | PUSH EBX"
+        },
+        {
+          "line": 1702216,
+          "text": "3066368d | 50 | PUSH EAX"
+        },
+        {
+          "line": 1702217,
+          "text": "3066368e | 8b420c | MOV EAX,dword ptr [EDX + 0xc]"
+        },
+        {
+          "line": 1702218,
+          "text": "30663691 | ffd0 | CALL EAX"
+        },
+        {
+          "line": 1702219,
+          "text": "30663693 | 8ad8 | MOV BL,AL"
+        },
+        {
+          "line": 1702220,
+          "text": "30663695 | 84db | TEST BL,BL"
+        },
+        {
+          "line": 1702221,
+          "text": "30663697 | 0f85b2000000 | JNZ 0x3066374f"
+        },
+        {
+          "line": 1702222,
+          "text": "3066369d | 8b4f08 | MOV ECX,dword ptr [EDI + 0x8]"
+        },
+        {
+          "line": 1702223,
+          "text": "306636a0 | 384157 | CMP byte ptr [ECX + 0x57],AL"
+        },
+        {
+          "line": 1702224,
+          "text": "306636a3 | 0f85b8000000 | JNZ 0x30663761"
+        },
+        {
+          "line": 1702225,
+          "text": "306636a9 | 8b11 | MOV EDX,dword ptr [ECX]"
+        },
+        {
+          "line": 1702226,
+          "text": "306636ab | 8b4218 | MOV EAX,dword ptr [EDX + 0x18]"
+        },
+        {
+          "line": 1702227,
+          "text": "306636ae | ffd0 | CALL EAX"
+        },
+        {
+          "line": 1702228,
+          "text": "306636b0 | 8b10 | MOV EDX,dword ptr [EAX]"
+        },
+        {
+          "line": 1702229,
+          "text": "306636b2 | 8bc8 | MOV ECX,EAX"
+        },
+        {
+          "line": 1702230,
+          "text": "306636b4 | 8b4210 | MOV EAX,dword ptr [EDX + 0x10]"
+        },
+        {
+          "line": 1702231,
+          "text": "306636b7 | ffd0 | CALL EAX"
+        },
+        {
+          "line": 1702232,
+          "text": "306636b9 | 84c0 | TEST AL,AL"
+        },
+        {
+          "line": 1702233,
+          "text": "306636bb | 0f84a0000000 | JZ 0x30663761"
+        },
+        {
+          "line": 1702234,
+          "text": "306636c1 | f30f108608010000 | MOVSS XMM0,dword ptr [ESI + 0x108]"
+        },
+        {
+          "line": 1702235,
+          "text": "306636c9 | f30f1144242c | MOVSS dword ptr [ESP + 0x2c],XMM0"
+        },
+        {
+          "line": 1702236,
+          "text": "306636cf | f30f10860c010000 | MOVSS XMM0,dword ptr [ESI + 0x10c]"
+        },
+        {
+          "line": 1702237,
+          "text": "306636d7 | f30f11442430 | MOVSS dword ptr [ESP + 0x30],XMM0"
+        },
+        {
+          "line": 1702238,
+          "text": "306636dd | f30f108610010000 | MOVSS XMM0,dword ptr [ESI + 0x110]"
+        },
+        {
+          "line": 1702239,
+          "text": "306636e5 | f30f11442434 | MOVSS dword ptr [ESP + 0x34],XMM0"
+        },
+        {
+          "line": 1702240,
+          "text": "306636eb | f30f1086c4000000 | MOVSS XMM0,dword ptr [ESI + 0xc4]"
+        },
+        {
+          "line": 1702241,
+          "text": "306636f3 | f30f1144241c | MOVSS dword ptr [ESP + 0x1c],XMM0"
+        },
+        {
+          "line": 1702242,
+          "text": "306636f9 | f30f1086c8000000 | MOVSS XMM0,dword ptr [ESI + 0xc8]"
+        },
+        {
+          "line": 1702243,
+          "text": "30663701 | f30f11442420 | MOVSS dword ptr [ESP + 0x20],XMM0"
+        },
+        {
+          "line": 1702244,
+          "text": "30663707 | f30f1086cc000000 | MOVSS XMM0,dword ptr [ESI + 0xcc]"
+        },
+        {
+          "line": 1702245,
+          "text": "3066370f | f30f11442424 | MOVSS dword ptr [ESP + 0x24],XMM0"
+        },
+        {
+          "line": 1702246,
+          "text": "30663715 | f30f1086d0000000 | MOVSS XMM0,dword ptr [ESI + 0xd0]"
+        },
+        {
+          "line": 1702247,
+          "text": "3066371d | f30f11442428 | MOVSS dword ptr [ESP + 0x28],XMM0"
+        },
+        {
+          "line": 1702248,
+          "text": "30663723 | f30f108614010000 | MOVSS XMM0,dword ptr [ESI + 0x114]"
+        },
+        {
+          "line": 1702249,
+          "text": "3066372b | f30f11442438 | MOVSS dword ptr [ESP + 0x38],XMM0"
+        },
+        {
+          "line": 1702250,
+          "text": "30663731 | f30f108618010000 | MOVSS XMM0,dword ptr [ESI + 0x118]"
+        },
+        {
+          "line": 1702251,
+          "text": "30663739 | f30f1144243c | MOVSS dword ptr [ESP + 0x3c],XMM0"
+        },
+        {
+          "line": 1702252,
+          "text": "3066373f | f30f10861c010000 | MOVSS XMM0,dword ptr [ESI + 0x11c]"
+        },
+        {
+          "line": 1702253,
+          "text": "30663747 | f30f11442440 | MOVSS dword ptr [ESP + 0x40],XMM0"
+        },
+        {
+          "line": 1702254,
+          "text": "3066374d | b301 | MOV BL,0x1"
+        },
+        {
+          "line": 1702256,
+          "text": "3066374f | 8b4f08 | MOV ECX,dword ptr [EDI + 0x8]"
+        },
+        {
+          "line": 1702257,
+          "text": "30663752 | 56 | PUSH ESI"
+        },
+        {
+          "line": 1702258,
+          "text": "30663753 | 51 | PUSH ECX"
+        },
+        {
+          "line": 1702259,
+          "text": "30663754 | 8b4f04 | MOV ECX,dword ptr [EDI + 0x4]"
+        },
+        {
+          "line": 1702260,
+          "text": "30663757 | 8d542424 | LEA EDX,[ESP + 0x24]"
+        },
+        {
+          "line": 1702261,
+          "text": "3066375b | 52 | PUSH EDX"
+        },
+        {
+          "line": 1702262,
+          "text": "3066375c | e86f080000 | CALL 0x30663fd0"
+        },
+        {
+          "line": 1702264,
+          "text": "30663761 | 8b4f10 | MOV ECX,dword ptr [EDI + 0x10]"
+        },
+        {
+          "line": 1702265,
+          "text": "30663764 | 85c9 | TEST ECX,ECX"
+        },
+        {
+          "line": 1702266,
+          "text": "30663766 | 7410 | JZ 0x30663778"
+        },
+        {
+          "line": 1702267,
+          "text": "30663768 | 8d442444 | LEA EAX,[ESP + 0x44]"
+        },
+        {
+          "line": 1702268,
+          "text": "3066376c | 50 | PUSH EAX"
+        },
+        {
+          "line": 1702269,
+          "text": "3066376d | 56 | PUSH ESI"
+        },
+        {
+          "line": 1702270,
+          "text": "3066376e | e8bdfeffff | CALL 0x30663630"
+        },
+        {
+          "line": 1702271,
+          "text": "30663773 | e98e000000 | JMP 0x30663806"
+        },
+        {
+          "line": 1702273,
+          "text": "30663778 | f30f108608010000 | MOVSS XMM0,dword ptr [ESI + 0x108]"
+        },
+        {
+          "line": 1702274,
+          "text": "30663780 | f30f11442454 | MOVSS dword ptr [ESP + 0x54],XMM0"
+        },
+        {
+          "line": 1702275,
+          "text": "30663786 | f30f10860c010000 | MOVSS XMM0,dword ptr [ESI + 0x10c]"
+        },
+        {
+          "line": 1702276,
+          "text": "3066378e | f30f11442458 | MOVSS dword ptr [ESP + 0x58],XMM0"
+        },
+        {
+          "line": 1702277,
+          "text": "30663794 | f30f108610010000 | MOVSS XMM0,dword ptr [ESI + 0x110]"
+        },
+        {
+          "line": 1702278,
+          "text": "3066379c | f30f1144245c | MOVSS dword ptr [ESP + 0x5c],XMM0"
+        },
+        {
+          "line": 1702279,
+          "text": "306637a2 | f30f1086c4000000 | MOVSS XMM0,dword ptr [ESI + 0xc4]"
+        },
+        {
+          "line": 1702280,
+          "text": "306637aa | f30f11442444 | MOVSS dword ptr [ESP + 0x44],XMM0"
+        },
+        {
+          "line": 1702281,
+          "text": "306637b0 | f30f1086c8000000 | MOVSS XMM0,dword ptr [ESI + 0xc8]"
+        },
+        {
+          "line": 1702282,
+          "text": "306637b8 | f30f11442448 | MOVSS dword ptr [ESP + 0x48],XMM0"
+        },
+        {
+          "line": 1702283,
+          "text": "306637be | f30f1086cc000000 | MOVSS XMM0,dword ptr [ESI + 0xcc]"
+        },
+        {
+          "line": 1702284,
+          "text": "306637c6 | f30f1144244c | MOVSS dword ptr [ESP + 0x4c],XMM0"
+        },
+        {
+          "line": 1702285,
+          "text": "306637cc | f30f1086d0000000 | MOVSS XMM0,dword ptr [ESI + 0xd0]"
+        },
+        {
+          "line": 1702286,
+          "text": "306637d4 | f30f11442450 | MOVSS dword ptr [ESP + 0x50],XMM0"
+        },
+        {
+          "line": 1702287,
+          "text": "306637da | f30f108614010000 | MOVSS XMM0,dword ptr [ESI + 0x114]"
+        },
+        {
+          "line": 1702288,
+          "text": "306637e2 | f30f11442460 | MOVSS dword ptr [ESP + 0x60],XMM0"
+        },
+        {
+          "line": 1702289,
+          "text": "306637e8 | f30f108618010000 | MOVSS XMM0,dword ptr [ESI + 0x118]"
+        },
+        {
+          "line": 1702290,
+          "text": "306637f0 | f30f11442464 | MOVSS dword ptr [ESP + 0x64],XMM0"
+        },
+        {
+          "line": 1702291,
+          "text": "306637f6 | f30f10861c010000 | MOVSS XMM0,dword ptr [ESI + 0x11c]"
+        },
+        {
+          "line": 1702292,
+          "text": "306637fe | f30f11442468 | MOVSS dword ptr [ESP + 0x68],XMM0"
+        },
+        {
+          "line": 1702293,
+          "text": "30663804 | b001 | MOV AL,0x1"
+        },
+        {
+          "line": 1702295,
+          "text": "30663806 | 84db | TEST BL,BL"
+        },
+        {
+          "line": 1702296,
+          "text": "30663808 | 7514 | JNZ 0x3066381e"
+        },
+        {
+          "line": 1702297,
+          "text": "3066380a | 84c0 | TEST AL,AL"
+        },
+        {
+          "line": 1702298,
+          "text": "3066380c | 0f85da030000 | JNZ 0x30663bec"
+        },
+        {
+          "line": 1702299,
+          "text": "30663812 | 5f | POP EDI"
+        },
+        {
+          "line": 1702300,
+          "text": "30663813 | 5e | POP ESI"
+        },
+        {
+          "line": 1702301,
+          "text": "30663814 | 5b | POP EBX"
+        },
+        {
+          "line": 1702302,
+          "text": "30663815 | 81c490000000 | ADD ESP,0x90"
+        },
+        {
+          "line": 1702303,
+          "text": "3066381b | c20800 | RET 0x8"
+        },
+        {
+          "line": 1702305,
+          "text": "3066381e | 84c0 | TEST AL,AL"
+        },
+        {
+          "line": 1702306,
+          "text": "30663820 | 0f8444030000 | JZ 0x30663b6a"
+        },
+        {
+          "line": 1702307,
+          "text": "30663826 | 837f1000 | CMP dword ptr [EDI + 0x10],0x0"
+        },
+        {
+          "line": 1702308,
+          "text": "3066382a | 8b4708 | MOV EAX,dword ptr [EDI + 0x8]"
+        },
+        {
+          "line": 1702309,
+          "text": "3066382d | f30f104028 | MOVSS XMM0,dword ptr [EAX + 0x28]"
+        },
+        {
+          "line": 1702310,
+          "text": "30663832 | f30f1144240c | MOVSS dword ptr [ESP + 0xc],XMM0"
+        },
+        {
+          "line": 1702311,
+          "text": "30663838 | 0f84d0010000 | JZ 0x30663a0e"
+        },
+        {
+          "line": 1702312,
+          "text": "3066383e | 83784c01 | CMP dword ptr [EAX + 0x4c],0x1"
+        },
+        {
+          "line": 1702313,
+          "text": "30663842 | 0f85c6010000 | JNZ 0x30663a0e"
+        },
+        {
+          "line": 1702314,
+          "text": "30663848 | d944242c | FLD float ptr [ESP + 0x2c]"
+        },
+        {
+          "line": 1702315,
+          "text": "3066384c | 51 | PUSH ECX"
+        },
+        {
+          "line": 1702316,
+          "text": "3066384d | d8a608010000 | FSUB float ptr [ESI + 0x108]"
+        },
+        {
+          "line": 1702317,
+          "text": "30663853 | 8d4c2420 | LEA ECX,[ESP + 0x20]"
+        },
+        {
+          "line": 1702318,
+          "text": "30663857 | 8d942490000000 | LEA EDX,[ESP + 0x90]"
+        },
+        {
+          "line": 1702319,
+          "text": "3066385e | 81c6c4000000 | ADD ESI,0xc4"
+        },
+        {
+          "line": 1702320,
+          "text": "30663864 | d95c2470 | FSTP float ptr [ESP + 0x70]"
+        },
+        {
+          "line": 1702321,
+          "text": "30663868 | d9442434 | FLD float ptr [ESP + 0x34]"
+        },
+        {
+          "line": 1702322,
+          "text": "3066386c | d86648 | FSUB float ptr [ESI + 0x48]"
+        },
+        {
+          "line": 1702323,
+          "text": "3066386f | d95c2474 | FSTP float ptr [ESP + 0x74]"
+        },
+        {
+          "line": 1702324,
+          "text": "30663873 | d9442438 | FLD float ptr [ESP + 0x38]"
+        },
+        {
+          "line": 1702325,
+          "text": "30663877 | d8664c | FSUB float ptr [ESI + 0x4c]"
+        },
+        {
+          "line": 1702326,
+          "text": "3066387a | d95c2478 | FSTP float ptr [ESP + 0x78]"
+        },
+        {
+          "line": 1702327,
+          "text": "3066387e | d944243c | FLD float ptr [ESP + 0x3c]"
+        },
+        {
+          "line": 1702328,
+          "text": "30663882 | d86650 | FSUB float ptr [ESI + 0x50]"
+        },
+        {
+          "line": 1702329,
+          "text": "30663885 | d95c2414 | FSTP float ptr [ESP + 0x14]"
+        },
+        {
+          "line": 1702330,
+          "text": "30663889 | d9442440 | FLD float ptr [ESP + 0x40]"
+        },
+        {
+          "line": 1702331,
+          "text": "3066388d | d86654 | FSUB float ptr [ESI + 0x54]"
+        },
+        {
+          "line": 1702332,
+          "text": "30663890 | d95c2418 | FSTP float ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1702333,
+          "text": "30663894 | d9442444 | FLD float ptr [ESP + 0x44]"
+        },
+        {
+          "line": 1702334,
+          "text": "30663898 | d86658 | FSUB float ptr [ESI + 0x58]"
+        },
+        {
+          "line": 1702335,
+          "text": "3066389b | d95c241c | FSTP float ptr [ESP + 0x1c]"
+        },
+        {
+          "line": 1702336,
+          "text": "3066389f | d9442410 | FLD float ptr [ESP + 0x10]"
+        },
+        {
+          "line": 1702337,
+          "text": "306638a3 | d91c24 | FSTP float ptr [ESP]"
+        },
+        {
+          "line": 1702338,
+          "text": "306638a6 | 51 | PUSH ECX"
+        },
+        {
+          "line": 1702339,
+          "text": "306638a7 | 52 | PUSH EDX"
+        },
+        {
+          "line": 1702340,
+          "text": "306638a8 | 8bce | MOV ECX,ESI"
+        },
+        {
+          "line": 1702341,
+          "text": "306638aa | e8e1f8ffff | CALL 0x30663190"
+        },
+        {
+          "line": 1702342,
+          "text": "306638af | 8bc8 | MOV ECX,EAX"
+        },
+        {
+          "line": 1702343,
+          "text": "306638b1 | e87afaffff | CALL 0x30663330"
+        },
+        {
+          "line": 1702344,
+          "text": "306638b6 | f30f1000 | MOVSS XMM0,dword ptr [EAX]"
+        },
+        {
+          "line": 1702345,
+          "text": "306638ba | f30f1144247c | MOVSS dword ptr [ESP + 0x7c],XMM0"
+        },
+        {
+          "line": 1702346,
+          "text": "306638c0 | f30f104004 | MOVSS XMM0,dword ptr [EAX + 0x4]"
+        },
+        {
+          "line": 1702347,
+          "text": "306638c5 | f30f11842480000000 | MOVSS dword ptr [ESP + 0x80],XMM0"
+        },
+        {
+          "line": 1702348,
+          "text": "306638ce | f30f104008 | MOVSS XMM0,dword ptr [EAX + 0x8]"
+        },
+        {
+          "line": 1702349,
+          "text": "306638d3 | f30f11842484000000 | MOVSS dword ptr [ESP + 0x84],XMM0"
+        },
+        {
+          "line": 1702350,
+          "text": "306638dc | f30f10400c | MOVSS XMM0,dword ptr [EAX + 0xc]"
+        },
+        {
+          "line": 1702351,
+          "text": "306638e1 | 8d84248c000000 | LEA EAX,[ESP + 0x8c]"
+        },
+        {
+          "line": 1702352,
+          "text": "306638e8 | 50 | PUSH EAX"
+        },
+        {
+          "line": 1702353,
+          "text": "306638e9 | 8bce | MOV ECX,ESI"
+        },
+        {
+          "line": 1702354,
+          "text": "306638eb | f30f1184248c000000 | MOVSS dword ptr [ESP + 0x8c],XMM0"
+        },
+        {
+          "line": 1702355,
+          "text": "306638f4 | e8f7faffff | CALL 0x306633f0"
+        },
+        {
+          "line": 1702356,
+          "text": "306638f9 | d944246c | FLD float ptr [ESP + 0x6c]"
+        },
+        {
+          "line": 1702357,
+          "text": "306638fd | d944240c | FLD float ptr [ESP + 0xc]"
+        },
+        {
+          "line": 1702358,
+          "text": "30663901 | 8bb424a4000000 | MOV ESI,dword ptr [ESP + 0xa4]"
+        },
+        {
+          "line": 1702359,
+          "text": "30663908 | d9c0 | FLD ST0"
+        },
+        {
+          "line": 1702360,
+          "text": "3066390a | f30f10442454 | MOVSS XMM0,dword ptr [ESP + 0x54]"
+        },
+        {
+          "line": 1702361,
+          "text": "30663910 | deca | FMULP ST2"
+        },
+        {
+          "line": 1702362,
+          "text": "30663912 | f30f114610 | MOVSS dword ptr [ESI + 0x10],XMM0"
+        },
+        {
+          "line": 1702363,
+          "text": "30663917 | d9c9 | FXCH"
+        },
+        {
+          "line": 1702364,
+          "text": "30663919 | f30f10442458 | MOVSS XMM0,dword ptr [ESP + 0x58]"
+        },
+        {
+          "line": 1702365,
+          "text": "3066391f | f30f114614 | MOVSS dword ptr [ESI + 0x14],XMM0"
+        },
+        {
+          "line": 1702366,
+          "text": "30663924 | d95c246c | FSTP float ptr [ESP + 0x6c]"
+        },
+        {
+          "line": 1702367,
+          "text": "30663928 | f30f1044245c | MOVSS XMM0,dword ptr [ESP + 0x5c]"
+        },
+        {
+          "line": 1702368,
+          "text": "3066392e | d9442470 | FLD float ptr [ESP + 0x70]"
+        },
+        {
+          "line": 1702369,
+          "text": "30663932 | f30f114618 | MOVSS dword ptr [ESI + 0x18],XMM0"
+        },
+        {
+          "line": 1702370,
+          "text": "30663937 | d8c9 | FMUL ST1"
+        },
+        {
+          "line": 1702371,
+          "text": "30663939 | 8d4c247c | LEA ECX,[ESP + 0x7c]"
+        },
+        {
+          "line": 1702372,
+          "text": "3066393d | 51 | PUSH ECX"
+        },
+        {
+          "line": 1702373,
+          "text": "3066393e | 8d942490000000 | LEA EDX,[ESP + 0x90]"
+        },
+        {
+          "line": 1702374,
+          "text": "30663945 | d95c2474 | FSTP float ptr [ESP + 0x74]"
+        },
+        {
+          "line": 1702375,
+          "text": "30663949 | d9442478 | FLD float ptr [ESP + 0x78]"
+        },
+        {
+          "line": 1702376,
+          "text": "3066394d | d8c9 | FMUL ST1"
+        },
+        {
+          "line": 1702377,
+          "text": "3066394f | d95c2478 | FSTP float ptr [ESP + 0x78]"
+        },
+        {
+          "line": 1702378,
+          "text": "30663953 | d9442414 | FLD float ptr [ESP + 0x14]"
+        },
+        {
+          "line": 1702379,
+          "text": "30663957 | d8c9 | FMUL ST1"
+        },
+        {
+          "line": 1702380,
+          "text": "30663959 | d95c2414 | FSTP float ptr [ESP + 0x14]"
+        },
+        {
+          "line": 1702381,
+          "text": "3066395d | d9442418 | FLD float ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1702382,
+          "text": "30663961 | d8c9 | FMUL ST1"
+        },
+        {
+          "line": 1702383,
+          "text": "30663963 | d95c2418 | FSTP float ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1702384,
+          "text": "30663967 | d84c241c | FMUL float ptr [ESP + 0x1c]"
+        },
+        {
+          "line": 1702385,
+          "text": "3066396b | d95c241c | FSTP float ptr [ESP + 0x1c]"
+        },
+        {
+          "line": 1702386,
+          "text": "3066396f | d9442470 | FLD float ptr [ESP + 0x70]"
+        },
+        {
+          "line": 1702387,
+          "text": "30663973 | d84610 | FADD float ptr [ESI + 0x10]"
+        },
+        {
+          "line": 1702388,
+          "text": "30663976 | d95e10 | FSTP float ptr [ESI + 0x10]"
+        },
+        {
+          "line": 1702389,
+          "text": "30663979 | d9442474 | FLD float ptr [ESP + 0x74]"
+        },
+        {
+          "line": 1702390,
+          "text": "3066397d | d84614 | FADD float ptr [ESI + 0x14]"
+        },
+        {
+          "line": 1702391,
+          "text": "30663980 | d95e14 | FSTP float ptr [ESI + 0x14]"
+        },
+        {
+          "line": 1702392,
+          "text": "30663983 | d94618 | FLD float ptr [ESI + 0x18]"
+        },
+        {
+          "line": 1702393,
+          "text": "30663986 | d8442478 | FADD float ptr [ESP + 0x78]"
+        },
+        {
+          "line": 1702394,
+          "text": "3066398a | d95e18 | FSTP float ptr [ESI + 0x18]"
+        },
+        {
+          "line": 1702395,
+          "text": "3066398d | 52 | PUSH EDX"
+        },
+        {
+          "line": 1702396,
+          "text": "3066398e | 8d442474 | LEA EAX,[ESP + 0x74]"
+        },
+        {
+          "line": 1702397,
+          "text": "30663992 | 50 | PUSH EAX"
+        },
+        {
+          "line": 1702398,
+          "text": "30663993 | e82ff99bff | CALL 0x300232c7"
+        },
+        {
+          "line": 1702399,
+          "text": "30663998 | 50 | PUSH EAX"
+        },
+        {
+          "line": 1702400,
+          "text": "30663999 | 8d4c2448 | LEA ECX,[ESP + 0x48]"
+        },
+        {
+          "line": 1702401,
+          "text": "3066399d | 51 | PUSH ECX"
+        },
+        {
+          "line": 1702402,
+          "text": "3066399e | 8d942494000000 | LEA EDX,[ESP + 0x94]"
+        },
+        {
+          "line": 1702403,
+          "text": "306639a5 | 52 | PUSH EDX"
+        },
+        {
+          "line": 1702404,
+          "text": "306639a6 | e81cf99bff | CALL 0x300232c7"
+        },
+        {
+          "line": 1702405,
+          "text": "306639ab | d900 | FLD float ptr [EAX]"
+        },
+        {
+          "line": 1702406,
+          "text": "306639ad | f30f10442460 | MOVSS XMM0,dword ptr [ESP + 0x60]"
+        },
+        {
+          "line": 1702407,
+          "text": "306639b3 | d91e | FSTP float ptr [ESI]"
+        },
+        {
+          "line": 1702408,
+          "text": "306639b5 | d94004 | FLD float ptr [EAX + 0x4]"
+        },
+        {
+          "line": 1702409,
+          "text": "306639b8 | 5f | POP EDI"
+        },
+        {
+          "line": 1702410,
+          "text": "306639b9 | d95e04 | FSTP float ptr [ESI + 0x4]"
+        },
+        {
+          "line": 1702411,
+          "text": "306639bc | d94008 | FLD float ptr [EAX + 0x8]"
+        },
+        {
+          "line": 1702412,
+          "text": "306639bf | d95e08 | FSTP float ptr [ESI + 0x8]"
+        },
+        {
+          "line": 1702413,
+          "text": "306639c2 | d9400c | FLD float ptr [EAX + 0xc]"
+        },
+        {
+          "line": 1702414,
+          "text": "306639c5 | b001 | MOV AL,0x1"
+        },
+        {
+          "line": 1702415,
+          "text": "306639c7 | d95e0c | FSTP float ptr [ESI + 0xc]"
+        },
+        {
+          "line": 1702416,
+          "text": "306639ca | f30f11461c | MOVSS dword ptr [ESI + 0x1c],XMM0"
+        },
+        {
+          "line": 1702417,
+          "text": "306639cf | f30f10442460 | MOVSS XMM0,dword ptr [ESP + 0x60]"
+        },
+        {
+          "line": 1702418,
+          "text": "306639d5 | f30f114620 | MOVSS dword ptr [ESI + 0x20],XMM0"
+        },
+        {
+          "line": 1702419,
+          "text": "306639da | f30f10442464 | MOVSS XMM0,dword ptr [ESP + 0x64]"
+        },
+        {
+          "line": 1702420,
+          "text": "306639e0 | f30f114624 | MOVSS dword ptr [ESI + 0x24],XMM0"
+        },
+        {
+          "line": 1702421,
+          "text": "306639e5 | d9461c | FLD float ptr [ESI + 0x1c]"
+        },
+        {
+          "line": 1702422,
+          "text": "306639e8 | d844240c | FADD float ptr [ESP + 0xc]"
+        },
+        {
+          "line": 1702423,
+          "text": "306639ec | d95e1c | FSTP float ptr [ESI + 0x1c]"
+        },
+        {
+          "line": 1702424,
+          "text": "306639ef | d94620 | FLD float ptr [ESI + 0x20]"
+        },
+        {
+          "line": 1702425,
+          "text": "306639f2 | d8442410 | FADD float ptr [ESP + 0x10]"
+        },
+        {
+          "line": 1702426,
+          "text": "306639f6 | d95e20 | FSTP float ptr [ESI + 0x20]"
+        },
+        {
+          "line": 1702427,
+          "text": "306639f9 | d94624 | FLD float ptr [ESI + 0x24]"
+        },
+        {
+          "line": 1702428,
+          "text": "306639fc | d8442414 | FADD float ptr [ESP + 0x14]"
+        },
+        {
+          "line": 1702429,
+          "text": "30663a00 | d95e24 | FSTP float ptr [ESI + 0x24]"
+        },
+        {
+          "line": 1702430,
+          "text": "30663a03 | 5e | POP ESI"
+        },
+        {
+          "line": 1702431,
+          "text": "30663a04 | 5b | POP EBX"
+        },
+        {
+          "line": 1702432,
+          "text": "30663a05 | 81c490000000 | ADD ESP,0x90"
+        },
+        {
+          "line": 1702433,
+          "text": "30663a0b | c20800 | RET 0x8"
+        },
+        {
+          "line": 1702435,
+          "text": "30663a0e | 8bb424a4000000 | MOV ESI,dword ptr [ESP + 0xa4]"
+        },
+        {
+          "line": 1702436,
+          "text": "30663a15 | f30f1044242c | MOVSS XMM0,dword ptr [ESP + 0x2c]"
+        },
+        {
+          "line": 1702437,
+          "text": "30663a1b | f30f114610 | MOVSS dword ptr [ESI + 0x10],XMM0"
+        },
+        {
+          "line": 1702438,
+          "text": "30663a20 | f30f10442430 | MOVSS XMM0,dword ptr [ESP + 0x30]"
+        },
+        {
+          "line": 1702439,
+          "text": "30663a26 | f30f114614 | MOVSS dword ptr [ESI + 0x14],XMM0"
+        },
+        {
+          "line": 1702440,
+          "text": "30663a2b | f30f10442434 | MOVSS XMM0,dword ptr [ESP + 0x34]"
+        },
+        {
+          "line": 1702441,
+          "text": "30663a31 | f30f114618 | MOVSS dword ptr [ESI + 0x18],XMM0"
+        },
+        {
+          "line": 1702442,
+          "text": "30663a36 | d94610 | FLD float ptr [ESI + 0x10]"
+        },
+        {
+          "line": 1702443,
+          "text": "30663a39 | d9442454 | FLD float ptr [ESP + 0x54]"
+        },
+        {
+          "line": 1702444,
+          "text": "30663a3d | 51 | PUSH ECX"
+        },
+        {
+          "line": 1702445,
+          "text": "30663a3e | d9c0 | FLD ST0"
+        },
+        {
+          "line": 1702446,
+          "text": "30663a40 | 8d442420 | LEA EAX,[ESP + 0x20]"
+        },
+        {
+          "line": 1702447,
+          "text": "30663a44 | deea | FSUBP ST2,ST0"
+        },
+        {
+          "line": 1702448,
+          "text": "30663a46 | 8d8c2490000000 | LEA ECX,[ESP + 0x90]"
+        },
+        {
+          "line": 1702449,
+          "text": "30663a4d | d9c9 | FXCH"
+        },
+        {
+          "line": 1702450,
+          "text": "30663a4f | d95e10 | FSTP float ptr [ESI + 0x10]"
+        },
+        {
+          "line": 1702451,
+          "text": "30663a52 | d94614 | FLD float ptr [ESI + 0x14]"
+        },
+        {
+          "line": 1702452,
+          "text": "30663a55 | d944245c | FLD float ptr [ESP + 0x5c]"
+        },
+        {
+          "line": 1702453,
+          "text": "30663a59 | d9c0 | FLD ST0"
+        },
+        {
+          "line": 1702454,
+          "text": "30663a5b | deea | FSUBP ST2,ST0"
+        },
+        {
+          "line": 1702455,
+          "text": "30663a5d | d9c9 | FXCH"
+        },
+        {
+          "line": 1702456,
+          "text": "30663a5f | d95e14 | FSTP float ptr [ESI + 0x14]"
+        },
+        {
+          "line": 1702457,
+          "text": "30663a62 | d94618 | FLD float ptr [ESI + 0x18]"
+        },
+        {
+          "line": 1702458,
+          "text": "30663a65 | d9442460 | FLD float ptr [ESP + 0x60]"
+        },
+        {
+          "line": 1702459,
+          "text": "30663a69 | d9c0 | FLD ST0"
+        },
+        {
+          "line": 1702460,
+          "text": "30663a6b | deea | FSUBP ST2,ST0"
+        },
+        {
+          "line": 1702461,
+          "text": "30663a6d | d9c9 | FXCH"
+        },
+        {
+          "line": 1702462,
+          "text": "30663a6f | d95e18 | FSTP float ptr [ESI + 0x18]"
+        },
+        {
+          "line": 1702463,
+          "text": "30663a72 | d94610 | FLD float ptr [ESI + 0x10]"
+        },
+        {
+          "line": 1702464,
+          "text": "30663a75 | d9442410 | FLD float ptr [ESP + 0x10]"
+        },
+        {
+          "line": 1702465,
+          "text": "30663a79 | d9c0 | FLD ST0"
+        },
+        {
+          "line": 1702466,
+          "text": "30663a7b | deca | FMULP ST2"
+        },
+        {
+          "line": 1702467,
+          "text": "30663a7d | d9c9 | FXCH"
+        },
+        {
+          "line": 1702468,
+          "text": "30663a7f | d95e10 | FSTP float ptr [ESI + 0x10]"
+        },
+        {
+          "line": 1702469,
+          "text": "30663a82 | d94614 | FLD float ptr [ESI + 0x14]"
+        },
+        {
+          "line": 1702470,
+          "text": "30663a85 | d8c9 | FMUL ST1"
+        },
+        {
+          "line": 1702471,
+          "text": "30663a87 | d95e14 | FSTP float ptr [ESI + 0x14]"
+        },
+        {
+          "line": 1702472,
+          "text": "30663a8a | d94618 | FLD float ptr [ESI + 0x18]"
+        },
+        {
+          "line": 1702473,
+          "text": "30663a8d | d8c9 | FMUL ST1"
+        },
+        {
+          "line": 1702474,
+          "text": "30663a8f | d95e18 | FSTP float ptr [ESI + 0x18]"
+        },
+        {
+          "line": 1702475,
+          "text": "30663a92 | d94610 | FLD float ptr [ESI + 0x10]"
+        },
+        {
+          "line": 1702476,
+          "text": "30663a95 | dec4 | FADDP ST4,ST0"
+        },
+        {
+          "line": 1702477,
+          "text": "30663a97 | d9cb | FXCH ST3"
+        },
+        {
+          "line": 1702478,
+          "text": "30663a99 | d95e10 | FSTP float ptr [ESI + 0x10]"
+        },
+        {
+          "line": 1702479,
+          "text": "30663a9c | d94614 | FLD float ptr [ESI + 0x14]"
+        },
+        {
+          "line": 1702480,
+          "text": "30663a9f | dec2 | FADDP ST2,ST0"
+        },
+        {
+          "line": 1702481,
+          "text": "30663aa1 | d9c9 | FXCH"
+        },
+        {
+          "line": 1702482,
+          "text": "30663aa3 | d95e14 | FSTP float ptr [ESI + 0x14]"
+        },
+        {
+          "line": 1702483,
+          "text": "30663aa6 | d84618 | FADD float ptr [ESI + 0x18]"
+        },
+        {
+          "line": 1702484,
+          "text": "30663aa9 | d95e18 | FSTP float ptr [ESI + 0x18]"
+        },
+        {
+          "line": 1702485,
+          "text": "30663aac | d91c24 | FSTP float ptr [ESP]"
+        },
+        {
+          "line": 1702486,
+          "text": "30663aaf | 50 | PUSH EAX"
+        },
+        {
+          "line": 1702487,
+          "text": "30663ab0 | 51 | PUSH ECX"
+        },
+        {
+          "line": 1702488,
+          "text": "30663ab1 | 8d4c2450 | LEA ECX,[ESP + 0x50]"
+        },
+        {
+          "line": 1702489,
+          "text": "30663ab5 | e8d6f6ffff | CALL 0x30663190"
+        },
+        {
+          "line": 1702490,
+          "text": "30663aba | 8bc8 | MOV ECX,EAX"
+        },
+        {
+          "line": 1702491,
+          "text": "30663abc | e86ff8ffff | CALL 0x30663330"
+        },
+        {
+          "line": 1702492,
+          "text": "30663ac1 | d900 | FLD float ptr [EAX]"
+        },
+        {
+          "line": 1702493,
+          "text": "30663ac3 | f30f10442438 | MOVSS XMM0,dword ptr [ESP + 0x38]"
+        },
+        {
+          "line": 1702494,
+          "text": "30663ac9 | d91e | FSTP float ptr [ESI]"
+        },
+        {
+          "line": 1702495,
+          "text": "30663acb | d94004 | FLD float ptr [EAX + 0x4]"
+        },
+        {
+          "line": 1702496,
+          "text": "30663ace | d95e04 | FSTP float ptr [ESI + 0x4]"
+        },
+        {
+          "line": 1702497,
+          "text": "30663ad1 | d94008 | FLD float ptr [EAX + 0x8]"
+        },
+        {
+          "line": 1702498,
+          "text": "30663ad4 | d95e08 | FSTP float ptr [ESI + 0x8]"
+        },
+        {
+          "line": 1702499,
+          "text": "30663ad7 | d9400c | FLD float ptr [EAX + 0xc]"
+        },
+        {
+          "line": 1702500,
+          "text": "30663ada | d95e0c | FSTP float ptr [ESI + 0xc]"
+        },
+        {
+          "line": 1702501,
+          "text": "30663add | f30f11461c | MOVSS dword ptr [ESI + 0x1c],XMM0"
+        },
+        {
+          "line": 1702502,
+          "text": "30663ae2 | f30f1044243c | MOVSS XMM0,dword ptr [ESP + 0x3c]"
+        },
+        {
+          "line": 1702503,
+          "text": "30663ae8 | f30f114620 | MOVSS dword ptr [ESI + 0x20],XMM0"
+        },
+        {
+          "line": 1702504,
+          "text": "30663aed | f30f10442440 | MOVSS XMM0,dword ptr [ESP + 0x40]"
+        },
+        {
+          "line": 1702505,
+          "text": "30663af3 | f30f114624 | MOVSS dword ptr [ESI + 0x24],XMM0"
+        },
+        {
+          "line": 1702506,
+          "text": "30663af8 | d9461c | FLD float ptr [ESI + 0x1c]"
+        },
+        {
+          "line": 1702507,
+          "text": "30663afb | d9442460 | FLD float ptr [ESP + 0x60]"
+        },
+        {
+          "line": 1702508,
+          "text": "30663aff | d9c0 | FLD ST0"
+        },
+        {
+          "line": 1702509,
+          "text": "30663b01 | deea | FSUBP ST2,ST0"
+        },
+        {
+          "line": 1702510,
+          "text": "30663b03 | d9c9 | FXCH"
+        },
+        {
+          "line": 1702511,
+          "text": "30663b05 | d95e1c | FSTP float ptr [ESI + 0x1c]"
+        },
+        {
+          "line": 1702512,
+          "text": "30663b08 | d94620 | FLD float ptr [ESI + 0x20]"
+        },
+        {
+          "line": 1702513,
+          "text": "30663b0b | d9442464 | FLD float ptr [ESP + 0x64]"
+        },
+        {
+          "line": 1702514,
+          "text": "30663b0f | d9c0 | FLD ST0"
+        },
+        {
+          "line": 1702515,
+          "text": "30663b11 | deea | FSUBP ST2,ST0"
+        },
+        {
+          "line": 1702516,
+          "text": "30663b13 | d9c9 | FXCH"
+        },
+        {
+          "line": 1702517,
+          "text": "30663b15 | 5f | POP EDI"
+        },
+        {
+          "line": 1702518,
+          "text": "30663b16 | d95e20 | FSTP float ptr [ESI + 0x20]"
+        },
+        {
+          "line": 1702519,
+          "text": "30663b19 | b001 | MOV AL,0x1"
+        },
+        {
+          "line": 1702520,
+          "text": "30663b1b | d94624 | FLD float ptr [ESI + 0x24]"
+        },
+        {
+          "line": 1702521,
+          "text": "30663b1e | d9442464 | FLD float ptr [ESP + 0x64]"
+        },
+        {
+          "line": 1702522,
+          "text": "30663b22 | d9c0 | FLD ST0"
+        },
+        {
+          "line": 1702523,
+          "text": "30663b24 | deea | FSUBP ST2,ST0"
+        },
+        {
+          "line": 1702524,
+          "text": "30663b26 | d9c9 | FXCH"
+        },
+        {
+          "line": 1702525,
+          "text": "30663b28 | d95e24 | FSTP float ptr [ESI + 0x24]"
+        },
+        {
+          "line": 1702526,
+          "text": "30663b2b | d9461c | FLD float ptr [ESI + 0x1c]"
+        },
+        {
+          "line": 1702527,
+          "text": "30663b2e | d9442408 | FLD float ptr [ESP + 0x8]"
+        },
+        {
+          "line": 1702528,
+          "text": "30663b32 | d9c0 | FLD ST0"
+        },
+        {
+          "line": 1702529,
+          "text": "30663b34 | deca | FMULP ST2"
+        },
+        {
+          "line": 1702530,
+          "text": "30663b36 | d9c9 | FXCH"
+        },
+        {
+          "line": 1702531,
+          "text": "30663b38 | d95e1c | FSTP float ptr [ESI + 0x1c]"
+        },
+        {
+          "line": 1702532,
+          "text": "30663b3b | d94620 | FLD float ptr [ESI + 0x20]"
+        },
+        {
+          "line": 1702533,
+          "text": "30663b3e | d8c9 | FMUL ST1"
+        },
+        {
+          "line": 1702534,
+          "text": "30663b40 | d95e20 | FSTP float ptr [ESI + 0x20]"
+        },
+        {
+          "line": 1702535,
+          "text": "30663b43 | d84e24 | FMUL float ptr [ESI + 0x24]"
+        },
+        {
+          "line": 1702536,
+          "text": "30663b46 | d95e24 | FSTP float ptr [ESI + 0x24]"
+        },
+        {
+          "line": 1702537,
+          "text": "30663b49 | d9461c | FLD float ptr [ESI + 0x1c]"
+        },
+        {
+          "line": 1702538,
+          "text": "30663b4c | dec3 | FADDP ST3,ST0"
+        },
+        {
+          "line": 1702539,
+          "text": "30663b4e | d9ca | FXCH ST2"
+        },
+        {
+          "line": 1702540,
+          "text": "30663b50 | d95e1c | FSTP float ptr [ESI + 0x1c]"
+        },
+        {
+          "line": 1702541,
+          "text": "30663b53 | d84620 | FADD float ptr [ESI + 0x20]"
+        },
+        {
+          "line": 1702542,
+          "text": "30663b56 | d95e20 | FSTP float ptr [ESI + 0x20]"
+        },
+        {
+          "line": 1702543,
+          "text": "30663b59 | d84624 | FADD float ptr [ESI + 0x24]"
+        },
+        {
+          "line": 1702544,
+          "text": "30663b5c | d95e24 | FSTP float ptr [ESI + 0x24]"
+        },
+        {
+          "line": 1702545,
+          "text": "30663b5f | 5e | POP ESI"
+        },
+        {
+          "line": 1702546,
+          "text": "30663b60 | 5b | POP EBX"
+        },
+        {
+          "line": 1702547,
+          "text": "30663b61 | 81c490000000 | ADD ESP,0x90"
+        },
+        {
+          "line": 1702548,
+          "text": "30663b67 | c20800 | RET 0x8"
+        },
+        {
+          "line": 1702550,
+          "text": "30663b6a | 8b8424a4000000 | MOV EAX,dword ptr [ESP + 0xa4]"
+        },
+        {
+          "line": 1702551,
+          "text": "30663b71 | f30f1044241c | MOVSS XMM0,dword ptr [ESP + 0x1c]"
+        },
+        {
+          "line": 1702552,
+          "text": "30663b77 | f30f1100 | MOVSS dword ptr [EAX],XMM0"
+        },
+        {
+          "line": 1702553,
+          "text": "30663b7b | f30f10442420 | MOVSS XMM0,dword ptr [ESP + 0x20]"
+        },
+        {
+          "line": 1702554,
+          "text": "30663b81 | f30f114004 | MOVSS dword ptr [EAX + 0x4],XMM0"
+        },
+        {
+          "line": 1702555,
+          "text": "30663b86 | f30f10442424 | MOVSS XMM0,dword ptr [ESP + 0x24]"
+        },
+        {
+          "line": 1702556,
+          "text": "30663b8c | f30f114008 | MOVSS dword ptr [EAX + 0x8],XMM0"
+        },
+        {
+          "line": 1702557,
+          "text": "30663b91 | f30f10442428 | MOVSS XMM0,dword ptr [ESP + 0x28]"
+        },
+        {
+          "line": 1702558,
+          "text": "30663b97 | f30f11400c | MOVSS dword ptr [EAX + 0xc],XMM0"
+        },
+        {
+          "line": 1702559,
+          "text": "30663b9c | f30f1044242c | MOVSS XMM0,dword ptr [ESP + 0x2c]"
+        },
+        {
+          "line": 1702560,
+          "text": "30663ba2 | f30f114010 | MOVSS dword ptr [EAX + 0x10],XMM0"
+        },
+        {
+          "line": 1702561,
+          "text": "30663ba7 | f30f10442430 | MOVSS XMM0,dword ptr [ESP + 0x30]"
+        },
+        {
+          "line": 1702562,
+          "text": "30663bad | f30f114014 | MOVSS dword ptr [EAX + 0x14],XMM0"
+        },
+        {
+          "line": 1702563,
+          "text": "30663bb2 | f30f10442434 | MOVSS XMM0,dword ptr [ESP + 0x34]"
+        },
+        {
+          "line": 1702564,
+          "text": "30663bb8 | f30f114018 | MOVSS dword ptr [EAX + 0x18],XMM0"
+        },
+        {
+          "line": 1702565,
+          "text": "30663bbd | f30f10442438 | MOVSS XMM0,dword ptr [ESP + 0x38]"
+        },
+        {
+          "line": 1702566,
+          "text": "30663bc3 | f30f11401c | MOVSS dword ptr [EAX + 0x1c],XMM0"
+        },
+        {
+          "line": 1702567,
+          "text": "30663bc8 | f30f1044243c | MOVSS XMM0,dword ptr [ESP + 0x3c]"
+        },
+        {
+          "line": 1702568,
+          "text": "30663bce | f30f114020 | MOVSS dword ptr [EAX + 0x20],XMM0"
+        },
+        {
+          "line": 1702569,
+          "text": "30663bd3 | f30f10442440 | MOVSS XMM0,dword ptr [ESP + 0x40]"
+        },
+        {
+          "line": 1702570,
+          "text": "30663bd9 | 5f | POP EDI"
+        },
+        {
+          "line": 1702571,
+          "text": "30663bda | 5e | POP ESI"
+        },
+        {
+          "line": 1702572,
+          "text": "30663bdb | f30f114024 | MOVSS dword ptr [EAX + 0x24],XMM0"
+        },
+        {
+          "line": 1702573,
+          "text": "30663be0 | b001 | MOV AL,0x1"
+        },
+        {
+          "line": 1702574,
+          "text": "30663be2 | 5b | POP EBX"
+        },
+        {
+          "line": 1702575,
+          "text": "30663be3 | 81c490000000 | ADD ESP,0x90"
+        },
+        {
+          "line": 1702576,
+          "text": "30663be9 | c20800 | RET 0x8"
+        },
+        {
+          "line": 1702578,
+          "text": "30663bec | 8b8424a4000000 | MOV EAX,dword ptr [ESP + 0xa4]"
+        },
+        {
+          "line": 1702579,
+          "text": "30663bf3 | f30f10442444 | MOVSS XMM0,dword ptr [ESP + 0x44]"
+        },
+        {
+          "line": 1702580,
+          "text": "30663bf9 | f30f1100 | MOVSS dword ptr [EAX],XMM0"
+        },
+        {
+          "line": 1702581,
+          "text": "30663bfd | f30f10442448 | MOVSS XMM0,dword ptr [ESP + 0x48]"
+        },
+        {
+          "line": 1702582,
+          "text": "30663c03 | f30f114004 | MOVSS dword ptr [EAX + 0x4],XMM0"
+        },
+        {
+          "line": 1702583,
+          "text": "30663c08 | f30f1044244c | MOVSS XMM0,dword ptr [ESP + 0x4c]"
+        },
+        {
+          "line": 1702584,
+          "text": "30663c0e | f30f114008 | MOVSS dword ptr [EAX + 0x8],XMM0"
+        },
+        {
+          "line": 1702585,
+          "text": "30663c13 | f30f10442450 | MOVSS XMM0,dword ptr [ESP + 0x50]"
+        },
+        {
+          "line": 1702586,
+          "text": "30663c19 | f30f11400c | MOVSS dword ptr [EAX + 0xc],XMM0"
+        },
+        {
+          "line": 1702587,
+          "text": "30663c1e | f30f10442454 | MOVSS XMM0,dword ptr [ESP + 0x54]"
+        },
+        {
+          "line": 1702588,
+          "text": "30663c24 | f30f114010 | MOVSS dword ptr [EAX + 0x10],XMM0"
+        },
+        {
+          "line": 1702589,
+          "text": "30663c29 | f30f10442458 | MOVSS XMM0,dword ptr [ESP + 0x58]"
+        },
+        {
+          "line": 1702590,
+          "text": "30663c2f | f30f114014 | MOVSS dword ptr [EAX + 0x14],XMM0"
+        },
+        {
+          "line": 1702591,
+          "text": "30663c34 | f30f1044245c | MOVSS XMM0,dword ptr [ESP + 0x5c]"
+        },
+        {
+          "line": 1702592,
+          "text": "30663c3a | f30f114018 | MOVSS dword ptr [EAX + 0x18],XMM0"
+        },
+        {
+          "line": 1702593,
+          "text": "30663c3f | f30f10442460 | MOVSS XMM0,dword ptr [ESP + 0x60]"
+        },
+        {
+          "line": 1702594,
+          "text": "30663c45 | f30f11401c | MOVSS dword ptr [EAX + 0x1c],XMM0"
+        },
+        {
+          "line": 1702595,
+          "text": "30663c4a | f30f10442464 | MOVSS XMM0,dword ptr [ESP + 0x64]"
+        },
+        {
+          "line": 1702596,
+          "text": "30663c50 | f30f114020 | MOVSS dword ptr [EAX + 0x20],XMM0"
+        },
+        {
+          "line": 1702597,
+          "text": "30663c55 | f30f10442468 | MOVSS XMM0,dword ptr [ESP + 0x68]"
+        },
+        {
+          "line": 1702598,
+          "text": "30663c5b | 5f | POP EDI"
+        },
+        {
+          "line": 1702599,
+          "text": "30663c5c | 5e | POP ESI"
+        },
+        {
+          "line": 1702600,
+          "text": "30663c5d | f30f114024 | MOVSS dword ptr [EAX + 0x24],XMM0"
+        }
+      ],
+      "sourceSHA256": "a6037235ddf524cb76f913ef046c5960f2c9b9eb7739443e9b37b1fc0a789375"
+    },
+    {
+      "entry": "30663190",
+      "end": "30663286",
+      "file": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00167.c",
+      "line": 14995,
+      "meaning": "Shortest-sign component interpolation of layer quaternion, before explicit normalization.",
+      "instructions": [
+        {
+          "line": 1701844,
+          "text": "30663190 | 83ec20 | SUB ESP,0x20"
+        },
+        {
+          "line": 1701845,
+          "text": "30663193 | d944242c | FLD float ptr [ESP + 0x2c]"
+        },
+        {
+          "line": 1701846,
+          "text": "30663197 | 8b442428 | MOV EAX,dword ptr [ESP + 0x28]"
+        },
+        {
+          "line": 1701847,
+          "text": "3066319b | d9c0 | FLD ST0"
+        },
+        {
+          "line": 1701848,
+          "text": "3066319d | f30f104004 | MOVSS XMM0,dword ptr [EAX + 0x4]"
+        },
+        {
+          "line": 1701849,
+          "text": "306631a2 | d9e8 | FLD1"
+        },
+        {
+          "line": 1701850,
+          "text": "306631a4 | f30f11442418 | MOVSS dword ptr [ESP + 0x18],XMM0"
+        },
+        {
+          "line": 1701851,
+          "text": "306631aa | dee1 | FSUBRP"
+        },
+        {
+          "line": 1701852,
+          "text": "306631ac | d95c241c | FSTP float ptr [ESP + 0x1c]"
+        },
+        {
+          "line": 1701853,
+          "text": "306631b0 | d94104 | FLD float ptr [ECX + 0x4]"
+        },
+        {
+          "line": 1701854,
+          "text": "306631b3 | d95c2414 | FSTP float ptr [ESP + 0x14]"
+        },
+        {
+          "line": 1701855,
+          "text": "306631b7 | d900 | FLD float ptr [EAX]"
+        },
+        {
+          "line": 1701856,
+          "text": "306631b9 | d95c2410 | FSTP float ptr [ESP + 0x10]"
+        },
+        {
+          "line": 1701857,
+          "text": "306631bd | d901 | FLD float ptr [ECX]"
+        },
+        {
+          "line": 1701858,
+          "text": "306631bf | d95c240c | FSTP float ptr [ESP + 0xc]"
+        },
+        {
+          "line": 1701859,
+          "text": "306631c3 | d94008 | FLD float ptr [EAX + 0x8]"
+        },
+        {
+          "line": 1701860,
+          "text": "306631c6 | d91c24 | FSTP float ptr [ESP]"
+        },
+        {
+          "line": 1701861,
+          "text": "306631c9 | d94108 | FLD float ptr [ECX + 0x8]"
+        },
+        {
+          "line": 1701862,
+          "text": "306631cc | d95c2428 | FSTP float ptr [ESP + 0x28]"
+        },
+        {
+          "line": 1701863,
+          "text": "306631d0 | d9400c | FLD float ptr [EAX + 0xc]"
+        },
+        {
+          "line": 1701864,
+          "text": "306631d3 | d95c2408 | FSTP float ptr [ESP + 0x8]"
+        },
+        {
+          "line": 1701865,
+          "text": "306631d7 | d9410c | FLD float ptr [ECX + 0xc]"
+        },
+        {
+          "line": 1701866,
+          "text": "306631da | d95c2404 | FSTP float ptr [ESP + 0x4]"
+        },
+        {
+          "line": 1701867,
+          "text": "306631de | d944240c | FLD float ptr [ESP + 0xc]"
+        },
+        {
+          "line": 1701868,
+          "text": "306631e2 | d9c0 | FLD ST0"
+        },
+        {
+          "line": 1701869,
+          "text": "306631e4 | d9442410 | FLD float ptr [ESP + 0x10]"
+        },
+        {
+          "line": 1701870,
+          "text": "306631e8 | d9c0 | FLD ST0"
+        },
+        {
+          "line": 1701871,
+          "text": "306631ea | deca | FMULP ST2"
+        },
+        {
+          "line": 1701872,
+          "text": "306631ec | d9442414 | FLD float ptr [ESP + 0x14]"
+        },
+        {
+          "line": 1701873,
+          "text": "306631f0 | d9c0 | FLD ST0"
+        },
+        {
+          "line": 1701874,
+          "text": "306631f2 | d9442418 | FLD float ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1701875,
+          "text": "306631f6 | d9c0 | FLD ST0"
+        },
+        {
+          "line": 1701876,
+          "text": "306631f8 | deca | FMULP ST2"
+        },
+        {
+          "line": 1701877,
+          "text": "306631fa | d9cc | FXCH ST4"
+        },
+        {
+          "line": 1701878,
+          "text": "306631fc | dec1 | FADDP"
+        },
+        {
+          "line": 1701879,
+          "text": "306631fe | d9442428 | FLD float ptr [ESP + 0x28]"
+        },
+        {
+          "line": 1701880,
+          "text": "30663202 | d80c24 | FMUL float ptr [ESP]"
+        },
+        {
+          "line": 1701881,
+          "text": "30663205 | dec1 | FADDP"
+        },
+        {
+          "line": 1701882,
+          "text": "30663207 | d9442404 | FLD float ptr [ESP + 0x4]"
+        },
+        {
+          "line": 1701883,
+          "text": "3066320b | d84c2408 | FMUL float ptr [ESP + 0x8]"
+        },
+        {
+          "line": 1701884,
+          "text": "3066320f | dec1 | FADDP"
+        },
+        {
+          "line": 1701885,
+          "text": "30663211 | d95c2418 | FSTP float ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1701886,
+          "text": "30663215 | d9442418 | FLD float ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1701887,
+          "text": "30663219 | d9ee | FLDZ"
+        },
+        {
+          "line": 1701888,
+          "text": "3066321b | dff1 | FCOMIP ST0,ST1"
+        },
+        {
+          "line": 1701889,
+          "text": "3066321d | ddd8 | FSTP ST0"
+        },
+        {
+          "line": 1701890,
+          "text": "3066321f | 761c | JBE 0x3066323d"
+        },
+        {
+          "line": 1701891,
+          "text": "30663221 | f30f10057cf98130 | MOVSS XMM0,dword ptr [0x3081f97c]"
+        },
+        {
+          "line": 1701892,
+          "text": "30663229 | dddc | FSTP ST4"
+        },
+        {
+          "line": 1701893,
+          "text": "3066322b | f30f5c44242c | SUBSS XMM0,dword ptr [ESP + 0x2c]"
+        },
+        {
+          "line": 1701894,
+          "text": "30663231 | f30f1144242c | MOVSS dword ptr [ESP + 0x2c],XMM0"
+        },
+        {
+          "line": 1701895,
+          "text": "30663237 | d944242c | FLD float ptr [ESP + 0x2c]"
+        },
+        {
+          "line": 1701896,
+          "text": "3066323b | d9cc | FXCH ST4"
+        },
+        {
+          "line": 1701898,
+          "text": "3066323d | d944241c | FLD float ptr [ESP + 0x1c]"
+        },
+        {
+          "line": 1701899,
+          "text": "30663241 | 8b442424 | MOV EAX,dword ptr [ESP + 0x24]"
+        },
+        {
+          "line": 1701900,
+          "text": "30663245 | d9c0 | FLD ST0"
+        },
+        {
+          "line": 1701901,
+          "text": "30663247 | decd | FMULP ST5"
+        },
+        {
+          "line": 1701902,
+          "text": "30663249 | d9c5 | FLD ST5"
+        },
+        {
+          "line": 1701903,
+          "text": "3066324b | decb | FMULP ST3"
+        },
+        {
+          "line": 1701904,
+          "text": "3066324d | d9cc | FXCH ST4"
+        },
+        {
+          "line": 1701905,
+          "text": "3066324f | dec2 | FADDP ST2,ST0"
+        },
+        {
+          "line": 1701906,
+          "text": "30663251 | d9c9 | FXCH"
+        },
+        {
+          "line": 1701907,
+          "text": "30663253 | d918 | FSTP float ptr [EAX]"
+        },
+        {
+          "line": 1701908,
+          "text": "30663255 | d8ca | FMUL ST2"
+        },
+        {
+          "line": 1701909,
+          "text": "30663257 | d9c3 | FLD ST3"
+        },
+        {
+          "line": 1701910,
+          "text": "30663259 | deca | FMULP ST2"
+        },
+        {
+          "line": 1701911,
+          "text": "3066325b | dec1 | FADDP"
+        },
+        {
+          "line": 1701912,
+          "text": "3066325d | d95804 | FSTP float ptr [EAX + 0x4]"
+        },
+        {
+          "line": 1701913,
+          "text": "30663260 | d9442428 | FLD float ptr [ESP + 0x28]"
+        },
+        {
+          "line": 1701914,
+          "text": "30663264 | d8c9 | FMUL ST1"
+        },
+        {
+          "line": 1701915,
+          "text": "30663266 | d90424 | FLD float ptr [ESP]"
+        },
+        {
+          "line": 1701916,
+          "text": "30663269 | d8cb | FMUL ST3"
+        },
+        {
+          "line": 1701917,
+          "text": "3066326b | dec1 | FADDP"
+        },
+        {
+          "line": 1701918,
+          "text": "3066326d | d95808 | FSTP float ptr [EAX + 0x8]"
+        },
+        {
+          "line": 1701919,
+          "text": "30663270 | d84c2404 | FMUL float ptr [ESP + 0x4]"
+        },
+        {
+          "line": 1701920,
+          "text": "30663274 | d9442408 | FLD float ptr [ESP + 0x8]"
+        },
+        {
+          "line": 1701921,
+          "text": "30663278 | deca | FMULP ST2"
+        },
+        {
+          "line": 1701922,
+          "text": "3066327a | dec1 | FADDP"
+        },
+        {
+          "line": 1701923,
+          "text": "3066327c | d9580c | FSTP float ptr [EAX + 0xc]"
+        },
+        {
+          "line": 1701924,
+          "text": "3066327f | 83c420 | ADD ESP,0x20"
+        },
+        {
+          "line": 1701925,
+          "text": "30663282 | c20c00 | RET 0xc"
+        }
+      ],
+      "sourceSHA256": "a6037235ddf524cb76f913ef046c5960f2c9b9eb7739443e9b37b1fc0a789375"
+    },
+    {
+      "entry": "30663330",
+      "end": "306633e6",
+      "file": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00167.c",
+      "line": 15058,
+      "meaning": "Normalize quaternion: square length, sqrt, reciprocal and multiply components, storing float values.",
+      "instructions": [
+        {
+          "line": 1701972,
+          "text": "30663330 | 83ec14 | SUB ESP,0x14"
+        },
+        {
+          "line": 1701973,
+          "text": "30663333 | 56 | PUSH ESI"
+        },
+        {
+          "line": 1701974,
+          "text": "30663334 | 8bf1 | MOV ESI,ECX"
+        },
+        {
+          "line": 1701975,
+          "text": "30663336 | d94604 | FLD float ptr [ESI + 0x4]"
+        },
+        {
+          "line": 1701976,
+          "text": "30663339 | d95c240c | FSTP float ptr [ESP + 0xc]"
+        },
+        {
+          "line": 1701977,
+          "text": "3066333d | d944240c | FLD float ptr [ESP + 0xc]"
+        },
+        {
+          "line": 1701978,
+          "text": "30663341 | d906 | FLD float ptr [ESI]"
+        },
+        {
+          "line": 1701979,
+          "text": "30663343 | d95c2408 | FSTP float ptr [ESP + 0x8]"
+        },
+        {
+          "line": 1701980,
+          "text": "30663347 | d9442408 | FLD float ptr [ESP + 0x8]"
+        },
+        {
+          "line": 1701981,
+          "text": "3066334b | d94608 | FLD float ptr [ESI + 0x8]"
+        },
+        {
+          "line": 1701982,
+          "text": "3066334e | d95c2410 | FSTP float ptr [ESP + 0x10]"
+        },
+        {
+          "line": 1701983,
+          "text": "30663352 | d9442410 | FLD float ptr [ESP + 0x10]"
+        },
+        {
+          "line": 1701984,
+          "text": "30663356 | d9460c | FLD float ptr [ESI + 0xc]"
+        },
+        {
+          "line": 1701985,
+          "text": "30663359 | d95c2414 | FSTP float ptr [ESP + 0x14]"
+        },
+        {
+          "line": 1701986,
+          "text": "3066335d | d9442414 | FLD float ptr [ESP + 0x14]"
+        },
+        {
+          "line": 1701987,
+          "text": "30663361 | d9c2 | FLD ST2"
+        },
+        {
+          "line": 1701988,
+          "text": "30663363 | decb | FMULP ST3"
+        },
+        {
+          "line": 1701989,
+          "text": "30663365 | d9c3 | FLD ST3"
+        },
+        {
+          "line": 1701990,
+          "text": "30663367 | decc | FMULP ST4"
+        },
+        {
+          "line": 1701991,
+          "text": "30663369 | d9ca | FXCH ST2"
+        },
+        {
+          "line": 1701992,
+          "text": "3066336b | dec3 | FADDP ST3,ST0"
+        },
+        {
+          "line": 1701993,
+          "text": "3066336d | dcc8 | FMUL ST0"
+        },
+        {
+          "line": 1701994,
+          "text": "3066336f | dec2 | FADDP ST2,ST0"
+        },
+        {
+          "line": 1701995,
+          "text": "30663371 | dcc8 | FMUL ST0"
+        },
+        {
+          "line": 1701996,
+          "text": "30663373 | dec1 | FADDP"
+        },
+        {
+          "line": 1701997,
+          "text": "30663375 | d95c2404 | FSTP float ptr [ESP + 0x4]"
+        },
+        {
+          "line": 1701998,
+          "text": "30663379 | d9442404 | FLD float ptr [ESP + 0x4]"
+        },
+        {
+          "line": 1701999,
+          "text": "3066337d | d9c0 | FLD ST0"
+        },
+        {
+          "line": 1702000,
+          "text": "3066337f | d9ee | FLDZ"
+        },
+        {
+          "line": 1702001,
+          "text": "30663381 | d9c9 | FXCH"
+        },
+        {
+          "line": 1702002,
+          "text": "30663383 | dfe9 | FUCOMIP ST0,ST1"
+        },
+        {
+          "line": 1702003,
+          "text": "30663385 | ddd8 | FSTP ST0"
+        },
+        {
+          "line": 1702004,
+          "text": "30663387 | 9f | LAHF"
+        },
+        {
+          "line": 1702005,
+          "text": "30663388 | f6c444 | TEST AH,0x44"
+        },
+        {
+          "line": 1702006,
+          "text": "3066338b | 7a0d | JP 0x3066339a"
+        },
+        {
+          "line": 1702007,
+          "text": "3066338d | 0f57c0 | XORPS XMM0,XMM0"
+        },
+        {
+          "line": 1702008,
+          "text": "30663390 | ddd8 | FSTP ST0"
+        },
+        {
+          "line": 1702009,
+          "text": "30663392 | f30f11442404 | MOVSS dword ptr [ESP + 0x4],XMM0"
+        },
+        {
+          "line": 1702010,
+          "text": "30663398 | eb11 | JMP 0x306633ab"
+        },
+        {
+          "line": 1702012,
+          "text": "3066339a | e871f40000 | CALL 0x30672810"
+        },
+        {
+          "line": 1702013,
+          "text": "3066339f | d95c2404 | FSTP float ptr [ESP + 0x4]"
+        },
+        {
+          "line": 1702014,
+          "text": "306633a3 | d9442404 | FLD float ptr [ESP + 0x4]"
+        },
+        {
+          "line": 1702015,
+          "text": "306633a7 | d95c2404 | FSTP float ptr [ESP + 0x4]"
+        },
+        {
+          "line": 1702017,
+          "text": "306633ab | d9442404 | FLD float ptr [ESP + 0x4]"
+        },
+        {
+          "line": 1702018,
+          "text": "306633af | 8bc6 | MOV EAX,ESI"
+        },
+        {
+          "line": 1702019,
+          "text": "306633b1 | d9e8 | FLD1"
+        },
+        {
+          "line": 1702020,
+          "text": "306633b3 | def1 | FDIVRP"
+        },
+        {
+          "line": 1702021,
+          "text": "306633b5 | d95c2404 | FSTP float ptr [ESP + 0x4]"
+        },
+        {
+          "line": 1702022,
+          "text": "306633b9 | d9442408 | FLD float ptr [ESP + 0x8]"
+        },
+        {
+          "line": 1702023,
+          "text": "306633bd | d9442404 | FLD float ptr [ESP + 0x4]"
+        },
+        {
+          "line": 1702024,
+          "text": "306633c1 | d9c0 | FLD ST0"
+        },
+        {
+          "line": 1702025,
+          "text": "306633c3 | deca | FMULP ST2"
+        },
+        {
+          "line": 1702026,
+          "text": "306633c5 | d9c9 | FXCH"
+        },
+        {
+          "line": 1702027,
+          "text": "306633c7 | d91e | FSTP float ptr [ESI]"
+        },
+        {
+          "line": 1702028,
+          "text": "306633c9 | d944240c | FLD float ptr [ESP + 0xc]"
+        },
+        {
+          "line": 1702029,
+          "text": "306633cd | d8c9 | FMUL ST1"
+        },
+        {
+          "line": 1702030,
+          "text": "306633cf | d95e04 | FSTP float ptr [ESI + 0x4]"
+        },
+        {
+          "line": 1702031,
+          "text": "306633d2 | d9442410 | FLD float ptr [ESP + 0x10]"
+        },
+        {
+          "line": 1702032,
+          "text": "306633d6 | d8c9 | FMUL ST1"
+        },
+        {
+          "line": 1702033,
+          "text": "306633d8 | d95e08 | FSTP float ptr [ESI + 0x8]"
+        },
+        {
+          "line": 1702034,
+          "text": "306633db | d84c2414 | FMUL float ptr [ESP + 0x14]"
+        },
+        {
+          "line": 1702035,
+          "text": "306633df | d95e0c | FSTP float ptr [ESI + 0xc]"
+        },
+        {
+          "line": 1702036,
+          "text": "306633e2 | 5e | POP ESI"
+        },
+        {
+          "line": 1702037,
+          "text": "306633e3 | 83c414 | ADD ESP,0x14"
+        },
+        {
+          "line": 1702038,
+          "text": "306633e6 | c3 | RET"
+        }
+      ],
+      "sourceSHA256": "a6037235ddf524cb76f913ef046c5960f2c9b9eb7739443e9b37b1fc0a789375"
+    },
+    {
+      "entry": "30651810",
+      "end": "306519a2",
+      "file": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00167.c",
+      "line": 1757,
+      "meaning": "Write normalized motion-layer pose into node P/Q/S fields and call30642aa0 local-matrix construction.",
+      "instructions": [
+        {
+          "line": 1682568,
+          "text": "30651810 | 83ec28 | SUB ESP,0x28"
+        },
+        {
+          "line": 1682569,
+          "text": "30651813 | 53 | PUSH EBX"
+        },
+        {
+          "line": 1682570,
+          "text": "30651814 | 8bd9 | MOV EBX,ECX"
+        },
+        {
+          "line": 1682571,
+          "text": "30651816 | 8b4b28 | MOV ECX,dword ptr [EBX + 0x28]"
+        },
+        {
+          "line": 1682572,
+          "text": "30651819 | 85c9 | TEST ECX,ECX"
+        },
+        {
+          "line": 1682573,
+          "text": "3065181b | 0f8406010000 | JZ 0x30651927"
+        },
+        {
+          "line": 1682574,
+          "text": "30651821 | e80a180100 | CALL 0x30663030"
+        },
+        {
+          "line": 1682575,
+          "text": "30651826 | 0f57c0 | XORPS XMM0,XMM0"
+        },
+        {
+          "line": 1682576,
+          "text": "30651829 | 8b4304 | MOV EAX,dword ptr [EBX + 0x4]"
+        },
+        {
+          "line": 1682577,
+          "text": "3065182c | 8b80b4010000 | MOV EAX,dword ptr [EAX + 0x1b4]"
+        },
+        {
+          "line": 1682578,
+          "text": "30651832 | 85c0 | TEST EAX,EAX"
+        },
+        {
+          "line": 1682579,
+          "text": "30651834 | f30f11442404 | MOVSS dword ptr [ESP + 0x4],XMM0"
+        },
+        {
+          "line": 1682580,
+          "text": "3065183a | f30f11442408 | MOVSS dword ptr [ESP + 0x8],XMM0"
+        },
+        {
+          "line": 1682581,
+          "text": "30651840 | f30f1144240c | MOVSS dword ptr [ESP + 0xc],XMM0"
+        },
+        {
+          "line": 1682582,
+          "text": "30651846 | f30f100534848130 | MOVSS XMM0,dword ptr [0x30818434]"
+        },
+        {
+          "line": 1682583,
+          "text": "3065184e | f30f11442410 | MOVSS dword ptr [ESP + 0x10],XMM0"
+        },
+        {
+          "line": 1682584,
+          "text": "30651854 | 0f8ecd000000 | JLE 0x30651927"
+        },
+        {
+          "line": 1682585,
+          "text": "3065185a | 55 | PUSH EBP"
+        },
+        {
+          "line": 1682586,
+          "text": "3065185b | 56 | PUSH ESI"
+        },
+        {
+          "line": 1682587,
+          "text": "3065185c | 57 | PUSH EDI"
+        },
+        {
+          "line": 1682588,
+          "text": "3065185d | 33ff | XOR EDI,EDI"
+        },
+        {
+          "line": 1682589,
+          "text": "3065185f | 8be8 | MOV EBP,EAX"
+        },
+        {
+          "line": 1682591,
+          "text": "30651861 | 8b4b04 | MOV ECX,dword ptr [EBX + 0x4]"
+        },
+        {
+          "line": 1682592,
+          "text": "30651864 | 8bb1bc010000 | MOV ESI,dword ptr [ECX + 0x1bc]"
+        },
+        {
+          "line": 1682593,
+          "text": "3065186a | 8b4b28 | MOV ECX,dword ptr [EBX + 0x28]"
+        },
+        {
+          "line": 1682594,
+          "text": "3065186d | 8d542410 | LEA EDX,[ESP + 0x10]"
+        },
+        {
+          "line": 1682595,
+          "text": "30651871 | 52 | PUSH EDX"
+        },
+        {
+          "line": 1682596,
+          "text": "30651872 | 03f7 | ADD ESI,EDI"
+        },
+        {
+          "line": 1682597,
+          "text": "30651874 | 56 | PUSH ESI"
+        },
+        {
+          "line": 1682598,
+          "text": "30651875 | e8b61d0100 | CALL 0x30663630"
+        },
+        {
+          "line": 1682599,
+          "text": "3065187a | 84c0 | TEST AL,AL"
+        },
+        {
+          "line": 1682600,
+          "text": "3065187c | 0f8493000000 | JZ 0x30651915"
+        },
+        {
+          "line": 1682601,
+          "text": "30651882 | f30f10442420 | MOVSS XMM0,dword ptr [ESP + 0x20]"
+        },
+        {
+          "line": 1682602,
+          "text": "30651888 | f30f1186e4000000 | MOVSS dword ptr [ESI + 0xe4],XMM0"
+        },
+        {
+          "line": 1682603,
+          "text": "30651890 | f30f10442424 | MOVSS XMM0,dword ptr [ESP + 0x24]"
+        },
+        {
+          "line": 1682604,
+          "text": "30651896 | f30f1186e8000000 | MOVSS dword ptr [ESI + 0xe8],XMM0"
+        },
+        {
+          "line": 1682605,
+          "text": "3065189e | f30f10442428 | MOVSS XMM0,dword ptr [ESP + 0x28]"
+        },
+        {
+          "line": 1682606,
+          "text": "306518a4 | f30f1186ec000000 | MOVSS dword ptr [ESI + 0xec],XMM0"
+        },
+        {
+          "line": 1682607,
+          "text": "306518ac | f30f10442410 | MOVSS XMM0,dword ptr [ESP + 0x10]"
+        },
+        {
+          "line": 1682608,
+          "text": "306518b2 | f30f1186d4000000 | MOVSS dword ptr [ESI + 0xd4],XMM0"
+        },
+        {
+          "line": 1682609,
+          "text": "306518ba | f30f10442414 | MOVSS XMM0,dword ptr [ESP + 0x14]"
+        },
+        {
+          "line": 1682610,
+          "text": "306518c0 | f30f1186d8000000 | MOVSS dword ptr [ESI + 0xd8],XMM0"
+        },
+        {
+          "line": 1682611,
+          "text": "306518c8 | f30f10442418 | MOVSS XMM0,dword ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1682612,
+          "text": "306518ce | f30f1186dc000000 | MOVSS dword ptr [ESI + 0xdc],XMM0"
+        },
+        {
+          "line": 1682613,
+          "text": "306518d6 | f30f1044241c | MOVSS XMM0,dword ptr [ESP + 0x1c]"
+        },
+        {
+          "line": 1682614,
+          "text": "306518dc | f30f1186e0000000 | MOVSS dword ptr [ESI + 0xe0],XMM0"
+        },
+        {
+          "line": 1682615,
+          "text": "306518e4 | f30f1044242c | MOVSS XMM0,dword ptr [ESP + 0x2c]"
+        },
+        {
+          "line": 1682616,
+          "text": "306518ea | f30f1186f0000000 | MOVSS dword ptr [ESI + 0xf0],XMM0"
+        },
+        {
+          "line": 1682617,
+          "text": "306518f2 | f30f10442430 | MOVSS XMM0,dword ptr [ESP + 0x30]"
+        },
+        {
+          "line": 1682618,
+          "text": "306518f8 | f30f1186f4000000 | MOVSS dword ptr [ESI + 0xf4],XMM0"
+        },
+        {
+          "line": 1682619,
+          "text": "30651900 | f30f10442434 | MOVSS XMM0,dword ptr [ESP + 0x34]"
+        },
+        {
+          "line": 1682620,
+          "text": "30651906 | 8bce | MOV ECX,ESI"
+        },
+        {
+          "line": 1682621,
+          "text": "30651908 | f30f1186f8000000 | MOVSS dword ptr [ESI + 0xf8],XMM0"
+        },
+        {
+          "line": 1682622,
+          "text": "30651910 | e88b11ffff | CALL 0x30642aa0"
+        },
+        {
+          "line": 1682624,
+          "text": "30651915 | 81c790010000 | ADD EDI,0x190"
+        },
+        {
+          "line": 1682625,
+          "text": "3065191b | 83ed01 | SUB EBP,0x1"
+        },
+        {
+          "line": 1682626,
+          "text": "3065191e | 0f853dffffff | JNZ 0x30651861"
+        },
+        {
+          "line": 1682627,
+          "text": "30651924 | 5f | POP EDI"
+        },
+        {
+          "line": 1682628,
+          "text": "30651925 | 5e | POP ESI"
+        },
+        {
+          "line": 1682629,
+          "text": "30651926 | 5d | POP EBP"
+        },
+        {
+          "line": 1682631,
+          "text": "30651927 | 5b | POP EBX"
+        },
+        {
+          "line": 1682632,
+          "text": "30651928 | 83c428 | ADD ESP,0x28"
+        },
+        {
+          "line": 1682633,
+          "text": "3065192b | c3 | RET"
+        }
+      ],
+      "sourceSHA256": "a6037235ddf524cb76f913ef046c5960f2c9b9eb7739443e9b37b1fc0a789375"
+    },
+    {
+      "entry": "30642aa0",
+      "end": "30642d84",
+      "file": "01_Decompiled_Code/Engine_dll/pseudocode/functions_00166.c",
+      "line": 6942,
+      "meaning": "Construct node local matrix from rotation, scaling and translation, then propagate hierarchy.",
+      "instructions": [
+        {
+          "line": 1665335,
+          "text": "30642aa0 | 81ec00010000 | SUB ESP,0x100"
+        },
+        {
+          "line": 1665336,
+          "text": "30642aa6 | 53 | PUSH EBX"
+        },
+        {
+          "line": 1665337,
+          "text": "30642aa7 | 8bd9 | MOV EBX,ECX"
+        },
+        {
+          "line": 1665338,
+          "text": "30642aa9 | 8b8380010000 | MOV EAX,dword ptr [EBX + 0x180]"
+        },
+        {
+          "line": 1665339,
+          "text": "30642aaf | 8b8020020000 | MOV EAX,dword ptr [EAX + 0x220]"
+        },
+        {
+          "line": 1665340,
+          "text": "30642ab5 | 83e800 | SUB EAX,0x0"
+        },
+        {
+          "line": 1665341,
+          "text": "30642ab8 | 55 | PUSH EBP"
+        },
+        {
+          "line": 1665342,
+          "text": "30642ab9 | 56 | PUSH ESI"
+        },
+        {
+          "line": 1665343,
+          "text": "30642aba | 57 | PUSH EDI"
+        },
+        {
+          "line": 1665344,
+          "text": "30642abb | 0f847a010000 | JZ 0x30642c3b"
+        },
+        {
+          "line": 1665345,
+          "text": "30642ac1 | 83e801 | SUB EAX,0x1"
+        },
+        {
+          "line": 1665346,
+          "text": "30642ac4 | 0f84b7000000 | JZ 0x30642b81"
+        },
+        {
+          "line": 1665347,
+          "text": "30642aca | 8d4c2450 | LEA ECX,[ESP + 0x50]"
+        },
+        {
+          "line": 1665348,
+          "text": "30642ace | 51 | PUSH ECX"
+        },
+        {
+          "line": 1665349,
+          "text": "30642acf | 8d8bd4000000 | LEA ECX,[EBX + 0xd4]"
+        },
+        {
+          "line": 1665350,
+          "text": "30642ad5 | e8be549eff | CALL 0x30027f98"
+        },
+        {
+          "line": 1665351,
+          "text": "30642ada | f30f1083f0000000 | MOVSS XMM0,dword ptr [EBX + 0xf0]"
+        },
+        {
+          "line": 1665352,
+          "text": "30642ae2 | f30f108bf4000000 | MOVSS XMM1,dword ptr [EBX + 0xf4]"
+        },
+        {
+          "line": 1665353,
+          "text": "30642aea | 8d6b04 | LEA EBP,[EBX + 0x4]"
+        },
+        {
+          "line": 1665354,
+          "text": "30642aed | f30f11442410 | MOVSS dword ptr [ESP + 0x10],XMM0"
+        },
+        {
+          "line": 1665355,
+          "text": "30642af3 | 0f57c0 | XORPS XMM0,XMM0"
+        },
+        {
+          "line": 1665356,
+          "text": "30642af6 | 8bf0 | MOV ESI,EAX"
+        },
+        {
+          "line": 1665357,
+          "text": "30642af8 | b910000000 | MOV ECX,0x10"
+        },
+        {
+          "line": 1665358,
+          "text": "30642afd | 8bfd | MOV EDI,EBP"
+        },
+        {
+          "line": 1665359,
+          "text": "30642aff | 8d542410 | LEA EDX,[ESP + 0x10]"
+        },
+        {
+          "line": 1665360,
+          "text": "30642b03 | f3a5 | MOVSD.REP ES:EDI,ESI"
+        },
+        {
+          "line": 1665361,
+          "text": "30642b05 | f30f11442414 | MOVSS dword ptr [ESP + 0x14],XMM0"
+        },
+        {
+          "line": 1665362,
+          "text": "30642b0b | f30f11442418 | MOVSS dword ptr [ESP + 0x18],XMM0"
+        },
+        {
+          "line": 1665363,
+          "text": "30642b11 | f30f1144241c | MOVSS dword ptr [ESP + 0x1c],XMM0"
+        },
+        {
+          "line": 1665364,
+          "text": "30642b17 | f30f11442420 | MOVSS dword ptr [ESP + 0x20],XMM0"
+        },
+        {
+          "line": 1665365,
+          "text": "30642b1d | f30f114c2424 | MOVSS dword ptr [ESP + 0x24],XMM1"
+        },
+        {
+          "line": 1665366,
+          "text": "30642b23 | f30f108bf8000000 | MOVSS XMM1,dword ptr [EBX + 0xf8]"
+        },
+        {
+          "line": 1665367,
+          "text": "30642b2b | f30f11442428 | MOVSS dword ptr [ESP + 0x28],XMM0"
+        },
+        {
+          "line": 1665368,
+          "text": "30642b31 | f30f1144242c | MOVSS dword ptr [ESP + 0x2c],XMM0"
+        },
+        {
+          "line": 1665369,
+          "text": "30642b37 | f30f11442430 | MOVSS dword ptr [ESP + 0x30],XMM0"
+        },
+        {
+          "line": 1665370,
+          "text": "30642b3d | f30f11442434 | MOVSS dword ptr [ESP + 0x34],XMM0"
+        },
+        {
+          "line": 1665371,
+          "text": "30642b43 | f30f1144243c | MOVSS dword ptr [ESP + 0x3c],XMM0"
+        },
+        {
+          "line": 1665372,
+          "text": "30642b49 | f30f11442440 | MOVSS dword ptr [ESP + 0x40],XMM0"
+        },
+        {
+          "line": 1665373,
+          "text": "30642b4f | f30f11442444 | MOVSS dword ptr [ESP + 0x44],XMM0"
+        },
+        {
+          "line": 1665374,
+          "text": "30642b55 | f30f11442448 | MOVSS dword ptr [ESP + 0x48],XMM0"
+        },
+        {
+          "line": 1665375,
+          "text": "30642b5b | f30f100534848130 | MOVSS XMM0,dword ptr [0x30818434]"
+        },
+        {
+          "line": 1665376,
+          "text": "30642b63 | 52 | PUSH EDX"
+        },
+        {
+          "line": 1665377,
+          "text": "30642b64 | 8bcd | MOV ECX,EBP"
+        },
+        {
+          "line": 1665378,
+          "text": "30642b66 | f30f114c243c | MOVSS dword ptr [ESP + 0x3c],XMM1"
+        },
+        {
+          "line": 1665379,
+          "text": "30642b6c | f30f11442450 | MOVSS dword ptr [ESP + 0x50],XMM0"
+        },
+        {
+          "line": 1665380,
+          "text": "30642b72 | e86ce09eff | CALL 0x30030be3"
+        },
+        {
+          "line": 1665381,
+          "text": "30642b77 | 8d442410 | LEA EAX,[ESP + 0x10]"
+        },
+        {
+          "line": 1665382,
+          "text": "30642b7b | 50 | PUSH EAX"
+        },
+        {
+          "line": 1665383,
+          "text": "30642b7c | e96d010000 | JMP 0x30642cee"
+        },
+        {
+          "line": 1665385,
+          "text": "30642b81 | 8d8c2490000000 | LEA ECX,[ESP + 0x90]"
+        },
+        {
+          "line": 1665386,
+          "text": "30642b88 | 51 | PUSH ECX"
+        },
+        {
+          "line": 1665387,
+          "text": "30642b89 | 8d8bd4000000 | LEA ECX,[EBX + 0xd4]"
+        },
+        {
+          "line": 1665388,
+          "text": "30642b8f | e804549eff | CALL 0x30027f98"
+        },
+        {
+          "line": 1665389,
+          "text": "30642b94 | f30f1083f0000000 | MOVSS XMM0,dword ptr [EBX + 0xf0]"
+        },
+        {
+          "line": 1665390,
+          "text": "30642b9c | f30f108bf4000000 | MOVSS XMM1,dword ptr [EBX + 0xf4]"
+        },
+        {
+          "line": 1665391,
+          "text": "30642ba4 | 8d6b04 | LEA EBP,[EBX + 0x4]"
+        },
+        {
+          "line": 1665392,
+          "text": "30642ba7 | f30f11442410 | MOVSS dword ptr [ESP + 0x10],XMM0"
+        },
+        {
+          "line": 1665393,
+          "text": "30642bad | 0f57c0 | XORPS XMM0,XMM0"
+        },
+        {
+          "line": 1665394,
+          "text": "30642bb0 | 8bf0 | MOV ESI,EAX"
+        },
+        {
+          "line": 1665395,
+          "text": "30642bb2 | b910000000 | MOV ECX,0x10"
+        },
+        {
+          "line": 1665396,
+          "text": "30642bb7 | 8bfd | MOV EDI,EBP"
+        },
+        {
+          "line": 1665397,
+          "text": "30642bb9 | 8d542410 | LEA EDX,[ESP + 0x10]"
+        },
+        {
+          "line": 1665398,
+          "text": "30642bbd | f3a5 | MOVSD.REP ES:EDI,ESI"
+        },
+        {
+          "line": 1665399,
+          "text": "30642bbf | f30f11442414 | MOVSS dword ptr [ESP + 0x14],XMM0"
+        },
+        {
+          "line": 1665400,
+          "text": "30642bc5 | f30f11442418 | MOVSS dword ptr [ESP + 0x18],XMM0"
+        },
+        {
+          "line": 1665401,
+          "text": "30642bcb | f30f1144241c | MOVSS dword ptr [ESP + 0x1c],XMM0"
+        },
+        {
+          "line": 1665402,
+          "text": "30642bd1 | f30f11442420 | MOVSS dword ptr [ESP + 0x20],XMM0"
+        },
+        {
+          "line": 1665403,
+          "text": "30642bd7 | f30f114c2424 | MOVSS dword ptr [ESP + 0x24],XMM1"
+        },
+        {
+          "line": 1665404,
+          "text": "30642bdd | f30f108bf8000000 | MOVSS XMM1,dword ptr [EBX + 0xf8]"
+        },
+        {
+          "line": 1665405,
+          "text": "30642be5 | f30f11442428 | MOVSS dword ptr [ESP + 0x28],XMM0"
+        },
+        {
+          "line": 1665406,
+          "text": "30642beb | f30f1144242c | MOVSS dword ptr [ESP + 0x2c],XMM0"
+        },
+        {
+          "line": 1665407,
+          "text": "30642bf1 | f30f11442430 | MOVSS dword ptr [ESP + 0x30],XMM0"
+        },
+        {
+          "line": 1665408,
+          "text": "30642bf7 | f30f11442434 | MOVSS dword ptr [ESP + 0x34],XMM0"
+        },
+        {
+          "line": 1665409,
+          "text": "30642bfd | f30f1144243c | MOVSS dword ptr [ESP + 0x3c],XMM0"
+        },
+        {
+          "line": 1665410,
+          "text": "30642c03 | f30f11442440 | MOVSS dword ptr [ESP + 0x40],XMM0"
+        },
+        {
+          "line": 1665411,
+          "text": "30642c09 | f30f11442444 | MOVSS dword ptr [ESP + 0x44],XMM0"
+        },
+        {
+          "line": 1665412,
+          "text": "30642c0f | f30f11442448 | MOVSS dword ptr [ESP + 0x48],XMM0"
+        },
+        {
+          "line": 1665413,
+          "text": "30642c15 | f30f100534848130 | MOVSS XMM0,dword ptr [0x30818434]"
+        },
+        {
+          "line": 1665414,
+          "text": "30642c1d | 52 | PUSH EDX"
+        },
+        {
+          "line": 1665415,
+          "text": "30642c1e | 8bcd | MOV ECX,EBP"
+        },
+        {
+          "line": 1665416,
+          "text": "30642c20 | f30f114c243c | MOVSS dword ptr [ESP + 0x3c],XMM1"
+        },
+        {
+          "line": 1665417,
+          "text": "30642c26 | f30f11442450 | MOVSS dword ptr [ESP + 0x50],XMM0"
+        },
+        {
+          "line": 1665418,
+          "text": "30642c2c | e8b2df9eff | CALL 0x30030be3"
+        },
+        {
+          "line": 1665419,
+          "text": "30642c31 | 8d442410 | LEA EAX,[ESP + 0x10]"
+        },
+        {
+          "line": 1665420,
+          "text": "30642c35 | 50 | PUSH EAX"
+        },
+        {
+          "line": 1665421,
+          "text": "30642c36 | e9b3000000 | JMP 0x30642cee"
+        },
+        {
+          "line": 1665423,
+          "text": "30642c3b | f30f1083f0000000 | MOVSS XMM0,dword ptr [EBX + 0xf0]"
+        },
+        {
+          "line": 1665424,
+          "text": "30642c43 | f30f108bf4000000 | MOVSS XMM1,dword ptr [EBX + 0xf4]"
+        },
+        {
+          "line": 1665425,
+          "text": "30642c4b | f30f11442410 | MOVSS dword ptr [ESP + 0x10],XMM0"
+        },
+        {
+          "line": 1665426,
+          "text": "30642c51 | 0f57c0 | XORPS XMM0,XMM0"
+        },
+        {
+          "line": 1665427,
+          "text": "30642c54 | f30f11442414 | MOVSS dword ptr [ESP + 0x14],XMM0"
+        },
+        {
+          "line": 1665428,
+          "text": "30642c5a | f30f11442418 | MOVSS dword ptr [ESP + 0x18],XMM0"
+        },
+        {
+          "line": 1665429,
+          "text": "30642c60 | f30f1144241c | MOVSS dword ptr [ESP + 0x1c],XMM0"
+        },
+        {
+          "line": 1665430,
+          "text": "30642c66 | f30f11442420 | MOVSS dword ptr [ESP + 0x20],XMM0"
+        },
+        {
+          "line": 1665431,
+          "text": "30642c6c | f30f114c2424 | MOVSS dword ptr [ESP + 0x24],XMM1"
+        },
+        {
+          "line": 1665432,
+          "text": "30642c72 | f30f108bf8000000 | MOVSS XMM1,dword ptr [EBX + 0xf8]"
+        },
+        {
+          "line": 1665433,
+          "text": "30642c7a | f30f11442428 | MOVSS dword ptr [ESP + 0x28],XMM0"
+        },
+        {
+          "line": 1665434,
+          "text": "30642c80 | f30f1144242c | MOVSS dword ptr [ESP + 0x2c],XMM0"
+        },
+        {
+          "line": 1665435,
+          "text": "30642c86 | f30f11442430 | MOVSS dword ptr [ESP + 0x30],XMM0"
+        },
+        {
+          "line": 1665436,
+          "text": "30642c8c | f30f11442434 | MOVSS dword ptr [ESP + 0x34],XMM0"
+        },
+        {
+          "line": 1665437,
+          "text": "30642c92 | f30f1144243c | MOVSS dword ptr [ESP + 0x3c],XMM0"
+        },
+        {
+          "line": 1665438,
+          "text": "30642c98 | f30f11442440 | MOVSS dword ptr [ESP + 0x40],XMM0"
+        },
+        {
+          "line": 1665439,
+          "text": "30642c9e | f30f11442444 | MOVSS dword ptr [ESP + 0x44],XMM0"
+        },
+        {
+          "line": 1665440,
+          "text": "30642ca4 | f30f11442448 | MOVSS dword ptr [ESP + 0x48],XMM0"
+        },
+        {
+          "line": 1665441,
+          "text": "30642caa | f30f100534848130 | MOVSS XMM0,dword ptr [0x30818434]"
+        },
+        {
+          "line": 1665442,
+          "text": "30642cb2 | 8d6b04 | LEA EBP,[EBX + 0x4]"
+        },
+        {
+          "line": 1665443,
+          "text": "30642cb5 | f30f114c2438 | MOVSS dword ptr [ESP + 0x38],XMM1"
+        },
+        {
+          "line": 1665444,
+          "text": "30642cbb | f30f1144244c | MOVSS dword ptr [ESP + 0x4c],XMM0"
+        },
+        {
+          "line": 1665445,
+          "text": "30642cc1 | b910000000 | MOV ECX,0x10"
+        },
+        {
+          "line": 1665446,
+          "text": "30642cc6 | 8d742410 | LEA ESI,[ESP + 0x10]"
+        },
+        {
+          "line": 1665447,
+          "text": "30642cca | 8bfd | MOV EDI,EBP"
+        },
+        {
+          "line": 1665448,
+          "text": "30642ccc | f3a5 | MOVSD.REP ES:EDI,ESI"
+        },
+        {
+          "line": 1665449,
+          "text": "30642cce | 8d8c24d0000000 | LEA ECX,[ESP + 0xd0]"
+        },
+        {
+          "line": 1665450,
+          "text": "30642cd5 | 51 | PUSH ECX"
+        },
+        {
+          "line": 1665451,
+          "text": "30642cd6 | 8d8bd4000000 | LEA ECX,[EBX + 0xd4]"
+        },
+        {
+          "line": 1665452,
+          "text": "30642cdc | e8b7529eff | CALL 0x30027f98"
+        },
+        {
+          "line": 1665453,
+          "text": "30642ce1 | 50 | PUSH EAX"
+        },
+        {
+          "line": 1665454,
+          "text": "30642ce2 | 8bcd | MOV ECX,EBP"
+        },
+        {
+          "line": 1665455,
+          "text": "30642ce4 | e8fade9eff | CALL 0x30030be3"
+        },
+        {
+          "line": 1665456,
+          "text": "30642ce9 | 8d542410 | LEA EDX,[ESP + 0x10]"
+        },
+        {
+          "line": 1665457,
+          "text": "30642ced | 52 | PUSH EDX"
+        },
+        {
+          "line": 1665459,
+          "text": "30642cee | 0f57c0 | XORPS XMM0,XMM0"
+        },
+        {
+          "line": 1665460,
+          "text": "30642cf1 | f30f100d34848130 | MOVSS XMM1,dword ptr [0x30818434]"
+        },
+        {
+          "line": 1665461,
+          "text": "30642cf9 | f30f11442418 | MOVSS dword ptr [ESP + 0x18],XMM0"
+        },
+        {
+          "line": 1665462,
+          "text": "30642cff | f30f1144241c | MOVSS dword ptr [ESP + 0x1c],XMM0"
+        },
+        {
+          "line": 1665463,
+          "text": "30642d05 | f30f11442420 | MOVSS dword ptr [ESP + 0x20],XMM0"
+        },
+        {
+          "line": 1665464,
+          "text": "30642d0b | f30f11442424 | MOVSS dword ptr [ESP + 0x24],XMM0"
+        },
+        {
+          "line": 1665465,
+          "text": "30642d11 | f30f1144242c | MOVSS dword ptr [ESP + 0x2c],XMM0"
+        },
+        {
+          "line": 1665466,
+          "text": "30642d17 | f30f11442430 | MOVSS dword ptr [ESP + 0x30],XMM0"
+        },
+        {
+          "line": 1665467,
+          "text": "30642d1d | f30f11442434 | MOVSS dword ptr [ESP + 0x34],XMM0"
+        },
+        {
+          "line": 1665468,
+          "text": "30642d23 | f30f11442438 | MOVSS dword ptr [ESP + 0x38],XMM0"
+        },
+        {
+          "line": 1665469,
+          "text": "30642d29 | f30f11442440 | MOVSS dword ptr [ESP + 0x40],XMM0"
+        },
+        {
+          "line": 1665470,
+          "text": "30642d2f | f30f1083e4000000 | MOVSS XMM0,dword ptr [EBX + 0xe4]"
+        },
+        {
+          "line": 1665471,
+          "text": "30642d37 | f30f11442444 | MOVSS dword ptr [ESP + 0x44],XMM0"
+        },
+        {
+          "line": 1665472,
+          "text": "30642d3d | f30f1083e8000000 | MOVSS XMM0,dword ptr [EBX + 0xe8]"
+        },
+        {
+          "line": 1665473,
+          "text": "30642d45 | f30f11442448 | MOVSS dword ptr [ESP + 0x48],XMM0"
+        },
+        {
+          "line": 1665474,
+          "text": "30642d4b | f30f1083ec000000 | MOVSS XMM0,dword ptr [EBX + 0xec]"
+        },
+        {
+          "line": 1665475,
+          "text": "30642d53 | 8bcd | MOV ECX,EBP"
+        },
+        {
+          "line": 1665476,
+          "text": "30642d55 | f30f114c2414 | MOVSS dword ptr [ESP + 0x14],XMM1"
+        },
+        {
+          "line": 1665477,
+          "text": "30642d5b | f30f114c2428 | MOVSS dword ptr [ESP + 0x28],XMM1"
+        },
+        {
+          "line": 1665478,
+          "text": "30642d61 | f30f114c243c | MOVSS dword ptr [ESP + 0x3c],XMM1"
+        },
+        {
+          "line": 1665479,
+          "text": "30642d67 | f30f1144244c | MOVSS dword ptr [ESP + 0x4c],XMM0"
+        },
+        {
+          "line": 1665480,
+          "text": "30642d6d | f30f114c2450 | MOVSS dword ptr [ESP + 0x50],XMM1"
+        },
+        {
+          "line": 1665481,
+          "text": "30642d73 | e86bde9eff | CALL 0x30030be3"
+        },
+        {
+          "line": 1665482,
+          "text": "30642d78 | 5f | POP EDI"
+        },
+        {
+          "line": 1665483,
+          "text": "30642d79 | 5e | POP ESI"
+        },
+        {
+          "line": 1665484,
+          "text": "30642d7a | 5d | POP EBP"
+        },
+        {
+          "line": 1665485,
+          "text": "30642d7b | 5b | POP EBX"
+        },
+        {
+          "line": 1665486,
+          "text": "30642d7c | 81c400010000 | ADD ESP,0x100"
+        },
+        {
+          "line": 1665487,
+          "text": "30642d82 | c3 | RET"
+        }
+      ],
+      "sourceSHA256": "2430c42aa4eb835fc96b1fdec27751760ac99e30973f5b34db0fb5fb6812ee73"
+    }
+  ],
+  "assemblySHA256": "8b243b9520963161bc4ae73f35f2712b196f684e188276fb2453e2e4c7e65d36",
+  "nativeDataAudit": {
+    "matchedQuaternionKeys": 14735,
+    "matchedQuaternionComponents": 58940,
+    "negativeEndpointDotEdges": 4,
+    "allMatchedFirstKeyTimes": [
+      0.0
+    ],
+    "maxMatchedPoseSquaredQuaternionLengthError": 0.0038205528021760804,
+    "packedNativeQuaternionKeyBytesSHA256": "93160b186b16364ef5515192e28ee345eb6c64c60663fd5e865c0521fde98a22",
+    "packedNativeQuaternionKeyBytes": 176820
+  },
+  "runtimeSemantics": "signed16-packed original keys, shortest-sign component lerp, final motion-layer quaternion normalization; native P/S linear tracks and original pose fallback",
+  "limitations": [
+    "This implements one full-weight native clip with inspector repetition. Native multi-layer masks, fades/additive blend, repositioning and frame-effect dispatch require separate systems.",
+    "TypeScript rounds documented stored steps to float32. It does not emulate x87 extended precision instruction by instruction.",
+    "The frozen GLB retains portable standard quaternion slerp channels. The runtime adapter reads the independently SHA-verified original raw JSON keys instead."
+  ],
+  "originalEngineExecuted": false,
+  "sourceFilesModified": false
+}

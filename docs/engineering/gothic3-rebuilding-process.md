@@ -1,7 +1,9 @@
 # How Gothic 3 is being rebuilt for the browser
 
-Date: 4 October 2026. Current result: an Ardea exploration and model-inspection
-milestone in TypeScript. This is an incomplete game reconstruction.
+Date: 4 October 2026. Current result: Ardea exploration, native Hero motion
+inspection and the original quest/dialogue catalog in TypeScript. This is an
+incomplete game reconstruction. Completing the original game in the browser
+remains the objective; the inspector does not satisfy that objective.
 
 The owner requested this separate project and explicitly approved hosting it
 in the public Tervain repository. The route is
@@ -20,8 +22,9 @@ separate converter run offline during preparation.
 The earlier local study inventoried and hashed the installation, extracted
 38 archives containing 107,370 file records, and recorded which archive layer
 wins for each logical resource. Those complete archive contents and native
-binaries are kept outside this repository. The browser snapshot contains only
-the selected derivatives needed for this scene.
+binaries are kept outside this repository. The published derivatives cover the
+rendered Ardea scene and the indexed animation, gameplay and world foundations
+described below.
 
 The preparation tool reads this study layout:
 
@@ -82,10 +85,12 @@ flowchart TD
 | --- | --- | --- |
 | `.node`, `.lrentdat` | Entity GUIDs, world matrices, visual resources and body/head slots | [read_genome.py](../../tools/gothic3/read_genome.py) |
 | `.xcmsh` | Positions, normals, triangle indices, UVs and material sections | [read_xcmsh.py](../../tools/gothic3/read_xcmsh.py) |
-| `.xact` / embedded FXA actor payloads | Selected body/head geometry at the highest source triangle count | [prepare_ardea.py](../../tools/gothic3/prepare_ardea.py), using Rimy3D offline |
+| `.xact` / embedded FXA actor payloads | Static NPC body/head geometry; native Hero skeleton, skin and cleaned hierarchy | [prepare_ardea.py](../../tools/gothic3/prepare_ardea.py), [read_xact_skin.py](../../tools/gothic3/read_xact_skin.py) |
+| `.xmot` / embedded LMA motion payloads | Original poses, timed position/rotation/scale tracks and motion phases | [export_animated.py](../../tools/gothic3/export_animated.py) |
 | `.ximg` | Native DXT1/3/5 texture pixels and mip layout | [prepare_ardea.py](../../tools/gothic3/prepare_ardea.py), using Pillow |
 | `.xshmat` | Diffuse sampler names, switch modes, blend mode and mask reference | [read_xshmat.py](../../tools/gothic3/read_xshmat.py) |
-| Original quest and `.info` records | Research data for future dialogue and quest execution | [content-provenance.json](../../assets/gothic3/content-provenance.json) |
+| Original `.quest`, `.info`, string table and gameplay properties | Full catalogs, original operands, localization and source state | [export_gameplay.py](../../tools/gothic3/export_gameplay.py) |
+| `.wrldatasc`, `.secdat` and geometry contexts | World/sector membership, source enabled flags and terrain inventory | [export_world_index.py](../../tools/gothic3/export_world_index.py) |
 
 The tool resolves resources through the effective layer index. It verifies an
 input's SHA-256 before using it and refuses ambiguous file lookup. This avoids
@@ -178,13 +183,20 @@ code is under [src/gothic3](../../src/gothic3):
 | `controls.ts` | New first-person movement, raycast ground support, wall sliding and flight |
 | `main.ts` | Scene assembly, character inspector, map, journal, camera saves and UI |
 | `content.ts` | Recovered character and quest reference summaries |
+| `animation.ts`, `skinning.ts` | Hero clip playback and all native bone influences |
+| `native-motion.ts` | Source quaternion packing/interpolation, pose fallback and normalization |
+| `catalog.ts`, `catalog-view.ts` | Verified original quest/dialogue records and language selection |
+| `quest-state.ts` | Native status transition kernel with explicit host effects; not enabled for play |
+| `resource.ts` | Hash-checked, bounded decompression of lazy native-data chunks |
 | `style.css` | The separate page's interface |
 
 This code uses Three.js to display the prepared resources. It does not load
 native DLLs, execute decompiled functions or import Tervain's simulation.
-Ground support and movement are new approximations. Character models are
-static bind-pose previews, without native skeletal animation or equipment
-attachment behavior. Preview lighting and brightness are browser choices.
+Ground support and movement are new approximations. NPC models remain static
+bind-pose previews. The Hero inspector uses original skin weights and selected
+motion tracks; equipment attachments, combat and NPC animation selection still
+need corresponding native behavior. Preview lighting and brightness are browser
+choices.
 
 The generated [scene manifest](../../public/gothic3/scene.json) connects models
 to placements and appearances. The
@@ -229,11 +241,19 @@ applicable results and avoid duplicate runs. The workflow retains its required
 typecheck, scenario suite and build, followed by deployment. Confirm the served
 Ardea route and the original Tervain version after the deployment succeeds.
 
+The 4 October foundation checkpoint passed local typecheck, production build,
+documentation link checks and generated-byte verification. All 11,843 gameplay
+output receipts matched; 9,301 gzip files also matched their decoded receipts.
+The largest decoded chunk was 2,749,307 bytes. Native Hero walking and paused
+fist deformation rendered in the browser without console warnings, and catalog
+search/language selection showed the original records. This evidence does not
+include a native-game comparison run or a browser playthrough.
+
 ## 6. What still has to be rebuilt
 
 A complete game requires implementations and original-behavior comparisons for:
 
-1. Skeletons, skin weights, body/head binding, attachments and motion clips.
+1. Additional actor rigs, attachments, expression motion and native animation selection/blending.
 2. Player combat, targeting, damage, hit reactions and death/revival rules.
 3. NPC AI, routines, factions, hostility and original activation conditions.
 4. Dialogue predicates and commands, inventory, trading, skills and quest state.
@@ -249,3 +269,149 @@ Gothic 3's assets remain third-party material with no asserted open-content
 license. The offline preparation scripts retain their GPL-3.0-only license;
 that license does not license the game's assets. The separate browser runtime
 does not bundle those scripts. See [NOTICE](../../assets/gothic3/NOTICE.md).
+
+## 7. Native foundations added after the first scene
+
+### Hero skin and motion
+
+The separate [animation manifest](../../public/gothic3/animated/manifest.json)
+records 16 verified native inputs, 73 shared cleaned joints, 6,630 split vertices,
+10,692 triangles and 11 original clips. Body and head retain their separate
+inverse binds. The export reproduces the native helper-node cleanup, confirmed
+at Engine.dll `eCWrapper_emfx2Actor::CleanUpHierachy` (`0x3002f955`) and its actor
+load call sites. The raw hierarchy and every original motion key remain in
+`hero-native.json`.
+
+Some body vertices have 17 influences. The browser restores the original first
+weight set, which GLTFLoader otherwise normalizes in isolation, and uses all five
+body sets or two head sets in both GPU deformation and CPU bounds/raycasts.
+Keeping only four weights would alter the original deformation. Independent
+native-byte and static-converter checks are recorded in `animated/audit.json`.
+
+Walking, running, idle and individual fist attack phases can be selected in the
+model inspector. This is clip inspection: it does not execute combat. Native
+rotation tracks are packed into signed shorts, decoded with the original
+constant, interpolated by shortest-sign component lerp and normalized after
+motion-layer evaluation. The browser's `native-motion.ts` reads the verified
+raw keys and follows that path for one full-weight clip, rather than using
+glTF's spherical interpolation. The portable GLB still has standard glTF
+semantics for other viewers. Original multi-layer blending, motion effects and
+repositioning remain unimplemented; JS float storage is not an x87 emulator.
+Native normals/UVs and diffuse images are retained; the browser PBR response
+still differs from the complete native material graph.
+
+```powershell
+python tools/gothic3/export_animated.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+python tools/gothic3/audit_animated.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+```
+
+### Quest, dialogue and player state
+
+The [gameplay manifest](../../public/gothic3/gameplay/manifest.json) covers 641
+quests, 4,381 info records and 35,114 localization keys in five original languages.
+Parallel command arrays retain their original positional cells and exact
+operands. Compact runtime records omit duplicate raw text/byte representations;
+the detailed extraction remains available locally. Browser catalog downloads
+are checked against the manifest's output lengths and SHA-256 hashes.
+
+The original Script_Game.dll startup table contains 54 info command entries.
+Its lookup is case insensitive. The source `SuccessQuest` spelling is preserved
+as unrecognized, rather than silently changed to `SucceedQuest`. `Description`
+is handled by the separate Game.dll info layer. Reading a dialogue line does
+not establish its availability or execute its actions.
+
+The TypeScript quest kernel reproduces reviewed manager/status gates and calls
+explicit host effects for rewards, arena state and the Ardea tutorial. It needs
+actual initialized state and implemented host services before ordinary play can
+use it. `CloseQuest` means Open → Obsolete or Running → Cancelled, not Success.
+Prerequisites are unfinished while Open, Running or Lost in this native build.
+ExperiencePoints is a script input, not necessarily final XP: the native quest
+reward callback passes WorldEntity/Player roles, and the XP script applies
+additional rules, including a multiplier on that path.
+
+Serialized `PC_Hero` data contains pre-initialization placeholders. The native
+`OnGameStartUp` callback sets health to 200, sets other attributes, initializes
+inventory and starts `Xardas_FindXardas`. Those callback effects must be recovered
+and executed; displaying serialized defaults as a completed new-game state
+would be incorrect. The browser currently grants no quest rewards and retains
+camera-only saves.
+
+The recovered [initialized player seed](../../public/gothic3/gameplay/initial/initialized-player.json)
+combines the serialized Hero with verified startup setters and 121 ordered
+inventory assurances. It records 200 health, 100 mana, 100 stamina, the original
+attribute values, template GUIDs and quick-slot operands. Five assurances
+explicitly mark items learned. The other learned states remain unresolved where
+creation notifications or template defaults still matter. The separate
+[world clock record](../../public/gothic3/gameplay/initial/world-clock.json)
+preserves Year 0, Day 0, noon and Factor 12, with the native read/notification
+path attached. These are preparation records; the exploration controller does
+not yet consume them as an active character simulation.
+
+Enum numeric values are preserved from native files. Community enum labels are
+advisory: this installed build uses older action numbering. For example, local
+Game.dll initializes Action 24 as `StumbleR` at `0x20522a10`; dispatch must use
+the verified mapping for this build.
+
+### Bounded gameplay data
+
+World entities and template properties are prepared independently from visual
+models. The current index contains 230,337 entity records, including 49,586 with
+selected gameplay properties, and 17,634 template headers. Decoding succeeds for
+2,519 of 2,529 world sources and 6,081 of 6,082 template sources. The remaining
+failures are recorded in the audit; they are not silently treated as empty data.
+
+The ten world failures are seven version-only dynamic-layer stubs, one zero-byte
+node and two unfinished dynamic layers. The template failure is an older tree
+header format. Unknown property data remains in quest/info managers, inventory,
+movement, items and other systems; the
+[property audit](../../assets/gothic3/gameplay/runtime-property-audit.json)
+records exact counts and classes. These gaps affect faithful state and save
+integration even though the quest catalog can already be read.
+
+Large property sets and their lookup indices use lazy gzip chunks. Each chunk
+decodes to at most 4 MiB and carries compressed and decoded length/hash receipts.
+World entity chunks contain at most 256 entities. The browser resource reader
+checks the transport bytes, bounds decompression, then checks the decoded bytes
+before parsing JSON. Exporting this data does not execute its native callbacks
+or resolve every property type.
+
+```powershell
+python tools/gothic3/export_gameplay.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04" --raw-output "C:\outside-the-repository\gothic3-gameplay-raw"
+python tools/gothic3/assemble_initial_player.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04" --raw "C:\outside-the-repository\gothic3-gameplay-raw"
+python tools/gothic3/repack_gameplay.py --refresh-receipts-only
+```
+
+The detailed raw audits occupy several gigabytes outside the repository. The
+initial-state assembly runs after the full export, then the last command refreshes
+the final output receipts.
+
+### Full-world indexing
+
+The [world source manifest](../../public/gothic3/world/source-manifest.json)
+records world registries → sector memberships → native world files. This is the
+input to future streaming; an Ardea radius list cannot represent the full world.
+The index includes 2,421 nodes, 108 dynamic world layers and 782 native landscape
+Cell meshes across Myrtana, Nordmar and Varant. Source enabled flags, unresolved
+references and bounds are retained explicitly. Bounds use absolute reflected
+metres; a renderer must subtract its chosen floating origin once.
+
+Indexing the resources does not render or activate them. Terrain-to-sector
+binding, missing registry resources, source activation, visual conversion and
+collision/navigation streaming still require implementation. The published
+scene continues to use its six selected Ardea landscape LOD cells.
+
+The native defaults distinguish the `G3_Startup` menu world from gameplay world
+`G3_World_01`. The gameplay registry contains 169 enabled references absent from
+all extracted project layers, including old Ardea levelmesh/NPC names. Native
+sector import appends `.sec`, performs an exact lookup and warns/skips missing
+resources. The index retains those missing references; it does not infer
+replacement sectors from similarly named files.
+
+```powershell
+python tools/gothic3/export_world_index.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+```
+
+Completion must be evaluated against the original starting state, story gates,
+quests, combat, region transitions and ending paths. A visible model, a complete
+catalog, a successful build or a successful deployment alone cannot establish
+that the original game is finishable.

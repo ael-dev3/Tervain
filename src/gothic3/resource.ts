@@ -1,0 +1,46 @@
+import { assetUrl } from './assets';
+
+export interface ResourceReceipt {
+  bytes: number;
+  sha256: string;
+  contentEncoding?: 'gzip';
+  encoding?: 'gzip';
+  uncompressedBytes?: number;
+  uncompressedSha256?: string;
+}
+
+async function verify(bytes: ArrayBuffer, length: number, sha256: string, label: string): Promise<void> {
+  if (bytes.byteLength !== length) throw new Error('Resource size differs: ' + label);
+  const digest = await crypto.subtle.digest('SHA-256', bytes);
+  const actual = Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('');
+  if (actual !== sha256) throw new Error('Resource hash differs: ' + label);
+}
+
+/** Lazy native-data chunks are verified before and after decompression. */
+export async function readNativeResource<T>(path: string, receipt: ResourceReceipt): Promise<T> {
+  const response = await fetch(assetUrl(path));
+  if (!response.ok) throw new Error(path + ' HTTP ' + response.status);
+  let bytes = await response.arrayBuffer();
+  await verify(bytes, receipt.bytes, receipt.sha256, path);
+  if (receipt.contentEncoding === 'gzip' || receipt.encoding === 'gzip') {
+    if (receipt.uncompressedBytes === undefined || !receipt.uncompressedSha256) throw new Error('Decoded resource receipt is missing: ' + path);
+    const reader = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip')).getReader();
+    const chunks: Uint8Array[] = [];
+    let length = 0;
+    try {
+      for (;;) {
+        const item = await reader.read();
+        if (item.done) break;
+        length += item.value.byteLength;
+        if (length > receipt.uncompressedBytes) { await reader.cancel(); throw new Error('Decoded resource exceeds its receipt: ' + path); }
+        chunks.push(item.value);
+      }
+    } finally { reader.releaseLock(); }
+    const joined = new Uint8Array(length);
+    let offset = 0;
+    for (const chunk of chunks) { joined.set(chunk, offset); offset += chunk.byteLength; }
+    bytes = joined.buffer;
+    await verify(bytes, receipt.uncompressedBytes, receipt.uncompressedSha256, path + ' (decoded)');
+  }
+  return JSON.parse(new TextDecoder().decode(bytes)) as T;
+}

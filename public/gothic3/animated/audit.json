@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "passed": true,
+  "kind": "actual native source byte/geometry/skin/motion audit",
+  "manifestSHA256": "9d32e81585203dce8b35dc6b6550b3719caa821f9eb3e4eaea0940b520da930f",
+  "glbSHA256": "ec27fd070dcb50537ff5427a1488f1551cc2037ab32e92fb35a353e1b92cbba5",
+  "nativeJSONSHA256": "80e274ba176b88d4780937d6794a1bf5d3f8988be76f5ee820c41f697697c97e",
+  "originalInputFilesChecked": 16,
+  "outputsAndDependenciesChecked": 6,
+  "counts": {
+    "splitVertices": 6630,
+    "triangles": 10692,
+    "originalInfluencesChecked": 28360,
+    "splitInfluencesChecked": 35042,
+    "nativeKeyframesChecked": 15218,
+    "constantPoseChannelsChecked": 2039,
+    "accessors": 4853,
+    "distinctFirstWeightBackups": 3,
+    "staticOriginalVerticesCompared": 5519
+  },
+  "nativeQuaternionInterpolation": "GLB slerp differs from native component-linear; explicitly retained limitation",
+  "sourceInstallationModified": false,
+  "gameExecuted": false
+}

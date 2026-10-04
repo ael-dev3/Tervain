@@ -2,7 +2,10 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { NativeAssets, assetUrl } from './assets';
 import { ExplorerController } from './controls';
+import { NativeAnimations } from './animation';
+import type { AnimatedActor } from './animation';
 import { ARDEA_PEOPLE, ARDEA_QUESTS, PORT_SCOPE } from './content';
+import { showOriginalDialogue, showQuestCatalog } from './catalog-view';
 import type { ArdeaScene, ScenePerson } from './types';
 import './style.css';
 
@@ -15,10 +18,10 @@ ui.innerHTML = '<header class="masthead"><div class="eyebrow">Gothic 3 · browse
   '<nav class="toolbar"><button id="explore-button">Explore</button><button id="inspect-button">Models <kbd>Tab</kbd></button><button id="journal-button">Journal <kbd>J</kbd></button><button id="map-button">Map <kbd>M</kbd></button><button id="save-button">Save <kbd>P</kbd></button><button id="help-button">Help</button><a href="../">Tervain ↗</a></nav>' +
   '<div class="crosshair" id="crosshair"></div><div class="prompt hidden" id="prompt"></div><div class="toast hidden" id="toast" role="status"></div>' +
   '<footer class="bottom"><div class="keys" id="keys"><kbd>W A S D</kbd> move &nbsp; <kbd>Shift</kbd> run &nbsp; drag mouse / click for mouse look<br><kbd>E</kbd> inspect person &nbsp; <kbd>F</kbd> fly &nbsp; <kbd>R</kbd> return to arrival &nbsp; <kbd>Esc</kbd> release mouse</div><div class="coordinate"><span id="coordinates">Loading native scene</span><div class="scope-tag">Work in progress · native gameplay still being rewritten</div></div></footer>' +
-  '<section class="inspector panel hidden" id="inspector"><div class="eyebrow">Original geometry</div><h2>Character inspection</h2><select id="model-select" aria-label="Character model"></select><div class="row"><button id="wire-button">Wireframe</button><button id="spin-button">Rotate</button><button id="frame-button">Frame</button></div><p>Drag to rotate · wheel to zoom · right-drag to pan.</p><p id="model-info">Native body and head; exported bind pose.</p><div class="source" id="model-source"></div></section>' +
+  '<section class="inspector panel hidden" id="inspector"><div class="eyebrow">Original geometry</div><h2>Character inspection</h2><select id="model-select" aria-label="Character model"></select><div class="row"><button id="wire-button">Wireframe</button><button id="spin-button">Rotate</button><button id="frame-button">Frame</button></div><div id="animation-controls" class="hidden"><label for="clip-select">Native motion</label><select id="clip-select" aria-label="Native motion"><option value="">Bind pose</option></select><button id="clip-play" disabled>Play motion</button></div><p>Drag to rotate · wheel to zoom · right-drag to pan.</p><p id="model-info">Native body and head; exported bind pose.</p><div class="source" id="model-source"></div></section>' +
   '<section class="modal panel hidden" id="modal" aria-label="Information"><button class="close" id="modal-close" aria-label="Close panel">×</button><div id="modal-content"></div></section>' +
   '<div class="map hidden" id="map"><span class="map-label">ARDEA · LOCAL POSITIONS</span><canvas id="map-view" width="488" height="488" aria-label="Local positions map"></canvas></div>' +
-  '<div class="loading" id="loading"><section class="intro"><div class="eyebrow">Gothic 3 · TypeScript reconstruction</div><h1>Ardea</h1><h2>The shore of Myrtana</h2><p>Walk through the recovered scene. Meet its original character models. Inspect their geometry, materials and placement.</p><div class="rule"></div><p>This first browser milestone brings the local assets into a new renderer. The original combat, quests, animation and world streaming are still being rebuilt.</p><div class="progress"><span id="progress"></span></div><div class="load-status" id="load-status">Reading scene manifest…</div><button class="primary" id="start-button" disabled>Enter Ardea</button><small>Independent from Tervain’s original game.<br>Keyboard and mouse · WebGL · local browser saves</small></section></div>';
+  '<div class="loading" id="loading"><section class="intro"><div class="eyebrow">Gothic 3 · TypeScript reconstruction</div><h1>Ardea</h1><h2>The shore of Myrtana</h2><p>Walk through the recovered scene. Meet its original character models. Inspect their geometry, materials and placement.</p><div class="rule"></div><p>Explore the recovered scene, inspect original Hero motion and read the quest catalog. Combat, quest execution, NPC simulation and world streaming are still being rebuilt.</p><div class="progress"><span id="progress"></span></div><div class="load-status" id="load-status">Reading scene manifest…</div><button class="primary" id="start-button" disabled>Enter Ardea</button><small>Independent from Tervain’s original game.<br>Keyboard and mouse · WebGL · local browser saves</small></section></div>';
 
 const element = <T extends HTMLElement = HTMLElement>(id: string): T => document.getElementById(id) as T;
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
@@ -38,6 +41,7 @@ sunlight.position.set(-90, 140, -60);
 world.add(sunlight);
 const camera = new THREE.PerspectiveCamera(65, innerWidth / innerHeight, 0.06, 2200);
 const assets = new NativeAssets(renderer);
+const animations = new NativeAnimations();
 const sceneObjects: THREE.Object3D[] = [];
 const peopleObjects = new Map<string, THREE.Group>();
 const failures: string[] = [];
@@ -52,6 +56,7 @@ let wireframe = false;
 let toastUntil = 0;
 let inspectRequest = 0;
 let inspectorModel: THREE.Group | null = null;
+let inspectorActor: AnimatedActor | null = null;
 let mapShown = false;
 let lastFrame = performance.now();
 let lastHud = 0;
@@ -148,19 +153,12 @@ function inspectNearby(): void {
   button.onclick = () => { closePanel(); void setInspection(true, person.id); };
   content.append(button);
   paragraph(content, person.source + (person.body ? ' · ' + person.body : '') + (person.head ? ' · ' + person.head : ''), 'source');
+  void showOriginalDialogue(content, person.name);
 }
 
 function showJournal(): void {
-  const content = openPanel('Port journal');
-  paragraph(content, 'Original quests recovered from the installed game. They are reference data here; no quest is automatically started or completed.');
-  for (const quest of ARDEA_QUESTS) {
-    const h3 = document.createElement('h3');
-    h3.textContent = quest.title;
-    content.append(h3);
-    paragraph(content, quest.summary);
-    paragraph(content, quest.implemented ? 'Implemented in this milestone.' : 'Original gameplay not yet ported.', 'warnings');
-    paragraph(content, quest.id + ' · ' + quest.source, 'source');
-  }
+  const content = openPanel('Original quest journal');
+  void showQuestCatalog(content);
 }
 
 function showHelp(): void {
@@ -242,7 +240,7 @@ async function character(person: ScenePerson): Promise<THREE.Group> {
 
 function frameInspector(): void {
   if (!inspectorModel) return;
-  const bounds = new THREE.Box3().setFromObject(inspectorModel);
+  const bounds = new THREE.Box3().setFromObject(inspectorModel, true);
   const size = bounds.getSize(new THREE.Vector3());
   const center = bounds.getCenter(new THREE.Vector3());
   const vfov = THREE.MathUtils.degToRad(inspectCamera.fov);
@@ -269,11 +267,15 @@ async function selectModel(id: string): Promise<void> {
   const token = ++inspectRequest;
   element('model-info').textContent = 'Loading ' + person.name + '…';
   try {
-    const group = await character(person);
-    if (token !== inspectRequest) return;
+    const actor = person.id === 'nameless-hero-exhibit' ? await animations.actor('hero') : null;
+    const group = actor?.object ?? await character(person);
+    if (token !== inspectRequest) { actor?.destroy(); return; }
+    const previousActor = inspectorActor;
+    previousActor?.destroy();
+    inspectorActor = actor;
     if (inspectorModel) {
       inspection.remove(inspectorModel);
-      inspectorModel.traverse((object) => {
+      if (!previousActor) inspectorModel.traverse((object) => {
         if (object instanceof THREE.Mesh) {
           for (const material of Array.isArray(object.material) ? object.material : [object.material]) material.dispose();
         }
@@ -281,8 +283,14 @@ async function selectModel(id: string): Promise<void> {
     }
     // Inspector owns materials, preserving world materials when wireframe toggles.
     group.traverse((object) => {
-      if (object instanceof THREE.Mesh) {
-        object.material = Array.isArray(object.material) ? object.material.map((material) => material.clone()) : object.material.clone();
+      if (object instanceof THREE.Mesh && !actor) {
+        const copyMaterial = (material: THREE.Material): THREE.Material => {
+          const result = material.clone();
+          result.onBeforeCompile = material.onBeforeCompile;
+          result.customProgramCacheKey = material.customProgramCacheKey;
+          return result;
+        };
+        object.material = Array.isArray(object.material) ? object.material.map(copyMaterial) : copyMaterial(object.material);
       }
     });
     const box = new THREE.Box3().setFromObject(group);
@@ -301,9 +309,23 @@ async function selectModel(id: string): Promise<void> {
         triangles += (object.geometry.index?.count ?? object.geometry.getAttribute('position').count) / 3;
       }
     });
-    element('model-info').textContent = person.name + ' · ' + Math.round(triangles).toLocaleString() + ' triangles · ' + meshes + ' material meshes. Original body + head in exported bind pose; native skinning, hair attachments and clips are not included.';
+    element('model-info').textContent = person.name + ' · ' + Math.round(triangles).toLocaleString() + ' triangles · ' + meshes + ' material meshes. ' + (actor ? 'All original skin weights and native motion sampling. Clip blending, combat and attachments are still being rebuilt.' : 'Original body + head in exported bind pose; native skinning and clips are not included for this model.');
     element('model-source').textContent = person.source + ' · ' + (person.body ?? '') + ' · ' + (person.head ?? '');
+    element('world-caption').textContent = actor ? 'Original character geometry · native Hero motion' : 'Original character geometry · exported bind pose';
+    const selector = element<HTMLSelectElement>('clip-select');
+    selector.replaceChildren(new Option('Bind pose', ''));
+    for (const clip of actor?.asset.clips ?? []) {
+      const option = new Option(clip.role + (clip.phase ? ' · ' + clip.phase : '') + ' — ' + clip.name, clip.name);
+      option.title = clip.source;
+      selector.add(option);
+    }
+    element('animation-controls').classList.toggle('hidden', !actor);
+    element<HTMLButtonElement>('clip-play').disabled = true;
+    element('clip-play').textContent = 'Play motion';
+    updateInspectorViewport();
+    frameInspector();
   } catch (error) {
+    if (token !== inspectRequest) return;
     element('model-info').textContent = 'Could not load this character: ' + String(error);
   }
 }
@@ -319,7 +341,7 @@ async function setInspection(enabled: boolean, id?: string): Promise<void> {
   element('inspector').classList.toggle('hidden', !enabled);
   element('crosshair').classList.toggle('hidden', enabled);
   element('prompt').classList.add('hidden');
-  element('world-caption').textContent = enabled ? 'Native character geometry · exported bind pose' : 'Recovered local scene · first exploration milestone';
+  element('world-caption').textContent = enabled ? 'Original character geometry' : 'Recovered local scene · first exploration milestone';
   element('keys').textContent = enabled ? 'Drag to rotate · wheel to zoom · right-drag to pan · Tab returns to Ardea' : 'WASD move · Shift run · drag / click for mouse look · E inspect · F fly · R reset · Esc release';
   if (enabled) {
     const selected = id ?? selectedPerson?.id ?? manifest.inspectionPeople?.[0]?.id ?? manifest.people.find((entry) => entry.body && entry.head)?.id;
@@ -338,8 +360,9 @@ function toggleMap(): void {
 function updateInspectorViewport(): { x: number; y: number; w: number; h: number } {
   // Codex can put a desktop browser in a narrow side panel. Reserve space for
   // the controls rather than covering the character's face with that panel.
+  const dock = inspectorActor ? 315 : 235;
   const viewport = innerWidth < 900
-    ? { x: 0, y: 235, w: innerWidth, h: Math.max(200, innerHeight - 235) }
+    ? { x: 0, y: dock, w: innerWidth, h: Math.max(200, innerHeight - dock) }
     : { x: 380, y: 0, w: Math.max(200, innerWidth - 380), h: innerHeight };
   inspectCamera.aspect = viewport.w / viewport.h;
   inspectCamera.updateProjectionMatrix();
@@ -381,6 +404,7 @@ async function boot(): Promise<void> {
   const response = await fetch(assetUrl('scene.json'));
   if (!response.ok) throw new Error('Scene manifest HTTP ' + response.status);
   manifest = await response.json() as ArdeaScene;
+  await animations.loadManifest().catch((error: unknown) => { failures.push('Native animation: ' + String(error)); });
   if (manifest.units !== 'metres' || !Array.isArray(manifest.meshes) || !manifest.meshes.length) throw new Error('No recovered world geometry in this scene manifest.');
   const total = manifest.meshes.length + manifest.people.length;
   let done = 0;
@@ -457,6 +481,24 @@ element<HTMLSelectElement>('model-select').onchange = (event) => { void selectMo
 element('frame-button').onclick = frameInspector;
 element('wire-button').onclick = () => { wireframe = !wireframe; element('wire-button').textContent = wireframe ? 'Solid view' : 'Wireframe'; updateWireframe(); };
 element('spin-button').onclick = () => { spinning = !spinning; element('spin-button').textContent = spinning ? 'Stop rotation' : 'Rotate'; };
+element<HTMLSelectElement>('clip-select').onchange = (event) => {
+  if (!inspectorActor) return;
+  const name = (event.target as HTMLSelectElement).value;
+  try {
+    inspectorActor.select(name || null);
+    element<HTMLButtonElement>('clip-play').disabled = !name;
+    element('clip-play').textContent = name ? 'Pause motion' : 'Play motion';
+    const clip = inspectorActor.clip;
+    element('model-source').textContent = clip
+      ? clip.source + ' · ' + clip.duration.toFixed(3) + ' seconds · ' + clip.tracks + ' source tracks · ' + clip.keyframes + ' keys. Repetition is an inspector control.'
+      : selectedPerson?.source ?? '';
+  } catch (error) { notify(String(error)); }
+};
+element('clip-play').onclick = () => {
+  if (!inspectorActor?.clip) return;
+  inspectorActor.playing = !inspectorActor.playing;
+  element('clip-play').textContent = inspectorActor.playing ? 'Pause motion' : 'Play motion';
+};
 document.addEventListener('keydown', (event) => {
   if (event.code === 'Escape') closePanel();
   if (!event.defaultPrevented && inspectMode && event.code === 'Tab' && !(event.target instanceof HTMLSelectElement)) {
@@ -483,6 +525,7 @@ function frame(now: number): void {
     const viewport = updateInspectorViewport();
     renderer.setViewport(viewport.x, viewport.y, viewport.w, viewport.h);
     if (spinning && inspectorModel && !matchMedia('(prefers-reduced-motion: reduce)').matches) inspectorModel.rotation.y += dt * 0.22;
+    inspectorActor?.update(dt);
     orbit.update();
     renderer.render(inspection, inspectCamera);
   } else {

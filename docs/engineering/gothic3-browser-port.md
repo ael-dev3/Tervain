@@ -1,6 +1,6 @@
 # Gothic 3 browser port
 
-Date: 4 October 2026. Status: first exploration milestone of an incomplete port.
+Date: 4 October 2026. Status: exploration and native-data foundations of an incomplete port.
 
 ## Owner request and route
 
@@ -28,6 +28,12 @@ Gothic assets as original Tervain content or change earlier Tervain asset rules.
   rotation, a local position map and isolated browser camera-position saves.
 - Presents recovered original quest references as inspection data.
   It never invents quest activation, dialogue choices or quest completion.
+- Loads the native skinned Hero and 11 source motion clips in the inspector,
+  preserving every bone influence, body/head inverse binds and source poses.
+- Provides a searchable catalog of all 641 original quests and 4,381 dialogue
+  records with the original English, Italian, French, German and Spanish text.
+- Indexes the native world/sector files for future streaming and contains a
+  reviewed quest-status kernel that is not yet enabled for ordinary play.
 
 The TypeScript movement, raycast support and renderer are new implementations.
 They have not been proved equivalent to Gothic 3's native physics or visuals.
@@ -36,11 +42,14 @@ browser display choices, not recovered native settings.
 The native Normal/Masked/AlphaBlend modes and MaskReference byte are retained.
 Masked cutoffs use byte/255 with a small comparison epsilon; the complete
 native shader and fading behavior remain unimplemented.
-The native materials' full shader graph, lighting, SpeedTree runtime, skinning,
-animation clips, sound, combat, AI, inventory, economy, original quests,
+The native materials' full shader graph, lighting, SpeedTree runtime,
+NPC animation selection, sound, combat, AI, inventory, economy, original quests,
 whole-world streaming and native save compatibility are not implemented.
 Original SpeedTree vegetation has not yet been placed in this scene.
-Character derivatives are static bind-pose previews. Missing attachments
+NPC derivatives are static bind-pose previews. Hero clip playback uses verified
+raw native keys, signed-short packing, shortest-sign component interpolation,
+pose fallback and final normalization. Multi-layer blending, effects and
+repositioning remain separate work. Missing attachments
 and unsupported world entity types are recorded by the preparation pipeline.
 
 The prepared snapshot contains 202 world instances, 67 NPC source records
@@ -94,6 +103,7 @@ The prepared derivatives and newly written renderer have separate provenance.
 | Inspect nearby person | E |
 | Character model inspection | Tab or Models |
 | Rotate / zoom / pan model | Drag / wheel / right-drag |
+| Hero motion preview | Native motion selector / Play or Pause motion |
 | Free flight / up / down | F / Space / Q |
 | Return to scene arrival | R |
 | Original quest reference journal | J |
@@ -126,8 +136,8 @@ CI results should be reported separately.
 
 These are implementation proposals, not completed work:
 
-1. Recover skeletons, weights and motion clips; implement native body/head/
-   attachment binding and an animated protagonist.
+1. Extend the verified Hero skin/motion path to other rigs, original attachments,
+   expressions, exact interpolation, animation selection and blending.
 2. Port a bounded original Ardea combat encounter and its native state
    transitions, then compare behavior with the installed game.
 3. Execute a reviewed subset of original dialogue predicates and commands,

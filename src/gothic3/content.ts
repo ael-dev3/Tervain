@@ -64,42 +64,42 @@ export const ARDEA_PEOPLE: ArdeaPerson[] = [
 export const ARDEA_QUESTS: ArdeaQuest[] = [
   {
     id: 'Ardea_Revolution', title: 'Liberate Ardea from the orcs!',
-    summary: 'Original FreeEnclave quest targeting Ardea. Its source records 100 XP and +2 reputation with the Rebels. The liberation battle and enclave-state trigger have not been rebuilt.',
+    summary: 'Original FreeEnclave quest targeting Ardea. Its source records ExperiencePoints=100 and +2 reputation with the Rebels. The native XP callback determines the actual gain. The liberation battle and enclave-state trigger have not been rebuilt.',
     source: 'Quests.pak/G3_World_01/Ardea_Revolution_quest_G3_World_01.quest',
     implemented: false,
     unsupportedCommands: ['native:gCQuest_PS::OnEnclaveStateChanged', 'native:gCQuest_PS::SetStatus'],
   },
   {
     id: 'Hamlar_gotoReddock', title: 'Talk to the leader of the rebels in Reddock!',
-    summary: 'Original Report quest targeting Javier, with 200 XP and +1 Rebel reputation in its quest record. Hamlar’s separate follow-up dialogue records 100 additional XP and trade enabling. Reporting, dialogue conditions and rewards are not executed.',
+    summary: 'Original Report quest targeting Javier, with ExperiencePoints=200 and +1 Rebel reputation in its quest record. Hamlar’s separate follow-up dialogue passes 100 to GiveXP and enables trade. Reporting, dialogue conditions and rewards are not executed.',
     source: 'Quests.pak/G3_World_01/Hamlar_gotoReddock_quest_G3_World_01.quest; Infos.pak/G3_World_01/FILLER936, FILLER939 (.info)',
     implemented: false,
     unsupportedCommands: ['Say', 'SetTradeEnabled', 'GiveXP', 'native:gCQuest_PS::CheckDeliveryEntitiesStatus'],
   },
   {
     id: 'Gorn_ShowReddock', title: "Gorn shows you the rebels' hideout.",
-    summary: 'Original FollowNPC quest names Gorn and destination FP_Reddock. Its record awards 50 XP and +1 Rebel reputation; the related arrival dialogue changes Gorn’s routine. Escorting, arrival detection and routine changes are not implemented.',
+    summary: 'Original FollowNPC quest names Gorn and destination FP_Reddock. Its record passes ExperiencePoints=50 to the XP callback and adds +1 Rebel reputation; the related arrival dialogue changes Gorn’s routine. Escorting, arrival detection and routine changes are not implemented.',
     source: 'Quests.pak/G3_World_01/Gorn_ShowReddock_quest_G3_World_01.quest; Infos.pak/G3_World_01/BPANKRATZ31446, BPANKRATZ31447 (.info)',
     implemented: false,
     unsupportedCommands: ['Say', 'End', 'SetRoutine', 'native:gCQuest_PS::CheckDeliveryEntitiesStatus'],
   },
   {
     id: 'Jack_KillBandits', title: 'Jack and the bilge rats.',
-    summary: 'Original Kill quest names Ardea_OutNovice_01, _02 and _03, one each, and 100 quest XP. Jack’s separate reward dialogue records 50 gold and 50 additional XP. Native combat, kill counters and reward dialogue are not executed.',
+    summary: 'Original Kill quest names Ardea_OutNovice_01, _02 and _03, one each, and ExperiencePoints=100. Jack’s separate reward dialogue records 50 gold and a GiveXP input of 50. Native combat, kill counters and reward dialogue are not executed.',
     source: 'Quests.pak/G3_World_01/Jack_KillBandits_quest_G3_World_01.quest; Infos.pak/G3_World_01/BPANKRATZ31461–31463 (.info)',
     implemented: false,
     unsupportedCommands: ['Say', 'SetGameEvent', 'Give', 'GiveXP', 'native:gCQuest_PS::OnNPCKilled'],
   },
   {
     id: 'Ardea_Pocket', title: "Jack's rebel gold.",
-    summary: 'Original Report quest targets Jack and records 150 XP plus +1 THF. Its related dialogue sets Jack_Pocket and transfers 400 It_Gold to the player. The original reporting conditions, transfer and attribute reward are not implemented.',
+    summary: 'Original Report quest targets Jack and records ExperiencePoints=150 plus +1 THF. Its related dialogue sets Jack_Pocket and transfers 400 It_Gold to the player. The original reporting conditions, transfer and attribute reward are not implemented.',
     source: 'Quests.pak/G3_World_01/Ardea_Pocket_quest_G3_World_01.quest; Infos.pak/G3_World_01/BPANKRATZ31465, BPANKRATZ31466 (.info)',
     implemented: false,
     unsupportedCommands: ['Say', 'SetGameEvent', 'Give', 'native:gCQuest_PS::CheckDeliveryEntitiesStatus'],
   },
   {
     id: 'Xardas_FindXardas', title: 'Find Xardas!',
-    summary: 'Original main-story EnterArea quest names PC_Hero and Xardas_Tower, with 250 XP. Ardea conversations connect to this quest, but the tower region, original dialogue predicates and arrival trigger are outside this milestone.',
+    summary: 'Original main-story EnterArea quest names PC_Hero and Xardas_Tower, with ExperiencePoints=250. Ardea conversations connect to this quest, but the tower region, original dialogue predicates and arrival trigger are outside this milestone.',
     source: 'Quests.pak/G3_World_01/Xardas_FindXardas_quest_G3_World_01.quest; Infos.pak/G3_World_01/BPANKRATZ31455–31456, FILLER65, FILLER67 (.info)',
     implemented: false,
     unsupportedCommands: ['Say', 'SetGameEvent', 'ClearGameEvent', 'native:gCQuest_PS::OnEnter'],
@@ -108,6 +108,8 @@ export const ARDEA_QUESTS: ArdeaQuest[] = [
 
 export const PORT_SCOPE: string[] = [
   'A TypeScript browser rebuild milestone using local Gothic 3 study data, with source records attached to the inspected people and quests.',
+  'The Hero inspector preserves native skin weights and 11 original motion clips. Combat timing, attachment binding and NPC animation selection remain incomplete.',
+  'The journal contains 641 original quest definitions and 4,381 dialogue records in five source languages. Catalog presence does not establish gameplay execution.',
   'The six character summaries describe the original Ardea dialogue. This milestone does not execute the original dialogue tree, its predicates or its side effects.',
   'All six listed original quests are unimplemented. Inspection grants no XP, reputation, gold, skills or quest completion.',
   'Native combat, NPC routines, faction simulation, trading, original save compatibility and the full streamed world still require implementation.',
