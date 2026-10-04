@@ -1,242 +1,249 @@
 import * as THREE from 'three';
 import { beforeAll, describe, expect, it } from 'vitest';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
 import { setArmed, setSash, type Mode } from '../../src/presentation/characters';
-import { heroFootStep } from '../../src/presentation/hero/animation';
-import { bindHeroBones } from '../../src/presentation/hero/bones';
-import { createHeroRig } from '../../src/presentation/hero/rig';
+import { HERO_GAIT_PHASE } from '../../src/presentation/hero/animation';
+import { bindHeroBones, HERO_BONES, HERO_FINGERS, type HeroBoneName } from '../../src/presentation/hero/bones';
+import { HERO_RUN_CYCLE, HERO_RUN_SPEED, HERO_WALK_CYCLE, HERO_WALK_SPEED } from '../../src/presentation/hero/locomotion';
+import { createHeroRig, type MainHeroRig } from '../../src/presentation/hero/rig';
 import { loadHeroWithoutImages, meshes } from './heroFixture';
 
 let asset: GLTF;
 beforeAll(async () => { asset = await loadHeroWithoutImages(); });
-const pose = (mode: Mode = 'idle', overrides = {}) => ({ mode, time: 0, speed: 1, t: 0.45, amp: 1, grounded: true, travel: 0, moveSpeed: 0, ...overrides });
+const pose = (mode: Mode = 'idle', overrides = {}) => ({ mode, time: 0, speed: 1, t: 0.45, amp: 0, grounded: true, travel: 0, moveSpeed: 0, ...overrides });
+const angle = (a: THREE.Quaternion, b: THREE.Quaternion) => a.clone().normalize().angleTo(b.clone().normalize());
+const skinOf = (root: THREE.Object3D) => meshes(root).find((mesh) => (mesh as THREE.SkinnedMesh).isSkinnedMesh)! as THREE.SkinnedMesh;
+const advance = (rig: MainHeroRig, mode: Mode, speed: number, seconds = 2, hz = 60, blade = false) => {
+  for (let i = 0; i < seconds * hz; i++) rig.hero.pose(pose(mode, { travel: speed / hz, moveSpeed: speed }), 1 / hz, blade);
+};
+function sourcePose(name: string, time: number) {
+  const scene = cloneSkinned(asset.scene);
+  const mixer = new THREE.AnimationMixer(scene), clip = asset.animations.find((clip) => clip.name === name)!;
+  const action = mixer.clipAction(clip).play(); action.time = time; action.paused = true;
+  mixer.update(0); scene.updateMatrixWorld(true);
+  return bindHeroBones(scene);
+}
+function soleVertices(rig: MainHeroRig, side: 'Left' | 'Right') {
+  const skin = skinOf(rig.root), bones = bindHeroBones(rig.root);
+  const joints = new Set(['Foot', 'ToeBase', 'Toe_End'].map((part) => skin.skeleton.bones.indexOf(bones[`mixamorig:${side}${part}` as HeroBoneName])));
+  const { position, skinIndex, skinWeight } = skin.geometry.attributes;
+  const result: number[] = [];
+  for (let i = 0; i < position!.count; i++) {
+    if (position!.getY(i) > 0.04) continue;
+    let weight = 0;
+    for (let k = 0; k < 4; k++) if (joints.has(skinIndex!.getComponent(i, k))) weight += skinWeight!.getComponent(i, k);
+    if (weight >= .6) result.push(i);
+  }
+  return result;
+}
+function lowestSole(rig: MainHeroRig, vertices: number[]) {
+  const mesh = skinOf(rig.root), point = new THREE.Vector3(); let low = Infinity;
+  rig.root.updateMatrixWorld(true);
+  for (const vertex of vertices) { mesh.getVertexPosition(vertex, point); low = Math.min(low, mesh.localToWorld(point).y); }
+  return low;
+}
 
-describe('approved playable hero', () => {
-  it('uses the delivered 49,500-triangle mesh and all 30 exact imported bones on a private skeleton', () => {
-    const one = createHeroRig(asset), two = createHeroRig(asset);
-    const source = meshes(asset.scene).find((mesh) => (mesh as THREE.SkinnedMesh).isSkinnedMesh)! as THREE.SkinnedMesh;
-    const skin = meshes(one.root).find((mesh) => (mesh as THREE.SkinnedMesh).isSkinnedMesh)! as THREE.SkinnedMesh;
-    expect(skin.geometry.index!.count / 3).toBe(49_500);
-    expect(skin.skeleton.bones).toHaveLength(30);
-    expect(skin.skeleton.bones.some((bone) => bone === source.skeleton.bones[0])).toBe(false);
-    expect(one.hips).not.toBe(two.hips);
-    expect(skin.geometry).toBe(source.geometry);
-    expect(skin.material).not.toBe(source.material);
-    expect(asset.animations.map((clip) => clip.name).sort()).toEqual(['Breathing', 'Idle', 'LookAround', 'Walk', 'WalkRootMotion']);
-    expect(Object.keys(bindHeroBones(one.root))).toHaveLength(30);
-    const allTriangles = meshes(one.root).reduce((sum, mesh) => sum + (mesh.geometry.index?.count ?? mesh.geometry.attributes.position!.count) / 3, 0);
-    expect(allTriangles).toBeLessThan(50_000);
+describe('authored Mixamo playable hero', () => {
+  it('loads the actual 65,000-triangle delivery, exact 66 joints and all six source clips on private skeletons', () => {
+    const one = createHeroRig(asset), two = createHeroRig(asset), skin = skinOf(one.root), source = skinOf(asset.scene);
+    expect(skin.geometry.index!.count / 3).toBe(65_000);
+    expect(skin.skeleton.bones).toHaveLength(66);
+    expect(Object.keys(bindHeroBones(one.root))).toEqual([...HERO_BONES]);
+    expect(one.hips).not.toBe(two.hips); expect(one.hips).not.toBe(source.skeleton.bones[0]);
+    expect(skin.geometry).toBe(source.geometry); expect(skin.material).not.toBe(source.material);
+    expect(skin.material).not.toBe(skinOf(two.root).material);
+    expect(asset.animations.map((clip) => clip.name).sort()).toEqual(['Boxing_Practice', 'Casual_Walk', 'Dead', 'Run_03', 'Running', 'Walking']);
+    for (const clip of asset.animations) expect(clip.tracks).toHaveLength(132);
+    expect(one.height).toBe(1.899);
   });
 
-  it('never moves or rotates the physics root, including falling, jump and attack visual overlays', () => {
-    const rig = createHeroRig(asset);
-    rig.root.position.set(15, 4, -19); rig.root.rotation.set(0, 1.2, 0);
-    const position = rig.root.position.clone(), quaternion = rig.root.quaternion.clone();
-    for (const mode of ['idle', 'walk', 'run', 'attack_light', 'attack_heavy', 'block', 'dodge', 'hurt', 'work', 'sit', 'dead'] as Mode[]) {
-      for (let i = 0; i < 30; i++) rig.hero.pose(pose(mode, { moveSpeed: 3.5, travel: 3.5 / 60 }), 1 / 60, true);
-      expect(rig.root.position.equals(position)).toBe(true);
-      expect(rig.root.quaternion.equals(quaternion)).toBe(true);
-      rig.root.traverse((object) => expect([...object.position.toArray(), ...object.quaternion.toArray(), ...object.scale.toArray()].every(Number.isFinite)).toBe(true));
-    }
-    rig.hero.pose(pose('run', { grounded: false, moveSpeed: 6, travel: 0.1 }), 1 / 60, false);
-    expect(rig.hero.diagnostics.footContacts).toEqual([false, false]);
-    expect(rig.root.position.equals(position)).toBe(true);
-  });
-
-  it('advances gait from resolved metres, freezes it at a wall, and resets it on teleport', () => {
-    const rig = createHeroRig(asset);
-    for (let i = 0; i < 90; i++) rig.hero.pose(pose('walk', { moveSpeed: 2.2, travel: 2.2 / 60 }), 1 / 60, false);
-    const before = rig.hero.diagnostics;
-    expect(before.distanceMetres).toBeCloseTo(3.3, 8);
-    expect(before.phase).toBeGreaterThan(0);
-    expect(before.phase).toBeLessThan(1);
-    for (let i = 0; i < 90; i++) rig.hero.pose(pose('walk', { moveSpeed: 3.5, travel: 0 }), 1 / 60, false);
-    expect(rig.hero.diagnostics.phase).toBe(before.phase);
-    expect(rig.hero.diagnostics.distanceMetres).toBe(before.distanceMetres);
-    rig.hero.reset();
-    expect(rig.hero.diagnostics.phase).toBe(0);
-    expect(rig.hero.diagnostics.distanceMetres).toBe(0);
-    expect(rig.body.rotation.x).toBe(0);
-    expect(rig.body.position.y).toBe(0);
-    expect(rig.hero.diagnostics.footContacts).toEqual([true, true]);
-  });
-
-  it('cancels body travel during foot contact while allowing natural heel/toe ankle rise', () => {
-    const rig = createHeroRig(asset), bones = bindHeroBones(rig.root);
-    const dt = 1 / 120, speed = 2.2;
-    for (let i = 0; i < 150; i++) { rig.root.position.z += speed * dt; rig.hero.pose(pose('walk', { moveSpeed: speed, travel: speed * dt }), dt, false); }
-    let last: { position: THREE.Vector3; planted: boolean; phase: number } | null = null;
-    let contacts = 0;
-    for (let i = 0; i < 300; i++) {
-      rig.root.position.z += speed * dt;
-      rig.hero.pose(pose('walk', { moveSpeed: speed, travel: speed * dt }), dt, false);
-      rig.root.updateMatrixWorld(true);
-      const position = bones['foot.L'].getWorldPosition(new THREE.Vector3());
-      const diagnostic = rig.hero.diagnostics, planted = diagnostic.footContacts[0];
-      if (last && planted && last.planted && diagnostic.phase > last.phase) {
-        expect(Math.abs(position.z - last.position.z)).toBeLessThan(0.0001);
-        expect(position.y).toBeGreaterThan(0.13);
-        expect(position.y).toBeLessThan(0.24);
-        contacts++;
+  it('preserves the authored leg and arm rotations at their measured gait phase instead of reconstructing them with IK', () => {
+    for (const [mode, name, speed] of [['walk', 'Walking', HERO_WALK_SPEED], ['run', 'Running', HERO_RUN_SPEED]] as const) {
+      const rig = createHeroRig(asset); advance(rig, mode, speed, 4);
+      const duration = asset.animations.find((clip) => clip.name === name)!.duration;
+      const reference = sourcePose(name, ((rig.hero.diagnostics.phase + HERO_GAIT_PHASE[name]) % 1) * duration);
+      const bones = bindHeroBones(rig.root);
+      for (const side of ['Left', 'Right'] as const) for (const part of ['UpLeg', 'Leg', 'Foot', 'ToeBase', 'Arm', 'ForeArm', 'Hand'] as const) {
+        const name = `mixamorig:${side}${part}` as const;
+        expect(angle(bones[name].quaternion, reference[name].quaternion), name).toBeLessThan(0.0001);
+        expect(bones[name].position.distanceTo(reference[name].position), name).toBeLessThan(0.00001);
       }
-      last = { position, planted, phase: diagnostic.phase };
+      expect(rig.hero.diagnostics.activeClip).toBe(name);
     }
-    expect(contacts).toBeGreaterThan(100);
   });
 
-  it('samples the same gait at ordinary frame rates and does not accumulate root motion', () => {
+  it('advances only from actual grounded metres and clears gait on reset', () => {
+    const rig = createHeroRig(asset); advance(rig, 'walk', HERO_WALK_SPEED, 1.5);
+    const before = rig.hero.diagnostics;
+    expect(before.distanceMetres).toBeCloseTo(2.475, 8);
+    expect(before.phase).toBeCloseTo((2.475 / HERO_WALK_CYCLE) % 1, 8);
+    for (const travel of [0, undefined, -1, NaN, Infinity]) {
+      for (let i = 0; i < 30; i++) rig.hero.pose(pose('run', { moveSpeed: 8, travel }), 1 / 60, false);
+      expect(rig.hero.diagnostics.phase).toBe(before.phase);
+      expect(rig.hero.diagnostics.distanceMetres).toBe(before.distanceMetres);
+      expect(rig.hero.consumeFootfalls()).toBe(0);
+    }
+    rig.hero.pose(pose('run', { grounded: false, travel: 1 }), 1 / 60, false);
+    expect(rig.hero.diagnostics.phase).toBe(before.phase);
+    expect(rig.hero.diagnostics.footContacts).toEqual([false, false]);
+    rig.hero.reset();
+    expect(rig.hero.diagnostics.phase).toBe(0); expect(rig.hero.diagnostics.distanceMetres).toBe(0);
+    expect(rig.hero.diagnostics.activeClip).toBe('RelaxedIdle');
+    expect(rig.hero.diagnostics.footContacts).toEqual([true, true]); expect(rig.hero.consumeFootfalls()).toBe(0);
+  });
+
+  it('uses speed matched cycles with continuous walk/run phase at 30, 60 and 120 Hz', () => {
     const states = [30, 60, 120].map((hz) => {
-      const rig = createHeroRig(asset);
-      for (let i = 0; i < hz * 2; i++) rig.hero.pose(pose('walk', { moveSpeed: 3, travel: 3 / hz }), 1 / hz, false);
-      return rig.hero.diagnostics;
-    });
-    for (const state of states) {
-      expect(state.distanceMetres).toBeCloseTo(6, 8);
-      expect(state.phase).toBeCloseTo(states[0]!.phase, 8);
-    }
-  });
-
-  it('keeps actual skinned boot soles above the support plane through walking and sprint strides', () => {
-    const rig = createHeroRig(asset);
-    const skin = meshes(rig.root).find((mesh) => (mesh as THREE.SkinnedMesh).isSkinnedMesh)! as THREE.SkinnedMesh;
-    const position = skin.geometry.attributes.position!;
-    const soleVertices: number[] = [];
-    for (let i = 0; i < position.count; i++) if (position.getY(i) < 0.045) soleVertices.push(i);
-    expect(soleVertices.length).toBeGreaterThan(100);
-    let lowest = Infinity;
-    for (const [mode, speed] of [['walk', 3.5], ['run', 6]] as const) {
-      rig.hero.reset();
-      for (let i = 0; i < 180; i++) {
-        rig.hero.pose(pose(mode, { moveSpeed: speed, travel: speed / 60 }), 1 / 60, false);
-        if (i % 6 !== 0) continue;
-        rig.root.updateMatrixWorld(true);
-        const point = new THREE.Vector3();
-        for (const vertex of soleVertices) {
-          skin.getVertexPosition(vertex, point);
-          lowest = Math.min(lowest, skin.localToWorld(point).y);
+      const rig = createHeroRig(asset); let footfalls = 0;
+      for (const [mode, speed] of [['walk', HERO_WALK_SPEED], ['run', HERO_RUN_SPEED], ['walk', HERO_WALK_SPEED]] as const) {
+        for (let i = 0; i < hz * 2; i++) {
+          const before = rig.hero.diagnostics.phase;
+          rig.hero.pose(pose(mode, { travel: speed / hz }), 1 / hz, false);
+          const change = (rig.hero.diagnostics.phase - before + 1) % 1;
+          expect(change).toBeGreaterThan(0); expect(change).toBeLessThan(speed / hz / HERO_WALK_CYCLE + 0.000001);
+          footfalls += rig.hero.consumeFootfalls(); expect(rig.hero.consumeFootfalls()).toBe(0);
         }
       }
-    }
-    expect(lowest).toBeGreaterThan(-0.002);
-  });
-
-  it('keeps an upright pelvis and narrow human foot tracks rather than a crouched donor stance', () => {
-    const rig = createHeroRig(asset), bones = bindHeroBones(rig.root);
-    let lowestHip = Infinity, widestFeet = 0;
-    for (const [mode, speed] of [['walk', 3.5], ['run', 6]] as const) {
-      rig.hero.reset();
-      for (let i = 0; i < 240; i++) {
-        rig.hero.pose(pose(mode, { moveSpeed: speed, travel: speed / 60 }), 1 / 60, false);
-        if (i < 90) continue;
-        rig.root.updateMatrixWorld(true);
-        lowestHip = Math.min(lowestHip, rig.hips.position.y);
-        widestFeet = Math.max(widestFeet, Math.abs(bones['foot.L'].getWorldPosition(new THREE.Vector3()).x - bones['foot.R'].getWorldPosition(new THREE.Vector3()).x));
-      }
-    }
-    expect(lowestHip).toBeGreaterThan(0.9);
-    expect(widestFeet).toBeLessThan(0.34);
-  });
-
-  it('carries both arms with a visible counter-swing rather than leaving the painting A-pose frozen', () => {
-    const rig = createHeroRig(asset), bones = bindHeroBones(rig.root);
-    const wristZ: [number[], number[]] = [[], []];
-    for (let i = 0; i < 240; i++) {
-      rig.hero.pose(pose('walk', { moveSpeed: 3.5, travel: 3.5 / 60 }), 1 / 60, false);
-      if (i < 90) continue;
-      rig.root.updateMatrixWorld(true);
-      wristZ[0].push(bones['hand.L'].getWorldPosition(new THREE.Vector3()).z);
-      wristZ[1].push(bones['hand.R'].getWorldPosition(new THREE.Vector3()).z);
-    }
-    for (const range of wristZ) expect(Math.max(...range) - Math.min(...range)).toBeGreaterThan(0.18);
-    const average = (values: number[]) => values.reduce((sum, value) => sum + value, 0) / values.length;
-    const meanL = average(wristZ[0]), meanR = average(wristZ[1]);
-    const covariance = wristZ[0].reduce((sum, value, i) => sum + (value - meanL) * (wristZ[1][i]! - meanR), 0);
-    expect(covariance).toBeLessThan(0);
-  });
-
-  it('emits one footfall per new contact at equal frame rates and clears sounds on stop, jump or reset', () => {
-    const counts = [30, 60, 120].map((hz) => {
-      const rig = createHeroRig(asset);
-      let count = 0;
-      for (let i = 0; i < hz * 3; i++) {
-        rig.hero.pose(pose('walk', { moveSpeed: 3.5, travel: 3.5 / hz }), 1 / hz, false);
-        count += rig.hero.consumeFootfalls();
-        expect(rig.hero.consumeFootfalls()).toBe(0);
-      }
-      rig.hero.pose(pose('walk', { moveSpeed: 3.5, travel: 0 }), 1 / hz, false);
-      expect(rig.hero.consumeFootfalls()).toBe(0);
-      rig.hero.pose(pose('run', { grounded: false, moveSpeed: 6, travel: 1 }), 1 / hz, false);
-      expect(rig.hero.consumeFootfalls()).toBe(0);
-      rig.hero.pose(pose('walk', { moveSpeed: 3.5, travel: 1 }), 0.1, false);
-      rig.hero.reset(); expect(rig.hero.consumeFootfalls()).toBe(0);
-      return count;
+      return { ...rig.hero.diagnostics, footfalls };
     });
-    expect(counts[0]).toBeGreaterThan(8);
-    expect(counts).toEqual([counts[0], counts[0], counts[0]]);
+    for (const state of states) {
+      expect(state.distanceMetres).toBeCloseTo(18.3, 8);
+      expect(state.phase).toBeCloseTo(states[0]!.phase, 8);
+      expect(state.footfalls).toBe(states[0]!.footfalls);
+      expect(state.cycleMetres).toBeCloseTo(HERO_WALK_CYCLE, 5);
+    }
+    const run = createHeroRig(asset); advance(run, 'run', HERO_RUN_SPEED, 4);
+    expect(run.hero.diagnostics.cycleMetres).toBeCloseTo(HERO_RUN_CYCLE, 8);
+    const phase = run.hero.diagnostics.phase; advance(run, 'run', HERO_RUN_SPEED, 2 / 3, 120);
+    expect(run.hero.diagnostics.phase).toBeCloseTo(phase, 7);
   });
 
-  it('honours real equipment and standing-band visibility on imported hand/hip sockets', () => {
+  it('grounds the relaxed derived idle and keeps paused poses stable rather than returning to bind pose', () => {
     const rig = createHeroRig(asset), bones = bindHeroBones(rig.root);
-    expect(rig.weapon!.visible).toBe(false); expect(rig.scabbard!.visible).toBe(false); expect(rig.sash!.visible).toBe(false);
-    expect(rig.weapon!.parent!.parent).toBe(bones['hand.R']);
-    expect(rig.scabbard!.parent).toBe(bones.pelvis); expect(rig.sash!.parent).toBe(bones.pelvis);
-    setArmed(rig, 'sheathed');
-    expect(rig.weapon!.visible).toBe(false); expect(rig.scabbard!.visible).toBe(true); expect(rig.sheathed!.visible).toBe(true); expect(rig.grip).toBe('none');
-    setArmed(rig, 'drawn');
-    expect(rig.weapon!.visible).toBe(true); expect(rig.sheathed!.visible).toBe(false); expect(rig.grip).toBe('blade');
-    setArmed(rig, 'none');
+    const initial = HERO_BONES.map((name) => bones[name].quaternion.clone());
+    for (const side of ['Left', 'Right'] as const) {
+      const vertices = soleVertices(rig, side); expect(vertices.length).toBeGreaterThan(20);
+      expect(lowestSole(rig, vertices)).toBeGreaterThan(-0.004);
+      expect(lowestSole(rig, vertices)).toBeLessThan(0.004);
+      const hand = bones[`mixamorig:${side}Hand`].getWorldPosition(new THREE.Vector3());
+      expect(hand.y).toBeLessThan(bones['mixamorig:Hips'].getWorldPosition(new THREE.Vector3()).y);
+    }
+    advance(rig, 'idle', 0, 3);
+    for (const [index, name] of HERO_BONES.entries()) expect(angle(bones[name].quaternion, initial[index]!)).toBeLessThan(0.00001);
+    advance(rig, 'walk', HERO_WALK_SPEED); advance(rig, 'idle', 0, 3);
+    expect(rig.hero.diagnostics.activeClip).toBe('RelaxedIdle');
+    for (const [index, name] of HERO_BONES.entries()) expect(angle(bones[name].quaternion, initial[index]!)).toBeLessThan(0.00001);
+  });
+
+  it('retains measured source contact/backslide behavior and signals two contacts per complete walking cycle', () => {
+    const rig = createHeroRig(asset), bones = bindHeroBones(rig.root), dt = 1 / 120;
+    advance(rig, 'walk', HERO_WALK_SPEED, 3, 120); rig.hero.consumeFootfalls();
+    let count = 0, lastZ = 0, lastPhase = -1; const residuals: number[] = [];
+    for (let i = 0; i < 250; i++) {
+      rig.root.position.z += HERO_WALK_SPEED * dt;
+      rig.hero.pose(pose('walk', { travel: HERO_WALK_SPEED * dt }), dt, false);
+      rig.root.updateMatrixWorld(true);
+      const z = bones['mixamorig:LeftFoot'].getWorldPosition(new THREE.Vector3()).z, phase = rig.hero.diagnostics.phase;
+      // Central authored stance avoids deliberate heel/toe rollover at the contact boundaries.
+      if (phase > .1 && phase < .35 && lastPhase > .1 && lastPhase < .35) residuals.push(Math.abs((z - lastZ) / dt));
+      lastZ = z; lastPhase = phase; count += rig.hero.consumeFootfalls();
+    }
+    expect(count).toBe(4); expect(residuals.length).toBeGreaterThan(30);
+    residuals.sort((a, b) => a - b);
+    expect(residuals[Math.floor(residuals.length / 2)]).toBeLessThan(.22);
+  });
+
+  it('walks under guard using source legs, while applying a separate upper-body guard', () => {
+    const walk = createHeroRig(asset), guard = createHeroRig(asset);
+    advance(walk, 'walk', 1.0725, 3); advance(guard, 'block', 1.0725, 3);
+    const one = bindHeroBones(walk.root), two = bindHeroBones(guard.root);
+    for (const side of ['Left', 'Right'] as const) for (const part of ['UpLeg', 'Leg', 'Foot'] as const) {
+      const name = `mixamorig:${side}${part}` as const;
+      expect(angle(one[name].quaternion, two[name].quaternion)).toBeLessThan(.00001);
+    }
+    expect(angle(one['mixamorig:RightArm'].quaternion, two['mixamorig:RightArm'].quaternion)).toBeGreaterThan(.3);
+    expect(guard.hero.diagnostics.activeClip).toBe('Walking'); expect(guard.hero.diagnostics.runWeight).toBe(0);
+    expect(guard.hero.consumeFootfalls()).toBeGreaterThan(2);
+  });
+
+  it('never moves the physics root and plays authored Dead once to a stable final pose with local fall travel', () => {
+    const rig = createHeroRig(asset); rig.root.position.set(15, 4, -19); rig.root.rotation.y = 1.2;
+    const position = rig.root.position.clone(), quaternion = rig.root.quaternion.clone();
+    for (const mode of ['idle', 'walk', 'run', 'attack_light', 'attack_heavy', 'block', 'dodge', 'hurt', 'work', 'sit'] as Mode[]) {
+      advance(rig, mode, 2, .5, 60, true);
+      expect(rig.root.position.equals(position)).toBe(true); expect(rig.root.quaternion.equals(quaternion)).toBe(true);
+    }
+    rig.hero.reset(); const hipsZ = rig.hips.position.z;
+    for (let i = 0; i < 360; i++) rig.hero.pose(pose('dead', { t: 0 }), 1 / 60, false);
+    expect(rig.hero.diagnostics.activeClip).toBe('Dead'); expect(rig.hero.diagnostics.deathClamped).toBe(true);
+    const end = rig.hips.position.clone(), endQ = rig.head.quaternion.clone();
+    expect(Math.abs(end.z - hipsZ)).toBeGreaterThan(.4);
+    advance(rig, 'dead', 0, 2);
+    expect(rig.hips.position.distanceTo(end)).toBeLessThan(1e-8); expect(angle(rig.head.quaternion, endQ)).toBeLessThan(1e-7);
+    expect(rig.body.quaternion.angleTo(new THREE.Quaternion())).toBe(0);
+    expect(rig.root.position.equals(position)).toBe(true); expect(rig.root.quaternion.equals(quaternion)).toBe(true);
+    rig.root.traverse((object) => expect([...object.position.toArray(), ...object.quaternion.toArray()].every(Number.isFinite)).toBe(true));
+    rig.hero.reset(); expect(rig.hero.diagnostics.deathTime).toBe(0); expect(rig.hips.position.z).toBeCloseTo(hipsZ, 7);
+    const resetHip = rig.hips.position.clone(), resetHead = rig.head.quaternion.clone();
+    advance(rig, 'idle', 0, 2);
+    expect(rig.hips.position.distanceTo(resetHip)).toBeLessThan(1e-8);
+    expect(angle(rig.head.quaternion, resetHead)).toBeLessThan(1e-7);
+  });
+
+  it('settles the final authored fall onto the floor through the visual pivot without rewriting bones or physics', () => {
+    const rig = createHeroRig(asset), bones = bindHeroBones(rig.root);
+    rig.root.position.set(7, 2.5, -4); rig.root.rotation.y = .7;
+    const rootPosition = rig.root.position.clone(), rootRotation = rig.root.quaternion.clone();
+    const duration = asset.animations.find((clip) => clip.name === 'Dead')!.duration;
+    const vertices = Array.from({ length: skinOf(rig.root).geometry.attributes.position!.count }, (_, i) => i);
+    expect(soleVertices(rig, 'Left').length + soleVertices(rig, 'Right').length).toBeLessThan(2000);
+    for (let i = 0; i < Math.ceil(duration * 60) + 30; i++) {
+      rig.hero.pose(pose('dead', { t: 0 }), 1 / 60, false);
+      if (rig.hero.diagnostics.deathTime <= duration * .75) expect(rig.body.position.y).toBeGreaterThanOrEqual(0);
+      expect(rig.body.position.y).toBeLessThanOrEqual(.08);
+      expect(rig.body.position.y).toBeGreaterThan(-.15);
+      if (i < 15 || i % 10 === 0) expect(lowestSole(rig, vertices) - rootPosition.y).toBeGreaterThan(-.005);
+    }
+    expect(Math.abs(lowestSole(rig, vertices) - rootPosition.y)).toBeLessThan(.005);
+    expect(rig.body.position.y).toBeLessThan(-.08); expect(rig.body.position.y).toBeGreaterThan(-.1);
+    const reference = sourcePose('Dead', duration);
+    for (const name of HERO_BONES) {
+      expect(bones[name].position.distanceTo(reference[name].position), name).toBeLessThan(.00001);
+      expect(angle(bones[name].quaternion, reference[name].quaternion), name).toBeLessThan(.00001);
+    }
+    expect(rig.root.position.equals(rootPosition)).toBe(true); expect(rig.root.quaternion.equals(rootRotation)).toBe(true);
+    rig.hero.reset(); expect(rig.body.position.y).toBe(0);
+    advance(rig, 'idle', 0); expect(rig.body.position.y).toBe(0);
+  });
+
+  it('retains equipment visibility and fits the blade to the actual palm basis', () => {
+    const rig = createHeroRig(asset), bones = bindHeroBones(rig.root), socket = rig.weapon!.parent!;
+    expect(socket.parent).toBe(bones['mixamorig:RightHand']); expect(socket.position.length()).toBeGreaterThan(.06); expect(socket.position.length()).toBeLessThan(.13);
+    const axis = new THREE.Vector3(0, 1, 0).applyQuaternion(socket.quaternion);
+    const across = bones['mixamorig:RightHandMiddle1'].position.clone().sub(bones['mixamorig:RightHandPinky1'].position).normalize();
+    expect(axis.dot(across)).toBeGreaterThan(.99999);
+    expect(rig.scabbard!.parent).toBe(bones['mixamorig:Hips']); expect(rig.sash!.parent).toBe(bones['mixamorig:Hips']);
     expect(rig.weapon!.visible).toBe(false); expect(rig.scabbard!.visible).toBe(false);
-    setSash(rig, 0x4d7a54); expect(rig.sash!.visible).toBe(true);
-    expect((rig.sash!.material as THREE.MeshStandardMaterial).color.getHex()).toBe(0x4d7a54);
-    setSash(rig, null); expect(rig.sash!.visible).toBe(false);
+    setArmed(rig, 'sheathed'); expect(rig.scabbard!.visible).toBe(true); expect(rig.sheathed!.visible).toBe(true);
+    setArmed(rig, 'drawn'); expect(rig.weapon!.visible).toBe(true); expect(rig.sheathed!.visible).toBe(false); expect(rig.grip).toBe('blade');
+    setArmed(rig, 'none'); expect(rig.weapon!.visible).toBe(false); expect(rig.scabbard!.visible).toBe(false);
+    setSash(rig, 0x4d7a54); expect(rig.sash!.visible).toBe(true); setSash(rig, null); expect(rig.sash!.visible).toBe(false);
   });
 
-  it('closes grouped fingers and thumbs locally around a blade or fists without exploding weighted fingertips', () => {
+  it('uses real individual finger joints for grip and keeps unclassified auxiliary bones source driven', () => {
     const open = createHeroRig(asset), held = createHeroRig(asset), fists = createHeroRig(asset);
-    for (let i = 0; i < 90; i++) {
-      open.hero.pose(pose('idle'), 1 / 60, false);
-      held.hero.pose(pose('idle'), 1 / 60, true);
-      fists.hero.pose(pose('block'), 1 / 60, false);
+    advance(open, 'idle', 0); advance(held, 'idle', 0, 2, 60, true); advance(fists, 'block', 0);
+    const a = bindHeroBones(open.root), b = bindHeroBones(held.root), c = bindHeroBones(fists.root);
+    let changed = 0;
+    for (const finger of HERO_FINGERS) for (const joint of [1, 2, 3, 4] as const) {
+      const right = `mixamorig:RightHand${finger}${joint}` as HeroBoneName, left = `mixamorig:LeftHand${finger}${joint}` as HeroBoneName;
+      if (angle(a[right].quaternion, b[right].quaternion) > .1) changed++;
+      expect(angle(a[left].quaternion, b[left].quaternion)).toBeLessThan(.00001);
+      expect(b[right].quaternion.length()).toBeCloseTo(1, 5);
     }
-    const openBones = bindHeroBones(open.root), heldBones = bindHeroBones(held.root), fistBones = bindHeroBones(fists.root);
-    expect(heldBones['fingers.R'].quaternion.angleTo(openBones['fingers.R'].quaternion)).toBeCloseTo(1.08, 4);
-    expect(heldBones['thumb.R'].quaternion.angleTo(openBones['thumb.R'].quaternion)).toBeGreaterThan(0.5);
-    expect(heldBones['fingers.L'].quaternion.angleTo(openBones['fingers.L'].quaternion)).toBeLessThan(0.00001);
-    for (const side of ['L', 'R'] as const) expect(fistBones[`fingers.${side}`].quaternion.angleTo(openBones[`fingers.${side}`].quaternion)).toBeCloseTo(1.08, 4);
-    const openSkin = meshes(open.root).find((mesh) => (mesh as THREE.SkinnedMesh).isSkinnedMesh)! as THREE.SkinnedMesh;
-    const heldSkin = meshes(held.root).find((mesh) => (mesh as THREE.SkinnedMesh).isSkinnedMesh)! as THREE.SkinnedMesh;
-    const indices = heldSkin.geometry.attributes.skinIndex!, weights = heldSkin.geometry.attributes.skinWeight!;
-    const fingerIndex = heldSkin.skeleton.bones.indexOf(heldBones['fingers.R']);
-    open.root.updateMatrixWorld(true); held.root.updateMatrixWorld(true);
-    let count = 0, moved = 0;
-    for (let vertex = 0; vertex < indices.count; vertex++) {
-      let influenced = false;
-      for (let slot = 0; slot < 4; slot++) if (indices.getComponent(vertex, slot) === fingerIndex && weights.getComponent(vertex, slot) > 0.8) influenced = true;
-      if (!influenced) continue;
-      const before = new THREE.Vector3(), after = new THREE.Vector3();
-      openSkin.getVertexPosition(vertex, before); heldSkin.getVertexPosition(vertex, after);
-      openBones['hand.R'].worldToLocal(openSkin.localToWorld(before));
-      heldBones['hand.R'].worldToLocal(heldSkin.localToWorld(after));
-      expect([...after.toArray()].every(Number.isFinite)).toBe(true);
-      expect(before.distanceTo(after)).toBeLessThan(0.12);
-      moved = Math.max(moved, before.distanceTo(after)); count++;
-    }
-    expect(count).toBeGreaterThan(4);
-    expect(moved).toBeGreaterThan(0.025);
-    // Empty hands reopen when the weapon is put away, including after a guard pose.
-    for (let i = 0; i < 90; i++) held.hero.pose(pose('idle'), 1 / 60, false);
-    expect(heldBones['fingers.R'].quaternion.angleTo(openBones['fingers.R'].quaternion)).toBeLessThan(0.00001);
-  });
-});
-
-describe('plant/swing stride construction', () => {
-  it('matches controller travel during contact and gives a continuous lifted recovery', () => {
-    const cycle = 1.55, duty = 0.52;
-    const a = heroFootStep(0.1, cycle, duty, 0.095), b = heroFootStep(0.2, cycle, duty, 0.095);
-    expect(a.z - b.z).toBeCloseTo(cycle * 0.1, 10);
-    expect(a.lift).toBeGreaterThanOrEqual(0); expect(a.planted).toBe(true);
-    expect(heroFootStep(duty * 0.5, cycle, duty, 0.095).lift).toBe(0);
-    expect(heroFootStep(duty + 0.24, cycle, duty, 0.095).lift).toBeCloseTo(0.095, 10);
-    expect(heroFootStep(1, cycle, duty, 0.095).z).toBe(heroFootStep(0, cycle, duty, 0.095).z);
+    expect(changed).toBeGreaterThan(4);
+    expect(angle(a['mixamorig:LeftHandMiddle2'].quaternion, c['mixamorig:LeftHandMiddle2'].quaternion)).toBeGreaterThan(.3);
+    for (const name of HERO_BONES.filter((name) => name.startsWith('Bone_'))) expect(angle(a[name].quaternion, b[name].quaternion)).toBeLessThan(.00001);
   });
 });

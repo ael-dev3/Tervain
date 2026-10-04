@@ -54,17 +54,20 @@ export function createHeroAttachments(bones: HeroBones): Attachments {
   ]), steel);
   const socket = new THREE.Group();
   socket.name = 'Hero / right palm equipment socket';
-  socket.position.set(0, 0.055, 0);
-  // The hand's local Y follows the fingers; local Z faces forward. Blade +Y goes along local +Z.
-  socket.rotation.x = Math.PI / 2;
-  bones['hand.R'].add(socket);
+  // Fit the source palm from its real middle/pinky knuckles, rather than the old grouped-hand axes.
+  const middle = bones['mixamorig:RightHandMiddle1'].position.clone();
+  const pinky = bones['mixamorig:RightHandPinky1'].position.clone();
+  socket.position.copy(middle).lerp(pinky, 0.5);
+  const acrossPalm = middle.sub(pinky).normalize();
+  socket.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), acrossPalm);
+  bones['mixamorig:RightHand'].add(socket);
   socket.add(weapon);
 
   const scabbard = new THREE.Group();
   scabbard.name = 'Hero / hip scabbard';
-  scabbard.position.set(0.332, 0.11, 0.02);
+  scabbard.position.set(0.19, 0.055, 0.015);
   scabbard.rotation.set(0.3, 0, 0.14);
-  bones.pelvis.add(scabbard);
+  bones['mixamorig:Hips'].add(scabbard);
   add(scabbard, taperedPrism([[-0.8, 0.013, 0.008], [-0.66, 0.025, 0.012], [0, 0.034, 0.014]]), leather);
   add(scabbard, new THREE.BoxGeometry(0.074, 0.045, 0.034), darkSteel, -0.023);
   add(scabbard, new THREE.BoxGeometry(0.035, 0.06, 0.022), darkSteel, -0.772);
@@ -75,12 +78,12 @@ export function createHeroAttachments(bones: HeroBones): Attachments {
   scabbard.add(sheathed);
 
   // The optional earned standing band follows the pelvis and sits over the coat's belt line.
-  const sash = new THREE.Mesh(new THREE.CylinderGeometry(0.297, 0.3, 0.049, 24, 1, true), cloth);
+  const sash = new THREE.Mesh(new THREE.CylinderGeometry(0.218, 0.22, 0.049, 24, 1, true), cloth);
   sash.name = 'Hero / earned standing band';
   sash.scale.z = 0.7;
-  sash.position.set(0, 0.11, 0.009);
+  sash.position.set(0, 0.055, 0.009);
   sash.castShadow = sash.receiveShadow = true;
-  bones.pelvis.add(sash);
+  bones['mixamorig:Hips'].add(sash);
   weapon.visible = scabbard.visible = sheathed.visible = sash.visible = false;
   return { weapon, scabbard, sheathed, sash, materials: [steel, darkSteel, leather, cloth] };
 }

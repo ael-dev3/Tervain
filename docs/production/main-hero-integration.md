@@ -1,5 +1,7 @@
 # Weathered Wanderer integration into 0.0.8
 
+**Historical A37 component record.** A45 replaces this runtime rig and locomotion in `0.0.10`; see the [current animation integration](../engineering/main-hero-animations-0.0.10.md). The following measurements remain attached to the earlier 49,500-triangle asset.
+
 Owner decision **A37**, 2 October 2026: the approved finished Wanderer becomes the main playable character. This change is based on main `d0dc8de140ece35fe82b679beb6e9956055e316c` and retains version **0.0.8**. NPCs, enemies, ambient people and the menu warden retain their current procedural character-sheet pipeline. The hero's identity and story remain the existing amnesiac outsider; this selection does not give him a faction, remembered name or new equipment.
 
 ## Delivered behavior

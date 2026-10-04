@@ -1,6 +1,6 @@
 import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-const FILE = 'models/hero/weathered-wanderer-hero-50k.glb';
+const FILE = 'models/hero/weathered-wanderer-animated-hero.glb';
 let pending: Promise<GLTF> | null = null;
 
 /** Resolve from the built page, including the /Tervain/ Pages subdirectory. */

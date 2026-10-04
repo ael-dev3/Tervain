@@ -195,7 +195,8 @@ describe('the player and camera share the authored lighthouse surfaces', () => {
     expect(s.player.lastMoveSpeed).toBeLessThan(0.01);
     expect(s.camera.bodyVisible).toBe(false);
     s.ctx.viewYaw = -Math.PI / 2;
-    for (let frame = 0; frame < hz * 2; frame++) { s.tick(hz, Math.PI); assertFrameClear(s); }
+    // Cover the same corner escape at the newly calibrated walking pace.
+    for (let frame = 0; frame < hz * 5; frame++) { s.tick(hz, Math.PI); assertFrameClear(s); }
     expect(s.player.x).toBeLessThan(-4);
     expect(s.player.z).toBeCloseTo(1.5699, 3);
     walls.setActive('east', false); walls.setActive('north', false);
