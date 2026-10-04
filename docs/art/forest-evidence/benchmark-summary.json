@@ -1,0 +1,350 @@
+{
+  "status": "PASS",
+  "baseline": "PR12 source87f48cbed253cd9b48eb03d2454fba7c046cabed",
+  "candidate": "Larger-stand working tree onPR12; exact measured source hashes recorded below. Final comment-only adjustment is recorded separately.",
+  "method": "Sequential, uncontended, native 72-second route; first complete route warms a fresh profile, second is measured. Temporary in-memory clock freeze at day0/hour11 suppresses clock advance only, without repeated debugTime or forward-day events. No FPS/GPU timer claim.",
+  "settings": {
+    "width": 1280,
+    "height": 720,
+    "quality": "high",
+    "dpr": 1
+  },
+  "device": {
+    "gpu": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3080 Ti (0x00002208) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+    "clock_minutes": 660,
+    "day": 0,
+    "quest_phase": "unseen"
+  },
+  "limitations": [
+    "Animation-frame wall-clock intervals are display-limited.",
+    "Renderer counters include repeated shadow/reflection/postprocessing submissions.",
+    "Forest segment counter samples are polled, not GPU pass durations.",
+    "Ordinary NPC/player behavior remains running; phase and day are checked each sample.",
+    "One warmed repeat per source; differences of0.1ms are not a speedup claim.",
+    "No1920x1080 qualification or GPU pass timer.",
+    "The supplied native report still says phase not pinned; external fixture verified unchanged clock/day/phase on every sample."
+  ],
+  "comparison": {
+    "sameNativeRoute": true,
+    "sameViewport": true,
+    "sameClockAndPhase": true,
+    "before": {
+      "frames": 4315,
+      "median": 16.699999999982538,
+      "p95": 17,
+      "p99": 17.19999999999709,
+      "worst": 33.70000000001164
+    },
+    "after": {
+      "frames": 4319,
+      "median": 16.69999999999709,
+      "p95": 17,
+      "p99": 17.10000000000582,
+      "worst": 33.39999999999418
+    },
+    "p95Ratio": 1,
+    "p99Ratio": 0.9941860465121346,
+    "beforeCounters": {
+      "submittedTriangles": {
+        "n": 176,
+        "mean": 1296153.0397727273,
+        "p95": 2745499,
+        "max": 3396001
+      },
+      "drawCalls": {
+        "n": 176,
+        "mean": 286.3011363636364,
+        "p95": 583,
+        "max": 642
+      }
+    },
+    "afterCounters": {
+      "submittedTriangles": {
+        "n": 176,
+        "mean": 1230265.6590909092,
+        "p95": 1847123,
+        "max": 3086433
+      },
+      "drawCalls": {
+        "n": 176,
+        "mean": 277.64772727272725,
+        "p95": 356,
+        "max": 618
+      }
+    },
+    "beforeForestCounters": {
+      "submittedTriangles": {
+        "n": 29,
+        "mean": 1871059.2413793104,
+        "p95": 3292181,
+        "max": 3396001
+      },
+      "drawCalls": {
+        "n": 29,
+        "mean": 376.55172413793105,
+        "p95": 636,
+        "max": 642
+      }
+    },
+    "afterForestCounters": {
+      "submittedTriangles": {
+        "n": 29,
+        "mean": 1742770.7241379311,
+        "p95": 3013840,
+        "max": 3086433
+      },
+      "drawCalls": {
+        "n": 29,
+        "mean": 366.55172413793105,
+        "p95": 617,
+        "max": 618
+      }
+    }
+  },
+  "wholeRouteMeanTriangleChangeFraction": -0.050833025622785355,
+  "wholeRouteMeanDrawChangeFraction": -0.030224850661850877,
+  "warmup": {
+    "pr12": {
+      "frames": 4314,
+      "median": 16.69999999999709,
+      "p95": 17,
+      "p99": 17.200000000000728,
+      "worst": 416.6999999999989
+    },
+    "larger-stands": {
+      "frames": 4314,
+      "median": 16.69999999999709,
+      "p95": 17.099999999998545,
+      "p99": 17.19999999999709,
+      "worst": 483.39999999999964
+    }
+  },
+  "sources": [
+    {
+      "label": "pr12",
+      "version": {
+        "head": "87f48cbed253cd9b48eb03d2454fba7c046cabed",
+        "dirty": "",
+        "lockfileSha256": "c066a536f7a63006db5223033030229c8b033ffecc64b22716d2c6239c20cc88"
+      },
+      "files": {
+        "src/presentation/floraPopulation.ts": {
+          "localSha256": "7354176445d219c6122ffa639ace0fe9731ff4d0cc47c7a01bfbfef704e8f259",
+          "rawServedSha256": "7354176445d219c6122ffa639ace0fe9731ff4d0cc47c7a01bfbfef704e8f259",
+          "transformedResponseSha256": "0775106578d41d42fa42d77b0952758dca8c2d696a2d79a76605dc192d60010a"
+        },
+        "src/world/forest.ts": {
+          "localSha256": "e76eb6138c5ef9578c789533cab96900ba064156ec7e0170e42d848ced0b4402",
+          "rawServedSha256": "e76eb6138c5ef9578c789533cab96900ba064156ec7e0170e42d848ced0b4402",
+          "transformedResponseSha256": "d93474b38326ef40dd19511914d1f9c2b22f15b65fdd74009e4798903474459b"
+        },
+        "src/presentation/forestFloor.ts": {
+          "localSha256": "7934a3ae84103a23159ed8753ee9a805bdc64399b3217b4cb1fb41fc1fc6eed5",
+          "rawServedSha256": "7934a3ae84103a23159ed8753ee9a805bdc64399b3217b4cb1fb41fc1fc6eed5",
+          "transformedResponseSha256": "5c3d953d79e92244340da68fda3d6188783751535ddf79b907168591763000dc"
+        },
+        "src/presentation/flora.ts": {
+          "localSha256": "e87debb8fa9e914c79d3b069055ffd0df0ed9ee25534f600a1422c56f0593952",
+          "rawServedSha256": "e87debb8fa9e914c79d3b069055ffd0df0ed9ee25534f600a1422c56f0593952",
+          "transformedResponseSha256": "d2965361652474860086089144dd171feabbac2e3f12caeac5027ad1d75ae9a1"
+        },
+        "src/presentation/treeGen.ts": {
+          "localSha256": "f7a1002dcb255d6453a74515c4fa27209add37df1e2fd4d2cc02d8b3bfc2d0a4",
+          "rawServedSha256": "f7a1002dcb255d6453a74515c4fa27209add37df1e2fd4d2cc02d8b3bfc2d0a4",
+          "transformedResponseSha256": "193282eac060529df8712ea99f8ab62ef0ac1430c17079d85617d04cf5f27a12"
+        },
+        "src/app.ts": {
+          "localSha256": "6e0fbeab3a19cd7989a86777e8c6f4d208bcf1f95dceec7d6b8a4af3ec665139",
+          "rawServedSha256": "6e0fbeab3a19cd7989a86777e8c6f4d208bcf1f95dceec7d6b8a4af3ec665139",
+          "transformedResponseSha256": "e8ec66b5f3f30f1dccf3a8550ec9083381f9f531f63dce1cee833e63ce3c8d4e"
+        },
+        "src/presentation/cameraRig.ts": {
+          "localSha256": "f97d9587dde088426984ba13918cb111f82beddac9f5fce4d05913db68a5ee90",
+          "rawServedSha256": "f97d9587dde088426984ba13918cb111f82beddac9f5fce4d05913db68a5ee90",
+          "transformedResponseSha256": "4d34abb848b8ec5d3d1e503c1cce9e53274299d6098c612d0a1d2de3a609f0e1"
+        }
+      }
+    },
+    {
+      "label": "larger-stands",
+      "version": {
+        "head": "87f48cbed253cd9b48eb03d2454fba7c046cabed",
+        "dirty": "M AGENTS.md\n M README.md\n M docs/art/gothic3-reference.md\n M docs/decisions.md\n M src/presentation/floraPopulation.ts\n M src/presentation/forestFloor.ts\n M src/world/forest.ts\n M tests/presentation/forestCohesion.test.ts\n M tests/presentation/forestFloor.test.ts\n?? docs/art/forest-evidence/\n?? docs/art/forest-stands-2026-10-03.md\n?? docs/art/gothic3-vegetation-study.md\n?? src/world/forestStands.ts\n?? tests/presentation/forestStands.test.ts",
+        "lockfileSha256": "c066a536f7a63006db5223033030229c8b033ffecc64b22716d2c6239c20cc88"
+      },
+      "files": {
+        "src/presentation/floraPopulation.ts": {
+          "localSha256": "2b6fa0706b5ca3b0a231ffcdc45922124f63f113f92f77391c2f41ceb6d204bb",
+          "rawServedSha256": "2b6fa0706b5ca3b0a231ffcdc45922124f63f113f92f77391c2f41ceb6d204bb",
+          "transformedResponseSha256": "ebd248fc147ad04dd66ab135130159efb24e4665f778d26886814ac78fb46430"
+        },
+        "src/world/forest.ts": {
+          "localSha256": "0ab1a40ee1bf264fa4d3bd60b3b49b41ee8615e2816825bd1d640072e0807d05",
+          "rawServedSha256": "0ab1a40ee1bf264fa4d3bd60b3b49b41ee8615e2816825bd1d640072e0807d05",
+          "transformedResponseSha256": "74f53083597fee937065531e1a59a0bb3e7e44a66174ff94d31c91849c280ab8"
+        },
+        "src/presentation/forestFloor.ts": {
+          "localSha256": "78244a379ca207be1e1c05b945c2760e299c92e27f091235f20ea3e50dd72a31",
+          "rawServedSha256": "78244a379ca207be1e1c05b945c2760e299c92e27f091235f20ea3e50dd72a31",
+          "transformedResponseSha256": "12a8f3982f272d26e5e5067b9eee579b180e97e98ddb4d28aa11ef262bf90e13"
+        },
+        "src/presentation/flora.ts": {
+          "localSha256": "e87debb8fa9e914c79d3b069055ffd0df0ed9ee25534f600a1422c56f0593952",
+          "rawServedSha256": "e87debb8fa9e914c79d3b069055ffd0df0ed9ee25534f600a1422c56f0593952",
+          "transformedResponseSha256": "948dc42d7872f8b78110112b35342bd14c88126c0c5459e4720081ec6f5c89f1"
+        },
+        "src/presentation/treeGen.ts": {
+          "localSha256": "f7a1002dcb255d6453a74515c4fa27209add37df1e2fd4d2cc02d8b3bfc2d0a4",
+          "rawServedSha256": "f7a1002dcb255d6453a74515c4fa27209add37df1e2fd4d2cc02d8b3bfc2d0a4",
+          "transformedResponseSha256": "0100f6ffbce1c764f126dfff317230ffdb585a4d7454c1e2cd2c57b58dac7c99"
+        },
+        "src/app.ts": {
+          "localSha256": "6e0fbeab3a19cd7989a86777e8c6f4d208bcf1f95dceec7d6b8a4af3ec665139",
+          "rawServedSha256": "6e0fbeab3a19cd7989a86777e8c6f4d208bcf1f95dceec7d6b8a4af3ec665139",
+          "transformedResponseSha256": "c4884a11425fbe08d7d819e7c92012dafc669b5ecd5fe3bc7456983a53984c07"
+        },
+        "src/presentation/cameraRig.ts": {
+          "localSha256": "f97d9587dde088426984ba13918cb111f82beddac9f5fce4d05913db68a5ee90",
+          "rawServedSha256": "f97d9587dde088426984ba13918cb111f82beddac9f5fce4d05913db68a5ee90",
+          "transformedResponseSha256": "392622aa81f07219d59cca93ded91459c1a926aeeb953d342a2e60606eeb0711"
+        },
+        "src/world/forestStands.ts": {
+          "localSha256": "b5de83b438f4d06c1481608e43eb33d1ee9f599415b870148f627d17fa41ce54",
+          "rawServedSha256": "b5de83b438f4d06c1481608e43eb33d1ee9f599415b870148f627d17fa41ce54",
+          "transformedResponseSha256": "6ebb58fb488878eac4e9f0826554c9ff635eb0210cc10711513f95ed3c02fb04"
+        }
+      }
+    }
+  ],
+  "finalSourceCheck": {
+    "status": "PASS",
+    "checkedAt": "2026-10-03T12:03:23.185Z",
+    "sources": [
+      {
+        "label": "pr12",
+        "files": [
+          {
+            "path": "src/presentation/floraPopulation.ts",
+            "localSha256": "7354176445d219c6122ffa639ace0fe9731ff4d0cc47c7a01bfbfef704e8f259",
+            "rawServedSha256": "7354176445d219c6122ffa639ace0fe9731ff4d0cc47c7a01bfbfef704e8f259",
+            "responseSha256": "0775106578d41d42fa42d77b0952758dca8c2d696a2d79a76605dc192d60010a",
+            "unchanged": true
+          },
+          {
+            "path": "src/world/forest.ts",
+            "localSha256": "e76eb6138c5ef9578c789533cab96900ba064156ec7e0170e42d848ced0b4402",
+            "rawServedSha256": "e76eb6138c5ef9578c789533cab96900ba064156ec7e0170e42d848ced0b4402",
+            "responseSha256": "d93474b38326ef40dd19511914d1f9c2b22f15b65fdd74009e4798903474459b",
+            "unchanged": true
+          },
+          {
+            "path": "src/presentation/forestFloor.ts",
+            "localSha256": "7934a3ae84103a23159ed8753ee9a805bdc64399b3217b4cb1fb41fc1fc6eed5",
+            "rawServedSha256": "7934a3ae84103a23159ed8753ee9a805bdc64399b3217b4cb1fb41fc1fc6eed5",
+            "responseSha256": "5c3d953d79e92244340da68fda3d6188783751535ddf79b907168591763000dc",
+            "unchanged": true
+          },
+          {
+            "path": "src/presentation/flora.ts",
+            "localSha256": "e87debb8fa9e914c79d3b069055ffd0df0ed9ee25534f600a1422c56f0593952",
+            "rawServedSha256": "e87debb8fa9e914c79d3b069055ffd0df0ed9ee25534f600a1422c56f0593952",
+            "responseSha256": "d2965361652474860086089144dd171feabbac2e3f12caeac5027ad1d75ae9a1",
+            "unchanged": true
+          },
+          {
+            "path": "src/presentation/treeGen.ts",
+            "localSha256": "f7a1002dcb255d6453a74515c4fa27209add37df1e2fd4d2cc02d8b3bfc2d0a4",
+            "rawServedSha256": "f7a1002dcb255d6453a74515c4fa27209add37df1e2fd4d2cc02d8b3bfc2d0a4",
+            "responseSha256": "193282eac060529df8712ea99f8ab62ef0ac1430c17079d85617d04cf5f27a12",
+            "unchanged": true
+          },
+          {
+            "path": "src/app.ts",
+            "localSha256": "6e0fbeab3a19cd7989a86777e8c6f4d208bcf1f95dceec7d6b8a4af3ec665139",
+            "rawServedSha256": "6e0fbeab3a19cd7989a86777e8c6f4d208bcf1f95dceec7d6b8a4af3ec665139",
+            "responseSha256": "e8ec66b5f3f30f1dccf3a8550ec9083381f9f531f63dce1cee833e63ce3c8d4e",
+            "unchanged": true
+          },
+          {
+            "path": "src/presentation/cameraRig.ts",
+            "localSha256": "f97d9587dde088426984ba13918cb111f82beddac9f5fce4d05913db68a5ee90",
+            "rawServedSha256": "f97d9587dde088426984ba13918cb111f82beddac9f5fce4d05913db68a5ee90",
+            "responseSha256": "4d34abb848b8ec5d3d1e503c1cce9e53274299d6098c612d0a1d2de3a609f0e1",
+            "unchanged": true
+          }
+        ]
+      },
+      {
+        "label": "larger-stands",
+        "files": [
+          {
+            "path": "src/presentation/floraPopulation.ts",
+            "localSha256": "2b6fa0706b5ca3b0a231ffcdc45922124f63f113f92f77391c2f41ceb6d204bb",
+            "rawServedSha256": "2b6fa0706b5ca3b0a231ffcdc45922124f63f113f92f77391c2f41ceb6d204bb",
+            "responseSha256": "ebd248fc147ad04dd66ab135130159efb24e4665f778d26886814ac78fb46430",
+            "unchanged": true
+          },
+          {
+            "path": "src/world/forest.ts",
+            "localSha256": "0ab1a40ee1bf264fa4d3bd60b3b49b41ee8615e2816825bd1d640072e0807d05",
+            "rawServedSha256": "0ab1a40ee1bf264fa4d3bd60b3b49b41ee8615e2816825bd1d640072e0807d05",
+            "responseSha256": "74f53083597fee937065531e1a59a0bb3e7e44a66174ff94d31c91849c280ab8",
+            "unchanged": true
+          },
+          {
+            "path": "src/presentation/forestFloor.ts",
+            "localSha256": "78244a379ca207be1e1c05b945c2760e299c92e27f091235f20ea3e50dd72a31",
+            "rawServedSha256": "78244a379ca207be1e1c05b945c2760e299c92e27f091235f20ea3e50dd72a31",
+            "responseSha256": "12a8f3982f272d26e5e5067b9eee579b180e97e98ddb4d28aa11ef262bf90e13",
+            "unchanged": true
+          },
+          {
+            "path": "src/presentation/flora.ts",
+            "localSha256": "e87debb8fa9e914c79d3b069055ffd0df0ed9ee25534f600a1422c56f0593952",
+            "rawServedSha256": "e87debb8fa9e914c79d3b069055ffd0df0ed9ee25534f600a1422c56f0593952",
+            "responseSha256": "948dc42d7872f8b78110112b35342bd14c88126c0c5459e4720081ec6f5c89f1",
+            "unchanged": true
+          },
+          {
+            "path": "src/presentation/treeGen.ts",
+            "localSha256": "f7a1002dcb255d6453a74515c4fa27209add37df1e2fd4d2cc02d8b3bfc2d0a4",
+            "rawServedSha256": "f7a1002dcb255d6453a74515c4fa27209add37df1e2fd4d2cc02d8b3bfc2d0a4",
+            "responseSha256": "0100f6ffbce1c764f126dfff317230ffdb585a4d7454c1e2cd2c57b58dac7c99",
+            "unchanged": true
+          },
+          {
+            "path": "src/app.ts",
+            "localSha256": "6e0fbeab3a19cd7989a86777e8c6f4d208bcf1f95dceec7d6b8a4af3ec665139",
+            "rawServedSha256": "6e0fbeab3a19cd7989a86777e8c6f4d208bcf1f95dceec7d6b8a4af3ec665139",
+            "responseSha256": "c4884a11425fbe08d7d819e7c92012dafc669b5ecd5fe3bc7456983a53984c07",
+            "unchanged": true
+          },
+          {
+            "path": "src/presentation/cameraRig.ts",
+            "localSha256": "f97d9587dde088426984ba13918cb111f82beddac9f5fce4d05913db68a5ee90",
+            "rawServedSha256": "f97d9587dde088426984ba13918cb111f82beddac9f5fce4d05913db68a5ee90",
+            "responseSha256": "392622aa81f07219d59cca93ded91459c1a926aeeb953d342a2e60606eeb0711",
+            "unchanged": true
+          },
+          {
+            "path": "src/world/forestStands.ts",
+            "localSha256": "b5de83b438f4d06c1481608e43eb33d1ee9f599415b870148f627d17fa41ce54",
+            "rawServedSha256": "b5de83b438f4d06c1481608e43eb33d1ee9f599415b870148f627d17fa41ce54",
+            "responseSha256": "6ebb58fb488878eac4e9f0826554c9ff635eb0210cc10711513f95ed3c02fb04",
+            "unchanged": true
+          }
+        ]
+      }
+    ]
+  },
+  "postMeasurementCommentOnlyChange": {
+    "path": "src/world/forestStands.ts",
+    "measuredSha256": "b5de83b438f4d06c1481608e43eb33d1ee9f599415b870148f627d17fa41ce54",
+    "finalSha256": "0aaf4e490bb725b7149f79389cd36a428d4187b694e690073bd26b38c43160e4",
+    "change": "Only one descriptive comment changed: 5\u201310m claim replaced by actual9m noise coordinates/.07 normalized amplitude. Runtime code unchanged. Historical measured hashes retained.",
+    "independentlyVerified": "Replacing the final exact comment bytes with the measured comment reconstructs the full measured SHA256.",
+    "oldComment": "// A 5-10 m scalloped transition retains contiguous companion interiors and broad primary masses.",
+    "newComment": "// Scallop the binary family boundary with 9 m noise coordinates and .07 normalized amplitude."
+  }
+}

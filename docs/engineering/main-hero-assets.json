@@ -1,0 +1,259 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-02",
+  "id": "tervain.hero.weathered-wanderer.50k",
+  "displayName": "The Weathered Wanderer",
+  "intendedUse": "Owner-selected main playable character for Tervain 0.0.8.",
+  "source": {
+    "suppliedBy": "Ael",
+    "suppliedFilename": "Meshy_AI_The_Weathered_Wandere_1002192705_texture.glb",
+    "suppliedSha256": "41f1be6d97ed683973d0c78e0e964b41c6e57143cf90a72d5d1d0c78b6c9556c",
+    "approvedDerivativeFilename": "weathered-wanderer-hero-50k.glb",
+    "approvedDerivativeBytes": 44410400,
+    "approvedDerivativeSha256": "ceb90399b8a6ee8678861c67a30c5d1cdc603cb0c22020d0a3994392bccbd76d",
+    "editableBlendFilename": "weathered-wanderer-hero-50k.blend",
+    "editableBlendBytes": 46141922,
+    "editableBlendSha256": "280d0d3deff89678e5a01ac027e63563a8ba1ab65c198ae1f1e9d1949985583a",
+    "workshop": "Original source, editable Blender scene, texture sources, prompts and validation remain in the owner’s approved wanderer-hero-50k asset workshop. They are not bundled in the game.",
+    "history": "Owner-supplied Meshy model, UV-preserving reduction to 49,500 triangles, original rig and five clips, owner-authorized ImageGen material refinement. No Gothic/Warcraft game files are shipped."
+  },
+  "terms": {
+    "spdx": null,
+    "authority": "Owner explicitly approved the finished hero and requested adding him as Tervain’s main character on 2026-10-02.",
+    "credit": "The Weathered Wanderer — supplied by Ael; Meshy-generated source, refined and rigged for Tervain using Blender and owner-authorized ImageGen textures.",
+    "boundary": "Specific project-use authority. No general open-content license, exclusive authorship or independently reviewed Meshy/account/third-party rights are asserted."
+  },
+  "runtime": {
+    "path": "public/models/hero/weathered-wanderer-hero-50k.glb",
+    "urlRelativeToBase": "models/hero/weathered-wanderer-hero-50k.glb",
+    "bytes": 28184920,
+    "sha256": "4d4c16e56ce8696b195828bb41ca2d1fb015c3ef855a9cd2472eaa4a1c7d6691",
+    "sourceBytesSaved": 16225480,
+    "reductionPercent": 36.54,
+    "externalDependencies": [],
+    "requiredGltfExtension": "EXT_texture_webp",
+    "loading": "Locally served embedded GLB using the existing Three.js GLTFLoader; use import.meta.env.BASE_URL so GitHub Pages subpaths work."
+  },
+  "geometryAndRig": {
+    "triangles": 49500,
+    "triangleBudget": 50000,
+    "attributeSplitVertices": 30494,
+    "meshCount": 1,
+    "primitiveCount": 1,
+    "materialCount": 1,
+    "jointCount": 30,
+    "jointNames": [
+      "root",
+      "pelvis",
+      "spine",
+      "chest",
+      "clavicle.L",
+      "upperarm.L",
+      "forearm.L",
+      "hand.L",
+      "fingers.L",
+      "thumb.L",
+      "clavicle.R",
+      "upperarm.R",
+      "forearm.R",
+      "hand.R",
+      "fingers.R",
+      "thumb.R",
+      "neck",
+      "head",
+      "tabard_back.L",
+      "tabard_back.R",
+      "tabard_front.L",
+      "tabard_front.R",
+      "thigh.L",
+      "calf.L",
+      "foot.L",
+      "toe.L",
+      "thigh.R",
+      "calf.R",
+      "foot.R",
+      "toe.R"
+    ],
+    "bounds": {
+      "min": [
+        -0.6347079873085022,
+        0.00026702880859375,
+        -0.20644354820251465
+      ],
+      "max": [
+        0.6306480169296265,
+        1.898921012878418,
+        0.2065707892179489
+      ]
+    },
+    "clips": [
+      {
+        "name": "Breathing",
+        "seconds": 5,
+        "rootMotion": false,
+        "gameplayUse": "Available in-place animation."
+      },
+      {
+        "name": "Idle",
+        "seconds": 4,
+        "rootMotion": false,
+        "gameplayUse": "Available in-place animation."
+      },
+      {
+        "name": "LookAround",
+        "seconds": 6,
+        "rootMotion": false,
+        "gameplayUse": "Available in-place animation."
+      },
+      {
+        "name": "Walk",
+        "seconds": 1.2,
+        "rootMotion": false,
+        "gameplayUse": "Available in-place animation."
+      },
+      {
+        "name": "WalkRootMotion",
+        "seconds": 1.2,
+        "rootMotion": true,
+        "gameplayUse": "Preserved for authoring; do not loop this alongside controller movement."
+      }
+    ]
+  },
+  "coordinateSystem": {
+    "units": "metres",
+    "up": "+Y",
+    "forward": "+Z",
+    "origin": "Ground-centred; rest-pose minimum Y 0.000267 m."
+  },
+  "materials": {
+    "baseColor": {
+      "colorSpace": "sRGB",
+      "resolution": [
+        4096,
+        4096
+      ],
+      "transparent": false
+    },
+    "normal": {
+      "colorSpace": "linear/non-color",
+      "resolution": [
+        4096,
+        4096
+      ],
+      "tangentSpace": true
+    },
+    "metallicRoughness": {
+      "colorSpace": "linear/non-color",
+      "resolution": [
+        2048,
+        2048
+      ],
+      "channels": "G roughness, B metallic; R unused by the material."
+    },
+    "compressedTextureFormat": "Lossless WebP is a download encoding, not GPU block compression.",
+    "rgbaGpuBytesIncludingMipmapsEstimate": 201326592,
+    "estimateBoundary": "Three maps decoded as RGBA8 with a full mip chain; device residency and render performance are not measured by this estimate."
+  },
+  "preparation": {
+    "tool": "tools/import-main-hero.mjs",
+    "nativeEncoderVersions": {
+      "aom": "3.15.0",
+      "archive": "3.8.9",
+      "cairo": "1.18.4",
+      "cgif": "0.5.3",
+      "exif": "0.6.26",
+      "expat": "2.8.3",
+      "ffi": "3.8.0",
+      "fontconfig": "2.18.3",
+      "freetype": "2.14.3",
+      "fribidi": "1.0.16",
+      "glib": "2.89.4",
+      "harfbuzz": "14.3.1",
+      "heif": "1.23.2",
+      "highway": "1.4.0",
+      "imagequant": "2.4.1",
+      "lcms": "2.19.1",
+      "mozjpeg": "0826579",
+      "pango": "1.58.2",
+      "pixman": "0.46.4",
+      "png": "1.6.58",
+      "proxy-libintl": "0.5",
+      "rsvg": "2.62.91",
+      "tiff": "4.7.2",
+      "uhdr": "2.0.2",
+      "vips": "8.18.6",
+      "webp": "1.6.0",
+      "xml2": "2.15.3",
+      "zlib-ng": "2.3.3",
+      "sharp": "0.35.4"
+    },
+    "operation": "Lossless encoding only: no resize, repaint, palette, normal, UV, geometry, weight, rig or animation changes.",
+    "webpOptions": {
+      "lossless": true,
+      "effort": 6
+    },
+    "images": [
+      {
+        "index": 0,
+        "name": "hero-50k-normal-clean",
+        "width": 4096,
+        "height": 4096,
+        "channels": 3,
+        "originalMimeType": "image/png",
+        "runtimeMimeType": "image/webp",
+        "sourceBytes": 21323919,
+        "runtimeBytes": 13201662,
+        "sourceEncodedSha256": "76b6bc02bf15fb52538c63181ac7b35735c49363d2f1f86f40f524ba37bd7e33",
+        "runtimeEncodedSha256": "2c76763acbacfd2312e19a860c5f6e20046a33bbf7286a609eb0f193fb1dacab",
+        "decodedPixelSha256": "b86f99b4891238181eff637d0767c5520af2b2e78a7d3bf93a35680ace37917e",
+        "decodedPixelBytesIdentical": true
+      },
+      {
+        "index": 1,
+        "name": "hero-50k-albedo",
+        "width": 4096,
+        "height": 4096,
+        "channels": 3,
+        "originalMimeType": "image/png",
+        "runtimeMimeType": "image/webp",
+        "sourceBytes": 18850436,
+        "runtimeBytes": 11874544,
+        "sourceEncodedSha256": "c80bf42870d76f428b057a19ccb75ccca4ea6291e8a6134f3f0a8adc23145853",
+        "runtimeEncodedSha256": "64658648b0dba2a7563ab5be41515151e38a5bf8470ed68f1e2373b4198c46e0",
+        "decodedPixelSha256": "5196238b1caa3f0c4be6d0453a3fcd30f930fbeb40d5b2fde69a4b8c7758365c",
+        "decodedPixelBytesIdentical": true
+      },
+      {
+        "index": 2,
+        "name": "hero-50k-metallic-roughness",
+        "width": 2048,
+        "height": 2048,
+        "channels": 3,
+        "originalMimeType": "image/png",
+        "runtimeMimeType": "image/webp",
+        "sourceBytes": 2073533,
+        "runtimeBytes": 946034,
+        "sourceEncodedSha256": "aff2f6e04b865ce7c1b837ec59e12a6c432ffcef6b2bd0c2a9c461ef9b207d03",
+        "runtimeEncodedSha256": "f9b28803a9f470937afb2ebafc447667b1c1013122c00e2b2a33ef220ef3cd9c",
+        "decodedPixelSha256": "4e903dcd5d9820adad36bcf57ae4829a7c7b927c5586ec7e8dcc9ed6f7d95546",
+        "decodedPixelBytesIdentical": true
+      }
+    ],
+    "unchangedNonImageBufferViewCount": 255,
+    "unchangedNonImageBufferViewsSha256": "c6bd994f23e9e482e0d16fdded5731bf4ad0b060c543ebcd70a570a2dbbc57f2",
+    "sceneMeshSkinAnimationMaterialSemanticsIdentical": true,
+    "approvedSourceFileUnmodified": true
+  },
+  "motionPolicy": {
+    "inPlaceWalkCycleSeconds": 1.2,
+    "authoredWalkRootMotionMetres": 0.516129,
+    "authoredWalkSpeedMetresPerSecond": 0.43010752688172044,
+    "rootMotion": "Keep the gameplay controller authoritative. Use Walk for controller-driven locomotion; WalkRootMotion is preserved but cannot be layered on top of controller translation.",
+    "contacts": "Source rig/deformation audits verify the authored walk. Controller speed, slopes, weapons and camera contact must be checked in the integrated game."
+  },
+  "verification": {
+    "assetPreparation": "Passed: approved source hash; exact decoded pixels for all three maps; byte-identical non-image buffer views; identical scene/mesh/skin/animation/material semantics; strict triangle budget and complete clip contract.",
+    "gameIntegration": "Requires the coordinating assistant’s typecheck/tests/build and running-game observations; not implied by asset preparation.",
+    "publication": "No remote publication or CI was performed by this preparation script."
+  }
+}

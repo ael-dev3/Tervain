@@ -98,3 +98,7 @@ Build one place with a complete loop before promising a world. The proposed firs
 Later candidates include more faction membership depth, northern and desert regions, additional weapons, richer crafting, and regional narrative callbacks. None are necessary to evaluate the first slice. Multiplayer, settlement management, procedural endless campaigns, unrestricted destruction, and seamless continent-scale simulation are outside the initial plan.
 
 The project's ambition is a coherent RPG people want to finish. Quality is assessed through play, consistency, and measurable performance. Document length, polygon count, procedural complexity, and resemblance to a reference are not substitutes.
+
+## Current forest asset choice
+
+A38 replaces the ordinary dark conifer families with the owner-supplied Solitary Pine: a lush textured needle-card model with matched distance representations and paused gameplay wind. Uniform scaling keeps the authored tree proportions; trunk collision footprints match the imported wood without squeezing or bending the geometry. A39 supplies larger coherent stands and broad natural clearings; the approximate 75/20/5 regional stem target remains distinct from rendered canopy coverage or a universal Gothic 3 measurement. A40 includes these changes in the owner-approved `0.0.9` release. This leaves the agreed serious single-player direction and quality/version gate intact. See the [asset contract](engineering/solitary-pine.md), [stand record](art/forest-stands-2026-10-03.md) and [release evidence](production/releases/0.0.9.md).

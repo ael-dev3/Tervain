@@ -26,7 +26,7 @@ The subsequent `0.0.5` direction ([A27](../decisions.md)) keeps a sparse coastal
 | Props at the start | Benches, stools, log stands, campfires, torches, barrels, poor tables, candles, sign board, dung heap, crystals. |
 | People | Slaves (weak, skinny, pants), peasants, a rebel bandit king, bandits, orc scouts, warriors and a boss. Bodies are weathered and thin; clothes are rags, leather and coarse wool. |
 | Sound | `coast_birds`, `water_beach`, `water_coast` ambient loops. |
-| Units | One engine unit is one centimetre: a barrel is 90 × 110 cm, a bench 240 × 70 × 60 cm. |
+| Units | The verified g3blend modding convention uses 100 engine units per metre: a barrel is 90 × 110 cm, a bench 240 × 70 × 60 cm under that conversion. It was not calibrated in a running game. |
 
 ## The colours
 
@@ -56,6 +56,8 @@ Field of view 60°, near plane 10 cm, far plane 100 m for full meshes and 700–
 ## Vegetation
 
 The Myrtana set has 52 SpeedTree definitions in five size classes (XS to XXL): Douglas fir, longleaf pine, red oak, pin oak, sycamore, honey locust, pagoda tree, paw paw, crepe myrtle, buckthorn, holly, crab apple, aspen, linden, willow, cypress and dead trees ("rotten tree" meshes). Foliage is alpha-cut cards holding a twig of leaves, hung on a real trunk-and-branch skeleton. Ground plants and underbrush are separate meshes.
+
+The historical asset study above did not parse object placement. The [3 October vegetation placement follow-up](gothic3-vegetation-study.md) reads stored world transforms from the verified original Gothic 3 install and documents separate coastal/inland samples, their selection rules, and an aggregate distribution diagram. Its local dominance measurements support original coherent stands; the owner's approximately 75/20/5 regional mix is a Tervain design target, not a universal Gothic 3 rule.
 
 ## Design rules taken from this
 

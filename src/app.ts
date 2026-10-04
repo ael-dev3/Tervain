@@ -37,6 +37,8 @@ import { WorldScene } from './presentation/world';
 import { MenuScene } from './presentation/menuScene';
 import { disposeSceneResources } from './presentation/disposeScene';
 import { GAME_VERSION } from './version';
+import { loadMainHero } from './presentation/mainHero';
+import { createHeroRig } from './presentation/hero/rig';
 
 type Mode = 'loading' | 'title' | 'play' | 'dead';
 
@@ -58,6 +60,7 @@ export class App {
   library: AssetLibrary = AssetLibrary.empty();
   cam = new CameraRig();
   player = new Player();
+  private mainHeroInstalled = false;
   npcs: NpcActor[] = [];
   enemies: EnemyActor[] = [];
   hud = new Hud();
@@ -151,6 +154,7 @@ export class App {
     }
     this.pauseForWorldBuild();
     try {
+      await this.prepareMainHero();
       await this.buildWorld();
     } catch (error) {
       // Keep this initialization pending: its listeners and RAF are installed once, after recovery.
@@ -158,6 +162,7 @@ export class App {
         const retry = async () => {
           this.pauseForWorldBuild();
           try {
+            await this.prepareMainHero();
             await this.buildWorld();
             resolve();
           } catch (nextError) {
@@ -296,6 +301,21 @@ export class App {
       this.player.vx = this.player.vz = this.player.lastMoveSpeed = 0;
       this.releaseLock();
     };
+  }
+
+  private async prepareMainHero() {
+    if (this.mainHeroInstalled) return;
+    this.loadingEl.textContent = 'Preparing the wanderer…';
+    const asset = await loadMainHero();
+    const rig = createHeroRig(asset);
+    // The provisional procedural sheet must finish before its GPU targets are released.
+    await sheetsSettled();
+    const previous = this.player;
+    this.player = new Player(rig);
+    const retired = new THREE.Scene();
+    retired.add(previous.group);
+    disposeSceneResources(retired, () => {});
+    this.mainHeroInstalled = true;
   }
 
   private async buildWorld() {

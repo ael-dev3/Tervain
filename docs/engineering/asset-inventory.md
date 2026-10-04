@@ -79,6 +79,10 @@ Since `0.0.8` ([A36](../decisions.md)) every person's texture is a sheet the gam
 
 A sheet made with an image-generation service carries that service's terms; record them as they are rather than asserting a rights review. Inputs must be original or the project's own exports: no Gothic 3 or Gothic Remake files, screenshots or concept art ([A14](../decisions.md)), and no real person's likeness. No emblem or lettering appears on clothing without an owner decision ([A24](../decisions.md)).
 
+## Approved playable Weathered Wanderer, 2 October 2026
+
+A37 selects the owner-approved 49,500-triangle model for the main character only. The runtime file is [public/models/hero/weathered-wanderer-hero-50k.glb](../../public/models/hero/weathered-wanderer-hero-50k.glb): 28,184,920 bytes, SHA-256 `4d4c16e56ce8696b195828bb41ca2d1fb015c3ef855a9cd2472eaa4a1c7d6691`, with 30 joints and five source clips. Lossless WebP preparation preserves every decoded texture pixel and every non-image payload. The owner-supplied Meshy source, approved reduction/material refinement/rigging, specific project-use authority and preparation audit are recorded in [main-hero.md](main-hero.md) and [main-hero-assets.json](main-hero-assets.json). This is separate from the archived Warpkeep GLBs and the A36 procedural people sheets. NPCs and the menu warden keep that existing pipeline. Running-game verification is recorded in the [integration handoff](../production/main-hero-integration.md).
+
 ## Terms
 
 Warpkeep's own [asset ledger](https://github.com/ael-dev3/Warpkeep/blob/main/ASSETS-LICENSE.md) records these runtime files as **use-authorised** (`LicenseRef-Warpkeep-Provenance-Required`), not as open content: presence in a repository does not establish ownership, an open licence, or general redistribution rights, and each source set keeps its dated provenance record in Warpkeep-Assets. Some sets were produced with generation tools (see the creation disclosure in Warpkeep-Assets' README).
@@ -103,6 +107,10 @@ Warpkeep's software is Apache-2.0 ([LICENSING.md](https://github.com/ael-dev3/Wa
 | World use | Placement and collision are defined in Tervain code from `src/world/layout.ts`, never from the models |
 | Verification | Loaded and rendered in the browser prototype; no desktop package, no per-asset review of every close view |
 | State | Usable under recorded (owner-authorised) terms → adapted at load → tested in the browser build |
+
+## Solitary Pine woodland (A38)
+
+The owner-supplied Meshy pine replaces all ordinary dark conifers, including the distant treeline, in the combined `0.0.9` release. Three hosted GLBs contain the 9,706-triangle near tree and matching middle/far geometry. [Provenance and render contract](solitary-pine.md) and [runtime inventory](solitary-pine-assets.json) record authority, hashes, counts and source-matching collision footprints. A39's larger woodland layout and final combined population/checks are recorded separately in the [0.0.9 release](../production/releases/0.0.9.md); dated component results remain historical. Source/master files remain in the workshop, separate from the earlier Warpkeep catalog above.
 
 ## Not yet done
 

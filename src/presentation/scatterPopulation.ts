@@ -28,10 +28,9 @@ export interface ScatterRock {
 }
 
 /** Author rocks once. Neither graphics detail nor decorative geometry can change movement obstacles. */
-export function createScatterPopulation(terrain: Pick<Terrain, 'heightAt' | 'slopeAt'>, exclusions: Pick<Exclusions, 'blocked'>): ScatterRock[] {
+export function createScatterPopulation(terrain: Pick<Terrain, 'heightAt' | 'slopeAt'>, exclusions: Pick<Exclusions, 'blocked'>, trunks: readonly { x: number; z: number; radius: number }[] = []): ScatterRock[] {
   const rng = mulberry32(8080);
   const rocks: ScatterRock[] = [];
-  let cid = 0;
   const put = (kind: ScatterRock['kind'], x: number, z: number, size: number, options: { sink: number; collide?: boolean; squash?: number; yOff?: number }) => {
     const radius = options.collide && size > 0.8 ? size * 0.72 : 0;
     // Consume the same appearance draws on every authoring pass, including excluded candidates.
@@ -44,6 +43,9 @@ export function createScatterPopulation(terrain: Pick<Terrain, 'heightAt' | 'slo
       tint: 0.9 + rng() * 0.2,
     };
     if (radius > 0 && exclusions.blocked(x, z, radius + 0.55)) return;
+    // Trees are authored first. Keep their grounded movement footprints distinct from boulders;
+    // decorative pebbles can still gather beneath roots without adding invisible movement obstacles.
+    if (radius > 0 && trunks.some((tree) => tree.radius > 0 && Math.hypot(x - tree.x, z - tree.z) < radius + tree.radius + 0.35)) return;
     const decorationRank = mulberry32(Math.imul(Math.round(x * 100), 73856093) ^ Math.imul(Math.round(z * 100), 19349663))();
     rocks.push({
       kind, x, z, size,
@@ -51,7 +53,7 @@ export function createScatterPopulation(terrain: Pick<Terrain, 'heightAt' | 'slo
       squash: options.squash ?? 1,
       ...appearance,
       radius,
-      collisionId: radius > 0 ? `rock:${cid++}` : null,
+      collisionId: radius > 0 ? `rock:${kind}:${x.toFixed(4)}:${z.toFixed(4)}` : null,
       decorationRank,
     });
   };
