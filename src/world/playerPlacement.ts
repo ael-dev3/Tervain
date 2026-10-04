@@ -6,7 +6,7 @@ export const PLAYER_BODY_HEIGHT = 1.95;
 export const PLAYER_FOOT_CLEARANCE = 0.03;
 const RESTORE_STEP = 0.8;
 
-type StandingTerrain = Pick<Terrain, 'groundAt' | 'supportAt' | 'walkable'>;
+type StandingTerrain = Pick<Terrain, 'groundAt' | 'supportAt' | 'walkable'> & Partial<Pick<Terrain, 'rockSupportAt' | 'rockClearAt'>>;
 
 /** Restore an authored standing surface, never an arbitrary saved air height or an underside of the terrain. */
 export function supportedPlayerHeight(terrain: StandingTerrain, x: number, z: number, savedFeetY?: number): number {
@@ -22,5 +22,7 @@ export function canPlayerStandAt(terrain: StandingTerrain, colliders: Pick<Colli
   if (!Number.isFinite(x) || !Number.isFinite(z)) return false;
   const y = supportedPlayerHeight(terrain, x, z, savedFeetY);
   if (!Number.isFinite(y) || !terrain.walkable(x, z, Infinity, y)) return false;
-  return !colliders.blocked(x, z, PLAYER_BODY_RADIUS, { minY: y + PLAYER_FOOT_CLEARANCE, maxY: y + PLAYER_BODY_HEIGHT });
+  if (terrain.rockClearAt && !terrain.rockClearAt(x, y, z)) return false;
+  return !colliders.blocked(x, z, PLAYER_BODY_RADIUS, { minY: y + PLAYER_FOOT_CLEARANCE, maxY: y + PLAYER_BODY_HEIGHT,
+    excludePrecise: Boolean(terrain.rockClearAt) });
 }

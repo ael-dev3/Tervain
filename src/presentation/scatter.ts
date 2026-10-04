@@ -1,13 +1,15 @@
 import * as THREE from 'three';
 import { coastX } from '../world/coast';
-import { clamp, fbm, mulberry32, ridged, smoothstep } from '../world/noise';
+import { mulberry32 } from '../world/noise';
 import { clearanceAt } from '../world/terrain';
 import { Ctx } from './buildKit';
 import type { BuildContext, SceneModule } from './context';
 import { makeTexPair } from './buildingTextures';
 import { Region, type MatKey } from './regions';
+import { rockShapes } from './rockGeometry';
+export { rockShapes } from './rockGeometry';
 import { streamDistance } from './groundSplat';
-import { createScatterPopulation, registerScatterColliders, SCATTER_SHAPES, selectScatterPopulation } from './scatterPopulation';
+import { createScatterPopulation, registerScatterColliders, selectScatterPopulation } from './scatterPopulation';
 
 /**
  * Stones and the things the sea leaves: boulders and scree, pebbles at the tide line, driftwood, wrack (weed), reeds by the
@@ -15,97 +17,7 @@ import { createScatterPopulation, registerScatterColliders, SCATTER_SHAPES, sele
  * own shape: an icosphere pushed out by ridged noise and then cut by a few planes, so faces are flat and edges are sharp.
  */
 
-type V3 = [number, number, number];
 type RGB = [number, number, number];
-
-/** A fractured rock: a noisy blob with several plane cuts, strata bands in the colour and lichen on the top faces. */
-function rockGeometry(seed: number, detail: 1 | 2, tone: RGB): THREE.BufferGeometry {
-  const rnd = mulberry32(seed);
-  const g = new THREE.IcosahedronGeometry(1, detail);
-  const pos = g.attributes.position as THREE.BufferAttribute;
-  const planes: { n: V3; d: number }[] = [];
-  const nPlanes = 3 + Math.floor(rnd() * 3);
-  for (let i = 0; i < nPlanes; i++) {
-    const a = rnd() * Math.PI * 2;
-    const e = (rnd() - 0.3) * 1.1;
-    const n: V3 = [Math.cos(a) * Math.cos(e), Math.sin(e), Math.sin(a) * Math.cos(e)];
-    planes.push({ n, d: 0.62 + rnd() * 0.3 });
-  }
-  const sx = 0.85 + rnd() * 0.5;
-  const sy = 0.5 + rnd() * 0.45;
-  const sz = 0.85 + rnd() * 0.5;
-  const ph = rnd() * 50;
-  const cache = new Map<string, V3>();
-  const cols = new Float32Array(pos.count * 3);
-  const displaced: V3[] = [];
-  for (let i = 0; i < pos.count; i++) {
-    const key = `${pos.getX(i).toFixed(3)},${pos.getY(i).toFixed(3)},${pos.getZ(i).toFixed(3)}`;
-    let p = cache.get(key);
-    if (!p) {
-      let x = pos.getX(i);
-      let y = pos.getY(i);
-      let z = pos.getZ(i);
-      const n = 1 + 0.46 * (ridged(x * 1.6 + ph, z * 1.6 + y * 1.3, 3, seed) - 0.3) + 0.14 * fbm(x * 5 + ph, z * 5 - y * 3, 2, seed + 4);
-      x *= n;
-      y *= n;
-      z *= n;
-      for (const pl of planes) {
-        const over = x * pl.n[0] + y * pl.n[1] + z * pl.n[2] - pl.d;
-        if (over > 0) {
-          x -= pl.n[0] * over;
-          y -= pl.n[1] * over;
-          z -= pl.n[2] * over;
-        }
-      }
-      p = [x * sx, Math.max(-0.55, y) * sy, z * sz];
-      cache.set(key, p);
-    }
-    displaced.push(p);
-  }
-  for (let i = 0; i < pos.count; i++) pos.setXYZ(i, displaced[i]![0], displaced[i]![1], displaced[i]![2]);
-  g.computeVertexNormals();
-  const nor = g.attributes.normal as THREE.BufferAttribute;
-  for (let i = 0; i < pos.count; i++) {
-    const y = pos.getY(i);
-    const strata = 0.82 + 0.28 * Math.sin(y * 9 + ph + fbm(pos.getX(i) * 3, pos.getZ(i) * 3, 2, seed + 9) * 4);
-    const top = clamp(nor.getY(i), 0, 1);
-    // Lichen and moss on the sheltered top faces; damp dark at the foot.
-    const lich = smoothstep(0.55, 0.9, top) * smoothstep(0.35, 0.65, fbm(pos.getX(i) * 5 + ph, pos.getZ(i) * 5, 2, seed + 12) * 0.5 + 0.5);
-    const foot = smoothstep(-0.2, -0.5, y);
-    let r = tone[0] * strata;
-    let gg = tone[1] * strata;
-    let b = tone[2] * strata;
-    r = r * (1 - lich * 0.3) + 0.06 * lich;
-    gg = gg * (1 - lich * 0.2) + 0.08 * lich;
-    b = b * (1 - lich * 0.35) + 0.02 * lich;
-    const k = 1 - 0.35 * foot;
-    cols[i * 3] = r * k;
-    cols[i * 3 + 1] = gg * k;
-    cols[i * 3 + 2] = b * k;
-  }
-  g.setAttribute('color', new THREE.BufferAttribute(cols, 3));
-  g.deleteAttribute('uv');
-  // Faceted: rocks are angular. Convert to flat-shaded normals.
-  // IcosahedronGeometry is already non-indexed, so every triangle has its own vertices and computeVertexNormals gives flat facets.
-  g.computeVertexNormals();
-  return g;
-}
-
-/** Sea stacks, cliffs and boulders share a handful of seeded shapes per size class; each placed rock picks one and is scaled and turned. */
-
-let sharedShapes: { big: THREE.BufferGeometry[]; small: THREE.BufferGeometry[] } | null = null;
-const ROCK_TONES: RGB[] = [[1.0, 0.95, 0.88], [0.88, 0.86, 0.8], [1.08, 0.95, 0.82], [0.8, 0.8, 0.78]];
-
-/** The shared set of rock shapes (also used by the settlement for quarry faces and boulders, so they match the ones on the heath). */
-export function rockShapes() {
-  if (!sharedShapes) {
-    sharedShapes = {
-      big: Array.from({ length: SCATTER_SHAPES }, (_, i) => rockGeometry(100 + i, 2, ROCK_TONES[i % ROCK_TONES.length]!)),
-      small: Array.from({ length: SCATTER_SHAPES }, (_, i) => rockGeometry(200 + i, 1, ROCK_TONES[(i + 1) % ROCK_TONES.length]!)),
-    };
-  }
-  return sharedShapes;
-}
 
 export function buildScatter(ctx: BuildContext): SceneModule & { counts: { rocks: number; pieces: number } } {
   const { terrain, colliders, quality } = ctx;
@@ -128,6 +40,7 @@ export function buildScatter(ctx: BuildContext): SceneModule & { counts: { rocks
   const trunks = colliders.all.filter((c) => c.kind === 'circle' && c.id.startsWith('tree:')).map((c) => ({ x: c.x, z: c.z, radius: c.kind === 'circle' ? c.r : 0 }));
   const population = createScatterPopulation(terrain, ctx.excl, trunks);
   registerScatterColliders(population, colliders);
+  terrain.registerRockSurfaces(population.flatMap(rock => rock.contact ? [rock.contact] : []));
   const plan = selectScatterPopulation(population, quality);
   const rocks = plan.rocks.length;
   for (const rock of plan.rocks) {
@@ -225,7 +138,7 @@ export function buildScatter(ctx: BuildContext): SceneModule & { counts: { rocks
   const matLeaf = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95, metalness: 0, side: THREE.DoubleSide });
   const matBark = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95, metalness: 0 });
   const rockTex = makeTexPair('rock', 256, 8);
-  const matRock = new THREE.MeshStandardMaterial({ vertexColors: true, map: rockTex.map, normalMap: rockTex.normal, roughness: 0.92, metalness: 0 });
+  const matRock = new THREE.MeshStandardMaterial({ vertexColors: true, map: rockTex.map, normalMap: rockTex.normal, roughness: 0.97, metalness: 0, envMapIntensity: 0.35 });
   const lite = {
     get: (k: MatKey): THREE.Material => (k === 'leaf' ? matLeaf : k === 'bark' ? matBark : k === 'rock' ? matRock : matVc),
   };

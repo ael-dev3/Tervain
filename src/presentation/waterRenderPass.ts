@@ -80,7 +80,7 @@ export class WaterRenderPass {
     // Sea's complete welded geometry includes dry inland triangles which its shader discards.
     // Its cached depth-derived envelope excludes only those impossible pixels; channels keep
     // their existing bounds, including every hydraulic level.
-    // Sea relief is bounded below 0.48 m; inland bounds already include all hydraulic levels and ripples.
+    // Sea relief is bounded below 0.72 m; inland bounds already include all hydraulic levels and ripples.
     // A full metre in local space deliberately overestimates both so visibility never clips an animated crest.
     const pieces = mesh.userData.waterVisibilityBounds as THREE.Box3[] | undefined;
     if (pieces) return pieces.some(bounds => {

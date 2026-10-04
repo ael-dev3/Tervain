@@ -8,8 +8,8 @@ import type { TerrainTextures } from './terrainTextures';
  *  - Layers are blended along their own height, not cross-faded, so grass breaks up over earth and gravel sits in the hollows.
  *  - Every albedo tap is sampled twice at unrelated scales and rotations, and a large-scale colour drift is multiplied on top,
  *    so the tiling of the source textures cannot be seen.
- *  - Rock is projected along the face on steep slopes so cliffs are not stretched.
- *  - Wet ground is darker and glossier.
+ *  - Rock uses fixed world-axis triplanar projection so its grain does not stretch or swim on rounded cliffs.
+ *  - Wetness is confined to physical splash/stream bands; damp stone remains coarse rather than polished.
  */
 
 /** x: tiles per metre, y: normal strength, z: roughness, w: albedo gain. Order matches LAYERS. */
@@ -20,7 +20,7 @@ const LAYER_PARAMS: [number, number, number, number][] = [
   [1 / 1.8, 1.3, 0.9, 1.0], // gravel
   [1 / 3.2, 0.8, 0.95, 1.05], // sand
   [1 / 3.2, 0.7, 0.4, 1.0], // wet sand
-  [1 / 3.6, 0.85, 0.93, 1.0], // rock
+  [1 / 3.6, 1.0, 0.98, 1.0], // rock
   [1 / 2.0, 1.1, 0.96, 1.0], // path
 ];
 
@@ -60,39 +60,71 @@ float tvn(vec2 p) {
   f = f * f * (3.0 - 2.0 * f);
   return mix(mix(th21(i), th21(i + vec2(1.0, 0.0)), f.x), mix(th21(i + vec2(0.0, 1.0)), th21(i + vec2(1.0, 1.0)), f.x), f.y);
 }
+
+// Fixed world planes keep the same fracture in one place as the cliff normal curves. No per-fragment moving tangent UVs.
+vec4 tRockAlbedo(vec3 p, vec3 gx, vec3 gy, vec3 w, float repeat, bool turn) {
+  vec4 a = vec4(0.0);
+  for (int axis = 0; axis < 3; axis++) {
+    if (w[axis] > 0.0) {
+      vec2 uv = axis == 0 ? p.zy : axis == 1 ? p.xz : p.xy;
+      vec2 dx = axis == 0 ? gx.zy : axis == 1 ? gx.xz : gx.xy;
+      vec2 dy = axis == 0 ? gy.zy : axis == 1 ? gy.xz : gy.xy;
+      if (turn) { uv = vec2(uv.y, -uv.x); dx = vec2(dx.y, -dx.x); dy = vec2(dy.y, -dy.x); }
+      a += textureGrad(uAlb, vec3(uv * repeat + vec2(0.31, 0.17), 6.0), dx * repeat, dy * repeat) * w[axis];
+    }
+  }
+  return a;
+}
+
+vec4 tRockRelief(vec3 p, vec3 gx, vec3 gy, vec3 w) {
+  vec4 a = vec4(0.0);
+  if (w.x > 0.0) {
+    vec4 t = textureGrad(uNrm, vec3(p.zy + vec2(0.31, 0.17), 6.0), gx.zy, gy.zy);
+    a += vec4(0.0, t.g * 2.0 - 1.0, t.r * 2.0 - 1.0, t.a) * w.x;
+  }
+  if (w.y > 0.0) {
+    vec4 t = textureGrad(uNrm, vec3(p.xz + vec2(0.31, 0.17), 6.0), gx.xz, gy.xz);
+    a += vec4(t.r * 2.0 - 1.0, 0.0, t.g * 2.0 - 1.0, t.a) * w.y;
+  }
+  if (w.z > 0.0) {
+    vec4 t = textureGrad(uNrm, vec3(p.xy + vec2(0.31, 0.17), 6.0), gx.xy, gy.xy);
+    a += vec4(t.r * 2.0 - 1.0, t.g * 2.0 - 1.0, 0.0, t.a) * w.z;
+  }
+  return a;
+}
 `;
 
 const FRAG_ALBEDO = /* glsl */ `
 vec2 tXZ = vWorldPos.xz;
 vec3 tNg = normalize(vWorldNormal);
-float tSide = smoothstep(0.45, 0.8, 1.0 - tNg.y);
-vec2 tTan = normalize(vec2(-tNg.z, tNg.x) + vec2(1e-4));
+vec3 tTri = max(pow(abs(tNg), vec3(5.0)) - vec3(0.015), vec3(0.0));
+tTri /= max(dot(tTri, vec3(1.0)), 1e-4);
+vec3 tWorldGx = dFdx(vWorldPos), tWorldGy = dFdy(vWorldPos);
 vec2 tGx = dFdx(tXZ);
 vec2 tGy = dFdy(tXZ);
-vec2 tSideGx = vec2(dot(tGx, tTan), dFdx(vWorldPos.y));
-vec2 tSideGy = vec2(dot(tGy, tTan), dFdy(vWorldPos.y));
 float tDetailMix = mix(0.12, 0.42, smoothstep(12.0, 55.0, length(vViewPosition)));
 float tW[8];
 tW[0] = vSplatA.x; tW[1] = vSplatA.y; tW[2] = vSplatA.z; tW[3] = vSplatA.w;
 tW[4] = vSplatB.x; tW[5] = vSplatB.y; tW[6] = vSplatB.z; tW[7] = vSplatB.w;
 float tScore[8];
-vec2 tDnL[8];
+vec3 tDnL[8];
 float tRelief[8];
 float tBest = -1.0;
 for (int i = 0; i < 8; i++) {
   tScore[i] = -1.0;
-  tDnL[i] = vec2(0.0);
+  tDnL[i] = vec3(0.0);
   tRelief[i] = 0.5;
   if (tW[i] > 0.015) {
     float sc = uLayer[i].x;
     vec2 uv = tXZ * sc;
-    vec4 t = textureGrad(uNrm, vec3(uv, float(i)), tGx * sc, tGy * sc);
-    if (i == 6 && tSide > 0.02) {
-      vec2 uvS = vec2(dot(tXZ, tTan), vWorldPos.y) * sc;
-      vec4 ts = textureGrad(uNrm, vec3(uvS, float(i)), tSideGx * sc, tSideGy * sc);
-      t = mix(t, ts, tSide);
+    vec4 t;
+    if (i == 6) {
+      t = tRockRelief(vWorldPos * sc, tWorldGx * sc, tWorldGy * sc, tTri);
+      tDnL[i] = t.xyz;
+    } else {
+      t = textureGrad(uNrm, vec3(uv, float(i)), tGx * sc, tGy * sc);
+      tDnL[i] = vec3(t.r * 2.0 - 1.0, 0.0, t.g * 2.0 - 1.0);
     }
-    tDnL[i] = t.rg * 2.0 - 1.0;
     tRelief[i] = t.a;
     tScore[i] = tW[i] + (t.a - 0.5) * 0.42 * min(1.0, tW[i] * 4.0);
     tBest = max(tBest, tScore[i]);
@@ -106,9 +138,10 @@ for (int i = 0; i < 8; i++) {
 }
 tSum = max(tSum, 1e-4);
 vec3 tAlb = vec3(0.0);
-vec2 tDn = vec2(0.0);
+vec3 tDn = vec3(0.0);
 float tRough = 0.0;
 float tHeight = 0.0;
+float tStone = 0.0;
 for (int i = 0; i < 8; i++) {
   if (tBw[i] > 0.0) {
     float b = tBw[i] / tSum;
@@ -119,24 +152,28 @@ for (int i = 0; i < 8; i++) {
     vec2 g1y = tGy * sc;
     vec2 g2x = vec2(g1x.y, -g1x.x) * 0.37;
     vec2 g2y = vec2(g1y.y, -g1y.x) * 0.37;
-    vec3 a1 = textureGrad(uAlb, vec3(uv, float(i)), g1x, g1y).rgb;
-    vec3 a2 = textureGrad(uAlb, vec3(uv2, float(i)), g2x, g2y).rgb;
-    vec3 a = mix(a1, a2, tDetailMix);
-    if (i == 6 && tSide > 0.02) {
-      // Steep rock: the same two taps projected along the face, blended with the top view, so cliffs are not stretched.
-      vec2 uvS = vec2(dot(tXZ, tTan), vWorldPos.y) * sc;
-      vec2 uvS2 = vec2(uvS.y, -uvS.x) * 0.37 + vec2(0.31, 0.17);
-      vec2 sx = tSideGx * sc, sy = tSideGy * sc;
-      vec3 s1 = textureGrad(uAlb, vec3(uvS, float(i)), sx, sy).rgb;
-      vec3 s2 = textureGrad(uAlb, vec3(uvS2, float(i)), vec2(sx.y, -sx.x) * 0.37, vec2(sy.y, -sy.x) * 0.37).rgb;
-      a = mix(a, mix(s1, s2, tDetailMix), tSide);
+    vec3 a;
+    if (i == 6) {
+      vec3 p = vWorldPos * sc, dx = tWorldGx * sc, dy = tWorldGy * sc;
+      a = mix(tRockAlbedo(p, dx, dy, tTri, 1.0, false).rgb, tRockAlbedo(p, dx, dy, tTri, 0.37, true).rgb, tDetailMix);
+      vec3 macro = tRockAlbedo(p, dx, dy, tTri, 0.083, false).rgb;
+      a *= 0.76 + 1.8 * dot(macro, vec3(0.333));
+      // Metre-scale weathering and broken bedding survive mipmapping, without displacing the physical ground plane.
+      float beds = tvn(vec2(vWorldPos.y * 0.64, dot(tXZ, vec2(0.13, 0.17)))) * 0.65
+        + tvn(vec2(vWorldPos.y * 2.1, dot(tXZ, vec2(0.07, 0.1)))) * 0.35;
+      a *= mix(0.77, 1.16, smoothstep(0.26, 0.72, beds));
+      tStone += b;
+    } else {
+      vec3 a1 = textureGrad(uAlb, vec3(uv, float(i)), g1x, g1y).rgb;
+      vec3 a2 = textureGrad(uAlb, vec3(uv2, float(i)), g2x, g2y).rgb;
+      a = mix(a1, a2, tDetailMix);
     }
-    if (i == 6 || i == 3) {
-      // Large-scale variation for rock and shingle, so distant slopes keep some structure instead of averaging to flat grey.
+    if (i == 3) {
+      // Shingle keeps large-scale structure too; it is still sampled on the physical ground plane.
       vec2 uv3 = vec2(uv.y, uv.x) * 0.083 + vec2(0.7, 0.2);
-      if (i == 6) uv3 = mix(uv3, vec2(dot(tXZ, tTan), vWorldPos.y) * sc * 0.083 + vec2(0.7, 0.2), tSide);
       vec3 a3 = textureGrad(uAlb, vec3(uv3, float(i)), g1x.yx * 0.083, g1y.yx * 0.083).rgb;
       a *= 0.6 + 2.4 * dot(a3, vec3(0.333));
+      tStone += b * 0.6;
     }
     tAlb += a * (b * uLayer[i].w);
     tDn += tDnL[i] * (b * uLayer[i].y);
@@ -149,8 +186,10 @@ tAlb *= mix(0.74, 1.24, tM);
 tAlb *= mix(0.72, 1.18, tvn(tXZ / 131.0 + 3.0) * 0.6 + tvn(tXZ / 37.0 + 8.0) * 0.4);
 tAlb *= mix(vec3(0.95, 1.0, 1.06), vec3(1.06, 1.0, 0.9), tvn(tXZ / 71.0 + 9.0));
 float tWet = clamp(vWet, 0.0, 1.0);
-tAlb *= mix(1.0, 0.5, tWet);
-tRough = mix(tRough, 0.28, tWet);
+tAlb *= mix(1.0, mix(0.5, 0.72, tStone), tWet);
+// Damp sand may carry a sheen. Fractured stone only darkens and broadens its highlight: never a mirror-like wet wall.
+tRough = mix(tRough, mix(0.32, 0.78, tStone), tWet);
+tRough = clamp(tRough + tStone * (0.5 - tHeight) * 0.1, 0.32, 1.0);
 diffuseColor.rgb = tAlb;
 `;
 
@@ -158,16 +197,15 @@ const FRAG_NORMAL = /* glsl */ `
 {
   float k = 1.0 - smoothstep(30.0, 150.0, length(vViewPosition));
   vec3 nw = normalize((vec4(normal, 0.0) * viewMatrix).xyz);
-  // Perturb along the real surface tangents, including a bank or cliff, rather than world-horizontal vectors.
-  vec3 tx = normalize(vec3(tNg.y + 0.0001, -tNg.x, 0.0));
-  vec3 tz = normalize(cross(tx, tNg));
-  nw = normalize(nw + (tx * tDn.x + tz * tDn.y) * k);
+  // Each rock projection contributes relief along its own world plane, then remove the surface-normal component.
+  vec3 relief = tDn - tNg * dot(tNg, tDn);
+  nw = normalize(nw + relief * k);
   normal = normalize((viewMatrix * vec4(nw, 0.0)).xyz);
 }
 `;
 
 export function createTerrainMaterial(tex: TerrainTextures): THREE.MeshStandardMaterial {
-  const mat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.95, metalness: 0, envMapIntensity: 0.85 });
+  const mat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.95, metalness: 0, envMapIntensity: 0.55 });
   const layer = LAYER_PARAMS.map((p) => new THREE.Vector4(...p));
   mat.onBeforeCompile = (shader) => {
     shader.uniforms.uAlb = { value: tex.albedo };
@@ -181,6 +219,6 @@ export function createTerrainMaterial(tex: TerrainTextures): THREE.MeshStandardM
       .replace('#include <aomap_fragment>', '#include <aomap_fragment>\nreflectedLight.indirectDiffuse *= mix(0.8, 1.0, smoothstep(0.2, 0.8, tHeight));')
       .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>\n${FRAG_NORMAL}`);
   };
-  mat.customProgramCacheKey = () => 'tervain-terrain-v2-ground-detail';
+  mat.customProgramCacheKey = () => 'tervain-terrain-v3-coarse-coastal-stone';
   return mat;
 }

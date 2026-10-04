@@ -4,6 +4,7 @@ import { ARCHIVE_ROOM, BUILDINGS, DECKS, HAMLET_PROPS } from './layout';
 import { PLAYER_BODY_HEIGHT, PLAYER_BODY_RADIUS } from './playerPlacement';
 import type { Terrain } from './terrain';
 import type { PhysicalObjectPose } from '../game/types';
+import { RockSurfaces, ROCK_CLIMB_ANGLE, ROCK_STEP_HEIGHT } from './rockContacts';
 import type { PhysicalWoodGeometry } from './physicsGeometry';
 
 export interface Vec3 { x: number; y: number; z: number }
@@ -38,6 +39,9 @@ export class RealmPhysics {
   readonly world = new RAPIER.World({ x: 0, y: -17, z: 0 });
   readonly props: Prop[] = [];
   private propHandles = new Set<number>();
+  private rockHandles = new Set<number>();
+  private rockSurfaces = new RockSurfaces();
+  private rocks: { collider: RAPIER.Collider; source: WorldCollider }[] = [];
   private fixed: { source: WorldCollider; collider: RAPIER.Collider }[] = [];
   private actors = new Map<string, ActorContact>();
   private footShape = new RAPIER.Ball(PLAYER_BODY_RADIUS);
@@ -70,6 +74,12 @@ export class RealmPhysics {
     const exactWood = new Set(wood.map(tree => tree.id));
     for (const source of colliders.all) {
       if (exactWood.has(source.id)) continue;
+      if (source.rockMesh) {
+        const collider = this.world.createCollider(RAPIER.ColliderDesc.trimesh(source.rockMesh.positions, source.rockMesh.indices)
+          .setFriction(.9).setEnabled(source.active));
+        this.fixed.push({ source, collider }); this.rocks.push({ source, collider }); this.rockHandles.add(collider.handle);
+        continue;
+      }
       const base = terrain.heightAt(source.x, source.z);
       const building = source.id.startsWith('b:') ? BUILDINGS.find(b => `b:${b.id}` === source.id) : undefined;
       const fallbackHeight = building ? building.h + Math.min(building.w, building.d) * .65 + .5
@@ -82,6 +92,16 @@ export class RealmPhysics {
       const collider = this.world.createCollider(desc.setTranslation(source.x, (low + high) / 2, source.z).setFriction(.8).setEnabled(source.active));
       this.fixed.push({ source, collider });
     }
+    // Medium stones have finite contact geometry without becoming new NPC/navigation fences.
+    const installedRocks = new Set(this.rocks.map(rock => rock.source.id));
+    for (const mesh of colliders.rockMeshes) {
+      if (installedRocks.has(mesh.id)) continue;
+      const source: WorldCollider = { id: mesh.id, kind: 'circle', x: (mesh.bounds.minX + mesh.bounds.maxX) / 2,
+        z: (mesh.bounds.minZ + mesh.bounds.maxZ) / 2, r: 0, active: true, rockMesh: mesh };
+      const collider = this.world.createCollider(RAPIER.ColliderDesc.trimesh(mesh.positions, mesh.indices).setFriction(.9));
+      this.fixed.push({ source, collider }); this.rocks.push({ source, collider }); this.rockHandles.add(collider.handle);
+    }
+    this.rockSurfaces.register(this.rocks.flatMap(rock => rock.source.rockMesh ? [rock.source.rockMesh] : []));
     for (const tree of wood) {
       const positions = Float32Array.from(tree.positions, value => value * tree.scale);
       this.world.createCollider(RAPIER.ColliderDesc.trimesh(positions, tree.indices)
@@ -118,6 +138,8 @@ export class RealmPhysics {
     this.controller.setApplyImpulsesToDynamicBodies(true); this.controller.setCharacterMass(80);
     this.controller.enableAutostep(.8, .25, true);
     this.controller.setSlideEnabled(true);
+    this.controller.setMaxSlopeClimbAngle(ROCK_CLIMB_ANGLE);
+    this.controller.setMinSlopeSlideAngle(ROCK_CLIMB_ANGLE);
     this.world.timestep = STEP;
     this.world.step(); // Populate scene queries before the first interaction, without a catch-up clock.
     this.initial = this.snapshot();
@@ -155,66 +177,97 @@ export class RealmPhysics {
     this.world.propagateModifiedBodyPositionsToColliders();
   }
 
-  /** Only movable objects enter this query: static architecture is already swept by the canonical controller. */
+  /** Movable objects and source-exact rock triangles enter this query. Architecture/tree footprints are swept canonically. */
   move(x: number, y: number, z: number, dx: number, dz: number, grounded: boolean): Vec3 {
     this.character.setTranslation(capsulePosition({ x, y, z }), false);
     this.world.propagateModifiedBodyPositionsToColliders();
+    // A tiny frame can miss Rapier's edge autostep window. Try only a source-supported low ledge,
+    // sweep the raised capsule across it, and check overhead clearance before applying any lift.
+    // This is independent of frame travel and cannot invent footholds on a tall/vertical face.
+    if (grounded) {
+      const support = this.rockSurfaces.supportAt(x + dx, z + dz, y, ROCK_STEP_HEIGHT);
+      if (support !== null && support > y + .001 && support <= y + ROCK_STEP_HEIGHT + 1e-6) {
+        const lifted = support + .015;
+        const ceiling = this.ceilingAt(x, z, PLAYER_BODY_RADIUS, y + PLAYER_BODY_HEIGHT, lifted + PLAYER_BODY_HEIGHT);
+        const hit = this.castContacts(this.characterCollider.shape, capsulePosition({ x, y: lifted, z }), { x: dx, y: 0, z: dz }, 1);
+        if (ceiling === null && !hit) return { x: x + dx, y: support, z: z + dz };
+      }
+    }
     // After save restoration the broad phase retains its previous bounds until World.step. Direct sweeps cover that frame.
     if (this.queriesDirty) {
-      const hit = this.castProps(this.characterCollider.shape, capsulePosition({ x, y, z }), { x: dx, y: 0, z: dz }, 1);
+      const hit = this.castContacts(this.characterCollider.shape, capsulePosition({ x, y, z }), { x: dx, y: 0, z: dz }, 1);
       if (!hit) return { x: x + dx, y, z: z + dz };
-      const support = grounded ? this.supportAt(x + dx, z + dz, y) : null;
+      const prop = this.contactSupport(x + dx, z + dz, y)?.height ?? -Infinity;
+      const rock = this.rockSurfaces.supportAt(x + dx, z + dz, y, ROCK_STEP_HEIGHT) ?? -Infinity;
+      const reachable = Math.max(prop, rock);
+      const support = grounded && Number.isFinite(reachable) ? reachable : null;
       if (support !== null && support >= y && support <= y + .8) {
-        const clearance = this.castProps(this.characterCollider.shape, capsulePosition({ x: x + dx, y: support + .012, z: z + dz }),
+        const clearance = this.castContacts(this.characterCollider.shape, capsulePosition({ x: x + dx, y: support + .012, z: z + dz }),
           { x: 0, y: 0, z: 0 }, 0);
         if (!clearance) return { x: x + dx, y: support, z: z + dz };
       }
       const fraction = Math.max(0, Math.min(1, hit.hit.time_of_impact - .012 / Math.max(.001, Math.hypot(dx, dz))));
       return { x: x + dx * fraction, y, z: z + dz * fraction };
     }
-    if (grounded) this.controller.enableAutostep(.8, .25, true); else this.controller.disableAutostep();
-    this.controller.computeColliderMovement(this.characterCollider, { x: dx, y: 0, z: dz }, undefined, undefined, c => this.propHandles.has(c.handle));
+    const nearRock = this.rocks.some(rock => rock.source.active && rock.source.rockMesh &&
+      x + dx + PLAYER_BODY_RADIUS >= rock.source.rockMesh.bounds.minX && x + dx - PLAYER_BODY_RADIUS <= rock.source.rockMesh.bounds.maxX &&
+      z + dz + PLAYER_BODY_RADIUS >= rock.source.rockMesh.bounds.minZ && z + dz - PLAYER_BODY_RADIUS <= rock.source.rockMesh.bounds.maxZ);
+    if (grounded) this.controller.enableAutostep(nearRock ? ROCK_STEP_HEIGHT : .8, .25, true); else this.controller.disableAutostep();
+    this.controller.computeColliderMovement(this.characterCollider, { x: dx, y: 0, z: dz }, undefined, undefined, c => this.propHandles.has(c.handle) || this.rockHandles.has(c.handle));
     const d = this.controller.computedMovement();
     return { x: x + d.x, y: y + d.y, z: z + d.z };
   }
 
   /** Direct narrow-phase casts use each body's current pose, including immediately restored saved positions. */
-  private castProps(shape: RAPIER.Shape, position: Vec3, velocity: Vec3, maxToi: number,
-    accept: (normal: Vec3, witness: Vec3) => boolean = () => true) {
-    let nearest: { prop: Prop; hit: RAPIER.ShapeCastHit; normal: Vec3; witness: Vec3 } | null = null;
-    for (const prop of this.props) {
-      const hit = prop.collider.castShape({ x: 0, y: 0, z: 0 }, shape, position, yawRotation(0), velocity, 0, maxToi, true);
+  private castContacts(shape: RAPIER.Shape, position: Vec3, velocity: Vec3, maxToi: number,
+    accept: (normal: Vec3, witness: Vec3, collider: RAPIER.Collider) => boolean = () => true, includeRocks = true) {
+    let nearest: { contact: { collider: RAPIER.Collider }; hit: RAPIER.ShapeCastHit; normal: Vec3; witness: Vec3 } | null = null;
+    for (const contact of [...this.props, ...(includeRocks ? this.rocks : [])]) {
+      if (!contact.collider.isEnabled()) continue;
+      if ('source' in contact && contact.source.rockMesh) {
+        const bounds = contact.source.rockMesh.bounds;
+        if (position.x + Math.max(0, velocity.x * maxToi) + PLAYER_BODY_RADIUS < bounds.minX ||
+          position.x + Math.min(0, velocity.x * maxToi) - PLAYER_BODY_RADIUS > bounds.maxX ||
+          position.z + Math.max(0, velocity.z * maxToi) + PLAYER_BODY_RADIUS < bounds.minZ ||
+          position.z + Math.min(0, velocity.z * maxToi) - PLAYER_BODY_RADIUS > bounds.maxZ) continue;
+      }
+      const hit = contact.collider.castShape({ x: 0, y: 0, z: 0 }, shape, position, yawRotation(0), velocity, 0, maxToi, true);
       if (!hit) continue;
-      const rotation = prop.collider.rotation(), center = prop.collider.translation();
+      const rotation = contact.collider.rotation(), center = contact.collider.translation();
       const normal = rotateVector(hit.normal1, rotation), localWitness = rotateVector(hit.witness1, rotation);
       const witness = { x: center.x + localWitness.x, y: center.y + localWitness.y, z: center.z + localWitness.z };
-      if (!accept(normal, witness) || nearest && nearest.hit.time_of_impact <= hit.time_of_impact) continue;
-      nearest = { prop, hit, normal, witness };
+      if (!accept(normal, witness, contact.collider) || nearest && nearest.hit.time_of_impact <= hit.time_of_impact) continue;
+      nearest = { contact, hit, normal, witness };
     }
     return nearest;
   }
 
-  private propSupport(x: number, z: number, feetY: number): { height: number; collider: RAPIER.Collider } | null {
+  private contactSupport(x: number, z: number, feetY: number): { height: number; collider: RAPIER.Collider } | null {
     const top = feetY + .8;
     // The bottom hemisphere is the same radius/shape as the capsule, including partial-foot edge contacts.
-    const hit = this.castProps(this.footShape, { x, y: top + PLAYER_BODY_RADIUS, z }, { x: 0, y: -1, z: 0 }, 120,
-      (normal, witness) => normal.y > .45 && witness.y <= top + .001);
-    return hit ? { height: top - hit.hit.time_of_impact, collider: hit.prop.collider } : null;
+    const hit = this.castContacts(this.footShape, { x, y: top + PLAYER_BODY_RADIUS, z }, { x: 0, y: -1, z: 0 }, 120,
+      (normal, witness, collider) => !this.rockHandles.has(collider.handle) && normal.y > .45 && witness.y <= top + .001, false);
+    return hit ? { height: top - hit.hit.time_of_impact, collider: hit.contact.collider } : null;
   }
 
   supportAt(x: number, z: number, feetY: number): number | null {
-    return this.propSupport(x, z, feetY)?.height ?? null;
+    const prop = this.contactSupport(x, z, feetY)?.height ?? -Infinity;
+    const rock = this.rockSurfaces.supportAt(x, z, feetY) ?? -Infinity;
+    const height = Math.max(prop, rock);
+    return Number.isFinite(height) ? height : null;
   }
 
-  surfaceAt(x: number, z: number, feetY: number): 'deck' | null {
-    const support = this.propSupport(x, z, feetY);
+  surfaceAt(x: number, z: number, feetY: number): 'deck' | 'stone' | null {
+    const rock = this.rockSurfaces.supportAt(x, z, feetY);
+    if (rock !== null && Math.abs(rock - feetY) < .08) return 'stone';
+    const support = this.contactSupport(x, z, feetY);
     return support && Math.abs(support.height - feetY) < .08 ? 'deck' : null;
   }
 
   ceilingAt(x: number, z: number, r: number, from: number, to: number): number | null {
     if (to <= from) return null;
     const shape = Math.abs(r - PLAYER_BODY_RADIUS) < 1e-6 ? this.footShape : new RAPIER.Ball(r);
-    const hit = this.castProps(shape, { x, y: from - r, z }, { x: 0, y: 1, z: 0 }, to - from, normal => normal.y < -.45);
+    const hit = this.castContacts(shape, { x, y: from - r, z }, { x: 0, y: 1, z: 0 }, to - from, normal => normal.y < -.45);
     return hit ? from + hit.hit.time_of_impact : null;
   }
 
@@ -354,6 +407,7 @@ export class RealmPhysics {
     this.queriesDirty = true;
   }
   stats() { return { engine: 'Rapier', hz: 60, bodies: this.props.length, actors: [...this.actors.values()].filter(p => p.active).length,
-    awake: this.props.filter(p => !p.body.isSleeping()).length, held: this.held?.spec.id ?? null, steps: this.steps }; }
+    awake: this.props.filter(p => !p.body.isSleeping()).length, held: this.held?.spec.id ?? null, steps: this.steps,
+    rockMeshes: this.rocks.length }; }
   dispose() { if (!this.alive) return; this.alive = false; this.release(); this.world.free(); }
 }

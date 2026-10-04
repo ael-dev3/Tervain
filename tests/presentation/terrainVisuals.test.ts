@@ -5,8 +5,52 @@ import { buildTerrainMesh, TERRAIN_RENDER_SUBDIVISIONS } from '../../src/present
 import { LAYERS, LAYER, makeTerrainTextures, type TerrainTextures } from '../../src/presentation/terrainTextures';
 import { createGrassPatch } from '../../src/presentation/ground/grass';
 import { createPatchMaterial, createPushers } from '../../src/presentation/ground/patchMaterial';
+import { groundSplat } from '../../src/presentation/groundSplat';
+import { coastX } from '../../src/world/coast';
+import { SEA_LEVEL } from '../../src/world/layout';
 
 describe('close-view ground and plant detail', () => {
+  it('limits tidal wetness to the real ground elevation rather than soaking the full headland above the same waterline', () => {
+    const x = coastX(104) + 1, z = 104, weights = new Float32Array(8);
+    let height = SEA_LEVEL + 0.2;
+    const ground = {
+      heightAt: () => height,
+      slopeAt: () => 1.4,
+      carveAt: () => 0,
+    } as unknown as Terrain;
+    const tidal = groundSplat(ground, x, z, weights);
+    expect(tidal).toBeGreaterThan(0.5);
+    expect(weights[LAYER.rock]).toBeCloseTo(1, 5);
+    height = SEA_LEVEL + 1.4;
+    const splash = groundSplat(ground, x, z, weights);
+    expect(splash).toBeGreaterThan(0);
+    expect(splash).toBeLessThan(tidal);
+    height = SEA_LEVEL + 3;
+    expect(groundSplat(ground, x, z, weights)).toBe(0);
+    expect(groundSplat(ground, x - 2, z, weights)).toBe(0);
+    expect(weights[LAYER.rock]).toBeCloseTo(1, 5);
+    height = SEA_LEVEL + 13;
+    expect(groundSplat(ground, x, z, weights)).toBe(0);
+    expect(groundSplat(ground, x - 2, z, weights)).toBe(0);
+    expect(weights[LAYER.rock]).toBeCloseTo(1, 5);
+    height = SEA_LEVEL - 0.1;
+    expect(groundSplat(ground, x - 2, z, weights)).toBe(1);
+  });
+
+  it('retains splash falloff on actual raised lighthouse ground seaward of the approximate coastline', () => {
+    const terrain = new Terrain(), weights = new Float32Array(8);
+    let checked = 0;
+    for (let z = 92; z <= 116; z += 0.5) {
+      const x = coastX(z) - 0.25;
+      const height = terrain.heightAt(x, z) - SEA_LEVEL;
+      if (height <= 0.55) continue;
+      expect(groundSplat(terrain, x, z, weights)).toBeLessThan(1);
+      if (height >= 2.4) expect(groundSplat(terrain, x, z, weights)).toBe(0);
+      checked++;
+    }
+    expect(checked).toBeGreaterThan(0);
+  });
+
   it('refines soil and path material sampling while retaining the same physical ground planes, including their diagonals', () => {
     const source = new Terrain();
     // An aligned crop of the actual hilly inland terrain; every physical query still uses the source grid.

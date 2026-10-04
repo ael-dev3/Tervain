@@ -1,3 +1,5 @@
+import { RockSurfaces } from './rockContacts';
+import type { PhysicalRockGeometry } from './physicsGeometry';
 import { clamp, fbm, lerp, ridged, smoothstep, warp } from './noise';
 import { lighthouseRock, shapeCoast, shoreDistance } from './coast';
 import { lighthouseFloorAt, lighthouseSurfacesAt } from './lighthouse';
@@ -377,6 +379,15 @@ export class Terrain {
   readonly nz = (WORLD.maxZ - WORLD.minZ) / WORLD.cell;
   readonly heights: Float32Array;
   readonly carve: Float32Array;
+  private readonly rockSurfaces = new RockSurfaces();
+
+  registerRockSurfaces(rocks: readonly PhysicalRockGeometry[]) { this.rockSurfaces.register(rocks); }
+
+  rockClearAt(x: number, y: number, z: number): boolean { return this.rockSurfaces.clearAt(x, y, z); }
+
+  rockSupportAt(x: number, z: number, feetY: number): number | null {
+    return this.rockSurfaces.supportAt(x, z, feetY);
+  }
 
   constructor() {
     const w = this.nx + 1;
@@ -495,7 +506,7 @@ export class Terrain {
     for (const surface of surfaces) {
       if (surface <= feetY + 0.8 + 1e-6 && surface >= feetY - 0.8 - 1e-6) support = Math.max(support, surface);
     }
-    return support;
+    return Math.max(support, this.rockSupportAt(x, z, feetY) ?? -Infinity);
   }
 
   slopeAt(x: number, z: number): number {

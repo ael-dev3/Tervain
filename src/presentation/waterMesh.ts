@@ -129,7 +129,7 @@ void main() {
   float daylight = uLight * (0.72 + 0.2 * min(uSunI, 1.7));
   body *= daylight;
   if (uIsPool < 0.5) body = mix(body, vec3(0.105, 0.108, 0.065) * uLight, (1.0 - smoothstep(0.05, 0.5, uFlow)) * 0.3);
-  body = waterTransmission(body, N, vWorld, depth, mix(0.64, 0.42, uIsPool));
+  body = waterTransmission(body, N, vWorld, depth);
 
   // Restrained drifting light cells suggest a shallow bottom; no additional caustic render pass.
   if (uEffects > 0.5) {
@@ -183,7 +183,7 @@ export interface RibbonInfo {
 function uniforms(flow: number, isPool = false, radius = 1) {
   return {
     ...THREE.UniformsUtils.clone(THREE.UniformsLib.fog),
-    ...makeWaterOpticsUniforms(),
+    ...makeWaterOpticsUniforms(isPool ? 0.42 : 0.64),
     uFlow: { value: flow }, uTime: { value: 0 }, uLight: { value: 1 }, uEffects: { value: 1 },
     uIsPool: { value: isPool ? 1 : 0 }, uRadius: { value: radius },
     uInletFlow: { value: flow }, uHeadDirection: { value: new THREE.Vector2(0.32, 0.15) },
