@@ -42,7 +42,8 @@ shows only its introduction.
 - The visitor needs an installed, legally owned copy (Steam, GOG or disc). The page reads it at run time, as an
   installed game reads its own files.
 - For this viewer, never commit, host or ship anything from an installation: no archives, extracted or converted files, images,
-  captures or tables derived from them. Test fixtures are synthetic.
+  captures or tables derived from them. Test fixtures are synthetic. The one exception is the four
+  [screenshots](#screenshots) the owner asked to show in the README.
 - The code is original TypeScript. PR #21's author worked out its file formats by examining installed files with
   throwaway scripts, without using decompiled code or this repository's preparation tools. Integration subsequently
   checked bounded colour-selector and alpha-reference facts against the separate authorized offline study;
@@ -83,7 +84,23 @@ revision. They do not establish native-game equivalence or a completed game.
   server, `cells=2`, 4 October 2026: loads in 12–25 s; 60 fps (the display rate) at the views checked, 700–1,150 draw
   calls and 4.6–7.3 million triangles; about 17 ms per frame with `gl.finish()` at the heaviest forest view. This is
   one fast machine; slower hardware is untested.
-- Captures were reviewed locally and are not in the repository.
+- Captures were reviewed locally; only the four [screenshots](#screenshots) the owner chose are in the repository.
+
+## Screenshots
+
+At the owner's request (4 October 2026) the README shows four screenshots, kept beside this note in
+[`gothic3-local/`](gothic3-local/). Claude captured them that day in headless Chrome at 1600×900, from the viewer reading
+the owner's Steam installation; the files are JPEG copies of those captures.
+
+| File | Shows | Viewer state |
+| --- | --- | --- |
+| `coast.jpg` | Grass on a sea cliff near Ardea | PR #21, at its earlier default brightness (`overbright` 1.15) |
+| `ardea.jpg` | Ardea's square from above | PR #21 as merged |
+| `forest.jpg` | A grassy rise beside a fir forest | An earlier PR #21 build at brightness 2, before the sky and haze change (the far mountains are flat shapes) |
+| `bay.jpg` | The watchtower above the bay | PR #21's production build, loaded through the folder picker |
+
+They show Gothic 3, not Tervain (© THQ Nordic GmbH, developed by Piranha Bytes). They document this viewer only and are
+never Tervain assets or image-generator input (A14). Later changes to the viewer are not reflected in them.
 
 ## Known limits and next steps
 

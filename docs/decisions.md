@@ -85,6 +85,12 @@ Its code is original, written from observed file formats; its trees, sky
 palette, water and vegetation fading are engineering choices, not measurements
 of the game.
 
+The same day the owner asked for four screenshots of that viewer in the README.
+This is a narrow owner exception to A14 for those files: they document the
+viewer, show Gothic 3 rather than Tervain, and are never Tervain assets or
+image-generator input. Their provenance is in the
+[viewer's record](engineering/gothic3-local.md#screenshots).
+
 ## Proposed development baseline
 
 | ID | Proposal | Evaluate / revise when |
@@ -166,3 +172,5 @@ These are scope boundaries for the foundation, not permanent bans. A later owner
 | 2026-10-04 | Integrated the owner-supplied six-clip Wanderer rig into `0.0.10`, replacing the old synthetic walk/run leg solver with authored locomotion and stride-calibrated speeds. | A45. Source curves/textures remain preserved in an under-100k derivative. Native review and final local/publication evidence belong to the [animation handoff](engineering/main-hero-animations-0.0.10.md); the earlier A37 hero record is historical. |
 
 | 2026-10-04 | Added the separate `/gothic3-local/` study viewer: Ardea drawn from the visitor's own Gothic 3 installation, read in the browser, with original code for the archives, resources, images, meshes, material graphs, world cells, ground vegetation, trees, water and sky. This route hosts no game data; `/gothic3/` remains the separate authorized reconstruction. | Owner request of 4 Oct 2026 (see the Gothic 3 section above); not a Tervain release change. PR #21's author reports passing component typecheck, 906 tests in 89 files (including synthetic-fixture tests) and production build. Its rendering review used headless Chrome on one fast machine only; no slower-hardware result. Combined integration checks are separate. See [the viewer's record](engineering/gothic3-local.md). |
+
+| 2026-10-04 | Showed four screenshots of the `/gothic3-local/` viewer in the README at the owner's request. | A narrow owner exception to A14 for these documentation files (see the Gothic 3 section above); no game data or runtime asset is added. See [the screenshots' provenance](engineering/gothic3-local.md#screenshots). |
