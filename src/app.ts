@@ -81,6 +81,7 @@ export class App {
   private worldBuilding = false;
   private worldBuildFailed = false;
   private worldDisposed = false;
+  private rebuildPropPoses: WorldState['physicalObjects'] | null = null;
   private menuSceneDisposed = false;
   private rebuildRetry: HTMLButtonElement | null = null;
   private rebuildFocus: HTMLElement | null = null;
@@ -327,6 +328,7 @@ export class App {
     const enemies: EnemyActor[] = [];
     try {
       // Shared flora caches must be released before replacement assets are constructed.
+      if (this.world && !this.worldDisposed) this.rebuildPropPoses = this.world.physics.snapshot();
       if (this.world) this.disposeWorld();
       // Residents' sheets are half the size on Low (a quarter of the texture memory); the player keeps a full one.
       personBuildOptions.sheetSize = this.settings.quality === 'low' ? 512 : 1024;
@@ -345,6 +347,7 @@ export class App {
         this.loadingEl.textContent = `${S('menu.loading')} ${p.loaded}/${p.total}`;
       });
       this.worldDisposed = false;
+      if (this.rebuildPropPoses) this.world.physics.restore(this.rebuildPropPoses);
       this.world.scene.add(this.player.group);
       this.applyQualityToRenderer();
       this.npcs = npcs;
@@ -355,6 +358,7 @@ export class App {
       this.syncWorldFromState(true);
       // People's sheets are painted on worker threads; keep the loading screen up until every one is on.
       await sheetsSettled();
+      this.rebuildPropPoses = null;
     } catch (error) {
       this.worldBuildFailed = true;
       // Settle late painters before releasing their targets, so recovery cannot leak replaced textures.
@@ -519,6 +523,7 @@ export class App {
   private enterTitle() {
     // Returning from pause to the title is a fresh launch even though both screens use the menu scene.
     this.menuVisitActive = false;
+    this.world.physics.release();
     this.mode = 'title';
     this.hud.show(false);
     this.panels.closeAll();
@@ -616,6 +621,8 @@ export class App {
     // Quickload can begin while already playing, so uiOpen may not change at all.
     // Every load/new game discards the old world's held keys, toggles and queued actions.
     this.input.reset();
+    this.world.physics.reset();
+    this.world.physics.restore(this.game.state.physicalObjects);
     this.clockAcc = 0;
     this.syncWorldFromState(true);
     const p = this.game.state.player;
@@ -623,6 +630,13 @@ export class App {
     const fresh = fromLoad === null;
     const start = fresh ? { x: SPAWN.x, z: SPAWN.z, yaw: SPAWN.yaw } : { x: safe.x, z: safe.z, yaw: p.yaw };
     this.player.setPosition(start.x, start.z, start.yaw, this.world.terrain, fresh ? undefined : safe.y);
+    if (!fresh) {
+      const top = this.world.physics.supportAt(start.x, start.z, p.y);
+      if (top !== null && Math.abs(top - p.y) < .12) {
+        this.player.y = top;
+        this.player.rig.root.position.y = top;
+      }
+    }
     this.cam.yaw = start.yaw;
     this.cam.reset();
     this.hitStop = this.deathRemaining = 0;
@@ -770,6 +784,7 @@ export class App {
     const hitStopped = this.hitStop > 0;
     if (playing && hitStopped) this.hitStop -= dt;
     if (playing && this.mode === 'play' && !hitStopped) {
+      this.world.physics.beginCharacter(this.player);
       this.player.update(dt, this.playerContext(true));
       this.updateEnemies(dt);
       this.checkDiscoveries();
@@ -781,6 +796,14 @@ export class App {
     }
     // Reading freezes controller/action timers and patrol routes as well as the world clock.
     if (playing) this.updateActors(dt, hour);
+    if (playing && this.mode === 'play' && !hitStopped) {
+      this.world.physics.syncActors([
+        ...this.npcs.map(n => ({ id: `person:${n.id}`, x: n.x, y: n.y, z: n.z, radius: .35, height: 2.1,
+          active: !n.hidden && this.game.state.npcs[n.id].available })),
+        ...this.enemies.map(e => ({ id: `enemy:${e.id}`, x: e.x, y: e.y, z: e.z, radius: e.radius, height: 2.1, active: e.alive })),
+      ]);
+      this.world.physics.step(dt, this.player, this.cam.yaw, this.cam.pitch);
+    }
 
     // Interaction
     if (playing) this.updateInteraction();
@@ -1115,16 +1138,28 @@ export class App {
   /* ============================= interactions ============================= */
 
   private updateInteraction() {
-    const p = this.player;
-    const best = chooseInteractable(this.interactables, p, this.cam.yaw, this.world.terrain, this.world.colliders);
-    this.target = best;
-    if (best && p.state === 'free') {
-      this.hud.setPrompt(this.input.label('interact', codeLabel), best.prompt());
-      if (this.input.pressed('interact')) {
-        this.audio.interact();
-        best.act();
+    const p = this.player, physics = this.world.physics;
+    if (p.state !== 'free') { physics.release(); this.hud.setPrompt(null); return; }
+    const prop = physics.holding ? null : physics.candidate(p, this.cam.yaw);
+    if (this.input.pressed('grab')) {
+      if (physics.holding) physics.release();
+      else if (prop && physics.grab(prop.id)) this.audio.interact();
+    }
+    if (physics.holding) {
+      if (this.input.pressed('throw')) { physics.throw(this.cam.yaw, this.cam.pitch); this.audio.interact(); }
+      else {
+        this.target = null;
+        this.hud.setPrompt(`${this.input.label('grab', codeLabel)} / ${this.input.label('throw', codeLabel)}`, 'Drop / throw held object');
+        return;
       }
-    } else this.hud.setPrompt(null);
+    }
+    const best = chooseInteractable(this.interactables, p, this.cam.yaw, this.world.terrain, this.world.colliders, (from, to) => physics.occludedByProp(from, to));
+    this.target = best;
+    if (best) {
+      this.hud.setPrompt(this.input.label('interact', codeLabel), best.prompt());
+      if (this.input.pressed('interact')) { this.audio.interact(); best.act(); }
+    } else if (prop) this.hud.setPrompt(this.input.label('grab', codeLabel), `Lift ${prop.name.toLowerCase()}`);
+    else this.hud.setPrompt(null);
   }
 
   noThreatNear(): boolean {
@@ -1399,6 +1434,7 @@ export class App {
 
   private stamp() {
     this.game.setPlayerTransform(this.player.x, this.player.y, this.player.z, this.player.yaw);
+    this.game.state.physicalObjects = this.world.physics.snapshot().map(({ id, position, rotation }) => ({ id, position, rotation }));
   }
 
   saveTo(slot: SlotId) {
@@ -1484,6 +1520,7 @@ export class App {
     return {
       terrain: this.world.terrain,
       colliders: this.world.colliders,
+      physics: this.world.physics,
       input: this.input,
       settings: this.settings,
       game: this.game,
@@ -1527,6 +1564,7 @@ export class App {
   }
 
   private onPlayerDeath() {
+    this.world.physics.release();
     this.mode = 'dead';
     this.hud.showFade(true, S('hud.fallen.title'), S('hud.fallen.body'));
     this.deathRemaining = 3.6;

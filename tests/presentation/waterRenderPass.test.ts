@@ -2,8 +2,10 @@ import * as THREE from 'three';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { disposeSceneResources } from '../../src/presentation/disposeScene';
 import { Grade } from '../../src/presentation/grade';
+import { buildSea } from '../../src/presentation/sea';
 import { detachWaterOptics, makeWaterOpticsUniforms } from '../../src/presentation/waterOptics';
 import { WaterRenderPass, type WaterRenderInputs } from '../../src/presentation/waterRenderPass';
+import { Terrain } from '../../src/world/terrain';
 
 interface Draw {
   scene: THREE.Scene;
@@ -26,7 +28,7 @@ function fixture() {
   const camera = new THREE.PerspectiveCamera(60, 2, 0.25, 900);
   camera.position.set(0, 2, 4); // Inland: only the stream lies in view in the capture tests.
   camera.layers.enable(5);
-  const meshes = ['sea', 'stream'].map((name, index) => {
+  const meshes: WaterRenderInputs['meshes'] = ['sea', 'stream'].map((name, index) => {
     const mesh = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), new THREE.ShaderMaterial({ uniforms: makeWaterOpticsUniforms() }));
     mesh.name = name;
     if (!index) mesh.position.x = -300;
@@ -74,6 +76,36 @@ afterEach(() => {
 });
 
 describe('water capture/composite orchestration', () => {
+  it('does not capture shader-discarded sea while looking inland from the forest, and restores full reflection when turning west', () => {
+    const f = setup(), sea = buildSea(new Terrain(), 'high');
+    const previousSea = f.meshes[0]!;
+    f.scene.remove(previousSea); previousSea.geometry.dispose(); previousSea.material.dispose();
+    f.meshes[0] = sea.mesh; f.input.seaMaterial = sea.mesh.material; f.input.quality = 'high';
+    f.scene.add(sea.mesh); f.meshes[1]!.visible = false;
+    f.camera.fov = 58; f.camera.aspect = 1422 / 800; f.camera.far = 1400; f.camera.updateProjectionMatrix();
+    f.camera.position.set(-206.956, 3.01, 11.92);
+    f.camera.lookAt(-200, 2.45, 11.3846); f.camera.updateMatrixWorld();
+    const frustum = new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(f.camera.projectionMatrix, f.camera.matrixWorldInverse));
+    expect(frustum.intersectsBox(sea.mesh.geometry.boundingBox!.clone().expandByScalar(1))).toBe(true);
+    expect(f.render()).toBe(f.source.texture);
+    expect(f.draws).toHaveLength(1);
+    expect(sea.mesh.material.uniforms.uWaterReflectionReady!.value).toBe(0);
+    f.camera.lookAt(-300, 0, 11.92); f.draws.length = 0;
+    f.render();
+    expect(f.draws).toHaveLength(4);
+    expect(f.draws[0]!.camera).not.toBe(f.camera);
+    expect(f.draws[0]!.target!.width).toBe(512);
+    expect(sea.mesh.material.uniforms.uWaterReflectionReady!.value).toBe(1);
+    // Return and re-enter without releasing targets or a map-coordinate discontinuity.
+    const reflection = f.draws[0]!.target!;
+    f.camera.lookAt(-200, 2.45, 11.3846); f.draws.length = 0; f.render();
+    expect(f.draws).toHaveLength(1);
+    f.camera.lookAt(-300, 0, 11.92); f.draws.length = 0; f.render();
+    expect(f.draws).toHaveLength(3); // The original reflection is still fresh at the unchanged 15 Hz cadence.
+    expect(sea.mesh.material.uniforms.tWaterReflection!.value).toBe(reflection.texture);
+    expect(sea.mesh.material.uniforms.uWaterReflectionReady!.value).toBe(1);
+  });
+
   it('skips capture and copy when water is outside the camera frustum, detaches stale bindings, and reuses its targets on return', () => {
     const f = setup();
     f.render();

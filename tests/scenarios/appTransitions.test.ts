@@ -108,7 +108,7 @@ function fixture() {
     titleEl: new ElementFixture('DIV'), loadingEl: new ElementFixture('DIV'), debugEl: new ElementFixture('DIV'),
     hud: { el: { inert: true }, show: vi.fn(), showFade: vi.fn(), toast: vi.fn() },
     player: { x: 0, y: 0, z: 0, yaw: 0, group: new THREE.Group(), setPosition: vi.fn() },
-    cam: { reset: vi.fn(), yaw: 0, pitch: 0 }, world: { terrain: {} },
+    cam: { reset: vi.fn(), yaw: 0, pitch: 0 }, world: { terrain: {}, physics: { supportAt: vi.fn(() => null), reset: vi.fn(), restore: vi.fn(), release: vi.fn() } },
     syncMenuHudVisibility: vi.fn(), syncWorldFromState: vi.fn(),
     safePosition: (x: number, z: number, y = 0) => ({ x, z, y }),
     wantLock: vi.fn(), openPause: vi.fn(),
@@ -130,8 +130,8 @@ function deferred<T>() {
 
 function rebuildFixture() {
   const f = fixture();
-  const oldWorld = { scene: new THREE.Scene(), dispose: vi.fn(), terrain: {}, sky: { brightness: 1 }, syncStatic: vi.fn() };
-  const nextWorld = () => ({ scene: new THREE.Scene(), dispose: vi.fn(), terrain: {}, sky: { brightness: 1 }, syncStatic: vi.fn() });
+  const oldWorld = { scene: new THREE.Scene(), dispose: vi.fn(), terrain: {}, sky: { brightness: 1 }, syncStatic: vi.fn(), physics: { supportAt: vi.fn(() => null), snapshot: vi.fn(() => []), restore: vi.fn(), reset: vi.fn(), release: vi.fn() } };
+  const nextWorld = () => ({ scene: new THREE.Scene(), dispose: vi.fn(), terrain: {}, sky: { brightness: 1 }, syncStatic: vi.fn(), physics: { supportAt: vi.fn(() => null), snapshot: vi.fn(() => []), restore: vi.fn(), reset: vi.fn(), release: vi.fn() } });
   Object.assign(f.app, {
     world: oldWorld, library: {}, menuScene: new MenuScene({ quality: f.app.settings.quality }),
     applyUiSettings: vi.fn(), applyQualityToRenderer: vi.fn(), renderer: {},
@@ -214,6 +214,35 @@ describe('actual application world transitions', () => {
     expect(app.player.setPosition).toHaveBeenCalledWith(saved.x, saved.z, saved.yaw, app.world.terrain, 26.2);
   });
 
+  it('restores saved prop support on the rig without offsetting its persistent parent on later loads', () => {
+    const { app, call } = fixture();
+    const root = new THREE.Group();
+    app.player.group.add(root);
+    Reflect.set(app.player, 'rig', { root });
+    app.player.setPosition.mockImplementation((x: number, z: number, yaw: number, _terrain: unknown, feetY = 0) => {
+      Object.assign(app.player, { x, y: feetY, z, yaw });
+      root.position.set(x, feetY, z);
+    });
+    // Authored terrain placement resolves to the ground; the restored loose crate supplies the real saved top.
+    Reflect.set(app, 'safePosition', (x: number, z: number) => ({ x, z, y: 0 }));
+    const support = vi.fn<(_x: number, _z: number, _feetY: number) => number | null>(() => 2.64);
+    Reflect.set(app.world.physics, 'supportAt', support);
+    Object.assign(app.game.state.player, { x: 4, y: 2.66, z: 7, yaw: .3 });
+
+    call('beginPlay', { recovered: null });
+    expect(app.player.y).toBe(2.64);
+    expect(root.getWorldPosition(new THREE.Vector3()).y).toBe(2.64);
+    expect(app.player.group.position.y).toBe(0);
+    expect(app.world.physics.restore).toHaveBeenCalledWith(app.game.state.physicalObjects);
+
+    support.mockReturnValue(null);
+    Object.assign(app.game.state.player, { x: 8, y: 0, z: 9 });
+    call('beginPlay', { recovered: null });
+    expect(app.player.y).toBe(0);
+    expect(root.getWorldPosition(new THREE.Vector3()).y).toBe(0);
+    expect(app.player.group.position.y).toBe(0);
+  });
+
   it('does not request pointer lock from the title, a modal, or a world rebuild', () => {
     const { app, canvas, call } = fixture();
     app.mode = 'title'; call('wantLock');
@@ -226,6 +255,8 @@ describe('actual application world transitions', () => {
 
   it('keeps a rejected rebuild paused, then retries once without touching or disposing the old world again', async () => {
     const { app, input, canvas, key, call, oldWorld, nextWorld } = rebuildFixture();
+    const movedProps = [{ id: 'loose_barrel_0', position: { x: 5, y: .5, z: 4 }, rotation: { x: 0, y: 0, z: 0, w: 1 } }];
+    Reflect.set(oldWorld.physics, 'snapshot', vi.fn(() => structuredClone(movedProps)));
     const first = deferred<WorldScene>();
     const retry = deferred<WorldScene>();
     const create = vi.spyOn(WorldScene, 'create').mockImplementationOnce(() => first.promise).mockImplementationOnce(() => retry.promise);
@@ -265,6 +296,9 @@ describe('actual application world transitions', () => {
     retry.resolve(recovered as unknown as WorldScene);
     await finishReload(app);
     expect(app.world).toBe(recovered);
+    expect(oldWorld.physics.snapshot).toHaveBeenCalledOnce();
+    expect(recovered.physics.restore).toHaveBeenCalledWith(movedProps);
+    expect(Reflect.get(app, 'rebuildPropPoses')).toBeNull();
     expect(Reflect.get(app, 'worldBuildFailed')).toBe(false);
     expect(app.loadingEl.classList.contains('off')).toBe(true);
     expect(app.panels.el.inert).toBe(false); expect(input.uiOpen).toBe(false);

@@ -153,6 +153,14 @@ describe('the player and camera share the authored lighthouse surfaces', () => {
     expect(canPlayerStandAt(terrain, colliders, NaN, 0, ground)).toBe(false);
   });
 
+  it('keeps a saved steep-land position for gravity instead of teleporting it behind a slope fence', () => {
+    const slope = { groundAt: () => 3, supportAt: () => 3, walkable: (_x: number, _z: number, maxSlope = 0.95) => maxSlope > 1.2 };
+    expect(canPlayerStandAt(slope, new Colliders(), 0, 0, 3)).toBe(true);
+    expect(supportedPlayerHeight(slope, 0, 0, 3)).toBe(3);
+    const wall = new Colliders(); wall.box('real-wall', 0, 0, 1, 1);
+    expect(canPlayerStandAt(slope, wall, 0, 0, 3)).toBe(false);
+  });
+
   it('restores accepted interior saves onto the tower and keeper floors with a collision-safe camera', () => {
     const base = terrain.heightAt(LIGHTHOUSE.x, LIGHTHOUSE.z);
     for (const [point, floor] of [

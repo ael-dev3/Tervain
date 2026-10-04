@@ -7,6 +7,8 @@ import { ACTIONS, type Action, type Settings } from './settings';
 
 const PAD = {
   interact: 0,
+  grab: 10,
+  throw: 11,
   dodge: 1,
   attack: 2,
   heavy: 3,
@@ -329,7 +331,7 @@ export class Input {
   label(a: Action, codeLabel: (c: string) => string): string {
     if (this.device === 'gamepad') {
       const b = PAD_ACTIONS[a];
-      const names: Record<number, string> = { 0: 'A', 1: 'B', 2: 'X', 3: 'Y', 4: 'LB', 5: 'RB', 6: 'LT', 7: 'RT', 8: 'Back', 9: 'Start', 12: 'D-pad ↑', 13: 'D-pad ↓' };
+      const names: Record<number, string> = { 0: 'A', 1: 'B', 2: 'X', 3: 'Y', 4: 'LB', 5: 'RB', 6: 'LT', 7: 'RT', 8: 'Back', 9: 'Start', 10: 'Left stick', 11: 'Right stick', 12: 'D-pad ↑', 13: 'D-pad ↓' };
       if (b !== undefined) return names[b] ?? `Button ${b}`;
     }
     const c = this.codesFor(a)[0];

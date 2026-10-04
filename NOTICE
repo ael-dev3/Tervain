@@ -35,3 +35,8 @@ Warpkeep names, logos and the Hegemony identity are not licensed by this notice.
 This product uses Three.js, including its unmodified Reflector addon, under the MIT
 License (copyright 2010-2026 three.js authors). The full copyright and permission
 notice is retained in public/third-party-notices.txt and copied into the site build.
+
+This product uses the official @dimforge/rapier3d-compat 0.21.0 physics engine
+(https://github.com/dimforge/rapier), licensed under Apache-2.0. Its complete
+unmodified licence is retained in public/third-party-notices.txt above the Three.js
+MIT notice. Tervain's integration does not include Valve game code or assets.

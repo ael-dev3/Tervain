@@ -179,6 +179,13 @@ export interface QuestState {
   reactions: string[];
 }
 
+/** Plain transforms only; no physics-engine handles belong in a format-1 save. */
+export interface PhysicalObjectPose {
+  id: string;
+  position: { x: number; y: number; z: number };
+  rotation: { x: number; y: number; z: number; w: number };
+}
+
 export interface WorldState {
   saveFormatVersion: number;
   contentRevision: string;
@@ -195,6 +202,7 @@ export interface WorldState {
   quickSlots: QuickSlot[];
   equippedWeapon: ItemId | null;
   mapMarker: MapMarker | null;
+  physicalObjects: PhysicalObjectPose[];
   skills: SkillId[];
   npcs: Record<NpcId, NpcState>;
   offenses: { pending: PendingReport[]; known: KnownOffense[] };

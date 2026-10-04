@@ -492,6 +492,8 @@ export const EN: Record<string, string> = {
   'action.sprint': 'Sprint',
   'action.jump': 'Jump',
   'action.interact': 'Inspect / interact',
+  'action.grab': 'Lift / drop a loose object',
+  'action.throw': 'Throw a held object',
   'action.attack': 'Attack',
   'action.heavy': 'Heavy attack',
   'action.block': 'Block',

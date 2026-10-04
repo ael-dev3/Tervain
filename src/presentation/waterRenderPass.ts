@@ -77,10 +77,19 @@ export class WaterRenderPass {
     for (let parent: THREE.Object3D | null = mesh; parent; parent = parent.parent) if (!parent.visible) return false;
     mesh.updateWorldMatrix(true, false);
     if (!mesh.geometry.boundingBox) mesh.geometry.computeBoundingBox();
-    if (!mesh.geometry.boundingBox || mesh.geometry.boundingBox.isEmpty()) return false;
+    // Sea's complete welded geometry includes dry inland triangles which its shader discards.
+    // Its cached depth-derived envelope excludes only those impossible pixels; channels keep
+    // their existing bounds, including every hydraulic level.
     // Sea relief is bounded below 0.48 m; inland bounds already include all hydraulic levels and ripples.
     // A full metre in local space deliberately overestimates both so visibility never clips an animated crest.
-    this.visibilityBox.copy(mesh.geometry.boundingBox).expandByScalar(1).applyMatrix4(mesh.matrixWorld);
+    const pieces = mesh.userData.waterVisibilityBounds as THREE.Box3[] | undefined;
+    if (pieces) return pieces.some(bounds => {
+      this.visibilityBox.copy(bounds).expandByScalar(1).applyMatrix4(mesh.matrixWorld);
+      return this.visibilityFrustum.intersectsBox(this.visibilityBox);
+    });
+    const bounds = mesh.geometry.boundingBox;
+    if (!bounds || bounds.isEmpty()) return false;
+    this.visibilityBox.copy(bounds).expandByScalar(1).applyMatrix4(mesh.matrixWorld);
     return this.visibilityFrustum.intersectsBox(this.visibilityBox);
   }
 

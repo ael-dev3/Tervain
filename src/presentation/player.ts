@@ -59,8 +59,20 @@ const SHEATHE_AFTER = 6;
 const PLAYER_RADIUS = PLAYER_BODY_RADIUS;
 const STEP_HEIGHT = 0.8;
 const GROUND_FOLLOW_DROP = 0.5;
-/** Sample terrain along the whole move, so a sprint/dodge cannot skip a steep face or water strip. */
+const GRAVITY = 17;
+const FIRM_FOOTING_SLOPE = 0.95;
+/** Sample terrain along the whole move, so a sprint/dodge cannot skip a solid face or water strip. */
 const TERRAIN_STEP = 0.16;
+
+/** Movable-body contacts share the authoritative player position with the static scenery controller. */
+export interface PlayerPhysicsContacts {
+  move(x: number, y: number, z: number, dx: number, dz: number, grounded: boolean): { x: number; y: number; z: number };
+  /** Highest reachable top below feetY + STEP_HEIGHT, including supports far below a falling body. */
+  supportAt(x: number, z: number, feetY: number): number | null;
+  ceilingAt(x: number, z: number, radius: number, fromHeadY: number, toHeadY: number): number | null;
+  /** Material of the support actually beneath the feet, so wood does not sound like masonry. */
+  surfaceAt?(x: number, z: number, feetY: number): SurfaceKind | null;
+}
 
 export interface PlayerCtx {
   terrain: Terrain;
@@ -71,6 +83,7 @@ export interface PlayerCtx {
   audio: AudioEngine;
   enemies: EnemyActor[];
   npcs: NpcActor[];
+  physics?: PlayerPhysicsContacts;
   viewYaw: number;
   controllable: boolean;
   onHitEnemy: (e: EnemyActor, killed: boolean, heavy: boolean) => void;
@@ -217,6 +230,8 @@ export class Player {
   }
 
   private surfaceAt(ctx: PlayerCtx): SurfaceKind {
+    const movableSurface = ctx.physics?.surfaceAt?.(this.x, this.z, this.y);
+    if (movableSurface) return movableSurface;
     if (ctx.terrain.deckAt(this.x, this.z)) return 'deck';
     const support = this.supportAt(this.x, this.z, ctx);
     if (support > ctx.terrain.groundAt(this.x, this.z) + 0.02) {
@@ -232,8 +247,29 @@ export class Player {
     return 'grass';
   }
 
-  private supportAt(x: number, z: number, ctx: PlayerCtx): number {
-    return ctx.terrain.supportAt(x, z, this.y);
+  private supportAt(x: number, z: number, ctx: PlayerCtx, feetY = this.y): number {
+    return Math.max(ctx.terrain.supportAt(x, z, feetY), ctx.physics?.supportAt(x, z, feetY) ?? -Infinity);
+  }
+
+  /** A hillside is contact geometry, not a horizontal fence derived from a slope cutoff. */
+  private travelAllowed(x: number, z: number, feetY: number, ctx: PlayerCtx): boolean {
+    return ctx.terrain.walkable(x, z, Infinity, feetY);
+  }
+
+  /** Gravity along exposed steep ground lets loose footing slide downhill instead of holding a vertical pose. */
+  private downhillGravity(ctx: PlayerCtx): { x: number; z: number; slip: number } {
+    if (!this.grounded || ctx.terrain.deckAt(this.x, this.z)) return { x: 0, z: 0, slip: 0 };
+    const bareGround = ctx.terrain.groundAt(this.x, this.z);
+    if (this.supportAt(this.x, this.z, ctx) > bareGround + 0.02) return { x: 0, z: 0, slip: 0 };
+    const slope = ctx.terrain.slopeAt(this.x, this.z);
+    if (slope <= FIRM_FOOTING_SLOPE) return { x: 0, z: 0, slip: 0 };
+    const e = 0.3;
+    const groundAt = ctx.terrain.heightAt?.bind(ctx.terrain) ?? ctx.terrain.groundAt.bind(ctx.terrain);
+    const dx = (groundAt(this.x + e, this.z) - groundAt(this.x - e, this.z)) / (2 * e);
+    const dz = (groundAt(this.x, this.z + e) - groundAt(this.x, this.z - e)) / (2 * e);
+    const slip = Math.min(1, Math.max(0, (slope - FIRM_FOOTING_SLOPE) / 0.3));
+    const normalLengthSquared = 1 + dx * dx + dz * dz;
+    return { x: -GRAVITY * dx / normalLengthSquared * slip, z: -GRAVITY * dz / normalLengthSquared * slip, slip };
   }
 
   /** Living people are contact volumes, not unrestricted post-physics position pushes. */
@@ -250,21 +286,31 @@ export class Player {
     return contacts;
   }
 
+  /** A movable-body slide may not place the player inside an actor or back through static scenery. */
+  private contactClear(x: number, y: number, z: number, ctx: PlayerCtx, people: readonly Collider[]): boolean {
+    const bounds = { minY: y + PLAYER_FOOT_CLEARANCE, maxY: y + PLAYER_BODY_HEIGHT };
+    if (ctx.colliders.blocked(x, z, PLAYER_RADIUS, bounds)) return false;
+    const clear = ctx.colliders.resolve(x, z, PLAYER_RADIUS, undefined, bounds, people);
+    return Math.hypot(clear.x - x, clear.z - z) < 0.001;
+  }
+
   /** Actors can approach a stationary player. Correct those contacts through the same swept scenery constraint. */
   private settleContacts(ctx: PlayerCtx) {
     const bounds = { minY: this.y + PLAYER_FOOT_CLEARANCE, maxY: this.y + PLAYER_BODY_HEIGHT };
-    const target = ctx.colliders.resolve(this.x, this.z, PLAYER_RADIUS, undefined, bounds, this.contacts(ctx));
+    const people = this.contacts(ctx);
+    const target = ctx.colliders.resolve(this.x, this.z, PLAYER_RADIUS, undefined, bounds, people);
     if (!target.hit) return;
-    const safe = ctx.colliders.move(this.x, this.z, target.x - this.x, target.z - this.z, PLAYER_RADIUS, undefined, bounds);
-    const ground = this.supportAt(safe.x, safe.z, ctx);
-    if (!ctx.terrain.walkable(safe.x, safe.z, 0.95, this.y) || ground - this.y > (this.grounded ? STEP_HEIGHT : 0.18)) return;
-    if (ctx.colliders.blocked(safe.x, safe.z, PLAYER_RADIUS, bounds)) return;
+    const scenerySafe = ctx.colliders.move(this.x, this.z, target.x - this.x, target.z - this.z, PLAYER_RADIUS, undefined, bounds);
+    const safe = ctx.physics?.move(this.x, this.y, this.z, scenerySafe.x - this.x, scenerySafe.z - this.z, this.grounded) ?? { ...scenerySafe, y: this.y };
+    const ground = this.supportAt(safe.x, safe.z, ctx, safe.y);
+    if (!this.travelAllowed(safe.x, safe.z, safe.y, ctx) || ground - this.y > (this.grounded ? STEP_HEIGHT : 0.18)) return;
+    if (!this.contactClear(safe.x, safe.y, safe.z, ctx, people)) return;
     this.x = safe.x;
     this.z = safe.z;
     if (this.grounded && this.y - ground <= GROUND_FOLLOW_DROP) this.y = ground;
   }
 
-  /** Sweep every move (including dodge, attack and recoil), then slide only along legal terrain. */
+  /** Sweep every move (including dodge, attack and recoil), including real movable-body contacts. */
   private tryMove(dx: number, dz: number, ctx: PlayerCtx): boolean {
     const beforeX = this.x;
     const beforeZ = this.z;
@@ -277,10 +323,11 @@ export class Player {
       if (Math.abs(mx) < 1e-8 && Math.abs(mz) < 1e-8) return false;
       const bounds = { minY: this.y + PLAYER_FOOT_CLEARANCE, maxY: this.y + PLAYER_BODY_HEIGHT };
       const result = ctx.colliders.move(this.x, this.z, mx, mz, PLAYER_RADIUS, undefined, bounds, contacts);
-      const nx = result.x;
-      const nz = result.z;
-      const g = this.supportAt(nx, nz, ctx);
-      if (!ctx.terrain.walkable(nx, nz, 0.95, this.y) || g - this.y > (this.grounded ? STEP_HEIGHT : 0.18)) {
+      const physical = ctx.physics?.move(this.x, this.y, this.z, result.x - this.x, result.z - this.z, this.grounded) ?? { ...result, y: this.y };
+      const nx = physical.x;
+      const nz = physical.z;
+      const g = this.supportAt(nx, nz, ctx, physical.y);
+      if (!this.travelAllowed(nx, nz, physical.y, ctx) || g - this.y > (this.grounded ? STEP_HEIGHT : 0.18)) {
         if (!boundaryReported && ctx.terrain.valleyRadius(nx, nz) > 1.02) {
           boundaryReported = true;
           ctx.onBoundary();
@@ -288,7 +335,7 @@ export class Player {
         return false;
       }
       // If a crowded doorway cannot satisfy every contact, retain the last scenery-safe position.
-      if (ctx.colliders.blocked(nx, nz, PLAYER_RADIUS, bounds)) return false;
+      if (!this.contactClear(nx, physical.y, nz, ctx, contacts)) return false;
       this.x = nx;
       this.z = nz;
       if (this.grounded) {
@@ -303,7 +350,7 @@ export class Player {
     };
     for (let i = 0; i < count; i++) {
       if (!attempt(sx, sz)) {
-        // Terrain/water edges do not have authored planes; the two legal axes still give a useful slide.
+        // Ground steps/water edges do not have authored planes; legal axes still give a useful slide.
         const xFirst = Math.abs(sx) >= Math.abs(sz);
         if (xFirst) { attempt(sx, 0); attempt(0, sz); }
         else { attempt(0, sz); attempt(sx, 0); }
@@ -546,10 +593,12 @@ export class Player {
     // Horizontal motion with light inertia.
     const lunging = this.state === 'light' || this.state === 'heavy';
     const forward = this.facing;
-    const targetVx = (lunging ? forward.x : wx) * speed;
-    const targetVz = (lunging ? forward.z : wz) * speed;
-    const accel = this.grounded ? 38 : 8;
-    const rate = accel * 0.35;
+    // Releasing a direction in mid-air cannot apply ground friction. Directional input still provides modest air control.
+    const coasting = !this.grounded && !hasInput && this.state === 'free';
+    const slope = this.downhillGravity(ctx);
+    const rate = this.grounded ? 13.3 + (2.2 - 13.3) * slope.slip : 2.8;
+    const targetVx = (coasting ? this.vx : (lunging ? forward.x : wx) * speed) + slope.x / rate;
+    const targetVz = (coasting ? this.vz : (lunging ? forward.z : wz) * speed) + slope.z / rate;
     const k = 1 - Math.exp(-dt * rate);
     const displacementX = targetVx * dt + (this.vx - targetVx) * k / rate;
     const displacementZ = targetVz * dt + (this.vz - targetVz) * k / rate;
@@ -583,10 +632,12 @@ export class Player {
     }
     if (!this.grounded) {
       // Analytic ballistic step keeps jump height and fall travel consistent across frame rates.
-      const nextY = this.y + this.vy * dt - 0.5 * 17 * dt * dt;
-      const ceiling = ctx.colliders.ceilingAt(this.x, this.z, PLAYER_RADIUS, this.y + PLAYER_BODY_HEIGHT, nextY + PLAYER_BODY_HEIGHT);
+      const nextY = this.y + this.vy * dt - 0.5 * GRAVITY * dt * dt;
+      const staticCeiling = ctx.colliders.ceilingAt(this.x, this.z, PLAYER_RADIUS, this.y + PLAYER_BODY_HEIGHT, nextY + PLAYER_BODY_HEIGHT);
+      const movableCeiling = ctx.physics?.ceilingAt(this.x, this.z, PLAYER_RADIUS, this.y + PLAYER_BODY_HEIGHT, nextY + PLAYER_BODY_HEIGHT) ?? null;
+      const ceiling = staticCeiling === null ? movableCeiling : movableCeiling === null ? staticCeiling : Math.min(staticCeiling, movableCeiling);
       this.y = ceiling === null ? nextY : ceiling - PLAYER_BODY_HEIGHT - 0.0001;
-      this.vy = ceiling === null ? this.vy - 17 * dt : 0;
+      this.vy = ceiling === null ? this.vy - GRAVITY * dt : 0;
       if (this.vy <= 0 && this.y <= ground) {
         this.y = ground;
         this.vy = 0;
