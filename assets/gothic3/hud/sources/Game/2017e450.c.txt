@@ -1,0 +1,21 @@
+/* ENTRY 2017e450 | gCHUDMenuOptionsPerformance2::gCHUDMenuOptionsPerformance2 | STATUS decompiled | 11 ms */
+
+gCHUDMenuOptionsPerformance2 * __thiscall
+gCHUDMenuOptionsPerformance2::gCHUDMenuOptionsPerformance2(gCHUDMenuOptionsPerformance2 *this)
+
+{
+  gCHUDMenu::gCHUDMenu((gCHUDMenu *)this);
+  this->vftablePtr = &vftable;
+  CFFGFCCheckBox::CFFGFCCheckBox
+            ((CFFGFCCheckBox *)&(this->gCHUDMenuOptionsPerformance2_data).field_0xc);
+  CFFGFCCheckBox::CFFGFCCheckBox
+            ((CFFGFCCheckBox *)&(this->gCHUDMenuOptionsPerformance2_data).field_0x1c);
+  CFFGFCCheckBox::CFFGFCCheckBox
+            ((CFFGFCCheckBox *)&(this->gCHUDMenuOptionsPerformance2_data).field_0x2c);
+  CFFGFCCheckBox::CFFGFCCheckBox
+            ((CFFGFCCheckBox *)&(this->gCHUDMenuOptionsPerformance2_data).field_0x3c);
+  gCHUDButton::gCHUDButton((gCHUDButton *)&(this->gCHUDMenuOptionsPerformance2_data).field_0x4c);
+  return this;
+}
+
+

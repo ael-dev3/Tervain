@@ -1,0 +1,4 @@
+; 2018cd60 gCHUDTableRecipeStats::gCHUDTableRecipeStats
+2018cd60 | c70144886720 | MOV dword ptr [ECX],0x20678844
+2018cd66 | c7412824886720 | MOV dword ptr [ECX + 0x28],0x20678824
+2018cd6d | e90c28e8ff | JMP 0x2000f57e

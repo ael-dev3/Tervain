@@ -1,0 +1,57 @@
+/* ENTRY 2000ae8e | gCNavZone_PS::GameReset | STATUS decompiled | 26 ms */
+
+/* protected: void __thiscall gCNavZone_PS::GameReset(void) */
+
+void __thiscall gCNavZone_PS::GameReset(gCNavZone_PS *this)
+
+{
+  void **ppvVar1;
+  bCMemoryAdmin *pbVar2;
+  void *pvVar3;
+  
+                    /* 0xae8e  2864  ?GameReset@gCNavZone_PS@@IAEXXZ */
+  ppvVar1 = &(this->gCNavZone_PS_data).offset_0x3c;
+  (this->gCNavZone_PS_data).offset_0xbc = 0;
+  if ((ppvVar1 != (void **)0x0) && (pvVar3 = *ppvVar1, pvVar3 != (void *)0x0)) {
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,pvVar3);
+    *ppvVar1 = (void *)0x0;
+    (this->gCNavZone_PS_data).offset_0x40 = 0;
+    (this->gCNavZone_PS_data).offset_0x44 = 0;
+  }
+  ppvVar1 = &(this->gCNavZone_PS_data).offset_0xc0;
+  if ((ppvVar1 != (void **)0x0) && (pvVar3 = *ppvVar1, pvVar3 != (void *)0x0)) {
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,pvVar3);
+    *ppvVar1 = (void *)0x0;
+    (this->gCNavZone_PS_data).offset_0xc4 = 0;
+    (this->gCNavZone_PS_data).offset_0xc8 = 0;
+  }
+  ppvVar1 = &(this->gCNavZone_PS_data).offset_0xcc;
+  if ((ppvVar1 != (void **)0x0) && (pvVar3 = *ppvVar1, pvVar3 != (void *)0x0)) {
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,pvVar3);
+    *ppvVar1 = (void *)0x0;
+    (this->gCNavZone_PS_data).offset_0xd0 = 0;
+    (this->gCNavZone_PS_data).offset_0xd4 = 0;
+  }
+  ppvVar1 = &(this->gCNavZone_PS_data).offset_0xd8;
+  if ((ppvVar1 != (void **)0x0) && (pvVar3 = *ppvVar1, pvVar3 != (void *)0x0)) {
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,pvVar3);
+    *ppvVar1 = (void *)0x0;
+    (this->gCNavZone_PS_data).offset_0xdc = 0;
+    (this->gCNavZone_PS_data).offset_0xe0 = 0;
+  }
+  ppvVar1 = &(this->gCNavZone_PS_data).offset_0xe4;
+  if ((ppvVar1 != (void **)0x0) && (pvVar3 = *ppvVar1, pvVar3 != (void *)0x0)) {
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,pvVar3);
+    *ppvVar1 = (void *)0x0;
+    (this->gCNavZone_PS_data).offset_0xe8 = 0;
+    (this->gCNavZone_PS_data).offset_0xec = 0;
+  }
+  return;
+}
+
+

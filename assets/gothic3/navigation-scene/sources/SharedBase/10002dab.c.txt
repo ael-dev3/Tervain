@@ -1,0 +1,29 @@
+/* ENTRY 10002dab | bCVector::Normalize | STATUS decompiled | 10 ms */
+
+/* public: class bCVector const & __thiscall bCVector::Normalize(void) */
+
+bCVector * __thiscall bCVector::Normalize(bCVector *this)
+
+{
+  float fVar1;
+  float fVar2;
+  float fVar3;
+  float fVar4;
+  float10 fVar5;
+  
+                    /* 0x2dab  3802  ?Normalize@bCVector@@QAEABV1@XZ */
+  fVar1 = *(float *)(this + 4);
+  fVar2 = *(float *)this;
+  fVar3 = *(float *)(this + 8);
+  fVar5 = (float10)FUN_100ab010();
+  if (0.0 < (float)fVar5) {
+    fVar4 = 1.0 / (float)fVar5;
+    *(float *)this = fVar4 * fVar2;
+    *(float *)(this + 4) = fVar1 * fVar4;
+    *(float *)(this + 8) = fVar4 * fVar3;
+    return this;
+  }
+  return this;
+}
+
+

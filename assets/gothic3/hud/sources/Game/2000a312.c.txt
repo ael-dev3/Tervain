@@ -1,0 +1,25 @@
+/* ENTRY 2000a312 | gCHUDPage::Close | STATUS decompiled | 8 ms */
+
+/* public: virtual void __thiscall gCHUDPage::Close(void)
+   gCHUDPage member function inherited by gCHUDPageDialog2
+   gCHUDPage member function inherited by gCHUDPageDocuments2
+   gCHUDPage member function inherited by gCHUDPageInventory2
+   gCHUDPage member function inherited by gCHUDPageLoot2
+   gCHUDPage member function inherited by gCHUDPageMain2
+   gCHUDPage member function inherited by gCHUDPageQuests2
+   gCHUDPage member function inherited by gCHUDPageSkills2
+   gCHUDPage member function inherited by gCHUDPageSlideshow2
+   gCHUDPage member function inherited by gCHUDPageSpells2
+   gCHUDPage member function inherited by gCHUDPageSynth2
+   gCHUDPage member function inherited by gCHUDPageTransform2
+   gCHUDPage member function inherited by gCHUDPageTutorial2 */
+
+void __thiscall gCHUDPage::Close(gCHUDPage *this)
+
+{
+                    /* 0xa312  2114  ?Close@gCHUDPage@@UAEXXZ */
+  CFFGFCWnd::AnimateWindow((CFFGFCWnd *)this,200,0x90000);
+  return;
+}
+
+

@@ -1,0 +1,13 @@
+/* ENTRY 2018ffd0 | gCHUDStaticCompass::gCHUDStaticCompass | STATUS decompiled | 7 ms */
+
+gCHUDStaticCompass * __thiscall gCHUDStaticCompass::gCHUDStaticCompass(gCHUDStaticCompass *this)
+
+{
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)this);
+  this->vftablePtr = &vftable;
+  CFFGFCBitmap::CFFGFCBitmap((CFFGFCBitmap *)&(this->gCHUDStaticCompass_data).field_0xc);
+  (this->gCHUDStaticCompass_data).offset_0x14 = 0;
+  return this;
+}
+
+

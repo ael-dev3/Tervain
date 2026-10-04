@@ -1,0 +1,13 @@
+/* ENTRY 1002e740 | FUN_1002e740 | STATUS decompiled | 2 ms */
+
+float10 __thiscall FUN_1002e740(bCVector *param_1,bECoordinate param_2)
+
+{
+  float10 fVar1;
+  
+  bCVector::GetSquareMagnitude2D(param_1,param_2);
+  fVar1 = (float10)FUN_100ab010();
+  return (float10)(float)fVar1;
+}
+
+

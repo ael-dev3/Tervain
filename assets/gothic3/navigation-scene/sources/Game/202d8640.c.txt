@@ -1,0 +1,1928 @@
+/* ENTRY 202d8640 | FUN_202d8640 | STATUS decompiled | 7653 ms */
+
+/* WARNING: Exceeded maximum restarts with more pending */
+
+undefined4 __thiscall FUN_202d8640(gCNavigationMap *param_1,char param_2,bCString *param_3)
+
+{
+  void **ppvVar1;
+  gCNavZone_PS *this;
+  bool bVar2;
+  bEResult bVar3;
+  eCEntity *peVar4;
+  bCVector *pbVar5;
+  undefined4 uVar6;
+  eCEntity *peVar7;
+  gCSector *pgVar8;
+  bCString *pbVar9;
+  eCNode *peVar10;
+  bCPropertyID *pbVar11;
+  bCString *pbVar12;
+  char *pcVar13;
+  eCPropertySetProxy *peVar14;
+  bCMatrix *pbVar15;
+  int iVar16;
+  gCNegZone_PSObj *pgVar17;
+  bCPropertyID *pbVar18;
+  bCString *pbVar19;
+  gCCollisionCircle_PSObj *pgVar20;
+  bTValArray<float> *pbVar21;
+  float fVar22;
+  bTValArray<bCPropertyID> *pbVar23;
+  gCPrefPath_PSObj *pgVar24;
+  int *piVar25;
+  eCEntityPropertySet *peVar26;
+  eCEntityProxy *peVar27;
+  gCWorld *pgVar28;
+  bCMemoryAdmin *pbVar29;
+  int iVar30;
+  code *pcVar31;
+  int iVar32;
+  undefined4 *puVar33;
+  code *pcVar34;
+  float fVar35;
+  bCString **ppbVar36;
+  eCPropertySetProxy **ppeVar37;
+  bCVector **ppbVar38;
+  bCString **ppbVar39;
+  bTValArray<bool> *pbVar40;
+  bool *pbVar41;
+  bTValArray<bCPropertyID> *pbVar42;
+  eCEntityProxy *peVar43;
+  undefined1 uVar44;
+  char *pcVar45;
+  char cVar46;
+  undefined1 uVar47;
+  bTValArray<bCPropertyID> **ppbVar48;
+  bCVector *pbVar49;
+  bool bVar50;
+  void *pvVar51;
+  uint uVar52;
+  undefined4 uVar53;
+  gCNavZone_PS *pgStack_1a0;
+  bCString *pbStack_19c;
+  eCPropertySetProxy *peStack_198;
+  eCPropertySetProxy *peStack_194;
+  eCPropertySetProxy *peStack_190;
+  undefined4 uStack_18c;
+  undefined4 uStack_188;
+  bCString *pbStack_184;
+  eCPropertySetProxy *peStack_180;
+  bCString *pbStack_17c;
+  bCVector *pbStack_178;
+  bTValArray<bCPropertyID> *pbStack_174;
+  eCPropertySetProxy *peStack_170;
+  bCString *pbStack_16c;
+  bCString *pbStack_168;
+  eCPropertySetProxy *peStack_164;
+  bCString *pbStack_160;
+  bCString *pbStack_15c;
+  int iStack_158;
+  int iStack_154;
+  undefined4 uStack_150;
+  bool bStack_149;
+  undefined8 uStack_148;
+  undefined4 uStack_140;
+  eCPropertySetProxy *peStack_13c;
+  bool bStack_135;
+  bCString abStack_134 [4];
+  bCString abStack_130 [4];
+  int iStack_12c;
+  int iStack_128;
+  undefined4 uStack_124;
+  int iStack_120;
+  int aiStack_11c [2];
+  bCString abStack_114 [4];
+  int iStack_110;
+  int iStack_10c;
+  undefined4 uStack_108;
+  int iStack_104;
+  int iStack_100;
+  undefined4 uStack_fc;
+  int iStack_f8;
+  int iStack_f4;
+  undefined4 uStack_f0;
+  int iStack_ec;
+  int iStack_e8;
+  undefined4 uStack_e4;
+  undefined4 uStack_e0;
+  undefined4 uStack_dc;
+  undefined4 uStack_d8;
+  undefined4 uStack_d4;
+  undefined4 uStack_d0;
+  undefined4 uStack_cc;
+  int iStack_c8;
+  int iStack_c4;
+  undefined4 uStack_c0;
+  bCPropertyID abStack_bc [4];
+  bCPropertyID abStack_b8 [4];
+  bool abStack_b4 [12];
+  void *pvStack_a8;
+  undefined4 uStack_a4;
+  undefined4 uStack_a0;
+  bCString abStack_9c [4];
+  bCString abStack_98 [4];
+  bCString abStack_94 [4];
+  bCString abStack_90 [4];
+  bCString abStack_8c [4];
+  undefined1 auStack_88 [12];
+  bCString abStack_7c [16];
+  eCPropertySetProxy eStack_6c;
+  bCMatrix abStack_48 [4];
+  bCMatrix abStack_44 [4];
+  bCMatrix abStack_40 [60];
+  
+  iVar32 = 0;
+  if (0 < (int)(param_1->gCNavigationMap_data).offset_0x38) {
+    do {
+      gCNavZone_PS::GameReset
+                (*(gCNavZone_PS **)((int)(param_1->gCNavigationMap_data).offset_0x34 + iVar32 * 4));
+      iVar32 = iVar32 + 1;
+    } while (iVar32 < (int)(param_1->gCNavigationMap_data).offset_0x38);
+  }
+  iVar32 = 0;
+  if (0 < (int)(param_1->gCNavigationMap_data).offset_0x44) {
+    do {
+      gCNavPath_PS::GameReset
+                (*(gCNavPath_PS **)((int)(param_1->gCNavigationMap_data).offset_0x40 + iVar32 * 4));
+      iVar32 = iVar32 + 1;
+    } while (iVar32 < (int)(param_1->gCNavigationMap_data).offset_0x44);
+  }
+  GE_MESSAGEF_INFO(5,"gCNavigationMap::CompileStaticNavigationScene - Starting ... ");
+  thunk_FUN_2006bc50();
+  if ((param_2 == '\x01') || (bVar3 = gCNavigationMap::ReadLists(param_1), bVar3 == 0)) {
+    GE_MESSAGEF_INFO(5,"gCNavigationMap::CompileStaticNavigationScene - CreatePSObjects() -> Start")
+    ;
+    gCNavigationMap::CreatePSObjects(param_1);
+    GE_MESSAGEF_INFO(5,"gCNavigationMap::CompileStaticNavigationScene - CreatePSObjects() -> Done");
+    bCPropertyID::bCPropertyID(abStack_bc);
+    pvStack_a8 = (void *)0x0;
+    uStack_a4 = 0;
+    uStack_a0 = 0;
+    bCMatrix::bCMatrix(abStack_48);
+    iStack_ec = 0;
+    iStack_e8 = 0;
+    uStack_e4 = 0;
+    GE_MESSAGEF_INFO(5,"gCNavigationMap::CompileStaticNavigationScene - Test all nav zones -> Start"
+                    );
+    uStack_18c = 0;
+    if (0 < (int)(param_1->gCNavigationMap_data).offset_0x38) {
+      do {
+        iVar30 = uStack_18c;
+        iVar32 = uStack_18c * 4;
+        bVar2 = gCNavZone_PS::IsZoneIllegal
+                          (*(gCNavZone_PS **)
+                            ((int)(param_1->gCNavigationMap_data).offset_0x34 + iVar32));
+        if ((bVar2) ||
+           (*(int *)(*(int *)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x34) + 0x18) < 2
+           )) {
+          peVar4 = (eCEntity *)
+                   (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x34
+                                          ) + 0x68))();
+          pbVar5 = eCEntity::GetWorldPosition(peVar4);
+          bCVector::GetX(pbVar5);
+          uVar6 = FUN_20465320();
+          peVar4 = (eCEntity *)
+                   (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x34
+                                          ) + 0x68))();
+          pbVar5 = eCEntity::GetWorldPosition(peVar4);
+          bCVector::GetY(pbVar5);
+          pbStack_184 = (bCString *)FUN_20465320();
+          peVar4 = (eCEntity *)
+                   (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x34
+                                          ) + 0x68))();
+          pbVar5 = eCEntity::GetWorldPosition(peVar4);
+          bCVector::GetZ(pbVar5);
+          peStack_190 = (eCPropertySetProxy *)FUN_20465320();
+          bCString::bCString((bCString *)&peStack_170,"N/A");
+          peVar7 = (eCEntity *)
+                   (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x34
+                                          ) + 0x68))();
+          pgVar8 = gCWorld::GetSectorForEntity(peVar7);
+          if (pgVar8 != (gCSector *)0x0) {
+            pbVar9 = (bCString *)
+                     eCProcessibleElement::GetFileBaseName((eCProcessibleElement *)pgVar8);
+            bCString::operator=((bCString *)&peStack_170,pbVar9);
+            bCString::~bCString((bCString *)&pgStack_1a0);
+          }
+          peVar10 = (eCNode *)
+                    (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).
+                                                          offset_0x34) + 0x68))(&peStack_194);
+          pbVar11 = eCNode::GetID(peVar10);
+          bCPropertyID::GetText(pbVar11);
+          puVar33 = &uStack_188;
+          ppbVar48 = &pbStack_174;
+          pcVar45 = "; Entity-ID: ";
+          pbVar9 = (bCString *)&peStack_170;
+          ppeVar37 = &peStack_164;
+          pbVar5 = pbStack_178;
+          pbVar19 = pbStack_184;
+          pbVar12 = (bCString *)
+                    operator+((char *)&pbStack_15c,
+                              (bCString *)
+                              "\n  Illegal navigation zone -> position: X=%d, Y=%d, Z=%d; sector name: "
+                             );
+          pbVar12 = (bCString *)bCString::operator+(pbVar12,(char *)ppeVar37);
+          pbVar9 = (bCString *)bCString::operator+(pbVar12,pbVar9);
+          pcVar13 = bCString::operator_char_const_(pbVar9);
+          pbStack_16c = (bCString *)
+                        bCString::GetFormattedString
+                                  ((char *)&pbStack_178,pcVar13,pcVar45,ppbVar48,puVar33,uVar6,
+                                   pbVar5,pbVar19);
+          iVar32 = iStack_e8 + 1;
+          thunk_FUN_20063e80(iVar32,(iVar32 != 0) - 1);
+          if (iVar32 < iStack_e8) {
+            pbStack_19c = (bCString *)(iStack_ec + iVar32 * 4);
+            peVar14 = (eCPropertySetProxy *)(iStack_e8 - iVar32);
+            peStack_190 = peVar14;
+            pbVar9 = pbStack_19c;
+            for (; pbStack_184 = pbVar9, peVar14 != (eCPropertySetProxy *)0x0;
+                peVar14 = (eCPropertySetProxy *)
+                          ((int)&peVar14[-1].eCPropertySetProxy_data.offset_0x4 + 3)) {
+              bCString::~bCString(pbStack_19c);
+              pbStack_19c = pbStack_19c + 4;
+              pbVar9 = pbStack_184;
+            }
+            peStack_198 = peStack_190;
+            _memset(pbVar9,0,(int)peStack_190 * 4);
+            while (peStack_198 != (eCPropertySetProxy *)0x0) {
+              peStack_198 = (eCPropertySetProxy *)
+                            ((int)&peStack_198[-1].eCPropertySetProxy_data.offset_0x4 + 3);
+              if (pbVar9 != (bCString *)0x0) {
+                bCString::bCString(pbVar9);
+              }
+              pbVar9 = pbVar9 + 4;
+            }
+          }
+          pbVar9 = (bCString *)(iStack_ec + -4 + iVar32 * 4);
+          iStack_e8 = iVar32;
+          bCString::~bCString(pbVar9);
+          *(undefined4 *)pbVar9 = 0;
+          if (pbVar9 != (bCString *)0x0) {
+            bCString::bCString(pbVar9);
+          }
+          bCString::operator=(pbVar9,pbStack_16c);
+          bCString::~bCString((bCString *)&pbStack_178);
+          bCString::~bCString((bCString *)&peStack_180);
+          bCString::~bCString((bCString *)&pbStack_17c);
+          bCString::~bCString((bCString *)&pbStack_168);
+          bCString::~bCString((bCString *)&peStack_194);
+          bCString::~bCString((bCString *)&peStack_170);
+          iVar30 = uStack_18c;
+        }
+        uStack_18c = iVar30 + 1;
+      } while (uStack_18c < (int)(param_1->gCNavigationMap_data).offset_0x38);
+    }
+    GE_MESSAGEF_INFO(5,"gCNavigationMap::CompileStaticNavigationScene - Test all nav zones -> Done")
+    ;
+    GE_MESSAGEF_INFO(5,
+                     "gCNavigationMap::CompileStaticNavigationScene - Quad detection for all nav zones / paths -> Start"
+                    );
+    iVar32 = 0;
+    (param_1->gCNavigationMap_data).offset_0xd4 = 0x461c4000;
+    (param_1->gCNavigationMap_data).offset_0xd8 = 0x461c4000;
+    (param_1->gCNavigationMap_data).offset_0xc4 = 0x4b189680;
+    (param_1->gCNavigationMap_data).offset_0xc8 = 0xcb189680;
+    (param_1->gCNavigationMap_data).offset_0xcc = 0x4b189680;
+    (param_1->gCNavigationMap_data).offset_0xd0 = 0xcb189680;
+    if (0 < (int)(param_1->gCNavigationMap_data).offset_0x38) {
+      do {
+        pvVar51 = (param_1->gCNavigationMap_data).offset_0x34;
+        if (*(int *)((int)pvVar51 + iVar32 * 4) != 0) {
+          piVar25 = *(int **)((int)pvVar51 + iVar32 * 4);
+          pbVar5 = (bCVector *)(piVar25 + 9);
+          peVar4 = (eCEntity *)(**(code **)(*piVar25 + 0x68))(&iStack_158);
+          pbVar15 = eCEntity::GetWorldMatrix(peVar4);
+          bCMatrix::operator*(pbVar15,pbVar5);
+          uStack_148 = (double)(float)(param_1->gCNavigationMap_data).offset_0xc4;
+          iVar30 = *(int *)((int)(param_1->gCNavigationMap_data).offset_0x34 + iVar32 * 4);
+          fVar35 = bCVector::GetX((bCVector *)&iStack_158);
+          if (fVar35 - *(float *)(iVar30 + 0x20) < (float)uStack_148) {
+            iVar30 = *(int *)((int)(param_1->gCNavigationMap_data).offset_0x34 + iVar32 * 4);
+            fVar35 = bCVector::GetX((bCVector *)&iStack_158);
+            (param_1->gCNavigationMap_data).offset_0xc4 = fVar35 - *(float *)(iVar30 + 0x20);
+          }
+          iVar30 = *(int *)((int)(param_1->gCNavigationMap_data).offset_0x34 + iVar32 * 4);
+          uStack_148 = (double)(float)(param_1->gCNavigationMap_data).offset_0xc8;
+          fVar35 = bCVector::GetX((bCVector *)&iStack_158);
+          if ((float)uStack_148 < fVar35 + *(float *)(iVar30 + 0x20)) {
+            iVar30 = *(int *)((int)(param_1->gCNavigationMap_data).offset_0x34 + iVar32 * 4);
+            fVar35 = bCVector::GetX((bCVector *)&iStack_158);
+            (param_1->gCNavigationMap_data).offset_0xc8 = fVar35 + *(float *)(iVar30 + 0x20);
+          }
+          iVar30 = *(int *)((int)(param_1->gCNavigationMap_data).offset_0x34 + iVar32 * 4);
+          uStack_148 = (double)(float)(param_1->gCNavigationMap_data).offset_0xcc;
+          fVar35 = bCVector::GetZ((bCVector *)&iStack_158);
+          if (fVar35 - *(float *)(iVar30 + 0x20) < (float)uStack_148) {
+            iVar30 = *(int *)((int)(param_1->gCNavigationMap_data).offset_0x34 + iVar32 * 4);
+            fVar35 = bCVector::GetZ((bCVector *)&iStack_158);
+            (param_1->gCNavigationMap_data).offset_0xcc = fVar35 - *(float *)(iVar30 + 0x20);
+          }
+          iVar30 = *(int *)((int)(param_1->gCNavigationMap_data).offset_0x34 + iVar32 * 4);
+          uStack_148 = (double)(float)(param_1->gCNavigationMap_data).offset_0xd0;
+          fVar35 = bCVector::GetZ((bCVector *)&iStack_158);
+          if ((float)uStack_148 < fVar35 + *(float *)(iVar30 + 0x20)) {
+            iVar30 = *(int *)((int)(param_1->gCNavigationMap_data).offset_0x34 + iVar32 * 4);
+            fVar35 = bCVector::GetZ((bCVector *)&iStack_158);
+            (param_1->gCNavigationMap_data).offset_0xd0 = fVar35 + *(float *)(iVar30 + 0x20);
+          }
+          bCVector::~bCVector((bCVector *)&iStack_158);
+        }
+        iVar32 = iVar32 + 1;
+      } while (iVar32 < (int)(param_1->gCNavigationMap_data).offset_0x38);
+    }
+    iVar32 = 0;
+    if (0 < (int)(param_1->gCNavigationMap_data).offset_0x44) {
+      do {
+        if (*(int *)((int)(param_1->gCNavigationMap_data).offset_0x40 + iVar32 * 4) != 0) {
+          peStack_198 = (eCPropertySetProxy *)0x0;
+          pbStack_19c = (bCString *)0x0;
+          while( true ) {
+            pvVar51 = (param_1->gCNavigationMap_data).offset_0x40;
+            iVar30 = *(int *)((int)pvVar51 + iVar32 * 4);
+            if (*(int *)(iVar30 + 0x18) < *(int *)(iVar30 + 0x24)) {
+              iVar30 = *(int *)(iVar30 + 0x18);
+            }
+            else {
+              iVar30 = *(int *)(iVar30 + 0x24);
+            }
+            if (iVar30 <= (int)peStack_198) break;
+            piVar25 = *(int **)((int)pvVar51 + iVar32 * 4);
+            pbVar9 = pbStack_19c + piVar25[5];
+            peVar4 = (eCEntity *)(**(code **)(*piVar25 + 0x68))(&iStack_158);
+            pbVar15 = eCEntity::GetWorldMatrix(peVar4);
+            bCMatrix::operator*(pbVar15,(bCVector *)pbVar9);
+            uStack_148 = (double)(float)(param_1->gCNavigationMap_data).offset_0xc4;
+            iVar30 = (int)peStack_198 * 4;
+            pgStack_1a0 = (gCNavZone_PS *)
+                          (*(int *)(*(int *)((int)(param_1->gCNavigationMap_data).offset_0x40 +
+                                            iVar32 * 4) + 0x20) + iVar30);
+            fVar35 = bCVector::GetX((bCVector *)&iStack_158);
+            if (fVar35 - (float)pgStack_1a0->vftablePtr < (float)uStack_148) {
+              pgStack_1a0 = (gCNavZone_PS *)
+                            (*(int *)(*(int *)((int)(param_1->gCNavigationMap_data).offset_0x40 +
+                                              iVar32 * 4) + 0x20) + iVar30);
+              fVar35 = bCVector::GetX((bCVector *)&iStack_158);
+              (param_1->gCNavigationMap_data).offset_0xc4 = fVar35 - (float)pgStack_1a0->vftablePtr;
+            }
+            uStack_148 = (double)(float)(param_1->gCNavigationMap_data).offset_0xc8;
+            pgStack_1a0 = (gCNavZone_PS *)
+                          (*(int *)(*(int *)((int)(param_1->gCNavigationMap_data).offset_0x40 +
+                                            iVar32 * 4) + 0x20) + iVar30);
+            fVar35 = bCVector::GetX((bCVector *)&iStack_158);
+            if ((float)uStack_148 < fVar35 + (float)pgStack_1a0->vftablePtr) {
+              pgStack_1a0 = (gCNavZone_PS *)
+                            (*(int *)(*(int *)((int)(param_1->gCNavigationMap_data).offset_0x40 +
+                                              iVar32 * 4) + 0x20) + iVar30);
+              fVar35 = bCVector::GetX((bCVector *)&iStack_158);
+              (param_1->gCNavigationMap_data).offset_0xc8 = fVar35 + (float)pgStack_1a0->vftablePtr;
+            }
+            uStack_148 = (double)(float)(param_1->gCNavigationMap_data).offset_0xcc;
+            pgStack_1a0 = (gCNavZone_PS *)
+                          (*(int *)(*(int *)((int)(param_1->gCNavigationMap_data).offset_0x40 +
+                                            iVar32 * 4) + 0x20) + iVar30);
+            fVar35 = bCVector::GetZ((bCVector *)&iStack_158);
+            if (fVar35 - (float)pgStack_1a0->vftablePtr < (float)uStack_148) {
+              pgStack_1a0 = (gCNavZone_PS *)
+                            (*(int *)(*(int *)((int)(param_1->gCNavigationMap_data).offset_0x40 +
+                                              iVar32 * 4) + 0x20) + iVar30);
+              fVar35 = bCVector::GetZ((bCVector *)&iStack_158);
+              (param_1->gCNavigationMap_data).offset_0xcc = fVar35 - (float)pgStack_1a0->vftablePtr;
+            }
+            uStack_148 = (double)(float)(param_1->gCNavigationMap_data).offset_0xd0;
+            pgStack_1a0 = (gCNavZone_PS *)
+                          (*(int *)(*(int *)((int)(param_1->gCNavigationMap_data).offset_0x40 +
+                                            iVar32 * 4) + 0x20) + iVar30);
+            fVar35 = bCVector::GetZ((bCVector *)&iStack_158);
+            if ((float)uStack_148 < fVar35 + (float)pgStack_1a0->vftablePtr) {
+              pgStack_1a0 = (gCNavZone_PS *)
+                            (*(int *)(*(int *)((int)(param_1->gCNavigationMap_data).offset_0x40 +
+                                              iVar32 * 4) + 0x20) + iVar30);
+              fVar35 = bCVector::GetZ((bCVector *)&iStack_158);
+              (param_1->gCNavigationMap_data).offset_0xd0 = fVar35 + (float)pgStack_1a0->vftablePtr;
+            }
+            bCVector::~bCVector((bCVector *)&iStack_158);
+            peStack_198 = (eCPropertySetProxy *)((int)&peStack_198->vftablePtr + 1);
+            pbStack_19c = pbStack_19c + 0xc;
+          }
+        }
+        iVar32 = iVar32 + 1;
+      } while (iVar32 < (int)(param_1->gCNavigationMap_data).offset_0x44);
+    }
+    iVar32 = FUN_20465320();
+    peStack_170 = (eCPropertySetProxy *)(iVar32 + 1);
+    if ((int)peStack_170 < 1) {
+      peStack_170 = (eCPropertySetProxy *)0x1;
+    }
+    peVar14 = peStack_170;
+    iVar32 = FUN_20465320();
+    pbStack_168 = (bCString *)0x1;
+    if (0 < iVar32 + 1) {
+      pbStack_168 = (bCString *)(iVar32 + 1);
+    }
+    ppvVar1 = &(param_1->gCNavigationMap_data).offset_0xb8;
+    thunk_FUN_20069a10(peVar14,(peVar14 != (eCPropertySetProxy *)0x0) - 1);
+    iVar32 = (param_1->gCNavigationMap_data).offset_0xbc;
+    if (((int)peVar14 <= iVar32) && ((int)peStack_170 < iVar32)) {
+      pgStack_1a0 = (gCNavZone_PS *)((int)peStack_170 * 0xc);
+      thunk_FUN_2006c800((void *)((int)*ppvVar1 + (int)pgStack_1a0),iVar32 - (int)peStack_170);
+      iVar32 = (param_1->gCNavigationMap_data).offset_0xbc - (int)peStack_170;
+      puVar33 = (undefined4 *)((int)*ppvVar1 + (int)pgStack_1a0);
+      _memset(puVar33,0,iVar32 * 0xc);
+      while (iVar32 != 0) {
+        iVar32 = iVar32 + -1;
+        if (puVar33 != (undefined4 *)0x0) {
+          *puVar33 = 0;
+          puVar33[1] = 0;
+          puVar33[2] = 0;
+        }
+        puVar33 = puVar33 + 3;
+      }
+    }
+    (param_1->gCNavigationMap_data).offset_0xbc = peStack_170;
+    if (0 < (int)peStack_170) {
+      pgStack_1a0 = (gCNavZone_PS *)((pbStack_168 != (bCString *)0x0) - 1);
+      peStack_198 = (eCPropertySetProxy *)0x0;
+      peStack_194 = peStack_170;
+      do {
+        pbVar19 = pbStack_168;
+        pbVar12 = (bCString *)((int)(param_1->gCNavigationMap_data).offset_0xb8 + (int)peStack_198);
+        pbStack_19c = pbVar12;
+        thunk_FUN_20069b20(pbStack_168,pgStack_1a0);
+        pbVar9 = pbStack_19c;
+        iVar32 = *(int *)(pbVar12 + 4);
+        if (((int)pbVar19 <= iVar32) && ((int)pbVar19 < iVar32)) {
+          peStack_190 = (eCPropertySetProxy *)((int)pbVar19 * 0xc);
+          thunk_FUN_2006b960((int)&peStack_190->vftablePtr + *(int *)pbStack_19c,
+                             iVar32 - (int)pbVar19);
+          iVar32 = *(int *)(pbVar9 + 4) - (int)pbVar19;
+          puVar33 = (undefined4 *)((int)&peStack_190->vftablePtr + *(int *)pbStack_19c);
+          _memset(puVar33,0,iVar32 * 0xc);
+          while (iVar32 != 0) {
+            iVar32 = iVar32 + -1;
+            if (puVar33 != (undefined4 *)0x0) {
+              *puVar33 = 0;
+              puVar33[1] = 0;
+              puVar33[2] = 0;
+            }
+            puVar33 = puVar33 + 3;
+          }
+        }
+        peStack_198 = (eCPropertySetProxy *)((int)peStack_198 + 0xc);
+        peStack_194 = (eCPropertySetProxy *)
+                      ((int)&peStack_194[-1].eCPropertySetProxy_data.offset_0x4 + 3);
+        *(bCString **)(pbStack_19c + 4) = pbStack_168;
+      } while (peStack_194 != (eCPropertySetProxy *)0x0);
+    }
+    eCPropertySetProxy::eCPropertySetProxy(&eStack_6c);
+    uStack_18c = 0;
+    if (0 < (int)(param_1->gCNavigationMap_data).offset_0x38) {
+      do {
+        iVar32 = uStack_18c;
+        eCPropertySetProxy::SetPropertySetComfort
+                  (&eStack_6c,
+                   *(eCEntityPropertySet **)
+                    ((int)(param_1->gCNavigationMap_data).offset_0x34 + uStack_18c * 4));
+        piVar25 = *(int **)((int)(param_1->gCNavigationMap_data).offset_0x34 + iVar32 * 4);
+        pbVar5 = (bCVector *)(piVar25 + 9);
+        peVar4 = (eCEntity *)(**(code **)(*piVar25 + 0x68))(&iStack_120);
+        pbVar15 = eCEntity::GetWorldMatrix(peVar4);
+        bCMatrix::operator*(pbVar15,pbVar5);
+        bCVector::GetX((bCVector *)&iStack_120);
+        pgStack_1a0 = (gCNavZone_PS *)FUN_20465320();
+        bCVector::GetX((bCVector *)&iStack_120);
+        peStack_190 = (eCPropertySetProxy *)FUN_20465320();
+        bCVector::GetZ((bCVector *)&iStack_120);
+        pbStack_184 = (bCString *)FUN_20465320();
+        bCVector::GetZ((bCVector *)&iStack_120);
+        pbStack_16c = (bCString *)FUN_20465320();
+        peStack_194 = (eCPropertySetProxy *)(((int)pgStack_1a0 < 0) - 1 & (uint)pgStack_1a0);
+        peStack_190 = (eCPropertySetProxy *)((int)&peStack_190->vftablePtr + 1);
+        pbStack_178 = (bCVector *)((int)peStack_194 * 0xc);
+        pbVar9 = pbStack_168;
+        while( true ) {
+          peVar14 = peStack_190;
+          if ((int)peStack_170 < (int)peStack_190) {
+            peVar14 = peStack_170;
+          }
+          if ((int)peVar14 <= (int)peStack_194) break;
+          peStack_180 = (eCPropertySetProxy *)(((int)pbStack_184 < 0) - 1 & (uint)pbStack_184);
+          pbStack_17c = (bCString *)((int)peStack_180 * 0xc);
+          while( true ) {
+            pbVar19 = pbStack_16c + 1;
+            if ((int)pbVar9 < (int)(pbStack_16c + 1)) {
+              pbVar19 = pbVar9;
+            }
+            if ((int)pbVar19 <= (int)peStack_180) break;
+            pbVar9 = pbStack_17c +
+                     *(int *)(pbStack_178 + (int)(param_1->gCNavigationMap_data).offset_0xb8);
+            iVar32 = *(int *)(pbVar9 + 4) + 1;
+            thunk_FUN_2005f100(iVar32,(iVar32 != 0) - 1);
+            if (iVar32 < *(int *)(pbVar9 + 4)) {
+              pgStack_1a0 = (gCNavZone_PS *)(iVar32 * 0x24);
+              peStack_198 = (eCPropertySetProxy *)(*(int *)(pbVar9 + 4) - iVar32);
+              pbStack_19c = (bCString *)((int)&pgStack_1a0->vftablePtr + *(int *)pbVar9);
+              while (peStack_198 != (eCPropertySetProxy *)0x0) {
+                peStack_198 = (eCPropertySetProxy *)((int)peStack_198 + -1);
+                (**(code **)(*(int *)pbStack_19c + 0x1c))(0);
+                pbStack_19c = pbStack_19c + 0x24;
+              }
+              peStack_198 = (eCPropertySetProxy *)((int)&pgStack_1a0->vftablePtr + *(int *)pbVar9);
+              pbStack_19c = (bCString *)(*(int *)(pbVar9 + 4) - iVar32);
+              _memset(peStack_198,0,(int)pbStack_19c * 0x24);
+              while (pbStack_19c != (bCString *)0x0) {
+                pbStack_19c = pbStack_19c + -1;
+                if (peStack_198 != (eCPropertySetProxy *)0x0) {
+                  eCPropertySetProxy::eCPropertySetProxy(peStack_198);
+                    /* inlined constructor: eCPropertySetProxy::eCPropertySetProxy */
+                  peStack_198->vftablePtr = &eCPropertySetProxy::vftable;
+                }
+                peStack_198 = peStack_198 + 1;
+              }
+            }
+            *(int *)(pbVar9 + 4) = iVar32;
+            peVar14 = (eCPropertySetProxy *)(*(int *)pbVar9 + -0x24 + iVar32 * 0x24);
+            (**(code **)(*(int *)(*(int *)pbVar9 + -0x24 + iVar32 * 0x24) + 0x1c))(0);
+            peVar14->vftablePtr = (eCPropertySetProxy_vftable *)0x0;
+            (peVar14->eCEntityProxy_data).offset_0x0 = 0;
+            (peVar14->eCEntityProxy_data).offset_0x4 = 0;
+            (peVar14->eCEntityProxy_data).offset_0x8 = 0;
+            (peVar14->eCEntityProxy_data).offset_0xc = 0;
+            (peVar14->eCEntityProxy_data).offset_0x10 = 0;
+            (peVar14->eCEntityProxy_data).offset_0x14 = 0;
+            (peVar14->eCPropertySetProxy_data).offset_0x0 = 0;
+            (peVar14->eCPropertySetProxy_data).offset_0x4 = 0;
+            eCPropertySetProxy::eCPropertySetProxy(peVar14);
+            peVar14->vftablePtr = &eCPropertySetProxy::vftable;
+            eCPropertySetProxy::operator=(peVar14,(eCPropertySetProxy *)&eStack_6c);
+            peStack_180 = (eCPropertySetProxy *)((int)&peStack_180->vftablePtr + 1);
+            pbStack_17c = pbStack_17c + 0xc;
+            pbVar9 = pbStack_168;
+            iVar32 = uStack_18c;
+          }
+          peStack_194 = (eCPropertySetProxy *)((int)&peStack_194->vftablePtr + 1);
+          pbStack_178 = pbStack_178 + 0xc;
+        }
+        bCVector::~bCVector((bCVector *)&iStack_120);
+        uStack_18c = iVar32 + 1;
+      } while (uStack_18c < (int)(param_1->gCNavigationMap_data).offset_0x38);
+    }
+    uStack_18c = 0;
+    pbVar9 = pbStack_168;
+    if (0 < (int)(param_1->gCNavigationMap_data).offset_0x44) {
+      do {
+        eCPropertySetProxy::SetPropertySetComfort
+                  (&eStack_6c,
+                   *(eCEntityPropertySet **)
+                    ((int)(param_1->gCNavigationMap_data).offset_0x40 + uStack_18c * 4));
+        peStack_180 = (eCPropertySetProxy *)((int)&peStack_170->vftablePtr + 1);
+        pbStack_16c = pbVar9 + 1;
+        pbStack_17c = (bCString *)0xffffffff;
+        pbStack_184 = (bCString *)0xffffffff;
+        pbStack_19c = (bCString *)0x0;
+        pbStack_178 = (bCVector *)0x0;
+        while( true ) {
+          piVar25 = (int *)((int)(param_1->gCNavigationMap_data).offset_0x40 + uStack_18c * 4);
+          iVar32 = *piVar25;
+          if (*(int *)(iVar32 + 0x18) < *(int *)(iVar32 + 0x24)) {
+            iVar32 = *(int *)(iVar32 + 0x18);
+          }
+          else {
+            iVar32 = *(int *)(iVar32 + 0x24);
+          }
+          if (iVar32 <= (int)pbStack_19c) break;
+          piVar25 = (int *)*piVar25;
+          pbVar5 = pbStack_178 + piVar25[5];
+          peVar4 = (eCEntity *)(**(code **)(*piVar25 + 0x68))(&iStack_158);
+          pbVar15 = eCEntity::GetWorldMatrix(peVar4);
+          bCMatrix::operator*(pbVar15,pbVar5);
+          iVar32 = (int)pbStack_19c * 4;
+          bCVector::GetX((bCVector *)&iStack_158);
+          iVar16 = FUN_20465320();
+          iVar30 = uStack_18c;
+          if (iVar16 <= (int)peStack_180) {
+            pgStack_1a0 = (gCNavZone_PS *)
+                          (*(int *)(*(int *)((int)(param_1->gCNavigationMap_data).offset_0x40 +
+                                            uStack_18c * 4) + 0x20) + iVar32);
+            bCVector::GetX((bCVector *)&iStack_158);
+            peStack_180 = (eCPropertySetProxy *)FUN_20465320();
+          }
+          pgStack_1a0 = (gCNavZone_PS *)
+                        (*(int *)(*(int *)((int)(param_1->gCNavigationMap_data).offset_0x40 +
+                                          iVar30 * 4) + 0x20) + iVar32);
+          bCVector::GetX((bCVector *)&iStack_158);
+          iVar16 = FUN_20465320();
+          if ((int)pbStack_17c <= iVar16) {
+            pgStack_1a0 = (gCNavZone_PS *)
+                          (*(int *)(*(int *)((int)(param_1->gCNavigationMap_data).offset_0x40 +
+                                            iVar30 * 4) + 0x20) + iVar32);
+            bCVector::GetX((bCVector *)&iStack_158);
+            pbStack_17c = (bCString *)FUN_20465320();
+          }
+          pgStack_1a0 = (gCNavZone_PS *)
+                        (*(int *)(*(int *)((int)(param_1->gCNavigationMap_data).offset_0x40 +
+                                          iVar30 * 4) + 0x20) + iVar32);
+          bCVector::GetZ((bCVector *)&iStack_158);
+          iVar16 = FUN_20465320();
+          if (iVar16 <= (int)pbStack_16c) {
+            pgStack_1a0 = (gCNavZone_PS *)
+                          (*(int *)(*(int *)((int)(param_1->gCNavigationMap_data).offset_0x40 +
+                                            iVar30 * 4) + 0x20) + iVar32);
+            bCVector::GetZ((bCVector *)&iStack_158);
+            pbStack_16c = (bCString *)FUN_20465320();
+          }
+          pgStack_1a0 = (gCNavZone_PS *)
+                        (*(int *)(*(int *)((int)(param_1->gCNavigationMap_data).offset_0x40 +
+                                          iVar30 * 4) + 0x20) + iVar32);
+          bCVector::GetZ((bCVector *)&iStack_158);
+          iVar32 = FUN_20465320();
+          if ((int)pbStack_184 <= iVar32) {
+            bCVector::GetZ((bCVector *)&iStack_158);
+            pbStack_184 = (bCString *)FUN_20465320();
+          }
+          bCVector::~bCVector((bCVector *)&iStack_158);
+          pbStack_19c = pbStack_19c + 1;
+          pbStack_178 = pbStack_178 + 0xc;
+          pbVar9 = pbStack_168;
+        }
+        pgStack_1a0 = (gCNavZone_PS *)(((int)peStack_180 < 0) - 1 & (uint)peStack_180);
+        peStack_13c = (eCPropertySetProxy *)(pbStack_17c + 1);
+        peStack_194 = (eCPropertySetProxy *)((int)pgStack_1a0 * 0xc);
+        while( true ) {
+          peVar14 = peStack_13c;
+          if ((int)peStack_170 < (int)peStack_13c) {
+            peVar14 = peStack_170;
+          }
+          if ((int)peVar14 <= (int)pgStack_1a0) break;
+          peStack_190 = (eCPropertySetProxy *)(((int)pbStack_16c < 0) - 1 & (uint)pbStack_16c);
+          pbStack_17c = (bCString *)((int)peStack_190 * 0xc);
+          while( true ) {
+            pbVar19 = pbStack_184 + 1;
+            if ((int)pbVar9 < (int)(pbStack_184 + 1)) {
+              pbVar19 = pbVar9;
+            }
+            if ((int)pbVar19 <= (int)peStack_190) break;
+            pbVar9 = pbStack_17c +
+                     *(int *)((int)(param_1->gCNavigationMap_data).offset_0xb8 + (int)peStack_194);
+            iVar32 = *(int *)(pbVar9 + 4) + 1;
+            thunk_FUN_2005f100(iVar32,(iVar32 != 0) - 1);
+            if (iVar32 < *(int *)(pbVar9 + 4)) {
+              peStack_198 = (eCPropertySetProxy *)(iVar32 * 0x24);
+              peStack_180 = (eCPropertySetProxy *)(*(int *)(pbVar9 + 4) - iVar32);
+              pbStack_178 = (bCVector *)(*(int *)pbVar9 + (int)peStack_198);
+              while (peStack_180 != (eCPropertySetProxy *)0x0) {
+                peStack_180 = (eCPropertySetProxy *)
+                              ((int)&peStack_180[-1].eCPropertySetProxy_data.offset_0x4 + 3);
+                (**(code **)(*(int *)pbStack_178 + 0x1c))(0);
+                pbStack_178 = pbStack_178 + 0x24;
+              }
+              peStack_198 = (eCPropertySetProxy *)(*(int *)pbVar9 + (int)peStack_198);
+              pbStack_19c = (bCString *)(*(int *)(pbVar9 + 4) - iVar32);
+              _memset(peStack_198,0,(int)pbStack_19c * 0x24);
+              while (pbStack_19c != (bCString *)0x0) {
+                pbStack_19c = pbStack_19c + -1;
+                if (peStack_198 != (eCPropertySetProxy *)0x0) {
+                  eCPropertySetProxy::eCPropertySetProxy(peStack_198);
+                  peStack_198->vftablePtr = &eCPropertySetProxy::vftable;
+                }
+                peStack_198 = peStack_198 + 1;
+              }
+            }
+            *(int *)(pbVar9 + 4) = iVar32;
+            peVar14 = (eCPropertySetProxy *)(*(int *)pbVar9 + -0x24 + iVar32 * 0x24);
+            (*peVar14->vftablePtr->deleting_destructor)(0);
+            peVar14->vftablePtr = (eCPropertySetProxy_vftable *)0x0;
+            (peVar14->eCEntityProxy_data).offset_0x0 = 0;
+            (peVar14->eCEntityProxy_data).offset_0x4 = 0;
+            (peVar14->eCEntityProxy_data).offset_0x8 = 0;
+            (peVar14->eCEntityProxy_data).offset_0xc = 0;
+            (peVar14->eCEntityProxy_data).offset_0x10 = 0;
+            (peVar14->eCEntityProxy_data).offset_0x14 = 0;
+            (peVar14->eCPropertySetProxy_data).offset_0x0 = 0;
+            (peVar14->eCPropertySetProxy_data).offset_0x4 = 0;
+            eCPropertySetProxy::eCPropertySetProxy(peVar14);
+            peVar14->vftablePtr = &eCPropertySetProxy::vftable;
+            eCPropertySetProxy::operator=(peVar14,(eCPropertySetProxy *)&eStack_6c);
+            peStack_190 = (eCPropertySetProxy *)((int)&peStack_190->vftablePtr + 1);
+            pbStack_17c = pbStack_17c + 0xc;
+            pbVar9 = pbStack_168;
+          }
+          pgStack_1a0 = (gCNavZone_PS *)((int)&pgStack_1a0->vftablePtr + 1);
+          peStack_194 = (eCPropertySetProxy *)&(peStack_194->eCEntityProxy_data).offset_0x8;
+        }
+        uStack_18c = uStack_18c + 1;
+      } while (uStack_18c < (int)(param_1->gCNavigationMap_data).offset_0x44);
+    }
+    GE_MESSAGEF_INFO(5,
+                     "gCNavigationMap::CompileStaticNavigationScene - Quad detection for all nav zones / paths -> Done"
+                    );
+    iStack_158 = 0;
+    iStack_154 = 0;
+    uStack_150 = 0;
+    iStack_104 = 0;
+    iStack_100 = 0;
+    uStack_fc = 0;
+    GE_MESSAGEF_INFO(5,
+                     "gCNavigationMap::CompileStaticNavigationScene - Zone detection for all nav paths -> Start"
+                    );
+    iVar32 = 0;
+    if (0 < (int)(param_1->gCNavigationMap_data).offset_0x44) {
+      do {
+        piVar25 = *(int **)((int)(param_1->gCNavigationMap_data).offset_0x40 + iVar32 * 4);
+        if (piVar25[6] < 2) {
+          bCPropertyID::Destroy((bCPropertyID *)(piVar25 + 0xc));
+          bCPropertyID::Destroy
+                    ((bCPropertyID *)
+                     (*(int *)((int)(param_1->gCNavigationMap_data).offset_0x40 + iVar32 * 4) + 0x44
+                     ));
+          peVar4 = (eCEntity *)
+                   (**(code **)(**(int **)((int)(param_1->gCNavigationMap_data).offset_0x40 +
+                                          iVar32 * 4) + 0x68))();
+          pbVar5 = eCEntity::GetWorldPosition(peVar4);
+          bCVector::GetX(pbVar5);
+          peStack_190 = (eCPropertySetProxy *)FUN_20465320();
+          peVar4 = (eCEntity *)
+                   (**(code **)(**(int **)((int)(param_1->gCNavigationMap_data).offset_0x40 +
+                                          iVar32 * 4) + 0x68))();
+          pbVar5 = eCEntity::GetWorldPosition(peVar4);
+          bCVector::GetY(pbVar5);
+          peStack_194 = (eCPropertySetProxy *)FUN_20465320();
+          peVar4 = (eCEntity *)
+                   (**(code **)(**(int **)((int)(param_1->gCNavigationMap_data).offset_0x40 +
+                                          iVar32 * 4) + 0x68))();
+          pbVar5 = eCEntity::GetWorldPosition(peVar4);
+          bCVector::GetZ(pbVar5);
+          uVar6 = FUN_20465320();
+          bCString::bCString((bCString *)&pbStack_16c,"N/A");
+          peVar7 = (eCEntity *)
+                   (**(code **)(**(int **)((int)(param_1->gCNavigationMap_data).offset_0x40 +
+                                          iVar32 * 4) + 0x68))();
+          pgVar8 = gCWorld::GetSectorForEntity(peVar7);
+          if (pgVar8 != (gCSector *)0x0) {
+            pbVar9 = (bCString *)
+                     eCProcessibleElement::GetFileBaseName((eCProcessibleElement *)pgVar8);
+            bCString::operator=((bCString *)&pbStack_16c,pbVar9);
+            bCString::~bCString(abStack_130);
+          }
+          peVar10 = (eCNode *)
+                    (**(code **)(**(int **)((int)(param_1->gCNavigationMap_data).offset_0x40 +
+                                           iVar32 * 4) + 0x68))(&pbStack_178);
+          pbVar11 = eCNode::GetID(peVar10);
+          bCPropertyID::GetText(pbVar11);
+          ppbVar36 = &pbStack_16c;
+          piVar25 = &iStack_154;
+          pcVar45 = "; Entity-ID: ";
+          pbVar9 = (bCString *)&iStack_158;
+          ppbVar39 = &pbStack_160;
+          pbVar19 = pbStack_184;
+          uVar52 = uStack_188;
+          pbVar12 = (bCString *)
+                    operator+((char *)&uStack_150,
+                              (bCString *)
+                              "\n  Illegal navigation path -> position: X=%d, Y=%d, Z=%d; sector name: "
+                             );
+          pbVar12 = (bCString *)bCString::operator+(pbVar12,(char *)ppbVar39);
+          pbVar9 = (bCString *)bCString::operator+(pbVar12,pbVar9);
+          pcVar13 = bCString::operator_char_const_(pbVar9);
+          pbStack_17c = (bCString *)
+                        bCString::GetFormattedString
+                                  ((char *)&uStack_140,pcVar13,pcVar45,piVar25,ppbVar36,pbVar19,
+                                   uVar52,uVar6);
+          iVar30 = iStack_100 + 1;
+          thunk_FUN_20063e80(iVar30,(iVar30 != 0) - 1);
+          if (iVar30 < iStack_100) {
+            peStack_190 = (eCPropertySetProxy *)(iStack_100 - iVar30);
+            peStack_194 = (eCPropertySetProxy *)(iStack_104 + iVar30 * 4);
+            peStack_180 = peStack_190;
+            while (peStack_190 != (eCPropertySetProxy *)0x0) {
+              peStack_190 = (eCPropertySetProxy *)
+                            ((int)&peStack_190[-1].eCPropertySetProxy_data.offset_0x4 + 3);
+              bCString::~bCString((bCString *)peStack_194);
+              peStack_194 = (eCPropertySetProxy *)&peStack_194->eCEntityProxy_data;
+            }
+            pbStack_19c = (bCString *)(iStack_104 + iVar30 * 4);
+            peStack_198 = peStack_180;
+            _memset(pbStack_19c,0,(int)peStack_180 * 4);
+            while (peStack_198 != (eCPropertySetProxy *)0x0) {
+              peStack_198 = (eCPropertySetProxy *)
+                            ((int)&peStack_198[-1].eCPropertySetProxy_data.offset_0x4 + 3);
+              if (pbStack_19c != (bCString *)0x0) {
+                bCString::bCString(pbStack_19c);
+              }
+              pbStack_19c = pbStack_19c + 4;
+            }
+          }
+          pbVar9 = (bCString *)(iStack_104 + -4 + iVar30 * 4);
+          iStack_100 = iVar30;
+          bCString::~bCString(pbVar9);
+          *(undefined4 *)pbVar9 = 0;
+          if (pbVar9 != (bCString *)0x0) {
+            bCString::bCString(pbVar9);
+          }
+          bCString::operator=(pbVar9,pbStack_17c);
+          bCString::~bCString((bCString *)&uStack_140);
+          bCString::~bCString((bCString *)&pbStack_160);
+          bCString::~bCString((bCString *)&peStack_164);
+          bCString::~bCString((bCString *)&pbStack_15c);
+          bCString::~bCString((bCString *)&pbStack_178);
+          pbVar9 = (bCString *)&pbStack_16c;
+LAB_202d9ce1:
+          bCString::~bCString(pbVar9);
+        }
+        else {
+          peVar4 = (eCEntity *)(**(code **)(*piVar25 + 0x68))();
+          pbVar15 = eCEntity::GetWorldMatrix(peVar4);
+          bCMatrix::operator=(abStack_40,pbVar15);
+          pbVar11 = *(bCPropertyID **)
+                     (*(int *)((int)(param_1->gCNavigationMap_data).offset_0x40 + iVar32 * 4) + 0x14
+                     );
+          fVar35 = 0.0;
+          bVar2 = true;
+          cVar46 = (char)&peStack_180 + '\x03';
+          pbVar41 = abStack_b4;
+          pbVar5 = (bCVector *)bCMatrix::operator*(abStack_40,(bCVector *)&uStack_d8);
+          gCNavigationMap::GetZone(param_1,pbVar5,pbVar11,pbVar41,(bool)cVar46,bVar2,fVar35);
+          bCVector::~bCVector((bCVector *)&uStack_dc);
+          bCPropertyID::operator=
+                    ((bCPropertyID *)
+                     (*(int *)((int)(param_1->gCNavigationMap_data).offset_0x40 + iVar32 * 4) + 0x30
+                     ),abStack_b8);
+          iVar30 = *(int *)((int)(param_1->gCNavigationMap_data).offset_0x40 + iVar32 * 4);
+          fVar35 = 0.0;
+          pbVar11 = (bCPropertyID *)(*(int *)(iVar30 + 0x14) + -0xc + *(int *)(iVar30 + 0x18) * 0xc)
+          ;
+          bVar2 = true;
+          cVar46 = (char)&pbStack_184 + '\x03';
+          pbVar18 = abStack_b8;
+          pbVar5 = (bCVector *)bCMatrix::operator*(abStack_44,(bCVector *)&uStack_d0);
+          gCNavigationMap::GetZone(param_1,pbVar5,pbVar11,(bool *)pbVar18,(bool)cVar46,bVar2,fVar35)
+          ;
+          bCVector::~bCVector((bCVector *)&uStack_d4);
+          bCPropertyID::operator=
+                    ((bCPropertyID *)
+                     (*(int *)((int)(param_1->gCNavigationMap_data).offset_0x40 + iVar32 * 4) + 0x44
+                     ),abStack_bc);
+          bVar2 = bCPropertyID::IsValid
+                            ((bCPropertyID *)
+                             (*(int *)((int)(param_1->gCNavigationMap_data).offset_0x40 + iVar32 * 4
+                                      ) + 0x30));
+          if ((!bVar2) ||
+             (bVar2 = bCPropertyID::IsValid
+                                ((bCPropertyID *)
+                                 (*(int *)((int)(param_1->gCNavigationMap_data).offset_0x40 +
+                                          iVar32 * 4) + 0x44)), !bVar2)) {
+            peVar4 = (eCEntity *)
+                     (**(code **)(**(int **)((int)(param_1->gCNavigationMap_data).offset_0x40 +
+                                            iVar32 * 4) + 0x68))();
+            pbVar5 = eCEntity::GetWorldPosition(peVar4);
+            bCVector::GetX(pbVar5);
+            peStack_190 = (eCPropertySetProxy *)FUN_20465320();
+            peVar4 = (eCEntity *)
+                     (**(code **)(**(int **)((int)(param_1->gCNavigationMap_data).offset_0x40 +
+                                            iVar32 * 4) + 0x68))();
+            pbVar5 = eCEntity::GetWorldPosition(peVar4);
+            bCVector::GetY(pbVar5);
+            peStack_194 = (eCPropertySetProxy *)FUN_20465320();
+            peVar4 = (eCEntity *)
+                     (**(code **)(**(int **)((int)(param_1->gCNavigationMap_data).offset_0x40 +
+                                            iVar32 * 4) + 0x68))();
+            pbVar5 = eCEntity::GetWorldPosition(peVar4);
+            bCVector::GetZ(pbVar5);
+            uVar6 = FUN_20465320();
+            bCString::bCString((bCString *)&pbStack_184,"N/A");
+            peVar7 = (eCEntity *)
+                     (**(code **)(**(int **)((int)(param_1->gCNavigationMap_data).offset_0x40 +
+                                            iVar32 * 4) + 0x68))();
+            pgVar8 = gCWorld::GetSectorForEntity(peVar7);
+            if (pgVar8 != (gCSector *)0x0) {
+              pbVar9 = (bCString *)
+                       eCProcessibleElement::GetFileBaseName((eCProcessibleElement *)pgVar8);
+              bCString::operator=((bCString *)&pbStack_184,pbVar9);
+              bCString::~bCString((bCString *)&peStack_13c);
+            }
+            peVar10 = (eCNode *)
+                      (**(code **)(**(int **)((int)(param_1->gCNavigationMap_data).offset_0x40 +
+                                             iVar32 * 4) + 0x68))(&pgStack_1a0);
+            pbVar11 = eCNode::GetID(peVar10);
+            bCPropertyID::GetText(pbVar11);
+            ppeVar37 = &peStack_194;
+            ppbVar36 = &pbStack_15c;
+            pcVar45 = "; Entity-ID: ";
+            pbVar9 = (bCString *)&peStack_180;
+            ppbVar38 = &pbStack_178;
+            pbVar19 = pbStack_184;
+            uVar52 = uStack_188;
+            pbVar12 = (bCString *)
+                      operator+((char *)&iStack_128,
+                                (bCString *)
+                                "\n  Critical navigation path -> position: X=%d, Y=%d, Z=%d; sector name: "
+                               );
+            pbVar12 = (bCString *)bCString::operator+(pbVar12,(char *)ppbVar38);
+            pbVar9 = (bCString *)bCString::operator+(pbVar12,pbVar9);
+            pcVar13 = bCString::operator_char_const_(pbVar9);
+            pbStack_17c = (bCString *)
+                          bCString::GetFormattedString
+                                    ((char *)&peStack_170,pcVar13,pcVar45,ppbVar36,ppeVar37,pbVar19,
+                                     uVar52,uVar6);
+            iVar30 = iStack_154 + 1;
+            thunk_FUN_20063e80(iVar30,(iVar30 != 0) - 1);
+            if (iVar30 < iStack_154) {
+              peStack_190 = (eCPropertySetProxy *)(iStack_154 - iVar30);
+              peStack_194 = (eCPropertySetProxy *)(iStack_158 + iVar30 * 4);
+              peStack_180 = peStack_190;
+              while (peStack_190 != (eCPropertySetProxy *)0x0) {
+                peStack_190 = (eCPropertySetProxy *)
+                              ((int)&peStack_190[-1].eCPropertySetProxy_data.offset_0x4 + 3);
+                bCString::~bCString((bCString *)peStack_194);
+                peStack_194 = (eCPropertySetProxy *)&peStack_194->eCEntityProxy_data;
+              }
+              pbStack_19c = (bCString *)(iStack_158 + iVar30 * 4);
+              peStack_198 = peStack_180;
+              _memset(pbStack_19c,0,(int)peStack_180 * 4);
+              while (peStack_198 != (eCPropertySetProxy *)0x0) {
+                peStack_198 = (eCPropertySetProxy *)
+                              ((int)&peStack_198[-1].eCPropertySetProxy_data.offset_0x4 + 3);
+                if (pbStack_19c != (bCString *)0x0) {
+                  bCString::bCString(pbStack_19c);
+                }
+                pbStack_19c = pbStack_19c + 4;
+              }
+            }
+            pbVar9 = (bCString *)(iStack_158 + -4 + iVar30 * 4);
+            iStack_154 = iVar30;
+            bCString::~bCString(pbVar9);
+            *(undefined4 *)pbVar9 = 0;
+            if (pbVar9 != (bCString *)0x0) {
+              bCString::bCString(pbVar9);
+            }
+            bCString::operator=(pbVar9,pbStack_17c);
+            bCString::~bCString((bCString *)&peStack_170);
+            bCString::~bCString((bCString *)&pbStack_168);
+            bCString::~bCString((bCString *)&uStack_18c);
+            bCString::~bCString(abStack_134);
+            bCString::~bCString((bCString *)&pgStack_1a0);
+            pbVar9 = (bCString *)&pbStack_184;
+            goto LAB_202d9ce1;
+          }
+        }
+        iVar32 = iVar32 + 1;
+      } while (iVar32 < (int)(param_1->gCNavigationMap_data).offset_0x44);
+    }
+    pcVar34 = GE_MESSAGEF_INFO_exref;
+    GE_MESSAGEF_INFO(5,
+                     "gCNavigationMap::CompileStaticNavigationScene - Zone detection for all nav paths -> Done"
+                    );
+    iStack_110 = 0;
+    iStack_10c = 0;
+    uStack_108 = 0;
+    iStack_f8 = 0;
+    iStack_f4 = 0;
+    uStack_f0 = 0;
+    GE_MESSAGEF_INFO(5,
+                     "gCNavigationMap::CompileStaticNavigationScene - Zone detection for all neg zones -> Start"
+                    );
+    uStack_18c = 0;
+    pcVar31 = GetWorldPosition_exref;
+    if (0 < (int)(param_1->gCNavigationMap_data).offset_0x50) {
+      do {
+        iVar32 = uStack_18c * 4;
+        piVar25 = *(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x4c);
+        if (piVar25[6] < 2) {
+          bCPropertyID::Destroy((bCPropertyID *)(piVar25 + 0xd));
+          pgVar17 = (gCNegZone_PSObj *)
+                    gCNegZone_PS::GetPSObject
+                              (*(gCNegZone_PS **)
+                                ((int)(param_1->gCNavigationMap_data).offset_0x4c + iVar32));
+          pbVar11 = gCNegZone_PSObj::AccessNavZoneEntityID(pgVar17);
+          bCPropertyID::Destroy(pbVar11);
+        }
+        else {
+          fVar35 = (float)piVar25[8];
+          uVar47 = 0;
+          uVar44 = 1;
+          pbVar41 = (bool *)((int)&uStack_188 + 3);
+          pbVar11 = abStack_bc;
+          (**(code **)(*piVar25 + 0x68))();
+          pbVar5 = (bCVector *)(*pcVar31)();
+          gCNavigationMap::GetZone(param_1,pbVar5,pbVar11,pbVar41,(bool)uVar44,(bool)uVar47,fVar35);
+          bCPropertyID::operator=
+                    ((bCPropertyID *)
+                     (*(int *)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x4c) + 0x34),
+                     abStack_bc);
+          pbVar11 = abStack_bc;
+          pgVar17 = (gCNegZone_PSObj *)
+                    gCNegZone_PS::GetPSObject
+                              (*(gCNegZone_PS **)
+                                ((int)(param_1->gCNavigationMap_data).offset_0x4c + iVar32));
+          pbVar18 = gCNegZone_PSObj::AccessNavZoneEntityID(pgVar17);
+          bCPropertyID::operator=(pbVar18,pbVar11);
+        }
+        bVar2 = gCNegZone_PS::IsZoneIllegal
+                          (*(gCNegZone_PS **)
+                            ((int)(param_1->gCNavigationMap_data).offset_0x4c + iVar32));
+        if ((bVar2) ||
+           (*(int *)(*(int *)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x4c) + 0x18) < 2
+           )) {
+          (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x4c) + 0x68)
+          )();
+          pbVar5 = (bCVector *)(*pcVar31)();
+          bCVector::GetX(pbVar5);
+          pbStack_160 = (bCString *)FUN_20465320();
+          (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x4c) + 0x68)
+          )();
+          pbVar5 = (bCVector *)(*pcVar31)();
+          bCVector::GetY(pbVar5);
+          peStack_164 = (eCPropertySetProxy *)FUN_20465320();
+          (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x4c) + 0x68)
+          )();
+          pbVar5 = (bCVector *)(*pcVar31)();
+          bCVector::GetZ(pbVar5);
+          uVar6 = FUN_20465320();
+          bCString::bCString((bCString *)&pbStack_184,"N/A");
+          peVar7 = (eCEntity *)
+                   (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x4c
+                                          ) + 0x68))();
+          pgVar8 = gCWorld::GetSectorForEntity(peVar7);
+          if (pgVar8 != (gCSector *)0x0) {
+            pbVar9 = (bCString *)
+                     eCProcessibleElement::GetFileBaseName((eCProcessibleElement *)pgVar8);
+            bCString::operator=((bCString *)&pbStack_184,pbVar9);
+            bCString::~bCString((bCString *)&pbStack_15c);
+          }
+          peVar10 = (eCNode *)
+                    (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).
+                                                          offset_0x4c) + 0x68))(&pgStack_1a0);
+          pbVar11 = eCNode::GetID(peVar10);
+          bCPropertyID::GetText(pbVar11);
+          ppeVar37 = &peStack_194;
+          puVar33 = &uStack_124;
+          pcVar45 = "; Entity-ID: ";
+          pbVar9 = (bCString *)&iStack_128;
+          ppbVar38 = &pbStack_178;
+          iVar30 = iStack_154;
+          iVar16 = iStack_158;
+          pbVar19 = (bCString *)
+                    operator+((char *)abStack_130,
+                              (bCString *)
+                              "\n  Illegal negative zone -> position: X=%d, Y=%d, Z=%d; sector name: "
+                             );
+          pbVar19 = (bCString *)bCString::operator+(pbVar19,(char *)ppbVar38);
+          pbVar9 = (bCString *)bCString::operator+(pbVar19,pbVar9);
+          pcVar13 = bCString::operator_char_const_(pbVar9);
+          pbStack_160 = (bCString *)
+                        bCString::GetFormattedString
+                                  ((char *)&uStack_140,pcVar13,pcVar45,puVar33,ppeVar37,iVar30,
+                                   iVar16,uVar6);
+          iVar30 = iStack_f4 + 1;
+          thunk_FUN_20063e80(iVar30,(iVar30 != 0) - 1);
+          if (iVar30 < iStack_f4) {
+            peStack_190 = (eCPropertySetProxy *)(iStack_f4 - iVar30);
+            peStack_194 = (eCPropertySetProxy *)(iStack_f8 + iVar30 * 4);
+            peStack_164 = peStack_190;
+            while (peStack_190 != (eCPropertySetProxy *)0x0) {
+              peStack_190 = (eCPropertySetProxy *)
+                            ((int)&peStack_190[-1].eCPropertySetProxy_data.offset_0x4 + 3);
+              bCString::~bCString((bCString *)peStack_194);
+              peStack_194 = (eCPropertySetProxy *)&peStack_194->eCEntityProxy_data;
+            }
+            pbStack_19c = (bCString *)(iStack_f8 + iVar30 * 4);
+            peStack_198 = peStack_164;
+            _memset(pbStack_19c,0,(int)peStack_164 * 4);
+            while (peStack_198 != (eCPropertySetProxy *)0x0) {
+              peStack_198 = (eCPropertySetProxy *)
+                            ((int)&peStack_198[-1].eCPropertySetProxy_data.offset_0x4 + 3);
+              if (pbStack_19c != (bCString *)0x0) {
+                bCString::bCString(pbStack_19c);
+              }
+              pbStack_19c = pbStack_19c + 4;
+            }
+          }
+          pbVar9 = (bCString *)(iStack_f8 + -4 + iVar30 * 4);
+          iStack_f4 = iVar30;
+          bCString::~bCString(pbVar9);
+          *(undefined4 *)pbVar9 = 0;
+          if (pbVar9 != (bCString *)0x0) {
+            bCString::bCString(pbVar9);
+          }
+          bCString::operator=(pbVar9,pbStack_160);
+          bCString::~bCString((bCString *)&uStack_140);
+          bCString::~bCString(abStack_130);
+          bCString::~bCString(abStack_134);
+          bCString::~bCString((bCString *)&peStack_13c);
+          bCString::~bCString((bCString *)&pgStack_1a0);
+          bCString::~bCString((bCString *)&pbStack_184);
+          pcVar31 = GetWorldPosition_exref;
+        }
+        bVar2 = bCPropertyID::IsValid
+                          ((bCPropertyID *)
+                           (*(int *)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x4c) +
+                           0x34));
+        if (!bVar2) {
+          (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x4c) + 0x68)
+          )();
+          pbVar5 = (bCVector *)(*pcVar31)();
+          bCVector::GetX(pbVar5);
+          peStack_194 = (eCPropertySetProxy *)FUN_20465320();
+          (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x4c) + 0x68)
+          )();
+          pbVar5 = (bCVector *)(*pcVar31)();
+          bCVector::GetY(pbVar5);
+          pbStack_160 = (bCString *)FUN_20465320();
+          (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x4c) + 0x68)
+          )();
+          pbVar5 = (bCVector *)(*pcVar31)();
+          bCVector::GetZ(pbVar5);
+          peStack_164 = (eCPropertySetProxy *)FUN_20465320();
+          bCString::bCString((bCString *)&pbStack_16c,"N/A");
+          peVar7 = (eCEntity *)
+                   (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x4c
+                                          ) + 0x68))();
+          pgVar8 = gCWorld::GetSectorForEntity(peVar7);
+          if (pgVar8 != (gCSector *)0x0) {
+            pbVar9 = (bCString *)
+                     eCProcessibleElement::GetFileBaseName((eCProcessibleElement *)pgVar8);
+            bCString::operator=((bCString *)&pbStack_16c,pbVar9);
+            bCString::~bCString((bCString *)&peStack_180);
+          }
+          peVar10 = (eCNode *)
+                    (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).
+                                                          offset_0x4c) + 0x68))(&pbStack_178);
+          pbVar11 = eCNode::GetID(peVar10);
+          bCPropertyID::GetText(pbVar11);
+          ppbVar36 = &pbStack_16c;
+          ppeVar37 = &peStack_164;
+          pcVar45 = "; Entity-ID: ";
+          pbVar9 = (bCString *)&pbStack_15c;
+          ppbVar39 = &pbStack_160;
+          uVar52 = uStack_188;
+          iVar32 = iStack_154;
+          iVar30 = iStack_158;
+          pbVar19 = (bCString *)
+                    operator+((char *)&pbStack_168,
+                              (bCString *)
+                              "\n  Critical negative zone -> position: X=%d, Y=%d, Z=%d; sector name: "
+                             );
+          pbVar19 = (bCString *)bCString::operator+(pbVar19,(char *)ppbVar39);
+          pbVar9 = (bCString *)bCString::operator+(pbVar19,pbVar9);
+          pcVar13 = bCString::operator_char_const_(pbVar9);
+          pbStack_160 = (bCString *)
+                        bCString::GetFormattedString
+                                  ((char *)&pbStack_17c,pcVar13,pcVar45,ppeVar37,ppbVar36,uVar52,
+                                   iVar32,iVar30);
+          iVar32 = iStack_10c + 1;
+          thunk_FUN_20063e80(iVar32,(iVar32 != 0) - 1);
+          if (iVar32 < iStack_10c) {
+            peStack_190 = (eCPropertySetProxy *)(iStack_10c - iVar32);
+            peStack_194 = (eCPropertySetProxy *)(iStack_110 + iVar32 * 4);
+            peStack_164 = peStack_190;
+            while (peStack_190 != (eCPropertySetProxy *)0x0) {
+              peStack_190 = (eCPropertySetProxy *)
+                            ((int)&peStack_190[-1].eCPropertySetProxy_data.offset_0x4 + 3);
+              bCString::~bCString((bCString *)peStack_194);
+              peStack_194 = (eCPropertySetProxy *)&peStack_194->eCEntityProxy_data;
+            }
+            pbStack_19c = (bCString *)(iStack_110 + iVar32 * 4);
+            peStack_198 = peStack_164;
+            _memset(pbStack_19c,0,(int)peStack_164 * 4);
+            while (peStack_198 != (eCPropertySetProxy *)0x0) {
+              peStack_198 = (eCPropertySetProxy *)
+                            ((int)&peStack_198[-1].eCPropertySetProxy_data.offset_0x4 + 3);
+              if (pbStack_19c != (bCString *)0x0) {
+                bCString::bCString(pbStack_19c);
+              }
+              pbStack_19c = pbStack_19c + 4;
+            }
+          }
+          pbVar9 = (bCString *)(iStack_110 + -4 + iVar32 * 4);
+          iStack_10c = iVar32;
+          bCString::~bCString(pbVar9);
+          *(undefined4 *)pbVar9 = 0;
+          if (pbVar9 != (bCString *)0x0) {
+            bCString::bCString(pbVar9);
+          }
+          bCString::operator=(pbVar9,pbStack_160);
+          bCString::~bCString((bCString *)&pbStack_17c);
+          bCString::~bCString((bCString *)&peStack_170);
+          bCString::~bCString((bCString *)&pbStack_168);
+          bCString::~bCString((bCString *)&pbStack_174);
+          bCString::~bCString((bCString *)&pbStack_178);
+          bCString::~bCString((bCString *)&pbStack_16c);
+        }
+        uStack_18c = uStack_18c + 1;
+        pcVar34 = GE_MESSAGEF_INFO_exref;
+      } while (uStack_18c < (int)(param_1->gCNavigationMap_data).offset_0x50);
+    }
+    (*pcVar34)(5,
+               "gCNavigationMap::CompileStaticNavigationScene - Zone detection for all neg zones -> Done"
+              );
+    (*pcVar34)(5,
+               "gCNavigationMap::CompileStaticNavigationScene - Zone detection for all collision circles -> Start"
+              );
+    uStack_18c = 0;
+    if (0 < (int)(param_1->gCNavigationMap_data).offset_0x5c) {
+      do {
+        iVar30 = uStack_18c * 4;
+        this = *(gCNavZone_PS **)(iVar30 + (int)(param_1->gCNavigationMap_data).offset_0x58);
+        iVar32 = *(int *)&(this->gCNavZone_PS_data).field_0x1c;
+        if (iVar32 < 1) {
+          pbStack_174 = (bTValArray<bCPropertyID> *)&(this->gCNavZone_PS_data).field_0x38;
+          if ((pbStack_174 != (bTValArray<bCPropertyID> *)0x0) &&
+             (pvVar51 = *(void **)pbStack_174, pvVar51 != (void *)0x0)) {
+            pbVar29 = bCMemoryAdmin::GetInstance();
+            bCMemoryAdmin::Free(pbVar29,pvVar51);
+            *(undefined4 *)pbStack_174 = 0;
+            *(undefined4 *)(pbStack_174 + 4) = 0;
+            *(undefined4 *)(pbStack_174 + 8) = 0;
+          }
+          pgVar20 = (gCCollisionCircle_PSObj *)
+                    gCCollisionCircle_PS::GetPSObject
+                              (*(gCCollisionCircle_PS **)
+                                ((int)(param_1->gCNavigationMap_data).offset_0x58 + iVar30));
+          pbVar23 = gCCollisionCircle_PSObj::AccessNavZoneEntityIDs(pgVar20);
+          if ((pbVar23 != (bTValArray<bCPropertyID> *)0x0) &&
+             (pvVar51 = *(void **)pbVar23, pvVar51 != (void *)0x0)) {
+            pbVar29 = bCMemoryAdmin::GetInstance();
+            bCMemoryAdmin::Free(pbVar29,pvVar51);
+            *(undefined4 *)pbVar23 = 0;
+            *(undefined4 *)(pbVar23 + 4) = 0;
+            *(undefined4 *)(pbVar23 + 8) = 0;
+          }
+        }
+        else if (iVar32 == 1) {
+          pgStack_1a0 = this;
+          pgVar20 = (gCCollisionCircle_PSObj *)
+                    gCCollisionCircle_PS::GetPSObject((gCCollisionCircle_PS *)this);
+          pbVar21 = gCCollisionCircle_PSObj::GetRadius(pgVar20);
+          pbVar23 = (bTValArray<bCPropertyID> *)(**(float **)pbVar21 * 0.93);
+          fVar35 = *(float *)(*(int *)(iVar30 + (int)(param_1->gCNavigationMap_data).offset_0x58) +
+                             0x1c);
+          pbVar49 = (bCVector *)0x0;
+          uVar47 = 0;
+          uVar44 = SUB41(&pvStack_a8,0);
+          pbVar40 = (bTValArray<bool> *)&(pgStack_1a0->gCNavZone_PS_data).field_0x38;
+          pbVar5 = (bCVector *)&uStack_e0;
+          pbStack_174 = pbVar23;
+          peVar7 = (*pgStack_1a0->vftablePtr->GetEntity)(pgStack_1a0);
+          pbVar15 = eCEntity::GetWorldMatrix((eCEntity *)peVar7);
+          pbVar5 = (bCVector *)bCMatrix::operator*(pbVar15,pbVar5);
+          gCNavigationMap::GetZone
+                    (param_1,pbVar5,fVar35,pbVar23,pbVar40,(bool)uVar44,(bool)uVar47,pbVar49);
+          bCVector::~bCVector((bCVector *)&uStack_e4);
+          piVar25 = (int *)(iVar30 + (int)(param_1->gCNavigationMap_data).offset_0x58);
+          iVar32 = *piVar25;
+          pgVar20 = (gCCollisionCircle_PSObj *)
+                    gCCollisionCircle_PS::GetPSObject((gCCollisionCircle_PS *)*piVar25);
+          gCCollisionCircle_PSObj::AccessNavZoneEntityIDs(pgVar20);
+          thunk_FUN_20068640(iVar32 + 0x3c);
+        }
+        else {
+          pbStack_174 = (bTValArray<bCPropertyID> *)&(this->gCNavZone_PS_data).field_0x38;
+          pgVar20 = (gCCollisionCircle_PSObj *)
+                    gCCollisionCircle_PS::GetPSObject((gCCollisionCircle_PS *)this);
+          pbVar21 = gCCollisionCircle_PSObj::GetRadius(pgVar20);
+          pbStack_15c = (bCString *)(*(int *)pbVar21 + 4);
+          piVar25 = (int *)(iVar30 + (int)(param_1->gCNavigationMap_data).offset_0x58);
+          peStack_164 = (eCPropertySetProxy *)(*(int *)(*piVar25 + 0x1c) + 0xc);
+          pgVar20 = (gCCollisionCircle_PSObj *)
+                    gCCollisionCircle_PS::GetPSObject((gCCollisionCircle_PS *)*piVar25);
+          pbVar21 = gCCollisionCircle_PSObj::GetRadius(pgVar20);
+          pbStack_160 = *(bCString **)pbVar21;
+          uStack_140 = *(undefined4 *)
+                        (*(int *)(iVar30 + (int)(param_1->gCNavigationMap_data).offset_0x58) + 0x1c)
+          ;
+          pbVar23 = (bTValArray<bCPropertyID> *)(*(float *)pbStack_15c * 0.93);
+          uVar44 = SUB41(&pvStack_a8,0);
+          pbVar5 = (bCVector *)&iStack_120;
+          peVar14 = peStack_164;
+          pbVar42 = pbStack_174;
+          pbStack_174 = pbVar23;
+          peVar7 = (*this->vftablePtr->GetEntity)(this);
+          uVar47 = SUB41(pbVar42,0);
+          pbVar15 = eCEntity::GetWorldMatrix((eCEntity *)peVar7);
+          fVar22 = (float)bCMatrix::operator*(pbVar15,pbVar5);
+          pbVar49 = (bCVector *)((float)peStack_164->vftablePtr * 0.93);
+          pbVar5 = (bCVector *)&uStack_d8;
+          fVar35 = uStack_148._4_4_;
+          pbStack_178 = pbVar49;
+          peVar7 = (*this->vftablePtr->GetEntity)(this);
+          pbVar15 = eCEntity::GetWorldMatrix((eCEntity *)peVar7);
+          pbVar5 = (bCVector *)bCMatrix::operator*(pbVar15,pbVar5);
+          gCNavigationMap::GetZone
+                    (param_1,pbVar5,fVar35,pbVar49,fVar22,(bTValArray<bCPropertyID> *)peVar14,
+                     (bTValArray<bool> *)pbVar23,(bool)uVar47,(bool)uVar44);
+          bCVector::~bCVector((bCVector *)&uStack_dc);
+          bCVector::~bCVector((bCVector *)&iStack_128);
+          pvVar51 = (param_1->gCNavigationMap_data).offset_0x58;
+          iVar32 = *(int *)(iVar30 + (int)pvVar51);
+          pgVar20 = (gCCollisionCircle_PSObj *)
+                    gCCollisionCircle_PS::GetPSObject
+                              (*(gCCollisionCircle_PS **)(iVar30 + (int)pvVar51));
+          gCCollisionCircle_PSObj::AccessNavZoneEntityIDs(pgVar20);
+          thunk_FUN_20068640(iVar32 + 0x3c);
+          pcVar31 = GetWorldPosition_exref;
+        }
+        uStack_18c = uStack_18c + 1;
+        pcVar34 = GE_MESSAGEF_INFO_exref;
+      } while (uStack_18c < (int)(param_1->gCNavigationMap_data).offset_0x5c);
+    }
+    (*pcVar34)(5,
+               "gCNavigationMap::CompileStaticNavigationScene - Zone detection for all collision circles -> Done"
+              );
+    iStack_120 = 0;
+    aiStack_11c[0] = 0;
+    aiStack_11c[1] = 0;
+    iStack_c8 = 0;
+    iStack_c4 = 0;
+    uStack_c0 = 0;
+    (*pcVar34)(5,
+               "gCNavigationMap::CompileStaticNavigationScene - Zone detection for all pref paths -> Start"
+              );
+    uStack_18c = 0;
+    if (0 < (int)(param_1->gCNavigationMap_data).offset_0x68) {
+      do {
+        iVar32 = uStack_18c * 4;
+        piVar25 = *(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x64);
+        if (piVar25[6] < 1) {
+          bCPropertyID::Destroy((bCPropertyID *)(piVar25 + 0xf));
+          pgVar24 = (gCPrefPath_PSObj *)
+                    gCPrefPath_PS::GetPSObject
+                              (*(gCPrefPath_PS **)
+                                ((int)(param_1->gCNavigationMap_data).offset_0x64 + iVar32));
+          pbVar11 = gCPrefPath_PSObj::AccessNavZoneEntityID(pgVar24);
+          bCPropertyID::Destroy(pbVar11);
+          (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x64) + 0x68)
+          )();
+          pbVar5 = (bCVector *)(*pcVar31)();
+          bCVector::GetX(pbVar5);
+          peStack_164 = (eCPropertySetProxy *)FUN_20465320();
+          (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x64) + 0x68)
+          )();
+          pbVar5 = (bCVector *)(*pcVar31)();
+          bCVector::GetY(pbVar5);
+          pbStack_15c = (bCString *)FUN_20465320();
+          (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x64) + 0x68)
+          )();
+          pbVar5 = (bCVector *)(*pcVar31)();
+          bCVector::GetZ(pbVar5);
+          uVar6 = FUN_20465320();
+          bCString::bCString((bCString *)&peStack_194,"N/A");
+          peVar7 = (eCEntity *)
+                   (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x64
+                                          ) + 0x68))();
+          pgVar8 = gCWorld::GetSectorForEntity(peVar7);
+          if (pgVar8 != (gCSector *)0x0) {
+            pbVar9 = (bCString *)
+                     eCProcessibleElement::GetFileBaseName((eCProcessibleElement *)pgVar8);
+            bCString::operator=((bCString *)&peStack_194,pbVar9);
+            bCString::~bCString((bCString *)&pbStack_174);
+          }
+          peVar10 = (eCNode *)
+                    (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).
+                                                          offset_0x64) + 0x68))(&pgStack_1a0);
+          pbVar11 = eCNode::GetID(peVar10);
+          bCPropertyID::GetText(pbVar11);
+          ppeVar37 = &peStack_194;
+          pbVar9 = abStack_134;
+          pcVar45 = "; Entity-ID: ";
+          pbVar19 = (bCString *)&uStack_124;
+          pcVar13 = (char *)&uStack_188;
+          iVar30 = iStack_158;
+          uVar53 = uStack_150;
+          pbVar12 = (bCString *)
+                    operator+((char *)&iStack_128,
+                              (bCString *)
+                              "\n  Illegal preferred path -> position: X=%d, Y=%d, Z=%d; sector name: "
+                             );
+          pbVar12 = (bCString *)bCString::operator+(pbVar12,pcVar13);
+          pbVar19 = (bCString *)bCString::operator+(pbVar12,pbVar19);
+          pcVar13 = bCString::operator_char_const_(pbVar19);
+          pbStack_15c = (bCString *)
+                        bCString::GetFormattedString
+                                  ((char *)&pbStack_160,pcVar13,pcVar45,pbVar9,ppeVar37,iVar30,
+                                   uVar53,uVar6);
+          thunk_FUN_20066a30(iStack_c4 + 1);
+          pbVar9 = (bCString *)(iStack_c8 + -4 + iStack_c4 * 4);
+          bCString::~bCString(pbVar9);
+          *(undefined4 *)pbVar9 = 0;
+          if (pbVar9 != (bCString *)0x0) {
+            bCString::bCString(pbVar9);
+          }
+          bCString::operator=(pbVar9,pbStack_15c);
+          bCString::~bCString((bCString *)&pbStack_160);
+          bCString::~bCString((bCString *)&uStack_140);
+          bCString::~bCString(abStack_130);
+          bCString::~bCString(abStack_134);
+          bCString::~bCString((bCString *)&pgStack_1a0);
+          bCString::~bCString((bCString *)&peStack_194);
+          pcVar31 = GetWorldPosition_exref;
+        }
+        else {
+          fVar35 = -1.0;
+          uVar47 = 0;
+          uVar44 = 1;
+          pbVar41 = (bool *)((int)&uStack_188 + 3);
+          pbVar11 = abStack_bc;
+          (**(code **)(*piVar25 + 0x68))();
+          pbVar5 = (bCVector *)(*pcVar31)();
+          gCNavigationMap::GetZone(param_1,pbVar5,pbVar11,pbVar41,(bool)uVar44,(bool)uVar47,fVar35);
+          bCPropertyID::operator=
+                    ((bCPropertyID *)
+                     (*(int *)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x64) + 0x3c),
+                     abStack_bc);
+          pbVar11 = abStack_bc;
+          pgVar24 = (gCPrefPath_PSObj *)
+                    gCPrefPath_PS::GetPSObject
+                              (*(gCPrefPath_PS **)
+                                ((int)(param_1->gCNavigationMap_data).offset_0x64 + iVar32));
+          pbVar18 = gCPrefPath_PSObj::AccessNavZoneEntityID(pgVar24);
+          bCPropertyID::operator=(pbVar18,pbVar11);
+        }
+        bVar2 = bCPropertyID::IsValid
+                          ((bCPropertyID *)
+                           (*(int *)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x64) +
+                           0x3c));
+        if (!bVar2) {
+          (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x64) + 0x68)
+          )();
+          pbVar5 = (bCVector *)(*pcVar31)();
+          bCVector::GetX(pbVar5);
+          pbStack_16c = (bCString *)FUN_20465320();
+          (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x64) + 0x68)
+          )();
+          pbVar5 = (bCVector *)(*pcVar31)();
+          bCVector::GetY(pbVar5);
+          peStack_164 = (eCPropertySetProxy *)FUN_20465320();
+          (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x64) + 0x68)
+          )();
+          pbVar5 = (bCVector *)(*pcVar31)();
+          bCVector::GetZ(pbVar5);
+          pbStack_15c = (bCString *)FUN_20465320();
+          bCString::bCString((bCString *)&peStack_190,"N/A");
+          peVar7 = (eCEntity *)
+                   (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x64
+                                          ) + 0x68))();
+          pgVar8 = gCWorld::GetSectorForEntity(peVar7);
+          if (pgVar8 != (gCSector *)0x0) {
+            pbVar9 = (bCString *)
+                     eCProcessibleElement::GetFileBaseName((eCProcessibleElement *)pgVar8);
+            bCString::operator=((bCString *)&peStack_190,pbVar9);
+            bCString::~bCString((bCString *)&peStack_13c);
+          }
+          peVar10 = (eCNode *)
+                    (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).
+                                                          offset_0x64) + 0x68))(&pbStack_184);
+          pbVar11 = eCNode::GetID(peVar10);
+          bCPropertyID::GetText(pbVar11);
+          ppbVar38 = &pbStack_178;
+          ppbVar48 = &pbStack_174;
+          pcVar45 = "; Entity-ID: ";
+          pbVar9 = (bCString *)&peStack_170;
+          ppbVar36 = &pbStack_184;
+          pbVar19 = pbStack_160;
+          iVar32 = iStack_158;
+          uVar6 = uStack_150;
+          pbVar12 = (bCString *)
+                    operator+((char *)&peStack_190,
+                              (bCString *)
+                              "\n  Critical preferred path -> position: X=%d, Y=%d, Z=%d; sector name: "
+                             );
+          pbVar12 = (bCString *)bCString::operator+(pbVar12,(char *)ppbVar36);
+          pbVar9 = (bCString *)bCString::operator+(pbVar12,pbVar9);
+          pcVar13 = bCString::operator_char_const_(pbVar9);
+          pbStack_15c = (bCString *)
+                        bCString::GetFormattedString
+                                  ((char *)&pbStack_178,pcVar13,pcVar45,ppbVar48,ppbVar38,pbVar19,
+                                   iVar32,uVar6);
+          thunk_FUN_20066a30(aiStack_11c[0] + 1);
+          pbVar9 = (bCString *)(iStack_120 + -4 + aiStack_11c[0] * 4);
+          bCString::~bCString(pbVar9);
+          *(undefined4 *)pbVar9 = 0;
+          if (pbVar9 != (bCString *)0x0) {
+            bCString::bCString(pbVar9);
+          }
+          bCString::operator=(pbVar9,pbStack_15c);
+          bCString::~bCString((bCString *)&pbStack_178);
+          bCString::~bCString((bCString *)&peStack_180);
+          bCString::~bCString((bCString *)&pbStack_17c);
+          bCString::~bCString((bCString *)&pbStack_19c);
+          bCString::~bCString((bCString *)&pbStack_184);
+          bCString::~bCString((bCString *)&peStack_190);
+        }
+        uStack_18c = uStack_18c + 1;
+        pcVar34 = GE_MESSAGEF_INFO_exref;
+      } while (uStack_18c < (int)(param_1->gCNavigationMap_data).offset_0x68);
+    }
+    (*pcVar34)(5,
+               "gCNavigationMap::CompileStaticNavigationScene - Zone detection for all pref paths -> Done"
+              );
+    gCNavigationMap::ResetLists(param_1);
+    uStack_e0 = 0;
+    uStack_dc = 0;
+    uStack_d8 = 0;
+    uStack_d4 = 0;
+    uStack_d0 = 0;
+    uStack_cc = 0;
+    gCNavigationMap::BuildLists
+              (param_1,(bTObjArray<bCString> *)&uStack_e0,(bTObjArray<bCString> *)&uStack_d4);
+    iStack_12c = 0;
+    iStack_128 = 0;
+    uStack_124 = 0;
+    (*pcVar34)(5,
+               "gCNavigationMap::CompileStaticNavigationScene - Zone detection for all interact objects (without NPCS & items) -> Start"
+              );
+    uStack_18c = 0;
+    if (0 < (int)(param_1->gCNavigationMap_data).offset_0x98) {
+      do {
+        iVar32 = uStack_18c * 4;
+        piVar25 = (int *)(**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).
+                                                               offset_0x94) + 0x68))();
+        iVar30 = (**(code **)(*piVar25 + 0xec))(5);
+        if (iVar30 == 0) {
+          piVar25 = (int *)(**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).
+                                                                 offset_0x94) + 0x68))();
+          iVar30 = (**(code **)(*piVar25 + 0xec))(0x30);
+          if (iVar30 == 0) {
+            eCEntityProxy::eCEntityProxy((eCEntityProxy *)auStack_88);
+            bVar50 = false;
+            bVar2 = false;
+            pbVar41 = &bStack_135;
+            peVar43 = (eCEntityProxy *)auStack_88;
+            peVar7 = (eCEntity *)
+                     (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).
+                                                           offset_0x94) + 0x68))();
+            bVar3 = gCNavigationMap::GetZone(param_1,peVar7,peVar43,pbVar41,bVar2,bVar50);
+            if (bVar3 == 1) {
+              uStack_188 = uStack_188 & 0xffffff;
+              bStack_149 = false;
+              peVar7 = eCEntityProxy::GetEntity((eCEntityProxy *)auStack_88);
+              if (peVar7 == (eCEntity *)0x0) {
+LAB_202dacc9:
+                pbVar11 = (bCPropertyID *)&(param_1->gCNavigationMap_data).field_0xfc;
+                peVar27 = (eCEntityProxy *)
+                          gCInteraction_PS::GetAccessToZoneProxy
+                                    (*(gCInteraction_PS **)
+                                      ((int)(param_1->gCNavigationMap_data).offset_0x94 + iVar32));
+                eCEntityProxy::SetEntity(peVar27,pbVar11);
+                piVar25 = (int *)(**(code **)(**(int **)(iVar32 + (int)(param_1->
+                                                                       gCNavigationMap_data).
+                                                                       offset_0x94) + 0x68))();
+                iVar30 = (**(code **)(*piVar25 + 0xec))(0x1b);
+                if (iVar30 != 0) {
+                  (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x94)
+                              + 0x68))();
+                  pbVar5 = (bCVector *)(*pcVar31)();
+                  bCVector::GetX(pbVar5);
+                  pbStack_184 = (bCString *)FUN_20465320();
+                  (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x94)
+                              + 0x68))();
+                  pbVar5 = (bCVector *)(*pcVar31)();
+                  bCVector::GetY(pbVar5);
+                  peStack_190 = (eCPropertySetProxy *)FUN_20465320();
+                  (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x94)
+                              + 0x68))();
+                  pbVar5 = (bCVector *)(*pcVar31)();
+                  bCVector::GetZ(pbVar5);
+                  peStack_194 = (eCPropertySetProxy *)FUN_20465320();
+                  bCString::bCString((bCString *)&peStack_198,"N/A");
+                  peVar7 = (eCEntity *)
+                           (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).
+                                                                 offset_0x94) + 0x68))();
+                  pgVar8 = gCWorld::GetSectorForEntity(peVar7);
+                  if (pgVar8 != (gCSector *)0x0) {
+                    pbVar9 = (bCString *)
+                             eCProcessibleElement::GetFileBaseName((eCProcessibleElement *)pgVar8);
+                    bCString::operator=((bCString *)&peStack_198,pbVar9);
+                    bCString::~bCString((bCString *)&pbStack_15c);
+                  }
+                  peVar10 = (eCNode *)
+                            (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).
+                                                                  offset_0x94) + 0x68))
+                                      (&pbStack_19c);
+                  pbVar11 = eCNode::GetID(peVar10);
+                  bCPropertyID::GetText(pbVar11);
+                  iVar32 = **(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x94);
+                  if (uStack_18c._3_1_ == '\0') {
+                    peVar4 = (eCEntity *)
+                             (**(code **)(iVar32 + 0x68))
+                                       ((int)&uStack_148 + 4,"; Entity-ID: ",&peStack_164);
+                    eCEntity::GetName(peVar4);
+                    pbVar9 = (bCString *)aiStack_11c;
+                    pcVar13 = "; name: ";
+                    pbVar19 = (bCString *)&iStack_120;
+                    ppbVar36 = &pbStack_184;
+                    pbVar12 = (bCString *)
+                              operator+((char *)&iStack_128,
+                                        (bCString *)
+                                        "\n  Critical freepoint -> position: X=%d, Y=%d, Z=%d; sector name: "
+                                       );
+                    pbVar12 = (bCString *)bCString::operator+(pbVar12,(char *)ppbVar36);
+                    pbVar19 = (bCString *)bCString::operator+(pbVar12,pbVar19);
+                    pbVar19 = (bCString *)bCString::operator+(pbVar19,pcVar13);
+                    pbVar9 = (bCString *)bCString::operator+(pbVar19,pbVar9);
+                    pcVar13 = bCString::operator_char_const_(pbVar9);
+                    pbStack_174 = (bTValArray<bCPropertyID> *)
+                                  bCString::GetFormattedString((char *)&peStack_164,pcVar13);
+                    thunk_FUN_20066a30(iStack_128 + 1);
+                    pbVar9 = (bCString *)(iStack_12c + -4 + iStack_128 * 4);
+                    bCString::~bCString(pbVar9);
+                    *(undefined4 *)pbVar9 = 0;
+                    if (pbVar9 != (bCString *)0x0) {
+                      bCString::bCString(pbVar9);
+                    }
+                    bCString::operator=(pbVar9,(bCString *)pbStack_174);
+                    bCString::~bCString((bCString *)&peStack_164);
+                    bCString::~bCString((bCString *)&pbStack_160);
+                    bCString::~bCString((bCString *)&uStack_140);
+                    bCString::~bCString(abStack_130);
+                    bCString::~bCString(abStack_134);
+                    pbVar9 = (bCString *)&peStack_13c;
+                  }
+                  else if (uStack_150._3_1_ == '\0') {
+                    peVar4 = (eCEntity *)
+                             (**(code **)(iVar32 + 0x68))(&pbStack_184,"; Entity-ID: ",&pbStack_17c)
+                    ;
+                    eCEntity::GetName(peVar4);
+                    pbVar9 = (bCString *)&pbStack_168;
+                    pcVar13 = "; name: ";
+                    pbVar19 = (bCString *)&pbStack_15c;
+                    ppbVar36 = &pbStack_184;
+                    pbVar12 = (bCString *)
+                              operator+((char *)&iStack_154,
+                                        (bCString *)
+                                        "\n* Critical freepoint -> position: X=%d, Y=%d, Z=%d; sector name: "
+                                       );
+                    pbVar12 = (bCString *)bCString::operator+(pbVar12,(char *)ppbVar36);
+                    pbVar19 = (bCString *)bCString::operator+(pbVar12,pbVar19);
+                    pbVar19 = (bCString *)bCString::operator+(pbVar19,pcVar13);
+                    pbVar9 = (bCString *)bCString::operator+(pbVar19,pbVar9);
+                    pcVar13 = bCString::operator_char_const_(pbVar9);
+                    pbStack_174 = (bTValArray<bCPropertyID> *)
+                                  bCString::GetFormattedString((char *)&pbStack_16c,pcVar13);
+                    thunk_FUN_20066a30(iStack_128 + 1);
+                    pbVar9 = (bCString *)(iStack_12c + -4 + iStack_128 * 4);
+                    bCString::~bCString(pbVar9);
+                    *(undefined4 *)pbVar9 = 0;
+                    if (pbVar9 != (bCString *)0x0) {
+                      bCString::bCString(pbVar9);
+                    }
+                    bCString::operator=(pbVar9,(bCString *)pbStack_174);
+                    bCString::~bCString((bCString *)&pbStack_16c);
+                    bCString::~bCString((bCString *)&pbStack_178);
+                    bCString::~bCString((bCString *)&peStack_180);
+                    bCString::~bCString((bCString *)&pbStack_17c);
+                    bCString::~bCString((bCString *)&peStack_170);
+                    pbVar9 = (bCString *)&pbStack_168;
+                  }
+                  else {
+                    peVar4 = (eCEntity *)
+                             (**(code **)(iVar32 + 0x68))
+                                       (abStack_90,"; Entity-ID: ",&uStack_a0,&pgStack_1a0,
+                                        uStack_188,peStack_194,peStack_198);
+                    eCEntity::GetName(peVar4);
+                    pbVar9 = abStack_7c;
+                    pcVar13 = "; name: ";
+                    pbVar19 = (bCString *)(auStack_88 + 4);
+                    ppbVar36 = &pbStack_184;
+                    pbVar12 = (bCString *)
+                              operator+((char *)abStack_134,
+                                        (bCString *)
+                                        "\n**Critical freepoint -> position: X=%d, Y=%d, Z=%d; sector name: "
+                                       );
+                    pbVar12 = (bCString *)bCString::operator+(pbVar12,(char *)ppbVar36);
+                    pbVar19 = (bCString *)bCString::operator+(pbVar12,pbVar19);
+                    pbVar19 = (bCString *)bCString::operator+(pbVar19,pcVar13);
+                    pbVar9 = (bCString *)bCString::operator+(pbVar19,pbVar9);
+                    pcVar13 = bCString::operator_char_const_(pbVar9);
+                    pbStack_174 = (bTValArray<bCPropertyID> *)
+                                  bCString::GetFormattedString((char *)abStack_94,pcVar13);
+                    thunk_FUN_20066a30(iStack_128 + 1);
+                    pbVar9 = (bCString *)(iStack_12c + -4 + iStack_128 * 4);
+                    bCString::~bCString(pbVar9);
+                    *(undefined4 *)pbVar9 = 0;
+                    if (pbVar9 != (bCString *)0x0) {
+                      bCString::bCString(pbVar9);
+                    }
+                    bCString::operator=(pbVar9,(bCString *)pbStack_174);
+                    bCString::~bCString(abStack_94);
+                    bCString::~bCString(abStack_9c);
+                    bCString::~bCString(abStack_8c);
+                    bCString::~bCString(abStack_90);
+                    bCString::~bCString(abStack_98);
+                    pbVar9 = (bCString *)&uStack_148;
+                  }
+                  bCString::~bCString(pbVar9);
+                  bCString::~bCString((bCString *)&pbStack_19c);
+                  bCString::~bCString((bCString *)&peStack_198);
+                }
+              }
+              else {
+                pbStack_174 = (bTValArray<bCPropertyID> *)
+                              ((int)(param_1->gCNavigationMap_data).offset_0x94 + iVar32);
+                if (bStack_135 == true) {
+                  peVar26 = (eCEntityPropertySet *)(**(code **)(*(int *)peVar7 + 0xec))(10);
+                  peVar14 = (eCPropertySetProxy *)
+                            gCInteraction_PS::GetAccessToZoneProxy
+                                      (*(gCInteraction_PS **)pbStack_174);
+                  eCPropertySetProxy::SetPropertySetComfort(peVar14,peVar26);
+                }
+                else {
+                  peVar26 = (eCEntityPropertySet *)(**(code **)(*(int *)peVar7 + 0xec))(8);
+                  peVar14 = (eCPropertySetProxy *)
+                            gCInteraction_PS::GetAccessToZoneProxy
+                                      (*(gCInteraction_PS **)pbStack_178);
+                  eCPropertySetProxy::SetPropertySetComfort(peVar14,peVar26);
+                  piVar25 = (int *)(**(code **)(**(int **)(iVar32 + (int)(param_1->
+                                                                         gCNavigationMap_data).
+                                                                         offset_0x94) + 0x68))();
+                  iVar30 = (**(code **)(*piVar25 + 0xec))(0x1b);
+                  if (iVar30 != 0) {
+                    peVar14 = (eCPropertySetProxy *)
+                              gCInteraction_PS::GetAccessToZoneProxy
+                                        (*(gCInteraction_PS **)
+                                          ((int)(param_1->gCNavigationMap_data).offset_0x94 + iVar32
+                                          ));
+                    pgStack_1a0 = (gCNavZone_PS *)
+                                  eCPropertySetProxy::GetAccessToPropertySet(peVar14);
+                    if (pgStack_1a0 != (gCNavZone_PS *)0x0) {
+                      uVar47 = 1;
+                      pbVar41 = &bStack_149;
+                      uVar44 = 0;
+                      (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).
+                                                            offset_0x94) + 0x68))();
+                      pbVar5 = (bCVector *)(*pcVar31)();
+                      bVar2 = gCNavZone_PS::TestPointAgainstCollCircles
+                                        (pgStack_1a0,pbVar5,(bool)uVar44,pbVar41,(bool)uVar47);
+                      if (bVar2) {
+                        uVar44 = 1;
+                        (**(code **)(**(int **)(iVar32 + (int)(param_1->gCNavigationMap_data).
+                                                              offset_0x94) + 0x68))();
+                        pbVar5 = (bCVector *)(*pcVar31)();
+                        bVar2 = gCNavZone_PS::TestPointAgainstNegZones
+                                          (pgStack_1a0,pbVar5,(bool)uVar44);
+                        if (bVar2) goto LAB_202db19b;
+                      }
+                    }
+                    uStack_188 = CONCAT13(1,(undefined3)uStack_188);
+                    goto LAB_202dacc9;
+                  }
+                }
+              }
+            }
+            else {
+              pbVar11 = (bCPropertyID *)&(param_1->gCNavigationMap_data).field_0xfc;
+              peVar27 = (eCEntityProxy *)
+                        gCInteraction_PS::GetAccessToZoneProxy
+                                  (*(gCInteraction_PS **)
+                                    ((int)(param_1->gCNavigationMap_data).offset_0x94 + iVar32));
+              eCEntityProxy::SetEntity(peVar27,pbVar11);
+            }
+LAB_202db19b:
+            eCEntityProxy::~eCEntityProxy((eCEntityProxy *)auStack_88);
+          }
+        }
+        uStack_18c = uStack_18c + 1;
+        pcVar34 = GE_MESSAGEF_INFO_exref;
+      } while (uStack_18c < (int)(param_1->gCNavigationMap_data).offset_0x98);
+    }
+    (*pcVar34)(5,
+               "gCNavigationMap::CompileStaticNavigationScene - Zone detection for all interact objects (without NPCS & items) -> Done"
+              );
+    (*pcVar34)(5,
+               "gCNavigationMap::CompileStaticNavigationScene - Write all critical/illegal nav objects to file -> Start"
+              );
+    bCString::bCString(abStack_114,param_3);
+    bVar2 = bCString::IsEmpty(abStack_114);
+    if (bVar2) {
+      pgVar28 = gCWorld::GetCurrentWorld();
+      pbVar9 = (bCString *)(**(code **)(*(int *)pgVar28 + 0x7c))(&uStack_148);
+      bCString::operator=(abStack_114,pbVar9);
+      bCString::~bCString((bCString *)&uStack_148);
+    }
+    gCNavigationMap::WriteCriticalNavObjects
+              (param_1,abStack_114,(bTObjArray<bCString> *)&iStack_158,
+               (bTObjArray<bCString> *)&iStack_110,(bTObjArray<bCString> *)&iStack_120,
+               (bTObjArray<bCString> *)&iStack_12c,(bTObjArray<bCString> *)&uStack_e0,
+               (bTObjArray<bCString> *)&uStack_d4,(bTObjArray<bCString> *)&iStack_ec,
+               (bTObjArray<bCString> *)&iStack_f8,(bTObjArray<bCString> *)&iStack_104,
+               (bTObjArray<bCString> *)&iStack_c8);
+    (*pcVar34)(5,
+               "gCNavigationMap::CompileStaticNavigationScene - Write all critical/illegal nav objects to file -> Done"
+              );
+    (*pcVar34)(5,
+               "gCNavigationMap::CompileStaticNavigationScene - Net index detection for all nav zones and nav paths -> Start"
+              );
+    thunk_FUN_20065c00(0x3e5,0);
+    (param_1->gCNavigationMap_data).offset_0x4 = 0x3e5;
+    iVar32 = 0;
+    do {
+      *(undefined4 *)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x0) = 0;
+      iVar32 = iVar32 + 4;
+    } while (iVar32 < 0xf94);
+    iVar32 = 0;
+    if (0 < (int)(param_1->gCNavigationMap_data).offset_0x14) {
+      peStack_194 = (eCPropertySetProxy *)0x0;
+      do {
+        pbVar11 = eCEntityProxy::GetEntityID
+                            ((eCEntityProxy *)
+                             ((int)(param_1->gCNavigationMap_data).offset_0x10 + (int)peStack_194));
+        piVar25 = (int *)thunk_FUN_20067090(pbVar11);
+        peStack_194 = (eCPropertySetProxy *)&peStack_194[1].eCEntityProxy_data.offset_0x8;
+        *piVar25 = iVar32;
+        iVar32 = iVar32 + 1;
+      } while (iVar32 < (int)(param_1->gCNavigationMap_data).offset_0x14);
+    }
+    gCNavigationMap::DetectNetIndices(param_1,param_3);
+    (*pcVar34)(5,
+               "gCNavigationMap::CompileStaticNavigationScene - Net index detection for all nav zones and nav paths -> Done"
+              );
+    if (param_2 == '\x01') {
+      (*pcVar34)(5,
+                 "gCNavigationMap::CompileStaticNavigationScene - Write all lists to file -> Start")
+      ;
+      gCNavigationMap::WriteLists(param_1,param_3);
+      (*pcVar34)(5,"gCNavigationMap::CompileStaticNavigationScene - Write all lists to file -> Done"
+                );
+    }
+    bCString::~bCString(abStack_114);
+    thunk_FUN_20064e80();
+    thunk_FUN_20064e80();
+    thunk_FUN_20064e80();
+    thunk_FUN_20064e80();
+    thunk_FUN_20064e80();
+    thunk_FUN_20064e80();
+    thunk_FUN_20064e80();
+    thunk_FUN_20064e80();
+    thunk_FUN_20064e80();
+    eCPropertySetProxy::~eCPropertySetProxy(&eStack_6c);
+    thunk_FUN_20064e80();
+    bCMatrix::~bCMatrix(abStack_48);
+    if ((&stack0x00000000 != (undefined1 *)0xa8) && (pvStack_a8 != (void *)0x0)) {
+      pvVar51 = pvStack_a8;
+      pbVar29 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar29,pvVar51);
+    }
+    bCPropertyID::~bCPropertyID(abStack_bc);
+  }
+  iVar32 = 0;
+  if (0 < (int)(param_1->gCNavigationMap_data).offset_0x20) {
+    iVar30 = 0;
+    do {
+      eCEntityProxy::GetEntity
+                ((eCEntityProxy *)(iVar30 + 0xc + (int)(param_1->gCNavigationMap_data).offset_0x1c))
+      ;
+      eCEntityProxy::GetEntity
+                ((eCEntityProxy *)(iVar30 + 0x30 + (int)(param_1->gCNavigationMap_data).offset_0x1c)
+                );
+      iVar32 = iVar32 + 1;
+      iVar30 = iVar30 + 0x54;
+    } while (iVar32 < (int)(param_1->gCNavigationMap_data).offset_0x20);
+  }
+  if (*(int *)&(param_1->gCNavigationMap_data).field_0xc == 0) {
+    thunk_FUN_20065c00(0x3e5,0);
+    (param_1->gCNavigationMap_data).offset_0x4 = 0x3e5;
+    iVar32 = 0;
+    do {
+      *(undefined4 *)(iVar32 + (int)(param_1->gCNavigationMap_data).offset_0x0) = 0;
+      iVar32 = iVar32 + 4;
+    } while (iVar32 < 0xf94);
+    if (0 < (int)(param_1->gCNavigationMap_data).offset_0x14) {
+      peStack_194 = (eCPropertySetProxy *)0x0;
+      iVar32 = 0;
+      do {
+        pbVar11 = eCEntityProxy::GetEntityID
+                            ((eCEntityProxy *)
+                             ((int)(param_1->gCNavigationMap_data).offset_0x10 + (int)peStack_194));
+        piVar25 = (int *)thunk_FUN_20067090(pbVar11);
+        peStack_194 = (eCPropertySetProxy *)&peStack_194[1].eCEntityProxy_data.offset_0x8;
+        *piVar25 = iVar32;
+        iVar32 = iVar32 + 1;
+      } while (iVar32 < (int)(param_1->gCNavigationMap_data).offset_0x14);
+    }
+  }
+  ppvVar1 = &(param_1->gCNavigationMap_data).offset_0xa0;
+  if ((ppvVar1 != (void **)0x0) && (pvVar51 = *ppvVar1, pvVar51 != (void *)0x0)) {
+    pbVar29 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar29,pvVar51);
+    *ppvVar1 = (void *)0x0;
+    (param_1->gCNavigationMap_data).offset_0xa4 = 0;
+    (param_1->gCNavigationMap_data).offset_0xa8 = 0;
+  }
+  pgStack_1a0 = (gCNavZone_PS *)0x0;
+  if (0 < (int)(param_1->gCNavigationMap_data).offset_0x98) {
+    do {
+      piVar25 = (int *)((int)(param_1->gCNavigationMap_data).offset_0x94 + (int)pgStack_1a0 * 4);
+      uStack_148 = (double)CONCAT44(uStack_148._4_4_,piVar25);
+      if (*(int *)(*piVar25 + 0x58) == 0x73) {
+        iVar32 = (param_1->gCNavigationMap_data).offset_0xa4 + 1;
+        thunk_FUN_2005e820(iVar32,(iVar32 != 0) - 1);
+        (param_1->gCNavigationMap_data).offset_0xa4 = iVar32;
+        *(undefined4 *)((int)*ppvVar1 + iVar32 * 4 + -4) = *(undefined4 *)uStack_148;
+      }
+      pgStack_1a0 = (gCNavZone_PS *)((int)&pgStack_1a0->vftablePtr + 1);
+    } while ((int)pgStack_1a0 < (int)(param_1->gCNavigationMap_data).offset_0x98);
+  }
+  GE_MESSAGEF_INFO(5,"gCNavigationMap::CompileStaticNavigationScene - Done!");
+  return 1;
+}
+
+

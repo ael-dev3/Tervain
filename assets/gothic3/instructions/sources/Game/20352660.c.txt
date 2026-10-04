@@ -1,0 +1,29 @@
+/* ENTRY 20352660 | FUN_20352660 | STATUS decompiled | 7 ms */
+
+void FUN_20352660(int param_1,int param_2)
+
+{
+  bCMemoryAdmin *this;
+  int *piVar1;
+  void *pvVar2;
+  
+  if (param_2 != 0) {
+    piVar1 = (int *)(param_1 + 0xc);
+    do {
+      param_2 = param_2 + -1;
+      if ((*piVar1 != 0) && ((undefined4 *)*piVar1 != (undefined4 *)0x0)) {
+        (*(code *)**(undefined4 **)*piVar1)(0);
+        pvVar2 = (void *)*piVar1;
+        this = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::DeleteObject(this,pvVar2);
+        *piVar1 = 0;
+      }
+      bCString::~bCString((bCString *)(piVar1 + 1));
+      bCString::~bCString((bCString *)(piVar1 + -2));
+      piVar1 = piVar1 + 6;
+    } while (param_2 != 0);
+  }
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 20186ce0 gCHUDListCtrlInvDocuments::~gCHUDListCtrlInvDocuments
+20186ce0 | c701b46d6720 | MOV dword ptr [ECX],0x20676db4
+20186ce6 | c74110986d6720 | MOV dword ptr [ECX + 0x10],0x20676d98
+20186ced | e9ff01e8ff | JMP 0x20006ef1

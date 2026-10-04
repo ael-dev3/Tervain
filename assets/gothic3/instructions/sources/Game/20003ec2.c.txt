@@ -1,0 +1,14 @@
+/* ENTRY 20003ec2 | gCScriptRoutine_PS::AIStopWait | STATUS decompiled | 11 ms */
+
+/* public: void __thiscall gCScriptRoutine_PS::AIStopWait(void) */
+
+void __thiscall gCScriptRoutine_PS::AIStopWait(gCScriptRoutine_PS *this)
+
+{
+                    /* 0x3ec2  990  ?AIStopWait@gCScriptRoutine_PS@@QAEXXZ */
+  gCScriptProcessingUnit::AIFullStop
+            ((gCScriptProcessingUnit *)&(this->gCScriptRoutine_PS_data).field_0x60,1);
+  return;
+}
+
+

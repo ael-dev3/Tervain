@@ -1,0 +1,4 @@
+; 10007ecd ?GetInverted@bCMatrix@@QBE?AV1@XZ
+10007ecd | e9ce2f0300 | JMP 0x1003aea0
+; 10007ed2 bCRect::bCRect
+; 10007ed2 Ordinal_255

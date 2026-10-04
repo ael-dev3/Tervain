@@ -1,0 +1,12 @@
+; 2016c090 gCHUDViewTransformInventory2::gCHUDViewTransformInventory2
+2016c090 | 56 | PUSH ESI
+2016c091 | 8bf1 | MOV ESI,ECX
+2016c093 | e88c0ceaff | CALL 0x2000cd24
+2016c098 | 8d4e10 | LEA ECX,[ESI + 0x10]
+2016c09b | c706fc1e6720 | MOV dword ptr [ESI],0x20671efc
+2016c0a1 | e8c0fbeaff | CALL 0x2001bc66
+2016c0a6 | 8d4e20 | LEA ECX,[ESI + 0x20]
+2016c0a9 | e8ccc9eaff | CALL 0x20018a7a
+2016c0ae | 8bc6 | MOV EAX,ESI
+2016c0b0 | 5e | POP ESI
+2016c0b1 | c3 | RET

@@ -1,0 +1,19 @@
+/* ENTRY 20191cb0 | gCHUDTextEffect::gCHUDTextEffect | STATUS decompiled | 10 ms */
+
+gCHUDTextEffect * __thiscall gCHUDTextEffect::gCHUDTextEffect(gCHUDTextEffect *this)
+
+{
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)this);
+  this->vftablePtr = &vftable;
+  (this->gCHUDTextEffect_data).offset_0xc = (void *)0x0;
+  (this->gCHUDTextEffect_data).offset_0x10 = 0;
+  (this->gCHUDTextEffect_data).offset_0x14 = 0;
+  (this->gCHUDTextEffect_data).offset_0x1c = 0x3ecccccd;
+  (this->gCHUDTextEffect_data).offset_0x20 = 0x3ecccccd;
+  (this->gCHUDTextEffect_data).offset_0x18 = 0;
+  (this->gCHUDTextEffect_data).offset_0x28 = 0;
+  (this->gCHUDTextEffect_data).offset_0x24 = 0x3f800000;
+  return this;
+}
+
+

@@ -1,0 +1,15 @@
+/* ENTRY 20190370 | gCHUDCrossHair::~gCHUDCrossHair | STATUS decompiled | 9 ms */
+
+void __thiscall gCHUDCrossHair::~gCHUDCrossHair(gCHUDCrossHair *this)
+
+{
+  this->vftablePtr = &vftable;
+  bCPoint::~bCPoint((bCPoint *)&(this->gCHUDCrossHair_data).field_0x14);
+  bCPoint::~bCPoint((bCPoint *)&(this->gCHUDCrossHair_data).field_0xc);
+                    /* WARNING: Could not recover jumptable at 0x2019038e. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)this);
+  return;
+}
+
+

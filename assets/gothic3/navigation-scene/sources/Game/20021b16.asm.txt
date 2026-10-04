@@ -1,0 +1,2 @@
+; 20021b16 ?CalcAbsHeightDiffFlagAndPrioFlag@gCNavZone_PS@@QAEMABVbCVector@@AA_N1@Z
+20021b16 | e965f02700 | JMP 0x202a0b80

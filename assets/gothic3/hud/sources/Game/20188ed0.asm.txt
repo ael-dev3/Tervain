@@ -1,0 +1,8 @@
+; 20188ed0 FUN_20188ed0
+20188ed0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+20188ed4 | 394134 | CMP dword ptr [ECX + 0x34],EAX
+20188ed7 | 7407 | JZ 0x20188ee0
+20188ed9 | 894134 | MOV dword ptr [ECX + 0x34],EAX
+20188edc | c6412801 | MOV byte ptr [ECX + 0x28],0x1
+; 20188ee0 LAB_20188ee0
+20188ee0 | c20400 | RET 0x4

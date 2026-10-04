@@ -1,0 +1,19 @@
+/* ENTRY 20165ab0 | gCHUDViewLootPool2::~gCHUDViewLootPool2 | STATUS decompiled | 20 ms */
+
+void __thiscall gCHUDViewLootPool2::~gCHUDViewLootPool2(gCHUDViewLootPool2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  gCHUDListCtrlInvLootStacks::~gCHUDListCtrlInvLootStacks
+            ((gCHUDListCtrlInvLootStacks *)&(this->gCHUDViewLootPool2_data).field_0x7c);
+  gCHUDStaticInvCash::~gCHUDStaticInvCash
+            ((gCHUDStaticInvCash *)&(this->gCHUDViewLootPool2_data).field_0x4c);
+  FUN_20036877();
+  FUN_20036877();
+  gCHUDButton::~gCHUDButton((gCHUDButton *)&(this->gCHUDViewLootPool2_data).field_0x1c);
+  gCHUDButton::~gCHUDButton((gCHUDButton *)&(this->gCHUDViewLootPool2_data).field_0xc);
+  FUN_200156a9();
+  return;
+}
+
+

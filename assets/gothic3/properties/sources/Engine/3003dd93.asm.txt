@@ -1,0 +1,4 @@
+; 3003dd93 ??0eCSpatialEntity@@IAE@XZ
+3003dd93 | e928ef4700 | JMP 0x304bccc0
+; 3003dd9d eCGUIConsoleDialog::OnCommand
+; 3003dd9d Ordinal_10975

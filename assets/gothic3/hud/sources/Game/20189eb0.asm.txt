@@ -1,0 +1,4 @@
+; 20189eb0 gCHUDListCtrlInvUseStacks::~gCHUDListCtrlInvUseStacks
+20189eb0 | c701647d6720 | MOV dword ptr [ECX],0x20677d64
+20189eb6 | c74110447d6720 | MOV dword ptr [ECX + 0x10],0x20677d44
+20189ebd | e92fd0e7ff | JMP 0x20006ef1

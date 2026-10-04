@@ -1,0 +1,19 @@
+/* ENTRY 304b50f0 | FUN_304b50f0 | STATUS decompiled | 15 ms */
+
+undefined4 __thiscall FUN_304b50f0(eCEntity *param_1,eEPropertySetType param_2)
+
+{
+  ushort uVar1;
+  
+  (*param_1->vftablePtr->OnReadContent)(param_1);
+  if (((&(param_1->eCEntity_data).offset_0x164)[(int)param_2 >> 5] & 1 << ((byte)param_2 & 0x1f)) !=
+      0) {
+    uVar1 = eCEntity::SearchForEntity(param_1,param_2);
+    if (uVar1 != 0xffff) {
+      return *(undefined4 *)((param_1->eCEntity_data).offset_0x110 + (uint)uVar1 * 4);
+    }
+  }
+  return 0;
+}
+
+

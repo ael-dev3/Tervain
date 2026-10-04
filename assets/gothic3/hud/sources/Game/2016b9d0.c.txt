@@ -1,0 +1,15 @@
+/* ENTRY 2016b9d0 | gCHUDViewSynthInventory2::gCHUDViewSynthInventory2 | STATUS decompiled | 14 ms */
+
+gCHUDViewSynthInventory2 * __thiscall
+gCHUDViewSynthInventory2::gCHUDViewSynthInventory2(gCHUDViewSynthInventory2 *this)
+
+{
+  gCHUDPageView::gCHUDPageView((gCHUDPageView *)this);
+  this->vftablePtr = &vftable;
+  gCHUDLabel::gCHUDLabel((gCHUDLabel *)&(this->gCHUDViewSynthInventory2_data).field_0xc);
+  gCHUDListCtrlInvDocuments::gCHUDListCtrlInvDocuments
+            ((gCHUDListCtrlInvDocuments *)&(this->gCHUDViewSynthInventory2_data).field_0x1c);
+  return this;
+}
+
+

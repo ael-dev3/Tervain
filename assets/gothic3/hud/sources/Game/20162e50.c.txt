@@ -1,0 +1,18 @@
+/* ENTRY 20162e50 | FUN_20162e50 | STATUS decompiled | 3 ms */
+
+void FUN_20162e50(undefined4 param_1,int param_2)
+
+{
+  if (param_2 == 0) {
+    thunk_FUN_2018a7f0(param_1);
+    thunk_FUN_20188ed0(param_1);
+  }
+  else if (param_2 == 2) {
+    thunk_FUN_2018a7f0(param_1);
+    thunk_FUN_20188ed0(param_1);
+    return;
+  }
+  return;
+}
+
+

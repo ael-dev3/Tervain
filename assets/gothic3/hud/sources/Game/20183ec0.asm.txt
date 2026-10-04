@@ -1,0 +1,13 @@
+; 20183ec0 gCHUDDialog::gCHUDDialog
+20183ec0 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+20183ec4 | 56 | PUSH ESI
+20183ec5 | 8bf1 | MOV ESI,ECX
+20183ec7 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+20183ecb | 50 | PUSH EAX
+20183ecc | 51 | PUSH ECX
+20183ecd | 8bce | MOV ECX,ESI
+20183ecf | ff1510787d20 | CALL dword ptr [0x207d7810]
+20183ed5 | c706e4c76620 | MOV dword ptr [ESI],0x2066c7e4
+20183edb | 8bc6 | MOV EAX,ESI
+20183edd | 5e | POP ESI
+20183ede | c20800 | RET 0x8

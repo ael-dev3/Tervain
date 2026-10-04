@@ -1,0 +1,12 @@
+/* ENTRY 20162640 | gCHUDViewTalk2::gCHUDViewTalk2 | STATUS decompiled | 108 ms */
+
+gCHUDViewTalk2 * __thiscall gCHUDViewTalk2::gCHUDViewTalk2(gCHUDViewTalk2 *this)
+
+{
+  gCHUDPageView::gCHUDPageView((gCHUDPageView *)this);
+  this->vftablePtr = &vftable;
+  gCHUDStaticTalk::gCHUDStaticTalk((gCHUDStaticTalk *)&(this->gCHUDViewTalk2_data).field_0xc);
+  return this;
+}
+
+

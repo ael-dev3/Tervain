@@ -1,0 +1,38 @@
+; 2018a780 gCHUDListCtrlInventory::vfunction45
+2018a780 | 56 | PUSH ESI
+2018a781 | 8bf1 | MOV ESI,ECX
+2018a783 | 807e2800 | CMP byte ptr [ESI + 0x28],0x0
+2018a787 | 7454 | JZ 0x2018a7dd
+2018a789 | 8b4e14 | MOV ECX,dword ptr [ESI + 0x14]
+2018a78c | 85c9 | TEST ECX,ECX
+2018a78e | 7422 | JZ 0x2018a7b2
+2018a790 | 8b01 | MOV EAX,dword ptr [ECX]
+2018a792 | 8b5068 | MOV EDX,dword ptr [EAX + 0x68]
+2018a795 | ffd2 | CALL EDX
+2018a797 | 8bc8 | MOV ECX,EAX
+2018a799 | ff152c6d7d20 | CALL dword ptr [0x207d6d2c]
+2018a79f | 8b00 | MOV EAX,dword ptr [EAX]
+2018a7a1 | 50 | PUSH EAX
+2018a7a2 | 68c8806720 | PUSH 0x206780c8
+2018a7a7 | 6a03 | PUSH 0x3
+2018a7a9 | ff1514897d20 | CALL dword ptr [0x207d8914]
+2018a7af | 83c40c | ADD ESP,0xc
+; 2018a7b2 LAB_2018a7b2
+2018a7b2 | 837e1400 | CMP dword ptr [ESI + 0x14],0x0
+2018a7b6 | c6462800 | MOV byte ptr [ESI + 0x28],0x0
+2018a7ba | 740e | JZ 0x2018a7ca
+2018a7bc | 8b16 | MOV EDX,dword ptr [ESI]
+2018a7be | 8b8208010000 | MOV EAX,dword ptr [EDX + 0x108]
+2018a7c4 | 8bce | MOV ECX,ESI
+2018a7c6 | ffd0 | CALL EAX
+2018a7c8 | eb13 | JMP 0x2018a7dd
+; 2018a7ca LAB_2018a7ca
+2018a7ca | 6a00 | PUSH 0x0
+2018a7cc | 8d4e18 | LEA ECX,[ESI + 0x18]
+2018a7cf | ff1534787d20 | CALL dword ptr [0x207d7834]
+2018a7d5 | 8bce | MOV ECX,ESI
+2018a7d7 | ff15dc777d20 | CALL dword ptr [0x207d77dc]
+; 2018a7dd LAB_2018a7dd
+2018a7dd | 8bce | MOV ECX,ESI
+2018a7df | 5e | POP ESI
+2018a7e0 | ff25a8797d20 | JMP dword ptr [0x207d79a8]

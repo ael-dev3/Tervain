@@ -1,0 +1,37 @@
+/* ENTRY 2016d160 | gCHUDPageMain2::gCHUDPageMain2 | STATUS decompiled | 55 ms */
+
+gCHUDPageMain2 * __thiscall gCHUDPageMain2::gCHUDPageMain2(gCHUDPageMain2 *this)
+
+{
+  gCHUDPage::gCHUDPage((gCHUDPage *)this);
+  this->vftablePtr = &vftable;
+  gCHUDView::gCHUDView((gCHUDView *)&this->gCHUDPageMain2_data);
+  gCHUDView::gCHUDView((gCHUDView *)&(this->gCHUDPageMain2_data).field_0x14);
+  gCHUDView::gCHUDView((gCHUDView *)&(this->gCHUDPageMain2_data).field_0x28);
+  gCHUDView::gCHUDView((gCHUDView *)&(this->gCHUDPageMain2_data).field_0x3c);
+  gCHUDView::gCHUDView((gCHUDView *)&(this->gCHUDPageMain2_data).field_0x50);
+  gCHUDView::gCHUDView((gCHUDView *)&(this->gCHUDPageMain2_data).field_0x64);
+  gCHUDView::gCHUDView((gCHUDView *)&(this->gCHUDPageMain2_data).field_0x78);
+  gCHUDViewBarMana2::gCHUDViewBarMana2((gCHUDViewBarMana2 *)&(this->gCHUDPageMain2_data).field_0x8c)
+  ;
+  gCHUDViewBarHealth2::gCHUDViewBarHealth2
+            ((gCHUDViewBarHealth2 *)&(this->gCHUDPageMain2_data).field_0xd0);
+  gCHUDViewBarEndurance2::gCHUDViewBarEndurance2
+            ((gCHUDViewBarEndurance2 *)&(this->gCHUDPageMain2_data).field_0x114);
+  gCHUDViewBarFocus2::gCHUDViewBarFocus2
+            ((gCHUDViewBarFocus2 *)&(this->gCHUDPageMain2_data).field_0x158);
+  gCHUDViewBarQuickslots2::gCHUDViewBarQuickslots2
+            ((gCHUDViewBarQuickslots2 *)&(this->gCHUDPageMain2_data).field_0x19c);
+  gCHUDViewBarPages2::gCHUDViewBarPages2
+            ((gCHUDViewBarPages2 *)&(this->gCHUDPageMain2_data).field_0x1d8);
+  gCHUDViewTalk2::gCHUDViewTalk2((gCHUDViewTalk2 *)&(this->gCHUDPageMain2_data).field_0x210);
+  gCHUDLog::gCHUDLog((gCHUDLog *)&(this->gCHUDPageMain2_data).field_0x230);
+  gCHUDTextEffect::gCHUDTextEffect((gCHUDTextEffect *)&(this->gCHUDPageMain2_data).field_0x270);
+  gCHUDStaticCompass::gCHUDStaticCompass
+            ((gCHUDStaticCompass *)&(this->gCHUDPageMain2_data).field_0x2a0);
+  (this->gCHUDPageMain2_data).offset_0x2bc = 0;
+  (this->gCHUDPageMain2_data).offset_0x2bd = 0;
+  return this;
+}
+
+

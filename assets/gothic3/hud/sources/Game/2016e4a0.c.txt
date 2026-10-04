@@ -1,0 +1,10 @@
+/* ENTRY 2016e4a0 | gCHUDPageSpells2::vfunction71 | STATUS decompiled | 1 ms */
+
+void __thiscall gCHUDPageSpells2::vfunction71(void)
+
+{
+  thunk_FUN_2016b650();
+  return;
+}
+
+

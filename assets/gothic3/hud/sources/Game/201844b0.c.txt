@@ -1,0 +1,12 @@
+/* ENTRY 201844b0 | gCHUDListBoxInfo::gCHUDListBoxInfo | STATUS decompiled | 6 ms */
+
+gCHUDListBoxInfo * __thiscall gCHUDListBoxInfo::gCHUDListBoxInfo(gCHUDListBoxInfo *this)
+
+{
+  CFFGFCListBox::CFFGFCListBox((CFFGFCListBox *)this);
+  this->vftablePtr = &vftable;
+  (this->gCHUDListBoxInfo_data).offset_0xc = 0;
+  return this;
+}
+
+

@@ -1,0 +1,22 @@
+/* ENTRY 201873e0 | gCHUDListCtrlInvLootStacks::gCHUDListCtrlInvLootStacks | STATUS decompiled | 17 ms */
+
+gCHUDListCtrlInvLootStacks * __thiscall
+gCHUDListCtrlInvLootStacks::gCHUDListCtrlInvLootStacks(gCHUDListCtrlInvLootStacks *this)
+
+{
+  gCHUDListCtrlInvStacks::gCHUDListCtrlInvStacks((gCHUDListCtrlInvStacks *)this);
+  (this->gCHUDListCtrlInvLootStacks_data).offset_0x8 = 0x3ea8f5c3;
+  (this->gCHUDListCtrlInvLootStacks_data).offset_0xc = 0x3d4ccccd;
+  (this->gCHUDListCtrlInvLootStacks_data).offset_0x0 = 0;
+  (this->gCHUDListCtrlInvLootStacks_data).offset_0x4 = 0;
+  (this->gCHUDListCtrlInvLootStacks_data).offset_0x18 = 0;
+  (this->gCHUDListCtrlInvLootStacks_data).offset_0x20 = 0;
+  this->vftablePtr = &vftable;
+  this->vftablePtr = &vftable;
+  (this->gCHUDListCtrlInvLootStacks_data).offset_0x10 = 0;
+  (this->gCHUDListCtrlInvLootStacks_data).offset_0x14 = 0xffffffff;
+  (this->gCHUDListCtrlInvLootStacks_data).offset_0x1c = 1;
+  return this;
+}
+
+

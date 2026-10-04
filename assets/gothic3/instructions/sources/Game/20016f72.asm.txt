@@ -1,0 +1,4 @@
+; 20016f72 ?SetIntParameter@gCScriptProcessingUnit@@QAEXH@Z
+20016f72 | e9290f3500 | JMP 0x20367ea0
+; 20016f77 gCNavigationMap::GetNavAreaListIndex
+; 20016f77 Ordinal_3863

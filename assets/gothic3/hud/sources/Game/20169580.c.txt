@@ -1,0 +1,63 @@
+/* ENTRY 20169580 | FUN_20169580 | STATUS decompiled | 63 ms */
+
+void __fastcall FUN_20169580(int param_1)
+
+{
+  eCLocString *peVar1;
+  bCUnicodeString local_c [4];
+  bCString local_8 [4];
+  eCLocString local_4 [4];
+  
+  bCString::bCString(local_8,"HL_Skills_Misc");
+  peVar1 = (eCLocString *)eCLocString::eCLocString(local_4,local_8);
+  eCLocString::GetString(peVar1);
+  CFFGFCWnd::SetWindowTextA((CFFGFCWnd *)(param_1 + 0x198),local_c);
+  bCUnicodeString::~bCUnicodeString(local_c);
+  eCLocString::~eCLocString(local_4);
+  bCString::~bCString(local_8);
+  bCString::bCString((bCString *)local_c,"HL_Skills_ALC");
+  peVar1 = (eCLocString *)eCLocString::eCLocString(local_4,(bCString *)local_c);
+  eCLocString::GetString(peVar1);
+  CFFGFCWnd::SetWindowTextA((CFFGFCWnd *)(param_1 + 0x1a8),(bCUnicodeString *)local_8);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)local_8);
+  eCLocString::~eCLocString(local_4);
+  bCString::~bCString((bCString *)local_c);
+  bCString::bCString((bCString *)local_c,"HL_Skills_THF");
+  peVar1 = (eCLocString *)eCLocString::eCLocString(local_4,(bCString *)local_c);
+  eCLocString::GetString(peVar1);
+  CFFGFCWnd::SetWindowTextA((CFFGFCWnd *)(param_1 + 0x1b8),(bCUnicodeString *)local_8);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)local_8);
+  eCLocString::~eCLocString(local_4);
+  bCString::~bCString((bCString *)local_c);
+  bCString::bCString((bCString *)local_c,"HL_Skills_SMT");
+  peVar1 = (eCLocString *)eCLocString::eCLocString(local_4,(bCString *)local_c);
+  eCLocString::GetString(peVar1);
+  CFFGFCWnd::SetWindowTextA((CFFGFCWnd *)(param_1 + 0x1c8),(bCUnicodeString *)local_8);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)local_8);
+  eCLocString::~eCLocString(local_4);
+  bCString::~bCString((bCString *)local_c);
+  bCString::bCString((bCString *)local_c,"HL_Skills_INT");
+  peVar1 = (eCLocString *)eCLocString::eCLocString(local_4,(bCString *)local_c);
+  eCLocString::GetString(peVar1);
+  CFFGFCWnd::SetWindowTextA((CFFGFCWnd *)(param_1 + 0x1d8),(bCUnicodeString *)local_8);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)local_8);
+  eCLocString::~eCLocString(local_4);
+  bCString::~bCString((bCString *)local_c);
+  bCString::bCString((bCString *)local_c,"HL_Skills_DEX");
+  peVar1 = (eCLocString *)eCLocString::eCLocString(local_4,(bCString *)local_c);
+  eCLocString::GetString(peVar1);
+  CFFGFCWnd::SetWindowTextA((CFFGFCWnd *)(param_1 + 0x1e8),(bCUnicodeString *)local_8);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)local_8);
+  eCLocString::~eCLocString(local_4);
+  bCString::~bCString((bCString *)local_c);
+  bCString::bCString((bCString *)local_c,"HL_Skills_STR");
+  peVar1 = (eCLocString *)eCLocString::eCLocString(local_4,(bCString *)local_c);
+  eCLocString::GetString(peVar1);
+  CFFGFCWnd::SetWindowTextA((CFFGFCWnd *)(param_1 + 0x1f8),(bCUnicodeString *)local_8);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)local_8);
+  eCLocString::~eCLocString(local_4);
+  bCString::~bCString((bCString *)local_c);
+  return;
+}
+
+

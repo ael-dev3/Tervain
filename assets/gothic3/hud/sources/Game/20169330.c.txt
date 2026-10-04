@@ -1,0 +1,34 @@
+/* ENTRY 20169330 | gCHUDViewSkills2::gCHUDViewSkills2 | STATUS decompiled | 48 ms */
+
+gCHUDViewSkills2 * __thiscall gCHUDViewSkills2::gCHUDViewSkills2(gCHUDViewSkills2 *this)
+
+{
+  gCHUDPageView::gCHUDPageView((gCHUDPageView *)this);
+  this->vftablePtr = &vftable;
+  gCHUDListCtrlInvSkills::gCHUDListCtrlInvSkills
+            ((gCHUDListCtrlInvSkills *)&(this->gCHUDViewSkills2_data).field_0xc);
+  gCHUDListCtrlInvSkills::gCHUDListCtrlInvSkills
+            ((gCHUDListCtrlInvSkills *)&(this->gCHUDViewSkills2_data).field_0x44);
+  gCHUDListCtrlInvSkills::gCHUDListCtrlInvSkills
+            ((gCHUDListCtrlInvSkills *)&(this->gCHUDViewSkills2_data).field_0x7c);
+  gCHUDListCtrlInvSkills::gCHUDListCtrlInvSkills
+            ((gCHUDListCtrlInvSkills *)&(this->gCHUDViewSkills2_data).field_0xb4);
+  gCHUDListCtrlInvSkills::gCHUDListCtrlInvSkills
+            ((gCHUDListCtrlInvSkills *)&(this->gCHUDViewSkills2_data).field_0xec);
+  gCHUDListCtrlInvSkills::gCHUDListCtrlInvSkills
+            ((gCHUDListCtrlInvSkills *)&(this->gCHUDViewSkills2_data).field_0x124);
+  gCHUDListCtrlInvSkills::gCHUDListCtrlInvSkills
+            ((gCHUDListCtrlInvSkills *)&(this->gCHUDViewSkills2_data).field_0x15c);
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewSkills2_data).field_0x194);
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewSkills2_data).field_0x1a4);
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewSkills2_data).field_0x1b4);
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewSkills2_data).field_0x1c4);
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewSkills2_data).field_0x1d4);
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewSkills2_data).field_0x1e4);
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewSkills2_data).field_0x1f4);
+  gCHUDView::gCHUDView((gCHUDView *)&(this->gCHUDViewSkills2_data).field_0x204);
+  gCHUDViewSkill2::gCHUDViewSkill2((gCHUDViewSkill2 *)&(this->gCHUDViewSkills2_data).field_0x218);
+  return this;
+}
+
+

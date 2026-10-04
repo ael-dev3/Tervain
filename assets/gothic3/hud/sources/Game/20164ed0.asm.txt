@@ -1,0 +1,10 @@
+; 20164ed0 gCHUDViewMap2::gCHUDViewMap2
+20164ed0 | 56 | PUSH ESI
+20164ed1 | 8bf1 | MOV ESI,ECX
+20164ed3 | e84c7eeaff | CALL 0x2000cd24
+20164ed8 | 8d4e10 | LEA ECX,[ESI + 0x10]
+20164edb | c70624fc6620 | MOV dword ptr [ESI],0x2066fc24
+20164ee1 | e80aadeaff | CALL 0x2000fbf0
+20164ee6 | 8bc6 | MOV EAX,ESI
+20164ee8 | 5e | POP ESI
+20164ee9 | c3 | RET

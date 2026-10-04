@@ -1,0 +1,11 @@
+/* ENTRY 201906f0 | gCHUDLabel::gCHUDLabel | STATUS decompiled | 5 ms */
+
+gCHUDLabel * __thiscall gCHUDLabel::gCHUDLabel(gCHUDLabel *this)
+
+{
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)this);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

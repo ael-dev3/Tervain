@@ -1,0 +1,24 @@
+/* ENTRY 10006587 | bCMatrix::GetInvertedExcentric | STATUS decompiled | 4 ms */
+
+/* protected: void __thiscall bCMatrix::GetInvertedExcentric(class bCMatrix &)const  */
+
+void __thiscall bCMatrix::GetInvertedExcentric(bCMatrix *this,bCMatrix *param_1)
+
+{
+  undefined4 *puVar1;
+  int iVar2;
+  undefined4 *unaff_retaddr;
+  
+                    /* 0x6587  2574  ?GetInvertedExcentric@bCMatrix@@IBEXAAV1@@Z */
+  iVar2 = 0x10;
+  puVar1 = (undefined4 *)GetInvertedExcentric(this);
+  do {
+    iVar2 = iVar2 + -1;
+    *unaff_retaddr = *puVar1;
+    unaff_retaddr = unaff_retaddr + 1;
+    puVar1 = puVar1 + 1;
+  } while (iVar2 != 0);
+  return;
+}
+
+

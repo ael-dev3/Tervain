@@ -1,0 +1,13 @@
+/* ENTRY 20184830 | gCHUDListCtrlDialog::~gCHUDListCtrlDialog | STATUS decompiled | 5 ms */
+
+void __thiscall gCHUDListCtrlDialog::~gCHUDListCtrlDialog(gCHUDListCtrlDialog *this)
+
+{
+  this->vftablePtr = &vftable;
+                    /* WARNING: Could not recover jumptable at 0x20184836. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  CFFGFCListCtrl::~CFFGFCListCtrl((CFFGFCListCtrl *)this);
+  return;
+}
+
+

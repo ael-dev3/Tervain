@@ -1,0 +1,87 @@
+/* ENTRY 201708b0 | FUN_201708b0 | STATUS decompiled | 43 ms */
+
+undefined4 __fastcall FUN_201708b0(CFFGFCWnd *param_1)
+
+{
+  gCHUDPageMain2 *pgVar1;
+  int *piVar2;
+  gCHUDLogo *pgVar3;
+  bCRect *pbVar4;
+  IFFGUIBitmap *pIVar5;
+  gCHUDCrossHair *pgVar6;
+  int iVar7;
+  CFFGFCWnd *pCVar8;
+  ulong uVar9;
+  undefined1 *puStack_40;
+  CFFGFCBitmap CStack_34;
+  char *apcStack_2c [3];
+  bCRect abStack_20 [28];
+  
+  puStack_40 = &stack0xfffffffc;
+  CStack_34.CFFGFCBitmap_data.offset_0x0 = param_1;
+  pgVar1 = (gCHUDPageMain2 *)new(0x2d4,0xa3);
+  if (pgVar1 == (gCHUDPageMain2 *)0x0) {
+    pgVar1 = (gCHUDPageMain2 *)0x0;
+  }
+  else {
+    pgVar1 = gCHUDPageMain2::gCHUDPageMain2(pgVar1);
+  }
+  *(gCHUDPageMain2 **)(param_1 + 0x7c) = pgVar1;
+  CFFGFCWnd::Create((CFFGFCWnd *)pgVar1,0x755c,param_1);
+  CFFGFCWnd::ShowWindow(*(CFFGFCWnd **)(param_1 + 0x7c),true);
+  iVar7 = 0;
+  pCVar8 = param_1 + 0x38;
+  do {
+    piVar2 = (int *)thunk_FUN_2016fc30(iVar7);
+    *(int **)pCVar8 = piVar2;
+    (**(code **)(*piVar2 + 0x114))();
+    iVar7 = iVar7 + 1;
+    pCVar8 = pCVar8 + 4;
+  } while (iVar7 < 0x11);
+  param_1 = param_1 + 0x2c;
+  apcStack_2c[0] = "G3_HUD_Logo_Start.tga";
+  apcStack_2c[1] = "G3_HUD_Logo_Title.tga";
+  apcStack_2c[2] = "G3_HUD_Logo_Version.tga";
+  iVar7 = 0;
+  do {
+    CFFGFCBitmap::CFFGFCBitmap(&CStack_34);
+    bCString::bCString((bCString *)&puStack_40,apcStack_2c[iVar7]);
+    CFFGFCBitmap::Create(&CStack_34,(bCString *)&puStack_40);
+    bCString::~bCString((bCString *)&puStack_40);
+    pgVar3 = (gCHUDLogo *)new(0x10,0xbf);
+    if (pgVar3 == (gCHUDLogo *)0x0) {
+      pgVar3 = (gCHUDLogo *)0x0;
+    }
+    else {
+      pgVar3 = gCHUDLogo::gCHUDLogo(pgVar3);
+    }
+    *(gCHUDLogo **)param_1 = pgVar3;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)&stack0xffffffc4,"");
+    uVar9 = 0xffffffff;
+    pCVar8 = (CFFGFCWnd *)0x0;
+    pbVar4 = (bCRect *)bCRect::bCRect(abStack_20,0,0,100,100);
+    CFFGFCStatic::Create
+              (*(CFFGFCStatic **)param_1,(bCUnicodeString *)&stack0xffffffc4,0x10,pbVar4,pCVar8,
+               uVar9);
+    bCRect::~bCRect(abStack_20);
+    bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffffc4);
+    pIVar5 = CFFGFCBitmap::GetHandle(&CStack_34);
+    CFFGFCStatic::SetBitmap(*(CFFGFCStatic **)param_1,pIVar5);
+    CFFGFCBitmap::~CFFGFCBitmap(&CStack_34);
+    iVar7 = iVar7 + 1;
+    param_1 = param_1 + 4;
+  } while (iVar7 < 3);
+  pgVar6 = (gCHUDCrossHair *)new(0x20,0xc9);
+  if (pgVar6 == (gCHUDCrossHair *)0x0) {
+    pgVar6 = (gCHUDCrossHair *)0x0;
+  }
+  else {
+    pgVar6 = gCHUDCrossHair::gCHUDCrossHair(pgVar6);
+  }
+  *(gCHUDCrossHair **)(puStack_40 + 0x80) = pgVar6;
+  thunk_FUN_201903e0(puStack_40);
+  thunk_FUN_20170170();
+  return 1;
+}
+
+

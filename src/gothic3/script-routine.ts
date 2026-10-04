@@ -32,7 +32,11 @@ export interface NativeRoutineEntity {
   id: string;
   /** This live PS is separate from Navigation_PS.Routine. */
   properties: NativeRoutineProperties | null;
-  navigationPresent: boolean;
+  /** Exact original GetPropertySet(0x1e) presence. The daily-routine fallback
+   * queries NPC_PS, independently of Navigation_PS. */
+  npcPresent: boolean;
+  /** @deprecated Compatibility metadata only; never used for dispatch. */
+  navigationPresent?: boolean;
 }
 /** Original 24-byte frame's semantic fields; unused capacity is retained. */
 export interface NativeAIStateFrame {
@@ -84,6 +88,35 @@ export type NativeRoutineResult =
   | { supported: false; reason: string; partial: boolean; beforeRevision: number;
       afterRevision: number; trace: readonly NativeRoutineTrace[] };
 
+/** Additional native SPU fields. Null timer values mean the constructor did not
+ * initialize those bytes; they must not be read until a proven setter writes them. */
+export interface NativeSPUSchedulerStorage {
+  waitElapsedMilliseconds: number;
+  waitDurationMilliseconds: number | null;
+  instructionEntity: string | null;
+  instructionTarget: string | null;
+  taskCallbackMilliseconds: number | null;
+  localCallbackMilliseconds: number | null;
+  localTimeScale: number;
+  lastFrameTimestamp: number;
+  audioChannel: string | null;
+}
+/** Scoped access used by the original ProcessScript port. No mutable state
+ * reference escapes: all writes share this SPU's journal, revision and failure. */
+export interface NativeSPUSchedulerAccess {
+  snapshot(): Readonly<NativeSPUState>;
+  storage(): Readonly<NativeSPUSchedulerStorage>;
+  resolveSelf(): NativeRoutineEntity | null;
+  writeMilliseconds(kind: 'task' | 'state', value: number): void;
+  writeStorage<K extends keyof NativeSPUSchedulerStorage>(key: K, value: NativeSPUSchedulerStorage[K]): void;
+  writeTaskCallback(name: string): void;
+  writeFrame<K extends keyof NativeAIStateFrame>(index: number, key: K, value: NativeAIStateFrame[K]): void;
+  writeProperty<K extends keyof NativeRoutineProperties>(entity: NativeRoutineEntity,
+    properties: NativeRoutineProperties, key: K, value: NativeRoutineProperties[K]): void;
+  removeFrame(index: number): void;
+  record(trace: NativeRoutineTrace): void;
+}
+
 function i32(value: number): boolean {
   return Number.isInteger(value) && value >= -0x80000000 && value <= 0x7fffffff;
 }
@@ -101,6 +134,9 @@ export class NativeScriptProcessingUnit {
   private epoch = 0;
   private blocked: string | null = null;
   private traces: NativeRoutineTrace[][] = [];
+  private schedulerState: NativeSPUSchedulerStorage | null = null;
+  private schedulerAccess: NativeSPUSchedulerAccess | null = null;
+  private schedulerScopeRevision = 0;
 
   /** Caller supplies real factory/read/runtime state; no serialized seed defaults are invented. */
   constructor(seed: NativeSPUState, private readonly host: NativeRoutineHost) {
@@ -108,6 +144,7 @@ export class NativeScriptProcessingUnit {
         !Number.isSafeInteger(seed.frameCount) || seed.frameCount < 0 || seed.frameCount > seed.frames.length ||
         ![seed.task, seed.localCallback, seed.detectedTask].every(v => typeof v === 'string') ||
         typeof seed.detectingTask !== 'boolean' || ![seed.taskMilliseconds, seed.stateMilliseconds].every(finiteFloat) ||
+        new Set(seed.frames).size !== seed.frames.length ||
         (seed.activeInstruction !== null && !/^[0-9a-f]{8}$/.test(seed.activeInstruction)) ||
         seed.frames.some(frame => !i32(frame.position) || typeof frame.script !== 'string' ||
           typeof frame.begin !== 'boolean' || (frame.object !== null && typeof frame.object !== 'string') ||
@@ -121,6 +158,122 @@ export class NativeScriptProcessingUnit {
   snapshot(): Readonly<NativeSPUState> { return structuredClone(this.state); }
   failure(): string | null { return this.blocked; }
 
+  schedulerSnapshot(): Readonly<NativeSPUSchedulerStorage> | null {
+    return this.schedulerState === null ? null : structuredClone(this.schedulerState);
+  }
+  /** Identity and lifetime check for source adapters using scoped capabilities. */
+  ownsSchedulerAccess(access: NativeSPUSchedulerAccess): boolean { return this.schedulerAccess === access; }
+  /** Explicit native factory/read state, supplied once. Existing constructor
+   * callers retain their old API and do not acquire invented scheduler fields. */
+  initializeScheduler(seed: NativeSPUSchedulerStorage): NativeRoutineResult {
+    return this.run(() => {
+      if (this.schedulerState !== null) throw new Error('SPU scheduler fields are already bound');
+      for (const key of Object.keys(seed) as (keyof NativeSPUSchedulerStorage)[]) this.validateSchedulerField(key, seed[key]);
+      if (Object.keys(seed).sort().join(',') !==
+          'audioChannel,instructionEntity,instructionTarget,lastFrameTimestamp,localCallbackMilliseconds,localTimeScale,taskCallbackMilliseconds,waitDurationMilliseconds,waitElapsedMilliseconds') {
+        throw new Error('Incomplete native scheduler seed');
+      }
+      this.schedulerState = structuredClone(seed);
+      this.record({ operation: 'initialize-scheduler-fields' });
+      return null;
+    });
+  }
+  private validateSchedulerField(key: keyof NativeSPUSchedulerStorage, value: NativeSPUSchedulerStorage[keyof NativeSPUSchedulerStorage]): void {
+    if (key === 'instructionEntity' || key === 'instructionTarget' || key === 'audioChannel') {
+      if (value !== null && typeof value !== 'string') throw new Error('Invalid native entity/channel identity');
+    } else if (key === 'lastFrameTimestamp') {
+      if (typeof value !== 'number' || !Number.isInteger(value) || value < 0 || value > 0xffffffff) throw new Error('Invalid native frame timestamp');
+    } else if (value === null && ['waitDurationMilliseconds', 'taskCallbackMilliseconds', 'localCallbackMilliseconds'].includes(key)) {
+      return;
+    } else if (typeof value !== 'number' || !finiteFloat(value) || !Object.is(Math.fround(value), value)) {
+      throw new Error('Scheduler value must be a finite stored native float32');
+    }
+  }
+  /** Source ports enter one shared transition. A failing callback retains and
+   * reports its native ordered prefix, exactly like the existing task API. */
+  dispatchScheduler(operation: (access: NativeSPUSchedulerAccess) => 0 | 1 | null): NativeRoutineResult {
+    // Source script bodies legally start instructions and call setters/abort
+    // inside ProcessScript. Those operations reuse this SPU's live capability.
+    if (this.schedulerAccess !== null) {
+      const access = this.schedulerAccess;
+      return this.run(() => operation(access));
+    }
+    return this.run(() => {
+      if (!this.schedulerState) throw new Error('SPU scheduler fields are unbound');
+      let live = true;
+      const check = (): void => {
+        if (!live) throw new Error('Expired SPU scheduler binding');
+        if (this.blocked) throw new Error(this.blocked);
+      };
+      const access: NativeSPUSchedulerAccess = {
+        snapshot: () => { check(); return this.snapshot(); },
+        storage: () => { check(); return this.schedulerSnapshot()!; },
+        resolveSelf: () => { check(); return this.entity(); },
+        writeMilliseconds: (kind, value) => {
+          check(); if (!finiteFloat(value) || !Object.is(value, Math.fround(value))) throw new Error('Invalid stored SPU time');
+          this.state[kind === 'task' ? 'taskMilliseconds' : 'stateMilliseconds'] = value;
+          this.record({ operation: kind + '-milliseconds', value });
+        },
+        writeStorage: (key, value) => {
+          check(); this.validateSchedulerField(key, value); this.schedulerState![key] = value;
+          this.record({ operation: 'scheduler-' + key, value });
+        },
+        writeTaskCallback: name => {
+          check(); if (typeof name !== 'string') throw new Error('Invalid task callback name');
+          this.state.localCallback = name;
+          this.record({ operation: 'task-callback-name', value: name });
+        },
+        writeFrame: (index, key, value) => {
+          check(); const frame = this.state.frames[index];
+          if (!Number.isInteger(index) || index < 0 || !frame) throw new Error('Native frame address is outside allocated capacity');
+          const draft = { ...frame, [key]: value };
+          if (!i32(draft.position) || typeof draft.script !== 'string' || typeof draft.begin !== 'boolean' ||
+              (draft.object !== null && typeof draft.object !== 'string') || typeof draft.callback !== 'string' || !finiteFloat(draft.timeMilliseconds)) throw new Error('Invalid native frame write');
+          frame[key] = value; this.record({ operation: 'frame-' + index + '-' + key, value });
+        },
+        writeProperty: (entity, properties, key, value) => {
+          check(); validateProperties({ ...properties, [key]: value });
+          this.write(entity, key, value, properties);
+        },
+        removeFrame: index => { check(); this.removeSchedulerFrame(index); },
+        record: trace => { check(); this.record(trace); },
+      };
+      this.schedulerScopeRevision = this.epoch;
+      this.schedulerAccess = access;
+      try { return operation(access); }
+      finally { live = false; this.schedulerAccess = null; }
+    });
+  }
+  private removeSchedulerFrame(index: number): void {
+    if (!i32(index) || index < 0 || index >= this.state.frameCount) throw new Error('Invalid native RemoveAt index');
+    const frame = this.state.frames[index]!;
+    if (frame.object !== null) {
+      if (!this.host.destroyFrameObject || !this.host.deleteFrameObject) throw new Error('Native frame object destruction is unresolved');
+      this.record({ operation: 'destroy-frame-object', value: frame.object });
+      this.host.destroyFrameObject(frame.object, 0, frame, this);
+      // Original rereads this captured frame address after the destructor.
+      if (!this.state.frames.includes(frame)) throw new Error('Destructor freed/replaced the captured native frame allocation');
+      this.record({ operation: 'delete-frame-object', value: frame.object });
+      this.host.deleteFrameObject(frame.object, this);
+      if (!this.state.frames.includes(frame)) throw new Error('Delete callback freed/replaced the captured native frame allocation');
+      frame.object = null; this.record({ operation: 'clear-frame-object', value: null });
+    }
+    frame.callback = ''; frame.script = '';
+    this.record({ operation: 'destroy-frame-strings', value: index });
+    // Native RemoveAt rereads both count and data after the destructor.
+    const remaining = this.state.frameCount - index - 1;
+    if (remaining > 0) {
+      if (index + remaining >= this.state.frames.length) throw new Error('Native frame memmove leaves its allocation');
+      for (let i = index; i < index + remaining; i++) Object.assign(this.state.frames[i]!, this.state.frames[i + 1]!);
+      this.record({ operation: 'frame-memmove', value: remaining });
+    }
+    const last = this.state.frameCount - 1;
+    if (last < 0 || last >= this.state.frames.length) throw new Error('Native last frame initialization leaves its allocation');
+    Object.assign(this.state.frames[last]!, { position: 0, script: '', begin: true, object: null, callback: '', timeMilliseconds: 1000 });
+    this.record({ operation: 'initialize-unused-frame', value: last });
+    this.state.frameCount--; this.record({ operation: 'frame-count', value: this.state.frameCount });
+  }
+
   private record(trace: NativeRoutineTrace): void {
     this.epoch++;
     for (const journal of this.traces) journal.push({ ...trace });
@@ -133,11 +286,15 @@ export class NativeScriptProcessingUnit {
     try {
       const value = operation();
       if (this.blocked) throw new Error(this.blocked);
+      if (value !== null && value !== 0 && value !== 1) throw new Error('Native SPU transition must synchronously return0/1/void');
       return { supported: true, nativeReturnValue: value, beforeRevision: before, afterRevision: this.epoch, trace };
     } catch (error) {
       const reason = error instanceof Error ? error.message : String(error);
       const partial = this.epoch !== before;
-      if (partial) this.blocked = reason;
+      // A nested source setter/abort can fail before its own first write even
+      // though ProcessScript already applied a prefix. Preserve that failure
+      // at the common boundary, including direct task/state/time API calls.
+      if (partial || (this.schedulerAccess !== null && this.epoch !== this.schedulerScopeRevision)) this.blocked = reason;
       return { supported: false, reason, partial, beforeRevision: before, afterRevision: this.epoch, trace };
     } finally { this.traces.pop(); }
   }
@@ -286,10 +443,16 @@ export class NativeScriptProcessingUnit {
     // that unsafe pointer profile rather than claim it is a native return0.
     if (!entity) throw new Error('Daily routine detection requires resolved non-None Self');
     const properties = entity.properties;
-    if (!properties) return 0;
+    // Native captures PS from the first read, then tests Self again.
+    if (!this.entity() || !properties) return 0;
     validateProperties(properties);
     const name = properties.Routine;
-    if (!name && !entity.navigationPresent) return 0;
+    if (!name) {
+      const current = this.entity();
+      if (!current) throw new Error('Self disappeared before the native NPC_PS read');
+      if (typeof current.npcPresent !== 'boolean') throw new Error('Exact NPC_PS selector0x1e presence is unresolved');
+      if (!current.npcPresent) return 0;
+    }
     const routine = name ? this.host.routine?.(name) : null;
     const script = name ? null : this.host.script?.('ContinueRoutine');
     if (name ? !routine : !script) throw new Error('Original routine/script dispatch handler is unresolved: ' + (name || 'ContinueRoutine'));
@@ -299,7 +462,10 @@ export class NativeScriptProcessingUnit {
       this.record({ operation: 'begin-task-detection', value: properties.CurrentTask });
     }
     this.record({ operation: name ? 'run-script-routine' : 'call-script', entity: entity.id, value: name || 'ContinueRoutine' });
-    const called = routine ? routine(this) : script!(entity.id, null, 0, this);
+    // ContinueRoutine receives the final live Self, after task-detection writes.
+    const current = routine ? null : this.entity();
+    if (!routine && !current) throw new Error('Final ContinueRoutine Self is outside the non-None owner profile');
+    const called = routine ? routine(this) : script!(current!.id, null, 0, this);
     if (called && typeof called === 'object' && !called.supported) throw new Error(called.reason);
     if (force) {
       this.state.detectingTask = false;

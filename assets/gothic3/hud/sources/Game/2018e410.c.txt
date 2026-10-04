@@ -1,0 +1,18 @@
+/* ENTRY 2018e410 | gCHUDTableStackStats::gCHUDTableStackStats | STATUS decompiled | 37 ms */
+
+gCHUDTableStackStats * __thiscall
+gCHUDTableStackStats::gCHUDTableStackStats(gCHUDTableStackStats *this)
+
+{
+  gCHUDTableItemStats::gCHUDTableItemStats((gCHUDTableItemStats *)this);
+                    /* inlined constructor: gCInventoryListener::gCInventoryListener */
+  this->vftablePtr =
+       (gCHUDTableStackStats_vftable_for_gCInventoryListener *)&gCInventoryListener::vftable;
+  this[1].vftablePtr = (gCHUDTableStackStats_vftable_for_gCHUDTableItemStats *)0x0;
+  *(undefined4 *)&this[1].gCHUDTable_data.field_0x4 = 0;
+  this->vftablePtr = &vftable_for_gCHUDTableItemStats;
+  this->vftablePtr = &vftable_for_gCInventoryListener;
+  return this;
+}
+
+

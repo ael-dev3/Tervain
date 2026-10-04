@@ -1,0 +1,2 @@
+; 200190ce ?sSetNewFrame@gCScriptProcessingUnit@@SGXK@Z
+200190ce | e9ade93400 | JMP 0x20367a80

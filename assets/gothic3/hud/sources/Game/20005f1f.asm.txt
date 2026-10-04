@@ -1,0 +1,2 @@
+; 20005f1f gCHUDPageQuests2::vfunction71
+20005f1f | e9fc7c1600 | JMP 0x2016dc20

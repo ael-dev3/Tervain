@@ -1,0 +1,37 @@
+/* ENTRY 20171720 | gCHUDDialogMenu2::gCHUDDialogMenu2 | STATUS decompiled | 13 ms */
+
+gCHUDDialogMenu2 * __thiscall gCHUDDialogMenu2::gCHUDDialogMenu2(gCHUDDialogMenu2 *this)
+
+{
+  undefined1 *this_00;
+  undefined1 *this_01;
+  
+  gCHUDDialog::gCHUDDialog((gCHUDDialog *)this);
+  this_00 = &(this->gCHUDDialogMenu2_data).field_0x4c;
+  this->vftablePtr = &vftable;
+  bCRect::bCRect((bCRect *)this_00);
+  this_01 = &(this->gCHUDDialogMenu2_data).field_0x5c;
+  bCRect::bCRect((bCRect *)this_01);
+  (this->gCHUDDialogMenu2_data).offset_0xc = (void *)0x0;
+  (this->gCHUDDialogMenu2_data).offset_0x10 = 0;
+  (this->gCHUDDialogMenu2_data).offset_0x14 = 0;
+  (this->gCHUDDialogMenu2_data).offset_0x18 = 0;
+  (this->gCHUDDialogMenu2_data).offset_0x1c = 0;
+  (this->gCHUDDialogMenu2_data).offset_0x20 = 0;
+  (this->gCHUDDialogMenu2_data).offset_0x24 = 0;
+  (this->gCHUDDialogMenu2_data).offset_0x28 = 0;
+  (this->gCHUDDialogMenu2_data).offset_0x2c = 0;
+  (this->gCHUDDialogMenu2_data).offset_0x30 = 0;
+  (this->gCHUDDialogMenu2_data).offset_0x34 = 0;
+  (this->gCHUDDialogMenu2_data).offset_0x38 = 0;
+  (this->gCHUDDialogMenu2_data).offset_0x3c = 0;
+  (this->gCHUDDialogMenu2_data).offset_0x40 = 0;
+  (this->gCHUDDialogMenu2_data).offset_0x44 = 0;
+  bCRect::SetRect((bCRect *)this_00,0,0,0,0);
+  bCRect::SetRect((bCRect *)this_01,0,0,0,0);
+  (this->gCHUDDialogMenu2_data).offset_0x48 = 0xffffffff;
+  (this->gCHUDDialogMenu2_data).offset_0x6c = 0;
+  return this;
+}
+
+

@@ -1,0 +1,16 @@
+/* ENTRY 2016aa60 | gCHUDViewSpell2::gCHUDViewSpell2 | STATUS decompiled | 13 ms */
+
+gCHUDViewSpell2 * __thiscall gCHUDViewSpell2::gCHUDViewSpell2(gCHUDViewSpell2 *this)
+
+{
+  gCHUDPageView::gCHUDPageView((gCHUDPageView *)this);
+  this->vftablePtr = &vftable;
+  gCHUDTableSpellStats::gCHUDTableSpellStats
+            ((gCHUDTableSpellStats *)&(this->gCHUDViewSpell2_data).field_0xc);
+  gCHUDLabel::gCHUDLabel((gCHUDLabel *)&(this->gCHUDViewSpell2_data).field_0x34);
+  gCHUDLabel::gCHUDLabel((gCHUDLabel *)&(this->gCHUDViewSpell2_data).field_0x44);
+  (this->gCHUDViewSpell2_data).offset_0x54 = 0;
+  return this;
+}
+
+

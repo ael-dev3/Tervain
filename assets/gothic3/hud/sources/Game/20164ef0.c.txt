@@ -1,0 +1,12 @@
+/* ENTRY 20164ef0 | gCHUDViewMap2::~gCHUDViewMap2 | STATUS decompiled | 9 ms */
+
+void __thiscall gCHUDViewMap2::~gCHUDViewMap2(gCHUDViewMap2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  gCHUDStaticMap::~gCHUDStaticMap((gCHUDStaticMap *)&(this->gCHUDViewMap2_data).field_0xc);
+  FUN_200156a9();
+  return;
+}
+
+

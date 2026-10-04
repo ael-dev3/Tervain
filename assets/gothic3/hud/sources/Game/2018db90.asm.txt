@@ -1,0 +1,8 @@
+; 2018db90 gCHUDTableSpellStats::gCHUDTableSpellStats
+2018db90 | 56 | PUSH ESI
+2018db91 | 8bf1 | MOV ESI,ECX
+2018db93 | e8a30be9ff | CALL 0x2001e73b
+2018db98 | c706448b6720 | MOV dword ptr [ESI],0x20678b44
+2018db9e | 8bc6 | MOV EAX,ESI
+2018dba0 | 5e | POP ESI
+2018dba1 | c3 | RET

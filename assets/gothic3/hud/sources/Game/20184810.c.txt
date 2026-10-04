@@ -1,0 +1,12 @@
+/* ENTRY 20184810 | gCHUDListCtrlDialog::gCHUDListCtrlDialog | STATUS decompiled | 6 ms */
+
+gCHUDListCtrlDialog * __thiscall gCHUDListCtrlDialog::gCHUDListCtrlDialog(gCHUDListCtrlDialog *this)
+
+{
+  CFFGFCListCtrl::CFFGFCListCtrl((CFFGFCListCtrl *)this);
+  this->vftablePtr = &vftable;
+  (this->gCHUDListCtrlDialog_data).offset_0xc = 0;
+  return this;
+}
+
+

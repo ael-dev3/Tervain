@@ -1,0 +1,2 @@
+; 2001d0d9 gCHUDPageInventory2::vfunction71
+2001d0d9 | e902f81400 | JMP 0x2016c8e0

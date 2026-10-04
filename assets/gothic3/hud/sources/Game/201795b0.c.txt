@@ -1,0 +1,24 @@
+/* ENTRY 201795b0 | gCHUDMenuOptionsControlsCustom2::~gCHUDMenuOptionsControlsCustom2 | STATUS decompiled | 19 ms */
+
+void __thiscall
+gCHUDMenuOptionsControlsCustom2::~gCHUDMenuOptionsControlsCustom2
+          (gCHUDMenuOptionsControlsCustom2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  bCUnicodeString::~bCUnicodeString
+            ((bCUnicodeString *)&(this->gCHUDMenuOptionsControlsCustom2_data).field_0xc4);
+  bCObjectRefBase::~bCObjectRefBase
+            ((bCObjectRefBase *)&(this->gCHUDMenuOptionsControlsCustom2_data).offset_0xb0);
+  gCHUDMenuConfirm2::~gCHUDMenuConfirm2
+            ((gCHUDMenuConfirm2 *)&(this->gCHUDMenuOptionsControlsCustom2_data).field_0x5c);
+  gCHUDView::~gCHUDView((gCHUDView *)&(this->gCHUDMenuOptionsControlsCustom2_data).field_0x48);
+  FUN_20036877();
+  gCHUDListCtrlMapping::~gCHUDListCtrlMapping
+            ((gCHUDListCtrlMapping *)&(this->gCHUDMenuOptionsControlsCustom2_data).field_0x1c);
+  gCHUDButton::~gCHUDButton((gCHUDButton *)&(this->gCHUDMenuOptionsControlsCustom2_data).field_0xc);
+  gCHUDMenu::~gCHUDMenu((gCHUDMenu *)this);
+  return;
+}
+
+

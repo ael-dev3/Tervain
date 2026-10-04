@@ -1,0 +1,11 @@
+/* ENTRY 2018dbb0 | gCHUDTableSpellStats::~gCHUDTableSpellStats | STATUS decompiled | 6 ms */
+
+void __thiscall gCHUDTableSpellStats::~gCHUDTableSpellStats(gCHUDTableSpellStats *this)
+
+{
+  this->vftablePtr = &vftable;
+  gCHUDTable::~gCHUDTable((gCHUDTable *)this);
+  return;
+}
+
+

@@ -1,0 +1,14 @@
+/* ENTRY 20166870 | gCHUDViewBarQuickslots2::gCHUDViewBarQuickslots2 | STATUS decompiled | 10 ms */
+
+gCHUDViewBarQuickslots2 * __thiscall
+gCHUDViewBarQuickslots2::gCHUDViewBarQuickslots2(gCHUDViewBarQuickslots2 *this)
+
+{
+  CFFGFCView::CFFGFCView((CFFGFCView *)this);
+  this->vftablePtr = &vftable;
+  gCHUDListCtrlInvQuickSlots::gCHUDListCtrlInvQuickSlots
+            ((gCHUDListCtrlInvQuickSlots *)&(this->gCHUDViewBarQuickslots2_data).field_0xc);
+  return this;
+}
+
+

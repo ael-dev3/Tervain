@@ -1,0 +1,14 @@
+/* ENTRY 20186cc0 | gCHUDListCtrlInvDocuments::gCHUDListCtrlInvDocuments | STATUS decompiled | 14 ms */
+
+gCHUDListCtrlInvDocuments * __thiscall
+gCHUDListCtrlInvDocuments::gCHUDListCtrlInvDocuments(gCHUDListCtrlInvDocuments *this)
+
+{
+  gCHUDListCtrlInvStacks::gCHUDListCtrlInvStacks((gCHUDListCtrlInvStacks *)this);
+  this->vftablePtr = &vftable;
+  this->vftablePtr = &vftable;
+  (this->gCHUDListCtrlInvDocuments_data).offset_0x0 = 0xffffffff;
+  return this;
+}
+
+

@@ -1,0 +1,21 @@
+/* ENTRY 20367e40 | FUN_20367e40 | STATUS decompiled | 8 ms */
+
+eCEntity * __fastcall FUN_20367e40(int param_1)
+
+{
+  eCEntity *peVar1;
+  int iVar2;
+  
+  peVar1 = eCEntityProxy::GetEntity((eCEntityProxy *)(param_1 + 0x20));
+  if (peVar1 != (eCEntity *)0x0) {
+    peVar1 = eCEntityProxy::GetEntity((eCEntityProxy *)(param_1 + 0x20));
+    iVar2 = (**(code **)(*(int *)peVar1 + 0xec))(0x1e);
+    if (iVar2 != 0) {
+      peVar1 = eCEntityProxy::GetEntity((eCEntityProxy *)(iVar2 + 0x9c));
+      return peVar1;
+    }
+  }
+  return (eCEntity *)0x0;
+}
+
+

@@ -1,0 +1,4 @@
+; 304b35c0 FUN_304b35c0
+304b35c0 | 8b01 | MOV EAX,dword ptr [ECX]
+304b35c2 | 8b80ec000000 | MOV EAX,dword ptr [EAX + 0xec]
+304b35c8 | ffe0 | JMP EAX

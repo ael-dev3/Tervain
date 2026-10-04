@@ -1,0 +1,2 @@
+; 2000a1f5 ?CalcZoneHeights@gCNavZone_PS@@QAE?AW4bEResult@@XZ
+2000a1f5 | e9165e2900 | JMP 0x202a0010

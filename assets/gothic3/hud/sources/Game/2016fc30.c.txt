@@ -1,0 +1,194 @@
+/* ENTRY 2016fc30 | FUN_2016fc30 | STATUS decompiled | 125 ms */
+
+gCHUDPageInventory2 * __thiscall FUN_2016fc30(CFFGFCWnd *param_1,undefined4 param_2)
+
+{
+  gCHUDPageDocuments2 *this;
+  gCHUDPageSpells2 *this_00;
+  gCHUDPageSkills2 *this_01;
+  gCHUDPageQuests2 *this_02;
+  gCHUDPageTrade2 *this_03;
+  gCHUDPageDialog2 *this_04;
+  gCHUDPageLoot2 *this_05;
+  gCHUDPageSynth2 *pgVar1;
+  gCHUDPageTransform2 *pgVar2;
+  gCHUDPageTutorial2 *this_06;
+  gCHUDPageSlideshow2 *this_07;
+  gCHUDPageInventory2 *pgVar3;
+  
+  pgVar3 = (gCHUDPageInventory2 *)0x0;
+  switch(param_2) {
+  case 0:
+    break;
+  case 1:
+    this_00 = (gCHUDPageSpells2 *)new(0x180,0xe5);
+    if (this_00 == (gCHUDPageSpells2 *)0x0) {
+      CFFGFCWnd::Create((CFFGFCWnd *)0x0,0x756b,param_1);
+      return (gCHUDPageInventory2 *)0x0;
+    }
+    pgVar3 = (gCHUDPageInventory2 *)gCHUDPageSpells2::gCHUDPageSpells2(this_00);
+    CFFGFCWnd::Create((CFFGFCWnd *)pgVar3,0x756b,param_1);
+    return pgVar3;
+  case 2:
+    this = (gCHUDPageDocuments2 *)new(0x2cc,0xe4);
+    if (this == (gCHUDPageDocuments2 *)0x0) {
+      CFFGFCWnd::Create((CFFGFCWnd *)0x0,0x7563,param_1);
+      return (gCHUDPageInventory2 *)0x0;
+    }
+    pgVar3 = (gCHUDPageInventory2 *)gCHUDPageDocuments2::gCHUDPageDocuments2(this);
+    CFFGFCWnd::Create((CFFGFCWnd *)pgVar3,0x7563,param_1);
+    return pgVar3;
+  case 3:
+    this_01 = (gCHUDPageSkills2 *)new(0xaac,0xe6);
+    if (this_01 == (gCHUDPageSkills2 *)0x0) {
+      CFFGFCWnd::Create((CFFGFCWnd *)0x0,0x7565,param_1);
+      return (gCHUDPageInventory2 *)0x0;
+    }
+    pgVar3 = (gCHUDPageInventory2 *)gCHUDPageSkills2::gCHUDPageSkills2(this_01);
+    CFFGFCWnd::Create((CFFGFCWnd *)pgVar3,0x7565,param_1);
+    return pgVar3;
+  case 4:
+    this_02 = (gCHUDPageQuests2 *)new(0x3bc,0xe7);
+    if (this_02 == (gCHUDPageQuests2 *)0x0) {
+      CFFGFCWnd::Create((CFFGFCWnd *)0x0,0x7566,param_1);
+      return (gCHUDPageInventory2 *)0x0;
+    }
+    pgVar3 = (gCHUDPageInventory2 *)gCHUDPageQuests2::gCHUDPageQuests2(this_02);
+    CFFGFCWnd::Create((CFFGFCWnd *)pgVar3,0x7566,param_1);
+    return pgVar3;
+  case 5:
+    this_03 = (gCHUDPageTrade2 *)new(0x474,0xe8);
+    if (this_03 == (gCHUDPageTrade2 *)0x0) {
+      CFFGFCWnd::Create((CFFGFCWnd *)0x0,0x756f,param_1);
+      return (gCHUDPageInventory2 *)0x0;
+    }
+    pgVar3 = (gCHUDPageInventory2 *)gCHUDPageTrade2::gCHUDPageTrade2(this_03);
+    CFFGFCWnd::Create((CFFGFCWnd *)pgVar3,0x756f,param_1);
+    return pgVar3;
+  case 6:
+    this_04 = (gCHUDPageDialog2 *)new(0x4c,0xe9);
+    if (this_04 == (gCHUDPageDialog2 *)0x0) {
+      CFFGFCWnd::Create((CFFGFCWnd *)0x0,0x7576,param_1);
+      return (gCHUDPageInventory2 *)0x0;
+    }
+    pgVar3 = (gCHUDPageInventory2 *)gCHUDPageDialog2::gCHUDPageDialog2(this_04);
+    CFFGFCWnd::Create((CFFGFCWnd *)pgVar3,0x7576,param_1);
+    return pgVar3;
+  case 7:
+    this_05 = (gCHUDPageLoot2 *)new(0x27c,0xea);
+    if (this_05 == (gCHUDPageLoot2 *)0x0) {
+      CFFGFCWnd::Create((CFFGFCWnd *)0x0,0x7580,param_1);
+      return (gCHUDPageInventory2 *)0x0;
+    }
+    pgVar3 = (gCHUDPageInventory2 *)gCHUDPageLoot2::gCHUDPageLoot2(this_05);
+    CFFGFCWnd::Create((CFFGFCWnd *)pgVar3,0x7580,param_1);
+    return pgVar3;
+  case 8:
+    pgVar1 = (gCHUDPageSynth2 *)new(0x240,0xeb);
+    if (pgVar1 == (gCHUDPageSynth2 *)0x0) {
+      pgVar3 = (gCHUDPageInventory2 *)0x0;
+    }
+    else {
+      pgVar3 = (gCHUDPageInventory2 *)gCHUDPageSynth2::gCHUDPageSynth2(pgVar1);
+    }
+    CFFGFCWnd::Create((CFFGFCWnd *)pgVar3,0x7579,param_1);
+    thunk_FUN_2016e750(2);
+    return pgVar3;
+  case 9:
+    pgVar1 = (gCHUDPageSynth2 *)new(0x240,0xec);
+    if (pgVar1 == (gCHUDPageSynth2 *)0x0) {
+      pgVar3 = (gCHUDPageInventory2 *)0x0;
+    }
+    else {
+      pgVar3 = (gCHUDPageInventory2 *)gCHUDPageSynth2::gCHUDPageSynth2(pgVar1);
+    }
+    CFFGFCWnd::Create((CFFGFCWnd *)pgVar3,0x7579,param_1);
+    thunk_FUN_2016e750(3);
+    return pgVar3;
+  case 10:
+    pgVar1 = (gCHUDPageSynth2 *)new(0x240,0xed);
+    if (pgVar1 == (gCHUDPageSynth2 *)0x0) {
+      pgVar3 = (gCHUDPageInventory2 *)0x0;
+    }
+    else {
+      pgVar3 = (gCHUDPageInventory2 *)gCHUDPageSynth2::gCHUDPageSynth2(pgVar1);
+    }
+    CFFGFCWnd::Create((CFFGFCWnd *)pgVar3,0x7579,param_1);
+    thunk_FUN_2016e750(4);
+    return pgVar3;
+  case 0xb:
+    pgVar2 = (gCHUDPageTransform2 *)new(0x1c0,0xee);
+    if (pgVar2 == (gCHUDPageTransform2 *)0x0) {
+      pgVar3 = (gCHUDPageInventory2 *)0x0;
+    }
+    else {
+      pgVar3 = (gCHUDPageInventory2 *)gCHUDPageTransform2::gCHUDPageTransform2(pgVar2);
+    }
+    CFFGFCWnd::Create((CFFGFCWnd *)pgVar3,0x7585,param_1);
+    thunk_FUN_2016f490(0);
+    return pgVar3;
+  case 0xc:
+    pgVar2 = (gCHUDPageTransform2 *)new(0x1c0,0xef);
+    if (pgVar2 == (gCHUDPageTransform2 *)0x0) {
+      pgVar3 = (gCHUDPageInventory2 *)0x0;
+    }
+    else {
+      pgVar3 = (gCHUDPageInventory2 *)gCHUDPageTransform2::gCHUDPageTransform2(pgVar2);
+    }
+    CFFGFCWnd::Create((CFFGFCWnd *)pgVar3,0x7585,param_1);
+    thunk_FUN_2016f490(1);
+    return pgVar3;
+  case 0xd:
+    pgVar2 = (gCHUDPageTransform2 *)new(0x1c0,0xf0);
+    if (pgVar2 == (gCHUDPageTransform2 *)0x0) {
+      pgVar3 = (gCHUDPageInventory2 *)0x0;
+    }
+    else {
+      pgVar3 = (gCHUDPageInventory2 *)gCHUDPageTransform2::gCHUDPageTransform2(pgVar2);
+    }
+    CFFGFCWnd::Create((CFFGFCWnd *)pgVar3,0x7585,param_1);
+    thunk_FUN_2016f490(2);
+    return pgVar3;
+  case 0xe:
+    pgVar2 = (gCHUDPageTransform2 *)new(0x1c0,0xf1);
+    if (pgVar2 == (gCHUDPageTransform2 *)0x0) {
+      pgVar3 = (gCHUDPageInventory2 *)0x0;
+    }
+    else {
+      pgVar3 = (gCHUDPageInventory2 *)gCHUDPageTransform2::gCHUDPageTransform2(pgVar2);
+    }
+    CFFGFCWnd::Create((CFFGFCWnd *)pgVar3,0x7585,param_1);
+    thunk_FUN_2016f490(3);
+    return pgVar3;
+  case 0xf:
+    this_06 = (gCHUDPageTutorial2 *)new(0x78,0xf2);
+    if (this_06 == (gCHUDPageTutorial2 *)0x0) {
+      CFFGFCWnd::Create((CFFGFCWnd *)0x0,0x7586,param_1);
+      return (gCHUDPageInventory2 *)0x0;
+    }
+    pgVar3 = (gCHUDPageInventory2 *)gCHUDPageTutorial2::gCHUDPageTutorial2(this_06);
+    CFFGFCWnd::Create((CFFGFCWnd *)pgVar3,0x7586,param_1);
+    return pgVar3;
+  case 0x10:
+    this_07 = (gCHUDPageSlideshow2 *)new(0x44,0xf3);
+    if (this_07 == (gCHUDPageSlideshow2 *)0x0) {
+      pgVar3 = (gCHUDPageInventory2 *)0x0;
+    }
+    else {
+      pgVar3 = (gCHUDPageInventory2 *)gCHUDPageSlideshow2::gCHUDPageSlideshow2(this_07);
+    }
+    CFFGFCWnd::Create((CFFGFCWnd *)pgVar3,0x759b,param_1);
+  default:
+    return pgVar3;
+  }
+  pgVar3 = (gCHUDPageInventory2 *)new(0x978,0xe3);
+  if (pgVar3 == (gCHUDPageInventory2 *)0x0) {
+    CFFGFCWnd::Create((CFFGFCWnd *)0x0,0x7564,param_1);
+    return (gCHUDPageInventory2 *)0x0;
+  }
+  pgVar3 = gCHUDPageInventory2::gCHUDPageInventory2(pgVar3);
+  CFFGFCWnd::Create((CFFGFCWnd *)pgVar3,0x7564,param_1);
+  return pgVar3;
+}
+
+

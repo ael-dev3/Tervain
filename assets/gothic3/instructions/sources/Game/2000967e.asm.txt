@@ -1,0 +1,4 @@
+; 2000967e ?SetCurrentBreakBlock@gCScriptRoutine_PS@@QAEXABJ@Z
+2000967e | e95d180a00 | JMP 0x200aaee0
+; 20009683 gCMusicTransition::~gCMusicTransition
+; 20009683 Ordinal_498

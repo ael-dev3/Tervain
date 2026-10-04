@@ -1,0 +1,10 @@
+; 2016bf30 gCHUDViewBarTransformPages2::gCHUDViewBarTransformPages2
+2016bf30 | 56 | PUSH ESI
+2016bf31 | 8bf1 | MOV ESI,ECX
+2016bf33 | ff15cc787d20 | CALL dword ptr [0x207d78cc]
+2016bf39 | 8d4e10 | LEA ECX,[ESI + 0x10]
+2016bf3c | c7068c1d6720 | MOV dword ptr [ESI],0x20671d8c
+2016bf42 | ff15e4787d20 | CALL dword ptr [0x207d78e4]
+2016bf48 | 8bc6 | MOV EAX,ESI
+2016bf4a | 5e | POP ESI
+2016bf4b | c3 | RET

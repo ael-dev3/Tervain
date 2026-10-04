@@ -1,0 +1,10 @@
+; 20189a70 gCHUDListCtrlInvTransforms::gCHUDListCtrlInvTransforms
+20189a70 | 56 | PUSH ESI
+20189a71 | 8bf1 | MOV ESI,ECX
+20189a73 | e803b1eaff | CALL 0x20034b7b
+20189a78 | c706747b6720 | MOV dword ptr [ESI],0x20677b74
+20189a7e | c74610587b6720 | MOV dword ptr [ESI + 0x10],0x20677b58
+20189a85 | c74634ffffffff | MOV dword ptr [ESI + 0x34],0xffffffff
+20189a8c | 8bc6 | MOV EAX,ESI
+20189a8e | 5e | POP ESI
+20189a8f | c3 | RET

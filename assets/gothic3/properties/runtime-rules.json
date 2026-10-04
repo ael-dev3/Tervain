@@ -1,0 +1,46 @@
+{
+  "schema": "gothic3-native-properties-rules-v1",
+  "inputs": {
+    "Engine": "d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3",
+    "SharedBase": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
+    "Game": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f"
+  },
+  "modifiedWordOffset": 304,
+  "defaultModifiedWord": 4294967295,
+  "ownerOffset": 12,
+  "dispatchOffsets": [
+    76,
+    80
+  ],
+  "ownerModifiedIsReadOnly": true,
+  "profiles": {
+    "gCScriptRoutine_PS": {
+      "customExit": null,
+      "vtable": "2069c754"
+    },
+    "gCPlayerMemory_PS": {
+      "customExit": null,
+      "vtable": "2069845c"
+    },
+    "gCNPC_PS": {
+      "customExit": "Enclave proxy SetEntity unless propagated",
+      "vtable": "2069668c"
+    }
+  },
+  "propertyID": {
+    "storageBytes": 20,
+    "equalityBytes": 16,
+    "assignmentCopiesBytes": 16,
+    "assignmentClearsTrailingDWORD": true
+  },
+  "proxySetEntity": "Compare PropertyID first16 bytes; equal leaves internal reference intact; otherwise copy ID/clear tail, ReleaseReference when nonnull, then clear internal pointer",
+  "evidence": {
+    "path": "native-evidence.json",
+    "sha256": "df74e089009e66ec12f7ca23e021003233929aef66d0617f5675c6c8a46ac619"
+  },
+  "remaining": [
+    "full entity create/read/world lifecycle",
+    "nonnull proxy internal ReleaseReference and final destruction host",
+    "notification overrides of other property-set classes"
+  ]
+}

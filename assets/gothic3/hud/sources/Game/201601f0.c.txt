@@ -1,0 +1,16 @@
+/* ENTRY 201601f0 | gCHUDViewAmount2::gCHUDViewAmount2 | STATUS decompiled | 14 ms */
+
+gCHUDViewAmount2 * __thiscall gCHUDViewAmount2::gCHUDViewAmount2(gCHUDViewAmount2 *this)
+
+{
+  gCHUDPageView::gCHUDPageView((gCHUDPageView *)this);
+  this->vftablePtr = &vftable;
+  CFFGFCSlider::CFFGFCSlider((CFFGFCSlider *)&(this->gCHUDViewAmount2_data).field_0xc);
+  gCHUDButton::gCHUDButton((gCHUDButton *)&(this->gCHUDViewAmount2_data).field_0x1c);
+  gCHUDButton::gCHUDButton((gCHUDButton *)&(this->gCHUDViewAmount2_data).field_0x2c);
+  gCHUDLabel::gCHUDLabel((gCHUDLabel *)&(this->gCHUDViewAmount2_data).field_0x3c);
+  gCHUDLabel::gCHUDLabel((gCHUDLabel *)&(this->gCHUDViewAmount2_data).field_0x4c);
+  return this;
+}
+
+

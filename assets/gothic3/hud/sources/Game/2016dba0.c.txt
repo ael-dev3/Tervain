@@ -1,0 +1,13 @@
+/* ENTRY 2016dba0 | gCHUDPageQuests2::gCHUDPageQuests2 | STATUS decompiled | 17 ms */
+
+gCHUDPageQuests2 * __thiscall gCHUDPageQuests2::gCHUDPageQuests2(gCHUDPageQuests2 *this)
+
+{
+  gCHUDPage::gCHUDPage((gCHUDPage *)this);
+  this->vftablePtr = &vftable;
+  gCHUDView::gCHUDView((gCHUDView *)&this->gCHUDPageQuests2_data);
+  gCHUDViewQuests2::gCHUDViewQuests2((gCHUDViewQuests2 *)&(this->gCHUDPageQuests2_data).field_0x14);
+  return this;
+}
+
+

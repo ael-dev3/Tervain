@@ -1,0 +1,23 @@
+/* ENTRY 20168790 | gCHUDViewWorld2::~gCHUDViewWorld2 | STATUS decompiled | 10 ms */
+
+void __thiscall gCHUDViewWorld2::~gCHUDViewWorld2(gCHUDViewWorld2 *this)
+
+{
+  CFFGFCButton *this_00;
+  int iVar1;
+  
+  this->vftablePtr = &vftable;
+  FUN_20036877();
+  FUN_20036877();
+  this_00 = (CFFGFCButton *)&(this->gCHUDViewWorld2_data).field_0x19c;
+  iVar1 = 0x18;
+  do {
+    this_00 = this_00 + -4;
+    CFFGFCButton::~CFFGFCButton(this_00);
+    iVar1 = iVar1 + -1;
+  } while (-1 < iVar1);
+  FUN_200156a9();
+  return;
+}
+
+

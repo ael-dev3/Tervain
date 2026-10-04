@@ -1,0 +1,47 @@
+/* ENTRY 20170170 | FUN_20170170 | STATUS decompiled | 14 ms */
+
+void __fastcall FUN_20170170(CFFGFCWnd *param_1)
+
+{
+  CFFGFCWnd *this;
+  long lVar1;
+  long lVar2;
+  int iVar3;
+  IFFGUIMsgProc *pIVar4;
+  bCRect *pbVar5;
+  int iVar6;
+  bCRect local_20 [16];
+  bCRect local_10 [16];
+  
+  bCRect::bCRect(local_10);
+  CFFGFCWnd::GetClientRect(param_1,local_10);
+  CFFGFCWnd::MoveWindow((CFFGFCWnd *)param_1[0x1f].IFFGUIMsgProc,local_10);
+  pIVar4 = &param_1[0xe].IFFGUIMsgProc;
+  iVar3 = 0x11;
+  do {
+    CFFGFCWnd::MoveWindow((CFFGFCWnd *)*pIVar4,local_10);
+    pIVar4 = pIVar4 + 1;
+    iVar3 = iVar3 + -1;
+  } while (iVar3 != 0);
+  bCRect::bCRect(local_20);
+  pbVar5 = local_20;
+  this = CFFGFCWnd::GetDesktopWindow(param_1);
+  CFFGFCWnd::GetClientRect((CFFGFCWnd *)this,pbVar5);
+  CFFGFCWnd::MoveWindow((CFFGFCWnd *)param_1[0xb].IFFGUIMsgProc,local_20);
+  iVar6 = 0x80;
+  iVar3 = 0xf2;
+  lVar1 = bCRect::GetTop(local_20);
+  lVar2 = bCRect::GetRight(local_20);
+  CFFGFCWnd::MoveWindow((CFFGFCWnd *)param_1[0xc].IFFGUIMsgProc,lVar2 + -0xf2,lVar1,iVar3,iVar6);
+  iVar6 = 0x22;
+  iVar3 = 0x1ce;
+  lVar1 = bCRect::GetTop(local_20);
+  lVar2 = bCRect::GetLeft(local_20);
+  CFFGFCWnd::MoveWindow((CFFGFCWnd *)param_1[0xd].IFFGUIMsgProc,lVar2,lVar1,iVar3,iVar6);
+  CFFGFCWnd::CenterWindow((CFFGFCWnd *)param_1[0x20].IFFGUIMsgProc);
+  bCRect::~bCRect(local_20);
+  bCRect::~bCRect(local_10);
+  return;
+}
+
+

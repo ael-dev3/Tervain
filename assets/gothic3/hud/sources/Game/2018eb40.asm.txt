@@ -1,0 +1,15 @@
+; 2018eb40 gCHUDProgressBarNPC::gCHUDProgressBarNPC
+2018eb40 | 56 | PUSH ESI
+2018eb41 | 8bf1 | MOV ESI,ECX
+2018eb43 | ff1524787d20 | CALL dword ptr [0x207d7824]
+2018eb49 | 8d4e10 | LEA ECX,[ESI + 0x10]
+2018eb4c | c706f48f6720 | MOV dword ptr [ESI],0x20678ff4
+2018eb52 | ff15d86d7d20 | CALL dword ptr [0x207d6dd8]
+2018eb58 | 6807716520 | PUSH 0x20657107
+2018eb5d | 8d4e2c | LEA ECX,[ESI + 0x2c]
+2018eb60 | ff150c897d20 | CALL dword ptr [0x207d890c]
+2018eb66 | c6463000 | MOV byte ptr [ESI + 0x30],0x0
+2018eb6a | c6463101 | MOV byte ptr [ESI + 0x31],0x1
+2018eb6e | 8bc6 | MOV EAX,ESI
+2018eb70 | 5e | POP ESI
+2018eb71 | c3 | RET

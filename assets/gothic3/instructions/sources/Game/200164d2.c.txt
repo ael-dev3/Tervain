@@ -1,0 +1,28 @@
+/* ENTRY 200164d2 | gCScriptProcessingUnit::AISetLocalCallback | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall gCScriptProcessingUnit::AISetLocalCallback(class bCString) */
+
+void __thiscall gCScriptProcessingUnit::AISetLocalCallback(gCScriptProcessingUnit *this)
+
+{
+  bCString *this_00;
+  bool bVar1;
+  
+                    /* 0x164d2  972  ?AISetLocalCallback@gCScriptProcessingUnit@@QAEXVbCString@@@Z
+                        */
+  bVar1 = bCString::operator==((bCString *)&stack0x00000004,(bCString *)&DAT_207cc478);
+  this_00 = (bCString *)
+            ((int)(this->gCScriptProcessingUnit_data).offset_0x0 +
+            (this->gCScriptProcessingUnit_data).offset_0x4 * 0x18 + -8);
+  if (bVar1) {
+    bCString::Clear(this_00);
+    bCString::~bCString((bCString *)&stack0x00000004);
+    return;
+  }
+  bCString::operator=(this_00,(bCString *)&stack0x00000004);
+  *(undefined4 *)&(this->gCScriptProcessingUnit_data).field_0x18 = 0x42c80000;
+  bCString::~bCString((bCString *)&stack0x00000004);
+  return;
+}
+
+

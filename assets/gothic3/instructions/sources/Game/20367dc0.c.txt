@@ -1,0 +1,20 @@
+/* ENTRY 20367dc0 | FUN_20367dc0 | STATUS decompiled | 8 ms */
+
+void __fastcall FUN_20367dc0(int param_1)
+
+{
+  bool bVar1;
+  
+  bVar1 = bCString::operator==((bCString *)&stack0x00000004,(bCString *)&DAT_207cc478);
+  if (bVar1) {
+    bCString::Clear((bCString *)(param_1 + 0x14));
+    bCString::~bCString((bCString *)&stack0x00000004);
+    return;
+  }
+  bCString::operator=((bCString *)(param_1 + 0x14),(bCString *)&stack0x00000004);
+  *(undefined4 *)(param_1 + 0x18) = 0x447a0000;
+  bCString::~bCString((bCString *)&stack0x00000004);
+  return;
+}
+
+

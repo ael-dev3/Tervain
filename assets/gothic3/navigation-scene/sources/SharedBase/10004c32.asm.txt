@@ -1,0 +1,4 @@
+; 10004c32 ?Normalize@bCVector2@@QAEABV1@XZ
+10004c32 | e939350300 | JMP 0x10038170
+; 10004c37 bCTriangle::bCTriangle
+; 10004c37 Ordinal_292

@@ -13,7 +13,12 @@ assets/gothic3/clock/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/navigation/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/inventory-observers/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/routines/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/properties/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/hud/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/instructions/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/navigation-scene/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/session-checkpoint.json -text -eol
+assets/gothic3/dispatch-checkpoint.json -text -eol
 # These implementations/producers are individually byte-pinned by native receipts.
 src/gothic3/inventory.ts -text -eol
 src/gothic3/startup.ts -text -eol
@@ -28,11 +33,21 @@ src/gothic3/world-clock.ts -text -eol
 src/gothic3/navigation-runtime.ts -text -eol
 src/gothic3/inventory-observers.ts -text -eol
 src/gothic3/script-routine.ts -text -eol
+src/gothic3/native-properties.ts -text -eol
+src/gothic3/hud-runtime.ts -text -eol
+src/gothic3/script-instructions.ts -text -eol
+src/gothic3/navigation-scene.ts -text -eol
+src/gothic3/resource.ts -text -eol
 tools/gothic3/research_native_clock.py -text -eol
 tools/gothic3/research_native_navigation.py -text -eol
 tools/gothic3/research_inventory_observers.py -text -eol
 tools/gothic3/research_native_routines.py -text -eol
 tools/gothic3/freeze_session_checkpoint.py -text -eol
+tools/gothic3/research_native_properties.py -text -eol
+tools/gothic3/research_native_hud.py -text -eol
+tools/gothic3/research_spu_instructions.py -text -eol
+tools/gothic3/research_navigation_scene.py -text -eol
+tools/gothic3/freeze_dispatch_checkpoint.py -text -eol
 src/gothic3/world-clock-view.ts -text -eol
 src/gothic3/main.ts -text -eol
 docs/engineering/gothic3-rebuilding-process.md -text -eol
@@ -45,3 +60,7 @@ assets/gothic3/clock/sources/** -whitespace
 assets/gothic3/navigation/sources/** -whitespace
 assets/gothic3/inventory-observers/sources/** -whitespace
 assets/gothic3/routines/sources/** -whitespace
+assets/gothic3/properties/sources/** -whitespace
+assets/gothic3/hud/sources/** -whitespace
+assets/gothic3/instructions/sources/** -whitespace
+assets/gothic3/navigation-scene/sources/** -whitespace

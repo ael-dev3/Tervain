@@ -1,0 +1,19 @@
+; 200aad60 FUN_200aad60
+200aad60 | 56 | PUSH ESI
+200aad61 | 8bf1 | MOV ESI,ECX
+200aad63 | 8b06 | MOV EAX,dword ptr [ESI]
+200aad65 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+200aad68 | 6a00 | PUSH 0x0
+200aad6a | 6858dd6520 | PUSH 0x2065dd58
+200aad6f | ffd2 | CALL EDX
+200aad71 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+200aad75 | 8b08 | MOV ECX,dword ptr [EAX]
+200aad77 | 8b16 | MOV EDX,dword ptr [ESI]
+200aad79 | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+200aad7c | 6a00 | PUSH 0x0
+200aad7e | 894e28 | MOV dword ptr [ESI + 0x28],ECX
+200aad81 | 6858dd6520 | PUSH 0x2065dd58
+200aad86 | 8bce | MOV ECX,ESI
+200aad88 | ffd0 | CALL EAX
+200aad8a | 5e | POP ESI
+200aad8b | c20400 | RET 0x4

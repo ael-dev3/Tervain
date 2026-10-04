@@ -1,0 +1,2 @@
+; 2001ac94 ?CreatePSObjects@gCNavigationMap@@QAE?AW4bEResult@@XZ
+2001ac94 | e9c78a2a00 | JMP 0x202c3760

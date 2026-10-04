@@ -1,0 +1,30 @@
+/* ENTRY 2000d698 | gCScriptProcessingUnit::AISetStatePosition | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall gCScriptProcessingUnit::AISetStatePosition(int) */
+
+void __thiscall gCScriptProcessingUnit::AISetStatePosition(gCScriptProcessingUnit *this,int param_1)
+
+{
+  undefined1 *this_00;
+  code *pcVar1;
+  eCEntity *peVar2;
+  int *piVar3;
+  int unaff_EDI;
+  
+                    /* 0xd698  976  ?AISetStatePosition@gCScriptProcessingUnit@@QAEXH@Z */
+  this_00 = &(this->gCScriptProcessingUnit_data).field_0x1c;
+  peVar2 = eCEntityProxy::GetEntity((eCEntityProxy *)this_00);
+  if (peVar2 != (eCEntity *)0x0) {
+    peVar2 = eCEntityProxy::GetEntity((eCEntityProxy *)this_00);
+    piVar3 = (int *)(**(code **)(*(int *)peVar2 + 0xec))(0x2d);
+    if (piVar3 != (int *)0x0) {
+      (**(code **)(*piVar3 + 0x58))("StatePosition",0);
+      pcVar1 = *(code **)(*piVar3 + 0x5c);
+      piVar3[10] = unaff_EDI;
+      (*pcVar1)("StatePosition",0);
+    }
+  }
+  return;
+}
+
+

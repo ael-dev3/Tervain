@@ -1,0 +1,103 @@
+/* ENTRY 2000dc01 | gCNavigationMap::RecompileAIZonePropertiesForNavZones | STATUS decompiled | 71 ms */
+
+/* public: enum bEResult __thiscall gCNavigationMap::RecompileAIZonePropertiesForNavZones(void) */
+
+bEResult __thiscall gCNavigationMap::RecompileAIZonePropertiesForNavZones(gCNavigationMap *this)
+
+{
+  bool bVar1;
+  int iVar2;
+  int *piVar3;
+  eCEntity *peVar4;
+  int iVar5;
+  int iVar6;
+  gCNavPath_PS *this_00;
+  eCEntityProxy *this_01;
+  int iVar7;
+  eCEntityProxy eStack_54;
+  eCEntityProxy eStack_38;
+  eCEntityProxy eStack_1c;
+  
+                    /* 0xdc01  6009
+                       ?RecompileAIZonePropertiesForNavZones@gCNavigationMap@@QAE?AW4bEResult@@XZ */
+  GE_MESSAGEF_INFO(5,"gCNavigationMap::RecompileAIZonePropertiesForNavZones - Starting ... ");
+  eCEntityProxy::eCEntityProxy(&eStack_38);
+  eCEntityProxy::eCEntityProxy(&eStack_54);
+  eCEntityProxy::eCEntityProxy(&eStack_1c);
+  iVar7 = 0;
+  if (0 < (int)(this->gCNavigationMap_data).offset_0x44) {
+    do {
+      iVar2 = (**(code **)(**(int **)((int)(this->gCNavigationMap_data).offset_0x40 + iVar7 * 4) +
+                          0x68))();
+      if (iVar2 != 0) {
+        piVar3 = (int *)(**(code **)(**(int **)((int)(this->gCNavigationMap_data).offset_0x40 +
+                                               iVar7 * 4) + 0x68))();
+        iVar2 = (**(code **)(*piVar3 + 0xec))(0x5e);
+        if (((iVar2 == 0) &&
+            (bVar1 = bCPropertyID::IsValid
+                               ((bCPropertyID *)
+                                (*(int *)((int)(this->gCNavigationMap_data).offset_0x40 + iVar7 * 4)
+                                + 0x30)), bVar1)) &&
+           (bVar1 = bCPropertyID::IsValid
+                              ((bCPropertyID *)
+                               (*(int *)((int)(this->gCNavigationMap_data).offset_0x40 + iVar7 * 4)
+                               + 0x44)), bVar1)) {
+          eCEntityProxy::SetEntity
+                    (&eStack_38,
+                     (bCPropertyID *)
+                     (*(int *)((int)(this->gCNavigationMap_data).offset_0x40 + iVar7 * 4) + 0x30));
+          eCEntityProxy::SetEntity
+                    (&eStack_54,
+                     (bCPropertyID *)
+                     (*(int *)((int)(this->gCNavigationMap_data).offset_0x40 + iVar7 * 4) + 0x44));
+          peVar4 = eCEntityProxy::GetEntity(&eStack_38);
+          if ((peVar4 != (eCEntity *)0x0) &&
+             (peVar4 = eCEntityProxy::GetEntity(&eStack_54), peVar4 != (eCEntity *)0x0)) {
+            peVar4 = eCEntityProxy::GetEntity(&eStack_38);
+            iVar2 = (**(code **)(*(int *)peVar4 + 0xec))(0x5e);
+            peVar4 = eCEntityProxy::GetEntity((eCEntityProxy *)&stack0xffffffa8);
+            iVar5 = (**(code **)(*(int *)peVar4 + 0xec))(0x5e);
+            if ((iVar2 != 0) && (iVar5 != 0)) {
+              iVar6 = iVar2;
+              if (*(int *)(iVar5 + 0x18) <= *(int *)(iVar2 + 0x18)) {
+                iVar6 = iVar5;
+              }
+              gCNavPath_PS::SetZoneType
+                        (*(gCNavPath_PS **)
+                          ((int)(this->gCNavigationMap_data).offset_0x40 + iVar7 * 4),
+                         *(gEZoneType *)(iVar6 + 0x18));
+              iVar6 = iVar2;
+              if (*(int *)(iVar5 + 0x20) <= *(int *)(iVar2 + 0x20)) {
+                iVar6 = iVar5;
+              }
+              gCNavPath_PS::SetSecurityLevel
+                        (*(gCNavPath_PS **)
+                          ((int)(this->gCNavigationMap_data).offset_0x40 + iVar7 * 4),
+                         *(gESecurityLevel *)(iVar6 + 0x20));
+              this_01 = (eCEntityProxy *)(iVar2 + 0x24);
+              bVar1 = eCEntityProxy::operator==(this_01,(eCEntityProxy *)(iVar5 + 0x24));
+              if (bVar1) {
+                this_00 = *(gCNavPath_PS **)
+                           ((int)(this->gCNavigationMap_data).offset_0x40 + iVar7 * 4);
+              }
+              else {
+                this_00 = *(gCNavPath_PS **)
+                           ((int)(this->gCNavigationMap_data).offset_0x40 + iVar7 * 4);
+                this_01 = &eStack_1c;
+              }
+              gCNavPath_PS::SetOwner(this_00,(eCEntityProxy *)this_01);
+            }
+          }
+        }
+      }
+      iVar7 = iVar7 + 1;
+    } while (iVar7 < (int)(this->gCNavigationMap_data).offset_0x44);
+  }
+  GE_MESSAGEF_INFO(5,"gCNavigationMap::RecompileAIZonePropertiesForNavZones - Done!");
+  eCEntityProxy::~eCEntityProxy(&eStack_1c);
+  eCEntityProxy::~eCEntityProxy(&eStack_54);
+  eCEntityProxy::~eCEntityProxy(&eStack_38);
+  return 1;
+}
+
+

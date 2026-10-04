@@ -1,0 +1,125 @@
+/* ENTRY 202a03a0 | FUN_202a03a0 | STATUS decompiled | 104 ms */
+
+undefined4 __thiscall FUN_202a03a0(gCNavZone_PS *param_1,float *param_2,float *param_3)
+
+{
+  eCEntity *this;
+  bCMatrix *pbVar1;
+  bCVector *pbVar2;
+  bEResult bVar3;
+  bCVector *pbVar4;
+  int iVar5;
+  int iVar6;
+  bCVector abStack_ac [4];
+  bCVector abStack_a8 [4];
+  float fStack_a4;
+  bCVector abStack_a0 [4];
+  bCVector abStack_9c [4];
+  bCVector abStack_98 [4];
+  bCVector abStack_94 [4];
+  bCVector abStack_90 [4];
+  bCMatrix abStack_8c [4];
+  bCVector abStack_88 [4];
+  bCMatrix abStack_84 [8];
+  bCMatrix abStack_7c [4];
+  bCMatrix abStack_78 [8];
+  bCMatrix abStack_70 [8];
+  bCMatrix abStack_68 [4];
+  bCMatrix abStack_64 [12];
+  bCVector abStack_58 [4];
+  bCVector abStack_54 [4];
+  bCVector abStack_50 [4];
+  bCVector abStack_4c [4];
+  bCVector abStack_48 [72];
+  
+  *param_2 = 0.0;
+  *param_3 = 0.0;
+  if (2 < (int)(param_1->gCNavZone_PS_data).offset_0x14) {
+    this = (*param_1->vftablePtr->GetEntity)(param_1);
+    pbVar1 = eCEntity::GetLocalMatrix((eCEntity *)this);
+    bCMatrix::bCMatrix(abStack_64,pbVar1);
+    bCMatrix::operator*(abStack_64,abStack_a8);
+    pbVar4 = (bCVector *)
+             ((int)(param_1->gCNavZone_PS_data).offset_0x10 +
+             ((param_1->gCNavZone_PS_data).offset_0x14 + -2) * 0xc);
+    pbVar2 = (bCVector *)bCMatrix::operator*(abStack_68,abStack_88);
+    bCVector::operator-(pbVar2,pbVar4);
+    bCVector::~bCVector(abStack_90);
+    pbVar4 = (param_1->gCNavZone_PS_data).offset_0x10;
+    pbVar2 = (bCVector *)bCMatrix::operator*(abStack_70,abStack_90);
+    bCVector::operator-(pbVar2,pbVar4);
+    bCVector::~bCVector(abStack_98);
+    bCVector::SetY((bCVector *)&stack0xffffff50,(float *)&stack0xffffff40);
+    bCVector::SetY((bCVector *)&fStack_a4,(float *)&stack0xffffff40);
+    bVar3 = gCNavZone_PS::AddLeftAndRightAngle
+                      (param_1,(bCVector *)&stack0xffffff50,(bCVector *)&fStack_a4,param_2,param_3);
+    if (bVar3 == 1) {
+      pbVar4 = (bCVector *)bCMatrix::operator*(abStack_78,abStack_98);
+      bCVector::operator=((bCVector *)&stack0xffffff40,pbVar4);
+      bCVector::~bCVector(abStack_9c);
+      pbVar4 = (bCVector *)
+               ((int)(param_1->gCNavZone_PS_data).offset_0x10 +
+               (param_1->gCNavZone_PS_data).offset_0x14 * 0xc + -0xc);
+      pbVar2 = (bCVector *)bCMatrix::operator*(abStack_7c,(bCVector *)abStack_8c);
+      pbVar4 = (bCVector *)bCVector::operator-(pbVar2,pbVar4);
+      bCVector::operator=((bCVector *)&stack0xffffff44,pbVar4);
+      bCVector::~bCVector((bCVector *)&fStack_a4);
+      bCVector::~bCVector(abStack_94);
+      pbVar4 = (bCVector *)((int)(param_1->gCNavZone_PS_data).offset_0x10 + 0xc);
+      pbVar2 = (bCVector *)bCMatrix::operator*(abStack_84,(bCVector *)&fStack_a4);
+      pbVar4 = (bCVector *)bCVector::operator-(pbVar2,pbVar4);
+      bCVector::operator=((bCVector *)&stack0xffffff48,pbVar4);
+      bCVector::~bCVector(abStack_9c);
+      bCVector::~bCVector(abStack_ac);
+      bCVector::SetY((bCVector *)&stack0xffffff3c,(float *)&stack0xffffff2c);
+      bCVector::SetY((bCVector *)&stack0xffffff48,(float *)&stack0xffffff2c);
+      bVar3 = gCNavZone_PS::AddLeftAndRightAngle
+                        (param_1,(bCVector *)&stack0xffffff3c,(bCVector *)&stack0xffffff48,param_2,
+                         param_3);
+      if (bVar3 == 1) {
+        if (2 < (int)(param_1->gCNavZone_PS_data).offset_0x14) {
+          iVar5 = 0x18;
+          do {
+            iVar6 = iVar5 + -0xc + (int)(param_1->gCNavZone_PS_data).offset_0x10;
+            pbVar4 = (bCVector *)bCMatrix::operator*(abStack_8c,abStack_9c);
+            bCVector::operator=((bCVector *)&stack0xffffff2c,pbVar4);
+            bCVector::~bCVector(abStack_a0);
+            pbVar4 = (bCVector *)(iVar5 + -0x18 + (int)(param_1->gCNavZone_PS_data).offset_0x10);
+            pbVar2 = (bCVector *)bCMatrix::operator*((bCMatrix *)abStack_90,abStack_50);
+            pbVar4 = (bCVector *)bCVector::operator-(pbVar2,pbVar4);
+            bCVector::operator=((bCVector *)&stack0xffffff30,pbVar4);
+            bCVector::~bCVector((bCVector *)&stack0xffffff48);
+            bCVector::~bCVector(abStack_58);
+            pbVar4 = (bCVector *)((int)(param_1->gCNavZone_PS_data).offset_0x10 + iVar5);
+            pbVar2 = (bCVector *)bCMatrix::operator*((bCMatrix *)abStack_98,abStack_4c);
+            pbVar4 = (bCVector *)bCVector::operator-(pbVar2,pbVar4);
+            bCVector::operator=((bCVector *)&stack0xffffff34,pbVar4);
+            bCVector::~bCVector(abStack_48);
+            bCVector::~bCVector(abStack_54);
+            fStack_a4 = 0.0;
+            bCVector::SetY((bCVector *)&stack0xffffff28,&fStack_a4);
+            bCVector::SetY((bCVector *)&stack0xffffff34,(float *)&stack0xffffff4c);
+            bVar3 = gCNavZone_PS::AddLeftAndRightAngle
+                              (param_1,(bCVector *)&stack0xffffff28,(bCVector *)&stack0xffffff34,
+                               param_2,param_3);
+            if (bVar3 != 1) goto LAB_202a04bc;
+            iVar5 = iVar5 + 0xc;
+          } while (iVar6 + 1 < (int)(param_1->gCNavZone_PS_data).offset_0x14);
+        }
+        bCVector::~bCVector((bCVector *)&stack0xffffff48);
+        bCVector::~bCVector((bCVector *)&stack0xffffff3c);
+        bCVector::~bCVector((bCVector *)&stack0xffffff30);
+        bCMatrix::~bCMatrix(abStack_8c);
+        return 1;
+      }
+    }
+LAB_202a04bc:
+    bCVector::~bCVector((bCVector *)&stack0xffffff48);
+    bCVector::~bCVector((bCVector *)&stack0xffffff3c);
+    bCVector::~bCVector((bCVector *)&stack0xffffff30);
+    bCMatrix::~bCMatrix(abStack_8c);
+  }
+  return 0;
+}
+
+

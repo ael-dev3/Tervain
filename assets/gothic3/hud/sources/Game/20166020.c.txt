@@ -1,0 +1,13 @@
+/* ENTRY 20166020 | gCHUDViewBarFocus2::gCHUDViewBarFocus2 | STATUS decompiled | 10 ms */
+
+gCHUDViewBarFocus2 * __thiscall gCHUDViewBarFocus2::gCHUDViewBarFocus2(gCHUDViewBarFocus2 *this)
+
+{
+  CFFGFCView::CFFGFCView((CFFGFCView *)this);
+  this->vftablePtr = &vftable;
+  gCHUDProgressBarNPC::gCHUDProgressBarNPC
+            ((gCHUDProgressBarNPC *)&(this->gCHUDViewBarFocus2_data).field_0xc);
+  return this;
+}
+
+

@@ -1,0 +1,3 @@
+; 20183f90 gCHUDMenu::~gCHUDMenu
+20183f90 | c701bc386720 | MOV dword ptr [ECX],0x206738bc
+20183f96 | ff25c8787d20 | JMP dword ptr [0x207d78c8]

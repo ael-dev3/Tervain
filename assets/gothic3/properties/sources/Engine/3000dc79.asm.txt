@@ -1,0 +1,4 @@
+; 3000dc79 ?GetPropertySetAt@eCEntity@@QBEPBVeCEntityPropertySet@@H@Z
+3000dc79 | e942844a00 | JMP 0x304b60c0
+; 3000dc83 eCSpeedTreeWind_PS::AccessVibrationHigh
+; 3000dc83 Ordinal_3299

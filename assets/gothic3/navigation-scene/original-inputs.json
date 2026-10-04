@@ -1,0 +1,1705 @@
+{
+  "effectiveLayersIndexSha256": "6b780b236fdd1468946e0194bffd4681ad5481d7fcf1965b1043fae58d0462a2",
+  "files": [
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/NavigationMap.xnav",
+      "sha256": "1b163f4f1be7115aeef37835e798772a3437db3429a32b4d36d866437b9a41c3",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 14550529,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/NavigationMap.xnav"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/_Outdoor/G3_Myrtana_01_Landscape_NavZones_01/G3_Myrtana_01_Landscape_NavZones_01_SHyb.node",
+      "sha256": "3732906fd59326e36451dd43794fb2b87300aa47bfe5e934ad6ae7f8ccbc2afe",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 144865,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/_Outdoor/G3_Myrtana_01_Landscape_NavZones_01/G3_Myrtana_01_Landscape_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/_Outdoor/G3_Myrtana_01_Landscape_NavZones_01/G3_Myrtana_01_Landscape_NavZones_01.secdat",
+      "sha256": "dd990614068cc34bef43cc1899d61a7985131442d3a5771ddb2a3fadd4c65b66",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 77,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/_Outdoor/G3_Myrtana_01_Landscape_NavZones_01/G3_Myrtana_01_Landscape_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/G3_World_01.wrldatasc",
+      "sha256": "83867c238a399282c721a715e7241c32c93231265ce4eabea1db5df693ddd8b5",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 19010,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/G3_World_01.wrldatasc"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Ardea_City/G3_Myrtana_01_Ardea_NavZones_01/G3_Myrtana_01_Ardea_NavZones_01_SHyb.node",
+      "sha256": "3d0dfadeb795beacb7fc553dcfd349ac9ece836763c3c1a837bc3629cc69fe64",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 27406,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Ardea_City/G3_Myrtana_01_Ardea_NavZones_01/G3_Myrtana_01_Ardea_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Ardea_City/G3_Myrtana_01_Ardea_NavZones_01/G3_Myrtana_01_Ardea_NavZones_01.secdat",
+      "sha256": "b015c70d9902b7d798d1935e565ca47d00efb720d128f1dfa989ad540b29816e",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 73,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Ardea_City/G3_Myrtana_01_Ardea_NavZones_01/G3_Myrtana_01_Ardea_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Ardea_Outdoor/G3_Myrtana_01_Outdoor_Ardea_NavZones_01/G3_Myrtana_01_Outdoor_Ardea_NavZones_01_SHyb.node",
+      "sha256": "e754851b2eab4084ae9c3facae7eb73093348a8a1b7deed82964c78cbc5b158f",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 19886,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Ardea_Outdoor/G3_Myrtana_01_Outdoor_Ardea_NavZones_01/G3_Myrtana_01_Outdoor_Ardea_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Ardea_Outdoor/G3_Myrtana_01_Outdoor_Ardea_NavZones_01/G3_Myrtana_01_Outdoor_Ardea_NavZones_01.secdat",
+      "sha256": "6184e7c1f380eb1451f6db2f5fa5d6f5da96d7b20c9d14802ba3429b3af10815",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 81,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Ardea_Outdoor/G3_Myrtana_01_Outdoor_Ardea_NavZones_01/G3_Myrtana_01_Outdoor_Ardea_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Faring_City/G3_Myrtana_01_Faring_NavZones_01/G3_Myrtana_01_Faring_NavZones_01_SHyb.node",
+      "sha256": "bdfd8359d0a1bc41fde6a5bf32cb5c80994f2ccbf536041a52de7cf9581647d6",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 123131,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Faring_City/G3_Myrtana_01_Faring_NavZones_01/G3_Myrtana_01_Faring_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Faring_City/G3_Myrtana_01_Faring_NavZones_01/G3_Myrtana_01_Faring_NavZones_01.secdat",
+      "sha256": "1b41798ce1b0392c5b06fe3180b9ee4296cc5eeb7a479be5707caf124f1c87e7",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 74,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Faring_City/G3_Myrtana_01_Faring_NavZones_01/G3_Myrtana_01_Faring_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Faring_Outdoor/G3_Myrtana_01_Outdoor_Faring_NavZones_01/G3_Myrtana_01_Outdoor_Faring_NavZones_01_SHyb.node",
+      "sha256": "df56b466090204935074858dd2f92afc02140c4f78cd1056ea70ff7e56168b04",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 19685,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Faring_Outdoor/G3_Myrtana_01_Outdoor_Faring_NavZones_01/G3_Myrtana_01_Outdoor_Faring_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Faring_Outdoor/G3_Myrtana_01_Outdoor_Faring_NavZones_01/G3_Myrtana_01_Outdoor_Faring_NavZones_01.secdat",
+      "sha256": "48c7d2f3d9da12e45af891e09366c27497ae19862e3e54c62faf10ab68fce2f9",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 82,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Faring_Outdoor/G3_Myrtana_01_Outdoor_Faring_NavZones_01/G3_Myrtana_01_Outdoor_Faring_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Geldern_City/G3_Myrtana_01_Geldern_NavZones_01/G3_Myrtana_01_Geldern_NavZones_01_SHyb.node",
+      "sha256": "08319a013812bfdde11e1d315b18bb5d1dac61040adb609d85d68280351e2cd2",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 87533,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Geldern_City/G3_Myrtana_01_Geldern_NavZones_01/G3_Myrtana_01_Geldern_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Geldern_City/G3_Myrtana_01_Geldern_NavZones_01/G3_Myrtana_01_Geldern_NavZones_01.secdat",
+      "sha256": "d2595166e2522f84c9a0d1fd5db0245a9de408d7546fd0958c616a43be165c84",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 75,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Geldern_City/G3_Myrtana_01_Geldern_NavZones_01/G3_Myrtana_01_Geldern_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Geldern_Outdoor/G3_Myrtana_01_Outdoor_Geldern_Dynamic_Objects_01/G3_Myrtana_01_Outdoor_Geldern_Dynamic_Objects_01_SHyb.node",
+      "sha256": "b7fb858894bb4d3d60e3a046b216c35d775644d22453795a67365483908598e5",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 265495,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Geldern_Outdoor/G3_Myrtana_01_Outdoor_Geldern_Dynamic_Objects_01/G3_Myrtana_01_Outdoor_Geldern_Dynamic_Objects_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Geldern_Outdoor/G3_Myrtana_01_Outdoor_Geldern_Dynamic_Objects_01/G3_Myrtana_01_Outdoor_Geldern_Dynamic_Objects_01.secdat",
+      "sha256": "b6c2bfd0b938b838f8cfe877b62a306b99bd3672ee8311efccd83a5233ea6ac7",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 90,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Geldern_Outdoor/G3_Myrtana_01_Outdoor_Geldern_Dynamic_Objects_01/G3_Myrtana_01_Outdoor_Geldern_Dynamic_Objects_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Geldern_Outdoor/G3_Myrtana_01_Outdoor_Geldern_NavZones_01/G3_Myrtana_01_Outdoor_Geldern_NavZones_01_SHyb.node",
+      "sha256": "7a53551cbd1bdcb9611ceac2e77798a24b421a4062b59d8be208a202d47769bf",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 33118,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Geldern_Outdoor/G3_Myrtana_01_Outdoor_Geldern_NavZones_01/G3_Myrtana_01_Outdoor_Geldern_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Geldern_Outdoor/G3_Myrtana_01_Outdoor_Geldern_NavZones_01/G3_Myrtana_01_Outdoor_Geldern_NavZones_01.secdat",
+      "sha256": "9227fc261997486c0978bff9ae6cde1741653197cb2af8c81bbcaf0b75be17d0",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 83,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Geldern_Outdoor/G3_Myrtana_01_Outdoor_Geldern_NavZones_01/G3_Myrtana_01_Outdoor_Geldern_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Gotha_City/G3_Myrtana_01_Gotha_NavZones_01/G3_Myrtana_01_Gotha_NavZones_01_SHyb.node",
+      "sha256": "8798ef45efb4f5e242f600b857204e0611509267b5b4593338d6ee67e94a883f",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 63302,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Gotha_City/G3_Myrtana_01_Gotha_NavZones_01/G3_Myrtana_01_Gotha_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Gotha_City/G3_Myrtana_01_Gotha_NavZones_01/G3_Myrtana_01_Gotha_NavZones_01.secdat",
+      "sha256": "29b96756d9b22881de93063d7c3f2bd7d4c923b9ee22bdd1f5e24b299757dc9d",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 73,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Gotha_City/G3_Myrtana_01_Gotha_NavZones_01/G3_Myrtana_01_Gotha_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Gotha_Outdoor/G3_Myrtana_01_Outdoor_Gotha_NavZones_01/G3_Myrtana_01_Outdoor_Gotha_NavZones_01_SHyb.node",
+      "sha256": "6fdbe5b961388ed9b81b5e83dd111a1ea493b6c8b64c0f259d6be272e5feb955",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 3710,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Gotha_Outdoor/G3_Myrtana_01_Outdoor_Gotha_NavZones_01/G3_Myrtana_01_Outdoor_Gotha_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Gotha_Outdoor/G3_Myrtana_01_Outdoor_Gotha_NavZones_01/G3_Myrtana_01_Outdoor_Gotha_NavZones_01.secdat",
+      "sha256": "b29a10a8a0d8eccf412d25423ce48baacc1da11853ce1d9006f0e83327f2951e",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 81,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Gotha_Outdoor/G3_Myrtana_01_Outdoor_Gotha_NavZones_01/G3_Myrtana_01_Outdoor_Gotha_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Kap_Dun_City/G3_Myrtana_01_Kap_Dun_Dynamic_Objects_01/G3_Myrtana_01_Kap_Dun_Dynamic_Objects_01_SHyb.node",
+      "sha256": "66e4df9a0856ee3d7d8ff89cf5ed18e4ebd9a840088f3fdb05682e8fd10bb81e",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 322369,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Kap_Dun_City/G3_Myrtana_01_Kap_Dun_Dynamic_Objects_01/G3_Myrtana_01_Kap_Dun_Dynamic_Objects_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Kap_Dun_City/G3_Myrtana_01_Kap_Dun_Dynamic_Objects_01/G3_Myrtana_01_Kap_Dun_Dynamic_Objects_01.secdat",
+      "sha256": "abef2939f16d63f6fa637119e272bf52ae07ad967fe86bc7cdd4753a76484a1b",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 82,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Kap_Dun_City/G3_Myrtana_01_Kap_Dun_Dynamic_Objects_01/G3_Myrtana_01_Kap_Dun_Dynamic_Objects_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Kap_Dun_City/G3_Myrtana_01_Kap_Dun_NavZones_01/G3_Myrtana_01_Kap_Dun_NavZones_01_SHyb.node",
+      "sha256": "6b469867d938c3cae83521f79c935db795480bca93e6b4f6a3145dfb6f2e1e1a",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 31253,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Kap_Dun_City/G3_Myrtana_01_Kap_Dun_NavZones_01/G3_Myrtana_01_Kap_Dun_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Kap_Dun_City/G3_Myrtana_01_Kap_Dun_NavZones_01/G3_Myrtana_01_Kap_Dun_NavZones_01.secdat",
+      "sha256": "4ae95327ce186a11800d9a7f001d46e2b618f21b9d7bb63d5f50680c87a206de",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 75,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Kap_Dun_City/G3_Myrtana_01_Kap_Dun_NavZones_01/G3_Myrtana_01_Kap_Dun_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Kap_Dun_Outdoor/G3_Myrtana_01_Outdoor_Kap_Dun_NavZones_01/G3_Myrtana_01_Outdoor_Kap_Dun_NavZones_01_SHyb.node",
+      "sha256": "3a1a7b4662790de790f983dab14c158dff7bc985ae6c9faa1bd8b5c87efea108",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 37197,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Kap_Dun_Outdoor/G3_Myrtana_01_Outdoor_Kap_Dun_NavZones_01/G3_Myrtana_01_Outdoor_Kap_Dun_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Kap_Dun_Outdoor/G3_Myrtana_01_Outdoor_Kap_Dun_NavZones_01/G3_Myrtana_01_Outdoor_Kap_Dun_NavZones_01.secdat",
+      "sha256": "7d10a4835bf26aa00c8bb4e7cab0ecfd8afb899f0579cdfc42969f9617e1e0fa",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 83,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Kap_Dun_Outdoor/G3_Myrtana_01_Outdoor_Kap_Dun_NavZones_01/G3_Myrtana_01_Outdoor_Kap_Dun_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Montera_City/G3_Myrtana_01_Montera_NavZone_01/G3_Myrtana_01_Montera_NavZone_01_SHyb.node",
+      "sha256": "d2846ef639bd69d0f01a761bb929354086df865d973cf2e1a886255ee82e7f65",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 80555,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Montera_City/G3_Myrtana_01_Montera_NavZone_01/G3_Myrtana_01_Montera_NavZone_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Montera_City/G3_Myrtana_01_Montera_NavZone_01/G3_Myrtana_01_Montera_NavZone_01.secdat",
+      "sha256": "415024bd9f410618bdc6d95c14b16f87f4ac17140575fe17ad7aa6728375a5d6",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 74,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Montera_City/G3_Myrtana_01_Montera_NavZone_01/G3_Myrtana_01_Montera_NavZone_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Montera_Outdoor/G3_Myrtana_01_Outdoor_Montera_NavZones_01/G3_Myrtana_01_Outdoor_Montera_NavZones_01_SHyb.node",
+      "sha256": "ab686ff6d27c247f09aa429e5343051c0d2d73d9a508e3fdb66d5a2fc8b21c02",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 33789,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Montera_Outdoor/G3_Myrtana_01_Outdoor_Montera_NavZones_01/G3_Myrtana_01_Outdoor_Montera_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Montera_Outdoor/G3_Myrtana_01_Outdoor_Montera_NavZones_01/G3_Myrtana_01_Outdoor_Montera_NavZones_01.secdat",
+      "sha256": "7064c45d558ca9e9d988771f66a085d441be17bcf5ac176e462bf7f314aaa870",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 83,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Montera_Outdoor/G3_Myrtana_01_Outdoor_Montera_NavZones_01/G3_Myrtana_01_Outdoor_Montera_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Nemora_City/G3_Myrtana_01_Nemora_NavZones_01/G3_Myrtana_01_Nemora_NavZones_01_SHyb.node",
+      "sha256": "ae1452a4715dc7031a14f4e22fc784dfff7f8eeebcbd62fd8ead3074f5a01ba8",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 17843,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Nemora_City/G3_Myrtana_01_Nemora_NavZones_01/G3_Myrtana_01_Nemora_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Nemora_City/G3_Myrtana_01_Nemora_NavZones_01/G3_Myrtana_01_Nemora_NavZones_01.secdat",
+      "sha256": "362d828f7baa97dac8e3b81888279e5aed83521d36d1e874089b7f15a75fcd94",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 74,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Nemora_City/G3_Myrtana_01_Nemora_NavZones_01/G3_Myrtana_01_Nemora_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Nemora_Outdoor/G3_Myrtana_01_Outdoor_Nemora_NavZones_01/G3_Myrtana_01_Outdoor_Nemora_NavZones_01_SHyb.node",
+      "sha256": "45121cbe9cae930a28a027f72f560c6dd6134085017904713dc8b8118615cb2d",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 11251,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Nemora_Outdoor/G3_Myrtana_01_Outdoor_Nemora_NavZones_01/G3_Myrtana_01_Outdoor_Nemora_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Nemora_Outdoor/G3_Myrtana_01_Outdoor_Nemora_NavZones_01/G3_Myrtana_01_Outdoor_Nemora_NavZones_01.secdat",
+      "sha256": "973518e30c6eb90a7f466ff9a95933a3bc9e4fe0120c10f6e9385a3911cbcc6a",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 82,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Nemora_Outdoor/G3_Myrtana_01_Outdoor_Nemora_NavZones_01/G3_Myrtana_01_Outdoor_Nemora_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Okara_City/G3_Myrtana_01_Okara_Dynamic_Objects_01/G3_Myrtana_01_Okara_Dynamic_Objects_01_SHyb.node",
+      "sha256": "e4a1d8d6a8383a4a24e1eb8d422c8a4c148575224b8773b5b2c1e360663b6d96",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 134598,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Okara_City/G3_Myrtana_01_Okara_Dynamic_Objects_01/G3_Myrtana_01_Okara_Dynamic_Objects_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Okara_City/G3_Myrtana_01_Okara_Dynamic_Objects_01/G3_Myrtana_01_Okara_Dynamic_Objects_01.secdat",
+      "sha256": "6ac960bd75b486416ac1d0b662a3292ef59f1623b7e6b8d8b57f32f3d907d7ed",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 80,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Okara_City/G3_Myrtana_01_Okara_Dynamic_Objects_01/G3_Myrtana_01_Okara_Dynamic_Objects_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Okara_City/G3_Myrtana_01_Okara_NavZones_01/G3_Myrtana_01_Okara_NavZones_01_SHyb.node",
+      "sha256": "7b9eb1cf86346b5b155d603b7f76dee90d095870f8f63caa5ada49c56bc17122",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 25247,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Okara_City/G3_Myrtana_01_Okara_NavZones_01/G3_Myrtana_01_Okara_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Okara_City/G3_Myrtana_01_Okara_NavZones_01/G3_Myrtana_01_Okara_NavZones_01.secdat",
+      "sha256": "627a942a3e041a1c03186487c1da3d7a86d5e9615f0c2cb3ba63024ffcc233a5",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 73,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Okara_City/G3_Myrtana_01_Okara_NavZones_01/G3_Myrtana_01_Okara_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Okara_Outdoor/G3_Myrtana_01_Outdoor_Okara_NavZones_01/G3_Myrtana_01_Outdoor_Okara_NavZones_01_SHyb.node",
+      "sha256": "5b11e54f8d6f24b61dbd16387e9a93eff66c1d300183bb6615e928a6c699b932",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 36799,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Okara_Outdoor/G3_Myrtana_01_Outdoor_Okara_NavZones_01/G3_Myrtana_01_Outdoor_Okara_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Okara_Outdoor/G3_Myrtana_01_Outdoor_Okara_NavZones_01/G3_Myrtana_01_Outdoor_Okara_NavZones_01.secdat",
+      "sha256": "8e9ff1066c0ac3f0b72d1a007da78b098d55d5eda20c11d58e97962f77add088",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 81,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Okara_Outdoor/G3_Myrtana_01_Outdoor_Okara_NavZones_01/G3_Myrtana_01_Outdoor_Okara_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Reddock_City/G3_Myrtana_01_Reddock_Dynamic_Objects_01/G3_Myrtana_01_Reddock_Dynamic_Objects_01_SHyb.node",
+      "sha256": "f6b20e316fe728dc231bd807e368d74f85a25f7c8242945cc5b9977452c5781e",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 267946,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Reddock_City/G3_Myrtana_01_Reddock_Dynamic_Objects_01/G3_Myrtana_01_Reddock_Dynamic_Objects_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Reddock_City/G3_Myrtana_01_Reddock_Dynamic_Objects_01/G3_Myrtana_01_Reddock_Dynamic_Objects_01.secdat",
+      "sha256": "af3f120a3bb4b1ee31764a864190b63e53f4d307aacb97d88edecdf1263b8f57",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 82,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Reddock_City/G3_Myrtana_01_Reddock_Dynamic_Objects_01/G3_Myrtana_01_Reddock_Dynamic_Objects_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Reddock_City/G3_Myrtana_01_Reddock_NavZones_01/G3_Myrtana_01_Reddock_NavZones_01_SHyb.node",
+      "sha256": "73a9c129c2aafecba5916a3215d3ad12ffcee36fbefa58a36531f01e3a9b14d4",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 40849,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Reddock_City/G3_Myrtana_01_Reddock_NavZones_01/G3_Myrtana_01_Reddock_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Reddock_City/G3_Myrtana_01_Reddock_NavZones_01/G3_Myrtana_01_Reddock_NavZones_01.secdat",
+      "sha256": "1d4ac37e2bc41ace5af5dfd0708b5239fc2b611a874e533d62611ea35fa5ecc2",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 75,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Reddock_City/G3_Myrtana_01_Reddock_NavZones_01/G3_Myrtana_01_Reddock_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Reddock_Outdoor/G3_Myrtana_01_Outdoor_Reddock_NavZones_01/G3_Myrtana_01_Outdoor_Reddock_NavZones_01_SHyb.node",
+      "sha256": "d8fb150f0c780a084aaf25608073f28e46c11eac75e1a0c688a37eedee9e2c3e",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 9146,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Reddock_Outdoor/G3_Myrtana_01_Outdoor_Reddock_NavZones_01/G3_Myrtana_01_Outdoor_Reddock_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Reddock_Outdoor/G3_Myrtana_01_Outdoor_Reddock_NavZones_01/G3_Myrtana_01_Outdoor_Reddock_NavZones_01.secdat",
+      "sha256": "023d284a9e8a8338e19cf6f95660683b692385546f09c1c798cd943b0b1b1466",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 83,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Reddock_Outdoor/G3_Myrtana_01_Outdoor_Reddock_NavZones_01/G3_Myrtana_01_Outdoor_Reddock_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Silden_City/G3_Myrtana_01_Silden_NavZones_01/G3_Myrtana_01_Silden_NavZones_01_SHyb.node",
+      "sha256": "201404f3f9cfedb064b96f5b2af0032bbd4f646043816f6048566496a81ce0aa",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 57590,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Silden_City/G3_Myrtana_01_Silden_NavZones_01/G3_Myrtana_01_Silden_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Silden_City/G3_Myrtana_01_Silden_NavZones_01/G3_Myrtana_01_Silden_NavZones_01.secdat",
+      "sha256": "804871216519815fbe40c1b1351f631d1927b55643f1dd139cf943a93dd497f3",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 74,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Silden_City/G3_Myrtana_01_Silden_NavZones_01/G3_Myrtana_01_Silden_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Silden_City/G3_Myrtana_01_Silden_NPC_01/G3_Myrtana_01_Silden_NPC_01_SHyb.node",
+      "sha256": "0eda7dac1ca2f59897d8f197e5cbd560621aa85b33a07559af5637a3c3447abd",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 3523,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Silden_City/G3_Myrtana_01_Silden_NPC_01/G3_Myrtana_01_Silden_NPC_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Silden_City/G3_Myrtana_01_Silden_NPC_01/G3_Myrtana_01_Silden_NPC_01.secdat",
+      "sha256": "97afe2cfbf33a2a8910b3de165a267c9c555ed4c3065eeaec872610efeaaa25d",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 100,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Silden_City/G3_Myrtana_01_Silden_NPC_01/G3_Myrtana_01_Silden_NPC_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Silden_Outdoor/G3_Myrtana_01_Outdoor_Silden_NavZones_01/G3_Myrtana_01_Outdoor_Silden_NavZones_01_SHyb.node",
+      "sha256": "439628308464c0e806e6c72293d67c25b225462148db280e0f0fff2a7302cdd6",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 144237,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Silden_Outdoor/G3_Myrtana_01_Outdoor_Silden_NavZones_01/G3_Myrtana_01_Outdoor_Silden_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Silden_Outdoor/G3_Myrtana_01_Outdoor_Silden_NavZones_01/G3_Myrtana_01_Outdoor_Silden_NavZones_01.secdat",
+      "sha256": "054343e8562942036a3ea207e962e1468871e7f21174767a71a13bf693958dba",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 82,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Silden_Outdoor/G3_Myrtana_01_Outdoor_Silden_NavZones_01/G3_Myrtana_01_Outdoor_Silden_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Trelis_City/G3_Myrtana_01_Trelis_NavZones_01/G3_Myrtana_01_Trelis_NavZones_01_SHyb.node",
+      "sha256": "fad26c525ee006b06e2700ae49bba622f07335a423ca041214c3428512713a99",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 43477,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Trelis_City/G3_Myrtana_01_Trelis_NavZones_01/G3_Myrtana_01_Trelis_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Trelis_City/G3_Myrtana_01_Trelis_NavZones_01/G3_Myrtana_01_Trelis_NavZones_01.secdat",
+      "sha256": "bea6981953e85f69baf1c092a1d262151b8fbfda703e8cb9881f0af281fba940",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 74,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Trelis_City/G3_Myrtana_01_Trelis_NavZones_01/G3_Myrtana_01_Trelis_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Trelis_Outdoor/G3_Myrtana_01_Outdoor_Trelis_Dynamic_Objects_01/G3_Myrtana_01_Outdoor_Trelis_Dynamic_Objects_01_SHyb.node",
+      "sha256": "f86ab1fda653396df7085eea3ce6a6fe0640e8cfd94a1fb5d61b5c1330feb3e0",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 142300,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Trelis_Outdoor/G3_Myrtana_01_Outdoor_Trelis_Dynamic_Objects_01/G3_Myrtana_01_Outdoor_Trelis_Dynamic_Objects_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Trelis_Outdoor/G3_Myrtana_01_Outdoor_Trelis_Dynamic_Objects_01/G3_Myrtana_01_Outdoor_Trelis_Dynamic_Objects_01.secdat",
+      "sha256": "6a461ac641bb50547cf6aada22f8c76efe6fd3c883c69dba5fc1a2e3ed54ebf7",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 89,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Trelis_Outdoor/G3_Myrtana_01_Outdoor_Trelis_Dynamic_Objects_01/G3_Myrtana_01_Outdoor_Trelis_Dynamic_Objects_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Trelis_Outdoor/G3_Myrtana_01_Outdoor_Trelis_NavZones_01/G3_Myrtana_01_Outdoor_Trelis_NavZones_01_SHyb.node",
+      "sha256": "f3c269c8f06843456d710531d8bf3378fb7bb60ad8fa903e59b09d030b2ae03a",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 72811,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Trelis_Outdoor/G3_Myrtana_01_Outdoor_Trelis_NavZones_01/G3_Myrtana_01_Outdoor_Trelis_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Trelis_Outdoor/G3_Myrtana_01_Outdoor_Trelis_NavZones_01/G3_Myrtana_01_Outdoor_Trelis_NavZones_01.secdat",
+      "sha256": "e2679877bdba65a7d68b69103e20f646742762a868ec2f9b21c4c98cd925824b",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 82,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Trelis_Outdoor/G3_Myrtana_01_Outdoor_Trelis_NavZones_01/G3_Myrtana_01_Outdoor_Trelis_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Vangard_City/G3_Myrtana_01_Vangard_NavZones_01/G3_Myrtana_01_Vangard_NavZones_01_SHyb.node",
+      "sha256": "5ffcecebd379e641dea69603e958d808941953b1860954f2dbbec340d09a2c24",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 141898,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Vangard_City/G3_Myrtana_01_Vangard_NavZones_01/G3_Myrtana_01_Vangard_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Vangard_City/G3_Myrtana_01_Vangard_NavZones_01/G3_Myrtana_01_Vangard_NavZones_01.secdat",
+      "sha256": "a06964f2710e8a14cfc6f7f17a8dc28774e518cc2f1d211b9c3d0e619654ae2c",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 75,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Vangard_City/G3_Myrtana_01_Vangard_NavZones_01/G3_Myrtana_01_Vangard_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Vangard_Outdoor/G3_Myrtana_01_Outdoor_Vangard_NavZones_01/G3_Myrtana_01_Outdoor_Vangard_NavZones_01_SHyb.node",
+      "sha256": "c87710309c00da24e6915bd37a8a95126d5604d47961aeecdeba290f4d38ce07",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 32696,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Vangard_Outdoor/G3_Myrtana_01_Outdoor_Vangard_NavZones_01/G3_Myrtana_01_Outdoor_Vangard_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Vangard_Outdoor/G3_Myrtana_01_Outdoor_Vangard_NavZones_01/G3_Myrtana_01_Outdoor_Vangard_NavZones_01.secdat",
+      "sha256": "f89e5b44e87b0b608f8b1900a3c6521fdafde166cf85b12d4435ef2a7f94ccda",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 83,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Vangard_Outdoor/G3_Myrtana_01_Outdoor_Vangard_NavZones_01/G3_Myrtana_01_Outdoor_Vangard_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Myrtana/Varant_Pass/Varant_Pass_NavZones/Varant_Pass_NavZones_SHyb.node",
+      "sha256": "b90745fc21c07b561bb1e3eafd4d0327d55093af253c39bb2e32546ceebf9742",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 11537,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Myrtana/Varant_Pass/Varant_Pass_NavZones/Varant_Pass_NavZones_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Myrtana/Varant_Pass/Varant_Pass_NavZones/Varant_Pass_NavZones.secdat",
+      "sha256": "79cdaaf2f0ca0ea3b6e8ff78df696b2a8216ab8171a44dda4a6b6a51126d1181",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 62,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Myrtana/Varant_Pass/Varant_Pass_NavZones/Varant_Pass_NavZones.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Nordmar/_Outdoor/G3_Nordmar_01_Landscape_Dynamic_Objects_01/G3_Nordmar_01_Landscape_Dynamic_Objects_01_SHyb.node",
+      "sha256": "ed08dba5e59a9dac2dd98fa2b9b7ef8b6b3ab3d6dc2058d657eac0fbde6d33ff",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 117362,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Nordmar/_Outdoor/G3_Nordmar_01_Landscape_Dynamic_Objects_01/G3_Nordmar_01_Landscape_Dynamic_Objects_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Nordmar/_Outdoor/G3_Nordmar_01_Landscape_Dynamic_Objects_01/G3_Nordmar_01_Landscape_Dynamic_Objects_01.secdat",
+      "sha256": "0bb91ff046ee3ab177a0d528416181107d1fbf2b39da9eb93130b9ef645c9dfb",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 84,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Nordmar/_Outdoor/G3_Nordmar_01_Landscape_Dynamic_Objects_01/G3_Nordmar_01_Landscape_Dynamic_Objects_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Nordmar/_Outdoor/G3_Nordmar_01_Landscape_NavZones_01/G3_Nordmar_01_Landscape_NavZones_01_SHyb.node",
+      "sha256": "a5b0573c2b15befa99d21a0c4694cefccb3fde8b0eb7b0591cdfbb0c0307066f",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 349561,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Nordmar/_Outdoor/G3_Nordmar_01_Landscape_NavZones_01/G3_Nordmar_01_Landscape_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Nordmar/_Outdoor/G3_Nordmar_01_Landscape_NavZones_01/G3_Nordmar_01_Landscape_NavZones_01.secdat",
+      "sha256": "f02824305719bebd10b746d4960f20cdd97ca090a6a5f78a1c0508d8d3f8b31d",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 77,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Nordmar/_Outdoor/G3_Nordmar_01_Landscape_NavZones_01/G3_Nordmar_01_Landscape_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Nordmar/FireClan_City/G3_Nordmar_01_FireClan_NavZones_01/G3_Nordmar_01_FireClan_NavZones_01_SHyb.node",
+      "sha256": "8dfa2fef9b5ca7d8e4f3e31158322ce7d29422946c44c048ecf876969ba14422",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 45020,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Nordmar/FireClan_City/G3_Nordmar_01_FireClan_NavZones_01/G3_Nordmar_01_FireClan_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Nordmar/FireClan_City/G3_Nordmar_01_FireClan_NavZones_01/G3_Nordmar_01_FireClan_NavZones_01.secdat",
+      "sha256": "5ffb514421279becacaa6067f414c7aa2dc2e5dabbdfcfab7320dc76d01f4fdb",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 76,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Nordmar/FireClan_City/G3_Nordmar_01_FireClan_NavZones_01/G3_Nordmar_01_FireClan_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Nordmar/FireClan_Outdoor/G3_Nordmar_01_Outdoor_FireClan_NavZones_01/G3_Nordmar_01_Outdoor_FireClan_NavZones_01_SHyb.node",
+      "sha256": "7b6a092c09e4be2888adc6f139ff013212032db7b515961a59e2b65baa222ed0",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 2311,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Nordmar/FireClan_Outdoor/G3_Nordmar_01_Outdoor_FireClan_NavZones_01/G3_Nordmar_01_Outdoor_FireClan_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Nordmar/FireClan_Outdoor/G3_Nordmar_01_Outdoor_FireClan_NavZones_01/G3_Nordmar_01_Outdoor_FireClan_NavZones_01.secdat",
+      "sha256": "407230b435df1b719940306df916ceb14f7840140f51685b28599485a4b27ac2",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 84,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Nordmar/FireClan_Outdoor/G3_Nordmar_01_Outdoor_FireClan_NavZones_01/G3_Nordmar_01_Outdoor_FireClan_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Nordmar/HammerClan_City/G3_Nordmar_01_HammerClan_Dynamic_Objects_01/G3_Nordmar_01_HammerClan_Dynamic_Objects_01_SHyb.node",
+      "sha256": "6a0b8116b23d49033a2e61a9b83ff4a991bb587aadcbf2b38d1fe5be03b77c0e",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 267517,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Nordmar/HammerClan_City/G3_Nordmar_01_HammerClan_Dynamic_Objects_01/G3_Nordmar_01_HammerClan_Dynamic_Objects_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Nordmar/HammerClan_City/G3_Nordmar_01_HammerClan_Dynamic_Objects_01/G3_Nordmar_01_HammerClan_Dynamic_Objects_01.secdat",
+      "sha256": "876de5be03abd22ea59a5bed9d761c18c2f458c1611892df2574fda321ed66a4",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 85,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Nordmar/HammerClan_City/G3_Nordmar_01_HammerClan_Dynamic_Objects_01/G3_Nordmar_01_HammerClan_Dynamic_Objects_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Nordmar/HammerClan_City/G3_Nordmar_01_Hammerclan_Mine_NavZones_01/G3_Nordmar_01_Hammerclan_Mine_NavZones_01_SHyb.node",
+      "sha256": "056ad26def1f189f7742886e3ac760754d26d99bf5751f977530f067ecdec5a0",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 29958,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Nordmar/HammerClan_City/G3_Nordmar_01_Hammerclan_Mine_NavZones_01/G3_Nordmar_01_Hammerclan_Mine_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Nordmar/HammerClan_City/G3_Nordmar_01_Hammerclan_Mine_NavZones_01/G3_Nordmar_01_Hammerclan_Mine_NavZones_01.secdat",
+      "sha256": "3223c03d8a80164e007b504b794ac342dafa5099936214ba6e953293d3d67899",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 83,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Nordmar/HammerClan_City/G3_Nordmar_01_Hammerclan_Mine_NavZones_01/G3_Nordmar_01_Hammerclan_Mine_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Nordmar/HammerClan_City/G3_Nordmar_01_HammerClan_NavZones_01/G3_Nordmar_01_HammerClan_NavZones_01_SHyb.node",
+      "sha256": "060da490b1e0356412e946f2e546f47ea65fc6554a2511e91cf5392f4275eefa",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 53436,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Nordmar/HammerClan_City/G3_Nordmar_01_HammerClan_NavZones_01/G3_Nordmar_01_HammerClan_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Nordmar/HammerClan_City/G3_Nordmar_01_HammerClan_NavZones_01/G3_Nordmar_01_HammerClan_NavZones_01.secdat",
+      "sha256": "4323a92458c2978a58cd0267b4bbdb3ecf66f4fd630105594eb3aecaf52cf6c7",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 78,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Nordmar/HammerClan_City/G3_Nordmar_01_HammerClan_NavZones_01/G3_Nordmar_01_HammerClan_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Nordmar/HammerClan_Outdoor/G3_Nordmar_01_Outdoor_HammerClan_NavZones_01/G3_Nordmar_01_Outdoor_HammerClan_NavZones_01_SHyb.node",
+      "sha256": "35852cdbe7bf0670b71ef96fc555c3fd5553f06eaf1503412cb565489a78e155",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 1730,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Nordmar/HammerClan_Outdoor/G3_Nordmar_01_Outdoor_HammerClan_NavZones_01/G3_Nordmar_01_Outdoor_HammerClan_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Nordmar/HammerClan_Outdoor/G3_Nordmar_01_Outdoor_HammerClan_NavZones_01/G3_Nordmar_01_Outdoor_HammerClan_NavZones_01.secdat",
+      "sha256": "f875f74ed9fe3ebcc3b7a7e537a8d9fb0879eb2b5b08b8c2a926770f13ebd210",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 86,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Nordmar/HammerClan_Outdoor/G3_Nordmar_01_Outdoor_HammerClan_NavZones_01/G3_Nordmar_01_Outdoor_HammerClan_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Nordmar/Monastery/G3_Nordmar_01_Monastery_NavZones_01/G3_Nordmar_01_Monastery_NavZones_01_SHyb.node",
+      "sha256": "84947321cd716a7164f8a00080194adef695f704c912223dcf1dbcb375167192",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 50310,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Nordmar/Monastery/G3_Nordmar_01_Monastery_NavZones_01/G3_Nordmar_01_Monastery_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Nordmar/Monastery/G3_Nordmar_01_Monastery_NavZones_01/G3_Nordmar_01_Monastery_NavZones_01.secdat",
+      "sha256": "b71be0d205fbb4c7fe90c605535e259f81d7955a24f0ebc30ed4129be9f55858",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 77,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Nordmar/Monastery/G3_Nordmar_01_Monastery_NavZones_01/G3_Nordmar_01_Monastery_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Nordmar/WolfClan_City/G3_Nordmar_01_WolfClan_NavZones_01/G3_Nordmar_01_WolfClan_NavZones_01_SHyb.node",
+      "sha256": "c2f8b690c4dc5f4afa3d24f82ff4d9caff782dc6859079d0b47569dceeec1a91",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 35901,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Nordmar/WolfClan_City/G3_Nordmar_01_WolfClan_NavZones_01/G3_Nordmar_01_WolfClan_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Nordmar/WolfClan_City/G3_Nordmar_01_WolfClan_NavZones_01/G3_Nordmar_01_WolfClan_NavZones_01.secdat",
+      "sha256": "4108f9bf3f4f03d4923c8a422df203a8527da03e37c09bfb5b7e159131f33151",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 76,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Nordmar/WolfClan_City/G3_Nordmar_01_WolfClan_NavZones_01/G3_Nordmar_01_WolfClan_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Nordmar/Xardas_Tower/G3_Nordmr_01_Xardas_Tower_NavZones_01/G3_Nordmr_01_Xardas_Tower_NavZones_01_SHyb.node",
+      "sha256": "f664600df0da5d441472434f650f1edecf3c74bef01cb930ee846086274482c7",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 4796,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Nordmar/Xardas_Tower/G3_Nordmr_01_Xardas_Tower_NavZones_01/G3_Nordmr_01_Xardas_Tower_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Nordmar/Xardas_Tower/G3_Nordmr_01_Xardas_Tower_NavZones_01/G3_Nordmr_01_Xardas_Tower_NavZones_01.secdat",
+      "sha256": "26a59c940cdc9fdbdf76d557c0e675e4ad6e85169a5504f121fe90ae2d1bf5f9",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 79,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Nordmar/Xardas_Tower/G3_Nordmr_01_Xardas_Tower_NavZones_01/G3_Nordmr_01_Xardas_Tower_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat",
+      "sha256": "28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 80176690,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.secdat",
+      "sha256": "e460310cdb9742b0793e0c5dcb8624729c0d7354b39e292b2ab119c71ec22f8a",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 83608,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Varant/_Outdoor/G3_Varant_01_Landscape_NavZones_01/G3_Varant_01_Landscape_NavZones_01_SHyb.node",
+      "sha256": "1008fd23ea29e21fbab9812c4aef599034e640b46dfb23c24ee0e55dabe1b29e",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 1447182,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Varant/_Outdoor/G3_Varant_01_Landscape_NavZones_01/G3_Varant_01_Landscape_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Varant/_Outdoor/G3_Varant_01_Landscape_NavZones_01/G3_Varant_01_Landscape_NavZones_01.secdat",
+      "sha256": "21bbe496d3a9a2796187327f55d90282c696a8b172ea68645a663b68d3225421",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 76,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Varant/_Outdoor/G3_Varant_01_Landscape_NavZones_01/G3_Varant_01_Landscape_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Varant/_Outdoor/G3_Varant_01_Outdoor_Island_NavZones_01/G3_Varant_01_Outdoor_Island_NavZones_01_SHyb.node",
+      "sha256": "03b9cdce0efd198b7578ece4cb70f37606943419af9df7ec091ddafdb28ae571",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 3360,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Varant/_Outdoor/G3_Varant_01_Outdoor_Island_NavZones_01/G3_Varant_01_Outdoor_Island_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Varant/_Outdoor/G3_Varant_01_Outdoor_Island_NavZones_01/G3_Varant_01_Outdoor_Island_NavZones_01.secdat",
+      "sha256": "e073969f25d8bcb26335a59f656f432de35bbfd788ff39d2e86e457918cfcecb",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 81,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Varant/_Outdoor/G3_Varant_01_Outdoor_Island_NavZones_01/G3_Varant_01_Outdoor_Island_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Varant/_Outdoor/Nefarius_Camp/Nefarius_Camp_SHyb.node",
+      "sha256": "9f6db1c4feee2916f4507dc2d173dda1c626edeb2d9e6a3f6461e9db552e8d0e",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 44510,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Varant/_Outdoor/Nefarius_Camp/Nefarius_Camp_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Varant/_Outdoor/Nefarius_Camp/Nefarius_Camp.secdat",
+      "sha256": "f012efc1227305d2b8a2527ae054fd0d4510e1502eea79c84a048fa449d5a997",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 55,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Varant/_Outdoor/Nefarius_Camp/Nefarius_Camp.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Varant/_Outdoor/Zarkos_Camp/Zarkos_Camp_SHyb.node",
+      "sha256": "e19e16b59c2384dab5e9dabd3cc65d7e6eec1227b31497ee5f3cb864189606c6",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 38490,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Varant/_Outdoor/Zarkos_Camp/Zarkos_Camp_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Varant/_Outdoor/Zarkos_Camp/Zarkos_Camp.secdat",
+      "sha256": "5e360db3f92c544dba0e5bb57d1e8bd214f84d27c24dbd180b043baf3322925f",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 68,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Varant/_Outdoor/Zarkos_Camp/Zarkos_Camp.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Varant/AlShedim_Outdoor/G3_Varant_01_Outdoor_AlShedim_NavZones_01/G3_Varant_01_Outdoor_AlShedim_NavZones_01_SHyb.node",
+      "sha256": "3198d0335f5dc5de27a967da110ae4932841520683d2efcccba851ccb4563e2e",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 1634,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Varant/AlShedim_Outdoor/G3_Varant_01_Outdoor_AlShedim_NavZones_01/G3_Varant_01_Outdoor_AlShedim_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Varant/AlShedim_Outdoor/G3_Varant_01_Outdoor_AlShedim_NavZones_01/G3_Varant_01_Outdoor_AlShedim_NavZones_01.secdat",
+      "sha256": "1cc18f9a257468cc97218f29dc46ac285288d6ffc4f2c7446cc7eed7e9667c9c",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 83,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Varant/AlShedim_Outdoor/G3_Varant_01_Outdoor_AlShedim_NavZones_01/G3_Varant_01_Outdoor_AlShedim_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Varant/AlShedim_Temple/G3_Varant_01_AlShedim_Temple_NavZones_01/G3_Varant_01_AlShedim_Temple_NavZones_01_SHyb.node",
+      "sha256": "8f84d86e599f90ff3ac771b8643e02522f7e6acb7cb4a48b4734a20058f27bf4",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 19221,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Varant/AlShedim_Temple/G3_Varant_01_AlShedim_Temple_NavZones_01/G3_Varant_01_AlShedim_Temple_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Varant/AlShedim_Temple/G3_Varant_01_AlShedim_Temple_NavZones_01/G3_Varant_01_AlShedim_Temple_NavZones_01.secdat",
+      "sha256": "b91b3dc114d661f1afc3a7f476a95e356898badd19f8aa0ea83ca63f72b11279",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 82,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Varant/AlShedim_Temple/G3_Varant_01_AlShedim_Temple_NavZones_01/G3_Varant_01_AlShedim_Temple_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Varant/Bakaresh_City/G3_Varant_01_Bakaresh_NavZones_01/G3_Varant_01_Bakaresh_NavZones_01_SHyb.node",
+      "sha256": "ae5ab4a80856336bc3cb15abebd267875bbf66b9a3c5c017cec2a6265735b672",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 132055,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Varant/Bakaresh_City/G3_Varant_01_Bakaresh_NavZones_01/G3_Varant_01_Bakaresh_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Varant/Bakaresh_City/G3_Varant_01_Bakaresh_NavZones_01/G3_Varant_01_Bakaresh_NavZones_01.secdat",
+      "sha256": "8bdc823561c2ba21b0b7fb6696f6c1cc242e1c9445eaa6bc17db574384f50664",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 75,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Varant/Bakaresh_City/G3_Varant_01_Bakaresh_NavZones_01/G3_Varant_01_Bakaresh_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Varant/Bakaresh_Outdoor/G3_Varant_01_Outdoor_Bakaresh_NavZones_01/G3_Varant_01_Outdoor_Bakaresh_NavZones_01_SHyb.node",
+      "sha256": "ba2a2e11d99ff0253a621feab64c87eb4e70eeab7e76d16749bce3d5549f40a9",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 15948,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Varant/Bakaresh_Outdoor/G3_Varant_01_Outdoor_Bakaresh_NavZones_01/G3_Varant_01_Outdoor_Bakaresh_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Varant/Bakaresh_Outdoor/G3_Varant_01_Outdoor_Bakaresh_NavZones_01/G3_Varant_01_Outdoor_Bakaresh_NavZones_01.secdat",
+      "sha256": "b26ab8df6f634bc709ff79d52852083c2112aa3145ef5e72b5a52683080abc28",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 83,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Varant/Bakaresh_Outdoor/G3_Varant_01_Outdoor_Bakaresh_NavZones_01/G3_Varant_01_Outdoor_Bakaresh_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Varant/BenErai_City/G3_Varant_01_BenErai_NavZones_01/G3_Varant_01_BenErai_NavZones_01_SHyb.node",
+      "sha256": "4c18d50bff0832c42105f8a29f2a3fa1a3ed7a593a2c09e04f7833b2b96fe7a6",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 35624,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Varant/BenErai_City/G3_Varant_01_BenErai_NavZones_01/G3_Varant_01_BenErai_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Varant/BenErai_City/G3_Varant_01_BenErai_NavZones_01/G3_Varant_01_BenErai_NavZones_01.secdat",
+      "sha256": "ba97db52586da38a23b3430bbfa41361ba70d032ae62da4eb2fe4f4634074c94",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 74,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Varant/BenErai_City/G3_Varant_01_BenErai_NavZones_01/G3_Varant_01_BenErai_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Varant/BenErai_Outdoor/G3_Varant_01_Outdoor_BenErai_NavZones_01/G3_Varant_01_Outdoor_BenErai_NavZones_01_SHyb.node",
+      "sha256": "5c8ae9571f0e006b0c8bb95e26a6b3e5fc872c5213debe86756c114bafe33336",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 14128,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Varant/BenErai_Outdoor/G3_Varant_01_Outdoor_BenErai_NavZones_01/G3_Varant_01_Outdoor_BenErai_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Varant/BenErai_Outdoor/G3_Varant_01_Outdoor_BenErai_NavZones_01/G3_Varant_01_Outdoor_BenErai_NavZones_01.secdat",
+      "sha256": "676a41ad6335f1748c6f9bd0de3b6ab1e7bbe8bd3731835dc261e7689827a107",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 82,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Varant/BenErai_Outdoor/G3_Varant_01_Outdoor_BenErai_NavZones_01/G3_Varant_01_Outdoor_BenErai_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Varant/BenSala_City/G3_Varant_01_BenSala_NavZones_01/G3_Varant_01_BenSala_NavZones_01_SHyb.node",
+      "sha256": "d268a89a76dfffa39554acdd0f56079ea4b054de7363f0a07b21114ad31c2142",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 26179,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Varant/BenSala_City/G3_Varant_01_BenSala_NavZones_01/G3_Varant_01_BenSala_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Varant/BenSala_City/G3_Varant_01_BenSala_NavZones_01/G3_Varant_01_BenSala_NavZones_01.secdat",
+      "sha256": "73d792591317adf4e402018beb2db781142cb9f67be83e75e77c08d1c5d4c99c",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 74,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Varant/BenSala_City/G3_Varant_01_BenSala_NavZones_01/G3_Varant_01_BenSala_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Varant/BenSala_Outdoor/G3_Varant_01_Outdoor_BenSala_NavZones_01/G3_Varant_01_Outdoor_BenSala_NavZones_01_SHyb.node",
+      "sha256": "2f81c6601cf2571a015c26f946cc77a72417f7821ce99b1344e1a65c715b804b",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 39092,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Varant/BenSala_Outdoor/G3_Varant_01_Outdoor_BenSala_NavZones_01/G3_Varant_01_Outdoor_BenSala_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Varant/BenSala_Outdoor/G3_Varant_01_Outdoor_BenSala_NavZones_01/G3_Varant_01_Outdoor_BenSala_NavZones_01.secdat",
+      "sha256": "0711176b2a49c51dc77dcd839d088b8070c0e774738221c6e1c0a14d7e514ff9",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 82,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Varant/BenSala_Outdoor/G3_Varant_01_Outdoor_BenSala_NavZones_01/G3_Varant_01_Outdoor_BenSala_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Varant/Braga_City/G3_Varant_01_Braga_NavZones_01/G3_Varant_01_Braga_NavZones_01_SHyb.node",
+      "sha256": "03af1ed43b47496ffc84b64e9bd0869e5dd5c90b1d0aab330a947eeed036788e",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 18271,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Varant/Braga_City/G3_Varant_01_Braga_NavZones_01/G3_Varant_01_Braga_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Varant/Braga_City/G3_Varant_01_Braga_NavZones_01/G3_Varant_01_Braga_NavZones_01.secdat",
+      "sha256": "2565723ee9b757960583c19c760a384e39011630e35e5786b4fe452ed4d95037",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 72,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Varant/Braga_City/G3_Varant_01_Braga_NavZones_01/G3_Varant_01_Braga_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Varant/Braga_Outdoor/G3_Varant_01_Outdoor_Braga_NavZones_01/G3_Varant_01_Outdoor_Braga_NavZones_01_SHyb.node",
+      "sha256": "e2f42cce66cff20f150e02dbf452f58ad9f309376403950f86f3f33a502ff88e",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 171478,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Varant/Braga_Outdoor/G3_Varant_01_Outdoor_Braga_NavZones_01/G3_Varant_01_Outdoor_Braga_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Varant/Braga_Outdoor/G3_Varant_01_Outdoor_Braga_NavZones_01/G3_Varant_01_Outdoor_Braga_NavZones_01.secdat",
+      "sha256": "cb6d28c8b5c28482d3c04a2dffa7bd45063ba465c4f575be426da00d9d8a49c1",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 80,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Varant/Braga_Outdoor/G3_Varant_01_Outdoor_Braga_NavZones_01/G3_Varant_01_Outdoor_Braga_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Varant/Ishtar_City/G3_Varant_01_Ishtar_NavZones_01/G3_Varant_01_Ishtar_NavZones_01_SHyb.node",
+      "sha256": "07eeb322117e54fd8bed2f2d4e850b6e3341af860f2b710e3d97ffe1acf8ff26",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 86890,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Varant/Ishtar_City/G3_Varant_01_Ishtar_NavZones_01/G3_Varant_01_Ishtar_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Varant/Ishtar_City/G3_Varant_01_Ishtar_NavZones_01/G3_Varant_01_Ishtar_NavZones_01.secdat",
+      "sha256": "a34afe9503a30cde372e26f999752a376ee025d098e9e8c08b5d056a99a7afb8",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 73,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Varant/Ishtar_City/G3_Varant_01_Ishtar_NavZones_01/G3_Varant_01_Ishtar_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Varant/Ishtar_Outdoor/G3_Varant_01_Outdoor_Ishtar_NavZones_01/G3_Varant_01_Outdoor_Ishtar_NavZones_01_SHyb.node",
+      "sha256": "c7033397c7264ec5285cab1da774b53cc81a5592067f492b3ca48d00633045a1",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 10365,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Varant/Ishtar_Outdoor/G3_Varant_01_Outdoor_Ishtar_NavZones_01/G3_Varant_01_Outdoor_Ishtar_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Varant/Ishtar_Outdoor/G3_Varant_01_Outdoor_Ishtar_NavZones_01/G3_Varant_01_Outdoor_Ishtar_NavZones_01.secdat",
+      "sha256": "abacd94c50501fd215e2a02657678e62af389a7c2848e27138f58aabdee6fc72",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 81,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Varant/Ishtar_Outdoor/G3_Varant_01_Outdoor_Ishtar_NavZones_01/G3_Varant_01_Outdoor_Ishtar_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Varant/KDW_Camp/G3_Varant_01_KDW_Camp_NavZones_01/G3_Varant_01_KDW_Camp_NavZones_01_SHyb.node",
+      "sha256": "c1e16e95eef182a1f69f743c97c093862970811c1f93a6bd5bd2dd7bc3b719ba",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 9445,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Varant/KDW_Camp/G3_Varant_01_KDW_Camp_NavZones_01/G3_Varant_01_KDW_Camp_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Varant/KDW_Camp/G3_Varant_01_KDW_Camp_NavZones_01/G3_Varant_01_KDW_Camp_NavZones_01.secdat",
+      "sha256": "1afb29667b3ddcaf0dbc31db38dbb5c5213f0e3c7ec114b024f24970f6fe4a0a",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 75,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Varant/KDW_Camp/G3_Varant_01_KDW_Camp_NavZones_01/G3_Varant_01_KDW_Camp_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Varant/Lago_City/G3_Varant_01_Lago_NavZones_01/G3_Varant_01_Lago_NavZones_01_SHyb.node",
+      "sha256": "f9de5874e4a917f28e1f3f7614ef235be5620a367347a578e1b29b8d2c86f8b8",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 11672,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Varant/Lago_City/G3_Varant_01_Lago_NavZones_01/G3_Varant_01_Lago_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Varant/Lago_City/G3_Varant_01_Lago_NavZones_01/G3_Varant_01_Lago_NavZones_01.secdat",
+      "sha256": "40a43d291dd550cf106fb8c4cb097d056f26c11d8b2065fe0e54a05b768b7ed6",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 71,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Varant/Lago_City/G3_Varant_01_Lago_NavZones_01/G3_Varant_01_Lago_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Varant/Lago_Outdoor/G3_Varant_01_Outdoor_Lago_NavZones_01/G3_Varant_01_Outdoor_Lago_NavZones_01_SHyb.node",
+      "sha256": "9cba200ab2b3b740ea2df3f5bf8695090f61b062c99e3a3e992cafacce7b8ddc",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 7437,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Varant/Lago_Outdoor/G3_Varant_01_Outdoor_Lago_NavZones_01/G3_Varant_01_Outdoor_Lago_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Varant/Lago_Outdoor/G3_Varant_01_Outdoor_Lago_NavZones_01/G3_Varant_01_Outdoor_Lago_NavZones_01.secdat",
+      "sha256": "ac086b53975160b16a106d631e9ea7191f12340ec49eddfdf8f4676a5bdc2c5d",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 79,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Varant/Lago_Outdoor/G3_Varant_01_Outdoor_Lago_NavZones_01/G3_Varant_01_Outdoor_Lago_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Varant/MoraSul_City/G3_Varant_01_MoraSul_NavZones_01/G3_Varant_01_MoraSul_NavZones_01_SHyb.node",
+      "sha256": "5b43274bc4669f3c9051bd219ca86491411ae58044c48b407560e591ea78ed5c",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 127118,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Varant/MoraSul_City/G3_Varant_01_MoraSul_NavZones_01/G3_Varant_01_MoraSul_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Varant/MoraSul_City/G3_Varant_01_MoraSul_NavZones_01/G3_Varant_01_MoraSul_NavZones_01.secdat",
+      "sha256": "859032217c2349e1049811836ac73d3d2acf1d35f1fdd34b457e851b78824d90",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 74,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Varant/MoraSul_City/G3_Varant_01_MoraSul_NavZones_01/G3_Varant_01_MoraSul_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Varant/MoraSul_Outdoor/G3_Varant_01_Outdoor_MoraSul_NavZones_01/G3_Varant_01_Outdoor_MoraSul_NavZones_01_SHyb.node",
+      "sha256": "016e32a2e4628df76d001aface87593d868a3d2affcde53f1a54051b67b9dc13",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 36688,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Varant/MoraSul_Outdoor/G3_Varant_01_Outdoor_MoraSul_NavZones_01/G3_Varant_01_Outdoor_MoraSul_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Varant/MoraSul_Outdoor/G3_Varant_01_Outdoor_MoraSul_NavZones_01/G3_Varant_01_Outdoor_MoraSul_NavZones_01.secdat",
+      "sha256": "d27cccb22fc2c7a3f066743e6fcb5057868b8d6299e6b18c22140eed72e7fce3",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 82,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Varant/MoraSul_Outdoor/G3_Varant_01_Outdoor_MoraSul_NavZones_01/G3_Varant_01_Outdoor_MoraSul_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Varant/MoraSul_Temple/G3_Varant_01_MoraSul_Temple_NavZones_01/G3_Varant_01_MoraSul_Temple_NavZones_01_SHyb.node",
+      "sha256": "2fea6250fe12bda05b34c80b2e79451ef3887574d2db967876625b9bff314ae8",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 15677,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Varant/MoraSul_Temple/G3_Varant_01_MoraSul_Temple_NavZones_01/G3_Varant_01_MoraSul_Temple_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Varant/MoraSul_Temple/G3_Varant_01_MoraSul_Temple_NavZones_01/G3_Varant_01_MoraSul_Temple_NavZones_01.secdat",
+      "sha256": "5a65047f4b18be39003cf3148fdebd3edb4834a6912c38f5d08081eca26cb515",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 81,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Varant/MoraSul_Temple/G3_Varant_01_MoraSul_Temple_NavZones_01/G3_Varant_01_MoraSul_Temple_NavZones_01.secdat"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.p00",
+      "path": "G3_World_01/Varant/MoraSul_Temple/G3_Varant_01_Outdoor_MoraSul_Temple_NavZones_01/G3_Varant_01_Outdoor_MoraSul_Temple_NavZones_01_SHyb.node",
+      "sha256": "0abb0207f0caa09e0aa047f58941c963f0a44e2de8a70e14df760dd9b668cbab",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak",
+        "Projects_compiled.p00"
+      ],
+      "bytes": 9124,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.p00/G3_World_01/Varant/MoraSul_Temple/G3_Varant_01_Outdoor_MoraSul_Temple_NavZones_01/G3_Varant_01_Outdoor_MoraSul_Temple_NavZones_01_SHyb.node"
+    },
+    {
+      "family": "projects_compiled",
+      "archive": "Projects_compiled.pak",
+      "path": "G3_World_01/Varant/MoraSul_Temple/G3_Varant_01_Outdoor_MoraSul_Temple_NavZones_01/G3_Varant_01_Outdoor_MoraSul_Temple_NavZones_01.secdat",
+      "sha256": "aa748386db1a045dec61f1ef90d73259cce2d8cea1f383c97004f749ef68c082",
+      "selection": "static-effective-layer-candidate",
+      "layers": [
+        "Projects_compiled.pak"
+      ],
+      "bytes": 89,
+      "studyRelativePath": "02_Unpacked_Data/Archives/Projects_compiled.pak/G3_World_01/Varant/MoraSul_Temple/G3_Varant_01_Outdoor_MoraSul_Temple_NavZones_01/G3_Varant_01_Outdoor_MoraSul_Temple_NavZones_01.secdat"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+/* ENTRY 2000ca36 | gCHUDPageDialog2::vfunction71 | STATUS decompiled | 69 ms */
+
+void __thiscall gCHUDPageDialog2::vfunction71(void)
+
+{
+  return;
+}
+
+

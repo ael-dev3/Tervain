@@ -1,0 +1,2 @@
+; 2002be45 ?GetLocalTimeScale@gCScriptProcessingUnit@@QBEMXZ
+2002be45 | e936c13300 | JMP 0x20367f80

@@ -1,0 +1,16 @@
+; 20367a80 FUN_20367a80
+20367a80 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+20367a84 | a35cc47c20 | MOV [0x207cc45c],EAX
+20367a89 | b8cdcccccc | MOV EAX,0xcccccccd
+20367a8e | f72570c47c20 | MUL dword ptr [0x207cc470]
+20367a94 | c1ea04 | SHR EDX,0x4
+20367a97 | 83c201 | ADD EDX,0x1
+20367a9a | 33c9 | XOR ECX,ECX
+20367a9c | 891568c47c20 | MOV dword ptr [0x207cc468],EDX
+20367aa2 | 8b1574c47c20 | MOV EDX,dword ptr [0x207cc474]
+20367aa8 | 890d60c47c20 | MOV dword ptr [0x207cc460],ECX
+20367aae | 890d64c47c20 | MOV dword ptr [0x207cc464],ECX
+20367ab4 | 89156cc47c20 | MOV dword ptr [0x207cc46c],EDX
+20367aba | 890d70c47c20 | MOV dword ptr [0x207cc470],ECX
+20367ac0 | 890d74c47c20 | MOV dword ptr [0x207cc474],ECX
+20367ac6 | c20400 | RET 0x4

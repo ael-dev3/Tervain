@@ -1,0 +1,77 @@
+/* ENTRY 10005e39 | bCInfDoubleCylinder::Cull | STATUS decompiled | 50 ms */
+
+/* public: bool __thiscall bCInfDoubleCylinder::Cull(class bCVector const &,bool)const  */
+
+bool __thiscall bCInfDoubleCylinder::Cull(bCInfDoubleCylinder *this,bCVector *param_1,bool param_2)
+
+{
+  float fVar1;
+  float fVar2;
+  float fVar3;
+  float fVar4;
+  float fVar5;
+  float fVar6;
+  bool bVar7;
+  float fStack_18;
+  float fStack_14;
+  float fStack_10;
+  float fStack_c;
+  float fStack_4;
+  
+                    /* 0x5e39  1883  ?Cull@bCInfDoubleCylinder@@QBE_NABVbCVector@@_N@Z */
+  bVar7 = param_2;
+  fVar1 = *(float *)param_1;
+  fVar2 = *(float *)(param_1 + 8);
+  fStack_c = fVar1 - *(float *)(this + 4);
+  fStack_4 = fVar2 - *(float *)(this + 0xc);
+  fVar3 = fVar1 - *(float *)(this + 0x14);
+  fStack_10 = fVar2 - *(float *)(this + 0x1c);
+  if (param_2) {
+    if (fStack_c * fStack_c + 0.0 + fStack_4 * fStack_4 <
+        *(float *)this * *(float *)this * 0.93 * 0.93) {
+      return true;
+    }
+    if (fStack_10 * fStack_10 + fVar3 * fVar3 + 0.0 <
+        *(float *)(this + 0x10) * *(float *)(this + 0x10) * 0.93 * 0.93) {
+      return true;
+    }
+  }
+  else if (!param_2) {
+    if (fStack_c * fStack_c + 0.0 + fStack_4 * fStack_4 < *(float *)this * *(float *)this) {
+      return true;
+    }
+    if (fStack_10 * fStack_10 + fVar3 * fVar3 + 0.0 <
+        *(float *)(this + 0x10) * *(float *)(this + 0x10)) {
+      return true;
+    }
+  }
+  fVar3 = *(float *)(this + 4);
+  _param_2 = *(float *)(this + 0x14) - fVar3;
+  fVar4 = *(float *)(this + 0xc);
+  fVar5 = *(float *)(this + 0x1c) - fVar4;
+  fStack_18 = -fVar5;
+  fStack_14 = _param_2;
+  bCVector2::Normalize((bCVector2 *)&fStack_18);
+  fVar6 = fStack_18 * (fVar1 - *(float *)(this + 4)) + fStack_14 * (fVar2 - *(float *)(this + 0xc));
+  if (_param_2 == 0.0) {
+    _param_2 = ((fVar2 - fVar6 * fStack_14) - fVar4) / fVar5;
+  }
+  else {
+    _param_2 = ((fVar1 - fVar6 * fStack_18) - fVar3) / _param_2;
+  }
+  if ((0.0 < _param_2) && (_param_2 < 1.0)) {
+    if (bVar7) {
+      if (*(float *)this * 0.93 + (*(float *)(this + 0x10) - *(float *)this) * _param_2 * 0.93 <
+          ABS(fVar6)) {
+        return false;
+      }
+    }
+    else if (*(float *)this + (*(float *)(this + 0x10) - *(float *)this) * _param_2 < ABS(fVar6)) {
+      return false;
+    }
+    return true;
+  }
+  return false;
+}
+
+

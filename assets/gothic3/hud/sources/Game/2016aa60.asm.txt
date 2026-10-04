@@ -1,0 +1,15 @@
+; 2016aa60 gCHUDViewSpell2::gCHUDViewSpell2
+2016aa60 | 56 | PUSH ESI
+2016aa61 | 8bf1 | MOV ESI,ECX
+2016aa63 | e8bc22eaff | CALL 0x2000cd24
+2016aa68 | 8d4e10 | LEA ECX,[ESI + 0x10]
+2016aa6b | c706dc156720 | MOV dword ptr [ESI],0x206715dc
+2016aa71 | e82e1eecff | CALL 0x2002c8a4
+2016aa76 | 8d4e38 | LEA ECX,[ESI + 0x38]
+2016aa79 | e8e811ebff | CALL 0x2001bc66
+2016aa7e | 8d4e48 | LEA ECX,[ESI + 0x48]
+2016aa81 | e8e011ebff | CALL 0x2001bc66
+2016aa86 | c7465800000000 | MOV dword ptr [ESI + 0x58],0x0
+2016aa8d | 8bc6 | MOV EAX,ESI
+2016aa8f | 5e | POP ESI
+2016aa90 | c3 | RET

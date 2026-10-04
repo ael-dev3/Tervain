@@ -1,0 +1,15 @@
+; 2016def0 gCHUDPageSkills2::~gCHUDPageSkills2
+2016def0 | 56 | PUSH ESI
+2016def1 | 8bf1 | MOV ESI,ECX
+2016def3 | 8d8e34080000 | LEA ECX,[ESI + 0x834]
+2016def9 | c706042b6720 | MOV dword ptr [ESI],0x20672b04
+2016deff | e8ebc3e9ff | CALL 0x2000a2ef
+2016df04 | 8d4e3c | LEA ECX,[ESI + 0x3c]
+2016df07 | e8dd5decff | CALL 0x20033ce9
+2016df0c | 8d4e28 | LEA ECX,[ESI + 0x28]
+2016df0f | e89cfbebff | CALL 0x2002dab0
+2016df14 | 8d4e14 | LEA ECX,[ESI + 0x14]
+2016df17 | e894fbebff | CALL 0x2002dab0
+2016df1c | 8bce | MOV ECX,ESI
+2016df1e | 5e | POP ESI
+2016df1f | e9307fecff | JMP 0x20035e54

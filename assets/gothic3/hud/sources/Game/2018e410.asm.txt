@@ -1,0 +1,13 @@
+; 2018e410 gCHUDTableStackStats::gCHUDTableStackStats
+2018e410 | 56 | PUSH ESI
+2018e411 | 8bf1 | MOV ESI,ECX
+2018e413 | e851dae8ff | CALL 0x2001be69
+2018e418 | c74634e8666520 | MOV dword ptr [ESI + 0x34],0x206566e8
+2018e41f | 33c0 | XOR EAX,EAX
+2018e421 | 894638 | MOV dword ptr [ESI + 0x38],EAX
+2018e424 | 894640 | MOV dword ptr [ESI + 0x40],EAX
+2018e427 | c706ec8c6720 | MOV dword ptr [ESI],0x20678cec
+2018e42d | c74634cc8c6720 | MOV dword ptr [ESI + 0x34],0x20678ccc
+2018e434 | 8bc6 | MOV EAX,ESI
+2018e436 | 5e | POP ESI
+2018e437 | c3 | RET

@@ -1,0 +1,18 @@
+/* ENTRY 20025c2f | gCScriptProcessingUnit::GetOtherEntity | STATUS decompiled | 4 ms */
+
+/* public: class eCEntity * __thiscall gCScriptProcessingUnit::GetOtherEntity(void) */
+
+eCEntity * __thiscall gCScriptProcessingUnit::GetOtherEntity(gCScriptProcessingUnit *this)
+
+{
+  eCEntity *peVar1;
+  
+                    /* 0x25c2f  3934  ?GetOtherEntity@gCScriptProcessingUnit@@QAEPAVeCEntity@@XZ */
+                    /* WARNING: Could not recover jumptable at 0x20367e93. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  peVar1 = eCEntityProxy::GetEntity
+                     ((eCEntityProxy *)&(this->gCScriptProcessingUnit_data).field_0x38);
+  return peVar1;
+}
+
+

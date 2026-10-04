@@ -1,0 +1,2 @@
+; 2016c380 gCHUDPageDialog2::vfunction71
+2016c380 | c20800 | RET 0x8

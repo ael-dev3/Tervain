@@ -1,0 +1,15 @@
+/* ENTRY 100027d9 | bCInfDoubleCylinder::Contains | STATUS decompiled | 3 ms */
+
+/* public: bool __thiscall bCInfDoubleCylinder::Contains(class bCVector const &)const  */
+
+bool __thiscall bCInfDoubleCylinder::Contains(bCInfDoubleCylinder *this,bCVector *param_1)
+
+{
+  bool bVar1;
+  
+                    /* 0x27d9  1697  ?Contains@bCInfDoubleCylinder@@QBE_NABVbCVector@@@Z */
+  bVar1 = Cull(this,param_1,false);
+  return bVar1;
+}
+
+

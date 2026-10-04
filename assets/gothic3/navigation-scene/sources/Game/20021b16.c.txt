@@ -1,0 +1,54 @@
+/* ENTRY 20021b16 | gCNavZone_PS::CalcAbsHeightDiffFlagAndPrioFlag | STATUS decompiled | 29 ms */
+
+/* public: float __thiscall gCNavZone_PS::CalcAbsHeightDiffFlagAndPrioFlag(class bCVector const
+   &,bool &,bool &) */
+
+float __thiscall
+gCNavZone_PS::CalcAbsHeightDiffFlagAndPrioFlag
+          (gCNavZone_PS *this,bCVector *param_1,bool *param_2,bool *param_3)
+
+{
+  float fVar1;
+  float fVar2;
+  float fVar3;
+  float fStack_c;
+  
+                    /* 0x21b16  1998
+                       ?CalcAbsHeightDiffFlagAndPrioFlag@gCNavZone_PS@@QAEMABVbCVector@@AA_N1@Z */
+  if (((float)(this->gCNavZone_PS_data).offset_0xf4 < 0.0) ||
+     ((float)(this->gCNavZone_PS_data).offset_0xf8 < 0.0)) {
+    CalcZoneHeights(this);
+  }
+  fVar1 = (float)(this->gCNavZone_PS_data).offset_0xf0;
+  fStack_c = 0.0;
+  fVar3 = fVar1 + (float)(this->gCNavZone_PS_data).offset_0xf4 +
+          *(float *)&(this->gCNavZone_PS_data).field_0x30;
+  fVar1 = (fVar1 - (float)(this->gCNavZone_PS_data).offset_0xf8) -
+          *(float *)&(this->gCNavZone_PS_data).field_0x34;
+  fVar2 = bCVector::GetY(param_1);
+  if (fVar2 <= fVar3) {
+    fVar3 = bCVector::GetY(param_1);
+    if (fVar3 < fVar1) {
+      fStack_c = bCVector::GetY(param_1);
+      fStack_c = fStack_c - fVar1;
+    }
+  }
+  else {
+    fStack_c = bCVector::GetY(param_1);
+    fStack_c = fStack_c - fVar3;
+  }
+  if (fStack_c != 0.0) {
+    *param_2 = false;
+    if (fStack_c <= 0.0) {
+      *param_3 = (bool)(this->gCNavZone_PS_data).field_0x3a;
+      return fStack_c;
+    }
+    *param_3 = (bool)(this->gCNavZone_PS_data).field_0x39;
+    return fStack_c;
+  }
+  *param_2 = true;
+  *param_3 = (bool)(this->gCNavZone_PS_data).field_0x38;
+  return fStack_c;
+}
+
+

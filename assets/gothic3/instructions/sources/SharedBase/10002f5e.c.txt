@@ -1,0 +1,15 @@
+/* ENTRY 10002f5e | bCString::IsEmpty | STATUS decompiled | 3 ms */
+
+/* public: bool __thiscall bCString::IsEmpty(void)const  */
+
+bool __thiscall bCString::IsEmpty(bCString *this)
+
+{
+                    /* 0x2f5e  3609  ?IsEmpty@bCString@@QBE_NXZ */
+  if (*(int *)this == 0) {
+    return true;
+  }
+  return *(int *)(*(int *)this + -8) == 0;
+}
+
+

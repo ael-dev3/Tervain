@@ -1,0 +1,31 @@
+/* ENTRY 201930b0 | gCHUDTable::gCHUDTable_Constructor_or_Destructor | STATUS decompiled | 15 ms */
+
+void __fastcall gCHUDTable::gCHUDTable_Constructor_or_Destructor(CFFGFCStatic *param_1)
+
+{
+  CFFGFCStatic *pCVar1;
+  bCMemoryAdmin *this;
+  IFFGUIMsgProc IVar2;
+  
+  IVar2 = param_1[6].CFFGFCWnd.IFFGUIMsgProc;
+  (param_1->CFFGFCWnd).IFFGUIMsgProc = (IFFGUIMsgProc)&vftable;
+  while (IVar2 != (IFFGUIMsgProc)0x0) {
+    thunk_FUN_20192fe0((int)param_1[6].CFFGFCWnd.IFFGUIMsgProc + -1);
+    IVar2 = *(IFFGUIMsgProc *)(param_1 + 6);
+  }
+  pCVar1 = param_1 + 5;
+  if ((pCVar1 != (CFFGFCStatic *)0x0) &&
+     (IVar2 = (pCVar1->CFFGFCWnd).IFFGUIMsgProc, IVar2 != (IFFGUIMsgProc)0x0)) {
+    this = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this,(void *)IVar2);
+    (pCVar1->CFFGFCWnd).IFFGUIMsgProc = (IFFGUIMsgProc)0x0;
+    param_1[6].CFFGFCWnd.IFFGUIMsgProc = (IFFGUIMsgProc)0x0;
+    param_1[7].CFFGFCWnd.IFFGUIMsgProc = (IFFGUIMsgProc)0x0;
+  }
+                    /* WARNING: Could not recover jumptable at 0x20193108. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  CFFGFCStatic::~CFFGFCStatic(param_1);
+  return;
+}
+
+

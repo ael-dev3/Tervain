@@ -1,0 +1,45 @@
+/* ENTRY 201678e0 | gCHUDViewQuests2::gCHUDViewQuests2 | STATUS decompiled | 33 ms */
+
+gCHUDViewQuests2 * __thiscall gCHUDViewQuests2::gCHUDViewQuests2(gCHUDViewQuests2 *this)
+
+{
+  int iVar1;
+  gCHUDLabel *pgVar2;
+  
+  gCHUDPageView::gCHUDPageView((gCHUDPageView *)this);
+  this->vftablePtr = &vftable;
+  gCHUDStaticQuest::gCHUDStaticQuest((gCHUDStaticQuest *)&(this->gCHUDViewQuests2_data).field_0xc);
+  gCHUDListCtrlQuests::gCHUDListCtrlQuests
+            ((gCHUDListCtrlQuests *)&(this->gCHUDViewQuests2_data).field_0x20);
+  gCHUDTabCtrlQuests::gCHUDTabCtrlQuests
+            ((gCHUDTabCtrlQuests *)&(this->gCHUDViewQuests2_data).field_0x44);
+  gCHUDStaticQuestLocation::gCHUDStaticQuestLocation
+            ((gCHUDStaticQuestLocation *)&(this->gCHUDViewQuests2_data).field_0x5c);
+  gCHUDView::gCHUDView((gCHUDView *)&(this->gCHUDViewQuests2_data).field_0x6c);
+  gCHUDView::gCHUDView((gCHUDView *)&(this->gCHUDViewQuests2_data).field_0x80);
+  gCHUDViewWorld2::gCHUDViewWorld2((gCHUDViewWorld2 *)&(this->gCHUDViewQuests2_data).field_0x94);
+  gCHUDViewLocation2::gCHUDViewLocation2
+            ((gCHUDViewLocation2 *)&(this->gCHUDViewQuests2_data).field_0x254);
+  pgVar2 = (gCHUDLabel *)&(this->gCHUDViewQuests2_data).field_0x2a4;
+  iVar1 = 5;
+  do {
+    gCHUDLabel::gCHUDLabel(pgVar2);
+    pgVar2 = pgVar2 + 4;
+    iVar1 = iVar1 + -1;
+  } while (-1 < iVar1);
+  pgVar2 = (gCHUDLabel *)&(this->gCHUDViewQuests2_data).field_0x304;
+  iVar1 = 5;
+  do {
+    gCHUDLabel::gCHUDLabel(pgVar2);
+    pgVar2 = pgVar2 + 4;
+    iVar1 = iVar1 + -1;
+  } while (-1 < iVar1);
+  gCHUDLabel::gCHUDLabel((gCHUDLabel *)&(this->gCHUDViewQuests2_data).field_0x364);
+  gCHUDLabel::gCHUDLabel((gCHUDLabel *)&(this->gCHUDViewQuests2_data).field_0x374);
+  (this->gCHUDViewQuests2_data).offset_0x384 = (void *)0x0;
+  (this->gCHUDViewQuests2_data).offset_0x388 = 0;
+  (this->gCHUDViewQuests2_data).offset_0x38c = 0;
+  return this;
+}
+
+

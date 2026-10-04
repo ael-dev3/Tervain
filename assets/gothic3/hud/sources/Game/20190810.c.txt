@@ -1,0 +1,21 @@
+/* ENTRY 20190810 | FUN_20190810 | STATUS decompiled | 7 ms */
+
+void __thiscall FUN_20190810(CFFGFCWnd *param_1,eCEntity *param_2)
+
+{
+  undefined4 uVar1;
+  
+  if (param_2 != (eCEntity *)0x0) {
+    eCEntity::GetName(param_2);
+    uVar1 = operator+((char *)&param_2,(bCString *)&DAT_2066c460);
+    thunk_FUN_20190720(uVar1);
+    bCString::~bCString((bCString *)&stack0x00000000);
+    return;
+  }
+  bCUnicodeString::bCUnicodeString((bCUnicodeString *)&param_2,"");
+  CFFGFCWnd::SetWindowTextA(param_1,(bCUnicodeString *)&param_2);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&param_2);
+  return;
+}
+
+

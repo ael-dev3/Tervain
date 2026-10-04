@@ -1,0 +1,16 @@
+/* ENTRY 20367f10 | FUN_20367f10 | STATUS decompiled | 4 ms */
+
+void FUN_20367f10(int *param_1)
+
+{
+  int unaff_ESI;
+  
+  if (param_1 != (int *)0x0) {
+    (**(code **)(*param_1 + 0x58))("StateTime",0);
+    param_1[9] = unaff_ESI;
+    (**(code **)(*param_1 + 0x5c))("StateTime",0);
+  }
+  return;
+}
+
+

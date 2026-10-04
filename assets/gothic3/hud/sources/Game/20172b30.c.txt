@@ -1,0 +1,16 @@
+/* ENTRY 20172b30 | gCHUDMenuConfirm2::gCHUDMenuConfirm2 | STATUS decompiled | 16 ms */
+
+gCHUDMenuConfirm2 * __thiscall gCHUDMenuConfirm2::gCHUDMenuConfirm2(gCHUDMenuConfirm2 *this)
+
+{
+  gCHUDMenu::gCHUDMenu((gCHUDMenu *)this);
+  this->vftablePtr = &vftable;
+  gCHUDButton::gCHUDButton((gCHUDButton *)&(this->gCHUDMenuConfirm2_data).field_0xc);
+  gCHUDButton::gCHUDButton((gCHUDButton *)&(this->gCHUDMenuConfirm2_data).field_0x1c);
+  gCHUDButton::gCHUDButton((gCHUDButton *)&(this->gCHUDMenuConfirm2_data).field_0x2c);
+  gCHUDLabel::gCHUDLabel((gCHUDLabel *)&(this->gCHUDMenuConfirm2_data).field_0x3c);
+  (this->gCHUDMenuConfirm2_data).offset_0x4c = 0;
+  return this;
+}
+
+

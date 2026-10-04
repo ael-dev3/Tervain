@@ -1,0 +1,25 @@
+/* ENTRY 20162d10 | gCHUDViewTradeTransaction2::~gCHUDViewTradeTransaction2 | STATUS decompiled | 31 ms */
+
+void __thiscall
+gCHUDViewTradeTransaction2::~gCHUDViewTradeTransaction2(gCHUDViewTradeTransaction2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  CFFGFCButton::~CFFGFCButton((CFFGFCButton *)&(this->gCHUDViewTradeTransaction2_data).field_0x13c);
+  CFFGFCButton::~CFFGFCButton((CFFGFCButton *)&(this->gCHUDViewTradeTransaction2_data).field_0x12c);
+  CFFGFCButton::~CFFGFCButton((CFFGFCButton *)&(this->gCHUDViewTradeTransaction2_data).field_0x11c);
+  CFFGFCButton::~CFFGFCButton((CFFGFCButton *)&(this->gCHUDViewTradeTransaction2_data).field_0x10c);
+  CFFGFCButton::~CFFGFCButton((CFFGFCButton *)&(this->gCHUDViewTradeTransaction2_data).field_0xfc);
+  FUN_20036877();
+  FUN_20036877();
+  FUN_20036877();
+  FUN_20036877();
+  gCHUDListCtrlInvTradeStacks::~gCHUDListCtrlInvTradeStacks
+            ((gCHUDListCtrlInvTradeStacks *)&(this->gCHUDViewTradeTransaction2_data).field_0x64);
+  gCHUDListCtrlInvTradeStacks::~gCHUDListCtrlInvTradeStacks
+            ((gCHUDListCtrlInvTradeStacks *)&(this->gCHUDViewTradeTransaction2_data).field_0xc);
+  FUN_200156a9();
+  return;
+}
+
+

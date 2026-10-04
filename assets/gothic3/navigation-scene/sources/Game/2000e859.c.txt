@@ -1,0 +1,151 @@
+/* ENTRY 2000e859 | gCNavPath_PS::CalcNearestPathPoint | STATUS decompiled | 126 ms */
+
+/* public: class bCVector __thiscall gCNavPath_PS::CalcNearestPathPoint(class bCVector const &) */
+
+bCVector * __thiscall gCNavPath_PS::CalcNearestPathPoint(gCNavPath_PS *this,bCVector *param_1)
+
+{
+  float *pfVar1;
+  ulonglong uVar2;
+  ulonglong uVar3;
+  bool bVar4;
+  bCVector *this_00;
+  bCVector *pbVar5;
+  eCEntity *this_01;
+  bCMatrix *this_02;
+  int iVar6;
+  int iVar7;
+  float fVar8;
+  undefined4 in_stack_00000008;
+  float in_stack_ffffff30;
+  undefined3 uVar9;
+  double dStack_c8;
+  undefined4 uStack_c4;
+  float fStack_b0;
+  float fStack_ac;
+  bCVector abStack_a8 [4];
+  bCVector abStack_a4 [4];
+  bCVector abStack_a0 [4];
+  bCVector abStack_9c [8];
+  undefined4 uStack_94;
+  bCVector abStack_90 [4];
+  bCVector abStack_8c [4];
+  bCVector abStack_88 [4];
+  bCVector abStack_84 [4];
+  bCVector abStack_80 [4];
+  bCVector abStack_7c [4];
+  bCVector abStack_78 [4];
+  bCVector abStack_74 [4];
+  undefined1 auStack_70 [4];
+  bCVector abStack_6c [8];
+  bCVector abStack_64 [4];
+  bCVector abStack_60 [12];
+  bCVector abStack_54 [8];
+  bCVector abStack_4c [4];
+  bCVector abStack_48 [4];
+  bCVector abStack_44 [28];
+  bCVector abStack_28 [36];
+  float fVar10;
+  
+                    /* 0xe859  2014  ?CalcNearestPathPoint@gCNavPath_PS@@QAE?AVbCVector@@ABV2@@Z */
+  uStack_c4 = in_stack_00000008;
+  bCMatrix::operator*((bCMatrix *)&(this->gCNavPath_PS_data).field_0xc8,abStack_74);
+  dStack_c8 = (double)CONCAT44(uStack_c4,abStack_78);
+  bCVector::bCVector(abStack_54,abStack_78);
+  iVar6 = (this->gCNavPath_PS_data).offset_0x14;
+  if (iVar6 < 2) {
+    if (iVar6 == 1) {
+      bCVector::bCVector(abStack_84,(this->gCNavPath_PS_data).offset_0x10);
+      dStack_c8 = (double)CONCAT44(uStack_c4,abStack_84);
+      bCVector::operator-(abStack_78,abStack_a4);
+      fStack_ac = 0.0;
+      bCVector::SetY(abStack_a8,&fStack_ac);
+      bCVector::NormalizeSafe(abStack_a8);
+      fStack_ac = *(float *)(this->gCNavPath_PS_data).offset_0x1c - 1.0;
+      bCVector::operator*(abStack_a8,(float)auStack_70);
+      pbVar5 = (bCVector *)bCVector::operator+(abStack_8c,abStack_44);
+      bCVector::operator=(abStack_60,pbVar5);
+      bCVector::~bCVector(abStack_48);
+      bCVector::~bCVector(abStack_78);
+      bCVector::~bCVector((bCVector *)&fStack_b0);
+      bCVector::~bCVector(abStack_90);
+    }
+  }
+  else {
+    iVar7 = 0;
+    uStack_94 = 0x4b189680;
+    if (-1 < iVar6 + -2) {
+      iVar6 = 0;
+      do {
+        bCVector::bCVector(abStack_6c,
+                           (bCVector *)((int)(this->gCNavPath_PS_data).offset_0x10 + iVar6));
+        bCVector::bCVector(abStack_90,
+                           (bCVector *)(iVar6 + 0xc + (int)(this->gCNavPath_PS_data).offset_0x10));
+        bCVector::operator-(abStack_90,abStack_9c);
+        pbVar5 = abStack_a0;
+        this_00 = (bCVector *)bCVector::bCVector(abStack_28,0.0,0.0,0.0);
+        bVar4 = bCVector::operator==(this_00,pbVar5);
+        fVar10 = (float)CONCAT13(bVar4,uVar9);
+        bCVector::~bCVector(abStack_28);
+        uVar3 = (ulonglong)dStack_c8;
+        uVar2 = (ulonglong)dStack_c8 >> 0x18;
+        bVar4 = (char)uVar2 == '\0';
+        dStack_c8 = (double)uVar3;
+        if (bVar4) {
+          bCVector::operator-(abStack_88,abStack_7c);
+          fVar8 = bCVector::DotProduct(abStack_80,abStack_a4);
+          dStack_c8 = (double)fVar8;
+          fVar8 = bCVector::DotProduct(abStack_a4,abStack_a4);
+          fVar8 = (float)dStack_c8 / fVar8;
+          fStack_ac = fVar8;
+          if (1.0 < fVar8) {
+            fStack_ac = 1.0;
+          }
+          if (0.0 <= fStack_ac) {
+            if (1.0 < fVar8) {
+              fVar8 = 1.0;
+            }
+          }
+          else {
+            fVar8 = 0.0;
+          }
+          dStack_c8 = (double)CONCAT44(uStack_c4,fVar8);
+          bCVector::operator*(abStack_a4,(float)abStack_44);
+          bCVector::operator+(abStack_78,abStack_60);
+          bCVector::~bCVector(abStack_4c);
+          pfVar1 = (float *)((int)(this->gCNavPath_PS_data).offset_0x1c + iVar7 * 4);
+          in_stack_ffffff30 =
+               (*pfVar1 * (1.0 - in_stack_ffffff30) + pfVar1[1] * in_stack_ffffff30) - 1.0;
+          if (in_stack_ffffff30 < fStack_b0) {
+            bCVector::operator-((bCVector *)&uStack_94,(bCVector *)&stack0xffffff40);
+            dStack_c8 = (double)((ulonglong)dStack_c8 & 0xffffffff00000000);
+            bCVector::SetY((bCVector *)&uStack_c4,(float *)&stack0xffffff38);
+            bCVector::NormalizeSafe((bCVector *)&uStack_c4);
+            bCVector::operator*((bCVector *)&uStack_c4,(float)abStack_44);
+            pbVar5 = (bCVector *)bCVector::operator+(abStack_6c,abStack_60);
+            bCVector::operator=(abStack_7c,pbVar5);
+            bCVector::~bCVector(abStack_64);
+            bCVector::~bCVector(abStack_4c);
+            bCVector::~bCVector((bCVector *)&stack0xffffff34);
+          }
+          bCVector::~bCVector(abStack_54);
+          bCVector::~bCVector(abStack_78);
+        }
+        bCVector::~bCVector(abStack_9c);
+        bCVector::~bCVector(abStack_90);
+        bCVector::~bCVector(abStack_6c);
+        iVar7 = iVar7 + 1;
+        iVar6 = iVar6 + 0xc;
+      } while (iVar7 <= (this->gCNavPath_PS_data).offset_0x14 + -2);
+    }
+  }
+  pbVar5 = param_1;
+  this_01 = (*this->vftablePtr->GetEntity)(this);
+  this_02 = eCEntity::GetWorldMatrix((eCEntity *)this_01);
+  bCMatrix::operator*(this_02,pbVar5);
+  bCVector::~bCVector(abStack_64);
+  bCVector::~bCVector(abStack_88);
+  return param_1;
+}
+
+

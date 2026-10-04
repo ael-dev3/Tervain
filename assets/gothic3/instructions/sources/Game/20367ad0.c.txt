@@ -1,0 +1,29 @@
+/* ENTRY 20367ad0 | FUN_20367ad0 | STATUS decompiled | 15 ms */
+
+undefined4 FUN_20367ad0(undefined4 *param_1,int param_2,char param_3)
+
+{
+  float fVar1;
+  
+  if (param_3 != '\x01') {
+    if (param_1 != (undefined4 *)0x0) {
+      *(undefined4 *)(param_2 + 0x98) = 0;
+      fVar1 = (float)(int)param_1[1];
+      if ((int)param_1[1] < 0) {
+        fVar1 = fVar1 + 4.2949673e+09;
+      }
+      *(float *)(param_2 + 0x9c) = fVar1;
+      eCEntityProxy::SetEntity((eCEntityProxy *)(param_2 + 0x78),(eCEntity *)*param_1);
+    }
+    if (*(float *)(param_2 + 0x98) < *(float *)(param_2 + 0x9c)) {
+      *(code **)(param_2 + 0x74) = gCScriptProcessingUnit::sAIWaitInstr;
+      return 0;
+    }
+  }
+  eCEntityProxy::SetEntity((eCEntityProxy *)(param_2 + 0x78),(eCEntity *)0x0);
+  eCEntityProxy::SetEntity((eCEntityProxy *)(param_2 + 0x108),(eCEntity *)0x0);
+  *(undefined4 *)(param_2 + 0x74) = 0;
+  return 1;
+}
+
+

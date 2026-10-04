@@ -1,0 +1,2 @@
+; 20027c9b gCHUDPageTrade2::vfunction71
+20027c9b | e9c0721400 | JMP 0x2016ef60

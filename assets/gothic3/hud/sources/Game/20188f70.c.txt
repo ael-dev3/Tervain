@@ -1,0 +1,15 @@
+/* ENTRY 20188f70 | FUN_20188f70 | STATUS decompiled | 4 ms */
+
+void __fastcall FUN_20188f70(CFFGFCListCtrl *param_1)
+
+{
+  if (param_1[5].CFFGFCWnd.IFFGUIMsgProc != (IFFGUIMsgProc)0x0) {
+    (**(code **)(*(int *)param_1[5].CFFGFCWnd.IFFGUIMsgProc + 0x154))(param_1 + 4);
+  }
+                    /* WARNING: Could not recover jumptable at 0x20188f8d. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  CFFGFCListCtrl::DeleteAllItems(param_1);
+  return;
+}
+
+

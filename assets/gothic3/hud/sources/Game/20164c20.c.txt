@@ -1,0 +1,13 @@
+/* ENTRY 20164c20 | gCHUDViewLetter2::~gCHUDViewLetter2 | STATUS decompiled | 7 ms */
+
+void __thiscall gCHUDViewLetter2::~gCHUDViewLetter2(gCHUDViewLetter2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewLetter2_data).field_0x1c);
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewLetter2_data).field_0xc);
+  FUN_200156a9();
+  return;
+}
+
+

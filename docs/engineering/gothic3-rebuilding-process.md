@@ -14,7 +14,7 @@ limitations and source terms.
 
 This guide describes the source on `codex/gothic3-gameplay-initialization`.
 The hosted page remains at its last successful deployment; the latest source
-checkpoints have not been deployed. Sections 10–11 cover the newer runtime work.
+checkpoints have not been deployed. Sections 10–12 cover the newer runtime work.
 
 ## 1. Preserve and study the installed game
 
@@ -758,7 +758,7 @@ deployment are available again; no checks or triggers are bypassed.
 
 ## 11. Add the clock, navigation lifecycle and task controls
 
-The next source checkpoint adds executable TypeScript components for the
+Checkpoint `864422d` added executable TypeScript components for the
 session runtime. Their supported operations perform actual state changes;
 their remaining host boundaries still prevent a complete new-game session.
 
@@ -813,7 +813,7 @@ python -B tools/gothic3/freeze_session_checkpoint.py
 ```
 
 [session-checkpoint.json](../../assets/gothic3/session-checkpoint.json) records
-the current file hashes and the separate offline audits. Its freezer verifies
+the file hashes at `864422d` and the separate offline audits. Its freezer verifies
 the retained initialization checkpoint at commit `a2c3ce3`, the frozen module
 receipts and routine source pins. It does not execute the game, run runtime
 tests or certify a build, browser review, deployment or completed playthrough.
@@ -826,3 +826,182 @@ floor-entry logic (`GetDistToGround 20027926`), active HUD binding and real
 instruction/script execution. Startup can then compose these components in
 the original order. The original complete game remains the delivery target;
 an isolated clock, landscape or source-backed task API does not fulfill it.
+
+## 12. Connect stored navigation, HUD composition and instruction processing
+
+The following checkpoint adds bounded runtime components that consume the
+original source records. These are implementation APIs, with their own native
+evidence and explicit host requirements. They have not yet been assembled into
+a complete browser `NativeGameSession`, and are not a completed game release.
+
+### Load the installed world's stored navigation map
+
+The selected map comes from
+`Projects_compiled.p00/G3_World_01/NavigationMap.xnav` in the extracted local
+study. Its original size is 14,550,529 bytes and its SHA256 is
+`1b163f4f1be7115aeef37835e798772a3437db3429a32b4d36d866437b9a41c3`.
+The `GENOMFLE` wrapper contains `GE3-NAV-MAP` version 3/0. The producer reads
+the stored grid, negative zones, path intersections and network/interaction
+lists. Original PE `ReadLists` behavior is the runtime reference; g3dit's
+readers provide separately identified layout corroboration.
+
+[research_navigation_scene.py](../../tools/gothic3/research_navigation_scene.py)
+resolves all 5,385 stored map zone/path IDs to unique original typed world
+records: 2,226 zones and 3,159 paths. It verifies selected input hashes and
+decodes their properties again from the original world files. Source registry
+and sector metadata are retained. These records do not establish which
+entities are registered, resident or activated in a live session.
+
+[navigation-scene.ts](../../src/gothic3/navigation-scene.ts) loads the verified
+query subset and definitions. An explicit host resolves original live
+property-set objects. The stored associations set zone network/exclusion data
+and path intersection properties in native order. Callback attempts and writes
+are recorded; a partial binding cannot be silently replayed on the same scene.
+
+`GetZone` uses the native signed-angle zone test, radius selection, height and
+LinkInner priorities, internal negative zones, tapered path cylinders and
+intersection margins. A renderer mesh or generic AABB is insufficient for
+these decisions. This implementation models float stores with JavaScript
+arithmetic; exact x87 boundary behavior has not been established. Stored-list
+loading does not implement forced map recompilation, AIZone inheritance, door
+binding, path search, movement or collision avoidance.
+
+The query subset is about 2.6 MB decoded; definitions are about 7.6 MB decoded.
+The optional full stored lists are about 60.8 MB decoded and are not loaded for
+a zone query. The shared [resource loader](../../src/gothic3/resource.ts)
+requires an explicit larger decode budget for these resources and retains
+bounded streaming, exact lengths and compressed/decoded SHA256 checks.
+
+### Construct the original inventory-facing HUD controls
+
+[hud-runtime.ts](../../src/gothic3/hud-runtime.ts) follows the root constructor,
+Main2 creation and all seventeen page slots. Initially active and previous
+page indices are -1, entity slots are null and controls are unbound. Startup
+player slot 0 calls the focus helper (whose entity bind belongs to slot 1),
+then binds mana, health and stamina controls, QuickSlots and the compass in
+that order. It then handles the active page when there is one.
+
+All 37 constructed inventory listener controls are accounted for: 26 list
+controls, seven stack-stat controls and four recipe-stat controls. Their binds
+and callbacks use the existing
+[inventory-observers.ts](../../src/gothic3/inventory-observers.ts) adapters.
+The native stack-stat selected-index field is uninitialized at construction;
+it becomes usable only when the original Bind receives a real stack index.
+The separate selection helper's labels/icons and other effects still require
+their own implementation.
+
+The host must perform the specified GFC, progress, header, cash, category,
+trade and tutor subcalls. An evidence address can identify the containing
+native function; it is not an instruction to rerun that whole function and
+duplicate the already-ported listener bind. Entity identity must preserve the
+original captured pointer lifetime across callbacks. The selected live-owner
+profile does not establish arbitrary entity destruction/recreation behavior.
+
+The original destructor destroys Main2, the crosshair, seventeen page slots
+and three logo controls in that order, retaining post-destructor pointer reads
+before deletion. Member listener destructors do not implicitly call
+`RemoveListener`. Knowing every constructed HUD listener does not prove that
+all external inventory observers are accounted for. Full equipment and world
+entity effects remain separate requirements. This module is a runtime
+composition model; it has not recreated the complete native HUD visually.
+
+### Implement the notification chain used by routine setters
+
+[native-properties.ts](../../src/gothic3/native-properties.ts) implements the
+audited ScriptRoutine, PlayerMemory and NPC property-set notification profiles.
+Outer Notify calls the owner's `Modified`, dispatches virtual OnNotify, and
+the inherited OnNotify calls `Modified` again before returning true. In the
+original entity classes, `Modified` reads DWORD `+0x130`; it does not write a
+dirty flag. The constructor subset starts that word at `0xffffffff` and does
+not claim a complete entity create/read/world lifecycle.
+
+NPC exit notifications for the exact property name `Enclave`, with propagation
+false, update the cached enclave proxy before the inherited OnNotify chain.
+PropertyID storage occupies twenty bytes, but native equality compares the
+first sixteen. Assignment copies those sixteen and clears the trailing DWORD.
+For a changed ID, the proxy copies it before releasing a nonnull cached
+internal reference, then clears that internal pointer. A real reference-release
+host is still required when an existing internal reference is present.
+
+Routine hooks bind the exact property-set value object captured by the native
+setter. Replacing `Self.properties` during a callback cannot redirect the
+remaining write/exit notification to a different property set. Other
+property-set classes are not assigned generic successful no-op callbacks.
+
+### Process the existing SPU state and run WAIT
+
+[script-instructions.ts](../../src/gothic3/script-instructions.ts) implements
+`ProcessScript`, the original WAIT instruction and shared per-frame callback
+counters. It operates on the same live
+[script-routine.ts](../../src/gothic3/script-routine.ts) state, revision,
+ordered journal and failure state used by task/state control. It does not
+maintain a second copy of the actor's task or instruction pointer.
+
+The original factory has capacity for five distinct frames, one active frame,
+a null audio channel and uninitialized instruction/callback timer fields where
+the constructor leaves bytes unwritten. Callers must provide a real owner,
+the application and EntityAdmin processing gates, and source-registered script
+bodies. The arithmetic profile explicitly selects 24, 53 or 64 bit nearest-even
+precision; a live native control word was not captured.
+
+Each processing step stores scaled frame seconds before converting to
+milliseconds, advances task/state/WAIT timers, polls an active instruction,
+and decides whether it remains pending by rereading the active pointer.
+The callback's return value alone does not decide that branch. State and
+function completion comparisons preserve the original AL-byte checks.
+WAIT reads its entity/uint32-duration descriptor only when starting; polling
+uses the existing timer fields. Completion or abort clears both instruction
+proxies and the active pointer. Legal nested instruction starts and setters
+share the active scope; reentrant `ProcessScript` is rejected by this bounded
+profile.
+
+The empty-routine fallback checks original `NPC_PS` selector `0x1e`, independent
+of Navigation_PS, before invoking `ContinueRoutine`. Native frame-object
+destruction, audio-channel updates and missing script bodies remain explicit
+requirements. Unknown effects expose their attempted/applied prefix and block
+further use of the affected instance. This protects the reconstruction from
+treating unresolved native work as a successful frame.
+
+### Reproduce and checkpoint the source work
+
+```powershell
+python -B tools/gothic3/research_native_properties.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/research_native_hud.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/research_navigation_scene.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/research_spu_instructions.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/freeze_dispatch_checkpoint.py
+```
+
+[dispatch-checkpoint.json](../../assets/gothic3/dispatch-checkpoint.json) records
+the source file hashes and separate offline audits. Its freezer verifies the
+historical `864422d` session receipt, retained file bytes and intentional
+changes to the routine API, resource loader, guide and attributes. Each new
+namespace has its own evidence/output receipts. Counts overlap earlier native
+functions and are not a percentage of game completion.
+
+| Source boundary | Original PE evidence in this checkpoint |
+| --- | --- |
+| Property notifications | 83 entries, 989 instructions, 3,556 matched bytes |
+| HUD construction/binding | 328 bodies, 6,351 instructions, 20,514 matched bytes |
+| SPU processing/WAIT | 117 entries, 2,055 instructions, 6,207 matched bytes |
+| Stored navigation loading/query | 86 bodies, 11,040 instructions, 37,469 matched bytes |
+
+The freezer checks hashes and receipts. It does not perform a fresh original
+PE comparison, execute native code, run tests or certify a browser review,
+build, deployment or playthrough. The historical initialization and session
+receipts remain evidence for their respective commits; rerunning an old
+freezer against a changed runtime is not a substitute for a new checkpoint.
+
+The local candidate passed `npm run typecheck` and `npm run build`. Those
+static checks cover compilation and packaging. They do not establish runtime
+equivalence or a playable integrated session. No runtime tests, new browser
+review, native execution or complete playthrough were performed for this
+checkpoint. The new source components still require session integration.
+
+The next integration step is a single session host with the original entity
+and property-set lifecycle. It must connect clock/frame scheduling, live
+navigation registration and sector residency, startup callbacks, HUD binding
+and concrete AI/script bodies in their source order. Movement, contact and
+physics then support combat, spells, dialogue, quest/enclave events and saves.
+Completion requires an original-game playthrough in the browser, including
+quest progression and endings. Those delivery requirements remain unfinished.

@@ -1,0 +1,17 @@
+/* ENTRY 10006334 | bCPropertyID::Invalidate | STATUS decompiled | 2 ms */
+
+/* private: void __thiscall bCPropertyID::Invalidate(void) */
+
+void __thiscall bCPropertyID::Invalidate(bCPropertyID *this)
+
+{
+                    /* 0x6334  3559  ?Invalidate@bCPropertyID@@AAEXXZ */
+  *(undefined4 *)(this + 0xc) = 0;
+  *(undefined4 *)(this + 8) = 0;
+  *(undefined4 *)(this + 4) = 0;
+  *(undefined4 *)this = 0;
+  *(undefined4 *)(this + 0x10) = 0;
+  return;
+}
+
+

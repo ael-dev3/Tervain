@@ -1,0 +1,44 @@
+/* ENTRY 2016d770 | gCHUDPageMain2::vfunction67 | STATUS decompiled | 56 ms */
+
+void __thiscall gCHUDPageMain2::vfunction67(gCHUDPageMain2 *this)
+
+{
+  undefined1 *this_00;
+  undefined1 *this_01;
+  undefined1 *this_02;
+  
+  this_00 = &(this->gCHUDPageMain2_data).field_0x114;
+  CFFGFCWnd::Create((CFFGFCWnd *)this_00,0x7561,(CFFGFCWnd *)this);
+  this_01 = &(this->gCHUDPageMain2_data).field_0x8c;
+  CFFGFCWnd::Create((CFFGFCWnd *)this_01,0x7560,(CFFGFCWnd *)this);
+  CFFGFCWnd::Create((CFFGFCWnd *)&(this->gCHUDPageMain2_data).field_0xd0,0x755f,(CFFGFCWnd *)this);
+  CFFGFCWnd::Create((CFFGFCWnd *)&(this->gCHUDPageMain2_data).field_0x158,0x7562,(CFFGFCWnd *)this);
+  CFFGFCWnd::Create((CFFGFCWnd *)&(this->gCHUDPageMain2_data).field_0x19c,0x755d,(CFFGFCWnd *)this);
+  CFFGFCWnd::Create((CFFGFCWnd *)&(this->gCHUDPageMain2_data).field_0x1d8,0x755a,(CFFGFCWnd *)this);
+  CFFGFCWnd::Create((CFFGFCWnd *)&(this->gCHUDPageMain2_data).field_0x210,0x7575,(CFFGFCWnd *)this);
+  thunk_FUN_201925e0(this_00);
+  thunk_FUN_201925e0(this_01);
+  thunk_FUN_201925e0(&(this->gCHUDPageMain2_data).field_0xd0);
+  this_02 = &(this->gCHUDPageMain2_data).field_0x158;
+  thunk_FUN_201925e0(this_02);
+  thunk_FUN_201925e0(&(this->gCHUDPageMain2_data).field_0x19c);
+  thunk_FUN_201925e0(&(this->gCHUDPageMain2_data).field_0x1d8);
+  thunk_FUN_201925e0(&(this->gCHUDPageMain2_data).field_0x210);
+  (**(code **)(*(int *)&(this->gCHUDPageMain2_data).field_0x230 + 0x108))();
+  thunk_FUN_20191690();
+  (**(code **)(*(int *)&(this->gCHUDPageMain2_data).field_0x2a0 + 0x108))();
+  CFFGFCWnd::ShowWindow((CFFGFCWnd *)this_02,true);
+  CFFGFCWnd::ShowWindow((CFFGFCWnd *)this_01,true);
+  CFFGFCWnd::ShowWindow((CFFGFCWnd *)&(this->gCHUDPageMain2_data).field_0xd0,true);
+  CFFGFCWnd::ShowWindow((CFFGFCWnd *)this_00,true);
+  CFFGFCWnd::ShowWindow((CFFGFCWnd *)&(this->gCHUDPageMain2_data).field_0x1d8,false);
+  CFFGFCWnd::ShowWindow((CFFGFCWnd *)&(this->gCHUDPageMain2_data).field_0x19c,true);
+  CFFGFCWnd::ShowWindow((CFFGFCWnd *)&(this->gCHUDPageMain2_data).field_0x230,true);
+  CFFGFCWnd::ShowWindow((CFFGFCWnd *)&(this->gCHUDPageMain2_data).field_0x210,false);
+                    /* WARNING: Could not recover jumptable at 0x2016d8c5. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  CFFGFCView::OnInitDialog((CFFGFCView *)this);
+  return;
+}
+
+

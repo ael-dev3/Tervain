@@ -1,0 +1,15 @@
+/* ENTRY 201669e0 | gCHUDViewLocation2::gCHUDViewLocation2 | STATUS decompiled | 8 ms */
+
+gCHUDViewLocation2 * __thiscall gCHUDViewLocation2::gCHUDViewLocation2(gCHUDViewLocation2 *this)
+
+{
+  gCHUDPageView::gCHUDPageView((gCHUDPageView *)this);
+  this->vftablePtr = &vftable;
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewLocation2_data).field_0xc);
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewLocation2_data).field_0x1c);
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewLocation2_data).field_0x2c);
+  CFFGFCStatic::CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewLocation2_data).field_0x3c);
+  return this;
+}
+
+

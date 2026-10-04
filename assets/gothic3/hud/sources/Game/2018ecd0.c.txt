@@ -1,0 +1,97 @@
+/* ENTRY 2018ecd0 | FUN_2018ecd0 | STATUS decompiled | 56 ms */
+
+void __fastcall FUN_2018ecd0(CFFGFCProgressBar *param_1)
+
+{
+  eCEntityProxy *this;
+  bCString *this_00;
+  bool bVar1;
+  eCEntity *peVar2;
+  gCAttribute *pgVar3;
+  int iVar4;
+  char *pcVar5;
+  bCString *this_01;
+  gCPlayerMemory_PS *this_02;
+  bCByteAlphaColor *pbVar6;
+  gCNPC_PS *local_14;
+  int local_10;
+  int local_c;
+  bCString local_8 [4];
+  int local_4;
+  
+  CFFGFCProgressBar::GetPos(param_1);
+  CFFGFCProgressBar::GetRange(param_1,&local_4,(int *)local_8);
+  this = (eCEntityProxy *)(param_1 + 4);
+  peVar2 = eCEntityProxy::GetEntity(this);
+  if (peVar2 == (eCEntity *)0x0) {
+    this_02 = (gCPlayerMemory_PS *)0x0;
+  }
+  else {
+    this_02 = (gCPlayerMemory_PS *)(**(code **)(*(int *)peVar2 + 0xec))(0x3c);
+  }
+  peVar2 = eCEntityProxy::GetEntity(this);
+  if (peVar2 == (eCEntity *)0x0) {
+    local_14 = (gCNPC_PS *)0x0;
+  }
+  else {
+    local_14 = (gCNPC_PS *)(**(code **)(*(int *)peVar2 + 0xec))(0x1e);
+  }
+  local_c = 0;
+  local_10 = 100;
+  this_00 = (bCString *)(param_1 + 0xb);
+  if (this_02 == (gCPlayerMemory_PS *)0x0) {
+    bVar1 = bCString::operator==(this_00,"HP");
+    if ((((bVar1) && (local_14 != (gCNPC_PS *)0x0)) &&
+        (peVar2 = eCEntityProxy::GetEntity(this), peVar2 != (eCEntity *)0x0)) &&
+       (iVar4 = (**(code **)(*(int *)peVar2 + 0xec))(0x34), iVar4 != 0)) {
+      local_10 = *(int *)(iVar4 + 0x18);
+      local_c = *(int *)(iVar4 + 0x14);
+    }
+  }
+  else {
+    pgVar3 = gCPlayerMemory_PS::GetAttribute(this_02,this_00);
+    if (pgVar3 != (gCAttribute *)0x0) {
+      local_10 = (**(code **)(*(int *)pgVar3 + 100))();
+      local_c = (**(code **)(*(int *)pgVar3 + 0x60))();
+    }
+  }
+  bVar1 = bCString::operator==(this_00,"HP");
+  if (bVar1) {
+    if ((local_14 == (gCNPC_PS *)0x0) || (bVar1 = gCNPC_PS::HasStatusEffect(local_14,4), !bVar1)) {
+      pbVar6 = (bCByteAlphaColor *)&DAT_207ba3d8;
+    }
+    else {
+      pbVar6 = (bCByteAlphaColor *)&DAT_207ba3e4;
+    }
+  }
+  else {
+    bVar1 = bCString::operator==(this_00,"SP");
+    if (!bVar1) goto LAB_2018ee22;
+    if ((local_14 == (gCNPC_PS *)0x0) || (bVar1 = gCNPC_PS::HasStatusEffect(local_14,8), !bVar1)) {
+      pbVar6 = (bCByteAlphaColor *)&DAT_207ba3fc;
+    }
+    else {
+      pbVar6 = (bCByteAlphaColor *)&DAT_207ba42c;
+    }
+  }
+  CFFGFCProgressBar::SetBarColor(param_1,pbVar6);
+LAB_2018ee22:
+  CFFGFCProgressBar::SetRange(param_1,0,local_10);
+  CFFGFCProgressBar::SetPos(param_1,local_c);
+  if (*(char *)&param_1[0xc].CFFGFCWnd.IFFGUIMsgProc == '\0') {
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)&local_c,"");
+    CFFGFCWnd::SetWindowTextA(&param_1->CFFGFCWnd,(bCUnicodeString *)&local_c);
+    bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&local_c);
+    return;
+  }
+  bCString::bCString((bCString *)&local_c);
+  bCString::Format(this_01,(char *)&local_c);
+  pcVar5 = bCString::operator_char_const_(local_8);
+  bCUnicodeString::bCUnicodeString((bCUnicodeString *)&local_c,pcVar5);
+  CFFGFCWnd::SetWindowTextA(&param_1->CFFGFCWnd,(bCUnicodeString *)&local_c);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&local_c);
+  bCString::~bCString(local_8);
+  return;
+}
+
+

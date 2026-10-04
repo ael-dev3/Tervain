@@ -1,0 +1,19 @@
+/* ENTRY 20165ca0 | FUN_20165ca0 | STATUS decompiled | 3 ms */
+
+void FUN_20165ca0(undefined4 param_1,int param_2)
+
+{
+  if (param_2 == 0) {
+    thunk_FUN_20165ba0();
+    thunk_FUN_201875f0(param_1);
+  }
+  else if (param_2 == 2) {
+    thunk_FUN_20190810(param_1);
+    thunk_FUN_2018a7f0(param_1);
+    thunk_FUN_2018b1e0(param_1);
+    return;
+  }
+  return;
+}
+
+

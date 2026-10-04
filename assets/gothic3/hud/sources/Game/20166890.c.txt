@@ -1,0 +1,15 @@
+/* ENTRY 20166890 | gCHUDViewBarQuickslots2::~gCHUDViewBarQuickslots2 | STATUS decompiled | 10 ms */
+
+void __thiscall gCHUDViewBarQuickslots2::~gCHUDViewBarQuickslots2(gCHUDViewBarQuickslots2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  gCHUDListCtrlInvQuickSlots::~gCHUDListCtrlInvQuickSlots
+            ((gCHUDListCtrlInvQuickSlots *)&(this->gCHUDViewBarQuickslots2_data).field_0xc);
+                    /* WARNING: Could not recover jumptable at 0x201668a4. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  CFFGFCView::~CFFGFCView((CFFGFCView *)this);
+  return;
+}
+
+

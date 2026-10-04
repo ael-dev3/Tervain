@@ -1,0 +1,55 @@
+; 10038290 FUN_10038290
+10038290 | 83ec10 | SUB ESP,0x10
+10038293 | 56 | PUSH ESI
+10038294 | 8bf1 | MOV ESI,ECX
+10038296 | d94604 | FLD float ptr [ESI + 0x4]
+10038299 | d95c2408 | FSTP float ptr [ESP + 0x8]
+1003829d | d9442408 | FLD float ptr [ESP + 0x8]
+100382a1 | d906 | FLD float ptr [ESI]
+100382a3 | d95c2404 | FSTP float ptr [ESP + 0x4]
+100382a7 | d9442404 | FLD float ptr [ESP + 0x4]
+100382ab | d94608 | FLD float ptr [ESI + 0x8]
+100382ae | d95c240c | FSTP float ptr [ESP + 0xc]
+100382b2 | d944240c | FLD float ptr [ESP + 0xc]
+100382b6 | d9c1 | FLD ST1
+100382b8 | deca | FMULP ST2
+100382ba | d9c2 | FLD ST2
+100382bc | decb | FMULP ST3
+100382be | d9c9 | FXCH
+100382c0 | dec2 | FADDP ST2,ST0
+100382c2 | dcc8 | FMUL ST0
+100382c4 | dec1 | FADDP
+100382c6 | d95c2410 | FSTP float ptr [ESP + 0x10]
+100382ca | d9442410 | FLD float ptr [ESP + 0x10]
+100382ce | e83d2d0700 | CALL 0x100ab010
+100382d3 | d95c2410 | FSTP float ptr [ESP + 0x10]
+100382d7 | d9442410 | FLD float ptr [ESP + 0x10]
+100382db | 8bc6 | MOV EAX,ESI
+100382dd | d95c2410 | FSTP float ptr [ESP + 0x10]
+100382e1 | d9ee | FLDZ
+100382e3 | d9442410 | FLD float ptr [ESP + 0x10]
+100382e7 | dbf1 | FCOMI ST0,ST1
+100382e9 | ddd9 | FSTP ST1
+100382eb | 762d | JBE 0x1003831a
+100382ed | d9e8 | FLD1
+100382ef | def1 | FDIVRP
+100382f1 | d95c2410 | FSTP float ptr [ESP + 0x10]
+100382f5 | d9442404 | FLD float ptr [ESP + 0x4]
+100382f9 | d9442410 | FLD float ptr [ESP + 0x10]
+100382fd | d9c0 | FLD ST0
+100382ff | deca | FMULP ST2
+10038301 | d9c9 | FXCH
+10038303 | d91e | FSTP float ptr [ESI]
+10038305 | d9442408 | FLD float ptr [ESP + 0x8]
+10038309 | d8c9 | FMUL ST1
+1003830b | d95e04 | FSTP float ptr [ESI + 0x4]
+1003830e | d84c240c | FMUL float ptr [ESP + 0xc]
+10038312 | d95e08 | FSTP float ptr [ESI + 0x8]
+10038315 | 5e | POP ESI
+10038316 | 83c410 | ADD ESP,0x10
+10038319 | c3 | RET
+; 1003831a LAB_1003831a
+1003831a | ddd8 | FSTP ST0
+1003831c | 5e | POP ESI
+1003831d | 83c410 | ADD ESP,0x10
+10038320 | c3 | RET

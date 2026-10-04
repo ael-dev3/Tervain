@@ -1,0 +1,4 @@
+; 100027a2 ?GetMagnitude2D@bCVector@@QBEMW4bECoordinate@1@@Z
+100027a2 | e999bf0200 | JMP 0x1002e740
+; 100027a7 bCString::ReverseFindOneOf
+; 100027a7 Ordinal_3959

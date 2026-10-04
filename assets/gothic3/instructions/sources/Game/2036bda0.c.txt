@@ -1,0 +1,10 @@
+/* ENTRY 2036bda0 | FUN_2036bda0 | STATUS decompiled | 1 ms */
+
+void __fastcall FUN_2036bda0(gCScriptProcessingUnit *param_1)
+
+{
+  gCScriptProcessingUnit::DetectDailyRoutineTask(param_1,false);
+  return;
+}
+
+

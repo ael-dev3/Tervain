@@ -1,0 +1,31 @@
+/* ENTRY 20160bb0 | gCHUDViewCharacter2::~gCHUDViewCharacter2 | STATUS decompiled | 58 ms */
+
+void __thiscall gCHUDViewCharacter2::~gCHUDViewCharacter2(gCHUDViewCharacter2 *this)
+
+{
+  int iVar1;
+  gCHUDStaticNPC *pgVar2;
+  
+  this->vftablePtr = &vftable;
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewCharacter2_data).field_0x7e4);
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewCharacter2_data).field_0x7d4);
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewCharacter2_data).field_0x7c4);
+  pgVar2 = (gCHUDStaticNPC *)&(this->gCHUDViewCharacter2_data).field_0x7c4;
+  iVar1 = 0x12;
+  do {
+    pgVar2 = pgVar2 + -1;
+    gCHUDStaticNPC::~gCHUDStaticNPC(pgVar2);
+    iVar1 = iVar1 + -1;
+  } while (-1 < iVar1);
+  pgVar2 = (gCHUDStaticNPC *)&(this->gCHUDViewCharacter2_data).field_0x3e8;
+  iVar1 = 0x12;
+  do {
+    pgVar2 = pgVar2 + -1;
+    gCHUDStaticNPC::~gCHUDStaticNPC(pgVar2);
+    iVar1 = iVar1 + -1;
+  } while (-1 < iVar1);
+  FUN_200156a9();
+  return;
+}
+
+

@@ -1,0 +1,38 @@
+/* ENTRY 300253e2 | eCEntity::Invalidate | STATUS decompiled | 23 ms */
+
+/* protected: void __thiscall eCEntity::Invalidate(void) */
+
+void __thiscall eCEntity::Invalidate(eCEntity *this)
+
+{
+  uint *puVar1;
+  
+                    /* 0x253e2  9967  ?Invalidate@eCEntity@@IAEXXZ */
+  (this->eCEntity_data).offset_0x164 = 0;
+  (this->eCEntity_data).offset_0x168 = 0;
+  (this->eCEntity_data).offset_0x16c = 0;
+  (this->eCEntity_data).offset_0x170 = 0;
+  (this->eCEntity_data).offset_0x0 = (void *)0x0;
+  (this->eCEntity_data).offset_0xc = (this->eCEntity_data).offset_0xc & 0xc003d838 | 0x1828;
+  bCMatrix::SetIdentity((bCMatrix *)&(this->eCEntity_data).field_0x10);
+  bCMatrix::SetIdentity((bCMatrix *)&(this->eCEntity_data).field_0x50);
+  bCBox::Invalidate((bCBox *)&(this->eCEntity_data).field_0xe0);
+  bCBox::Invalidate((bCBox *)&(this->eCEntity_data).field_0xb8);
+  bCBox::Invalidate((bCBox *)&(this->eCEntity_data).field_0x90);
+  bCSphere::Clear((bCSphere *)&(this->eCEntity_data).field_0xa8);
+  bCSphere::Clear((bCSphere *)&(this->eCEntity_data).field_0xd0);
+  bCString::Clear((bCString *)&(this->eCEntity_data).field_0x108);
+  puVar1 = &(this->eCEntity_data).offset_0xc;
+  *puVar1 = *puVar1 & 0xfffc3fff;
+  (this->eCEntity_data).offset_0x8 = (eCEntity)0x0;
+  (this->eCEntity_data).offset_0x160 = 0;
+  (this->eCEntity_data).offset_0x15c = 0;
+  (this->eCEntity_data).offset_0x4 = 0x3f800000;
+  (this->eCEntity_data).offset_0xf8 = 0x3f800000;
+  (this->eCEntity_data).offset_0xfc = 0x3f800000;
+  (this->eCEntity_data).offset_0x100 = 0xffffffff;
+  (this->eCEntity_data).offset_0x104 = 0x3f800000;
+  return;
+}
+
+

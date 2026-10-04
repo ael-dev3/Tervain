@@ -1,0 +1,746 @@
+{
+  "schema": "gothic3-native-hud-profile-v1",
+  "inputSha256": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+  "root": {
+    "constructor": "Game:2016fb70",
+    "create": "Game:201708b0",
+    "entitySlots": 7,
+    "initialActivePage": -1,
+    "initialPreviousPage": -1,
+    "initialEntitySlots": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "regularPageCount": 17,
+    "setEntity": "Game:20170a70",
+    "resetEntity": "Game:20170ac0",
+    "bindPageSlots": "Game:201702e0",
+    "clearPageSlots": "Game:20170320",
+    "selectPage": "Game:20170d90"
+  },
+  "mainPage": {
+    "id": "main",
+    "class": "gCHUDPageMain2",
+    "constructor": "Game:2016d160",
+    "setEntity": "Game:2016d4d0",
+    "bindingOrder": [
+      "focus",
+      "mana",
+      "health",
+      "stamina",
+      "quick-slots",
+      "compass"
+    ]
+  },
+  "pages": [
+    {
+      "id": 0,
+      "class": "gCHUDPageInventory2",
+      "constructor": "Game:2016c800",
+      "setEntity": "Game:2016c8e0",
+      "synthesisCategory": null,
+      "transformCategory": null
+    },
+    {
+      "id": 1,
+      "class": "gCHUDPageSpells2",
+      "constructor": "Game:2016e420",
+      "setEntity": "Game:2016e4a0",
+      "synthesisCategory": null,
+      "transformCategory": null
+    },
+    {
+      "id": 2,
+      "class": "gCHUDPageDocuments2",
+      "constructor": "Game:2016c4f0",
+      "setEntity": "Game:2016c5a0",
+      "synthesisCategory": null,
+      "transformCategory": null
+    },
+    {
+      "id": 3,
+      "class": "gCHUDPageSkills2",
+      "constructor": "Game:2016deb0",
+      "setEntity": "Game:2016df60",
+      "synthesisCategory": null,
+      "transformCategory": null
+    },
+    {
+      "id": 4,
+      "class": "gCHUDPageQuests2",
+      "constructor": "Game:2016dba0",
+      "setEntity": "Game:2016dc20",
+      "synthesisCategory": null,
+      "transformCategory": null
+    },
+    {
+      "id": 5,
+      "class": "gCHUDPageTrade2",
+      "constructor": "Game:2016ebf0",
+      "setEntity": "Game:2016ef60",
+      "synthesisCategory": null,
+      "transformCategory": null
+    },
+    {
+      "id": 6,
+      "class": "gCHUDPageDialog2",
+      "constructor": "Game:2016c300",
+      "setEntity": "Game:2000ca36",
+      "synthesisCategory": null,
+      "transformCategory": null
+    },
+    {
+      "id": 7,
+      "class": "gCHUDPageLoot2",
+      "constructor": "Game:2016cc00",
+      "setEntity": "Game:2016ce10",
+      "synthesisCategory": null,
+      "transformCategory": null
+    },
+    {
+      "id": 8,
+      "class": "gCHUDPageSynth2",
+      "constructor": "Game:2016e610",
+      "setEntity": "Game:2016e720",
+      "synthesisCategory": 2,
+      "transformCategory": null
+    },
+    {
+      "id": 9,
+      "class": "gCHUDPageSynth2",
+      "constructor": "Game:2016e610",
+      "setEntity": "Game:2016e720",
+      "synthesisCategory": 3,
+      "transformCategory": null
+    },
+    {
+      "id": 10,
+      "class": "gCHUDPageSynth2",
+      "constructor": "Game:2016e610",
+      "setEntity": "Game:2016e720",
+      "synthesisCategory": 4,
+      "transformCategory": null
+    },
+    {
+      "id": 11,
+      "class": "gCHUDPageTransform2",
+      "constructor": "Game:2016f370",
+      "setEntity": "Game:2016f480",
+      "synthesisCategory": null,
+      "transformCategory": 0
+    },
+    {
+      "id": 12,
+      "class": "gCHUDPageTransform2",
+      "constructor": "Game:2016f370",
+      "setEntity": "Game:2016f480",
+      "synthesisCategory": null,
+      "transformCategory": 1
+    },
+    {
+      "id": 13,
+      "class": "gCHUDPageTransform2",
+      "constructor": "Game:2016f370",
+      "setEntity": "Game:2016f480",
+      "synthesisCategory": null,
+      "transformCategory": 2
+    },
+    {
+      "id": 14,
+      "class": "gCHUDPageTransform2",
+      "constructor": "Game:2016f370",
+      "setEntity": "Game:2016f480",
+      "synthesisCategory": null,
+      "transformCategory": 3
+    },
+    {
+      "id": 15,
+      "class": "gCHUDPageTutorial2",
+      "constructor": "Game:2016f920",
+      "setEntity": "Game:20008a08",
+      "synthesisCategory": null,
+      "transformCategory": null
+    },
+    {
+      "id": 16,
+      "class": "gCHUDPageSlideshow2",
+      "constructor": "Game:2016e110",
+      "setEntity": "Game:20020a86",
+      "synthesisCategory": null,
+      "transformCategory": null
+    }
+  ],
+  "controls": [
+    {
+      "id": "main/quick-slots",
+      "page": -1,
+      "name": "quick-slots",
+      "family": "list",
+      "controlOffset": 448,
+      "listenerOffset": 464,
+      "constructor": "Game:20187da0",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-0/item-stats",
+      "page": 0,
+      "name": "item-stats",
+      "family": "stack-stats",
+      "controlOffset": 144,
+      "listenerOffset": 196,
+      "constructor": "Game:2018e410",
+      "initial": {
+        "dirty": false,
+        "selectedStack": "uninitialized",
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-0/inventory",
+      "page": 0,
+      "name": "inventory",
+      "family": "list",
+      "controlOffset": 2372,
+      "listenerOffset": 2388,
+      "constructor": "Game:20189e90",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-1/innos",
+      "page": 1,
+      "name": "innos",
+      "family": "list",
+      "controlOffset": 104,
+      "listenerOffset": 120,
+      "constructor": "Game:201884f0",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-1/beliar",
+      "page": 1,
+      "name": "beliar",
+      "family": "list",
+      "controlOffset": 160,
+      "listenerOffset": 176,
+      "constructor": "Game:201884f0",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-1/adanos",
+      "page": 1,
+      "name": "adanos",
+      "family": "list",
+      "controlOffset": 216,
+      "listenerOffset": 232,
+      "constructor": "Game:201884f0",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-2/documents",
+      "page": 2,
+      "name": "documents",
+      "family": "list",
+      "controlOffset": 100,
+      "listenerOffset": 116,
+      "constructor": "Game:20186cc0",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-2/recipe-stats",
+      "page": 2,
+      "name": "recipe-stats",
+      "family": "recipe-stats",
+      "controlOffset": 400,
+      "listenerOffset": 440,
+      "constructor": "Game:2018cd30",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-3/skills-0",
+      "page": 3,
+      "name": "skills-0",
+      "family": "list",
+      "controlOffset": 2116,
+      "listenerOffset": 2132,
+      "constructor": "Game:20188310",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-3/skills-1",
+      "page": 3,
+      "name": "skills-1",
+      "family": "list",
+      "controlOffset": 2172,
+      "listenerOffset": 2188,
+      "constructor": "Game:20188310",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-3/skills-2",
+      "page": 3,
+      "name": "skills-2",
+      "family": "list",
+      "controlOffset": 2228,
+      "listenerOffset": 2244,
+      "constructor": "Game:20188310",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-3/skills-3",
+      "page": 3,
+      "name": "skills-3",
+      "family": "list",
+      "controlOffset": 2284,
+      "listenerOffset": 2300,
+      "constructor": "Game:20188310",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-3/skills-4",
+      "page": 3,
+      "name": "skills-4",
+      "family": "list",
+      "controlOffset": 2340,
+      "listenerOffset": 2356,
+      "constructor": "Game:20188310",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-3/skills-5",
+      "page": 3,
+      "name": "skills-5",
+      "family": "list",
+      "controlOffset": 2396,
+      "listenerOffset": 2412,
+      "constructor": "Game:20188310",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-3/skills-6",
+      "page": 3,
+      "name": "skills-6",
+      "family": "list",
+      "controlOffset": 2452,
+      "listenerOffset": 2468,
+      "constructor": "Game:20188310",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-5/item-stats",
+      "page": 5,
+      "name": "item-stats",
+      "family": "stack-stats",
+      "controlOffset": 184,
+      "listenerOffset": 236,
+      "constructor": "Game:2018e410",
+      "initial": {
+        "dirty": false,
+        "selectedStack": "uninitialized",
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-5/transaction-player",
+      "page": 5,
+      "name": "transaction-player",
+      "family": "list",
+      "controlOffset": 364,
+      "listenerOffset": 380,
+      "constructor": "Game:20188e10",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-5/transaction-vendor",
+      "page": 5,
+      "name": "transaction-vendor",
+      "family": "list",
+      "controlOffset": 452,
+      "listenerOffset": 468,
+      "constructor": "Game:20188e10",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-5/inventory",
+      "page": 5,
+      "name": "inventory",
+      "family": "list",
+      "controlOffset": 700,
+      "listenerOffset": 716,
+      "constructor": "Game:20188e10",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-5/vendor",
+      "page": 5,
+      "name": "vendor",
+      "family": "list",
+      "controlOffset": 1036,
+      "listenerOffset": 1052,
+      "constructor": "Game:20188e10",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-7/item-stats",
+      "page": 7,
+      "name": "item-stats",
+      "family": "stack-stats",
+      "controlOffset": 144,
+      "listenerOffset": 196,
+      "constructor": "Game:2018e410",
+      "initial": {
+        "dirty": false,
+        "selectedStack": "uninitialized",
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-7/pool",
+      "page": 7,
+      "name": "pool",
+      "family": "list",
+      "controlOffset": 340,
+      "listenerOffset": 356,
+      "constructor": "Game:201873e0",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-7/inventory",
+      "page": 7,
+      "name": "inventory",
+      "family": "list",
+      "controlOffset": 548,
+      "listenerOffset": 564,
+      "constructor": "Game:201873e0",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-8/recipe-stats",
+      "page": 8,
+      "name": "recipe-stats",
+      "family": "recipe-stats",
+      "controlOffset": 364,
+      "listenerOffset": 404,
+      "constructor": "Game:2018cd30",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-8/recipes",
+      "page": 8,
+      "name": "recipes",
+      "family": "list",
+      "controlOffset": 488,
+      "listenerOffset": 504,
+      "constructor": "Game:20186cc0",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-9/recipe-stats",
+      "page": 9,
+      "name": "recipe-stats",
+      "family": "recipe-stats",
+      "controlOffset": 364,
+      "listenerOffset": 404,
+      "constructor": "Game:2018cd30",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-9/recipes",
+      "page": 9,
+      "name": "recipes",
+      "family": "list",
+      "controlOffset": 488,
+      "listenerOffset": 504,
+      "constructor": "Game:20186cc0",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-10/recipe-stats",
+      "page": 10,
+      "name": "recipe-stats",
+      "family": "recipe-stats",
+      "controlOffset": 364,
+      "listenerOffset": 404,
+      "constructor": "Game:2018cd30",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-10/recipes",
+      "page": 10,
+      "name": "recipes",
+      "family": "list",
+      "controlOffset": 488,
+      "listenerOffset": 504,
+      "constructor": "Game:20186cc0",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-11/item-stats",
+      "page": 11,
+      "name": "item-stats",
+      "family": "stack-stats",
+      "controlOffset": 164,
+      "listenerOffset": 216,
+      "constructor": "Game:2018e410",
+      "initial": {
+        "dirty": false,
+        "selectedStack": "uninitialized",
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-11/inventory",
+      "page": 11,
+      "name": "inventory",
+      "family": "list",
+      "controlOffset": 360,
+      "listenerOffset": 376,
+      "constructor": "Game:20189a70",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-12/item-stats",
+      "page": 12,
+      "name": "item-stats",
+      "family": "stack-stats",
+      "controlOffset": 164,
+      "listenerOffset": 216,
+      "constructor": "Game:2018e410",
+      "initial": {
+        "dirty": false,
+        "selectedStack": "uninitialized",
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-12/inventory",
+      "page": 12,
+      "name": "inventory",
+      "family": "list",
+      "controlOffset": 360,
+      "listenerOffset": 376,
+      "constructor": "Game:20189a70",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-13/item-stats",
+      "page": 13,
+      "name": "item-stats",
+      "family": "stack-stats",
+      "controlOffset": 164,
+      "listenerOffset": 216,
+      "constructor": "Game:2018e410",
+      "initial": {
+        "dirty": false,
+        "selectedStack": "uninitialized",
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-13/inventory",
+      "page": 13,
+      "name": "inventory",
+      "family": "list",
+      "controlOffset": 360,
+      "listenerOffset": 376,
+      "constructor": "Game:20189a70",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-14/item-stats",
+      "page": 14,
+      "name": "item-stats",
+      "family": "stack-stats",
+      "controlOffset": 164,
+      "listenerOffset": 216,
+      "constructor": "Game:2018e410",
+      "initial": {
+        "dirty": false,
+        "selectedStack": "uninitialized",
+        "boundInventory": null
+      }
+    },
+    {
+      "id": "page-14/inventory",
+      "page": 14,
+      "name": "inventory",
+      "family": "list",
+      "controlOffset": 360,
+      "listenerOffset": 376,
+      "constructor": "Game:20189a70",
+      "initial": {
+        "dirty": false,
+        "selectedStack": null,
+        "boundInventory": null
+      }
+    }
+  ],
+  "listenerDefaults": {
+    "list": {
+      "source": "Game:20189f50",
+      "inventoryOffset": 20,
+      "dirtyOffset": 40
+    },
+    "recipe-stats": {
+      "source": "Game:2018cd30",
+      "inventoryOffset": 44,
+      "dirtyOffset": 56
+    },
+    "stack-stats": {
+      "source": "Game:2018e410",
+      "inventoryOffset": 56,
+      "dirtySource": "Game:2018b730",
+      "dirtyOffset": 48,
+      "selectedOffset": 60,
+      "selectedConstructorWrite": false
+    }
+  },
+  "scope": "constructed-HUD-listener-controls-and-ordered-binding-lifecycle",
+  "supportedProfile": {
+    "successfulObjectAllocations": true,
+    "allFactoryPagesConstructed": true,
+    "additionalGfcMessageBindingsRequireHost": true,
+    "stableUniqueLiveEntityPointers": true,
+    "entityDestructionOrReplacementSupported": false
+  },
+  "startupPlayerBinding": {
+    "source": "Game:2016d4d0",
+    "rootSlot": 0,
+    "activeRegularPage": -1,
+    "inventoryListenerOrder": [
+      "main/quick-slots"
+    ],
+    "claim": "Only HUD contributions at this exact profile; not global registry completeness."
+  },
+  "remaining": [
+    "Complete native GFC window creation/resource/control population and rendering.",
+    "Entity pointer slot lifetime and destruction/replacement outside the selected stable live-pointer profile.",
+    "Paint/selection message dispatch and their inventory-stat refreshes.",
+    "Complete non-HUD listener registration and original external module/plugin lifecycle.",
+    "Full page activation, tutorial/session changes and physical trading effects."
+  ],
+  "evidence": {
+    "path": "native-evidence.json",
+    "sha256": "29ac435863aab5d8afefb210cdc78ecc017d9aaa25e06aec16a9ec34152087cb"
+  }
+}

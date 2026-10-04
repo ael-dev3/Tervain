@@ -1,0 +1,13 @@
+/* ENTRY 201662c0 | gCHUDViewBarHealth2::gCHUDViewBarHealth2 | STATUS decompiled | 11 ms */
+
+gCHUDViewBarHealth2 * __thiscall gCHUDViewBarHealth2::gCHUDViewBarHealth2(gCHUDViewBarHealth2 *this)
+
+{
+  CFFGFCView::CFFGFCView((CFFGFCView *)this);
+  this->vftablePtr = &vftable;
+  gCHUDProgressBarNPC::gCHUDProgressBarNPC
+            ((gCHUDProgressBarNPC *)&(this->gCHUDViewBarHealth2_data).field_0xc);
+  return this;
+}
+
+

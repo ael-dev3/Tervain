@@ -1,0 +1,3 @@
+; 201841d0 gCHUDPage::~gCHUDPage
+201841d0 | c701bce36620 | MOV dword ptr [ECX],0x2066e3bc
+201841d6 | ff25c8787d20 | JMP dword ptr [0x207d78c8]

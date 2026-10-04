@@ -1,0 +1,10 @@
+; 2015d8a0 gCHUDDialog::gCHUDDialog
+2015d8a0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+2015d8a4 | 56 | PUSH ESI
+2015d8a5 | 50 | PUSH EAX
+2015d8a6 | 8bf1 | MOV ESI,ECX
+2015d8a8 | ff15587a7d20 | CALL dword ptr [0x207d7a58]
+2015d8ae | c706e4c76620 | MOV dword ptr [ESI],0x2066c7e4
+2015d8b4 | 8bc6 | MOV EAX,ESI
+2015d8b6 | 5e | POP ESI
+2015d8b7 | c20400 | RET 0x4

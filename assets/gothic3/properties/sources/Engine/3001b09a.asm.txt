@@ -1,0 +1,4 @@
+; 3001b09a ??0eCDynamicEntity@@IAE@ABV0@@Z
+3001b09a | e9c1374a00 | JMP 0x304be860
+; 3001b09f eCParticleSystemBase_PS::AccessLoopingTextureAnimation
+; 3001b09f Ordinal_2883

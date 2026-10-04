@@ -1,0 +1,4 @@
+; 2002f2e3 ?UpdateChannel@gCScriptProcessingUnit@@IAEXXZ
+2002f2e3 | e9088d3300 | JMP 0x20367ff0
+; 2002f2e8 gCAttribDesc::GetNameTag
+; 2002f2e8 Ordinal_3859

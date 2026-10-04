@@ -1,0 +1,4 @@
+; 2001b17b ?Test3DPointInZone@gCNegZone_PS@@QAE_NABVbCVector@@_N@Z
+2001b17b | e9c0fe2800 | JMP 0x202ab040
+; 2001b180 gCInventoryStack::Merge
+; 2001b180 Ordinal_5323

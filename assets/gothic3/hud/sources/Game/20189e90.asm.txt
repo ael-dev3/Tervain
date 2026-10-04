@@ -1,0 +1,9 @@
+; 20189e90 gCHUDListCtrlInvUseStacks::gCHUDListCtrlInvUseStacks
+20189e90 | 56 | PUSH ESI
+20189e91 | 8bf1 | MOV ESI,ECX
+20189e93 | e8e3aceaff | CALL 0x20034b7b
+20189e98 | c706647d6720 | MOV dword ptr [ESI],0x20677d64
+20189e9e | c74610447d6720 | MOV dword ptr [ESI + 0x10],0x20677d44
+20189ea5 | 8bc6 | MOV EAX,ESI
+20189ea7 | 5e | POP ESI
+20189ea8 | c3 | RET

@@ -1,0 +1,17 @@
+/* ENTRY 20164860 | gCHUDViewDocuments2::gCHUDViewDocuments2 | STATUS decompiled | 67 ms */
+
+gCHUDViewDocuments2 * __thiscall gCHUDViewDocuments2::gCHUDViewDocuments2(gCHUDViewDocuments2 *this)
+
+{
+  gCHUDPageView::gCHUDPageView((gCHUDPageView *)this);
+  this->vftablePtr = &vftable;
+  gCHUDTabCtrlDocuments::gCHUDTabCtrlDocuments
+            ((gCHUDTabCtrlDocuments *)&(this->gCHUDViewDocuments2_data).field_0xc);
+  gCHUDListCtrlInvDocuments::gCHUDListCtrlInvDocuments
+            ((gCHUDListCtrlInvDocuments *)&(this->gCHUDViewDocuments2_data).field_0x24);
+  gCHUDStaticDocCategory::gCHUDStaticDocCategory
+            ((gCHUDStaticDocCategory *)&(this->gCHUDViewDocuments2_data).field_0x5c);
+  return this;
+}
+
+

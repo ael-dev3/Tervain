@@ -1,0 +1,19 @@
+/* ENTRY 2016c850 | gCHUDPageInventory2::~gCHUDPageInventory2 | STATUS decompiled | 16 ms */
+
+void __thiscall gCHUDPageInventory2::~gCHUDPageInventory2(gCHUDPageInventory2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  gCHUDViewInventory2::~gCHUDViewInventory2
+            ((gCHUDViewInventory2 *)&(this->gCHUDPageInventory2_data).field_0x8b8);
+  gCHUDViewCharacter2::~gCHUDViewCharacter2
+            ((gCHUDViewCharacter2 *)&(this->gCHUDPageInventory2_data).field_0xc0);
+  gCHUDViewItem2::~gCHUDViewItem2((gCHUDViewItem2 *)&(this->gCHUDPageInventory2_data).field_0x3c);
+  gCHUDView::~gCHUDView((gCHUDView *)&(this->gCHUDPageInventory2_data).field_0x28);
+  gCHUDView::~gCHUDView((gCHUDView *)&(this->gCHUDPageInventory2_data).field_0x14);
+  gCHUDView::~gCHUDView((gCHUDView *)&this->gCHUDPageInventory2_data);
+  gCHUDPage::~gCHUDPage((gCHUDPage *)this);
+  return;
+}
+
+

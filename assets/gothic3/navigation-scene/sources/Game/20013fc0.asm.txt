@@ -1,0 +1,2 @@
+; 20013fc0 ?GetZone@gCNavigationMap@@QAE?AW4bEResult@@ABVbCVector@@MAAV?$bTValArray@VbCPropertyID@@@@AAV?$bTValArray@_N@@_N3PAV3@@Z
+20013fc0 | e97b3c2b00 | JMP 0x202c7c40

@@ -1,0 +1,14 @@
+/* ENTRY 20163ac0 | gCHUDViewBook2::~gCHUDViewBook2 | STATUS decompiled | 8 ms */
+
+void __thiscall gCHUDViewBook2::~gCHUDViewBook2(gCHUDViewBook2 *this)
+
+{
+  this->vftablePtr = &vftable;
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewBook2_data).field_0x2c);
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewBook2_data).field_0x1c);
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)&(this->gCHUDViewBook2_data).field_0xc);
+  FUN_200156a9();
+  return;
+}
+
+

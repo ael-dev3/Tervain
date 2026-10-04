@@ -1,0 +1,22 @@
+/* ENTRY 20162810 | gCHUDViewTradeInventory2::gCHUDViewTradeInventory2 | STATUS decompiled | 24 ms */
+
+gCHUDViewTradeInventory2 * __thiscall
+gCHUDViewTradeInventory2::gCHUDViewTradeInventory2(gCHUDViewTradeInventory2 *this)
+
+{
+  gCHUDPageView::gCHUDPageView((gCHUDPageView *)this);
+  this->vftablePtr = &vftable;
+  gCHUDListCtrlInvTradeStacks::gCHUDListCtrlInvTradeStacks
+            ((gCHUDListCtrlInvTradeStacks *)&(this->gCHUDViewTradeInventory2_data).field_0xc);
+  gCHUDTabCtrlInventory::gCHUDTabCtrlInventory
+            ((gCHUDTabCtrlInventory *)&(this->gCHUDViewTradeInventory2_data).field_0x64);
+  gCHUDStaticInvCash::gCHUDStaticInvCash
+            ((gCHUDStaticInvCash *)&(this->gCHUDViewTradeInventory2_data).field_0x7c);
+  gCHUDStaticInvCash::gCHUDStaticInvCash
+            ((gCHUDStaticInvCash *)&(this->gCHUDViewTradeInventory2_data).field_0xac);
+  gCHUDStaticInvCategory::gCHUDStaticInvCategory
+            ((gCHUDStaticInvCategory *)&(this->gCHUDViewTradeInventory2_data).field_0xdc);
+  return this;
+}
+
+

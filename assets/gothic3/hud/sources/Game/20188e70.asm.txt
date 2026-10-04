@@ -1,0 +1,4 @@
+; 20188e70 gCHUDListCtrlInvTradeStacks::~gCHUDListCtrlInvTradeStacks
+20188e70 | c70184796720 | MOV dword ptr [ECX],0x20677984
+20188e76 | c7411068796720 | MOV dword ptr [ECX + 0x10],0x20677968
+20188e7d | e96fe0e7ff | JMP 0x20006ef1

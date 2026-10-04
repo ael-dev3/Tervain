@@ -1,0 +1,2 @@
+; 20028745 ??0gCScriptRoutine_PS@@QAE@XZ
+20028745 | e9b6f43200 | JMP 0x20357c00

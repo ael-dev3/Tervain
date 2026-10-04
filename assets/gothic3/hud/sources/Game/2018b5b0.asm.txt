@@ -1,0 +1,8 @@
+; 2018b5b0 gCHUDStaticInvIcon::gCHUDStaticInvIcon
+2018b5b0 | 56 | PUSH ESI
+2018b5b1 | 8bf1 | MOV ESI,ECX
+2018b5b3 | ff1514797d20 | CALL dword ptr [0x207d7914]
+2018b5b9 | c7065c846720 | MOV dword ptr [ESI],0x2067845c
+2018b5bf | 8bc6 | MOV EAX,ESI
+2018b5c1 | 5e | POP ESI
+2018b5c2 | c3 | RET

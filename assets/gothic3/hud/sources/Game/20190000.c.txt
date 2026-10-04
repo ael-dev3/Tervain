@@ -1,0 +1,14 @@
+/* ENTRY 20190000 | gCHUDStaticCompass::~gCHUDStaticCompass | STATUS decompiled | 7 ms */
+
+void __thiscall gCHUDStaticCompass::~gCHUDStaticCompass(gCHUDStaticCompass *this)
+
+{
+  this->vftablePtr = &vftable;
+  CFFGFCBitmap::~CFFGFCBitmap((CFFGFCBitmap *)&(this->gCHUDStaticCompass_data).field_0xc);
+                    /* WARNING: Could not recover jumptable at 0x20190015. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)this);
+  return;
+}
+
+

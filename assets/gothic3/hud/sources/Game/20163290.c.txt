@@ -1,0 +1,11 @@
+/* ENTRY 20163290 | FUN_20163290 | STATUS decompiled | 1 ms */
+
+void FUN_20163290(void)
+
+{
+  thunk_FUN_20188f20();
+  thunk_FUN_20188f20();
+  return;
+}
+
+

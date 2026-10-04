@@ -1,0 +1,13 @@
+/* ENTRY 2018b500 | gCHUDStaticInvCategory::~gCHUDStaticInvCategory | STATUS decompiled | 6 ms */
+
+void __thiscall gCHUDStaticInvCategory::~gCHUDStaticInvCategory(gCHUDStaticInvCategory *this)
+
+{
+  this->vftablePtr = &vftable;
+                    /* WARNING: Could not recover jumptable at 0x2018b506. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  CFFGFCStatic::~CFFGFCStatic((CFFGFCStatic *)this);
+  return;
+}
+
+

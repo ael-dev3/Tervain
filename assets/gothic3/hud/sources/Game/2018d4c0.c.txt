@@ -1,0 +1,12 @@
+/* ENTRY 2018d4c0 | gCHUDTableSkillStats::gCHUDTableSkillStats | STATUS decompiled | 7 ms */
+
+gCHUDTableSkillStats * __thiscall
+gCHUDTableSkillStats::gCHUDTableSkillStats(gCHUDTableSkillStats *this)
+
+{
+  gCHUDTable::gCHUDTable((gCHUDTable *)this);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

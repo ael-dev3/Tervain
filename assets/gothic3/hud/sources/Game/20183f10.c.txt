@@ -1,0 +1,13 @@
+/* ENTRY 20183f10 | gCHUDDialog::~gCHUDDialog | STATUS decompiled | 5 ms */
+
+void __thiscall gCHUDDialog::~gCHUDDialog(gCHUDDialog *this)
+
+{
+  this->vftablePtr = &vftable;
+                    /* WARNING: Could not recover jumptable at 0x20183f16. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  CFFGFCDialog::~CFFGFCDialog((CFFGFCDialog *)this);
+  return;
+}
+
+

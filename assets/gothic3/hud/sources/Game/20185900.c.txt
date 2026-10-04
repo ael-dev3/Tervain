@@ -1,0 +1,12 @@
+/* ENTRY 20185900 | gCHUDStaticQuest::gCHUDStaticQuest | STATUS decompiled | 6 ms */
+
+gCHUDStaticQuest * __thiscall gCHUDStaticQuest::gCHUDStaticQuest(gCHUDStaticQuest *this)
+
+{
+  CFFGFCView::CFFGFCView((CFFGFCView *)this);
+  this->vftablePtr = &vftable;
+  (this->gCHUDStaticQuest_data).offset_0xc = 0;
+  return this;
+}
+
+

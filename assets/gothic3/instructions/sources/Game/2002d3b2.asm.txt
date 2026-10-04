@@ -1,0 +1,2 @@
+; 2002d3b2 ?sAIWaitInstr@gCScriptProcessingUnit@@SG_NPAXPAV1@_N@Z
+2002d3b2 | e919a73300 | JMP 0x20367ad0

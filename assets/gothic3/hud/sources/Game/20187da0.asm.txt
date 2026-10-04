@@ -1,0 +1,9 @@
+; 20187da0 gCHUDListCtrlInvQuickSlots::gCHUDListCtrlInvQuickSlots
+20187da0 | 56 | PUSH ESI
+20187da1 | 8bf1 | MOV ESI,ECX
+20187da3 | e877eae8ff | CALL 0x2001681f
+20187da8 | c70664726720 | MOV dword ptr [ESI],0x20677264
+20187dae | c7461044726720 | MOV dword ptr [ESI + 0x10],0x20677244
+20187db5 | 8bc6 | MOV EAX,ESI
+20187db7 | 5e | POP ESI
+20187db8 | c3 | RET

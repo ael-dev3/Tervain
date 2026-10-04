@@ -1,0 +1,22 @@
+; 20188e10 gCHUDListCtrlInvTradeStacks::gCHUDListCtrlInvTradeStacks
+20188e10 | 56 | PUSH ESI
+20188e11 | 8bf1 | MOV ESI,ECX
+20188e13 | e863bdeaff | CALL 0x20034b7b
+20188e18 | f30f1005fc716720 | MOVSS XMM0,dword ptr [0x206771fc]
+20188e20 | 33c0 | XOR EAX,EAX
+20188e22 | f30f114640 | MOVSS dword ptr [ESI + 0x40],XMM0
+20188e27 | f30f1005a4ce6520 | MOVSS XMM0,dword ptr [0x2065cea4]
+20188e2f | f30f114644 | MOVSS dword ptr [ESI + 0x44],XMM0
+20188e34 | 0f57c0 | XORPS XMM0,XMM0
+20188e37 | 894634 | MOV dword ptr [ESI + 0x34],EAX
+20188e3a | 894638 | MOV dword ptr [ESI + 0x38],EAX
+20188e3d | 89463c | MOV dword ptr [ESI + 0x3c],EAX
+20188e40 | 894650 | MOV dword ptr [ESI + 0x50],EAX
+20188e43 | c70684796720 | MOV dword ptr [ESI],0x20677984
+20188e49 | c7461068796720 | MOV dword ptr [ESI + 0x10],0x20677968
+20188e50 | f30f114648 | MOVSS dword ptr [ESI + 0x48],XMM0
+20188e55 | c7464cffffffff | MOV dword ptr [ESI + 0x4c],0xffffffff
+20188e5c | c7465401000000 | MOV dword ptr [ESI + 0x54],0x1
+20188e63 | 8bc6 | MOV EAX,ESI
+20188e65 | 5e | POP ESI
+20188e66 | c3 | RET

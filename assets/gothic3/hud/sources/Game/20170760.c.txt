@@ -1,0 +1,61 @@
+/* ENTRY 20170760 | gCHUDDialogMain2::~gCHUDDialogMain2 | STATUS decompiled | 21 ms */
+
+void __thiscall gCHUDDialogMain2::~gCHUDDialogMain2(gCHUDDialogMain2 *this)
+
+{
+  int *piVar1;
+  bCMemoryAdmin *pbVar2;
+  void **ppvVar3;
+  void *pvVar4;
+  int iStack_4;
+  
+  this->vftablePtr = &vftable;
+  piVar1 = (this->gCHUDDialogMain2_data).offset_0x78;
+  if (piVar1 != (int *)0x0) {
+    (**(code **)(*piVar1 + 0x104))(0);
+    pvVar4 = (this->gCHUDDialogMain2_data).offset_0x78;
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::DeleteObject(pbVar2,pvVar4);
+    (this->gCHUDDialogMain2_data).offset_0x78 = (void *)0x0;
+  }
+  piVar1 = (this->gCHUDDialogMain2_data).offset_0x7c;
+  if (piVar1 != (int *)0x0) {
+    (**(code **)(*piVar1 + 0x104))(0);
+    pvVar4 = (this->gCHUDDialogMain2_data).offset_0x7c;
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::DeleteObject(pbVar2,pvVar4);
+    (this->gCHUDDialogMain2_data).offset_0x7c = (void *)0x0;
+  }
+  ppvVar3 = &(this->gCHUDDialogMain2_data).offset_0x34;
+  iStack_4 = 0x11;
+  do {
+    if (*ppvVar3 != (int *)0x0) {
+      (**(code **)(*(int *)*ppvVar3 + 0x104))(0);
+      pvVar4 = *ppvVar3;
+      pbVar2 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::DeleteObject(pbVar2,pvVar4);
+      *ppvVar3 = (void *)0x0;
+    }
+    ppvVar3 = ppvVar3 + 1;
+    iStack_4 = iStack_4 + -1;
+  } while (iStack_4 != 0);
+  ppvVar3 = &(this->gCHUDDialogMain2_data).offset_0x28;
+  iStack_4 = 3;
+  do {
+    if (*ppvVar3 != (int *)0x0) {
+      (**(code **)(*(int *)*ppvVar3 + 0x104))(0);
+      pvVar4 = *ppvVar3;
+      pbVar2 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::DeleteObject(pbVar2,pvVar4);
+      *ppvVar3 = (void *)0x0;
+    }
+    ppvVar3 = ppvVar3 + 1;
+    iStack_4 = iStack_4 + -1;
+  } while (iStack_4 != 0);
+  bCRect::~bCRect((bCRect *)&(this->gCHUDDialogMain2_data).field_0x98);
+  bCRect::~bCRect((bCRect *)&(this->gCHUDDialogMain2_data).field_0x88);
+  gCHUDDialog::~gCHUDDialog((gCHUDDialog *)this);
+  return;
+}
+
+

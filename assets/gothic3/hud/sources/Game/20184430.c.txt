@@ -1,0 +1,11 @@
+/* ENTRY 20184430 | gCHUDPageView::gCHUDPageView | STATUS decompiled | 6 ms */
+
+gCHUDPageView * __thiscall gCHUDPageView::gCHUDPageView(gCHUDPageView *this)
+
+{
+  CFFGFCView::CFFGFCView((CFFGFCView *)this);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+
