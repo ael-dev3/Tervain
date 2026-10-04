@@ -5,11 +5,58 @@ import { SKY } from './skyState';
 import { buildSeaGeometry } from './seaGeometry';
 import { detachWaterOptics, makeWaterOpticsUniforms, WATER_OPTICS_GLSL } from './waterOptics';
 
-// Keep the CPU visibility envelope and the vertex shader's actual waves together.
-const WAVES = [[1, 0.18, 23, 0.24], [0.92, -0.39, 11, 0.11], [0.68, 0.73, 6, 0.045], [-0.28, 0.96, 3.8, 0.018]] as const;
-const WAVE_HARMONIC = 0.16;
-const MAX_WAVE_HEIGHT = WAVES.reduce((sum, wave) => sum + wave[3], 0) * (1 + WAVE_HARMONIC);
+// Each fundamental swell has at least five samples on the High coastal mesh.
+// Fine wind ripples belong to the fragment normal, not unresolved vertex waves.
+const WAVES = [[1, 0.12, 34, 0.35], [0.94, -0.34, 18, 0.21], [0.70, 0.71, 10, 0.08]] as const;
+const WAVE_HARMONIC = 0.12;
+export const SEA_MAX_WAVE_HEIGHT = WAVES.reduce((sum, wave) => sum + wave[3], 0) * (1 + WAVE_HARMONIC);
 const LAND_MASK_START = -0.035;
+const DAMP_START = 0.04, DAMP_END = 1.8;
+
+/** The same shoreline envelope used by displacement and conservative wet bounds. */
+function waveDamping(depth: number) {
+  const t = THREE.MathUtils.clamp((depth - DAMP_START) / (DAMP_END - DAMP_START), 0, 1);
+  return { value: t * t * (3 - 2 * t), derivative: 6 * t * (1 - t) / (DAMP_END - DAMP_START) };
+}
+
+/** Metre-based analytic surface sample for bounds/calibration, independent of the cosmetic clock owner. */
+export function sampleSeaSurface(x: number, z: number, seconds: number, meanDepth: number, depthGradient: readonly [number, number] = [0, 0]) {
+  let height = 0, slopeX = 0, slopeZ = 0;
+  for (const [dx, dz, wavelength, amplitude] of WAVES) {
+    const length = Math.hypot(dx, dz), dirX = dx / length, dirZ = dz / length;
+    const k = Math.PI * 2 / wavelength;
+    const phase = (dirX * x + dirZ * z) * k - Math.sqrt(9.81 * k) * seconds * 0.65;
+    height += amplitude * (Math.sin(phase) + WAVE_HARMONIC * Math.sin(phase * 2));
+    const slope = amplitude * k * (Math.cos(phase) + WAVE_HARMONIC * 2 * Math.cos(phase * 2));
+    slopeX += slope * dirX; slopeZ += slope * dirZ;
+  }
+  const damping = waveDamping(meanDepth);
+  return {
+    height: height * damping.value,
+    slopeX: slopeX * damping.value + height * damping.derivative * depthGradient[0],
+    slopeZ: slopeZ * damping.value + height * damping.derivative * depthGradient[1],
+  };
+}
+
+// One source for vertex relief and per-pixel slope: broad moving swells stay connected
+// to the same surface instead of adding a second independent "bump-only" sea.
+const SWELL_GLSL = /* glsl */ `
+float seaDamping(float depth) { return smoothstep(${DAMP_START.toFixed(2)}, ${DAMP_END.toFixed(2)}, depth); }
+float seaDampingDerivative(float depth) {
+  float t = clamp((depth - ${DAMP_START.toFixed(2)}) / ${(DAMP_END - DAMP_START).toFixed(2)}, 0.0, 1.0);
+  return 6.0 * t * (1.0 - t) / ${(DAMP_END - DAMP_START).toFixed(2)};
+}
+void wave(vec2 dir, float wavelength, float amplitude, vec2 xz, inout float height, inout vec2 slope) {
+  float k = 6.2831853 / wavelength;
+  float phase = dot(dir, xz) * k - sqrt(9.81 * k) * uTime * 0.65;
+  height += amplitude * (sin(phase) + ${WAVE_HARMONIC.toFixed(2)} * sin(phase * 2.0));
+  slope += amplitude * k * (cos(phase) + ${(WAVE_HARMONIC * 2).toFixed(2)} * cos(phase * 2.0)) * dir;
+}
+void seaSwell(vec2 xz, out float height, out vec2 slope) {
+  height = 0.0; slope = vec2(0.0);
+  ${WAVES.map(([x, z, length, amplitude]) => `wave(normalize(vec2(${x.toFixed(3)}, ${z.toFixed(3)})), ${length.toFixed(3)}, ${amplitude.toFixed(3)}, xz, height, slope);`).join('\n  ')}
+}
+`;
 
 /**
  * Bounds only the part of the source triangles that can survive the sea's dry-land discard.
@@ -26,9 +73,8 @@ export function seaVisibilityBounds(geometry: THREE.BufferGeometry): THREE.Box3[
     bounds.makeEmpty();
     for (let corner = 0; corner < 3; corner++) {
       const id = index.getX(triangle + corner), d = depth.getX(id);
-      const t = THREE.MathUtils.clamp((d - 0.04) / (2 - 0.04), 0, 1);
       ids[corner] = id;
-      upper[corner] = d + MAX_WAVE_HEIGHT * t * t * (3 - 2 * t) - LAND_MASK_START;
+      upper[corner] = d + SEA_MAX_WAVE_HEIGHT * waveDamping(d).value - LAND_MASK_START;
     }
     for (let corner = 0; corner < 3; corner++) {
       const next = (corner + 1) % 3, a = ids[corner]!, b = ids[next]!;
@@ -65,25 +111,20 @@ attribute float aDepth;
 attribute float aShore;
 uniform float uTime;
 varying float vDepth;
+varying float vMeanDepth;
 varying float vShore;
 varying vec3 vWorld;
-varying vec3 vNormal;
 varying float vCrest;
 #include <fog_pars_vertex>
-void wave(vec2 dir, float wavelength, float amplitude, vec2 xz, inout float height, inout vec2 slope) {
-  float k = 6.2831853 / wavelength;
-  float phase = dot(dir, xz) * k - sqrt(9.81 * k) * uTime * 0.65;
-  height += amplitude * (sin(phase) + ${WAVE_HARMONIC.toFixed(2)} * sin(phase * 2.0));
-  slope += amplitude * k * (cos(phase) + 0.32 * cos(phase * 2.0)) * dir;
-}
+${SWELL_GLSL}
 void main() {
   vec3 p = position;
-  float h = 0.0;
-  vec2 slope = vec2(0.0);
-  ${WAVES.map(([x, z, length, amplitude]) => `wave(normalize(vec2(${x.toFixed(3)}, ${z.toFixed(3)})), ${length.toFixed(3)}, ${amplitude.toFixed(3)}, p.xz, h, slope);`).join('\n  ')}
-  float shoreDamping = smoothstep(0.04, 2.0, aDepth);
+  float h;
+  vec2 slope;
+  seaSwell(p.xz, h, slope);
+  float shoreDamping = seaDamping(aDepth);
   p.y += h * shoreDamping;
-  vNormal = normalize(vec3(-slope.x * shoreDamping, 1.0, -slope.y * shoreDamping));
+  vMeanDepth = aDepth;
   vCrest = h * shoreDamping;
   vDepth = aDepth + h * shoreDamping;
   vShore = aShore;
@@ -105,40 +146,63 @@ uniform float uNight;
 uniform sampler2D uNoise;
 uniform sampler2D uCells;
 varying float vDepth;
+varying float vMeanDepth;
 varying float vShore;
 varying vec3 vWorld;
-varying vec3 vNormal;
 varying float vCrest;
 #include <fog_pars_fragment>
+${SWELL_GLSL}
 ${WATER_OPTICS_GLSL}
+// The signed bed depth varies through each triangle. Its derivative is required
+// by h(x,z)*damping(depth): omitting that term makes shoreline highlights lie flat.
+vec2 meanDepthGradient() {
+  vec3 dx = dFdx(vWorld), dy = dFdy(vWorld);
+  float ddx = dFdx(vMeanDepth), ddy = dFdy(vMeanDepth);
+  float det = dx.x * dy.z - dy.x * dx.z;
+  if (abs(det) < 0.0000001) return vec2(0.0);
+  return vec2(ddx * dy.z - ddy * dx.z, dx.x * ddy - dy.x * ddx) / det;
+}
 void main() {
   float d = max(vDepth, 0.0);
   float landMask = smoothstep(${LAND_MASK_START.toFixed(3)}, 0.065, vDepth);
+  // Derivatives must be evaluated before the nonuniform shoreline discard.
+  vec2 depthGradient = meanDepthGradient();
+  vec3 geometric = normalize(cross(dFdx(vWorld), dFdy(vWorld)));
   if (landMask < 0.005) discard;
+  if (geometric.y < 0.0) geometric = -geometric;
   vec3 V = normalize(cameraPosition - vWorld);
   float distanceToCamera = length(cameraPosition - vWorld);
+  float swellHeight;
+  vec2 swellSlope;
+  seaSwell(vWorld.xz, swellHeight, swellSlope);
+  swellSlope = swellSlope * seaDamping(vMeanDepth) + swellHeight * seaDampingDerivative(vMeanDepth) * depthGradient;
+  vec3 smoothNormal = normalize(vec3(-swellSlope.x, 1.0, -swellSlope.y));
+  // Large horizon triangles have no resolvable swell shape. Fade the smooth
+  // near-surface normal to their real geometric slope before it can shimmer.
+  vec3 surfaceNormal = normalize(mix(geometric, smoothNormal, 0.82 * (1.0 - smoothstep(160.0, 420.0, distanceToCamera))));
   vec2 uv = vWorld.xz * 0.075 + vec2(-uTime * 0.008, uTime * 0.005);
   vec2 uv2 = vWorld.xz * 0.24 + vec2(uTime * 0.012, -uTime * 0.009);
-  vec2 ripple = (texture2D(uNoise, uv).gb - 0.5) * 0.65;
-  ripple += (texture2D(uNoise, uv2).gb - 0.5) * 0.4 * uDetail;
-  ripple *= (1.0 - smoothstep(18.0, 220.0, distanceToCamera)) * smoothstep(0.02, 0.5, d);
-  vec3 N = normalize(vNormal + vec3(-ripple.x * 0.65, 0.0, -ripple.y * 0.65));
+  vec2 ripple = (texture2D(uNoise, uv).gb - 0.5) * 0.12;
+  ripple += (texture2D(uNoise, uv2).gb - 0.5) * 0.075 * uDetail;
+  ripple += cos(dot(vWorld.xz, vec2(3.63, 1.23)) - uTime * 1.6) * vec2(3.63, 1.23) * 0.009;
+  ripple *= (1.0 - smoothstep(18.0, 160.0, distanceToCamera)) * smoothstep(0.02, 0.5, d);
+  vec3 N = normalize(surfaceNormal + vec3(-ripple.x, 0.0, -ripple.y));
   float facing = clamp(dot(N, V), 0.0, 1.0);
   float fresnel = 0.025 + 0.975 * pow(1.0 - facing, 5.0);
   vec3 R = reflect(-V, N);
   float day = 1.0 - uNight;
   float light = 0.18 + day * (0.5 + min(uSunI, 2.2) * 0.22);
-  vec3 shallow = vec3(0.045, 0.235, 0.215);
-  vec3 deep = vec3(0.012, 0.07, 0.105);
-  vec3 body = mix(shallow, deep, 1.0 - exp(-d * 0.22)) * light;
-  body = waterTransmission(body, N, vWorld, d, 1.25);
+  vec3 shallow = vec3(0.034, 0.192, 0.155);
+  vec3 deep = vec3(0.008, 0.047, 0.075);
+  vec3 body = mix(shallow, deep, 1.0 - exp(-d * 0.38)) * light;
+  body = waterTransmission(body, N, vWorld, d);
   float cell = texture2D(uCells, vWorld.xz * 0.12 + ripple * 0.05 + vec2(uTime * 0.0015, -uTime * 0.001)).b;
   float caustic = (1.0 - smoothstep(0.015, 0.11, cell)) * (1.0 - smoothstep(1.0, 4.0, d)) * smoothstep(0.05, 0.45, d);
   body += vec3(0.012, 0.027, 0.022) * caustic * day * uDetail * facing;
   vec3 sky = mix(uHorizon, uTop, pow(clamp(R.y, 0.0, 1.0), 0.5));
   vec3 reflected = waterReflection(sky, N, vWorld);
   float sd = max(dot(R, uSunDir), 0.0);
-  reflected += uSunColor * (pow(sd, 96.0) * 1.2 + pow(sd, 18.0) * 0.04) * uSunI * day;
+  reflected += uSunColor * (pow(sd, 112.0) * 0.95 + pow(sd, 18.0) * 0.035) * uSunI * day;
   vec3 color = mix(body, reflected, clamp(fresnel, 0.025, 0.92));
   float backlight = pow(max(dot(V, -uSunDir), 0.0), 3.0);
   color += shallow * max(vCrest, 0.0) * backlight * day * 0.5;
@@ -149,6 +213,7 @@ void main() {
   float edge = d - run;
   float wash = (1.0 - smoothstep(0.06, 0.28, abs(edge))) * smoothstep(-0.015, 0.08, d);
   float breaker = pow(max(sin(phase), 0.0), 7.0) * smoothstep(0.3, 0.9, d) * (1.0 - smoothstep(1.0, 2.8, d));
+  breaker *= 0.35 + 0.65 * smoothstep(-0.015, 0.16, vCrest);
   vec2 churn = vWorld.xz * 0.11 + vec2(sin(vWorld.z * 0.9), cos(vWorld.x * 0.7)) * 0.027;
   float laceCell = texture2D(uCells, churn + vec2(-uTime * 0.004, uTime * 0.003)).b;
   float lace = 1.0 - smoothstep(0.01, 0.085, laceCell);
@@ -181,7 +246,7 @@ export function buildSea(terrain: Terrain, quality: 'low' | 'medium' | 'high' = 
   const noise = sharedNoise();
   const mat = new THREE.ShaderMaterial({
     uniforms: {
-      ...THREE.UniformsUtils.clone(THREE.UniformsLib.fog), ...makeWaterOpticsUniforms(),
+      ...THREE.UniformsUtils.clone(THREE.UniformsLib.fog), ...makeWaterOpticsUniforms(0.92),
       uTime: { value: 0 }, uDetail: { value: quality === 'low' ? 0 : 1 },
       uTop: SKY.top, uHorizon: SKY.horizon, uSunDir: SKY.sunDir, uSunColor: SKY.sunColor,
       uSunI: SKY.sunI, uNight: SKY.night,

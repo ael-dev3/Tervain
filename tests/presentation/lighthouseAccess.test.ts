@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { Game } from '../../src/game/game';
 import type { Input } from '../../src/platform/input';
 import { defaultSettings } from '../../src/platform/settings';
@@ -16,6 +16,7 @@ import { Exclusions } from '../../src/presentation/vegetation';
 import { buildStaticColliders } from '../../src/world/colliders';
 import { LANTERN_ROUTE, LANTERN_TRAIL_WIDTH, LIGHTHOUSE, LIGHTHOUSE_CONSTRUCTION as L, type V2 } from '../../src/world/layout';
 import { PLAYER_BODY_HEIGHT, PLAYER_BODY_RADIUS, canPlayerStandAt, supportedPlayerHeight } from '../../src/world/playerPlacement';
+import { initializePhysics, RealmPhysics } from '../../src/world/physics';
 import { Terrain } from '../../src/world/terrain';
 
 vi.mock('../../src/presentation/characters', () => ({
@@ -25,7 +26,12 @@ vi.mock('../../src/presentation/characters', () => ({
 
 const terrain = new Terrain();
 const colliders = buildStaticColliders(terrain);
-registerScatterColliders(createScatterPopulation(terrain, new Exclusions(terrain)), colliders);
+const population = createScatterPopulation(terrain, new Exclusions(terrain));
+registerScatterColliders(population, colliders);
+terrain.registerRockSurfaces(population.flatMap(rock => rock.contact ? [rock.contact] : []));
+const worlds: RealmPhysics[] = [];
+beforeAll(() => initializePhysics());
+afterEach(() => { for (const world of worlds.splice(0)) world.dispose(); });
 const base = terrain.heightAt(LIGHTHOUSE.x, LIGHTHOUSE.z);
 const boundsAt = (x: number, z: number) => ({ minY: terrain.groundAt(x, z) + 0.03, maxY: terrain.groundAt(x, z) + PLAYER_BODY_HEIGHT });
 
@@ -34,7 +40,7 @@ function setup(start: V2) {
   const player = new Player();
   player.setPosition(start.x, start.z, 0, terrain);
   const context: PlayerCtx = {
-    terrain, colliders, settings: defaultSettings(), game: new Game(),
+    terrain, colliders, physics: (() => { const p = new RealmPhysics(terrain, colliders, []); worlds.push(p); return p; })(), settings: defaultSettings(), game: new Game(),
     input: { move: () => ({ x: 0, y: moving ? 1 : 0 }), held: () => false, pressed: () => false, clearToggle: vi.fn(), uiOpen: false } as unknown as Input,
     audio: { footstep: vi.fn(), swing: vi.fn(), hit: vi.fn(), hurt: vi.fn() } as unknown as AudioEngine,
     npcs: [], enemies: [], viewYaw: 0, controllable: true,
@@ -56,11 +62,13 @@ function walk(s: ReturnType<typeof setup>, route: readonly V2[], hz: number) {
     const target = route[next]!, dx = target.x - s.player.x, dz = target.z - s.player.z;
     if (Math.hypot(dx, dz) < 0.18) { next++; continue; }
     s.context.viewYaw = Math.atan2(dx, dz);
+    (s.context.physics as RealmPhysics).beginCharacter(s.player);
     s.player.update(1 / hz, s.context);
+    (s.context.physics as RealmPhysics).step(1 / hz, s.player, s.context.viewYaw, 0);
     expect(s.player.grounded, `route ${next}, frame ${frame}`).toBe(true);
     expect(Math.abs(s.player.y - terrain.supportAt(s.player.x, s.player.z, s.player.y))).toBeLessThan(0.001);
     expect(colliders.blocked(s.player.x, s.player.z, PLAYER_BODY_RADIUS,
-      { minY: s.player.y + 0.03, maxY: s.player.y + PLAYER_BODY_HEIGHT })).toBe(false);
+      { minY: s.player.y + 0.03, maxY: s.player.y + PLAYER_BODY_HEIGHT, excludePrecise: true })).toBe(false);
   }
   expect(next).toBe(route.length);
 }

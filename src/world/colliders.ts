@@ -1,3 +1,4 @@
+import type { PhysicalRockGeometry } from './physicsGeometry';
 import { ARCHIVE_ROOM, ARCHIVE_SHUTTER, BUILDINGS, DECKS, HANDCART_CONSTRUCTION, LIGHTHOUSE, LIGHTHOUSE_CONSTRUCTION, MILL_WHEEL, PALISADE, SHORTCUT, WAGON, WAGON_CONSTRUCTION, WELL, WELL_CONSTRUCTION, WORLD, type BuildingSpec } from './layout';
 import { LIGHTHOUSE_DOOR_OUTER_WIDTH, LIGHTHOUSE_STAIR_ANGLE, lighthouseTreadTop, lighthouseWallSectors } from './lighthouse';
 import { MILL_WHEEL_CONSTRUCTION as M, millWheelPlacement } from './millWheel';
@@ -7,10 +8,14 @@ import type { Terrain } from './terrain';
 export interface VerticalBounds {
   minY?: number;
   maxY?: number;
+  /** Exact triangle contacts are already resolved by the player physics controller. */
+  excludePrecise?: boolean;
 }
 export interface ColliderBounds extends VerticalBounds {
   /** Authored standing planks block a rising head/camera, while Terrain owns steps and landing. */
   supportOnly?: boolean;
+  /** Retained navigation footprint with a source-exact finite physical counterpart. */
+  rockMesh?: PhysicalRockGeometry;
 }
 /** Simple collision shapes on the ground plane. Trunks block movement; most leaves do not. */
 export interface CircleCollider extends ColliderBounds {
@@ -46,9 +51,9 @@ const CELL = 8;
 const CONTACT_EPS = 1e-7;
 const SKIN = 1e-4;
 
-const overlapsHeight = (c: Collider, bounds?: VerticalBounds) => !bounds ||
+const overlapsHeight = (c: Collider, bounds?: VerticalBounds) => !(bounds?.excludePrecise && c.rockMesh) && (!bounds ||
   (bounds.maxY ?? Infinity) > (c.minY ?? -Infinity) + CONTACT_EPS &&
-  (bounds.minY ?? -Infinity) < (c.maxY ?? Infinity) - CONTACT_EPS;
+  (bounds.minY ?? -Infinity) < (c.maxY ?? Infinity) - CONTACT_EPS);
 
 /** Exact segment/disc contact. The normal points out of the obstacle. */
 function circleHit(ax: number, az: number, dx: number, dz: number, cx: number, cz: number, r: number): { t: number; nx: number; nz: number } | null {
@@ -115,6 +120,10 @@ function boxHit(c: BoxCollider, ax: number, az: number, dx: number, dz: number, 
 
 export class Colliders {
   readonly all: Collider[] = [];
+  /** Finite source surfaces include modest stones that never blocked NPC routes. */
+  readonly rockMeshes: PhysicalRockGeometry[] = [];
+
+  registerRockMesh(mesh: PhysicalRockGeometry) { this.rockMeshes.push(mesh); }
   private byId = new Map<string, Collider[]>();
   private grid = new Map<number, Collider[]>();
   version = 0;

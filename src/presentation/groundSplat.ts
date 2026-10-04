@@ -1,5 +1,5 @@
 import { cliffiness, seaWetness, shoreDistance } from '../world/coast';
-import { FIELDS, STREAMS } from '../world/layout';
+import { FIELDS, SEA_LEVEL, STREAMS } from '../world/layout';
 import { clamp, fbm, smoothstep } from '../world/noise';
 import { distToPolyline, roadWeight, type Terrain } from '../world/terrain';
 import { LAYER } from './terrainTextures';
@@ -74,11 +74,15 @@ export function groundSplat(terrain: Terrain, x: number, z: number, w: Float32Ar
     blend(w, LAYER.sand, sand);
     // Shingle band behind the wet sand, and around rocks.
     blend(w, LAYER.gravel, (1 - cl) * smoothstep(3, 6, sd) * (1 - smoothstep(6, 11, sd)) * nHi * 0.7);
-    const sw = seaWetness(x, z);
+    // Horizontal distance alone marks the entire lighthouse cliff as soaked. Only the actual tidal/splash band is wet;
+    // elevated stone remains dry even when it stands directly above the shoreline.
+    const splash = 1 - smoothstep(0.55, 2.4, h - SEA_LEVEL);
+    const sw = seaWetness(x, z) * splash;
     wet = sw;
     blend(w, LAYER.wetsand, sw * (1 - cl * 0.85));
-    // Sea bed under shallow water reads as dark sand.
-    if (sd < 0) {
+    // The raised lighthouse outcrop reaches seaward of the approximate horizontal coastline. Only genuinely submerged
+    // ground is seabed: a positive-height cliff there must keep its dry surface and the same elevation-limited splash mask.
+    if (sd < 0 && h <= SEA_LEVEL) {
       w.fill(0);
       w[LAYER.sand] = 1 - smoothstep(-6, -14, sd) * 0.4;
       w[LAYER.gravel] = smoothstep(-6, -14, sd) * 0.4 + cl * 0.4;

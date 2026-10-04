@@ -12,3 +12,13 @@ export interface PhysicalWoodGeometry {
   /** Final uniform instance scale. Apply it equally to all three axes. */
   readonly scale: number;
 }
+
+/** One grounded boulder: these world-space triangles are the exact transformed rendered shape.
+ * The canonical circle is retained for NPC navigation; the player and loose cargo use this surface. */
+export interface PhysicalRockGeometry {
+  readonly id: string;
+  readonly positions: Float32Array;
+  readonly indices: Uint32Array;
+  readonly bounds: { readonly minX: number; readonly minY: number; readonly minZ: number;
+    readonly maxX: number; readonly maxY: number; readonly maxZ: number };
+}
