@@ -1,0 +1,41 @@
+:root {
+  color-scheme: dark;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 15px;
+  color: #e9e1cf;
+  background: #14130f;
+  --gold: #c9a865;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #14130f; }
+#world { position: fixed; inset: 0; width: 100%; height: 100%; display: block; outline: none; }
+.intro {
+  position: fixed; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: 10px;
+  padding: 8vh max(24px, calc(50vw - 330px)); background: radial-gradient(ellipse at 30% 40%, #2b2619 0%, #14130f 70%);
+}
+.intro[hidden], .hud[hidden], [hidden] { display: none !important; }
+.eyebrow { font: 600 11px/1.4 system-ui, sans-serif; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); }
+h1 { margin: 0; font-size: 64px; font-weight: 600; letter-spacing: .02em; color: #efe3c4; }
+h2 { margin: 0 0 8px; font-size: 22px; font-weight: 400; color: #cdbf9f; font-style: italic; }
+p { margin: 0; line-height: 1.55; max-width: 62ch; color: #ddd3bd; }
+p.small { font-size: 13px; color: #b9ad94; }
+code { font-size: .9em; color: #e8d6a8; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+button {
+  font: 600 14px system-ui, sans-serif; color: #ece4d2; background: #2a281f; border: 1px solid #6d6247; border-radius: 3px;
+  padding: 11px 16px; cursor: pointer;
+}
+button:hover { border-color: var(--gold); background: #353124; }
+button.primary { background: #b89a63; border-color: #b89a63; color: #1a170f; }
+button.primary:hover { background: #d4b67c; }
+button:disabled { opacity: .5; cursor: progress; }
+button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.status { margin-top: 6px; font: 13px/1.5 system-ui, sans-serif; color: #c8bea8; min-height: 2.6em; }
+footer { margin-top: 18px; font: 12px/1.6 system-ui, sans-serif; color: #8f8670; max-width: 70ch; }
+a { color: var(--gold); }
+.hud { position: fixed; inset: auto 0 0 0; padding: 12px 18px; display: flex; flex-wrap: wrap; gap: 8px 22px; align-items: center;
+  font: 12px/1.5 system-ui, sans-serif; color: #e8e2d3; text-shadow: 0 1px 3px #000; pointer-events: none; }
+.hud a, .hud input, .hud label { pointer-events: auto; }
+.hud .info { font-family: ui-monospace, monospace; margin-left: auto; }
+kbd { padding: 0 5px; border: 1px solid #9c9177; border-radius: 3px; background: #1a1812aa; font: inherit; }
+.time input { vertical-align: middle; width: 140px; }
