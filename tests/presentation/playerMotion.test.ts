@@ -18,7 +18,7 @@ vi.mock('../../src/presentation/characters', () => ({
   setArmed: vi.fn(), setSash: vi.fn(), poseRig: vi.fn(), applyFlash: vi.fn(),
 }));
 
-function setup(ground: (x: number, z: number) => number = () => 0, walkable: (x: number, z: number) => boolean = () => true) {
+function setup(ground: (x: number, z: number) => number = () => 0, walkable: (x: number, z: number, maxSlope?: number) => boolean = () => true) {
   let move = { x: 0, y: 0 };
   const held = new Set<string>();
   const presses = new Set<string>();
@@ -146,6 +146,140 @@ describe('player motion and action contacts', () => {
     expect(s.player.y).toBeGreaterThan(1.7);
     for (let i = 0; i < 60; i++) s.tick();
     expect(s.player.y).toBe(0); expect(s.player.grounded).toBe(true);
+  });
+
+  it('jumps across a steep descending hill without its walking-slope policy becoming an invisible wall', () => {
+    const ground = (_x: number, z: number) => z < 0.5 ? 4 : Math.max(0, 4 - (z - 0.5) * 1.7);
+    const s = setup(ground, (_x, z, maxSlope = 0.95) => z < 0.5 || z > 2.86 || maxSlope >= 1.7);
+    s.ctx.terrain.slopeAt = (_x, z) => z < 0.5 || z > 2.86 ? 0 : 1.7;
+    s.setMove(0, 1);
+    for (let i = 0; i < 12; i++) s.tick();
+    s.presses.add('jump');
+    let crossedSteepGroundInAir = false;
+    for (let i = 0; i < 90; i++) {
+      s.tick();
+      if (s.player.z > 0.5 && s.player.z < 2.86 && !s.player.grounded) crossedSteepGroundInAir = true;
+    }
+    expect(crossedSteepGroundInAir).toBe(true);
+    expect(s.player.z).toBeGreaterThan(3);
+    expect(s.player.y).toBe(0);
+    expect(s.player.grounded).toBe(true);
+  });
+
+  it('walks from a real Cut hillside onto its steep face, jumps and continues downhill under the real terrain controller', () => {
+    const terrain = new Terrain();
+    const colliders = buildStaticColliders(terrain);
+    let route: { start: { x: number; z: number }; x: number; z: number } | undefined;
+    // Pick the first clear, authored descent with walkable ground above and a genuinely steep face below.
+    for (let z = -100; z <= -66 && !route; z += 2) {
+      for (let x = 108; x <= 145 && !route; x += 2) {
+        if (terrain.slopeAt(x, z) < 1.15 || terrain.walkable(x, z) || !terrain.walkable(x, z, Infinity)) continue;
+        const n = terrain.normalAt(x, z), length = Math.hypot(n[0], n[2]);
+        const downhill = { x: n[0] / length, z: n[2] / length };
+        const start = { x: x - downhill.x * 4, z: z - downhill.z * 4 };
+        if (!terrain.walkable(start.x, start.z)) continue;
+        let clear = true;
+        for (let t = 0; t <= 8; t += 0.2) {
+          const px = start.x + downhill.x * t, pz = start.z + downhill.z * t;
+          if (!terrain.walkable(px, pz, Infinity) || colliders.blocked(px, pz, 0.4)) { clear = false; break; }
+        }
+        if (clear) route = { start, ...downhill };
+      }
+    }
+    expect(route, 'the authored Cut contains a clear steep descent').toBeDefined();
+    const r = route!;
+    const s = setup(); s.ctx.terrain = terrain; s.ctx.colliders = colliders;
+    s.player.setPosition(r.start.x, r.start.z, Math.atan2(r.x, r.z), terrain);
+    s.ctx.viewYaw = Math.atan2(r.x, r.z); s.setMove(0, 1);
+    for (let i = 0; i < 28; i++) s.tick();
+    s.presses.add('jump');
+    let crossedSteep = false, airborne = false;
+    for (let i = 0; i < 130; i++) {
+      s.tick();
+      crossedSteep ||= !terrain.walkable(s.player.x, s.player.z) && terrain.walkable(s.player.x, s.player.z, Infinity);
+      airborne ||= !s.player.grounded;
+      expect(colliders.blocked(s.player.x, s.player.z, 0.4, { minY: s.player.y + 0.03, maxY: s.player.y + 1.95 })).toBe(false);
+      expect(s.player.y).toBeGreaterThanOrEqual(terrain.groundAt(s.player.x, s.player.z) - 1e-6);
+    }
+    expect(crossedSteep).toBe(true); expect(airborne).toBe(true);
+    const descent = (s.player.x - r.start.x) * r.x + (s.player.z - r.start.z) * r.z;
+    expect(descent).toBeGreaterThan(6);
+    expect(s.player.y).toBeLessThan(terrain.groundAt(r.start.x, r.start.z) - 1);
+  });
+
+  it('keeps airborne momentum after releasing movement and brakes only after a supported landing', () => {
+    const s = setup(); s.setMove(0, 1);
+    for (let i = 0; i < 60; i++) s.tick();
+    s.presses.add('jump'); s.tick();
+    const airborneSpeed = s.player.vz, jumpZ = s.player.z;
+    s.setMove(0, 0);
+    for (let i = 0; i < 24; i++) s.tick();
+    expect(s.player.grounded).toBe(false);
+    expect(s.player.vz).toBeCloseTo(airborneSpeed, 8);
+    expect(s.player.z - jumpZ).toBeCloseTo(airborneSpeed * 0.4, 8);
+    for (let i = 0; i < 120; i++) s.tick();
+    expect(s.player.grounded).toBe(true);
+    expect(s.player.vz).toBeLessThan(0.01);
+  });
+
+  it('slides down exposed steep ground under gravity while authored raised steps retain firm support', () => {
+    const s = setup((_x, z) => 5 - z * 1.6, (_x, _z, maxSlope = 0.95) => maxSlope >= 1.6);
+    s.ctx.terrain.slopeAt = () => 1.6;
+    for (let i = 0; i < 90; i++) s.tick();
+    expect(s.player.z).toBeGreaterThan(3);
+    expect(s.player.y).toBeCloseTo(5 - s.player.z * 1.6, 8);
+    expect(s.player.grounded).toBe(true);
+    const platform = setup();
+    platform.ctx.terrain.slopeAt = () => 1.6;
+    platform.ctx.physics = {
+      move: (x, y, z, dx, dz) => ({ x: x + dx, y, z: z + dz }),
+      supportAt: () => 0.7,
+      ceilingAt: () => null,
+    };
+    platform.player.y = 0.7;
+    for (let i = 0; i < 90; i++) platform.tick();
+    expect(platform.player.z).toBe(0);
+    expect(platform.player.y).toBe(0.7);
+  });
+
+  it('uses movable-body support and autosteps without skipping a true raised solid face', () => {
+    const s = setup();
+    s.ctx.physics = {
+      move: (x, y, z, dx, dz) => {
+        const nz = z + dz;
+        if (nz >= 2) return { x, y, z: Math.min(z, 1.999) };
+        return { x: x + dx, y: nz >= 0.5 ? Math.max(y, 0.65) : y, z: nz };
+      },
+      supportAt: (_x, z, feetY) => z >= 0.5 && z < 2 && 0.65 <= feetY + 0.8 ? 0.65 : null,
+      ceilingAt: () => null,
+      surfaceAt: (_x, z, feetY) => z >= 0.5 && z < 2 && Math.abs(feetY - 0.65) < 0.01 ? 'deck' : null,
+    };
+    s.setMove(0, 1);
+    for (let i = 0; i < 120; i++) s.tick();
+    expect(s.player.z).toBeGreaterThan(1.5);
+    expect(s.player.z).toBeLessThan(2);
+    expect(s.player.y).toBe(0.65);
+    expect(s.player.grounded).toBe(true);
+    expect(s.player.surface).toBe('deck');
+    expect(s.player.lastMoveSpeed).toBeLessThan(0.01);
+  });
+
+  it('lands on a movable top after a long fall and uses the lower overhead contact', () => {
+    const s = setup();
+    s.ctx.physics = {
+      move: (x, y, z, dx, dz) => ({ x: x + dx, y, z: z + dz }),
+      supportAt: (_x, _z, feetY) => feetY + 0.8 >= 0.65 ? 0.65 : null,
+      ceilingAt: (_x, _z, _r, fromY, toY) => toY > fromY && fromY <= 2.85 && toY >= 2.85 ? 2.85 : null,
+    };
+    s.player.y = 8; s.player.grounded = false;
+    for (let i = 0; i < 100; i++) s.tick();
+    expect(s.player.y).toBe(0.65); expect(s.player.grounded).toBe(true);
+    s.ctx.colliders.box('upper-roof', 0, 0, 3, 3, 0, true, { minY: 3.2, maxY: 3.5 });
+    s.presses.add('jump');
+    let highest = s.player.y;
+    for (let i = 0; i < 90; i++) { s.tick(); highest = Math.max(highest, s.player.y); }
+    expect(highest + 1.95).toBeLessThanOrEqual(2.85);
+    expect(s.player.y).toBe(0.65); expect(s.player.grounded).toBe(true);
   });
 
   it('keeps feet exactly on traversable slopes and legal raised thresholds', () => {

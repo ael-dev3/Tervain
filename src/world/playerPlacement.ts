@@ -17,10 +17,10 @@ export function supportedPlayerHeight(terrain: StandingTerrain, x: number, z: nu
     ? Math.max(ground, support) : ground;
 }
 
-/** A saved upper-floor position must be checked at that floor, not against every obstacle's ground footprint. */
+/** Restore real contact safely; steep land now resolves through gravity rather than a slope fence. */
 export function canPlayerStandAt(terrain: StandingTerrain, colliders: Pick<Colliders, 'blocked'>, x: number, z: number, savedFeetY?: number): boolean {
   if (!Number.isFinite(x) || !Number.isFinite(z)) return false;
   const y = supportedPlayerHeight(terrain, x, z, savedFeetY);
-  if (!Number.isFinite(y) || !terrain.walkable(x, z, 0.95, y)) return false;
+  if (!Number.isFinite(y) || !terrain.walkable(x, z, Infinity, y)) return false;
   return !colliders.blocked(x, z, PLAYER_BODY_RADIUS, { minY: y + PLAYER_FOOT_CLEARANCE, maxY: y + PLAYER_BODY_HEIGHT });
 }

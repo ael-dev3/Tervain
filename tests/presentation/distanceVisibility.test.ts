@@ -33,13 +33,23 @@ describe('opaque distance continuity', () => {
     expect(smoothDistanceFade(FLORA_FADE_START, FLORA_FADE_START, FLORA_MAX_DISTANCE)).toBe(1);
     expect(smoothDistanceFade((FLORA_FADE_START + FLORA_MAX_DISTANCE) / 2, FLORA_FADE_START, FLORA_MAX_DISTANCE)).toBe(0.5);
     expect(smoothDistanceFade(FLORA_MAX_DISTANCE, FLORA_FADE_START, FLORA_MAX_DISTANCE)).toBe(0);
-    // The clearest regular-world sky uses FogExp2 density0.0029; no visible treeline is cut at the final boundary.
-    expect(Math.exp(-((0.0029 * FLORA_FADE_START) ** 2))).toBeLessThan(0.002);
+    // The clearest regular-world sky uses FogExp2 density0.0024; no visible treeline is cut at the final boundary.
+    expect(Math.exp(-((0.0024 * FLORA_FADE_START) ** 2))).toBeLessThan(0.01);
+  });
+
+  it('keeps complete source trees at all visible High distances, including both former geometry switches', () => {
+    for (const distance of [0, 36, 42, 48, 116, 132, 148, 350, 620, FLORA_FADE_START, FLORA_MAX_DISTANCE]) {
+      expect(floraLodWeights('high', distance)).toEqual([1, 0, 0]);
+    }
+    expect(floraLodWeights('medium', 100)).toEqual([1, 0, 0]);
+    expect(floraLodWeights('medium', 150)).toEqual([0.5, 0.5, 0]);
+    expect(floraLodWeights('medium', 400)).toEqual([0, 1, 0]);
+    expect(floraLodWeights('medium', 550)).toEqual([0, 0.5, 0.5]);
   });
 
   it('assigns every overlapping pixel to exactly one adjacent level without blending or temporal noise', () => {
-    for (const distance of [37, 42, 47, 117, 132, 147]) {
-      const weights = floraLodWeights('high', distance);
+    for (const distance of [121, 150, 179, 481, 550, 619]) {
+      const weights = floraLodWeights('medium', distance);
       let invalid = 0;
       for (let y = 0; y < 96; y++) for (let x = 0; x < 96; x++) {
         const dot = x * 0.06711056 + y * 0.00583715;

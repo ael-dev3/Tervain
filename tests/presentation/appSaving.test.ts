@@ -24,6 +24,7 @@ function session() {
     game,
     saves,
     mode: 'play',
+    world: { physics: { snapshot: () => [] } },
     player: { ...game.state.player },
     enterTitle: () => { app.mode = 'title'; },
   });

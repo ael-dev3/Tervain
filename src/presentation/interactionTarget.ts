@@ -3,7 +3,7 @@ import type { Interactable } from './interactions';
 import { cameraColliderEntry } from './cameraObstruction';
 
 /** Reach, facing and actual visibility must all agree before a world action can be offered. */
-export function chooseInteractable(items: readonly Interactable[], player: {x:number;y:number;z:number;yaw:number}, viewYaw: number, terrain: {groundAt(x:number,z:number):number}, colliders: Colliders): Interactable | null {
+export function chooseInteractable(items: readonly Interactable[], player: {x:number;y:number;z:number;yaw:number}, viewYaw: number, terrain: {groundAt(x:number,z:number):number}, colliders: Colliders, dynamicOcclusion?: (from: {x:number;y:number;z:number}, to: {x:number;y:number;z:number}) => boolean): Interactable | null {
   let best: Interactable | null = null;
   let score = Infinity;
   const eye = {x:player.x,y:player.y+1.4,z:player.z};
@@ -23,7 +23,7 @@ export function chooseInteractable(items: readonly Interactable[], player: {x:nu
       const t = cameraColliderEntry(eye,target,c,terrain.groundAt(c.x,c.z),5,0);
       return t !== null && t < 1-1e-5;
     });
-    if (blocked) continue;
+    if (blocked || dynamicOcclusion?.(eye, target)) continue;
     const value = d+(it.priority??0)*2;
     if (value < score) {score=value;best=it;}
   }

@@ -9,7 +9,7 @@ import type { PatchShared } from './shared';
 
 /**
  * Meadow grass: clumps of individual tapered blades, thousands of them, streamed around the camera.
- * A "patch" is a tuft of 7-14 blades (three triangles each); the blade layout and the wind/normal/colour treatment are
+ * A "patch" is a tuft of folded blades with a centre ridge (six triangles each); the blade layout and the wind/normal/colour treatment are
  * ports of ael-dev3/Warpkeep src/components/realm/createLowPolyGrassGeometry.ts and createRealmGrassMaterial.ts
  * @786c0b2 (Apache-2.0), rewritten for a free camera at ground level.
  */
@@ -25,8 +25,8 @@ interface GrassQuality {
 }
 
 export const GRASS_Q: Readonly<Record<Quality, GrassQuality>> = {
-  high: { blades: 11, density: 3.6, tile: 16, fadeStart: 12, fadeEnd: 96, shadows: true },
-  medium: { blades: 9, density: 2.4, tile: 16, fadeStart: 10, fadeEnd: 80, shadows: true },
+  high: { blades: 13, density: 4.6, tile: 16, fadeStart: 12, fadeEnd: 96, shadows: true },
+  medium: { blades: 10, density: 3.0, tile: 16, fadeStart: 10, fadeEnd: 80, shadows: true },
   low: { blades: 6, density: 1.4, tile: 16, fadeStart: 8, fadeEnd: 64, shadows: false },
 };
 
@@ -37,6 +37,7 @@ const GRASS_SIZE_COMP = 1.12;
 const GRASS_MAX_WIDTH_SCALE = 1.45;
 const GRASS_MAX_HEIGHT_SCALE = 1.5;
 const GRASS_WIND_AMP = 0.13;
+const GROUND_SCALE_ENDPOINTS = [1, GRASS_SIZE_COMP] as const;
 
 /** Bounds cover every blade after maximum instance scale, compensation, wind and pusher deformation. */
 export function grassPatchBounds(geometry: THREE.BufferGeometry): { maxHeight: number; maxRadius: number } {
@@ -58,7 +59,8 @@ export function grassPatchBounds(geometry: THREE.BufferGeometry): { maxHeight: n
 export function createGrassPatch(blades: number, seed: number): THREE.BufferGeometry {
   const rng = mulberry32(seed);
   const b = new GeoBuilder();
-  b.upBias = 0.72;
+  const roots: number[] = [];
+  b.upBias = 0.54;
   const white: Vec3 = [1, 1, 1];
   const R = 0.5;
   for (let i = 0; i < blades; i++) {
@@ -74,7 +76,7 @@ export function createGrassPatch(blades: number, seed: number): THREE.BufferGeom
     const fz = ax;
     const heart = 1 - r / R;
     const h = (0.42 + heart * 0.2 + rng() * 0.34) * (i % 5 === 0 ? 1.25 : 1);
-    const w0 = 0.028 + rng() * 0.02;
+    const w0 = 0.024 + rng() * 0.025;
     const lean = h * (0.16 + rng() * 0.42 + (1 - heart) * 0.16);
     b.phase = rng() * Math.PI * 2;
     b.stiff = 0.8 + rng() * 0.36;
@@ -82,21 +84,32 @@ export function createGrassPatch(blades: number, seed: number): THREE.BufferGeom
     const mw = w0 * 0.66;
     const mo = lean * 0.3;
     const rl: GV = { p: [rx - ax * w0, 0, rz - az * w0], c: white, w: 0 };
+    const rc: GV = { p: [rx, 0, rz], c: white, w: 0 };
     const rr: GV = { p: [rx + ax * w0, 0, rz + az * w0], c: white, w: 0 };
     const ml: GV = { p: [rx - ax * mw + fx * mo, my, rz - az * mw + fz * mo], c: white, w: 0.52 };
     const mr: GV = { p: [rx + ax * mw + fx * mo, my, rz + az * mw + fz * mo], c: white, w: 0.52 };
+    const mc: GV = { p: [rx + fx * (mo + w0 * 0.42), my, rz + fz * (mo + w0 * 0.42)], c: white, w: 0.52 };
     const tp: GV = { p: [rx + fx * lean, h, rz + fz * lean], c: white, w: 1 };
-    b.tri(rl, rr, ml);
-    b.tri(rr, mr, ml);
-    b.tri(ml, mr, tp);
+    const start = b.triangles;
+    b.tri(rl, rc, ml);
+    b.tri(rc, mc, ml);
+    b.tri(rc, rr, mc);
+    b.tri(rr, mr, mc);
+    b.tri(ml, mc, tp);
+    b.tri(mc, mr, tp);
+    b.setAcross(start, [-1, 0, -1, 0, 0, -1, 0, 1, 0, 1, 1, 0, -1, 0, 0, 0, 1, 0]);
+    const left = [rl.p[0], rl.p[2]], centre = [rc.p[0], rc.p[2]], right = [rr.p[0], rr.p[2]];
+    for (const foot of [left, centre, left, centre, centre, left, centre, right, centre, right, right, centre, left, centre, centre, centre, right, centre]) roots.push(...foot);
   }
-  return b.build();
+  const geometry = b.build();
+  geometry.setAttribute('aRoot', new THREE.Float32BufferAttribute(roots, 2));
+  return geometry;
 }
 
-const cMeadow = new THREE.Color().setHex(0x66703a);
-const cDeep = new THREE.Color().setHex(0x3f5230);
-const cGold = new THREE.Color().setHex(0x9a8a52);
-const cShade = new THREE.Color().setHex(0x34452e);
+const cMeadow = new THREE.Color().setHex(0x687c40);
+const cDeep = new THREE.Color().setHex(0x446339);
+const cGold = new THREE.Color().setHex(0x9a8b54);
+const cShade = new THREE.Color().setHex(0x425b37);
 
 export interface GrassLayer {
   layer: TileLayer;
@@ -113,14 +126,24 @@ export function createGrassLayer(ctx: BuildContext, habitat: Habitat, shared: Pa
     sizeComp: GRASS_SIZE_COMP,
     power: GRASS_THINNING_POWER,
     windAmp: GRASS_WIND_AMP,
-    rootShade: 0.34,
-    tipShade: 1.1,
+    rootShade: 0.42,
+    tipShade: 1.08,
+    terrain: ctx.terrain,
   });
   const T = q.tile;
   const capacity = Math.ceil(T * T * q.density);
   const terrain = ctx.terrain;
   const S = newSample();
   const tint = new THREE.Color();
+  const rootAttribute = geometry.getAttribute('aRoot');
+  const rootPoints: [number, number][] = [];
+  let nativeRadius = 0;
+  for (let i = 0; i < rootAttribute.count; i++) {
+    const x = rootAttribute.getX(i), z = rootAttribute.getY(i);
+    if (!rootPoints.some(p => p[0] === x && p[1] === z)) rootPoints.push([x, z]);
+  }
+  const vertices = geometry.getAttribute('position');
+  for (let i = 0; i < vertices.count; i++) nativeRadius = Math.max(nativeRadius, Math.hypot(vertices.getX(i), vertices.getZ(i)));
   const layer = new TileLayer({
     name: 'grass',
     tileSize: T,
@@ -149,10 +172,11 @@ export function createGrassLayer(ctx: BuildContext, habitat: Habitat, shared: Pa
         habitat.sample(x, z, S);
         if (S.open < 0.04) continue;
         const patchy = fbm(x / 9, z / 9, 2, 5) * 0.5 + 0.5;
-        let g = S.open * (1 - S.wood * 0.55) * (1 - 0.3 * S.dry) * (0.62 + 0.38 * smoothstep(0.1, 0.6, patchy));
+        let g = S.open * (1 - S.wood * 0.44) * (1 - 0.3 * S.dry) * (0.62 + 0.38 * smoothstep(0.1, 0.6, patchy));
         g = Math.min(1, g * 0.62);
         if (uAccept >= g) continue;
-        if (habitat.hardBlocked(x, z, 0.35)) continue;
+        const width = 0.85 + uW * 0.6;
+        if (habitat.hardBlocked(x, z, nativeRadius * width * GRASS_SIZE_COMP + 0.12)) continue;
         const y = terrain.heightAt(x, z) - 0.04;
         // Height: tall and lush where it is wet, short in dry, shaded or steep ground, and trimmed at path edges.
         let hs = 0.78 + 0.5 * S.wet + 0.32 * (patchy - 0.5) - 0.22 * S.dry - 0.3 * S.wood - 0.3 * S.slope;
@@ -167,16 +191,24 @@ export function createGrassLayer(ctx: BuildContext, habitat: Habitat, shared: Pa
         out.base[o + 1] = y;
         out.base[o + 2] = z;
         out.base[o + 3] = (k + uRank) / capacity;
-        out.shape[o] = uYaw * Math.PI * 2;
-        out.shape[o + 1] = 0.85 + uW * 0.6;
+        const yaw = uYaw * Math.PI * 2;
+        out.shape[o] = yaw;
+        out.shape[o + 1] = width;
         out.shape[o + 2] = hs;
         out.shape[o + 3] = uC * 20;
         out.tint[o] = tint.r * j;
         out.tint[o + 1] = tint.g * (0.95 + uH * 0.1) * j;
         out.tint[o + 2] = tint.b * j;
         out.tint[o + 3] = 1 - S.wood * 0.85;
-        if (y < out.ymin) out.ymin = y;
-        if (y > out.ymax) out.ymax = y;
+        // Conservative tile heights include the separately fitted blade roots at both distance-scale endpoints.
+        // The intervening scale range spans under 12 cm; the normal stream sphere's extra 20 cm retains its ridges.
+        const cy = Math.cos(yaw), sy = Math.sin(yaw);
+        for (const root of rootPoints) for (const size of GROUND_SCALE_ENDPOINTS) {
+          const rx = root[0] * width * size, rz = root[1] * width * size;
+          const ry = terrain.heightAt(x + rx * cy + rz * sy, z - rx * sy + rz * cy) - 0.04;
+          out.ymin = Math.min(out.ymin, ry);
+          out.ymax = Math.max(out.ymax, ry);
+        }
         n++;
       }
       return n;

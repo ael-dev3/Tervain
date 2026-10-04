@@ -2,6 +2,8 @@ import * as THREE from 'three';
 import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { mulberry32 } from '../world/noise';
 import type { Species, TreeVariant } from './treeGen';
+import { barkTextures } from './treeTextures';
+import { installBarkDetail } from './treeMaterials';
 
 export const PINE_FILES = ['solitary-pine-under-10k.glb', 'solitary-pine-mid.glb', 'solitary-pine-far.glb'] as const;
 export type PineSpecies = 'pine' | 'fir' | 'shorepine';
@@ -125,6 +127,14 @@ export function createPineForest(templates: PineTemplates): PineForest {
   const ownedMaterials = new Set<THREE.Material>();
   const geometries = new Set<THREE.BufferGeometry>();
   const variants = new Map<string, TreeVariant>();
+  const cloneTexture = (texture: THREE.Texture): THREE.Texture => {
+    let clone = textures.get(texture);
+    if (!clone) {
+      clone = texture.clone(); clone.anisotropy = 16; clone.needsUpdate = true;
+      textures.set(texture, clone);
+    }
+    return clone;
+  };
   const cloneMaterial = (original: THREE.MeshStandardMaterial) => {
     const material = original.clone();
     // Texture images are retained CPU data. Texture objects and GPU handles belong to this world.
@@ -132,12 +142,7 @@ export function createPineForest(templates: PineTemplates): PineForest {
     for (const [key, value] of Object.entries(fields)) {
       if (!(value as THREE.Texture | null)?.isTexture) continue;
       const texture = value as THREE.Texture;
-      let clone = textures.get(texture);
-      if (!clone) {
-        clone = texture.clone(); clone.anisotropy = 4; clone.needsUpdate = true;
-        textures.set(texture, clone);
-      }
-      fields[key] = clone;
+      fields[key] = cloneTexture(texture);
     }
     material.vertexColors = false;
     material.alphaToCoverage = material.alphaTest > 0;
@@ -147,6 +152,9 @@ export function createPineForest(templates: PineTemplates): PineForest {
   const nearMaterials = { wood: cloneMaterial(source[0]!.wood!.material), leaf: cloneMaterial(source[0]!.leaf.material) };
   // Needle UVs match near; remeshed mid wood has its own baked bark atlas.
   const materials = [nearMaterials, { wood: cloneMaterial(source[1]!.wood!.material), leaf: nearMaterials.leaf }, { wood: source[2]!.wood ? cloneMaterial(source[2]!.wood.material) : null, leaf: cloneMaterial(source[2]!.leaf.material) }];
+  const bark = barkTextures('pine', 1024);
+  const detail = { map: cloneTexture(bark.map) as THREE.DataTexture, surface: cloneTexture(bark.surface) as THREE.DataTexture };
+  for (const level of materials) if (level.wood) installBarkDetail(level.wood, detail);
   let disposed = false;
   return {
     materials,

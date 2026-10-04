@@ -4,10 +4,14 @@ import { groundSplat } from './groundSplat';
 import { createTerrainMaterial } from './terrainMaterial';
 import type { TerrainTextures } from './terrainTextures';
 
+/** Refine material boundaries without changing the authored ground planes used by physics. */
+export const TERRAIN_RENDER_SUBDIVISIONS = 2;
 
 export function buildTerrainMesh(terrain: Terrain, tex: TerrainTextures): THREE.Mesh {
-  const w = terrain.nx + 1;
-  const h = terrain.nz + 1;
+  const subdivisions = TERRAIN_RENDER_SUBDIVISIONS;
+  const nx = terrain.nx * subdivisions, nz = terrain.nz * subdivisions;
+  const w = nx + 1;
+  const h = nz + 1;
   const pos = new Float32Array(w * h * 3);
   const splatA = new Float32Array(w * h * 4);
   const splatB = new Float32Array(w * h * 4);
@@ -16,10 +20,10 @@ export function buildTerrainMesh(terrain: Terrain, tex: TerrainTextures): THREE.
   for (let j = 0; j < h; j++) {
     for (let i = 0; i < w; i++) {
       const k = j * w + i;
-      const x = terrain.vertexX(i);
-      const z = terrain.vertexZ(j);
+      const x = terrain.vertexX(i / subdivisions);
+      const z = terrain.vertexZ(j / subdivisions);
       pos[k * 3] = x;
-      pos[k * 3 + 1] = terrain.vertexHeight(i, j);
+      pos[k * 3 + 1] = terrain.heightAt(x, z);
       pos[k * 3 + 2] = z;
       wet[k] = groundSplat(terrain, x, z, sp);
       for (let q = 0; q < 4; q++) {
@@ -28,10 +32,10 @@ export function buildTerrainMesh(terrain: Terrain, tex: TerrainTextures): THREE.
       }
     }
   }
-  const idx = new Uint32Array(terrain.nx * terrain.nz * 6);
+  const idx = new Uint32Array(nx * nz * 6);
   let p = 0;
-  for (let j = 0; j < terrain.nz; j++) {
-    for (let i = 0; i < terrain.nx; i++) {
+  for (let j = 0; j < nz; j++) {
+    for (let i = 0; i < nx; i++) {
       const a = j * w + i;
       const b = a + 1;
       const c = a + w;

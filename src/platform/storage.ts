@@ -113,6 +113,27 @@ export function checksum(text: string): string {
 const isObj = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);
 const isNum = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v);
 
+/** Missing old-save poses use the authored baseline; malformed entries never reach WASM. */
+function physicalObjects(raw: unknown): WorldState['physicalObjects'] {
+  if (!Array.isArray(raw)) return [];
+  const seen = new Set<string>();
+  const result: WorldState['physicalObjects'] = [];
+  for (const value of raw.slice(0, 64)) {
+    if (!isObj(value) || typeof value.id !== 'string' || value.id.length > 80 || seen.has(value.id)
+      || !isObj(value.position) || !isObj(value.rotation)) continue;
+    const p = value.position, q = value.rotation;
+    if (![p.x, p.y, p.z, q.x, q.y, q.z, q.w].every(isNum)) continue;
+    const position = { x: p.x as number, y: p.y as number, z: p.z as number };
+    const rotation = { x: q.x as number, y: q.y as number, z: q.z as number, w: q.w as number };
+    const n = Math.hypot(rotation.x, rotation.y, rotation.z, rotation.w);
+    if (position.x < -380 || position.x > 200 || position.z < -170 || position.z > 170
+      || position.y < -50 || position.y > 120 || n < .9 || n > 1.1) continue;
+    rotation.x /= n; rotation.y /= n; rotation.z /= n; rotation.w /= n;
+    seen.add(value.id); result.push({ id: value.id, position, rotation });
+  }
+  return result;
+}
+
 /** Structural validation plus forward-compatible merge with current defaults. Returns null when unusable. */
 export function reviveState(raw: unknown): WorldState | null {
   if (!isObj(raw)) return null;
@@ -134,6 +155,7 @@ export function reviveState(raw: unknown): WorldState | null {
     inventory: normalizeInventory(raw.inventory),
     quickSlots: normalizeQuickSlots(raw.quickSlots),
     equippedWeapon: null,
+    physicalObjects: physicalObjects(raw.physicalObjects),
     mapMarker: validMapMarker(raw.mapMarker) ? { x: raw.mapMarker.x, z: raw.mapMarker.z } : null,
     saveFormatVersion: SAVE_FORMAT_VERSION,
     contentRevision: CONTENT_REVISION,

@@ -9,12 +9,14 @@ import { buildFallingLeaves } from './fallingLeaves';
 import { createPineForest, isPineSpecies, type PineTemplates } from './solitaryPine';
 import { groundedTreeY } from './treeGrounding';
 import { attachInstanceDistanceVisibility, smoothDistanceFade, type InstanceDistanceVisibility } from './distanceVisibility';
+import type { PhysicalWoodGeometry } from '../world/physicsGeometry';
 
 /**
  * Trees and shrubs. An empty strand gives way to a layered old-growth woodland: flared oak roots under tall pine/fir columns,
  * a lower birch stratum and native fern/moss floor. The trail remains open under the interlocking crowns. Every
- * tree is one of a few seeded variants per species, drawn as instances at three levels of detail with opaque complementary
- * distance fades. Culling uses the actual source crown envelope and follows camera turns on the same frame.
+ * tree is one of a few seeded variants per species. High retains the complete source instances at every distance;
+ * other presets retain three levels with opaque complementary fades. Culling uses the actual source crown envelope
+ * and follows camera turns on the same frame.
  */
 
 interface Batch {
@@ -25,7 +27,7 @@ interface Batch {
   trees: FloraTree[];
 }
 
-export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): SceneModule & { counts: { trees: number; triangles: number } } {
+export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): SceneModule & { counts: { trees: number; triangles: number }; physicalWood: readonly PhysicalWoodGeometry[] } {
   const { terrain, colliders, quality, sway, excl } = ctx;
   const group = new THREE.Group();
   group.name = 'flora';
@@ -44,6 +46,35 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): Sce
     ? pine.collisionRadius(tree.sp, tree.v + 1, tree.s, terrain.heightAt(tree.x, tree.z) - tree.y) : legacyFootprint,
     (tree) => groundedTreeY(terrain, tree, variantFor(tree)));
   registerFloraColliders(population, colliders);
+  // Static rigid-body contact uses the same complete wood as the visible source tree,
+  // rather than treating its broad ground-plane navigation circle as an infinite cylinder.
+  // Pack only once per variant; hundreds of instances share these source buffers.
+  const woodBuffers = new Map<TreeVariant, Pick<PhysicalWoodGeometry, 'positions' | 'indices'>>();
+  const physicalWood: PhysicalWoodGeometry[] = [];
+  for (const tree of population) {
+    if (!tree.collisionId || tree.radius <= 0) continue;
+    const variant = variantFor(tree), wood = variant.lods[0].wood;
+    if (!wood) throw new Error(`Canonical tree ${tree.collisionId} has no visible wood for contact.`);
+    let buffers = woodBuffers.get(variant);
+    if (!buffers) {
+      const position = wood.getAttribute('position');
+      let positions: Float32Array;
+      if (position instanceof THREE.BufferAttribute && position.itemSize === 3 && position.array instanceof Float32Array) {
+        positions = position.array;
+      } else {
+        positions = new Float32Array(position.count * 3);
+        for (let i = 0; i < position.count; i++) positions.set([position.getX(i), position.getY(i), position.getZ(i)], i * 3);
+      }
+      const index = wood.index;
+      const indices = index?.array instanceof Uint32Array ? index.array : new Uint32Array(index?.count ?? position.count);
+      if (!(index?.array instanceof Uint32Array)) {
+        for (let i = 0; i < indices.length; i++) indices[i] = index ? index.getX(i) : i;
+      }
+      buffers = { positions, indices };
+      woodBuffers.set(variant, buffers);
+    }
+    physicalWood.push({ id: tree.collisionId, ...buffers, translation: { x: tree.x, y: tree.y, z: tree.z }, yaw: tree.yaw, scale: tree.s });
+  }
   const { trees, obstacles } = selectFloraPopulation(population, quality);
   const forestFloor = buildForestFloor(terrain, excl, quality, population);
   group.add(forestFloor.group);
@@ -202,6 +233,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): Sce
 
   return {
     group,
+    physicalWood,
     counts: { trees: trees.length, triangles: Math.round(triangles) },
     update(dt: number, f: FrameContext) {
       if (disposed) return;

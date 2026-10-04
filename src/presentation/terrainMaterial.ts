@@ -69,25 +69,31 @@ float tSide = smoothstep(0.45, 0.8, 1.0 - tNg.y);
 vec2 tTan = normalize(vec2(-tNg.z, tNg.x) + vec2(1e-4));
 vec2 tGx = dFdx(tXZ);
 vec2 tGy = dFdy(tXZ);
+vec2 tSideGx = vec2(dot(tGx, tTan), dFdx(vWorldPos.y));
+vec2 tSideGy = vec2(dot(tGy, tTan), dFdy(vWorldPos.y));
+float tDetailMix = mix(0.12, 0.42, smoothstep(12.0, 55.0, length(vViewPosition)));
 float tW[8];
 tW[0] = vSplatA.x; tW[1] = vSplatA.y; tW[2] = vSplatA.z; tW[3] = vSplatA.w;
 tW[4] = vSplatB.x; tW[5] = vSplatB.y; tW[6] = vSplatB.z; tW[7] = vSplatB.w;
 float tScore[8];
 vec2 tDnL[8];
+float tRelief[8];
 float tBest = -1.0;
 for (int i = 0; i < 8; i++) {
   tScore[i] = -1.0;
   tDnL[i] = vec2(0.0);
+  tRelief[i] = 0.5;
   if (tW[i] > 0.015) {
     float sc = uLayer[i].x;
     vec2 uv = tXZ * sc;
     vec4 t = textureGrad(uNrm, vec3(uv, float(i)), tGx * sc, tGy * sc);
     if (i == 6 && tSide > 0.02) {
       vec2 uvS = vec2(dot(tXZ, tTan), vWorldPos.y) * sc;
-      vec4 ts = textureGrad(uNrm, vec3(uvS, float(i)), tGx * sc, tGy * sc);
+      vec4 ts = textureGrad(uNrm, vec3(uvS, float(i)), tSideGx * sc, tSideGy * sc);
       t = mix(t, ts, tSide);
     }
     tDnL[i] = t.rg * 2.0 - 1.0;
+    tRelief[i] = t.a;
     tScore[i] = tW[i] + (t.a - 0.5) * 0.42 * min(1.0, tW[i] * 4.0);
     tBest = max(tBest, tScore[i]);
   }
@@ -102,6 +108,7 @@ tSum = max(tSum, 1e-4);
 vec3 tAlb = vec3(0.0);
 vec2 tDn = vec2(0.0);
 float tRough = 0.0;
+float tHeight = 0.0;
 for (int i = 0; i < 8; i++) {
   if (tBw[i] > 0.0) {
     float b = tBw[i] / tSum;
@@ -114,14 +121,15 @@ for (int i = 0; i < 8; i++) {
     vec2 g2y = vec2(g1y.y, -g1y.x) * 0.37;
     vec3 a1 = textureGrad(uAlb, vec3(uv, float(i)), g1x, g1y).rgb;
     vec3 a2 = textureGrad(uAlb, vec3(uv2, float(i)), g2x, g2y).rgb;
-    vec3 a = mix(a1, a2, 0.42);
+    vec3 a = mix(a1, a2, tDetailMix);
     if (i == 6 && tSide > 0.02) {
       // Steep rock: the same two taps projected along the face, blended with the top view, so cliffs are not stretched.
       vec2 uvS = vec2(dot(tXZ, tTan), vWorldPos.y) * sc;
       vec2 uvS2 = vec2(uvS.y, -uvS.x) * 0.37 + vec2(0.31, 0.17);
-      vec3 s1 = textureGrad(uAlb, vec3(uvS, float(i)), g1x, g1y).rgb;
-      vec3 s2 = textureGrad(uAlb, vec3(uvS2, float(i)), g2x, g2y).rgb;
-      a = mix(a, mix(s1, s2, 0.42), tSide);
+      vec2 sx = tSideGx * sc, sy = tSideGy * sc;
+      vec3 s1 = textureGrad(uAlb, vec3(uvS, float(i)), sx, sy).rgb;
+      vec3 s2 = textureGrad(uAlb, vec3(uvS2, float(i)), vec2(sx.y, -sx.x) * 0.37, vec2(sy.y, -sy.x) * 0.37).rgb;
+      a = mix(a, mix(s1, s2, tDetailMix), tSide);
     }
     if (i == 6 || i == 3) {
       // Large-scale variation for rock and shingle, so distant slopes keep some structure instead of averaging to flat grey.
@@ -133,6 +141,7 @@ for (int i = 0; i < 8; i++) {
     tAlb += a * (b * uLayer[i].w);
     tDn += tDnL[i] * (b * uLayer[i].y);
     tRough += b * uLayer[i].z;
+    tHeight += b * tRelief[i];
   }
 }
 float tM = tvn(tXZ / 43.0) * 0.5 + tvn(tXZ / 12.7) * 0.32 + tvn(tXZ / 3.9) * 0.18;
@@ -149,7 +158,10 @@ const FRAG_NORMAL = /* glsl */ `
 {
   float k = 1.0 - smoothstep(30.0, 150.0, length(vViewPosition));
   vec3 nw = normalize((vec4(normal, 0.0) * viewMatrix).xyz);
-  nw = normalize(nw + vec3(tDn.x, 0.0, tDn.y) * k);
+  // Perturb along the real surface tangents, including a bank or cliff, rather than world-horizontal vectors.
+  vec3 tx = normalize(vec3(tNg.y + 0.0001, -tNg.x, 0.0));
+  vec3 tz = normalize(cross(tx, tNg));
+  nw = normalize(nw + (tx * tDn.x + tz * tDn.y) * k);
   normal = normalize((viewMatrix * vec4(nw, 0.0)).xyz);
 }
 `;
@@ -166,8 +178,9 @@ export function createTerrainMaterial(tex: TerrainTextures): THREE.MeshStandardM
       .replace('#include <common>', `#include <common>\n${FRAG_DECL}`)
       .replace('#include <map_fragment>', FRAG_ALBEDO)
       .replace('#include <roughnessmap_fragment>', '#include <roughnessmap_fragment>\nroughnessFactor = tRough;')
+      .replace('#include <aomap_fragment>', '#include <aomap_fragment>\nreflectedLight.indirectDiffuse *= mix(0.8, 1.0, smoothstep(0.2, 0.8, tHeight));')
       .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>\n${FRAG_NORMAL}`);
   };
-  mat.customProgramCacheKey = () => 'tervain-terrain-v1';
+  mat.customProgramCacheKey = () => 'tervain-terrain-v2-ground-detail';
   return mat;
 }

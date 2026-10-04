@@ -209,17 +209,19 @@ export function registerFloraColliders(population: readonly FloraTree[], collide
     if (tree.collisionId && tree.radius > 0) colliders.circle(tree.collisionId, tree.x, tree.z, radiusFor(tree));
   }
 }
-// Keep cheap crown cards beyond the playable realm, then fade into the distance haze.
+// Keep trees beyond the playable realm, then fade only into dense distance haze.
 export const FLORA_FADE_START = 900;
 export const FLORA_MAX_DISTANCE = 1020;
 export const FLORA_LOD_BANDS: Record<Quality, { near: readonly [number, number]; middle: readonly [number, number] }> = {
-  high: { near: [36, 48], middle: [116, 148] },
-  medium: { near: [24, 36], middle: [104, 136] },
+  high: { near: [FLORA_MAX_DISTANCE, FLORA_MAX_DISTANCE], middle: [FLORA_MAX_DISTANCE, FLORA_MAX_DISTANCE] },
+  medium: { near: [120, 180], middle: [480, 620] },
   low: { near: [0, 0], middle: [64, 96] },
 };
-/** Adjacent levels share complementary pixel coverage over broad distance bands.
- * Low keeps real middle-detail trunks locally; it never pays for close source meshes. */
+/** High keeps the exact source mesh at every visible distance: no simplified trunk,
+ * missing lower branches, or crossed crown impostor can change its silhouette while moving.
+ * Other presets retain complementary pixel coverage over broad distance bands. */
 export function floraLodWeights(quality: Quality, distance: number): readonly [number, number, number] {
+  if (quality === 'high') return [1, 0, 0];
   const bands = FLORA_LOD_BANDS[quality];
   const near = quality === 'low' ? 0 : smoothDistanceFade(distance, ...bands.near);
   const middle = smoothDistanceFade(distance, ...bands.middle);

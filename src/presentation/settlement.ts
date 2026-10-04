@@ -29,7 +29,7 @@ import { authorMillWheel, authorMillWheelSupports } from './millWheel';
 import { buildArchiveShell, buildLighthouse, buildStandard, groundOf, type BuildOut } from './buildings';
 import { benchSet, campfire, cart, fence, palisade, pot, ropeCoil, stockadeGate, wagon, watchtower, well, wreck } from './props';
 import { MaterialSet, Region } from './regions';
-import { TINT, barrel, buildShrineHallShell, crate, door, fieldstone, jitterTone, roofFor, sack, windowAt, woodpile, type Rnd } from './structures';
+import { TINT, buildShrineHallShell, crate, door, fieldstone, jitterTone, roofFor, sack, windowAt, woodpile, type Rnd } from './structures';
 import type { AssetNeed } from './assets/library';
 import { buildWorldPickups, isWorldPickupItem } from './worldPickups';
 
@@ -551,8 +551,8 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     }
     const rope = HAMLET_PROPS.rope;
     ropeCoil(R, rnd, rope.x, gy(rope.x, rope.z), rope.z, 0.4);
-    for (const [i, p] of HAMLET_PROPS.barrels.entries()) barrel(R, rnd, p.x, gy(p.x, p.z), p.z, i === 0 ? 1 : 0.9);
-    for (const [i, p] of HAMLET_PROPS.crates.entries()) crate(R, rnd, p.x, gy(p.x, p.z), p.z, i === 0 ? 0.8 : 0.6, i === 0 ? 0.55 : 0.45, i === 0 ? 0.6 : 0.5, i === 0 ? 0.3 : -0.2);
+    // Loose barrels and crates are rendered once by physicalProps; their bodies own contact and motion.
+
     const cartAt = HAMLET_PROPS.handcart;
     cart(R, rnd, cartAt.x, gy(cartAt.x, cartAt.z), cartAt.z, cartAt.yaw);
     const wood = HAMLET_PROPS.firewood;
@@ -583,8 +583,8 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     watchtower(R, rnd, PALISADE.tower.x, PALISADE.tower.z, PALISADE.tower.yaw, gy, (RR, yy) => roofFor(RR, 'hip', 'shingle', 3.4, 3.4, yy, 88, { pitch: 0.7 }));
     lanternPositions.push(new THREE.Vector3(PALISADE.gate.x - 0.4, gy(PALISADE.gate.x, gateZ) + 3.7, gateZ - 1.5));
     colliders.circle('camp_fire', fire.x, fire.z, 0.7, true, fireLimits);
-    for (const [i, p] of HAMLET_PROPS.barrels.entries()) colliders.circle('camp_barrel', p.x, p.z, 0.4, true, { minY: gy(p.x, p.z), maxY: gy(p.x, p.z) + (i === 0 ? 1 : 0.9) });
-    for (const [i, p] of HAMLET_PROPS.crates.entries()) colliders.box('camp_crate', p.x, p.z, 0.45, 0.35, 0, true, { minY: gy(p.x, p.z) - 0.01, maxY: gy(p.x, p.z) + (i === 0 ? 0.55 : 0.45) + 0.01 });
+
+
     addCartColliders(colliders, 'camp_handcart', cartAt.x, cartAt.z, cartAt.yaw, 'handcart', gy(cartAt.x, cartAt.z));
   }
 
@@ -774,11 +774,7 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     const R = region('village');
     const rnd: Rnd = mulberry32(6600);
     for (const [x, z, yaw] of [[-9, 35.6, 0], [44, 32.4, 1.0], [10, 17, 0.2]] as const) benchSet(R, rnd, x, gy(x, z), z, yaw);
-    const barrels: [number, number][] = [[-16.5, 2.4], [16.4, 21], [-136.5, 31.5], [88, -13], [-14.4, -3]];
-    for (const [x, z] of barrels) {
-      barrel(R, rnd, x, gy(x, z) - 0.02, z, 1);
-      colliders.circle('barrel', x, z, 0.5, true, { minY: gy(x, z) - 0.02, maxY: gy(x, z) + 0.98 });
-    }
+    // The town's loose barrels now belong to the same physical work-supply system.
     const ky = gy(15, 20.5);
     R.planks.box(1.0, 0.75, 0.6, 15, ky, 20.5, jitterTone(TINT.wood, rnd, 0.1), { jit: 0.1, grain: 'x' });
     R.metal.box(0.5, 0.06, 0.16, 15, ky + 0.78, 20.5, 0x8a7a3a, { jit: 0.1 });

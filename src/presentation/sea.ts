@@ -5,6 +5,60 @@ import { SKY } from './skyState';
 import { buildSeaGeometry } from './seaGeometry';
 import { detachWaterOptics, makeWaterOpticsUniforms, WATER_OPTICS_GLSL } from './waterOptics';
 
+// Keep the CPU visibility envelope and the vertex shader's actual waves together.
+const WAVES = [[1, 0.18, 23, 0.24], [0.92, -0.39, 11, 0.11], [0.68, 0.73, 6, 0.045], [-0.28, 0.96, 3.8, 0.018]] as const;
+const WAVE_HARMONIC = 0.16;
+const MAX_WAVE_HEIGHT = WAVES.reduce((sum, wave) => sum + wave[3], 0) * (1 + WAVE_HARMONIC);
+const LAND_MASK_START = -0.035;
+
+/**
+ * Bounds only the part of the source triangles that can survive the sea's dry-land discard.
+ * Interpolated upper vertex depth encloses every wave phase, including partially wet triangles
+ * in the stitched horizon. The render pass adds its usual full-metre crest safety margin.
+ */
+export function seaVisibilityBounds(geometry: THREE.BufferGeometry): THREE.Box3[] {
+  const position = geometry.getAttribute('position'), depth = geometry.getAttribute('aDepth');
+  const index = geometry.index!;
+  const bounds = new THREE.Box3(), point = new THREE.Vector3();
+  const pieces: THREE.Box3[] = [], near = new Map<string, THREE.Box3>();
+  const ids = [0, 0, 0], upper = [0, 0, 0];
+  for (let triangle = 0; triangle < index.count; triangle += 3) {
+    bounds.makeEmpty();
+    for (let corner = 0; corner < 3; corner++) {
+      const id = index.getX(triangle + corner), d = depth.getX(id);
+      const t = THREE.MathUtils.clamp((d - 0.04) / (2 - 0.04), 0, 1);
+      ids[corner] = id;
+      upper[corner] = d + MAX_WAVE_HEIGHT * t * t * (3 - 2 * t) - LAND_MASK_START;
+    }
+    for (let corner = 0; corner < 3; corner++) {
+      const next = (corner + 1) % 3, a = ids[corner]!, b = ids[next]!;
+      const da = upper[corner]!, db = upper[next]!;
+      if (da >= 0) bounds.expandByPoint(point.fromBufferAttribute(position, a));
+      if ((da >= 0) !== (db >= 0)) {
+        const t = da / (da - db);
+        point.set(
+          position.getX(a) + (position.getX(b) - position.getX(a)) * t,
+          position.getY(a) + (position.getY(b) - position.getY(a)) * t,
+          position.getZ(a) + (position.getZ(b) - position.getZ(a)) * t,
+        );
+        bounds.expandByPoint(point);
+      }
+    }
+    if (bounds.isEmpty()) continue;
+    // A single 10 km-wide horizon box overlaps an inland view even when every wet
+    // triangle is behind it. Keep those long faces separate; group only nearby grid
+    // faces, without changing the sea mesh, its wave amplitudes or its draw distance.
+    if (bounds.max.x - bounds.min.x > 32 || bounds.max.z - bounds.min.z > 32) pieces.push(bounds.clone());
+    else {
+      const key = `${Math.floor(bounds.min.x / 32)}:${Math.floor(bounds.min.z / 32)}`;
+      const existing = near.get(key);
+      if (existing) existing.union(bounds);
+      else near.set(key, bounds.clone());
+    }
+  }
+  return [...near.values(), ...pieces];
+}
+
 /** Original layered coastal waves, depth transmission and laced surf, on a stitched ocean mesh. */
 const VERT = /* glsl */ `
 attribute float aDepth;
@@ -19,17 +73,14 @@ varying float vCrest;
 void wave(vec2 dir, float wavelength, float amplitude, vec2 xz, inout float height, inout vec2 slope) {
   float k = 6.2831853 / wavelength;
   float phase = dot(dir, xz) * k - sqrt(9.81 * k) * uTime * 0.65;
-  height += amplitude * (sin(phase) + 0.16 * sin(phase * 2.0));
+  height += amplitude * (sin(phase) + ${WAVE_HARMONIC.toFixed(2)} * sin(phase * 2.0));
   slope += amplitude * k * (cos(phase) + 0.32 * cos(phase * 2.0)) * dir;
 }
 void main() {
   vec3 p = position;
   float h = 0.0;
   vec2 slope = vec2(0.0);
-  wave(normalize(vec2(1.0, 0.18)), 23.0, 0.24, p.xz, h, slope);
-  wave(normalize(vec2(0.92, -0.39)), 11.0, 0.11, p.xz, h, slope);
-  wave(normalize(vec2(0.68, 0.73)), 6.0, 0.045, p.xz, h, slope);
-  wave(normalize(vec2(-0.28, 0.96)), 3.8, 0.018, p.xz, h, slope);
+  ${WAVES.map(([x, z, length, amplitude]) => `wave(normalize(vec2(${x.toFixed(3)}, ${z.toFixed(3)})), ${length.toFixed(3)}, ${amplitude.toFixed(3)}, p.xz, h, slope);`).join('\n  ')}
   float shoreDamping = smoothstep(0.04, 2.0, aDepth);
   p.y += h * shoreDamping;
   vNormal = normalize(vec3(-slope.x * shoreDamping, 1.0, -slope.y * shoreDamping));
@@ -62,7 +113,7 @@ varying float vCrest;
 ${WATER_OPTICS_GLSL}
 void main() {
   float d = max(vDepth, 0.0);
-  float landMask = smoothstep(-0.035, 0.065, vDepth);
+  float landMask = smoothstep(${LAND_MASK_START.toFixed(3)}, 0.065, vDepth);
   if (landMask < 0.005) discard;
   vec3 V = normalize(cameraPosition - vWorld);
   float distanceToCamera = length(cameraPosition - vWorld);
@@ -140,6 +191,7 @@ export function buildSea(terrain: Terrain, quality: 'low' | 'medium' | 'high' = 
     transparent: true, depthWrite: false, fog: true, side: THREE.FrontSide,
   });
   const mesh = new THREE.Mesh(buildSeaGeometry(terrain, quality), mat);
+  mesh.userData.waterVisibilityBounds = seaVisibilityBounds(mesh.geometry);
   mesh.frustumCulled = false;
   mesh.renderOrder = 2; mesh.name = 'sea';
   const group = new THREE.Group(); group.add(mesh);

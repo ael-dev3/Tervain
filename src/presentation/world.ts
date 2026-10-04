@@ -33,6 +33,8 @@ import { buildWoodlandAir } from './woodlandAir';
 import { setPickupVisible } from './worldPickups';
 import { loadSolitaryPine, type PineTemplates } from './solitaryPine';
 import { LanternLightPool } from './lanternLights';
+import { RealmPhysics, initializePhysics } from '../world/physics';
+import { buildPhysicalProps } from './physicalProps';
 
 /** Everything static in Bellwether Vale, plus the presentation that follows durable state. */
 export class WorldScene {
@@ -40,6 +42,7 @@ export class WorldScene {
   readonly terrain: Terrain;
   readonly colliders: Colliders;
   readonly nav: NavGrid;
+  readonly physics: RealmPhysics;
   readonly sky: SkyRig;
   readonly water: WaterSystem;
   readonly sea: SeaHandle;
@@ -81,12 +84,14 @@ export class WorldScene {
     const pine = await loadSolitaryPine();
     onProgress?.({ loaded: 1, total: 1, label: 'Solitary Pine woodland' });
     // Ground textures are generated, not downloaded; yield between layers so the loading text keeps painting.
-    const tex = await makeTerrainTextures(settings.quality === 'low' ? 256 : 512, () => new Promise((r) => setTimeout(r, 0)));
+    await initializePhysics();
+    const tex = await makeTerrainTextures(settings.quality === 'high' ? 1024 : settings.quality === 'medium' ? 768 : 256, () => new Promise((r) => setTimeout(r, 0)));
     return new WorldScene(state, settings, library, tex, pine);
   }
 
   /** Release GPU resources the scene graph does not own. */
   dispose() {
+    this.physics.dispose();
     this.water.dispose();
     this.sea.dispose();
     this.environment.dispose?.();
@@ -129,6 +134,10 @@ export class WorldScene {
     this.environment = buildEnvironment(this.scene, settings.quality);
     this.scenery = buildScenery(this.terrain, this.colliders, settings.quality);
     this.scene.add(this.scenery.group);
+    this.physics = new RealmPhysics(this.terrain, this.colliders, undefined, forest.physicalWood);
+    const physicalProps = buildPhysicalProps(this.physics, settings.quality);
+    this.modules.push({ name: 'physical supplies', module: physicalProps });
+    this.scene.add(physicalProps.group);
     this.nav = new NavGrid(this.terrain, this.colliders);
 
     // A few real lights near the player make lanterns matter at night without a per-lantern cost.

@@ -46,6 +46,7 @@ export function createInitialState(slotId = 'slot-1'): WorldState {
     grants: {},
     inventory: { coin: 6 },
     quickSlots: Array.from({ length: QUICK_SLOT_COUNT }, () => null),
+    physicalObjects: [],
     equippedWeapon: null,
     mapMarker: null,
     skills: [],

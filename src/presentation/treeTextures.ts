@@ -293,6 +293,8 @@ export function leafTexture(kind: LeafKind): THREE.Texture {
 export interface BarkTextures {
   map: THREE.DataTexture;
   normal: THREE.DataTexture;
+  /** R: original bark relief; G: dry plate / recessed crack roughness. Linear data. */
+  surface: THREE.DataTexture;
 }
 
 function heightToNormal(h: Float32Array, n: number, k: number): Uint8Array {
@@ -316,16 +318,19 @@ function heightToNormal(h: Float32Array, n: number, k: number): Uint8Array {
   return out;
 }
 
-const barkCache = new Map<BarkKind, BarkTextures>();
+const barkCache = new Map<string, BarkTextures>();
 
 /** Tileable bark (u around the trunk, v along it). Albedo is grey-brown and dark; the tree tints it with vertex colour. */
 export function barkTextures(kind: BarkKind, n = 256): BarkTextures {
-  const hit = barkCache.get(kind);
+  const key = `${kind}:${n}`;
+  const hit = barkCache.get(key);
   if (hit) return hit;
   const h = new Float32Array(n * n);
   const rgb = new Float32Array(n * n * 3);
   const warp = fbmField(n, 4, 6, 3, 201);
-  const fine = fbmField(n, 40, 40, 2, 202);
+  // The close detail tile contains new, finer grain rather than a larger interpolation
+  // of the old 256px texture. Both resolutions are deterministic and periodic.
+  const fine = fbmField(n, n >= 512 ? 128 : 40, n >= 512 ? 84 : 40, 3, 202);
   const low = fbmField(n, 3, 5, 3, 203);
   const plates = kind === 'pine' ? voronoi(n, 5, 204, 0.9, 3) : null;
   for (let j = 0; j < n; j++) {
@@ -347,8 +352,12 @@ export function barkTextures(kind: BarkKind, n = 256): BarkTextures {
       } else if (kind === 'pine') {
         const p = plates!;
         const edge = sstep(0.02, 0.22, p.f2[o]! - p.f1[o]!);
-        ht = edge * 0.7 + p.id[o]! * 0.2 + fine[o]! * 0.1;
-        base = mixc([0.09, 0.06, 0.045], [0.34, 0.22, 0.15], ht * (0.7 + p.id[o]! * 0.3));
+        const split = 1 - sstep(0.015, 0.065, Math.abs(pnoise(u + w, v, 34, 11, 214) - 0.5));
+        const grain = pnoise(u + w * 0.2, v, 110, 9, 215);
+        ht = edge * 0.64 + p.id[o]! * 0.18 + fine[o]! * 0.14 + grain * 0.04 - split * edge * 0.19;
+        // Weathered silver-brown plates; the fine cracks have warm exposed wood beneath.
+        base = mixc([0.16, 0.13, 0.105], [0.52, 0.43, 0.34], ht * (0.77 + p.id[o]! * 0.23));
+        base = mixc(base, [0.20, 0.15, 0.105], split * edge * 0.20);
       } else if (kind === 'birch') {
         const band = sstep(0.62, 0.8, pnoise(u, v, 3, 34, 207)) * (0.5 + 0.5 * pnoise(u, v, 8, 3, 208));
         ht = 0.5 + fine[o]! * 0.1 - band * 0.5;
@@ -371,11 +380,16 @@ export function barkTextures(kind: BarkKind, n = 256): BarkTextures {
     }
   }
   const alb = new Uint8Array(n * n * 4);
+  const surface = new Uint8Array(n * n * 4);
   for (let o = 0; o < n * n; o++) {
     alb[o * 4] = Math.round(clamp01(rgb[o * 3]!) * 255);
     alb[o * 4 + 1] = Math.round(clamp01(rgb[o * 3 + 1]!) * 255);
     alb[o * 4 + 2] = Math.round(clamp01(rgb[o * 3 + 2]!) * 255);
     alb[o * 4 + 3] = 255;
+    surface[o * 4] = Math.round(h[o]! * 255);
+    surface[o * 4 + 1] = Math.round((0.78 + (1 - h[o]!) * 0.20) * 255);
+    surface[o * 4 + 2] = 0;
+    surface[o * 4 + 3] = 255;
   }
   const mk = (data: Uint8Array, srgb: boolean) => {
     const t = new THREE.DataTexture(data, n, n, THREE.RGBAFormat, THREE.UnsignedByteType);
@@ -383,13 +397,13 @@ export function barkTextures(kind: BarkKind, n = 256): BarkTextures {
     t.magFilter = THREE.LinearFilter;
     t.minFilter = THREE.LinearMipmapLinearFilter;
     t.generateMipmaps = true;
-    t.anisotropy = 8;
+    t.anisotropy = 16;
     t.colorSpace = srgb ? THREE.SRGBColorSpace : THREE.NoColorSpace;
     t.needsUpdate = true;
     return t;
   };
-  const res = { map: mk(alb, true), normal: mk(heightToNormal(h, n, kind === 'birch' ? 3 : 9), false) };
-  barkCache.set(kind, res);
+  const res = { map: mk(alb, true), normal: mk(heightToNormal(h, n, (kind === 'birch' ? 3 : 9) * n / 256), false), surface: mk(surface, false) };
+  barkCache.set(key, res);
   return res;
 }
 
@@ -400,6 +414,7 @@ export function disposeTreeTextures() {
   for (const b of barkCache.values()) {
     b.map.dispose();
     b.normal.dispose();
+    b.surface.dispose();
   }
   barkCache.clear();
 }

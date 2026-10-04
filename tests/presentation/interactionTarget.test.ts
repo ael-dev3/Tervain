@@ -44,6 +44,13 @@ describe('reachable visible interactions',()=>{
   it('respects vertical reach from the lighthouse gallery',()=>{
     expect(chooseInteractable([item('npc',0,1)],{...player,y:15},0,flat,new Colliders())).toBeNull();
   });
+  it('does not offer a pickup through movable cargo and offers it again after the cargo clears',()=>{
+    const target=item('pickup',0,2), c=new Colliders();
+    const blocked=vi.fn(()=>true);
+    expect(chooseInteractable([target],player,0,flat,c,blocked)).toBeNull();
+    expect(blocked).toHaveBeenCalledWith({x:0,y:1.4,z:0},{x:0,y:1,z:2});
+    expect(chooseInteractable([target],player,0,flat,c,()=>false)).toBe(target);
+  });
   it('sees over a low obstacle and permits camera-facing interaction when backing away',()=>{
     const c=new Colliders();c.box('low',0,1,2,0.1,0,true,{minY:0,maxY:0.6});
     const target=item('sign',0,2);

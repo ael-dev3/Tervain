@@ -18,9 +18,9 @@ import { createInitialState } from '../../src/game/state';
 // Floor pixels have their own tests/browser gate; isolate actual tree instancing without a DOM canvas.
 vi.mock('../../src/presentation/forestFloor', () => ({ buildForestFloor: () => ({ group: new THREE.Group(), update() {}, dispose() {} }) }));
 vi.mock('../../src/presentation/treeMaterials', () => ({
-  woodMaterial: () => new THREE.MeshStandardMaterial(), leafMaterial: () => new THREE.MeshStandardMaterial(), disposeTreeMaterials() {},
+  woodMaterial: () => new THREE.MeshStandardMaterial(), leafMaterial: () => new THREE.MeshStandardMaterial(), installBarkDetail() {}, disposeTreeMaterials() {},
 }));
-vi.mock('../../src/presentation/treeTextures', () => ({ disposeTreeTextures() {} }));
+vi.mock('../../src/presentation/treeTextures', () => ({ barkTextures: () => ({ map: new THREE.DataTexture(), surface: new THREE.DataTexture() }), disposeTreeTextures() {} }));
 vi.mock('../../src/presentation/treeGen', async (original) => {
   const actual = await original<typeof import('../../src/presentation/treeGen')>();
   return { ...actual, buildTreeVariant: (species: Parameters<typeof actual.buildTreeVariant>[0], seed: number) => {
@@ -48,6 +48,44 @@ beforeAll(async () => {
 });
 
 describe('world forest render substitution', () => {
+  it('exports exact complete woody contact for canonical trees with shared buffers, uniform planted transforms and no leaf cards', () => {
+    vi.stubGlobal('location', { search: '' });
+    let firstTransforms: unknown;
+    for (const quality of ['low', 'medium', 'high'] as const) {
+      const colliders = new Colliders();
+      const forest = buildFlora({ terrain, excl, colliders, quality, settings: { ...defaultSettings(), quality }, library: AssetLibrary.empty(), sway: { uTime: { value: 0 }, uWind: { value: 0 } } }, templates);
+      const canonicalTrees = population.filter(tree => tree.collisionId && tree.radius > 0);
+      expect(forest.physicalWood.map(tree => tree.id)).toEqual(canonicalTrees.map(tree => tree.collisionId));
+      expect(forest.physicalWood).toHaveLength(canonical.all.length);
+      const nearWood = forest.group.children.filter(object => object.name.endsWith(':0:wood')) as THREE.InstancedMesh[];
+      const leafArrays = new Set(forest.group.children.filter(object => object.name.endsWith(':foliage')).map(object => (object as THREE.Mesh).geometry.getAttribute('position').array));
+      const variantBuffers = new Map<string, { positions: Float32Array; indices: Uint32Array }>();
+      for (const contact of forest.physicalWood) {
+        const tree = canonicalTrees.find(tree => tree.collisionId === contact.id)!;
+        expect(contact.translation).toEqual({ x: tree.x, y: tree.y, z: tree.z });
+        expect(contact.yaw).toBe(tree.yaw); expect(contact.scale).toBe(tree.s);
+        expect(contact.positions).toBeInstanceOf(Float32Array); expect(contact.indices).toBeInstanceOf(Uint32Array);
+        expect(leafArrays.has(contact.positions)).toBe(false);
+        const mesh = nearWood.find(mesh => mesh.geometry.getAttribute('position').array === contact.positions)!;
+        expect(mesh, contact.id).toBeDefined();
+        const index = mesh.geometry.index;
+        expect(contact.indices.length).toBe(index?.count ?? contact.positions.length / 3);
+        let topologyErrors = 0;
+        for (let i = 0; i < contact.indices.length; i++) if (contact.indices[i] !== (index ? index.getX(i) : i)) topologyErrors++;
+        expect(topologyErrors).toBe(0);
+        if (isPineSpecies(tree.sp)) expect(contact.indices.length / 3).toBe(4378);
+        const key = `${tree.sp}:${tree.v}`, previous = variantBuffers.get(key);
+        if (previous) { expect(contact.positions).toBe(previous.positions); expect(contact.indices).toBe(previous.indices); }
+        else variantBuffers.set(key, contact);
+      }
+      expect(variantBuffers.size).toBeLessThan(forest.physicalWood.length / 10);
+      const transforms = forest.physicalWood.map(({ id, translation, yaw, scale }) => ({ id, translation, yaw, scale }));
+      if (firstTransforms) expect(transforms).toEqual(firstTransforms); else firstTransforms = transforms;
+      forest.dispose!();
+    }
+    vi.unstubAllGlobals();
+  });
+
   for (const quality of ['low', 'medium', 'high'] as const) for (const lod of [0, 1, 2]) {
     it(`replaces every conifer and retains canonical obstacles on ${quality} LOD${lod}`, () => {
       vi.stubGlobal('location', { search: `?lod=${lod}` });
@@ -98,14 +136,14 @@ describe('world forest render substitution', () => {
 
   it('crossfades actual source instances continuously on short camera steps without changing their forms or roots', () => {
     vi.stubGlobal('location', { search: '' });
-    const quality = 'high', colliders = new Colliders();
+    const quality = 'medium', colliders = new Colliders();
     const forest = buildFlora({ terrain, excl, colliders, quality, settings: { ...defaultSettings(), quality }, library: AssetLibrary.empty(), sway: { uTime: { value: 0 }, uWind: { value: 0 } } }, templates);
     const tree = selectFloraPopulation(population, quality).trees.find(tree => tree.sp === 'pine')!;
     const camera = new THREE.OrthographicCamera(-800, 800, 800, -800, 0.1, 1800);
     const frame: FrameContext = { camera, quality, time: 1, focus: camera.position.clone(), nightness: 0, sunDir: new THREE.Vector3(1, 1, 1), reducedMotion: false, hour: 11, view: worldView(createInitialState()) };
     const foliage = forest.group.children.filter(object => object.name.startsWith('solitary-pine:') && object.name.endsWith(':foliage')) as THREE.InstancedMesh[];
     const matrix = new THREE.Matrix4(), scale = new THREE.Vector3();
-    for (const distance of [35.99, 36.01, 42, 47.99, 48.01, 115.99, 116.01, 132, 147.99, 148.01]) {
+    for (const distance of [119.99, 120.01, 150, 179.99, 180.01, 479.99, 480.01, 550, 619.99, 620.01]) {
       camera.position.set(tree.x - distance, tree.y + 12, tree.z); camera.lookAt(tree.x, tree.y + 12, tree.z); camera.updateMatrixWorld();
       forest.update(0.001, frame);
       const found = [0, 0, 0], intervals: [number, number][] = [];

@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
-import { buildSea, type SeaHandle } from '../../src/presentation/sea';
+import { buildSea, seaVisibilityBounds, type SeaHandle } from '../../src/presentation/sea';
 import { disposeSceneResources } from '../../src/presentation/disposeScene';
 import { sharedNoise } from '../../src/presentation/noiseTextures';
 import { SKY } from '../../src/presentation/skyState';
@@ -24,6 +24,41 @@ afterEach(() => {
 });
 
 describe('coastal sea handle', () => {
+  it('caches wet coastal bounds without shrinking or changing the complete stitched source geometry', () => {
+    const { sea } = fixture();
+    const geometry = sea.mesh.geometry, pieces = sea.mesh.userData.waterVisibilityBounds as THREE.Box3[];
+    const bounds = pieces.reduce((box, piece) => box.union(piece), new THREE.Box3());
+    expect(pieces.length).toBeGreaterThan(0); expect(pieces.length).toBeLessThan(1000);
+    expect(geometry.boundingBox!.max.x).toBe(-180);
+    expect(bounds.max.x).toBeLessThan(-210);
+    expect(bounds.min.x).toBe(geometry.boundingBox!.min.x);
+    expect(bounds.min.z).toBe(geometry.boundingBox!.min.z);
+    expect(bounds.max.z).toBe(geometry.boundingBox!.max.z);
+    const position = geometry.getAttribute('position'), depth = geometry.getAttribute('aDepth'), point = new THREE.Vector3();
+    for (let i = 0; i < depth.count; i++) if (depth.getX(i) >= -0.035) {
+      point.fromBufferAttribute(position, i);
+      expect(pieces.some(piece => piece.containsPoint(point))).toBe(true);
+    }
+    expect(sea.mesh.frustumCulled).toBe(false);
+  });
+
+  it('retains the visible interiors of partially wet triangles and excludes entirely dry surfaces', () => {
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute([-2, 0, 0, 4, 0, 0, 4, 0, 8], 3));
+    geometry.setAttribute('aDepth', new THREE.Float32BufferAttribute([1, -1, -1], 1));
+    geometry.setIndex([0, 1, 2]);
+    try {
+      const bounds = seaVisibilityBounds(geometry)[0]!;
+      // A barycentric point with positive interpolated depth has no wet source vertex at its position.
+      expect(bounds.containsPoint(new THREE.Vector3(0.4, 0, 1.6))).toBe(true);
+      expect(bounds.containsPoint(new THREE.Vector3(4, 0, 8))).toBe(false);
+      // Wave allowance also encloses portions briefly wetted beyond the mean-depth zero crossing.
+      expect(bounds.max.x).toBeGreaterThan(1.105);
+      geometry.setAttribute('aDepth', new THREE.Float32BufferAttribute([-1, -2, -1], 1));
+      expect(seaVisibilityBounds(geometry)).toHaveLength(0);
+    } finally { geometry.dispose(); }
+  });
+
   it.each(['low', 'medium'] as const)('uses the real shared data textures and a single upward-facing sea mesh on %s', (quality) => {
     const { sea, uniforms } = fixture(quality), noise = sharedNoise();
     expect(sea.group.children).toEqual([sea.mesh]);
