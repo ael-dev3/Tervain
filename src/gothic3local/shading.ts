@@ -14,10 +14,10 @@ import { TextureCache } from './textures';
  *   grey level, 5 the alpha) and, on a texture-coordinate input, which of the mesh's four sets feeds that chain;
  * - combiners add (0), subtract (1), multiply (2), take the maximum (3) or minimum (4) of two inputs;
  * - a blend mixes its first two inputs by its third; a vertex-colour node reads the mesh's colour;
- * - texture-coordinate nodes scale, scroll, oscillate, rotate or parallax-offset (bump offset) their coordinates.
+ * - texture-coordinate nodes scale, scroll, oscillate or parallax-offset (bump offset) their coordinates.
  *
- * As in the original Direct3D 9 renderer, lighting works on the colours as stored (no sRGB decoding), and the renderer
- * writes without conversion; see main.ts.
+ * This viewer lights the colours as stored (no sRGB decoding) and writes without conversion; see main.ts. Matching
+ * the original renderer's colour-management states has not been established.
  */
 
 export interface MaterialOptions {
@@ -35,7 +35,14 @@ export type Variant = 'detail' | 'far';
 interface Sampler {
   uniform: string;
   image: string;
-  clamp: boolean;
+  wrapU: THREE.Wrapping;
+  wrapV: THREE.Wrapping;
+}
+
+/** eEColorSrcSampleTexRepeat: Wrap 0, Clamp 1, Mirror 2. */
+function samplerWrap(value: number): THREE.Wrapping {
+  if (value === 1) return THREE.ClampToEdgeWrapping;
+  return value === 2 ? THREE.MirroredRepeatWrapping : THREE.RepeatWrapping;
 }
 
 class GraphCompiler {
@@ -57,11 +64,11 @@ class GraphCompiler {
     return `g3${prefix}${this.counter++}`;
   }
 
-  private sampler(image: string, clamp: boolean): string {
-    const found = this.samplers.find((s) => s.image === image && s.clamp === clamp);
+  private sampler(image: string, wrapU: THREE.Wrapping, wrapV: THREE.Wrapping): string {
+    const found = this.samplers.find((s) => s.image === image && s.wrapU === wrapU && s.wrapV === wrapV);
     if (found) return found.uniform;
     const uniform = `g3Tex${this.samplers.length}`;
-    this.samplers.push({ uniform, image, clamp });
+    this.samplers.push({ uniform, image, wrapU, wrapV });
     return uniform;
   }
 
@@ -132,8 +139,7 @@ class GraphCompiler {
           expr = 'vec4(1.0)';
           break;
         }
-        const clamp = propNumber(p, 'TexRepeatU', 0) === 2 || propNumber(p, 'TexRepeatV', 0) === 2;
-        const tex = this.sampler(image, clamp);
+        const tex = this.sampler(image, samplerWrap(propNumber(p, 'TexRepeatU', 0)), samplerWrap(propNumber(p, 'TexRepeatV', 0)));
         expr = `texture2D(${tex}, ${this.uv(node.inputs[0] ?? null, 0, depth + 1)})`;
         break;
       }
@@ -303,7 +309,7 @@ export async function buildMaterial(name: string, graph: ShaderGraph | null, tex
     g3SkyColor: { value: new THREE.Color(0.55, 0.62, 0.66) },
     g3DetailBox: options.detailBox,
   };
-  const loaded = await Promise.all(g.samplers.map((s) => textures.get(s.image, s.clamp)));
+  const loaded = await Promise.all(g.samplers.map((s) => textures.get(s.image, s.wrapU, s.wrapV)));
   g.samplers.forEach((s, i) => (uniforms[s.uniform] = { value: loaded[i] ?? textures.neutral() }));
   // DXT5 normal maps keep X in alpha and Y in green (red and blue empty); others keep XYZ in RGB.
   const normalImages = normal ? g.imagesUnder(slot(SLOT.normal)) : [];

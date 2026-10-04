@@ -38,17 +38,17 @@ export class TextureCache {
     return base.replace(/\.[^.]+$/, '') + '.ximg';
   }
 
-  get(name: string, clamp = false): Promise<THREE.Texture | null> {
-    const key = `${TextureCache.imageName(name).toLowerCase()}|${clamp ? 'c' : 'r'}`;
+  get(name: string, wrapU: THREE.Wrapping = THREE.RepeatWrapping, wrapV: THREE.Wrapping = wrapU): Promise<THREE.Texture | null> {
+    const key = `${TextureCache.imageName(name).toLowerCase()}|${wrapU}|${wrapV}`;
     let p = this.cache.get(key);
     if (!p) {
-      p = this.load(name, clamp);
+      p = this.load(name, wrapU, wrapV);
       this.cache.set(key, p);
     }
     return p;
   }
 
-  private async load(name: string, clamp: boolean): Promise<THREE.Texture | null> {
+  private async load(name: string, wrapU: THREE.Wrapping, wrapV: THREE.Wrapping): Promise<THREE.Texture | null> {
     const entry = this.archives.named(TextureCache.imageName(name));
     if (!entry) {
       this.missing.add(name);
@@ -64,7 +64,8 @@ export class TextureCache {
     const tex = this.toTexture(image);
     tex.name = name;
     tex.userData.format = image.format;
-    tex.wrapS = tex.wrapT = clamp ? THREE.ClampToEdgeWrapping : THREE.RepeatWrapping;
+    tex.wrapS = wrapU;
+    tex.wrapT = wrapV;
     tex.anisotropy = this.anisotropy;
     tex.colorSpace = THREE.NoColorSpace;
     tex.needsUpdate = true;

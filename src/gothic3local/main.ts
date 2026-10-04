@@ -23,8 +23,8 @@ import './style.css';
  * docs/engineering/gothic3-local.md for what is implemented and what is not.
  */
 
-// Lighting works on colours as stored, as Gothic 3's Direct3D 9 renderer did: no colour management, no output
-// conversion, no tone mapping.
+// Viewer presentation choice: shade colours as stored, without output conversion or tone mapping.
+// Direct3D 9 alone does not establish Gothic 3's sampler/output sRGB state; visual equivalence is unverified.
 THREE.ColorManagement.enabled = false;
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -81,7 +81,7 @@ async function run(archives: GothicArchives): Promise<void> {
   // Haze thick enough to soften the middle distance, thin enough that the far mountains stay in sight.
   scene.fog = new THREE.FogExp2(0x9a9a92, Number(params.get('fog') ?? 0.00085));
 
-  // Gothic 3's surface colours are dark as stored; its renderer brightens the lit result. This factor plays that part.
+  // Adjustable preview brightening; this is not a recovered native lighting constant.
   const overbright = { value: Number(params.get('overbright') ?? 1.8) };
   const detailBox = { value: new THREE.Vector4(1, 1, -1, -1) };
   const world = new WorldView(renderer, archives, { time, overbright, detailBox });

@@ -9,7 +9,7 @@ It is separate from the [`/gothic3/` reconstruction](gothic3-browser-port.md), w
 
 The page asks for the Gothic 3 folder (or its `Data` folder). It reads the `.pak` archives and their `.p00`/`.p01`
 patches **in the tab**, decompresses entries with the browser's own zlib, and builds the scene with original
-TypeScript and Three.js. Nothing is uploaded, and the site hosts **no Gothic 3 data**: without an installation the page
+TypeScript and Three.js. Nothing is uploaded, and this route hosts **no Gothic 3 data**: without an installation the page
 shows only its introduction.
 
 - Chrome and Edge use the File System Access API and can remember the folder (IndexedDB, this browser only). Other
@@ -20,6 +20,13 @@ shows only its introduction.
 
   ```bash
   G3_DATA="C:/Program Files (x86)/Steam/steamapps/common/Gothic 3/Data" npm run dev
+  ```
+
+  In PowerShell:
+
+  ```powershell
+  $env:G3_DATA = 'C:\Program Files (x86)\Steam\steamapps\common\Gothic 3\Data'
+  npm run dev
   ```
 
   Then open `/gothic3-local/?autostart`. The `/__g3data/` route (`tools/gothic3LocalData.ts`) serves only the
@@ -34,7 +41,7 @@ shows only its introduction.
 
 - The visitor needs an installed, legally owned copy (Steam, GOG or disc). The page reads it at run time, as an
   installed game reads its own files.
-- Never commit, host or ship anything from an installation: no archives, extracted or converted files, images,
+- For this viewer, never commit, host or ship anything from an installation: no archives, extracted or converted files, images,
   captures or tables derived from them. Test fixtures are synthetic.
 - The code is original. The file formats were worked out by examining the installed files with small throwaway
   scripts; no decompiled code, no game binaries' logic and none of the repository's `tools/gothic3` scripts are used.
@@ -51,14 +58,18 @@ Code: `gothic3-local/index.html`, `src/gothic3local/`, `tools/gothic3LocalData.t
 | Resources (`GENOMFLE`) | `genome.ts`, `binary.ts` | String table; property objects with their revision-dependent identity; typed properties. |
 | Images (`.ximg`) | `image.ts`, `textures.ts` | DXT1/3/5 uploaded as S3TC (software decode otherwise), A8R8G8B8. **Mip levels are stored smallest first**; reading them largest first had shifted every texture by a third, which tiling textures had hidden. DXT5 normal maps keep X in alpha and Y in green. |
 | Meshes (`.xcmsh`, `.xlmsh`) | `mesh.ts`, `geometry.ts` | Elements and vertex streams; the block after each element is skipped by finding the next sound header. LOD lists resolve to the nearest level only. |
-| Materials (`.xshmat`) | `material.ts`, `shading.ts` | The shader node graph is compiled to GLSL inside Three's Blinn-Phong material: samplers, constants, combiners, blends, vertex colour, texture-coordinate scale/scroll/oscillate/rotate, bump offset. Slot order and combiner meanings are **inferred** from the installed materials. |
+| Materials (`.xshmat`) | `material.ts`, `shading.ts` | The shader node graph is compiled to GLSL inside Three's Blinn-Phong material: samplers, constants, combiners, blends, vertex colour, texture-coordinate scale/scroll/oscillate and bump offset. Slot order and combiner meanings are **inferred** from the installed materials. |
 | World | `world.ts`, `scene.ts` | Entities in the compiled 100 m cells around the start and Ardea's sector layers; static meshes instanced per mesh element; the whole world's low-poly terrain and water as the horizon, sunk where full detail is loaded. |
 | Ground vegetation | `vegetation.ts`, `undergrowth.ts` | Each cell's `eCVegetation_PS`: its meshes, a grid of 10 m nodes and instances (position, rotation, two scales, tint). Drawn within the set's view range (50 m), fading from 25 m by a rising alpha test over the noise the plant images keep in their alpha (the game's own masks use 100/255 near the camera). Wind sway is this viewer's. |
 | Trees (`.spt`) | `speedtree.ts`, `trees.ts`, `leafatlas.ts` | SpeedTree definitions hold growth parameters, not geometry, and SpeedTree's algorithm is not public: trunks, branches and crowns are **this viewer's own generator**, with camera-facing leaf cards like SpeedTree's. The installed game has only six shared composite images for leaves and billboards, and the definitions do not say which part a tree's leaves use (the game supplies that at run time), so leaf clusters are **chosen by analysing the image** (needle trees take the finest cluster). The region a definition does give frames billboards. |
 | Water | `water.ts` | Ocean/river materials keep their fresnel constant, reflection colour and depth half-lives; waves, sky reflection and sun glint are this viewer's. |
-| Sky and light | `sky.ts`, `main.ts` | Hand-made daylight palette (not game data); two drifting cloud layers from the game's own cloud maps; haze that meets the horizon. Lighting works on colours as stored, like the Direct3D 9 original, with an overall brightening factor (`overbright`, default 1.8). |
+| Sky and light | `sky.ts`, `main.ts` | Hand-made daylight palette (not game data); two drifting cloud layers from the game's own cloud maps; haze that meets the horizon. The viewer shades colours as stored, with an adjustable brightening factor (`overbright`, default 1.8). Native sampler/output sRGB state and lighting equivalence are unverified. |
 
 ## Verification
+
+The installation/parser and performance observations below are reported by the
+author of [PR #21](https://github.com/ael-dev3/Tervain/pull/21) for its component
+revision. They do not establish native-game equivalence or a completed game.
 
 - `npm test` includes the viewer's tests with synthetic fixtures: archives and patches, folder selection, property
   objects and revisions, image levels and DXT/ARGB decoding, mesh elements, world records, vegetation, the SpeedTree
@@ -88,3 +99,12 @@ Toward the owner's goal of playing all of Gothic 3 in the browser, in rough orde
 
 Smaller issues seen in review: thatched roofs can look too shiny; the horizon mesh is coarse close to the full-detail
 edge; trees are approximations (shape, density and leaf choice).
+
+The combined integration corrects shader callbacks on mirrored mesh placements
+and maps native Wrap/Clamp/Mirror sampler modes independently for U and V.
+Entity-specific `MaterialSwitch` selections are not implemented in this viewer;
+the separate Ardea export's 63 recorded static selections are all zero, which
+does not establish support for nonzero selections elsewhere.
+Texture-coordinate rotation is unsupported. Blend modes 3–8 use an additive
+approximation, and zero mask-reference handling still differs from the native
+strict alpha comparison. These gaps prevent native-equivalent material claims.

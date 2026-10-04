@@ -341,6 +341,9 @@ export class WorldView {
         if (mirrored) {
           // A mirrored placement turns its faces around; Three.js only accounts for the object's own matrix.
           const m = (part.material as THREE.Material).clone();
+          // Material.copy does not copy shader callbacks. Keep the graph and its cache identity on this sided copy.
+          m.onBeforeCompile = part.material.onBeforeCompile;
+          m.customProgramCacheKey = part.material.customProgramCacheKey;
           m.side = m.side === THREE.DoubleSide ? THREE.DoubleSide : THREE.BackSide;
           im.material = m;
         }

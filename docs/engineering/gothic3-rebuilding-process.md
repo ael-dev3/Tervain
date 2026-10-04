@@ -22,7 +22,8 @@ separate converter run offline during preparation.
 
 The earlier local study inventoried and hashed the installation, extracted
 38 archives containing 107,370 file records, and recorded which archive layer
-wins for each logical resource. Those complete archive contents and native
+is the selected static candidate for each logical resource. Runtime zero-byte
+and deletion-entry semantics remain unproved. Those complete archive contents and native
 binaries are kept outside this repository. The published derivatives cover the
 rendered Ardea scene and the indexed animation, gameplay and world foundations
 described below.
@@ -31,9 +32,11 @@ The preparation tool reads this study layout:
 
 ```text
 <LOCAL_GOTHIC3_STUDY>/
+  00_Original_Runtime/               native binaries used for offline byte evidence
+  01_Decompiled_Code/                reconstructed native behavior references
   02_Unpacked_Data/
     Archives/                         physically extracted archive contents
-    _metadata/effective_layers.json  logical names, winning layers and hashes
+    _metadata/effective_layers.json  logical names, selected layers and hashes
 ```
 
 Archive extraction and resource decoding are different operations. Extracting
@@ -220,7 +223,7 @@ format references and license separation. The installation/study generation
 itself is an earlier local operation, not a step provided by this repository's
 Ardea converter.
 
-Use Node 24, matching the Pages workflow, to build the two browser entries with
+Use Node 24, matching the Pages workflow, to build the three browser entries with
 the repository's pinned dependencies:
 
 ```powershell
@@ -235,12 +238,13 @@ reference and source record; record unsupported behavior instead of treating
 successful conversion as game equivalence. The current snapshot contains
 202 world instances, 67 NPC records, 130 models and 139 textures.
 
-Vite builds the original Tervain page and this separate entry into one `dist`
+Vite builds Tervain, `/gothic3/` and `/gothic3-local/` into one `dist`
 artifact. Publication uses the existing Pages workflow. Before a coherent main
 push, inspect repository-wide runs, attempts and workflow trigger chains; reuse
 applicable results and avoid duplicate runs. The workflow retains its required
 typecheck, scenario suite and build, followed by deployment. Confirm the served
-Ardea route and the original Tervain version after the deployment succeeds.
+Ardea route, the local-install viewer introduction and the original Tervain
+version after the deployment succeeds.
 
 The 4 October foundation checkpoint passed local typecheck, production build,
 documentation link checks and generated-byte verification. All 11,843 gameplay
@@ -304,6 +308,7 @@ still differs from the complete native material graph.
 ```powershell
 python tools/gothic3/export_animated.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
 python tools/gothic3/audit_animated.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+python tools/gothic3/research_native_motion.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
 ```
 
 ### Quest, dialogue and player state
@@ -543,3 +548,25 @@ python -B tools/gothic3/research_native_combat.py --study-root "C:\path\to\Gothi
 The dialogue proof matches 10,819 listed native instruction records; the fresh
 info-default proof matches 2,749. These are offline byte/control-flow audits,
 not native execution, exhaustive program verification or a game playthrough.
+
+## 9. A separate viewer that reads the visitor's installation
+
+[Claude's local-install viewer](gothic3-local.md), integrated from
+[PR #21](https://github.com/ael-dev3/Tervain/pull/21), provides another way to
+study Ardea at `/gothic3-local/`. The visitor selects their installed Gothic 3
+folder. Original TypeScript readers decode archives, meshes, images, material
+graphs, world cells and vegetation inside the tab; this route hosts no game
+data and uploads none. Its development-only archive server requires a local
+`G3_DATA` path and accepts loopback requests only.
+
+This viewer has its own rendering assumptions. Tree crowns are generated
+approximations, daylight is authored, and native lighting equivalence is
+unverified. It loads its starting cells once and has no characters, dialogue
+execution, combat or quest progression. Its author-reported parser and frame
+measurements are recorded in its guide with their one-machine limits.
+
+The `/gothic3/` reconstruction continues to use the audited preparation tools
+and hosted derivatives described above. The two entries remain separate; a
+working landscape renderer is only one component of rebuilding a finishable
+game. The remaining runtime milestones in section 6 still require startup,
+inventory, AI, contacts, dialogue, quests and saves to work together.
