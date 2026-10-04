@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { buildTreeVariant, type TreeVariant } from '../../src/presentation/treeGen';
 import { groundedTreeY, TREE_ROOT_PLANE, TREE_SOIL_OVERLAP } from '../../src/presentation/treeGrounding';
 import { buildFlora } from '../../src/presentation/flora';
-import { createFloraPopulation, registerFloraColliders, selectFloraPopulation, type FloraTree } from '../../src/presentation/floraPopulation';
+import { createFloraPopulation, registerFloraColliders, selectFloraPopulation, floraLodWeights, type FloraTree } from '../../src/presentation/floraPopulation';
 import { pineTemplates } from './pineFixture';
 import { createPineForest, isPineSpecies, type PineTemplates } from '../../src/presentation/solitaryPine';
 import { Colliders } from '../../src/world/colliders';
@@ -48,8 +48,8 @@ beforeAll(async () => {
 });
 
 describe('world forest render substitution', () => {
-  for (const quality of ['low', 'medium', 'high'] as const) it(`replaces every conifer and retains canonical obstacles on ${quality}`, () => {
-    for (const lod of [0, 1, 2]) {
+  for (const quality of ['low', 'medium', 'high'] as const) for (const lod of [0, 1, 2]) {
+    it(`replaces every conifer and retains canonical obstacles on ${quality} LOD${lod}`, () => {
       vi.stubGlobal('location', { search: `?lod=${lod}` });
       const colliders = new Colliders();
       const forest = buildFlora({ terrain, excl, colliders, quality, settings: { ...defaultSettings(), quality }, library: AssetLibrary.empty(), sway: { uTime: { value: 0 }, uWind: { value: 0 } } }, templates);
@@ -93,6 +93,78 @@ describe('world forest render substitution', () => {
       expect(found.size).toBe(selected.length);
       forest.dispose!(); forest.dispose!();
       vi.unstubAllGlobals();
+    });
+  }
+
+  it('crossfades actual source instances continuously on short camera steps without changing their forms or roots', () => {
+    vi.stubGlobal('location', { search: '' });
+    const quality = 'high', colliders = new Colliders();
+    const forest = buildFlora({ terrain, excl, colliders, quality, settings: { ...defaultSettings(), quality }, library: AssetLibrary.empty(), sway: { uTime: { value: 0 }, uWind: { value: 0 } } }, templates);
+    const tree = selectFloraPopulation(population, quality).trees.find(tree => tree.sp === 'pine')!;
+    const camera = new THREE.OrthographicCamera(-800, 800, 800, -800, 0.1, 1800);
+    const frame: FrameContext = { camera, quality, time: 1, focus: camera.position.clone(), nightness: 0, sunDir: new THREE.Vector3(1, 1, 1), reducedMotion: false, hour: 11, view: worldView(createInitialState()) };
+    const foliage = forest.group.children.filter(object => object.name.startsWith('solitary-pine:') && object.name.endsWith(':foliage')) as THREE.InstancedMesh[];
+    const matrix = new THREE.Matrix4(), scale = new THREE.Vector3();
+    for (const distance of [35.99, 36.01, 42, 47.99, 48.01, 115.99, 116.01, 132, 147.99, 148.01]) {
+      camera.position.set(tree.x - distance, tree.y + 12, tree.z); camera.lookAt(tree.x, tree.y + 12, tree.z); camera.updateMatrixWorld();
+      forest.update(0.001, frame);
+      const found = [0, 0, 0], intervals: [number, number][] = [];
+      for (const mesh of foliage) for (let i = 0; i < mesh.count; i++) {
+        mesh.getMatrixAt(i, matrix);
+        if (Math.abs(matrix.elements[12]! - tree.x) > 0.00002 || Math.abs(matrix.elements[14]! - tree.z) > 0.00002) continue;
+        const level = Number(mesh.name.split(':')[1]);
+        const coverage = mesh.geometry.getAttribute('aDistanceCoverage');
+        found[level] = coverage.getY(i) - coverage.getX(i);
+        intervals.push([coverage.getX(i), coverage.getY(i)]);
+        expect(matrix.elements[13]).toBeCloseTo(tree.y, 4);
+        scale.setFromMatrixScale(matrix);
+        expect(scale.x).toBeCloseTo(tree.s, 5); expect(scale.y).toBeCloseTo(tree.s, 5); expect(scale.z).toBeCloseTo(tree.s, 5);
+      }
+      const expected = floraLodWeights(quality, distance);
+      for (let level = 0; level < 3; level++) expect(found[level]).toBeCloseTo(expected[level]!, 6);
+      intervals.sort((a, b) => a[0] - b[0]);
+      expect(intervals[0]![0]).toBe(0); expect(intervals.at(-1)![1]).toBe(1);
+      for (let i = 1; i < intervals.length; i++) expect(intervals[i]![0]).toBe(intervals[i - 1]![1]);
     }
+    expect(colliders.all).toEqual(canonical.all);
+    forest.dispose!(); vi.unstubAllGlobals();
+  });
+
+  it('retains real off-screen shadow casters and tracks a moving sun with an idle camera', () => {
+    vi.stubGlobal('location', { search: '' });
+    const quality = 'high', colliders = new Colliders();
+    const forest = buildFlora({ terrain, excl, colliders, quality, settings: { ...defaultSettings(), quality }, library: AssetLibrary.empty(), sway: { uTime: { value: 0 }, uWind: { value: 0 } } }, templates);
+    const tree = selectFloraPopulation(population, quality).trees.find(tree => tree.sp === 'pine')!;
+    const camera = new THREE.PerspectiveCamera(58, 1, 0.1, 1400);
+    camera.position.set(tree.x, tree.y + 12, tree.z + 80); camera.lookAt(tree.x, tree.y + 12, tree.z + 200); camera.updateMatrixWorld();
+    const shadowCamera = new THREE.OrthographicCamera(-40, 40, 40, -40, 0.1, 150);
+    const shadow = new THREE.Frustum(), pv = new THREE.Matrix4();
+    const setShadow = (shift: number) => {
+      shadowCamera.position.set(tree.x + shift, tree.y + 80, tree.z); shadowCamera.lookAt(tree.x + shift, tree.y, tree.z); shadowCamera.updateMatrixWorld();
+      shadow.setFromProjectionMatrix(pv.multiplyMatrices(shadowCamera.projectionMatrix, shadowCamera.matrixWorldInverse));
+    };
+    const frame: FrameContext = { camera, quality, time: 1, focus: camera.position.clone(), nightness: 0, sunDir: new THREE.Vector3(1, 1, 1), shadowFrustum: null, reducedMotion: false, hour: 11, view: worldView(createInitialState()) };
+    const foliage = forest.group.children.filter(object => object.name.startsWith('solitary-pine:') && object.name.endsWith(':foliage')) as THREE.InstancedMesh[];
+    const matrix = new THREE.Matrix4();
+    const targetPresent = () => foliage.some(mesh => {
+      for (let i = 0; i < mesh.count; i++) {
+        mesh.getMatrixAt(i, matrix);
+        if (Math.abs(matrix.elements[12]! - tree.x) < 0.00002 && Math.abs(matrix.elements[14]! - tree.z) < 0.00002) return true;
+      }
+      return false;
+    });
+    forest.update(0.2, frame); expect(targetPresent()).toBe(false);
+    setShadow(0); frame.shadowFrustum = shadow;
+    forest.update(0.001, frame); expect(targetPresent()).toBe(true);
+    const versions = foliage.map(mesh => mesh.instanceMatrix.version);
+    forest.update(0.01, frame); expect(foliage.map(mesh => mesh.instanceMatrix.version)).toEqual(versions);
+    setShadow(0.1);
+    forest.update(0.1, frame); expect(foliage.map(mesh => mesh.instanceMatrix.version)).toEqual(versions);
+    forest.update(0.1, frame); expect(foliage.every((mesh, i) => mesh.instanceMatrix.version > versions[i]!)).toBe(true);
+    // A large hour/focus jump exceeds the guard and is reflected on this very frame.
+    setShadow(300); forest.update(0.001, frame); expect(targetPresent()).toBe(false);
+    setShadow(0); forest.update(0.001, frame); expect(targetPresent()).toBe(true);
+    frame.shadowFrustum = null; forest.update(0.001, frame); expect(targetPresent()).toBe(false);
+    forest.dispose!(); vi.unstubAllGlobals();
   });
 });

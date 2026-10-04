@@ -24,7 +24,7 @@ Collision follows the source. For each blocking conifer, the wood surfaces of bo
 
 The lower crown has extra bowed underside sprays; middle distance retains all six spray directions per cluster. This volume is authored in the asset, with connected twig roots, rather than bending the game mesh. Cached species/seed variants share geometry within a world; separate worlds retain their own disposable resources.
 
-Existing instancing, distance selection, culling, shadows and actual triangle statistics are preserved. Near/middle have real branches. Far uses four crossed source-derived silhouette planes with six vertical segments each, baked from the source proportions; it is a distant approximation, not a camera-facing billboard. Foliage retains alpha cutoff `.42`, double-sided PBR and embedded textures.
+Instancing and actual submitted-triangle statistics are preserved. The [A42 visibility follow-up](../production/releases/0.0.9-draw-continuity.md) replaces hard distance switches with complementary near/middle/far coverage, source-derived culling bounds and matching masked shadows. Near/middle have real branches. Far uses four crossed source-derived silhouette planes with six vertical segments each, baked from the source proportions; it is a distant approximation, not a camera-facing billboard. Foliage retains alpha cutoff `.42`, double-sided PBR and embedded textures.
 
 ## Component verification, 3 October 2026
 

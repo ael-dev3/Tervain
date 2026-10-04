@@ -7,8 +7,8 @@ import { smoothstep } from '../../world/noise';
  * Each tile is generated once from a deterministic seed (so the meadow never shifts under you), holds its
  * instances sorted by a stable rank in [0,1), and owns one draw call that three.js frustum-culls. Every frame the
  * layer sets each tile's instance count to those instances whose rank is below the density the camera distance
- * allows; the vertex shader scales each patch by the same rule, so patches grow in and out smoothly instead of
- * popping. Tile buffers are pooled: walking never allocates GPU buffers.
+ * allows; the fragment shader fades each patch by the same rule without changing its shape. Tiles are built
+ * ahead of that fade, and any missing visible tile is completed before rendering. Buffers are pooled.
  *
  * The streaming idea follows ael-dev3/Warpkeep src/components/realm/realmGrassActiveWindow.ts and
  * createRealmGrassLayer.ts @786c0b2 (Apache-2.0): a bounded active window re-seeded from a deterministic grid,
@@ -34,6 +34,8 @@ export interface TileLayerOptions {
   power: number;
   /** Tallest thing in a tile above its highest ground, for bounding volumes. */
   maxHeight: number;
+  /** Maximum horizontal extent from an instance anchor, including shader wind and interaction displacement. */
+  maxRadius?: number;
   receiveShadow: boolean;
   /** Fill the buffers for tile (tx, tz) with instances in ascending rank; return how many. */
   generate(tx: number, tz: number, out: TileBuffers): number;
@@ -65,6 +67,7 @@ export class TileLayer {
   drawCalls = 0;
   activeTiles = 0;
   private trisPerInstance: number;
+  private disposed = false;
   enabled = true;
   /** Multiplier on how many tiles may be built per frame (1 = 2 tiles). */
   buildRate = 1;
@@ -134,11 +137,12 @@ export class TileLayer {
       a.addUpdateRange(0, Math.max(1, n * 4));
       a.needsUpdate = true;
     }
-    const half = o.tileSize / 2;
+    const centerOffset = o.tileSize / 2;
+    const half = centerOffset + (o.maxRadius ?? 0.4);
     const cy = (t.ymin + t.ymax + o.maxHeight) / 2;
     const ry = (t.ymax + o.maxHeight - t.ymin) / 2;
-    const r = Math.hypot(half, half, ry) + 0.4;
-    t.geo.boundingSphere!.set(new THREE.Vector3(t.x0 + half, cy, t.z0 + half), r);
+    const r = Math.hypot(half, half, ry) + 0.2;
+    t.geo.boundingSphere!.set(new THREE.Vector3(t.x0 + centerOffset, cy, t.z0 + centerOffset), r);
   }
 
   private release(t: Tile) {
@@ -153,13 +157,16 @@ export class TileLayer {
     const s = this.o.tileSize;
     const dx = Math.max(t.x0 - c.x, 0, c.x - (t.x0 + s));
     const dz = Math.max(t.z0 - c.z, 0, c.z - (t.z0 + s));
-    const lo = t.ymin - 0.2;
-    const hi = t.ymax + this.o.maxHeight;
+    // The shader's density rule measures the anchor, not the blade tip. Geometry displacement belongs
+    // in the frustum bound only; extending this interval by blade height submits needless far patches.
+    const lo = t.ymin;
+    const hi = t.ymax;
     const dy = Math.max(lo - c.y, 0, c.y - hi);
     return Math.hypot(dx, dy, dz);
   }
 
   update(cam: THREE.Vector3) {
+    if (this.disposed) return;
     const o = this.o;
     if (!this.enabled) {
       this.group.visible = false;
@@ -168,16 +175,18 @@ export class TileLayer {
     }
     this.group.visible = true;
     const T = o.tileSize;
-    const reach = o.fadeEnd + 4;
+    // Two complete rings buy generation time before an anchor enters the visible fade. Streaming uses
+    // horizontal distance: high terrain must not be released and immediately regenerated every frame.
+    const reach = o.fadeEnd + T * 2;
     const tx0 = Math.floor((cam.x - reach) / T);
     const tx1 = Math.floor((cam.x + reach) / T);
     const tz0 = Math.floor((cam.z - reach) / T);
     const tz1 = Math.floor((cam.z + reach) / T);
 
     // Drop tiles that are far behind us (hysteresis keeps a border from thrashing).
-    const drop = o.fadeEnd + T * 1.5 + 10;
-    for (const t of [...this.tiles.values()]) {
-      if (this.distTo(t, cam) > drop) this.release(t);
+    const drop = reach + T * 1.5;
+    for (const t of this.tiles.values()) {
+      if (tileHorizontalDistance(t.x0, t.z0, T, cam) > drop) this.release(t);
     }
 
     // Build the missing tiles the camera can see, nearest first.
@@ -186,14 +195,16 @@ export class TileLayer {
     for (let tz = tz0; tz <= tz1; tz++) {
       for (let tx = tx0; tx <= tx1; tx++) {
         if (this.tiles.has(this.key(tx, tz))) continue;
-        const d = this.distTo({ x0: tx * T, z0: tz * T, ymin: cam.y - 1, ymax: cam.y - 1 }, cam);
+        const d = tileHorizontalDistance(tx * T, tz * T, T, cam);
         if (d < reach) want.push({ tx, tz, d });
       }
     }
     if (want.length) {
       want.sort((a, b) => a.d - b.d);
       const cap = this.first ? want.length : Math.max(1, Math.round(2 * this.buildRate));
-      for (let i = 0; i < Math.min(cap, want.length); i++) {
+      // Teleports and large camera moves may outrun preloading. Never leave a hole inside the shader's
+      // visible radius merely to meet an incremental-build quota; only the unseen reserve is throttled.
+      for (let i = 0; i < want.length && (i < cap || want[i]!.d < o.fadeEnd); i++) {
         const w = want[i]!;
         const t = this.acquire();
         this.fill(t, w.tx, w.tz);
@@ -208,7 +219,9 @@ export class TileLayer {
     for (const t of this.tiles.values()) {
       const d = this.distTo(t, cam);
       const q = Math.pow(1 - smoothstep(o.fadeStart, o.fadeEnd, d), o.power);
-      const limit = q + 0.12;
+      // gKeep = smoothstep(0,.12,gQ-rank) has zero coverage when rank >= gQ. The nearest anchor
+      // interval is conservative for every patch, so no extra .12 rank tail needs to be submitted.
+      const limit = q + 1e-6;
       // Binary search: first instance whose rank >= limit.
       const base = t.attrs[0]!.array as Float32Array;
       let lo = 0;
@@ -234,6 +247,8 @@ export class TileLayer {
   }
 
   dispose() {
+    if (this.disposed) return;
+    this.disposed = true;
     for (const t of this.tiles.values()) this.pool.push(t);
     this.tiles.clear();
     for (const t of this.pool) {
@@ -244,4 +259,9 @@ export class TileLayer {
     this.o.geometry.dispose();
     this.o.material.dispose();
   }
+}
+
+/** Distance to an entire tile footprint; using its center can remove patches still visible at the near edge. */
+export function tileHorizontalDistance(x0: number, z0: number, size: number, cam: Pick<THREE.Vector3, 'x' | 'z'>): number {
+  return Math.hypot(Math.max(x0 - cam.x, 0, cam.x - x0 - size), Math.max(z0 - cam.z, 0, cam.z - z0 - size));
 }

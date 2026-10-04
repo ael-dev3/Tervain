@@ -31,7 +31,7 @@ import { createMenuScreen } from './presentation/ui/menuView';
 import { installMenuMaterials } from './presentation/ui/menuMaterials';
 import { AssetLibrary } from './presentation/assets/library';
 import { ALL_NEEDS } from './presentation/assets/needs';
-import { personBuildOptions, setRigShadow } from './presentation/characters';
+import { personBuildOptions } from './presentation/characters';
 import { sheetsSettled } from './presentation/human/sheetPool';
 import { WorldScene } from './presentation/world';
 import { MenuScene } from './presentation/menuScene';
@@ -803,22 +803,12 @@ export class App {
 
     // World presentation
     this.world.update(dt, state, new THREE.Vector3(this.player.x, this.player.y, this.player.z), this.settings, hour, this.cam.camera);
-    this.updateRigShadows();
     this.audioUpdate(dt, this.cam.camera.position, hour);
 
     this.updateHud(dt);
     if (this.panelKind === 'map' && this.mapCanvas) this.renderMap();
     this.updateDebug(dt);
     this.render();
-  }
-
-  /** People beyond a short distance stop casting shadows; the shadow map only covers the near ground anyway. */
-  private updateRigShadows() {
-    const c = this.cam.camera.position;
-    for (const a of [...this.npcs, ...this.enemies]) {
-      const p = a.rig.root.position;
-      setRigShadow(a.rig, (p.x - c.x) ** 2 + (p.z - c.z) ** 2 < 55 * 55);
-    }
   }
 
   private render() {

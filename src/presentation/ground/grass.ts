@@ -24,11 +24,35 @@ interface GrassQuality {
   shadows: boolean;
 }
 
-const GRASS_Q: Record<Quality, GrassQuality> = {
-  high: { blades: 11, density: 3.6, tile: 16, fadeStart: 8, fadeEnd: 60, shadows: true },
-  medium: { blades: 9, density: 2.4, tile: 16, fadeStart: 6, fadeEnd: 48, shadows: true },
-  low: { blades: 6, density: 1.4, tile: 16, fadeStart: 4, fadeEnd: 34, shadows: false },
+export const GRASS_Q: Readonly<Record<Quality, GrassQuality>> = {
+  high: { blades: 11, density: 3.6, tile: 16, fadeStart: 12, fadeEnd: 96, shadows: true },
+  medium: { blades: 9, density: 2.4, tile: 16, fadeStart: 10, fadeEnd: 80, shadows: true },
+  low: { blades: 6, density: 1.4, tile: 16, fadeStart: 8, fadeEnd: 64, shadows: false },
 };
+
+/** Thin smoothly across the extended reach rather than enlarging the entire full-density meadow. */
+export const GRASS_THINNING_POWER = 2.1;
+
+const GRASS_SIZE_COMP = 1.12;
+const GRASS_MAX_WIDTH_SCALE = 1.45;
+const GRASS_MAX_HEIGHT_SCALE = 1.5;
+const GRASS_WIND_AMP = 0.13;
+
+/** Bounds cover every blade after maximum instance scale, compensation, wind and pusher deformation. */
+export function grassPatchBounds(geometry: THREE.BufferGeometry): { maxHeight: number; maxRadius: number } {
+  const position = geometry.getAttribute('position');
+  let radius = 0, height = 0;
+  for (let i = 0; i < position.count; i++) {
+    radius = Math.max(radius, Math.hypot(position.getX(i), position.getZ(i)));
+    height = Math.max(height, position.getY(i));
+  }
+  // aBlade.w <= 1.16, primary + secondary <= 1.28, gust <= 1; pusher lateral offset <= 0.6 * 0.75.
+  const wind = 1.28 * 1.16 * GRASS_WIND_AMP * GRASS_MAX_HEIGHT_SCALE * GRASS_SIZE_COMP * Math.hypot(1, 0.16);
+  return {
+    maxHeight: height * GRASS_MAX_HEIGHT_SCALE * GRASS_SIZE_COMP,
+    maxRadius: radius * GRASS_MAX_WIDTH_SCALE * GRASS_SIZE_COMP + wind + 0.45,
+  };
+}
 
 /** One tuft: blades on a golden-angle spiral so a few patches overlapping read as a meadow. */
 export function createGrassPatch(blades: number, seed: number): THREE.BufferGeometry {
@@ -86,9 +110,9 @@ export function createGrassLayer(ctx: BuildContext, habitat: Habitat, shared: Pa
     vertexColors: false,
     fadeStart: q.fadeStart,
     fadeEnd: q.fadeEnd,
-    sizeComp: 1.75,
-    power: 1.45,
-    windAmp: 0.13,
+    sizeComp: GRASS_SIZE_COMP,
+    power: GRASS_THINNING_POWER,
+    windAmp: GRASS_WIND_AMP,
     rootShade: 0.34,
     tipShade: 1.1,
   });
@@ -105,8 +129,8 @@ export function createGrassLayer(ctx: BuildContext, habitat: Habitat, shared: Pa
     material: material.material,
     fadeStart: q.fadeStart,
     fadeEnd: q.fadeEnd,
-    power: 1.45,
-    maxHeight: 1.3,
+    power: GRASS_THINNING_POWER,
+    ...grassPatchBounds(geometry),
     receiveShadow: q.shadows,
     generate(tx: number, tz: number, out: TileBuffers) {
       const rng = mulberry32(Math.floor(hash3(tx, tz, 101) * 4294967296));

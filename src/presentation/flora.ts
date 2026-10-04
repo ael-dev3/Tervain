@@ -3,21 +3,24 @@ import type { BuildContext, FrameContext, SceneModule } from './context';
 import { SPECIES, buildTreeVariant, type TreeVariant } from './treeGen';
 import { leafMaterial, woodMaterial, disposeTreeMaterials } from './treeMaterials';
 import { disposeTreeTextures } from './treeTextures';
-import { createFloraPopulation, selectFloraPopulation, registerFloraColliders, FLORA_VARIANTS, FLORA_MAX_DISTANCE, floraLod, type FloraTree } from './floraPopulation';
+import { createFloraPopulation, selectFloraPopulation, registerFloraColliders, FLORA_VARIANTS, FLORA_FADE_START, FLORA_MAX_DISTANCE, floraLodWeights, type FloraTree } from './floraPopulation';
 import { buildForestFloor } from './forestFloor';
 import { createPineForest, isPineSpecies, type PineTemplates } from './solitaryPine';
 import { groundedTreeY } from './treeGrounding';
+import { attachInstanceDistanceVisibility, smoothDistanceFade, type InstanceDistanceVisibility } from './distanceVisibility';
 
 /**
  * Trees and shrubs. An empty strand gives way to a layered old-growth woodland: flared oak roots under tall pine/fir columns,
  * a lower birch stratum and native fern/moss floor. The trail remains open under the interlocking crowns. Every
- * tree is one of a few seeded variants per species, drawn as instances at one of three levels of detail chosen by distance
- * and culled by hand each few frames, so the canonical trunks remain present across graphics presets while decorative scrub can be thinned.
+ * tree is one of a few seeded variants per species, drawn as instances at three levels of detail with opaque complementary
+ * distance fades. Culling uses the actual source crown envelope and follows camera turns on the same frame.
  */
 
 interface Batch {
   variant: TreeVariant;
   meshes: { wood: THREE.InstancedMesh | null; leaf: THREE.InstancedMesh | null }[];
+  visibility: { wood: InstanceDistanceVisibility | null; leaf: InstanceDistanceVisibility | null }[];
+  bounds: THREE.Sphere;
   trees: FloraTree[];
 }
 
@@ -68,7 +71,14 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): Sce
     const key = `${t.sp}:${t.v}`;
     let b = bySpecVariant.get(key);
     if (!b) {
-      b = { variant: variantFor(t), meshes: [], trees: [] };
+      const variant = variantFor(t);
+      const box = new THREE.Box3();
+      for (const lod of variant.lods) for (const geometry of [lod.wood, lod.leaf]) {
+        if (!geometry) continue;
+        geometry.computeBoundingBox();
+        box.union(geometry.boundingBox!);
+      }
+      b = { variant, meshes: [], visibility: [], bounds: box.getBoundingSphere(new THREE.Sphere()), trees: [] };
       bySpecVariant.set(key, b);
       batches.push(b);
     }
@@ -97,6 +107,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): Sce
         group.add(m);
       }
       b.meshes.push({ wood, leaf });
+      b.visibility.push({ wood: wood ? attachInstanceDistanceVisibility(wood) : null, leaf: leaf ? attachInstanceDistanceVisibility(leaf) : null });
     }
     triangles += v.lods[0].tris * b.trees.length;
   }
@@ -111,15 +122,18 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): Sce
   const pos = new THREE.Vector3();
   const up = new THREE.Vector3(0, 1, 0);
   const col = new THREE.Color();
-  let sinceUpdate = 1;
+  const shadowPlaneNormalDelta = new THREE.Vector3();
   const lastCam = new THREE.Vector3(1e9, 0, 0);
   const lastRotation = new THREE.Quaternion();
   const lastProjection = new THREE.Matrix4();
+  const lastShadowFrustum = new THREE.Frustum();
+  let lastShadowPresent = false;
+  let sinceRefresh = 1;
   let visible = 0;
   let drawTris = 0;
   let disposed = false;
 
-  const refresh = (cam: THREE.Camera) => {
+  const refresh = (cam: THREE.Camera, shadowFrustum: THREE.Frustum | null | undefined) => {
     pv.multiplyMatrices(cam.projectionMatrix, cam.matrixWorldInverse);
     frustum.setFromProjectionMatrix(pv);
     const cx = cam.position.x;
@@ -129,33 +143,41 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): Sce
     for (const b of batches) {
       const counts = [0, 0, 0];
       const v = b.variant;
-      const reach = Math.max(v.height, v.crownRadius * 2);
       for (const t of b.trees) {
         const dx = t.x - cx;
         const dz = t.z - cz;
         const d = Math.hypot(dx, dz);
-        if (d > FLORA_MAX_DISTANCE) continue;
-        const r = reach * t.s;
-        sphere.center.set(t.x, t.y + v.height * t.s * 0.5, t.z);
-        sphere.radius = r * 0.75;
-        // Keep everything inside the shadow range even when off-screen: shadows of unseen trees fall into view.
-        if (d > 30 && !frustum.intersectsSphere(sphere)) continue;
-        const l = forceLod >= 0 ? Math.min(2, Math.floor(forceLod)) : floraLod(quality, d);
-        const m = b.meshes[l]!;
-        const i = counts[l]!++;
+        const horizon = smoothDistanceFade(d, FLORA_FADE_START, FLORA_MAX_DISTANCE);
+        if (horizon <= 0) continue;
         quat.setFromAxisAngle(up, t.yaw);
         pos.set(t.x, t.y, t.z);
         scl.set(t.s, t.s, t.s);
         mtx.compose(pos, quat, scl);
+        sphere.copy(b.bounds).applyMatrix4(mtx);
+        // Source-derived bounds include leaned crowns, all LOD cards and buried roots. A two-metre
+        // guard preloads edge silhouettes. Retain off-screen casters only inside the actual
+        // sun-shadow volume instead of paying for every tree in a large circle behind the player.
+        sphere.radius += 2;
+        if (!frustum.intersectsSphere(sphere) && !shadowFrustum?.intersectsSphere(sphere)) continue;
         // The stand supplies a shared value group; turning a tree must not change its colour.
         col.setRGB(t.tint, t.tint * 0.99, t.tint * 0.95);
-        if (m.wood) {
-          m.wood.setMatrixAt(i, mtx);
-          m.wood.setColorAt(i, col);
-        }
-        if (m.leaf) {
-          m.leaf.setMatrixAt(i, mtx);
-          m.leaf.setColorAt(i, col);
+        const weights: number[] = forceLod >= 0 ? [0, 0, 0] : [...floraLodWeights(quality, d)];
+        if (forceLod >= 0) weights[Math.min(2, Math.floor(forceLod))] = 1;
+        let intervalStart = 0;
+        for (let l = 0; l < 3; l++) {
+          const intervalEnd = intervalStart + weights[l]! * horizon;
+          if (intervalEnd > intervalStart) {
+            const m = b.meshes[l]!, visibility = b.visibility[l]!;
+            const i = counts[l]!++;
+            for (const part of ['wood', 'leaf'] as const) {
+              const mesh = m[part];
+              if (!mesh) continue;
+              mesh.setMatrixAt(i, mtx);
+              mesh.setColorAt(i, col);
+              visibility[part]!.coverage.setXY(i, intervalStart, intervalEnd);
+            }
+          }
+          intervalStart = intervalEnd;
         }
         visible++;
       }
@@ -167,6 +189,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): Sce
           mesh.instanceMatrix.needsUpdate = true;
           if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
         }
+        for (const visibility of [b.visibility[l]!.wood, b.visibility[l]!.leaf]) if (visibility) visibility.coverage.needsUpdate = true;
         drawTris += v.lods[l]!.tris * counts[l]!;
       }
     }
@@ -178,21 +201,31 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): Sce
     update(dt: number, f: FrameContext) {
       if (disposed) return;
       forestFloor.update(dt, f);
-      sinceUpdate += dt;
+      sinceRefresh += dt;
       const cam = f.camera;
       const moved = cam.position.distanceTo(lastCam);
-      const turned = Math.abs(cam.quaternion.dot(lastRotation)) < 0.9998;
-      // Rotation matters as much as position: turning the camera reveals new trees.
-      if (sinceUpdate < 0.12 && moved < 1.5 && !turned && cam.projectionMatrix.equals(lastProjection)) return;
       // The population is static. An idle camera needs no instance-buffer uploads
-      // or repeated culling; rotation and projection changes still refresh it.
-      if (moved < 0.02 && Math.abs(cam.quaternion.dot(lastRotation)) > 0.999999 && cam.projectionMatrix.equals(lastProjection)) return;
-      sinceUpdate = 0;
+      // or repeated culling. Moving/turning cameras refresh immediately, without a 120 ms visibility lag.
+      const cameraChanged = moved >= 0.005 || Math.abs(cam.quaternion.dot(lastRotation)) <= 0.9999999 || !cam.projectionMatrix.equals(lastProjection);
+      const shadowPresent = !!f.shadowFrustum;
+      const shadowChanged = shadowPresent !== lastShadowPresent || (shadowPresent && !f.shadowFrustum!.planes.every((plane, i) => plane.equals(lastShadowFrustum.planes[i]!)));
+      const shadowGuardExceeded = shadowPresent && lastShadowPresent && f.shadowFrustum!.planes.some((plane, i) => {
+        const previous = lastShadowFrustum.planes[i]!;
+        // Bound a plane's movement anywhere in the authored realm. Hour/focus jumps that exceed
+        // the preload guard must refresh immediately, not wait for the ordinary slow sun tick.
+        return Math.abs(plane.constant - previous.constant) + 600 * shadowPlaneNormalDelta.copy(plane.normal).sub(previous.normal).length() > 1;
+      });
+      // The two-metre bounds guard safely preloads moving shadow edges. Track the sun even
+      // when the camera is idle, while limiting those shadow-only uploads to five per second.
+      if (!cameraChanged && (!shadowChanged || (!shadowGuardExceeded && shadowPresent === lastShadowPresent && sinceRefresh < 0.2))) return;
+      sinceRefresh = 0;
       lastCam.copy(cam.position);
       lastRotation.copy(cam.quaternion);
       lastProjection.copy(cam.projectionMatrix);
+      lastShadowPresent = shadowPresent;
+      if (f.shadowFrustum) lastShadowFrustum.copy(f.shadowFrustum);
       cam.updateMatrixWorld();
-      refresh(cam);
+      refresh(cam, f.shadowFrustum);
     },
     stats: () => ({ trees: trees.length, solitaryPines, treeObstacles: obstacles.length, treesDrawn: visible, treeTris: Math.round(drawTris), ...forestFloor.stats?.() }),
     dispose() {
@@ -200,6 +233,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): Sce
       disposed = true;
       forestFloor.dispose?.();
       for (const batch of batches) {
+        for (const visibility of batch.visibility) { visibility.wood?.dispose(); visibility.leaf?.dispose(); }
         for (const mesh of batch.meshes) {
           mesh.wood?.dispose();
           mesh.leaf?.dispose();

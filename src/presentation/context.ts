@@ -31,6 +31,8 @@ export interface FrameContext {
   /** 0 by day, 1 in the dead of night. */
   nightness: number;
   sunDir: THREE.Vector3;
+  /** Actual snapped sun-shadow camera volume; absent/null when shadows are disabled. */
+  shadowFrustum?: THREE.Frustum | null;
   reducedMotion: boolean;
   /** Game hour, 0..24. */
   hour: number;

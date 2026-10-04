@@ -120,7 +120,7 @@ describe('canonical flora population', () => {
   it('uses visible trunk-and-branch geometry for low-preset obstacles at player distances', () => {
     expect(floraLod('low', 0)).toBe(1);
     expect(floraLod('low', 30)).toBe(1);
-    expect(floraLod('low', 90)).toBe(2);
+    expect(floraLod('low', 130)).toBe(2);
     const low = selectFloraPopulation(population, 'low');
     const variants = new Set(low.obstacles.map((tree) => `${tree.sp}:${tree.v}`));
     for (const key of variants) {

@@ -32,6 +32,7 @@ import { buildForestLandmarks } from './forestLandmarks';
 import { buildWoodlandAir } from './woodlandAir';
 import { setPickupVisible } from './worldPickups';
 import { loadSolitaryPine, type PineTemplates } from './solitaryPine';
+import { LanternLightPool } from './lanternLights';
 
 /** Everything static in Bellwether Vale, plus the presentation that follows durable state. */
 export class WorldScene {
@@ -52,6 +53,7 @@ export class WorldScene {
   readonly scenery: SceneryHandles;
   readonly terrainMesh: THREE.Mesh;
   private lanternLights: THREE.PointLight[] = [];
+  private lanternPool = new LanternLightPool(3);
   private wheelSpin = 0;
   private bellSwing = 0;
   private bellTimer = 0;
@@ -282,18 +284,26 @@ export class WorldScene {
     const light = 0.42 + 0.58 * (1 - night);
     this.water.update(dt, this.time, v.flow, light, reduced, settings.reduceEffects);
     this.sea.update(dt, this.time, reduced, settings.reduceEffects);
-    const frame: FrameContext = { time: this.time, camera, focus, nightness: night, sunDir: this.sky.state.sunDir, reducedMotion: reduced, hour, view: v, quality: settings.quality };
+    let shadowFrustum: THREE.Frustum | null = null;
+    if (settings.quality !== 'low' && this.sky.sun.castShadow) {
+      // Scene modules cull before the renderer updates light matrices. Use the real snapped
+      // shadow volume now, so off-screen trees that shade visible ground remain submitted.
+      this.sky.sun.updateMatrixWorld(); this.sky.sun.target.updateMatrixWorld();
+      this.sky.sun.shadow.updateMatrices(this.sky.sun);
+      shadowFrustum = this.sky.sun.shadow.getFrustum();
+    }
+    const frame: FrameContext = { time: this.time, camera, focus, nightness: night, sunDir: this.sky.state.sunDir, shadowFrustum, reducedMotion: reduced, hour, view: v, quality: settings.quality };
     this.environment.update(dt, frame);
     for (const m of this.modules) m.module.update(dt, frame);
 
-    // Lanterns: the three nearest to the focus get real light at night.
+    // Three resident lamps fade at range, and a slot only changes lamp after dimming.
     const ls = this.scenery.lanternPositions;
-    const order = ls.map((p, i) => ({ i, d: p.distanceToSquared(focus) })).sort((a, b) => a.d - b.d);
+    const slots = this.lanternPool.update(dt, ls, focus);
     for (let k = 0; k < this.lanternLights.length; k++) {
       const l = this.lanternLights[k]!;
-      const o = order[k];
-      if (o) l.position.copy(ls[o.i]!);
-      l.intensity = 14 * Math.max(0, night - 0.15) * (o && o.d < 40 * 40 ? 1 : 0);
+      const slot = slots[k]!;
+      if (slot.source !== null) l.position.copy(ls[slot.source]!);
+      l.intensity = 14 * Math.max(0, night - 0.15) * slot.strength;
     }
 
     // Mill wheel turns when the allocation gives the mill water.

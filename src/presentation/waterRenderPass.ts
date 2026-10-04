@@ -88,8 +88,8 @@ export class WaterRenderPass {
     source: THREE.WebGLRenderTarget, dt: number, input: WaterRenderInputs) {
     const u = input.seaMaterial.uniforms;
     u.uWaterReflectionReady!.value = 0;
-    // Inland water needs transmission, but no extra full-world reflection render.
-    if (camera.position.x > -190 || camera.position.y < 0.08 || !input.meshes.some(m => m.name === 'sea' && this.waterInView(m, camera))) return;
+    // Only visible sea needs a planar capture; a map longitude is not a visibility boundary.
+    if (camera.position.y < 0.08 || !input.meshes.some(m => m.name === 'sea' && this.waterInView(m, camera))) return;
     if (this.reflectionScene !== scene) { this.reflectionValid = false; this.reflectionScene = scene; }
     const size = input.quality === 'high' ? 512 : 384;
     if (!this.reflector) {
