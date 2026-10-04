@@ -1,0 +1,53 @@
+; 100e3ec0 FUN_100e3ec0
+100e3ec0 | 833dbc49221000 | CMP dword ptr [0x102249bc],0x0
+100e3ec7 | 742d | JZ 0x100e3ef6
+100e3ec9 | 55 | PUSH EBP
+100e3eca | 8bec | MOV EBP,ESP
+100e3ecc | 83ec08 | SUB ESP,0x8
+100e3ecf | 83e4f8 | AND ESP,0xfffffff8
+100e3ed2 | dd1c24 | FSTP double ptr [ESP]
+100e3ed5 | f20f2c0424 | CVTTSD2SI EAX,qword ptr [ESP]
+100e3eda | c9 | LEAVE
+100e3edb | c3 | RET
+; 100e3ef6 LAB_100e3ef6
+100e3ef6 | 55 | PUSH EBP
+100e3ef7 | 8bec | MOV EBP,ESP
+100e3ef9 | 83ec20 | SUB ESP,0x20
+100e3efc | 83e4f0 | AND ESP,0xfffffff0
+100e3eff | d9c0 | FLD ST0
+100e3f01 | d9542418 | FST float ptr [ESP + 0x18]
+100e3f05 | df7c2410 | FISTP qword ptr [ESP + 0x10]
+100e3f09 | df6c2410 | FILD qword ptr [ESP + 0x10]
+100e3f0d | 8b542418 | MOV EDX,dword ptr [ESP + 0x18]
+100e3f11 | 8b442410 | MOV EAX,dword ptr [ESP + 0x10]
+100e3f15 | 85c0 | TEST EAX,EAX
+100e3f17 | 743c | JZ 0x100e3f55
+; 100e3f19 LAB_100e3f19
+100e3f19 | dee9 | FSUBP
+100e3f1b | 85d2 | TEST EDX,EDX
+100e3f1d | 791e | JNS 0x100e3f3d
+100e3f1f | d91c24 | FSTP float ptr [ESP]
+100e3f22 | 8b0c24 | MOV ECX,dword ptr [ESP]
+100e3f25 | 81f100000080 | XOR ECX,0x80000000
+100e3f2b | 81c1ffffff7f | ADD ECX,0x7fffffff
+100e3f31 | 83d000 | ADC EAX,0x0
+100e3f34 | 8b542414 | MOV EDX,dword ptr [ESP + 0x14]
+100e3f38 | 83d200 | ADC EDX,0x0
+100e3f3b | eb2c | JMP 0x100e3f69
+; 100e3f3d LAB_100e3f3d
+100e3f3d | d91c24 | FSTP float ptr [ESP]
+100e3f40 | 8b0c24 | MOV ECX,dword ptr [ESP]
+100e3f43 | 81c1ffffff7f | ADD ECX,0x7fffffff
+100e3f49 | 83d800 | SBB EAX,0x0
+100e3f4c | 8b542414 | MOV EDX,dword ptr [ESP + 0x14]
+100e3f50 | 83da00 | SBB EDX,0x0
+100e3f53 | eb14 | JMP 0x100e3f69
+; 100e3f55 LAB_100e3f55
+100e3f55 | 8b542414 | MOV EDX,dword ptr [ESP + 0x14]
+100e3f59 | f7c2ffffff7f | TEST EDX,0x7fffffff
+100e3f5f | 75b8 | JNZ 0x100e3f19
+100e3f61 | d95c2418 | FSTP float ptr [ESP + 0x18]
+100e3f65 | d95c2418 | FSTP float ptr [ESP + 0x18]
+; 100e3f69 LAB_100e3f69
+100e3f69 | c9 | LEAVE
+100e3f6a | c3 | RET

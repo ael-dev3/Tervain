@@ -1,0 +1,74 @@
+/* ENTRY 10016b00 | FUN_10016b00 | STATUS decompiled | 33 ms */
+
+undefined4 FUN_10016b00(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  char cVar1;
+  bool bVar2;
+  eCEntity *peVar3;
+  Entity *this;
+  gEClass gVar4;
+  code *pcVar5;
+  Entity aEStack_2cc [164];
+  undefined4 uStack_228;
+  Entity *pEVar6;
+  Entity local_1fc [4];
+  Entity local_1f8 [32];
+  PSInventory local_1d8 [16];
+  PropertyClass local_1c8 [116];
+  Entity local_154 [4];
+  Entity local_150 [164];
+  Entity local_ac [4];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_1f8);
+  if (param_2 == (Entity *)0x0) {
+    peVar3 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_1f8,peVar3);
+  }
+  else {
+    Entity::operator=(local_1f8,param_2);
+  }
+  Entity::Entity(local_150);
+  if (param_3 == (Entity *)0x0) {
+    peVar3 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_150,peVar3);
+  }
+  else {
+    Entity::operator=(local_150,param_3);
+  }
+  Entity::Entity(aEStack_2cc,local_1f8);
+  cVar1 = thunk_FUN_10009c80();
+  pcVar5 = ~Entity_exref;
+  if (cVar1 != '\0') {
+    pEVar6 = local_a8;
+    uStack_228 = 0x10016bc4;
+    this = (Entity *)Entity::GetPlayer();
+    uStack_228 = 0x10016bcc;
+    bVar2 = Entity::operator==(this,pEVar6);
+    pcVar5 = ~Entity_exref;
+    Entity::~Entity(local_ac);
+    if (bVar2) {
+      uStack_228 = 0x10016bf0;
+      Template::Template((Template *)&stack0xfffffdf0,"Perk_StaffMagic");
+      uStack_228 = 0x10016bff;
+      bVar2 = PSInventory::IsSkillActive(local_1d8,(Template *)&stack0xfffffdf0);
+      Template::~Template((Template *)&stack0xfffffdf0);
+      if (bVar2) {
+LAB_10016c12:
+        Entity::~Entity(local_154);
+        Entity::~Entity(local_1fc);
+        return 1;
+      }
+    }
+    else {
+      gVar4 = PSNpc::PropertyClass::operator_enum_gEClass(local_1c8);
+      if (gVar4 == 1) goto LAB_10016c12;
+    }
+  }
+  (*pcVar5)();
+  (*pcVar5)();
+  return 0;
+}
+
+

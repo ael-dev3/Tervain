@@ -1,0 +1,111 @@
+/* ENTRY 1003d1d0 | FUN_1003d1d0 | STATUS decompiled | 75 ms */
+
+undefined4 FUN_1003d1d0(void)
+
+{
+  bool bVar1;
+  char cVar2;
+  gCScriptAdmin *this;
+  code *pcVar3;
+  code *pcVar4;
+  undefined4 uStack_184;
+  Entity aEStack_17c [148];
+  undefined4 uStack_e8;
+  bCString *pbVar5;
+  undefined1 *puVar6;
+  int iVar7;
+  char *pcVar8;
+  bCString local_b0 [4];
+  Entity local_ac [36];
+  PSInventory local_88 [136];
+  
+  Entity::GetPlayer();
+  bVar1 = Entity::operator!=(local_ac,(Entity *)&stack0x00000000);
+  if (bVar1) {
+    bCString::bCString(local_b0,"GetLevel");
+    iVar7 = 0;
+    pbVar5 = local_b0;
+    uStack_e8 = 0x1003d229;
+    puVar6 = (undefined1 *)register0x00000010;
+    pcVar3 = None_exref;
+    this = (gCScriptAdmin *)thunk_FUN_10015630();
+    uStack_e8 = 0x1003d231;
+    iVar7 = gCScriptAdmin::CallScriptFromScript(this,pbVar5,puVar6,pcVar3,iVar7);
+    bCString::~bCString(local_b0);
+    if (0x2c < iVar7) {
+      Entity::~Entity(local_ac);
+      Entity::~Entity((Entity *)&stack0x00000000);
+      return 3;
+    }
+    if (0x1d < iVar7) {
+LAB_1003d26e:
+      Entity::~Entity(local_ac);
+      Entity::~Entity((Entity *)&stack0x00000000);
+      return 2;
+    }
+    if (0xe < iVar7) {
+      Entity::~Entity(local_ac);
+      Entity::~Entity((Entity *)&stack0x00000000);
+      return 1;
+    }
+    goto LAB_1003d4a8;
+  }
+  uStack_184 = 0x1003d2dd;
+  Entity::Entity(aEStack_17c,local_ac);
+  iVar7 = thunk_FUN_10009a70();
+  Entity::Entity((Entity *)&uStack_184,local_ac);
+  cVar2 = thunk_FUN_10009c80();
+  if (cVar2 == '\x01') {
+    Template::Template((Template *)&stack0xffffff3c,"Perk_1H1H_SecretBonus");
+    pcVar4 = IsSkillActive_exref;
+    bVar1 = PSInventory::IsSkillActive(local_88,(Template *)&stack0xffffff3c);
+    pcVar3 = ~Template_exref;
+    Template::~Template((Template *)&stack0xffffff3c);
+    if (bVar1) goto LAB_1003d26e;
+    pcVar8 = "Perk_1H1H_2";
+LAB_1003d351:
+    Template::Template((Template *)&stack0xffffff3c,pcVar8);
+  }
+  else if (iVar7 == 2) {
+    Template::Template((Template *)&stack0xffffff3c,"Perk_1H_3");
+    pcVar4 = IsSkillActive_exref;
+    bVar1 = PSInventory::IsSkillActive(local_88,(Template *)&stack0xffffff3c);
+    pcVar3 = ~Template_exref;
+    Template::~Template((Template *)&stack0xffffff3c);
+    if (bVar1) goto LAB_1003d26e;
+    Template::Template((Template *)&stack0xffffff3c,"Perk_1H_2");
+  }
+  else {
+    if (((iVar7 == 0x34) || (iVar7 == 3)) || (iVar7 == 0x33)) {
+      Template::Template((Template *)&stack0xffffff3c,"Perk_Axe_3");
+      pcVar4 = IsSkillActive_exref;
+      bVar1 = PSInventory::IsSkillActive(local_88,(Template *)&stack0xffffff3c);
+      pcVar3 = ~Template_exref;
+      Template::~Template((Template *)&stack0xffffff3c);
+      if (bVar1) goto LAB_1003d26e;
+      pcVar8 = "Perk_Axe_2";
+      goto LAB_1003d351;
+    }
+    if (iVar7 != 0xc) goto LAB_1003d4a8;
+    Template::Template((Template *)&stack0xffffff3c,"Perk_Staff_3");
+    pcVar4 = IsSkillActive_exref;
+    bVar1 = PSInventory::IsSkillActive(local_88,(Template *)&stack0xffffff3c);
+    pcVar3 = ~Template_exref;
+    Template::~Template((Template *)&stack0xffffff3c);
+    if (bVar1) goto LAB_1003d26e;
+    Template::Template((Template *)&stack0xffffff3c,"Perk_Staff_2");
+  }
+  cVar2 = (*pcVar4)();
+  (*pcVar3)();
+  if (cVar2 == '\x01') {
+    Entity::~Entity(local_ac);
+    Entity::~Entity((Entity *)&stack0x00000000);
+    return 1;
+  }
+LAB_1003d4a8:
+  Entity::~Entity(local_ac);
+  Entity::~Entity((Entity *)&stack0x00000000);
+  return 0;
+}
+
+

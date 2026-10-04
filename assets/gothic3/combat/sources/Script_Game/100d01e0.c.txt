@@ -1,0 +1,102 @@
+/* ENTRY 100d01e0 | FUN_100d01e0 | STATUS decompiled | 58 ms */
+
+undefined4 FUN_100d01e0(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  char cVar1;
+  bool bVar2;
+  eCEntity *peVar3;
+  gEAction gVar4;
+  int iVar5;
+  undefined4 uVar6;
+  Entity *this;
+  Entity aEStack_374 [148];
+  undefined4 uStack_2e0;
+  gCScriptProcessingUnit *pgStack_2dc;
+  Entity *pEStack_2d8;
+  Entity *pEStack_2d4;
+  undefined1 local_2b0 [4];
+  Entity local_2ac [4];
+  Entity aEStack_2a8 [4];
+  Entity local_2a4 [4];
+  Entity local_2a0 [28];
+  PSInventory local_284 [24];
+  PSNpc local_26c [32];
+  PSParty local_24c [72];
+  Entity local_204 [4];
+  Entity aEStack_200 [4];
+  Entity local_1fc [160];
+  Entity local_15c [4];
+  Entity aEStack_158 [8];
+  Entity local_150 [156];
+  Entity local_b4 [4];
+  undefined1 local_b0 [176];
+  
+  Entity::Entity(local_2a0);
+  if (param_2 == (Entity *)0x0) {
+    peVar3 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_2a0,peVar3);
+  }
+  else {
+    Entity::operator=(local_2a0,param_2);
+  }
+  Entity::Entity(local_150);
+  if (param_3 == (Entity *)0x0) {
+    peVar3 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_150,peVar3);
+  }
+  else {
+    Entity::operator=(local_150,param_3);
+  }
+  PSNpc::GetCurrentTarget(local_26c);
+  Entity::Entity(aEStack_374,local_2a4);
+  cVar1 = thunk_FUN_10009c80();
+  if (cVar1 != '\0') {
+    gVar4 = PSRoutine::PropertyAction::operator_enum_gEAction((PropertyAction *)local_2a0);
+    switch(gVar4) {
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 0xb:
+    case 0x1b:
+      bVar2 = Entity::operator==((Entity *)None_exref,local_1fc);
+      if (!bVar2) {
+        this = local_1fc;
+        if (param_3 == (Entity *)0x0) goto LAB_100d039e;
+        Entity::operator_class_eCEntity_(this);
+        pEStack_2d4 = (Entity *)0x100d0319;
+        PSParty::GetMembers(local_24c,SUB41(local_2b0,0));
+        iVar5 = thunk_FUN_100d01b0();
+        thunk_FUN_1001df40();
+        if (iVar5 == -1) {
+          pEStack_2d4 = (Entity *)0x100d0347;
+          PSInventory::GetItemFromSlot(local_284,(gESlot)local_b0);
+          pEStack_2d4 = local_204;
+          pEStack_2d8 = local_b4;
+          pgStack_2dc = param_1;
+          uStack_2e0 = 0x100d035f;
+          uVar6 = thunk_FUN_100d6fa0();
+          Entity::~Entity(local_b4);
+          Entity::~Entity(local_204);
+          Entity::~Entity(local_15c);
+          Entity::~Entity(local_2ac);
+          return uVar6;
+        }
+      }
+    }
+  }
+  this = aEStack_200;
+LAB_100d039e:
+  Entity::~Entity(this);
+  Entity::~Entity(aEStack_158);
+  Entity::~Entity(aEStack_2a8);
+  return 0;
+}
+
+

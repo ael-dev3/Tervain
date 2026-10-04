@@ -1,0 +1,181 @@
+/* ENTRY 100362f0 | FUN_100362f0 | STATUS decompiled | 168 ms */
+
+undefined4 FUN_100362f0(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  uint uVar1;
+  bool bVar2;
+  eCEntity *peVar3;
+  Entity *pEVar4;
+  int iVar5;
+  gEAttackReason gVar6;
+  Entity *pEVar7;
+  uint unaff_ESI;
+  Entity aEStack_6b4 [160];
+  undefined4 uStack_614;
+  Entity aEStack_60c [136];
+  undefined4 uStack_584;
+  gCScriptProcessingUnit *pgStack_580;
+  undefined1 *puStack_57c;
+  Entity *pEStack_578;
+  gEAIMode local_54c [2];
+  undefined4 local_544;
+  Entity local_540 [32];
+  PropertyDefeatedByPlayer local_520 [16];
+  PSNpc local_510 [16];
+  PropertyCanBePushedWhileIdle local_500 [76];
+  PSEffect local_4b4 [8];
+  Entity local_4ac [20];
+  Entity local_498 [44];
+  PropertyAttackReason local_46c [104];
+  Entity local_404 [8];
+  Entity local_3fc [8];
+  Entity local_3f4 [4];
+  Entity local_3f0 [32];
+  PropertyLastFightAgainstPlayer local_3d0 [44];
+  PSParty local_3a4 [72];
+  Entity local_35c [4];
+  Entity local_358 [4];
+  Entity local_354 [8];
+  Entity local_34c [76];
+  PSParty local_300 [76];
+  Entity local_2b4 [20];
+  Entity local_2a0 [148];
+  Entity local_20c [4];
+  Entity local_208 [8];
+  Entity local_200 [4];
+  Entity local_1fc [152];
+  Entity local_164 [124];
+  PSQuestManager local_e8 [44];
+  Entity local_bc [188];
+  
+  local_544 = 0;
+  Entity::Entity(local_498);
+  if (param_2 == (Entity *)0x0) {
+    peVar3 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_498,peVar3);
+  }
+  else {
+    Entity::operator=(local_498,param_2);
+  }
+  Entity::Entity(local_2a0);
+  if (param_3 == (Entity *)0x0) {
+    peVar3 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_2a0,peVar3);
+  }
+  else {
+    Entity::operator=(local_2a0,param_3);
+  }
+  Entity::Entity(local_3f0,local_498);
+  Entity::Entity(local_540,local_2a0);
+  Entity::GetPlayer();
+  PSNpc::EnableStatusEffects(local_510,4,false);
+  PSEffect::StopEffect(local_4b4,true);
+  thunk_FUN_10031280();
+  thunk_FUN_10031680();
+  thunk_FUN_10031970();
+  thunk_FUN_10031790();
+  local_54c[0] = 8;
+  PSRoutine::PropertyAIMode::operator=((PropertyAIMode *)local_540,local_54c);
+  uStack_614 = 0x1003644a;
+  Entity::Entity(aEStack_60c,(Entity *)&local_544);
+  thunk_FUN_10009520();
+  PSCharacterMovement::PropertyCanBePushedWhileIdle::operator=(local_500,(bool *)&stack0xfffffab3);
+  bVar2 = Entity::operator==(local_34c,(Entity *)&local_544);
+  if (!bVar2) {
+    uStack_614 = 0x10036494;
+    Entity::Entity(aEStack_60c,local_3f4);
+    Entity::Entity(aEStack_6b4,(Entity *)&local_544);
+    thunk_FUN_10010130();
+  }
+  pEVar7 = local_1fc;
+  pEVar4 = (Entity *)Entity::GetPlayer();
+  bVar2 = Entity::operator==(pEVar4,pEVar7);
+  Entity::~Entity(local_200);
+  if (bVar2) {
+    pEStack_578 = (Entity *)0x100364f2;
+    iVar5 = thunk_FUN_1001adc0();
+    if (iVar5 == 0) {
+      pEStack_578 = (Entity *)0x1003650c;
+      iVar5 = thunk_FUN_1001aca0();
+      if (((iVar5 == 0) &&
+          (gVar6 = PSNpc::PropertyAttackReason::operator_enum_gEAttackReason(local_46c),
+          gVar6 != 0x12)) &&
+         (gVar6 = PSNpc::PropertyAttackReason::operator_enum_gEAttackReason(local_46c),
+         gVar6 != 0x11)) {
+        pEStack_578 = (Entity *)0x1003654a;
+        thunk_FUN_10049370();
+      }
+    }
+  }
+  Entity::GetWorldEntity();
+  PSQuestManager::OnNPCDefeated(local_e8,(Entity *)local_54c);
+  bVar2 = Entity::operator==(local_354,local_3fc);
+  uVar1 = unaff_ESI;
+  if (!bVar2) {
+    pEVar7 = (Entity *)PSParty::GetPartyLeader(local_3a4);
+    bVar2 = Entity::operator==(local_358,pEVar7);
+    uVar1 = 1;
+    if (!bVar2) {
+      pEVar7 = local_208;
+      pEStack_578 = (Entity *)0x100365ce;
+      pEVar4 = (Entity *)PSParty::GetPartyLeader(local_300);
+      pEStack_578 = (Entity *)0x100365d6;
+      bVar2 = Entity::operator==(pEVar4,pEVar7);
+      uVar1 = unaff_ESI;
+      if (!bVar2) goto LAB_100365ed;
+    }
+  }
+  unaff_ESI = uVar1;
+  bVar2 = true;
+LAB_100365ed:
+  if ((unaff_ESI & 2) != 0) {
+    unaff_ESI = unaff_ESI & 0xfffffffd;
+    Entity::~Entity(local_20c);
+  }
+  if ((unaff_ESI & 1) != 0) {
+    Entity::~Entity(local_bc);
+  }
+  if (bVar2 != false) {
+    bVar2 = PSNpc::PropertyDefeatedByPlayer::operator_bool(local_520);
+    if (!bVar2) {
+      pEStack_578 = local_404;
+      puStack_57c = &stack0xfffffaac;
+      pgStack_580 = param_1;
+      uStack_584 = 0x1003663c;
+      thunk_FUN_100628c0();
+      pEStack_578 = (Entity *)0x10036650;
+      PSNpc::PropertyDefeatedByPlayer::operator=(local_520,(bool *)&stack0xfffffaa3);
+    }
+    pEStack_578 = (Entity *)0x10036663;
+    PSNpc::PropertyLastFightAgainstPlayer::operator=
+              ((PropertyLastFightAgainstPlayer *)local_520,
+               (gELastFightAgainstPlayer *)&stack0xfffffaa4);
+  }
+  pEStack_578 = (Entity *)0x10036675;
+  bVar2 = Entity::operator==(local_35c,(Entity *)&stack0xfffffaac);
+  if (bVar2) {
+    pEStack_578 = (Entity *)0x1003668f;
+    PSNpc::PropertyLastFightAgainstPlayer::operator=
+              (local_3d0,(gELastFightAgainstPlayer *)&stack0xfffffaa4);
+  }
+  pEStack_578 = (Entity *)None_exref;
+  puStack_57c = &stack0xfffffaac;
+  pgStack_580 = param_1;
+  uStack_584 = 0x100366a3;
+  thunk_FUN_100c9560();
+  pEStack_578 = (Entity *)None_exref;
+  puStack_57c = &stack0xfffffaac;
+  pgStack_580 = param_1;
+  uStack_584 = 0x100366b7;
+  thunk_FUN_10027960();
+  Entity::~Entity(local_164);
+  Entity::~Entity(local_35c);
+  Entity::~Entity((Entity *)&stack0xfffffaac);
+  Entity::~Entity(local_404);
+  Entity::~Entity(local_2b4);
+  Entity::~Entity(local_4ac);
+  return 1;
+}
+
+

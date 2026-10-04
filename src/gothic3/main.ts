@@ -3,6 +3,9 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { NativeAssets, assetUrl } from './assets';
 import { ExplorerController } from './controls';
 import { NativeAnimations } from './animation';
+import { NativeTerrain } from './terrain';
+import { landscapeDestinations } from './landscape-destinations';
+import { showOriginalPlayerState } from './initial-state-view';
 import type { AnimatedActor } from './animation';
 import { ARDEA_PEOPLE, ARDEA_QUESTS, PORT_SCOPE } from './content';
 import { showOriginalDialogue, showQuestCatalog } from './catalog-view';
@@ -14,14 +17,14 @@ import './style.css';
 const SAVE_KEY = 'gothic3:ardea:exploration:v1';
 const canvas = document.querySelector<HTMLCanvasElement>('#world')!;
 const ui = document.querySelector<HTMLDivElement>('#interface')!;
-ui.innerHTML = '<header class="masthead"><div class="eyebrow">Gothic 3 · browser port</div><h1>Ardea</h1><p id="world-caption">Recovered local scene · first exploration milestone</p></header>' +
-  '<nav class="toolbar"><button id="explore-button">Explore</button><button id="inspect-button">Models <kbd>Tab</kbd></button><button id="journal-button">Journal <kbd>J</kbd></button><button id="map-button">Map <kbd>M</kbd></button><button id="save-button">Save <kbd>P</kbd></button><button id="help-button">Help</button><a href="../">Tervain ↗</a></nav>' +
+ui.innerHTML = '<header class="masthead"><div class="eyebrow">Gothic 3 · browser port</div><h1 id="world-title">Ardea</h1><p id="world-caption">Recovered scene · native landscape</p></header>' +
+  '<nav class="toolbar"><button id="explore-button">Explore</button><button id="landscape-button">Landscape</button><button id="inspect-button">Models <kbd>Tab</kbd></button><button id="journal-button">Journal <kbd>J</kbd></button><button id="map-button">Map <kbd>M</kbd></button><button id="save-button">Save <kbd>P</kbd></button><button id="help-button">Help</button><a href="../">Tervain ↗</a></nav>' +
   '<div class="crosshair" id="crosshair"></div><div class="prompt hidden" id="prompt"></div><div class="toast hidden" id="toast" role="status"></div>' +
-  '<footer class="bottom"><div class="keys" id="keys"><kbd>W A S D</kbd> move &nbsp; <kbd>Shift</kbd> run &nbsp; drag mouse / click for mouse look<br><kbd>E</kbd> inspect person &nbsp; <kbd>F</kbd> fly &nbsp; <kbd>R</kbd> return to arrival &nbsp; <kbd>Esc</kbd> release mouse</div><div class="coordinate"><span id="coordinates">Loading native scene</span><div class="scope-tag">Work in progress · native gameplay still being rewritten</div></div></footer>' +
+  '<footer class="bottom"><div class="keys" id="keys"><kbd>W A S D</kbd> move &nbsp; <kbd>Shift</kbd> run &nbsp; drag mouse / click for mouse look<br><kbd>E</kbd> inspect person &nbsp; <kbd>F</kbd> fly &nbsp; <kbd>R</kbd> return to arrival &nbsp; <kbd>Esc</kbd> release mouse</div><div class="coordinate"><span id="coordinates">Loading native scene</span><div id="terrain-status"></div><div class="scope-tag">Work in progress · native gameplay still being rewritten</div></div></footer>' +
   '<section class="inspector panel hidden" id="inspector"><div class="eyebrow">Original geometry</div><h2>Character inspection</h2><select id="model-select" aria-label="Character model"></select><div class="row"><button id="wire-button">Wireframe</button><button id="spin-button">Rotate</button><button id="frame-button">Frame</button></div><div id="animation-controls" class="hidden"><label for="clip-select">Native motion</label><select id="clip-select" aria-label="Native motion"><option value="">Bind pose</option></select><button id="clip-play" disabled>Play motion</button></div><p>Drag to rotate · wheel to zoom · right-drag to pan.</p><p id="model-info">Native body and head; exported bind pose.</p><div class="source" id="model-source"></div></section>' +
   '<section class="modal panel hidden" id="modal" aria-label="Information"><button class="close" id="modal-close" aria-label="Close panel">×</button><div id="modal-content"></div></section>' +
   '<div class="map hidden" id="map"><span class="map-label">ARDEA · LOCAL POSITIONS</span><canvas id="map-view" width="488" height="488" aria-label="Local positions map"></canvas></div>' +
-  '<div class="loading" id="loading"><section class="intro"><div class="eyebrow">Gothic 3 · TypeScript reconstruction</div><h1>Ardea</h1><h2>The shore of Myrtana</h2><p>Walk through the recovered scene. Meet its original character models. Inspect their geometry, materials and placement.</p><div class="rule"></div><p>Explore the recovered scene, inspect original Hero motion and read the quest catalog. Combat, quest execution, NPC simulation and world streaming are still being rebuilt.</p><div class="progress"><span id="progress"></span></div><div class="load-status" id="load-status">Reading scene manifest…</div><button class="primary" id="start-button" disabled>Enter Ardea</button><small>Independent from Tervain’s original game.<br>Keyboard and mouse · WebGL · local browser saves</small></section></div>';
+  '<div class="loading" id="loading"><section class="intro"><div class="eyebrow">Gothic 3 · TypeScript reconstruction</div><h1>Ardea</h1><h2>The shore of Myrtana</h2><p>Walk through the recovered scene. Inspect original character models, Hero motion and the landscapes of Myrtana, Nordmar and Varant.</p><div class="rule"></div><p>Terrain loads as you move. Read the original quest catalog. Combat, quest execution and NPC simulation are still being rebuilt.</p><div class="progress"><span id="progress"></span></div><div class="load-status" id="load-status">Reading scene manifest…</div><button class="primary" id="start-button" disabled>Enter Ardea</button><small>Independent from Tervain’s original game.<br>Keyboard and mouse · WebGL · local browser saves</small></section></div>';
 
 const element = <T extends HTMLElement = HTMLElement>(id: string): T => document.getElementById(id) as T;
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
@@ -42,7 +45,12 @@ world.add(sunlight);
 const camera = new THREE.PerspectiveCamera(65, innerWidth / innerHeight, 0.06, 2200);
 const assets = new NativeAssets(renderer);
 const animations = new NativeAnimations();
+const terrain = new NativeTerrain(renderer);
+world.add(terrain.group);
 const sceneObjects: THREE.Object3D[] = [];
+const legacyTerrain: THREE.Object3D[] = [];
+let nativeTerrainActive = false;
+let landscapeName: string | null = 'Ardea';
 const peopleObjects = new Map<string, THREE.Group>();
 const failures: string[] = [];
 let manifest: ArdeaScene;
@@ -86,11 +94,12 @@ const explorer = new ExplorerController(camera, canvas, (action) => {
   if (action === 'inspect') void setInspection(!inspectMode);
   if (action === 'journal') showJournal();
   if (action === 'save') save();
-  if (action === 'reset') { explorer.reset(); notify('Returned to the original scene arrival point.'); }
+  if (action === 'reset') { landscapeName = 'Ardea'; explorer.reset(); notify('Returned to the original scene arrival point.'); }
   if (action === 'map') toggleMap();
   if (action === 'fly') notify(explorer.fly ? 'Free flight · Space up · Q down' : 'Grounded exploration');
 });
 explorer.active = false;
+explorer.walkSurfaceReady = (position) => !nativeTerrainActive || terrain.hasGroundAt(position);
 
 function paragraph(parent: HTMLElement, text: string, className?: string): void {
   const p = document.createElement('p');
@@ -175,7 +184,9 @@ function showHelp(): void {
   brightness.oninput = () => { renderer.toneMappingExposure = Number(brightness.value); };
   brightnessLabel.append(brightness);
   content.append(brightnessLabel);
-  paragraph(content, 'Preview lighting and brightness are adjustable browser approximations. The native lighting and material shader graphs have not been reproduced.');
+  paragraph(content, 'Terrain uses the recovered texture, blend and UV graphs, including original tangent-space normal maps. Global lighting, specular lookup, lightmaps and lower texture mips remain browser approximations.');
+  const terrainStatus = terrain.status();
+  paragraph(content, 'Landscape: ' + terrainStatus.cells + ' resident cells from ' + terrainStatus.total + ', ' + terrainStatus.triangles.toLocaleString() + ' triangles. Terrain and texture downloads are bounded.');
   const h3 = document.createElement('h3');
   h3.textContent = 'Current port boundaries';
   content.append(h3);
@@ -188,6 +199,13 @@ function showHelp(): void {
   content.append(ul);
   for (const note of manifest?.notes ?? []) paragraph(content, note);
   if (failures.length) paragraph(content, 'Asset load issues: ' + failures.join('; '), 'warnings');
+  for (const issue of terrainStatus.failures) paragraph(content, issue, 'warnings');
+  if (terrainStatus.failures.length) {
+    const retry = document.createElement('button');
+    retry.textContent = 'Retry landscape downloads';
+    retry.onclick = () => { terrain.retry(); notify('Retrying landscape downloads.'); };
+    content.append(retry);
+  }
   const source = document.createElement('a');
   source.href = assetUrl('source-manifest.json');
   source.textContent = 'Open asset provenance';
@@ -196,10 +214,48 @@ function showHelp(): void {
   content.append(source);
 }
 
+async function showLandscape(): Promise<void> {
+  const content = openPanel('Explore the landscape');
+  paragraph(content, 'Fly above Myrtana, Nordmar and Varant. These views show the original landscape; buildings, caves, vegetation and NPCs beyond Ardea are still being rebuilt.');
+  paragraph(content, 'WASD moves, Shift flies faster, Space rises and Q descends. Drag to look. R returns to the Ardea arrival.');
+  const choices = document.createElement('div');
+  choices.className = 'landscape-choices';
+  choices.textContent = 'Reading original locations…';
+  content.append(choices);
+  try {
+    const destinations = await landscapeDestinations();
+    if (!choices.isConnected) return;
+    choices.replaceChildren();
+    for (const destination of destinations) {
+      const button = document.createElement('button');
+      button.textContent = destination.name + ' · ' + destination.region;
+      button.onclick = () => {
+        void setInspection(false);
+        closePanel();
+        landscapeName = destination.name;
+        const point = new THREE.Vector3(...destination.position).sub(terrain.originMetres);
+        point.y += 90;
+        explorer.fly = true;
+        explorer.teleport([point.x, point.y, point.z], 0, -0.55);
+        terrain.update(explorer.position, performance.now(), true);
+        notify('Landscape preview · ' + destination.name + '. Geometry loads as you fly.');
+      };
+      choices.append(button);
+    }
+  } catch (error) { choices.textContent = 'Could not read original destinations: ' + String(error); }
+  const status = terrain.status();
+  paragraph(content, '782 original landscape cells · 2,082,155 triangles across the three regions. Nearby cells stream into view; the entire world is not downloaded at once.');
+  if (status.failures.length) paragraph(content, status.failures.length + ' landscape issues are listed in Help.', 'warnings');
+  const state = document.createElement('button');
+  state.textContent = 'Inspect original character state';
+  state.onclick = () => { void showOriginalPlayerState(openPanel('Original character state')); };
+  content.append(state);
+}
+
 function save(): void {
   if (!started) return;
   try {
-    localStorage.setItem(SAVE_KEY, JSON.stringify({ version: 1, ...explorer.getState() }));
+    localStorage.setItem(SAVE_KEY, JSON.stringify({ version: 1, ...explorer.getState(), landscapeName }));
     notify('Exploration position saved in this browser. Gothic 3 and Tervain saves are separate.');
   } catch { notify('Browser storage is unavailable. Exploration can continue.'); }
 }
@@ -208,16 +264,20 @@ function restore(): void {
   try {
     const raw = localStorage.getItem(SAVE_KEY);
     if (!raw) return;
-    const value = JSON.parse(raw) as { version?: number; position?: unknown; yaw?: unknown; pitch?: unknown; fly?: unknown };
+    const value = JSON.parse(raw) as { version?: number; position?: unknown; yaw?: unknown; pitch?: unknown; fly?: unknown; landscapeName?: unknown };
     const position = value.position;
     if (value.version !== 1 || !Array.isArray(position) || position.length !== 3 ||
         !position.every((part) => typeof part === 'number' && Number.isFinite(part)) ||
         typeof value.yaw !== 'number' || !Number.isFinite(value.yaw) ||
         typeof value.pitch !== 'number' || !Number.isFinite(value.pitch)) return;
-    const bounds = manifest.bounds;
-    if (position[0] < bounds.min[0] - 100 || position[0] > bounds.max[0] + 100 ||
-        position[2] < bounds.min[2] - 100 || position[2] > bounds.max[2] + 100 ||
-        position[1] < bounds.min[1] - 100 || position[1] > bounds.max[1] + 1000) return;
+    const origin = terrain.originMetres;
+    const absolute = [position[0] + origin.x, position[1] + origin.y, position[2] + origin.z];
+    const bounds = terrain.manifest?.cells.map((cell) => cell.boundsMetres) ?? [manifest.bounds];
+    const point = terrain.manifest ? absolute : position;
+    if (!bounds.some((bound) => point[0]! >= bound.min[0] - 100 && point[0]! <= bound.max[0] + 100 &&
+        point[2]! >= bound.min[2] - 100 && point[2]! <= bound.max[2] + 100 &&
+        point[1]! >= bound.min[1] - 100 && point[1]! <= bound.max[1] + 1000)) return;
+    landscapeName = typeof value.landscapeName === 'string' && value.landscapeName.length <= 64 ? value.landscapeName : null;
     explorer.fly = value.fly === true;
     explorer.teleport([position[0], position[1], position[2]], value.yaw, value.pitch);
     notify('Restored your saved exploration position.');
@@ -341,7 +401,7 @@ async function setInspection(enabled: boolean, id?: string): Promise<void> {
   element('inspector').classList.toggle('hidden', !enabled);
   element('crosshair').classList.toggle('hidden', enabled);
   element('prompt').classList.add('hidden');
-  element('world-caption').textContent = enabled ? 'Original character geometry' : 'Recovered local scene · first exploration milestone';
+  element('world-caption').textContent = enabled ? 'Original character geometry' : 'Recovered scene · native landscape';
   element('keys').textContent = enabled ? 'Drag to rotate · wheel to zoom · right-drag to pan · Tab returns to Ardea' : 'WASD move · Shift run · drag / click for mouse look · E inspect · F fly · R reset · Esc release';
   if (enabled) {
     const selected = id ?? selectedPerson?.id ?? manifest.inspectionPeople?.[0]?.id ?? manifest.people.find((entry) => entry.body && entry.head)?.id;
@@ -404,7 +464,10 @@ async function boot(): Promise<void> {
   const response = await fetch(assetUrl('scene.json'));
   if (!response.ok) throw new Error('Scene manifest HTTP ' + response.status);
   manifest = await response.json() as ArdeaScene;
-  await animations.loadManifest().catch((error: unknown) => { failures.push('Native animation: ' + String(error)); });
+  await Promise.all([
+    animations.loadManifest().catch((error: unknown) => { failures.push('Native animation: ' + String(error)); }),
+    terrain.initialize().catch((error: unknown) => { failures.push('Native terrain: ' + String(error)); }),
+  ]);
   if (manifest.units !== 'metres' || !Array.isArray(manifest.meshes) || !manifest.meshes.length) throw new Error('No recovered world geometry in this scene manifest.');
   const total = manifest.meshes.length + manifest.people.length;
   let done = 0;
@@ -422,6 +485,7 @@ async function boot(): Promise<void> {
         if (entry.scale) object.scale.fromArray(entry.scale);
         object.name = entry.name;
         object.userData.kind = entry.kind;
+        if (entry.kind === 'terrain') legacyTerrain.push(object);
         world.add(object);
         object.updateMatrixWorld(true);
         sceneObjects.push(object);
@@ -471,6 +535,7 @@ element('start-button').onclick = () => {
   if (failures.length) notify('Scene loaded with ' + failures.length + ' asset warnings. See Help for details.');
 };
 element('explore-button').onclick = () => { void setInspection(false); closePanel(); };
+element('landscape-button').onclick = () => { void showLandscape(); };
 element('inspect-button').onclick = () => { void setInspection(!inspectMode); };
 element('journal-button').onclick = showJournal;
 element('help-button').onclick = showHelp;
@@ -520,7 +585,7 @@ function frame(now: number): void {
   requestAnimationFrame(frame);
   const dt = Math.min((now - lastFrame) / 1000, 0.05);
   lastFrame = now;
-  if (document.hidden) return;
+  if (document.hidden || innerWidth <= 0 || innerHeight <= 0) return;
   if (inspectMode) {
     const viewport = updateInspectorViewport();
     renderer.setViewport(viewport.x, viewport.y, viewport.w, viewport.h);
@@ -530,6 +595,15 @@ function frame(now: number): void {
     renderer.render(inspection, inspectCamera);
   } else {
     renderer.setViewport(0, 0, innerWidth, innerHeight);
+    terrain.update(explorer.position, now);
+    if (!nativeTerrainActive && terrain.hasGroundAt(explorer.position)) {
+      nativeTerrainActive = true;
+      for (const object of legacyTerrain) object.visible = false;
+      explorer.setGeometry([...sceneObjects.filter((object) => object.userData.kind !== 'terrain'), ...terrain.objects]);
+    }
+    if (terrain.consumeGeometryChange()) {
+      explorer.setGeometry([...sceneObjects.filter((object) => !nativeTerrainActive || object.userData.kind !== 'terrain'), ...terrain.objects]);
+    }
     if (started && !modalOpen) explorer.update(dt);
     renderer.render(world, camera);
   }
@@ -537,6 +611,13 @@ function frame(now: number): void {
     lastHud = now;
     const position = explorer.position;
     element('coordinates').textContent = position.x.toFixed(1) + ' / ' + position.y.toFixed(1) + ' / ' + position.z.toFixed(1) + ' m · ' + (explorer.fly ? 'FREE FLIGHT' : explorer.groundFallback ? 'NO GROUND SUPPORT' : explorer.grounded ? 'GROUNDED' : 'FALLING');
+    const streaming = terrain.status();
+    if (!inspectMode) element('world-title').textContent = landscapeName ?? streaming.region ?? 'Gothic 3';
+    element('terrain-status').textContent = streaming.ready
+      ? `${streaming.region ?? 'Landscape'} · ${streaming.cells} / ${streaming.total} cells` +
+        (streaming.downloading ? ` · loading ${streaming.downloading}` : '') +
+        (!explorer.fly && nativeTerrainActive && !streaming.groundReady ? ' · waiting for ground' : '')
+      : 'Local landscape preview';
     nearest = null;
     let distance = 4;
     if (!inspectMode) for (const person of manifest.people) {

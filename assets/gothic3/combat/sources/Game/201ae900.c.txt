@@ -1,0 +1,16 @@
+/* ENTRY 201ae900 | FUN_201ae900 | STATUS decompiled | 9 ms */
+
+undefined4 __thiscall FUN_201ae900(gCInventory_PS *param_1,eCTemplateEntity *param_2)
+
+{
+  int iVar1;
+  
+  iVar1 = gCInventory_PS::FindSkillStackIndex(param_1,param_2);
+  iVar1 = FUN_20029be0(iVar1);
+  if (iVar1 != 0) {
+    return *(undefined4 *)(iVar1 + 0x58);
+  }
+  return 0;
+}
+
+

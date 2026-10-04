@@ -1,0 +1,2 @@
+; 20024127 ?SetHitPoints@gCDamageReceiver_PS@@QAEXABJ@Z
+20024127 | e904590900 | JMP 0x200b9a30

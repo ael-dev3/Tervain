@@ -1,0 +1,4 @@
+; 10003b7f ??4PropertyDamageAmount@PSDamageReceiver@@QAEAAV01@ABJ@Z
+10003b7f | e96c0a0100 | JMP 0x100145f0
+; 10003b84 PSPlayerMemory::AddProtectionFire
+; 10003b84 Ordinal_1270

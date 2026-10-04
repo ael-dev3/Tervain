@@ -1,0 +1,76 @@
+/* ENTRY 10016830 | FUN_10016830 | STATUS decompiled | 36 ms */
+
+undefined4 FUN_10016830(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  char cVar1;
+  eCEntity *peVar2;
+  gEPose gVar3;
+  bool bVar4;
+  Entity aEStack_2bc [168];
+  undefined4 uStack_214;
+  Entity local_1f8 [36];
+  PSInventory local_1d4 [16];
+  PSNpc local_1c4 [112];
+  Entity local_154 [4];
+  Entity local_150 [164];
+  Entity local_ac [4];
+  undefined1 local_a8 [24];
+  PSInteraction local_90 [144];
+  
+  Entity::Entity(local_1f8);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_1f8,peVar2);
+  }
+  else {
+    Entity::operator=(local_1f8,param_2);
+  }
+  Entity::Entity(local_150);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_150,peVar2);
+  }
+  else {
+    Entity::operator=(local_150,param_3);
+  }
+  gVar3 = PSNpc::GetPrimaryPose(local_1c4);
+  uStack_214 = 0x100168ce;
+  PSInventory::GetItemFromSlot(local_1d4,(gESlot)local_a8);
+  PSInteraction::GetUseType(local_90);
+  uStack_214 = 9;
+  Entity::Entity(aEStack_2bc,(Entity *)&stack0xfffffe04);
+  cVar1 = thunk_FUN_10009c80();
+  if (cVar1 == '\0') {
+    uStack_214 = 2;
+    Entity::Entity(aEStack_2bc,(Entity *)&stack0xfffffe04);
+    cVar1 = thunk_FUN_10009c80();
+    if (cVar1 == '\0') {
+      uStack_214 = 0;
+      Entity::Entity(aEStack_2bc,(Entity *)&stack0xfffffe04);
+      cVar1 = thunk_FUN_10009c80();
+      if (cVar1 == '\0') {
+        bVar4 = gVar3 == 1;
+        goto LAB_10016908;
+      }
+    }
+    if ((gVar3 != 1) && (gVar3 != 2)) goto LAB_100169a0;
+  }
+  else {
+    bVar4 = gVar3 == 2;
+LAB_10016908:
+    if (!bVar4) {
+LAB_100169a0:
+      Entity::~Entity(local_ac);
+      Entity::~Entity(local_154);
+      Entity::~Entity((Entity *)&stack0xfffffe04);
+      return 0;
+    }
+  }
+  Entity::~Entity(local_ac);
+  Entity::~Entity(local_154);
+  Entity::~Entity((Entity *)&stack0xfffffe04);
+  return 1;
+}
+
+

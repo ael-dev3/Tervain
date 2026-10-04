@@ -1,0 +1,49 @@
+/* ENTRY 10046e30 | FUN_10046e30 | STATUS decompiled | 27 ms */
+
+int FUN_10046e30(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  int iVar3;
+  Entity local_150 [52];
+  PSNpc local_11c [4];
+  PSPlayerMemory local_118 [112];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_150);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_150,peVar2);
+  }
+  else {
+    Entity::operator=(local_150,param_2);
+  }
+  Entity::Entity(local_a8);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_a8,peVar2);
+  }
+  else {
+    Entity::operator=(local_a8,param_3);
+  }
+  bVar1 = PSPlayerMemory::IsValid(local_118);
+  if (bVar1) {
+    bVar1 = PSNpc::IsTransformed(local_11c);
+    if (!bVar1) {
+      PSPlayerMemory::GetProtectionBlades(local_118);
+      goto LAB_10046f05;
+    }
+  }
+  thunk_FUN_10046d30(param_1,local_150,None_exref,0);
+LAB_10046f05:
+  iVar3 = FUN_100e3ec0();
+  if (0x50 < iVar3) {
+    iVar3 = 0x50;
+  }
+  Entity::~Entity(local_a8);
+  Entity::~Entity(local_150);
+  return iVar3;
+}
+
+

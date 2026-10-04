@@ -99,7 +99,7 @@ export const ARDEA_QUESTS: ArdeaQuest[] = [
   },
   {
     id: 'Xardas_FindXardas', title: 'Find Xardas!',
-    summary: 'Original main-story EnterArea quest names PC_Hero and Xardas_Tower, with ExperiencePoints=250. Ardea conversations connect to this quest, but the tower region, original dialogue predicates and arrival trigger are outside this milestone.',
+    summary: 'Original main-story EnterArea quest names PC_Hero and Xardas_Tower, with ExperiencePoints=250. Ardea conversations connect to this quest. Landscape inspection near the tower is available; original dialogue predicates and the arrival trigger remain unimplemented.',
     source: 'Quests.pak/G3_World_01/Xardas_FindXardas_quest_G3_World_01.quest; Infos.pak/G3_World_01/BPANKRATZ31455–31456, FILLER65, FILLER67 (.info)',
     implemented: false,
     unsupportedCommands: ['Say', 'SetGameEvent', 'ClearGameEvent', 'native:gCQuest_PS::OnEnter'],
@@ -110,6 +110,8 @@ export const PORT_SCOPE: string[] = [
   'A TypeScript browser rebuild milestone using local Gothic 3 study data, with source records attached to the inspected people and quests.',
   'The Hero inspector preserves native skin weights and 11 original motion clips. Combat timing, attachment binding and NPC animation selection remain incomplete.',
   'The journal contains 641 original quest definitions and 4,381 dialogue records in five source languages. Catalog presence does not establish gameplay execution.',
+  '782 original landscape cells stream across Myrtana, Nordmar and Varant, using recovered texture/blend/UV graphs. Native lightmaps, lower mips, global lighting and collision remain incomplete.',
+  'Original player and quest seeds can be inspected. Reviewed combat/dialogue kernels require runtime host services; remaining startup callbacks and ordinary gameplay are pending.',
   'The six character summaries describe the original Ardea dialogue. This milestone does not execute the original dialogue tree, its predicates or its side effects.',
   'All six listed original quests are unimplemented. Inspection grants no XP, reputation, gold, skills or quest completion.',
   'Native combat, NPC routines, faction simulation, trading, original save compatibility and the full streamed world still require implementation.',

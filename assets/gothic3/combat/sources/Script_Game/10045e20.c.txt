@@ -1,0 +1,34 @@
+/* ENTRY 10045e20 | FUN_10045e20 | STATUS decompiled | 19 ms */
+
+undefined4 FUN_10045e20(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3,int param_4)
+
+{
+  eCEntity *peVar1;
+  int iVar2;
+  Entity local_150 [168];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_150);
+  if (param_2 == (Entity *)0x0) {
+    peVar1 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_150,peVar1);
+  }
+  else {
+    Entity::operator=(local_150,param_2);
+  }
+  Entity::Entity(local_a8);
+  if (param_3 == (Entity *)0x0) {
+    peVar1 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_a8,peVar1);
+  }
+  else {
+    Entity::operator=(local_a8,param_3);
+  }
+  iVar2 = thunk_FUN_100458c0(param_1,local_150,None_exref,0);
+  thunk_FUN_10045b20(param_1,local_150,None_exref,iVar2 + param_4);
+  Entity::~Entity(local_a8);
+  Entity::~Entity(local_150);
+  return 1;
+}
+
+

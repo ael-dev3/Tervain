@@ -1,0 +1,15 @@
+/* ENTRY 100145f0 | FUN_100145f0 | STATUS decompiled | 8 ms */
+
+undefined4 * __thiscall FUN_100145f0(void *this,long *param_1)
+
+{
+  if (*(gCDamageReceiver_PS **)this == (gCDamageReceiver_PS *)0x0) {
+    GE_MESSAGEF_WARN("Cannot set property \'%s\' in propertyset \'%s\'!","DamageAmount",
+                     "gCDamageReceiver_PS");
+    return this;
+  }
+  gCDamageReceiver_PS::SetDamageAmount(*(gCDamageReceiver_PS **)this,param_1);
+  return this;
+}
+
+

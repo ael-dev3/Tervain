@@ -1,0 +1,45 @@
+/* ENTRY 20027a89 | gCScriptRoutine_PS::GetOnScreenDebugLines | STATUS decompiled | 25 ms */
+
+/* public: virtual void __thiscall gCScriptRoutine_PS::GetOnScreenDebugLines(unsigned long,class
+   bTObjArray<struct eSPropertySetDebugLine> &)const  */
+
+void __thiscall
+gCScriptRoutine_PS::GetOnScreenDebugLines
+          (gCScriptRoutine_PS *this,ulong param_1,bTObjArray<eSPropertySetDebugLine> *param_2)
+
+{
+  bCString *pbVar1;
+  
+                    /* 0x27a89  3925
+                       ?GetOnScreenDebugLines@gCScriptRoutine_PS@@UBEXKAAV?$bTObjArray@UeSPropertySetDebugLine@@@@@Z
+                        */
+  if (((byte)param_1 & 1) == 1) {
+    thunk_FUN_2011cfb0(*(int *)(param_2 + 4) + 1);
+    pbVar1 = (bCString *)(*(int *)param_2 + -8 + *(int *)(param_2 + 4) * 8);
+    bCString::operator=(pbVar1,"AniState");
+    bCString::operator=(pbVar1 + 4,
+                        (bCString *)
+                        (&g_pstrAniStateString + (this->gCScriptRoutine_PS_data).offset_0x3c));
+    thunk_FUN_2011cfb0(*(int *)(param_2 + 4) + 1);
+    pbVar1 = (bCString *)(*(int *)param_2 + -8 + *(int *)(param_2 + 4) * 8);
+    bCString::operator=(pbVar1,"Action");
+    bCString::operator=(pbVar1 + 4,
+                        (bCString *)
+                        (&g_pstrActionString + (this->gCScriptRoutine_PS_data).offset_0x44));
+    thunk_FUN_2011cfb0(*(int *)(param_2 + 4) + 1);
+    pbVar1 = (bCString *)(*(int *)param_2 + -8 + *(int *)(param_2 + 4) * 8);
+    bCString::operator=(pbVar1,"State");
+    bCString::operator=(pbVar1 + 4,(bCString *)&(this->gCScriptRoutine_PS_data).field_0x30);
+    thunk_FUN_2011cfb0(*(int *)(param_2 + 4) + 1);
+    pbVar1 = (bCString *)(*(int *)param_2 + -8 + *(int *)(param_2 + 4) * 8);
+    bCString::operator=(pbVar1,"Task");
+    bCString::operator=(pbVar1 + 4,(bCString *)&(this->gCScriptRoutine_PS_data).field_0x14);
+    thunk_FUN_2011cfb0(*(int *)(param_2 + 4) + 1);
+    pbVar1 = (bCString *)(*(int *)param_2 + -8 + *(int *)(param_2 + 4) * 8);
+    bCString::operator=(pbVar1,"Routine");
+    bCString::operator=(pbVar1 + 4,(bCString *)&(this->gCScriptRoutine_PS_data).field_0x10);
+  }
+  return;
+}
+
+

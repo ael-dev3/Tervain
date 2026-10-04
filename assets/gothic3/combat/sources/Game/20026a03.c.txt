@@ -1,0 +1,30 @@
+/* ENTRY 20026a03 | gCEntity::OnDamage | STATUS decompiled | 21 ms */
+
+/* public: virtual void __thiscall gCEntity::OnDamage(class eCEntity *,class eCEntity
+   *,int,int,class eCContactIterator &) */
+
+void __thiscall
+gCEntity::OnDamage(gCEntity *this,eCEntity *param_1,eCEntity *param_2,int param_3,int param_4,
+                  eCContactIterator *param_5)
+
+{
+  gCSession *pgVar1;
+  eCDynamicEntity *peVar2;
+  gCSessionCheats *pgVar3;
+  
+                    /* 0x26a03  5390
+                       ?OnDamage@gCEntity@@UAEXPAVeCEntity@@0HHAAVeCContactIterator@@@Z */
+  pgVar1 = (gCSession *)thunk_FUN_20066480();
+  peVar2 = gCSession::GetPlayer(pgVar1);
+  if ((eCDynamicEntity *)this == peVar2) {
+    pgVar1 = (gCSession *)gCSession::GetInstance();
+    pgVar3 = gCSession::GetCheats(pgVar1);
+    if (pgVar3[0xc] == (gCSessionCheats)0x1) {
+      return;
+    }
+  }
+  eCDynamicEntity::OnDamage((eCDynamicEntity *)this,param_1,param_2,param_3,param_4,param_5);
+  return;
+}
+
+

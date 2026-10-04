@@ -1,0 +1,82 @@
+/* ENTRY 1000a390 | FUN_1000a390 | STATUS decompiled | 54 ms */
+
+undefined4 FUN_1000a390(void)
+
+{
+  bool bVar1;
+  gEDamageType gVar2;
+  gESpecies gVar3;
+  
+  bVar1 = PSNavigation::IsValid((PSNavigation *)&stack0x00000034);
+  if ((!bVar1) || (bVar1 = PSDamage::IsValid((PSDamage *)&stack0x000000f4), !bVar1))
+  goto switchD_1000a3c7_caseD_0;
+  gVar2 = PSDamage::PropertyDamageType::operator_enum_gEDamageType
+                    ((PropertyDamageType *)&stack0x000000f4);
+  switch(gVar2) {
+  case 0:
+    break;
+  case 1:
+    gVar3 = PSNpc::PropertySpecies::operator_enum_gESpecies((PropertySpecies *)&stack0x00000038);
+    if ((gVar3 == 1) || (gVar3 == 3)) {
+LAB_1000a402:
+      Entity::~Entity((Entity *)&stack0x00000004);
+      Entity::~Entity((Entity *)&stack0x000000ac);
+      return 2;
+    }
+  default:
+switchD_1000a3c7_caseD_2:
+    Entity::~Entity((Entity *)&stack0x00000000);
+    Entity::~Entity((Entity *)&stack0x000000a8);
+    return 1;
+  case 3:
+    gVar3 = PSNpc::PropertySpecies::operator_enum_gESpecies((PropertySpecies *)&stack0x00000038);
+    switch(gVar3) {
+    case 1:
+    case 0x31:
+      Entity::GetName((Entity *)&stack0x000000ac);
+      bVar1 = bCString::Contains((bCString *)&stack0xfffffff8,"Fire",0);
+      if ((bVar1) || (bVar1 = bCString::Contains((bCString *)&stack0xfffffff8,"Explosive",0), bVar1)
+         ) {
+        bCString::~bCString((bCString *)&stack0xfffffff8);
+        goto switchD_1000a3c7_caseD_2;
+      }
+      bCString::~bCString((bCString *)&stack0xfffffff8);
+      break;
+    default:
+      goto switchD_1000a3c7_caseD_2;
+    case 3:
+    case 0x30:
+      break;
+    }
+    break;
+  case 4:
+    gVar3 = PSNpc::PropertySpecies::operator_enum_gESpecies((PropertySpecies *)&stack0x00000038);
+    if (gVar3 != 0x30) {
+      if (gVar3 == 0x31) goto LAB_1000a402;
+      if (gVar3 != 0x34) goto switchD_1000a3c7_caseD_2;
+    }
+    break;
+  case 5:
+    bVar1 = PSNpc::HasStatusEffects((PSNpc *)&stack0x00000038,2);
+    if (!bVar1) {
+      gVar3 = PSNpc::PropertySpecies::operator_enum_gESpecies((PropertySpecies *)&stack0x00000038);
+      if (gVar3 == 0x30) goto LAB_1000a402;
+      if (gVar3 != 0x31) goto switchD_1000a3c7_caseD_2;
+    }
+    break;
+  case 6:
+    gVar3 = PSNpc::PropertySpecies::operator_enum_gESpecies((PropertySpecies *)&stack0x00000038);
+    if (gVar3 == 3) {
+      Entity::~Entity((Entity *)&stack0x00000004);
+      Entity::~Entity((Entity *)&stack0x000000ac);
+      return 2;
+    }
+    goto switchD_1000a3c7_caseD_2;
+  }
+switchD_1000a3c7_caseD_0:
+  Entity::~Entity((Entity *)&stack0x00000000);
+  Entity::~Entity((Entity *)&stack0x000000a8);
+  return 0;
+}
+
+

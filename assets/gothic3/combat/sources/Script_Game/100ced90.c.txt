@@ -1,0 +1,85 @@
+/* ENTRY 100ced90 | FUN_100ced90 | STATUS decompiled | 46 ms */
+
+undefined4 FUN_100ced90(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  gETreasureDistribution gVar3;
+  ulong uVar4;
+  gEUseType gVar5;
+  Template *pTVar6;
+  int iVar7;
+  int iVar8;
+  int unaff_EBX;
+  ulong uVar9;
+  ulong uVar10;
+  int local_210;
+  undefined1 local_20c [20];
+  Entity local_1f8 [36];
+  PSInventory local_1d4 [128];
+  PSTreasureSet local_154 [4];
+  Entity local_150 [32];
+  PSInventory local_130 [136];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_150);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_150,peVar2);
+  }
+  else {
+    Entity::operator=(local_150,param_2);
+  }
+  Entity::Entity(local_a8);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_a8,peVar2);
+  }
+  else {
+    Entity::operator=(local_a8,param_3);
+  }
+  Entity::Entity(local_1f8,local_a8);
+  bVar1 = PSTreasureSet::IsValid(local_154);
+  if ((bVar1) &&
+     (gVar3 = PSTreasureSet::PropertyTreasureDistribution::operator_enum_gETreasureDistribution
+                        ((PropertyTreasureDistribution *)local_154), gVar3 == 3)) {
+    PSInventory::MergeStacks(local_1d4);
+    local_210 = PSInventory::GetStackCount(local_1d4);
+    uVar9 = 0;
+    if (0 < local_210) {
+      do {
+        uVar4 = PSInventory::GetQuality(local_1d4,uVar9);
+        gVar5 = PSInventory::GetUseType(local_1d4,uVar9);
+        if ((gVar5 != 4) && (gVar5 != 7)) {
+          uVar4 = uVar4 | 0x100;
+        }
+        PSInventory::GetAmount(local_1d4,uVar9);
+        uVar10 = uVar9;
+        pTVar6 = (Template *)PSInventory::GetTemplate(local_1d4,(int)local_20c);
+        iVar7 = PSInventory::AssureItems(local_130,pTVar6,uVar10,uVar4);
+        Template::~Template((Template *)&local_210);
+        iVar8 = PSInventory::SplitStack(local_130,iVar7,1);
+        if (gVar5 == 2) {
+          PSInventory::EquipStackToSlot(local_130,iVar7,6);
+          PSInventory::EquipStackToSlot(local_130,iVar8,5);
+        }
+        else {
+          PSInventory::EquipStack(local_130,iVar7);
+        }
+        PSInventory::MergeStacks(local_130);
+        uVar9 = uVar9 + 1;
+      } while ((int)uVar9 < unaff_EBX);
+    }
+    Entity::~Entity(local_1f8);
+    Entity::~Entity(local_a8);
+    Entity::~Entity(local_150);
+    return 1;
+  }
+  Entity::~Entity(local_1f8);
+  Entity::~Entity(local_a8);
+  Entity::~Entity(local_150);
+  return 0;
+}
+
+

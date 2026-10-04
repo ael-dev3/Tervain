@@ -1,0 +1,15 @@
+/* ENTRY 10009a70 | FUN_10009a70 | STATUS decompiled | 4 ms */
+
+gEUseType FUN_10009a70(void)
+
+{
+  int iVar1;
+  gEUseType gVar2;
+  
+  iVar1 = PSInventory::FindStackIndex((PSInventory *)&stack0x00000028,1);
+  gVar2 = PSInventory::GetUseType((PSInventory *)&stack0x00000028,iVar1);
+  Entity::~Entity((Entity *)&stack0x00000004);
+  return gVar2;
+}
+
+

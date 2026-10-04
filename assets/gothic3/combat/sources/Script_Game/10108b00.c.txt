@@ -1,0 +1,17 @@
+/* ENTRY 10108b00 | FUN_10108b00 | STATUS decompiled | 8 ms */
+
+void FUN_10108b00(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Decision\\CanParade.cpp");
+  bCString::bCString(local_8,"CanParadeMoveOf");
+  thunk_FUN_10017a50(local_8,thunk_FUN_10016c60,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

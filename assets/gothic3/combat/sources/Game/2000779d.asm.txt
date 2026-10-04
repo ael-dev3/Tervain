@@ -1,0 +1,4 @@
+; 2000779d ?GetSkillActivationCount@gCInventory_PS@@QBEHPBVeCTemplateEntity@@@Z
+2000779d | e95e711a00 | JMP 0x201ae900
+; 200077a2 gCEffectCommandModifyEntity::GetValue
+; 200077a2 Ordinal_4665

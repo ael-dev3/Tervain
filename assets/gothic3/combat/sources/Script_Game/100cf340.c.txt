@@ -1,0 +1,70 @@
+/* ENTRY 100cf340 | FUN_100cf340 | STATUS decompiled | 42 ms */
+
+undefined4 FUN_100cf340(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  gEAIMode gVar3;
+  int iVar4;
+  gEAniState local_154;
+  Entity local_150 [4];
+  PSRoutine local_14c [44];
+  PSNavigation local_120 [4];
+  PSNpc local_11c [116];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_150);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_150,peVar2);
+  }
+  else {
+    Entity::operator=(local_150,param_2);
+  }
+  Entity::Entity(local_a8);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_a8,peVar2);
+  }
+  else {
+    Entity::operator=(local_a8,param_3);
+  }
+  bVar1 = PSRoutine::IsValid(local_14c);
+  if (bVar1) {
+    PSRoutine::FullStop(local_14c);
+  }
+  bVar1 = PSNavigation::IsValid(local_120);
+  if (bVar1) {
+    gVar3 = PSRoutine::PropertyAIMode::operator_enum_gEAIMode((PropertyAIMode *)local_14c);
+    if (gVar3 == 9) {
+      iVar4 = thunk_FUN_100cef90(param_1,local_150,None_exref,0);
+      if (iVar4 != 0) {
+        bVar1 = PSNavigation::IsInProcessingRange(local_120);
+        if (!bVar1) {
+          Entity::~Entity(local_a8);
+          Entity::~Entity(local_150);
+          return 0;
+        }
+      }
+    }
+    else {
+      bVar1 = PSNavigation::PropertyIsOnDestination::operator_bool
+                        ((PropertyIsOnDestination *)local_120);
+      if (!bVar1) {
+        PSNpc::ForceNextPose(local_11c,1);
+        Entity::SetCurrentAniDirection(local_150,1);
+        local_154 = 2;
+        PSRoutine::PropertyAniState::operator=((PropertyAniState *)local_14c,&local_154);
+      }
+      thunk_FUN_100cec10(param_1,local_150,None_exref,0);
+      thunk_FUN_100cf140(param_1,local_150,None_exref,0);
+    }
+    PSRoutine::ContinueRoutine(local_14c);
+  }
+  Entity::~Entity(local_a8);
+  Entity::~Entity(local_150);
+  return 1;
+}
+
+

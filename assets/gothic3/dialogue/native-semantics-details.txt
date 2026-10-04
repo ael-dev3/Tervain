@@ -1,0 +1,103 @@
+Native dialogue and source state checkpoint
+
+Reproduction (Python 3.10+, standard library only)
+  python -B tools/gothic3/read_dialogue_native_evidence.py --study <LOCAL_DESKTOP_STUDY>
+  python -B tools/gothic3/read_info_defaults_evidence.py --study <LOCAL_DESKTOP_STUDY>
+  python -B tools/gothic3/read_initial_quests.py --study <LOCAL_DESKTOP_STUDY>
+  python -B tools/gothic3/freeze_dialogue_receipts.py
+
+The first two tools reject different native module builds. Each recorded
+instruction is compared with the original PE file; saved disassembly and
+decompiler references retain source paths, lines, hashes and thunk addresses.
+No native game code is executed. Reconstructed C is a decompiler result,
+not original source. The receipt lists the separate quest seed proof too.
+
+Availability and role API
+  src/gothic3/dialogue.ts separates available, unavailable and unknown.
+  nativeInfoAvailability consumes explicit runtime facts. Scene lookup does
+  not imply actor/enclave/routine/party state or fresh Given values. Source
+  absence stays distinct from both a missing entity and an unloaded entity.
+  planNativeDialogue has no effects. executeNativeDialogue rechecks host
+  capabilities, predicates and start guards before accepted script start.
+  Missing behavior must return unknown; it cannot default to eligibility.
+
+  Game.dll IsAvailable entry0x20004615/body0x20436550 rejects Given except
+  condition51. AreConditionsFulfilled entry0x20020fc7/body0x20434770 checks
+  owner/quest resolution, condition type, items, events and secondary NPCs.
+  Parent eligibility recursively checks children other than condition52.
+  Raw numeric conditions are authoritative for this installed build.
+
+  CurrentSelf is B if the exact Owner string equals B's name, otherwise A;
+  CurrentOther is the opposite. Start normalizes A to the player when B is
+  the player. Case-insensitive aliases player/npc/self/owner/<Owner>/other
+  resolve through these roles. Empty command Entity2 chooses the opposite
+  role of resolved Entity1. Original scene names are not rewritten.
+
+Given and initialization
+  Execute0x2002218d/body0x204378d0 marks Given only after accepted script
+  start, before asynchronous dialogue necessarily completes. The store is
+  0x2043802a C6461801. It excludes info types0/4, conditions9/51/52,
+  Permanent byte exactly1 and a resolved player owner. The previous19
+  exclusion was a port metadata transcription error; native C and assembly
+  both use9. Condition19 is not excluded.
+
+  Fresh LoadInfosFromInis factory/property initialization proves omitted
+  Permanent=false, InfoGiven=false, ClearChildren=false, GoldCost=0,
+  Owner="" and Parent="". Original absent/null fields remain absent/null
+  in source catalogs. Restored or compiled runtime overlays and later
+  mutations need their own state proof before these fresh values are used.
+
+Owner distance
+  GetDistOwnerToNamedEntity0x2002a1cb/body0x20433850 multiplies original
+  centimetre distance by0.25 for an NPC target and by1 otherwise. Missing
+  entities yield99999. The availability comparison uses adjusted500,
+  giving2000cm for NPC targets and500cm for other targets.
+
+Command host contract
+  Say requires native asynchronous speech/voice/camera completion. The
+  host owns these effects and the original OnEndInfo/manager lifecycle.
+  Give uses ID1 template and ID2 native integer amount, assures donor
+  items at quality0 before transfer, and preserves native failure/advance.
+  Set/ClearGameEvent target player memory ID1. Run/Close/SucceedQuest use
+  ID1 and original status transitions. GiveXP uses ID1 requested amount,
+  Self=None and Other=player. End requests manager end; it does not by
+  itself discard all remaining script lines. Unported native commands
+  remain unknown. Unknown command names follow the native warning/advance
+  path only when the host supports that path. Empty commands are deferred.
+
+  Given is never consumed by unsupported preflight. After accepted start,
+  failures or interrupted asynchronous operations need actual lifecycle
+  handling; no rollback or fabricated completion is claimed.
+
+XP C-versus-assembly recovery
+  Script_Game body0x100628c0 uses the None/world Self branch to multiply
+  requested XP by5. Hamlar's original GiveXP100 therefore requests500
+  actual XP through that native branch. Other NPC/party branches remain
+  separately gated. The kernel delegates actual XP effects to the host.
+  Body0x100627e0 computes threshold250*(L+1)*(L+2) via x87 and CRT integer
+  truncation. Its reconstructed C loses the formula and return value;
+  source instructions and double constants prove it. Each invocation
+  increments Level at most once, awards10 LP plus1 with the learning perk.
+  Native player/property/UI callbacks are not implemented by this report.
+
+Initial state and view
+  loadOriginalInitialState uses verified initialized-player/world-clock
+  resources and a separate initial-quest receipt. Cached source records
+  are cloned; all641 quest states and complete original logPairs are kept.
+  The default host rejects gameplay effects. Original packet metadata and
+  paired localization IDs also remain in the separate quest document.
+  The player seed applies only proven stat/inventory startup operations;
+  quest state is before OnGameStartUp. This mixed phase is explicit.
+  Xardas_FindXardas remains Open; its startup RunQuest is pending.
+  showOriginalPlayerState is read-only: stats, original clock,121 inventory
+  assurances, two equipment slots,641 quest states and pending callbacks.
+  It grants no items/XP and runs no quest, elapsed clock or inventory action.
+
+Remaining behavior
+  Native first-priority dialogue choice depends on original VFS load order,
+  crime/enclave/party/routine predicates and callbacks. Catalog sort order
+  is not proof of the native menu order. This checkpoint does not select
+  opening conversations automatically or complete original game startup.
+  Delivery/teaching/arena/party/skill and other conditional consumers,
+  voice/audio/camera, save restoration, rewards and UI notifications need
+  further native-backed implementation. Full original play remains work.

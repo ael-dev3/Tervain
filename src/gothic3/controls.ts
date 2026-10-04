@@ -92,8 +92,11 @@ export class ExplorerController {
   private readonly slide = new THREE.Vector3();
   private readonly instanceMatrix = new THREE.Matrix4();
   private readonly combinedMatrix = new THREE.Matrix4();
+  private readonly proposedPosition = new THREE.Vector3();
   private readonly instanceNormalMatrix = new THREE.Matrix3();
   private readonly originalTabIndex: string | null;
+  /** Browser streaming guard; native PhysX movement is not implemented here. */
+  walkSurfaceReady: ((position: THREE.Vector3) => boolean) | null = null;
 
   constructor(
     private readonly camera: THREE.PerspectiveCamera,
@@ -161,8 +164,17 @@ export class ExplorerController {
     return !this.flying && this.fallbackFloor !== null;
   }
 
-  /** Rebuild the static collision index after world geometry/transforms change. */
+  /** Set the initial scene and arrival. Streaming uses setGeometry instead. */
   setWorld(objects: THREE.Object3D[], spawn: [number, number, number], yaw = 0): void {
+    this.setGeometry(objects);
+    this.spawn = [...spawn];
+    this.spawnYaw = Number.isFinite(yaw) ? yaw : 0;
+    this.fly = false;
+    this.reset();
+  }
+
+  /** Rebuild static support without resetting position, input, or orientation. */
+  setGeometry(objects: THREE.Object3D[]): void {
     this.cells.clear();
     this.wideSurfaces.length = 0;
     this.surfacesByMesh.clear();
@@ -203,10 +215,6 @@ export class ExplorerController {
       });
     }
 
-    this.spawn = [...spawn];
-    this.spawnYaw = Number.isFinite(yaw) ? yaw : 0;
-    this.fly = false;
-    this.reset();
   }
 
   reset(): void {
@@ -249,6 +257,7 @@ export class ExplorerController {
 
   update(dt: number): void {
     if (!this.enabled || this.disposed || !Number.isFinite(dt) || dt <= 0) return;
+    if (!this.flying && this.walkSurfaceReady && !this.walkSurfaceReady(this.position)) return;
     // Bound tab-resume/frame spikes; short substeps limit thin-wall tunnelling.
     const elapsed = Math.min(dt, 0.1);
     const steps = Math.ceil(elapsed / (1 / 60));
@@ -391,6 +400,7 @@ export class ExplorerController {
 
   private moveWithWalls(displacement: THREE.Vector3, flying: boolean): void {
     if (displacement.lengthSq() === 0) return;
+    if (!flying && this.walkSurfaceReady && !this.walkSurfaceReady(this.proposedPosition.copy(this.position).add(displacement))) return;
     const hit = this.sweep(displacement, flying);
     if (!hit) {
       this.position.add(displacement);

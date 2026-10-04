@@ -1,0 +1,22 @@
+; 1003bb90 FUN_1003bb90
+1003bb90 | 8d4c2474 | LEA ECX,[ESP + 0x74]
+1003bb94 | ff15f4672210 | CALL dword ptr [0x102267f4]
+1003bb9a | 3c01 | CMP AL,0x1
+1003bb9c | 752e | JNZ 0x1003bbcc
+1003bb9e | 81eca8000000 | SUB ESP,0xa8
+1003bba4 | 8d8424ac000000 | LEA EAX,[ESP + 0xac]
+1003bbab | 8bcc | MOV ECX,ESP
+1003bbad | 50 | PUSH EAX
+1003bbae | ff1538652210 | CALL dword ptr [0x10226538]
+1003bbb4 | e8bf5efcff | CALL 0x10001a78
+1003bbb9 | 3c01 | CMP AL,0x1
+1003bbbb | 750f | JNZ 0x1003bbcc
+1003bbbd | 8d4c2404 | LEA ECX,[ESP + 0x4]
+1003bbc1 | ff15906f2210 | CALL dword ptr [0x10226f90]
+1003bbc7 | b001 | MOV AL,0x1
+1003bbc9 | c2a800 | RET 0xa8
+; 1003bbcc LAB_1003bbcc
+1003bbcc | 8d4c2404 | LEA ECX,[ESP + 0x4]
+1003bbd0 | ff15906f2210 | CALL dword ptr [0x10226f90]
+1003bbd6 | 32c0 | XOR AL,AL
+1003bbd8 | c2a800 | RET 0xa8

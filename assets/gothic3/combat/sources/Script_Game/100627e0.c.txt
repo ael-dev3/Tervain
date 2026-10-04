@@ -1,0 +1,34 @@
+/* ENTRY 100627e0 | FUN_100627e0 | STATUS decompiled | 18 ms */
+
+void FUN_100627e0(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  eCEntity *peVar1;
+  Entity local_150 [52];
+  PropertyLevel local_11c [116];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_150);
+  if (param_2 == (Entity *)0x0) {
+    peVar1 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_150,peVar1);
+  }
+  else {
+    Entity::operator=(local_150,param_2);
+  }
+  Entity::Entity(local_a8);
+  if (param_3 == (Entity *)0x0) {
+    peVar1 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_a8,peVar1);
+  }
+  else {
+    Entity::operator=(local_a8,param_3);
+  }
+  PSNpc::PropertyLevel::operator_unsigned_long(local_11c);
+  Entity::~Entity(local_a8);
+  Entity::~Entity(local_150);
+  FUN_100e3ec0();
+  return;
+}
+
+

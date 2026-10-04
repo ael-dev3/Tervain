@@ -1,0 +1,23 @@
+/* ENTRY 1003bb10 | FUN_1003bb10 | STATUS decompiled | 10 ms */
+
+undefined4 FUN_1003bb10(void)
+
+{
+  bool bVar1;
+  Entity *pEVar2;
+  
+  bVar1 = PSInteraction::IsValid((PSInteraction *)&stack0x00000020);
+  if (bVar1) {
+    pEVar2 = (Entity *)PSInteraction::GetSpell((PSInteraction *)&stack0x00000020);
+    bVar1 = Entity::operator!=((Entity *)None_exref,pEVar2);
+    Entity::~Entity((Entity *)&stack0xffffff54);
+    if (bVar1) {
+      Entity::~Entity((Entity *)&stack0x00000000);
+      return 1;
+    }
+  }
+  Entity::~Entity((Entity *)&stack0x00000000);
+  return 0;
+}
+
+

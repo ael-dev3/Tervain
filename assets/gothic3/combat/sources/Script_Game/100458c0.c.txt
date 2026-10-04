@@ -1,0 +1,50 @@
+/* ENTRY 100458c0 | FUN_100458c0 | STATUS decompiled | 24 ms */
+
+int FUN_100458c0(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  int iVar3;
+  long lVar4;
+  Entity local_150 [56];
+  PSPlayerMemory local_118 [20];
+  PSDamageReceiver local_104 [92];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_150);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_150,peVar2);
+  }
+  else {
+    Entity::operator=(local_150,param_2);
+  }
+  Entity::Entity(local_a8);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_a8,peVar2);
+  }
+  else {
+    Entity::operator=(local_a8,param_3);
+  }
+  bVar1 = PSPlayerMemory::IsValid(local_118);
+  if (bVar1) {
+    iVar3 = PSPlayerMemory::GetHitPoints(local_118);
+    Entity::~Entity(local_a8);
+    Entity::~Entity(local_150);
+    return iVar3;
+  }
+  bVar1 = PSDamageReceiver::IsValid(local_104);
+  if (bVar1) {
+    lVar4 = PSDamageReceiver::PropertyHitPoints::operator_long((PropertyHitPoints *)local_104);
+    Entity::~Entity(local_a8);
+    Entity::~Entity(local_150);
+    return lVar4;
+  }
+  Entity::~Entity(local_a8);
+  Entity::~Entity(local_150);
+  return 0;
+}
+
+

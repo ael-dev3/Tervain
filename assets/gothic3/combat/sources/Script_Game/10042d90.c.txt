@@ -1,0 +1,66 @@
+/* ENTRY 10042d90 | FUN_10042d90 | STATUS decompiled | 33 ms */
+
+undefined4 FUN_10042d90(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  Entity *this;
+  eCEntity *peVar1;
+  int iVar2;
+  bCMemoryAdmin *this_00;
+  Entity *unaff_EBX;
+  int iVar3;
+  int iVar4;
+  int local_204;
+  int local_200;
+  Entity local_1fc [4];
+  Entity local_1f8 [164];
+  Entity local_154 [168];
+  Entity local_ac [4];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_1f8);
+  if (param_2 == (Entity *)0x0) {
+    peVar1 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_1f8,peVar1);
+  }
+  else {
+    Entity::operator=(local_1f8,param_2);
+  }
+  Entity::Entity(local_a8);
+  if (param_3 == (Entity *)0x0) {
+    peVar1 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_a8,peVar1);
+  }
+  else {
+    Entity::operator=(local_a8,param_3);
+  }
+  Entity::GetNPCs();
+  iVar4 = 0;
+  if (0 < local_204) {
+    iVar3 = 0;
+    do {
+      Entity::Entity(local_154,unaff_EBX + iVar3);
+      iVar2 = thunk_FUN_100424e0(param_1,local_154,local_1fc,0);
+      if (iVar2 != 0) {
+        thunk_FUN_1003f370(param_1,local_154,local_1fc,0);
+      }
+      Entity::~Entity(local_154);
+      iVar4 = iVar4 + 1;
+      iVar3 = iVar3 + 0xa8;
+    } while (iVar4 < local_204);
+  }
+  this = unaff_EBX;
+  if (unaff_EBX != (Entity *)0x0) {
+    for (; local_200 != 0; local_200 = local_200 + -1) {
+      Entity::~Entity(this);
+      this = this + 0xa8;
+    }
+    this_00 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this_00,unaff_EBX);
+  }
+  Entity::~Entity(local_ac);
+  Entity::~Entity(local_1fc);
+  return 1;
+}
+
+

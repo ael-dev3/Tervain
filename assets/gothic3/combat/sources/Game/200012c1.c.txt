@@ -1,0 +1,12 @@
+/* ENTRY 200012c1 | gCInventoryStack::GetActivationCount | STATUS decompiled | 3 ms */
+
+/* public: int const & __thiscall gCInventoryStack::GetActivationCount(void)const  */
+
+int * __thiscall gCInventoryStack::GetActivationCount(gCInventoryStack *this)
+
+{
+                    /* 0x12c1  2887  ?GetActivationCount@gCInventoryStack@@QBEABHXZ */
+  return &(this->gCInventoryStack_data).offset_0x1c;
+}
+
+

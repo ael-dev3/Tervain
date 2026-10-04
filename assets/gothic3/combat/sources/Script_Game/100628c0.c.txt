@@ -1,0 +1,199 @@
+/* ENTRY 100628c0 | FUN_100628c0 | STATUS decompiled | 194 ms */
+
+undefined4 FUN_100628c0(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  bool bVar2;
+  bool bVar3;
+  bool bVar4;
+  eCEntity *peVar5;
+  Entity *pEVar6;
+  Entity *this;
+  gEPartyMemberType gVar7;
+  ulong uVar8;
+  gEGameMessageType gVar9;
+  eCLocString *peVar10;
+  bCUnicodeString *this_00;
+  bCUnicodeString *pbVar11;
+  bCUnicodeString *pbVar12;
+  int iVar13;
+  long lVar14;
+  bCUnicodeString local_37c [4];
+  undefined4 local_378;
+  bCUnicodeString local_374 [4];
+  eCLocString local_370 [4];
+  Entity local_36c [8];
+  undefined1 local_364 [16];
+  Entity local_354 [4];
+  Entity local_350 [4];
+  Entity local_34c [4];
+  PSInventory local_348 [20];
+  PropertyLPAttribs local_334 [4];
+  PropertyLevel local_330 [4];
+  PropertyXP local_32c [52];
+  PSParty local_2f8 [52];
+  Entity local_2c4 [20];
+  Entity local_2b0 [4];
+  Entity local_2ac [8];
+  Entity local_2a4 [4];
+  Entity local_2a0 [36];
+  PSNpc local_27c [40];
+  PropertyPartyMemberType local_254 [56];
+  Entity local_21c [24];
+  Entity local_204 [8];
+  Entity local_1fc [4];
+  Entity local_1f8 [84];
+  PSParty local_1a4 [68];
+  Entity local_160 [4];
+  Entity local_15c [168];
+  Entity local_b4 [4];
+  Entity local_b0 [152];
+  undefined4 local_18;
+  undefined4 local_c;
+  
+  bVar4 = false;
+  bVar3 = false;
+  local_378 = 0;
+  Entity::Entity(local_2a0);
+  if (param_2 == (Entity *)0x0) {
+    peVar5 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_2a0,peVar5);
+  }
+  else {
+    Entity::operator=(local_2a0,param_2);
+  }
+  Entity::Entity(local_1f8);
+  if (param_3 == (Entity *)0x0) {
+    peVar5 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_1f8,peVar5);
+  }
+  else {
+    Entity::operator=(local_1f8,param_3);
+  }
+  Entity::GetPlayer();
+  bVar1 = Entity::operator==(local_34c,local_2a4);
+  if (bVar1) {
+    Entity::~Entity(local_34c);
+    Entity::~Entity(local_1fc);
+    Entity::~Entity(local_2a4);
+    return 0;
+  }
+  bVar1 = Entity::operator!=(local_34c,local_1fc);
+  if (bVar1) {
+    bVar4 = true;
+    bVar3 = false;
+    pEVar6 = (Entity *)PSParty::GetPartyLeader(local_1a4);
+    bVar1 = Entity::operator!=(local_350,pEVar6);
+    if (!bVar1) goto LAB_10062a04;
+    pEVar6 = local_b0;
+    bVar4 = true;
+    bVar3 = true;
+    this = (Entity *)PSParty::GetPartyLeader(local_2f8);
+    bVar2 = Entity::operator!=(this,pEVar6);
+    bVar1 = true;
+    if (!bVar2) goto LAB_10062a04;
+  }
+  else {
+LAB_10062a04:
+    bVar1 = false;
+  }
+  if (bVar3) {
+    Entity::~Entity(local_b4);
+  }
+  if (bVar4) {
+    Entity::~Entity(local_15c);
+  }
+  if ((bVar1) ||
+     (gVar7 = PSParty::PropertyPartyMemberType::operator_enum_gEPartyMemberType(local_254),
+     gVar7 == 5)) {
+    Entity::~Entity(local_354);
+    Entity::~Entity(local_204);
+    Entity::~Entity(local_2ac);
+    return 0;
+  }
+  pEVar6 = (Entity *)Entity::GetWorldEntity();
+  bVar3 = Entity::operator==(local_2b0,pEVar6);
+  if (!bVar3) {
+    bVar4 = Entity::operator==((Entity *)None_exref,local_2b0);
+    bVar3 = false;
+    if (!bVar4) goto LAB_10062ac2;
+  }
+  bVar3 = true;
+LAB_10062ac2:
+  Entity::~Entity(local_160);
+  if (bVar3) {
+    param_1 = (gCScriptProcessingUnit *)((int)param_1 * 5);
+  }
+  else {
+    bVar3 = PSNpc::IsValid(local_27c);
+    if ((bVar3) && (param_1 == (gCScriptProcessingUnit *)0xffffffff)) {
+      uVar8 = PSNpc::PropertyLevel::operator_unsigned_long((PropertyLevel *)local_27c);
+      if ((int)uVar8 < 1) {
+        uVar8 = 1;
+      }
+      param_1 = (gCScriptProcessingUnit *)(uVar8 * 10);
+      iVar13 = thunk_FUN_100187b0(local_c,local_2b0,None_exref,0);
+      if (iVar13 == 0) {
+        if ((int)param_1 < 0x32) {
+          param_1 = (gCScriptProcessingUnit *)0x32;
+        }
+      }
+      else if ((int)param_1 < 0x19) {
+        param_1 = (gCScriptProcessingUnit *)0x19;
+      }
+    }
+  }
+  bCString::bCString((bCString *)&stack0xfffffc80,"GO_XP");
+  bCUnicodeString::bCUnicodeString((bCUnicodeString *)&stack0xfffffc78,(int)param_1);
+  gVar9 = bCUnicodeString::bCUnicodeString(local_37c," + ");
+  pbVar12 = (bCUnicodeString *)&local_378;
+  pbVar11 = local_374;
+  peVar10 = (eCLocString *)eCLocString::eCLocString(local_370,(bCString *)&stack0xfffffc80);
+  this_00 = (bCUnicodeString *)eCLocString::GetString(peVar10);
+  pbVar11 = (bCUnicodeString *)bCUnicodeString::operator+(this_00,pbVar11);
+  pbVar12 = (bCUnicodeString *)bCUnicodeString::operator+(pbVar11,pbVar12);
+  GUI2::PrintGameMessage((GUI2 *)gui2_exref,pbVar12,gVar9);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffc70);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffc7c);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffc80);
+  eCLocString::~eCLocString((eCLocString *)local_37c);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffc78);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffc6c);
+  bCString::~bCString((bCString *)&stack0xfffffc74);
+  PSPlayerMemory::PropertyXP::operator_long(local_32c);
+  PSPlayerMemory::PropertyXP::operator=(local_32c,(long *)&stack0xfffffc6c);
+  iVar13 = thunk_FUN_100627e0(local_18,local_364,None_exref,0);
+  lVar14 = PSPlayerMemory::PropertyXP::operator_long(local_32c);
+  if (iVar13 <= lVar14) {
+    PSNpc::PropertyLevel::operator_unsigned_long(local_330);
+    PSNpc::PropertyLevel::operator=(local_330,(ulong *)&stack0xfffffc6c);
+    bCString::bCString((bCString *)&stack0xfffffc70,"GO_LevelUp");
+    peVar10 = (eCLocString *)
+              eCLocString::eCLocString((eCLocString *)&stack0xfffffc6c,(bCString *)&stack0xfffffc70)
+    ;
+    eCLocString::operator_class_bCUnicodeString_const(peVar10);
+    GUI2::PrintGameMessage((GUI2 *)gui2_exref,(bCUnicodeString *)&stack0xfffffc70,4);
+    bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffc70);
+    eCLocString::~eCLocString((eCLocString *)&stack0xfffffc68);
+    bCString::~bCString((bCString *)&stack0xfffffc6c);
+    bCString::bCString((bCString *)&stack0xfffffc6c,"eff_event_levelup_01");
+    EffectSystem::StartEffect((bCString *)&stack0xfffffc68,(Entity *)&stack0xfffffc6c);
+    bCString::~bCString((bCString *)&stack0xfffffc68);
+    PSPlayerMemory::PropertyLPAttribs::operator_long(local_334);
+    PSPlayerMemory::PropertyLPAttribs::operator=(local_334,(long *)&stack0xfffffc64);
+    Template::Template((Template *)&stack0xfffffc80,"Perk_Learn");
+    bVar3 = PSInventory::IsSkillActive(local_348,(Template *)&stack0xfffffc80);
+    Template::~Template((Template *)&stack0xfffffc80);
+    if (bVar3) {
+      PSPlayerMemory::PropertyLPAttribs::operator_long(local_334);
+      PSPlayerMemory::PropertyLPAttribs::operator=(local_334,(long *)&stack0xfffffc64);
+    }
+  }
+  Entity::~Entity(local_36c);
+  Entity::~Entity(local_21c);
+  Entity::~Entity(local_2c4);
+  return 1;
+}
+
+

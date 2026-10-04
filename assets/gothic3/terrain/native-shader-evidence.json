@@ -1,0 +1,918 @@
+{
+  "schema": "gothic3-terrain-native-shader-evidence-v1",
+  "inputSHA256": "d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3",
+  "assemblySHA256": "8b243b9520963161bc4ae73f35f2712b196f684e188276fb2453e2e4c7e65d36",
+  "functions": {
+    "uvProxyVS": {
+      "entry": "30041015",
+      "entryBytes": "e9f60f4f00",
+      "bodyEntry": "30532010",
+      "instructions": [
+        {
+          "line": 1373322,
+          "text": "30532010 | 56 | PUSH ESI"
+        },
+        {
+          "line": 1373323,
+          "text": "30532011 | 8bf1 | MOV ESI,ECX"
+        },
+        {
+          "line": 1373324,
+          "text": "30532013 | e8e52bb0ff | CALL 0x30034bfd"
+        },
+        {
+          "line": 1373325,
+          "text": "30532018 | 85c0 | TEST EAX,EAX"
+        },
+        {
+          "line": 1373326,
+          "text": "3053201a | 740d | JZ 0x30532029"
+        },
+        {
+          "line": 1373327,
+          "text": "3053201c | 8b10 | MOV EDX,dword ptr [EAX]"
+        },
+        {
+          "line": 1373328,
+          "text": "3053201e | 5e | POP ESI"
+        },
+        {
+          "line": 1373329,
+          "text": "3053201f | 8bc8 | MOV ECX,EAX"
+        },
+        {
+          "line": 1373330,
+          "text": "30532021 | 8b9298000000 | MOV EDX,dword ptr [EDX + 0x98]"
+        },
+        {
+          "line": 1373331,
+          "text": "30532027 | ffe2 | JMP EDX"
+        },
+        {
+          "line": 1373333,
+          "text": "30532029 | 8b461c | MOV EAX,dword ptr [ESI + 0x1c]"
+        },
+        {
+          "line": 1373334,
+          "text": "3053202c | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]"
+        },
+        {
+          "line": 1373335,
+          "text": "30532030 | 50 | PUSH EAX"
+        },
+        {
+          "line": 1373336,
+          "text": "30532031 | 685c2f8830 | PUSH 0x30882f5c"
+        },
+        {
+          "line": 1373337,
+          "text": "30532036 | 51 | PUSH ECX"
+        },
+        {
+          "line": 1373338,
+          "text": "30532037 | ff1594dbaf30 | CALL dword ptr [0x30afdb94]"
+        },
+        {
+          "line": 1373339,
+          "text": "3053203d | 83c40c | ADD ESP,0xc"
+        },
+        {
+          "line": 1373340,
+          "text": "30532040 | b001 | MOV AL,0x1"
+        },
+        {
+          "line": 1373341,
+          "text": "30532042 | 5e | POP ESI"
+        },
+        {
+          "line": 1373342,
+          "text": "30532043 | c20c00 | RET 0xc"
+        }
+      ],
+      "strings": [
+        {
+          "address": "30882f5c",
+          "assemblyLine": 1373336,
+          "instruction": "PUSH 0x30882f5c",
+          "text": "XFX_VS_INPUT_TEX%i"
+        }
+      ]
+    },
+    "uvProxyPS": {
+      "entry": "30019d44",
+      "entryBytes": "e907835100",
+      "bodyEntry": "30532050",
+      "instructions": [
+        {
+          "line": 1373344,
+          "text": "30532050 | e8a82bb0ff | CALL 0x30034bfd"
+        },
+        {
+          "line": 1373345,
+          "text": "30532055 | 85c0 | TEST EAX,EAX"
+        },
+        {
+          "line": 1373346,
+          "text": "30532057 | 740c | JZ 0x30532065"
+        },
+        {
+          "line": 1373347,
+          "text": "30532059 | 8b10 | MOV EDX,dword ptr [EAX]"
+        },
+        {
+          "line": 1373348,
+          "text": "3053205b | 8bc8 | MOV ECX,EAX"
+        },
+        {
+          "line": 1373349,
+          "text": "3053205d | 8b929c000000 | MOV EDX,dword ptr [EDX + 0x9c]"
+        },
+        {
+          "line": 1373350,
+          "text": "30532063 | ffe2 | JMP EDX"
+        },
+        {
+          "line": 1373352,
+          "text": "30532065 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]"
+        },
+        {
+          "line": 1373353,
+          "text": "30532069 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]"
+        },
+        {
+          "line": 1373354,
+          "text": "3053206d | 50 | PUSH EAX"
+        },
+        {
+          "line": 1373355,
+          "text": "3053206e | 686cdf8730 | PUSH 0x3087df6c"
+        },
+        {
+          "line": 1373356,
+          "text": "30532073 | 51 | PUSH ECX"
+        },
+        {
+          "line": 1373357,
+          "text": "30532074 | ff1594dbaf30 | CALL dword ptr [0x30afdb94]"
+        },
+        {
+          "line": 1373358,
+          "text": "3053207a | 83c40c | ADD ESP,0xc"
+        },
+        {
+          "line": 1373359,
+          "text": "3053207d | b001 | MOV AL,0x1"
+        },
+        {
+          "line": 1373360,
+          "text": "3053207f | c20c00 | RET 0xc"
+        }
+      ],
+      "strings": [
+        {
+          "address": "3087df6c",
+          "assemblyLine": 1373355,
+          "instruction": "PUSH 0x3087df6c",
+          "text": "XFX_PS_TEX%i"
+        }
+      ]
+    },
+    "bumpOffsetPS": {
+      "entry": "30003e4a",
+      "entryBytes": "e9112c5200",
+      "bodyEntry": "30526a60",
+      "instructions": [
+        {
+          "line": 1361353,
+          "text": "30526a60 | 83ec0c | SUB ESP,0xc"
+        },
+        {
+          "line": 1361354,
+          "text": "30526a63 | 807c241800 | CMP byte ptr [ESP + 0x18],0x0"
+        },
+        {
+          "line": 1361355,
+          "text": "30526a68 | 57 | PUSH EDI"
+        },
+        {
+          "line": 1361356,
+          "text": "30526a69 | 8bf9 | MOV EDI,ECX"
+        },
+        {
+          "line": 1361357,
+          "text": "30526a6b | 754e | JNZ 0x30526abb"
+        },
+        {
+          "line": 1361358,
+          "text": "30526a6d | 8b442418 | MOV EAX,dword ptr [ESP + 0x18]"
+        },
+        {
+          "line": 1361359,
+          "text": "30526a71 | 8b4c2414 | MOV ECX,dword ptr [ESP + 0x14]"
+        },
+        {
+          "line": 1361360,
+          "text": "30526a75 | 6a00 | PUSH 0x0"
+        },
+        {
+          "line": 1361361,
+          "text": "30526a77 | 50 | PUSH EAX"
+        },
+        {
+          "line": 1361362,
+          "text": "30526a78 | 51 | PUSH ECX"
+        },
+        {
+          "line": 1361363,
+          "text": "30526a79 | 8d4f68 | LEA ECX,[EDI + 0x68]"
+        },
+        {
+          "line": 1361364,
+          "text": "30526a7c | e8c332afff | CALL 0x30019d44"
+        },
+        {
+          "line": 1361365,
+          "text": "30526a81 | 84c0 | TEST AL,AL"
+        },
+        {
+          "line": 1361366,
+          "text": "30526a83 | 752d | JNZ 0x30526ab2"
+        },
+        {
+          "line": 1361367,
+          "text": "30526a85 | 8b15fcdbaf30 | MOV EDX,dword ptr [0x30afdbfc]"
+        },
+        {
+          "line": 1361368,
+          "text": "30526a8b | 8b02 | MOV EAX,dword ptr [EDX]"
+        },
+        {
+          "line": 1361369,
+          "text": "30526a8d | 50 | PUSH EAX"
+        },
+        {
+          "line": 1361370,
+          "text": "30526a8e | 6aff | PUSH -0x1"
+        },
+        {
+          "line": 1361371,
+          "text": "30526a90 | 6a00 | PUSH 0x0"
+        },
+        {
+          "line": 1361372,
+          "text": "30526a92 | 6a00 | PUSH 0x0"
+        },
+        {
+          "line": 1361373,
+          "text": "30526a94 | 68a0218830 | PUSH 0x308821a0"
+        },
+        {
+          "line": 1361375,
+          "text": "30526a99 | 6a03 | PUSH 0x3"
+        },
+        {
+          "line": 1361376,
+          "text": "30526a9b | ff1588dbaf30 | CALL dword ptr [0x30afdb88]"
+        },
+        {
+          "line": 1361377,
+          "text": "30526aa1 | 8bc8 | MOV ECX,EAX"
+        },
+        {
+          "line": 1361378,
+          "text": "30526aa3 | ff158cdbaf30 | CALL dword ptr [0x30afdb8c]"
+        },
+        {
+          "line": 1361379,
+          "text": "30526aa9 | 32c0 | XOR AL,AL"
+        },
+        {
+          "line": 1361380,
+          "text": "30526aab | 5f | POP EDI"
+        },
+        {
+          "line": 1361381,
+          "text": "30526aac | 83c40c | ADD ESP,0xc"
+        },
+        {
+          "line": 1361382,
+          "text": "30526aaf | c20c00 | RET 0xc"
+        },
+        {
+          "line": 1361384,
+          "text": "30526ab2 | b001 | MOV AL,0x1"
+        },
+        {
+          "line": 1361385,
+          "text": "30526ab4 | 5f | POP EDI"
+        },
+        {
+          "line": 1361386,
+          "text": "30526ab5 | 83c40c | ADD ESP,0xc"
+        },
+        {
+          "line": 1361387,
+          "text": "30526ab8 | c20c00 | RET 0xc"
+        },
+        {
+          "line": 1361389,
+          "text": "30526abb | 8d4f50 | LEA ECX,[EDI + 0x50]"
+        },
+        {
+          "line": 1361390,
+          "text": "30526abe | ff15b0cdaf30 | CALL dword ptr [0x30afcdb0]"
+        },
+        {
+          "line": 1361391,
+          "text": "30526ac4 | 84c0 | TEST AL,AL"
+        },
+        {
+          "line": 1361392,
+          "text": "30526ac6 | 7516 | JNZ 0x30526ade"
+        },
+        {
+          "line": 1361393,
+          "text": "30526ac8 | 8b0dfcdbaf30 | MOV ECX,dword ptr [0x30afdbfc]"
+        },
+        {
+          "line": 1361394,
+          "text": "30526ace | 8b11 | MOV EDX,dword ptr [ECX]"
+        },
+        {
+          "line": 1361395,
+          "text": "30526ad0 | 52 | PUSH EDX"
+        },
+        {
+          "line": 1361396,
+          "text": "30526ad1 | 6aff | PUSH -0x1"
+        },
+        {
+          "line": 1361397,
+          "text": "30526ad3 | 6a00 | PUSH 0x0"
+        },
+        {
+          "line": 1361398,
+          "text": "30526ad5 | 6a00 | PUSH 0x0"
+        },
+        {
+          "line": 1361399,
+          "text": "30526ad7 | 6840218830 | PUSH 0x30882140"
+        },
+        {
+          "line": 1361400,
+          "text": "30526adc | ebbb | JMP 0x30526a99"
+        },
+        {
+          "line": 1361402,
+          "text": "30526ade | 53 | PUSH EBX"
+        },
+        {
+          "line": 1361403,
+          "text": "30526adf | 55 | PUSH EBP"
+        },
+        {
+          "line": 1361404,
+          "text": "30526ae0 | 56 | PUSH ESI"
+        },
+        {
+          "line": 1361405,
+          "text": "30526ae1 | 8d7748 | LEA ESI,[EDI + 0x48]"
+        },
+        {
+          "line": 1361406,
+          "text": "30526ae4 | 8bce | MOV ECX,ESI"
+        },
+        {
+          "line": 1361407,
+          "text": "30526ae6 | e8c8b7b0ff | CALL 0x300322b3"
+        },
+        {
+          "line": 1361408,
+          "text": "30526aeb | 83f801 | CMP EAX,0x1"
+        },
+        {
+          "line": 1361409,
+          "text": "30526aee | 8b2d8cdbaf30 | MOV EBP,dword ptr [0x30afdb8c]"
+        },
+        {
+          "line": 1361410,
+          "text": "30526af4 | 8b1d88dbaf30 | MOV EBX,dword ptr [0x30afdb88]"
+        },
+        {
+          "line": 1361411,
+          "text": "30526afa | 740b | JZ 0x30526b07"
+        },
+        {
+          "line": 1361412,
+          "text": "30526afc | 8bce | MOV ECX,ESI"
+        },
+        {
+          "line": 1361413,
+          "text": "30526afe | e8b0b7b0ff | CALL 0x300322b3"
+        },
+        {
+          "line": 1361414,
+          "text": "30526b03 | 85c0 | TEST EAX,EAX"
+        },
+        {
+          "line": 1361415,
+          "text": "30526b05 | 7524 | JNZ 0x30526b2b"
+        },
+        {
+          "line": 1361417,
+          "text": "30526b07 | a1fcdbaf30 | MOV EAX,[0x30afdbfc]"
+        },
+        {
+          "line": 1361418,
+          "text": "30526b0c | 8b08 | MOV ECX,dword ptr [EAX]"
+        },
+        {
+          "line": 1361419,
+          "text": "30526b0e | 51 | PUSH ECX"
+        },
+        {
+          "line": 1361420,
+          "text": "30526b0f | 6aff | PUSH -0x1"
+        },
+        {
+          "line": 1361421,
+          "text": "30526b11 | 6a00 | PUSH 0x0"
+        },
+        {
+          "line": 1361422,
+          "text": "30526b13 | 6a00 | PUSH 0x0"
+        },
+        {
+          "line": 1361423,
+          "text": "30526b15 | 68b8208830 | PUSH 0x308820b8"
+        },
+        {
+          "line": 1361424,
+          "text": "30526b1a | 6a03 | PUSH 0x3"
+        },
+        {
+          "line": 1361425,
+          "text": "30526b1c | ffd3 | CALL EBX"
+        },
+        {
+          "line": 1361426,
+          "text": "30526b1e | 8bc8 | MOV ECX,EAX"
+        },
+        {
+          "line": 1361427,
+          "text": "30526b20 | ffd5 | CALL EBP"
+        },
+        {
+          "line": 1361428,
+          "text": "30526b22 | 6a05 | PUSH 0x5"
+        },
+        {
+          "line": 1361429,
+          "text": "30526b24 | 8bce | MOV ECX,ESI"
+        },
+        {
+          "line": 1361430,
+          "text": "30526b26 | e889feaeff | CALL 0x300169b4"
+        },
+        {
+          "line": 1361432,
+          "text": "30526b2b | 8d4c2410 | LEA ECX,[ESP + 0x10]"
+        },
+        {
+          "line": 1361433,
+          "text": "30526b2f | ff15ecdbaf30 | CALL dword ptr [0x30afdbec]"
+        },
+        {
+          "line": 1361434,
+          "text": "30526b35 | 8b542428 | MOV EDX,dword ptr [ESP + 0x28]"
+        },
+        {
+          "line": 1361435,
+          "text": "30526b39 | 52 | PUSH EDX"
+        },
+        {
+          "line": 1361436,
+          "text": "30526b3a | 8d442414 | LEA EAX,[ESP + 0x14]"
+        },
+        {
+          "line": 1361437,
+          "text": "30526b3e | 50 | PUSH EAX"
+        },
+        {
+          "line": 1361438,
+          "text": "30526b3f | 8bce | MOV ECX,ESI"
+        },
+        {
+          "line": 1361439,
+          "text": "30526b41 | e8083daeff | CALL 0x3000a84e"
+        },
+        {
+          "line": 1361440,
+          "text": "30526b46 | 84c0 | TEST AL,AL"
+        },
+        {
+          "line": 1361441,
+          "text": "30526b48 | 7532 | JNZ 0x30526b7c"
+        },
+        {
+          "line": 1361442,
+          "text": "30526b4a | 8b0dfcdbaf30 | MOV ECX,dword ptr [0x30afdbfc]"
+        },
+        {
+          "line": 1361443,
+          "text": "30526b50 | 8b11 | MOV EDX,dword ptr [ECX]"
+        },
+        {
+          "line": 1361444,
+          "text": "30526b52 | 52 | PUSH EDX"
+        },
+        {
+          "line": 1361445,
+          "text": "30526b53 | 6aff | PUSH -0x1"
+        },
+        {
+          "line": 1361446,
+          "text": "30526b55 | 6a00 | PUSH 0x0"
+        },
+        {
+          "line": 1361447,
+          "text": "30526b57 | 6a00 | PUSH 0x0"
+        },
+        {
+          "line": 1361448,
+          "text": "30526b59 | 6848208830 | PUSH 0x30882048"
+        },
+        {
+          "line": 1361449,
+          "text": "30526b5e | 6a03 | PUSH 0x3"
+        },
+        {
+          "line": 1361450,
+          "text": "30526b60 | ffd3 | CALL EBX"
+        },
+        {
+          "line": 1361451,
+          "text": "30526b62 | 8bc8 | MOV ECX,EAX"
+        },
+        {
+          "line": 1361452,
+          "text": "30526b64 | ffd5 | CALL EBP"
+        },
+        {
+          "line": 1361453,
+          "text": "30526b66 | 8d4c2410 | LEA ECX,[ESP + 0x10]"
+        },
+        {
+          "line": 1361454,
+          "text": "30526b6a | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]"
+        },
+        {
+          "line": 1361455,
+          "text": "30526b70 | 5e | POP ESI"
+        },
+        {
+          "line": 1361456,
+          "text": "30526b71 | 5d | POP EBP"
+        },
+        {
+          "line": 1361457,
+          "text": "30526b72 | 5b | POP EBX"
+        },
+        {
+          "line": 1361458,
+          "text": "30526b73 | 32c0 | XOR AL,AL"
+        },
+        {
+          "line": 1361459,
+          "text": "30526b75 | 5f | POP EDI"
+        },
+        {
+          "line": 1361460,
+          "text": "30526b76 | 83c40c | ADD ESP,0xc"
+        },
+        {
+          "line": 1361461,
+          "text": "30526b79 | c20c00 | RET 0xc"
+        },
+        {
+          "line": 1361463,
+          "text": "30526b7c | 8b35ecdbaf30 | MOV ESI,dword ptr [0x30afdbec]"
+        },
+        {
+          "line": 1361464,
+          "text": "30526b82 | 8d4c2414 | LEA ECX,[ESP + 0x14]"
+        },
+        {
+          "line": 1361465,
+          "text": "30526b86 | ffd6 | CALL ESI"
+        },
+        {
+          "line": 1361466,
+          "text": "30526b88 | 8b442428 | MOV EAX,dword ptr [ESP + 0x28]"
+        },
+        {
+          "line": 1361467,
+          "text": "30526b8c | 8b4c2424 | MOV ECX,dword ptr [ESP + 0x24]"
+        },
+        {
+          "line": 1361468,
+          "text": "30526b90 | 50 | PUSH EAX"
+        },
+        {
+          "line": 1361469,
+          "text": "30526b91 | 51 | PUSH ECX"
+        },
+        {
+          "line": 1361470,
+          "text": "30526b92 | 8d54241c | LEA EDX,[ESP + 0x1c]"
+        },
+        {
+          "line": 1361471,
+          "text": "30526b96 | 52 | PUSH EDX"
+        },
+        {
+          "line": 1361472,
+          "text": "30526b97 | 8d4f68 | LEA ECX,[EDI + 0x68]"
+        },
+        {
+          "line": 1361473,
+          "text": "30526b9a | e8a531afff | CALL 0x30019d44"
+        },
+        {
+          "line": 1361474,
+          "text": "30526b9f | 84c0 | TEST AL,AL"
+        },
+        {
+          "line": 1361475,
+          "text": "30526ba1 | 753b | JNZ 0x30526bde"
+        },
+        {
+          "line": 1361476,
+          "text": "30526ba3 | a1fcdbaf30 | MOV EAX,[0x30afdbfc]"
+        },
+        {
+          "line": 1361477,
+          "text": "30526ba8 | 8b08 | MOV ECX,dword ptr [EAX]"
+        },
+        {
+          "line": 1361478,
+          "text": "30526baa | 51 | PUSH ECX"
+        },
+        {
+          "line": 1361479,
+          "text": "30526bab | 6aff | PUSH -0x1"
+        },
+        {
+          "line": 1361480,
+          "text": "30526bad | 6a00 | PUSH 0x0"
+        },
+        {
+          "line": 1361481,
+          "text": "30526baf | 6a00 | PUSH 0x0"
+        },
+        {
+          "line": 1361482,
+          "text": "30526bb1 | 68a0218830 | PUSH 0x308821a0"
+        },
+        {
+          "line": 1361483,
+          "text": "30526bb6 | 6a03 | PUSH 0x3"
+        },
+        {
+          "line": 1361484,
+          "text": "30526bb8 | ffd3 | CALL EBX"
+        },
+        {
+          "line": 1361485,
+          "text": "30526bba | 8bc8 | MOV ECX,EAX"
+        },
+        {
+          "line": 1361486,
+          "text": "30526bbc | ffd5 | CALL EBP"
+        },
+        {
+          "line": 1361487,
+          "text": "30526bbe | 8d4c2414 | LEA ECX,[ESP + 0x14]"
+        },
+        {
+          "line": 1361488,
+          "text": "30526bc2 | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]"
+        },
+        {
+          "line": 1361489,
+          "text": "30526bc8 | 8d4c2410 | LEA ECX,[ESP + 0x10]"
+        },
+        {
+          "line": 1361490,
+          "text": "30526bcc | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]"
+        },
+        {
+          "line": 1361491,
+          "text": "30526bd2 | 5e | POP ESI"
+        },
+        {
+          "line": 1361492,
+          "text": "30526bd3 | 5d | POP EBP"
+        },
+        {
+          "line": 1361493,
+          "text": "30526bd4 | 5b | POP EBX"
+        },
+        {
+          "line": 1361494,
+          "text": "30526bd5 | 32c0 | XOR AL,AL"
+        },
+        {
+          "line": 1361495,
+          "text": "30526bd7 | 5f | POP EDI"
+        },
+        {
+          "line": 1361496,
+          "text": "30526bd8 | 83c40c | ADD ESP,0xc"
+        },
+        {
+          "line": 1361497,
+          "text": "30526bdb | c20c00 | RET 0xc"
+        },
+        {
+          "line": 1361499,
+          "text": "30526bde | 8d4c2418 | LEA ECX,[ESP + 0x18]"
+        },
+        {
+          "line": 1361500,
+          "text": "30526be2 | ffd6 | CALL ESI"
+        },
+        {
+          "line": 1361501,
+          "text": "30526be4 | 8d542418 | LEA EDX,[ESP + 0x18]"
+        },
+        {
+          "line": 1361502,
+          "text": "30526be8 | 52 | PUSH EDX"
+        },
+        {
+          "line": 1361503,
+          "text": "30526be9 | 8d8f88000000 | LEA ECX,[EDI + 0x88]"
+        },
+        {
+          "line": 1361504,
+          "text": "30526bef | e82585aeff | CALL 0x3000f119"
+        },
+        {
+          "line": 1361505,
+          "text": "30526bf4 | 8b442414 | MOV EAX,dword ptr [ESP + 0x14]"
+        },
+        {
+          "line": 1361506,
+          "text": "30526bf8 | 8b4c2410 | MOV ECX,dword ptr [ESP + 0x10]"
+        },
+        {
+          "line": 1361507,
+          "text": "30526bfc | 8b542420 | MOV EDX,dword ptr [ESP + 0x20]"
+        },
+        {
+          "line": 1361508,
+          "text": "30526c00 | 50 | PUSH EAX"
+        },
+        {
+          "line": 1361509,
+          "text": "30526c01 | 8b44241c | MOV EAX,dword ptr [ESP + 0x1c]"
+        },
+        {
+          "line": 1361510,
+          "text": "30526c05 | 50 | PUSH EAX"
+        },
+        {
+          "line": 1361511,
+          "text": "30526c06 | 50 | PUSH EAX"
+        },
+        {
+          "line": 1361512,
+          "text": "30526c07 | 51 | PUSH ECX"
+        },
+        {
+          "line": 1361513,
+          "text": "30526c08 | 6804208830 | PUSH 0x30882004"
+        },
+        {
+          "line": 1361514,
+          "text": "30526c0d | 52 | PUSH EDX"
+        },
+        {
+          "line": 1361515,
+          "text": "30526c0e | ff1594dbaf30 | CALL dword ptr [0x30afdb94]"
+        },
+        {
+          "line": 1361516,
+          "text": "30526c14 | 83c418 | ADD ESP,0x18"
+        },
+        {
+          "line": 1361517,
+          "text": "30526c17 | 8d4c2418 | LEA ECX,[ESP + 0x18]"
+        },
+        {
+          "line": 1361518,
+          "text": "30526c1b | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]"
+        },
+        {
+          "line": 1361519,
+          "text": "30526c21 | 8d4c2414 | LEA ECX,[ESP + 0x14]"
+        },
+        {
+          "line": 1361520,
+          "text": "30526c25 | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]"
+        },
+        {
+          "line": 1361521,
+          "text": "30526c2b | 8d4c2410 | LEA ECX,[ESP + 0x10]"
+        },
+        {
+          "line": 1361522,
+          "text": "30526c2f | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]"
+        },
+        {
+          "line": 1361523,
+          "text": "30526c35 | 5e | POP ESI"
+        },
+        {
+          "line": 1361524,
+          "text": "30526c36 | 5d | POP EBP"
+        },
+        {
+          "line": 1361525,
+          "text": "30526c37 | 5b | POP EBX"
+        },
+        {
+          "line": 1361526,
+          "text": "30526c38 | b001 | MOV AL,0x1"
+        },
+        {
+          "line": 1361527,
+          "text": "30526c3a | 5f | POP EDI"
+        },
+        {
+          "line": 1361528,
+          "text": "30526c3b | 83c40c | ADD ESP,0xc"
+        },
+        {
+          "line": 1361529,
+          "text": "30526c3e | c20c00 | RET 0xc"
+        }
+      ],
+      "strings": [
+        {
+          "address": "308821a0",
+          "assemblyLine": 1361373,
+          "instruction": "PUSH 0x308821a0",
+          "text": "eCTexCoordSrcBumpOffset::GetImplementation - Failed to get texcoord source implementation!"
+        },
+        {
+          "address": "30882140",
+          "assemblyLine": 1361399,
+          "instruction": "PUSH 0x30882140",
+          "text": "eCTexCoordSrcBumpOffset::GetImplementation - No color source for height set!"
+        },
+        {
+          "address": "308820b8",
+          "assemblyLine": 1361423,
+          "instruction": "PUSH 0x308820b8",
+          "text": "eCTexCoordSrcBumpOffset::GetImplementation - Invalid color source component. Color component forced to alpha!"
+        },
+        {
+          "address": "30882048",
+          "assemblyLine": 1361448,
+          "instruction": "PUSH 0x30882048",
+          "text": "eCTexCoordSrcBumpOffset::GetImplementation - Failed to get color source implementation!"
+        },
+        {
+          "address": "308821a0",
+          "assemblyLine": 1361482,
+          "instruction": "PUSH 0x308821a0",
+          "text": "eCTexCoordSrcBumpOffset::GetImplementation - Failed to get texcoord source implementation!"
+        },
+        {
+          "address": "30882004",
+          "assemblyLine": 1361513,
+          "instruction": "PUSH 0x30882004",
+          "text": "(( %s * %s.xy + %s.zw ) * XFX_PS_TANGENTSPACE_EYE + %s )"
+        }
+      ]
+    },
+    "bumpOffsetVS": {
+      "entry": "3003f283",
+      "entryBytes": "e948744e00",
+      "bodyEntry": "305266d0",
+      "instructions": [
+        {
+          "line": 1361089,
+          "text": "305266d0 | 83c168 | ADD ECX,0x68"
+        },
+        {
+          "line": 1361090,
+          "text": "305266d3 | e93da9b1ff | JMP 0x30041015"
+        }
+      ],
+      "strings": []
+    }
+  }
+}

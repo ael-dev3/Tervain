@@ -1,0 +1,2 @@
+; 20015ed8 ?TriggerTarget@gCTouchDamage_PS@@MAEXPAVeCEntity@@0AAVeCContactIterator@@@Z
+20015ed8 | e9d3c61100 | JMP 0x201325b0

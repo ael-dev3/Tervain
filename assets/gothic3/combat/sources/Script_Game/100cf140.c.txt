@@ -1,0 +1,88 @@
+/* ENTRY 100cf140 | FUN_100cf140 | STATUS decompiled | 50 ms */
+
+undefined4 FUN_100cf140(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  Entity *this;
+  undefined4 uVar3;
+  int iVar4;
+  Entity *pEVar5;
+  Entity local_1f8 [16];
+  PSInventory local_1e8 [4];
+  PSInventory local_1e4 [4];
+  PSInventory local_1e0 [4];
+  PSInventory local_1dc [4];
+  PSInventory local_1d8 [112];
+  Entity local_168 [4];
+  Entity local_164 [4];
+  Entity local_160 [4];
+  Entity local_15c [4];
+  Entity local_158 [4];
+  Entity local_154 [4];
+  Entity local_150 [144];
+  Entity local_c0 [24];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_1f8);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_1f8,peVar2);
+  }
+  else {
+    Entity::operator=(local_1f8,param_2);
+  }
+  Entity::Entity(local_a8);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_a8,peVar2);
+  }
+  else {
+    Entity::operator=(local_a8,param_3);
+  }
+  pEVar5 = local_150;
+  this = (Entity *)Entity::GetPlayer();
+  bVar1 = Entity::operator==(this,pEVar5);
+  Entity::~Entity(local_154);
+  if (!bVar1) {
+    pEVar5 = local_154;
+    uVar3 = PSInventory::GetTreasureSet1(local_1d8);
+    iVar4 = thunk_FUN_100ced90(param_1,&stack0xfffffe00,uVar3,pEVar5);
+    Entity::~Entity(local_158);
+    if (iVar4 == 0) {
+      pEVar5 = local_158;
+      uVar3 = PSInventory::GetTreasureSet2(local_1dc);
+      iVar4 = thunk_FUN_100ced90(param_1,&stack0xfffffdfc,uVar3,pEVar5);
+      Entity::~Entity(local_15c);
+      if (iVar4 == 0) {
+        pEVar5 = local_15c;
+        uVar3 = PSInventory::GetTreasureSet3(local_1e0);
+        iVar4 = thunk_FUN_100ced90(param_1,&stack0xfffffdf8,uVar3,pEVar5);
+        Entity::~Entity(local_160);
+        if (iVar4 == 0) {
+          pEVar5 = local_160;
+          uVar3 = PSInventory::GetTreasureSet4(local_1e4);
+          iVar4 = thunk_FUN_100ced90(param_1,&stack0xfffffdf4,uVar3,pEVar5);
+          Entity::~Entity(local_164);
+          if (iVar4 == 0) {
+            pEVar5 = local_164;
+            uVar3 = PSInventory::GetTreasureSet5(local_1e8);
+            iVar4 = thunk_FUN_100ced90(param_1,&stack0xfffffdf0,uVar3,pEVar5);
+            Entity::~Entity(local_168);
+            if (iVar4 == 0) goto LAB_100cf319;
+          }
+        }
+      }
+    }
+    Entity::~Entity(local_c0);
+    Entity::~Entity((Entity *)&stack0xfffffdf0);
+    return 1;
+  }
+LAB_100cf319:
+  Entity::~Entity(local_c0);
+  Entity::~Entity((Entity *)&stack0xfffffdf0);
+  return 0;
+}
+
+

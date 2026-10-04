@@ -1,0 +1,4 @@
+; 20027a89 ?GetOnScreenDebugLines@gCScriptRoutine_PS@@UBEXKAAV?$bTObjArray@UeSPropertySetDebugLine@@@@@Z
+20027a89 | e942033300 | JMP 0x20357dd0
+; 20027a8e gCInventoryStack::GetTransferAmount
+; 20027a8e Ordinal_4603

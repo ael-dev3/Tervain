@@ -1,0 +1,139 @@
+/* ENTRY 1003a9c0 | FUN_1003a9c0 | STATUS decompiled | 120 ms */
+
+undefined4 FUN_1003a9c0(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  gEAIMode gVar3;
+  Entity *pEVar4;
+  gEZoneType gVar5;
+  Entity *this;
+  int iVar6;
+  int iVar7;
+  int iVar8;
+  float fVar9;
+  float fVar10;
+  Entity local_3f4 [4];
+  Entity local_3f0 [32];
+  PSNpc aPStack_3d0 [4];
+  PSNavigation local_3cc [40];
+  PSParty aPStack_3a4 [72];
+  Entity aEStack_35c [16];
+  Entity local_34c [4];
+  Entity local_348 [40];
+  PSNavigation local_320 [4];
+  PSNavigation local_31c [8];
+  PSNpc local_314 [96];
+  Entity aEStack_2b4 [16];
+  Entity local_2a4 [152];
+  Entity aEStack_20c [8];
+  Entity local_204 [4];
+  Entity local_200 [156];
+  Entity aEStack_164 [168];
+  Entity local_bc [4];
+  Entity local_b8 [4];
+  Entity local_b4 [180];
+  
+  Entity::Entity(local_3f0);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_3f0,peVar2);
+  }
+  else {
+    Entity::operator=(local_3f0,param_2);
+  }
+  Entity::Entity(local_348);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_348,peVar2);
+  }
+  else {
+    Entity::operator=(local_348,param_3);
+  }
+  PSNpc::GetCurrentAttacker(local_314);
+  bVar1 = Entity::operator==(local_2a4,local_3f4);
+  if (((bVar1) ||
+      (gVar3 = PSRoutine::PropertyAIMode::operator_enum_gEAIMode((PropertyAIMode *)local_3f0),
+      gVar3 == 4)) ||
+     (gVar3 = PSRoutine::PropertyAIMode::operator_enum_gEAIMode((PropertyAIMode *)local_348),
+     gVar3 == 4)) {
+    Entity::~Entity(local_2a4);
+    Entity::~Entity(local_34c);
+    Entity::~Entity(local_3f4);
+    return 0;
+  }
+  PSNavigation::GetCurrentZone(local_31c);
+  bVar1 = Entity::operator==((Entity *)None_exref,local_200);
+  if (bVar1) {
+    pEVar4 = (Entity *)PSNavigation::GetLastZone(local_320);
+    Entity::operator=(local_204,pEVar4);
+    Entity::~Entity(local_b4);
+  }
+  bVar1 = Entity::operator!=(local_204,(Entity *)None_exref);
+  if ((bVar1) && (gVar5 = Entity::GetAIZoneType(local_204), gVar5 == 1)) {
+    pEVar4 = local_b4;
+    this = (Entity *)PSNavigation::GetCurrentZone(local_3cc);
+    bVar1 = Entity::operator!=(this,pEVar4);
+    Entity::~Entity(local_b8);
+    if (bVar1) goto LAB_1003ac2b;
+  }
+  PSParty::GetPartyLeader(aPStack_3a4);
+  pEVar4 = (Entity *)Entity::GetPlayer();
+  bVar1 = Entity::operator==(aEStack_164,pEVar4);
+  Entity::~Entity(local_bc);
+  if (((!bVar1) || (bVar1 = Entity::operator!=(aEStack_164,aEStack_2b4), !bVar1)) ||
+     (bVar1 = Entity::operator!=(aEStack_164,aEStack_35c), !bVar1)) {
+    fVar9 = Entity::GetDistanceTo((Entity *)&stack0xfffffbfc,aEStack_35c);
+    fVar10 = Entity::GetDistanceTo((Entity *)&stack0xfffffbfc,aEStack_2b4);
+    if (((fVar9 <= 2000.0) || (fVar10 <= 2000.0)) &&
+       ((bVar1 = Entity::IsFreeLOS((Entity *)&stack0xfffffbfc,aEStack_35c,false), bVar1 ||
+        (bVar1 = Entity::IsFreeLOS((Entity *)&stack0xfffffbfc,aEStack_2b4,false), bVar1)))) {
+      iVar6 = thunk_FUN_100194c0(param_1,&stack0xfffffbfc,aEStack_35c);
+      iVar7 = thunk_FUN_100194c0(param_1,&stack0xfffffbfc,aEStack_2b4);
+      iVar8 = thunk_FUN_1001a3f0(param_1,aEStack_35c,None_exref);
+      if ((iVar8 != 0) || (iVar8 = thunk_FUN_1001a3f0(param_1,aEStack_2b4,None_exref), iVar8 != 0))
+      {
+LAB_1003ad96:
+        thunk_FUN_10064e10(param_1,&stack0xfffffbfc,aEStack_2b4);
+        goto LAB_1003ad9c;
+      }
+      if (iVar6 == 1) {
+        if (iVar7 != 1) {
+          thunk_FUN_10041af0(param_1,&stack0xfffffbfc,aEStack_2b4);
+          goto LAB_1003ad9c;
+        }
+      }
+      else if (iVar7 == 1) goto LAB_1003ad96;
+      if (iVar7 == 6) {
+        PSRoutine::FullStop((PSRoutine *)&stack0xfffffc00);
+        pEVar4 = aEStack_2b4;
+      }
+      else {
+        if (iVar6 != 6) goto LAB_1003ac22;
+        PSRoutine::FullStop((PSRoutine *)&stack0xfffffc00);
+        pEVar4 = aEStack_35c;
+      }
+      PSNpc::SetCurrentTarget(aPStack_3d0,pEVar4);
+      bCString::bCString((bCString *)&stack0xfffffbdc,"ZS_Flee");
+      PSRoutine::SetTask((PSRoutine *)&stack0xfffffc00);
+LAB_1003ad9c:
+      Entity::~Entity(aEStack_164);
+      Entity::~Entity(aEStack_20c);
+      Entity::~Entity(aEStack_2b4);
+      Entity::~Entity(aEStack_35c);
+      Entity::~Entity((Entity *)&stack0xfffffbfc);
+      return 1;
+    }
+  }
+LAB_1003ac22:
+  Entity::~Entity(aEStack_164);
+LAB_1003ac2b:
+  Entity::~Entity(aEStack_20c);
+  Entity::~Entity(aEStack_2b4);
+  Entity::~Entity(aEStack_35c);
+  Entity::~Entity((Entity *)&stack0xfffffbfc);
+  return 0;
+}
+
+

@@ -1,0 +1,106 @@
+/* ENTRY 10016c60 | FUN_10016c60 | STATUS decompiled | 50 ms */
+
+undefined4 FUN_10016c60(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  char cVar1;
+  eCEntity *peVar2;
+  int iVar3;
+  gEAction gVar4;
+  Entity aEStack_360 [156];
+  undefined4 uStack_2c4;
+  gCScriptProcessingUnit *pgStack_2c0;
+  Entity *pEStack_2bc;
+  code *pcStack_2b8;
+  Entity local_2a0 [168];
+  Entity local_1f8 [4];
+  PropertyAction local_1f4 [164];
+  Entity local_150 [168];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_a8);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    pcStack_2b8 = (code *)0x10016ca9;
+    Entity::AttachTo(local_a8,peVar2);
+  }
+  else {
+    pcStack_2b8 = (code *)0x10016cb5;
+    Entity::operator=(local_a8,param_2);
+  }
+  Entity::Entity(local_150);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    pcStack_2b8 = (code *)0x10016cdb;
+    Entity::AttachTo(local_150,peVar2);
+  }
+  else {
+    pcStack_2b8 = (code *)0x10016ce7;
+    Entity::operator=(local_150,param_3);
+  }
+  pcStack_2b8 = (code *)0x10016cfb;
+  Entity::Entity(local_2a0,local_a8);
+  pcStack_2b8 = (code *)0x10016d0c;
+  Entity::Entity(local_1f8,local_150);
+  pcStack_2b8 = None_exref;
+  pEStack_2bc = local_1f8;
+  pgStack_2c0 = param_1;
+  uStack_2c4 = 0x10016d23;
+  iVar3 = thunk_FUN_100169d0();
+  pcStack_2b8 = None_exref;
+  if (iVar3 == 0) {
+    pEStack_2bc = local_2a0;
+    pgStack_2c0 = param_1;
+    uStack_2c4 = 0x10016db6;
+    iVar3 = thunk_FUN_100169d0();
+    if (iVar3 == 0) {
+      gVar4 = PSRoutine::PropertyAction::operator_enum_gEAction(local_1f4);
+      if ((gVar4 == 8) || (gVar4 == 0xb)) {
+        pcStack_2b8 = (code *)0x9;
+        Entity::Entity(aEStack_360,local_2a0);
+        cVar1 = thunk_FUN_10009c80();
+        if (cVar1 == '\0') {
+          Entity::~Entity(local_1f8);
+          Entity::~Entity(local_2a0);
+          Entity::~Entity(local_150);
+          Entity::~Entity(local_a8);
+          return 0;
+        }
+      }
+LAB_10016e2b:
+      Entity::~Entity(local_1f8);
+      Entity::~Entity(local_2a0);
+      Entity::~Entity(local_150);
+      Entity::~Entity(local_a8);
+      return 1;
+    }
+  }
+  else {
+    pEStack_2bc = local_1f8;
+    pgStack_2c0 = param_1;
+    uStack_2c4 = 0x10016d3e;
+    iVar3 = thunk_FUN_1001b0c0();
+    if (iVar3 != 0) {
+      pcStack_2b8 = None_exref;
+      pEStack_2bc = local_2a0;
+      pgStack_2c0 = param_1;
+      uStack_2c4 = 0x10016d55;
+      iVar3 = thunk_FUN_100169d0();
+      if (iVar3 != 0) {
+        pcStack_2b8 = None_exref;
+        pEStack_2bc = local_2a0;
+        pgStack_2c0 = param_1;
+        uStack_2c4 = 0x10016d6d;
+        iVar3 = thunk_FUN_1001b0c0();
+        if (iVar3 != 0) goto LAB_10016e2b;
+      }
+    }
+  }
+  Entity::~Entity(local_1f8);
+  Entity::~Entity(local_2a0);
+  Entity::~Entity(local_150);
+  Entity::~Entity(local_a8);
+  return 0;
+}
+
+

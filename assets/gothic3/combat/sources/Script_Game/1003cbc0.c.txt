@@ -1,0 +1,240 @@
+/* ENTRY 1003cbc0 | FUN_1003cbc0 | STATUS decompiled | 215 ms */
+
+/* WARNING: Type propagation algorithm not settling */
+
+Entity * FUN_1003cbc0(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  char cVar1;
+  bool bVar2;
+  eCEntity *peVar3;
+  gESpellDeity gVar4;
+  gEUseType gVar5;
+  int iVar6;
+  gESpecies gVar7;
+  code *pcVar8;
+  undefined4 uStack_4cc;
+  Entity aEStack_4c4 [148];
+  undefined4 uStack_430;
+  Entity *pEStack_428;
+  char *pcVar9;
+  Entity *pEVar10;
+  Template local_408 [20];
+  Entity local_3f4 [32];
+  PSInventory local_3d4 [4];
+  PSInventory local_3d0 [132];
+  Entity local_34c [52];
+  PropertySpecies local_318 [116];
+  Entity local_2a4 [28];
+  PSInteraction local_288 [140];
+  Entity local_1fc [4];
+  Entity local_1f8 [164];
+  Entity local_154 [4];
+  Entity local_150 [160];
+  Entity local_b0 [148];
+  PropertySpellDeity local_1c [28];
+  
+  Entity::Entity(local_150);
+  if (param_2 == (Entity *)0x0) {
+    peVar3 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_150,peVar3);
+  }
+  else {
+    Entity::operator=(local_150,param_2);
+  }
+  Entity::Entity(local_1f8);
+  if (param_3 == (Entity *)0x0) {
+    peVar3 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_1f8,peVar3);
+  }
+  else {
+    Entity::operator=(local_1f8,param_3);
+  }
+  Entity::GetPlayer();
+  Entity::Entity(local_2a4,local_154);
+  Entity::Entity(local_34c,local_1fc);
+  pEVar10 = (Entity *)0x0;
+  uStack_4cc = 0x1003cc9a;
+  Entity::Entity(aEStack_4c4,local_2a4);
+  cVar1 = thunk_FUN_1003bb10();
+  if (cVar1 == '\x01') {
+    PSInteraction::GetSpell(local_288);
+    gVar4 = PSMagic::PropertySpellDeity::operator_enum_gESpellDeity(local_1c);
+    if (gVar4 == 2) {
+      pEStack_428 = (Entity *)0x1003ccdd;
+      Template::Template((Template *)&stack0xfffffbf4,"Perk_Firemage");
+      pEStack_428 = (Entity *)0x1003ccec;
+      bVar2 = PSInventory::IsSkillActive(local_3d4,(Template *)&stack0xfffffbf4);
+      Template::~Template((Template *)&stack0xfffffbf4);
+      if (bVar2) {
+        Entity::~Entity(local_b0);
+        goto LAB_1003d18a;
+      }
+    }
+    else if (gVar4 == 0) {
+      pEStack_428 = (Entity *)0x1003cd33;
+      Template::Template((Template *)&stack0xfffffbf4,"Perk_Watermage");
+      pEStack_428 = (Entity *)0x1003cd42;
+      bVar2 = PSInventory::IsSkillActive(local_3d4,(Template *)&stack0xfffffbf4);
+      Template::~Template((Template *)&stack0xfffffbf4);
+      if (bVar2) {
+        Entity::~Entity(local_b0);
+        goto LAB_1003d18a;
+      }
+    }
+    else if (gVar4 == 1) {
+      pEStack_428 = (Entity *)0x1003cd86;
+      Template::Template((Template *)&stack0xfffffbf4,"Perk_Darkmage");
+      pEStack_428 = (Entity *)0x1003cd95;
+      PSInventory::IsSkillActive(local_3d4,(Template *)&stack0xfffffbf4);
+      Template::~Template((Template *)&stack0xfffffbf4);
+    }
+    Entity::~Entity(local_b0);
+    goto LAB_1003d18a;
+  }
+  uStack_4cc = 0x1003cdd7;
+  Entity::Entity(aEStack_4c4,local_2a4);
+  cVar1 = thunk_FUN_1003bbe0();
+  if (cVar1 == '\x01') {
+    gVar5 = PSInteraction::GetUseType(local_288);
+    if (gVar5 == 4) {
+      Template::Template(local_408,"Perk_Bow_3");
+      bVar2 = PSInventory::IsSkillActive(local_3d0,local_408);
+      pcVar8 = ~Template_exref;
+      Template::~Template(local_408);
+      if (bVar2) {
+        pEVar10 = (Entity *)0x19;
+      }
+      Template::Template(local_408,"Perk_Bow_2");
+      bVar2 = PSInventory::IsSkillActive(local_3d0,local_408);
+      Template::~Template(local_408);
+      if (bVar2) {
+        pEVar10 = pEVar10 + 0x19;
+      }
+      pEStack_428 = local_34c;
+      uStack_430 = 0x1003ce81;
+      iVar6 = thunk_FUN_1006d350();
+      if (iVar6 == 0) {
+        pEStack_428 = local_34c;
+        uStack_430 = 0x1003cecd;
+        iVar6 = thunk_FUN_1006cf20();
+        if (iVar6 != 0) {
+          Template::Template(local_408,"Perk_Hunter_2");
+          bVar2 = PSInventory::IsSkillActive(local_3d0,local_408);
+          Template::~Template(local_408);
+          if (bVar2) {
+            pEVar10 = pEVar10 + (int)param_3;
+          }
+        }
+      }
+      else {
+        Template::Template(local_408,"Perk_Hunter_1");
+        bVar2 = PSInventory::IsSkillActive(local_3d0,local_408);
+        Template::~Template(local_408);
+        if (bVar2) {
+          pEVar10 = pEVar10 + (int)param_3;
+        }
+      }
+      gVar7 = PSNpc::PropertySpecies::operator_enum_gESpecies(local_318);
+      if (gVar7 != 5) goto LAB_1003d18a;
+      Template::Template(local_408,"Perk_OrcHunter");
+      bVar2 = PSInventory::IsSkillActive(local_3d0,local_408);
+    }
+    else {
+      Template::Template(local_408,"Perk_Crossbow_3");
+      bVar2 = PSInventory::IsSkillActive(local_3d0,local_408);
+      pcVar8 = ~Template_exref;
+      Template::~Template(local_408);
+      if (bVar2) {
+        pEVar10 = (Entity *)0x19;
+      }
+      Template::Template(local_408,"Perk_Crossbow_2");
+      bVar2 = PSInventory::IsSkillActive(local_3d0,local_408);
+    }
+  }
+  else {
+    uStack_4cc = 0x1003cf94;
+    Entity::Entity(aEStack_4c4,local_3f4);
+    iVar6 = thunk_FUN_10009a70();
+    Entity::Entity((Entity *)&uStack_4cc,local_3f4);
+    cVar1 = thunk_FUN_10009c80();
+    pcVar8 = ~Template_exref;
+    if (cVar1 == '\x01') {
+      Template::Template(local_408,"Perk_1H1H_SecretBonus");
+      bVar2 = PSInventory::IsSkillActive(local_3d0,local_408);
+      Template::~Template(local_408);
+      if (bVar2) {
+        pEVar10 = (Entity *)0x19;
+      }
+      pcVar9 = "Perk_1H1H_2";
+LAB_1003d0dd:
+      Template::Template(local_408,pcVar9);
+LAB_1003d0e8:
+      bVar2 = PSInventory::IsSkillActive(local_3d0,local_408);
+      Template::~Template(local_408);
+      if (bVar2) {
+        pEVar10 = pEVar10 + 0x19;
+      }
+    }
+    else {
+      if (iVar6 == 2) {
+        Template::Template(local_408,"Perk_1H_3");
+        bVar2 = PSInventory::IsSkillActive(local_3d0,local_408);
+        Template::~Template(local_408);
+        if (bVar2) {
+          pEVar10 = (Entity *)0x19;
+        }
+        Template::Template(local_408,"Perk_1H_2");
+        goto LAB_1003d0e8;
+      }
+      if (((iVar6 == 0x34) || (iVar6 == 3)) || (iVar6 == 0x33)) {
+        Template::Template(local_408,"Perk_Axe_3");
+        bVar2 = PSInventory::IsSkillActive(local_3d0,local_408);
+        Template::~Template(local_408);
+        if (bVar2) {
+          pEVar10 = (Entity *)0x19;
+        }
+        pcVar9 = "Perk_Axe_2";
+        goto LAB_1003d0dd;
+      }
+      if (iVar6 == 0xc) {
+        Template::Template(local_408,"Perk_Staff_3");
+        bVar2 = PSInventory::IsSkillActive(local_3d0,local_408);
+        Template::~Template(local_408);
+        if (bVar2) {
+          pEVar10 = (Entity *)0x19;
+        }
+        Template::Template(local_408,"Perk_Staff_2");
+        goto LAB_1003d0e8;
+      }
+    }
+    gVar7 = PSNpc::PropertySpecies::operator_enum_gESpecies(local_318);
+    if (gVar7 == 5) {
+      Template::Template(local_408,"Perk_OrcSlayer");
+      bVar2 = PSInventory::IsSkillActive(local_3d0,local_408);
+      Template::~Template(local_408);
+      if (bVar2) {
+        pEVar10 = pEVar10 + 0x19;
+      }
+    }
+    pEStack_428 = local_34c;
+    uStack_430 = 0x1003d15c;
+    iVar6 = thunk_FUN_1001ab10();
+    if (iVar6 == 0) goto LAB_1003d18a;
+    Template::Template(local_408,"Perk_Paladin");
+    bVar2 = PSInventory::IsSkillActive(local_3d0,local_408);
+  }
+  (*pcVar8)();
+  if (bVar2 == true) {
+    pEVar10 = pEVar10 + 0x19;
+  }
+LAB_1003d18a:
+  Entity::~Entity(local_34c);
+  Entity::~Entity(local_2a4);
+  Entity::~Entity(local_3f4);
+  Entity::~Entity(local_1fc);
+  Entity::~Entity(local_154);
+  return pEVar10;
+}
+
+

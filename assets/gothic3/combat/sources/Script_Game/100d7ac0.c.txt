@@ -1,0 +1,144 @@
+/* ENTRY 100d7ac0 | FUN_100d7ac0 | STATUS decompiled | 91 ms */
+
+bool FUN_100d7ac0(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  eECollisionGroup eVar3;
+  int iVar4;
+  int *piVar5;
+  bCMemoryAdmin *this;
+  gEPartyMemberType gVar6;
+  eEPropertySetType eVar7;
+  eEShapeGroup eVar8;
+  undefined4 unaff_ESI;
+  ulong uVar9;
+  undefined1 uVar10;
+  char cVar11;
+  void *local_360;
+  undefined4 local_358;
+  Entity local_354 [8];
+  Entity local_34c [4];
+  Entity local_348 [56];
+  PropertyDamageHitMultiplier local_310 [44];
+  PSProjectile local_2e4 [52];
+  Entity local_2b0 [4];
+  Entity local_2ac [8];
+  Entity local_2a4 [4];
+  Entity local_2a0 [24];
+  PSInteraction local_288 [56];
+  PSTouchDamage local_250 [72];
+  Entity local_208 [4];
+  Entity local_204 [8];
+  Entity local_1fc [80];
+  PropertyPartyMemberType local_1ac [76];
+  Entity local_160 [4];
+  Entity local_15c [8];
+  Entity local_154 [4];
+  Entity local_150 [156];
+  Entity local_b4 [8];
+  undefined1 local_ac [160];
+  undefined4 local_c;
+  
+  Entity::Entity(local_2a0);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_2a0,peVar2);
+  }
+  else {
+    Entity::operator=(local_2a0,param_2);
+  }
+  Entity::Entity(local_150);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_150,peVar2);
+  }
+  else {
+    Entity::operator=(local_150,param_3);
+  }
+  Entity::Entity(local_348,local_2a0);
+  PSTouchDamage::GetInflictor(local_250);
+  eVar3 = Entity::GetCollisionGroup(local_34c);
+  if (eVar3 != 6) {
+    eVar3 = Entity::GetCollisionGroup(local_34c);
+    if (eVar3 != 1) {
+      peVar2 = Entity::operator_class_eCEntity_(local_1fc);
+      uVar10 = SUB41(local_ac,0);
+      iVar4 = PSInteraction::GetOwner(local_288);
+      piVar5 = (int *)PSParty::GetMembers((PSParty *)(iVar4 + 0x58),(bool)uVar10);
+      iVar4 = piVar5[1];
+      if (iVar4 != 0) {
+        piVar5 = (int *)(*piVar5 + iVar4 * 4);
+        do {
+          piVar5 = piVar5 + -1;
+          iVar4 = iVar4 + -1;
+          if (peVar2 == (eCEntity *)*piVar5) goto LAB_100d7c21;
+        } while (iVar4 != 0);
+      }
+      iVar4 = -1;
+LAB_100d7c21:
+      if ((&stack0x00000000 != (undefined1 *)0x360) && (local_360 != (void *)0x0)) {
+        this = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::Free(this,local_360);
+        local_358 = 0;
+      }
+      Entity::~Entity(local_b4);
+      if ((iVar4 < 0) ||
+         (gVar6 = PSParty::PropertyPartyMemberType::operator_enum_gEPartyMemberType(local_1ac),
+         gVar6 == 5)) {
+        eVar7 = PSCollisionShape::GetType((PSCollisionShape *)local_348);
+        if (eVar7 == 100) {
+          PSCollisionShape::GetTouchingBone((PSCollisionShape *)local_348);
+          bVar1 = bCString::Contains((bCString *)&stack0xfffffc94,"_Head",0);
+          if (bVar1) {
+            PSDamage::PropertyDamageHitMultiplier::operator_float(local_310);
+            PSDamage::PropertyDamageHitMultiplier::operator=(local_310,(float *)&stack0xfffffc98);
+          }
+          bCString::~bCString((bCString *)&stack0xfffffc94);
+LAB_100d7d37:
+          iVar4 = thunk_FUN_100d6fa0(local_c,&local_358,local_208,0);
+          Entity::~Entity(local_208);
+          Entity::~Entity((Entity *)&local_358);
+          Entity::~Entity(local_160);
+          Entity::~Entity(local_2b0);
+          return iVar4 != 0;
+        }
+        uVar9 = 0;
+        iVar4 = PSCollisionShape::GetNumTouchingShapes((PSCollisionShape *)local_348);
+        if (0 < iVar4) {
+          do {
+            cVar11 = (char)((uint)unaff_ESI >> 0x18);
+            if (cVar11 != '\0') break;
+            eVar8 = PSCollisionShape::GetTouchingShapeGroup((PSCollisionShape *)local_348,uVar9);
+            if (eVar8 == 6) {
+              bVar1 = PSProjectile::IsValid(local_2e4);
+            }
+            else {
+              bVar1 = eVar8 == 7;
+            }
+            if (bVar1) {
+              unaff_ESI = 0x1000000;
+            }
+            cVar11 = (char)((uint)unaff_ESI >> 0x18);
+            uVar9 = uVar9 + 1;
+            iVar4 = PSCollisionShape::GetNumTouchingShapes((PSCollisionShape *)local_348);
+          } while ((int)uVar9 < iVar4);
+          if (cVar11 == '\x01') goto LAB_100d7d37;
+        }
+      }
+      Entity::~Entity(local_204);
+      Entity::~Entity(local_354);
+      Entity::~Entity(local_15c);
+      Entity::~Entity(local_2ac);
+      return false;
+    }
+  }
+  Entity::~Entity(local_1fc);
+  Entity::~Entity(local_34c);
+  Entity::~Entity(local_154);
+  Entity::~Entity(local_2a4);
+  return false;
+}
+
+

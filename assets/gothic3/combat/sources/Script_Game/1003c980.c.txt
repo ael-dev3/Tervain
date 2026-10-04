@@ -1,0 +1,87 @@
+/* ENTRY 1003c980 | FUN_1003c980 | STATUS decompiled | 68 ms */
+
+int FUN_1003c980(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  gEDamageType gVar3;
+  int iVar4;
+  int iVar5;
+  Entity local_2a4 [4];
+  Entity local_2a0 [32];
+  PSInventory local_280 [4];
+  PSInventory local_27c [128];
+  Entity local_1fc [4];
+  Entity local_1f8 [164];
+  Entity local_154 [4];
+  Entity local_150 [72];
+  PropertyDamageType local_108 [92];
+  Entity local_ac [4];
+  undefined1 local_a8 [168];
+  
+  Entity::Entity(local_2a0);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_2a0,peVar2);
+  }
+  else {
+    Entity::operator=(local_2a0,param_2);
+  }
+  Entity::Entity(local_1f8);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_1f8,peVar2);
+  }
+  else {
+    Entity::operator=(local_1f8,param_3);
+  }
+  Entity::Entity(local_150,local_1f8);
+  gVar3 = PSDamage::PropertyDamageType::operator_enum_gEDamageType(local_108);
+  switch(gVar3) {
+  case 1:
+  default:
+    iVar4 = thunk_FUN_10046f40(param_1,local_2a0,None_exref,0);
+    break;
+  case 2:
+    iVar4 = thunk_FUN_10046e30(param_1,local_2a0,None_exref,0);
+    break;
+  case 3:
+    iVar4 = thunk_FUN_10047050(param_1,local_2a0,None_exref,0);
+    break;
+  case 4:
+    iVar4 = thunk_FUN_10047160(param_1,local_2a0,None_exref,0);
+    break;
+  case 5:
+    iVar4 = thunk_FUN_100472c0(param_1,local_2a0,None_exref,0);
+    break;
+  case 6:
+    iVar4 = thunk_FUN_10047420(param_1,local_2a0,None_exref,0);
+  }
+  PSInventory::FindStackIndex(local_27c,0x11);
+  iVar5 = PSInventory::GetTemplateItem(local_27c,(int)local_a8);
+  bVar1 = PSItem::IsRobe((PSItem *)(iVar5 + 0x28));
+  Entity::~Entity(local_ac);
+  if (bVar1) {
+    Template::Template((Template *)&stack0xfffffd48,"Perk_LightArmor");
+    bVar1 = PSInventory::IsSkillActive(local_280,(Template *)&stack0xfffffd48);
+    Template::~Template((Template *)&stack0xfffffd48);
+    if (bVar1) {
+      iVar4 = iVar4 * 2;
+    }
+  }
+  else {
+    Template::Template((Template *)&stack0xfffffd48,"Perk_HeavyArmor");
+    bVar1 = PSInventory::IsSkillActive(local_280,(Template *)&stack0xfffffd48);
+    Template::~Template((Template *)&stack0xfffffd48);
+    if (bVar1) {
+      iVar4 = iVar4 + ((int)(iVar4 + (iVar4 >> 0x1f & 3U)) >> 2);
+    }
+  }
+  Entity::~Entity(local_154);
+  Entity::~Entity(local_1fc);
+  Entity::~Entity(local_2a4);
+  return iVar4;
+}
+
+

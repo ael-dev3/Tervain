@@ -1,0 +1,53 @@
+/* ENTRY 100169d0 | FUN_100169d0 | STATUS decompiled | 22 ms */
+
+undefined4 FUN_100169d0(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  eCEntity *peVar1;
+  gESpecies gVar2;
+  int iVar3;
+  gEUseType gVar4;
+  Entity local_1f8 [36];
+  PSInventory local_1d4 [16];
+  PropertySpecies local_1c4 [112];
+  Entity local_154 [4];
+  Entity local_150 [164];
+  Entity local_ac [4];
+  undefined1 local_a8 [168];
+  
+  Entity::Entity(local_1f8);
+  if (param_2 == (Entity *)0x0) {
+    peVar1 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_1f8,peVar1);
+  }
+  else {
+    Entity::operator=(local_1f8,param_2);
+  }
+  Entity::Entity(local_150);
+  if (param_3 == (Entity *)0x0) {
+    peVar1 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_150,peVar1);
+  }
+  else {
+    Entity::operator=(local_150,param_3);
+  }
+  gVar2 = PSNpc::PropertySpecies::operator_enum_gESpecies(local_1c4);
+  if (gVar2 == 8) {
+    Entity::~Entity(local_150);
+    Entity::~Entity(local_1f8);
+    return 0;
+  }
+  iVar3 = PSInventory::GetItemFromSlot(local_1d4,(gESlot)local_a8);
+  gVar4 = PSInteraction::GetUseType((PSInteraction *)(iVar3 + 0x1c));
+  Entity::~Entity(local_ac);
+  if ((gVar4 != 8) && (gVar4 != 0x37)) {
+    Entity::~Entity(local_154);
+    Entity::~Entity((Entity *)&stack0xfffffe04);
+    return 0;
+  }
+  Entity::~Entity(local_154);
+  Entity::~Entity((Entity *)&stack0xfffffe04);
+  return 1;
+}
+
+

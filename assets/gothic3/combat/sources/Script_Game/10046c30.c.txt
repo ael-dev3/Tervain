@@ -1,0 +1,60 @@
+/* ENTRY 10046c30 | FUN_10046c30 | STATUS decompiled | 23 ms */
+
+ulong FUN_10046c30(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  ulong uVar3;
+  Entity *this;
+  EDifficulty EVar4;
+  Entity *pEVar5;
+  Entity local_1f8 [52];
+  PropertyLevel local_1c4 [112];
+  Entity local_154 [4];
+  Entity local_150 [164];
+  Entity local_ac [4];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_1f8);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_1f8,peVar2);
+  }
+  else {
+    Entity::operator=(local_1f8,param_2);
+  }
+  Entity::Entity(local_150);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_150,peVar2);
+  }
+  else {
+    Entity::operator=(local_150,param_3);
+  }
+  uVar3 = PSNpc::PropertyLevel::operator_unsigned_long(local_1c4);
+  pEVar5 = local_a8;
+  this = (Entity *)Entity::GetPlayer();
+  bVar1 = Entity::operator==(this,pEVar5);
+  Entity::~Entity(local_ac);
+  if (!bVar1) {
+    EVar4 = Entity::GetCurrentDifficulty();
+    if (EVar4 == 2) {
+      uVar3 = uVar3 + 10;
+    }
+    else {
+      EVar4 = Entity::GetCurrentDifficulty();
+      if (EVar4 == 0) {
+        uVar3 = uVar3 - 10;
+      }
+    }
+    if ((int)uVar3 < 1) {
+      uVar3 = 1;
+    }
+  }
+  Entity::~Entity(local_154);
+  Entity::~Entity((Entity *)&stack0xfffffe04);
+  return uVar3;
+}
+
+

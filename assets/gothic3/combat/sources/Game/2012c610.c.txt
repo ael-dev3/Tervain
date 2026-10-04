@@ -1,0 +1,25 @@
+/* ENTRY 2012c610 | FUN_2012c610 | STATUS decompiled | 10 ms */
+
+void __thiscall
+FUN_2012c610(eCDynamicEntity *param_1,eCEntity *param_2,eCEntity *param_3,int param_4,int param_5,
+            eCContactIterator *param_6)
+
+{
+  gCSession *pgVar1;
+  eCDynamicEntity *peVar2;
+  gCSessionCheats *pgVar3;
+  
+  pgVar1 = (gCSession *)thunk_FUN_20066480();
+  peVar2 = gCSession::GetPlayer(pgVar1);
+  if (param_1 == peVar2) {
+    pgVar1 = (gCSession *)gCSession::GetInstance();
+    pgVar3 = gCSession::GetCheats(pgVar1);
+    if (pgVar3[0xc] == (gCSessionCheats)0x1) {
+      return;
+    }
+  }
+  eCDynamicEntity::OnDamage((eCDynamicEntity *)param_1,param_2,param_3,param_4,param_5,param_6);
+  return;
+}
+
+

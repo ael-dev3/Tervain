@@ -1,0 +1,99 @@
+/* ENTRY 10042a70 | FUN_10042a70 | STATUS decompiled | 41 ms */
+
+undefined4 FUN_10042a70(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  Entity *this;
+  char cVar1;
+  eCEntity *peVar2;
+  int iVar3;
+  gEAIMode gVar4;
+  bCMemoryAdmin *this_00;
+  Entity *unaff_EBX;
+  int iVar5;
+  int iVar6;
+  Entity aEStack_2c4 [152];
+  undefined4 uStack_22c;
+  gCScriptProcessingUnit *pgStack_228;
+  Entity *pEStack_224;
+  Entity *pEStack_220;
+  int local_204;
+  int local_200;
+  Entity local_1fc [4];
+  PropertyAIMode local_1f8 [164];
+  Entity local_154 [4];
+  Entity local_150 [164];
+  Entity local_ac [4];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_150);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_150,peVar2);
+  }
+  else {
+    Entity::operator=(local_150,param_2);
+  }
+  Entity::Entity(local_a8);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_a8,peVar2);
+  }
+  else {
+    Entity::operator=(local_a8,param_3);
+  }
+  Entity::GetNPCs();
+  iVar5 = 0;
+  if (0 < local_204) {
+    iVar6 = 0;
+    do {
+      pEStack_220 = (Entity *)0x10042b24;
+      Entity::Entity(local_1fc,unaff_EBX + iVar6);
+      pEStack_220 = local_154;
+      pEStack_224 = local_1fc;
+      pgStack_228 = param_1;
+      uStack_22c = 0x10042b39;
+      iVar3 = thunk_FUN_100424e0();
+      if (iVar3 != 0) {
+        gVar4 = PSRoutine::PropertyAIMode::operator_enum_gEAIMode(local_1f8);
+        if (gVar4 == 2) {
+          Entity::Entity(aEStack_2c4,local_1fc);
+          cVar1 = thunk_FUN_1000d200();
+          if (cVar1 == '\x01') {
+            pEStack_220 = local_154;
+            pEStack_224 = local_1fc;
+            pgStack_228 = param_1;
+            uStack_22c = 0x10042b89;
+            thunk_FUN_10037e60();
+          }
+        }
+        else {
+          pEStack_220 = local_154;
+          pEStack_224 = local_1fc;
+          pgStack_228 = param_1;
+          uStack_22c = 0x10042ba0;
+          thunk_FUN_1003b070();
+        }
+      }
+      Entity::~Entity(local_1fc);
+      iVar5 = iVar5 + 1;
+      iVar6 = iVar6 + 0xa8;
+    } while (iVar5 < local_204);
+  }
+  this = unaff_EBX;
+  if (unaff_EBX != (Entity *)0x0) {
+    for (; local_200 != 0; local_200 = local_200 + -1) {
+      Entity::~Entity(this);
+      this = this + 0xa8;
+    }
+    pEStack_220 = (Entity *)0x10042bf0;
+    this_00 = bCMemoryAdmin::GetInstance();
+    pEStack_220 = (Entity *)0x10042bf8;
+    bCMemoryAdmin::Free(this_00,unaff_EBX);
+  }
+  Entity::~Entity(local_ac);
+  Entity::~Entity(local_154);
+  return 1;
+}
+
+

@@ -1,0 +1,32 @@
+/* ENTRY 10009c80 | FUN_10009c80 | STATUS decompiled | 14 ms */
+
+undefined4 FUN_10009c80(void)
+
+{
+  gEUseType gVar1;
+  gEUseType gVar2;
+  gEUseType in_stack_000000a4;
+  gEUseType in_stack_000000a8;
+  PSInteraction local_13c [140];
+  Entity local_b0 [8];
+  undefined1 local_a8 [24];
+  PSInteraction local_90 [140];
+  Entity local_4 [4];
+  
+  PSInventory::GetItemFromSlot((PSInventory *)&stack0x00000028,(gESlot)local_a8);
+  gVar1 = PSInteraction::GetUseType(local_90);
+  PSInventory::GetItemFromSlot((PSInventory *)&stack0x00000024,(gESlot)&stack0xfffffeac);
+  gVar2 = PSInteraction::GetUseType(local_13c);
+  if ((in_stack_000000a4 == gVar1) && (in_stack_000000a8 == gVar2)) {
+    Entity::~Entity((Entity *)&stack0xfffffea8);
+    Entity::~Entity(local_b0);
+    Entity::~Entity(local_4);
+    return 1;
+  }
+  Entity::~Entity((Entity *)&stack0xfffffea8);
+  Entity::~Entity(local_b0);
+  Entity::~Entity(local_4);
+  return 0;
+}
+
+

@@ -1,0 +1,280 @@
+/* ENTRY 10027e70 | FUN_10027e70 | STATUS decompiled | 1358 ms */
+
+undefined4 FUN_10027e70(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  bool bVar2;
+  eCEntity *peVar3;
+  Entity *pEVar4;
+  eCLocString *this;
+  bCString *pbVar5;
+  Entity *this_00;
+  bCMemoryAdmin *this_01;
+  uint unaff_ESI;
+  int iVar6;
+  Entity aEStack_ac4 [160];
+  undefined4 uStack_a24;
+  Entity aEStack_a14 [88];
+  undefined4 uStack_9bc;
+  undefined4 uStack_9b4;
+  undefined4 uStack_9ac;
+  undefined4 uStack_9a4;
+  undefined4 uStack_99c;
+  undefined4 uStack_994;
+  undefined4 uStack_98c;
+  void *pvVar7;
+  uint uVar8;
+  undefined4 uStack_954;
+  undefined4 *puStack_950;
+  int local_94c;
+  bCString abStack_948 [4];
+  bCString abStack_944 [4];
+  Entity aEStack_940 [4];
+  Entity aEStack_93c [8];
+  Entity local_934 [4];
+  Entity local_930 [32];
+  PropertyDefeatedByPlayer aPStack_910 [16];
+  PropertyLastFightTimestamp local_900 [16];
+  PropertyCanBePushedWhileIdle local_8f0 [16];
+  PSParty local_8e0 [4];
+  PSParty local_8dc [56];
+  PSEffect local_8a4 [8];
+  Entity aEStack_89c [8];
+  Entity aEStack_894 [12];
+  Entity local_888 [68];
+  PSParty aPStack_844 [76];
+  Entity aEStack_7f8 [4];
+  Entity aEStack_7f4 [12];
+  Entity local_7e8 [36];
+  PSNavigation aPStack_7c4 [120];
+  Entity aEStack_74c [8];
+  Entity aEStack_744 [40];
+  PSNavigation aPStack_71c [48];
+  PSParty aPStack_6ec [68];
+  Entity aEStack_6a8 [4];
+  Entity aEStack_6a4 [8];
+  Entity aEStack_69c [76];
+  PSParty aPStack_650 [84];
+  Entity aEStack_5fc [8];
+  Entity aEStack_5f4 [40];
+  PSNavigation aPStack_5cc [48];
+  PSParty aPStack_59c [72];
+  Entity aEStack_554 [20];
+  Entity local_540 [148];
+  Entity aEStack_4ac [20];
+  Entity local_498 [148];
+  Entity aEStack_404 [48];
+  PSNavigation aPStack_3d4 [120];
+  Entity aEStack_35c [48];
+  PSNavigation aPStack_32c [120];
+  Entity aEStack_2b4 [48];
+  PSNavigation aPStack_284 [120];
+  Entity aEStack_20c [48];
+  PSNavigation aPStack_1dc [120];
+  Entity aEStack_164 [48];
+  PSNavigation aPStack_134 [120];
+  Entity aEStack_bc [120];
+  PSQuestManager aPStack_44 [68];
+  
+  local_94c = 0;
+  Entity::Entity(local_498);
+  if (param_2 == (Entity *)0x0) {
+    peVar3 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_498,peVar3);
+  }
+  else {
+    Entity::operator=(local_498,param_2);
+  }
+  Entity::Entity(local_540);
+  if (param_3 == (Entity *)0x0) {
+    peVar3 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_540,peVar3);
+  }
+  else {
+    Entity::operator=(local_540,param_3);
+  }
+  Entity::Entity(local_888,local_498);
+  Entity::Entity(local_930,local_540);
+  uVar8 = 0;
+  Entity::GetPlayer();
+  Entity::GetPlayingTime();
+  PSNpc::PropertyLastFightTimestamp::operator=(local_900,(float *)&stack0xfffff6a8);
+  PSEffect::StopEffect(local_8a4,true);
+  thunk_FUN_10031280();
+  thunk_FUN_10031680();
+  thunk_FUN_10031970();
+  thunk_FUN_10031790();
+  PSRoutine::PropertyAIMode::operator=((PropertyAIMode *)local_930,(gEAIMode *)&stack0xfffff6a8);
+  Entity::Entity(aEStack_a14,local_934);
+  thunk_FUN_10009520();
+  uStack_954 = uStack_954 & 0xffffff;
+  PSCharacterMovement::PropertyCanBePushedWhileIdle::operator=
+            (local_8f0,(bool *)((int)&uStack_954 + 3));
+  pEVar4 = (Entity *)PSParty::GetPartyLeader(local_8dc);
+  bVar1 = Entity::operator!=((Entity *)None_exref,pEVar4);
+  Entity::~Entity(local_7e8);
+  if (bVar1) {
+    Entity::Entity(aEStack_a14,(Entity *)None_exref);
+    PSParty::SetPartyLeader(local_8e0);
+  }
+  PSParty::GetMembers(local_8e0,SUB41(&local_94c,0));
+  if (0 < local_94c) {
+    Entity::Entity(aEStack_744,(eCEntity *)*puStack_950);
+    if (local_94c == 1) {
+      Entity::Entity((Entity *)&stack0xfffff5e8,(Entity *)None_exref);
+      PSParty::SetPartyLeader(aPStack_6ec);
+    }
+    else {
+      iVar6 = 1;
+      if (1 < local_94c) {
+        do {
+          Entity::Entity(aEStack_5f4,(eCEntity *)puStack_950[iVar6]);
+          Entity::Entity((Entity *)&stack0xfffff5e8,aEStack_744);
+          PSParty::SetPartyLeader(aPStack_59c);
+          Entity::~Entity(aEStack_5f4);
+          iVar6 = iVar6 + 1;
+        } while (iVar6 < local_94c);
+      }
+    }
+    Entity::~Entity(aEStack_744);
+  }
+  bVar1 = Entity::operator==(aEStack_69c,aEStack_93c);
+  if (bVar1) {
+    bCString::bCString(abStack_944,"GO_GameOver");
+    this = (eCLocString *)eCLocString::eCLocString((eCLocString *)&uStack_954,abStack_944);
+    eCLocString::operator_class_bCUnicodeString_const(this);
+    bCUnicodeString::bCUnicodeString
+              ((bCUnicodeString *)&stack0xfffff69c,(bCUnicodeString *)abStack_944);
+    bCUnicodeString::~bCUnicodeString((bCUnicodeString *)abStack_944);
+    eCLocString::~eCLocString((eCLocString *)&stack0xfffff6a8);
+    bCString::~bCString(abStack_948);
+    GUI2::PrintGameMessage((GUI2 *)gui2_exref,(bCUnicodeString *)&stack0xfffff69c,0xd);
+    bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffff69c);
+  }
+  else {
+    uStack_a24 = 0x100281a0;
+    Entity::Entity((Entity *)&stack0xfffff5e4,aEStack_894);
+    Entity::Entity(aEStack_ac4,aEStack_93c);
+    thunk_FUN_10010130();
+  }
+  Entity::GetWorldEntity();
+  PSQuestManager::OnNPCKilled(aPStack_44,aEStack_940);
+  pbVar5 = (bCString *)Entity::GetName(aEStack_940);
+  bVar1 = operator==("Talchef",pbVar5);
+  bCString::~bCString((bCString *)&stack0xfffff6a4);
+  if (bVar1) {
+    bCString::bCString((bCString *)&stack0xfffff684,"Mine_Warrior_01");
+    Entity::GetEntity();
+    uStack_98c = 0x1002822f;
+    bCString::bCString((bCString *)&stack0xfffff67c,"Mine_Warrior_02");
+    uStack_98c = 0x10028239;
+    Entity::GetEntity();
+    uStack_994 = 0x10028243;
+    bCString::bCString((bCString *)&uStack_98c,"Mine_Warrior_03");
+    uStack_994 = 0x1002824d;
+    Entity::GetEntity();
+    uStack_99c = 0x10028257;
+    bCString::bCString((bCString *)&uStack_994,"Mine_Elite_01");
+    uStack_99c = 0x10028261;
+    Entity::GetEntity();
+    uStack_9a4 = 0x1002826b;
+    bCString::bCString((bCString *)&uStack_99c,"Mine_Elite_02");
+    uStack_9a4 = 0x10028275;
+    Entity::GetEntity();
+    uStack_9ac = 0x1002827f;
+    bCString::bCString((bCString *)&uStack_9a4,"Mine_Elite_03");
+    uStack_9ac = 0x10028289;
+    Entity::GetEntity();
+    uStack_9b4 = 0x10028293;
+    bCString::bCString((bCString *)&uStack_9ac,"Mine_Scout_01");
+    uStack_9b4 = 0x1002829d;
+    Entity::GetEntity();
+    uStack_9bc = 0x100282a7;
+    bCString::bCString((bCString *)&uStack_9b4,"Mine_Scout_02");
+    uStack_9bc = 0x100282b1;
+    Entity::GetEntity();
+    bCString::bCString((bCString *)&stack0xfffff698,"Mine_Attack");
+    PSNavigation::SetRoutine(aPStack_7c4,(bCString *)&stack0xfffff698);
+    bCString::~bCString((bCString *)&stack0xfffff698);
+    bCString::bCString((bCString *)&stack0xfffff698,"Mine_Attack");
+    PSNavigation::SetRoutine(aPStack_3d4,(bCString *)&stack0xfffff698);
+    bCString::~bCString((bCString *)&stack0xfffff698);
+    bCString::bCString((bCString *)&stack0xfffff698,"Mine_Attack");
+    PSNavigation::SetRoutine(aPStack_32c,(bCString *)&stack0xfffff698);
+    bCString::~bCString((bCString *)&stack0xfffff698);
+    bCString::bCString((bCString *)&stack0xfffff698,"Mine_Attack");
+    PSNavigation::SetRoutine(aPStack_1dc,(bCString *)&stack0xfffff698);
+    bCString::~bCString((bCString *)&stack0xfffff698);
+    bCString::bCString((bCString *)&stack0xfffff698,"Mine_Attack");
+    PSNavigation::SetRoutine(aPStack_284,(bCString *)&stack0xfffff698);
+    bCString::~bCString((bCString *)&stack0xfffff698);
+    bCString::bCString((bCString *)&stack0xfffff698,"Mine_Attack");
+    PSNavigation::SetRoutine(aPStack_134,(bCString *)&stack0xfffff698);
+    bCString::~bCString((bCString *)&stack0xfffff698);
+    bCString::bCString((bCString *)&stack0xfffff698,"Mine_Attack");
+    PSNavigation::SetRoutine(aPStack_71c,(bCString *)&stack0xfffff698);
+    bCString::~bCString((bCString *)&stack0xfffff698);
+    bCString::bCString((bCString *)&stack0xfffff698,"Mine_Attack");
+    PSNavigation::SetRoutine(aPStack_5cc,(bCString *)&stack0xfffff698);
+    bCString::~bCString((bCString *)&stack0xfffff698);
+    Entity::~Entity(aEStack_5fc);
+    Entity::~Entity(aEStack_74c);
+    Entity::~Entity(aEStack_164);
+    Entity::~Entity(aEStack_2b4);
+    Entity::~Entity(aEStack_20c);
+    Entity::~Entity(aEStack_35c);
+    Entity::~Entity(aEStack_404);
+    Entity::~Entity(aEStack_7f4);
+  }
+  bVar1 = Entity::operator==(aEStack_6a4,aEStack_89c);
+  if (!bVar1) {
+    unaff_ESI = 1;
+    pEVar4 = (Entity *)PSParty::GetPartyLeader(aPStack_844);
+    bVar1 = Entity::operator==(aEStack_6a8,pEVar4);
+    if (!bVar1) {
+      pEVar4 = aEStack_7f8;
+      bVar1 = false;
+      this_00 = (Entity *)PSParty::GetPartyLeader(aPStack_650);
+      unaff_ESI = uVar8;
+      bVar2 = Entity::operator==(this_00,pEVar4);
+      if (!bVar2) goto LAB_1002849c;
+    }
+  }
+  bVar1 = true;
+LAB_1002849c:
+  if ((unaff_ESI & 2) != 0) {
+    unaff_ESI = unaff_ESI & 0xfffffffd;
+    Entity::~Entity(aEStack_7f4);
+  }
+  if ((unaff_ESI & 1) != 0) {
+    Entity::~Entity(aEStack_404);
+  }
+  if ((bVar1) && (bVar1 = PSNpc::PropertyDefeatedByPlayer::operator_bool(aPStack_910), !bVar1)) {
+    uStack_98c = 0x100284ec;
+    thunk_FUN_100628c0();
+    PSNpc::PropertyDefeatedByPlayer::operator=(aPStack_910,(bool *)&stack0xfffff69f);
+  }
+  uStack_98c = 0x1002851f;
+  thunk_FUN_100755e0();
+  uStack_98c = 0x10028532;
+  thunk_FUN_100c9560();
+  uStack_98c = 0x10028544;
+  thunk_FUN_10027960();
+  Entity::~Entity(aEStack_bc);
+  if (&stack0x00000000 != (undefined1 *)0x958) {
+    pvVar7 = (void *)0x9;
+    this_01 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this_01,pvVar7);
+    uStack_954 = 0;
+    puStack_950 = (undefined4 *)0x0;
+  }
+  Entity::~Entity(aEStack_6a4);
+  Entity::~Entity((Entity *)abStack_944);
+  Entity::~Entity(aEStack_89c);
+  Entity::~Entity(aEStack_554);
+  Entity::~Entity(aEStack_4ac);
+  return 1;
+}
+
+

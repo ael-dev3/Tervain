@@ -1,0 +1,117 @@
+Original initial quest state, before OnGameStartUp
+
+Reproduction
+  python -B tools/gothic3/read_initial_quests.py --study <LOCAL_DESKTOP_STUDY>
+  Optional --research <RESEARCH_FOLDER> also emits quest_defaults_evidence.json.
+  The tool performs offline file/instruction integrity audits only; no native
+  binaries are executed. Its native interpretation is guarded by hashes of
+  all five reviewed module builds and the original World_MCP source member.
+
+Outputs
+  public/gothic3/dialogue/initial-quests.json
+  assets/gothic3/dialogue/initial-quests-receipt.json
+  assets/gothic3/dialogue/initial-quests-output.json is the compact browser
+  receipt; it references the seed bytes/hash and full proof receipt hash.
+  Each quest has id, raw numeric status, counters, startedAt {years,days,hours},
+  logKeys, complete ordered logPairs, original definitionSource, and packet
+  offsets/length/hash when an original compiled runtime packet exists.
+
+Result
+  All 641 effective original quest definitions omit an INI Status field.
+  Fresh native status is 0, whose installed enum registration explicitly
+  names gEQuestStatus_Open. Every initial delivery counter is zero; all
+  activation year/day/hour values are zero. Source absence is kept separate
+  from effective state; no Status key is invented in original INI metadata.
+
+  The selected World_MCP comes from Projects_compiled.p00:
+  G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/
+  SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat
+  source SHA256 28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938.
+  World entity key world-2419:1. gCQuestManager_PS class version2 at byte234483;
+  runtime tail234485..256637, 22,152 bytes, tail SHA256
+  e3f115c9c52e5ba3a35d59a144071638fc01d4b3af989fe7f7d75e99c2ea4f73.
+  The original Genome string table has 6,069 entries. All tail bytes were
+  consumed into 637 unique version3 quest runtime packets.
+
+  The four current INIs without an original compiled runtime packet are:
+    Mort_GuideFireAgain, Mort_GuideMineAgain, Mort_GuideWolfAgain,
+    PC_Hero_inAlShedim.
+  They retain native factory status/time defaults and their actual INI
+  DeliveryCounter data. None of the 641 INIs has a nonzero initial counter.
+
+  Preserve the one original log pair:
+    KapDun_Hunter_Fur: pair version1, first/speaker key "",
+    second/text key "SKALVERAM39"; logKeys=["SKALVERAM39"].
+  The other 636 compiled quest runtime log arrays are empty.
+
+Native creation and initialization
+  LoadQuestsFromInis 0x2002089c -> Game body0x20348490 creates a fresh
+  gCQuest_PS via 0x20349f40 before INI Read0x20024965 ->0x20338ad0.
+  QueryNewObject uses SharedBase's registered root factory/Clone path.
+  Quest root Clone0x20030733 ->0x20346080 calls PO initializer0x20344bb0(0),
+  which instantiates the quest and applies all registered property defaults.
+  Raw constructor0x200364e9 ->0x20339360 calls Invalidate0x20030fad
+  ->0x20334fe0. Invalidate assigns numeric status0 and writes0 to activation
+  fields at instance offsets0x94/0x98/0x9c. Status container starts at0x8c
+  and stores its numeric value at0x90; DeliveryCounter array starts at0x6c.
+
+  Status typed default0x2001d65b ->0x20343010 invokes enum-container
+  vtable+0x18. Source PE pointer0x206996e4 contains0x20022ff7 ->0x2033ca10,
+  which uses the registered default global0x207cb808. Native CRT code at
+  0x2051c410 pushes both enum value0 and default0 to0x20025969
+  ->0x20347300; that body writes the supplied default to0x207cb808.
+  PE ASCII string at0x2069abfc is gEQuestStatus_Open. These native raw
+  numerics are authoritative; unrelated community enum labels are advisory.
+
+INI and runtime overlay semantics
+  INI Read0x20338ad0 reads DeliveryCounter values and static quest fields.
+  It does not read a Status key. It aligns counters/amounts to the number
+  of DeliveryEntities when lengths differ. These 641 audited INIs already
+  have matching target/counter lengths (eight empty lists, other values0).
+  It does not populate runtime log pairs from the INI LogText field.
+
+  Manager Read0x20024c67 ->0x20348760 first calls LoadQuestsFromInis,
+  then reads runtime packet count and overlays by quest name through
+  ReadRuntimeData0x2001f447 ->0x20339600. The runtime method sets the
+  status and activation time and copies min(runtime-counter-count,
+  static-counter-count) counters. Version3 then reads ordered log pairs.
+  Counter array reader0x201237e0 reads u8 prefix, u32 count and int32 values.
+  Log pair reader0x20343360 reads u8 prefix, u32 count, then per-pair u16
+  version and two eCLocString IDs. Engine0x3004089f and0x300126d4 prove
+  localization strings delegate to the archive bCString entry reader.
+
+  Reset0x2002f9eb ->0x20336500 calls Invalidate and zeroes every existing
+  counter. ResetQuests0x2000bcf8 applies Reset across its array. This export
+  does not assume ResetQuests is called during the observed NewGame path;
+  it uses the actual serialized overlay and fresh factory/INI state.
+
+Startup order and the first quest run
+  Main-menu NewGame Game body0x20195660 calls RestartWorld0x2001d63d
+  at0x201957d2, then Session Start0x200087ab at0x20195830 with mode0.
+  Session Start body0x20376690 invokes OnInit for modes0/1, then
+  OnGameStartUp only for mode0. OnInit registration entry0x10002964
+  ->Script_Game body0x100d0470 is distinct from the startup callback.
+  OnGameStartUp entry0x10002c07 ->Script_Game body0x100cfb70 constructs
+  Xardas_FindXardas at0x100cfdb5 from PE ASCII string0x10213030 and calls
+  PSQuestManager::RunQuest through IAT0x10226cc0 at0x100cfdd8.
+  Script wrapper0x1000470f ->0x1002b5a0 forwards to Game RunQuest
+  0x20007306 ->0x20347f90, which accepts Open0 and requests Running1.
+  SetStatus0x2001a519 ->0x20336ff0 captures current clock when entering
+  Running. Initial Xardas_FindXardas packet byte256077 length34 is status0,
+  activation0 and counter[0] before that startup operation.
+
+Evidence limits
+  Direct NewGame RestartWorld-before-Start and Session OnInit-before-startup
+  order are byte-proven. This receipt records the actual per-class manager
+  deserializer; it does not expand every generic context/property-object
+  virtual call from RestartWorld down to that deserializer.
+  Remaining OnInit/startup callbacks and entity mutations are separate work.
+  startup.applied is false. This seed is not a restored save, a post-startup
+  state, or proof that every browser quest/combat callback is implemented.
+
+Audit receipt
+  All641 selected definition file hashes matched the original study.
+  All22,152 runtime tail bytes were consumed with exact packet offsets.
+  All4,224 recorded native instructions matched their source PE bytes.
+  Receipt includes all module hashes, VA/RVA/thunk targets, source C/assembly
+  paths and lines, method body hashes, vtable pointer bytes and native labels.

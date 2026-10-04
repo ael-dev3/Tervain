@@ -1,0 +1,53 @@
+/* ENTRY 1003d4d0 | FUN_1003d4d0 | STATUS decompiled | 21 ms */
+
+int FUN_1003d4d0(void)
+
+{
+  char cVar1;
+  ulong uVar2;
+  int iVar3;
+  int iVar4;
+  undefined4 in_stack_000000ac;
+  undefined4 uStack_b8;
+  Entity aEStack_b0 [160];
+  undefined4 uStack_10;
+  undefined4 uStack_c;
+  
+  iVar4 = 0;
+  switch(in_stack_000000ac) {
+  case 1:
+  case 6:
+  case 7:
+  case 8:
+  case 0x1b:
+    iVar4 = 2;
+    break;
+  case 2:
+    uStack_c = 2;
+    uStack_10 = 2;
+    Entity::Entity((Entity *)&uStack_b8,(Entity *)&stack0x00000004);
+    cVar1 = thunk_FUN_10009c80();
+    if (cVar1 != '\0') {
+      uStack_c = 0x1003d530;
+      uVar2 = PSRoutine::PropertyStatePosition::operator_unsigned_long
+                        ((PropertyStatePosition *)&stack0x00000008);
+      iVar4 = 3 - (uint)(uVar2 < 2);
+      break;
+    }
+  case 0xb:
+    iVar4 = 4;
+    break;
+  case 3:
+  case 4:
+  case 5:
+    iVar4 = 0;
+  }
+  uStack_b8 = 0x1003d551;
+  Entity::Entity(aEStack_b0,(Entity *)&stack0x00000004);
+  iVar3 = thunk_FUN_1003d1d0();
+  uStack_c = 0x1003d564;
+  Entity::~Entity((Entity *)&stack0x00000004);
+  return iVar3 + iVar4;
+}
+
+

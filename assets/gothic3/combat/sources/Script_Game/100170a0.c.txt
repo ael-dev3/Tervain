@@ -1,0 +1,62 @@
+/* ENTRY 100170a0 | FUN_100170a0 | STATUS decompiled | 28 ms */
+
+undefined4 FUN_100170a0(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  char cVar1;
+  bool bVar2;
+  eCEntity *peVar3;
+  int iVar4;
+  Entity aEStack_210 [156];
+  undefined4 uStack_174;
+  gCScriptProcessingUnit *pgStack_170;
+  Entity *pEStack_16c;
+  code *pcStack_168;
+  Entity local_150 [168];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_150);
+  if (param_2 == (Entity *)0x0) {
+    peVar3 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    pcStack_168 = (code *)0x100170e3;
+    Entity::AttachTo(local_150,peVar3);
+  }
+  else {
+    pcStack_168 = (code *)0x100170ec;
+    Entity::operator=(local_150,param_2);
+  }
+  Entity::Entity(local_a8);
+  if (param_3 == (Entity *)0x0) {
+    peVar3 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    pcStack_168 = (code *)0x10017112;
+    Entity::AttachTo(local_a8,peVar3);
+  }
+  else {
+    pcStack_168 = (code *)0x1001711e;
+    Entity::operator=(local_a8,param_3);
+  }
+  pcStack_168 = (code *)0x9;
+  Entity::Entity(aEStack_210,local_150);
+  cVar1 = thunk_FUN_10009c80();
+  if (cVar1 != '\0') {
+    pcStack_168 = None_exref;
+    pEStack_16c = local_150;
+    pgStack_170 = param_1;
+    uStack_174 = 0x1001717e;
+    iVar4 = thunk_FUN_10016e70();
+    if (iVar4 != 0) {
+      pcStack_168 = (code *)0x10017194;
+      bVar2 = Entity::IsInFOV(local_150,local_a8);
+      if (bVar2) {
+        Entity::~Entity(local_a8);
+        Entity::~Entity(local_150);
+        return 1;
+      }
+    }
+  }
+  Entity::~Entity(local_a8);
+  Entity::~Entity(local_150);
+  return 0;
+}
+
+

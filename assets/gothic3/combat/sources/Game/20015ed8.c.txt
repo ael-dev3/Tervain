@@ -1,0 +1,50 @@
+/* ENTRY 20015ed8 | gCTouchDamage_PS::TriggerTarget | STATUS decompiled | 26 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* protected: virtual void __thiscall gCTouchDamage_PS::TriggerTarget(class eCEntity *,class
+   eCEntity *,class eCContactIterator &) */
+
+void __thiscall
+gCTouchDamage_PS::TriggerTarget
+          (gCTouchDamage_PS *this,eCEntity *param_1,eCEntity *param_2,eCContactIterator *param_3)
+
+{
+  bool bVar1;
+  eSEntityFlags *peVar2;
+  int iVar3;
+  int *piVar4;
+  eCEntity *peVar5;
+  int iVar6;
+  int iVar7;
+  
+                    /* 0x15ed8  7389
+                       ?TriggerTarget@gCTouchDamage_PS@@MAEXPAVeCEntity@@0AAVeCContactIterator@@@Z
+                        */
+  bVar1 = bCString::IsEmpty((bCString *)&(this->gCTouchDamage_PS_data).field_0xe0);
+  if ((!bVar1) && (param_1 != (eCEntity *)0x0)) {
+    peVar2 = eCEntity::GetEntityFlags((eCEntity *)param_1);
+    if ((_DAT_207b858c & 1) == 0) {
+      _DAT_207b858c = _DAT_207b858c | 1;
+      DAT_207b8588 = 0x800000;
+    }
+    if (((*(uint *)peVar2 & DAT_207b8588) != 0) &&
+       (iVar3 = (**(code **)(*(int *)param_1 + 0xec))(0x34), iVar3 != 0)) {
+      piVar4 = (int *)thunk_FUN_200a4bb0();
+      iVar6 = *piVar4;
+      peVar5 = (*this->vftablePtr->GetEntity)(this);
+      iVar6 = (**(code **)(iVar6 + 0xbc))(&(this->gCTouchDamage_PS_data).field_0xe0,peVar5);
+      if (iVar6 != 0) {
+        piVar4 = (int *)thunk_FUN_200a4bb0();
+        iVar6 = *piVar4;
+        iVar7 = -*(int *)(iVar3 + 0x34);
+        peVar5 = (*this->vftablePtr->GetEntity)(this);
+        (**(code **)(iVar6 + 0xbc))(&DAT_207b8624,param_1,peVar5,iVar7);
+        (**(code **)(*(int *)param_1 + 0x180))
+                  (param_1,0,*(undefined4 *)(iVar3 + 0x34),*(undefined4 *)(iVar3 + 0x30),0);
+      }
+    }
+  }
+  return;
+}
+
+

@@ -1,0 +1,144 @@
+/* ENTRY 1003c6b0 | FUN_1003c6b0 | STATUS decompiled | 74 ms */
+
+undefined4 FUN_1003c6b0(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  char cVar2;
+  eCEntity *peVar3;
+  int iVar4;
+  bCString *pbVar5;
+  gEDamageType gVar6;
+  gEAction gVar7;
+  code *pcVar8;
+  Entity aEStack_360 [144];
+  undefined4 uStack_2d0;
+  gCScriptProcessingUnit *pgStack_2cc;
+  Entity *pEStack_2c8;
+  gCScriptProcessingUnit *pgStack_2c4;
+  gCScriptProcessingUnit local_2a4 [4];
+  Entity local_2a0 [160];
+  Entity local_200 [4];
+  Entity local_1fc [4];
+  Entity local_1f8 [24];
+  PSInteraction local_1e0 [44];
+  PropertyDamageType local_1b4 [92];
+  Entity local_158 [4];
+  Entity local_154 [4];
+  Entity local_150 [160];
+  Entity local_b0 [4];
+  PropertyAction local_ac [172];
+  
+  Entity::Entity(local_2a0);
+  if (param_2 == (Entity *)0x0) {
+    peVar3 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_2a0,peVar3);
+  }
+  else {
+    Entity::operator=(local_2a0,param_2);
+  }
+  Entity::Entity(local_150);
+  if (param_3 == (Entity *)0x0) {
+    peVar3 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_150,peVar3);
+  }
+  else {
+    Entity::operator=(local_150,param_3);
+  }
+  Entity::Entity(local_1f8,local_150);
+  bVar1 = Entity::operator==((Entity *)None_exref,local_1f8);
+  if (!bVar1) {
+    pgStack_2c4 = param_1;
+    pEStack_2c8 = (Entity *)0x1003c777;
+    iVar4 = thunk_FUN_1003c550();
+    if (iVar4 != 0) {
+      pgStack_2c4 = param_1;
+      pEStack_2c8 = (Entity *)0x1003c793;
+      iVar4 = thunk_FUN_1001aca0();
+      pcVar8 = ~Entity_exref;
+      if (iVar4 == 0) {
+        pbVar5 = (bCString *)Entity::GetName(local_2a0);
+        pgStack_2c4 = (gCScriptProcessingUnit *)0x1003c7bd;
+        bVar1 = operator==("Xardas",pbVar5);
+        bCString::~bCString((bCString *)&stack0xfffffd58);
+        pcVar8 = ~Entity_exref;
+        if (!bVar1) {
+          Entity::Entity(aEStack_360,local_1fc);
+          cVar2 = thunk_FUN_1003bb10();
+          pcVar8 = ~Entity_exref;
+          if (cVar2 != '\x01') {
+            Entity::Entity(aEStack_360,local_1fc);
+            cVar2 = thunk_FUN_1003bbe0();
+            if (cVar2 == '\x01') {
+              gVar6 = PSDamage::PropertyDamageType::operator_enum_gEDamageType(local_1b4);
+              pcVar8 = ~Entity_exref;
+              if (gVar6 == 1) {
+                pgStack_2c4 = local_2a4;
+                pEStack_2c8 = (Entity *)param_1;
+                pgStack_2cc = (gCScriptProcessingUnit *)0x1003c829;
+                iVar4 = thunk_FUN_1001b0c0();
+                pcVar8 = ~Entity_exref;
+                if (iVar4 != 0) goto LAB_1003c831;
+              }
+            }
+            else {
+              PSInteraction::GetOwner(local_1e0);
+              pgStack_2c4 = (gCScriptProcessingUnit *)0x1003c883;
+              bVar1 = Entity::operator==((Entity *)None_exref,local_b0);
+              if ((!bVar1) &&
+                 (gVar7 = PSRoutine::PropertyAction::operator_enum_gEAction(local_ac), gVar7 != 0xc)
+                 ) {
+                pgStack_2c4 = (gCScriptProcessingUnit *)None_exref;
+                pEStack_2c8 = (Entity *)&stack0xfffffd58;
+                pgStack_2cc = param_1;
+                uStack_2d0 = 0x1003c8b5;
+                iVar4 = thunk_FUN_1001b0c0();
+                if (iVar4 != 0) {
+                  pgStack_2c4 = (gCScriptProcessingUnit *)None_exref;
+                  pEStack_2c8 = local_b0;
+                  pgStack_2cc = param_1;
+                  uStack_2d0 = 0x1003c8d4;
+                  iVar4 = thunk_FUN_1001b0c0();
+                  if (iVar4 != 0) {
+                    pgStack_2c4 = (gCScriptProcessingUnit *)local_b0;
+                    pEStack_2c8 = (Entity *)&stack0xfffffd58;
+                    pgStack_2cc = param_1;
+                    uStack_2d0 = 0x1003c8ed;
+                    iVar4 = thunk_FUN_100194c0();
+                    if ((iVar4 != 4) && (iVar4 != 6)) {
+                      pgStack_2c4 = (gCScriptProcessingUnit *)&stack0xfffffd58;
+                      pEStack_2c8 = local_b0;
+                      pgStack_2cc = param_1;
+                      uStack_2d0 = 0x1003c90c;
+                      iVar4 = thunk_FUN_100194c0();
+                      if (iVar4 != 4) {
+                        Entity::~Entity(local_b0);
+                        Entity::~Entity(local_200);
+                        Entity::~Entity(local_158);
+                        Entity::~Entity((Entity *)&stack0xfffffd58);
+                        return 0;
+                      }
+                    }
+                  }
+                }
+              }
+              pcVar8 = ~Entity_exref;
+              Entity::~Entity(local_b0);
+            }
+          }
+        }
+      }
+      (*pcVar8)();
+      (*pcVar8)();
+      (*pcVar8)();
+      return 1;
+    }
+  }
+LAB_1003c831:
+  Entity::~Entity(local_1fc);
+  Entity::~Entity(local_154);
+  Entity::~Entity((Entity *)local_2a4);
+  return 0;
+}
+
+

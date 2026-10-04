@@ -1,0 +1,4 @@
+; 20006f50 ?GetLearned@gCInventoryStack@@QBEAB_NXZ
+20006f50 | e91b820700 | JMP 0x2007f170
+; 20006f55 gCItem_PS::GetRequiredSkill2
+; 20006f55 Ordinal_4199

@@ -1,0 +1,17 @@
+/* ENTRY 10128a40 | FUN_10128a40 | STATUS decompiled | 6 ms */
+
+void FUN_10128a40(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Memory\\GetAttribute.cpp");
+  bCString::bCString(local_8,"GetProtectionBlade");
+  thunk_FUN_10017a50(local_8,thunk_FUN_10046e30,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

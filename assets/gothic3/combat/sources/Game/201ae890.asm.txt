@@ -1,0 +1,24 @@
+; 201ae890 FUN_201ae890
+201ae890 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+201ae894 | 56 | PUSH ESI
+201ae895 | 50 | PUSH EAX
+201ae896 | 8bf1 | MOV ESI,ECX
+201ae898 | e82afbe5ff | CALL 0x2000e3c7
+201ae89d | 50 | PUSH EAX
+201ae89e | 8d4e30 | LEA ECX,[ESI + 0x30]
+201ae8a1 | e83ab3e7ff | CALL 0x20029be0
+201ae8a6 | 85c0 | TEST EAX,EAX
+201ae8a8 | 5e | POP ESI
+201ae8a9 | 7419 | JZ 0x201ae8c4
+201ae8ab | 80785400 | CMP byte ptr [EAX + 0x54],0x0
+201ae8af | 750b | JNZ 0x201ae8bc
+201ae8b1 | 83785800 | CMP dword ptr [EAX + 0x58],0x0
+201ae8b5 | 7f05 | JG 0x201ae8bc
+201ae8b7 | 33c0 | XOR EAX,EAX
+201ae8b9 | c20400 | RET 0x4
+; 201ae8bc LAB_201ae8bc
+201ae8bc | b801000000 | MOV EAX,0x1
+201ae8c1 | c20400 | RET 0x4
+; 201ae8c4 LAB_201ae8c4
+201ae8c4 | 32c0 | XOR AL,AL
+201ae8c6 | c20400 | RET 0x4

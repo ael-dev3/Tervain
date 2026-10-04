@@ -1,0 +1,22 @@
+/* ENTRY 2000779d | gCInventory_PS::GetSkillActivationCount | STATUS decompiled | 9 ms */
+
+/* public: int __thiscall gCInventory_PS::GetSkillActivationCount(class eCTemplateEntity const
+   *)const  */
+
+int __thiscall
+gCInventory_PS::GetSkillActivationCount(gCInventory_PS *this,eCTemplateEntity *param_1)
+
+{
+  int iVar1;
+  
+                    /* 0x779d  4447
+                       ?GetSkillActivationCount@gCInventory_PS@@QBEHPBVeCTemplateEntity@@@Z */
+  iVar1 = FindSkillStackIndex(this,param_1);
+  iVar1 = FUN_20029be0(iVar1);
+  if (iVar1 != 0) {
+    return *(int *)(iVar1 + 0x58);
+  }
+  return 0;
+}
+
+

@@ -1,0 +1,22 @@
+/* ENTRY 2001e7d6 | gCInventory_PS::IsSkillActive | STATUS decompiled | 8 ms */
+
+/* public: bool __thiscall gCInventory_PS::IsSkillActive(class eCTemplateEntity const *)const  */
+
+bool __thiscall gCInventory_PS::IsSkillActive(gCInventory_PS *this,eCTemplateEntity *param_1)
+
+{
+  int iVar1;
+  
+                    /* 0x1e7d6  5248  ?IsSkillActive@gCInventory_PS@@QBE_NPBVeCTemplateEntity@@@Z */
+  iVar1 = FindSkillStackIndex(this,param_1);
+  iVar1 = FUN_20029be0(iVar1);
+  if (iVar1 == 0) {
+    return false;
+  }
+  if ((*(char *)(iVar1 + 0x54) == '\0') && (*(int *)(iVar1 + 0x58) < 1)) {
+    return false;
+  }
+  return true;
+}
+
+

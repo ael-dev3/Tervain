@@ -32,7 +32,7 @@ def receipts(output, manifest):
             row.update(contentEncoding='gzip', encoding='gzip', uncompressedBytes=len(raw), uncompressedSha256=sha(raw))
         rows.append(row)
     manifest['outputs'] = rows
-    manifest['transport'] = {'compressed': 'gzip', 'integrity': 'Validate compressed and decompressed SHA256/bytes before JSON use.',
+    manifest['transport'] = {'compressed': 'gzip', 'integrity': 'Validate raw compressed and decoded SHA256/bytes when wire bytes are available; HTTP-transparent gzip routes validate the bounded decoded receipt before JSON use.',
         'propertySets': '{name,version,values,unknownProperties?,duplicateProperties?,tail?}',
         'enums': 'Decoded enum values are numeric; names/types/symbols and exact bytes remain in the local audit.',
         'worldChunks': 'Source descriptors reference ordered chunks of at most256 gameplay entities; geometry-only entities stay in the index.'}

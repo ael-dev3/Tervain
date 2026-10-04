@@ -1,0 +1,265 @@
+/* ENTRY 2000aa51 | gCScriptProcessingUnit::sAICombatMoveItlLoop | STATUS decompiled | 207 ms */
+
+/* protected: static void __stdcall gCScriptProcessingUnit::sAICombatMoveItlLoop(class
+   gCScriptProcessingUnit *) */
+
+void gCScriptProcessingUnit::sAICombatMoveItlLoop(gCScriptProcessingUnit *param_1)
+
+{
+  eCEntityProxy *this;
+  bCString *pbVar1;
+  gCScriptProcessingUnit *pgVar2;
+  bool bVar3;
+  eCWrapper_emfx2Actor *this_00;
+  eCEntity *peVar4;
+  int iVar5;
+  int iVar6;
+  int iVar7;
+  eCAnimationAdmin *this_01;
+  eCResourceDataEntity *peVar8;
+  int *piVar9;
+  gCScriptRoutine_PS *this_02;
+  gCSession *pgVar10;
+  gCSessionCheats *pgVar11;
+  eCDynamicEntity *peVar12;
+  eCEntity *peVar13;
+  bCVector *pbVar14;
+  undefined4 uVar15;
+  eCDynamicEntity *peVar16;
+  bCString *pbVar17;
+  float fVar18;
+  float fVar19;
+  double dVar20;
+  float fVar21;
+  undefined4 uVar22;
+  undefined4 uVar23;
+  gCInventory_PS *pgStack_54;
+  undefined1 auStack_50 [40];
+  bCString abStack_28 [16];
+  bCString abStack_18 [4];
+  char cStack_14;
+  int iStack_10;
+  bCString abStack_c [8];
+  int iStack_4;
+  
+                    /* 0xaa51  8560  ?sAICombatMoveItlLoop@gCScriptProcessingUnit@@KGXPAV1@@Z */
+  pgVar2 = param_1;
+  param_1[0x94] = (gCScriptProcessingUnit)0x1;
+  this_00 = eCVisualAnimation_PS::GetActor(*(eCVisualAnimation_PS **)(param_1 + 0x130));
+  if (this_00 == (eCWrapper_emfx2Actor *)0x0) {
+    return;
+  }
+  bVar3 = eCVisualAnimation_PS::HasMotion(*(eCVisualAnimation_PS **)(pgVar2 + 0x130),0);
+  if (!bVar3) {
+    return;
+  }
+  bVar3 = eCWrapper_emfx2Actor::IsActorPlaying(this_00,0);
+  if (!bVar3) {
+    return;
+  }
+  fVar18 = eCWrapper_emfx2Actor::GetPlaySpeed(this_00,0);
+  if (fVar18 == 0.0) {
+    return;
+  }
+  pgVar2[0x94] = (gCScriptProcessingUnit)0x0;
+  if (*(int *)(pgVar2 + 0x154) == 0x36) {
+    if (pgVar2[0x164] != (gCScriptProcessingUnit)0x0) {
+      return;
+    }
+    pbVar1 = (bCString *)(pgVar2 + 0x150);
+    bVar3 = bCString::Contains(pbVar1,"_Raise_",0);
+    if (bVar3) {
+      peVar4 = eCEntityProxy::GetEntity((eCEntityProxy *)(pgVar2 + 0x78));
+      iVar5 = (**(code **)(*(int *)peVar4 + 0xec))();
+      if (iVar5 == 0) {
+        return;
+      }
+      if (*(int *)(iVar5 + 0x48) != 9) {
+        return;
+      }
+      pgVar2[0x164] = (gCScriptProcessingUnit)0x1;
+      fVar18 = eCWrapper_emfx2Actor::GetExtroBlending(this_00,0);
+      eCWrapper_emfx2Actor::SetIntroExtroBlending(this_00,0,pbVar1);
+      bVar3 = eCVisualAnimation_PS::HasMotion(*(eCVisualAnimation_PS **)(pgVar2 + 0x130),0);
+      if (!bVar3) {
+        return;
+      }
+      fVar21 = 0.0;
+      bVar3 = eCWrapper_emfx2Actor::IsMotionRunning(this_00,0);
+      if (bVar3) {
+        dVar20 = eCWrapper_emfx2Actor::GetMaxTime(this_00,0);
+        auStack_50._0_4_ = SUB84(dVar20,0);
+        auStack_50._4_4_ = (undefined4)((ulonglong)dVar20 >> 0x20);
+        dVar20 = eCWrapper_emfx2Actor::GetPlayTime(this_00,0);
+        auStack_50._0_8_ =
+             (undefined8)
+             (float)((float10)(double)CONCAT44(auStack_50._4_4_,auStack_50._0_4_) - (float10)dVar20)
+        ;
+        fVar21 = eCWrapper_emfx2Actor::GetPlaySpeed(this_00,0);
+        fVar21 = (float)(double)auStack_50._0_8_ / fVar21;
+        auStack_50._0_8_ = (undefined8)fVar18;
+        fVar19 = eCWrapper_emfx2Actor::GetIntroBlending(this_00,0);
+        if (fVar19 <= (float)(double)auStack_50._0_8_) {
+          fVar18 = eCWrapper_emfx2Actor::GetIntroBlending(this_00,0);
+        }
+        eCWrapper_emfx2Actor::SwitchFadeOut(this_00,0,false,fVar18);
+      }
+      eCVisualAnimation_PS::StopMotion(*(eCVisualAnimation_PS **)(pgVar2 + 0x130),0,0.0);
+      eCWrapper_emfx2Actor::SetTargetWeight(this_00,0,0.0);
+      eCVisualAnimation_PS::SetMotionOwner(*(eCVisualAnimation_PS **)(pgVar2 + 0x130),0,2);
+      iVar6 = 0;
+      iVar5 = 5;
+      do {
+        iVar7 = bCString::Find(pbVar1,'_',iVar6,false);
+        iVar6 = iVar7 + 1;
+        iVar5 = iVar5 + -1;
+      } while (iVar5 != 0);
+      bCString::Insert(pbVar1,iVar7 + 5,"Attack");
+      this_01 = (eCAnimationAdmin *)thunk_FUN_20214f00();
+      bVar3 = eCAnimationAdmin::IsAnimationMissed(this_01,pbVar1);
+      if (!bVar3) {
+        peVar8 = eCAnimationAdmin::QueryMotionDataEntity(this_01,pbVar1,1);
+        if (peVar8 != (eCResourceDataEntity *)0x0) {
+          eCVisualAnimation_PS::SetMotion(*(eCVisualAnimation_PS **)(pgVar2 + 0x130),0,peVar8);
+          bVar3 = eCVisualAnimation_PS::HasMotion(*(eCVisualAnimation_PS **)(pgVar2 + 0x130),0);
+          if (bVar3) {
+            eCVisualAnimation_PS::PlayMotion
+                      (*(eCVisualAnimation_PS **)(pgVar2 + 0x130),0,(eSMotionDesc *)(pgVar2 + 0x134)
+                      );
+          }
+          dVar20 = eCWrapper_emfx2Actor::GetMaxTime(this_00,0);
+          auStack_50._0_4_ = (undefined4)dVar20;
+          eCWrapper_emfx2Actor::SetPlaySpeed(this_00,0,(float)auStack_50._0_4_ / fVar21);
+          eCVisualAnimation_PS::SetMotionOwner(*(eCVisualAnimation_PS **)(pgVar2 + 0x130),0,5);
+          return;
+        }
+      }
+      eCAnimationAdmin::AddMissingAnimation(this_01,pbVar1);
+      return;
+    }
+  }
+  if (pgVar2[0x164] == (gCScriptProcessingUnit)0x0) {
+    pbVar1 = (bCString *)(pgVar2 + 0x150);
+    bVar3 = bCString::Contains(pbVar1,"_Begin_",0);
+    if (bVar3) {
+      dVar20 = eCWrapper_emfx2Actor::GetMaxTime(this_00,0);
+      param_1 = (gCScriptProcessingUnit *)(float)dVar20;
+      auStack_50._4_8_ = (undefined8)((float)param_1 * 0.5);
+      dVar20 = eCWrapper_emfx2Actor::GetPlayTime(this_00,0);
+      if ((double)auStack_50._4_8_ <= dVar20) {
+        auStack_50._4_4_ = (bCObjectBase *)0x0;
+        pgStack_54 = (gCInventory_PS *)0x1;
+        pbVar17 = (bCString *)&DAT_207cc4c4;
+        do {
+          bCString::bCString((bCString *)&param_1);
+          bCString::bCString((bCString *)auStack_50,"_");
+          bCString::GetWord(pbVar1,5,(bCString *)auStack_50,(bCString *)&param_1,false,false);
+          bCString::~bCString((bCString *)auStack_50);
+          bVar3 = bCString::operator==((bCString *)&param_1,pbVar17);
+          if (bVar3) {
+            auStack_50._4_4_ = pgStack_54;
+            bCString::~bCString((bCString *)&param_1);
+            break;
+          }
+          bCString::~bCString((bCString *)&param_1);
+          pgStack_54 = (gCInventory_PS *)((int)pgStack_54 + 1);
+          pbVar17 = pbVar17 + 4;
+        } while ((int)pbVar17 < 0x207cc6e8);
+        bCString::bCString((bCString *)&param_1,"GetAniStateByAction");
+        piVar9 = (int *)thunk_FUN_200a4bb0();
+        iVar5 = *piVar9;
+        eCEntityProxy::GetEntity((eCEntityProxy *)(pgVar2 + 0x78));
+        iVar5 = (**(code **)(iVar5 + 0xbc))();
+        bCString::~bCString(abStack_c);
+        if (iVar5 - 2U < 0x1c) {
+          peVar4 = eCEntityProxy::GetEntity((eCEntityProxy *)(pgVar2 + 0x78));
+          this_02 = (gCScriptRoutine_PS *)(**(code **)(*(int *)peVar4 + 0xec))();
+          if (this_02 != (gCScriptRoutine_PS *)0x0) {
+            iStack_10 = iVar5;
+            bTPropertyContainer<gEAniState>::bTPropertyContainer<gEAniState>
+                      ((bTPropertyContainer<gEAniState> *)&stack0xffffffa0,&iStack_10);
+            gCScriptRoutine_PS::SetAniState
+                      (this_02,(bTPropertyContainer<gEAniState> *)&stack0xffffffa0);
+            bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xffffffa0);
+          }
+        }
+        pgVar2[0x164] = (gCScriptProcessingUnit)0x1;
+        return;
+      }
+    }
+    else {
+      bVar3 = bCString::Contains(pbVar1,"_Hit_",0);
+      if (bVar3) {
+        dVar20 = eCWrapper_emfx2Actor::GetMaxTime(this_00,0);
+        param_1 = (gCScriptProcessingUnit *)(float)dVar20;
+        auStack_50._4_8_ = (undefined8)((float)param_1 * 0.6);
+        dVar20 = eCWrapper_emfx2Actor::GetPlayTime(this_00,0);
+        if ((double)auStack_50._4_8_ <= dVar20) {
+          this = (eCEntityProxy *)(pgVar2 + 0x78);
+          peVar16 = (eCDynamicEntity *)0x0;
+          pgVar2[0x164] = (gCScriptProcessingUnit)0x1;
+          pgStack_54 = (gCInventory_PS *)0x0;
+          peVar4 = eCEntityProxy::GetEntity(this);
+          (**(code **)(*(int *)peVar4 + 0xec))();
+          peVar4 = eCEntityProxy::GetEntity(this);
+          pgStack_54 = (gCInventory_PS *)(**(code **)(*(int *)peVar4 + 0xec))();
+          if (iStack_4 != 0) {
+            eCEntityProxy::GetEntity((eCEntityProxy *)(iStack_4 + 0x9c));
+            peVar16 = (eCDynamicEntity *)___RTDynamicCast();
+          }
+          if (pgStack_54 != (gCInventory_PS *)0x0) {
+            gCInventory_PS::GetStackFromSlot(pgStack_54,1);
+          }
+          iStack_4 = 0;
+          if (*(gCCharacterMovement_PS **)(pgVar2 + 300) != (gCCharacterMovement_PS *)0x0) {
+            bVar3 = gCCharacterMovement_PS::GetCombatContact
+                              (*(gCCharacterMovement_PS **)(pgVar2 + 300));
+            if (bVar3) {
+              iStack_4 = 1;
+            }
+          }
+          bCString::bCString((bCString *)&pgStack_54,"OnHit");
+          piVar9 = (int *)thunk_FUN_200a4bb0();
+          iVar5 = *piVar9;
+          iVar6 = iStack_4;
+          peVar4 = eCEntityProxy::GetEntity(this);
+          iVar5 = (**(code **)(iVar5 + 0xbc))();
+          cStack_14 = iVar5 != 0;
+          bCString::~bCString((bCString *)&stack0xffffff9c);
+          if (cStack_14 != '\0') {
+            iVar5 = (**(code **)(*(int *)peVar16 + 0xec))();
+            if ((iVar5 != 0) && (iVar6 != 0)) {
+              pgVar10 = (gCSession *)gCSession::GetInstance();
+              pgVar11 = gCSession::GetCheats(pgVar10);
+              if (pgVar11[0xc] == (gCSessionCheats)0x1) {
+                pgVar10 = (gCSession *)gCSession::GetInstance();
+                peVar12 = gCSession::GetPlayer(pgVar10);
+                if (peVar12 == peVar16) {
+                  return;
+                }
+              }
+              bCString::bCString(abStack_18,"AddHitPoints");
+              piVar9 = (int *)thunk_FUN_200a4bb0();
+              iVar5 = *piVar9;
+              peVar13 = eCEntityProxy::GetEntity(this);
+              (**(code **)(iVar5 + 0xbc))(abStack_18,peVar16,peVar13);
+              bCString::~bCString(abStack_28);
+              iVar5 = *(int *)peVar16;
+              pbVar14 = eCEntity::GetWorldPosition((eCEntity *)0x34);
+              uVar15 = eCContactIterator::eCContactIterator
+                                 ((eCContactIterator *)&stack0xffffff90,0xd,pbVar14);
+              uVar23 = *(undefined4 *)(peVar4 + 0x30);
+              uVar22 = *(undefined4 *)(peVar4 + 0x34);
+              peVar4 = eCEntityProxy::GetEntity(this);
+              (**(code **)(iVar5 + 0x180))(0x34,peVar4,uVar22,uVar23,uVar15);
+              eCContactIterator::~eCContactIterator((eCContactIterator *)&stack0xffffff7c);
+            }
+          }
+        }
+      }
+    }
+  }
+  return;
+}
+
+

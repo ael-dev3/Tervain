@@ -1,4 +1,4 @@
-# Native Ardea asset preparation
+# Native Gothic 3 asset preparation
 
 These standalone Python tools prepare the separate `/gothic3/` browser study.
 They do not run Gothic 3 or alter its installation or the completed desktop study.
@@ -80,7 +80,7 @@ resizing; textures with alpha become PNG. Native XIMG mip levels are stored
 smallest first; the full-resolution level is read at `imagePayloadEnd -
 fullMipBytes`. The native reader offsets and dimensions are recorded in
 `textureSelections`. Only one diffuse sampler per material
-is rendered. Multiple samplers, terrain blends, original lighting, normal maps,
+is rendered by this first static OBJ path. Multiple samplers, terrain blends, original lighting, normal maps,
 and specular graphs need further runtime work and are recorded in the manifest.
 Sampler `SwitchRepeat` is decoded from each native material; zero-based actor
 switches select from contiguous `S1..Sn` images using its Repeat, Clamp or PingPong
@@ -89,6 +89,9 @@ selected image. A material's exact shader graph is still not evaluated.
 Each model/world entry also records native `BlendMode` and the raw byte
 `MaskReference` for its named materials. A texture's alpha channel alone does not
 establish that the original material used masking or transparency.
+
+The later `export_terrain.py` path preserves and evaluates landscape graphs in
+the separate terrain runtime. It does not change these static actor/prop limits.
 Legacy material entries use a uint16 byte length followed by inline bytes;
 `00 00` is an empty string. GENOMFLE material entries instead use a uint16 string
 table index. The parser keeps these cases distinct and rejects decoding failures

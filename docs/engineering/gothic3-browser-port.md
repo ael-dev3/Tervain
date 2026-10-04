@@ -34,6 +34,10 @@ Gothic assets as original Tervain content or change earlier Tervain asset rules.
   records with the original English, Italian, French, German and Spanish text.
 - Indexes the native world/sector files for future streaming and contains a
   reviewed quest-status kernel that is not yet enabled for ordinary play.
+- Streams 782 original landscape cells across Myrtana, Nordmar and Varant,
+  using recovered texture/UV/blend graphs and tangent-space normal maps.
+- Offers landscape views near Ardea, Xardas's tower and Lago, plus read-only
+  inspection of original player/clock data and all 641 quest seed records.
 
 The TypeScript movement, raycast support and renderer are new implementations.
 They have not been proved equivalent to Gothic 3's native physics or visuals.
@@ -42,9 +46,11 @@ browser display choices, not recovered native settings.
 The native Normal/Masked/AlphaBlend modes and MaskReference byte are retained.
 Masked cutoffs use byte/255 with a small comparison epsilon; the complete
 native shader and fading behavior remain unimplemented.
-The native materials' full shader graph, lighting, SpeedTree runtime,
+The remaining native materials, global lighting, SpeedTree runtime,
 NPC animation selection, sound, combat, AI, inventory, economy, original quests,
-whole-world streaming and native save compatibility are not implemented.
+world-object streaming and native save compatibility are not implemented.
+Reviewed combat/dialogue kernels have explicit unsupported outcomes and host
+APIs, but are not enabled for ordinary play. Startup callbacks remain pending.
 Original SpeedTree vegetation has not yet been placed in this scene.
 NPC derivatives are static bind-pose previews. Hero clip playback uses verified
 raw native keys, signed-short packing, shortest-sign component interpolation,
@@ -58,7 +64,12 @@ and 139 textures. The model/texture payload is 130,869,971 bytes; 634,836
 triangles counts unique converted model assets, not every placed instance.
 There are no missing diffuse maps in the final preparation audit; 39
 multiple-diffuse shader graphs remain approximations. Six native landscape
-LOD cells provide the current terrain.
+LOD cells provide the legacy fallback terrain. The new landscape stream exports
+2,082,155 native triangles in 782 cells, 65 graphs and 88 lossless PNG files.
+One empty native sampler and nine primitives missing requested UV1 are marked
+as unresolved materials. Native lightmaps, original lower mips and collision
+companions remain unimplemented. See the
+[rebuilding process](gothic3-rebuilding-process.md#8-terrain-streaming-and-reviewed-gameplay-kernels).
 
 Arrival coordinates come from the patch-winning SysDyn PC_Hero entity,
 371: native [87984.9375, 5145.56396484375, -10197.4775390625] centimetres;

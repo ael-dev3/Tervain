@@ -1,0 +1,57 @@
+/* ENTRY 100187b0 | FUN_100187b0 | STATUS decompiled | 26 ms */
+
+undefined4 FUN_100187b0(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  eCEntity *peVar1;
+  gESpecies gVar2;
+  Entity local_150 [52];
+  PropertySpecies local_11c [116];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_150);
+  if (param_2 == (Entity *)0x0) {
+    peVar1 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_150,peVar1);
+  }
+  else {
+    Entity::operator=(local_150,param_2);
+  }
+  Entity::Entity(local_a8);
+  if (param_3 == (Entity *)0x0) {
+    peVar1 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_a8,peVar1);
+  }
+  else {
+    Entity::operator=(local_a8,param_3);
+  }
+  gVar2 = PSNpc::PropertySpecies::operator_enum_gESpecies(local_11c);
+  switch(gVar2) {
+  case 0x18:
+  case 0x19:
+  case 0x1a:
+  case 0x1b:
+  case 0x1c:
+  case 0x1e:
+  case 0x1f:
+  case 0x20:
+  case 0x23:
+  case 0x24:
+  case 0x25:
+  case 0x2a:
+  case 0x2b:
+  case 0x2c:
+  case 0x2d:
+  case 0x2e:
+  case 0x2f:
+    Entity::~Entity(local_a8);
+    Entity::~Entity(local_150);
+    return 1;
+  default:
+    Entity::~Entity(local_a8);
+    Entity::~Entity(local_150);
+    return 0;
+  }
+}
+
+

@@ -1,0 +1,46 @@
+/* ENTRY 201325b0 | FUN_201325b0 | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall FUN_201325b0(int *param_1,eCEntity *param_2)
+
+{
+  bool bVar1;
+  eSEntityFlags *peVar2;
+  int iVar3;
+  int *piVar4;
+  undefined4 uVar5;
+  int iVar6;
+  undefined4 uVar7;
+  undefined4 uVar8;
+  
+  bVar1 = bCString::IsEmpty((bCString *)(param_1 + 0x39));
+  if ((!bVar1) && (param_2 != (eCEntity *)0x0)) {
+    peVar2 = eCEntity::GetEntityFlags(param_2);
+    if ((_DAT_207b858c & 1) == 0) {
+      _DAT_207b858c = _DAT_207b858c | 1;
+      DAT_207b8588 = 0x800000;
+    }
+    if (((*(uint *)peVar2 & DAT_207b8588) != 0) &&
+       (iVar3 = (**(code **)((int)(param_2->eCNode).bCObjectRefBase.bCObjectBase + 0xec))(0x34),
+       iVar3 != 0)) {
+      piVar4 = (int *)thunk_FUN_200a4bb0();
+      iVar6 = *piVar4;
+      uVar8 = 0;
+      uVar7 = 0;
+      uVar5 = (**(code **)(*param_1 + 0x68))(0,0);
+      iVar6 = (**(code **)(iVar6 + 0xbc))(param_1 + 0x39,uVar5);
+      if (iVar6 != 0) {
+        piVar4 = (int *)thunk_FUN_200a4bb0();
+        iVar6 = *piVar4;
+        uVar5 = (**(code **)(*param_1 + 0x68))(-*(int *)(iVar3 + 0x34));
+        (**(code **)(iVar6 + 0xbc))(&DAT_207b8624,param_2,uVar5);
+        (**(code **)((int)(param_2->eCNode).bCObjectRefBase.bCObjectBase + 0x180))
+                  (param_2,uVar7,*(undefined4 *)(iVar3 + 0x34),*(undefined4 *)(iVar3 + 0x30),uVar8);
+      }
+    }
+  }
+  return;
+}
+
+

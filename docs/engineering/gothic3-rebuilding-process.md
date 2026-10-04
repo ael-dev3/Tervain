@@ -1,7 +1,8 @@
 # How Gothic 3 is being rebuilt for the browser
 
-Date: 4 October 2026. Current result: Ardea exploration, native Hero motion
-inspection and the original quest/dialogue catalog in TypeScript. This is an
+Date: 4 October 2026. Current result: Ardea exploration, streamed native landscape
+across three regions, Hero motion inspection, original quest/dialogue catalogs
+and source-state inspection in TypeScript. This is an
 incomplete game reconstruction. Completing the original game in the browser
 remains the objective; the inspector does not satisfy that objective.
 
@@ -167,7 +168,7 @@ Each model retains native Normal, Masked or AlphaBlend mode and the original
 `MaskReference` byte. Alpha in a DXT image does not make an opaque stone or wood
 material transparent. Masked surfaces use the native byte/255 reference, with
 a small browser comparison epsilon to account for Three.js's discard boundary.
-The full shader graph, terrain layer blends, normal/specular maps and native
+For the first Ardea OBJ export, full shader graphs, terrain layer blends, normal/specular maps and native
 lighting remain unimplemented. The preview currently selects one diffuse
 sampler for each material and records the unsupported blends.
 
@@ -257,7 +258,7 @@ A complete game requires implementations and original-behavior comparisons for:
 2. Player combat, targeting, damage, hit reactions and death/revival rules.
 3. NPC AI, routines, factions, hostility and original activation conditions.
 4. Dialogue predicates and commands, inventory, trading, skills and quest state.
-5. Native terrain/material blending, vegetation, lighting, audio and streaming.
+5. Remaining material cases, native vegetation, lighting, audio and world-object streaming.
 6. Broad world content and save compatibility or an explicitly new save format.
 
 Those systems are not implied by a model rendering correctly. Each future
@@ -395,10 +396,10 @@ Cell meshes across Myrtana, Nordmar and Varant. Source enabled flags, unresolved
 references and bounds are retained explicitly. Bounds use absolute reflected
 metres; a renderer must subtract its chosen floating origin once.
 
-Indexing the resources does not render or activate them. Terrain-to-sector
-binding, missing registry resources, source activation, visual conversion and
-collision/navigation streaming still require implementation. The published
-scene continues to use its six selected Ardea landscape LOD cells.
+Indexing the resources does not render or activate them. The first index
+checkpoint retained six Ardea landscape LOD cells. The terrain work below adds
+conversion, exact source membership and rendering for all 782 landscape cells;
+missing registries, native activation and collision/navigation remain separate.
 
 The native defaults distinguish the `G3_Startup` menu world from gameplay world
 `G3_World_01`. The gameplay registry contains 169 enabled references absent from
@@ -415,3 +416,130 @@ Completion must be evaluated against the original starting state, story gates,
 quests, combat, region transitions and ending paths. A visible model, a complete
 catalog, a successful build or a successful deployment alone cannot establish
 that the original game is finishable.
+
+## 8. Terrain streaming and reviewed gameplay kernels
+
+### Convert the complete landscape-cell inventory
+
+[export_terrain.py](../../tools/gothic3/export_terrain.py) consumes the existing
+world index and verifies each selected native input against the immutable study.
+It binds each Cell to its exact native GUID/entity, node, spatial context and
+sector registration. It exports 303 Myrtana, 119 Nordmar and 360 Varant cells:
+2,082,155 triangles, 1,931,561 vertices and 2,549 material sections.
+
+The GLBs retain every section's indices, normals, tangent vectors, UV0–3 where
+present, and the original unsigned BGRA diffuse/specular streams. Vertices are
+centered in local float32 metres; the GLB node restores its absolute center.
+The browser subtracts `[920,52,120]` once to share the existing Ardea display
+origin. Maximum measured position rounding is 0.00001465 metres.
+
+The separate [terrain manifest](../../public/gothic3/terrain/manifest.json)
+links 65 native material graphs and 89 XIMG dependencies. The largest original
+decoded mip becomes a lossless PNG, with no resizing, gamma transform or lossy
+encoding. Identical pixels deduplicate to 88 PNG files. Geometry is 129,558,488
+bytes and PNGs are 114,014,271 bytes. Original lower mips, lightmaps and collision
+companions retain source receipts but are not converted/applied yet.
+
+```powershell
+python -B tools/gothic3/export_terrain.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04" --game "C:\path\to\Gothic 3"
+python -B tools/gothic3/audit_terrain.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+```
+
+The actual [conversion audit](../../assets/gothic3/terrain/conversion-audit.json)
+compares all 782 meshes with their source streams/indices and all 89 image
+dependencies with original decoded RGBA pixels. It checks source/output hashes;
+it does not run the native game or establish visual equivalence.
+
+### Compile graphs and stream resident geometry
+
+[terrain-materials.ts](../../src/gothic3/terrain-materials.ts) compiles recovered
+sampler, constant, vertex-color, combiner and blend nodes. Coordinate nodes
+include Scale and native BumpOffset. A valid UV proxy follows its referenced
+node; a missing-instance proxy selects its own UV stream. An outer sampler's
+selector must not override a linked Scale node's original UV input.
+
+Vertex blend weights use original alpha. With reflected geometry, the bitangent
+is `cross(N,T) * (2*red-1)`, where red is original BGRA byte 2 divided by 255.
+Native normal-map X/Y come from alpha/green, with reconstructed Z. BumpOffset
+uses `(height-.5)*[offset,-offset]*tangentEye.xy`, without an eye-Z division or
+renormalizing interpolated tangent/binormal. Native shader-source receipts and
+instruction references accompany the exported graphs.
+
+One connected sampler has an empty native image path. Nine original primitives
+request UV1 while providing only UV0. Their unresolved materials are explicitly
+marked in magenta and listed in Help; their geometry is retained. The renderer
+does not substitute UV0 or an unrelated texture. Native global lighting,
+specular lookup, lightmaps, mip chains and sampler gamma state remain fidelity
+gaps; the surrounding Three.js lighting is an adjustable preview.
+
+[terrain.ts](../../src/gothic3/terrain.ts) selects nearby enabled, registered
+cells by absolute horizontal bounds. It uses two concurrent cell loads, a
+48-cell resident target, distance hysteresis and a texture-memory estimate.
+Geometry, textures and graphs are receipt-verified before use. Shared material
+and texture leases release GPU resources when cells unload. An acquisition
+rechecks cache identity after awaiting, so eviction cannot return a disposed
+texture/material. Failed reads can be retried.
+
+The six legacy Ardea terrain objects are hidden after native support cells are
+ready. Collision-index refreshes preserve the camera state. Walking pauses at
+unloaded terrain; static render-mesh raycasts remain a browser approximation,
+not native PhysX. Landscape preview destinations read exact stored Hamlar,
+Xardas and Vatras records, providing views near Ardea, Xardas's tower and Lago.
+They do not execute NPC routines or quest travel. World buildings, vegetation,
+caves and actors still need corresponding streaming.
+
+For `.json.gz` served as raw gzip files, `resource.ts` verifies both compressed
+and decoded receipts. If HTTP `Content-Encoding: gzip` makes Fetch transparently
+decode first, it verifies the bounded decoded receipt; original wire bytes are
+unavailable through Fetch on that route. The source JSON is never used without
+its exact decoded hash. `native-data.ts` shares verified lazy reads with a
+decoded-byte cache budget, exact source/GUID lookup and explicit ambiguity.
+
+### Recover the real quest seed and bounded behavior
+
+[initial-quests.json](../../public/gothic3/dialogue/initial-quests.json) contains
+637 exact compiled QuestManager runtime packets and four native factory/INI
+records, covering all 641 definitions. All statuses/counters/activation times
+are zero before startup; the original `KapDun_Hunter_Fur` journal pair is
+retained. The reader consumes every packet byte and retains source offsets,
+versions and hashes. It does not apply startup's `RunQuest Xardas_FindXardas`.
+
+[initial-state.ts](../../src/gothic3/initial-state.ts) validates and combines
+those quest records with the recovered player/clock seed. Its default host
+rejects gameplay effects. The browser's read-only character-state panel shows
+HP/MP/SP, serialized Level/XP/LP, 121 inventory assurances, equipment references,
+the original clock and pending callbacks. It does not tick time or grant items.
+
+[dialogue.ts](../../src/gothic3/dialogue.ts) provides tri-state availability and
+guarded command plans. Unknown host predicates remain unknown. Unsupported
+commands/callbacks prevent script start; an accepted start marks Given before
+asynchronous commands finish. The native Given exclusions are conditions
+9/51/52, InfoType 0/4, Permanent and player ownership. Fresh omitted Permanent
+defaults to false, while serialized InfoManager overrides remain separate.
+Distance checks scale NPC-target distance by 0.25. Fresh INI defaults alone do
+not establish restored Given state.
+
+[combat.ts](../../src/gothic3/combat.ts) provides bounded Hero fist/single-hand
+Impact/Blade calculations, guards, death eligibility, native skill activation
+and ordered effect plans. Missing contact, participant state, attitudes or
+skills return unsupported. Native fists use their hit-phase marker; sword
+contacts require the native touch/contact path. The module is not connected to
+ordinary exploration. Its receipt matches 152 native entries, 12,465 listed
+instruction records, 43,699 original PE bytes and all 138 action labels.
+
+The native XP callback adds level/LP effects with the verified formula and a
+single level increment per call. Info GiveXP passes None/player roles and gets
+the fivefold source branch. These kernels require actual inventory, contacts,
+AI, dialogue lifecycle and startup services before they can support gameplay.
+
+```powershell
+python -B tools/gothic3/read_initial_quests.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+python -B tools/gothic3/read_dialogue_native_evidence.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+python -B tools/gothic3/read_info_defaults_evidence.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+python -B tools/gothic3/freeze_dialogue_receipts.py
+python -B tools/gothic3/research_native_combat.py --study-root "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+```
+
+The dialogue proof matches 10,819 listed native instruction records; the fresh
+info-default proof matches 2,749. These are offline byte/control-flow audits,
+not native execution, exhaustive program verification or a game playthrough.

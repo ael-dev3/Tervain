@@ -6,11 +6,14 @@ export enum QuestStatus {
 }
 
 export interface NativeClock { years: number; days: number; hours: number }
+export interface QuestLogPair { version: number; speakerKey: string; textKey: string }
 export interface QuestState {
   status: QuestStatus;
   counters: number[];
   startedAt: NativeClock | null;
   logKeys: string[];
+  /** Original paired localization IDs; empty speaker keys are significant. */
+  logPairs?: QuestLogPair[];
 }
 
 export type QuestEffect =

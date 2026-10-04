@@ -1,0 +1,4 @@
+; 2000aa51 ?sAICombatMoveItlLoop@gCScriptProcessingUnit@@KGXPAV1@@Z
+2000aa51 | e98afc3500 | JMP 0x2036a6e0
+; 2000aa56 gCNegZone_PSObj::GetRegIndex
+; 2000aa56 Ordinal_4158

@@ -1,0 +1,27 @@
+/* ENTRY 1003bbe0 | FUN_1003bbe0 | STATUS decompiled | 7 ms */
+
+undefined4 FUN_1003bbe0(void)
+
+{
+  bool bVar1;
+  char cVar2;
+  Entity aEStack_a8 [164];
+  undefined4 uStack_4;
+  
+  uStack_4 = 0x1003bbea;
+  bVar1 = PSProjectile::IsValid((PSProjectile *)&stack0x00000074);
+  if (bVar1) {
+    Entity::Entity(aEStack_a8,(Entity *)&stack0x00000004);
+    cVar2 = thunk_FUN_1003bb10();
+    if (cVar2 == '\0') {
+      uStack_4 = 0x1003bc17;
+      Entity::~Entity((Entity *)&stack0x00000004);
+      return 1;
+    }
+  }
+  uStack_4 = 0x1003bc26;
+  Entity::~Entity((Entity *)&stack0x00000004);
+  return 0;
+}
+
+

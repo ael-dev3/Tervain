@@ -1,0 +1,4 @@
+; 200092f0 ?OnApplyStats@gCInventorySlot@@MAEXPAVeCEntity@@0@Z
+200092f0 | e93b7a1b00 | JMP 0x201c0d30
+; 200092fa gCDistanceTrigger_PS::IsEditorRelevant
+; 200092fa Ordinal_5118

@@ -1,0 +1,2 @@
+; 2001e7d6 ?IsSkillActive@gCInventory_PS@@QBE_NPBVeCTemplateEntity@@@Z
+2001e7d6 | e9b5001900 | JMP 0x201ae890

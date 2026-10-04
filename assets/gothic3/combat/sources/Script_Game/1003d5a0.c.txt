@@ -1,0 +1,49 @@
+/* ENTRY 1003d5a0 | FUN_1003d5a0 | STATUS decompiled | 21 ms */
+
+int FUN_1003d5a0(void)
+
+{
+  bool bVar1;
+  gEAction gVar2;
+  int iVar3;
+  int iVar4;
+  Entity *this;
+  Entity aEStack_170 [156];
+  undefined4 uStack_d4;
+  Entity *pEVar5;
+  Entity local_ac [4];
+  Entity local_a8 [168];
+  
+  gVar2 = PSRoutine::PropertyAction::operator_enum_gEAction((PropertyAction *)&stack0x00000008);
+  if (gVar2 == 0x1c) {
+    Entity::~Entity((Entity *)&stack0x00000004);
+    return 2;
+  }
+  Entity::Entity(aEStack_170,(Entity *)&stack0x00000004);
+  iVar3 = thunk_FUN_1003d1d0();
+  Entity::Entity(aEStack_170,(Entity *)&stack0x00000004);
+  iVar4 = thunk_FUN_10009a40();
+  if (iVar4 == 9) {
+    pEVar5 = local_a8;
+    uStack_d4 = 0x1003d632;
+    this = (Entity *)Entity::GetPlayer();
+    uStack_d4 = 0x1003d63a;
+    bVar1 = Entity::operator==(this,pEVar5);
+    Entity::~Entity(local_ac);
+    if (bVar1) {
+      uStack_d4 = 0x1003d655;
+      Template::Template((Template *)&stack0xffffff40,"Perk_Shield_2");
+      uStack_d4 = 0x1003d667;
+      bVar1 = PSInventory::IsSkillActive
+                        ((PSInventory *)&stack0x00000024,(Template *)&stack0xffffff40);
+      Template::~Template((Template *)&stack0xffffff40);
+      if (!bVar1) goto LAB_1003d67d;
+    }
+    iVar3 = iVar3 + 1;
+  }
+LAB_1003d67d:
+  Entity::~Entity((Entity *)&stack0x00000000);
+  return iVar3;
+}
+
+

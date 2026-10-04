@@ -1,0 +1,2 @@
+; 20026a03 ?OnDamage@gCEntity@@UAEXPAVeCEntity@@0HHAAVeCContactIterator@@@Z
+20026a03 | e9085c1000 | JMP 0x2012c610
