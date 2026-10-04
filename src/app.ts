@@ -1768,6 +1768,7 @@ export class App {
     const st = this.frameStats();
     const s = this.game.state;
     const audio = this.audio.diagnostics;
+    const hero = this.player.rig.hero?.diagnostics;
     const lines = [
       `frames ${st.frames}  median ${st.median.toFixed(1)} ms  p95 ${st.p95.toFixed(1)}  p99 ${st.p99.toFixed(1)}  max ${st.max.toFixed(1)}`,
       `draw calls ${info.render.calls}  triangles ${info.render.triangles}  geometries ${info.memory.geometries}  textures ${info.memory.textures}`,
@@ -1778,6 +1779,7 @@ export class App {
       `menu ships ${this.menuScene.stats.ships}  visit ${this.menuScene.trafficState.seed.toString(16)}  ${this.menuScene.trafficState.elapsed.toFixed(1)} s`,
       `menu grove ${this.menuScene.stats.wisps} of ${this.menuScene.grove.count} spirits drawn  sim ${this.menuScene.grove.stats.steps} steps  score ${this.menuScene.awakeningState.time.toFixed(2)} s  door ${(this.menuScene.doorOpening * 100).toFixed(0)}%  audible ${this.audio.menuMusicPlayback.playing} gain ${this.audio.menuMusicPlayback.gain.toFixed(3)}`,
       `player ${this.player.x.toFixed(1)}, ${this.player.y.toFixed(1)}, ${this.player.z.toFixed(1)}  hp ${s.player.health}  clock ${formatClock(s.clock)} day ${clockDay(s.clock) + 1}`,
+      hero ? `hero ${hero.activeClip}  phase ${hero.phase.toFixed(3)}  cycle ${hero.cycleMetres.toFixed(3)} m  resolved speed ${this.player.lastMoveSpeed.toFixed(2)} m/s  grounded ${hero.grounded}` : 'hero provisional rig',
       `phase ${s.quest.phase}  gate ${s.quest.gate}  alloc ${s.quest.allocation ?? '-'}  entry ${s.quest.entry ?? '-'}`,
       `evidence ${EVIDENCE_IDS.filter((e) => s.evidence[e]).join(', ') || '-'}`,
       `facts ${Object.keys(s.facts).sort().join(', ') || '-'}`,

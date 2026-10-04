@@ -1,42 +1,15 @@
-# The Weathered Wanderer: approved main character
+# The Weathered Wanderer: main character
 
-On 2 October 2026 the owner approved the finished **49,500-triangle Weathered Wanderer** and requested that he become Tervain’s main playable character. This is a selected replacement for the player model in the existing `0.0.8` game; it does not change the NPC art pipeline or establish a new release number. The protagonist still begins without equipment and uses the existing inventory, hotbar and world pickup systems.
+A45, the owner's 4 October 2026 request, supplies **Meshy_AI_The_Weathered_Wandere_All_Animations.glb** for the playable Wanderer and asks that movement fit its new animations within **0.0.10**. The current derivative uses this source's Mixamo skeleton, original PBR textures and six animation clips, with UV/skin-preserving triangle reduction below the earlier 100k budget. It supersedes the October 2 runtime rig while keeping the same protagonist, unarmed arrival, inventory equipment and controller-owned movement/collision. NPCs and the menu warden retain their separate pipeline.
 
-The exact asset, authority, source hashes, transformation and rig contract are recorded in [main-hero-assets.json](main-hero-assets.json). Its source is the owner’s supplied `Meshy_AI_The_Weathered_Wandere_1002192705_texture.glb`, followed by the approved UV-preserving 50k reduction, material refinement and rigging. The finished source GLB and editable Blender scene remain in the owner’s asset workshop. This import makes no general open-content license claim and ships no extracted Gothic or Warcraft content.
+See [current asset provenance](main-hero-animations-assets.json) for hashes, geometry, preparation and specific project-use authority. The [animation integration handoff](main-hero-animations-0.0.10.md) explains stride measurements, authored clip selection, derived idle/action poses and verification. The source is owner supplied; no general open-content license or independently reviewed Meshy/animation rights are asserted. No extracted Gothic or Warcraft content is included in this hero.
 
 ## Runtime delivery
 
-The game asset is `public/models/hero/weathered-wanderer-hero-50k.glb`. Construct its URL from `import.meta.env.BASE_URL` plus `models/hero/weathered-wanderer-hero-50k.glb`; an absolute `/models/…` URL would break the repository’s GitHub Pages subpath. The GLB embeds all of its data and has no external image, skeleton or animation requests.
+The current file is `public/models/hero/weathered-wanderer-animated-hero.glb`. Its URL resolves from `import.meta.env.BASE_URL`, retaining the `/Tervain/` Pages subpath. All mesh, skin, animation and JPEG data are embedded; it needs no external image, skeleton or animation fetch. The loader still validates the complete GLB header, shares concurrent requests, times out stalled downloads and releases failures for Retry.
 
-The runtime derivative changes **download encoding only**. Its three PNG textures are encoded as lossless WebP with the native Sharp/libwebp preparation tool, then decoded and compared byte for byte with the original RGB pixels. The 4K albedo, 4K tangent normal and 2K metallic/roughness maps retain their exact dimensions and decoded values. Every non-image buffer view—including positions, indices, normals, UVs, skin weights, inverse bind matrices and animation samples—is copied byte for byte. Scene, mesh, skin, animation and material semantics are checked after repacking.
+The Blender reduction affects the base mesh. Direct GLB repacking preserves original animation times/quaternion curves and the exact embedded JPEG bytes. A uniform metre-scale normalization fits the prior hero height of 1.899 m; it scales positions, translations and inverse-bind translations consistently. It is not a repaint or a new ImageGen texture pass. Asset preparation alone does not validate game movement or rendering.
 
-The existing Three.js GLTFLoader supports the required `EXT_texture_webp` extension, and desktop browsers decode WebP directly. Sharp is an offline preparation tool and is **not added to the game dependencies**. This avoids a second CDN or decoder download. Lossless image compression reduces transfer size; it does not reduce GPU texture residency or prove a frame rate. Three RGBA8 maps with full mip chains have an estimated 192 MiB texture footprint. Texture quality/residency controls or a later separately reviewed compressed-GPU derivative can address that budget if measured desktop behavior requires it.
+## Historical October 2 selection
 
-## Geometry and motion contract
-
-| Property | Delivered contract |
-| --- | --- |
-| Geometry | One mesh, one primitive and one material; **49,500 triangles** below the strict 50,000 limit |
-| Vertices | 30,494 exported attribute-split vertices; 24,718 welded authoring vertices |
-| Units and axes | Metres; +Y up; +Z forward |
-| Rest bounds | Height 1.898654 m; ground-centred with minimum Y 0.000267 m |
-| Skin | One 30-joint skeleton, maximum four normalized influences per vertex |
-| Hand sockets | `hand.L` and `hand.R`; held item orientation/offset must be fitted to the actual integrated skeleton |
-| In-place clips | `Idle` 4 s, `Breathing` 5 s, `LookAround` 6 s, `Walk` 1.2 s |
-| Authoring motion | `WalkRootMotion` 1.2 s; 0.516129 m forward translation |
-| Maps | Albedo sRGB; tangent normal and packed G-roughness/B-metallic linear data |
-
-Keep the gameplay controller authoritative for movement and collision. Use the in-place `Walk` clip for controller-driven locomotion. Do not layer `WalkRootMotion` translation over controller movement or loop its forward displacement without handling resets. The authored walk is leisurely, approximately 0.430108 m/s at source scale; treating it as a ready-made run by applying a large playback multiplier needs visual review. The source has no authored sprint, jump or attack clip. Any runtime adaptation of those actions must be documented as such rather than presented as additional source animation.
-
-## Reproduce or audit the asset
-
-The source SHA-256 is pinned by the preparation script. An import requires the approved final GLB and an existing native Sharp installation:
-
-```sh
-node tools/import-main-hero.mjs --source /path/to/weathered-wanderer-hero-50k.glb --sharp /path/to/node_modules/sharp
-node tools/import-main-hero.mjs --check
-```
-
-The first command refuses an unapproved source, a decoded-pixel mismatch, a changed non-image payload, altered scene semantics or an out-of-contract model. It writes the runtime GLB and machine-readable record. The second command requires only Node and verifies the shipped file against that record, including its hash, byte size, triangle count, skin and five-clip contract. It does not re-encode or repaint anything.
-
-The workshop’s original checks covered geometry/UV preservation, normalized skinning, animation loop endpoints, no degenerate triangles, finite accessors, texture coverage and normal direction. The import adds exact pixel and payload preservation checks. Running-game framing, controller gait, slopes, held item contact, saves, lighting and deployment require the integrated game’s own checks; asset preparation does not establish them. The coordinating release record should identify the game build and the observations actually completed.
+A37 originally selected the 49,500-triangle, 30-joint Wanderer with five custom clips for `0.0.8`; it shipped in `0.0.9`. Its [machine-readable record](main-hero-assets.json), [integration record](../production/main-hero-integration.md) and `tools/import-main-hero.mjs --check` remain attached to that historical model, which is retained alongside the new file for audit. The old import's lossless WebP comparisons and 0.430108 m/s authored inspection walk do not describe the new JPEG/Mixamo source. Current runtime loading uses only the new animation derivative.

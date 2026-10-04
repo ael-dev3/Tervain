@@ -11,6 +11,7 @@ import { LIGHTHOUSE, LIGHTHOUSE_CONSTRUCTION as L } from '../../src/world/layout
 import { LIGHTHOUSE_STAIR_ANGLE, lighthouseTreadTop } from '../../src/world/lighthouse';
 import { Terrain } from '../../src/world/terrain';
 import { poseRig } from '../../src/presentation/characters';
+import { HERO_WALK_SPEED, HERO_RUN_SPEED } from '../../src/presentation/hero/locomotion';
 
 // This is controller/physics coverage, with real game state and colliders; sculpted rendering is tested separately.
 vi.mock('../../src/presentation/characters', () => ({
@@ -44,13 +45,27 @@ function setup(ground: (x: number, z: number) => number = () => 0, walkable: (x:
 beforeEach(() => vi.clearAllMocks());
 
 describe('player motion and action contacts', () => {
+  it('matches the supplied walking and running stride speeds after acceleration, including diagonal input', () => {
+    for (const sprint of [false, true]) {
+      const s = setup();
+      s.setMove(1, 1);
+      if (sprint) s.held.add('sprint');
+      for (let i = 0; i < 120; i++) s.tick();
+      expect(s.player.lastMoveSpeed).toBeCloseTo(sprint ? HERO_RUN_SPEED : HERO_WALK_SPEED, 4);
+      expect(s.player.mode).toBe(sprint ? 'run' : 'walk');
+      const pose = vi.mocked(poseRig).mock.calls.at(-1)![1];
+      expect(pose.speed).toBeCloseTo(1, 4);
+      expect(pose.moveSpeed).toBeCloseTo(sprint ? HERO_RUN_SPEED : HERO_WALK_SPEED, 4);
+    }
+  });
   it('feeds the imported hero resolved travel and uses its heel strikes instead of duplicate distance sounds', () => {
     const s = setup();
     const footfalls = vi.fn().mockReturnValueOnce(1).mockReturnValue(0);
     Reflect.set(s.player.rig, 'hero', { consumeFootfalls: footfalls, reset: vi.fn() });
     s.setMove(0, 1);
     for (let i = 0; i < 150; i++) s.tick();
-    expect(s.player.z).toBeGreaterThan(7);
+    expect(s.player.z).toBeGreaterThan(3.9);
+    expect(s.player.z).toBeLessThan(4.2);
     expect(s.audio.footstep).toHaveBeenCalledOnce();
     const travelling = vi.mocked(poseRig).mock.calls.at(-1)![1];
     expect(travelling.grounded).toBe(true);
@@ -140,7 +155,7 @@ describe('player motion and action contacts', () => {
   it('falls off a ledge rather than snapping to the ground below', () => {
     const s = setup((_x, z) => z < 0.5 ? 2 : 0);
     s.setMove(0, 1);
-    for (let i = 0; i < 18; i++) s.tick();
+    for (let i = 0; i < 60 && s.player.z <= 0.5; i++) s.tick();
     expect(s.player.z).toBeGreaterThan(0.5);
     expect(s.player.grounded).toBe(false);
     expect(s.player.y).toBeGreaterThan(1.7);
@@ -191,10 +206,10 @@ describe('player motion and action contacts', () => {
     const s = setup(); s.ctx.terrain = terrain; s.ctx.colliders = colliders;
     s.player.setPosition(r.start.x, r.start.z, Math.atan2(r.x, r.z), terrain);
     s.ctx.viewYaw = Math.atan2(r.x, r.z); s.setMove(0, 1);
-    for (let i = 0; i < 28; i++) s.tick();
+    for (let i = 0; i < 65; i++) s.tick();
     s.presses.add('jump');
     let crossedSteep = false, airborne = false;
-    for (let i = 0; i < 130; i++) {
+    for (let i = 0; i < 240; i++) {
       s.tick();
       crossedSteep ||= !terrain.walkable(s.player.x, s.player.z) && terrain.walkable(s.player.x, s.player.z, Infinity);
       airborne ||= !s.player.grounded;

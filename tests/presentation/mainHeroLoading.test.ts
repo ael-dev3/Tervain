@@ -60,13 +60,13 @@ afterEach(() => {
 
 describe('main hero transport and loading-screen retry', () => {
   it('resolves the relative production base inside the Pages repository subdirectory', () => {
-    expect(subject.mainHeroUrl().href).toBe('https://ael-dev3.github.io/Tervain/models/hero/weathered-wanderer-hero-50k.glb');
+    expect(subject.mainHeroUrl().href).toBe('https://ael-dev3.github.io/Tervain/models/hero/weathered-wanderer-animated-hero.glb');
     expect(subject.mainHeroUrl('/Tervain/', 'https://ael-dev3.github.io/Tervain/').href)
-      .toBe('https://ael-dev3.github.io/Tervain/models/hero/weathered-wanderer-hero-50k.glb');
+      .toBe('https://ael-dev3.github.io/Tervain/models/hero/weathered-wanderer-animated-hero.glb');
     expect(subject.mainHeroUrl('./', 'https://example.test/games/tervain/index.html').href)
-      .toBe('https://example.test/games/tervain/models/hero/weathered-wanderer-hero-50k.glb');
+      .toBe('https://example.test/games/tervain/models/hero/weathered-wanderer-animated-hero.glb');
     expect(subject.mainHeroUrl('/', 'http://localhost:5173/').href)
-      .toBe('http://localhost:5173/models/hero/weathered-wanderer-hero-50k.glb');
+      .toBe('http://localhost:5173/models/hero/weathered-wanderer-animated-hero.glb');
   });
 
   it('shares concurrent requests and retains the parsed hero for later world rebuilds', async () => {

@@ -50,11 +50,11 @@ export function createHeroRig(asset: HeroAsset): MainHeroRig {
   const attachments = createHeroAttachments(bones);
   materials.push(...attachments.materials);
   return {
-    root, body, hips: bones.pelvis, torso: bones.chest, head: bones.head,
-    armL: bones['upperarm.L'], armR: bones['upperarm.R'], elbowL: bones['forearm.L'], elbowR: bones['forearm.R'],
-    legL: bones['thigh.L'], legR: bones['thigh.R'], kneeL: bones['calf.L'], kneeR: bones['calf.R'],
+    root, body, hips: bones['mixamorig:Hips'], torso: bones['mixamorig:Spine2'], head: bones['mixamorig:Head'],
+    armL: bones['mixamorig:LeftArm'], armR: bones['mixamorig:RightArm'], elbowL: bones['mixamorig:LeftForeArm'], elbowR: bones['mixamorig:RightForeArm'],
+    legL: bones['mixamorig:LeftUpLeg'], legR: bones['mixamorig:RightUpLeg'], kneeL: bones['mixamorig:LeftLeg'], kneeR: bones['mixamorig:RightLeg'],
     weapon: attachments.weapon, scabbard: attachments.scabbard, sheathed: attachments.sheathed,
-    sash: attachments.sash, shield: null, grip: 'none', height: 1.899, hipY: bones.pelvis.position.y,
+    sash: attachments.sash, shield: null, grip: 'none', height: 1.899, hipY: bones['mixamorig:Hips'].position.y,
     cur: {}, materials, hitFlash: 0, kind: 'humanoid', hero,
   };
 }

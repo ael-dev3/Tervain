@@ -8,6 +8,7 @@ import { Ctx } from '../../src/presentation/buildKit';
 import { groundSplat } from '../../src/presentation/groundSplat';
 import { authorLighthouse } from '../../src/presentation/lighthouse';
 import { Player, type PlayerCtx } from '../../src/presentation/player';
+import { HERO_WALK_SPEED } from '../../src/presentation/hero/locomotion';
 import { Region } from '../../src/presentation/regions';
 import { createScatterPopulation, registerScatterColliders } from '../../src/presentation/scatterPopulation';
 import { LAYER } from '../../src/presentation/terrainTextures';
@@ -45,7 +46,13 @@ function setup(start: V2) {
 /** Follow a physical walking route through the real controller, never teleport between path nodes. */
 function walk(s: ReturnType<typeof setup>, route: readonly V2[], hz: number) {
   let next = 0;
-  for (let frame = 0; frame < hz * 70 && next < route.length; frame++) {
+  let length = 0, x = s.player.x, z = s.player.z;
+  for (const point of route) {
+    length += Math.hypot(point.x - x, point.z - z); x = point.x; z = point.z;
+  }
+  // Allow the calibrated walk to cover this actual route, including turns and acceleration.
+  const maxFrames = Math.ceil(hz * (length / HERO_WALK_SPEED * 1.4 + route.length));
+  for (let frame = 0; frame < maxFrames && next < route.length; frame++) {
     const target = route[next]!, dx = target.x - s.player.x, dz = target.z - s.player.z;
     if (Math.hypot(dx, dz) < 0.18) { next++; continue; }
     s.context.viewYaw = Math.atan2(dx, dz);

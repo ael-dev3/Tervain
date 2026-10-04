@@ -117,3 +117,7 @@ The owner-supplied Meshy pine replaces all ordinary dark conifers, including the
 - No independent review of each asset's rights beyond Warpkeep's own ledger.
 - No desktop or Steam packaging test; download size (about 24 MB of models) has not been reviewed against a delivery budget.
 - The rest of Warpkeep-Assets (the 152-asset library, animated castles, the lush biome tree releases) is available but not imported; the tree v3 candidates are an open pull request in that repository and are not used.
+
+## Current animated Wanderer (A45, 0.0.10)
+
+The owner-supplied All Animations GLB supersedes A37's runtime selection. The [current embedded model](../../public/models/hero/weathered-wanderer-animated-hero.glb) uses an under-100k reduction, 66-joint Mixamo skin and all six source clips. Original JPEG PBR payloads and authored curves are retained through a uniform 1.899 m normalization; no texture generation is part of this import. See [provenance](main-hero-animations-assets.json), [current hero record](main-hero.md) and [stride/integration evidence](main-hero-animations-0.0.10.md). The earlier 49,500-triangle binary/record remain historical audit assets and are not loaded by gameplay.

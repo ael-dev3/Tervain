@@ -1,0 +1,467 @@
+{
+  "source": {
+    "sha256": "82370608d175ca623a85a8eae1963726de82ef711a74db1e3e518cba83e1a1f1",
+    "bytes": 14350916,
+    "triangles": 130530,
+    "license": "Owner-supplied model authorized for Tervain integration; no general redistribution license asserted.",
+    "suppliedFilename": "Meshy_AI_The_Weathered_Wandere_All_Animations.glb"
+  },
+  "runtime": {
+    "path": "public/models/hero/weathered-wanderer-animated-hero.glb",
+    "sha256": "0b02a9c23763b6382e6ea87bd150bcef59a93149650524fa7a5f434951c8c8db",
+    "bytes": 11900048,
+    "triangles": 65000,
+    "vertices": 39622,
+    "skinned_meshes": 1,
+    "materials": 1,
+    "joints": 66,
+    "position_bounds_xyz": {
+      "min": [
+        -0.6318564470999785,
+        -0.0009086327636064486,
+        -0.20816592687457428
+      ],
+      "max": [
+        0.6317653665434559,
+        1.8980913672363937,
+        0.20655660401493595
+      ]
+    },
+    "root_ground_translation_y": 0.0009086327636064486,
+    "bind_height_metres": 1.8990000000000002,
+    "uniform_scale_from_source": 1.1170162062714417,
+    "rotation_wrapper": false,
+    "scale_wrapper": false,
+    "urlRelativeToBase": "models/hero/weathered-wanderer-animated-hero.glb",
+    "externalDependencies": [],
+    "triangleBudget": 100000
+  },
+  "preparation": {
+    "tool": "Blender 5.2.0 LTS",
+    "method": "Undeformed Blender decimation preserving UV seams and interpolated joint weights; native glTF tracks merged without resampling",
+    "uniform_unit_conversion": "All mesh positions, node translations, animation translations and inverse-bind translations scaled consistently; rotations unchanged",
+    "source_images_preserved_byte_for_byte": true,
+    "source_uv_layout_preserved": true,
+    "translation_max_absolute_roundoff": 5.957486326479966e-08,
+    "animation_rotation_tracks_byte_identical": 396,
+    "source_bind_height_metres": 1.700000314568447,
+    "reduced_bind_height_before_uniform_conversion": 1.7000648597022519,
+    "weight_sum_max_error": 5.21540641784668e-08,
+    "normal_length_min_max": [
+      0.9999999523403538,
+      1.000000050053258
+    ],
+    "minimum_triangle_area_square_metres": 2.2155333524232535e-07,
+    "zero_area_triangles": 0,
+    "triangles_with_geometric_normal_opposing_custom_normals": 34,
+    "blender_geometry": {
+      "tool": "Blender 5.2.0 LTS",
+      "source_sha256": "82370608d175ca623a85a8eae1963726de82ef711a74db1e3e518cba83e1a1f1",
+      "source_triangles": 130530,
+      "source_blender_bounds_xyz": [
+        [
+          -0.5682194232940674,
+          0.5645846724510193
+        ],
+        [
+          -0.18491818010807037,
+          0.1864384412765503
+        ],
+        [
+          1.1485142437095419e-07,
+          1.700000524520874
+        ]
+      ],
+      "triangles": 65000,
+      "vertices": 39622,
+      "gltf_bounds_xyz": [
+        [
+          -0.565664529800415,
+          0.5655829906463623
+        ],
+        [
+          -0.0008134463569149375,
+          1.699251413345337
+        ],
+        [
+          -0.18635891377925873,
+          0.18491818010807037
+        ]
+      ],
+      "ratio": 0.4979698061943054,
+      "detail_retention": {
+        "head": 0.9,
+        "hands": 0.8,
+        "minimum": 0.01,
+        "vertex_group_factor": 0.5
+      },
+      "uv_layer": "UVMap",
+      "source_joint_names": [
+        "mixamorig:Hips",
+        "mixamorig:Spine",
+        "mixamorig:Spine1",
+        "mixamorig:Spine2",
+        "mixamorig:Neck",
+        "mixamorig:Head",
+        "mixamorig:HeadTop_End",
+        "headfront",
+        "mixamorig:LeftShoulder",
+        "mixamorig:LeftArm",
+        "mixamorig:LeftForeArm",
+        "mixamorig:LeftHand",
+        "mixamorig:LeftHandThumb1",
+        "mixamorig:LeftHandThumb2",
+        "mixamorig:LeftHandThumb3",
+        "mixamorig:LeftHandThumb4",
+        "mixamorig:LeftHandPinky1",
+        "mixamorig:LeftHandPinky2",
+        "mixamorig:LeftHandPinky3",
+        "mixamorig:LeftHandPinky4",
+        "mixamorig:LeftHandRing1",
+        "mixamorig:LeftHandRing2",
+        "mixamorig:LeftHandRing3",
+        "mixamorig:LeftHandRing4",
+        "mixamorig:LeftHandMiddle1",
+        "mixamorig:LeftHandMiddle2",
+        "mixamorig:LeftHandMiddle3",
+        "mixamorig:LeftHandMiddle4",
+        "Bone_034",
+        "Bone_033",
+        "Bone_024",
+        "Bone_023",
+        "mixamorig:RightShoulder",
+        "mixamorig:RightArm",
+        "mixamorig:RightForeArm",
+        "mixamorig:RightHand",
+        "mixamorig:RightHandThumb1",
+        "mixamorig:RightHandThumb2",
+        "mixamorig:RightHandThumb3",
+        "mixamorig:RightHandThumb4",
+        "mixamorig:RightHandPinky1",
+        "mixamorig:RightHandPinky2",
+        "mixamorig:RightHandPinky3",
+        "mixamorig:RightHandPinky4",
+        "mixamorig:RightHandMiddle1",
+        "mixamorig:RightHandMiddle2",
+        "mixamorig:RightHandMiddle3",
+        "mixamorig:RightHandMiddle4",
+        "mixamorig:RightHandRing1",
+        "mixamorig:RightHandRing2",
+        "mixamorig:RightHandRing3",
+        "mixamorig:RightHandRing4",
+        "Bone_038",
+        "Bone_037",
+        "Bone_029",
+        "Bone_028",
+        "mixamorig:LeftUpLeg",
+        "mixamorig:LeftLeg",
+        "mixamorig:LeftFoot",
+        "mixamorig:LeftToeBase",
+        "mixamorig:LeftToe_End",
+        "mixamorig:RightUpLeg",
+        "mixamorig:RightLeg",
+        "mixamorig:RightFoot",
+        "mixamorig:RightToeBase",
+        "mixamorig:RightToe_End"
+      ],
+      "skin_weight_sum_error": 1.1102230246251565e-16,
+      "max_influence_weight_dropped_after_interpolation": 0.25381908006966114,
+      "vertices_with_any_dropped_influence": 423,
+      "vertices_with_dropped_influence_above_0_1": 4,
+      "nearest_source_finger_bindings_restored": [
+        {
+          "position": [
+            -0.5552690029144287,
+            0.9175660610198975,
+            -0.03211941197514534
+          ],
+          "interpolated_weight_beyond_four": 0.14551881328225136,
+          "source_vertex": 371,
+          "distance_from_source_vertex_metres": 0.002513156272470951
+        },
+        {
+          "position": [
+            0.5301557779312134,
+            0.9303937554359436,
+            -0.0289854034781456
+          ],
+          "interpolated_weight_beyond_four": 0.14363563992083073,
+          "source_vertex": 73572,
+          "distance_from_source_vertex_metres": 0.0008938219398260117
+        },
+        {
+          "position": [
+            0.549444317817688,
+            0.9519487023353577,
+            -0.0091638108715415
+          ],
+          "interpolated_weight_beyond_four": 0.10680569766191184,
+          "source_vertex": 74141,
+          "distance_from_source_vertex_metres": 0.0037438226863741875
+        },
+        {
+          "position": [
+            0.5529747009277344,
+            0.9206008911132812,
+            -0.030755532905459404
+          ],
+          "interpolated_weight_beyond_four": 0.25381908006966114,
+          "source_vertex": 74400,
+          "distance_from_source_vertex_metres": 0.002898090984672308
+        }
+      ],
+      "largest_dropped_weight_examples": [
+        {
+          "position": [
+            0.5529747009277344,
+            0.9206008911132812,
+            -0.030755532905459404
+          ],
+          "dropped": 0.25381908006966114,
+          "influences": [
+            [
+              "mixamorig:LeftHandPinky2",
+              0.28940626978874207
+            ],
+            [
+              "mixamorig:LeftHandPinky3",
+              0.17252692580223083
+            ],
+            [
+              "mixamorig:LeftHandRing3",
+              0.15335997939109802
+            ],
+            [
+              "mixamorig:LeftHandRing2",
+              0.13088774681091309
+            ],
+            [
+              "mixamorig:LeftHandPinky4",
+              0.12328248471021652
+            ],
+            [
+              "mixamorig:LeftHandRing1",
+              0.11110453307628632
+            ],
+            [
+              "mixamorig:LeftHandPinky1",
+              0.019432062283158302
+            ]
+          ]
+        },
+        {
+          "position": [
+            -0.5552690029144287,
+            0.9175660610198975,
+            -0.03211941197514534
+          ],
+          "dropped": 0.14551881328225136,
+          "influences": [
+            [
+              "mixamorig:RightHandPinky3",
+              0.3047555088996887
+            ],
+            [
+              "mixamorig:RightHandPinky4",
+              0.25545430183410645
+            ],
+            [
+              "mixamorig:RightHandPinky2",
+              0.14905212819576263
+            ],
+            [
+              "mixamorig:RightHandRing3",
+              0.14521926641464233
+            ],
+            [
+              "mixamorig:RightHandRing2",
+              0.06953193992376328
+            ],
+            [
+              "mixamorig:RightHandRing1",
+              0.056511182337999344
+            ],
+            [
+              "mixamorig:RightHandPinky1",
+              0.01947569102048874
+            ]
+          ]
+        },
+        {
+          "position": [
+            0.5301557779312134,
+            0.9303937554359436,
+            -0.0289854034781456
+          ],
+          "dropped": 0.14363563992083073,
+          "influences": [
+            [
+              "mixamorig:LeftHandPinky2",
+              0.4311084747314453
+            ],
+            [
+              "mixamorig:LeftHandPinky1",
+              0.16735100746154785
+            ],
+            [
+              "mixamorig:LeftHandRing2",
+              0.13716526329517365
+            ],
+            [
+              "mixamorig:LeftHandRing1",
+              0.12073963135480881
+            ],
+            [
+              "mixamorig:LeftHand",
+              0.0685807317495346
+            ],
+            [
+              "mixamorig:LeftHandPinky3",
+              0.04397027567028999
+            ],
+            [
+              "mixamorig:LeftHandPinky4",
+              0.023364348337054253
+            ],
+            [
+              "mixamorig:LeftHandRing3",
+              0.007720284163951874
+            ]
+          ]
+        },
+        {
+          "position": [
+            0.549444317817688,
+            0.9519487023353577,
+            -0.0091638108715415
+          ],
+          "dropped": 0.10680569766191184,
+          "influences": [
+            [
+              "mixamorig:LeftHandRing1",
+              0.6842252612113953
+            ],
+            [
+              "mixamorig:LeftHandRing2",
+              0.0788692906498909
+            ],
+            [
+              "mixamorig:LeftHandMiddle1",
+              0.07079137861728668
+            ],
+            [
+              "mixamorig:LeftHandPinky1",
+              0.059308379888534546
+            ],
+            [
+              "mixamorig:LeftHandPinky2",
+              0.055438194423913956
+            ],
+            [
+              "mixamorig:LeftHandMiddle2",
+              0.05133085325360298
+            ],
+            [
+              "mixamorig:LeftHand",
+              3.664998439489864e-05
+            ]
+          ]
+        }
+      ],
+      "normal_length_min_max": [
+        0.9999999999999998,
+        1.0000000000000002
+      ],
+      "deformed_pose_baked": false
+    },
+    "reproductionTool": "tools/prepare-animated-hero.py",
+    "reproducedByteIdentically": true
+  },
+  "animations": [
+    {
+      "name": "Running",
+      "duration_seconds": 0.6666666865348816,
+      "channels": 132,
+      "original_sampling_and_interpolation_preserved": true
+    },
+    {
+      "name": "Walking",
+      "duration_seconds": 1.0416666269302368,
+      "channels": 132,
+      "original_sampling_and_interpolation_preserved": true
+    },
+    {
+      "name": "Boxing_Practice",
+      "duration_seconds": 6.833333492279053,
+      "channels": 132,
+      "original_sampling_and_interpolation_preserved": true
+    },
+    {
+      "name": "Casual_Walk",
+      "duration_seconds": 4.208333492279053,
+      "channels": 132,
+      "original_sampling_and_interpolation_preserved": true
+    },
+    {
+      "name": "Dead",
+      "duration_seconds": 3.0,
+      "channels": 132,
+      "original_sampling_and_interpolation_preserved": true
+    },
+    {
+      "name": "Run_03",
+      "duration_seconds": 0.8333333134651184,
+      "channels": 132,
+      "original_sampling_and_interpolation_preserved": true
+    }
+  ],
+  "images": [
+    {
+      "name": "Image_2",
+      "mimeType": "image/jpeg",
+      "bytes": 2088150,
+      "sha256": "7217a7dcc04b48e50538912d3bbb2febed361fda0afb9f84e0171cf72e2fe9de",
+      "source_bytes_identical": true,
+      "resolution": [
+        2048,
+        2048
+      ]
+    },
+    {
+      "name": "Image_0",
+      "mimeType": "image/jpeg",
+      "bytes": 2635127,
+      "sha256": "c99f5da3891d60b16e67433029e7e2b15b3004cb511b2b9967b527bf84e9534b",
+      "source_bytes_identical": true,
+      "resolution": [
+        2048,
+        2048
+      ]
+    },
+    {
+      "name": "Image_1",
+      "mimeType": "image/jpeg",
+      "bytes": 1544924,
+      "sha256": "860ed16675ff7db607eb9daa53433ebd9251e56566abb716009214bc44c3b3ed",
+      "source_bytes_identical": true,
+      "resolution": [
+        2048,
+        2048
+      ]
+    }
+  ],
+  "schemaVersion": 1,
+  "date": "2026-10-04",
+  "id": "tervain.hero.weathered-wanderer.native-animations.65k",
+  "terms": {
+    "authority": "Owner supplied this GLB and explicitly requested animation integration and movement calibration in Tervain0.0.10 on4Oct2026 (A45).",
+    "spdx": null,
+    "credit": "Weathered Wanderer \u2014 owner-supplied Meshy GLB with included animation rig; reduced in Blender and adapted for Tervain.",
+    "boundary": "Specific project-use authority. No general open-content license, exclusive authorship or independently reviewed source/animation rights asserted."
+  },
+  "verification": {
+    "independentBlenderImportPoses": 18,
+    "maxAnimatedBoundDifferenceMetres": 0.003465,
+    "boundary": "Asset preparation and sampled bounds do not establish pointwise surface error, runtime rendering, performance or publication."
+  }
+}

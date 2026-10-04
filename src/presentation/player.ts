@@ -12,6 +12,7 @@ import { PLAYER_BODY_HEIGHT, PLAYER_BODY_RADIUS, PLAYER_FOOT_CLEARANCE, supporte
 import type { AudioEngine, SurfaceKind } from './audio';
 import { createPlayerRig, poseRig, setArmed, setSash, applyFlash, type Mode, type Pose, type Rig } from './characters';
 import { EnemyActor, NpcActor, lerpAngle } from './actors';
+import { HERO_WALK_SPEED, HERO_RUN_SPEED, HERO_GUARD_SPEED, HERO_WALK_CYCLE, HERO_RUN_CYCLE, HERO_RUN_THRESHOLD } from './hero/locomotion';
 
 export type PlayerState = 'free' | 'light' | 'heavy' | 'dodge' | 'hurt' | 'channel' | 'dead';
 
@@ -535,7 +536,7 @@ export class Player {
     let speed = 0;
     switch (this.state) {
       case 'free': {
-        const target = sprinting ? 6.0 : this.blocking ? 1.9 : 3.5;
+        const target = sprinting ? HERO_RUN_SPEED : this.blocking ? HERO_GUARD_SPEED : HERO_WALK_SPEED;
         const back = mv.y < -0.3 && !this.blocking ? 0.7 : 1;
         speed = hasInput ? target * back * mag : 0;
         break;
@@ -667,7 +668,7 @@ export class Player {
     this.inWater = this.surface === 'water';
     if (!this.rig.hero && this.grounded && this.lastMoveSpeed > 0.8 && (this.state === 'free')) {
       this.stepDist += this.lastMoveSpeed * dt;
-      const stride = sprinting ? 2.2 : 1.85;
+      const stride = sprinting ? HERO_RUN_CYCLE / 2 : HERO_WALK_CYCLE / 2;
       if (this.stepDist > stride) {
         this.stepDist -= stride;
         ctx.audio.footstep(this.surface, sprinting);
@@ -737,15 +738,15 @@ export class Player {
         break;
       default:
         if (this.blocking) mode = 'block';
-        else if (this.lastMoveSpeed > 4.2) mode = 'run';
-        else if (this.lastMoveSpeed > 0.4) mode = 'walk';
+        else if (this.lastMoveSpeed > HERO_RUN_THRESHOLD + (this.mode === 'run' ? -0.3 : 0.3)) mode = 'run';
+        else if (this.lastMoveSpeed > 0.12) mode = 'walk';
     }
     if (!this.grounded && this.state === 'free') mode = 'run';
     this.mode = mode;
-    const speedNorm = Math.min(1, this.lastMoveSpeed / (mode === 'run' ? 6 : 3.5));
+    const speedNorm = Math.min(1, this.lastMoveSpeed / (mode === 'run' ? HERO_RUN_SPEED : HERO_WALK_SPEED));
     // Integrate gait phase from actual travel. Multiplying a lifetime clock by changing speed made legs snap on turns/stops.
-    const gait = mode === 'walk' || mode === 'run';
-    if (gait && this.grounded) this.gaitTime += this.lastMoveSpeed * dt / (mode === 'run' ? 4.4 : 3.7);
+    const gait = mode === 'walk' || mode === 'run' || mode === 'block';
+    if (gait && this.grounded) this.gaitTime += this.lastMoveSpeed * dt / (mode === 'run' ? HERO_RUN_CYCLE : HERO_WALK_CYCLE);
     const pose: Pose = {
       mode, speed: speedNorm, time: gait ? this.gaitTime : this.clock, t,
       amp: ctx.settings.reducedMotion ? 0.6 : 1,
