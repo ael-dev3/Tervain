@@ -1,0 +1,12 @@
+/* ENTRY 2002f6b7 | gCClock_PS::GetDay | STATUS decompiled | 6 ms */
+
+/* public: unsigned long const & __thiscall gCClock_PS::GetDay(void)const  */
+
+ulong * __thiscall gCClock_PS::GetDay(gCClock_PS *this)
+
+{
+                    /* 0x2f6b7  3205  ?GetDay@gCClock_PS@@QBEABKXZ */
+  return (ulong *)&(this->gCClock_PS_data).field_0x14;
+}
+
+

@@ -1,0 +1,22 @@
+/* ENTRY 10032890 | FUN_10032890 | STATUS decompiled | 9 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+Entity * FUN_10032890(Entity *param_1)
+
+{
+  gCSession *this;
+  eCDynamicEntity *peVar1;
+  Entity local_a8 [168];
+  
+  if (_ms_Player == 0) {
+    this = (gCSession *)thunk_FUN_10039100();
+    peVar1 = gCSession::GetPlayer(this);
+    Entity::Entity(local_a8,(eCEntity *)peVar1);
+    Entity::CopyFrom(&Entity::ms_Player,local_a8);
+  }
+  Entity::Entity(param_1,&Entity::ms_Player);
+  return param_1;
+}
+
+

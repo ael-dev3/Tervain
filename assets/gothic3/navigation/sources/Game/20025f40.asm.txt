@@ -1,0 +1,4 @@
+; 20025f40 ?GetNavigationPSList@gCNavigationAdmin@@QAEABV?$bTValArray@PAVgCNavigation_PS@@@@XZ
+20025f40 | e9eb5f2900 | JMP 0x202bbf30
+; 20025f45 gCMovementBase_PS::IsEditorRelevant
+; 20025f45 Ordinal_5127

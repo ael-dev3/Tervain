@@ -1,0 +1,140 @@
+{
+  "schema": "gothic3-navigation-runtime-rules-v1",
+  "inputs": {
+    "Game": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+    "Engine": "d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3",
+    "SharedBase": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214"
+  },
+  "registries": {
+    "allDataOffset": "0x34",
+    "roiDataOffset": "0x40",
+    "identity": "property-set object identity, not name or GUID",
+    "register": "backward duplicate search, append; 0 if present, 1 if appended",
+    "deregister": "backward search, remove and shift survivors; 0 if absent, 1 if removed"
+  },
+  "navigationConstructor": {
+    "source": "Game20289960 -> Invalidate20286e50",
+    "processingDataOffset": "0x1e1",
+    "processingObjectOffset": "0x1e5",
+    "inProcessingRange": false,
+    "floorDetectionFailed": false,
+    "enabled": true,
+    "startPositionCm": [
+      0,
+      0,
+      0
+    ],
+    "lastUseableNavigationPositionCm": {
+      "known": false,
+      "reason": "SharedBase10002833 default bCVector constructor is a no-op; OnPropertySetAdded later writes this field"
+    },
+    "cachedMovementDataOffset": "0x1dc",
+    "cachedDCCDataOffset": "0x1d8",
+    "cachedMovement": null,
+    "cachedDCC": null,
+    "opaqueBytes": {
+      "0x1e0": 1,
+      "0x204": 0,
+      "0x205": 0,
+      "0x20c": 1,
+      "0x20d": 0,
+      "0x234": 0,
+      "0x24c": 0,
+      "0x250": 1,
+      "0x251": 0
+    },
+    "opaqueValues": {
+      "0x188": 0,
+      "0x1c8": -1,
+      "0x214": 4,
+      "0x218": 0,
+      "0x2a8": 65535
+    }
+  },
+  "propertyLifecycle": {
+    "added": "non-template registers, then LastUseableNavigationPosition enter/write/exit, then base callback",
+    "vectorCopy": "GetWorldPosition captures a storage pointer before EnterEx, then copies its live contents after EnterEx; no pre-observer snapshot",
+    "removed": "if byte1e1==1 remove ROI; non-template remove all; then base callback; does not clear byte1e1 itself"
+  },
+  "pointerCaches": {
+    "getCharacterMovement": "Game200216c5: null cache triggers Entity.GetPropertySet21, stores result; null repeats lookup next call",
+    "rangeCallbacks": "read cached movement data1dc directly; never invoke lazy getter",
+    "setCharacterMovement": "Game2000a74a raw pointer assignment",
+    "setDCC": "Game2001d007 raw pointer assignment",
+    "getDCC": "Game2000a2f4 direct cached pointer"
+  },
+  "entry": {
+    "source": "Game2028a350",
+    "prefix": [
+      "if byte1e1==0 register ROI",
+      "byte1e1=1",
+      "byte1e2=0",
+      "Destroy PropertyID238",
+      "byte24c=0"
+    ],
+    "earlyReturn": [
+      "entity is null",
+      "application virtual270 result !=1",
+      "characterMovement is null"
+    ],
+    "tail": "floor detection/world repositioning, restore movement or Reset(false,true,true); required host, never silently skipped"
+  },
+  "exit": {
+    "source": "Game20287b70",
+    "prefix": [
+      "if byte1e1==1 deregister ROI and dword188=0",
+      "byte1e1=0",
+      "if DCC exists DestroyCollisionCirclePSObject"
+    ],
+    "movement": [
+      "byte205 = !GetGoalReached(false,false,false)",
+      "if character-control property type45 mode==9 byte205=0",
+      "StopMovement",
+      "ResetIsProcessing"
+    ]
+  },
+  "cache": {
+    "source": [
+      "Game20003486",
+      "Game20023f4c"
+    ],
+    "getMembers": "build(false) only if cache count<1",
+    "build": "force clears; append ordered all-navigation entities with NPC.Enclave matching this entity ID, skip duplicate entity pointers",
+    "automaticRegistryInvalidation": false,
+    "nullProxyResolutionsRetained": true
+  },
+  "range": {
+    "source": [
+      "Engine3002d0bf",
+      "Engine300118f1",
+      "Engine30024ff5"
+    ],
+    "coordinateUnit": "native centimetres; native float32 stored values",
+    "initialOldSphere": "SharedBase10005e20 Clear: position0, radius=-FLT_MAX; first old AABB is inverted, current box is uninitialized until first rebuild",
+    "installedBaseRadiusCm": 4000.0,
+    "movementPaddingCm": 250.0,
+    "center": "current camera position, not player position",
+    "rebuild": "distance(currentCamera,previousExpandedSphereCenter)>250 or force-full-update; SharedBase1002e700 rounds squared sum then sqrt result to float32",
+    "region": "AABB of camera-centred sphere radius Entity.ROI+250; inclusive intersection",
+    "dynamicRequiredFlags": 1048840,
+    "staticRequiredFlags": 1048832,
+    "excludedFlags": 64,
+    "canDeactivateFlag": 32,
+    "enteredFlag": 128,
+    "enterAllowedFlag": 256,
+    "orderedTransitions": "all queued exits first, then queued enters whose live flags still include0x100",
+    "candidates": "PVS valid cells/static skip hierarchy/dynamic arrays and non-deactivation cell; dirty updates traverse backward"
+  },
+  "unsupported": [
+    "CompileStaticNavigationScene/nav map and zone/path geometry",
+    "PVS/sector streaming and native candidate traversal order",
+    "entity physics/content/property-set observer lifecycles outside navigation",
+    "range-entry character floor/movement tail and DCC execution without a complete host",
+    "native x87 extended arithmetic bit equivalence"
+  ],
+  "nextSourcePath": "gCSession20376690 -> NavigationAdmin200131a1 -> gCNavigationMap::CompileStaticNavigationScene20013b29, then RecompileAIZonePropertiesForNavZones2000dc01 and GetZone20016be9; registration only does not replace compilation",
+  "evidence": {
+    "path": "native-source-evidence.json",
+    "sha256": "926a696adc2afb09de20f74e912a7931aea5aa54012b494438bf391b1a2dbad3"
+  }
+}

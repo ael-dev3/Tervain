@@ -1,0 +1,4 @@
+; 10001fdc ?GetMagnitude@bCVector@@QBEMXZ
+10001fdc | e91fc70200 | JMP 0x1002e700
+; 10001fe1 bCLine::operator-=
+; 10001fe1 Ordinal_1267

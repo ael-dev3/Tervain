@@ -1,0 +1,51 @@
+; 304c8510 eCEntityAdmin::eCEntityAdmin
+304c8510 | 56 | PUSH ESI
+304c8511 | 57 | PUSH EDI
+304c8512 | 8bf1 | MOV ESI,ECX
+304c8514 | ff1508ccaf30 | CALL dword ptr [0x30afcc08]
+304c851a | c70654c18730 | MOV dword ptr [ESI],0x3087c154
+304c8520 | 33ff | XOR EDI,EDI
+304c8522 | 8d4e10 | LEA ECX,[ESI + 0x10]
+304c8525 | 897e04 | MOV dword ptr [ESI + 0x4],EDI
+304c8528 | 897e08 | MOV dword ptr [ESI + 0x8],EDI
+304c852b | 897e0c | MOV dword ptr [ESI + 0xc],EDI
+304c852e | ff155cccaf30 | CALL dword ptr [0x30afcc5c]
+304c8534 | 8d4e20 | LEA ECX,[ESI + 0x20]
+304c8537 | ff155cccaf30 | CALL dword ptr [0x30afcc5c]
+304c853d | 8d4e30 | LEA ECX,[ESI + 0x30]
+304c8540 | ff155cccaf30 | CALL dword ptr [0x30afcc5c]
+304c8546 | 8d4e44 | LEA ECX,[ESI + 0x44]
+304c8549 | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+304c854f | 8d4e50 | LEA ECX,[ESI + 0x50]
+304c8552 | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+304c8558 | 8d4e5c | LEA ECX,[ESI + 0x5c]
+304c855b | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+304c8561 | 8d4e68 | LEA ECX,[ESI + 0x68]
+304c8564 | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+304c856a | 8d4e74 | LEA ECX,[ESI + 0x74]
+304c856d | ff155cccaf30 | CALL dword ptr [0x30afcc5c]
+304c8573 | 89be8c000000 | MOV dword ptr [ESI + 0x8c],EDI
+304c8579 | 89be90000000 | MOV dword ptr [ESI + 0x90],EDI
+304c857f | 89be94000000 | MOV dword ptr [ESI + 0x94],EDI
+304c8585 | 89bea4000000 | MOV dword ptr [ESI + 0xa4],EDI
+304c858b | 6689bea0000000 | MOV word ptr [ESI + 0xa0],DI
+304c8592 | 6689bea2000000 | MOV word ptr [ESI + 0xa2],DI
+304c8599 | 89beac000000 | MOV dword ptr [ESI + 0xac],EDI
+304c859f | 6689bea8000000 | MOV word ptr [ESI + 0xa8],DI
+304c85a6 | 6689beaa000000 | MOV word ptr [ESI + 0xaa],DI
+304c85ad | 89beb4000000 | MOV dword ptr [ESI + 0xb4],EDI
+304c85b3 | 6689beb0000000 | MOV word ptr [ESI + 0xb0],DI
+304c85ba | 6689beb2000000 | MOV word ptr [ESI + 0xb2],DI
+304c85c1 | 89beb8000000 | MOV dword ptr [ESI + 0xb8],EDI
+304c85c7 | 8bce | MOV ECX,ESI
+304c85c9 | 89bec0000000 | MOV dword ptr [ESI + 0xc0],EDI
+304c85cf | 6689bebc000000 | MOV word ptr [ESI + 0xbc],DI
+304c85d6 | 6689bebe000000 | MOV word ptr [ESI + 0xbe],DI
+304c85dd | e8c68ab5ff | CALL 0x300210a8
+304c85e2 | 68a00f0000 | PUSH 0xfa0
+304c85e7 | b9d023af30 | MOV ECX,0x30af23d0
+304c85ec | ff1524d6af30 | CALL dword ptr [0x30afd624]
+304c85f2 | 5f | POP EDI
+304c85f3 | 8bc6 | MOV EAX,ESI
+304c85f5 | 5e | POP ESI
+304c85f6 | c3 | RET

@@ -1,0 +1,67 @@
+/* ENTRY 30024ee7 | eCEntity::OnExitProcessingRange | STATUS decompiled | 79 ms */
+
+/* protected: virtual void __thiscall eCEntity::OnExitProcessingRange(void)
+   eCEntity member function inherited by eCSpatialEntity
+   eCEntity member function inherited by eCDynamicEntity
+   eCEntity member function inherited by eCTemplateEntity */
+
+void __thiscall eCEntity::OnExitProcessingRange(eCEntity *this)
+
+{
+  uint *puVar1;
+  eCSceneAdmin *this_00;
+  eCEntityAdmin *this_01;
+  int iVar2;
+  bCMemoryAdmin *this_02;
+  int *piVar3;
+  int *piVar4;
+  uint uVar5;
+  void *pvVar6;
+  eCEntity *peVar7;
+  
+                    /* 0x24ee7  11070  ?OnExitProcessingRange@eCEntity@@MAEXXZ */
+  if (((byte)(this->eCEntity_data).offset_0xc & 0x80) == 0x80) {
+    peVar7 = this;
+    this_00 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+    this_01 = (eCEntityAdmin *)eCSceneAdmin::GetAccessToEntityAdmin(this_00);
+    eCEntityAdmin::RemoveFromProcessingList(this_01,(eCEntity *)peVar7);
+    piVar4 = (int *)0x0;
+    uVar5 = 0;
+    (*this->vftablePtr->OnReadContent)(this);
+    if ((this->eCEntity_data).offset_0x10e != 0) {
+      do {
+        (*this->vftablePtr->OnReadContent)(this);
+        if ((uVar5 != 0xffffffff) && ((ushort)uVar5 < (this->eCEntity_data).offset_0x10e)) {
+          (*this->vftablePtr->OnReadContent)(this);
+          if ((ushort)uVar5 < (this->eCEntity_data).offset_0x10e) {
+            piVar3 = *(int **)((this->eCEntity_data).offset_0x110 + (uVar5 & 0xffff) * 4);
+          }
+          else {
+            piVar3 = (int *)0x0;
+          }
+          iVar2 = (**(code **)(*piVar3 + 0x60))();
+          if (iVar2 == 0xe) {
+            piVar4 = piVar3;
+          }
+          (**(code **)(*piVar3 + 0xe0))();
+        }
+        uVar5 = uVar5 + 1;
+        (*this->vftablePtr->OnReadContent)(this);
+      } while ((int)uVar5 < (int)(uint)(this->eCEntity_data).offset_0x10e);
+    }
+    puVar1 = &(this->eCEntity_data).offset_0xc;
+    *puVar1 = *puVar1 & 0xffffff7f;
+    if ((((piVar4 == (int *)0x0) || (piVar4[8] == 1)) &&
+        ((this->eCEntity_data).offset_0x0 != (void *)0x0)) &&
+       (piVar4 = (this->eCEntity_data).offset_0x0, piVar4 != (int *)0x0)) {
+      (**(code **)(*piVar4 + 0x1c))(0);
+      pvVar6 = (this->eCEntity_data).offset_0x0;
+      this_02 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::DeleteObject(this_02,pvVar6);
+      (this->eCEntity_data).offset_0x0 = (void *)0x0;
+    }
+  }
+  return;
+}
+
+

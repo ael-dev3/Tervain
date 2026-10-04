@@ -1,0 +1,34 @@
+; 2016ef60 gCHUDPageTrade2::vfunction71
+2016ef60 | 53 | PUSH EBX
+2016ef61 | 8b5c240c | MOV EBX,dword ptr [ESP + 0xc]
+2016ef65 | 55 | PUSH EBP
+2016ef66 | 8b6c240c | MOV EBP,dword ptr [ESP + 0xc]
+2016ef6a | 56 | PUSH ESI
+2016ef6b | 57 | PUSH EDI
+2016ef6c | 8bf1 | MOV ESI,ECX
+2016ef6e | 53 | PUSH EBX
+2016ef6f | 8dbeac020000 | LEA EDI,[ESI + 0x2ac]
+2016ef75 | 55 | PUSH EBP
+2016ef76 | 8bcf | MOV ECX,EDI
+2016ef78 | e86fd8eaff | CALL 0x2001c7ec
+2016ef7d | 53 | PUSH EBX
+2016ef7e | 8d8e9c030000 | LEA ECX,[ESI + 0x39c]
+2016ef84 | 55 | PUSH EBP
+2016ef85 | 894c2420 | MOV dword ptr [ESP + 0x20],ECX
+2016ef89 | e8a038e9ff | CALL 0x2000282e
+2016ef8e | 53 | PUSH EBX
+2016ef8f | 81c65c010000 | ADD ESI,0x15c
+2016ef95 | 55 | PUSH EBP
+2016ef96 | 8bce | MOV ECX,ESI
+2016ef98 | e86805ebff | CALL 0x2001f505
+2016ef9d | 8bcf | MOV ECX,EDI
+2016ef9f | e86d27eaff | CALL 0x20011711
+2016efa4 | 8b4c2418 | MOV ECX,dword ptr [ESP + 0x18]
+2016efa8 | e861b5ebff | CALL 0x2002a50e
+2016efad | 8bce | MOV ECX,ESI
+2016efaf | e83e29e9ff | CALL 0x200018f2
+2016efb4 | 5f | POP EDI
+2016efb5 | 5e | POP ESI
+2016efb6 | 5d | POP EBP
+2016efb7 | 5b | POP EBX
+2016efb8 | c20800 | RET 0x8

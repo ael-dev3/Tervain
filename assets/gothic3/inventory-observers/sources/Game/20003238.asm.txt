@@ -1,0 +1,4 @@
+; 20003238 ?OnStackDelete@gCInventory_PS@@UAEXHPBVgCInventoryStack@@@Z
+20003238 | e9c39c1a00 | JMP 0x201acf00
+; 20003247 gCIrcClient::GetFlags
+; 20003247 Ordinal_3446

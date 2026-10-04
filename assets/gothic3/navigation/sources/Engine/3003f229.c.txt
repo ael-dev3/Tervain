@@ -1,0 +1,31 @@
+/* ENTRY 3003f229 | eCEntity::ExitProcessingRange | STATUS decompiled | 36 ms */
+
+/* protected: void __thiscall eCEntity::ExitProcessingRange(bool) */
+
+void __thiscall eCEntity::ExitProcessingRange(eCEntity *this,bool param_1)
+
+{
+  int iVar1;
+  eCEntity *this_00;
+  int iVar2;
+  bool bVar3;
+  
+                    /* 0x3f229  5949  ?ExitProcessingRange@eCEntity@@IAEX_N@Z */
+  (*this->vftablePtr->OnExitProcessingRange)(this);
+  if (param_1) {
+    iVar2 = 0;
+    iVar1 = eCNode::GetChildrenCount((eCNode *)this);
+    if (0 < iVar1) {
+      do {
+        bVar3 = true;
+        this_00 = (eCEntity *)(*this->vftablePtr->GetChildAt)(this,iVar2);
+        ExitProcessingRange(this_00,bVar3);
+        iVar2 = iVar2 + 1;
+        iVar1 = eCNode::GetChildrenCount((eCNode *)this);
+      } while (iVar2 < iVar1);
+    }
+  }
+  return;
+}
+
+

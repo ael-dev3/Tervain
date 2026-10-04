@@ -1,0 +1,4 @@
+; 20020289 gCHUDListCtrlInventory::vfunction3
+20020289 | e9d2a41600 | JMP 0x2018a760
+; 2002028e gCFocus_PS::GetNormalModeCharacterScanElevDown
+; 2002028e Ordinal_3890

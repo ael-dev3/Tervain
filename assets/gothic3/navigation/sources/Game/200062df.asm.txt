@@ -1,0 +1,4 @@
+; 200062df ?SetStartPosition@gCNavigation_PS@@QAEXABVbCVector@@@Z
+200062df | e94c2c0400 | JMP 0x20048f30
+; 200062e9 gCFocus_PS::GetMeleeModeInteractPriority
+; 200062e9 Ordinal_3766

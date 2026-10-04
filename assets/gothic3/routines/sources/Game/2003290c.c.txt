@@ -1,0 +1,42 @@
+/* ENTRY 2003290c | gCScriptProcessingUnit::AISetTask | STATUS decompiled | 40 ms */
+
+/* public: void __thiscall gCScriptProcessingUnit::AISetTask(class bCString,bool) */
+
+void __thiscall
+gCScriptProcessingUnit::AISetTask(gCScriptProcessingUnit *this,undefined4 param_2,long param_3)
+
+{
+  undefined1 *this_00;
+  eCEntity *peVar1;
+  gCScriptRoutine_PS *this_01;
+  
+                    /* 0x3290c  979  ?AISetTask@gCScriptProcessingUnit@@QAEXVbCString@@_N@Z */
+  if ((this->gCScriptProcessingUnit_data).offset_0x60 == (gCScriptProcessingUnit)0x1) {
+    bCString::operator=((bCString *)&(this->gCScriptProcessingUnit_data).field_0x64,
+                        (bCString *)&param_2);
+    bCString::~bCString((bCString *)&param_2);
+    return;
+  }
+  this_00 = &(this->gCScriptProcessingUnit_data).field_0x1c;
+  peVar1 = eCEntityProxy::GetEntity((eCEntityProxy *)this_00);
+  if (peVar1 != (eCEntity *)0x0) {
+    peVar1 = eCEntityProxy::GetEntity((eCEntityProxy *)this_00);
+    this_01 = (gCScriptRoutine_PS *)(**(code **)(*(int *)peVar1 + 0xec))(0x2d);
+    if ((this_01 != (gCScriptRoutine_PS *)0x0) && ((char)param_3 == '\0')) {
+      gCScriptRoutine_PS::SetLastTask
+                (this_01,(bCString *)&(this_01->gCScriptRoutine_PS_data).field_0x14);
+      gCScriptRoutine_PS::SetCurrentTask(this_01,(bCString *)&param_2);
+      param_3 = 0;
+      gCScriptRoutine_PS::SetTaskPosition(this_01,&param_3);
+      bCString::Clear((bCString *)&(this->gCScriptProcessingUnit_data).field_0x10);
+      bCString::operator=((bCString *)&(this->gCScriptProcessingUnit_data).field_0xc,
+                          (bCString *)&param_2);
+      AISetTaskTime(this,0.0);
+      SetCurrentAIState(this,(bCString *)&param_2);
+    }
+  }
+  bCString::~bCString((bCString *)&param_2);
+  return;
+}
+
+

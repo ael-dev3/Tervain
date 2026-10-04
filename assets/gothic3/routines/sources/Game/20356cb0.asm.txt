@@ -1,0 +1,12 @@
+; 20356cb0 FUN_20356cb0
+20356cb0 | 8b01 | MOV EAX,dword ptr [ECX]
+20356cb2 | 8b5068 | MOV EDX,dword ptr [EAX + 0x68]
+20356cb5 | 56 | PUSH ESI
+20356cb6 | 8d7164 | LEA ESI,[ECX + 0x64]
+20356cb9 | ffd2 | CALL EDX
+20356cbb | 50 | PUSH EAX
+20356cbc | 8bce | MOV ECX,ESI
+20356cbe | e87e8dccff | CALL 0x2001fa41
+20356cc3 | 8bce | MOV ECX,ESI
+20356cc5 | 5e | POP ESI
+20356cc6 | e942a7cdff | JMP 0x2003140d

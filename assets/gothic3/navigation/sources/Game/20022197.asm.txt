@@ -1,0 +1,2 @@
+; 20022197 ?Invalidate@gCNavigationAdmin@@QAEXXZ
+20022197 | e954b22900 | JMP 0x202bd3f0

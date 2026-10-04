@@ -1,0 +1,2 @@
+; 2001a85c ?IsInProcessingRange@gCNavigation_PS@@QAE_NXZ
+2001a85c | e9cfb92600 | JMP 0x20286230

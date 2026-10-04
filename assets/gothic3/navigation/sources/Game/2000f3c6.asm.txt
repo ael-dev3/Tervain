@@ -1,0 +1,2 @@
+; 2000f3c6 ?OnEnterProcessingRange@gCNavigation_PS@@MAEXXZ
+2000f3c6 | e985af2700 | JMP 0x2028a350

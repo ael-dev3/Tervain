@@ -1,0 +1,2 @@
+; 20003e1d ?DeregisterNavigationPSInROI@gCNavigationAdmin@@QAE?AW4bEResult@@PAVgCNavigation_PS@@@Z
+20003e1d | e90e932b00 | JMP 0x202bd130

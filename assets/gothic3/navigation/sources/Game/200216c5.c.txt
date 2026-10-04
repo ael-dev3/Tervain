@@ -1,0 +1,21 @@
+/* ENTRY 200216c5 | gCNavigation_PS::GetCharacterMovement | STATUS decompiled | 9 ms */
+
+/* public: class gCCharacterMovement_PS * __thiscall gCNavigation_PS::GetCharacterMovement(void) */
+
+gCCharacterMovement_PS * __thiscall gCNavigation_PS::GetCharacterMovement(gCNavigation_PS *this)
+
+{
+  eCEntity *peVar1;
+  undefined4 uVar2;
+  
+                    /* 0x216c5  3039
+                       ?GetCharacterMovement@gCNavigation_PS@@QAEPAVgCCharacterMovement_PS@@XZ */
+  if ((this->gCNavigation_PS_data).offset_0x1dc == 0) {
+    peVar1 = (*this->vftablePtr->GetEntity)(this);
+    uVar2 = (**(code **)(*(int *)peVar1 + 0xec))(0x15);
+    (this->gCNavigation_PS_data).offset_0x1dc = uVar2;
+  }
+  return (gCCharacterMovement_PS *)(this->gCNavigation_PS_data).offset_0x1dc;
+}
+
+

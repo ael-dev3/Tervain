@@ -1,0 +1,34 @@
+/* ENTRY 2002a770 | gCNavigationAdmin::UpdateNavigationEnabledFlags | STATUS decompiled | 23 ms */
+
+/* protected: enum bEResult __thiscall gCNavigationAdmin::UpdateNavigationEnabledFlags(void) */
+
+bEResult __thiscall gCNavigationAdmin::UpdateNavigationEnabledFlags(gCNavigationAdmin *this)
+
+{
+  void *pvVar1;
+  bool bVar2;
+  eCEntity *this_00;
+  bEResult bVar3;
+  int iVar4;
+  
+                    /* 0x2a770  7436
+                       ?UpdateNavigationEnabledFlags@gCNavigationAdmin@@IAE?AW4bEResult@@XZ */
+  (this->gCNavigationAdmin_data).offset_0x4c = (eCEngineComponentBase)0x0;
+  GE_MESSAGEF_INFO(5,"gCNavigationAdmin::UpdateNavigationEnabledFlags -> Start");
+  iVar4 = 0;
+  if (0 < (int)(this->gCNavigationAdmin_data).offset_0x38) {
+    do {
+      pvVar1 = (this->gCNavigationAdmin_data).offset_0x34;
+      this_00 = (eCEntity *)(**(code **)(**(int **)((int)pvVar1 + iVar4 * 4) + 0x68))();
+      bVar2 = eCEntity::IsEnabled(this_00);
+      gCNavigation_PS::SetEnabled(*(gCNavigation_PS **)((int)pvVar1 + iVar4 * 4),bVar2);
+      iVar4 = iVar4 + 1;
+    } while (iVar4 < (int)(this->gCNavigationAdmin_data).offset_0x38);
+  }
+  GE_MESSAGEF_INFO(5,"gCNavigationAdmin::UpdateNavigationEnabledFlags -> Done");
+  bVar3 = gCNavigationMap::UpdateNavigationEnabledFlags
+                    ((gCNavigationMap *)&(this->gCNavigationAdmin_data).field_0x50);
+  return bVar3;
+}
+
+

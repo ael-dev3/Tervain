@@ -1,0 +1,63 @@
+/* ENTRY 304b88f0 | FUN_304b88f0 | STATUS decompiled | 27 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __fastcall FUN_304b88f0(eCEntity *param_1)
+
+{
+  uint *puVar1;
+  bool bVar2;
+  char *pcVar3;
+  bCErrorAdmin *this;
+  int *piVar4;
+  uint uVar5;
+  char *pcVar6;
+  int iVar7;
+  eCEntity *local_4;
+  
+  if (((param_1->eCEntity_data).offset_0xc & 0x80) == 0) {
+    if ((_DAT_30aee308 & 1) == 0) {
+      _DAT_30aee308 = _DAT_30aee308 | 1;
+      DAT_30aee304 = 0x100;
+    }
+    local_4 = param_1;
+    if (((param_1->eCEntity_data).offset_0xc & DAT_30aee304) == 0) {
+      bCString::bCString((bCString *)&local_4);
+      bCString::Format(*(bCString **)&(param_1->eCEntity_data).field_0x108,(char *)&local_4);
+      iVar7 = 0x316;
+      pcVar6 = ".\\components\\scene\\entity\\ge_entity.cpp";
+      pcVar3 = bCString::operator_char_const_((bCString *)&stack0x00000000);
+      this = bCErrorAdmin::GetInstance();
+      bCErrorAdmin::CallFatalError(this,pcVar3,pcVar6,iVar7);
+      bCString::~bCString((bCString *)&stack0x00000000);
+    }
+    puVar1 = &(param_1->eCEntity_data).offset_0xc;
+    *puVar1 = *puVar1 | 0x80;
+    bVar2 = eCEntity::IsPhysicRelevant(param_1);
+    if (bVar2) {
+      eCEntity::CreatePhysicObject(param_1);
+    }
+    uVar5 = 0;
+    (*param_1->vftablePtr->OnReadContent)(param_1);
+    if ((param_1->eCEntity_data).offset_0x10e != 0) {
+      do {
+        (*param_1->vftablePtr->OnReadContent)(param_1);
+        if ((uVar5 != 0xffffffff) && ((ushort)uVar5 < (param_1->eCEntity_data).offset_0x10e)) {
+          (*param_1->vftablePtr->OnReadContent)(param_1);
+          if ((ushort)uVar5 < (param_1->eCEntity_data).offset_0x10e) {
+            piVar4 = *(int **)((param_1->eCEntity_data).offset_0x110 + (uVar5 & 0xffff) * 4);
+          }
+          else {
+            piVar4 = (int *)0x0;
+          }
+          (**(code **)(*piVar4 + 0xdc))();
+        }
+        uVar5 = uVar5 + 1;
+        (*param_1->vftablePtr->OnReadContent)(param_1);
+      } while ((int)uVar5 < (int)(uint)(param_1->eCEntity_data).offset_0x10e);
+    }
+  }
+  return;
+}
+
+

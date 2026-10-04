@@ -1,0 +1,14 @@
+/* ENTRY 2001865b | gCClock_PS::GetTimeStampInSeconds | STATUS decompiled | 7 ms */
+
+/* public: unsigned long __thiscall gCClock_PS::GetTimeStampInSeconds(void)const  */
+
+ulong __thiscall gCClock_PS::GetTimeStampInSeconds(gCClock_PS *this)
+
+{
+                    /* 0x1865b  4580  ?GetTimeStampInSeconds@gCClock_PS@@QBEKXZ */
+  return *(int *)&(this->gCClock_PS_data).field_0x20 +
+         (*(int *)&(this->gCClock_PS_data).field_0x1c +
+         *(int *)&(this->gCClock_PS_data).field_0x18 * 0x3c) * 0x3c;
+}
+
+

@@ -1,0 +1,11 @@
+/* ENTRY 2036e8f0 | FUN_2036e8f0 | STATUS decompiled | 2 ms */
+
+void __fastcall FUN_2036e8f0(gCScriptProcessingUnit *param_1)
+
+{
+  gCScriptProcessingUnit::SetCurrentAIState(param_1,(bCString *)&stack0x00000004);
+  bCString::~bCString((bCString *)&stack0x00000004);
+  return;
+}
+
+

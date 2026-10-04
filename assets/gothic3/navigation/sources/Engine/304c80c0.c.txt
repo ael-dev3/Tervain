@@ -1,0 +1,73 @@
+/* ENTRY 304c80c0 | FUN_304c80c0 | STATUS decompiled | 22 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall FUN_304c80c0(eCEntityAdmin *param_1,eCEntity *param_2,int param_3,int param_4)
+
+{
+  undefined2 *puVar1;
+  uint uVar2;
+  eCEntity *this;
+  int iVar3;
+  bool bVar4;
+  eSEntityFlags *peVar5;
+  bCBox *pbVar6;
+  
+  this = param_2;
+  if ((DAT_30af23cc & 1) == 0) {
+    DAT_30af23cc = DAT_30af23cc | 1;
+    _DAT_30af23c8 = 0x40;
+  }
+  if ((DAT_30af23cc & 2) == 0) {
+    DAT_30af23cc = DAT_30af23cc | 2;
+    DAT_30af23c4 = 0x100108;
+  }
+  peVar5 = eCEntity::GetEntityFlags(param_2);
+  if (((*(uint *)peVar5 & DAT_30af23c4) == DAT_30af23c4) && ((_DAT_30af23c8 & *(uint *)peVar5) == 0)
+     ) {
+    bVar4 = eCEntity::CanBeDeactivated(this);
+    if (bVar4) {
+      pbVar6 = eCEntity::GetWorldNodeBoundary(this);
+      bVar4 = eCEntityAdmin::IntersectsProcessingRangeRegion(param_1,pbVar6);
+      if (!bVar4) {
+        if (bVar4) {
+          return;
+        }
+        goto LAB_304c81bd;
+      }
+    }
+    bVar4 = eCEntity::HasProcessingRangeEntered(this);
+    if (!bVar4) {
+      thunk_FUN_3039f600();
+      *(eCEntity **)
+       ((int)(param_1->eCEntityAdmin_data).offset_0xa8 +
+       (uint)(ushort)(param_1->eCEntityAdmin_data).offset_0xa6 * 4) = this;
+      puVar1 = &(param_1->eCEntityAdmin_data).offset_0xa6;
+      *puVar1 = *puVar1 + 1;
+      peVar5 = eCEntity::GetEntityFlags(this);
+      uVar2 = (param_1->eCEntityAdmin_data).offset_0x94;
+      if (((*(uint *)peVar5 & uVar2) == uVar2) &&
+         (((param_1->eCEntityAdmin_data).offset_0x98 & *(uint *)peVar5) == 0)) {
+        thunk_FUN_303a75d0(&param_2);
+      }
+      iVar3 = param_3;
+      thunk_FUN_3039f600();
+      *(eCEntity **)(*(int *)(iVar3 + 4) + (uint)*(ushort *)(iVar3 + 2) * 4) = this;
+      *(short *)(iVar3 + 2) = *(short *)(iVar3 + 2) + 1;
+      return;
+    }
+  }
+  else {
+LAB_304c81bd:
+    bVar4 = eCEntity::HasProcessingRangeEntered(this);
+    iVar3 = param_4;
+    if (bVar4) {
+      thunk_FUN_3039f600();
+      *(eCEntity **)(*(int *)(iVar3 + 4) + (uint)*(ushort *)(iVar3 + 2) * 4) = this;
+      *(short *)(iVar3 + 2) = *(short *)(iVar3 + 2) + 1;
+    }
+  }
+  return;
+}
+
+

@@ -1,0 +1,40 @@
+/* ENTRY 304c8510 | eCEntityAdmin::eCEntityAdmin | STATUS decompiled | 14 ms */
+
+eCEntityAdmin * __thiscall eCEntityAdmin::eCEntityAdmin(eCEntityAdmin *this)
+
+{
+  bCObjectBase::bCObjectBase((bCObjectBase *)this);
+  this->vftablePtr = &vftable;
+  (this->eCEntityAdmin_data).offset_0x0 = (void *)0x0;
+  (this->eCEntityAdmin_data).offset_0x4 = 0;
+  (this->eCEntityAdmin_data).offset_0x8 = 0;
+  bCSphere::bCSphere((bCSphere *)&(this->eCEntityAdmin_data).field_0xc);
+  bCSphere::bCSphere((bCSphere *)&(this->eCEntityAdmin_data).field_0x1c);
+  bCSphere::bCSphere((bCSphere *)&(this->eCEntityAdmin_data).field_0x2c);
+  bCVector::bCVector((bCVector *)&(this->eCEntityAdmin_data).field_0x40);
+  bCVector::bCVector((bCVector *)&(this->eCEntityAdmin_data).field_0x4c);
+  bCVector::bCVector((bCVector *)&(this->eCEntityAdmin_data).field_0x58);
+  bCVector::bCVector((bCVector *)&(this->eCEntityAdmin_data).field_0x64);
+  bCSphere::bCSphere((bCSphere *)&(this->eCEntityAdmin_data).field_0x70);
+  (this->eCEntityAdmin_data).offset_0x88 = (void *)0x0;
+  (this->eCEntityAdmin_data).offset_0x8c = 0;
+  (this->eCEntityAdmin_data).offset_0x90 = 0;
+  (this->eCEntityAdmin_data).offset_0xa0 = (void *)0x0;
+  (this->eCEntityAdmin_data).offset_0x9c = 0;
+  (this->eCEntityAdmin_data).offset_0x9e = 0;
+  (this->eCEntityAdmin_data).offset_0xa8 = (void *)0x0;
+  (this->eCEntityAdmin_data).offset_0xa4 = 0;
+  (this->eCEntityAdmin_data).offset_0xa6 = 0;
+  (this->eCEntityAdmin_data).offset_0xb0 = (void *)0x0;
+  (this->eCEntityAdmin_data).offset_0xac = 0;
+  (this->eCEntityAdmin_data).offset_0xae = 0;
+  (this->eCEntityAdmin_data).offset_0xb4 = 0;
+  (this->eCEntityAdmin_data).offset_0xbc = (void *)0x0;
+  (this->eCEntityAdmin_data).offset_0xb8 = 0;
+  (this->eCEntityAdmin_data).offset_0xba = 0;
+  Invalidate(this);
+  bCCriticalSectionWin32::SetSpinCount((bCCriticalSectionWin32 *)&DAT_30af23d0,4000);
+  return this;
+}
+
+

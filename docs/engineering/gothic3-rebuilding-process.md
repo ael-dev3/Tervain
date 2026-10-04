@@ -1,8 +1,8 @@
 # How Gothic 3 is being rebuilt for the browser
 
-Date: 4 October 2026. Current result: Ardea exploration, streamed native landscape
+Updated: 5 October 2026. Current source result: Ardea exploration, streamed native landscape
 across three regions, Hero motion inspection, original quest/dialogue catalogs
-and source-state inspection in TypeScript. This is an
+and source-state/clock inspection in TypeScript. This is an
 incomplete game reconstruction. Completing the original game in the browser
 remains the objective; the inspector does not satisfy that objective.
 
@@ -11,6 +11,10 @@ in the public Tervain repository. The route is
 [Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/).
 The [scope record](gothic3-browser-port.md) describes the current controls,
 limitations and source terms.
+
+This guide describes the source on `codex/gothic3-gameplay-initialization`.
+The hosted page remains at its last successful deployment; the latest source
+checkpoints have not been deployed. Sections 10–11 cover the newer runtime work.
 
 ## 1. Preserve and study the installed game
 
@@ -751,3 +755,74 @@ an account payment or spending-limit issue. A source-only checkpoint branch
 can be reviewed without treating it as a successful Pages release. The live
 site remains at its last successfully deployed revision until required CI and
 deployment are available again; no checks or triggers are bypassed.
+
+## 11. Add the clock, navigation lifecycle and task controls
+
+The next source checkpoint adds executable TypeScript components for the
+session runtime. Their supported operations perform actual state changes;
+their remaining host boundaries still prevent a complete new-game session.
+
+- [world-clock.ts](../../src/gothic3/world-clock.ts) reconstructs the paused
+  source clock, timestamp sentinel, unsigned millisecond wrap, float32 stores,
+  truncating calendar conversion and ordered time notifications. Its exact
+  promoted millisecond coefficient is `0.0010000000474974513`. Callers select
+  24, 53 or 64 bit nearest-even arithmetic; the live native control word was
+  not captured. The browser clock inspector selects the native FPUAdmin
+  default of 24 bits explicitly. Quest timestamps read the last published
+  Year/Day/Hour properties without advancing time.
+- [navigation-runtime.ts](../../src/gothic3/navigation-runtime.ts) preserves
+  insertion-ordered navigation and ROI registries, duplicate handling,
+  constructor-null caches, live vector references across property callbacks,
+  enclave member-cache lifetime, processing sphere/AABB decisions and
+  exits-before-entries dispatch. It does not register rendered NPCs implicitly.
+  Compiled navigation scenes, sector/PVS traversal, real floor/physics queries
+  and complete movement/property handlers remain required.
+- [inventory-observers.ts](../../src/gothic3/inventory-observers.ts) implements
+  the original list, recipe-stat and stack-stat callback writes, selection
+  shifts and self-unregistration. `OnPlayerChanged` invalidates the script
+  player cache and routes GUI binding to the persistent main page, then the
+  active page. Active HUD composition still determines the complete inventory
+  observer registry. Linked equipment retains a physical item/slot boundary.
+- [script-routine.ts](../../src/gothic3/script-routine.ts) executes bounded SPU
+  task/state/routine control. FullStop aborts the matching active instruction
+  and does not clear the task or state automatically. Detection mode precedes
+  SetTask's boolean-flag gate. Property setters retain their captured property
+  set across notifications; time setters resolve Self independently. State
+  replacement destroys every frame in capacity, rereads its object pointer
+  before deletion, and clears each slot immediately. Original instruction
+  bodies, script handlers, object deletion and property notifications remain
+  explicit host responsibilities; the full SPU scheduler is still pending.
+
+Landscape → **Inspect original world clock** runs an isolated browser instance
+from the verified source seed. Run, Pause, Read next frame and Reset exercise
+the clock component. The instance never resumes the game session or applies
+NPC, quest, weather, music or ambient effects. Closing its panel stops it.
+
+The new audits cover 60 clock entries/1,576 instructions/5,675 PE bytes;
+117 navigation bodies/13,499 instructions/46,857 PE bytes; 90 inventory
+observer functions/1,377 instructions/3,751 PE bytes; and 44 routine entries/
+718 instructions/2,075 PE bytes. Functions overlap earlier checkpoints, so
+these counts are not a sum of unique ported functions or a completion metric.
+
+```powershell
+python -B tools/gothic3/research_native_clock.py --study <LOCAL_GOTHIC3_STUDY>
+python tools/gothic3/research_native_navigation.py --study <LOCAL_GOTHIC3_STUDY>
+python tools/gothic3/research_inventory_observers.py --study <LOCAL_GOTHIC3_STUDY>
+python tools/gothic3/research_native_routines.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/freeze_session_checkpoint.py
+```
+
+[session-checkpoint.json](../../assets/gothic3/session-checkpoint.json) records
+the current file hashes and the separate offline audits. Its freezer verifies
+the retained initialization checkpoint at commit `a2c3ce3`, the frozen module
+receipts and routine source pins. It does not execute the game, run runtime
+tests or certify a build, browser review, deployment or completed playthrough.
+The older initialization receipt remains historical evidence for its own
+checkpoint; the updated guide and attributes have new hashes here.
+
+The next runtime dependencies are navigation-scene compilation
+(`CompileNavigationScene 200131a1` → `CompileStaticNavigationScene 20013b29`),
+floor-entry logic (`GetDistToGround 20027926`), active HUD binding and real
+instruction/script execution. Startup can then compose these components in
+the original order. The original complete game remains the delivery target;
+an isolated clock, landscape or source-backed task API does not fulfill it.

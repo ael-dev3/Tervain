@@ -1,0 +1,31 @@
+{
+  "schema": "gothic3-native-clock-output-v1",
+  "outputs": [
+    {
+      "url": "native-clock.json",
+      "bytes": 4677,
+      "sha256": "267e91892e1b2d328f58caea3608b6de4b1b52f143f558930dd4a55fe5a847cb"
+    }
+  ],
+  "producer": {
+    "path": "tools/gothic3/research_native_clock.py",
+    "sha256": "476198673c34f59d2c71511a728ae41db8b05019b414a7bcc86998f247e1d09c"
+  },
+  "helper": {
+    "path": "tools/gothic3/research_native_combat.py",
+    "sha256": "e03ce4f8045376af81bbad51a16784880e3d1bf2e6d1956633e30edc03a6d3a7"
+  },
+  "runtime": {
+    "path": "src/gothic3/world-clock.ts",
+    "sha256": "941e919e7d62703c6d49d8e905f52b41f8b84b484ef2f05befd93ffee8ec7a63"
+  },
+  "audit": {
+    "functionEntries": 60,
+    "instructionRecords": 1576,
+    "instructionBytes": 5675,
+    "allInstructionBytesMatchOriginalPE": true,
+    "allSerializedClockPropertyBytesMatch": true,
+    "nativeCodeExecuted": false
+  },
+  "nativeCodeExecuted": false
+}

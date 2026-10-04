@@ -1,0 +1,53 @@
+; 304c9b10 FUN_304c9b10
+304c9b10 | 53 | PUSH EBX
+304c9b11 | 56 | PUSH ESI
+304c9b12 | 57 | PUSH EDI
+304c9b13 | 8b7c2410 | MOV EDI,dword ptr [ESP + 0x10]
+304c9b17 | 8bf1 | MOV ESI,ECX
+304c9b19 | 8bcf | MOV ECX,EDI
+304c9b1b | ff15e0d0af30 | CALL dword ptr [0x30afd0e0]
+304c9b21 | 8bcf | MOV ECX,EDI
+304c9b23 | 8bd8 | MOV EBX,EAX
+304c9b25 | ff15e4d0af30 | CALL dword ptr [0x30afd0e4]
+304c9b2b | d94650 | FLD float ptr [ESI + 0x50]
+304c9b2e | 8bc8 | MOV ECX,EAX
+304c9b30 | d901 | FLD float ptr [ECX]
+304c9b32 | dff1 | FCOMIP ST0,ST1
+304c9b34 | ddd8 | FSTP ST0
+304c9b36 | 7743 | JA 0x304c9b7b
+304c9b38 | d903 | FLD float ptr [EBX]
+304c9b3a | d94644 | FLD float ptr [ESI + 0x44]
+304c9b3d | dff1 | FCOMIP ST0,ST1
+304c9b3f | ddd8 | FSTP ST0
+304c9b41 | 7738 | JA 0x304c9b7b
+304c9b43 | d94654 | FLD float ptr [ESI + 0x54]
+304c9b46 | d94104 | FLD float ptr [ECX + 0x4]
+304c9b49 | dff1 | FCOMIP ST0,ST1
+304c9b4b | ddd8 | FSTP ST0
+304c9b4d | 772c | JA 0x304c9b7b
+304c9b4f | d94304 | FLD float ptr [EBX + 0x4]
+304c9b52 | d94648 | FLD float ptr [ESI + 0x48]
+304c9b55 | dff1 | FCOMIP ST0,ST1
+304c9b57 | ddd8 | FSTP ST0
+304c9b59 | 7720 | JA 0x304c9b7b
+304c9b5b | d94658 | FLD float ptr [ESI + 0x58]
+304c9b5e | d94108 | FLD float ptr [ECX + 0x8]
+304c9b61 | dff1 | FCOMIP ST0,ST1
+304c9b63 | ddd8 | FSTP ST0
+304c9b65 | 7714 | JA 0x304c9b7b
+304c9b67 | d94308 | FLD float ptr [EBX + 0x8]
+304c9b6a | d9464c | FLD float ptr [ESI + 0x4c]
+304c9b6d | dff1 | FCOMIP ST0,ST1
+304c9b6f | ddd8 | FSTP ST0
+304c9b71 | 7708 | JA 0x304c9b7b
+304c9b73 | 5f | POP EDI
+304c9b74 | 5e | POP ESI
+304c9b75 | b001 | MOV AL,0x1
+304c9b77 | 5b | POP EBX
+304c9b78 | c20400 | RET 0x4
+; 304c9b7b LAB_304c9b7b
+304c9b7b | 5f | POP EDI
+304c9b7c | 5e | POP ESI
+304c9b7d | 32c0 | XOR AL,AL
+304c9b7f | 5b | POP EBX
+304c9b80 | c20400 | RET 0x4

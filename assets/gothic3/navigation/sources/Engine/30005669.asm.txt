@@ -1,0 +1,4 @@
+; 30005669 ?CanBeDeactivated@eCEntity@@QBE_NXZ
+30005669 | e9c2d74a00 | JMP 0x304b2e30
+; 3000566e eCDX9Primitive::eCDX9Primitive
+; 3000566e Ordinal_219

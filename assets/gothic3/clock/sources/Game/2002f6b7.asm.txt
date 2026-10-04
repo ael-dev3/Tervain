@@ -1,0 +1,4 @@
+; 2002f6b7 ?GetDay@gCClock_PS@@QBEABKXZ
+2002f6b7 | e904781300 | JMP 0x20166ec0
+; 2002f6bc gCFocus_PS::AccessRangedModeInteractPriority
+; 2002f6bc Ordinal_1579

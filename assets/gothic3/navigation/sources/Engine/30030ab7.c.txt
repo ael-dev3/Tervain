@@ -1,0 +1,62 @@
+/* ENTRY 30030ab7 | eCEntityAdmin::CollectStaticProcessingRangeEntity | STATUS decompiled | 61 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* protected: void __thiscall eCEntityAdmin::CollectStaticProcessingRangeEntity(class eCEntity
+   *,class bTSmallArray<class eCEntity *> &,class bTSmallArray<class eCEntity *> &,enum
+   eCEntityAdmin::eEProcessingRangeCull) */
+
+void __thiscall
+eCEntityAdmin::CollectStaticProcessingRangeEntity
+          (eCEntityAdmin *this,eCEntity *param_1,bTSmallArray<eCEntity*> *param_2,
+          bTSmallArray<eCEntity*> *param_3,eEProcessingRangeCull param_4)
+
+{
+  undefined2 *puVar1;
+  bool bVar2;
+  eSEntityFlags *peVar3;
+  bCBox *pbVar4;
+  
+                    /* 0x30ab7  3892
+                       ?CollectStaticProcessingRangeEntity@eCEntityAdmin@@IAEXPAVeCEntity@@AAV?$bTSmallArray@PAVeCEntity@@@@1W4eEProcessingRangeCull@1@@Z
+                        */
+  if ((DAT_30af23c0 & 1) == 0) {
+    DAT_30af23c0 = DAT_30af23c0 | 1;
+    _DAT_30af23bc = 0x40;
+  }
+  if ((DAT_30af23c0 & 2) == 0) {
+    DAT_30af23c0 = DAT_30af23c0 | 2;
+    DAT_30af23b8 = 0x100100;
+  }
+  peVar3 = eCEntity::GetEntityFlags((eCEntity *)param_1);
+  if ((((*(uint *)peVar3 & DAT_30af23b8) == DAT_30af23b8) &&
+      ((_DAT_30af23bc & *(uint *)peVar3) == 0)) && (param_4 != 0)) {
+    if (param_4 != 1) {
+      pbVar4 = eCEntity::GetWorldNodeBoundary((eCEntity *)param_1);
+      bVar2 = IntersectsProcessingRangeRegion(this,pbVar4);
+      if (!bVar2) goto LAB_304c8040;
+    }
+    bVar2 = eCEntity::HasProcessingRangeEntered((eCEntity *)param_1);
+    if (!bVar2) {
+      thunk_FUN_3039f600();
+      *(eCEntity **)(*(int *)(param_2 + 4) + (uint)*(ushort *)(param_2 + 2) * 4) = param_1;
+      *(short *)(param_2 + 2) = *(short *)(param_2 + 2) + 1;
+    }
+    thunk_FUN_3039f600();
+    *(eCEntity **)
+     ((int)(this->eCEntityAdmin_data).offset_0xa8 +
+     (uint)(ushort)(this->eCEntityAdmin_data).offset_0xa6 * 4) = param_1;
+    puVar1 = &(this->eCEntityAdmin_data).offset_0xa6;
+    *puVar1 = *puVar1 + 1;
+    return;
+  }
+LAB_304c8040:
+  bVar2 = eCEntity::HasProcessingRangeEntered((eCEntity *)param_1);
+  if (bVar2) {
+    thunk_FUN_3039f600();
+    *(eCEntity **)(*(int *)(param_3 + 4) + (uint)*(ushort *)(param_3 + 2) * 4) = param_1;
+    *(short *)(param_3 + 2) = *(short *)(param_3 + 2) + 1;
+  }
+  return;
+}
+
+

@@ -1,0 +1,68 @@
+/* ENTRY 300013a7 | eCEntity::OnEnterProcessingRange | STATUS decompiled | 29 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* protected: virtual void __thiscall eCEntity::OnEnterProcessingRange(void)
+   eCEntity member function inherited by eCSpatialEntity
+   eCEntity member function inherited by eCDynamicEntity
+   eCEntity member function inherited by eCTemplateEntity */
+
+void __thiscall eCEntity::OnEnterProcessingRange(eCEntity *this)
+
+{
+  uint *puVar1;
+  bool bVar2;
+  char *pcVar3;
+  bCErrorAdmin *this_00;
+  int *piVar4;
+  uint uVar5;
+  char *pcVar6;
+  int iVar7;
+  eCEntity *peStack_4;
+  
+                    /* 0x13a7  11049  ?OnEnterProcessingRange@eCEntity@@MAEXXZ */
+  if (((this->eCEntity_data).offset_0xc & 0x80) == 0) {
+    if ((_DAT_30aee308 & 1) == 0) {
+      _DAT_30aee308 = _DAT_30aee308 | 1;
+      DAT_30aee304 = 0x100;
+    }
+    peStack_4 = this;
+    if (((this->eCEntity_data).offset_0xc & DAT_30aee304) == 0) {
+      bCString::bCString((bCString *)&peStack_4);
+      bCString::Format(*(bCString **)&(this->eCEntity_data).field_0x108,(char *)&peStack_4);
+      iVar7 = 0x316;
+      pcVar6 = ".\\components\\scene\\entity\\ge_entity.cpp";
+      pcVar3 = bCString::operator_char_const_((bCString *)&stack0x00000000);
+      this_00 = bCErrorAdmin::GetInstance();
+      bCErrorAdmin::CallFatalError(this_00,pcVar3,pcVar6,iVar7);
+      bCString::~bCString((bCString *)&stack0x00000000);
+    }
+    puVar1 = &(this->eCEntity_data).offset_0xc;
+    *puVar1 = *puVar1 | 0x80;
+    bVar2 = IsPhysicRelevant(this);
+    if (bVar2) {
+      CreatePhysicObject(this);
+    }
+    uVar5 = 0;
+    (*this->vftablePtr->OnReadContent)(this);
+    if ((this->eCEntity_data).offset_0x10e != 0) {
+      do {
+        (*this->vftablePtr->OnReadContent)(this);
+        if ((uVar5 != 0xffffffff) && ((ushort)uVar5 < (this->eCEntity_data).offset_0x10e)) {
+          (*this->vftablePtr->OnReadContent)(this);
+          if ((ushort)uVar5 < (this->eCEntity_data).offset_0x10e) {
+            piVar4 = *(int **)((this->eCEntity_data).offset_0x110 + (uVar5 & 0xffff) * 4);
+          }
+          else {
+            piVar4 = (int *)0x0;
+          }
+          (**(code **)(*piVar4 + 0xdc))();
+        }
+        uVar5 = uVar5 + 1;
+        (*this->vftablePtr->OnReadContent)(this);
+      } while ((int)uVar5 < (int)(uint)(this->eCEntity_data).offset_0x10e);
+    }
+  }
+  return;
+}
+
+

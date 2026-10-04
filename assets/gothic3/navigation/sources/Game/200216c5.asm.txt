@@ -1,0 +1,4 @@
+; 200216c5 ?GetCharacterMovement@gCNavigation_PS@@QAEPAVgCCharacterMovement_PS@@XZ
+200216c5 | e9964f2600 | JMP 0x20286660
+; 200216ca gCWorld::GetFileType
+; 200216ca Ordinal_3432

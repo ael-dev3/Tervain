@@ -1,0 +1,13 @@
+/* ENTRY 2000a2f4 | gCNavigation_PS::GetDCC | STATUS decompiled | 8 ms */
+
+/* public: class gCDynamicCollisionCircle_PS * __thiscall gCNavigation_PS::GetDCC(void)const  */
+
+gCDynamicCollisionCircle_PS * __thiscall gCNavigation_PS::GetDCC(gCNavigation_PS *this)
+
+{
+                    /* 0xa2f4  3173  ?GetDCC@gCNavigation_PS@@QBEPAVgCDynamicCollisionCircle_PS@@XZ
+                        */
+  return (gCDynamicCollisionCircle_PS *)(this->gCNavigation_PS_data).offset_0x1d8;
+}
+
+

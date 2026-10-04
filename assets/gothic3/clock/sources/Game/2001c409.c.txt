@@ -1,0 +1,15 @@
+/* ENTRY 2001c409 | gCClock_PS::ResumeClock | STATUS decompiled | 8 ms */
+
+/* public: void __thiscall gCClock_PS::ResumeClock(void) */
+
+void __thiscall gCClock_PS::ResumeClock(gCClock_PS *this)
+
+{
+                    /* 0x1c409  6143  ?ResumeClock@gCClock_PS@@QAEXXZ */
+                    /* WARNING: Could not recover jumptable at 0x20207e23. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCClock::Resume((bCClock *)&(this->gCClock_PS_data).field_0x28);
+  return;
+}
+
+

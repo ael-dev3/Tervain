@@ -1,0 +1,7 @@
+; 2018e4d0 gCHUDTableStackStats::vfunction2_for_gCInventoryListener
+2018e4d0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+2018e4d4 | 3b4108 | CMP EAX,dword ptr [ECX + 0x8]
+2018e4d7 | 7504 | JNZ 0x2018e4dd
+2018e4d9 | c641fc01 | MOV byte ptr [ECX + -0x4],0x1
+; 2018e4dd LAB_2018e4dd
+2018e4dd | c20800 | RET 0x8

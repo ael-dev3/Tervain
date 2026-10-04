@@ -6,6 +6,7 @@ import { NativeAnimations } from './animation';
 import { NativeTerrain } from './terrain';
 import { landscapeDestinations } from './landscape-destinations';
 import { showOriginalPlayerState } from './initial-state-view';
+import { showOriginalWorldClock } from './world-clock-view';
 import type { AnimatedActor } from './animation';
 import { ARDEA_PEOPLE, ARDEA_QUESTS, PORT_SCOPE } from './content';
 import { showOriginalDialogue, showQuestCatalog } from './catalog-view';
@@ -59,6 +60,7 @@ let inspectMode = false;
 let selectedPerson: ScenePerson | null = null;
 let nearest: ScenePerson | null = null;
 let modalOpen = false;
+let panelLifetime = new AbortController();
 let spinning = false;
 let wireframe = false;
 let toastUntil = 0;
@@ -119,6 +121,8 @@ function releaseMouse(): void {
 }
 
 function openPanel(title: string): HTMLElement {
+  panelLifetime.abort();
+  panelLifetime = new AbortController();
   releaseMouse();
   modalOpen = true;
   explorer.active = false;
@@ -135,6 +139,7 @@ function openPanel(title: string): HTMLElement {
 }
 
 function closePanel(): void {
+  panelLifetime.abort();
   modalOpen = false;
   element('modal').classList.add('hidden');
   explorer.active = started && !inspectMode;
@@ -250,6 +255,10 @@ async function showLandscape(): Promise<void> {
   state.textContent = 'Inspect original character state';
   state.onclick = () => { void showOriginalPlayerState(openPanel('Original character state')); };
   content.append(state);
+  const clock = document.createElement('button');
+  clock.textContent = 'Inspect original world clock';
+  clock.onclick = () => { void showOriginalWorldClock(openPanel('Original world clock'), panelLifetime.signal); };
+  content.append(clock);
 }
 
 function save(): void {

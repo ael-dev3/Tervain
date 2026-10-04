@@ -1,0 +1,53 @@
+; 202bd3f0 FUN_202bd3f0
+202bd3f0 | 53 | PUSH EBX
+202bd3f1 | 55 | PUSH EBP
+202bd3f2 | 56 | PUSH ESI
+202bd3f3 | 8bf1 | MOV ESI,ECX
+202bd3f5 | 57 | PUSH EDI
+202bd3f6 | 8d4e54 | LEA ECX,[ESI + 0x54]
+202bd3f9 | e8b234d6ff | CALL 0x200208b0
+202bd3fe | 8b2ddc887d20 | MOV EBP,dword ptr [0x207d88dc]
+202bd404 | 8d7e38 | LEA EDI,[ESI + 0x38]
+202bd407 | 33db | XOR EBX,EBX
+202bd409 | 3bfb | CMP EDI,EBX
+202bd40b | 7419 | JZ 0x202bd426
+202bd40d | 8b07 | MOV EAX,dword ptr [EDI]
+202bd40f | 3bc3 | CMP EAX,EBX
+202bd411 | 7413 | JZ 0x202bd426
+202bd413 | 50 | PUSH EAX
+202bd414 | ff15e0887d20 | CALL dword ptr [0x207d88e0]
+202bd41a | 8bc8 | MOV ECX,EAX
+202bd41c | ffd5 | CALL EBP
+202bd41e | 891f | MOV dword ptr [EDI],EBX
+202bd420 | 895f04 | MOV dword ptr [EDI + 0x4],EBX
+202bd423 | 895f08 | MOV dword ptr [EDI + 0x8],EBX
+; 202bd426 LAB_202bd426
+202bd426 | 8d7e44 | LEA EDI,[ESI + 0x44]
+202bd429 | 3bfb | CMP EDI,EBX
+202bd42b | 7419 | JZ 0x202bd446
+202bd42d | 8b07 | MOV EAX,dword ptr [EDI]
+202bd42f | 3bc3 | CMP EAX,EBX
+202bd431 | 7413 | JZ 0x202bd446
+202bd433 | 50 | PUSH EAX
+202bd434 | ff15e0887d20 | CALL dword ptr [0x207d88e0]
+202bd43a | 8bc8 | MOV ECX,EAX
+202bd43c | ffd5 | CALL EBP
+202bd43e | 891f | MOV dword ptr [EDI],EBX
+202bd440 | 895f04 | MOV dword ptr [EDI + 0x4],EBX
+202bd443 | 895f08 | MOV dword ptr [EDI + 0x8],EBX
+; 202bd446 LAB_202bd446
+202bd446 | f30f1005c4b16520 | MOVSS XMM0,dword ptr [0x2065b1c4]
+202bd44e | b001 | MOV AL,0x1
+202bd450 | 5f | POP EDI
+202bd451 | 885e51 | MOV byte ptr [ESI + 0x51],BL
+202bd454 | 899e68010000 | MOV dword ptr [ESI + 0x168],EBX
+202bd45a | 899e6c010000 | MOV dword ptr [ESI + 0x16c],EBX
+202bd460 | 885e50 | MOV byte ptr [ESI + 0x50],BL
+202bd463 | 884652 | MOV byte ptr [ESI + 0x52],AL
+202bd466 | 888670010000 | MOV byte ptr [ESI + 0x170],AL
+202bd46c | f30f118674010000 | MOVSS dword ptr [ESI + 0x174],XMM0
+202bd474 | c78684010000e8030000 | MOV dword ptr [ESI + 0x184],0x3e8
+202bd47e | 5e | POP ESI
+202bd47f | 5d | POP EBP
+202bd480 | 5b | POP EBX
+202bd481 | c3 | RET

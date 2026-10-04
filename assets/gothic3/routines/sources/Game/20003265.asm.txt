@@ -1,0 +1,6 @@
+; 20003265 ?SetStatePosition@gCScriptRoutine_PS@@QAEXABJ@Z
+20003265 | e9f67a0a00 | JMP 0x200aad60
+; 20003283 LAB_20003283
+20003283 | e9b8f55400 | JMP 0x20552840
+; 20003288 gCNavZone_PS::SetFirstIntersection
+; 20003288 Ordinal_6496

@@ -1,0 +1,12 @@
+/* ENTRY 2000d12a | gCInventory_PS::OnDestroyInventory | STATUS decompiled | 7 ms */
+
+/* public: virtual void __thiscall gCInventory_PS::OnDestroyInventory(void) */
+
+void __thiscall gCInventory_PS::OnDestroyInventory(gCInventory_PS *this)
+
+{
+                    /* 0xd12a  5394  ?OnDestroyInventory@gCInventory_PS@@UAEXXZ */
+  return;
+}
+
+

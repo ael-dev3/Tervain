@@ -1,0 +1,26 @@
+/* ENTRY 20367c90 | FUN_20367c90 | STATUS decompiled | 14 ms */
+
+void __thiscall FUN_20367c90(int param_1,float param_2)
+
+{
+  code *pcVar1;
+  eCEntity *peVar2;
+  int *piVar3;
+  int unaff_EDI;
+  
+  *(float *)(param_1 + 0x60) = param_2 * 1000.0;
+  peVar2 = eCEntityProxy::GetEntity((eCEntityProxy *)(param_1 + 0x20));
+  if (peVar2 != (eCEntity *)0x0) {
+    peVar2 = eCEntityProxy::GetEntity((eCEntityProxy *)(param_1 + 0x20));
+    piVar3 = (int *)(**(code **)(*(int *)peVar2 + 0xec))(0x2d);
+    if (piVar3 != (int *)0x0) {
+      (**(code **)(*piVar3 + 0x58))("StateTime",0);
+      pcVar1 = *(code **)(*piVar3 + 0x5c);
+      piVar3[9] = unaff_EDI;
+      (*pcVar1)("StateTime",0);
+    }
+  }
+  return;
+}
+
+

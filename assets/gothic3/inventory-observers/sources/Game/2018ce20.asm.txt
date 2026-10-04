@@ -1,0 +1,3 @@
+; 2018ce20 gCHUDTableRecipeStats::vfunction1_for_gCInventoryListener
+2018ce20 | c6411001 | MOV byte ptr [ECX + 0x10],0x1
+2018ce24 | c20800 | RET 0x8

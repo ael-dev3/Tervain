@@ -1,0 +1,12 @@
+/* ENTRY 20009b24 | gCClock_PS::GetSecond | STATUS decompiled | 5 ms */
+
+/* public: unsigned long const & __thiscall gCClock_PS::GetSecond(void)const  */
+
+ulong * __thiscall gCClock_PS::GetSecond(gCClock_PS *this)
+
+{
+                    /* 0x9b24  4401  ?GetSecond@gCClock_PS@@QBEABKXZ */
+  return (ulong *)&(this->gCClock_PS_data).field_0x20;
+}
+
+

@@ -1,0 +1,518 @@
+{
+  "hierarchy": {
+    "studySymbolsSha256": "4e92a5cb597f91d1c2eb661f171a1bb097175094dc32778bd6058676afea3eac",
+    "namedHierarchiesInspected": 1492,
+    "listenerTypeDescriptorAddress": "207964c8",
+    "listenerTypeDescriptorBytes": "74636b20000000002e3f41566743496e76656e746f72794c697374656e6572404000",
+    "classes": [
+      {
+        "class": "gCInventoryListener",
+        "hierarchyAddress": "206c47d8",
+        "hierarchyBytes": "000000000000000001000000ec476c20",
+        "attributes": 0,
+        "baseCount": 1,
+        "baseArrayAddress": "206c47ec",
+        "baseArrayBytes": "f4476c20",
+        "listenerBaseDescriptors": [
+          {
+            "address": "206c47f4",
+            "bytes": "c86479200000000000000000ffffffff0000000040000000d8476c20"
+          }
+        ]
+      },
+      {
+        "class": "gCHUDListCtrlInvDocuments",
+        "hierarchyAddress": "206d0310",
+        "hierarchyBytes": "00000000010000000700000024036d20",
+        "attributes": 1,
+        "baseCount": 7,
+        "baseArrayAddress": "206d0324",
+        "baseArrayBytes": "48036d206c036d20c4036d20c8ff6c20e4dd6c2028de6c2018046d20",
+        "listenerBaseDescriptors": [
+          {
+            "address": "206d0418",
+            "bytes": "c86479200000000010000000ffffffff0000000040000000d8476c20"
+          }
+        ]
+      },
+      {
+        "class": "gCHUDListCtrlInvStacks",
+        "hierarchyAddress": "206d0390",
+        "hierarchyBytes": "000000000100000006000000a4036d20",
+        "attributes": 1,
+        "baseCount": 6,
+        "baseArrayAddress": "206d03a4",
+        "baseArrayBytes": "6c036d20c4036d20c8ff6c20e4dd6c2028de6c2018046d20",
+        "listenerBaseDescriptors": [
+          {
+            "address": "206d0418",
+            "bytes": "c86479200000000010000000ffffffff0000000040000000d8476c20"
+          }
+        ]
+      },
+      {
+        "class": "gCHUDListCtrlInventory",
+        "hierarchyAddress": "206d03e8",
+        "hierarchyBytes": "000000000100000005000000fc036d20",
+        "attributes": 1,
+        "baseCount": 5,
+        "baseArrayAddress": "206d03fc",
+        "baseArrayBytes": "c4036d20c8ff6c20e4dd6c2028de6c2018046d20",
+        "listenerBaseDescriptors": [
+          {
+            "address": "206d0418",
+            "bytes": "c86479200000000010000000ffffffff0000000040000000d8476c20"
+          }
+        ]
+      },
+      {
+        "class": "gCHUDListCtrlInvLootStacks",
+        "hierarchyAddress": "206d046c",
+        "hierarchyBytes": "00000000010000000700000080046d20",
+        "attributes": 1,
+        "baseCount": 7,
+        "baseArrayAddress": "206d0480",
+        "baseArrayBytes": "a4046d206c036d20c4036d20c8ff6c20e4dd6c2028de6c2018046d20",
+        "listenerBaseDescriptors": [
+          {
+            "address": "206d0418",
+            "bytes": "c86479200000000010000000ffffffff0000000040000000d8476c20"
+          }
+        ]
+      },
+      {
+        "class": "gCHUDListCtrlInvQuickSlots",
+        "hierarchyAddress": "206d04f8",
+        "hierarchyBytes": "0000000001000000060000000c056d20",
+        "attributes": 1,
+        "baseCount": 6,
+        "baseArrayAddress": "206d050c",
+        "baseArrayBytes": "2c056d20c4036d20c8ff6c20e4dd6c2028de6c2018046d20",
+        "listenerBaseDescriptors": [
+          {
+            "address": "206d0418",
+            "bytes": "c86479200000000010000000ffffffff0000000040000000d8476c20"
+          }
+        ]
+      },
+      {
+        "class": "gCHUDListCtrlInvSkills",
+        "hierarchyAddress": "206d0580",
+        "hierarchyBytes": "00000000010000000800000094056d20",
+        "attributes": 1,
+        "baseCount": 8,
+        "baseArrayAddress": "206d0594",
+        "baseArrayBytes": "bc056d20e0056d206c036d20c4036d20c8ff6c20e4dd6c2028de6c2018046d20",
+        "listenerBaseDescriptors": [
+          {
+            "address": "206d0418",
+            "bytes": "c86479200000000010000000ffffffff0000000040000000d8476c20"
+          }
+        ]
+      },
+      {
+        "class": "gCHUDListCtrlInvUseStacks",
+        "hierarchyAddress": "206d0604",
+        "hierarchyBytes": "00000000010000000700000018066d20",
+        "attributes": 1,
+        "baseCount": 7,
+        "baseArrayAddress": "206d0618",
+        "baseArrayBytes": "e0056d206c036d20c4036d20c8ff6c20e4dd6c2028de6c2018046d20",
+        "listenerBaseDescriptors": [
+          {
+            "address": "206d0418",
+            "bytes": "c86479200000000010000000ffffffff0000000040000000d8476c20"
+          }
+        ]
+      },
+      {
+        "class": "gCHUDListCtrlInvSpells",
+        "hierarchyAddress": "206d066c",
+        "hierarchyBytes": "00000000010000000800000080066d20",
+        "attributes": 1,
+        "baseCount": 8,
+        "baseArrayAddress": "206d0680",
+        "baseArrayBytes": "a8066d20e0056d206c036d20c4036d20c8ff6c20e4dd6c2028de6c2018046d20",
+        "listenerBaseDescriptors": [
+          {
+            "address": "206d0418",
+            "bytes": "c86479200000000010000000ffffffff0000000040000000d8476c20"
+          }
+        ]
+      },
+      {
+        "class": "gCHUDListCtrlInvTradeStacks",
+        "hierarchyAddress": "206d072c",
+        "hierarchyBytes": "00000000010000000700000040076d20",
+        "attributes": 1,
+        "baseCount": 7,
+        "baseArrayAddress": "206d0740",
+        "baseArrayBytes": "64076d206c036d20c4036d20c8ff6c20e4dd6c2028de6c2018046d20",
+        "listenerBaseDescriptors": [
+          {
+            "address": "206d0418",
+            "bytes": "c86479200000000010000000ffffffff0000000040000000d8476c20"
+          }
+        ]
+      },
+      {
+        "class": "gCHUDListCtrlInvTransforms",
+        "hierarchyAddress": "206d07b8",
+        "hierarchyBytes": "000000000100000007000000cc076d20",
+        "attributes": 1,
+        "baseCount": 7,
+        "baseArrayAddress": "206d07cc",
+        "baseArrayBytes": "f0076d206c036d20c4036d20c8ff6c20e4dd6c2028de6c2018046d20",
+        "listenerBaseDescriptors": [
+          {
+            "address": "206d0418",
+            "bytes": "c86479200000000010000000ffffffff0000000040000000d8476c20"
+          }
+        ]
+      },
+      {
+        "class": "gCHUDTableRecipeStats",
+        "hierarchyAddress": "206d0adc",
+        "hierarchyBytes": "000000000100000006000000f00a6d20",
+        "attributes": 1,
+        "baseCount": 6,
+        "baseArrayAddress": "206d0af0",
+        "baseArrayBytes": "100b6d20780a6d2074006d20e4dd6c2028de6c20340b6d20",
+        "listenerBaseDescriptors": [
+          {
+            "address": "206d0b34",
+            "bytes": "c86479200000000028000000ffffffff0000000040000000d8476c20"
+          }
+        ]
+      },
+      {
+        "class": "gCHUDTableStackStats",
+        "hierarchyAddress": "206d0c60",
+        "hierarchyBytes": "000000000100000007000000740c6d20",
+        "attributes": 1,
+        "baseCount": 7,
+        "baseArrayAddress": "206d0c74",
+        "baseArrayBytes": "980c6d20540a6d20780a6d2074006d20e4dd6c2028de6c20bc0c6d20",
+        "listenerBaseDescriptors": [
+          {
+            "address": "206d0cbc",
+            "bytes": "c86479200000000034000000ffffffff0000000040000000d8476c20"
+          }
+        ]
+      },
+      {
+        "class": "gCInventory_PS",
+        "hierarchyAddress": "206d23a4",
+        "hierarchyBytes": "000000000100000005000000b8236d20",
+        "attributes": 1,
+        "baseCount": 5,
+        "baseArrayAddress": "206d23b8",
+        "baseArrayBytes": "d4236d2004526c20744b6c20b84b6c20f8236d20",
+        "listenerBaseDescriptors": [
+          {
+            "address": "206d23f8",
+            "bytes": "c86479200000000014000000ffffffff0000000040000000d8476c20"
+          }
+        ]
+      }
+    ],
+    "runtimeRegistryCompletenessProven": false,
+    "limitation": "Static RTTI hierarchy coverage does not enumerate runtime HUD controls or their registration order."
+  },
+  "moduleImports": [
+    {
+      "module": "00_Original_Runtime/binkw32.dll",
+      "sha256": "603d0a96d1f27422f88d78b20ca525975ebe5e0d7667e62b98a3db80766702b4",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/dbghelp.dll",
+      "sha256": "c1a1f00e6b9cf33ef316946a977f7b00c1cd1058ee7dd2dc46393b14b332561b",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/Engine.dll",
+      "sha256": "d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/Exporter.dll",
+      "sha256": "5a7b4c5a108fd92df245ae0a77c013c7f82bc7ad777c785c55b4fccbad09df2b",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/FileSystem.dll",
+      "sha256": "965db61adac38cdf6dee047ca6630a869b75c6b4bba09defab70d48a76c80000",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/fmod.dll",
+      "sha256": "7c6f7495d0a981f646bc23fdb39c0e349c598f5d6f4ef0ee58311338ae760194",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/fmodex.dll",
+      "sha256": "57b15a84d71401378ee18cc751ba64044048b982b2d7881e4127e386e1657115",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/Game.dll",
+      "sha256": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/ge3dialogs.dll",
+      "sha256": "b8eb33a4284b2ca33f2b9eeeb1986437c333545769f8b3c52f7171582a698f60",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/GFC.dll",
+      "sha256": "3f037c8127b94d9ee68d34c03ff565a23ef2772a5a5defe90704b0c60f948367",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/Gothic3.exe",
+      "sha256": "4573dc1cfdf8e52cc983ec4ce60d6de1d22715fd9c8745e5b43bb1e1876770c3",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/GUI.dll",
+      "sha256": "b0795937f967b0c96591e1f0d623891debc9d93ca21c4bec06f23711a46c3401",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/IMAGEHLP.DLL",
+      "sha256": "9fcc583ff8f4a47e3567e6336ebd67d47b1396435c0fe0f6dd2d1ba739ef5214",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/Importer.dll",
+      "sha256": "0b10206775283a20a93c33288914616b755c054391f96cc0869652939e248cb6",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/kupdate.exe",
+      "sha256": "dd5b1f9f9f74d6e46a76af102ec63c179126c8714187b62d40fa67c269aef8cd",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/lib3ds.dll",
+      "sha256": "98de120cc9584c30c227994ac9dc96758a4e2312455f123866c052c1e6c1f4c2",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/libexpat.dll",
+      "sha256": "09072c6dba447d66d1a591bdfa9306a6887668c999bc5ffbcfc697bd8f831e70",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/msdbi.dll",
+      "sha256": "dd542ef2d24d307502093242793adaaec1b0945daab5e7f1858b91e4787ea14b",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/msvcm80.dll",
+      "sha256": "c75e2f91a7b2032d3757eeac12502112381e0cb6f0e6e308adc74ac30c8a7ec7",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/msvcp71.dll",
+      "sha256": "df96156f6a548fd6fe5672918de5ae4509d3c810a57bffd2a91de45a3ed5b23b",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/msvcp80.dll",
+      "sha256": "2026f3c4f830dff6883b88e2647272a52a132f25eb42c0d423e36b3f65a94d08",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/msvcr71.dll",
+      "sha256": "8094af5ee310714caebccaeee7769ffb08048503ba478b879edfef5f1a24fefe",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/msvcr80.dll",
+      "sha256": "02bdde38e4c6bd795a092d496b8d6060cdbe71e22ef4d7a204e3050c1be44fa9",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/MSVCRT.DLL",
+      "sha256": "2d5670881a6d13a100e37da297f6eeb876f68b63073a28eb5d650625c60f9bf7",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/NxCooking.dll",
+      "sha256": "02692f47e110e0d71e85f689cc7e86f59bc78269eccc112b34c3661db53fd33d",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/NxExtensions.dll",
+      "sha256": "ec02f3277cd2149c86121cc00fec7ec0b4bd284bd370b0dd4b3ba6a3f3f6e5fb",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/PhysXCore.dll",
+      "sha256": "76aeb1cb08ff3437b95b84c8280db37f4350e17854d7c28fd06f2bc628332186",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/PhysXLoader.dll",
+      "sha256": "84367e2385589f8cef6b686a4dbe56eab1b8c3cb1b5c6ef40bd5840d3c0b0e47",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/protect.dll",
+      "sha256": "8cacb9793d7c023478a4351bc637180281d040dc39cdec33fe7c5f169f9e97ea",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/sapi_lipsync.dll",
+      "sha256": "491f29536330feb96c6fcbd83e2657ad16474e30443c5ceb72185948ed936c9d",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/SCM.dll",
+      "sha256": "482bb9ab97b2060fb077c49bb66dd59ef0bb5be2cdabd7d8c7caa07ed6426392",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/Script.dll",
+      "sha256": "9375605676faaae44a50d48539a7b3995bed471e099ef573666221a044cd4e08",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/scripts/Script_Game.dll",
+      "sha256": "2f10fbb6307c4800bc44c90cb60dac0b32182c1f2416e11ac82b4ba0c35803c1",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/SharedBase.dll",
+      "sha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/SHW32.DLL",
+      "sha256": "c59315dc66bc0a21988c4af419c213f793d3b04b4511be136556034efd25cc38",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    },
+    {
+      "module": "00_Original_Runtime/vcomp.dll",
+      "sha256": "3abed3de2db8d23c1b88aa3aa0171b29d500e89704bc71f0a433235c1e7bd488",
+      "inventoryListenerImportAudit": "inspected",
+      "matchingImports": []
+    }
+  ],
+  "listenerVtables": [
+    {
+      "class": "gCInventory_PS bridge",
+      "address": "2067cf90",
+      "bytes": "99b101201da5022038320020b04001202ad10020",
+      "firstFiveFunctions": [
+        "2001b199",
+        "2002a51d",
+        "20003238",
+        "200140b0",
+        "2000d12a"
+      ],
+      "resolvedFirstFiveFunctions": [
+        "201ace60",
+        "201aceb0",
+        "201acf00",
+        "201acf50",
+        "201acc60"
+      ]
+    },
+    {
+      "class": "gCHUDListCtrlInventory",
+      "address": "20677f10",
+      "bytes": "81790120860002208902022073c20220e7260220",
+      "firstFiveFunctions": [
+        "20017981",
+        "20020086",
+        "20020289",
+        "2002c273",
+        "200226e7"
+      ],
+      "resolvedFirstFiveFunctions": [
+        "2018a740",
+        "2018a750",
+        "2018a760",
+        "2018a770",
+        "2018a8a0"
+      ]
+    },
+    {
+      "class": "gCHUDTableRecipeStats",
+      "address": "20678824",
+      "bytes": "ed3f0120ea3c02203a2303208a6502201f140020",
+      "firstFiveFunctions": [
+        "20013fed",
+        "20023cea",
+        "2003233a",
+        "2002658a",
+        "2000141f"
+      ],
+      "resolvedFirstFiveFunctions": [
+        "2018ce20",
+        "2018ce30",
+        "2018ce40",
+        "2018ce50",
+        "2018ce60"
+      ]
+    },
+    {
+      "class": "gCHUDTableStackStats",
+      "address": "20678ccc",
+      "bytes": "205b03205d30002033210220737e0020873b0220",
+      "firstFiveFunctions": [
+        "20035b20",
+        "2000305d",
+        "20022133",
+        "20007e73",
+        "20023b87"
+      ],
+      "resolvedFirstFiveFunctions": [
+        "2018e4b0",
+        "2018e4d0",
+        "2018e4e0",
+        "2018e530",
+        "2018e560"
+      ]
+    }
+  ]
+}

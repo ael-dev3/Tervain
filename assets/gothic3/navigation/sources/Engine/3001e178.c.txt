@@ -1,0 +1,12 @@
+/* ENTRY 3001e178 | eCEntityAdmin::GetROISphere | STATUS decompiled | 2 ms */
+
+/* public: class bCSphere const & __thiscall eCEntityAdmin::GetROISphere(void) */
+
+bCSphere * __thiscall eCEntityAdmin::GetROISphere(eCEntityAdmin *this)
+
+{
+                    /* 0x1e178  8355  ?GetROISphere@eCEntityAdmin@@QAEABVbCSphere@@XZ */
+  return (bCSphere *)&(this->eCEntityAdmin_data).field_0xc;
+}
+
+

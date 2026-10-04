@@ -1,0 +1,16 @@
+; 2018a8a0 gCHUDListCtrlInventory::vfunction5
+2018a8a0 | 56 | PUSH ESI
+2018a8a1 | 8bf1 | MOV ESI,ECX
+2018a8a3 | 8b4e04 | MOV ECX,dword ptr [ESI + 0x4]
+2018a8a6 | 85c9 | TEST ECX,ECX
+2018a8a8 | 7418 | JZ 0x2018a8c2
+2018a8aa | 8b01 | MOV EAX,dword ptr [ECX]
+2018a8ac | 8b8054010000 | MOV EAX,dword ptr [EAX + 0x154]
+2018a8b2 | 8bd6 | MOV EDX,ESI
+2018a8b4 | 52 | PUSH EDX
+2018a8b5 | ffd0 | CALL EAX
+2018a8b7 | c7460400000000 | MOV dword ptr [ESI + 0x4],0x0
+2018a8be | c6461801 | MOV byte ptr [ESI + 0x18],0x1
+; 2018a8c2 LAB_2018a8c2
+2018a8c2 | 5e | POP ESI
+2018a8c3 | c3 | RET

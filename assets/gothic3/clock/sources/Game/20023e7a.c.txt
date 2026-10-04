@@ -1,0 +1,14 @@
+/* ENTRY 20023e7a | gCClock_PS::Read | STATUS decompiled | 9 ms */
+
+/* public: virtual enum bEResult __thiscall gCClock_PS::Read(class bCIStream &) */
+
+bEResult __thiscall gCClock_PS::Read(gCClock_PS *this,bCIStream *param_1)
+
+{
+                    /* 0x23e7a  5890  ?Read@gCClock_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z */
+  bCIStream::operator>>((bCIStream *)param_1,(ushort *)&param_1);
+  (*this->vftablePtr->OnNotifyPropertyValueChangedExitEx)(this,(char *)0x0,false);
+  return 1;
+}
+
+

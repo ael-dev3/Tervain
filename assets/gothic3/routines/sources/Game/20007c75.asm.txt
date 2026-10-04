@@ -1,0 +1,2 @@
+; 20007c75 ?SetCurrentAIState@gCScriptProcessingUnit@@IAE?AW4bEResult@@AAVbCString@@@Z
+20007c75 | e936413600 | JMP 0x2036bdb0

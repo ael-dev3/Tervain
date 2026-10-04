@@ -1,0 +1,4 @@
+; 20024ffa ?AIFullStop@gCScriptProcessingUnit@@QAEXW4gEAIInstruction@1@@Z
+20024ffa | e9c19e3400 | JMP 0x2036eec0
+; 20024fff gCQuestLogCtrl::operator>>
+; 20024fff Ordinal_750

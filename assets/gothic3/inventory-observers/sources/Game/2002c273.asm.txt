@@ -1,0 +1,2 @@
+; 2002c273 gCHUDListCtrlInventory::vfunction4
+2002c273 | e9f8e41500 | JMP 0x2018a770

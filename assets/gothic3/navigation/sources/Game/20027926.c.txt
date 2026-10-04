@@ -1,0 +1,34 @@
+/* ENTRY 20027926 | gCCharacterMovement_PS::GetDistToGround | STATUS decompiled | 23 ms */
+
+/* public: float __thiscall gCCharacterMovement_PS::GetDistToGround(class bCVector const
+   &,bool)const  */
+
+float __thiscall
+gCCharacterMovement_PS::GetDistToGround(gCCharacterMovement_PS *this,bCVector *param_1,bool param_2)
+
+{
+  float fVar1;
+  float afStack_64 [7];
+  bCVector abStack_48 [12];
+  bCVector abStack_3c [12];
+  bCVector abStack_30 [12];
+  eCEntityProxy eStack_24;
+  byte bStack_4;
+  
+                    /* 0x27926  3286  ?GetDistToGround@gCCharacterMovement_PS@@QBEMABVbCVector@@_N@Z
+                        */
+  bCVector::bCVector(abStack_48);
+  bCVector::bCVector(abStack_3c);
+  bCVector::bCVector(abStack_30);
+  eCEntityProxy::eCEntityProxy(&eStack_24);
+  bStack_4 = bStack_4 | 2;
+  FindFloorWaterCeiling(this,param_1,(gSSpatialState *)afStack_64,true,param_2);
+  fVar1 = bCVector::GetY(param_1);
+  eCEntityProxy::~eCEntityProxy(&eStack_24);
+  bCVector::~bCVector(abStack_30);
+  bCVector::~bCVector(abStack_3c);
+  bCVector::~bCVector(abStack_48);
+  return fVar1 - afStack_64[0];
+}
+
+

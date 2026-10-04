@@ -1,0 +1,14 @@
+/* ENTRY 20002383 | gCScriptRoutine_PS::AIFullStop | STATUS decompiled | 5 ms */
+
+/* public: void __thiscall gCScriptRoutine_PS::AIFullStop(void) */
+
+void __thiscall gCScriptRoutine_PS::AIFullStop(gCScriptRoutine_PS *this)
+
+{
+                    /* 0x2383  967  ?AIFullStop@gCScriptRoutine_PS@@QAEXXZ */
+  gCScriptProcessingUnit::AIFullStop
+            ((gCScriptProcessingUnit *)&(this->gCScriptRoutine_PS_data).field_0x60,0);
+  return;
+}
+
+

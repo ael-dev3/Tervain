@@ -1,0 +1,29 @@
+/* ENTRY 202253a0 | FUN_202253a0 | STATUS decompiled | 15 ms */
+
+float10 __thiscall FUN_202253a0(gCCharacterMovement_PS *param_1,bCVector *param_2,bool param_3)
+
+{
+  float fVar1;
+  float local_64 [7];
+  bCVector local_48 [12];
+  bCVector local_3c [12];
+  bCVector local_30 [12];
+  eCEntityProxy local_24;
+  byte local_4;
+  
+  bCVector::bCVector(local_48);
+  bCVector::bCVector(local_3c);
+  bCVector::bCVector(local_30);
+  eCEntityProxy::eCEntityProxy(&local_24);
+  local_4 = local_4 | 2;
+  gCCharacterMovement_PS::FindFloorWaterCeiling
+            (param_1,param_2,(gSSpatialState *)local_64,true,param_3);
+  fVar1 = bCVector::GetY(param_2);
+  eCEntityProxy::~eCEntityProxy(&local_24);
+  bCVector::~bCVector(local_30);
+  bCVector::~bCVector(local_3c);
+  bCVector::~bCVector(local_48);
+  return (float10)(fVar1 - local_64[0]);
+}
+
+

@@ -1,0 +1,30 @@
+/* ENTRY 200140b0 | gCInventory_PS::OnSortInventory | STATUS decompiled | 12 ms */
+
+/* public: virtual void __thiscall gCInventory_PS::OnSortInventory(void) */
+
+void __thiscall gCInventory_PS::OnSortInventory(gCInventory_PS *this)
+
+{
+  int iVar1;
+  int iVar2;
+  int *piVar3;
+  int iVar4;
+  
+                    /* 0x140b0  5624  ?OnSortInventory@gCInventory_PS@@UAEXXZ */
+  iVar1 = *(int *)&(this->gCInventory_PS_data).field_0x24;
+  iVar4 = 0;
+  if (0 < iVar1) {
+    do {
+      iVar2 = *(int *)&(this->gCInventory_PS_data).field_0x20;
+      piVar3 = *(int **)(iVar2 + iVar4 * 8);
+      if ((piVar3 != (int *)0x0) && (*(char *)(iVar2 + iVar4 * 8 + 4) != '\0')) {
+        (**(code **)(*piVar3 + 0xc))();
+      }
+      iVar4 = iVar4 + 1;
+    } while (iVar4 < iVar1);
+  }
+  PurgeListeners((gCInventory_PS *)&this[-1].gCInventory_PS_data.field_0xa0);
+  return;
+}
+
+

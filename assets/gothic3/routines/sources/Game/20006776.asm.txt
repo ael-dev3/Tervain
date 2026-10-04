@@ -1,0 +1,2 @@
+; 20006776 ?AISetTask@gCScriptRoutine_PS@@QAEXABVbCString@@@Z
+20006776 | e995043500 | JMP 0x20356c10

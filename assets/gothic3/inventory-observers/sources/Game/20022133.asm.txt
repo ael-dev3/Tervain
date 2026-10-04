@@ -1,0 +1,4 @@
+; 20022133 gCHUDTableStackStats::vfunction3_for_gCInventoryListener
+20022133 | e9a8c31600 | JMP 0x2018e4e0
+; 20022138 gCNavHelper_PS::OnPropertySetRemoved
+; 20022138 Ordinal_5593

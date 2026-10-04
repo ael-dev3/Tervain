@@ -1,0 +1,16 @@
+/* ENTRY 1003bd60 | FUN_1003bd60 | STATUS decompiled | 4 ms */
+
+void __fastcall FUN_1003bd60(int param_1)
+
+{
+  uint uVar1;
+  
+  __controlfp(0x9001f,0xffffffff);
+  uVar1 = __controlfp(0,0);
+  uVar1 = uVar1 & 0xfffeffff | 0xa001f;
+  *(uint *)(param_1 + 4) = uVar1;
+  __controlfp(uVar1,0xffffffff);
+  return;
+}
+
+

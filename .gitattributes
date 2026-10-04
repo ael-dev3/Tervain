@@ -9,6 +9,11 @@ assets/gothic3/inventory/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/startup/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/info-state/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/enclave/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/clock/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/navigation/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/inventory-observers/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/routines/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/session-checkpoint.json -text -eol
 # These implementations/producers are individually byte-pinned by native receipts.
 src/gothic3/inventory.ts -text -eol
 src/gothic3/startup.ts -text -eol
@@ -19,8 +24,24 @@ tools/gothic3/research_native_startup.py -text -eol
 tools/gothic3/research_info_runtime.py -text -eol
 tools/gothic3/research_native_enclave.py -text -eol
 tools/gothic3/freeze_info_state.py -text -eol
+src/gothic3/world-clock.ts -text -eol
+src/gothic3/navigation-runtime.ts -text -eol
+src/gothic3/inventory-observers.ts -text -eol
+src/gothic3/script-routine.ts -text -eol
+tools/gothic3/research_native_clock.py -text -eol
+tools/gothic3/research_native_navigation.py -text -eol
+tools/gothic3/research_inventory_observers.py -text -eol
+tools/gothic3/research_native_routines.py -text -eol
+tools/gothic3/freeze_session_checkpoint.py -text -eol
+src/gothic3/world-clock-view.ts -text -eol
+src/gothic3/main.ts -text -eol
+docs/engineering/gothic3-rebuilding-process.md -text -eol
 # Hash-preserved native study excerpts include original blank-line spacing.
 assets/gothic3/combat/sources/** -whitespace
 assets/gothic3/inventory/sources/** -whitespace
 assets/gothic3/startup/sources/** -whitespace
 assets/gothic3/enclave/sources/** -whitespace
+assets/gothic3/clock/sources/** -whitespace
+assets/gothic3/navigation/sources/** -whitespace
+assets/gothic3/inventory-observers/sources/** -whitespace
+assets/gothic3/routines/sources/** -whitespace

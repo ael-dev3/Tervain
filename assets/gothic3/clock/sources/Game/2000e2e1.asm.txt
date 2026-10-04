@@ -1,0 +1,2 @@
+; 2000e2e1 ?GetYear@gCClock_PS@@QBEABKXZ
+2000e2e1 | e97a8b1500 | JMP 0x20166e60

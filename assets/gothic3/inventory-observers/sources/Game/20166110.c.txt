@@ -1,0 +1,38 @@
+/* ENTRY 20166110 | FUN_20166110 | STATUS decompiled | 15 ms */
+
+void __thiscall FUN_20166110(CFFGFCWnd *param_1,eCEntity *param_2,int param_3)
+
+{
+  char cVar1;
+  bool bVar2;
+  int iVar3;
+  bCString *pbVar4;
+  bool bVar5;
+  
+  if (param_3 == 1) {
+    thunk_FUN_2018ef50(param_2);
+    cVar1 = thunk_FUN_2018ebb0();
+    if (cVar1 != '\0') {
+      if (param_2 == (eCEntity *)0x0) {
+        iVar3 = 0;
+      }
+      else {
+        iVar3 = (**(code **)((int)(param_2->eCNode).bCObjectRefBase.bCObjectBase + 0xec))(0x1e);
+      }
+      bVar5 = iVar3 != 0;
+      if (bVar5) {
+        pbVar4 = eCEntity::GetName(param_2);
+        bCString::bCString((bCString *)&param_3,pbVar4);
+        bVar2 = bCString::Contains((bCString *)&param_3,"Tester",0);
+        if ((bVar2) || (bVar2 = bCString::Contains((bCString *)&param_3,"Interact",0), bVar2)) {
+          bVar5 = false;
+        }
+        bCString::~bCString((bCString *)&param_3);
+      }
+      CFFGFCWnd::AnimateWindow(param_1,200,(-(uint)bVar5 & 0xffff0000) + 0x10000 | 0x80000);
+    }
+  }
+  return;
+}
+
+

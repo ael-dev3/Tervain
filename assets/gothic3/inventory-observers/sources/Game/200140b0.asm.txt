@@ -1,0 +1,2 @@
+; 200140b0 ?OnSortInventory@gCInventory_PS@@UAEXXZ
+200140b0 | e99b8e1900 | JMP 0x201acf50

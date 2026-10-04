@@ -1,0 +1,3 @@
+; 2016f480 gCHUDPageTransform2::vfunction71
+2016f480 | 81c148010000 | ADD ECX,0x148
+2016f486 | e9cb53ecff | JMP 0x20034856

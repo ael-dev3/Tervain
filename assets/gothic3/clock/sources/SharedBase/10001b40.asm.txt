@@ -1,0 +1,4 @@
+; 10001b40 ?Pause@bCClock@@QAEXXZ
+10001b40 | e94ba20400 | JMP 0x1004bd90
+; 10001b45 bCAccessorProperty::GetPropertyCategory
+; 10001b45 Ordinal_2816
