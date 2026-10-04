@@ -6,6 +6,7 @@ import { disposeTreeTextures } from './treeTextures';
 import { createFloraPopulation, selectFloraPopulation, registerFloraColliders, FLORA_VARIANTS, FLORA_MAX_DISTANCE, floraLod, type FloraTree } from './floraPopulation';
 import { buildForestFloor } from './forestFloor';
 import { createPineForest, isPineSpecies, type PineTemplates } from './solitaryPine';
+import { groundedTreeY } from './treeGrounding';
 
 /**
  * Trees and shrubs. An empty strand gives way to a layered old-growth woodland: flared oak roots under tall pine/fir columns,
@@ -25,8 +26,19 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): Sce
   const group = new THREE.Group();
   group.name = 'flora';
   const pine = createPineForest(pineTemplates);
+  const variants = new Map<string, TreeVariant>();
+  const variantFor = (tree: Pick<FloraTree, 'sp' | 'v'>): TreeVariant => {
+    const key = `${tree.sp}:${tree.v}`;
+    let variant = variants.get(key);
+    if (!variant) {
+      variant = isPineSpecies(tree.sp) ? pine.variant(tree.sp, tree.v + 1) : buildTreeVariant(tree.sp, tree.v + 1);
+      variants.set(key, variant);
+    }
+    return variant;
+  };
   const population = createFloraPopulation(terrain, excl, (tree, legacyFootprint) => isPineSpecies(tree.sp)
-    ? pine.collisionRadius(tree.sp, tree.v + 1, tree.s) : legacyFootprint);
+    ? pine.collisionRadius(tree.sp, tree.v + 1, tree.s, terrain.heightAt(tree.x, tree.z) - tree.y) : legacyFootprint,
+    (tree) => groundedTreeY(terrain, tree, variantFor(tree)));
   registerFloraColliders(population, colliders);
   const { trees, obstacles } = selectFloraPopulation(population, quality);
   const forestFloor = buildForestFloor(terrain, excl, quality, population);
@@ -41,8 +53,9 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): Sce
       for (let v = 0; v < FLORA_VARIANTS; v++) {
         const x = lineup[0]! + i * 11;
         const z = lineup[1]! + v * 15;
-        const y = terrain.heightAt(x, z) - 0.06;
-        trees.push({ sp, v, x, y, z, s: 1, yaw: 0.3 * v, tint: 1, radius: 0, collisionId: null, decorationRank: 0 });
+        const tree = { sp, v, x, y: 0, z, s: 1, yaw: 0.3 * v, tint: 1, radius: 0, collisionId: null, decorationRank: 0 };
+        tree.y = groundedTreeY(terrain, tree, variantFor(tree));
+        trees.push(tree);
       }
     });
   }
@@ -55,7 +68,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): Sce
     const key = `${t.sp}:${t.v}`;
     let b = bySpecVariant.get(key);
     if (!b) {
-      b = { variant: isPineSpecies(t.sp) ? pine.variant(t.sp, t.v + 1) : buildTreeVariant(t.sp, t.v + 1), meshes: [], trees: [] };
+      b = { variant: variantFor(t), meshes: [], trees: [] };
       bySpecVariant.set(key, b);
       batches.push(b);
     }
@@ -191,12 +204,16 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): Sce
           mesh.wood?.dispose();
           mesh.leaf?.dispose();
         }
-        for (const lod of isPineSpecies(batch.variant.species) ? [] : batch.variant.lods) {
+      }
+      // Grounding also examines rejected candidates; all procedural variants belong to this world.
+      for (const variant of variants.values()) {
+        for (const lod of isPineSpecies(variant.species) ? [] : variant.lods) {
           lod.wood?.dispose();
           lod.leaf?.dispose();
         }
       }
       pine.dispose();
+      variants.clear();
       disposeTreeMaterials();
       disposeTreeTextures();
       // The module owns these cached resources; fallback scene cleanup handles everything else.

@@ -54,10 +54,14 @@ function spherePenetration(point: { x: number; y: number; z: number }, shape: Co
 function assertFrameClear(s: ReturnType<typeof setup>) {
   const point = s.camera.camera.position;
   for (const shape of s.ctx.colliders.near(point.x, point.z, CAMERA_CLEARANCE)) {
-    expect(spherePenetration(point, shape, s.ctx.terrain), shape.id).toBeLessThanOrEqual(1e-6);
+    const penetration = spherePenetration(point, shape, s.ctx.terrain);
+    // Check every shape on every frame; allocate assertion diagnostics only when a real contact fails.
+    if (penetration > 1e-6) throw new Error(`Camera penetrates ${shape.id} by ${penetration} m at ${point.toArray().join(', ')}`);
   }
-  expect(s.ctx.colliders.blocked(s.player.x, s.player.z, PLAYER_BODY_RADIUS, { minY: s.player.y + 0.03, maxY: s.player.y + PLAYER_BODY_HEIGHT })).toBe(false);
-  expect(point.toArray().every(Number.isFinite)).toBe(true);
+  if (s.ctx.colliders.blocked(s.player.x, s.player.z, PLAYER_BODY_RADIUS, { minY: s.player.y + 0.03, maxY: s.player.y + PLAYER_BODY_HEIGHT })) {
+    throw new Error(`Player penetrates scenery at ${s.player.x}, ${s.player.y}, ${s.player.z}`);
+  }
+  if (![point.x, point.y, point.z].every(Number.isFinite)) throw new Error(`Non-finite camera position: ${point.toArray().join(', ')}`);
 }
 
 const stairPoint = (index: number) => {
@@ -75,7 +79,8 @@ function walk(s: ReturnType<typeof setup>, indices: number[], hz: number, headin
     s.ctx.viewYaw = Math.atan2(dx, dz);
     s.tick(hz, headingOffset);
     assertFrameClear(s);
-    expect(Math.abs(s.player.y - terrain.supportAt(s.player.x, s.player.z, s.player.y))).toBeLessThan(0.001);
+    const supportError = Math.abs(s.player.y - terrain.supportAt(s.player.x, s.player.z, s.player.y));
+    if (supportError >= 0.001) throw new Error(`Player loses tread support by ${supportError} m at ${hz} Hz, stair target ${indices[reached]}`);
   }
   expect(reached).toBe(indices.length);
 }
@@ -143,8 +148,27 @@ describe('the player and camera share the authored lighthouse surfaces', () => {
     const point = stairPoint(15.5);
     const ground = terrain.groundAt(point.x, point.z);
     for (const height of [500, -100, NaN, Infinity]) expect(supportedPlayerHeight(terrain, point.x, point.z, height)).toBe(ground);
-    expect(canPlayerStandAt(terrain, colliders, LIGHTHOUSE.x, LIGHTHOUSE.z, ground)).toBe(false);
+    const base = terrain.heightAt(LIGHTHOUSE.x, LIGHTHOUSE.z);
+    expect(canPlayerStandAt(terrain, colliders, LIGHTHOUSE.x + LIGHTHOUSE.r - 0.2, LIGHTHOUSE.z, base + L.room.floorTop)).toBe(false);
     expect(canPlayerStandAt(terrain, colliders, NaN, 0, ground)).toBe(false);
+  });
+
+  it('restores accepted interior saves onto the tower and keeper floors with a collision-safe camera', () => {
+    const base = terrain.heightAt(LIGHTHOUSE.x, LIGHTHOUSE.z);
+    for (const [point, floor] of [
+      [{ x: LIGHTHOUSE.x, z: LIGHTHOUSE.z + 0.6 }, L.room.floorTop],
+      [{ x: LIGHTHOUSE.x + L.house.x + L.house.doorX, z: LIGHTHOUSE.z + 0.5 }, L.house.floorTop],
+    ] as const) {
+      const feet = base + floor;
+      expect(canPlayerStandAt(terrain, colliders, point.x, point.z, feet)).toBe(true);
+      expect(supportedPlayerHeight(terrain, point.x, point.z, feet)).toBeCloseTo(feet, 6);
+      // Arbitrary air hints still fall back to the real room floor, rather than supplying an airborne position.
+      expect(supportedPlayerHeight(terrain, point.x, point.z, 500)).toBeCloseTo(feet, 6);
+      const s = setup(); s.player.setPosition(point.x, point.z, 0, terrain, feet);
+      for (let frame = 0; frame < 120; frame++) { s.tick(60); assertFrameClear(s); }
+      expect(s.player.y).toBeCloseTo(feet, 6);
+      expect(s.player.grounded).toBe(true);
+    }
   });
 
   it.each([30, 60, 120])('slides along a corner wall at %i Hz, hides the forced-close body and releases the boom smoothly', (hz) => {

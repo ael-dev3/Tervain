@@ -303,10 +303,12 @@ export class Input {
     const s = this.getSettings();
     const mouse = 0.0022 * s.mouseSensitivity;
     let yaw = -this.lookX * mouse;
-    let pitch = -this.lookY * mouse * (s.invertY ? -1 : 1);
+    // The rig's positive pitch lifts the boom and looks down at its pivot: screen-down input must add pitch.
+    // Yaw uses the opposite sign because this world's forward direction is +Z (screen-right is -X at yaw zero).
+    let pitch = this.lookY * mouse * (s.invertY ? -1 : 1);
     const stick = 2.6 * s.mouseSensitivity * dt;
     yaw -= this.padAxes.rx * stick;
-    pitch -= this.padAxes.ry * stick * (s.invertY ? -1 : 1);
+    pitch += this.padAxes.ry * stick * (s.invertY ? -1 : 1);
     const key = 1.9 * dt;
     if (this.isDown('camLeft')) yaw += key;
     if (this.isDown('camRight')) yaw -= key;

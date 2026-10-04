@@ -118,6 +118,8 @@ export function loadSettings(): Settings {
     merged.textScale = Math.max(0.8, Math.min(1.8, merged.textScale));
     merged.brightness = Math.max(0.6, Math.min(1.6, merged.brightness));
     merged.mouseSensitivity = Math.max(0.2, Math.min(3, merged.mouseSensitivity));
+    // Only a real saved boolean expresses the player's inversion preference; stale strings must not invert the camera.
+    merged.invertY = typeof parsed.invertY === 'boolean' ? parsed.invertY : base.invertY;
     return merged;
   } catch {
     return base;

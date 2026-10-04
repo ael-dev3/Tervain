@@ -40,6 +40,8 @@ Layered coastal waves, depth-based transmission, world reflections, and the Low/
 
 **Larger woodland stands (A39):** [forest PR #12](https://github.com/ael-dev3/Tervain/pull/12) and its stacked [follow-on PR #13](https://github.com/ael-dev3/Tervain/pull/13) supply deterministic tree-family clusters, a regional approximate 75/20/5 stem target, and broad natural clearings. The `0.0.9` integration applies the imported pine's real geometry and collision footprints to this layout. The [stand record](docs/art/forest-stands-2026-10-03.md) and [original Gothic 3 study](docs/art/gothic3-vegetation-study.md) distinguish the component source, measurements and design target from final combined evidence.
 
+The [0.0.9 world-contact follow-up](docs/production/releases/0.0.9-world-contact.md) improves the lighthouse walking approach and entry, whole-root tree grounding, human-scale props and regular third-person camera controls. Its source and runtime acceptance are recorded separately from the original release baseline.
+
 ## Run the prototype locally
 
 Use the local commands below for development. To play without installing anything, open the [hosted preview](https://ael-dev3.github.io/Tervain/). The earlier hosting outage is preserved in the dated [0.0.5 publication record](docs/production/releases/0.0.5.md#publication).
@@ -95,6 +97,7 @@ The [decision register](docs/decisions.md) distinguishes these categories and re
 | [Architecture](docs/engineering/architecture.md) | Candidate stack, simulation boundaries, saves, desktop packaging, performance, and engine evaluation. |
 | [Prototype](docs/engineering/prototype.md) | The playable build: controls, options, what is real versus placeholder, testing, save recovery, and known limitations. |
 | [0.0.9 combined release](docs/production/releases/0.0.9.md) | Approved hero, source-faithful pine, larger woodland stands, combined validation and live publication evidence. |
+| [0.0.9 world contact](docs/production/releases/0.0.9-world-contact.md) | Graded lighthouse access and real interiors, whole-root planting, supported props and regular camera controls. |
 | [0.0.8 world-polish handoff](docs/production/releases/0.0.8-world-polish.md) | Desktop movement, collision, construction, item controls and map; standalone evidence and combined verification/publication status. |
 | [0.0.8 people rework](docs/production/releases/0.0.8.md) | Claude PR #10's repaintable skinned people, costume shapes, idle routine, component evidence, and remaining limits. |
 | [Versioning and quality gate](docs/production/versioning.md) | The enforced 0.0.x hold and proposed evidence required before 0.1.0. |

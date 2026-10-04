@@ -33,14 +33,15 @@ describe('climbable original lighthouse compound', () => {
   it('does not teleport ground visitors onto a high stair or gallery or support the air outside its real wedge', () => {
     for (const i of [12, 35, 62, 80]) {
       const p = treadPoint(i);
-      expect(terrain.supportAt(p.x, p.z, base)).toBeCloseTo(terrain.heightAt(p.x, p.z), 6);
+      expect(terrain.supportAt(p.x, p.z, base)).toBeCloseTo(terrain.groundAt(p.x, p.z), 6);
+      expect(terrain.supportAt(p.x, p.z, base)).toBeLessThan(base + lighthouseTreadTop(i) - 0.8);
     }
     const p = treadPoint(60, L.stairOuter + 0.03);
     expect(lighthouseSurfacesAt(p.x, p.z)).toEqual([]);
-    expect(terrain.supportAt(p.x, p.z, base + 12)).toBe(terrain.heightAt(p.x, p.z));
+    expect(terrain.supportAt(p.x, p.z, base + 12)).toBe(terrain.groundAt(p.x, p.z));
   });
 
-  it('supports the rendered stone steps outside both closed doors', () => {
+  it('supports the rendered stone steps outside both open entrances', () => {
     for (const entry of [{ x: 0, z: LIGHTHOUSE.r + 0.015 }, { x: L.house.x - 0.65, z: L.house.d / 2 + 0.06 }]) {
       const x = LIGHTHOUSE.x + entry.x;
       expect(terrain.supportAt(x, LIGHTHOUSE.z + entry.z + 0.42, base)).toBeCloseTo(base + L.house.wallBase + 0.08, 6);

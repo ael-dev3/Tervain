@@ -11,7 +11,6 @@ import {
   FIELDS,
   HAMLET_PROPS,
   LEDGER,
-  MILL_WHEEL,
   PALISADE,
   PICKUP_LOCATIONS,
   RITE_ALTAR,
@@ -20,11 +19,13 @@ import {
   WAGON,
   VILLAGE_HANDCART,
   WELL,
+  WELL_CONSTRUCTION,
   bySpec,
 } from '../world/layout';
 import { mulberry32 } from '../world/noise';
 import type { Terrain } from '../world/terrain';
 import { Ctx, hash3 } from './buildKit';
+import { authorMillWheel, authorMillWheelSupports } from './millWheel';
 import { buildArchiveShell, buildLighthouse, buildStandard, groundOf, type BuildOut } from './buildings';
 import { benchSet, campfire, cart, fence, palisade, pot, ropeCoil, stockadeGate, wagon, watchtower, well, wreck } from './props';
 import { MaterialSet, Region } from './regions';
@@ -425,37 +426,20 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
   }
 
   /* ---------------- Well ---------------- */
-  well(region('village'), rng, WELL.x, gy(WELL.x, WELL.z), WELL.z);
+  well(region('village'), rng, WELL.x, gy(WELL.x, WELL.z), WELL.z, WELL_CONSTRUCTION.yaw);
 
   /* ---------------- Mill wheel ---------------- */
   const millWheel = new THREE.Group();
   {
-    const rnd: Rnd = mulberry32(5503);
-    const y = gy(MILL_WHEEL.x, MILL_WHEEL.z) + 1.7;
+    let position: { x: number; y: number; z: number };
     const wheel = dyn('mill-wheel', (D) => {
-      const spokes = 12;
-      for (let i = 0; i < spokes; i++) {
-        const a = (i / spokes) * Math.PI * 2;
-        for (const s of [-1, 1]) D.timber.rod(s * 0.42, 0, 0, s * 0.42, Math.cos(a) * 2.45, Math.sin(a) * 2.45, 0.06, 5, jitterTone(TINT.woodDark, rnd, 0.12), { jit: 0.1, caps: false });
-        D.ctx.push(0, 0, 0, 0, a, 0);
-        D.planks.box(0.98, 0.5, 0.07, 0, 2.3, 0, jitterTone(TINT.wood, rnd, 0.16), { jit: 0.12, grain: 'x', rx: (rnd() - 0.5) * 0.05 });
-        D.planks.box(0.98, 0.05, 0.5, 0, 2.25, 0.2, jitterTone(TINT.woodDark, rnd, 0.16), { jit: 0.12 });
-        D.ctx.pop();
-      }
-      for (const s of [-1, 1]) {
-        const pts: [number, number, number][] = [];
-        for (let i = 0; i <= 36; i++) {
-          const a = (i / 36) * Math.PI * 2;
-          pts.push([s * 0.42, Math.cos(a) * 2.45, Math.sin(a) * 2.45]);
-        }
-        D.timber.tube(pts, 0.09, 5, jitterTone(TINT.woodDark, rnd, 0.1));
-      }
-      D.timber.rod(-0.7, 0, 0, 0.7, 0, 0, 0.16, 8, jitterTone(TINT.woodDark, rnd, 0.1), { jit: 0.08 });
+      position = authorMillWheel(D, terrain);
     });
     group.remove(wheel);
     millWheel.add(wheel);
-    millWheel.position.set(MILL_WHEEL.x, y, MILL_WHEEL.z);
+    millWheel.position.set(position!.x, position!.y, position!.z);
     group.add(millWheel);
+    authorMillWheelSupports(region('village'), terrain);
   }
 
   /* ---------------- Sluice ---------------- */

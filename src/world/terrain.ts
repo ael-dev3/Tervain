@@ -1,6 +1,6 @@
 import { clamp, fbm, lerp, ridged, smoothstep, warp } from './noise';
 import { lighthouseRock, shapeCoast, shoreDistance } from './coast';
-import { lighthouseSurfacesAt } from './lighthouse';
+import { lighthouseFloorAt, lighthouseSurfacesAt } from './lighthouse';
 import { buildingStepSurfacesAt } from './buildingEntries';
 import { isWorldPickupItem } from '../content/pickups';
 import {
@@ -23,6 +23,9 @@ import {
   INSPECT_LOCATIONS,
   LEDGE,
   LEDGER,
+  LANTERN_GRADE,
+  LANTERN_ROUTE,
+  LANTERN_TRAIL_WIDTH,
   LIGHTHOUSE,
   OVERLOOK_BUMP,
   PALISADE,
@@ -272,6 +275,7 @@ export function baseHeight(x: number, z: number): number {
     h = lerp(h, level, 1 - smoothstep(14, 17, lighthouseDistance));
   }
   h = arrivalRoadGrade(x, z, h);
+  h = lanternRoadGrade(x, z, h);
   h = vehicleParkingGrade(x, z, h);
   return archiveTerrace(x, z, h);
 }
@@ -321,6 +325,24 @@ function arrivalRoadGrade(x: number, z: number, h: number): number {
     return p.x < -170 ? shapeCoast(p.x, p.z, level) : level;
   });
   const grade = lerp(arrivalGrades[near.seg]!, arrivalGrades[near.seg + 1]!, near.t);
+  return lerp(h, grade, influence);
+}
+
+let lanternGrades: number[] | null = null;
+/** A real cut-and-filled track, sampled into the same visible terrain as the character's feet. */
+function lanternRoadGrade(x: number, z: number, h: number): number {
+  const near = distToPolyline(x, z, LANTERN_ROUTE);
+  // An entire 2 m terrain triangle lies on the grade around the walking strip, including the bends.
+  const core = LANTERN_TRAIL_WIDTH / 2 + WORLD.cell * 0.75;
+  const influence = 1 - smoothstep(core, core + 4.5, near.d);
+  if (influence <= 0) return h;
+  const terrace = shapeCoast(LIGHTHOUSE.x, LIGHTHOUSE.z, coreHeight(LIGHTHOUSE.x, LIGHTHOUSE.z));
+  lanternGrades ??= LANTERN_ROUTE.map((point, index) => {
+    if (index >= LANTERN_ROUTE.length - 2) return terrace;
+    return LANTERN_GRADE[index] ?? arrivalRoadGrade(point.x, point.z,
+      shapeCoast(point.x, point.z, softFloor(coreHeight(point.x, point.z))));
+  });
+  const grade = lerp(lanternGrades[near.seg]!, lanternGrades[near.seg + 1]!, near.t);
   return lerp(h, grade, influence);
 }
 
@@ -435,6 +457,10 @@ export class Terrain {
   groundAt(x: number, z: number): number {
     const deck = this.deckAt(x, z);
     const t = this.heightAt(x, z);
+    if (Math.abs(x - LIGHTHOUSE.x) <= 11 && Math.abs(z - LIGHTHOUSE.z) <= 5) {
+      const floor = lighthouseFloorAt(x, z);
+      if (floor !== null) return Math.max(t, this.heightAt(LIGHTHOUSE.x, LIGHTHOUSE.z) + floor);
+    }
     const dx = x - archive.x;
     const dz = z - archive.z;
     const c = Math.cos(archive.yaw);

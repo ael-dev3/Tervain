@@ -9,6 +9,13 @@ type PickupPoint = typeof PICKUP_LOCATIONS[number];
 type MeshLink = { mesh: THREE.InstancedMesh; index: number; matrix: THREE.Matrix4 };
 const hiddenMatrix = new THREE.Matrix4().makeScale(0, 0, 0);
 
+// Authored meshes were enlarged for spotting them from afar. Keep their rich silhouettes,
+// but use hand-sized food and plants alongside the 1.90 m Wanderer. Interaction still uses
+// the actual grounded bounds, so the smaller item has no floating target or enlarged proxy.
+const HAND_SCALE: Record<WorldPickupItem, number> = {
+  shore_apple: 0.34, bread: 0.65, healing_herb: 0.78, field_mushroom: 0.28, iron_scrap: 1,
+};
+
 /** Five original, closed-volume silhouettes. No sprite cards, floating labels, borrowed models or timer animations. */
 export function pickupGeometry(item: WorldPickupItem): { geometry: THREE.BufferGeometry; material: MatKey } {
   const r = new Region(`loose-${item}`, new Ctx());
@@ -52,6 +59,8 @@ export function pickupGeometry(item: WorldPickupItem): { geometry: THREE.BufferG
   }
   const material: MatKey = item === 'iron_scrap' ? 'metal' : 'vc';
   const geometry = r.get(material).toGeometry()!;
+  const scale = HAND_SCALE[item];
+  geometry.scale(scale, scale, scale);
   geometry.computeBoundingBox();
   geometry.computeBoundingSphere();
   return { geometry, material };

@@ -47,14 +47,29 @@ describe('original loose pickup geometry', () => {
     const size = geometry.boundingBox!.getSize(new THREE.Vector3());
     expect(count / 3).toBeGreaterThan(50);
     expect(count / 3).toBeLessThan(1400);
-    expect(Math.max(size.x, size.y, size.z)).toBeGreaterThan(0.4);
+    expect(Math.max(size.x, size.y, size.z)).toBeGreaterThan(0.1);
     expect(Math.max(size.x, size.y, size.z)).toBeLessThan(0.9);
-    expect(Math.min(size.x, size.y, size.z)).toBeGreaterThan(0.1);
+    expect(Math.min(size.x, size.y, size.z)).toBeGreaterThan(0.035);
     for (let i = 0; i < position.count; i++) {
       expect(Number.isFinite(position.getX(i) + position.getY(i) + position.getZ(i)), item).toBe(true);
       expect(Number.isFinite(normal.getX(i) + normal.getY(i) + normal.getZ(i)), item).toBe(true);
     }
     geometry.dispose();
+  });
+
+  it('keeps food hand-sized and gathered herbs compact rather than enlarging them for visibility', () => {
+    const ranges = {
+      shore_apple: [0.10, 0.18], bread: [0.40, 0.60], field_mushroom: [0.14, 0.24],
+      healing_herb: [0.45, 0.65], iron_scrap: [0.35, 0.60],
+    } as const;
+    for (const item of WORLD_PICKUP_ITEM_IDS) {
+      const { geometry } = pickupGeometry(item);
+      const size = geometry.boundingBox!.getSize(new THREE.Vector3());
+      const extent = Math.max(size.x, size.y, size.z);
+      expect(extent, item).toBeGreaterThan(ranges[item][0]);
+      expect(extent, item).toBeLessThan(ranges[item][1]);
+      geometry.dispose();
+    }
   });
 
   it.each(additions)('grounds the actual vertices and triangle centres of $id on its terrain', (point) => {

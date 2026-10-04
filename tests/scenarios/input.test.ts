@@ -1,6 +1,13 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import * as THREE from 'three';
 import { Input } from '../../src/platform/input';
-import { defaultSettings } from '../../src/platform/settings';
+import { defaultSettings, loadSettings, saveSettings } from '../../src/platform/settings';
+import { CameraRig } from '../../src/presentation/cameraRig';
+import { Player, type PlayerCtx } from '../../src/presentation/player';
+import type { AudioEngine } from '../../src/presentation/audio';
+import { Game } from '../../src/game/game';
+import { Colliders } from '../../src/world/colliders';
+import type { Terrain } from '../../src/world/terrain';
 
 function controls() {
   const listeners = new Map<string, ((e: any) => void)[]>();
@@ -8,7 +15,7 @@ function controls() {
     for (const fn of listeners.get(type) ?? []) fn({preventDefault() {},...event});
   };
   vi.stubGlobal('window', {innerHeight:800,addEventListener:(type:string, fn:(e:any)=>void) => listeners.set(type,[...(listeners.get(type)??[]),fn])});
-  const document = {pointerLockElement:null};
+  const document: { pointerLockElement: HTMLElement | null } = {pointerLockElement:null};
   vi.stubGlobal('document',document);
   let pad: any = null;
   vi.stubGlobal('navigator',{getGamepads:()=>pad ? [pad] : []});
@@ -82,4 +89,102 @@ describe('input across world and interface boundaries',()=>{
     setPad(null);input.poll(1/60);setPad(null,[0,-1,0,0]);input.poll(1/60);expect(input.move().y).toBe(1);
   });
 
+});
+
+describe('standard third-person camera controls', () => {
+  function view(yaw: number) {
+    const rig = new CameraRig();
+    rig.yaw = yaw;
+    rig.pitch = 0.1;
+    const follow = () => rig.follow(1 / 60, 0, 5, 0, { groundAt: () => 0 }, new Colliders(), true, 0);
+    follow();
+    return { rig, follow, direction: rig.camera.getWorldDirection(new THREE.Vector3()), right: new THREE.Vector3(1, 0, 0).applyQuaternion(rig.camera.quaternion) };
+  }
+
+  it.each([0, Math.PI / 2, Math.PI, -Math.PI / 2])('mouse right and up look right and up at heading %f', (heading) => {
+    const { input, target, emit, document } = controls();
+    document.pointerLockElement = target;
+    const camera = view(heading);
+    emit('mousemove', { target, buttons: 0, movementX: 30, movementY: -30 });
+    const look = input.look(1 / 60);
+    camera.rig.applyLook(look.yaw, look.pitch, 0); camera.follow();
+    const direction = camera.rig.camera.getWorldDirection(new THREE.Vector3());
+    expect(direction.dot(camera.right)).toBeGreaterThan(0);
+    expect(direction.y).toBeGreaterThan(camera.direction.y);
+  });
+
+  it('drag-to-look and a right/up controller stick use the same standard directions', () => {
+    const { input, target, emit, setPad } = controls();
+    emit('mousemove', { target, buttons: 1, movementX: 30, movementY: -30 });
+    const mouse = input.look(1 / 60); input.endFrame();
+    setPad(null, [0, 0, 1, -1]); input.poll(1 / 60);
+    const stick = input.look(1 / 60);
+    expect(mouse.yaw).toBeLessThan(0); expect(mouse.pitch).toBeLessThan(0);
+    expect(stick.yaw).toBeLessThan(0); expect(stick.pitch).toBeLessThan(0);
+    const camera = view(0);
+    camera.rig.applyLook(stick.yaw, stick.pitch, 0); camera.follow();
+    expect(camera.rig.camera.getWorldDirection(new THREE.Vector3()).y).toBeGreaterThan(camera.direction.y);
+  });
+
+  it('camera turn keys agree with horizontal mouse and stick turns', () => {
+    const { input, key, release } = controls();
+    const camera = view(0);
+    key('KeyC');
+    const right = input.look(1 / 60);
+    camera.rig.applyLook(right.yaw, right.pitch, 0); camera.follow();
+    expect(camera.rig.camera.getWorldDirection(new THREE.Vector3()).dot(camera.right)).toBeGreaterThan(0);
+    release('KeyC'); key('KeyZ');
+    expect(input.look(1 / 60).yaw).toBeGreaterThan(0);
+  });
+
+  it.each([0, Math.PI / 2, Math.PI, -Math.PI / 2])('keeps forward and strafe movement aligned with the rendered camera at heading %f', (heading) => {
+    const { input, settings, key, release } = controls();
+    const camera = view(heading);
+    const terrain = {
+      groundAt: () => 0, supportAt: () => 0, walkable: () => true, valleyRadius: () => 0,
+      deckAt: () => null, carveAt: () => 0, seaDepth: () => 0, slopeAt: () => 0,
+    } as unknown as Terrain;
+    const ctx: PlayerCtx = {
+      input, settings, terrain, colliders: new Colliders(), game: new Game(), npcs: [], enemies: [],
+      audio: { footstep: () => {} } as unknown as AudioEngine,
+      viewYaw: heading, controllable: true, onHitEnemy: () => {}, onHurt: () => {}, onDeath: () => {}, onBoundary: () => {},
+    };
+    const player = new Player();
+    for (const [code, sign, axis] of [
+      ['KeyW', 1, camera.direction], ['KeyS', -1, camera.direction],
+      ['KeyD', 1, camera.right], ['KeyA', -1, camera.right],
+    ] as const) {
+      player.setPosition(0, 0, heading, terrain);
+      key(code); player.update(1 / 60, ctx); release(code); input.endFrame();
+      const motion = new THREE.Vector3(player.x, 0, player.z);
+      expect(motion.dot(axis) * sign).toBeGreaterThan(0);
+      expect(motion.clone().normalize().dot(new THREE.Vector3(axis.x, 0, axis.z).normalize()) * sign).toBeCloseTo(1, 8);
+    }
+  });
+
+  it('an explicit saved invert preference reverses vertical look on both devices and leaves yaw alone', () => {
+    const { input, settings, emit, target, setPad } = controls(); settings.invertY = true;
+    emit('mousemove', { target, buttons: 1, movementX: 30, movementY: -30 });
+    const mouse = input.look(1 / 60); input.endFrame();
+    setPad(null, [0, 0, 1, -1]); input.poll(1 / 60);
+    const stick = input.look(1 / 60);
+    expect(mouse.yaw).toBeLessThan(0); expect(mouse.pitch).toBeGreaterThan(0);
+    expect(stick.yaw).toBeLessThan(0); expect(stick.pitch).toBeGreaterThan(0);
+    const camera = view(0);
+    camera.rig.applyLook(mouse.yaw, mouse.pitch, 0); camera.follow();
+    expect(camera.rig.camera.getWorldDirection(new THREE.Vector3()).y).toBeLessThan(camera.direction.y);
+  });
+
+  it('fresh and legacy settings stay non-inverted while real saved preferences survive loading and saving', () => {
+    let stored: string | null = null;
+    vi.stubGlobal('localStorage', { getItem: () => stored, setItem: (_key: string, value: string) => { stored = value; } });
+    expect(loadSettings().invertY).toBe(false);
+    stored = JSON.stringify({ mouseSensitivity: 1.7 }); expect(loadSettings().invertY).toBe(false);
+    for (const preference of [true, false]) {
+      stored = JSON.stringify({ invertY: preference });
+      const settings = loadSettings(); expect(settings.invertY).toBe(preference);
+      saveSettings(settings); expect(loadSettings().invertY).toBe(preference);
+    }
+    stored = JSON.stringify({ invertY: 'false' }); expect(loadSettings().invertY).toBe(false);
+  });
 });

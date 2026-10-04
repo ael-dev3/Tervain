@@ -1,4 +1,4 @@
-import { HANDCART_CONSTRUCTION, WAGON_CONSTRUCTION } from '../world/layout';
+import { HANDCART_CONSTRUCTION, WAGON_CONSTRUCTION, WELL_CONSTRUCTION as W } from '../world/layout';
 import { hash3 } from './buildKit';
 import { vehicleFrame } from './wagonGeometry';
 import type { Region } from './regions';
@@ -216,22 +216,26 @@ export function fence(R: Region, rnd: Rnd, pts: [number, number][], groundAt: (x
 }
 
 /** A well: rubble ring, two posts, a crossbeam with a crank, a thatched hood, a bucket. */
-export function well(R: Region, rnd: Rnd, x: number, y: number, z: number) {
+export function well(R: Region, rnd: Rnd, x: number, y: number, z: number, yaw?: number) {
   const ctx = R.ctx;
-  ctx.push(x, y, z, rnd() * 0.5);
+  // Keep the old appearance RNG stream even when the gameplay well uses the shared authored pose.
+  const randomYaw = rnd() * 0.5;
+  ctx.push(x, y, z, yaw ?? randomYaw);
   for (let i = 0; i < 12; i++) {
     const a = (i / 12) * Math.PI * 2;
     R.stone.box(0.62, 0.36 + rnd() * 0.12, 0.42, Math.cos(a) * 1.05, -0.05, Math.sin(a) * 1.05, jitterTone(TINT.stone, rnd, 0.18), { ry: -a + Math.PI / 2 + (rnd() - 0.5) * 0.1, jit: 0.14 });
     R.stone.box(0.55, 0.3, 0.4, Math.cos(a + 0.26) * 1.03, 0.28, Math.sin(a + 0.26) * 1.03, jitterTone(TINT.stone, rnd, 0.18), { ry: -a + Math.PI / 2, jit: 0.14 });
   }
   R.vc.cyl(0.85, 0.85, 0.05, 12, 0, 0.55, 0, 0x0c1418, { jit: 0 });
-  for (const s of [-1, 1]) R.timber.box(0.16, 2.3, 0.16, s * 1.05, 0.2, 0, jitterTone(TINT.woodDark, rnd, 0.1), { grain: 'y', rz: (rnd() - 0.5) * 0.04, jit: 0.1 });
-  R.timber.box(2.5, 0.16, 0.16, 0, 2.35, 0, jitterTone(TINT.woodDark, rnd, 0.1), { grain: 'x', jit: 0.1, rz: 0.02 });
+  for (const s of [-1, 1]) R.timber.box(W.postWidth, W.postHeight, W.postWidth, s * W.postX, W.postBottom, 0, jitterTone(TINT.woodDark, rnd, 0.1), { grain: 'y', rz: (rnd() - 0.5) * 0.04, jit: 0.1 });
+  R.timber.box(W.beamWidth, W.beamHeight, W.beamDepth, 0, W.beamBottom, 0, jitterTone(TINT.woodDark, rnd, 0.1), { grain: 'x', jit: 0.1, rz: 0.02 });
   R.timber.rod(-0.5, 2.3, 0.1, 0.5, 2.3, 0.1, 0.06, 6, jitterTone(TINT.wood, rnd, 0.1), { jit: 0.08 });
   R.vc.tube([[0, 2.3, 0.1], [0.02, 1.5, 0.1], [0.05, 0.9, 0.1]], 0.012, 4, TINT.rope);
   R.planks.lathe([0.16, 0, 0.19, 0.24], 8, 0.05, 0.6, 0.1, jitterTone(TINT.wood, rnd, 0.1), { jit: 0.1 });
-  // Hood.
-  R.thatch.prism([[-1.5, 0], [1.5, 0], [0, 0.9]], -0.9, 0.9, jitterTone(TINT.thatch, rnd, 0.1), { jit: 0.1, amp: 0.14 });
+  // The hood bears on the crossbeam and posts, with a small overlap through their deliberately uneven tops.
+  ctx.push(0, W.hoodBottom, 0);
+  R.thatch.prism([[-W.hoodWidth / 2, 0], [W.hoodWidth / 2, 0], [0, W.hoodRise]], -W.hoodDepth / 2, W.hoodDepth / 2, jitterTone(TINT.thatch, rnd, 0.1), { jit: 0.1, amp: 0.14 });
+  ctx.pop();
   ctx.pop();
 }
 
