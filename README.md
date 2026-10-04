@@ -6,6 +6,12 @@ Tervain is being developed for PC toward a Steam release. Its creative starting 
 
 An original order currently called the **Templars** anchors the setting. **The Templars are part of the Hegemony**, as clarified by the owner on 30 September. Their local story sits away from the future Hegemony–Core–Ousters conflict envisioned for Warpkeep. Local people still have their own arguments about land, water, work, authority, belief, and survival. Their lives provide the substance of this game.
 
+## Source-code license and material rights
+
+The root [LICENSE](LICENSE) contains the complete, unmodified PolyForm Noncommercial 1.0.0 text. It applies only to independently owned original Tervain software code that the rights holder is authorized to offer; it is not a repository-wide or content license. Read the [full scope and exceptions](LICENSE-SCOPE.md), including the separate Gothic 3 boundaries and existing Apache-2.0, MIT, and GPL-3.0-only terms. A concise [web-readable disclosure page](public/source-license/index.html) and license copy are staged for a future build at `/Tervain/source-license/`; this PR does not publish or deploy the site.
+
+Gothic 3 references, extracted or reconstructed data, and the separate Gothic routes remain intact and outside this license. Assets, original art, music, story, branding, and contributor-owned code remain separately governed. Existing provenance questions for Suno, Meshy, and Mixamo-related material are unchanged. Commercial permission is not granted; a separate permission request may be sent to [ael.dev@proton.me](mailto:ael.dev@proton.me).
+
 ## Play in your browser
 
 **[Launch Tervain](https://ael-dev3.github.io/Tervain/)**
@@ -150,4 +156,4 @@ Tervain can share original vegetation, modular environment art, asset tooling, t
 
 ## Contributing and rights
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md) and [AGENTS.md](AGENTS.md) before extending the foundation. No project-wide open-source or open-content license is selected by this initial seed. Each reused dependency or asset retains its actual terms and attribution; a file's presence in a sibling repository is not a new license grant.
+Read [CONTRIBUTING.md](CONTRIBUTING.md), [AGENTS.md](AGENTS.md), and [LICENSE-SCOPE.md](LICENSE-SCOPE.md) before extending the foundation. The root license is limited to eligible software code; each reused dependency, Gothic 3 study/reconstruction item, or asset retains its actual terms and provenance. A file's presence in this repository or a sibling repository is not a new license grant.
