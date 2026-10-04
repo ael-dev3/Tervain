@@ -118,20 +118,25 @@ export function forestLandmarkGeometry(terrain: Pick<Terrain, 'heightAt'>, colli
     const bottom = sign.boardBottom;
     const top = bottom + sign.boardHeight;
     const middle = (bottom + top) / 2;
+    const face = sign.boardDepth / 2;
     const bounds = physicalBounds(R);
     R.ctx.push(sign.x, y, sign.z, sign.yaw);
     R.stone.box(0.65, 0.44, 0.65, 0, -0.3, 0, 0xaba58c, { jit: 0.15, ry: 0.12 });
     R.timber.box(0.16, top + 0.54, 0.16, 0, -0.3, 0, 0xbb9564, { grain: 'y', jit: 0.14 });
-    R.timber.box(end - left, sign.boardHeight, 0.12, (left + end) / 2, bottom, 0, 0x967349, { grain: 'x', jit: 0.1, sub: 0.7 });
+    // Solid wooden faces enclose the 16 cm post, so neither side hides its painted lettering.
+    R.timber.box(end - left, sign.boardHeight, sign.boardDepth, (left + end) / 2, bottom, 0, 0x967349, { grain: 'x', jit: 0.1, sub: 0.7 });
     // A real solid fingerboard points east; its two readable faces both describe the same world direction.
     const wood = 0x967349;
-    R.timber.tri3(end, bottom, 0.06, tip, middle, 0.06, end, top, 0.06, wood);
-    R.timber.tri3(end, top, -0.06, tip, middle, -0.06, end, bottom, -0.06, wood);
-    R.timber.quad([end, top, 0.06, tip, middle, 0.06, tip, middle, -0.06, end, top, -0.06], wood);
-    R.timber.quad([tip, middle, 0.06, end, bottom, 0.06, end, bottom, -0.06, tip, middle, -0.06], wood);
-    R.timber.rod(-0.45, bottom - 0.06, -0.10, 0, bottom - 0.54, -0.10, 0.035, 5, 0xb89a67, { jit: 0.14 });
-    R.timber.rod(0.45, bottom - 0.06, -0.10, 0, bottom - 0.54, -0.10, 0.035, 5, 0xb89a67, { jit: 0.14 });
-    for (const z of [-0.076, 0.076]) for (const x of [-0.06, 0.06]) R.metal.box(0.035, 0.035, 0.015, x, bottom + sign.boardHeight * 0.5, z, 0x504d42, { jit: 0 });
+    R.timber.tri3(end, bottom, face, tip, middle, face, end, top, face, wood);
+    R.timber.tri3(end, top, -face, tip, middle, -face, end, bottom, -face, wood);
+    R.timber.quad([end, top, face, tip, middle, face, tip, middle, -face, end, top, -face], wood);
+    R.timber.quad([tip, middle, face, end, bottom, face, end, bottom, -face, tip, middle, -face], wood);
+    R.timber.rod(-0.45, bottom + 0.025, 0, 0, bottom - 0.54, 0, 0.035, 5, 0xb89a67, { jit: 0.14 });
+    R.timber.rod(0.45, bottom + 0.025, 0, 0, bottom - 0.54, 0, 0.035, 5, 0xb89a67, { jit: 0.14 });
+    // Small flush fixings stay in the unpainted top/bottom margins on both faces.
+    for (const z of [-face, face]) for (const x of [-0.38, 0.38]) for (const by of [bottom + 0.013, top - 0.038]) {
+      R.metal.box(0.025, 0.025, 0.014, x, by, z, 0x504d42, { jit: 0 });
+    }
     R.ctx.pop();
     colliders.circle('arrival-signpost', sign.x, sign.z, 0.32, true, bounds());
     regions.push(R);
@@ -182,7 +187,7 @@ export function buildForestLandmarks(terrain: Terrain, colliders: Colliders, qua
     label.name = back ? 'rillford-sign-painted-back' : 'rillford-sign-painted-front';
     const c = Math.cos(ARRIVAL_SIGN.yaw);
     const s = Math.sin(ARRIVAL_SIGN.yaw);
-    const face = back ? -0.065 : 0.065;
+    const face = (back ? -1 : 1) * (ARRIVAL_SIGN.boardDepth / 2 + 0.003);
     const inset = ARRIVAL_SIGN.boardWidth * 0.075;
     label.position.set(ARRIVAL_SIGN.x - inset * c + face * s, terrain.heightAt(ARRIVAL_SIGN.x, ARRIVAL_SIGN.z) + ARRIVAL_SIGN.boardBottom + ARRIVAL_SIGN.boardHeight / 2, ARRIVAL_SIGN.z + inset * s + face * c);
     label.rotation.y = ARRIVAL_SIGN.yaw + (back ? Math.PI : 0);

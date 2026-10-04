@@ -106,7 +106,7 @@ export const ARRIVAL_ROUTE: V2[] = [
 ];
 export const ARRIVAL_TRAIL_WIDTH = 4.2;
 /** One readable fingerpost at the real shore/woodland fork; the board's point faces east toward Rillford. */
-export const ARRIVAL_SIGN = { x: -248, z: 38, yaw: 0, target: 'rillford', label: 'RILLFORD', boardWidth: 1.85, boardHeight: 0.4, boardBottom: 1.78 } as const;
+export const ARRIVAL_SIGN = { x: -248, z: 38, yaw: 0, target: 'rillford', label: 'RILLFORD', boardWidth: 1.85, boardHeight: 0.4, boardDepth: 0.22, boardBottom: 1.78 } as const;
 
 /** A keeper's pack track climbs the landward shoulder rather than scaling Lantern Point's rock face. */
 export const LANTERN_TRAIL_WIDTH = 3.2;
