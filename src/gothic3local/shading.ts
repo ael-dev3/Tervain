@@ -10,8 +10,8 @@ import { TextureCache } from './textures';
  *
  * Node semantics (inferred from the installed materials; see docs/engineering/gothic3-local.md):
  * - a sampler reads its image with texture coordinates from its input, or the mesh's first set;
- * - a proxy's component picks what a colour input passes on (0 the colour, 1–3 the red, green or blue channel, 4 the
- *   grey level, 5 the alpha) and, on a texture-coordinate input, which of the mesh's four sets feeds that chain;
+ * - a proxy's component picks what a colour input passes on (0 the whole colour, 1 RGB, 2 red, 3 green, 4 blue,
+ *   5 alpha) and, on a texture-coordinate input, which of the mesh's four sets feeds that chain;
  * - combiners add (0), subtract (1), multiply (2), take the maximum (3) or minimum (4) of two inputs;
  * - a blend mixes its first two inputs by its third; a vertex-colour node reads the mesh's colour;
  * - texture-coordinate nodes scale, scroll, oscillate or parallax-offset (bump offset) their coordinates.
@@ -188,13 +188,13 @@ class GraphCompiler {
     const v = this.nodeColor(node, depth);
     switch (proxy.component) {
       case 1:
-        return `vec4(${v}.rrr, ${v}.a)`;
+        return `vec4(${v}.rgb, 1.0)`;
       case 2:
-        return `vec4(${v}.ggg, ${v}.a)`;
+        return `vec4(${v}.rrr, ${v}.a)`;
       case 3:
-        return `vec4(${v}.bbb, ${v}.a)`;
+        return `vec4(${v}.ggg, ${v}.a)`;
       case 4:
-        return `vec4(vec3(dot(${v}.rgb, vec3(0.299, 0.587, 0.114))), ${v}.a)`;
+        return `vec4(${v}.bbb, ${v}.a)`;
       case 5:
         return `vec4(${v}.aaa, ${v}.a)`;
       default:
@@ -298,7 +298,8 @@ export async function buildMaterial(name: string, graph: ShaderGraph | null, tex
   const blendIndex = propNumber(graph.shader, 'BlendMode', 0);
   const blend: G3MaterialInfo['blend'] = blendIndex === 1 ? 'mask' : blendIndex === 2 ? 'blend' : blendIndex >= 3 ? 'add' : 'opaque';
   const maskRef = propNumber(graph.shader, 'MaskReference', 0);
-  const alphaRef = blend === 'mask' ? (maskRef > 0 ? maskRef / 255 : 0.5) : 0;
+  // Keep zero and the native strict comparison; divide the byte in GLSL without rounding the normalized reference.
+  const alphaRef = `${f(maskRef)} / 255.0`;
   const unlit = propNumber(graph.shader, 'DisableLighting', 0) !== 0;
 
   const material = new THREE.MeshPhongMaterial({ color: 0xffffff, specular: 0xffffff, shininess: 30 });
@@ -380,7 +381,7 @@ if (g3Opacity >= 0.0) diffuseColor.a = g3Opacity;`,
       )
       .replace(
         '#include <alphatest_fragment>',
-        blend === 'mask' ? `if (diffuseColor.a < ${f(alphaRef)}) discard;` : '',
+        blend === 'mask' ? `if (diffuseColor.a <= ${alphaRef}) discard;` : '',
       )
       .replace('#include <specularmap_fragment>', 'float specularStrength = 1.0;')
       .replace(

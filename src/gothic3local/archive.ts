@@ -52,10 +52,38 @@ export class HttpSource implements ByteSource {
   }
 
   async read(offset: number, length: number): Promise<Uint8Array> {
+    if (!Number.isSafeInteger(this.size) || this.size < 0 || !Number.isSafeInteger(offset) || offset < 0 ||
+        !Number.isSafeInteger(length) || length < 0 || !Number.isSafeInteger(offset + length) || offset + length > this.size) {
+      throw new RangeError(`${this.name}: requested bytes are outside the archive`);
+    }
     if (length === 0) return new Uint8Array(0);
     const res = await fetch(this.url, { headers: { Range: `bytes=${offset}-${offset + length - 1}` } });
-    if (!res.ok) throw new Error(`${this.name}: ${res.status} reading ${length} bytes at ${offset}`);
-    return new Uint8Array(await res.arrayBuffer());
+    const range = /^bytes (\d+)-(\d+)\/(\d+)$/i.exec(res.headers.get('content-range')?.trim() ?? '');
+    if (res.status !== 206 || !range || Number(range[1]) !== offset || Number(range[2]) !== offset + length - 1 ||
+        Number(range[3]) !== this.size) {
+      if (res.body) await res.body.cancel().catch(() => {});
+      throw new Error(`${this.name}: invalid ${res.status} byte-range response reading ${length} bytes at ${offset}`);
+    }
+    if (!res.body) throw new Error(`${this.name}: byte-range response has no body`);
+    const reader = res.body.getReader();
+    try {
+      const bytes = new Uint8Array(length);
+      let received = 0;
+      for (;;) {
+        const item = await reader.read();
+        if (item.done) break;
+        if (item.value.byteLength > length - received) throw new Error(`${this.name}: byte-range response exceeds ${length} bytes`);
+        bytes.set(item.value, received);
+        received += item.value.byteLength;
+      }
+      if (received !== length) throw new Error(`${this.name}: byte-range response has ${received} bytes, expected ${length}`);
+      return bytes;
+    } catch (error) {
+      await reader.cancel().catch(() => {});
+      throw error;
+    } finally {
+      reader.releaseLock();
+    }
   }
 }
 

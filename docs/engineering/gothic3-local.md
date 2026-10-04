@@ -43,9 +43,10 @@ shows only its introduction.
   installed game reads its own files.
 - For this viewer, never commit, host or ship anything from an installation: no archives, extracted or converted files, images,
   captures or tables derived from them. Test fixtures are synthetic.
-- The code is original. The file formats were worked out by examining the installed files with small throwaway
-  scripts; no decompiled code, no game binaries' logic and none of the repository's `tools/gothic3` scripts are used.
-  What is inferred rather than observed is marked below and in each module's header.
+- The code is original TypeScript. PR #21's author worked out its file formats by examining installed files with
+  throwaway scripts, without using decompiled code or this repository's preparation tools. Integration subsequently
+  checked bounded colour-selector and alpha-reference facts against the separate authorized offline study;
+  no native program code is copied, executed or bundled. Inferred rendering choices are marked below and in module headers.
 - Gothic 3 is © THQ Nordic GmbH, developed by Piranha Bytes; the page says the viewer is not affiliated with them.
 
 ## What is implemented
@@ -100,11 +101,15 @@ Toward the owner's goal of playing all of Gothic 3 in the browser, in rough orde
 Smaller issues seen in review: thatched roofs can look too shiny; the horizon mesh is coarse close to the full-detail
 edge; trees are approximations (shape, density and leaf choice).
 
-The combined integration corrects shader callbacks on mirrored mesh placements
-and maps native Wrap/Clamp/Mirror sampler modes independently for U and V.
+The combined integration corrects shader callbacks on mirrored mesh placements,
+maps Wrap/Clamp/Mirror independently for U and V, uses selectors
+0 whole / 1 RGB / 2 R / 3 G / 4 B / 5 A, and preserves strict
+`alpha > MaskReference/255`, including reference zero. Colour selectors were
+checked at Engine.dll `eCColorSrcBase::GetSwizzle` (`0x3000ed40`); alpha reference
+and comparison at `eCShaderBase::ExecuteZPass` (`0x300050f1`) and its render-state
+setup. Those bounded corrections do not establish whole-renderer equivalence.
 Entity-specific `MaterialSwitch` selections are not implemented in this viewer;
 the separate Ardea export's 63 recorded static selections are all zero, which
 does not establish support for nonzero selections elsewhere.
 Texture-coordinate rotation is unsupported. Blend modes 3–8 use an additive
-approximation, and zero mask-reference handling still differs from the native
-strict alpha comparison. These gaps prevent native-equivalent material claims.
+approximation. These gaps prevent native-equivalent material claims.
