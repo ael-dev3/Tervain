@@ -1,5 +1,8 @@
 import * as THREE from 'three';
 
+/** Metre-scale validity ramps; UInt captured depth clears to exactly one. */
+export const WATER_DEPTH_VALIDITY = Object.freeze({ clearDepth: 1, foregroundTolerance: 0.03, refractionFade: 0.06 });
+
 /** Absorption per metre of water: red vanishes first, while blue-green survives deeper paths. */
 export function waterAbsorptionCoefficients(clarity = 1): THREE.Vector3 {
   if (!Number.isFinite(clarity)) throw new RangeError('Water clarity must be finite.');
@@ -53,6 +56,12 @@ float waterRayGap(float bed, vec3 viewSurface) {
   return max(0.0, bed - axial) * length(viewSurface) / axial;
 }
 
+vec3 waterAbsorbedSample(vec3 body, vec2 uv, float bed, vec3 viewSurface) {
+  float path = clamp(waterRayGap(bed, viewSurface), 0.0, 32.0);
+  vec3 transmittance = exp(-uWaterAbsorption * path);
+  return texture2D(tWaterColor, uv).rgb * transmittance + body * (vec3(1.0) - transmittance);
+}
+
 vec3 waterTransmission(vec3 body, vec3 normal, vec3 world, float depth) {
   if (uWaterCapture < 0.5) return body;
   vec2 base = gl_FragCoord.xy / uWaterResolution;
@@ -67,17 +76,24 @@ vec3 waterTransmission(vec3 body, vec3 normal, vec3 world, float depth) {
   vec2 sampleUV = clamp(base + offset, vec2(0.001), vec2(0.999));
   float raw = texture2D(tWaterDepth, sampleUV).r;
   float bed = waterViewDepth(raw);
-  // Never refract the sky or a dry foreground object into the water.
-  if (raw > 0.9999 || bed < surface + 0.025) {
-    sampleUV = base;
-    raw = texture2D(tWaterDepth, sampleUV).r;
-    bed = waterViewDepth(raw);
+  // A dry silhouette has no refraction weight. Ramp up only behind the surface
+  // instead of snapping between two different colors at one depth threshold.
+  // The exact clear value preserves real terrain near the camera's far plane.
+  float refraction = (1.0 - step(${WATER_DEPTH_VALIDITY.clearDepth.toFixed(1)}, raw))
+    * smoothstep(0.0, ${WATER_DEPTH_VALIDITY.refractionFade.toFixed(3)}, bed - surface);
+  if (refraction >= 1.0) return waterAbsorbedSample(body, sampleUV, bed, viewSurface);
+  float baseRaw = texture2D(tWaterDepth, base).r;
+  float baseBed = waterViewDepth(baseRaw);
+  float baseValidity = (1.0 - step(${WATER_DEPTH_VALIDITY.clearDepth.toFixed(1)}, baseRaw))
+    * smoothstep(-${WATER_DEPTH_VALIDITY.foregroundTolerance.toFixed(3)}, 0.0, baseBed - surface);
+  vec3 fallback = body;
+  if (baseValidity > 0.0) {
+    fallback = mix(body, waterAbsorbedSample(body, base, baseBed, viewSurface), baseValidity);
   }
-  if (raw > 0.9999 || bed < surface - 0.03) return body;
-  float path = clamp(waterRayGap(bed, viewSurface), 0.0, 32.0);
-  vec3 transmittance = exp(-uWaterAbsorption * path);
-  vec3 bedColor = texture2D(tWaterColor, sampleUV).rgb;
-  return bedColor * transmittance + body * (vec3(1.0) - transmittance);
+  if (refraction <= 0.0) return fallback;
+  // Only the narrow validity band evaluates both colors. Each candidate retains
+  // its own Beer-Lambert path, so blending never leaks a foreground sample.
+  return mix(fallback, waterAbsorbedSample(body, sampleUV, bed, viewSurface), refraction);
 }
 
 vec3 waterReflection(vec3 sky, vec3 normal, vec3 world) {
@@ -96,7 +112,7 @@ float waterContactEdge(vec3 world) {
   if (uWaterCapture < 0.5) return 0.0;
   vec2 uv = gl_FragCoord.xy / uWaterResolution;
   float raw = texture2D(tWaterDepth, uv).r;
-  if (raw > 0.9999) return 0.0;
+  if (raw >= ${WATER_DEPTH_VALIDITY.clearDepth.toFixed(1)}) return 0.0;
   vec3 viewSurface = (viewMatrix * vec4(world, 1.0)).xyz;
   float gap = waterRayGap(waterViewDepth(raw), viewSurface);
   return smoothstep(0.0, 0.035, gap) * (1.0 - smoothstep(0.04, 0.28, gap));

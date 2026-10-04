@@ -110,13 +110,19 @@ export class WaterRenderPass {
     const target = this.reflector.getRenderTarget();
     if (target.width !== size) { target.setSize(size, size); this.reflectionValid = false; }
     if (Number.isFinite(dt) && dt > 0) this.reflectionAge += dt;
-    const moved = this.reflectionCameraPosition.distanceToSquared(camera.position) > 0.09
-      || this.reflectionCameraRotation.angleTo(camera.quaternion) > 0.012
+    // A cached reflection is a view-dependent image. During walking, running,
+    // orbiting or zooming it must follow every rendered camera pose; throttling
+    // it here makes reflected shorelines jump by 0.39–0.59 m at running speed.
+    // Only numerical camera noise is ignored, not ordinary slow movement.
+    const moved = this.reflectionCameraPosition.distanceToSquared(camera.position) > 1e-8
+      || this.reflectionCameraRotation.angleTo(camera.quaternion) > 1e-5
       || !this.reflectionProjection.equals(camera.projectionMatrix);
     const sun = Number(u.uSunI?.value ?? 0), night = Number(u.uNight?.value ?? 0);
     const lightingChanged = Math.abs(this.reflectionLight.x - sun) > 0.025 || Math.abs(this.reflectionLight.y - night) > 0.02;
     const interval = input.quality === 'high' ? 1 / 15 : 1 / 10;
-    if (!this.reflectionValid || this.reflectionAge >= interval && (moved || lightingChanged || !input.reducedMotion)) {
+    // Stationary scene animation keeps the bounded refresh cadence, including
+    // a frozen valid image for Reduced Motion. Camera movement never waits.
+    if (!this.reflectionValid || moved || this.reflectionAge >= interval && (lightingChanged || !input.reducedMotion)) {
       const visible = input.meshes.map(mesh => mesh.visible);
       const oldTarget = renderer.getRenderTarget(), oldAutoClear = renderer.autoClear;
       const oldShadow = renderer.shadowMap.autoUpdate, oldXr = renderer.xr.enabled;

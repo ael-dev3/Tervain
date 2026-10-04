@@ -413,20 +413,47 @@ describe('water capture/composite orchestration', () => {
     expect(f.renderer.getRenderTarget()).toBe(f.previousTarget);
   });
 
-  it.each([['medium', 1 / 10], ['high', 1 / 15]] as const)('caps %s reflection refresh despite continuous camera movement', (quality, interval) => {
+  it.each(['medium', 'high'] as const)('keeps %s reflections paired with every running camera pose below the stationary refresh interval', quality => {
     const f = setup();
     coastalView(f);
     f.input.quality = quality;
     f.render();
+    const target = f.draws[0]!.target;
+    let projection = f.input.seaMaterial.uniforms.uWaterReflectionMatrix!.value.clone();
+    for (let frame = 0; frame < 12; frame++) {
+      f.draws.length = 0;
+      f.camera.position.x += 5.85 / 120;
+      f.pass.render(f.renderer as unknown as THREE.WebGLRenderer, f.scene, f.camera, f.source, 1 / 120, f.input);
+      expect(f.draws).toHaveLength(4);
+      expect(f.draws[0]!.target).toBe(target);
+      expect(f.draws[0]!.visibility).toEqual([false, false]);
+      expect(f.draws[0]!.camera.position.x).toBeCloseTo(f.camera.position.x, 8);
+      const next = f.input.seaMaterial.uniforms.uWaterReflectionMatrix!.value;
+      expect(next.equals(projection)).toBe(false);
+      projection = next.clone();
+    }
+  });
+
+  it.each(['translation', 'rotation', 'zoom'] as const)('refreshes immediately for slow %s even in Reduced Motion', movement => {
+    const f = setup(); coastalView(f); f.input.reducedMotion = true;
+    f.render(); f.draws.length = 0;
+    if (movement === 'translation') f.camera.position.x += 0.001;
+    if (movement === 'rotation') f.camera.rotateY(0.001);
+    if (movement === 'zoom') { f.camera.fov -= 0.1; f.camera.updateProjectionMatrix(); }
+    f.pass.render(f.renderer as unknown as THREE.WebGLRenderer, f.scene, f.camera, f.source, 1 / 240, f.input);
+    expect(f.draws).toHaveLength(4);
+  });
+
+  it.each([['medium', 1 / 10], ['high', 1 / 15]] as const)('retains the %s stationary scene refresh cadence without reallocating', (quality, interval) => {
+    const f = setup(); coastalView(f); f.input.quality = quality;
+    f.render(); const target = f.draws[0]!.target;
     f.draws.length = 0;
-    f.camera.position.x += 1;
     f.pass.render(f.renderer as unknown as THREE.WebGLRenderer, f.scene, f.camera, f.source, interval / 4, f.input);
     expect(f.draws).toHaveLength(3);
     f.draws.length = 0;
-    f.camera.position.x += 1;
     f.pass.render(f.renderer as unknown as THREE.WebGLRenderer, f.scene, f.camera, f.source, interval, f.input);
     expect(f.draws).toHaveLength(4);
-    expect(f.draws[0]!.visibility).toEqual([false, false]);
+    expect(f.draws[0]!.target).toBe(target);
   });
 
   it('invalidates the reduced-motion reflection after a world rebuild even with an unchanged camera', () => {

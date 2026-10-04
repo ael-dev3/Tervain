@@ -1754,7 +1754,9 @@ export class App {
       h('p', { class: 'small' }, 'Seeks the actual menu song for doorway, wisp and loop review; has no effect in gameplay.'),
       h('div', { class: 'pillrow' }, ...[28, 30, 33, 60, 75, 110, 205, 211].map((time) => btn(`Score → ${Math.floor(time / 60)}:${String(time % 60).padStart(2, '0')}`, () => this.audio.seekMenuMusic(time)))),
       h('h2', {}, 'Benchmark'),
-      h('p', { class: 'muted' }, 'Runs a fixed camera route from the landing through the woodland and town (about 72 s) and reports median/95th/99th percentile frame times for this device, renderer and quality preset.'),
+      h('p', { class: 'muted' }, new URLSearchParams(location.search).get('review') === 'water' && new URLSearchParams(location.search).has('shot')
+        ? 'Runs a 12 s shoreline camera review up to 5.85 m/s, retaining reflected land and shallow water in view. Reports frame times for this device and quality preset.'
+        : 'Runs a fixed camera route from the landing through the woodland and town (about 72 s) and reports median/95th/99th percentile frame times for this device, renderer and quality preset.'),
       h('div', { class: 'pillrow' }, btn('Run benchmark route', () => this.startBenchmark()), btn('Copy report', () => navigator.clipboard?.writeText(this.debugPre.textContent ?? ''))),
     );
   }
@@ -1842,7 +1844,16 @@ export class App {
   private startBenchmark() {
     const T = this.world.terrain;
     const H = (x: number, z: number, up: number) => new THREE.Vector3(x, T.heightAt(x, z) + up, z);
-    const route: { p: THREE.Vector3; look: THREE.Vector3 }[] = [
+    // Query-only water review reuses the native F3 benchmark button. Its
+    // 23.4 m / 6 s smooth segment reaches the authored 5.85 m/s running speed
+    // while keeping the reflected coast in view, without synthetic key events.
+    const waterReview = new URLSearchParams(location.search).has('shot')
+      && new URLSearchParams(location.search).get('review') === 'water';
+    const route: { p: THREE.Vector3; look: THREE.Vector3 }[] = waterReview ? [
+      { p: H(-268, 27, 2.6), look: new THREE.Vector3(-334, 5, 108) },
+      { p: H(-268, 50.4, 2.6), look: new THREE.Vector3(-334, 5, 108) },
+      { p: H(-268, 27, 2.6), look: new THREE.Vector3(-334, 5, 108) },
+    ] : [
       { p: H(SPAWN.x, SPAWN.z, 3), look: H(-243, 22, 2) },
       { p: H(-224, 22, 2.6), look: H(-202, 12, 3) },
       { p: H(-178, 12, 2.6), look: H(-150, 24, 3) },
