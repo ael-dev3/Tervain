@@ -18,6 +18,9 @@ import { HERO_WALK_SPEED, HERO_RUN_SPEED, HERO_GUARD_SPEED, HERO_WALK_CYCLE, HER
 export type PlayerState = 'free' | 'light' | 'heavy' | 'dodge' | 'hurt' | 'channel' | 'dead';
 
 export const STAMINA_MAX = 100;
+/** A fresh meter supports about 133 seconds of uninterrupted exploration running. */
+const SPRINT_STAMINA_PER_SECOND = 0.75;
+const SPRINT_MIN_STAMINA = 0.5;
 const COST = { light: 12, heavy: 30, dodge: 22, jump: 6, blockHit: 18 };
 const DUR = { light: 0.62, heavy: 1.05, dodge: 0.4, hurt: 0.38 };
 /** Portion of the action after which the blow lands. */
@@ -502,7 +505,8 @@ export class Player {
 
     // Sprint.
     const sprintHeld = control && inp.held('sprint') && hasInput && !this.blocking;
-    const sprinting = sprintHeld && this.stamina > 0.5 && !this.exhausted && this.state === 'free';
+    if (sprintHeld && this.state === 'free' && this.stamina <= SPRINT_MIN_STAMINA) this.exhausted = true;
+    const sprinting = sprintHeld && this.stamina > SPRINT_MIN_STAMINA && !this.exhausted && this.state === 'free';
     if (sprintHeld && this.exhausted) inp.clearToggle('sprint');
 
     // Actions (edge-triggered).
@@ -665,9 +669,9 @@ export class Player {
 
     // Stamina.
     if (sprinting && this.state === 'free' && this.lastMoveSpeed > 1) {
-      this.stamina = Math.max(0, this.stamina - 12 * dt);
+      this.stamina = Math.max(0, this.stamina - SPRINT_STAMINA_PER_SECOND * dt);
       this.staminaPause = 0.5;
-      if (this.stamina <= 0.01) {
+      if (this.stamina <= SPRINT_MIN_STAMINA) {
         this.exhausted = true;
         inp.clearToggle('sprint');
       }

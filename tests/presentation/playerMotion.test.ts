@@ -58,6 +58,75 @@ describe('player motion and action contacts', () => {
       expect(pose.moveSpeed).toBeCloseTo(sprint ? HERO_RUN_SPEED : HERO_WALK_SPEED, 4);
     }
   });
+
+  it.each([30, 60, 120])('sustains default running beyond two minutes at %s Hz without stamina-gate pulsing', hz => {
+    const s = setup(); s.setMove(0, 1); s.held.add('sprint');
+    // A bounded square keeps actual controller travel clear of world boundaries.
+    // Do not reset position, stamina or controller state between route segments.
+    let travelled = 0;
+    for (let frame = 0; frame < 120 * hz; frame++) {
+      s.ctx.viewYaw = Math.floor(frame / (8 * hz)) % 4 * Math.PI / 2;
+      s.tick(1 / hz);
+      travelled += s.player.lastMoveSpeed / hz;
+      expect(s.player.exhausted).toBe(false);
+      if (frame > hz) expect(s.player.mode).toBe('run');
+    }
+    expect(travelled).toBeGreaterThan(690);
+    expect(s.player.stamina).toBeCloseTo(10, 1);
+    // Follow through actual exhaustion rather than stopping at the requirement.
+    let elapsed = 120;
+    while (!s.player.exhausted && elapsed < 140) {
+      s.ctx.viewYaw = Math.floor(elapsed / 8) % 4 * Math.PI / 2;
+      s.tick(1 / hz); elapsed += 1 / hz;
+    }
+    expect(elapsed).toBeGreaterThan(132.5);
+    expect(elapsed).toBeLessThan(133);
+    expect(s.player.exhausted).toBe(true);
+    expect(s.ctx.input.clearToggle).toHaveBeenCalledWith('sprint');
+    for (let frame = 0; frame < hz; frame++) s.tick(1 / hz);
+    expect(s.player.exhausted).toBe(true); // Held input cannot alternate run/walk near empty.
+    expect(s.player.mode).toBe('walk');
+    s.held.delete('sprint'); s.setMove(0, 0);
+    for (let frame = 0; frame < 6 * hz; frame++) s.tick(1 / hz);
+    expect(s.player.stamina).toBe(100);
+    expect(s.player.exhausted).toBe(false);
+    s.held.add('sprint'); s.setMove(0, 1);
+    for (let frame = 0; frame < hz; frame++) s.tick(1 / hz);
+    expect(s.player.mode).toBe('run');
+    expect(s.player.lastMoveSpeed).toBeCloseTo(HERO_RUN_SPEED, 4);
+  });
+
+  it('charges running only for resolved travel, retaining separate jump costs and pause suspension', () => {
+    const s = setup(); s.held.add('sprint');
+    for (let frame = 0; frame < 120; frame++) s.tick();
+    expect(s.player.stamina).toBe(100); // Holding sprint without a direction costs nothing.
+    s.ctx.colliders.box('wall', 0, 1, 4, 0.02); s.setMove(0, 1);
+    for (let frame = 0; frame < 120; frame++) s.tick();
+    expect(s.player.lastMoveSpeed).toBeLessThan(0.01);
+    expect(s.player.stamina).toBe(100); // Pushing an impassable wall is not running.
+    s.setMove(0, 0); s.held.delete('sprint'); s.presses.add('jump'); s.tick();
+    expect(s.player.stamina).toBe(94);
+    s.ctx.controllable = false;
+    for (let frame = 0; frame < 120; frame++) s.tick();
+    expect(s.player.stamina).toBe(94); // Menus neither spend nor replenish the meter.
+    s.ctx.controllable = true;
+    for (let frame = 0; frame < 120; frame++) s.tick();
+    expect(s.player.stamina).toBe(100);
+  });
+
+  it('requires real recovery before running from an externally depleted balance', () => {
+    const s = setup(); s.player.stamina = 0.25; s.setMove(0, 1); s.held.add('sprint');
+    for (let frame = 0; frame < 60; frame++) {
+      s.tick();
+      expect(s.player.exhausted).toBe(true);
+      expect(s.player.mode).not.toBe('run');
+    }
+    expect(s.player.stamina).toBeLessThan(22);
+    expect(s.ctx.input.clearToggle).toHaveBeenCalledWith('sprint');
+    for (let frame = 0; frame < 60; frame++) s.tick();
+    expect(s.player.exhausted).toBe(false);
+    expect(s.player.mode).toBe('run');
+  });
   it('feeds the imported hero resolved travel and uses its heel strikes instead of duplicate distance sounds', () => {
     const s = setup();
     const footfalls = vi.fn().mockReturnValueOnce(1).mockReturnValue(0);
