@@ -12,6 +12,12 @@ An original order currently called the **Templars** anchors the setting. **The T
 
 The hosted browser prototype is published from `main` through GitHub Pages; the title screen shows its version. Use a desktop WebGL browser with keyboard/mouse or a controller. Progress is saved in your browser.
 
+## Watch the teaser
+
+[![Tervain teaser: the title card](docs/media/teaser/poster.jpg)](docs/media/teaser/tervain-teaser-0.0.10.mp4)
+
+A 47-second teaser for X, filmed from the running prototype, with an honest second voice under every trailer claim. Its music is composed in code for the cut. See [how it was made](docs/production/teaser-x.md).
+
 ## Repository status
 
 ### Separate Gothic 3 reconstruction

@@ -77,6 +77,10 @@ A50 adds 99 sound-effects generations made for Tervain with the owner's ElevenLa
 
 The unchanged MP3 generations are archived in [assets/audio/source/world/](../../assets/audio/source/world/). Runtime sprites, loops and pieces in [public/assets/audio/world/](../../public/assets/audio/world/) are rebuilt by [tools/world-audio/prepare.mjs](../../tools/world-audio/prepare.mjs) as Ogg Opus with AAC fallbacks. Every prompt and hash is in [world-audio-assets.json](world-audio-assets.json). Credit to ElevenLabs (elevenlabs.io) is required under the free-plan sound-effects terms and is given in the About text and NOTICE; no independent rights review is asserted. Nothing from Gothic, Warpkeep or another game is used. A51 adds crafted music and sounds rendered by original code in [tools/world-audio/compose/](../../tools/world-audio/compose/): no recordings or generators, each render recorded by hash under `composed`. See [world-audio.md](world-audio.md).
 
+## Teaser for X, 5 October 2026
+
+A52's [teaser](../media/teaser/tervain-teaser-0.0.10.mp4) is filmed from Tervain's own prototype. Its sound comes from A50's generations and A51's crafted sounds, and its score is composed in code; the owner-supplied menu score is not used. Two typefaces are drawn into its captions: Cinzel (Natanael Gama) and Inter (Rasmus Andersson), both under the SIL Open Font License 1.1. They are fetched from Google Fonts while rendering, and no font files are in the repository. See the [teaser record](../production/teaser-x.md).
+
 ## Replacement people sheets (0.0.8)
 
 Since `0.0.8` ([A36](../decisions.md)) every person's texture is a sheet the game paints in code at load; painted sheets are not files and need no record. An image saved as `src/assets/people/<id>.png` (or `.jpg`, `.jpeg`, `.webp`) replaces one person's painted sheet, and Vite bundles it into the build. The [retexture guide](../art/people-retexture.md) describes the layout, the export and the rules.

@@ -7,3 +7,4 @@ assets/gothic3/dialogue/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/terrain/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 # Hash-preserved native study excerpts include original blank-line spacing.
 assets/gothic3/combat/sources/** -whitespace
+*.mp4 binary
