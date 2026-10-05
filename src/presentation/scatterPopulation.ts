@@ -12,7 +12,7 @@ import type { Exclusions } from './vegetation';
 
 
 export interface ScatterRock {
-  kind: 'beach' | 'surf' | 'stack' | 'erratic' | 'lighthouse';
+  kind: 'beach' | 'surf' | 'stack' | 'erratic' | 'lighthouse' | 'shelf';
   x: number;
   y: number;
   z: number;
@@ -34,16 +34,16 @@ export interface ScatterRock {
 export function createScatterPopulation(terrain: Pick<Terrain, 'heightAt' | 'slopeAt'>, exclusions: Pick<Exclusions, 'blocked'>, trunks: readonly { x: number; z: number; radius: number }[] = []): ScatterRock[] {
   const rng = mulberry32(8080);
   const rocks: ScatterRock[] = [];
-  const put = (kind: ScatterRock['kind'], x: number, z: number, size: number, options: { sink: number; collide?: boolean; squash?: number; yOff?: number }) => {
+  const put = (kind: ScatterRock['kind'], x: number, z: number, size: number, options: { sink: number; collide?: boolean; squash?: number; yOff?: number; tint?: number }, appearanceRandom = rng) => {
     const radius = options.collide && size > 0.8 ? size * 0.72 : 0;
     // Consume the same appearance draws on every authoring pass, including excluded candidates.
     const appearance = {
-      shape: Math.floor(rng() * SCATTER_SHAPES),
-      yaw: rng() * Math.PI * 2,
-      rx: (rng() - 0.5) * 0.25,
-      rz: (rng() - 0.5) * 0.25,
-      zScale: 0.8 + rng() * 0.4,
-      tint: 0.9 + rng() * 0.2,
+      shape: Math.floor(appearanceRandom() * SCATTER_SHAPES),
+      yaw: appearanceRandom() * Math.PI * 2,
+      rx: (appearanceRandom() - 0.5) * 0.25,
+      rz: (appearanceRandom() - 0.5) * 0.25,
+      zScale: 0.8 + appearanceRandom() * 0.4,
+      tint: (0.9 + appearanceRandom() * 0.2) * (options.tint ?? 1),
     };
     if (radius > 0 && exclusions.blocked(x, z, radius + 0.55)) return;
     // Trees are authored first. Keep their grounded movement footprints distinct from boulders;
@@ -109,7 +109,62 @@ export function createScatterPopulation(terrain: Pick<Terrain, 'heightAt' | 'slo
     if (terrain.heightAt(x, z) < 0.4) continue;
     put('lighthouse', x, z, 0.7 + rng() * 1.8, { sink: 0.35, collide: true });
   }
+  // Broken shelf stone gathers at a few dry sand/grass transitions rather than ringing the bay
+  // with equally spaced boulders. An independent stream preserves all previous rock identities.
+  for (let cell = -15; cell <= 15; cell++) {
+    const shelfRandom = mulberry32(51913 ^ Math.imul(cell, 83492791));
+    if (shelfRandom() > 0.5) continue;
+    const z = cell * 10 + (shelfRandom() - 0.5) * 7;
+    const x = coastX(z) + 24 + shelfRandom() * 18;
+    const h = terrain.heightAt(x, z);
+    if (h < 1.4 || h > 11.5 || terrain.slopeAt(x, z) > 0.65 || realmRadius(x, z) > 0.96) continue;
+    const count = 3 + Math.floor(shelfRandom() * 3);
+    const az = shelfRandom() * Math.PI * 2;
+    for (let stone = 0; stone < count; stone++) {
+      const size = stone === 0 ? 1.25 + shelfRandom() * 1.45 : 0.4 + shelfRandom() * 0.7;
+      const spread = stone === 0 ? 0 : 1.7 + shelfRandom() * 2.8;
+      const a = az + stone * 1.8;
+      const px = x + Math.cos(a) * spread, pz = z + Math.sin(a) * spread;
+      const py = terrain.heightAt(px, pz);
+      // Even the low companions respect whole-object approaches, not just the boulder proxy.
+      if (py < 0.8 || py > 12 || terrain.slopeAt(px, pz) > 0.72 || exclusions.blocked(px, pz, size * 1.25 + 0.55)) continue;
+      if (trunks.some(tree => tree.radius > 0 && Math.hypot(px - tree.x, pz - tree.z) < tree.radius + size * 1.25 + 0.35)) continue;
+      put('shelf', px, pz, size, { sink: 0.5, collide: true, squash: 0.72 + shelfRandom() * 0.16, tint: 0.67 + shelfRandom() * 0.14 }, shelfRandom);
+    }
+  }
   return rocks;
+}
+
+export interface ShoreDetail {
+  kind: 'driftwood' | 'scrub';
+  x: number; y: number; z: number; yaw: number; scale: number; rank: number; seed: number;
+}
+
+/** Low shore detail is independent of rock geometry, preset and unrelated inland decoration.
+ * Roots and whole driftwood envelopes stay away from routes, pickups, doors and source wood. */
+export function createShoreDetailPopulation(terrain: Pick<Terrain, 'heightAt' | 'slopeAt'>, exclusions: Pick<Exclusions, 'blocked'>,
+  trunks: readonly { x: number; z: number; radius: number }[] = []): ShoreDetail[] {
+  const details: ShoreDetail[] = [];
+  for (let cell = -15; cell <= 15; cell++) {
+    for (let lane = 0; lane < 2; lane++) {
+      const seed = 51917 ^ Math.imul(cell, 83492791) ^ Math.imul(lane, 93051), rnd = mulberry32(seed);
+      for (const kind of ['driftwood', 'scrub'] as const) {
+        const z = cell * 10 + (rnd() - 0.5) * 7;
+        const x = coastX(z) + (kind === 'driftwood' ? 5 + rnd() * 22 : 24 + rnd() * 20);
+        const scale = kind === 'driftwood' ? 1.6 + rnd() * 2.7 : 0.72 + rnd() * 0.65;
+        const y = terrain.heightAt(x, z), yaw = rnd() * Math.PI * 2, rank = rnd(), chance = rnd();
+        const reach = kind === 'driftwood' ? scale * 0.65 + 0.2 : scale * 0.9;
+        if (chance > (kind === 'driftwood' ? 0.72 : 0.55) || realmRadius(x, z) > 0.96) continue;
+        if (y < 0.18 || y > (kind === 'driftwood' ? 3.2 : 11.5) || terrain.slopeAt(x, z) > (kind === 'driftwood' ? 0.16 : 0.5)) continue;
+        if (exclusions.blocked(x, z, reach)) continue;
+        if (trunks.some(tree => tree.radius > 0 && Math.hypot(x - tree.x, z - tree.z) < tree.radius + reach + 0.3)) continue;
+        // Accepted pieces cannot interpenetrate another connected wood or scrub envelope.
+        if (details.some(other => Math.hypot(x - other.x, z - other.z) < reach + (other.kind === 'driftwood' ? other.scale * 0.65 + 0.2 : other.scale * 0.9))) continue;
+        details.push({ kind, x, y, z, yaw, scale, rank, seed: seed ^ (kind === 'scrub' ? 9173 : 0) });
+      }
+    }
+  }
+  return details;
 }
 
 /** Every movement obstacle and offshore landmark stays visible; only nonblocking stones are thinned. */

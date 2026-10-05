@@ -1,4 +1,4 @@
-import { cliffiness, seaWetness, shoreDistance } from '../world/coast';
+import { cliffiness, coastalShelfAt, seaWetness, shoreDistance } from '../world/coast';
 import { FIELDS, SEA_LEVEL, STREAMS } from '../world/layout';
 import { clamp, fbm, smoothstep } from '../world/noise';
 import { distToPolyline, roadWeight, type Terrain } from '../world/terrain';
@@ -83,9 +83,14 @@ export function groundSplat(terrain: Terrain, x: number, z: number, w: Float32Ar
   // The coast: sand above the tide line, wet sand at the water, rock and shingle on the headlands.
   let wet = 0;
   if (nearSea) {
-    const sandEnd = 15 + 14 * (nMid - 0.4) + 8 * nHi;
-    const sand = (1 - cl) * (1 - smoothstep(sandEnd * 0.55, sandEnd, sd)) * smoothstep(-40, 0.5, sd);
+    const shelf = coastalShelfAt(x, z);
+    const sandEnd = 31 + 10 * (nMid - 0.4) + 5 * nHi;
+    const sand = (1 - cl) * (1 - smoothstep(sandEnd * 0.76, sandEnd, sd)) * smoothstep(-40, 0.5, sd)
+      * (1 - smoothstep(2, 4.2, h));
     blend(w, LAYER.sand, sand);
+    // Low wind-cut grassy caps, exposed mineral faces and a narrow rubble toe share actual elevation/slope.
+    blend(w, LAYER.grass, shelf * smoothstep(2.2, 5, h) * (1 - smoothstep(0.35, 0.7, slope)) * 0.74);
+    blend(w, LAYER.gravel, shelf * smoothstep(0.25, 0.8, slope) * (1 - smoothstep(0.9, 1.3, slope)) * 0.34);
     // Shingle band behind the wet sand, and around rocks.
     blend(w, LAYER.gravel, (1 - cl) * smoothstep(3, 6, sd) * (1 - smoothstep(6, 11, sd)) * nHi * 0.7);
     // Horizontal distance alone marks the entire lighthouse cliff as soaked. Only the actual tidal/splash band is wet;

@@ -2,7 +2,10 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import { NPC_LIST } from '../../src/content/npcs';
 import type { Quality } from '../../src/presentation/context';
 import { createFloraPopulation, registerFloraColliders } from '../../src/presentation/floraPopulation';
-import { createScatterPopulation, registerScatterColliders, selectScatterPopulation, type ScatterRock } from '../../src/presentation/scatterPopulation';
+import { createScatterPopulation, createShoreDetailPopulation, registerScatterColliders, selectScatterPopulation, type ScatterRock } from '../../src/presentation/scatterPopulation';
+import { createShoreWoodSegments } from '../../src/presentation/scatter';
+import { rockShapes, rockTransform } from '../../src/presentation/rockGeometry';
+import * as THREE from 'three';
 import { Exclusions } from '../../src/presentation/vegetation';
 import { Colliders, buildStaticColliders } from '../../src/world/colliders';
 import { ANCHORS, BUILDINGS, PICKUP_LOCATIONS, RITE_ALTAR, ROADS, SHORTCUT, SLUICE, SPAWN, type V2 } from '../../src/world/layout';
@@ -81,6 +84,56 @@ describe('canonical rock population', () => {
     for (const quality of presets) {
       const plan = selectScatterPopulation(offshore, quality);
       expect(stacks.every((rock) => plan.rocks.includes(rock))).toBe(true);
+    }
+  });
+
+  it('groups dry shelf stones with exact finite contacts and embeds their whole transformed bases', () => {
+    const shelf = population.filter(rock => rock.kind === 'shelf');
+    expect(shelf.length).toBeGreaterThan(5);
+    expect(shelf.some(rock => rock.size > 1.25)).toBe(true);
+    for (const rock of shelf) {
+      expect(rock.contact).toBeDefined();
+      expect(exclusions.blocked(rock.x, rock.z, rock.size * 1.25 + 0.55)).toBe(false);
+      const source = (rock.size > 0.55 ? rockShapes().big : rockShapes().small)[rock.shape]!.getAttribute('position');
+      const matrix = rockTransform(rock), p = new THREE.Vector3();
+      let low = Infinity, high = -Infinity;
+      for (let i = 0; i < source.count; i++) {
+        p.fromBufferAttribute(source, i).applyMatrix4(matrix);
+        low = Math.min(low, p.y); high = Math.max(high, p.y);
+        expect(rock.contact!.positions[i * 3]).toBeCloseTo(p.x, 4);
+        expect(rock.contact!.positions[i * 3 + 1]).toBeCloseTo(p.y, 4);
+        expect(rock.contact!.positions[i * 3 + 2]).toBeCloseTo(p.z, 4);
+      }
+      for (let i = 0; i < source.count; i++) {
+        p.fromBufferAttribute(source, i).applyMatrix4(matrix);
+        if (p.y <= low + (high - low) * 0.12 + 1e-5) expect(p.y).toBeLessThan(terrain.heightAt(p.x, p.z));
+      }
+    }
+  });
+
+  it('keeps sparse dry shore dressing deterministic and away from whole interaction envelopes', () => {
+    const details = createShoreDetailPopulation(terrain, exclusions);
+    expect(createShoreDetailPopulation(terrain, exclusions)).toEqual(details);
+    expect(details.some(detail => detail.kind === 'driftwood')).toBe(true);
+    expect(details.some(detail => detail.kind === 'scrub')).toBe(true);
+    expect(details.length).toBeLessThan(42);
+    for (const detail of details) {
+      const reach = detail.kind === 'driftwood' ? detail.scale * 0.65 + 0.2 : detail.scale * 0.9;
+      expect(exclusions.blocked(detail.x, detail.z, reach)).toBe(false);
+      expect(Math.hypot(detail.x - SPAWN.x, detail.z - SPAWN.z)).toBeGreaterThan(32 + reach);
+      expect(detail.y).toBe(terrain.heightAt(detail.x, detail.z));
+    }
+    const wood = details.find(detail => detail.kind === 'driftwood')!;
+    const segments = createShoreWoodSegments(wood, (x, z) => terrain.heightAt(x, z));
+    expect(segments.length).toBeGreaterThanOrEqual(3);
+    expect(segments.length).toBeLessThanOrEqual(5);
+    for (let i = 1; i < 3; i++) expect(segments[i]!.a).toBe(segments[i - 1]!.b);
+    for (const fork of segments.slice(3)) expect(segments.slice(0, 3).some(trunk => trunk.b === fork.a)).toBe(true);
+    for (const segment of segments) {
+      for (const [point, radius] of [[segment.a, segment.radius], [segment.b, segment.endRadius]] as const) {
+        expect(point[1] - radius).toBeLessThanOrEqual(terrain.heightAt(point[0], point[2]) + 0.01);
+        expect(point[1] + radius - terrain.heightAt(point[0], point[2])).toBeLessThan(0.2);
+      }
     }
   });
 

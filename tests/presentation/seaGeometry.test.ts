@@ -4,6 +4,7 @@ import { buildSeaGeometry, type SeaQuality } from '../../src/presentation/seaGeo
 import { coastX, shoreDistance } from '../../src/world/coast';
 import { SEA_LEVEL, WORLD } from '../../src/world/layout';
 import { Terrain } from '../../src/world/terrain';
+import { DISTANT_COAST, distantCoastHeight } from '../../src/world/distantCoast';
 
 const x1 = -180, z0 = WORLD.minZ - 12, z1 = WORLD.maxZ + 12;
 const owned: THREE.BufferGeometry[] = [];
@@ -13,6 +14,7 @@ const fixture = (terrain: Pick<Terrain, 'heightAt'>, quality?: SeaQuality) => {
   return geometry;
 };
 const near = (x: number, z: number) => x >= WORLD.minX && x <= x1 && z >= z0 && z <= z1;
+const offshoreBand = (x: number, z: number) => x >= DISTANT_COAST.minX && x < WORLD.minX && z >= z0 && z <= z1;
 const edgeKey = (a: number, b: number) => a < b ? `${a}:${b}` : `${b}:${a}`;
 const plane = { heightAt: (x: number, z: number) => (x + 300) * 0.02 + z * 0.001 };
 
@@ -39,6 +41,15 @@ describe('coastal sea geometry', () => {
       expect(values[i]! - values[i - 1]!).toBeGreaterThan(0);
       expect(values[i]! - values[i - 1]!).toBeLessThanOrEqual(cell + 0.0001);
     }
+    const offshoreXs = new Set<number>();
+    for (let i = 0; i < position.count; i++) {
+      if (offshoreBand(position.getX(i), position.getZ(i))) offshoreXs.add(position.getX(i));
+    }
+    const offshore = [...offshoreXs, WORLD.minX].sort((a, b) => a - b);
+    expect(offshore[0]).toBe(DISTANT_COAST.minX);
+    expect(offshore.at(-1)).toBe(WORLD.minX);
+    for (let i = 1; i < offshore.length; i++) expect(offshore[i]! - offshore[i - 1]!).toBe(DISTANT_COAST.cellX);
+    for (let i = 1; i < z.length; i++) expect(z[i]! - z[i - 1]!).toBe(DISTANT_COAST.cellZ);
     expect(geometry.boundingBox!.min.x).toBeLessThan(WORLD.minX - 4000);
     expect(geometry.boundingBox!.max.x).toBe(x1);
     expect(geometry.boundingBox!.min.z).toBeLessThan(WORLD.minZ - 4000);
@@ -94,6 +105,16 @@ describe('coastal sea geometry', () => {
       expect(ids.length).toBeGreaterThan(20);
       for (let i = 1; i < ids.length; i++) expect(edges.get(edgeKey(ids[i - 1]!, ids[i]!))).toBe(2);
     }
+    // The added band remains joined to both the existing coastal grid and the ocean horizon.
+    for (const side of ['north', 'south', 'west'] as const) {
+      const ids = Array.from({ length: position.count }, (_value, id) => id).filter((id) => {
+        const x = position.getX(id), z = position.getZ(id);
+        return x >= DISTANT_COAST.minX && x <= WORLD.minX && z >= z0 && z <= z1
+          && (side === 'west' ? x === DISTANT_COAST.minX : z === (side === 'north' ? z0 : z1));
+      }).sort((a, b) => side === 'west' ? position.getZ(a) - position.getZ(b) : position.getX(a) - position.getX(b));
+      expect(ids.length).toBeGreaterThan(20);
+      for (let i = 1; i < ids.length; i++) expect(edges.get(edgeKey(ids[i - 1]!, ids[i]!))).toBe(2);
+    }
     const material = new THREE.MeshBasicMaterial({ side: THREE.FrontSide }), mesh = new THREE.Mesh(geometry, material);
     expect(new THREE.Raycaster(new THREE.Vector3(-360, 3, 0), new THREE.Vector3(0, -1, 0)).intersectObject(mesh).length).toBeGreaterThan(0);
     expect(new THREE.Raycaster(new THREE.Vector3(-360, -3, 0), new THREE.Vector3(0, 1, 0)).intersectObject(mesh)).toHaveLength(0);
@@ -104,7 +125,7 @@ describe('coastal sea geometry', () => {
     const terrain = { heightAt: (x: number, z: number) => SEA_LEVEL + shoreDistance(x, z) * 0.08 };
     const geometry = fixture(terrain);
     const position = geometry.getAttribute('position'), depth = geometry.getAttribute('aDepth'), shore = geometry.getAttribute('aShore');
-    let dry = 0, wet = 0, maxDepthError = 0, maxShoreError = 0;
+    let dry = 0, wet = 0, offshoreDry = 0, offshoreWet = 0, maxDepthError = 0, maxShoreError = 0, maxOffshoreError = 0;
     for (let i = 0; i < position.count; i++) {
       const x = position.getX(i), z = position.getZ(i), actual = SEA_LEVEL - terrain.heightAt(x, z);
       if (near(x, z)) {
@@ -112,6 +133,11 @@ describe('coastal sea geometry', () => {
         maxShoreError = Math.max(maxShoreError, Math.abs(shore.getX(i) + shoreDistance(x, z)));
         if (actual < 0) { expect(depth.getX(i)).toBeLessThan(0); dry++; }
         if (actual > 0) { expect(depth.getX(i)).toBeGreaterThan(0); wet++; }
+      } else if (offshoreBand(x, z)) {
+        const actual = SEA_LEVEL - distantCoastHeight(x, z);
+        maxOffshoreError = Math.max(maxOffshoreError, Math.abs(depth.getX(i) - actual), Math.abs(shore.getX(i) - actual));
+        if (actual < 0) { expect(depth.getX(i)).toBeLessThan(0); offshoreDry++; }
+        if (actual > 0) { expect(depth.getX(i)).toBeGreaterThan(0); offshoreWet++; }
       } else if (shoreDistance(x, z) < 0) {
         expect(depth.getX(i)).toBe(16);
         expect(shore.getX(i)).toBeGreaterThan(0);
@@ -121,7 +147,9 @@ describe('coastal sea geometry', () => {
       }
     }
     expect(dry).toBeGreaterThan(1000); expect(wet).toBeGreaterThan(1000);
+    expect(offshoreDry).toBeGreaterThan(500); expect(offshoreWet).toBeGreaterThan(1000);
     expect(maxDepthError).toBeLessThan(0.000002); expect(maxShoreError).toBeLessThan(0.00002);
+    expect(maxOffshoreError).toBeLessThan(0.000004);
   });
 
   it('samples both sides of every organic coast section and never forces a dry coastal endpoint to deep water', () => {

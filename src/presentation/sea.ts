@@ -219,14 +219,15 @@ void main() {
   // explicit LOD/gradients remain valid across the shoreline's discarded lanes.
   float day = 1.0 - uNight;
   float light = 0.18 + day * (0.5 + min(uSunI, 2.2) * 0.22);
-  vec3 shallow = vec3(0.034, 0.192, 0.155);
-  vec3 deep = vec3(0.008, 0.047, 0.075);
+  vec3 shallow = vec3(0.026, 0.137, 0.126);
+  vec3 deep = vec3(0.009, 0.038, 0.058);
   vec3 body = mix(shallow, deep, 1.0 - exp(-d * 0.38)) * light;
   body = waterTransmission(body, N, vWorld, d);
   float caustic = (1.0 - waterSmooth(0.015, 0.11, cell, cellFootprint)) * (1.0 - smoothstep(1.0, 4.0, d)) * smoothstep(0.05, 0.45, d);
   body += vec3(0.012, 0.027, 0.022) * caustic * day * uDetail * facing;
   vec3 sky = mix(uHorizon, uTop, pow(clamp(R.y, 0.0, 1.0), 0.5));
-  vec3 reflected = waterReflection(sky, reflectionUV, reflectionDx, reflectionDy);
+  // The sheltered sea carries restrained silver-blue reflections instead of bleaching the bay into the sky.
+  vec3 reflected = waterReflection(sky, reflectionUV, reflectionDx, reflectionDy) * 0.5;
   float sd = max(dot(R, uSunDir), 0.0);
   reflected += uSunColor * (waterHighlight(sd, 112.0, rayFootprintSquared) * 0.95
     + waterHighlight(sd, 18.0, rayFootprintSquared) * 0.035) * uSunI * day;

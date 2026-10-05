@@ -9,7 +9,8 @@ import { Region, type MatKey } from './regions';
 import { rockShapes } from './rockGeometry';
 export { rockShapes } from './rockGeometry';
 import { streamDistance } from './groundSplat';
-import { createScatterPopulation, registerScatterColliders, selectScatterPopulation } from './scatterPopulation';
+import { createScatterPopulation, createShoreDetailPopulation, registerScatterColliders, selectScatterPopulation, type ShoreDetail } from './scatterPopulation';
+import { buildForestLeafTexture } from './forestFloor';
 
 /**
  * Stones and the things the sea leaves: boulders and scree, pebbles at the tide line, driftwood, wrack (weed), reeds by the
@@ -19,7 +20,32 @@ import { createScatterPopulation, registerScatterColliders, selectScatterPopulat
 
 type RGB = [number, number, number];
 
-export function buildScatter(ctx: BuildContext): SceneModule & { counts: { rocks: number; pieces: number } } {
+export interface ShoreWoodSegment { a: [number, number, number]; b: [number, number, number]; radius: number; endRadius: number }
+
+/** A short storm-broken limb stays beneath ordinary step height. Its connected forks begin on
+ * real trunk nodes, and every exposed end follows the beach rather than floating above one sample. */
+export function createShoreWoodSegments(detail: ShoreDetail, heightAt: (x: number, z: number) => number): ShoreWoodSegment[] {
+  const rnd = mulberry32(detail.seed), segments: ShoreWoodSegment[] = [];
+  const dx = Math.cos(detail.yaw), dz = Math.sin(detail.yaw), len = detail.scale;
+  const radius = 0.045 + rnd() * 0.045;
+  const nodes: [number, number, number][] = [];
+  for (let node = 0; node <= 3; node++) {
+    const t = node / 3, side = node === 0 || node === 3 ? 0 : (rnd() - 0.5) * len * 0.1;
+    const x = detail.x + dx * len * (t - 0.5) - dz * side;
+    const z = detail.z + dz * len * (t - 0.5) + dx * side;
+    nodes.push([x, heightAt(x, z) + radius * (0.55 - t * 0.18), z]);
+  }
+  for (let node = 0; node < 3; node++) segments.push({ a: nodes[node]!, b: nodes[node + 1]!, radius: radius * (1 - node * 0.14), endRadius: radius * (0.86 - node * 0.14) });
+  for (let fork = 0; fork < 2; fork++) {
+    if (rnd() > 0.7) continue;
+    const a = nodes[1 + fork]!, az = detail.yaw + (fork ? -1.2 : 1.25) + (rnd() - 0.5) * 0.4;
+    const branchLength = len * (0.22 + rnd() * 0.14), x = a[0] + Math.cos(az) * branchLength, z = a[2] + Math.sin(az) * branchLength;
+    segments.push({ a, b: [x, heightAt(x, z) + radius * 0.2, z], radius: radius * 0.45, endRadius: radius * 0.16 });
+  }
+  return segments;
+}
+
+export function buildScatter(ctx: BuildContext): SceneModule & { counts: { rocks: number; pieces: number; driftwood: number; shoreScrub: number } } {
   const { terrain, colliders, quality } = ctx;
   const group = new THREE.Group();
   group.name = 'scatter';
@@ -56,24 +82,53 @@ export function buildScatter(ctx: BuildContext): SceneModule & { counts: { rocks
   }
 
   /* ---- Driftwood, wrack and reeds ---- */
-  const drift = (x: number, z: number) => {
-    const R = region(x, z);
-    const y = terrain.heightAt(x, z);
-    const len = 1.2 + rng() * 3.2;
-    const yaw = rng() * Math.PI;
-    const r = 0.05 + rng() * 0.11;
-    const tint: RGB = [0.3 + rng() * 0.08, 0.26 + rng() * 0.07, 0.2 + rng() * 0.06];
-    const cx = Math.cos(yaw) * len * 0.5;
-    const cz = Math.sin(yaw) * len * 0.5;
-    R.get('bark').rod(x - cx, y + r * 0.7, z - cz, x + cx, y + r * 0.7 + (rng() - 0.5) * 0.2, z + cz, r, 6, tint, { rEnd: r * (0.5 + rng() * 0.4), jit: 0.2 });
-    if (rng() < 0.4) R.get('bark').rod(x, y + r, z, x + Math.cos(yaw + 1.3) * len * 0.3, y + r + 0.3, z + Math.sin(yaw + 1.3) * len * 0.3, r * 0.4, 5, tint, { jit: 0.2 });
+  const drift = (detail: ShoreDetail) => {
+    const R = region(detail.x, detail.z), woodRandom = mulberry32(detail.seed ^ 8191);
+    const tint: RGB = [0.25 + woodRandom() * 0.08, 0.225 + woodRandom() * 0.06, 0.18 + woodRandom() * 0.045];
+    for (const segment of createShoreWoodSegments(detail, (x, z) => terrain.heightAt(x, z))) {
+      R.get('bark').rod(...segment.a, ...segment.b, segment.radius, 6, tint, { rEnd: segment.endRadius, jit: 0.14 });
+    }
   };
-  for (let z = -120; z < 100; z += 4.5) {
-    if (rng() > 0.55 * density) continue;
-    const zz = z + rng() * 4;
-    const xs = coastX(zz) + (2.5 + rng() * 9);
-    if (terrain.heightAt(xs, zz) > 0.15 && terrain.heightAt(xs, zz) < 2) drift(xs, zz);
+  // Wind-shaped, knee-high shore scrub stays on the dry shelf. Its static woody fans all start
+  // in the terrain, with individually attached painted leaves; the open central sand stays empty.
+  const scrub = (detail: ShoreDetail) => {
+    const R = region(detail.x, detail.z), sr = mulberry32(detail.seed), leaves = R.get('cloth');
+    leaves.uvScale = 1; // Leaf charts occupy 0..1; the cloth key only reserves a separate local material batch.
+    const y = terrain.heightAt(detail.x, detail.z) - 0.025;
+    const leaf = (root: THREE.Vector3, direction: THREE.Vector3, length: number, tint: RGB) => {
+      const side = new THREE.Vector3(-direction.z, 0, direction.x).normalize();
+      const mid = root.clone().addScaledVector(direction, length * 0.52); mid.y += length * 0.1;
+      const tip = root.clone().addScaledVector(direction, length); tip.y -= length * 0.08;
+      const left = mid.clone().addScaledVector(side, -length * 0.4), right = mid.clone().addScaledVector(side, length * 0.4);
+      const normal = new THREE.Vector3().crossVectors(left.clone().sub(root), tip.clone().sub(root)).normalize();
+      if (normal.y < 0) normal.negate();
+      const vert = (p: THREE.Vector3, u: number, v: number) => leaves.vert(p.x, p.y, p.z, normal.x, normal.y, normal.z, u, v, tint, 1, 0.035);
+      const a = vert(root, 0.5, 0), b = vert(left, 0, 0.5), c = vert(mid, 0.5, 0.5), d = vert(right, 1, 0.5), e = vert(tip, 0.5, 1);
+      leaves.tri(a, c, b); leaves.tri(a, d, c); leaves.tri(b, c, e); leaves.tri(c, d, e);
+    };
+    for (let fan = 0; fan < 3; fan++) {
+      const az = detail.yaw + fan * 2.05 + (sr() - 0.5) * 0.3;
+      const dx = Math.cos(az), dz = Math.sin(az), s = detail.scale;
+      const at = (t: number) => new THREE.Vector3(detail.x + dx * s * 0.48 * t * t + s * 0.18 * t,
+        y + s * (0.46 + fan * 0.05) * t, detail.z + dz * s * 0.48 * t * t);
+      let previous = at(0);
+      for (let node = 1; node <= 4; node++) {
+        const point = at(node / 4);
+        R.get('bark').rod(previous.x, previous.y, previous.z, point.x, point.y, point.z, s * 0.014 * (1 - node / 7), 4, [0.20, 0.17, 0.11], { rEnd: s * 0.014 * (1 - (node + 1) / 7), jit: 0.1 });
+        if (node > 1) for (const sign of [-1, 1]) {
+          const direction = new THREE.Vector3(-dz * sign + dx * 0.5, 0.1, dx * sign + dz * 0.5).normalize();
+          leaf(point, direction, s * (0.15 + sr() * 0.11), [0.15 + sr() * 0.035, 0.17 + sr() * 0.035, 0.08 + sr() * 0.025]);
+        }
+        previous = point;
+      }
+    }
+  };
+  const shoreDetails = createShoreDetailPopulation(terrain, ctx.excl, trunks).filter(detail => detail.rank < density);
+  for (const detail of shoreDetails) {
+    if (detail.kind === 'driftwood') drift(detail); else scrub(detail);
   }
+  const driftwood = shoreDetails.filter(detail => detail.kind === 'driftwood').length;
+  const shoreScrub = shoreDetails.length - driftwood;
   // Wrack: dark ribbons of weed at the waterline.
   for (let z = -140; z < 130; z += 1.8) {
     if (rng() > 0.5 * density) continue;
@@ -136,6 +191,8 @@ export function buildScatter(ctx: BuildContext): SceneModule & { counts: { rocks
   /* ---- Materials and merge ---- */
   const matVc = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.9, metalness: 0, flatShading: false });
   const matLeaf = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95, metalness: 0, side: THREE.DoubleSide });
+  const shoreLeafTexture = buildForestLeafTexture(128);
+  const matShoreLeaf = new THREE.MeshStandardMaterial({ vertexColors: true, map: shoreLeafTexture, alphaTest: 0.35, roughness: 1, metalness: 0, envMapIntensity: 0.2, side: THREE.DoubleSide });
   // Shore logs retain their authored supports/UVs, but weathered bark now carries their long fibres instead of
   // leaving pale, untextured cylinders against the worn sand. These texture references belong to this module.
   const cachedBark = makeTexPair('bark', 256, 8);
@@ -146,7 +203,7 @@ export function buildScatter(ctx: BuildContext): SceneModule & { counts: { rocks
   const rockTex = makeTexPair('rock', 256, 8);
   const matRock = new THREE.MeshStandardMaterial({ vertexColors: true, map: rockTex.map, normalMap: rockTex.normal, roughness: 0.97, metalness: 0, envMapIntensity: 0.35 });
   const lite = {
-    get: (k: MatKey): THREE.Material => (k === 'leaf' ? matLeaf : k === 'bark' ? matBark : k === 'rock' ? matRock : matVc),
+    get: (k: MatKey): THREE.Material => (k === 'cloth' ? matShoreLeaf : k === 'leaf' ? matLeaf : k === 'bark' ? matBark : k === 'rock' ? matRock : matVc),
   };
   let pieces = 0;
   for (const R of regions.values()) {
@@ -156,14 +213,16 @@ export function buildScatter(ctx: BuildContext): SceneModule & { counts: { rocks
   }
   return {
     group,
-    counts: { rocks, pieces },
+    counts: { rocks, pieces, driftwood, shoreScrub },
     update() {},
-    stats: () => ({ rocks, scatterTris: pieces }),
+    stats: () => ({ rocks, scatterTris: pieces, driftwood, shoreScrub }),
     dispose() {
       barkTex.map.dispose();
       barkTex.normal.dispose();
       matVc.dispose();
       matLeaf.dispose();
+      shoreLeafTexture.dispose();
+      matShoreLeaf.dispose();
       matBark.dispose();
       matRock.dispose();
     },

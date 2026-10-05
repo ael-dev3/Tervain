@@ -39,6 +39,7 @@ import type { MeshyNpcCatalog } from './meshynpcs';
 import { buildSourceRockPiles, loadSourceRockPile } from './sourceRockPile';
 import { loadMeshyTrees, type MeshyTreeTemplates } from './meshyTrees';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { buildCoastalBackdrop } from './coastalBackdrop';
 
 /** Everything static in Bellwether Vale, plus the presentation that follows durable state. */
 export class WorldScene {
@@ -130,11 +131,13 @@ export class WorldScene {
     this.groundcover = buildGroundcover(ctx);
     const wildlife = buildWildlife(ctx);
     const air = buildWoodlandAir(ctx, this.sky.fog);
+    const backdrop = buildCoastalBackdrop(terrainTex);
     this.modules.push(
       { name: 'forest', module: forest }, { name: 'scatter', module: scatter },
       { name: 'source rock piles', module: sourceRocks },
       { name: 'groundcover', module: this.groundcover }, { name: 'wildlife', module: wildlife },
       { name: 'ambient', module: ambient }, { name: 'woodland air', module: air },
+      { name: 'coastal promontory', module: backdrop },
       { name: 'woodland landmarks', module: { group: landmarks.group, update() {}, stats: () => landmarks.stats, dispose: () => landmarks.dispose() } },
     );
     for (const m of this.modules) this.scene.add(m.module.group);
