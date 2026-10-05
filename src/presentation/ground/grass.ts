@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import { clamp, fbm, mulberry32, smoothstep } from '../../world/noise';
+import { clamp, mulberry32, smoothstep } from '../../world/noise';
 import type { BuildContext, Quality } from '../context';
 import { GeoBuilder, type GV, type Vec3 } from './geoBuilder';
-import { Habitat, hash3, newSample, type HabitatSample } from './habitat';
+import { Habitat, hash3, newSample, woodlandColonyAt, type HabitatSample } from './habitat';
 import { createPatchMaterial, type PatchMaterial } from './patchMaterial';
 import { TileLayer, type TileBuffers } from './tileStream';
 import type { PatchShared } from './shared';
@@ -62,7 +62,7 @@ export function createGrassPatch(blades: number, seed: number): THREE.BufferGeom
   const roots: number[] = [];
   b.upBias = 0.54;
   const white: Vec3 = [1, 1, 1];
-  const R = 0.5;
+  const R = 0.44;
   for (let i = 0; i < blades; i++) {
     const r = R * Math.sqrt((i + 0.5) / blades) * (0.9 + rng() * 0.2);
     const a = i * 2.39996 + rng() * 0.5;
@@ -78,9 +78,9 @@ export function createGrassPatch(blades: number, seed: number): THREE.BufferGeom
     const heart = 1 - r / R;
     const herb = i % 4 === 1;
     const accent = i % 7 === 0;
-    const h = (herb ? 0.19 : accent ? 0.5 : 0.3) + heart * 0.09 + rng() * (herb ? 0.13 : 0.2);
-    const w0 = (herb ? 0.041 : 0.026) + rng() * (herb ? 0.024 : 0.023);
-    const lean = h * (0.2 + rng() * 0.46 + (1 - heart) * 0.17);
+    const h = (herb ? 0.12 : accent ? 0.44 : 0.23) + heart * 0.065 + rng() * (herb ? 0.105 : 0.16);
+    const w0 = (herb ? 0.025 : 0.017) + rng() * (herb ? 0.018 : 0.014);
+    const lean = h * (0.3 + rng() * 0.55 + (1 - heart) * 0.2);
     b.phase = rng() * Math.PI * 2;
     b.stiff = 0.8 + rng() * 0.36;
     const my = h * (herb ? 0.48 : 0.56);
@@ -92,7 +92,7 @@ export function createGrassPatch(blades: number, seed: number): THREE.BufferGeom
     const rr: GV = { p: [rx + ax * rootWidth, 0, rz + az * rootWidth], c: white, w: 0 };
     const ml: GV = { p: [rx - ax * mw + fx * mo, my, rz - az * mw + fz * mo], c: white, w: 0.52 };
     const mr: GV = { p: [rx + ax * mw + fx * mo, my, rz + az * mw + fz * mo], c: white, w: 0.52 };
-    const mc: GV = { p: [rx + fx * (mo + w0 * 0.42), my, rz + fz * (mo + w0 * 0.42)], c: white, w: 0.52 };
+    const mc: GV = { p: [rx + fx * (mo + w0 * 0.58), my, rz + fz * (mo + w0 * 0.58)], c: white, w: 0.52 };
     const tp: GV = { p: [rx + fx * lean, h, rz + fz * lean], c: white, w: 1 };
     const start = b.triangles;
     b.tri(rl, rc, ml);
@@ -110,10 +110,10 @@ export function createGrassPatch(blades: number, seed: number): THREE.BufferGeom
   return geometry;
 }
 
-const cMeadow = new THREE.Color().setHex(0x72775a);
+const cMeadow = new THREE.Color().setHex(0x687354);
 const cDeep = new THREE.Color().setHex(0x596b4d);
-const cGold = new THREE.Color().setHex(0x9a8b65);
-const cShade = new THREE.Color().setHex(0x4b5c45);
+const cGold = new THREE.Color().setHex(0x887b53);
+const cShade = new THREE.Color().setHex(0x48563f);
 
 /** Under real crowns, grass yields to humus and fern colonies instead of becoming a pale verge ribbon. */
 export interface GrassHabitatProfile { density: number; height: number; exposure: number; shade: number }
@@ -121,8 +121,8 @@ export function grassHabitatProfile(sample: Readonly<HabitatSample>, patchy: num
   const shade = smoothstep(0.12, 0.8, sample.wood);
   const exposure = clamp(sample.dry, 0, 1) * (1 - shade * 0.94);
   const colony = smoothstep(0.2, 0.7, patchy);
-  const density = clamp(sample.open * (1 - shade * 0.84) * (1 - exposure * 0.22) * (0.3 + colony * 0.7) * 0.62, 0, 1);
-  const height = (0.78 + 0.5 * sample.wet + 0.32 * (patchy - 0.5) - 0.15 * exposure - 0.38 * shade - 0.3 * sample.slope)
+  const density = clamp(sample.open * (1 - shade * 0.9) * (1 - exposure * 0.22) * (0.3 + colony * 0.7) * 0.62, 0, 1);
+  const height = (0.78 + 0.44 * sample.wet + 0.32 * (patchy - 0.5) - 0.15 * exposure - 0.44 * shade - 0.3 * sample.slope)
     * (0.55 + 0.45 * smoothstep(0.08, 0.85, sample.open));
   out.density = density; out.height = height; out.exposure = exposure; out.shade = shade;
   return out;
@@ -189,7 +189,7 @@ export function createGrassLayer(ctx: BuildContext, habitat: Habitat, shared: Pa
         const uW = rng();
         habitat.sample(x, z, S);
         if (S.open < 0.04) continue;
-        const patchy = fbm(x / 9, z / 9, 2, 5) * 0.5 + 0.5;
+        const patchy = woodlandColonyAt(x, z);
         const profile = grassHabitatProfile(S, patchy, grassProfile);
         if (uAccept >= profile.density) continue;
         const width = 0.85 + uW * 0.6;

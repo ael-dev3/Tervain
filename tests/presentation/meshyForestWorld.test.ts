@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { createMeshyForest, type MeshyForest } from '../../src/presentation/meshyTrees';
 import { createPineForest, type PineForest } from '../../src/presentation/solitaryPine';
-import { createFloraPopulation, registerFloraColliders, selectFloraPopulation, type FloraTree } from '../../src/presentation/floraPopulation';
+import { createFloraPopulation, registerFloraColliders, selectFloraPopulation, type FloraTree, type FloraClaim } from '../../src/presentation/floraPopulation';
 import { groundedTreeY, treeWoodCollisionRadius } from '../../src/presentation/treeGrounding';
 import { PlantedCrownIndex } from '../../src/presentation/plantedCrowns';
 import { createForestFloorPopulation } from '../../src/presentation/forestFloor';
@@ -18,6 +18,7 @@ import { pineTemplates } from './pineFixture';
 import { meshyTreeTemplates } from './meshyTreeFixture';
 
 let meshy: MeshyForest, pine: PineForest, terrain: Terrain, excl: Exclusions, population: FloraTree[];
+const claims: FloraClaim[] = [];
 const variantFor = (tree: Readonly<FloraTree>) => tree.sp === 'pine' ? pine.variant('pine', tree.v + 1) : meshy.variant(tree.sp, tree.v, tree.assetId);
 beforeAll(async () => {
   const [source, custom] = await Promise.all([meshyTreeTemplates(), pineTemplates()]);
@@ -25,11 +26,42 @@ beforeAll(async () => {
   population = createFloraPopulation(terrain, excl,
     (tree, fallback) => tree.sp === 'pine' ? pine.collisionRadius('pine', tree.v + 1, tree.s, terrain.heightAt(tree.x, tree.z) - tree.y)
       : fallback > 0 ? treeWoodCollisionRadius(variantFor(tree), tree.s, terrain.heightAt(tree.x, tree.z) - tree.y) : fallback,
-    tree => groundedTreeY(terrain, tree, variantFor(tree)), undefined, tree => variantFor(tree).crownRadius * tree.s);
+    tree => groundedTreeY(terrain, tree, variantFor(tree)), claim => claims.push(claim), tree => variantFor(tree).crownRadius * tree.s);
 }, 30_000);
 afterAll(() => { meshy?.dispose(); pine?.dispose(); });
 
 describe('0.0.12 real source forest and connected habitats', () => {
+  it('retains broad accepted companion bodies and a varied lower warm canopy after actual source rejection', () => {
+    for (const id of ['swale_oaks', 'eastern_oaks']) {
+      const stand = population.filter(tree => tree.radius > 0 && tree.sp === 'oak' && tree.standId === id);
+      const adults = stand.filter(tree => tree.age === 'mature' || tree.age === 'veteran');
+      // Measure the narrow principal axis of accepted adult origins. A two-tree row or
+      // broad authoring ellipse cannot substitute for an actual two-dimensional body.
+      expect(adults.length, id).toBeGreaterThanOrEqual(3);
+      const meanX = adults.reduce((sum, tree) => sum + tree.x / adults.length, 0);
+      const meanZ = adults.reduce((sum, tree) => sum + tree.z / adults.length, 0);
+      let xx = 0, zz = 0, xz = 0;
+      for (const tree of adults) {
+        xx += (tree.x - meanX) ** 2; zz += (tree.z - meanZ) ** 2;
+        xz += (tree.x - meanX) * (tree.z - meanZ);
+      }
+      const yaw = Math.atan2(2 * xz, xx - zz) / 2;
+      const minor = adults.map(tree => -(tree.x - meanX) * Math.sin(yaw) + (tree.z - meanZ) * Math.cos(yaw));
+      expect(Math.max(...minor) - Math.min(...minor), id).toBeGreaterThan(20);
+      expect(new Set(stand.map(tree => variantFor(tree).assetId)).size, id).toBeGreaterThanOrEqual(3);
+    }
+    const warm = population.filter(tree => tree.radius > 0 && tree.sp === 'oak'
+      && biomeAt(tree.x, tree.z).weights['ochre-woodland'] > 0.55);
+    expect(new Set(warm.map(tree => variantFor(tree).assetId))).toEqual(new Set(['tree-1505', 'tree-0208', 'tree-1521']));
+    const meanAdultHeight = (trees: FloraTree[]) => {
+      const adults = trees.filter(tree => tree.age === 'mature' || tree.age === 'veteran');
+      return adults.reduce((sum, tree) => sum + variantFor(tree).height * tree.s / adults.length, 0);
+    };
+    expect(meanAdultHeight(warm)).toBeLessThan(meanAdultHeight(population.filter(tree => tree.sp === 'pine')) * 0.8);
+    // Diagnostic terminal claims are from the same source-fit pipeline, not its ungrounded plan.
+    expect(claims.filter(claim => claim.outcome === 'accepted').map(claim => claim.tree)).toEqual(population);
+    expect(new Set(claims.map(claim => claim.key)).size).toBe(claims.length);
+  });
   it('uses supplied geometry for every family except the original custom pine, with planted palms and warm woodland', () => {
     expect(population.length).toBeGreaterThan(200);
     const families = new Set(population.map(tree => tree.sp));

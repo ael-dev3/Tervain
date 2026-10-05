@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { Habitat, newSample } from '../../src/presentation/ground/habitat';
+import { Habitat, newSample, woodlandColonyAt } from '../../src/presentation/ground/habitat';
 import { Exclusions } from '../../src/presentation/vegetation';
 import { Colliders } from '../../src/world/colliders';
 import { Terrain } from '../../src/world/terrain';
@@ -9,6 +9,18 @@ import { groundSplat } from '../../src/presentation/groundSplat';
 import { LAYER } from '../../src/presentation/terrainTextures';
 
 describe('ground habitat beneath planted crowns', () => {
+  it('has smooth, bounded shared colony pockets at more than one scale without a patch grid seam', () => {
+    let low = 1, high = 0, maximumStep = 0;
+    for (let z = -100; z <= 100; z += 5) for (let x = -250; x <= -80; x += 5) {
+      const value = woodlandColonyAt(x, z);
+      low = Math.min(low, value); high = Math.max(high, value);
+      maximumStep = Math.max(maximumStep, Math.abs(value - woodlandColonyAt(x + 0.01, z)));
+      expect(woodlandColonyAt(x, z)).toBe(value);
+    }
+    expect(low).toBeGreaterThanOrEqual(0); expect(high).toBeLessThanOrEqual(1);
+    expect(high - low).toBeGreaterThan(0.6);
+    expect(maximumStep).toBeLessThan(0.003);
+  });
   it('reads source-derived shade even with no logical tree collider and respects an explicitly empty canopy', () => {
     const terrain = new Terrain(), colliders = new Colliders(), excl = new Exclusions(terrain);
     const shade = { coverAt: (x: number) => Math.max(0, Math.min(1, (x + 200) / 40)), broadleafAt: () => 0 };

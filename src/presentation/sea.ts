@@ -227,10 +227,10 @@ void main() {
   body += vec3(0.012, 0.027, 0.022) * caustic * day * uDetail * facing;
   vec3 sky = mix(uHorizon, uTop, pow(clamp(R.y, 0.0, 1.0), 0.5));
   // The sheltered sea carries restrained silver-blue reflections instead of bleaching the bay into the sky.
-  vec3 reflected = waterReflection(sky, reflectionUV, reflectionDx, reflectionDy) * 0.5;
+  vec3 reflected = waterReflection(sky, reflectionUV, reflectionDx, reflectionDy) * 0.42;
   float sd = max(dot(R, uSunDir), 0.0);
-  reflected += uSunColor * (waterHighlight(sd, 112.0, rayFootprintSquared) * 0.95
-    + waterHighlight(sd, 18.0, rayFootprintSquared) * 0.035) * uSunI * day;
+  reflected += uSunColor * (waterHighlight(sd, 112.0, rayFootprintSquared) * 0.72
+    + waterHighlight(sd, 18.0, rayFootprintSquared) * 0.025) * uSunI * day;
   vec3 color = mix(body, reflected, clamp(fresnel, 0.025, 0.92));
   float backlight = pow(max(dot(V, -uSunDir), 0.0), 3.0);
   color += shallow * max(vCrest, 0.0) * backlight * day * 0.5;

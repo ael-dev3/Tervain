@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { deepwoodCover, forestClearingCover, forestClearingDistance } from '../world/forest';
 import { WORLD } from '../world/layout';
-import { fbm, mulberry32, smoothstep } from '../world/noise';
+import { mulberry32, smoothstep } from '../world/noise';
 import { realmRadius, type Terrain } from '../world/terrain';
 import type { Exclusions } from './vegetation';
 import type { Quality, SceneModule } from './context';
@@ -12,13 +12,13 @@ import { attachInstanceDistanceVisibility, smoothDistanceFade, type InstanceDist
 import type { PlantedCrownField } from './plantedCrowns';
 import { biomeAt, type BiomeSample } from '../world/biomes';
 import { clamp01, fbmField, sstep } from './procTex';
+import { woodlandColonyAt } from './ground/habitat';
 
 export type ForestFloorKind = 'fern' | 'shrub' | 'moss' | 'litter' | 'log' | 'fungi';
-export interface ForestFloorPiece { id: string; kind: ForestFloorKind; x: number; y: number; z: number; nx: number; nz: number; yaw: number; scale: number; rank: number; variant: number; parentLogId?: string }
+export interface ForestFloorPiece { id: string; kind: ForestFloorKind; x: number; y: number; z: number; nx: number; nz: number; yaw: number; scale: number; rank: number; variant: number; colonyId?: string; parentLogId?: string }
 
 /** Authored once, then graphics settings thin only low, nonblocking woodland detail. */
 export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 'slopeAt' | 'carveAt'>, exclusions: Pick<Exclusions, 'blocked'>, trees: readonly FloraTree[] = createFloraPopulation(terrain, exclusions), crowns?: PlantedCrownField): ForestFloorPiece[] {
-  let rnd = mulberry32(50419);
   const out: ForestFloorPiece[] = [];
   const trunks = trees.filter((t) => t.radius > 0);
   const hash = new Map<string, FloraTree[]>();
@@ -44,8 +44,8 @@ export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 
     }
     return 1 - Math.exp(-cover);
   };
-  const put = (kind: ForestFloorKind, x: number, z: number, scale: number, variant: number, sampledBiome?: Readonly<BiomeSample>) => {
-    const reach = kind === 'log' ? 2.6 : kind === 'fern' ? scale * 1.5 : kind === 'shrub' ? scale * 0.85 : 0.45;
+  const put = (kind: ForestFloorKind, x: number, z: number, scale: number, variant: number, sampledBiome?: Readonly<BiomeSample>, colonyId?: string) => {
+    const reach = kind === 'log' ? 2.6 : kind === 'fern' ? scale * 1.75 : kind === 'shrub' ? scale * 1.05 : 0.45;
     if (realmRadius(x, z) > 0.97 || terrain.heightAt(x, z) < 0.35 || terrain.carveAt(x, z) > 0.01 || terrain.slopeAt(x, z) > 0.62 || exclusions.blocked(x, z, reach)) return;
     if (crowns && crowns.coverAt(x, z) < 0.08) return;
     // Dry palm sand carries sparse litter; moist temperate ferns never appear beneath it.
@@ -56,7 +56,18 @@ export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 
     const rank = mulberry32(Math.imul(Math.round(x * 100), 71303) ^ Math.imul(Math.round(z * 100), 31231))();
     const nx = (terrain.heightAt(x - 0.4, z) - terrain.heightAt(x + 0.4, z)) / 0.8;
     const nz = (terrain.heightAt(x, z - 0.4) - terrain.heightAt(x, z + 0.4)) / 0.8;
-    const piece: ForestFloorPiece = { id: `floor:${kind}:${x.toFixed(4)}:${z.toFixed(4)}`, kind, x, y: terrain.heightAt(x, z), z, nx, nz, yaw: rnd() * Math.PI * 2, scale, rank, variant };
+    const y = terrain.heightAt(x, z);
+    // Carpet pieces follow a local tangent plane. Reject a folded ground edge rather than
+    // leave the edges of rigid litter or moss suspended over it. Tall plants only root at their base.
+    if (kind === 'moss' || kind === 'litter') {
+      const footprint = scale * (kind === 'moss' ? 0.76 : 1.05);
+      for (let sample = 0; sample < 8; sample++) {
+        const az = sample * Math.PI / 4, dx = Math.cos(az) * footprint, dz = Math.sin(az) * footprint;
+        if (Math.abs(terrain.heightAt(x + dx, z + dz) - (y - nx * dx - nz * dz)) > 0.065) return;
+      }
+    }
+    const appearance = mulberry32(Math.imul(Math.round(x * 100), 7103) ^ Math.imul(Math.round(z * 100), 31231) ^ Math.imul(kind.length, 93131));
+    const piece: ForestFloorPiece = { id: `floor:${kind}:${x.toFixed(4)}:${z.toFixed(4)}`, kind, x, y, z, nx, nz, yaw: appearance() * Math.PI * 2, scale, rank, variant, colonyId };
     out.push(piece);
     return piece;
   };
@@ -65,7 +76,8 @@ export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 
   for (let gz = WORLD.minZ + 5; gz < WORLD.maxZ - 5; gz += step) {
     for (let gx = WORLD.minX + 5; gx < WORLD.maxX - 5; gx += step) {
       // Independent cell streams keep unrelated floor positions fixed when a nearby exclusion changes.
-      rnd = mulberry32(50419 ^ Math.imul(Math.round(gx * 10), 71303) ^ Math.imul(Math.round(gz * 10), 31231));
+      const cellSeed = 50419 ^ Math.imul(Math.round(gx * 10), 71303) ^ Math.imul(Math.round(gz * 10), 31231);
+      const rnd = mulberry32(cellSeed);
       const x = gx + (rnd() - 0.5) * step * 0.8;
       const z = gz + (rnd() - 0.5) * step * 0.8;
       const biome = biomeAt(x, z);
@@ -74,30 +86,52 @@ export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 
       const canopy = canopyAt(x, z);
       if (canopy < 0.08) continue;
       const wet = Math.max(1 - smoothstep(5, 32, streamDistance(x, z)), biome.moisture);
-      const colony = smoothstep(-0.2, 0.5, fbm(x / 11, z / 11, 2, 50420));
+      const colony = smoothstep(0.28, 0.75, woodlandColonyAt(x, z));
+      const colonyId = `floor-colony:${gx.toFixed(1)}:${gz.toFixed(1)}`;
+      // Independent kind streams keep a rejected fern from shifting its litter, moss or timber.
+      // Offsets orbit each patch irregularly instead of repeating the same NE/SW grid pattern.
+      const offset = (random: () => number, min: number, max: number) => {
+        const az = random() * Math.PI * 2, radius = min + random() * (max - min);
+        return [x + Math.cos(az) * radius, z + Math.sin(az) * radius] as const;
+      };
       const fernGrowth = biome.lowGrowth * (1 - biome.exposure * 0.7);
-      if (rnd() < cover * canopy * (0.4 + colony * 0.68 + wet * 0.32) * fernGrowth) {
-        const fern = put('fern', x, z, 0.62 + rnd() * 0.64, Math.floor(rnd() * 3), biome);
-        if (fern && rnd() < colony * (0.28 + wet * 0.28)) {
-          const az = rnd() * Math.PI * 2;
-          put('fern', x + Math.cos(az) * 1.65, z + Math.sin(az) * 1.65, 0.5 + rnd() * 0.55, Math.floor(rnd() * 3));
+      const fernRandom = mulberry32(cellSeed ^ 701);
+      if (fernRandom() < cover * canopy * (0.38 + colony * 0.62 + wet * 0.3) * fernGrowth) {
+        const fern = put('fern', x, z, 0.66 + fernRandom() * 0.57, Math.floor(fernRandom() * 3), biome, colonyId);
+        if (fern) for (let child = 0; child < 2; child++) {
+          const member = mulberry32(cellSeed ^ Math.imul(child + 1, 92719));
+          if (member() >= colony * (0.22 + wet * 0.24)) continue;
+          const [fx, fz] = offset(member, 1.25, 2.4);
+          put('fern', fx, fz, 0.4 + member() * 0.5, child === 0 ? 0 : fern.variant, undefined, colonyId);
         }
       }
-      if (rnd() < cover * canopy * (0.08 + colony * 0.2) * (0.4 + wet * 0.6) * biome.lowGrowth) put('shrub', x + 1.45, z + 0.65, 0.7 + rnd() * 0.4, Math.floor(rnd() * 2));
-      if (rnd() < cover * canopy * (0.22 + wet * 0.38 + colony * 0.16) * (1 - biome.exposure * 0.72)) put('moss', x + 0.8, z - 0.55, 0.6 + rnd() * 0.8, 0);
-      if (rnd() < cover * canopy * (0.65 + colony * 0.25)) {
-        const variant = crowns && crowns.broadleafAt(x, z) < canopy * 0.3 ? 2 : Math.floor(rnd() * 2);
-        put('litter', x - 1, z + 1, 0.95 + rnd() * 0.75, variant);
+      const shrubRandom = mulberry32(cellSeed ^ 702);
+      if (shrubRandom() < cover * canopy * (0.08 + colony * 0.2) * (0.4 + wet * 0.6) * biome.lowGrowth) {
+        const [sx, sz] = offset(shrubRandom, 0.65, 2.25);
+        put('shrub', sx, sz, 0.7 + shrubRandom() * 0.4, Math.floor(shrubRandom() * 2), undefined, colonyId);
       }
-      if (rnd() < cover * canopy * 0.05) {
-        const log = put('log', x + 1.4, z - 1.8, 0.65 + rnd() * 0.65, Math.floor(rnd() * 2));
+      const mossRandom = mulberry32(cellSeed ^ 703);
+      if (mossRandom() < cover * canopy * (0.22 + wet * 0.38 + colony * 0.16) * (1 - biome.exposure * 0.72)) {
+        const [mx, mz] = offset(mossRandom, 0.5, 1.75);
+        put('moss', mx, mz, 0.6 + mossRandom() * 0.8, 0, undefined, colonyId);
+      }
+      const litterRandom = mulberry32(cellSeed ^ 704);
+      if (litterRandom() < cover * canopy * (0.65 + colony * 0.25)) {
+        const [lx, lz] = offset(litterRandom, 0.4, 2.25);
+        const variant = crowns && crowns.broadleafAt(lx, lz) < canopyAt(lx, lz) * 0.3 ? 2 : Math.floor(litterRandom() * 2);
+        put('litter', lx, lz, 0.95 + litterRandom() * 0.75, variant, undefined, colonyId);
+      }
+      const logRandom = mulberry32(cellSeed ^ 705);
+      if (logRandom() < cover * canopy * 0.05) {
+        const [lx, lz] = offset(logRandom, 1.6, 2.4);
+        const log = put('log', lx, lz, 0.65 + logRandom() * 0.65, Math.floor(logRandom() * 2), undefined, colonyId);
         if (log) {
-          const fungusScale = 0.7 + rnd() * 0.6;
+          const fungusScale = 0.7 + logRandom() * 0.6;
           // The log lies along local X. Leave room beside its radius and the whole three-cap cluster,
           // including their slope rotations, instead of placing mushrooms inside the timber's axis.
           const offset = 0.35 * log.scale + 0.36 * fungusScale + 0.04;
           const side = log.variant ? -1 : 1;
-          const fungus = put('fungi', log.x + Math.sin(log.yaw) * offset * side, log.z + Math.cos(log.yaw) * offset * side, fungusScale, 0);
+          const fungus = put('fungi', log.x + Math.sin(log.yaw) * offset * side, log.z + Math.cos(log.yaw) * offset * side, fungusScale, 0, undefined, colonyId);
           if (fungus) { fungus.rank = log.rank; fungus.parentLogId = log.id; }
         }
       }
@@ -150,13 +184,20 @@ export function buildForestFernGeometry(variant: number): THREE.BufferGeometry {
   const a = new FloorGeometry();
   const rnd = mulberry32(2101 + variant * 139);
   const fronds = 7;
+  // Related juvenile, spreading and upright forms, rather than one fan with random scale.
+  // Topology and connected roots stay identical, so each complete fern remains 504 triangles.
+  const form = [
+    { length: 0.76, lengthJitter: 0.3, height: 0.59, heightJitter: 0.19, arc: 0.88, spread: 0.26 },
+    { length: 1.18, lengthJitter: 0.38, height: 0.52, heightJitter: 0.15, arc: 0.95, spread: 0.34 },
+    { length: 0.94, lengthJitter: 0.36, height: 0.59, heightJitter: 0.2, arc: 0.9, spread: 0.3 },
+  ][variant % 3]!;
   for (let f = 0; f < fronds; f++) {
     const az = f * Math.PI * 2 / fronds + (rnd() - 0.5) * 0.48;
-    const length = 0.9 + rnd() * 0.55;
-    const height = 0.5 + rnd() * 0.34;
+    const length = form.length + rnd() * form.lengthJitter;
+    const height = form.height + rnd() * form.heightJitter;
     const direction = new THREE.Vector3(Math.cos(az), 0, Math.sin(az));
     const side = new THREE.Vector3(-direction.z, 0, direction.x);
-    const at = (t: number) => direction.clone().multiplyScalar(length * t).setY(-0.012 + Math.sin(t * Math.PI * 0.8) * height);
+    const at = (t: number) => direction.clone().multiplyScalar(length * t).setY(-0.012 + Math.sin(t * Math.PI * form.arc) * height + t * 0.025);
     let last: [number, number] | null = null;
     const stem = new THREE.Color('#5c6548');
     for (let s = 0; s <= 8; s++) {
@@ -171,16 +212,16 @@ export function buildForestFernGeometry(variant: number): THREE.BufferGeometry {
     for (let l = 1; l <= 7; l++) {
       const t = l / 8;
       const root = at(t);
-      const span = Math.sin(Math.PI * t) * (0.24 + rnd() * 0.1);
+      const span = Math.sin(Math.PI * t) * (form.spread + rnd() * 0.075);
       for (const sign of [-1, 1]) {
         const tip = root.clone().addScaledVector(side, span * sign).addScaledVector(direction, span * 0.6);
         tip.y -= span * 0.18;
         const mid = root.clone().lerp(tip, 0.55);
         mid.y += 0.009;
-        const shade = new THREE.Color().setHSL(0.225 + rnd() * 0.055, 0.23 + rnd() * 0.11, 0.29 + rnd() * 0.105, THREE.SRGBColorSpace);
+        const shade = new THREE.Color().setHSL(0.23 + rnd() * 0.05, 0.25 + rnd() * 0.1, 0.275 + rnd() * 0.085, THREE.SRGBColorSpace);
         const base = a.vertex(root.x, root.y, root.z, shade, [0.5, 0, 1]);
-        const left = mid.clone().addScaledVector(direction, -0.085 * Math.sin(Math.PI * t));
-        const right = mid.clone().addScaledVector(direction, 0.085 * Math.sin(Math.PI * t));
+        const left = mid.clone().addScaledVector(direction, -0.105 * Math.sin(Math.PI * t));
+        const right = mid.clone().addScaledVector(direction, 0.105 * Math.sin(Math.PI * t));
         const li = a.vertex(left.x, left.y, left.z, shade.clone().multiplyScalar(0.97), [0, 0.5, 1]);
         const mi = a.vertex(mid.x, mid.y, mid.z, shade.clone().multiplyScalar(1.02), [0.5, 0.5, 1]);
         const ri = a.vertex(right.x, right.y, right.z, shade, [1, 0.5, 1]);
@@ -223,8 +264,8 @@ export function buildForestShrubGeometry(variant: number): THREE.BufferGeometry 
     const az = branch * Math.PI * 2 / 5 + (rnd() - 0.5) * 0.45;
     const direction = new THREE.Vector3(Math.cos(az), 0, Math.sin(az));
     const side = new THREE.Vector3(-direction.z, 0, direction.x);
-    const spread = 0.36 + rnd() * 0.25;
-    const height = 0.42 + rnd() * 0.27;
+    const spread = (variant ? 0.5 : 0.32) + rnd() * (variant ? 0.23 : 0.19);
+    const height = (variant ? 0.37 : 0.47) + rnd() * (variant ? 0.17 : 0.25);
     const at = (t: number) => direction.clone().multiplyScalar(spread * t * t).setY(0.01 + height * t);
     let previous: number[] | null = null;
     for (let step = 0; step <= 5; step++) {
@@ -246,7 +287,7 @@ export function buildForestShrubGeometry(variant: number): THREE.BufferGeometry 
     for (let node = 1; node <= 4; node++) {
       const root = at(node / 5);
       for (const sign of [-1, 1]) {
-        const length = 0.15 + rnd() * 0.13;
+        const length = (variant ? 0.2 : 0.15) + rnd() * 0.11;
         const leafDirection = side.clone().multiplyScalar(sign).addScaledVector(direction, 0.42).normalize();
         const across = leafDirection.clone().cross(up).normalize();
         const tip = root.clone().addScaledVector(leafDirection, length);
@@ -285,9 +326,17 @@ function floorGeometry(kind: ForestFloorKind, variant: number) {
   if (kind === 'litter') return buildForestLitterGeometry(variant);
   if (kind === 'moss') {
     const g = new THREE.IcosahedronGeometry(0.52, 1);
-    g.scale(1.45, 0.12, 1);
-    g.translate(0, 0.025, 0);
-    return colorGeometry(g, new THREE.Color('#606c4d'));
+    // Low asymmetric hummocks read as a carpet rooted in humus, rather than green pebbles.
+    const positions = g.getAttribute('position');
+    for (let i = 0; i < positions.count; i++) {
+      const x = positions.getX(i), y = positions.getY(i), z = positions.getZ(i);
+      const edge = 0.88 + 0.12 * Math.sin(x * 8.3 + z * 9.7);
+      positions.setXYZ(i, x * 1.45 * edge, y * 0.067 + 0.018, z * edge);
+    }
+    g.computeVertexNormals();
+    g.computeBoundingBox();
+    g.computeBoundingSphere();
+    return colorGeometry(g, new THREE.Color('#556343'));
   }
   if (kind === 'log') {
     const g = new THREE.CylinderGeometry(0.14, 0.22, variant ? 2.5 : 3.3, 7, 2, false);

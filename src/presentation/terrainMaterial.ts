@@ -28,11 +28,13 @@ const VERT_DECL = /* glsl */ `
 attribute vec4 aSplatA;
 attribute vec4 aSplatB;
 attribute float aWet;
+attribute float aCanopy;
 varying vec4 vSplatA;
 varying vec4 vSplatB;
 varying vec3 vWorldPos;
 varying vec3 vWorldNormal;
 varying float vWet;
+varying float vCanopy;
 `;
 
 const VERT_BODY = /* glsl */ `
@@ -41,6 +43,7 @@ vSplatB = aSplatB;
 vWorldPos = position;
 vWorldNormal = normal;
 vWet = aWet;
+vCanopy = aCanopy;
 `;
 
 const FRAG_DECL = /* glsl */ `
@@ -52,6 +55,7 @@ varying vec4 vSplatB;
 varying vec3 vWorldPos;
 varying vec3 vWorldNormal;
 varying float vWet;
+varying float vCanopy;
 
 float th21(vec2 p) { p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
 float tvn(vec2 p) {
@@ -219,9 +223,11 @@ export function createTerrainMaterial(tex: TerrainTextures): THREE.MeshStandardM
       .replace('#include <common>', `#include <common>\n${FRAG_DECL}`)
       .replace('#include <map_fragment>', FRAG_ALBEDO)
       .replace('#include <roughnessmap_fragment>', '#include <roughnessmap_fragment>\nroughnessFactor = tRough;')
-      .replace('#include <aomap_fragment>', '#include <aomap_fragment>\nreflectedLight.indirectDiffuse *= mix(0.8, 1.0, smoothstep(0.2, 0.8, tHeight));')
+      // Accepted geometric crowns screen some diffuse sky light. Direct sunlight and real shadow maps retain
+      // their own authority; this is a soft sky-occlusion proxy, not an invented physical canopy shadow.
+      .replace('#include <aomap_fragment>', '#include <aomap_fragment>\nreflectedLight.indirectDiffuse *= mix(0.8, 1.0, smoothstep(0.2, 0.8, tHeight)) * mix(1.0, 0.74, clamp(vCanopy, 0.0, 1.0));')
       .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>\n${FRAG_NORMAL}`);
   };
-  mat.customProgramCacheKey = () => 'tervain-terrain-v4-muted-herb-earth';
+  mat.customProgramCacheKey = () => 'tervain-terrain-v5-planted-sky-occlusion';
   return mat;
 }

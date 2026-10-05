@@ -118,6 +118,49 @@ describe('Deepwood floor', () => {
     expect(selectForestFloorPopulation([fungus], 'high')).toEqual([]);
   });
 
+  it('builds mixed-age fern colonies and keeps unrelated litter, shrub and timber streams stable if one fern is rejected', () => {
+    const colonies = new Map<string, typeof population>();
+    for (const piece of population) {
+      expect(piece.colonyId).toBeDefined();
+      const colony = colonies.get(piece.colonyId!) ?? [];
+      colony.push(piece); colonies.set(piece.colonyId!, colony);
+    }
+    const fernColony = [...colonies.values()].find(colony => colony.filter(piece => piece.kind === 'fern').length > 1)!;
+    expect(fernColony).toBeDefined();
+    const ferns = fernColony.filter(piece => piece.kind === 'fern');
+    expect(Math.max(...ferns.map(piece => piece.scale)) - Math.min(...ferns.map(piece => piece.scale))).toBeGreaterThan(0.04);
+    for (const child of ferns.slice(1)) expect(Math.hypot(child.x - ferns[0]!.x, child.z - ferns[0]!.z)).toBeLessThanOrEqual(2.4);
+    const parent = ferns[0]!;
+    const targeted = {
+      blocked: (x: number, z: number, pad: number) => exclusions.blocked(x, z, pad)
+        || (Math.abs(x - parent.x) < 1e-6 && Math.abs(z - parent.z) < 1e-6),
+    };
+    const revised = createForestFloorPopulation(terrain, targeted, createFloraPopulation(terrain, exclusions));
+    expect(revised.some(piece => piece.id === parent.id)).toBe(false);
+    expect(revised.filter(piece => piece.kind !== 'fern')).toEqual(population.filter(piece => piece.kind !== 'fern'));
+  });
+
+  it('roots low carpet surfaces in gradual terrain instead of bridging folded ground', () => {
+    const floor = buildForestFloor(terrain, exclusions, 'high');
+    try {
+      const up = new THREE.Vector3(0, 1, 0), normal = new THREE.Vector3(), rotation = new THREE.Quaternion(), yaw = new THREE.Quaternion();
+      const point = new THREE.Vector3(), matrix = new THREE.Matrix4();
+      let maximumGap = 0;
+      for (const piece of population.filter(piece => piece.kind === 'moss' || piece.kind === 'litter')) {
+        const mesh = floor.group.getObjectByName(`forest_floor_${piece.kind}:${piece.variant}`) as THREE.InstancedMesh;
+        normal.set(piece.nx, 1, piece.nz).normalize();
+        rotation.setFromUnitVectors(up, normal).multiply(yaw.setFromAxisAngle(up, piece.yaw));
+        matrix.compose(new THREE.Vector3(piece.x, piece.y, piece.z), rotation, new THREE.Vector3().setScalar(piece.scale));
+        const vertices = mesh.geometry.getAttribute('position');
+        for (let i = 0; i < vertices.count; i++) {
+          point.fromBufferAttribute(vertices, i).applyMatrix4(matrix);
+          maximumGap = Math.max(maximumGap, point.y - terrain.heightAt(point.x, point.z));
+        }
+      }
+      expect(maximumGap).toBeLessThan(0.12);
+    } finally { floor.dispose?.(); disposeTreeTextures(); }
+  });
+
   it('keeps grounded fungi geometry beside fallen logs after both pieces follow their local slopes', () => {
     const floor = buildForestFloor(terrain, exclusions, 'high');
     try {

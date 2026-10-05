@@ -65,6 +65,13 @@ export function hash3(a: number, b: number, c: number): number {
   return (h >>> 0) / 4294967296;
 }
 
+/** One continuous, original two-scale colony field for woodland grass, ferns and litter.
+ * A shared field makes the shaded floor grow in overlapping pockets rather than separate grids.
+ * It is a habitat cue only: source crown shade and hard contacts remain authoritative. */
+export function woodlandColonyAt(x: number, z: number): number {
+  return clamp(fbm(x / 17 + 3.7, z / 17 - 6.2, 2, 50420) * 0.5 + 0.5, 0, 1);
+}
+
 interface Obstacle {
   kind: 0 | 1; // 0 circle, 1 rect
   x: number;
@@ -242,7 +249,10 @@ export class Habitat {
     const biome = biomeAt(x, z);
     let open = 1;
     const road = roadWeight(x, z);
-    open *= 1 - smoothstep(0.03, 0.6, road);
+    // The worn core stays completely bare. Outside it, continuous pockets interrupt the
+    // even trimmed shoulder; this affects low plants, never the graded road or support mesh.
+    const shoulder = 0.43 + woodlandColonyAt(x, z) * 0.25;
+    open *= 1 - smoothstep(0.025, shoulder, road);
     const carve = terrain.carveAt(x, z);
     open *= 1 - smoothstep(0.03, 0.3, carve);
     const slope = terrain.slopeAt(x, z);

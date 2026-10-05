@@ -9,7 +9,7 @@ import { BELL, MILL_WHEEL, SHORTCUT, SLUICE, STREAMS, WORLD } from '../world/lay
 import { NavGrid } from '../world/nav';
 import { Terrain, distToPolyline } from '../world/terrain';
 import { SkyRig } from './sky';
-import { buildTerrainMesh } from './terrainMesh';
+import { buildTerrainTiles } from './terrainMesh';
 import { makeTerrainTextures, type TerrainTextures } from './terrainTextures';
 import { buildScenery, type SceneryHandles } from './settlement';
 import { buildFlora } from './flora';
@@ -59,7 +59,7 @@ export class WorldScene {
   private environment: EnvironmentHandle;
   private groundcover: ReturnType<typeof buildGroundcover>;
   readonly scenery: SceneryHandles;
-  readonly terrainMesh: THREE.Mesh;
+  readonly terrainMesh: THREE.Group;
   private lanternLights: THREE.PointLight[] = [];
   private lanternPool = new LanternLightPool(3);
   private wheelSpin = 0;
@@ -123,7 +123,7 @@ export class WorldScene {
     const landmarks = buildForestLandmarks(this.terrain, this.colliders, settings.quality);
     const forest = buildFlora(ctx, pine, true, treeTemplates);
     forest.initializeFloor();
-    this.terrainMesh = buildTerrainMesh(this.terrain, terrainTex, ctx.plantedCrowns);
+    this.terrainMesh = buildTerrainTiles(this.terrain, terrainTex, ctx.plantedCrowns);
     this.scene.add(this.terrainMesh);
     const scatter = buildScatter(ctx);
     const sourceRocks = buildSourceRockPiles(ctx, rockPile);

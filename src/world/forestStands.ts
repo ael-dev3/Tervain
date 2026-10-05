@@ -27,8 +27,8 @@ export const FOREST_COMPANION_STANDS = [
   {
     id: 'eastern_oaks',
     cores: [
-      { x: -115, z: 52, rx: 15, rz: 20, yaw: -0.22, margin: 12 },
-      { x: -108, z: 74, rx: 16, rz: 15, yaw: 0.28, margin: 10 },
+      { x: -131, z: 53, rx: 23, rz: 22, yaw: -0.22, margin: 10 },
+      { x: -122, z: 81, rx: 24, rz: 25, yaw: 0.28, margin: 10 },
     ],
   },
 ] as const;

@@ -35,7 +35,9 @@ export function coastalBackdropGeometry(): THREE.BufferGeometry {
   g.name = 'Original_Uninhabited_Bay_Promontory';
   g.setAttribute('position', new THREE.BufferAttribute(position, 3));
   g.setAttribute('aSplatA', new THREE.BufferAttribute(a, 4)); g.setAttribute('aSplatB', new THREE.BufferAttribute(b, 4));
-  g.setAttribute('aWet', new THREE.BufferAttribute(wet, 1)); g.setIndex(indices);
+  g.setAttribute('aWet', new THREE.BufferAttribute(wet, 1));
+  // This uninhabited background has no planted crowns; it receives the same surface shader with an open sky.
+  g.setAttribute('aCanopy', new THREE.BufferAttribute(new Float32Array(count), 1)); g.setIndex(indices);
   g.computeVertexNormals(); g.computeBoundingSphere(); g.computeBoundingBox();
   return g;
 }

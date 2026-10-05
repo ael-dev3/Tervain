@@ -92,6 +92,11 @@ export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slope
     || terrain.slopeAt(x, z) > 0.62
     || terrain.heightAt(x, z) < 0.3 || excl.blocked(x, z, pad);
   const put = (key: string, sp: Species, x: number, z: number, scale = 1, collide = true, age: TreeAge = 'mature', site?: Grove) => {
+    const habitat = sp === 'oak' || sp === 'birch' ? biomeAt(x, z) : null;
+    // Exposed warm oak bodies form a lower tier beneath the inland pine/fir canopy.
+    // Apply one uniform whole-source scale before every grounding/wood/crown guard;
+    // the correlated habitat feather avoids an abrupt size boundary or per-tree lottery.
+    if (sp === 'oak' && habitat) scale *= 1 - 0.2 * smoothstep(0.26, 0.55, habitat.weights['ochre-woodland']);
     const legacyFootprint = sp === 'shrub' ? 0.4 * scale : RADIUS[sp] * scale;
     const rnd = randomFor(key, 211), radius = collide ? RADIUS[sp] * scale : 0;
     // Appearance has its own cell stream: evaluating a rejected claim never changes its neighbours.
@@ -103,9 +108,11 @@ export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slope
     };
     // Select the source before evaluating its roots, wood footprint and crown. The tall
     // leafy Sentinel belongs to the moist broadleaf groves, retaining each claim's RNG.
-    if (sp === 'oak' || sp === 'birch') {
-      const habitat = biomeAt(x, z);
-      if (sp === 'oak' && habitat.weights['ochre-woodland'] > 0.42) tree.assetId = 'tree-1505';
+    if (habitat) {
+      // A warm stand retains one spreading oak alongside the related upright source forms.
+      // Replacing every variant with the same wide-rooted source erased both silhouette
+      // diversity and most of the accepted eastern grove after real wood spacing.
+      if (sp === 'oak' && habitat.weights['ochre-woodland'] > 0.42 && tree.v === 0) tree.assetId = 'tree-1505';
       else if (habitat.weights['humid-broadleaf'] > 0.42 && tree.v === 2) tree.assetId = 'verdant-sentinel';
     }
     // Avoid sampling source roots at an already excluded site. Appearance has an independent

@@ -42,7 +42,7 @@ function blend(w: Float32Array, layer: number, a: number) {
 }
 
 /** Fills `w` (length 8) and returns the wetness. */
-export function groundSplat(terrain: Terrain, x: number, z: number, w: Float32Array, crowns?: PlantedCrownField, sampledBiome?: Readonly<BiomeSample>): number {
+export function groundSplat(terrain: Terrain, x: number, z: number, w: Float32Array, crowns?: PlantedCrownField, sampledBiome?: Readonly<BiomeSample>, sampledCanopy?: number): number {
   const h = terrain.heightAt(x, z);
   const slope = terrain.slopeAt(x, z);
   const carve = terrain.carveAt(x, z);
@@ -58,7 +58,7 @@ export function groundSplat(terrain: Terrain, x: number, z: number, w: Float32Ar
 
   w.fill(0);
   // Damp hollows and stream banks are lush; exposed, high or windy ground is dry heath.
-  const wood = crowns ? crowns.coverAt(x, z) : deepwoodCover(x, z);
+  const wood = crowns ? sampledCanopy ?? crowns.coverAt(x, z) : deepwoodCover(x, z);
   const lush = Math.max(wood * 0.78, clamp(0.28 + 0.95 * wetStream + (nLow - 0.5) * 1.1 - smoothstep(8, 40, h) * 0.5
     + biome.moisture * 0.32 - biome.exposure * 0.3, 0, 1));
   w[LAYER.grass] = lush;
@@ -132,9 +132,10 @@ export function groundSplat(terrain: Terrain, x: number, z: number, w: Float32Ar
   // and herb mat as their surroundings; path / collider geometry is never moved by this noise.
   const road = roadWeight(x, z);
   if (road > 0) {
-    const centre = smoothstep(0.55, 0.9, road);
-    const shoulder = 0.74 + nHi * 0.26;
-    blend(w, LAYER.earth, road * (1 - centre) * (0.18 + wood * 0.2));
+    const centre = smoothstep(0.35, 0.9, road);
+    const edgePockets = smoothstep(0.28, 0.72, nHi * 0.65 + nMid * 0.35);
+    const shoulder = 0.7 + edgePockets * 0.28;
+    blend(w, LAYER.earth, road * (1 - centre) * (0.28 + wood * 0.36));
     blend(w, LAYER.path, road * (0.92 * centre + shoulder * (1 - centre)));
   }
 
