@@ -38,10 +38,8 @@ The first [PR build](https://github.com/ael-dev3/Tervain/actions/runs/3706631193
 
 The full-cast sheet and NPC geometry checks now use a named test case for each model. All surface, material, detail-layer, vertex-part, finite-attribute, skin-weight, skeleton and triangle-budget assertions are preserved; actual model identities and catalog uniqueness remain checked. CPU-heavy geometry and inline painting tests use two workers to avoid contention. No timeout was raised, test skipped, required check removed or workflow trigger changed. The default test command passes locally after this correction; remote validation is pending at this source checkpoint.
 
-## Publication boundary and Actions preflight
+## Publication boundary
 
 The change is published for review as [PR #11](https://github.com/ael-dev3/Tervain/pull/11) on `codex/wanderer-main-character`. A main merge/deployment is separate from creating its reviewable PR; do not claim the hosted game contains this hero until the merge and successful deployment are verified.
 
-The read-only UTC-day preflight inspected all 43 available repository runs across workflows, branches and actors. On 2 October there were zero created/started/updated runs, zero queued/in-progress runs and no rerun attempts; every retrieved run had attempt 1. The server exposed one active workflow, `.github/workflows/pages.yml`, with a main-only push trigger, pull-request trigger and manual dispatch. There are no scheduled or downstream `workflow_run` chains in that workflow. A feature-branch push adds no run; creating one PR adds one Ubuntu build run and no deployment. The latest PR build took 43 seconds of runner time; conservatively estimate **1–3 runner minutes** for the larger hero checkout and tests. Monthly usage is **unknown**; no billing permissions were expanded. Refresh the preflight immediately before any remote action and preserve all required checks.
-
-The first PR run consumed about 55 seconds of runner time and was not manually rerun. The corrective push is one coherent update and is expected to add one pull-request synchronize build, conservatively another **1–3 runner minutes**; a description-only edit has no matching event under the default pull-request trigger. Check the current UTC-day history again immediately before either action.
+The existing Pages workflow checks pull requests and publishes merged `main` revisions. Required checks and successful deployment remain separate acceptance gates.
