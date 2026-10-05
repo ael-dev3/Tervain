@@ -1,0 +1,18 @@
+/* ENTRY 2039a060 | bTPropertyType<gCAttribute,int>::vfunction12 | STATUS decompiled | 4 ms */
+
+bTPropertyType<gCAttribute,int>_vftable * __thiscall
+bTPropertyType<gCAttribute,int>::vfunction12
+          (bTPropertyType<gCAttribute,int> *this,undefined4 *param_1)
+
+{
+  int iVar1;
+  
+  if (param_1 == (undefined4 *)0x0) {
+    return (bTPropertyType<gCAttribute,int>_vftable *)0x0;
+  }
+  iVar1 = (**(code **)*param_1)();
+  return (bTPropertyType<gCAttribute,int>_vftable *)((int)&(this[7].vftablePtr)->vfunction1 + iVar1)
+  ;
+}
+
+

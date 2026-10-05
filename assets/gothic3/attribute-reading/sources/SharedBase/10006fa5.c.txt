@@ -1,0 +1,18 @@
+/* ENTRY 10006fa5 | bCAccessorPropertyObject::bCAccessorPropertyObject | STATUS decompiled | 2 ms */
+
+/* public: __thiscall bCAccessorPropertyObject::bCAccessorPropertyObject(class bCPropertyObjectBase
+   const *) */
+
+bCAccessorPropertyObject * __thiscall
+bCAccessorPropertyObject::bCAccessorPropertyObject
+          (bCAccessorPropertyObject *this,bCPropertyObjectBase *param_1)
+
+{
+                    /* 0x6fa5  29  ??0bCAccessorPropertyObject@@QAE@PBVbCPropertyObjectBase@@@Z */
+  *(undefined4 *)this = 0;
+  *(undefined4 *)(this + 4) = 0;
+  SetInstance(this,param_1);
+  return this;
+}
+
+

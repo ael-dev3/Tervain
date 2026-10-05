@@ -1,0 +1,84 @@
+/* ENTRY 2039af20 | FUN_2039af20 | STATUS decompiled | 42 ms */
+
+void __thiscall FUN_2039af20(gCAttribute *param_1,EAttribModOperation param_2,int param_3)
+
+{
+  int iVar1;
+  int iVar2;
+  SetValue *pSVar3;
+  gCAttribute_vftable *pgVar4;
+  
+  switch(param_2) {
+  case 1:
+    pgVar4 = param_1->vftablePtr;
+    iVar2 = (*pgVar4->GetMaximum)(param_1);
+    (*pgVar4->SetMaximum)(param_1,iVar2 + param_3);
+    pgVar4 = param_1->vftablePtr;
+    iVar2 = (*pgVar4->GetValue)(param_1);
+    (*pgVar4->SetValue)(param_1,iVar2 + param_3);
+    gCAttribute::ApplyPerm(param_1,param_2,param_3);
+    return;
+  case 2:
+    iVar2 = (*param_1->vftablePtr->GetMaximum)(param_1);
+    iVar2 = (iVar2 * param_3) / 100;
+    goto LAB_2039afc8;
+  case 3:
+    iVar2 = (*param_1->vftablePtr->GetMaximum)(param_1);
+    pgVar4 = param_1->vftablePtr;
+    iVar2 = (iVar2 * param_3) / 100;
+    iVar1 = (*pgVar4->GetMaximum)(param_1);
+    (*pgVar4->SetMaximum)(param_1,iVar1 + iVar2);
+LAB_2039afc8:
+    pgVar4 = param_1->vftablePtr;
+    iVar1 = (*pgVar4->GetValue)(param_1);
+    (*pgVar4->SetValue)(param_1,iVar1 + iVar2);
+    gCAttribute::ApplyPerm(param_1,param_2,param_3);
+    return;
+  case 4:
+    break;
+  case 5:
+    iVar1 = (*param_1->vftablePtr->GetMaximum)(param_1);
+    (*param_1->vftablePtr->SetMaximum)(param_1,iVar1);
+    if (0 < param_3 - iVar1) {
+      pgVar4 = param_1->vftablePtr;
+      iVar2 = (*pgVar4->GetValue)(param_1);
+      iVar2 = iVar2 + (param_3 - iVar1);
+      pSVar3 = pgVar4->SetValue;
+      goto LAB_2039b092;
+    }
+    break;
+  case 6:
+    iVar2 = (*param_1->vftablePtr->GetMaximum)(param_1);
+    iVar2 = (iVar2 * param_3) / 100;
+    pSVar3 = param_1->vftablePtr->SetValue;
+    goto LAB_2039b092;
+  case 7:
+    iVar2 = (*param_1->vftablePtr->GetMaximum)(param_1);
+    iVar2 = (iVar2 * param_3) / 100;
+    iVar1 = (*param_1->vftablePtr->GetMaximum)(param_1);
+    iVar1 = iVar2 - iVar1;
+    (*param_1->vftablePtr->SetMaximum)(param_1,iVar2);
+    if (0 < iVar1) {
+      pgVar4 = param_1->vftablePtr;
+      iVar2 = (*pgVar4->GetValue)(param_1);
+      iVar2 = iVar2 + iVar1;
+      goto LAB_2039b08e;
+    }
+    break;
+  case 8:
+    pgVar4 = param_1->vftablePtr;
+    iVar2 = (*pgVar4->GetMaximum)(param_1);
+LAB_2039b08e:
+    pSVar3 = pgVar4->SetValue;
+LAB_2039b092:
+    (*pSVar3)(param_1,iVar2);
+    break;
+  default:
+    goto switchD_2039af3a_default;
+  }
+switchD_2039af3a_default:
+  gCAttribute::ApplyPerm(param_1,param_2,param_3);
+  return;
+}
+
+

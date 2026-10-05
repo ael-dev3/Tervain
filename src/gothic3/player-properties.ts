@@ -14,6 +14,7 @@ import type { NativeSessionPlayerMemory } from './session-runtime';
 import type { NativeValue } from './dialogue';
 import { readNativeResource } from './resource';
 import type { ResourceReceipt } from './resource';
+import type { NativePropertyObjectReference } from './entity-lifecycle';
 
 const manifest = JSON.parse(manifestText) as {
   schema: string; allListedInstructionBytesMatchOriginalPE: boolean;
@@ -51,6 +52,15 @@ export type OriginalPlayerPropertyResult<T> =
  * An unknown/throw can have logged or performed reentrant effects already. */
 export interface OriginalAttributeHost {
   warning(message: string, source: string): NativeValue<void>;
+}
+/** Source constructor binding to the actual retained RefBase/field storage.
+ * Every access remains guarded across callbacks and allocation lifetimes. */
+export interface OriginalAttributePhysicalBinding {
+  guard(): void;
+  readReferenceWord(): number;
+  writeReferenceWord(value: number): void;
+  readWrapper(): NativePropertyObjectReference | null;
+  writeWrapper(value: NativePropertyObjectReference | null): void;
 }
 
 function int32(value: number, label: string): number {
@@ -91,29 +101,41 @@ class Journal {
  * This intentionally exposes actual mutable storage, never a copied stats view.
  * Extending the class or replacing its virtual methods is outside this profile. */
 export class OriginalNativeAttribute {
+  private detachedReferenceWord = 1;
+  private detachedWrapper: NativePropertyObjectReference | null = null;
   constructor(readonly identity: string, readonly kind: 'gCAttribute' | 'gCStat',
-    readonly values: OriginalAttributeValues, private readonly host: OriginalAttributeHost | null = null) {
-    if (!identity || typeof values.Tag !== 'string' || !['gCAttribute', 'gCStat'].includes(kind) ||
+    readonly values: OriginalAttributeValues, private readonly host: OriginalAttributeHost | null = null,
+    private readonly physical: OriginalAttributePhysicalBinding | null = null) {
+    if (!identity || (!physical && typeof values.Tag !== 'string') || !['gCAttribute', 'gCStat'].includes(kind) ||
         (kind === 'gCStat') !== ('BaseMaximum' in values)) throw new TypeError('Supply the actual native attribute class and fields');
-    int32(values.Value, 'BaseValue'); int32(values.Modifier, 'Modifier');
-    if ('BaseMaximum' in values) { int32(values.BaseMaximum, 'BaseMaximum'); int32(values.MaximumModifier, 'MaximumModifier'); }
+    if (!physical) {
+      int32(values.Value, 'BaseValue'); int32(values.Modifier, 'Modifier');
+      if ('BaseMaximum' in values) { int32(values.BaseMaximum, 'BaseMaximum'); int32(values.MaximumModifier, 'MaximumModifier'); }
+    }
   }
+  get className(): 'gCAttribute' | 'gCStat' { this.exact(); return this.kind; }
+  get referenceWord(): number { this.exact(); return this.physical?.readReferenceWord() ?? this.detachedReferenceWord; }
+  set referenceWord(value: number) { this.exact(); uint32(value, 'native reference word'); if (this.physical) this.physical.writeReferenceWord(value); else this.detachedReferenceWord = value; this.exact(); }
+  get wrapper(): NativePropertyObjectReference | null { this.exact(); return this.physical?.readWrapper() ?? this.detachedWrapper; }
+  set wrapper(value: NativePropertyObjectReference | null) { this.exact(); if (this.physical) this.physical.writeWrapper(value); else this.detachedWrapper = value; this.exact(); }
+  private exact(): void { this.physical?.guard(); }
   /** gCAttribute ApplyDefaults; gCStat first initializes its own two fields. */
   static fromConstructor(identity: string, kind: 'gCAttribute' | 'gCStat', host: OriginalAttributeHost | null = null): OriginalNativeAttribute {
     return new OriginalNativeAttribute(identity, kind, kind === 'gCStat'
       ? { Tag: '', Modifier: 0, Value: 100, BaseMaximum: 100, MaximumModifier: 0 }
       : { Tag: '', Modifier: 0, Value: 100 }, host);
   }
-  getValue(): number { return sum(int32(this.values.Value, 'live BaseValue'), int32(this.values.Modifier, 'live Modifier')); }
+  getValue(): number { this.exact(); return sum(int32(this.values.Value, 'live BaseValue'), int32(this.values.Modifier, 'live Modifier')); }
   getMaximum(): number {
+    this.exact();
     return 'BaseMaximum' in this.values
       ? sum(int32(this.values.BaseMaximum, 'live BaseMaximum'), int32(this.values.MaximumModifier, 'live MaximumModifier'))
       : this.getValue();
   }
-  getBaseValue(): number { return int32(this.values.Value, 'live BaseValue'); }
-  getModifier(): number { return int32(this.values.Modifier, 'live Modifier'); }
-  getBaseMaximum(): number | null { return 'BaseMaximum' in this.values ? int32(this.values.BaseMaximum, 'live BaseMaximum') : null; }
-  getMaximumModifier(): number | null { return 'MaximumModifier' in this.values ? int32(this.values.MaximumModifier, 'live MaximumModifier') : null; }
+  getBaseValue(): number { this.exact(); return int32(this.values.Value, 'live BaseValue'); }
+  getModifier(): number { this.exact(); return int32(this.values.Modifier, 'live Modifier'); }
+  getBaseMaximum(): number | null { this.exact(); return 'BaseMaximum' in this.values ? int32(this.values.BaseMaximum, 'live BaseMaximum') : null; }
+  getMaximumModifier(): number | null { this.exact(); return 'MaximumModifier' in this.values ? int32(this.values.MaximumModifier, 'live MaximumModifier') : null; }
   setValue(value: number): OriginalPlayerPropertyResult<null> {
     const journal = new Journal(); return journal.finish(() => { this.value(int32(value, 'Value'), journal); return null; });
   }
@@ -125,31 +147,47 @@ export class OriginalNativeAttribute {
     return value;
   }
   private write(field: 'Value' | 'Modifier' | 'BaseMaximum' | 'MaximumModifier', value: number, journal: Journal, source: string): void {
+    this.exact();
     int32(value, field);
     if (field === 'Value' || field === 'Modifier') this.values[field] = value;
     else if ('BaseMaximum' in this.values) this.values[field] = value;
     else throw new Error('Only original gCStat owns ' + field);
     journal.write({ object: this.identity, operation: 'write', field, value, source });
   }
-  private notify(phase: 'enter' | 'exit', property: string, journal: Journal): void {
+  private notify(phase: 'enter' | 'exit', property: string, journal: Journal, propagated = false): void {
+    this.exact();
     journal.add({ object: this.identity, operation: phase === 'enter' ? 'notify-enter' : 'notify-exit',
-      field: property, value: false, source: phase === 'enter' ? 'SharedBase:10001186' : 'SharedBase:10005a65' });
+      field: property, value: propagated, source: phase === 'enter' ? 'SharedBase:10001186' : 'SharedBase:10005a65' });
     journal.add({ object: this.identity, operation: phase === 'enter' ? 'on-notify-enter' : 'on-notify-exit',
-      field: property, value: false, source: phase === 'enter' ? 'SharedBase:10008805' : 'Game:2002e2b2' });
-    if (phase === 'exit') this.cap(journal);
+      field: property, value: propagated, source: phase === 'enter' ? 'SharedBase:10008805' : 'Game:2002e2b2' });
+    if (phase === 'exit' && !propagated) this.cap(journal);
+  }
+  /** Descriptor virtual+38 uses its registered name and literal true. The
+   * original Exit callback consequently skips Cap; setter false still caps. */
+  notifyReflectedProperty(phase: 'enter' | 'exit', property: string): OriginalPlayerPropertyResult<null> {
+    const journal = new Journal(); return journal.finish(() => {
+      if (!['Tag', 'Modifier', 'Value', ...(this.kind === 'gCStat' ? ['BaseMaximum', 'MaximumModifier'] : [])].includes(property)) throw new Error('Actual registered attribute descriptor required');
+      this.notify(phase, property, journal, true); return null;
+    });
+  }
+  notifyTag(phase: 'enter' | 'exit'): OriginalPlayerPropertyResult<null> {
+    const journal = new Journal(); return journal.finish(() => { this.notify(phase, 'Tag', journal); return null; });
   }
   /** SetValue adjusts the base by the live modifier, then invokes virtual Cap. */
   value(value: number, journal: Journal): void {
+    this.exact();
     this.write('Value', difference(value, this.getModifier()), journal, 'Game:20397a70');
     this.cap(journal);
   }
   maximum(value: number, journal: Journal): void {
+    this.exact();
     if (!('BaseMaximum' in this.values)) return; // original gCAttribute SetMaximum is empty
     this.read('Maximum', journal); // original discarded virtual GetMaximum call
     this.write('BaseMaximum', difference(value, int32(this.values.MaximumModifier, 'MaximumModifier')), journal, 'Game:2039aef0');
     this.cap(journal);
   }
   property(field: 'Value' | 'Modifier' | 'BaseMaximum' | 'MaximumModifier', value: number, journal: Journal, source?: string): void {
+    this.exact();
     if ((field === 'BaseMaximum' || field === 'MaximumModifier') && this.kind !== 'gCStat') {
       throw new Error('Only original gCStat owns ' + field);
     }
@@ -160,6 +198,7 @@ export class OriginalNativeAttribute {
     this.notify('exit', name, journal);
   }
   cap(journal: Journal): void {
+    this.exact();
     journal.add({ object: this.identity, operation: 'cap', source: this.kind === 'gCStat' ? 'Game:2039b1d0' : 'Game:200213a5' });
     if (this.kind === 'gCStat' && this.read('Maximum', journal) < 0) this.maximum(0, journal);
     const maximum = this.read('Maximum', journal), current = this.read('Value', journal);
@@ -168,6 +207,7 @@ export class OriginalNativeAttribute {
   }
   /** Native permanent modifier operations, including the original op5 setter. */
   permanent(operation: number, argument: number, journal: Journal): boolean {
+    this.exact();
     if (this.kind === 'gCStat') {
       let delta: number;
       switch (operation) {
@@ -205,6 +245,7 @@ export class OriginalNativeAttribute {
     return false;
   }
   temporary(operation: number, argument: number, remove: boolean, journal: Journal): boolean {
+    this.exact();
     if (this.kind === 'gCStat') {
       if (operation === 1) {
         if (!('BaseMaximum' in this.values)) throw new Error('Missing actual stat fields');
@@ -219,6 +260,7 @@ export class OriginalNativeAttribute {
         journal.attempt({ object: this.identity, operation: 'warning', value: message, source });
         const result = this.host.warning(message, source);
         if (!result.known) throw new Error(source + ': ' + result.reason);
+        this.exact();
       } else if (operation === 3) {
         if (!('BaseMaximum' in this.values)) throw new Error('Missing actual stat fields');
         // The compiler divides the argument FIRST, then FILD/FIMUL BaseMaximum.

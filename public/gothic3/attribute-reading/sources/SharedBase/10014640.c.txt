@@ -1,0 +1,41 @@
+/* ENTRY 10014640 | FUN_10014640 | STATUS decompiled | 7 ms */
+
+void __thiscall FUN_10014640(bCString *param_1,int *param_2)
+
+{
+  void *pvVar1;
+  bCMemoryAdmin *this;
+  int iVar2;
+  
+  iVar2 = *param_2;
+  if ((iVar2 != 0) && (*(int *)(iVar2 + -8) != 0)) {
+    if (*(int *)param_1 != 0) {
+      if (*(int *)param_1 == iVar2) {
+        return;
+      }
+      bCString::Release(param_1);
+      iVar2 = *param_2;
+    }
+    *(int *)param_1 = iVar2;
+    *(short *)(iVar2 + -4) = *(short *)(iVar2 + -4) + 1;
+    return;
+  }
+  iVar2 = *(int *)param_1;
+  if (iVar2 != 0) {
+    if ((*(ushort *)(iVar2 + -4) < 2) && (-1 < *(int *)(iVar2 + -8))) {
+      *(undefined4 *)(iVar2 + -8) = 0;
+      **(undefined1 **)param_1 = 0;
+      return;
+    }
+    *(short *)(iVar2 + -4) = *(short *)(iVar2 + -4) + -1;
+    pvVar1 = (void *)(iVar2 + -8);
+    if (*(short *)(iVar2 + -4) == 0) {
+      this = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(this,pvVar1);
+    }
+  }
+  *(undefined4 *)param_1 = 0;
+  return;
+}
+
+

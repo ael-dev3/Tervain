@@ -1,0 +1,36 @@
+; 2039d460 bTPropertyObject<gCStat,gCAttribute>::vfunction15
+2039d460 | 56 | PUSH ESI
+2039d461 | 57 | PUSH EDI
+2039d462 | 6890010000 | PUSH 0x190
+2039d467 | 6a10 | PUSH 0x10
+2039d469 | 8bf9 | MOV EDI,ECX
+2039d46b | ff15f8887d20 | CALL dword ptr [0x207d88f8]
+2039d471 | 8bf0 | MOV ESI,EAX
+2039d473 | 85f6 | TEST ESI,ESI
+2039d475 | 7433 | JZ 0x2039d4aa
+2039d477 | 8bce | MOV ECX,ESI
+2039d479 | ff15b8877d20 | CALL dword ptr [0x207d87b8]
+2039d47f | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+2039d486 | c70664316a20 | MOV dword ptr [ESI],0x206a3164
+2039d48c | e82062c6ff | CALL 0x200036b1
+2039d491 | 836604fb | AND dword ptr [ESI + 0x4],0xfffffffb
+2039d495 | 6a00 | PUSH 0x0
+2039d497 | 8bce | MOV ECX,ESI
+2039d499 | 89460c | MOV dword ptr [ESI + 0xc],EAX
+2039d49c | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+2039d4a3 | e83904c7ff | CALL 0x2000d8e1
+2039d4a8 | eb02 | JMP 0x2039d4ac
+2039d4aa | 33f6 | XOR ESI,ESI
+2039d4ac | 8bcf | MOV ECX,EDI
+2039d4ae | ff15e8867d20 | CALL dword ptr [0x207d86e8]
+2039d4b4 | 84c0 | TEST AL,AL
+2039d4b6 | 750a | JNZ 0x2039d4c2
+2039d4b8 | 8b06 | MOV EAX,dword ptr [ESI]
+2039d4ba | 8b503c | MOV EDX,dword ptr [EAX + 0x3c]
+2039d4bd | 57 | PUSH EDI
+2039d4be | 8bce | MOV ECX,ESI
+2039d4c0 | ffd2 | CALL EDX
+2039d4c2 | 5f | POP EDI
+2039d4c3 | 8bc6 | MOV EAX,ESI
+2039d4c5 | 5e | POP ESI
+2039d4c6 | c3 | RET

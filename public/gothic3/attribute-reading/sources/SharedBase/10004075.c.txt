@@ -1,0 +1,22 @@
+/* ENTRY 10004075 | bCPropertyObjectTypeBase::CopyFrom | STATUS decompiled | 5 ms */
+
+/* protected: virtual void __thiscall bCPropertyObjectTypeBase::CopyFrom(class
+   bCPropertyObjectTypeBase const &) */
+
+void __thiscall
+bCPropertyObjectTypeBase::CopyFrom(bCPropertyObjectTypeBase *this,bCPropertyObjectTypeBase *param_1)
+
+{
+  byte *pbVar1;
+  
+                    /* 0x4075  1756  ?CopyFrom@bCPropertyObjectTypeBase@@MAEXABV1@@Z */
+  GE_MESSAGEF_WARN("The method %s detected an improper usage! \nHint:%s ",
+                   "bCPropertyObjectTypeBase::CopyFrom",
+                   "It is not allowed to make a copy of propertytype.\nDo not call it from derived class or change access !"
+                  );
+  pbVar1 = &(this->bCPropertyObjectTypeBase_data).offset_0x10;
+  *pbVar1 = *pbVar1 ^ ((byte)param_1[0x14] ^ (this->bCPropertyObjectTypeBase_data).offset_0x10) & 1;
+  return;
+}
+
+

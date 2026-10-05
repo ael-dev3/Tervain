@@ -1,0 +1,2 @@
+; 200259d2 gCAttribute::ApplyTemp
+200259d2 | e9d9213700 | JMP 0x20397bb0

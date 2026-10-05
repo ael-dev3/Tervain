@@ -1,0 +1,35 @@
+/* ENTRY 200120b7 | gCStat::UnapplyTemp | STATUS decompiled | 16 ms */
+
+/* public: virtual bool __thiscall gCStat::UnapplyTemp(enum EAttribModOperation,int) */
+
+bool __thiscall gCStat::UnapplyTemp(gCStat *this,EAttribModOperation param_1,int param_2)
+
+{
+  undefined4 *puVar1;
+  bool bVar2;
+  int iVar3;
+  
+                    /* 0x120b7  7397  ?UnapplyTemp@gCStat@@UAE_NW4EAttribModOperation@@H@Z */
+  if (param_1 == 1) {
+    puVar1 = &(this->gCAttribute_data).offset_0x18;
+    *puVar1 = *puVar1 - param_2;
+  }
+  else {
+    if (param_1 == 2) {
+      GE_MESSAGEF_WARN("gCStat::UnapplyTemp -> EOp_AddPercentageToVal cannot be used as a modifier."
+                      );
+      bVar2 = gCAttribute::UnapplyTemp((gCAttribute *)this,2,param_2);
+      return bVar2;
+    }
+    if (param_1 != 3) goto LAB_2039b1bd;
+    iVar3 = FUN_20465320();
+    puVar1 = &(this->gCAttribute_data).offset_0x18;
+    *puVar1 = *puVar1 + iVar3;
+  }
+  (*this->vftablePtr->Cap)(this);
+LAB_2039b1bd:
+  bVar2 = gCAttribute::UnapplyTemp((gCAttribute *)this,param_1,param_2);
+  return bVar2;
+}
+
+

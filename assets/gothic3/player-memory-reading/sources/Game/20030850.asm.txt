@@ -1,0 +1,2 @@
+; 20030850 bTPropertyObject<gCPlayerMemory_PS,eCEntityPropertySet>::vfunction15
+20030850 | e92b802f00 | JMP 0x20328880

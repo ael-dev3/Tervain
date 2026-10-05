@@ -1,0 +1,9 @@
+/* ENTRY 10087f20 | FUN_10087f20 | STATUS decompiled | 1 ms */
+
+undefined4 __thiscall FUN_10087f20(int param_1,int param_2)
+
+{
+  return *(undefined4 *)(*(int *)(param_1 + 8) + param_2 * 4);
+}
+
+

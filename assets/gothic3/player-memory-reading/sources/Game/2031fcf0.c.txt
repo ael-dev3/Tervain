@@ -1,0 +1,31 @@
+/* ENTRY 2031fcf0 | bTPOPureSmartPtr<gCPlayerMemory_PS>::~bTPOPureSmartPtr<gCPlayerMemory_PS> | STATUS decompiled | 11 ms */
+
+void __thiscall
+bTPOPureSmartPtr<gCPlayerMemory_PS>::~bTPOPureSmartPtr<gCPlayerMemory_PS>
+          (bTPOPureSmartPtr<gCPlayerMemory_PS> *this)
+
+{
+  bCObjectRefBase *pbVar1;
+  ulong uVar2;
+  
+  pbVar1 = (this->bTPOPureSmartPtr<gCPlayerMemory_PS>_data).offset_0x4;
+  this->vftablePtr = &vftable;
+  if (pbVar1 != (bCObjectRefBase *)0x0) {
+    uVar2 = bCObjectRefBase::GetReferenceCount((bCObjectRefBase *)pbVar1);
+    if (uVar2 == 1) {
+      (**(code **)(*(int *)(this->bTPOPureSmartPtr<gCPlayerMemory_PS>_data).offset_0x4 + 0x14))();
+    }
+  }
+  pbVar1 = (this->bTPOPureSmartPtr<gCPlayerMemory_PS>_data).offset_0x4;
+  if (pbVar1 != (bCObjectRefBase *)0x0) {
+    bCObjectRefBase::SetPropertyObject((bCObjectRefBase *)pbVar1,(bCPropertyObjectBase *)0x0);
+    bCObjectRefBase::ReleaseVirtualReference((bCObjectRefBase *)pbVar1);
+  }
+  (this->bTPOPureSmartPtr<gCPlayerMemory_PS>_data).offset_0x4 = (bCObjectRefBase *)0x0;
+                    /* WARNING: Could not recover jumptable at 0x2031fd3a. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyObjectBase::~bCPropertyObjectBase((bCPropertyObjectBase *)this);
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 100079fa bCObjectRefBase::Create
+100079fa | e9b12a0400 | JMP 0x1004a4b0

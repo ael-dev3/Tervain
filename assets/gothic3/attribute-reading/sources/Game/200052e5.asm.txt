@@ -1,0 +1,2 @@
+; 200052e5 bTPropertyType<gCAttribute,bCObsoleteClass>::vfunction16
+200052e5 | e916323900 | JMP 0x20398500

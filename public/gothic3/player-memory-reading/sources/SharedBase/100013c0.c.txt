@@ -1,0 +1,13 @@
+/* ENTRY 100013c0 | operator<< | STATUS decompiled | 2 ms */
+
+/* class bCOStream & __stdcall operator<<(class bCOStream &,class bCObjectBase &) */
+
+bCOStream * operator<<(bCOStream *param_1,bCObjectBase *param_2)
+
+{
+                    /* 0x13c0  701  ??6@YGAAVbCOStream@@AAV0@AAVbCObjectBase@@@Z */
+  (**(code **)(*(int *)param_2 + 8))(param_1);
+  return param_1;
+}
+
+

@@ -1,0 +1,2 @@
+; 2000b154 gCStat::Destroy
+2000b154 | e977fd3800 | JMP 0x2039aed0

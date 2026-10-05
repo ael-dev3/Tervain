@@ -1,0 +1,2 @@
+; 10002f68 bCPropertyObjectBase::ReadData
+10002f68 | e933640800 | JMP 0x100893a0

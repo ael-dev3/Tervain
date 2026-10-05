@@ -1,0 +1,14 @@
+/* ENTRY 20029f64 | gCStat::~gCStat | STATUS decompiled | 4 ms */
+
+/* public: virtual __thiscall gCStat::~gCStat(void) */
+
+void __thiscall gCStat::~gCStat(gCStat *this)
+
+{
+                    /* 0x29f64  538  ??1gCStat@@UAE@XZ */
+  this->vftablePtr = &vftable;
+  gCAttribute::~gCAttribute((gCAttribute *)this);
+  return;
+}
+
+

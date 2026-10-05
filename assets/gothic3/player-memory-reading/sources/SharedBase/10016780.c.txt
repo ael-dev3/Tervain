@@ -1,0 +1,25 @@
+/* ENTRY 10016780 | FUN_10016780 | STATUS decompiled | 3 ms */
+
+void __thiscall FUN_10016780(undefined4 *param_1,int param_2)
+
+{
+  bCMemoryAdmin *this;
+  undefined4 *puVar1;
+  ulong uVar2;
+  
+  if (param_2 == 0) {
+    *param_1 = 0;
+    return;
+  }
+  uVar2 = param_2 * 2 + 0xe;
+  this = bCMemoryAdmin::GetInstance();
+  puVar1 = bCMemoryAdmin::Malloc(this,uVar2);
+  puVar1[2] = param_2;
+  puVar1[1] = param_2;
+  *puVar1 = 1;
+  *param_1 = puVar1 + 3;
+  *(undefined2 *)((int)(puVar1 + 3) + param_2 * 2) = 0;
+  return;
+}
+
+

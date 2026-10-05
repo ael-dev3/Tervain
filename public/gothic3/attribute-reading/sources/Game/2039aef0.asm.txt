@@ -1,0 +1,15 @@
+; 2039aef0 FUN_2039aef0
+2039aef0 | 56 | PUSH ESI
+2039aef1 | 8bf1 | MOV ESI,ECX
+2039aef3 | 8b06 | MOV EAX,dword ptr [ESI]
+2039aef5 | 8b5064 | MOV EDX,dword ptr [EAX + 0x64]
+2039aef8 | ffd2 | CALL EDX
+2039aefa | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+2039aefe | 2b461c | SUB EAX,dword ptr [ESI + 0x1c]
+2039af01 | 8b16 | MOV EDX,dword ptr [ESI]
+2039af03 | 894618 | MOV dword ptr [ESI + 0x18],EAX
+2039af06 | 8b427c | MOV EAX,dword ptr [EDX + 0x7c]
+2039af09 | 8bce | MOV ECX,ESI
+2039af0b | ffd0 | CALL EAX
+2039af0d | 5e | POP ESI
+2039af0e | c20400 | RET 0x4

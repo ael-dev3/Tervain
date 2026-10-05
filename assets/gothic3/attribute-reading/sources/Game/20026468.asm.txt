@@ -1,0 +1,2 @@
+; 20026468 bTPropertyObjectType<gCStat,gCAttribute>::scalar_deleting_destructor
+20026468 | e973513700 | JMP 0x2039b5e0

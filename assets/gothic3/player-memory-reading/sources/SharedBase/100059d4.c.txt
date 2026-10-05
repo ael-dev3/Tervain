@@ -1,0 +1,16 @@
+/* ENTRY 100059d4 | bCPropertyObjectTypeBase::GetPropertyType | STATUS decompiled | 3 ms */
+
+/* public: class bCPropertyTypeBase const & __thiscall
+   bCPropertyObjectTypeBase::GetPropertyType(int)const  */
+
+bCPropertyTypeBase * __thiscall
+bCPropertyObjectTypeBase::GetPropertyType(bCPropertyObjectTypeBase *this,int param_1)
+
+{
+                    /* 0x59d4  2835
+                       ?GetPropertyType@bCPropertyObjectTypeBase@@QBEABVbCPropertyTypeBase@@H@Z */
+  return *(bCPropertyTypeBase **)
+          ((int)(this->bCPropertyObjectTypeBase_data).offset_0x4 + param_1 * 4);
+}
+
+

@@ -1,0 +1,2 @@
+; 20026792 bTPropertyContainer<gEWeaponConfig>::vfunction5
+20026792 | e9998b2f00 | JMP 0x2031f330

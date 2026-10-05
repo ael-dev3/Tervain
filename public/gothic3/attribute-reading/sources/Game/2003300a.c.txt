@@ -1,0 +1,14 @@
+/* ENTRY 2003300a | gCAttribute::PostInitializeProperties | STATUS decompiled | 5 ms */
+
+/* public: virtual enum bEResult __thiscall gCAttribute::PostInitializeProperties(void)
+   gCAttribute member function inherited by gCStat */
+
+bEResult __thiscall gCAttribute::PostInitializeProperties(gCAttribute *this)
+
+{
+                    /* 0x3300a  5738  ?PostInitializeProperties@gCAttribute@@UAE?AW4bEResult@@XZ */
+  (*this->vftablePtr->ApplyDefaults)(this);
+  return 1;
+}
+
+

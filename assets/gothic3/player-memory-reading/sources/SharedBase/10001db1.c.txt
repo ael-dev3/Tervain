@@ -1,0 +1,73 @@
+/* ENTRY 10001db1 | bCErrorAdmin::Create | STATUS decompiled | 13 ms */
+
+/* public: void __thiscall bCErrorAdmin::Create(void) */
+
+void __thiscall bCErrorAdmin::Create(bCErrorAdmin *this)
+
+{
+  undefined4 *puVar1;
+  bCMemoryAdmin *this_00;
+  bCMessageAdmin *this_01;
+  _func_bool_bEMessageTypes_char_ptr_char_ptr_ulong_char_ptr_int_int *p_Var2;
+  void *pvVar3;
+  bEMessageCallbackPriority bVar4;
+  ulong uVar5;
+  
+                    /* 0x1db1  1801  ?Create@bCErrorAdmin@@QAEXXZ */
+  Destroy(this);
+  *(undefined4 *)this = 0;
+  this[4] = (bCErrorAdmin)0x0;
+  this[5] = (bCErrorAdmin)0x0;
+  *(undefined4 *)(this + 0x20) = 0;
+  *(undefined4 *)(this + 0x24) = 0;
+  *(undefined4 *)(this + 0x28) = 0;
+  puVar1 = (undefined4 *)FUN_100aabd2(0x14);
+  if (puVar1 == (undefined4 *)0x0) {
+    puVar1 = (undefined4 *)0x0;
+  }
+  else {
+    uVar5 = 0x30d4;
+    pvVar3 = (void *)0x0;
+    *puVar1 = 0;
+    puVar1[1] = 0;
+    puVar1[2] = 0;
+    puVar1[3] = 0;
+    *(undefined1 *)(puVar1 + 4) = 0;
+    this_00 = bCMemoryAdmin::GetInstance();
+    pvVar3 = bCMemoryAdmin::Realloc(this_00,pvVar3,uVar5);
+    *puVar1 = pvVar3;
+    if (*(char *)(puVar1 + 4) != '\0') {
+      puVar1[3] = puVar1[1];
+    }
+    puVar1[1] = 0x32;
+    *(undefined1 *)(puVar1 + 4) = 0;
+  }
+  *(undefined4 **)(this + 0x20) = puVar1;
+  puVar1 = (undefined4 *)FUN_100aabd2(0xc);
+  if (puVar1 == (undefined4 *)0x0) {
+    puVar1 = (undefined4 *)0x0;
+  }
+  else {
+    *puVar1 = 0;
+    puVar1[1] = 0;
+    puVar1[2] = 0;
+  }
+  *(undefined4 **)(this + 0x24) = puVar1;
+  puVar1 = (undefined4 *)FUN_100aabd2(0xc);
+  if (puVar1 == (undefined4 *)0x0) {
+    puVar1 = (undefined4 *)0x0;
+  }
+  else {
+    *puVar1 = 0;
+    puVar1[1] = 0;
+    puVar1[2] = 0;
+  }
+  bVar4 = 1;
+  p_Var2 = (_func_bool_bEMessageTypes_char_ptr_char_ptr_ulong_char_ptr_int_int *)&LAB_10002df6;
+  *(undefined4 **)(this + 0x28) = puVar1;
+  this_01 = bCMessageAdmin::GetInstance();
+  bCMessageAdmin::RegisterCallback(this_01,p_Var2,bVar4,(ulong)this);
+  return;
+}
+
+

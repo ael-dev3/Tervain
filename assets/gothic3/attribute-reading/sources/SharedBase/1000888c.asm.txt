@@ -1,0 +1,2 @@
+; 1000888c MemHeap::ReAlloc
+1000888c | e90f500300 | JMP 0x1003d8a0

@@ -1,0 +1,34 @@
+/* ENTRY 20526a60 | bTPropertyType<gCStat,int>::~bTPropertyType<gCStat,int> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCStat,int>::~bTPropertyType<gCStat,int>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Value");
+  bCString::bCString(local_c,"MaximumModifier");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCStat::ms_PropertyMember_m_iMaximumModifier,local_c,local_8,
+             local_4,1,false);
+  _ms_PropertyMember_m_iMaximumModifier = &vftable;
+  DAT_207cd130 = bTPropertyObjectType<gCStat,gCAttribute>::~bTPropertyObjectType<gCStat,gCAttribute>
+                           ();
+  _DAT_207cd134 = 0x1c;
+  _DAT_207cd138 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCStat::ms_PropertyMember_m_iMaximumModifier);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cd130,
+             (bCPropertyTypeBase *)&gCStat::ms_PropertyMember_m_iMaximumModifier);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<int>::~bTPropertyTypeOnly<int>);
+  return;
+}
+
+

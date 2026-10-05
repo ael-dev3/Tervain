@@ -1,0 +1,13 @@
+/* ENTRY 2001c936 | thunk_FUN_20063f20 | STATUS decompiled | 5 ms */
+
+void thunk_FUN_20063f20(bCString *param_1,int param_2)
+
+{
+  for (; param_2 != 0; param_2 = param_2 + -1) {
+    bCString::~bCString(param_1);
+    param_1 = param_1 + 4;
+  }
+  return;
+}
+
+

@@ -1,0 +1,14 @@
+; 20397cd0 gCAttribute::gCAttribute
+20397cd0 | 56 | PUSH ESI
+20397cd1 | 8bf1 | MOV ESI,ECX
+20397cd3 | ff155c867d20 | CALL dword ptr [0x207d865c]
+20397cd9 | 8d4e0c | LEA ECX,[ESI + 0xc]
+20397cdc | c7067cda6520 | MOV dword ptr [ESI],0x2065da7c
+20397ce2 | ff1528897d20 | CALL dword ptr [0x207d8928]
+20397ce8 | 8b06 | MOV EAX,dword ptr [ESI]
+20397cea | 8b9084000000 | MOV EDX,dword ptr [EAX + 0x84]
+20397cf0 | 8bce | MOV ECX,ESI
+20397cf2 | ffd2 | CALL EDX
+20397cf4 | 8bc6 | MOV EAX,ESI
+20397cf6 | 5e | POP ESI
+20397cf7 | c3 | RET

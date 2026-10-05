@@ -1,0 +1,4 @@
+; 20397a50 FUN_20397a50
+20397a50 | 8b4114 | MOV EAX,dword ptr [ECX + 0x14]
+20397a53 | 034110 | ADD EAX,dword ptr [ECX + 0x10]
+20397a56 | c3 | RET

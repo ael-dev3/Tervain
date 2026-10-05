@@ -1,0 +1,16 @@
+; 2039b5e0 bTPropertyObjectType<gCStat,gCAttribute>::scalar_deleting_destructor
+2039b5e0 | 56 | PUSH ESI
+2039b5e1 | 8bf1 | MOV ESI,ECX
+2039b5e3 | 8d4e18 | LEA ECX,[ESI + 0x18]
+2039b5e6 | c7069c306a20 | MOV dword ptr [ESI],0x206a309c
+2039b5ec | ff15a0877d20 | CALL dword ptr [0x207d87a0]
+2039b5f2 | 8bce | MOV ECX,ESI
+2039b5f4 | ff15a4877d20 | CALL dword ptr [0x207d87a4]
+2039b5fa | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+2039b5ff | 7409 | JZ 0x2039b60a
+2039b601 | 56 | PUSH ESI
+2039b602 | e82e830c00 | CALL 0x20463935
+2039b607 | 83c404 | ADD ESP,0x4
+2039b60a | 8bc6 | MOV EAX,ESI
+2039b60c | 5e | POP ESI
+2039b60d | c20400 | RET 0x4

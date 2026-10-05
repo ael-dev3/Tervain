@@ -1,0 +1,24 @@
+/* ENTRY 10002fae | bCAccessorPropertyObject::HasBaseClass | STATUS decompiled | 5 ms */
+
+/* public: bool __thiscall bCAccessorPropertyObject::HasBaseClass(void)const  */
+
+bool __thiscall bCAccessorPropertyObject::HasBaseClass(bCAccessorPropertyObject *this)
+
+{
+  int *piVar1;
+  bool bVar2;
+  bCString *pbVar3;
+  bCString *this_00;
+  
+                    /* 0x2fae  3302  ?HasBaseClass@bCAccessorPropertyObject@@QBE_NXZ */
+  if (*(int *)this == 0) {
+    return false;
+  }
+  piVar1 = *(int **)this;
+  pbVar3 = (bCString *)bTPropertyObject<bCObsoleteClass,bCObjectRefBase>::vfunction3();
+  this_00 = (bCString *)(**(code **)(*piVar1 + 8))();
+  bVar2 = bCString::operator==(this_00,pbVar3);
+  return !bVar2;
+}
+
+

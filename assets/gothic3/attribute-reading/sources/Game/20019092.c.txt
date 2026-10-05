@@ -1,0 +1,10 @@
+/* ENTRY 20019092 | bTPropertyObjectType<gCStat,gCAttribute>::vfunction3 | STATUS decompiled | 1 ms */
+
+undefined1 * __thiscall
+bTPropertyObjectType<gCStat,gCAttribute>::vfunction3(bTPropertyObjectType<gCStat,gCAttribute> *this)
+
+{
+  return &(this->bTPropertyObjectType<gCStat,gCAttribute>_data).field_0x14;
+}
+
+

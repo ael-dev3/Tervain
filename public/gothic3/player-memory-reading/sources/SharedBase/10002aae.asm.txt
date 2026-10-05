@@ -1,0 +1,2 @@
+; 10002aae bCMemoryAdmin::GetInstance
+10002aae | e93de10100 | JMP 0x10020bf0

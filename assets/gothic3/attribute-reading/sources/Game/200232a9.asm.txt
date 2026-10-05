@@ -1,0 +1,2 @@
+; 200232a9 gCAttribute::ApplyPerm
+200232a9 | e9b2483700 | JMP 0x20397b60

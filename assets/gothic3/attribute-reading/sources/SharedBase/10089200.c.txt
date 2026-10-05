@@ -1,0 +1,10 @@
+/* ENTRY 10089200 | FUN_10089200 | STATUS decompiled | 2 ms */
+
+void FUN_10089200(bCOStream *param_1)
+
+{
+  bCOStream::operator<<(param_1,0x53);
+  return;
+}
+
+

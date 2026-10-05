@@ -1,0 +1,14 @@
+/* ENTRY 1000694c | bCGuid::Generate | STATUS decompiled | 3 ms */
+
+/* public: void __thiscall bCGuid::Generate(void) */
+
+void __thiscall bCGuid::Generate(bCGuid *this)
+
+{
+                    /* 0x694c  2065  ?Generate@bCGuid@@QAEXXZ */
+  CoCreateGuid((GUID *)this);
+  this[0x10] = (bCGuid)0x1;
+  return;
+}
+
+

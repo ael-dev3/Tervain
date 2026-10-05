@@ -1,0 +1,3 @@
+; 2039b500 bTPropertyObjectType<gCStat,gCAttribute>::vfunction3
+2039b500 | 8d4118 | LEA EAX,[ECX + 0x18]
+2039b503 | c3 | RET

@@ -49,10 +49,11 @@ The current scene covers part of step 2 and the rendering side of step 5.
 The newer source components advance steps 3–4. A successful TypeScript build
 does not establish that step 5 is connected or that step 7 is possible.
 
-The latest source checkpoint in section 21 contains bounded factories for 18
-of the Hero's 19 property sets. PlayerMemory remains unfinished. These factories
-have not been connected to the enclosing live entity/world pipeline, so this
-count does not measure how much of the original game is playable.
+Section 21 records the checkpoint with 18 of the Hero's 19 property-set
+factories. Section 22 adds bounded Attribute/Stat and PlayerMemory factories,
+bringing the source count to 19 of 19. They remain detached from the enclosing
+live entity/world pipeline; this count does not measure how much of the original
+game is playable.
 
 ## 1. Preserve and study the installed game
 
@@ -2443,8 +2444,8 @@ capability; cold virtual zero-fill does not supply those values.
 
 ### Prepare PlayerMemory without replacing its live attributes
 
-The separate [PlayerMemory loading evidence](../../assets/gothic3/player-memory-loading/README.md)
-is explicitly marked `factoryImplemented: false`. Its
+At the preceding checkpoint, the separate [PlayerMemory loading evidence](../../assets/gothic3/player-memory-loading/README.md)
+was explicitly marked `factoryImplemented: false`. Its
 [loading contract](../../assets/gothic3/player-memory-loading/loading-contract.json)
 records the remaining constructor, map and nested-object work.
 
@@ -2460,12 +2461,12 @@ and 15 nested attributes. The producer checks that packet and 197 focused
 record byte checks and their string references against the immutable winning
 world. This proves source layout, not execution of the missing reader.
 
-The factory still has to create the original default attributes, destroy them
-before loading the stored ones, preserve node/CString/reference lifetimes,
-handle missing or broken entries in original order, and perform the later
-PostRead resizing. Startup, HUD and combat must retain the same map and
-`OriginalNativeAttribute` objects. Copying the inspector seed would lose those
-identities and does not complete this work.
+That checkpoint had not yet created the default attributes, destroyed them
+before loading stored values, preserved node/CString/reference lifetimes,
+handled missing or broken entries in original order, or performed the later
+PostRead resizing. Section 22 records the concrete reader that now implements
+those selected paths while retaining the same map and
+`OriginalNativeAttribute` objects for startup, HUD and combat.
 
 ### Reproduce and integrate this checkpoint
 
@@ -2513,3 +2514,87 @@ with real cache, physics, PVS and processing activation. Original input,
 combat, inventory, dialogue, routines, quests, saving/loading and progression
 through the endings remain completion work. This source keeps
 `gameplayReady: false` and has not been deployed.
+
+## 22. Implement all Hero property-set factories
+
+This checkpoint adds the selected native `gCAttribute`, `gCStat` and
+`gCPlayerMemory_PS` paths. The new readers use the same reflected wrapper and
+physical native storage that is retained by their consumers. They are
+source-bounded implementations; they are not yet registered in a complete
+browser entity-loading composition or connected to the live scene.
+
+### Keep Attribute and Stat native identity
+
+`gCAttribute` allocates 24 native bytes and `gCStat` allocates 32; both use
+tag `0xc4` and a 16-byte wrapper with tag `0x190`. Stat owns `BaseMaximum` and
+`MaximumModifier` and inherits `Tag`, `Modifier` and `Value`. The Attribute
+metadata base resolves to NULL at the native `bCObjectRefBase` sentinel;
+Stat's real metadata base is the registered Attribute root. The Stat CRT
+initializer is absent from the decompiler's function and assembly catalogs, so
+the producer records only its verified 75 original PE bytes rather than
+inventing a decompiled body.
+
+Construction preserves the original defaults and registration order.
+Attributes start with empty Tag, Modifier 0 and Value 100; Stat first sets
+BaseMaximum 100 and MaximumModifier 0. Descriptor reads resolve their receiver
+again after each notification callback. Serialized descriptor reads use the
+registered property name and literal `true`, which makes the original Exit
+callback skip Cap. Gameplay setters use `BaseValue`, literal `false` and the
+original Cap path. The same `OriginalNativeAttribute` instance backs its
+wrapper, physical values, native references and PlayerMemory entry.
+
+### Read PlayerMemory into the same consumer storage
+
+The fresh PlayerMemory native object is 184 bytes with tag `0xc4`; its clone is
+the real wrapper table at `20697d2c`. The wrapper's `GetVersion` returns 6,
+while the current serialized native read begins with version 5. The reader
+preserves that distinction. It does not substitute the separate copy
+constructor for fresh construction.
+
+The implementation builds the 25 registered descriptors and preserves the
+15 default attributes in original order. It follows the real 43-bucket map
+constructor, capacity growth to 51, 204-byte allocation, node insertion order,
+CString byte hash and reference ownership. `DestroyAttributes` releases stored
+attributes before replacing entries, then uses the same physical map and
+`OriginalNativeAttribute` objects as startup, HUD and combat consumers. The
+PlayerMemory scalar fields and array headers are backed by the native storage;
+the later OnPostRead step reserves the four nine-element arrays and retains
+existing values.
+
+The Hero packet is 1,617 bytes including its sentinel, with a 1,125-byte native
+read and 15 nested attributes. The producer independently checks the original
+world bytes and string indices, all 25 registrations, 24 serialized fields and
+197 nested byte ranges. PlayerMemory defaults still require real GUID, mutable
+enum, heap, CString, localization and logging services. Unsupported legacy
+V3/V4 attribute readers and foreign non-PlayerMemory RTTI cases retain an
+explicit failure boundary; failed allocation and repeated wrapper reads are
+not claimed as supported.
+
+### Reproduce the current source checkpoint
+
+The Attribute receipt covers 639 native bodies, 9,461 instruction records and
+27,882 bytes, plus the separate 75-byte Stat initializer proof. The PlayerMemory
+receipt covers 724 bodies, 11,542 instruction records and 34,733 bytes. These
+counts describe captured source evidence, not feature or gameplay counts. Both
+receipts pin the current runtime, producers, imported helpers and every owned
+asset/public mirror. The pre-existing PlayerMemory loading-evidence receipt
+remains evidence-only and is not rewritten.
+
+```powershell
+$study = 'C:\path\to\Gothic3_Decompiled_Study_2026-10-04'
+python -B tools/gothic3/research_attribute_reading.py --study $study --capture-only
+python -B tools/gothic3/research_player_memory_reading.py --study $study --capture-only
+python -B tools/gothic3/research_attribute_reading.py --study $study
+python -B tools/gothic3/research_player_memory_reading.py --study $study
+python -B tools/gothic3/freeze_player_attributes_checkpoint.py
+npm run build
+```
+
+The local TypeScript check and production build pass; Vite transforms 235
+modules, and the existing large-chunk warning remains. These factory modules
+are typechecked but are not imported by the current browser entry, so this
+build does not execute them or demonstrate live gameplay. The factories are
+still disconnected from entity/template/child/layer/context loading, world
+cache, physics, PVS, input, combat, inventory, dialogue, quests, save/load and
+the endings. No tests, native execution, browser playthrough or deployment
+were performed for this checkpoint; `gameplayReady` remains `false`.

@@ -1,0 +1,2 @@
+; 1000541b bCObjectRefBase::GetPropertyObject
+1000541b | e9e0500400 | JMP 0x1004a500

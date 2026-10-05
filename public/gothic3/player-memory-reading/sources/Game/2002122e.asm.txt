@@ -1,0 +1,2 @@
+; 2002122e bTPropertyType<gCPlayerMemory_PS,bCObsoleteClass>::vfunction16
+2002122e | e91dec2f00 | JMP 0x2031fe50

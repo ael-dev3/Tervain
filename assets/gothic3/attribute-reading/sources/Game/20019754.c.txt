@@ -1,0 +1,17 @@
+/* ENTRY 20019754 | gCAttribute::GetMaximum | STATUS decompiled | 3 ms */
+
+/* public: virtual int __thiscall gCAttribute::GetMaximum(void)const  */
+
+int __thiscall gCAttribute::GetMaximum(gCAttribute *this)
+
+{
+  int iVar1;
+  
+                    /* 0x19754  3757  ?GetMaximum@gCAttribute@@UBEHXZ */
+                    /* WARNING: Could not recover jumptable at 0x20397a65. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  iVar1 = (*this->vftablePtr->GetValue)(this);
+  return iVar1;
+}
+
+

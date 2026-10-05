@@ -1,0 +1,2 @@
+; 20025018 gCPlayerMemory_PS::Create
+20025018 | e983842f00 | JMP 0x2031d4a0

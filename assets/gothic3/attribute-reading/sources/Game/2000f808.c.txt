@@ -1,0 +1,22 @@
+/* ENTRY 2000f808 | gCAttribute::UnapplyTemp | STATUS decompiled | 27 ms */
+
+/* public: virtual bool __thiscall gCAttribute::UnapplyTemp(enum EAttribModOperation,int) */
+
+bool __thiscall gCAttribute::UnapplyTemp(gCAttribute *this,EAttribModOperation param_1,int param_2)
+
+{
+  undefined4 *puVar1;
+  gCAttribute_vftable *pgVar2;
+  
+                    /* 0xf808  7396  ?UnapplyTemp@gCAttribute@@UAE_NW4EAttribModOperation@@H@Z */
+  if (param_1 != 0) {
+    return false;
+  }
+  pgVar2 = this->vftablePtr;
+  puVar1 = &(this->gCAttribute_data).offset_0xc;
+  *puVar1 = *puVar1 - param_2;
+  (*pgVar2->Cap)(this);
+  return true;
+}
+
+

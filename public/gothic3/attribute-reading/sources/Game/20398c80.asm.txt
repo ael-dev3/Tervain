@@ -1,0 +1,4 @@
+; 20398c80 bTPropertyObject<gCAttribute,bCObjectRefBase>::vfunction11
+20398c80 | 6a00 | PUSH 0x0
+20398c82 | e845a1c8ff | CALL 0x20022dcc
+20398c87 | c3 | RET

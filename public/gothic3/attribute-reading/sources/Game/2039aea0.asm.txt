@@ -1,0 +1,4 @@
+; 2039aea0 FUN_2039aea0
+2039aea0 | c7411864000000 | MOV dword ptr [ECX + 0x18],0x64
+2039aea7 | c7411c00000000 | MOV dword ptr [ECX + 0x1c],0x0
+2039aeae | e92290c7ff | JMP 0x20013ed5

@@ -1,0 +1,10 @@
+/* ENTRY 20033c21 | bTPropertyObject<gCStat,gCAttribute>::vfunction5 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall
+bTPropertyObject<gCStat,gCAttribute>::vfunction5(bTPropertyObject<gCStat,gCAttribute> *this)
+
+{
+  return (this->bTPropertyObject<gCStat,gCAttribute>_data).offset_0x0;
+}
+
+

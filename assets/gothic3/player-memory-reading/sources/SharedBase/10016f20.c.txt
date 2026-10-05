@@ -1,0 +1,40 @@
+/* ENTRY 10016f20 | FUN_10016f20 | STATUS decompiled | 6 ms */
+
+undefined4 * __thiscall FUN_10016f20(undefined4 *param_1,char *param_2)
+
+{
+  char cVar1;
+  bCMemoryAdmin *this;
+  undefined4 *puVar2;
+  char *pcVar3;
+  int iVar4;
+  ulong uVar5;
+  
+  pcVar3 = param_2;
+  do {
+    cVar1 = *pcVar3;
+    pcVar3 = pcVar3 + 1;
+  } while (cVar1 != '\0');
+  iVar4 = (int)pcVar3 - (int)(param_2 + 1);
+  if (0 < iVar4) {
+    if (iVar4 == 0) {
+      *param_1 = 0;
+    }
+    else {
+      uVar5 = iVar4 * 2 + 0xe;
+      this = bCMemoryAdmin::GetInstance();
+      puVar2 = bCMemoryAdmin::Malloc(this,uVar5);
+      puVar2[2] = iVar4;
+      puVar2[1] = iVar4;
+      *puVar2 = 1;
+      *param_1 = puVar2 + 3;
+      *(undefined2 *)((int)(puVar2 + 3) + iVar4 * 2) = 0;
+    }
+    _mbstowcs((wchar_t *)*param_1,param_2,iVar4 + 1);
+    return param_1;
+  }
+  *param_1 = 0;
+  return param_1;
+}
+
+

@@ -1,0 +1,11 @@
+/* ENTRY 100890e0 | FUN_100890e0 | STATUS decompiled | 2 ms */
+
+void __thiscall FUN_100890e0(int param_1,int param_2)
+
+{
+  *(uint *)(param_1 + 4) =
+       *(uint *)(param_1 + 4) ^ (*(uint *)(param_2 + 4) ^ *(uint *)(param_1 + 4)) & 2;
+  return;
+}
+
+

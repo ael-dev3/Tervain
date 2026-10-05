@@ -1,0 +1,2 @@
+; 10007ec8 bCPropertyObjectFactory::CloneObjectInstance
+10007ec8 | e9034f0800 | JMP 0x1008cdd0

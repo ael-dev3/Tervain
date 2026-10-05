@@ -1,0 +1,15 @@
+/* ENTRY 300314a8 | eCLocTable::ExistsID | STATUS decompiled | 4 ms */
+
+/* public: bool __thiscall eCLocTable::ExistsID(class bCString const &)const  */
+
+bool __thiscall eCLocTable::ExistsID(eCLocTable *this,bCString *param_1)
+
+{
+  int iVar1;
+  
+                    /* 0x314a8  5944  ?ExistsID@eCLocTable@@QBE_NABVbCString@@@Z */
+  iVar1 = thunk_FUN_305e9fc0(param_1,&param_1);
+  return iVar1 != 0;
+}
+
+

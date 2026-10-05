@@ -1,0 +1,7 @@
+; 100890e0 FUN_100890e0
+100890e0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+100890e4 | 8b5004 | MOV EDX,dword ptr [EAX + 0x4]
+100890e7 | 335104 | XOR EDX,dword ptr [ECX + 0x4]
+100890ea | 83e202 | AND EDX,0x2
+100890ed | 315104 | XOR dword ptr [ECX + 0x4],EDX
+100890f0 | c20400 | RET 0x4

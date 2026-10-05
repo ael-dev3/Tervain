@@ -1,0 +1,16 @@
+/* ENTRY 20029e10 | gCPlayerMemory_PS::Destroy | STATUS decompiled | 9 ms */
+
+/* public: virtual void __thiscall gCPlayerMemory_PS::Destroy(void) */
+
+void __thiscall gCPlayerMemory_PS::Destroy(gCPlayerMemory_PS *this)
+
+{
+                    /* 0x29e10  2635  ?Destroy@gCPlayerMemory_PS@@UAEXXZ */
+  DestroyAttributes(this);
+                    /* WARNING: Could not recover jumptable at 0x2031ea4b. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::Destroy((eCEntityPropertySet *)this);
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 3004843c eCLocAdmin::SetString
+3004843c | e97f965900 | JMP 0x305e1ac0

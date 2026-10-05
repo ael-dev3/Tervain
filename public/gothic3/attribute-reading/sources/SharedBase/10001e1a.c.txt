@@ -1,0 +1,48 @@
+/* ENTRY 10001e1a | bCPropertyObjectTypeBase::~bCPropertyObjectTypeBase | STATUS decompiled | 10 ms */
+
+/* public: virtual __thiscall bCPropertyObjectTypeBase::~bCPropertyObjectTypeBase(void) */
+
+void __thiscall bCPropertyObjectTypeBase::~bCPropertyObjectTypeBase(bCPropertyObjectTypeBase *this)
+
+{
+  void **ppvVar1;
+  int iVar2;
+  bCMemoryAdmin *pbVar3;
+  void *pvVar4;
+  
+                    /* 0x1e1a  416  ??1bCPropertyObjectTypeBase@@UAE@XZ */
+  ppvVar1 = &(this->bCPropertyObjectTypeBase_data).offset_0x4;
+  this->vftablePtr = &vftable;
+  FUN_10002347();
+  FUN_10002347();
+  if (ppvVar1 != (void **)0x0) {
+    pvVar4 = *ppvVar1;
+    if (pvVar4 != (void *)0x0) {
+      pbVar3 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar3,pvVar4);
+      *ppvVar1 = (void *)0x0;
+      (this->bCPropertyObjectTypeBase_data).offset_0x8 = 0;
+      (this->bCPropertyObjectTypeBase_data).offset_0xc = 0;
+    }
+    pvVar4 = *ppvVar1;
+    if (pvVar4 != (void *)0x0) {
+      pbVar3 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar3,pvVar4);
+      *ppvVar1 = (void *)0x0;
+      (this->bCPropertyObjectTypeBase_data).offset_0x8 = 0;
+      (this->bCPropertyObjectTypeBase_data).offset_0xc = 0;
+    }
+  }
+  if ((&this->bCPropertyObjectTypeBase_data != (bCPropertyObjectTypeBase_data *)0x0) &&
+     (iVar2 = (this->bCPropertyObjectTypeBase_data).offset_0x0, iVar2 != 0)) {
+    *(short *)(iVar2 + -4) = *(short *)(iVar2 + -4) + -1;
+    pvVar4 = (void *)(iVar2 + -8);
+    if (*(short *)(iVar2 + -4) == 0) {
+      pbVar3 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar3,pvVar4);
+    }
+  }
+  return;
+}
+
+
