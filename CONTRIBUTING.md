@@ -23,6 +23,7 @@ Use stable identifiers for quest facts and content once implementation begins. D
 - Check controller navigation, text readability, and save behavior alongside the main interaction when they are affected.
 - Test on the packaged target when packaging or runtime behavior changes; browser success alone is not desktop proof.
 - For documentation-only changes, verify links, consistency, and clean diffs without pretending to run a game.
+- Preserve required checks, workflow triggers, and deployment behavior. Passing local checks or pushing a commit does not establish that a release is live; verify the published build separately.
 
 ## Shared work and assets
 

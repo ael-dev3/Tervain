@@ -371,7 +371,7 @@
       "label": "pr12",
       "git": {
         "head": "87f48cbed253cd9b48eb03d2454fba7c046cabed",
-        "dirty": "",
+        "dirty": false,
         "lockfileSha256": "c066a536f7a63006db5223033030229c8b033ffecc64b22716d2c6239c20cc88"
       },
       "files": [
@@ -430,7 +430,7 @@
       "label": "stands",
       "git": {
         "head": "87f48cbed253cd9b48eb03d2454fba7c046cabed",
-        "dirty": "M AGENTS.md\n M README.md\n M docs/art/gothic3-reference.md\n M docs/decisions.md\n M src/presentation/floraPopulation.ts\n M src/presentation/forestFloor.ts\n M src/world/forest.ts\n M tests/presentation/forestCohesion.test.ts\n M tests/presentation/forestFloor.test.ts\n?? docs/art/forest-evidence/\n?? docs/art/forest-stands-2026-10-03.md\n?? docs/art/gothic3-vegetation-study.md\n?? src/world/forestStands.ts\n?? tests/presentation/forestStands.test.ts",
+        "dirty": true,
         "lockfileSha256": "c066a536f7a63006db5223033030229c8b033ffecc64b22716d2c6239c20cc88"
       },
       "files": [
