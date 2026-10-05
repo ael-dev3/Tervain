@@ -1,0 +1,13 @@
+/* ENTRY 10007c11 | bCObjectBase::bCObjectBase | STATUS decompiled | 2 ms */
+
+/* public: __thiscall bCObjectBase::bCObjectBase(void) */
+
+void __thiscall bCObjectBase::bCObjectBase(bCObjectBase *this)
+
+{
+                    /* 0x7c11  188  ??0bCObjectBase@@QAE@XZ */
+  this->vftablePtr = &vftable;
+  return;
+}
+
+

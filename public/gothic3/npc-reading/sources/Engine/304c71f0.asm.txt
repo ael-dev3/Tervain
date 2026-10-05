@@ -1,0 +1,10 @@
+; 304c71f0 FUN_304c71f0
+304c71f0 | 8b01 | MOV EAX,dword ptr [ECX]
+304c71f2 | 8b5008 | MOV EDX,dword ptr [EAX + 0x8]
+304c71f5 | 56 | PUSH ESI
+304c71f6 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+304c71fa | 56 | PUSH ESI
+304c71fb | ffd2 | CALL EDX
+304c71fd | 8bc6 | MOV EAX,ESI
+304c71ff | 5e | POP ESI
+304c7200 | c20400 | RET 0x4

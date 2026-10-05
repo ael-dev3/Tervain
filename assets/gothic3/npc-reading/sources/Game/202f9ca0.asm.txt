@@ -1,0 +1,11 @@
+; 202f9ca0 FUN_202f9ca0
+202f9ca0 | 56 | PUSH ESI
+202f9ca1 | 8bf1 | MOV ESI,ECX
+202f9ca3 | 8d4650 | LEA EAX,[ESI + 0x50]
+202f9ca6 | 50 | PUSH EAX
+202f9ca7 | 8d8ec4010000 | LEA ECX,[ESI + 0x1c4]
+202f9cad | c786a401000000000000 | MOV dword ptr [ESI + 0x1a4],0x0
+202f9cb7 | ff15f85e7d20 | CALL dword ptr [0x207d5ef8]
+202f9cbd | 8bce | MOV ECX,ESI
+202f9cbf | 5e | POP ESI
+202f9cc0 | ff251c6e7d20 | JMP dword ptr [0x207d6e1c]

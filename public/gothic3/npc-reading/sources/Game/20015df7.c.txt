@@ -1,0 +1,12 @@
+/* ENTRY 20015df7 | gCNPC_PS::IsProcessable | STATUS decompiled | 7 ms */
+
+/* public: virtual bool __thiscall gCNPC_PS::IsProcessable(void)const  */
+
+bool __thiscall gCNPC_PS::IsProcessable(gCNPC_PS *this)
+
+{
+                    /* 0x15df7  5212  ?IsProcessable@gCNPC_PS@@UBE_NXZ */
+  return true;
+}
+
+

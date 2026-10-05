@@ -1,0 +1,2 @@
+; 2001dd1d bTPropertyType<gCNPC_PS,bTPropertyContainer<gENPCType>_>::vfunction1
+2001dd1d | e9ee722e00 | JMP 0x20305010

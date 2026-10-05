@@ -1,0 +1,9 @@
+/* ENTRY 304c7190 | FUN_304c7190 | STATUS decompiled | 2 ms */
+
+bool __fastcall FUN_304c7190(int param_1)
+
+{
+  return *(int *)(param_1 + 8) != 0;
+}
+
+

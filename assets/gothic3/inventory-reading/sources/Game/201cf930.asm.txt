@@ -1,0 +1,8 @@
+; 201cf930 FUN_201cf930
+201cf930 | 8bc1 | MOV EAX,ECX
+201cf932 | 33c9 | XOR ECX,ECX
+201cf934 | 8908 | MOV dword ptr [EAX],ECX
+201cf936 | 894804 | MOV dword ptr [EAX + 0x4],ECX
+201cf939 | 894808 | MOV dword ptr [EAX + 0x8],ECX
+201cf93c | 89480c | MOV dword ptr [EAX + 0xc],ECX
+201cf93f | c3 | RET

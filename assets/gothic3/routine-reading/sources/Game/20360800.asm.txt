@@ -1,0 +1,14 @@
+; 20360800 bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAmbientAction>_>::vfunction6
+20360800 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+20360804 | 85c0 | TEST EAX,EAX
+20360806 | 7411 | JZ 0x20360819
+20360808 | 8b11 | MOV EDX,dword ptr [ECX]
+2036080a | 50 | PUSH EAX
+2036080b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+2036080e | ffd0 | CALL EAX
+20360810 | 8b10 | MOV EDX,dword ptr [EAX]
+20360812 | 8bc8 | MOV ECX,EAX
+20360814 | 8b4218 | MOV EAX,dword ptr [EDX + 0x18]
+20360817 | ffd0 | CALL EAX
+; 20360819 LAB_20360819
+20360819 | c20400 | RET 0x4

@@ -1,0 +1,16 @@
+; 20359e90 bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet>::vector_deleting_destructor
+20359e90 | 56 | PUSH ESI
+20359e91 | 8bf1 | MOV ESI,ECX
+20359e93 | c706d4c96920 | MOV dword ptr [ESI],0x2069c9d4
+20359e99 | e823d0cdff | CALL 0x20036ec1
+20359e9e | 8bce | MOV ECX,ESI
+20359ea0 | e8caabcbff | CALL 0x20014a6f
+20359ea5 | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+20359eaa | 7409 | JZ 0x20359eb5
+20359eac | 56 | PUSH ESI
+20359ead | e8839a1000 | CALL 0x20463935
+20359eb2 | 83c404 | ADD ESP,0x4
+; 20359eb5 LAB_20359eb5
+20359eb5 | 8bc6 | MOV EAX,ESI
+20359eb7 | 5e | POP ESI
+20359eb8 | c20400 | RET 0x4

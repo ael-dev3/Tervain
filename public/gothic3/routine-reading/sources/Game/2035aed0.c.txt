@@ -1,0 +1,11 @@
+/* ENTRY 2035aed0 | bTPropertyContainer<gEAniState>::vfunction7 | STATUS decompiled | 4 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gEAniState>::vfunction7(bTPropertyContainer<gEAniState> *this)
+
+{
+  (this->bTPropertyContainer<gEAniState>_data).offset_0x0 = DAT_207cbf3c;
+  return 1;
+}
+
+

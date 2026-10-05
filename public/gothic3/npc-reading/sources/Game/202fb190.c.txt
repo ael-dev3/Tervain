@@ -1,0 +1,16 @@
+/* ENTRY 202fb190 | bTPropertyContainer<gEAttitude>::vfunction5 | STATUS decompiled | 5 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gEAttitude>::vfunction5
+          (bTPropertyContainer<gEAttitude> *this,bCIStream *param_1)
+
+{
+  bCIStream *pbVar1;
+  
+  pbVar1 = param_1;
+  bCIStream::operator>>(param_1,(ushort *)&param_1);
+  (**(code **)((int)*pbVar1 + 4))(&this->bTPropertyContainer<gEAttitude>_data,4);
+  return 1;
+}
+
+

@@ -1,0 +1,13 @@
+/* ENTRY 10008cba | bCAccessorProperty::operator++ | STATUS decompiled | 2 ms */
+
+/* public: class bCAccessorProperty & __thiscall bCAccessorProperty::operator++(void) */
+
+bCAccessorProperty * __thiscall bCAccessorProperty::operator++(bCAccessorProperty *this)
+
+{
+                    /* 0x8cba  969  ??EbCAccessorProperty@@QAEAAV0@XZ */
+  Iterate(this);
+  return this;
+}
+
+

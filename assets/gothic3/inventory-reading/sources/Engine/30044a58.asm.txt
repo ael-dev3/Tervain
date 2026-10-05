@@ -1,0 +1,4 @@
+; 30044a58 ?GetVersion@eCTemplateEntityProxy@@UBEGXZ
+30044a58 | e943274800 | JMP 0x304c71a0
+; 30044a5d eCAPIVolume::AddRef
+; 30044a5d Ordinal_3462

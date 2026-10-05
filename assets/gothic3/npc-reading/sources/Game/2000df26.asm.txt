@@ -1,0 +1,4 @@
+; 2000df26 ?Read@gCNPC_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+2000df26 | e915ba2e00 | JMP 0x202f9940
+; 2000df2b gCProjectile_PS::SetTargetUpdateMSec
+; 2000df2b Ordinal_7117

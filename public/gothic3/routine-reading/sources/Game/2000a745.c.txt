@@ -1,0 +1,28 @@
+/* ENTRY 2000a745 | gCScriptRoutine_PS::OnProcess | STATUS decompiled | 16 ms */
+
+/* public: virtual void __thiscall gCScriptRoutine_PS::OnProcess(void) */
+
+void __thiscall gCScriptRoutine_PS::OnProcess(gCScriptRoutine_PS *this)
+
+{
+  undefined1 *this_00;
+  ulong uVar1;
+  eCEntity *peVar2;
+  ulong uVar3;
+  gCScriptAdmin *this_01;
+  
+                    /* 0xa745  5568  ?OnProcess@gCScriptRoutine_PS@@UAEXXZ */
+  uVar1 = bCTimer::GetTimeStamp();
+  eCEntityPropertySet::OnProcess((eCEntityPropertySet *)this);
+  this_00 = &(this->gCScriptRoutine_PS_data).field_0x60;
+  peVar2 = (*this->vftablePtr->GetEntity)(this);
+  gCScriptProcessingUnit::SetSelfEntity((gCScriptProcessingUnit *)this_00,peVar2);
+  gCScriptProcessingUnit::ProcessScript((gCScriptProcessingUnit *)this_00);
+  uVar3 = bCTimer::GetTimeStamp();
+  uVar3 = uVar3 - uVar1;
+  this_01 = (gCScriptAdmin *)thunk_FUN_200a4bb0();
+  gCScriptAdmin::AddProfileTicks(this_01,uVar3);
+  return;
+}
+
+

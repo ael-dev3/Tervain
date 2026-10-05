@@ -15,7 +15,7 @@ limitations and source terms.
 This guide describes the source on `codex/gothic3-gameplay-initialization`.
 The last recorded successful deployment predates the latest source checkpoints,
 which have not been deployed. Online availability was not reviewed for this
-checkpoint. Sections 10–18 cover the newer runtime work.
+checkpoint. Sections 10–19 cover the newer runtime work.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
 To reproduce an older receipt, use a checkout at that commit and its producers.
@@ -2029,3 +2029,147 @@ original endings and successful online deployment remain unproven.
 
 This checkpoint keeps `gameplayReady: false`; it does not establish a playable
 or fully deployed game.
+
+## 19. Restore the Hero's NPC, inventory and script state
+
+The next three property sets in the same original Hero record are NPC,
+Inventory and ScriptRoutine. Their factories and readers extend the source
+work in section 18. Their required services must execute the actual recovered
+bodies before these objects can participate in the browser game's world.
+
+| Property set | Hero packet | Relative record bytes, including sentinel | GetVersion | Type selector |
+| --- | ---: | --- | ---: | ---: |
+| `gCNPC_PS` | 6 | `[2615,3266)` — 651 bytes | 78 | 30 |
+| `gCInventory_PS` | 7 | `[3266,3677)` — 411 bytes | 9 | 31 |
+| `gCScriptRoutine_PS` | 8 | `[3677,3922)` — 245 bytes | 1 | 45 |
+
+These offsets refer to the original 8,485-byte `PC_Hero` record documented in
+section 17. They do not describe an already initialized player, a saved game
+or world residency.
+
+### NPC defaults, read and Enclave proxy
+
+[npc-reading.ts](../../src/gothic3/npc-reading.ts) constructs the concrete NPC
+allocation and its 43 reflective fields. The same physical values back its
+`NativeLivePropertySet` and `OriginalEntityPropertySet` notifications. The
+notification owner follows the current live entity pointer. The Enclave
+property ID at native `+50` and its embedded proxy at `+1c4` are distinct
+storage; the callback updates that same proxy.
+
+The Enclave descriptor default calls `bCPropertyID.CreateRandom`. It requires
+the actual source-equivalent GUID service at that call site. The later
+serialized read can replace that generated default. Current enum globals and
+uninitialized pose fields retain masks; a missing initialized bit must not be
+read as a fabricated zero.
+
+The derived NPC reader always consumes its native `u16`, then writes
+`ManaUsed+158=0`. Its post-read callback clears the nonserialized DWORD `+1a4`,
+updates the existing Enclave proxy from the current Enclave ID and calls the
+inherited post-read body. `IsProcessable` is true. Actual pose tracking requires
+the original animation services; these defaults and reads do not provide
+those services.
+
+### Stored inventory precedes startup inventory
+
+[inventory-reading.ts](../../src/gothic3/inventory-reading.ts) restores the
+original inventory record over its actual physical arrays, proxies and nested
+slot objects. The original Hero record contains **zero serialized item
+stacks** and **19 equipment-slot records**; two slots hold the Head and Body
+records. This is the source before the later startup item assurances. The
+earlier initialized-player projection containing 121 stacks remains evidence
+of that separate stage.
+
+The live inventory state must retain its nested slot and template proxy
+identities across subsequent equipment, transfer, observer and startup
+operations. Connecting it to native inventory methods requires those methods
+to mutate this same store and execute their real callbacks. Copying it into a
+second inventory would lose the required relationship between serialized
+state and later gameplay effects.
+
+### ScriptRoutine owns one embedded processor
+
+[routine-reading.ts](../../src/gothic3/routine-reading.ts) restores the 500-byte
+`gCScriptRoutine_PS` allocation. Its constructor builds four CString slots,
+five enum containers and one embedded `gCScriptProcessingUnit` at `+64`, then
+clears the debug byte at `+1f0`. The embedded constructor remains an actual
+required capability. It must return the processor belonging to this
+allocation and retain that processor through the callbacks.
+
+The reflective fields share one `NativeRoutineProperties` store with script
+setters and notification bindings. The original Hero has `Routine=Rtn_Player`,
+empty CurrentTask/LastTask/CurrentState strings, six zero numeric properties
+and enum values `AniState=2`, `Action=24`, `AmbientAction=0`, `AIMode=0` and
+`HitDirection=0`. The native derived reader consumes only its two-byte version
+and returns 1; it does not read an inherited base tail.
+
+Post-read then executes `GameReset`: clear the debug byte, notify and clear
+StatePosition, StateTime, CommandTime and CurrentBreakBlock, call the embedded
+SPU's reset, copy the current task CString and call task setters, construct
+the empty task callback, copy the current state CString and call state
+setters, and construct the empty local callback. These calls reread the live
+fields at their original positions. By-value CString arguments retain their
+actual ownership and callee destruction boundaries. Missing services stop at
+the call site with the already applied prefix retained.
+
+`IsProcessable` is true. Pre-process supplies the current owner to that same
+embedded SPU. Process reads the first original timestamp, calls inherited
+processing, supplies the current owner, executes the real SPU process body,
+reads the second timestamp and adds the wrapping elapsed ticks through the
+current ScriptAdmin. Those dependencies are required before original routines
+can run in the world.
+
+### String ownership and evidence
+
+The new readers distinguish NULL CString storage from a nonNULL allocated
+empty string. NPC and Routine require the actual indexed CString assignment
+service over their mutable slots. Copy, reference-count and free operations
+must follow the recovered ownership branches. A table lookup yielding
+JavaScript text alone does not prove that sequence.
+
+Inventory supports a narrower branch here: all five original Hero TreasureSet
+strings are empty and their destination slots are physically NULL. The
+recovered assignment and `SetText` bodies leave those destinations NULL for
+either a NULL or an allocated-empty source, without allocation, reference-count
+or free calls. Nonempty inventory strings stop at the unresolved ownership
+branch. Numeric heap pointer bits stay unknown while actual capability
+identities remain live.
+
+The producers compare selected original instructions with immutable local
+PEs, verify the focused Hero bytes and retain source vtables, descriptor
+metadata and source excerpts. Current implementation receipts pin the code,
+helpers and namespace output. Reproduce this source evidence from the same
+local study:
+
+```powershell
+python -B tools/gothic3/research_npc_reading.py --study $study
+python -B tools/gothic3/research_inventory_reading.py --study $study
+python -B tools/gothic3/research_routine_reading.py --study $study
+python -B tools/gothic3/freeze_character_checkpoint.py
+```
+
+The [character reading checkpoint](../../assets/gothic3/character-reading-checkpoint.json)
+chains the unchanged construction source at `eb97f57b`, preserves historical
+receipts and pins these current readers and their dependencies. Its source
+audit and file hashes remain distinct from build, browser and game-progression
+evidence.
+
+| Evidence set | Entries | Instructions | Original instruction bytes |
+| --- | ---: | ---: | ---: |
+| NPC construction, reading and callbacks | 542 | 9,800 | 32,083 |
+| Inventory and nested Slot construction and reading | 254 | 4,511 | 13,867 |
+| ScriptRoutine construction, reading and callbacks | 386 | 7,857 | 25,072 |
+
+The final combined TypeScript check and production build passed locally on
+5 October 2026 (`npm run build`, 235 Vite modules). The existing large-chunk
+warning remains. This checks source types and packages the current browser
+entry points; these new readers are not yet invoked by that application. No
+tests, native execution, browser review, deployment or playthrough were run for
+this checkpoint.
+
+These three factories bring the first nine Hero property sets into the source
+reconstruction. The other ten, their real services and the full enclosing
+entity/world pipeline remain necessary. The actual CString/GUID services,
+embedded SPU, equipment mutation, templates and scene graph must be connected
+before world cache, physics, PVS, processing, original inputs and story can
+become live. Original save/load, progression through the endings and successful
+online deployment remain unproven. This checkpoint keeps `gameplayReady: false`.

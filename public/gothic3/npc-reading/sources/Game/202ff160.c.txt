@@ -1,0 +1,12 @@
+/* ENTRY 202ff160 | bTPropertyContainer<gELastFightAgainstPlayer>::vfunction7 | STATUS decompiled | 3 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gELastFightAgainstPlayer>::vfunction7
+          (bTPropertyContainer<gELastFightAgainstPlayer> *this)
+
+{
+  (this->bTPropertyContainer<gELastFightAgainstPlayer>_data).offset_0x0 = DAT_207c0940;
+  return 1;
+}
+
+

@@ -1,0 +1,10 @@
+; 1009ac00 FUN_1009ac00
+1009ac00 | 8b4904 | MOV ECX,dword ptr [ECX + 0x4]
+1009ac03 | 85c9 | TEST ECX,ECX
+1009ac05 | 7406 | JZ 0x1009ac0d
+1009ac07 | 8b01 | MOV EAX,dword ptr [ECX]
+1009ac09 | 8b10 | MOV EDX,dword ptr [EAX]
+1009ac0b | ffe2 | JMP EDX
+; 1009ac0d LAB_1009ac0d
+1009ac0d | 33c0 | XOR EAX,EAX
+1009ac0f | c3 | RET

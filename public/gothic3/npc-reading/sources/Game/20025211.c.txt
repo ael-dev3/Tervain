@@ -1,0 +1,11 @@
+/* ENTRY 20025211 | bTPropertyContainer<gENPCType>::vfunction7 | STATUS decompiled | 4 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gENPCType>::vfunction7(bTPropertyContainer<gENPCType> *this)
+
+{
+  (this->bTPropertyContainer<gENPCType>_data).offset_0x0 = DAT_207c0934;
+  return 1;
+}
+
+

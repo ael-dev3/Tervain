@@ -128,6 +128,20 @@ tools/gothic3/research_entity_construction.py -text -eol
 tools/gothic3/research_control_reading.py -text -eol whitespace=cr-at-eol
 tools/gothic3/research_sensor_reading.py -text -eol whitespace=cr-at-eol
 tools/gothic3/freeze_construction_checkpoint.py -text -eol
+src/gothic3/npc-reading.ts -text -eol whitespace=cr-at-eol
+src/gothic3/inventory-reading.ts -text -eol whitespace=cr-at-eol
+src/gothic3/routine-reading.ts -text -eol
+tools/gothic3/research_npc_reading.py -text -eol whitespace=cr-at-eol
+tools/gothic3/research_inventory_reading.py -text -eol whitespace=cr-at-eol
+tools/gothic3/research_routine_reading.py -text -eol
+tools/gothic3/freeze_character_checkpoint.py -text -eol
+assets/gothic3/npc-reading/** -text -eol
+assets/gothic3/inventory-reading/** -text -eol
+assets/gothic3/routine-reading/** -text -eol
+public/gothic3/npc-reading/** -text -eol
+public/gothic3/inventory-reading/** -text -eol
+public/gothic3/routine-reading/** -text -eol
+assets/gothic3/character-reading-checkpoint.json -text -eol
 src/gothic3/world-clock-view.ts -text -eol
 src/gothic3/main.ts -text -eol
 docs/engineering/gothic3-rebuilding-process.md -text -eol
@@ -167,3 +181,9 @@ assets/gothic3/entity-construction/sources/** -whitespace
 assets/gothic3/control-reading/sources/** -whitespace
 assets/gothic3/sensor-reading/sources/** -whitespace
 public/gothic3/sensor-reading/sources/** -whitespace
+assets/gothic3/npc-reading/sources/** -whitespace
+assets/gothic3/inventory-reading/sources/** -whitespace
+assets/gothic3/routine-reading/sources/** -whitespace
+public/gothic3/npc-reading/sources/** -whitespace
+public/gothic3/inventory-reading/sources/** -whitespace
+public/gothic3/routine-reading/sources/** -whitespace

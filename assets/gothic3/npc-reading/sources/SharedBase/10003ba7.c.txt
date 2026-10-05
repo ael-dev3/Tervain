@@ -1,0 +1,32 @@
+/* ENTRY 10003ba7 | bCString::bCString | STATUS decompiled | 7 ms */
+
+/* public: __thiscall bCString::bCString(char const *) */
+
+bCString * __thiscall bCString::bCString(bCString *this,char *param_1)
+
+{
+  char cVar1;
+  char *pcVar2;
+  size_t _Size;
+  
+                    /* 0x3ba7  277  ??0bCString@@QAE@PBD@Z */
+  if (param_1 == (char *)0x0) {
+    *(undefined4 *)this = 0;
+    return this;
+  }
+  pcVar2 = param_1;
+  do {
+    cVar1 = *pcVar2;
+    pcVar2 = pcVar2 + 1;
+  } while (cVar1 != '\0');
+  _Size = (int)pcVar2 - (int)(param_1 + 1);
+  if (_Size != 0) {
+    Alloc(this,_Size);
+    _memcpy(*(void **)this,param_1,_Size);
+    return this;
+  }
+  *(undefined4 *)this = 0;
+  return this;
+}
+
+

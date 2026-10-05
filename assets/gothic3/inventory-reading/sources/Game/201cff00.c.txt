@@ -1,0 +1,62 @@
+/* ENTRY 201cff00 | FUN_201cff00 | STATUS decompiled | 23 ms */
+
+undefined4 __thiscall FUN_201cff00(int *param_1,bCIStream *param_2)
+
+{
+  bCObjectRefBase *pbVar1;
+  int *piVar2;
+  int iVar3;
+  undefined4 uVar4;
+  TypeDescriptor *pTVar5;
+  TypeDescriptor *pTVar6;
+  undefined4 uVar7;
+  int local_1c;
+  long local_18;
+  uint local_14;
+  bCAccessorPropertyObject local_10 [12];
+  
+  iVar3 = param_1[1];
+  while (iVar3 != 0) {
+    thunk_FUN_201cf350(param_1[1] + -1);
+    iVar3 = param_1[1];
+  }
+  local_14 = 0;
+  operator<<((ushort *)&local_14,param_2);
+  if ((local_14 & 0xffff) == 1) {
+    local_18 = 0;
+    operator<<(&local_18,param_2);
+    local_1c = 0;
+    if (0 < local_18) {
+      do {
+        bCAccessorPropertyObject::bCAccessorPropertyObject(local_10);
+        operator>>(param_2,local_10);
+        uVar7 = 0;
+        pTVar6 = &gCInventoryStack::RTTI_Type_Descriptor;
+        pTVar5 = &bCObjectRefBase::RTTI_Type_Descriptor;
+        uVar4 = 0;
+        pbVar1 = bCAccessorPropertyObject::GetNativeObject(local_10);
+        piVar2 = (int *)___RTDynamicCast(pbVar1,uVar4,pTVar5,pTVar6,uVar7);
+        if (piVar2 == (int *)0x0) {
+          GE_MESSAGEF_WARN("gCInventoryStackList::Read -> Failed to read stack: %d.",local_1c);
+        }
+        else {
+          (**(code **)(*piVar2 + 0x20))();
+          iVar3 = param_1[1] + 1;
+          thunk_FUN_201d0c70(iVar3,(iVar3 != 0) - 1);
+          param_1[1] = iVar3;
+          *(int **)(*param_1 + -4 + iVar3 * 4) = piVar2;
+        }
+        bCAccessorPropertyObject::~bCAccessorPropertyObject(local_10);
+        local_1c = local_1c + 1;
+      } while (local_1c < local_18);
+    }
+    thunk_FUN_201cf410();
+    return 1;
+  }
+  GE_MESSAGEF_WARN("gCInventoryStackList::Read -> Detected unknown version. Expected: %d. Found: %d."
+                   ,1,local_14 & 0xffff);
+  thunk_FUN_201cf410();
+  return 1;
+}
+
+

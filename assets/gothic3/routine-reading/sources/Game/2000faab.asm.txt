@@ -1,0 +1,2 @@
+; 2000faab bTPropertyObjectType<gCScriptRoutine_PS,eCEntityPropertySet>::vfunction1
+2000faab | e950b33400 | JMP 0x2035ae00

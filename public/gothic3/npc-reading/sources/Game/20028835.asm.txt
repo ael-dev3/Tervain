@@ -1,0 +1,2 @@
+; 20028835 bTPropertyType<gCNPC_PS,bCString>::vfunction26
+20028835 | e9f6932d00 | JMP 0x20301c30

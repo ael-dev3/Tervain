@@ -1,0 +1,2 @@
+; 2002d9e8 bTPropertyType<gCScriptRoutine_PS,bCScriptString>::vfunction6
+2002d9e8 | e933f83200 | JMP 0x2035d220

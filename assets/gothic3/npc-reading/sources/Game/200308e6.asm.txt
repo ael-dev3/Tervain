@@ -1,0 +1,4 @@
+; 200308e6 bTPropertyType<gCNPC_PS,bTObjArray<bCString>_>::vfunction26
+200308e6 | e9c5ab2d00 | JMP 0x2030b4b0
+; 200308f0 gCWaterZone_PS::Write
+; 200308f0 Ordinal_7578

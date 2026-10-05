@@ -1,0 +1,4 @@
+; 20026517 bTPropertyType<gCNPC_PS,bTPropertyContainer<gEClass>_>::vfunction15
+20026517 | e9a4e92d00 | JMP 0x20304ec0
+; 2002651c gCCameraAI_PS::SetCamModeSwim
+; 2002651c Ordinal_6289

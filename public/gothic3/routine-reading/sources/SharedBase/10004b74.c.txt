@@ -1,0 +1,20 @@
+/* ENTRY 10004b74 | bCPropertyObjectBase::AddReference | STATUS decompiled | 6 ms */
+
+/* public: virtual unsigned long __thiscall bCPropertyObjectBase::AddReference(void)
+   bCPropertyObjectBase member function inherited by bTPOPureSmartPtr<bCObsoleteClass>
+   bCPropertyObjectBase member function inherited by
+   bTPropertyObject<bCObsoleteClass,bCObjectRefBase> */
+
+ulong __thiscall bCPropertyObjectBase::AddReference(bCPropertyObjectBase *this)
+
+{
+  uint uVar1;
+  
+                    /* 0x4b74  1560  ?AddReference@bCPropertyObjectBase@@UAEKXZ */
+  uVar1 = (this->bCPropertyObjectBase_data).offset_0x0;
+  uVar1 = ((uVar1 & 0xfffffff8) + 8 ^ uVar1) & 0x7fffff8 ^ uVar1;
+  (this->bCPropertyObjectBase_data).offset_0x0 = uVar1;
+  return uVar1 >> 3 & 0xffffff;
+}
+
+

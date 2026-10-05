@@ -1,0 +1,2 @@
+; 2001688d bTPropertyType<gCNPC_PS,bTPropertyContainer<gENPCType>_>::vfunction26
+2001688d | e93eea2e00 | JMP 0x203052d0

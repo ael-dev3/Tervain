@@ -1,0 +1,48 @@
+/* ENTRY 100039ea | bCAccessorProperty::GetPropertyName | STATUS decompiled | 15 ms */
+
+/* public: class bCString const & __thiscall bCAccessorProperty::GetPropertyName(void)const  */
+
+bCString * __thiscall bCAccessorProperty::GetPropertyName(bCAccessorProperty *this)
+
+{
+  uint uVar1;
+  bool bVar2;
+  bCPropertyObjectBase *pbVar3;
+  bCPropertyObjectTypeBase *pbVar4;
+  bCString *pbVar5;
+  bCPropertyObjectTypeBase *this_00;
+  bCPropertyTypeBase *this_01;
+  int iVar6;
+  
+                    /* 0x39ea  2822  ?GetPropertyName@bCAccessorProperty@@QBEABVbCString@@XZ */
+  bVar2 = bCAccessorPropertyObject::IsValid((bCAccessorPropertyObject *)this);
+  if (bVar2) {
+    uVar1 = *(uint *)(this + 8);
+    pbVar3 = (bCPropertyObjectBase *)
+             bCAccessorPropertyObject::GetRootObject((bCAccessorPropertyObject *)this);
+    pbVar4 = bCPropertyObjectBase::GetTemplate(pbVar3);
+    if (uVar1 < *(uint *)(pbVar4 + 0xc)) {
+      bVar2 = bCAccessorPropertyObject::IsValid((bCAccessorPropertyObject *)this);
+      if (bVar2) {
+        uVar1 = *(uint *)(this + 8);
+        pbVar3 = (bCPropertyObjectBase *)
+                 bCAccessorPropertyObject::GetRootObject((bCAccessorPropertyObject *)this);
+        pbVar4 = bCPropertyObjectBase::GetTemplate(pbVar3);
+        if (uVar1 < *(uint *)(pbVar4 + 0xc)) {
+          iVar6 = *(int *)(this + 8);
+          pbVar3 = (bCPropertyObjectBase *)
+                   bCAccessorPropertyObject::GetRootObject((bCAccessorPropertyObject *)this);
+          this_00 = (bCPropertyObjectTypeBase *)bCPropertyObjectBase::GetTemplate(pbVar3);
+          this_01 = (bCPropertyTypeBase *)bCPropertyObjectTypeBase::GetPropertyType(this_00,iVar6);
+          pbVar5 = bCPropertyTypeBase::GetPropertyName(this_01);
+          return pbVar5;
+        }
+      }
+      pbVar5 = bCPropertyTypeBase::GetPropertyName((bCPropertyTypeBase *)0x0);
+      return pbVar5;
+    }
+  }
+  return &ms_strEmptyName;
+}
+
+

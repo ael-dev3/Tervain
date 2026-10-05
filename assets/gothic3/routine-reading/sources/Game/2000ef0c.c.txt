@@ -1,0 +1,11 @@
+/* ENTRY 2000ef0c | bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet>::vfunction5 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall
+bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet>::vfunction5
+          (bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet> *this)
+
+{
+  return (this->bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet>_data).offset_0x0;
+}
+
+

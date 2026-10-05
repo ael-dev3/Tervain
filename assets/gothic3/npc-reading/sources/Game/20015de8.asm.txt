@@ -1,0 +1,2 @@
+; 20015de8 bTPropertyType<gCNPC_PS,bCString>::vfunction6
+20015de8 | e963c02e00 | JMP 0x20301e50

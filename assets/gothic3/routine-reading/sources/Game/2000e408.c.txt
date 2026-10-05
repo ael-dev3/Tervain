@@ -1,0 +1,16 @@
+/* ENTRY 2000e408 | gCScriptRoutine_PS::OnPostRead | STATUS decompiled | 7 ms */
+
+/* public: virtual void __thiscall gCScriptRoutine_PS::OnPostRead(void) */
+
+void __thiscall gCScriptRoutine_PS::OnPostRead(gCScriptRoutine_PS *this)
+
+{
+                    /* 0xe408  5531  ?OnPostRead@gCScriptRoutine_PS@@UAEXXZ */
+  GameReset(this);
+                    /* WARNING: Could not recover jumptable at 0x203573ab. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::OnPostRead((eCEntityPropertySet *)this);
+  return;
+}
+
+

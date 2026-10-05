@@ -1,0 +1,4 @@
+; 1000380a ??9bCString@@QBE_NABV0@@Z
+1000380a | e9b1fa0000 | JMP 0x100132c0
+; 1000380f bCNoise::SetSeed
+; 1000380f Ordinal_4329

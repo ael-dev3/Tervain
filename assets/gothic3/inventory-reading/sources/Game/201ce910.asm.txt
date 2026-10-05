@@ -1,0 +1,40 @@
+; 201ce910 FUN_201ce910
+201ce910 | 53 | PUSH EBX
+201ce911 | 56 | PUSH ESI
+201ce912 | 57 | PUSH EDI
+201ce913 | 6a00 | PUSH 0x0
+201ce915 | 6a13 | PUSH 0x13
+201ce917 | 8bf9 | MOV EDI,ECX
+201ce919 | e8fa71e4ff | CALL 0x20015b18
+201ce91e | 8b1d38667d20 | MOV EBX,dword ptr [0x207d6638]
+201ce924 | c7470413000000 | MOV dword ptr [EDI + 0x4],0x13
+201ce92b | 33f6 | XOR ESI,ESI
+201ce92d | 8d4900 | LEA ECX,[ECX]
+; 201ce930 LAB_201ce930
+201ce930 | 8b07 | MOV EAX,dword ptr [EDI]
+201ce932 | 03c6 | ADD EAX,ESI
+201ce934 | 833800 | CMP dword ptr [EAX],0x0
+201ce937 | 7428 | JZ 0x201ce961
+201ce939 | 8b08 | MOV ECX,dword ptr [EAX]
+201ce93b | 83c10c | ADD ECX,0xc
+201ce93e | ffd3 | CALL EBX
+201ce940 | 84c0 | TEST AL,AL
+201ce942 | 751d | JNZ 0x201ce961
+201ce944 | 8b0f | MOV ECX,dword ptr [EDI]
+201ce946 | 833c0e00 | CMP dword ptr [ESI + ECX*0x1],0x0
+201ce94a | 8d040e | LEA EAX,[ESI + ECX*0x1]
+201ce94d | 7412 | JZ 0x201ce961
+201ce94f | 8b08 | MOV ECX,dword ptr [EAX]
+201ce951 | 8b11 | MOV EDX,dword ptr [ECX]
+201ce953 | 8b4224 | MOV EAX,dword ptr [EDX + 0x24]
+201ce956 | ffd0 | CALL EAX
+201ce958 | 8b0f | MOV ECX,dword ptr [EDI]
+201ce95a | c7040e00000000 | MOV dword ptr [ESI + ECX*0x1],0x0
+; 201ce961 LAB_201ce961
+201ce961 | 83c604 | ADD ESI,0x4
+201ce964 | 83fe4c | CMP ESI,0x4c
+201ce967 | 7cc7 | JL 0x201ce930
+201ce969 | 5f | POP EDI
+201ce96a | 5e | POP ESI
+201ce96b | 5b | POP EBX
+201ce96c | c3 | RET

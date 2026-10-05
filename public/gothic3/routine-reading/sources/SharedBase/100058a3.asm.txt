@@ -1,0 +1,4 @@
+; 100058a3 ?IsRoot@bCPropertyObjectBase@@QBE_NXZ
+100058a3 | e908390800 | JMP 0x100891b0
+; 100058a8 bCInfCylinder::Intersects
+; 100058a8 Ordinal_3377

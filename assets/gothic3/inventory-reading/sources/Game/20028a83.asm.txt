@@ -1,0 +1,2 @@
+; 20028a83 ?OnPostRead@gCInventory_PS@@UAEXXZ
+20028a83 | e9984b1800 | JMP 0x201ad620

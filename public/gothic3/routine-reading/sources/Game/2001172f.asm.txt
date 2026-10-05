@@ -1,0 +1,2 @@
+; 2001172f bTPropertyContainer<gEAmbientAction>::vfunction5
+2001172f | e9bc6f3400 | JMP 0x203586f0

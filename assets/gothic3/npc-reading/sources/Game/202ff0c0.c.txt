@@ -1,0 +1,11 @@
+/* ENTRY 202ff0c0 | bTPropertyContainer<gEAttitude>::vfunction7 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gEAttitude>::vfunction7(bTPropertyContainer<gEAttitude> *this)
+
+{
+  (this->bTPropertyContainer<gEAttitude>_data).offset_0x0 = DAT_207c0938;
+  return 1;
+}
+
+

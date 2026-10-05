@@ -1,0 +1,2 @@
+; 20021bed bTPropertyType<gCNPC_PS,bTPropertyContainer<gEGuardStatus>_>::vfunction15
+20021bed | e9de8c2e00 | JMP 0x2030a8d0

@@ -1,0 +1,4 @@
+; 10001159 ?ResolveProperty@bCAccessorProperty@@IAE_NABVbCString@@@Z
+10001159 | e9622f0900 | JMP 0x100940c0
+; 1000115e bCNullStream::Clear
+; 1000115e Ordinal_1622

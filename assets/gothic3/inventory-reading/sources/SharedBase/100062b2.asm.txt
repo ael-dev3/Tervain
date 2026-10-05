@@ -1,0 +1,4 @@
+; 100062b2 ?GetVersion@bCObjectRefBase@@UBEGXZ
+100062b2 | e999420400 | JMP 0x1004a550
+; 100062b7 bCMatrix::ModifyZAxis
+; 100062b7 Ordinal_3760

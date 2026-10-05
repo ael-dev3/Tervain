@@ -1,0 +1,2 @@
+; 20004bd3 bTPropertyContainer<gEHitDirection>::vfunction7
+20004bd3 | e938643500 | JMP 0x2035b010

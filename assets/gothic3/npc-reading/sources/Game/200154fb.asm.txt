@@ -1,0 +1,4 @@
+; 200154fb bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttitude>_>::vfunction15
+200154fb | e910152f00 | JMP 0x20306a10
+; 20015500 gCMagic_PS::Read
+; 20015500 Ordinal_5924

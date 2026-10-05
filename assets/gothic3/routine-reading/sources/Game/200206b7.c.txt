@@ -1,0 +1,11 @@
+/* ENTRY 200206b7 | bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet>::vfunction1 | STATUS decompiled | 2 ms */
+
+bCObjectRefBase * __thiscall
+bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet>::vfunction1
+          (bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet> *this)
+
+{
+  return (this->bTPOPureSmartPtr<gCScriptRoutine_PS>_data).offset_0x4;
+}
+
+

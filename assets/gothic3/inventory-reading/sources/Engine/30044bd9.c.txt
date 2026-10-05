@@ -1,0 +1,15 @@
+/* ENTRY 30044bd9 | eCTemplateEntityProxy::operator= | STATUS decompiled | 4 ms */
+
+/* public: class eCTemplateEntityProxy const & __thiscall eCTemplateEntityProxy::operator=(class
+   eCTemplateEntityProxy const &) */
+
+eCTemplateEntityProxy * __thiscall
+eCTemplateEntityProxy::operator=(eCTemplateEntityProxy *this,eCTemplateEntityProxy *param_1)
+
+{
+                    /* 0x44bd9  1791  ??4eCTemplateEntityProxy@@QAEABV0@ABV0@@Z */
+  (*this->vftablePtr->CopyFrom)(this,param_1);
+  return (eCTemplateEntityProxy *)this;
+}
+
+

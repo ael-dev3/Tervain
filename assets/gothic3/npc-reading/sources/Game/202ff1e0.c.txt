@@ -1,0 +1,11 @@
+/* ENTRY 202ff1e0 | bTPropertyContainer<gEBearing>::vfunction7 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gEBearing>::vfunction7(bTPropertyContainer<gEBearing> *this)
+
+{
+  (this->bTPropertyContainer<gEBearing>_data).offset_0x0 = DAT_207c0944;
+  return 1;
+}
+
+

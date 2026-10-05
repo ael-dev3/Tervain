@@ -1,0 +1,4 @@
+; 200053b7 ?GameReset@gCNPC_PS@@IAEXXZ
+200053b7 | e9743a2f00 | JMP 0x202f8e30
+; 200053bc gCNavigation_PS::SetKilledByDeadlock
+; 200053bc Ordinal_6622

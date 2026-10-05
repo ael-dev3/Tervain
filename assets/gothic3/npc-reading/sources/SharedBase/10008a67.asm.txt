@@ -1,0 +1,6 @@
+; 10008a67 ?GetPropertyObject@bCObjectRefBase@@QAEPAVbCPropertyObjectBase@@XZ
+10008a67 | e9a41a0400 | JMP 0x1004a510
+; 10008a6c LAB_10008a6c
+10008a6c | e92f740300 | JMP 0x1003fea0
+; 10008a71 bCFPUAdmin::SaveCurrentControlWord
+; 10008a71 Ordinal_4006

@@ -1,0 +1,15 @@
+/* ENTRY 2001e5f6 | gCNPC_PS::OnPropertySetRemoved | STATUS decompiled | 6 ms */
+
+/* public: virtual void __thiscall gCNPC_PS::OnPropertySetRemoved(void) */
+
+void __thiscall gCNPC_PS::OnPropertySetRemoved(gCNPC_PS *this)
+
+{
+                    /* 0x1e5f6  5592  ?OnPropertySetRemoved@gCNPC_PS@@UAEXXZ */
+                    /* WARNING: Could not recover jumptable at 0x202f9d50. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::OnPropertySetRemoved((eCEntityPropertySet *)this);
+  return;
+}
+
+

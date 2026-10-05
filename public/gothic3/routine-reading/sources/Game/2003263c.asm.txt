@@ -1,0 +1,4 @@
+; 2003263c bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAIMode>_>::vfunction6
+2003263c | e91feb3200 | JMP 0x20361160
+; 20032641 gCPlayerMemory_PS::GetPropertySetType
+; 20032641 Ordinal_4086

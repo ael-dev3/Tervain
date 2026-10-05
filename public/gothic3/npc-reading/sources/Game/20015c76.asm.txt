@@ -1,0 +1,2 @@
+; 20015c76 bTPropertyType<gCNPC_PS,unsigned_long>::vfunction26
+20015c76 | e9c5c82e00 | JMP 0x20302540

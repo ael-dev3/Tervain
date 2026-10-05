@@ -1,0 +1,4 @@
+; 10007441 ?Alloc@MemHeap@@SGPAXI@Z
+10007441 | e9ca5f0300 | JMP 0x1003d410
+; 10007446 bCString::GetDouble
+; 10007446 Ordinal_2312

@@ -1,0 +1,2 @@
+; 20029ee7 bTPropertyContainer<gEPoliticalAlignment>::vfunction7
+20029ee7 | e9946d0f00 | JMP 0x20120c80

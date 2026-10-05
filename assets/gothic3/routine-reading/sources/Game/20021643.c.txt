@@ -1,0 +1,12 @@
+/* ENTRY 20021643 | gCScriptRoutine_PS::IsProcessable | STATUS decompiled | 4 ms */
+
+/* public: virtual bool __thiscall gCScriptRoutine_PS::IsProcessable(void)const  */
+
+bool __thiscall gCScriptRoutine_PS::IsProcessable(gCScriptRoutine_PS *this)
+
+{
+                    /* 0x21643  5214  ?IsProcessable@gCScriptRoutine_PS@@UBE_NXZ */
+  return true;
+}
+
+

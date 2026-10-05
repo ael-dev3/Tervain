@@ -1,0 +1,4 @@
+; 10004133 ?Realloc@bCMemoryAdmin@@QAEPAXPAXK@Z
+10004133 | e9d8c90100 | JMP 0x10020b10
+; 10004138 bCTrackBitField::bCTrackBitField
+; 10004138 Ordinal_287

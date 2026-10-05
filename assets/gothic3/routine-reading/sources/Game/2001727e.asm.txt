@@ -1,0 +1,4 @@
+; 2001727e bTPropertyContainer<gEAmbientAction>::vfunction7
+2001727e | e9ed3c3400 | JMP 0x2035af70
+; 20017288 gCMap_PS::CopyFrom
+; 20017288 Ordinal_2260

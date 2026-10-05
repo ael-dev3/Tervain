@@ -1,0 +1,10 @@
+/* ENTRY 10012d20 | FUN_10012d20 | STATUS decompiled | 1 ms */
+
+void __fastcall FUN_10012d20(undefined4 *param_1)
+
+{
+  *param_1 = 0;
+  return;
+}
+
+

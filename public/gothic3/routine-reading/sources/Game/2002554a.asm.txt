@@ -1,0 +1,4 @@
+; 2002554a ?GameReset@gCScriptRoutine_PS@@IAEXXZ
+2002554a | e901153300 | JMP 0x20356a50
+; 20025559 gCEffectCommandEarthquake::operator=
+; 20025559 Ordinal_617

@@ -1,0 +1,4 @@
+; 10002fae ?HasBaseClass@bCAccessorPropertyObject@@QBE_NXZ
+10002fae | e91d7e0900 | JMP 0x1009add0
+; 10002fb3 bCPlane::operator+
+; 10002fb3 Ordinal_1045

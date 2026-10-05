@@ -1,0 +1,4 @@
+; 20010203 bTPropertyType<gCNPC_PS,bool>::vfunction26
+20010203 | e908902f00 | JMP 0x20309210
+; 20010208 gCEffectCommandModifyEntity::Clone
+; 20010208 Ordinal_2095

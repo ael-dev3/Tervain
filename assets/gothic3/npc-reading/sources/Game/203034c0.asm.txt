@@ -1,0 +1,3 @@
+; 203034c0 bTPropertyType<gCNPC_PS,bTPropertyContainer<gESpecies>_>::vfunction1
+203034c0 | 8b411c | MOV EAX,dword ptr [ECX + 0x1c]
+203034c3 | c3 | RET

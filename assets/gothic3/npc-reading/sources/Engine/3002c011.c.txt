@@ -1,0 +1,14 @@
+/* ENTRY 3002c011 | eCTemplateEntityProxy::operator<< | STATUS decompiled | 5 ms */
+
+/* public: class bCIStream & __thiscall eCTemplateEntityProxy::operator<<(class bCIStream &) */
+
+bCIStream * __thiscall
+eCTemplateEntityProxy::operator<<(eCTemplateEntityProxy *this,bCIStream *param_1)
+
+{
+                    /* 0x2c011  1969  ??6eCTemplateEntityProxy@@QAEAAVbCIStream@@AAV1@@Z */
+  (*this->vftablePtr->Read)(this,param_1);
+  return param_1;
+}
+
+

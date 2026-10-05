@@ -1,0 +1,2 @@
+; 2000b000 bTPropertyType<gCNPC_PS,bTObjArray<bCString>_>::vfunction1
+2000b000 | e97b033000 | JMP 0x2030b380

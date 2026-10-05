@@ -1,0 +1,2 @@
+; 2002bc74 bTPropertyType<gCNPC_PS,bTPropertyContainer<gEPoliticalAlignment>_>::vfunction15
+2002bc74 | e9e7882d00 | JMP 0x20304560

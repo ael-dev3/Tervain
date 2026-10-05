@@ -1,0 +1,4 @@
+; 2000ebc9 bTPropertyType<gCInventory_PS,bool>::vfunction6
+2000ebc9 | e9a2c21900 | JMP 0x201aae70
+; 2000ebce gCWorld::SetProject
+; 2000ebce Ordinal_6906

@@ -1,0 +1,2 @@
+; 2002e028 bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEHitDirection>_>::vfunction15
+2002e028 | e9f33c3300 | JMP 0x20361d20

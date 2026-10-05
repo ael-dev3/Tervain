@@ -1,0 +1,27 @@
+/* ENTRY 304c74c0 | FUN_304c74c0 | STATUS decompiled | 10 ms */
+
+void __thiscall FUN_304c74c0(eCTemplateEntityProxy *param_1,eCNode *param_2)
+
+{
+  bCPropertyID *pbVar1;
+  bCMemoryAdmin *this;
+  
+  if (param_2 != (eCNode *)0x0) {
+    pbVar1 = eCNode::GetID(param_2);
+    eCTemplateEntityProxy::SetEntity(param_1,pbVar1);
+    return;
+  }
+  pbVar1 = (param_1->eCTemplateEntityProxy_data).offset_0x4;
+  if (pbVar1 != (bCPropertyID *)0x0) {
+    bCPropertyID::~bCPropertyID(pbVar1);
+    pbVar1 = (param_1->eCTemplateEntityProxy_data).offset_0x4;
+    this = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::DeleteObject(this,pbVar1);
+    (param_1->eCTemplateEntityProxy_data).offset_0x4 = (bCPropertyID *)0x0;
+  }
+  (param_1->eCTemplateEntityProxy_data).offset_0x0 = 0;
+  (param_1->eCTemplateEntityProxy_data).offset_0x4 = (bCPropertyID *)0x0;
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 20004219 bTPropertyType<gCNPC_PS,float>::vfunction1
+20004219 | e992443000 | JMP 0x203086b0

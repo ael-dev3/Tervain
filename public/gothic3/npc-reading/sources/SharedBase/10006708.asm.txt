@@ -1,0 +1,4 @@
+; 10006708 ??0bCAccessorProperty@@QAE@ABVbCAccessorCreator@@ABVbCString@@@Z
+10006708 | e933f90800 | JMP 0x10096040
+; 10006712 bCEbertNoise::bCEbertNoise
+; 10006712 Ordinal_75

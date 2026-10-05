@@ -1,0 +1,2 @@
+; 200151d6 ?GetVersion@gCScriptRoutine_PS@@UBEGXZ
+200151d6 | e9d5193400 | JMP 0x20356bb0

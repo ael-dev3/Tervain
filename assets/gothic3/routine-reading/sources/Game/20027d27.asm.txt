@@ -1,0 +1,4 @@
+; 20027d27 bTPropertyObjectType<gCScriptRoutine_PS,eCEntityPropertySet>::vfunction1
+20027d27 | e9246f0800 | JMP 0x200aec50
+; 20027d31 gCStat::ApplyDefaults
+; 20027d31 Ordinal_1958

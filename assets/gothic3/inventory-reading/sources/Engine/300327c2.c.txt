@@ -1,0 +1,12 @@
+/* ENTRY 300327c2 | eCTemplateEntityProxy::IsEntityIDValid | STATUS decompiled | 47 ms */
+
+/* public: bool __thiscall eCTemplateEntityProxy::IsEntityIDValid(void)const  */
+
+bool __thiscall eCTemplateEntityProxy::IsEntityIDValid(eCTemplateEntityProxy *this)
+
+{
+                    /* 0x327c2  10377  ?IsEntityIDValid@eCTemplateEntityProxy@@QBE_NXZ */
+  return (this->eCTemplateEntityProxy_data).offset_0x4 != (bCPropertyID *)0x0;
+}
+
+

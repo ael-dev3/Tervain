@@ -1,0 +1,16 @@
+; 1008d0a0 bCPropertyObjectFactory::bCPropertyObjectFactory
+1008d0a0 | 8bc1 | MOV EAX,ECX
+1008d0a2 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+1008d0a6 | c700c4a90e10 | MOV dword ptr [EAX],0x100ea9c4
+1008d0ac | 33d2 | XOR EDX,EDX
+1008d0ae | 895004 | MOV dword ptr [EAX + 0x4],EDX
+1008d0b1 | 895008 | MOV dword ptr [EAX + 0x8],EDX
+1008d0b4 | 89500c | MOV dword ptr [EAX + 0xc],EDX
+1008d0b7 | 66c740100100 | MOV word ptr [EAX + 0x10],0x1
+1008d0bd | 8b09 | MOV ECX,dword ptr [ECX]
+1008d0bf | 3bca | CMP ECX,EDX
+1008d0c1 | 894814 | MOV dword ptr [EAX + 0x14],ECX
+1008d0c4 | 7405 | JZ 0x1008d0cb
+1008d0c6 | 668341fc01 | ADD word ptr [ECX + -0x4],0x1
+; 1008d0cb LAB_1008d0cb
+1008d0cb | c20400 | RET 0x4

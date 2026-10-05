@@ -1,0 +1,2 @@
+; 20034428 bTPropertyContainer<gEGuardStatus>::vfunction7
+20034428 | e9b3211800 | JMP 0x201b65e0

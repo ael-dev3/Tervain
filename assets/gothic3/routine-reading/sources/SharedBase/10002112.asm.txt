@@ -1,0 +1,4 @@
+; 10002112 ?Free@bCMemoryAdmin@@QAEXPAX@Z
+10002112 | e9d9e90100 | JMP 0x10020af0
+; 10002117 bCMatrix2::GetTransposed
+; 10002117 Ordinal_3177

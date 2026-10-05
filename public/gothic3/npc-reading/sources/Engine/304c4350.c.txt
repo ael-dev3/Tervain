@@ -1,0 +1,19 @@
+/* ENTRY 304c4350 | FUN_304c4350 | STATUS decompiled | 8 ms */
+
+void __thiscall FUN_304c4350(int param_1,bCPropertyID *param_2)
+
+{
+  bool bVar1;
+  
+  bVar1 = bCPropertyID::operator==(param_2,(bCPropertyID *)(param_1 + 8));
+  if (!bVar1) {
+    bCPropertyID::operator=((bCPropertyID *)(param_1 + 8),param_2);
+    if (*(eCEntityProxyInternal **)(param_1 + 4) != (eCEntityProxyInternal *)0x0) {
+      eCEntityProxyInternal::ReleaseReference(*(eCEntityProxyInternal **)(param_1 + 4));
+      *(undefined4 *)(param_1 + 4) = 0;
+    }
+  }
+  return;
+}
+
+

@@ -1,0 +1,18 @@
+/* ENTRY 2000ccc5 | bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet>::scalar_deleting_destructor | STATUS decompiled | 82 ms */
+
+bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet> * __thiscall
+bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet>::scalar_deleting_destructor
+          (bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet> *this,byte param_1)
+
+{
+  this->vftablePtr = &vftable;
+  vfunction10(this);
+  bTPOPureSmartPtr<gCScriptRoutine_PS>::~bTPOPureSmartPtr<gCScriptRoutine_PS>
+            ((bTPOPureSmartPtr<gCScriptRoutine_PS> *)this);
+  if ((param_1 & 1) != 0) {
+    _free(this);
+  }
+  return this;
+}
+
+

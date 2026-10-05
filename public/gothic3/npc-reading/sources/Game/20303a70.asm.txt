@@ -1,0 +1,14 @@
+; 20303a70 bTPropertyType<gCNPC_PS,bTPropertyContainer<gESpecies>_>::vfunction6
+20303a70 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+20303a74 | 85c0 | TEST EAX,EAX
+20303a76 | 7411 | JZ 0x20303a89
+20303a78 | 8b11 | MOV EDX,dword ptr [ECX]
+20303a7a | 50 | PUSH EAX
+20303a7b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+20303a7e | ffd0 | CALL EAX
+20303a80 | 8b10 | MOV EDX,dword ptr [EAX]
+20303a82 | 8bc8 | MOV ECX,EAX
+20303a84 | 8b4218 | MOV EAX,dword ptr [EDX + 0x18]
+20303a87 | ffd0 | CALL EAX
+; 20303a89 LAB_20303a89
+20303a89 | c20400 | RET 0x4

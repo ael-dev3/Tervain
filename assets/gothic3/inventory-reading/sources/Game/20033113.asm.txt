@@ -1,0 +1,2 @@
+; 20033113 bTPropertyType<gCInventorySlot,eCTemplateEntityProxy>::vfunction26
+20033113 | e998121900 | JMP 0x201c43b0

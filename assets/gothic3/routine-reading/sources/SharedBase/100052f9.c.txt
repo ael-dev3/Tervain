@@ -1,0 +1,35 @@
+/* ENTRY 100052f9 | bCAccessorPropertyObject::Read | STATUS decompiled | 13 ms */
+
+/* public: unsigned short __thiscall bCAccessorPropertyObject::Read(class bCIStream &) */
+
+ushort __thiscall bCAccessorPropertyObject::Read(bCAccessorPropertyObject *this,bCIStream *param_1)
+
+{
+  bCPropertyObjectSingleton *pbVar1;
+  bCPropertyObjectBase *pbVar2;
+  bCIStream *this_00;
+  bCAccessorPropertyObject *pbStack_4;
+  
+                    /* 0x52f9  3848  ?Read@bCAccessorPropertyObject@@QAEGAAVbCIStream@@@Z */
+  this_00 = param_1;
+  pbStack_4 = this;
+  bCIStream::operator>>((bCIStream *)param_1,(ushort *)&pbStack_4);
+  bCIStream::operator>>((bCIStream *)this_00,(bool *)&param_1);
+  if ((char)param_1 == '\x01') {
+    pbVar2 = *(bCPropertyObjectBase **)(this + 4);
+    if (pbVar2 != (bCPropertyObjectBase *)0x0) {
+      pbVar1 = (bCPropertyObjectSingleton *)bCPropertyObjectSingleton::GetInstance();
+      bCPropertyObjectSingleton::ReadObject(pbVar1,this_00,pbVar2);
+      return (ushort)pbStack_4;
+    }
+    pbVar1 = (bCPropertyObjectSingleton *)bCPropertyObjectSingleton::GetInstance();
+    pbVar2 = bCPropertyObjectSingleton::ReadNewObject(pbVar1,this_00);
+    SetInstance(this,pbVar2);
+    if (pbVar2 != (bCPropertyObjectBase *)0x0) {
+      (**(code **)(*(int *)pbVar2 + 0x34))();
+    }
+  }
+  return (ushort)pbStack_4;
+}
+
+

@@ -1,0 +1,2 @@
+; 2002fa81 bTPropertyType<gCNPC_PS,bTPropertyContainer<gEBearing>_>::vfunction15
+2002fa81 | e9aab72d00 | JMP 0x2030b230

@@ -1,0 +1,26 @@
+/* ENTRY 30047636 | eCEntityProxy::SetEntity | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall eCEntityProxy::SetEntity(class bCPropertyID const &) */
+
+void __thiscall eCEntityProxy::SetEntity(eCEntityProxy *this,bCPropertyID *param_1)
+
+{
+  undefined1 *this_00;
+  eCEntityProxyInternal *this_01;
+  bool bVar1;
+  
+                    /* 0x47636  13342  ?SetEntity@eCEntityProxy@@QAEXABVbCPropertyID@@@Z */
+  this_00 = &(this->eCEntityProxy_data).field_0x4;
+  bVar1 = bCPropertyID::operator==(param_1,(bCPropertyID *)this_00);
+  if (!bVar1) {
+    bCPropertyID::operator=((bCPropertyID *)this_00,param_1);
+    this_01 = (this->eCEntityProxy_data).offset_0x0;
+    if (this_01 != (eCEntityProxyInternal *)0x0) {
+      eCEntityProxyInternal::ReleaseReference(this_01);
+      (this->eCEntityProxy_data).offset_0x0 = (eCEntityProxyInternal *)0x0;
+    }
+  }
+  return;
+}
+
+

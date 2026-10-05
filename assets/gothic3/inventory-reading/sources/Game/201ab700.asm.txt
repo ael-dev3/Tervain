@@ -1,0 +1,12 @@
+; 201ab700 bTPropertyType<gCInventory_PS,bCString>::vfunction6
+201ab700 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+201ab704 | 85c0 | TEST EAX,EAX
+201ab706 | 7410 | JZ 0x201ab718
+201ab708 | 8b11 | MOV EDX,dword ptr [ECX]
+201ab70a | 50 | PUSH EAX
+201ab70b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+201ab70e | ffd0 | CALL EAX
+201ab710 | 8bc8 | MOV ECX,EAX
+201ab712 | ff15f4887d20 | CALL dword ptr [0x207d88f4]
+; 201ab718 LAB_201ab718
+201ab718 | c20400 | RET 0x4

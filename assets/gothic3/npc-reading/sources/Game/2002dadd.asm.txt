@@ -1,0 +1,2 @@
+; 2002dadd bTPropertyContainer<gEAttitude>::vfunction5
+2002dadd | e9aed62c00 | JMP 0x202fb190

@@ -1,0 +1,14 @@
+/* ENTRY 10003922 | bCPropertyObjectBase::Destroy | STATUS decompiled | 4 ms */
+
+/* protected: virtual void __thiscall bCPropertyObjectBase::Destroy(void) */
+
+void __thiscall bCPropertyObjectBase::Destroy(bCPropertyObjectBase *this)
+
+{
+                    /* 0x3922  1943  ?Destroy@bCPropertyObjectBase@@MAEXXZ */
+  (this->bCPropertyObjectBase_data).offset_0x0 =
+       (this->bCPropertyObjectBase_data).offset_0x0 & 0xfffffffa | 2;
+  return;
+}
+
+

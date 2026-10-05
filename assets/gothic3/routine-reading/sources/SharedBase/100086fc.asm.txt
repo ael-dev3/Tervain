@@ -1,0 +1,4 @@
+; 100086fc ?SetPosition@bCMemoryStream@@UAE_N_JW4bEStreamSeekMode@@@Z
+100086fc | e90f720100 | JMP 0x1001f910
+; 10008706 bCVariant::operator=
+; 10008706 Ordinal_577

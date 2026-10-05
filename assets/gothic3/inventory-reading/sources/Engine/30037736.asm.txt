@@ -1,0 +1,4 @@
+; 30037736 ?SetEntity@eCTemplateEntityProxy@@QAEXPBVeCTemplateEntity@@@Z
+30037736 | e985fd4800 | JMP 0x304c74c0
+; 3003773b eCResourceSound_PS::SetLoopForever
+; 3003773b Ordinal_13691

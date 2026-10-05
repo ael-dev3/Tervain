@@ -1,0 +1,4 @@
+; 2002c51b ?OnPreProcess@gCNPC_PS@@UAEXXZ
+2002c51b | e910d82c00 | JMP 0x202f9d30
+; 2002c525 gCSession::GotoStartPosition
+; 2002c525 Ordinal_4824

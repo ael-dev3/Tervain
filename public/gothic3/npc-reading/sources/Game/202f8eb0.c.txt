@@ -1,0 +1,9 @@
+/* ENTRY 202f8eb0 | FUN_202f8eb0 | STATUS decompiled | 1 ms */
+
+undefined2 FUN_202f8eb0(void)
+
+{
+  return 0x4e;
+}
+
+

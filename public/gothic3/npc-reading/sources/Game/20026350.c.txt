@@ -1,0 +1,11 @@
+/* ENTRY 20026350 | bTPropertyContainer<gESpecies>::vfunction7 | STATUS decompiled | 3 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gESpecies>::vfunction7(bTPropertyContainer<gESpecies> *this)
+
+{
+  (this->bTPropertyContainer<gESpecies>_data).offset_0x0 = DAT_207c092c;
+  return 1;
+}
+
+

@@ -1,0 +1,10 @@
+; 201c4e90 bTPropertyType<gCInventorySlot,eCEntityProxy>::vfunction6
+201c4e90 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+201c4e94 | 85c0 | TEST EAX,EAX
+201c4e96 | 740b | JZ 0x201c4ea3
+201c4e98 | 8b11 | MOV EDX,dword ptr [ECX]
+201c4e9a | 89442404 | MOV dword ptr [ESP + 0x4],EAX
+201c4e9e | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+201c4ea1 | ffe0 | JMP EAX
+; 201c4ea3 LAB_201c4ea3
+201c4ea3 | c20400 | RET 0x4

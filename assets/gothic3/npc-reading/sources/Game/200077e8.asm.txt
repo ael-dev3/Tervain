@@ -1,0 +1,2 @@
+; 200077e8 ?OnNotifyPropertyValueChangedExitEx@gCNPC_PS@@UAE_NPBD_N@Z
+200077e8 | e9a3152f00 | JMP 0x202f8d90

@@ -1,0 +1,80 @@
+; 20360a60 bTPropertyType<gCScriptRoutine_PS,bTPropertyContainer<gEAmbientAction>_>::vfunction15
+20360a60 | 83ec08 | SUB ESP,0x8
+20360a63 | 53 | PUSH EBX
+20360a64 | 8b5c2410 | MOV EBX,dword ptr [ESP + 0x10]
+20360a68 | 56 | PUSH ESI
+20360a69 | 57 | PUSH EDI
+20360a6a | 8bf9 | MOV EDI,ECX
+20360a6c | 8b07 | MOV EAX,dword ptr [EDI]
+20360a6e | 8b5040 | MOV EDX,dword ptr [EAX + 0x40]
+20360a71 | 53 | PUSH EBX
+20360a72 | ffd2 | CALL EDX
+20360a74 | 0fb7c0 | MOVZX EAX,AX
+20360a77 | 8d4c2410 | LEA ECX,[ESP + 0x10]
+20360a7b | 51 | PUSH ECX
+20360a7c | 8bcb | MOV ECX,EBX
+20360a7e | 89442410 | MOV dword ptr [ESP + 0x10],EAX
+20360a82 | ff1560877d20 | CALL dword ptr [0x207d8760]
+20360a88 | 8b74241c | MOV ESI,dword ptr [ESP + 0x1c]
+20360a8c | 8b16 | MOV EDX,dword ptr [ESI]
+20360a8e | 8b02 | MOV EAX,dword ptr [EDX]
+20360a90 | 8bce | MOV ECX,ESI
+20360a92 | ffd0 | CALL EAX
+20360a94 | 85c0 | TEST EAX,EAX
+20360a96 | 742f | JZ 0x20360ac7
+20360a98 | 8b16 | MOV EDX,dword ptr [ESI]
+20360a9a | 8b02 | MOV EAX,dword ptr [EDX]
+20360a9c | 55 | PUSH EBP
+20360a9d | 8bce | MOV ECX,ESI
+20360a9f | ffd0 | CALL EAX
+20360aa1 | 8be8 | MOV EBP,EAX
+20360aa3 | 8b5d00 | MOV EBX,dword ptr [EBP]
+20360aa6 | 6a01 | PUSH 0x1
+20360aa8 | 8bcf | MOV ECX,EDI
+20360aaa | 83c358 | ADD EBX,0x58
+20360aad | ff153c877d20 | CALL dword ptr [0x207d873c]
+20360ab3 | 8bc8 | MOV ECX,EAX
+20360ab5 | ff15f8867d20 | CALL dword ptr [0x207d86f8]
+20360abb | 8b13 | MOV EDX,dword ptr [EBX]
+20360abd | 50 | PUSH EAX
+20360abe | 8bcd | MOV ECX,EBP
+20360ac0 | ffd2 | CALL EDX
+20360ac2 | 8b5c241c | MOV EBX,dword ptr [ESP + 0x1c]
+20360ac6 | 5d | POP EBP
+; 20360ac7 LAB_20360ac7
+20360ac7 | 8b07 | MOV EAX,dword ptr [EDI]
+20360ac9 | 8b5064 | MOV EDX,dword ptr [EAX + 0x64]
+20360acc | 56 | PUSH ESI
+20360acd | 8bcf | MOV ECX,EDI
+20360acf | ffd2 | CALL EDX
+20360ad1 | 50 | PUSH EAX
+20360ad2 | 53 | PUSH EBX
+20360ad3 | ff1590877d20 | CALL dword ptr [0x207d8790]
+20360ad9 | 8b06 | MOV EAX,dword ptr [ESI]
+20360adb | 8b10 | MOV EDX,dword ptr [EAX]
+20360add | 8bce | MOV ECX,ESI
+20360adf | ffd2 | CALL EDX
+20360ae1 | 85c0 | TEST EAX,EAX
+20360ae3 | 7428 | JZ 0x20360b0d
+20360ae5 | 8b06 | MOV EAX,dword ptr [ESI]
+20360ae7 | 8b10 | MOV EDX,dword ptr [EAX]
+20360ae9 | 8bce | MOV ECX,ESI
+20360aeb | ffd2 | CALL EDX
+20360aed | 8bd8 | MOV EBX,EAX
+20360aef | 8b33 | MOV ESI,dword ptr [EBX]
+20360af1 | 6a01 | PUSH 0x1
+20360af3 | 8bcf | MOV ECX,EDI
+20360af5 | 83c65c | ADD ESI,0x5c
+20360af8 | ff153c877d20 | CALL dword ptr [0x207d873c]
+20360afe | 8bc8 | MOV ECX,EAX
+20360b00 | ff15f8867d20 | CALL dword ptr [0x207d86f8]
+20360b06 | 50 | PUSH EAX
+20360b07 | 8b06 | MOV EAX,dword ptr [ESI]
+20360b09 | 8bcb | MOV ECX,EBX
+20360b0b | ffd0 | CALL EAX
+; 20360b0d LAB_20360b0d
+20360b0d | 5f | POP EDI
+20360b0e | 5e | POP ESI
+20360b0f | 5b | POP EBX
+20360b10 | 83c408 | ADD ESP,0x8
+20360b13 | c20800 | RET 0x8

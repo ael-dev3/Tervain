@@ -1,0 +1,16 @@
+/* ENTRY 1000200e | bCAccessorProperty::GetAccessorPropertyObject | STATUS decompiled | 1 ms */
+
+/* public: class bCAccessorPropertyObject & __thiscall
+   bCAccessorProperty::GetAccessorPropertyObject(void) */
+
+bCAccessorPropertyObject * __thiscall
+bCAccessorProperty::GetAccessorPropertyObject(bCAccessorProperty *this)
+
+{
+                    /* 0x200e  2069
+                       ?GetAccessorPropertyObject@bCAccessorProperty@@QAEAAVbCAccessorPropertyObject@@XZ
+                        */
+  return (bCAccessorPropertyObject *)this;
+}
+
+

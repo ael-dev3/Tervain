@@ -1,0 +1,4 @@
+; 20018296 bTPropertyType<gCInventorySlot,eCEntityProxy>::vfunction12
+20018296 | e995c81a00 | JMP 0x201c4b30
+; 200182a0 gCHUDPage::Create
+; 200182a0 Ordinal_2356

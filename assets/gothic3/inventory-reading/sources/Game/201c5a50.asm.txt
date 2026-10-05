@@ -1,0 +1,80 @@
+; 201c5a50 bTPropertyType<gCInventorySlot,bTPropertyContainer<gESlot>_>::vfunction15
+201c5a50 | 83ec08 | SUB ESP,0x8
+201c5a53 | 53 | PUSH EBX
+201c5a54 | 8b5c2410 | MOV EBX,dword ptr [ESP + 0x10]
+201c5a58 | 56 | PUSH ESI
+201c5a59 | 57 | PUSH EDI
+201c5a5a | 8bf9 | MOV EDI,ECX
+201c5a5c | 8b07 | MOV EAX,dword ptr [EDI]
+201c5a5e | 8b5040 | MOV EDX,dword ptr [EAX + 0x40]
+201c5a61 | 53 | PUSH EBX
+201c5a62 | ffd2 | CALL EDX
+201c5a64 | 0fb7c0 | MOVZX EAX,AX
+201c5a67 | 8d4c2410 | LEA ECX,[ESP + 0x10]
+201c5a6b | 51 | PUSH ECX
+201c5a6c | 8bcb | MOV ECX,EBX
+201c5a6e | 89442410 | MOV dword ptr [ESP + 0x10],EAX
+201c5a72 | ff1560877d20 | CALL dword ptr [0x207d8760]
+201c5a78 | 8b74241c | MOV ESI,dword ptr [ESP + 0x1c]
+201c5a7c | 8b16 | MOV EDX,dword ptr [ESI]
+201c5a7e | 8b02 | MOV EAX,dword ptr [EDX]
+201c5a80 | 8bce | MOV ECX,ESI
+201c5a82 | ffd0 | CALL EAX
+201c5a84 | 85c0 | TEST EAX,EAX
+201c5a86 | 742f | JZ 0x201c5ab7
+201c5a88 | 8b16 | MOV EDX,dword ptr [ESI]
+201c5a8a | 8b02 | MOV EAX,dword ptr [EDX]
+201c5a8c | 55 | PUSH EBP
+201c5a8d | 8bce | MOV ECX,ESI
+201c5a8f | ffd0 | CALL EAX
+201c5a91 | 8be8 | MOV EBP,EAX
+201c5a93 | 8b5d00 | MOV EBX,dword ptr [EBP]
+201c5a96 | 6a01 | PUSH 0x1
+201c5a98 | 8bcf | MOV ECX,EDI
+201c5a9a | 83c358 | ADD EBX,0x58
+201c5a9d | ff153c877d20 | CALL dword ptr [0x207d873c]
+201c5aa3 | 8bc8 | MOV ECX,EAX
+201c5aa5 | ff15f8867d20 | CALL dword ptr [0x207d86f8]
+201c5aab | 8b13 | MOV EDX,dword ptr [EBX]
+201c5aad | 50 | PUSH EAX
+201c5aae | 8bcd | MOV ECX,EBP
+201c5ab0 | ffd2 | CALL EDX
+201c5ab2 | 8b5c241c | MOV EBX,dword ptr [ESP + 0x1c]
+201c5ab6 | 5d | POP EBP
+; 201c5ab7 LAB_201c5ab7
+201c5ab7 | 8b07 | MOV EAX,dword ptr [EDI]
+201c5ab9 | 8b5064 | MOV EDX,dword ptr [EAX + 0x64]
+201c5abc | 56 | PUSH ESI
+201c5abd | 8bcf | MOV ECX,EDI
+201c5abf | ffd2 | CALL EDX
+201c5ac1 | 50 | PUSH EAX
+201c5ac2 | 53 | PUSH EBX
+201c5ac3 | ff1590877d20 | CALL dword ptr [0x207d8790]
+201c5ac9 | 8b06 | MOV EAX,dword ptr [ESI]
+201c5acb | 8b10 | MOV EDX,dword ptr [EAX]
+201c5acd | 8bce | MOV ECX,ESI
+201c5acf | ffd2 | CALL EDX
+201c5ad1 | 85c0 | TEST EAX,EAX
+201c5ad3 | 7428 | JZ 0x201c5afd
+201c5ad5 | 8b06 | MOV EAX,dword ptr [ESI]
+201c5ad7 | 8b10 | MOV EDX,dword ptr [EAX]
+201c5ad9 | 8bce | MOV ECX,ESI
+201c5adb | ffd2 | CALL EDX
+201c5add | 8bd8 | MOV EBX,EAX
+201c5adf | 8b33 | MOV ESI,dword ptr [EBX]
+201c5ae1 | 6a01 | PUSH 0x1
+201c5ae3 | 8bcf | MOV ECX,EDI
+201c5ae5 | 83c65c | ADD ESI,0x5c
+201c5ae8 | ff153c877d20 | CALL dword ptr [0x207d873c]
+201c5aee | 8bc8 | MOV ECX,EAX
+201c5af0 | ff15f8867d20 | CALL dword ptr [0x207d86f8]
+201c5af6 | 50 | PUSH EAX
+201c5af7 | 8b06 | MOV EAX,dword ptr [ESI]
+201c5af9 | 8bcb | MOV ECX,EBX
+201c5afb | ffd0 | CALL EAX
+; 201c5afd LAB_201c5afd
+201c5afd | 5f | POP EDI
+201c5afe | 5e | POP ESI
+201c5aff | 5b | POP EBX
+201c5b00 | 83c408 | ADD ESP,0x8
+201c5b03 | c20800 | RET 0x8

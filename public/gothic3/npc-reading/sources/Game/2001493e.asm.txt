@@ -1,0 +1,2 @@
+; 2001493e bTPropertyType<gCNPC_PS,bCPropertyID>::vfunction6
+2001493e | e90d152f00 | JMP 0x20305e50

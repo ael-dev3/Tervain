@@ -1,0 +1,48 @@
+/* ENTRY 201ad690 | FUN_201ad690 | STATUS decompiled | 22 ms */
+
+undefined4 __thiscall FUN_201ad690(gCInventory_PS *param_1,bCIStream *param_2)
+
+{
+  bCIStream *pbVar1;
+  bool bVar2;
+  
+  pbVar1 = param_2;
+  *(undefined1 *)&param_1[1].gCInventory_PS_data = 0;
+  bCIStream::operator>>(param_2,(ushort *)&param_2);
+  switch((uint)param_2 & 0xffff) {
+  case 0:
+  case 1:
+  case 2:
+    goto switchD_201ad6b6_caseD_0;
+  case 3:
+    bVar2 = gCInventory_PS::ReadV3(param_1,(bCIStream *)pbVar1);
+    break;
+  case 4:
+    bVar2 = gCInventory_PS::ReadV4(param_1,(bCIStream *)pbVar1);
+    break;
+  case 5:
+    bVar2 = gCInventory_PS::ReadV5(param_1,(bCIStream *)pbVar1);
+    break;
+  case 6:
+    bVar2 = gCInventory_PS::ReadV6(param_1,(bCIStream *)pbVar1);
+    break;
+  case 7:
+    bVar2 = gCInventory_PS::ReadV7(param_1,(bCIStream *)pbVar1);
+    break;
+  case 8:
+    bVar2 = gCInventory_PS::ReadV8(param_1,(bCIStream *)pbVar1);
+    break;
+  case 9:
+    bVar2 = gCInventory_PS::ReadV9(param_1,(bCIStream *)pbVar1);
+    break;
+  default:
+    return 0;
+  }
+  if (bVar2 == false) {
+    (*param_1->vftablePtr->Destroy)(param_1);
+  }
+switchD_201ad6b6_caseD_0:
+  return 1;
+}
+
+

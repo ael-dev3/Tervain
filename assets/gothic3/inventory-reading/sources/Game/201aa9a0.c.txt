@@ -1,0 +1,10 @@
+/* ENTRY 201aa9a0 | bTPropertyType<gCInventory_PS,bool>::vfunction5 | STATUS decompiled | 3 ms */
+
+bTPropertyType<gCInventory_PS,bool>_vftable * __thiscall
+bTPropertyType<gCInventory_PS,bool>::vfunction5(bTPropertyType<gCInventory_PS,bool> *this)
+
+{
+  return this[6].vftablePtr;
+}
+
+

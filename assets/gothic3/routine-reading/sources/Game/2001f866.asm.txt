@@ -1,0 +1,4 @@
+; 2001f866 bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet>::vfunction16
+2001f866 | e995d23300 | JMP 0x2035cb00
+; 2001f870 gCInfoManager_PS::SetChildMode
+; 2001f870 Ordinal_6300

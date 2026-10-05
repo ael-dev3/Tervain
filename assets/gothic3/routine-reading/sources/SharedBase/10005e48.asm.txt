@@ -1,0 +1,4 @@
+; 10005e48 ??0bCAccessorProperty@@QAE@ABVbCAccessorCreator@@@Z
+10005e48 | e953db0800 | JMP 0x100939a0
+; 10005e4d bCFlexibleVertexPtr::AccessX
+; 10005e4d Ordinal_1506

@@ -1,0 +1,4 @@
+; 100022d4 ?AddReference@bCObjectRefBase@@UAEKXZ
+100022d4 | e9f7800400 | JMP 0x1004a3d0
+; 100022d9 bCCommandLine::SkipValue
+; 100022d9 Ordinal_4473

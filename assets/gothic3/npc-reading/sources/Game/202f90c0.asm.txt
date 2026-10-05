@@ -1,0 +1,702 @@
+; 202f90c0 FUN_202f90c0
+202f90c0 | 83ec14 | SUB ESP,0x14
+202f90c3 | 53 | PUSH EBX
+202f90c4 | 55 | PUSH EBP
+202f90c5 | 8be9 | MOV EBP,ECX
+202f90c7 | 8b85a4010000 | MOV EAX,dword ptr [EBP + 0x1a4]
+202f90cd | 33db | XOR EBX,EBX
+202f90cf | 3bc3 | CMP EAX,EBX
+202f90d1 | 7418 | JZ 0x202f90eb
+202f90d3 | 899da4010000 | MOV dword ptr [EBP + 0x1a4],EBX
+202f90d9 | 898594010000 | MOV dword ptr [EBP + 0x194],EAX
+202f90df | 898598010000 | MOV dword ptr [EBP + 0x198],EAX
+202f90e5 | 5d | POP EBP
+202f90e6 | 5b | POP EBX
+202f90e7 | 83c414 | ADD ESP,0x14
+202f90ea | c3 | RET
+; 202f90eb LAB_202f90eb
+202f90eb | 8b4500 | MOV EAX,dword ptr [EBP]
+202f90ee | 8b5068 | MOV EDX,dword ptr [EAX + 0x68]
+202f90f1 | 56 | PUSH ESI
+202f90f2 | ffd2 | CALL EDX
+202f90f4 | 8b10 | MOV EDX,dword ptr [EAX]
+202f90f6 | 8bc8 | MOV ECX,EAX
+202f90f8 | 8b82ec000000 | MOV EAX,dword ptr [EDX + 0xec]
+202f90fe | 6a64 | PUSH 0x64
+202f9100 | ffd0 | CALL EAX
+202f9102 | 8bf0 | MOV ESI,EAX
+202f9104 | 3bf3 | CMP ESI,EBX
+202f9106 | 0f84a1050000 | JZ 0x202f96ad
+202f910c | 57 | PUSH EDI
+202f910d | 8b3d446d7d20 | MOV EDI,dword ptr [0x207d6d44]
+202f9113 | 8bce | MOV ECX,ESI
+202f9115 | ffd7 | CALL EDI
+202f9117 | 85c0 | TEST EAX,EAX
+202f9119 | 751a | JNZ 0x202f9135
+202f911b | 5f | POP EDI
+202f911c | 5e | POP ESI
+202f911d | 899da4010000 | MOV dword ptr [EBP + 0x1a4],EBX
+202f9123 | 899d94010000 | MOV dword ptr [EBP + 0x194],EBX
+202f9129 | 899d98010000 | MOV dword ptr [EBP + 0x198],EBX
+202f912f | 5d | POP EBP
+202f9130 | 5b | POP EBX
+202f9131 | 83c414 | ADD ESP,0x14
+202f9134 | c3 | RET
+; 202f9135 LAB_202f9135
+202f9135 | 8bce | MOV ECX,ESI
+202f9137 | ffd7 | CALL EDI
+202f9139 | 8bd8 | MOV EBX,EAX
+202f913b | 8dbda0010000 | LEA EDI,[EBP + 0x1a0]
+202f9141 | 8bcf | MOV ECX,EDI
+202f9143 | 895c2410 | MOV dword ptr [ESP + 0x10],EBX
+202f9147 | ff15f4887d20 | CALL dword ptr [0x207d88f4]
+202f914d | 6a00 | PUSH 0x0
+202f914f | 8bcb | MOV ECX,EBX
+202f9151 | ff15c4637d20 | CALL dword ptr [0x207d63c4]
+202f9157 | 3c01 | CMP AL,0x1
+202f9159 | 0f854d050000 | JNZ 0x202f96ac
+202f915f | 6a00 | PUSH 0x0
+202f9161 | 8bcb | MOV ECX,EBX
+202f9163 | ff15c8637d20 | CALL dword ptr [0x207d63c8]
+202f9169 | 3c01 | CMP AL,0x1
+202f916b | 0f853b050000 | JNZ 0x202f96ac
+202f9171 | 6a00 | PUSH 0x0
+202f9173 | 8bce | MOV ECX,ESI
+202f9175 | ff15cc637d20 | CALL dword ptr [0x207d63cc]
+202f917b | 8bc8 | MOV ECX,EAX
+202f917d | ff15d0637d20 | CALL dword ptr [0x207d63d0]
+202f9183 | 50 | PUSH EAX
+202f9184 | 8bcf | MOV ECX,EDI
+202f9186 | ff1538887d20 | CALL dword ptr [0x207d8838]
+202f918c | 33f6 | XOR ESI,ESI
+202f918e | 8d5e04 | LEA EBX,[ESI + 0x4]
+; 202f9191 LAB_202f9191
+202f9191 | 6a00 | PUSH 0x0
+202f9193 | 56 | PUSH ESI
+202f9194 | 6a5f | PUSH 0x5f
+202f9196 | 8bcf | MOV ECX,EDI
+202f9198 | ff15a0847d20 | CALL dword ptr [0x207d84a0]
+202f919e | 83c001 | ADD EAX,0x1
+202f91a1 | 83eb01 | SUB EBX,0x1
+202f91a4 | 8bf0 | MOV ESI,EAX
+202f91a6 | 75e9 | JNZ 0x202f9191
+202f91a8 | 53 | PUSH EBX
+202f91a9 | 8b1da8847d20 | MOV EBX,dword ptr [0x207d84a8]
+202f91af | 8bcf | MOV ECX,EDI
+202f91b1 | c7859401000001000000 | MOV dword ptr [EBP + 0x194],0x1
+202f91bb | ffd3 | CALL EBX
+202f91bd | 0fbe443001 | MOVSX EAX,byte ptr [EAX + ESI*0x1 + 0x1]
+202f91c2 | 83c0d0 | ADD EAX,-0x30
+202f91c5 | 83f807 | CMP EAX,0x7
+202f91c8 | 0f870a020000 | JA 0x202f93d8
+; 202f91ce switchD_202f91ce::switchD
+202f91ce | ff2485dc962f20 | JMP dword ptr [EAX*0x4 + 0x202f96dc]
+; 202f91d5 switchD_202f91ce::caseD_30
+202f91d5 | 6a00 | PUSH 0x0
+202f91d7 | 8bcf | MOV ECX,EDI
+202f91d9 | ffd3 | CALL EBX
+202f91db | 0fbe443002 | MOVSX EAX,byte ptr [EAX + ESI*0x1 + 0x2]
+202f91e0 | 83c0d0 | ADD EAX,-0x30
+202f91e3 | 83f803 | CMP EAX,0x3
+202f91e6 | 0f87ec010000 | JA 0x202f93d8
+; 202f91ec switchD_202f91ec::switchD
+202f91ec | ff2485fc962f20 | JMP dword ptr [EAX*0x4 + 0x202f96fc]
+; 202f91f3 switchD_202f91ec::caseD_30
+202f91f3 | c7859401000005000000 | MOV dword ptr [EBP + 0x194],0x5
+202f91fd | e9d6010000 | JMP 0x202f93d8
+; 202f9202 switchD_202f91ec::caseD_31
+202f9202 | c7859401000006000000 | MOV dword ptr [EBP + 0x194],0x6
+202f920c | e9c7010000 | JMP 0x202f93d8
+; 202f9211 switchD_202f91ec::caseD_32
+202f9211 | c7859401000007000000 | MOV dword ptr [EBP + 0x194],0x7
+202f921b | e9b8010000 | JMP 0x202f93d8
+; 202f9220 switchD_202f91ec::caseD_33
+202f9220 | c7859401000008000000 | MOV dword ptr [EBP + 0x194],0x8
+202f922a | e9a9010000 | JMP 0x202f93d8
+; 202f922f switchD_202f91ce::caseD_31
+202f922f | 6a00 | PUSH 0x0
+202f9231 | 8bcf | MOV ECX,EDI
+202f9233 | ffd3 | CALL EBX
+202f9235 | 0fbe443002 | MOVSX EAX,byte ptr [EAX + ESI*0x1 + 0x2]
+202f923a | 83c0d0 | ADD EAX,-0x30
+202f923d | 83f82f | CMP EAX,0x2f
+202f9240 | 0f8792010000 | JA 0x202f93d8
+202f9246 | 0fb68824972f20 | MOVZX ECX,byte ptr [EAX + 0x202f9724]
+; 202f924d switchD_202f924d::switchD
+202f924d | ff248d0c972f20 | JMP dword ptr [ECX*0x4 + 0x202f970c]
+; 202f9254 switchD_202f924d::caseD_30
+202f9254 | c7859401000009000000 | MOV dword ptr [EBP + 0x194],0x9
+202f925e | e975010000 | JMP 0x202f93d8
+; 202f9263 switchD_202f924d::caseD_31
+202f9263 | c785940100000a000000 | MOV dword ptr [EBP + 0x194],0xa
+202f926d | e966010000 | JMP 0x202f93d8
+; 202f9272 switchD_202f924d::caseD_32
+202f9272 | c785940100000b000000 | MOV dword ptr [EBP + 0x194],0xb
+202f927c | e957010000 | JMP 0x202f93d8
+; 202f9281 switchD_202f924d::caseD_33
+202f9281 | c785940100000c000000 | MOV dword ptr [EBP + 0x194],0xc
+202f928b | e948010000 | JMP 0x202f93d8
+; 202f9290 switchD_202f924d::caseD_5f
+202f9290 | c7859401000002000000 | MOV dword ptr [EBP + 0x194],0x2
+202f929a | e939010000 | JMP 0x202f93d8
+; 202f929f switchD_202f91ce::caseD_32
+202f929f | 6a00 | PUSH 0x0
+202f92a1 | 8bcf | MOV ECX,EDI
+202f92a3 | ffd3 | CALL EBX
+202f92a5 | 0fbe443002 | MOVSX EAX,byte ptr [EAX + ESI*0x1 + 0x2]
+202f92aa | 83c0d0 | ADD EAX,-0x30
+202f92ad | 83f82f | CMP EAX,0x2f
+202f92b0 | 0f8722010000 | JA 0x202f93d8
+202f92b6 | 0fb6906c972f20 | MOVZX EDX,byte ptr [EAX + 0x202f976c]
+; 202f92bd switchD_202f92bd::switchD
+202f92bd | ff249554972f20 | JMP dword ptr [EDX*0x4 + 0x202f9754]
+; 202f92c4 switchD_202f92bd::caseD_30
+202f92c4 | c785940100000d000000 | MOV dword ptr [EBP + 0x194],0xd
+202f92ce | e905010000 | JMP 0x202f93d8
+; 202f92d3 switchD_202f92bd::caseD_31
+202f92d3 | c785940100000e000000 | MOV dword ptr [EBP + 0x194],0xe
+202f92dd | e9f6000000 | JMP 0x202f93d8
+; 202f92e2 switchD_202f92bd::caseD_32
+202f92e2 | c785940100000f000000 | MOV dword ptr [EBP + 0x194],0xf
+202f92ec | e9e7000000 | JMP 0x202f93d8
+; 202f92f1 switchD_202f92bd::caseD_33
+202f92f1 | c7859401000010000000 | MOV dword ptr [EBP + 0x194],0x10
+202f92fb | e9d8000000 | JMP 0x202f93d8
+; 202f9300 switchD_202f92bd::caseD_5f
+202f9300 | c7859401000003000000 | MOV dword ptr [EBP + 0x194],0x3
+202f930a | e9c9000000 | JMP 0x202f93d8
+; 202f930f switchD_202f91ce::caseD_33
+202f930f | 6a00 | PUSH 0x0
+202f9311 | 8bcf | MOV ECX,EDI
+202f9313 | ffd3 | CALL EBX
+202f9315 | 0fbe443002 | MOVSX EAX,byte ptr [EAX + ESI*0x1 + 0x2]
+202f931a | 83c0d0 | ADD EAX,-0x30
+202f931d | 83f82f | CMP EAX,0x2f
+202f9320 | 0f87b2000000 | JA 0x202f93d8
+202f9326 | 0fb680b4972f20 | MOVZX EAX,byte ptr [EAX + 0x202f97b4]
+; 202f932d switchD_202f932d::switchD
+202f932d | ff24859c972f20 | JMP dword ptr [EAX*0x4 + 0x202f979c]
+; 202f9334 switchD_202f932d::caseD_30
+202f9334 | c7859401000011000000 | MOV dword ptr [EBP + 0x194],0x11
+202f933e | e995000000 | JMP 0x202f93d8
+; 202f9343 switchD_202f932d::caseD_31
+202f9343 | c7859401000012000000 | MOV dword ptr [EBP + 0x194],0x12
+202f934d | e986000000 | JMP 0x202f93d8
+; 202f9352 switchD_202f932d::caseD_32
+202f9352 | c7859401000013000000 | MOV dword ptr [EBP + 0x194],0x13
+202f935c | eb7a | JMP 0x202f93d8
+; 202f935e switchD_202f932d::caseD_33
+202f935e | c7859401000014000000 | MOV dword ptr [EBP + 0x194],0x14
+202f9368 | eb6e | JMP 0x202f93d8
+; 202f936a switchD_202f932d::caseD_5f
+202f936a | c7859401000004000000 | MOV dword ptr [EBP + 0x194],0x4
+202f9374 | eb62 | JMP 0x202f93d8
+; 202f9376 switchD_202f91ce::caseD_34
+202f9376 | 6a00 | PUSH 0x0
+202f9378 | 8bcf | MOV ECX,EDI
+202f937a | ffd3 | CALL EBX
+202f937c | 807c300230 | CMP byte ptr [EAX + ESI*0x1 + 0x2],0x30
+202f9381 | 7555 | JNZ 0x202f93d8
+202f9383 | c7859401000015000000 | MOV dword ptr [EBP + 0x194],0x15
+202f938d | eb49 | JMP 0x202f93d8
+; 202f938f switchD_202f91ce::caseD_35
+202f938f | 6a00 | PUSH 0x0
+202f9391 | 8bcf | MOV ECX,EDI
+202f9393 | ffd3 | CALL EBX
+202f9395 | 807c300230 | CMP byte ptr [EAX + ESI*0x1 + 0x2],0x30
+202f939a | 753c | JNZ 0x202f93d8
+202f939c | c7859401000016000000 | MOV dword ptr [EBP + 0x194],0x16
+202f93a6 | eb30 | JMP 0x202f93d8
+; 202f93a8 switchD_202f91ce::caseD_36
+202f93a8 | 6a00 | PUSH 0x0
+202f93aa | 8bcf | MOV ECX,EDI
+202f93ac | ffd3 | CALL EBX
+202f93ae | 807c300230 | CMP byte ptr [EAX + ESI*0x1 + 0x2],0x30
+202f93b3 | 7523 | JNZ 0x202f93d8
+202f93b5 | c7859401000017000000 | MOV dword ptr [EBP + 0x194],0x17
+202f93bf | eb17 | JMP 0x202f93d8
+; 202f93c1 switchD_202f91ce::caseD_37
+202f93c1 | 6a00 | PUSH 0x0
+202f93c3 | 8bcf | MOV ECX,EDI
+202f93c5 | ffd3 | CALL EBX
+202f93c7 | 807c300230 | CMP byte ptr [EAX + ESI*0x1 + 0x2],0x30
+202f93cc | 750a | JNZ 0x202f93d8
+202f93ce | c7859401000018000000 | MOV dword ptr [EBP + 0x194],0x18
+; 202f93d8 switchD_202f91ce::default
+; 202f93d8 switchD_202f932d::caseD_34
+; 202f93d8 switchD_202f932d::caseD_35
+; 202f93d8 switchD_202f932d::caseD_36
+; 202f93d8 switchD_202f932d::caseD_37
+; 202f93d8 switchD_202f932d::caseD_38
+; 202f93d8 switchD_202f932d::caseD_39
+; 202f93d8 switchD_202f932d::caseD_3a
+; 202f93d8 switchD_202f932d::caseD_3b
+; 202f93d8 switchD_202f932d::caseD_3c
+; 202f93d8 switchD_202f932d::caseD_3d
+; 202f93d8 switchD_202f932d::caseD_3e
+; 202f93d8 switchD_202f932d::caseD_3f
+; 202f93d8 switchD_202f932d::caseD_40
+; 202f93d8 switchD_202f932d::caseD_41
+; 202f93d8 switchD_202f932d::caseD_42
+; 202f93d8 switchD_202f932d::caseD_43
+; 202f93d8 switchD_202f932d::caseD_44
+; 202f93d8 switchD_202f932d::caseD_45
+; 202f93d8 switchD_202f932d::caseD_46
+; 202f93d8 switchD_202f932d::caseD_47
+; 202f93d8 switchD_202f932d::caseD_48
+; 202f93d8 switchD_202f932d::caseD_49
+; 202f93d8 switchD_202f932d::caseD_4a
+; 202f93d8 switchD_202f932d::caseD_4b
+; 202f93d8 switchD_202f932d::caseD_4c
+; 202f93d8 switchD_202f932d::caseD_4d
+; 202f93d8 switchD_202f932d::caseD_4e
+; 202f93d8 switchD_202f932d::caseD_4f
+; 202f93d8 switchD_202f932d::caseD_50
+; 202f93d8 switchD_202f932d::caseD_51
+; 202f93d8 switchD_202f932d::caseD_52
+; 202f93d8 switchD_202f932d::caseD_53
+; 202f93d8 switchD_202f932d::caseD_54
+; 202f93d8 switchD_202f932d::caseD_55
+; 202f93d8 switchD_202f932d::caseD_56
+; 202f93d8 switchD_202f932d::caseD_57
+; 202f93d8 switchD_202f932d::caseD_58
+; 202f93d8 switchD_202f932d::caseD_59
+; 202f93d8 switchD_202f932d::caseD_5a
+; 202f93d8 switchD_202f932d::caseD_5b
+; 202f93d8 switchD_202f932d::caseD_5c
+; 202f93d8 switchD_202f932d::caseD_5d
+; 202f93d8 switchD_202f932d::caseD_5e
+; 202f93d8 switchD_202f92bd::caseD_34
+; 202f93d8 switchD_202f92bd::caseD_35
+; 202f93d8 switchD_202f92bd::caseD_36
+; 202f93d8 switchD_202f92bd::caseD_37
+; 202f93d8 switchD_202f92bd::caseD_38
+; 202f93d8 switchD_202f92bd::caseD_39
+; 202f93d8 switchD_202f92bd::caseD_3a
+; 202f93d8 switchD_202f92bd::caseD_3b
+; 202f93d8 switchD_202f92bd::caseD_3c
+; 202f93d8 switchD_202f92bd::caseD_3d
+; 202f93d8 switchD_202f92bd::caseD_3e
+; 202f93d8 switchD_202f92bd::caseD_3f
+; 202f93d8 switchD_202f92bd::caseD_40
+; 202f93d8 switchD_202f92bd::caseD_41
+; 202f93d8 switchD_202f92bd::caseD_42
+; 202f93d8 switchD_202f92bd::caseD_43
+; 202f93d8 switchD_202f92bd::caseD_44
+; 202f93d8 switchD_202f92bd::caseD_45
+; 202f93d8 switchD_202f92bd::caseD_46
+; 202f93d8 switchD_202f92bd::caseD_47
+; 202f93d8 switchD_202f92bd::caseD_48
+; 202f93d8 switchD_202f92bd::caseD_49
+; 202f93d8 switchD_202f92bd::caseD_4a
+; 202f93d8 switchD_202f92bd::caseD_4b
+; 202f93d8 switchD_202f92bd::caseD_4c
+; 202f93d8 switchD_202f92bd::caseD_4d
+; 202f93d8 switchD_202f92bd::caseD_4e
+; 202f93d8 switchD_202f92bd::caseD_4f
+; 202f93d8 switchD_202f92bd::caseD_50
+; 202f93d8 switchD_202f92bd::caseD_51
+; 202f93d8 switchD_202f92bd::caseD_52
+; 202f93d8 switchD_202f92bd::caseD_53
+; 202f93d8 switchD_202f92bd::caseD_54
+; 202f93d8 switchD_202f92bd::caseD_55
+; 202f93d8 switchD_202f92bd::caseD_56
+; 202f93d8 switchD_202f92bd::caseD_57
+; 202f93d8 switchD_202f92bd::caseD_58
+; 202f93d8 switchD_202f92bd::caseD_59
+; 202f93d8 switchD_202f92bd::caseD_5a
+; 202f93d8 switchD_202f92bd::caseD_5b
+; 202f93d8 switchD_202f92bd::caseD_5c
+; 202f93d8 switchD_202f92bd::caseD_5d
+; 202f93d8 switchD_202f92bd::caseD_5e
+; 202f93d8 switchD_202f924d::caseD_34
+; 202f93d8 switchD_202f924d::caseD_35
+; 202f93d8 switchD_202f924d::caseD_36
+; 202f93d8 switchD_202f924d::caseD_37
+; 202f93d8 switchD_202f924d::caseD_38
+; 202f93d8 switchD_202f924d::caseD_39
+; 202f93d8 switchD_202f924d::caseD_3a
+; 202f93d8 switchD_202f924d::caseD_3b
+; 202f93d8 switchD_202f924d::caseD_3c
+; 202f93d8 switchD_202f924d::caseD_3d
+; 202f93d8 switchD_202f924d::caseD_3e
+; 202f93d8 switchD_202f924d::caseD_3f
+; 202f93d8 switchD_202f924d::caseD_40
+; 202f93d8 switchD_202f924d::caseD_41
+; 202f93d8 switchD_202f924d::caseD_42
+; 202f93d8 switchD_202f924d::caseD_43
+; 202f93d8 switchD_202f924d::caseD_44
+; 202f93d8 switchD_202f924d::caseD_45
+; 202f93d8 switchD_202f924d::caseD_46
+; 202f93d8 switchD_202f924d::caseD_47
+; 202f93d8 switchD_202f924d::caseD_48
+; 202f93d8 switchD_202f924d::caseD_49
+; 202f93d8 switchD_202f924d::caseD_4a
+; 202f93d8 switchD_202f924d::caseD_4b
+; 202f93d8 switchD_202f924d::caseD_4c
+; 202f93d8 switchD_202f924d::caseD_4d
+; 202f93d8 switchD_202f924d::caseD_4e
+; 202f93d8 switchD_202f924d::caseD_4f
+; 202f93d8 switchD_202f924d::caseD_50
+; 202f93d8 switchD_202f924d::caseD_51
+; 202f93d8 switchD_202f924d::caseD_52
+; 202f93d8 switchD_202f924d::caseD_53
+; 202f93d8 switchD_202f924d::caseD_54
+; 202f93d8 switchD_202f924d::caseD_55
+; 202f93d8 switchD_202f924d::caseD_56
+; 202f93d8 switchD_202f924d::caseD_57
+; 202f93d8 switchD_202f924d::caseD_58
+; 202f93d8 switchD_202f924d::caseD_59
+; 202f93d8 switchD_202f924d::caseD_5a
+; 202f93d8 switchD_202f924d::caseD_5b
+; 202f93d8 switchD_202f924d::caseD_5c
+; 202f93d8 switchD_202f924d::caseD_5d
+; 202f93d8 switchD_202f924d::caseD_5e
+; 202f93d8 switchD_202f91ec::default
+202f93d8 | 8b8d94010000 | MOV ECX,dword ptr [EBP + 0x194]
+202f93de | f30f1005c4b16520 | MOVSS XMM0,dword ptr [0x2065b1c4]
+202f93e6 | 898d98010000 | MOV dword ptr [EBP + 0x198],ECX
+202f93ec | 8b4c2410 | MOV ECX,dword ptr [ESP + 0x10]
+202f93f0 | 6a00 | PUSH 0x0
+202f93f2 | f30f11859c010000 | MOVSS dword ptr [EBP + 0x19c],XMM0
+202f93fa | ff1514657d20 | CALL dword ptr [0x207d6514]
+202f9400 | dd542414 | FST double ptr [ESP + 0x14]
+202f9404 | d9ee | FLDZ
+202f9406 | dd54241c | FST double ptr [ESP + 0x1c]
+202f940a | d9c9 | FXCH
+202f940c | dff1 | FCOMIP ST0,ST1
+202f940e | ddd8 | FSTP ST0
+202f9410 | 7614 | JBE 0x202f9426
+202f9412 | 8b4c2410 | MOV ECX,dword ptr [ESP + 0x10]
+202f9416 | 6a00 | PUSH 0x0
+202f9418 | ff1510657d20 | CALL dword ptr [0x207d6510]
+202f941e | dc742414 | FDIV double ptr [ESP + 0x14]
+202f9422 | dd5c241c | FSTP double ptr [ESP + 0x1c]
+; 202f9426 LAB_202f9426
+202f9426 | c744241408000000 | MOV dword ptr [ESP + 0x14],0x8
+202f942e | 8bff | MOV EDI,EDI
+; 202f9430 LAB_202f9430
+202f9430 | 6a00 | PUSH 0x0
+202f9432 | 56 | PUSH ESI
+202f9433 | 6a5f | PUSH 0x5f
+202f9435 | 8bcf | MOV ECX,EDI
+202f9437 | ff15a0847d20 | CALL dword ptr [0x207d84a0]
+202f943d | 83c001 | ADD EAX,0x1
+202f9440 | 836c241401 | SUB dword ptr [ESP + 0x14],0x1
+202f9445 | 8bf0 | MOV ESI,EAX
+202f9447 | 75e7 | JNZ 0x202f9430
+202f9449 | 6a00 | PUSH 0x0
+202f944b | 8bcf | MOV ECX,EDI
+202f944d | c7859801000001000000 | MOV dword ptr [EBP + 0x198],0x1
+202f9457 | ffd3 | CALL EBX
+202f9459 | 0fbe443001 | MOVSX EAX,byte ptr [EAX + ESI*0x1 + 0x1]
+202f945e | 83c0d0 | ADD EAX,-0x30
+202f9461 | 83f807 | CMP EAX,0x7
+202f9464 | 0f870a020000 | JA 0x202f9674
+; 202f946a switchD_202f946a::switchD
+202f946a | ff2485e4972f20 | JMP dword ptr [EAX*0x4 + 0x202f97e4]
+; 202f9471 switchD_202f946a::caseD_30
+202f9471 | 6a00 | PUSH 0x0
+202f9473 | 8bcf | MOV ECX,EDI
+202f9475 | ffd3 | CALL EBX
+202f9477 | 0fbe443002 | MOVSX EAX,byte ptr [EAX + ESI*0x1 + 0x2]
+202f947c | 83c0d0 | ADD EAX,-0x30
+202f947f | 83f803 | CMP EAX,0x3
+202f9482 | 0f87ec010000 | JA 0x202f9674
+; 202f9488 switchD_202f9488::switchD
+202f9488 | ff248504982f20 | JMP dword ptr [EAX*0x4 + 0x202f9804]
+; 202f948f switchD_202f9488::caseD_30
+202f948f | c7859801000005000000 | MOV dword ptr [EBP + 0x198],0x5
+202f9499 | e9d6010000 | JMP 0x202f9674
+; 202f949e switchD_202f9488::caseD_31
+202f949e | c7859801000006000000 | MOV dword ptr [EBP + 0x198],0x6
+202f94a8 | e9c7010000 | JMP 0x202f9674
+; 202f94ad switchD_202f9488::caseD_32
+202f94ad | c7859801000007000000 | MOV dword ptr [EBP + 0x198],0x7
+202f94b7 | e9b8010000 | JMP 0x202f9674
+; 202f94bc switchD_202f9488::caseD_33
+202f94bc | c7859801000008000000 | MOV dword ptr [EBP + 0x198],0x8
+202f94c6 | e9a9010000 | JMP 0x202f9674
+; 202f94cb switchD_202f946a::caseD_31
+202f94cb | 6a00 | PUSH 0x0
+202f94cd | 8bcf | MOV ECX,EDI
+202f94cf | ffd3 | CALL EBX
+202f94d1 | 0fbe443002 | MOVSX EAX,byte ptr [EAX + ESI*0x1 + 0x2]
+202f94d6 | 83c0d0 | ADD EAX,-0x30
+202f94d9 | 83f82f | CMP EAX,0x2f
+202f94dc | 0f8792010000 | JA 0x202f9674
+202f94e2 | 0fb6902c982f20 | MOVZX EDX,byte ptr [EAX + 0x202f982c]
+; 202f94e9 switchD_202f94e9::switchD
+202f94e9 | ff249514982f20 | JMP dword ptr [EDX*0x4 + 0x202f9814]
+; 202f94f0 switchD_202f94e9::caseD_30
+202f94f0 | c7859801000009000000 | MOV dword ptr [EBP + 0x198],0x9
+202f94fa | e975010000 | JMP 0x202f9674
+; 202f94ff switchD_202f94e9::caseD_31
+202f94ff | c785980100000a000000 | MOV dword ptr [EBP + 0x198],0xa
+202f9509 | e966010000 | JMP 0x202f9674
+; 202f950e switchD_202f94e9::caseD_32
+202f950e | c785980100000b000000 | MOV dword ptr [EBP + 0x198],0xb
+202f9518 | e957010000 | JMP 0x202f9674
+; 202f951d switchD_202f94e9::caseD_33
+202f951d | c785980100000c000000 | MOV dword ptr [EBP + 0x198],0xc
+202f9527 | e948010000 | JMP 0x202f9674
+; 202f952c switchD_202f94e9::caseD_5f
+202f952c | c7859801000002000000 | MOV dword ptr [EBP + 0x198],0x2
+202f9536 | e939010000 | JMP 0x202f9674
+; 202f953b switchD_202f946a::caseD_32
+202f953b | 6a00 | PUSH 0x0
+202f953d | 8bcf | MOV ECX,EDI
+202f953f | ffd3 | CALL EBX
+202f9541 | 0fbe443002 | MOVSX EAX,byte ptr [EAX + ESI*0x1 + 0x2]
+202f9546 | 83c0d0 | ADD EAX,-0x30
+202f9549 | 83f82f | CMP EAX,0x2f
+202f954c | 0f8722010000 | JA 0x202f9674
+202f9552 | 0fb68074982f20 | MOVZX EAX,byte ptr [EAX + 0x202f9874]
+; 202f9559 switchD_202f9559::switchD
+202f9559 | ff24855c982f20 | JMP dword ptr [EAX*0x4 + 0x202f985c]
+; 202f9560 switchD_202f9559::caseD_30
+202f9560 | c785980100000d000000 | MOV dword ptr [EBP + 0x198],0xd
+202f956a | e905010000 | JMP 0x202f9674
+; 202f956f switchD_202f9559::caseD_31
+202f956f | c785980100000e000000 | MOV dword ptr [EBP + 0x198],0xe
+202f9579 | e9f6000000 | JMP 0x202f9674
+; 202f957e switchD_202f9559::caseD_32
+202f957e | c785980100000f000000 | MOV dword ptr [EBP + 0x198],0xf
+202f9588 | e9e7000000 | JMP 0x202f9674
+; 202f958d switchD_202f9559::caseD_33
+202f958d | c7859801000010000000 | MOV dword ptr [EBP + 0x198],0x10
+202f9597 | e9d8000000 | JMP 0x202f9674
+; 202f959c switchD_202f9559::caseD_5f
+202f959c | c7859801000003000000 | MOV dword ptr [EBP + 0x198],0x3
+202f95a6 | e9c9000000 | JMP 0x202f9674
+; 202f95ab switchD_202f946a::caseD_33
+202f95ab | 6a00 | PUSH 0x0
+202f95ad | 8bcf | MOV ECX,EDI
+202f95af | ffd3 | CALL EBX
+202f95b1 | 0fbe443002 | MOVSX EAX,byte ptr [EAX + ESI*0x1 + 0x2]
+202f95b6 | 83c0d0 | ADD EAX,-0x30
+202f95b9 | 83f82f | CMP EAX,0x2f
+202f95bc | 0f87b2000000 | JA 0x202f9674
+202f95c2 | 0fb688bc982f20 | MOVZX ECX,byte ptr [EAX + 0x202f98bc]
+; 202f95c9 switchD_202f95c9::switchD
+202f95c9 | ff248da4982f20 | JMP dword ptr [ECX*0x4 + 0x202f98a4]
+; 202f95d0 switchD_202f95c9::caseD_30
+202f95d0 | c7859801000011000000 | MOV dword ptr [EBP + 0x198],0x11
+202f95da | e995000000 | JMP 0x202f9674
+; 202f95df switchD_202f95c9::caseD_31
+202f95df | c7859801000012000000 | MOV dword ptr [EBP + 0x198],0x12
+202f95e9 | e986000000 | JMP 0x202f9674
+; 202f95ee switchD_202f95c9::caseD_32
+202f95ee | c7859801000013000000 | MOV dword ptr [EBP + 0x198],0x13
+202f95f8 | eb7a | JMP 0x202f9674
+; 202f95fa switchD_202f95c9::caseD_33
+202f95fa | c7859801000014000000 | MOV dword ptr [EBP + 0x198],0x14
+202f9604 | eb6e | JMP 0x202f9674
+; 202f9606 switchD_202f95c9::caseD_5f
+202f9606 | c7859801000004000000 | MOV dword ptr [EBP + 0x198],0x4
+202f9610 | eb62 | JMP 0x202f9674
+; 202f9612 switchD_202f946a::caseD_34
+202f9612 | 6a00 | PUSH 0x0
+202f9614 | 8bcf | MOV ECX,EDI
+202f9616 | ffd3 | CALL EBX
+202f9618 | 807c300230 | CMP byte ptr [EAX + ESI*0x1 + 0x2],0x30
+202f961d | 7555 | JNZ 0x202f9674
+202f961f | c7859801000015000000 | MOV dword ptr [EBP + 0x198],0x15
+202f9629 | eb49 | JMP 0x202f9674
+; 202f962b switchD_202f946a::caseD_35
+202f962b | 6a00 | PUSH 0x0
+202f962d | 8bcf | MOV ECX,EDI
+202f962f | ffd3 | CALL EBX
+202f9631 | 807c300230 | CMP byte ptr [EAX + ESI*0x1 + 0x2],0x30
+202f9636 | 753c | JNZ 0x202f9674
+202f9638 | c7859801000016000000 | MOV dword ptr [EBP + 0x198],0x16
+202f9642 | eb30 | JMP 0x202f9674
+; 202f9644 switchD_202f946a::caseD_36
+202f9644 | 6a00 | PUSH 0x0
+202f9646 | 8bcf | MOV ECX,EDI
+202f9648 | ffd3 | CALL EBX
+202f964a | 807c300230 | CMP byte ptr [EAX + ESI*0x1 + 0x2],0x30
+202f964f | 7523 | JNZ 0x202f9674
+202f9651 | c7859801000017000000 | MOV dword ptr [EBP + 0x198],0x17
+202f965b | eb17 | JMP 0x202f9674
+; 202f965d switchD_202f946a::caseD_37
+202f965d | 6a00 | PUSH 0x0
+202f965f | 8bcf | MOV ECX,EDI
+202f9661 | ffd3 | CALL EBX
+202f9663 | 807c300230 | CMP byte ptr [EAX + ESI*0x1 + 0x2],0x30
+202f9668 | 750a | JNZ 0x202f9674
+202f966a | c7859801000018000000 | MOV dword ptr [EBP + 0x198],0x18
+; 202f9674 switchD_202f946a::default
+; 202f9674 switchD_202f95c9::caseD_34
+; 202f9674 switchD_202f95c9::caseD_35
+; 202f9674 switchD_202f95c9::caseD_36
+; 202f9674 switchD_202f95c9::caseD_37
+; 202f9674 switchD_202f95c9::caseD_38
+; 202f9674 switchD_202f95c9::caseD_39
+; 202f9674 switchD_202f95c9::caseD_3a
+; 202f9674 switchD_202f95c9::caseD_3b
+; 202f9674 switchD_202f95c9::caseD_3c
+; 202f9674 switchD_202f95c9::caseD_3d
+; 202f9674 switchD_202f95c9::caseD_3e
+; 202f9674 switchD_202f95c9::caseD_3f
+; 202f9674 switchD_202f95c9::caseD_40
+; 202f9674 switchD_202f95c9::caseD_41
+; 202f9674 switchD_202f95c9::caseD_42
+; 202f9674 switchD_202f95c9::caseD_43
+; 202f9674 switchD_202f95c9::caseD_44
+; 202f9674 switchD_202f95c9::caseD_45
+; 202f9674 switchD_202f95c9::caseD_46
+; 202f9674 switchD_202f95c9::caseD_47
+; 202f9674 switchD_202f95c9::caseD_48
+; 202f9674 switchD_202f95c9::caseD_49
+; 202f9674 switchD_202f95c9::caseD_4a
+; 202f9674 switchD_202f95c9::caseD_4b
+; 202f9674 switchD_202f95c9::caseD_4c
+; 202f9674 switchD_202f95c9::caseD_4d
+; 202f9674 switchD_202f95c9::caseD_4e
+; 202f9674 switchD_202f95c9::caseD_4f
+; 202f9674 switchD_202f95c9::caseD_50
+; 202f9674 switchD_202f95c9::caseD_51
+; 202f9674 switchD_202f95c9::caseD_52
+; 202f9674 switchD_202f95c9::caseD_53
+; 202f9674 switchD_202f95c9::caseD_54
+; 202f9674 switchD_202f95c9::caseD_55
+; 202f9674 switchD_202f95c9::caseD_56
+; 202f9674 switchD_202f95c9::caseD_57
+; 202f9674 switchD_202f95c9::caseD_58
+; 202f9674 switchD_202f95c9::caseD_59
+; 202f9674 switchD_202f95c9::caseD_5a
+; 202f9674 switchD_202f95c9::caseD_5b
+; 202f9674 switchD_202f95c9::caseD_5c
+; 202f9674 switchD_202f95c9::caseD_5d
+; 202f9674 switchD_202f95c9::caseD_5e
+; 202f9674 switchD_202f9559::caseD_34
+; 202f9674 switchD_202f9559::caseD_35
+; 202f9674 switchD_202f9559::caseD_36
+; 202f9674 switchD_202f9559::caseD_37
+; 202f9674 switchD_202f9559::caseD_38
+; 202f9674 switchD_202f9559::caseD_39
+; 202f9674 switchD_202f9559::caseD_3a
+; 202f9674 switchD_202f9559::caseD_3b
+; 202f9674 switchD_202f9559::caseD_3c
+; 202f9674 switchD_202f9559::caseD_3d
+; 202f9674 switchD_202f9559::caseD_3e
+; 202f9674 switchD_202f9559::caseD_3f
+; 202f9674 switchD_202f9559::caseD_40
+; 202f9674 switchD_202f9559::caseD_41
+; 202f9674 switchD_202f9559::caseD_42
+; 202f9674 switchD_202f9559::caseD_43
+; 202f9674 switchD_202f9559::caseD_44
+; 202f9674 switchD_202f9559::caseD_45
+; 202f9674 switchD_202f9559::caseD_46
+; 202f9674 switchD_202f9559::caseD_47
+; 202f9674 switchD_202f9559::caseD_48
+; 202f9674 switchD_202f9559::caseD_49
+; 202f9674 switchD_202f9559::caseD_4a
+; 202f9674 switchD_202f9559::caseD_4b
+; 202f9674 switchD_202f9559::caseD_4c
+; 202f9674 switchD_202f9559::caseD_4d
+; 202f9674 switchD_202f9559::caseD_4e
+; 202f9674 switchD_202f9559::caseD_4f
+; 202f9674 switchD_202f9559::caseD_50
+; 202f9674 switchD_202f9559::caseD_51
+; 202f9674 switchD_202f9559::caseD_52
+; 202f9674 switchD_202f9559::caseD_53
+; 202f9674 switchD_202f9559::caseD_54
+; 202f9674 switchD_202f9559::caseD_55
+; 202f9674 switchD_202f9559::caseD_56
+; 202f9674 switchD_202f9559::caseD_57
+; 202f9674 switchD_202f9559::caseD_58
+; 202f9674 switchD_202f9559::caseD_59
+; 202f9674 switchD_202f9559::caseD_5a
+; 202f9674 switchD_202f9559::caseD_5b
+; 202f9674 switchD_202f9559::caseD_5c
+; 202f9674 switchD_202f9559::caseD_5d
+; 202f9674 switchD_202f9559::caseD_5e
+; 202f9674 switchD_202f94e9::caseD_34
+; 202f9674 switchD_202f94e9::caseD_35
+; 202f9674 switchD_202f94e9::caseD_36
+; 202f9674 switchD_202f94e9::caseD_37
+; 202f9674 switchD_202f94e9::caseD_38
+; 202f9674 switchD_202f94e9::caseD_39
+; 202f9674 switchD_202f94e9::caseD_3a
+; 202f9674 switchD_202f94e9::caseD_3b
+; 202f9674 switchD_202f94e9::caseD_3c
+; 202f9674 switchD_202f94e9::caseD_3d
+; 202f9674 switchD_202f94e9::caseD_3e
+; 202f9674 switchD_202f94e9::caseD_3f
+; 202f9674 switchD_202f94e9::caseD_40
+; 202f9674 switchD_202f94e9::caseD_41
+; 202f9674 switchD_202f94e9::caseD_42
+; 202f9674 switchD_202f94e9::caseD_43
+; 202f9674 switchD_202f94e9::caseD_44
+; 202f9674 switchD_202f94e9::caseD_45
+; 202f9674 switchD_202f94e9::caseD_46
+; 202f9674 switchD_202f94e9::caseD_47
+; 202f9674 switchD_202f94e9::caseD_48
+; 202f9674 switchD_202f94e9::caseD_49
+; 202f9674 switchD_202f94e9::caseD_4a
+; 202f9674 switchD_202f94e9::caseD_4b
+; 202f9674 switchD_202f94e9::caseD_4c
+; 202f9674 switchD_202f94e9::caseD_4d
+; 202f9674 switchD_202f94e9::caseD_4e
+; 202f9674 switchD_202f94e9::caseD_4f
+; 202f9674 switchD_202f94e9::caseD_50
+; 202f9674 switchD_202f94e9::caseD_51
+; 202f9674 switchD_202f94e9::caseD_52
+; 202f9674 switchD_202f94e9::caseD_53
+; 202f9674 switchD_202f94e9::caseD_54
+; 202f9674 switchD_202f94e9::caseD_55
+; 202f9674 switchD_202f94e9::caseD_56
+; 202f9674 switchD_202f94e9::caseD_57
+; 202f9674 switchD_202f94e9::caseD_58
+; 202f9674 switchD_202f94e9::caseD_59
+; 202f9674 switchD_202f94e9::caseD_5a
+; 202f9674 switchD_202f94e9::caseD_5b
+; 202f9674 switchD_202f94e9::caseD_5c
+; 202f9674 switchD_202f94e9::caseD_5d
+; 202f9674 switchD_202f94e9::caseD_5e
+; 202f9674 switchD_202f9488::default
+202f9674 | d9e8 | FLD1
+202f9676 | dd44241c | FLD double ptr [ESP + 0x1c]
+202f967a | dce9 | FSUB ST1,ST0
+202f967c | d9c9 | FXCH
+202f967e | d99d9c010000 | FSTP float ptr [EBP + 0x19c]
+202f9684 | dd05a8b16520 | FLD double ptr [0x2065b1a8]
+202f968a | d9c9 | FXCH
+202f968c | dbf1 | FCOMI ST0,ST1
+202f968e | 760a | JBE 0x202f969a
+202f9690 | 8b542410 | MOV EDX,dword ptr [ESP + 0x10]
+202f9694 | 837a7400 | CMP dword ptr [EDX + 0x74],0x0
+202f9698 | 741a | JZ 0x202f96b4
+; 202f969a LAB_202f969a
+202f969a | d9c9 | FXCH
+202f969c | dff1 | FCOMIP ST0,ST1
+202f969e | 720a | JC 0x202f96aa
+202f96a0 | 8b442410 | MOV EAX,dword ptr [ESP + 0x10]
+202f96a4 | 83787401 | CMP dword ptr [EAX + 0x74],0x1
+202f96a8 | 740c | JZ 0x202f96b6
+; 202f96aa LAB_202f96aa
+202f96aa | ddd8 | FSTP ST0
+; 202f96ac LAB_202f96ac
+202f96ac | 5f | POP EDI
+; 202f96ad LAB_202f96ad
+202f96ad | 5e | POP ESI
+202f96ae | 5d | POP EBP
+202f96af | 5b | POP EBX
+202f96b0 | 83c414 | ADD ESP,0x14
+202f96b3 | c3 | RET
+; 202f96b4 LAB_202f96b4
+202f96b4 | ddd9 | FSTP ST1
+; 202f96b6 LAB_202f96b6
+202f96b6 | 8b8594010000 | MOV EAX,dword ptr [EBP + 0x194]
+202f96bc | d99d9c010000 | FSTP float ptr [EBP + 0x19c]
+202f96c2 | 8b8d98010000 | MOV ECX,dword ptr [EBP + 0x198]
+202f96c8 | 5f | POP EDI
+202f96c9 | 5e | POP ESI
+202f96ca | 898d94010000 | MOV dword ptr [EBP + 0x194],ECX
+202f96d0 | 898598010000 | MOV dword ptr [EBP + 0x198],EAX
+202f96d6 | 5d | POP EBP
+202f96d7 | 5b | POP EBX
+202f96d8 | 83c414 | ADD ESP,0x14
+202f96db | c3 | RET

@@ -1,0 +1,2 @@
+; 20012544 bTPropertyType<gCInventorySlot,eCEntityProxy>::vfunction5
+20012544 | e977241b00 | JMP 0x201c49c0

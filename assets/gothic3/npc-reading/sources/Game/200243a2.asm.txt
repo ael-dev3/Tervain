@@ -1,0 +1,2 @@
+; 200243a2 bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttitude>_>::vfunction1
+200243a2 | e9591e2e00 | JMP 0x20306200

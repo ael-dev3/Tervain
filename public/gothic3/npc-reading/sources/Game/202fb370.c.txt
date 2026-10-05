@@ -1,0 +1,16 @@
+/* ENTRY 202fb370 | bTPropertyContainer<gELastFightAgainstPlayer>::vfunction5 | STATUS decompiled | 4 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gELastFightAgainstPlayer>::vfunction5
+          (bTPropertyContainer<gELastFightAgainstPlayer> *this,bCIStream *param_1)
+
+{
+  bCIStream *pbVar1;
+  
+  pbVar1 = param_1;
+  bCIStream::operator>>(param_1,(ushort *)&param_1);
+  (**(code **)((int)*pbVar1 + 4))(&this->bTPropertyContainer<gELastFightAgainstPlayer>_data,4);
+  return 1;
+}
+
+

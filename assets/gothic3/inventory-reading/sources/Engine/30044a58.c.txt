@@ -1,0 +1,12 @@
+/* ENTRY 30044a58 | eCTemplateEntityProxy::GetVersion | STATUS decompiled | 2 ms */
+
+/* public: virtual unsigned short __thiscall eCTemplateEntityProxy::GetVersion(void)const  */
+
+ushort __thiscall eCTemplateEntityProxy::GetVersion(eCTemplateEntityProxy *this)
+
+{
+                    /* 0x44a58  9499  ?GetVersion@eCTemplateEntityProxy@@UBEGXZ */
+  return 1;
+}
+
+

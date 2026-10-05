@@ -1,0 +1,14 @@
+; 203055c0 bTPropertyType<gCNPC_PS,bTPropertyContainer<gENPCType>_>::vfunction6
+203055c0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+203055c4 | 85c0 | TEST EAX,EAX
+203055c6 | 7411 | JZ 0x203055d9
+203055c8 | 8b11 | MOV EDX,dword ptr [ECX]
+203055ca | 50 | PUSH EAX
+203055cb | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+203055ce | ffd0 | CALL EAX
+203055d0 | 8b10 | MOV EDX,dword ptr [EAX]
+203055d2 | 8bc8 | MOV ECX,EAX
+203055d4 | 8b4218 | MOV EAX,dword ptr [EDX + 0x18]
+203055d7 | ffd0 | CALL EAX
+; 203055d9 LAB_203055d9
+203055d9 | c20400 | RET 0x4

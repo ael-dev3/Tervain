@@ -1,0 +1,22 @@
+/* ENTRY 304c7520 | FUN_304c7520 | STATUS decompiled | 8 ms */
+
+undefined4 __thiscall FUN_304c7520(eCTemplateEntityProxy *param_1,bCIStream *param_2)
+
+{
+  bCIStream *this;
+  ushort local_18 [2];
+  bCPropertyID local_14 [20];
+  
+  this = param_2;
+  bCIStream::operator>>(param_2,local_18);
+  bCIStream::operator>>(this,(bool *)&param_2);
+  if (param_2._0_1_ == true) {
+    bCPropertyID::bCPropertyID(local_14);
+    operator>>((bCIStream *)this,local_14);
+    eCTemplateEntityProxy::SetEntity(param_1,local_14);
+    bCPropertyID::~bCPropertyID(local_14);
+  }
+  return 1;
+}
+
+

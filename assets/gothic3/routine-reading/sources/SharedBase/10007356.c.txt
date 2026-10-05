@@ -1,0 +1,24 @@
+/* ENTRY 10007356 | bCAccessorCreator::~bCAccessorCreator | STATUS decompiled | 4 ms */
+
+/* public: __thiscall bCAccessorCreator::~bCAccessorCreator(void) */
+
+void __thiscall bCAccessorCreator::~bCAccessorCreator(bCAccessorCreator *this)
+
+{
+  bool bVar1;
+  bCErrorAdmin *this_00;
+  
+                    /* 0x7356  350  ??1bCAccessorCreator@@QAE@XZ */
+  this_00 = bCErrorAdmin::GetInstance();
+  bVar1 = bCErrorAdmin::IsInPanicState(this_00);
+  if (!bVar1) {
+    if (*(int **)this != (int *)0x0) {
+      (**(code **)(**(int **)this + 0x34))();
+      *(undefined4 *)this = 0;
+    }
+    *(undefined4 *)this = 0;
+  }
+  return;
+}
+
+

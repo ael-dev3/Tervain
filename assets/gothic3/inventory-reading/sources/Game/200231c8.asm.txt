@@ -1,0 +1,2 @@
+; 200231c8 bTPropertyType<gCInventory_PS,bCString>::vfunction26
+200231c8 | e913831800 | JMP 0x201ab4e0

@@ -1,0 +1,2 @@
+; 2002671f bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttackReason>_>::vfunction15
+2002671f | e9dc142e00 | JMP 0x20307c00

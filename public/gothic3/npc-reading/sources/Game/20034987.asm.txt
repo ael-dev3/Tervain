@@ -1,0 +1,2 @@
+; 20034987 bTPropertyContainer<gEPlayerCrime>::vfunction5
+20034987 | e934a30e00 | JMP 0x2011ecc0

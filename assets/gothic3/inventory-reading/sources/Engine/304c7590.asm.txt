@@ -1,0 +1,13 @@
+; 304c7590 eCTemplateEntityProxy::eCTemplateEntityProxy
+304c7590 | 56 | PUSH ESI
+304c7591 | 8bf1 | MOV ESI,ECX
+304c7593 | 33c0 | XOR EAX,EAX
+304c7595 | 894604 | MOV dword ptr [ESI + 0x4],EAX
+304c7598 | 894608 | MOV dword ptr [ESI + 0x8],EAX
+304c759b | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+304c759f | 50 | PUSH EAX
+304c75a0 | c70624c18730 | MOV dword ptr [ESI],0x3087c124
+304c75a6 | e88b01b7ff | CALL 0x30037736
+304c75ab | 8bc6 | MOV EAX,ESI
+304c75ad | 5e | POP ESI
+304c75ae | c20400 | RET 0x4

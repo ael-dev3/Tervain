@@ -1,0 +1,4 @@
+; 20011a9a bTPropertyType<gCNPC_PS,bTPropertyContainer<gEPoliticalAlignment>_>::vfunction6
+20011a9a | e961282f00 | JMP 0x20304300
+; 20011a9f gCNavigationMap::DetectFinalTargetAsOffset
+; 20011a9f Ordinal_2682

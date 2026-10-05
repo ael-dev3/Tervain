@@ -1,0 +1,11 @@
+; 202f8df0 FUN_202f8df0
+202f8df0 | 33c0 | XOR EAX,EAX
+202f8df2 | 8981a4010000 | MOV dword ptr [ECX + 0x1a4],EAX
+202f8df8 | 898158010000 | MOV dword ptr [ECX + 0x158],EAX
+202f8dfe | 89817c010000 | MOV dword ptr [ECX + 0x17c],EAX
+202f8e04 | 89818c010000 | MOV dword ptr [ECX + 0x18c],EAX
+202f8e0a | 898190010000 | MOV dword ptr [ECX + 0x190],EAX
+202f8e10 | 898180010000 | MOV dword ptr [ECX + 0x180],EAX
+202f8e16 | 898184010000 | MOV dword ptr [ECX + 0x184],EAX
+202f8e1c | 898188010000 | MOV dword ptr [ECX + 0x188],EAX
+202f8e22 | c3 | RET
