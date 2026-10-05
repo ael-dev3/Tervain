@@ -1,0 +1,13 @@
+/* ENTRY 10007059 | operator<< | STATUS decompiled | 2 ms */
+
+/* class bCIStream & __stdcall operator<<(unsigned short &,class bCIStream &) */
+
+bCIStream * operator<<(ushort *param_1,bCIStream *param_2)
+
+{
+                    /* 0x7059  685  ??6@YGAAVbCIStream@@AAGAAV0@@Z */
+  (**(code **)(*(int *)param_2 + 4))(param_1,2);
+  return param_2;
+}
+
+

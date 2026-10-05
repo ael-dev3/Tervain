@@ -1,0 +1,13 @@
+/* ENTRY 30009a89 | eCCollisionShape_PS::GetTouchType | STATUS decompiled | 7 ms */
+
+/* public: enum eEPropertySetType __thiscall eCCollisionShape_PS::GetTouchType(void)const  */
+
+eEPropertySetType __thiscall eCCollisionShape_PS::GetTouchType(eCCollisionShape_PS *this)
+
+{
+                    /* 0x9a89  9156  ?GetTouchType@eCCollisionShape_PS@@QBE?AW4eEPropertySetType@@XZ
+                        */
+  return (this->eCCollisionShape_PS_data).offset_0x30;
+}
+
+

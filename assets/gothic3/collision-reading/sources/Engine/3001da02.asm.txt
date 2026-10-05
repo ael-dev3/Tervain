@@ -1,0 +1,4 @@
+; 3001da02 bTPropertyContainer<eEShapeGroup>::vfunction3
+3001da02 | e909c50800 | JMP 0x300a9f10
+; 3001da07 eCDirectionalLight_PS::PostInitializeProperties
+; 3001da07 Ordinal_11731

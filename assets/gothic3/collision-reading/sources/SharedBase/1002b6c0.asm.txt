@@ -1,0 +1,23 @@
+; 1002b6c0 FUN_1002b6c0
+1002b6c0 | 8bc1 | MOV EAX,ECX
+1002b6c2 | d900 | FLD float ptr [EAX]
+1002b6c4 | d9442404 | FLD float ptr [ESP + 0x4]
+1002b6c8 | d9c0 | FLD ST0
+1002b6ca | deca | FMULP ST2
+1002b6cc | d9c9 | FXCH
+1002b6ce | d918 | FSTP float ptr [EAX]
+1002b6d0 | d94004 | FLD float ptr [EAX + 0x4]
+1002b6d3 | d8c9 | FMUL ST1
+1002b6d5 | d95804 | FSTP float ptr [EAX + 0x4]
+1002b6d8 | d9c0 | FLD ST0
+1002b6da | d84808 | FMUL float ptr [EAX + 0x8]
+1002b6dd | d95808 | FSTP float ptr [EAX + 0x8]
+1002b6e0 | d9400c | FLD float ptr [EAX + 0xc]
+1002b6e3 | d8c9 | FMUL ST1
+1002b6e5 | d9580c | FSTP float ptr [EAX + 0xc]
+1002b6e8 | d9c0 | FLD ST0
+1002b6ea | d84810 | FMUL float ptr [EAX + 0x10]
+1002b6ed | d95810 | FSTP float ptr [EAX + 0x10]
+1002b6f0 | d84814 | FMUL float ptr [EAX + 0x14]
+1002b6f3 | d95814 | FSTP float ptr [EAX + 0x14]
+1002b6f6 | c20400 | RET 0x4

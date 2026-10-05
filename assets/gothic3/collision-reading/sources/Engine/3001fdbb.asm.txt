@@ -1,0 +1,4 @@
+; 3001fdbb ?GetVersion@eCCollisionShapeBase_PS@@UBEGXZ
+3001fdbb | e930153200 | JMP 0x303412f0
+; 3001fdc0 eCEntity::GetLocalRotation
+; 3001fdc0 Ordinal_7665

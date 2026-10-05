@@ -1,0 +1,4 @@
+; 10008ae4 ??0bCOrientedBox@@QAE@ABV0@@Z
+10008ae4 | e9d7e00500 | JMP 0x10066bc0
+; 10008ae9 bCIStream::Read
+; 10008ae9 Ordinal_3860

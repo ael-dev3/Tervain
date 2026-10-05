@@ -1,0 +1,12 @@
+/* ENTRY 303424c0 | bTPropertyType<eCCollisionShapeBase_PS,bCObsoleteClass>::vfunction7 | STATUS decompiled | 5 ms */
+
+bool __thiscall
+bTPropertyType<eCCollisionShapeBase_PS,bCObsoleteClass>::vfunction7
+          (bTPropertyType<eCCollisionShapeBase_PS,bCObsoleteClass> *this)
+
+{
+  return this[8].vftablePtr !=
+         (bTPropertyType<eCCollisionShapeBase_PS,bCObsoleteClass>_vftable *)0x0;
+}
+
+

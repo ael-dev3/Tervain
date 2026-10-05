@@ -1,0 +1,2 @@
+; 3002bdd7 bTPropertyContainer<eEPhysicRangeType>::vfunction8
+3002bdd7 | e974f73000 | JMP 0x3033b550

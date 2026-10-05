@@ -1,0 +1,4 @@
+; 3002743a SHAREDBASE.DLL::bCPropertyTypeBase::Write
+3002743a | e9919d3000 | JMP 0x303311d0
+; 30027444 eCGUIManager::operator<<
+; 30027444 Ordinal_1946

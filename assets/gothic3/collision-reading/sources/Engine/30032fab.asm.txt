@@ -1,0 +1,4 @@
+; 30032fab bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet>::vfunction6
+30032fab | e920e63000 | JMP 0x303415d0
+; 30032fb0 eCWrapper_emfx2Actor::eCWrapper_emfx2Actor
+; 30032fb0 Ordinal_930

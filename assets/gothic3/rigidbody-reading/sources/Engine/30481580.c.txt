@@ -1,0 +1,17 @@
+/* ENTRY 30481580 | FUN_30481580 | STATUS decompiled | 4 ms */
+
+bCString * __fastcall FUN_30481580(bCObjectRefBase *param_1)
+
+{
+  bCAccessorPropertyObject *this;
+  bCString *pbVar1;
+  bCAccessorPropertyObject local_8 [8];
+  
+  this = (bCAccessorPropertyObject *)
+         bCAccessorPropertyObject::bCAccessorPropertyObject(local_8,param_1);
+  pbVar1 = bCAccessorPropertyObject::GetClassNameA(this);
+  bCAccessorPropertyObject::~bCAccessorPropertyObject(local_8);
+  return pbVar1;
+}
+
+

@@ -1,0 +1,4 @@
+; 10008bb1 ?GetInvTranslated@bCBox@@QBE?AV1@ABVbCVector@@@Z
+10008bb1 | e99ade0200 | JMP 0x10036a50
+; 10008bb6 bCStretch::GetTranslated
+; 10008bb6 Ordinal_3160

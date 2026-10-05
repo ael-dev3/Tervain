@@ -1,0 +1,59 @@
+/* ENTRY 3004755a | eCCollisionShape_PS::OnUpdatedWorldTreeBoundary | STATUS decompiled | 41 ms */
+
+/* protected: virtual void __thiscall eCCollisionShape_PS::OnUpdatedWorldTreeBoundary(void) */
+
+void __thiscall eCCollisionShape_PS::OnUpdatedWorldTreeBoundary(eCCollisionShape_PS *this)
+
+{
+  GetEntity *pGVar1;
+  eCEntity *peVar2;
+  bCBox *pbVar3;
+  bCMatrix *pbVar4;
+  eCEntity *peVar5;
+  eCPhysicObjectStateBuffer *this_00;
+  int iVar6;
+  eCCollisionShape *peVar7;
+  float fStack_5c;
+  bCBox abStack_58 [20];
+  bCMatrix abStack_44 [68];
+  
+                    /* 0x4755a  11631  ?OnUpdatedWorldTreeBoundary@eCCollisionShape_PS@@MAEXXZ */
+  iVar6 = 0;
+  if (0 < (this->eCCollisionShape_PS_data).offset_0x18) {
+    do {
+      peVar7 = *(eCCollisionShape **)((this->eCCollisionShape_PS_data).offset_0x14 + iVar6 * 4);
+      if (((*(int *)(peVar7 + 0x28) != 0) && (peVar7[0x2f] != (eCCollisionShape)0x1)) &&
+         (*(int *)(peVar7 + 0x60) != 0)) {
+        pGVar1 = this->vftablePtr->GetEntity;
+        if (*(int *)(peVar7 + 0x28) == 1) {
+          peVar2 = (eCEntity *)(*pGVar1)(this);
+          pbVar3 = eCEntity::GetLocalNodeBoundary(peVar2);
+          bCBox::bCBox(abStack_58,pbVar3);
+        }
+        else {
+          peVar2 = (eCEntity *)(*pGVar1)(this);
+          pbVar3 = eCEntity::GetWorldTreeBoundary(peVar2);
+          bCBox::bCBox(abStack_58,pbVar3);
+          peVar2 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+          pbVar4 = eCEntity::GetWorldMatrix(peVar2);
+          pbVar4 = (bCMatrix *)bCMatrix::GetInverted(pbVar4);
+          bCBox::Transform((bCBox *)&fStack_5c,pbVar4);
+          bCMatrix::~bCMatrix(abStack_44);
+        }
+        fStack_5c = *(float *)(peVar7 + 0x40);
+        if (fStack_5c != 1.0) {
+          bCBox::Scale(abStack_58,fStack_5c);
+        }
+        pbVar3 = abStack_58;
+        peVar5 = (*this->vftablePtr->GetEntity)(this);
+        this_00 = eCPhysicObjectStateBuffer::GetBuffer(peVar5);
+        eCPhysicObjectStateBuffer::SetShapeByLocalAABB(this_00,peVar7,pbVar3);
+        bCBox::~bCBox(abStack_58);
+      }
+      iVar6 = iVar6 + 1;
+    } while (iVar6 < (this->eCCollisionShape_PS_data).offset_0x18);
+  }
+  return;
+}
+
+

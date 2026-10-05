@@ -1,0 +1,2 @@
+; 3002421c ?IsPhysicRelevant@eCCollisionShape_PS@@UBE_NXZ
+3002421c | e93f263100 | JMP 0x30336860

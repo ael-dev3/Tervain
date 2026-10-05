@@ -1,0 +1,4 @@
+; 3001f050 bTPropertyType<eCRigidBody_PS,bCVector>::vfunction21
+3001f050 | e99b283100 | JMP 0x303318f0
+; 3001f055 eCPhysicObjectStateBuffer::SetAngularMomentum
+; 3001f055 Ordinal_12906

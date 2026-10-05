@@ -1,0 +1,4 @@
+; 30038eec ?GetSaveGameRelevance@eCEntityPropertySet@@UBE?AW4eEPSSaveGameRelevance@1@XZ
+30038eec | e9af874400 | JMP 0x304816a0
+; 30038ef1 eCDecalRenderer::ClearRendererQueue
+; 30038ef1 Ordinal_3819

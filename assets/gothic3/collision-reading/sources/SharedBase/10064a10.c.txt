@@ -1,0 +1,23 @@
+/* ENTRY 10064a10 | FUN_10064a10 | STATUS decompiled | 5 ms */
+
+undefined4 __thiscall FUN_10064a10(bCOrientedBox *param_1,bCFrustum *param_2)
+
+{
+  bool bVar1;
+  bCVector *pbVar2;
+  int iVar3;
+  undefined1 local_c [12];
+  
+  iVar3 = 0;
+  do {
+    pbVar2 = (bCVector *)bCFrustum::GetVertex(param_2,(int)local_c);
+    bVar1 = bCOrientedBox::Contains(param_1,pbVar2);
+    if (!bVar1) {
+      return 0;
+    }
+    iVar3 = iVar3 + 1;
+  } while (iVar3 < 8);
+  return 1;
+}
+
+

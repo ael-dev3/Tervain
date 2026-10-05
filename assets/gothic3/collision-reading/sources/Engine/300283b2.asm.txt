@@ -1,0 +1,2 @@
+; 300283b2 ?GetHeight@eCCollisionShape@@QBE?BMXZ
+300283b2 | e9894e0a00 | JMP 0x300cd240

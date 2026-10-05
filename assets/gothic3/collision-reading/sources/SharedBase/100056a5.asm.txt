@@ -1,0 +1,4 @@
+; 100056a5 ?Widen@bCBox@@QAEXM@Z
+100056a5 | e946540200 | JMP 0x1002aaf0
+; 100056aa bCByteAlphaColor::SubClamped
+; 100056aa Ordinal_4502

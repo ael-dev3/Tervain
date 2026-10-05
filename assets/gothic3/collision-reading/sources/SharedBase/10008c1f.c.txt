@@ -1,0 +1,13 @@
+/* ENTRY 10008c1f | bCCapsule::SetHeight | STATUS decompiled | 1 ms */
+
+/* public: void __thiscall bCCapsule::SetHeight(float) */
+
+void __thiscall bCCapsule::SetHeight(bCCapsule *this,float param_1)
+
+{
+                    /* 0x8c1f  4215  ?SetHeight@bCCapsule@@QAEXM@Z */
+  *(float *)this = param_1;
+  return;
+}
+
+

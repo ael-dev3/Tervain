@@ -1,0 +1,4 @@
+; 30031f70 bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet>::vfunction8
+30031f70 | e9cbf53000 | JMP 0x30341540
+; 30031f7a eCLightStreaks_PS::OnUpdatedWorldMatrix
+; 30031f7a Ordinal_11622

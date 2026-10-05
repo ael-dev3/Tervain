@@ -1,0 +1,4 @@
+; 10002a0e ??6@YGAAVbCIStream@@AAVbCString@@AAV0@@Z
+10002a0e | e9fdc60100 | JMP 0x1001f110
+; 10002a13 bCByteColor::operator==
+; 10002a13 Ordinal_784

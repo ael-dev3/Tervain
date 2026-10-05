@@ -1,0 +1,4 @@
+; 100020cc ?GetMagnitude@bCOrientedBox@@QBE?AVbCVector@@XZ
+100020cc | e90f4b0600 | JMP 0x10066be0
+; 100020d1 bCQuaternion::GetY
+; 100020d1 Ordinal_3269

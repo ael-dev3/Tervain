@@ -1,0 +1,4 @@
+; 30008e5e SHAREDBASE.DLL::bCPropertyTypeBase::Write
+30008e5e | e90d7b3500 | JMP 0x30360970
+; 30008e6d eCPhysicsScene::PickActor
+; 30008e6d Ordinal_11677

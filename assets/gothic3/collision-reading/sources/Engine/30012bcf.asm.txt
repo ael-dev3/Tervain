@@ -1,0 +1,4 @@
+; 30012bcf bTPropertyContainer<eEShapeMaterial>::vfunction5
+30012bcf | e90c740900 | JMP 0x300a9fe0
+; 30012bd9 eCMeshMender::operator=
+; 30012bd9 Ordinal_1662

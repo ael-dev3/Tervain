@@ -1,0 +1,4 @@
+; 30027697 bTPOPureSmartPtr<eCCollisionShape>::~bTPOPureSmartPtr<eCCollisionShape>
+30027697 | e9044a3300 | JMP 0x3035c0a0
+; 3002769c eCAudioEmitter_PS::OnSoundChanged
+; 3002769c Ordinal_11513

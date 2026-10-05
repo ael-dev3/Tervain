@@ -1,0 +1,4 @@
+; 100023e7 ??9bCOrientedBox@@QBE_NABV0@@Z
+100023e7 | e944100600 | JMP 0x10063430
+; 100023ec bCEulerAngles::GetPitch
+; 100023ec Ordinal_2742

@@ -1,0 +1,2 @@
+; 3003bfed ?SetIsCachedIn@eCCollisionShape@@QAEX_N@Z
+3003bfed | e98e6a0800 | JMP 0x300c2a80

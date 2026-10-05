@@ -1,0 +1,40 @@
+/* ENTRY 3001d764 | eCCollisionShape::Destroy | STATUS decompiled | 16 ms */
+
+/* public: virtual void __thiscall eCCollisionShape::Destroy(void) */
+
+void __thiscall eCCollisionShape::Destroy(eCCollisionShape *this)
+
+{
+                    /* 0x1d764  5082  ?Destroy@eCCollisionShape@@UAEXXZ */
+  switch((this->eCCollisionShape_data).offset_0xc) {
+  case 1:
+  case 6:
+    thunk_FUN_3028dc10(&(this->eCCollisionShape_data).offset_0x70);
+    break;
+  case 3:
+    thunk_FUN_3035c700(&(this->eCCollisionShape_data).offset_0x70);
+    break;
+  case 4:
+    thunk_FUN_3035c6c0(&(this->eCCollisionShape_data).offset_0x70);
+    break;
+  case 5:
+    thunk_FUN_3035c680(&(this->eCCollisionShape_data).offset_0x70);
+    break;
+  case 7:
+    thunk_FUN_3035c740(&(this->eCCollisionShape_data).offset_0x70);
+  }
+  (this->eCCollisionShape_data).offset_0x70 = 0;
+  (this->eCCollisionShape_data).offset_0x40 = 0;
+  (this->eCCollisionShape_data).offset_0x42 = 0;
+  (this->eCCollisionShape_data).offset_0x5c = 0;
+  (this->eCCollisionShape_data).offset_0x60 = 0;
+  bCBox::Invalidate((bCBox *)&(this->eCCollisionShape_data).field_0x44);
+  bCVector::Clear((bCVector *)&(this->eCCollisionShape_data).field_0x64);
+  (this->eCCollisionShape_data).offset_0x29 = 0;
+                    /* WARNING: Could not recover jumptable at 0x3035ac46. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCObjectRefBase::Destroy((bCObjectRefBase *)this);
+  return;
+}
+
+

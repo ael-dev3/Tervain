@@ -1,0 +1,98 @@
+/* ENTRY 30336cc0 | FUN_30336cc0 | STATUS decompiled | 48 ms */
+
+void __thiscall FUN_30336cc0(void *this)
+
+{
+  code *pcVar1;
+  bool bVar2;
+  eCEntity *peVar3;
+  int *piVar4;
+  int iVar5;
+  bCString *pbVar6;
+  eEPropertySetType eVar7;
+  char cStack_25;
+  undefined4 uStack_24;
+  undefined4 uStack_20;
+  bCObjectBase bStack_1c;
+  undefined4 uStack_18;
+  bCObjectBase bStack_14;
+  undefined4 uStack_10;
+  
+  if (*(int *)((int)this + 0x20) == 0) {
+    peVar3 = (eCEntity *)(**(code **)(*(int *)this + 0x68))();
+    eCEntity::CreatePhysicObject(peVar3);
+  }
+  eVar7 = 0x30;
+  peVar3 = (eCEntity *)(**(code **)(*(int *)this + 0x68))();
+  bVar2 = eCEntity::HasPropertySet(peVar3,eVar7);
+  uStack_24._3_1_ = bVar2;
+  piVar4 = (int *)(**(code **)(*(int *)this + 0x68))();
+  if ((piVar4 != (int *)0x0) && (iVar5 = (**(code **)(*piVar4 + 0xec))(0xd), iVar5 != 0)) {
+    iVar5 = *(int *)((int)this + 0x2c) + -1;
+    bVar2 = false;
+    if (-1 < iVar5) {
+      do {
+        if (*(int *)(*(int *)(*(int *)((int)this + 0x28) + iVar5 * 4) + 0x10) == 1) {
+          bVar2 = true;
+        }
+        if (cStack_25 != '\0') {
+          if (*(int *)((int)this + 0x18) == 2) {
+            bCObjectBase::bCObjectBase((bCObjectBase *)&uStack_24);
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<eECollisionGroup> */
+            uStack_24 = &bTPropertyContainer<eECollisionGroup>::vftable;
+            uStack_20 = 1;
+            (**(code **)(*(int *)((int)this + 0x14) + 0x1c))(&uStack_24);
+            uStack_24 = &bTPropertyContainer<eECollisionGroup>::vftable;
+            bCObjectBase::~bCObjectBase((bCObjectBase *)&uStack_24);
+          }
+          if (*(int *)(*(int *)(*(int *)((int)this + 0x28) + iVar5 * 4) + 0x18) == 1) {
+            peVar3 = (eCEntity *)(**(code **)(*(int *)this + 0x68))();
+            pbVar6 = eCEntity::GetName(peVar3);
+            GE_MESSAGEF_WARN("C: eCCollisionShape_PS::OnPostRead(): item %s has a static collision shape. SUPERHELDEN AM START :( "
+                             ,*(undefined4 *)pbVar6);
+            bCObjectBase::bCObjectBase(&bStack_1c);
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<eEShapeGroup> */
+            bStack_1c = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+            uStack_18 = 2;
+            piVar4 = *(int **)(*(int *)((int)this + 0x28) + iVar5 * 4);
+            (**(code **)(*piVar4 + 0x58))("Group",0);
+            (**(code **)(piVar4[5] + 0x1c))(&uStack_24);
+            (**(code **)(*piVar4 + 0x5c))("Group",0);
+            bStack_1c = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+            bCObjectBase::~bCObjectBase(&bStack_1c);
+          }
+          if (*(int *)(*(int *)(*(int *)((int)this + 0x28) + iVar5 * 4) + 0x20) == 0) {
+            bCObjectBase::bCObjectBase(&bStack_14);
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<eEShapeMaterial> */
+            bStack_14 = (bCObjectBase)&bTPropertyContainer<eEShapeMaterial>::vftable;
+            uStack_10 = 1;
+            piVar4 = *(int **)(*(int *)((int)this + 0x28) + iVar5 * 4);
+            (**(code **)(*piVar4 + 0x58))("Material",0);
+            (**(code **)(piVar4[7] + 0x1c))(&bStack_1c);
+            (**(code **)(*piVar4 + 0x5c))("Material",0);
+            bStack_14 = (bCObjectBase)&bTPropertyContainer<eEShapeMaterial>::vftable;
+            bCObjectBase::~bCObjectBase(&bStack_14);
+          }
+          piVar4 = *(int **)(*(int *)((int)this + 0x28) + iVar5 * 4);
+          (**(code **)(*piVar4 + 0x58))("AdaptToAABB",0);
+          pcVar1 = *(code **)(*piVar4 + 0x5c);
+          *(undefined1 *)(piVar4 + 0xf) = 0;
+          (*pcVar1)("AdaptToAABB",0);
+        }
+        iVar5 = iVar5 + -1;
+      } while (-1 < iVar5);
+      if (bVar2) {
+        peVar3 = (eCEntity *)(**(code **)(*(int *)this + 0x68))();
+        pbVar6 = eCEntity::GetName(peVar3);
+        GE_MESSAGEF_WARN("C: eCCollisionShape_PS::OnPostRead(): entity %s has an eCRigidBody_PS (thus is movable) and also has a triangle mesh shape, which is illegal. change the triangle mesh shape into a primitive shape!"
+                         ,*(undefined4 *)pbVar6);
+      }
+    }
+  }
+  return;
+}
+
+

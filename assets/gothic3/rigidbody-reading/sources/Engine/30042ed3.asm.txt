@@ -1,0 +1,4 @@
+; 30042ed3 bTPropertyType<eCRigidBody_PS,float>::vfunction22
+30042ed3 | e9b8e12e00 | JMP 0x30331090
+; 30042ed8 eCMessageBox::~eCMessageBox
+; 30042ed8 Ordinal_1207

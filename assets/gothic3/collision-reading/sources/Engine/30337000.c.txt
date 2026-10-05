@@ -1,0 +1,64 @@
+/* ENTRY 30337000 | FUN_30337000 | STATUS decompiled | 32 ms */
+
+void __fastcall FUN_30337000(eCEntityPropertySet *param_1)
+
+{
+  eCEntity *peVar1;
+  bCString *pbVar2;
+  eCResourceAdmin *this;
+  eCResourceDataEntity *this_00;
+  char *pcVar3;
+  bCMessageAdmin *this_01;
+  bEMessageTypes bVar4;
+  char *pcVar5;
+  eCResourceDataEntity *peVar6;
+  int iVar7;
+  eEResourceCacheBehavior eVar8;
+  bCString abStack_c [4];
+  bCString abStack_8 [4];
+  char acStack_4 [4];
+  
+  eCEntityPropertySet::OnCacheIn(param_1);
+  peVar1 = (eCEntity *)(*param_1->vftablePtr->GetEntity)(param_1);
+  pbVar2 = eCEntity::GetName(peVar1);
+  bCString::bCString(abStack_8,pbVar2);
+  if (0 < *(int *)&param_1[2].eCEntityPropertySet_data) {
+    iVar7 = *(int *)((param_1[2].vftablePtr)->GetVersion + 0x10);
+    if ((iVar7 == 1) || (iVar7 == 6)) {
+      bCString::bCString(abStack_c,*(bCString **)((param_1[2].vftablePtr)->GetVersion + 0x74));
+      eVar8 = 1;
+      pbVar2 = abStack_c;
+      this = (eCResourceAdmin *)thunk_FUN_3007c090();
+      this_00 = (eCResourceDataEntity *)eCResourceAdmin::QueryResourceDataEntity(this,pbVar2,eVar8);
+      if (this_00 == (eCResourceDataEntity *)0x0) {
+        pcVar5 = *(char **)((param_1[2].vftablePtr)->GetVersion + 0x74);
+        iVar7 = -1;
+        peVar6 = this_00;
+        pbVar2 = (bCString *)
+                 operator+(acStack_4,
+                           (bCString *)
+                           "C: eCCollisionShape_PS::SetProprietaryShapes(): could not cache-in collision-resource: "
+                          );
+        pcVar3 = bCString::operator_char_const_(pbVar2);
+        bVar4 = 3;
+        this_01 = bCMessageAdmin::GetInstance();
+        bCMessageAdmin::OnMessage(this_01,bVar4,pcVar3,pcVar5,(char *)this_00,(int)peVar6,iVar7);
+        bCString::~bCString(abStack_8);
+        bCString::~bCString((bCString *)&stack0xfffffff0);
+        bCString::~bCString(abStack_c);
+        return;
+      }
+      eCResourceDataEntity::Lock(this_00);
+      (*this_00->vftablePtr->ReleaseReference)(this_00);
+      bCString::~bCString(abStack_c);
+    }
+  }
+  if (param_1[1].eCEntityPropertySet_data.offset_0x8 == 2) {
+    peVar1 = (eCEntity *)(*param_1->vftablePtr->GetEntity)(param_1);
+    eCEntity::CreatePhysicObject(peVar1);
+  }
+  bCString::~bCString(abStack_8);
+  return;
+}
+
+

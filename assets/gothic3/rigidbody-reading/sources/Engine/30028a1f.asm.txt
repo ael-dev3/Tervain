@@ -1,0 +1,4 @@
+; 30028a1f bTPropertyType<eCRigidBody_PS,bCVector>::vfunction10
+30028a1f | e93c8c3000 | JMP 0x30331660
+; 30028a24 eCResourceSoundList_PS::Read
+; 30028a24 Ordinal_12228

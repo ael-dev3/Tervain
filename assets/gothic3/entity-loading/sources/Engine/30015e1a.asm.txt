@@ -1,0 +1,4 @@
+; 30015e1a ?ReadV83@eCEntity@@MAE?AW4bEResult@@AAVbCIStream@@G@Z
+30015e1a | e961374a00 | JMP 0x304b9580
+; 30015e1f eCShadowMapPointLight::Invalidate
+; 30015e1f Ordinal_10162

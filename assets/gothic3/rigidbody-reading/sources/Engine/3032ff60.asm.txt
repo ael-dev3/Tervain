@@ -1,0 +1,15 @@
+; 3032ff60 bTPropertyObject<eCRigidBody_PS,eCRigidBodyBase_PS>::deleting_destructor
+3032ff60 | 56 | PUSH ESI
+3032ff61 | 8bf1 | MOV ESI,ECX
+3032ff63 | c70644028630 | MOV dword ptr [ESI],0x30860244
+3032ff69 | e8f38dd0ff | CALL 0x30038d61
+3032ff6e | 8bce | MOV ECX,ESI
+3032ff70 | e8f590ceff | CALL 0x3001906a
+3032ff75 | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+3032ff7a | 7409 | JZ 0x3032ff85
+3032ff7c | 56 | PUSH ESI
+3032ff7d | e8e6143400 | CALL 0x30671468
+; 3032ff85 LAB_3032ff85
+3032ff85 | 8bc6 | MOV EAX,ESI
+3032ff87 | 5e | POP ESI
+3032ff88 | c20400 | RET 0x4

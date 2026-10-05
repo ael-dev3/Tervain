@@ -1,0 +1,19 @@
+/* ENTRY 3004327a | bTPropertyObject<eCRigidBody_PS,eCRigidBodyBase_PS>::deleting_destructor | STATUS decompiled | 6 ms */
+
+bTPropertyObject<eCRigidBody_PS,eCRigidBodyBase_PS> * __thiscall
+bTPropertyObject<eCRigidBody_PS,eCRigidBodyBase_PS>::deleting_destructor
+          (bTPropertyObject<eCRigidBody_PS,eCRigidBodyBase_PS> *this,byte param_1)
+
+{
+  this->vftablePtr = &vftable;
+  vfunction10(this);
+  bTPOPureSmartPtr<eCRigidBody_PS>::~bTPOPureSmartPtr<eCRigidBody_PS>
+            ((bTPOPureSmartPtr<eCRigidBody_PS> *)this);
+  if ((param_1 & 1) != 0) {
+                    /* WARNING: Subroutine does not return */
+    _free(this);
+  }
+  return this;
+}
+
+

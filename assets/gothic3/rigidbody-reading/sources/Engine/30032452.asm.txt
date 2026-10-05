@@ -1,0 +1,4 @@
+; 30032452 bTPropertyType<eCRigidBody_PS,bCVector>::vfunction3
+30032452 | e9e9f12f00 | JMP 0x30331640
+; 30032457 eCPhysicObjectStateBuffer::SetRotation
+; 30032457 Ordinal_14078

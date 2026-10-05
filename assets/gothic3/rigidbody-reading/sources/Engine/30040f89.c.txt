@@ -1,0 +1,15 @@
+/* ENTRY 30040f89 | eCRigidBodyBase_PS::GetPropertySetType | STATUS decompiled | 11 ms */
+
+/* public: virtual enum eEPropertySetType __thiscall
+   eCRigidBodyBase_PS::GetPropertySetType(void)const 
+   eCRigidBodyBase_PS member function inherited by eCRigidBody_PS */
+
+eEPropertySetType __thiscall eCRigidBodyBase_PS::GetPropertySetType(eCRigidBodyBase_PS *this)
+
+{
+                    /* 0x40f89  8225
+                       ?GetPropertySetType@eCRigidBodyBase_PS@@UBE?AW4eEPropertySetType@@XZ */
+  return 0xd;
+}
+
+

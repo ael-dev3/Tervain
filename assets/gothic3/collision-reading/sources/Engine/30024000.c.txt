@@ -1,0 +1,16 @@
+/* ENTRY 30024000 | eCCollisionShapeBase_PS::SetShape | STATUS decompiled | 9 ms */
+
+/* public: virtual enum bEResult __thiscall eCCollisionShapeBase_PS::SetShape(class eCCollisionShape
+   *) */
+
+bEResult __thiscall
+eCCollisionShapeBase_PS::SetShape(eCCollisionShapeBase_PS *this,eCCollisionShape *param_1)
+
+{
+                    /* 0x24000  14161
+                       ?SetShape@eCCollisionShapeBase_PS@@UAE?AW4bEResult@@PAVeCCollisionShape@@@Z
+                        */
+  return 0;
+}
+
+

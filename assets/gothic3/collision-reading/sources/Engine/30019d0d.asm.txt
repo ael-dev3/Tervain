@@ -1,0 +1,4 @@
+; 30019d0d bTPropertyType<eCCollisionShape_PS,bCObsoleteClass>::vfunction8
+30019d0d | e99e2e3200 | JMP 0x3033cbb0
+; 30019d17 eCPropertyCtrl::CopyFrom
+; 30019d17 Ordinal_4193

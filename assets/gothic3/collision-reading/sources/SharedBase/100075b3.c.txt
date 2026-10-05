@@ -1,0 +1,15 @@
+/* ENTRY 100075b3 | bCOrientedBox::GetVertex | STATUS decompiled | 3 ms */
+
+/* public: class bCVector __thiscall bCOrientedBox::GetVertex(int)const  */
+
+int __thiscall bCOrientedBox::GetVertex(bCOrientedBox *this,int param_1)
+
+{
+  int in_stack_00000008;
+  
+                    /* 0x75b3  3219  ?GetVertex@bCOrientedBox@@QBE?AVbCVector@@H@Z */
+  GetVertex(this,in_stack_00000008,(bCVector *)param_1);
+  return param_1;
+}
+
+

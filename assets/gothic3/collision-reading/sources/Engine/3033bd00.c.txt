@@ -1,0 +1,16 @@
+/* ENTRY 3033bd00 | bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>::~bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS> | STATUS decompiled | 5 ms */
+
+void __thiscall
+bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>::
+~bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>
+          (bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS> *this)
+
+{
+  this->vftablePtr = &vftable;
+  vfunction10(this);
+  bTPOPureSmartPtr<eCCollisionShape_PS>::~bTPOPureSmartPtr<eCCollisionShape_PS>
+            ((bTPOPureSmartPtr<eCCollisionShape_PS> *)this);
+  return;
+}
+
+

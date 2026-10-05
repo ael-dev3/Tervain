@@ -1,0 +1,4 @@
+; 10006fdc ??DbCOrientedBox@@QBE?AV0@M@Z
+10006fdc | e93f200600 | JMP 0x10069020
+; 10006fe1 bCAxisAngle::operator!=
+; 10006fe1 Ordinal_817

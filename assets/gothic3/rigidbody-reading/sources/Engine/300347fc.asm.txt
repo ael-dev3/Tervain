@@ -1,0 +1,4 @@
+; 300347fc SHAREDBASE.DLL::bCPropertyTypeBase::Write
+300347fc | e95fd22f00 | JMP 0x30331a60
+; 30034801 eCTrigger_PS::GetLastEventType
+; 30034801 Ordinal_7541

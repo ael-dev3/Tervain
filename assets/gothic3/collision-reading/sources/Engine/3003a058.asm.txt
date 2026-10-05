@@ -1,0 +1,4 @@
+; 3003a058 bTPropertyType<eCCollisionShapeBase_PS,bCObsoleteClass>::vfunction13
+3003a058 | e913883000 | JMP 0x30342870
+; 3003a05d eCColorSrcVertexColor::IsVertexDiffuseUsed
+; 3003a05d Ordinal_10684

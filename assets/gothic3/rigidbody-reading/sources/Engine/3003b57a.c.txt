@@ -1,0 +1,10 @@
+/* ENTRY 3003b57a | bTPropertyType<eCRigidBody_PS,bCVector>::vfunction5 | STATUS decompiled | 4 ms */
+
+bTPropertyType<eCRigidBody_PS,bCVector>_vftable * __thiscall
+bTPropertyType<eCRigidBody_PS,bCVector>::vfunction5(bTPropertyType<eCRigidBody_PS,bCVector> *this)
+
+{
+  return this[6].vftablePtr;
+}
+
+

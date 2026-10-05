@@ -1,0 +1,52 @@
+/* ENTRY 30337940 | FUN_30337940 | STATUS decompiled | 27 ms */
+
+void __fastcall FUN_30337940(int *param_1)
+
+{
+  eCEntity *peVar1;
+  bCBox *pbVar2;
+  bCMatrix *pbVar3;
+  eCEntity *peVar4;
+  eCPhysicObjectStateBuffer *this;
+  int iVar5;
+  eCCollisionShape *peVar6;
+  bCBox abStack_58 [24];
+  bCMatrix abStack_40 [64];
+  
+  iVar5 = 0;
+  if (0 < param_1[0xb]) {
+    do {
+      peVar6 = *(eCCollisionShape **)(param_1[10] + iVar5 * 4);
+      if (((*(int *)(peVar6 + 0x28) != 0) && (peVar6[0x2f] != (eCCollisionShape)0x1)) &&
+         (*(int *)(peVar6 + 0x60) != 0)) {
+        if (*(int *)(peVar6 + 0x28) == 1) {
+          peVar1 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+          pbVar2 = eCEntity::GetLocalNodeBoundary(peVar1);
+          bCBox::bCBox(abStack_58,pbVar2);
+        }
+        else {
+          peVar1 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+          pbVar2 = eCEntity::GetWorldTreeBoundary(peVar1);
+          bCBox::bCBox(abStack_58,pbVar2);
+          peVar1 = (eCEntity *)(**(code **)(*param_1 + 0x68))(abStack_40);
+          pbVar3 = eCEntity::GetWorldMatrix(peVar1);
+          pbVar3 = (bCMatrix *)bCMatrix::GetInverted(pbVar3);
+          bCBox::Transform(abStack_58,pbVar3);
+          bCMatrix::~bCMatrix(abStack_40);
+        }
+        if (*(float *)(peVar6 + 0x40) != 1.0) {
+          bCBox::Scale(abStack_58,*(float *)(peVar6 + 0x40));
+        }
+        pbVar2 = abStack_58;
+        peVar4 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+        this = eCPhysicObjectStateBuffer::GetBuffer(peVar4);
+        eCPhysicObjectStateBuffer::SetShapeByLocalAABB(this,peVar6,pbVar2);
+        bCBox::~bCBox(abStack_58);
+      }
+      iVar5 = iVar5 + 1;
+    } while (iVar5 < param_1[0xb]);
+  }
+  return;
+}
+
+

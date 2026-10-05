@@ -1,0 +1,2 @@
+; 30017585 ?GetLastPosition@eCCollisionShape@@QAEAAVbCVector@@XZ
+30017585 | e976b60a00 | JMP 0x300c2c00

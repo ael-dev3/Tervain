@@ -1,0 +1,4 @@
+; 100019c4 ?Scale@bCBox@@QAEXABVbCVector@@@Z
+100019c4 | e917920200 | JMP 0x1002abe0
+; 100019c9 bCMatrix::ModifyRotation
+; 100019c9 Ordinal_3741

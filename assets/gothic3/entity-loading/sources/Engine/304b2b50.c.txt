@@ -1,0 +1,9 @@
+/* ENTRY 304b2b50 | FUN_304b2b50 | STATUS decompiled | 2 ms */
+
+bool FUN_304b2b50(void)
+
+{
+  return eCEntity::ms_bEntityPatchingEnabled;
+}
+
+

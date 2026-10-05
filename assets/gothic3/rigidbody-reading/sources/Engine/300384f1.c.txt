@@ -1,0 +1,26 @@
+/* ENTRY 300384f1 | bTPropertyType<eCRigidBody_PS,float>::vfunction25 | STATUS decompiled | 13 ms */
+
+void __thiscall
+bTPropertyType<eCRigidBody_PS,float>::vfunction25
+          (bTPropertyType<eCRigidBody_PS,float> *this,int param_1)
+
+{
+  bCErrorAdmin *this_00;
+  char *pcVar1;
+  char *pcVar2;
+  char *pcVar3;
+  int iVar4;
+  
+  if (param_1 == 0) {
+    iVar4 = 0x31b;
+    pcVar3 = "e:\\!g3 src\\temp\\source\\sharedbase\\propertysystem\\types\\ge_propertytype.inl";
+    pcVar2 = "GEFalse == (NULL != a_pPropertyObject)";
+    pcVar1 = &DAT_3081d398;
+    this_00 = bCErrorAdmin::GetInstance();
+    bCErrorAdmin::CallFatalError(this_00,pcVar1,pcVar2,pcVar3,iVar4);
+  }
+  (*this->vftablePtr->vfunction11)(this,param_1);
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 3003a3dc bTPropertyType<eCCollisionShape_PS,bCObsoleteClass>::vfunction12
+3003a3dc | e92f283000 | JMP 0x3033cc10
+; 3003a3e1 eCGfxTextureBlock::SetTextureCoordTrafo
+; 3003a3e1 Ordinal_14387

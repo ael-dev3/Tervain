@@ -1,0 +1,2 @@
+; 3000986d ?GetIgnoredByTraceRay@eCCollisionShape@@QBEAB_NXZ
+3000986d | e97e8c0b00 | JMP 0x300c24f0

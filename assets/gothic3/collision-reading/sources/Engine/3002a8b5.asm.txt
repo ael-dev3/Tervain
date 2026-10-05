@@ -1,0 +1,4 @@
+; 3002a8b5 bTPropertyType<eCCollisionShapeBase_PS,bCObsoleteClass>::vfunction12
+3002a8b5 | e9767c3100 | JMP 0x30342530
+; 3002a8c9 eCInpContextAdmin::sGetInputObject
+; 3002a8c9 Ordinal_16593

@@ -1,0 +1,12 @@
+/* ENTRY 100071ad | bCOrientedBox::GetAxis | STATUS decompiled | 1 ms */
+
+/* public: class bCVector const & __thiscall bCOrientedBox::GetAxis(int)const  */
+
+bCVector * __thiscall bCOrientedBox::GetAxis(bCOrientedBox *this,int param_1)
+
+{
+                    /* 0x71ad  2095  ?GetAxis@bCOrientedBox@@QBEABVbCVector@@H@Z */
+  return (bCVector *)(this + (param_1 * 3 + 6) * 4);
+}
+
+

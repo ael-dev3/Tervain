@@ -1,0 +1,4 @@
+; 3000ec05 ?OnNotifyPropertyValueChangedExitEx@eCRigidBody_PS@@MAE_NPBD_N@Z
+3000ec05 | e906fa3100 | JMP 0x3032e610
+; 3000ec0a eCListBoxCtrl::GetItemRect
+; 3000ec0a Ordinal_7511

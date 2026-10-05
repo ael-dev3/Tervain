@@ -1,0 +1,15 @@
+/* ENTRY 3001a61d | bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction19 | STATUS decompiled | 5 ms */
+
+void __thiscall
+bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction19
+          (bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_> *this)
+
+{
+  bCPropertyTypeBase::Destroy((bCPropertyTypeBase *)this);
+  thunk_FUN_3008f120(this + 8);
+  bCPropertyObjectTypeBase::UnregisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)this[6].vftablePtr,(bCPropertyTypeBase *)this);
+  return;
+}
+
+

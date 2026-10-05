@@ -1,0 +1,4 @@
+; 10006000 ?IsNormalized@bCBox@@QBE_NXZ
+10006000 | e9eb4f0200 | JMP 0x1002aff0
+; 10006005 bCVector2::AccessX
+; 10006005 Ordinal_1509

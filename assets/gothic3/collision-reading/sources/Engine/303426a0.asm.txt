@@ -1,0 +1,21 @@
+; 303426a0 bTPropertyType<eCCollisionShapeBase_PS,bCObsoleteClass>::vfunction9
+303426a0 | 56 | PUSH ESI
+303426a1 | 8bf1 | MOV ESI,ECX
+303426a3 | 8b06 | MOV EAX,dword ptr [ESI]
+303426a5 | 8b5018 | MOV EDX,dword ptr [EAX + 0x18]
+303426a8 | ffd2 | CALL EDX
+303426aa | 84c0 | TEST AL,AL
+303426ac | 7506 | JNZ 0x303426b4
+; 303426ae LAB_303426ae
+303426ae | 33c0 | XOR EAX,EAX
+303426b0 | 5e | POP ESI
+303426b1 | c20400 | RET 0x4
+; 303426b4 LAB_303426b4
+303426b4 | 8b4620 | MOV EAX,dword ptr [ESI + 0x20]
+303426b7 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+303426bb | 3b4804 | CMP ECX,dword ptr [EAX + 0x4]
+303426be | 73ee | JNC 0x303426ae
+303426c0 | 8b00 | MOV EAX,dword ptr [EAX]
+303426c2 | 8b0488 | MOV EAX,dword ptr [EAX + ECX*0x4]
+303426c5 | 5e | POP ESI
+303426c6 | c20400 | RET 0x4

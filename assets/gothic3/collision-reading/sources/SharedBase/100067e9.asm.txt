@@ -1,0 +1,6 @@
+; 100067e9 ?GetShrunk@bCBox@@QBE?AV1@M@Z
+100067e9 | e9e2ff0200 | JMP 0x100367d0
+; 100067ee LAB_100067ee
+100067ee | e9edc10d00 | JMP 0x100e29e0
+; 100067f3 bCFloatColor::GetDifference
+; 100067f3 Ordinal_2278

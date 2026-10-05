@@ -1,0 +1,18 @@
+/* ENTRY 100064fb | bCOrientedBox::SetAxis | STATUS decompiled | 3 ms */
+
+/* public: void __thiscall bCOrientedBox::SetAxis(int,class bCVector const &) */
+
+void __thiscall bCOrientedBox::SetAxis(bCOrientedBox *this,int param_1,bCVector *param_2)
+
+{
+  bCOrientedBox *pbVar1;
+  
+                    /* 0x64fb  4072  ?SetAxis@bCOrientedBox@@QAEXHABVbCVector@@@Z */
+  pbVar1 = this + (param_1 * 3 + 6) * 4;
+  *(undefined4 *)pbVar1 = *(undefined4 *)param_2;
+  *(undefined4 *)(pbVar1 + 4) = *(undefined4 *)(param_2 + 4);
+  *(undefined4 *)(pbVar1 + 8) = *(undefined4 *)(param_2 + 8);
+  return;
+}
+
+

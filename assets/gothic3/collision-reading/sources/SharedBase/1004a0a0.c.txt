@@ -1,0 +1,12 @@
+/* ENTRY 1004a0a0 | FUN_1004a0a0 | STATUS decompiled | 1 ms */
+
+void __fastcall FUN_1004a0a0(int *param_1)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x1004a0a5. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  (**(code **)(*param_1 + 4))();
+  return;
+}
+
+

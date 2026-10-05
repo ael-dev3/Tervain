@@ -1,0 +1,4 @@
+; 30026eae bTPropertyObjectType<eCCollisionShape_PS,eCCollisionShapeBase_PS>::vfunction2
+30026eae | e99db33100 | JMP 0x30342250
+; 30026eb3 vertex::isBorder
+; 30026eb3 Ordinal_15400

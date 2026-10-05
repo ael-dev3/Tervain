@@ -1,0 +1,12 @@
+/* ENTRY 100037a1 | bCOrientedBox::GetOrientation | STATUS decompiled | 1 ms */
+
+/* public: class bCMatrix3 const & __thiscall bCOrientedBox::GetOrientation(void)const  */
+
+bCMatrix3 * __thiscall bCOrientedBox::GetOrientation(bCOrientedBox *this)
+
+{
+                    /* 0x37a1  2724  ?GetOrientation@bCOrientedBox@@QBEABVbCMatrix3@@XZ */
+  return (bCMatrix3 *)(this + 0x18);
+}
+
+

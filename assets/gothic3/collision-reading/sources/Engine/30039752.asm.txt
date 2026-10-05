@@ -1,0 +1,4 @@
+; 30039752 bTPropertyType<eCCollisionShape,float>::vfunction21
+30039752 | e999793200 | JMP 0x303610f0
+; 30039757 eCWrapper_emfx2Actor::GetName
+; 30039757 Ordinal_7900

@@ -1,0 +1,4 @@
+; 30027da4 bTPropertyType<eCRigidBody_PS,bCVector>::vfunction24
+30027da4 | e9e7993000 | JMP 0x30331790
+; 30027da9 eCIlluminationAdmin::GetCachedInStaticLights
+; 30027da9 Ordinal_6416

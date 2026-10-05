@@ -1,0 +1,4 @@
+; 10004e62 ??8bCBox@@QBE_NABV0@@Z
+10004e62 | e959690200 | JMP 0x1002b7c0
+; 10004e67 bCRay::operator>>
+; 10004e67 Ordinal_667

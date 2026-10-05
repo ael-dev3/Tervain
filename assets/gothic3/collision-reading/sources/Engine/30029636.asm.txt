@@ -1,0 +1,4 @@
+; 30029636 bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeMaterial>_>::vfunction6
+30029636 | e9c5613300 | JMP 0x3035f800
+; 3002963b eCBaseCache::operator=
+; 3002963b Ordinal_1458

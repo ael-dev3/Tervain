@@ -1,0 +1,4 @@
+; 3003e2ed bTPropertyObjectType<eCCollisionShape_PS,eCCollisionShapeBase_PS>::vfunction1
+3003e2ed | e99edf2f00 | JMP 0x3033c290
+; 3003e2f2 eCRigidBodyBase_PS::GetAngularVelocity
+; 3003e2f2 Ordinal_6179

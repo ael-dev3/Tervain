@@ -1,0 +1,4 @@
+; 10007b3f ??XbCVector@@QAEAAV0@M@Z
+10007b3f | e9fcdd0100 | JMP 0x10025940
+; 10007b44 bCMatrix::operator==
+; 10007b44 Ordinal_798

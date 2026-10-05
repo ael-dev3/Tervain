@@ -1,0 +1,12 @@
+/* ENTRY 30031d0e | eCCollisionShape::GetProprietaryShape | STATUS decompiled | 3 ms */
+
+/* public: class NxShape * __thiscall eCCollisionShape::GetProprietaryShape(void)const  */
+
+NxShape * __thiscall eCCollisionShape::GetProprietaryShape(eCCollisionShape *this)
+
+{
+                    /* 0x31d0e  8286  ?GetProprietaryShape@eCCollisionShape@@QBEPAVNxShape@@XZ */
+  return (NxShape *)(this->eCCollisionShape_data).offset_0x5c;
+}
+
+

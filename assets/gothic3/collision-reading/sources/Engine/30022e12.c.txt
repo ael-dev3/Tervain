@@ -1,0 +1,29 @@
+/* ENTRY 30022e12 | eCCollisionShape::GetDependencies | STATUS decompiled | 15 ms */
+
+/* public: void __thiscall eCCollisionShape::GetDependencies(class bTValArray<class bCString>
+   &,class bTValArray<class bCString> &,class bTObjArray<class eCTemplateEntityProxy> &) */
+
+void __thiscall
+eCCollisionShape::GetDependencies
+          (eCCollisionShape *this,bTValArray<bCString> *param_1,bTValArray<bCString> *param_2,
+          bTObjArray<eCTemplateEntityProxy> *param_3)
+
+{
+  bCString *pbVar1;
+  int iVar2;
+  
+                    /* 0x22e12  6770
+                       ?GetDependencies@eCCollisionShape@@QAEXAAV?$bTValArray@VbCString@@@@0AAV?$bTObjArray@VeCTemplateEntityProxy@@@@@Z
+                        */
+  iVar2 = (this->eCCollisionShape_data).offset_0xc;
+  if ((iVar2 == 1) || (iVar2 == 6)) {
+    pbVar1 = (bCString *)(this->eCCollisionShape_data).offset_0x70;
+    iVar2 = *(int *)(param_1 + 4) + 1;
+    thunk_FUN_30095b60(iVar2,(iVar2 != 0) - 1);
+    *(int *)(param_1 + 4) = iVar2;
+    bCString::operator=((bCString *)(*(int *)param_1 + -4 + iVar2 * 4),pbVar1);
+  }
+  return;
+}
+
+

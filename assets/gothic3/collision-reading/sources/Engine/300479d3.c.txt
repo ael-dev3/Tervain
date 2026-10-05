@@ -1,0 +1,14 @@
+/* ENTRY 300479d3 | eCCollisionShape_PS::ClearTouchingShapes | STATUS decompiled | 10 ms */
+
+/* public: void __thiscall eCCollisionShape_PS::ClearTouchingShapes(void) */
+
+void __thiscall eCCollisionShape_PS::ClearTouchingShapes(eCCollisionShape_PS *this)
+
+{
+                    /* 0x479d3  3826  ?ClearTouchingShapes@eCCollisionShape_PS@@QAEXXZ */
+  (this->eCCollisionShape_PS_data).offset_0x2c = 0;
+  thunk_FUN_3033d2a0(0,0xffffffff);
+  return;
+}
+
+

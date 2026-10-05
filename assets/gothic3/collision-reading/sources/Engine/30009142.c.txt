@@ -1,0 +1,19 @@
+/* ENTRY 30009142 | eCCollisionShape_PS::WriteSaveGame | STATUS decompiled | 13 ms */
+
+/* public: virtual enum bEResult __thiscall eCCollisionShape_PS::WriteSaveGame(class bCOStream &) */
+
+bEResult __thiscall eCCollisionShape_PS::WriteSaveGame(eCCollisionShape_PS *this,bCOStream *param_1)
+
+{
+                    /* 0x9142  15319
+                       ?WriteSaveGame@eCCollisionShape_PS@@UAE?AW4bEResult@@AAVbCOStream@@@Z */
+  bCOStream::operator<<((bCOStream *)param_1,0x3f);
+  bCOStream::operator<<
+            ((bCOStream *)param_1,*(ushort *)&(this->eCCollisionShape_PS_data).offset_0x4);
+  bCOStream::operator<<((bCOStream *)param_1,(bool)(this->eCCollisionShape_PS_data).field_0x10);
+  bCOStream::operator<<((bCOStream *)param_1,(bool)(this->eCCollisionShape_PS_data).field_0x11);
+  bCOStream::operator<<((bCOStream *)param_1,(bool)(this->eCCollisionShape_PS_data).field_0x12);
+  return 1;
+}
+
+

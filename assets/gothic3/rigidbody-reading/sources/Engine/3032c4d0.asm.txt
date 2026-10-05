@@ -1,0 +1,21 @@
+; 3032c4d0 FUN_3032c4d0
+3032c4d0 | 51 | PUSH ECX
+3032c4d1 | b801000000 | MOV EAX,0x1
+3032c4d6 | 840534bfae30 | TEST byte ptr [0x30aebf34],AL
+3032c4dc | 7535 | JNZ 0x3032c513
+3032c4de | 090534bfae30 | OR dword ptr [0x30aebf34],EAX
+3032c4e4 | 68e4fd8530 | PUSH 0x3085fde4
+3032c4e9 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+3032c4ed | ff155cdbaf30 | CALL dword ptr [0x30afdb5c]
+3032c4f3 | 8d0424 | LEA EAX,[ESP]
+3032c4f6 | 50 | PUSH EAX
+3032c4f7 | ff15a4daaf30 | CALL dword ptr [0x30afdaa4]
+3032c4fd | 8bc8 | MOV ECX,EAX
+3032c4ff | ff15fcc9af30 | CALL dword ptr [0x30afc9fc]
+3032c505 | 8d0c24 | LEA ECX,[ESP]
+3032c508 | a330bfae30 | MOV [0x30aebf30],EAX
+3032c50d | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+; 3032c513 LAB_3032c513
+3032c513 | a130bfae30 | MOV EAX,[0x30aebf30]
+3032c518 | 59 | POP ECX
+3032c519 | c3 | RET

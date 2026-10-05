@@ -1,0 +1,8 @@
+; 30332180 bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction21
+30332180 | 68f8cf8130 | PUSH 0x3081cff8
+30332185 | 683cd58130 | PUSH 0x3081d53c
+3033218a | 687ccf8130 | PUSH 0x3081cf7c
+3033218f | ff1530dbaf30 | CALL dword ptr [0x30afdb30]
+30332195 | 83c40c | ADD ESP,0xc
+30332198 | 33c0 | XOR EAX,EAX
+3033219a | c3 | RET

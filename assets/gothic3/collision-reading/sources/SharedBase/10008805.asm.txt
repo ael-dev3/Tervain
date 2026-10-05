@@ -1,0 +1,4 @@
+; 10008805 ?OnNotifyPropertyValueChangedEnterEx@bCObjectRefBase@@UAE_NPBD_N@Z
+10008805 | e9861b0400 | JMP 0x1004a390
+; 1000880a bCCriticalSectionWin32::TryAcquire
+; 1000880a Ordinal_4605

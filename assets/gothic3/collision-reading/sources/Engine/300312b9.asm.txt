@@ -1,0 +1,4 @@
+; 300312b9 ?GetTriggersOnUntouch@eCCollisionShape@@QBEAB_NXZ
+300312b9 | e972140900 | JMP 0x300c2730
+; 300312be eCColorSrcBlend::Create
+; 300312be Ordinal_4409

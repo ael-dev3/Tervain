@@ -1,0 +1,4 @@
+; 30015393 ?GetCapsule@eCCollisionShape@@QAEAAVbCCapsule@@XZ
+30015393 | e918d80a00 | JMP 0x300c2bb0
+; 30015398 eCSpeedTreeRenderBuffer::RenderTerrainShadows
+; 30015398 Ordinal_12671

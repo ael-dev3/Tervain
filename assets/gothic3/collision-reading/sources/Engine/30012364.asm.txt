@@ -1,0 +1,4 @@
+; 30012364 ?GetSkinWidth@eCCollisionShape@@QBEABMXZ
+30012364 | e987040b00 | JMP 0x300c27f0
+; 30012369 eCParticle_PS::SetSpawningSoundProbability
+; 30012369 Ordinal_14225

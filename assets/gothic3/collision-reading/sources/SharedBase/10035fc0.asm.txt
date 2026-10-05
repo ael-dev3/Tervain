@@ -1,0 +1,12 @@
+; 10035fc0 FUN_10035fc0
+10035fc0 | d9442408 | FLD float ptr [ESP + 0x8]
+10035fc4 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+10035fc8 | 56 | PUSH ESI
+10035fc9 | 51 | PUSH ECX
+10035fca | d91c24 | FSTP float ptr [ESP]
+10035fcd | 50 | PUSH EAX
+10035fce | 8bf1 | MOV ESI,ECX
+10035fd0 | e8f90efdff | CALL 0x10006ece
+10035fd5 | 8bc6 | MOV EAX,ESI
+10035fd7 | 5e | POP ESI
+10035fd8 | c20800 | RET 0x8

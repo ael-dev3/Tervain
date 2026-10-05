@@ -1,0 +1,37 @@
+/* ENTRY 30335e80 | FUN_30335e80 | STATUS decompiled | 15 ms */
+
+undefined4 __thiscall FUN_30335e80(int *param_1,int param_2)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  eCPhysicObject *peVar3;
+  eCPhysicObject *peVar4;
+  NxActor *pNVar5;
+  uint uVar6;
+  int iVar7;
+  
+  peVar2 = (eCEntity *)(**(code **)(*param_1 + 0x6c))();
+  bVar1 = eCEntity::HasProcessingRangeEntered(peVar2);
+  if (bVar1) {
+    peVar2 = (eCEntity *)(**(code **)(*param_1 + 0x6c))();
+    peVar3 = eCEntity::GetPhysicObject(peVar2);
+    if (peVar3 != (eCPhysicObject *)0x0) {
+      peVar2 = (eCEntity *)(**(code **)(*param_1 + 0x6c))();
+      peVar4 = (eCPhysicObject *)eCEntity::GetPhysicObject(peVar2);
+      pNVar5 = eCPhysicObject::GetActor(peVar4);
+      uVar6 = (**(code **)(*(int *)pNVar5 + 0x4c))();
+      if (uVar6 < param_2 + 1U) {
+        return 0;
+      }
+      peVar2 = (eCEntity *)(**(code **)(*param_1 + 0x6c))();
+      peVar4 = (eCPhysicObject *)eCEntity::GetPhysicObject(peVar2);
+      pNVar5 = eCPhysicObject::GetActor(peVar4);
+      iVar7 = (**(code **)(*(int *)pNVar5 + 0x50))();
+      return *(undefined4 *)(iVar7 + param_2 * 4);
+    }
+  }
+  return 0;
+}
+
+

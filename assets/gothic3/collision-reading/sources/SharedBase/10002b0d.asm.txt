@@ -1,0 +1,4 @@
+; 10002b0d ?IntersectsSweep@bCBox@@QBE_NABVbCVector@@ABV1@0AAM@Z
+10002b0d | e9de400500 | JMP 0x10056bf0
+; 10002b12 bCSphericalRotation::AccessAzimuth
+; 10002b12 Ordinal_1402

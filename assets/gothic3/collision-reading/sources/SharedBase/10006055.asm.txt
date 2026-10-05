@@ -1,0 +1,2 @@
+; 10006055 ?SetCenter@bCCapsule@@QAEXABVbCVector@@@Z
+10006055 | e9d6170500 | JMP 0x10057830

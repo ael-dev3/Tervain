@@ -1,0 +1,4 @@
+; 10006528 ??GbCBox@@QBE?AV0@ABVbCVector@@@Z
+10006528 | e983060300 | JMP 0x10036bb0
+; 1000652d bCPropertyObjectFactory::CopyFrom
+; 1000652d Ordinal_1754

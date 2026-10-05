@@ -1,0 +1,14 @@
+; 3033b810 bTPropertyObjectType<eCCollisionShape_PS,eCCollisionShapeBase_PS>::vfunction9
+3033b810 | 56 | PUSH ESI
+3033b811 | 68b0d08130 | PUSH 0x3081d0b0
+3033b816 | 6874d08130 | PUSH 0x3081d074
+3033b81b | 687ccf8130 | PUSH 0x3081cf7c
+3033b820 | 8bf1 | MOV ESI,ECX
+3033b822 | ff1530dbaf30 | CALL dword ptr [0x30afdb30]
+3033b828 | 8b442414 | MOV EAX,dword ptr [ESP + 0x14]
+3033b82c | 83c40c | ADD ESP,0xc
+3033b82f | 50 | PUSH EAX
+3033b830 | 8bce | MOV ECX,ESI
+3033b832 | ff1540caaf30 | CALL dword ptr [0x30afca40]
+3033b838 | 5e | POP ESI
+3033b839 | c20400 | RET 0x4

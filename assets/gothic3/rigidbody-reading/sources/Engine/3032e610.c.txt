@@ -1,0 +1,54 @@
+/* ENTRY 3032e610 | FUN_3032e610 | STATUS decompiled | 33 ms */
+
+bool __thiscall FUN_3032e610(eCEntityPropertySet *param_1,char *param_2,undefined4 param_3)
+
+{
+  char *pcVar1;
+  bool bVar2;
+  eCEntity *peVar3;
+  bCString *pbVar4;
+  int iVar5;
+  eCEntity *this;
+  eCPhysicObjectStateBuffer *this_00;
+  eCEntityPropertySet_data *peVar6;
+  char *pcVar7;
+  
+  if ((char)param_3 != '\x01') {
+    peVar3 = (*param_1->vftablePtr->GetEntity)(param_1);
+    pcVar1 = param_2;
+    if (peVar3 != (eCEntity *)0x0) {
+      pcVar7 = "TotalMass";
+      pbVar4 = (bCString *)bCString::bCString((bCString *)&param_2,param_2);
+      iVar5 = bCString::Compare(pbVar4,pcVar7);
+      bCString::~bCString((bCString *)&param_2);
+      if (iVar5 == 0) {
+        peVar6 = &param_1[1].eCEntityPropertySet_data;
+        if (*(float *)&param_1[1].eCEntityPropertySet_data <= 0.0 &&
+            *(float *)&param_1[1].eCEntityPropertySet_data != 0.0) {
+          this = (eCEntity *)(*param_1->vftablePtr->GetEntity)(param_1);
+          pbVar4 = eCEntity::GetName(this);
+          GE_MESSAGEF_WARN("C: can\'t set mass of body < 0 for entity: %s",*(undefined4 *)pbVar4);
+          *(undefined4 *)peVar6 = 0;
+        }
+        peVar3 = (*param_1->vftablePtr->GetEntity)(param_1);
+        this_00 = eCPhysicObjectStateBuffer::GetBuffer(peVar3);
+        eCPhysicObjectStateBuffer::SetMass(this_00,(float *)peVar6);
+      }
+      pcVar7 = "BodyFlag";
+      pbVar4 = (bCString *)bCString::bCString((bCString *)&param_2,pcVar1);
+      iVar5 = bCString::Compare(pbVar4,pcVar7);
+      bCString::~bCString((bCString *)&param_2);
+      if (iVar5 == 0) {
+        (*param_1->vftablePtr[1].GetSaveGameRelevance)(param_1);
+        (*param_1->vftablePtr[1].WriteSaveGame)
+                  (param_1,*(bCOStream **)&param_1[6].eCEntityPropertySet_data);
+      }
+      bVar2 = eCEntityPropertySet::OnNotifyPropertyValueChangedExitEx
+                        (param_1,pcVar1,SUB41(param_3,0));
+      return bVar2;
+    }
+  }
+  return true;
+}
+
+

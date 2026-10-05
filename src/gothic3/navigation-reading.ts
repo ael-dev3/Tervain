@@ -330,7 +330,9 @@ export function createNativeNavigationFactory(host: NativeNavigationReadingHost)
       };
       const set = new NativeLivePropertySet(wrapper.identity + ':native', 'gCNavigation_PS', 5, properties.values,
         { read: () => properties.owner, write: owner => { properties.owner = owner; } }, null, callbacks,
-        () => missing('Concrete Navigation processable virtual branch remains required'));
+        // Native slot+84: Game20461ec8 -> Engine30008783 ->30481520.
+        // The body clears AL before RET; IsProcessable is false.
+        () => known(false));
       properties.base = set; controller.retainNative(wrapper, set);
       controller.write('Native base eCEntityPropertySet constructor before Navigation members', 'Game:20289960');
       properties.initializeMembers();

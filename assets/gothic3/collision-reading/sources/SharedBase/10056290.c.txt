@@ -1,0 +1,10 @@
+/* ENTRY 10056290 | FUN_10056290 | STATUS decompiled | 2 ms */
+
+void __thiscall FUN_10056290(bCBox *param_1,bCUnitedRay *param_2,float *param_3)
+
+{
+  bCUnitedRay::Intersects(param_2,param_1,param_3);
+  return;
+}
+
+

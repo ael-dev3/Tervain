@@ -1,0 +1,4 @@
+; 3002a4c3 bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeGroup>_>::vfunction6
+3002a4c3 | e9a84a3300 | JMP 0x3035ef70
+; 3002a4c8 eCPhysicsScene::RemoveCCDEntity
+; 3002a4c8 Ordinal_12456

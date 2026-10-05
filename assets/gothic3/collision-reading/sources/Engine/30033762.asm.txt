@@ -1,0 +1,4 @@
+; 30033762 bTPropertyObject<eCCollisionShape,bCObjectRefBase>::deleting_destructor
+30033762 | e949903200 | JMP 0x3035c7b0
+; 30033767 eCAnimation_BaseRenderActor::GetActorWrapper
+; 30033767 Ordinal_6107

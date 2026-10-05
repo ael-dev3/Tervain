@@ -1,0 +1,71 @@
+/* ENTRY 3002e24e | eCCollisionShape::GetMaterialName | STATUS decompiled | 104 ms */
+
+/* public: static class bCString __stdcall eCCollisionShape::GetMaterialName(enum eEShapeMaterial)
+    */
+
+eEShapeMaterial eCCollisionShape::GetMaterialName(eEShapeMaterial param_1)
+
+{
+  undefined4 in_stack_00000008;
+  
+                    /* 0x2e24e  7764
+                       ?GetMaterialName@eCCollisionShape@@SG?AVbCString@@W4eEShapeMaterial@@@Z */
+  switch(in_stack_00000008) {
+  default:
+    bCString::bCString((bCString *)param_1,"earth");
+    return param_1;
+  case 1:
+    bCString::bCString((bCString *)param_1,"wood");
+    return param_1;
+  case 2:
+    bCString::bCString((bCString *)param_1,"metal");
+    return param_1;
+  case 3:
+    bCString::bCString((bCString *)param_1,"water");
+    return param_1;
+  case 4:
+    bCString::bCString((bCString *)param_1,"stone");
+    return param_1;
+  case 6:
+    bCString::bCString((bCString *)param_1,"ice");
+    return param_1;
+  case 7:
+    bCString::bCString((bCString *)param_1,"leather");
+    return param_1;
+  case 8:
+    bCString::bCString((bCString *)param_1,"clay");
+    return param_1;
+  case 9:
+    bCString::bCString((bCString *)param_1,"glass");
+    return param_1;
+  case 10:
+    bCString::bCString((bCString *)param_1,"flesh");
+    return param_1;
+  case 0xb:
+    bCString::bCString((bCString *)param_1,"snow");
+    return param_1;
+  case 0xc:
+    bCString::bCString((bCString *)param_1,"debris");
+    return param_1;
+  case 0xd:
+    bCString::bCString((bCString *)param_1,"foliage");
+    return param_1;
+  case 0xe:
+    bCString::bCString((bCString *)param_1,"magic");
+    return param_1;
+  case 0xf:
+    bCString::bCString((bCString *)param_1,"grass");
+    return param_1;
+  case 0x13:
+    bCString::bCString((bCString *)param_1,"damage");
+    return param_1;
+  case 0x14:
+    bCString::bCString((bCString *)param_1,"sand");
+    return param_1;
+  case 0x15:
+    bCString::bCString((bCString *)param_1,"movement");
+    return param_1;
+  }
+}
+
+

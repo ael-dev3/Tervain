@@ -1,0 +1,4 @@
+; 10008369 ?SetCoordinate@bCBox@@QAEXHM@Z
+10008369 | e912240200 | JMP 0x1002a780
+; 1000836e bCUnicodeString::operator=
+; 1000836e Ordinal_558

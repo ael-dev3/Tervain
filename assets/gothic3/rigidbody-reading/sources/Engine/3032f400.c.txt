@@ -1,0 +1,13 @@
+/* ENTRY 3032f400 | bTPropertyType<eCRigidBody_PS,float>::vfunction20 | STATUS decompiled | 5 ms */
+
+void __thiscall
+bTPropertyType<eCRigidBody_PS,float>::vfunction20(bTPropertyType<eCRigidBody_PS,float> *this)
+
+{
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)this);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)this[6].vftablePtr,(bCPropertyTypeBase *)this);
+  return;
+}
+
+

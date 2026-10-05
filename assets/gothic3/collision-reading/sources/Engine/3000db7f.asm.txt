@@ -1,0 +1,4 @@
+; 3000db7f bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>::vfunction1
+3000db7f | e99ce13200 | JMP 0x3033bd20
+; 3000db9d eCLogoCtrl::eCLogoCtrl
+; 3000db9d Ordinal_511

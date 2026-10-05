@@ -1,0 +1,4 @@
+; 1000782e ??0bCBox@@QAE@XZ
+1000782e | e94d2d0200 | JMP 0x1002a580
+; 10007833 bCFlexibleVertexFormat::GetOffsetDiffuse
+; 10007833 Ordinal_2706

@@ -1,0 +1,12 @@
+/* ENTRY 30014371 | eCCollisionShape::AccessIgnoredByTraceRay | STATUS decompiled | 4 ms */
+
+/* public: bool & __thiscall eCCollisionShape::AccessIgnoredByTraceRay(void) */
+
+bool * __thiscall eCCollisionShape::AccessIgnoredByTraceRay(eCCollisionShape *this)
+
+{
+                    /* 0x14371  2799  ?AccessIgnoredByTraceRay@eCCollisionShape@@QAEAA_NXZ */
+  return (bool *)&(this->eCCollisionShape_data).offset_0x28;
+}
+
+

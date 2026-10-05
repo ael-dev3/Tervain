@@ -1,0 +1,4 @@
+; 300463c1 bTPropertyType<eCRigidBody_PS,float>::vfunction20
+300463c1 | e93a902e00 | JMP 0x3032f400
+; 300463cb eCGfxVertexProgram::sEnableOptimization
+; 300463cb Ordinal_16568

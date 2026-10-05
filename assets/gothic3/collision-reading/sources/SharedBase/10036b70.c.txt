@@ -1,0 +1,10 @@
+/* ENTRY 10036b70 | FUN_10036b70 | STATUS decompiled | 2 ms */
+
+bCBox * __thiscall FUN_10036b70(bCBox *param_1,bCBox *param_2)
+
+{
+  bCBox::Intersect(param_1,param_2);
+  return param_1;
+}
+
+

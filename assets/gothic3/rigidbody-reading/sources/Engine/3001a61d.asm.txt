@@ -1,0 +1,4 @@
+; 3001a61d bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction19
+3001a61d | e96e853100 | JMP 0x30332b90
+; 3001a631 eCResourceDataEntity::eCResourceDataEntity
+; 3001a631 Ordinal_664

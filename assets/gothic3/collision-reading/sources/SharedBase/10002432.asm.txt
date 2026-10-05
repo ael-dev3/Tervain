@@ -1,0 +1,4 @@
+; 10002432 ?GetInvScaled@bCBox@@QBE?AV1@ABVbCVector@@@Z
+10002432 | e919450300 | JMP 0x10036950
+; 10002437 bCMatrix::GetZAxis
+; 10002437 Ordinal_3296

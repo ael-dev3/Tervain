@@ -1,0 +1,12 @@
+/* ENTRY 3001fdbb | eCCollisionShapeBase_PS::GetVersion | STATUS decompiled | 8 ms */
+
+/* public: virtual unsigned short __thiscall eCCollisionShapeBase_PS::GetVersion(void)const  */
+
+ushort __thiscall eCCollisionShapeBase_PS::GetVersion(eCCollisionShapeBase_PS *this)
+
+{
+                    /* 0x1fdbb  9354  ?GetVersion@eCCollisionShapeBase_PS@@UBEGXZ */
+  return 1;
+}
+
+

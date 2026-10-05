@@ -1,0 +1,4 @@
+; 10006825 ?GetMaxExtend@bCBox@@QBEMXZ
+10006825 | e9e63d0200 | JMP 0x1002a610
+; 1000682f bCPOStream::IsForcedLegacyMode
+; 1000682f Ordinal_3636

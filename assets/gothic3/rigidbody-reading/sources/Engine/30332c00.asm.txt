@@ -1,0 +1,22 @@
+; 30332c00 bTPropertyType<eCRigidBody_PS,float>::deleting_destructor
+30332c00 | 56 | PUSH ESI
+30332c01 | 8bf1 | MOV ESI,ECX
+30332c03 | c706c4038630 | MOV dword ptr [ESI],0x308603c4
+30332c09 | ff156ccaaf30 | CALL dword ptr [0x30afca6c]
+30332c0f | 8d4620 | LEA EAX,[ESI + 0x20]
+30332c12 | 50 | PUSH EAX
+30332c13 | e87866ceff | CALL 0x30019290
+30332c18 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+30332c1b | 56 | PUSH ESI
+30332c1c | ff1514cbaf30 | CALL dword ptr [0x30afcb14]
+30332c22 | 8bce | MOV ECX,ESI
+30332c24 | c706f4f18130 | MOV dword ptr [ESI],0x3081f1f4
+30332c2a | ff1560caaf30 | CALL dword ptr [0x30afca60]
+30332c30 | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+30332c35 | 7409 | JZ 0x30332c40
+30332c37 | 56 | PUSH ESI
+30332c38 | e82be83300 | CALL 0x30671468
+; 30332c40 LAB_30332c40
+30332c40 | 8bc6 | MOV EAX,ESI
+30332c42 | 5e | POP ESI
+30332c43 | c20400 | RET 0x4

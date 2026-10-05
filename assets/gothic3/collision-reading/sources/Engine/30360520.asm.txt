@@ -1,0 +1,3 @@
+; 30360520 bTPropertyType<eCCollisionShape,bool>::vfunction1
+30360520 | 8b411c | MOV EAX,dword ptr [ECX + 0x1c]
+30360523 | c3 | RET

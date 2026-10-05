@@ -1,0 +1,16 @@
+/* ENTRY 30040561 | bTPropertyType<eCRigidBody_PS,float>::vfunction8 | STATUS decompiled | 32 ms */
+
+undefined4 __thiscall
+bTPropertyType<eCRigidBody_PS,float>::vfunction8(bTPropertyType<eCRigidBody_PS,float> *this)
+
+{
+  char cVar1;
+  
+  cVar1 = (*this->vftablePtr->vfunction7)();
+  if (cVar1 == '\0') {
+    return 0xffffffff;
+  }
+  return (this[8].vftablePtr)->vfunction2;
+}
+
+

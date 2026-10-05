@@ -1,0 +1,2 @@
+; 300247da bTPropertyObjectType<eCInputReceiver,bCObjectRefBase>::vfunction2
+300247da | e9611f0500 | JMP 0x30076740

@@ -1,0 +1,28 @@
+/* ENTRY 10002f45 | bCBox::Contains | STATUS decompiled | 9 ms */
+
+/* public: bool __thiscall bCBox::Contains(class bCUnitedRay const &)const  */
+
+bool __thiscall bCBox::Contains(bCBox *this,bCUnitedRay *param_1)
+
+{
+  bool bVar1;
+  float fStack_c;
+  float fStack_8;
+  float fStack_4;
+  
+                    /* 0x2f45  1670  ?Contains@bCBox@@QBE_NABVbCUnitedRay@@@Z */
+  if (*(int *)param_1 != 0) {
+    return false;
+  }
+  bVar1 = Contains(this,(bCVector *)(param_1 + 4));
+  if (!bVar1) {
+    return false;
+  }
+  fStack_c = *(float *)(param_1 + 0x10) + *(float *)(param_1 + 4);
+  fStack_8 = *(float *)(param_1 + 0x14) + *(float *)(param_1 + 8);
+  fStack_4 = *(float *)(param_1 + 0x18) + *(float *)(param_1 + 0xc);
+  bVar1 = Contains(this,(bCVector *)&fStack_c);
+  return bVar1;
+}
+
+

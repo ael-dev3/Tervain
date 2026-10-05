@@ -1,0 +1,4 @@
+; 10007860 ?GetCircumAxisBox@bCOrientedBox@@QBE?AVbCBox@@XZ
+10007860 | e9bbe70500 | JMP 0x10066020
+; 1000786a bCStretch::GetSquareDistance
+; 1000786a Ordinal_3029

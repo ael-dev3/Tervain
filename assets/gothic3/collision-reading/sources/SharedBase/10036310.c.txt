@@ -1,0 +1,10 @@
+/* ENTRY 10036310 | FUN_10036310 | STATUS decompiled | 2 ms */
+
+bCVector * __thiscall FUN_10036310(bCBox *param_1,bCVector *param_2,int param_3)
+
+{
+  bCBox::GetVertex(param_1,param_3,param_2);
+  return param_2;
+}
+
+

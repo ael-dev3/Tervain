@@ -1,0 +1,4 @@
+; 3004084f SHAREDBASE.DLL::bCPropertyTypeBase::Write
+3004084f | e91cef3100 | JMP 0x3035f770
+; 30040868 eCLightmapBitmap::AccessOffsetY
+; 30040868 Ordinal_2953

@@ -1,0 +1,17 @@
+; 304bd710 FUN_304bd710
+304bd710 | 56 | PUSH ESI
+304bd711 | 8bf1 | MOV ESI,ECX
+304bd713 | 8b463c | MOV EAX,dword ptr [ESI + 0x3c]
+304bd716 | 6681a6bc0100000fff | AND word ptr [ESI + 0x1bc],0xff0f
+304bd71f | 83e0ef | AND EAX,0xffffffef
+304bd722 | 83c82c | OR EAX,0x2c
+304bd725 | 89463c | MOV dword ptr [ESI + 0x3c],EAX
+304bd728 | 33c0 | XOR EAX,EAX
+304bd72a | 8886bd010000 | MOV byte ptr [ESI + 0x1bd],AL
+304bd730 | 6681a6bc010000f0ff | AND word ptr [ESI + 0x1bc],0xfff0
+304bd739 | 8d8ea8010000 | LEA ECX,[ESI + 0x1a8]
+304bd73f | 8986a4010000 | MOV dword ptr [ESI + 0x1a4],EAX
+304bd745 | ff1534d8af30 | CALL dword ptr [0x30afd834]
+304bd74b | 814e3c00008000 | OR dword ptr [ESI + 0x3c],0x800000
+304bd752 | 5e | POP ESI
+304bd753 | c3 | RET

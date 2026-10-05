@@ -1,0 +1,23 @@
+/* ENTRY 10056430 | FUN_10056430 | STATUS decompiled | 5 ms */
+
+undefined1 __thiscall FUN_10056430(bCBox *param_1,int param_2)
+
+{
+  bool bVar1;
+  int iVar2;
+  bCVector *pbVar3;
+  
+  iVar2 = 2;
+  pbVar3 = (bCVector *)(param_2 + 0x18);
+  do {
+    bVar1 = bCBox::Contains(param_1,pbVar3);
+    if (!bVar1) {
+      return 0;
+    }
+    iVar2 = iVar2 + -1;
+    pbVar3 = pbVar3 + -0xc;
+  } while (-1 < iVar2);
+  return 1;
+}
+
+

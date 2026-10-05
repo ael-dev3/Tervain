@@ -1,0 +1,13 @@
+/* ENTRY 3003e144 | eCRigidBody_PS::SetEntity | STATUS decompiled | 7 ms */
+
+/* public: virtual void __thiscall eCRigidBody_PS::SetEntity(class eCEntity *) */
+
+void __thiscall eCRigidBody_PS::SetEntity(eCRigidBody_PS *this,eCEntity *param_1)
+
+{
+                    /* 0x3e144  13348  ?SetEntity@eCRigidBody_PS@@UAEXPAVeCEntity@@@Z */
+  (this->eCEntityPropertySet_data).offset_0x8 = param_1;
+  return;
+}
+
+

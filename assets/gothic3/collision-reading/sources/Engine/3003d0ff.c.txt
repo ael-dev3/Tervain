@@ -1,0 +1,12 @@
+/* ENTRY 3003d0ff | eCCollisionShape::GetResourceIndex | STATUS decompiled | 3 ms */
+
+/* public: unsigned short __thiscall eCCollisionShape::GetResourceIndex(void)const  */
+
+ushort __thiscall eCCollisionShape::GetResourceIndex(eCCollisionShape *this)
+
+{
+                    /* 0x3d0ff  8444  ?GetResourceIndex@eCCollisionShape@@QBEGXZ */
+  return (this->eCCollisionShape_data).offset_0x42;
+}
+
+

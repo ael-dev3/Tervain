@@ -1,0 +1,25 @@
+; 10068fc0 FUN_10068fc0
+10068fc0 | 83ec3c | SUB ESP,0x3c
+10068fc3 | 56 | PUSH ESI
+10068fc4 | 51 | PUSH ECX
+10068fc5 | 8d4c2408 | LEA ECX,[ESP + 0x8]
+10068fc9 | e8edf6f9ff | CALL 0x100086bb
+10068fce | d9442404 | FLD float ptr [ESP + 0x4]
+10068fd2 | 8b442448 | MOV EAX,dword ptr [ESP + 0x48]
+10068fd6 | d820 | FSUB float ptr [EAX]
+10068fd8 | 8b742444 | MOV ESI,dword ptr [ESP + 0x44]
+10068fdc | 8bce | MOV ECX,ESI
+10068fde | d95c2404 | FSTP float ptr [ESP + 0x4]
+10068fe2 | d9442408 | FLD float ptr [ESP + 0x8]
+10068fe6 | d86004 | FSUB float ptr [EAX + 0x4]
+10068fe9 | d95c2408 | FSTP float ptr [ESP + 0x8]
+10068fed | d944240c | FLD float ptr [ESP + 0xc]
+10068ff1 | d86008 | FSUB float ptr [EAX + 0x8]
+10068ff4 | 8d442404 | LEA EAX,[ESP + 0x4]
+10068ff8 | 50 | PUSH EAX
+10068ff9 | d95c2410 | FSTP float ptr [ESP + 0x10]
+10068ffd | e8b9f6f9ff | CALL 0x100086bb
+10069002 | 8bc6 | MOV EAX,ESI
+10069004 | 5e | POP ESI
+10069005 | 83c43c | ADD ESP,0x3c
+10069008 | c20800 | RET 0x8

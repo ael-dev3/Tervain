@@ -1,0 +1,4 @@
+; 30040633 bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eECollisionGroup>_>::vfunction13
+30040633 | e9e8d52f00 | JMP 0x3033dc20
+; 30040647 eCSpeedTree_PS::GetAmbientEnvironment
+; 30040647 Ordinal_6157

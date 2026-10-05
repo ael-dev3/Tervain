@@ -1,0 +1,12 @@
+/* ENTRY 300312b9 | eCCollisionShape::GetTriggersOnUntouch | STATUS decompiled | 4 ms */
+
+/* public: bool const & __thiscall eCCollisionShape::GetTriggersOnUntouch(void)const  */
+
+bool * __thiscall eCCollisionShape::GetTriggersOnUntouch(eCCollisionShape *this)
+
+{
+                    /* 0x312b9  9197  ?GetTriggersOnUntouch@eCCollisionShape@@QBEAB_NXZ */
+  return (bool *)&(this->eCCollisionShape_data).offset_0x2e;
+}
+
+

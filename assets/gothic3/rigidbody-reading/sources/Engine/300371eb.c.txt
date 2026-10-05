@@ -1,0 +1,21 @@
+/* ENTRY 300371eb | bTPropertyObjectType<eCRigidBody_PS,eCRigidBodyBase_PS>::vfunction2 | STATUS decompiled | 82 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined * __thiscall bTPropertyObjectType<eCRigidBody_PS,eCRigidBodyBase_PS>::vfunction2(void)
+
+{
+  if ((DAT_30adabf0 & 1) == 0) {
+    DAT_30adabf0 = DAT_30adabf0 | 1;
+    _DAT_30adabec = DAT_30adac2c;
+  }
+  if ((DAT_30adabf0 & 2) == 0) {
+    DAT_30adabf0 = DAT_30adabf0 | 2;
+    FUN_306713ae(&DAT_30af70ac);
+    bCClassNameBase::UnMangle(&DAT_30adabe8);
+    _atexit((_func_4879 *)&LAB_3002df83);
+  }
+  return &DAT_30adabe8;
+}
+
+

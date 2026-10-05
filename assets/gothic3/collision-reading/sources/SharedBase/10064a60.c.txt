@@ -1,0 +1,37 @@
+/* ENTRY 10064a60 | FUN_10064a60 | STATUS decompiled | 12 ms */
+
+undefined4 __thiscall FUN_10064a60(bCOrientedBox *param_1,float *param_2)
+
+{
+  float fVar1;
+  float fVar2;
+  float fVar3;
+  float fVar4;
+  bool bVar5;
+  bCOrientedBox *pbVar6;
+  int iVar7;
+  float local_c;
+  float local_8;
+  float local_4;
+  
+  fVar1 = *param_2;
+  fVar2 = param_2[1];
+  fVar3 = param_2[2];
+  fVar4 = param_2[3];
+  iVar7 = 0;
+  pbVar6 = param_1 + 0x20;
+  do {
+    local_c = *(float *)(pbVar6 + -8) * fVar1 + fVar2;
+    local_8 = fVar3 + *(float *)(pbVar6 + -4) * fVar1;
+    local_4 = fVar4 + fVar1 * *(float *)pbVar6;
+    bVar5 = bCOrientedBox::Contains(param_1,(bCVector *)&local_c);
+    if (!bVar5) {
+      return 0;
+    }
+    iVar7 = iVar7 + 1;
+    pbVar6 = pbVar6 + 0xc;
+  } while (iVar7 < 3);
+  return 1;
+}
+
+

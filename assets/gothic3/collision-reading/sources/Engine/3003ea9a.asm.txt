@@ -1,0 +1,4 @@
+; 3003ea9a bTPropertyType<eCVisualAnimation_PS,bTPropertyContainer<eEShapeGroup>_>::vfunction4
+3003ea9a | e9f1980300 | JMP 0x30078390
+; 3003ea9f eCFrustumFilter::GetCamera
+; 3003ea9f Ordinal_6420

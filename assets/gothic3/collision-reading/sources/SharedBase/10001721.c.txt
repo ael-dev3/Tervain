@@ -1,0 +1,12 @@
+/* ENTRY 10001721 | bCBox::AccessMin | STATUS decompiled | 1 ms */
+
+/* public: class bCVector & __thiscall bCBox::AccessMin(void) */
+
+bCVector * __thiscall bCBox::AccessMin(bCBox *this)
+
+{
+                    /* 0x1721  1456  ?AccessMin@bCBox@@QAEAAVbCVector@@XZ */
+  return (bCVector *)this;
+}
+
+

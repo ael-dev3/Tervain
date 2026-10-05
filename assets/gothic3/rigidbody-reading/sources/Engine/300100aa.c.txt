@@ -1,0 +1,13 @@
+/* ENTRY 300100aa | eCRigidBodyBase_PS::OnProcess | STATUS decompiled | 9 ms */
+
+/* protected: virtual void __thiscall eCRigidBodyBase_PS::OnProcess(void)
+   eCRigidBodyBase_PS member function inherited by eCRigidBody_PS */
+
+void __thiscall eCRigidBodyBase_PS::OnProcess(eCRigidBodyBase_PS *this)
+
+{
+                    /* 0x100aa  11398  ?OnProcess@eCRigidBodyBase_PS@@MAEXXZ */
+  return;
+}
+
+

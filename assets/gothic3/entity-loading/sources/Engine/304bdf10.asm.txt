@@ -1,0 +1,26 @@
+; 304bdf10 FUN_304bdf10
+304bdf10 | 56 | PUSH ESI
+304bdf11 | 57 | PUSH EDI
+304bdf12 | 8bf9 | MOV EDI,ECX
+304bdf14 | 33f6 | XOR ESI,ESI
+304bdf16 | e81ed1b7ff | CALL 0x3003b039
+304bdf1b | 85c0 | TEST EAX,EAX
+304bdf1d | 7e23 | JLE 0x304bdf42
+304bdf1f | 90 | NOP
+; 304bdf20 LAB_304bdf20
+304bdf20 | 56 | PUSH ESI
+304bdf21 | 8bcf | MOV ECX,EDI
+304bdf23 | e8b182b6ff | CALL 0x300261d9
+304bdf28 | 8b10 | MOV EDX,dword ptr [EAX]
+304bdf2a | 8bc8 | MOV ECX,EAX
+304bdf2c | 8b822c010000 | MOV EAX,dword ptr [EDX + 0x12c]
+304bdf32 | ffd0 | CALL EAX
+304bdf34 | 8bcf | MOV ECX,EDI
+304bdf36 | 83c601 | ADD ESI,0x1
+304bdf39 | e8fbd0b7ff | CALL 0x3003b039
+304bdf3e | 3bf0 | CMP ESI,EAX
+304bdf40 | 7cde | JL 0x304bdf20
+; 304bdf42 LAB_304bdf42
+304bdf42 | 5f | POP EDI
+304bdf43 | 5e | POP ESI
+304bdf44 | c3 | RET

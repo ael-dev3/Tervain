@@ -1,0 +1,4 @@
+; 3002e69f bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::vfunction21
+3002e69f | e9dcfb3000 | JMP 0x3033e280
+; 3002e6a4 eCCameraBase::GetVersion
+; 3002e6a4 Ordinal_9351

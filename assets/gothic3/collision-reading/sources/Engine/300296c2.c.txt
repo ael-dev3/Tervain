@@ -1,0 +1,18 @@
+/* ENTRY 300296c2 | eCCollisionShape_PS::GetShapeAtIndex | STATUS decompiled | 10 ms */
+
+/* public: virtual class eCCollisionShape * __thiscall eCCollisionShape_PS::GetShapeAtIndex(unsigned
+   long)const  */
+
+eCCollisionShape * __thiscall
+eCCollisionShape_PS::GetShapeAtIndex(eCCollisionShape_PS *this,ulong param_1)
+
+{
+                    /* 0x296c2  8787
+                       ?GetShapeAtIndex@eCCollisionShape_PS@@UBEPAVeCCollisionShape@@K@Z */
+  if ((uint)(this->eCCollisionShape_PS_data).offset_0x18 <= param_1) {
+    return (eCCollisionShape *)0x0;
+  }
+  return *(eCCollisionShape **)((this->eCCollisionShape_PS_data).offset_0x14 + param_1 * 4);
+}
+
+

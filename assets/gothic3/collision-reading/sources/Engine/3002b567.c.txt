@@ -1,0 +1,43 @@
+/* ENTRY 3002b567 | eCCollisionShape_PS::GetProprietaryShapeAtIndex | STATUS decompiled | 49 ms */
+
+/* public: virtual class NxShape * __thiscall
+   eCCollisionShape_PS::GetProprietaryShapeAtIndex(unsigned long)const  */
+
+NxShape * __thiscall
+eCCollisionShape_PS::GetProprietaryShapeAtIndex(eCCollisionShape_PS *this,ulong param_1)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  eCPhysicObject *peVar3;
+  eCPhysicObject *peVar4;
+  NxActor *pNVar5;
+  uint uVar6;
+  int iVar7;
+  
+                    /* 0x2b567  8288
+                       ?GetProprietaryShapeAtIndex@eCCollisionShape_PS@@UBEPAVNxShape@@K@Z */
+  peVar2 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+  bVar1 = eCEntity::HasProcessingRangeEntered(peVar2);
+  if (bVar1) {
+    peVar2 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+    peVar3 = eCEntity::GetPhysicObject(peVar2);
+    if (peVar3 != (eCPhysicObject *)0x0) {
+      peVar2 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+      peVar4 = (eCPhysicObject *)eCEntity::GetPhysicObject(peVar2);
+      pNVar5 = eCPhysicObject::GetActor(peVar4);
+      uVar6 = (**(code **)(*(int *)pNVar5 + 0x4c))();
+      if (uVar6 < param_1 + 1) {
+        return (NxShape *)0x0;
+      }
+      peVar2 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+      peVar4 = (eCPhysicObject *)eCEntity::GetPhysicObject(peVar2);
+      pNVar5 = eCPhysicObject::GetActor(peVar4);
+      iVar7 = (**(code **)(*(int *)pNVar5 + 0x50))();
+      return *(NxShape **)(iVar7 + param_1 * 4);
+    }
+  }
+  return (NxShape *)0x0;
+}
+
+

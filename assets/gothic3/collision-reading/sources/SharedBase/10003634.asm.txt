@@ -1,0 +1,4 @@
+; 10003634 ??0bCSphere@@QAE@XZ
+10003634 | e9f7810200 | JMP 0x1002b830
+; 10003639 bCPropertyLayout::bCPropertyLayout
+; 10003639 Ordinal_218

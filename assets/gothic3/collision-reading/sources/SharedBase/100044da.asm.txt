@@ -1,0 +1,4 @@
+; 100044da ??DbCOrientedBox@@QBE?AV0@ABVbCMatrix3@@@Z
+100044da | e9114c0600 | JMP 0x100690f0
+; 100044df bCMatrix2::GetNegated
+; 100044df Ordinal_2649

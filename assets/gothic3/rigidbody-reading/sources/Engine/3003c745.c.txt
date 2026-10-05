@@ -1,0 +1,18 @@
+/* ENTRY 3003c745 | bTPropertyType<eCRigidBodyBase_PS,bool>::vfunction11 | STATUS decompiled | 6 ms */
+
+bTPropertyType<eCRigidBodyBase_PS,bool>_vftable * __thiscall
+bTPropertyType<eCRigidBodyBase_PS,bool>::vfunction11
+          (bTPropertyType<eCRigidBodyBase_PS,bool> *this,undefined4 *param_1)
+
+{
+  int iVar1;
+  
+  if (param_1 == (undefined4 *)0x0) {
+    return (bTPropertyType<eCRigidBodyBase_PS,bool>_vftable *)0x0;
+  }
+  iVar1 = (**(code **)*param_1)();
+  return (bTPropertyType<eCRigidBodyBase_PS,bool>_vftable *)
+         ((int)&(this[7].vftablePtr)->vfunction1 + iVar1);
+}
+
+

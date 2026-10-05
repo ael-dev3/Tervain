@@ -1,0 +1,43 @@
+/* ENTRY 201d4eb0 | FUN_201d4eb0 | STATUS decompiled | 16 ms */
+
+bCPropertyObjectBase * __fastcall FUN_201d4eb0(int param_1)
+
+{
+  bool bVar1;
+  bCString *pbVar2;
+  bCPropertyObjectSingleton *this;
+  bCPropertyObjectBase *pbVar3;
+  eCEntityDynamicContext *this_00;
+  bCPropertyObjectBase *local_4;
+  
+  if ((*(int *)(param_1 + 0x48) == 0) || (*(int *)(param_1 + 0x48) == 1)) {
+    local_4 = (bCPropertyObjectBase *)param_1;
+    bCAccessorCreator::bCAccessorCreator((bCAccessorCreator *)&local_4);
+    pbVar2 = (bCString *)thunk_FUN_20060ca0();
+    this = bCPropertyObjectSingleton::GetInstance();
+    local_4 = bCPropertyObjectSingleton::QueryNewObject(this,pbVar2);
+    bCAccessorCreator::SetInstance((bCAccessorCreator *)&local_4,local_4);
+    bVar1 = bCAccessorCreator::IsValid((bCAccessorCreator *)&local_4);
+    if (bVar1) {
+      pbVar3 = bCAccessorCreator::operator->((bCAccessorCreator *)&local_4);
+      this_00 = (eCEntityDynamicContext *)(*(code *)**(undefined4 **)pbVar3)();
+      eCEntityDynamicContext::SetCreationCallbackFunc
+                (this_00,gCDynamicLayer::g_funcCreateCustomEntity);
+      pbVar3 = bCAccessorCreator::operator_class_bCPropertyObjectBase_
+                         ((bCAccessorCreator *)&local_4);
+      if (pbVar3 != (bCPropertyObjectBase *)0x0) {
+        pbVar3 = bCAccessorCreator::operator_class_bCPropertyObjectBase_
+                           ((bCAccessorCreator *)&local_4);
+        (**(code **)(*(int *)pbVar3 + 0x30))();
+      }
+      pbVar3 = bCAccessorCreator::operator_class_bCPropertyObjectBase_
+                         ((bCAccessorCreator *)&local_4);
+      bCAccessorCreator::~bCAccessorCreator((bCAccessorCreator *)&local_4);
+      return pbVar3;
+    }
+    bCAccessorCreator::~bCAccessorCreator((bCAccessorCreator *)&local_4);
+  }
+  return (bCPropertyObjectBase *)0x0;
+}
+
+

@@ -1,0 +1,4 @@
+; 30011f2c bTPropertyType<eCCollisionShape,bCObsoleteClass>::vfunction1
+30011f2c | e9bfb03400 | JMP 0x3035cff0
+; 30011f31 eCVisualAnimationLoD::GetAnimationFactory
+; 30011f31 Ordinal_6186

@@ -1,0 +1,4 @@
+; 10007abd ?Orthonormalize@bCMatrix3@@QAEXXZ
+10007abd | e9be890400 | JMP 0x10050480
+; 10007ac2 bCVector::GetInvTransformedDirection
+; 10007ac2 Ordinal_2510

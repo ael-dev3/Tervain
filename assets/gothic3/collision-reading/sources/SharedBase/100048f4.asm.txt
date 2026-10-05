@@ -1,0 +1,4 @@
+; 100048f4 ?IntersectsSweep@bCBox@@QBE_NABV1@00AAM@Z
+100048f4 | e907240500 | JMP 0x10056d00
+; 100048f9 bCClock::IsPaused
+; 100048f9 Ordinal_3656

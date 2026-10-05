@@ -1,0 +1,18 @@
+/* ENTRY 3001b3e7 | eCCollisionShape::SetAdaptToAABB | STATUS decompiled | 6 ms */
+
+/* public: void __thiscall eCCollisionShape::SetAdaptToAABB(bool const &) */
+
+void __thiscall eCCollisionShape::SetAdaptToAABB(eCCollisionShape *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x1b3e7  12859  ?SetAdaptToAABB@eCCollisionShape@@QAEXAB_N@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"AdaptToAABB",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->eCCollisionShape_data).offset_0x38 = (bCObjectRefBase)*param_1;
+  (*pNVar1)(this,"AdaptToAABB",false);
+  return;
+}
+
+

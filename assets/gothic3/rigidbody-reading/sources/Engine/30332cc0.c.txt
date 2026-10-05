@@ -1,0 +1,30 @@
+/* ENTRY 30332cc0 | bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::deleting_destructor | STATUS decompiled | 8 ms */
+
+bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_> * __thiscall
+bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::deleting_destructor
+          (bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_> *this,byte param_1)
+
+{
+                    /* inlined destructor:
+                       bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::~bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>
+                        */
+  this->vftablePtr = &vftable;
+  bCPropertyTypeBase::Destroy((bCPropertyTypeBase *)this);
+  thunk_FUN_3008f120(this + 8);
+  bCPropertyObjectTypeBase::UnregisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)this[6].vftablePtr,(bCPropertyTypeBase *)this);
+                    /* inlined destructor:
+                       bTPropertyTypeOnly<bTPropertyContainer<eERigidbody_Flag>_>::~bTPropertyTypeOnly<bTPropertyContainer<eERigidbody_Flag>_>
+                        */
+  this->vftablePtr =
+       (bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>_vftable *)
+       &bTPropertyTypeOnly<bTPropertyContainer<eERigidbody_Flag>_>::vftable;
+  bCPropertyTypeBase::~bCPropertyTypeBase((bCPropertyTypeBase *)this);
+  if ((param_1 & 1) != 0) {
+                    /* WARNING: Subroutine does not return */
+    _free(this);
+  }
+  return this;
+}
+
+

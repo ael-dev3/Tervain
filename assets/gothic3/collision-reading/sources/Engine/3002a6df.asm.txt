@@ -1,0 +1,4 @@
+; 3002a6df bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeAABBAdapt>_>::vfunction1
+3002a6df | e9cc543300 | JMP 0x3035fbb0
+; 3002a6e9 eCLightmapBitmap::GetBitmapSize
+; 3002a6e9 Ordinal_6265

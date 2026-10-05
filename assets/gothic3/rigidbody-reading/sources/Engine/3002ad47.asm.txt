@@ -1,0 +1,2 @@
+; 3002ad47 bTPropertyType<eCRigidBody_PS,bCVector>::deleting_destructor
+3002ad47 | e9147f3000 | JMP 0x30332c60

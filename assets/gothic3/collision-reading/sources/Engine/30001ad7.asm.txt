@@ -1,0 +1,4 @@
+; 30001ad7 ?Destroy@eCCollisionShape_PS@@UAEXXZ
+30001ad7 | e9a45f3300 | JMP 0x30337a80
+; 30001adc eCGfxMixerAdmin::GetActiveMaterial
+; 30001adc Ordinal_6090

@@ -1,0 +1,12 @@
+/* ENTRY 30005a2e | eCCollisionShape::GetBox | STATUS decompiled | 2 ms */
+
+/* public: class bCOrientedBox const & __thiscall eCCollisionShape::GetBox(void)const  */
+
+bCOrientedBox * __thiscall eCCollisionShape::GetBox(eCCollisionShape *this)
+
+{
+                    /* 0x5a2e  6361  ?GetBox@eCCollisionShape@@QBEABVbCOrientedBox@@XZ */
+  return (bCOrientedBox *)(this->eCCollisionShape_data).offset_0x70;
+}
+
+

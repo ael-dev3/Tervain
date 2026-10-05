@@ -1,0 +1,14 @@
+/* ENTRY 3003fda5 | eCCollisionShapeBase_PS::Read | STATUS decompiled | 8 ms */
+
+/* public: virtual enum bEResult __thiscall eCCollisionShapeBase_PS::Read(class bCIStream &) */
+
+bEResult __thiscall eCCollisionShapeBase_PS::Read(eCCollisionShapeBase_PS *this,bCIStream *param_1)
+
+{
+                    /* 0x3fda5  12055
+                       ?Read@eCCollisionShapeBase_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z */
+  bCIStream::operator>>((bCIStream *)param_1,(ushort *)&param_1);
+  return 1;
+}
+
+

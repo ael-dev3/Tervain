@@ -1,0 +1,4 @@
+; 30028150 bTPropertyType<eCCollisionShape,unsigned_short>::vfunction10
+30028150 | e9ab953300 | JMP 0x30361700
+; 30028155 eCEntity::GetAziElev
+; 30028155 Ordinal_6246

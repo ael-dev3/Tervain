@@ -1,0 +1,17 @@
+/* ENTRY 10004cb9 | bCOrientedBox::Merge | STATUS decompiled | 4 ms */
+
+/* public: void __thiscall bCOrientedBox::Merge(class bCOrientedBox const &) */
+
+void __thiscall bCOrientedBox::Merge(bCOrientedBox *this,bCOrientedBox *param_1)
+
+{
+  bCOrientedBox *pbVar1;
+  bCOrientedBox abStack_3c [60];
+  
+                    /* 0x4cb9  3730  ?Merge@bCOrientedBox@@QAEXABV1@@Z */
+  pbVar1 = (bCOrientedBox *)GetMerged(this,abStack_3c);
+  Create(this,pbVar1);
+  return;
+}
+
+

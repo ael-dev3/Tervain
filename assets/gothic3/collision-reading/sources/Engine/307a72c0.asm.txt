@@ -1,0 +1,6 @@
+; 307a72c0 bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>::~bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>
+307a72c0 | b90cccae30 | MOV ECX,0x30aecc0c
+307a72c5 | c705f4cbae308c318630 | MOV dword ptr [0x30aecbf4],0x3086318c
+307a72cf | ff1538caaf30 | CALL dword ptr [0x30afca38]
+307a72d5 | b9f4cbae30 | MOV ECX,0x30aecbf4
+307a72da | ff2534caaf30 | JMP dword ptr [0x30afca34]

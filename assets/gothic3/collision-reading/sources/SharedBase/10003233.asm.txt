@@ -1,0 +1,4 @@
+; 10003233 ?GetVertex@bCBox@@QBE?AVbCVector@@H@Z
+10003233 | e9d8300300 | JMP 0x10036310
+; 10003238 bCFile::GetLength
+; 10003238 Ordinal_2584

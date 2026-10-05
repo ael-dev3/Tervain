@@ -1,0 +1,18 @@
+/* ENTRY 300061a9 | eCCollisionShape::GetEntity | STATUS decompiled | 3 ms */
+
+/* public: class eCEntity * __thiscall eCCollisionShape::GetEntity(void)const  */
+
+eCEntity * __thiscall eCCollisionShape::GetEntity(eCCollisionShape *this)
+
+{
+  int iVar1;
+  
+                    /* 0x61a9  7014  ?GetEntity@eCCollisionShape@@QBEPAVeCEntity@@XZ */
+  if ((this->eCCollisionShape_data).offset_0x5c != 0) {
+    iVar1 = (**(code **)(*(int *)(this->eCCollisionShape_data).offset_0x5c + 4))();
+    return *(eCEntity **)(iVar1 + 4);
+  }
+  return (eCEntity *)0x0;
+}
+
+

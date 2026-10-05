@@ -1,0 +1,2 @@
+; 10007766 ?GetMagnitude@bCBox@@QBE?AVbCVector@@XZ
+10007766 | e9c5ea0200 | JMP 0x10036230

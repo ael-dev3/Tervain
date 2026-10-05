@@ -1,0 +1,4 @@
+; 30033992 SHAREDBASE.DLL::bCPropertyTypeBase::Read
+30033992 | e959c63200 | JMP 0x3035fff0
+; 30033997 eCStaticCtrl::operator=
+; 30033997 Ordinal_1781

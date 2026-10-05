@@ -1,0 +1,4 @@
+; 30001b40 bTPropertyType<eCCollisionShape_PS,bCObsoleteClass>::vfunction6
+30001b40 | e97bb43300 | JMP 0x3033cfc0
+; 30001b4a eCEventDebugger_PS::GetRootObject
+; 30001b4a Ordinal_8517

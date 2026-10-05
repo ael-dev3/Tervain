@@ -1,0 +1,13 @@
+/* ENTRY 100082ab | bCOrientedBox::operator*= | STATUS decompiled | 2 ms */
+
+/* public: class bCOrientedBox & __thiscall bCOrientedBox::operator*=(class bCMatrix const &) */
+
+bCOrientedBox * __thiscall bCOrientedBox::operator*=(bCOrientedBox *this,bCMatrix *param_1)
+
+{
+                    /* 0x82ab  1200  ??XbCOrientedBox@@QAEAAV0@ABVbCMatrix@@@Z */
+  Transform(this,param_1);
+  return this;
+}
+
+

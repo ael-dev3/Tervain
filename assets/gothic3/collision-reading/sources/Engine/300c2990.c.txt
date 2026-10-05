@@ -1,0 +1,16 @@
+/* ENTRY 300c2990 | FUN_300c2990 | STATUS decompiled | 4 ms */
+
+void __fastcall FUN_300c2990(int *param_1)
+
+{
+  code *pcVar1;
+  int *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("AdaptScale",0);
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  param_1[0x10] = *unaff_ESI;
+  (*pcVar1)("AdaptScale",0);
+  return;
+}
+
+

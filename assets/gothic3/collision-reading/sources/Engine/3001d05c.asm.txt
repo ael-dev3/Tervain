@@ -1,0 +1,2 @@
+; 3001d05c ?GetIsLazyGenerated@eCCollisionShape@@QBEAB_NXZ
+3001d05c | e9ef570a00 | JMP 0x300c2850

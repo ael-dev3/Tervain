@@ -1,0 +1,10 @@
+/* ENTRY 10057950 | FUN_10057950 | STATUS decompiled | 2 ms */
+
+bCCapsule * __thiscall FUN_10057950(bCCapsule *param_1,bCCapsule *param_2)
+
+{
+  bCCapsule::SetCapsule(param_1,param_2);
+  return param_1;
+}
+
+

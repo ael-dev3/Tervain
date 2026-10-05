@@ -1,0 +1,46 @@
+; 300cdac0 FUN_300cdac0
+300cdac0 | 56 | PUSH ESI
+300cdac1 | 8bf1 | MOV ESI,ECX
+300cdac3 | 8b4610 | MOV EAX,dword ptr [ESI + 0x10]
+300cdac6 | 83c0fd | ADD EAX,-0x3
+300cdac9 | 83f804 | CMP EAX,0x4
+300cdacc | 7760 | JA 0x300cdb2e
+; 300cdace switchD_300cdace::switchD
+300cdace | ff24853cdb0c30 | JMP dword ptr [EAX*0x4 + 0x300cdb3c]
+; 300cdad5 switchD_300cdace::caseD_3
+300cdad5 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+300cdad9 | 8b4e74 | MOV ECX,dword ptr [ESI + 0x74]
+300cdadc | 50 | PUSH EAX
+300cdadd | ff1534cdaf30 | CALL dword ptr [0x30afcd34]
+300cdae3 | 8bce | MOV ECX,ESI
+300cdae5 | e8189ef6ff | CALL 0x30037902
+300cdaea | 5e | POP ESI
+300cdaeb | c20400 | RET 0x4
+; 300cdaee switchD_300cdace::caseD_5
+300cdaee | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+300cdaf2 | 51 | PUSH ECX
+300cdaf3 | 8b4e74 | MOV ECX,dword ptr [ESI + 0x74]
+300cdaf6 | ff1530cdaf30 | CALL dword ptr [0x30afcd30]
+300cdafc | 8bce | MOV ECX,ESI
+300cdafe | e8ff9df6ff | CALL 0x30037902
+300cdb03 | 5e | POP ESI
+300cdb04 | c20400 | RET 0x4
+; 300cdb07 switchD_300cdace::caseD_4
+300cdb07 | 8b542408 | MOV EDX,dword ptr [ESP + 0x8]
+300cdb0b | 8b4e74 | MOV ECX,dword ptr [ESI + 0x74]
+300cdb0e | 52 | PUSH EDX
+300cdb0f | ff152ccdaf30 | CALL dword ptr [0x30afcd2c]
+300cdb15 | 8bce | MOV ECX,ESI
+300cdb17 | e8e69df6ff | CALL 0x30037902
+300cdb1c | 5e | POP ESI
+300cdb1d | c20400 | RET 0x4
+; 300cdb20 switchD_300cdace::caseD_7
+300cdb20 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+300cdb24 | 8b4e74 | MOV ECX,dword ptr [ESI + 0x74]
+300cdb27 | 50 | PUSH EAX
+300cdb28 | ff1528cdaf30 | CALL dword ptr [0x30afcd28]
+; 300cdb2e switchD_300cdace::caseD_6
+300cdb2e | 8bce | MOV ECX,ESI
+300cdb30 | e8cd9df6ff | CALL 0x30037902
+300cdb35 | 5e | POP ESI
+300cdb36 | c20400 | RET 0x4

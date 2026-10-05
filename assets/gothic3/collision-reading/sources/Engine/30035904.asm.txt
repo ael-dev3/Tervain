@@ -1,0 +1,4 @@
+; 30035904 ?PostInitializeProperties@eCCollisionShape_PS@@UAE?AW4bEResult@@XZ
+30035904 | e9970c3000 | JMP 0x303365a0
+; 30035909 eCWeatherZone_PS::GetRectBlendFactor
+; 30035909 Ordinal_8390

@@ -1,0 +1,13 @@
+/* ENTRY 10003c7e | bCOrientedBox::operator= | STATUS decompiled | 3 ms */
+
+/* public: class bCOrientedBox & __thiscall bCOrientedBox::operator=(class bCOrientedBox const &) */
+
+bCOrientedBox * __thiscall bCOrientedBox::operator=(bCOrientedBox *this,bCOrientedBox *param_1)
+
+{
+                    /* 0x3c7e  509  ??4bCOrientedBox@@QAEAAV0@ABV0@@Z */
+  Create(this,param_1);
+  return this;
+}
+
+

@@ -1,0 +1,67 @@
+/* ENTRY 10006c35 | bCOrientedBox::GetEdge | STATUS decompiled | 18 ms */
+
+/* public: void __thiscall bCOrientedBox::GetEdge(int,class bCStretch &)const  */
+
+void __thiscall bCOrientedBox::GetEdge(bCOrientedBox *this,int param_1,bCStretch *param_2)
+
+{
+  int iVar1;
+  
+                    /* 0x6c35  2318  ?GetEdge@bCOrientedBox@@QBEXHAAVbCStretch@@@Z */
+  switch(param_1) {
+  case 0:
+    GetVertex(this,0,(bCVector *)param_2);
+    GetVertex(this,1,(bCVector *)(param_2 + 0xc));
+    return;
+  case 1:
+    GetVertex(this,3,(bCVector *)param_2);
+    GetVertex(this,0,(bCVector *)(param_2 + 0xc));
+    return;
+  case 2:
+    GetVertex(this,2,(bCVector *)param_2);
+    GetVertex(this,3,(bCVector *)(param_2 + 0xc));
+    return;
+  case 3:
+    GetVertex(this,1,(bCVector *)param_2);
+    GetVertex(this,2,(bCVector *)(param_2 + 0xc));
+    return;
+  case 4:
+    GetVertex(this,5,(bCVector *)param_2);
+    GetVertex(this,4,(bCVector *)(param_2 + 0xc));
+    return;
+  case 5:
+    GetVertex(this,4,(bCVector *)param_2);
+    GetVertex(this,7,(bCVector *)(param_2 + 0xc));
+    return;
+  case 6:
+    GetVertex(this,7,(bCVector *)param_2);
+    GetVertex(this,6,(bCVector *)(param_2 + 0xc));
+    return;
+  case 7:
+    iVar1 = 6;
+    break;
+  case 8:
+    GetVertex(this,3,(bCVector *)param_2);
+    GetVertex(this,7,(bCVector *)(param_2 + 0xc));
+    return;
+  case 9:
+    GetVertex(this,6,(bCVector *)param_2);
+    GetVertex(this,2,(bCVector *)(param_2 + 0xc));
+    return;
+  case 10:
+    GetVertex(this,4,(bCVector *)param_2);
+    GetVertex(this,0,(bCVector *)(param_2 + 0xc));
+    return;
+  case 0xb:
+    iVar1 = 1;
+    break;
+  default:
+    goto switchD_10064291_default;
+  }
+  GetVertex(this,iVar1,(bCVector *)param_2);
+  GetVertex(this,5,(bCVector *)(param_2 + 0xc));
+switchD_10064291_default:
+  return;
+}
+
+

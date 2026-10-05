@@ -1,0 +1,39 @@
+/* ENTRY 30026693 | eCDynamicEntity::Read | STATUS decompiled | 28 ms */
+
+/* public: virtual enum bEResult __thiscall eCDynamicEntity::Read(class bCIStream &) */
+
+bEResult __thiscall eCDynamicEntity::Read(eCDynamicEntity *this,bCIStream *param_1)
+
+{
+  ushort *puVar1;
+  bCIStream *this_00;
+  bool bVar2;
+  bool bStack_5;
+  ushort auStack_4 [2];
+  
+                    /* 0x26693  12083  ?Read@eCDynamicEntity@@UAE?AW4bEResult@@AAVbCIStream@@@Z */
+  this_00 = param_1;
+  bCIStream::operator>>((bCIStream *)param_1,auStack_4);
+  if (auStack_4[0] < 0x53) {
+    bCIStream::operator>>((bCIStream *)this_00,&bStack_5);
+  }
+  bCIStream::operator>>((bCIStream *)this_00,(bool *)&param_1);
+  if ((char)param_1 == '\x01') {
+    ::operator>>(this_00,(bCPropertyID *)&(this->eCDynamicEntity_data).field_0x4);
+  }
+  puVar1 = &(this->eCDynamicEntity_data).offset_0x18;
+  *puVar1 = *puVar1 | 1;
+  eCEntity::Read((eCEntity *)this,this_00);
+  if ((char)param_1 == '\x01') {
+    bVar2 = eCEntity::IsEntityPatchingEnabled();
+    if (bVar2) {
+      eCEntity::PatchWithTemplate
+                ((eCEntity *)this,(bCPropertyID *)&(this->eCDynamicEntity_data).field_0x4,true);
+    }
+  }
+  puVar1 = &(this->eCDynamicEntity_data).offset_0x18;
+  *puVar1 = *puVar1 & 0xfffd;
+  return 1;
+}
+
+

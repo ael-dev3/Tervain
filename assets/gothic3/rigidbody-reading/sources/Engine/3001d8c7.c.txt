@@ -1,0 +1,83 @@
+/* ENTRY 3001d8c7 | eCRigidBody_PS::OnUpdatedWorldMatrix | STATUS decompiled | 77 ms */
+
+/* protected: virtual void __thiscall eCRigidBody_PS::OnUpdatedWorldMatrix(void) */
+
+void __thiscall eCRigidBody_PS::OnUpdatedWorldMatrix(eCRigidBody_PS *this)
+
+{
+  undefined1 *puVar1;
+  bool bVar2;
+  eCPhysicsScene *this_00;
+  eCEntity *peVar3;
+  bCVector *pbVar4;
+  undefined4 *puVar5;
+  eCApplication *peVar6;
+  undefined1 *puVar7;
+  undefined1 *puVar8;
+  bCVector abStack_30 [4];
+  undefined1 auStack_2c [8];
+  bCVector abStack_24 [4];
+  bCVector abStack_20 [4];
+  bCVector abStack_1c [8];
+  bCQuaternion abStack_14 [20];
+  
+                    /* 0x1d8c7  11625  ?OnUpdatedWorldMatrix@eCRigidBody_PS@@MAEXXZ */
+  this_00 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+  bVar2 = eCPhysicsScene::IsPlacingEntities(this_00);
+  if (!bVar2) {
+    puVar1 = &(this->eCRigidBody_PS_data).field_0x88;
+    peVar3 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+    pbVar4 = eCEntity::GetWorldPosition(peVar3);
+    bCVector::operator=((bCVector *)puVar1,pbVar4);
+    peVar3 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+    puVar5 = (undefined4 *)eCEntity::GetWorldRotation(peVar3);
+    *(undefined4 *)&(this->eCRigidBody_PS_data).field_0x94 = *puVar5;
+    *(undefined4 *)&(this->eCRigidBody_PS_data).field_0x98 = puVar5[1];
+    *(undefined4 *)&(this->eCRigidBody_PS_data).field_0x9c = puVar5[2];
+    *(undefined4 *)&(this->eCRigidBody_PS_data).field_0xa0 = puVar5[3];
+    bCQuaternion::~bCQuaternion(abStack_14);
+    bCVector::operator=((bCVector *)&(this->eCRigidBody_PS_data).field_0xa4,(bCVector *)puVar1);
+    *(undefined4 *)&(this->eCRigidBody_PS_data).field_0xb0 =
+         *(undefined4 *)&(this->eCRigidBody_PS_data).field_0x94;
+    *(undefined4 *)&(this->eCRigidBody_PS_data).field_0xb4 =
+         *(undefined4 *)&(this->eCRigidBody_PS_data).field_0x98;
+    *(undefined4 *)&(this->eCRigidBody_PS_data).field_0xb8 =
+         *(undefined4 *)&(this->eCRigidBody_PS_data).field_0x9c;
+    *(undefined4 *)&(this->eCRigidBody_PS_data).field_0xbc =
+         *(undefined4 *)&(this->eCRigidBody_PS_data).field_0xa0;
+  }
+  if ((this->eCRigidBody_PS_data).offset_0x6c != '\0') {
+    peVar3 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+    pbVar4 = eCEntity::GetWorldPosition(peVar3);
+    bCVector::bCVector(abStack_20,pbVar4);
+    puVar1 = &(this->eCRigidBody_PS_data).field_0x7c;
+    peVar6 = (eCApplication *)eCApplication::GetInstance();
+    eCApplication::GetOOScaledFrameTimeInSeconds(peVar6);
+    puVar8 = auStack_2c;
+    puVar7 = puVar1;
+    pbVar4 = (bCVector *)bCVector::operator-(abStack_20,(bCVector *)abStack_14);
+    bCVector::operator*(pbVar4,(float)puVar7);
+    bCVector::~bCVector(abStack_1c);
+    bVar2 = bCVector::HasZeroMagnitude((bCVector *)&stack0xffffffcc);
+    pbVar4 = (bCVector *)&stack0xffffffcc;
+    if (!bVar2) {
+      puVar7 = &(this->eCRigidBody_PS_data).field_0x70;
+      pbVar4 = (bCVector *)bCVector::operator-((bCVector *)&stack0xffffffcc,abStack_1c);
+      bCVector::GetSquareMagnitude(pbVar4);
+      bCVector::~bCVector(abStack_20);
+      peVar6 = (eCApplication *)eCApplication::GetInstance();
+      eCApplication::GetFrameTimeInSeconds(peVar6);
+      pbVar4 = (bCVector *)bCVector::operator*((bCVector *)&stack0xffffffc8,(float)abStack_20);
+      bCVector::operator+=((bCVector *)puVar7,pbVar4);
+      bCVector::~bCVector(abStack_24);
+      bCVector::operator/=((bCVector *)puVar7,(float)puVar8 + 1.0);
+      bCVector::operator=((bCVector *)puVar1,abStack_30);
+      pbVar4 = (bCVector *)&stack0xffffffc4;
+    }
+    bCVector::~bCVector(pbVar4);
+    bCVector::~bCVector(abStack_30);
+  }
+  return;
+}
+
+

@@ -1,0 +1,18 @@
+/* ENTRY 100056e6 | bCPropertyObjectBase::Clone | STATUS decompiled | 4 ms */
+
+/* public: class bCPropertyObjectBase * __thiscall bCPropertyObjectBase::Clone(void)const  */
+
+bCPropertyObjectBase * __thiscall bCPropertyObjectBase::Clone(bCPropertyObjectBase *this)
+
+{
+  bCPropertyObjectBase *pbVar1;
+  bCOStream *in_stack_00000004;
+  
+                    /* 0x56e6  1640  ?Clone@bCPropertyObjectBase@@QBEPAV1@XZ */
+                    /* WARNING: Could not recover jumptable at 0x100890d5. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  pbVar1 = (bCPropertyObjectBase *)(*this->vftablePtr->vfunction15)(this,in_stack_00000004);
+  return pbVar1;
+}
+
+

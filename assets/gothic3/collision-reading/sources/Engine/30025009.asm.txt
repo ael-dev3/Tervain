@@ -1,0 +1,2 @@
+; 30025009 bTPropertyType<eCCollisionShape,bTPropertyContainer<eECollisionShapeType>_>::deleting_destructor
+30025009 | e9f2e23300 | JMP 0x30363300

@@ -1,0 +1,4 @@
+; 10008846 ?Intersects@bCOrientedBox@@QBE_NABVbCBox@@@Z
+10008846 | e935d80500 | JMP 0x10066080
+; 1000884b bCQuaternion::GetDifference
+; 1000884b Ordinal_2287

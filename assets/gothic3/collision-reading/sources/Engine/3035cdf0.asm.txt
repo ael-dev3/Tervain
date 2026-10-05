@@ -1,0 +1,58 @@
+; 3035cdf0 bTPropertyObject<eCCollisionShape,bCObjectRefBase>::vfunction6
+3035cdf0 | 53 | PUSH EBX
+3035cdf1 | 56 | PUSH ESI
+3035cdf2 | 8b74240c | MOV ESI,dword ptr [ESP + 0xc]
+3035cdf6 | 57 | PUSH EDI
+3035cdf7 | 56 | PUSH ESI
+3035cdf8 | 8bd9 | MOV EBX,ECX
+3035cdfa | ff15eccaaf30 | CALL dword ptr [0x30afcaec]
+3035ce00 | 0fb7f8 | MOVZX EDI,AX
+3035ce03 | 8d442410 | LEA EAX,[ESP + 0x10]
+3035ce07 | 50 | PUSH EAX
+3035ce08 | 8bce | MOV ECX,ESI
+3035ce0a | c744241400000000 | MOV dword ptr [ESP + 0x14],0x0
+3035ce12 | ff1594caaf30 | CALL dword ptr [0x30afca94]
+3035ce18 | e8fd56cdff | CALL 0x3003251a
+3035ce1d | 50 | PUSH EAX
+3035ce1e | e83655ccff | CALL 0x30022359
+3035ce23 | 8bc8 | MOV ECX,EAX
+3035ce25 | ff159cdaaf30 | CALL dword ptr [0x30afda9c]
+3035ce2b | 84c0 | TEST AL,AL
+3035ce2d | 743c | JZ 0x3035ce6b
+3035ce2f | 8b4c2410 | MOV ECX,dword ptr [ESP + 0x10]
+3035ce33 | 55 | PUSH EBP
+3035ce34 | 8b2dacdbaf30 | MOV EBP,dword ptr [0x30afdbac]
+3035ce3a | 51 | PUSH ECX
+3035ce3b | ffd5 | CALL EBP
+3035ce3d | 8bc8 | MOV ECX,EAX
+3035ce3f | ff1590caaf30 | CALL dword ptr [0x30afca90]
+3035ce45 | 8b16 | MOV EDX,dword ptr [ESI]
+3035ce47 | 8b5204 | MOV EDX,dword ptr [EDX + 0x4]
+3035ce4a | 8bd8 | MOV EBX,EAX
+3035ce4c | 8b442414 | MOV EAX,dword ptr [ESP + 0x14]
+3035ce50 | 50 | PUSH EAX
+3035ce51 | 53 | PUSH EBX
+3035ce52 | 8bce | MOV ECX,ESI
+3035ce54 | ffd2 | CALL EDX
+3035ce56 | 53 | PUSH EBX
+3035ce57 | ffd5 | CALL EBP
+3035ce59 | 8bc8 | MOV ECX,EAX
+3035ce5b | ff150cdbaf30 | CALL dword ptr [0x30afdb0c]
+3035ce61 | 5d | POP EBP
+3035ce62 | 668bc7 | MOV AX,DI
+3035ce65 | 5f | POP EDI
+3035ce66 | 5e | POP ESI
+3035ce67 | 5b | POP EBX
+3035ce68 | c20400 | RET 0x4
+; 3035ce6b LAB_3035ce6b
+3035ce6b | 8b03 | MOV EAX,dword ptr [EBX]
+3035ce6d | 8b501c | MOV EDX,dword ptr [EAX + 0x1c]
+3035ce70 | 57 | PUSH EDI
+3035ce71 | 56 | PUSH ESI
+3035ce72 | 8bcb | MOV ECX,EBX
+3035ce74 | ffd2 | CALL EDX
+3035ce76 | 668bc7 | MOV AX,DI
+3035ce79 | 5f | POP EDI
+3035ce7a | 5e | POP ESI
+3035ce7b | 5b | POP EBX
+3035ce7c | c20400 | RET 0x4

@@ -1,0 +1,4 @@
+; 30002afe ?AddShape@eCCollisionShapeBase_PS@@UAE?AW4bEResult@@PAVeCCollisionShape@@@Z
+30002afe | e92de73300 | JMP 0x30341230
+; 30002b03 eCGfxVisual::Read
+; 30002b03 Ordinal_12132

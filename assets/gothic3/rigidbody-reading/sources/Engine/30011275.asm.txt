@@ -1,0 +1,4 @@
+; 30011275 bTPropertyType<eCRigidBody_PS,bCVector>::vfunction25
+30011275 | e9d6053200 | JMP 0x30331850
+; 3001127f eCSkyObject::SetBillboards
+; 3001127f Ordinal_12952

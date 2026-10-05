@@ -1,0 +1,2 @@
+; 3002b797 ?AccessEnableCCD@eCCollisionShape@@QAEAA_NXZ
+3002b797 | e9c46d0900 | JMP 0x300c2560

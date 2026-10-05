@@ -1,0 +1,98 @@
+/* ENTRY 3035b390 | FUN_3035b390 | STATUS decompiled | 41 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined4 __thiscall FUN_3035b390(int param_1,bCBox *param_2)
+
+{
+  bCVector *pbVar1;
+  NxVec3 *pNVar2;
+  int iVar3;
+  code *pcVar4;
+  int *piVar5;
+  float10 fVar6;
+  float10 fVar7;
+  float fVar8;
+  float fVar9;
+  float *pfVar10;
+  undefined1 *puVar11;
+  float local_18;
+  float fStack_14;
+  float fStack_10;
+  undefined1 local_c [4];
+  float fStack_8;
+  
+  if (*(int *)(param_1 + 0x60) == 0) {
+    return 0;
+  }
+  iVar3 = **(int **)(param_1 + 0x60);
+  puVar11 = local_c;
+  pfVar10 = &local_18;
+  fVar8 = _DAT_30ab5a70;
+  pbVar1 = (bCVector *)bCBox::GetCenter(param_2);
+  pbVar1 = (bCVector *)bCVector::operator*(pbVar1,(float)pfVar10);
+  pNVar2 = bCVector::operator_class_NxVec3_(pbVar1);
+  (**(code **)(iVar3 + 0x20))(pNVar2,puVar11,fVar8);
+  bCVector::~bCVector((bCVector *)&local_18);
+  bCVector::~bCVector((bCVector *)&stack0xffffffdc);
+  piVar5 = *(int **)(param_1 + 0x60);
+  iVar3 = (**(code **)(*piVar5 + 0x5c))();
+  piVar5 = (int *)(~-(uint)(iVar3 != 1) & (uint)piVar5);
+  if (piVar5 == (int *)0x0) {
+    piVar5 = *(int **)(param_1 + 0x60);
+    iVar3 = (**(code **)(*piVar5 + 0x5c))();
+    piVar5 = (int *)(~-(uint)(iVar3 != 2) & (uint)piVar5);
+    if (piVar5 != (int *)0x0) {
+      fVar8 = bCBox::GetWidth(param_2);
+      fStack_8 = fVar8 * 0.25 * _DAT_30ab5a70;
+      fVar8 = bCBox::GetHeight(param_2);
+      fVar8 = fVar8 * 0.25 * _DAT_30ab5a70;
+      fVar9 = bCBox::GetDepth(param_2);
+      fStack_10 = fVar9 * 0.25 * _DAT_30ab5a70;
+      local_18 = fStack_8;
+      fStack_14 = fVar8;
+      (**(code **)(*piVar5 + 0x88))(&local_18);
+      return 1;
+    }
+    piVar5 = *(int **)(param_1 + 0x60);
+    iVar3 = (**(code **)(*piVar5 + 0x5c))();
+    piVar5 = (int *)(~-(uint)(iVar3 != 3) & (uint)piVar5);
+    if (piVar5 == (int *)0x0) {
+      return 1;
+    }
+    fVar8 = bCBox::GetDepth(param_2);
+    fVar9 = bCBox::GetWidth(param_2);
+    if (fVar8 <= fVar9) {
+      fVar9 = bCBox::GetWidth(param_2);
+    }
+    else {
+      fVar9 = bCBox::GetDepth(param_2);
+    }
+    fStack_8 = fVar9 * 0.25 * _DAT_30ab5a70;
+    (**(code **)(*piVar5 + 0x8c))(fStack_8);
+    fVar9 = bCBox::GetHeight(param_2);
+    fVar9 = fVar9 * 0.25 * _DAT_30ab5a70;
+    fVar6 = (float10)(**(code **)(*piVar5 + 0x90))();
+    fVar7 = (float10)0.0010000000474974513;
+    if (fVar7 <= (float10)(double)CONCAT44((int)((ulonglong)(double)fVar8 >> 0x20),
+                                           (int)((ulonglong)(double)fVar9 >> 0x20)) -
+                 (fVar6 + fVar6)) {
+      fVar8 = bCBox::GetHeight(param_2);
+      fVar8 = fVar8 * 0.25 * _DAT_30ab5a70;
+      fVar6 = (float10)(**(code **)(*piVar5 + 0x90))();
+      fVar7 = (float10)fVar8 - (fVar6 + fVar6);
+    }
+    fStack_8 = (float)fVar7;
+    pcVar4 = *(code **)(*piVar5 + 0x94);
+  }
+  else {
+    iVar3 = *piVar5;
+    fVar8 = bCBox::GetMaxExtend(param_2);
+    pcVar4 = *(code **)(iVar3 + 0x88);
+    fStack_8 = fVar8 * 0.25 * _DAT_30ab5a70;
+  }
+  (*pcVar4)(fStack_8);
+  return 1;
+}
+
+

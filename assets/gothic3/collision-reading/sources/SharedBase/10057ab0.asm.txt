@@ -1,0 +1,20 @@
+; 10057ab0 FUN_10057ab0
+10057ab0 | 51 | PUSH ECX
+10057ab1 | 0f57c0 | XORPS XMM0,XMM0
+10057ab4 | f30f100dbc710e10 | MOVSS XMM1,dword ptr [0x100e71bc]
+10057abc | f30f110424 | MOVSS dword ptr [ESP],XMM0
+10057ac1 | 8b0424 | MOV EAX,dword ptr [ESP]
+10057ac4 | 89410c | MOV dword ptr [ECX + 0xc],EAX
+10057ac7 | 894110 | MOV dword ptr [ECX + 0x10],EAX
+10057aca | 894114 | MOV dword ptr [ECX + 0x14],EAX
+10057acd | 89411c | MOV dword ptr [ECX + 0x1c],EAX
+10057ad0 | 894120 | MOV dword ptr [ECX + 0x20],EAX
+10057ad3 | 894124 | MOV dword ptr [ECX + 0x24],EAX
+10057ad6 | f30f114908 | MOVSS dword ptr [ECX + 0x8],XMM1
+10057adb | f30f114918 | MOVSS dword ptr [ECX + 0x18],XMM1
+10057ae0 | f30f114928 | MOVSS dword ptr [ECX + 0x28],XMM1
+10057ae5 | f30f11412c | MOVSS dword ptr [ECX + 0x2c],XMM0
+10057aea | f30f114130 | MOVSS dword ptr [ECX + 0x30],XMM0
+10057aef | f30f114134 | MOVSS dword ptr [ECX + 0x34],XMM0
+10057af4 | 59 | POP ECX
+10057af5 | c3 | RET

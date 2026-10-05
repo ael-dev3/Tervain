@@ -1,0 +1,4 @@
+; 1000756d ?GetCenter@bCBox@@QBEXAAVbCVector@@@Z
+1000756d | e9de3e0200 | JMP 0x1002b450
+; 10007577 bCUnicodeString::FindOneOf
+; 10007577 Ordinal_2043

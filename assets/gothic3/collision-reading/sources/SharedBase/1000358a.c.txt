@@ -1,0 +1,18 @@
+/* ENTRY 1000358a | bCOrientedBox::operator|= | STATUS decompiled | 3 ms */
+
+/* public: class bCOrientedBox & __thiscall bCOrientedBox::operator|=(class bCOrientedBox const &)
+    */
+
+bCOrientedBox * __thiscall bCOrientedBox::operator|=(bCOrientedBox *this,bCOrientedBox *param_1)
+
+{
+  bCOrientedBox *pbVar1;
+  bCOrientedBox abStack_3c [60];
+  
+                    /* 0x358a  1329  ??_5bCOrientedBox@@QAEAAV0@ABV0@@Z */
+  pbVar1 = (bCOrientedBox *)GetMerged(this,abStack_3c);
+  Create(this,pbVar1);
+  return this;
+}
+
+

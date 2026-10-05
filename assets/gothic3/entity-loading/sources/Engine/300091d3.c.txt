@@ -1,0 +1,16 @@
+/* ENTRY 300091d3 | eCEntity::Create | STATUS decompiled | 7 ms */
+
+/* public: virtual enum bEResult __thiscall eCEntity::Create(void) */
+
+bEResult __thiscall eCEntity::Create(eCEntity *this)
+
+{
+                    /* 0x91d3  4451  ?Create@eCEntity@@UAE?AW4bEResult@@XZ */
+  eCNode::Create((eCNode *)this);
+  eCFrustumElementItem::SetEntity
+            ((eCFrustumElementItem *)&(this->eCEntity_data).field_0x11c,(eCEntity *)this);
+  (this->eCEntity_data).offset_0x114 = &LAB_30017323;
+  return 1;
+}
+
+

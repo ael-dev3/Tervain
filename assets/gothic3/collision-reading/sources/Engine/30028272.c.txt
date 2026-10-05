@@ -1,0 +1,65 @@
+/* ENTRY 30028272 | eCCollisionShape_PS::RemoveShapesInternal | STATUS decompiled | 43 ms */
+
+/* protected: virtual void __thiscall eCCollisionShape_PS::RemoveShapesInternal(enum
+   eECollisionShapeType) */
+
+void __thiscall
+eCCollisionShape_PS::RemoveShapesInternal(eCCollisionShape_PS *this,eECollisionShapeType param_1)
+
+{
+  int *piVar1;
+  char cVar2;
+  eCEntity *peVar3;
+  eCPhysicObject *this_00;
+  NxActor *pNVar4;
+  int iVar5;
+  int iVar6;
+  eECollisionShapeType eVar7;
+  int iVar8;
+  bool bVar9;
+  bool bVar10;
+  int iStack_8;
+  
+                    /* 0x28272  12558
+                       ?RemoveShapesInternal@eCCollisionShape_PS@@MAEXW4eECollisionShapeType@@@Z */
+  peVar3 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+  this_00 = (eCPhysicObject *)eCEntity::GetPhysicObject(peVar3);
+  pNVar4 = eCPhysicObject::GetActor(this_00);
+  iVar5 = (**(code **)(*(int *)pNVar4 + 0x4c))();
+  iStack_8 = 0;
+  iVar8 = iVar5;
+  if (iVar5 != 0) {
+    while (iVar8 = iVar8 + -1, -1 < iVar8) {
+      iVar6 = (**(code **)(*(int *)pNVar4 + 0x50))();
+      piVar1 = *(int **)(iVar6 + iVar8 * 4);
+      eVar7 = (**(code **)(*piVar1 + 0x5c))();
+      if (((uint)piVar1 & (param_1 != eVar7) - 1) != 0) {
+        iStack_8 = iStack_8 + 1;
+      }
+    }
+    iVar5 = iVar5 - iStack_8;
+    if ((iVar5 == 0) && (cVar2 = (**(code **)(*(int *)pNVar4 + 0x68))(), cVar2 == '\0')) {
+      bVar10 = false;
+      bVar9 = false;
+      peVar3 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+      eCEntity::CacheOut(peVar3,bVar9,bVar10);
+      peVar3 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+      eCEntity::CacheIn(peVar3,SUB41(iVar5,0));
+      return;
+    }
+    iVar8 = (**(code **)(*(int *)pNVar4 + 0x4c))();
+    while (iVar8 = iVar8 + -1, -1 < iVar8) {
+      iVar5 = (**(code **)(*(int *)pNVar4 + 0x50))();
+      piVar1 = *(int **)(iVar5 + iVar8 * 4);
+      eVar7 = (**(code **)(*piVar1 + 0x5c))();
+      if (((uint)piVar1 & (param_1 != eVar7) - 1) != 0) {
+        iVar5 = *(int *)pNVar4;
+        iVar6 = (**(code **)(iVar5 + 0x50))();
+        (**(code **)(iVar5 + 0x48))(*(undefined4 *)(iVar6 + iVar8 * 4));
+      }
+    }
+  }
+  return;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 30044648 | eCCollisionShape::GetMeshResourceName | STATUS decompiled | 3 ms */
+
+/* public: class bCString const & __thiscall eCCollisionShape::GetMeshResourceName(void)const  */
+
+bCString * __thiscall eCCollisionShape::GetMeshResourceName(eCCollisionShape *this)
+
+{
+                    /* 0x44648  7838  ?GetMeshResourceName@eCCollisionShape@@QBEABVbCString@@XZ */
+  return (bCString *)(this->eCCollisionShape_data).offset_0x70;
+}
+
+

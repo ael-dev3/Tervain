@@ -1,0 +1,12 @@
+/* ENTRY 10002ff9 | bCCapsule::GetHeight | STATUS decompiled | 2 ms */
+
+/* public: float const __thiscall bCCapsule::GetHeight(void)const  */
+
+float __thiscall bCCapsule::GetHeight(bCCapsule *this)
+
+{
+                    /* 0x2ff9  2389  ?GetHeight@bCCapsule@@QBE?BMXZ */
+  return *(float *)this;
+}
+
+

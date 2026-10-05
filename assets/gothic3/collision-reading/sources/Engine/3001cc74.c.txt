@@ -1,0 +1,65 @@
+/* ENTRY 3001cc74 | eCCollisionShape::SetShape | STATUS decompiled | 26 ms */
+
+/* public: enum bEResult __thiscall eCCollisionShape::SetShape(class bCString const &,unsigned
+   short,bool) */
+
+bEResult __thiscall
+eCCollisionShape::SetShape(eCCollisionShape *this,bCString *param_1,ushort param_2,bool param_3)
+
+{
+  bCString *pbVar1;
+  undefined4 uVar2;
+  eCArchiveManager *this_00;
+  bCObjectBase bVar3;
+  bCString *pbVar4;
+  bCString *pbVar5;
+  bCObjectBase bStack_c;
+  bCObjectBase bStack_8;
+  undefined4 uStack_4;
+  
+                    /* 0x1cc74  14158
+                       ?SetShape@eCCollisionShape@@QAE?AW4bEResult@@ABVbCString@@G_N@Z */
+  if (param_3) {
+    bCObjectBase::bCObjectBase(&bStack_8);
+    bStack_8 = (bCObjectBase)&bTPropertyContainer<eECollisionShapeType>::vftable;
+    uStack_4 = 6;
+    (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"ShapeType",false);
+    (*(code *)(this->eCCollisionShape_data).offset_0x8[7])();
+    (*this->vftablePtr->NotifyPropertyValueChangedExitEx)(this,"ShapeType",false);
+  }
+  else {
+    bCObjectBase::bCObjectBase(&bStack_8);
+    bStack_8 = (bCObjectBase)&bTPropertyContainer<eECollisionShapeType>::vftable;
+    uStack_4 = 1;
+    (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"ShapeType",false);
+    (*(code *)(this->eCCollisionShape_data).offset_0x8[7])();
+    (*this->vftablePtr->NotifyPropertyValueChangedExitEx)(this,"ShapeType",false);
+  }
+  bStack_c = (bCObjectBase)&bTPropertyContainer<eECollisionShapeType>::vftable;
+  bCObjectBase::~bCObjectBase(&bStack_c);
+  pbVar1 = (bCString *)new(4);
+  if (pbVar1 == (bCString *)0x0) {
+    uVar2 = 0;
+  }
+  else {
+    uVar2 = bCString::bCString(pbVar1);
+  }
+  (this->eCCollisionShape_data).offset_0x70 = uVar2;
+  bCString::bCString((bCString *)&stack0xffffffe8);
+  bCString::bCString((bCString *)&stack0x00000000);
+  pbVar1 = (bCString *)&stack0xffffffe8;
+  pbVar4 = (bCString *)0x0;
+  bVar3 = bStack_8;
+  pbVar5 = (bCString *)register0x00000010;
+  this_00 = eCArchiveManager::GetInstance();
+  eCArchiveManager::SplitPath((eCArchiveManager *)this_00,(bCString *)bVar3,pbVar4,pbVar1,pbVar5);
+  pbVar1 = (bCString *)bCString::operator+((bCString *)&stack0xffffffe8,(bCString *)&bStack_8);
+  bCString::operator=((bCString *)(this->eCCollisionShape_data).offset_0x70,pbVar1);
+  bCString::~bCString((bCString *)&bStack_c);
+  (this->eCCollisionShape_data).offset_0x42 = bStack_8._0_2_;
+  bCString::~bCString((bCString *)&uStack_4);
+  bCString::~bCString((bCString *)&stack0xffffffe4);
+  return 1;
+}
+
+

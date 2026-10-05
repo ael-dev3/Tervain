@@ -13,8 +13,9 @@ The [scope record](gothic3-browser-port.md) describes the current controls,
 limitations and source terms.
 
 This guide describes the source on `codex/gothic3-gameplay-initialization`.
-The hosted page remains at its last successful deployment; the latest source
-checkpoints have not been deployed. Sections 10–16 cover the newer runtime work.
+The last recorded successful deployment predates the latest source checkpoints,
+which have not been deployed. Online availability was not reviewed for this
+checkpoint. Sections 10–17 cover the newer runtime work.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
 To reproduce an older receipt, use a checkout at that commit and its producers.
@@ -1706,3 +1707,189 @@ camera/input, script registry and story services, save/load restoration, and
 original progression through the endings. This checkpoint keeps
 `gameplayReady: false`; compilation does not establish full gameplay or online
 deployment.
+
+## 17. Restore the Hero's physics records and enclosing entity read
+
+This checkpoint follows the actual first four Hero records in source order:
+Navigation, RigidBody, CollisionShape and CharacterMovement. It adds the two
+intervening factories and a controller for the enclosing installed
+`gCEntity.Read` sequence. All nineteen property sets, their owner callbacks,
+template patching, children and active world membership still have to finish.
+
+### Keep the complete original record and its separate hierarchy
+
+[hero-record.json](../../assets/gothic3/entity-loading/hero-record.json) retains
+the actual 8,485-byte `PC_Hero` record, original indexed strings and the nineteen
+packet boundaries. It comes from the winning `Projects_compiled.p00` entry:
+
+```text
+G3_World_01/
+  SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/
+    SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat
+
+PC_Hero source index: 371
+Record: [1183912, 1192397), end exclusive
+SHA256: 8b0478a57152023598a3d93550151d623d58fc6d49d90b3ea505a2202efa5e8b
+Versions: game64 / dynamic83 / entity83 / node1
+World translation, centimeters: 87984.9375, 5145.56396484375, -10197.4775390625
+```
+
+The original archive header declares 26,927 entity records. The existing
+gameplay metadata retains 24,811 after property-set filtering; those counts measure
+different stages of preparation. The new producer checks the original count
+directly at file offset 148 and pins each selected source record against its
+original bytes.
+
+`RootEntity` index 370 is the Hero's parent. `Head_Player` index 372 and
+`Body_Player` index 373 are separate children, each with Item, Interaction and
+VisualAnimation property sets. Their original nearby records are retained too.
+The parent links `[370,371]`, `[371,372]`, `[371,373]` are stored separately in
+the archive metadata. Reading the Hero record does not populate its child array
+or attach the original layer context. The graph loader must perform those
+operations through the existing native lifecycle.
+
+### Preserve real physics object identity
+
+| Original object | Hero packet index | Virtual version | Native tail version | Property-set selector |
+| --- | ---: | ---: | ---: | ---: |
+| `eCRigidBody_PS` | 1 | 65 | 65 | 13 |
+| `eCCollisionShape_PS` | 2 | 63 | 63 | 14 |
+| Two nested `eCCollisionShape` objects | inside packet 2 | 74 | 74 | not entity property sets |
+
+[rigidbody-reading.ts](../../src/gothic3/rigidbody-reading.ts) constructs and
+reads the original rigid-body object and inherited `PhysicsEnabled` field.
+Thirteen leaf descriptors plus that inherited descriptor account for the
+fourteen serialized properties. The native body flags and StartVelocity alias
+the same physical storage used by
+[NativeOriginalRigidBody](../../src/gothic3/movement-state.ts). A second copied
+velocity or flags object would leave later movement reads stale.
+
+The native tail has its own version-gated flag, vector and pose reads; it does
+not silently call a generic base reader or reset the object afterward.
+OnAdded's non-template branch requires the actual owner transform and original
+temporary quaternion lifetime. Original scene buffers and any live PhysX actor
+remain required services for their corresponding operations.
+
+[collision-reading.ts](../../src/gothic3/collision-reading.ts) reads the five
+CollisionShape_PS descriptors, then constructs and reads the two actual nested
+shape accessors. Each shape has fifteen reflective properties and its own
+version-74 native payload. Fresh construction initializes the shape arrays;
+Read uses its original AddShapeInternal path and destroys the temporary
+accessors in order. Decoded dimensions alone do not supply live collision registration or
+the original contact processing service.
+
+The same CollisionShape_PS object also supplies the existing movement and
+entity-setter interfaces. Picking/collision notifications write its actual
+IgnoredByTraceRay/DisableCollision bytes. Local notification Exit also requires
+the original temporary CString comparisons and destruction; a direct JavaScript
+name comparison cannot skip those calls. ClearTouchingShapes clears its original
+byte and releases the separate proprietary-shape array in source order; it does
+not erase the loaded ordinary shapes. Final-reference destruction still needs
+the corresponding concrete lifetime service.
+
+The shared [reflection controller](../../src/gothic3/entity-reflection.ts) now
+retains both entity property sets and actual non-property-set reflected objects.
+A nested shape has its own native identity, value storage, reference word and
+nullable physical wrapper slot. Its persistent factory/wrapper capability is
+separate from that slot. A factory must explicitly identify its non-property-set
+category; only that retained source-backed object can produce a known failed
+cast to `eCEntityPropertySet`. An unfamiliar object keeps its cast unresolved.
+The shape's reflected parent is NULL at the original `bCObjectRefBase` end
+sentinel; its C++ inheritance still supplies the native reference methods.
+
+The inherited `IsProcessable` virtual for Navigation, RigidBody and
+CollisionShape clears native AL and returns false. The Navigation factory now
+uses that examined result. Actual world processing is governed by the original
+membership and processable property sets; these three factories do not certify
+that membership.
+
+### Execute the enclosing read without omitting its patch tail
+
+[entity-loading.ts](../../src/gothic3/entity-loading.ts) composes the existing
+[entity reader](../../src/gothic3/entity-reading.ts),
+[native setters](../../src/gothic3/entity-setters.ts), reflection controller and
+[property lifecycle](../../src/gothic3/entity-lifecycle.ts) over the same live
+entity. Its selected installed path is:
+
+```text
+gCEntity.Read: consume64
+  eCDynamicEntity.Read: consume83
+    read creator-present flag
+    if present: read creator GUID16 and serialized cacheDWORD; clear live cache
+    OR embedded dynamic word+1bc with1
+    eCEntity.Read: consume83, dispatch ReadV83
+      read Node identity and header using real setters
+      read/add all19 original property sets and their DEADC0DE sentinels
+      execute inherited Dynamic.OnPostRead property traversal
+      restore original timestamp; derive scaling from original world matrix
+    if creator present: query actual IsEntityPatchingEnabled
+    if native AL is exactly1: PatchWithTemplate(current creator,true)
+    AND embedded dynamic word+1bc withfffd
+    return1, preserved by the Game wrapper's epilogue
+```
+
+The creator is the embedded `bCPropertyID` at entity `+1a8`, not a reference-owning
+entity proxy. Its reader transfers the GUID, consumes the serialized cache word
+and zeros the live cache. The patch flag is an actual engine setting. It cannot
+be inferred from the Hero packet. Template lookup and patch observers remain
+explicit services even though Dynamic.Read ignores PatchWithTemplate's bool
+return.
+
+The selected Game vtable inherits `eCDynamicEntity.OnPostRead`; its actual slot
+and import are pinned by the producer. The controller uses the existing ordered
+property traversal and each class's real callback. World scaling still requires
+the original GetPureScaling math profile: the examined code spills each sum of
+squared basis components to float32 before its CRT square root. A generic scene
+decomposition or an assumed scale of 1 does not supply that operation.
+
+This reader accepts an already constructed original entity. Construction
+evidence identifies the actual dynamic-layer callback, which allocates the
+`gCEntity`, invokes Create and registers its generated ID before Node.Read
+replaces it. The constructor requires original GUID generation, a frustum
+timestamp and the live SceneAdmin construction counter. Those services are
+still separate integration work. Source evidence also preserves the original
+invalid-box sentinels and sphere layout: sphere radius is `-F32_MAX` with zero
+center components, rather than four zero fields.
+
+A missing factory or service preserves the stream cursor, retained allocations
+and preceding writes, then blocks automatic replay. It cannot skip a packet,
+choose a disabled patch setting or report world residence. Completing this
+read alone still does not perform child attachment, cache-in, physics/PVS
+registration or processing-range activation.
+
+### Reproduce this source checkpoint
+
+```powershell
+python -B tools/gothic3/research_entity_loading.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/research_rigidbody_reading.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/research_collision_reading.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/freeze_physics_checkpoint.py
+```
+
+The [physics reading checkpoint](../../assets/gothic3/physics-reading-checkpoint.json)
+chains the actor checkpoint at `a81549c8`, verifies unchanged baseline files and
+records intentional shared-source updates. Older receipt hashes stay historical.
+The inherited PhysicsEnabled registrar absent from the exported C catalog is
+identified explicitly as original PE assembly evidence; it is not presented as
+a decompiled C function.
+
+These producers inspect source and original program bytes offline. They do not
+execute the installed DLLs. The selected evidence includes forwarding exports
+and overlapping bodies; these counts describe examined entries, not game
+completion.
+
+| Evidence set | Entries | Instructions | Original instruction bytes |
+| --- | ---: | ---: | ---: |
+| Enclosing entity read, factory context and complete Hero record | 79 | 1,340 | 4,548 |
+| RigidBody construction and reading, including one ASM-only registrar | 559 | 6,050 | 18,676 |
+| CollisionShape_PS and nested original shape objects | 2,297 | 36,704 | 114,000 |
+
+The combined TypeScript check and production build passed locally on
+5 October 2026 (`npm run build`, 235 Vite modules). The existing large-chunk
+warning remains. This checks source types and packages the current browser
+entry points. The new original readers still require connection to the live
+application and their remaining concrete services. No tests, native execution,
+browser review, deployment or playthrough were run for this checkpoint.
+
+This work keeps `gameplayReady: false`; the full playable browser game and its
+deployment remain unfinished.

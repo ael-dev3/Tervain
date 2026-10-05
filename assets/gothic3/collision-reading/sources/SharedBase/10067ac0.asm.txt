@@ -1,0 +1,70 @@
+; 10067ac0 FUN_10067ac0
+10067ac0 | 83ec0c | SUB ESP,0xc
+10067ac3 | 8b442410 | MOV EAX,dword ptr [ESP + 0x10]
+10067ac7 | d900 | FLD float ptr [EAX]
+10067ac9 | 56 | PUSH ESI
+10067aca | d95c2404 | FSTP float ptr [ESP + 0x4]
+10067ace | 33d2 | XOR EDX,EDX
+10067ad0 | d94004 | FLD float ptr [EAX + 0x4]
+10067ad3 | 8d710c | LEA ESI,[ECX + 0xc]
+10067ad6 | d95c2408 | FSTP float ptr [ESP + 0x8]
+10067ada | 83c120 | ADD ECX,0x20
+10067add | d94008 | FLD float ptr [EAX + 0x8]
+10067ae0 | d95c240c | FSTP float ptr [ESP + 0xc]
+10067ae4 | d9442404 | FLD float ptr [ESP + 0x4]
+10067ae8 | d861e0 | FSUB float ptr [ECX + -0x20]
+10067aeb | d95c2404 | FSTP float ptr [ESP + 0x4]
+10067aef | d9442408 | FLD float ptr [ESP + 0x8]
+10067af3 | d861e4 | FSUB float ptr [ECX + -0x1c]
+10067af6 | d95c2408 | FSTP float ptr [ESP + 0x8]
+10067afa | d944240c | FLD float ptr [ESP + 0xc]
+10067afe | d861e8 | FSUB float ptr [ECX + -0x18]
+10067b01 | d95c240c | FSTP float ptr [ESP + 0xc]
+10067b05 | d944240c | FLD float ptr [ESP + 0xc]
+10067b09 | d9442408 | FLD float ptr [ESP + 0x8]
+10067b0d | d9442404 | FLD float ptr [ESP + 0x4]
+10067b11 | d905e85d0e10 | FLD float ptr [0x100e5de8]
+; 10067b17 LAB_10067b17
+10067b17 | d941f8 | FLD float ptr [ECX + -0x8]
+10067b1a | d8ca | FMUL ST2
+10067b1c | d941fc | FLD float ptr [ECX + -0x4]
+10067b1f | d8cc | FMUL ST4
+10067b21 | dec1 | FADDP
+10067b23 | d9c4 | FLD ST4
+10067b25 | d809 | FMUL float ptr [ECX]
+10067b27 | dec1 | FADDP
+10067b29 | d95c2414 | FSTP float ptr [ESP + 0x14]
+10067b2d | d9442414 | FLD float ptr [ESP + 0x14]
+10067b31 | d9e1 | FABS
+10067b33 | d95c2414 | FSTP float ptr [ESP + 0x14]
+10067b37 | d9442414 | FLD float ptr [ESP + 0x14]
+10067b3b | d9c1 | FLD ST1
+10067b3d | d806 | FADD float ptr [ESI]
+10067b3f | d95c2414 | FSTP float ptr [ESP + 0x14]
+10067b43 | d9442414 | FLD float ptr [ESP + 0x14]
+10067b47 | d9c9 | FXCH
+10067b49 | dff1 | FCOMIP ST0,ST1
+10067b4b | ddd8 | FSTP ST0
+10067b4d | 771f | JA 0x10067b6e
+10067b4f | 83c201 | ADD EDX,0x1
+10067b52 | 83c10c | ADD ECX,0xc
+10067b55 | 83c604 | ADD ESI,0x4
+10067b58 | 83fa03 | CMP EDX,0x3
+10067b5b | 7cba | JL 0x10067b17
+10067b5d | dddb | FSTP ST3
+10067b5f | b001 | MOV AL,0x1
+10067b61 | ddd9 | FSTP ST1
+10067b63 | 5e | POP ESI
+10067b64 | ddd8 | FSTP ST0
+10067b66 | ddd8 | FSTP ST0
+10067b68 | 83c40c | ADD ESP,0xc
+10067b6b | c20400 | RET 0x4
+; 10067b6e LAB_10067b6e
+10067b6e | dddb | FSTP ST3
+10067b70 | 32c0 | XOR AL,AL
+10067b72 | ddd9 | FSTP ST1
+10067b74 | 5e | POP ESI
+10067b75 | ddd8 | FSTP ST0
+10067b77 | ddd8 | FSTP ST0
+10067b79 | 83c40c | ADD ESP,0xc
+10067b7c | c20400 | RET 0x4

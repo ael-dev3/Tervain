@@ -1,0 +1,4 @@
+; 10007095 ?GetInvScaled@bCOrientedBox@@QBEXAAV1@M@Z
+10007095 | e946c20500 | JMP 0x100632e0
+; 1000709a bCEulerAngles::operator!=
+; 1000709a Ordinal_824

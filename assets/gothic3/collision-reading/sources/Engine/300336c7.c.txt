@@ -1,0 +1,26 @@
+/* ENTRY 300336c7 | eCCollisionShape::GetOrientation | STATUS decompiled | 101 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* public: class bCMatrix3 & __thiscall eCCollisionShape::GetOrientation(void) */
+
+bCMatrix3 * __thiscall eCCollisionShape::GetOrientation(eCCollisionShape *this)
+
+{
+                    /* 0x336c7  8014  ?GetOrientation@eCCollisionShape@@QAEAAVbCMatrix3@@XZ */
+  if ((__local_static_guard__3__ & 1) == 0) {
+    __local_static_guard__3__ = __local_static_guard__3__ | 1;
+    bCMatrix3::GetIdentity();
+    _atexit((_func_4879 *)&LAB_300049df);
+  }
+  switch((this->eCCollisionShape_data).offset_0xc) {
+  default:
+    return &`public:_class_bCMatrix3&___thiscall_eCCollisionShape::GetOrientation(void)'::__l3::
+            s_matIdentity;
+  case 3:
+    return (bCMatrix3 *)((this->eCCollisionShape_data).offset_0x70 + 0x18);
+  case 4:
+    return (bCMatrix3 *)((this->eCCollisionShape_data).offset_0x70 + 8);
+  }
+}
+
+

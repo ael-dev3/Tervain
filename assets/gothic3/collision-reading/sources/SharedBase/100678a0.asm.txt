@@ -1,0 +1,19 @@
+; 100678a0 FUN_100678a0
+100678a0 | 56 | PUSH ESI
+100678a1 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+100678a5 | 51 | PUSH ECX
+100678a6 | 8bce | MOV ECX,ESI
+100678a8 | e80e0efaff | CALL 0x100086bb
+100678ad | d9460c | FLD float ptr [ESI + 0xc]
+100678b0 | 8b44240c | MOV EAX,dword ptr [ESP + 0xc]
+100678b4 | d808 | FMUL float ptr [EAX]
+100678b6 | d95e0c | FSTP float ptr [ESI + 0xc]
+100678b9 | d94004 | FLD float ptr [EAX + 0x4]
+100678bc | d84e10 | FMUL float ptr [ESI + 0x10]
+100678bf | d95e10 | FSTP float ptr [ESI + 0x10]
+100678c2 | d94008 | FLD float ptr [EAX + 0x8]
+100678c5 | 8bc6 | MOV EAX,ESI
+100678c7 | d84e14 | FMUL float ptr [ESI + 0x14]
+100678ca | d95e14 | FSTP float ptr [ESI + 0x14]
+100678cd | 5e | POP ESI
+100678ce | c20800 | RET 0x8

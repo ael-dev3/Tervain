@@ -1,0 +1,18 @@
+/* ENTRY 10008bf7 | bCBox::Clear | STATUS decompiled | 2 ms */
+
+/* public: void __thiscall bCBox::Clear(void) */
+
+void __thiscall bCBox::Clear(bCBox *this)
+
+{
+                    /* 0x8bf7  1608  ?Clear@bCBox@@QAEXXZ */
+  *(undefined4 *)this = 0;
+  *(undefined4 *)(this + 4) = 0;
+  *(undefined4 *)(this + 8) = 0;
+  *(undefined4 *)(this + 0xc) = 0;
+  *(undefined4 *)(this + 0x10) = 0;
+  *(undefined4 *)(this + 0x14) = 0;
+  return;
+}
+
+

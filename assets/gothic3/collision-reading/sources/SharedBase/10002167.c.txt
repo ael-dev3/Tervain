@@ -1,0 +1,12 @@
+/* ENTRY 10002167 | bCOrientedBox::GetHeight | STATUS decompiled | 3 ms */
+
+/* public: float __thiscall bCOrientedBox::GetHeight(void)const  */
+
+float __thiscall bCOrientedBox::GetHeight(bCOrientedBox *this)
+
+{
+                    /* 0x2167  2390  ?GetHeight@bCOrientedBox@@QBEMXZ */
+  return *(float *)(this + 0x10) + *(float *)(this + 0x10);
+}
+
+

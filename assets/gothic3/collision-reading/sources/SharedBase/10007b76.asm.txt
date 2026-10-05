@@ -1,0 +1,4 @@
+; 10007b76 ?GetIntersectionDistance@bCBox@@QBEMABVbCRay@@@Z
+10007b76 | e9f5360200 | JMP 0x1002b270
+; 10007b7b bCVector2::GetY
+; 10007b7b Ordinal_3271

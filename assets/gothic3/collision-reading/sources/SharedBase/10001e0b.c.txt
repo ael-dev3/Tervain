@@ -1,0 +1,21 @@
+/* ENTRY 10001e0b | bCBox::GetMerged | STATUS decompiled | 28 ms */
+
+/* public: class bCBox __thiscall bCBox::GetMerged(class bCBox const &)const  */
+
+bCBox * __thiscall bCBox::GetMerged(bCBox *this,bCBox *param_1)
+
+{
+  bCBox *in_stack_00000008;
+  
+                    /* 0x1e0b  2629  ?GetMerged@bCBox@@QBE?AV1@ABV1@@Z */
+  *(undefined4 *)param_1 = *(undefined4 *)this;
+  *(undefined4 *)(param_1 + 4) = *(undefined4 *)(this + 4);
+  *(undefined4 *)(param_1 + 8) = *(undefined4 *)(this + 8);
+  *(undefined4 *)(param_1 + 0xc) = *(undefined4 *)(this + 0xc);
+  *(undefined4 *)(param_1 + 0x10) = *(undefined4 *)(this + 0x10);
+  *(undefined4 *)(param_1 + 0x14) = *(undefined4 *)(this + 0x14);
+  Merge(param_1,in_stack_00000008);
+  return param_1;
+}
+
+

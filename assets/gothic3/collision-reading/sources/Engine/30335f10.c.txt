@@ -1,0 +1,58 @@
+/* ENTRY 30335f10 | FUN_30335f10 | STATUS decompiled | 19 ms */
+
+void __fastcall FUN_30335f10(int *param_1)
+
+{
+  int iVar1;
+  char cVar2;
+  int iVar3;
+  eCEntity *peVar4;
+  eCPhysicObject *peVar5;
+  NxActor *pNVar6;
+  NxActor *pNVar7;
+  int iVar8;
+  bool bVar9;
+  bool bVar10;
+  
+  iVar3 = (**(code **)(*param_1 + 0x68))();
+  if (iVar3 != 0) {
+    peVar4 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+    peVar5 = (eCPhysicObject *)eCEntity::GetPhysicObject(peVar4);
+    pNVar6 = eCPhysicObject::GetActor(peVar5);
+    iVar3 = (**(code **)(*(int *)pNVar6 + 0x4c))();
+    if (iVar3 != 0) {
+      peVar4 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+      peVar5 = (eCPhysicObject *)eCEntity::GetPhysicObject(peVar4);
+      pNVar6 = eCPhysicObject::GetActor(peVar5);
+      cVar2 = (**(code **)(*(int *)pNVar6 + 0x68))();
+      if (cVar2 == '\0') {
+        bVar10 = false;
+        bVar9 = false;
+        peVar4 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+        eCEntity::CacheOut(peVar4,bVar9,bVar10);
+        bVar9 = false;
+        peVar4 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+        eCEntity::CacheIn(peVar4,bVar9);
+        return;
+      }
+      peVar4 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+      peVar5 = (eCPhysicObject *)eCEntity::GetPhysicObject(peVar4);
+      pNVar6 = eCPhysicObject::GetActor(peVar5);
+      iVar3 = (**(code **)(*(int *)pNVar6 + 0x4c))();
+      while (iVar3 = iVar3 + -1, -1 < iVar3) {
+        peVar4 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+        peVar5 = (eCPhysicObject *)eCEntity::GetPhysicObject(peVar4);
+        pNVar6 = eCPhysicObject::GetActor(peVar5);
+        peVar4 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+        peVar5 = (eCPhysicObject *)eCEntity::GetPhysicObject(peVar4);
+        pNVar7 = eCPhysicObject::GetActor(peVar5);
+        iVar1 = *(int *)pNVar7;
+        iVar8 = (**(code **)(*(int *)pNVar6 + 0x50))();
+        (**(code **)(iVar1 + 0x48))(*(undefined4 *)(iVar8 + iVar3 * 4));
+      }
+    }
+  }
+  return;
+}
+
+

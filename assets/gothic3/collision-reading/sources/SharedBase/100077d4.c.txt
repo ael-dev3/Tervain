@@ -1,0 +1,12 @@
+/* ENTRY 100077d4 | bCOrientedBox::bCOrientedBox | STATUS decompiled | 1 ms */
+
+/* public: __thiscall bCOrientedBox::bCOrientedBox(void) */
+
+bCOrientedBox * __thiscall bCOrientedBox::bCOrientedBox(bCOrientedBox *this)
+
+{
+                    /* 0x77d4  194  ??0bCOrientedBox@@QAE@XZ */
+  return this;
+}
+
+

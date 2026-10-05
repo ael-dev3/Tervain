@@ -1,0 +1,4 @@
+; 3000d8e1 ?OnDamage@eCEntityPropertySet@@MAEXPAVeCEntity@@0HHAAVeCContactIterator@@@Z
+3000d8e1 | e9ea404700 | JMP 0x304819d0
+; 3000d8f5 eCAnimation_BaseRenderActor::Invalidate
+; 3000d8f5 Ordinal_9899

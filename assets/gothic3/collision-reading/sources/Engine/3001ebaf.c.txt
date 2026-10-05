@@ -1,0 +1,13 @@
+/* ENTRY 3001ebaf | eCCollisionShape_PS::Create | STATUS decompiled | 7 ms */
+
+/* public: virtual enum bEResult __thiscall eCCollisionShape_PS::Create(void) */
+
+bEResult __thiscall eCCollisionShape_PS::Create(eCCollisionShape_PS *this)
+
+{
+                    /* 0x1ebaf  4406  ?Create@eCCollisionShape_PS@@UAE?AW4bEResult@@XZ */
+  eCEntityPropertySet::Create((eCEntityPropertySet *)this);
+  return 1;
+}
+
+

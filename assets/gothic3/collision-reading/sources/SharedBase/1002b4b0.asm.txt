@@ -1,0 +1,65 @@
+; 1002b4b0 FUN_1002b4b0
+1002b4b0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+1002b4b4 | 83f807 | CMP EAX,0x7
+1002b4b7 | 0f87bf000000 | JA 0x1002b57c
+; 1002b4bd switchD_1002b4bd::switchD
+1002b4bd | ff248580b50210 | JMP dword ptr [EAX*0x4 + 0x1002b580]
+; 1002b4c4 switchD_1002b4bd::caseD_0
+1002b4c4 | f30f104114 | MOVSS XMM0,dword ptr [ECX + 0x14]
+1002b4c9 | d9410c | FLD float ptr [ECX + 0xc]
+1002b4cc | e996000000 | JMP 0x1002b567
+; 1002b4d1 switchD_1002b4bd::caseD_1
+1002b4d1 | d9410c | FLD float ptr [ECX + 0xc]
+1002b4d4 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+1002b4d8 | f30f104114 | MOVSS XMM0,dword ptr [ECX + 0x14]
+1002b4dd | f30f104904 | MOVSS XMM1,dword ptr [ECX + 0x4]
+1002b4e2 | d918 | FSTP float ptr [EAX]
+1002b4e4 | f30f114008 | MOVSS dword ptr [EAX + 0x8],XMM0
+1002b4e9 | f30f114804 | MOVSS dword ptr [EAX + 0x4],XMM1
+1002b4ee | c20800 | RET 0x8
+; 1002b4f1 switchD_1002b4bd::caseD_2
+1002b4f1 | d901 | FLD float ptr [ECX]
+1002b4f3 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+1002b4f7 | f30f104114 | MOVSS XMM0,dword ptr [ECX + 0x14]
+1002b4fc | f30f104904 | MOVSS XMM1,dword ptr [ECX + 0x4]
+1002b501 | d918 | FSTP float ptr [EAX]
+1002b503 | f30f114008 | MOVSS dword ptr [EAX + 0x8],XMM0
+1002b508 | f30f114804 | MOVSS dword ptr [EAX + 0x4],XMM1
+1002b50d | c20800 | RET 0x8
+; 1002b510 switchD_1002b4bd::caseD_3
+1002b510 | f30f104114 | MOVSS XMM0,dword ptr [ECX + 0x14]
+1002b515 | eb4e | JMP 0x1002b565
+; 1002b517 switchD_1002b4bd::caseD_4
+1002b517 | f30f104108 | MOVSS XMM0,dword ptr [ECX + 0x8]
+1002b51c | d9410c | FLD float ptr [ECX + 0xc]
+1002b51f | eb46 | JMP 0x1002b567
+; 1002b521 switchD_1002b4bd::caseD_5
+1002b521 | d9410c | FLD float ptr [ECX + 0xc]
+1002b524 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+1002b528 | f30f104108 | MOVSS XMM0,dword ptr [ECX + 0x8]
+1002b52d | f30f104904 | MOVSS XMM1,dword ptr [ECX + 0x4]
+1002b532 | d918 | FSTP float ptr [EAX]
+1002b534 | f30f114008 | MOVSS dword ptr [EAX + 0x8],XMM0
+1002b539 | f30f114804 | MOVSS dword ptr [EAX + 0x4],XMM1
+1002b53e | c20800 | RET 0x8
+; 1002b541 switchD_1002b4bd::caseD_6
+1002b541 | d901 | FLD float ptr [ECX]
+1002b543 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+1002b547 | f30f104108 | MOVSS XMM0,dword ptr [ECX + 0x8]
+1002b54c | f30f104904 | MOVSS XMM1,dword ptr [ECX + 0x4]
+1002b551 | d918 | FSTP float ptr [EAX]
+1002b553 | f30f114008 | MOVSS dword ptr [EAX + 0x8],XMM0
+1002b558 | f30f114804 | MOVSS dword ptr [EAX + 0x4],XMM1
+1002b55d | c20800 | RET 0x8
+; 1002b560 switchD_1002b4bd::caseD_7
+1002b560 | f30f104108 | MOVSS XMM0,dword ptr [ECX + 0x8]
+; 1002b565 LAB_1002b565
+1002b565 | d901 | FLD float ptr [ECX]
+; 1002b567 LAB_1002b567
+1002b567 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+1002b56b | f30f104910 | MOVSS XMM1,dword ptr [ECX + 0x10]
+1002b570 | d918 | FSTP float ptr [EAX]
+1002b572 | f30f114008 | MOVSS dword ptr [EAX + 0x8],XMM0
+1002b577 | f30f114804 | MOVSS dword ptr [EAX + 0x4],XMM1
+; 1002b57c switchD_1002b4bd::default
+1002b57c | c20800 | RET 0x8

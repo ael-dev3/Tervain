@@ -1,0 +1,14 @@
+/* ENTRY 30026b34 | eCCollisionShapeBase_PS::Write | STATUS decompiled | 33 ms */
+
+/* public: virtual enum bEResult __thiscall eCCollisionShapeBase_PS::Write(class bCOStream &) */
+
+bEResult __thiscall eCCollisionShapeBase_PS::Write(eCCollisionShapeBase_PS *this,bCOStream *param_1)
+
+{
+                    /* 0x26b34  15046
+                       ?Write@eCCollisionShapeBase_PS@@UAE?AW4bEResult@@AAVbCOStream@@@Z */
+  bCOStream::operator<<((bCOStream *)param_1,1);
+  return 1;
+}
+
+

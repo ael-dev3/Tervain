@@ -1,0 +1,4 @@
+; 100044c6 ?SetCapsule@bCCapsule@@QAEXMMAAVbCVector@@AAVbCMatrix3@@@Z
+100044c6 | e9b5330500 | JMP 0x10057880
+; 100044cb bCMatrix3::ModifyYAxis
+; 100044cb Ordinal_3755

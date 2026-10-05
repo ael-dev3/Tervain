@@ -1,0 +1,10 @@
+/* ENTRY 10068f40 | FUN_10068f40 | STATUS decompiled | 2 ms */
+
+bCOrientedBox * __thiscall FUN_10068f40(bCOrientedBox *param_1,bCMatrix3 *param_2)
+
+{
+  bCOrientedBox::Transform(param_1,param_2);
+  return param_1;
+}
+
+

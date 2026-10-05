@@ -1,0 +1,20 @@
+/* ENTRY 1002b3b0 | FUN_1002b3b0 | STATUS decompiled | 6 ms */
+
+int __thiscall FUN_1002b3b0(bCBox *param_1,bCBox *param_2)
+
+{
+  bool bVar1;
+  
+  bVar1 = bCBox::Intersects(param_1,param_2);
+  if (!bVar1) {
+    return 0;
+  }
+  bVar1 = bCBox::Contains(param_1,param_2);
+  if (bVar1) {
+    return 1;
+  }
+  bVar1 = bCBox::Contains(param_2,param_1);
+  return 3 - (uint)bVar1;
+}
+
+

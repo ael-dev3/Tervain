@@ -1,0 +1,4 @@
+; 10003ea4 ?GetMerged@bCBox@@QBE?AV1@ABVbCVector@@@Z
+10003ea4 | e937250300 | JMP 0x100363e0
+; 10003eae bCVector2::operator-
+; 10003eae Ordinal_1019

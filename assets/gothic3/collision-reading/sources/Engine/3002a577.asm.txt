@@ -1,0 +1,4 @@
+; 3002a577 bTPropertyType<eCCollisionShape_PS,bCObsoleteClass>::vfunction9
+3002a577 | e904283100 | JMP 0x3033cd80
+; 3002a581 eCFrustumElementItem::GetDynamicQuery
+; 3002a581 Ordinal_6913

@@ -1,0 +1,4 @@
+; 30018ea8 bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::vfunction16
+30018ea8 | e943543200 | JMP 0x3033e2f0
+; 30018ead eCGUIModule::Initialize
+; 30018ead Ordinal_9801

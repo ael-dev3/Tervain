@@ -1,0 +1,4 @@
+; 100082ab ??XbCOrientedBox@@QAEAAV0@ABVbCMatrix@@@Z
+100082ab | e970120600 | JMP 0x10069520
+; 100082b0 bCVector::CrossProduct
+; 100082b0 Ordinal_1835

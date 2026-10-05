@@ -1,0 +1,4 @@
+; 10006636 ?ReleaseReference@bCPropertyObjectBase@@UAEKXZ
+10006636 | e9052d0800 | JMP 0x10089340
+; 1000663b bCMatrix3::LookAt
+; 1000663b Ordinal_3701

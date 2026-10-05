@@ -1,0 +1,12 @@
+/* ENTRY 3001f0f5 | eCCollisionShape_PS::AccessIgnoredByTraceRay | STATUS decompiled | 6 ms */
+
+/* public: bool & __thiscall eCCollisionShape_PS::AccessIgnoredByTraceRay(void) */
+
+bool * __thiscall eCCollisionShape_PS::AccessIgnoredByTraceRay(eCCollisionShape_PS *this)
+
+{
+                    /* 0x1f0f5  2800  ?AccessIgnoredByTraceRay@eCCollisionShape_PS@@QAEAA_NXZ */
+  return (bool *)&(this->eCCollisionShape_PS_data).field_0x12;
+}
+
+

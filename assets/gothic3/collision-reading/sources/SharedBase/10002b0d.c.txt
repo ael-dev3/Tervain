@@ -1,0 +1,24 @@
+/* ENTRY 10002b0d | bCBox::IntersectsSweep | STATUS decompiled | 32 ms */
+
+/* public: bool __thiscall bCBox::IntersectsSweep(class bCVector const &,class bCBox const &,class
+   bCVector const &,float &)const  */
+
+bool __thiscall
+bCBox::IntersectsSweep
+          (bCBox *this,bCVector *param_1,bCBox *param_2,bCVector *param_3,float *param_4)
+
+{
+  bool bVar1;
+  float fStack_c;
+  float fStack_8;
+  float fStack_4;
+  
+                    /* 0x2b0d  3464  ?IntersectsSweep@bCBox@@QBE_NABVbCVector@@ABV1@0AAM@Z */
+  fStack_c = *(float *)param_1 - *(float *)param_3;
+  fStack_8 = *(float *)(param_1 + 4) - *(float *)(param_3 + 4);
+  fStack_4 = *(float *)(param_1 + 8) - *(float *)(param_3 + 8);
+  bVar1 = IntersectsSweep(this,(bCVector *)&fStack_c,param_2,param_4);
+  return bVar1;
+}
+
+

@@ -1,0 +1,18 @@
+/* ENTRY 10005227 | bCBox::Translate | STATUS decompiled | 5 ms */
+
+/* public: void __thiscall bCBox::Translate(float) */
+
+void __thiscall bCBox::Translate(bCBox *this,float param_1)
+
+{
+                    /* 0x5227  4545  ?Translate@bCBox@@QAEXM@Z */
+  *(float *)this = param_1 + *(float *)this;
+  *(float *)(this + 4) = *(float *)(this + 4) + param_1;
+  *(float *)(this + 8) = param_1 + *(float *)(this + 8);
+  *(float *)(this + 0xc) = *(float *)(this + 0xc) + param_1;
+  *(float *)(this + 0x10) = param_1 + *(float *)(this + 0x10);
+  *(float *)(this + 0x14) = param_1 + *(float *)(this + 0x14);
+  return;
+}
+
+

@@ -1,0 +1,30 @@
+/* ENTRY 100086bb | bCOrientedBox::Create | STATUS decompiled | 5 ms */
+
+/* public: void __thiscall bCOrientedBox::Create(class bCOrientedBox const &) */
+
+void __thiscall bCOrientedBox::Create(bCOrientedBox *this,bCOrientedBox *param_1)
+
+{
+  int iVar1;
+  bCOrientedBox *pbVar2;
+  int iVar3;
+  
+                    /* 0x86bb  1810  ?Create@bCOrientedBox@@QAEXABV1@@Z */
+  pbVar2 = param_1 + 0x18;
+  *(undefined4 *)this = *(undefined4 *)param_1;
+  iVar3 = 9;
+  *(undefined4 *)(this + 4) = *(undefined4 *)(param_1 + 4);
+  *(undefined4 *)(this + 8) = *(undefined4 *)(param_1 + 8);
+  *(undefined4 *)(this + 0xc) = *(undefined4 *)(param_1 + 0xc);
+  *(undefined4 *)(this + 0x10) = *(undefined4 *)(param_1 + 0x10);
+  *(undefined4 *)(this + 0x14) = *(undefined4 *)(param_1 + 0x14);
+  iVar1 = 0x18 - (int)pbVar2;
+  do {
+    iVar3 = iVar3 + -1;
+    *(undefined4 *)(pbVar2 + (int)(this + iVar1)) = *(undefined4 *)pbVar2;
+    pbVar2 = pbVar2 + 4;
+  } while (iVar3 != 0);
+  return;
+}
+
+

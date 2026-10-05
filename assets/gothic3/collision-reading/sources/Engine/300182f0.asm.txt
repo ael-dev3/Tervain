@@ -1,0 +1,2 @@
+; 300182f0 ?SetOrientation@eCCollisionShape@@QAEXABVbCMatrix3@@@Z
+300182f0 | e98b580b00 | JMP 0x300cdb80

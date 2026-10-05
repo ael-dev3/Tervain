@@ -1,0 +1,4 @@
+; 3003f8c8 bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::vfunction4
+3003f8c8 | e9d3f00800 | JMP 0x300ce9a0
+; 3003f8cd eCJoint::~eCJoint
+; 3003f8cd Ordinal_1176

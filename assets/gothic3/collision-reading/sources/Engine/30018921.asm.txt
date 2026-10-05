@@ -1,0 +1,4 @@
+; 30018921 bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eECollisionGroup>_>::vfunction12
+30018921 | e93a4f3200 | JMP 0x3033d860
+; 30018926 eCDX9Sprite::eCDX9Sprite
+; 30018926 Ordinal_221

@@ -1,0 +1,2 @@
+; 3001e204 ?GetOverrideEntityAABB@eCCollisionShape@@QBEAB_NXZ
+3001e204 | e9a7430a00 | JMP 0x300c25b0

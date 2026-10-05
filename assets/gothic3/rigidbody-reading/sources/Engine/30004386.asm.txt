@@ -1,0 +1,4 @@
+; 30004386 bTPropertyObject<eCRigidBody_PS,eCRigidBodyBase_PS>::vfunction9
+30004386 | e9a5b93200 | JMP 0x3032fd30
+; 3000438b eCAudioStreamer::operator=
+; 3000438b Ordinal_1456

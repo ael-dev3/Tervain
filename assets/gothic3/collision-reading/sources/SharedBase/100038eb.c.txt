@@ -1,0 +1,44 @@
+/* ENTRY 100038eb | bCOrientedBox::GetPlane | STATUS decompiled | 15 ms */
+
+/* public: void __thiscall bCOrientedBox::GetPlane(int,class bCPlane &)const  */
+
+void __thiscall bCOrientedBox::GetPlane(bCOrientedBox *this,int param_1,bCPlane *param_2)
+
+{
+  float fVar1;
+  float fVar2;
+  float fVar3;
+  float fVar4;
+  float fVar5;
+  float fVar6;
+  float fVar7;
+  bCOrientedBox *pbVar8;
+  float fStack_c;
+  float fStack_8;
+  float fStack_4;
+  
+                    /* 0x38eb  2745  ?GetPlane@bCOrientedBox@@QBEXHAAVbCPlane@@@Z */
+  pbVar8 = this + ((param_1 / 2) * 3 + 6) * 4;
+  if ((param_1 & 1U) != 0) {
+    fStack_c = -0.0 - *(float *)pbVar8;
+    fStack_8 = -0.0 - *(float *)(pbVar8 + 4);
+    fStack_4 = -0.0 - *(float *)(pbVar8 + 8);
+    pbVar8 = (bCOrientedBox *)&fStack_c;
+  }
+  fVar1 = *(float *)pbVar8;
+  fVar2 = *(float *)(pbVar8 + 4);
+  fVar3 = *(float *)(pbVar8 + 8);
+  fVar4 = *(float *)(this + (param_1 / 2) * 4 + 0xc);
+  fVar5 = *(float *)this;
+  fVar6 = *(float *)(this + 4);
+  fVar7 = *(float *)(this + 8);
+  *(float *)param_2 = fVar1;
+  *(float *)(param_2 + 4) = fVar2;
+  *(float *)(param_2 + 8) = fVar3;
+  *(float *)(param_2 + 0xc) =
+       -(fVar3 * (fVar7 + fVar3 * fVar4) +
+        fVar2 * (fVar6 + fVar2 * fVar4) + (fVar5 + fVar4 * fVar1) * fVar1);
+  return;
+}
+
+

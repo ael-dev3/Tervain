@@ -1,0 +1,18 @@
+/* ENTRY 3001dfe3 | bTPropertyType<eCCollisionShape,unsigned_short>::vfunction12 | STATUS decompiled | 4 ms */
+
+bTPropertyType<eCCollisionShape,unsigned_short>_vftable * __thiscall
+bTPropertyType<eCCollisionShape,unsigned_short>::vfunction12
+          (bTPropertyType<eCCollisionShape,unsigned_short> *this,undefined4 *param_1)
+
+{
+  int iVar1;
+  
+  if (param_1 == (undefined4 *)0x0) {
+    return (bTPropertyType<eCCollisionShape,unsigned_short>_vftable *)0x0;
+  }
+  iVar1 = (**(code **)*param_1)();
+  return (bTPropertyType<eCCollisionShape,unsigned_short>_vftable *)
+         ((int)&(this[7].vftablePtr)->vfunction1 + iVar1);
+}
+
+

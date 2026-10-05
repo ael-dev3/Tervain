@@ -1,0 +1,10 @@
+/* ENTRY 100691b0 | FUN_100691b0 | STATUS decompiled | 2 ms */
+
+bCVector * __thiscall FUN_100691b0(bCOrientedBox *param_1,bCVector *param_2,int param_3)
+
+{
+  bCOrientedBox::GetVertex(param_1,param_3,param_2);
+  return param_2;
+}
+
+

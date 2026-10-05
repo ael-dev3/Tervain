@@ -1,0 +1,82 @@
+/* ENTRY 303382f0 | bTPropertyContainer<eEShapeGroup>::bTPropertyContainer<eEShapeGroup>_Constructor_or_Destructor | STATUS decompiled | 53 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<eEShapeGroup>::bTPropertyContainer<eEShapeGroup>_Constructor_or_Destructor
+          (bTPropertyContainer<eEShapeGroup> *this,int param_1,bCVector *param_2,bCVector *param_3,
+          bCVector *param_4)
+
+{
+  undefined4 uVar1;
+  eCCollisionShape *this_00;
+  bCVector *pbVar2;
+  bCMatrix3 *pbVar3;
+  eCEntity *peVar4;
+  eCPhysicObjectStateBuffer *this_01;
+  float fVar5;
+  eCCollisionShape *peVar6;
+  int local_90 [2];
+  bCBox local_88 [4];
+  bCSphere local_84 [24];
+  bCVector local_6c [8];
+  bCOrientedBox local_64 [4];
+  float local_60;
+  float local_5c;
+  bCMatrix3 local_28 [40];
+  
+  if (param_1 == 7) {
+    uVar1 = (*this->vftablePtr[6].vfunction5)(this,(bCIStream *)param_2);
+    return uVar1;
+  }
+  if (((param_1 != 6) && (param_1 != 1)) && (param_1 != 2)) {
+    this_00 = (eCCollisionShape *)thunk_FUN_3033c9f0();
+    if (param_1 == 3) {
+      fVar5 = 10.0;
+      pbVar2 = (bCVector *)bCVector::bCVector(local_6c,0.0,0.0,0.0);
+      bCBox::bCBox((bCBox *)local_84,pbVar2,fVar5);
+      bCVector::~bCVector(local_6c);
+      pbVar3 = (bCMatrix3 *)bCMatrix3::GetIdentity();
+      bCOrientedBox::bCOrientedBox(local_64,local_88,pbVar3);
+      bCMatrix3::~bCMatrix3(local_28);
+      bCOrientedBox::SetExtent(local_64,param_3);
+      eCCollisionShape::SetShape(this_00,local_64);
+      eCCollisionShape::SetCenter(this_00,param_2);
+      bCOrientedBox::~bCOrientedBox(local_64);
+      bCBox::~bCBox(local_88);
+    }
+    else if (param_1 == 4) {
+      bCCapsule::bCCapsule((bCCapsule *)&local_60);
+      local_60 = bCVector::GetY(param_4);
+      local_5c = bCVector::GetX(param_4);
+      eCCollisionShape::SetShape(this_00,(bCCapsule *)&local_60);
+      eCCollisionShape::SetCenter(this_00,param_3);
+      bCCapsule::~bCCapsule((bCCapsule *)&local_60);
+    }
+    else if (param_1 == 5) {
+      bCSphere::bCSphere(local_84);
+      fVar5 = bCVector::GetX(param_4);
+      bCSphere::SetRadius(local_84,fVar5);
+      pbVar2 = (bCVector *)bCVector::bCVector((bCVector *)local_90,0.0,0.0,0.0);
+      bCSphere::SetPosition(local_84,pbVar2);
+      bCVector::~bCVector((bCVector *)local_90);
+      eCCollisionShape::SetShape(this_00,local_84);
+      eCCollisionShape::SetCenter(this_00,param_3);
+      bCSphere::~bCSphere(local_84);
+    }
+    bCObjectBase::bCObjectBase((bCObjectBase *)&stack0xffffff6c);
+    local_90[0] = param_1;
+    eCCollisionShape::SetGroup(this_00,(bTPropertyContainer<eEShapeGroup> *)&stack0xffffff6c);
+    bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xffffff6c);
+    thunk_FUN_3033f140(this_00);
+    peVar6 = this_00;
+    peVar4 = (eCEntity *)(*this->vftablePtr[1].GetProfileLastTicksFirst)(this);
+    this_01 = eCPhysicObjectStateBuffer::GetBuffer(peVar4);
+    eCPhysicObjectStateBuffer::AddShape(this_01,(eCCollisionShape *)peVar6);
+    if (this_00 != (eCCollisionShape *)0x0) {
+      (*this_00->vftablePtr->ReleaseReference)(this_00);
+    }
+    return 1;
+  }
+  return 0;
+}
+
+

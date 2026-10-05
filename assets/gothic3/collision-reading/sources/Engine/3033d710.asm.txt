@@ -1,0 +1,3 @@
+; 3033d710 bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eECollisionGroup>_>::vfunction1
+3033d710 | 8b411c | MOV EAX,dword ptr [ECX + 0x1c]
+3033d713 | c3 | RET

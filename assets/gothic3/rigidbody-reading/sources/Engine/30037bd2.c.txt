@@ -1,0 +1,14 @@
+/* ENTRY 30037bd2 | eCRigidBodyBase_PS::CopyFrom | STATUS decompiled | 11 ms */
+
+/* public: virtual enum bEResult __thiscall eCRigidBodyBase_PS::CopyFrom(class bCObjectBase const &)
+   eCRigidBodyBase_PS member function inherited by eCRigidBody_PS */
+
+bEResult __thiscall eCRigidBodyBase_PS::CopyFrom(eCRigidBodyBase_PS *this,bCObjectBase *param_1)
+
+{
+                    /* 0x37bd2  4224
+                       ?CopyFrom@eCRigidBodyBase_PS@@UAE?AW4bEResult@@ABVbCObjectBase@@@Z */
+  return 1;
+}
+
+

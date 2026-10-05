@@ -1,0 +1,8 @@
+; 1002b330 FUN_1002b330
+1002b330 | 51 | PUSH ECX
+1002b331 | d94110 | FLD float ptr [ECX + 0x10]
+1002b334 | d86104 | FSUB float ptr [ECX + 0x4]
+1002b337 | d91c24 | FSTP float ptr [ESP]
+1002b33a | d90424 | FLD float ptr [ESP]
+1002b33d | 59 | POP ECX
+1002b33e | c3 | RET

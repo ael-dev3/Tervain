@@ -1,0 +1,4 @@
+; 100036a2 ?GetOrientation@bCCapsule@@QBEABVbCMatrix3@@XZ
+100036a2 | e949410500 | JMP 0x100577f0
+; 100036a7 bCBox::Cull
+; 100036a7 Ordinal_1846

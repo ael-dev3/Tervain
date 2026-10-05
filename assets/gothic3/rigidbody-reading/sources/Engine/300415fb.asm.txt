@@ -1,0 +1,4 @@
+; 300415fb bTPropertyType<eCRigidBodyBase_PS,bool>::vfunction2
+300415fb | e990392f00 | JMP 0x30334f90
+; 30041600 eCGfxContextAdmin::Create
+; 30041600 Ordinal_4488

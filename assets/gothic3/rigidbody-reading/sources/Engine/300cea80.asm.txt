@@ -1,0 +1,25 @@
+; 300cea80 bTPropertyObjectType<eCRigidBody_PS,eCRigidBodyBase_PS>::vfunction1
+300cea80 | a1fcabad30 | MOV EAX,[0x30adabfc]
+300cea85 | a801 | TEST AL,0x1
+300cea87 | 7514 | JNZ 0x300cea9d
+300cea89 | 8b0d28acad30 | MOV ECX,dword ptr [0x30adac28]
+300cea8f | 83c801 | OR EAX,0x1
+300cea92 | a3fcabad30 | MOV [0x30adabfc],EAX
+300cea97 | 890df8abad30 | MOV dword ptr [0x30adabf8],ECX
+; 300cea9d LAB_300cea9d
+300cea9d | a802 | TEST AL,0x2
+300cea9f | 7530 | JNZ 0x300cead1
+300ceaa1 | 83c802 | OR EAX,0x2
+300ceaa4 | 68ac70af30 | PUSH 0x30af70ac
+300ceaa9 | b90c6caa30 | MOV ECX,0x30aa6c0c
+300ceaae | a3fcabad30 | MOV [0x30adabfc],EAX
+300ceab3 | e8f6285a00 | CALL 0x306713ae
+300ceab8 | 50 | PUSH EAX
+300ceab9 | 68f4abad30 | PUSH 0x30adabf4
+300ceabe | ff15b0daaf30 | CALL dword ptr [0x30afdab0]
+300ceac4 | 68dbcc0330 | PUSH 0x3003ccdb
+300ceac9 | e8c82a5a00 | CALL 0x30671596
+300ceace | 83c404 | ADD ESP,0x4
+; 300cead1 LAB_300cead1
+300cead1 | b8f4abad30 | MOV EAX,0x30adabf4
+300cead6 | c3 | RET

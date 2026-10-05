@@ -1,0 +1,10 @@
+/* ENTRY 10056db0 | FUN_10056db0 | STATUS decompiled | 3 ms */
+
+void __thiscall FUN_10056db0(bCBox *param_1,bCBox *param_2,bCBox *param_3,float *param_4)
+
+{
+  bCBox::IntersectsSweep(param_1,param_2,param_3,param_3,param_4);
+  return;
+}
+
+

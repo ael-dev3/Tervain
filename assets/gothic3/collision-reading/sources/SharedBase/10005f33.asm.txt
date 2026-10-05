@@ -1,0 +1,4 @@
+; 10005f33 ?GetWidened@bCBox@@QBE?AV1@M@Z
+10005f33 | e998050300 | JMP 0x100364d0
+; 10005f38 bCBox::Normalize
+; 10005f38 Ordinal_3792

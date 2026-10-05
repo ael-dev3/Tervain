@@ -1,0 +1,4 @@
+; 10002004 ?Transform@bCBox@@QAEXABVbCMatrix@@@Z
+10002004 | e957850300 | JMP 0x1003a560
+; 10002009 bCString::Release
+; 10002009 Ordinal_3913

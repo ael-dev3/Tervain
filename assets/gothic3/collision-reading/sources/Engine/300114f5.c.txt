@@ -1,0 +1,37 @@
+/* ENTRY 300114f5 | eCCollisionShape::GetCenter | STATUS decompiled | 15 ms */
+
+/* public: class bCVector & __thiscall eCCollisionShape::GetCenter(void) */
+
+bCVector * __thiscall eCCollisionShape::GetCenter(eCCollisionShape *this)
+
+{
+  bCVector *pbVar1;
+  
+                    /* 0x114f5  6452  ?GetCenter@eCCollisionShape@@QAEAAVbCVector@@XZ */
+  if ((`public:_class_bCVector&___thiscall_eCCollisionShape::GetCenter(void)'::__l3::
+       _local_static_guard__3__ & 1) == 0) {
+    `public:_class_bCVector&___thiscall_eCCollisionShape::GetCenter(void)'::__l3::
+    _local_static_guard__3__ =
+         `public:_class_bCVector&___thiscall_eCCollisionShape::GetCenter(void)'::__l3::
+         _local_static_guard__3__ | 1;
+    bCVector::bCVector(&`public:_class_bCVector&___thiscall_eCCollisionShape::GetCenter(void)'::__l3
+                        ::s_vecZero,0.0,0.0,0.0);
+    _atexit((_func_4879 *)&LAB_30032a01);
+  }
+  switch((this->eCCollisionShape_data).offset_0xc) {
+  default:
+    return &`public:_class_bCVector&___thiscall_eCCollisionShape::GetCenter(void)'::__l3::s_vecZero;
+  case 3:
+  case 7:
+    return (bCVector *)(this->eCCollisionShape_data).offset_0x70;
+  case 4:
+    return (bCVector *)((this->eCCollisionShape_data).offset_0x70 + 0x2c);
+  case 5:
+                    /* WARNING: Could not recover jumptable at 0x300cd689. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    pbVar1 = bCSphere::AccessPosition((bCSphere *)(this->eCCollisionShape_data).offset_0x70);
+    return pbVar1;
+  }
+}
+
+

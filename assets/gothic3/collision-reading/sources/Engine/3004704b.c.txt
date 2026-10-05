@@ -1,0 +1,52 @@
+/* ENTRY 3004704b | eCCollisionShape_PS::GetBoundary | STATUS decompiled | 40 ms */
+
+/* public: virtual void __thiscall eCCollisionShape_PS::GetBoundary(class bCBox &,bool) */
+
+void __thiscall
+eCCollisionShape_PS::GetBoundary(eCCollisionShape_PS *this,bCBox *param_1,bool param_2)
+
+{
+  int iVar1;
+  bool bVar2;
+  eCEntity *peVar3;
+  int iVar4;
+  float fVar5;
+  
+                    /* 0x4704b  6310  ?GetBoundary@eCCollisionShape_PS@@UAEXAAVbCBox@@_N@Z */
+  peVar3 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+  bVar2 = eCEntity::HasVisual(peVar3);
+  if (bVar2) {
+    iVar4 = 0;
+    if (0 < (this->eCCollisionShape_PS_data).offset_0x18) {
+      do {
+        iVar1 = *(int *)((this->eCCollisionShape_PS_data).offset_0x14 + iVar4 * 4);
+        if (*(char *)(iVar1 + 0x2e) == '\x01') {
+          bCBox::Merge(param_1,(bCBox *)(iVar1 + 0x48));
+        }
+        iVar4 = iVar4 + 1;
+      } while (iVar4 < (this->eCCollisionShape_PS_data).offset_0x18);
+    }
+  }
+  else {
+    bCBox::Invalidate(param_1);
+    iVar4 = 0;
+    if (0 < (this->eCCollisionShape_PS_data).offset_0x18) {
+      do {
+        bCBox::Merge(param_1,(bCBox *)(*(int *)((this->eCCollisionShape_PS_data).offset_0x14 +
+                                               iVar4 * 4) + 0x48));
+        iVar4 = iVar4 + 1;
+      } while (iVar4 < (this->eCCollisionShape_PS_data).offset_0x18);
+    }
+    peVar3 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+    fVar5 = eCEntity::GetUniformScaling(peVar3);
+    if (fVar5 != 1.0) {
+      peVar3 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+      fVar5 = eCEntity::GetUniformScaling(peVar3);
+      bCBox::Scale(param_1,fVar5);
+      return;
+    }
+  }
+  return;
+}
+
+

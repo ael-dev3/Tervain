@@ -1,0 +1,4 @@
+; 10006ece ?SetBox@bCBox@@QAEXABVbCVector@@M@Z
+10006ece | e94d390200 | JMP 0x1002a820
+; 10006ed3 bCMd5::Create
+; 10006ed3 Ordinal_1805

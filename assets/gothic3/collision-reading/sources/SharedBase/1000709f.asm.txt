@@ -1,0 +1,4 @@
+; 1000709f ?Contains@bCOrientedBox@@QBE_NABVbCStretch@@@Z
+1000709f | e94cd80500 | JMP 0x100648f0
+; 100070a4 bCBox::IntersectsSweep
+; 100070a4 Ordinal_3465

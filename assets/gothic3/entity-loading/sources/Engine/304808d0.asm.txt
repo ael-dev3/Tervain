@@ -1,0 +1,23 @@
+; 304808d0 eCNode::eCNode
+304808d0 | 53 | PUSH EBX
+304808d1 | 56 | PUSH ESI
+304808d2 | 57 | PUSH EDI
+304808d3 | 8bf1 | MOV ESI,ECX
+304808d5 | ff1508dcaf30 | CALL dword ptr [0x30afdc08]
+304808db | c706d45c8730 | MOV dword ptr [ESI],0x30875cd4
+304808e1 | 33db | XOR EBX,EBX
+304808e3 | 8d7e18 | LEA EDI,[ESI + 0x18]
+304808e6 | 8bcf | MOV ECX,EDI
+304808e8 | 895e14 | MOV dword ptr [ESI + 0x14],EBX
+304808eb | 66895e10 | MOV word ptr [ESI + 0x10],BX
+304808ef | 66895e12 | MOV word ptr [ESI + 0x12],BX
+304808f3 | ff1500dbaf30 | CALL dword ptr [0x30afdb00]
+304808f9 | 8bcf | MOV ECX,EDI
+304808fb | ff15ecd7af30 | CALL dword ptr [0x30afd7ec]
+30480901 | 5f | POP EDI
+30480902 | 895e0c | MOV dword ptr [ESI + 0xc],EBX
+30480905 | 895e2c | MOV dword ptr [ESI + 0x2c],EBX
+30480908 | 8bc6 | MOV EAX,ESI
+3048090a | 5e | POP ESI
+3048090b | 5b | POP EBX
+3048090c | c3 | RET

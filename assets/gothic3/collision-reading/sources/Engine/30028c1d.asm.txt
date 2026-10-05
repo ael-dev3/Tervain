@@ -1,0 +1,4 @@
+; 30028c1d bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeGroup>_>::vfunction11
+30028c1d | e98e5f3300 | JMP 0x3035ebb0
+; 30028c22 eCLightStreaks_PS::GetOuterConeScale
+; 30028c22 Ordinal_8023

@@ -1,0 +1,2 @@
+; 1002b7c0 bCBox::IsEqual
+1002b7c0 | e96d5dfdff | JMP 0x10001532

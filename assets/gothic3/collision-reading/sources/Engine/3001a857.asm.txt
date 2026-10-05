@@ -1,0 +1,4 @@
+; 3001a857 bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::vfunction1
+3001a857 | e944373200 | JMP 0x3033dfa0
+; 3001a861 vertex::hasTriNeighbor
+; 3001a861 Ordinal_15394

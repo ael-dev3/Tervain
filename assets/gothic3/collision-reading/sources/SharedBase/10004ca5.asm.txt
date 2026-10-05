@@ -1,0 +1,4 @@
+; 10004ca5 ??_5bCBox@@QAEAAV0@ABV0@@Z
+10004ca5 | e9f66a0200 | JMP 0x1002b7a0
+; 10004caa bCEvent::Create
+; 10004caa Ordinal_1802

@@ -1,0 +1,4 @@
+; 10005f1f ?GetMax@bCBox@@QBEXAAVbCVector@@@Z
+10005f1f | e9dc470200 | JMP 0x1002a700
+; 10005f24 bCRay::Intersects
+; 10005f24 Ordinal_3409

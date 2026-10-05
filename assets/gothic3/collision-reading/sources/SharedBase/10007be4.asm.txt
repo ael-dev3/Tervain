@@ -1,0 +1,6 @@
+; 10007be4 ?Intersects@bCOrientedBox@@QBE_NABVbCSphere@@@Z
+10007be4 | e9a7cf0500 | JMP 0x10064b90
+; 10007be9 LAB_10007be9
+10007be9 | e902140400 | JMP 0x10048ff0
+; 10007bee bCQuaternion::AccessZ
+; 10007bee Ordinal_1528

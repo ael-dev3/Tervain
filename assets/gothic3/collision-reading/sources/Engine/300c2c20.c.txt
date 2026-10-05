@@ -1,0 +1,12 @@
+/* ENTRY 300c2c20 | FUN_300c2c20 | STATUS decompiled | 2 ms */
+
+void __thiscall FUN_300c2c20(int param_1,bCVector *param_2)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x300c2c23. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCVector::operator=((bCVector *)(param_1 + 0x68),param_2);
+  return;
+}
+
+

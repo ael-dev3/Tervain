@@ -1,0 +1,2 @@
+; 1000437c ?ReadNewObject@bCPropertyObjectSingleton@@QAEPAVbCPropertyObjectBase@@AAVbCIStream@@@Z
+1000437c | e93fc00800 | JMP 0x100903c0

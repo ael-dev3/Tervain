@@ -1,0 +1,2 @@
+; 300275f2 ?GetMaterial@eCCollisionShape@@QBEABV?$bTPropertyContainer@W4eEShapeMaterial@@@@XZ
+300275f2 | e9b9ae0900 | JMP 0x300c24b0

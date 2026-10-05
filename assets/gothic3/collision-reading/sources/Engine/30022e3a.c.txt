@@ -1,0 +1,34 @@
+/* ENTRY 30022e3a | eCCollisionShape_PS::ReadSaveGame | STATUS decompiled | 30 ms */
+
+/* public: virtual enum bEResult __thiscall eCCollisionShape_PS::ReadSaveGame(class bCIStream &) */
+
+bEResult __thiscall eCCollisionShape_PS::ReadSaveGame(eCCollisionShape_PS *this,bCIStream *param_1)
+
+{
+  bCIStream *this_00;
+  uint uVar1;
+  bCObjectBase bStack_c;
+  bCObjectBase bStack_8;
+  uint uStack_4;
+  
+                    /* 0x22e3a  12336
+                       ?ReadSaveGame@eCCollisionShape_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z */
+  this_00 = param_1;
+  bCIStream::operator>>((bCIStream *)param_1,(ushort *)&bStack_c);
+  bCIStream::operator>>((bCIStream *)this_00,(ushort *)&param_1);
+  uVar1 = (uint)param_1 & 0xffff;
+  bCObjectBase::bCObjectBase(&bStack_8);
+  bStack_8 = (bCObjectBase)&bTPropertyContainer<eECollisionGroup>::vftable;
+  uStack_4 = uVar1;
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"Group",false);
+  (*(code *)(this->eCCollisionShape_PS_data).offset_0x0[7])(&bStack_8);
+  (*this->vftablePtr->NotifyPropertyValueChangedExitEx)(this,"Group",false);
+  bStack_c = (bCObjectBase)&bTPropertyContainer<eECollisionGroup>::vftable;
+  bCObjectBase::~bCObjectBase(&bStack_c);
+  bCIStream::operator>>((bCIStream *)this_00,(bool *)&(this->eCCollisionShape_PS_data).field_0x10);
+  bCIStream::operator>>((bCIStream *)this_00,(bool *)&(this->eCCollisionShape_PS_data).field_0x11);
+  bCIStream::operator>>((bCIStream *)this_00,(bool *)&(this->eCCollisionShape_PS_data).field_0x12);
+  return 1;
+}
+
+

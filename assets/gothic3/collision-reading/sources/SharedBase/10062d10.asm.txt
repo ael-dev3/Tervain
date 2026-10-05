@@ -1,0 +1,6 @@
+; 10062d10 FUN_10062d10
+10062d10 | f30f1005f45d0e10 | MOVSS XMM0,dword ptr [0x100e5df4]
+10062d18 | f30f11410c | MOVSS dword ptr [ECX + 0xc],XMM0
+10062d1d | f30f114110 | MOVSS dword ptr [ECX + 0x10],XMM0
+10062d22 | f30f114114 | MOVSS dword ptr [ECX + 0x14],XMM0
+10062d27 | c3 | RET

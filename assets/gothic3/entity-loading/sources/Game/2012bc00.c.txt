@@ -1,0 +1,24 @@
+/* ENTRY 2012bc00 | FUN_2012bc00 | STATUS decompiled | 8 ms */
+
+void __thiscall FUN_2012bc00(eCDynamicEntity *param_1,bCIStream *param_2)
+
+{
+  bCIStream *this;
+  ushort local_18 [2];
+  bCPropertyID local_14 [20];
+  
+  this = param_2;
+  bCIStream::operator>>(param_2,local_18);
+  if (local_18[0] == 2) {
+    bCIStream::operator>>(this,(bool *)&param_2);
+    if (param_2._0_1_ == true) {
+      bCPropertyID::bCPropertyID(local_14);
+      operator>>((bCIStream *)this,local_14);
+      bCPropertyID::~bCPropertyID(local_14);
+    }
+  }
+  eCDynamicEntity::Read(param_1,(bCIStream *)this);
+  return;
+}
+
+

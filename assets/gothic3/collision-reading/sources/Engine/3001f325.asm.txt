@@ -1,0 +1,4 @@
+; 3001f325 ?GetRange@eCCollisionShape_PS@@QBEABV?$bTPropertyContainer@W4eEPhysicRangeType@@@@XZ
+3001f325 | e926390a00 | JMP 0x300c2c50
+; 3001f339 eCLocString::GetStageDirection
+; 3001f339 Ordinal_8931

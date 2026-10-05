@@ -1,0 +1,11 @@
+/* ENTRY 300456b5 | bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet>::vfunction3 | STATUS decompiled | 2 ms */
+
+undefined1 * __thiscall
+bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet>::vfunction3
+          (bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet> *this)
+
+{
+  return &(this->bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet>_data).field_0x14;
+}
+
+

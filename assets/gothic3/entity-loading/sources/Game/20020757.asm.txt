@@ -1,0 +1,2 @@
+; 20020757 ?g_funcCreateCustomEntity@gCDynamicLayer@@KGPAVeCEntity@@XZ
+20020757 | e954451b00 | JMP 0x201d4cb0

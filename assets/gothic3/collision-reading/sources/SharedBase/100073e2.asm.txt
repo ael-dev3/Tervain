@@ -1,0 +1,4 @@
+; 100073e2 ?GetIntersected@bCBox@@QBE?AV1@ABV1@@Z
+100073e2 | e999f00200 | JMP 0x10036480
+; 100073e7 bCRandom::~bCRandom
+; 100073e7 Ordinal_419

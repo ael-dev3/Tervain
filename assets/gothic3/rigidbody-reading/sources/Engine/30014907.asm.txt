@@ -1,0 +1,4 @@
+; 30014907 bTPropertyType<eCRigidBody_PS,bCVector>::vfunction12
+30014907 | e954ce3100 | JMP 0x30331760
+; 30014911 eCParticle_PS::GetRevolutionScaleRepeats
+; 30014911 Ordinal_8472

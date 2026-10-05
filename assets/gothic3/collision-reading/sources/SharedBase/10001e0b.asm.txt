@@ -1,0 +1,4 @@
+; 10001e0b ?GetMerged@bCBox@@QBE?AV1@ABV1@@Z
+10001e0b | e920460300 | JMP 0x10036430
+; 10001e10 bCSphere::operator*=
+; 10001e10 Ordinal_1209

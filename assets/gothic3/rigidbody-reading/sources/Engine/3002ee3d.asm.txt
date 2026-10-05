@@ -1,0 +1,4 @@
+; 3002ee3d ?Invalidate@eCRigidBodyBase_PS@@IAEXXZ
+3002ee3d | e98e463000 | JMP 0x303334d0
+; 3002ee42 eCWindow::IsSubClassed
+; 3002ee42 Ordinal_10612

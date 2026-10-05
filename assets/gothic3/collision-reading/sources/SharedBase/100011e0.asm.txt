@@ -1,0 +1,4 @@
+; 100011e0 ?Create@bCOrientedBox@@QAEXABVbCBox@@ABVbCMatrix3@@@Z
+100011e0 | e91b260600 | JMP 0x10063800
+; 100011e5 bCMatrix::operator*
+; 100011e5 Ordinal_939

@@ -1,0 +1,17 @@
+/* ENTRY 30043eeb | bTPropertyType<eCCollisionShape,bool>::vfunction6 | STATUS decompiled | 7 ms */
+
+void __thiscall
+bTPropertyType<eCCollisionShape,bool>::vfunction6
+          (bTPropertyType<eCCollisionShape,bool> *this,int param_1)
+
+{
+  bTPropertyType<eCVisualAnimation_PS,bool>_vftable *pbVar1;
+  
+  if (param_1 != 0) {
+    pbVar1 = (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_1);
+    *(undefined1 *)&pbVar1->vfunction1 = 0;
+  }
+  return;
+}
+
+

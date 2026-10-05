@@ -1,0 +1,10 @@
+/* ENTRY 303412e0 | FUN_303412e0 | STATUS decompiled | 8 ms */
+
+undefined4 __fastcall FUN_303412e0(eCEntityPropertySet *param_1)
+
+{
+  eCEntityPropertySet::Create(param_1);
+  return 1;
+}
+
+

@@ -1,0 +1,2 @@
+; 3003c7b8 ?AccessShapeAABBAdaptMode@eCCollisionShape@@QAEAAV?$bTPropertyContainer@W4eEShapeAABBAdapt@@@@XZ
+3003c7b8 | e9235d0800 | JMP 0x300c24e0

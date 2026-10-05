@@ -1,0 +1,4 @@
+; 30026dd2 bTPropertyType<eCCollisionShape,bool>::vfunction22
+30026dd2 | e9599a3300 | JMP 0x30360830
+; 30026de1 eCUnicodeConfigFile::SetValue
+; 30026de1 Ordinal_14522

@@ -1,0 +1,29 @@
+/* ENTRY 30035904 | eCCollisionShape_PS::PostInitializeProperties | STATUS decompiled | 96 ms */
+
+/* public: virtual enum bEResult __thiscall eCCollisionShape_PS::PostInitializeProperties(void) */
+
+bEResult __thiscall eCCollisionShape_PS::PostInitializeProperties(eCCollisionShape_PS *this)
+
+{
+  bCObjectBase bStack_8;
+  undefined4 uStack_4;
+  
+                    /* 0x35904  11725
+                       ?PostInitializeProperties@eCCollisionShape_PS@@UAE?AW4bEResult@@XZ */
+  eCCollisionShapeBase_PS::PostInitializeProperties((eCCollisionShapeBase_PS *)this);
+  bCObjectBase::bCObjectBase(&bStack_8);
+  bStack_8 = (bCObjectBase)&bTPropertyContainer<eECollisionGroup>::vftable;
+  uStack_4 = 1;
+  (*(code *)(this->eCCollisionShape_PS_data).offset_0x0[7])(&bStack_8);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  (this->eCCollisionShape_PS_data).field_0x10 = 0;
+  (this->eCCollisionShape_PS_data).field_0x11 = 0;
+  (this->eCCollisionShape_PS_data).field_0x12 = 0;
+  bCObjectBase::bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  bStack_8 = (bCObjectBase)0x1;
+  (*(code *)(this->eCCollisionShape_PS_data).offset_0x8[7])(&stack0xfffffff4);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff0);
+  return 1;
+}
+
+

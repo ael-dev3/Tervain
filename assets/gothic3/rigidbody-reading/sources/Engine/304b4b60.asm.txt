@@ -1,0 +1,15 @@
+; 304b4b60 FUN_304b4b60
+304b4b60 | 56 | PUSH ESI
+304b4b61 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+304b4b65 | 57 | PUSH EDI
+304b4b66 | 8bf9 | MOV EDI,ECX
+304b4b68 | 8bce | MOV ECX,ESI
+304b4b6a | ff15e8ccaf30 | CALL dword ptr [0x30afcce8]
+304b4b70 | 83c740 | ADD EDI,0x40
+304b4b73 | 57 | PUSH EDI
+304b4b74 | 8bce | MOV ECX,ESI
+304b4b76 | ff1574cdaf30 | CALL dword ptr [0x30afcd74]
+304b4b7c | 5f | POP EDI
+304b4b7d | 8bc6 | MOV EAX,ESI
+304b4b7f | 5e | POP ESI
+304b4b80 | c20400 | RET 0x4

@@ -1,0 +1,4 @@
+; 10007e28 ?Invalidate@bCBox@@QAEXXZ
+10007e28 | e9732a0200 | JMP 0x1002a8a0
+; 10007e32 bCUnitedRay::Negate
+; 10007e32 Ordinal_3786

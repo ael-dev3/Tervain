@@ -1,0 +1,52 @@
+/* ENTRY 30338650 | FUN_30338650 | STATUS decompiled | 11 ms */
+
+void __thiscall FUN_30338650(int param_1,undefined4 param_2,eCContactIterator *param_3)
+
+{
+  bool bVar1;
+  eEPropertySetType eVar2;
+  eCCollisionShape *peVar3;
+  int iVar4;
+  int *piVar5;
+  
+  eVar2 = eCContactIterator::GetCollisionType(param_3);
+  *(eEPropertySetType *)(param_1 + 0x44) = eVar2;
+  eVar2 = eCContactIterator::GetCollisionType(param_3);
+  if ((eVar2 == 0xe) && (bVar1 = eCContactIterator::GoNextShape(param_3), bVar1)) {
+    do {
+      peVar3 = eCContactIterator::GetShape(param_3,0);
+      if (peVar3 != (eCCollisionShape *)0x0) {
+        peVar3 = eCContactIterator::GetShape(param_3,0);
+        iVar4 = *(int *)(param_1 + 0x38);
+        if (iVar4 != 0) {
+          piVar5 = (int *)(*(int *)(param_1 + 0x34) + iVar4 * 4);
+          do {
+            piVar5 = piVar5 + -1;
+            iVar4 = iVar4 + -1;
+            if (peVar3 == (eCCollisionShape *)*piVar5) {
+              if (iVar4 != -1) goto LAB_303386d1;
+              break;
+            }
+          } while (iVar4 != 0);
+        }
+        peVar3 = eCContactIterator::GetShape(param_3,0);
+        thunk_FUN_3033f140(peVar3);
+        *(undefined1 *)(param_1 + 0x40) = 1;
+      }
+LAB_303386d1:
+      bVar1 = eCContactIterator::GoNextPatch(param_3);
+      if (bVar1) {
+        do {
+          do {
+            bVar1 = eCContactIterator::GoNextPoint(param_3);
+          } while (bVar1);
+          bVar1 = eCContactIterator::GoNextPatch(param_3);
+        } while (bVar1);
+      }
+      bVar1 = eCContactIterator::GoNextShape(param_3);
+    } while (bVar1);
+  }
+  return;
+}
+
+

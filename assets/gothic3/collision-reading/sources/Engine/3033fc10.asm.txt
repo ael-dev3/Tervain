@@ -1,0 +1,16 @@
+; 3033fc10 bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>::~bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>
+3033fc10 | 56 | PUSH ESI
+3033fc11 | 8bf1 | MOV ESI,ECX
+3033fc13 | ff1520caaf30 | CALL dword ptr [0x30afca20]
+3033fc19 | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+3033fc20 | c706f40b8630 | MOV dword ptr [ESI],0x30860bf4
+3033fc26 | e8c755cfff | CALL 0x300351f2
+3033fc2b | 836604fb | AND dword ptr [ESI + 0x4],0xfffffffb
+3033fc2f | 6a00 | PUSH 0x0
+3033fc31 | 8bce | MOV ECX,ESI
+3033fc33 | 89460c | MOV dword ptr [ESI + 0xc],EAX
+3033fc36 | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+3033fc3d | e8dfaeceff | CALL 0x3002ab21
+3033fc42 | 8bc6 | MOV EAX,ESI
+3033fc44 | 5e | POP ESI
+3033fc45 | c20800 | RET 0x8

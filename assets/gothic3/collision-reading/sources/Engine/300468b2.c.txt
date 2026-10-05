@@ -1,0 +1,15 @@
+/* ENTRY 300468b2 | bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeGroup>_>::vfunction19 | STATUS decompiled | 7 ms */
+
+void __thiscall
+bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeGroup>_>::vfunction19
+          (bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeGroup>_> *this)
+
+{
+  bCPropertyTypeBase::Destroy((bCPropertyTypeBase *)this);
+  thunk_FUN_3008f120(this + 8);
+  bCPropertyObjectTypeBase::UnregisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)this[6].vftablePtr,(bCPropertyTypeBase *)this);
+  return;
+}
+
+

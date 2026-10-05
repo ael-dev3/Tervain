@@ -1,0 +1,4 @@
+; 30043914 ?EnableShapeGroupCollisionInternal@eCCollisionShape_PS@@MAEXW4eEShapeGroup@@_NH@Z
+30043914 | e9f72f2f00 | JMP 0x30336910
+; 30043919 eCVertexFont::operator=
+; 30043919 Ordinal_1822

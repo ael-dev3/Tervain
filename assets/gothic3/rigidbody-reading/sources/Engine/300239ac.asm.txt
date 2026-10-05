@@ -1,0 +1,4 @@
+; 300239ac bTPropertyType<eCRigidBodyBase_PS,bool>::vfunction12
+300239ac | e90f173100 | JMP 0x303350c0
+; 300239b1 eCRenderContextAnimation::Invalidate
+; 300239b1 Ordinal_10111

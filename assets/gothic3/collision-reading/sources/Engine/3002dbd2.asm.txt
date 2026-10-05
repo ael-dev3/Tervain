@@ -1,0 +1,2 @@
+; 3002dbd2 ?AccessIsLazyGenerated@eCCollisionShape@@QAEAA_NXZ
+3002dbd2 | e9894c0900 | JMP 0x300c2860

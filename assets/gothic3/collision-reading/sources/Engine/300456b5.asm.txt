@@ -1,0 +1,4 @@
+; 300456b5 bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet>::vfunction3
+300456b5 | e976be2f00 | JMP 0x30341530
+; 300456ba eCConfigFile::GetI32
+; 300456ba Ordinal_7295

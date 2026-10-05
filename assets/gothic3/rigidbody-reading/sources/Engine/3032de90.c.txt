@@ -1,0 +1,9 @@
+/* ENTRY 3032de90 | FUN_3032de90 | STATUS decompiled | 1 ms */
+
+undefined2 FUN_3032de90(void)
+
+{
+  return 0x41;
+}
+
+

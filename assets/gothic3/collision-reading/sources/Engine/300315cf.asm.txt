@@ -1,0 +1,4 @@
+; 300315cf ?GetEnableCCD@eCCollisionShape@@QBEAB_NXZ
+300315cf | e97c0f0900 | JMP 0x300c2550
+; 300315d4 eCVertexProcessorLightmap::GetLightmapDescs
+; 300315d4 Ordinal_7618

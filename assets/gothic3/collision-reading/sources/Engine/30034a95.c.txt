@@ -1,0 +1,20 @@
+/* ENTRY 30034a95 | bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::vfunction12 | STATUS decompiled | 9 ms */
+
+bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>_vftable * __thiscall
+bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::vfunction12
+          (bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_> *this,
+          undefined4 *param_1)
+
+{
+  int iVar1;
+  
+  if (param_1 == (undefined4 *)0x0) {
+    return (bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>_vftable *)
+           0x0;
+  }
+  iVar1 = (**(code **)*param_1)();
+  return (bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>_vftable *)
+         ((int)&(this[7].vftablePtr)->vfunction1 + iVar1);
+}
+
+

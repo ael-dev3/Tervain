@@ -1,0 +1,4 @@
+; 3001ebaf ?Create@eCCollisionShape_PS@@UAE?AW4bEResult@@XZ
+3001ebaf | e9bc773100 | JMP 0x30336370
+; 3001ebb4 eCLightSet::AddEffectedDynamicLight
+; 3001ebb4 Ordinal_3385

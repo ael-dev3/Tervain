@@ -1,0 +1,4 @@
+; 3003a116 SHAREDBASE.DLL::bCPropertyTypeBase::Read
+3003a116 | e935713200 | JMP 0x30361250
+; 3003a120 eCVirtualFile::GetFileName
+; 3003a120 Ordinal_7102

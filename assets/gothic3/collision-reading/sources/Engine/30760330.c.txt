@@ -1,0 +1,37 @@
+/* ENTRY 30760330 | bTPropertyType<eCCollisionShape,unsigned_short>::~bTPropertyType<eCCollisionShape,unsigned_short> | STATUS decompiled | 23 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCCollisionShape,unsigned_short>::~bTPropertyType<eCCollisionShape,unsigned_short>
+          (void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Readonly");
+  bCString::bCString(local_c,"FileVersion");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCCollisionShape::ms_PropertyMember_m_u16FileVersion,local_c,
+             local_8,local_4,1,true);
+  _ms_PropertyMember_m_u16FileVersion = &vftable;
+  DAT_30aecf60 = bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>::
+                 ~bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>();
+  _DAT_30aecf64 = 0x3a;
+  _DAT_30aecf68 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&eCCollisionShape::ms_PropertyMember_m_u16FileVersion);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30aecf60,
+             (bCPropertyTypeBase *)&eCCollisionShape::ms_PropertyMember_m_u16FileVersion);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<unsigned_short>::~bTPropertyTypeOnly<unsigned_short>);
+  return;
+}
+
+

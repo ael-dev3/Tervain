@@ -1,0 +1,4 @@
+; 300192ef ?SetIsLazyGenerated@eCCollisionShape@@QAEXAB_N@Z
+300192ef | e97c950a00 | JMP 0x300c2870
+; 300192f4 eCWnd::UpdateWindow
+; 300192f4 Ordinal_14965

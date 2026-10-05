@@ -1,0 +1,3 @@
+; 30341520 bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet>::vfunction4
+30341520 | 8d4118 | LEA EAX,[ECX + 0x18]
+30341523 | c3 | RET

@@ -1,0 +1,2 @@
+; 30001c21 ?OnExitProcessingRange@eCCollisionShape_PS@@MAEXXZ
+30001c21 | e9da5f3300 | JMP 0x30337c00

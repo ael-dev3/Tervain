@@ -1,0 +1,21 @@
+/* ENTRY 10007aae | bCMatrix::GetPureScaling | STATUS decompiled | 8 ms */
+
+/* public: class bCVector __thiscall bCMatrix::GetPureScaling(void)const  */
+
+float * __thiscall bCMatrix::GetPureScaling(bCMatrix *this)
+
+{
+  float10 fVar1;
+  float *in_stack_00000004;
+  
+                    /* 0x7aae  2842  ?GetPureScaling@bCMatrix@@QBE?AVbCVector@@XZ */
+  fVar1 = (float10)FUN_100ab010();
+  *in_stack_00000004 = (float)fVar1;
+  fVar1 = (float10)FUN_100ab010();
+  in_stack_00000004[1] = (float)fVar1;
+  fVar1 = (float10)FUN_100ab010();
+  in_stack_00000004[2] = (float)fVar1;
+  return in_stack_00000004;
+}
+
+

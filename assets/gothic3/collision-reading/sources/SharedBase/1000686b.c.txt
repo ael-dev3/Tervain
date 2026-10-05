@@ -1,0 +1,12 @@
+/* ENTRY 1000686b | bCOrientedBox::GetCenter | STATUS decompiled | 1 ms */
+
+/* public: class bCVector const & __thiscall bCOrientedBox::GetCenter(void)const  */
+
+bCVector * __thiscall bCOrientedBox::GetCenter(bCOrientedBox *this)
+
+{
+                    /* 0x686b  2140  ?GetCenter@bCOrientedBox@@QBEABVbCVector@@XZ */
+  return (bCVector *)this;
+}
+
+

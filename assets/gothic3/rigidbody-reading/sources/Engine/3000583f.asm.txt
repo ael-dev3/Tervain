@@ -1,0 +1,4 @@
+; 3000583f bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction22
+3000583f | e96cc93200 | JMP 0x303321b0
+; 30005844 eCJoint::GetEntity1
+; 30005844 Ordinal_7008

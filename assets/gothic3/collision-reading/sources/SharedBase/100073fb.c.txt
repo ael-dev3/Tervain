@@ -1,0 +1,234 @@
+/* ENTRY 100073fb | bCOrientedBox::Contains | STATUS decompiled | 80 ms */
+
+/* public: bool __thiscall bCOrientedBox::Contains(class bCOrientedBox const &)const  */
+
+bool __thiscall bCOrientedBox::Contains(bCOrientedBox *this,bCOrientedBox *param_1)
+
+{
+  bool bVar1;
+  int iVar2;
+  float fStack_154;
+  float fStack_150;
+  float fStack_14c;
+  float fStack_148;
+  float fStack_144;
+  float fStack_140;
+  float fStack_13c;
+  float fStack_138;
+  float fStack_134;
+  float fStack_130;
+  float fStack_12c;
+  float fStack_128;
+  float fStack_124;
+  float fStack_120;
+  float fStack_11c;
+  float fStack_118;
+  float fStack_114;
+  float fStack_110;
+  float fStack_10c;
+  float fStack_108;
+  float fStack_104;
+  float fStack_100;
+  float fStack_fc;
+  float fStack_f8;
+  float fStack_f4;
+  float fStack_f0;
+  float fStack_ec;
+  float fStack_e8;
+  float fStack_e4;
+  float fStack_e0;
+  float fStack_dc;
+  float fStack_d8;
+  float fStack_d4;
+  float fStack_d0;
+  float fStack_cc;
+  float fStack_c8;
+  float fStack_c4;
+  float fStack_c0;
+  float fStack_bc;
+  float fStack_b8;
+  float fStack_b4;
+  float fStack_b0;
+  float fStack_ac;
+  float fStack_a8;
+  float fStack_a4;
+  float fStack_a0;
+  float fStack_9c;
+  float fStack_98;
+  float fStack_94;
+  float fStack_90;
+  float fStack_8c;
+  float fStack_88;
+  float fStack_84;
+  float fStack_80;
+  float fStack_7c;
+  float fStack_78;
+  float fStack_74;
+  float fStack_70;
+  float fStack_6c;
+  float fStack_68;
+  float fStack_64;
+  float fStack_60;
+  float fStack_5c;
+  float fStack_58;
+  float fStack_54;
+  float fStack_50;
+  float fStack_4c;
+  float fStack_48;
+  float fStack_44;
+  float fStack_40;
+  float fStack_3c;
+  float fStack_38;
+  float fStack_34;
+  float fStack_30;
+  float fStack_2c;
+  float fStack_28;
+  float fStack_24;
+  float fStack_20;
+  float fStack_1c;
+  float fStack_18;
+  float fStack_14;
+  float fStack_10;
+  float fStack_c;
+  float fStack_8;
+  float fStack_4;
+  
+                    /* 0x73fb  1699  ?Contains@bCOrientedBox@@QBE_NABV1@@Z */
+  fStack_140 = *(float *)(param_1 + 0xc);
+  fStack_148 = fStack_140 * *(float *)(param_1 + 0x18);
+  fStack_144 = *(float *)(param_1 + 0x1c) * fStack_140;
+  fStack_140 = fStack_140 * *(float *)(param_1 + 0x20);
+  fStack_134 = *(float *)(param_1 + 0x10);
+  iVar2 = 0;
+  fStack_13c = fStack_134 * *(float *)(param_1 + 0x24);
+  fStack_138 = *(float *)(param_1 + 0x28) * fStack_134;
+  fStack_134 = fStack_134 * *(float *)(param_1 + 0x2c);
+  fStack_124 = *(float *)(param_1 + 0x14);
+  fStack_130 = fStack_124 * *(float *)(param_1 + 0x30);
+  fStack_12c = *(float *)(param_1 + 0x34) * fStack_124;
+  fStack_128 = fStack_124 * *(float *)(param_1 + 0x38);
+  while( true ) {
+    switch(iVar2) {
+    case 0:
+      fStack_fc = fStack_148 + *(float *)param_1;
+      fStack_f8 = *(float *)(param_1 + 4) + fStack_144;
+      fStack_f4 = *(float *)(param_1 + 8) + fStack_140;
+      fStack_6c = fStack_13c + fStack_fc;
+      fStack_68 = fStack_138 + fStack_f8;
+      fStack_64 = fStack_134 + fStack_f4;
+      fStack_154 = fStack_130 + fStack_6c;
+      fStack_150 = fStack_12c + fStack_68;
+      fStack_14c = fStack_128 + fStack_64;
+      fStack_54 = fStack_154;
+      fStack_50 = fStack_150;
+      fStack_4c = fStack_14c;
+      break;
+    case 1:
+      fStack_114 = fStack_148 + *(float *)param_1;
+      fStack_110 = *(float *)(param_1 + 4) + fStack_144;
+      fStack_10c = *(float *)(param_1 + 8) + fStack_140;
+      fStack_9c = fStack_114 - fStack_13c;
+      fStack_98 = fStack_110 - fStack_138;
+      fStack_94 = fStack_10c - fStack_134;
+      fStack_154 = fStack_130 + fStack_9c;
+      fStack_150 = fStack_12c + fStack_98;
+      fStack_14c = fStack_128 + fStack_94;
+      fStack_84 = fStack_154;
+      fStack_80 = fStack_150;
+      fStack_7c = fStack_14c;
+      break;
+    case 2:
+      fStack_f0 = *(float *)param_1 - fStack_148;
+      fStack_ec = *(float *)(param_1 + 4) - fStack_144;
+      fStack_e8 = *(float *)(param_1 + 8) - fStack_140;
+      fStack_60 = fStack_f0 - fStack_13c;
+      fStack_5c = fStack_ec - fStack_138;
+      fStack_58 = fStack_e8 - fStack_134;
+      fStack_154 = fStack_130 + fStack_60;
+      fStack_150 = fStack_12c + fStack_5c;
+      fStack_14c = fStack_128 + fStack_58;
+      fStack_b4 = fStack_154;
+      fStack_b0 = fStack_150;
+      fStack_ac = fStack_14c;
+      break;
+    case 3:
+      fStack_e4 = *(float *)param_1 - fStack_148;
+      fStack_e0 = *(float *)(param_1 + 4) - fStack_144;
+      fStack_dc = *(float *)(param_1 + 8) - fStack_140;
+      fStack_3c = fStack_13c + fStack_e4;
+      fStack_38 = fStack_138 + fStack_e0;
+      fStack_34 = fStack_134 + fStack_dc;
+      fStack_154 = fStack_130 + fStack_3c;
+      fStack_150 = fStack_12c + fStack_38;
+      fStack_14c = fStack_128 + fStack_34;
+      fStack_24 = fStack_154;
+      fStack_20 = fStack_150;
+      fStack_1c = fStack_14c;
+      break;
+    case 4:
+      fStack_108 = fStack_148 + *(float *)param_1;
+      fStack_104 = *(float *)(param_1 + 4) + fStack_144;
+      fStack_100 = *(float *)(param_1 + 8) + fStack_140;
+      fStack_90 = fStack_13c + fStack_108;
+      fStack_8c = fStack_138 + fStack_104;
+      fStack_88 = fStack_134 + fStack_100;
+      fStack_154 = fStack_90 - fStack_130;
+      fStack_150 = fStack_8c - fStack_12c;
+      fStack_14c = fStack_88 - fStack_128;
+      fStack_48 = fStack_154;
+      fStack_44 = fStack_150;
+      fStack_40 = fStack_14c;
+      break;
+    case 5:
+      fStack_cc = fStack_148 + *(float *)param_1;
+      fStack_c8 = *(float *)(param_1 + 4) + fStack_144;
+      fStack_c4 = *(float *)(param_1 + 8) + fStack_140;
+      fStack_a8 = fStack_cc - fStack_13c;
+      fStack_a4 = fStack_c8 - fStack_138;
+      fStack_a0 = fStack_c4 - fStack_134;
+      fStack_154 = fStack_a8 - fStack_130;
+      fStack_150 = fStack_a4 - fStack_12c;
+      fStack_14c = fStack_a0 - fStack_128;
+      fStack_c0 = fStack_154;
+      fStack_bc = fStack_150;
+      fStack_b8 = fStack_14c;
+      break;
+    case 6:
+      fStack_d8 = *(float *)param_1 - fStack_148;
+      fStack_d4 = *(float *)(param_1 + 4) - fStack_144;
+      fStack_d0 = *(float *)(param_1 + 8) - fStack_140;
+      fStack_30 = fStack_d8 - fStack_13c;
+      fStack_2c = fStack_d4 - fStack_138;
+      fStack_28 = fStack_d0 - fStack_134;
+      fStack_154 = fStack_30 - fStack_130;
+      fStack_150 = fStack_2c - fStack_12c;
+      fStack_14c = fStack_28 - fStack_128;
+      fStack_c = fStack_154;
+      fStack_8 = fStack_150;
+      fStack_4 = fStack_14c;
+      break;
+    case 7:
+      fStack_120 = *(float *)param_1 - fStack_148;
+      fStack_11c = *(float *)(param_1 + 4) - fStack_144;
+      fStack_118 = *(float *)(param_1 + 8) - fStack_140;
+      fStack_78 = fStack_13c + fStack_120;
+      fStack_74 = fStack_138 + fStack_11c;
+      fStack_70 = fStack_134 + fStack_118;
+      fStack_154 = fStack_78 - fStack_130;
+      fStack_150 = fStack_74 - fStack_12c;
+      fStack_14c = fStack_70 - fStack_128;
+      fStack_18 = fStack_154;
+      fStack_14 = fStack_150;
+      fStack_10 = fStack_14c;
+    }
+    bVar1 = Contains(this,(bCVector *)&fStack_154);
+    if (!bVar1) break;
+    iVar2 = iVar2 + 1;
+    if (7 < iVar2) {
+      return true;
+    }
+  }
+  return false;
+}
+
+

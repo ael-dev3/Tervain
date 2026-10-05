@@ -1,0 +1,4 @@
+; 10003891 ?GetIntersection@bCBox@@QBE?AW4bEIntersection@1@ABV1@@Z
+10003891 | e91a7b0200 | JMP 0x1002b3b0
+; 10003896 bCTriangle::Transform
+; 10003896 Ordinal_4536

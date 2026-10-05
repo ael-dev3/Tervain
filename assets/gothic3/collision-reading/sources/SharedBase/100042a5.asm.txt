@@ -1,0 +1,4 @@
+; 100042a5 ?GetProjectedExtent@bCOrientedBox@@QBEXABVbCVector@@AAM1@Z
+100042a5 | e926f30500 | JMP 0x100635d0
+; 100042af bTKeyFramerData<bCMotion>::AccessDataInterpolators
+; 100042af Ordinal_1426

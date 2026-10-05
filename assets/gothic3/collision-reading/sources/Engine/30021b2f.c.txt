@@ -1,0 +1,21 @@
+/* ENTRY 30021b2f | eCCollisionShape_PS::SetShape | STATUS decompiled | 15 ms */
+
+/* public: virtual enum bEResult __thiscall eCCollisionShape_PS::SetShape(class bCString const
+   &,bool) */
+
+bEResult __thiscall
+eCCollisionShape_PS::SetShape(eCCollisionShape_PS *this,bCString *param_1,bool param_2)
+
+{
+  bEResult bVar1;
+  eECollisionShapeType unaff_ESI;
+  undefined3 in_stack_00000009;
+  
+                    /* 0x21b2f  14162
+                       ?SetShape@eCCollisionShape_PS@@UAE?AW4bEResult@@ABVbCString@@_N@Z */
+  (*this->vftablePtr->RemoveShapes)(this,unaff_ESI);
+  bVar1 = (*this->vftablePtr->AddShape)(this,_param_2);
+  return bVar1;
+}
+
+

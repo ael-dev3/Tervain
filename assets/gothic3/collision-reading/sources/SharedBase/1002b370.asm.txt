@@ -1,0 +1,18 @@
+; 1002b370 FUN_1002b370
+1002b370 | 51 | PUSH ECX
+1002b371 | d94110 | FLD float ptr [ECX + 0x10]
+1002b374 | d86104 | FSUB float ptr [ECX + 0x4]
+1002b377 | d91c24 | FSTP float ptr [ESP]
+1002b37a | d90424 | FLD float ptr [ESP]
+1002b37d | d9410c | FLD float ptr [ECX + 0xc]
+1002b380 | d821 | FSUB float ptr [ECX]
+1002b382 | d91c24 | FSTP float ptr [ESP]
+1002b385 | d80c24 | FMUL float ptr [ESP]
+1002b388 | d94114 | FLD float ptr [ECX + 0x14]
+1002b38b | d86108 | FSUB float ptr [ECX + 0x8]
+1002b38e | d91c24 | FSTP float ptr [ESP]
+1002b391 | d80c24 | FMUL float ptr [ESP]
+1002b394 | d91c24 | FSTP float ptr [ESP]
+1002b397 | d90424 | FLD float ptr [ESP]
+1002b39a | 59 | POP ECX
+1002b39b | c3 | RET

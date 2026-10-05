@@ -1,0 +1,4 @@
+; 3004326b ?ShrinkTouchingShapes@eCCollisionShape_PS@@IAEXXZ
+3004326b | e980402f00 | JMP 0x303372f0
+; 30043270 eCWnd::OnMouseWheel
+; 30043270 Ordinal_11223

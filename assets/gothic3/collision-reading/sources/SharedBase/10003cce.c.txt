@@ -1,0 +1,17 @@
+/* ENTRY 10003cce | bCOrientedBox::GetTransformed | STATUS decompiled | 3 ms */
+
+/* public: class bCOrientedBox __thiscall bCOrientedBox::GetTransformed(class bCMatrix3 const
+   &)const  */
+
+bCMatrix3 * __thiscall bCOrientedBox::GetTransformed(bCOrientedBox *this,bCMatrix3 *param_1)
+
+{
+  bCMatrix3 *in_stack_00000008;
+  
+                    /* 0x3cce  3114  ?GetTransformed@bCOrientedBox@@QBE?AV1@ABVbCMatrix3@@@Z */
+  Create((bCOrientedBox *)param_1,this);
+  Transform((bCOrientedBox *)param_1,in_stack_00000008);
+  return param_1;
+}
+
+

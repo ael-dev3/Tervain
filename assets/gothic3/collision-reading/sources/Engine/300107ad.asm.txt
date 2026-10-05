@@ -1,0 +1,4 @@
+; 300107ad ?GetFileVersion@eCCollisionShape@@QBEABGXZ
+300107ad | e9fe200b00 | JMP 0x300c28b0
+; 300107b2 eCSpeedTreeWind_PS::GetVersion
+; 300107b2 Ordinal_9487

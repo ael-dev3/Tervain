@@ -1,0 +1,15 @@
+/* ENTRY 10004363 | bCOrientedBox::GetPlane | STATUS decompiled | 3 ms */
+
+/* public: class bCPlane __thiscall bCOrientedBox::GetPlane(int)const  */
+
+int __thiscall bCOrientedBox::GetPlane(bCOrientedBox *this,int param_1)
+
+{
+  int in_stack_00000008;
+  
+                    /* 0x4363  2744  ?GetPlane@bCOrientedBox@@QBE?AVbCPlane@@H@Z */
+  GetPlane(this,in_stack_00000008,(bCPlane *)param_1);
+  return param_1;
+}
+
+

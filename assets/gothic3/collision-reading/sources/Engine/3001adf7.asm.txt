@@ -1,0 +1,4 @@
+; 3001adf7 bTPropertyType<eCEventFilter_PS,unsigned_short>::vfunction4
+3001adf7 | e9446d3400 | JMP 0x30361b40
+; 3001adfc eCCameraBase::AccessPosition
+; 3001adfc Ordinal_2988

@@ -1,0 +1,4 @@
+; 1000737e ?SetIdentity@bCMatrix@@QAEXXZ
+1000737e | e98dac0200 | JMP 0x10032010
+; 10007383 bCQuaternion::operator-
+; 10007383 Ordinal_1007

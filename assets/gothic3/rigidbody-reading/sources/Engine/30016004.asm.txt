@@ -1,0 +1,4 @@
+; 30016004 ?OnUntrigger@eCEntityPropertySet@@MAEXPAVeCEntity@@0@Z
+30016004 | e997b94600 | JMP 0x304819a0
+; 30016009 eCStrip_PS::IsVisual
+; 30016009 Ordinal_10732

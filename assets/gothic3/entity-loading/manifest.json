@@ -1,0 +1,15 @@
+{
+  "schema": "gothic3-entity-loading-manifest-v1",
+  "outputs": [
+    {
+      "path": "hero-record.json",
+      "bytes": 210813,
+      "sha256": "3e7c07e914b18ae76eb28ba7ac3781b02f381f7253b11f5d5339004b440aa4ae"
+    },
+    {
+      "path": "runtime-rules.json",
+      "bytes": 907,
+      "sha256": "03cd6da0d12f36c4f21d3dbe9195f54ae2f69873358f3b6d954f75a5b07c70b7"
+    }
+  ]
+}

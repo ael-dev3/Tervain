@@ -1,0 +1,44 @@
+/* ENTRY 30030fb2 | eCEntity::PatchWithTemplate | STATUS decompiled | 43 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* public: bool __thiscall eCEntity::PatchWithTemplate(class bCPropertyID const &,bool) */
+
+bool __thiscall eCEntity::PatchWithTemplate(eCEntity *this,bCPropertyID *param_1,bool param_2)
+
+{
+  char cVar1;
+  eCSceneAdmin *this_00;
+  eCNode *peVar2;
+  eCApplication *this_01;
+  eSSetupEngine *peVar3;
+  eCApplication *peVar4;
+  eEGetEntityTypeHint eVar5;
+  
+                    /* 0x30fb2  11670  ?PatchWithTemplate@eCEntity@@QAE_NABVbCPropertyID@@_N@Z */
+  eVar5 = 2;
+  this_00 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+  peVar2 = eCSceneAdmin::GetEntity(this_00,param_1,eVar5);
+  if (peVar2 != (eCNode *)0x0) {
+    this_01 = (eCApplication *)eCApplication::GetInstance();
+    peVar3 = eCApplication::GetEngineSetup(this_01);
+    if (*(int *)(peVar3 + 0xf0) != 0) {
+      (*this->vftablePtr->OnPatchWithTemplate)(this,(eCTemplateEntity *)peVar2,false,param_2);
+    }
+    return true;
+  }
+  if ((_DAT_30af2308 & 1) == 0) {
+    _DAT_30af2308 = _DAT_30af2308 | 1;
+    DAT_30af2304 = 0x400000;
+  }
+  if (((this->eCEntity_data).offset_0xc & DAT_30af2304) != 0) {
+    peVar4 = eCApplication::GetInstance();
+    cVar1 = (**(code **)(*(int *)peVar4 + 0x26c))();
+    if (cVar1 == '\x01') {
+      GE_MESSAGEF_WARN(&DAT_3087a9c0,"eCEntity::PatchWithTemplate",
+                       *(undefined4 *)&(this->eCEntity_data).field_0x108);
+    }
+  }
+  return false;
+}
+
+

@@ -1,0 +1,11 @@
+/* ENTRY 303338a0 | bTPropertyObjectType<eCRigidBodyBase_PS,eCEntityPropertySet>::vfunction5 | STATUS decompiled | 2 ms */
+
+undefined2 __thiscall bTPropertyObjectType<eCRigidBodyBase_PS,eCEntityPropertySet>::vfunction5(void)
+
+{
+  GE_MESSAGEF_WARN("The method  %s was called, but has not yet been implemented!",
+                   "bTPropertyObjectType<CLASS, BASECLASS>::Read");
+  return 1;
+}
+
+

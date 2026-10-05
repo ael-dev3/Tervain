@@ -1,0 +1,19 @@
+/* ENTRY 10005c63 | bCBox::Contains | STATUS decompiled | 4 ms */
+
+/* public: bool __thiscall bCBox::Contains(class bCStretch const &)const  */
+
+bool __thiscall bCBox::Contains(bCBox *this,bCStretch *param_1)
+
+{
+  bool bVar1;
+  
+                    /* 0x5c63  1668  ?Contains@bCBox@@QBE_NABVbCStretch@@@Z */
+  bVar1 = Contains(this,(bCVector *)param_1);
+  if (!bVar1) {
+    return false;
+  }
+  bVar1 = Contains(this,(bCVector *)(param_1 + 0xc));
+  return bVar1;
+}
+
+

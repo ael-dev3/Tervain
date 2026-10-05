@@ -1,0 +1,33 @@
+/* ENTRY 3001d2af | eCCollisionShape::~eCCollisionShape | STATUS decompiled | 12 ms */
+
+/* protected: virtual __thiscall eCCollisionShape::~eCCollisionShape(void) */
+
+void __thiscall eCCollisionShape::~eCCollisionShape(eCCollisionShape *this)
+
+{
+  undefined ***pppuVar1;
+  
+                    /* 0x1d2af  1018  ??1eCCollisionShape@@MAE@XZ */
+  this->vftablePtr = &vftable;
+  Destroy(this);
+  bCVector::~bCVector((bCVector *)&(this->eCCollisionShape_data).field_0x64);
+  bCBox::~bCBox((bCBox *)&(this->eCCollisionShape_data).field_0x44);
+  pppuVar1 = &(this->eCCollisionShape_data).offset_0x20;
+  *pppuVar1 = &bTPropertyContainer<eEShapeAABBAdapt>::vftable.GetVersion;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)pppuVar1);
+  pppuVar1 = &(this->eCCollisionShape_data).offset_0x18;
+  *pppuVar1 = &bTPropertyContainer<eEShapeMaterial>::vftable.GetVersion;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)pppuVar1);
+  pppuVar1 = &(this->eCCollisionShape_data).offset_0x10;
+  *pppuVar1 = &bTPropertyContainer<eEShapeGroup>::vftable.GetVersion;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)pppuVar1);
+  pppuVar1 = &(this->eCCollisionShape_data).offset_0x8;
+  *pppuVar1 = &bTPropertyContainer<eECollisionShapeType>::vftable.GetVersion;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)pppuVar1);
+                    /* WARNING: Could not recover jumptable at 0x3035acc7. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCObjectRefBase::~bCObjectRefBase((bCObjectRefBase *)this);
+  return;
+}
+
+

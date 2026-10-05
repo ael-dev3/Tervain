@@ -1,0 +1,4 @@
+; 100029eb ?GetCenter@bCCapsule@@QBEABVbCVector@@XZ
+100029eb | e9e04d0500 | JMP 0x100577d0
+; 100029f0 bCFlexibleVertexFormat::operator_unsigned_long
+; 100029f0 Ordinal_882

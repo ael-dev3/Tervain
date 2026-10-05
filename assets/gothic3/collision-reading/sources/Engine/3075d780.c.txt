@@ -1,0 +1,25 @@
+/* ENTRY 3075d780 | bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>::~bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>::
+~bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>
+          (bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)
+             &eCCollisionShape_PS::ms_PropertyObjectInstance_eCCollisionShape_PS);
+  _DAT_30aec3e8 = 0;
+  _ms_PropertyObjectInstance_eCCollisionShape_PS = &vftable;
+  _DAT_30aec3ec =
+       bTPropertyObjectType<eCCollisionShape_PS,eCCollisionShapeBase_PS>::
+       ~bTPropertyObjectType<eCCollisionShape_PS,eCCollisionShapeBase_PS>();
+  _DAT_30aec3e8 = 0;
+  thunk_FUN_3033f9f0(1);
+  _atexit(~bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>);
+  return;
+}
+
+

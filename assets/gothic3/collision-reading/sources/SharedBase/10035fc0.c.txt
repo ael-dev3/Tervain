@@ -1,0 +1,10 @@
+/* ENTRY 10035fc0 | FUN_10035fc0 | STATUS decompiled | 3 ms */
+
+bCBox * __thiscall FUN_10035fc0(bCBox *param_1,bCVector *param_2,float param_3)
+
+{
+  bCBox::SetBox(param_1,param_2,param_3);
+  return param_1;
+}
+
+

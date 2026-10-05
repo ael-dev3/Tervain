@@ -1,0 +1,4 @@
+; 30026549 bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>::vfunction6
+30026549 | e942623100 | JMP 0x3033c790
+; 3002654e eCSpeedTreeCache::Create
+; 3002654e Ordinal_4680

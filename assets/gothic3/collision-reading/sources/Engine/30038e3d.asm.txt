@@ -1,0 +1,4 @@
+; 30038e3d bTPropertyType<eCCollisionShape_PS,bCObsoleteClass>::vfunction22
+30038e3d | e9ce3e3000 | JMP 0x3033cd10
+; 30038e47 eCAPIIndexData::Release
+; 30038e47 Ordinal_12391

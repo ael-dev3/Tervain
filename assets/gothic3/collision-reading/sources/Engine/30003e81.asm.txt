@@ -1,0 +1,4 @@
+; 30003e81 bTPropertyType<eCCollisionShape_PS,bool>::vfunction7
+30003e81 | e9baaa3300 | JMP 0x3033e940
+; 30003e86 eTShaderEllementProxy<eCTexCoordSrcBase>::GetToken
+; 30003e86 Ordinal_9148

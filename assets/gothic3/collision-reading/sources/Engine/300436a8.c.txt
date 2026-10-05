@@ -1,0 +1,34 @@
+/* ENTRY 300436a8 | eCCollisionShape::SetShape | STATUS decompiled | 18 ms */
+
+/* public: enum bEResult __thiscall eCCollisionShape::SetShape(class bCSphere const &) */
+
+bEResult __thiscall eCCollisionShape::SetShape(eCCollisionShape *this,bCSphere *param_1)
+
+{
+  bCSphere *this_00;
+  undefined4 uVar1;
+  bCObjectBase bStack_8;
+  undefined4 uStack_4;
+  
+                    /* 0x436a8  14157  ?SetShape@eCCollisionShape@@QAE?AW4bEResult@@ABVbCSphere@@@Z
+                        */
+  bCObjectBase::bCObjectBase(&bStack_8);
+  bStack_8 = (bCObjectBase)&bTPropertyContainer<eECollisionShapeType>::vftable;
+  uStack_4 = 5;
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"ShapeType",false);
+  (*(code *)(this->eCCollisionShape_data).offset_0x8[7])(&bStack_8);
+  (*this->vftablePtr->NotifyPropertyValueChangedExitEx)(this,"ShapeType",false);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  this_00 = (bCSphere *)new(0x10,0x317);
+  if (this_00 == (bCSphere *)0x0) {
+    uVar1 = 0;
+  }
+  else {
+    uVar1 = bCSphere::bCSphere(this_00,(bCSphere *)bStack_8);
+  }
+  (this->eCCollisionShape_data).offset_0x70 = uVar1;
+  CalcShapeAABBLocal(this);
+  return 1;
+}
+
+

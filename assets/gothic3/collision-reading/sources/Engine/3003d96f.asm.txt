@@ -1,0 +1,4 @@
+; 3003d96f bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::vfunction25
+3003d96f | e96c083000 | JMP 0x3033e1e0
+; 3003d974 eCWeatherStates::GetCurrentState
+; 3003d974 Ordinal_6682

@@ -1,0 +1,12 @@
+/* ENTRY 1000687f | bCOrientedBox::AccessOrientation | STATUS decompiled | 1 ms */
+
+/* public: class bCMatrix3 & __thiscall bCOrientedBox::AccessOrientation(void) */
+
+bCMatrix3 * __thiscall bCOrientedBox::AccessOrientation(bCOrientedBox *this)
+
+{
+                    /* 0x687f  1461  ?AccessOrientation@bCOrientedBox@@QAEAAVbCMatrix3@@XZ */
+  return (bCMatrix3 *)(this + 0x18);
+}
+
+

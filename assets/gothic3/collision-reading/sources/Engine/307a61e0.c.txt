@@ -1,0 +1,17 @@
+/* ENTRY 307a61e0 | bTPropertyObjectType<eCCollisionShape_PS,eCCollisionShapeBase_PS>::~bTPropertyObjectType<eCCollisionShape_PS,eCCollisionShapeBase_PS> | STATUS decompiled | 5 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void bTPropertyObjectType<eCCollisionShape_PS,eCCollisionShapeBase_PS>::
+     ~bTPropertyObjectType<eCCollisionShape_PS,eCCollisionShapeBase_PS>(void)
+
+{
+  _DAT_30aec2f4 = &vftable;
+  bCPropertyObjectFactory::~bCPropertyObjectFactory((bCPropertyObjectFactory *)&DAT_30aec30c);
+                    /* WARNING: Could not recover jumptable at 0x307a61fa. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyObjectTypeBase::~bCPropertyObjectTypeBase((bCPropertyObjectTypeBase *)&DAT_30aec2f4);
+  return;
+}
+
+

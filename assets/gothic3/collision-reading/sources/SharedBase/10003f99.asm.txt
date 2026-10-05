@@ -1,0 +1,4 @@
+; 10003f99 ?Intersects@bCBox@@QBE_NABVbCRay@@AAM@Z
+10003f99 | e912230500 | JMP 0x100562b0
+; 10003f9e bCAccessorProperty::IsPropertyReadOnly
+; 10003f9e Ordinal_3660

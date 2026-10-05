@@ -1,0 +1,43 @@
+/* ENTRY 3000366b | eCCollisionShape::SetRuntimeOrientation | STATUS decompiled | 12 ms */
+
+/* public: void __thiscall eCCollisionShape::SetRuntimeOrientation(class bCMatrix3 const &) */
+
+void __thiscall eCCollisionShape::SetRuntimeOrientation(eCCollisionShape *this,bCMatrix3 *param_1)
+
+{
+  float *pfVar1;
+  eCPhysicsScene *this_00;
+  bCCriticalSectionWin32 *this_01;
+  float fStack_24;
+  float fStack_20;
+  float fStack_1c;
+  float fStack_18;
+  float fStack_14;
+  float fStack_10;
+  float fStack_c;
+  float fStack_8;
+  float fStack_4;
+  
+                    /* 0x366b  14087  ?SetRuntimeOrientation@eCCollisionShape@@QAEXABVbCMatrix3@@@Z
+                        */
+  if ((this->eCCollisionShape_data).offset_0x5c != 0) {
+    pfVar1 = bCMatrix3::AccessElement(param_1,0);
+    fStack_24 = *pfVar1;
+    fStack_20 = pfVar1[3];
+    fStack_1c = pfVar1[6];
+    fStack_18 = pfVar1[1];
+    fStack_14 = pfVar1[4];
+    fStack_10 = pfVar1[7];
+    fStack_c = pfVar1[2];
+    fStack_8 = pfVar1[5];
+    fStack_4 = pfVar1[8];
+    this_00 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+    this_01 = eCPhysicsScene::GetCriticalSection(this_00);
+    bCCriticalSectionWin32::Acquire(this_01);
+    bCCriticalSectionWin32::Release(this_01);
+    (**(code **)(*(int *)(this->eCCollisionShape_data).offset_0x5c + 0x3c))(&fStack_24);
+  }
+  return;
+}
+
+

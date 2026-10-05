@@ -1,0 +1,45 @@
+/* ENTRY 30336980 | bTPropertyContainer<eEShapeGroup>::bTPropertyContainer<eEShapeGroup>_Constructor_or_Destructor | STATUS decompiled | 18 ms */
+
+void __thiscall
+bTPropertyContainer<eEShapeGroup>::bTPropertyContainer<eEShapeGroup>_Constructor_or_Destructor
+          (bTPropertyContainer<eEShapeGroup> *this,eEShapeGroup param_1,eEShapeGroup param_2)
+
+{
+  bCObjectBase *pbVar1;
+  int *piVar2;
+  eCEntity *peVar3;
+  eCPhysicObjectStateBuffer *this_00;
+  int iVar4;
+  bCObjectBase local_10;
+  eEShapeGroup local_c;
+  
+  pbVar1 = this[2].bTPropertyContainer<eEShapeGroup>_data.offset_0x8;
+  if (pbVar1 != (bCObjectBase *)0x0) {
+    iVar4 = 0;
+    if (0 < (int)pbVar1) {
+      do {
+        if (param_1 ==
+            *(eEShapeGroup *)
+             (*(int *)(this[2].bTPropertyContainer<eEShapeGroup>_data.offset_0x4 + iVar4 * 4) + 0x18
+             )) {
+          bCObjectBase::bCObjectBase(&local_10);
+          local_10 = (bCObjectBase)&vftable;
+          local_c = param_2;
+          piVar2 = *(int **)(this[2].bTPropertyContainer<eEShapeGroup>_data.offset_0x4 + iVar4 * 4);
+          (**(code **)(*piVar2 + 0x58))("Group",0);
+          (**(code **)(piVar2[5] + 0x1c))(&stack0xffffffe8);
+          (**(code **)(*piVar2 + 0x5c))("Group",0);
+          local_10 = (bCObjectBase)&vftable;
+          bCObjectBase::~bCObjectBase(&local_10);
+        }
+        iVar4 = iVar4 + 1;
+      } while (iVar4 < (int)pbVar1);
+    }
+    peVar3 = (eCEntity *)(*this->vftablePtr[1].GetProfileLastTicksFirst)(this);
+    this_00 = eCPhysicObjectStateBuffer::GetBuffer(peVar3);
+    eCPhysicObjectStateBuffer::SetShapeGroup(this_00,param_1,param_2);
+  }
+  return;
+}
+
+

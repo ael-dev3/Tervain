@@ -1,0 +1,4 @@
+; 10003fd5 ?GetScaled@bCOrientedBox@@QBE?AV1@M@Z
+10003fd5 | e986380600 | JMP 0x10067860
+; 10003fdf bCQuaternion::GetNormalized
+; 10003fdf Ordinal_2691

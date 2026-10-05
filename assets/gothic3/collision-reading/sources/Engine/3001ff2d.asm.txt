@@ -1,0 +1,4 @@
+; 3001ff2d bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eECollisionGroup>_>::vfunction5
+3001ff2d | e9eed73100 | JMP 0x3033d720
+; 3001ff32 eCMaterialEffectCache::Execute_VegetationPoolEffect
+; 3001ff32 Ordinal_5938

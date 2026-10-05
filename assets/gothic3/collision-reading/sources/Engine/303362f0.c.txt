@@ -1,0 +1,38 @@
+/* ENTRY 303362f0 | FUN_303362f0 | STATUS decompiled | 14 ms */
+
+void __thiscall FUN_303362f0(int *param_1,eCEntity *param_2,eCContactIterator *param_3)
+
+{
+  bool bVar1;
+  eEPropertySetType eVar2;
+  eCEntity *peVar3;
+  eCPhysicObject *peVar4;
+  eECollisionGroup eVar5;
+  eECollisionGroup eVar6;
+  eCPhysicsScene *this;
+  ulong uVar7;
+  
+  eVar2 = eCContactIterator::GetCollisionType(param_3);
+  if (eVar2 == 0xe) {
+    peVar3 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+    peVar4 = eCEntity::GetPhysicObject(peVar3);
+    if (peVar4 != (eCPhysicObject *)0x0) {
+      bVar1 = eCContactIterator::IsPointShape(param_3);
+      if (!bVar1) {
+        eVar5 = eCEntity::GetCollisionGroup(param_2);
+        peVar3 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+        eVar6 = eCEntity::GetCollisionGroup(peVar3);
+        this = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+        uVar7 = eCPhysicsScene::GetCollisionGroupsNotifyFlags(this,eVar6,eVar5);
+        if (((byte)uVar7 & 4) == 4) {
+          return;
+        }
+      }
+      (**(code **)(*param_1 + 0x1b0))(param_2,param_3);
+      eCContactIterator::ResetIterator(param_3);
+    }
+  }
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 30021b5c ?GetBoundary@eCRigidBody_PS@@UAEXAAVbCBox@@_N@Z
+30021b5c | e9afcb3000 | JMP 0x3032e710

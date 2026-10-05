@@ -1,0 +1,4 @@
+; 10006c21 ?SetBox@bCBox@@QAEXABVbCVector@@0@Z
+10006c21 | e9ba3b0200 | JMP 0x1002a7e0
+; 10006c26 bCRay::Intersects
+; 10006c26 Ordinal_3413

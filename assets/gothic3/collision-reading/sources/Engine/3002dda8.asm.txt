@@ -1,0 +1,4 @@
+; 3002dda8 ?SetTriggersOnTouch@eCCollisionShape@@QAEXAB_N@Z
+3002dda8 | e943490900 | JMP 0x300c26f0
+; 3002ddb2 eCVegetationBrush_PS::AccessColorNoiseOctaves
+; 3002ddb2 Ordinal_2584

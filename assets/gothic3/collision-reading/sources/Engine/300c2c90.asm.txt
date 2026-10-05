@@ -1,0 +1,19 @@
+; 300c2c90 FUN_300c2c90
+300c2c90 | 56 | PUSH ESI
+300c2c91 | 8bf1 | MOV ESI,ECX
+300c2c93 | 8b06 | MOV EAX,dword ptr [ESI]
+300c2c95 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+300c2c98 | 6a00 | PUSH 0x0
+300c2c9a | 68fc0f8230 | PUSH 0x30820ffc
+300c2c9f | ffd2 | CALL EDX
+300c2ca1 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+300c2ca5 | 8a08 | MOV CL,byte ptr [EAX]
+300c2ca7 | 8b16 | MOV EDX,dword ptr [ESI]
+300c2ca9 | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+300c2cac | 6a00 | PUSH 0x0
+300c2cae | 884e24 | MOV byte ptr [ESI + 0x24],CL
+300c2cb1 | 68fc0f8230 | PUSH 0x30820ffc
+300c2cb6 | 8bce | MOV ECX,ESI
+300c2cb8 | ffd0 | CALL EAX
+300c2cba | 5e | POP ESI
+300c2cbb | c20400 | RET 0x4

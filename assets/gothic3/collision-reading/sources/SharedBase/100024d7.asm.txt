@@ -1,0 +1,4 @@
+; 100024d7 ??0bCBox@@QAE@ABVbCVector@@M@Z
+100024d7 | e9e43a0300 | JMP 0x10035fc0
+; 100024dc bCBitField::operator=
+; 100024dc Ordinal_455

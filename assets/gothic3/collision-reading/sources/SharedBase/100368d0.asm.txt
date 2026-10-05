@@ -1,0 +1,35 @@
+; 100368d0 FUN_100368d0
+100368d0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+100368d4 | d901 | FLD float ptr [ECX]
+100368d6 | d918 | FSTP float ptr [EAX]
+100368d8 | d94104 | FLD float ptr [ECX + 0x4]
+100368db | d95804 | FSTP float ptr [EAX + 0x4]
+100368de | d94108 | FLD float ptr [ECX + 0x8]
+100368e1 | d95808 | FSTP float ptr [EAX + 0x8]
+100368e4 | d9410c | FLD float ptr [ECX + 0xc]
+100368e7 | d9580c | FSTP float ptr [EAX + 0xc]
+100368ea | d94110 | FLD float ptr [ECX + 0x10]
+100368ed | d95810 | FSTP float ptr [EAX + 0x10]
+100368f0 | d94114 | FLD float ptr [ECX + 0x14]
+100368f3 | d95814 | FSTP float ptr [EAX + 0x14]
+100368f6 | d900 | FLD float ptr [EAX]
+100368f8 | d9442408 | FLD float ptr [ESP + 0x8]
+100368fc | d9c0 | FLD ST0
+100368fe | deca | FMULP ST2
+10036900 | d9c9 | FXCH
+10036902 | d918 | FSTP float ptr [EAX]
+10036904 | d9c0 | FLD ST0
+10036906 | d84804 | FMUL float ptr [EAX + 0x4]
+10036909 | d95804 | FSTP float ptr [EAX + 0x4]
+1003690c | d94008 | FLD float ptr [EAX + 0x8]
+1003690f | d8c9 | FMUL ST1
+10036911 | d95808 | FSTP float ptr [EAX + 0x8]
+10036914 | d9400c | FLD float ptr [EAX + 0xc]
+10036917 | d8c9 | FMUL ST1
+10036919 | d9580c | FSTP float ptr [EAX + 0xc]
+1003691c | d94010 | FLD float ptr [EAX + 0x10]
+1003691f | d8c9 | FMUL ST1
+10036921 | d95810 | FSTP float ptr [EAX + 0x10]
+10036924 | d84814 | FMUL float ptr [EAX + 0x14]
+10036927 | d95814 | FSTP float ptr [EAX + 0x14]
+1003692a | c20800 | RET 0x8

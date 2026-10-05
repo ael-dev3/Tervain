@@ -1,0 +1,4 @@
+; 1000415b ?GetScaled@bCBox@@QBE?AV1@ABVbCVector@@@Z
+1000415b | e9f0240300 | JMP 0x10036650
+; 10004160 bCVector4::AccessX
+; 10004160 Ordinal_1510

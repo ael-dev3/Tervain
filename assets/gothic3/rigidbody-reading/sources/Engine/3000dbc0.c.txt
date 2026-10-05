@@ -1,0 +1,69 @@
+/* ENTRY 3000dbc0 | bTPropertyType<eCRigidBody_PS,float>::vfunction14 | STATUS decompiled | 33 ms */
+
+void __thiscall
+bTPropertyType<eCRigidBody_PS,float>::vfunction14
+          (bTPropertyType<eCRigidBody_PS,float> *this,bCOStream *param_1,int param_2)
+
+{
+  bCOStream bVar1;
+  bool bVar2;
+  bCErrorAdmin *this_00;
+  bTPropertyType<eCVisualAnimation_PS,float>_vftable *pbVar3;
+  bCPOStream *this_01;
+  ulong uVar4;
+  uchar *puVar5;
+  int unaff_ESI;
+  __int64 _Var6;
+  char *pcVar7;
+  char *pcVar8;
+  char *pcVar9;
+  int iVar10;
+  undefined4 uStack_18;
+  bCOStream bStack_14;
+  int *piStack_10;
+  
+  if (param_2 == 0) {
+    iVar10 = 0x27d;
+    pcVar9 = "e:\\!g3 src\\temp\\source\\sharedbase\\propertysystem\\types\\ge_propertytype.inl";
+    pcVar8 = "GEFalse == (NULL != a_pSource)";
+    pcVar7 = "bTPropertyType<CLASS, TYPE>::PropertyWrite - Propertysource must not NULL ! ";
+    this_00 = bCErrorAdmin::GetInstance();
+    bCErrorAdmin::CallFatalError(this_00,pcVar7,pcVar8,pcVar9,iVar10);
+  }
+  (*this->vftablePtr->Write)(this,(bCOStream *)param_1);
+  iVar10 = FUN_30671ae7(param_1,0,&bCOStream::RTTI_Type_Descriptor,&bCPOStream::RTTI_Type_Descriptor
+                        ,0);
+  if (iVar10 == 0) {
+    thunk_FUN_3008c7e0(param_1);
+    pbVar3 = (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_2);
+    bCOStream::operator<<(param_1,(float)pbVar3->vfunction1);
+    iVar10 = (**(code **)(*piStack_10 + 0xc))();
+    (**(code **)(*piStack_10 + 0x10))(uStack_18,0,0);
+    bCOStream::operator<<((bCOStream *)(piStack_10 + 1),iVar10 - unaff_ESI);
+    (**(code **)(*piStack_10 + 0x10))(iVar10,0,0);
+    return;
+  }
+  bCPOStream::bCPOStream((bCPOStream *)&uStack_18);
+  this_01 = (bCPOStream *)
+            FUN_30671ae7(param_1,0,&bCOStream::RTTI_Type_Descriptor,
+                         &bCPOStream::RTTI_Type_Descriptor,0);
+  if (this_01 != (bCPOStream *)0x0) {
+    bVar2 = bCPOStream::IsForcedLegacyMode(this_01);
+    if (!bVar2) goto LAB_303313f0;
+  }
+  bCPOStream::ForceLegacyMode((bCPOStream *)&uStack_18);
+LAB_303313f0:
+  pbVar3 = (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_2);
+  bCOStream::operator<<(&bStack_14,(float)pbVar3->vfunction1);
+  _Var6 = bCMemoryStream::GetSize((bCMemoryStream *)&uStack_18);
+  uVar4 = (ulong)_Var6;
+  bCOStream::operator<<(param_1,uVar4);
+  bCMemoryStream::SetPosition((bCMemoryStream *)&uStack_18,0,0);
+  bVar1 = *param_1;
+  puVar5 = bCMemoryStream::AccessBuffer((bCMemoryStream *)&uStack_18,0);
+  (**(code **)((int)bVar1 + 4))(puVar5,uVar4);
+  bCPOStream::~bCPOStream((bCPOStream *)&stack0xffffffe0);
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 30033a2d SHAREDBASE.DLL::bCPropertyTypeBase::Read
+30033a2d | e91ea13000 | JMP 0x3033db50
+; 30033a37 eCDX9Device::SetVolumeActCallback
+; 30033a37 Ordinal_14595

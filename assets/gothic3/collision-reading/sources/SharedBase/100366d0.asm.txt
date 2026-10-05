@@ -1,0 +1,35 @@
+; 100366d0 FUN_100366d0
+100366d0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+100366d4 | d901 | FLD float ptr [ECX]
+100366d6 | d918 | FSTP float ptr [EAX]
+100366d8 | d94104 | FLD float ptr [ECX + 0x4]
+100366db | d95804 | FSTP float ptr [EAX + 0x4]
+100366de | d94108 | FLD float ptr [ECX + 0x8]
+100366e1 | d95808 | FSTP float ptr [EAX + 0x8]
+100366e4 | d9410c | FLD float ptr [ECX + 0xc]
+100366e7 | d9580c | FSTP float ptr [EAX + 0xc]
+100366ea | d94110 | FLD float ptr [ECX + 0x10]
+100366ed | d95810 | FSTP float ptr [EAX + 0x10]
+100366f0 | d94114 | FLD float ptr [ECX + 0x14]
+100366f3 | d95814 | FSTP float ptr [EAX + 0x14]
+100366f6 | d900 | FLD float ptr [EAX]
+100366f8 | d9442408 | FLD float ptr [ESP + 0x8]
+100366fc | d9c0 | FLD ST0
+100366fe | dec2 | FADDP ST2,ST0
+10036700 | d9c9 | FXCH
+10036702 | d918 | FSTP float ptr [EAX]
+10036704 | d9c0 | FLD ST0
+10036706 | d84004 | FADD float ptr [EAX + 0x4]
+10036709 | d95804 | FSTP float ptr [EAX + 0x4]
+1003670c | d94008 | FLD float ptr [EAX + 0x8]
+1003670f | d8c1 | FADD ST0,ST1
+10036711 | d95808 | FSTP float ptr [EAX + 0x8]
+10036714 | d9400c | FLD float ptr [EAX + 0xc]
+10036717 | d8c1 | FADD ST0,ST1
+10036719 | d9580c | FSTP float ptr [EAX + 0xc]
+1003671c | d94010 | FLD float ptr [EAX + 0x10]
+1003671f | d8c1 | FADD ST0,ST1
+10036721 | d95810 | FSTP float ptr [EAX + 0x10]
+10036724 | d84014 | FADD float ptr [EAX + 0x14]
+10036727 | d95814 | FSTP float ptr [EAX + 0x14]
+1003672a | c20800 | RET 0x8

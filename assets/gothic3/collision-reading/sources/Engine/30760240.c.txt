@@ -1,0 +1,35 @@
+/* ENTRY 30760240 | bTPropertyType<eCCollisionShape,bool>::~bTPropertyType<eCCollisionShape,bool> | STATUS decompiled | 21 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<eCCollisionShape,bool>::~bTPropertyType<eCCollisionShape,bool>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Readonly");
+  bCString::bCString(local_c,"IsLazyGenerated");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCCollisionShape::ms_PropertyMember_m_bIsLazyGenerated,local_c,
+             local_8,local_4,1,true);
+  _ms_PropertyMember_m_bIsLazyGenerated = &vftable;
+  DAT_30aecf3c = bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>::
+                 ~bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>();
+  _DAT_30aecf40 = 0x38;
+  _DAT_30aecf44 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&eCCollisionShape::ms_PropertyMember_m_bIsLazyGenerated);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30aecf3c,
+             (bCPropertyTypeBase *)&eCCollisionShape::ms_PropertyMember_m_bIsLazyGenerated);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}
+
+

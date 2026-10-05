@@ -1,0 +1,27 @@
+/* ENTRY 10064210 | FUN_10064210 | STATUS decompiled | 6 ms */
+
+void __thiscall FUN_10064210(bCOrientedBox *param_1,bCBox *param_2)
+
+{
+  int iVar1;
+  bCVector *pbVar2;
+  bCVector local_60 [96];
+  
+  bCOrientedBox::GetVertices(param_1,local_60);
+  *(undefined4 *)param_2 = 0x7f7fffff;
+  *(undefined4 *)(param_2 + 4) = 0x7f7fffff;
+  *(undefined4 *)(param_2 + 8) = 0x7f7fffff;
+  *(undefined4 *)(param_2 + 0xc) = 0xff7fffff;
+  *(undefined4 *)(param_2 + 0x10) = 0xff7fffff;
+  *(undefined4 *)(param_2 + 0x14) = 0xff7fffff;
+  pbVar2 = local_60;
+  iVar1 = 8;
+  do {
+    bCBox::Merge(param_2,pbVar2);
+    pbVar2 = pbVar2 + 0xc;
+    iVar1 = iVar1 + -1;
+  } while (iVar1 != 0);
+  return;
+}
+
+

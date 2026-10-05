@@ -1,0 +1,4 @@
+; 30012459 ?AddShape@eCCollisionShape_PS@@UAE?AW4bEResult@@W4eECollisionShapeType@@W4eEShapeGroup@@ABVbCVector@@2@Z
+30012459 | e9925e3200 | JMP 0x303382f0
+; 3001245e eCResourceMaterialObject_PS::SetDiffuseMapChannel
+; 3001245e Ordinal_13232

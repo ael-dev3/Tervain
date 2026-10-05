@@ -1,0 +1,15 @@
+/* ENTRY 10001122 | bCBox::Cull | STATUS decompiled | 3 ms */
+
+/* public: bool __thiscall bCBox::Cull(class bCUnitedRay const &)const  */
+
+bool __thiscall bCBox::Cull(bCBox *this,bCUnitedRay *param_1)
+
+{
+  bool bVar1;
+  
+                    /* 0x1122  1845  ?Cull@bCBox@@QBE_NABVbCUnitedRay@@@Z */
+  bVar1 = bCUnitedRay::Intersects(param_1,this,&m_fDummy);
+  return bVar1;
+}
+
+

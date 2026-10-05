@@ -1,0 +1,10 @@
+/* ENTRY 10036b90 | FUN_10036b90 | STATUS decompiled | 2 ms */
+
+bCVector * __thiscall FUN_10036b90(bCBox *param_1,bCVector *param_2)
+
+{
+  bCBox::GetTranslated(param_1,param_2);
+  return param_2;
+}
+
+

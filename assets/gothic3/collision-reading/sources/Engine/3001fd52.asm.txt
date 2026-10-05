@@ -1,0 +1,4 @@
+; 3001fd52 bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeAABBAdapt>_>::vfunction5
+3001fd52 | e969fe3300 | JMP 0x3035fbc0
+; 3001fd57 eCVertexFont::DrawLetters
+; 3001fd57 Ordinal_5697

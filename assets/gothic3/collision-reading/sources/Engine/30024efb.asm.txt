@@ -1,0 +1,4 @@
+; 30024efb bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eEPhysicRangeType>_>::vfunction2
+30024efb | e9c0903100 | JMP 0x3033dfc0
+; 30024f00 eCSkydome_PS::AccessCloudColor
+; 30024f00 Ordinal_2558

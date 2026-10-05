@@ -1,0 +1,2 @@
+; 3002d8a3 ?GetRuntimeOrientation@eCCollisionShape@@QBEABVbCMatrix3@@XZ
+3002d8a3 | e9e8c13200 | JMP 0x30359a90

@@ -1,0 +1,4 @@
+; 1000336e ?GetIntersectionDistance@bCBox@@QBEMABVbCStretch@@@Z
+1000336e | e99d7e0200 | JMP 0x1002b210
+; 10003373 bCFloatColor::GetRed
+; 10003373 Ordinal_2875

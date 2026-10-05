@@ -1,0 +1,4 @@
+; 30035c3d ?GetOuterAABBLocal@eCCollisionShape@@QBEABVbCBox@@XZ
+30035c3d | e9eece0800 | JMP 0x300c2b30
+; 30035c5b eCEventDebugger_PS::GetTriggerTarget
+; 30035c5b Ordinal_9189

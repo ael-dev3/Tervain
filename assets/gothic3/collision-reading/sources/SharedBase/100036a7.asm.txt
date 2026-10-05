@@ -1,0 +1,4 @@
+; 100036a7 ?Cull@bCBox@@QBE_NABVbCVector@@@Z
+100036a7 | e914290500 | JMP 0x10055fc0
+; 100036b6 bCPoint::AccessY
+; 100036b6 Ordinal_1517

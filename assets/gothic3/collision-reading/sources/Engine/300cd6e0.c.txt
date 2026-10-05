@@ -1,0 +1,26 @@
+/* ENTRY 300cd6e0 | FUN_300cd6e0 | STATUS decompiled | 6 ms */
+
+bCMatrix3 * __fastcall FUN_300cd6e0(int param_1)
+
+{
+  if ((`public:_class_bCMatrix3_const&___thiscall_eCCollisionShape::GetOrientation(void)const_'::
+       __l3::_local_static_guard__3__ & 1) == 0) {
+    `public:_class_bCMatrix3_const&___thiscall_eCCollisionShape::GetOrientation(void)const_'::__l3::
+    _local_static_guard__3__ =
+         `public:_class_bCMatrix3_const&___thiscall_eCCollisionShape::GetOrientation(void)const_'::
+         __l3::_local_static_guard__3__ | 1;
+    bCMatrix3::GetIdentity();
+    _atexit((_func_4879 *)&LAB_300436f8);
+  }
+  switch(*(undefined4 *)(param_1 + 0x10)) {
+  default:
+    return &`public:_class_bCMatrix3_const&___thiscall_eCCollisionShape::GetOrientation(void)const_'
+            ::__l3::s_matIdentity;
+  case 3:
+    return (bCMatrix3 *)(*(int *)(param_1 + 0x74) + 0x18);
+  case 4:
+    return (bCMatrix3 *)(*(int *)(param_1 + 0x74) + 8);
+  }
+}
+
+

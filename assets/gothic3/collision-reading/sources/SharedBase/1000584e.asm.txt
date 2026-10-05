@@ -1,0 +1,6 @@
+; 1000584e ?GetInvTransformed@bCOrientedBox@@QBEXAAV1@ABVbCMatrix@@@Z
+1000584e | e9ed3d0600 | JMP 0x10069640
+; 10005853 LAB_10005853
+10005853 | e958ad0300 | JMP 0x100405b0
+; 10005858 bCPropertyObjectSingleton::WriteObject
+; 10005858 Ordinal_4680

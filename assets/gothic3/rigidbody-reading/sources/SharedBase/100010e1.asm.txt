@@ -1,0 +1,4 @@
+; 100010e1 _new@8
+100010e1 | e95afb0100 | JMP 0x10020c40
+; 100010e6 bCUnitedRay::Clear
+; 100010e6 Ordinal_1631

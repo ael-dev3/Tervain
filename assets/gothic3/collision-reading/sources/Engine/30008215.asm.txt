@@ -1,0 +1,4 @@
+; 30008215 bTPropertyObjectType<eCInputReceiver,bCObjectRefBase>::vfunction2
+30008215 | e9c64b3500 | JMP 0x3035cde0
+; 30008224 eCGfxFont::eCGfxFont
+; 30008224 Ordinal_368

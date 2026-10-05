@@ -1,0 +1,69 @@
+/* ENTRY 10006b45 | bCBox::GetVertex | STATUS decompiled | 11 ms */
+
+/* public: void __thiscall bCBox::GetVertex(int,class bCVector &)const  */
+
+void __thiscall bCBox::GetVertex(bCBox *this,int param_1,bCVector *param_2)
+
+{
+  undefined4 uVar1;
+  undefined4 uVar2;
+  undefined4 uVar3;
+  
+                    /* 0x6b45  3216  ?GetVertex@bCBox@@QBEXHAAVbCVector@@@Z */
+  switch(param_1) {
+  case 0:
+    uVar3 = *(undefined4 *)(this + 0x14);
+    uVar2 = *(undefined4 *)(this + 0xc);
+    break;
+  case 1:
+    uVar3 = *(undefined4 *)(this + 0x14);
+    uVar2 = *(undefined4 *)(this + 4);
+    *(undefined4 *)param_2 = *(undefined4 *)(this + 0xc);
+    *(undefined4 *)(param_2 + 8) = uVar3;
+    *(undefined4 *)(param_2 + 4) = uVar2;
+    return;
+  case 2:
+    uVar3 = *(undefined4 *)(this + 0x14);
+    uVar2 = *(undefined4 *)(this + 4);
+    *(undefined4 *)param_2 = *(undefined4 *)this;
+    *(undefined4 *)(param_2 + 8) = uVar3;
+    *(undefined4 *)(param_2 + 4) = uVar2;
+    return;
+  case 3:
+    uVar3 = *(undefined4 *)(this + 0x14);
+    goto LAB_1002b565;
+  case 4:
+    uVar3 = *(undefined4 *)(this + 8);
+    uVar2 = *(undefined4 *)(this + 0xc);
+    break;
+  case 5:
+    uVar3 = *(undefined4 *)(this + 8);
+    uVar2 = *(undefined4 *)(this + 4);
+    *(undefined4 *)param_2 = *(undefined4 *)(this + 0xc);
+    *(undefined4 *)(param_2 + 8) = uVar3;
+    *(undefined4 *)(param_2 + 4) = uVar2;
+    return;
+  case 6:
+    uVar3 = *(undefined4 *)(this + 8);
+    uVar2 = *(undefined4 *)(this + 4);
+    *(undefined4 *)param_2 = *(undefined4 *)this;
+    *(undefined4 *)(param_2 + 8) = uVar3;
+    *(undefined4 *)(param_2 + 4) = uVar2;
+    return;
+  case 7:
+    uVar3 = *(undefined4 *)(this + 8);
+LAB_1002b565:
+    uVar2 = *(undefined4 *)this;
+    break;
+  default:
+    goto switchD_1002b4bd_default;
+  }
+  uVar1 = *(undefined4 *)(this + 0x10);
+  *(undefined4 *)param_2 = uVar2;
+  *(undefined4 *)(param_2 + 8) = uVar3;
+  *(undefined4 *)(param_2 + 4) = uVar1;
+switchD_1002b4bd_default:
+  return;
+}
+
+

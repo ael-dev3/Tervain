@@ -1,0 +1,4 @@
+; 100041ce ?AddReference@bCObjectBase@@UAEKXZ
+100041ce | e93d5e0400 | JMP 0x1004a010
+; 100041d3 bCRange4::bCRange4
+; 100041d3 Ordinal_249

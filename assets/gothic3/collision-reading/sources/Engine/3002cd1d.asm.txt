@@ -1,0 +1,4 @@
+; 3002cd1d bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eECollisionGroup>_>::vfunction1
+3002cd1d | e9ee093100 | JMP 0x3033d710
+; 3002cd22 eCAmbientOcclusionPreprocessor::GetMaxLeafsPerNode
+; 3002cd22 Ordinal_7792

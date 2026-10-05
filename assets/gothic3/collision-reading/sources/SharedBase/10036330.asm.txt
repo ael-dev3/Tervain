@@ -1,0 +1,48 @@
+; 10036330 FUN_10036330
+10036330 | 8b542404 | MOV EDX,dword ptr [ESP + 0x4]
+10036334 | d901 | FLD float ptr [ECX]
+10036336 | d91a | FSTP float ptr [EDX]
+10036338 | d94104 | FLD float ptr [ECX + 0x4]
+1003633b | d95a04 | FSTP float ptr [EDX + 0x4]
+1003633e | d94108 | FLD float ptr [ECX + 0x8]
+10036341 | d95a08 | FSTP float ptr [EDX + 0x8]
+10036344 | d9410c | FLD float ptr [ECX + 0xc]
+10036347 | d95a0c | FSTP float ptr [EDX + 0xc]
+1003634a | d94110 | FLD float ptr [ECX + 0x10]
+1003634d | d95a10 | FSTP float ptr [EDX + 0x10]
+10036350 | d94114 | FLD float ptr [ECX + 0x14]
+10036353 | d95a14 | FSTP float ptr [EDX + 0x14]
+10036356 | d902 | FLD float ptr [EDX]
+10036358 | d95c2404 | FSTP float ptr [ESP + 0x4]
+1003635c | d9420c | FLD float ptr [EDX + 0xc]
+1003635f | d9442404 | FLD float ptr [ESP + 0x4]
+10036363 | dff1 | FCOMIP ST0,ST1
+10036365 | ddd8 | FSTP ST0
+10036367 | 7610 | JBE 0x10036379
+10036369 | d9420c | FLD float ptr [EDX + 0xc]
+1003636c | f30f10442404 | MOVSS XMM0,dword ptr [ESP + 0x4]
+10036372 | d91a | FSTP float ptr [EDX]
+10036374 | f30f11420c | MOVSS dword ptr [EDX + 0xc],XMM0
+; 10036379 LAB_10036379
+10036379 | d94210 | FLD float ptr [EDX + 0x10]
+1003637c | d94204 | FLD float ptr [EDX + 0x4]
+1003637f | dff1 | FCOMIP ST0,ST1
+10036381 | ddd8 | FSTP ST0
+10036383 | 7610 | JBE 0x10036395
+10036385 | d94210 | FLD float ptr [EDX + 0x10]
+10036388 | f30f104204 | MOVSS XMM0,dword ptr [EDX + 0x4]
+1003638d | d95a04 | FSTP float ptr [EDX + 0x4]
+10036390 | f30f114210 | MOVSS dword ptr [EDX + 0x10],XMM0
+; 10036395 LAB_10036395
+10036395 | d94214 | FLD float ptr [EDX + 0x14]
+10036398 | 8bc2 | MOV EAX,EDX
+1003639a | d94208 | FLD float ptr [EDX + 0x8]
+1003639d | dff1 | FCOMIP ST0,ST1
+1003639f | ddd8 | FSTP ST0
+100363a1 | 7610 | JBE 0x100363b3
+100363a3 | d94214 | FLD float ptr [EDX + 0x14]
+100363a6 | f30f104208 | MOVSS XMM0,dword ptr [EDX + 0x8]
+100363ab | d95a08 | FSTP float ptr [EDX + 0x8]
+100363ae | f30f114214 | MOVSS dword ptr [EDX + 0x14],XMM0
+; 100363b3 LAB_100363b3
+100363b3 | c20400 | RET 0x4

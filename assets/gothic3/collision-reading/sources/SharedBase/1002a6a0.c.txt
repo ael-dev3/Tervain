@@ -1,0 +1,9 @@
+/* ENTRY 1002a6a0 | FUN_1002a6a0 | STATUS decompiled | 1 ms */
+
+int __thiscall FUN_1002a6a0(int param_1,int param_2)
+
+{
+  return param_1 + param_2 * 4;
+}
+
+

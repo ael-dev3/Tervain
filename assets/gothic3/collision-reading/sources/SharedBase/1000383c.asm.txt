@@ -1,0 +1,4 @@
+; 1000383c ?GetScaled@bCOrientedBox@@QBEXAAV1@M@Z
+1000383c | e99ff90500 | JMP 0x100631e0
+; 10003841 bCLine::GetTranslated
+; 10003841 Ordinal_3150

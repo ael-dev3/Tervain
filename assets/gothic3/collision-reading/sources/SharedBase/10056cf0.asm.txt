@@ -1,0 +1,2 @@
+; 10056cf0 bCBox::Intersects
+10056cf0 | e90ff4faff | JMP 0x10006104

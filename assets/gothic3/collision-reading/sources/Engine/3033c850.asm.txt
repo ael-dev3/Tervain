@@ -1,0 +1,5 @@
+; 3033c850 bTPropertyContainer<eEPhysicRangeType>::vfunction7
+3033c850 | a1e8c2ae30 | MOV EAX,[0x30aec2e8]
+3033c855 | 894104 | MOV dword ptr [ECX + 0x4],EAX
+3033c858 | b801000000 | MOV EAX,0x1
+3033c85d | c3 | RET

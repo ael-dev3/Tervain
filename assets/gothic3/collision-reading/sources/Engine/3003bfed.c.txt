@@ -1,0 +1,13 @@
+/* ENTRY 3003bfed | eCCollisionShape::SetIsCachedIn | STATUS decompiled | 3 ms */
+
+/* public: void __thiscall eCCollisionShape::SetIsCachedIn(bool) */
+
+void __thiscall eCCollisionShape::SetIsCachedIn(eCCollisionShape *this,bool param_1)
+
+{
+                    /* 0x3bfed  13563  ?SetIsCachedIn@eCCollisionShape@@QAEX_N@Z */
+  (this->eCCollisionShape_data).offset_0x40 = param_1;
+  return;
+}
+
+

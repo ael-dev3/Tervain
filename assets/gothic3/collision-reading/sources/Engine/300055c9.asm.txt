@@ -1,0 +1,4 @@
+; 300055c9 bTPropertyObjectType<eCCollisionShape_PS,eCCollisionShapeBase_PS>::vfunction9
+300055c9 | e942623300 | JMP 0x3033b810
+; 300055ce eCDialog::MapDialogRect
+; 300055ce Ordinal_10819

@@ -1,0 +1,2 @@
+; 30023858 bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eECollisionGroup>_>::vfunction6
+30023858 | e993a33100 | JMP 0x3033dbf0

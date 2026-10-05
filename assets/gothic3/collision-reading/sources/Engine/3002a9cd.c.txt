@@ -1,0 +1,19 @@
+/* ENTRY 3002a9cd | bTPropertyType<eCCollisionShape_PS,bool>::vfunction9 | STATUS decompiled | 9 ms */
+
+undefined4 __thiscall
+bTPropertyType<eCCollisionShape_PS,bool>::vfunction9
+          (bTPropertyType<eCCollisionShape_PS,bool> *this,uint param_1)
+
+{
+  char cVar1;
+  
+  cVar1 = (*this->vftablePtr->vfunction7)();
+  if (cVar1 != '\0') {
+    if (param_1 < (this[8].vftablePtr)->vfunction2) {
+      return *(undefined4 *)((this[8].vftablePtr)->vfunction1 + param_1 * 4);
+    }
+  }
+  return 0;
+}
+
+

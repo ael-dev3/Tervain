@@ -1,0 +1,8 @@
+; 30342600 bTPropertyType<eCCollisionShapeBase_PS,bCObsoleteClass>::vfunction21
+30342600 | 68f8cf8130 | PUSH 0x3081cff8
+30342605 | 683cd58130 | PUSH 0x3081d53c
+3034260a | 687ccf8130 | PUSH 0x3081cf7c
+3034260f | ff1530dbaf30 | CALL dword ptr [0x30afdb30]
+30342615 | 83c40c | ADD ESP,0xc
+30342618 | 33c0 | XOR EAX,EAX
+3034261a | c3 | RET

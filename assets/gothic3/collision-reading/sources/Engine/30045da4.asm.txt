@@ -1,0 +1,2 @@
+; 30045da4 ?SetShape@eCCollisionShape@@QAE?AW4bEResult@@ABVbCVector@@@Z
+30045da4 | e9077f0800 | JMP 0x300cdcb0

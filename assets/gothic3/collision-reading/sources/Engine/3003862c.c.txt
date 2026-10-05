@@ -1,0 +1,84 @@
+/* ENTRY 3003862c | eCCollisionShape_PS::AddDynamicShape | STATUS decompiled | 148 ms */
+
+/* public: virtual enum bEResult __thiscall eCCollisionShape_PS::AddDynamicShape(enum
+   eECollisionShapeType,enum eEShapeGroup,enum eEShapeAABBAdapt,float) */
+
+bEResult __thiscall
+eCCollisionShape_PS::AddDynamicShape
+          (eCCollisionShape_PS *this,eECollisionShapeType param_1,eEShapeGroup param_2,
+          eEShapeAABBAdapt param_3,float param_4)
+
+{
+  eCCollisionShape *this_00;
+  bCVector *pbVar1;
+  bCMatrix3 *pbVar2;
+  eCEntity *peVar3;
+  eCPhysicObjectStateBuffer *this_01;
+  eCCollisionShape *peVar4;
+  float fVar5;
+  eECollisionShapeType aeStack_90 [2];
+  bCBox abStack_88 [4];
+  bCSphere abStack_84 [24];
+  bCVector abStack_6c [8];
+  bCOrientedBox abStack_64 [4];
+  undefined4 uStack_60;
+  undefined4 uStack_5c;
+  bCMatrix3 abStack_28 [40];
+  
+                    /* 0x3862c  3383
+                       ?AddDynamicShape@eCCollisionShape_PS@@UAE?AW4bEResult@@W4eECollisionShapeType@@W4eEShapeGroup@@W4eEShapeAABBAdapt@@M@Z
+                        */
+  if ((((param_1 != 7) && (param_1 != 6)) && (param_1 != 1)) && (param_1 != 2)) {
+    this_00 = (eCCollisionShape *)thunk_FUN_3033c9f0();
+    if (param_1 == 3) {
+      fVar5 = 10.0;
+      pbVar1 = (bCVector *)bCVector::bCVector(abStack_6c,0.0,0.0,0.0);
+      bCBox::bCBox((bCBox *)abStack_84,pbVar1,fVar5);
+      bCVector::~bCVector(abStack_6c);
+      pbVar2 = (bCMatrix3 *)bCMatrix3::GetIdentity();
+      bCOrientedBox::bCOrientedBox(abStack_64,abStack_88,pbVar2);
+      bCMatrix3::~bCMatrix3(abStack_28);
+      eCCollisionShape::SetShape(this_00,abStack_64);
+      bCOrientedBox::~bCOrientedBox(abStack_64);
+      bCBox::~bCBox(abStack_88);
+    }
+    else if (param_1 == 4) {
+      bCCapsule::bCCapsule((bCCapsule *)&uStack_60);
+      uStack_60 = 0x41200000;
+      uStack_5c = 0x41200000;
+      eCCollisionShape::SetShape(this_00,(bCCapsule *)&uStack_60);
+      bCCapsule::~bCCapsule((bCCapsule *)&uStack_60);
+    }
+    else if (param_1 == 5) {
+      bCSphere::bCSphere(abStack_84);
+      bCSphere::SetRadius(abStack_84,10.0);
+      pbVar1 = (bCVector *)bCVector::bCVector((bCVector *)aeStack_90,0.0,0.0,0.0);
+      bCSphere::SetPosition(abStack_84,pbVar1);
+      bCVector::~bCVector((bCVector *)aeStack_90);
+      eCCollisionShape::SetShape(this_00,abStack_84);
+      bCSphere::~bCSphere(abStack_84);
+    }
+    bCObjectBase::bCObjectBase((bCObjectBase *)&stack0xffffff6c);
+    aeStack_90[0] = param_1;
+    eCCollisionShape::SetGroup(this_00,(bTPropertyContainer<eEShapeGroup> *)&stack0xffffff6c);
+    bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xffffff6c);
+    bCObjectBase::bCObjectBase((bCObjectBase *)&stack0xffffff6c);
+    aeStack_90[0] = param_2;
+    eCCollisionShape::SetShapeAABBAdaptMode
+              (this_00,(bTPropertyContainer<eEShapeAABBAdapt> *)&stack0xffffff6c);
+    bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xffffff6c);
+    eCCollisionShape::SetAdaptScale(this_00,(float *)&param_3);
+    thunk_FUN_3033f140(this_00);
+    peVar4 = this_00;
+    peVar3 = (*this->vftablePtr->GetEntity)(this);
+    this_01 = eCPhysicObjectStateBuffer::GetBuffer(peVar3);
+    eCPhysicObjectStateBuffer::AddShape(this_01,(eCCollisionShape *)peVar4);
+    if (this_00 != (eCCollisionShape *)0x0) {
+      (*this_00->vftablePtr->ReleaseReference)(this_00);
+    }
+    return 1;
+  }
+  return 0;
+}
+
+

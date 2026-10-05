@@ -1,0 +1,13 @@
+/* ENTRY 1000651e | bCBox::operator&= | STATUS decompiled | 2 ms */
+
+/* public: class bCBox & __thiscall bCBox::operator&=(class bCBox const &) */
+
+bCBox * __thiscall bCBox::operator&=(bCBox *this,bCBox *param_1)
+
+{
+                    /* 0x651e  1316  ??_4bCBox@@QAEAAV0@ABV0@@Z */
+  Intersect(this,param_1);
+  return this;
+}
+
+

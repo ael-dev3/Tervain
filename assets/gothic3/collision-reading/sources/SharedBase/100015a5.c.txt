@@ -1,0 +1,29 @@
+/* ENTRY 100015a5 | bCBox::Intersects | STATUS decompiled | 8 ms */
+
+/* public: bool __thiscall bCBox::Intersects(class bCStretch const &,float &)const  */
+
+bool __thiscall bCBox::Intersects(bCBox *this,bCStretch *param_1,float *param_2)
+
+{
+  bool bVar1;
+  undefined4 uStack_1c;
+  float fStack_18;
+  float fStack_14;
+  float fStack_10;
+  float fStack_c;
+  float fStack_8;
+  float fStack_4;
+  
+                    /* 0x15a5  3355  ?Intersects@bCBox@@QBE_NABVbCStretch@@AAM@Z */
+  fStack_18 = *(float *)param_1;
+  fStack_10 = *(float *)(param_1 + 8);
+  fStack_14 = *(float *)(param_1 + 4);
+  uStack_1c = 0;
+  fStack_c = *(float *)(param_1 + 0xc) - fStack_18;
+  fStack_8 = *(float *)(param_1 + 0x10) - fStack_14;
+  fStack_4 = *(float *)(param_1 + 0x14) - fStack_10;
+  bVar1 = bCUnitedRay::Intersects((bCUnitedRay *)&uStack_1c,this,param_2);
+  return bVar1;
+}
+
+

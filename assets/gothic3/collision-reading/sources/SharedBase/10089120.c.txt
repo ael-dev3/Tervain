@@ -1,0 +1,14 @@
+/* ENTRY 10089120 | FUN_10089120 | STATUS decompiled | 2 ms */
+
+uint __fastcall FUN_10089120(int param_1)
+
+{
+  uint uVar1;
+  
+  uVar1 = *(uint *)(param_1 + 4);
+  uVar1 = ((uVar1 & 0xfffffff8) + 8 ^ uVar1) & 0x7fffff8 ^ uVar1;
+  *(uint *)(param_1 + 4) = uVar1;
+  return uVar1 >> 3 & 0xffffff;
+}
+
+

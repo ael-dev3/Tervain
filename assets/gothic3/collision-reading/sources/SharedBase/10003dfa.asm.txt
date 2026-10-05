@@ -1,0 +1,4 @@
+; 10003dfa ?GetOrientation@bCCapsule@@QAEAAVbCMatrix3@@XZ
+10003dfa | e9e1390500 | JMP 0x100577e0
+; 10003dff bCSphere::Intersects
+; 10003dff Ordinal_3422

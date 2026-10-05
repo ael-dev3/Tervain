@@ -1,0 +1,4 @@
+; 3001d764 ?Destroy@eCCollisionShape@@UAEXXZ
+3001d764 | e967d43300 | JMP 0x3035abd0
+; 3001d76e eCFrustumDatabase::ExecuteShadowMap
+; 3001d76e Ordinal_5927

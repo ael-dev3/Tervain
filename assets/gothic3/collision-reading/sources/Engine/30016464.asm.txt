@@ -1,0 +1,4 @@
+; 30016464 bTPropertyType<eCCollisionShapeBase_PS,bCObsoleteClass>::vfunction6
+30016464 | e977c43200 | JMP 0x303428e0
+; 30016469 eCResourceMaterialObject_PS::GetProprietaryFileExt
+; 30016469 Ordinal_8271

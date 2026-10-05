@@ -1,0 +1,2 @@
+; 30026b34 ?Write@eCCollisionShapeBase_PS@@UAE?AW4bEResult@@AAVbCOStream@@@Z
+30026b34 | e907a83100 | JMP 0x30341340

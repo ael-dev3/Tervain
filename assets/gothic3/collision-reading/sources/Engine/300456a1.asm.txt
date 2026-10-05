@@ -1,0 +1,2 @@
+; 300456a1 ?SetIgnoredByTraceRay@eCCollisionShape_PS@@QAEXAB_N@Z
+300456a1 | e9aad60700 | JMP 0x300c2d50

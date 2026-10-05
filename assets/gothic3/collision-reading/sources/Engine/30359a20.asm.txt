@@ -1,0 +1,18 @@
+; 30359a20 FUN_30359a20
+30359a20 | 53 | PUSH EBX
+30359a21 | 33db | XOR EBX,EBX
+30359a23 | 56 | PUSH ESI
+30359a24 | 8bf1 | MOV ESI,ECX
+30359a26 | 8d4e48 | LEA ECX,[ESI + 0x48]
+30359a29 | 895e74 | MOV dword ptr [ESI + 0x74],EBX
+30359a2c | 885e44 | MOV byte ptr [ESI + 0x44],BL
+30359a2f | 66895e46 | MOV word ptr [ESI + 0x46],BX
+30359a33 | 895e60 | MOV dword ptr [ESI + 0x60],EBX
+30359a36 | 895e64 | MOV dword ptr [ESI + 0x64],EBX
+30359a39 | ff157ccbaf30 | CALL dword ptr [0x30afcb7c]
+30359a3f | 8d4e68 | LEA ECX,[ESI + 0x68]
+30359a42 | ff15e0ceaf30 | CALL dword ptr [0x30afcee0]
+30359a48 | 885e2d | MOV byte ptr [ESI + 0x2d],BL
+30359a4b | 5e | POP ESI
+30359a4c | 5b | POP EBX
+30359a4d | c3 | RET

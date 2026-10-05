@@ -1,0 +1,25 @@
+/* ENTRY 10006825 | bCBox::GetMaxExtend | STATUS decompiled | 6 ms */
+
+/* public: float __thiscall bCBox::GetMaxExtend(void)const  */
+
+float __thiscall bCBox::GetMaxExtend(bCBox *this)
+
+{
+  int iVar1;
+  int iVar2;
+  float fStack_8;
+  
+                    /* 0x6825  2627  ?GetMaxExtend@bCBox@@QBEMXZ */
+  fStack_8 = 1e-05;
+  iVar2 = 3;
+  do {
+    iVar1 = iVar2 * 4;
+    iVar2 = iVar2 + -1;
+    if (fStack_8 < *(float *)(this + iVar1 + 8) - *(float *)(this + iVar2 * 4)) {
+      fStack_8 = *(float *)(this + iVar1 + 8) - *(float *)(this + iVar2 * 4);
+    }
+  } while (iVar2 != 0);
+  return fStack_8 * 0.5;
+}
+
+

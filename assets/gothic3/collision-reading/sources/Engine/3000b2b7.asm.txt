@@ -1,0 +1,4 @@
+; 3000b2b7 bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeGroup>_>::vfunction9
+3000b2b7 | e9743c3500 | JMP 0x3035ef30
+; 3000b2bc eCLocAdmin::ReadASCII
+; 3000b2bc Ordinal_12315

@@ -60,6 +60,9 @@ export interface NativeReflectionRoot {
 }
 export interface NativeReflectionFactory {
   readonly root: NativeReflectionRoot;
+  /** Source-backed RTTI category for a retained non-PS factory. Omission does
+   * not prove that an unfamiliar reflected object fails a property-set cast. */
+  readonly nativeCategory?: 'entity-property-set' | 'non-property-set';
   /** Execute original concrete Clone including constructor/Create/defaults.
    * Supplied factories must return the exact live wrapper, never a record. */
   cloneRoot(controller: NativeReflectionController): NativeValue<NativeReflectionWrapper>;
@@ -67,8 +70,20 @@ export interface NativeReflectionFactory {
   read(wrapper: NativeReflectionWrapper, input: NativeEntityByteInput): NativeValue<number>;
   getVersion(wrapper: NativeReflectionWrapper): NativeValue<number>;
 }
+/** Actual retained bCObjectRefBase-derived storage. Some reflected objects,
+ * such as collision shapes, are not entity property sets and have no owner.
+ * Their concrete factories must implement their constructor and virtual reads. */
+export interface NativeReflectionNativeObject<P extends object = object> {
+  readonly identity: string;
+  readonly className: string;
+  readonly values: P;
+  referenceWord: number;
+  wrapper: NativePropertyObjectReference | null;
+}
 export interface NativeReflectionAllocation {
   readonly wrapper: NativeReflectionWrapper;
+  nativeObject: NativeReflectionNativeObject | null;
+  /** PS-only compatibility view; a nested reflected shape never occupies it. */
   propertySet: NativeLivePropertySet<object> | null;
   lowerClock: NativeWorldClock | null;
   phase: 'wrapper' | 'native-constructor' | 'created' | 'attached' | 'initialized' | 'read';
@@ -87,7 +102,7 @@ export interface NativeReflectionReadHandlers {
  * Reference mask0x07fffff8 is a separate24bit count from native PS's31bit count. */
 export class NativeReflectionWrapper implements NativePropertyObjectReference {
   readonly flags: NativeMaskedWord = { value: 10, knownMask: 0x07ffffff };
-  native: NativeLivePropertySet<object> | null = null;
+  native: NativeReflectionNativeObject | null = null;
   clockProperties: OriginalClockProperties | null = null;
   deleted = false;
   constructor(readonly identity: string, readonly factory: NativeReflectionFactory,
@@ -266,7 +281,7 @@ export class NativeReflectionController {
   allocateWrapper(factory: NativeReflectionFactory, source: string): NativeReflectionWrapper {
     if (this.factories.get(factory.root.className) !== factory) throw new Error('Actual registered factory capability required');
     const wrapper = new NativeReflectionWrapper(this.identity + ':wrapper:' + ++this.allocation, factory, this);
-    this.heap.push({ wrapper, propertySet: null, lowerClock: null, phase: 'wrapper', initializedFields: new Set(), worldResident: false });
+    this.heap.push({ wrapper, nativeObject: null, propertySet: null, lowerClock: null, phase: 'wrapper', initializedFields: new Set(), worldResident: false });
     this.write('wrapper successful allocation/base constructor/nonroot flag/type', source);
     return wrapper;
   }
@@ -277,19 +292,30 @@ export class NativeReflectionController {
   }
   retainNative(wrapper: NativeReflectionWrapper, set: NativeLivePropertySet<object>,
     phase: NativeReflectionAllocation['phase'] = 'native-constructor'): void {
+    if (!(set instanceof NativeLivePropertySet)) throw new Error('Actual entity property set required');
+    this.retainObject(wrapper, set, phase);
+  }
+  retainObject(wrapper: NativeReflectionWrapper, native: NativeReflectionNativeObject,
+    phase: NativeReflectionAllocation['phase'] = 'native-constructor'): void {
     const allocation = this.allocationFor(wrapper);
-    if (allocation.propertySet !== null || set.className !== wrapper.factory.root.className) throw new Error('Fresh concrete native allocation required');
-    allocation.propertySet = set; allocation.phase = phase;
+    if (allocation.nativeObject !== null || !native.identity || native.className !== wrapper.factory.root.className ||
+        !native.values || typeof native.values !== 'object') throw new Error('Fresh concrete native allocation required');
+    if (native instanceof NativeLivePropertySet ? wrapper.factory.nativeCategory === 'non-property-set' :
+        wrapper.factory.nativeCategory !== 'non-property-set') throw new Error('Source-backed native factory category required');
+    word(native.referenceWord);
+    allocation.nativeObject = native;
+    allocation.propertySet = native instanceof NativeLivePropertySet ? native : null;
+    allocation.phase = phase;
   }
   setAllocationPhase(wrapper: NativeReflectionWrapper, phase: NativeReflectionAllocation['phase']): void {
     this.allocationFor(wrapper).phase = phase;
   }
   /** Source fresh-object Attach: incoming virtual ref, pointer binding, then
    * temporary wrapper clear around release of its initial native reference. */
-  attachConstructedNative(wrapper: NativeReflectionWrapper, set: NativeLivePropertySet<object>,
+  attachConstructedNative(wrapper: NativeReflectionWrapper, set: NativeReflectionNativeObject,
     attachSource: string, initializeSource: string): void {
     const allocation = this.allocationFor(wrapper);
-    if (allocation.propertySet !== set || wrapper.native !== null || set.wrapper !== null ||
+    if (allocation.nativeObject !== set || wrapper.native !== null || set.wrapper !== null ||
         (set.referenceWord & 0x7fffffff) !== 1) throw new Error('Fresh source attach profile requires native count1 and NULL wrapper');
     set.referenceWord = ((set.referenceWord & 0x80000000) | 2) >>> 0;
     this.write('native AddVirtualReference before attach', 'SharedBase:10004ea3');
@@ -306,7 +332,7 @@ export class NativeReflectionController {
     assignDefault: (field: NativeReflectionField) => NativeValue<void>,
     postInitialize: () => NativeValue<void>, source: string): void {
     const allocation = this.allocationFor(wrapper);
-    if (wrapper.native !== allocation.propertySet || allocation.phase !== 'attached') throw new Error('Actual attached native object required');
+    if (wrapper.native !== allocation.nativeObject || allocation.phase !== 'attached') throw new Error('Actual attached native object required');
     this.trace.push({ operation: 'factory RegisterPropertyObject nonroot return', source: 'SharedBase:10006db6', value: true });
     fact(wrapper.addReference(), 'default creator construction');
     const iterator = new PropertyIterator(wrapper);
@@ -316,7 +342,7 @@ export class NativeReflectionController {
     }
     if (wrapper.native !== null) {
       const current = wrapper.native; // Original GetNativeObject occurs again.
-      if (current !== allocation.propertySet) throw new Error('Replaced native PostInitialize receiver unresolved');
+      if (current !== allocation.nativeObject) throw new Error('Replaced native PostInitialize receiver unresolved');
       this.effect('PostInitializeProperties', source, postInitialize);
     }
     allocation.phase = 'initialized'; iterator.destroy();
@@ -328,7 +354,7 @@ export class NativeReflectionController {
   readWrapperProperties(wrapper: NativeReflectionWrapper, input: NativeEntityByteInput,
     handlers: NativeReflectionReadHandlers): number {
     const allocation = this.allocationFor(wrapper);
-    if (wrapper.native === null || wrapper.native !== allocation.propertySet || allocation.phase !== 'initialized') throw new Error('Actual initialized concrete wrapper required');
+    if (wrapper.native === null || wrapper.native !== allocation.nativeObject || allocation.phase !== 'initialized') throw new Error('Actual initialized concrete wrapper required');
     const objectVersion = input.u16(); this.read('wrapper object version', 'SharedBase:10003ed6', input, objectVersion);
     this.read('wrapper declared size; normal branch does not seek', handlers.wrapperSource, input, input.u32());
     if (objectVersion === 1) this.read('legacy object name', 'SharedBase:10002f68', input, input.string());
@@ -367,7 +393,7 @@ export class NativeReflectionController {
   }
   private constructClock(factory: NativeReflectionFactory): NativeReflectionWrapper {
     const wrapper = new NativeReflectionWrapper(this.identity + ':wrapper:' + ++this.allocation, factory, this);
-    const allocation: NativeReflectionAllocation = { wrapper, propertySet: null, lowerClock: null,
+    const allocation: NativeReflectionAllocation = { wrapper, nativeObject: null, propertySet: null, lowerClock: null,
       phase: 'wrapper', initializedFields: new Set(), worldResident: false };
     this.heap.push(allocation);
     this.write('wrapper successful allocation/base constructor/nonroot flag/type', 'Game:2020b0e0');
@@ -385,7 +411,7 @@ export class NativeReflectionController {
       { read: () => owner, write: entity => { owner = entity; if (properties) properties.owner = entity?.propertyOwner ?? null; } },
       null, callbacks, () => known(true));
     const clock = new NativeWorldClock(this.clockHost.timestamps, this.clockHost.precision);
-    allocation.propertySet = set; allocation.lowerClock = clock; allocation.phase = 'native-constructor';
+    allocation.nativeObject = set; allocation.propertySet = set; allocation.lowerClock = clock; allocation.phase = 'native-constructor';
     this.write('native Clock allocation/base constructor/scratch zero', 'Game:20208160');
     this.effect('native constructor bCClock.Set zero date', 'Game:20208160', () => {
       const result = clock.set({ years: 0, days: 0, seconds: 0 }); return result.kind === 'applied' ? known(undefined) : unknown(result.reason);
@@ -514,7 +540,10 @@ export class NativeReflectionController {
     return objectVersion;
   }
   castPropertySet(object: object | null): NativeValue<NativeLivePropertySet<object> | null> {
-    return object === null ? known(null) : object instanceof NativeLivePropertySet ? known(object) : unknown('Original dynamic_cast source capability unresolved');
+    return object === null ? known(null) : object instanceof NativeLivePropertySet ? known(object) :
+      this.heap.some(allocation => allocation.nativeObject === object &&
+        allocation.wrapper.factory.nativeCategory === 'non-property-set') ? known(null) :
+      unknown('Original dynamic_cast source capability unresolved');
   }
   propertySetVersion(set: NativeLivePropertySet<object>): NativeValue<number> {
     return set.wrapper instanceof NativeReflectionWrapper && set.wrapper.native === set && set.wrapper.factory.root.className === set.className

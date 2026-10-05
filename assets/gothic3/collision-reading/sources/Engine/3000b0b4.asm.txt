@@ -1,0 +1,4 @@
+; 3000b0b4 ?SetProprietaryShape@eCCollisionShape@@QAEXPAVNxShape@@@Z
+3000b0b4 | e977f43400 | JMP 0x3035a530
+; 3000b0b9 eCCanvas::GetPlacement
+; 3000b0b9 Ordinal_8105

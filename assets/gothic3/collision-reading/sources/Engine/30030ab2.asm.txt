@@ -1,0 +1,4 @@
+; 30030ab2 ?GetIgnoredByTraceRay@eCCollisionShape_PS@@QBEAB_NXZ
+30030ab2 | e979220900 | JMP 0x300c2d30
+; 30030ab7 eCEntityAdmin::CollectStaticProcessingRangeEntity
+; 30030ab7 Ordinal_3892

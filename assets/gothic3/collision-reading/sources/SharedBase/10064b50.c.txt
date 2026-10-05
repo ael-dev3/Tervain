@@ -1,0 +1,18 @@
+/* ENTRY 10064b50 | FUN_10064b50 | STATUS decompiled | 4 ms */
+
+undefined4 __thiscall FUN_10064b50(bCOrientedBox *param_1,bCVector *param_2)
+
+{
+  bool bVar1;
+  
+  bVar1 = bCOrientedBox::Contains(param_1,param_2);
+  if (bVar1) {
+    bVar1 = bCOrientedBox::Contains(param_1,param_2 + 0xc);
+    if (bVar1) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
+

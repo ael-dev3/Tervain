@@ -1,0 +1,25 @@
+/* ENTRY 10056c70 | FUN_10056c70 | STATUS decompiled | 8 ms */
+
+bool __thiscall FUN_10056c70(bCBox *param_1,int *param_2)
+
+{
+  bool bVar1;
+  float local_c;
+  float local_8;
+  float local_4;
+  
+  if (*param_2 != 0) {
+    return false;
+  }
+  bVar1 = bCBox::Contains(param_1,(bCVector *)(param_2 + 1));
+  if (!bVar1) {
+    return bVar1;
+  }
+  local_c = (float)param_2[4] + *(float *)(param_2 + 1);
+  local_8 = (float)param_2[5] + (float)param_2[2];
+  local_4 = (float)param_2[6] + (float)param_2[3];
+  bVar1 = bCBox::Contains(param_1,(bCVector *)&local_c);
+  return bVar1;
+}
+
+

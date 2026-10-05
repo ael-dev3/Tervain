@@ -1,0 +1,4 @@
+; 10004ec1 ?AccessCoordinate@bCBox@@QAEAAMH@Z
+10004ec1 | e9da570200 | JMP 0x1002a6a0
+; 10004ed0 bCPOStream::FakeMainPOStream
+; 10004ed0 Ordinal_2030

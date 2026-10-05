@@ -1,0 +1,16 @@
+/* ENTRY 300275f2 | eCCollisionShape::GetMaterial | STATUS decompiled | 4 ms */
+
+/* public: class bTPropertyContainer<enum eEShapeMaterial> const & __thiscall
+   eCCollisionShape::GetMaterial(void)const  */
+
+bTPropertyContainer<eEShapeMaterial> * __thiscall
+eCCollisionShape::GetMaterial(eCCollisionShape *this)
+
+{
+                    /* 0x275f2  7744
+                       ?GetMaterial@eCCollisionShape@@QBEABV?$bTPropertyContainer@W4eEShapeMaterial@@@@XZ
+                        */
+  return (bTPropertyContainer<eEShapeMaterial> *)&(this->eCCollisionShape_data).offset_0x18;
+}
+
+

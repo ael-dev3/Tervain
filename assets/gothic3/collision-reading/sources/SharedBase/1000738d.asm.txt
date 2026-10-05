@@ -1,0 +1,4 @@
+; 1000738d ?GetExtent@bCOrientedBox@@QBEABVbCVector@@XZ
+1000738d | e95eba0500 | JMP 0x10062df0
+; 10007392 bCAccessorCreator::bCAccessorCreator
+; 10007392 Ordinal_8

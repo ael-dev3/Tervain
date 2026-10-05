@@ -1,0 +1,30 @@
+/* ENTRY 100073c9 | bCOrientedBox::Contains | STATUS decompiled | 13 ms */
+
+/* public: bool __thiscall bCOrientedBox::Contains(class bCVector const &)const  */
+
+bool __thiscall bCOrientedBox::Contains(bCOrientedBox *this,bCVector *param_1)
+
+{
+  bCOrientedBox *pbVar1;
+  int iVar2;
+  bCOrientedBox *pbVar3;
+  
+                    /* 0x73c9  1706  ?Contains@bCOrientedBox@@QBE_NABVbCVector@@@Z */
+  iVar2 = 0;
+  pbVar3 = this + 0xc;
+  pbVar1 = this + 0x20;
+  do {
+    if (*(float *)pbVar3 + 1e-05 <
+        ABS((*(float *)(param_1 + 8) - *(float *)(this + 8)) * *(float *)pbVar1 +
+            *(float *)(pbVar1 + -4) * (*(float *)(param_1 + 4) - *(float *)(this + 4)) +
+            *(float *)(pbVar1 + -8) * (*(float *)param_1 - *(float *)this))) {
+      return false;
+    }
+    iVar2 = iVar2 + 1;
+    pbVar1 = pbVar1 + 0xc;
+    pbVar3 = pbVar3 + 4;
+  } while (iVar2 < 3);
+  return true;
+}
+
+

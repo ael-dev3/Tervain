@@ -1,0 +1,14 @@
+/* ENTRY 10003de6 | bCOrientedBox::bCOrientedBox | STATUS decompiled | 3 ms */
+
+/* public: __thiscall bCOrientedBox::bCOrientedBox(class bCBox const &,class bCMatrix3 const &) */
+
+bCOrientedBox * __thiscall
+bCOrientedBox::bCOrientedBox(bCOrientedBox *this,bCBox *param_1,bCMatrix3 *param_2)
+
+{
+                    /* 0x3de6  193  ??0bCOrientedBox@@QAE@ABVbCBox@@ABVbCMatrix3@@@Z */
+  Create(this,param_1,param_2);
+  return this;
+}
+
+

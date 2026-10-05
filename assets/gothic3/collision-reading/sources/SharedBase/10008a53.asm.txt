@@ -1,0 +1,4 @@
+; 10008a53 ?Merge@bCBox@@QAEXABVbCVector@@@Z
+10008a53 | e9b81e0200 | JMP 0x1002a910
+; 10008a58 bCVector4::SetW
+; 10008a58 Ordinal_4428

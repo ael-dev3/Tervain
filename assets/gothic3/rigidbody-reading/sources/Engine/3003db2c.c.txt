@@ -1,0 +1,12 @@
+/* ENTRY 3003db2c | eCRigidBody_PS::IsPhysicRelevant | STATUS decompiled | 10 ms */
+
+/* public: virtual bool __thiscall eCRigidBody_PS::IsPhysicRelevant(void)const  */
+
+bool __thiscall eCRigidBody_PS::IsPhysicRelevant(eCRigidBody_PS *this)
+
+{
+                    /* 0x3db2c  10493  ?IsPhysicRelevant@eCRigidBody_PS@@UBE_NXZ */
+  return true;
+}
+
+

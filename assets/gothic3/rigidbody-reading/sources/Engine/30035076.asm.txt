@@ -1,0 +1,4 @@
+; 30035076 bTPOPureSmartPtr<eCRigidBody_PS>::vfunction12
+30035076 | e935a82f00 | JMP 0x3032f8b0
+; 3003507b eCEntityPropertySet::GetDecayState
+; 3003507b Ordinal_6729

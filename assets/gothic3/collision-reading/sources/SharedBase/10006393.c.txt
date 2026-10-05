@@ -1,0 +1,12 @@
+/* ENTRY 10006393 | bCOrientedBox::GetWidth | STATUS decompiled | 3 ms */
+
+/* public: float __thiscall bCOrientedBox::GetWidth(void)const  */
+
+float __thiscall bCOrientedBox::GetWidth(bCOrientedBox *this)
+
+{
+                    /* 0x6393  3242  ?GetWidth@bCOrientedBox@@QBEMXZ */
+  return *(float *)(this + 0xc) + *(float *)(this + 0xc);
+}
+
+

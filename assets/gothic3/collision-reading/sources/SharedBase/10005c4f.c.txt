@@ -1,0 +1,12 @@
+/* ENTRY 10005c4f | bCOrientedBox::AccessAxis | STATUS decompiled | 2 ms */
+
+/* public: class bCVector & __thiscall bCOrientedBox::AccessAxis(int) */
+
+bCVector * __thiscall bCOrientedBox::AccessAxis(bCOrientedBox *this,int param_1)
+
+{
+                    /* 0x5c4f  1401  ?AccessAxis@bCOrientedBox@@QAEAAVbCVector@@H@Z */
+  return (bCVector *)(this + (param_1 * 3 + 6) * 4);
+}
+
+

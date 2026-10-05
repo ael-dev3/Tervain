@@ -1,0 +1,18 @@
+/* ENTRY 304b3400 | FUN_304b3400 | STATUS decompiled | 9 ms */
+
+void __thiscall FUN_304b3400(int *param_1,bCIStream *param_2)
+
+{
+  undefined4 local_4;
+  
+  local_4 = 0;
+  bCIStream::operator>>(param_2,(ushort *)&local_4);
+  if (0x52 < (ushort)local_4) {
+    (**(code **)(*param_1 + 0xb0))();
+    return;
+  }
+  (**(code **)(*param_1 + 0xb4))(param_2,local_4);
+  return;
+}
+
+

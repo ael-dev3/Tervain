@@ -1,0 +1,2 @@
+; 30038c4e ?AccessDisableCollision@eCCollisionShape@@QAEAA_NXZ
+30038c4e | e9cd990800 | JMP 0x300c2620

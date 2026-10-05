@@ -1,0 +1,4 @@
+; 30037ede bTPropertyType<eCVisualAnimation_PS,bTPropertyContainer<eEShapeGroup>_>::vfunction4
+30037ede | e93d703200 | JMP 0x3035ef20
+; 30037ee3 eCMessageHandler::OnDisplayChange
+; 30037ee3 Ordinal_11026

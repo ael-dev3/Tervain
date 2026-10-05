@@ -1,0 +1,4 @@
+; 10005be6 ?SetExtent@bCOrientedBox@@QAEXABVbCVector@@@Z
+10005be6 | e965d20500 | JMP 0x10062e50
+; 10005beb bCMatrix::GetColumn
+; 10005beb Ordinal_2193

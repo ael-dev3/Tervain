@@ -1,0 +1,34 @@
+/* ENTRY 3075d270 | bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::~bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::
+~bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>
+          (bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_> *this)
+
+{
+  bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"BodyFlag");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCRigidBody_PS::ms_PropertyMember_m_enuBodyFlag,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuBodyFlag = &vftable;
+  DAT_30aec1a0 = bTPropertyObjectType<eCRigidBody_PS,eCRigidBodyBase_PS>::
+                 ~bTPropertyObjectType<eCRigidBody_PS,eCRigidBodyBase_PS>();
+  _DAT_30aec1a4 = 0x78;
+  _DAT_30aec1a8 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&eCRigidBody_PS::ms_PropertyMember_m_enuBodyFlag)
+  ;
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30aec1a0,
+             (bCPropertyTypeBase *)&eCRigidBody_PS::ms_PropertyMember_m_enuBodyFlag);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<eERigidbody_Flag>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<eERigidbody_Flag>_>);
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 3002e24e ?GetMaterialName@eCCollisionShape@@SG?AVbCString@@W4eEShapeMaterial@@@Z
+3002e24e | e9fdb43200 | JMP 0x30359750

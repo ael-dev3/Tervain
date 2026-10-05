@@ -1,0 +1,12 @@
+; 30332b90 bTPropertyType<eCRigidBody_PS,bTPropertyContainer<eERigidbody_Flag>_>::vfunction19
+30332b90 | 56 | PUSH ESI
+30332b91 | 8bf1 | MOV ESI,ECX
+30332b93 | ff156ccaaf30 | CALL dword ptr [0x30afca6c]
+30332b99 | 8d4620 | LEA EAX,[ESI + 0x20]
+30332b9c | 50 | PUSH EAX
+30332b9d | e8ee66ceff | CALL 0x30019290
+30332ba2 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+30332ba5 | 56 | PUSH ESI
+30332ba6 | ff1514cbaf30 | CALL dword ptr [0x30afcb14]
+30332bac | 5e | POP ESI
+30332bad | c3 | RET

@@ -1,0 +1,4 @@
+; 300448dc bTPropertyType<eCCollisionShapeBase_PS,bCObsoleteClass>::vfunction19
+300448dc | e9ffe32f00 | JMP 0x30342ce0
+; 300448e1 eCParticle_PS::GetCollideWithCharacters
+; 300448e1 Ordinal_6511

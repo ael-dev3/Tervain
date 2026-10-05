@@ -1,0 +1,44 @@
+/* ENTRY 300cdd80 | bTPropertyContainer<eECollisionShapeType>::bTPropertyContainer<eECollisionShapeType>_Constructor_or_Destructor | STATUS decompiled | 16 ms */
+
+undefined4 __fastcall
+bTPropertyContainer<eECollisionShapeType>::
+bTPropertyContainer<eECollisionShapeType>_Constructor_or_Destructor(eCCollisionShape *param_1)
+
+{
+  bCSphere *this;
+  undefined4 uVar1;
+  bCObjectBase bStack_1c;
+  bCSphere *pbStack_18;
+  char *pcStack_14;
+  undefined4 uStack_10;
+  bCObjectBase local_8;
+  undefined4 local_4;
+  
+  uStack_10 = 0x300cdd90;
+  bCObjectBase::bCObjectBase(&local_8);
+  uStack_10 = 0;
+  pcStack_14 = "ShapeType";
+  local_8 = (bCObjectBase)&vftable;
+  local_4 = 5;
+  pbStack_18 = (bCSphere *)0x300cddb0;
+  (**(code **)(*(int *)param_1 + 0x58))();
+  pbStack_18 = (bCSphere *)&uStack_10;
+  bStack_1c = (bCObjectBase)0x300cddc0;
+  (**(code **)(*(int *)(param_1 + 0xc) + 0x1c))();
+  bStack_1c = (bCObjectBase)0x0;
+  (**(code **)(*(int *)param_1 + 0x5c))("ShapeType");
+  bStack_1c = (bCObjectBase)&vftable;
+  bCObjectBase::~bCObjectBase(&bStack_1c);
+  this = (bCSphere *)new(0x10,0x317);
+  if (this == (bCSphere *)0x0) {
+    uVar1 = 0;
+  }
+  else {
+    uVar1 = bCSphere::bCSphere(this,pbStack_18);
+  }
+  *(undefined4 *)(param_1 + 0x74) = uVar1;
+  eCCollisionShape::CalcShapeAABBLocal((eCCollisionShape *)param_1);
+  return 1;
+}
+
+

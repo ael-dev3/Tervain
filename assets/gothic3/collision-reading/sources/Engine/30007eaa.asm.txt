@@ -1,0 +1,4 @@
+; 30007eaa ?GetOrientation@eCCollisionShape@@QBEABVbCMatrix3@@XZ
+30007eaa | e931580c00 | JMP 0x300cd6e0
+; 30007ec3 eCEntity::OnAction
+; 30007ec3 Ordinal_10882

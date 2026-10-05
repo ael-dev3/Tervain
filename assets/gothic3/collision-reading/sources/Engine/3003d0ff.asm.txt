@@ -1,0 +1,4 @@
+; 3003d0ff ?GetResourceIndex@eCCollisionShape@@QBEGXZ
+3003d0ff | e99c590800 | JMP 0x300c2aa0
+; 3003d104 eCWrapper_emfx2Actor::SaveActor
+; 3003d104 Ordinal_12796

@@ -1,0 +1,4 @@
+; 3000b802 bTPropertyType<eCCollisionShapeBase_PS,bCObsoleteClass>::vfunction14
+3000b802 | e909713300 | JMP 0x30342910
+; 3000b807 eCStrip_PS::Read
+; 3000b807 Ordinal_12262

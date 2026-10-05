@@ -1,0 +1,6 @@
+; 100063ed ?SetOuterBoxFromPoints@bCOrientedBox@@QAEXPBVbCVector@@H@Z
+100063ed | e91ed50500 | JMP 0x10063910
+; 100063f2 LAB_100063f2
+100063f2 | e949e80300 | JMP 0x10044c40
+; 100063f7 bCMatrix::GetZAxis
+; 100063f7 Ordinal_3298

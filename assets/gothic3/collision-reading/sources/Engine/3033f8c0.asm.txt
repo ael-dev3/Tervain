@@ -1,0 +1,75 @@
+; 3033f8c0 bTPropertyObject<eCCollisionShape_PS,eCCollisionShapeBase_PS>::vfunction16
+3033f8c0 | 83ec0c | SUB ESP,0xc
+3033f8c3 | 53 | PUSH EBX
+3033f8c4 | 8b5c2414 | MOV EBX,dword ptr [ESP + 0x14]
+3033f8c8 | 55 | PUSH EBP
+3033f8c9 | 56 | PUSH ESI
+3033f8ca | 57 | PUSH EDI
+3033f8cb | 53 | PUSH EBX
+3033f8cc | 8bf1 | MOV ESI,ECX
+3033f8ce | ff150ccbaf30 | CALL dword ptr [0x30afcb0c]
+3033f8d4 | 56 | PUSH ESI
+3033f8d5 | 8d4c2424 | LEA ECX,[ESP + 0x24]
+3033f8d9 | ff15dccaaf30 | CALL dword ptr [0x30afcadc]
+3033f8df | 8d442420 | LEA EAX,[ESP + 0x20]
+3033f8e3 | 50 | PUSH EAX
+3033f8e4 | 8d4c2414 | LEA ECX,[ESP + 0x14]
+3033f8e8 | ff15d8caaf30 | CALL dword ptr [0x30afcad8]
+3033f8ee | 8b2dd0caaf30 | MOV EBP,dword ptr [0x30afcad0]
+3033f8f4 | 8b3dcccaaf30 | MOV EDI,dword ptr [0x30afcacc]
+3033f8fa | 8d9b00000000 | LEA EBX,[EBX]
+; 3033f900 LAB_3033f900
+3033f900 | 8d4c2410 | LEA ECX,[ESP + 0x10]
+3033f904 | ffd5 | CALL EBP
+3033f906 | 3c01 | CMP AL,0x1
+3033f908 | 7511 | JNZ 0x3033f91b
+3033f90a | 8d4c2410 | LEA ECX,[ESP + 0x10]
+3033f90e | ffd7 | CALL EDI
+3033f910 | 8b10 | MOV EDX,dword ptr [EAX]
+3033f912 | 53 | PUSH EBX
+3033f913 | 8bc8 | MOV ECX,EAX
+3033f915 | 8b4230 | MOV EAX,dword ptr [EDX + 0x30]
+3033f918 | 56 | PUSH ESI
+3033f919 | ffd0 | CALL EAX
+; 3033f91b LAB_3033f91b
+3033f91b | 8d4c2410 | LEA ECX,[ESP + 0x10]
+3033f91f | ffd5 | CALL EBP
+3033f921 | 84c0 | TEST AL,AL
+3033f923 | 7516 | JNZ 0x3033f93b
+3033f925 | 8d4c2410 | LEA ECX,[ESP + 0x10]
+3033f929 | ff15c8caaf30 | CALL dword ptr [0x30afcac8]
+3033f92f | 8bc8 | MOV ECX,EAX
+3033f931 | ff15c4caaf30 | CALL dword ptr [0x30afcac4]
+3033f937 | 84c0 | TEST AL,AL
+3033f939 | 740c | JZ 0x3033f947
+; 3033f93b LAB_3033f93b
+3033f93b | 8d4c2410 | LEA ECX,[ESP + 0x10]
+3033f93f | ff15c0caaf30 | CALL dword ptr [0x30afcac0]
+3033f945 | ebb9 | JMP 0x3033f900
+; 3033f947 LAB_3033f947
+3033f947 | 837e0800 | CMP dword ptr [ESI + 0x8],0x0
+3033f94b | 7507 | JNZ 0x3033f954
+3033f94d | 8bce | MOV ECX,ESI
+3033f94f | e8ff4dceff | CALL 0x30024753
+; 3033f954 LAB_3033f954
+3033f954 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+3033f957 | 8b39 | MOV EDI,dword ptr [ECX]
+3033f959 | 8b13 | MOV EDX,dword ptr [EBX]
+3033f95b | 8b02 | MOV EAX,dword ptr [EDX]
+3033f95d | 8bcb | MOV ECX,EBX
+3033f95f | 83c71c | ADD EDI,0x1c
+3033f962 | ffd0 | CALL EAX
+3033f964 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+3033f967 | 8b17 | MOV EDX,dword ptr [EDI]
+3033f969 | 50 | PUSH EAX
+3033f96a | ffd2 | CALL EDX
+3033f96c | 8d4c2410 | LEA ECX,[ESP + 0x10]
+3033f970 | ff15ecc9af30 | CALL dword ptr [0x30afc9ec]
+3033f976 | 8d4c2420 | LEA ECX,[ESP + 0x20]
+3033f97a | ff1510dbaf30 | CALL dword ptr [0x30afdb10]
+3033f980 | 5f | POP EDI
+3033f981 | 5e | POP ESI
+3033f982 | 5d | POP EBP
+3033f983 | 5b | POP EBX
+3033f984 | 83c40c | ADD ESP,0xc
+3033f987 | c20400 | RET 0x4

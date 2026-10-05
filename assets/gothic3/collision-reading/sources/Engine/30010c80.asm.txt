@@ -1,0 +1,4 @@
+; 30010c80 ?SetShape@eCCollisionShape@@QAE?AW4bEResult@@ABV1@@Z
+30010c80 | e95b1e0b00 | JMP 0x300c2ae0
+; 30010c85 eCGfxTextureBlock::AttachImageData
+; 30010c85 Ordinal_3554

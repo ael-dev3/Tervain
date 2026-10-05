@@ -1,0 +1,4 @@
+; 1000568c ?GetInvTranslated@bCOrientedBox@@QBEXAAV1@M@Z
+1000568c | e9cfdc0500 | JMP 0x10063360
+; 10005691 bCCapsule::Destroy
+; 10005691 Ordinal_1927

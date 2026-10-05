@@ -1,0 +1,4 @@
+; 300287a4 bTPropertyType<eCRigidBodyBase_PS,bool>::vfunction3
+300287a4 | e9f7c73000 | JMP 0x30334fa0
+; 300287ae eCButtonCtrl::CopyFrom
+; 300287ae Ordinal_4041

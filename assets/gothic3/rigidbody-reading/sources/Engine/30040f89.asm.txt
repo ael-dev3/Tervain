@@ -1,0 +1,2 @@
+; 30040f89 ?GetPropertySetType@eCRigidBodyBase_PS@@UBE?AW4eEPropertySetType@@XZ
+30040f89 | e992252f00 | JMP 0x30333520

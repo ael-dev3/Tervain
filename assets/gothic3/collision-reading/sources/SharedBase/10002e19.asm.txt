@@ -1,0 +1,4 @@
+; 10002e19 ?IsValid@bCBox@@QBE_NXZ
+10002e19 | e942810200 | JMP 0x1002af60
+; 10002e23 bTKeyFramerData<bCMotion>::GetInvalidTimeInterpolator
+; 10002e23 Ordinal_2543

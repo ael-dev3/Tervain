@@ -1,0 +1,2 @@
+; 3000ed45 ?GetPoint@eCCollisionShape@@QBEABVbCVector@@XZ
+3000ed45 | e9263e0b00 | JMP 0x300c2b70

@@ -1,0 +1,4 @@
+; 1000623a ?InvScale@bCBox@@QAEXABVbCVector@@@Z
+1000623a | e9a14b0200 | JMP 0x1002ade0
+; 1000623f bCByteAlphaColor::Clamp
+; 1000623f Ordinal_1598

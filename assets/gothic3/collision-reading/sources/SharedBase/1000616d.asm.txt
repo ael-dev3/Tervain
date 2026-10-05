@@ -1,0 +1,4 @@
+; 1000616d ?SetCapsule@bCCapsule@@QAEXABV1@@Z
+1000616d | e97e170500 | JMP 0x100578f0
+; 10006172 bCInfCylinder::Intersects
+; 10006172 Ordinal_3374

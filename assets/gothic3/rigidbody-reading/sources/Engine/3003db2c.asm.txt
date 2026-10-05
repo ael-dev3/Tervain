@@ -1,0 +1,2 @@
+; 3003db2c ?IsPhysicRelevant@eCRigidBody_PS@@UBE_NXZ
+3003db2c | e96f032f00 | JMP 0x3032dea0

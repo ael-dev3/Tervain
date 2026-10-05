@@ -1,0 +1,4 @@
+; 10002d2e ?IsEqual@bCCapsule@@QBE_NABV1@@Z
+10002d2e | e94d5b0500 | JMP 0x10058880
+; 10002d33 bCInfCylinder::GetTransformed
+; 10002d33 Ordinal_3106

@@ -1,0 +1,4 @@
+; 1000272a ?GetDepth@bCOrientedBox@@QBEMXZ
+1000272a | e961080600 | JMP 0x10062f90
+; 1000272f bCInfDoubleCylinder::AccessPositionA
+; 1000272f Ordinal_1471

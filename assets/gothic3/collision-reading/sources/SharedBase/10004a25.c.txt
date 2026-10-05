@@ -1,0 +1,13 @@
+/* ENTRY 10004a25 | bCOrientedBox::operator<< | STATUS decompiled | 2 ms */
+
+/* public: class bCIStream & __thiscall bCOrientedBox::operator<<(class bCIStream &) */
+
+bCIStream * __thiscall bCOrientedBox::operator<<(bCOrientedBox *this,bCIStream *param_1)
+
+{
+                    /* 0x4a25  746  ??6bCOrientedBox@@QAEAAVbCIStream@@AAV1@@Z */
+  (**(code **)(*(int *)param_1 + 4))(this,0x3c);
+  return param_1;
+}
+
+

@@ -1,0 +1,4 @@
+; 10001447 ?Contains@bCBox@@QBE_NABVbCVector@@@Z
+10001447 | e9e49b0200 | JMP 0x1002b030
+; 1000144c bCFloatColor::bCFloatColor
+; 1000144c Ordinal_109

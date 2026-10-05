@@ -1,0 +1,17 @@
+/* ENTRY 3000f3df | eCCollisionShapeBase_PS::eCCollisionShapeBase_PS | STATUS decompiled | 9 ms */
+
+/* public: __thiscall eCCollisionShapeBase_PS::eCCollisionShapeBase_PS(class eCCollisionShapeBase_PS
+   const &) */
+
+eCCollisionShapeBase_PS * __thiscall
+eCCollisionShapeBase_PS::eCCollisionShapeBase_PS
+          (eCCollisionShapeBase_PS *this,eCCollisionShapeBase_PS *param_1)
+
+{
+                    /* 0xf3df  138  ??0eCCollisionShapeBase_PS@@QAE@ABV0@@Z */
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

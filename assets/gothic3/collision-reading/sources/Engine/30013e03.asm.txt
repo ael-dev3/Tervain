@@ -1,0 +1,4 @@
+; 30013e03 bTPropertyType<eCCollisionShape_PS,bCObsoleteClass>::vfunction15
+30013e03 | e9a8933200 | JMP 0x3033d1b0
+; 30013e12 eCTrigger_PS::GetRootObject
+; 30013e12 Ordinal_8624

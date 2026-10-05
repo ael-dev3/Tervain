@@ -1,0 +1,19 @@
+/* ENTRY 10057850 | FUN_10057850 | STATUS decompiled | 2 ms */
+
+void __thiscall FUN_10057850(int param_1,undefined4 *param_2)
+
+{
+  int iVar1;
+  int iVar2;
+  
+  iVar2 = 9;
+  iVar1 = (param_1 + 8) - (int)param_2;
+  do {
+    iVar2 = iVar2 + -1;
+    *(undefined4 *)(iVar1 + (int)param_2) = *param_2;
+    param_2 = param_2 + 1;
+  } while (iVar2 != 0);
+  return;
+}
+
+

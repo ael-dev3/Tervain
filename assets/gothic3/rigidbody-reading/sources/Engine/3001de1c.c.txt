@@ -1,0 +1,10 @@
+/* ENTRY 3001de1c | bTPropertyObject<eCRigidBody_PS,eCRigidBodyBase_PS>::vfunction11 | STATUS decompiled | 1 ms */
+
+void __thiscall bTPropertyObject<eCRigidBody_PS,eCRigidBodyBase_PS>::vfunction11(void)
+
+{
+  thunk_FUN_303327a0(0);
+  return;
+}
+
+

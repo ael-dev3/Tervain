@@ -1,0 +1,36 @@
+; 300cd6e0 FUN_300cd6e0
+300cd6e0 | b801000000 | MOV EAX,0x1
+300cd6e5 | 840560abad30 | TEST byte ptr [0x30adab60],AL
+300cd6eb | 56 | PUSH ESI
+300cd6ec | 8bf1 | MOV ESI,ECX
+300cd6ee | 751e | JNZ 0x300cd70e
+300cd6f0 | 090560abad30 | OR dword ptr [0x30adab60],EAX
+300cd6f6 | 6834abad30 | PUSH 0x30adab34
+300cd6fb | ff1520cdaf30 | CALL dword ptr [0x30afcd20]
+300cd701 | 68f8360430 | PUSH 0x300436f8
+300cd706 | e88b3e5a00 | CALL 0x30671596
+300cd70b | 83c404 | ADD ESP,0x4
+; 300cd70e LAB_300cd70e
+300cd70e | 8b4610 | MOV EAX,dword ptr [ESI + 0x10]
+300cd711 | 83c0ff | ADD EAX,-0x1
+300cd714 | 83f805 | CMP EAX,0x5
+300cd717 | 7717 | JA 0x300cd730
+; 300cd719 switchD_300cd719::switchD
+300cd719 | ff248538d70c30 | JMP dword ptr [EAX*0x4 + 0x300cd738]
+; 300cd720 switchD_300cd719::caseD_3
+300cd720 | 8b4674 | MOV EAX,dword ptr [ESI + 0x74]
+300cd723 | 83c018 | ADD EAX,0x18
+300cd726 | 5e | POP ESI
+300cd727 | c3 | RET
+; 300cd728 switchD_300cd719::caseD_4
+300cd728 | 8b4674 | MOV EAX,dword ptr [ESI + 0x74]
+300cd72b | 83c008 | ADD EAX,0x8
+300cd72e | 5e | POP ESI
+300cd72f | c3 | RET
+; 300cd730 switchD_300cd719::caseD_1
+; 300cd730 switchD_300cd719::caseD_2
+; 300cd730 switchD_300cd719::caseD_5
+; 300cd730 switchD_300cd719::caseD_6
+300cd730 | b834abad30 | MOV EAX,0x30adab34
+300cd735 | 5e | POP ESI
+300cd736 | c3 | RET

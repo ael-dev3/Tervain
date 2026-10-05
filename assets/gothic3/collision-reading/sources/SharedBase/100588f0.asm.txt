@@ -1,0 +1,2 @@
+; 100588f0 bCCapsule::IsEqual
+100588f0 | e939a4faff | JMP 0x10002d2e

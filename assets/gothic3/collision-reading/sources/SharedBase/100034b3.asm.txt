@@ -1,0 +1,4 @@
+; 100034b3 ?GetEdges@bCOrientedBox@@QBEXQAVbCStretch@@@Z
+100034b3 | e998100600 | JMP 0x10064550
+; 100034b8 bCMatrix2::GetRotatedLocal
+; 100034b8 Ordinal_2943

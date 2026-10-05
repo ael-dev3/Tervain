@@ -1,0 +1,43 @@
+/* ENTRY 30022def | eCCollisionShape_PS::OnProprietaryShapesChanged | STATUS decompiled | 45 ms */
+
+/* protected: void __thiscall eCCollisionShape_PS::OnProprietaryShapesChanged(void) */
+
+void __thiscall eCCollisionShape_PS::OnProprietaryShapesChanged(eCCollisionShape_PS *this)
+
+{
+  char cVar1;
+  eCEntity *peVar2;
+  eCPhysicObject *peVar3;
+  eCPhysicObject *this_00;
+  NxActor *pNVar4;
+  int iVar5;
+  eCPhysicsScene *this_01;
+  float10 fVar6;
+  
+                    /* 0x22def  11416  ?OnProprietaryShapesChanged@eCCollisionShape_PS@@IAEXXZ */
+  peVar2 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+  peVar3 = eCEntity::GetPhysicObject(peVar2);
+  if (peVar3 != (eCPhysicObject *)0x0) {
+    peVar2 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+    this_00 = (eCPhysicObject *)eCEntity::GetPhysicObject(peVar2);
+    pNVar4 = eCPhysicObject::GetActor(this_00);
+    cVar1 = (**(code **)(*(int *)pNVar4 + 0x68))();
+    if (cVar1 == '\x01') {
+      iVar5 = (**(code **)(*(int *)pNVar4 + 0x4c))();
+      if (iVar5 != 0) {
+        iVar5 = *(int *)pNVar4;
+        fVar6 = (float10)(**(code **)(iVar5 + 0xac))();
+        (**(code **)(iVar5 + 0xc0))(0,(float)fVar6);
+      }
+    }
+    (**(code **)(*(int *)pNVar4 + 0x54))
+              (*(undefined2 *)&(this->eCCollisionShape_PS_data).offset_0x4);
+    peVar2 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+    peVar3 = eCEntity::GetPhysicObject(peVar2);
+    this_01 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+    eCPhysicsScene::AddPhysicObject(this_01,peVar3);
+  }
+  return;
+}
+
+

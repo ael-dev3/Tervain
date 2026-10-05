@@ -1,0 +1,23 @@
+; 30330200 bTPropertyObjectType<eCRigidBody_PS,eCRigidBodyBase_PS>::~bTPropertyObjectType<eCRigidBody_PS,eCRigidBodyBase_PS>
+30330200 | b801000000 | MOV EAX,0x1
+30330205 | 840578bfae30 | TEST byte ptr [0x30aebf78],AL
+3033020b | 754d | JNZ 0x3033025a
+3033020d | 090578bfae30 | OR dword ptr [0x30aebf78],EAX
+30330213 | 50 | PUSH EAX
+30330214 | b93cbfae30 | MOV ECX,0x30aebf3c
+30330219 | ff15e8caaf30 | CALL dword ptr [0x30afcae8]
+3033021f | c7053cbfae303cff8530 | MOV dword ptr [0x30aebf3c],0x3085ff3c
+30330229 | e8bba8d0ff | CALL 0x3003aae9
+3033022e | 50 | PUSH EAX
+3033022f | b954bfae30 | MOV ECX,0x30aebf54
+30330234 | ff15e4caaf30 | CALL dword ptr [0x30afcae4]
+3033023a | 683cbfae30 | PUSH 0x30aebf3c
+3033023f | ff15a4daaf30 | CALL dword ptr [0x30afdaa4]
+30330245 | 8bc8 | MOV ECX,EAX
+30330247 | ff15e0caaf30 | CALL dword ptr [0x30afcae0]
+3033024d | 68005b7a30 | PUSH 0x307a5b00
+30330252 | e83f133400 | CALL 0x30671596
+30330257 | 83c404 | ADD ESP,0x4
+; 3033025a LAB_3033025a
+3033025a | b83cbfae30 | MOV EAX,0x30aebf3c
+3033025f | c3 | RET

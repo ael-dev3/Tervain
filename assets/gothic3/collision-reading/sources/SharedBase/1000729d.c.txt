@@ -1,0 +1,32 @@
+/* ENTRY 1000729d | bCBox::Cull | STATUS decompiled | 6 ms */
+
+/* public: bool __thiscall bCBox::Cull(class bCTriangle const &)const  */
+
+bool __thiscall bCBox::Cull(bCBox *this,bCTriangle *param_1)
+
+{
+  bool bVar1;
+  int iVar2;
+  undefined4 uVar3;
+  undefined4 uVar4;
+  undefined4 auStack_c [3];
+  
+                    /* 0x729d  1844  ?Cull@bCBox@@QBE_NABVbCTriangle@@@Z */
+  uVar3 = 0;
+  uVar4 = 0x3f800000;
+  iVar2 = 2;
+  do {
+    auStack_c[0] = uVar3;
+    auStack_c[1] = uVar3;
+    auStack_c[2] = uVar3;
+    auStack_c[iVar2] = uVar4;
+    bVar1 = Separates(this,(bCVector *)param_1,3,(bCVector *)auStack_c);
+    if (bVar1) {
+      return false;
+    }
+    iVar2 = iVar2 + -1;
+  } while (-1 < iVar2);
+  return true;
+}
+
+

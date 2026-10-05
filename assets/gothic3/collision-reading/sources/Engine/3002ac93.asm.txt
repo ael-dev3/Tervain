@@ -1,0 +1,4 @@
+; 3002ac93 ?IsTrigger@eCCollisionShape@@QBE_NXZ
+3002ac93 | e9687e0900 | JMP 0x300c2b00
+; 3002ac9d eCBillboardViewplane::GetPosition
+; 3002ac9d Ordinal_8133

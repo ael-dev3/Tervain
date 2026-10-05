@@ -1,0 +1,44 @@
+/* ENTRY 3035ac70 | bTPropertyContainer<eECollisionShapeType>::bTPropertyContainer<eECollisionShapeType> | STATUS decompiled | 14 ms */
+
+void __thiscall
+bTPropertyContainer<eECollisionShapeType>::bTPropertyContainer<eECollisionShapeType>
+          (bTPropertyContainer<eECollisionShapeType> *this)
+
+{
+  bCObjectBase **ppbVar1;
+  
+                    /* inlined constructor: eCCollisionShape::eCCollisionShape */
+  this->vftablePtr = (bTPropertyContainer<eECollisionShapeType>_vftable *)&eCCollisionShape::vftable
+  ;
+  eCCollisionShape::Destroy((eCCollisionShape *)this);
+  bCVector::~bCVector((bCVector *)&this[6].bTPropertyContainer<eECollisionShapeType>_data.offset_0x4
+                     );
+  bCBox::~bCBox((bCBox *)&this[4].bTPropertyContainer<eECollisionShapeType>_data.offset_0x4);
+                    /* inlined constructor:
+                       bTPropertyContainer<eEShapeAABBAdapt>::bTPropertyContainer<eEShapeAABBAdapt>
+                        */
+  this[2].bTPropertyContainer<eECollisionShapeType>_data.offset_0x0 =
+       &bTPropertyContainer<eEShapeAABBAdapt>::vftable.GetVersion;
+  bCObjectBase::~bCObjectBase
+            ((bCObjectBase *)&this[2].bTPropertyContainer<eECollisionShapeType>_data);
+  ppbVar1 = &this[1].bTPropertyContainer<eECollisionShapeType>_data.offset_0x8;
+                    /* inlined constructor:
+                       bTPropertyContainer<eEShapeMaterial>::bTPropertyContainer<eEShapeMaterial> */
+  *ppbVar1 = (bCObjectBase *)&bTPropertyContainer<eEShapeMaterial>::vftable;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)ppbVar1);
+                    /* inlined constructor:
+                       bTPropertyContainer<eEShapeGroup>::bTPropertyContainer<eEShapeGroup> */
+  this[1].bTPropertyContainer<eECollisionShapeType>_data.offset_0x0 =
+       &bTPropertyContainer<eEShapeGroup>::vftable.GetVersion;
+  bCObjectBase::~bCObjectBase
+            ((bCObjectBase *)&this[1].bTPropertyContainer<eECollisionShapeType>_data);
+  ppbVar1 = &(this->bTPropertyContainer<eECollisionShapeType>_data).offset_0x8;
+  *ppbVar1 = (bCObjectBase *)&vftable;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)ppbVar1);
+                    /* WARNING: Could not recover jumptable at 0x3035acc7. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCObjectRefBase::~bCObjectRefBase((bCObjectRefBase *)this);
+  return;
+}
+
+

@@ -1,0 +1,26 @@
+/* ENTRY 3001d773 | eCCollisionShape_PS::HasScalableMesh | STATUS decompiled | 12 ms */
+
+/* public: bool const __thiscall eCCollisionShape_PS::HasScalableMesh(void)const  */
+
+bool __thiscall eCCollisionShape_PS::HasScalableMesh(eCCollisionShape_PS *this)
+
+{
+  int iVar1;
+  int *piVar2;
+  
+                    /* 0x1d773  9758  ?HasScalableMesh@eCCollisionShape_PS@@QBE?B_NXZ */
+  iVar1 = (this->eCCollisionShape_PS_data).offset_0x18 + -1;
+  if (-1 < iVar1) {
+    piVar2 = (int *)((this->eCCollisionShape_PS_data).offset_0x14 + iVar1 * 4);
+    do {
+      if ((*(int *)(*piVar2 + 0x10) == 6) || (*(int *)(*piVar2 + 0x10) == 1)) {
+        return true;
+      }
+      iVar1 = iVar1 + -1;
+      piVar2 = piVar2 + -1;
+    } while (-1 < iVar1);
+  }
+  return false;
+}
+
+

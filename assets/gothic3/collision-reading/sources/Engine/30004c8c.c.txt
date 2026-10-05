@@ -1,0 +1,17 @@
+/* ENTRY 30004c8c | bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet>::vfunction9 | STATUS decompiled | 5 ms */
+
+void __thiscall
+bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet>::vfunction9
+          (bTPropertyObjectType<eCCollisionShapeBase_PS,eCEntityPropertySet> *this,
+          bCPropertyObjectTypeBase *param_1)
+
+{
+  GE_MESSAGEF_WARN("The method %s detected an improper usage! \nHint:%s ",
+                   "bTPropertyObjectType<CLASS, BASECLASS>::CopyFrom",
+                   "It is not allowed to make a copy of propertytype.\nDo not call it from derived class or change access !"
+                  );
+  bCPropertyObjectTypeBase::CopyFrom((bCPropertyObjectTypeBase *)this,param_1);
+  return;
+}
+
+

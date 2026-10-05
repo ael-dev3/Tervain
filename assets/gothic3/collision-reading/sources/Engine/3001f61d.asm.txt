@@ -1,0 +1,4 @@
+; 3001f61d ?GetDisableCollision@eCCollisionShape@@QBEAB_NXZ
+3001f61d | e9ee2f0a00 | JMP 0x300c2610
+; 3001f627 eCMessageHandler::OnMouseWheel
+; 3001f627 Ordinal_11222

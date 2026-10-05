@@ -1,0 +1,26 @@
+; 1002a5a0 FUN_1002a5a0
+1002a5a0 | 83ec08 | SUB ESP,0x8
+1002a5a3 | f30f1005e45d0e10 | MOVSS XMM0,dword ptr [0x100e5de4]
+1002a5ab | f30f110424 | MOVSS dword ptr [ESP],XMM0
+1002a5b0 | ba03000000 | MOV EDX,0x3
+; 1002a5b5 LAB_1002a5b5
+1002a5b5 | d9449108 | FLD float ptr [ECX + EDX*0x4 + 0x8]
+1002a5b9 | 83ea01 | SUB EDX,0x1
+1002a5bc | d82491 | FSUB float ptr [ECX + EDX*0x4]
+1002a5bf | d95c2404 | FSTP float ptr [ESP + 0x4]
+1002a5c3 | d9442404 | FLD float ptr [ESP + 0x4]
+1002a5c7 | d90424 | FLD float ptr [ESP]
+1002a5ca | dff1 | FCOMIP ST0,ST1
+1002a5cc | ddd8 | FSTP ST0
+1002a5ce | 760b | JBE 0x1002a5db
+1002a5d0 | f30f10442404 | MOVSS XMM0,dword ptr [ESP + 0x4]
+1002a5d6 | f30f110424 | MOVSS dword ptr [ESP],XMM0
+; 1002a5db LAB_1002a5db
+1002a5db | 85d2 | TEST EDX,EDX
+1002a5dd | 75d6 | JNZ 0x1002a5b5
+1002a5df | d90424 | FLD float ptr [ESP]
+1002a5e2 | dc0d58720e10 | FMUL double ptr [0x100e7258]
+1002a5e8 | d95c2404 | FSTP float ptr [ESP + 0x4]
+1002a5ec | d9442404 | FLD float ptr [ESP + 0x4]
+1002a5f0 | 83c408 | ADD ESP,0x8
+1002a5f3 | c3 | RET

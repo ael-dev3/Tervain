@@ -1,0 +1,13 @@
+/* ENTRY 3003a8e1 | eCCollisionShape::Create | STATUS decompiled | 5 ms */
+
+/* public: virtual enum bEResult __thiscall eCCollisionShape::Create(void) */
+
+bEResult __thiscall eCCollisionShape::Create(eCCollisionShape *this)
+
+{
+                    /* 0x3a8e1  4404  ?Create@eCCollisionShape@@UAE?AW4bEResult@@XZ */
+  bCObjectRefBase::Create((bCObjectRefBase *)this);
+  return 1;
+}
+
+

@@ -1,0 +1,29 @@
+/* ENTRY 30026044 | eCCollisionShape::SetCenter | STATUS decompiled | 15 ms */
+
+/* public: void __thiscall eCCollisionShape::SetCenter(class bCVector const &) */
+
+void __thiscall eCCollisionShape::SetCenter(eCCollisionShape *this,bCVector *param_1)
+
+{
+                    /* 0x26044  13019  ?SetCenter@eCCollisionShape@@QAEXABVbCVector@@@Z */
+  switch((this->eCCollisionShape_data).offset_0xc) {
+  case 3:
+    bCOrientedBox::SetCenter((bCOrientedBox *)(this->eCCollisionShape_data).offset_0x70,param_1);
+    CalcShapeAABBLocal(this);
+    return;
+  case 4:
+    bCCapsule::SetCenter((bCCapsule *)(this->eCCollisionShape_data).offset_0x70,param_1);
+    CalcShapeAABBLocal(this);
+    return;
+  case 5:
+    bCSphere::SetPosition((bCSphere *)(this->eCCollisionShape_data).offset_0x70,param_1);
+    CalcShapeAABBLocal(this);
+    return;
+  case 7:
+    bCVector::SetVector((bCVector *)(this->eCCollisionShape_data).offset_0x70,param_1);
+  }
+  CalcShapeAABBLocal(this);
+  return;
+}
+
+

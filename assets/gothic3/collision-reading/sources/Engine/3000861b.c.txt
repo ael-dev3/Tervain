@@ -1,0 +1,18 @@
+/* ENTRY 3000861b | eCCollisionShape::SetSkinWidth | STATUS decompiled | 6 ms */
+
+/* public: void __thiscall eCCollisionShape::SetSkinWidth(float const &) */
+
+void __thiscall eCCollisionShape::SetSkinWidth(eCCollisionShape *this,float *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x861b  14196  ?SetSkinWidth@eCCollisionShape@@QAEXABM@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"SkinWidth",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->eCCollisionShape_data).offset_0x30 = *param_1;
+  (*pNVar1)(this,"SkinWidth",false);
+  return;
+}
+
+

@@ -1,0 +1,11 @@
+/* ENTRY 3035f330 | bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeMaterial>_>::vfunction5 | STATUS decompiled | 3 ms */
+
+bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeMaterial>_>_vftable * __thiscall
+bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeMaterial>_>::vfunction5
+          (bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeMaterial>_> *this)
+
+{
+  return this[6].vftablePtr;
+}
+
+

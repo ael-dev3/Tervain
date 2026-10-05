@@ -1,0 +1,4 @@
+; 1000500b ?GetVertices@bCOrientedBox@@QBEXQAVbCVector@@@Z
+1000500b | e9b0200600 | JMP 0x100670c0
+; 10005010 bCOrientedBox::SetOrientation
+; 10005010 Ordinal_4274

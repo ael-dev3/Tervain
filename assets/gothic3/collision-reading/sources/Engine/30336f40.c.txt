@@ -1,0 +1,47 @@
+/* ENTRY 30336f40 | FUN_30336f40 | STATUS decompiled | 21 ms */
+
+void __thiscall FUN_30336f40(int *param_1,bCBox *param_2)
+
+{
+  int iVar1;
+  bool bVar2;
+  eCEntity *peVar3;
+  int iVar4;
+  float fVar5;
+  
+  peVar3 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+  bVar2 = eCEntity::HasVisual(peVar3);
+  if (bVar2) {
+    iVar4 = 0;
+    if (0 < param_1[0xb]) {
+      do {
+        iVar1 = *(int *)(param_1[10] + iVar4 * 4);
+        if (*(char *)(iVar1 + 0x2e) == '\x01') {
+          bCBox::Merge(param_2,(bCBox *)(iVar1 + 0x48));
+        }
+        iVar4 = iVar4 + 1;
+      } while (iVar4 < param_1[0xb]);
+    }
+  }
+  else {
+    bCBox::Invalidate(param_2);
+    iVar4 = 0;
+    if (0 < param_1[0xb]) {
+      do {
+        bCBox::Merge(param_2,(bCBox *)(*(int *)(param_1[10] + iVar4 * 4) + 0x48));
+        iVar4 = iVar4 + 1;
+      } while (iVar4 < param_1[0xb]);
+    }
+    peVar3 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+    fVar5 = eCEntity::GetUniformScaling(peVar3);
+    if (fVar5 != 1.0) {
+      peVar3 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+      fVar5 = eCEntity::GetUniformScaling(peVar3);
+      bCBox::Scale(param_2,fVar5);
+      return;
+    }
+  }
+  return;
+}
+
+

@@ -1,0 +1,3 @@
+; 10062de0 FUN_10062de0
+10062de0 | 8bc1 | MOV EAX,ECX
+10062de2 | c3 | RET

@@ -1,0 +1,23 @@
+/* ENTRY 30335d70 | FUN_30335d70 | STATUS decompiled | 6 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+bCPropertyObjectBase * FUN_30335d70(void)
+
+{
+  bCPropertyObjectSingleton *this;
+  bCString *pbVar1;
+  bCString local_4 [4];
+  
+  if ((_DAT_30aec2e4 & 1) == 0) {
+    _DAT_30aec2e4 = _DAT_30aec2e4 | 1;
+    bCString::bCString(local_4,"eCCollisionShape_PS");
+    pbVar1 = local_4;
+    this = bCPropertyObjectSingleton::GetInstance();
+    DAT_30aec2e0 = bCPropertyObjectSingleton::GetRootObject(this,pbVar1);
+    bCString::~bCString(local_4);
+  }
+  return DAT_30aec2e0;
+}
+
+

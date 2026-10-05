@@ -1,0 +1,15 @@
+; 3035c7b0 bTPropertyObject<eCCollisionShape,bCObjectRefBase>::deleting_destructor
+3035c7b0 | 56 | PUSH ESI
+3035c7b1 | 8bf1 | MOV ESI,ECX
+3035c7b3 | c706c4318630 | MOV dword ptr [ESI],0x308631c4
+3035c7b9 | e87551caff | CALL 0x30001933
+3035c7be | 8bce | MOV ECX,ESI
+3035c7c0 | e8d2aeccff | CALL 0x30027697
+3035c7c5 | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+3035c7ca | 7409 | JZ 0x3035c7d5
+3035c7cc | 56 | PUSH ESI
+3035c7cd | e8964c3100 | CALL 0x30671468
+; 3035c7d5 LAB_3035c7d5
+3035c7d5 | 8bc6 | MOV EAX,ESI
+3035c7d7 | 5e | POP ESI
+3035c7d8 | c20400 | RET 0x4

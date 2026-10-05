@@ -1,0 +1,73 @@
+/* ENTRY 3032dbf0 | FUN_3032dbf0 | STATUS decompiled | 51 ms */
+
+void __fastcall FUN_3032dbf0(int *param_1)
+
+{
+  bool bVar1;
+  eCPhysicsScene *this;
+  eCEntity *peVar2;
+  bCVector *pbVar3;
+  int *piVar4;
+  eCApplication *peVar5;
+  bCVector *this_00;
+  undefined1 *puVar6;
+  bCVector abStack_30 [4];
+  bCVector abStack_2c [4];
+  undefined1 auStack_28 [8];
+  bCVector abStack_20 [4];
+  bCVector abStack_1c [4];
+  bCVector abStack_18 [8];
+  bCQuaternion abStack_10 [16];
+  
+  this = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+  bVar1 = eCPhysicsScene::IsPlacingEntities(this);
+  if (!bVar1) {
+    peVar2 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+    pbVar3 = eCEntity::GetWorldPosition(peVar2);
+    bCVector::operator=((bCVector *)(param_1 + 0x27),pbVar3);
+    peVar2 = (eCEntity *)(**(code **)(*param_1 + 0x68))(abStack_10);
+    piVar4 = (int *)eCEntity::GetWorldRotation(peVar2);
+    param_1[0x2a] = *piVar4;
+    param_1[0x2b] = piVar4[1];
+    param_1[0x2c] = piVar4[2];
+    param_1[0x2d] = piVar4[3];
+    bCQuaternion::~bCQuaternion(abStack_10);
+    bCVector::operator=((bCVector *)(param_1 + 0x2e),(bCVector *)(param_1 + 0x27));
+    param_1[0x31] = param_1[0x2a];
+    param_1[0x32] = param_1[0x2b];
+    param_1[0x33] = param_1[0x2c];
+    param_1[0x34] = param_1[0x2d];
+  }
+  if ((char)param_1[0x20] != '\0') {
+    peVar2 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+    pbVar3 = eCEntity::GetWorldPosition(peVar2);
+    bCVector::bCVector(abStack_1c,pbVar3);
+    peVar5 = (eCApplication *)eCApplication::GetInstance();
+    eCApplication::GetOOScaledFrameTimeInSeconds(peVar5);
+    puVar6 = auStack_28;
+    pbVar3 = (bCVector *)(param_1 + 0x24);
+    this_00 = (bCVector *)bCVector::operator-(abStack_1c,(bCVector *)abStack_10);
+    bCVector::operator*(this_00,(float)pbVar3);
+    bCVector::~bCVector(abStack_18);
+    bVar1 = bCVector::HasZeroMagnitude(abStack_30);
+    pbVar3 = abStack_30;
+    if (!bVar1) {
+      pbVar3 = (bCVector *)bCVector::operator-(abStack_30,abStack_18);
+      bCVector::GetSquareMagnitude(pbVar3);
+      bCVector::~bCVector(abStack_1c);
+      peVar5 = (eCApplication *)eCApplication::GetInstance();
+      eCApplication::GetFrameTimeInSeconds(peVar5);
+      pbVar3 = (bCVector *)bCVector::operator*((bCVector *)&stack0xffffffcc,(float)abStack_1c);
+      bCVector::operator+=((bCVector *)(param_1 + 0x21),pbVar3);
+      bCVector::~bCVector(abStack_20);
+      bCVector::operator/=((bCVector *)(param_1 + 0x21),(float)puVar6 + 1.0);
+      bCVector::operator=((bCVector *)(param_1 + 0x24),abStack_2c);
+      pbVar3 = (bCVector *)&stack0xffffffc8;
+    }
+    bCVector::~bCVector(pbVar3);
+    bCVector::~bCVector(abStack_2c);
+  }
+  return;
+}
+
+

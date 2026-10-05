@@ -1,0 +1,390 @@
+; 100670c0 FUN_100670c0
+100670c0 | 83ec40 | SUB ESP,0x40
+100670c3 | d9410c | FLD float ptr [ECX + 0xc]
+100670c6 | f30f104118 | MOVSS XMM0,dword ptr [ECX + 0x18]
+100670cb | d91c24 | FSTP float ptr [ESP]
+100670ce | f30f1144241c | MOVSS dword ptr [ESP + 0x1c],XMM0
+100670d4 | d90424 | FLD float ptr [ESP]
+100670d7 | f30f10411c | MOVSS XMM0,dword ptr [ECX + 0x1c]
+100670dc | d9c0 | FLD ST0
+100670de | f30f11442420 | MOVSS dword ptr [ESP + 0x20],XMM0
+100670e4 | d84c241c | FMUL float ptr [ESP + 0x1c]
+100670e8 | f30f104120 | MOVSS XMM0,dword ptr [ECX + 0x20]
+100670ed | f30f11442424 | MOVSS dword ptr [ESP + 0x24],XMM0
+100670f3 | f30f104124 | MOVSS XMM0,dword ptr [ECX + 0x24]
+100670f8 | d95c241c | FSTP float ptr [ESP + 0x1c]
+100670fc | f30f11442428 | MOVSS dword ptr [ESP + 0x28],XMM0
+10067102 | d9442420 | FLD float ptr [ESP + 0x20]
+10067106 | f30f104128 | MOVSS XMM0,dword ptr [ECX + 0x28]
+1006710b | d8c9 | FMUL ST1
+1006710d | f30f1144242c | MOVSS dword ptr [ESP + 0x2c],XMM0
+10067113 | f30f10412c | MOVSS XMM0,dword ptr [ECX + 0x2c]
+10067118 | f30f11442430 | MOVSS dword ptr [ESP + 0x30],XMM0
+1006711e | d95c2420 | FSTP float ptr [ESP + 0x20]
+10067122 | f30f104130 | MOVSS XMM0,dword ptr [ECX + 0x30]
+10067127 | f30f11442434 | MOVSS dword ptr [ESP + 0x34],XMM0
+1006712d | d84c2424 | FMUL float ptr [ESP + 0x24]
+10067131 | f30f104134 | MOVSS XMM0,dword ptr [ECX + 0x34]
+10067136 | f30f11442438 | MOVSS dword ptr [ESP + 0x38],XMM0
+1006713c | f30f104138 | MOVSS XMM0,dword ptr [ECX + 0x38]
+10067141 | d95c2424 | FSTP float ptr [ESP + 0x24]
+10067145 | f30f1144243c | MOVSS dword ptr [ESP + 0x3c],XMM0
+1006714b | d94110 | FLD float ptr [ECX + 0x10]
+1006714e | d91c24 | FSTP float ptr [ESP]
+10067151 | d9442428 | FLD float ptr [ESP + 0x28]
+10067155 | d90424 | FLD float ptr [ESP]
+10067158 | d9c0 | FLD ST0
+1006715a | deca | FMULP ST2
+1006715c | d9c9 | FXCH
+1006715e | d95c2428 | FSTP float ptr [ESP + 0x28]
+10067162 | d944242c | FLD float ptr [ESP + 0x2c]
+10067166 | d8c9 | FMUL ST1
+10067168 | d95c242c | FSTP float ptr [ESP + 0x2c]
+1006716c | d84c2430 | FMUL float ptr [ESP + 0x30]
+10067170 | d95c2430 | FSTP float ptr [ESP + 0x30]
+10067174 | d94114 | FLD float ptr [ECX + 0x14]
+10067177 | d91c24 | FSTP float ptr [ESP]
+1006717a | d9442434 | FLD float ptr [ESP + 0x34]
+1006717e | d90424 | FLD float ptr [ESP]
+10067181 | d9c0 | FLD ST0
+10067183 | deca | FMULP ST2
+10067185 | d9c9 | FXCH
+10067187 | d95c2434 | FSTP float ptr [ESP + 0x34]
+1006718b | d9442438 | FLD float ptr [ESP + 0x38]
+1006718f | d8c9 | FMUL ST1
+10067191 | d95c2438 | FSTP float ptr [ESP + 0x38]
+10067195 | d84c243c | FMUL float ptr [ESP + 0x3c]
+10067199 | d95c243c | FSTP float ptr [ESP + 0x3c]
+1006719d | d901 | FLD float ptr [ECX]
+1006719f | d95c2404 | FSTP float ptr [ESP + 0x4]
+100671a3 | d94104 | FLD float ptr [ECX + 0x4]
+100671a6 | d95c2408 | FSTP float ptr [ESP + 0x8]
+100671aa | d94108 | FLD float ptr [ECX + 0x8]
+100671ad | d95c240c | FSTP float ptr [ESP + 0xc]
+100671b1 | d9442404 | FLD float ptr [ESP + 0x4]
+100671b5 | d944241c | FLD float ptr [ESP + 0x1c]
+100671b9 | d9c0 | FLD ST0
+100671bb | deea | FSUBP ST2,ST0
+100671bd | d9c9 | FXCH
+100671bf | d95c2404 | FSTP float ptr [ESP + 0x4]
+100671c3 | d9442408 | FLD float ptr [ESP + 0x8]
+100671c7 | d9442420 | FLD float ptr [ESP + 0x20]
+100671cb | d9c0 | FLD ST0
+100671cd | deea | FSUBP ST2,ST0
+100671cf | d9c9 | FXCH
+100671d1 | d95c2408 | FSTP float ptr [ESP + 0x8]
+100671d5 | d944240c | FLD float ptr [ESP + 0xc]
+100671d9 | d9442424 | FLD float ptr [ESP + 0x24]
+100671dd | d9c0 | FLD ST0
+100671df | deea | FSUBP ST2,ST0
+100671e1 | d9c9 | FXCH
+100671e3 | d95c240c | FSTP float ptr [ESP + 0xc]
+100671e7 | d9442404 | FLD float ptr [ESP + 0x4]
+100671eb | d9442428 | FLD float ptr [ESP + 0x28]
+100671ef | d9c0 | FLD ST0
+100671f1 | 8b442444 | MOV EAX,dword ptr [ESP + 0x44]
+100671f5 | deea | FSUBP ST2,ST0
+100671f7 | d9c9 | FXCH
+100671f9 | d95c2410 | FSTP float ptr [ESP + 0x10]
+100671fd | d9442408 | FLD float ptr [ESP + 0x8]
+10067201 | d944242c | FLD float ptr [ESP + 0x2c]
+10067205 | d9c0 | FLD ST0
+10067207 | deea | FSUBP ST2,ST0
+10067209 | d9c9 | FXCH
+1006720b | d95c2414 | FSTP float ptr [ESP + 0x14]
+1006720f | d944240c | FLD float ptr [ESP + 0xc]
+10067213 | d9442430 | FLD float ptr [ESP + 0x30]
+10067217 | d9c0 | FLD ST0
+10067219 | deea | FSUBP ST2,ST0
+1006721b | d9c9 | FXCH
+1006721d | d95c2418 | FSTP float ptr [ESP + 0x18]
+10067221 | d9442410 | FLD float ptr [ESP + 0x10]
+10067225 | d8642434 | FSUB float ptr [ESP + 0x34]
+10067229 | d95c2404 | FSTP float ptr [ESP + 0x4]
+1006722d | d9442414 | FLD float ptr [ESP + 0x14]
+10067231 | d8642438 | FSUB float ptr [ESP + 0x38]
+10067235 | d95c2408 | FSTP float ptr [ESP + 0x8]
+10067239 | d9442418 | FLD float ptr [ESP + 0x18]
+1006723d | d864243c | FSUB float ptr [ESP + 0x3c]
+10067241 | d95c240c | FSTP float ptr [ESP + 0xc]
+10067245 | d9442404 | FLD float ptr [ESP + 0x4]
+10067249 | d95848 | FSTP float ptr [EAX + 0x48]
+1006724c | d9442408 | FLD float ptr [ESP + 0x8]
+10067250 | d9584c | FSTP float ptr [EAX + 0x4c]
+10067253 | d944240c | FLD float ptr [ESP + 0xc]
+10067257 | d95850 | FSTP float ptr [EAX + 0x50]
+1006725a | d901 | FLD float ptr [ECX]
+1006725c | d95c2404 | FSTP float ptr [ESP + 0x4]
+10067260 | d94104 | FLD float ptr [ECX + 0x4]
+10067263 | d95c2408 | FSTP float ptr [ESP + 0x8]
+10067267 | d94108 | FLD float ptr [ECX + 0x8]
+1006726a | d95c240c | FSTP float ptr [ESP + 0xc]
+1006726e | d9442404 | FLD float ptr [ESP + 0x4]
+10067272 | d8c6 | FADD ST0,ST6
+10067274 | d95c2404 | FSTP float ptr [ESP + 0x4]
+10067278 | d9442408 | FLD float ptr [ESP + 0x8]
+1006727c | d8c5 | FADD ST0,ST5
+1006727e | d95c2408 | FSTP float ptr [ESP + 0x8]
+10067282 | d944240c | FLD float ptr [ESP + 0xc]
+10067286 | d8c4 | FADD ST0,ST4
+10067288 | d95c240c | FSTP float ptr [ESP + 0xc]
+1006728c | d9442404 | FLD float ptr [ESP + 0x4]
+10067290 | d8e3 | FSUB ST0,ST3
+10067292 | d95c2410 | FSTP float ptr [ESP + 0x10]
+10067296 | d9442408 | FLD float ptr [ESP + 0x8]
+1006729a | d8e2 | FSUB ST0,ST2
+1006729c | d95c2414 | FSTP float ptr [ESP + 0x14]
+100672a0 | d944240c | FLD float ptr [ESP + 0xc]
+100672a4 | d8e1 | FSUB ST0,ST1
+100672a6 | d95c2418 | FSTP float ptr [ESP + 0x18]
+100672aa | d9442410 | FLD float ptr [ESP + 0x10]
+100672ae | d8642434 | FSUB float ptr [ESP + 0x34]
+100672b2 | d95c2404 | FSTP float ptr [ESP + 0x4]
+100672b6 | d9442414 | FLD float ptr [ESP + 0x14]
+100672ba | d8642438 | FSUB float ptr [ESP + 0x38]
+100672be | d95c2408 | FSTP float ptr [ESP + 0x8]
+100672c2 | d9442418 | FLD float ptr [ESP + 0x18]
+100672c6 | d864243c | FSUB float ptr [ESP + 0x3c]
+100672ca | d95c240c | FSTP float ptr [ESP + 0xc]
+100672ce | d9442404 | FLD float ptr [ESP + 0x4]
+100672d2 | d9583c | FSTP float ptr [EAX + 0x3c]
+100672d5 | d9442408 | FLD float ptr [ESP + 0x8]
+100672d9 | d95840 | FSTP float ptr [EAX + 0x40]
+100672dc | d944240c | FLD float ptr [ESP + 0xc]
+100672e0 | d95844 | FSTP float ptr [EAX + 0x44]
+100672e3 | d901 | FLD float ptr [ECX]
+100672e5 | d95c2404 | FSTP float ptr [ESP + 0x4]
+100672e9 | d94104 | FLD float ptr [ECX + 0x4]
+100672ec | d95c2408 | FSTP float ptr [ESP + 0x8]
+100672f0 | d94108 | FLD float ptr [ECX + 0x8]
+100672f3 | d95c240c | FSTP float ptr [ESP + 0xc]
+100672f7 | d9442404 | FLD float ptr [ESP + 0x4]
+100672fb | d8c6 | FADD ST0,ST6
+100672fd | d95c2404 | FSTP float ptr [ESP + 0x4]
+10067301 | d9442408 | FLD float ptr [ESP + 0x8]
+10067305 | d8c5 | FADD ST0,ST5
+10067307 | d95c2408 | FSTP float ptr [ESP + 0x8]
+1006730b | d944240c | FLD float ptr [ESP + 0xc]
+1006730f | d8c4 | FADD ST0,ST4
+10067311 | d95c240c | FSTP float ptr [ESP + 0xc]
+10067315 | d9c2 | FLD ST2
+10067317 | d8442404 | FADD float ptr [ESP + 0x4]
+1006731b | d95c2410 | FSTP float ptr [ESP + 0x10]
+1006731f | d9c1 | FLD ST1
+10067321 | d8442408 | FADD float ptr [ESP + 0x8]
+10067325 | d95c2414 | FSTP float ptr [ESP + 0x14]
+10067329 | d9c0 | FLD ST0
+1006732b | d844240c | FADD float ptr [ESP + 0xc]
+1006732f | d95c2418 | FSTP float ptr [ESP + 0x18]
+10067333 | d9442410 | FLD float ptr [ESP + 0x10]
+10067337 | d8642434 | FSUB float ptr [ESP + 0x34]
+1006733b | d95c2404 | FSTP float ptr [ESP + 0x4]
+1006733f | d9442414 | FLD float ptr [ESP + 0x14]
+10067343 | d8642438 | FSUB float ptr [ESP + 0x38]
+10067347 | d95c2408 | FSTP float ptr [ESP + 0x8]
+1006734b | d9442418 | FLD float ptr [ESP + 0x18]
+1006734f | d864243c | FSUB float ptr [ESP + 0x3c]
+10067353 | d95c240c | FSTP float ptr [ESP + 0xc]
+10067357 | d9442404 | FLD float ptr [ESP + 0x4]
+1006735b | d95830 | FSTP float ptr [EAX + 0x30]
+1006735e | d9442408 | FLD float ptr [ESP + 0x8]
+10067362 | d95834 | FSTP float ptr [EAX + 0x34]
+10067365 | d944240c | FLD float ptr [ESP + 0xc]
+10067369 | d95838 | FSTP float ptr [EAX + 0x38]
+1006736c | d901 | FLD float ptr [ECX]
+1006736e | d95c2404 | FSTP float ptr [ESP + 0x4]
+10067372 | d94104 | FLD float ptr [ECX + 0x4]
+10067375 | d95c2408 | FSTP float ptr [ESP + 0x8]
+10067379 | d94108 | FLD float ptr [ECX + 0x8]
+1006737c | d95c240c | FSTP float ptr [ESP + 0xc]
+10067380 | d9442404 | FLD float ptr [ESP + 0x4]
+10067384 | d8e6 | FSUB ST0,ST6
+10067386 | d95c2404 | FSTP float ptr [ESP + 0x4]
+1006738a | d9442408 | FLD float ptr [ESP + 0x8]
+1006738e | d8e5 | FSUB ST0,ST5
+10067390 | d95c2408 | FSTP float ptr [ESP + 0x8]
+10067394 | d944240c | FLD float ptr [ESP + 0xc]
+10067398 | d8e4 | FSUB ST0,ST4
+1006739a | d95c240c | FSTP float ptr [ESP + 0xc]
+1006739e | d9c2 | FLD ST2
+100673a0 | d8442404 | FADD float ptr [ESP + 0x4]
+100673a4 | d95c2410 | FSTP float ptr [ESP + 0x10]
+100673a8 | d9c1 | FLD ST1
+100673aa | d8442408 | FADD float ptr [ESP + 0x8]
+100673ae | d95c2414 | FSTP float ptr [ESP + 0x14]
+100673b2 | d9c0 | FLD ST0
+100673b4 | d844240c | FADD float ptr [ESP + 0xc]
+100673b8 | d95c2418 | FSTP float ptr [ESP + 0x18]
+100673bc | d9442410 | FLD float ptr [ESP + 0x10]
+100673c0 | d8642434 | FSUB float ptr [ESP + 0x34]
+100673c4 | d95c2404 | FSTP float ptr [ESP + 0x4]
+100673c8 | d9442414 | FLD float ptr [ESP + 0x14]
+100673cc | d8642438 | FSUB float ptr [ESP + 0x38]
+100673d0 | d95c2408 | FSTP float ptr [ESP + 0x8]
+100673d4 | d9442418 | FLD float ptr [ESP + 0x18]
+100673d8 | d864243c | FSUB float ptr [ESP + 0x3c]
+100673dc | d95c240c | FSTP float ptr [ESP + 0xc]
+100673e0 | d9442404 | FLD float ptr [ESP + 0x4]
+100673e4 | d95854 | FSTP float ptr [EAX + 0x54]
+100673e7 | d9442408 | FLD float ptr [ESP + 0x8]
+100673eb | d95858 | FSTP float ptr [EAX + 0x58]
+100673ee | d944240c | FLD float ptr [ESP + 0xc]
+100673f2 | d9585c | FSTP float ptr [EAX + 0x5c]
+100673f5 | d901 | FLD float ptr [ECX]
+100673f7 | d95c2404 | FSTP float ptr [ESP + 0x4]
+100673fb | d94104 | FLD float ptr [ECX + 0x4]
+100673fe | d95c2408 | FSTP float ptr [ESP + 0x8]
+10067402 | d94108 | FLD float ptr [ECX + 0x8]
+10067405 | d95c240c | FSTP float ptr [ESP + 0xc]
+10067409 | d9442404 | FLD float ptr [ESP + 0x4]
+1006740d | d8e6 | FSUB ST0,ST6
+1006740f | d95c2404 | FSTP float ptr [ESP + 0x4]
+10067413 | d9442408 | FLD float ptr [ESP + 0x8]
+10067417 | d8e5 | FSUB ST0,ST5
+10067419 | d95c2408 | FSTP float ptr [ESP + 0x8]
+1006741d | d944240c | FLD float ptr [ESP + 0xc]
+10067421 | d8e4 | FSUB ST0,ST4
+10067423 | d95c240c | FSTP float ptr [ESP + 0xc]
+10067427 | d9442404 | FLD float ptr [ESP + 0x4]
+1006742b | d8e3 | FSUB ST0,ST3
+1006742d | d95c2410 | FSTP float ptr [ESP + 0x10]
+10067431 | d9442408 | FLD float ptr [ESP + 0x8]
+10067435 | d8e2 | FSUB ST0,ST2
+10067437 | d95c2414 | FSTP float ptr [ESP + 0x14]
+1006743b | d944240c | FLD float ptr [ESP + 0xc]
+1006743f | d8e1 | FSUB ST0,ST1
+10067441 | d95c2418 | FSTP float ptr [ESP + 0x18]
+10067445 | d9442434 | FLD float ptr [ESP + 0x34]
+10067449 | d8442410 | FADD float ptr [ESP + 0x10]
+1006744d | d95c2404 | FSTP float ptr [ESP + 0x4]
+10067451 | d9442438 | FLD float ptr [ESP + 0x38]
+10067455 | d8442414 | FADD float ptr [ESP + 0x14]
+10067459 | d95c2408 | FSTP float ptr [ESP + 0x8]
+1006745d | d944243c | FLD float ptr [ESP + 0x3c]
+10067461 | d8442418 | FADD float ptr [ESP + 0x18]
+10067465 | d95c240c | FSTP float ptr [ESP + 0xc]
+10067469 | d9442404 | FLD float ptr [ESP + 0x4]
+1006746d | d95818 | FSTP float ptr [EAX + 0x18]
+10067470 | d9442408 | FLD float ptr [ESP + 0x8]
+10067474 | d9581c | FSTP float ptr [EAX + 0x1c]
+10067477 | d944240c | FLD float ptr [ESP + 0xc]
+1006747b | d95820 | FSTP float ptr [EAX + 0x20]
+1006747e | d901 | FLD float ptr [ECX]
+10067480 | d95c2404 | FSTP float ptr [ESP + 0x4]
+10067484 | d94104 | FLD float ptr [ECX + 0x4]
+10067487 | d95c2408 | FSTP float ptr [ESP + 0x8]
+1006748b | d94108 | FLD float ptr [ECX + 0x8]
+1006748e | d95c240c | FSTP float ptr [ESP + 0xc]
+10067492 | d9442404 | FLD float ptr [ESP + 0x4]
+10067496 | d8c6 | FADD ST0,ST6
+10067498 | d95c2404 | FSTP float ptr [ESP + 0x4]
+1006749c | d9442408 | FLD float ptr [ESP + 0x8]
+100674a0 | d8c5 | FADD ST0,ST5
+100674a2 | d95c2408 | FSTP float ptr [ESP + 0x8]
+100674a6 | d944240c | FLD float ptr [ESP + 0xc]
+100674aa | d8c4 | FADD ST0,ST4
+100674ac | d95c240c | FSTP float ptr [ESP + 0xc]
+100674b0 | d9442404 | FLD float ptr [ESP + 0x4]
+100674b4 | d8e3 | FSUB ST0,ST3
+100674b6 | d95c2410 | FSTP float ptr [ESP + 0x10]
+100674ba | d9442408 | FLD float ptr [ESP + 0x8]
+100674be | d8e2 | FSUB ST0,ST2
+100674c0 | d95c2414 | FSTP float ptr [ESP + 0x14]
+100674c4 | d944240c | FLD float ptr [ESP + 0xc]
+100674c8 | d8e1 | FSUB ST0,ST1
+100674ca | d95c2418 | FSTP float ptr [ESP + 0x18]
+100674ce | d9442434 | FLD float ptr [ESP + 0x34]
+100674d2 | d8442410 | FADD float ptr [ESP + 0x10]
+100674d6 | d95c2404 | FSTP float ptr [ESP + 0x4]
+100674da | d9442438 | FLD float ptr [ESP + 0x38]
+100674de | d8442414 | FADD float ptr [ESP + 0x14]
+100674e2 | d95c2408 | FSTP float ptr [ESP + 0x8]
+100674e6 | d944243c | FLD float ptr [ESP + 0x3c]
+100674ea | d8442418 | FADD float ptr [ESP + 0x18]
+100674ee | d95c240c | FSTP float ptr [ESP + 0xc]
+100674f2 | d9442404 | FLD float ptr [ESP + 0x4]
+100674f6 | d9580c | FSTP float ptr [EAX + 0xc]
+100674f9 | d9442408 | FLD float ptr [ESP + 0x8]
+100674fd | d95810 | FSTP float ptr [EAX + 0x10]
+10067500 | d944240c | FLD float ptr [ESP + 0xc]
+10067504 | d95814 | FSTP float ptr [EAX + 0x14]
+10067507 | d901 | FLD float ptr [ECX]
+10067509 | d95c2404 | FSTP float ptr [ESP + 0x4]
+1006750d | d94104 | FLD float ptr [ECX + 0x4]
+10067510 | d95c2408 | FSTP float ptr [ESP + 0x8]
+10067514 | d94108 | FLD float ptr [ECX + 0x8]
+10067517 | d95c240c | FSTP float ptr [ESP + 0xc]
+1006751b | d9442404 | FLD float ptr [ESP + 0x4]
+1006751f | d8c6 | FADD ST0,ST6
+10067521 | d95c2404 | FSTP float ptr [ESP + 0x4]
+10067525 | d9442408 | FLD float ptr [ESP + 0x8]
+10067529 | d8c5 | FADD ST0,ST5
+1006752b | d95c2408 | FSTP float ptr [ESP + 0x8]
+1006752f | d944240c | FLD float ptr [ESP + 0xc]
+10067533 | d8c4 | FADD ST0,ST4
+10067535 | d95c240c | FSTP float ptr [ESP + 0xc]
+10067539 | d9c2 | FLD ST2
+1006753b | d8442404 | FADD float ptr [ESP + 0x4]
+1006753f | d95c2410 | FSTP float ptr [ESP + 0x10]
+10067543 | d9c1 | FLD ST1
+10067545 | d8442408 | FADD float ptr [ESP + 0x8]
+10067549 | d95c2414 | FSTP float ptr [ESP + 0x14]
+1006754d | d9c0 | FLD ST0
+1006754f | d844240c | FADD float ptr [ESP + 0xc]
+10067553 | d95c2418 | FSTP float ptr [ESP + 0x18]
+10067557 | d9442434 | FLD float ptr [ESP + 0x34]
+1006755b | d8442410 | FADD float ptr [ESP + 0x10]
+1006755f | d95c2404 | FSTP float ptr [ESP + 0x4]
+10067563 | d9442438 | FLD float ptr [ESP + 0x38]
+10067567 | d8442414 | FADD float ptr [ESP + 0x14]
+1006756b | d95c2408 | FSTP float ptr [ESP + 0x8]
+1006756f | d944243c | FLD float ptr [ESP + 0x3c]
+10067573 | d8442418 | FADD float ptr [ESP + 0x18]
+10067577 | d95c240c | FSTP float ptr [ESP + 0xc]
+1006757b | d9442404 | FLD float ptr [ESP + 0x4]
+1006757f | d918 | FSTP float ptr [EAX]
+10067581 | d9442408 | FLD float ptr [ESP + 0x8]
+10067585 | d95804 | FSTP float ptr [EAX + 0x4]
+10067588 | d944240c | FLD float ptr [ESP + 0xc]
+1006758c | d95808 | FSTP float ptr [EAX + 0x8]
+1006758f | d901 | FLD float ptr [ECX]
+10067591 | d95c2404 | FSTP float ptr [ESP + 0x4]
+10067595 | d94104 | FLD float ptr [ECX + 0x4]
+10067598 | d95c2408 | FSTP float ptr [ESP + 0x8]
+1006759c | d94108 | FLD float ptr [ECX + 0x8]
+1006759f | d95c240c | FSTP float ptr [ESP + 0xc]
+100675a3 | d9442404 | FLD float ptr [ESP + 0x4]
+100675a7 | dee6 | FSUBRP ST6,ST0
+100675a9 | d9cd | FXCH ST5
+100675ab | d95c2404 | FSTP float ptr [ESP + 0x4]
+100675af | d9442408 | FLD float ptr [ESP + 0x8]
+100675b3 | dee4 | FSUBRP ST4,ST0
+100675b5 | d9cb | FXCH ST3
+100675b7 | d95c2408 | FSTP float ptr [ESP + 0x8]
+100675bb | d944240c | FLD float ptr [ESP + 0xc]
+100675bf | dee2 | FSUBRP ST2,ST0
+100675c1 | d9c9 | FXCH
+100675c3 | d95c240c | FSTP float ptr [ESP + 0xc]
+100675c7 | d8442404 | FADD float ptr [ESP + 0x4]
+100675cb | d95c2410 | FSTP float ptr [ESP + 0x10]
+100675cf | d8442408 | FADD float ptr [ESP + 0x8]
+100675d3 | d95c2414 | FSTP float ptr [ESP + 0x14]
+100675d7 | d844240c | FADD float ptr [ESP + 0xc]
+100675db | d95c2418 | FSTP float ptr [ESP + 0x18]
+100675df | d9442434 | FLD float ptr [ESP + 0x34]
+100675e3 | d8442410 | FADD float ptr [ESP + 0x10]
+100675e7 | d95c2404 | FSTP float ptr [ESP + 0x4]
+100675eb | d9442438 | FLD float ptr [ESP + 0x38]
+100675ef | d8442414 | FADD float ptr [ESP + 0x14]
+100675f3 | d95c2408 | FSTP float ptr [ESP + 0x8]
+100675f7 | d944243c | FLD float ptr [ESP + 0x3c]
+100675fb | d8442418 | FADD float ptr [ESP + 0x18]
+100675ff | d95c240c | FSTP float ptr [ESP + 0xc]
+10067603 | d9442404 | FLD float ptr [ESP + 0x4]
+10067607 | d95824 | FSTP float ptr [EAX + 0x24]
+1006760a | d9442408 | FLD float ptr [ESP + 0x8]
+1006760e | d95828 | FSTP float ptr [EAX + 0x28]
+10067611 | d944240c | FLD float ptr [ESP + 0xc]
+10067615 | d9582c | FSTP float ptr [EAX + 0x2c]
+10067618 | 83c440 | ADD ESP,0x40
+1006761b | c20400 | RET 0x4

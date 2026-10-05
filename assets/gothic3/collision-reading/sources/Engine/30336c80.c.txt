@@ -1,0 +1,20 @@
+/* ENTRY 30336c80 | FUN_30336c80 | STATUS decompiled | 4 ms */
+
+void __thiscall FUN_30336c80(int *param_1,uint param_2)
+
+{
+  eCEntity *peVar1;
+  eCPhysicObjectStateBuffer *this;
+  NxShape *pNVar2;
+  
+  if (param_2 < (uint)param_1[0xb]) {
+    pNVar2 = *(NxShape **)(*(int *)(param_1[10] + param_2 * 4) + 0x60);
+    thunk_FUN_3033c960(param_2);
+    peVar1 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+    this = eCPhysicObjectStateBuffer::GetBuffer(peVar1);
+    eCPhysicObjectStateBuffer::RemoveShape(this,pNVar2);
+  }
+  return;
+}
+
+

@@ -1,0 +1,28 @@
+/* ENTRY 30009755 | eCCollisionShapeBase_PS::operator= | STATUS decompiled | 14 ms */
+
+/* public: class eCCollisionShapeBase_PS const & __thiscall eCCollisionShapeBase_PS::operator=(class
+   eCCollisionShapeBase_PS const &) */
+
+eCCollisionShapeBase_PS * __thiscall
+eCCollisionShapeBase_PS::operator=(eCCollisionShapeBase_PS *this,eCCollisionShapeBase_PS *param_1)
+
+{
+  bCPropertyObjectBase *pbVar1;
+  bCPropertyObjectBase *this_00;
+  
+                    /* 0x9755  1473  ??4eCCollisionShapeBase_PS@@QAEABV0@ABV0@@Z */
+  pbVar1 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)this);
+  if (pbVar1 != (bCPropertyObjectBase *)0x0) {
+    pbVar1 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)param_1);
+    if (pbVar1 != (bCPropertyObjectBase *)0x0) {
+      pbVar1 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)param_1);
+      this_00 = (bCPropertyObjectBase *)bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)this);
+      bCPropertyObjectBase::operator=(this_00,pbVar1);
+      return (eCCollisionShapeBase_PS *)this;
+    }
+  }
+  (*this->vftablePtr->CopyFrom)(this,(bCObjectBase *)param_1);
+  return (eCCollisionShapeBase_PS *)this;
+}
+
+

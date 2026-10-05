@@ -1,0 +1,4 @@
+; 10002167 ?GetHeight@bCOrientedBox@@QBEMXZ
+10002167 | e9040e0600 | JMP 0x10062f70
+; 1000216c bCFlexibleVertexPtr::operator!=
+; 1000216c Ordinal_826

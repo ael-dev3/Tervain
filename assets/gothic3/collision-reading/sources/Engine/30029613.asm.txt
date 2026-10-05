@@ -1,0 +1,2 @@
+; 30029613 ?SetTriggersOnIntersect@eCCollisionShape@@QAEXAB_N@Z
+30029613 | e998910900 | JMP 0x300c27b0

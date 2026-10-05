@@ -1,0 +1,4 @@
+; 30006c21 bTPropertyType<eCCollisionShape_PS,bool>::vfunction8
+30006c21 | e93a813300 | JMP 0x3033ed60
+; 30006c2b eCCameraBase::GetPerspective
+; 30006c2b Ordinal_8082

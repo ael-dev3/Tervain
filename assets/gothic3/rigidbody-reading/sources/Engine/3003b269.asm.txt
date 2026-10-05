@@ -1,0 +1,2 @@
+; 3003b269 bTPropertyType<eCRigidBody_PS,bCVector>::vfunction20
+3003b269 | e9b2412f00 | JMP 0x3032f420

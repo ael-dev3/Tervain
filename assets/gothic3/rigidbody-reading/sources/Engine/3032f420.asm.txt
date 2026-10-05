@@ -1,0 +1,9 @@
+; 3032f420 bTPropertyType<eCRigidBody_PS,bCVector>::vfunction20
+3032f420 | 56 | PUSH ESI
+3032f421 | 8bf1 | MOV ESI,ECX
+3032f423 | ff1570caaf30 | CALL dword ptr [0x30afca70]
+3032f429 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+3032f42c | 56 | PUSH ESI
+3032f42d | ff157ccaaf30 | CALL dword ptr [0x30afca7c]
+3032f433 | 5e | POP ESI
+3032f434 | c3 | RET

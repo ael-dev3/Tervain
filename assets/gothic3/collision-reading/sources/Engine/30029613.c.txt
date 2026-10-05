@@ -1,0 +1,18 @@
+/* ENTRY 30029613 | eCCollisionShape::SetTriggersOnIntersect | STATUS decompiled | 8 ms */
+
+/* public: void __thiscall eCCollisionShape::SetTriggersOnIntersect(bool const &) */
+
+void __thiscall eCCollisionShape::SetTriggersOnIntersect(eCCollisionShape *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x29613  14457  ?SetTriggersOnIntersect@eCCollisionShape@@QAEXAB_N@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"TriggersOnIntersect",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->eCCollisionShape_data).offset_0x2f = (bCObjectRefBase)*param_1;
+  (*pNVar1)(this,"TriggersOnIntersect",false);
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 300330c8 bTPropertyType<eCRigidBody_PS,bCVector>::vfunction8
+300330c8 | e9a3e92f00 | JMP 0x30331a70
+; 300330cd eCParticle_PS::SetDampingFactor
+; 300330cd Ordinal_13181

@@ -1,0 +1,20 @@
+/* ENTRY 10069080 | FUN_10069080 | STATUS decompiled | 6 ms */
+
+bCOrientedBox * __thiscall FUN_10069080(bCOrientedBox *param_1,bCOrientedBox *param_2,float param_3)
+
+{
+  bCOrientedBox local_3c [12];
+  float local_30;
+  float local_2c;
+  float local_28;
+  
+  bCOrientedBox::Create(local_3c,param_1);
+  param_3 = 1.0 / param_3;
+  local_30 = param_3 * local_30;
+  local_2c = param_3 * local_2c;
+  local_28 = param_3 * local_28;
+  bCOrientedBox::Create(param_2,local_3c);
+  return param_2;
+}
+
+

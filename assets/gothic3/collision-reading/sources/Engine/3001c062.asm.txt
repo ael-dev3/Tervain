@@ -1,0 +1,4 @@
+; 3001c062 bTPropertyType<eCCollisionShape,bTPropertyContainer<eECollisionShapeType>_>::vfunction16
+3001c062 | e919243400 | JMP 0x3035e480
+; 3001c071 eCIPImageFilterLightmapLight::SetWorldMatrix
+; 3001c071 Ordinal_14626

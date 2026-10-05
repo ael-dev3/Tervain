@@ -1,0 +1,2 @@
+; 3001ac76 bTPropertyType<eCCameraBase,bCVector>::vfunction4
+3001ac76 | e9256e3100 | JMP 0x30331aa0

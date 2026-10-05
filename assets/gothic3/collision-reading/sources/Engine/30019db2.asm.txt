@@ -1,0 +1,4 @@
+; 30019db2 ?GetDisableResponse@eCCollisionShape_PS@@QBEAB_NXZ
+30019db2 | e9198f0a00 | JMP 0x300c2cd0
+; 30019dbc eCVisualAnimation_PS::AccessSkeletonCollisionEnabled
+; 30019dbc Ordinal_3109

@@ -1,0 +1,20 @@
+/* ENTRY 30042997 | eCCollisionShape::SetShapeAABBAdaptMode | STATUS decompiled | 8 ms */
+
+/* public: void __thiscall eCCollisionShape::SetShapeAABBAdaptMode(class bTPropertyContainer<enum
+   eEShapeAABBAdapt> const &) */
+
+void __thiscall
+eCCollisionShape::SetShapeAABBAdaptMode
+          (eCCollisionShape *this,bTPropertyContainer<eEShapeAABBAdapt> *param_1)
+
+{
+                    /* 0x42997  14166
+                       ?SetShapeAABBAdaptMode@eCCollisionShape@@QAEXABV?$bTPropertyContainer@W4eEShapeAABBAdapt@@@@@Z
+                        */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"ShapeAABBAdaptMode",false);
+  (*(code *)(this->eCCollisionShape_data).offset_0x20[7])(param_1);
+  (*this->vftablePtr->NotifyPropertyValueChangedExitEx)(this,"ShapeAABBAdaptMode",false);
+  return;
+}
+
+

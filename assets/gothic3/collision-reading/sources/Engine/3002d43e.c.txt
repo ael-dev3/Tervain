@@ -1,0 +1,12 @@
+/* ENTRY 3002d43e | eCCollisionShape::AccessOverrideEntityAABB | STATUS decompiled | 2 ms */
+
+/* public: bool & __thiscall eCCollisionShape::AccessOverrideEntityAABB(void) */
+
+bool * __thiscall eCCollisionShape::AccessOverrideEntityAABB(eCCollisionShape *this)
+
+{
+                    /* 0x2d43e  2965  ?AccessOverrideEntityAABB@eCCollisionShape@@QAEAA_NXZ */
+  return (bool *)&(this->eCCollisionShape_data).offset_0x2a;
+}
+
+

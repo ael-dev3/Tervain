@@ -1,0 +1,25 @@
+; 300ce8c0 bTPropertyType<eCEventFilter_PS,unsigned_short>::vfunction4
+300ce8c0 | a1ccabad30 | MOV EAX,[0x30adabcc]
+300ce8c5 | a801 | TEST AL,0x1
+300ce8c7 | 7514 | JNZ 0x300ce8dd
+300ce8c9 | 8b0d38acad30 | MOV ECX,dword ptr [0x30adac38]
+300ce8cf | 83c801 | OR EAX,0x1
+300ce8d2 | a3ccabad30 | MOV [0x30adabcc],EAX
+300ce8d7 | 890dc8abad30 | MOV dword ptr [0x30adabc8],ECX
+; 300ce8dd LAB_300ce8dd
+300ce8dd | a802 | TEST AL,0x2
+300ce8df | 7530 | JNZ 0x300ce911
+300ce8e1 | 83c802 | OR EAX,0x2
+300ce8e4 | 68ac70af30 | PUSH 0x30af70ac
+300ce8e9 | b9646baa30 | MOV ECX,0x30aa6b64
+300ce8ee | a3ccabad30 | MOV [0x30adabcc],EAX
+300ce8f3 | e8b62a5a00 | CALL 0x306713ae
+300ce8f8 | 50 | PUSH EAX
+300ce8f9 | 68c4abad30 | PUSH 0x30adabc4
+300ce8fe | ff15b0daaf30 | CALL dword ptr [0x30afdab0]
+300ce904 | 68278c0230 | PUSH 0x30028c27
+300ce909 | e8882c5a00 | CALL 0x30671596
+300ce90e | 83c404 | ADD ESP,0x4
+; 300ce911 LAB_300ce911
+300ce911 | b8c4abad30 | MOV EAX,0x30adabc4
+300ce916 | c3 | RET

@@ -1,0 +1,27 @@
+/* ENTRY 3032d5a0 | FUN_3032d5a0 | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall FUN_3032d5a0(int param_1,int *param_2)
+
+{
+  char cVar1;
+  eCPhysicsScene *this;
+  bCCriticalSectionWin32 *this_00;
+  
+  *(int **)(param_1 + 0xf4) = param_2;
+  if (param_2 != (int *)0x0) {
+    cVar1 = (**(code **)(*param_2 + 0x68))();
+    if (cVar1 == '\x01') {
+      this = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+      this_00 = eCPhysicsScene::GetCriticalSection(this);
+      bCCriticalSectionWin32::Acquire(this_00);
+      bCCriticalSectionWin32::Release(this_00);
+      (**(code **)(**(int **)(param_1 + 0xf4) + 0xec))(*(float *)(param_1 + 0x74) * _DAT_30ab4418);
+      (**(code **)(**(int **)(param_1 + 0xf4) + 0x16c))(*(undefined4 *)(param_1 + 0xf0));
+    }
+  }
+  return;
+}
+
+

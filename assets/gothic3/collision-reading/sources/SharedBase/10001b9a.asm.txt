@@ -1,0 +1,4 @@
+; 10001b9a ?InvTransform@bCOrientedBox@@QAEXABVbCMatrix3@@@Z
+10001b9a | e941780600 | JMP 0x100693e0
+; 10001b9f bCInfCylinder::Transform
+; 10001b9f Ordinal_4520

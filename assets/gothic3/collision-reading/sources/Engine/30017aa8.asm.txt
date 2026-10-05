@@ -1,0 +1,2 @@
+; 30017aa8 ?AddPointShape@eCCollisionShape_PS@@UAE?AW4bEResult@@W4eEShapeGroup@@ABVbCVector@@@Z
+30017aa8 | e9b3043200 | JMP 0x30337f60

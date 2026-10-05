@@ -1,0 +1,4 @@
+; 10005c63 ?Contains@bCBox@@QBE_NABVbCStretch@@@Z
+10005c63 | e908080500 | JMP 0x10056470
+; 10005c68 bCQuaternion::GetX
+; 10005c68 Ordinal_3250

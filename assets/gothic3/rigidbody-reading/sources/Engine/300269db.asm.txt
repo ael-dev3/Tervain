@@ -1,0 +1,2 @@
+; 300269db bTPropertyType<eCRigidBodyBase_PS,bool>::deleting_destructor
+300269db | e9c0ef3000 | JMP 0x303359a0

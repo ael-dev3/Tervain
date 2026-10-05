@@ -1,0 +1,56 @@
+; 300cd800 FUN_300cd800
+300cd800 | 83ec0c | SUB ESP,0xc
+300cd803 | 56 | PUSH ESI
+300cd804 | 8bf1 | MOV ESI,ECX
+300cd806 | 8b4610 | MOV EAX,dword ptr [ESI + 0x10]
+300cd809 | 83e803 | SUB EAX,0x3
+300cd80c | 7456 | JZ 0x300cd864
+300cd80e | 83e801 | SUB EAX,0x1
+300cd811 | 7436 | JZ 0x300cd849
+300cd813 | 83e801 | SUB EAX,0x1
+300cd816 | 0f8587000000 | JNZ 0x300cd8a3
+300cd81c | d9442414 | FLD float ptr [ESP + 0x14]
+300cd820 | 51 | PUSH ECX
+300cd821 | dc0d48eb8130 | FMUL double ptr [0x3081eb48]
+300cd827 | 8b4e74 | MOV ECX,dword ptr [ESI + 0x74]
+300cd82a | d95c2418 | FSTP float ptr [ESP + 0x18]
+300cd82e | d9442418 | FLD float ptr [ESP + 0x18]
+300cd832 | d91c24 | FSTP float ptr [ESP]
+300cd835 | ff1530ccaf30 | CALL dword ptr [0x30afcc30]
+300cd83b | 8bce | MOV ECX,ESI
+300cd83d | e8c0a0f6ff | CALL 0x30037902
+300cd842 | 5e | POP ESI
+300cd843 | 83c40c | ADD ESP,0xc
+300cd846 | c20400 | RET 0x4
+; 300cd849 LAB_300cd849
+300cd849 | 8b4674 | MOV EAX,dword ptr [ESI + 0x74]
+300cd84c | f30f10442414 | MOVSS XMM0,dword ptr [ESP + 0x14]
+300cd852 | 8bce | MOV ECX,ESI
+300cd854 | f30f1100 | MOVSS dword ptr [EAX],XMM0
+300cd858 | e8a5a0f6ff | CALL 0x30037902
+300cd85d | 5e | POP ESI
+300cd85e | 83c40c | ADD ESP,0xc
+300cd861 | c20400 | RET 0x4
+; 300cd864 LAB_300cd864
+300cd864 | 8b4e74 | MOV ECX,dword ptr [ESI + 0x74]
+300cd867 | 83c10c | ADD ECX,0xc
+300cd86a | 51 | PUSH ECX
+300cd86b | 8d4c2408 | LEA ECX,[ESP + 0x8]
+300cd86f | ff1570dbaf30 | CALL dword ptr [0x30afdb70]
+300cd875 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+300cd879 | ff1590cbaf30 | CALL dword ptr [0x30afcb90]
+300cd87f | d9442414 | FLD float ptr [ESP + 0x14]
+300cd883 | dc0d48eb8130 | FMUL double ptr [0x3081eb48]
+300cd889 | 8d542404 | LEA EDX,[ESP + 0x4]
+300cd88d | 52 | PUSH EDX
+300cd88e | d918 | FSTP float ptr [EAX]
+300cd890 | 8b4e74 | MOV ECX,dword ptr [ESI + 0x74]
+300cd893 | ff1524cdaf30 | CALL dword ptr [0x30afcd24]
+300cd899 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+300cd89d | ff156cdbaf30 | CALL dword ptr [0x30afdb6c]
+; 300cd8a3 LAB_300cd8a3
+300cd8a3 | 8bce | MOV ECX,ESI
+300cd8a5 | e858a0f6ff | CALL 0x30037902
+300cd8aa | 5e | POP ESI
+300cd8ab | 83c40c | ADD ESP,0xc
+300cd8ae | c20400 | RET 0x4

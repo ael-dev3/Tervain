@@ -1,0 +1,4 @@
+; 30033ca3 bTPropertyObjectType<eCRigidBody_PS,eCRigidBodyBase_PS>::vfunction2
+30033ca3 | e938c42f00 | JMP 0x303300e0
+; 30033ca8 eCResourceImage_PS::Execute
+; 30033ca8 Ordinal_5902

@@ -1,0 +1,4 @@
+; 300432e8 bTPOPureSmartPtr<eCCollisionShape>::vfunction11
+300432e8 | e9e3aa3100 | JMP 0x3035ddd0
+; 300432f2 eCWnd::GetChildByID
+; 300432f2 Ordinal_6471

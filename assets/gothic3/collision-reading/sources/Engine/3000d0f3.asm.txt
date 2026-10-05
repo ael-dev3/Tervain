@@ -1,0 +1,4 @@
+; 3000d0f3 bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeMaterial>_>::vfunction2
+3000d0f3 | e948223500 | JMP 0x3035f340
+; 3000d0f8 eCMaterialAdmin::operator=
+; 3000d0f8 Ordinal_1652

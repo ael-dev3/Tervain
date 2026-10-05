@@ -1,0 +1,4 @@
+; 100071ad ?GetAxis@bCOrientedBox@@QBEABVbCVector@@H@Z
+100071ad | e95ebc0500 | JMP 0x10062e10
+; 100071b2 bCUnitedRay::operator+
+; 100071b2 Ordinal_1060

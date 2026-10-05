@@ -1,0 +1,4 @@
+; 10007f40 ?Translate@bCBox@@QAEXABVbCVector@@@Z
+10007f40 | e93b2d0200 | JMP 0x1002ac80
+; 10007f4a bCInterpolatorBase::~bCInterpolatorBase
+; 10007f4a Ordinal_387

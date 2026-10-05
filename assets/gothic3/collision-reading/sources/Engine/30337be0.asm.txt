@@ -1,0 +1,7 @@
+; 30337be0 FUN_30337be0
+30337be0 | 6aff | PUSH -0x1
+30337be2 | c6414000 | MOV byte ptr [ECX + 0x40],0x0
+30337be6 | 6a00 | PUSH 0x0
+30337be8 | 83c134 | ADD ECX,0x34
+30337beb | e8214ecfff | CALL 0x3002ca11
+30337bf0 | c3 | RET

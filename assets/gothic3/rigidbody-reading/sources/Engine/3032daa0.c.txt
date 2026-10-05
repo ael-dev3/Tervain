@@ -1,0 +1,53 @@
+/* ENTRY 3032daa0 | FUN_3032daa0 | STATUS decompiled | 24 ms */
+
+void __fastcall FUN_3032daa0(eCEntityPropertySet *param_1)
+
+{
+  byte *this;
+  undefined3 uVar1;
+  eCEntity *peVar2;
+  int iVar3;
+  eCEntity *peVar4;
+  bCVector *pbVar5;
+  undefined4 *puVar6;
+  undefined4 uVar7;
+  TypeDescriptor *pTVar8;
+  TypeDescriptor *pTVar9;
+  undefined4 uVar10;
+  
+  uVar10 = 0;
+  pTVar9 = &eCTemplateEntity::RTTI_Type_Descriptor;
+  pTVar8 = &eCEntity::RTTI_Type_Descriptor;
+  uVar7 = 0;
+  peVar2 = (*param_1->vftablePtr->GetEntity)(param_1);
+  iVar3 = FUN_30671ae7(peVar2,uVar7,pTVar8,pTVar9,uVar10);
+  if (iVar3 == 0) {
+    this = &param_1[7].eCEntityPropertySet_data.offset_0xc;
+    peVar4 = (eCEntity *)(*param_1->vftablePtr->GetEntity)(param_1);
+    pbVar5 = eCEntity::GetWorldPosition(peVar4);
+    bCVector::operator=((bCVector *)this,pbVar5);
+    peVar4 = (eCEntity *)(*param_1->vftablePtr->GetEntity)(param_1);
+    puVar6 = (undefined4 *)eCEntity::GetWorldRotation(peVar4);
+    *(undefined4 *)&param_1[8].eCEntityPropertySet_data.field_0x4 = *puVar6;
+    param_1[8].eCEntityPropertySet_data.offset_0x8 = puVar6[1];
+    *(undefined4 *)&param_1[8].eCEntityPropertySet_data.offset_0xc = puVar6[2];
+    param_1[9].vftablePtr = (eCEntityPropertySet_vftable *)puVar6[3];
+    bCQuaternion::~bCQuaternion((bCQuaternion *)&stack0xffffffec);
+    bCVector::operator=((bCVector *)&param_1[9].eCEntityPropertySet_data,(bCVector *)this);
+    uVar1 = *(undefined3 *)&param_1[8].eCEntityPropertySet_data.field_0x5;
+    param_1[9].eCEntityPropertySet_data.offset_0xc = param_1[8].eCEntityPropertySet_data.field_0x4;
+    *(undefined3 *)&param_1[9].eCEntityPropertySet_data.field_0xd = uVar1;
+    param_1[10].vftablePtr =
+         (eCEntityPropertySet_vftable *)param_1[8].eCEntityPropertySet_data.offset_0x8;
+    uVar1 = *(undefined3 *)&param_1[8].eCEntityPropertySet_data.field_0xd;
+    param_1[10].eCEntityPropertySet_data.field_0x0 = param_1[8].eCEntityPropertySet_data.offset_0xc;
+    *(undefined3 *)&param_1[10].eCEntityPropertySet_data.field_0x1 = uVar1;
+    *(eCEntityPropertySet_vftable **)&param_1[10].eCEntityPropertySet_data.field_0x4 =
+         param_1[9].vftablePtr;
+    eCEntityPropertySet::OnPropertySetAdded(param_1);
+    return;
+  }
+  return;
+}
+
+

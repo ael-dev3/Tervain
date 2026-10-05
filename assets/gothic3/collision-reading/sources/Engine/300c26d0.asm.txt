@@ -1,0 +1,3 @@
+; 300c26d0 FUN_300c26d0
+300c26d0 | 8d4131 | LEA EAX,[ECX + 0x31]
+300c26d3 | c3 | RET

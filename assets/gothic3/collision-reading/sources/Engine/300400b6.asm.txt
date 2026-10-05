@@ -1,0 +1,2 @@
+; 300400b6 ?AccessDisableResponse@eCCollisionShape@@QAEAA_NXZ
+300400b6 | e9c5250800 | JMP 0x300c2680

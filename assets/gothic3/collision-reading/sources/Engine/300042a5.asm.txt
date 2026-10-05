@@ -1,0 +1,2 @@
+; 300042a5 ?SetProprietaryShapes@eCCollisionShape_PS@@IAEXXZ
+300042a5 | e926463300 | JMP 0x303388d0

@@ -1,0 +1,4 @@
+; 10005c95 ??_0bCBox@@QAEAAV0@M@Z
+10005c95 | e9765a0200 | JMP 0x1002b710
+; 10005ca9 bCFloatAlphaColor::SetColor
+; 10005ca9 Ordinal_4108

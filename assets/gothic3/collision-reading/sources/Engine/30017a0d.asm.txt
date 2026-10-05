@@ -1,0 +1,4 @@
+; 30017a0d ?AccessSkinWidth@eCCollisionShape@@QAEAAMXZ
+30017a0d | e9eead0a00 | JMP 0x300c2800
+; 30017a1c eCPerformanceAdmin::Write
+; 30017a1c Ordinal_15182

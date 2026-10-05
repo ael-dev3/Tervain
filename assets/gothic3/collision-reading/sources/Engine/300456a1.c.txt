@@ -1,0 +1,18 @@
+/* ENTRY 300456a1 | eCCollisionShape_PS::SetIgnoredByTraceRay | STATUS decompiled | 14 ms */
+
+/* public: void __thiscall eCCollisionShape_PS::SetIgnoredByTraceRay(bool const &) */
+
+void __thiscall eCCollisionShape_PS::SetIgnoredByTraceRay(eCCollisionShape_PS *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x456a1  13491  ?SetIgnoredByTraceRay@eCCollisionShape_PS@@QAEXAB_N@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"IgnoredByTraceRay",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->eCCollisionShape_PS_data).field_0x12 = *param_1;
+  (*pNVar1)(this,"IgnoredByTraceRay",false);
+  return;
+}
+
+

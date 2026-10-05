@@ -1,0 +1,4 @@
+; 300226e7 bTPropertyObjectType<eCCollisionShape,bCObjectRefBase>::vfunction4
+300226e7 | e904933300 | JMP 0x3035b9f0
+; 300226f6 eCMaterialCache::Create
+; 300226f6 Ordinal_4572

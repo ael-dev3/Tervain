@@ -1,0 +1,4 @@
+; 3000d8cd bTPropertyType<eCCollisionShape,bTPropertyContainer<eEShapeMaterial>_>::vfunction21
+3000d8cd | e92e1d3500 | JMP 0x3035f600
+; 3000d8dc eCParticleModule::eCParticleModule
+; 3000d8dc Ordinal_570

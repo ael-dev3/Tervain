@@ -1,0 +1,13 @@
+/* ENTRY 3000a899 | eCRigidBodyBase_PS::Create | STATUS decompiled | 8 ms */
+
+/* public: virtual enum bEResult __thiscall eCRigidBodyBase_PS::Create(void) */
+
+bEResult __thiscall eCRigidBodyBase_PS::Create(eCRigidBodyBase_PS *this)
+
+{
+                    /* 0xa899  4654  ?Create@eCRigidBodyBase_PS@@UAE?AW4bEResult@@XZ */
+  eCEntityPropertySet::Create((eCEntityPropertySet *)this);
+  return 1;
+}
+
+

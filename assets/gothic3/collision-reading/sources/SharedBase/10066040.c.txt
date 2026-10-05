@@ -1,0 +1,10 @@
+/* ENTRY 10066040 | FUN_10066040 | STATUS decompiled | 2 ms */
+
+bCStretch * __thiscall FUN_10066040(bCOrientedBox *param_1,bCStretch *param_2,int param_3)
+
+{
+  bCOrientedBox::GetEdge(param_1,param_3,param_2);
+  return param_2;
+}
+
+

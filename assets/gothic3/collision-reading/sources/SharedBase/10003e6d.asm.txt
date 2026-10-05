@@ -1,0 +1,4 @@
+; 10003e6d ?GetInvTransformed@bCOrientedBox@@QBE?AV1@ABVbCMatrix3@@@Z
+10003e6d | e9ce550600 | JMP 0x10069440
+; 10003e72 bCInfDoubleCylinder::Cull
+; 10003e72 Ordinal_1878

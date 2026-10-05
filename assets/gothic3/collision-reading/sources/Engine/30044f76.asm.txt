@@ -1,0 +1,4 @@
+; 30044f76 bTPropertyType<eCCollisionShape_PS,bTPropertyContainer<eECollisionGroup>_>::vfunction22
+30044f76 | e9a58a2f00 | JMP 0x3033da20
+; 30044f7b eCJoint::HasMoreLimitPlanes
+; 30044f7b Ordinal_9732

@@ -1,0 +1,2 @@
+; 300254eb ?GetVersion@eCCollisionShape@@UBEGXZ
+300254eb | e970453300 | JMP 0x30359a60

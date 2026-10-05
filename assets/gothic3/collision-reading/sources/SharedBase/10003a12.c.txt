@@ -1,0 +1,15 @@
+/* ENTRY 10003a12 | bCOrientedBox::GetCircumSphere | STATUS decompiled | 3 ms */
+
+/* public: class bCSphere __thiscall bCOrientedBox::GetCircumSphere(void)const  */
+
+bCSphere * __thiscall bCOrientedBox::GetCircumSphere(bCOrientedBox *this)
+
+{
+  bCSphere *in_stack_00000004;
+  
+                    /* 0x3a12  2156  ?GetCircumSphere@bCOrientedBox@@QBE?AVbCSphere@@XZ */
+  GetCircumSphere(this,in_stack_00000004);
+  return in_stack_00000004;
+}
+
+

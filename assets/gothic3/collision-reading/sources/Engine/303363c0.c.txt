@@ -1,0 +1,83 @@
+/* ENTRY 303363c0 | FUN_303363c0 | STATUS decompiled | 37 ms */
+
+bool __thiscall FUN_303363c0(eCEntityPropertySet *param_1,char *param_2,bool param_3)
+
+{
+  eCEntity *peVar1;
+  bool bVar2;
+  eCEntity *peVar3;
+  bCString *pbVar4;
+  int iVar5;
+  eCPhysicObjectStateBuffer *this;
+  eCPhysicObject *peVar6;
+  eCPhysicObject *this_00;
+  undefined1 uVar7;
+  char *pcVar8;
+  undefined4 local_4;
+  
+  local_4 = 0;
+  if (param_3 == true) {
+    return true;
+  }
+  peVar3 = (*param_1->vftablePtr->GetEntity)(param_1);
+  if (peVar3 != (eCEntity *)0x0) {
+    pcVar8 = "DisableResponse";
+    pbVar4 = (bCString *)bCString::bCString((bCString *)&local_4,param_2);
+    iVar5 = bCString::Compare(pbVar4,pcVar8);
+    bCString::~bCString((bCString *)&local_4);
+    if (iVar5 == 0) {
+      uVar7 = param_1[1].eCEntityPropertySet_data.field_0xd == '\0';
+      peVar3 = (*param_1->vftablePtr->GetEntity)(param_1);
+      this = eCPhysicObjectStateBuffer::GetBuffer(peVar3);
+      eCPhysicObjectStateBuffer::EnableCollisionResponse(this,(bool)uVar7);
+    }
+    else {
+      pcVar8 = "Group";
+      pbVar4 = (bCString *)bCString::bCString((bCString *)&local_4,param_2);
+      iVar5 = bCString::Compare(pbVar4,pcVar8);
+      if (((iVar5 == 0) &&
+          (peVar1 = (eCEntity *)(param_1->eCEntityPropertySet_data).offset_0x8,
+          peVar1 != (eCEntity *)0x0)) &&
+         (peVar6 = eCEntity::GetPhysicObject(peVar1), peVar6 != (eCPhysicObject *)0x0)) {
+        bVar2 = true;
+      }
+      else {
+        bVar2 = false;
+      }
+      bCString::~bCString((bCString *)&local_4);
+      if (bVar2) {
+        this_00 = (eCPhysicObject *)
+                  eCEntity::GetPhysicObject
+                            ((eCEntity *)(param_1->eCEntityPropertySet_data).offset_0x8);
+        eCPhysicObject::OnActorChanged(this_00);
+      }
+      else {
+        pcVar8 = "Range";
+        pbVar4 = (bCString *)bCString::bCString((bCString *)&local_4,param_2);
+        iVar5 = bCString::Compare(pbVar4,pcVar8);
+        if (((iVar5 == 0) &&
+            (peVar1 = (eCEntity *)(param_1->eCEntityPropertySet_data).offset_0x8,
+            peVar1 != (eCEntity *)0x0)) &&
+           (peVar6 = eCEntity::GetPhysicObject(peVar1), peVar6 == (eCPhysicObject *)0x0)) {
+          bVar2 = true;
+        }
+        else {
+          bVar2 = false;
+        }
+        bCString::~bCString((bCString *)&local_4);
+        if ((bVar2) &&
+           (((param_1[1].eCEntityPropertySet_data.offset_0x8 == 2 &&
+             (bVar2 = eCEntity::IsCachedIn
+                                ((eCEntity *)(param_1->eCEntityPropertySet_data).offset_0x8), bVar2)
+             ) || (param_1[1].eCEntityPropertySet_data.offset_0x8 == 0)))) {
+          eCEntity::CreatePhysicObject((eCEntity *)(param_1->eCEntityPropertySet_data).offset_0x8);
+        }
+      }
+    }
+    bVar2 = eCEntityPropertySet::OnNotifyPropertyValueChangedExitEx(param_1,param_2,param_3);
+    return bVar2;
+  }
+  return true;
+}
+
+

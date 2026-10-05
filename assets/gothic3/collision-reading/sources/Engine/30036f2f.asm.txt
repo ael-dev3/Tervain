@@ -1,0 +1,4 @@
+; 30036f2f bTPropertyContainer<eEShapeAABBAdapt>::vfunction5
+30036f2f | e94c270900 | JMP 0x300c9680
+; 30036f34 eCRenderContext::SupportsZPass
+; 30036f34 Ordinal_14750

@@ -1,0 +1,21 @@
+/* ENTRY 100648a0 | FUN_100648a0 | STATUS decompiled | 6 ms */
+
+void __thiscall FUN_100648a0(bCOrientedBox *param_1,bCPlane *param_2)
+
+{
+  bCOrientedBox *this;
+  bCOrientedBox *this_00;
+  bCOrientedBox *this_01;
+  bCOrientedBox *this_02;
+  bCOrientedBox *this_03;
+  
+  bCOrientedBox::GetPlane(param_1,0,param_2);
+  bCOrientedBox::GetPlane(this,1,param_2 + 0x10);
+  bCOrientedBox::GetPlane(this_00,2,param_2 + 0x20);
+  bCOrientedBox::GetPlane(this_01,3,param_2 + 0x30);
+  bCOrientedBox::GetPlane(this_02,4,param_2 + 0x40);
+  bCOrientedBox::GetPlane(this_03,5,param_2 + 0x50);
+  return;
+}
+
+

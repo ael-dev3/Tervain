@@ -1,0 +1,38 @@
+/* ENTRY 3001f825 | eCRigidBody_PS::PostInitializeProperties | STATUS decompiled | 22 ms */
+
+/* public: virtual enum bEResult __thiscall eCRigidBody_PS::PostInitializeProperties(void) */
+
+bEResult __thiscall eCRigidBody_PS::PostInitializeProperties(eCRigidBody_PS *this)
+
+{
+  bCObjectBase bStack_8;
+  undefined4 uStack_4;
+  
+                    /* 0x1f825  11756  ?PostInitializeProperties@eCRigidBody_PS@@UAE?AW4bEResult@@XZ
+                        */
+  eCRigidBodyBase_PS::PostInitializeProperties((eCRigidBodyBase_PS *)this);
+  *(undefined4 *)&(this->eCRigidBody_PS_data).field_0x4 = 0x41200000;
+  *(undefined4 *)&(this->eCRigidBody_PS_data).field_0x3c = 0x3e4ccccd;
+  *(undefined4 *)&(this->eCRigidBody_PS_data).field_0x38 = 0;
+  *(undefined4 *)&(this->eCRigidBody_PS_data).field_0x40 = 0x3dcccccd;
+  *(undefined4 *)&(this->eCRigidBody_PS_data).field_0x44 = 0;
+  *(undefined4 *)&(this->eCRigidBody_PS_data).field_0x60 = 0;
+  bCObjectBase::bCObjectBase(&bStack_8);
+  bStack_8 = (bCObjectBase)&bTPropertyContainer<eERigidbody_Flag>::vftable;
+  uStack_4 = 0;
+  (*(code *)(this->eCRigidBody_PS_data).offset_0x64[7])(&bStack_8);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  bCVector::Clear((bCVector *)&(this->eCRigidBody_PS_data).field_0x48);
+  bCVector::Clear((bCVector *)&(this->eCRigidBody_PS_data).field_0x8);
+  bCVector::Clear((bCVector *)&(this->eCRigidBody_PS_data).field_0x14);
+  bCVector::Clear((bCVector *)&(this->eCRigidBody_PS_data).field_0x20);
+  bCVector::Clear((bCVector *)&(this->eCRigidBody_PS_data).field_0x2c);
+  bCVector::Clear((bCVector *)&(this->eCRigidBody_PS_data).field_0x54);
+  bCQuaternion::Clear((bCQuaternion *)&(this->eCRigidBody_PS_data).field_0x94);
+  bCVector::Clear((bCVector *)&(this->eCRigidBody_PS_data).field_0x88);
+  bCQuaternion::Clear((bCQuaternion *)&(this->eCRigidBody_PS_data).field_0xb0);
+  bCVector::Clear((bCVector *)&(this->eCRigidBody_PS_data).field_0xa4);
+  return 1;
+}
+
+

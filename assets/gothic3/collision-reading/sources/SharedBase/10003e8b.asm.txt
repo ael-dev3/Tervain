@@ -1,0 +1,4 @@
+; 10003e8b ??DbCBox@@QBE?AV0@M@Z
+10003e8b | e9402d0300 | JMP 0x10036bd0
+; 10003e90 bCUnicodeString::Insert
+; 10003e90 Ordinal_3340

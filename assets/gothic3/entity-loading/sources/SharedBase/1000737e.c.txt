@@ -1,0 +1,23 @@
+/* ENTRY 1000737e | bCMatrix::SetIdentity | STATUS decompiled | 4 ms */
+
+/* public: void __thiscall bCMatrix::SetIdentity(void) */
+
+void __thiscall bCMatrix::SetIdentity(bCMatrix *this)
+
+{
+  bCMatrix *pbVar1;
+  int iVar2;
+  
+                    /* 0x737e  4220  ?SetIdentity@bCMatrix@@QAEXXZ */
+  iVar2 = 0x10;
+  pbVar1 = GetIdentity();
+  do {
+    iVar2 = iVar2 + -1;
+    *(undefined4 *)this = *(undefined4 *)pbVar1;
+    this = this + 4;
+    pbVar1 = pbVar1 + 4;
+  } while (iVar2 != 0);
+  return;
+}
+
+

@@ -1,0 +1,44 @@
+; 300cd580 FUN_300cd580
+300cd580 | b801000000 | MOV EAX,0x1
+300cd585 | 84051cabad30 | TEST byte ptr [0x30adab1c],AL
+300cd58b | 56 | PUSH ESI
+300cd58c | 8bf1 | MOV ESI,ECX
+300cd58e | 752e | JNZ 0x300cd5be
+300cd590 | d9ee | FLDZ
+300cd592 | 09051cabad30 | OR dword ptr [0x30adab1c],EAX
+300cd598 | 83ec0c | SUB ESP,0xc
+300cd59b | d9542408 | FST float ptr [ESP + 0x8]
+300cd59f | d9542404 | FST float ptr [ESP + 0x4]
+300cd5a3 | b90cabad30 | MOV ECX,0x30adab0c
+300cd5a8 | d91c24 | FSTP float ptr [ESP]
+300cd5ab | ff151ccdaf30 | CALL dword ptr [0x30afcd1c]
+300cd5b1 | 6838a40130 | PUSH 0x3001a438
+300cd5b6 | e8db3f5a00 | CALL 0x30671596
+300cd5bb | 83c404 | ADD ESP,0x4
+; 300cd5be LAB_300cd5be
+300cd5be | 8b4610 | MOV EAX,dword ptr [ESI + 0x10]
+300cd5c1 | 83c0ff | ADD EAX,-0x1
+300cd5c4 | 83f806 | CMP EAX,0x6
+300cd5c7 | 771e | JA 0x300cd5e7
+; 300cd5c9 switchD_300cd5c9::switchD
+300cd5c9 | ff2485f0d50c30 | JMP dword ptr [EAX*0x4 + 0x300cd5f0]
+; 300cd5d0 switchD_300cd5c9::caseD_3
+; 300cd5d0 switchD_300cd5c9::caseD_7
+300cd5d0 | 8b4674 | MOV EAX,dword ptr [ESI + 0x74]
+300cd5d3 | 5e | POP ESI
+300cd5d4 | c3 | RET
+; 300cd5d5 switchD_300cd5c9::caseD_5
+300cd5d5 | 8b4e74 | MOV ECX,dword ptr [ESI + 0x74]
+300cd5d8 | 5e | POP ESI
+300cd5d9 | ff25dcccaf30 | JMP dword ptr [0x30afccdc]
+; 300cd5df switchD_300cd5c9::caseD_4
+300cd5df | 8b4674 | MOV EAX,dword ptr [ESI + 0x74]
+300cd5e2 | 83c02c | ADD EAX,0x2c
+300cd5e5 | 5e | POP ESI
+300cd5e6 | c3 | RET
+; 300cd5e7 switchD_300cd5c9::caseD_1
+; 300cd5e7 switchD_300cd5c9::caseD_2
+; 300cd5e7 switchD_300cd5c9::caseD_6
+300cd5e7 | b80cabad30 | MOV EAX,0x30adab0c
+300cd5ec | 5e | POP ESI
+300cd5ed | c3 | RET

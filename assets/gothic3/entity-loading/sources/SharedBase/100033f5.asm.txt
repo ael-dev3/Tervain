@@ -1,0 +1,4 @@
+; 100033f5 ?GetIdentity@bCMatrix@@SGABV1@XZ
+100033f5 | e926c00400 | JMP 0x1004f420
+; 100033fa bCString::FindNoCase
+; 100033fa Ordinal_2039

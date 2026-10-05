@@ -1,0 +1,36 @@
+; 100641a0 FUN_100641a0
+100641a0 | 83ec0c | SUB ESP,0xc
+100641a3 | d9410c | FLD float ptr [ECX + 0xc]
+100641a6 | 56 | PUSH ESI
+100641a7 | 8b742414 | MOV ESI,dword ptr [ESP + 0x14]
+100641ab | d95c2404 | FSTP float ptr [ESP + 0x4]
+100641af | d94110 | FLD float ptr [ECX + 0x10]
+100641b2 | d95c2408 | FSTP float ptr [ESP + 0x8]
+100641b6 | d94114 | FLD float ptr [ECX + 0x14]
+100641b9 | d95c240c | FSTP float ptr [ESP + 0xc]
+100641bd | d901 | FLD float ptr [ECX]
+100641bf | d95e04 | FSTP float ptr [ESI + 0x4]
+100641c2 | d94104 | FLD float ptr [ECX + 0x4]
+100641c5 | d95e08 | FSTP float ptr [ESI + 0x8]
+100641c8 | d94108 | FLD float ptr [ECX + 0x8]
+100641cb | d95e0c | FSTP float ptr [ESI + 0xc]
+100641ce | d9442404 | FLD float ptr [ESP + 0x4]
+100641d2 | d9442408 | FLD float ptr [ESP + 0x8]
+100641d6 | d944240c | FLD float ptr [ESP + 0xc]
+100641da | d9c1 | FLD ST1
+100641dc | deca | FMULP ST2
+100641de | d9c2 | FLD ST2
+100641e0 | decb | FMULP ST3
+100641e2 | d9c9 | FXCH
+100641e4 | dec2 | FADDP ST2,ST0
+100641e6 | dcc8 | FMUL ST0
+100641e8 | dec1 | FADDP
+100641ea | d95c2414 | FSTP float ptr [ESP + 0x14]
+100641ee | d9442414 | FLD float ptr [ESP + 0x14]
+100641f2 | e8196e0400 | CALL 0x100ab010
+100641f7 | d95c2414 | FSTP float ptr [ESP + 0x14]
+100641fb | d9442414 | FLD float ptr [ESP + 0x14]
+100641ff | d91e | FSTP float ptr [ESI]
+10064201 | 5e | POP ESI
+10064202 | 83c40c | ADD ESP,0xc
+10064205 | c20400 | RET 0x4

@@ -1,0 +1,2 @@
+; 3000e223 ?IsEntityPatchingEnabled@eCEntity@@SG_NXZ
+3000e223 | e928494a00 | JMP 0x304b2b50
