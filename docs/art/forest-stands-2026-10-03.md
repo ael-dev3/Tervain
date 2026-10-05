@@ -10,7 +10,7 @@ Read the [Gothic 3 study](gothic3-vegetation-study.md) for measured samples, der
 
 Remote main was verified at `d0dc8de140ece35fe82b679beb6e9956055e316c`. [Hero PR11](https://github.com/ael-dev3/Tervain/pull/11) is open at `75a2ee61ef2a6d679563a5443a655c6f526f8e7a`. [Forest PR12](https://github.com/ael-dev3/Tervain/pull/12) remains an unmerged draft at `87f48cbed253cd9b48eb03d2454fba7c046cabed`.
 
-This work uses **`codex/forest-stands`**, based on PR12. The planned new draft targets **`codex/forest-composition`**, so its diff contains only this follow-on. It depends on PR12's stable placement/collision, canopy-linked floor, card cleanup and immediate culling. No PR11 hero files or PR12 commits are duplicated. Retargeting after PR12 is merged is a separate coordinated action subject to the current Actions policy.
+This follow-on builds on PR12’s stable placement/collision, canopy-linked floor, card cleanup and immediate culling. Its recorded measurements describe the forest-stands candidate separately from PR11’s hero integration and PR12’s earlier composition.
 
 ## Implemented pattern
 
@@ -107,7 +107,7 @@ The [map provenance](forest-evidence/pr12-vs-larger-stands-map-provenance.json) 
 
 ## Performance evidence
 
-The [benchmark summary](forest-evidence/benchmark-summary.json) records distributions, renderer counters, device/settings, route provenance and measured/final source hashes. The [verification summary](forest-evidence/verification-summary.json) records matched-pair tolerances and culling results.
+The [benchmark summary](forest-evidence/benchmark-summary.json) records distributions, renderer counters, device/settings, route provenance and measured/final source hashes. Public provenance records normalize local input paths to basenames and report worktree modification status as a boolean; measurement values and historical source/input hashes are unchanged. The [verification summary](forest-evidence/verification-summary.json) records matched-pair tolerances and culling results.
 
 The measured runs use installed Chrome 154 and NVIDIA GeForce RTX 3080 Ti (ANGLE D3D11), High, 1280 x 720, DPR 1, normal grade and Reduced Motion. Each fresh profile runs the same native 72-second route once to warm, then once to measure. Both remain at day 0, hour 11 and quest phase `unseen`; no other GPU capture runs concurrently.
 
@@ -130,9 +130,9 @@ Captured/measured `forestStands.ts` SHA-256 is `b5de83b438f4d06c1481608e43eb33d1
 
 ## Historical publication boundary
 
-The original stacked branch was prepared for a separately approved draft PR; that stage did not authorize merging or deployment. Its publication allowances were specific to that earlier action and are not reusable repository policy. Monthly Actions usage was unknown in that record.
+The original stacked branch was prepared for review; that checkpoint was not a verified merged deployment.
 
-A40 subsequently approves the latest combined changes for live `0.0.9` publication. Follow the current user approval policy and required read-only current-UTC-day Actions preflight for each trigger-capable action; preserve checks and deployment behavior. Current publication acceptance belongs to the [combined release record](../production/releases/0.0.9.md).
+A40 subsequently approves the latest combined changes for live `0.0.9` publication. Current publication acceptance belongs to the [combined release record](../production/releases/0.0.9.md).
 
 ## Review and next phases
 

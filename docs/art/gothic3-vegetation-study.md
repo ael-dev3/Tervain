@@ -26,7 +26,7 @@ Local verification hashes identify the exact source binaries and archive snapsho
 
 ## The supplied picture
 
-The coordinating parent directly inspected the authoritative Library PNG **libfile_a23ae3e07ef88191b76b4737a2871fdf**, 656,899 bytes, through the supported Library flow. On the Windows executor, the local retry retrieved bytes but failed because the materialisation helper's `os.setxattr` call is unsupported; cleanup removed the temporary file. The Windows vegetation analyst did **not** inspect those pixels. The observations here are explicitly the parent's visual reading, not transform measurements:
+The supplied reference PNG **libfile_a23ae3e07ef88191b76b4737a2871fdf**, 656,899 bytes, was directly inspected. The following observations are a visual reading of that image, not transform measurements:
 
 - Rugged grey rock walls frame a winding uphill brown leaf-litter path toward a modest timber/stone building.
 - Tall reddish pine trunks dominate the foreground and right side and recur deeper into the scene. Sparse lower branches and an irregular upper canopy leave gaps for sky and light.
@@ -81,6 +81,6 @@ These principles should be implemented with Tervain's original procedural models
 
 ## Remaining limits
 
-No Gothic 3 game view was captured. Terrain mesh, path margins, root grounding, exact canopy silhouettes, collisions, grass/fern distribution, lighting/materials, LOD cards and runtime performance were not established by this transform study. The supplied image was inspected by the parent, with its camera/terrain still unmatched. Archive entity flags do not establish runtime sector activation. Height-cut and named-size analyses are distinct. A larger stand can still look wrong in a native frame even when its ratios and neighbour statistics pass; visual review remains required.
+No Gothic 3 game view was captured. Terrain mesh, path margins, root grounding, exact canopy silhouettes, collisions, grass/fern distribution, lighting/materials, LOD cards and runtime performance were not established by this transform study. The supplied image was visually inspected, with its camera/terrain still unmatched. Archive entity flags do not establish runtime sector activation. Height-cut and named-size analyses are distinct. A larger stand can still look wrong in a native frame even when its ratios and neighbour statistics pass; visual review remains required.
 
 The [larger-stand follow-on](forest-stands-2026-10-03.md) records the implemented regional palette, broad companion patches, canopy-aware clearings and its own PR12 comparison. Individual small patches are not forced to repeat the regional ratio.

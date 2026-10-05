@@ -1,6 +1,6 @@
 # Teaser for X
 
-Recorded 5 October 2026 for the owner's request ([A52](../decisions.md)): "Make a video teaser about Tervain of what we have done so far, main audience is X, upload the video to our repo, make it as high quality as possible", followed by "try to make it funny and self depreciting". A33 had closed video work after the 0.0.7 menu video; this request reopens it for this teaser only.
+Recorded 5 October 2026 ([A52](../decisions.md)). The brief: a teaser of the game so far, made for X and kept in the repository, at the highest quality the tools allow, funny and self-deprecating. A33 had closed video work after the 0.0.7 menu video; this brief reopens it for this teaser only.
 
 **[Watch the teaser](../media/teaser/tervain-teaser-0.0.10.mp4)** ([poster frame](../media/teaser/poster.jpg)).
 

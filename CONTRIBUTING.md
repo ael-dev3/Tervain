@@ -23,9 +23,10 @@ Use stable identifiers for quest facts and content once implementation begins. D
 - Check controller navigation, text readability, and save behavior alongside the main interaction when they are affected.
 - Test on the packaged target when packaging or runtime behavior changes; browser success alone is not desktop proof.
 - For documentation-only changes, verify links, consistency, and clean diffs without pretending to run a game.
+- Preserve required checks, workflow triggers, and deployment behavior. Passing local checks or pushing a commit does not establish that a release is live; verify the published build separately.
 
 ## Shared work and assets
 
 Keep reusable art sources and provenance discoverable in Warpkeep-Assets when appropriate; keep Tervain's selected runtime inventory and transformations in this repository. Record exact upstream revisions rather than assuming a floating branch stays compatible. Avoid copying generated client bindings, private world exports, accounts, or deployment machinery from Warpkeep into a local RPG.
 
-The project licensing strategy is an open decision. Contributions should identify their authorship and existing terms; this document does not relicense anyone's work.
+Before contributing code or assets, check [LICENSE-SCOPE.md](LICENSE-SCOPE.md), [NOTICE](NOTICE), and the relevant file headers and provenance records. The PolyForm Noncommercial license covers only eligible original Tervain software code; separately licensed code and externally governed assets keep their terms. Contributions remain subject to their authors' rights unless a separate permission says otherwise. Submitting a contribution does not assign copyright or authorize relicensing by itself.
