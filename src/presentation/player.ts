@@ -433,7 +433,7 @@ export class Player {
       const share = perfect && typeof arms.guard.perfect === 'number' ? arms.guard.perfect : tired ? arms.guard.tired : arms.guard.fresh;
       const dmg = Math.round(damage * share);
       this.spend(cost);
-      ctx.audio.hit('block');
+      ctx.audio.hit('block', arms === BLADE);
       this.shake = Math.max(this.shake, 0.18);
       if (this.stamina <= 0 && heavy) {
         // Guard break on a heavy blow: a brief stagger, never a lock.
@@ -528,11 +528,11 @@ export class Player {
       if (inp.pressed('attack') && !this.blocking && this.stamina >= arms.cost.light) {
         this.startAction('light', arms);
         this.spend(arms.cost.light);
-        ctx.audio.swing(false);
+        ctx.audio.swing(false, arms === BLADE);
       } else if (inp.pressed('heavy') && !this.exhausted && this.stamina >= arms.cost.heavy) {
         this.startAction('heavy', arms);
         this.spend(arms.cost.heavy);
-        ctx.audio.swing(true);
+        ctx.audio.swing(true, arms === BLADE);
       } else if (inp.pressed('dodge') && !this.exhausted && this.stamina >= COST.dodge) {
         this.state = 'dodge';
         this.timer = 0;
@@ -540,6 +540,7 @@ export class Player {
         this.iframes = 0.3;
         this.blocking = false;
         this.spend(COST.dodge);
+        ctx.audio.dodge(this.surface);
         this.dodgeDir = hasInput ? { x: wx, z: wz } : { x: -fx, z: -fz };
         this.yaw = Math.atan2(this.dodgeDir.x, this.dodgeDir.z);
       } else if (inp.pressed('jump') && this.grounded && this.stamina >= COST.jump) {
@@ -547,6 +548,7 @@ export class Player {
         this.grounded = false;
         this.stamina = Math.max(0, this.stamina - COST.jump);
         this.staminaPause = 0.4;
+        ctx.audio.jump(this.surface);
       }
     }
 
@@ -673,6 +675,8 @@ export class Player {
       this.y = ceiling === null ? nextY : ceiling - PLAYER_BODY_HEIGHT - 0.0001;
       this.vy = ceiling === null ? this.vy - GRAVITY * dt : 0;
       if (this.vy <= 0 && this.y <= ground) {
+        // Stepping down a kerb is silent; a jump or a real drop lands audibly.
+        if (this.vy < -3.2) ctx.audio.land(this.surface, -this.vy);
         this.y = ground;
         this.vy = 0;
         this.grounded = true;
@@ -735,7 +739,7 @@ export class Player {
       if (ang > half) continue;
       const dmg = arms[kind];
       const killed = e.takeHit(dmg, this.heavy, this.x, this.z);
-      ctx.audio.hit('flesh');
+      ctx.audio.hit('flesh', arms === BLADE);
       ctx.onHitEnemy(e, killed, this.heavy);
       any = true;
     }

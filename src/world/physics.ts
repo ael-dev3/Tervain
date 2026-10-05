@@ -390,6 +390,13 @@ export class RealmPhysics {
     });
   }
   snapshot() { return this.poses(false); }
+  /** Where each prop is and how fast it moves, for impact sounds. A sleeping body is still. */
+  motions() {
+    return this.props.map(p => {
+      const at = p.body.translation(), v = p.body.isSleeping() ? { x: 0, y: 0, z: 0 } : p.body.linvel();
+      return { id: p.spec.id, kind: p.spec.kind, x: at.x, y: at.y, z: at.z, vx: v.x, vy: v.y, vz: v.z, held: this.held === p };
+    });
+  }
   reset() { this.restore(this.initial); this.accumulated = 0; }
   restore(poses: readonly PhysicalObjectPose[]) {
     this.release();

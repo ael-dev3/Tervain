@@ -1,0 +1,1663 @@
+{
+  "generator": {
+    "service": "ElevenLabs Sound Effects API (POST /v1/sound-generation, output mp3_44100_128)",
+    "account": "The owner's ElevenLabs account (free plan), used at the owner's request of 5 October 2026 with a 10,000-credit allowance.",
+    "note": "The Eleven Music API is not available to free plans; the score was generated as sound effects from musical prompts."
+  },
+  "terms": {
+    "summary": "ElevenLabs sound effects generated on a free plan: royalty-free use, including commercial, with attribution to elevenlabs.io required; no independent rights review is asserted.",
+    "attribution": "Sound effects, ambience and score generated with ElevenLabs (elevenlabs.io)."
+  },
+  "sources": [
+    {
+      "id": "f_grass",
+      "prompt": "Separate footsteps of leather boots walking on soft grass and earth, close, about eight steps with clear gaps, no background noise",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "steps",
+        "name": "step.grass",
+        "mergeMs": 160,
+        "max": 10,
+        "targetDb": -21
+      }
+    },
+    {
+      "id": "f_dirt",
+      "prompt": "Separate footsteps of leather boots walking on a packed dirt road, close, about eight steps with clear gaps, no background noise",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "steps",
+        "name": "step.dirt",
+        "mergeMs": 160,
+        "max": 10,
+        "targetDb": -21
+      }
+    },
+    {
+      "id": "f_stone",
+      "prompt": "Separate footsteps of leather boots walking on flat stone slabs, close, about eight steps with clear gaps, no background noise",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "steps",
+        "name": "step.stone",
+        "mergeMs": 160,
+        "max": 10,
+        "targetDb": -21
+      }
+    },
+    {
+      "id": "f_wood",
+      "prompt": "Separate footsteps of leather boots walking on old wooden planks, hollow, close, about eight steps with clear gaps, no background noise",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "steps",
+        "name": "step.wood",
+        "mergeMs": 160,
+        "max": 10,
+        "targetDb": -21,
+        "maxSeconds": 0.5
+      }
+    },
+    {
+      "id": "f_sand",
+      "prompt": "Separate footsteps of leather boots walking on dry beach sand, close, about eight steps with clear gaps, no background noise",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "steps",
+        "name": "step.sand",
+        "mergeMs": 200,
+        "max": 10,
+        "targetDb": -22
+      }
+    },
+    {
+      "id": "f_water",
+      "prompt": "Separate footsteps wading through shallow water up to the ankles, splashing, close, about six steps with gaps, no background noise",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "steps",
+        "name": "step.water",
+        "targetDb": -21,
+        "ranges": [
+          [
+            0.68,
+            1.08
+          ],
+          [
+            1.12,
+            1.74
+          ],
+          [
+            1.85,
+            2.42
+          ],
+          [
+            2.52,
+            3.16
+          ],
+          [
+            3.22,
+            3.88
+          ],
+          [
+            4.3,
+            4.64
+          ],
+          [
+            4.66,
+            5
+          ]
+        ]
+      }
+    },
+    {
+      "id": "t_steps_gravel",
+      "prompt": "Six separate footsteps of a man in leather boots walking slowly on a dry gravel path, close, with clear pauses between steps, no background noise",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "steps",
+        "name": "step.gravel",
+        "mergeMs": 160,
+        "max": 10,
+        "targetDb": -21
+      }
+    },
+    {
+      "id": "f_run",
+      "prompt": "Separate fast running footsteps of leather boots on earth and grass, close, about ten steps, no background noise",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "steps",
+        "name": "step.run",
+        "mergeMs": 120,
+        "max": 10,
+        "targetDb": -20,
+        "maxSeconds": 0.42
+      }
+    },
+    {
+      "id": "f_land",
+      "prompt": "Three separate heavy landings of a person jumping down onto earth, boots thudding with a little gear rattle, close, gaps between, no background noise",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "steps",
+        "name": "land",
+        "targetDb": -18,
+        "ranges": [
+          [
+            1,
+            1.95
+          ],
+          [
+            2.35,
+            3
+          ]
+        ]
+      }
+    },
+    {
+      "id": "c_swing",
+      "prompt": "Several separate fast sword swings whooshing through the air, close, short gaps between, no impacts",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "combat",
+        "name": "swing",
+        "mergeMs": 60,
+        "max": 10,
+        "targetDb": -20
+      }
+    },
+    {
+      "id": "c_swing_heavy",
+      "prompt": "Three separate heavy slow swings of a large blade whooshing through the air, deep whoosh, gaps between, no impacts",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "combat",
+        "name": "swing.heavy",
+        "targetDb": -19
+      }
+    },
+    {
+      "id": "c_hit",
+      "prompt": "Several separate sword strikes hitting a body through leather and cloth, dull heavy thuds, close, gaps between, no voices",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "combat",
+        "name": "hit.flesh",
+        "mergeMs": 100,
+        "max": 4,
+        "targetDb": -16
+      }
+    },
+    {
+      "id": "c_block",
+      "prompt": "Several separate steel swords clashing and blocking, sharp metallic clangs, close, gaps between",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "combat",
+        "name": "hit.block",
+        "mergeMs": 100,
+        "max": 4,
+        "targetDb": -17
+      }
+    },
+    {
+      "id": "c_parry",
+      "prompt": "Two separate ringing steel sword parries with a bright metallic ring that rings out, close",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "combat",
+        "name": "hit.parry",
+        "targetDb": -17,
+        "ranges": [
+          [
+            0,
+            0.45
+          ],
+          [
+            0.45,
+            2.3
+          ]
+        ]
+      }
+    },
+    {
+      "id": "c_punch",
+      "prompt": "Several separate fist punches hitting a body, dull thumps, close, gaps between, no voices",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "combat",
+        "name": "hit.punch",
+        "mergeMs": 100,
+        "max": 4,
+        "targetDb": -17
+      }
+    },
+    {
+      "id": "v_hurt",
+      "prompt": "Several separate short pained grunts of an adult man being hit in a fight, close, gaps between, no words",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "combat",
+        "name": "voice.hurt",
+        "mergeMs": 120,
+        "max": 6,
+        "targetDb": -18
+      }
+    },
+    {
+      "id": "v_death",
+      "prompt": "A man's short dying groan as he falls to the ground, close, no words",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "combat",
+        "name": "voice.death",
+        "targetDb": -18
+      }
+    },
+    {
+      "id": "v_breath",
+      "prompt": "Heavy tired breathing of an adult man after running hard, close, no words",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "combat",
+        "name": "voice.breath",
+        "mergeMs": 150,
+        "max": 10,
+        "targetDb": -26
+      }
+    },
+    {
+      "id": "e_growl",
+      "prompt": "A large wild predator beast growling low and menacingly, several separate growls and snarls with gaps, close, no music",
+      "seconds": 8,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "combat",
+        "name": "beast.growl",
+        "mergeMs": 200,
+        "max": 4,
+        "targetDb": -17,
+        "maxSeconds": 2.6
+      }
+    },
+    {
+      "id": "e_attack",
+      "prompt": "Two separate vicious roaring snarls of a large beast lunging to attack, close",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "combat",
+        "name": "beast.attack",
+        "targetDb": -16
+      }
+    },
+    {
+      "id": "e_hurt",
+      "prompt": "A large beast yelping and roaring in pain, two separate cries, close",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "combat",
+        "name": "beast.hurt",
+        "targetDb": -17
+      }
+    },
+    {
+      "id": "e_bandit",
+      "prompt": "Several separate angry shouts and battle grunts of rough bandits attacking, no clear words, outdoors, gaps between",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "combat",
+        "name": "bandit.shout",
+        "mergeMs": 150,
+        "max": 3,
+        "targetDb": -18,
+        "maxSeconds": 2.6
+      }
+    },
+    {
+      "id": "i_coins",
+      "prompt": "Several separate handfuls of old copper and silver coins clinking into a leather purse, close, gaps between",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "items",
+        "name": "item.coins",
+        "mergeMs": 250,
+        "max": 4,
+        "targetDb": -22
+      }
+    },
+    {
+      "id": "test_coin",
+      "prompt": "A single old copper coin dropped onto a wooden table, short metallic clink, dry, no reverb",
+      "seconds": 1,
+      "loop": false,
+      "promptInfluence": 0.5,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "items",
+        "name": "item.coin",
+        "targetDb": -22
+      }
+    },
+    {
+      "id": "i_metal",
+      "prompt": "Several separate small iron objects being picked up: a rusty iron scrap, an iron wrench and a key clinking, close, gaps between",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "items",
+        "name": "item.metal",
+        "mergeMs": 200,
+        "max": 3,
+        "targetDb": -21
+      }
+    },
+    {
+      "id": "i_sword",
+      "prompt": "A sword being drawn from a leather scabbard with a metallic ring, a pause, then sheathed back, close",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "items",
+        "name": "item.sword.draw",
+        "targetDb": -19
+      }
+    },
+    {
+      "id": "i_sheathe",
+      "prompt": "A sword being slid back into a leather scabbard and settling with a soft metallic click, close",
+      "seconds": 2,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "items",
+        "name": "item.sword.sheathe",
+        "targetDb": -20
+      }
+    },
+    {
+      "id": "i_cloth",
+      "prompt": "Several separate soft cloth fabric movements, a sash being folded and tucked away, close",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "items",
+        "name": "item.cloth",
+        "targetDb": -24
+      }
+    },
+    {
+      "id": "i_satchel",
+      "prompt": "A leather satchel being opened with a buckle, rummaged through briefly, then closed, close",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "items",
+        "name": "item.satchel",
+        "targetDb": -22
+      }
+    },
+    {
+      "id": "i_herb",
+      "prompt": "Several separate small plants and herbs being picked from the ground, leaves rustling and stems snapping, close",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "items",
+        "name": "item.herb",
+        "targetDb": -22
+      }
+    },
+    {
+      "id": "i_eat",
+      "prompt": "A person taking two crunchy bites of an apple and chewing, then tearing a piece of bread and chewing, close, no voices",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "items",
+        "name": "item.eat",
+        "targetDb": -21
+      }
+    },
+    {
+      "id": "i_poultice",
+      "prompt": "A cork popped from a small clay jar, then a wet salve being smeared, close, no voices",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "items",
+        "name": "item.poultice",
+        "targetDb": -22
+      }
+    },
+    {
+      "id": "i_page",
+      "prompt": "Several separate old parchment pages being turned in a book, close",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "items",
+        "name": "item.page",
+        "targetDb": -23
+      }
+    },
+    {
+      "id": "i_map",
+      "prompt": "An old parchment map being unfolded and smoothed flat, close",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "items",
+        "name": "item.map",
+        "targetDb": -23
+      }
+    },
+    {
+      "id": "w_door_open",
+      "prompt": "An old heavy wooden door creaking open slowly on iron hinges, close",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "world",
+        "name": "door.open",
+        "targetDb": -19
+      }
+    },
+    {
+      "id": "w_door_close",
+      "prompt": "An old heavy wooden door closing with a solid thud and a latch click, close",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "world",
+        "name": "door.close",
+        "targetDb": -18
+      }
+    },
+    {
+      "id": "w_shutter",
+      "prompt": "A wooden window shutter forced open with a crack of splintering wood, close",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "world",
+        "name": "shutter.break",
+        "targetDb": -17
+      }
+    },
+    {
+      "id": "w_lever",
+      "prompt": "A heavy wooden and iron lever being pulled down, a mechanism clunks and chains rattle, close",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "world",
+        "name": "lever",
+        "targetDb": -18
+      }
+    },
+    {
+      "id": "w_gate",
+      "prompt": "An old wooden field gate swinging open with a long creak and a knock, outdoors",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "world",
+        "name": "gate",
+        "targetDb": -19
+      }
+    },
+    {
+      "id": "w_sluice",
+      "prompt": "A heavy wooden sluice gate being wedged and grinding into place in a stone channel, wood straining, a deep knock, outdoors",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "world",
+        "name": "sluice",
+        "targetDb": -18
+      }
+    },
+    {
+      "id": "w_surge",
+      "prompt": "Water suddenly rushing through a stone channel, surging and gushing, outdoors, no music",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "world",
+        "name": "water.surge",
+        "targetDb": -18,
+        "fadeOut": 0.8
+      }
+    },
+    {
+      "id": "w_bell",
+      "prompt": "A single strike of a large bronze bell in a village tower, deep tone ringing and slowly decaying, outdoors, no other sounds",
+      "seconds": 8,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "world",
+        "name": "bell.big",
+        "targetDb": -16,
+        "marginDb": 55,
+        "fadeOut": 0.6
+      }
+    },
+    {
+      "id": "w_bell_small",
+      "prompt": "A single strike of a smaller bronze bell, bright clear tone ringing out and decaying, outdoors, no other sounds",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "world",
+        "name": "bell.small",
+        "targetDb": -17,
+        "marginDb": 55,
+        "fadeOut": 0.5
+      }
+    },
+    {
+      "id": "w_rite",
+      "prompt": "Water gently settling into a stone basin at a sacred spring with a soft deep resonant hum fading out, calm, no music, no voices",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "world",
+        "name": "rite",
+        "targetDb": -22,
+        "marginDb": 50,
+        "fadeOut": 0.8
+      }
+    },
+    {
+      "id": "w_wood_hit",
+      "prompt": "Several separate wooden crates and barrels being dropped onto earth and bumping, hollow wooden thuds, close, gaps between",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "world",
+        "name": "wood.impact",
+        "mergeMs": 150,
+        "max": 4,
+        "targetDb": -17
+      }
+    },
+    {
+      "id": "w_lift",
+      "prompt": "A heavy wooden barrel scraping and being lifted off the ground, wood creaking, close",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "world",
+        "name": "wood.lift",
+        "targetDb": -20
+      }
+    },
+    {
+      "id": "n_gulls",
+      "prompt": "Several separate seagull calls overhead at a beach, outdoors, gaps between, no waves",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "nature",
+        "name": "gull",
+        "targetDb": -21,
+        "ranges": [
+          [
+            0,
+            1.25
+          ],
+          [
+            1.25,
+            2.56
+          ],
+          [
+            2.56,
+            3.6
+          ]
+        ]
+      }
+    },
+    {
+      "id": "n_songbird",
+      "prompt": "A blackbird and a song thrush singing separate phrases in a forest, outdoors, clear, no wind",
+      "seconds": 8,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "nature",
+        "name": "songbird",
+        "mergeMs": 350,
+        "max": 4,
+        "targetDb": -21,
+        "maxSeconds": 3.5
+      }
+    },
+    {
+      "id": "n_smallbird",
+      "prompt": "Several separate small songbird chirps and trills in bushes, outdoors, gaps between, no wind",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "nature",
+        "name": "smallbird",
+        "mergeMs": 300,
+        "max": 6,
+        "targetDb": -22,
+        "maxSeconds": 2.5
+      }
+    },
+    {
+      "id": "n_crow",
+      "prompt": "Several separate crows cawing from tall trees, outdoors, gaps between",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "nature",
+        "name": "crow",
+        "mergeMs": 150,
+        "max": 6,
+        "targetDb": -20
+      }
+    },
+    {
+      "id": "n_owl",
+      "prompt": "Two separate tawny owl hoots at night in a forest, distant, gaps between",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "nature",
+        "name": "owl",
+        "targetDb": -21
+      }
+    },
+    {
+      "id": "n_woodpecker",
+      "prompt": "A woodpecker drumming on a tree trunk twice, outdoors, forest",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "nature",
+        "name": "woodpecker",
+        "targetDb": -21
+      }
+    },
+    {
+      "id": "n_frog",
+      "prompt": "Several separate frog croaks by a river at night, gaps between",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "nature",
+        "name": "frog",
+        "mergeMs": 450,
+        "max": 4,
+        "targetDb": -22,
+        "maxSeconds": 2
+      }
+    },
+    {
+      "id": "n_dog",
+      "prompt": "A farm dog barking a few times in the distance, outdoors",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "nature",
+        "name": "dog",
+        "mergeMs": 250,
+        "max": 4,
+        "targetDb": -20
+      }
+    },
+    {
+      "id": "n_chicken",
+      "prompt": "Chickens clucking and a hen cackling in a farmyard, close",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "nature",
+        "name": "chicken",
+        "mergeMs": 250,
+        "max": 5,
+        "targetDb": -21,
+        "maxSeconds": 1.6
+      }
+    },
+    {
+      "id": "n_rooster",
+      "prompt": "A rooster crowing once at dawn in a village, outdoors",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "nature",
+        "name": "rooster",
+        "targetDb": -19
+      }
+    },
+    {
+      "id": "n_horse",
+      "prompt": "A horse snorting and whinnying softly, then hooves shifting on dirt, close",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "nature",
+        "name": "horse",
+        "targetDb": -20
+      }
+    },
+    {
+      "id": "n_creak",
+      "prompt": "Several separate creaks of old tree trunks and wooden beams swaying in the wind, gaps between",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "nature",
+        "name": "creak",
+        "mergeMs": 200,
+        "max": 6,
+        "targetDb": -22,
+        "minSeconds": 0.3
+      }
+    },
+    {
+      "id": "p_hammer",
+      "prompt": "A carpenter hammering on wood at a slow working pace, close, several separate strikes",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "people",
+        "name": "work.hammer",
+        "mergeMs": 100,
+        "max": 8,
+        "targetDb": -20
+      }
+    },
+    {
+      "id": "p_saw",
+      "prompt": "A hand saw cutting through a wooden plank, back and forth strokes, close",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "people",
+        "name": "work.saw",
+        "targetDb": -21
+      }
+    },
+    {
+      "id": "p_sweep",
+      "prompt": "A broom sweeping a stone floor in short strokes, close",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "people",
+        "name": "work.sweep",
+        "mergeMs": 150,
+        "max": 6,
+        "targetDb": -22
+      }
+    },
+    {
+      "id": "p_chisel",
+      "prompt": "An iron chisel and hammer cutting stone, several separate strikes with small chips falling, close",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "people",
+        "name": "work.chisel",
+        "mergeMs": 40,
+        "max": 8,
+        "targetDb": -20,
+        "maxSeconds": 0.36
+      }
+    },
+    {
+      "id": "p_knead",
+      "prompt": "A baker kneading and slapping dough on a wooden table, close, no voices",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "people",
+        "name": "work.knead",
+        "targetDb": -22
+      }
+    },
+    {
+      "id": "p_quill",
+      "prompt": "A quill pen scratching on parchment, writing several words, close",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "people",
+        "name": "work.quill",
+        "targetDb": -25
+      }
+    },
+    {
+      "id": "p_bucket",
+      "prompt": "A wooden bucket being filled with water and set down on stone, close",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "people",
+        "name": "work.bucket",
+        "targetDb": -21
+      }
+    },
+    {
+      "id": "p_sack",
+      "prompt": "Heavy grain sacks being lifted and dropped onto a wooden floor, dusty thumps, close",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "people",
+        "name": "work.sack",
+        "targetDb": -20
+      }
+    },
+    {
+      "id": "p_murmur",
+      "prompt": "Two or three villagers talking quietly together outdoors, an indistinct conversation murmur, no clear words, no music",
+      "seconds": 12,
+      "loop": false,
+      "promptInfluence": 0.5,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "whole",
+        "bank": "people",
+        "name": "voice.murmur",
+        "targetDb": -24,
+        "ranges": [
+          [
+            0,
+            4.1
+          ],
+          [
+            4,
+            8.1
+          ],
+          [
+            7.9,
+            12
+          ]
+        ]
+      }
+    },
+    {
+      "id": "p_cough",
+      "prompt": "Several separate quiet human sounds: an old man coughing, a woman clearing her throat, a tired sigh, close, gaps between, no words",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "slices",
+        "bank": "people",
+        "name": "voice.cough",
+        "mergeMs": 250,
+        "max": 4,
+        "targetDb": -21
+      }
+    },
+    {
+      "id": "a_sea",
+      "prompt": "Seamless loop: waves rolling in and breaking on a wide sandy beach, steady surf and foam hiss, light coastal wind, distant gulls, no music",
+      "seconds": 25,
+      "loop": true,
+      "promptInfluence": 0.4,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "loop",
+        "name": "sea",
+        "targetDb": -24
+      }
+    },
+    {
+      "id": "a_forest_day",
+      "prompt": "Seamless loop: deep old forest by day, wind moving through tall leafy crowns, many distant songbirds, leaves rustling, calm, no music, no voices",
+      "seconds": 25,
+      "loop": true,
+      "promptInfluence": 0.4,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "loop",
+        "name": "forest_day",
+        "targetDb": -27
+      }
+    },
+    {
+      "id": "a_forest_night",
+      "prompt": "Seamless loop: old forest at night, crickets and night insects, very soft wind in the trees, still and dark, no owls, no music",
+      "seconds": 25,
+      "loop": true,
+      "promptInfluence": 0.4,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "loop",
+        "name": "forest_night",
+        "targetDb": -28
+      }
+    },
+    {
+      "id": "a_meadow_day",
+      "prompt": "Seamless loop: open grassy valley in summer, soft wind through long grass, insects humming, small birds far away, peaceful, no music",
+      "seconds": 25,
+      "loop": true,
+      "promptInfluence": 0.4,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "loop",
+        "name": "meadow_day",
+        "targetDb": -27
+      }
+    },
+    {
+      "id": "a_village_day",
+      "prompt": "Seamless loop: small medieval village by day heard from the square, distant indistinct voices, far away hammering on wood, chickens clucking, footsteps on dirt, no music",
+      "seconds": 25,
+      "loop": true,
+      "promptInfluence": 0.4,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "loop",
+        "name": "village_day",
+        "targetDb": -27
+      }
+    },
+    {
+      "id": "a_village_night",
+      "prompt": "Seamless loop: small village at night, crickets, faint wind, a wooden shutter creaking now and then, very quiet, no music, no voices",
+      "seconds": 15,
+      "loop": true,
+      "promptInfluence": 0.4,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "loop",
+        "name": "village_night",
+        "targetDb": -30
+      }
+    },
+    {
+      "id": "a_cliff_wind",
+      "prompt": "Seamless loop: strong wind on a high sea cliff, gusts whistling around a stone tower, a rope flapping against wood, surf crashing far below, no music",
+      "seconds": 20,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "loop",
+        "name": "cliff_wind",
+        "targetDb": -24
+      }
+    },
+    {
+      "id": "a_interior",
+      "prompt": "Seamless loop: quiet room tone inside an old stone archive, muffled wind outside, a faint wooden creak now and then, still, no music",
+      "seconds": 15,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "loop",
+        "name": "interior",
+        "targetDb": -32
+      }
+    },
+    {
+      "id": "a_cut",
+      "prompt": "Seamless loop: a dry rocky gully, hot still air, flies buzzing, loose gravel trickling, an uneasy silence, no music",
+      "seconds": 15,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "loop",
+        "name": "cut",
+        "targetDb": -29
+      }
+    },
+    {
+      "id": "a_brook",
+      "prompt": "Seamless loop: a shallow stream flowing quickly over stones, close, bubbling and splashing water, no birds, no music",
+      "seconds": 15,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "loop",
+        "name": "brook",
+        "targetDb": -23,
+        "channels": 1
+      }
+    },
+    {
+      "id": "a_mill",
+      "prompt": "Seamless loop: an old wooden water mill wheel turning, water splashing from the paddles, the wooden axle creaking and knocking rhythmically, no music",
+      "seconds": 15,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "loop",
+        "name": "mill",
+        "targetDb": -22,
+        "channels": 1
+      }
+    },
+    {
+      "id": "a_quarry",
+      "prompt": "Seamless loop: a stone quarry at work in the distance, iron chisels and hammers striking rock at irregular intervals, small stones sliding, no music",
+      "seconds": 20,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "loop",
+        "name": "quarry",
+        "targetDb": -24,
+        "channels": 1
+      }
+    },
+    {
+      "id": "a_spring",
+      "prompt": "Seamless loop: a small spring trickling into a stone basin, gentle water trickle and soft drips, no birds, no music",
+      "seconds": 12,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "loop",
+        "name": "spring",
+        "targetDb": -25,
+        "channels": 1
+      }
+    },
+    {
+      "id": "a_marsh",
+      "prompt": "Seamless loop: reeds beside a slow river at dusk, frogs croaking, water lapping gently, insects, no music",
+      "seconds": 15,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "loop",
+        "name": "marsh",
+        "targetDb": -27,
+        "channels": 1
+      }
+    },
+    {
+      "id": "a_fire",
+      "prompt": "Seamless loop: a small wood fire crackling and popping steadily outdoors, embers hissing softly, close, no wind, no music",
+      "seconds": 12,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "loop",
+        "name": "fire",
+        "targetDb": -25,
+        "channels": 1
+      }
+    },
+    {
+      "id": "t_strings_loop",
+      "prompt": "Seamless loop: a slow sustained dark fantasy string drone, low cello and viola holding a soft D minor chord, gentle bowing, warm and melancholic, no percussion, no melody",
+      "seconds": 10,
+      "loop": true,
+      "promptInfluence": 0.5,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "loop",
+        "name": "hall_drone",
+        "targetDb": -30
+      }
+    },
+    {
+      "id": "m_vale_1",
+      "prompt": "Instrumental medieval fantasy music: a solo fiddle and a lute weave two gentle interlocking melodies in a slow modal minor key, intimate and warm, a quiet village at work, no drums, no vocals",
+      "seconds": 30,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "piece",
+        "name": "vale_1",
+        "mood": "vale",
+        "targetDb": -21,
+        "kbps": 64
+      }
+    },
+    {
+      "id": "m_vale_2",
+      "prompt": "Instrumental medieval fantasy music: warm low strings and a breathy wooden flute play a slow pastoral modal melody with interweaving lines, calm and earnest, a few soft frame drum beats, no vocals",
+      "seconds": 30,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "piece",
+        "name": "vale_2",
+        "mood": "vale",
+        "targetDb": -21,
+        "kbps": 64
+      }
+    },
+    {
+      "id": "m_wild_1",
+      "prompt": "Instrumental dark fantasy wilderness music: a breathy wooden flute plays a lonely slow melody over a low cello drone, deep old forest, mysterious and serious, no percussion, no vocals",
+      "seconds": 30,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "piece",
+        "name": "wild_1",
+        "mood": "wild",
+        "targetDb": -21,
+        "kbps": 64
+      }
+    },
+    {
+      "id": "m_wild_2",
+      "prompt": "Instrumental medieval fantasy music: a solo cello plays a slow sorrowful melody over a quiet plucked harp, a windswept grey coast, vast and lonely, no percussion, no vocals",
+      "seconds": 30,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "piece",
+        "name": "wild_2",
+        "mood": "wild",
+        "targetDb": -21,
+        "kbps": 64
+      }
+    },
+    {
+      "id": "m_wild_3",
+      "prompt": "Instrumental medieval fantasy music: a distant wordless female voice hums a slow melancholic modal melody over soft sustained strings, ancient and mysterious, no percussion, no lyrics",
+      "seconds": 30,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "piece",
+        "name": "wild_3",
+        "mood": "wild",
+        "targetDb": -21,
+        "kbps": 64
+      }
+    },
+    {
+      "id": "m_night_1",
+      "prompt": "Instrumental medieval fantasy night music: a soft harp plays slow sparse notes over very quiet low strings, still and dark, peaceful but uneasy, no percussion, no vocals",
+      "seconds": 30,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "piece",
+        "name": "night_1",
+        "mood": "night",
+        "targetDb": -22,
+        "kbps": 64
+      }
+    },
+    {
+      "id": "m_night_2",
+      "prompt": "Instrumental medieval fantasy night music: a low wooden flute and a muted viola play a slow quiet lullaby-like melody, sparse and calm, no percussion, no vocals",
+      "seconds": 30,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "piece",
+        "name": "night_2",
+        "mood": "night",
+        "targetDb": -22,
+        "kbps": 64
+      }
+    },
+    {
+      "id": "m_sacred",
+      "prompt": "Instrumental solemn sacred music: a soft wordless choir holds long slow chords over a gentle low drone in a reverent stone hall, no percussion, no lyrics",
+      "seconds": 30,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "piece",
+        "name": "sacred",
+        "mood": "sacred",
+        "targetDb": -22,
+        "kbps": 64
+      }
+    },
+    {
+      "id": "m_danger",
+      "prompt": "Seamless loop: tense dark fantasy music, low pulsing frame drums and a sustained dissonant low string tremolo, a threat approaching, no melody, no vocals",
+      "seconds": 20,
+      "loop": true,
+      "promptInfluence": 0.5,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "musicLoop",
+        "name": "danger",
+        "mood": "danger",
+        "targetDb": -21,
+        "kbps": 64,
+        "crossfade": 0.5
+      }
+    },
+    {
+      "id": "m_combat",
+      "prompt": "Seamless loop: driving medieval battle music, fast heavy frame drums and deep war drums with an aggressive fiddle and cello ostinato in a minor key, intense, no vocals",
+      "seconds": 20,
+      "loop": true,
+      "promptInfluence": 0.5,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "musicLoop",
+        "name": "combat",
+        "mood": "combat",
+        "targetDb": -19,
+        "kbps": 64,
+        "crossfade": 0.3
+      }
+    },
+    {
+      "id": "s_discover",
+      "prompt": "A short musical phrase of discovery: a lute and a wooden flute rise gently and resolve on a calm open chord, medieval fantasy, then silence, no vocals",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "sting",
+        "name": "sting_discover",
+        "mood": "sting",
+        "targetDb": -20,
+        "kbps": 64,
+        "fadeOut": 0.6
+      }
+    },
+    {
+      "id": "s_victory",
+      "prompt": "A short weary but triumphant musical phrase: low strings and one frame drum hit resolve on a major chord, medieval fantasy, then silence, no vocals",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "sting",
+        "name": "sting_victory",
+        "mood": "sting",
+        "targetDb": -20,
+        "kbps": 64,
+        "fadeOut": 0.6
+      }
+    },
+    {
+      "id": "s_death",
+      "prompt": "A short somber musical phrase: low strings descend slowly and fade with a single soft drum hit, defeat, medieval fantasy, no vocals",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "sting",
+        "name": "sting_death",
+        "mood": "sting",
+        "targetDb": -20,
+        "kbps": 64,
+        "fadeOut": 0.8
+      }
+    },
+    {
+      "id": "s_quest",
+      "prompt": "A short hopeful musical phrase: a harp and a wooden flute play a brief ascending motif ending softly, a task accomplished, medieval fantasy, no vocals",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "sting",
+        "name": "sting_quest",
+        "mood": "sting",
+        "targetDb": -20,
+        "kbps": 64,
+        "fadeOut": 0.6
+      }
+    },
+    {
+      "id": "t_lute",
+      "prompt": "Solo medieval lute, a gentle slow melancholic melody in D minor played with single plucked notes, intimate and close, no other instruments, no percussion",
+      "seconds": 8,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "use": {
+        "type": "sting",
+        "name": "sting_lute",
+        "mood": "sting",
+        "targetDb": -21,
+        "kbps": 64,
+        "fadeOut": 0.9
+      }
+    }
+  ]
+}

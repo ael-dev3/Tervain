@@ -1,13 +1,22 @@
+import type { ItemId, PlaceId } from '../game/types';
 import type { Settings } from '../platform/settings';
+import {
+  bellCue, consumeCues, EQUIP, hitCue, landCues, MAP_OPEN, PAGE, pickupCues, SATCHEL_CLOSE, SATCHEL_OPEN, stepCue, swingCue, UNEQUIP, worldCues,
+  type Cue, type SurfaceKind, type WorldAction,
+} from './sound/foley';
+import type { Vec3 } from './sound/soundscape';
+import { type PlayOptions, type SoundFrame, SoundWorld } from './sound/soundWorld';
 
 /**
  * Audio facade for the prototype. The owner-supplied menu score streams through
- * the music bus; until sourced and reviewed recordings are available,
- * ordinary UI, dialogue, footstep and combat contacts stay deliberately quiet. The
- * broad wind/water beds remain procedural; semantic captions are raised
- * independently of AudioContext availability and volume settings.
+ * the music bus. In the world, the recorded sound (sound/soundWorld.ts) plays
+ * footsteps, combat, items, the world's moving parts, residents, wildlife,
+ * place beds and the in-world score; interface navigation stays deliberately
+ * quiet. The broad procedural wind/water beds remain underneath and step back
+ * while recorded beds sound. Semantic captions are raised independently of
+ * AudioContext availability and volume settings.
  */
-export type SurfaceKind = 'grass' | 'road' | 'stone' | 'water' | 'deck' | 'sand';
+export type { SurfaceKind } from './sound/foley';
 
 export interface AmbienceEnvironment {
   nightness: number;
@@ -21,6 +30,8 @@ export interface AmbienceEnvironment {
   time: number;
   underRoof: boolean;
   seaProximity?: number;
+  /** Centre of the wind's band in Hz: higher in needles, lower in broad leaves and open ground. */
+  windTone?: number;
 }
 
 const unit = (value: number) => Number.isFinite(value) ? Math.max(0, Math.min(1, value)) : 0;
@@ -87,7 +98,7 @@ export function ambienceMix(e: AmbienceEnvironment, audioTime: number) {
   const sea = unit(e.seaProximity ?? 0) * roof;
   return {
     wind: 0.05 * (0.5 + unit(e.windAmount)) * roof * (0.88 + 0.12 * Math.sin(t * 0.2)),
-    windFrequency: 420 + 120 * Math.sin(t * Math.PI * 0.22),
+    windFrequency: (e.windTone !== undefined && Number.isFinite(e.windTone) ? e.windTone : 420) + 120 * Math.sin(t * Math.PI * 0.22),
     water: unit(e.waterProximity) * (0.05 + 0.35 * flow) * roof,
     waterFrequency: 700 + 1400 * flow,
     rumble: 0.16 * sea * (0.72 + 0.24 * Math.sin(t * 0.75) + 0.04 * Math.sin(t * 1.09)),
@@ -124,6 +135,8 @@ export class AudioEngine {
   private musicPauseTimer: ReturnType<typeof setTimeout> | null = null;
   private musicSeek = 0;
   private musicListeners: [string, EventListener][] = [];
+  private soundWorld: SoundWorld | null = null;
+  private worldFailed = false;
   onCaption: ((text: string) => void) | null = null;
   onMusicState: ((state: MenuMusicState) => void) | null = null;
   enabled = true;
@@ -382,6 +395,7 @@ export class AudioEngine {
   setPageHidden(hidden: boolean) {
     this.pageHidden = hidden;
     this.syncMusic();
+    this.soundWorld?.setHidden(hidden);
     if (this.disposed || !this.ctx || this.ctx.state === 'closed') return;
     this.lastAutomation = -Infinity;
     // Queue both transitions, including a quick hide/show before suspend has resolved.
@@ -405,6 +419,7 @@ export class AudioEngine {
         state: this.musicState, source: this.musicSource,
         currentTime: this.music?.currentTime ?? 0, duration: this.music?.duration ?? 0,
       },
+      world: this.soundWorld ? { ...this.soundWorld.stats, banksReady: this.soundWorld.banksReady, score: this.soundWorld.musicState } : null,
     };
   }
 
@@ -504,17 +519,36 @@ export class AudioEngine {
     if (t - this.lastAutomation < AUTOMATION_INTERVAL) return;
     this.lastAutomation = t;
     const mix = ambienceMix(e, t);
-    this.target(this.wind.gain.gain, mix.wind, t, 0.35);
+    // Recorded beds carry the place; the procedural noise stays underneath as body and as a fallback.
+    const recorded = this.soundWorld?.recordedLevel ?? 0;
+    this.target(this.wind.gain.gain, mix.wind * (1 - 0.55 * recorded), t, 0.35);
     this.target(this.wind.filter.frequency, mix.windFrequency, t, 0.35);
-    this.target(this.water.gain.gain, mix.water, t, 0.18);
+    this.target(this.water.gain.gain, mix.water * (1 - 0.75 * recorded), t, 0.18);
     this.target(this.water.filter.frequency, mix.waterFrequency, t, 0.25);
-    this.target(this.sea.rumble.gain, mix.rumble, t, 0.3);
-    this.target(this.sea.hiss.gain, mix.hiss, t, 0.25);
-    // Wildlife and quarry impacts remain silent until they can
-    // be supplied as locally packaged, provenance-checked, reviewed audio assets.
+    this.target(this.sea.rumble.gain, mix.rumble * (1 - 0.6 * recorded), t, 0.3);
+    this.target(this.sea.hiss.gain, mix.hiss * (1 - 0.8 * recorded), t, 0.25);
+  }
+
+  /**
+   * The recorded world: beds, wildlife, residents, enemies, objects and the in-world score; `null` while a menu covers
+   * the world. Created on the first world frame, so menus and tests that never enter the world allocate nothing.
+   */
+  updateWorld(dt: number, frame: SoundFrame | null) {
+    if (!this.ready || !this.ctx) return;
+    if (frame && !this.soundWorld && !this.worldFailed) {
+      try {
+        this.soundWorld = new SoundWorld(this.ctx, this.buses, import.meta.env.BASE_URL);
+      } catch {
+        // Without convolution or panning support the world keeps its procedural beds and captions.
+        this.worldFailed = true;
+      }
+    }
+    this.soundWorld?.update(dt, frame);
   }
 
   private releaseGraph() {
+    this.soundWorld?.dispose();
+    this.soundWorld = null;
     this.clearMusicPause();
     this.musicGeneration++;
     this.contextResumeGeneration++;
@@ -555,32 +589,76 @@ export class AudioEngine {
   }
 
   /* ---- effects ---- */
-  footstep(_surface: SurfaceKind, _running: boolean) {
-    // Surface-specific recordings are required before a boot contact is emitted.
+  private cue(cues: Cue | readonly Cue[], opt?: PlayOptions) {
+    if (!this.ready || !this.soundWorld) return;
+    if (Array.isArray(cues)) this.soundWorld.playAll(cues, opt);
+    else this.soundWorld.play(cues as Cue, opt);
   }
 
-  swing(_heavy: boolean) {
-    // A synthesized sweep reads as an electronic effect; keep the contact quiet for now.
+  footstep(surface: SurfaceKind, running: boolean) {
+    this.cue(stepCue(surface, running), { reverb: 0.04 });
   }
 
-  hit(_kind: 'flesh' | 'block' | 'perfect') {
-    // Combat outcome remains visible in the existing health, stamina and hit reactions.
+  jump(surface: SurfaceKind) {
+    this.cue([{ ...stepCue(surface, true), gain: 0.45 }, { clip: 'item.cloth', gain: 0.18, pitch: 0.06, from: 0, to: 0.5 }]);
+  }
+
+  /** Touching down after a jump or a drop; harder for a faster fall (metres per second). */
+  land(surface: SurfaceKind, fallSpeed: number) {
+    this.cue(landCues(surface, fallSpeed), { reverb: 0.05 });
+  }
+
+  dodge(surface: SurfaceKind) {
+    this.cue([{ clip: 'item.cloth', gain: 0.32, pitch: 0.06, from: 0, to: 0.7 }, { ...stepCue(surface, true), gain: 0.5, delay: 0.18 }]);
+  }
+
+  swing(heavy: boolean, armed = true) {
+    // A bare-handed blow is a shorter, quicker rush of air.
+    this.cue(swingCue(heavy), armed ? undefined : { rate: 1.25, scale: 0.7 });
+  }
+
+  hit(kind: 'flesh' | 'block' | 'perfect', armed = true) {
+    this.cue(hitCue(kind, armed), { reverb: 0.08 });
   }
 
   hurt() {
-    // Replace with a reviewed, licensed exertion cue before enabling.
+    this.cue({ clip: 'voice.hurt', gain: 0.55, pitch: 0.05 }, { bus: 'dialogue' });
   }
 
-  growl() {
+  growl(at?: Vec3) {
+    this.cue({ clip: 'beast.growl', gain: 0.75, pitch: 0.04 }, { at, ref: 6, maxDistance: 90, reverb: 0.12 });
     this.caption('[A low growl]');
   }
 
-  pickup() {
-    // The item toast is the feedback until a material-specific sample is available.
+  /** A toll-jumper has seen the player. */
+  shout(at?: Vec3) {
+    this.cue({ clip: 'bandit.shout', gain: 0.6, pitch: 0.05 }, { at, bus: 'dialogue', ref: 5, maxDistance: 80 });
+    this.caption('[A rough shout]');
+  }
+
+  /** Picking something up: the object itself, and the satchel it goes into. */
+  pickup(item?: ItemId) {
+    this.cue(item ? pickupCues(item) : { clip: 'item.cloth', gain: 0.32, pitch: 0.05, from: 0, to: 0.9 });
+  }
+
+  /** Eating, chewing or applying a remedy. */
+  consume(item: ItemId) {
+    this.cue(consumeCues(item));
+  }
+
+  /** Drawing (true) or putting away (false) the blade. */
+  equip(drawn: boolean) {
+    this.cue(drawn ? EQUIP : UNEQUIP);
+  }
+
+  /** Lifting or throwing a barrel or crate. */
+  prop(action: 'grab' | 'throw') {
+    this.cue(action === 'grab' ? { clip: 'wood.lift', gain: 0.45, pitch: 0.05 } : { clip: 'swing.heavy', gain: 0.35, pitch: 0.08 });
   }
 
   interact() {
-    // The world interaction supplies visual state and caption feedback where needed.
+    // Reaching for something: a soft movement of clothing. The thing itself answers with its own sound.
+    this.cue({ clip: 'item.cloth', gain: 0.16, pitch: 0.06, from: 0, to: 0.5 });
   }
 
   uiMove() {
@@ -592,24 +670,51 @@ export class AudioEngine {
   }
 
   journal() {
-    // Reading is silent until there is a reviewed page-turn sample.
+    this.cue(PAGE);
+  }
+
+  /** Opening (or closing) the journal, the satchel or the map. */
+  panel(kind: 'journal' | 'inventory' | 'map', open = true) {
+    if (kind === 'inventory') this.cue(open ? SATCHEL_OPEN : SATCHEL_CLOSE);
+    else this.cue(kind === 'journal' ? PAGE : MAP_OPEN, open ? undefined : { scale: 0.7 });
+  }
+
+  /** The world's moving parts: doors, gates, the lever, the sluice, the surge and the rite. */
+  worldEvent(action: WorldAction, caption?: string) {
+    this.cue(worldCues(action), { reverb: 0.12 });
+    if (caption) this.caption(caption);
   }
 
   gateCreak(caption = '[The sluice gate groans]') {
-    this.caption(caption);
+    this.worldEvent('gate', caption);
   }
 
   waterSurge() {
-    this.caption('[Water begins to rush through the channel]');
+    this.worldEvent('surge', '[Water begins to rush through the channel]');
   }
 
   rite() {
-    this.caption('[Water settles at the spring]');
+    this.worldEvent('rite', '[Water settles at the spring]');
   }
 
-  /** Keep the story bell silent until a reviewed acoustic recording is available. */
-  bell(_gain: number, _bright = false) {
-    // The app raises its separate semantic caption when a bell event matters.
+  /**
+   * The story bell, cast on D and placed at its tower: `gain` is the app's distance fade, `bright` the all-clear peal,
+   * `index` the strike's place in its sequence (the peal rings high to low).
+   */
+  bell(gain: number, bright = false, at?: Vec3, index = 0) {
+    if (!(gain > 0.01)) return;
+    // A huge reference distance leaves the level to the app's fade and uses the panner only for direction.
+    this.cue(bellCue(bright, index), { at, scale: Math.min(1, gain), ref: 1e4, maxDistance: 1e4, reverb: 0.3 });
+  }
+
+  /** Short pieces of score over the quiet: a newly found place (its region's motif), a step of the story, a won fight, a fall. */
+  discover(place?: PlaceId) { this.soundWorld?.sting('discover', place); }
+  quest() { this.soundWorld?.sting('quest'); }
+  victory() { this.soundWorld?.sting('victory'); }
+
+  death() {
+    this.cue({ clip: 'voice.death', gain: 0.6 }, { bus: 'dialogue' });
+    this.soundWorld?.sting('death');
   }
 
   caption(text: string) {

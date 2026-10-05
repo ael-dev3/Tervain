@@ -1,0 +1,4071 @@
+{
+  "schemaVersion": 1,
+  "generator": {
+    "service": "ElevenLabs Sound Effects API (POST /v1/sound-generation, output mp3_44100_128)",
+    "account": "The owner's ElevenLabs account (free plan), used at the owner's request of 5 October 2026 with a 10,000-credit allowance.",
+    "note": "The Eleven Music API is not available to free plans; the score was generated as sound effects from musical prompts."
+  },
+  "terms": {
+    "summary": "ElevenLabs sound effects generated on a free plan: royalty-free use, including commercial, with attribution to elevenlabs.io required; no independent rights review is asserted.",
+    "attribution": "Sound effects, ambience and score generated with ElevenLabs (elevenlabs.io)."
+  },
+  "preparedWith": "ffmpeg version 9.0.1-essentials_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+  "assets": [
+    {
+      "id": "f_grass",
+      "prompt": "Separate footsteps of leather boots walking on soft grass and earth, close, about eight steps with clear gaps, no background noise",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/f_grass.mp3",
+        "bytes": 97010,
+        "sha256": "8056cd195e59c586ff598c338b1b7a98f868721d8447060029d4d4245bde3c41"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "steps",
+        "name": "step.grass",
+        "mergeMs": 160,
+        "max": 10,
+        "targetDb": -21,
+        "variants": 10,
+        "spans": [
+          [0.527, 0.864],
+          [1.077, 1.387],
+          [1.573, 1.907],
+          [2.13, 2.477],
+          [2.653, 2.981],
+          [3.194, 3.4],
+          [3.791, 4.08],
+          [4.362, 4.696],
+          [4.898, 5.235],
+          [5.461, 5.64]
+        ]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-steps.ogg",
+          "bytes": 165865,
+          "sha256": "21331f3f93468b2cec52f612ac008fa089048d5d06db78aaabc3a79348a257c4"
+        },
+        {
+          "path": "public/assets/audio/world/bank-steps.m4a",
+          "bytes": 245891,
+          "sha256": "a22542df86263b1b7c5f34a4140c95ea41fa42d3b7cfc6c48a475ab53800be76"
+        }
+      ]
+    },
+    {
+      "id": "f_dirt",
+      "prompt": "Separate footsteps of leather boots walking on a packed dirt road, close, about eight steps with clear gaps, no background noise",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/f_dirt.mp3",
+        "bytes": 97010,
+        "sha256": "b7910024d6a2648f50136192c6d4d92dc44bd3586eeb82a4301c696e37acdf8f"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "steps",
+        "name": "step.dirt",
+        "mergeMs": 160,
+        "max": 10,
+        "targetDb": -21,
+        "variants": 8,
+        "spans": [
+          [1.127, 1.405],
+          [1.703, 1.955],
+          [2.319, 2.587],
+          [2.927, 3.144],
+          [3.575, 3.845],
+          [4.167, 4.459],
+          [4.858, 5.141],
+          [5.541, 5.771]
+        ]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-steps.ogg",
+          "bytes": 165865,
+          "sha256": "21331f3f93468b2cec52f612ac008fa089048d5d06db78aaabc3a79348a257c4"
+        },
+        {
+          "path": "public/assets/audio/world/bank-steps.m4a",
+          "bytes": 245891,
+          "sha256": "a22542df86263b1b7c5f34a4140c95ea41fa42d3b7cfc6c48a475ab53800be76"
+        }
+      ]
+    },
+    {
+      "id": "f_stone",
+      "prompt": "Separate footsteps of leather boots walking on flat stone slabs, close, about eight steps with clear gaps, no background noise",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/f_stone.mp3",
+        "bytes": 97010,
+        "sha256": "afcebbc4cd9c49986919c14adbaec17e43170b18bf06dff76bb2a10b6df0e2a6"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "steps",
+        "name": "step.stone",
+        "mergeMs": 160,
+        "max": 10,
+        "targetDb": -21,
+        "variants": 10,
+        "spans": [
+          [0.37, 0.661],
+          [0.927, 1.259],
+          [1.439, 1.632],
+          [1.999, 2.229],
+          [2.471, 2.768],
+          [3.01, 3.315],
+          [3.509, 3.845],
+          [4.042, 4.299],
+          [4.557, 4.885],
+          [5.642, 5.864]
+        ]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-steps.ogg",
+          "bytes": 165865,
+          "sha256": "21331f3f93468b2cec52f612ac008fa089048d5d06db78aaabc3a79348a257c4"
+        },
+        {
+          "path": "public/assets/audio/world/bank-steps.m4a",
+          "bytes": 245891,
+          "sha256": "a22542df86263b1b7c5f34a4140c95ea41fa42d3b7cfc6c48a475ab53800be76"
+        }
+      ]
+    },
+    {
+      "id": "f_wood",
+      "prompt": "Separate footsteps of leather boots walking on old wooden planks, hollow, close, about eight steps with clear gaps, no background noise",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/f_wood.mp3",
+        "bytes": 97010,
+        "sha256": "e906fbeca1ca000167bf624d7d9349daff1f18e0a63f34329bae3e19dd10288d"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "steps",
+        "name": "step.wood",
+        "mergeMs": 160,
+        "max": 10,
+        "targetDb": -21,
+        "maxSeconds": 0.5,
+        "variants": 9,
+        "spans": [
+          [0.202, 0.72],
+          [1.354, 1.776],
+          [1.946, 2.392],
+          [2.549, 2.888],
+          [3.165, 3.533],
+          [3.781, 4.131],
+          [4.359, 4.709],
+          [4.903, 5.267],
+          [5.453, 5.872]
+        ]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-steps.ogg",
+          "bytes": 165865,
+          "sha256": "21331f3f93468b2cec52f612ac008fa089048d5d06db78aaabc3a79348a257c4"
+        },
+        {
+          "path": "public/assets/audio/world/bank-steps.m4a",
+          "bytes": 245891,
+          "sha256": "a22542df86263b1b7c5f34a4140c95ea41fa42d3b7cfc6c48a475ab53800be76"
+        }
+      ]
+    },
+    {
+      "id": "f_sand",
+      "prompt": "Separate footsteps of leather boots walking on dry beach sand, close, about eight steps with clear gaps, no background noise",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/f_sand.mp3",
+        "bytes": 97010,
+        "sha256": "b6ddbbd2f317b8e67346f2ccce5ac786d08cf4f984117b0a20896b59e4c4dc45"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "steps",
+        "name": "step.sand",
+        "mergeMs": 200,
+        "max": 10,
+        "targetDb": -22,
+        "variants": 9,
+        "spans": [
+          [0, 0.211],
+          [0.629, 0.928],
+          [1.301, 1.509],
+          [1.893, 2.179],
+          [2.49, 2.776],
+          [3.202, 3.405],
+          [3.879, 4.075],
+          [4.549, 4.904],
+          [5.199, 5.4]
+        ]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-steps.ogg",
+          "bytes": 165865,
+          "sha256": "21331f3f93468b2cec52f612ac008fa089048d5d06db78aaabc3a79348a257c4"
+        },
+        {
+          "path": "public/assets/audio/world/bank-steps.m4a",
+          "bytes": 245891,
+          "sha256": "a22542df86263b1b7c5f34a4140c95ea41fa42d3b7cfc6c48a475ab53800be76"
+        }
+      ]
+    },
+    {
+      "id": "f_water",
+      "prompt": "Separate footsteps wading through shallow water up to the ankles, splashing, close, about six steps with gaps, no background noise",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/f_water.mp3",
+        "bytes": 97010,
+        "sha256": "5a0ab1436ab4f5b35b5ced0fa5553c482a8205b6d52906a9f1cf43ce08a48f28"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "steps",
+        "name": "step.water",
+        "targetDb": -21,
+        "ranges": [[0.68, 1.08], [1.12, 1.74], [1.85, 2.42], [2.52, 3.16], [3.22, 3.88], [4.3, 4.64], [4.66, 5]],
+        "variants": 7,
+        "spans": [[0.68, 1.08], [1.12, 1.74], [1.85, 2.42], [2.52, 3.16], [3.22, 3.88], [4.3, 4.64], [4.66, 5]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-steps.ogg",
+          "bytes": 165865,
+          "sha256": "21331f3f93468b2cec52f612ac008fa089048d5d06db78aaabc3a79348a257c4"
+        },
+        {
+          "path": "public/assets/audio/world/bank-steps.m4a",
+          "bytes": 245891,
+          "sha256": "a22542df86263b1b7c5f34a4140c95ea41fa42d3b7cfc6c48a475ab53800be76"
+        }
+      ]
+    },
+    {
+      "id": "t_steps_gravel",
+      "prompt": "Six separate footsteps of a man in leather boots walking slowly on a dry gravel path, close, with clear pauses between steps, no background noise",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/t_steps_gravel.mp3",
+        "bytes": 97010,
+        "sha256": "c46947715b99a657ffe86bfe9dc47a1888f225e8374e26fa0dfe271819f7d3c1"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "steps",
+        "name": "step.gravel",
+        "mergeMs": 160,
+        "max": 10,
+        "targetDb": -21,
+        "variants": 10,
+        "spans": [
+          [0.013, 0.323],
+          [0.586, 0.859],
+          [1.154, 1.573],
+          [1.759, 2.048],
+          [2.269, 2.643],
+          [3.482, 3.803],
+          [4.095, 4.501],
+          [4.677, 4.96],
+          [5.175, 5.475],
+          [5.73, 5.96]
+        ]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-steps.ogg",
+          "bytes": 165865,
+          "sha256": "21331f3f93468b2cec52f612ac008fa089048d5d06db78aaabc3a79348a257c4"
+        },
+        {
+          "path": "public/assets/audio/world/bank-steps.m4a",
+          "bytes": 245891,
+          "sha256": "a22542df86263b1b7c5f34a4140c95ea41fa42d3b7cfc6c48a475ab53800be76"
+        }
+      ]
+    },
+    {
+      "id": "f_run",
+      "prompt": "Separate fast running footsteps of leather boots on earth and grass, close, about ten steps, no background noise",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/f_run.mp3",
+        "bytes": 81128,
+        "sha256": "d7bd5b62a60b8ed1d2efb2ca7dc28562e41201ef3e238cbe25157daee5bef538"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "steps",
+        "name": "step.run",
+        "mergeMs": 120,
+        "max": 10,
+        "targetDb": -20,
+        "maxSeconds": 0.42,
+        "variants": 9,
+        "spans": [
+          [0, 0.299],
+          [0.485, 0.869],
+          [1.029, 1.312],
+          [1.509, 1.824],
+          [2.013, 2.451],
+          [2.951, 3.323],
+          [3.447, 3.747],
+          [3.922, 4.232],
+          [4.41, 4.704]
+        ]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-steps.ogg",
+          "bytes": 165865,
+          "sha256": "21331f3f93468b2cec52f612ac008fa089048d5d06db78aaabc3a79348a257c4"
+        },
+        {
+          "path": "public/assets/audio/world/bank-steps.m4a",
+          "bytes": 245891,
+          "sha256": "a22542df86263b1b7c5f34a4140c95ea41fa42d3b7cfc6c48a475ab53800be76"
+        }
+      ]
+    },
+    {
+      "id": "f_land",
+      "prompt": "Three separate heavy landings of a person jumping down onto earth, boots thudding with a little gear rattle, close, gaps between, no background noise",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/f_land.mp3",
+        "bytes": 65245,
+        "sha256": "7bb32cb32450c9b5db08def0e8382f9432094fe3d895e82469f4cacec7e6687c"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "steps",
+        "name": "land",
+        "targetDb": -18,
+        "ranges": [[1, 1.95], [2.35, 3]],
+        "variants": 2,
+        "spans": [[1, 1.95], [2.35, 3]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-steps.ogg",
+          "bytes": 165865,
+          "sha256": "21331f3f93468b2cec52f612ac008fa089048d5d06db78aaabc3a79348a257c4"
+        },
+        {
+          "path": "public/assets/audio/world/bank-steps.m4a",
+          "bytes": 245891,
+          "sha256": "a22542df86263b1b7c5f34a4140c95ea41fa42d3b7cfc6c48a475ab53800be76"
+        }
+      ]
+    },
+    {
+      "id": "c_swing",
+      "prompt": "Several separate fast sword swings whooshing through the air, close, short gaps between, no impacts",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/c_swing.mp3",
+        "bytes": 65245,
+        "sha256": "2e2c7b6a80b48057198f6607469daded9cd323949ad5a4e00e9f85a912a51f1f"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "combat",
+        "name": "swing",
+        "mergeMs": 60,
+        "max": 10,
+        "targetDb": -20,
+        "variants": 8,
+        "spans": [
+          [0.071, 0.28],
+          [0.375, 1.032],
+          [1.103, 1.323],
+          [1.445, 1.696],
+          [1.855, 2.184],
+          [2.365, 2.552],
+          [2.991, 3.451],
+          [3.61, 3.832]
+        ]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-combat.ogg",
+          "bytes": 203066,
+          "sha256": "1ced96912b3630a6000b6b0f145e6cb38a8697c343ec2f772d4522de0df5afc6"
+        },
+        {
+          "path": "public/assets/audio/world/bank-combat.m4a",
+          "bytes": 267981,
+          "sha256": "4277a986c958ac741aa3bbc768974bcc55b117939ca7e86a6e76c4da0a21a443"
+        }
+      ]
+    },
+    {
+      "id": "c_swing_heavy",
+      "prompt": "Three separate heavy slow swings of a large blade whooshing through the air, deep whoosh, gaps between, no impacts",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/c_swing_heavy.mp3",
+        "bytes": 65245,
+        "sha256": "b6a620189ff5b1c16d84f35840c72520f3a295dcd9e1a7550c3c0c94098209fd"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "combat",
+        "name": "swing.heavy",
+        "targetDb": -19,
+        "variants": 1,
+        "spans": [[0.365, 2.283]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-combat.ogg",
+          "bytes": 203066,
+          "sha256": "1ced96912b3630a6000b6b0f145e6cb38a8697c343ec2f772d4522de0df5afc6"
+        },
+        {
+          "path": "public/assets/audio/world/bank-combat.m4a",
+          "bytes": 267981,
+          "sha256": "4277a986c958ac741aa3bbc768974bcc55b117939ca7e86a6e76c4da0a21a443"
+        }
+      ]
+    },
+    {
+      "id": "c_hit",
+      "prompt": "Several separate sword strikes hitting a body through leather and cloth, dull heavy thuds, close, gaps between, no voices",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/c_hit.mp3",
+        "bytes": 65245,
+        "sha256": "8f3866c0bdc60a9bfdd350490cb163e112212abd5631aadd230e74c08c01c699"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "combat",
+        "name": "hit.flesh",
+        "mergeMs": 100,
+        "max": 4,
+        "targetDb": -16,
+        "variants": 2,
+        "spans": [[0.33, 0.888], [1.693, 2.693]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-combat.ogg",
+          "bytes": 203066,
+          "sha256": "1ced96912b3630a6000b6b0f145e6cb38a8697c343ec2f772d4522de0df5afc6"
+        },
+        {
+          "path": "public/assets/audio/world/bank-combat.m4a",
+          "bytes": 267981,
+          "sha256": "4277a986c958ac741aa3bbc768974bcc55b117939ca7e86a6e76c4da0a21a443"
+        }
+      ]
+    },
+    {
+      "id": "c_block",
+      "prompt": "Several separate steel swords clashing and blocking, sharp metallic clangs, close, gaps between",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/c_block.mp3",
+        "bytes": 65245,
+        "sha256": "2e889e0f6b7941cf699503a79b4bda74356e64aacf02a79f19d156d11f342ae4"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "combat",
+        "name": "hit.block",
+        "mergeMs": 100,
+        "max": 4,
+        "targetDb": -17,
+        "variants": 3,
+        "spans": [[0, 0.28], [0.495, 1.709], [2.301, 2.869]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-combat.ogg",
+          "bytes": 203066,
+          "sha256": "1ced96912b3630a6000b6b0f145e6cb38a8697c343ec2f772d4522de0df5afc6"
+        },
+        {
+          "path": "public/assets/audio/world/bank-combat.m4a",
+          "bytes": 267981,
+          "sha256": "4277a986c958ac741aa3bbc768974bcc55b117939ca7e86a6e76c4da0a21a443"
+        }
+      ]
+    },
+    {
+      "id": "c_parry",
+      "prompt": "Two separate ringing steel sword parries with a bright metallic ring that rings out, close",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/c_parry.mp3",
+        "bytes": 48945,
+        "sha256": "a0b1c4214bb47534db44568fec9841f56ddcb143ac03ebb54651e5c1fa7e4665"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "combat",
+        "name": "hit.parry",
+        "targetDb": -17,
+        "ranges": [[0, 0.45], [0.45, 2.3]],
+        "variants": 2,
+        "spans": [[0, 0.45], [0.45, 2.3]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-combat.ogg",
+          "bytes": 203066,
+          "sha256": "1ced96912b3630a6000b6b0f145e6cb38a8697c343ec2f772d4522de0df5afc6"
+        },
+        {
+          "path": "public/assets/audio/world/bank-combat.m4a",
+          "bytes": 267981,
+          "sha256": "4277a986c958ac741aa3bbc768974bcc55b117939ca7e86a6e76c4da0a21a443"
+        }
+      ]
+    },
+    {
+      "id": "c_punch",
+      "prompt": "Several separate fist punches hitting a body, dull thumps, close, gaps between, no voices",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/c_punch.mp3",
+        "bytes": 48945,
+        "sha256": "92c52c1268c9759d93c1c2628dbd726c26a562673cf44f850dae4c0c71f123c6"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "combat",
+        "name": "hit.punch",
+        "mergeMs": 100,
+        "max": 4,
+        "targetDb": -17,
+        "variants": 3,
+        "spans": [[0, 0.325], [1.039, 1.419], [2.093, 2.496]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-combat.ogg",
+          "bytes": 203066,
+          "sha256": "1ced96912b3630a6000b6b0f145e6cb38a8697c343ec2f772d4522de0df5afc6"
+        },
+        {
+          "path": "public/assets/audio/world/bank-combat.m4a",
+          "bytes": 267981,
+          "sha256": "4277a986c958ac741aa3bbc768974bcc55b117939ca7e86a6e76c4da0a21a443"
+        }
+      ]
+    },
+    {
+      "id": "v_hurt",
+      "prompt": "Several separate short pained grunts of an adult man being hit in a fight, close, gaps between, no words",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/v_hurt.mp3",
+        "bytes": 81128,
+        "sha256": "8c2bfed9163283c693f12bf8a8d84981743f22295725aa3a588e7ab8ae35b9c3"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "combat",
+        "name": "voice.hurt",
+        "mergeMs": 120,
+        "max": 6,
+        "targetDb": -18,
+        "variants": 4,
+        "spans": [[0, 0.296], [0.906, 1.136], [1.951, 2.347], [4.002, 4.544]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-combat.ogg",
+          "bytes": 203066,
+          "sha256": "1ced96912b3630a6000b6b0f145e6cb38a8697c343ec2f772d4522de0df5afc6"
+        },
+        {
+          "path": "public/assets/audio/world/bank-combat.m4a",
+          "bytes": 267981,
+          "sha256": "4277a986c958ac741aa3bbc768974bcc55b117939ca7e86a6e76c4da0a21a443"
+        }
+      ]
+    },
+    {
+      "id": "v_death",
+      "prompt": "A man's short dying groan as he falls to the ground, close, no words",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/v_death.mp3",
+        "bytes": 48945,
+        "sha256": "b8c80efbc61fccb928427bdc24453ad7d2401e55b0bb886508376ee6bf66eb76"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "combat",
+        "name": "voice.death",
+        "targetDb": -18,
+        "variants": 1,
+        "spans": [[0, 2.509]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-combat.ogg",
+          "bytes": 203066,
+          "sha256": "1ced96912b3630a6000b6b0f145e6cb38a8697c343ec2f772d4522de0df5afc6"
+        },
+        {
+          "path": "public/assets/audio/world/bank-combat.m4a",
+          "bytes": 267981,
+          "sha256": "4277a986c958ac741aa3bbc768974bcc55b117939ca7e86a6e76c4da0a21a443"
+        }
+      ]
+    },
+    {
+      "id": "v_breath",
+      "prompt": "Heavy tired breathing of an adult man after running hard, close, no words",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/v_breath.mp3",
+        "bytes": 97010,
+        "sha256": "3fc6f120238b33da75df8e38ccfa46561e90e27cda12107e5df185a01f74f0a7"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "combat",
+        "name": "voice.breath",
+        "mergeMs": 150,
+        "max": 10,
+        "targetDb": -26,
+        "variants": 5,
+        "spans": [[0, 1.779], [1.941, 2.587], [3.33, 3.611], [4.069, 4.563], [4.73, 5.203]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-combat.ogg",
+          "bytes": 203066,
+          "sha256": "1ced96912b3630a6000b6b0f145e6cb38a8697c343ec2f772d4522de0df5afc6"
+        },
+        {
+          "path": "public/assets/audio/world/bank-combat.m4a",
+          "bytes": 267981,
+          "sha256": "4277a986c958ac741aa3bbc768974bcc55b117939ca7e86a6e76c4da0a21a443"
+        }
+      ]
+    },
+    {
+      "id": "e_growl",
+      "prompt": "A large wild predator beast growling low and menacingly, several separate growls and snarls with gaps, close, no music",
+      "seconds": 8,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/e_growl.mp3",
+        "bytes": 129193,
+        "sha256": "eea10f9a4098adb5d0831cc2765cc85bd2563ea95e39a610f2b272c4fe0a29ae"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "combat",
+        "name": "beast.growl",
+        "mergeMs": 200,
+        "max": 4,
+        "targetDb": -17,
+        "maxSeconds": 2.6,
+        "variants": 3,
+        "spans": [[0.386, 1.699], [2.053, 4.669], [5.018, 6.664]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-combat.ogg",
+          "bytes": 203066,
+          "sha256": "1ced96912b3630a6000b6b0f145e6cb38a8697c343ec2f772d4522de0df5afc6"
+        },
+        {
+          "path": "public/assets/audio/world/bank-combat.m4a",
+          "bytes": 267981,
+          "sha256": "4277a986c958ac741aa3bbc768974bcc55b117939ca7e86a6e76c4da0a21a443"
+        }
+      ]
+    },
+    {
+      "id": "e_attack",
+      "prompt": "Two separate vicious roaring snarls of a large beast lunging to attack, close",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/e_attack.mp3",
+        "bytes": 65245,
+        "sha256": "446b5e05b55b512dd2d44f0b2dcadc1310294d6c489880cd37ad6d06b85cf71e"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "combat",
+        "name": "beast.attack",
+        "targetDb": -16,
+        "variants": 1,
+        "spans": [[0, 4]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-combat.ogg",
+          "bytes": 203066,
+          "sha256": "1ced96912b3630a6000b6b0f145e6cb38a8697c343ec2f772d4522de0df5afc6"
+        },
+        {
+          "path": "public/assets/audio/world/bank-combat.m4a",
+          "bytes": 267981,
+          "sha256": "4277a986c958ac741aa3bbc768974bcc55b117939ca7e86a6e76c4da0a21a443"
+        }
+      ]
+    },
+    {
+      "id": "e_hurt",
+      "prompt": "A large beast yelping and roaring in pain, two separate cries, close",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/e_hurt.mp3",
+        "bytes": 65245,
+        "sha256": "3d27f7443fbb9605400cd8f8a3c530a573878c4befeda70a6fc0fc5914355a48"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "combat",
+        "name": "beast.hurt",
+        "targetDb": -17,
+        "variants": 1,
+        "spans": [[0.059, 3.331]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-combat.ogg",
+          "bytes": 203066,
+          "sha256": "1ced96912b3630a6000b6b0f145e6cb38a8697c343ec2f772d4522de0df5afc6"
+        },
+        {
+          "path": "public/assets/audio/world/bank-combat.m4a",
+          "bytes": 267981,
+          "sha256": "4277a986c958ac741aa3bbc768974bcc55b117939ca7e86a6e76c4da0a21a443"
+        }
+      ]
+    },
+    {
+      "id": "e_bandit",
+      "prompt": "Several separate angry shouts and battle grunts of rough bandits attacking, no clear words, outdoors, gaps between",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/e_bandit.mp3",
+        "bytes": 81128,
+        "sha256": "b167140ab26317bcfb5a54df9ab48164e7a05d1f7bb4904c6bdb1988e4b9d73d"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "combat",
+        "name": "bandit.shout",
+        "mergeMs": 150,
+        "max": 3,
+        "targetDb": -18,
+        "maxSeconds": 2.6,
+        "variants": 3,
+        "spans": [[0, 0.832], [1.383, 1.84], [2.077, 4.693]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-combat.ogg",
+          "bytes": 203066,
+          "sha256": "1ced96912b3630a6000b6b0f145e6cb38a8697c343ec2f772d4522de0df5afc6"
+        },
+        {
+          "path": "public/assets/audio/world/bank-combat.m4a",
+          "bytes": 267981,
+          "sha256": "4277a986c958ac741aa3bbc768974bcc55b117939ca7e86a6e76c4da0a21a443"
+        }
+      ]
+    },
+    {
+      "id": "i_coins",
+      "prompt": "Several separate handfuls of old copper and silver coins clinking into a leather purse, close, gaps between",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/i_coins.mp3",
+        "bytes": 65245,
+        "sha256": "9174a302d829879334ac557331e1e837f1b50fd934065ae006d7e2801d6d7373"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "items",
+        "name": "item.coins",
+        "mergeMs": 250,
+        "max": 4,
+        "targetDb": -22,
+        "variants": 2,
+        "spans": [[0.223, 1.216], [1.981, 3.733]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-items.ogg",
+          "bytes": 161355,
+          "sha256": "ed22bf7a31ecf73a98953f48f59ecdf1cf1719b9d5cc8960e9a87e01cd36e3c2"
+        },
+        {
+          "path": "public/assets/audio/world/bank-items.m4a",
+          "bytes": 210446,
+          "sha256": "0d42a3a80a2647e33fce17461f348a0cd109ce754cc0c2ed56e29767834b1f55"
+        }
+      ]
+    },
+    {
+      "id": "test_coin",
+      "prompt": "A single old copper coin dropped onto a wooden table, short metallic clink, dry, no reverb",
+      "seconds": 1,
+      "loop": false,
+      "promptInfluence": 0.5,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/test_coin.mp3",
+        "bytes": 17180,
+        "sha256": "6fdcde14c3263f7f2682d7cbfcbaa018a44ad0f4a4da92146e2daff655504de8"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "items",
+        "name": "item.coin",
+        "targetDb": -22,
+        "variants": 1,
+        "spans": [[0, 0.605]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-items.ogg",
+          "bytes": 161355,
+          "sha256": "ed22bf7a31ecf73a98953f48f59ecdf1cf1719b9d5cc8960e9a87e01cd36e3c2"
+        },
+        {
+          "path": "public/assets/audio/world/bank-items.m4a",
+          "bytes": 210446,
+          "sha256": "0d42a3a80a2647e33fce17461f348a0cd109ce754cc0c2ed56e29767834b1f55"
+        }
+      ]
+    },
+    {
+      "id": "i_metal",
+      "prompt": "Several separate small iron objects being picked up: a rusty iron scrap, an iron wrench and a key clinking, close, gaps between",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/i_metal.mp3",
+        "bytes": 65245,
+        "sha256": "6e853773d9b910d53ac6861c1921f76bbd933fac367fe394dbe6cfa1a339ad60"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "items",
+        "name": "item.metal",
+        "mergeMs": 200,
+        "max": 3,
+        "targetDb": -21,
+        "variants": 2,
+        "spans": [[0.005, 0.773], [2.287, 3.603]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-items.ogg",
+          "bytes": 161355,
+          "sha256": "ed22bf7a31ecf73a98953f48f59ecdf1cf1719b9d5cc8960e9a87e01cd36e3c2"
+        },
+        {
+          "path": "public/assets/audio/world/bank-items.m4a",
+          "bytes": 210446,
+          "sha256": "0d42a3a80a2647e33fce17461f348a0cd109ce754cc0c2ed56e29767834b1f55"
+        }
+      ]
+    },
+    {
+      "id": "i_sword",
+      "prompt": "A sword being drawn from a leather scabbard with a metallic ring, a pause, then sheathed back, close",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/i_sword.mp3",
+        "bytes": 48945,
+        "sha256": "4fa627f48dc554de4ab2b0f1fbeab6aa63e56d43eb7978e278f7b1c18e2d2f54"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "items",
+        "name": "item.sword.draw",
+        "targetDb": -19,
+        "variants": 1,
+        "spans": [[0.013, 1.416]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-items.ogg",
+          "bytes": 161355,
+          "sha256": "ed22bf7a31ecf73a98953f48f59ecdf1cf1719b9d5cc8960e9a87e01cd36e3c2"
+        },
+        {
+          "path": "public/assets/audio/world/bank-items.m4a",
+          "bytes": 210446,
+          "sha256": "0d42a3a80a2647e33fce17461f348a0cd109ce754cc0c2ed56e29767834b1f55"
+        }
+      ]
+    },
+    {
+      "id": "i_sheathe",
+      "prompt": "A sword being slid back into a leather scabbard and settling with a soft metallic click, close",
+      "seconds": 2,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/i_sheathe.mp3",
+        "bytes": 33062,
+        "sha256": "257602e210feec7b348ce52c21f9fc0db842b9766cb6ba4a4e690907816caa00"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "items",
+        "name": "item.sword.sheathe",
+        "targetDb": -20,
+        "variants": 1,
+        "spans": [[0, 0.632]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-items.ogg",
+          "bytes": 161355,
+          "sha256": "ed22bf7a31ecf73a98953f48f59ecdf1cf1719b9d5cc8960e9a87e01cd36e3c2"
+        },
+        {
+          "path": "public/assets/audio/world/bank-items.m4a",
+          "bytes": 210446,
+          "sha256": "0d42a3a80a2647e33fce17461f348a0cd109ce754cc0c2ed56e29767834b1f55"
+        }
+      ]
+    },
+    {
+      "id": "i_cloth",
+      "prompt": "Several separate soft cloth fabric movements, a sash being folded and tucked away, close",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/i_cloth.mp3",
+        "bytes": 48945,
+        "sha256": "dc0840c92eba5ee5684b0f57b65233906b1ce2d57890722a8cec85de16835b01"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "items",
+        "name": "item.cloth",
+        "targetDb": -24,
+        "variants": 1,
+        "spans": [[0, 2.981]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-items.ogg",
+          "bytes": 161355,
+          "sha256": "ed22bf7a31ecf73a98953f48f59ecdf1cf1719b9d5cc8960e9a87e01cd36e3c2"
+        },
+        {
+          "path": "public/assets/audio/world/bank-items.m4a",
+          "bytes": 210446,
+          "sha256": "0d42a3a80a2647e33fce17461f348a0cd109ce754cc0c2ed56e29767834b1f55"
+        }
+      ]
+    },
+    {
+      "id": "i_satchel",
+      "prompt": "A leather satchel being opened with a buckle, rummaged through briefly, then closed, close",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/i_satchel.mp3",
+        "bytes": 65245,
+        "sha256": "98d779f5a8e4a98ec9913fa1c4156fb54c7725728b17ca45e25b43d38c10bef0"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "items",
+        "name": "item.satchel",
+        "targetDb": -22,
+        "variants": 1,
+        "spans": [[0, 3.979]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-items.ogg",
+          "bytes": 161355,
+          "sha256": "ed22bf7a31ecf73a98953f48f59ecdf1cf1719b9d5cc8960e9a87e01cd36e3c2"
+        },
+        {
+          "path": "public/assets/audio/world/bank-items.m4a",
+          "bytes": 210446,
+          "sha256": "0d42a3a80a2647e33fce17461f348a0cd109ce754cc0c2ed56e29767834b1f55"
+        }
+      ]
+    },
+    {
+      "id": "i_herb",
+      "prompt": "Several separate small plants and herbs being picked from the ground, leaves rustling and stems snapping, close",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/i_herb.mp3",
+        "bytes": 65245,
+        "sha256": "473de2b8e21f63dacccb8832033a49b3c7c340d8ffea9696765b5eca9408b63a"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "items",
+        "name": "item.herb",
+        "targetDb": -22,
+        "variants": 1,
+        "spans": [[0, 3.797]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-items.ogg",
+          "bytes": 161355,
+          "sha256": "ed22bf7a31ecf73a98953f48f59ecdf1cf1719b9d5cc8960e9a87e01cd36e3c2"
+        },
+        {
+          "path": "public/assets/audio/world/bank-items.m4a",
+          "bytes": 210446,
+          "sha256": "0d42a3a80a2647e33fce17461f348a0cd109ce754cc0c2ed56e29767834b1f55"
+        }
+      ]
+    },
+    {
+      "id": "i_eat",
+      "prompt": "A person taking two crunchy bites of an apple and chewing, then tearing a piece of bread and chewing, close, no voices",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/i_eat.mp3",
+        "bytes": 81128,
+        "sha256": "77b3025e057bcd3fff6ba3f4b37448f7231f49377912d4ec8322a771126269e7"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "items",
+        "name": "item.eat",
+        "targetDb": -21,
+        "variants": 1,
+        "spans": [[0.045, 4.608]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-items.ogg",
+          "bytes": 161355,
+          "sha256": "ed22bf7a31ecf73a98953f48f59ecdf1cf1719b9d5cc8960e9a87e01cd36e3c2"
+        },
+        {
+          "path": "public/assets/audio/world/bank-items.m4a",
+          "bytes": 210446,
+          "sha256": "0d42a3a80a2647e33fce17461f348a0cd109ce754cc0c2ed56e29767834b1f55"
+        }
+      ]
+    },
+    {
+      "id": "i_poultice",
+      "prompt": "A cork popped from a small clay jar, then a wet salve being smeared, close, no voices",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/i_poultice.mp3",
+        "bytes": 65245,
+        "sha256": "1b1b5088ad6d1e9c59c89871df66825b889d2ffec537b4ca700bbef56e7912e8"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "items",
+        "name": "item.poultice",
+        "targetDb": -22,
+        "variants": 1,
+        "spans": [[0, 3.272]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-items.ogg",
+          "bytes": 161355,
+          "sha256": "ed22bf7a31ecf73a98953f48f59ecdf1cf1719b9d5cc8960e9a87e01cd36e3c2"
+        },
+        {
+          "path": "public/assets/audio/world/bank-items.m4a",
+          "bytes": 210446,
+          "sha256": "0d42a3a80a2647e33fce17461f348a0cd109ce754cc0c2ed56e29767834b1f55"
+        }
+      ]
+    },
+    {
+      "id": "i_page",
+      "prompt": "Several separate old parchment pages being turned in a book, close",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/i_page.mp3",
+        "bytes": 65245,
+        "sha256": "e1186b922fe6bd0eeb80fe4371269918c7e4b1d8c164af32e366ed66a8edf387"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "items",
+        "name": "item.page",
+        "targetDb": -23,
+        "variants": 1,
+        "spans": [[0.155, 1.507]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-items.ogg",
+          "bytes": 161355,
+          "sha256": "ed22bf7a31ecf73a98953f48f59ecdf1cf1719b9d5cc8960e9a87e01cd36e3c2"
+        },
+        {
+          "path": "public/assets/audio/world/bank-items.m4a",
+          "bytes": 210446,
+          "sha256": "0d42a3a80a2647e33fce17461f348a0cd109ce754cc0c2ed56e29767834b1f55"
+        }
+      ]
+    },
+    {
+      "id": "i_map",
+      "prompt": "An old parchment map being unfolded and smoothed flat, close",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/i_map.mp3",
+        "bytes": 48945,
+        "sha256": "e0886f53d1bcb3f6f54f17000aba18c6be2f0e9d75149476a6a1715c884ea5d4"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "items",
+        "name": "item.map",
+        "targetDb": -23,
+        "variants": 1,
+        "spans": [[0, 2.677]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-items.ogg",
+          "bytes": 161355,
+          "sha256": "ed22bf7a31ecf73a98953f48f59ecdf1cf1719b9d5cc8960e9a87e01cd36e3c2"
+        },
+        {
+          "path": "public/assets/audio/world/bank-items.m4a",
+          "bytes": 210446,
+          "sha256": "0d42a3a80a2647e33fce17461f348a0cd109ce754cc0c2ed56e29767834b1f55"
+        }
+      ]
+    },
+    {
+      "id": "w_door_open",
+      "prompt": "An old heavy wooden door creaking open slowly on iron hinges, close",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/w_door_open.mp3",
+        "bytes": 65245,
+        "sha256": "e761d5e0e9d66beb4fe6fafaefe79720926b2063f27bfd0e6e303c1b5f692188"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "world",
+        "name": "door.open",
+        "targetDb": -19,
+        "variants": 1,
+        "spans": [[0, 3.843]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-world.ogg",
+          "bytes": 250872,
+          "sha256": "76f7f178acf2079e18bfb06672f4a5251289e709140ed293ab4b93ff8d0c3c33"
+        },
+        {
+          "path": "public/assets/audio/world/bank-world.m4a",
+          "bytes": 321477,
+          "sha256": "6d25dfaa5eeee2f5b3984a53ab3ca3437f5a5c578f78d856b6d8f10b6e4cd87f"
+        }
+      ]
+    },
+    {
+      "id": "w_door_close",
+      "prompt": "An old heavy wooden door closing with a solid thud and a latch click, close",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/w_door_close.mp3",
+        "bytes": 48945,
+        "sha256": "9273f44158a4bd4d32dd872cac097060f3796917b92d13a3cafd1cfd34448765"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "world",
+        "name": "door.close",
+        "targetDb": -18,
+        "variants": 1,
+        "spans": [[0.037, 1.789]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-world.ogg",
+          "bytes": 250872,
+          "sha256": "76f7f178acf2079e18bfb06672f4a5251289e709140ed293ab4b93ff8d0c3c33"
+        },
+        {
+          "path": "public/assets/audio/world/bank-world.m4a",
+          "bytes": 321477,
+          "sha256": "6d25dfaa5eeee2f5b3984a53ab3ca3437f5a5c578f78d856b6d8f10b6e4cd87f"
+        }
+      ]
+    },
+    {
+      "id": "w_shutter",
+      "prompt": "A wooden window shutter forced open with a crack of splintering wood, close",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/w_shutter.mp3",
+        "bytes": 48945,
+        "sha256": "f948cb5c7d3f7cd8e40be2bf32d942f42d7291e039f2deec58282050c91d92f6"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "world",
+        "name": "shutter.break",
+        "targetDb": -17,
+        "variants": 1,
+        "spans": [[0, 2.541]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-world.ogg",
+          "bytes": 250872,
+          "sha256": "76f7f178acf2079e18bfb06672f4a5251289e709140ed293ab4b93ff8d0c3c33"
+        },
+        {
+          "path": "public/assets/audio/world/bank-world.m4a",
+          "bytes": 321477,
+          "sha256": "6d25dfaa5eeee2f5b3984a53ab3ca3437f5a5c578f78d856b6d8f10b6e4cd87f"
+        }
+      ]
+    },
+    {
+      "id": "w_lever",
+      "prompt": "A heavy wooden and iron lever being pulled down, a mechanism clunks and chains rattle, close",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/w_lever.mp3",
+        "bytes": 48945,
+        "sha256": "b9bdf06dffa39ab120c4e144dbab03f3ae42a3c4f0bcf1a7ae01919187a6b453"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "world",
+        "name": "lever",
+        "targetDb": -18,
+        "variants": 1,
+        "spans": [[0, 2.368]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-world.ogg",
+          "bytes": 250872,
+          "sha256": "76f7f178acf2079e18bfb06672f4a5251289e709140ed293ab4b93ff8d0c3c33"
+        },
+        {
+          "path": "public/assets/audio/world/bank-world.m4a",
+          "bytes": 321477,
+          "sha256": "6d25dfaa5eeee2f5b3984a53ab3ca3437f5a5c578f78d856b6d8f10b6e4cd87f"
+        }
+      ]
+    },
+    {
+      "id": "w_gate",
+      "prompt": "An old wooden field gate swinging open with a long creak and a knock, outdoors",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/w_gate.mp3",
+        "bytes": 65245,
+        "sha256": "29faf87d5f42ad69e7874ac986945ac550f5a46cb9d82ee69add38affa895c6f"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "world",
+        "name": "gate",
+        "targetDb": -19,
+        "variants": 1,
+        "spans": [[0.008, 3.549]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-world.ogg",
+          "bytes": 250872,
+          "sha256": "76f7f178acf2079e18bfb06672f4a5251289e709140ed293ab4b93ff8d0c3c33"
+        },
+        {
+          "path": "public/assets/audio/world/bank-world.m4a",
+          "bytes": 321477,
+          "sha256": "6d25dfaa5eeee2f5b3984a53ab3ca3437f5a5c578f78d856b6d8f10b6e4cd87f"
+        }
+      ]
+    },
+    {
+      "id": "w_sluice",
+      "prompt": "A heavy wooden sluice gate being wedged and grinding into place in a stone channel, wood straining, a deep knock, outdoors",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/w_sluice.mp3",
+        "bytes": 81128,
+        "sha256": "945114bd810e42122fbe39176d8597db7aa226feb3ee307221c3d2a790c5f36f"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "world",
+        "name": "sluice",
+        "targetDb": -18,
+        "variants": 1,
+        "spans": [[0, 4.728]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-world.ogg",
+          "bytes": 250872,
+          "sha256": "76f7f178acf2079e18bfb06672f4a5251289e709140ed293ab4b93ff8d0c3c33"
+        },
+        {
+          "path": "public/assets/audio/world/bank-world.m4a",
+          "bytes": 321477,
+          "sha256": "6d25dfaa5eeee2f5b3984a53ab3ca3437f5a5c578f78d856b6d8f10b6e4cd87f"
+        }
+      ]
+    },
+    {
+      "id": "w_surge",
+      "prompt": "Water suddenly rushing through a stone channel, surging and gushing, outdoors, no music",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/w_surge.mp3",
+        "bytes": 97010,
+        "sha256": "8a7cbfa0b81d73e8a06693dc8de4e74a90b670f8e28ad3d66d4caf4130dba443"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "world",
+        "name": "water.surge",
+        "targetDb": -18,
+        "fadeOut": 0.8,
+        "variants": 1,
+        "spans": [[0, 6]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-world.ogg",
+          "bytes": 250872,
+          "sha256": "76f7f178acf2079e18bfb06672f4a5251289e709140ed293ab4b93ff8d0c3c33"
+        },
+        {
+          "path": "public/assets/audio/world/bank-world.m4a",
+          "bytes": 321477,
+          "sha256": "6d25dfaa5eeee2f5b3984a53ab3ca3437f5a5c578f78d856b6d8f10b6e4cd87f"
+        }
+      ]
+    },
+    {
+      "id": "w_bell",
+      "prompt": "A single strike of a large bronze bell in a village tower, deep tone ringing and slowly decaying, outdoors, no other sounds",
+      "seconds": 8,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/w_bell.mp3",
+        "bytes": 129193,
+        "sha256": "f2588aebd85adf82dde02a89d4db1325c6829f9a450bd34c927eae0f18347082"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "world",
+        "name": "bell.big",
+        "targetDb": -16,
+        "marginDb": 55,
+        "fadeOut": 0.6,
+        "variants": 1,
+        "spans": [[0.003, 7.275]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-world.ogg",
+          "bytes": 250872,
+          "sha256": "76f7f178acf2079e18bfb06672f4a5251289e709140ed293ab4b93ff8d0c3c33"
+        },
+        {
+          "path": "public/assets/audio/world/bank-world.m4a",
+          "bytes": 321477,
+          "sha256": "6d25dfaa5eeee2f5b3984a53ab3ca3437f5a5c578f78d856b6d8f10b6e4cd87f"
+        }
+      ]
+    },
+    {
+      "id": "w_bell_small",
+      "prompt": "A single strike of a smaller bronze bell, bright clear tone ringing out and decaying, outdoors, no other sounds",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/w_bell_small.mp3",
+        "bytes": 81128,
+        "sha256": "cacdb5372b9f39e298fd0338ad154e93e7273537eaba799f5fbc7bcd9a64c01f"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "world",
+        "name": "bell.small",
+        "targetDb": -17,
+        "marginDb": 55,
+        "fadeOut": 0.5,
+        "variants": 1,
+        "spans": [[0, 5]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-world.ogg",
+          "bytes": 250872,
+          "sha256": "76f7f178acf2079e18bfb06672f4a5251289e709140ed293ab4b93ff8d0c3c33"
+        },
+        {
+          "path": "public/assets/audio/world/bank-world.m4a",
+          "bytes": 321477,
+          "sha256": "6d25dfaa5eeee2f5b3984a53ab3ca3437f5a5c578f78d856b6d8f10b6e4cd87f"
+        }
+      ]
+    },
+    {
+      "id": "w_rite",
+      "prompt": "Water gently settling into a stone basin at a sacred spring with a soft deep resonant hum fading out, calm, no music, no voices",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/w_rite.mp3",
+        "bytes": 81128,
+        "sha256": "4e322d0d0df4c5efb68bfbfc2935cb008404abb0bac749b7eaacd2a056838ab2"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "world",
+        "name": "rite",
+        "targetDb": -22,
+        "marginDb": 50,
+        "fadeOut": 0.8,
+        "variants": 1,
+        "spans": [[0, 5]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-world.ogg",
+          "bytes": 250872,
+          "sha256": "76f7f178acf2079e18bfb06672f4a5251289e709140ed293ab4b93ff8d0c3c33"
+        },
+        {
+          "path": "public/assets/audio/world/bank-world.m4a",
+          "bytes": 321477,
+          "sha256": "6d25dfaa5eeee2f5b3984a53ab3ca3437f5a5c578f78d856b6d8f10b6e4cd87f"
+        }
+      ]
+    },
+    {
+      "id": "w_wood_hit",
+      "prompt": "Several separate wooden crates and barrels being dropped onto earth and bumping, hollow wooden thuds, close, gaps between",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/w_wood_hit.mp3",
+        "bytes": 81128,
+        "sha256": "f2c0187d92c982e584a5fb664c596143f8cb27a80b24895792167800a0a660ff"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "world",
+        "name": "wood.impact",
+        "mergeMs": 150,
+        "max": 4,
+        "targetDb": -17,
+        "variants": 2,
+        "spans": [[0.325, 1.085], [1.517, 2.867]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-world.ogg",
+          "bytes": 250872,
+          "sha256": "76f7f178acf2079e18bfb06672f4a5251289e709140ed293ab4b93ff8d0c3c33"
+        },
+        {
+          "path": "public/assets/audio/world/bank-world.m4a",
+          "bytes": 321477,
+          "sha256": "6d25dfaa5eeee2f5b3984a53ab3ca3437f5a5c578f78d856b6d8f10b6e4cd87f"
+        }
+      ]
+    },
+    {
+      "id": "w_lift",
+      "prompt": "A heavy wooden barrel scraping and being lifted off the ground, wood creaking, close",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/w_lift.mp3",
+        "bytes": 48945,
+        "sha256": "a1ef96fbde2b4979c8208aedb7b3374501ee8e2277c3b77cfc237d5324313fd2"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "world",
+        "name": "wood.lift",
+        "targetDb": -20,
+        "variants": 1,
+        "spans": [[0.107, 2.907]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-world.ogg",
+          "bytes": 250872,
+          "sha256": "76f7f178acf2079e18bfb06672f4a5251289e709140ed293ab4b93ff8d0c3c33"
+        },
+        {
+          "path": "public/assets/audio/world/bank-world.m4a",
+          "bytes": 321477,
+          "sha256": "6d25dfaa5eeee2f5b3984a53ab3ca3437f5a5c578f78d856b6d8f10b6e4cd87f"
+        }
+      ]
+    },
+    {
+      "id": "n_gulls",
+      "prompt": "Several separate seagull calls overhead at a beach, outdoors, gaps between, no waves",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/n_gulls.mp3",
+        "bytes": 97010,
+        "sha256": "39c8da2bf0089526eb00a4f170d34a0bdd624eecdfcf6f24d41e82e599b7b6b1"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "nature",
+        "name": "gull",
+        "targetDb": -21,
+        "ranges": [[0, 1.25], [1.25, 2.56], [2.56, 3.6]],
+        "variants": 3,
+        "spans": [[0, 1.25], [1.25, 2.56], [2.56, 3.6]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-nature.ogg",
+          "bytes": 224315,
+          "sha256": "383ddf34f252f77142885e13d188b1eea2ee9a53a80d0c73b183777f22121a96"
+        },
+        {
+          "path": "public/assets/audio/world/bank-nature.m4a",
+          "bytes": 275803,
+          "sha256": "602abb0d1993346592e21a0f1f40ef04db73731c9505c10ca919d5ca464c1a2f"
+        }
+      ]
+    },
+    {
+      "id": "n_songbird",
+      "prompt": "A blackbird and a song thrush singing separate phrases in a forest, outdoors, clear, no wind",
+      "seconds": 8,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/n_songbird.mp3",
+        "bytes": 129193,
+        "sha256": "145da32ba6c70e05b7701446999a6c158b1a2a7ea4ce0945a2c16ddab03ca08c"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "nature",
+        "name": "songbird",
+        "mergeMs": 350,
+        "max": 4,
+        "targetDb": -21,
+        "maxSeconds": 3.5,
+        "variants": 2,
+        "spans": [[0, 2.731], [4.173, 7.589]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-nature.ogg",
+          "bytes": 224315,
+          "sha256": "383ddf34f252f77142885e13d188b1eea2ee9a53a80d0c73b183777f22121a96"
+        },
+        {
+          "path": "public/assets/audio/world/bank-nature.m4a",
+          "bytes": 275803,
+          "sha256": "602abb0d1993346592e21a0f1f40ef04db73731c9505c10ca919d5ca464c1a2f"
+        }
+      ]
+    },
+    {
+      "id": "n_smallbird",
+      "prompt": "Several separate small songbird chirps and trills in bushes, outdoors, gaps between, no wind",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/n_smallbird.mp3",
+        "bytes": 97010,
+        "sha256": "752a30c37d99589cbfa2edc6487207150c05a2cdfc3319b88ce33759ad5935f7"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "nature",
+        "name": "smallbird",
+        "mergeMs": 300,
+        "max": 6,
+        "targetDb": -22,
+        "maxSeconds": 2.5,
+        "variants": 1,
+        "spans": [[0.215, 2.733]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-nature.ogg",
+          "bytes": 224315,
+          "sha256": "383ddf34f252f77142885e13d188b1eea2ee9a53a80d0c73b183777f22121a96"
+        },
+        {
+          "path": "public/assets/audio/world/bank-nature.m4a",
+          "bytes": 275803,
+          "sha256": "602abb0d1993346592e21a0f1f40ef04db73731c9505c10ca919d5ca464c1a2f"
+        }
+      ]
+    },
+    {
+      "id": "n_crow",
+      "prompt": "Several separate crows cawing from tall trees, outdoors, gaps between",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/n_crow.mp3",
+        "bytes": 81128,
+        "sha256": "bfcaf6781bcaeb5b9d2fa977621c2a7ce4d09a75fbc6f56ff9031c829dd93c05"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "nature",
+        "name": "crow",
+        "mergeMs": 150,
+        "max": 6,
+        "targetDb": -20,
+        "variants": 2,
+        "spans": [[0, 2.395], [2.679, 4.312]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-nature.ogg",
+          "bytes": 224315,
+          "sha256": "383ddf34f252f77142885e13d188b1eea2ee9a53a80d0c73b183777f22121a96"
+        },
+        {
+          "path": "public/assets/audio/world/bank-nature.m4a",
+          "bytes": 275803,
+          "sha256": "602abb0d1993346592e21a0f1f40ef04db73731c9505c10ca919d5ca464c1a2f"
+        }
+      ]
+    },
+    {
+      "id": "n_owl",
+      "prompt": "Two separate tawny owl hoots at night in a forest, distant, gaps between",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/n_owl.mp3",
+        "bytes": 81128,
+        "sha256": "d2262cccaa7dcdc03076a7154209e8db423a5b9ae5233d352c132593e048f8f5"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "nature",
+        "name": "owl",
+        "targetDb": -21,
+        "variants": 1,
+        "spans": [[0.277, 3.88]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-nature.ogg",
+          "bytes": 224315,
+          "sha256": "383ddf34f252f77142885e13d188b1eea2ee9a53a80d0c73b183777f22121a96"
+        },
+        {
+          "path": "public/assets/audio/world/bank-nature.m4a",
+          "bytes": 275803,
+          "sha256": "602abb0d1993346592e21a0f1f40ef04db73731c9505c10ca919d5ca464c1a2f"
+        }
+      ]
+    },
+    {
+      "id": "n_woodpecker",
+      "prompt": "A woodpecker drumming on a tree trunk twice, outdoors, forest",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/n_woodpecker.mp3",
+        "bytes": 65245,
+        "sha256": "25f5e5d2b63d0b3763680672030980dc2a3e2cf2d37c579f517eaf4c9804a0ec"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "nature",
+        "name": "woodpecker",
+        "targetDb": -21,
+        "variants": 1,
+        "spans": [[0.523, 2.477]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-nature.ogg",
+          "bytes": 224315,
+          "sha256": "383ddf34f252f77142885e13d188b1eea2ee9a53a80d0c73b183777f22121a96"
+        },
+        {
+          "path": "public/assets/audio/world/bank-nature.m4a",
+          "bytes": 275803,
+          "sha256": "602abb0d1993346592e21a0f1f40ef04db73731c9505c10ca919d5ca464c1a2f"
+        }
+      ]
+    },
+    {
+      "id": "n_frog",
+      "prompt": "Several separate frog croaks by a river at night, gaps between",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/n_frog.mp3",
+        "bytes": 81128,
+        "sha256": "4fdb3cd2bbb3e719b362653cbc5c1ddc3d9f14551761b9f1df44bbb39c088d28"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "nature",
+        "name": "frog",
+        "mergeMs": 450,
+        "max": 4,
+        "targetDb": -22,
+        "maxSeconds": 2,
+        "variants": 2,
+        "spans": [[0.322, 2.093], [2.682, 4.653]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-nature.ogg",
+          "bytes": 224315,
+          "sha256": "383ddf34f252f77142885e13d188b1eea2ee9a53a80d0c73b183777f22121a96"
+        },
+        {
+          "path": "public/assets/audio/world/bank-nature.m4a",
+          "bytes": 275803,
+          "sha256": "602abb0d1993346592e21a0f1f40ef04db73731c9505c10ca919d5ca464c1a2f"
+        }
+      ]
+    },
+    {
+      "id": "n_dog",
+      "prompt": "A farm dog barking a few times in the distance, outdoors",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/n_dog.mp3",
+        "bytes": 65245,
+        "sha256": "9f542327a5d6cbab3eb31ea5cb631b0bbf3ab782955743cf65f329150e13cda2"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "nature",
+        "name": "dog",
+        "mergeMs": 250,
+        "max": 4,
+        "targetDb": -20,
+        "variants": 4,
+        "spans": [[0.074, 0.584], [1.311, 1.643], [2.101, 2.853], [3.314, 3.632]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-nature.ogg",
+          "bytes": 224315,
+          "sha256": "383ddf34f252f77142885e13d188b1eea2ee9a53a80d0c73b183777f22121a96"
+        },
+        {
+          "path": "public/assets/audio/world/bank-nature.m4a",
+          "bytes": 275803,
+          "sha256": "602abb0d1993346592e21a0f1f40ef04db73731c9505c10ca919d5ca464c1a2f"
+        }
+      ]
+    },
+    {
+      "id": "n_chicken",
+      "prompt": "Chickens clucking and a hen cackling in a farmyard, close",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/n_chicken.mp3",
+        "bytes": 65245,
+        "sha256": "64b60d0343be55bf71e80feb04a91caae74f97a0b6eaed5c6684894ac5549c2a"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "nature",
+        "name": "chicken",
+        "mergeMs": 250,
+        "max": 5,
+        "targetDb": -21,
+        "maxSeconds": 1.6,
+        "variants": 1,
+        "spans": [[0, 1.611]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-nature.ogg",
+          "bytes": 224315,
+          "sha256": "383ddf34f252f77142885e13d188b1eea2ee9a53a80d0c73b183777f22121a96"
+        },
+        {
+          "path": "public/assets/audio/world/bank-nature.m4a",
+          "bytes": 275803,
+          "sha256": "602abb0d1993346592e21a0f1f40ef04db73731c9505c10ca919d5ca464c1a2f"
+        }
+      ]
+    },
+    {
+      "id": "n_rooster",
+      "prompt": "A rooster crowing once at dawn in a village, outdoors",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/n_rooster.mp3",
+        "bytes": 48945,
+        "sha256": "ccd10a2423081d317a0971cc014281395ef0d413aec5f79ceb6842b76cd48c94"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "nature",
+        "name": "rooster",
+        "targetDb": -19,
+        "variants": 1,
+        "spans": [[0.035, 2.341]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-nature.ogg",
+          "bytes": 224315,
+          "sha256": "383ddf34f252f77142885e13d188b1eea2ee9a53a80d0c73b183777f22121a96"
+        },
+        {
+          "path": "public/assets/audio/world/bank-nature.m4a",
+          "bytes": 275803,
+          "sha256": "602abb0d1993346592e21a0f1f40ef04db73731c9505c10ca919d5ca464c1a2f"
+        }
+      ]
+    },
+    {
+      "id": "n_horse",
+      "prompt": "A horse snorting and whinnying softly, then hooves shifting on dirt, close",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/n_horse.mp3",
+        "bytes": 81128,
+        "sha256": "8781f99fb830c6268990371a6f77ded4a41cd2268dab4d858c0b7cf5d9a8079a"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "nature",
+        "name": "horse",
+        "targetDb": -20,
+        "variants": 1,
+        "spans": [[0.067, 4.963]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-nature.ogg",
+          "bytes": 224315,
+          "sha256": "383ddf34f252f77142885e13d188b1eea2ee9a53a80d0c73b183777f22121a96"
+        },
+        {
+          "path": "public/assets/audio/world/bank-nature.m4a",
+          "bytes": 275803,
+          "sha256": "602abb0d1993346592e21a0f1f40ef04db73731c9505c10ca919d5ca464c1a2f"
+        }
+      ]
+    },
+    {
+      "id": "n_creak",
+      "prompt": "Several separate creaks of old tree trunks and wooden beams swaying in the wind, gaps between",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/n_creak.mp3",
+        "bytes": 65245,
+        "sha256": "00614f56b4c50ed7155ba5d62701b10094bd424d77b70cde5d8ce827227c34e6"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "nature",
+        "name": "creak",
+        "mergeMs": 200,
+        "max": 6,
+        "targetDb": -22,
+        "minSeconds": 0.3,
+        "variants": 3,
+        "spans": [[0.087, 0.672], [0.917, 2.341], [2.671, 3.168]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-nature.ogg",
+          "bytes": 224315,
+          "sha256": "383ddf34f252f77142885e13d188b1eea2ee9a53a80d0c73b183777f22121a96"
+        },
+        {
+          "path": "public/assets/audio/world/bank-nature.m4a",
+          "bytes": 275803,
+          "sha256": "602abb0d1993346592e21a0f1f40ef04db73731c9505c10ca919d5ca464c1a2f"
+        }
+      ]
+    },
+    {
+      "id": "p_hammer",
+      "prompt": "A carpenter hammering on wood at a slow working pace, close, several separate strikes",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/p_hammer.mp3",
+        "bytes": 81128,
+        "sha256": "962a433a92c93bdc5d229598ea56eef513164a3918bbeefd2a88141539b150fa"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "people",
+        "name": "work.hammer",
+        "mergeMs": 100,
+        "max": 8,
+        "targetDb": -20,
+        "variants": 8,
+        "spans": [
+          [1.202, 1.395],
+          [1.509, 1.715],
+          [2.037, 2.267],
+          [2.506, 2.739],
+          [3.018, 3.221],
+          [3.509, 3.699],
+          [3.999, 4.208],
+          [4.445, 4.648]
+        ]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-people.ogg",
+          "bytes": 230447,
+          "sha256": "8b01493d8d916db18568d2dec91dc76d0d02c77261c85fd3ed592156e6a41488"
+        },
+        {
+          "path": "public/assets/audio/world/bank-people.m4a",
+          "bytes": 315677,
+          "sha256": "2c0768942014f9f8f71db6e05b84f9df89b4d9460d076f6610c40673ff991c42"
+        }
+      ]
+    },
+    {
+      "id": "p_saw",
+      "prompt": "A hand saw cutting through a wooden plank, back and forth strokes, close",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/p_saw.mp3",
+        "bytes": 81128,
+        "sha256": "6704f5a74f371bf776e4e263d38850ee2d21a622630409b9e3e66a07ae6a0e20"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "people",
+        "name": "work.saw",
+        "targetDb": -21,
+        "variants": 1,
+        "spans": [[0, 4.893]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-people.ogg",
+          "bytes": 230447,
+          "sha256": "8b01493d8d916db18568d2dec91dc76d0d02c77261c85fd3ed592156e6a41488"
+        },
+        {
+          "path": "public/assets/audio/world/bank-people.m4a",
+          "bytes": 315677,
+          "sha256": "2c0768942014f9f8f71db6e05b84f9df89b4d9460d076f6610c40673ff991c42"
+        }
+      ]
+    },
+    {
+      "id": "p_sweep",
+      "prompt": "A broom sweeping a stone floor in short strokes, close",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/p_sweep.mp3",
+        "bytes": 81128,
+        "sha256": "f805f44435929ff78ebfefc513944ba21de2687af37ca71148c55fb359983ebc"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "people",
+        "name": "work.sweep",
+        "mergeMs": 150,
+        "max": 6,
+        "targetDb": -22,
+        "variants": 6,
+        "spans": [[0.01, 0.701], [1.034, 1.76], [2.061, 2.683], [2.917, 3.403], [3.591, 4.059], [4.343, 4.813]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-people.ogg",
+          "bytes": 230447,
+          "sha256": "8b01493d8d916db18568d2dec91dc76d0d02c77261c85fd3ed592156e6a41488"
+        },
+        {
+          "path": "public/assets/audio/world/bank-people.m4a",
+          "bytes": 315677,
+          "sha256": "2c0768942014f9f8f71db6e05b84f9df89b4d9460d076f6610c40673ff991c42"
+        }
+      ]
+    },
+    {
+      "id": "p_chisel",
+      "prompt": "An iron chisel and hammer cutting stone, several separate strikes with small chips falling, close",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/p_chisel.mp3",
+        "bytes": 81128,
+        "sha256": "3796675f62637fb1032a77fdafeae1f587e0d1c930a094aaa41aa79da1e8f3f1"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "people",
+        "name": "work.chisel",
+        "mergeMs": 40,
+        "max": 8,
+        "targetDb": -20,
+        "maxSeconds": 0.36,
+        "variants": 6,
+        "spans": [[0.37, 0.675], [0.767, 1.067], [1.159, 1.485], [1.567, 1.901], [1.97, 2.347], [2.887, 3.139]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-people.ogg",
+          "bytes": 230447,
+          "sha256": "8b01493d8d916db18568d2dec91dc76d0d02c77261c85fd3ed592156e6a41488"
+        },
+        {
+          "path": "public/assets/audio/world/bank-people.m4a",
+          "bytes": 315677,
+          "sha256": "2c0768942014f9f8f71db6e05b84f9df89b4d9460d076f6610c40673ff991c42"
+        }
+      ]
+    },
+    {
+      "id": "p_knead",
+      "prompt": "A baker kneading and slapping dough on a wooden table, close, no voices",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/p_knead.mp3",
+        "bytes": 81128,
+        "sha256": "b999a134e97e227aa6e294683b2f808dfc4ccc56b9155c8faa4958e29041e390"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "people",
+        "name": "work.knead",
+        "targetDb": -22,
+        "variants": 1,
+        "spans": [[0.376, 4.181]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-people.ogg",
+          "bytes": 230447,
+          "sha256": "8b01493d8d916db18568d2dec91dc76d0d02c77261c85fd3ed592156e6a41488"
+        },
+        {
+          "path": "public/assets/audio/world/bank-people.m4a",
+          "bytes": 315677,
+          "sha256": "2c0768942014f9f8f71db6e05b84f9df89b4d9460d076f6610c40673ff991c42"
+        }
+      ]
+    },
+    {
+      "id": "p_quill",
+      "prompt": "A quill pen scratching on parchment, writing several words, close",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/p_quill.mp3",
+        "bytes": 81128,
+        "sha256": "33a0f0a8bbaa12cd04e82de3fed4ab295229ac17a7f54b7cbaf3bb6bfd41c3ba"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "people",
+        "name": "work.quill",
+        "targetDb": -25,
+        "variants": 1,
+        "spans": [[0, 4.949]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-people.ogg",
+          "bytes": 230447,
+          "sha256": "8b01493d8d916db18568d2dec91dc76d0d02c77261c85fd3ed592156e6a41488"
+        },
+        {
+          "path": "public/assets/audio/world/bank-people.m4a",
+          "bytes": 315677,
+          "sha256": "2c0768942014f9f8f71db6e05b84f9df89b4d9460d076f6610c40673ff991c42"
+        }
+      ]
+    },
+    {
+      "id": "p_bucket",
+      "prompt": "A wooden bucket being filled with water and set down on stone, close",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/p_bucket.mp3",
+        "bytes": 81128,
+        "sha256": "54123ba24007245cf0043b6c26938a0002523b12896d8624a3f271ee1c9befbb"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "people",
+        "name": "work.bucket",
+        "targetDb": -21,
+        "variants": 1,
+        "spans": [[0, 4.792]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-people.ogg",
+          "bytes": 230447,
+          "sha256": "8b01493d8d916db18568d2dec91dc76d0d02c77261c85fd3ed592156e6a41488"
+        },
+        {
+          "path": "public/assets/audio/world/bank-people.m4a",
+          "bytes": 315677,
+          "sha256": "2c0768942014f9f8f71db6e05b84f9df89b4d9460d076f6610c40673ff991c42"
+        }
+      ]
+    },
+    {
+      "id": "p_sack",
+      "prompt": "Heavy grain sacks being lifted and dropped onto a wooden floor, dusty thumps, close",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/p_sack.mp3",
+        "bytes": 81128,
+        "sha256": "e5293ca5bdeba0e69b44f99a8856428cbf34852484737f9238ad2c95555a1c74"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "people",
+        "name": "work.sack",
+        "targetDb": -20,
+        "variants": 1,
+        "spans": [[0.011, 2.955]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-people.ogg",
+          "bytes": 230447,
+          "sha256": "8b01493d8d916db18568d2dec91dc76d0d02c77261c85fd3ed592156e6a41488"
+        },
+        {
+          "path": "public/assets/audio/world/bank-people.m4a",
+          "bytes": 315677,
+          "sha256": "2c0768942014f9f8f71db6e05b84f9df89b4d9460d076f6610c40673ff991c42"
+        }
+      ]
+    },
+    {
+      "id": "p_murmur",
+      "prompt": "Two or three villagers talking quietly together outdoors, an indistinct conversation murmur, no clear words, no music",
+      "seconds": 12,
+      "loop": false,
+      "promptInfluence": 0.5,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/p_murmur.mp3",
+        "bytes": 193141,
+        "sha256": "e5f3161164861ca4844dedfc65db01a540950629ec03d5e63bb197ff6ac328e8"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "people",
+        "name": "voice.murmur",
+        "targetDb": -24,
+        "ranges": [[0, 4.1], [4, 8.1], [7.9, 12]],
+        "variants": 3,
+        "spans": [[0, 4.1], [4, 8.1], [7.9, 12]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-people.ogg",
+          "bytes": 230447,
+          "sha256": "8b01493d8d916db18568d2dec91dc76d0d02c77261c85fd3ed592156e6a41488"
+        },
+        {
+          "path": "public/assets/audio/world/bank-people.m4a",
+          "bytes": 315677,
+          "sha256": "2c0768942014f9f8f71db6e05b84f9df89b4d9460d076f6610c40673ff991c42"
+        }
+      ]
+    },
+    {
+      "id": "p_cough",
+      "prompt": "Several separate quiet human sounds: an old man coughing, a woman clearing her throat, a tired sigh, close, gaps between, no words",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/p_cough.mp3",
+        "bytes": 97010,
+        "sha256": "e7412c9d0364dba794899b13ee4bce626554333ce9a3d8b8c7913cf04b00c099"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "people",
+        "name": "voice.cough",
+        "mergeMs": 250,
+        "max": 4,
+        "targetDb": -21,
+        "variants": 3,
+        "spans": [[0, 0.667], [1.162, 2.232], [4.733, 5.565]]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-people.ogg",
+          "bytes": 230447,
+          "sha256": "8b01493d8d916db18568d2dec91dc76d0d02c77261c85fd3ed592156e6a41488"
+        },
+        {
+          "path": "public/assets/audio/world/bank-people.m4a",
+          "bytes": 315677,
+          "sha256": "2c0768942014f9f8f71db6e05b84f9df89b4d9460d076f6610c40673ff991c42"
+        }
+      ]
+    },
+    {
+      "id": "a_sea",
+      "prompt": "Seamless loop: waves rolling in and breaking on a wide sandy beach, steady surf and foam hiss, light coastal wind, distant gulls, no music",
+      "seconds": 25,
+      "loop": true,
+      "promptInfluence": 0.4,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/a_sea.mp3",
+        "bytes": 401284,
+        "sha256": "192d7aba1b35f201109b9d0933a7f111fb1e3b967d1ce795a9e3eb4adfeea8ba"
+      },
+      "use": {
+        "type": "loop",
+        "name": "sea",
+        "targetDb": -24
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/loop-sea.ogg",
+          "bytes": 258432,
+          "sha256": "76937800f1f99f5c3725119fc612645529c0b5a934f9f012f2758332da0065b8"
+        },
+        {
+          "path": "public/assets/audio/world/loop-sea.m4a",
+          "bytes": 376745,
+          "sha256": "5aa85dd8bd4419bbd81133ee2b565ff7ec820bc1c2dfca07f63e40832423546f"
+        }
+      ]
+    },
+    {
+      "id": "a_forest_day",
+      "prompt": "Seamless loop: deep old forest by day, wind moving through tall leafy crowns, many distant songbirds, leaves rustling, calm, no music, no voices",
+      "seconds": 25,
+      "loop": true,
+      "promptInfluence": 0.4,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/a_forest_day.mp3",
+        "bytes": 401284,
+        "sha256": "b66ac412f40839f94113a66a95d095f76f2aecb3ed7cb5f3a07dff2ce2cbe7ac"
+      },
+      "use": {
+        "type": "loop",
+        "name": "forest_day",
+        "targetDb": -27
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/loop-forest_day.ogg",
+          "bytes": 269228,
+          "sha256": "868c91b2568202e30b35601c97043e01031fb2f7d85c26d9052f12140ca5b7f5"
+        },
+        {
+          "path": "public/assets/audio/world/loop-forest_day.m4a",
+          "bytes": 376605,
+          "sha256": "a32b26f4906ea64b27275af675b9462dd7d6026f678ed5520e79d99b5b76c295"
+        }
+      ]
+    },
+    {
+      "id": "a_forest_night",
+      "prompt": "Seamless loop: old forest at night, crickets and night insects, very soft wind in the trees, still and dark, no owls, no music",
+      "seconds": 25,
+      "loop": true,
+      "promptInfluence": 0.4,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/a_forest_night.mp3",
+        "bytes": 401284,
+        "sha256": "8a8d96101548b0067c4cc1f462edadf94577bf01fbcc769d427a957259635a65"
+      },
+      "use": {
+        "type": "loop",
+        "name": "forest_night",
+        "targetDb": -28
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/loop-forest_night.ogg",
+          "bytes": 279207,
+          "sha256": "d1c5d659615a41e9a3c2c00874387de5a7a5a3a2c1708442341d299d4a61b2d2"
+        },
+        {
+          "path": "public/assets/audio/world/loop-forest_night.m4a",
+          "bytes": 376232,
+          "sha256": "a7ee435f8342da7e552e11d7e3b65702848893b5d191421d77c545e0aa4a3d51"
+        }
+      ]
+    },
+    {
+      "id": "a_meadow_day",
+      "prompt": "Seamless loop: open grassy valley in summer, soft wind through long grass, insects humming, small birds far away, peaceful, no music",
+      "seconds": 25,
+      "loop": true,
+      "promptInfluence": 0.4,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/a_meadow_day.mp3",
+        "bytes": 401284,
+        "sha256": "26fc8bf784cb1c232be40b6d51cef4dd875465da4a6045595ab1ef495053aa65"
+      },
+      "use": {
+        "type": "loop",
+        "name": "meadow_day",
+        "targetDb": -27
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/loop-meadow_day.ogg",
+          "bytes": 248661,
+          "sha256": "6441d5ac5f3862d32d89c22c8518b07d58c7b5c66993785a460546e27b289b18"
+        },
+        {
+          "path": "public/assets/audio/world/loop-meadow_day.m4a",
+          "bytes": 377833,
+          "sha256": "8875407f6234f85c802d481ef6078f729149b65b313d58af6d500456bb96f4b6"
+        }
+      ]
+    },
+    {
+      "id": "a_village_day",
+      "prompt": "Seamless loop: small medieval village by day heard from the square, distant indistinct voices, far away hammering on wood, chickens clucking, footsteps on dirt, no music",
+      "seconds": 25,
+      "loop": true,
+      "promptInfluence": 0.4,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/a_village_day.mp3",
+        "bytes": 401284,
+        "sha256": "b69c7e6aaa94486b1e70a841fac2e2e3774f96e7f9f12ba2f774a64b1a7ad5e5"
+      },
+      "use": {
+        "type": "loop",
+        "name": "village_day",
+        "targetDb": -27
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/loop-village_day.ogg",
+          "bytes": 274757,
+          "sha256": "4a657e93e0ee9780b89f501cb732e63f11a62d56ec577ea2c1ad545a671481f4"
+        },
+        {
+          "path": "public/assets/audio/world/loop-village_day.m4a",
+          "bytes": 379516,
+          "sha256": "b3673c65d9561ef71ac5ab6b05df0cb63b5ccae32fd886f864ba2ad108253b4c"
+        }
+      ]
+    },
+    {
+      "id": "a_village_night",
+      "prompt": "Seamless loop: small village at night, crickets, faint wind, a wooden shutter creaking now and then, very quiet, no music, no voices",
+      "seconds": 15,
+      "loop": true,
+      "promptInfluence": 0.4,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/a_village_night.mp3",
+        "bytes": 241206,
+        "sha256": "7e273a3c02d7ddd4b7a61b99ade45da60fca15d4fe493f9e33e43839ccea5440"
+      },
+      "use": {
+        "type": "loop",
+        "name": "village_night",
+        "targetDb": -30
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/loop-village_night.ogg",
+          "bytes": 154959,
+          "sha256": "c322e7bbac3e1f3e18a68b3e19a772a30bdbe44ce2c6d60e3da9f6adde999c0d"
+        },
+        {
+          "path": "public/assets/audio/world/loop-village_night.m4a",
+          "bytes": 224060,
+          "sha256": "28c1a1862fbe0f614e8d95dd102d105246538ea52d0af047c859e79c9e4e4577"
+        }
+      ]
+    },
+    {
+      "id": "a_cliff_wind",
+      "prompt": "Seamless loop: strong wind on a high sea cliff, gusts whistling around a stone tower, a rope flapping against wood, surf crashing far below, no music",
+      "seconds": 20,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/a_cliff_wind.mp3",
+        "bytes": 321036,
+        "sha256": "8c7c13120cf26f14731f748ad4c989457d4a868514543c1453fe44bea81f6afb"
+      },
+      "use": {
+        "type": "loop",
+        "name": "cliff_wind",
+        "targetDb": -24
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/loop-cliff_wind.ogg",
+          "bytes": 211618,
+          "sha256": "d51a87826c67034ead4f6547f1bb7b9114cf42f37ded84c3c01c180acfffcbff"
+        },
+        {
+          "path": "public/assets/audio/world/loop-cliff_wind.m4a",
+          "bytes": 300754,
+          "sha256": "290493a33c679e5a94590baadd4203aaf2bae8075c009490f8e3bccb4d7b48aa"
+        }
+      ]
+    },
+    {
+      "id": "a_interior",
+      "prompt": "Seamless loop: quiet room tone inside an old stone archive, muffled wind outside, a faint wooden creak now and then, still, no music",
+      "seconds": 15,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/a_interior.mp3",
+        "bytes": 241206,
+        "sha256": "5eb6a5ec3c521235ece3e15d507aefb0c323e04e856341b0d492097b23e40a98"
+      },
+      "use": {
+        "type": "loop",
+        "name": "interior",
+        "targetDb": -32
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/loop-interior.ogg",
+          "bytes": 166500,
+          "sha256": "6733e264c9955ddaaf8f40b4c4cda9d08b4fedad8845d102fa54f4b6420347c1"
+        },
+        {
+          "path": "public/assets/audio/world/loop-interior.m4a",
+          "bytes": 224122,
+          "sha256": "464aaaa5cf9a69f1c5d8e3b6f03cc79affd2a57edfc94f655c9557705a2cc9f7"
+        }
+      ]
+    },
+    {
+      "id": "a_cut",
+      "prompt": "Seamless loop: a dry rocky gully, hot still air, flies buzzing, loose gravel trickling, an uneasy silence, no music",
+      "seconds": 15,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/a_cut.mp3",
+        "bytes": 241206,
+        "sha256": "7ee79b40baa7dadfc4f8afc395e0e2fb37de8021c538d84739b17bd5c933bd67"
+      },
+      "use": {
+        "type": "loop",
+        "name": "cut",
+        "targetDb": -29
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/loop-cut.ogg",
+          "bytes": 158263,
+          "sha256": "5099fd9d18a0a3ebba25e565693c35c7bdc31cce244af52a7cbe02d2fab0ca6f"
+        },
+        {
+          "path": "public/assets/audio/world/loop-cut.m4a",
+          "bytes": 229363,
+          "sha256": "46604364d8c260c8def12247b18c2c1088a74112fa9f4df58b226ff5de614bf1"
+        }
+      ]
+    },
+    {
+      "id": "a_brook",
+      "prompt": "Seamless loop: a shallow stream flowing quickly over stones, close, bubbling and splashing water, no birds, no music",
+      "seconds": 15,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/a_brook.mp3",
+        "bytes": 241206,
+        "sha256": "7b51437952f43dce5a3bef10283c118f189ad3b51393aaa695d4cd9aa9ab9df9"
+      },
+      "use": {
+        "type": "loop",
+        "name": "brook",
+        "targetDb": -23,
+        "channels": 1
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/loop-brook.ogg",
+          "bytes": 82977,
+          "sha256": "17007a7bef2c0c0b66452118a56faa901ef2f7313cccbf88c16b0eed60211aca"
+        },
+        {
+          "path": "public/assets/audio/world/loop-brook.m4a",
+          "bytes": 113984,
+          "sha256": "8a556eb6d58208d9f9fef81cbb4dd5876d95ee3707b65efa9b8f267b9225872a"
+        }
+      ]
+    },
+    {
+      "id": "a_mill",
+      "prompt": "Seamless loop: an old wooden water mill wheel turning, water splashing from the paddles, the wooden axle creaking and knocking rhythmically, no music",
+      "seconds": 15,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/a_mill.mp3",
+        "bytes": 241206,
+        "sha256": "859b793c9b1488972f2d9a258209612c65c6b18edfbd115694bdfeb0dfa6f3a8"
+      },
+      "use": {
+        "type": "loop",
+        "name": "mill",
+        "targetDb": -22,
+        "channels": 1
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/loop-mill.ogg",
+          "bytes": 79998,
+          "sha256": "e25d1e23fc1f4fe42a70f9a4e6a878e3a61e47f98e2c387de087fbf70ea67e06"
+        },
+        {
+          "path": "public/assets/audio/world/loop-mill.m4a",
+          "bytes": 113966,
+          "sha256": "5e83f61fc9c5a89ee43190af92db77686677ad4a6d41045705fca8f0149dd63d"
+        }
+      ]
+    },
+    {
+      "id": "a_quarry",
+      "prompt": "Seamless loop: a stone quarry at work in the distance, iron chisels and hammers striking rock at irregular intervals, small stones sliding, no music",
+      "seconds": 20,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/a_quarry.mp3",
+        "bytes": 321036,
+        "sha256": "0a016305b7b5a029f805e7e14619f38215a66fae9f774ddb47a9c152974136ff"
+      },
+      "use": {
+        "type": "loop",
+        "name": "quarry",
+        "targetDb": -24,
+        "channels": 1
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/loop-quarry.ogg",
+          "bytes": 107829,
+          "sha256": "b924c5ee213739e5e6bba16e06dc1dae2bd290e4d6b686427c8bdc6e2de88a24"
+        },
+        {
+          "path": "public/assets/audio/world/loop-quarry.m4a",
+          "bytes": 154390,
+          "sha256": "dddfebabb470b58783acd8a9fe29df874d332dc7fad57cc4f422a3bb5d5f4c40"
+        }
+      ]
+    },
+    {
+      "id": "a_spring",
+      "prompt": "Seamless loop: a small spring trickling into a stone basin, gentle water trickle and soft drips, no birds, no music",
+      "seconds": 12,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/a_spring.mp3",
+        "bytes": 193141,
+        "sha256": "ba64536f862eb67b2a1ae66c42bc0b33d7fb08da00eff4eac0465f7e3a5fdd9f"
+      },
+      "use": {
+        "type": "loop",
+        "name": "spring",
+        "targetDb": -25,
+        "channels": 1
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/loop-spring.ogg",
+          "bytes": 94637,
+          "sha256": "ee66a79d1199d80348103dff4be677538bf3770a38a246b1607896b563c169c6"
+        },
+        {
+          "path": "public/assets/audio/world/loop-spring.m4a",
+          "bytes": 92289,
+          "sha256": "b4738ae7fd90e141d22aba965916226c30db4a2518798178fcd384a0d8d65b4d"
+        }
+      ]
+    },
+    {
+      "id": "a_marsh",
+      "prompt": "Seamless loop: reeds beside a slow river at dusk, frogs croaking, water lapping gently, insects, no music",
+      "seconds": 15,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/a_marsh.mp3",
+        "bytes": 241206,
+        "sha256": "95b90ebd56708e37d3a8aaadded729c2fc809163a7c3c9658dfb182ad06d3cf4"
+      },
+      "use": {
+        "type": "loop",
+        "name": "marsh",
+        "targetDb": -27,
+        "channels": 1
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/loop-marsh.ogg",
+          "bytes": 79789,
+          "sha256": "2afdc12119962fdd0abbfa950cd17dd4a085f4aec1a4bbbc131d0813d3b28516"
+        },
+        {
+          "path": "public/assets/audio/world/loop-marsh.m4a",
+          "bytes": 113984,
+          "sha256": "0e5163db7a024320a62c94e3529ac1e572aff52f70c6b44557a975d8387c43b9"
+        }
+      ]
+    },
+    {
+      "id": "a_fire",
+      "prompt": "Seamless loop: a small wood fire crackling and popping steadily outdoors, embers hissing softly, close, no wind, no music",
+      "seconds": 12,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/a_fire.mp3",
+        "bytes": 193141,
+        "sha256": "3bd9dbdcef8aa3bf54909d1e9a0da8556991ca21a1b183b34a1ab1895747a786"
+      },
+      "use": {
+        "type": "loop",
+        "name": "fire",
+        "targetDb": -25,
+        "channels": 1
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/loop-fire.ogg",
+          "bytes": 64477,
+          "sha256": "1fd881d8e6dc40ee97f6e24c9033f20254a67937562d29336a338853bf25b525"
+        },
+        {
+          "path": "public/assets/audio/world/loop-fire.m4a",
+          "bytes": 91837,
+          "sha256": "24481a1cba9478ac5e7596610063090e96923768b4ac9a77091d00164beebaa9"
+        }
+      ]
+    },
+    {
+      "id": "t_strings_loop",
+      "prompt": "Seamless loop: a slow sustained dark fantasy string drone, low cello and viola holding a soft D minor chord, gentle bowing, warm and melancholic, no percussion, no melody",
+      "seconds": 10,
+      "loop": true,
+      "promptInfluence": 0.5,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/t_strings_loop.mp3",
+        "bytes": 160958,
+        "sha256": "9ceffa37c5c50b5734c8029b9818b60f87c61ccd1210d75548a95ac9a9af9eb0"
+      },
+      "use": {
+        "type": "loop",
+        "name": "hall_drone",
+        "targetDb": -30
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/loop-hall_drone.ogg",
+          "bytes": 120660,
+          "sha256": "a337bcaba35cbbac67a521870f5b9accd51b967504bd388aaae6a0fd334e6558"
+        },
+        {
+          "path": "public/assets/audio/world/loop-hall_drone.m4a",
+          "bytes": 147393,
+          "sha256": "fab98981e38f99c03675e1c5e29512e945f48be3093069950b9682657e4c85ce"
+        }
+      ]
+    },
+    {
+      "id": "m_vale_1",
+      "prompt": "Instrumental medieval fantasy music: a solo fiddle and a lute weave two gentle interlocking melodies in a slow modal minor key, intimate and warm, a quiet village at work, no drums, no vocals",
+      "seconds": 30,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/m_vale_1.mp3",
+        "bytes": 481115,
+        "sha256": "162ccd01e43e3dd463c655f04af917a843ec1b82c05348e6b00fead3dd00e087"
+      },
+      "use": {
+        "type": "piece",
+        "name": "vale_1",
+        "mood": "vale",
+        "targetDb": -21,
+        "kbps": 64
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-vale_1.ogg",
+          "bytes": 559685,
+          "sha256": "d6135693b99991c927aa2807ea856b21f987f1c402a4d79e0a2391f3c55a4dd1"
+        },
+        {
+          "path": "public/assets/audio/world/music-vale_1.m4a",
+          "bytes": 607219,
+          "sha256": "fc98b6bc4ae0dab0be01c1abff7f8afb8da72cb824506e9eb0133e6685e2c309"
+        }
+      ]
+    },
+    {
+      "id": "m_vale_2",
+      "prompt": "Instrumental medieval fantasy music: warm low strings and a breathy wooden flute play a slow pastoral modal melody with interweaving lines, calm and earnest, a few soft frame drum beats, no vocals",
+      "seconds": 30,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/m_vale_2.mp3",
+        "bytes": 481115,
+        "sha256": "bee8b52a677bf45f931bc51b33fc764dbe5e86fde5ea9c0b7f79b1c76c5e47ce"
+      },
+      "use": {
+        "type": "piece",
+        "name": "vale_2",
+        "mood": "vale",
+        "targetDb": -21,
+        "kbps": 64
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-vale_2.ogg",
+          "bytes": 441097,
+          "sha256": "1030f379cb663f813629bb1592018777a1779302dfd877c81dd878e8c861e91f"
+        },
+        {
+          "path": "public/assets/audio/world/music-vale_2.m4a",
+          "bytes": 605371,
+          "sha256": "e6bab01e6d8ebc20d5c4b1816e787d0b51820112a9f0c0233f057475eba0e3d7"
+        }
+      ]
+    },
+    {
+      "id": "m_wild_1",
+      "prompt": "Instrumental dark fantasy wilderness music: a breathy wooden flute plays a lonely slow melody over a low cello drone, deep old forest, mysterious and serious, no percussion, no vocals",
+      "seconds": 30,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/m_wild_1.mp3",
+        "bytes": 481115,
+        "sha256": "39b8116195cf4cd7a98d3e1f98e58d72bb1d2517e9d6a5543c5387855de06b78"
+      },
+      "use": {
+        "type": "piece",
+        "name": "wild_1",
+        "mood": "wild",
+        "targetDb": -21,
+        "kbps": 64
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-wild_1.ogg",
+          "bytes": 513583,
+          "sha256": "58af7830bd2a0a3cca45d75a771f39a20039e88409654329a882a0423be886f1"
+        },
+        {
+          "path": "public/assets/audio/world/music-wild_1.m4a",
+          "bytes": 603962,
+          "sha256": "047cfc46acd14435e08d3d37db5eea92bbf3a22c9386699e6b17c0eeb84cd3b0"
+        }
+      ]
+    },
+    {
+      "id": "m_wild_2",
+      "prompt": "Instrumental medieval fantasy music: a solo cello plays a slow sorrowful melody over a quiet plucked harp, a windswept grey coast, vast and lonely, no percussion, no vocals",
+      "seconds": 30,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/m_wild_2.mp3",
+        "bytes": 481115,
+        "sha256": "24d37dc7a735a16d04bc763c14a600ebd0fe69a967c1020a8431f475cd9120d3"
+      },
+      "use": {
+        "type": "piece",
+        "name": "wild_2",
+        "mood": "wild",
+        "targetDb": -21,
+        "kbps": 64
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-wild_2.ogg",
+          "bytes": 552254,
+          "sha256": "522aac8059fda77cfbcd3af1c8da2fcf683d87f239d194b0c172b2f9ea98f5c6"
+        },
+        {
+          "path": "public/assets/audio/world/music-wild_2.m4a",
+          "bytes": 606450,
+          "sha256": "0c763177bf4d49de4f724616d225e99010e4102280caa85c02a6ae0eacef88e9"
+        }
+      ]
+    },
+    {
+      "id": "m_wild_3",
+      "prompt": "Instrumental medieval fantasy music: a distant wordless female voice hums a slow melancholic modal melody over soft sustained strings, ancient and mysterious, no percussion, no lyrics",
+      "seconds": 30,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/m_wild_3.mp3",
+        "bytes": 481115,
+        "sha256": "1eeed67c1b36ee284a858b5fc6201b2870f5fad5f4bce44a9353859a4b7221f8"
+      },
+      "use": {
+        "type": "piece",
+        "name": "wild_3",
+        "mood": "wild",
+        "targetDb": -21,
+        "kbps": 64
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-wild_3.ogg",
+          "bytes": 532673,
+          "sha256": "ed9f6a5bb88dc35508474ebcecfd0570f1bed0ed6c76a8ee4dc56fca7f2ad5bc"
+        },
+        {
+          "path": "public/assets/audio/world/music-wild_3.m4a",
+          "bytes": 607465,
+          "sha256": "1ac21892dcd0a05af2c3f4835cd856e167f5727c9f4532b990efa76572609579"
+        }
+      ]
+    },
+    {
+      "id": "m_night_1",
+      "prompt": "Instrumental medieval fantasy night music: a soft harp plays slow sparse notes over very quiet low strings, still and dark, peaceful but uneasy, no percussion, no vocals",
+      "seconds": 30,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/m_night_1.mp3",
+        "bytes": 481115,
+        "sha256": "57363e015fae36001459aa27e76e4056b8308e14aa4f7590d1add899fc72ac26"
+      },
+      "use": {
+        "type": "piece",
+        "name": "night_1",
+        "mood": "night",
+        "targetDb": -22,
+        "kbps": 64
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-night_1.ogg",
+          "bytes": 446132,
+          "sha256": "27662054136a546284256a2f15e5072b309158687bd3b767d02b43e8e80dc2aa"
+        },
+        {
+          "path": "public/assets/audio/world/music-night_1.m4a",
+          "bytes": 606534,
+          "sha256": "df553402e127a4b22402783085292b1d4218517d13fc3f2d702e76f0035b6c1a"
+        }
+      ]
+    },
+    {
+      "id": "m_night_2",
+      "prompt": "Instrumental medieval fantasy night music: a low wooden flute and a muted viola play a slow quiet lullaby-like melody, sparse and calm, no percussion, no vocals",
+      "seconds": 30,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/m_night_2.mp3",
+        "bytes": 481115,
+        "sha256": "653d5d0ea348303e36fcf69c9a9397c28ecc7cc11287f123872e9022f8e12bfe"
+      },
+      "use": {
+        "type": "piece",
+        "name": "night_2",
+        "mood": "night",
+        "targetDb": -22,
+        "kbps": 64
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-night_2.ogg",
+          "bytes": 563480,
+          "sha256": "d5e1a3e4876aed30b3b4df2140f5da14719e3ceefc0d106d6092c32a40a82f31"
+        },
+        {
+          "path": "public/assets/audio/world/music-night_2.m4a",
+          "bytes": 597213,
+          "sha256": "bf6901231dbface20622e0664564642d01cce744c05eb370835f1fae00679592"
+        }
+      ]
+    },
+    {
+      "id": "m_sacred",
+      "prompt": "Instrumental solemn sacred music: a soft wordless choir holds long slow chords over a gentle low drone in a reverent stone hall, no percussion, no lyrics",
+      "seconds": 30,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/m_sacred.mp3",
+        "bytes": 481115,
+        "sha256": "d2d322883573806fbe88c617c96672cfc17b8728b64f7ec12d2d4520f3534fe6"
+      },
+      "use": {
+        "type": "piece",
+        "name": "sacred",
+        "mood": "sacred",
+        "targetDb": -22,
+        "kbps": 64
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-sacred.ogg",
+          "bytes": 547383,
+          "sha256": "66f4e0222001caf31b173e01d108fc54a12dd3f84b9dd19bc815e31373df3f26"
+        },
+        {
+          "path": "public/assets/audio/world/music-sacred.m4a",
+          "bytes": 606157,
+          "sha256": "4e837b317dc614f8df7c66646006ba581230966b373707c77e18eb511f894b11"
+        }
+      ]
+    },
+    {
+      "id": "m_danger",
+      "prompt": "Seamless loop: tense dark fantasy music, low pulsing frame drums and a sustained dissonant low string tremolo, a threat approaching, no melody, no vocals",
+      "seconds": 20,
+      "loop": true,
+      "promptInfluence": 0.5,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/m_danger.mp3",
+        "bytes": 321036,
+        "sha256": "328de8881431383546ffee848cf39c159d083410897ce12fd7e26662138a9ce9"
+      },
+      "use": {
+        "type": "musicLoop",
+        "name": "danger",
+        "mood": "danger",
+        "targetDb": -21,
+        "kbps": 64,
+        "crossfade": 0.5
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-danger.ogg",
+          "bytes": 294050,
+          "sha256": "93a06e1d0205183cdcc0bc845e434b1c02e29b398e421b2d6a11719433e0d4bd"
+        },
+        {
+          "path": "public/assets/audio/world/music-danger.m4a",
+          "bytes": 395608,
+          "sha256": "4b4e44bffd76853c9c0c042f21551461bc03cdf6999768103413629448f89e73"
+        }
+      ]
+    },
+    {
+      "id": "m_combat",
+      "prompt": "Seamless loop: driving medieval battle music, fast heavy frame drums and deep war drums with an aggressive fiddle and cello ostinato in a minor key, intense, no vocals",
+      "seconds": 20,
+      "loop": true,
+      "promptInfluence": 0.5,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/m_combat.mp3",
+        "bytes": 321036,
+        "sha256": "637c00690184645b5e3bff0ff3f849d49816c631146d6fc207aac7f838117e4a"
+      },
+      "use": {
+        "type": "musicLoop",
+        "name": "combat",
+        "mood": "combat",
+        "targetDb": -19,
+        "kbps": 64,
+        "crossfade": 0.3
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-combat.ogg",
+          "bytes": 305530,
+          "sha256": "5566657d0aa1cd277603480a07f1551d04d589f645bf95fc9b28cbced4e813be"
+        },
+        {
+          "path": "public/assets/audio/world/music-combat.m4a",
+          "bytes": 407173,
+          "sha256": "c462d3f49760faa31e03e2135401289174ea5eb146cf873f0b8779d381adbc18"
+        }
+      ]
+    },
+    {
+      "id": "s_discover",
+      "prompt": "A short musical phrase of discovery: a lute and a wooden flute rise gently and resolve on a calm open chord, medieval fantasy, then silence, no vocals",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/s_discover.mp3",
+        "bytes": 97010,
+        "sha256": "2b0c4f56623403ad0f08e3749cc51a034efb6d23f15c56a39076b0168e550fa3"
+      },
+      "use": {
+        "type": "sting",
+        "name": "sting_discover",
+        "mood": "sting",
+        "targetDb": -20,
+        "kbps": 64,
+        "fadeOut": 0.6
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-sting_discover.ogg",
+          "bytes": 75797,
+          "sha256": "190c3e9b46c4ef173609607d53d218550835886894884ca5a356087ba17bf5ef"
+        },
+        {
+          "path": "public/assets/audio/world/music-sting_discover.m4a",
+          "bytes": 86346,
+          "sha256": "08aa1d7477c1a32fc52f343f15c3ab2ef43df6ea96aa61b498ec1a27d0a316b2"
+        }
+      ]
+    },
+    {
+      "id": "s_victory",
+      "prompt": "A short weary but triumphant musical phrase: low strings and one frame drum hit resolve on a major chord, medieval fantasy, then silence, no vocals",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/s_victory.mp3",
+        "bytes": 81128,
+        "sha256": "1650c4a5f83c2f68a6202d39ea3c5e597a932e21dc009598e9ae1fadf67d7b6f"
+      },
+      "use": {
+        "type": "sting",
+        "name": "sting_victory",
+        "mood": "sting",
+        "targetDb": -20,
+        "kbps": 64,
+        "fadeOut": 0.6
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-sting_victory.ogg",
+          "bytes": 52403,
+          "sha256": "eae7e699d15613e27476c028d034a3f2794c0294b576ad7a894b92f99afe5b1b"
+        },
+        {
+          "path": "public/assets/audio/world/music-sting_victory.m4a",
+          "bytes": 72419,
+          "sha256": "bf0e120c1d254a7e2d9ba1ba0720b48a75d8f90af31acc69a6070bc93b04edec"
+        }
+      ]
+    },
+    {
+      "id": "s_death",
+      "prompt": "A short somber musical phrase: low strings descend slowly and fade with a single soft drum hit, defeat, medieval fantasy, no vocals",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/s_death.mp3",
+        "bytes": 97010,
+        "sha256": "7c40491ba2c02f433d0a99a7100423c28eb72f0fb737875bca33af72875b26ea"
+      },
+      "use": {
+        "type": "sting",
+        "name": "sting_death",
+        "mood": "sting",
+        "targetDb": -20,
+        "kbps": 64,
+        "fadeOut": 0.8
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-sting_death.ogg",
+          "bytes": 72297,
+          "sha256": "c97860762b86249bee089c6b1c7e2be90307693be5aa73ae0e6832da421a331d"
+        },
+        {
+          "path": "public/assets/audio/world/music-sting_death.m4a",
+          "bytes": 89772,
+          "sha256": "7b55add2134744e18dbcbe4203b4e12551682460234321fbd23d997259c38357"
+        }
+      ]
+    },
+    {
+      "id": "s_quest",
+      "prompt": "A short hopeful musical phrase: a harp and a wooden flute play a brief ascending motif ending softly, a task accomplished, medieval fantasy, no vocals",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/s_quest.mp3",
+        "bytes": 81128,
+        "sha256": "363255434c6456828d79c94aa61695d39c01278b5dae65ce4889eb22749edd6c"
+      },
+      "use": {
+        "type": "sting",
+        "name": "sting_quest",
+        "mood": "sting",
+        "targetDb": -20,
+        "kbps": 64,
+        "fadeOut": 0.6
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-sting_quest.ogg",
+          "bytes": 93348,
+          "sha256": "7f6297bace86ba95fca80067a87f1cc9d50dccaed912df0bed6dfa6774e39dcc"
+        },
+        {
+          "path": "public/assets/audio/world/music-sting_quest.m4a",
+          "bytes": 100563,
+          "sha256": "b713f95b0e8ea102346e0900e3e7cc513b4c9d3bc26f70936a3fc72cf0c6e069"
+        }
+      ]
+    },
+    {
+      "id": "t_lute",
+      "prompt": "Solo medieval lute, a gentle slow melancholic melody in D minor played with single plucked notes, intimate and close, no other instruments, no percussion",
+      "seconds": 8,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-05",
+      "source": {
+        "path": "assets/audio/source/world/t_lute.mp3",
+        "bytes": 129193,
+        "sha256": "0b05d08a667ae7a5819d18a98bec8a07ba9b6f50588c43a1f492389b6c7cc402"
+      },
+      "use": {
+        "type": "sting",
+        "name": "sting_lute",
+        "mood": "sting",
+        "targetDb": -21,
+        "kbps": 64,
+        "fadeOut": 0.9
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-sting_lute.ogg",
+          "bytes": 152273,
+          "sha256": "cbedbc2ed54fef392daa341007d4572f9511647a69f292a0f812f91dce3e8e41"
+        },
+        {
+          "path": "public/assets/audio/world/music-sting_lute.m4a",
+          "bytes": 155064,
+          "sha256": "655bc35834cbab068d98793547a6f96f42fe197761f32d27121cd8a59c220f04"
+        }
+      ]
+    }
+  ],
+  "composed": [
+    {
+      "id": "theme_vale",
+      "title": "Rillford at Work",
+      "render": "tools/world-audio/compose/index.mjs#theme_vale",
+      "use": {
+        "type": "piece",
+        "mood": "vale"
+      },
+      "pcmSha256": "5a776a4d46543cdc8abe56fa78eb104509872a5f9dc6db21619fc614a6e73bca",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-theme_vale.ogg",
+          "bytes": 1248994,
+          "sha256": "0dd670e47f9edfed671a478d531c539671a9ef22d4226a46295f95680967907e"
+        },
+        {
+          "path": "public/assets/audio/world/music-theme_vale.m4a",
+          "bytes": 1293589,
+          "sha256": "0e96384e2c248f89290c8e46c9e086398b94dc360a9549b67a0554b764ad3fda"
+        }
+      ]
+    },
+    {
+      "id": "theme_wild",
+      "title": "The Deepwood",
+      "render": "tools/world-audio/compose/index.mjs#theme_wild",
+      "use": {
+        "type": "piece",
+        "mood": "wild"
+      },
+      "pcmSha256": "5a82f481d4bdeafd690f5df1a73c8483444e91a92a330bd7458c7acf26ad32dc",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-theme_wild.ogg",
+          "bytes": 899275,
+          "sha256": "39214ae97b52a53da8008e0ce989b61de48f319a34b78651a4a9c9e69ae8f231"
+        },
+        {
+          "path": "public/assets/audio/world/music-theme_wild.m4a",
+          "bytes": 1101229,
+          "sha256": "bee60f83bb95576e98495095c4dfd1904984ff9d33338841868da980135cef7c"
+        }
+      ]
+    },
+    {
+      "id": "theme_night",
+      "title": "Embers",
+      "render": "tools/world-audio/compose/index.mjs#theme_night",
+      "use": {
+        "type": "piece",
+        "mood": "night"
+      },
+      "pcmSha256": "a43962ca40a4b0a82dba89df9ef189b753c2f945f3a43fd8464eef8239995d99",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-theme_night.ogg",
+          "bytes": 863793,
+          "sha256": "5da5d7db6d6e58da6a9a79ba361a38b5a82bbcb83c5eab929f979945875e2f16"
+        },
+        {
+          "path": "public/assets/audio/world/music-theme_night.m4a",
+          "bytes": 1027772,
+          "sha256": "20d083f9985a47ad33a57e68a301bfd57b118f06501be70165dcc9aff6f8a4ec"
+        }
+      ]
+    },
+    {
+      "id": "theme_sacred",
+      "title": "The Spring",
+      "render": "tools/world-audio/compose/index.mjs#theme_sacred",
+      "use": {
+        "type": "piece",
+        "mood": "sacred"
+      },
+      "pcmSha256": "441c6c6e2d954f9991fca5ac2e2fb1ad1fc3cc1106eeb552d5881ea4f2f345d3",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-theme_sacred.ogg",
+          "bytes": 1097461,
+          "sha256": "1221b928d3addc116e1577dc1c88a34564c58d87e34534bd7455c84f19f48cde"
+        },
+        {
+          "path": "public/assets/audio/world/music-theme_sacred.m4a",
+          "bytes": 1175940,
+          "sha256": "14f89e809b59e3d3df9729c51af8899f26a481cf306e2af843b50337d08c5440"
+        }
+      ]
+    },
+    {
+      "id": "danger_watch",
+      "title": "Something Watches",
+      "render": "tools/world-audio/compose/index.mjs#danger_watch",
+      "use": {
+        "type": "loop",
+        "mood": "danger"
+      },
+      "pcmSha256": "ef93369b3c2ca697b75404bbbaf47b83ddf6c8d350ff26fc591903ac24b4d4ee",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-danger_watch.ogg",
+          "bytes": 237685,
+          "sha256": "e51d114c38f8d9e2c896510d6d159d4b340ea42dbf2fa5ab6ef70fbac063ea3d"
+        },
+        {
+          "path": "public/assets/audio/world/music-danger_watch.m4a",
+          "bytes": 308269,
+          "sha256": "fb60f85641e6f64bd6a768607d6701ab9278ad68208d960424ecfdd464d17e9c"
+        }
+      ]
+    },
+    {
+      "id": "battle_ford",
+      "title": "Steel at the Ford",
+      "render": "tools/world-audio/compose/index.mjs#battle_ford",
+      "use": {
+        "type": "loop",
+        "mood": "combat"
+      },
+      "pcmSha256": "4bf80667afb52cb21c84176732b43abf6bec09536222eb6222f0b1ac7b261e9e",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-battle_ford.ogg",
+          "bytes": 286954,
+          "sha256": "1120bbaee3705dc1a5f6884f4a58cf6eb28a1085cb03a56dbf9efc3b239a69da"
+        },
+        {
+          "path": "public/assets/audio/world/music-battle_ford.m4a",
+          "bytes": 304421,
+          "sha256": "990a463ac40c412b97778a8da083b352923a1b54308e047ad84c68087a2e5f46"
+        }
+      ]
+    },
+    {
+      "id": "sting_victory_theme",
+      "title": "A Fight Won",
+      "render": "tools/world-audio/compose/index.mjs#sting_victory_theme",
+      "use": {
+        "type": "sting",
+        "mood": "sting"
+      },
+      "pcmSha256": "a006f0b0b52f1359926e1a54364fe0b9cafd6036d332700cc22e3013deee5fd3",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-sting_victory_theme.ogg",
+          "bytes": 92317,
+          "sha256": "ac7466c1191819fdf147571b4db9b8e94c353765fdc0853a88564a2e34f309fc"
+        },
+        {
+          "path": "public/assets/audio/world/music-sting_victory_theme.m4a",
+          "bytes": 97320,
+          "sha256": "6ef54acb77338e220ec90dcf1bf07500033b8432a19c0c70fbc4065c9357e989"
+        }
+      ]
+    },
+    {
+      "id": "sting_fall_theme",
+      "title": "The Fall",
+      "render": "tools/world-audio/compose/index.mjs#sting_fall_theme",
+      "use": {
+        "type": "sting",
+        "mood": "sting"
+      },
+      "pcmSha256": "4d0cbf7080ac38aa52914bc26f299a05116ed528d18bbe9c8f6567d0e497434a",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-sting_fall_theme.ogg",
+          "bytes": 144942,
+          "sha256": "75c87709fdc542bf6967ba4fd454599f336821bcb62cbb157aacd134ef8e7606"
+        },
+        {
+          "path": "public/assets/audio/world/music-sting_fall_theme.m4a",
+          "bytes": 186249,
+          "sha256": "4075e11d23e801e29877be97b34b26706e1571a80e53f8a4a4f02a58ebaf2568"
+        }
+      ]
+    },
+    {
+      "id": "sting_quest_theme",
+      "title": "A Step of the Story",
+      "render": "tools/world-audio/compose/index.mjs#sting_quest_theme",
+      "use": {
+        "type": "sting",
+        "mood": "sting"
+      },
+      "pcmSha256": "eb3e686fe73398cad0b3353829e49314a1be72ac0a3a77ea8b751cb97206f9a1",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-sting_quest_theme.ogg",
+          "bytes": 96014,
+          "sha256": "b225663806e10f168cb25fcb14a64d712a98fd4b949b5f758b3887d9b981274c"
+        },
+        {
+          "path": "public/assets/audio/world/music-sting_quest_theme.m4a",
+          "bytes": 107206,
+          "sha256": "179f55cf9b0d072b4384a4187feecb37c185f50ce2d2914b7f1dcbc81119fc44"
+        }
+      ]
+    },
+    {
+      "id": "place_coast",
+      "title": "The Grey Strand",
+      "render": "tools/world-audio/compose/index.mjs#place_coast",
+      "use": {
+        "type": "sting",
+        "mood": "place"
+      },
+      "pcmSha256": "7f1a101c98a0c67a4c7e9092369920d506c681f95fa3e1ef9ee5f7e43e24e0b7",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-place_coast.ogg",
+          "bytes": 162056,
+          "sha256": "49c41a9f708dc16df1e9ce496d7368a77f5e34a01d71e288aefbd0f146000594"
+        },
+        {
+          "path": "public/assets/audio/world/music-place_coast.m4a",
+          "bytes": 185543,
+          "sha256": "dfa26f52002834f4462e1739e595d1c27eae11271654dde38bb99c564dd5940e"
+        }
+      ]
+    },
+    {
+      "id": "place_wood",
+      "title": "Into the Deepwood",
+      "render": "tools/world-audio/compose/index.mjs#place_wood",
+      "use": {
+        "type": "sting",
+        "mood": "place"
+      },
+      "pcmSha256": "aaa2b7ee22f354e0725a6ddddc66904986ffe0c48a879e6862de611be613475b",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-place_wood.ogg",
+          "bytes": 138875,
+          "sha256": "5ba02ec13560177a3658780dcf2187f201e1d61b3110155fc3a64c2e3b4fa5f7"
+        },
+        {
+          "path": "public/assets/audio/world/music-place_wood.m4a",
+          "bytes": 185513,
+          "sha256": "cf623a5f258c8e8f0213cdca4b68cb0943947f17cd6c3e63545ba0e9af5e6d5c"
+        }
+      ]
+    },
+    {
+      "id": "place_vale",
+      "title": "The Vale Opens",
+      "render": "tools/world-audio/compose/index.mjs#place_vale",
+      "use": {
+        "type": "sting",
+        "mood": "place"
+      },
+      "pcmSha256": "a813f981663e93ef8fb2f54063edaa40a647d49fb1a5d02c683050e1cb5a66f6",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-place_vale.ogg",
+          "bytes": 143747,
+          "sha256": "a810d3e1a51bd47aafded8e2317d592caa4f74613a0823dbbe61ac04c1bc24a1"
+        },
+        {
+          "path": "public/assets/audio/world/music-place_vale.m4a",
+          "bytes": 143445,
+          "sha256": "c9f56048dfccca735c5927752bb404a0d0d66048e78c5adc6aa6108d1e68b0e4"
+        }
+      ]
+    },
+    {
+      "id": "place_stone",
+      "title": "Cut Stone",
+      "render": "tools/world-audio/compose/index.mjs#place_stone",
+      "use": {
+        "type": "sting",
+        "mood": "place"
+      },
+      "pcmSha256": "44f5cde3d444f0929721c664c5548b5c2c12f26f34dcc527def74d83df5005b0",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-place_stone.ogg",
+          "bytes": 141820,
+          "sha256": "8e381491f42dcca08dfdbc718b9edf36b625aa7666d2998b610042b2c25403c6"
+        },
+        {
+          "path": "public/assets/audio/world/music-place_stone.m4a",
+          "bytes": 146239,
+          "sha256": "e7af128007583771a2dbd28f724a57dc30c73049d2dbb11790a8ace2f7b44f4a"
+        }
+      ]
+    },
+    {
+      "id": "place_sacred",
+      "title": "Holy Water",
+      "render": "tools/world-audio/compose/index.mjs#place_sacred",
+      "use": {
+        "type": "sting",
+        "mood": "place"
+      },
+      "pcmSha256": "db28ab69e6b9716d6a3382625104cb0ac8bdb5d022284212f233909d2e3b95cf",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-place_sacred.ogg",
+          "bytes": 159195,
+          "sha256": "8d20a92cec042aeafd427478805375f73fe663493be561022f22c2ba0263cbe6"
+        },
+        {
+          "path": "public/assets/audio/world/music-place_sacred.m4a",
+          "bytes": 154952,
+          "sha256": "0932149ea97650d579d5bc88e9cb6700680bde859ce4dad11325f2a986516457"
+        }
+      ]
+    },
+    {
+      "id": "place_light",
+      "title": "Lantern Point",
+      "render": "tools/world-audio/compose/index.mjs#place_light",
+      "use": {
+        "type": "sting",
+        "mood": "place"
+      },
+      "pcmSha256": "54567d7ed3467fd928c7e536beb8e0ee276a3de129765b9bcb4b029ac62dab8d",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-place_light.ogg",
+          "bytes": 96981,
+          "sha256": "d2d54edfdec2f9c9d3defa638cd86f0b5a8462140f2e0f48a0504e9c7b83a7f6"
+        },
+        {
+          "path": "public/assets/audio/world/music-place_light.m4a",
+          "bytes": 84030,
+          "sha256": "7964ebd2afe6b4d4ec76fcebd7178efd053091162ff23b83f0bf95a63955fdc1"
+        }
+      ]
+    },
+    {
+      "id": "wanderers_air",
+      "title": "The Wanderer's Air",
+      "render": "tools/world-audio/compose/index.mjs#wanderers_air",
+      "use": {
+        "type": "song"
+      },
+      "pcmSha256": "bf7e9c843d32c1a51934f8bbbd6b4836443d2b72950ee8d730ea094d09939536",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/song-wanderers_air.ogg",
+          "bytes": 630173,
+          "sha256": "b201f5c4b285f1909a0ecedf3f05e300d5d3425e21a936590c0bcd957343d076"
+        },
+        {
+          "path": "public/assets/audio/world/song-wanderers_air.m4a",
+          "bytes": 655029,
+          "sha256": "22310db2b3b113d582e765a1f866acf28c85c2bc3101b24466fed0317a21d6dd"
+        }
+      ]
+    },
+    {
+      "id": "hearthsmoke",
+      "title": "Hearthsmoke",
+      "render": "tools/world-audio/compose/index.mjs#hearthsmoke",
+      "use": {
+        "type": "song"
+      },
+      "pcmSha256": "c1bb88da56adc59bb3b670513ab06a275bf15c8a8bcd3c1cae0c8add9f5f346e",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/song-hearthsmoke.ogg",
+          "bytes": 348771,
+          "sha256": "77b8a8c17e7188247c4b40d3fd79e5676eb6b8bc3684e80eafcb55e7e31c7250"
+        },
+        {
+          "path": "public/assets/audio/world/song-hearthsmoke.m4a",
+          "bytes": 346549,
+          "sha256": "72eed0b9bb8f40c06491c7c829d81699e739562518381feecdc69e503d9f9906"
+        }
+      ]
+    },
+    {
+      "id": "salt_and_rope",
+      "title": "Salt and Rope",
+      "render": "tools/world-audio/compose/index.mjs#salt_and_rope",
+      "use": {
+        "type": "song"
+      },
+      "pcmSha256": "752bd197beb70fe5c68959ba888654871c00824a11fbcb2dc1365258e2081d4b",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/song-salt_and_rope.ogg",
+          "bytes": 526453,
+          "sha256": "f5fb207aee4aa822b9ea0c0c6b9ff0ea7d1df35520878af6414be453fc0e3253"
+        },
+        {
+          "path": "public/assets/audio/world/song-salt_and_rope.m4a",
+          "bytes": 535226,
+          "sha256": "871bd6375f052eb7d50f155dad060bbce139d4327b27d1596c505612d09a1ca2"
+        }
+      ]
+    },
+    {
+      "id": "crafted_bell.town",
+      "title": "bell.town",
+      "render": "tools/world-audio/compose/index.mjs#crafted_bell.town",
+      "use": {
+        "type": "variants",
+        "bank": "crafted",
+        "name": "bell.town",
+        "targetDb": -19,
+        "variants": 2
+      },
+      "pcmSha256": "782ad52532fb77a5f3c6e4d5ddcbe2039c59d1e5aaa37b0efea097db887445ec",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-crafted.ogg",
+          "bytes": 398909,
+          "sha256": "3b4702eecb27e297b14d3c12f0013a7354561d66f501bb90ca839d551b4ed563"
+        },
+        {
+          "path": "public/assets/audio/world/bank-crafted.m4a",
+          "bytes": 324695,
+          "sha256": "432d2937a3447bba27331479903f268a7b98c86fab80e74c65fbe5c5b91a66ba"
+        }
+      ]
+    },
+    {
+      "id": "crafted_bell.peal",
+      "title": "bell.peal",
+      "render": "tools/world-audio/compose/index.mjs#crafted_bell.peal",
+      "use": {
+        "type": "variants",
+        "bank": "crafted",
+        "name": "bell.peal",
+        "targetDb": -20,
+        "variants": 3
+      },
+      "pcmSha256": "5c9b5484a9b1f6dccc354e6f0e74aaeb6cc6c809728141a537cc0b600da61cbf",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-crafted.ogg",
+          "bytes": 398909,
+          "sha256": "3b4702eecb27e297b14d3c12f0013a7354561d66f501bb90ca839d551b4ed563"
+        },
+        {
+          "path": "public/assets/audio/world/bank-crafted.m4a",
+          "bytes": 324695,
+          "sha256": "432d2937a3447bba27331479903f268a7b98c86fab80e74c65fbe5c5b91a66ba"
+        }
+      ]
+    },
+    {
+      "id": "crafted_chime",
+      "title": "chime",
+      "render": "tools/world-audio/compose/index.mjs#crafted_chime",
+      "use": {
+        "type": "variants",
+        "bank": "crafted",
+        "name": "chime",
+        "targetDb": -24,
+        "variants": 5
+      },
+      "pcmSha256": "cb39cc3a4907ba1fd0a1f5666591ccda5b1fcea87b778c59553de79a89e441a6",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-crafted.ogg",
+          "bytes": 398909,
+          "sha256": "3b4702eecb27e297b14d3c12f0013a7354561d66f501bb90ca839d551b4ed563"
+        },
+        {
+          "path": "public/assets/audio/world/bank-crafted.m4a",
+          "bytes": 324695,
+          "sha256": "432d2937a3447bba27331479903f268a7b98c86fab80e74c65fbe5c5b91a66ba"
+        }
+      ]
+    },
+    {
+      "id": "crafted_cricket",
+      "title": "cricket",
+      "render": "tools/world-audio/compose/index.mjs#crafted_cricket",
+      "use": {
+        "type": "variants",
+        "bank": "crafted",
+        "name": "cricket",
+        "targetDb": -22,
+        "variants": 6
+      },
+      "pcmSha256": "85fc5608d948a8022d4c2c27e6e832067839599d80b37a9bbbd08df8c836a63d",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-crafted.ogg",
+          "bytes": 398909,
+          "sha256": "3b4702eecb27e297b14d3c12f0013a7354561d66f501bb90ca839d551b4ed563"
+        },
+        {
+          "path": "public/assets/audio/world/bank-crafted.m4a",
+          "bytes": 324695,
+          "sha256": "432d2937a3447bba27331479903f268a7b98c86fab80e74c65fbe5c5b91a66ba"
+        }
+      ]
+    },
+    {
+      "id": "crafted_bubble",
+      "title": "bubble",
+      "render": "tools/world-audio/compose/index.mjs#crafted_bubble",
+      "use": {
+        "type": "variants",
+        "bank": "crafted",
+        "name": "bubble",
+        "targetDb": -24,
+        "variants": 8
+      },
+      "pcmSha256": "31eec09bda6aacf56cb93692d612433e2c1a22b9fbd0d225865b2d737550632b",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-crafted.ogg",
+          "bytes": 398909,
+          "sha256": "3b4702eecb27e297b14d3c12f0013a7354561d66f501bb90ca839d551b4ed563"
+        },
+        {
+          "path": "public/assets/audio/world/bank-crafted.m4a",
+          "bytes": 324695,
+          "sha256": "432d2937a3447bba27331479903f268a7b98c86fab80e74c65fbe5c5b91a66ba"
+        }
+      ]
+    },
+    {
+      "id": "crafted_heart",
+      "title": "heart",
+      "render": "tools/world-audio/compose/index.mjs#crafted_heart",
+      "use": {
+        "type": "variants",
+        "bank": "crafted",
+        "name": "heart",
+        "targetDb": -20,
+        "variants": 2
+      },
+      "pcmSha256": "e797670b359247d7e1b252e10b70c1b9f4b11e71d70fe0f9170aa62651a833fa",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-crafted.ogg",
+          "bytes": 398909,
+          "sha256": "3b4702eecb27e297b14d3c12f0013a7354561d66f501bb90ca839d551b4ed563"
+        },
+        {
+          "path": "public/assets/audio/world/bank-crafted.m4a",
+          "bytes": 324695,
+          "sha256": "432d2937a3447bba27331479903f268a7b98c86fab80e74c65fbe5c5b91a66ba"
+        }
+      ]
+    },
+    {
+      "id": "crafted_rite.bowl",
+      "title": "rite.bowl",
+      "render": "tools/world-audio/compose/index.mjs#crafted_rite.bowl",
+      "use": {
+        "type": "variants",
+        "bank": "crafted",
+        "name": "rite.bowl",
+        "targetDb": -20,
+        "variants": 1
+      },
+      "pcmSha256": "8f5c910d973db0d1d0867398e51dc411423165919abd0ee0cef09b3ab8d04abc",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-crafted.ogg",
+          "bytes": 398909,
+          "sha256": "3b4702eecb27e297b14d3c12f0013a7354561d66f501bb90ca839d551b4ed563"
+        },
+        {
+          "path": "public/assets/audio/world/bank-crafted.m4a",
+          "bytes": 324695,
+          "sha256": "432d2937a3447bba27331479903f268a7b98c86fab80e74c65fbe5c5b91a66ba"
+        }
+      ]
+    }
+  ]
+}

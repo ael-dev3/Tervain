@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tervain sound</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --paper: #1e201d;
+        --ink: #e4ddcc;
+        --muted: #a39b88;
+        --line: #3a3c36;
+        --accent: #c9a45a;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font: 14px/1.45 Georgia, 'Times New Roman', serif;
+      }
+      main {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 20px 16px 60px;
+      }
+      h1 {
+        font-size: 24px;
+        margin: 0 0 4px;
+      }
+      h2 {
+        font-size: 17px;
+        margin: 28px 0 8px;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 4px;
+      }
+      h3 {
+        font-size: 14px;
+        margin: 14px 0 6px;
+        color: var(--muted);
+        font-weight: normal;
+      }
+      p {
+        color: var(--muted);
+        margin: 4px 0;
+      }
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        align-items: center;
+        margin: 4px 0;
+      }
+      .name {
+        min-width: 150px;
+        color: var(--ink);
+      }
+      button,
+      select {
+        font: inherit;
+        color: var(--ink);
+        background: #2b2d28;
+        border: 1px solid var(--line);
+        border-radius: 3px;
+        padding: 3px 9px;
+        cursor: pointer;
+      }
+      button:hover {
+        border-color: var(--accent);
+      }
+      button.on {
+        background: #4a3f26;
+        border-color: var(--accent);
+      }
+      .panel {
+        border: 1px solid var(--line);
+        padding: 10px 12px;
+        border-radius: 4px;
+        background: #232520;
+      }
+      #status,
+      #meters {
+        font: 12px/1.5 ui-monospace, Consolas, monospace;
+        color: var(--muted);
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Tervain world sound</h1>
+      <p>Every take, game cue, place bed and piece of score, for listening and review. Nothing plays until you press a button.</p>
+      <div id="status">Loading…</div>
+      <div id="app"></div>
+    </main>
+    <script type="module" src="./sound.ts"></script>
+  </body>
+</html>

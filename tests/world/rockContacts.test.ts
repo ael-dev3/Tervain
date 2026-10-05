@@ -37,7 +37,7 @@ function setup(variation: Partial<RockTransform> = {}) {
   const input = { move: () => ({ x: 0, y: movement }), held: () => false, pressed: (a: string) => presses.has(a),
     clearToggle: vi.fn(), uiOpen: false } as unknown as Input;
   const ctx: PlayerCtx = { terrain, colliders, physics, input, settings: defaultSettings(), game: new Game(),
-    audio: { footstep: vi.fn(), swing: vi.fn(), hit: vi.fn(), hurt: vi.fn() } as unknown as AudioEngine,
+    audio: { footstep: vi.fn(), swing: vi.fn(), hit: vi.fn(), hurt: vi.fn(), jump: vi.fn(), land: vi.fn(), dodge: vi.fn() } as unknown as AudioEngine,
     enemies: [], npcs: [], viewYaw: 0, controllable: true, onHitEnemy: vi.fn(), onHurt: vi.fn(), onDeath: vi.fn(), onBoundary: vi.fn() };
   const player = new Player(); player.setPosition(X, -2, 0, terrain);
   const tick = (dt: number) => { physics.beginCharacter(player); player.update(dt, ctx); presses.clear(); physics.step(dt, player, 0, 0); };
