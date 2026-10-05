@@ -18,6 +18,7 @@ import { groundSplat } from '../groundSplat';
 import { LAYER } from '../terrainTextures';
 import { shoreDistance } from '../../world/coast';
 import { isWorldPickupItem } from '../../content/pickups';
+import type { PlantedCrownField } from '../plantedCrowns';
 
 /**
  * A cheap, lazily evaluated map of where plants may grow and what kind of ground it is.
@@ -36,7 +37,7 @@ export interface HabitatSample {
   wet: number;
   /** 0..1: sun-cured patch (matches the golden patches the terrain colouring paints). */
   dry: number;
-  /** 0..1: woodland cover / shade, derived from the tree colliders. */
+  /** 0..1: woodland shade from the planted source-leaf envelope shared with the forest floor. */
   wood: number;
   slope: number;
 }
@@ -100,9 +101,11 @@ export class Habitat {
   private obstacleHash = new Map<number, Obstacle[]>();
   private softCircles: { x: number; z: number; hard: number }[] = [];
   private noiseForest: boolean;
+  private readonly plantedCrowns?: PlantedCrownField;
 
-  constructor(ctx: BuildContext) {
+  constructor(ctx: Pick<BuildContext, 'terrain' | 'colliders' | 'excl' | 'plantedCrowns'>) {
     this.terrain = ctx.terrain;
+    this.plantedCrowns = ctx.plantedCrowns;
 
     // Trunks and props from the collision set. Trees may be added by any module before this one.
     for (const c of ctx.colliders.all) {
@@ -140,7 +143,7 @@ export class Habitat {
     for (const p of INSPECT_LOCATIONS) this.softCircles.push({ x: p.x, z: p.z, hard: Math.max(2, p.r * 0.7) });
     for (const p of PICKUP_LOCATIONS) this.softCircles.push({ x: p.x, z: p.z, hard: isWorldPickupItem(p.item) ? 0.25 : 2 });
 
-    this.noiseForest = this.trees.length < 30;
+    this.noiseForest = !this.plantedCrowns && this.trees.length < 30;
   }
 
   private addTo(map: Map<number, TreeSpot[]>, t: TreeSpot, _pad: number) {
@@ -190,8 +193,9 @@ export class Habitat {
     return false;
   }
 
-  /** Woodland cover at a point from nearby trunks (with a noise stand-in if no trees exist). */
+  /** Source crown shade in production; the trunk/noise stand-in is retained for source-free authoring fixtures. */
   woodAt(x: number, z: number): number {
+    if (this.plantedCrowns) return clamp(this.plantedCrowns.coverAt(x, z), 0, 1);
     if (this.noiseForest) {
       const h = this.terrain.heightAt(x, z);
       const f = smoothstep(0.5, 0.78, fbm(x / 38 + 10, z / 38 - 20, 3, 44) * 0.5 + 0.5) * smoothstep(3, 8, h);
@@ -245,7 +249,7 @@ export class Habitat {
     // Plants grow where the ground layers say soil is: not on rock, wet sand or the sea bed; a little on dry dunes.
     {
       const w = this.scratch;
-      groundSplat(terrain, x, z, w);
+      groundSplat(terrain, x, z, w, this.plantedCrowns);
       const sd = shoreDistance(x, z);
       const dune = (1 - smoothstep(12, 44, sd)) * smoothstep(9, 16, sd);
       const soil = w[LAYER.grass]! + w[LAYER.heath]! + 0.55 * w[LAYER.earth]! + 0.4 * w[LAYER.sand]! * dune + 0.12 * w[LAYER.gravel]!;

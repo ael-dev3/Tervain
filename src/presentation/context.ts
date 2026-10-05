@@ -6,6 +6,7 @@ import type { Terrain } from '../world/terrain';
 import type { AssetLibrary } from './assets/library';
 import type { Exclusions, SwayUniforms } from './vegetation';
 import type { MeshyNpcCatalog } from './meshynpcs';
+import type { PlantedCrownField } from './plantedCrowns';
 
 export type Quality = 'low' | 'medium' | 'high';
 
@@ -22,6 +23,8 @@ export interface BuildContext {
   excl: Exclusions;
   /** Explicit runtime replacement set; omitted only by procedural export tools and synthetic fixtures. */
   npcAssets?: MeshyNpcCatalog;
+  /** Actual accepted foliage projections, shared by soil and understory. */
+  plantedCrowns?: PlantedCrownField;
 }
 
 /** Per-frame inputs shared by every scene module. */

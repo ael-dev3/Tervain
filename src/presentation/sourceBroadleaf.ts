@@ -3,6 +3,7 @@ import { GLTFLoader, type GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { deepwoodCover, forestClearingDistance } from '../world/forest';
 import type { PhysicalWoodGeometry } from '../world/physicsGeometry';
 import type { BuildContext, SceneModule } from './context';
+import { PlantedCrownIndex } from './plantedCrowns';
 import { assertNaturalModelBudget } from './naturalModelBudget';
 import { groundedNaturalGeometryY } from './treeGrounding';
 import { buildFallingLeaves } from './fallingLeaves';
@@ -146,6 +147,9 @@ export function buildSourceBroadleaf(ctx: BuildContext, template: GLTF): SceneMo
       mesh.castShadow = ctx.quality !== 'low'; mesh.receiveShadow = true; tree.add(mesh);
     }
     tree.updateMatrixWorld(true); group.add(tree);
+    if (ctx.plantedCrowns instanceof PlantedCrownIndex) {
+      for (const part of leaf) ctx.plantedCrowns.add('oak', placement, part.geometry);
+    }
     ctx.colliders.circle(placement.id, placement.x, placement.z, placement.radius);
     physicalWood.push({ id: placement.id, positions: packed, indices, translation: { x: placement.x, y: placement.y, z: placement.z }, yaw: placement.yaw, scale: placement.s });
   }

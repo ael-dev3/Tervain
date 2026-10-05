@@ -7,7 +7,8 @@ import { createFloraPopulation, selectFloraPopulation, registerFloraColliders, F
 import { buildForestFloor } from './forestFloor';
 import { buildFallingLeaves } from './fallingLeaves';
 import { createPineForest, isPineSpecies, type PineTemplates } from './solitaryPine';
-import { groundedTreeY } from './treeGrounding';
+import { groundedTreeY, treeWoodCollisionRadius } from './treeGrounding';
+import { PlantedCrownIndex } from './plantedCrowns';
 import { attachInstanceDistanceVisibility, smoothDistanceFade, type InstanceDistanceVisibility } from './distanceVisibility';
 import type { PhysicalWoodGeometry } from '../world/physicsGeometry';
 
@@ -27,7 +28,9 @@ interface Batch {
   trees: FloraTree[];
 }
 
-export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): SceneModule & { counts: { trees: number; triangles: number }; physicalWood: readonly PhysicalWoodGeometry[] } {
+export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, deferFloor = false): SceneModule & {
+  counts: { trees: number; triangles: number }; physicalWood: readonly PhysicalWoodGeometry[]; initializeFloor(extraTrees?: readonly FloraTree[]): void;
+} {
   const { terrain, colliders, quality, sway, excl } = ctx;
   const group = new THREE.Group();
   group.name = 'flora';
@@ -43,7 +46,8 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): Sce
     return variant;
   };
   const population = createFloraPopulation(terrain, excl, (tree, legacyFootprint) => isPineSpecies(tree.sp)
-    ? pine.collisionRadius(tree.sp, tree.v + 1, tree.s, terrain.heightAt(tree.x, tree.z) - tree.y) : legacyFootprint,
+    ? pine.collisionRadius(tree.sp, tree.v + 1, tree.s, terrain.heightAt(tree.x, tree.z) - tree.y)
+    : legacyFootprint > 0 ? treeWoodCollisionRadius(variantFor(tree), tree.s, terrain.heightAt(tree.x, tree.z) - tree.y) : legacyFootprint,
     (tree) => groundedTreeY(terrain, tree, variantFor(tree)));
   registerFloraColliders(population, colliders);
   // Static rigid-body contact uses the same complete wood as the visible source tree,
@@ -76,8 +80,20 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): Sce
     physicalWood.push({ id: tree.collisionId, ...buffers, translation: { x: tree.x, y: tree.y, z: tree.z }, yaw: tree.yaw, scale: tree.s });
   }
   const { trees, obstacles } = selectFloraPopulation(population, quality);
-  const forestFloor = buildForestFloor(terrain, excl, quality, population);
-  group.add(forestFloor.group);
+  const plantedCrowns = new PlantedCrownIndex();
+  for (const tree of population) {
+    if (!tree.collisionId) continue;
+    const leaf = variantFor(tree).lods[0].leaf;
+    if (leaf) plantedCrowns.add(tree.sp, tree, leaf);
+  }
+  ctx.plantedCrowns = plantedCrowns;
+  let forestFloor: SceneModule | undefined;
+  const initializeFloor = (extraTrees: readonly FloraTree[] = []) => {
+    if (forestFloor) return;
+    forestFloor = buildForestFloor(terrain, excl, quality, [...population, ...extraTrees], plantedCrowns);
+    group.add(forestFloor.group);
+  };
+  if (!deferFloor) initializeFloor();
 
   /* Developer aid: `?lineup=x,z` plants one of every species in rows near a point, and `?lod=0|1|2` forces a level of detail. */
   const q = typeof location !== 'undefined' ? new URLSearchParams(location.search) : new URLSearchParams();
@@ -237,7 +253,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): Sce
     counts: { trees: trees.length, triangles: Math.round(triangles) },
     update(dt: number, f: FrameContext) {
       if (disposed) return;
-      forestFloor.update(dt, f);
+      forestFloor?.update(dt, f);
       fallingLeaves.update(dt, f);
       sinceRefresh += dt;
       const cam = f.camera;
@@ -265,11 +281,12 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates): Sce
       cam.updateMatrixWorld();
       refresh(cam, f.shadowFrustum);
     },
-    stats: () => ({ trees: trees.length, solitaryPines, treeObstacles: obstacles.length, treesDrawn: visible, treeTris: Math.round(drawTris), ...forestFloor.stats?.(), ...fallingLeaves.stats?.() }),
+    initializeFloor,
+    stats: () => ({ trees: trees.length, solitaryPines, treeObstacles: obstacles.length, treesDrawn: visible, treeTris: Math.round(drawTris), ...forestFloor?.stats?.(), ...fallingLeaves.stats?.() }),
     dispose() {
       if (disposed) return;
       disposed = true;
-      forestFloor.dispose?.();
+      forestFloor?.dispose?.();
       fallingLeaves.dispose?.();
       for (const batch of batches) {
         for (const visibility of batch.visibility) { visibility.wood?.dispose(); visibility.leaf?.dispose(); }

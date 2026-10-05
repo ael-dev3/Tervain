@@ -4,6 +4,7 @@ import { clamp, fbm, smoothstep } from '../world/noise';
 import { distToPolyline, roadWeight, type Terrain } from '../world/terrain';
 import { LAYER } from './terrainTextures';
 import { deepwoodCover } from '../world/forest';
+import type { PlantedCrownField } from './plantedCrowns';
 
 /**
  * What the ground is made of at a point: eight layer weights (summing to 1) and a wetness. Everything comes from the
@@ -40,7 +41,7 @@ function blend(w: Float32Array, layer: number, a: number) {
 }
 
 /** Fills `w` (length 8) and returns the wetness. */
-export function groundSplat(terrain: Terrain, x: number, z: number, w: Float32Array): number {
+export function groundSplat(terrain: Terrain, x: number, z: number, w: Float32Array, crowns?: PlantedCrownField): number {
   const h = terrain.heightAt(x, z);
   const slope = terrain.slopeAt(x, z);
   const carve = terrain.carveAt(x, z);
@@ -55,7 +56,7 @@ export function groundSplat(terrain: Terrain, x: number, z: number, w: Float32Ar
 
   w.fill(0);
   // Damp hollows and stream banks are lush; exposed, high or windy ground is dry heath.
-  const wood = deepwoodCover(x, z);
+  const wood = crowns ? crowns.coverAt(x, z) : deepwoodCover(x, z);
   const lush = Math.max(wood * 0.78, clamp(0.28 + 0.95 * wetStream + (nLow - 0.5) * 1.1 - smoothstep(8, 40, h) * 0.5, 0, 1));
   w[LAYER.grass] = lush;
   w[LAYER.heath] = 1 - lush;

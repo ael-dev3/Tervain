@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import { fbm, mulberry32, smoothstep } from '../../world/noise';
+import { clamp, fbm, mulberry32, smoothstep } from '../../world/noise';
 import type { BuildContext, Quality } from '../context';
 import { GeoBuilder, type GV, type Vec3 } from './geoBuilder';
-import { Habitat, hash3, newSample } from './habitat';
+import { Habitat, hash3, newSample, type HabitatSample } from './habitat';
 import { createPatchMaterial, type PatchMaterial } from './patchMaterial';
 import { TileLayer, type TileBuffers } from './tileStream';
 import type { PatchShared } from './shared';
@@ -108,8 +108,21 @@ export function createGrassPatch(blades: number, seed: number): THREE.BufferGeom
 
 const cMeadow = new THREE.Color().setHex(0x687c40);
 const cDeep = new THREE.Color().setHex(0x446339);
-const cGold = new THREE.Color().setHex(0x9a8b54);
-const cShade = new THREE.Color().setHex(0x425b37);
+const cGold = new THREE.Color().setHex(0x8a8052);
+const cShade = new THREE.Color().setHex(0x3d5434);
+
+/** Under real crowns, grass yields to humus and fern colonies instead of becoming a pale verge ribbon. */
+export interface GrassHabitatProfile { density: number; height: number; exposure: number; shade: number }
+export function grassHabitatProfile(sample: Readonly<HabitatSample>, patchy: number, out: GrassHabitatProfile = { density: 0, height: 0, exposure: 0, shade: 0 }): GrassHabitatProfile {
+  const shade = smoothstep(0.12, 0.8, sample.wood);
+  const exposure = clamp(sample.dry, 0, 1) * (1 - shade * 0.94);
+  const colony = smoothstep(0.2, 0.7, patchy);
+  const density = clamp(sample.open * (1 - shade * 0.84) * (1 - exposure * 0.22) * (0.3 + colony * 0.7) * 0.62, 0, 1);
+  const height = (0.78 + 0.5 * sample.wet + 0.32 * (patchy - 0.5) - 0.15 * exposure - 0.38 * shade - 0.3 * sample.slope)
+    * (0.55 + 0.45 * smoothstep(0.08, 0.85, sample.open));
+  out.density = density; out.height = height; out.exposure = exposure; out.shade = shade;
+  return out;
+}
 
 export interface GrassLayer {
   layer: TileLayer;
@@ -134,6 +147,7 @@ export function createGrassLayer(ctx: BuildContext, habitat: Habitat, shared: Pa
   const capacity = Math.ceil(T * T * q.density);
   const terrain = ctx.terrain;
   const S = newSample();
+  const grassProfile: GrassHabitatProfile = { density: 0, height: 0, exposure: 0, shade: 0 };
   const tint = new THREE.Color();
   const rootAttribute = geometry.getAttribute('aRoot');
   const rootPoints: [number, number][] = [];
@@ -172,19 +186,17 @@ export function createGrassLayer(ctx: BuildContext, habitat: Habitat, shared: Pa
         habitat.sample(x, z, S);
         if (S.open < 0.04) continue;
         const patchy = fbm(x / 9, z / 9, 2, 5) * 0.5 + 0.5;
-        let g = S.open * (1 - S.wood * 0.44) * (1 - 0.3 * S.dry) * (0.62 + 0.38 * smoothstep(0.1, 0.6, patchy));
-        g = Math.min(1, g * 0.62);
-        if (uAccept >= g) continue;
+        const profile = grassHabitatProfile(S, patchy, grassProfile);
+        if (uAccept >= profile.density) continue;
         const width = 0.85 + uW * 0.6;
         if (habitat.hardBlocked(x, z, nativeRadius * width * GRASS_SIZE_COMP + 0.12)) continue;
         const y = terrain.heightAt(x, z) - 0.04;
         // Height: tall and lush where it is wet, short in dry, shaded or steep ground, and trimmed at path edges.
-        let hs = 0.78 + 0.5 * S.wet + 0.32 * (patchy - 0.5) - 0.22 * S.dry - 0.3 * S.wood - 0.3 * S.slope;
-        hs *= 0.55 + 0.45 * smoothstep(0.08, 0.85, S.open);
+        let hs = profile.height;
         hs *= 0.82 + 0.36 * uH;
         hs = Math.max(0.38, Math.min(1.5, hs));
         // Colour: deep green by water, meadow green, gold on the sun-cured patches, cooler in the woods.
-        tint.copy(cMeadow).lerp(cDeep, S.wet * 0.65).lerp(cGold, S.dry * 0.8).lerp(cShade, S.wood * 0.6);
+        tint.copy(cMeadow).lerp(cDeep, S.wet * 0.65).lerp(cGold, profile.exposure * 0.68).lerp(cShade, profile.shade * 0.84);
         const j = 0.9 + uC * 0.2;
         const o = n * 4;
         out.base[o] = x;

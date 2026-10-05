@@ -9,7 +9,47 @@ export const TREE_ROOT_PLANE = 0.025;
 export const TREE_SOIL_OVERLAP = 0.06;
 type Point = readonly [number, number, number];
 const roots = new WeakMap<TreeVariant, readonly (readonly Point[])[]>();
+const woodSlabs = new WeakMap<TreeVariant, { edges: Float32Array; radii: Map<number, number> }>();
 const mix = (a: Point, b: Point, t: number): Point => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
+
+/** Conservative navigation footprint of actual wood through the 2.6 m player slab.
+ * All woody LODs count, including triangle edges crossing its upper plane and the
+ * real buried origin. Physical contacts still use finite near-model triangles. */
+export function treeWoodCollisionRadius(variant: TreeVariant, scale: number, groundDepth = 0): number {
+  if (!(scale > 0) || !Number.isFinite(scale) || !Number.isFinite(groundDepth)) throw new Error('Invalid tree collision transform.');
+  // Round upward in local space so nearby scales/burial depths share a conservative
+  // cached query. The extra slab height is at most 6.25 cm before uniform scaling.
+  const top = Math.ceil(((2.6 + Math.max(0, groundDepth)) / scale) * 16) / 16;
+  let cache = woodSlabs.get(variant);
+  if (!cache) {
+    const edges: number[] = [];
+    for (const lod of variant.lods) {
+      const geometry = lod.wood;
+      if (!geometry) continue;
+      const p = geometry.getAttribute('position'), index = geometry.index, count = index?.count ?? p.count;
+      for (let i = 0; i + 2 < count; i += 3) for (let edge = 0; edge < 3; edge++) {
+        const a = index ? index.getX(i + edge) : i + edge, b = index ? index.getX(i + (edge + 1) % 3) : i + (edge + 1) % 3;
+        edges.push(p.getX(a), p.getY(a), p.getZ(a), p.getX(b), p.getY(b), p.getZ(b));
+      }
+    }
+    cache = { edges: new Float32Array(edges), radii: new Map() }; woodSlabs.set(variant, cache);
+  }
+  let radius = cache.radii.get(top);
+  if (radius === undefined) {
+    radius = 0;
+    const e = cache.edges;
+    for (let i = 0; i < e.length; i += 6) {
+      const ax = e[i]!, ay = e[i + 1]!, az = e[i + 2]!, bx = e[i + 3]!, by = e[i + 4]!, bz = e[i + 5]!;
+      if (ay <= top) radius = Math.max(radius, Math.hypot(ax, az));
+      if ((ay < top && by > top) || (ay > top && by < top)) {
+        const t = (top - ay) / (by - ay);
+        radius = Math.max(radius, Math.hypot(ax + (bx - ax) * t, az + (bz - az) * t));
+      }
+    }
+    cache.radii.set(top, radius);
+  }
+  return radius * scale + 0.04;
+}
 
 /** Actual basal surfaces of every woody LOD. Clipping preserves roots' shape and captures
  * long sloping edges even when neither endpoint lies exactly at the nominal planting plane. */

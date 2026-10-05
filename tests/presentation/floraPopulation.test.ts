@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it } from 'vitest';
-import { createFloraPopulation, selectFloraPopulation, registerFloraColliders, floraLod, type FloraTree } from '../../src/presentation/floraPopulation';
+import { createFloraPopulation, selectFloraPopulation, registerFloraColliders, floraLod, type FloraTree, type FloraClaim } from '../../src/presentation/floraPopulation';
 import { buildTreeVariant } from '../../src/presentation/treeGen';
 import { Exclusions, TREE_SWAY_ENABLED, TREE_SWAY_MULTIPLIER } from '../../src/presentation/vegetation';
 import { Colliders, buildStaticColliders } from '../../src/world/colliders';
@@ -21,6 +21,16 @@ beforeAll(() => {
 });
 
 describe('canonical flora population', () => {
+  it('reports one terminal stand/age placement outcome without changing the canonical world', () => {
+    const claims: FloraClaim[] = [];
+    const observed = createFloraPopulation(terrain, exclusions, undefined, undefined, claim => claims.push(claim));
+    expect(observed).toEqual(population);
+    expect(new Set(claims.map(c => c.key)).size).toBe(claims.length);
+    expect(claims.filter(c => c.outcome === 'accepted').map(c => c.tree)).toEqual(observed);
+    expect(claims.some(c => c.outcome === 'clearing')).toBe(true);
+    expect(claims.some(c => c.outcome === 'spacing')).toBe(true);
+    expect(claims.filter(c => c.tree.standId).every(c => c.tree.age && c.tree.familyRole)).toBe(true);
+  });
   it('generates identical world positions and obstacle identities from stable inputs', () => {
     expect(createFloraPopulation(terrain, exclusions)).toEqual(population);
     const obstacles = population.filter((tree) => tree.radius > 0);

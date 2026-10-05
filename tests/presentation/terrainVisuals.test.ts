@@ -3,13 +3,31 @@ import { describe, expect, it } from 'vitest';
 import { Terrain } from '../../src/world/terrain';
 import { buildTerrainMesh, TERRAIN_RENDER_SUBDIVISIONS } from '../../src/presentation/terrainMesh';
 import { LAYERS, LAYER, makeTerrainTextures, type TerrainTextures } from '../../src/presentation/terrainTextures';
-import { createGrassPatch } from '../../src/presentation/ground/grass';
+import { createGrassPatch, grassHabitatProfile } from '../../src/presentation/ground/grass';
 import { createPatchMaterial, createPushers } from '../../src/presentation/ground/patchMaterial';
 import { groundSplat } from '../../src/presentation/groundSplat';
 import { coastX } from '../../src/world/coast';
 import { SEA_LEVEL } from '../../src/world/layout';
 
 describe('close-view ground and plant detail', () => {
+  it('lets patchy fern floor dominate below dense crowns while preserving sunny meadow grass', () => {
+    const habitat = { open: 1, wet: 0.2, dry: 1, wood: 0, slope: 0 };
+    const sun = grassHabitatProfile(habitat, 0.85);
+    const shade = grassHabitatProfile({ ...habitat, wood: 1 }, 0.85);
+    expect(shade.density).toBeLessThan(sun.density * 0.23);
+    expect(shade.height).toBeLessThan(sun.height * 0.75);
+    expect(shade.exposure).toBeLessThan(sun.exposure * 0.07);
+    expect(grassHabitatProfile(habitat, 0.1).density).toBeLessThan(sun.density * 0.35);
+    expect(grassHabitatProfile({ ...habitat, open: 0 }, 0.85).density).toBe(0);
+    expect(grassHabitatProfile({ ...habitat, wet: 1 }, 0.85).height).toBeGreaterThan(sun.height);
+    for (const wood of [0, 0.2, 0.4, 0.6, 0.8, 1]) {
+      const profile = grassHabitatProfile({ ...habitat, wood }, 0.85);
+      expect(Object.values(profile).every(Number.isFinite)).toBe(true);
+      expect(profile.density).toBeGreaterThanOrEqual(0);
+      expect(profile.density).toBeLessThanOrEqual(1);
+    }
+  });
+
   it('limits tidal wetness to the real ground elevation rather than soaking the full headland above the same waterline', () => {
     const x = coastX(104) + 1, z = 104, weights = new Float32Array(8);
     let height = SEA_LEVEL + 0.2;

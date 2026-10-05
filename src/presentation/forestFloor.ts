@@ -9,12 +9,13 @@ import { barkTextures } from './treeTextures';
 import { createFloraPopulation, type FloraTree } from './floraPopulation';
 import { streamDistance } from './vegetation';
 import { attachInstanceDistanceVisibility, smoothDistanceFade, type InstanceDistanceVisibility } from './distanceVisibility';
+import type { PlantedCrownField } from './plantedCrowns';
 
-export type ForestFloorKind = 'fern' | 'moss' | 'litter' | 'log' | 'fungi';
+export type ForestFloorKind = 'fern' | 'shrub' | 'moss' | 'litter' | 'log' | 'fungi';
 export interface ForestFloorPiece { id: string; kind: ForestFloorKind; x: number; y: number; z: number; nx: number; nz: number; yaw: number; scale: number; rank: number; variant: number; parentLogId?: string }
 
-/** Authored once, then graphics settings thin only nonblocking ankle-height detail. */
-export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 'slopeAt' | 'carveAt'>, exclusions: Pick<Exclusions, 'blocked'>, trees: readonly FloraTree[] = createFloraPopulation(terrain, exclusions)): ForestFloorPiece[] {
+/** Authored once, then graphics settings thin only low, nonblocking woodland detail. */
+export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 'slopeAt' | 'carveAt'>, exclusions: Pick<Exclusions, 'blocked'>, trees: readonly FloraTree[] = createFloraPopulation(terrain, exclusions), crowns?: PlantedCrownField): ForestFloorPiece[] {
   let rnd = mulberry32(50419);
   const out: ForestFloorPiece[] = [];
   const trunks = trees.filter((t) => t.radius > 0);
@@ -30,18 +31,23 @@ export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 
     }
     return local;
   };
-  const canopyAt = (x: number, z: number, local: readonly FloraTree[]) => {
+  const canopyAt = (x: number, z: number) => {
+    // The loaded world supplies transformed source-leaf envelopes. The fallback is only for the
+    // independent authoring tools and synthetic tests that deliberately omit a source model.
+    if (crowns) return crowns.coverAt(x, z);
     let cover = 0;
-    for (const t of local) {
+    for (const t of nearby(x, z)) {
       const reach = (t.sp === 'oak' ? 6.5 : t.sp === 'birch' ? 4 : 4.8) * t.s;
       cover += Math.exp(-((x - t.x) ** 2 + (z - t.z) ** 2) / (reach * reach));
     }
     return 1 - Math.exp(-cover);
   };
   const put = (kind: ForestFloorKind, x: number, z: number, scale: number, variant: number) => {
-    if (realmRadius(x, z) > 0.97 || terrain.heightAt(x, z) < 0.35 || terrain.carveAt(x, z) > 0.01 || terrain.slopeAt(x, z) > 0.62 || exclusions.blocked(x, z, kind === 'log' ? 2.6 : 0.45)) return;
+    const reach = kind === 'log' ? 2.6 : kind === 'fern' ? scale * 1.5 : kind === 'shrub' ? scale * 0.85 : 0.45;
+    if (realmRadius(x, z) > 0.97 || terrain.heightAt(x, z) < 0.35 || terrain.carveAt(x, z) > 0.01 || terrain.slopeAt(x, z) > 0.62 || exclusions.blocked(x, z, reach)) return;
+    if (crowns && crowns.coverAt(x, z) < 0.08) return;
     if (kind === 'log' && terrain.slopeAt(x, z) > 0.22) return;
-    if (forestClearingDistance(x, z) < (kind === 'log' ? scale * 1.7 : 0.4)) return;
+    if (forestClearingDistance(x, z) < (kind === 'log' ? scale * 1.7 : kind === 'fern' || kind === 'shrub' ? reach : 0.4)) return;
     if (nearby(x, z).some((t) => Math.hypot(t.x - x, t.z - z) < t.radius + (kind === 'log' ? scale * 1.7 + 0.25 : 0.24))) return;
     const rank = mulberry32(Math.imul(Math.round(x * 100), 71303) ^ Math.imul(Math.round(z * 100), 31231))();
     const nx = (terrain.heightAt(x - 0.4, z) - terrain.heightAt(x + 0.4, z)) / 0.8;
@@ -60,12 +66,23 @@ export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 
       const z = gz + (rnd() - 0.5) * step * 0.8;
       const cover = deepwoodCover(x, z) * forestClearingCover(x, z);
       if (cover < 0.1) continue;
-      const canopy = canopyAt(x, z, nearby(x, z));
+      const canopy = canopyAt(x, z);
+      if (canopy < 0.08) continue;
       const wet = 1 - smoothstep(5, 32, streamDistance(x, z));
-      const colony = smoothstep(-0.35, 0.45, fbm(x / 11, z / 11, 2, 50420));
-      if (rnd() < cover * canopy * (0.35 + colony * 0.6 + wet * 0.3)) put('fern', x, z, 0.55 + rnd() * 0.7, Math.floor(rnd() * 3));
-      if (rnd() < cover * canopy * (0.15 + wet * 0.3)) put('moss', x + 0.8, z - 0.55, 0.6 + rnd() * 0.8, 0);
-      if (rnd() < cover * canopy * 0.65) put('litter', x - 1, z + 1, 0.85 + rnd() * 0.75, Math.floor(rnd() * 2));
+      const colony = smoothstep(-0.2, 0.5, fbm(x / 11, z / 11, 2, 50420));
+      if (rnd() < cover * canopy * (0.4 + colony * 0.68 + wet * 0.32)) {
+        const fern = put('fern', x, z, 0.62 + rnd() * 0.64, Math.floor(rnd() * 3));
+        if (fern && rnd() < colony * (0.28 + wet * 0.28)) {
+          const az = rnd() * Math.PI * 2;
+          put('fern', x + Math.cos(az) * 1.65, z + Math.sin(az) * 1.65, 0.5 + rnd() * 0.55, Math.floor(rnd() * 3));
+        }
+      }
+      if (rnd() < cover * canopy * (0.08 + colony * 0.2) * (0.4 + wet * 0.6)) put('shrub', x + 1.45, z + 0.65, 0.7 + rnd() * 0.4, Math.floor(rnd() * 2));
+      if (rnd() < cover * canopy * (0.22 + wet * 0.38 + colony * 0.16)) put('moss', x + 0.8, z - 0.55, 0.6 + rnd() * 0.8, 0);
+      if (rnd() < cover * canopy * (0.65 + colony * 0.25)) {
+        const variant = crowns && crowns.broadleafAt(x, z) < canopy * 0.3 ? 2 : Math.floor(rnd() * 2);
+        put('litter', x - 1, z + 1, 0.95 + rnd() * 0.75, variant);
+      }
       if (rnd() < cover * canopy * 0.05) {
         const log = put('log', x + 1.4, z - 1.8, 0.65 + rnd() * 0.65, Math.floor(rnd() * 2));
         if (log) {
@@ -169,12 +186,12 @@ export function buildForestFernGeometry(variant: number): THREE.BufferGeometry {
 export function buildForestLitterGeometry(variant: number): THREE.BufferGeometry {
   const a = new FloorGeometry();
   const rnd = mulberry32(5101 + variant * 103);
-  for (let i = 0; i < 13; i++) {
+  for (let i = 0; i < (variant === 2 ? 24 : 13); i++) {
     const az = rnd() * Math.PI * 2;
     const x = (rnd() - 0.5) * 1.4;
     const z = (rnd() - 0.5) * 1.4;
     const length = 0.09 + rnd() * 0.13;
-    const wid = length * 0.48;
+    const wid = length * (variant === 2 ? 0.08 : 0.48);
     const dx = Math.cos(az), dz = Math.sin(az);
     const c = new THREE.Color().setHSL(0.083 + rnd() * 0.07, 0.22 + rnd() * 0.17, 0.2 + rnd() * 0.14, THREE.SRGBColorSpace);
     const root = a.vertex(x, 0.024, z, c);
@@ -183,6 +200,60 @@ export function buildForestLitterGeometry(variant: number): THREE.BufferGeometry
     const right = a.vertex(x + dx * length * 0.5 + dz * wid, 0.035, z + dz * length * 0.5 - dx * wid, c);
     const tip = a.vertex(x + dx * length, 0.024, z + dz * length, c);
     a.tri(root, left, ridge); a.tri(root, ridge, right); a.tri(left, tip, ridge); a.tri(ridge, tip, right);
+  }
+  return a.geometry();
+}
+
+/** An ankle-to-knee high woodland shrub: every folded leaf grows from one of five continuous woody stems. */
+export function buildForestShrubGeometry(variant: number): THREE.BufferGeometry {
+  const a = new FloorGeometry();
+  const rnd = mulberry32(7101 + variant * 113);
+  const bark = new THREE.Color('#514c37');
+  const up = new THREE.Vector3(0, 1, 0);
+  for (let branch = 0; branch < 5; branch++) {
+    const az = branch * Math.PI * 2 / 5 + (rnd() - 0.5) * 0.45;
+    const direction = new THREE.Vector3(Math.cos(az), 0, Math.sin(az));
+    const side = new THREE.Vector3(-direction.z, 0, direction.x);
+    const spread = 0.36 + rnd() * 0.25;
+    const height = 0.42 + rnd() * 0.27;
+    const at = (t: number) => direction.clone().multiplyScalar(spread * t * t).setY(0.01 + height * t);
+    let previous: number[] | null = null;
+    for (let step = 0; step <= 5; step++) {
+      const p = at(step / 5), ring: number[] = [];
+      const r = 0.013 * (1 - step / 7);
+      for (let k = 0; k < 4; k++) {
+        const angle = k * Math.PI / 2;
+        ring.push(a.vertex(p.x + Math.cos(angle) * r, p.y, p.z + Math.sin(angle) * r, bark));
+      }
+      if (previous) for (let k = 0; k < 4; k++) {
+        const next = (k + 1) % 4;
+        a.tri(previous[k]!, ring[k]!, previous[next]!);
+        a.tri(previous[next]!, ring[k]!, ring[next]!);
+      }
+      if (step === 0) { a.tri(ring[0]!, ring[2]!, ring[1]!); a.tri(ring[0]!, ring[3]!, ring[2]!); }
+      if (step === 5) { a.tri(ring[0]!, ring[1]!, ring[2]!); a.tri(ring[0]!, ring[2]!, ring[3]!); }
+      previous = ring;
+    }
+    for (let node = 1; node <= 4; node++) {
+      const root = at(node / 5);
+      for (const sign of [-1, 1]) {
+        const length = 0.15 + rnd() * 0.13;
+        const leafDirection = side.clone().multiplyScalar(sign).addScaledVector(direction, 0.42).normalize();
+        const across = leafDirection.clone().cross(up).normalize();
+        const tip = root.clone().addScaledVector(leafDirection, length);
+        tip.y += 0.045;
+        const centre = root.clone().lerp(tip, 0.5); centre.y += 0.025;
+        const left = centre.clone().addScaledVector(across, length * 0.27);
+        const right = centre.clone().addScaledVector(across, -length * 0.27);
+        const color = new THREE.Color().setHSL(0.24 + rnd() * 0.05, 0.26 + rnd() * 0.12, 0.2 + rnd() * 0.09, THREE.SRGBColorSpace);
+        const ri = a.vertex(root.x, root.y, root.z, color.clone().multiplyScalar(0.85));
+        const li = a.vertex(left.x, left.y, left.z, color);
+        const ci = a.vertex(centre.x, centre.y, centre.z, color.clone().multiplyScalar(1.1));
+        const oi = a.vertex(right.x, right.y, right.z, color.clone().multiplyScalar(0.9));
+        const ti = a.vertex(tip.x, tip.y, tip.z, color);
+        a.tri(ri, li, ci); a.tri(ri, ci, oi); a.tri(li, ti, ci); a.tri(ci, ti, oi);
+      }
+    }
   }
   return a.geometry();
 }
@@ -201,6 +272,7 @@ function colorGeometry(g: THREE.BufferGeometry, base: THREE.Color): THREE.Buffer
 
 function floorGeometry(kind: ForestFloorKind, variant: number) {
   if (kind === 'fern') return buildForestFernGeometry(variant);
+  if (kind === 'shrub') return buildForestShrubGeometry(variant);
   if (kind === 'litter') return buildForestLitterGeometry(variant);
   if (kind === 'moss') {
     const g = new THREE.IcosahedronGeometry(0.52, 1);
@@ -245,8 +317,8 @@ function floorGeometry(kind: ForestFloorKind, variant: number) {
 }
 
 /** Native forest detail shares flora ownership and disposal. No collider is needed for these low, nonblocking pieces. */
-export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quality: Quality, trees?: readonly FloraTree[]): SceneModule {
-  const population = createForestFloorPopulation(terrain, exclusions, trees);
+export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quality: Quality, trees?: readonly FloraTree[], crowns?: PlantedCrownField): SceneModule {
+  const population = createForestFloorPopulation(terrain, exclusions, trees, crowns);
   const pieces = selectForestFloorPopulation(population, quality);
   const group = new THREE.Group();
   group.name = 'deepwood_forest_floor';

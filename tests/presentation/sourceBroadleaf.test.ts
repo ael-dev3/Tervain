@@ -10,8 +10,8 @@ import { defaultSettings } from '../../src/platform/settings';
 import { Terrain } from '../../src/world/terrain';
 import { buildStaticColliders } from '../../src/world/colliders';
 import { Exclusions } from '../../src/presentation/vegetation';
-import { createFloraPopulation, registerFloraColliders } from '../../src/presentation/floraPopulation';
-import { groundedTreeY } from '../../src/presentation/treeGrounding';
+import { createFloraPopulation, registerFloraColliders, type FloraTree } from '../../src/presentation/floraPopulation';
+import { groundedTreeY, treeWoodCollisionRadius } from '../../src/presentation/treeGrounding';
 import { createPineForest, isPineSpecies } from '../../src/presentation/solitaryPine';
 import { buildTreeVariant, type TreeVariant } from '../../src/presentation/treeGen';
 import { broadleafBinary, broadleafTemplate } from './broadleafFixture';
@@ -20,20 +20,28 @@ import { pineTemplates } from './pineFixture';
 let template: GLTF;
 let forest: ReturnType<typeof createPineForest>;
 const variants = new Map<string, TreeVariant>();
-beforeAll(async () => { template = await broadleafTemplate(); forest = createPineForest(await pineTemplates()); });
+let population: FloraTree[];
+const variantFor = (tree: Pick<FloraTree, 'sp' | 'v'>) => {
+  let variant = isPineSpecies(tree.sp) ? forest.variant(tree.sp, tree.v + 1) : variants.get(`${tree.sp}:${tree.v}`);
+  if (!variant) { variant = buildTreeVariant(tree.sp, tree.v + 1); variants.set(`${tree.sp}:${tree.v}`, variant); }
+  return variant;
+};
+beforeAll(async () => {
+  template = await broadleafTemplate(); forest = createPineForest(await pineTemplates());
+  // Canonical planting is independent of graphics quality. Parse/ground its source geometry
+  // once; each quality still constructs and disposes a fresh Guardian module and colliders.
+  const terrain = new Terrain();
+  population = createFloraPopulation(terrain, new Exclusions(terrain), (tree, radius) => isPineSpecies(tree.sp)
+    ? forest.collisionRadius(tree.sp, tree.v + 1, tree.s, terrain.heightAt(tree.x, tree.z) - tree.y)
+    : radius > 0 ? treeWoodCollisionRadius(variantFor(tree), tree.s, terrain.heightAt(tree.x, tree.z) - tree.y) : radius,
+    tree => groundedTreeY(terrain, tree, variantFor(tree)));
+}, 15_000);
 afterAll(() => {
   template.scene.traverse(object => { const mesh = object as THREE.Mesh; if (mesh.isMesh) { mesh.geometry.dispose(); (mesh.material as THREE.Material).dispose(); } });
   forest.dispose(); variants.forEach(v => v.lods.forEach(lod => { lod.wood?.dispose(); lod.leaf?.dispose(); }));
 });
 function fixture(quality: 'low' | 'medium' | 'high' = 'high') {
   const terrain = new Terrain(), excl = new Exclusions(terrain), colliders = buildStaticColliders(terrain);
-  const population = createFloraPopulation(terrain, excl, (tree, radius) => isPineSpecies(tree.sp)
-    ? forest.collisionRadius(tree.sp, tree.v + 1, tree.s, terrain.heightAt(tree.x, tree.z) - tree.y) : radius,
-  tree => {
-    let variant = isPineSpecies(tree.sp) ? forest.variant(tree.sp, tree.v + 1) : variants.get(`${tree.sp}:${tree.v}`);
-    if (!variant) { variant = buildTreeVariant(tree.sp, tree.v + 1); variants.set(`${tree.sp}:${tree.v}`, variant); }
-    return groundedTreeY(terrain, tree, variant);
-  });
   registerFloraColliders(population, colliders);
   const previousIds = colliders.all.map(c => c.id);
   const module = buildSourceBroadleaf({ terrain, colliders, excl, quality, settings: { ...defaultSettings(), quality },

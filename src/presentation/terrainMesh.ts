@@ -3,11 +3,12 @@ import type { Terrain } from '../world/terrain';
 import { groundSplat } from './groundSplat';
 import { createTerrainMaterial } from './terrainMaterial';
 import type { TerrainTextures } from './terrainTextures';
+import type { PlantedCrownField } from './plantedCrowns';
 
 /** Refine material boundaries without changing the authored ground planes used by physics. */
 export const TERRAIN_RENDER_SUBDIVISIONS = 2;
 
-export function buildTerrainMesh(terrain: Terrain, tex: TerrainTextures): THREE.Mesh {
+export function buildTerrainMesh(terrain: Terrain, tex: TerrainTextures, crowns?: PlantedCrownField): THREE.Mesh {
   const subdivisions = TERRAIN_RENDER_SUBDIVISIONS;
   const nx = terrain.nx * subdivisions, nz = terrain.nz * subdivisions;
   const w = nx + 1;
@@ -25,7 +26,7 @@ export function buildTerrainMesh(terrain: Terrain, tex: TerrainTextures): THREE.
       pos[k * 3] = x;
       pos[k * 3 + 1] = terrain.heightAt(x, z);
       pos[k * 3 + 2] = z;
-      wet[k] = groundSplat(terrain, x, z, sp);
+      wet[k] = groundSplat(terrain, x, z, sp, crowns);
       for (let q = 0; q < 4; q++) {
         splatA[k * 4 + q] = sp[q]!;
         splatB[k * 4 + q] = sp[4 + q]!;

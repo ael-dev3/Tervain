@@ -110,8 +110,6 @@ export class WorldScene {
     this.library = library;
     this.terrain = new Terrain();
     this.colliders = buildStaticColliders(this.terrain);
-    this.terrainMesh = buildTerrainMesh(this.terrain, terrainTex);
-    this.scene.add(this.terrainMesh);
     this.sky = new SkyRig(settings.quality === 'low' ? 1024 : settings.quality === 'medium' ? 2048 : 4096);
     this.scene.add(this.sky.group);
     this.scene.fog = this.sky.fog;
@@ -122,8 +120,12 @@ export class WorldScene {
     this.waterMeshes = [...Object.values(this.water.ribbons).map(r => r.mesh), this.water.pool, this.sea.mesh] as WaterRenderInputs['meshes'];
     const ctx: BuildContext = { terrain: this.terrain, colliders: this.colliders, library, quality: settings.quality, settings, sway: this.sway, excl: new Exclusions(this.terrain), npcAssets };
     const landmarks = buildForestLandmarks(this.terrain, this.colliders, settings.quality);
-    const forest = buildFlora(ctx, pine);
+    const forest = buildFlora(ctx, pine, true);
     const sourceBroadleaves = buildSourceBroadleaf(ctx, broadleaf);
+    forest.initializeFloor(sourceBroadleaves.placements.map(p => ({ ...p, sp: 'oak', v: 0,
+      tint: 1, collisionId: p.id, decorationRank: 0 })));
+    this.terrainMesh = buildTerrainMesh(this.terrain, terrainTex, ctx.plantedCrowns);
+    this.scene.add(this.terrainMesh);
     const scatter = buildScatter(ctx);
     const sourceRocks = buildSourceRockPiles(ctx, rockPile);
     const ambient = buildAmbient(ctx);

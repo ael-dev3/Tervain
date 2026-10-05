@@ -24,6 +24,11 @@ export interface FloraTree {
   age?: TreeAge;
 }
 
+export type FloraClaimOutcome = 'site' | 'wood-clearance' | 'clearing' | 'spacing' | 'accepted';
+/** Optional authoring evidence; one terminal result per proposed planting claim.
+ * Density-rejected grid cells never propose a tree and are deliberately not counted. */
+export interface FloraClaim { key: string; tree: Readonly<FloraTree>; outcome: FloraClaimOutcome; footprint: number }
+
 export const FLORA_VARIANTS = 3;
 export const FLORA_TRUNK_GAP = 0.35;
 /** Local exclusions can affect spacing neighbours, never a chain across the world. */
@@ -43,7 +48,8 @@ interface Candidate { key: string; priority: number; footprint: number; tree: Fl
  * Optional source geometry supplies grounding first, then footprints for exclusions and spacing. */
 export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slopeAt' | 'carveAt'>, excl: Pick<Exclusions, 'blocked'>,
   footprintFor?: (tree: Readonly<FloraTree>, legacyFootprint: number) => number,
-  groundFor?: (tree: Readonly<FloraTree>) => number): FloraTree[] {
+  groundFor?: (tree: Readonly<FloraTree>) => number,
+  onClaim?: (claim: FloraClaim) => void): FloraTree[] {
   const candidates: Candidate[] = [], groves = new Map<string, Grove>();
   const grove = (ix: number, iz: number): Grove => {
     const id = `grove:${ix}:${iz}`, found = groves.get(id);
@@ -71,8 +77,6 @@ export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slope
     || shoreDistance(x, z) < DEEPWOOD.shoreClearance || terrain.slopeAt(x, z) > 0.62
     || terrain.heightAt(x, z) < 0.3 || excl.blocked(x, z, pad);
   const put = (key: string, sp: Species, x: number, z: number, scale = 1, collide = true, age: TreeAge = 'mature', site?: Grove) => {
-    // Avoid constructing and sampling source roots at a site already excluded even without padding.
-    if (bad(x, z, 0)) return;
     const legacyFootprint = sp === 'shrub' ? 0.4 * scale : RADIUS[sp] * scale;
     const rnd = randomFor(key, 211), radius = collide ? RADIUS[sp] * scale : 0;
     // Appearance has its own cell stream: evaluating a rejected claim never changes its neighbours.
@@ -82,15 +86,18 @@ export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slope
       collisionId: radius > 0 ? `tree:${key}` : null, decorationRank: randomFor(key, 619)(),
       ...(site ? { groveId: site.id, ...(site.role ? { standId: site.id, familyRole: site.role } : {}) } : {}), age,
     };
+    // Avoid sampling source roots at an already excluded site. Appearance has an independent
+    // stream, allowing a rejected claim to retain its stand/age diagnostic without perturbation.
+    if (bad(x, z, 0)) { onClaim?.({ key, tree, outcome: 'site', footprint: legacyFootprint }); return; }
     if (groundFor) {
       tree.y = groundFor(tree);
       if (!Number.isFinite(tree.y)) throw new Error('Tree ground contact must be finite.');
     }
     const footprint = footprintFor?.(tree, legacyFootprint) ?? legacyFootprint;
     if (!Number.isFinite(footprint) || footprint < 0) throw new Error('Tree footprint must be finite and nonnegative.');
-    if (bad(x, z, footprint + 0.55)) return;
+    if (bad(x, z, footprint + 0.55)) { onClaim?.({ key, tree, outcome: 'wood-clearance', footprint }); return; }
     const crown = sp in FOREST_CROWN_ENVELOPE ? FOREST_CROWN_ENVELOPE[sp as CanopySpecies] * scale : footprint;
-    if (forestClearingDistance(x, z) < crown + 0.5) return;
+    if (forestClearingDistance(x, z) < crown + 0.5) { onClaim?.({ key, tree, outcome: 'clearing', footprint }); return; }
     if (radius > 0) tree.radius = footprint;
     candidates.push({ key, priority: randomFor(key, 431)(), footprint, tree });
   };
@@ -191,8 +198,11 @@ export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slope
     const reach = Math.ceil((c.footprint + maximumFootprint + FLORA_TRUNK_GAP) / bucketSize);
     for (let dz = -reach; dz <= reach; dz++) for (let dx = -reach; dx <= reach; dx++) for (const other of buckets.get(`${ix + dx}:${iz + dz}`) ?? []) {
       if (other === c || other.priority < c.priority || (other.priority === c.priority && other.key > c.key)) continue;
-      if (Math.hypot(c.tree.x - other.tree.x, c.tree.z - other.tree.z) < c.footprint + other.footprint + FLORA_TRUNK_GAP) return false;
+      if (Math.hypot(c.tree.x - other.tree.x, c.tree.z - other.tree.z) < c.footprint + other.footprint + FLORA_TRUNK_GAP) {
+        onClaim?.({ key: c.key, tree: c.tree, outcome: 'spacing', footprint: c.footprint }); return false;
+      }
     }
+    onClaim?.({ key: c.key, tree: c.tree, outcome: 'accepted', footprint: c.footprint });
     return true;
   }).map(c => c.tree);
 }
