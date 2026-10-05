@@ -44,9 +44,24 @@ Gothic assets as original Tervain content or change earlier Tervain asset rules.
   audited startup `RunQuest("Xardas_FindXardas")` transition. Other startup
   callbacks and quest actions remain incomplete.
 - Loads PC_Hero's retained PlayerMemory when the browser session starts. Its
-  verified `PlayerKnows` seed initializes an ordered browser game-event store;
-  native `SetGameEvent`/`ClearGameEvent` semantics are implemented there, but
-  dialogue execution does not yet call those operations.
+  verified `PlayerKnows` seed initializes an ordered browser game-event store.
+  The Ardea interaction panel now preflights original dialogue records against
+  the active scene, quest state, game events and InfoManager Given state. It
+  runs only General records with no quest callback when every command is
+  supported; unsupported conditions and effects stay locked with their reason
+  shown. Diego's `BPANKRATZ31454` response exercises `Say` and
+  `SetGameEvent("Diego_WarIsLost")`. The original `GiveXP` handler now awards
+  XP through the retained Hero PlayerMemory and supports XP-only quest rewards.
+  A threshold crossing also writes Level to a source-constructed Hero NPC
+  property set, grants native LP through PlayerMemory and shows the localized
+  level-up text. The hash-checked Hero NPC packet now passes through the
+  registered accessor; its legacy `Level` payload is preserved as opaque
+  `bCObsoleteClass` data, while the current property initializes to the
+  verified start value and updates on supported threshold crossings. The
+  Character panel displays that Level. This NPC property set is not attached
+  to a live world entity, `Perk_Learn` is verified inactive at start, and the
+  level-up visual effect is absent. Voice, camera direction,
+  NPC routines and most of the original conversation flow remain unimplemented.
 - Streams 782 original landscape cells across Myrtana, Nordmar and Varant,
   using recovered texture/UV/blend graphs and tangent-space normal maps.
 - Offers landscape views near Ardea, Xardas's tower and Lago, plus read-only
@@ -62,10 +77,10 @@ native shader and fading behavior remain unimplemented.
 The remaining native materials, global lighting, SpeedTree runtime,
 NPC animation selection, sound, combat, AI, inventory, economy, most quest
 progression, world-object streaming and native save compatibility are not implemented.
-Reviewed combat/dialogue kernels have explicit unsupported outcomes and host
-APIs, but are not enabled for ordinary play. Only the audited first startup
-quest run is connected; remaining startup callbacks and entity mutations are
-pending.
+The source-backed dialogue kernel is enabled only for bounded records; most
+native dialogue conditions and effects remain unavailable. Combat is not
+enabled for ordinary play. Only the audited first startup quest run is
+connected; remaining startup callbacks and entity mutations are pending.
 Original SpeedTree vegetation has not yet been placed in this scene.
 NPC derivatives are static bind-pose previews. The moving Hero chooses one
 recovered idle, walk or run clip from browser-controller displacement. Hero
@@ -129,7 +144,7 @@ The prepared derivatives and newly written renderer have separate provenance.
 | Look | Drag mouse, or click scene for captured mouse |
 | Release mouse | Escape |
 | Third-person Hero view | Third person / First person button |
-| Inspect nearby person | E |
+| Talk to / inspect nearby person | E |
 | Character model inspection | Tab or Models |
 | Rotate / zoom / pan model | Drag / wheel / right-drag |
 | Hero motion preview | Native motion selector / Play or Pause motion |
@@ -140,9 +155,10 @@ The prepared derivatives and newly written renderer have separate provenance.
 | Save browser session | P |
 
 Current save key: `gothic3:ardea:game:v2`. It holds browser exploration state,
-landscape selection, the 641 quest states, world-clock date and PlayerKnows
-game events. Restore checks the Hero PlayerMemory source hash as well as the
-quest/clock hashes. Legacy key
+landscape selection, the 641 quest states, world-clock date, PlayerKnows game
+events, accepted dialogue `Given` flags and supported Hero XP. Restore checks the Hero
+PlayerMemory and InfoManager provider identities as well as the quest/clock
+hashes. Legacy key
 `gothic3:ardea:exploration:v1` still restores position and view, then starts a
 fresh quest session. Neither format imports original Gothic saves or changes
 Tervain saves.
@@ -169,13 +185,14 @@ CI results should be reported separately.
 
 These are implementation proposals, not completed work:
 
-1. Extend the verified Hero skin/motion path to other rigs, original attachments,
-   expressions, exact interpolation, animation selection and blending.
+1. Extend bounded Ardea dialogue to more source conditions, lifecycle
+   callbacks, objectives, inventory and rewards; keep unported operations
+   visibly unsupported.
 2. Port a bounded original Ardea combat encounter and its native state
    transitions, then compare behavior with the installed game.
-3. Connect source-backed quest journal state to eligible dialogue commands,
-   objective updates, inventory, rewards and progression; preserve
-   unsupported-command errors.
+3. Extend the verified Hero skin/motion path to other rigs, original
+   attachments, expressions, exact interpolation, animation selection and
+   blending.
 4. Replace collision approximations and extend world streaming, terrain,
    SpeedTree materials, original lighting and audio.
 5. Expand region by region with save migration and measured performance.

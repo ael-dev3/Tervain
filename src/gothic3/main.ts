@@ -11,7 +11,8 @@ import { loadNativeHeroPlayerMemory } from './hero-property-runtime';
 import type { NativeHeroPlayerMemory } from './hero-property-runtime';
 import type { AnimatedActor } from './animation';
 import { ARDEA_PEOPLE, ARDEA_QUESTS, PORT_SCOPE } from './content';
-import { showOriginalDialogue, showQuestCatalog } from './catalog-view';
+import { catalog as gothicCatalog, showOriginalDialogue, showQuestCatalog } from './catalog-view';
+import { showLiveDialogue } from './live-dialogue';
 import { NativeQuestRuntime, nativeQuestStatusName } from './quest-runtime';
 import type { ArdeaScene, ScenePerson } from './types';
 import './style.css';
@@ -29,7 +30,7 @@ ui.innerHTML = '<header class="masthead"><div class="eyebrow">Gothic 3 · browse
   '<section class="inspector panel hidden" id="inspector"><div class="eyebrow">Original geometry</div><h2>Character inspection</h2><select id="model-select" aria-label="Character model"></select><div class="row"><button id="wire-button">Wireframe</button><button id="spin-button">Rotate</button><button id="frame-button">Frame</button></div><div id="animation-controls" class="hidden"><label for="clip-select">Native motion</label><select id="clip-select" aria-label="Native motion"><option value="">Bind pose</option></select><button id="clip-play" disabled>Play motion</button></div><p>Drag to rotate · wheel to zoom · right-drag to pan.</p><p id="model-info">Native body and head; exported bind pose.</p><div class="source" id="model-source"></div></section>' +
   '<section class="modal panel hidden" id="modal" aria-label="Information"><button class="close" id="modal-close" aria-label="Close panel">×</button><div id="modal-content"></div></section>' +
   '<div class="map hidden" id="map"><span class="map-label">ARDEA · LOCAL POSITIONS</span><canvas id="map-view" width="488" height="488" aria-label="Local positions map"></canvas></div>' +
-  '<div class="loading" id="loading"><section class="intro"><div class="eyebrow">Gothic 3 · TypeScript reconstruction</div><h1>Ardea</h1><h2>The shore of Myrtana</h2><p>Walk through the recovered scene. Inspect original character models, Hero motion and the landscapes of Myrtana, Nordmar and Varant.</p><div class="rule"></div><p>Terrain loads as you move. A source-backed fresh quest state starts Xardas’s first quest. Dialogue actions, NPC simulation and combat are still being rebuilt.</p><div class="progress"><span id="progress"></span></div><div class="load-status" id="load-status">Reading scene manifest…</div><button class="primary" id="start-button" disabled>Enter Ardea</button><small>Independent from Tervain’s original game.<br>Keyboard and mouse · WebGL · local browser saves</small></section></div>';
+  '<div class="loading" id="loading"><section class="intro"><div class="eyebrow">Gothic 3 · TypeScript reconstruction</div><h1>Ardea</h1><h2>The shore of Myrtana</h2><p>Walk through the recovered scene. Inspect original character models, Hero motion and the landscapes of Myrtana, Nordmar and Varant.</p><div class="rule"></div><p>Terrain loads as you move. A source-backed fresh quest state starts Xardas’s first quest. Supported Ardea dialogue and game-event changes now run from original records; voice, NPC simulation, combat and most progression are still being rebuilt.</p><div class="progress"><span id="progress"></span></div><div class="load-status" id="load-status">Reading scene manifest…</div><button class="primary" id="start-button" disabled>Enter Ardea</button><small>Independent from Tervain’s original game.<br>Keyboard and mouse · WebGL · local browser saves</small></section></div>';
 
 const element = <T extends HTMLElement = HTMLElement>(id: string): T => document.getElementById(id) as T;
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
@@ -64,6 +65,7 @@ let inspectMode = false;
 let selectedPerson: ScenePerson | null = null;
 let nearest: ScenePerson | null = null;
 let modalOpen = false;
+let activeConversationOwner: ScenePerson | null = null;
 let panelLifetime = new AbortController();
 let spinning = false;
 let wireframe = false;
@@ -136,7 +138,14 @@ function releaseMouse(): void {
   if (document.pointerLockElement === canvas) document.exitPointerLock();
 }
 
+function endActiveConversation(): void {
+  const owner = activeConversationOwner;
+  activeConversationOwner = null;
+  if (owner && questRuntime) questRuntime.endInfoManager(owner);
+}
+
 function openPanel(title: string): HTMLElement {
+  endActiveConversation();
   panelLifetime.abort();
   panelLifetime = new AbortController();
   releaseMouse();
@@ -155,6 +164,7 @@ function openPanel(title: string): HTMLElement {
 }
 
 function closePanel(): void {
+  endActiveConversation();
   panelLifetime.abort();
   modalOpen = false;
   element('modal').classList.add('hidden');
@@ -165,10 +175,11 @@ function inspectNearby(): void {
   if (!nearest || inspectMode) return;
   const person = nearest;
   const content = openPanel(person.name);
+  activeConversationOwner = person;
   const facts = ARDEA_PEOPLE.find((entry) => entry.id.toLowerCase() === person.id.toLowerCase() || entry.name.toLowerCase() === person.name.toLowerCase());
   paragraph(content, facts?.role ?? 'Person placed in the original Ardea scene.');
   paragraph(content, facts?.summary ?? 'This character’s model and position are read from the local game’s compiled world data.');
-  paragraph(content, 'This is character inspection. Original dialogue, voice playback and quest actions are not enabled in this milestone.');
+  paragraph(content, 'Dialogue runs only when its source predicates, commands and completion callback have a connected browser service. Unsupported source records remain locked with their unresolved requirement shown. Original voice, camera direction and NPC routines are not yet connected.');
   if (facts?.questIds.length) {
     const h3 = document.createElement('h3');
     h3.textContent = 'Original quest references';
@@ -183,7 +194,22 @@ function inspectNearby(): void {
   button.onclick = () => { closePanel(); void setInspection(true, person.id); };
   content.append(button);
   paragraph(content, person.source + (person.body ? ' · ' + person.body : '') + (person.head ? ' · ' + person.head : ''), 'source');
-  void showOriginalDialogue(content, person.name);
+  const sourceRecords = document.createElement('details');
+  const sourceSummary = document.createElement('summary');
+  sourceSummary.textContent = 'Inspect all original dialogue records';
+  sourceRecords.append(sourceSummary);
+  content.append(sourceRecords);
+  void showOriginalDialogue(sourceRecords, person.name);
+  const dialogue = document.createElement('section');
+  dialogue.className = 'gothic-live-dialogue';
+  content.append(dialogue);
+  if (questRuntime) {
+    void showLiveDialogue(dialogue, person, manifest.people,
+      [explorer.position.x, explorer.position.y, explorer.position.z], questRuntime, gothicCatalog,
+      manifest.spawnSource, manifest.origin, panelLifetime.signal);
+  } else paragraph(dialogue, questRuntimeError
+    ? 'Dialogue is unavailable because the source-backed game session failed to load: ' + questRuntimeError
+    : 'Enter Ardea to initialize source-backed dialogue state.');
 }
 
 function showJournal(): void {
@@ -198,7 +224,7 @@ function showJournal(): void {
   }
   const lifetime = panelLifetime.signal;
   const intro = document.createElement('p');
-  intro.textContent = 'Fresh-world state from the original quest manager and compiled runtime records. The audited OnGameStartUp RunQuest starts Xardas_FindXardas at the source clock time. Other native startup callbacks, dialogue and quest rewards are still unimplemented.';
+  intro.textContent = 'Fresh-world state from the original quest manager and compiled runtime records. The audited OnGameStartUp RunQuest starts Xardas_FindXardas at the source clock time. Supported Ardea dialogue predicates and game events now use the live journal; other startup callbacks, quest rewards and most native dialogue services remain unimplemented.';
   content.append(intro);
   const controls = document.createElement('div'); controls.className = 'catalog-controls';
   const search = document.createElement('input'); search.type = 'search'; search.placeholder = 'Search quest id, folder or destination'; search.setAttribute('aria-label', 'Search active quest journal');
@@ -285,7 +311,9 @@ function showCharacterSheet(): void {
     const heading = document.createElement('h2');
     heading.textContent = 'Nameless Hero';
     content.append(eyebrow, heading);
-    paragraph(content, 'Chapter ' + result.memory.getChapter() + ' · XP ' + result.memory.getXP() +
+    const level = result.npc.values.Level;
+    paragraph(content, (typeof level === 'number' ? 'Level ' + level : 'Level unknown') +
+      ' · Chapter ' + result.memory.getChapter() + ' · XP ' + result.memory.getXP() +
       ' · learning points ' + result.memory.getLPAttribs() + ' attribute / ' + result.memory.getLPPerks() + ' perk');
 
     const table = document.createElement('table');
@@ -307,7 +335,7 @@ function showCharacterSheet(): void {
     table.append(head, body); content.append(table);
     paragraph(content, 'Loaded ' + result.cursor.consumed + ' of ' + result.cursor.total +
       ' packet bytes from source record ' + result.source.sha256.slice(0, 16) + '…');
-    paragraph(content, 'The browser now retains the source PlayerMemory and all 15 Attribute/Stat objects. One audited startup quest transition is connected to the live journal; the remaining native new-game callbacks and later stat, combat, and XP progression are not connected to ordinary play yet. Unknown native enum bits remain masked.');
+    paragraph(content, 'The browser retains the source PlayerMemory, all 15 Attribute/Stat objects and the hash-checked serialized Hero NPC property set. The packet’s legacy Level record is preserved as opaque obsolete-property bytes; its current scalar is shown above and updates with supported GiveXP level-ups. That NPC property set is not attached to a live world entity, and the level-up visual effect is absent. One audited startup quest transition is connected to the journal, while other startup callbacks, most progression and combat remain unconnected. Unknown native enum bits remain masked.');
     if (result.summary.logs.length) {
       paragraph(content, result.summary.logs.length + ' source warning/info records were retained by the browser host.', 'source');
     }
@@ -324,7 +352,7 @@ function showHelp(): void {
   const content = openPanel('Controls & current scope');
   paragraph(content, 'WASD / arrows: move. Shift: run. Drag to look, or click the scene for captured mouse look. Escape releases the pointer. E inspects a nearby person.');
   paragraph(content, 'F toggles free flight; Space moves up and Q moves down. Third person follows the Hero model and recovered idle, walk and run clips. R returns to the arrival point. P saves this browser session locally. Tab switches to character models; drag to rotate, wheel to zoom, right-drag to pan. M opens the local position map.');
-  paragraph(content, 'Character loads PC_Hero’s serialized PlayerMemory and Attribute/Stat data into the browser’s TypeScript runtime. The quest journal runs one source-audited new-game quest transition; other startup operations and gameplay progression are still being connected.');
+  paragraph(content, 'Character loads PC_Hero’s serialized PlayerMemory, Attribute/Stat data and NPC Level into the browser’s TypeScript runtime. Supported Ardea dialogue can change source-backed game events, Given flags and bounded XP/level progression. The quest journal runs one source-audited startup transition; most startup operations and campaign progression remain unimplemented.');
   const brightnessLabel = document.createElement('label');
   brightnessLabel.textContent = 'Preview brightness ';
   const brightness = document.createElement('input');
@@ -895,7 +923,7 @@ function frame(now: number): void {
       if (delta < distance && Math.abs(person.position[1] - (position.y - 1.65)) < 4) { nearest = person; distance = delta; }
     }
     element('prompt').classList.toggle('hidden', !nearest || inspectMode || modalOpen);
-    if (nearest) element('prompt').textContent = 'E · inspect ' + nearest.name;
+    if (nearest) element('prompt').textContent = 'E · talk to ' + nearest.name;
     drawMap();
   }
   if (toastUntil && now > toastUntil) { element('toast').classList.add('hidden'); toastUntil = 0; }

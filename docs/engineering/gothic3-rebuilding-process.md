@@ -11,13 +11,23 @@ inspection, an on-demand Hero character sheet backed by captured PlayerMemory
 and Attribute/Stat data in TypeScript, and a fresh-world quest journal seeded
 from the original 641 quest states. It applies the audited startup run of
 `Xardas_FindXardas`, advances the source-seeded clock, and saves/restores the
-browser session's position, clock, quest states and PlayerKnows game events
-with source-hash checks. This is an incomplete game reconstruction.
+browser session's position, clock, quest states, PlayerKnows events, accepted
+InfoManager Given flags and ended Ardea actor-dialog flags with source checks.
+A Character panel displays the current Hero Level alongside chapter, XP,
+learning points and attributes.
+A bounded Ardea dialogue path also writes supported `OnEndInfo` Say pairs to
+quest journals. Source-backed `GiveXP` awards update the retained Hero
+PlayerMemory; a threshold crossing now updates the retained Hero NPC Level and
+LP, displays localized level-up text and persists through save/restore. The
+hash-checked serialized NPC property packet also reads through its registered
+accessor, retaining a legacy Level value as opaque obsolete-property bytes.
+World entity lifecycle remains incomplete. This is still an incomplete game
+reconstruction.
 Completing the original game in the browser remains the objective; the inspectors
 do not satisfy that objective.
 
-The owner requested this separate project and explicitly approved hosting it
-in Tervain. GitHub reports the repository as private on 5 October 2026. The route is
+The owner requested this separate project and approved hosting it in the
+existing public Tervain repository after its visibility was disclosed. The route is
 [Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/).
 The [scope record](gothic3-browser-port.md) describes the current controls,
 limitations and source terms.
@@ -28,7 +38,7 @@ which have not been deployed. On 5 October 2026, a fresh request to the
 `/gothic3/` URL returned HTTP 404 and the repository's Pages API also returned
 404. The latest failed workflow still reports that its job could not start
 because of account payment or spending-limit state. This records the observed
-hosting/deployment limitation; the full game is not online. Sections 10–25
+hosting/deployment limitation; the full game is not online. Sections 10–30
 cover the newer runtime work.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
@@ -56,11 +66,14 @@ reproduce the historical source hashes.
    including quests, factions, combat, travel and saving/loading.
 
 The current scene covers part of step 2 and the rendering side of step 5.
-The newer source components advance steps 3–4 and now load the captured Hero
-PlayerMemory and Attribute/Stat objects into an on-demand character panel. That
-is a verified data path, not a live gameplay-state connection. A successful
-TypeScript build does not establish that step 5 is complete or that step 7 is
-possible.
+Source-backed quest state, selected Ardea dialogue, game events, ended actor
+flags and bounded Hero XP/level/LP progression now connect to browser sessions
+and saves.
+The captured Hero PlayerMemory and Attribute/Stat data also feed an on-demand
+character panel. These are bounded integrations: most dialogue, live NPC
+activation, combat, NPC routines, world interactions and campaign transitions
+are still missing. A successful TypeScript build does not establish that the
+whole game loop works or that the completion step is possible.
 
 ## What “rebuilding” means here
 
@@ -2748,13 +2761,188 @@ entity activation.
 Saving remains a partial session feature. A malformed or source-incompatible
 quest session is not silently replaced by new-game state; exploration remains
 available and the error is shown. This keeps the mismatch visible while
-preserving the saved record. `npm run build` passes with 261 Vite modules; the
-existing large Tervain bundle warning remains. A one-off Vite SSR invocation
-loaded the captured Hero PlayerMemory, confirmed its empty fresh-world event
-array, started a new game, exercised idempotent Set and Clear event operations,
-serialized/restored them with all 641 quest states, and rejected a changed Hero
-PlayerMemory hash. `Xardas_FindXardas` remained Running at 0/0/12.
-`git diff --check` also passes. No automated test suite, manual save/reload in
-the browser, complete gameplay playthrough, original executable comparison or
-deployment was run. This does not establish a full gameplay save/load path,
-and `gameplayReady` remains `false`.
+preserving the saved record. A later dialogue addition stores the sorted true
+InfoManager Given IDs with the exact provider identity, restoring them only
+against that source; older v2 saves without this optional field still migrate.
+
+The TypeScript check, 91 test files / 927 tests and production build pass; Vite
+transformed 263 modules and retains the existing large-bundle warning. A
+one-off Vite SSR exercise loaded the captured Hero PlayerMemory, verified the
+fresh-world quest state, planned and executed Diego's source record
+`BPANKRATZ31454`, set `Diego_WarIsLost`, marked the Info Given, saved it and
+restored both the event and Given state. The browser loaded the scene and the
+new-world journal, but the dialogue panel itself was not manually exercised.
+No complete gameplay playthrough, original executable comparison or deployment
+was run. This does not establish full gameplay save/load, and `gameplayReady`
+remains `false`.
+
+## 27. Run a bounded source-backed Ardea conversation
+
+The previous checkpoint exposed original dialogue as a read-only catalog. This
+one connects a limited subset to the live Hero quest session through
+[`live-dialogue.ts`](../../src/gothic3/live-dialogue.ts). Pressing E on a nearby
+person now opens a separate interaction panel. The catalog verifies the exact
+54-name `Script_Game.dll` command table before it treats a command absent from
+that table as the native unknown-command advance path.
+
+Before presenting a response, the TypeScript planner checks its source Info
+record, parent/availability predicates, accepted-start guards, every command
+capability and the completion lifecycle. Facts come only from the active Ardea
+scene, the source-seeded quest manager, Hero `PlayerKnows` events and the
+selected InfoManager provider. Unloaded entities and unsupported actor,
+inventory, faction or callback state return `unknown`; they are shown as
+unavailable with a reason. The later checkpoint in section 28 extends this
+bounded lifecycle to source condition types 3 and 19 when no delivery callback
+is required.
+
+The host displays each source `Say` line and waits for Continue before advancing
+the original command sequence. It applies `SetGameEvent`/`ClearGameEvent` only
+to `PC_Hero`; bounded quest commands are delegated to the existing quest kernel
+only when its reward or arena side effects are supported. On an accepted start,
+the source Info's `Given` flag is marked under the native permanence rules.
+Browser saves retain those flags alongside the PlayerKnows list and verify the
+InfoManager provider when restoring them. Section 28 also adds positive
+`TalkedToPlayer` actor IDs and validates the source people receipt.
+
+Diego's `BPANKRATZ31454` record is the first source-backed case: its four
+commands include source lines and `SetGameEvent("Diego_WarIsLost")`. A test host
+using the real source catalog and live plan/execution functions confirmed the
+event and Given flag, then saved and restored both. TypeScript, repository
+tests and production build pass. The local browser successfully entered Ardea
+and loaded the new-world session, but this particular UI panel has not yet been
+manually exercised. Original voice, camera direction, NPC routines, most Info
+conditions, delivery callbacks, inventory, rewards and broad quest progression
+remain unsupported. This is an initial live dialogue slice, not a playable
+campaign; `gameplayReady` remains `false`.
+
+## 28. Retain ended dialogue state and quest journal pairs
+
+The bounded conversation path now reads the seven selected Ardea actors'
+`gCNPC_PS` and `gCDialog_PS` source properties from the captured initial-people
+record. It verifies the actor ID/name pairing, preserves the original
+`TalkedToPlayer` seed, and exposes the flag only for the matching actor. Unknown
+death and wound state still does not inherit a default.
+
+When an Info script is accepted, the browser host begins an InfoManager session
+for its NPC. Closing or replacing the panel ends that session. The reviewed
+`Game.dll::gCInfoManager_PS::EndInfoManager` behavior marks each participating
+non-player dialog actor as talked-to; the browser stores those positive actor
+IDs alongside the exact Ardea-people source receipt and restores them only
+against that source. A save without this optional field remains readable as a
+pre-flag v2 save.
+
+The dialogue facts resolver now queries only names needed by the active owner's
+source records from the hash-checked index chunks of the SysDyn file named in
+the Ardea scene manifest. It keeps duplicate name matches ambiguous and uses
+the native coordinate origin and target property sets for the original
+distance multiplier. A missing entity in a successfully read source index
+produces the native missing-target distance; a source or hash failure remains
+unknown.
+
+`Game.dll::gCInfo_PS::OnEndInfo` iterates source Say commands and appends their
+speaker/text localization pairs to the associated quest for several condition
+types. The browser currently enables only the no-delivery condition 3 and 19
+paths for this completion callback; condition 19's quest must resolve, and this
+case does not apply a quest-status transition. Other callback paths stay
+disabled. The quest state retains both the pair and its text key for the journal.
+
+The focused actor/log and SysDyn-index tests, TypeScript check, all 93 test
+files / 933 tests, and the production build pass. The build transformed 264
+modules and retains the existing large-bundle warning. A one-off Vite SSR
+round trip loaded the real gameplay manifest and all 641 quests, ended Diego's
+source-backed InfoManager, and restored his true `TalkedToPlayer` flag from a
+browser save. Browser automation could not open the active Ardea tab because
+CDP `Emulation.setFocusEmulationEnabled` timed out, so this specific panel and
+its spatial predicates have not been manually exercised. No complete gameplay
+playthrough or deployment was run; `gameplayReady` remains `false`.
+
+## 29. Apply bounded native GiveXP awards
+
+This checkpoint is retained as the earlier below-threshold implementation;
+section 30 records the subsequent threshold-crossing progression work.
+
+The live dialogue host and quest reward service now connect the source
+`Script_Game.dll::GiveXP` path to the retained Hero PlayerMemory. The captured
+handler at `0x100628c0` multiplies the requested amount by five for its
+world-script call form (`Self=None`, `Other=PC_Hero`), adds it to XP, and checks
+the next native level threshold. The TypeScript planner reuses the existing
+native XP threshold and overflow kernel. A verified initialization-seed reader
+ties the browser session to the current Hero XP, attribute-learning points,
+serialized NPC level and `Perk_Learn` stack.
+
+If an award stays below the next level threshold, the host writes the new XP
+through the same retained `OriginalPlayerMemory` object and its source property
+notifications, then shows the localized `GO_XP` message. Multiple XP commands
+in one dialogue are simulated in order before the script can start, so their
+combined award cannot cross the threshold after a partial conversation. Quest
+rewards are enabled only when their sole effect is one such award. Browser saves
+retain XP with the initialized-player source receipt; restore validates that it
+can be derived from supported five-times awards and writes it through the same
+native PlayerMemory setter. Previous session saves without this optional field
+still restore from the original XP seed.
+
+Level-up awards remain locked. The initial `Perk_Learn` learned state is
+unresolved, the Hero's live `gCNPC_PS` level is not connected, and the original
+level-up effect/message services are not in the browser world. For example,
+`Xardas_FindXardas` grants a requested 250 XP (1,250 through this call form),
+which crosses the initial threshold; the quest correctly remains Running until
+those dependencies are implemented. This bounded reward path is not a
+complete progression system.
+
+TypeScript, all 94 test files / 937 tests, and the production build pass; Vite
+transformed 265 modules. The existing large Tervain chunk warning remains. A
+one-off Vite SSR round trip loaded the hash-checked Hero and quest sources,
+applied `GiveXP 50` as 250 XP, saved/restored it through the native setter,
+rejected a subsequent level-crossing award, and held the Xardas reward without
+changing XP. The local tab was identified, but browser UI inspection timed out
+twice in CDP at `Emulation.setFocusEmulationEnabled`; this does not verify the
+dialogue panel presentation or reachability. These checks verify the selected
+property/reward path, not a full browser playthrough; `gameplayReady` remains
+`false`.
+
+## 30. Carry GiveXP through a level-up
+
+The GiveXP bridge now handles a single native level-up threshold crossing.
+For the world-script call form (`Self=None`, `Other=PC_Hero`), the captured
+`Script_Game.dll::GiveXP` handler multiplies the requested amount by five,
+updates PlayerMemory XP and, on crossing the next threshold, increments
+`gCNPC_PS.Level` once and adds 10 LP. The initial Hero inventory snapshot
+records `Perk_Learn` as `Learned=false`, `ActivationCount=0`, so no extra
+learning point is added. The browser writes XP and LP through the retained
+PlayerMemory objects and Level through a source-traced scalar setter on an NPC
+property set created with the verified new-game constructor. The dialogue
+displays localized `GO_LevelUp` text.
+
+The serialized candidate contains an accessor frame around the NPC property
+packet, so the complete packet must enter through `controller.readAccessor`;
+calling the wrapper's property reader directly starts at the wrong byte. The
+NPC reader's missing or mismatched property path is `Game:20312d30`, which
+registers `bTPropertyType<gCNPC_PS,bCObsoleteClass>` under a critical section.
+Its reader stub at `Game:20016be4` jumps to `Game:202fd000`. In the pinned
+`Game.dll`, that 192-byte body is byte-for-byte identical to the already
+audited PlayerMemory obsolete-class reader at `Game:2031fe50` (SHA-256
+`ac7a65d11aea9f4e1ff69afde164a9e793328cf767554d673f8d901c6bb43744`). It
+consumes a `u16` version, `u32` payload length and opaque bytes. The old Level
+payload is retained exactly; it is not misread as the current unsigned-long
+Level value. This closes the serialized Hero NPC read path but does not attach
+the NPC property set to the live Hero entity.
+
+The original `eff_event_levelup_01` visual effect, native message services and
+general inventory skill activation are not connected. Saves retain the
+requested award sequence and validate restored XP, Level and LP by replaying
+the native progression planner against the verified initialization seed. A
+legacy save without award history is accepted only if it remains
+below-threshold.
+
+The focused progression and GiveXP suites pass (6 tests). The round-trip check
+awards requested 250 XP, verifies native 1,250 XP / Level 1 / 10 LP, then
+saves and restores those values into a fresh retained Hero session. This is a
+source-backed progression slice, not a complete level system or gameplay
+playthrough. A dedicated assertion confirms that the serialized NPC property
+set owns Level's opaque payload and remains attached to its registered wrapper.
+After the accessor-frame and obsolete-reader evidence update, `npm run typecheck`
+and `npm run build` both pass; the build transforms 267 modules and retains
+Tervain's existing large-chunk warning. The mirrored NPC-reading outputs and
+their implementation receipts also match their current file hashes.
+The dialogue UI still needs manual review; live entity activation, combat and
+campaign progression remain open. `gameplayReady` remains `false`.

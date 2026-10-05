@@ -602,6 +602,43 @@ export function applyNativeXp(player: NativePlayerProgress, amount: number): Com
   return resolved({ xp, level: add(player.level, 1), lp: add(player.lp, player.learnPerkActive.value ? 11 : 10), levelUp }, E.xp);
 }
 
+export interface NativeGiveXpPlan {
+  readonly requestedAmount: number;
+  readonly awardedAmount: number;
+  readonly progress: { readonly xp: number; readonly level: number; readonly lp: number; readonly levelUp: boolean };
+}
+
+/** Script_Game GiveXP with Self=world and Other=PC_Hero multiplies its
+ * requested integer by five before updating PlayerMemory.XP. The caller must
+ * still apply the returned state through the live Hero property path. */
+export function planNativeGiveXp(player: NativePlayerProgress, requestedAmount: number): CombatResult<NativeGiveXpPlan> {
+  if (!nonnegativeI32(requestedAmount)) return unsupported('Native GiveXP operand is outside the supported nonnegative int32 domain.', 'givexp-operand');
+  const awardedAmount = requestedAmount * 5;
+  if (!i32(awardedAmount)) return unsupported('Native GiveXP multiplication exceeds the bounded signed32 profile.', 'xp-overflow');
+  const progress = applyNativeXp(player, awardedAmount);
+  if (progress.status === 'unsupported') return progress;
+  return resolved({ requestedAmount, awardedAmount, progress: progress.value }, [...E.xp, 'Script_Game:100628c0']);
+}
+
+export interface NativeGiveXpSequencePlan {
+  readonly awards: readonly NativeGiveXpPlan[];
+  readonly progress: NativePlayerProgress;
+}
+
+/** Preflight consecutive XP-producing commands against one evolving Hero state. */
+export function planNativeGiveXpSequence(player: NativePlayerProgress,
+    requestedAmounts: readonly number[]): CombatResult<NativeGiveXpSequencePlan> {
+  let progress = player;
+  const awards: NativeGiveXpPlan[] = [];
+  for (const requestedAmount of requestedAmounts) {
+    const award = planNativeGiveXp(progress, requestedAmount);
+    if (award.status === 'unsupported') return award;
+    awards.push(award.value);
+    progress = { ...award.value.progress, learnPerkActive: progress.learnPerkActive };
+  }
+  return resolved({ awards, progress }, [...E.xp, 'Script_Game:100628c0']);
+}
+
 export interface NativeDefeatCredit {
   readonly playerId: string;
   readonly creditedActorId: string;

@@ -232,6 +232,24 @@ export class NativeInfoState {
     this.current.set(info.id, true);
   }
 
+  /** Browser-session delta for the native Given bits; source defaults are loaded separately. */
+  currentGivenIds(): readonly string[] {
+    if (this.invalidatedReason) throw new Error(this.invalidatedReason);
+    return [...this.current].filter(([, given]) => given).map(([id]) => id).sort();
+  }
+
+  /** Restore only IDs present in this exact source provider. */
+  restoreGivenIds(ids: readonly string[]): void {
+    if (this.invalidatedReason) throw new Error(this.invalidatedReason);
+    if (!Array.isArray(ids) || ids.some((id) => typeof id !== 'string') || new Set(ids).size !== ids.length) {
+      throw new Error('Browser save has invalid or duplicate InfoManager Given IDs.');
+    }
+    for (const id of ids) {
+      if (!this.records.has(id)) throw new Error('Browser save refers to an Info absent from this source provider: ' + id);
+    }
+    for (const id of ids) this.current.set(id, true);
+  }
+
   /** Unsupported callbacks/restores must invalidate facts, never reset them to defaults. */
   invalidateForUnsupportedRestore(reason: string): void {
     if (!reason.trim()) throw new Error('Info state invalidation needs a reason');

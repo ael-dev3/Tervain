@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "scope": "verified bounded kernel; no ordinary-play integration",
+  "scope": "verified bounded combat kernel; Hero GiveXP XP/level/LP bridge integrated; combat actions remain unavailable",
   "nativeCodeExecuted": false,
   "installedBuildHashesPinned": true,
   "originalInputs": [
@@ -4511,6 +4511,7 @@
     "instructionBytes": 43699
   },
   "limitations": [
+    "The Hero GiveXP bridge handles XP and one level/LP update per crossing using the retained serialized NPC property set; the NPC property set is not attached to the live entity, and the level-up visual effect and combat actions are not integrated.",
     "External contact, eligibility, skills, initialization and directional attitudes must be resolved with provenance.",
     "Only selected standing humanoid Hero Impact/Blade/fist/single1H math and ordered state plans are implemented.",
     "AI/contact/native task execution/impact effects/ragdolls/statuses/spells/projectiles/full inventory/equipment are not implemented.",
@@ -4518,5 +4519,9 @@
     "Signed32 protection multiplication deliberately retains native wrap; this is not a generic percent reduction.",
     "No arithmetic hit chance is invented."
   ],
-  "excerptRoot": "assets/gothic3/combat"
+  "excerptRoot": "assets/gothic3/combat",
+  "ordinaryPlayIntegration": {
+    "giveXP": "XP and one threshold-crossing level/LP update; no live NPC activation",
+    "combatActions": "not integrated"
+  }
 }

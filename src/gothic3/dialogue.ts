@@ -26,6 +26,11 @@ export interface NativeActorCondition {
   hasDialog: boolean;
   talkedToPlayer: boolean;
 }
+export interface NativeActorDialogCondition {
+  hasNpc: boolean;
+  hasDialog: boolean;
+  talkedToPlayer: boolean;
+}
 
 /** Callers supply runtime facts; source lookup alone does not establish them. */
 export interface DialogueFacts {
@@ -38,6 +43,7 @@ export interface DialogueFacts {
   /** Native FindStack returns one matching stack, not a sum of all stacks. */
   itemStackAmount(entity: DialogueEntity, templateName: string): NativeValue<number | null>;
   actor(entity: DialogueEntity): NativeValue<NativeActorCondition>;
+  actorDialog(entity: DialogueEntity): NativeValue<NativeActorDialogCondition>;
   dialogFlag(entity: DialogueEntity, field: 'TradeEnabled'): NativeValue<boolean | null>;
   /** Handles each unported native condition explicitly. No default true. */
   condition(info: NativeInfo, roles: DialogueRoles): InfoAvailability;
@@ -187,14 +193,26 @@ export function nativeInfoAvailability(info: NativeInfo, participants: DialogueP
       // Native breaks the entire secondary-NPC loop for this missing-entity case.
       break;
     }
-    const actor = facts.actor(entity.value);
-    if (!actor.known) return unknown(actor.reason);
-    if (!actor.value.hasNpc) return unavailable('Secondary entity has no native NPC property set.');
-    const value = actor.value;
-    if ((secondary.state === 0 && value.dead) || (secondary.state === 1 && (value.dead || value.wounded)) ||
-        (secondary.state === 2 && !value.wounded) || (secondary.state === 3 && !value.dead) ||
-        (secondary.state === 4 && (!value.hasDialog || !value.talkedToPlayer)) ||
-        (secondary.state === 5 && (!value.hasDialog || value.talkedToPlayer))) return unavailable('Secondary NPC does not meet the original state condition.');
+    if (secondary.state === 4 || secondary.state === 5) {
+      const actor = facts.actorDialog(entity.value);
+      if (!actor.known) return unknown(actor.reason);
+      if (!actor.value.hasNpc) return unavailable('Secondary entity has no native NPC property set.');
+      if (secondary.state === 4 && (!actor.value.hasDialog || !actor.value.talkedToPlayer)) {
+        return unavailable('Secondary NPC has not ended a dialog with the player.');
+      }
+      if (secondary.state === 5 && (!actor.value.hasDialog || actor.value.talkedToPlayer)) {
+        return unavailable('Secondary NPC does not meet the original not-talked state condition.');
+      }
+    } else {
+      const actor = facts.actor(entity.value);
+      if (!actor.known) return unknown(actor.reason);
+      if (!actor.value.hasNpc) return unavailable('Secondary entity has no native NPC property set.');
+      const value = actor.value;
+      if ((secondary.state === 0 && value.dead) || (secondary.state === 1 && (value.dead || value.wounded)) ||
+          (secondary.state === 2 && !value.wounded) || (secondary.state === 3 && !value.dead)) {
+        return unavailable('Secondary NPC does not meet the original state condition.');
+      }
+    }
   }
   if (info.conditions.playerSkills.length || info.conditions.namedPlayerSkills.length) {
     return unknown('Conditional skill serialization requires an independently mapped native consumer.');
@@ -239,7 +257,7 @@ export interface DialogueCommandHost {
   booleanOperand(value: string): NativeValue<boolean>;
   /** Reports native Execute guards, including gold cost and condition-specific gates. */
   startGuards(info: NativeInfo, roles: DialogueRoles): InfoAvailability;
-  capability(operation: DialogueOperation): NativeValue<true>;
+  capability(operation: DialogueOperation, precedingOperations?: readonly DialogueOperation[]): NativeValue<true>;
   lifecycleCapability(plan: DialogueExecutionPlan): NativeValue<true>;
   /** Re-read runtime predicates before starting a previously prepared plan. */
   currentAvailability(plan: DialogueExecutionPlan): InfoAvailability;
@@ -305,7 +323,7 @@ export function planNativeDialogue(info: NativeInfo, participants: DialogueParti
         // Original SuccessQuest typo takes this native warning/advance path.
         operation = { kind: 'unknownNativeCommand', command: command.command, sourceIndex };
     }
-    const capability = host.capability(operation);
+    const capability = host.capability(operation, operations);
     if (!capability.known) return unknown(capability.reason);
     operations.push(operation);
   }

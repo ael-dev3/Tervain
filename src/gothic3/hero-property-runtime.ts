@@ -5,7 +5,7 @@
 import type { NativeValue } from './dialogue';
 import { NativeReflectionController, loadOriginalReflectionSerialized,
   originalReflectionPropertyInput } from './entity-reflection';
-import type { NativeReflectionWrapper } from './entity-reflection';
+import type { NativeReflectionAccessor, NativeReflectionWrapper } from './entity-reflection';
 import { NativeEntityByteInput } from './entity-reading';
 import type { NativeAttributeAllocation, NativeAttributeCStringAllocation,
   NativeAttributeCStringSource, NativeAttributeReadingHost } from './attribute-reading';
@@ -15,6 +15,8 @@ import type { NativePlayerMemoryReadingHost, NativePlayerMemoryCStringAllocation
   NativePlayerMemoryUnicodeString } from './player-memory-reading';
 import { NativePlayerMemoryArray, OriginalPlayerMemoryReader } from './player-memory-reading';
 import type { OriginalPlayerMemory } from './player-properties';
+import { OriginalNPCReader } from './npc-reading';
+import type { NativeNPCReadingHost, NativeNPCCStringAllocation, OriginalNPCProperties } from './npc-reading';
 import type { NativeClockTimestampSource } from './world-clock';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
@@ -76,6 +78,7 @@ export class NativeBrowserMemoryRuntime {
   private readonly allocations = new Set<NativeAttributeAllocation>();
   private readonly cstrings = new WeakMap<object, NativeAttributeAllocation>();
   private readonly liveCstrings = new Set<NativePlayerMemoryCStringAllocation>();
+  private readonly liveNpcCstrings = new Set<NativeNPCCStringAllocation>();
   private readonly localization = new Map<string, { text: string; description: string }>();
   private readonly localizationAdmin = Object.freeze({ kind: 'browser-localization-replacement' });
   private readonly diagnostics: NativeBrowserMemoryLog[] = [];
@@ -226,6 +229,30 @@ export class NativeBrowserMemoryRuntime {
     };
   }
 
+  npcReadingHost(): NativeNPCReadingHost {
+    return {
+      // The installed mutable enum global is not captured. Keep its bits
+      // unknown; the serialized Hero packet supplies the fields used here.
+      enumDefault: () => known({ value: 0, knownMask: 0 }),
+      coCreateGuid: scratch => this.createGuid(scratch),
+      readCString: (destination, input) => {
+        try {
+          const index = input.u16(), text = input.strings[index];
+          if (typeof text !== 'string' || destination.pointer !== null) throw new Error('Fresh indexed Hero NPC CString read required');
+          const allocation: NativeNPCCStringAllocation = { identity: Object.freeze({ allocation: ++this.allocationIndex }),
+            text, length: text.length, referenceCount: 1, freed: false };
+          this.liveNpcCstrings.add(allocation);
+          destination.pointer = allocation;
+          return known(undefined);
+        } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+      },
+      freeCString: allocation => {
+        if (!this.liveNpcCstrings.has(allocation) || allocation.freed) return unknown('Live browser Hero NPC CString allocation required');
+        allocation.freed = true; this.liveNpcCstrings.delete(allocation); return known(undefined);
+      },
+    };
+  }
+
   bindReflectionController(controller: NativeReflectionController): void {
     if (this.controller !== null) throw new Error('Browser memory runtime is already bound to a reflection controller');
     this.controller = controller;
@@ -286,7 +313,7 @@ export class NativeBrowserMemoryRuntime {
     let liveAllocations = 0;
     for (const allocation of this.allocations) if (!allocation.freed) liveAllocations++;
     return Object.freeze({ allocations: this.allocations.size, liveAllocations,
-      liveCStringAllocations: this.liveCstrings.size,
+      liveCStringAllocations: this.liveCstrings.size + this.liveNpcCstrings.size,
       liveWrapperAllocations: this.wrapperBackings.filter(value => !value.freed).length,
       localizationEntries: this.localization.size,
       logs: Object.freeze(this.diagnostics.slice()) });
@@ -297,8 +324,13 @@ export interface NativeHeroPlayerMemory {
   readonly memory: OriginalPlayerMemory;
   /** Retain the serialized accessor so its native wrapper/PS remain alive. */
   readonly accessor: import('./entity-reflection').NativeReflectionAccessor;
+  /** Retained and serialized-read gCNPC_PS used for the Hero's level state. */
+  readonly npc: OriginalNPCProperties;
+  readonly npcAccessor: NativeReflectionAccessor;
+  readonly npcWrapper: NativeReflectionWrapper;
   readonly controller: NativeReflectionController;
   readonly source: { readonly sha256: string; readonly bytes: number; readonly propertySetIndex: 13 };
+  readonly npcSource: { readonly sha256: string; readonly bytes: number; readonly propertySetIndex: 6 };
   readonly cursor: { readonly consumed: number; readonly total: number };
   /** Initial native PlayerKnows bCString entries from this same retained PS. */
   readonly gameEvents: readonly string[];
@@ -346,9 +378,37 @@ export async function loadNativeHeroPlayerMemory(): Promise<NativeHeroPlayerMemo
   if (packet.input.cursor() !== packet.input.end) {
     throw new Error('Original Hero PlayerMemory packet has unconsumed bytes: ' + packet.input.cursor() + '/' + packet.input.end);
   }
+
+  const npcPacket = originalReflectionPropertyInput(document, 'PC_Hero', 6);
+  if (npcPacket.outerVersion !== 78 || npcPacket.source.className !== 'gCNPC_PS' ||
+      npcPacket.source.nativeReadVersion !== 78 || npcPacket.source.serializedRaw.length / 2 !== 651) {
+    throw new Error('Captured Hero gCNPC_PS packet differs from the reviewed version-78 record');
+  }
+  // Construct the exact registered NPC PS, then use the captured property
+  // table reader including its opaque bCObsoleteClass path for old fields.
+  const npcReader = new OriginalNPCReader(controller, memoryHost.npcReadingHost());
+  const npcAccessorValue = controller.readAccessor(npcPacket.input);
+  if (!npcAccessorValue.known) {
+    const trace = controller.receipt().trace.slice(-12).map(row => row.operation + ' @ ' + row.source +
+      (row.cursor === undefined ? '' : '[' + row.cursor + ']') + (row.value === undefined ? '' : '=' + String(row.value))).join(' → ');
+    throw new Error('Original Hero gCNPC_PS read stopped: ' + npcAccessorValue.reason + (trace ? ' | last native steps: ' + trace : ''));
+  }
+  const npcAccessor = npcAccessorValue.value;
+  const npcWrapper = npcAccessor.instance;
+  if (!npcWrapper || npcWrapper.factory !== npcReader.factory) throw new Error('Original Hero gCNPC_PS accessor did not retain the native NPC factory.');
+  const npc = npcReader.properties(npcWrapper);
+  if (!npc.known) throw new Error('Original Hero gCNPC_PS storage is unavailable: ' + npc.reason);
+  const npcSentinel = npcPacket.input.u32();
+  if (npcSentinel !== 0xdeadc0de || npcPacket.input.cursor() !== npcPacket.input.end) {
+    throw new Error('Original Hero gCNPC_PS packet sentinel/cursor differs: ' + npcPacket.input.cursor() + '/' + npcPacket.input.end);
+  }
+  if (npc.value.values.Level !== 0) {
+    throw new Error('Serialized Hero NPC Level differs from the captured new-game seed');
+  }
   const controllerReceipt = controller.receipt();
-  return Object.freeze({ memory: memoryValue.value, accessor, controller,
+  return Object.freeze({ memory: memoryValue.value, accessor, npc: npc.value, npcAccessor, npcWrapper, controller,
     source: Object.freeze({ sha256: packet.source.serializedSha256, bytes: packet.source.serializedRaw.length / 2, propertySetIndex: 13 as const }),
+    npcSource: Object.freeze({ sha256: npcPacket.source.serializedSha256, bytes: npcPacket.source.serializedRaw.length / 2, propertySetIndex: 6 as const }),
     cursor: Object.freeze({ consumed: packet.input.cursor(), total: packet.input.end }),
     gameEvents: Object.freeze(playerKnows.items as string[]),
     summary: memoryHost.summary(), unresolved: Object.freeze(controllerReceipt.required ? [controllerReceipt.required] : []) });

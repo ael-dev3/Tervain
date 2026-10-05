@@ -11,9 +11,15 @@ import type { OriginalPropertyOwner, OriginalPropertyTrace, OriginalProxyInterna
 
 interface NPCField extends NativeReflectionField { default: string; enum?: { vtable: string; global: string; valueOffset: number; nativeRead: string; nativeDefault: string } }
 const rules = JSON.parse(rulesText) as { schema: string; inputs: Record<string, string>; propertyType: number;
-  getVersion: number; nativeBytes: number; nativeVtable: string; wrapperVtable: string; fields: NPCField[] };
+  getVersion: number; nativeBytes: number; nativeVtable: string; wrapperVtable: string; fields: NPCField[];
+  obsoleteReader: { npcStub: string; stubBytes: string; target: string; equivalentBody: string; bodyBytes: number;
+    bodySha256: string; byteIdenticalToPlayerMemoryReader: boolean; recordLayout: string } };
 if (rules.schema !== 'gothic3-npc-reading-rules-v1' || rules.propertyType !== 30 || rules.getVersion !== 78 ||
     rules.nativeBytes !== 508 || rules.nativeVtable !== '2069668c' || rules.wrapperVtable !== '20695ac4' || rules.fields.length !== 43 ||
+    rules.obsoleteReader.npcStub !== 'Game:20016be4' || rules.obsoleteReader.stubBytes !== 'e917642e00' ||
+    rules.obsoleteReader.target !== 'Game:202fd000' || rules.obsoleteReader.equivalentBody !== 'Game:2031fe50' ||
+    rules.obsoleteReader.bodyBytes !== 192 || rules.obsoleteReader.bodySha256 !== 'ac7a65d11aea9f4e1ff69afde164a9e793328cf767554d673f8d901c6bb43744' ||
+    !rules.obsoleteReader.byteIdenticalToPlayerMemoryReader || rules.obsoleteReader.recordLayout !== 'u16 version, u32 byte length, opaque payload' ||
     rules.inputs.Game !== 'b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f' ||
     rules.inputs.Engine !== 'd49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3' ||
     rules.inputs.SharedBase !== '5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214') throw new Error('Original NPC source evidence differs');
@@ -49,6 +55,14 @@ export interface NativeNPCReadingHost {
    * Must mutate this same storage, preserving original animation dependencies. */
   trackCurrentPose?(properties: OriginalNPCProperties, capturedOwner: NativeLiveEntity): NativeValue<void>;
 }
+export interface NativeNPCObsoleteProperty {
+  readonly name: string;
+  readonly typeName: string | null;
+  readonly version: number;
+  /** Exact opaque bytes retained by native bCObsoleteClass::vfunction16. */
+  readonly payload: Uint8Array;
+}
+const obsoletePropertyRuntime = { initialized: false, registered: false, locked: false };
 export class NativeNPCCStringSlot {
   private current: NativeNPCCStringAllocation | null = null;
   constructor(readonly nativeOffset: number, private readonly properties: OriginalNPCProperties) {}
@@ -127,6 +141,7 @@ export class OriginalNPCProperties {
   readonly strings = new Map<number, NativeNPCCStringSlot>();
   readonly proxies = new Map<number, NativeNPCEntityProxy>();
   readonly arrays = new Map<number, NativeNPCTeachingArray>();
+  readonly obsoleteProperties = new Map<string, NativeNPCObsoleteProperty>();
   readonly guidScratch: NativeNPCGuidScratch[] = [];
   readonly enclaveProxy: NativeNPCEntityProxy;
   private owner: NativeLiveEntity | null = null;
@@ -307,6 +322,42 @@ export class OriginalNPCProperties {
     return this.reader.controller.value(() => { if (permission !== nativeReadPermission) throw new Error('Actual guarded NPC derived Read required'); this.reader.guard(); this.exact();
       input.u16(); this.reader.note('NPC native Read version consumed, no version branch', 'Game:202f9940'); this.putWord(0x158, 0); this.reader.note('NPC native Read ManaUsed0', 'Game:202f9940'); });
   }
+  readObsoletePropertyInternal(name: string, typeName: string | null, matchingField: NativeReflectionField | null,
+      input: NativeEntityByteInput): NativeValue<void> {
+    return this.reader.controller.value(() => {
+      this.reader.guard(); this.exact();
+      if (obsoletePropertyRuntime.locked) throw new Error('Reentrant native NPC obsolete-property critical section is unsupported');
+      if (!obsoletePropertyRuntime.initialized) {
+        obsoletePropertyRuntime.initialized = true;
+        this.reader.note('one-time bCCriticalSectionWin32 initialization for obsolete NPC properties', 'Game:20312d30');
+      }
+      obsoletePropertyRuntime.locked = true;
+      this.reader.note('Acquire obsolete NPC property critical section', 'Game:20312d30');
+      try {
+        if (!obsoletePropertyRuntime.registered) {
+          this.reader.note('construct and register bTPropertyType<gCNPC_PS,bCObsoleteClass>', 'Game:20312d30');
+          obsoletePropertyRuntime.registered = true;
+        }
+        const version = input.u16();
+        const length = input.u32();
+        const payload = input.take(length).slice();
+        this.reader.note('bCObsoleteClass::Read version and payload length; MemoryAdmin.Malloc + stream read', 'Game:2031fe50');
+        if (matchingField) {
+          // The original helper routes matching names back through the owning
+          // property object; retain the exact old type and payload separately
+          // from the current descriptor's value.
+          this.reader.note('bCMemoryStream construction/Write/SetPosition(0)', 'Game:2031fe50');
+          this.obsoleteProperties.set(name, Object.freeze({ name, typeName, version, payload }));
+          this.reader.note('owning property object SetProperty for matching name; memory-stream destructor', 'Game:2031fe50');
+        } else this.reader.note('bCObsoleteClass consumed unregistered property without memory-stream SetProperty', 'Game:2031fe50');
+        this.reader.note('MemoryAdmin.Free obsolete payload buffer', 'Game:2031fe50');
+        this.reader.guard(); this.exact();
+      } finally {
+        obsoletePropertyRuntime.locked = false;
+        this.reader.note('Release obsolete NPC property critical section', 'Game:20312d30');
+      }
+    });
+  }
   private postReadInternal(): void {
     this.putWord(0x1a4, 0); this.reader.note('NPC PostRead pending pose0 BEFORE Enclave proxy update', 'Game:202f9ca0');
     const id = this.values.Enclave as string; this.enclaveProxy.setEntity(id); this.reader.note('NPC PostRead inherited RET', 'Engine:304818a0');
@@ -325,6 +376,17 @@ export class OriginalNPCProperties {
       const inherited = this.notifications.onNotify('exit', property, true);
       for (const row of inherited.trace) this.reader.note(row.operation + ' inherited exit', 'Engine:30037ca4');
       if (!inherited.supported) throw new Error(inherited.reason);
+    });
+  }
+  /** GiveXP's native PropertyLevel assignment is a direct scalar write. Keep it
+   * on this retained source NPC property set rather than a detached JS mirror. */
+  setLevel(level: number): NativeValue<void> {
+    return this.reader.run(() => {
+      this.exact(); uint(level); const before = this.values.Level;
+      if (typeof before !== 'number' || !Number.isInteger(before) || before < 0 || before > 0xffffffff) throw new Error('Resolved native Hero Level required');
+      if (before === level) return;
+      this.values.Level = level;
+      this.reader.note('GiveXP PropertyLevel::operator=(unsigned_long) scalar write', 'Script_Game:100628c0');
     });
   }
   process(): NativeValue<void> {
@@ -353,7 +415,10 @@ export class OriginalNPCReader {
       read: (wrapper, input) => this.run(() => {
         const value = this.actual(wrapper); value.exact();
         return controller.readWrapperProperties(wrapper, input, { wrapperSource: 'Game:202feec0', dataSource: 'Game:20312d30',
-          readField: (field, stream) => value.readFieldInternal(field, stream, nativeReadPermission), readNative: stream => value.readNativeInternal(stream, nativeReadPermission) });
+          readField: (field, stream) => value.readFieldInternal(field, stream, nativeReadPermission),
+          readNative: stream => value.readNativeInternal(stream, nativeReadPermission),
+          readObsoleteProperty: (name, typeName, matchingField, stream) =>
+            value.readObsoletePropertyInternal(name, typeName, matchingField, stream) });
       }),
     }; fact(controller.registerFactory(this.factory), 'Actual NPC factory registration');
   }

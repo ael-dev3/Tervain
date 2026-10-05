@@ -96,6 +96,10 @@ export interface NativeReflectionReadHandlers {
   readField(field: NativeReflectionField, input: NativeEntityByteInput): NativeValue<void>;
   /** Concrete native virtual Read, including its own version/legacy tail. */
   readNative(input: NativeEntityByteInput): NativeValue<void>;
+  /** Optional concrete bCObsoleteClass fallback for an unknown or mismatched
+   * serialized property. Implementations must consume its complete native blob. */
+  readObsoleteProperty?(name: string, typeName: string | null, matchingField: NativeReflectionField | null,
+    input: NativeEntityByteInput): NativeValue<void>;
 }
 /** An original wrapper held inside its parent's native storage. The offset is
  * relative to that same retained native object, rather than a second allocation. */
@@ -411,8 +415,14 @@ export class NativeReflectionController {
         if (field) { named.accessor.setInstance(resolving.instance); named.accessor.root = resolving.root; named.index = search.index; }
         fact(resolving.destroy(), 'named property resolve temporary destruction'); named.destroy();
       }
-      if (!field || (type !== null && type !== field.typeName)) throw new Error(handlers.dataSource + ' obsolete property/critical-section reader unresolved for ' + name);
-      this.effect('descriptor reader ' + name, field.reader, () => handlers.readField(field, input));
+      if (!field || (type !== null && type !== field.typeName)) {
+        if (!handlers.readObsoleteProperty) {
+          throw new Error(handlers.dataSource + ' obsolete property/critical-section reader unresolved for ' + name +
+            ' (stream type ' + (type ?? '<absent>') + ', registered type ' + (field?.typeName ?? '<missing>') + ')');
+        }
+        this.effect('obsolete property fallback ' + name, handlers.dataSource,
+          () => handlers.readObsoleteProperty!(name, type, field, input));
+      } else this.effect('descriptor reader ' + name, field.reader, () => handlers.readField(field, input));
     }
     this.effect('native derived Read', handlers.dataSource, () => handlers.readNative(input));
     iterator.destroy();

@@ -1,14 +1,14 @@
 {
   "version": 1,
-  "scope": "verified bounded kernel; no ordinary-play integration",
+  "scope": "verified bounded combat kernel; Hero GiveXP XP/level/LP bridge integrated; combat actions remain unavailable",
   "ordinaryPlayIntegrated": false,
   "kernel": {
     "path": "src/gothic3/combat.ts",
-    "sha256": "59eacb4b445ece4bc8c800140ccd6d6658bb02133add02445bdebab9fd131dcb"
+    "sha256": "93eb0211ae325823370ca3718cc22ba51a40c052d4f2f05790d8877e4009eb65"
   },
   "generator": {
     "path": "tools/gothic3/research_native_combat.py",
-    "sha256": "e03ce4f8045376af81bbad51a16784880e3d1bf2e6d1956633e30edc03a6d3a7"
+    "sha256": "1cd36346ed1d02eba7d000c8b68b95e4869606df3dfa1605f9544c18abbbe8cc"
   },
   "originalInputs": [
     {
@@ -47,13 +47,13 @@
   "outputs": [
     {
       "path": "assets/gothic3/combat/native-source-evidence.json",
-      "bytes": 207978,
-      "sha256": "f1b7e0b761ac39de1e7ae890b1b643a44a4eabcee067ef661fe908c719b1193b"
+      "bytes": 208447,
+      "sha256": "9963de37307ee4d717be4e3ca5df930524ac6b4a2bf7c65cc108f483b438a430"
     },
     {
       "path": "assets/gothic3/combat/README.txt",
-      "bytes": 3985,
-      "sha256": "0404e9a8f2e38ea9da57ff4865bb2308030c49f82c0e87c99561b404de9cf026"
+      "bytes": 4578,
+      "sha256": "261dca910f5a1903e6e6ca1ff00215944af282a854bc64f07dec12b9bee68864"
     },
     {
       "path": "assets/gothic3/combat/sources/Engine/30009ff7.asm.txt",
@@ -1582,8 +1582,12 @@
     },
     {
       "path": "public/gothic3/combat/native-combat-evidence.json",
-      "bytes": 208020,
-      "sha256": "7418fd39f9ee9b7e15369d46ae70721b1fd01376fac669c23c872a29512613d5"
+      "bytes": 208489,
+      "sha256": "ebc26c570f55bcb5f8e2403bebe4c4d6f2d88b9ff238580e789cb1898e28e87f"
     }
-  ]
+  ],
+  "ordinaryPlayIntegration": {
+    "giveXP": "XP and one threshold-crossing level/LP update; no live NPC activation",
+    "combatActions": "not integrated"
+  }
 }

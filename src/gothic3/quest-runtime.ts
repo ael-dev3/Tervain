@@ -5,18 +5,32 @@ import questReceiptText from '../../assets/gothic3/dialogue/initial-quests-outpu
 import { gameplayResources } from './native-data';
 import type { NativeQuest } from './catalog';
 import { QuestStatus, NativeQuests } from './quest-state';
-import type { NativeClock, QuestState } from './quest-state';
+import type { NativeClock, QuestEffect, QuestState } from './quest-state';
 import { readNativeResource } from './resource';
 import { loadOriginalWorldClock, monotonicClockMilliseconds } from './world-clock';
 import type { NativeCalendar, NativeClockProcess, NativeWorldClock } from './world-clock';
+import { planNativeGiveXp, planNativeGiveXpSequence } from './combat';
+import type { NativeGiveXpPlan, NativePlayerProgress } from './combat';
+import { loadOriginalPlayerProgressSeed } from './initial-state';
+import type { OriginalPlayerProgressSeed } from './initial-state';
 import { NativeGameEvents } from './game-events';
+import { NativeArdeaActorDialogState } from './actor-dialogue-state';
+import type { SourceArdeaActor } from './actor-dialogue-state';
+import type { NativeValue } from './dialogue';
 import type { NativeHeroPlayerMemory } from './hero-property-runtime';
+import { loadBrowserInfoState } from './info-state';
+import type { InfoProviderId, NativeInfoState } from './info-state';
 
 interface NativeQuestSessionSources {
   readonly initialQuestStates: string;
   readonly questDefinitions: string;
   readonly worldClock: string;
+  readonly ardeaPeople?: string;
   readonly heroPlayerMemory?: string;
+  readonly heroNpcProperties?: string;
+  readonly infoProvider?: InfoProviderId;
+  /** Source initialized-player record used to seed retained Hero progression state. */
+  readonly initializedPlayer?: string;
 }
 
 interface InitialQuestRow extends QuestState { id: string }
@@ -41,12 +55,21 @@ export interface NativeQuestSessionSave {
   readonly quests: Readonly<Record<string, QuestState>>;
   /** Optional only for migration from sessions saved before this service existed. */
   readonly gameEvents?: readonly string[];
+  /** Optional only for migration from sessions saved before native dialogue execution. */
+  readonly givenInfoIds?: readonly string[];
+  /** Positive TalkedToPlayer flags from ended browser InfoManager sessions. */
+  readonly talkedToArdeaActors?: readonly string[];
+  /** Source-backed GiveXP calls replayed into Hero PlayerMemory and gCNPC_PS. */
+  readonly heroProgress?: { readonly xp: number; readonly level: number; readonly lpAttribs: number;
+    readonly awards: readonly number[] };
 }
 
 interface QuestSourceBundle {
   definitions: NativeQuest[];
   initial: InitialQuestDocument;
   clock: NativeWorldClock;
+  ardeaActors: NativeArdeaActorDialogState;
+  heroProgress: OriginalPlayerProgressSeed;
   sources: Omit<NativeQuestSessionSources, 'heroPlayerMemory'>;
 }
 
@@ -68,6 +91,10 @@ function uint32(value: unknown): value is number {
   return Number.isInteger(value) && (value as number) >= 0 && (value as number) <= 0xffffffff;
 }
 
+function nonnegativeInt32(value: unknown): value is number {
+  return Number.isInteger(value) && (value as number) >= 0 && (value as number) <= 0x7fffffff;
+}
+
 function validSavedQuestState(value: unknown): value is QuestState {
   if (!record(value) || !Number.isInteger(value.status) || (value.status as number) < 0 ||
       (value.status as number) > 7 || !Array.isArray(value.counters) ||
@@ -86,26 +113,33 @@ async function loadQuestSourceBundle(): Promise<QuestSourceBundle> {
   const manifest = await gameplayResources.manifest();
   const questPath = manifest.runtime?.quests ?? manifest.urls.runtimeQuests ?? manifest.urls.quests;
   const worldClockPath = manifest.initial.worldClock;
+  const ardeaPeoplePath = manifest.initial.people;
+  if (typeof worldClockPath !== 'string' || typeof ardeaPeoplePath !== 'string') {
+    throw new Error('Original world clock or Ardea actor source path is missing from the gameplay manifest.');
+  }
   const questReceipt = manifest.outputs.find((entry) => entry.path === questPath);
   const clockReceipt = manifest.outputs.find((entry) => entry.path === worldClockPath);
-  if (!questReceipt || !clockReceipt || manifest.counts.quests !== receipt.questCount) {
-    throw new Error('Original quest or clock source receipts are missing from the gameplay manifest.');
+  const ardeaPeopleReceipt = manifest.outputs.find((entry) => entry.path === ardeaPeoplePath);
+  if (!questReceipt || !clockReceipt || !ardeaPeopleReceipt || manifest.counts.quests !== receipt.questCount) {
+    throw new Error('Original quest, clock or Ardea actor source receipts are missing from the gameplay manifest.');
   }
-  const [definitions, initial, clock] = await Promise.all([
+  const [definitions, initial, clock, ardeaPeople, heroProgress] = await Promise.all([
     gameplayResources.read<NativeQuest[]>(questPath),
     readNativeResource<InitialQuestDocument>('dialogue/' + receipt.output.path, receipt.output),
     loadOriginalWorldClock(monotonicClockMilliseconds(() => performance.now()), 24),
+    gameplayResources.read<SourceArdeaActor[]>(ardeaPeoplePath),
+    loadOriginalPlayerProgressSeed(),
   ]);
-  if (!Array.isArray(definitions) || definitions.length !== receipt.questCount ||
+  if (!Array.isArray(definitions) || definitions.length !== receipt.questCount || !Array.isArray(ardeaPeople) ||
       initial.schema !== 'gothic3-initial-quests-v1' || initial.scope !== 'original-world-state-before-OnGameStartUp' ||
       initial.questCount !== receipt.questCount || initial.quests.length !== receipt.questCount ||
       initial.startup.applied !== false || !initial.startup.explicitQuestRuns.includes('Xardas_FindXardas') ||
       !initial.startup.unimplemented.length) {
     throw new Error('Original quest definitions, fresh-world seed and startup receipt do not agree.');
   }
-  return { definitions, initial, clock,
+  return { definitions, initial, clock, ardeaActors: new NativeArdeaActorDialogState(ardeaPeople), heroProgress,
     sources: { initialQuestStates: receipt.output.sha256, questDefinitions: questReceipt.sha256,
-      worldClock: clockReceipt.sha256 } };
+      worldClock: clockReceipt.sha256, ardeaPeople: ardeaPeopleReceipt.sha256, initializedPlayer: heroProgress.source.sha256 } };
 }
 
 function seedQuestStates(runtime: NativeQuestRuntime, rows: readonly InitialQuestRow[] | Readonly<Record<string, QuestState>>): void {
@@ -132,33 +166,45 @@ export interface QuestSessionRow {
 export class NativeQuestRuntime {
   readonly quests: NativeQuests;
   readonly gameEvents: NativeGameEvents;
+  readonly infoState: NativeInfoState;
+  readonly actorDialogs: NativeArdeaActorDialogState;
   private readonly listeners = new Set<() => void>();
   private tickFailure: string | null = null;
+  private heroAwardHistory: number[] = [];
 
   private constructor(readonly definitions: readonly NativeQuest[], readonly clock: NativeWorldClock,
-    private readonly sources: NativeQuestSessionSources, initialGameEvents: readonly string[]) {
+    private readonly sources: NativeQuestSessionSources, initialGameEvents: readonly string[], infoState: NativeInfoState,
+    actorDialogs: NativeArdeaActorDialogState, private readonly player: NativeHeroPlayerMemory,
+    private readonly heroProgressSeed: OriginalPlayerProgressSeed, awardHistory: readonly number[] = []) {
+    this.heroAwardHistory = [...awardHistory];
     this.quests = new NativeQuests(definitions, {
       clock: () => clock.questClock(),
-      apply: (effects) => effects.length === 0
-        ? { applied: true }
-        : { applied: false, reason: 'This browser session has not implemented native quest reward/service handlers.' },
+      apply: (effects) => this.applyQuestEffects(effects),
       changed: () => { for (const listener of this.listeners) listener(); },
     });
     this.gameEvents = new NativeGameEvents(initialGameEvents);
+    this.infoState = infoState;
+    this.actorDialogs = actorDialogs;
   }
 
   /** Load verified source records and apply the one audited startup quest run. */
-  static async newGame(player: Pick<NativeHeroPlayerMemory, 'source' | 'gameEvents'>): Promise<NativeQuestRuntime> {
-    const source = await loadQuestSourceBundle();
-    const { definitions, initial, clock } = source;
+  static async newGame(player: NativeHeroPlayerMemory): Promise<NativeQuestRuntime> {
+    const [source, infoState] = await Promise.all([loadQuestSourceBundle(), loadBrowserInfoState()]);
+    const { definitions, initial, clock, heroProgress } = source;
+    if (player.memory.getXP() !== heroProgress.xp || player.memory.getLPAttribs() !== heroProgress.lpAttribs ||
+        player.npc.values.Level !== heroProgress.level) {
+      throw new Error('Live Hero PlayerMemory does not match the verified new-game progress seed.');
+    }
     const clockState = clock.snapshot();
     if (clockState.calendar.year !== 0 || clockState.calendar.day !== 0 || clockState.calendar.hour !== 12 ||
         clockState.calendar.minute !== 0 || clockState.calendar.second !== 0 || clockState.adjustment.factor !== 12 ||
         clockState.adjustment.secondsPerDay !== 86400 || clockState.adjustment.daysPerYear !== 365 || !clockState.paused) {
       throw new Error('Original new-world clock seed is not the audited noon/factor-12 state.');
     }
-    const runtimeSources: NativeQuestSessionSources = { ...source.sources, heroPlayerMemory: player.source.sha256 };
-    const runtime = new NativeQuestRuntime(definitions, clock, runtimeSources, player.gameEvents);
+    const runtimeSources: NativeQuestSessionSources = { ...source.sources, heroPlayerMemory: player.source.sha256,
+      heroNpcProperties: player.npcSource.sha256, infoProvider: infoState.providerId };
+    const runtime = new NativeQuestRuntime(definitions, clock, runtimeSources, player.gameEvents, infoState,
+      source.ardeaActors, player, heroProgress);
     seedQuestStates(runtime, initial.quests);
 
     const firstQuest = runtime.quests.run('Xardas_FindXardas');
@@ -174,16 +220,28 @@ export class NativeQuestRuntime {
   }
 
   /** Restore only a browser save tied to these exact source receipts. */
-  static async restore(raw: unknown, player: Pick<NativeHeroPlayerMemory, 'source' | 'gameEvents'>): Promise<NativeQuestRuntime> {
+  static async restore(raw: unknown, player: NativeHeroPlayerMemory): Promise<NativeQuestRuntime> {
     if (!record(raw) || raw.schema !== 'gothic3-quest-session-save-v1' || !record(raw.sources) ||
         !record(raw.clock) || !record(raw.quests)) throw new Error('Unsupported Gothic 3 browser save.');
-    const source = await loadQuestSourceBundle();
+    const [source, infoState] = await Promise.all([loadQuestSourceBundle(), loadBrowserInfoState()]);
     if (raw.sources.initialQuestStates !== source.sources.initialQuestStates ||
         raw.sources.questDefinitions !== source.sources.questDefinitions || raw.sources.worldClock !== source.sources.worldClock) {
       throw new Error('Browser save belongs to different Gothic 3 source data.');
     }
     if (raw.sources.heroPlayerMemory !== undefined && raw.sources.heroPlayerMemory !== player.source.sha256) {
       throw new Error('Browser save belongs to different Gothic 3 Hero PlayerMemory data.');
+    }
+    if (raw.sources.heroNpcProperties !== undefined && raw.sources.heroNpcProperties !== player.npcSource.sha256) {
+      throw new Error('Browser save belongs to different Gothic 3 Hero NPC property data.');
+    }
+    if (raw.sources.ardeaPeople !== undefined && raw.sources.ardeaPeople !== source.sources.ardeaPeople) {
+      throw new Error('Browser save belongs to different Ardea NPC source properties.');
+    }
+    if (raw.sources.initializedPlayer !== undefined && raw.sources.initializedPlayer !== source.sources.initializedPlayer) {
+      throw new Error('Browser save belongs to different initialized Hero progress data.');
+    }
+    if (raw.sources.infoProvider !== undefined && raw.sources.infoProvider !== infoState.providerId) {
+      throw new Error('Browser save belongs to a different Gothic 3 InfoManager source provider.');
     }
     if (!uint32(raw.clock.years) || !uint32(raw.clock.days) || typeof raw.clock.seconds !== 'number' ||
         !Number.isFinite(raw.clock.seconds) || raw.clock.seconds < 0 || raw.clock.seconds >= 86400) {
@@ -193,8 +251,60 @@ export class NativeQuestRuntime {
     if (!Array.isArray(savedEvents) || !savedEvents.every((event) => typeof event === 'string' && !event.includes('\0'))) {
       throw new Error('Browser save has invalid PlayerKnows game events.');
     }
-    const runtimeSources: NativeQuestSessionSources = { ...source.sources, heroPlayerMemory: player.source.sha256 };
-    const runtime = new NativeQuestRuntime(source.definitions, source.clock, runtimeSources, savedEvents);
+    if (raw.givenInfoIds !== undefined) {
+      if (!Array.isArray(raw.givenInfoIds)) throw new Error('Browser save has invalid InfoManager Given IDs.');
+      infoState.restoreGivenIds(raw.givenInfoIds);
+    }
+    if (raw.talkedToArdeaActors !== undefined &&
+        (!Array.isArray(raw.talkedToArdeaActors) || !raw.talkedToArdeaActors.every((id) => typeof id === 'string'))) {
+      throw new Error('Browser save has invalid Ardea NPC dialogue flags.');
+    }
+    const { heroProgress } = source;
+    if (player.memory.getXP() !== heroProgress.xp || player.memory.getLPAttribs() !== heroProgress.lpAttribs ||
+        player.npc.values.Level !== heroProgress.level) {
+      throw new Error('Live Hero PlayerMemory/NPC properties do not match the verified restore seed.');
+    }
+    let restoredHeroProgress = { xp: heroProgress.xp, level: heroProgress.level, lpAttribs: heroProgress.lpAttribs };
+    let restoredAwardHistory: number[] = [];
+    if (raw.heroProgress !== undefined) {
+      if (!record(raw.heroProgress) || !nonnegativeInt32(raw.heroProgress.xp) ||
+          !nonnegativeInt32(raw.heroProgress.level) || !nonnegativeInt32(raw.heroProgress.lpAttribs))
+        throw new Error('Browser save has invalid Hero progress values.');
+      const initialProgress: NativePlayerProgress = { xp: heroProgress.xp, level: heroProgress.level,
+        lp: heroProgress.lpAttribs, learnPerkActive: heroProgress.learnPerkActive };
+      if (raw.heroProgress.awards !== undefined) {
+        if (!Array.isArray(raw.heroProgress.awards) || !raw.heroProgress.awards.every(nonnegativeInt32)) {
+          throw new Error('Browser save has invalid native GiveXP award history.');
+        }
+        const replay = planNativeGiveXpSequence(initialProgress, raw.heroProgress.awards as number[]);
+        if (replay.status === 'unsupported') throw new Error('Saved Hero progression cannot be replayed: ' + replay.reason);
+        const final = replay.value.progress;
+        if (final.xp !== raw.heroProgress.xp || final.level !== raw.heroProgress.level || final.lp !== raw.heroProgress.lpAttribs) {
+          throw new Error('Saved Hero progress differs from its source-backed GiveXP history.');
+        }
+        restoredHeroProgress = { xp: final.xp, level: final.level, lpAttribs: final.lp };
+        restoredAwardHistory = [...raw.heroProgress.awards as number[]];
+      } else {
+        // Earlier sessions only accepted below-threshold awards, so their
+        // aggregate XP delta can be replayed as one equivalent call.
+        if (raw.heroProgress.level !== heroProgress.level || raw.heroProgress.lpAttribs !== heroProgress.lpAttribs) {
+          throw new Error('Legacy Hero save contains unsupported level or learning-point changes.');
+        }
+        const delta = raw.heroProgress.xp - heroProgress.xp;
+        if (delta < 0 || delta % 5 !== 0) throw new Error('Saved Hero XP cannot be derived from supported native GiveXP awards.');
+        const plan = planNativeGiveXp(initialProgress, delta / 5);
+        if (plan.status === 'unsupported' || plan.value.progress.levelUp || plan.value.progress.xp !== raw.heroProgress.xp) {
+          throw new Error(plan.status === 'unsupported' ? plan.reason : 'Legacy Hero save crosses an unsupported level-up.');
+        }
+        restoredHeroProgress = { xp: plan.value.progress.xp, level: plan.value.progress.level, lpAttribs: plan.value.progress.lp };
+        if (delta > 0) restoredAwardHistory = [delta / 5];
+      }
+    }
+    const runtimeSources: NativeQuestSessionSources = { ...source.sources, heroPlayerMemory: player.source.sha256,
+      heroNpcProperties: player.npcSource.sha256, infoProvider: infoState.providerId };
+    const runtime = new NativeQuestRuntime(source.definitions, source.clock, runtimeSources, savedEvents, infoState,
+      source.ardeaActors, player, heroProgress, restoredAwardHistory);
+    if (raw.talkedToArdeaActors !== undefined) runtime.actorDialogs.restoreTalkedToPlayerIds(raw.talkedToArdeaActors as string[]);
     seedQuestStates(runtime, raw.quests as Record<string, QuestState>);
     const set = runtime.clock.set({ years: raw.clock.years, days: raw.clock.days, seconds: raw.clock.seconds });
     if (set.kind !== 'applied') throw new Error('Saved world time cannot be restored: ' + set.reason);
@@ -204,6 +314,18 @@ export class NativeQuestRuntime {
     if (published.kind !== 'applied') throw new Error('Saved world clock could not publish its calendar: ' + published.reason);
     const resumed = runtime.clock.resume();
     if (resumed.kind !== 'applied') throw new Error('Saved world clock could not resume: ' + resumed.reason);
+    if (restoredHeroProgress.xp !== heroProgress.xp) {
+      const restored = player.memory.setXP(restoredHeroProgress.xp);
+      if (!restored.supported) throw new Error('Saved Hero XP could not be restored through the native PlayerMemory setter: ' + restored.reason);
+    }
+    if (restoredHeroProgress.level !== heroProgress.level) {
+      const restored = player.npc.setLevel(restoredHeroProgress.level);
+      if (!restored.known) throw new Error('Saved Hero level could not be restored through the retained Hero NPC property: ' + restored.reason);
+    }
+    if (restoredHeroProgress.lpAttribs !== heroProgress.lpAttribs) {
+      const restored = player.memory.setLPAttribs(restoredHeroProgress.lpAttribs);
+      if (!restored.supported) throw new Error('Saved Hero learning points could not be restored through PlayerMemory: ' + restored.reason);
+    }
     return runtime;
   }
 
@@ -220,6 +342,39 @@ export class NativeQuestRuntime {
   currentClock(): NativeClock { return this.clock.questClock(); }
   currentWorldCalendar(): NativeCalendar { return this.clock.calendar(); }
   clockError(): string | null { return this.tickFailure; }
+  beginInfoManager(entity: { id: string; name: string }): NativeValue<true> { return this.actorDialogs.beginInfoManager(entity); }
+  endInfoManager(entity: { id: string; name: string }): void { this.actorDialogs.endInfoManager(entity); }
+
+  canAwardExperienceScript(requestedAmount: number): NativeValue<true> {
+    return this.canAwardExperienceScripts([requestedAmount]);
+  }
+
+  canAwardExperienceScripts(requestedAmounts: readonly number[]): NativeValue<true> {
+    try {
+      const plan = planNativeGiveXpSequence(this.playerProgress(), requestedAmounts);
+      if (plan.status === 'unsupported') return { known: false, reason: plan.reason };
+      return { known: true, value: true };
+    } catch (error) { return { known: false, reason: error instanceof Error ? error.message : String(error) }; }
+  }
+
+  awardExperienceScript(requestedAmount: number): NativeValue<NativeGiveXpPlan> {
+    const capability = this.canAwardExperienceScript(requestedAmount);
+    if (!capability.known) return capability;
+    const plan = planNativeGiveXp(this.playerProgress(), requestedAmount);
+    if (plan.status === 'unsupported') return { known: false, reason: plan.reason };
+    const written = this.player.memory.setXP(plan.value.progress.xp);
+    if (!written.supported) return { known: false,
+      reason: 'Native PlayerMemory XP setter stopped' + (written.partial ? ' after partial work' : '') + ': ' + written.reason };
+    if (plan.value.progress.levelUp) {
+      const level = this.player.npc.setLevel(plan.value.progress.level);
+      if (!level.known) return { known: false, reason: 'GiveXP stopped after XP while writing retained Hero NPC Level: ' + level.reason };
+      const lp = this.player.memory.setLPAttribs(plan.value.progress.lp);
+      if (!lp.supported) return { known: false, reason: 'GiveXP stopped after XP/Level while writing Hero LPAttribs: ' + lp.reason };
+    }
+    this.heroAwardHistory.push(requestedAmount);
+    for (const listener of this.listeners) listener();
+    return { known: true, value: plan.value };
+  }
 
   saveData(): NativeQuestSessionSave {
     const time = this.clock.snapshot().timeAndDate;
@@ -231,7 +386,24 @@ export class NativeQuestRuntime {
     }
     return { schema: 'gothic3-quest-session-save-v1', sources: { ...this.sources },
       clock: { years: time.years, days: time.days, seconds: time.seconds }, quests,
-      gameEvents: this.gameEvents.snapshot() };
+      gameEvents: this.gameEvents.snapshot(), givenInfoIds: this.infoState.currentGivenIds(),
+      talkedToArdeaActors: this.actorDialogs.currentTalkedToPlayerIds(),
+      heroProgress: { xp: this.player.memory.getXP(), level: this.player.npc.values.Level as number,
+        lpAttribs: this.player.memory.getLPAttribs(), awards: [...this.heroAwardHistory] } };
+  }
+
+  private playerProgress(): NativePlayerProgress {
+    return { xp: this.player.memory.getXP(), level: this.player.npc.values.Level as number,
+      lp: this.player.memory.getLPAttribs(), learnPerkActive: this.heroProgressSeed.learnPerkActive };
+  }
+
+  private applyQuestEffects(effects: readonly QuestEffect[]): { applied: true } | { applied: false; reason: string } {
+    if (effects.length === 0) return { applied: true };
+    if (effects.length !== 1 || effects[0]?.type !== 'experienceScript') {
+      return { applied: false, reason: 'Only a single source-backed Hero GiveXP quest reward is connected; other native reward services remain unavailable.' };
+    }
+    const result = this.awardExperienceScript(effects[0].requestedAmount);
+    return result.known ? { applied: true } : { applied: false, reason: result.reason };
   }
 
   rows(): QuestSessionRow[] {

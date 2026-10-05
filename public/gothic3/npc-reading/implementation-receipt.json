@@ -4,6 +4,7 @@
   "checksActuallyPerformed": [
     "offline original PE instruction-byte audit",
     "offline original Hero packet/derived-tail byte audit",
+    "offline NPC obsolete-class JMP target and helper-byte equivalence audit",
     "offline current source/output hash audit"
   ],
   "noNativeCodeExecution": true,
@@ -12,7 +13,9 @@
     "selectedNativeBodies": 542,
     "instructions": 9800,
     "instructionBytes": 32083,
-    "allSelectedInstructionBytesMatchOriginalPE": true
+    "allSelectedInstructionBytesMatchOriginalPE": true,
+    "npcObsoleteClassBodyBytes": 192,
+    "npcObsoleteClassReaderMatchesPlayerMemoryReader": true
   },
   "files": [
     {
@@ -26,19 +29,19 @@
       "sha256": "d63e8c90b57bf6ce3214aa54f5d1956cacd8e9ec9c80caff817ddd4b5e48bfb2"
     },
     {
-      "path": "assets/gothic3/npc-reading/native-evidence.json",
-      "bytes": 1906204,
-      "sha256": "96e27c7d068b198a524e62df4b509e325a10fcdbccfe7f1510021ba0e7e873f3"
+      "path": "assets/gothic3/npc-reading/README.md",
+      "bytes": 3600,
+      "sha256": "8cb712040f0e0aef66e24b09ab2371b8f9b5503dc36f30f0379999f0d12acf9b"
     },
     {
-      "path": "assets/gothic3/npc-reading/README.md",
-      "bytes": 3200,
-      "sha256": "9cd53f2cb1ff56b7187a0660ab495881f49008dfe8a920b28e30739056f76413"
+      "path": "assets/gothic3/npc-reading/native-evidence.json",
+      "bytes": 1906591,
+      "sha256": "b40bbeb4fb836bb8433f840f0e6a5ff2fa59db152b7b63c0a11cabdd228f74d0"
     },
     {
       "path": "assets/gothic3/npc-reading/runtime-rules.json",
-      "bytes": 37811,
-      "sha256": "1a98131eb0e1cbc37848db81c2d56c61f86f9308531a5c579fa411b8d11a08be"
+      "bytes": 38193,
+      "sha256": "63cbc8a0d27fa0f2a7aedb67340fce158628b299cbfab4b5955ded718d84d4f3"
     },
     {
       "path": "assets/gothic3/npc-reading/sources/Engine/3000247d.asm.txt",
@@ -5461,19 +5464,19 @@
       "sha256": "2dfa112c5935d66e30c822c41eb668c96b117b52e83692cfd857482fcfc770d0"
     },
     {
-      "path": "public/gothic3/npc-reading/native-evidence.json",
-      "bytes": 1906204,
-      "sha256": "96e27c7d068b198a524e62df4b509e325a10fcdbccfe7f1510021ba0e7e873f3"
+      "path": "public/gothic3/npc-reading/README.md",
+      "bytes": 3600,
+      "sha256": "8cb712040f0e0aef66e24b09ab2371b8f9b5503dc36f30f0379999f0d12acf9b"
     },
     {
-      "path": "public/gothic3/npc-reading/README.md",
-      "bytes": 3200,
-      "sha256": "9cd53f2cb1ff56b7187a0660ab495881f49008dfe8a920b28e30739056f76413"
+      "path": "public/gothic3/npc-reading/native-evidence.json",
+      "bytes": 1906591,
+      "sha256": "b40bbeb4fb836bb8433f840f0e6a5ff2fa59db152b7b63c0a11cabdd228f74d0"
     },
     {
       "path": "public/gothic3/npc-reading/runtime-rules.json",
-      "bytes": 37811,
-      "sha256": "1a98131eb0e1cbc37848db81c2d56c61f86f9308531a5c579fa411b8d11a08be"
+      "bytes": 38193,
+      "sha256": "63cbc8a0d27fa0f2a7aedb67340fce158628b299cbfab4b5955ded718d84d4f3"
     },
     {
       "path": "public/gothic3/npc-reading/sources/Engine/3000247d.asm.txt",
@@ -10907,8 +10910,13 @@
     },
     {
       "path": "src/gothic3/entity-reflection.ts",
-      "bytes": 41766,
-      "sha256": "1eb9e35c41f4283f7bf4bf13dd11782bcc5dd835fb95b40944bbc6936c9b0713"
+      "bytes": 44584,
+      "sha256": "6a55210a997aabaa595743bb7ce0115210b7480ca7c63142f5daaf38b44ba590"
+    },
+    {
+      "path": "src/gothic3/hero-property-runtime.ts",
+      "bytes": 23762,
+      "sha256": "072691de984531f70533938c3f2138b194acf374a5e556f0f24e33d557455c15"
     },
     {
       "path": "src/gothic3/native-properties.ts",
@@ -10917,8 +10925,8 @@
     },
     {
       "path": "src/gothic3/npc-reading.ts",
-      "bytes": 33652,
-      "sha256": "8b794d7f5d2c494d22a85e605dd2076063f4abd153c20b6e0db4c232b9df523b"
+      "bytes": 37888,
+      "sha256": "15d76df3e26c416199db843509eebc0697b8f7a9b76464418d26e036dfd2462e"
     },
     {
       "path": "tools/gothic3/export_world_index.py",
@@ -10967,8 +10975,8 @@
     },
     {
       "path": "tools/gothic3/research_native_combat.py",
-      "bytes": 21617,
-      "sha256": "e03ce4f8045376af81bbad51a16784880e3d1bf2e6d1956633e30edc03a6d3a7"
+      "bytes": 22255,
+      "sha256": "1cd36346ed1d02eba7d000c8b68b95e4869606df3dfa1605f9544c18abbbe8cc"
     },
     {
       "path": "tools/gothic3/research_native_inventory.py",
@@ -10977,8 +10985,8 @@
     },
     {
       "path": "tools/gothic3/research_npc_reading.py",
-      "bytes": 17917,
-      "sha256": "26266683ff220752a259cc8a25c6c72b5c898faf3762a6511cf68601e0ef1298"
+      "bytes": 19426,
+      "sha256": "aa6393337971af8eb2d61c9a627dd5e60be969b8e44c794c56d514d1a96e1b03"
     }
   ]
 }

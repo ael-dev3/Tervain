@@ -26,6 +26,29 @@ the process and what counts as a complete reconstruction. The [detailed
 engineering record](docs/engineering/gothic3-rebuilding-process.md) documents
 the native study, asset conversion, TypeScript runtime and dated checkpoints.
 
+The rebuild does not convert Gothic 3's Windows executable into a browser game.
+It proceeds in small, reviewable steps:
+
+1. Inventory the installed game and record hashes and the winning archive layer
+   for each resource being studied.
+2. Write offline readers for selected world, model, texture, animation and
+   gameplay formats, then export browser-ready data with its source and
+   conversion limits recorded.
+3. Study compiled game behavior against the original program bytes and data;
+   implement only understood operations in new TypeScript, leaving unknown
+   engine behavior explicit.
+4. Join converted resources and implemented behavior in one running world and
+   session, then review state transitions with local checks and rendering and
+   interaction in the browser.
+5. Repeat across the campaign. Completion means playing through the original
+   progression, quests, factions, combat, travel and save/load to an available
+   ending; a working scene or model converter is only one component.
+
+The current Ardea route is an incomplete milestone. The [rebuilding
+overview](docs/engineering/gothic3-rebuild-overview.md) explains the workflow,
+and the engineering record links each source format, implementation and
+checkpoint to its evidence and remaining limits.
+
 [Gothic 3 from your own install](https://ael-dev3.github.io/Tervain/gothic3-local/)
 is a separate study viewer: point it at your installed copy of Gothic 3 and it
 draws Ardea in the browser with its own renderer, reading the game files in

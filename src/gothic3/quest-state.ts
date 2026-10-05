@@ -64,6 +64,24 @@ export class NativeQuests {
     return state ? structuredClone(state) : undefined;
   }
 
+  /** Native gCInfo_PS::OnEndInfo appends Say localization pairs to an
+   * associated quest for its supported condition types. */
+  appendDialogueLogPairs(id: string, pairs: readonly QuestLogPair[]): QuestResult {
+    if (pairs.length === 0) return { kind: 'applied' };
+    const quest = this.definitions.get(id);
+    const state = this.states.get(id);
+    if (!quest || !state) return { kind: 'unsupported', reason: 'Original quest state has not been seeded: ' + id };
+    if (pairs.some((pair) => !Number.isInteger(pair.version) || pair.version < 0 || pair.version > 0xffff ||
+        typeof pair.speakerKey !== 'string' || typeof pair.textKey !== 'string' || pair.speakerKey.includes('\0') || pair.textKey.includes('\0'))) {
+      return { kind: 'unsupported', reason: 'Native dialogue log localization pair is malformed.' };
+    }
+    state.logPairs ??= [];
+    state.logPairs.push(...pairs.map((pair) => ({ ...pair })));
+    state.logKeys.push(...pairs.map((pair) => pair.textKey).filter(Boolean));
+    this.host.changed(quest, state.status, structuredClone(state));
+    return { kind: 'applied' };
+  }
+
   run(id: string): QuestResult {
     if (this.states.get(id)?.status !== QuestStatus.Open) return { kind: 'rejected', reason: 'RunQuest requires an existing Open quest.' };
     return this.setStatus(id, QuestStatus.Running);

@@ -1245,5 +1245,15 @@
       "local NotifyExit temporary CString ownership",
       "terminal destruction and world registration"
     ]
+  },
+  "obsoleteReader": {
+    "npcStub": "Game:20016be4",
+    "stubBytes": "e917642e00",
+    "target": "Game:202fd000",
+    "equivalentBody": "Game:2031fe50",
+    "bodyBytes": 192,
+    "bodySha256": "ac7a65d11aea9f4e1ff69afde164a9e793328cf767554d673f8d901c6bb43744",
+    "byteIdenticalToPlayerMemoryReader": true,
+    "recordLayout": "u16 version, u32 byte length, opaque payload"
   }
 }

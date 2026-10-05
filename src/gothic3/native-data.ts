@@ -235,6 +235,34 @@ export class NativeWorldData {
     return entities;
   }
 
+  /** Search one selected native file's hash-checked index chunks without
+   * decoding unrelated full property-set payloads. Multiple names are kept as
+   * multiple matches because native entity lookup may be ambiguous. */
+  async entitiesNamed(index: number, names: readonly string[]): Promise<ReadonlyMap<string, readonly NativeEntityIndex[]>> {
+    const requested = new Set(names);
+    if (names.some((name) => typeof name !== 'string' || name.length === 0) || requested.size !== names.length) {
+      throw new Error('Native entity-name query must contain unique nonempty names');
+    }
+    const source = await this.descriptor(index);
+    const matches = new Map<string, NativeEntityIndex[]>();
+    for (const name of names) matches.set(name, []);
+    let entityCount = 0;
+    for (const chunk of source.indexChunks) {
+      const document = await this.resources.read<{ entities: NativeEntityIndex[] }>(chunk.url);
+      if (!Array.isArray(document.entities) || document.entities.length !== chunk.entities ||
+          document.entities.some((entity) => entity.file !== index || !entity.key)) {
+        throw new Error('Native entity index differs: ' + chunk.url);
+      }
+      entityCount += document.entities.length;
+      for (const entity of document.entities) {
+        if (requested.has(entity.name)) matches.get(entity.name)!.push(entity);
+      }
+    }
+    const file = (await this.sourceFiles()).find((candidate) => candidate.index === index);
+    if (!file?.entities || entityCount !== file.entities) throw new Error('Native entity count differs: ' + index);
+    return matches;
+  }
+
   async entity(record: NativeEntityIndex): Promise<SourceLookup<NativeEntityRecord>> {
     if (!record.dataChunk) return { kind: 'missing', reason: 'Selected gameplay properties are absent: ' + record.key };
     const document = await this.resources.read<{ entities: NativeEntityRecord[] }>(record.dataChunk);
