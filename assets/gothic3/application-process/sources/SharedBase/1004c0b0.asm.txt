@@ -1,0 +1,15 @@
+; 1004c0b0 FUN_1004c0b0
+1004c0b0 | 0f57c0 | XORPS XMM0,XMM0
+1004c0b3 | 56 | PUSH ESI
+1004c0b4 | 8bf1 | MOV ESI,ECX
+1004c0b6 | 807e1000 | CMP byte ptr [ESI + 0x10],0x0
+1004c0ba | f30f114608 | MOVSS dword ptr [ESI + 0x8],XMM0
+1004c0bf | f30f11460c | MOVSS dword ptr [ESI + 0xc],XMM0
+1004c0c4 | 7510 | JNZ 0x1004c0d6
+1004c0c6 | c6461001 | MOV byte ptr [ESI + 0x10],0x1
+1004c0ca | e8858cfbff | CALL 0x10004d54
+1004c0cf | 894604 | MOV dword ptr [ESI + 0x4],EAX
+1004c0d2 | c6461000 | MOV byte ptr [ESI + 0x10],0x0
+; 1004c0d6 LAB_1004c0d6
+1004c0d6 | 5e | POP ESI
+1004c0d7 | c3 | RET

@@ -1,0 +1,40 @@
+/* ENTRY 30023e93 | eCDynamicEntity::OnPostProcess | STATUS decompiled | 29 ms */
+
+/* protected: virtual void __thiscall eCDynamicEntity::OnPostProcess(void) */
+
+void __thiscall eCDynamicEntity::OnPostProcess(eCDynamicEntity *this)
+
+{
+  bool bVar1;
+  char cVar2;
+  int iVar3;
+  eCApplication *this_00;
+  eCEntityPropertySet *peVar4;
+  int iVar5;
+  
+                    /* 0x23e93  11335  ?OnPostProcess@eCDynamicEntity@@MAEXXZ */
+  iVar5 = 0;
+  iVar3 = eCEntity::GetPropertySetCount((eCEntity *)this);
+  if (0 < iVar3) {
+    do {
+      bVar1 = false;
+      this_00 = (eCApplication *)eCApplication::GetInstance();
+      bVar1 = eCApplication::IsPaused(this_00,bVar1);
+      if (bVar1) {
+        peVar4 = eCEntity::GetPropertySetAt((eCEntity *)this,iVar5);
+        cVar2 = (**(code **)(*(int *)peVar4 + 0x70))();
+        if (cVar2 == '\0') goto LAB_304bdea7;
+      }
+      else {
+LAB_304bdea7:
+        peVar4 = eCEntity::GetPropertySetAt((eCEntity *)this,iVar5);
+        (**(code **)(*(int *)peVar4 + 0x128))();
+      }
+      iVar5 = iVar5 + 1;
+      iVar3 = eCEntity::GetPropertySetCount((eCEntity *)this);
+    } while (iVar5 < iVar3);
+  }
+  return;
+}
+
+

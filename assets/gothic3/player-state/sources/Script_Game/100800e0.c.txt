@@ -1,0 +1,42 @@
+/* ENTRY 100800e0 | FUN_100800e0 | STATUS decompiled | 21 ms */
+
+undefined4 FUN_100800e0(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  eCEntity *peVar1;
+  Entity aEStack_208 [156];
+  undefined4 uStack_16c;
+  Entity local_150 [4];
+  PSRoutine local_14c [160];
+  Entity aEStack_ac [4];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_150);
+  if (param_2 == (Entity *)0x0) {
+    peVar1 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_150,peVar1);
+  }
+  else {
+    Entity::operator=(local_150,param_2);
+  }
+  Entity::Entity(local_a8);
+  if (param_3 == (Entity *)0x0) {
+    peVar1 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_a8,peVar1);
+  }
+  else {
+    Entity::operator=(local_a8,param_3);
+  }
+  Entity::Entity(aEStack_208,local_150);
+  thunk_FUN_1000ecc0();
+  DAT_10222400 = 10;
+  Entity::operator=((Entity *)&DAT_10222408,local_a8);
+  uStack_16c = 0x100801a5;
+  bCString::bCString((bCString *)&stack0xfffffe9c,"PS_HUD");
+  PSRoutine::SetState(local_14c);
+  Entity::~Entity(aEStack_ac);
+  Entity::~Entity((Entity *)&stack0xfffffeac);
+  return 1;
+}
+
+

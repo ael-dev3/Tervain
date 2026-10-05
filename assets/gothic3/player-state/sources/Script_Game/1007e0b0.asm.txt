@@ -1,0 +1,20 @@
+; 1007e0b0 gSArgsFor__AI_Jump::vector_deleting_destructor
+1007e0b0 | 56 | PUSH ESI
+1007e0b1 | 8bf1 | MOV ESI,ECX
+1007e0b3 | 57 | PUSH EDI
+1007e0b4 | 8b3d906f2210 | MOV EDI,dword ptr [0x10226f90]
+1007e0ba | 8d8eac000000 | LEA ECX,[ESI + 0xac]
+1007e0c0 | ffd7 | CALL EDI
+1007e0c2 | 8d4e04 | LEA ECX,[ESI + 0x4]
+1007e0c5 | ffd7 | CALL EDI
+1007e0c7 | f644240c01 | TEST byte ptr [ESP + 0xc],0x1
+1007e0cc | c706d8992010 | MOV dword ptr [ESI],0x102099d8
+1007e0d2 | 7409 | JZ 0x1007e0dd
+1007e0d4 | 56 | PUSH ESI
+1007e0d5 | e8da520600 | CALL 0x100e33b4
+1007e0da | 83c404 | ADD ESP,0x4
+; 1007e0dd LAB_1007e0dd
+1007e0dd | 5f | POP EDI
+1007e0de | 8bc6 | MOV EAX,ESI
+1007e0e0 | 5e | POP ESI
+1007e0e1 | c20400 | RET 0x4

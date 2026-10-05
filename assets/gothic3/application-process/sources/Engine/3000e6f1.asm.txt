@@ -1,0 +1,2 @@
+; 3000e6f1 ?GetPhysicObject@eCEntity@@QAEPAVeCPhysicObject@@XZ
+3000e6f1 | e9ba4c4a00 | JMP 0x304b33b0

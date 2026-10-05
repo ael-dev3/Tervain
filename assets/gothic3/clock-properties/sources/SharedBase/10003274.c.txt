@@ -1,0 +1,13 @@
+/* ENTRY 10003274 | bCObjectBase::bCObjectBase | STATUS decompiled | 4 ms */
+
+/* public: __thiscall bCObjectBase::bCObjectBase(class bCObjectBase const &) */
+
+void __thiscall bCObjectBase::bCObjectBase(bCObjectBase *this,bCObjectBase *param_1)
+
+{
+                    /* 0x3274  187  ??0bCObjectBase@@QAE@ABV0@@Z */
+  this->vftablePtr = &vftable;
+  return;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 10003ba2 | bCVector::GetX | STATUS decompiled | 2 ms */
+
+/* public: float __thiscall bCVector::GetX(void)const  */
+
+float __thiscall bCVector::GetX(bCVector *this)
+
+{
+                    /* 0x3ba2  3255  ?GetX@bCVector@@QBEMXZ */
+  return *(float *)this;
+}
+
+

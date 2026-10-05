@@ -1,0 +1,2 @@
+; 30020a4f ?OnRun@eCApplication@@UAEXXZ
+30020a4f | e9ccba0400 | JMP 0x3006c520

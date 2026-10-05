@@ -1,0 +1,4 @@
+; 10003eb3 ??6bCMatrix@@QAEAAVbCIStream@@AAV1@@Z
+10003eb3 | e9b8520200 | JMP 0x10029170
+; 10003eb8 bCCriticalSectionWin32::~bCCriticalSectionWin32
+; 10003eb8 Ordinal_363

@@ -1,0 +1,2 @@
+; 20461f5e ENGINE.DLL::eCEntityPropertySet::GetDecayState
+20461f5e | ff25d8727d20 | JMP dword ptr [0x207d72d8]

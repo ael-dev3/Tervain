@@ -1,0 +1,34 @@
+/* ENTRY 304c79a0 | FUN_304c79a0 | STATUS decompiled | 16 ms */
+
+undefined4 FUN_304c79a0(eCEntity *param_1)
+
+{
+  bool bVar1;
+  undefined3 extraout_var;
+  undefined3 extraout_var_00;
+  eCContextBase *this;
+  undefined3 extraout_var_01;
+  undefined3 extraout_var_02;
+  undefined3 uVar2;
+  
+  bVar1 = (*param_1->vftablePtr->IsKilled)(param_1);
+  uVar2 = extraout_var;
+  if (!bVar1) {
+    bVar1 = eCEntity::IsEnabled(param_1);
+    uVar2 = extraout_var_00;
+    if (bVar1) {
+      this = (eCContextBase *)eCNode::GetCurrentContext((eCNode *)param_1);
+      bVar1 = eCContextBase::IsEnabled(this);
+      uVar2 = extraout_var_01;
+      if (bVar1) {
+        eCEntity::PreProcess(param_1,false);
+        eCEntity::Process(param_1,false);
+        eCEntity::PostProcess(param_1,false);
+        uVar2 = extraout_var_02;
+      }
+    }
+  }
+  return CONCAT31(uVar2,1);
+}
+
+

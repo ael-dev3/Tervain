@@ -1,0 +1,2 @@
+; 2002d731 ?GetVersion@gCClock_PS@@UBEGXZ
+2002d731 | e99aa81d00 | JMP 0x20207fd0

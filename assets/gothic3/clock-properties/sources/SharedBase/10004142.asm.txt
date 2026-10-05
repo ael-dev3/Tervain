@@ -1,0 +1,4 @@
+; 10004142 ?SetLowPrecision@bCFPUAdmin@@QAEXXZ
+10004142 | e9b97b0300 | JMP 0x1003bd00
+; 10004147 bCMatrix3::GetProduct
+; 10004147 Ordinal_2795

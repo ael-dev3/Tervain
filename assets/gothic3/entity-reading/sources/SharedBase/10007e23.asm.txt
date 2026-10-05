@@ -1,0 +1,4 @@
+; 10007e23 ??6bCSphere@@QAEAAVbCIStream@@AAV1@@Z
+10007e23 | e958400200 | JMP 0x1002be80
+; 10007e28 bCBox::Invalidate
+; 10007e28 Ordinal_3537

@@ -1,0 +1,21 @@
+/* ENTRY 10001b18 | PSNpc::SetCurrentTarget | STATUS decompiled | 10 ms */
+
+/* public: void __thiscall PSNpc::SetCurrentTarget(class Entity const &) */
+
+void __thiscall PSNpc::SetCurrentTarget(PSNpc *this,Entity *param_1)
+
+{
+  eCEntity *peVar1;
+  eCEntityProxy eStack_1c;
+  
+                    /* 0x1b18  1936  ?SetCurrentTarget@PSNpc@@QAEXABVEntity@@@Z */
+  if (*(int *)this != 0) {
+    peVar1 = Entity::GetInstance(param_1);
+    eCEntityProxy::eCEntityProxy(&eStack_1c,peVar1);
+    gCNPC_PS::SetCurrentTargetEntity(*(gCNPC_PS **)this,(eCEntityProxy *)&eStack_1c);
+    eCEntityProxy::~eCEntityProxy(&eStack_1c);
+  }
+  return;
+}
+
+

@@ -1,0 +1,59 @@
+/* ENTRY 304bdd50 | FUN_304bdd50 | STATUS decompiled | 36 ms */
+
+void __fastcall FUN_304bdd50(eCEntity *param_1)
+
+{
+  bool bVar1;
+  char cVar2;
+  eCPhysicObject *peVar3;
+  eCPhysicObject *this;
+  int iVar4;
+  eCEntityPropertySet *peVar5;
+  eCApplication *this_00;
+  eCEntityPropertySet *peVar6;
+  uint uVar7;
+  int iVar8;
+  bool bVar9;
+  
+  peVar3 = eCEntity::GetPhysicObject(param_1);
+  if (peVar3 != (eCPhysicObject *)0x0) {
+    this = (eCPhysicObject *)eCEntity::GetPhysicObject(param_1);
+    eCPhysicObject::Process(this);
+  }
+  iVar4 = eCEntity::GetPropertySetCount(param_1);
+  bVar9 = iVar4 != 0;
+  iVar8 = 0;
+  iVar4 = eCEntity::GetPropertySetCount(param_1);
+  if (0 < iVar4) {
+    do {
+      peVar5 = eCEntity::GetPropertySetAt(param_1,iVar8);
+      bVar1 = false;
+      this_00 = (eCApplication *)eCApplication::GetInstance();
+      bVar1 = eCApplication::IsPaused(this_00,bVar1);
+      if (bVar1) {
+        peVar6 = eCEntity::GetPropertySetAt(param_1,iVar8);
+        cVar2 = (**(code **)(*(int *)peVar6 + 0x70))();
+        if (cVar2 == '\0') goto LAB_304bddc1;
+      }
+      else {
+LAB_304bddc1:
+        (**(code **)(*(int *)peVar5 + 0x120))();
+      }
+      uVar7 = (**(code **)(*(int *)peVar5 + 0xec))();
+      if (uVar7 < 2) {
+        bVar9 = false;
+      }
+      iVar8 = iVar8 + 1;
+      iVar4 = eCEntity::GetPropertySetCount(param_1);
+    } while (iVar8 < iVar4);
+  }
+  if (bVar9) {
+                    /* WARNING: Could not recover jumptable at 0x304bde02. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    (*param_1->vftablePtr->Kill)(param_1);
+    return;
+  }
+  return;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 30023ef2 | eCEntity::IsEnabled | STATUS decompiled | 9 ms */
+
+/* public: bool __thiscall eCEntity::IsEnabled(void)const  */
+
+bool __thiscall eCEntity::IsEnabled(eCEntity *this)
+
+{
+                    /* 0x23ef2  10367  ?IsEnabled@eCEntity@@QBE_NXZ */
+  return ((byte)(this->eCEntity_data).offset_0xc & 8) == 8;
+}
+
+

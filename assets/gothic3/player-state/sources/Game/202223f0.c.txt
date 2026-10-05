@@ -1,0 +1,21 @@
+/* ENTRY 202223f0 | FUN_202223f0 | STATUS decompiled | 2 ms */
+
+undefined4 __fastcall FUN_202223f0(int param_1)
+
+{
+  switch(*(undefined4 *)(param_1 + 0x100)) {
+  default:
+    return 1;
+  case 6:
+  case 7:
+  case 8:
+  case 9:
+  case 10:
+  case 0xb:
+  case 0xd:
+  case 0xe:
+    return 0;
+  }
+}
+
+

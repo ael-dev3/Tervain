@@ -1,0 +1,28 @@
+/* ENTRY 304b2f70 | FUN_304b2f70 | STATUS decompiled | 19 ms */
+
+void __thiscall FUN_304b2f70(eCNode *param_1,uint param_2)
+
+{
+  undefined4 *puVar1;
+  int iVar2;
+  eCEntity *this;
+  int iVar3;
+  undefined1 uVar4;
+  
+  puVar1 = &param_1[1].eCNode_data.offset_0x8;
+  *puVar1 = *puVar1 ^ ((param_2 & 0xff) * 8 ^ param_1[1].eCNode_data.offset_0x8) & 8;
+  iVar3 = 0;
+  iVar2 = eCNode::GetChildrenCount(param_1);
+  if (0 < iVar2) {
+    do {
+      uVar4 = (undefined1)param_2;
+      this = (eCEntity *)(*param_1->vftablePtr->GetChildAt)(param_1,iVar3);
+      eCEntity::Enable(this,(bool)uVar4);
+      iVar3 = iVar3 + 1;
+      iVar2 = eCNode::GetChildrenCount(param_1);
+    } while (iVar3 < iVar2);
+  }
+  return;
+}
+
+

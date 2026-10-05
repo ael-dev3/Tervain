@@ -1,0 +1,9 @@
+/* ENTRY 20221dc0 | FUN_20221dc0 | STATUS decompiled | 1 ms */
+
+bool __fastcall FUN_20221dc0(int param_1)
+
+{
+  return *(int *)(param_1 + 0x100) == 5;
+}
+
+

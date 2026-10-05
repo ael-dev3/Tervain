@@ -1,0 +1,4 @@
+; 100032bf ?GetTime@bCTimer@@QAEXAAM@Z
+100032bf | e95c8d0400 | JMP 0x1004c020
+; 100032c4 bCErrorAdmin::Destroy
+; 100032c4 Ordinal_1930

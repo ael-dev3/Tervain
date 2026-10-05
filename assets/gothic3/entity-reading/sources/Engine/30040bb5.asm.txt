@@ -1,0 +1,2 @@
+; 30040bb5 ?EnablePicking@eCEntity@@QAEX_N0@Z
+30040bb5 | e9163c4700 | JMP 0x304b47d0

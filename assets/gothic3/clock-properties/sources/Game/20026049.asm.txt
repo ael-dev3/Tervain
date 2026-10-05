@@ -1,0 +1,4 @@
+; 20026049 ?Invalidate@gCClock_PS@@IAEXXZ
+20026049 | e9921e1e00 | JMP 0x20207ee0
+; 20026053 gCEffectCommandMusicTrigger::AccessVariation
+; 20026053 Ordinal_1800

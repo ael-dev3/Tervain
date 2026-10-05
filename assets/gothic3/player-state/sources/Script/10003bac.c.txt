@@ -1,0 +1,24 @@
+/* ENTRY 10003bac | PSFocus::GetFocusEntity | STATUS decompiled | 9 ms */
+
+/* public: class Entity __thiscall PSFocus::GetFocusEntity(enum gECombatMode,enum gEDirection)const
+    */
+
+gECombatMode __thiscall
+PSFocus::GetFocusEntity(PSFocus *this,gECombatMode param_1,gEDirection param_2)
+
+{
+  eCEntity *peVar1;
+  gEDirection in_stack_0000000c;
+  
+                    /* 0x3bac  1558
+                       ?GetFocusEntity@PSFocus@@QBE?AVEntity@@W4gECombatMode@@W4gEDirection@@@Z */
+  if (*(gCFocus_PS **)this == (gCFocus_PS *)0x0) {
+    Entity::Entity((Entity *)param_1,(Entity *)&None);
+    return param_1;
+  }
+  peVar1 = gCFocus_PS::GetFocusEntity(*(gCFocus_PS **)this,param_2,in_stack_0000000c);
+  Entity::Entity((Entity *)param_1,peVar1);
+  return param_1;
+}
+
+

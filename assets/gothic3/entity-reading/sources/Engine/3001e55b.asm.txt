@@ -1,0 +1,2 @@
+; 3001e55b ?GetWorldNodeBoundary@eCEntity@@QBEABVbCBox@@XZ
+3001e55b | e950544900 | JMP 0x304b39b0

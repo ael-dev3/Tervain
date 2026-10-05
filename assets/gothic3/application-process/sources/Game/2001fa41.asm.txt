@@ -1,0 +1,4 @@
+; 2001fa41 ?SetSelfEntity@gCScriptProcessingUnit@@QAEXPAVeCEntity@@@Z
+2001fa41 | e9da833400 | JMP 0x20367e20
+; 2001fa46 gCMusicTrigger::GetVariation
+; 2001fa46 Ordinal_4669

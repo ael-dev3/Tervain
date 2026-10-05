@@ -1,0 +1,4 @@
+; 3001474f ?SetRenderAlphaValue@eCEntity@@QAEXM_N@Z
+3001474f | e9ace54900 | JMP 0x304b2d00
+; 30014754 eCNode::GetCurrentContext
+; 30014754 Ordinal_6662

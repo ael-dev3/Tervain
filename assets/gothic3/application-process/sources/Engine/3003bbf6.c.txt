@@ -1,0 +1,14 @@
+/* ENTRY 3003bbf6 | eCEntity::OnPreProcess | STATUS decompiled | 6 ms */
+
+/* protected: virtual void __thiscall eCEntity::OnPreProcess(void)
+   eCEntity member function inherited by eCSpatialEntity
+   eCEntity member function inherited by eCTemplateEntity */
+
+void __thiscall eCEntity::OnPreProcess(eCEntity *this)
+
+{
+                    /* 0x3bbf6  11369  ?OnPreProcess@eCEntity@@MAEXXZ */
+  return;
+}
+
+

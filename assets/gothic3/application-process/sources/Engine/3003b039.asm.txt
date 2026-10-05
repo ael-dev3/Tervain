@@ -1,0 +1,4 @@
+; 3003b039 ?GetPropertySetCount@eCEntity@@QBEHXZ
+3003b039 | e972974700 | JMP 0x304b47b0
+; 3003b03e eCShaderBase::AccessMaxShaderVersion
+; 3003b03e Ordinal_2915

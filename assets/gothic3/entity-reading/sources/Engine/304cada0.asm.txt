@@ -1,0 +1,36 @@
+; 304cada0 FUN_304cada0
+304cada0 | 56 | PUSH ESI
+304cada1 | 8bf1 | MOV ESI,ECX
+304cada3 | 85f6 | TEST ESI,ESI
+304cada5 | 7452 | JZ 0x304cadf9
+304cada7 | b9f424af30 | MOV ECX,0x30af24f4
+304cadac | ff151ccbaf30 | CALL dword ptr [0x30afcb1c]
+304cadb2 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+304cadb6 | 8d442408 | LEA EAX,[ESP + 0x8]
+304cadba | 50 | PUSH EAX
+304cadbb | 51 | PUSH ECX
+304cadbc | 8d4e44 | LEA ECX,[ESI + 0x44]
+304cadbf | e83044b5ff | CALL 0x3001f1f4
+304cadc4 | 85c0 | TEST EAX,EAX
+304cadc6 | 7426 | JZ 0x304cadee
+304cadc8 | 8d4804 | LEA ECX,[EAX + 0x4]
+304cadcb | 85c9 | TEST ECX,ECX
+304cadcd | 741f | JZ 0x304cadee
+304cadcf | 8b54240c | MOV EDX,dword ptr [ESP + 0xc]
+304cadd3 | 53 | PUSH EBX
+304cadd4 | 52 | PUSH EDX
+304cadd5 | e835eeb3ff | CALL 0x30009c0f
+304cadda | b9f424af30 | MOV ECX,0x30af24f4
+304caddf | 8ad8 | MOV BL,AL
+304cade1 | ff1518cbaf30 | CALL dword ptr [0x30afcb18]
+304cade7 | 8ac3 | MOV AL,BL
+304cade9 | 5b | POP EBX
+304cadea | 5e | POP ESI
+304cadeb | c20800 | RET 0x8
+; 304cadee LAB_304cadee
+304cadee | b9f424af30 | MOV ECX,0x30af24f4
+304cadf3 | ff1518cbaf30 | CALL dword ptr [0x30afcb18]
+; 304cadf9 LAB_304cadf9
+304cadf9 | 32c0 | XOR AL,AL
+304cadfb | 5e | POP ESI
+304cadfc | c20800 | RET 0x8

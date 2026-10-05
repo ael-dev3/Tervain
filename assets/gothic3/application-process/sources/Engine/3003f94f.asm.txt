@@ -1,0 +1,2 @@
+; 3003f94f ?GetFrameTimeInSeconds@eCApplication@@QBEMXZ
+3003f94f | e9dc390200 | JMP 0x30063330

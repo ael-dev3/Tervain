@@ -1,0 +1,149 @@
+/* ENTRY 10012460 | FUN_10012460 | STATUS decompiled | 125 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __fastcall FUN_10012460(int param_1)
+
+{
+  bool bVar1;
+  Entity *this;
+  int iVar2;
+  gEAniState gVar3;
+  int iVar4;
+  gCScriptAdmin *this_00;
+  undefined4 uStack_21c;
+  Entity aEStack_214 [152];
+  undefined4 uStack_17c;
+  Entity local_16c [148];
+  undefined4 uStack_d8;
+  bCString *pbVar5;
+  undefined1 *puVar6;
+  code *pcVar7;
+  Entity *pEVar8;
+  gECharMovementMode gVar9;
+  Entity local_ac [4];
+  Entity local_a8 [168];
+  
+  pEVar8 = local_a8;
+  this = (Entity *)Entity::GetPlayer();
+  bVar1 = Entity::operator!=(this,pEVar8);
+  Entity::~Entity(local_ac);
+  if (bVar1) goto LAB_10012868;
+  Entity::Entity((Entity *)&stack0xfffffe90,(Entity *)&stack0x00000000);
+  thunk_FUN_10009520();
+  *(undefined1 *)(param_1 + 3) = 0;
+  Entity::Entity(local_16c,(Entity *)&stack0x00000000);
+  iVar2 = thunk_FUN_1000c160();
+  if ((iVar2 == 0) || (iVar2 == 2)) {
+    *(undefined1 *)(param_1 + 4) = 0;
+  }
+  if (*(char *)(param_1 + 4) == '\x01') {
+    if (DAT_10220421 != '\0') {
+      Entity::Entity(local_16c,(Entity *)&stack0x00000000);
+      iVar2 = thunk_FUN_1000cf80();
+      if ((iVar2 == 0) &&
+         (gVar3 = PSRoutine::PropertyAniState::operator_enum_gEAniState
+                            ((PropertyAniState *)&stack0x00000004), gVar3 != 4)) {
+        Entity::Entity(local_16c,(Entity *)&stack0x000000a8);
+        uStack_21c = 0x1001257f;
+        Entity::Entity(aEStack_214,(Entity *)&stack0x00000000);
+        thunk_FUN_1000a7b0();
+        Entity::Entity(local_ac,(Entity *)&stack0x00000000);
+        DAT_102204d8 = 0;
+        Entity::~Entity(local_ac);
+        Entity::Entity(local_ac,(Entity *)&stack0x00000000);
+        _DAT_102204d4 = 0xd;
+        uStack_17c = 0x100125dc;
+        Entity::Entity(local_16c,(Entity *)&DAT_102204dc);
+        Entity::Entity((Entity *)&uStack_21c,local_ac);
+        thunk_FUN_1000ec30();
+        _DAT_102204d4 = 0;
+        DAT_102204d8 = 0;
+        Entity::operator=((Entity *)&DAT_102204dc,(Entity *)None_exref);
+        Entity::~Entity(local_ac);
+      }
+      goto LAB_10012868;
+    }
+    Entity::Entity((Entity *)&stack0xfffffe90,(Entity *)&stack0x00000000);
+    thunk_FUN_1000dde0();
+LAB_10012844:
+    PSRoutine::PropertyAniState::operator=
+              ((PropertyAniState *)&stack0x00000004,(gEAniState *)&stack0xffffff4c);
+    gVar9 = 4;
+  }
+  else {
+    if (*(char *)(param_1 + 5) == '\x01') {
+      if (DAT_10220422 != '\0') {
+        Entity::Entity(local_16c,(Entity *)&stack0x00000000);
+        iVar4 = thunk_FUN_1000cf80();
+        if (iVar4 == 0) {
+          gVar3 = PSRoutine::PropertyAniState::operator_enum_gEAniState
+                            ((PropertyAniState *)&stack0x00000004);
+          if (iVar2 == 1) {
+            if (gVar3 == 4) goto LAB_10012868;
+            Entity::Entity(local_ac,(Entity *)&stack0x00000000);
+            _DAT_10220584 = 0x4a;
+            uStack_17c = 0x100126ce;
+            Entity::Entity(local_16c,(Entity *)&DAT_1022058c);
+            Entity::Entity((Entity *)&uStack_21c,local_ac);
+            thunk_FUN_1000ec30();
+          }
+          else {
+            if (gVar3 == 3) goto LAB_10012868;
+            Entity::Entity(local_ac,(Entity *)&stack0x00000000);
+            _DAT_10220584 = 0x4a;
+            uStack_17c = 0x10012754;
+            Entity::Entity(local_16c,(Entity *)&DAT_1022058c);
+            Entity::Entity((Entity *)&uStack_21c,local_ac);
+            thunk_FUN_1000ec30();
+          }
+          DAT_10220588 = 0;
+          _DAT_10220584 = 0;
+          Entity::operator=((Entity *)&DAT_1022058c,(Entity *)None_exref);
+          Entity::~Entity(local_ac);
+        }
+        goto LAB_10012868;
+      }
+      Entity::Entity((Entity *)&stack0xfffffe90,(Entity *)&stack0x00000000);
+      thunk_FUN_1000d3f0();
+      goto LAB_10012844;
+    }
+    if (*(char *)(param_1 + 1) == '\x01') {
+      PSRoutine::PropertyAniState::operator=
+                ((PropertyAniState *)&stack0x00000004,(gEAniState *)&stack0xffffff4c);
+      gVar9 = 3;
+    }
+    else {
+      if (*(char *)(param_1 + 2) != '\x01') goto LAB_10012844;
+      bCString::bCString((bCString *)&stack0xffffff4c,"GetStaminaPoints");
+      iVar2 = 0;
+      pbVar5 = (bCString *)&stack0xffffff4c;
+      uStack_d8 = 0x100127d5;
+      puVar6 = (undefined1 *)register0x00000010;
+      pcVar7 = None_exref;
+      this_00 = (gCScriptAdmin *)thunk_FUN_10015630();
+      uStack_d8 = 0x100127dd;
+      iVar2 = gCScriptAdmin::CallScriptFromScript(this_00,pbVar5,puVar6,pcVar7,iVar2);
+      bCString::~bCString((bCString *)&stack0xffffff4c);
+      if (iVar2 < 0x15) {
+        if ((iVar2 < 1) || (bVar1 = Entity::IsSprinting((Entity *)&stack0x00000000), !bVar1))
+        goto LAB_10012844;
+        PSRoutine::PropertyAniState::operator=
+                  ((PropertyAniState *)&stack0x00000004,(gEAniState *)&stack0xffffff4c);
+        gVar9 = 5;
+      }
+      else {
+        PSRoutine::PropertyAniState::operator=
+                  ((PropertyAniState *)&stack0x00000004,(gEAniState *)&stack0xffffff4c);
+        gVar9 = 5;
+      }
+    }
+  }
+  Entity::SetMovementMode((Entity *)&stack0x00000000,gVar9);
+LAB_10012868:
+  Entity::~Entity((Entity *)&stack0x00000000);
+  Entity::~Entity((Entity *)&stack0x000000a8);
+  return;
+}
+
+

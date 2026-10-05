@@ -1,0 +1,2 @@
+; 20022b15 ?SetDayTime@gCAmbientModule@@QAEXW4eEAmbientDayTime@@@Z
+20022b15 | e996703f00 | JMP 0x20419bb0

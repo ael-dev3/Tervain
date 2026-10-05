@@ -1,0 +1,2 @@
+; 20009b24 ?GetSecond@gCClock_PS@@QBEABKXZ
+20009b24 | e9b7d41500 | JMP 0x20166fe0

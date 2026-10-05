@@ -1,0 +1,18 @@
+/* ENTRY 20032097 | gCClock_PS::SetSecond | STATUS decompiled | 11 ms */
+
+/* public: void __thiscall gCClock_PS::SetSecond(unsigned long const &) */
+
+void __thiscall gCClock_PS::SetSecond(gCClock_PS *this,ulong *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x32097  7020  ?SetSecond@gCClock_PS@@QAEXABK@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"Second",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(ulong *)&(this->gCClock_PS_data).field_0x20 = *param_1;
+  (*pNVar1)(this,"Second",false);
+  return;
+}
+
+

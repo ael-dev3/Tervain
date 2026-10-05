@@ -1,0 +1,27 @@
+; 1000ed50 FUN_1000ed50
+1000ed50 | 53 | PUSH EBX
+1000ed51 | 33db | XOR EBX,EBX
+1000ed53 | 56 | PUSH ESI
+1000ed54 | 8bf1 | MOV ESI,ECX
+1000ed56 | 881e | MOV byte ptr [ESI],BL
+1000ed58 | 885e01 | MOV byte ptr [ESI + 0x1],BL
+1000ed5b | 885e02 | MOV byte ptr [ESI + 0x2],BL
+1000ed5e | 8b8614020000 | MOV EAX,dword ptr [ESI + 0x214]
+1000ed64 | 3bc3 | CMP EAX,EBX
+1000ed66 | 7434 | JZ 0x1000ed9c
+1000ed68 | 8b8e1c020000 | MOV ECX,dword ptr [ESI + 0x21c]
+1000ed6e | 51 | PUSH ECX
+1000ed6f | 50 | PUSH EAX
+1000ed70 | e8f33cffff | CALL 0x10002a68
+1000ed75 | 8b9614020000 | MOV EDX,dword ptr [ESI + 0x214]
+1000ed7b | 52 | PUSH EDX
+1000ed7c | ff1504732210 | CALL dword ptr [0x10227304]
+1000ed82 | 8bc8 | MOV ECX,EAX
+1000ed84 | ff1500732210 | CALL dword ptr [0x10227300]
+1000ed8a | 899e14020000 | MOV dword ptr [ESI + 0x214],EBX
+1000ed90 | 899e18020000 | MOV dword ptr [ESI + 0x218],EBX
+1000ed96 | 899e1c020000 | MOV dword ptr [ESI + 0x21c],EBX
+; 1000ed9c LAB_1000ed9c
+1000ed9c | 5e | POP ESI
+1000ed9d | 5b | POP EBX
+1000ed9e | c3 | RET

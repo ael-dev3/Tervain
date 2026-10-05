@@ -14,6 +14,7 @@ import type { NativeInventory } from './inventory';
 import type { NativeAIStateFrame, NativeRoutineEntity, NativeRoutineHost, NativeRoutineProperties,
   NativeRoutineResult, NativeSPUSchedulerAccess } from './script-routine';
 import type { NativeScriptProcessingUnit } from './script-routine';
+import type { NativePlayerStates } from './player-state';
 
 const SHA = '2f10fbb6307c4800bc44c90cb60dac0b32182c1f2416e11ac82b4ba0c35803c1';
 const rules = JSON.parse(rulesText) as { schema: string; scriptGameSha256: string;
@@ -167,12 +168,21 @@ interface ArgumentRecord { value: Argument; destroyed: boolean; owner: NativeScr
  * once. Every invocation validates that it operates on that same SPU. */
 export class NativeRoutineScripts {
   private scheduler: NativeInstructionScheduler | null = null;
+  private playerStates: NativePlayerStates | null = null;
   private nextArgument = 1;
   private readonly arguments = new Map<string, ArgumentRecord>();
   constructor(private readonly host: NativeRoutineScriptHost, readonly globals: NativeRoutineScriptGlobals) {}
   bind(scheduler: NativeInstructionScheduler): void {
     if (this.scheduler) throw new Error('Native routine script adapter is already bound');
     this.scheduler = scheduler;
+    this.playerStates?.bind(scheduler);
+  }
+  /**08cf0580 extension: examined Hero states share this exact scheduler/SPU.
+   * Historical routine receipts remain evidence for their previous bytes. */
+  installPlayerStates(states: NativePlayerStates): void {
+    if (this.playerStates) throw new Error('Original player state adapter is already installed');
+    if (this.scheduler) states.bind(this.scheduler);
+    this.playerStates = states;
   }
   private require(spu: NativeScriptProcessingUnit, access?: NativeSPUSchedulerAccess): NativeInstructionScheduler {
     if (!this.scheduler || this.scheduler.spu !== spu || (access && !spu.ownsSchedulerAccess(access))) {
@@ -238,7 +248,14 @@ export class NativeRoutineScripts {
   readonly body: NonNullable<NativeInstructionHost['script']> = (kind, name) => {
     const entry = rules.supportedBodies[name];
     const functions = new Set(['_AI_ChangeAction', '_AI_StandUp', '_AI_TransferItem', '_AI_HoldInventoryItems']);
-    if (!entry || (functions.has(name) ? kind !== 'function' : kind !== 'state')) return null;
+    if (!entry) {
+      const body = this.playerStates?.body(kind, name) ?? null;
+      if (!body) return null;
+      return { source: body.source, invoke: (spu, access) => {
+        this.require(spu, access); return body.invoke(spu, access);
+      } } satisfies NativeScriptBody;
+    }
+    if (functions.has(name) ? kind !== 'function' : kind !== 'state') return null;
     return { source: { moduleSha256: SHA, entry }, invoke: (spu, access) => {
       this.require(spu, access);
       if (functions.has(name)) {
@@ -403,6 +420,9 @@ export class NativeRoutineScripts {
   readonly destroyFrameObject: NonNullable<NativeRoutineHost['destroyFrameObject']> = (token, argument, _frame, spu) => {
     this.require(spu);
     const record = this.arguments.get(token);
+    if (!record && this.playerStates?.ownsArgument(token)) {
+      this.playerStates.destroyArgument(token, argument, spu); return;
+    }
     if (!record || record.owner !== spu || record.destroyed || argument !== 0) throw new Error('Unresolved native argument destructor');
     // Script Entity destructor1002ede0 is RET: no entity refcount/release effect.
     // Concrete args destructors then restore their base vtable; flag0 skips free.
@@ -412,6 +432,9 @@ export class NativeRoutineScripts {
     this.require(spu);
     if (token === null) return;
     const record = this.arguments.get(token);
+    if (!record && this.playerStates?.ownsArgument(token)) {
+      this.playerStates.deleteArgument(token, spu); return;
+    }
     if (!record || record.owner !== spu || !record.destroyed) throw new Error('Original DeleteObject without completed argument destructor');
     this.arguments.delete(token);
   };

@@ -1,0 +1,20 @@
+/* ENTRY 10001bdb | PSInventory::GetUseType | STATUS decompiled | 5 ms */
+
+/* public: enum gEUseType __thiscall PSInventory::GetUseType(int)const  */
+
+gEUseType __thiscall PSInventory::GetUseType(PSInventory *this,int param_1)
+
+{
+  gEUseType gVar1;
+  
+                    /* 0x1bdb  1696  ?GetUseType@PSInventory@@QBE?AW4gEUseType@@H@Z */
+  if (*(gCInventory_PS **)this == (gCInventory_PS *)0x0) {
+    return 0;
+  }
+                    /* WARNING: Could not recover jumptable at 0x1001987b. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  gVar1 = gCInventory_PS::GetStackUseType(*(gCInventory_PS **)this,param_1);
+  return gVar1;
+}
+
+

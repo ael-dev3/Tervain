@@ -1,0 +1,2 @@
+; 3000504c ?Process@eCApplication@@QAEXXZ
+3000504c | e91f220600 | JMP 0x30067270

@@ -1,0 +1,195 @@
+/* ENTRY 30015e1a | eCEntity::ReadV83 | STATUS decompiled | 184 ms */
+
+/* protected: virtual enum bEResult __thiscall eCEntity::ReadV83(class bCIStream &,unsigned short)
+   eCEntity member function inherited by eCSpatialEntity
+   eCEntity member function inherited by eCDynamicEntity
+   eCEntity member function inherited by eCTemplateEntity */
+
+bEResult __thiscall eCEntity::ReadV83(eCEntity *this,bCIStream *param_1,ushort param_2)
+
+{
+  uint *puVar1;
+  eCEntity_vftable *peVar2;
+  Modified *pMVar3;
+  OnPostRead *pOVar4;
+  bool bVar5;
+  ushort uVar6;
+  bCObjectRefBase *pbVar7;
+  undefined4 *puVar8;
+  bCString *pbVar9;
+  char *pcVar10;
+  bCErrorAdmin *this_00;
+  bCVector *this_01;
+  float fVar11;
+  undefined4 uVar12;
+  TypeDescriptor *pTVar13;
+  TypeDescriptor *pTVar14;
+  undefined4 uVar15;
+  char *pcVar16;
+  int iVar17;
+  bool bStack_60;
+  bool bStack_5f;
+  bool bStack_5e;
+  bool bStack_5d;
+  eCEntity eStack_5c;
+  bool bStack_5b;
+  bool bStack_5a;
+  bool bStack_59;
+  ushort auStack_58 [2];
+  uint uStack_54;
+  bCString abStack_50 [4];
+  ulong uStack_4c;
+  bCString abStack_48 [4];
+  ulong uStack_44;
+  int iStack_40;
+  ulong uStack_3c;
+  bool abStack_38 [4];
+  bool abStack_34 [4];
+  bool abStack_30 [4];
+  bool abStack_2c [4];
+  bool abStack_28 [4];
+  float fStack_24;
+  bool abStack_20 [4];
+  bCMatrix *pbStack_1c;
+  undefined4 *puStack_18;
+  bCAccessorPropertyObject abStack_14 [16];
+  
+                    /* 0x15e1a  12344  ?ReadV83@eCEntity@@MAE?AW4bEResult@@AAVbCIStream@@G@Z */
+  eCNode::Read((eCNode *)this,param_1);
+  bCIStream::operator>>((bCIStream *)param_1,abStack_38);
+  Enable(this,abStack_38[0]);
+  bCIStream::operator>>((bCIStream *)param_1,abStack_34);
+  EnableRendering(this,abStack_34[0]);
+  bCIStream::operator>>((bCIStream *)param_1,abStack_30);
+  DisableProcessing(this,abStack_30[0]);
+  bCIStream::operator>>((bCIStream *)param_1,&bStack_5e);
+  puVar1 = &(this->eCEntity_data).offset_0xc;
+  *puVar1 = *puVar1 ^ ((uint)bStack_5e << 5 ^ (this->eCEntity_data).offset_0xc) & 0x20;
+  bCIStream::operator>>((bCIStream *)param_1,&bStack_5d);
+  peVar2 = this->vftablePtr;
+  puVar1 = &(this->eCEntity_data).offset_0xc;
+  *puVar1 = *puVar1 ^ ((uint)bStack_5d << 10 ^ (this->eCEntity_data).offset_0xc) & 0x400;
+  (*peVar2->Modified)(this);
+  bCIStream::operator>>((bCIStream *)param_1,abStack_2c);
+  EnablePicking(this,abStack_2c[0],false);
+  bCIStream::operator>>((bCIStream *)param_1,abStack_28);
+  EnableCollision(this,abStack_28[0]);
+  bCIStream::operator>>((bCIStream *)param_1,&fStack_24);
+  SetRenderAlphaValue(this,fStack_24,true);
+  bCIStream::operator>>((bCIStream *)param_1,auStack_58);
+  pMVar3 = this->vftablePtr->Modified;
+  puVar1 = &(this->eCEntity_data).offset_0xc;
+  *puVar1 = *puVar1 ^ ((uint)auStack_58[0] << 0xe ^ (this->eCEntity_data).offset_0xc) & 0x3c000;
+  (*pMVar3)(this);
+  bCIStream::operator>>((bCIStream *)param_1,(uchar *)&eStack_5c);
+  peVar2 = this->vftablePtr;
+  (this->eCEntity_data).offset_0x8 = eStack_5c;
+  (*peVar2->Modified)(this);
+  bCIStream::operator>>((bCIStream *)param_1,abStack_20);
+  Lock(this,abStack_20[0]);
+  bCIStream::operator>>((bCIStream *)param_1,&bStack_5b);
+  puVar1 = &(this->eCEntity_data).offset_0xc;
+  *puVar1 = *puVar1 ^ ((uint)bStack_5b << 0x19 ^ (this->eCEntity_data).offset_0xc) & 0x2000000;
+  bCIStream::operator>>((bCIStream *)param_1,&bStack_5a);
+  puVar1 = &(this->eCEntity_data).offset_0xc;
+  *puVar1 = *puVar1 ^ ((uint)bStack_5a << 0xd ^ (this->eCEntity_data).offset_0xc) & 0x2000;
+  bCString::bCString(abStack_48);
+  bCIStream::operator>>((bCIStream *)param_1,abStack_48);
+  (*this->vftablePtr->SetName)(this,abStack_48);
+  pbStack_1c = (bCMatrix *)&(this->eCEntity_data).field_0x10;
+  bCMatrix::operator<<(pbStack_1c,param_1);
+  bCMatrix::operator<<((bCMatrix *)&(this->eCEntity_data).field_0x50,param_1);
+  bCBox::operator<<((bCBox *)&(this->eCEntity_data).field_0x90,param_1);
+  bCBox::operator<<((bCBox *)&(this->eCEntity_data).field_0xe0,param_1);
+  bCBox::operator<<((bCBox *)&(this->eCEntity_data).field_0xb8,param_1);
+  bCSphere::operator<<((bCSphere *)&(this->eCEntity_data).field_0xa8,param_1);
+  bCSphere::operator<<((bCSphere *)&(this->eCEntity_data).field_0xd0,param_1);
+  bCIStream::operator>>((bCIStream *)param_1,(float *)&(this->eCEntity_data).offset_0xf8);
+  bCIStream::operator>>((bCIStream *)param_1,&bStack_59);
+  puVar1 = &(this->eCEntity_data).offset_0xc;
+  *puVar1 = *puVar1 ^ ((uint)bStack_59 << 0x16 ^ (this->eCEntity_data).offset_0xc) & 0x400000;
+  bCIStream::operator>>((bCIStream *)param_1,(float *)&(this->eCEntity_data).offset_0xfc);
+  uStack_3c = 0xffffffff;
+  bCIStream::operator>>((bCIStream *)param_1,&uStack_3c);
+  puStack_18 = &(this->eCEntity_data).offset_0x104;
+  bCIStream::operator>>((bCIStream *)param_1,(float *)puStack_18);
+  bStack_60 = false;
+  bCIStream::operator>>((bCIStream *)param_1,&bStack_60);
+  puVar1 = &(this->eCEntity_data).offset_0xc;
+  *puVar1 = *puVar1 ^ ((uint)bStack_60 << 0x1b ^ (this->eCEntity_data).offset_0xc) & 0x8000000;
+  bStack_5f = false;
+  bCIStream::operator>>((bCIStream *)param_1,&bStack_5f);
+  puVar1 = &(this->eCEntity_data).offset_0xc;
+  *puVar1 = *puVar1 ^ ((uint)bStack_5f << 0x1c ^ (this->eCEntity_data).offset_0xc) & 0x10000000;
+  RemoveAllPropertySets(this);
+  uStack_4c = 0;
+  bCIStream::operator>>((bCIStream *)param_1,&uStack_4c);
+  iStack_40 = 0;
+  if (0 < (int)uStack_4c) {
+    do {
+      uStack_54 = 0;
+      bCIStream::operator>>((bCIStream *)param_1,(ushort *)&uStack_54);
+      bCAccessorPropertyObject::bCAccessorPropertyObject(abStack_14);
+      ::operator>>(param_1,abStack_14);
+      bVar5 = bCAccessorPropertyObject::IsValid(abStack_14);
+      if (bVar5) {
+        uVar15 = 0;
+        pTVar14 = &eCEntityPropertySet::RTTI_Type_Descriptor;
+        pTVar13 = &bCObjectRefBase::RTTI_Type_Descriptor;
+        uVar12 = 0;
+        pbVar7 = bCAccessorPropertyObject::GetNativeObject(abStack_14);
+        puVar8 = (undefined4 *)FUN_30671ae7(pbVar7,uVar12,pTVar13,pTVar14,uVar15);
+        if (puVar8 != (undefined4 *)0x0) {
+          uVar6 = (**(code **)*puVar8)();
+          if (uVar6 < (ushort)uStack_54) {
+            pbVar9 = bCAccessorPropertyObject::GetClassNameA(abStack_14);
+            GE_MESSAGEF_WARN("eCEntity::ReadV83 - warning newer version of propertyset \'%s\' of entity: %s found: %d"
+                             ,*(undefined4 *)pbVar9,
+                             *(undefined4 *)&(this->eCEntity_data).field_0x108,uStack_54 & 0xffff);
+          }
+          else {
+            peVar2 = this->vftablePtr;
+            bVar5 = false;
+            pbVar7 = bCAccessorPropertyObject::GetNativeObject(abStack_14);
+            (*peVar2->AddPropertySet)(this,(eCEntityPropertySet *)pbVar7,bVar5);
+          }
+        }
+      }
+      uStack_44 = 0;
+      bCIStream::operator>>((bCIStream *)param_1,&uStack_44);
+      if (uStack_44 != 0xdeadc0de) {
+        bCString::bCString(abStack_50);
+        bCAccessorPropertyObject::GetClassNameA(abStack_14);
+        bCString::Format(abStack_50,(char *)abStack_50);
+        iVar17 = 0xe19;
+        pcVar16 = ".\\components\\scene\\entity\\ge_entity.cpp";
+        pcVar10 = bCString::operator_char_const_((bCString *)&uStack_4c);
+        this_00 = bCErrorAdmin::GetInstance();
+        bCErrorAdmin::CallFatalError(this_00,pcVar10,pcVar16,iVar17);
+        bCString::~bCString((bCString *)&uStack_4c);
+      }
+      bCAccessorPropertyObject::~bCAccessorPropertyObject(abStack_14);
+      iStack_40 = iStack_40 + 1;
+    } while (iStack_40 < (int)uStack_4c);
+  }
+  bVar5 = bCBox::IsValid((bCBox *)&(this->eCEntity_data).field_0xe0);
+  puVar1 = &(this->eCEntity_data).offset_0xc;
+  *puVar1 = *puVar1 ^ ((uint)bVar5 << 0x13 ^ (this->eCEntity_data).offset_0xc) & 0x80000;
+  bVar5 = bCBox::IsValid((bCBox *)&(this->eCEntity_data).field_0xb8);
+  puVar1 = &(this->eCEntity_data).offset_0xc;
+  *puVar1 = *puVar1 ^ ((uint)bVar5 << 0x14 ^ (this->eCEntity_data).offset_0xc) & 0x100000;
+  bVar5 = bCBox::IsValid((bCBox *)&(this->eCEntity_data).field_0x90);
+  pOVar4 = this->vftablePtr->OnPostRead;
+  puVar1 = &(this->eCEntity_data).offset_0xc;
+  *puVar1 = *puVar1 ^ ((uint)bVar5 << 0x15 ^ (this->eCEntity_data).offset_0xc) & 0x200000;
+  (*pOVar4)(this);
+  (this->eCEntity_data).offset_0x100 = uStack_3c;
+  this_01 = (bCVector *)bCMatrix::GetPureScaling(pbStack_1c);
+  fVar11 = bCVector::GetX(this_01);
+  *(float *)pbStack_1c = fVar11;
+  bCVector::~bCVector((bCVector *)&puStack_18);
+  bCString::~bCString((bCString *)&uStack_4c);
+  return 1;
+}
+
+

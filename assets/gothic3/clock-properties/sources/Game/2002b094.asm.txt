@@ -1,0 +1,2 @@
+; 2002b094 ?SetHour@gCClock_PS@@QAEXABK@Z
+2002b094 | e9a7be1300 | JMP 0x20166f40

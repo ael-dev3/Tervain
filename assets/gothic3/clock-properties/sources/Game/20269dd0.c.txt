@@ -1,0 +1,36 @@
+/* ENTRY 20269dd0 | FUN_20269dd0 | STATUS decompiled | 12 ms */
+
+void __thiscall FUN_20269dd0(int param_1,bCString *param_2)
+
+{
+  gCMusicSequencer *this;
+  gSMusicTrigger local_30 [4];
+  bCString local_2c [4];
+  bCString local_28 [4];
+  bCString local_24 [4];
+  bCString local_20 [4];
+  undefined4 local_1c;
+  undefined4 local_18;
+  undefined4 local_14;
+  bCString local_8 [8];
+  
+  if ((*(gCMusicSystem **)(param_1 + 0x14) != (gCMusicSystem *)0x0) &&
+     (this = (gCMusicSequencer *)gCMusicSystem::GetSequencer(*(gCMusicSystem **)(param_1 + 0x14)),
+     this != (gCMusicSequencer *)0x0)) {
+    thunk_FUN_200dfe90();
+    local_18 = 3;
+    local_14 = 0;
+    local_1c = 1;
+    bCString::operator=(local_24,param_2);
+    gCMusicSequencer::Trigger(this,local_30);
+    bCString::~bCString(local_8);
+    bCString::~bCString(local_20);
+    bCString::~bCString(local_24);
+    bCString::~bCString(local_28);
+    bCString::~bCString(local_2c);
+    bCString::~bCString((bCString *)local_30);
+  }
+  return;
+}
+
+

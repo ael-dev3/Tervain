@@ -1,0 +1,4 @@
+; 30047afa ?SetTimerIsSmooth@eCApplication@@QAEX_N@Z
+30047afa | e921ba0100 | JMP 0x30063520
+; 30047aff eCIPSourceBase::GetImageVSCoords
+; 30047aff Ordinal_7365

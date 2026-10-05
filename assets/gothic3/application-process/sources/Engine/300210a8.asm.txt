@@ -1,0 +1,2 @@
+; 300210a8 ?Invalidate@eCEntityAdmin@@IAEXXZ
+300210a8 | e9e3724a00 | JMP 0x304c8390

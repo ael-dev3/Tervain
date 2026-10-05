@@ -1,0 +1,4 @@
+; 2000f9bb ?SetDay@gCClock_PS@@QAEXABK@Z
+2000f9bb | e920751500 | JMP 0x20166ee0
+; 2000f9c5 gCDummyCollectorAdmin::WorldActivate
+; 2000f9c5 Ordinal_7473

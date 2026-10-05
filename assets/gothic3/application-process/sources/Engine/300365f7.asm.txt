@@ -1,0 +1,4 @@
+; 300365f7 ?RelaxTick@eCApplication@@IAEXM@Z
+300365f7 | e954d10200 | JMP 0x30063750
+; 300365fc eCLightmap::GetVersion
+; 300365fc Ordinal_9417

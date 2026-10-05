@@ -1,0 +1,12 @@
+/* ENTRY 204627aa | ENGINE.DLL::eCEntity::SetName | STATUS decompiled | 1 ms */
+
+void __thiscall eCEntity::SetName(eCEntity *this,bCString *param_1)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x204627aa. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  SetName(this,param_1);
+  return;
+}
+
+

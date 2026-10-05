@@ -1,0 +1,5 @@
+; 20380b60 FUN_20380b60
+20380b60 | 32c0 | XOR AL,AL
+20380b62 | 88410c | MOV byte ptr [ECX + 0xc],AL
+20380b65 | 88410d | MOV byte ptr [ECX + 0xd],AL
+20380b68 | c3 | RET

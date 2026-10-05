@@ -191,8 +191,8 @@ export class NativeGameApplication<S extends object> {
   }
   setPaused(enabled: boolean): void { this.pausedByte = enabled ? 1 : 0; }
   setWarmup(enabled: boolean): void { this.warmupByte = enabled ? 1 : 0; }
-  /** GetScaledFrameTime reads a stored float; it does not synthesize pause
-   * handling here. Original OnProcess must publish those timing fields. */
+  /** GetScaledFrameTime reads a stored float. Original UpdateTick publishes
+   * timing at the successful DoRender tail; entity processing uses that latch. */
   spuFrame(): { processingEnabled: boolean; scaledSeconds: number } {
     return { processingEnabled: this.isGameRunning() !== 0,
       scaledSeconds: float32(this.scaledSeconds, 'scaled frame time') };

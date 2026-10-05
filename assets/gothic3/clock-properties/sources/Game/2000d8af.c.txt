@@ -1,0 +1,29 @@
+/* ENTRY 2000d8af | thunk_FUN_200a4af0 | STATUS decompiled | 6 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined4 thunk_FUN_200a4af0(void)
+
+{
+  bool bVar1;
+  bCString *pbVar2;
+  eCModuleAdmin *this;
+  eCEngineComponentBase *peVar3;
+  
+  bVar1 = eCApplication::IsInitialised();
+  if (bVar1) {
+    if ((_DAT_207b6024 & 1) == 0) {
+      _DAT_207b6024 = _DAT_207b6024 | 1;
+      pbVar2 = (bCString *)
+               thunk_FUN_200a4200(0,&eCEngineComponentBase::RTTI_Type_Descriptor,
+                                  &eCWeatherAdmin::RTTI_Type_Descriptor,0);
+      this = eCModuleAdmin::GetInstance();
+      peVar3 = eCModuleAdmin::FindModule(this,pbVar2);
+      DAT_207b6020 = ___RTDynamicCast(peVar3);
+    }
+    return DAT_207b6020;
+  }
+  return 0;
+}
+
+

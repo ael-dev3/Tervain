@@ -1,0 +1,3 @@
+; 20221cd0 FUN_20221cd0
+20221cd0 | 8b8100010000 | MOV EAX,dword ptr [ECX + 0x100]
+20221cd6 | c3 | RET

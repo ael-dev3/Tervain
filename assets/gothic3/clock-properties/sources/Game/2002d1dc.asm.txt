@@ -1,0 +1,2 @@
+; 2002d1dc ?GetMinute@gCClock_PS@@QBEABKXZ
+2002d1dc | e99f9d1300 | JMP 0x20166f80

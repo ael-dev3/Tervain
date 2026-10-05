@@ -1,0 +1,4 @@
+; 3003125f ?EnableProcessing@eCEntityAdmin@@QAEX_N@Z
+3003125f | e94c684900 | JMP 0x304c7ab0
+; 30031269 eCPhysicsScene::CreateSpringAndDamperEffector
+; 30031269 Ordinal_4928

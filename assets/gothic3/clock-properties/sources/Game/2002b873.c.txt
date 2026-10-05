@@ -1,0 +1,12 @@
+/* ENTRY 2002b873 | gCClock_PS::AccessMinute | STATUS decompiled | 5 ms */
+
+/* public: unsigned long & __thiscall gCClock_PS::AccessMinute(void) */
+
+ulong * __thiscall gCClock_PS::AccessMinute(gCClock_PS *this)
+
+{
+                    /* 0x2b873  1430  ?AccessMinute@gCClock_PS@@QAEAAKXZ */
+  return (ulong *)&(this->gCClock_PS_data).field_0x1c;
+}
+
+

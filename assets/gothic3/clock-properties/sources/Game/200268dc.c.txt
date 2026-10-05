@@ -1,0 +1,41 @@
+/* ENTRY 200268dc | gCMusicModule::SetDayTime | STATUS decompiled | 16 ms */
+
+/* public: void __thiscall gCMusicModule::SetDayTime(class bCString const &) */
+
+void __thiscall gCMusicModule::SetDayTime(gCMusicModule *this,bCString *param_1)
+
+{
+  gCMusicSystem *this_00;
+  gCMusicSequencer *this_01;
+  gSMusicTrigger agStack_30 [4];
+  bCString abStack_2c [4];
+  bCString abStack_28 [4];
+  bCString abStack_24 [4];
+  bCString abStack_20 [4];
+  undefined4 uStack_1c;
+  undefined4 uStack_18;
+  undefined4 uStack_14;
+  bCString abStack_8 [8];
+  
+                    /* 0x268dc  6380  ?SetDayTime@gCMusicModule@@QAEXABVbCString@@@Z */
+  this_00 = (this->gCMusicModule_data).offset_0x10;
+  if ((this_00 != (gCMusicSystem *)0x0) &&
+     (this_01 = (gCMusicSequencer *)gCMusicSystem::GetSequencer(this_00),
+     this_01 != (gCMusicSequencer *)0x0)) {
+    thunk_FUN_200dfe90();
+    uStack_18 = 3;
+    uStack_14 = 0;
+    uStack_1c = 1;
+    bCString::operator=(abStack_24,param_1);
+    gCMusicSequencer::Trigger(this_01,agStack_30);
+    bCString::~bCString(abStack_8);
+    bCString::~bCString(abStack_20);
+    bCString::~bCString(abStack_24);
+    bCString::~bCString(abStack_28);
+    bCString::~bCString(abStack_2c);
+    bCString::~bCString((bCString *)agStack_30);
+  }
+  return;
+}
+
+

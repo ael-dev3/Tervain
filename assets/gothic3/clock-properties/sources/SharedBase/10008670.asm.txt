@@ -1,0 +1,4 @@
+; 10008670 ?GetTimeAndDate@bCClock@@QAEXAAUbSTimeAndDate@@@Z
+10008670 | e94b380400 | JMP 0x1004bec0
+; 10008675 bCString::Mid
+; 10008675 Ordinal_3736

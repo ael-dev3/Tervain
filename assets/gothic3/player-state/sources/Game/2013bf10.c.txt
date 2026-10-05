@@ -1,0 +1,156 @@
+/* ENTRY 2013bf10 | FUN_2013bf10 | STATUS decompiled | 161 ms */
+
+eCEntity * __thiscall FUN_2013bf10(gCFocus_PS *param_1,int param_2,int param_3)
+
+{
+  undefined1 *this;
+  undefined1 *this_00;
+  bool bVar1;
+  eCEntity *peVar2;
+  eCApplication *this_01;
+  eCCameraBase *this_02;
+  bCMatrix *pbVar3;
+  bCVector *pbVar4;
+  float *pfVar5;
+  bCVector *pbVar6;
+  bCObjectBase local_c8;
+  undefined4 uStack_c4;
+  bCVector abStack_c0 [4];
+  bCVector local_bc [8];
+  eCEntity *peStack_b4;
+  bCObjectBase local_b0;
+  undefined4 local_ac;
+  undefined4 local_a4;
+  bCVector local_a0 [8];
+  bCVector abStack_98 [4];
+  bCVector abStack_94 [4];
+  bCVector abStack_90 [8];
+  bCVector abStack_88 [8];
+  bCVector abStack_80 [8];
+  bCVector abStack_78 [12];
+  bCVector abStack_6c [12];
+  bCVector abStack_60 [8];
+  bCVector abStack_58 [8];
+  bCVector abStack_50 [4];
+  bCVector abStack_4c [8];
+  bCMatrix abStack_44 [68];
+  
+  local_b0 = (bCObjectBase)0x0;
+  if ((param_2 == 0) && (param_3 == 0)) {
+    peVar2 = eCEntityProxy::GetEntity((eCEntityProxy *)&(param_1->gCFocus_PS_data).field_0x12c);
+    return peVar2;
+  }
+  this = &(param_1->gCFocus_PS_data).field_0x188;
+  (param_1->gCFocus_PS_data).offset_0x184 = (gCFocus_PS)0x1;
+  (param_1->gCFocus_PS_data).offset_0x180 = param_2;
+  bCVector::bCVector(local_a0,(bCVector *)this);
+  local_a4 = (param_1->gCFocus_PS_data).offset_0x14;
+  if (param_3 == 0) goto LAB_2013c220;
+  bCVector::bCVector(local_bc);
+  bCVector::bCVector((bCVector *)&local_c8);
+  bCObjectBase::bCObjectBase(&local_b0);
+                    /* inlined constructor:
+                       bTPropertyContainer<gEFocusLookAt>::bTPropertyContainer<gEFocusLookAt> */
+  local_b0 = (bCObjectBase)&bTPropertyContainer<gEFocusLookAt>::vftable;
+  local_ac = 2;
+  (*(code *)(param_1->gCFocus_PS_data).offset_0x10[7])(&local_b0);
+  local_b0 = (bCObjectBase)&bTPropertyContainer<gEFocusLookAt>::vftable;
+  bCObjectBase::~bCObjectBase(&local_b0);
+  if ((param_1->gCFocus_PS_data).offset_0x1c == 0) {
+    this_01 = eCApplication::GetInstance();
+    this_02 = eCApplication::GetCurrentCamera((eCApplication *)this_01);
+    pbVar3 = eCCameraBase::GetViewMatrix(this_02);
+    bCMatrix::GetInverted(pbVar3);
+    pbVar4 = bCMatrix::GetZAxis(abStack_44);
+    bCVector::operator=(abStack_c0,pbVar4);
+    pbVar4 = bCMatrix::GetXAxis(abStack_44);
+    bCVector::operator=((bCVector *)&stack0xffffff34,pbVar4);
+    bCMatrix::~bCMatrix(abStack_44);
+  }
+  else {
+    peVar2 = (*param_1->vftablePtr->GetEntity)(param_1);
+    pbVar3 = eCEntity::GetWorldMatrix((eCEntity *)peVar2);
+    pbVar4 = bCMatrix::GetZAxis(pbVar3);
+    bCVector::operator=(local_bc,pbVar4);
+    peVar2 = (*param_1->vftablePtr->GetEntity)(param_1);
+    pbVar3 = eCEntity::GetWorldMatrix((eCEntity *)peVar2);
+    pbVar4 = bCMatrix::GetXAxis(pbVar3);
+    bCVector::operator=((bCVector *)&local_c8,pbVar4);
+  }
+  pfVar5 = bCVector::AccessY(local_bc);
+  *pfVar5 = 0.0;
+  pfVar5 = bCVector::AccessY((bCVector *)&local_c8);
+  *pfVar5 = 0.0;
+  bCVector::Normalize(local_bc);
+  bCVector::Normalize((bCVector *)&local_c8);
+  switch(param_3) {
+  case 1:
+    bCVector::operator=((bCVector *)this,local_bc);
+    goto switchD_2013c0be_default;
+  case 2:
+    pbVar4 = (bCVector *)bCVector::operator-(local_bc);
+    bCVector::operator=((bCVector *)this,pbVar4);
+    pbVar4 = (bCVector *)&peStack_b4;
+    break;
+  case 3:
+    pbVar4 = (bCVector *)bCVector::operator-((bCVector *)&local_c8);
+    bCVector::operator=((bCVector *)this,pbVar4);
+    pbVar4 = abStack_80;
+    break;
+  case 4:
+    bCVector::operator=((bCVector *)this,(bCVector *)&local_c8);
+    goto switchD_2013c0be_default;
+  case 5:
+    pbVar4 = (bCVector *)bCVector::operator-(local_bc,abStack_94);
+    bCVector::operator=((bCVector *)this,pbVar4);
+    pbVar4 = abStack_98;
+    break;
+  case 6:
+    pbVar4 = (bCVector *)bCVector::operator+(local_bc,abStack_4c);
+    bCVector::operator=((bCVector *)this,pbVar4);
+    pbVar4 = abStack_50;
+    break;
+  case 7:
+    pbVar4 = abStack_88;
+    pbVar6 = (bCVector *)bCVector::operator-(local_bc);
+    pbVar4 = (bCVector *)bCVector::operator-(pbVar6,pbVar4);
+    bCVector::operator=((bCVector *)this,pbVar4);
+    bCVector::~bCVector(abStack_6c);
+    pbVar4 = abStack_90;
+    break;
+  case 8:
+    pbVar4 = abStack_58;
+    pbVar6 = (bCVector *)bCVector::operator-(local_bc);
+    pbVar4 = (bCVector *)bCVector::operator+(pbVar6,pbVar4);
+    bCVector::operator=((bCVector *)this,pbVar4);
+    bCVector::~bCVector(abStack_78);
+    pbVar4 = abStack_60;
+    break;
+  default:
+    goto switchD_2013c0be_default;
+  }
+  bCVector::~bCVector(pbVar4);
+switchD_2013c0be_default:
+  bVar1 = bCVector::HasZeroMagnitude((bCVector *)this);
+  if (!bVar1) {
+    bCVector::Normalize((bCVector *)this);
+  }
+  bCVector::~bCVector((bCVector *)&local_c8);
+  bCVector::~bCVector(local_bc);
+LAB_2013c220:
+  this_00 = &(param_1->gCFocus_PS_data).field_0x12c;
+  peVar2 = eCEntityProxy::GetEntity((eCEntityProxy *)this_00);
+  local_b0 = (bCObjectBase)gCFocus_PS::FindFocusEntity(param_1,false);
+  eCEntityProxy::SetEntity((eCEntityProxy *)this_00,peVar2);
+  (param_1->gCFocus_PS_data).offset_0x184 = (gCFocus_PS)0x0;
+  bCObjectBase::bCObjectBase(&local_c8);
+  uStack_c4 = local_a4;
+  local_c8 = (bCObjectBase)&bTPropertyContainer<gEFocusLookAt>::vftable;
+  (*(code *)(param_1->gCFocus_PS_data).offset_0x10[7])(&local_c8);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xffffff34);
+  bCVector::operator=((bCVector *)this,(bCVector *)&local_a4);
+  bCVector::~bCVector((bCVector *)&local_a4);
+  return peStack_b4;
+}
+
+

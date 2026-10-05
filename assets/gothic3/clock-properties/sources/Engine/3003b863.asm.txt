@@ -1,0 +1,4 @@
+; 3003b863 ?Create@eCEntityPropertySet@@UAE?AW4bEResult@@XZ
+3003b863 | e9785c4400 | JMP 0x304814e0
+; 3003b868 eCApplication::OnSize
+; 3003b868 Ordinal_11499

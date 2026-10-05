@@ -1,0 +1,31 @@
+/* ENTRY 300427c1 | eCEntity::Enable | STATUS decompiled | 17 ms */
+
+/* public: void __thiscall eCEntity::Enable(bool) */
+
+void __thiscall eCEntity::Enable(eCEntity *this,bool param_1)
+
+{
+  uint *puVar1;
+  int iVar2;
+  eCEntity *this_00;
+  int iVar3;
+  bool bVar4;
+  
+                    /* 0x427c1  5755  ?Enable@eCEntity@@QAEX_N@Z */
+  puVar1 = &(this->eCEntity_data).offset_0xc;
+  *puVar1 = *puVar1 ^ ((uint)param_1 * 8 ^ (this->eCEntity_data).offset_0xc) & 8;
+  iVar3 = 0;
+  iVar2 = eCNode::GetChildrenCount((eCNode *)this);
+  if (0 < iVar2) {
+    do {
+      bVar4 = param_1;
+      this_00 = (eCEntity *)(*this->vftablePtr->GetChildAt)(this,iVar3);
+      Enable(this_00,bVar4);
+      iVar3 = iVar3 + 1;
+      iVar2 = eCNode::GetChildrenCount((eCNode *)this);
+    } while (iVar3 < iVar2);
+  }
+  return;
+}
+
+

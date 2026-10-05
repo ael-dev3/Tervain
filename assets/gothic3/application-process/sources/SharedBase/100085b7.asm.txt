@@ -1,0 +1,4 @@
+; 100085b7 ??0bCTimer@@QAE@XZ
+100085b7 | e954360400 | JMP 0x1004bc10
+; 100085bc bCVector::GetZero
+; 100085bc Ordinal_3300

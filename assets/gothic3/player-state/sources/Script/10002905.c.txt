@@ -1,0 +1,20 @@
+/* ENTRY 10002905 | PSCharacterMovement::CanJump | STATUS decompiled | 5 ms */
+
+/* public: bool __thiscall PSCharacterMovement::CanJump(void)const  */
+
+bool __thiscall PSCharacterMovement::CanJump(PSCharacterMovement *this)
+
+{
+  bool bVar1;
+  
+                    /* 0x2905  1377  ?CanJump@PSCharacterMovement@@QBE_NXZ */
+  if (*(gCCharacterMovement_PS **)this == (gCCharacterMovement_PS *)0x0) {
+    return false;
+  }
+                    /* WARNING: Could not recover jumptable at 0x10011fd9. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bVar1 = gCCharacterMovement_PS::CanJump(*(gCCharacterMovement_PS **)this);
+  return bVar1;
+}
+
+

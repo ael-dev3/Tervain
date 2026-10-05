@@ -1,0 +1,4 @@
+; 3003431a ?GetEntitiesByName@eCSceneAdmin@@QAE_NABVbCString@@AAV?$bTPtrArray@PAVeCEntity@@@@@Z
+3003431a | e931754900 | JMP 0x304cb850
+; 30034324 eCMessageHandler::OnChildActivate
+; 30034324 Ordinal_10959

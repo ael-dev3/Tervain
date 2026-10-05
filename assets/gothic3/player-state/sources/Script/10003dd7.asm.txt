@@ -1,0 +1,2 @@
+; 10003dd7 ?GetStackCount@PSInventory@@QBEHXZ
+10003dd7 | e9c45e0100 | JMP 0x10019ca0

@@ -1,0 +1,34 @@
+/* ENTRY 3001474f | eCEntity::SetRenderAlphaValue | STATUS decompiled | 15 ms */
+
+/* public: void __thiscall eCEntity::SetRenderAlphaValue(float,bool) */
+
+void __thiscall eCEntity::SetRenderAlphaValue(eCEntity *this,float param_1,bool param_2)
+
+{
+  int iVar1;
+  eCEntity *this_00;
+  int iVar2;
+  float fVar3;
+  bool bVar4;
+  
+                    /* 0x1474f  14034  ?SetRenderAlphaValue@eCEntity@@QAEXM_N@Z */
+  (this->eCEntity_data).offset_0x4 = param_1;
+  if (param_2) {
+    iVar2 = 0;
+    iVar1 = eCNode::GetChildrenCount((eCNode *)this);
+    if (0 < iVar1) {
+      do {
+        bVar4 = true;
+        fVar3 = param_1;
+        this_00 = (eCEntity *)(*this->vftablePtr->GetChildAt)(this,iVar2);
+        SetRenderAlphaValue(this_00,fVar3,bVar4);
+        iVar2 = iVar2 + 1;
+        iVar1 = eCNode::GetChildrenCount((eCNode *)this);
+      } while (iVar2 < iVar1);
+    }
+  }
+  (*this->vftablePtr->Modified)(this);
+  return;
+}
+
+

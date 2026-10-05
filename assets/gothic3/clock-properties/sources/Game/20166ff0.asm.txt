@@ -1,0 +1,3 @@
+; 20166ff0 FUN_20166ff0
+20166ff0 | 8d4124 | LEA EAX,[ECX + 0x24]
+20166ff3 | c3 | RET

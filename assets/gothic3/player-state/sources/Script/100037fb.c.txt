@@ -1,0 +1,69 @@
+/* ENTRY 100037fb | PSCharacterMovement::SetMovementMode | STATUS decompiled | 35 ms */
+
+/* public: void __thiscall PSCharacterMovement::SetMovementMode(enum gECharMovementMode) */
+
+void __thiscall
+PSCharacterMovement::SetMovementMode(PSCharacterMovement *this,gECharMovementMode param_1)
+
+{
+  bool bVar1;
+  gECharMovementMode gVar2;
+  gCSession *this_00;
+  eCDynamicEntity *peVar3;
+  eCDynamicEntity *peVar4;
+  int *piVar5;
+  gCNavigation_PS *this_01;
+  gCCharacterControl_PS *this_02;
+  
+                    /* 0x37fb  1972
+                       ?SetMovementMode@PSCharacterMovement@@QAEXW4gECharMovementMode@@@Z */
+  if (*(gCCharacterMovement_PS **)this != (gCCharacterMovement_PS *)0x0) {
+    gVar2 = gCCharacterMovement_PS::GetMovementMode(*(gCCharacterMovement_PS **)this);
+    if (gVar2 == 0) {
+      gCCharacterMovement_PS::SetMovementMode(*(gCCharacterMovement_PS **)this,param_1);
+      return;
+    }
+    gVar2 = gCCharacterMovement_PS::GetMovementMode(*(gCCharacterMovement_PS **)this);
+    if ((gVar2 == 10) ||
+       (gVar2 = gCCharacterMovement_PS::GetMovementMode(*(gCCharacterMovement_PS **)this),
+       gVar2 == 7)) {
+      bVar1 = true;
+    }
+    else {
+      bVar1 = false;
+    }
+    if (param_1 == 6) {
+      gCCharacterMovement_PS::SetMovementMode(*(gCCharacterMovement_PS **)this,6);
+      return;
+    }
+    if ((((!bVar1) &&
+         (gVar2 = gCCharacterMovement_PS::GetMovementMode(*(gCCharacterMovement_PS **)this),
+         gVar2 != 6)) &&
+        (bVar1 = gCCharacterMovement_PS::GetMovementIsSelfControled
+                           (*(gCCharacterMovement_PS **)this), bVar1)) ||
+       ((param_1 == 0xe ||
+        (gVar2 = gCCharacterMovement_PS::GetMovementMode(*(gCCharacterMovement_PS **)this),
+        gVar2 == 0xe)))) {
+      piVar5 = *(int **)this;
+      this_00 = gCSession::GetInstance();
+      peVar3 = gCSession::GetPlayer(this_00);
+      peVar4 = (eCDynamicEntity *)(**(code **)(*piVar5 + 0x68))();
+      if ((peVar4 != peVar3) || (param_1 == 0xe)) {
+        gCCharacterMovement_PS::SetMovementMode(*(gCCharacterMovement_PS **)this,param_1);
+      }
+      piVar5 = (int *)(**(code **)(**(int **)this + 0x68))();
+      this_01 = (gCNavigation_PS *)(**(code **)(*piVar5 + 0xec))(5);
+      if (this_01 != (gCNavigation_PS *)0x0) {
+        gCNavigation_PS::SetWishedMovementMode(this_01,param_1);
+      }
+      piVar5 = (int *)(**(code **)(**(int **)this + 0x68))();
+      this_02 = (gCCharacterControl_PS *)(**(code **)(*piVar5 + 0xec))(0x16);
+      if (this_02 != (gCCharacterControl_PS *)0x0) {
+        gCCharacterControl_PS::SetWishedMovementMode(this_02,param_1);
+      }
+    }
+  }
+  return;
+}
+
+

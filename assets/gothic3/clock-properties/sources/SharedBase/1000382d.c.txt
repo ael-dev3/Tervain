@@ -1,0 +1,13 @@
+/* ENTRY 1000382d | bCFPUAdmin::SetHighPrecision | STATUS decompiled | 3 ms */
+
+/* public: void __thiscall bCFPUAdmin::SetHighPrecision(void) */
+
+void __thiscall bCFPUAdmin::SetHighPrecision(bCFPUAdmin *this)
+
+{
+                    /* 0x382d  4216  ?SetHighPrecision@bCFPUAdmin@@QAEXXZ */
+  __controlfp(*(uint *)(this + 4) & 0xfffcffff,0x30000);
+  return;
+}
+
+

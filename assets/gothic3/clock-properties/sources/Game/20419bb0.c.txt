@@ -1,0 +1,47 @@
+/* ENTRY 20419bb0 | bTPropertyContainer<eEAmbientDayTime>::bTPropertyContainer<eEAmbientDayTime>_Constructor_or_Destructor | STATUS decompiled | 11 ms */
+
+void __thiscall
+bTPropertyContainer<eEAmbientDayTime>::
+bTPropertyContainer<eEAmbientDayTime>_Constructor_or_Destructor
+          (bTPropertyContainer<eEAmbientDayTime> *this,undefined4 param_1)
+
+{
+  gCAmbientSystem *this_00;
+  gCAmbientSequencer *pgVar1;
+  bCObjectBase bStack_1c;
+  undefined4 *puStack_18;
+  char *pcStack_14;
+  undefined4 uStack_10;
+  bCObjectBase local_8;
+  undefined4 local_4;
+  
+  this_00 = (gCAmbientSystem *)this[1].bTPropertyContainer<eEAmbientDayTime>_data.offset_0x0;
+  if (this_00 != (gCAmbientSystem *)0x0) {
+    uStack_10 = 0x20419bc2;
+    pgVar1 = gCAmbientSystem::GetSequencer(this_00);
+    if (pgVar1 != (gCAmbientSequencer *)0x0) {
+      uStack_10 = 0x20419bd0;
+      bCObjectBase::bCObjectBase(&local_8);
+      local_8 = (bCObjectBase)&vftable;
+      local_4 = param_1;
+      uStack_10 = 0x20419be8;
+      pgVar1 = gCAmbientSystem::GetSequencer
+                         ((gCAmbientSystem *)
+                          this[1].bTPropertyContainer<eEAmbientDayTime>_data.offset_0x0);
+      uStack_10 = 0;
+      pcStack_14 = "DayTime";
+      puStack_18 = (undefined4 *)0x20419bfa;
+      (**(code **)(*(int *)pgVar1 + 0x58))();
+      puStack_18 = &uStack_10;
+      bStack_1c = (bCObjectBase)0x20419c0a;
+      (**(code **)(*(int *)(pgVar1 + 0x1c) + 0x1c))();
+      bStack_1c = (bCObjectBase)0x0;
+      (**(code **)(*(int *)pgVar1 + 0x5c))("DayTime");
+      bStack_1c = (bCObjectBase)&vftable;
+      bCObjectBase::~bCObjectBase(&bStack_1c);
+    }
+  }
+  return;
+}
+
+

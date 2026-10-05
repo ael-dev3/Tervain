@@ -1,0 +1,4 @@
+; 3002fd9c ?DoRender@eCApplication@@IAEX_N@Z
+3002fd9c | e96fc30300 | JMP 0x3006c110
+; 3002fda1 eCDepthMap::GetSize
+; 3002fda1 Ordinal_8814

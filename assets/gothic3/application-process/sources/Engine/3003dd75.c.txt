@@ -1,0 +1,62 @@
+/* ENTRY 3003dd75 | eCDynamicEntity::OnProcess | STATUS decompiled | 53 ms */
+
+/* protected: virtual void __thiscall eCDynamicEntity::OnProcess(void) */
+
+void __thiscall eCDynamicEntity::OnProcess(eCDynamicEntity *this)
+
+{
+  bool bVar1;
+  char cVar2;
+  eCPhysicObject *peVar3;
+  eCPhysicObject *this_00;
+  int iVar4;
+  eCEntityPropertySet *peVar5;
+  eCApplication *this_01;
+  eCEntityPropertySet *peVar6;
+  uint uVar7;
+  int iVar8;
+  bool bVar9;
+  
+                    /* 0x3dd75  11382  ?OnProcess@eCDynamicEntity@@MAEXXZ */
+  peVar3 = eCEntity::GetPhysicObject((eCEntity *)this);
+  if (peVar3 != (eCPhysicObject *)0x0) {
+    this_00 = (eCPhysicObject *)eCEntity::GetPhysicObject((eCEntity *)this);
+    eCPhysicObject::Process(this_00);
+  }
+  iVar4 = eCEntity::GetPropertySetCount((eCEntity *)this);
+  bVar9 = iVar4 != 0;
+  iVar8 = 0;
+  iVar4 = eCEntity::GetPropertySetCount((eCEntity *)this);
+  if (0 < iVar4) {
+    do {
+      peVar5 = eCEntity::GetPropertySetAt((eCEntity *)this,iVar8);
+      bVar1 = false;
+      this_01 = (eCApplication *)eCApplication::GetInstance();
+      bVar1 = eCApplication::IsPaused(this_01,bVar1);
+      if (bVar1) {
+        peVar6 = eCEntity::GetPropertySetAt((eCEntity *)this,iVar8);
+        cVar2 = (**(code **)(*(int *)peVar6 + 0x70))();
+        if (cVar2 == '\0') goto LAB_304bddc1;
+      }
+      else {
+LAB_304bddc1:
+        (**(code **)(*(int *)peVar5 + 0x120))();
+      }
+      uVar7 = (**(code **)(*(int *)peVar5 + 0xec))();
+      if (uVar7 < 2) {
+        bVar9 = false;
+      }
+      iVar8 = iVar8 + 1;
+      iVar4 = eCEntity::GetPropertySetCount((eCEntity *)this);
+    } while (iVar8 < iVar4);
+  }
+  if (bVar9) {
+                    /* WARNING: Could not recover jumptable at 0x304bde02. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    (*this->vftablePtr->Kill)(this);
+    return;
+  }
+  return;
+}
+
+

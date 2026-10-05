@@ -1,0 +1,20 @@
+/* ENTRY 10003dd7 | PSInventory::GetStackCount | STATUS decompiled | 6 ms */
+
+/* public: int __thiscall PSInventory::GetStackCount(void)const  */
+
+int __thiscall PSInventory::GetStackCount(PSInventory *this)
+
+{
+  int iVar1;
+  
+                    /* 0x3dd7  1667  ?GetStackCount@PSInventory@@QBEHXZ */
+  if (*(gCInventory_PS **)this == (gCInventory_PS *)0x0) {
+    return 0;
+  }
+                    /* WARNING: Could not recover jumptable at 0x10019ca9. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  iVar1 = gCInventory_PS::GetStackCount(*(gCInventory_PS **)this);
+  return iVar1;
+}
+
+

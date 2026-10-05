@@ -1,0 +1,4 @@
+; 3003544f ?Modified@eCEntity@@UAEKXZ
+3003544f | e90ccf4700 | JMP 0x304b2360
+; 3003545e eCVegetation_Mesh::operator=
+; 3003545e Ordinal_1820

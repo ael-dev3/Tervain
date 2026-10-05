@@ -1,0 +1,1424 @@
+/* ENTRY 20390ed0 | FUN_20390ed0 | STATUS decompiled | 17551 ms */
+
+void __thiscall FUN_20390ed0(void)
+
+{
+  eCApplication *peVar1;
+  bCObjectRefBase *pbVar2;
+  bCUnicodeString *pbVar3;
+  bCObjectRefBase *pbVar4;
+  eCKeyboard *peVar5;
+  eCActionMapper *peVar6;
+  bCObjectRefBase bVar7;
+  eCKeyboard *peVar8;
+  bCObjectRefBase bVar9;
+  eCMouse *peVar10;
+  eCMouse *peVar11;
+  bCObjectBase bVar12;
+  eCKeyboard *unaff_EBX;
+  eCKeyboard *unaff_ESI;
+  eCLogicalKey *peVar13;
+  bTPtrArray<eCPhysicalKey*> *pbVar14;
+  bTDelegateHandler<bCObjectRefBase,bCEvent>_vftable *pbVar15;
+  eCKeyboard *peVar16;
+  eCKeyboard *peVar17;
+  bCObjectRefBase bStack_78;
+  eCKeyboard *peStack_74;
+  int iStack_60;
+  eCKeyboard *local_5c;
+  eCMouse *local_58;
+  eCKeyboard *peStack_54;
+  undefined4 uStack_50;
+  bCObjectRefBase abStack_4c [2];
+  undefined1 uStack_44;
+  undefined2 uStack_40;
+  bCUnicodeString abStack_3c [4];
+  bCUnicodeString abStack_38 [4];
+  undefined1 uStack_34;
+  bCUnicodeString abStack_18 [4];
+  bTDelegateHandler<bCObjectRefBase,bCEvent>_vftable *pbStack_14;
+  undefined2 uStack_10;
+  undefined4 uStack_c;
+  
+  peStack_74 = (eCKeyboard *)0x20390edf;
+  peVar1 = eCApplication::GetInstance();
+  peStack_74 = (eCKeyboard *)0x20390ee7;
+  local_5c = eCApplication::GetKeyboard((eCApplication *)peVar1);
+  peStack_74 = (eCKeyboard *)0x20390eed;
+  peVar1 = eCApplication::GetInstance();
+  peStack_74 = (eCKeyboard *)0x20390ef5;
+  local_58 = eCApplication::GetMouse((eCApplication *)peVar1);
+  peStack_74 = (eCKeyboard *)0x175;
+  pbVar2 = (bCObjectRefBase *)new();
+  if (pbVar2 == (bCObjectRefBase *)0x0) {
+    pbVar2 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar2);
+                    /* inlined constructor: eCPhysicalKey::eCPhysicalKey */
+    pbVar2->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar2 + 5));
+  }
+  local_58 = (eCMouse *)0x0;
+  peStack_54 = (eCKeyboard *)0x0;
+  uStack_50 = 0;
+  bCObjectRefBase::bCObjectRefBase(abStack_4c);
+                    /* inlined constructor: eCLogicalKey::eCLogicalKey */
+  abStack_4c[0].bCObjectBase = (bCObjectBase)&eCLogicalKey::vftable;
+  bCUnicodeString::bCUnicodeString(abStack_3c);
+  bCUnicodeString::bCUnicodeString(abStack_38);
+  bCUnicodeString::bCUnicodeString(abStack_18);
+  uStack_10 = 0;
+                    /* inlined constructor:
+                       bTDelegateHandler<bCObjectRefBase,bCEvent>::bTDelegateHandler<bCObjectRefBase,bCEvent>
+                        */
+  pbStack_14 = &bTDelegateHandler<bCObjectRefBase,bCEvent>::vftable;
+  uStack_c = 0;
+  uStack_40 = 1;
+  uStack_34 = 0;
+  bCUnicodeString::operator=(abStack_3c,L"Vorwärts");
+  pbVar2[4].bCObjectBase = (bCObjectBase)0x0;
+  pbVar2[3].bCObjectBase = (bCObjectBase)0xc8;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(unaff_EBX,(eEKeyboardStateOffset *)&local_5c);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar2 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&local_5c);
+  local_5c = (eCKeyboard *)((int)peStack_54 + 1);
+  thunk_FUN_2017e160();
+  peVar17 = (eCKeyboard *)0x184;
+  peStack_54 = local_5c;
+  *(bCObjectRefBase **)((int)local_58 + -4 + (int)local_5c * 4) = pbVar2;
+  pbVar4 = (bCObjectRefBase *)new();
+  if (pbVar4 == (bCObjectRefBase *)0x0) {
+    pbVar4 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar4);
+    pbVar4->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar4 + 5));
+  }
+  pbVar4[4].bCObjectBase = (bCObjectBase)0x0;
+  pbVar4[3].bCObjectBase = (bCObjectBase)0x11;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(unaff_ESI,(eEKeyboardStateOffset *)&stack0xffffff9c);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar4 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffff9c);
+  peVar8 = local_5c;
+  peVar5 = local_5c + 1;
+  thunk_FUN_2017e160();
+  *(bCObjectRefBase **)(iStack_60 + -4 + (int)peVar5 * 4) = pbVar4;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&iStack_60;
+  peVar13 = (eCLogicalKey *)&peStack_54;
+  local_5c = peVar5;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar5 = (eCKeyboard *)0x190;
+  local_5c = (eCKeyboard *)0x0;
+  bStack_78.bCObjectBase = (bCObjectBase)new();
+  if (bStack_78.bCObjectBase == (bCObjectBase)0x0) {
+    bStack_78.bCObjectBase = (bCObjectBase)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)bStack_78.bCObjectBase);
+    *(eCPhysicalKey_vftable **)bStack_78.bCObjectBase = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)((int)bStack_78.bCObjectBase + 0x14));
+  }
+  uStack_50 = CONCAT22(uStack_50._2_2_,2);
+  uStack_44 = 0;
+  bCUnicodeString::operator=((bCUnicodeString *)abStack_4c,L"Rückwärts");
+  *(undefined4 *)((int)bStack_78.bCObjectBase + 0x10) = 0;
+  *(undefined4 *)((int)bStack_78.bCObjectBase + 0xc) = 0xd0;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peStack_74,(eEKeyboardStateOffset *)&stack0xffffff94);
+  bCUnicodeString::operator=((bCUnicodeString *)((int)bStack_78.bCObjectBase + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffff94);
+  thunk_FUN_2017e160();
+  peVar16 = (eCKeyboard *)0x19a;
+  pbVar2[(int)(peVar8 + 1)].bCObjectBase = bStack_78.bCObjectBase;
+  bVar7.bCObjectBase = (bCObjectBase)new();
+  if (bVar7.bCObjectBase == (bCObjectBase)0x0) {
+    bVar7.bCObjectBase = (bCObjectBase)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)bVar7.bCObjectBase);
+    *(eCPhysicalKey_vftable **)bVar7.bCObjectBase = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14));
+  }
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0x10) = 0;
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0xc) = 0x1f;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar17,(eEKeyboardStateOffset *)&peStack_74);
+  bCUnicodeString::operator=((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&peStack_74);
+  peStack_74 = peVar8 + 3;
+  thunk_FUN_2017e160();
+  pbVar4[(int)(peStack_74 + -1)].bCObjectBase = bVar7.bCObjectBase;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xffffff90;
+  peVar13 = (eCLogicalKey *)&stack0xffffff9c;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar17 = (eCKeyboard *)0x1a6;
+  pbVar2 = (bCObjectRefBase *)new();
+  if (pbVar2 == (bCObjectRefBase *)0x0) {
+    pbVar2 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar2);
+    pbVar2->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar2 + 5));
+  }
+  iStack_60 = CONCAT22(iStack_60._2_2_,3);
+  peStack_54 = (eCKeyboard *)((uint)peStack_54 & 0xffffff00);
+  bCUnicodeString::operator=((bCUnicodeString *)&local_5c,L"Strafe Links");
+  pbVar2[4].bCObjectBase = (bCObjectBase)0x0;
+  pbVar2[3].bCObjectBase = (bCObjectBase)0xcb;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar5,(eEKeyboardStateOffset *)&stack0xffffff84);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar2 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffff84);
+  peVar8 = peStack_74 + 1;
+  thunk_FUN_2017e160();
+  peVar5 = (eCKeyboard *)0x1b0;
+  *(bCObjectRefBase **)((int)bStack_78.bCObjectBase + -4 + (int)peVar8 * 4) = pbVar2;
+  peStack_74 = peVar8;
+  pbVar4 = (bCObjectRefBase *)new();
+  if (pbVar4 == (bCObjectRefBase *)0x0) {
+    pbVar4 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar4);
+    pbVar4->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar4 + 5));
+  }
+  pbVar4[4].bCObjectBase = (bCObjectBase)0x0;
+  pbVar4[3].bCObjectBase = (bCObjectBase)0x1e;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar16,(eEKeyboardStateOffset *)&stack0xffffff7c);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar4 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffff7c);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  ((undefined4 *)((int)bVar7.bCObjectBase + -4))[(int)peVar8] = pbVar4;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xffffff80;
+  peVar13 = (eCLogicalKey *)&peStack_74;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  bVar7.bCObjectBase = (bCObjectBase)new();
+  if (bVar7.bCObjectBase == (bCObjectBase)0x0) {
+    bVar7.bCObjectBase = (bCObjectBase)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)bVar7.bCObjectBase);
+    *(eCPhysicalKey_vftable **)bVar7.bCObjectBase = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xffffff94,L"Strafe Rechts");
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0x10) = 0;
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0xc) = 0xcd;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar17,(eEKeyboardStateOffset *)&stack0xffffff74);
+  bCUnicodeString::operator=((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffff74);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  peVar17 = (eCKeyboard *)0x1c6;
+  pbVar2[(int)(peVar8 + -1)].bCObjectBase = bVar7.bCObjectBase;
+  bVar9.bCObjectBase = (bCObjectBase)new();
+  if (bVar9.bCObjectBase == (bCObjectBase)0x0) {
+    bVar9.bCObjectBase = (bCObjectBase)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)bVar9.bCObjectBase);
+    *(eCPhysicalKey_vftable **)bVar9.bCObjectBase = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)((int)bVar9.bCObjectBase + 0x14));
+  }
+  *(undefined4 *)((int)bVar9.bCObjectBase + 0x10) = 0;
+  *(undefined4 *)((int)bVar9.bCObjectBase + 0xc) = 0x20;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar5,(eEKeyboardStateOffset *)&stack0xffffff6c);
+  bCUnicodeString::operator=((bCUnicodeString *)((int)bVar9.bCObjectBase + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffff6c);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  pbVar4[(int)(peVar8 + -1)].bCObjectBase = bVar9.bCObjectBase;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xffffff70;
+  peVar13 = (eCLogicalKey *)&stack0xffffff7c;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  pbVar2 = (bCObjectRefBase *)new();
+  if (pbVar2 == (bCObjectRefBase *)0x0) {
+    pbVar2 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar2);
+    pbVar2->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar2 + 5));
+  }
+  peStack_74 = (eCKeyboard *)((uint)peStack_74 & 0xffffff00);
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xffffff84,L"Camera Rotation Rechts");
+  pbVar2[4].bCObjectBase = (bCObjectBase)0x1;
+  pbVar2[3].bCObjectBase = (bCObjectBase)0x7;
+  pbVar3 = (bCUnicodeString *)
+           eCMouse::GetLocalizedStateName
+                     ((eCMouse *)bVar9.bCObjectBase,(eEMouseOffset *)&stack0xffffff64);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar2 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffff64);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  peVar5 = (eCKeyboard *)0x1dc;
+  ((undefined4 *)((int)bVar7.bCObjectBase + -4))[(int)peVar8] = pbVar2;
+  peVar10 = (eCMouse *)new();
+  if (peVar10 == (eCMouse *)0x0) {
+    peVar10 = (eCMouse *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)peVar10);
+    *(eCPhysicalKey_vftable **)peVar10 = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(peVar10 + 0x14));
+  }
+  *(bCObjectBase *)(peVar10 + 0x10) = (bCObjectBase)0x0;
+  *(bCObjectBase *)(peVar10 + 0xc) = (bCObjectBase)0x12;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar17,(eEKeyboardStateOffset *)&stack0xffffff5c);
+  bCUnicodeString::operator=((bCUnicodeString *)(peVar10 + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffff5c);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  *(eCMouse **)((int)bVar9.bCObjectBase + -4 + (int)peVar8 * 4) = peVar10;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xffffff60;
+  peVar13 = (eCLogicalKey *)&stack0xffffff6c;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  bVar7.bCObjectBase = (bCObjectBase)new();
+  if (bVar7.bCObjectBase == (bCObjectBase)0x0) {
+    bVar7.bCObjectBase = (bCObjectBase)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)bVar7.bCObjectBase);
+    *(eCPhysicalKey_vftable **)bVar7.bCObjectBase = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xffffff74,L"Camera Rotation Links");
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0x10) = 1;
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0xc) = 8;
+  pbVar3 = (bCUnicodeString *)
+           eCMouse::GetLocalizedStateName(peVar10,(eEMouseOffset *)&stack0xffffff54);
+  bCUnicodeString::operator=((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffff54);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  pbVar2[(int)(peVar8 + -1)].bCObjectBase = bVar7.bCObjectBase;
+  peVar11 = (eCMouse *)new();
+  if (peVar11 == (eCMouse *)0x0) {
+    peVar11 = (eCMouse *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)peVar11);
+    *(eCPhysicalKey_vftable **)peVar11 = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(peVar11 + 0x14));
+  }
+  *(bCObjectBase *)(peVar11 + 0x10) = (bCObjectBase)0x0;
+  *(bCObjectBase *)(peVar11 + 0xc) = (bCObjectBase)0x10;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar5,(eEKeyboardStateOffset *)&stack0xffffff4c);
+  bCUnicodeString::operator=((bCUnicodeString *)(peVar11 + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffff4c);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  *(eCMouse **)(peVar10 + (int)(peVar8 + -1) * 4) = peVar11;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xffffff50;
+  peVar13 = (eCLogicalKey *)&stack0xffffff5c;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar17 = (eCKeyboard *)0x21c;
+  peVar10 = (eCMouse *)new();
+  if (peVar10 == (eCMouse *)0x0) {
+    peVar10 = (eCMouse *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)peVar10);
+    *(eCPhysicalKey_vftable **)peVar10 = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(peVar10 + 0x14));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xffffff64,L"Rotation Hoch");
+  *(bCObjectBase *)(peVar10 + 0x10) = (bCObjectBase)0x1;
+  *(bCObjectBase *)(peVar10 + 0xc) = (bCObjectBase)0xa;
+  pbVar3 = (bCUnicodeString *)
+           eCMouse::GetLocalizedStateName(peVar11,(eEMouseOffset *)&stack0xffffff44);
+  bCUnicodeString::operator=((bCUnicodeString *)(peVar10 + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffff44);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  ((undefined4 *)((int)bVar7.bCObjectBase + -4))[(int)peVar8] = peVar10;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xffffff48;
+  peVar13 = (eCLogicalKey *)&stack0xffffff54;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar5 = (eCKeyboard *)0x233;
+  pbVar2 = (bCObjectRefBase *)new();
+  if (pbVar2 == (bCObjectRefBase *)0x0) {
+    pbVar2 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar2);
+    pbVar2->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar2 + 5));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xffffff5c,L"Rotation Runter");
+  pbVar2[4].bCObjectBase = (bCObjectBase)0x1;
+  pbVar2[3].bCObjectBase = (bCObjectBase)0x9;
+  pbVar3 = (bCUnicodeString *)
+           eCMouse::GetLocalizedStateName(peVar10,(eEMouseOffset *)&stack0xffffff3c);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar2 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffff3c);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  *(bCObjectRefBase **)(peVar11 + (int)peVar8 * 4 + -4) = pbVar2;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xffffff40;
+  peVar13 = (eCLogicalKey *)&stack0xffffff4c;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar16 = (eCKeyboard *)0x249;
+  pbVar4 = (bCObjectRefBase *)new();
+  if (pbVar4 == (bCObjectRefBase *)0x0) {
+    pbVar4 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar4);
+    pbVar4->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar4 + 5));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xffffff54,L"Gehen");
+  pbVar4[4].bCObjectBase = (bCObjectBase)0x0;
+  pbVar4[3].bCObjectBase = (bCObjectBase)0x36;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar17,(eEKeyboardStateOffset *)&stack0xffffff34);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar4 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffff34);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  peVar17 = (eCKeyboard *)0x253;
+  *(bCObjectRefBase **)(peVar10 + (int)(peVar8 + -1) * 4) = pbVar4;
+  bVar7.bCObjectBase = (bCObjectBase)new();
+  if (bVar7.bCObjectBase == (bCObjectBase)0x0) {
+    bVar7.bCObjectBase = (bCObjectBase)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)bVar7.bCObjectBase);
+    *(eCPhysicalKey_vftable **)bVar7.bCObjectBase = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14));
+  }
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0x10) = 0;
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0xc) = 0x2a;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar5,(eEKeyboardStateOffset *)&stack0xffffff2c);
+  bCUnicodeString::operator=((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffff2c);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  (pbVar2 + -1)[(int)peVar8].bCObjectBase = bVar7.bCObjectBase;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xffffff30;
+  peVar13 = (eCLogicalKey *)&stack0xffffff3c;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar5 = (eCKeyboard *)0x25f;
+  bVar9.bCObjectBase = (bCObjectBase)new();
+  if (bVar9.bCObjectBase == (bCObjectBase)0x0) {
+    bVar9.bCObjectBase = (bCObjectBase)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)bVar9.bCObjectBase);
+    *(eCPhysicalKey_vftable **)bVar9.bCObjectBase = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)((int)bVar9.bCObjectBase + 0x14));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xffffff44,L"Gehen Toggle");
+  *(undefined4 *)((int)bVar9.bCObjectBase + 0x10) = 0;
+  *(undefined4 *)((int)bVar9.bCObjectBase + 0xc) = 0x3a;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar16,(eEKeyboardStateOffset *)&stack0xffffff24);
+  bCUnicodeString::operator=((bCUnicodeString *)((int)bVar9.bCObjectBase + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffff24);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  (pbVar4 + -1)[(int)peVar8].bCObjectBase = bVar9.bCObjectBase;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xffffff28;
+  peVar13 = (eCLogicalKey *)&stack0xffffff34;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar16 = (eCKeyboard *)0x26e;
+  pbVar2 = (bCObjectRefBase *)new();
+  if (pbVar2 == (bCObjectRefBase *)0x0) {
+    pbVar2 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar2);
+    pbVar2->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar2 + 5));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xffffff3c,L"Springen");
+  pbVar2[4].bCObjectBase = (bCObjectBase)0x0;
+  pbVar2[3].bCObjectBase = (bCObjectBase)0x52;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar17,(eEKeyboardStateOffset *)&stack0xffffff1c);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar2 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffff1c);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  peVar17 = (eCKeyboard *)0x278;
+  ((undefined4 *)((int)bVar7.bCObjectBase + -4))[(int)peVar8] = pbVar2;
+  pbVar4 = (bCObjectRefBase *)new();
+  if (pbVar4 == (bCObjectRefBase *)0x0) {
+    pbVar4 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar4);
+    pbVar4->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar4 + 5));
+  }
+  pbVar4[4].bCObjectBase = (bCObjectBase)0x0;
+  pbVar4[3].bCObjectBase = (bCObjectBase)0x38;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar5,(eEKeyboardStateOffset *)&stack0xffffff14);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar4 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffff14);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  ((undefined4 *)((int)bVar9.bCObjectBase + -4))[(int)peVar8] = pbVar4;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xffffff18;
+  peVar13 = (eCLogicalKey *)&stack0xffffff24;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  bVar7.bCObjectBase = (bCObjectBase)new();
+  if (bVar7.bCObjectBase == (bCObjectBase)0x0) {
+    bVar7.bCObjectBase = (bCObjectBase)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)bVar7.bCObjectBase);
+    *(eCPhysicalKey_vftable **)bVar7.bCObjectBase = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xffffff2c,L"Ducken");
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0x10) = 0;
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0xc) = 0x9d;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar16,(eEKeyboardStateOffset *)&stack0xffffff0c);
+  bCUnicodeString::operator=((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffff0c);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  pbVar2[(int)(peVar8 + -1)].bCObjectBase = bVar7.bCObjectBase;
+  bVar9.bCObjectBase = (bCObjectBase)new();
+  if (bVar9.bCObjectBase == (bCObjectBase)0x0) {
+    bVar9.bCObjectBase = (bCObjectBase)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)bVar9.bCObjectBase);
+    *(eCPhysicalKey_vftable **)bVar9.bCObjectBase = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)((int)bVar9.bCObjectBase + 0x14));
+  }
+  *(undefined4 *)((int)bVar9.bCObjectBase + 0x10) = 0;
+  *(undefined4 *)((int)bVar9.bCObjectBase + 0xc) = 0x1d;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar17,(eEKeyboardStateOffset *)&stack0xffffff04);
+  bCUnicodeString::operator=((bCUnicodeString *)((int)bVar9.bCObjectBase + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffff04);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  pbVar4[(int)(peVar8 + -1)].bCObjectBase = bVar9.bCObjectBase;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xffffff08;
+  peVar13 = (eCLogicalKey *)&stack0xffffff14;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar17 = (eCKeyboard *)0x29a;
+  peVar10 = (eCMouse *)new();
+  if (peVar10 == (eCMouse *)0x0) {
+    peVar10 = (eCMouse *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)peVar10);
+    *(eCPhysicalKey_vftable **)peVar10 = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(peVar10 + 0x14));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xffffff1c,L"Aktion 1");
+  *(bCObjectBase *)(peVar10 + 0x10) = (bCObjectBase)0x1;
+  *(bCObjectBase *)(peVar10 + 0xc) = (bCObjectBase)0x3;
+  pbVar3 = (bCUnicodeString *)
+           eCMouse::GetLocalizedStateName
+                     ((eCMouse *)bVar9.bCObjectBase,(eEMouseOffset *)&stack0xfffffefc);
+  bCUnicodeString::operator=((bCUnicodeString *)(peVar10 + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffefc);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  ((undefined4 *)((int)bVar7.bCObjectBase + -4))[(int)peVar8] = peVar10;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xffffff00;
+  peVar13 = (eCLogicalKey *)&stack0xffffff0c;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  pbVar2 = (bCObjectRefBase *)new();
+  if (pbVar2 == (bCObjectRefBase *)0x0) {
+    pbVar2 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar2);
+    pbVar2->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar2 + 5));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xffffff14,L"Aktion 2");
+  pbVar2[4].bCObjectBase = (bCObjectBase)0x1;
+  pbVar2[3].bCObjectBase = (bCObjectBase)0x4;
+  pbVar3 = (bCUnicodeString *)
+           eCMouse::GetLocalizedStateName(peVar10,(eEMouseOffset *)&stack0xfffffef4);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar2 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffef4);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  *(bCObjectRefBase **)((int)bVar9.bCObjectBase + -4 + (int)peVar8 * 4) = pbVar2;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffef8;
+  peVar13 = (eCLogicalKey *)&stack0xffffff04;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar5 = (eCKeyboard *)0x2ba;
+  peVar11 = (eCMouse *)new();
+  if (peVar11 == (eCMouse *)0x0) {
+    peVar11 = (eCMouse *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)peVar11);
+    *(eCPhysicalKey_vftable **)peVar11 = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(peVar11 + 0x14));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xffffff0c,L"Zoomen +");
+  *(bCObjectBase *)(peVar11 + 0x10) = (bCObjectBase)0x0;
+  *(bCObjectBase *)(peVar11 + 0xc) = (bCObjectBase)0x4e;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar17,(eEKeyboardStateOffset *)&stack0xfffffeec);
+  bCUnicodeString::operator=((bCUnicodeString *)(peVar11 + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffeec);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  *(eCMouse **)(peVar10 + (int)(peVar8 + -1) * 4) = peVar11;
+  bVar7.bCObjectBase = (bCObjectBase)new();
+  if (bVar7.bCObjectBase == (bCObjectBase)0x0) {
+    bVar7.bCObjectBase = (bCObjectBase)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)bVar7.bCObjectBase);
+    *(eCPhysicalKey_vftable **)bVar7.bCObjectBase = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14));
+  }
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0x10) = 1;
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0xc) = 0xb;
+  pbVar3 = (bCUnicodeString *)
+           eCMouse::GetLocalizedStateName(peVar11,(eEMouseOffset *)&stack0xfffffee4);
+  bCUnicodeString::operator=((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffee4);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  pbVar2[(int)(peVar8 + -1)].bCObjectBase = bVar7.bCObjectBase;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffee8;
+  peVar13 = (eCLogicalKey *)&stack0xfffffef4;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar17 = (eCKeyboard *)0x2d0;
+  peVar10 = (eCMouse *)new();
+  if (peVar10 == (eCMouse *)0x0) {
+    peVar10 = (eCMouse *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)peVar10);
+    *(eCPhysicalKey_vftable **)peVar10 = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(peVar10 + 0x14));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffefc,L"Zoomen -");
+  *(bCObjectBase *)(peVar10 + 0x10) = (bCObjectBase)0x0;
+  *(bCObjectBase *)(peVar10 + 0xc) = (bCObjectBase)0x4a;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar5,(eEKeyboardStateOffset *)&stack0xfffffedc);
+  bCUnicodeString::operator=((bCUnicodeString *)(peVar10 + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffedc);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  peVar5 = (eCKeyboard *)0x2da;
+  *(eCMouse **)(peVar11 + (int)peVar8 * 4 + -4) = peVar10;
+  pbVar2 = (bCObjectRefBase *)new();
+  if (pbVar2 == (bCObjectRefBase *)0x0) {
+    pbVar2 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar2);
+    pbVar2->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar2 + 5));
+  }
+  pbVar2[4].bCObjectBase = (bCObjectBase)0x1;
+  pbVar2[3].bCObjectBase = (bCObjectBase)0xc;
+  pbVar3 = (bCUnicodeString *)
+           eCMouse::GetLocalizedStateName(peVar10,(eEMouseOffset *)&stack0xfffffed4);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar2 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffed4);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  ((undefined4 *)((int)bVar7.bCObjectBase + -4))[(int)peVar8] = pbVar2;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffed8;
+  peVar13 = (eCLogicalKey *)&stack0xfffffee4;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar16 = (eCKeyboard *)0x2e6;
+  pbVar4 = (bCObjectRefBase *)new();
+  if (pbVar4 == (bCObjectRefBase *)0x0) {
+    pbVar4 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar4);
+    pbVar4->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar4 + 5));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffeec,L"Reset Camera");
+  pbVar4[4].bCObjectBase = (bCObjectBase)0x0;
+  pbVar4[3].bCObjectBase = (bCObjectBase)0x4b;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar17,(eEKeyboardStateOffset *)&stack0xfffffecc);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar4 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffecc);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  *(bCObjectRefBase **)(peVar10 + (int)peVar8 * 4 + -4) = pbVar4;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffed0;
+  peVar13 = (eCLogicalKey *)&stack0xfffffedc;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar17 = (eCKeyboard *)0x2f5;
+  bVar7.bCObjectBase = (bCObjectBase)new();
+  if (bVar7.bCObjectBase == (bCObjectBase)0x0) {
+    bVar7.bCObjectBase = (bCObjectBase)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)bVar7.bCObjectBase);
+    *(eCPhysicalKey_vftable **)bVar7.bCObjectBase = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffee4,L"First Person Camera");
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0x10) = 0;
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0xc) = 0x53;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar5,(eEKeyboardStateOffset *)&stack0xfffffec4);
+  bCUnicodeString::operator=((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffec4);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  peVar5 = (eCKeyboard *)0x2ff;
+  pbVar2[(int)(peVar8 + -1)].bCObjectBase = bVar7.bCObjectBase;
+  bVar9.bCObjectBase = (bCObjectBase)new();
+  if (bVar9.bCObjectBase == (bCObjectBase)0x0) {
+    bVar9.bCObjectBase = (bCObjectBase)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)bVar9.bCObjectBase);
+    *(eCPhysicalKey_vftable **)bVar9.bCObjectBase = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)((int)bVar9.bCObjectBase + 0x14));
+  }
+  *(undefined4 *)((int)bVar9.bCObjectBase + 0x10) = 0;
+  *(undefined4 *)((int)bVar9.bCObjectBase + 0xc) = 0x14;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar16,(eEKeyboardStateOffset *)&stack0xfffffebc);
+  bCUnicodeString::operator=((bCUnicodeString *)((int)bVar9.bCObjectBase + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffebc);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  (pbVar4 + -1)[(int)peVar8].bCObjectBase = bVar9.bCObjectBase;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffec0;
+  peVar13 = (eCLogicalKey *)&stack0xfffffecc;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar16 = (eCKeyboard *)0x30b;
+  pbVar2 = (bCObjectRefBase *)new();
+  if (pbVar2 == (bCObjectRefBase *)0x0) {
+    pbVar2 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar2);
+    pbVar2->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar2 + 5));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffed4,L"Camera Look");
+  pbVar2[4].bCObjectBase = (bCObjectBase)0x0;
+  pbVar2[3].bCObjectBase = (bCObjectBase)0x50;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar17,(eEKeyboardStateOffset *)&stack0xfffffeb4);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar2 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffeb4);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  ((undefined4 *)((int)bVar7.bCObjectBase + -4))[(int)peVar8] = pbVar2;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffeb8;
+  peVar13 = (eCLogicalKey *)&stack0xfffffec4;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar17 = (eCKeyboard *)0x31a;
+  pbVar4 = (bCObjectRefBase *)new();
+  if (pbVar4 == (bCObjectRefBase *)0x0) {
+    pbVar4 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar4);
+    pbVar4->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar4 + 5));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffecc,L"QuickUse 0");
+  pbVar4[4].bCObjectBase = (bCObjectBase)0x0;
+  pbVar4[3].bCObjectBase = (bCObjectBase)0xb;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar5,(eEKeyboardStateOffset *)&stack0xfffffeac);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar4 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffeac);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  ((undefined4 *)((int)bVar9.bCObjectBase + -4))[(int)peVar8] = pbVar4;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffeb0;
+  peVar13 = (eCLogicalKey *)&stack0xfffffebc;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar5 = (eCKeyboard *)0x32a;
+  bVar7.bCObjectBase = (bCObjectBase)new();
+  if (bVar7.bCObjectBase == (bCObjectBase)0x0) {
+    bVar7.bCObjectBase = (bCObjectBase)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)bVar7.bCObjectBase);
+    *(eCPhysicalKey_vftable **)bVar7.bCObjectBase = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffec4,L"QuickUse 1");
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0x10) = 0;
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0xc) = 2;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar16,(eEKeyboardStateOffset *)&stack0xfffffea4);
+  bCUnicodeString::operator=((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffea4);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  pbVar2[(int)(peVar8 + -1)].bCObjectBase = bVar7.bCObjectBase;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffea8;
+  peVar13 = (eCLogicalKey *)&stack0xfffffeb4;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar16 = (eCKeyboard *)0x339;
+  bVar9.bCObjectBase = (bCObjectBase)new();
+  if (bVar9.bCObjectBase == (bCObjectBase)0x0) {
+    bVar9.bCObjectBase = (bCObjectBase)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)bVar9.bCObjectBase);
+    *(eCPhysicalKey_vftable **)bVar9.bCObjectBase = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)((int)bVar9.bCObjectBase + 0x14));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffebc,L"QuickUse 2");
+  *(undefined4 *)((int)bVar9.bCObjectBase + 0x10) = 0;
+  *(undefined4 *)((int)bVar9.bCObjectBase + 0xc) = 3;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar17,(eEKeyboardStateOffset *)&stack0xfffffe9c);
+  bCUnicodeString::operator=((bCUnicodeString *)((int)bVar9.bCObjectBase + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffe9c);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  pbVar4[(int)(peVar8 + -1)].bCObjectBase = bVar9.bCObjectBase;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffea0;
+  peVar13 = (eCLogicalKey *)&stack0xfffffeac;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar17 = (eCKeyboard *)0x348;
+  pbVar2 = (bCObjectRefBase *)new();
+  if (pbVar2 == (bCObjectRefBase *)0x0) {
+    pbVar2 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar2);
+    pbVar2->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar2 + 5));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffeb4,L"QuickUse 3");
+  pbVar2[4].bCObjectBase = (bCObjectBase)0x0;
+  pbVar2[3].bCObjectBase = (bCObjectBase)0x4;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar5,(eEKeyboardStateOffset *)&stack0xfffffe94);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar2 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffe94);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  ((undefined4 *)((int)bVar7.bCObjectBase + -4))[(int)peVar8] = pbVar2;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffe98;
+  peVar13 = (eCLogicalKey *)&stack0xfffffea4;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar5 = (eCKeyboard *)0x357;
+  pbVar4 = (bCObjectRefBase *)new();
+  if (pbVar4 == (bCObjectRefBase *)0x0) {
+    pbVar4 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar4);
+    pbVar4->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar4 + 5));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffeac,L"QuickUse 4");
+  pbVar4[4].bCObjectBase = (bCObjectBase)0x0;
+  pbVar4[3].bCObjectBase = (bCObjectBase)0x5;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar16,(eEKeyboardStateOffset *)&stack0xfffffe8c);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar4 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffe8c);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  ((undefined4 *)((int)bVar9.bCObjectBase + -4))[(int)peVar8] = pbVar4;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffe90;
+  peVar13 = (eCLogicalKey *)&stack0xfffffe9c;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar16 = (eCKeyboard *)0x366;
+  bVar7.bCObjectBase = (bCObjectBase)new();
+  if (bVar7.bCObjectBase == (bCObjectBase)0x0) {
+    bVar7.bCObjectBase = (bCObjectBase)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)bVar7.bCObjectBase);
+    *(eCPhysicalKey_vftable **)bVar7.bCObjectBase = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffea4,L"QuickUse 5");
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0x10) = 0;
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0xc) = 6;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar17,(eEKeyboardStateOffset *)&stack0xfffffe84);
+  bCUnicodeString::operator=((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffe84);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  pbVar2[(int)(peVar8 + -1)].bCObjectBase = bVar7.bCObjectBase;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffe88;
+  peVar13 = (eCLogicalKey *)&stack0xfffffe94;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar17 = (eCKeyboard *)0x375;
+  bVar9.bCObjectBase = (bCObjectBase)new();
+  if (bVar9.bCObjectBase == (bCObjectBase)0x0) {
+    bVar9.bCObjectBase = (bCObjectBase)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)bVar9.bCObjectBase);
+    *(eCPhysicalKey_vftable **)bVar9.bCObjectBase = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)((int)bVar9.bCObjectBase + 0x14));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffe9c,L"QuickUse 6");
+  *(undefined4 *)((int)bVar9.bCObjectBase + 0x10) = 0;
+  *(undefined4 *)((int)bVar9.bCObjectBase + 0xc) = 7;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar5,(eEKeyboardStateOffset *)&stack0xfffffe7c);
+  bCUnicodeString::operator=((bCUnicodeString *)((int)bVar9.bCObjectBase + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffe7c);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  pbVar4[(int)(peVar8 + -1)].bCObjectBase = bVar9.bCObjectBase;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffe80;
+  peVar13 = (eCLogicalKey *)&stack0xfffffe8c;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar5 = (eCKeyboard *)0x384;
+  pbVar2 = (bCObjectRefBase *)new();
+  if (pbVar2 == (bCObjectRefBase *)0x0) {
+    pbVar2 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar2);
+    pbVar2->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar2 + 5));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffe94,L"QuickUse 7");
+  pbVar2[4].bCObjectBase = (bCObjectBase)0x0;
+  pbVar2[3].bCObjectBase = (bCObjectBase)0x8;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar16,(eEKeyboardStateOffset *)&stack0xfffffe74);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar2 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffe74);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  ((undefined4 *)((int)bVar7.bCObjectBase + -4))[(int)peVar8] = pbVar2;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffe78;
+  peVar13 = (eCLogicalKey *)&stack0xfffffe84;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar16 = (eCKeyboard *)0x393;
+  pbVar4 = (bCObjectRefBase *)new();
+  if (pbVar4 == (bCObjectRefBase *)0x0) {
+    pbVar4 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar4);
+    pbVar4->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar4 + 5));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffe8c,L"QuickUse 8");
+  pbVar4[4].bCObjectBase = (bCObjectBase)0x0;
+  pbVar4[3].bCObjectBase = (bCObjectBase)0x9;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar17,(eEKeyboardStateOffset *)&stack0xfffffe6c);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar4 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffe6c);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  ((undefined4 *)((int)bVar9.bCObjectBase + -4))[(int)peVar8] = pbVar4;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffe70;
+  peVar13 = (eCLogicalKey *)&stack0xfffffe7c;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar17 = (eCKeyboard *)0x3a2;
+  bVar7.bCObjectBase = (bCObjectBase)new();
+  if (bVar7.bCObjectBase == (bCObjectBase)0x0) {
+    bVar7.bCObjectBase = (bCObjectBase)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)bVar7.bCObjectBase);
+    *(eCPhysicalKey_vftable **)bVar7.bCObjectBase = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffe84,L"QuickUse 9");
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0x10) = 0;
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0xc) = 10;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar5,(eEKeyboardStateOffset *)&stack0xfffffe64);
+  bCUnicodeString::operator=((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffe64);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  pbVar2[(int)(peVar8 + -1)].bCObjectBase = bVar7.bCObjectBase;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffe68;
+  peVar13 = (eCLogicalKey *)&stack0xfffffe74;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar5 = (eCKeyboard *)0x3b1;
+  bVar9.bCObjectBase = (bCObjectBase)new();
+  if (bVar9.bCObjectBase == (bCObjectBase)0x0) {
+    bVar9.bCObjectBase = (bCObjectBase)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)bVar9.bCObjectBase);
+    *(eCPhysicalKey_vftable **)bVar9.bCObjectBase = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)((int)bVar9.bCObjectBase + 0x14));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffe7c,L"Abbrechen");
+  *(undefined4 *)((int)bVar9.bCObjectBase + 0x10) = 0;
+  *(undefined4 *)((int)bVar9.bCObjectBase + 0xc) = 0xdf;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar16,(eEKeyboardStateOffset *)&stack0xfffffe5c);
+  bCUnicodeString::operator=((bCUnicodeString *)((int)bVar9.bCObjectBase + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffe5c);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  pbVar4[(int)(peVar8 + -1)].bCObjectBase = bVar9.bCObjectBase;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffe60;
+  peVar13 = (eCLogicalKey *)&stack0xfffffe6c;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar16 = (eCKeyboard *)0x3c0;
+  pbVar2 = (bCObjectRefBase *)new();
+  if (pbVar2 == (bCObjectRefBase *)0x0) {
+    pbVar2 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar2);
+    pbVar2->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar2 + 5));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffe74,L"Inventar öffnen");
+  pbVar2[4].bCObjectBase = (bCObjectBase)0x0;
+  pbVar2[3].bCObjectBase = (bCObjectBase)0x17;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar17,(eEKeyboardStateOffset *)&stack0xfffffe54);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar2 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffe54);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  ((undefined4 *)((int)bVar7.bCObjectBase + -4))[(int)peVar8] = pbVar2;
+  pbVar4 = (bCObjectRefBase *)new();
+  if (pbVar4 == (bCObjectRefBase *)0x0) {
+    pbVar4 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar4);
+    pbVar4->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar4 + 5));
+  }
+  pbVar4[4].bCObjectBase = (bCObjectBase)0x0;
+  pbVar4[3].bCObjectBase = (bCObjectBase)0xe;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar5,(eEKeyboardStateOffset *)&stack0xfffffe4c);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar4 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffe4c);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  ((undefined4 *)((int)bVar9.bCObjectBase + -4))[(int)peVar8] = pbVar4;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffe50;
+  peVar13 = (eCLogicalKey *)&stack0xfffffe5c;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar17 = (eCKeyboard *)0x3d6;
+  bVar7.bCObjectBase = (bCObjectBase)new();
+  if (bVar7.bCObjectBase == (bCObjectBase)0x0) {
+    bVar7.bCObjectBase = (bCObjectBase)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)bVar7.bCObjectBase);
+    *(eCPhysicalKey_vftable **)bVar7.bCObjectBase = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffe64,L"Waffe ziehen");
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0x10) = 0;
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0xc) = 0x39;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar16,(eEKeyboardStateOffset *)&stack0xfffffe44);
+  bCUnicodeString::operator=((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffe44);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  peVar5 = (eCKeyboard *)0x3e0;
+  pbVar2[(int)(peVar8 + -1)].bCObjectBase = bVar7.bCObjectBase;
+  bVar9.bCObjectBase = (bCObjectBase)new();
+  if (bVar9.bCObjectBase == (bCObjectBase)0x0) {
+    bVar9.bCObjectBase = (bCObjectBase)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)bVar9.bCObjectBase);
+    *(eCPhysicalKey_vftable **)bVar9.bCObjectBase = &eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)((int)bVar9.bCObjectBase + 0x14));
+  }
+  *(undefined4 *)((int)bVar9.bCObjectBase + 0x10) = 1;
+  *(undefined4 *)((int)bVar9.bCObjectBase + 0xc) = 5;
+  pbVar3 = (bCUnicodeString *)
+           eCMouse::GetLocalizedStateName
+                     ((eCMouse *)bVar7.bCObjectBase,(eEMouseOffset *)&stack0xfffffe3c);
+  bCUnicodeString::operator=((bCUnicodeString *)((int)bVar9.bCObjectBase + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffe3c);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  pbVar4[(int)(peVar8 + -1)].bCObjectBase = bVar9.bCObjectBase;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffe40;
+  peVar13 = (eCLogicalKey *)&stack0xfffffe4c;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar16 = (eCKeyboard *)0x3ed;
+  pbVar2 = (bCObjectRefBase *)new();
+  if (pbVar2 == (bCObjectRefBase *)0x0) {
+    pbVar4 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar2);
+    pbVar2->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    pbVar4 = pbVar2;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar2 + 5));
+    pbVar2 = pbVar4;
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffe54,L"Quest-Log");
+  pbVar4[4].bCObjectBase = (bCObjectBase)0x0;
+  pbVar4[3].bCObjectBase = (bCObjectBase)0x26;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar17,(eEKeyboardStateOffset *)&stack0xfffffe34);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar4 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffe34);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  *(bCObjectRefBase **)((int)bVar7.bCObjectBase + -4 + (int)peVar8 * 4) = pbVar4;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffe38;
+  peVar13 = (eCLogicalKey *)&stack0xfffffe44;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar17 = (eCKeyboard *)0x3fc;
+  bVar12 = (bCObjectBase)new();
+  if (bVar12 == (bCObjectBase)0x0) {
+    bVar7.bCObjectBase = (bCObjectBase)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)bVar12);
+    *(eCPhysicalKey_vftable **)bVar12 = &eCPhysicalKey::vftable;
+    bVar7.bCObjectBase = bVar12;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)((int)bVar12 + 0x14));
+    bVar12 = bVar7.bCObjectBase;
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffe4c,L"Character-Screen");
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0x10) = 0;
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0xc) = 0x2e;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar5,(eEKeyboardStateOffset *)&stack0xfffffe2c);
+  bCUnicodeString::operator=((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffe2c);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  pbVar2[(int)(peVar8 + -1)].bCObjectBase = bVar7.bCObjectBase;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffe30;
+  peVar13 = (eCLogicalKey *)&stack0xfffffe3c;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar5 = (eCKeyboard *)0x40b;
+  pbVar2 = (bCObjectRefBase *)new();
+  if (pbVar2 == (bCObjectRefBase *)0x0) {
+    pbVar4 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar2);
+    pbVar2->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    pbVar4 = pbVar2;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar2 + 5));
+    pbVar2 = pbVar4;
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffe44,L"Magie Buch");
+  pbVar4[4].bCObjectBase = (bCObjectBase)0x0;
+  pbVar4[3].bCObjectBase = (bCObjectBase)0x30;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar16,(eEKeyboardStateOffset *)&stack0xfffffe24);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar4 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffe24);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  ((undefined4 *)((int)bVar12 + -4))[(int)peVar8] = pbVar4;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffe28;
+  peVar13 = (eCLogicalKey *)&stack0xfffffe34;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar16 = (eCKeyboard *)0x41a;
+  bVar12 = (bCObjectBase)new();
+  if (bVar12 == (bCObjectBase)0x0) {
+    bVar7.bCObjectBase = (bCObjectBase)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)bVar12);
+    *(eCPhysicalKey_vftable **)bVar12 = &eCPhysicalKey::vftable;
+    bVar7.bCObjectBase = bVar12;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)((int)bVar12 + 0x14));
+    bVar12 = bVar7.bCObjectBase;
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffe3c,L"Karte");
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0x10) = 0;
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0xc) = 0x32;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar17,(eEKeyboardStateOffset *)&stack0xfffffe1c);
+  bCUnicodeString::operator=((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffe1c);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  pbVar2[(int)(peVar8 + -1)].bCObjectBase = bVar7.bCObjectBase;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffe20;
+  peVar13 = (eCLogicalKey *)&stack0xfffffe2c;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar17 = (eCKeyboard *)0x429;
+  pbVar2 = (bCObjectRefBase *)new();
+  if (pbVar2 == (bCObjectRefBase *)0x0) {
+    pbVar4 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar2);
+    pbVar2->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    pbVar4 = pbVar2;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar2 + 5));
+    pbVar2 = pbVar4;
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffe34,L"Target locken");
+  pbVar4[4].bCObjectBase = (bCObjectBase)0x0;
+  pbVar4[3].bCObjectBase = (bCObjectBase)0x13;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar5,(eEKeyboardStateOffset *)&stack0xfffffe14);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar4 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffe14);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  pbVar15 = (bTDelegateHandler<bCObjectRefBase,bCEvent>_vftable *)0x433;
+  ((undefined4 *)((int)bVar12 + -4))[(int)peVar8] = pbVar4;
+  bVar12 = (bCObjectBase)new();
+  if (bVar12 == (bCObjectBase)0x0) {
+    bVar7.bCObjectBase = (bCObjectBase)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)bVar12);
+    *(eCPhysicalKey_vftable **)bVar12 = &eCPhysicalKey::vftable;
+    bVar7.bCObjectBase = bVar12;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)((int)bVar12 + 0x14));
+    bVar12 = bVar7.bCObjectBase;
+  }
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0x10) = 0;
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0xc) = 0xcf;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar16,(eEKeyboardStateOffset *)&stack0xfffffe0c);
+  bCUnicodeString::operator=((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffe0c);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  pbVar2[(int)(peVar8 + -1)].bCObjectBase = bVar7.bCObjectBase;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffe10;
+  peVar13 = (eCLogicalKey *)&stack0xfffffe1c;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar5 = (eCKeyboard *)0x43f;
+  pbVar2 = (bCObjectRefBase *)new();
+  if (pbVar2 == (bCObjectRefBase *)0x0) {
+    pbVar4 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar2);
+    pbVar2->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    pbVar4 = pbVar2;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar2 + 5));
+    pbVar2 = pbVar4;
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffe24,L"Toggle HUD");
+  pbVar4[4].bCObjectBase = (bCObjectBase)0x0;
+  pbVar4[3].bCObjectBase = (bCObjectBase)0x46;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar17,(eEKeyboardStateOffset *)&stack0xfffffe04);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar4 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffe04);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  ((undefined4 *)((int)bVar12 + -4))[(int)peVar8] = pbVar4;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffe08;
+  peVar13 = (eCLogicalKey *)&stack0xfffffe14;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar17 = (eCKeyboard *)0x454;
+  bVar12 = (bCObjectBase)new();
+  if (bVar12 == (bCObjectBase)0x0) {
+    bVar7.bCObjectBase = (bCObjectBase)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)bVar12);
+    *(eCPhysicalKey_vftable **)bVar12 = &eCPhysicalKey::vftable;
+    bVar7.bCObjectBase = bVar12;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)((int)bVar12 + 0x14));
+    bVar12 = bVar7.bCObjectBase;
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffe1c,L"Toggle entity debugging");
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0x10) = 0;
+  *(undefined4 *)((int)bVar7.bCObjectBase + 0xc) = 0xc5;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName
+                     ((eCKeyboard *)pbVar15,(eEKeyboardStateOffset *)&stack0xfffffdfc);
+  bCUnicodeString::operator=((bCUnicodeString *)((int)bVar7.bCObjectBase + 0x14),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffdfc);
+  peVar8 = peVar8 + 1;
+  thunk_FUN_2017e160();
+  pbVar2[(int)(peVar8 + -1)].bCObjectBase = bVar7.bCObjectBase;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffe00;
+  peVar13 = (eCLogicalKey *)&stack0xfffffe0c;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160();
+  peVar16 = (eCKeyboard *)0x463;
+  pbVar2 = (bCObjectRefBase *)new();
+  if (pbVar2 == (bCObjectRefBase *)0x0) {
+    pbVar2 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar2);
+    pbVar2->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar2 + 5));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffe14,L"Bestätigen");
+  pbVar2[4].bCObjectBase = (bCObjectBase)0x0;
+  pbVar2[3].bCObjectBase = (bCObjectBase)0x1c;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar5,(eEKeyboardStateOffset *)&stack0xfffffdf4);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar2 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffdf4);
+  pbVar15 = (bTDelegateHandler<bCObjectRefBase,bCEvent>_vftable *)(peVar8 + 1);
+  thunk_FUN_2017e160(pbVar15,(pbVar15 != (bTDelegateHandler<bCObjectRefBase,bCEvent>_vftable *)0x0)
+                             - 1);
+  ((undefined4 *)((int)bVar12 + -4))[(int)pbVar15] = pbVar2;
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffdf8;
+  peVar13 = (eCLogicalKey *)&stack0xfffffe04;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160(0,0xffffffff);
+  pbVar2 = (bCObjectRefBase *)new(0x18,0x472);
+  if (pbVar2 == (bCObjectRefBase *)0x0) {
+    pbVar2 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar2);
+    pbVar2->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar2 + 5));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffe0c,L"Schnellspeichern");
+  pbVar2[4].bCObjectBase = (bCObjectBase)0x0;
+  pbVar2[3].bCObjectBase = (bCObjectBase)0x3f;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar17,(eEKeyboardStateOffset *)&stack0xfffffdec);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar2 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffdec);
+  thunk_FUN_2017e3c0(&stack0xfffffde0);
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffdf0;
+  peVar13 = (eCLogicalKey *)&stack0xfffffdfc;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  thunk_FUN_2017e160(0,0xffffffff);
+  pbVar2 = (bCObjectRefBase *)new(0x18,0x481);
+  if (pbVar2 == (bCObjectRefBase *)0x0) {
+    pbVar2 = (bCObjectRefBase *)0x0;
+  }
+  else {
+    bCObjectRefBase::bCObjectRefBase(pbVar2);
+    pbVar2->bCObjectBase = (bCObjectBase)&eCPhysicalKey::vftable;
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(pbVar2 + 5));
+  }
+  bCUnicodeString::operator=((bCUnicodeString *)&stack0xfffffe04,L"Schnellladen");
+  pbVar2[4].bCObjectBase = (bCObjectBase)0x0;
+  pbVar2[3].bCObjectBase = (bCObjectBase)0x43;
+  pbVar3 = (bCUnicodeString *)
+           eCKeyboard::GetLocalizedKeyName(peVar16,(eEKeyboardStateOffset *)&stack0xfffffde4);
+  bCUnicodeString::operator=((bCUnicodeString *)(pbVar2 + 5),pbVar3);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xfffffde4);
+  thunk_FUN_2017e3c0(&stack0xfffffdd8);
+  pbVar14 = (bTPtrArray<eCPhysicalKey*> *)&stack0xfffffde8;
+  peVar13 = (eCLogicalKey *)&stack0xfffffdf4;
+  peVar6 = eCActionMapper::GetInstance();
+  eCActionMapper::SetMapping(peVar6,peVar13,pbVar14);
+  bTDelegateHandler<bCObjectRefBase,bCEvent>::bTDelegateHandler<bCObjectRefBase,bCEvent>
+            ((bTDelegateHandler<bCObjectRefBase,bCEvent> *)&stack0xfffffdf4);
+  thunk_FUN_2017e2f0();
+  return;
+}
+
+

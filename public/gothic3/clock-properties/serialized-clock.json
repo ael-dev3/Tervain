@@ -1,0 +1,24 @@
+{
+  "schema": "gothic3-original-clock-property-seed-v1",
+  "phase": "serialized-before-derived-Clock-Read",
+  "entity": {
+    "key": "world-2419:1",
+    "name": "World_MCP",
+    "guid20": "7d1ccbd0bc24884d8fcb75ce15a713c700000000"
+  },
+  "values": {
+    "Year": 0,
+    "Day": 0,
+    "Hour": 12,
+    "Minute": 0,
+    "Second": 0,
+    "Factor": 12.0
+  },
+  "derivedReadVersion": 1,
+  "source": {
+    "archive": "Projects_compiled.p00",
+    "path": "G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat",
+    "sha256": "28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938",
+    "propertySetSourceOffset": 1121
+  }
+}

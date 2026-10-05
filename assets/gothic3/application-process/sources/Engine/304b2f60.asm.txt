@@ -1,0 +1,8 @@
+; 304b2f60 FUN_304b2f60
+304b2f60 | 8b413c | MOV EAX,dword ptr [ECX + 0x3c]
+304b2f63 | 83e008 | AND EAX,0x8
+304b2f66 | 33c9 | XOR ECX,ECX
+304b2f68 | 3c08 | CMP AL,0x8
+304b2f6a | 0f94c1 | SETZ CL
+304b2f6d | 8ac1 | MOV AL,CL
+304b2f6f | c3 | RET

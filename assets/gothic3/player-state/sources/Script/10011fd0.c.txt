@@ -1,0 +1,17 @@
+/* ENTRY 10011fd0 | FUN_10011fd0 | STATUS decompiled | 3 ms */
+
+bool __fastcall FUN_10011fd0(undefined4 *param_1)
+
+{
+  bool bVar1;
+  
+  if ((gCCharacterMovement_PS *)*param_1 == (gCCharacterMovement_PS *)0x0) {
+    return false;
+  }
+                    /* WARNING: Could not recover jumptable at 0x10011fd9. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bVar1 = gCCharacterMovement_PS::CanJump((gCCharacterMovement_PS *)*param_1);
+  return bVar1;
+}
+
+

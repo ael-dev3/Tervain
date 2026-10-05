@@ -1,0 +1,175 @@
+/* ENTRY 10079500 | FUN_10079500 | STATUS decompiled | 103 ms */
+
+undefined4 FUN_10079500(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  gEAIMode gVar3;
+  int iVar4;
+  gESessionKey gVar5;
+  undefined4 uVar6;
+  Entity aEStack_20c [152];
+  undefined4 uStack_174;
+  gCScriptProcessingUnit *pgStack_170;
+  Entity *pEStack_16c;
+  code *pcStack_168;
+  Entity local_150 [4];
+  PropertyAIMode local_14c [60];
+  PropertyPressedKey local_110 [104];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_150);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    pcStack_168 = (code *)0x10079543;
+    Entity::AttachTo(local_150,peVar2);
+  }
+  else {
+    pcStack_168 = (code *)0x1007954c;
+    Entity::operator=(local_150,param_2);
+  }
+  Entity::Entity(local_a8);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    pcStack_168 = (code *)0x10079572;
+    Entity::AttachTo(local_a8,peVar2);
+  }
+  else {
+    pcStack_168 = (code *)0x1007957e;
+    Entity::operator=(local_a8,param_3);
+  }
+  gVar3 = PSRoutine::PropertyAIMode::operator_enum_gEAIMode(local_14c);
+  if ((gVar3 == 8) ||
+     (gVar3 = PSRoutine::PropertyAIMode::operator_enum_gEAIMode(local_14c), gVar3 == 9)) {
+LAB_10079854:
+    Entity::~Entity(local_a8);
+    Entity::~Entity(local_150);
+    return 0;
+  }
+  pcStack_168 = None_exref;
+  pEStack_16c = local_150;
+  pgStack_170 = param_1;
+  uStack_174 = 0x100795b5;
+  iVar4 = thunk_FUN_10081080();
+  if (iVar4 != 0) goto LAB_10079854;
+  pcStack_168 = None_exref;
+  pEStack_16c = local_150;
+  pgStack_170 = param_1;
+  uStack_174 = 0x100795d0;
+  iVar4 = thunk_FUN_100921f0();
+  if (iVar4 != 0) goto LAB_10079854;
+  gVar5 = PSCharacterControl::PropertyPressedKey::operator_enum_gESessionKey(local_110);
+  switch(gVar5) {
+  case 1:
+  case 2:
+  case 3:
+  case 4:
+    pcStack_168 = None_exref;
+    pEStack_16c = local_150;
+    pgStack_170 = param_1;
+    uStack_174 = 0x1007960e;
+    uVar6 = thunk_FUN_10077630();
+    Entity::~Entity(local_a8);
+    Entity::~Entity(local_150);
+    return uVar6;
+  case 0xf:
+    pcStack_168 = None_exref;
+    pEStack_16c = local_150;
+    pgStack_170 = param_1;
+    uStack_174 = 0x10079648;
+    thunk_FUN_10077710();
+    break;
+  case 0x10:
+    pcStack_168 = None_exref;
+    pEStack_16c = local_150;
+    pgStack_170 = param_1;
+    uStack_174 = 0x1007965d;
+    thunk_FUN_10077fb0();
+  }
+  bVar1 = PSCharacterControl::PropertyIsPressedBefore::operator_bool
+                    ((PropertyIsPressedBefore *)local_110);
+  if ((bVar1) &&
+     (bVar1 = PSCharacterControl::PropertyIsPressed::operator_bool((PropertyIsPressed *)local_110),
+     bVar1)) goto LAB_10079854;
+  if (gVar5 == 0xb) {
+    pcStack_168 = None_exref;
+    pEStack_16c = local_150;
+    pgStack_170 = param_1;
+    uStack_174 = 0x100796b3;
+    thunk_FUN_10078460();
+  }
+  else if (gVar5 == 0xe) {
+    pcStack_168 = None_exref;
+    pEStack_16c = local_150;
+    pgStack_170 = param_1;
+    uStack_174 = 0x1007969d;
+    thunk_FUN_100785c0();
+  }
+  bVar1 = PSCharacterControl::PropertyIsPressed::operator_bool((PropertyIsPressed *)local_110);
+  if (!bVar1) goto LAB_10079854;
+  switch(gVar5) {
+  case 0xd:
+    pcStack_168 = None_exref;
+    pEStack_16c = local_150;
+    pgStack_170 = param_1;
+    uStack_174 = 0x100797b1;
+    uVar6 = thunk_FUN_100786e0();
+    Entity::~Entity(local_a8);
+    Entity::~Entity(local_150);
+    return uVar6;
+  default:
+    goto switchD_100796d4_caseD_e;
+  case 0x13:
+    break;
+  case 0x14:
+    break;
+  case 0x15:
+    break;
+  case 0x16:
+    break;
+  case 0x17:
+    break;
+  case 0x18:
+    break;
+  case 0x19:
+    break;
+  case 0x1a:
+    break;
+  case 0x1b:
+    break;
+  case 0x1c:
+    break;
+  case 0x1d:
+    pcStack_168 = None_exref;
+    pEStack_16c = local_150;
+    pgStack_170 = param_1;
+    uStack_174 = 0x10079802;
+    thunk_FUN_10078db0();
+    goto switchD_100796d4_caseD_e;
+  case 0x26:
+    break;
+  case 0x2b:
+    pcStack_168 = None_exref;
+    pEStack_16c = local_150;
+    pgStack_170 = param_1;
+    uStack_174 = 0x10079817;
+    thunk_FUN_10080c20();
+    goto switchD_100796d4_caseD_e;
+  case 0x2c:
+    pcStack_168 = None_exref;
+    pEStack_16c = local_150;
+    pgStack_170 = param_1;
+    uStack_174 = 0x1007982d;
+    thunk_FUN_10080ce0();
+    goto switchD_100796d4_caseD_e;
+  }
+  Entity::Entity(aEStack_20c,local_150);
+  thunk_FUN_100108d0();
+switchD_100796d4_caseD_e:
+  Entity::~Entity(local_a8);
+  Entity::~Entity(local_150);
+  return 1;
+}
+
+

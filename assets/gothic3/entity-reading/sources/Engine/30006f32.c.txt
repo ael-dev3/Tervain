@@ -1,0 +1,12 @@
+/* ENTRY 30006f32 | eCEntity::GetWorldTreeBoundary | STATUS decompiled | 6 ms */
+
+/* public: class bCBox const & __thiscall eCEntity::GetWorldTreeBoundary(void)const  */
+
+bCBox * __thiscall eCEntity::GetWorldTreeBoundary(eCEntity *this)
+
+{
+                    /* 0x6f32  9681  ?GetWorldTreeBoundary@eCEntity@@QBEABVbCBox@@XZ */
+  return (bCBox *)&(this->eCEntity_data).field_0x90;
+}
+
+

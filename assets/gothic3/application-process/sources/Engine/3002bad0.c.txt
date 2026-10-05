@@ -1,0 +1,12 @@
+/* ENTRY 3002bad0 | eCApplication::GetScaledFrameTime | STATUS decompiled | 19 ms */
+
+/* public: float __thiscall eCApplication::GetScaledFrameTime(void)const  */
+
+float __thiscall eCApplication::GetScaledFrameTime(eCApplication *this)
+
+{
+                    /* 0x2bad0  8679  ?GetScaledFrameTime@eCApplication@@QBEMXZ */
+  return (float)(this->eCApplication_data).offset_0x4b0;
+}
+
+

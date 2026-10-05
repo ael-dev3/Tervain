@@ -1,0 +1,13 @@
+/* ENTRY 100057f9 | bCClock::Resume | STATUS decompiled | 2 ms */
+
+/* public: void __thiscall bCClock::Resume(void) */
+
+void __thiscall bCClock::Resume(bCClock *this)
+
+{
+                    /* 0x57f9  3947  ?Resume@bCClock@@QAEXXZ */
+  this[0x20] = (bCClock)0x0;
+  return;
+}
+
+

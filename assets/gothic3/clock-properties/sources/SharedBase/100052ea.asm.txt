@@ -1,0 +1,4 @@
+; 100052ea ??0bCClock@@QAE@XZ
+100052ea | e9f1690400 | JMP 0x1004bce0
+; 100052ef bCMatrix3::RotateLocal
+; 100052ef Ordinal_3992

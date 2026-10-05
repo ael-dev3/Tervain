@@ -1,0 +1,31 @@
+/* ENTRY 304b62b0 | FUN_304b62b0 | STATUS decompiled | 14 ms */
+
+void __thiscall FUN_304b62b0(eCEntity *param_1,bCString *param_2)
+
+{
+  bool bVar1;
+  eCSceneAdmin *peVar2;
+  bCString *pbVar3;
+  bCString *this;
+  eCEntity *peVar4;
+  
+  this = (bCString *)(param_1 + 0x138);
+  bVar1 = bCString::IsEmpty(this);
+  if (!bVar1) {
+    pbVar3 = this;
+    peVar4 = param_1;
+    peVar2 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+    eCSceneAdmin::UnregisterNameInfo(peVar2,pbVar3,peVar4);
+  }
+  bCString::operator=(this,param_2);
+  bVar1 = bCString::IsEmpty(this);
+  if (!bVar1) {
+    peVar4 = param_1;
+    peVar2 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+    eCSceneAdmin::RegisterNameInfo(peVar2,this,peVar4);
+  }
+  (**(code **)(*(int *)param_1 + 0x118))();
+  return;
+}
+
+

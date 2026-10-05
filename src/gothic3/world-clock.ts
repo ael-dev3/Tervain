@@ -8,7 +8,9 @@ import type { ResourceReceipt } from './resource';
 export type NativeClockPrecision = 24 | 53 | 64;
 export interface NativeClockTimestampSource {
   readonly profile: 'selected-host-monotonic-u32-milliseconds';
-  /** Monotonic millisecond counter modulo 2^32; less than one wrap between related reads. */
+  /** Monotonic millisecond counter modulo2^32; less than one wrap between related
+   * reads. This selected timer is read-only with respect to clock/PS storage:
+   * original bCTimer has no user callback or reentrant clock setter. */
   readMilliseconds(): number;
 }
 export interface NativeTimeAndDate { years: number; days: number; seconds: number }
@@ -153,6 +155,30 @@ function calendarSeconds(calendar: NativeCalendar, precision: NativeClockPrecisi
 }
 const dayTime = (hour: number): 0 | 1 | 2 | 3 => hour >= 22 ? 3 : hour >= 20 ? 2 : hour >= 8 ? 1 : hour >= 6 ? 0 : 3;
 
+/** Source arithmetic helpers for the physical gCClock_PS adapter. They perform
+ * no advancing read, property write or engine-consumer dispatch. */
+export function nativeClockCalendarDate(calendar: NativeCalendar, precision: NativeClockPrecision): NativeTimeAndDate {
+  if (!validCalendar(calendar) || !precisionValid(precision)) throw new Error('Known native calendar/precision required.');
+  return { years: calendar.year, days: calendar.day, seconds: calendarSeconds(calendar, precision) };
+}
+export function nativeClockPublishedCalendar(date: NativeTimeAndDate): NativeCalendar {
+  if (!isU32(date.years) || !isU32(date.days) || !Object.is(date.seconds, Math.fround(date.seconds))) {
+    throw new Error('Native time/date storage required.');
+  }
+  const seconds = fistpLow32(date.seconds);
+  return { year: date.years, day: date.days, hour: Math.floor(seconds / 3600),
+    minute: Math.floor((seconds % 3600) / 60), second: seconds % 60 };
+}
+export function nativeClockDayTime(hour: number): 0 | 1 | 2 | 3 {
+  if (!isU32(hour)) throw new Error('Native published Hour DWORD required.');
+  return dayTime(hour);
+}
+export function nativeClockWeatherDayTime(date: NativeTimeAndDate, precision: NativeClockPrecision): number {
+  if (!isU32(date.years) || !isU32(date.days) || !precisionValid(precision)) throw new Error('Native weather clock operands required.');
+  const days = add(divide(binary(date.seconds), binary(86400), precision), unsignedRegister(date.days, precision), precision);
+  return float32(add(multiply(unsignedRegister(date.years, precision), binary(365), precision), days, precision));
+}
+
 interface ClockState {
   adjustment: NativeClockAdjustment; timeAndDate: NativeTimeAndDate; calendar: NativeCalendar;
   lastTimestamp: number; pendingSeconds: number; paused: boolean;
@@ -172,6 +198,7 @@ export class NativeWorldClock {
   private state: ClockState = initialState();
   private revision = 0;
   private transitioning = false;
+  private publishedCalendarBound = false;
 
   constructor(private readonly timestamps: NativeClockTimestampSource,
     readonly precisionBits: NativeClockPrecision) {
@@ -207,6 +234,16 @@ export class NativeWorldClock {
   timeAndDate(): NativeTimeAndDate { return { ...this.state.timeAndDate }; }
   /** Last gCClock_PS property publication, not a timer read. */
   calendar(): NativeCalendar { return { ...this.state.calendar }; }
+  /** One physical gCClock_PS calendar view. Accessor-backed fields may alias
+   * its actual Year/Day/Hour/Minute/Second storage. This binding never reads or
+   * changes the lower bCClock date. Bind once before exposing the instance. */
+  bindPublishedCalendar(calendar: NativeCalendar): void {
+    if (this.transitioning || this.publishedCalendarBound || !validCalendar(calendar)) {
+      throw new Error('Native published calendar is invalid, busy or already bound.');
+    }
+    this.state.calendar = calendar;
+    this.publishedCalendarBound = true;
+  }
   isPaused(): boolean { return this.state.paused; }
   /** SetStatus(Running) copies these property DWORDs, without minutes/seconds or another tick. */
   questClock(): NativeClock {
@@ -224,11 +261,17 @@ export class NativeWorldClock {
       return { kind: 'rejected', revision: this.revision, reason: 'Native clock revision changed.' };
     }
     if (this.revision === Number.MAX_SAFE_INTEGER) return { kind: 'unsupported', revision: this.revision, reason: 'Clock revision capacity exhausted.' };
+    const calendar = this.state.calendar, detachedCalendar = { ...calendar };
     const draft: ClockState = { ...this.state, adjustment: { ...this.state.adjustment },
-      timeAndDate: { ...this.state.timeAndDate }, calendar: { ...this.state.calendar } };
+      timeAndDate: { ...this.state.timeAndDate }, calendar: detachedCalendar };
     this.transitioning = true;
     try {
       const value = compute(draft);
+      // Set/Adjust/Pause/Resume/GetTimeAndDate do not publish property DWORDs.
+      // In particular, they must not restore a stale calendar snapshot after a
+      // host timer read. Process alone replaces its calendar draft deliberately.
+      if (draft.calendar !== detachedCalendar) Object.assign(calendar, draft.calendar);
+      draft.calendar = calendar;
       this.state = draft;
       this.revision++;
       return { kind: 'applied', revision: this.revision, value };
@@ -298,8 +341,9 @@ export class NativeWorldClock {
   }
   process(expectedRevision = this.revision): NativeClockTransition<NativeClockProcess> {
     return this.commit(expectedRevision, (draft) => {
-      const previousDayTime = dayTime(draft.calendar.hour);
       const { date, samples } = this.advance(draft);
+      // Game20208266 reads the old published Hour after GetTimeAndDate.
+      const previousDayTime = dayTime(this.state.calendar.hour);
       const seconds = fistpLow32(date.seconds);
       draft.calendar = { year: date.years, day: date.days, hour: Math.floor(seconds / 3600),
         minute: Math.floor((seconds % 3600) / 60), second: seconds % 60 };

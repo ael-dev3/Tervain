@@ -1,0 +1,10 @@
+/* ENTRY 100303d0 | FUN_100303d0 | STATUS decompiled | 2 ms */
+
+void __fastcall FUN_100303d0(int param_1)
+
+{
+  PSCharacterMovement::IsSprinting((PSCharacterMovement *)(param_1 + 0x44));
+  return;
+}
+
+

@@ -1,0 +1,60 @@
+/* ENTRY 10078460 | FUN_10078460 | STATUS decompiled | 28 ms */
+
+undefined4 FUN_10078460(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  Entity aEStack_20c [164];
+  undefined4 uStack_168;
+  Entity local_150 [64];
+  PropertyIsPressed local_110 [104];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_150);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    uStack_168 = 0x100784a3;
+    Entity::AttachTo(local_150,peVar2);
+  }
+  else {
+    uStack_168 = 0x100784ac;
+    Entity::operator=(local_150,param_2);
+  }
+  Entity::Entity(local_a8);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    uStack_168 = 0x100784d2;
+    Entity::AttachTo(local_a8,peVar2);
+  }
+  else {
+    uStack_168 = 0x100784de;
+    Entity::operator=(local_a8,param_3);
+  }
+  bVar1 = PSCharacterControl::PropertyIsPressed::operator_bool(local_110);
+  if (bVar1) {
+    bVar1 = Entity::IsStanding(local_150);
+    if (!bVar1) {
+      bVar1 = Entity::IsBraking(local_150);
+      if (!bVar1) {
+        Entity::Entity(aEStack_20c,local_150);
+        thunk_FUN_10009480();
+        goto LAB_10078592;
+      }
+    }
+    Entity::Entity(aEStack_20c,local_150);
+    thunk_FUN_10009420();
+  }
+  else {
+    Entity::Entity(aEStack_20c,local_150);
+    thunk_FUN_10009420();
+    Entity::Entity(aEStack_20c,local_150);
+    thunk_FUN_10009480();
+  }
+LAB_10078592:
+  Entity::~Entity(local_a8);
+  Entity::~Entity(local_150);
+  return 1;
+}
+
+

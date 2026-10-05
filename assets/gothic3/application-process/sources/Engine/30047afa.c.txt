@@ -1,0 +1,13 @@
+/* ENTRY 30047afa | eCApplication::SetTimerIsSmooth | STATUS decompiled | 12 ms */
+
+/* public: void __thiscall eCApplication::SetTimerIsSmooth(bool) */
+
+void __thiscall eCApplication::SetTimerIsSmooth(eCApplication *this,bool param_1)
+
+{
+                    /* 0x47afa  14416  ?SetTimerIsSmooth@eCApplication@@QAEX_N@Z */
+  (this->eCApplication_data).offset_0x4fc = (eCApplication)param_1;
+  return;
+}
+
+

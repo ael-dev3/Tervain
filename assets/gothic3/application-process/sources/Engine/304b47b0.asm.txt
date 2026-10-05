@@ -1,0 +1,9 @@
+; 304b47b0 FUN_304b47b0
+304b47b0 | 56 | PUSH ESI
+304b47b1 | 8bf1 | MOV ESI,ECX
+304b47b3 | 8b06 | MOV EAX,dword ptr [ESI]
+304b47b5 | 8b5078 | MOV EDX,dword ptr [EAX + 0x78]
+304b47b8 | ffd2 | CALL EDX
+304b47ba | 0fb7863e010000 | MOVZX EAX,word ptr [ESI + 0x13e]
+304b47c1 | 5e | POP ESI
+304b47c2 | c3 | RET

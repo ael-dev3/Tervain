@@ -1,0 +1,2 @@
+; 3004070f ?SetCurrentDayTime@eCWeatherAdmin@@QAEXM@Z
+3004070f | e98c775600 | JMP 0x305a7ea0

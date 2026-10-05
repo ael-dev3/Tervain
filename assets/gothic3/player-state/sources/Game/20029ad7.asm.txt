@@ -1,0 +1,2 @@
+; 20029ad7 ?RunScriptFunction@gCScriptAdmin@@QAE_NABVbCString@@AAV?$bTObjStack@UgScriptRunTimeSingleState@@@@PAVgCScriptProcessingUnit@@@Z
+20029ad7 | e9c4333200 | JMP 0x2034cea0

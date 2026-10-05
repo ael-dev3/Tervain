@@ -1,0 +1,26 @@
+/* ENTRY 3002a25c | eCEntityPropertySet::OnProcess | STATUS decompiled | 7 ms */
+
+/* public: virtual void __thiscall eCEntityPropertySet::OnProcess(void)
+   eCEntityPropertySet member function inherited by eCDynamicLight_PS
+   eCEntityPropertySet member function inherited by eCIlluminated_PS
+   eCEntityPropertySet member function inherited by eCStaticLight_PS
+   eCEntityPropertySet member function inherited by eCStaticPointLight_PS
+   eCEntityPropertySet member function inherited by eCStaticSpotLight_PS
+   eCEntityPropertySet member function inherited by eCEffectBase_PS
+   eCEntityPropertySet member function inherited by eCCollisionShapeBase_PS
+   eCEntityPropertySet member function inherited by eCVisualMeshBase_PS
+   eCEntityPropertySet member function inherited by eCVisualMeshDynamic_PS
+   eCEntityPropertySet member function inherited by eCVisualMeshStatic_PS
+   eCEntityPropertySet member function inherited by eCSpeedTree_PS
+   eCEntityPropertySet member function inherited by eCSpeedTreeWind_PS
+   eCEntityPropertySet member function inherited by eCWeatherZone_PS
+   eCEntityPropertySet member function inherited by eCCollisionShape_PS */
+
+void __thiscall eCEntityPropertySet::OnProcess(eCEntityPropertySet *this)
+
+{
+                    /* 0x2a25c  11386  ?OnProcess@eCEntityPropertySet@@UAEXXZ */
+  return;
+}
+
+

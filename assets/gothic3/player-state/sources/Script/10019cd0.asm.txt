@@ -1,0 +1,13 @@
+; 10019cd0 FUN_10019cd0
+10019cd0 | 8b09 | MOV ECX,dword ptr [ECX]
+10019cd2 | 85c9 | TEST ECX,ECX
+10019cd4 | 7506 | JNZ 0x10019cdc
+; 10019cd6 LAB_10019cd6
+10019cd6 | 83c8ff | OR EAX,0xffffffff
+10019cd9 | c20400 | RET 0x4
+; 10019cdc LAB_10019cdc
+10019cdc | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+10019ce0 | 85c0 | TEST EAX,EAX
+10019ce2 | 7cf2 | JL 0x10019cd6
+10019ce4 | 89442404 | MOV dword ptr [ESP + 0x4],EAX
+10019ce8 | ff2508790b10 | JMP dword ptr [0x100b7908]

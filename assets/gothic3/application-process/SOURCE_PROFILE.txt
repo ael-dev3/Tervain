@@ -1,0 +1,40 @@
+APPLICATION PROCESSING SOURCE PROFILE
+
+Concrete GameApp OnProcess is empty. Engine Process increments frameCounter,
+then keyboard, mouse, modules, OnProcess, EntityAdmin, module PostProcess,
+physics Simulate, KillEntities. DoRender publishes UpdateTick only at its
+successful tail after OnPostRender/fog disable. Thus SPUs consume prior latched
+scaledSeconds. Warmup calls the same ordinary OnRun; no timing override is
+introduced here. CreateEngine resumes the application timer before OnEngineCreated.
+
+UpdateTick's ordinary branch clears pauseOverride. Single-step changes paused
+and override fields at its setter. Duplicate update skips only IsGameRunning
+AL==1 and matching counters. RelaxTick uses original double0.12500000186264515,
+not the rounded decompiler literal. All recovered f32 spills are reconstructed
+under an explicitly selected uncaptured x87 precision/nearest-even profile.
+
+EntityAdmin dispatch requires its actual enabled byte and ordered native range
+array. Range construction remains a mandatory host boundary. Snapshot retain,
+eligibility tests, dynamic PS traversal and snapshot release preserve native
+order. Processing-disabled parent skips its recursive descendants. Pause is
+queried per PS; CanBePaused may use a newly reloaded PS, while OnProcess and its
+decay getter retain the earlier captured pointer. Pre/Post instead reacquire
+the invocation PS after the pause gate. A nonempty all-decayed array kills owner.
+
+Clock adapter delegates to the existing physical OriginalClockProperties,
+including its actual scratch/calendar stores and weather notification. At a phase change Ambient is captured before
+Music; Music is notified before Ambient. Routine PreProcess and OnProcess both
+SetSelfEntity. OnProcess profiles timestamp delta around ProcessScript and adds
+that uint32 delta to the actual shared ScriptAdmin accumulator. Unsupported
+callbacks preserve attempted/partial prefixes and block automatic replay.
+
+No source definition or rendered entity is asserted resident, registered,
+processing, or gameplay-ready. No native code, tests or game execution occurs.
+
+API integration: construct NativeApplicationTiming while the same physical
+application's frameCounter/frameSeconds/scaledSeconds still have constructor
+values0. Restore of already-running timer state is not implemented. Resume
+NativeApplicationTimer at the actual successful CreateEngine boundary; do not
+infer a Win32 elapsed timer from requestAnimationFrame dt. Entity processing
+re-fetches the actual application singleton each PS iteration. Both PS count
+and pointer getters must execute their original OnReadContent callbacks.

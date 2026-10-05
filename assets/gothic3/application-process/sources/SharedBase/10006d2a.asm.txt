@@ -1,0 +1,4 @@
+; 10006d2a ?Resume@bCTimer@@QAEXXZ
+10006d2a | e9d1520400 | JMP 0x1004c000
+; 10006d2f bCSpyAdmin::GetSpyMutex
+; 10006d2f Ordinal_3027

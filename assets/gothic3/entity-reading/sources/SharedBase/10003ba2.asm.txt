@@ -1,0 +1,4 @@
+; 10003ba2 ?GetX@bCVector@@QBEMXZ
+10003ba2 | e939100200 | JMP 0x10024be0
+; 10003ba7 bCString::bCString
+; 10003ba7 Ordinal_277

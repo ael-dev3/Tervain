@@ -1,0 +1,26 @@
+/* ENTRY 100150d0 | FUN_100150d0 | STATUS decompiled | 11 ms */
+
+void FUN_100150d0(undefined4 *param_1,int param_2)
+
+{
+  Entity *this;
+  
+  _memset(param_1,0,param_2 * 0xb0);
+  if (param_2 != 0) {
+    this = (Entity *)(param_1 + 2);
+    do {
+      param_2 = param_2 + -1;
+      if (param_1 != (undefined4 *)0x0) {
+        Entity::Entity(this);
+        *param_1 = 0;
+        *(undefined4 *)(this + -4) = 0;
+        Entity::operator=(this,(Entity *)None_exref);
+      }
+      param_1 = param_1 + 0x2c;
+      this = this + 0xb0;
+    } while (param_2 != 0);
+  }
+  return;
+}
+
+

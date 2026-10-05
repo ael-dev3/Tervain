@@ -1,0 +1,23 @@
+/* ENTRY 1000720c | bCFPUAdmin::Create | STATUS decompiled | 4 ms */
+
+/* public: void __thiscall bCFPUAdmin::Create(void) */
+
+void __thiscall bCFPUAdmin::Create(bCFPUAdmin *this)
+
+{
+  uint uVar1;
+  
+                    /* 0x720c  1804  ?Create@bCFPUAdmin@@QAEXXZ */
+  *(undefined4 *)this = 0;
+  *(undefined4 *)(this + 4) = 0;
+  uVar1 = __controlfp(0,0);
+  *(uint *)this = uVar1;
+  __controlfp(0x9001f,0xffffffff);
+  uVar1 = __controlfp(0,0);
+  uVar1 = uVar1 & 0xfffeffff | 0xa001f;
+  *(uint *)(this + 4) = uVar1;
+  __controlfp(uVar1,0xffffffff);
+  return;
+}
+
+

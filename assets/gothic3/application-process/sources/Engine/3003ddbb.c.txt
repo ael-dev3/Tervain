@@ -1,0 +1,17 @@
+/* ENTRY 3003ddbb | eCApplication::SetMaxFPS | STATUS decompiled | 21 ms */
+
+/* public: void __thiscall eCApplication::SetMaxFPS(float) */
+
+void __thiscall eCApplication::SetMaxFPS(eCApplication *this,float param_1)
+
+{
+                    /* 0x3ddbb  13776  ?SetMaxFPS@eCApplication@@QAEXM@Z */
+  if (param_1 <= 0.0) {
+    (this->eCApplication_data).offset_0x4f4 = 0xbf800000;
+    return;
+  }
+  (this->eCApplication_data).offset_0x4f4 = 1000.0 / param_1;
+  return;
+}
+
+

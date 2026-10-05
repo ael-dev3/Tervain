@@ -1,0 +1,4 @@
+; 1000720c ?Create@bCFPUAdmin@@QAEXXZ
+1000720c | e94f4d0300 | JMP 0x1003bf60
+; 10007211 bCByteAlphaColor::GetColor_RGBA_8888
+; 10007211 Ordinal_2179

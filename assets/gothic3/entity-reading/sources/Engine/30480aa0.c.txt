@@ -1,0 +1,21 @@
+/* ENTRY 30480aa0 | FUN_30480aa0 | STATUS decompiled | 9 ms */
+
+undefined4 __thiscall FUN_30480aa0(eCEntity *param_1,bCIStream *param_2)
+
+{
+  bCIStream *pbVar1;
+  eCSceneAdmin *peVar2;
+  eCEntity *peVar3;
+  
+  pbVar1 = param_2;
+  bCIStream::operator>>(param_2,(ushort *)&param_2);
+  peVar3 = param_1;
+  peVar2 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+  eCSceneAdmin::UnregisterEntity(peVar2,peVar3);
+  operator>>((bCIStream *)pbVar1,(bCPropertyID *)(param_1 + 0x18));
+  peVar2 = (eCSceneAdmin *)thunk_FUN_3007bf20();
+  eCSceneAdmin::RegisterEntity(peVar2,param_1);
+  return 1;
+}
+
+

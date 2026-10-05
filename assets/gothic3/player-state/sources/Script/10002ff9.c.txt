@@ -1,0 +1,20 @@
+/* ENTRY 10002ff9 | PSInventory::FindStackIndexByQuickSlot | STATUS decompiled | 6 ms */
+
+/* public: int __thiscall PSInventory::FindStackIndexByQuickSlot(int)const  */
+
+int __thiscall PSInventory::FindStackIndexByQuickSlot(PSInventory *this,int param_1)
+
+{
+  int iVar1;
+  
+                    /* 0x2ff9  1478  ?FindStackIndexByQuickSlot@PSInventory@@QBEHH@Z */
+  if ((*(gCInventory_PS **)this != (gCInventory_PS *)0x0) && (-1 < param_1)) {
+                    /* WARNING: Could not recover jumptable at 0x10019ce8. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    iVar1 = gCInventory_PS::FindStackIndexByHotKey(*(gCInventory_PS **)this,param_1);
+    return iVar1;
+  }
+  return -1;
+}
+
+

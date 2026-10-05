@@ -14,7 +14,30 @@ limitations and source terms.
 
 This guide describes the source on `codex/gothic3-gameplay-initialization`.
 The hosted page remains at its last successful deployment; the latest source
-checkpoints have not been deployed. Sections 10–13 cover the newer runtime work.
+checkpoints have not been deployed. Sections 10–14 cover the newer runtime work.
+
+## Process at a glance
+
+1. Inventory the local installation, preserve its bytes and identify the archive
+   layer that supplies each resource.
+2. Decode original world records, meshes, actors, textures, materials, motions,
+   quests, dialogue and property sets into documented portable formats.
+3. Recover one native behavior at a time from the installed binaries. Follow
+   forwarding exports, imports and virtual dispatch, and compare the examined
+   instructions with original program bytes.
+4. Implement that behavior in TypeScript with its original state, callback
+   order and object lifetimes. Record unresolved engine calls where they occur.
+5. Connect those implementations to one live world: entity loading and context
+   activation, the Hero's property sets, the existing script processor, clock,
+   input, animation, collision, rendering and gameplay services.
+6. Review coherent changes locally, preserve the source and resource hashes,
+   then publish through the repository's deployment workflow when it can run.
+7. Establish completion by playing the original progression through its endings,
+   including quests, factions, combat, travel and saving/loading.
+
+The current scene covers part of step 2 and the rendering side of step 5.
+The newer source components advance steps 3–4. A successful TypeScript build
+does not establish that step 5 is connected or that step 7 is possible.
 
 ## 1. Preserve and study the installed game
 
@@ -1171,3 +1194,168 @@ The remaining delivery work includes complete world activation and browser
 engine services, the rest of the original scripts, movement/contact/physics,
 animations, equipment, combat, spells, dialogue, quest and enclave chains,
 saves, deployment and an original-game playthrough through its endings.
+
+## 14. Read live entities, share Clock_PS and schedule original Hero behavior
+
+This checkpoint extends the lifecycle work above. It supplies examined
+TypeScript controllers and original-byte evidence for four more parts of the
+runtime. The current browser entry still provides exploration and inspection;
+it does not yet bind these controllers into a playable original-game session.
+
+| Component | Source implementation | Current boundary |
+| --- | --- | --- |
+| Base entity ReadV83 and scalar/name setters | [entity-reading.ts](../../src/gothic3/entity-reading.ts), [entity-setters.ts](../../src/gothic3/entity-setters.ts) | Reflective class factory, full property reads, dynamic/spatial wrappers and active context loading |
+| Physical Clock_PS | [clock-properties.ts](../../src/gothic3/clock-properties.ts), [world-clock.ts](../../src/gothic3/world-clock.ts) | Actual module lookup and weather/music/ambient effects, full entity construction |
+| Hero state bodies and native input queue | [player-state.ts](../../src/gothic3/player-state.ts), [routine-scripts.ts](../../src/gothic3/routine-scripts.ts) | Full input dispatcher, physical movement, focus search, animation and remaining states |
+| Application timing and entity processing | [application-process.ts](../../src/gothic3/application-process.ts) | Resident range construction, ROI/PVS updates, physics, renderer and host scheduling |
+
+### Read the base entity in its original order
+
+ReadV83 consumes the node identity, flags, setters and name before reading
+embedded geometry data. Each matrix, box or sphere is one original stream
+read of 64, 24 or 16 bytes into the entity's existing embedded storage. Its
+three box reads are **world-tree, local-node, world-node**. The later validity
+updates have a different order: **local-node bit 19, world-node bit 20,
+world-tree bit 21**. Named native getters establish the physical offsets;
+similar-looking decompiler field names cannot establish their meaning.
+
+The property-set loop preserves the native accessor's validity-byte check,
+dynamic cast, serialized/current version comparison, repeated native-object
+lookup, AddPropertySet(false), DEADC0DE sentinel and accessor destruction.
+OnPostRead runs before the saved source timestamp is written to the entity's
+modified word. Its uniform scaling field is then replaced using the original
+world-matrix scaling helper. A completed base Read does not certify that the
+enclosing dynamic/spatial load, template patch or context activation completed.
+
+The setters retain their different child-recursion and callback behavior.
+Picking/collision update the captured collision-shape property set and then
+reread the physics object. Lock's recovered child path invokes picking.
+SetName unregisters the previous name, assigns the new name, registers it and
+reads Modified in that order. The name registry retains ordered, nonowning
+entity pointers, duplicate entries and removal of the last matching pointer.
+Allocation, string and finite-float assumptions are explicit supported profiles.
+
+### Use one physical clock property set
+
+The original World_MCP record supplies Clock_PS version 1 with Year 0, Day 0,
+Hour 12, Minute 0, Second 0 and Factor 12. The adapter binds those mutable
+properties to the same lower clock and exposes a calendar view of those
+properties. Session startup, quest time, property setters and processing must
+use that same object.
+
+Clock setters preserve Enter, assignment and Exit notifications. A
+nonpropagated Exit constructs the original time/date scratch fields, calls
+bCClock.Set, then rereads Factor for Adjust with 86,400 seconds/day and
+365 days/year. The derived Read hook is implemented separately from the
+reflective loader that must populate the property set first.
+
+Processing obtains the lower clock date, compares the old published Hour's
+daytime, and directly publishes Year/Day/Hour/Minute/Second without setter
+notifications. It computes and sends weather time, then, on a daytime change,
+captures Ambient before looking up Music and calls Music before Ambient.
+Captured receiver pointers and arguments survive consumer callbacks. An absent
+host implementation remains unknown; a proven null native module takes the
+original skip branch. The weather scalar setter can write supplied actual
+admin storage, while module creation and the remaining consumer behavior still
+need implementations.
+
+### Drive Hero states through the original queue and SPU
+
+PS_Normal_Loop consumes the module's native action queue and shared movement
+flags. Its recovered signals include Jump 54, Sneak 74, weapon toggle 65,
+quick slots 128–137 and use 60. A browser key mapping may choose those events
+under an explicit host profile; this does not recover the installed game's
+active user keyboard configuration or complete its input dispatcher. Recovered
+default mappings are evidence for that selected configuration branch; custom
+settings and the live browser device/event adapter still need binding.
+
+The local study has no decompiled C body for PS_Normal_Loop. Its available
+assembly range and original PE bytes supply the evidence for this body; the
+checkpoint records that assembly-only entry explicitly.
+
+The new adapter installs examined bodies on the existing routine scheduler.
+It shares the Hero's property sets and original attribute/stat objects.
+Ordinary movement can write the same Navigation and CharacterControl wished
+movement modes. Those wishes still require the original physical movement
+controller, collision and animation to move the Hero correctly.
+
+The Jump state constructs its original 340-byte argument object and script
+frame, preserving callback inheritance, captured nonowning entity wrappers and
+destructor/delete order. The examined CanJump=false branch completes. The
+true branch retains the original pose, action, animation-state, queue and
+movement/stamina prefix before stopping at unresolved animation calls.
+Focus lookup, talking, taking, fighting and other states retain their explicit
+dependencies. Recovering a state prefix does not make that player action fully
+playable.
+
+### Publish frame time at the successful render tail
+
+The concrete GameApp inherits an **empty OnProcess**. Application timing is
+updated by UpdateTick at the end of a successful DoRender, after OnPostRender
+and the final fogging disable. Processing earlier in the frame consumes the
+previously stored frame/scaled seconds. A browser adapter that calculates a
+new RAF delta inside OnProcess would change this order.
+
+The timing implementation retains the original timer GetTime/Reset sequence,
+smoothing, fixed frame time, single step, bounds, pause-override fields and
+float32 stores. x87 precision and rounding are selected profiles; they are
+not a captured native FPU environment. Browser scheduling must provide the
+ordered timer/Sleep effects and preserve renderer early returns.
+
+EntityAdmin starts with processing disabled, and CreateEngine later sets it
+from the concrete engine setup's byte at offset 0xc6. Range updates still run
+when processing is disabled. With processing enabled, the original controller
+copies its ordered range array, adds references to every snapshot entity,
+then runs pre/process/post for each eligible entity before releasing all
+snapshot references. Dynamic property traversal rereads the application pause
+state and invokes actual property-count/accessor callbacks. The clock adapter
+delegates to the same physical Clock_PS, and routine processing uses the same
+embedded SPU and stored application timing.
+
+Rendered or indexed entities do not establish this range membership. A complete
+session needs original context residency, cache/physics setup and the
+ROI/PVS/hysteresis/exit/enter updates before this dispatch tail.
+
+### Reproduce and retain the current evidence
+
+Run the producers against the preserved local study on this source revision:
+
+```powershell
+python -B tools/gothic3/research_entity_reading.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/research_clock_properties.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/research_player_state.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/research_application_process.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/freeze_processing_checkpoint.py
+```
+
+[processing-checkpoint.json](../../assets/gothic3/processing-checkpoint.json)
+chains from source commit `08cf0580`. It pins the four new namespaces and the
+intentional shared changes to world-clock, routine-script dispatch and the
+session timing comment. It also records this guide, its documentation index
+link and byte-preservation attributes. Earlier receipts remain evidence at
+their recorded commits; they do not claim unchanged bytes for extended shared
+implementations.
+
+The producers compare the examined instructions with original PE bytes and
+preserve the source excerpts and hashes. Those evidence counts describe the
+examined code, including forwarding entries and overlapping bodies. They do
+not measure how much of the full game is implemented.
+
+| Evidence set | Entries | Instructions | Original instruction bytes |
+| --- | ---: | ---: | ---: |
+| Entity reading/setters | 64 | 1,865 | 5,758 |
+| Physical clock properties | 150 | 1,045 | 3,436 |
+| Hero state/input prefixes | 152 | 11,357 | 39,010 |
+| Application timing/entity processing | 133 | 3,421 | 11,912 |
+
+The final combined TypeScript check and production build passed locally on
+5 October 2026 (`npm run build`, 235 Vite modules). The existing large-chunk
+warning remains. Source/excerpt hashes and local documentation links were
+checked. No tests, original native execution, browser session, deployment or
+playthrough were run for this checkpoint. The new controllers still require
+browser-host integration.
+
+The remaining delivery requirement is a connected browser runtime with the
+original world activation and gameplay services, followed by a complete
+original-game progression and save/load playthrough. This checkpoint keeps
+`gameplayReady: false`.
