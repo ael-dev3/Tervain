@@ -1,3 +1,4 @@
+import type { PlaceId } from '../../game/types';
 import { FOREST_REGION, PLACES } from '../../world/layout';
 import { villageCover } from './soundscape';
 import { WORLD_AUDIO, type MusicId } from './worldAudioManifest';
@@ -6,7 +7,11 @@ import { WORLD_AUDIO, type MusicId } from './worldAudioManifest';
  * The in-world score, decided without any audio objects. Gothic-like pacing: a piece for the mood of the place plays
  * once, then the world is left to itself for a while (the art direction asks for quiet intervals); a threat brings in
  * a low pulsing loop, a fight the battle loop, and when it is over the world falls quiet again. Short stings mark a
- * discovered place, a completed task, a victory and a fall.
+ * discovered place, a step of the story, a victory and a fall.
+ *
+ * Two voices share the score: pieces generated from prompts, and pieces composed in code around one Tervain theme
+ * (`origin: 'composed'`). The first time a mood is heard, its own arrangement of the theme plays; a fight keeps one
+ * voice from warning to battle; each region announces itself with the theme's opening in its own instruments.
  *
  * Moods: `vale` (Rillford and the hamlet, the ford, the mill, the sluice, the quarry by day), `wild` (the strand, the
  * deepwood, the overlook, Lantern Point, the Cut), `sacred` (the spring shrine and the archive), `night` (anywhere after
@@ -15,6 +20,7 @@ import { WORLD_AUDIO, type MusicId } from './worldAudioManifest';
 
 export type Mood = 'vale' | 'wild' | 'sacred' | 'night';
 export type Threat = 'none' | 'alert' | 'combat';
+export type Region = 'coast' | 'wood' | 'vale' | 'stone' | 'sacred' | 'light';
 
 export interface MusicContext {
   /** The world is running (not a menu, not the fall). */
@@ -23,6 +29,8 @@ export interface MusicContext {
   z: number;
   night: boolean;
   threat: Threat;
+  /** Music is playing in the world itself (the inn's tune): the score keeps quiet rather than play over it. */
+  diegetic?: boolean;
 }
 
 export type MusicAction =
@@ -32,13 +40,28 @@ export type MusicAction =
   | { t: 'sting'; id: MusicId };
 
 type MusicEntry = (typeof WORLD_AUDIO.music)[MusicId];
+type Origin = MusicEntry['origin'];
 
 const entries = Object.entries(WORLD_AUDIO.music) as [MusicId, MusicEntry][];
+const ids = (pick: (e: MusicEntry) => boolean) => entries.filter(([, e]) => pick(e)).map(([id]) => id);
 export const PLAYLISTS: Record<Mood, MusicId[]> = {
-  vale: entries.filter(([, e]) => e.kind === 'piece' && e.mood === 'vale').map(([id]) => id),
-  wild: entries.filter(([, e]) => e.kind === 'piece' && e.mood === 'wild').map(([id]) => id),
-  sacred: entries.filter(([, e]) => e.kind === 'piece' && e.mood === 'sacred').map(([id]) => id),
-  night: entries.filter(([, e]) => e.kind === 'piece' && e.mood === 'night').map(([id]) => id),
+  vale: ids((e) => e.kind === 'piece' && e.mood === 'vale'),
+  wild: ids((e) => e.kind === 'piece' && e.mood === 'wild'),
+  sacred: ids((e) => e.kind === 'piece' && e.mood === 'sacred'),
+  night: ids((e) => e.kind === 'piece' && e.mood === 'night'),
+};
+export const THREAT_LOOPS: Record<'alert' | 'combat', MusicId[]> = {
+  alert: ids((e) => e.kind === 'loop' && e.mood === 'danger'),
+  combat: ids((e) => e.kind === 'loop' && e.mood === 'combat'),
+};
+
+/** Which region's motif greets each place on first discovery. */
+export const PLACE_REGION: Record<PlaceId, Region> = {
+  shore: 'coast', deepwood: 'wood', overlook: 'wood', lantern_point: 'light', rillford: 'vale', ford: 'vale',
+  sluice: 'vale', quarry: 'stone', the_cut: 'stone', spring_shrine: 'sacred', archive: 'sacred',
+};
+export const REGION_STING: Record<Region, MusicId> = {
+  coast: 'place_coast', wood: 'place_wood', vale: 'place_vale', stone: 'place_stone', sacred: 'place_sacred', light: 'place_light',
 };
 
 const SACRED = [PLACES.spring_shrine, PLACES.archive];
@@ -73,6 +96,8 @@ const QUIET_AFTER_PIECE: [number, number] = [35, 80];
 const FIRST_WAIT: [number, number] = [8, 18];
 const MOOD_SETTLE = 8;
 const COMBAT_HOLD = 4;
+/** After the inn's tune, the score waits at least this long before a piece. */
+const AFTER_DIEGETIC = 20;
 
 type State =
   | { s: 'off' }
@@ -83,6 +108,9 @@ type State =
 export class MusicDirector {
   private state: State = { s: 'off' };
   private last: MusicId | null = null;
+  private readonly heard = new Set<Mood>();
+  /** Flips at each encounter; the first fight of a session hears the composed music. */
+  private fightVoice: Origin = 'generated';
   private readonly random: () => number;
 
   constructor(random: () => number = Math.random) {
@@ -104,8 +132,20 @@ export class MusicDirector {
   private pick(mood: Mood): MusicId | null {
     const list = PLAYLISTS[mood].length ? PLAYLISTS[mood] : PLAYLISTS.wild;
     if (!list.length) return null;
+    // The first time a mood is heard, its own arrangement of the theme: the place's voice before its variations.
+    if (!this.heard.has(mood)) {
+      this.heard.add(mood);
+      const own = list.find((id) => WORLD_AUDIO.music[id].origin === 'composed');
+      if (own) return own;
+    }
     const choices = list.length > 1 ? list.filter((id) => id !== this.last) : list;
     return choices[Math.floor(this.random() * choices.length)] ?? null;
+  }
+
+  /** A fight keeps one voice: a composed warning leads to the composed battle. */
+  private loopFor(level: 'alert' | 'combat'): MusicId {
+    const list = THREAT_LOOPS[level];
+    return list.find((id) => WORLD_AUDIO.music[id].origin === this.fightVoice) ?? list[0]!;
   }
 
   update(dt: number, ctx: MusicContext): MusicAction[] {
@@ -121,15 +161,25 @@ export class MusicDirector {
     // A threat overrides everything else. A fight never steps back down to the warning loop while it lasts.
     if (ctx.threat !== 'none') {
       if (st.s !== 'threat') {
-        out.push({ t: 'loop', id: ctx.threat === 'combat' ? 'combat' : 'danger', fadeIn: ctx.threat === 'combat' ? 0.8 : 2.2 });
+        // Each new encounter alternates the voice of its fight music.
+        this.fightVoice = this.fightVoice === 'composed' ? 'generated' : 'composed';
+        const combat = ctx.threat === 'combat';
+        out.push({ t: 'loop', id: this.loopFor(combat ? 'combat' : 'alert'), fadeIn: combat ? 0.8 : 2.2 });
         this.state = { s: 'threat', level: ctx.threat, calm: 0 };
       } else {
         if (ctx.threat === 'combat' && st.level === 'alert') {
-          out.push({ t: 'loop', id: 'combat', fadeIn: 0.8 });
+          out.push({ t: 'loop', id: this.loopFor('combat'), fadeIn: 0.8 });
           st.level = 'combat';
         }
         st.calm = 0;
       }
+      return out;
+    }
+
+    if (ctx.diegetic && st.s !== 'threat') {
+      // Music in the world itself (the inn): the score gives way and waits until it is over.
+      if (st.s === 'piece') out.push({ t: 'stop', fadeOut: 3 });
+      if (st.s !== 'wait' || st.left < AFTER_DIEGETIC) this.state = { s: 'wait', left: AFTER_DIEGETIC };
       return out;
     }
 
@@ -169,19 +219,26 @@ export class MusicDirector {
     return out;
   }
 
-  /** A sting over the quiet: never over a fight. */
-  sting(kind: 'discover' | 'quest' | 'victory' | 'death'): MusicAction[] {
+  /** The composed form two times in three; the generated one keeps some variety. */
+  private either(composed: MusicId, generated: MusicId): MusicId {
+    return this.random() < 2 / 3 ? composed : generated;
+  }
+
+  /** A sting over the quiet: never over a fight. A discovery names its place, so its region can answer. */
+  sting(kind: 'discover' | 'quest' | 'victory' | 'death', place?: PlaceId): MusicAction[] {
     if (kind === 'death') {
       this.state = { s: 'off' };
-      return [{ t: 'stop', fadeOut: 0.4 }, { t: 'sting', id: 'sting_death' }];
+      return [{ t: 'stop', fadeOut: 0.4 }, { t: 'sting', id: this.either('sting_fall_theme', 'sting_death') }];
     }
     if (kind === 'victory') {
       const was = this.state;
       this.state = { s: 'wait', left: this.range([14, 26]) };
-      return was.s === 'threat' ? [{ t: 'stop', fadeOut: 1.5 }, { t: 'sting', id: 'sting_victory' }] : [{ t: 'sting', id: 'sting_victory' }];
+      const id = this.either('sting_victory_theme', 'sting_victory');
+      return was.s === 'threat' ? [{ t: 'stop', fadeOut: 1.5 }, { t: 'sting', id }] : [{ t: 'sting', id }];
     }
     if (this.state.s === 'threat') return [];
-    const id: MusicId = kind === 'quest' ? 'sting_quest' : this.random() < 0.5 ? 'sting_discover' : 'sting_lute';
-    return [{ t: 'sting', id }];
+    if (kind === 'quest') return [{ t: 'sting', id: this.either('sting_quest_theme', 'sting_quest') }];
+    if (place && PLACE_REGION[place]) return [{ t: 'sting', id: REGION_STING[PLACE_REGION[place]] }];
+    return [{ t: 'sting', id: this.random() < 0.5 ? 'sting_discover' : 'sting_lute' }];
   }
 }

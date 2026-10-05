@@ -1,17 +1,20 @@
-import type { NpcId } from '../../game/types';
+import type { NpcId, PlaceId } from '../../game/types';
 import { ANCHORS, bySpec, frontOf } from '../../world/layout';
 import type { Terrain } from '../../world/terrain';
 import { npcStyle } from '../npcStyle';
 import { type BankName, clipRef, VariantPicker } from './clips';
 import { type Cue, stepCue, workSound, type WorkSound } from './foley';
 import { type MusicAction, MusicDirector, type Threat } from './musicDirector';
-import { bedTargets, EmitterScheduler, groundSurface, type Vec3, type WorldSoundState } from './soundscape';
-import { WORLD_AUDIO, type LoopId, type MusicId } from './worldAudioManifest';
+import {
+  bedTargets, cricketDensity, cricketRate, EmitterScheduler, groundSurface, innSong, temperatureAt, type Vec3, type WorldSoundState,
+} from './soundscape';
+import { WORLD_AUDIO, type LoopId, type MusicId, type SongId } from './worldAudioManifest';
 
 /**
  * Tervain's recorded world sound at run time: one-shots placed in the world, looping beds that follow the place,
  * wildlife calls around the listener, the residents' footsteps, work and talk, enemies' calls, objects knocking into
- * things, and the in-world score. The decisions come from the pure modules (foley, soundscape, musicDirector); this
+ * things, crickets keeping time with the air's warmth, a heartbeat when wounded, the inn's evening tunes, and the
+ * in-world score. The decisions come from the pure modules (foley, soundscape, musicDirector); this
  * class only turns them into Web Audio nodes, and no audio failure ever reaches the game.
  */
 
@@ -61,7 +64,8 @@ export interface SoundFrame {
   mode: 'play' | 'paused' | 'dead';
   /** The camera: position and forward direction. */
   listener: Vec3 & { fx: number; fy: number; fz: number };
-  player: Vec3 & { exhausted: boolean };
+  /** `health` is a fraction of the maximum, 0..1. */
+  player: Vec3 & { exhausted: boolean; health: number };
   world: WorldSoundState;
   indoors: boolean;
   threat: Threat;
@@ -215,6 +219,14 @@ export class SoundWorld {
   private readonly foes = new Map<string, { state: string; x: number; z: number; walked: number }>();
   private readonly objects = new Map<string, { speed: number; cooldown: number }>();
   private piece: { media: HTMLAudioElement; source: MediaElementAudioSourceNode; gain: GainNode } | null = null;
+  /** The inn's tune, streamed through the walls (a muffle) from the inn's place in the world. */
+  private song: { id: SongId; media: HTMLAudioElement; source: MediaElementAudioSourceNode; gain: GainNode; nodes: AudioNode[] } | null = null;
+  private lastSong: SongId | null = null;
+  private songRest = 5;
+  private songAway = 0;
+  private songLevel = 0;
+  private readonly crickets: { x: number; z: number; clock: number; rate: number; voice: number }[] = [];
+  private heart = 0.3;
   private loop: { id: MusicId; source: AudioBufferSourceNode; gain: GainNode } | null = null;
   private loopWanted: MusicId | null = null;
   private acc = 0;
@@ -391,7 +403,8 @@ export class SoundWorld {
         distance = Math.hypot(opt.at.x - l.x, opt.at.y - l.y, opt.at.z - l.z);
         if (distance > (opt.maxDistance ?? 60)) return false;
       }
-      const [offset, length] = ref.variants[this.picker.pick(cue.clip)]!;
+      const take = cue.variant !== undefined ? Math.min(ref.variants.length - 1, Math.max(0, cue.variant)) : this.picker.pick(cue.clip);
+      const [offset, length] = ref.variants[take]!;
       const from = Math.min(length, Math.max(0, cue.from ?? 0));
       const to = Math.min(length, cue.to ?? length);
       if (to - from < 0.02) return false;
@@ -498,11 +511,14 @@ export class SoundWorld {
       this.updateMusic(step, frame);
       if (frame?.mode === 'play') {
         for (const e of this.emitters.update(step, { ...frame.listener, indoors: frame.indoors }, frame.world)) {
-          if (this.play({ clip: e.clip, gain: e.gain, pitch: e.pitch }, { at: e.at, bus: 'ambience', ref: 9, maxDistance: 110, reverb: 0.12 })) this.stats.emitted++;
+          if (this.play({ clip: e.clip, gain: e.gain, pitch: e.pitch, delay: e.delay }, { at: e.at, bus: 'ambience', ref: 9, maxDistance: 110, reverb: 0.12 })) this.stats.emitted++;
         }
         this.updatePeople(step, frame);
         this.updateBreath(step, frame);
+        this.updateCrickets(step, frame);
+        this.updateHeart(step, frame);
       }
+      this.updateSong(step, frame);
       this.stats.voices = this.voices.size;
     } catch {
       // A broken frame of sound never stops the game.
@@ -761,6 +777,109 @@ export class SoundWorld {
     this.play({ clip: 'voice.breath', gain: 0.4, pitch: 0.05 }, { bus: 'dialogue', reverb: 0.02 });
   }
 
+  /**
+   * Crickets keep their places around the listener and chirp at the rate the air's warmth sets (Dolbear's law), each
+   * with its own voice and a little of its own tempo; one left far behind moves to a new spot nearby.
+   */
+  private updateCrickets(dt: number, frame: SoundFrame) {
+    const l = frame.listener;
+    const want = Math.round(cricketDensity({ ...l, indoors: frame.indoors }, frame.world) * 6);
+    while (this.crickets.length > want) this.crickets.pop();
+    while (this.crickets.length < want) this.crickets.push(this.newCricket(l));
+    const rate = cricketRate(temperatureAt(frame.world.hour));
+    for (const c of this.crickets) {
+      if (Math.hypot(c.x - l.x, c.z - l.z) > 34) Object.assign(c, this.newCricket(l));
+      c.clock -= dt * rate * c.rate;
+      if (c.clock > 0) continue;
+      c.clock += 1;
+      this.play({ clip: 'cricket', gain: 0.3, pitch: 0.008, variant: c.voice }, { at: { x: c.x, y: 0.15, z: c.z }, bus: 'ambience', ref: 3, maxDistance: 36, reverb: 0.05 });
+    }
+  }
+
+  private newCricket(l: Vec3) {
+    const a = this.random() * Math.PI * 2;
+    const r = 6 + 20 * this.random();
+    return { x: l.x + Math.sin(a) * r, z: l.z + Math.cos(a) * r, clock: this.random(), rate: 0.88 + 0.24 * this.random(), voice: Math.floor(this.random() * 6) };
+  }
+
+  /** Below a third of health the player hears their own heart, faster and louder as the end comes near. */
+  private updateHeart(dt: number, frame: SoundFrame) {
+    const h = frame.player.health;
+    if (!(h > 0 && h < 0.3)) {
+      this.heart = 0.3;
+      return;
+    }
+    const fear = (0.3 - h) / 0.3;
+    this.heart -= dt;
+    if (this.heart > 0) return;
+    this.heart = 60 / (72 + 48 * fear);
+    this.play({ clip: 'heart', gain: 0.32 + 0.45 * fear }, { bus: 'effects', reverb: 0 });
+  }
+
+  /**
+   * The inn's evening music: a tune streams from the inn through its walls; between tunes the player rests a while.
+   * Walking away lets the tune fade; staying away a while lets it end. A fight drowns it.
+   */
+  private updateSong(dt: number, frame: SoundFrame | null) {
+    const target = frame && frame.mode !== 'dead' ? innSong({ ...frame.listener, indoors: frame.indoors }, frame.world) : null;
+    const level = (target?.gain ?? 0) * (frame?.threat === 'none' ? 1 : 0.25);
+    this.songLevel = level;
+    const t = this.ctx.currentTime;
+    const s = this.song;
+    if (s) {
+      this.target(s.gain.gain, 0.9 * level, t, 0.8, 0.002);
+      this.songAway = level < 0.01 ? this.songAway + dt : 0;
+      if (s.media.ended || this.songAway > 12) {
+        this.releaseSong(s.media.ended ? 0.05 : 1);
+        this.songRest = 25 + 45 * this.random();
+      }
+      return;
+    }
+    if (level < 0.02 || typeof Audio !== 'function') return;
+    this.songRest -= dt;
+    if (this.songRest > 0) return;
+    const ids = (Object.keys(WORLD_AUDIO.songs) as SongId[]).filter((id) => id !== this.lastSong);
+    const id = ids[Math.floor(this.random() * ids.length)];
+    if (!id || !target) return;
+    this.lastSong = id;
+    const media = new Audio();
+    media.preload = 'auto';
+    const file = WORLD_AUDIO.songs[id].file;
+    media.src = this.url(file);
+    media.addEventListener('error', () => {
+      if (this.song?.media !== media || !media.src.endsWith('.ogg')) return;
+      this.ext = 'm4a';
+      media.src = this.url(file, 'm4a');
+      void media.play().catch(() => undefined);
+    }, { once: true });
+    const source = this.ctx.createMediaElementSource(media);
+    const walls = this.ctx.createBiquadFilter();
+    walls.type = 'lowpass';
+    walls.frequency.value = 2300;
+    walls.Q.value = 0.5;
+    const panner = this.ctx.createPanner();
+    panner.panningModel = 'equalpower';
+    panner.rolloffFactor = 0;
+    placeAt(panner, target.at);
+    const gain = this.ctx.createGain();
+    gain.gain.value = 0;
+    source.connect(walls).connect(panner).connect(gain).connect(this.duck);
+    this.song = { id, media, source, gain, nodes: [source, walls, panner, gain] };
+    void media.play().catch(() => undefined);
+  }
+
+  private releaseSong(fade: number) {
+    const s = this.song;
+    this.song = null;
+    if (!s) return;
+    this.fadeOut(s.gain, fade, () => {
+      s.media.pause();
+      s.media.removeAttribute('src');
+      s.media.load();
+      for (const n of s.nodes) quietly(() => n.disconnect());
+    });
+  }
+
   /* ------------------------------------------------------------------ the score */
 
   private updateMusic(dt: number, frame: SoundFrame | null) {
@@ -769,6 +888,7 @@ export class SoundWorld {
       x: frame?.player.x ?? 0,
       z: frame?.player.z ?? 0,
       night: (frame?.world.nightness ?? 0) > 0.55,
+      diegetic: this.songLevel > 0.15,
       // A panel opened mid-fight pauses the fight, not its music.
       threat: frame && frame.mode !== 'dead' ? frame.threat : 'none',
     });
@@ -779,10 +899,10 @@ export class SoundWorld {
     }
   }
 
-  /** Discovery, quest, victory and death stings, from game events. */
-  sting(kind: 'discover' | 'quest' | 'victory' | 'death') {
+  /** Discovery, quest, victory and death stings, from game events; a discovery names its place. */
+  sting(kind: 'discover' | 'quest' | 'victory' | 'death', place?: PlaceId) {
     if (this.disposed) return;
-    this.applyMusic(this.director.sting(kind));
+    this.applyMusic(this.director.sting(kind, place));
   }
 
   private applyMusic(actions: readonly MusicAction[]) {
@@ -903,15 +1023,17 @@ export class SoundWorld {
 
   /** A hidden tab suspends the audio clock; a streamed piece must not run on silently under it. */
   setHidden(hidden: boolean) {
-    const media = this.piece?.media;
-    if (!media || this.disposed) return;
-    if (hidden) media.pause();
-    else if (!media.ended) void media.play().catch(() => undefined);
+    if (this.disposed) return;
+    for (const media of [this.piece?.media, this.song?.media]) {
+      if (!media) continue;
+      if (hidden) media.pause();
+      else if (!media.ended) void media.play().catch(() => undefined);
+    }
   }
 
   /** The score's state, for the developer panel and the browser review. */
-  get musicState(): { phase: string; piece: MusicId | null; loop: MusicId | null } {
-    return { phase: this.director.phase, piece: this.director.current, loop: this.loop?.id ?? null };
+  get musicState(): { phase: string; piece: MusicId | null; loop: MusicId | null; song: SongId | null } {
+    return { phase: this.director.phase, piece: this.director.current, loop: this.loop?.id ?? null, song: this.song?.id ?? null };
   }
 
   dispose() {
@@ -933,6 +1055,14 @@ export class SoundWorld {
       quietly(() => loop.source.stop());
       quietly(() => loop.source.disconnect());
       quietly(() => loop.gain.disconnect());
+    }
+    const song = this.song;
+    this.song = null;
+    if (song) {
+      song.media.pause();
+      song.media.removeAttribute('src');
+      song.media.load();
+      for (const n of song.nodes) quietly(() => n.disconnect());
     }
     for (const v of [...this.voices]) {
       quietly(() => v.source.stop());

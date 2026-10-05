@@ -1,7 +1,7 @@
-import type { ItemId } from '../game/types';
+import type { ItemId, PlaceId } from '../game/types';
 import type { Settings } from '../platform/settings';
 import {
-  consumeCues, EQUIP, hitCue, landCues, MAP_OPEN, PAGE, pickupCues, SATCHEL_CLOSE, SATCHEL_OPEN, stepCue, swingCue, UNEQUIP, worldCues,
+  bellCue, consumeCues, EQUIP, hitCue, landCues, MAP_OPEN, PAGE, pickupCues, SATCHEL_CLOSE, SATCHEL_OPEN, stepCue, swingCue, UNEQUIP, worldCues,
   type Cue, type SurfaceKind, type WorldAction,
 } from './sound/foley';
 import type { Vec3 } from './sound/soundscape';
@@ -655,15 +655,18 @@ export class AudioEngine {
     this.worldEvent('rite', '[Water settles at the spring]');
   }
 
-  /** The story bell, placed at its tower; `gain` is the app's distance fade, `bright` the all-clear peal. */
-  bell(gain: number, bright = false, at?: Vec3) {
+  /**
+   * The story bell, cast on D and placed at its tower: `gain` is the app's distance fade, `bright` the all-clear peal,
+   * `index` the strike's place in its sequence (the peal rings high to low).
+   */
+  bell(gain: number, bright = false, at?: Vec3, index = 0) {
     if (!(gain > 0.01)) return;
     // A huge reference distance leaves the level to the app's fade and uses the panner only for direction.
-    this.cue({ clip: bright ? 'bell.small' : 'bell.big', gain: 0.8, pitch: 0.01 }, { at, scale: Math.min(1, gain), ref: 1e4, maxDistance: 1e4, reverb: 0.3 });
+    this.cue(bellCue(bright, index), { at, scale: Math.min(1, gain), ref: 1e4, maxDistance: 1e4, reverb: 0.3 });
   }
 
-  /** Short pieces of score over the quiet: a newly found place, a step of the story, a won fight, a fall. */
-  discover() { this.soundWorld?.sting('discover'); }
+  /** Short pieces of score over the quiet: a newly found place (its region's motif), a step of the story, a won fight, a fall. */
+  discover(place?: PlaceId) { this.soundWorld?.sting('discover', place); }
   quest() { this.soundWorld?.sting('quest'); }
   victory() { this.soundWorld?.sting('victory'); }
 

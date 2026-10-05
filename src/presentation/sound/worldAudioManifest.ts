@@ -213,6 +213,35 @@ export const WORLD_AUDIO = {
         "voice.murmur": [[29.96533, 4.1], [34.12533, 4.1], [38.28533, 4.1]],
         "voice.cough": [[42.44533, 0.66667], [43.172, 1.07], [44.302, 0.83267]]
       }
+    },
+    "crafted": {
+      "file": "bank-crafted",
+      "duration": 52.7814,
+      "clips": {
+        "bell.town": [[0.06, 6.99733], [7.11733, 7]],
+        "bell.peal": [[14.17733, 4.2], [18.43733, 4.2], [22.69733, 4.19733]],
+        "chime": [[26.95467, 3], [30.01467, 3], [33.07467, 3], [36.13467, 3], [39.19467, 3]],
+        "cricket": [
+          [42.25467, 0.13333],
+          [42.448, 0.10133],
+          [42.60933, 0.13333],
+          [42.80267, 0.16533],
+          [43.028, 0.09867],
+          [43.18667, 0.136]
+        ],
+        "bubble": [
+          [43.38267, 0.01887],
+          [43.46154, 0.0216],
+          [43.54315, 0.02452],
+          [43.62767, 0.02754],
+          [43.71521, 0.03069],
+          [43.8059, 0.03394],
+          [43.89983, 0.03729],
+          [43.99712, 0.04423]
+        ],
+        "heart": [[44.10135, 0.75], [44.91135, 0.75]],
+        "rite.bowl": [[45.72135, 7]]
+      }
     }
   },
   "loops": {
@@ -320,7 +349,8 @@ export const WORLD_AUDIO = {
       "channels": 2,
       "kind": "piece",
       "mood": "vale",
-      "sourceLevelDb": -10.7
+      "sourceLevelDb": -10.7,
+      "origin": "generated"
     },
     "vale_2": {
       "file": "music-vale_2",
@@ -328,7 +358,8 @@ export const WORLD_AUDIO = {
       "channels": 2,
       "kind": "piece",
       "mood": "vale",
-      "sourceLevelDb": -30.9
+      "sourceLevelDb": -30.9,
+      "origin": "generated"
     },
     "wild_1": {
       "file": "music-wild_1",
@@ -336,7 +367,8 @@ export const WORLD_AUDIO = {
       "channels": 2,
       "kind": "piece",
       "mood": "wild",
-      "sourceLevelDb": -15.1
+      "sourceLevelDb": -15.1,
+      "origin": "generated"
     },
     "wild_2": {
       "file": "music-wild_2",
@@ -344,7 +376,8 @@ export const WORLD_AUDIO = {
       "channels": 2,
       "kind": "piece",
       "mood": "wild",
-      "sourceLevelDb": -12.8
+      "sourceLevelDb": -12.8,
+      "origin": "generated"
     },
     "wild_3": {
       "file": "music-wild_3",
@@ -352,7 +385,8 @@ export const WORLD_AUDIO = {
       "channels": 2,
       "kind": "piece",
       "mood": "wild",
-      "sourceLevelDb": -13.8
+      "sourceLevelDb": -13.8,
+      "origin": "generated"
     },
     "night_1": {
       "file": "music-night_1",
@@ -360,7 +394,8 @@ export const WORLD_AUDIO = {
       "channels": 2,
       "kind": "piece",
       "mood": "night",
-      "sourceLevelDb": -26.5
+      "sourceLevelDb": -26.5,
+      "origin": "generated"
     },
     "night_2": {
       "file": "music-night_2",
@@ -368,7 +403,8 @@ export const WORLD_AUDIO = {
       "channels": 2,
       "kind": "piece",
       "mood": "night",
-      "sourceLevelDb": -11.5
+      "sourceLevelDb": -11.5,
+      "origin": "generated"
     },
     "sacred": {
       "file": "music-sacred",
@@ -376,7 +412,8 @@ export const WORLD_AUDIO = {
       "channels": 2,
       "kind": "piece",
       "mood": "sacred",
-      "sourceLevelDb": -20.6
+      "sourceLevelDb": -20.6,
+      "origin": "generated"
     },
     "danger": {
       "file": "music-danger",
@@ -384,7 +421,8 @@ export const WORLD_AUDIO = {
       "channels": 2,
       "sourceLevelDb": -16.6,
       "kind": "loop",
-      "mood": "danger"
+      "mood": "danger",
+      "origin": "generated"
     },
     "combat": {
       "file": "music-combat",
@@ -392,7 +430,8 @@ export const WORLD_AUDIO = {
       "channels": 2,
       "sourceLevelDb": -16.4,
       "kind": "loop",
-      "mood": "combat"
+      "mood": "combat",
+      "origin": "generated"
     },
     "sting_discover": {
       "file": "music-sting_discover",
@@ -400,7 +439,8 @@ export const WORLD_AUDIO = {
       "channels": 2,
       "kind": "sting",
       "mood": "sting",
-      "sourceLevelDb": -8.8
+      "sourceLevelDb": -8.8,
+      "origin": "generated"
     },
     "sting_victory": {
       "file": "music-sting_victory",
@@ -408,7 +448,8 @@ export const WORLD_AUDIO = {
       "channels": 2,
       "kind": "sting",
       "mood": "sting",
-      "sourceLevelDb": -24
+      "sourceLevelDb": -24,
+      "origin": "generated"
     },
     "sting_death": {
       "file": "music-sting_death",
@@ -416,7 +457,8 @@ export const WORLD_AUDIO = {
       "channels": 2,
       "kind": "sting",
       "mood": "sting",
-      "sourceLevelDb": -18.1
+      "sourceLevelDb": -18.1,
+      "origin": "generated"
     },
     "sting_quest": {
       "file": "music-sting_quest",
@@ -424,7 +466,8 @@ export const WORLD_AUDIO = {
       "channels": 2,
       "kind": "sting",
       "mood": "sting",
-      "sourceLevelDb": -11.5
+      "sourceLevelDb": -11.5,
+      "origin": "generated"
     },
     "sting_lute": {
       "file": "music-sting_lute",
@@ -432,7 +475,181 @@ export const WORLD_AUDIO = {
       "channels": 2,
       "kind": "sting",
       "mood": "sting",
-      "sourceLevelDb": -10.6
+      "sourceLevelDb": -10.6,
+      "origin": "generated"
+    },
+    "theme_vale": {
+      "file": "music-theme_vale",
+      "duration": 84.232,
+      "channels": 2,
+      "kind": "piece",
+      "mood": "vale",
+      "sourceLevelDb": -16.9,
+      "origin": "composed",
+      "title": "Rillford at Work"
+    },
+    "theme_wild": {
+      "file": "music-theme_wild",
+      "duration": 72.3467,
+      "channels": 2,
+      "kind": "piece",
+      "mood": "wild",
+      "sourceLevelDb": -16.6,
+      "origin": "composed",
+      "title": "The Deepwood"
+    },
+    "theme_night": {
+      "file": "music-theme_night",
+      "duration": 66.768,
+      "channels": 2,
+      "kind": "piece",
+      "mood": "night",
+      "sourceLevelDb": -20.7,
+      "origin": "composed",
+      "title": "Embers"
+    },
+    "theme_sacred": {
+      "file": "music-theme_sacred",
+      "duration": 77.3173,
+      "channels": 2,
+      "kind": "piece",
+      "mood": "sacred",
+      "sourceLevelDb": -13.8,
+      "origin": "composed",
+      "title": "The Spring"
+    },
+    "danger_watch": {
+      "file": "music-danger_watch",
+      "duration": 20,
+      "channels": 2,
+      "kind": "loop",
+      "mood": "danger",
+      "sourceLevelDb": -17.7,
+      "origin": "composed",
+      "title": "Something Watches"
+    },
+    "battle_ford": {
+      "file": "music-battle_ford",
+      "duration": 19.5918,
+      "channels": 2,
+      "kind": "loop",
+      "mood": "combat",
+      "sourceLevelDb": -15.2,
+      "origin": "composed",
+      "title": "Steel at the Ford"
+    },
+    "sting_victory_theme": {
+      "file": "music-sting_victory_theme",
+      "duration": 6.4,
+      "channels": 2,
+      "kind": "sting",
+      "mood": "sting",
+      "sourceLevelDb": -14.3,
+      "origin": "composed",
+      "title": "A Fight Won"
+    },
+    "sting_fall_theme": {
+      "file": "music-sting_fall_theme",
+      "duration": 12.0427,
+      "channels": 2,
+      "kind": "sting",
+      "mood": "sting",
+      "sourceLevelDb": -18.8,
+      "origin": "composed",
+      "title": "The Fall"
+    },
+    "sting_quest_theme": {
+      "file": "music-sting_quest_theme",
+      "duration": 7.0187,
+      "channels": 2,
+      "kind": "sting",
+      "mood": "sting",
+      "sourceLevelDb": -20.3,
+      "origin": "composed",
+      "title": "A Step of the Story"
+    },
+    "place_coast": {
+      "file": "music-place_coast",
+      "duration": 12.2143,
+      "channels": 2,
+      "kind": "sting",
+      "mood": "place",
+      "sourceLevelDb": -19.4,
+      "origin": "composed",
+      "title": "The Grey Strand"
+    },
+    "place_wood": {
+      "file": "music-place_wood",
+      "duration": 12.2143,
+      "channels": 2,
+      "kind": "sting",
+      "mood": "place",
+      "sourceLevelDb": -19.2,
+      "origin": "composed",
+      "title": "Into the Deepwood"
+    },
+    "place_vale": {
+      "file": "music-place_vale",
+      "duration": 9.472,
+      "channels": 2,
+      "kind": "sting",
+      "mood": "place",
+      "sourceLevelDb": -18.8,
+      "origin": "composed",
+      "title": "The Vale Opens"
+    },
+    "place_stone": {
+      "file": "music-place_stone",
+      "duration": 10.688,
+      "channels": 2,
+      "kind": "sting",
+      "mood": "place",
+      "sourceLevelDb": -18.9,
+      "origin": "composed",
+      "title": "Cut Stone"
+    },
+    "place_sacred": {
+      "file": "music-place_sacred",
+      "duration": 10.7333,
+      "channels": 2,
+      "kind": "sting",
+      "mood": "place",
+      "sourceLevelDb": -17.6,
+      "origin": "composed",
+      "title": "Holy Water"
+    },
+    "place_light": {
+      "file": "music-place_light",
+      "duration": 5.6373,
+      "channels": 2,
+      "kind": "sting",
+      "mood": "place",
+      "sourceLevelDb": -23,
+      "origin": "composed",
+      "title": "Lantern Point"
+    }
+  },
+  "songs": {
+    "wanderers_air": {
+      "file": "song-wanderers_air",
+      "duration": 70.8613,
+      "channels": 1,
+      "title": "The Wanderer's Air",
+      "sourceLevelDb": -21.2
+    },
+    "hearthsmoke": {
+      "file": "song-hearthsmoke",
+      "duration": 38.2187,
+      "channels": 1,
+      "title": "Hearthsmoke",
+      "sourceLevelDb": -18.6
+    },
+    "salt_and_rope": {
+      "file": "song-salt_and_rope",
+      "duration": 58.6347,
+      "channels": 1,
+      "title": "Salt and Rope",
+      "sourceLevelDb": -23.9
     }
   }
 } as const;
@@ -441,3 +658,4 @@ export type WorldAudioManifest = typeof WORLD_AUDIO;
 export type BankId = keyof typeof WORLD_AUDIO.banks;
 export type LoopId = keyof typeof WORLD_AUDIO.loops;
 export type MusicId = keyof typeof WORLD_AUDIO.music;
+export type SongId = keyof typeof WORLD_AUDIO.songs;

@@ -10,8 +10,11 @@
  *                                                  loudness-matched and faded, laid end to end with short gaps;
  *   - public/assets/audio/world/loop-*.{ogg,m4a}   ambience loops with an equal-power crossfaded seam;
  *   - public/assets/audio/world/music-*.{ogg,m4a}  score pieces, loops and stings;
+ *   - public/assets/audio/world/song-*.{ogg,m4a}   the inn's evening tunes;
  *   - src/presentation/sound/worldAudioManifest.ts the offsets and durations the game plays from;
  *   - docs/engineering/world-audio-assets.json     provenance: prompts, source hashes and derivative hashes.
+ * It also renders the crafted half (tools/world-audio/compose/): music composed and instruments synthesized in code,
+ * and the sounds crafted for the world (the town bell, chimes, crickets, bubbles, a heartbeat, the rite).
  * Ogg Opus is the primary format; AAC in MP4 is the fallback for browsers without Opus, as for the menu score.
  * Everything is deterministic for a given FFmpeg build.
  */
@@ -21,6 +24,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { COMPOSED, LOOP_XFADE } from './compose/index.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const SOURCE = path.join(ROOT, 'assets/audio/source/world');
@@ -276,7 +280,7 @@ for (const item of plan.sources) {
     const derivatives = encode(c, stem, use.kbps ?? 48);
     const entry = { file: stem, duration: +(c[0].length / RATE).toFixed(4), channels: c.length, sourceLevelDb: lv.levelDb };
     if (use.type === 'loop') loops[use.name] = entry;
-    else music[use.name] = { ...entry, kind: 'loop', mood: use.mood };
+    else music[use.name] = { ...entry, kind: 'loop', mood: use.mood, origin: 'generated' };
     record.derivatives = derivatives;
   } else if (use.type === 'piece' || use.type === 'sting') {
     const m = mono(chans);
@@ -286,9 +290,79 @@ for (const item of plan.sources) {
     fade(c, use.fadeIn ?? 0.03, use.fadeOut ?? 1.5);
     const stem = `music-${use.name}`;
     record.derivatives = encode(c, stem, use.kbps ?? 48);
-    music[use.name] = { file: stem, duration: +(c[0].length / RATE).toFixed(4), channels: c.length, kind: use.type, mood: use.mood, sourceLevelDb: lv.levelDb };
+    music[use.name] = { file: stem, duration: +(c[0].length / RATE).toFixed(4), channels: c.length, kind: use.type, mood: use.mood, sourceLevelDb: lv.levelDb, origin: 'generated' };
   } else throw new Error(`${item.id}: unknown use ${use.type}`);
   provenance.push(record);
+}
+
+/** A loop whose head and tail are the same music (a composed loop): a linear crossfade keeps the level even. */
+function linearLoop(chans, seconds) {
+  const n = chans[0].length;
+  const x = Math.round(seconds * RATE);
+  return chans.map((c) => {
+    const out = new Float32Array(n - x);
+    for (let i = 0; i < x; i++) {
+      const t = (i + 0.5) / x;
+      out[i] = c[i] * t + c[n - x + i] * (1 - t);
+    }
+    out.set(c.subarray(x, n - x), x);
+    return out;
+  });
+}
+
+const pcmHash = (chans) => {
+  const h = crypto.createHash('sha256');
+  for (const c of chans) h.update(Buffer.from(c.buffer, c.byteOffset, c.byteLength));
+  return h.digest('hex');
+};
+
+// The crafted half: composed and synthesized in code; the render is the source.
+const songs = {};
+const composed = [];
+for (const item of COMPOSED) {
+  const use = item.use;
+  const rendered = item.render();
+  const record = { id: item.id, title: item.title, render: `tools/world-audio/compose/index.mjs#${item.id}`, use: { ...use } };
+  if (use.type === 'variants') {
+    record.pcmSha256 = pcmHash(rendered);
+    const clips = rendered.map((v) => {
+      const c = [Float32Array.from(v)];
+      dcRemove(c);
+      const span = activeSpan(c[0], 70);
+      const cut = slice(c, Math.max(0, span.start - Math.round(0.002 * RATE)), span.end);
+      normalize(cut, use.targetDb ?? -20);
+      fade(cut, 0.001, Math.min(0.25, (cut[0].length / RATE) / 4));
+      return cut;
+    });
+    const bank = (banks[use.bank] ??= { clips: {}, parts: [] });
+    bank.clips[use.name] = clips;
+    record.use.variants = clips.length;
+  } else if (use.type === 'loop') {
+    record.pcmSha256 = pcmHash(rendered);
+    const c = linearLoop(rendered, LOOP_XFADE);
+    const lv = normalize(c, use.targetDb ?? -20);
+    const stem = `music-${item.id}`;
+    record.derivatives = encode(c, stem, use.kbps ?? 48);
+    music[item.id] = { file: stem, duration: +(c[0].length / RATE).toFixed(4), channels: c.length, kind: 'loop', mood: use.mood, sourceLevelDb: lv.levelDb, origin: 'composed', title: item.title };
+  } else if (use.type === 'piece' || use.type === 'sting' || use.type === 'song') {
+    record.pcmSha256 = pcmHash(rendered);
+    const m = mono(rendered);
+    const span = activeSpan(m, 60);
+    const c = slice(rendered, 0, span.end);
+    const lv = normalize(c, use.targetDb ?? (use.type === 'song' ? -22 : -21));
+    fade(c, 0.005, Math.min(1.5, (c[0].length / RATE) / 8));
+    if (use.type === 'song') {
+      const stem = `song-${item.id}`;
+      record.derivatives = encode(c, stem, use.kbps ?? 56);
+      songs[item.id] = { file: stem, duration: +(c[0].length / RATE).toFixed(4), channels: c.length, title: item.title, sourceLevelDb: lv.levelDb };
+    } else {
+      const stem = `music-${item.id}`;
+      // Opus at 96 kbit/s stereo is transparent for these sparse textures.
+      record.derivatives = encode(c, stem, use.kbps ?? 48);
+      music[item.id] = { file: stem, duration: +(c[0].length / RATE).toFixed(4), channels: c.length, kind: use.type, mood: use.mood, sourceLevelDb: lv.levelDb, origin: 'composed', title: item.title };
+    }
+  } else throw new Error(`${item.id}: unknown composed use ${use.type}`);
+  composed.push(record);
 }
 
 // Sprites: each bank's variants end to end with 60 ms of silence between, so playback never bleeds into a neighbour.
@@ -312,6 +386,7 @@ for (const [name, bank] of Object.entries(banks)) {
   const derivatives = encode([data], stem, 40);
   bankEntries[name] = { file: stem, duration: +(total / RATE).toFixed(4), clips: offsets };
   for (const p of provenance) if (p.use.bank === name) p.derivatives = derivatives;
+  for (const p of composed) if (p.use.bank === name) p.derivatives = derivatives;
 }
 
 /** JSON with short number lists kept on one line, so the manifest and the provenance read as tables. */
@@ -331,7 +406,7 @@ function pretty(value, indent = '') {
   return JSON.stringify(value);
 }
 
-const manifest = { version: 1, base: 'assets/audio/world/', banks: bankEntries, loops, music };
+const manifest = { version: 1, base: 'assets/audio/world/', banks: bankEntries, loops, music, songs };
 fs.writeFileSync(MANIFEST, `// Generated by tools/world-audio/prepare.mjs from tools/world-audio/plan.json. Do not edit by hand.
 // Offsets and durations are seconds in the 48 kHz sprites and loops under public/assets/audio/world/.
 
@@ -341,9 +416,10 @@ export type WorldAudioManifest = typeof WORLD_AUDIO;
 export type BankId = keyof typeof WORLD_AUDIO.banks;
 export type LoopId = keyof typeof WORLD_AUDIO.loops;
 export type MusicId = keyof typeof WORLD_AUDIO.music;
+export type SongId = keyof typeof WORLD_AUDIO.songs;
 `);
 const preparedWith = execFileSync('ffmpeg', ['-version']).toString().split('\n')[0].trim();
-fs.writeFileSync(PROVENANCE, `${pretty({ schemaVersion: 1, generator: plan.generator, terms: plan.terms, preparedWith, assets: provenance })}\n`);
+fs.writeFileSync(PROVENANCE, `${pretty({ schemaVersion: 1, generator: plan.generator, terms: plan.terms, preparedWith, assets: provenance, composed })}\n`);
 fs.rmSync(TMP, { recursive: true, force: true });
 const count = (o) => Object.keys(o).length;
-console.log(`banks ${count(bankEntries)} (${Object.values(bankEntries).reduce((s, b) => s + Object.values(b.clips).reduce((t, v) => t + v.length, 0), 0)} variants), loops ${count(loops)}, music ${count(music)}`);
+console.log(`banks ${count(bankEntries)} (${Object.values(bankEntries).reduce((s, b) => s + Object.values(b.clips).reduce((t, v) => t + v.length, 0), 0)} variants), loops ${count(loops)}, music ${count(music)}, songs ${count(songs)}; composed ${composed.length} renders`);

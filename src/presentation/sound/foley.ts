@@ -19,6 +19,8 @@ export interface Cue {
   to?: number;
   /** Delay after the triggering moment, in seconds. */
   delay?: number;
+  /** A particular take (for tuned sets such as a peal of bells), instead of a random one. */
+  variant?: number;
 }
 
 const STEP: Record<SurfaceKind, ClipId> = {
@@ -116,8 +118,17 @@ export function worldCues(action: WorldAction): Cue[] {
     case 'surge':
       return [{ clip: 'water.surge', gain: 0.7 }];
     case 'rite':
-      return [{ clip: 'rite', gain: 0.5 }];
+      // The crafted singing bowls and rising water answer beneath the recorded rite.
+      return [{ clip: 'rite', gain: 0.5 }, { clip: 'rite.bowl', gain: 0.55, delay: 0.25 }];
   }
+}
+
+/**
+ * The town bell, cast on D like the score: the drought bell is two strikes of the great bell, the all-clear a peal of
+ * three smaller bells rung high to low. `index` is the strike's place in its sequence.
+ */
+export function bellCue(bright: boolean, index: number): Cue {
+  return bright ? { clip: 'bell.peal', gain: 0.75, variant: index % 3 } : { clip: 'bell.town', gain: 0.85, variant: index % 2 };
 }
 
 /** Combat contacts. */

@@ -1422,7 +1422,7 @@ export class App {
           break;
         case 'place':
           this.hud.toast(S('toast.place', { name: S(`place.${e.id}`) }), 'evidence');
-          this.audio.discover();
+          this.audio.discover(e.id);
           // Discovering somewhere new moves the respawn point there.
           this.checkpoint = { x: this.player.x, y: this.player.y, z: this.player.z, yaw: this.player.yaw };
           break;
@@ -1626,7 +1626,7 @@ export class App {
     const gain = Math.max(0, 1 - d / 220);
     const times = bright ? 3 : 2;
     const at = { x: pos.x, y: pos.y + 3.5, z: pos.z };
-    for (let i = 0; i < times; i++) setTimeout(() => this.audio.bell(gain, bright, at), i * (bright ? 600 : 1400));
+    for (let i = 0; i < times; i++) setTimeout(() => this.audio.bell(gain, bright, at, i), i * (bright ? 600 : 1400));
     if (gain > 0.15) this.audio.caption(S(bright ? 'toast.caption.bell.allclear' : 'toast.caption.bell'));
   }
 
@@ -1655,7 +1655,7 @@ export class App {
     this.audio.updateWorld(dt, {
       mode: this.mode === 'dead' ? 'dead' : this.mode === 'play' && this.overlay === 'none' ? 'play' : 'paused',
       listener: { x: camPos.x, y: camPos.y, z: camPos.z, fx: forward.x, fy: forward.y, fz: forward.z },
-      player: { x: p.x, y: p.y, z: p.z, exhausted: p.exhausted },
+      player: { x: p.x, y: p.y, z: p.z, exhausted: p.exhausted, health: this.game.state.player.health / Math.max(1, this.game.state.player.maxHealth) },
       world: {
         hour,
         nightness: this.world.sky.state.nightness,
@@ -1811,7 +1811,7 @@ export class App {
       `build ${GAME_VERSION} rev ${REVISION}  quality ${this.settings.quality}  dpr ${this.renderer.getPixelRatio()}  ${window.innerWidth}x${window.innerHeight}`,
       `audio ${audio.state}  voices ${audio.voices}  ${audio.sampleRate} Hz  device-reported base buffer ${audio.baseLatency === null ? 'unavailable' : `${(audio.baseLatency * 1000).toFixed(1)} ms`}`,
       `menu score ${audio.music.state}  ${audio.music.currentTime.toFixed(1)} / ${Number.isFinite(audio.music.duration) ? audio.music.duration.toFixed(1) : 'loading'} s`,
-      audio.world ? `world sound ${audio.world.banksReady ? 'ready' : 'loading'}  voices ${audio.world.voices}  beds ${audio.world.beds}  calls ${audio.world.emitted}  dropped ${audio.world.dropped}  errors ${audio.world.decodeErrors}  score ${audio.world.score.phase} ${audio.world.score.piece ?? audio.world.score.loop ?? '-'}` : 'world sound not started',
+      audio.world ? `world sound ${audio.world.banksReady ? 'ready' : 'loading'}  voices ${audio.world.voices}  beds ${audio.world.beds}  calls ${audio.world.emitted}  dropped ${audio.world.dropped}  errors ${audio.world.decodeErrors}  score ${audio.world.score.phase} ${audio.world.score.piece ?? audio.world.score.loop ?? '-'}  inn ${audio.world.score.song ?? '-'}` : 'world sound not started',
       `menu ships ${this.menuScene.stats.ships}  visit ${this.menuScene.trafficState.seed.toString(16)}  ${this.menuScene.trafficState.elapsed.toFixed(1)} s`,
       `menu grove ${this.menuScene.stats.wisps} of ${this.menuScene.grove.count} spirits drawn  sim ${this.menuScene.grove.stats.steps} steps  score ${this.menuScene.awakeningState.time.toFixed(2)} s  door ${(this.menuScene.doorOpening * 100).toFixed(0)}%  audible ${this.audio.menuMusicPlayback.playing} gain ${this.audio.menuMusicPlayback.gain.toFixed(3)}`,
       `player ${this.player.x.toFixed(1)}, ${this.player.y.toFixed(1)}, ${this.player.z.toFixed(1)}  hp ${s.player.health}  clock ${formatClock(s.clock)} day ${clockDay(s.clock) + 1}`,

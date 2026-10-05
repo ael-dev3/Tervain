@@ -15,7 +15,9 @@ import type { LoopId } from './worldAudioManifest';
  *   at its nearest bank, the mill wheel, the quarry, the spring, reeds by the ford, a fire);
  * - emitters: single calls placed around the listener (gulls over the sea, songbirds and a woodpecker in the woods,
  *   crows over open ground and the ruin, an owl at night, frogs at the water, dogs and hens in the village, a horse
- *   at the wagon, creaking wood), with rates that follow the hour.
+ *   at the wagon, creaking wood), with rates that follow the hour; the shrine's wind chime and the spring's bubbles
+ *   come in small bursts;
+ * - crickets whose chirp follows the air temperature (Dolbear's law), and the inn's music on summer evenings.
  *
  * Levels are relative; the runtime applies the Ambience volume and smooths every change.
  */
@@ -157,6 +159,8 @@ export interface EmitterEvent {
   at: Vec3;
   gain: number;
   pitch: number;
+  /** Seconds after this update (the later calls of a burst). */
+  delay: number;
 }
 
 interface EmitterRule {
@@ -168,6 +172,9 @@ interface EmitterRule {
   place: (l: ListenerState, random: () => number) => Vec3;
   gain: number;
   pitch: number;
+  /** Several calls in quick succession (a chime stirred by the wind, a spring giving up a few bubbles). */
+  burst?: [number, number];
+  gap?: [number, number];
 }
 
 /** A point on a ring around the listener, at a height. */
@@ -248,6 +255,18 @@ const RULES: EmitterRule[] = [
     },
   },
   {
+    // The shrine's wind chime, tuned to the theme's mode: a few notes whenever the air stirs.
+    id: 'chime', clip: 'chime', every: [7, 18], gain: 0.34, pitch: 0, burst: [1, 4], gap: [0.14, 0.6],
+    density: (l) => (l.indoors ? 0 : within(Math.hypot(SHRINE_HALL.x - l.x, SHRINE_HALL.z - l.z), 8, 38)),
+    place: (_l, r) => ({ x: SHRINE_HALL.x + 4 + (r() - 0.5) * 0.6, y: 3.2, z: SHRINE_HALL.z + 5.2 }),
+  },
+  {
+    // The spring breathes: small bubbles rise at the altar's pool.
+    id: 'bubble', clip: 'bubble', every: [1.2, 3.5], gain: 0.3, pitch: 0.12, burst: [1, 3], gap: [0.04, 0.22],
+    density: (l) => (l.indoors ? 0 : within(Math.hypot(RITE_ALTAR.x - l.x, RITE_ALTAR.z - l.z), 4, 16)),
+    place: (_l, r) => ({ x: RITE_ALTAR.x + (r() - 0.5) * 2.5, y: 0.1, z: RITE_ALTAR.z + (r() - 0.5) * 2.5 }),
+  },
+  {
     id: 'creak', clip: 'creak', every: [14, 35], gain: 0.36, pitch: 0.08,
     density: (l) => Math.min(1, 0.6 * forestCover(l.x, l.z) + within(Math.hypot(ARRIVAL_WRECK.x - l.x, ARRIVAL_WRECK.z - l.z), 6, 40) * 1.4),
     place: (l, r) => (Math.hypot(ARRIVAL_WRECK.x - l.x, ARRIVAL_WRECK.z - l.z) < 40
@@ -285,10 +304,51 @@ export class EmitterScheduler {
         continue;
       }
       this.clocks.set(rule.id, this.span(rule));
-      out.push({ rule: rule.id, clip: rule.clip, at: rule.place(l, this.random), gain: rule.gain * (0.75 + 0.25 * density), pitch: rule.pitch });
+      const count = rule.burst ? Math.round(rule.burst[0] + (rule.burst[1] - rule.burst[0]) * this.random()) : 1;
+      let delay = 0;
+      for (let k = 0; k < count; k++) {
+        if (k && rule.gap) delay += rule.gap[0] + (rule.gap[1] - rule.gap[0]) * this.random();
+        out.push({ rule: rule.id, clip: rule.clip, at: rule.place(l, this.random), gain: rule.gain * (0.75 + 0.25 * density) * (k ? 0.85 : 1), pitch: rule.pitch, delay });
+      }
     }
     return out;
   }
+}
+
+/* ------------------------------------------------------------------ crickets and the inn */
+
+/** Air temperature through the day in °C: warmest in mid-afternoon, coolest before dawn. */
+export function temperatureAt(hour: number): number {
+  return 14 + 6 * Math.cos((2 * Math.PI * (hour - 15)) / 24);
+}
+
+/**
+ * Dolbear's law: crickets chirp faster when the air is warmer. For field crickets, chirps per minute are about
+ * 7 T - 30 (T in °C); below about 9 °C they fall silent. Returns chirps per second.
+ */
+export function cricketRate(tempC: number): number {
+  return tempC < 9 ? 0 : (7 * tempC - 30) / 60;
+}
+
+/** How many crickets sing here (0..1): open ground and village edges from dusk into the night, fewer under trees. */
+export function cricketDensity(l: ListenerState, w: WorldSoundState): number {
+  if (l.indoors || cricketRate(temperatureAt(w.hour)) <= 0) return 0;
+  const dusk = Math.max(0, 1 - Math.abs(w.hour - 19.5) / 2.5);
+  const time = Math.min(1, 0.12 + 0.88 * Math.max(1 - dayness(w), dusk));
+  return time * (1 - 0.6 * forestCover(l.x, l.z)) * (1 - 0.85 * seaProximity(l.x, l.z));
+}
+
+export const INN = BUILDINGS.find((b) => b.kind === 'inn') ?? { x: -4, z: 30 };
+
+/** The inn's music plays from dusk until late: 18:30 to 23:30, coming and going over half an hour. */
+export function innEvening(hour: number): number {
+  return Math.max(0, Math.min(smooth(18.5, 19, hour), 1 - smooth(23, 23.5, hour)));
+}
+
+/** The inn's music as heard by the listener: through its walls, fading with distance. */
+export function innSong(l: ListenerState, w: WorldSoundState): { gain: number; at: Vec3 } {
+  const d = Math.hypot(INN.x - l.x, INN.z - l.z);
+  return { gain: innEvening(w.hour) * within(d, 7, 48) * (l.indoors ? 0.3 : 1), at: { x: INN.x, y: 1.6, z: INN.z } };
 }
 
 /* ------------------------------------------------------------------ ground under other feet */

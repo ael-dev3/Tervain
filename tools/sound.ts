@@ -1,7 +1,7 @@
 /**
  * Developer audition page for Tervain's world sound: every take in the sprites, every game cue as the game layers it,
- * every place bed and piece of score, and a live soundscape for any place, hour and threat, run by the game's own
- * SoundWorld with no world around it.
+ * every place bed, piece of score and inn tune (generated and composed), and a live soundscape for any place, hour and
+ * threat, run by the game's own SoundWorld with no world around it.
  *
  *   npm run dev, then open http://127.0.0.1:5173/tools/sound.html   (?mute=1 keeps scripted checks silent)
  *
@@ -12,13 +12,14 @@ import type { ItemId, NpcId } from '../src/game/types';
 import { defaultSettings } from '../src/platform/settings';
 import { NPC_STYLES } from '../src/presentation/npcStyle';
 import { type ClipId } from '../src/presentation/sound/clips';
+import { INN } from '../src/presentation/sound/soundscape';
 import {
-  consumeCues, EQUIP, hitCue, landCues, MAP_OPEN, PAGE, pickupCues, SATCHEL_CLOSE, SATCHEL_OPEN, stepCue, swingCue, UNEQUIP,
+  bellCue, consumeCues, EQUIP, hitCue, landCues, MAP_OPEN, PAGE, pickupCues, SATCHEL_CLOSE, SATCHEL_OPEN, stepCue, swingCue, UNEQUIP,
   workSound, worldCues, type Cue, type SurfaceKind, type WorldAction,
 } from '../src/presentation/sound/foley';
 import type { Threat } from '../src/presentation/sound/musicDirector';
 import { SoundWorld, type SoundFrame } from '../src/presentation/sound/soundWorld';
-import { WORLD_AUDIO, type LoopId, type MusicId } from '../src/presentation/sound/worldAudioManifest';
+import { WORLD_AUDIO, type LoopId, type MusicId, type SongId } from '../src/presentation/sound/worldAudioManifest';
 import { PLACES, RITE_ALTAR } from '../src/world/layout';
 
 const app = document.getElementById('app')!;
@@ -84,6 +85,7 @@ const SPOTS: Record<string, { x: number; z: number; y?: number; indoors?: boolea
   'mill wheel': { x: -14, z: 0 },
   'spring altar': { x: RITE_ALTAR.x, z: RITE_ALTAR.z + 3 },
   'lighthouse gallery': { x: -319, z: 104, y: 14 },
+  'outside the inn': { x: INN.x + 9, z: INN.z - 6 },
 };
 const nightness = (hour: number) => (hour < 5 || hour > 21 ? 1 : hour < 7 ? (7 - hour) / 2 : hour > 19 ? (hour - 19) / 2 : 0);
 const ground = { deckAt: () => null, carveAt: () => 0, seaDepth: () => 0, slopeAt: () => 0 } as unknown as SoundFrame['terrain'];
@@ -92,12 +94,13 @@ function placeSection() {
   const place = el('select');
   for (const id of Object.keys(SPOTS)) place.append(el('option', { value: id, textContent: id }));
   const hour = el('select');
-  for (const [h, label] of [[6.2, 'dawn'], [11, 'day'], [19.5, 'dusk'], [23, 'night']] as const) hour.append(el('option', { value: String(h), textContent: label }));
+  for (const [h, label] of [[6.2, 'dawn'], [11, 'day'], [19.5, 'dusk'], [21, 'evening'], [23, 'night'], [3, 'before dawn']] as const) hour.append(el('option', { value: String(h), textContent: label }));
   hour.value = '11';
   const threat = el('select');
   for (const t of ['none', 'alert', 'combat']) threat.append(el('option', { value: t, textContent: `threat: ${t}` }));
   const mill = el('input', { type: 'checkbox', checked: true });
   const quarry = el('input', { type: 'checkbox', checked: true });
+  const wounded = el('input', { type: 'checkbox', checked: false });
   const meters = el('div', { id: 'meters' });
   let timer: ReturnType<typeof setInterval> | null = null;
   const toggle = button('Listen', () => {
@@ -122,7 +125,7 @@ function placeSection() {
       const frame: SoundFrame = {
         mode: 'play',
         listener: { x: s.x, y: s.y ?? 2, z: s.z, fx: 0, fy: 0, fz: 1 },
-        player: { x: s.x, y: (s.y ?? 2) - 1.6, z: s.z, exhausted: false },
+        player: { x: s.x, y: (s.y ?? 2) - 1.6, z: s.z, exhausted: false, health: wounded.checked ? 0.12 : 1 },
         world: { hour: h, nightness: nightness(h), flows: { main: 0.8, village: 0.5, quarry: 0.4 }, millTurning: mill.checked, quarryWorking: quarry.checked },
         indoors: !!s.indoors,
         threat: threat.value as Threat,
@@ -136,12 +139,12 @@ function placeSection() {
         .filter(([, b]) => b.source && b.gain.gain.value > 0.01)
         .map(([id, b]) => `${id} ${b.gain.gain.value.toFixed(2)}`);
       const m = w.musicState;
-      meters.textContent = `beds: ${beds.join(', ') || '-'}\ncalls so far: ${w.stats.emitted}   score: ${m.phase} ${m.piece ?? m.loop ?? ''}`;
+      meters.textContent = `beds: ${beds.join(', ') || '-'}\ncalls so far: ${w.stats.emitted}   score: ${m.phase} ${m.piece ?? m.loop ?? ''}   inn: ${m.song ?? '-'}`;
     }, 1000 / 30);
   });
   return el('section', {}, el('h2', { textContent: 'A place, live' }),
     el('p', { textContent: 'The game’s own soundscape for a spot: place beds, wildlife calls and the score’s pacing (a piece starts after 8–18 s, then quiet).' }),
-    el('div', { className: 'panel' }, el('div', { className: 'row' }, place, hour, threat, el('label', {}, mill, ' mill turning'), el('label', {}, quarry, ' quarry working'), toggle), meters));
+    el('div', { className: 'panel' }, el('div', { className: 'row' }, place, hour, threat, el('label', {}, mill, ' mill turning'), el('label', {}, quarry, ' quarry working'), el('label', {}, wounded, ' badly wounded'), toggle), meters));
 }
 
 /* ------------------------------------------------------------------ game cues */
@@ -162,7 +165,15 @@ function cueSection() {
   part.append(row('hands', button('draw', () => cue(EQUIP)), button('sheathe', () => cue(UNEQUIP)), button('satchel open', () => cue(SATCHEL_OPEN)), button('satchel close', () => cue(SATCHEL_CLOSE)), button('page', () => cue(PAGE)), button('map', () => cue(MAP_OPEN))));
   part.append(el('h3', { textContent: 'The world' }));
   part.append(row('moving parts', ...actions.map((a) => button(a, () => cue(worldCues(a))))));
-  part.append(row('bell', button('drought bell', () => cue({ clip: 'bell.big', gain: 0.8 })), button('all clear', () => cue({ clip: 'bell.small', gain: 0.8 }))));
+  const peal = (bright: boolean) => {
+    for (let i = 0; i < (bright ? 3 : 2); i++) setTimeout(() => cue(bellCue(bright, i)), i * (bright ? 600 : 1400));
+  };
+  part.append(row('the town bell', button('drought bell', () => peal(false)), button('all-clear peal', () => peal(true)), button('generated bells', () => cue([{ clip: 'bell.big', gain: 0.8 }, { clip: 'bell.small', gain: 0.6, delay: 1.5 }]))));
+  part.append(row('crafted life', button('wind chime', () => cue([0, 1, 2, 3].map((k) => ({ clip: 'chime' as ClipId, gain: 0.34, delay: k * 0.3, variant: (k * 2) % 5 })))),
+    button('spring bubbles', () => cue([0, 1, 2, 3, 4].map((k) => ({ clip: 'bubble' as ClipId, gain: 0.3, delay: k * 0.15, pitch: 0.12 })))),
+    button('crickets', () => cue([0, 1, 2, 3, 4, 5].map((k) => ({ clip: 'cricket' as ClipId, gain: 0.3, delay: k * 0.55, variant: k % 6 })))),
+    button('heartbeat', () => cue([0, 1, 2, 3].map((k) => ({ clip: 'heart' as ClipId, gain: 0.6, delay: k * 0.6 })))),
+    button('the rite', () => cue(worldCues('rite')))));
   part.append(el('h3', { textContent: 'Fighting' }));
   part.append(row('player', button('swing', () => cue(swingCue(false))), button('heavy swing', () => cue(swingCue(true))), button('hit', () => cue(hitCue('flesh', true))), button('punch', () => cue(hitCue('flesh', false))), button('block', () => cue(hitCue('block', true))), button('parry', () => cue(hitCue('perfect', true))), button('hurt', () => cue({ clip: 'voice.hurt', gain: 0.55 }, 'dialogue')), button('fall', () => cue({ clip: 'voice.death', gain: 0.6 }, 'dialogue'))));
   part.append(row('enemies', button('growl', () => cue({ clip: 'beast.growl', gain: 0.75 })), button('lunge', () => cue({ clip: 'beast.attack', gain: 0.7 })), button('beast hurt', () => cue({ clip: 'beast.hurt', gain: 0.6 })), button('bandit shout', () => cue({ clip: 'bandit.shout', gain: 0.6 }, 'dialogue'))));
@@ -225,7 +236,8 @@ function scoreSection() {
   const part = el('section', {}, el('h2', { textContent: 'Score' }), el('p', { textContent: 'Pieces stream as in play; the danger and battle loops repeat; stings play once.' }));
   let current: { stop(): void; b: HTMLButtonElement } | null = null;
   for (const [id, entry] of Object.entries(WORLD_AUDIO.music) as [MusicId, (typeof WORLD_AUDIO.music)[MusicId]][]) {
-    const b = button(`${entry.kind} · ${entry.mood} · ${entry.duration.toFixed(1)} s`, async () => {
+    const named = 'title' in entry ? ` · ${entry.title}` : '';
+    const b = button(`${entry.origin} ${entry.kind} · ${entry.mood}${named} · ${entry.duration.toFixed(1)} s`, async () => {
       const was = current;
       current?.stop();
       if (was?.b === b) return;
@@ -251,6 +263,30 @@ function scoreSection() {
   return part;
 }
 
-app.append(placeSection(), cueSection(), bedSection(), scoreSection(), takeSection());
+/** The inn's evening tunes, dry of the walls they are heard through in the game. */
+function songSection() {
+  const part = el('section', {}, el('h2', { textContent: 'The inn' }), el('p', { textContent: 'Lute tunes composed for the inn, played as they leave the instrument; in the world they come through its walls.' }));
+  let current: HTMLAudioElement | null = null;
+  for (const [id, entry] of Object.entries(WORLD_AUDIO.songs) as [SongId, (typeof WORLD_AUDIO.songs)[SongId]][]) {
+    const b = button(`${entry.title} · ${entry.duration.toFixed(1)} s`, () => {
+      const playing = current;
+      current?.pause();
+      current = null;
+      for (const other of part.querySelectorAll('button')) other.classList.remove('on');
+      if (playing?.dataset.song === id) return;
+      const { ctx: c, buses: bs } = audio();
+      const media = new Audio(`${BASE}${WORLD_AUDIO.base}${entry.file}.${ext}`);
+      media.dataset.song = id;
+      c.createMediaElementSource(media).connect(bs.music);
+      void media.play();
+      current = media;
+      b.classList.add('on');
+    });
+    part.append(row(id, b));
+  }
+  return part;
+}
+
+app.append(placeSection(), cueSection(), bedSection(), scoreSection(), songSection(), takeSection());
 const clips = Object.values(WORLD_AUDIO.banks).reduce((n, b) => n + Object.values(b.clips).reduce((m, v) => m + v.length, 0), 0);
-status.textContent = `${Object.keys(WORLD_AUDIO.banks).length} sprite banks with ${clips} takes, ${Object.keys(WORLD_AUDIO.loops).length} beds, ${Object.keys(WORLD_AUDIO.music).length} pieces of score · ${ext === 'ogg' ? 'Ogg Opus' : 'AAC'} · default levels (master ${volumes.master}, music ${volumes.music}, effects ${volumes.effects}, ambience ${volumes.ambience})`;
+status.textContent = `${Object.keys(WORLD_AUDIO.banks).length} sprite banks with ${clips} takes, ${Object.keys(WORLD_AUDIO.loops).length} beds, ${Object.keys(WORLD_AUDIO.music).length} pieces of score, ${Object.keys(WORLD_AUDIO.songs).length} inn tunes · ${ext === 'ogg' ? 'Ogg Opus' : 'AAC'} · default levels (master ${volumes.master}, music ${volumes.music}, effects ${volumes.effects}, ambience ${volumes.ambience})`;

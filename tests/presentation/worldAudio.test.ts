@@ -10,17 +10,20 @@ import { AudioEngine, ambienceMix } from '../../src/presentation/audio';
 import { NPC_STYLES } from '../../src/presentation/npcStyle';
 import { allClipIds, clipRef, hasClip, rng, VariantPicker } from '../../src/presentation/sound/clips';
 import {
-  consumeCues, EQUIP, hitCue, landCues, MAP_OPEN, PAGE, pickupCues, SATCHEL_CLOSE, SATCHEL_OPEN, stepCue, swingCue, UNEQUIP,
+  bellCue, consumeCues, EQUIP, hitCue, landCues, MAP_OPEN, PAGE, pickupCues, SATCHEL_CLOSE, SATCHEL_OPEN, stepCue, swingCue, UNEQUIP,
   workSound, worldCues, type Cue, type SurfaceKind, type WorldAction,
 } from '../../src/presentation/sound/foley';
-import { moodAt, MusicDirector, PLAYLISTS, threatFrom, type MusicAction, type MusicContext } from '../../src/presentation/sound/musicDirector';
 import {
-  bedTargets, EmitterScheduler, emitterRuleIds, groundSurface, nearestStream, windTone, type ListenerState, type WorldSoundState,
+  moodAt, MusicDirector, PLACE_REGION, PLAYLISTS, REGION_STING, THREAT_LOOPS, threatFrom, type MusicAction, type MusicContext,
+} from '../../src/presentation/sound/musicDirector';
+import {
+  bedTargets, cricketDensity, cricketRate, EmitterScheduler, emitterRuleIds, groundSurface, INN, innEvening, innSong, nearestStream,
+  temperatureAt, windTone, type ListenerState, type WorldSoundState,
 } from '../../src/presentation/sound/soundscape';
 import { SoundWorld, type SoundFrame } from '../../src/presentation/sound/soundWorld';
 import { WORLD_AUDIO } from '../../src/presentation/sound/worldAudioManifest';
 import { coastX } from '../../src/world/coast';
-import { FORD, INLAND_HAMLET, LIGHTHOUSE, PLACES, RITE_ALTAR, STREAMS } from '../../src/world/layout';
+import { BUILDINGS, FORD, INLAND_HAMLET, LIGHTHOUSE, PLACES, RITE_ALTAR, STREAMS } from '../../src/world/layout';
 import { distToPolyline } from '../../src/world/terrain';
 
 const ROOT = path.resolve(__dirname, '../..');
@@ -42,6 +45,7 @@ interface Provenance {
     use: { type: string };
     derivatives: { path: string; bytes: number; sha256: string }[];
   }[];
+  composed: { id: string; title: string; render: string; pcmSha256: string; use: { type: string }; derivatives: { path: string; sha256: string }[] }[];
 }
 const provenance = JSON.parse(fs.readFileSync(path.join(ROOT, 'docs/engineering/world-audio-assets.json'), 'utf8')) as Provenance;
 
@@ -50,6 +54,7 @@ describe('prepared world audio', () => {
     ...Object.values(WORLD_AUDIO.banks).map((b) => b.file),
     ...Object.values(WORLD_AUDIO.loops).map((l) => l.file),
     ...Object.values(WORLD_AUDIO.music).map((m) => m.file),
+    ...Object.values(WORLD_AUDIO.songs).map((m) => m.file),
   ];
 
   it('ships every sprite, loop and piece as Ogg Opus with an AAC fallback, and nothing else', () => {
@@ -78,7 +83,16 @@ describe('prepared world audio', () => {
         expect(sha256(path.join(ROOT, d.path)), d.path).toBe(d.sha256);
       }
     }
-    // Every shipped file comes from a recorded source.
+    // Every shipped file comes from a recorded source or from a render of the composer, each recorded by hash.
+    for (const c of provenance.composed) {
+      expect(c.render, c.id).toBe(`tools/world-audio/compose/index.mjs#${c.id}`);
+      expect(c.pcmSha256, c.id).toMatch(/^[0-9a-f]{64}$/);
+      for (const d of c.derivatives) {
+        if (derived.has(d.path)) continue;
+        derived.add(d.path);
+        expect(sha256(path.join(ROOT, d.path)), d.path).toBe(d.sha256);
+      }
+    }
     expect([...derived].map((p) => path.basename(p)).sort()).toEqual(fs.readdirSync(OUT).sort());
   });
 
@@ -95,7 +109,8 @@ describe('prepared world audio', () => {
       const spans = Object.values(bank.clips).flat().map(([at, len]) => [at, at + len] as const).sort((a, b) => a[0] - b[0]);
       expect(spans.length, name).toBeGreaterThan(0);
       spans.forEach(([start, end], i) => {
-        expect(end - start, name).toBeGreaterThanOrEqual(0.08);
+        // A bubble is gone in a few hundredths of a second; everything else is longer.
+        expect(end - start, name).toBeGreaterThanOrEqual(0.015);
         expect(end, name).toBeLessThanOrEqual(bank.duration + 1e-6);
         if (i) expect(start - spans[i - 1]![1], name).toBeGreaterThanOrEqual(0.059);
       });
@@ -176,6 +191,11 @@ describe('foley tables', () => {
     const actions: WorldAction[] = ['door', 'gate', 'shutter', 'lever', 'sluice', 'sluice_jam', 'surge', 'rite'];
     for (const a of actions) worldCues(a).forEach((c) => expectCue(c, a));
     expect(worldCues('lever').map((c) => c.clip)).toEqual(['lever', 'gate']);
+    expect(worldCues('rite').map((c) => c.clip)).toEqual(['rite', 'rite.bowl']);
+    // The all-clear rings its three bells high to low; the drought bell alternates two strikes of the great bell.
+    expect([0, 1, 2].map((i) => bellCue(true, i).variant)).toEqual([0, 1, 2]);
+    expect([0, 1].map((i) => bellCue(false, i))).toEqual([{ clip: 'bell.town', gain: 0.85, variant: 0 }, { clip: 'bell.town', gain: 0.85, variant: 1 }]);
+    for (const c of [bellCue(true, 0), bellCue(false, 0)]) expectCue(c, c.clip);
     for (const c of [EQUIP, UNEQUIP, SATCHEL_OPEN, SATCHEL_CLOSE, PAGE, MAP_OPEN, swingCue(false), swingCue(true)]) expectCue(c, c.clip);
     expect(hitCue('flesh', true).clip).toBe('hit.flesh');
     expect(hitCue('flesh', false).clip).toBe('hit.punch');
@@ -318,10 +338,60 @@ describe('wildlife calls', () => {
   it('keeps the birds out of a closed room and every rule finds a place to call', () => {
     expect(run(7, at(PLACES.archive, { indoors: true }), day(7)).filter((e) => e.rule !== 'dog')).toEqual([]);
     const heard = new Set<string>();
-    for (const [p, w] of [[STRAND, day()], [PLACES.deepwood, day(7)], [PLACES.deepwood, night()], [FORD, night()], [PLACES.rillford, day(6.2)], [INLAND_HAMLET, day()], [{ x: -180, z: -22 }, day()]] as const) {
+    const hall = BUILDINGS.find((b) => b.kind === 'shrine')!;
+    for (const [p, w] of [[STRAND, day()], [PLACES.deepwood, day(7)], [PLACES.deepwood, night()], [FORD, night()], [PLACES.rillford, day(6.2)], [INLAND_HAMLET, day()], [{ x: -180, z: -22 }, day()], [{ x: hall.x + 6, z: hall.z + 8 }, day()], [{ x: RITE_ALTAR.x + 3, z: RITE_ALTAR.z }, day()]] as const) {
       for (const e of run(8, at(p), w, 20)) heard.add(e.rule);
     }
     expect([...heard].sort()).toEqual(emitterRuleIds().sort());
+  });
+});
+
+describe('crafted life of the world', () => {
+  it('lets crickets keep time with the warmth of the air (Dolbear), mostly from dusk into the night', () => {
+    expect(temperatureAt(15)).toBeCloseTo(20);
+    expect(temperatureAt(3)).toBeCloseTo(8);
+    expect(cricketRate(20)).toBeCloseTo(110 / 60);
+    expect(cricketRate(12)).toBeCloseTo(54 / 60);
+    expect(cricketRate(8)).toBe(0);
+    expect(cricketRate(temperatureAt(20))).toBeGreaterThan(cricketRate(temperatureAt(23)));
+    const field = at(PLACES.quarry);
+    expect(cricketDensity(field, night())).toBeGreaterThan(0.8);
+    expect(cricketDensity(field, { ...day(19.5), nightness: 0.3 })).toBeGreaterThan(0.8);
+    expect(cricketDensity(field, day(12))).toBeLessThan(0.2);
+    expect(cricketDensity({ ...field, indoors: true }, night())).toBe(0);
+    expect(cricketDensity(at(STRAND), night())).toBeLessThan(cricketDensity(field, night()) * 0.4);
+    // Too cold before dawn: silence.
+    expect(cricketDensity(field, { ...night(), hour: 4 })).toBe(0);
+  });
+
+  it('stirs the shrine chime in short bursts of tuned notes and lets the spring give up bubbles', () => {
+    const hall = BUILDINGS.find((b) => b.kind === 'shrine')!;
+    const em = new EmitterScheduler(rng(21));
+    const events: ReturnType<EmitterScheduler['update']> = [];
+    for (let i = 0; i < 20 * 300; i++) events.push(...em.update(0.05, at({ x: hall.x + 6, z: hall.z + 8 }), day()));
+    const chimes = events.filter((e) => e.rule === 'chime');
+    expect(chimes.length).toBeGreaterThan(15);
+    expect(chimes.every((e) => e.pitch === 0)).toBe(true);
+    expect(chimes.some((e) => e.delay > 0)).toBe(true);
+    expect(Math.max(...chimes.map((e) => e.delay))).toBeLessThan(2);
+    const em2 = new EmitterScheduler(rng(22));
+    const bubbles: ReturnType<EmitterScheduler['update']> = [];
+    for (let i = 0; i < 20 * 120; i++) bubbles.push(...em2.update(0.05, at({ x: RITE_ALTAR.x + 3, z: RITE_ALTAR.z }), night()).filter((e) => e.rule === 'bubble'));
+    expect(bubbles.length).toBeGreaterThan(40);
+    for (const b of bubbles) expect(Math.hypot(b.at.x - RITE_ALTAR.x, b.at.z - RITE_ALTAR.z)).toBeLessThan(2);
+    const far = new EmitterScheduler(rng(23));
+    for (let i = 0; i < 20 * 120; i++) expect(far.update(0.05, at(PLACES.rillford), night()).filter((e) => e.rule === 'chime' || e.rule === 'bubble')).toEqual([]);
+  });
+
+  it('plays the inn from dusk until late, heard through its walls near the inn only', () => {
+    expect(innEvening(12)).toBe(0);
+    expect(innEvening(18.7)).toBeGreaterThan(0);
+    expect(innEvening(21)).toBe(1);
+    expect(innEvening(23.8)).toBe(0);
+    const door = at({ x: INN.x + 8, z: INN.z });
+    expect(innSong(door, { ...day(21), nightness: 0.9 }).gain).toBeGreaterThan(0.9);
+    expect(innSong(at(PLACES.quarry), { ...day(21), nightness: 0.9 }).gain).toBe(0);
+    expect(innSong(door, day(14)).gain).toBe(0);
   });
 });
 
@@ -373,7 +443,12 @@ describe('music director', () => {
     if (piece.t !== 'piece') return;
     expect(PLAYLISTS.vale).toContain(piece.id);
     expect(d.phase).toBe('piece');
-    step(d, WORLD_AUDIO.music[piece.id].duration + 0.1, ctx());
+    let played = 0;
+    while (d.phase === 'piece') {
+      d.update(0.05, ctx());
+      played += 0.05;
+    }
+    expect(played).toBeLessThanOrEqual(WORLD_AUDIO.music[piece.id].duration);
     expect(d.phase).toBe('wait');
     expect(step(d, 34, ctx())).toEqual([]);
     const next = step(d, 50, ctx());
@@ -386,29 +461,76 @@ describe('music director', () => {
     ids.forEach((id, i) => { if (i) expect(id).not.toBe(ids[i - 1]); });
   });
 
-  it('brings in danger, then battle, never steps back down mid-fight, and calms afterwards', () => {
+  it('brings in danger, then battle in the same voice, never steps back down mid-fight, and calms afterwards', () => {
     const d = new MusicDirector(rng(2));
     step(d, 20, ctx());
-    expect(step(d, 0.05, ctx({ threat: 'alert' }))).toEqual([{ t: 'loop', id: 'danger', fadeIn: 2.2 }]);
-    expect(step(d, 0.05, ctx({ threat: 'combat' }))).toEqual([{ t: 'loop', id: 'combat', fadeIn: 0.8 }]);
+    // The first fight of a session hears the composed music; the next encounter the generated one.
+    expect(step(d, 0.05, ctx({ threat: 'alert' }))).toEqual([{ t: 'loop', id: 'danger_watch', fadeIn: 2.2 }]);
+    expect(step(d, 0.05, ctx({ threat: 'combat' }))).toEqual([{ t: 'loop', id: 'battle_ford', fadeIn: 0.8 }]);
     expect(step(d, 2, ctx({ threat: 'alert' }))).toEqual([]);
     expect(step(d, 3.9, ctx())).toEqual([]);
     expect(step(d, 0.3, ctx())).toEqual([{ t: 'stop', fadeOut: 3 }]);
     expect(d.phase).toBe('wait');
+    expect(step(d, 0.05, ctx({ threat: 'combat' }))).toEqual([{ t: 'loop', id: 'combat', fadeIn: 0.8 }]);
+    expect(THREAT_LOOPS.alert.sort()).toEqual(['danger', 'danger_watch']);
+    expect(THREAT_LOOPS.combat.sort()).toEqual(['battle_ford', 'combat']);
+  });
+
+  it('opens each mood with its own arrangement of the theme, then varies', () => {
+    const d = new MusicDirector(rng(12));
+    const first = step(d, 20, ctx())[0]!;
+    expect(first).toEqual({ t: 'piece', id: 'theme_vale', fadeIn: 2.5 });
+    for (const [mood, id] of [['wild', 'theme_wild'], ['night', 'theme_night'], ['sacred', 'theme_sacred']] as const) {
+      expect(PLAYLISTS[mood]).toContain(id);
+      expect(WORLD_AUDIO.music[id].origin).toBe('composed');
+    }
+    const later: string[] = [];
+    for (let i = 0; i < 6; i++) for (const a of step(d, 140, ctx())) if (a.t === 'piece') later.push(a.id);
+    expect(new Set(later).size).toBeGreaterThan(1);
+  });
+
+  it('greets every place with its region motif, and gives way to the music of the inn', () => {
+    for (const id of Object.keys(PLACES) as (keyof typeof PLACES)[]) {
+      const region = PLACE_REGION[id];
+      expect(region, id).toBeDefined();
+      const d = new MusicDirector(rng(13));
+      expect(d.sting('discover', id)).toEqual([{ t: 'sting', id: REGION_STING[region] }]);
+      expect(WORLD_AUDIO.music[REGION_STING[region]].kind).toBe('sting');
+    }
+    const d = new MusicDirector(rng(14));
+    expect(step(d, 20, ctx())[0]!.t).toBe('piece');
+    expect(step(d, 0.05, ctx({ diegetic: true }))).toEqual([{ t: 'stop', fadeOut: 3 }]);
+    expect(step(d, 60, ctx({ diegetic: true }))).toEqual([]);
+    expect(step(d, 19, ctx())).toEqual([]);
+    expect(step(d, 1.2, ctx())[0]!.t).toBe('piece');
   });
 
   it('marks discoveries, quests, victory and a fall, but never talks over a fight', () => {
     const d = new MusicDirector(rng(3));
     step(d, 1, ctx());
-    expect(d.sting('quest')).toEqual([{ t: 'sting', id: 'sting_quest' }]);
+    const quest = d.sting('quest')[0]!;
+    expect(quest.t === 'sting' && ['sting_quest', 'sting_quest_theme'].includes(quest.id)).toBe(true);
     const found = d.sting('discover')[0]!;
     expect(found.t === 'sting' && ['sting_discover', 'sting_lute'].includes(found.id)).toBe(true);
     step(d, 0.05, ctx({ threat: 'combat' }));
-    expect(d.sting('discover')).toEqual([]);
-    expect(d.sting('victory')).toEqual([{ t: 'stop', fadeOut: 1.5 }, { t: 'sting', id: 'sting_victory' }]);
+    expect(d.sting('discover', 'rillford')).toEqual([]);
+    const won = d.sting('victory');
+    expect(won[0]).toEqual({ t: 'stop', fadeOut: 1.5 });
+    expect(won[1]!.t === 'sting' && ['sting_victory', 'sting_victory_theme'].includes(won[1]!.id)).toBe(true);
     expect(d.phase).toBe('wait');
-    expect(d.sting('death')).toEqual([{ t: 'stop', fadeOut: 0.4 }, { t: 'sting', id: 'sting_death' }]);
+    const fell = d.sting('death');
+    expect(fell[0]).toEqual({ t: 'stop', fadeOut: 0.4 });
+    expect(fell[1]!.t === 'sting' && ['sting_death', 'sting_fall_theme'].includes(fell[1]!.id)).toBe(true);
     expect(d.phase).toBe('off');
+    // Two thirds of the stings come in the composed voice.
+    const e = new MusicDirector(rng(15));
+    let composedStings = 0;
+    for (let i = 0; i < 300; i++) {
+      const a = e.sting('quest')[0]!;
+      if (a.t === 'sting' && WORLD_AUDIO.music[a.id].origin === 'composed') composedStings++;
+    }
+    expect(composedStings).toBeGreaterThan(170);
+    expect(composedStings).toBeLessThan(230);
   });
 
   it('gives way when the player enters sacred ground, and stops for menus', () => {
@@ -536,7 +658,7 @@ function frame(p: { x: number; z: number }, over: Partial<SoundFrame> = {}): Sou
   return {
     mode: 'play',
     listener: { x: p.x, y: 3, z: p.z, fx: 0, fy: 0, fz: 1 },
-    player: { x: p.x, y: 1, z: p.z, exhausted: false },
+    player: { x: p.x, y: 1, z: p.z, exhausted: false, health: 1 },
     world: day(),
     indoors: false,
     threat: 'none',
@@ -641,7 +763,8 @@ describe('world sound runtime', () => {
     for (let t = 0; t < 20; t += 0.05) world.update(0.05, frame(PLACES.rillford));
     expect(FakeMedia.made).toHaveLength(probes + 1);
     const media = FakeMedia.made.at(-1)!;
-    expect(media.src).toMatch(/\/tervain\/assets\/audio\/world\/music-vale_\d\.ogg$/);
+    // The vale's first piece is its own arrangement of the theme.
+    expect(media.src).toMatch(/\/tervain\/assets\/audio\/world\/music-theme_vale\.ogg$/);
     expect(media.play).toHaveBeenCalledOnce();
     expect(world.musicState.phase).toBe('piece');
     // A hidden tab pauses the stream rather than letting it run on unheard.
@@ -651,19 +774,20 @@ describe('world sound runtime', () => {
     expect(media.play).toHaveBeenCalledTimes(2);
     // A stream the browser cannot play switches to the AAC fallback in place.
     media.listeners.get('error')!();
-    expect(media.src).toMatch(/music-vale_\d\.m4a$/);
+    expect(media.src).toMatch(/music-theme_vale\.m4a$/);
     expect(media.play).toHaveBeenCalledTimes(3);
     world.update(0.05, frame(PLACES.rillford, { threat: 'combat' }));
     await flush();
-    expect(world.musicState.loop).toBe('combat');
-    expect(playing(ctx, 'music-combat')[0]!.loop).toBe(true);
+    // The first fight of a session plays the composed battle music.
+    expect(world.musicState.loop).toBe('battle_ford');
+    expect(playing(ctx, 'music-battle_ford')[0]!.loop).toBe(true);
     vi.advanceTimersByTime(3000);
     expect(media.paused).toBe(true);
     world.sting('victory');
     await flush();
     expect(playing(ctx, 'music-sting_victory')).toHaveLength(1);
     vi.advanceTimersByTime(3000);
-    expect(playing(ctx, 'music-combat')).toHaveLength(0);
+    expect(playing(ctx, 'music-battle_ford')).toHaveLength(0);
     world.dispose();
     expect(ctx.sources.every((s) => !s.started || s.stopped || s.buffer?.file?.startsWith('music-sting'))).toBe(true);
   });
@@ -709,6 +833,41 @@ describe('world sound runtime', () => {
     // About 45 m walked at 0.74 m a step, and 30 m run at 1.2 m.
     expect(steps()).toBeGreaterThan(70);
     expect(steps()).toBeLessThan(100);
+  });
+
+  it('plays crickets with their own voices at night, a heartbeat when badly wounded, and the inn with the score held back', async () => {
+    const { ctx, world } = runtime(9);
+    await flush();
+    const nightWorld = { ...day(21), nightness: 0.9 };
+    const door = { x: INN.x + 8, z: INN.z };
+    const takes = (clip: string) => {
+      const list = (WORLD_AUDIO.banks.crafted.clips as Record<string, readonly (readonly [number, number])[]>)[clip]!;
+      return ctx.sources.filter((s) => s.buffer?.file === 'bank-crafted' && list.some(([o]) => Math.abs(s.started![1]! - o) < 1e-6));
+    };
+    for (let t = 0; t < 30; t += 0.05) world.update(0.05, frame(door, { world: nightWorld, player: { x: door.x, y: 1, z: door.z, exhausted: false, health: 0.1 } }));
+    const chirps = takes('cricket');
+    expect(chirps.length).toBeGreaterThan(30);
+    expect(new Set(chirps.map((s) => s.started![1])).size).toBeGreaterThan(1);
+    const beats = takes('heart').length;
+    expect(beats).toBeGreaterThan(45);
+    expect(beats).toBeLessThan(65);
+    // The inn's tune streams from the inn; the score waits rather than play over it.
+    const song = FakeMedia.made.find((m) => m.src.includes('/song-'));
+    expect(song).toBeDefined();
+    expect(world.musicState.song).not.toBeNull();
+    expect(world.musicState.piece).toBeNull();
+    expect(FakeMedia.made.some((m) => m.src.includes('/music-'))).toBe(false);
+    world.dispose();
+    expect(song!.paused).toBe(true);
+  });
+
+  it('rings a chosen take when a cue names one: the all-clear peal falls high to low', async () => {
+    const { ctx, world } = runtime();
+    await flush();
+    world.update(0.05, frame(PLACES.rillford));
+    for (const i of [0, 1, 2]) world.play(bellCue(true, i));
+    const peal = WORLD_AUDIO.banks.crafted.clips['bell.peal'];
+    expect(ctx.sources.slice(-3).map((s) => s.started![1])).toEqual(peal.map(([o]) => o));
   });
 
   it('cleans up partially built graphs when the browser lacks convolution', () => {

@@ -3497,5 +3497,575 @@
         }
       ]
     }
+  ],
+  "composed": [
+    {
+      "id": "theme_vale",
+      "title": "Rillford at Work",
+      "render": "tools/world-audio/compose/index.mjs#theme_vale",
+      "use": {
+        "type": "piece",
+        "mood": "vale"
+      },
+      "pcmSha256": "5a776a4d46543cdc8abe56fa78eb104509872a5f9dc6db21619fc614a6e73bca",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-theme_vale.ogg",
+          "bytes": 1248994,
+          "sha256": "0dd670e47f9edfed671a478d531c539671a9ef22d4226a46295f95680967907e"
+        },
+        {
+          "path": "public/assets/audio/world/music-theme_vale.m4a",
+          "bytes": 1293589,
+          "sha256": "0e96384e2c248f89290c8e46c9e086398b94dc360a9549b67a0554b764ad3fda"
+        }
+      ]
+    },
+    {
+      "id": "theme_wild",
+      "title": "The Deepwood",
+      "render": "tools/world-audio/compose/index.mjs#theme_wild",
+      "use": {
+        "type": "piece",
+        "mood": "wild"
+      },
+      "pcmSha256": "5a82f481d4bdeafd690f5df1a73c8483444e91a92a330bd7458c7acf26ad32dc",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-theme_wild.ogg",
+          "bytes": 899275,
+          "sha256": "39214ae97b52a53da8008e0ce989b61de48f319a34b78651a4a9c9e69ae8f231"
+        },
+        {
+          "path": "public/assets/audio/world/music-theme_wild.m4a",
+          "bytes": 1101229,
+          "sha256": "bee60f83bb95576e98495095c4dfd1904984ff9d33338841868da980135cef7c"
+        }
+      ]
+    },
+    {
+      "id": "theme_night",
+      "title": "Embers",
+      "render": "tools/world-audio/compose/index.mjs#theme_night",
+      "use": {
+        "type": "piece",
+        "mood": "night"
+      },
+      "pcmSha256": "a43962ca40a4b0a82dba89df9ef189b753c2f945f3a43fd8464eef8239995d99",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-theme_night.ogg",
+          "bytes": 863793,
+          "sha256": "5da5d7db6d6e58da6a9a79ba361a38b5a82bbcb83c5eab929f979945875e2f16"
+        },
+        {
+          "path": "public/assets/audio/world/music-theme_night.m4a",
+          "bytes": 1027772,
+          "sha256": "20d083f9985a47ad33a57e68a301bfd57b118f06501be70165dcc9aff6f8a4ec"
+        }
+      ]
+    },
+    {
+      "id": "theme_sacred",
+      "title": "The Spring",
+      "render": "tools/world-audio/compose/index.mjs#theme_sacred",
+      "use": {
+        "type": "piece",
+        "mood": "sacred"
+      },
+      "pcmSha256": "441c6c6e2d954f9991fca5ac2e2fb1ad1fc3cc1106eeb552d5881ea4f2f345d3",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-theme_sacred.ogg",
+          "bytes": 1097461,
+          "sha256": "1221b928d3addc116e1577dc1c88a34564c58d87e34534bd7455c84f19f48cde"
+        },
+        {
+          "path": "public/assets/audio/world/music-theme_sacred.m4a",
+          "bytes": 1175940,
+          "sha256": "14f89e809b59e3d3df9729c51af8899f26a481cf306e2af843b50337d08c5440"
+        }
+      ]
+    },
+    {
+      "id": "danger_watch",
+      "title": "Something Watches",
+      "render": "tools/world-audio/compose/index.mjs#danger_watch",
+      "use": {
+        "type": "loop",
+        "mood": "danger"
+      },
+      "pcmSha256": "ef93369b3c2ca697b75404bbbaf47b83ddf6c8d350ff26fc591903ac24b4d4ee",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-danger_watch.ogg",
+          "bytes": 237685,
+          "sha256": "e51d114c38f8d9e2c896510d6d159d4b340ea42dbf2fa5ab6ef70fbac063ea3d"
+        },
+        {
+          "path": "public/assets/audio/world/music-danger_watch.m4a",
+          "bytes": 308269,
+          "sha256": "fb60f85641e6f64bd6a768607d6701ab9278ad68208d960424ecfdd464d17e9c"
+        }
+      ]
+    },
+    {
+      "id": "battle_ford",
+      "title": "Steel at the Ford",
+      "render": "tools/world-audio/compose/index.mjs#battle_ford",
+      "use": {
+        "type": "loop",
+        "mood": "combat"
+      },
+      "pcmSha256": "4bf80667afb52cb21c84176732b43abf6bec09536222eb6222f0b1ac7b261e9e",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-battle_ford.ogg",
+          "bytes": 286954,
+          "sha256": "1120bbaee3705dc1a5f6884f4a58cf6eb28a1085cb03a56dbf9efc3b239a69da"
+        },
+        {
+          "path": "public/assets/audio/world/music-battle_ford.m4a",
+          "bytes": 304421,
+          "sha256": "990a463ac40c412b97778a8da083b352923a1b54308e047ad84c68087a2e5f46"
+        }
+      ]
+    },
+    {
+      "id": "sting_victory_theme",
+      "title": "A Fight Won",
+      "render": "tools/world-audio/compose/index.mjs#sting_victory_theme",
+      "use": {
+        "type": "sting",
+        "mood": "sting"
+      },
+      "pcmSha256": "a006f0b0b52f1359926e1a54364fe0b9cafd6036d332700cc22e3013deee5fd3",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-sting_victory_theme.ogg",
+          "bytes": 92317,
+          "sha256": "ac7466c1191819fdf147571b4db9b8e94c353765fdc0853a88564a2e34f309fc"
+        },
+        {
+          "path": "public/assets/audio/world/music-sting_victory_theme.m4a",
+          "bytes": 97320,
+          "sha256": "6ef54acb77338e220ec90dcf1bf07500033b8432a19c0c70fbc4065c9357e989"
+        }
+      ]
+    },
+    {
+      "id": "sting_fall_theme",
+      "title": "The Fall",
+      "render": "tools/world-audio/compose/index.mjs#sting_fall_theme",
+      "use": {
+        "type": "sting",
+        "mood": "sting"
+      },
+      "pcmSha256": "4d0cbf7080ac38aa52914bc26f299a05116ed528d18bbe9c8f6567d0e497434a",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-sting_fall_theme.ogg",
+          "bytes": 144942,
+          "sha256": "75c87709fdc542bf6967ba4fd454599f336821bcb62cbb157aacd134ef8e7606"
+        },
+        {
+          "path": "public/assets/audio/world/music-sting_fall_theme.m4a",
+          "bytes": 186249,
+          "sha256": "4075e11d23e801e29877be97b34b26706e1571a80e53f8a4a4f02a58ebaf2568"
+        }
+      ]
+    },
+    {
+      "id": "sting_quest_theme",
+      "title": "A Step of the Story",
+      "render": "tools/world-audio/compose/index.mjs#sting_quest_theme",
+      "use": {
+        "type": "sting",
+        "mood": "sting"
+      },
+      "pcmSha256": "eb3e686fe73398cad0b3353829e49314a1be72ac0a3a77ea8b751cb97206f9a1",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-sting_quest_theme.ogg",
+          "bytes": 96014,
+          "sha256": "b225663806e10f168cb25fcb14a64d712a98fd4b949b5f758b3887d9b981274c"
+        },
+        {
+          "path": "public/assets/audio/world/music-sting_quest_theme.m4a",
+          "bytes": 107206,
+          "sha256": "179f55cf9b0d072b4384a4187feecb37c185f50ce2d2914b7f1dcbc81119fc44"
+        }
+      ]
+    },
+    {
+      "id": "place_coast",
+      "title": "The Grey Strand",
+      "render": "tools/world-audio/compose/index.mjs#place_coast",
+      "use": {
+        "type": "sting",
+        "mood": "place"
+      },
+      "pcmSha256": "7f1a101c98a0c67a4c7e9092369920d506c681f95fa3e1ef9ee5f7e43e24e0b7",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-place_coast.ogg",
+          "bytes": 162056,
+          "sha256": "49c41a9f708dc16df1e9ce496d7368a77f5e34a01d71e288aefbd0f146000594"
+        },
+        {
+          "path": "public/assets/audio/world/music-place_coast.m4a",
+          "bytes": 185543,
+          "sha256": "dfa26f52002834f4462e1739e595d1c27eae11271654dde38bb99c564dd5940e"
+        }
+      ]
+    },
+    {
+      "id": "place_wood",
+      "title": "Into the Deepwood",
+      "render": "tools/world-audio/compose/index.mjs#place_wood",
+      "use": {
+        "type": "sting",
+        "mood": "place"
+      },
+      "pcmSha256": "aaa2b7ee22f354e0725a6ddddc66904986ffe0c48a879e6862de611be613475b",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-place_wood.ogg",
+          "bytes": 138875,
+          "sha256": "5ba02ec13560177a3658780dcf2187f201e1d61b3110155fc3a64c2e3b4fa5f7"
+        },
+        {
+          "path": "public/assets/audio/world/music-place_wood.m4a",
+          "bytes": 185513,
+          "sha256": "cf623a5f258c8e8f0213cdca4b68cb0943947f17cd6c3e63545ba0e9af5e6d5c"
+        }
+      ]
+    },
+    {
+      "id": "place_vale",
+      "title": "The Vale Opens",
+      "render": "tools/world-audio/compose/index.mjs#place_vale",
+      "use": {
+        "type": "sting",
+        "mood": "place"
+      },
+      "pcmSha256": "a813f981663e93ef8fb2f54063edaa40a647d49fb1a5d02c683050e1cb5a66f6",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-place_vale.ogg",
+          "bytes": 143747,
+          "sha256": "a810d3e1a51bd47aafded8e2317d592caa4f74613a0823dbbe61ac04c1bc24a1"
+        },
+        {
+          "path": "public/assets/audio/world/music-place_vale.m4a",
+          "bytes": 143445,
+          "sha256": "c9f56048dfccca735c5927752bb404a0d0d66048e78c5adc6aa6108d1e68b0e4"
+        }
+      ]
+    },
+    {
+      "id": "place_stone",
+      "title": "Cut Stone",
+      "render": "tools/world-audio/compose/index.mjs#place_stone",
+      "use": {
+        "type": "sting",
+        "mood": "place"
+      },
+      "pcmSha256": "44f5cde3d444f0929721c664c5548b5c2c12f26f34dcc527def74d83df5005b0",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-place_stone.ogg",
+          "bytes": 141820,
+          "sha256": "8e381491f42dcca08dfdbc718b9edf36b625aa7666d2998b610042b2c25403c6"
+        },
+        {
+          "path": "public/assets/audio/world/music-place_stone.m4a",
+          "bytes": 146239,
+          "sha256": "e7af128007583771a2dbd28f724a57dc30c73049d2dbb11790a8ace2f7b44f4a"
+        }
+      ]
+    },
+    {
+      "id": "place_sacred",
+      "title": "Holy Water",
+      "render": "tools/world-audio/compose/index.mjs#place_sacred",
+      "use": {
+        "type": "sting",
+        "mood": "place"
+      },
+      "pcmSha256": "db28ab69e6b9716d6a3382625104cb0ac8bdb5d022284212f233909d2e3b95cf",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-place_sacred.ogg",
+          "bytes": 159195,
+          "sha256": "8d20a92cec042aeafd427478805375f73fe663493be561022f22c2ba0263cbe6"
+        },
+        {
+          "path": "public/assets/audio/world/music-place_sacred.m4a",
+          "bytes": 154952,
+          "sha256": "0932149ea97650d579d5bc88e9cb6700680bde859ce4dad11325f2a986516457"
+        }
+      ]
+    },
+    {
+      "id": "place_light",
+      "title": "Lantern Point",
+      "render": "tools/world-audio/compose/index.mjs#place_light",
+      "use": {
+        "type": "sting",
+        "mood": "place"
+      },
+      "pcmSha256": "54567d7ed3467fd928c7e536beb8e0ee276a3de129765b9bcb4b029ac62dab8d",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/music-place_light.ogg",
+          "bytes": 96981,
+          "sha256": "d2d54edfdec2f9c9d3defa638cd86f0b5a8462140f2e0f48a0504e9c7b83a7f6"
+        },
+        {
+          "path": "public/assets/audio/world/music-place_light.m4a",
+          "bytes": 84030,
+          "sha256": "7964ebd2afe6b4d4ec76fcebd7178efd053091162ff23b83f0bf95a63955fdc1"
+        }
+      ]
+    },
+    {
+      "id": "wanderers_air",
+      "title": "The Wanderer's Air",
+      "render": "tools/world-audio/compose/index.mjs#wanderers_air",
+      "use": {
+        "type": "song"
+      },
+      "pcmSha256": "bf7e9c843d32c1a51934f8bbbd6b4836443d2b72950ee8d730ea094d09939536",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/song-wanderers_air.ogg",
+          "bytes": 630173,
+          "sha256": "b201f5c4b285f1909a0ecedf3f05e300d5d3425e21a936590c0bcd957343d076"
+        },
+        {
+          "path": "public/assets/audio/world/song-wanderers_air.m4a",
+          "bytes": 655029,
+          "sha256": "22310db2b3b113d582e765a1f866acf28c85c2bc3101b24466fed0317a21d6dd"
+        }
+      ]
+    },
+    {
+      "id": "hearthsmoke",
+      "title": "Hearthsmoke",
+      "render": "tools/world-audio/compose/index.mjs#hearthsmoke",
+      "use": {
+        "type": "song"
+      },
+      "pcmSha256": "c1bb88da56adc59bb3b670513ab06a275bf15c8a8bcd3c1cae0c8add9f5f346e",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/song-hearthsmoke.ogg",
+          "bytes": 348771,
+          "sha256": "77b8a8c17e7188247c4b40d3fd79e5676eb6b8bc3684e80eafcb55e7e31c7250"
+        },
+        {
+          "path": "public/assets/audio/world/song-hearthsmoke.m4a",
+          "bytes": 346549,
+          "sha256": "72eed0b9bb8f40c06491c7c829d81699e739562518381feecdc69e503d9f9906"
+        }
+      ]
+    },
+    {
+      "id": "salt_and_rope",
+      "title": "Salt and Rope",
+      "render": "tools/world-audio/compose/index.mjs#salt_and_rope",
+      "use": {
+        "type": "song"
+      },
+      "pcmSha256": "752bd197beb70fe5c68959ba888654871c00824a11fbcb2dc1365258e2081d4b",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/song-salt_and_rope.ogg",
+          "bytes": 526453,
+          "sha256": "f5fb207aee4aa822b9ea0c0c6b9ff0ea7d1df35520878af6414be453fc0e3253"
+        },
+        {
+          "path": "public/assets/audio/world/song-salt_and_rope.m4a",
+          "bytes": 535226,
+          "sha256": "871bd6375f052eb7d50f155dad060bbce139d4327b27d1596c505612d09a1ca2"
+        }
+      ]
+    },
+    {
+      "id": "crafted_bell.town",
+      "title": "bell.town",
+      "render": "tools/world-audio/compose/index.mjs#crafted_bell.town",
+      "use": {
+        "type": "variants",
+        "bank": "crafted",
+        "name": "bell.town",
+        "targetDb": -19,
+        "variants": 2
+      },
+      "pcmSha256": "782ad52532fb77a5f3c6e4d5ddcbe2039c59d1e5aaa37b0efea097db887445ec",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-crafted.ogg",
+          "bytes": 398909,
+          "sha256": "3b4702eecb27e297b14d3c12f0013a7354561d66f501bb90ca839d551b4ed563"
+        },
+        {
+          "path": "public/assets/audio/world/bank-crafted.m4a",
+          "bytes": 324695,
+          "sha256": "432d2937a3447bba27331479903f268a7b98c86fab80e74c65fbe5c5b91a66ba"
+        }
+      ]
+    },
+    {
+      "id": "crafted_bell.peal",
+      "title": "bell.peal",
+      "render": "tools/world-audio/compose/index.mjs#crafted_bell.peal",
+      "use": {
+        "type": "variants",
+        "bank": "crafted",
+        "name": "bell.peal",
+        "targetDb": -20,
+        "variants": 3
+      },
+      "pcmSha256": "5c9b5484a9b1f6dccc354e6f0e74aaeb6cc6c809728141a537cc0b600da61cbf",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-crafted.ogg",
+          "bytes": 398909,
+          "sha256": "3b4702eecb27e297b14d3c12f0013a7354561d66f501bb90ca839d551b4ed563"
+        },
+        {
+          "path": "public/assets/audio/world/bank-crafted.m4a",
+          "bytes": 324695,
+          "sha256": "432d2937a3447bba27331479903f268a7b98c86fab80e74c65fbe5c5b91a66ba"
+        }
+      ]
+    },
+    {
+      "id": "crafted_chime",
+      "title": "chime",
+      "render": "tools/world-audio/compose/index.mjs#crafted_chime",
+      "use": {
+        "type": "variants",
+        "bank": "crafted",
+        "name": "chime",
+        "targetDb": -24,
+        "variants": 5
+      },
+      "pcmSha256": "cb39cc3a4907ba1fd0a1f5666591ccda5b1fcea87b778c59553de79a89e441a6",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-crafted.ogg",
+          "bytes": 398909,
+          "sha256": "3b4702eecb27e297b14d3c12f0013a7354561d66f501bb90ca839d551b4ed563"
+        },
+        {
+          "path": "public/assets/audio/world/bank-crafted.m4a",
+          "bytes": 324695,
+          "sha256": "432d2937a3447bba27331479903f268a7b98c86fab80e74c65fbe5c5b91a66ba"
+        }
+      ]
+    },
+    {
+      "id": "crafted_cricket",
+      "title": "cricket",
+      "render": "tools/world-audio/compose/index.mjs#crafted_cricket",
+      "use": {
+        "type": "variants",
+        "bank": "crafted",
+        "name": "cricket",
+        "targetDb": -22,
+        "variants": 6
+      },
+      "pcmSha256": "85fc5608d948a8022d4c2c27e6e832067839599d80b37a9bbbd08df8c836a63d",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-crafted.ogg",
+          "bytes": 398909,
+          "sha256": "3b4702eecb27e297b14d3c12f0013a7354561d66f501bb90ca839d551b4ed563"
+        },
+        {
+          "path": "public/assets/audio/world/bank-crafted.m4a",
+          "bytes": 324695,
+          "sha256": "432d2937a3447bba27331479903f268a7b98c86fab80e74c65fbe5c5b91a66ba"
+        }
+      ]
+    },
+    {
+      "id": "crafted_bubble",
+      "title": "bubble",
+      "render": "tools/world-audio/compose/index.mjs#crafted_bubble",
+      "use": {
+        "type": "variants",
+        "bank": "crafted",
+        "name": "bubble",
+        "targetDb": -24,
+        "variants": 8
+      },
+      "pcmSha256": "31eec09bda6aacf56cb93692d612433e2c1a22b9fbd0d225865b2d737550632b",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-crafted.ogg",
+          "bytes": 398909,
+          "sha256": "3b4702eecb27e297b14d3c12f0013a7354561d66f501bb90ca839d551b4ed563"
+        },
+        {
+          "path": "public/assets/audio/world/bank-crafted.m4a",
+          "bytes": 324695,
+          "sha256": "432d2937a3447bba27331479903f268a7b98c86fab80e74c65fbe5c5b91a66ba"
+        }
+      ]
+    },
+    {
+      "id": "crafted_heart",
+      "title": "heart",
+      "render": "tools/world-audio/compose/index.mjs#crafted_heart",
+      "use": {
+        "type": "variants",
+        "bank": "crafted",
+        "name": "heart",
+        "targetDb": -20,
+        "variants": 2
+      },
+      "pcmSha256": "e797670b359247d7e1b252e10b70c1b9f4b11e71d70fe0f9170aa62651a833fa",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-crafted.ogg",
+          "bytes": 398909,
+          "sha256": "3b4702eecb27e297b14d3c12f0013a7354561d66f501bb90ca839d551b4ed563"
+        },
+        {
+          "path": "public/assets/audio/world/bank-crafted.m4a",
+          "bytes": 324695,
+          "sha256": "432d2937a3447bba27331479903f268a7b98c86fab80e74c65fbe5c5b91a66ba"
+        }
+      ]
+    },
+    {
+      "id": "crafted_rite.bowl",
+      "title": "rite.bowl",
+      "render": "tools/world-audio/compose/index.mjs#crafted_rite.bowl",
+      "use": {
+        "type": "variants",
+        "bank": "crafted",
+        "name": "rite.bowl",
+        "targetDb": -20,
+        "variants": 1
+      },
+      "pcmSha256": "8f5c910d973db0d1d0867398e51dc411423165919abd0ee0cef09b3ab8d04abc",
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-crafted.ogg",
+          "bytes": 398909,
+          "sha256": "3b4702eecb27e297b14d3c12f0013a7354561d66f501bb90ca839d551b4ed563"
+        },
+        {
+          "path": "public/assets/audio/world/bank-crafted.m4a",
+          "bytes": 324695,
+          "sha256": "432d2937a3447bba27331479903f268a7b98c86fab80e74c65fbe5c5b91a66ba"
+        }
+      ]
+    }
   ]
 }
