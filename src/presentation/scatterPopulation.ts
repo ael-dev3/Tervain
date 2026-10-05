@@ -121,15 +121,17 @@ export function createScatterPopulation(terrain: Pick<Terrain, 'heightAt' | 'slo
     const count = 3 + Math.floor(shelfRandom() * 3);
     const az = shelfRandom() * Math.PI * 2;
     for (let stone = 0; stone < count; stone++) {
-      const size = stone === 0 ? 1.25 + shelfRandom() * 1.45 : 0.4 + shelfRandom() * 0.7;
-      const spread = stone === 0 ? 0 : 1.7 + shelfRandom() * 2.8;
+      // Each stone has its own stream: rejecting one near source wood cannot move or recolor its neighbours.
+      const stoneRandom = mulberry32(51919 ^ Math.imul(cell, 83492791) ^ Math.imul(stone + 1, 93051));
+      const size = stone === 0 ? 1.25 + stoneRandom() * 1.45 : 0.4 + stoneRandom() * 0.7;
+      const spread = stone === 0 ? 0 : 1.7 + stoneRandom() * 2.8;
       const a = az + stone * 1.8;
       const px = x + Math.cos(a) * spread, pz = z + Math.sin(a) * spread;
       const py = terrain.heightAt(px, pz);
       // Even the low companions respect whole-object approaches, not just the boulder proxy.
       if (py < 0.8 || py > 12 || terrain.slopeAt(px, pz) > 0.72 || exclusions.blocked(px, pz, size * 1.25 + 0.55)) continue;
       if (trunks.some(tree => tree.radius > 0 && Math.hypot(px - tree.x, pz - tree.z) < tree.radius + size * 1.25 + 0.35)) continue;
-      put('shelf', px, pz, size, { sink: 0.5, collide: true, squash: 0.72 + shelfRandom() * 0.16, tint: 0.67 + shelfRandom() * 0.14 }, shelfRandom);
+      put('shelf', px, pz, size, { sink: 0.5, collide: true, squash: 0.72 + stoneRandom() * 0.16, tint: 0.67 + stoneRandom() * 0.14 }, stoneRandom);
     }
   }
   return rocks;
