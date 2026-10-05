@@ -28,4 +28,4 @@ Use stable identifiers for quest facts and content once implementation begins. D
 
 Keep reusable art sources and provenance discoverable in Warpkeep-Assets when appropriate; keep Tervain's selected runtime inventory and transformations in this repository. Record exact upstream revisions rather than assuming a floating branch stays compatible. Avoid copying generated client bindings, private world exports, accounts, or deployment machinery from Warpkeep into a local RPG.
 
-The project licensing strategy is an open decision. Contributions should identify their authorship and existing terms; this document does not relicense anyone's work.
+Before contributing code or assets, check [LICENSE-SCOPE.md](LICENSE-SCOPE.md), [NOTICE](NOTICE), and the relevant file headers and provenance records. The PolyForm Noncommercial license covers only eligible original Tervain software code; separately licensed code and externally governed assets keep their terms. Contributions remain subject to their authors' rights unless a separate permission says otherwise. Submitting a contribution does not assign copyright or authorize relicensing by itself.
