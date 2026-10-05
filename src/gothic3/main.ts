@@ -12,6 +12,7 @@ import type { NativeHeroPlayerMemory } from './hero-property-runtime';
 import type { AnimatedActor } from './animation';
 import { ARDEA_PEOPLE, ARDEA_QUESTS, PORT_SCOPE } from './content';
 import { showOriginalDialogue, showQuestCatalog } from './catalog-view';
+import { NativeQuestRuntime, nativeQuestStatusName } from './quest-runtime';
 import type { ArdeaScene, ScenePerson } from './types';
 import './style.css';
 
@@ -23,11 +24,11 @@ const ui = document.querySelector<HTMLDivElement>('#interface')!;
 ui.innerHTML = '<header class="masthead"><div class="eyebrow">Gothic 3 · browser port</div><h1 id="world-title">Ardea</h1><p id="world-caption">Recovered scene · native landscape</p></header>' +
   '<nav class="toolbar"><button id="explore-button">Explore</button><button id="view-button">Third person</button><button id="character-button">Character</button><button id="landscape-button">Landscape</button><button id="inspect-button">Models <kbd>Tab</kbd></button><button id="journal-button">Journal <kbd>J</kbd></button><button id="map-button">Map <kbd>M</kbd></button><button id="save-button">Save <kbd>P</kbd></button><button id="help-button">Help</button><a href="../">Tervain ↗</a></nav>' +
   '<div class="crosshair" id="crosshair"></div><div class="prompt hidden" id="prompt"></div><div class="toast hidden" id="toast" role="status"></div>' +
-  '<footer class="bottom"><div class="keys" id="keys"><kbd>W A S D</kbd> move &nbsp; <kbd>Shift</kbd> run &nbsp; drag mouse / click for mouse look<br><kbd>E</kbd> inspect person &nbsp; <kbd>F</kbd> fly &nbsp; <kbd>R</kbd> return to arrival &nbsp; <kbd>Esc</kbd> release mouse</div><div class="coordinate"><span id="coordinates">Loading native scene</span><div id="terrain-status"></div><div class="scope-tag">Work in progress · native gameplay still being rewritten</div></div></footer>' +
+  '<footer class="bottom"><div class="keys" id="keys"><kbd>W A S D</kbd> move &nbsp; <kbd>Shift</kbd> run &nbsp; drag mouse / click for mouse look<br><kbd>E</kbd> inspect person &nbsp; <kbd>F</kbd> fly &nbsp; <kbd>R</kbd> return to arrival &nbsp; <kbd>Esc</kbd> release mouse</div><div class="coordinate"><span id="coordinates">Loading native scene</span><div id="world-clock"></div><div id="terrain-status"></div><div class="scope-tag">Work in progress · native gameplay still being rewritten</div></div></footer>' +
   '<section class="inspector panel hidden" id="inspector"><div class="eyebrow">Original geometry</div><h2>Character inspection</h2><select id="model-select" aria-label="Character model"></select><div class="row"><button id="wire-button">Wireframe</button><button id="spin-button">Rotate</button><button id="frame-button">Frame</button></div><div id="animation-controls" class="hidden"><label for="clip-select">Native motion</label><select id="clip-select" aria-label="Native motion"><option value="">Bind pose</option></select><button id="clip-play" disabled>Play motion</button></div><p>Drag to rotate · wheel to zoom · right-drag to pan.</p><p id="model-info">Native body and head; exported bind pose.</p><div class="source" id="model-source"></div></section>' +
   '<section class="modal panel hidden" id="modal" aria-label="Information"><button class="close" id="modal-close" aria-label="Close panel">×</button><div id="modal-content"></div></section>' +
   '<div class="map hidden" id="map"><span class="map-label">ARDEA · LOCAL POSITIONS</span><canvas id="map-view" width="488" height="488" aria-label="Local positions map"></canvas></div>' +
-  '<div class="loading" id="loading"><section class="intro"><div class="eyebrow">Gothic 3 · TypeScript reconstruction</div><h1>Ardea</h1><h2>The shore of Myrtana</h2><p>Walk through the recovered scene. Inspect original character models, Hero motion and the landscapes of Myrtana, Nordmar and Varant.</p><div class="rule"></div><p>Terrain loads as you move. Read the original quest catalog. Combat, quest execution and NPC simulation are still being rebuilt.</p><div class="progress"><span id="progress"></span></div><div class="load-status" id="load-status">Reading scene manifest…</div><button class="primary" id="start-button" disabled>Enter Ardea</button><small>Independent from Tervain’s original game.<br>Keyboard and mouse · WebGL · local browser saves</small></section></div>';
+  '<div class="loading" id="loading"><section class="intro"><div class="eyebrow">Gothic 3 · TypeScript reconstruction</div><h1>Ardea</h1><h2>The shore of Myrtana</h2><p>Walk through the recovered scene. Inspect original character models, Hero motion and the landscapes of Myrtana, Nordmar and Varant.</p><div class="rule"></div><p>Terrain loads as you move. A source-backed fresh quest state starts Xardas’s first quest. Dialogue actions, NPC simulation and combat are still being rebuilt.</p><div class="progress"><span id="progress"></span></div><div class="load-status" id="load-status">Reading scene manifest…</div><button class="primary" id="start-button" disabled>Enter Ardea</button><small>Independent from Tervain’s original game.<br>Keyboard and mouse · WebGL · local browser saves</small></section></div>';
 
 const element = <T extends HTMLElement = HTMLElement>(id: string): T => document.getElementById(id) as T;
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
@@ -81,6 +82,9 @@ let mapShown = false;
 let lastFrame = performance.now();
 let lastHud = 0;
 let nativeHeroMemory: Promise<NativeHeroPlayerMemory> | null = null;
+let questRuntime: NativeQuestRuntime | null = null;
+let questRuntimeError: string | null = null;
+let enteringWorld = false;
 
 const inspection = new THREE.Scene();
 inspection.background = new THREE.Color(0x303d36);
@@ -183,7 +187,78 @@ function inspectNearby(): void {
 
 function showJournal(): void {
   const content = openPanel('Original quest journal');
-  void showQuestCatalog(content);
+  if (!questRuntime) {
+    paragraph(content, questRuntimeError
+      ? 'The browser could not load the source-backed quest session: ' + questRuntimeError
+      : 'Enter Ardea to load the new-world quest state.');
+    paragraph(content, 'The static source catalog is shown below for reference; it is not gameplay state.');
+    if (questRuntimeError) void showQuestCatalog(content);
+    return;
+  }
+  const lifetime = panelLifetime.signal;
+  const intro = document.createElement('p');
+  intro.textContent = 'Fresh-world state from the original quest manager and compiled runtime records. The audited OnGameStartUp RunQuest starts Xardas_FindXardas at the source clock time. Other native startup callbacks, dialogue and quest rewards are still unimplemented.';
+  content.append(intro);
+  const controls = document.createElement('div'); controls.className = 'catalog-controls';
+  const search = document.createElement('input'); search.type = 'search'; search.placeholder = 'Search quest id, folder or destination'; search.setAttribute('aria-label', 'Search active quest journal');
+  const status = document.createElement('select'); status.setAttribute('aria-label', 'Filter quests by status');
+  const statusOptions: [string, string][] = [['running', 'Running'], ['all', 'All statuses'],
+    ['open', 'Open'], ['success', 'Success'], ['failed', 'Failed'], ['obsolete', 'Obsolete'],
+    ['cancelled', 'Cancelled'], ['lost', 'Lost'], ['won', 'Won']];
+  for (const [value, label] of statusOptions) status.add(new Option(label, value, false, value === 'running'));
+  controls.append(search, status); content.append(controls);
+  const count = document.createElement('p'); count.className = 'record-meta'; content.append(count);
+  const results = document.createElement('div'); content.append(results);
+  let shown = 0;
+  const more = document.createElement('button'); more.textContent = 'Show more quests';
+  const matches = () => {
+    const query = search.value.trim().toLocaleLowerCase();
+    const filter = status.value;
+    return questRuntime!.rows().filter(({ definition, state: sourceState }) => {
+      if (filter !== 'all' && nativeQuestStatusName(sourceState.status).toLowerCase() !== filter) return false;
+      return !query || [definition.id, definition.folder, definition.destination].some((value) => value.toLocaleLowerCase().includes(query));
+    });
+  };
+  const render = (): void => {
+    const filtered = matches();
+    count.textContent = filtered.length + ' source quest states · world clock ' + formatQuestClock(questRuntime!.currentClock());
+    results.replaceChildren(); shown = 0;
+    more.onclick = () => append(filtered);
+    append(filtered);
+  };
+  const append = (filtered: ReturnType<typeof matches>): void => {
+    more.remove();
+    const end = Math.min(shown + 40, filtered.length);
+    while (shown < end) {
+      const item = filtered[shown++]!;
+      const details = document.createElement('details');
+      const summary = document.createElement('summary');
+      summary.textContent = item.definition.id + ' · ' + nativeQuestStatusName(item.state.status);
+      details.append(summary);
+      paragraph(details, 'Folder: ' + item.definition.folder + ' · destination: ' + (item.definition.destination || 'unresolved'));
+      if (item.definition.deliveryTargets.length) paragraph(details, 'Source delivery counters: ' + item.definition.deliveryTargets.map((target, index) =>
+        target.entity + ' ' + (item.state.counters[index] ?? '?') + ' / ' + (target.amount ?? '?')).join(' · '));
+      if (item.state.startedAt) paragraph(details, 'Started at Year ' + item.state.startedAt.years + ' · Day ' + item.state.startedAt.days + ' · ' + item.state.startedAt.hours + ':00');
+      if (item.state.logPairs?.length) paragraph(details, 'Original log localization keys: ' + item.state.logPairs.map((pair) => pair.textKey).join(', '));
+      paragraph(details, item.definition.source.archive + ' · ' + item.definition.source.path + ' · SHA-256 ' + item.definition.source.sha256, 'source');
+      results.append(details);
+    }
+    if (shown < filtered.length) results.append(more);
+  };
+  more.onclick = () => append(matches());
+  search.oninput = render; status.onchange = render;
+  const unsubscribe = questRuntime.subscribe(render);
+  lifetime.addEventListener('abort', unsubscribe, { once: true });
+  render();
+}
+
+function formatQuestClock(clock: { years: number; days: number; hours: number }): string {
+  return 'Year ' + clock.years + ' · Day ' + clock.days + ' · ' + String(clock.hours).padStart(2, '0') + ':00';
+}
+
+function formatWorldClock(clock: { year: number; day: number; hour: number; minute: number; second: number }): string {
+  const time = [clock.hour, clock.minute, clock.second].map((value) => String(value).padStart(2, '0')).join(':');
+  return 'Year ' + clock.year + ' · Day ' + clock.day + ' · ' + time;
 }
 
 function showCharacterSheet(): void {
@@ -227,7 +302,7 @@ function showCharacterSheet(): void {
     table.append(head, body); content.append(table);
     paragraph(content, 'Loaded ' + result.cursor.consumed + ' of ' + result.cursor.total +
       ' packet bytes from source record ' + result.source.sha256.slice(0, 16) + '…');
-    paragraph(content, 'The browser now retains the source PlayerMemory and all 15 Attribute/Stat objects. The native new-game callbacks and later stat, combat, and XP progression are not connected to ordinary play yet. Unknown native enum bits remain masked.');
+    paragraph(content, 'The browser now retains the source PlayerMemory and all 15 Attribute/Stat objects. One audited startup quest transition is connected to the live journal; the remaining native new-game callbacks and later stat, combat, and XP progression are not connected to ordinary play yet. Unknown native enum bits remain masked.');
     if (result.summary.logs.length) {
       paragraph(content, result.summary.logs.length + ' source warning/info records were retained by the browser host.', 'source');
     }
@@ -244,7 +319,7 @@ function showHelp(): void {
   const content = openPanel('Controls & current scope');
   paragraph(content, 'WASD / arrows: move. Shift: run. Drag to look, or click the scene for captured mouse look. Escape releases the pointer. E inspects a nearby person.');
   paragraph(content, 'F toggles free flight; Space moves up and Q moves down. Third person follows the Hero model and recovered idle, walk and run clips. R returns to the arrival point. P saves your position locally. Tab switches to character models; drag to rotate, wheel to zoom, right-drag to pan. M opens the local position map.');
-  paragraph(content, 'Character loads PC_Hero’s serialized PlayerMemory and Attribute/Stat data into the browser’s TypeScript runtime. The native startup and gameplay progression are still being connected.');
+  paragraph(content, 'Character loads PC_Hero’s serialized PlayerMemory and Attribute/Stat data into the browser’s TypeScript runtime. The quest journal runs one source-audited new-game quest transition; other startup operations and gameplay progression are still being connected.');
   const brightnessLabel = document.createElement('label');
   brightnessLabel.textContent = 'Preview brightness ';
   const brightness = document.createElement('input');
@@ -655,14 +730,30 @@ async function boot(): Promise<void> {
   element<HTMLButtonElement>('start-button').disabled = false;
 }
 
-element('start-button').onclick = () => {
+async function enterWorld(): Promise<void> {
+  if (started || enteringWorld) return;
+  enteringWorld = true;
+  const button = element<HTMLButtonElement>('start-button');
+  button.disabled = true;
+  element('load-status').textContent = 'Loading original new-world quest state and clock…';
+  try {
+    questRuntime = await NativeQuestRuntime.newGame();
+    questRuntimeError = null;
+  } catch (error) {
+    questRuntime = null;
+    questRuntimeError = error instanceof Error ? error.message : String(error);
+  }
   started = true;
   element('loading').classList.add('hidden');
   explorer.active = true;
   restore();
   canvas.focus();
   if (failures.length) notify('Scene loaded with ' + failures.length + ' asset warnings. See Help for details.');
-};
+  if (questRuntime) notify('New-world quest journal loaded · Xardas_FindXardas is running.');
+  else notify('Exploration started without quest progression: ' + questRuntimeError);
+  enteringWorld = false;
+}
+element('start-button').onclick = () => { void enterWorld(); };
 element('explore-button').onclick = () => { void setInspection(false); closePanel(); };
 element('view-button').onclick = () => {
   if (!heroActor) { notify('The recovered Hero model did not load. See Help for asset errors.'); return; }
@@ -722,6 +813,10 @@ function frame(now: number): void {
   const dt = Math.min((now - lastFrame) / 1000, 0.05);
   lastFrame = now;
   if (document.hidden || innerWidth <= 0 || innerHeight <= 0) return;
+  if (started && questRuntime) {
+    const clock = questRuntime.advance();
+    if (!clock.applied) element('world-clock').textContent = 'World clock stopped: ' + clock.reason;
+  }
   if (inspectMode) {
     const viewport = updateInspectorViewport();
     renderer.setViewport(viewport.x, viewport.y, viewport.w, viewport.h);
@@ -748,6 +843,13 @@ function frame(now: number): void {
     lastHud = now;
     const position = explorer.position;
     element('coordinates').textContent = position.x.toFixed(1) + ' / ' + position.y.toFixed(1) + ' / ' + position.z.toFixed(1) + ' m · ' + (explorer.fly ? 'FREE FLIGHT' : explorer.groundFallback ? 'NO GROUND SUPPORT' : explorer.grounded ? 'GROUNDED' : 'FALLING');
+    if (questRuntime) {
+      element('world-clock').textContent = questRuntime.clockError()
+        ? 'World clock stopped: ' + questRuntime.clockError()
+        : formatWorldClock(questRuntime.currentWorldCalendar()) + ' · source-seeded';
+    } else if (questRuntimeError) {
+      element('world-clock').textContent = 'Quest session unavailable';
+    }
     const streaming = terrain.status();
     if (!inspectMode) element('world-title').textContent = landscapeName ?? streaming.region ?? 'Gothic 3';
     element('terrain-status').textContent = streaming.ready

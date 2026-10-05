@@ -21,8 +21,10 @@ The owner also requested a TypeScript Gothic 3 browser port as a second URL.
 has its own entry, assets and saves. It is an incomplete reconstruction using
 selected local game data; it does not replace Tervain's original world.
 See [current scope, controls and port plan](docs/engineering/gothic3-browser-port.md).
-The [rebuilding process](docs/engineering/gothic3-rebuilding-process.md) explains
-the native study, asset conversion, TypeScript runtime and remaining gameplay work.
+The [rebuilding overview](docs/engineering/gothic3-rebuild-overview.md) explains
+the process and what counts as a complete reconstruction. The [detailed
+engineering record](docs/engineering/gothic3-rebuilding-process.md) documents
+the native study, asset conversion, TypeScript runtime and dated checkpoints.
 
 [Gothic 3 from your own install](https://ael-dev3.github.io/Tervain/gothic3-local/)
 is a separate study viewer: point it at your installed copy of Gothic 3 and it

@@ -36,8 +36,10 @@ Gothic assets as original Tervain content or change earlier Tervain asset rules.
   preserving every bone influence, body/head inverse binds and source poses.
 - Provides a searchable catalog of all 641 original quests and 4,381 dialogue
   records with the original English, Italian, French, German and Spanish text.
-- Indexes the native world/sector files for future streaming and contains a
-  reviewed quest-status kernel that is not yet enabled for ordinary play.
+- Indexes the native world/sector files for future streaming. A source-backed
+  fresh-world journal now seeds all 641 native quest states and applies the
+  audited startup `RunQuest("Xardas_FindXardas")` transition. Other startup
+  callbacks and quest actions remain incomplete.
 - Streams 782 original landscape cells across Myrtana, Nordmar and Varant,
   using recovered texture/UV/blend graphs and tangent-space normal maps.
 - Offers landscape views near Ardea, Xardas's tower and Lago, plus read-only
@@ -54,7 +56,9 @@ The remaining native materials, global lighting, SpeedTree runtime,
 NPC animation selection, sound, combat, AI, inventory, economy, original quests,
 world-object streaming and native save compatibility are not implemented.
 Reviewed combat/dialogue kernels have explicit unsupported outcomes and host
-APIs, but are not enabled for ordinary play. Startup callbacks remain pending.
+APIs, but are not enabled for ordinary play. Only the audited first startup
+quest run is connected; remaining startup callbacks and entity mutations are
+pending.
 Original SpeedTree vegetation has not yet been placed in this scene.
 NPC derivatives are static bind-pose previews. The moving Hero chooses one
 recovered idle, walk or run clip from browser-controller displacement. Hero
@@ -158,8 +162,9 @@ These are implementation proposals, not completed work:
    expressions, exact interpolation, animation selection and blending.
 2. Port a bounded original Ardea combat encounter and its native state
    transitions, then compare behavior with the installed game.
-3. Execute a reviewed subset of original dialogue predicates and commands,
-   inventory/progression and quest state; preserve unsupported-command errors.
+3. Connect source-backed quest journal state to eligible dialogue commands,
+   objective updates, inventory, rewards and progression; preserve
+   unsupported-command errors.
 4. Replace collision approximations and extend world streaming, terrain,
    SpeedTree materials, original lighting and audio.
 5. Expand region by region with save migration and measured performance.

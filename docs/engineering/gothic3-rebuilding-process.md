@@ -1,10 +1,17 @@
 # How Gothic 3 is being rebuilt for the browser
 
+For a short, reader-facing explanation of the approach and completion standard,
+start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
+is the detailed technical record and dated checkpoint history.
+
 Updated: 5 October 2026. Current source result: an Ardea exploration scene, a
 third-person Hero presentation, streamed native landscape across three regions,
 Hero motion inspection, original quest/dialogue catalogs, source-state/clock
-inspection and an on-demand Hero character sheet backed by captured PlayerMemory
-and Attribute/Stat data in TypeScript. This is an incomplete game reconstruction.
+inspection, an on-demand Hero character sheet backed by captured PlayerMemory
+and Attribute/Stat data in TypeScript, and a fresh-world quest journal seeded
+from the original 641 quest states. It applies the audited startup run of
+`Xardas_FindXardas` and advances the source-seeded clock. This is an incomplete
+game reconstruction.
 Completing the original game in the browser remains the objective; the inspectors
 do not satisfy that objective.
 
@@ -20,7 +27,7 @@ which have not been deployed. On 5 October 2026, a fresh request to the
 `/gothic3/` URL returned HTTP 404 and the repository's Pages API also returned
 404. The latest failed workflow still reports that its job could not start
 because of account payment or spending-limit state. This records the observed
-hosting/deployment limitation; the full game is not online. Sections 10–24
+hosting/deployment limitation; the full game is not online. Sections 10–25
 cover the newer runtime work.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
@@ -2687,3 +2694,35 @@ Vite modules; the pre-existing large-bundle warning remains). No test suite,
 native executable, review of the new browser panel, full browser playthrough,
 deployment or complete-game progression was run; `gameplayReady` remains
 `false`.
+
+## 25. Seed a live quest journal and run the first startup quest
+
+The [quest runtime](../../src/gothic3/quest-runtime.ts) now combines the
+hash-checked fresh-world quest seed with the effective native quest definitions.
+It validates all 641 source states and counter arrays, then constructs the
+existing `NativeQuests` transition kernel for the browser session. On entering
+Ardea it applies the one explicitly audited `OnGameStartUp` operation:
+`RunQuest("Xardas_FindXardas")`. The original initial packet marks that quest
+Open at Year 0, Day 0, 12:00; the native transition makes it Running and records
+that source clock time. The session then uses the original World_MCP clock seed,
+factor 12 and the selected 24-bit FPU profile. The footer displays the current
+world clock, and the Journal reads live quest status, counters and source
+provenance rather than presenting the catalog as progress.
+
+This is one connected quest transition, not a complete `OnGameStartUp` or
+session start. The source receipt explicitly leaves the other startup callbacks
+and entity mutations unapplied. NPC identities/routines, eligible dialogue,
+delivery updates, quest rewards, Hero progression and save/load are still not
+connected. Unsupported nonempty quest effects stop at the host boundary; this
+runtime does not award invented XP or political changes. Exploration remains
+available if the quest/clock resources fail to load, with that limitation shown
+to the player.
+
+The production TypeScript build passed after this change (259 Vite modules; the
+existing large bundle warning remains). A one-off Vite SSR runtime invocation
+loaded and hash-checked the browser resources, seeded 641 states, produced
+`Xardas_FindXardas` Running at 0/0/12, and advanced one clock frame. The local
+browser loaded the scene and its 202 scene objects, but the new session start
+and journal interaction were not manually reviewed. No automated test suite,
+full browser playthrough, original executable comparison or deployment was run.
+`gameplayReady` remains `false`.
