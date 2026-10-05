@@ -11,6 +11,7 @@ import { streamDistance } from './vegetation';
 import { attachInstanceDistanceVisibility, smoothDistanceFade, type InstanceDistanceVisibility } from './distanceVisibility';
 import type { PlantedCrownField } from './plantedCrowns';
 import { biomeAt, type BiomeSample } from '../world/biomes';
+import { clamp01, fbmField, sstep } from './procTex';
 
 export type ForestFloorKind = 'fern' | 'shrub' | 'moss' | 'litter' | 'log' | 'fungi';
 export interface ForestFloorPiece { id: string; kind: ForestFloorKind; x: number; y: number; z: number; nx: number; nz: number; yaw: number; scale: number; rank: number; variant: number; parentLogId?: string }
@@ -122,10 +123,12 @@ export const FOREST_FLOOR_DISTANCE: Readonly<Record<Quality, { start: number; en
 class FloorGeometry {
   pos: number[] = [];
   color: number[] = [];
+  detail: number[] = [];
   idx: number[] = [];
-  vertex(x: number, y: number, z: number, c: THREE.Color) {
+  vertex(x: number, y: number, z: number, c: THREE.Color, leaf: readonly [number, number, number] = [0, 0, 0]) {
     this.pos.push(x, y, z);
     this.color.push(c.r, c.g, c.b);
+    this.detail.push(...leaf);
     return this.pos.length / 3 - 1;
   }
   tri(a: number, b: number, c: number) { this.idx.push(a, b, c); }
@@ -133,6 +136,7 @@ class FloorGeometry {
     const g = new THREE.BufferGeometry();
     g.setAttribute('position', new THREE.Float32BufferAttribute(this.pos, 3));
     g.setAttribute('color', new THREE.Float32BufferAttribute(this.color, 3));
+    g.setAttribute('aLeafDetail', new THREE.Float32BufferAttribute(this.detail, 3));
     g.setIndex(this.idx);
     g.computeVertexNormals();
     g.computeBoundingBox();
@@ -152,9 +156,9 @@ export function buildForestFernGeometry(variant: number): THREE.BufferGeometry {
     const height = 0.5 + rnd() * 0.34;
     const direction = new THREE.Vector3(Math.cos(az), 0, Math.sin(az));
     const side = new THREE.Vector3(-direction.z, 0, direction.x);
-    const at = (t: number) => direction.clone().multiplyScalar(length * t).setY(0.07 + Math.sin(t * Math.PI * 0.8) * height);
+    const at = (t: number) => direction.clone().multiplyScalar(length * t).setY(-0.012 + Math.sin(t * Math.PI * 0.8) * height);
     let last: [number, number] | null = null;
-    const stem = new THREE.Color('#50673a');
+    const stem = new THREE.Color('#5c6548');
     for (let s = 0; s <= 8; s++) {
       const p = at(s / 8);
       const w = 0.015 * (1 - s / 10);
@@ -172,15 +176,15 @@ export function buildForestFernGeometry(variant: number): THREE.BufferGeometry {
         const tip = root.clone().addScaledVector(side, span * sign).addScaledVector(direction, span * 0.6);
         tip.y -= span * 0.18;
         const mid = root.clone().lerp(tip, 0.55);
-        mid.y += 0.026;
-        const shade = new THREE.Color().setHSL(0.245 + rnd() * 0.06, 0.3 + rnd() * 0.13, 0.25 + rnd() * 0.11, THREE.SRGBColorSpace);
-        const base = a.vertex(root.x, root.y, root.z, shade);
-        const left = mid.clone().addScaledVector(direction, -0.055 * Math.sin(Math.PI * t));
-        const right = mid.clone().addScaledVector(direction, 0.055 * Math.sin(Math.PI * t));
-        const li = a.vertex(left.x, left.y, left.z, shade.clone().multiplyScalar(0.87));
-        const mi = a.vertex(mid.x, mid.y, mid.z, shade.clone().multiplyScalar(1.1));
-        const ri = a.vertex(right.x, right.y, right.z, shade);
-        const ti = a.vertex(tip.x, tip.y, tip.z, shade.clone().multiplyScalar(1.18));
+        mid.y += 0.009;
+        const shade = new THREE.Color().setHSL(0.225 + rnd() * 0.055, 0.23 + rnd() * 0.11, 0.29 + rnd() * 0.105, THREE.SRGBColorSpace);
+        const base = a.vertex(root.x, root.y, root.z, shade, [0.5, 0, 1]);
+        const left = mid.clone().addScaledVector(direction, -0.085 * Math.sin(Math.PI * t));
+        const right = mid.clone().addScaledVector(direction, 0.085 * Math.sin(Math.PI * t));
+        const li = a.vertex(left.x, left.y, left.z, shade.clone().multiplyScalar(0.97), [0, 0.5, 1]);
+        const mi = a.vertex(mid.x, mid.y, mid.z, shade.clone().multiplyScalar(1.02), [0.5, 0.5, 1]);
+        const ri = a.vertex(right.x, right.y, right.z, shade, [1, 0.5, 1]);
+        const ti = a.vertex(tip.x, tip.y, tip.z, shade.clone().multiplyScalar(1.08), [0.5, 1, 1]);
         a.tri(base, li, mi); a.tri(base, mi, ri); a.tri(li, ti, mi); a.tri(mi, ti, ri);
       }
     }
@@ -199,11 +203,11 @@ export function buildForestLitterGeometry(variant: number): THREE.BufferGeometry
     const wid = length * (variant === 2 ? 0.08 : 0.48);
     const dx = Math.cos(az), dz = Math.sin(az);
     const c = new THREE.Color().setHSL(0.083 + rnd() * 0.07, 0.22 + rnd() * 0.17, 0.2 + rnd() * 0.14, THREE.SRGBColorSpace);
-    const root = a.vertex(x, 0.024, z, c);
-    const left = a.vertex(x + dx * length * 0.5 - dz * wid, 0.035, z + dz * length * 0.5 + dx * wid, c);
-    const ridge = a.vertex(x + dx * length * 0.5, 0.052, z + dz * length * 0.5, c.clone().multiplyScalar(1.14));
-    const right = a.vertex(x + dx * length * 0.5 + dz * wid, 0.035, z + dz * length * 0.5 - dx * wid, c);
-    const tip = a.vertex(x + dx * length, 0.024, z + dz * length, c);
+    const root = a.vertex(x, 0.024, z, c, [0.5, 0, 1]);
+    const left = a.vertex(x + dx * length * 0.5 - dz * wid, 0.035, z + dz * length * 0.5 + dx * wid, c, [0, 0.5, 1]);
+    const ridge = a.vertex(x + dx * length * 0.5, 0.052, z + dz * length * 0.5, c.clone().multiplyScalar(1.08), [0.5, 0.5, 1]);
+    const right = a.vertex(x + dx * length * 0.5 + dz * wid, 0.035, z + dz * length * 0.5 - dx * wid, c, [1, 0.5, 1]);
+    const tip = a.vertex(x + dx * length, 0.024, z + dz * length, c, [0.5, 1, 1]);
     a.tri(root, left, ridge); a.tri(root, ridge, right); a.tri(left, tip, ridge); a.tri(ridge, tip, right);
   }
   return a.geometry();
@@ -247,15 +251,15 @@ export function buildForestShrubGeometry(variant: number): THREE.BufferGeometry 
         const across = leafDirection.clone().cross(up).normalize();
         const tip = root.clone().addScaledVector(leafDirection, length);
         tip.y += 0.045;
-        const centre = root.clone().lerp(tip, 0.5); centre.y += 0.025;
-        const left = centre.clone().addScaledVector(across, length * 0.27);
-        const right = centre.clone().addScaledVector(across, -length * 0.27);
-        const color = new THREE.Color().setHSL(0.24 + rnd() * 0.05, 0.26 + rnd() * 0.12, 0.2 + rnd() * 0.09, THREE.SRGBColorSpace);
-        const ri = a.vertex(root.x, root.y, root.z, color.clone().multiplyScalar(0.85));
-        const li = a.vertex(left.x, left.y, left.z, color);
-        const ci = a.vertex(centre.x, centre.y, centre.z, color.clone().multiplyScalar(1.1));
-        const oi = a.vertex(right.x, right.y, right.z, color.clone().multiplyScalar(0.9));
-        const ti = a.vertex(tip.x, tip.y, tip.z, color);
+        const centre = root.clone().lerp(tip, 0.5); centre.y += 0.011;
+        const left = centre.clone().addScaledVector(across, length * 0.45);
+        const right = centre.clone().addScaledVector(across, -length * 0.45);
+        const color = new THREE.Color().setHSL(0.225 + rnd() * 0.045, 0.22 + rnd() * 0.11, 0.26 + rnd() * 0.08, THREE.SRGBColorSpace);
+        const ri = a.vertex(root.x, root.y, root.z, color.clone().multiplyScalar(0.9), [0.5, 0, 1]);
+        const li = a.vertex(left.x, left.y, left.z, color, [0, 0.5, 1]);
+        const ci = a.vertex(centre.x, centre.y, centre.z, color.clone().multiplyScalar(1.05), [0.5, 0.5, 1]);
+        const oi = a.vertex(right.x, right.y, right.z, color.clone().multiplyScalar(0.94), [1, 0.5, 1]);
+        const ti = a.vertex(tip.x, tip.y, tip.z, color, [0.5, 1, 1]);
         a.tri(ri, li, ci); a.tri(ri, ci, oi); a.tri(li, ti, ci); a.tri(ci, ti, oi);
       }
     }
@@ -281,9 +285,9 @@ function floorGeometry(kind: ForestFloorKind, variant: number) {
   if (kind === 'litter') return buildForestLitterGeometry(variant);
   if (kind === 'moss') {
     const g = new THREE.IcosahedronGeometry(0.52, 1);
-    g.scale(1.45, 0.38, 1);
-    g.translate(0, 0.045, 0);
-    return colorGeometry(g, new THREE.Color('#4e653d'));
+    g.scale(1.45, 0.12, 1);
+    g.translate(0, 0.025, 0);
+    return colorGeometry(g, new THREE.Color('#606c4d'));
   }
   if (kind === 'log') {
     const g = new THREE.CylinderGeometry(0.14, 0.22, variant ? 2.5 : 3.3, 7, 2, false);
@@ -321,13 +325,101 @@ function floorGeometry(kind: ForestFloorKind, variant: number) {
   return a.geometry();
 }
 
+/** Original painted veins follow each physical folded leaflet. The UV chart is local to its
+ * five vertices, so this detail stays with the plant instead of sliding over world-space noise.
+ * Stems, moss and fungi have zero weight and keep their own vertex-painted surface. */
+/** CPU pixels are authored once per resolution, independently of World / graphics-preset
+ * lifetimes. Keep this buffer private: each owned GPU texture receives its own copy below. */
+const forestLeafPixels = new Map<number, Uint8Array>();
+
+function paintedForestLeafPixels(n: number): Uint8Array {
+  const existing = forestLeafPixels.get(n);
+  if (existing) return existing;
+  const tissue = fbmField(n, 9, 12, 3, 8204), grain = fbmField(n, 46, 50, 2, 8205);
+  const pixels = new Uint8Array(n * n * 4);
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) {
+    const o = y * n + x, u = (x + 0.5) / n, v = (y + 0.5) / n;
+    const across = Math.abs(u - 0.5);
+    // This rounded lanceolate outline stays strictly inside the five-vertex support kite.
+    // Wider support geometry retains the old opaque leaf width while its silhouette becomes organic.
+    const halfWidth = Math.sin(v * Math.PI) * 0.3 * (1 + 0.035 * Math.sin(v * 64 + Math.sin(v * 17)));
+    const alpha = 1 - sstep(halfWidth - 0.004, halfWidth + 0.004, across);
+    const vein = 1 - sstep(0.009, 0.021, across);
+    const sideVeins = (1 - sstep(0.045, 0.13, Math.abs(Math.sin(v * 48 + across * 37)))) * sstep(0.014, 0.06, across);
+    const worn = sstep(halfWidth * 0.55, Math.max(0.001, halfWidth), across) * (0.65 + tissue[o]! * 0.35);
+    const freckles = sstep(0.62, 0.8, grain[o]!) * (1 - vein) * 0.15;
+    const value = 0.72 + tissue[o]! * 0.17 + grain[o]! * 0.09 + vein * 0.1 + sideVeins * 0.07 - freckles;
+    pixels[o * 4] = Math.round(clamp01(value * (1 + worn * 0.075)) * 255);
+    pixels[o * 4 + 1] = Math.round(clamp01(value * (1 - worn * 0.035)) * 255);
+    pixels[o * 4 + 2] = Math.round(clamp01(value * (1 - worn * 0.1)) * 255);
+    pixels[o * 4 + 3] = Math.round(clamp01(alpha) * 255);
+  }
+  forestLeafPixels.set(n, pixels);
+  return pixels;
+}
+
+/** A newly painted leaf modulation / cutout chart; no photographs or reference pixels. Broad
+ * olive-grey tissue, fine branching veins and browned worn margins stay attached to the leaf UVs.
+ * Only immutable CPU art is cached; textures/sources remain private and independently disposable. */
+export function buildForestLeafTexture(size = 256): THREE.DataTexture {
+  const texture = new THREE.DataTexture(paintedForestLeafPixels(size).slice(), size, size, THREE.RGBAFormat);
+  texture.colorSpace = THREE.NoColorSpace; // RGB is a linear painted multiplier over the plant's species palette.
+  texture.minFilter = THREE.LinearMipmapLinearFilter; texture.magFilter = THREE.LinearFilter;
+  texture.generateMipmaps = true; texture.anisotropy = 8; texture.needsUpdate = true;
+  texture.name = 'Original forest leaflet tissue and worn edge';
+  return texture;
+}
+
+function installFloorLeafMask(material: THREE.Material, texture: THREE.DataTexture) {
+  const compile = material.onBeforeCompile, key = material.customProgramCacheKey;
+  material.onBeforeCompile = function(shader, renderer) {
+    compile.call(this, shader, renderer);
+    shader.uniforms.uFloorLeafSurface = { value: texture };
+    shader.vertexShader = shader.vertexShader
+      .replace('#include <common>', '#include <common>\nattribute vec3 aLeafDetail; varying vec3 vFloorLeafDetail;')
+      .replace('#include <begin_vertex>', '#include <begin_vertex>\nvFloorLeafDetail = aLeafDetail;');
+    shader.fragmentShader = shader.fragmentShader
+      .replace('#include <common>', '#include <common>\nvarying vec3 vFloorLeafDetail; uniform sampler2D uFloorLeafSurface;')
+      .replace('#include <alphatest_fragment>', `
+        if (vFloorLeafDetail.z > 0.5 && texture2D(uFloorLeafSurface, vFloorLeafDetail.xy).a < 0.35) discard;
+        #include <alphatest_fragment>`);
+  };
+  material.customProgramCacheKey = function() { return `${key.call(this)}|tervain-floor-leaf-mask-v1`; };
+}
+
+function installFloorLeafSurface(material: THREE.MeshStandardMaterial, texture: THREE.DataTexture) {
+  installFloorLeafMask(material, texture);
+  const compile = material.onBeforeCompile;
+  material.onBeforeCompile = function(shader, renderer) {
+    compile.call(this, shader, renderer);
+    shader.fragmentShader = shader.fragmentShader
+      .replace('#include <color_fragment>', `#include <color_fragment>
+        vec2 floorLeafUV = vFloorLeafDetail.xy;
+        float floorAcross = abs(floorLeafUV.x - 0.5) * 2.0;
+        float floorVein = 1.0 - smoothstep(0.018, 0.065, floorAcross);
+        float floorSides = (1.0 - smoothstep(0.04, 0.13, abs(sin(floorLeafUV.y * 25.0 + floorAcross * 9.0))))
+          * smoothstep(0.07, 0.25, floorAcross) * (1.0 - smoothstep(0.65, 1.0, floorAcross));
+        float floorDetail = 1.0 - smoothstep(0.09, 0.2, max(length(dFdx(floorLeafUV)), length(dFdy(floorLeafUV))));
+        float floorPaper = sin(dot(floorLeafUV, vec2(43.0, 71.0))) * sin(dot(floorLeafUV, vec2(-67.0, 31.0))) * 0.025;
+        float floorPaint = 0.96 + floorVein * 0.055 + floorSides * 0.05 + floorPaper;
+        vec3 floorTissue = texture2D(uFloorLeafSurface, floorLeafUV).rgb;
+        diffuseColor.rgb *= mix(vec3(1.0), floorTissue * floorPaint, vFloorLeafDetail.z);
+        float floorDryTip = smoothstep(0.88, 1.0, floorLeafUV.y) * vFloorLeafDetail.z;
+        diffuseColor.rgb *= mix(vec3(1.0), vec3(1.04, 1.01, 0.93), floorDryTip);
+      `);
+  };
+  material.customProgramCacheKey = () => 'tervain-floor-leaf-surface-v2';
+}
+
 /** Native forest detail shares flora ownership and disposal. No collider is needed for these low, nonblocking pieces. */
 export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quality: Quality, trees?: readonly FloraTree[], crowns?: PlantedCrownField): SceneModule {
   const population = createForestFloorPopulation(terrain, exclusions, trees, crowns);
   const pieces = selectForestFloorPopulation(population, quality);
   const group = new THREE.Group();
   group.name = 'deepwood_forest_floor';
-  const material = new THREE.MeshStandardMaterial({ vertexColors: true, side: THREE.DoubleSide, roughness: 1, metalness: 0 });
+  const material = new THREE.MeshStandardMaterial({ vertexColors: true, side: THREE.DoubleSide, roughness: 1, metalness: 0, envMapIntensity: 0.35 });
+  const leafSurface = buildForestLeafTexture();
+  installFloorLeafSurface(material, leafSurface);
   // Bark textures are shared with the tree module and released by flora's texture owner after this module disposes.
   const bark = barkTextures('dead');
   const logMaterial = new THREE.MeshStandardMaterial({ map: bark.map, normalMap: bark.normal, vertexColors: true, roughness: 1, metalness: 0 });
@@ -344,6 +436,7 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
   for (const [key, batch] of batches) {
     const first = batch[0]!;
     const geometry = floorGeometry(first.kind, first.variant);
+    if (!geometry.hasAttribute('aLeafDetail')) geometry.setAttribute('aLeafDetail', new THREE.Float32BufferAttribute(new Float32Array(geometry.getAttribute('position').count * 3), 3));
     const mesh = new THREE.InstancedMesh(geometry, first.kind === 'log' ? logMaterial : material, batch.length);
     mesh.name = `forest_floor_${key}`;
     mesh.receiveShadow = true;
@@ -364,7 +457,12 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
       bound.radius += 2; // Retain detail just outside the view, so turning does not reveal a stale cull.
       bounds.push(bound);
     }
-    owned.push({ geometry, mesh, pieces: batch, transforms, bounds, visibility: attachInstanceDistanceVisibility(mesh) });
+    const visibility = attachInstanceDistanceVisibility(mesh);
+    if (first.kind !== 'log') {
+      installFloorLeafMask(mesh.customDepthMaterial!, leafSurface);
+      installFloorLeafMask(mesh.customDistanceMaterial!, leafSurface);
+    }
+    owned.push({ geometry, mesh, pieces: batch, transforms, bounds, visibility });
     group.add(mesh);
   }
   let disposed = false, visible = 0, sinceRefresh = 1, lastShadowPresent = false;
@@ -427,6 +525,7 @@ export function buildForestFloor(terrain: Terrain, exclusions: Exclusions, quali
       disposed = true;
       for (const { geometry, mesh, visibility } of owned) { visibility.dispose(); mesh.dispose(); geometry.dispose(); }
       material.dispose();
+      leafSurface.dispose();
       logMaterial.dispose();
       group.clear();
     },

@@ -136,7 +136,13 @@ export function buildScatter(ctx: BuildContext): SceneModule & { counts: { rocks
   /* ---- Materials and merge ---- */
   const matVc = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.9, metalness: 0, flatShading: false });
   const matLeaf = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95, metalness: 0, side: THREE.DoubleSide });
-  const matBark = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95, metalness: 0 });
+  // Shore logs retain their authored supports/UVs, but weathered bark now carries their long fibres instead of
+  // leaving pale, untextured cylinders against the worn sand. These texture references belong to this module.
+  const cachedBark = makeTexPair('bark', 256, 8);
+  const barkTex = { map: cachedBark.map.clone(), normal: cachedBark.normal.clone() };
+  const matBark = new THREE.MeshStandardMaterial({ vertexColors: true, map: barkTex.map, normalMap: barkTex.normal,
+    roughness: 0.98, metalness: 0, envMapIntensity: 0.3 });
+  matBark.normalScale.set(0.45, 0.45);
   const rockTex = makeTexPair('rock', 256, 8);
   const matRock = new THREE.MeshStandardMaterial({ vertexColors: true, map: rockTex.map, normalMap: rockTex.normal, roughness: 0.97, metalness: 0, envMapIntensity: 0.35 });
   const lite = {
@@ -154,6 +160,8 @@ export function buildScatter(ctx: BuildContext): SceneModule & { counts: { rocks
     update() {},
     stats: () => ({ rocks, scatterTris: pieces }),
     dispose() {
+      barkTex.map.dispose();
+      barkTex.normal.dispose();
       matVc.dispose();
       matLeaf.dispose();
       matBark.dispose();

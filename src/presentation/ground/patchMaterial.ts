@@ -193,7 +193,7 @@ export function createPatchMaterial(sway: SwayUniforms, pushers: THREE.Vector4[]
     uPush: { value: pushers },
     uSun: { value: sun },
   };
-  const material = new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.DoubleSide, roughness: 0.94, metalness: 0, envMapIntensity: 0.6 });
+  const material = new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.DoubleSide, roughness: 0.99, metalness: 0, envMapIntensity: 0.4 });
   material.defines = { ...(opts.vertexColors ? { GCOL: '' } : {}), ...(opts.terrain ? { GROUND_FIT: '' } : {}) };
   if (opts.terrain) {
     const { nx, nz, heights } = opts.terrain;
@@ -232,8 +232,8 @@ export function createPatchMaterial(sway: SwayUniforms, pushers: THREE.Vector4[]
         float gRib = 1.0 - smoothstep(0.04, 0.2, abs(vGAcross));
         float gFibre = sin(vGAcross * 43.0 + vGPhase * 3.0 + vGH * 14.0) * 0.025;
         float gWear = smoothstep(0.8, 1.0, vGH) * (0.88 + 0.12 * sin(vGPhase));
-        diffuseColor.rgb = vGCol * (0.95 + 0.055 * gRib + gFibre);
-        diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb * vec3(1.12, 1.03, 0.87), gWear * 0.16);
+        diffuseColor.rgb = vGCol * (0.96 + 0.045 * gRib + gFibre * 0.6);
+        diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb * vec3(1.08, 1.025, 0.92), gWear * 0.2);
       `)
       .replace('#include <normal_fragment_maps>', '#include <normal_fragment_maps>\nnormal = normalize(vNormal);\nnonPerturbedNormal = normal;')
       .replace(
@@ -242,10 +242,10 @@ export function createPatchMaterial(sway: SwayUniforms, pushers: THREE.Vector4[]
         {
           vec3 gV = normalize(vGWorld - cameraPosition);
           float gS = pow(clamp(dot(gV, uSun.xyz), 0.0, 1.0), 3.0);
-          reflectedLight.directDiffuse += diffuseColor.rgb * vec3(0.85, 1.0, 0.3) * gS * 0.5 * vGH * vGSun * uSun.w;
+          reflectedLight.directDiffuse += diffuseColor.rgb * vec3(0.78, 0.87, 0.54) * gS * 0.22 * vGH * vGSun * uSun.w;
         }`,
       );
   };
-  material.customProgramCacheKey = () => `tervain-patch-v3-folded-${opts.vertexColors ? 'c' : 'g'}-${opts.terrain ? 'terrain' : 'flat'}`;
+  material.customProgramCacheKey = () => `tervain-patch-v4-herb-mat-${opts.vertexColors ? 'c' : 'g'}-${opts.terrain ? 'terrain' : 'flat'}`;
   return { material, uniforms, ok: () => !failed };
 }

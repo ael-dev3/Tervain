@@ -30,9 +30,9 @@ const KEYS: Key[] = [
   { h: 0, top: 0x070b16, horizon: 0x141b2a, sun: 0x8fa0c8, sunI: 0.0, hemiSky: 0x2c3852, hemiGround: 0x14161c, hemiI: 0.52, fog: 0x141b2a, cover: 0.55 },
   { h: 5.2, top: 0x1a2236, horizon: 0x5c5560, sun: 0xd89a68, sunI: 0.1, hemiSky: 0x4b5670, hemiGround: 0x232326, hemiI: 0.55, fog: 0x5c5560, cover: 0.6 },
   { h: 6.5, top: 0x4f6f96, horizon: 0xc8a682, sun: 0xf0b078, sunI: 1.0, hemiSky: 0x8298b0, hemiGround: 0x4a4230, hemiI: 0.72, fog: 0xb8a58c, cover: 0.62 },
-  { h: 9, top: 0x5a7fae, horizon: 0xa9b6b8, sun: 0xffe8c6, sunI: 2.15, hemiSky: 0x8aa2bc, hemiGround: 0x4c4a34, hemiI: 0.78, fog: 0xa6b0ad, cover: 0.62 },
-  { h: 13, top: 0x4f7aa8, horizon: 0xa0aeb2, sun: 0xfff0d2, sunI: 2.4, hemiSky: 0x88a0b8, hemiGround: 0x504c36, hemiI: 0.81, fog: 0x9eaaaa, cover: 0.62 },
-  { h: 17, top: 0x55779f, horizon: 0xb8b09a, sun: 0xffd9a0, sunI: 2.05, hemiSky: 0x8a9ab0, hemiGround: 0x4c4232, hemiI: 0.73, fog: 0xb0a790, cover: 0.64 },
+  { h: 9, top: 0x4c759d, horizon: 0xb0bac0, sun: 0xffdfb1, sunI: 2.5, hemiSky: 0x8ca4bd, hemiGround: 0x454334, hemiI: 0.65, fog: 0x9faeb6, cover: 0.56 },
+  { h: 13, top: 0x426d99, horizon: 0xaab8bd, sun: 0xffe8bf, sunI: 2.75, hemiSky: 0x89a3bd, hemiGround: 0x484434, hemiI: 0.67, fog: 0x98adb5, cover: 0.55 },
+  { h: 17, top: 0x506f98, horizon: 0xc0b49d, sun: 0xffd19a, sunI: 2.3, hemiSky: 0x8b9fb9, hemiGround: 0x494031, hemiI: 0.64, fog: 0xacae9f, cover: 0.59 },
   { h: 18.8, top: 0x3d4a6c, horizon: 0xd08a5a, sun: 0xff8f52, sunI: 0.9, hemiSky: 0x7a7a94, hemiGround: 0x3e2e28, hemiI: 0.62, fog: 0xb8825e, cover: 0.66 },
   { h: 20.2, top: 0x161f3a, horizon: 0x5f4a5a, sun: 0xd0784c, sunI: 0.1, hemiSky: 0x40507a, hemiGround: 0x22212a, hemiI: 0.52, fog: 0x4c4152, cover: 0.6 },
   { h: 22, top: 0x080d1c, horizon: 0x151c2e, sun: 0x8fa0c8, sunI: 0.0, hemiSky: 0x2c3852, hemiGround: 0x14161c, hemiI: 0.52, fog: 0x151c2e, cover: 0.56 },
@@ -371,8 +371,9 @@ export class SkyRig {
 
     lerpHex(this.tmp, a.fog, b.fog, t);
     this.fog.color.copy(this.tmp);
-    // Heavy haze: the far coast and the forests on the ridges dissolve into it well before the horizon.
-    this.fog.density = 0.0024 + 0.0016 * nightAmt;
+    // Cool distance separates warm ground, shaded woodland and the far ridge without shortening the draw window.
+    // Keep nearby materials legible; exponential haze grows gradually rather than introducing a visibility cutoff.
+    this.fog.density = 0.0022 + 0.0016 * nightAmt;
     SKY.horizon.value.copy(this.tmp);
     this.state.horizon.copy(this.tmp);
 

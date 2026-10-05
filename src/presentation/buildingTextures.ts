@@ -7,10 +7,10 @@ import { clamp01, fbmField, mixc, pnoise, rnd, sstep, voronoi, type RGB } from '
  * The albedo carries the colour; vertex colours only tint it a little so no two walls are quite the same.
  */
 
-export type TexKey = 'plaster' | 'timber' | 'planks' | 'stone' | 'cobble' | 'tile' | 'thatch' | 'slate' | 'cloth' | 'bark' | 'rock';
+export type TexKey = 'plaster' | 'timber' | 'planks' | 'stone' | 'cobble' | 'tile' | 'thatch' | 'slate' | 'cloth' | 'bark' | 'rock' | 'bronze';
 
 /** Metres covered by one repeat of each texture. */
-export const TILE_M: Record<TexKey, number> = { plaster: 2.2, timber: 1.2, planks: 1.2, stone: 2, cobble: 1.6, tile: 1.1, thatch: 1.1, slate: 1.1, cloth: 0.6, bark: 1.2, rock: 2.6 };
+export const TILE_M: Record<TexKey, number> = { plaster: 2.2, timber: 1.2, planks: 1.2, stone: 2, cobble: 1.6, tile: 1.1, thatch: 1.1, slate: 1.1, cloth: 0.6, bark: 1.2, rock: 2.6, bronze: 1.2 };
 
 interface Field {
   rgb: Float32Array;
@@ -28,8 +28,8 @@ const set = (f: Field, o: number, c: RGB, h: number) => {
 function planks(n: number): [Field, number] {
   const f = newField(n);
   const rows = 6;
-  const streak = fbmField(n, 4, 56, 3, 301);
-  const streak2 = fbmField(n, 9, 24, 2, 302);
+  const streak = fbmField(n, 2, 72, 3, 301);
+  const streak2 = fbmField(n, 5, 32, 2, 302);
   const stain = fbmField(n, 3, 3, 4, 303);
   const fine = fbmField(n, 48, 48, 2, 304);
   const rh = n / rows;
@@ -44,16 +44,20 @@ function planks(n: number): [Field, number] {
       const g = streak[j * n + gi]! * 0.6 + streak2[j * n + gi]! * 0.4;
       // board edge: dark gap, bevelled
       const edge = Math.min(v, 1 - v);
-      const gap = 1 - sstep(0.0, 0.07, edge);
+      const gap = 1 - sstep(0.0, 0.055, edge);
       // butt joints
       const jx = Math.floor(rnd(row, 307) * n);
       const joint = 1 - sstep(0, 3, Math.abs(i - jx));
-      let base = mixc([0.14, 0.105, 0.075], [0.4, 0.35, 0.29], clamp01(0.25 + g * 0.8 + stain[o]! * 0.4 - 0.2));
-      const k = 0.6 + rowTone * 0.7 * (0.55 + fine[o]! * 0.6);
+      const split = (1 - sstep(0.012, 0.065, Math.abs(g - 0.43))) * sstep(0.28, 0.55, stain[o]!);
+      let base = mixc([0.10, 0.085, 0.063], [0.43, 0.38, 0.29], clamp01(g * 0.8 + stain[o]! * 0.36));
+      // Sun-bleached fibres belong to the board, rather than a separate bright speckle on every face.
+      base = mixc(base, [0.44, 0.42, 0.35], sstep(0.65, 0.88, g) * 0.32);
+      const k = 0.68 + rowTone * 0.46 * (0.8 + fine[o]! * 0.25);
       base = [base[0] * k, base[1] * k, base[2] * k];
-      const dark = clamp01(gap * 0.95 + joint * 0.7);
+      const lap = 1 - sstep(0.045, 0.24, v);
+      const dark = clamp01(gap * 0.95 + joint * 0.7 + split * 0.42 + lap * 0.24);
       base = [base[0] * (1 - dark * 0.9), base[1] * (1 - dark * 0.9), base[2] * (1 - dark * 0.9)];
-      set(f, o, base, clamp01(0.55 + g * 0.3 - dark * 0.7 + (v - 0.5) * 0.15));
+      set(f, o, base, clamp01(0.52 + g * 0.12 - gap * 0.26 - joint * 0.17 - split * 0.12 + v * 0.08));
     }
   }
   // nails
@@ -66,21 +70,22 @@ function planks(n: number): [Field, number] {
       set(f, o, [0.08, 0.075, 0.07], 0.9);
     }
   }
-  return [f, 3.2];
+  return [f, 1.55];
 }
 
 function timber(n: number): [Field, number] {
   const f = newField(n);
-  const grain = fbmField(n, 3, 64, 3, 311);
-  const grain2 = fbmField(n, 6, 30, 2, 312);
+  const grain = fbmField(n, 2, 78, 3, 311);
+  const grain2 = fbmField(n, 4, 34, 2, 312);
   const stain = fbmField(n, 3, 3, 3, 313);
   const cr = fbmField(n, 2, 26, 2, 314);
   for (let o = 0; o < n * n; o++) {
     const g = grain[o]! * 0.6 + grain2[o]! * 0.4;
-    const crack = 1 - sstep(0.01, 0.05, Math.abs(cr[o]! - 0.5));
-    let c = mixc([0.13, 0.1, 0.07], [0.36, 0.31, 0.26], clamp01(g * 1.1 + stain[o]! * 0.35 - 0.15));
-    c = [c[0] * (1 - crack * 0.8), c[1] * (1 - crack * 0.8), c[2] * (1 - crack * 0.8)];
-    set(f, o, c, clamp01(0.5 + g * 0.35 - crack * 0.6));
+    const crack = (1 - sstep(0.006, 0.032, Math.abs(cr[o]! - 0.5))) * sstep(0.24, 0.58, stain[o]!);
+    let c = mixc([0.09, 0.078, 0.058], [0.36, 0.32, 0.26], clamp01(g * 0.9 + stain[o]! * 0.28));
+    c = mixc(c, [0.4, 0.38, 0.31], sstep(0.64, 0.86, g) * 0.24);
+    c = [c[0] * (1 - crack * 0.62), c[1] * (1 - crack * 0.62), c[2] * (1 - crack * 0.62)];
+    set(f, o, c, clamp01(0.5 + g * 0.15 - crack * 0.19));
   }
   // knots
   for (let k = 0; k < 4; k++) {
@@ -95,10 +100,10 @@ function timber(n: number): [Field, number] {
       f.rgb[o * 3]! *= 1 - 0.55 * t;
       f.rgb[o * 3 + 1]! *= 1 - 0.55 * t;
       f.rgb[o * 3 + 2]! *= 1 - 0.55 * t;
-      f.h[o]! += 0.3 * t;
+      f.h[o]! += 0.07 * t;
     }
   }
-  return [f, 3.4];
+  return [f, 1.65];
 }
 
 function plaster(n: number): [Field, number] {
@@ -108,42 +113,53 @@ function plaster(n: number): [Field, number] {
   const fine = fbmField(n, 60, 60, 2, 323);
   const cr = voronoi(n, 4, 324, 0.95);
   const peel = voronoi(n, 3, 325, 1);
-  const rub = voronoi(n, 12, 326, 0.9);
+  const rubble = stone(n)[0];
   for (let o = 0; o < n * n; o++) {
     const edge = cr.f2[o]! - cr.f1[o]!;
-    const crack = 1 - sstep(0.0, 0.035, edge);
+    const crack = (1 - sstep(0.0, 0.012, edge)) * sstep(0.42, 0.72, low[o]!);
     // peeled patches expose the rubble behind
-    const pm = sstep(0.56, 0.7, mid[o]! * 0.6 + (1 - peel.f1[o]!) * 0.5 + low[o]! * 0.2);
-    const stoneTone = 0.16 + rub.id[o]! * 0.22;
-    const stoneEdge = sstep(0, 0.12, rub.f2[o]! - rub.f1[o]!);
-    let c = mixc([0.29, 0.26, 0.2], [0.5, 0.46, 0.38], clamp01(low[o]! * 0.9 + fine[o]! * 0.25));
-    c = mixc(c, [0.2, 0.16, 0.11], sstep(0.55, 0.85, mid[o]!) * 0.55);
-    const st: RGB = [stoneTone * 1.05 * (0.35 + 0.65 * stoneEdge), stoneTone * (0.35 + 0.65 * stoneEdge), stoneTone * 0.88 * (0.35 + 0.65 * stoneEdge)];
+    const pm = sstep(0.69, 0.79, mid[o]! * 0.6 + (1 - peel.f1[o]!) * 0.5 + low[o]! * 0.2);
+    let c = mixc([0.36, 0.315, 0.24], [0.61, 0.56, 0.44], clamp01(low[o]! * 0.85 + fine[o]! * 0.17));
+    const u = (o % n) / n, v = Math.floor(o / n) / n;
+    const rain = pnoise(u, v, 20, 2, 327) * pnoise(u, v, 3, 3, 328);
+    c = mixc(c, [0.23, 0.21, 0.16], sstep(0.3, 0.58, rain) * 0.48);
+    const st: RGB = [rubble.rgb[o * 3]!, rubble.rgb[o * 3 + 1]!, rubble.rgb[o * 3 + 2]!];
     c = mixc(c, st, pm);
-    c = [c[0] * (1 - crack * 0.6), c[1] * (1 - crack * 0.6), c[2] * (1 - crack * 0.6)];
-    set(f, o, c, clamp01(0.6 - pm * 0.35 + stoneEdge * pm * 0.25 - crack * 0.4 + fine[o]! * 0.1));
+    c = [c[0] * (1 - crack * 0.4), c[1] * (1 - crack * 0.4), c[2] * (1 - crack * 0.4)];
+    set(f, o, c, clamp01(0.57 - pm * 0.12 + rubble.h[o]! * pm * 0.1 - crack * 0.12 + fine[o]! * 0.035));
   }
-  return [f, 4.2];
+  return [f, 1.8];
 }
 
 function stone(n: number): [Field, number] {
   const f = newField(n);
-  // Rubble: stretched cells so courses are roughly horizontal but never aligned.
-  const a = voronoi(n, 8, 331, 0.85, 12);
-  const grit = fbmField(n, 40, 40, 3, 332);
-  const low = fbmField(n, 4, 4, 3, 333);
-  for (let o = 0; o < n * n; o++) {
-    const edge = sstep(0.0, 0.11, a.f2[o]! - a.f1[o]!);
-    const tone = 0.22 + a.id[o]! * 0.3;
-    const warm = 0.85 + (a.id[o]! - 0.5) * 0.3;
-    let c: RGB = [tone * warm * 1.14, tone * 1.0, tone * 0.78 / warm];
-    const k = (0.4 + 0.6 * edge) * (0.84 + grit[o]! * 0.36);
+  // Original coursed rubble: broad split faces and thin recessed mortar, never a field of round pebbles.
+  // Periodic warps keep every repeat seamless; per-course offsets interrupt the manufactured grid.
+  const grit = fbmField(n, 38, 38, 3, 332);
+  const low = fbmField(n, 3, 3, 3, 333);
+  for (let j = 0; j < n; j++) for (let i = 0; i < n; i++) {
+    const o = j * n + i, u = i / n, v = j / n;
+    const course = ((v + (pnoise(u, v, 4, 3, 334) - 0.5) * 0.035) * 7 + 7) % 7;
+    const row = Math.floor(course), cv = course - row;
+    const cols = rnd(row, 335) > 0.5 ? 4 : 5;
+    const across = ((u * cols + rnd(row, 336) * 4 + (pnoise(u, v, 5, 4, 337) - 0.5) * 0.11) % cols + cols) % cols;
+    const col = Math.floor(across), cu = across - col;
+    const id = rnd(row * 17 + col, 338);
+    const verticalJoint = 1 - sstep(0.018, 0.065, Math.min(cu, 1 - cu));
+    const horizontalJoint = 1 - sstep(0.025, 0.105, Math.min(cv, 1 - cv));
+    const mortar = Math.max(verticalJoint, horizontalJoint);
+    const split = (1 - sstep(0.018, 0.055, Math.abs(cv - (0.35 + id * 0.27 + (cu - 0.5) * 0.23)))) * sstep(0.48, 0.72, low[o]!);
+    const face = clamp01(0.19 + id * 0.57 + low[o]! * 0.19 + grit[o]! * 0.10);
+    let c = mixc([0.22, 0.205, 0.16], [0.53, 0.49, 0.38], face);
+    const upperShade = 1 - sstep(0.1, 0.34, cv);
+    const lowerLip = sstep(0.71, 0.86, cv) * (1 - horizontalJoint);
+    const k = 1 - upperShade * 0.21 - split * 0.22 + lowerLip * 0.12;
     c = [c[0] * k, c[1] * k, c[2] * k];
-    // damp lower patches: dark green-grey
-    c = mixc(c, [0.16, 0.19, 0.14], sstep(0.62, 0.85, low[o]!) * 0.4);
-    set(f, o, c, clamp01(edge * (0.55 + a.id[o]! * 0.3) + grit[o]! * 0.15 + (1 - a.f1[o]!) * 0.15));
+    c = mixc(c, [0.13, 0.15, 0.09], sstep(0.68, 0.86, low[o]!) * (0.13 + horizontalJoint * 0.35));
+    c = mixc(c, [0.075, 0.07, 0.052], mortar * 0.9);
+    set(f, o, c, clamp01(0.58 + id * 0.06 + grit[o]! * 0.045 - mortar * 0.3 - split * 0.045 + lowerLip * 0.02));
   }
-  return [f, 6];
+  return [f, 1.8];
 }
 
 function cobble(n: number): [Field, number] {
@@ -152,13 +168,13 @@ function cobble(n: number): [Field, number] {
   const grit = fbmField(n, 40, 40, 3, 342);
   for (let o = 0; o < n * n; o++) {
     const edge = sstep(0.0, 0.2, a.f2[o]! - a.f1[o]!);
-    const tone = 0.2 + a.id[o]! * 0.26;
-    let c: RGB = [tone * 1.12, tone, tone * 0.8];
-    const k = (0.32 + 0.68 * edge) * (0.85 + grit[o]! * 0.3);
+    const tone = 0.28 + a.id[o]! * 0.2;
+    let c: RGB = [tone * 1.04, tone, tone * 0.86];
+    const k = (0.42 + 0.58 * edge) * (0.92 + grit[o]! * 0.15);
     c = [c[0] * k, c[1] * k, c[2] * k];
-    set(f, o, c, clamp01(edge * 0.7 + (1 - a.f1[o]!) * 0.3));
+    set(f, o, c, clamp01(0.43 + edge * 0.19 + (1 - a.f1[o]!) * 0.05));
   }
-  return [f, 7];
+  return [f, 1.85];
 }
 
 function tile(n: number): [Field, number] {
@@ -190,7 +206,7 @@ function tile(n: number): [Field, number] {
       set(f, o, c, clamp01(0.4 + v * 0.5 - seam * 0.3 + lip * 0.1));
     }
   }
-  return [f, 5];
+  return [f, 2.0];
 }
 
 function thatch(n: number): [Field, number] {
@@ -207,26 +223,33 @@ function thatch(n: number): [Field, number] {
       let c = mixc([0.16, 0.125, 0.07], [0.5, 0.4, 0.23], clamp01(g * 1.15 - 0.1 + stain[o]! * 0.25));
       c = mixc(c, [0.15, 0.17, 0.09], sstep(0.66, 0.84, stain[o]!) * 0.5);
       c = mixc(c, [0.12, 0.09, 0.06], bind * 0.6);
-      set(f, o, c, clamp01(g * 0.9 + (1 - bind) * 0.1));
+      const lap = 1 - sstep(0.04, 0.2, (v * 4) % 1);
+      c = [c[0] * (1 - lap * 0.27), c[1] * (1 - lap * 0.27), c[2] * (1 - lap * 0.27)];
+      set(f, o, c, clamp01(0.4 + g * 0.24 - bind * 0.09 - lap * 0.08));
     }
   }
-  return [f, 5];
+  return [f, 1.7];
 }
 
 function slate(n: number): [Field, number] {
   const f = newField(n);
-  const a = voronoi(n, 5, 371, 0.55, 7);
   const grit = fbmField(n, 48, 48, 2, 372);
   const lich = fbmField(n, 6, 6, 4, 373);
-  for (let o = 0; o < n * n; o++) {
-    const edge = sstep(0.0, 0.09, a.f2[o]! - a.f1[o]!);
-    const tone = 0.18 + a.id[o]! * 0.2;
-    let c: RGB = [tone * 0.96, tone, tone * 1.06];
-    c = mixc(c, [0.36, 0.36, 0.2], sstep(0.66, 0.84, lich[o]!) * 0.5);
-    const k = (0.4 + 0.6 * edge) * (0.85 + grit[o]! * 0.3);
-    set(f, o, [c[0] * k, c[1] * k, c[2] * k], clamp01(edge * 0.7 + grit[o]! * 0.2));
+  for (let j = 0; j < n; j++) for (let i = 0; i < n; i++) {
+    const o = j * n + i, u = i / n, v = j / n;
+    const course = v * 4, row = Math.floor(course), cv = course - row;
+    const across = (u * 5 + (row % 2) * 0.5) % 5;
+    const col = Math.floor(across), cu = across - col;
+    const id = rnd(row * 11 + col, 371);
+    const seam = 1 - sstep(0.018, 0.058, Math.min(cu, 1 - cu));
+    const lap = 1 - sstep(0.03, 0.24, cv);
+    const cleavage = (1 - sstep(0.018, 0.055, Math.abs(cv - (0.36 + id * 0.34 + cu * 0.07)))) * 0.1;
+    let c = mixc([0.23, 0.24, 0.225], [0.38, 0.395, 0.355], 0.25 + id * 0.48 + grit[o]! * 0.17);
+    c = mixc(c, [0.37, 0.365, 0.245], sstep(0.71, 0.87, lich[o]!) * 0.38);
+    const k = 1 - seam * 0.51 - lap * 0.34 - cleavage;
+    set(f, o, [c[0] * k, c[1] * k, c[2] * k], clamp01(0.5 + cv * 0.09 - seam * 0.15 - lap * 0.1 + grit[o]! * 0.025 - cleavage * 0.15));
   }
-  return [f, 4.5];
+  return [f, 1.75];
 }
 
 function cloth(n: number): [Field, number] {
@@ -274,26 +297,43 @@ function rock(n: number): [Field, number] {
   for (let o = 0; o < n * n; o++) {
     const band = clamp01(strata[o]! + (warp[o]! - 0.5) * 0.35);
     const edge = Math.min(cr.f2[o]! - cr.f1[o]!, (cr2.f2[o]! - cr2.f1[o]!) * 1.4);
-    const fractured = sstep(0.32, 0.68, warp[o]!);
-    const crack = (1 - sstep(0.005, 0.055, edge)) * fractured;
+    const fractured = sstep(0.59, 0.79, warp[o]!);
+    const crack = (1 - sstep(0.004, 0.023, edge)) * fractured;
     const lip = sstep(0.012, 0.036, edge) * (1 - sstep(0.036, 0.095, edge)) * fractured;
     const plate = sstep(0.27, 0.73, cr.id[o]!);
-    let c = mixc([0.235, 0.215, 0.19], [0.455, 0.425, 0.375], band * 0.55 + plate * 0.28 + coarse[o]! * 0.17);
+    let c = mixc([0.30, 0.29, 0.255], [0.56, 0.54, 0.475], band * 0.58 + plate * 0.17 + coarse[o]! * 0.25);
     c = mixc(c, [0.335, 0.28, 0.215], sstep(0.55, 0.9, cr2.id[o]!) * 0.3);
-    const g = 0.76 + grain[o]! * 0.36 + coarse[o]! * 0.12;
+    const g = 0.9 + grain[o]! * 0.14 + coarse[o]! * 0.08;
     c = [c[0] * g, c[1] * g, c[2] * g];
     const lich = sstep(0.64, 0.8, lichenF[o]!) * sstep(0.35, 0.6, grain[o]!);
     c = mixc(c, [0.365, 0.365, 0.2], lich * 0.4);
-    const shade = 1 - crack * 0.46 + lip * 0.09;
+    const shade = 1 - crack * 0.26 + lip * 0.045;
     const speck = rnd(o, 408);
-    const mineral = speck > 0.984 ? 1.12 : speck < 0.035 ? 0.79 : 1;
+    const mineral = speck > 0.991 ? 1.07 : speck < 0.015 ? 0.88 : 1;
     c = [c[0] * shade * mineral, c[1] * shade * mineral, c[2] * shade * mineral];
-    set(f, o, c, clamp01(0.24 + band * 0.29 + plate * 0.13 + sstep(0.46, 0.53, band) * 0.045 + coarse[o]! * 0.11 - crack * 0.22 + lip * 0.065 + grain[o]! * 0.14));
+    set(f, o, c, clamp01(0.44 + band * 0.12 + plate * 0.035 + coarse[o]! * 0.035 - crack * 0.055 + lip * 0.018 + grain[o]! * 0.035));
   }
-  return [f, 7];
+  return [f, 1.35];
 }
 
-const MAKERS: Record<TexKey, (n: number) => [Field, number]> = { plaster, timber, planks, stone, cobble, tile, thatch, slate, cloth, bark, rock };
+/** Original cast bronze: broad tarnish and verdigris patches, with restrained pitted relief. */
+function bronze(n: number): [Field, number] {
+  const f = newField(n);
+  const patina = fbmField(n, 4, 5, 4, 411);
+  const cast = fbmField(n, 22, 22, 3, 412);
+  const wear = fbmField(n, 2, 12, 2, 413);
+  for (let o = 0; o < n * n; o++) {
+    let c = mixc([0.31, 0.245, 0.125], [0.58, 0.45, 0.22], 0.3 + wear[o]! * 0.58);
+    const oxidation = sstep(0.56, 0.77, patina[o]!);
+    c = mixc(c, [0.19, 0.25, 0.175], oxidation * 0.8);
+    const soot = 1 - sstep(0.24, 0.43, patina[o]!);
+    c = [c[0] * (0.91 + cast[o]! * 0.17 - soot * 0.2), c[1] * (0.91 + cast[o]! * 0.17 - soot * 0.2), c[2] * (0.91 + cast[o]! * 0.17 - soot * 0.2)];
+    set(f, o, c, 0.48 + cast[o]! * 0.075 + oxidation * 0.025);
+  }
+  return [f, 0.8];
+}
+
+const MAKERS: Record<TexKey, (n: number) => [Field, number]> = { plaster, timber, planks, stone, cobble, tile, thatch, slate, cloth, bark, rock, bronze };
 
 export interface TexPair {
   map: THREE.DataTexture;

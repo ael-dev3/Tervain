@@ -67,7 +67,7 @@ export function groundSplat(terrain: Terrain, x: number, z: number, w: Float32Ar
   // Bare patches of earth in the open, gravel where the ground is broken.
   blend(w, LAYER.earth, smoothstep(0.62, 0.8, nMid) * 0.55);
   // Moss islands and humus beneath the canopy, rather than the exposed heath's straw base.
-  blend(w, LAYER.earth, wood * (0.22 + 0.32 * nMid));
+  blend(w, LAYER.earth, wood * (0.36 + 0.36 * nMid));
   blend(w, LAYER.gravel, smoothstep(0.28, 0.5, slope) * 0.55 * nMid + smoothstep(0.78, 0.9, nHi) * 0.25);
 
   // Soil changes with the same regional field that selects the trees. Damp broadleaf bodies
@@ -123,9 +123,15 @@ export function groundSplat(terrain: Terrain, x: number, z: number, w: Float32Ar
   const rock = smoothstep(0.66, 1.05, slope) + smoothstep(22, 46, h) * 0.8 + cl * (1 - smoothstep(8, 26, sd)) * (sd > 0 ? 0.9 : 0);
   blend(w, LAYER.rock, clamp(rock, 0, 1));
 
-  // Worn tracks.
+  // Worn tracks keep their authored centre. Only the visual shoulders fray into the same earth
+  // and herb mat as their surroundings; path / collider geometry is never moved by this noise.
   const road = roadWeight(x, z);
-  if (road > 0) blend(w, LAYER.path, road * 0.92);
+  if (road > 0) {
+    const centre = smoothstep(0.55, 0.9, road);
+    const shoulder = 0.74 + nHi * 0.26;
+    blend(w, LAYER.earth, road * (1 - centre) * (0.18 + wood * 0.2));
+    blend(w, LAYER.path, road * (0.92 * centre + shoulder * (1 - centre)));
+  }
 
   let sum = 0;
   for (let i = 0; i < NL; i++) sum += w[i]!;

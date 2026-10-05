@@ -68,24 +68,28 @@ export function createGrassPatch(blades: number, seed: number): THREE.BufferGeom
     const a = i * 2.39996 + rng() * 0.5;
     const rx = Math.cos(a) * r;
     const rz = Math.sin(a) * r;
-    // Blades splay outward from the tuft's heart, with scatter; the heart blades stand tallest.
+    // A low herb carpet, folded ribbons and occasional taller stems share one rooted tuft.
+    // Their irregular lengths / widths keep the skyline from becoming an evenly cut row of spikes.
     const psi = Math.atan2(rz, rx) + (rng() - 0.5) * 1.7;
     const ax = Math.cos(psi);
     const az = Math.sin(psi);
     const fx = -az;
     const fz = ax;
     const heart = 1 - r / R;
-    const h = (0.42 + heart * 0.2 + rng() * 0.34) * (i % 5 === 0 ? 1.25 : 1);
-    const w0 = 0.024 + rng() * 0.025;
-    const lean = h * (0.16 + rng() * 0.42 + (1 - heart) * 0.16);
+    const herb = i % 4 === 1;
+    const accent = i % 7 === 0;
+    const h = (herb ? 0.19 : accent ? 0.5 : 0.3) + heart * 0.09 + rng() * (herb ? 0.13 : 0.2);
+    const w0 = (herb ? 0.041 : 0.026) + rng() * (herb ? 0.024 : 0.023);
+    const lean = h * (0.2 + rng() * 0.46 + (1 - heart) * 0.17);
     b.phase = rng() * Math.PI * 2;
     b.stiff = 0.8 + rng() * 0.36;
-    const my = h * 0.52;
-    const mw = w0 * 0.66;
+    const my = h * (herb ? 0.48 : 0.56);
+    const mw = w0 * (herb ? 1.12 : 0.77);
     const mo = lean * 0.3;
-    const rl: GV = { p: [rx - ax * w0, 0, rz - az * w0], c: white, w: 0 };
+    const rootWidth = w0 * (herb ? 0.45 : 0.85);
+    const rl: GV = { p: [rx - ax * rootWidth, 0, rz - az * rootWidth], c: white, w: 0 };
     const rc: GV = { p: [rx, 0, rz], c: white, w: 0 };
-    const rr: GV = { p: [rx + ax * w0, 0, rz + az * w0], c: white, w: 0 };
+    const rr: GV = { p: [rx + ax * rootWidth, 0, rz + az * rootWidth], c: white, w: 0 };
     const ml: GV = { p: [rx - ax * mw + fx * mo, my, rz - az * mw + fz * mo], c: white, w: 0.52 };
     const mr: GV = { p: [rx + ax * mw + fx * mo, my, rz + az * mw + fz * mo], c: white, w: 0.52 };
     const mc: GV = { p: [rx + fx * (mo + w0 * 0.42), my, rz + fz * (mo + w0 * 0.42)], c: white, w: 0.52 };
@@ -106,10 +110,10 @@ export function createGrassPatch(blades: number, seed: number): THREE.BufferGeom
   return geometry;
 }
 
-const cMeadow = new THREE.Color().setHex(0x687c40);
-const cDeep = new THREE.Color().setHex(0x446339);
-const cGold = new THREE.Color().setHex(0x8a8052);
-const cShade = new THREE.Color().setHex(0x3d5434);
+const cMeadow = new THREE.Color().setHex(0x72775a);
+const cDeep = new THREE.Color().setHex(0x596b4d);
+const cGold = new THREE.Color().setHex(0x9a8b65);
+const cShade = new THREE.Color().setHex(0x4b5c45);
 
 /** Under real crowns, grass yields to humus and fern colonies instead of becoming a pale verge ribbon. */
 export interface GrassHabitatProfile { density: number; height: number; exposure: number; shade: number }
@@ -139,8 +143,8 @@ export function createGrassLayer(ctx: BuildContext, habitat: Habitat, shared: Pa
     sizeComp: GRASS_SIZE_COMP,
     power: GRASS_THINNING_POWER,
     windAmp: GRASS_WIND_AMP,
-    rootShade: 0.42,
-    tipShade: 1.08,
+    rootShade: 0.6,
+    tipShade: 1.02,
     terrain: ctx.terrain,
   });
   const T = q.tile;

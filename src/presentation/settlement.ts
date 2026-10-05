@@ -29,7 +29,7 @@ import { authorMillWheel, authorMillWheelSupports } from './millWheel';
 import { buildArchiveShell, buildLighthouse, buildStandard, groundOf, type BuildOut } from './buildings';
 import { benchSet, campfire, cart, fence, palisade, pot, ropeCoil, stockadeGate, wagon, watchtower, well, wreck } from './props';
 import { MaterialSet, Region } from './regions';
-import { TINT, buildShrineHallShell, crate, door, fieldstone, jitterTone, roofFor, sack, windowAt, woodpile, type Rnd } from './structures';
+import { TINT, buildShrineHallShell, crate, door, fieldstone, jitterTone, roofFor, sack, villageBell, windowAt, woodpile, type Rnd } from './structures';
 import type { AssetNeed } from './assets/library';
 import { buildWorldPickups, isWorldPickupItem } from './worldPickups';
 
@@ -384,11 +384,7 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     for (let i = 0; i < 9; i++) R.stone.box(0.9, 0.34, 0.9, -1.4 + (i % 3) * 1.4, -0.22, -1.4 + Math.floor(i / 3) * 1.4, jitterTone(TINT.stone, rnd, 0.14), { ry: rnd() * 0.5, jit: 0.14 });
     R.ctx.pop();
     bell.position.set(BELL_TOWER.x, bellPos.y + 3.5, BELL_TOWER.z);
-    const body = dyn('bell', (D) => {
-      D.metal.lathe([0.62, -0.96, 0.6, -0.92, 0.42, -0.72, 0.34, -0.5, 0.3, -0.1, 0.1, -0.04], 14, 0, 0, 0, jitterTone(0x8a6a3a, rnd, 0.1), { jit: 0.06, amp: 0.08 });
-      D.metal.blob(0.11, 0.11, 0.11, 0, -0.98, 0, TINT.iron, { seg: 6, rings: 3, lump: 0.08, seed: 9, smooth: true });
-      D.timber.box(0.7, 0.12, 0.16, 0, 0, 0, TINT.woodDark, { jit: 0.05 });
-    });
+    const body = dyn('bell', (D) => villageBell(D, rnd));
     group.remove(body);
     bell.add(body);
     group.add(bell);

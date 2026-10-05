@@ -19,7 +19,7 @@ function obstacleHeight(c: Collider): number {
  * lengthen slowly, so it never oscillates against an edge or fights the input.
  */
 export class CameraRig {
-  readonly camera = new THREE.PerspectiveCamera(58, 1, 0.1, 1400);
+  readonly camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1400);
   yaw = 0;
   pitch = 0.32;
   wantDist = 5.4;

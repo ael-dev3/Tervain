@@ -14,14 +14,14 @@ import type { TerrainTextures } from './terrainTextures';
 
 /** x: tiles per metre, y: normal strength, z: roughness, w: albedo gain. Order matches LAYERS. */
 const LAYER_PARAMS: [number, number, number, number][] = [
-  [1 / 2.4, 0.9, 0.98, 1.0], // grass
-  [1 / 2.8, 0.9, 0.98, 1.05], // heath
-  [1 / 2.2, 1.0, 0.95, 1.0], // earth
-  [1 / 1.8, 1.3, 0.9, 1.0], // gravel
+  [1 / 2.4, 0.7, 0.99, 1.0], // grass: woven herbs, not deep relief
+  [1 / 2.8, 0.75, 0.99, 1.0], // heath
+  [1 / 2.2, 0.8, 0.98, 1.0], // earth
+  [1 / 1.8, 0.95, 0.97, 1.0], // gravel
   [1 / 3.2, 0.8, 0.95, 1.05], // sand
   [1 / 3.2, 0.7, 0.4, 1.0], // wet sand
-  [1 / 3.6, 1.0, 0.98, 1.0], // rock
-  [1 / 2.0, 1.1, 0.96, 1.0], // path
+  [1 / 3.6, 0.85, 0.99, 1.0], // rock
+  [1 / 2.0, 0.7, 0.99, 1.0], // compacted path
 ];
 
 const VERT_DECL = /* glsl */ `
@@ -157,11 +157,11 @@ for (int i = 0; i < 8; i++) {
       vec3 p = vWorldPos * sc, dx = tWorldGx * sc, dy = tWorldGy * sc;
       a = mix(tRockAlbedo(p, dx, dy, tTri, 1.0, false).rgb, tRockAlbedo(p, dx, dy, tTri, 0.37, true).rgb, tDetailMix);
       vec3 macro = tRockAlbedo(p, dx, dy, tTri, 0.083, false).rgb;
-      a *= 0.76 + 1.8 * dot(macro, vec3(0.333));
+      a *= 0.88 + 0.95 * dot(macro, vec3(0.333));
       // Metre-scale weathering and broken bedding survive mipmapping, without displacing the physical ground plane.
       float beds = tvn(vec2(vWorldPos.y * 0.64, dot(tXZ, vec2(0.13, 0.17)))) * 0.65
         + tvn(vec2(vWorldPos.y * 2.1, dot(tXZ, vec2(0.07, 0.1)))) * 0.35;
-      a *= mix(0.77, 1.16, smoothstep(0.26, 0.72, beds));
+      a *= mix(0.82, 1.12, smoothstep(0.26, 0.72, beds));
       tStone += b;
     } else {
       vec3 a1 = textureGrad(uAlb, vec3(uv, float(i)), g1x, g1y).rgb;
@@ -172,7 +172,7 @@ for (int i = 0; i < 8; i++) {
       // Shingle keeps large-scale structure too; it is still sampled on the physical ground plane.
       vec2 uv3 = vec2(uv.y, uv.x) * 0.083 + vec2(0.7, 0.2);
       vec3 a3 = textureGrad(uAlb, vec3(uv3, float(i)), g1x.yx * 0.083, g1y.yx * 0.083).rgb;
-      a *= 0.6 + 2.4 * dot(a3, vec3(0.333));
+      a *= 0.86 + 1.0 * dot(a3, vec3(0.333));
       tStone += b * 0.6;
     }
     tAlb += a * (b * uLayer[i].w);
@@ -181,15 +181,18 @@ for (int i = 0; i < 8; i++) {
     tHeight += b * tRelief[i];
   }
 }
-float tM = tvn(tXZ / 43.0) * 0.5 + tvn(tXZ / 12.7) * 0.32 + tvn(tXZ / 3.9) * 0.18;
-tAlb *= mix(0.74, 1.24, tM);
-tAlb *= mix(0.72, 1.18, tvn(tXZ / 131.0 + 3.0) * 0.6 + tvn(tXZ / 37.0 + 8.0) * 0.4);
-tAlb *= mix(vec3(0.95, 1.0, 1.06), vec3(1.06, 1.0, 0.9), tvn(tXZ / 71.0 + 9.0));
+// Broad painted groups carry the landscape. Close noise is subordinate to damp hollows and
+// dry shelves; the path retains a continuous warm value through both so it remains navigable.
+float tM = tvn(tXZ / 43.0) * 0.68 + tvn(tXZ / 12.7) * 0.24 + tvn(tXZ / 3.9) * 0.08;
+float tPathShare = tBw[7] / tSum;
+tAlb *= mix(0.82, 1.14, mix(tM, 0.52, tPathShare * 0.6));
+tAlb *= mix(0.84, 1.12, tvn(tXZ / 131.0 + 3.0) * 0.7 + tvn(tXZ / 37.0 + 8.0) * 0.3);
+tAlb *= mix(vec3(0.97, 1.0, 1.035), vec3(1.035, 1.0, 0.95), tvn(tXZ / 71.0 + 9.0));
 float tWet = clamp(vWet, 0.0, 1.0);
 tAlb *= mix(1.0, mix(0.5, 0.72, tStone), tWet);
 // Damp sand may carry a sheen. Fractured stone only darkens and broadens its highlight: never a mirror-like wet wall.
-tRough = mix(tRough, mix(0.32, 0.78, tStone), tWet);
-tRough = clamp(tRough + tStone * (0.5 - tHeight) * 0.1, 0.32, 1.0);
+tRough = mix(tRough, mix(0.36, 0.88, tStone), tWet);
+tRough = clamp(tRough + tStone * (0.5 - tHeight) * 0.08, 0.36, 1.0);
 diffuseColor.rgb = tAlb;
 `;
 
@@ -219,6 +222,6 @@ export function createTerrainMaterial(tex: TerrainTextures): THREE.MeshStandardM
       .replace('#include <aomap_fragment>', '#include <aomap_fragment>\nreflectedLight.indirectDiffuse *= mix(0.8, 1.0, smoothstep(0.2, 0.8, tHeight));')
       .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>\n${FRAG_NORMAL}`);
   };
-  mat.customProgramCacheKey = () => 'tervain-terrain-v3-coarse-coastal-stone';
+  mat.customProgramCacheKey = () => 'tervain-terrain-v4-muted-herb-earth';
   return mat;
 }

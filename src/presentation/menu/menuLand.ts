@@ -240,10 +240,10 @@ export function buildPuddles(fog: THREE.FogExp2, fire: THREE.Vector3) {
 
 /* ------------------------------------------------------------------ grass ------------------------------------------------------------------ */
 
-const cDry = new THREE.Color().setHex(0x5a5230);
-const cOlive = new THREE.Color().setHex(0x3c4428);
-const cStraw = new THREE.Color().setHex(0x7a6438);
-const cDead = new THREE.Color().setHex(0x4e3f2c);
+const cDry = new THREE.Color().setHex(0x716b50);
+const cOlive = new THREE.Color().setHex(0x586047);
+const cStraw = new THREE.Color().setHex(0x938262);
+const cDead = new THREE.Color().setHex(0x675a45);
 
 /**
  * Heath grass as instanced tufts, using the playable ground cover's blade geometry and wind shader so it moves like the
@@ -259,11 +259,11 @@ export function buildMenuGrass(quality: 'low' | 'medium' | 'high', sway: SwayUni
     vertexColors: false,
     fadeStart: 26,
     fadeEnd: 70,
-    sizeComp: 1.6,
+    sizeComp: 1.12,
     power: 1.3,
-    windAmp: 0.16,
-    rootShade: 0.3,
-    tipShade: 1.15,
+    windAmp: 0.1,
+    rootShade: 0.6,
+    tipShade: 1.02,
   });
   const rng = mulberry32(90210);
   const base: number[] = [];
@@ -291,13 +291,13 @@ export function buildMenuGrass(quality: 'low' | 'medium' | 'high', sway: SwayUni
     if (rng() > green * (0.55 + 0.45 * smoothstep(1.2, 4, d))) continue;
     const y = menuHeight(x, z) - 0.03;
     const edge = smoothstep(b + 12, b + 1, z);
-    let hs = 0.55 + 0.45 * rng() + 0.5 * edge + 0.25 * smoothstep(2, 6, d);
+    let hs = 0.48 + 0.36 * rng() + 0.23 * edge + 0.12 * smoothstep(2, 6, d);
     hs *= 1 - 0.35 * s.wet;
     // Trampled short round the camp and near the lens, so the frame's edge is not a wall of blades.
     hs *= 0.45 + 0.55 * Math.min(1, Math.hypot(x - 0.3, z - 9.4) / 7);
     col.copy(cOlive).lerp(cDry, 0.35 + 0.4 * rng()).lerp(cStraw, edge * 0.5 + 0.15 * rng()).lerp(cDead, rng() * 0.3);
     base.push(x, y, z, (base.length / 4 + rng()) / target);
-    shape.push(rng() * Math.PI * 2, 0.8 + rng() * 0.6, Math.min(1.7, hs), rng() * 20);
+    shape.push(rng() * Math.PI * 2, 0.8 + rng() * 0.6, Math.min(1.2, hs), rng() * 20);
     tint.push(col.r, col.g, col.b, 1);
   }
   const n = base.length / 4;

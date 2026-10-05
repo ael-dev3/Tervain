@@ -58,7 +58,7 @@ export function foundation(R: Region, rnd: Rnd, w: number, d: number, top: numbe
       const sw = 0.5 + rnd() * 0.55;
       const [x, z, yaw] = place(t + sw / 2, sw);
       const h = top + sink + (rnd() - 0.5) * 0.12;
-      B.box(sw * 0.98, h, 0.5 + rnd() * 0.2, x, -sink, z, jitterTone(tint, rnd, 0.16), { ry: yaw + (rnd() - 0.5) * 0.12, jit: 0.16, amp: 0.1 });
+      B.box(sw * 0.98, h, 0.5 + rnd() * 0.2, x, -sink, z, jitterTone(tint, rnd, 0.10), { ry: yaw + (rnd() - 0.5) * 0.12, jit: 0.055, amp: 0.045 });
       // A second, smaller course now and then.
       if (rnd() < 0.3) B.box(sw * 0.7, 0.16 + rnd() * 0.1, 0.4, x + (rnd() - 0.5) * 0.2, top - 0.02, z, jitterTone(tint, rnd, 0.2), { ry: yaw + (rnd() - 0.5) * 0.3, jit: 0.16 });
       t += sw * 0.97;
@@ -79,14 +79,14 @@ export function plankFace(R: Region, rnd: Rnd, len: number, h: number, y0: numbe
     const pw = Math.min(len / 2 - x, 0.2 + rnd() * 0.14);
     const cx = x + pw / 2;
     const top = h + (rnd() - 0.5) * 0.14 - (rnd() < 0.08 ? 0.35 : 0);
-    B.box(pw * 0.93, top, 0.06 + rnd() * 0.02, cx, y0, (rnd() - 0.5) * 0.06, jitterTone(tint, rnd, 0.16), { ry: (rnd() - 0.5) * 0.02, rz: (rnd() - 0.5) * 0.014, jit: 0.14, grain: 'y', amp: 0.1 });
+    B.box(pw * 0.93, top, 0.06 + rnd() * 0.02, cx, y0, (rnd() - 0.5) * 0.06, jitterTone(tint, rnd, 0.09), { ry: (rnd() - 0.5) * 0.02, rz: (rnd() - 0.5) * 0.014, jit: 0.045, grain: 'y', amp: 0.035 });
     x += pw;
   }
 }
 
 /** A wall slab in one material with a subdivided front so vertex colour noise reads on large planes. */
 export function slab(B: Batch, w: number, h: number, d: number, y0: number, tint: Col, sub = 0.7) {
-  B.bx(-w / 2, y0, -d / 2, w / 2, y0 + h, d / 2, tint, { sub, amp: 0.1, jit: 0.02 });
+  B.bx(-w / 2, y0, -d / 2, w / 2, y0 + h, d / 2, tint, { sub, amp: 0.045, jit: 0.02 });
 }
 
 /** Exposed timber frame over a plaster or stone wall: corner posts, a sill, a mid rail, a top plate and braces. */
@@ -123,7 +123,7 @@ export function quoins(R: Region, rnd: Rnd, w: number, d: number, h: number, y0:
       const long = i % 2 === 0;
       const lx = (long ? 0.62 : 0.34) + rnd() * 0.12;
       const lz = (long ? 0.34 : 0.62) + rnd() * 0.12;
-      B.box(lx, sh, lz, sx * (w / 2 - lx / 2 + 0.06), y, sz * (d / 2 - lz / 2 + 0.06), jitterTone(TINT.stone, rnd, 0.16), { ry: (rnd() - 0.5) * 0.06, jit: 0.14, amp: 0.1 });
+      B.box(lx, sh, lz, sx * (w / 2 - lx / 2 + 0.06), y, sz * (d / 2 - lz / 2 + 0.06), jitterTone(TINT.stone, rnd, 0.10), { ry: (rnd() - 0.5) * 0.06, jit: 0.045, amp: 0.04 });
       y += sh + 0.01;
       i++;
     }
@@ -156,9 +156,20 @@ export function door(R: Region, rnd: Rnd, o: DoorOpts) {
   const P = R.planks;
   R.vc.box(w, h, 0.045, x, 0, z + 0.015, 0x17110c, { jit: 0, amp: 0 });
   const n = Math.round(w / 0.2);
-  for (let i = 0; i < n; i++) P.box((w / n) * 0.94, h - (rnd() < 0.15 ? 0.05 : 0), 0.05, x - w / 2 + (i + 0.5) * (w / n), 0, z + 0.05 + (rnd() - 0.5) * 0.02, jitterTone(TINT.woodPale, rnd, 0.18), { grain: 'y', jit: 0.14 });
+  for (let i = 0; i < n; i++) P.box((w / n) * 0.94, h - (rnd() < 0.15 ? 0.05 : 0), 0.05, x - w / 2 + (i + 0.5) * (w / n), 0, z + 0.05 + (rnd() - 0.5) * 0.02, jitterTone(TINT.woodPale, rnd, 0.09), { grain: 'y', jit: 0.045, amp: 0.03 });
   for (const yy of [0.35, h - 0.4]) R.metal.box(w * 0.9, 0.09, 0.03, x, yy, z + 0.095, TINT.iron, { jit: 0.08 });
   R.metal.box(0.09, 0.09, 0.05, x + w * 0.32, h * 0.5, z + 0.1, TINT.iron, { jit: 0.05 });
+  // Forged straps are fastened into the boards; these details never consume the layout's RNG stream.
+  for (const yy of [0.35, h - 0.4]) for (const f of [-0.32, 0.32]) {
+    R.metal.rod(x + w * f, yy + 0.04, z + 0.106, x + w * f, yy + 0.04, z + 0.13, 0.018, 4, TINT.iron, { jit: 0.02, amp: 0 });
+  }
+  R.metal.box(0.075, 0.21, 0.028, x + w * 0.32, h * 0.5 - 0.045, z + 0.098, TINT.iron, { jit: 0.02, amp: 0 });
+  const ring: [number, number, number][] = [];
+  for (let i = 0; i < 8; i++) {
+    const a = i / 8 * Math.PI * 2;
+    ring.push([x + w * 0.32 + Math.cos(a) * 0.047, h * 0.5 + 0.015 + Math.sin(a) * 0.055, z + 0.143]);
+  }
+  for (let i = 0; i < ring.length; i++) R.metal.rod(...ring[i]!, ...ring[(i + 1) % ring.length]!, 0.012, 3, TINT.iron, { jit: 0.02, amp: 0 });
   R.ctx.pop();
   // Full-depth treads meet both the ground and the raised threshold, rather than floating slabs.
   R.stone.box(w + 0.7, base + 0.16, 0.7, x, -0.08, z + 0.42, jitterTone(TINT.stone, rnd, 0.12), { jit: 0.1 });
@@ -182,6 +193,8 @@ export function windowAt(R: Region, rnd: Rnd, o: WindowOpts) {
   const h = o.h ?? 0.82;
   const ctx = R.ctx;
   ctx.push(o.x, o.y, o.z, o.ry ?? 0);
+  // A recessed dark reveal makes the small opening legible in bright sunlight without bright glass.
+  R.vc.box(w + 0.15, h + 0.12, 0.02, 0, -0.055, 0.005, 0x171610, { jit: 0, amp: 0 });
   R.timber.box(w + 0.2, 0.11, 0.2, 0, -0.1, 0.06, jitterTone(TINT.woodDark, rnd), { jit: 0.1 });
   R.timber.box(w + 0.2, 0.11, 0.16, 0, h, 0.05, jitterTone(TINT.woodDark, rnd), { jit: 0.1 });
   R.timber.box(0.1, h + 0.1, 0.14, -w / 2 - 0.05, -0.03, 0.05, jitterTone(TINT.woodDark, rnd), { jit: 0.1, grain: 'y' });
@@ -194,7 +207,15 @@ export function windowAt(R: Region, rnd: Rnd, o: WindowOpts) {
     for (const s of [-1, 1]) {
       const open = rnd() < 0.7 ? 0.9 + rnd() * 0.5 : 0.25 * rnd();
       ctx.push(s * (w / 2 + 0.04), 0, 0.08, s * open + (rnd() - 0.5) * 0.06);
-      R.planks.box(w / 2 * 0.98, h * (0.96 + rnd() * 0.06), 0.05, s * (w / 4), 0, 0, jitterTone(TINT.wood, rnd, 0.16), { rz: (rnd() - 0.5) * 0.04, grain: 'y', jit: 0.14 });
+      const sh = h * (0.96 + rnd() * 0.06);
+      const tint = jitterTone(TINT.wood, rnd, 0.09);
+      const lean = (rnd() - 0.5) * 0.04;
+      ctx.push(s * w / 4, 0, 0, 0, 0, lean);
+      const sw = w * 0.49;
+      for (let i = 0; i < 2; i++) R.planks.box(sw / 2 * 0.96, sh, 0.05, -sw / 2 + (i + 0.5) * sw / 2, 0, 0, mulc(tint, 0.96 + hash3(i, o.x, o.z) * 0.08), { grain: 'y', jit: 0.025, amp: 0.025 });
+      for (const y of [sh * 0.17, sh * 0.76]) R.timber.box(sw * 0.94, 0.065, 0.038, 0, y, 0.036, mulc(tint, 0.83), { grain: 'x', jit: 0.025, amp: 0.02 });
+      R.timber.box(0.048, Math.hypot(sw * 0.72, sh * 0.52), 0.035, -sw * 0.36, sh * 0.24, 0.053, mulc(tint, 0.82), { rz: -Math.atan2(sw * 0.72, sh * 0.52), grain: 'y', jit: 0.02, amp: 0.02 });
+      ctx.pop();
       ctx.pop();
     }
   }
@@ -316,14 +337,44 @@ export function woodpile(R: Region, rnd: Rnd, x: number, z: number, yaw: number,
 
 export function barrel(R: Region, rnd: Rnd, x: number, y: number, z: number, s = 1) {
   const r = 0.36 * s;
+  const firstUV = R.planks.uv.n;
   // The head and foot are part of the profile: cargo barrels remain closed when seen from the elevated camera.
   R.planks.lathe([0, 0, r * 0.82, 0, r, 0.32 * s, r * 1.06, 0.62 * s, r, 0.92 * s, r * 0.84, 1.0 * s, 0, 1.0 * s], 10, x, y, z, jitterTone(TINT.wood, rnd, 0.16), { jit: 0.1 });
+  // Staves run vertically around the closed hull instead of painting long grain around the hoop.
+  for (let i = firstUV; i < R.planks.uv.n; i += 2) {
+    const u = R.planks.uv.a[i]!;
+    R.planks.uv.a[i] = R.planks.uv.a[i + 1]!;
+    R.planks.uv.a[i + 1] = u;
+  }
   for (const hy of [0.16, 0.5, 0.84]) R.metal.lathe([r * (0.86 + hy * 0.18) + 0.01, hy * s, r * (0.86 + hy * 0.18) + 0.03, (hy + 0.05) * s], 10, x, y, z, TINT.iron, { jit: 0.05 });
+}
+
+/** A hollow cast bell, with a rolled lip and closed shoulder under its existing timber yoke. */
+export function villageBell(R: Region, rnd: Rnd) {
+  // A single continuous outside/inside profile closes the mouth rim, crown and neck.
+  // Maximum radius and low lip match the former bell, preserving the tower's contact envelope.
+  R.bronze.lathe([0.53, -0.94, 0.62, -0.96, 0.61, -0.91, 0.55, -0.865, 0.45, -0.72, 0.36, -0.48,
+    0.30, -0.17, 0.23, -0.065, 0.11, -0.02, 0.11, 0.035, 0, 0.035,
+    0, -0.045, 0.18, -0.045, 0.25, -0.17, 0.29, -0.48, 0.38, -0.7, 0.48, -0.85, 0.53, -0.94],
+  18, 0, 0, 0, jitterTone(0xd6c6a2, rnd, 0.04), { jit: 0.02, amp: 0.025 });
+  // Restrained cast rings are part of the bronze, rather than arbitrary faction ornaments.
+  R.bronze.lathe([0.306, -0.24, 0.316, -0.22, 0.314, -0.195, 0.302, -0.195, 0.306, -0.24], 18, 0, 0, 0, mulc(rgb(0xd6c6a2), TONE_GAIN), { jit: 0.015, amp: 0.02 });
+  R.metal.rod(0, -0.08, 0, 0, -0.89, 0, 0.026, 6, TINT.iron, { jit: 0.02, amp: 0.02 });
+  R.metal.blob(0.11, 0.11, 0.11, 0, -0.98, 0, TINT.iron, { seg: 6, rings: 3, lump: 0.08, seed: 9, smooth: true });
+  R.timber.box(0.7, 0.12, 0.16, 0, 0, 0, TINT.woodDark, { jit: 0.025, amp: 0.025 });
 }
 
 export function crate(R: Region, rnd: Rnd, x: number, y: number, z: number, w = 0.7, h = 0.5, d = 0.55, yaw = 0) {
   R.planks.box(w, h, d, x, y, z, jitterTone(TINT.wood, rnd, 0.18), { ry: yaw, jit: 0.14, grain: 'x' });
   for (const s of [-1, 1]) R.timber.box(0.06, h + 0.02, d + 0.02, x + Math.cos(yaw) * s * (w / 2), y - 0.01, z - Math.sin(yaw) * s * (w / 2), jitterTone(TINT.woodDark, rnd, 0.1), { ry: yaw, jit: 0.08 });
+  // Battens follow the same local frame as their box, including rotated and stacked cargo.
+  R.ctx.push(x, y, z, yaw);
+  const tint = mulc(rgb(TINT.woodDark), TONE_GAIN);
+  for (const side of [-1, 1]) {
+    for (const yy of [0.03, h - 0.085]) R.timber.box(w, 0.055, 0.035, 0, yy, side * (d / 2 + 0.015), tint, { jit: 0.025, amp: 0.025, grain: 'x' });
+    R.timber.rod(-w * 0.38, h * 0.18, side * (d / 2 + 0.034), w * 0.38, h * 0.82, side * (d / 2 + 0.034), 0.027, 4, tint, { jit: 0.02, amp: 0.02 });
+  }
+  R.ctx.pop();
 }
 
 /** A sack, slumped. */
