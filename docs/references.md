@@ -35,7 +35,7 @@ An older local Warpkeep checkout was also consulted for product direction and ca
 
 ### September 30 lore and menu-source recheck
 
-Both sibling `AGENTS.md` files, their sharing/provenance rules, faction records, asset catalog, emblem source manifest, release manifest, and license ledger were read before this import. Fresh read-only fetches of main resolved to the same Warpkeep `786c0b2` and Assets `1e5c49e` snapshots above. No Templar record was found in those main source/docs or the inspected local sibling docs, so the affiliation is an accepted owner correction rather than a claim that those repositories already document it.
+The source snapshots for this recheck are Warpkeep `786c0b2` and Warpkeep-Assets `1e5c49e`, as referenced above. No Templar record was found in those snapshots or the inspected local sibling documentation. Templar affiliation within the Hegemony is an accepted project decision ([A21](decisions.md)), rather than a claim that those source snapshots already document it.
 
 The sibling records do establish Hegemony civic/religious imagery: the Grand Covenant Cathedral, Basilica Warden church-order role, Shellback Shrine Tender, and Ward Peacekeeper appear in the [asset catalog](https://github.com/ael-dev3/Warpkeep-Assets/blob/1e5c49e9819ea50cf4e03675bb05868f90f06fdc/docs/archive/2026-09-08-asset-catalog.md#hegemony-keep-citizens) and game asset records. Those are useful identity context, not proof of a final Templar doctrine, hierarchy, or history. No such details are imported by this menu change.
 
