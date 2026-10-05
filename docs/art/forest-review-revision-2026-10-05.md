@@ -108,4 +108,9 @@ The full DOM reports are saved as `before-matched-warmed-benchmark.txt` and `aft
 
 Earlier preview sessions are retained separately rather than silently treated as the final control. At 1422 × 800 / DPR 1.8, the earlier before sample recorded 33.40 / 50.30 ms median/p95; an early revised warm-up recorded 33.50 / 50.90 ms, while a later fresh revised session recorded 50.00 / 67.20 ms. Another run changed viewport size and is excluded from comparison. That session variation does not establish performance at the larger resolution; stable repeated full-resolution and reference-hardware qualification remains a publication gate where required. The final narrower matched pair must not substitute for it.
 
-At this handoff, [PR #26](https://github.com/ael-dev3/Tervain/pull/26) remains unmerged. Its required [run 37284131498](https://github.com/ael-dev3/Tervain/actions/runs/37284131498) failed before runner steps because of the account billing/spending-limit blocker. The last read-only repository metadata reports private visibility and Pages disabled. This forest work is retained locally; successful required final-source CI, an approved hosting destination and a served version/revision remain separate publication gates. Workflow triggers and required checks are preserved, and no rerun, merge, visibility change or deployment was performed by this study.
+This historical forest candidate was submitted through
+[PR #26](https://github.com/ael-dev3/Tervain/pull/26). Its recorded
+[run 37284131498](https://github.com/ael-dev3/Tervain/actions/runs/37284131498)
+did not execute build steps and provides no CI validation. Final-source CI,
+deployment and hosted version/revision verification are pending integration;
+local measurements and bounded native review do not establish a live release.

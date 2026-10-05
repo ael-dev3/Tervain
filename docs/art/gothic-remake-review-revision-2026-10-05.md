@@ -8,7 +8,7 @@ Final runtime source is locally committed at **`88cf6678`**, including the
 `03f73a9` woodland/renderer implementation and final grass/night corrections.
 Strict TypeScript, **1,131 tests in 115 files (101.99 s)**, committed-source
 production build **(7.27 s)** and bounded native acceptance pass. Publication
-remains blocked as recorded below.
+is pending integration as recorded below.
 
 ## What the review establishes
 
@@ -137,7 +137,7 @@ not a test-suite timing target.
 | Native forest, bay and night readability | Final production High day/night, eastern oak body, coastal panorama and High /Medium /Low forest views pass the bounded appearance review. Same trail player is grounded at (-181,1.5,13) in all presets; all retain 254 canonical contacts. |
 | Native input and console | Ordinary Space visibly jumps and consumes stamina, followed by grounded recovery; M and I open/close the map and empty inventory. Captured warning/error log is empty. Brief W /Shift+W pulses do not demonstrate sustained gait or speed; those contracts are covered by controller/animation regressions. |
 | Warmed same-device performance | Not measured; no FPS or p95 gain claimed. |
-| Required CI /approved hosting /served revision | Blocked under the preserved publication gates. |
+| Required CI /approved hosting /served revision | Pending integration and verification of the served version/revision. |
 
 Final native views use the ordinary **1422×800 CSS** viewport without an
 override. High /Medium /Low use **DPR 1.8 /1.5 /1** and retain respectively
@@ -173,11 +173,7 @@ foliage remain. Component checks, CPU audits and older native frames do not
 replace current native acceptance. This bounded art pass does not establish
 full-game Gothic parity or universal no-clipping proof.
 
-See the [current release record](../production/releases/0.0.12.md) for final
-acceptance and publication. Required CI previously failed before runner start
-for account billing/spending-limit reasons, and the last repository snapshot
-reports Pages disabled/private visibility. Monthly Actions usage stays unknown.
-The coordinator is the sole publisher and must perform a fresh complete
-current-UTC-day run/attempt preflight before any remote trigger action. No
-blocked-check bypass, trigger change, expanded billing permission or remote
-mutation is part of this follow-up.
+See the [current release record](../production/releases/0.0.12.md) for
+historical acceptance evidence and publication status. Final-source CI,
+deployment and served version/revision verification remain pending integration;
+these local checks do not establish a live release.

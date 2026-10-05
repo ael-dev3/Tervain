@@ -160,8 +160,8 @@ cloth, a framerate gain or minimum-PC performance.
 
 Fresh captured final-game warning/error logs are empty. Final-source diff
 retains hero files, Pine/tree files, gameplay/world support/save modules, version
-metadata and Actions configuration. Required CI/hosting remain separate
-preserved publication gates; no remote mutation is initiated.
+metadata and Actions configuration. Final-source CI, deployment and served
+version/revision verification are pending integration.
 
 Final native evidence includes `final-game-stamp.txt`, `final-game-stamp.jpg`,
 `final-game-character-portrait.jpg`, `final-mara-front.jpg`,
@@ -169,5 +169,5 @@ Final native evidence includes `final-game-stamp.txt`, `final-game-stamp.jpg`,
 `final-mara-paired-skirt-sit.jpg` and `final-fireside-paired-skirt-walk.jpg`
 under `outputs/tervain-character-polish/`. Earlier hip-heavy/skirt snapshots
 and unstamped prototypes are history, not the accepted garment source. All
-preview results are local; required CI and approved hosting are still blocked
-as preserved in the [release record](../production/releases/0.0.12.md#publication).
+preview results are local; publication remains pending integration, as
+recorded in the [release record](../production/releases/0.0.12.md#publication).

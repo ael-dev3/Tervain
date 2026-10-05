@@ -3,8 +3,8 @@
 Status: locally checkpointed at `108c5a8` within `0.0.12`; final combined tests,
 asset audits and committed-source production build pass. Bounded native views,
 quality rebuilds and actual-score menu continuity are reviewed. Fresh native F3
-confirms the committed production stamp `0.0.12 /108c5a80`. Publication remains
-blocked. The owner asked for the main Tervain game to look substantially closer to Gothic 3 after studying
+confirms the committed production stamp `0.0.12 /108c5a80`. Publication is pending
+integration. The owner asked for the main Tervain game to look substantially closer to Gothic 3 after studying
 the separate browser reconstruction and available reference files. This extends
 the existing rugged, exaggerated fantasy direction; it does not replace
 Tervain's original world with the separate port or promote the version. See
@@ -84,13 +84,12 @@ their existing supported geometry can gain bark without repopulating the strand.
 
 ## Native Gothic 3 versus browser reconstruction
 
-The coordinator's local `/gothic3/` inspection reaches Ardea and confirms rough
+The bounded local `/gothic3/` inspection reaches Ardea and confirms rough
 roof masses, long dark boards and deep openings. Vegetation and some ground
 rendering remain incomplete. The public hosted URL returned 404 during this
 task; local inspection must not be described as successful live-route review.
-The audit agent could not access the hosted route independently; actual local
-data, decoded pixels and the coordinator's bounded local observation remain
-the study basis.
+The study uses actual local data, decoded pixels and bounded local
+observation; successful hosted-route inspection was not established.
 
 The separate reconstruction uses authored Three.js lighting and exposure,
 Phong preview materials and a 65° camera, with known missing native lighting,
@@ -205,7 +204,7 @@ Material/camera art changes must not silently alter these gameplay contracts.
 | Native quality/contact preservation | High →Medium →Low →High through Settings retains all 245 canonical tree contacts and grounded player (-268,0.5,27), RelaxedIdle, HP/stamina 100. Captured populations remain 445/388/335 and floor pieces 552/369/179. |
 | Actual-score menu continuity | High score 33.16/214.2 s shows door 96%, 40 drawn spirits, audible gain 0.352 and three ships. With Reduced Motion checked, media advances 85.4→134.2 s while grove stays at 75.06 s/14,567 steps/door 100% and ship phase 85.1 s remains fixed. This is bounded continuity rather than a full-song video or every rebuild path. |
 | Native warnings/errors | The latest `native-console.json` after coast/rebuild/menu review is empty. This is the captured scope, not a claim that every previous reference/viewer navigation emitted no warning. |
-| Stamped final browser /remote release | Fresh F3 confirms `0.0.12 /108c5a80`, High, actual 1280×720 canvas /DPR0.899999976. Required final-source remote CI and approved deployment remain blocked. |
+| Stamped final browser /remote release | Fresh F3 confirms `0.0.12 /108c5a80`, High, actual 1280×720 canvas /DPR0.899999976. Final-source CI, deployment and served version/revision verification are pending integration. |
 
 An intermediate full-suite attempt passed 1,106 checks but timed out four while
 heavy reference/game/gallery tabs were active. After those tabs were blanked,
@@ -250,12 +249,6 @@ actual report.
 The previous `5876ea3` tree verification remains historical for that source.
 This document establishes bounded original-art progress and the recorded checks,
 not 10/10 quality, native renderer parity, a completed Gothic reconstruction,
-live deployment or exhaustive hardware/full-route validation. The preserved
-required-CI billing and hosting gates remain in the
+live deployment or exhaustive hardware/full-route validation. Final-source CI, deployment and served version/revision verification remain
+pending integration; see the
 [release publication record](../production/releases/0.0.12.md#publication).
-The coordinator owns publication. Any push, PR change, merge, dispatch, rerun or
-trigger change requires a fresh read-only review of all current UTC-day
-workflows, branches, actors, states and attempts, including reruns of older
-runs, and an estimate of resulting runs/minutes under the current owner policy.
-Unknown monthly usage remains unknown; required checks, service behavior and
-stricter pauses are not bypassed to publish an art revision.

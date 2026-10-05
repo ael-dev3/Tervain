@@ -78,7 +78,7 @@ or native visual review.
 | Native arrival and regional map | Ordinary 60° arrival at **(-268,0.5,27)** is grounded with the empty starting hotbar. The regional map shows the recessed bay/shelves and retained landing/road. |
 | Native Low continuity | **335 trees (121 Pine /214 Meshy), same 247 contacts**, 784 rocks, two wood /five scrub and resident 10,556-triangle ridge. Arrival pose remains grounded; inspected Low shore retains the composition. |
 | Fresh High restoration and console scope | New tab verifies **0.0.12 /f5a77ff1**, High /DPR1.8, the same 447 trees /247 contacts /1,210 rocks /four wood /eight scrub and grounded **(-248,4.9,14)**. Saved debug/capture size is **409×658**. Final scoped warning/error log is empty. |
-| Required CI /approved hosting /served revision | Blocked; local acceptance is not publication. |
+| Required CI /approved hosting /served revision | Pending integration; local acceptance is not publication. |
 
 The first combined pass exposed two real shore-salvage reach failures. Moving
 the northern low bench away from the established wreck approach fixed them;
@@ -105,9 +105,7 @@ Evidence is retained in `outputs/tervain-coastal-bay-review/`, including
 test duration or loading time is not a gameplay frame-rate measurement.
 
 Bounded local landscape acceptance is complete on the final implementation.
-Publication remains blocked by the preserved required-CI billing failure and
-Pages-disabled repository state. The coordinator alone handles any publication
-after fresh UTC-day workflow/run-attempt preflight; no remote mutation is part
-of this landscape revision. This record establishes neither a live build,
+Final-source CI, deployment and served version/revision verification are
+pending integration. This record establishes neither a live build,
 a minimum PC specification, exhaustive no-clipping proof, all-instance tree
 fit nor a complete reconstruction of the reference game's world.
