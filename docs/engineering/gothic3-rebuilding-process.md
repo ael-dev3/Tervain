@@ -1,11 +1,12 @@
 # How Gothic 3 is being rebuilt for the browser
 
-Updated: 5 October 2026. Current source result: Ardea exploration, a third-person
-Hero presentation, streamed native landscape across three regions, Hero motion
-inspection, original quest/dialogue catalogs and source-state/clock inspection
-in TypeScript. This is an
-incomplete game reconstruction. Completing the original game in the browser
-remains the objective; the inspector does not satisfy that objective.
+Updated: 5 October 2026. Current source result: an Ardea exploration scene, a
+third-person Hero presentation, streamed native landscape across three regions,
+Hero motion inspection, original quest/dialogue catalogs, source-state/clock
+inspection and an on-demand Hero character sheet backed by captured PlayerMemory
+and Attribute/Stat data in TypeScript. This is an incomplete game reconstruction.
+Completing the original game in the browser remains the objective; the inspectors
+do not satisfy that objective.
 
 The owner requested this separate project and explicitly approved hosting it
 in Tervain. GitHub reports the repository as private on 5 October 2026. The route is
@@ -19,7 +20,7 @@ which have not been deployed. On 5 October 2026, a fresh request to the
 `/gothic3/` URL returned HTTP 404 and the repository's Pages API also returned
 404. The latest failed workflow still reports that its job could not start
 because of account payment or spending-limit state. This records the observed
-hosting/deployment limitation; the full game is not online. Sections 10–21
+hosting/deployment limitation; the full game is not online. Sections 10–24
 cover the newer runtime work.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
@@ -47,14 +48,51 @@ reproduce the historical source hashes.
    including quests, factions, combat, travel and saving/loading.
 
 The current scene covers part of step 2 and the rendering side of step 5.
-The newer source components advance steps 3–4. A successful TypeScript build
-does not establish that step 5 is connected or that step 7 is possible.
+The newer source components advance steps 3–4 and now load the captured Hero
+PlayerMemory and Attribute/Stat objects into an on-demand character panel. That
+is a verified data path, not a live gameplay-state connection. A successful
+TypeScript build does not establish that step 5 is complete or that step 7 is
+possible.
+
+## What “rebuilding” means here
+
+This is a new browser implementation guided by the installed game. It does not
+turn Gothic 3's Windows executable into a web game, and the decompiled C-like
+listings are not buildable original source. The work follows two connected
+tracks: recover data such as meshes and world records, and study native code to
+recreate selected behavior in TypeScript. Both tracks must meet in the running
+game before an isolated reader or asset counts as a player-facing feature.
+
+```mermaid
+flowchart LR
+  I[Read-only installation and study] --> D[Offline inventory and format readers]
+  D --> A[Reviewed browser assets]
+  I --> N[Native behavior and byte evidence]
+  N --> T[Bounded TypeScript implementations]
+  A --> W[Live world and actor composition]
+  T --> W
+  W --> V[Build and in-browser behavior review]
+  V -->|gaps found| N
+  V --> P[Complete progression and ending]
+```
+
+For each feature, the practical loop is: identify the winning source resource or
+native operation; record its provenance and known limits; decode or implement
+it without guessing at missing behavior; connect it to the existing world,
+actor and frame lifecycle; then review the result and keep a reproducible
+checkpoint. Unsupported engine calls remain explicit until there is evidence
+and a working replacement. Converting a model proves only that model's data
+path; loading a native property reader proves only that bounded code path. The
+end-to-end criterion is to play through Gothic 3's progression, with working
+NPC behavior, combat, dialogue, quests, world travel and save/load through its
+available endings.
 
 Section 21 records the checkpoint with 18 of the Hero's 19 property-set
 factories. Section 22 adds bounded Attribute/Stat and PlayerMemory factories,
 bringing the source count to 19 of 19. They remain detached from the enclosing
 live entity/world pipeline; this count does not measure how much of the original
-game is playable.
+game is playable. Section 23 adds a browser-side third-person presentation;
+that visual actor still does not use the recovered native entity pipeline.
 
 ## 1. Preserve and study the installed game
 
@@ -2622,3 +2660,30 @@ the existing large bundle warning remains). The local browser reached its
 ready state. No tests, complete gameplay session, native execution, deployment
 or playthrough were performed. The view is still a partial step toward a
 playable game and `gameplayReady` remains `false`.
+
+## 24. Load the captured Hero attributes in the browser
+
+The [Hero property runtime](../../src/gothic3/hero-property-runtime.ts)
+provides browser-owned byte allocations, known-byte masks, CString storage,
+localization entries, GUID generation and bounded logging. It composes the
+existing reflection, Attribute/Stat and PlayerMemory readers on one retained
+controller, then reads `PC_Hero` property-set index 13 from the hash-checked
+serialized record. The browser Character panel requests this read on demand
+and displays the same PlayerMemory consumer's Chapter, XP, learning points and
+15 stored attributes. The 1,617-byte packet is consumed through its enclosing
+`DEADC0DE` sentinel; the final cursor must match the record end.
+
+This checkpoint exposed and fixed two integration details: initialize the
+PlayerMemory native reference count before the reflection controller retains
+the object, and let the packet caller validate its enclosing sentinel. A
+direct execution of the built TypeScript module returned Chapter 0, XP 0,
+zero learning points and 15 attributes at value/maximum 100, with no unresolved
+controller operation. This validates the captured record and selected browser
+services only. New-game startup, ordinary play updates, combat, XP awards,
+save/load and world/entity residency still do not update or own this state.
+
+The production TypeScript check and build pass after this integration (258
+Vite modules; the pre-existing large-bundle warning remains). No test suite,
+native executable, review of the new browser panel, full browser playthrough,
+deployment or complete-game progression was run; `gameplayReady` remains
+`false`.

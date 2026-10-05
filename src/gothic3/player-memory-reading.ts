@@ -294,8 +294,10 @@ export class OriginalPlayerMemoryReader {
     } });
     const nativeMemory = allocation(this.call('MemoryAdmin.New PlayerMemory184/tagc4', 'Game:20327f10', () => this.host.allocateNative?.(184, 0xc4, wrapper)), 184, 'PlayerMemory native');
     const value = new OriginalPlayerMemoryProperties(wrapper, this, nativeMemory, wrapperMemory);
-    this.retained.set(wrapper, value); this.controller.retainNative(wrapper, value.base);
+    // The native constructor establishes its reference count before the
+    // controller retains/inspects the completed native object.
     value.putWord(0, 0x2069845c); value.putWord(4, 0); value.putWord(8, 1); value.putWord(0xc, 0);
+    this.retained.set(wrapper, value); this.controller.retainNative(wrapper, value.base);
     value.numericBytes[0x10] = ((value.numericBytes[0x10]! & 0xf0) | 1); value.knownMask[0x10] = (value.knownMask[0x10]! | 0x0f);
     for (let offset = 0x18; offset <= 0x50; offset += 4) value.putWord(offset, 0);
     value.putWord(0x60, 0x20697bc4); this.enumDefault(value); value.raw(0x68, new Uint8Array(20));

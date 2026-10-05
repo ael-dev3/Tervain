@@ -7,6 +7,8 @@ import { NativeTerrain } from './terrain';
 import { landscapeDestinations } from './landscape-destinations';
 import { showOriginalPlayerState } from './initial-state-view';
 import { showOriginalWorldClock } from './world-clock-view';
+import { loadNativeHeroPlayerMemory } from './hero-property-runtime';
+import type { NativeHeroPlayerMemory } from './hero-property-runtime';
 import type { AnimatedActor } from './animation';
 import { ARDEA_PEOPLE, ARDEA_QUESTS, PORT_SCOPE } from './content';
 import { showOriginalDialogue, showQuestCatalog } from './catalog-view';
@@ -19,7 +21,7 @@ const SAVE_KEY = 'gothic3:ardea:exploration:v1';
 const canvas = document.querySelector<HTMLCanvasElement>('#world')!;
 const ui = document.querySelector<HTMLDivElement>('#interface')!;
 ui.innerHTML = '<header class="masthead"><div class="eyebrow">Gothic 3 · browser port</div><h1 id="world-title">Ardea</h1><p id="world-caption">Recovered scene · native landscape</p></header>' +
-  '<nav class="toolbar"><button id="explore-button">Explore</button><button id="view-button">Third person</button><button id="landscape-button">Landscape</button><button id="inspect-button">Models <kbd>Tab</kbd></button><button id="journal-button">Journal <kbd>J</kbd></button><button id="map-button">Map <kbd>M</kbd></button><button id="save-button">Save <kbd>P</kbd></button><button id="help-button">Help</button><a href="../">Tervain ↗</a></nav>' +
+  '<nav class="toolbar"><button id="explore-button">Explore</button><button id="view-button">Third person</button><button id="character-button">Character</button><button id="landscape-button">Landscape</button><button id="inspect-button">Models <kbd>Tab</kbd></button><button id="journal-button">Journal <kbd>J</kbd></button><button id="map-button">Map <kbd>M</kbd></button><button id="save-button">Save <kbd>P</kbd></button><button id="help-button">Help</button><a href="../">Tervain ↗</a></nav>' +
   '<div class="crosshair" id="crosshair"></div><div class="prompt hidden" id="prompt"></div><div class="toast hidden" id="toast" role="status"></div>' +
   '<footer class="bottom"><div class="keys" id="keys"><kbd>W A S D</kbd> move &nbsp; <kbd>Shift</kbd> run &nbsp; drag mouse / click for mouse look<br><kbd>E</kbd> inspect person &nbsp; <kbd>F</kbd> fly &nbsp; <kbd>R</kbd> return to arrival &nbsp; <kbd>Esc</kbd> release mouse</div><div class="coordinate"><span id="coordinates">Loading native scene</span><div id="terrain-status"></div><div class="scope-tag">Work in progress · native gameplay still being rewritten</div></div></footer>' +
   '<section class="inspector panel hidden" id="inspector"><div class="eyebrow">Original geometry</div><h2>Character inspection</h2><select id="model-select" aria-label="Character model"></select><div class="row"><button id="wire-button">Wireframe</button><button id="spin-button">Rotate</button><button id="frame-button">Frame</button></div><div id="animation-controls" class="hidden"><label for="clip-select">Native motion</label><select id="clip-select" aria-label="Native motion"><option value="">Bind pose</option></select><button id="clip-play" disabled>Play motion</button></div><p>Drag to rotate · wheel to zoom · right-drag to pan.</p><p id="model-info">Native body and head; exported bind pose.</p><div class="source" id="model-source"></div></section>' +
@@ -78,6 +80,7 @@ const playerFocus = new THREE.Vector3();
 let mapShown = false;
 let lastFrame = performance.now();
 let lastHud = 0;
+let nativeHeroMemory: Promise<NativeHeroPlayerMemory> | null = null;
 
 const inspection = new THREE.Scene();
 inspection.background = new THREE.Color(0x303d36);
@@ -183,10 +186,65 @@ function showJournal(): void {
   void showQuestCatalog(content);
 }
 
+function showCharacterSheet(): void {
+  const content = openPanel('PC_Hero · Character');
+  const lifetime = panelLifetime.signal;
+  paragraph(content, 'Reading the original Hero PlayerMemory and Attribute property sets…');
+  if (!nativeHeroMemory) {
+    nativeHeroMemory = loadNativeHeroPlayerMemory().catch((error: unknown) => {
+      nativeHeroMemory = null;
+      throw error;
+    });
+  }
+  void nativeHeroMemory.then(result => {
+    if (lifetime.aborted) return;
+    content.replaceChildren();
+    const eyebrow = document.createElement('div');
+    eyebrow.className = 'eyebrow';
+    eyebrow.textContent = 'Original Hero data · verified serialized PC_Hero';
+    const heading = document.createElement('h2');
+    heading.textContent = 'Nameless Hero';
+    content.append(eyebrow, heading);
+    paragraph(content, 'Chapter ' + result.memory.getChapter() + ' · XP ' + result.memory.getXP() +
+      ' · learning points ' + result.memory.getLPAttribs() + ' attribute / ' + result.memory.getLPPerks() + ' perk');
+
+    const table = document.createElement('table');
+    table.className = 'character-table';
+    const head = document.createElement('thead');
+    const header = document.createElement('tr');
+    for (const label of ['Attribute', 'Value', 'Maximum', 'Modifier']) {
+      const cell = document.createElement('th'); cell.textContent = label; header.append(cell);
+    }
+    head.append(header);
+    const body = document.createElement('tbody');
+    for (const [tag, attribute] of result.memory.attributes) {
+      if (!attribute) continue;
+      const row = document.createElement('tr');
+      const values = [tag, String(result.memory.getValue(tag)), String(result.memory.getMaximum(tag)), String(result.memory.getModifier(tag))];
+      for (const value of values) { const cell = document.createElement('td'); cell.textContent = value; row.append(cell); }
+      body.append(row);
+    }
+    table.append(head, body); content.append(table);
+    paragraph(content, 'Loaded ' + result.cursor.consumed + ' of ' + result.cursor.total +
+      ' packet bytes from source record ' + result.source.sha256.slice(0, 16) + '…');
+    paragraph(content, 'The browser now retains the source PlayerMemory and all 15 Attribute/Stat objects. The native new-game callbacks and later stat, combat, and XP progression are not connected to ordinary play yet. Unknown native enum bits remain masked.');
+    if (result.summary.logs.length) {
+      paragraph(content, result.summary.logs.length + ' source warning/info records were retained by the browser host.', 'source');
+    }
+  }).catch((error: unknown) => {
+    if (lifetime.aborted) return;
+    content.replaceChildren();
+    const heading = document.createElement('h2'); heading.textContent = 'Hero data could not be loaded'; content.append(heading);
+    paragraph(content, String(error), 'warnings');
+    paragraph(content, 'The reader stops at the first unsupported native operation and does not invent a fallback value.');
+  });
+}
+
 function showHelp(): void {
   const content = openPanel('Controls & current scope');
   paragraph(content, 'WASD / arrows: move. Shift: run. Drag to look, or click the scene for captured mouse look. Escape releases the pointer. E inspects a nearby person.');
   paragraph(content, 'F toggles free flight; Space moves up and Q moves down. Third person follows the Hero model and recovered idle, walk and run clips. R returns to the arrival point. P saves your position locally. Tab switches to character models; drag to rotate, wheel to zoom, right-drag to pan. M opens the local position map.');
+  paragraph(content, 'Character loads PC_Hero’s serialized PlayerMemory and Attribute/Stat data into the browser’s TypeScript runtime. The native startup and gameplay progression are still being connected.');
   const brightnessLabel = document.createElement('label');
   brightnessLabel.textContent = 'Preview brightness ';
   const brightness = document.createElement('input');
@@ -612,6 +670,7 @@ element('view-button').onclick = () => {
   element('view-button').textContent = thirdPerson ? 'First person' : 'Third person';
   element('world-caption').textContent = thirdPerson ? 'PC_Hero · recovered native motion preview' : 'Recovered scene · native landscape';
 };
+element('character-button').onclick = showCharacterSheet;
 element('landscape-button').onclick = () => { void showLandscape(); };
 element('inspect-button').onclick = () => { void setInspection(!inspectMode); };
 element('journal-button').onclick = showJournal;

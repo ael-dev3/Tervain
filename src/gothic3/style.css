@@ -46,6 +46,10 @@ kbd { display: inline-block; padding: 1px 5px; border: 1px solid #b4bda374; bord
 .modal h3 { margin: 18px 0 5px; font-size: 23px; color: #d2c49f; }
 .modal p, .modal li { color: #bec5b6; line-height: 1.8; font-size: 12px; }
 .modal ul { padding-left: 19px; }
+.character-table { width: 100%; border-collapse: collapse; margin: 14px 0; font: 11px/1.5 monospace; }
+.character-table th, .character-table td { padding: 7px 5px; border-bottom: 1px solid #485741; text-align: right; }
+.character-table th:first-child, .character-table td:first-child { text-align: left; color: #e0d3b5; }
+.character-table th { color: #aeb8a7; font-weight: 500; }
 .modal .close { position: absolute; top: 14px; right: 14px; padding: 4px 9px; }
 .source { font: 10px/1.6 monospace; overflow-wrap: anywhere; color: #a8b69c; margin-top: 16px; padding-top: 12px; border-top: 1px solid #485741; }
 .inspector { position: absolute; top: 106px; left: 28px; width: 325px; padding: 19px; border: 1px solid #718363; background: var(--panel); backdrop-filter: blur(9px); }
