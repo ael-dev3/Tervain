@@ -75,7 +75,7 @@ A50 adds 99 sound-effects generations made for Tervain with the owner's ElevenLa
 - sixteen place beds;
 - the in-world score.
 
-The unchanged MP3 generations are archived in [assets/audio/source/world/](../../assets/audio/source/world/). Runtime sprites, loops and pieces in [public/assets/audio/world/](../../public/assets/audio/world/) are rebuilt by [tools/world-audio/prepare.mjs](../../tools/world-audio/prepare.mjs) as Ogg Opus with AAC fallbacks. Every prompt and hash is in [world-audio-assets.json](world-audio-assets.json). Credit to ElevenLabs (elevenlabs.io) is required under the free-plan sound-effects terms and is given in the About text and NOTICE; no independent rights review is asserted. Nothing from Gothic, Warpkeep or another game is used. See [world-audio.md](world-audio.md).
+The unchanged MP3 generations are archived in [assets/audio/source/world/](../../assets/audio/source/world/). Runtime sprites, loops and pieces in [public/assets/audio/world/](../../public/assets/audio/world/) are rebuilt by [tools/world-audio/prepare.mjs](../../tools/world-audio/prepare.mjs) as Ogg Opus with AAC fallbacks. Every prompt and hash is in [world-audio-assets.json](world-audio-assets.json). Credit to ElevenLabs (elevenlabs.io) is required under the free-plan sound-effects terms and is given in the About text and NOTICE; no independent rights review is asserted. Nothing from Gothic, Warpkeep or another game is used. A51 adds crafted music and sounds rendered by original code in [tools/world-audio/compose/](../../tools/world-audio/compose/): no recordings or generators, each render recorded by hash under `composed`. See [world-audio.md](world-audio.md).
 
 ## Replacement people sheets (0.0.8)
 

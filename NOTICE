@@ -32,10 +32,13 @@ This product includes material from the Warpkeep project (https://github.com/ael
 
 Warpkeep names, logos and the Hegemony identity are not licensed by this notice.
 
-The world's sound effects, ambience and in-world score (assets/audio/source/world/ and
-public/assets/audio/world/) were generated with ElevenLabs (https://elevenlabs.io) from
-prompts written for Tervain. Credit to ElevenLabs is a condition of their use; see
-docs/engineering/world-audio.md for sources, terms and hashes.
+The generated sound effects, ambience and score (the sources in assets/audio/source/world/
+and their derivatives in public/assets/audio/world/) were generated with ElevenLabs
+(https://elevenlabs.io) from prompts written for Tervain. Credit to ElevenLabs is a
+condition of their use. The crafted music and sounds in the same folder are original to
+Tervain, composed and synthesized in tools/world-audio/compose/. See
+docs/engineering/world-audio.md and docs/engineering/world-audio-assets.json for which
+file is which, with sources, terms and hashes.
 
 This product uses Three.js, including its unmodified Reflector addon, under the MIT
 License (copyright 2010-2026 three.js authors). The full copyright and permission
