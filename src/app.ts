@@ -1,3 +1,4 @@
+import { loadMeshyTrees, type MeshyTreeTemplates } from './presentation/meshyTrees';
 import * as THREE from 'three';
 import { NPCS } from './content/npcs';
 import { S } from './content/strings';
@@ -63,6 +64,7 @@ export class App {
   cam = new CameraRig();
   player = new Player();
   private mainHeroInstalled = false;
+  private treeTemplates: MeshyTreeTemplates | undefined;
   private npcAssets: MeshyNpcCatalog | null = null;
   npcs: NpcActor[] = [];
   enemies: EnemyActor[] = [];
@@ -380,10 +382,12 @@ export class App {
   /** No silent runtime fallback: an incomplete resident download uses the existing graphics recovery screen. */
   private async prepareNpcAssets() {
     if (this.npcAssets) return;
+    this.loadingEl.textContent = 'Preparing the ancient grove…';
+    this.treeTemplates ??= await loadMeshyTrees(['tree-0208']);
     const assets = await loadMeshyNpcCatalog((loaded, total) => {
       this.loadingEl.textContent = `Preparing the residents… ${loaded}/${total}`;
     });
-    const replacement = new MenuScene({ quality: this.settings.quality, wardenRig: assets.create('menu:warden') });
+    const replacement = new MenuScene({ quality: this.settings.quality, treeTemplates: this.treeTemplates, wardenRig: assets.create('menu:warden') });
     this.menuScene.dispose();
     this.menuScene = replacement;
     this.menuSceneDisposed = false;
@@ -517,7 +521,7 @@ export class App {
             this.menuSceneDisposed = true;
             this.menuScene.dispose();
           }
-          this.menuScene = new MenuScene({ quality: this.settings.quality, trafficSeed: traffic.seed, trafficTime: traffic.elapsed, awakening, grove,
+          this.menuScene = new MenuScene({ quality: this.settings.quality, treeTemplates: this.treeTemplates, trafficSeed: traffic.seed, trafficTime: traffic.elapsed, awakening, grove,
             wardenRig: this.npcAssets?.create('menu:warden') });
           this.menuSceneDisposed = false;
           this.menuScene.resize(window.innerWidth, window.innerHeight);

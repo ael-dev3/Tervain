@@ -87,7 +87,7 @@ describe('delivered Solitary Pine forest', () => {
     forest.dispose();
   });
 
-  it('matches all dark conifers including the distant ring, on every preset without thinning collision obstacles', () => {
+  it('retains the historical catalog-omitted conifer source and canonical obstacles while presets select nested decorations', () => {
     const forest = createPineForest(templates);
     const terrain = new Terrain(), variants = new Map<string, TreeVariant>();
     const variantFor = (tree: Pick<FloraTree, 'sp' | 'v'>): TreeVariant => {
@@ -105,11 +105,26 @@ describe('delivered Solitary Pine forest', () => {
       ? forest.collisionRadius(tree.sp, tree.v + 1, tree.s, terrain.heightAt(tree.x, tree.z) - tree.y)
       : footprint > 0 ? treeWoodCollisionRadius(variantFor(tree), tree.s, terrain.heightAt(tree.x, tree.z) - tree.y) : footprint,
       tree => groundedTreeY(terrain, tree, variantFor(tree)));
-    expect(population.filter((tree) => isPineSpecies(tree.sp))).toHaveLength(264);
-    for (const [quality, count] of [['low', 242], ['medium', 254], ['high', 264]] as const) {
-      const plan = selectFloraPopulation(population, quality);
-      expect(plan.trees.filter((tree) => isPineSpecies(tree.sp))).toHaveLength(count);
-      expect(plan.obstacles.filter((tree) => isPineSpecies(tree.sp))).toHaveLength(216);
+    // A51 changes the accepted habitat population; the historical no-catalog
+    // component still uses the custom Pine for each conifer. Verify identities
+    // and physical continuity instead of preserving the obsolete density snapshot.
+    const conifers = population.filter(tree => isPineSpecies(tree.sp));
+    expect(conifers.length).toBeGreaterThan(0);
+    expect(conifers.some(tree => tree.radius === 0)).toBe(true);
+    const canonical = population.filter(tree => tree.radius > 0);
+    const high = selectFloraPopulation(population, 'high');
+    expect(high.trees).toEqual(population);
+    const medium = selectFloraPopulation(population, 'medium'), low = selectFloraPopulation(population, 'low');
+    for (const tree of low.trees) expect(medium.trees).toContain(tree);
+    for (const tree of medium.trees) expect(high.trees).toContain(tree);
+    for (const plan of [low, medium, high]) {
+      expect(plan.obstacles).toEqual(canonical);
+      for (const tree of canonical) expect(plan.trees).toContain(tree);
+      expect(new Set(plan.trees).size).toBe(plan.trees.length);
+      for (const tree of plan.trees.filter(tree => isPineSpecies(tree.sp))) {
+        expect(conifers).toContain(tree);
+        expect(variantFor(tree).lods[0].tris).toBeLessThan(10_000);
+      }
     }
     expect(['oak', 'birch', 'orchard', 'dead', 'shrub'].some((species) => isPineSpecies(species as 'oak'))).toBe(false);
     forest.dispose();

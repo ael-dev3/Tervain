@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import type { Terrain } from '../world/terrain';
-import { deepwoodCover } from '../world/forest';
+import { biomeAt } from '../world/biomes';
 import { mulberry32, smoothstep } from '../world/noise';
 import type { Quality, SceneModule } from './context';
 import type { FloraTree } from './floraPopulation';
@@ -24,18 +24,28 @@ function seedFor(tree: Readonly<FloraTree>, slot: number): number {
   return hash >>> 0;
 }
 
-/** Near broadleaf geometry is emitted as four vertices per real foliage fan. Reuse its centres, not an ideal crown box. */
+/** Imported sites are alpha-visible source faces; procedural authoring fans use their four-vertex centres. */
 function outerCanopySites(variant: TreeVariant): Site[] {
-  const position = variant.lods[0].leaf?.getAttribute('position');
+  const geometry = variant.lods[0].leaf;
+  const position = geometry?.getAttribute('position');
   if (!position) return [];
   const sites: Site[] = [];
   let cx = 0, cz = 0;
-  for (let i = 0; i + 3 < position.count; i += 4) {
-    let x = 0, y = 0, z = 0;
-    for (let j = 0; j < 4; j++) { x += position.getX(i + j); y += position.getY(i + j); z += position.getZ(i + j); }
-    x *= 0.25; y *= 0.25; z *= 0.25;
-    if (![x, y, z].every(Number.isFinite)) continue;
-    sites.push({ x, y, z }); cx += x; cz += z;
+  if (variant.assetId) {
+    // The per-variant cache was sampled through the decoded source's UV alpha,
+    // so leaves cannot spawn from empty portions of a curved foliage card.
+    for (const { x, y, z } of variant.leafSurfaceSites ?? []) {
+      if (![x, y, z].every(Number.isFinite)) continue;
+      sites.push({ x, y, z }); cx += x; cz += z;
+    }
+  } else {
+    for (let i = 0; i + 3 < position.count; i += 4) {
+      let x = 0, y = 0, z = 0;
+      for (let j = 0; j < 4; j++) { x += position.getX(i + j); y += position.getY(i + j); z += position.getZ(i + j); }
+      x *= 0.25; y *= 0.25; z *= 0.25;
+      if (![x, y, z].every(Number.isFinite)) continue;
+      sites.push({ x, y, z }); cx += x; cz += z;
+    }
   }
   if (!sites.length) return sites;
   cx /= sites.length; cz /= sites.length;
@@ -108,7 +118,7 @@ export function buildFallingLeaves(
   const streams: Stream[] = [];
   const sitesByVariant = new Map<TreeVariant, Site[]>();
   const candidates = trees.filter(t => (t.sp === 'oak' || t.sp === 'birch' || t.sp === 'orchard')
-    && deepwoodCover(t.x, t.z) > 0.15 && Number.isFinite(t.s) && t.s > 0 && Number.isFinite(t.y));
+    && biomeAt(t.x, t.z).woodland > 0.15 && Number.isFinite(t.s) && t.s > 0 && Number.isFinite(t.y));
   // A stable spatial seed keeps the same sources when render presets retain a smaller cosmetic budget.
   candidates.sort((a, b) => seedFor(a, 0) - seedFor(b, 0));
   const perTree = quality === 'high' ? 2 : 1;

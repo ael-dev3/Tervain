@@ -290,6 +290,8 @@ export interface MenuCamp {
   lanterns: THREE.Vector3[];
   /** Ground claimed by everything placed here, for the grass. */
   keep: readonly Keep[];
+  /** Actual installed doorway frame/step/lantern/staff triangles merged into the static camp. */
+  doorStaticTriangles: number;
   /** Swing the door leaf to this hinge angle (radians outward from shut). */
   setDoorAngle(angle: number): void;
   update(time: number, dt: number, amp: number): void;
@@ -412,7 +414,9 @@ export function buildMenuCamp(R: Region, door: { at: THREE.Vector3; facing: numb
   claims.add(MENU_BANNER.x, MENU_BANNER.z, 0.95);
   for (const [px, pz] of BANNER_PEGS) claims.add(MENU_BANNER.x + px, MENU_BANNER.z + pz, 0.25);
 
+  const beforeDoorTriangles = R.tris;
   const doorway = hermitDoor(R, rnd, door.at, door.facing, claims, mats);
+  const doorStaticTriangles = R.tris - beforeDoorTriangles;
   const lanterns = doorway.lights;
   group.add(doorway.group);
 
@@ -471,6 +475,7 @@ export function buildMenuCamp(R: Region, door: { at: THREE.Vector3; facing: numb
     warden,
     lanterns,
     keep: claims.keep,
+    doorStaticTriangles,
     setDoorAngle(angle: number) {
       if (disposed) return;
       const a = Number.isFinite(angle) ? THREE.MathUtils.clamp(angle, 0, Math.PI / 2) : 0;

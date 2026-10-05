@@ -37,7 +37,7 @@ import { RealmPhysics, initializePhysics } from '../world/physics';
 import { buildPhysicalProps } from './physicalProps';
 import type { MeshyNpcCatalog } from './meshynpcs';
 import { buildSourceRockPiles, loadSourceRockPile } from './sourceRockPile';
-import { buildSourceBroadleaf, loadSourceBroadleaf } from './sourceBroadleaf';
+import { loadMeshyTrees, type MeshyTreeTemplates } from './meshyTrees';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 /** Everything static in Bellwether Vale, plus the presentation that follows durable state. */
@@ -85,12 +85,12 @@ export class WorldScene {
     setSharedLibrary(library);
     await library.preload(ALL_NEEDS, onProgress);
     onProgress?.({ loaded: 0, total: 1, label: 'Source woodland and stone' });
-    const [pine, rockPile, broadleaf] = await Promise.all([loadSolitaryPine(), loadSourceRockPile(), loadSourceBroadleaf()]);
+    const [pine, rockPile, treeTemplates] = await Promise.all([loadSolitaryPine(), loadSourceRockPile(), loadMeshyTrees(undefined, (loaded, total) => onProgress?.({ loaded, total, label: 'Preparing the woodland' }))]);
     onProgress?.({ loaded: 1, total: 1, label: 'Source woodland and stone' });
     // Ground textures are generated, not downloaded; yield between layers so the loading text keeps painting.
     await initializePhysics();
     const tex = await makeTerrainTextures(settings.quality === 'high' ? 1024 : settings.quality === 'medium' ? 768 : 256, () => new Promise((r) => setTimeout(r, 0)));
-    return new WorldScene(state, settings, library, tex, pine, rockPile, broadleaf, npcAssets);
+    return new WorldScene(state, settings, library, tex, pine, rockPile, treeTemplates, npcAssets);
   }
 
   /** Release GPU resources the scene graph does not own. */
@@ -105,7 +105,7 @@ export class WorldScene {
     this.scenery.dispose();
   }
 
-  private constructor(state: WorldState, settings: Settings, library: AssetLibrary, private terrainTex: TerrainTextures, pine: PineTemplates, rockPile: GLTF, broadleaf: GLTF, npcAssets?: MeshyNpcCatalog) {
+  private constructor(state: WorldState, settings: Settings, library: AssetLibrary, private terrainTex: TerrainTextures, pine: PineTemplates, rockPile: GLTF, treeTemplates: MeshyTreeTemplates, npcAssets?: MeshyNpcCatalog) {
     const t0 = performance.now();
     this.library = library;
     this.terrain = new Terrain();
@@ -120,10 +120,8 @@ export class WorldScene {
     this.waterMeshes = [...Object.values(this.water.ribbons).map(r => r.mesh), this.water.pool, this.sea.mesh] as WaterRenderInputs['meshes'];
     const ctx: BuildContext = { terrain: this.terrain, colliders: this.colliders, library, quality: settings.quality, settings, sway: this.sway, excl: new Exclusions(this.terrain), npcAssets };
     const landmarks = buildForestLandmarks(this.terrain, this.colliders, settings.quality);
-    const forest = buildFlora(ctx, pine, true);
-    const sourceBroadleaves = buildSourceBroadleaf(ctx, broadleaf);
-    forest.initializeFloor(sourceBroadleaves.placements.map(p => ({ ...p, sp: 'oak', v: 0,
-      tint: 1, collisionId: p.id, decorationRank: 0 })));
+    const forest = buildFlora(ctx, pine, true, treeTemplates);
+    forest.initializeFloor();
     this.terrainMesh = buildTerrainMesh(this.terrain, terrainTex, ctx.plantedCrowns);
     this.scene.add(this.terrainMesh);
     const scatter = buildScatter(ctx);
@@ -134,7 +132,6 @@ export class WorldScene {
     const air = buildWoodlandAir(ctx, this.sky.fog);
     this.modules.push(
       { name: 'forest', module: forest }, { name: 'scatter', module: scatter },
-      { name: 'source broadleaves', module: sourceBroadleaves },
       { name: 'source rock piles', module: sourceRocks },
       { name: 'groundcover', module: this.groundcover }, { name: 'wildlife', module: wildlife },
       { name: 'ambient', module: ambient }, { name: 'woodland air', module: air },
@@ -144,7 +141,7 @@ export class WorldScene {
     this.environment = buildEnvironment(this.scene, settings.quality);
     this.scenery = buildScenery(this.terrain, this.colliders, settings.quality);
     this.scene.add(this.scenery.group);
-    this.physics = new RealmPhysics(this.terrain, this.colliders, undefined, [...forest.physicalWood, ...sourceBroadleaves.physicalWood]);
+    this.physics = new RealmPhysics(this.terrain, this.colliders, undefined, forest.physicalWood);
     const physicalProps = buildPhysicalProps(this.physics, settings.quality);
     this.modules.push({ name: 'physical supplies', module: physicalProps });
     this.scene.add(physicalProps.group);

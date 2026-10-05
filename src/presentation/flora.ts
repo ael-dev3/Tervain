@@ -1,6 +1,7 @@
+import { createMeshyForest, type MeshyTreeTemplates } from './meshyTrees';
 import * as THREE from 'three';
 import type { BuildContext, FrameContext, SceneModule } from './context';
-import { SPECIES, buildTreeVariant, type TreeVariant } from './treeGen';
+import { SPECIES, buildTreeVariant, type TreeVariant, type Species } from './treeGen';
 import { leafMaterial, woodMaterial, disposeTreeMaterials } from './treeMaterials';
 import { disposeTreeTextures } from './treeTextures';
 import { createFloraPopulation, selectFloraPopulation, registerFloraColliders, FLORA_VARIANTS, FLORA_FADE_START, FLORA_MAX_DISTANCE, floraLodWeights, type FloraTree } from './floraPopulation';
@@ -28,27 +29,31 @@ interface Batch {
   trees: FloraTree[];
 }
 
-export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, deferFloor = false): SceneModule & {
+export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, deferFloor = false, meshyTemplates?: MeshyTreeTemplates): SceneModule & {
   counts: { trees: number; triangles: number }; physicalWood: readonly PhysicalWoodGeometry[]; initializeFloor(extraTrees?: readonly FloraTree[]): void;
 } {
   const { terrain, colliders, quality, sway, excl } = ctx;
   const group = new THREE.Group();
   group.name = 'flora';
   const pine = createPineForest(pineTemplates);
+  const meshy = meshyTemplates ? createMeshyForest(meshyTemplates) : null;
+  // Component authoring tools may intentionally omit the new catalog. The shipped world always supplies it.
+  const usesPine = (sp: Species) => sp === 'pine' || !meshy && isPineSpecies(sp);
   const variants = new Map<string, TreeVariant>();
-  const variantFor = (tree: Pick<FloraTree, 'sp' | 'v'>): TreeVariant => {
-    const key = `${tree.sp}:${tree.v}`;
+  const variantFor = (tree: Pick<FloraTree, 'sp' | 'v' | 'assetId'>): TreeVariant => {
+    const key = `${tree.sp}:${tree.v}:${tree.assetId ?? ""}`;
     let variant = variants.get(key);
     if (!variant) {
-      variant = isPineSpecies(tree.sp) ? pine.variant(tree.sp, tree.v + 1) : buildTreeVariant(tree.sp, tree.v + 1);
+      variant = usesPine(tree.sp) ? pine.variant(tree.sp as 'pine' | 'fir' | 'shorepine', tree.v + 1) : meshy ? meshy.variant(tree.sp as Exclude<Species, 'pine'>, tree.v, tree.assetId) : buildTreeVariant(tree.sp, tree.v + 1);
       variants.set(key, variant);
     }
     return variant;
   };
-  const population = createFloraPopulation(terrain, excl, (tree, legacyFootprint) => isPineSpecies(tree.sp)
-    ? pine.collisionRadius(tree.sp, tree.v + 1, tree.s, terrain.heightAt(tree.x, tree.z) - tree.y)
+  const population = createFloraPopulation(terrain, excl, (tree, legacyFootprint) => usesPine(tree.sp)
+    ? pine.collisionRadius(tree.sp as 'pine' | 'fir' | 'shorepine', tree.v + 1, tree.s, terrain.heightAt(tree.x, tree.z) - tree.y)
     : legacyFootprint > 0 ? treeWoodCollisionRadius(variantFor(tree), tree.s, terrain.heightAt(tree.x, tree.z) - tree.y) : legacyFootprint,
-    (tree) => groundedTreeY(terrain, tree, variantFor(tree)));
+    (tree) => groundedTreeY(terrain, tree, variantFor(tree)), undefined,
+    meshy ? (tree) => variantFor(tree).crownRadius * tree.s : undefined);
   registerFloraColliders(population, colliders);
   // Static rigid-body contact uses the same complete wood as the visible source tree,
   // rather than treating its broad ground-plane navigation circle as an infinite cylinder.
@@ -112,14 +117,13 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
   }
 
   /* ---- Build the meshes ---- */
-  const solitaryPines = trees.filter((tree) => isPineSpecies(tree.sp)).length;
+  const solitaryPines = trees.filter((tree) => usesPine(tree.sp)).length;
   const batches: Batch[] = [];
-  const bySpecVariant = new Map<string, Batch>();
+  const byVariant = new Map<TreeVariant, Batch>();
   for (const t of trees) {
-    const key = `${t.sp}:${t.v}`;
-    let b = bySpecVariant.get(key);
+    const variant = variantFor(t);
+    let b = byVariant.get(variant);
     if (!b) {
-      const variant = variantFor(t);
       const box = new THREE.Box3();
       for (const lod of variant.lods) for (const geometry of [lod.wood, lod.leaf]) {
         if (!geometry) continue;
@@ -127,7 +131,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
         box.union(geometry.boundingBox!);
       }
       b = { variant, meshes: [], visibility: [], bounds: box.getBoundingSphere(new THREE.Sphere()), trees: [] };
-      bySpecVariant.set(key, b);
+      byVariant.set(variant, b);
       batches.push(b);
     }
     b.trees.push(t);
@@ -138,15 +142,15 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
     const v = b.variant;
     for (let l = 0; l < 3; l++) {
       const lod = v.lods[l]!;
-      const pineMaterials = isPineSpecies(v.species) ? pine.materials[l]! : null;
-      const wood = lod.wood ? new THREE.InstancedMesh(lod.wood, pineMaterials ? pineMaterials.wood! : woodMaterial(v.bark, sway), b.trees.length) : null;
+      const importedMaterials = usesPine(v.species) ? pine.materials[l]! : meshy ? meshy.materialsFor(v)[l]! : null;
+      const wood = lod.wood ? new THREE.InstancedMesh(lod.wood, importedMaterials ? importedMaterials.wood! : woodMaterial(v.bark, sway), b.trees.length) : null;
       const leafTex = l === 2 ? v.crownTexture : v.leafTexture;
-      const leaf = lod.leaf ? new THREE.InstancedMesh(lod.leaf, pineMaterials ? pineMaterials.leaf : leafMaterial(leafTex, sway), b.trees.length) : null;
+      const leaf = lod.leaf ? new THREE.InstancedMesh(lod.leaf, importedMaterials ? importedMaterials.leaf! : leafMaterial(leafTex, sway), b.trees.length) : null;
       for (const m of [wood, leaf]) {
         if (!m) continue;
         m.count = 0;
         m.frustumCulled = false;
-        m.name = `${isPineSpecies(v.species) ? 'solitary-pine' : v.species}:${l}:${m === wood ? 'wood' : 'foliage'}`;
+        m.name = `${usesPine(v.species) ? 'solitary-pine' : v.assetId ?? v.species}:${l}:${m === wood ? 'wood' : 'foliage'}`;
         // The middle preset renders LOD1 close to the player; that canopy must cast shadows too.
         m.castShadow = quality !== 'low' && l < 2;
         m.receiveShadow = true;
@@ -282,7 +286,7 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       refresh(cam, f.shadowFrustum);
     },
     initializeFloor,
-    stats: () => ({ trees: trees.length, solitaryPines, treeObstacles: obstacles.length, treesDrawn: visible, treeTris: Math.round(drawTris), ...forestFloor?.stats?.(), ...fallingLeaves.stats?.() }),
+    stats: () => ({ trees: trees.length, solitaryPines, meshyTrees: meshy ? trees.length - solitaryPines : 0, treeObstacles: obstacles.length, treesDrawn: visible, treeTris: Math.round(drawTris), ...forestFloor?.stats?.(), ...fallingLeaves.stats?.() }),
     dispose() {
       if (disposed) return;
       disposed = true;
@@ -297,12 +301,13 @@ export function buildFlora(ctx: BuildContext, pineTemplates: PineTemplates, defe
       }
       // Grounding also examines rejected candidates; all procedural variants belong to this world.
       for (const variant of variants.values()) {
-        for (const lod of isPineSpecies(variant.species) ? [] : variant.lods) {
+        for (const lod of usesPine(variant.species) || meshy ? [] : variant.lods) {
           lod.wood?.dispose();
           lod.leaf?.dispose();
         }
       }
       pine.dispose();
+      meshy?.dispose();
       variants.clear();
       disposeTreeMaterials();
       disposeTreeTextures();

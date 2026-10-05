@@ -7,7 +7,7 @@ import { groundedTreeY, treeWoodCollisionRadius } from '../../src/presentation/t
 import { Exclusions } from '../../src/presentation/vegetation';
 import { Colliders, buildStaticColliders } from '../../src/world/colliders';
 import { deepwoodCover, FOREST_CLEARINGS, forestClearingCover } from '../../src/world/forest';
-import { FOREST_COMPANION_STANDS, FOREST_CROWN_ENVELOPE, FOREST_PALETTE, forestStandAt, type ForestFamily } from '../../src/world/forestStands';
+import { FOREST_COMPANION_STANDS, FOREST_CROWN_ENVELOPE, forestStandAt, type ForestFamily } from '../../src/world/forestStands';
 import { DEEPWOOD, SPAWN } from '../../src/world/layout';
 import { NavGrid } from '../../src/world/nav';
 import { canPlayerStandAt } from '../../src/world/playerPlacement';
@@ -117,20 +117,18 @@ function allLodRadius(sp: Species, variant: number): number {
 }
 
 describe('regional forest stands and broad clearings', () => {
-  it('retains a pine-led regional mix around the approximate 75/20/5 target after real wood rejection', () => {
+  it('retains the connected pine body alongside meaningful broadleaf and cool-ridge cohorts after real wood rejection', () => {
     const trees = regional(population);
     expect(trees.length).toBeGreaterThan(100);
     const count = (role: FloraTree['familyRole']) => trees.filter(tree => tree.familyRole === role).length;
     const dominant = count('dominant') / trees.length, secondary = count('secondary') / trees.length, other = count('other') / trees.length;
-    // Approximate regional art target, not a per-patch quota. Complete broadleaf wood now
-    // competes with the imported pine's footprints; never shrink either tree to force a ratio.
-    expect(dominant).toBeGreaterThanOrEqual(FOREST_PALETTE.target.dominant - 0.05);
-    expect(dominant).toBeLessThanOrEqual(FOREST_PALETTE.target.dominant + 0.05);
-    expect(secondary).toBeGreaterThanOrEqual(FOREST_PALETTE.target.secondary - 0.05);
-    expect(secondary).toBeLessThanOrEqual(FOREST_PALETTE.target.secondary + 0.05);
-    expect(other).toBeGreaterThanOrEqual(0.02);
-    // Integer cohorts permit a fraction of one stem beyond the nominal 8% accent ceiling.
-    expect(other).toBeLessThanOrEqual(Math.ceil(trees.length * 0.08) / trees.length);
+    // The owner-authorized mixed habitats deliberately supersede the whole-region 75/20/5
+    // quota. Keep a leading, connected custom-pine body without shrinking real wood to force
+    // arbitrary ratios; accepted grove widths, clearings and routes retain their own gates.
+    expect(dominant).toBeGreaterThan(secondary);
+    expect(dominant).toBeGreaterThan(other);
+    expect(secondary).toBeGreaterThan(0);
+    expect(other).toBeGreaterThan(0);
     expect(dominant + secondary + other).toBeCloseTo(1, 10);
     expect(trees.some(tree => tree.age === 'sapling')).toBe(true);
     for (const tree of trees) {

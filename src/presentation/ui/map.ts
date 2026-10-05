@@ -7,6 +7,8 @@ import { PLACES, ROADS, STREAMS } from '../../world/layout';
 import type { Terrain } from '../../world/terrain';
 import { h } from './dom';
 import { validMapMarker } from '../../game/map';
+import { BIOME_IDS } from '../../world/biomes';
+import { MAP_HABITATS, mapTerrainColor } from './mapTerrain';
 
 import { MAP_BOUNDS, MAP_H, MAP_W, MAP_PIXELS_PER_METRE as PX, mapHeading, mapX as px, mapZ as pz, placeMapLabel, clampMapView, fullMapView, mapCanvasPoint, mapWorldAt, panMap, zoomMapAt, type MapViewport, type MapLabel } from './mapProjection';
 export { MAP_W, MAP_H } from './mapProjection';
@@ -79,21 +81,14 @@ export class MapView {
         const hz = terrain.heightAt(x, z + 2) - terrain.heightAt(x, z - 2);
         const shade = Math.max(-0.35, Math.min(0.35, (-hx - hz) * 0.06));
         const inside = terrain.valleyRadius(x, z);
-        // Parchment green below, rock brown above; hachure-like shading from the slope.
-        const t = Math.max(0, Math.min(1, h0 / 30));
-        let r = 215 - t * 34;
-        let g = 190 - t * 39;
-        let b = 142 - t * 34;
+        // Regional ink follows the same overlapping habitats as the supplied tree selection,
+        // while real hill shading, sea elevation and place knowledge retain their authority.
+        let [r, g, b] = mapTerrainColor(x, z, h0);
         const edge = Math.max(0, Math.min(1, (inside - 0.9) / 0.15));
-        r -= edge * 70;
-        g -= edge * 70;
-        b -= edge * 60;
-        // The sea: a cool grey-green wash, deeper further out.
-        if (x < -170 && h0 < 0) {
-          const d = Math.min(1, -h0 / 10);
-          r = 128 - d * 46;
-          g = 158 - d * 44;
-          b = 158 - d * 30;
+        if (!(x < -170 && h0 < 0)) {
+          r -= edge * 70;
+          g -= edge * 70;
+          b -= edge * 60;
         }
         const grain = (Math.sin(i * 72.3 + j * 27.9) * 0.5 + Math.sin(i * 0.021 + j * 0.015) * 0.5) * 0.016;
         const contour = h0 > 2 && Math.abs(h0 / 6 - Math.round(h0 / 6)) < 0.024 ? -0.08 : 0;
@@ -330,6 +325,13 @@ export class MapView {
     return { wrap: h('div', { class: 'map-record' }, controls,
       h('div', { class: 'map-wrap' }, canvas),
       h('div', { class: 'map-legend' }, h('span', { class: 'legend-player' }, `▲ ${S('map.you')}`), h('span', {}, `● ${S('journal.place.verified')}`), h('span', {}, `◌ ${S('journal.place.claimed')}`), h('span', { class: 'legend-route' }, `○ ${S('map.suggested')}`), this.status),
+      h('div', { class: 'map-legend', 'aria-label': 'Habitat washes', style: { paddingTop: '4px', fontSize: '.73rem' } }, BIOME_IDS.map(id => {
+        const habitat = MAP_HABITATS[id];
+        return h('span', {}, h('span', { 'aria-hidden': true, style: {
+          display: 'inline-block', width: '.8em', height: '.8em', marginRight: '.35em',
+          backgroundColor: `rgb(${habitat.color.join(',')})`, border: '1px solid #5b4a33',
+        } }), habitat.label);
+      })),
       h('p', { class: 'map-caption', id: 'regional-map-controls' }, 'Scroll to zoom · drag to pan · click to pin. Keyboard: arrows to pan, +/− to zoom, Enter to pin the centre, Home to fit.')),
       canvas };
   }

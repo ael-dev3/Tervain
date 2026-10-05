@@ -53,7 +53,7 @@ beforeAll(async () => {
   for (const variant of variants.values()) if (!isPineSpecies(variant.species)) for (const lod of variant.lods) { lod.wood?.dispose(); lod.leaf?.dispose(); }
 });
 
-describe('world forest render substitution', () => {
+describe('historical source-Pine component render substitution without the Meshy catalog', () => {
   it('exports exact complete woody contact for canonical trees with shared buffers, uniform planted transforms and no leaf cards', () => {
     vi.stubGlobal('location', { search: '' });
     let firstTransforms: unknown;
@@ -80,7 +80,7 @@ describe('world forest render substitution', () => {
         for (let i = 0; i < contact.indices.length; i++) if (contact.indices[i] !== (index ? index.getX(i) : i)) topologyErrors++;
         expect(topologyErrors).toBe(0);
         if (isPineSpecies(tree.sp)) expect(contact.indices.length / 3).toBe(4378);
-        const key = `${tree.sp}:${tree.v}`, previous = variantBuffers.get(key);
+        const key = `${tree.sp}:${tree.v}:${tree.assetId ?? ''}`, previous = variantBuffers.get(key);
         if (previous) { expect(contact.positions).toBe(previous.positions); expect(contact.indices).toBe(previous.indices); }
         else variantBuffers.set(key, contact);
       }
@@ -98,11 +98,13 @@ describe('world forest render substitution', () => {
       const colliders = new Colliders();
       const forest = buildFlora({ terrain, excl, colliders, quality, settings: { ...defaultSettings(), quality }, library: AssetLibrary.empty(), sway: { uTime: { value: 0 }, uWind: { value: 0 } } }, templates);
       expect(colliders.all).toEqual(canonical.all);
-      // Current accepted-source population after broadleaf wood coverage and grove retuning;
-      // presets change only decorative instances, never canonical obstacle identities.
-      expect(forest.stats!().solitaryPines).toBe({ low: 242, medium: 254, high: 264 }[quality]);
+      // This component explicitly omits the new catalog and retains its historical
+      // all-conifer substitution. A51 changes accepted habitat claims and density;
+      // presets still change only decorations, never canonical obstacle identities.
+      const selectedPopulation = selectFloraPopulation(population, quality).trees;
+      expect(forest.stats!().solitaryPines).toBe(selectedPopulation.filter(tree => isPineSpecies(tree.sp)).length);
       const imported = forest.group.children.filter((object) => object.name.startsWith('solitary-pine:')) as THREE.InstancedMesh[];
-      const batches = new Set(selectFloraPopulation(population, quality).trees.filter((tree) => isPineSpecies(tree.sp)).map((tree) => `${tree.sp}:${tree.v}`));
+      const batches = new Set(selectedPopulation.filter((tree) => isPineSpecies(tree.sp)).map((tree) => `${tree.sp}:${tree.v}`));
       // Every populated source batch owns two near parts, two middle parts and one far card mesh.
       expect(imported).toHaveLength(batches.size * 5);
       expect(imported.filter((mesh) => mesh.name === 'solitary-pine:2:foliage').every((mesh) => mesh.geometry.index!.count / 3 === 48)).toBe(true);

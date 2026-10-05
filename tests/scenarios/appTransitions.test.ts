@@ -13,6 +13,10 @@ import { track } from '../../src/presentation/human/sheetPool';
 const menuFailure = vi.hoisted(() => ({ next: false }));
 const stagedActors = vi.hoisted(() => ({ roots: [] as unknown[] }));
 const npcCatalog = vi.hoisted(() => ({ load: vi.fn() }));
+const treeCatalog = vi.hoisted(() => ({ load: vi.fn() }));
+vi.mock('../../src/presentation/meshyTrees', async (importOriginal) => ({
+  ...await importOriginal<typeof import('../../src/presentation/meshyTrees')>(), loadMeshyTrees: treeCatalog.load,
+}));
 vi.mock('../../src/presentation/meshynpcs', async (importOriginal) => ({
   ...await importOriginal<typeof import('../../src/presentation/meshynpcs')>(), loadMeshyNpcCatalog: npcCatalog.load,
 }));
@@ -86,6 +90,7 @@ class ElementFixture {
 }
 
 function fixture() {
+  treeCatalog.load.mockResolvedValue(new Map());
   const listeners = new Map<string, ((event: Record<string, unknown>) => void)[]>();
   const document = {
     pointerLockElement: null as HTMLElement | null, exitPointerLock: vi.fn(),
@@ -123,7 +128,7 @@ function fixture() {
   return { app, input, canvas, document, key, call };
 }
 
-afterEach(() => { menuFailure.next = false; stagedActors.roots.length = 0; npcCatalog.load.mockReset(); vi.restoreAllMocks(); vi.useRealTimers(); vi.unstubAllGlobals(); });
+afterEach(() => { menuFailure.next = false; stagedActors.roots.length = 0; npcCatalog.load.mockReset(); treeCatalog.load.mockReset(); vi.restoreAllMocks(); vi.useRealTimers(); vi.unstubAllGlobals(); });
 
 function deferred<T>() {
   let resolve!: (value: T) => void;
@@ -169,7 +174,27 @@ describe('actual application world transitions', () => {
     await call('prepareNpcAssets');
     expect(Reflect.get(app, 'menuScene')).toBe(installed);
     expect(npcCatalog.load).toHaveBeenCalledTimes(2);
+    expect(treeCatalog.load).toHaveBeenCalledExactlyOnceWith(['tree-0208']);
     expect(models.create).toHaveBeenCalledOnce();
+  });
+
+  it('keeps the previous menu and residents uninstalled when the required grove download fails, then retries', async () => {
+    const { app, call } = rebuildFixture();
+    Reflect.set(app, 'npcAssets', null);
+    const previousMenu = Reflect.get(app, 'menuScene') as MenuScene;
+    const failure = new Error('Required grove texture could not be decoded.');
+    const trees = new Map(), residents = { create: vi.fn(() => undefined) };
+    treeCatalog.load.mockRejectedValueOnce(failure).mockResolvedValueOnce(trees);
+    npcCatalog.load.mockResolvedValueOnce(residents);
+    await expect(call('prepareNpcAssets')).rejects.toBe(failure);
+    expect(previousMenu.dispose).not.toHaveBeenCalled();
+    expect(npcCatalog.load).not.toHaveBeenCalled();
+    expect(Reflect.get(app, 'treeTemplates')).toBeUndefined();
+    await call('prepareNpcAssets');
+    expect(Reflect.get(app, 'treeTemplates')).toBe(trees);
+    expect(Reflect.get(app, 'npcAssets')).toBe(residents);
+    expect(previousMenu.dispose).toHaveBeenCalledOnce();
+    expect(treeCatalog.load).toHaveBeenCalledTimes(2);
   });
 
   it('resident download failure keeps a graphics rebuild paused and presents the existing Retry affordance', async () => {

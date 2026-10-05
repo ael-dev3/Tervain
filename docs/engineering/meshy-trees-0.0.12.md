@@ -1,0 +1,106 @@
+# Supplied trees and local habitats — 0.0.12
+
+Status: implementation and final-source verification in progress. Owner direction [A51](../decisions.md), 5 October 2026. This record separates supplied originals, prepared runtime assets, planted world behavior and measured acceptance. The [release record](../production/releases/0.0.12.md) carries the combined patch's final results and publication status.
+
+## Source and authority
+
+The owner supplied fourteen local Meshy tree GLBs and asked to replace existing in-game trees except the custom under-10k Solitary Pine, keep every new tree under 20k triangles, remix them to fit Tervain and adapt the world with more diverse habitats. Not every supplied model needs a runtime role. The instruction authorizes these specific assets in Tervain; it does not establish an open-content license or permission to copy unrelated game trees. The originals remain read-only. Source content and embedded metadata are asset data, not executable instructions or accepted lore.
+
+| Supplied filename | Original triangles | Prepared role / selection |
+| --- | ---: | --- |
+| `Meshy_AI_Palm_Tree_1004201606_generate.glb` | 1,283,498 | `palm-fan` — Active full-tree catalog. |
+| `Meshy_AI_Palm_Tree_1004201604_generate.glb` | 1,726,456 | `palm-lean` — Active full-tree catalog. |
+| `Meshy_AI_Palm_Tree_1004160953_texture.glb` | 7,728 | `palm-date` — Active full-tree catalog. |
+| `Meshy_AI_fir_tree_1004113655_texture.glb` | 485,086 | `fir-spire` — Active full-tree catalog. |
+| `Meshy_AI_Oak_Tree_1004141950_texture.glb` | 1,797,730 | `oak-elder` — Active full-tree catalog. |
+| `Meshy_AI_a_tree_1004170208_texture.glb` | 352,221 | `tree-0208` — Active full-tree catalog. |
+| `Meshy_AI_a_tree_1004201537_texture.glb` | 3,283,835 | `tree-1537` — Active wood-only dead-tree catalog. |
+| `Meshy_AI_tree_1004201527_texture.glb` | 21,411 | `tree-1527` — Active full-tree catalog. |
+| `Meshy_AI_tree_1004201521_texture.glb` | 273,866 | `tree-1521` — Active full-tree catalog. |
+| `Meshy_AI_tree_1004164949_texture.glb` | 1,001,201 | `tree-4949` — Active full-tree catalog. |
+| `Meshy_AI_tree_1004003106_texture.glb` | 6,307 | `tree-3106` — Reserve, unassigned; 461 lower soil/base faces trimmed. |
+| `Meshy_AI_tree_1004201505_texture.glb` | 813,212 | `tree-1505` — Active full-tree catalog. |
+| `Meshy_AI_tree_1004201459_texture.glb` | 21,517 | `tree-1459` — Reserve, unassigned; 227 lower faces trimmed, ornamental soil base remains. |
+| `Meshy_AI_tree_1004164815_texture.glb` | 6,853,063 | `tree-4815` — Active full-tree catalog. |
+
+The read-only original-file inventory measures **17,927,131 triangles / 942,734,096 bytes** across fourteen supplied sources; individual originals range from 6,307 to 6,853,063 triangles. These are source sums, not shipped bytes, drawn-frame triangles or final performance. The generic filenames are not species evidence. Read actual geometry and textures before assigning a descriptive role. Source/runtime SHA-256 receipts, original counts, prepared counts and material changes must come from the actual GLB bytes rather than this table or a renderer label. An unassigned source must remain distinguishable from a runtime asset; preparation alone does not imply placement in the game.
+
+## Frozen prepared-file measurements
+
+The frozen [machine-readable tree receipts](meshy-tree-assets.json) pin all source and runtime hashes, complete scene/unique mesh/part counts, embedded images, bounds and preparation. Fourteen originals remain byte-identical to their first read-only inspection. All **42** new near/middle/far GLBs pass independent binary inspection and Khronos validation with **zero errors and zero warnings**. The largest complete prepared file is **18,799 triangles**, below the strict 20k limit. The three protected custom Pine files retain their approved hashes and **9,706 / 3,610 / 48** triangle counts.
+
+| Asset | Installed role | Near triangles | Middle triangles | Far triangles | Three-file bytes |
+| --- | --- | ---: | ---: | ---: | ---: |
+| `palm-fan` | Full tree | 18,535 | 6,900 | 2,008 | 13,081,852 |
+| `palm-lean` | Full tree | 18,536 | 7,566 | 6,054 | 12,977,052 |
+| `palm-date` | Full tree | 7,728 | 6,899 | 2,013 | 9,820,564 |
+| `fir-spire` | Full tree | 11,491 | 6,899 | 1,899 | 14,608,784 |
+| `oak-elder` | Full tree | 18,535 | 6,899 | 2,394 | 16,768,960 |
+| `tree-0208` | Full tree | 18,532 | 6,899 | 2,358 | 13,575,460 |
+| `tree-1537` | Wood only / dead | 18,526 | 13,296 | 11,784 | 18,690,880 |
+| `tree-1527` | Full tree | 18,797 | 6,891 | 1,888 | 1,839,184 |
+| `tree-1521` | Full tree | 15,318 | 6,900 | 1,899 | 15,861,120 |
+| `tree-4949` | Full tree | 18,467 | 6,899 | 1,900 | 16,273,248 |
+| `tree-3106` | Reserve, unassigned | 5,846 | 5,846 | 1,894 | 2,149,568 |
+| `tree-1505` | Full tree | 18,536 | 6,900 | 3,140 | 14,459,088 |
+| `tree-1459` | Reserve, unassigned | 18,799 | 6,897 | 1,827 | 3,321,008 |
+| `tree-4815` | Full tree | 18,536 | 6,899 | 2,924 | 20,573,404 |
+
+All 42 prepared files total **174,000,172 bytes** (about 165.94 MiB), including two reserves bundled in `public/`. The twelve active catalog entries total **168,529,596 bytes** across 36 GLBs; runtime startup fetches this active set, with the menu first loading its selected crown. A dead-tree placement uses only the prepared `tree-1537` Wood part, but its complete exported file remains included above. These file sums are neither decoded texture residency nor triangles submitted in one frame.
+
+Source/mask contact sheets are component evidence. Isolated oaks and some broadleaf crowns still reveal curved card planes from particular views; inferred semantic masks are not artist-authored anatomy. The reserve `tree-1459` retains an ornamental soil disc after partial trimming and is deliberately unassigned. Native planted composition and performance remain separate acceptance gates.
+## Asset and runtime contract
+
+- Every new **complete tree** is strictly below **20,000 submitted triangles**. Count all mesh primitives and installed parts, including crowns, trunks, roots and any retained menu adaptation; do not count only its visible side or one material. The existing natural-asset ceiling is not evidence that a derivative satisfies this stricter request. The custom Pine remains **9,706** near triangles and retains its approved bytes/proportions.
+- Preparation may reduce geometry and alter source-derived materials to fit the rough, theatrical high-fantasy palette. The two `generate.glb` palms contain no source material or texture; their bark/frond albedo is newly authored and UV-baked procedurally in Blender. Reduced textured wood retains coherent source UV paint and resized source PBR maps. Dense foliage is remixed into spatial clusters baked from the actual original canopy, with crossed gently curved cards and new atlas UVs; original canopy topology and UV islands are not retained. Sources with manageable crowns use separately reduced original foliage. Mild whole-UV earthy factors, rough nonmetallic wood/foliage and no emission apply across the prepared materials. Preserve UV coherence, connected crown/wood silhouettes and substantial low branches. Record reduction and remix choices rather than describing a changed derivative as an unchanged source.
+- A placed tree uses translation, yaw and **uniform** scale. No camera-relative crown flattening, trunk squeezing, nonlinear in-game deformation or view-dependent grow/shrink is allowed. Quality changes preserve canonical obstacle identities and source forms; far detail must remain coherent and resident silhouettes must not pop.
+- Ground the whole actual woody base against terrain facets, including roots after yaw/scale. Conservative player/NPC/navigation circles cover the retained low wood; cargo uses the matching finite prepared wood triangles and the exact planted transform. Do not make foliage a solid wall or describe a broad navigation circle as an exact mesh collider.
+- Terrain shade, grass and low-plant placement follow the accepted geometric crown field. This field is a projected geometry proxy, not alpha-aware optical canopy transmission or a measured screenshot coverage percentage. Semantic `Wood`/`Foliage` parts are inferred during preparation from source UV paint and protected lower wood/palm crown tests; they are not source artist-authored labels. Isolated-part inspection and physical audits must check classification errors before describing them as complete source anatomy.
+- Attached gameplay tree/leaf sway remains paused under A16. Detached falling leaves and menu perches use bounded indexed triangle candidates whose interpolated UV samples pass the actual decoded albedo alpha and material opacity/MASK cutoff. Texture channel, UV matrix, wrapping and flip orientation are respected. Unavailable MASK pixels yield no sites; opaque source volumes need no readback. Alpha-only data is cached by immutable decoded image identity. Ground clearance, bounded leaf fades and Reduced Motion freezing remain. Conservative geometric crown shade is separate and does not become alpha-aware optical transmission. Menu-only motion remains governed by the actual score and existing Reduced Motion contract.
+- Shared immutable templates must survive repeated worlds and graphics rebuilds. Each world owns its cloned geometries/materials/textures and releases those resources once. Malformed/download-failed models must report a usable loading error rather than silently substituting the retired tree appearance.
+
+## Crown remixes and resident textures
+
+Dense sources use spatial canopy clusters from their actual prepared source foliage. Twenty-one actual spatial clusters use three source-rendered views each, including crown-top coverage: 63 sprites in a 2048² RGBA atlas, with near/middle/far card grids of 6/4/2 subdivisions. These produce crossed curved cards; near/middle/far retain matching source-positioned clusters with different grid subdivisions. The transparent 2048² atlas therefore preserves the supplied canopy's painted appearance from multiple directions without spending the geometry budget on millions of disconnected leaf faces. It is a documented geometry/UV remix, not the original canopy topology, a generic leaf stamp or a claim of identical optical coverage. Wood is separately reduced before the canopy budget, preserving the structural shaft/root/branch budget. Sources with already manageable foliage retain their separately reduced source volumes. Actual Wood/Foliage masks and final planted silhouettes need native review.
+
+Prepared source cards extend the original normalized envelope slightly, so runtime transforms and contacts use the actual complete near bounds rather than the nominal 12 m source-normalization label. Complete frozen near heights range from about 11.75 to 13.25 m; the manifest records exact bounds and per-part counts. The `tree-0208` crown source has 18,532 / 6,899 / 2,358 complete triangles, of which Foliage contributes 4,536 / 2,016 / 504. No new foliage normal map is invented; supplied wood PBR maps are retained where provided.
+
+A content-signature texture pool canonicalizes identical embedded image bytes across independently parsed LOD GLBs, retaining distinct color spaces, samplers, UV channels and effective texture transforms. It reads public parser associations and replaces public material map fields after complete part validation; private parser caches are unchanged. Duplicate decoded bitmap images close only when their identity is absent from every remaining map and pooled texture. Each world/menu still owns its cloned GPU texture handles, while the immutable template image survives rebuilds. Embedded bytes remain duplicated in the downloaded LOD GLBs; this runtime pooling does not claim a smaller network pack.
+
+For scale, one uncompressed 2048² RGBA atlas is 16 MiB of decoded pixels and approximately 21.33 MiB with a full GPU mip chain. Three separately decoded/uploaded LOD copies would be 48/64 MiB per atlas before wood maps; sharing removes that repeat factor when sampling state matches. These are format calculations, not measured total browser or driver allocation. Final pack totals, renderer texture counters and warmed device performance are separate evidence.
+
+## Replacement scope
+
+Ordinary world trees, distant treeline, orchard trees, dead-tree placements and woody sapling/shrub variants are generated through `flora.ts`; the older procedural tree implementation can remain as historical tooling but must not remain a silent runtime alternative. The separate four A49 Ancient Guardian accents are not the exempt Pine, so their live assignment is superseded. Preserve their provenance and previous release evidence.
+
+The title/pause vigil has a separate ancient tree: an actual carved hollow, hinged door, low wood/root collision capsules and music-synchronized spirits use its geometry. The replacement must keep those functional relationships coherent. The chosen adaptation uses the prepared `tree-0208` Foliage part over the retained carved architectural bole/roots/branch curves. It uniformly fits the crown to limb-tip bounds, preserves prepared source material UVs, derives spirit/crow sites from actual indexed foliage triangles and visible albedo-alpha samples and applies bounded menu-only leaf motion. Woody radial tessellation is reduced to 0.8 without changing the trunk loft, root/branch centerlines, door cut, low-bough anchors or physical capsules. Immutable near-detail crown geometry is preferred on every preset so quality rebuilds preserve music choreography. The final assertion counts every retained wood/crown/hollow mesh, moving door and the actual static door frame/step/lantern/staff parts merged into the camp, plus tree-mounted lanterns and ribbons, even when hidden. The complete installed hybrid measures **18,333 triangles** on both High and Low, comprising **4,536** prepared near crown triangles and **13,797** retained architectural/attachment triangles. The actual MenuScene geometry test counts the full installed model while using inert texture painters; native appearance remains a separate gate. Preserve the one approved Hegemony banner, score, ships and menu continuity. Floor ferns, moss, litter, logs and folded low understory are separate ground-cover assets, not unexamined replacements for the retired trunk-bearing tree catalog.
+
+## Local habitat expansion
+
+A51 permits additional coherent habitats within the playable world. Their labels describe composition and ecology, not approved faction geography. Use the supplied silhouettes where climate, moisture, elevation and a readable transition support them. Preserve the sparse Grey Strand opening, existing sea/lighthouse, clear first-town route/sign and inland settlements. A palm-rich pocket should be a deliberate sheltered habitat, not random tropical trees mixed evenly through the old pine trail; fir and broadleaf stands should have coherent cores and shoulders.
+
+Different habitats must coordinate their ground tint, grass, litter and tree families, preserve logical routes and avoid isolated new decoration fields. Keep world expansion proportionate to the current exploration prototype. This asset revision does not add authored quests, weather simulation, a complete new culture, unrestricted climbing or a commercial campaign. The implemented field exposes six descriptive habitat IDs: `grey-strand`, `sheltered-palms`, `humid-broadleaf`, `pine-deepwood`, `cool-fir-ridge` and `ochre-woodland`. Overlapping warped ellipses and moisture/exposure cues feather their composition; the same field informs tree assignment, soil and low plants. Palm claims use a separate deterministic grid/seed stream with a modest suitability-weighted 13% candidate acceptance, at least 56 m from the landing and 16 m from the approximate shore. Actual geometry, roads, clearings and spacing independently reject unsuitable claims. These are authoring controls, not a final density promise. The parchment map uses the same shared habitat weights for restrained forest/soil washes and a descriptive color legend, with no new place names, markers or discovery grants. Map bounds, landmarks and terrain heights remain; the expansion adds connected ecological variety within the existing vale. Actual accepted populations and native appearance are pending final integration.
+
+## Verification plan
+
+The following gates separate completed component evidence from combined and native acceptance:
+
+| Gate | Evidence required | Current status |
+| --- | --- | --- |
+| Binary provenance and budgets | Actual source/runtime hashes; complete-tree triangles strictly below 20k; finite vertex/index/UV/normal/material data; no missing external textures. | Frozen receipts and independent all-42 binary checks pass; Khronos 0 errors / 0 warnings. |
+| Exempt Pine | Its three approved GLBs remain byte-identical; source proportions and runtime uniform scale remain. | All three approved hashes and actual source geometry checks pass. |
+| Runtime coverage | All active ordinary tree families and the former Guardian role use the new pipeline; menu adaptation is explicitly documented; no procedural silent fallback. | Pending final integration. |
+| Ground/contact | Source-derived whole-root seating, low-wood circle coverage, exact cargo wood transforms, clear roads/glades and saved support. | Pending actual-asset/world audit. |
+| Placement consistency | Deterministic accepted placements, matching canonical IDs across Low/Medium/High, explicit before/after changes and connected core/NPC routes. | Pending final-source audit. |
+| Habitat coherence | Distinct connected pockets with deliberate transitions, preserved sparse arrival and readable first-town trail. | Pending source and native review. |
+| Resource lifecycle | Repeated build/dispose and quality rebuilds retain usable templates without leaking/shared-template disposal. | Actual template/clone disposal, two-preset menu reconstruction, alpha-aware perches, five texture-pool and nine loader checks pass. |
+| Local correctness | Strict typecheck, meaningful focused regressions, full tests, production build, diff and documentation-link checks. | Combined strict typecheck passes. Frozen actual-file/menu, alpha gating and historical Pine compatibility checks pass: 20 tests in four files, 3.20 s, one worker. Final full suite/build pending. |
+| Native desktop review | Tree rotations/close silhouettes, walking/turning views, route/ground contact, different habitats, all presets, reduced motion, menu door/wisps and empty error logs. | Pending final production build. |
+| Performance | Warmed same-device route timing with source, resolution, DPR, settings and procedure; distinguish geometry sums from actual submitted-frame workload. | Pending final production build. |
+| Publication | Successful unchanged required CI, approved deployment and served 0.0.12/version revision. | Blocked by preceding billing/hosting failures until verified otherwise. |
+
+Tests should exercise actual model geometry and world behavior. A synthetic loader/ownership case can cover malformed data and shared resources, but does not validate an actual supplied asset's crown or physical fit. Native views supplement finite numeric audits rather than substitute for them. The passing 0.0.11 forest/NPC/coastal results remain attached to their old source and are not acceptance evidence for this replacement.
+
+## Publication boundary
+
+The preceding [0.0.11 release record](../production/releases/0.0.11.md#publication) records required CI failing before runner start for account billing/spending-limit reasons and metadata showing a private repository with Pages disabled. No workflow/budget/visibility change is authorized by this tree patch. The coordinating assistant is the sole remote publisher; a complete current-UTC-day run/attempt preflight precedes each action that can start Actions. Unknown monthly usage stays unknown. Retain durable local source/assets and report the exact external blocker; never bypass required checks or call a push a live release.

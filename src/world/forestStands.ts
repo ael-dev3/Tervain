@@ -1,12 +1,13 @@
 import { FOREST_SWALE } from './layout';
 import { fbm, smoothstep } from './noise';
 import { distToPolyline } from './terrain';
+import { biomeAt } from './biomes';
 
 export type ForestFamily = 'pine' | 'oak' | 'fir' | 'birch';
 export type ForestFamilyRole = 'dominant' | 'secondary' | 'other';
 
-/** Owner's approximate regional composition target, not a measured universal Gothic 3 ratio.
- * Counts are checked after terrain, clearings and collision rejection; no per-cell quotas. */
+/** Historical pine-body composition target, retained for the original component study. The
+ * owner-authorized 0.0.12 mixed habitats supersede this as a whole-region acceptance quota. */
 export const FOREST_PALETTE = {
   dominant: 'pine', secondary: 'oak', other: ['fir', 'birch'],
   target: { dominant: 0.75, secondary: 0.20, other: 0.05 },
@@ -45,6 +46,7 @@ export interface ForestStandSample {
 /** Family choice is a continuous, correlated spatial field. Moving a cell's random roll cannot
  * turn its tree into an unrelated species. Small-scale noise only roughens the stand boundary. */
 export function forestStandAt(x: number, z: number): ForestStandSample {
+  const biome = biomeAt(x, z);
   const wx = x + 6 * fbm(x / 47, z / 47, 2, 151);
   const wz = z + 7 * fbm(x / 53 + 8, z / 53, 2, 153);
   let companionCover = 0, id = 'deepwood_pines';
@@ -66,10 +68,16 @@ export function forestStandAt(x: number, z: number): ForestStandSample {
   const secondary = companionCover > edge;
   const accent = fbm(x / 19 + 4, z / 19 - 7, 2, 157) > 0.56;
   const damp = distToPolyline(x, z, FOREST_SWALE.points).d < 16;
-  const role: ForestFamilyRole = accent ? 'other' : secondary ? 'secondary' : 'dominant';
-  const sp: ForestFamily = role === 'other' ? damp ? 'birch' : 'fir' : secondary ? 'oak' : 'pine';
+  const firRidge = biome.weights['cool-fir-ridge'] > 0.42;
+  const warmGrove = biome.weights['ochre-woodland'] > 0.48;
+  const humidGrove = biome.weights['humid-broadleaf'] > 0.5;
+  const role: ForestFamilyRole = firRidge || accent ? 'other' : secondary || warmGrove || humidGrove ? 'secondary' : 'dominant';
+  const sp: ForestFamily = firRidge ? 'fir' : role === 'other' ? damp ? 'birch' : 'fir' : role === 'secondary' ? 'oak' : 'pine';
+  if (firRidge) id = 'north_fir_ridge';
+  else if (warmGrove && !secondary) id = 'ochre_woodland';
+  else if (humidGrove && !secondary) id = 'humid_fringe';
   const regrowth = smoothstep(-0.25, 0.45, fbm(x / 33 - 3, z / 33 + 9, 2, 159));
-  return { sp, role, id: secondary ? id : 'deepwood_pines', tint: 0.975 + fbm(x / 95, z / 95, 2, 161) * 0.022, regrowth, companionCover };
+  return { sp, role, id: firRidge || role === 'secondary' ? id : 'deepwood_pines', tint: 0.975 + fbm(x / 95, z / 95, 2, 161) * 0.022, regrowth, companionCover };
 }
 
 /** Conservative horizontal envelopes at instance scale one, including all three LODs.

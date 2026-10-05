@@ -1,0 +1,5135 @@
+{
+  "schemaVersion": 1,
+  "gameVersion": "0.0.12",
+  "provenance": {
+    "source": "14 Meshy GLBs supplied directly by the owner on 5 October 2026; originals read-only in Downloads",
+    "license": "Owner-supplied project use; no blanket third-party open license is asserted. Do not redistribute unmodified originals by assumption.",
+    "derivatives": "Original source silhouettes/materials studied; separately budgeted wood; source-derived clustered crown cards where dense foliage exceeds the budget; original procedural bark/frond palette for the two untextured palms.",
+    "copyrightReferences": "No Gothic/Warcraft game data, art or code included."
+  },
+  "budgets": {
+    "strictTrianglesPerSceneInstance": 19999,
+    "lodsCountedSeparately": true,
+    "sourceHeightReferenceMetres": 12,
+    "maximumTextureDimension": 2048
+  },
+  "protectedPine": [
+    {
+      "path": "public/models/flora/solitary-pine-under-10k.glb",
+      "bytes": 4773764,
+      "sha256": "86b9af6fb0b71c07d1576c97b8a75be7375dd516dd2494d88a9ab1d555c4c042",
+      "triangles": 9706
+    },
+    {
+      "path": "public/models/flora/solitary-pine-mid.glb",
+      "bytes": 3355388,
+      "sha256": "3379a32a9de01dd11b6858f940e4d104c849a6d4891ddaf61c59cab76f61448c",
+      "triangles": 3610
+    },
+    {
+      "path": "public/models/flora/solitary-pine-far.glb",
+      "bytes": 1152868,
+      "sha256": "c0eae639a95f6dbf15d2b3811b4c083fffb1f1ee7557dee16d3cba96f1d91427",
+      "triangles": 48
+    }
+  ],
+  "assets": [
+    {
+      "id": "palm-fan",
+      "name": "sun-fan palm",
+      "habitat": "sheltered warm strand",
+      "selected": true,
+      "selection": "full-tree",
+      "sourceFilename": "Meshy_AI_Palm_Tree_1004201606_generate.glb",
+      "sourceSha256": "3e26f47b9dadb888c213b5ffc1e1903dc0edc001b4bc83d84229a5db4025d113",
+      "sourceTriangles": 1283498,
+      "sourceUnmodified": true,
+      "sourceHeight": 12,
+      "normalization": {
+        "originalBlenderBounds": [
+          [
+            -0.9121248722076416,
+            -0.907056987285614,
+            -0.950343132019043
+          ],
+          [
+            0.9129772782325745,
+            0.908828616142273,
+            0.9465699195861816
+          ]
+        ],
+        "uniformNormalization": 6.326067496791822
+      },
+      "removedPlinthFaces": 0,
+      "reassignedDisconnectedWood": {
+        "islands": 36,
+        "triangles": 4202
+      },
+      "runtime": {
+        "near": {
+          "path": "public/models/flora/meshy-012/palm-fan-near.glb",
+          "file": "palm-fan-near.glb",
+          "bytes": 4748188,
+          "sha256": "f3bb6a8559d7398a6492cf6824ab5b635bc1738d9f7499cff550224daa8cd99c",
+          "triangles": 18535,
+          "uniqueTriangles": 18535,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 4536,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 13999,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -6.346960544586182,
+              0.0,
+              -6.480450630187988
+            ],
+            [
+              6.431382656097412,
+              13.034311294555664,
+              6.4593505859375
+            ]
+          ],
+          "height": 13.034311294555664,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 3659017,
+              "sha256": "aad167a606087f9fd9613e7715f462e5bc86e07a1d74f1aa0a460cb57e8d250d",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 247516,
+              "sha256": "609c66c038fbdad2f0e4dbd2379e36b82009ef6d47539804453e81f5a521dc5c",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | sun-fan palm",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | sun-fan palm",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 2,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        },
+        "mid": {
+          "path": "public/models/flora/meshy-012/palm-fan-mid.glb",
+          "file": "palm-fan-mid.glb",
+          "bytes": 4281884,
+          "sha256": "9f857b08c9ed01c6b073ef55d98ac78e7891873b51853c6e746c856c7576f57f",
+          "triangles": 6900,
+          "uniqueTriangles": 6900,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 2016,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 4884,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -6.346960544586182,
+              0.027179766446352005,
+              -6.480450630187988
+            ],
+            [
+              6.431382656097412,
+              13.034311294555664,
+              6.4593505859375
+            ]
+          ],
+          "height": 13.007131528109312,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 3659017,
+              "sha256": "aad167a606087f9fd9613e7715f462e5bc86e07a1d74f1aa0a460cb57e8d250d",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 247516,
+              "sha256": "609c66c038fbdad2f0e4dbd2379e36b82009ef6d47539804453e81f5a521dc5c",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | sun-fan palm",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | sun-fan palm",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 2,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        },
+        "far": {
+          "path": "public/models/flora/meshy-012/palm-fan-far.glb",
+          "file": "palm-fan-far.glb",
+          "bytes": 4051780,
+          "sha256": "555c42bd688cc36600242edd737190b7ccf9c8366dee25fc837bd122a0efd0d3",
+          "triangles": 2008,
+          "uniqueTriangles": 2008,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 504,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 1504,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -6.346960544586182,
+              3.0035252571105957,
+              -6.480450630187988
+            ],
+            [
+              6.431382656097412,
+              13.034311294555664,
+              6.4593505859375
+            ]
+          ],
+          "height": 10.030786037445068,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 3659017,
+              "sha256": "aad167a606087f9fd9613e7715f462e5bc86e07a1d74f1aa0a460cb57e8d250d",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 247516,
+              "sha256": "609c66c038fbdad2f0e4dbd2379e36b82009ef6d47539804453e81f5a521dc5c",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | sun-fan palm",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | sun-fan palm",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 2,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        }
+      },
+      "preparation": {
+        "tool": "Blender 5.2.0 LTS",
+        "UV": "Source wood UV islands retained by collapse; original UV unwrap for two untextured palms; dense crowns use original-source spatial cluster atlas",
+        "material": "Source wood PBR maps resized to 1024; dense foliage source albedo/alpha in a 2048 atlas; all-UV mild earthy PBR tint; rough nonmetal, no emission; original noise-baked palm albedo",
+        "semanticParts": "UV albedo green-vs-bark classification plus protected low trunk; palm crown/radial mask for untextured sources; tiny disconnected upper Wood fragments returned to source Foliage. Inferred semantic boundary, not artist-authored labels.",
+        "motion": "static attached wood and foliage",
+        "geometry": "uniform source normalization; separate wood/crown budgets; dense crowns use 21 source-positioned spatial clusters with 3 source-baked views, crossed curved side cards and curved top caps following each cluster vertical span; lower ornamental soil faces trimmed only for 1459/3106; residual source base retained in reserves",
+        "crownCards": {
+          "clusters": 21,
+          "views": 63,
+          "atlas": 2048,
+          "segments": [
+            6,
+            4,
+            2
+          ]
+        }
+      },
+      "seconds": 22.7,
+      "sourceBytes": 22905136
+    },
+    {
+      "id": "palm-lean",
+      "name": "saltwind palm",
+      "habitat": "warm coastal hollow",
+      "selected": true,
+      "selection": "full-tree",
+      "sourceFilename": "Meshy_AI_Palm_Tree_1004201604_generate.glb",
+      "sourceSha256": "71e26655c0d3a7e11c4edcba057e9a385dd7aa646c6b6b2a4d9dafcf184f27e0",
+      "sourceTriangles": 1726456,
+      "sourceUnmodified": true,
+      "sourceHeight": 12,
+      "normalization": {
+        "originalBlenderBounds": [
+          [
+            -0.505211353302002,
+            -0.5182392001152039,
+            -0.9492900371551514
+          ],
+          [
+            0.5071433782577515,
+            0.519274115562439,
+            0.9432425498962402
+          ]
+        ],
+        "uniformNormalization": 6.340709841459729
+      },
+      "removedPlinthFaces": 0,
+      "reassignedDisconnectedWood": {
+        "islands": 7,
+        "triangles": 258
+      },
+      "runtime": {
+        "near": {
+          "path": "public/models/flora/meshy-012/palm-lean-near.glb",
+          "file": "palm-lean-near.glb",
+          "bytes": 4665396,
+          "sha256": "0ceec9278a8bafeb3c468264987bcb603b4d43fce79dfd2b67d714ba8f660152",
+          "triangles": 18536,
+          "uniqueTriangles": 18536,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 4536,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 14000,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -3.514606475830078,
+              0.0,
+              -3.9361584186553955
+            ],
+            [
+              3.4236810207366943,
+              12.235952377319336,
+              3.6070876121520996
+            ]
+          ],
+          "height": 12.235952377319336,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 3426565,
+              "sha256": "aae93ab77ec7fed87f327ae5c53a36b92c8188ee2e2a174c5151b5a12915938a",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 273803,
+              "sha256": "f1f891421f79129bfc65de65365f6949198beb618984ce527c09c0f8450cb9a4",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | saltwind palm",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | saltwind palm",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 2,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        },
+        "mid": {
+          "path": "public/models/flora/meshy-012/palm-lean-mid.glb",
+          "file": "palm-lean-mid.glb",
+          "bytes": 4176496,
+          "sha256": "df8f3e80f3c13a8c71ca42a496174c8a895c610e1a2a36ac1f8a0577b3a3e128",
+          "triangles": 7566,
+          "uniqueTriangles": 7566,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 2016,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 5550,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -3.514606475830078,
+              0.031535305082798004,
+              -3.9361584186553955
+            ],
+            [
+              3.4236810207366943,
+              12.235952377319336,
+              3.6070876121520996
+            ]
+          ],
+          "height": 12.204417072236538,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 3426565,
+              "sha256": "aae93ab77ec7fed87f327ae5c53a36b92c8188ee2e2a174c5151b5a12915938a",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 273803,
+              "sha256": "f1f891421f79129bfc65de65365f6949198beb618984ce527c09c0f8450cb9a4",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | saltwind palm",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | saltwind palm",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 2,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        },
+        "far": {
+          "path": "public/models/flora/meshy-012/palm-lean-far.glb",
+          "file": "palm-lean-far.glb",
+          "bytes": 4135160,
+          "sha256": "eba2237d368b3f389a739aedb98098062ae65b7a2184a46eff2448d95bac0328",
+          "triangles": 6054,
+          "uniqueTriangles": 6054,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 504,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 5550,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -3.514606475830078,
+              0.031535305082798004,
+              -3.9361584186553955
+            ],
+            [
+              3.4236810207366943,
+              12.235952377319336,
+              3.6070876121520996
+            ]
+          ],
+          "height": 12.204417072236538,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 3426565,
+              "sha256": "aae93ab77ec7fed87f327ae5c53a36b92c8188ee2e2a174c5151b5a12915938a",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 273803,
+              "sha256": "f1f891421f79129bfc65de65365f6949198beb618984ce527c09c0f8450cb9a4",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | saltwind palm",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | saltwind palm",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 2,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        }
+      },
+      "preparation": {
+        "tool": "Blender 5.2.0 LTS",
+        "UV": "Source wood UV islands retained by collapse; original UV unwrap for two untextured palms; dense crowns use original-source spatial cluster atlas",
+        "material": "Source wood PBR maps resized to 1024; dense foliage source albedo/alpha in a 2048 atlas; all-UV mild earthy PBR tint; rough nonmetal, no emission; original noise-baked palm albedo",
+        "semanticParts": "UV albedo green-vs-bark classification plus protected low trunk; palm crown/radial mask for untextured sources; tiny disconnected upper Wood fragments returned to source Foliage. Inferred semantic boundary, not artist-authored labels.",
+        "motion": "static attached wood and foliage",
+        "geometry": "uniform source normalization; separate wood/crown budgets; dense crowns use 21 source-positioned spatial clusters with 3 source-baked views, crossed curved side cards and curved top caps following each cluster vertical span; lower ornamental soil faces trimmed only for 1459/3106; residual source base retained in reserves",
+        "crownCards": {
+          "clusters": 21,
+          "views": 63,
+          "atlas": 2048,
+          "segments": [
+            6,
+            4,
+            2
+          ]
+        }
+      },
+      "seconds": 27.4,
+      "sourceBytes": 30991916
+    },
+    {
+      "id": "palm-date",
+      "name": "strand palm",
+      "habitat": "warm coastal hollow",
+      "selected": true,
+      "selection": "full-tree",
+      "sourceFilename": "Meshy_AI_Palm_Tree_1004160953_texture.glb",
+      "sourceSha256": "ca86d8851ae066d18233503f739a95c3cf97fcf2154c5a69a124611a6221f5cb",
+      "sourceTriangles": 7728,
+      "sourceUnmodified": true,
+      "sourceHeight": 12,
+      "normalization": {
+        "originalBlenderBounds": [
+          [
+            -0.6705080270767212,
+            -0.6790630221366882,
+            -0.9502930045127869
+          ],
+          [
+            0.6595929861068726,
+            0.6819900274276733,
+            0.9483780264854431
+          ]
+        ],
+        "uniformNormalization": 6.320210191278358
+      },
+      "removedPlinthFaces": 0,
+      "reassignedDisconnectedWood": {
+        "islands": 107,
+        "triangles": 153
+      },
+      "runtime": {
+        "near": {
+          "path": "public/models/flora/meshy-012/palm-date-near.glb",
+          "file": "palm-date-near.glb",
+          "bytes": 3558176,
+          "sha256": "586b82f40a7c562326b44ddfdfb20437eeb122fcc0623d3af0975b217d083d46",
+          "triangles": 7728,
+          "uniqueTriangles": 7728,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 6106,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 1622,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -4.203258991241455,
+              0.0,
+              -4.301070690155029
+            ],
+            [
+              4.203258991241455,
+              12.0,
+              4.301070690155029
+            ]
+          ],
+          "height": 12.0,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 2316325,
+              "sha256": "7c4a97e98fa04a866598d97e733216e8590b393bd95732d9d2bac10ee022a156",
+              "width": 1024,
+              "height": 1024
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 217592,
+              "sha256": "eaf088201059ccbd3a73e57b6bfbebf94f3ce482eee94ca153532594d251b6cc",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Foliage | strand palm",
+              "normalTexture": {
+                "index": 0
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9100000262260437,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              }
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | strand palm",
+              "normalTexture": {
+                "index": 0
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 0,
+            "degenerateMappedTangentsRepaired": 4
+          }
+        },
+        "mid": {
+          "path": "public/models/flora/meshy-012/palm-date-mid.glb",
+          "file": "palm-date-mid.glb",
+          "bytes": 3461884,
+          "sha256": "509bd7b6c85b008b73a0f0825d33966e1d970a44762d32364d2ea517db4b267e",
+          "triangles": 6899,
+          "uniqueTriangles": 6899,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 5451,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 1448,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -4.203258991241455,
+              -0.007341144140809774,
+              -4.301070690155029
+            ],
+            [
+              4.203258991241455,
+              12.0,
+              4.301070690155029
+            ]
+          ],
+          "height": 12.00734114414081,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 2316325,
+              "sha256": "7c4a97e98fa04a866598d97e733216e8590b393bd95732d9d2bac10ee022a156",
+              "width": 1024,
+              "height": 1024
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 217592,
+              "sha256": "eaf088201059ccbd3a73e57b6bfbebf94f3ce482eee94ca153532594d251b6cc",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Foliage | strand palm",
+              "normalTexture": {
+                "index": 0
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9100000262260437,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              }
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | strand palm",
+              "normalTexture": {
+                "index": 0
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 0,
+            "degenerateMappedTangentsRepaired": 2
+          }
+        },
+        "far": {
+          "path": "public/models/flora/meshy-012/palm-date-far.glb",
+          "file": "palm-date-far.glb",
+          "bytes": 2800504,
+          "sha256": "321881de290f9205a88812d7fe5a1103a52c322f3593b3859c591b30f58fc1ee",
+          "triangles": 2013,
+          "uniqueTriangles": 2013,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 1501,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 512,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -3.9206252098083496,
+              -0.2296760529279709,
+              -4.2270188331604
+            ],
+            [
+              4.203258991241455,
+              11.860889434814453,
+              4.271068572998047
+            ]
+          ],
+          "height": 12.090565487742424,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 2316325,
+              "sha256": "7c4a97e98fa04a866598d97e733216e8590b393bd95732d9d2bac10ee022a156",
+              "width": 1024,
+              "height": 1024
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 217592,
+              "sha256": "eaf088201059ccbd3a73e57b6bfbebf94f3ce482eee94ca153532594d251b6cc",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Foliage | strand palm",
+              "normalTexture": {
+                "index": 0
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9100000262260437,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              }
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | strand palm",
+              "normalTexture": {
+                "index": 0
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 0,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        }
+      },
+      "preparation": {
+        "tool": "Blender 5.2.0 LTS",
+        "UV": "Source wood UV islands retained by collapse; original UV unwrap for two untextured palms; dense crowns use original-source spatial cluster atlas",
+        "material": "Source wood PBR maps resized to 1024; dense foliage source albedo/alpha in a 2048 atlas; all-UV mild earthy PBR tint; rough nonmetal, no emission; original noise-baked palm albedo",
+        "semanticParts": "UV albedo green-vs-bark classification plus protected low trunk; palm crown/radial mask for untextured sources; tiny disconnected upper Wood fragments returned to source Foliage. Inferred semantic boundary, not artist-authored labels.",
+        "motion": "static attached wood and foliage",
+        "geometry": "uniform source normalization; separate wood/crown budgets; dense crowns use 21 source-positioned spatial clusters with 3 source-baked views, crossed curved side cards and curved top caps following each cluster vertical span; lower ornamental soil faces trimmed only for 1459/3106; residual source base retained in reserves",
+        "crownCards": null
+      },
+      "seconds": 2.9,
+      "sourceBytes": 14582584
+    },
+    {
+      "id": "fir-spire",
+      "name": "ridge fir",
+      "habitat": "cool stony ridge",
+      "selected": true,
+      "selection": "full-tree",
+      "sourceFilename": "Meshy_AI_fir_tree_1004113655_texture.glb",
+      "sourceSha256": "6625a115ad3f5fe7ed83e46a908aa88c17a3074e6944ee33da96ac80235f0544",
+      "sourceTriangles": 485086,
+      "sourceUnmodified": true,
+      "sourceHeight": 12,
+      "normalization": {
+        "originalBlenderBounds": [
+          [
+            -0.48934298753738403,
+            -0.47461700439453125,
+            -1.0009640455245972
+          ],
+          [
+            0.4664419889450073,
+            0.45979899168014526,
+            0.9374439716339111
+          ]
+        ],
+        "uniformNormalization": 6.190647115456462
+      },
+      "removedPlinthFaces": 0,
+      "reassignedDisconnectedWood": {
+        "islands": 452,
+        "triangles": 3560
+      },
+      "runtime": {
+        "near": {
+          "path": "public/models/flora/meshy-012/fir-spire-near.glb",
+          "file": "fir-spire-near.glb",
+          "bytes": 5020084,
+          "sha256": "cb24bc82b57e11c14ea9ea9a76ebaa0a7e36354191b8949f746b3e7b9a537f89",
+          "triangles": 11491,
+          "uniqueTriangles": 11491,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 4536,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 6955,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -3.2506468296051025,
+              0.0,
+              -3.025944948196411
+            ],
+            [
+              3.3096935749053955,
+              12.138742446899414,
+              3.041839122772217
+            ]
+          ],
+          "height": 12.138742446899414,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 4003432,
+              "sha256": "7a7eca0f415175c69fec5864bdd888e6094e48a3ecd092b3bddb14893964df78",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 418515,
+              "sha256": "c115445acd73ec9a66084ad8cf9f3dc0a3ae0b6179afaa72d71a8bc7d8e8e178",
+              "width": 1024,
+              "height": 1024
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 163016,
+              "sha256": "3914187acb4ca2ceae44e161c287e0e8388fd0dda6343b591b96dbc91534543e",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | ridge fir",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | ridge fir",
+              "normalTexture": {
+                "index": 1
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 2
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 1,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        },
+        "mid": {
+          "path": "public/models/flora/meshy-012/fir-spire-mid.glb",
+          "file": "fir-spire-mid.glb",
+          "bytes": 4885784,
+          "sha256": "947b588c892b9448c3f8a6ac5f61369da910d78617988f97328ab0b37aec97de",
+          "triangles": 6899,
+          "uniqueTriangles": 6899,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 2016,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 4883,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -3.2506468296051025,
+              0.0,
+              -3.025944948196411
+            ],
+            [
+              3.3096935749053955,
+              12.138742446899414,
+              3.041839122772217
+            ]
+          ],
+          "height": 12.138742446899414,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 4003432,
+              "sha256": "7a7eca0f415175c69fec5864bdd888e6094e48a3ecd092b3bddb14893964df78",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 418515,
+              "sha256": "c115445acd73ec9a66084ad8cf9f3dc0a3ae0b6179afaa72d71a8bc7d8e8e178",
+              "width": 1024,
+              "height": 1024
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 163016,
+              "sha256": "3914187acb4ca2ceae44e161c287e0e8388fd0dda6343b591b96dbc91534543e",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | ridge fir",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | ridge fir",
+              "normalTexture": {
+                "index": 1
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 2
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 1,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        },
+        "far": {
+          "path": "public/models/flora/meshy-012/fir-spire-far.glb",
+          "file": "fir-spire-far.glb",
+          "bytes": 4702916,
+          "sha256": "8054ae013a5a35d9221283410c6f67d6613d5383ed1ec4ca9b83569172ae8e6d",
+          "triangles": 1899,
+          "uniqueTriangles": 1899,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 504,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 1395,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -3.2506468296051025,
+              0.0003286363498773426,
+              -3.025944948196411
+            ],
+            [
+              3.3096935749053955,
+              12.138742446899414,
+              3.041839122772217
+            ]
+          ],
+          "height": 12.138413810549537,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 4003432,
+              "sha256": "7a7eca0f415175c69fec5864bdd888e6094e48a3ecd092b3bddb14893964df78",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 418515,
+              "sha256": "c115445acd73ec9a66084ad8cf9f3dc0a3ae0b6179afaa72d71a8bc7d8e8e178",
+              "width": 1024,
+              "height": 1024
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 163016,
+              "sha256": "3914187acb4ca2ceae44e161c287e0e8388fd0dda6343b591b96dbc91534543e",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | ridge fir",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | ridge fir",
+              "normalTexture": {
+                "index": 1
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 2
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 1,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        }
+      },
+      "preparation": {
+        "tool": "Blender 5.2.0 LTS",
+        "UV": "Source wood UV islands retained by collapse; original UV unwrap for two untextured palms; dense crowns use original-source spatial cluster atlas",
+        "material": "Source wood PBR maps resized to 1024; dense foliage source albedo/alpha in a 2048 atlas; all-UV mild earthy PBR tint; rough nonmetal, no emission; original noise-baked palm albedo",
+        "semanticParts": "UV albedo green-vs-bark classification plus protected low trunk; palm crown/radial mask for untextured sources; tiny disconnected upper Wood fragments returned to source Foliage. Inferred semantic boundary, not artist-authored labels.",
+        "motion": "static attached wood and foliage",
+        "geometry": "uniform source normalization; separate wood/crown budgets; dense crowns use 21 source-positioned spatial clusters with 3 source-baked views, crossed curved side cards and curved top caps following each cluster vertical span; lower ornamental soil faces trimmed only for 1459/3106; residual source base retained in reserves",
+        "crownCards": {
+          "clusters": 21,
+          "views": 63,
+          "atlas": 2048,
+          "segments": [
+            6,
+            4,
+            2
+          ]
+        }
+      },
+      "seconds": 20.2,
+      "sourceBytes": 34381192
+    },
+    {
+      "id": "oak-elder",
+      "name": "elder oak",
+      "habitat": "broadleaf woodland",
+      "selected": true,
+      "selection": "full-tree",
+      "sourceFilename": "Meshy_AI_Oak_Tree_1004141950_texture.glb",
+      "sourceSha256": "0ce14526101a00ac5628d0f7b7512a1ea1d65d45bbbb4f42b7f58babef2c0ab1",
+      "sourceTriangles": 1797727,
+      "sourceUnmodified": true,
+      "sourceHeight": 12,
+      "normalization": {
+        "originalBlenderBounds": [
+          [
+            -0.9249449968338013,
+            -0.9051160216331482,
+            -0.8784549832344055
+          ],
+          [
+            0.937067985534668,
+            0.9011970162391663,
+            0.8827340006828308
+          ]
+        ],
+        "uniformNormalization": 6.813578843372959
+      },
+      "removedPlinthFaces": 0,
+      "reassignedDisconnectedWood": {
+        "islands": 757,
+        "triangles": 6186
+      },
+      "runtime": {
+        "near": {
+          "path": "public/models/flora/meshy-012/oak-elder-near.glb",
+          "file": "oak-elder-near.glb",
+          "bytes": 6111692,
+          "sha256": "520394ef28c3ec5d6815a0da1704c701db23d727c35a07bb918e5e7b36d9837e",
+          "triangles": 18535,
+          "uniqueTriangles": 18535,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 4536,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 13999,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -7.393407344818115,
+              0.0,
+              -7.7493181228637695
+            ],
+            [
+              7.33499813079834,
+              12.392623901367188,
+              7.515993118286133
+            ]
+          ],
+          "height": 12.392623901367188,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 4744741,
+              "sha256": "7df69c31aa9e67d0eb003e8324a28298c66f7a9735d764e87fc4a5718bcebf5d",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 49248,
+              "sha256": "2ce4fcb3ec1607d214f64c30f38d63c6d8f85e21fe96c5fd15b36e997798f434",
+              "width": 1024,
+              "height": 1024
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 152523,
+              "sha256": "84d3d58e8242d0e4c74948006e1d9ef5232ff21d30a1094e841bf91bf0349c58",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | elder oak",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | elder oak",
+              "normalTexture": {
+                "index": 1
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 2
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 1,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        },
+        "mid": {
+          "path": "public/models/flora/meshy-012/oak-elder-mid.glb",
+          "file": "oak-elder-mid.glb",
+          "bytes": 5473052,
+          "sha256": "d8ff2db692b75845e4b279a7eacd3cda2fb81cbd26639f3c36bb7bdafa978004",
+          "triangles": 6899,
+          "uniqueTriangles": 6899,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 2016,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 4883,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -7.393407344818115,
+              -0.0024106758646667004,
+              -7.7493181228637695
+            ],
+            [
+              7.33499813079834,
+              12.392623901367188,
+              7.515993118286133
+            ]
+          ],
+          "height": 12.395034577231854,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 4744741,
+              "sha256": "7df69c31aa9e67d0eb003e8324a28298c66f7a9735d764e87fc4a5718bcebf5d",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 49248,
+              "sha256": "2ce4fcb3ec1607d214f64c30f38d63c6d8f85e21fe96c5fd15b36e997798f434",
+              "width": 1024,
+              "height": 1024
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 152523,
+              "sha256": "84d3d58e8242d0e4c74948006e1d9ef5232ff21d30a1094e841bf91bf0349c58",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | elder oak",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | elder oak",
+              "normalTexture": {
+                "index": 1
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 2
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 1,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        },
+        "far": {
+          "path": "public/models/flora/meshy-012/oak-elder-far.glb",
+          "file": "oak-elder-far.glb",
+          "bytes": 5184216,
+          "sha256": "8f9f37a1671ba2b7a6c1a4f6971bbeb635c9dfbbb28cc288d857a0224bf41f5f",
+          "triangles": 2394,
+          "uniqueTriangles": 2394,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 504,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 1890,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -7.393407344818115,
+              0.016222627833485603,
+              -7.7493181228637695
+            ],
+            [
+              7.33499813079834,
+              12.392623901367188,
+              7.515993118286133
+            ]
+          ],
+          "height": 12.376401273533702,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 4744741,
+              "sha256": "7df69c31aa9e67d0eb003e8324a28298c66f7a9735d764e87fc4a5718bcebf5d",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 49248,
+              "sha256": "2ce4fcb3ec1607d214f64c30f38d63c6d8f85e21fe96c5fd15b36e997798f434",
+              "width": 1024,
+              "height": 1024
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 152523,
+              "sha256": "84d3d58e8242d0e4c74948006e1d9ef5232ff21d30a1094e841bf91bf0349c58",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | elder oak",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | elder oak",
+              "normalTexture": {
+                "index": 1
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 2
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 1,
+            "degenerateMappedTangentsRepaired": 1
+          }
+        }
+      },
+      "preparation": {
+        "tool": "Blender 5.2.0 LTS",
+        "UV": "Source wood UV islands retained by collapse; original UV unwrap for two untextured palms; dense crowns use original-source spatial cluster atlas",
+        "material": "Source wood PBR maps resized to 1024; dense foliage source albedo/alpha in a 2048 atlas; all-UV mild earthy PBR tint; rough nonmetal, no emission; original noise-baked palm albedo",
+        "semanticParts": "UV albedo green-vs-bark classification plus protected low trunk; palm crown/radial mask for untextured sources; tiny disconnected upper Wood fragments returned to source Foliage. Inferred semantic boundary, not artist-authored labels.",
+        "motion": "static attached wood and foliage",
+        "geometry": "uniform source normalization; separate wood/crown budgets; dense crowns use 21 source-positioned spatial clusters with 3 source-baked views, crossed curved side cards and curved top caps following each cluster vertical span; lower ornamental soil faces trimmed only for 1459/3106; residual source base retained in reserves",
+        "crownCards": {
+          "clusters": 21,
+          "views": 63,
+          "atlas": 2048,
+          "segments": [
+            6,
+            4,
+            2
+          ]
+        }
+      },
+      "seconds": 30.9,
+      "sourceBytes": 161440584
+    },
+    {
+      "id": "tree-0208",
+      "name": "many-stem elder",
+      "habitat": "old woodland hollow",
+      "selected": true,
+      "selection": "full-tree",
+      "sourceFilename": "Meshy_AI_a_tree_1004170208_texture.glb",
+      "sourceSha256": "ee43940912d0141002afc20cb561ac662bc04849b7371d3ba829d606a96b1f67",
+      "sourceTriangles": 352221,
+      "sourceUnmodified": true,
+      "sourceHeight": 12,
+      "normalization": {
+        "originalBlenderBounds": [
+          [
+            -0.8966310024261475,
+            -0.9330400228500366,
+            -1.0008749961853027
+          ],
+          [
+            0.9592570066452026,
+            0.9197810292243958,
+            0.9895520210266113
+          ]
+        ],
+        "uniformNormalization": 6.0288570724934045
+      },
+      "removedPlinthFaces": 0,
+      "reassignedDisconnectedWood": {
+        "islands": 614,
+        "triangles": 1524
+      },
+      "runtime": {
+        "near": {
+          "path": "public/models/flora/meshy-012/tree-0208-near.glb",
+          "file": "tree-0208-near.glb",
+          "bytes": 4880192,
+          "sha256": "c4639824f9d46f6b61957636376d736ad58c1628662b88a39e43741ab9563e77",
+          "triangles": 18532,
+          "uniqueTriangles": 18532,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 4536,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 13996,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -6.187053203582764,
+              0.0,
+              -7.267899513244629
+            ],
+            [
+              6.311270236968994,
+              13.24952220916748,
+              6.033611297607422
+            ]
+          ],
+          "height": 13.24952220916748,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 3927145,
+              "sha256": "843ec3a9502f9aca8ef8dcca096bec547786175548d32e781f3c7a005a22a7b0",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 169852,
+              "sha256": "827935070299ee9059729ad15eafa1dfb3ec729f31e21dd72c60e48e268441df",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | many-stem elder",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | many-stem elder",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 2,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        },
+        "mid": {
+          "path": "public/models/flora/meshy-012/tree-0208-mid.glb",
+          "file": "tree-0208-mid.glb",
+          "bytes": 4445200,
+          "sha256": "f175c8d652a365dde654b0150aa495358bec40e86829e0623dfa7d9893f17cfb",
+          "triangles": 6899,
+          "uniqueTriangles": 6899,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 2016,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 4883,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -6.187053203582764,
+              0.025251302868127823,
+              -7.267899513244629
+            ],
+            [
+              6.311270236968994,
+              13.24952220916748,
+              6.033611297607422
+            ]
+          ],
+          "height": 13.224270906299353,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 3927145,
+              "sha256": "843ec3a9502f9aca8ef8dcca096bec547786175548d32e781f3c7a005a22a7b0",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 169852,
+              "sha256": "827935070299ee9059729ad15eafa1dfb3ec729f31e21dd72c60e48e268441df",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | many-stem elder",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | many-stem elder",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 2,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        },
+        "far": {
+          "path": "public/models/flora/meshy-012/tree-0208-far.glb",
+          "file": "tree-0208-far.glb",
+          "bytes": 4250068,
+          "sha256": "57e421bafe7b8189e135ec7b1313a6f37bed2d588ee93242907bd5297b06f2f1",
+          "triangles": 2358,
+          "uniqueTriangles": 2358,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 504,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 1854,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -6.187053203582764,
+              0.025251302868127823,
+              -7.267899513244629
+            ],
+            [
+              6.311270236968994,
+              13.24952220916748,
+              6.033611297607422
+            ]
+          ],
+          "height": 13.224270906299353,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 3927145,
+              "sha256": "843ec3a9502f9aca8ef8dcca096bec547786175548d32e781f3c7a005a22a7b0",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 169852,
+              "sha256": "827935070299ee9059729ad15eafa1dfb3ec729f31e21dd72c60e48e268441df",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | many-stem elder",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | many-stem elder",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 2,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        }
+      },
+      "preparation": {
+        "tool": "Blender 5.2.0 LTS",
+        "UV": "Source wood UV islands retained by collapse; original UV unwrap for two untextured palms; dense crowns use original-source spatial cluster atlas",
+        "material": "Source wood PBR maps resized to 1024; dense foliage source albedo/alpha in a 2048 atlas; all-UV mild earthy PBR tint; rough nonmetal, no emission; original noise-baked palm albedo",
+        "semanticParts": "UV albedo green-vs-bark classification plus protected low trunk; palm crown/radial mask for untextured sources; tiny disconnected upper Wood fragments returned to source Foliage. Inferred semantic boundary, not artist-authored labels.",
+        "motion": "static attached wood and foliage",
+        "geometry": "uniform source normalization; separate wood/crown budgets; dense crowns use 21 source-positioned spatial clusters with 3 source-baked views, crossed curved side cards and curved top caps following each cluster vertical span; lower ornamental soil faces trimmed only for 1459/3106; residual source base retained in reserves",
+        "crownCards": {
+          "clusters": 21,
+          "views": 63,
+          "atlas": 2048,
+          "segments": [
+            6,
+            4,
+            2
+          ]
+        }
+      },
+      "seconds": 22.6,
+      "sourceBytes": 24581592
+    },
+    {
+      "id": "tree-1537",
+      "name": "gnarled oak",
+      "habitat": "wood-only dead woodland variant",
+      "selected": true,
+      "selection": "wood-only",
+      "sourceFilename": "Meshy_AI_a_tree_1004201537_texture.glb",
+      "sourceSha256": "84a10ed70f2e3988326fad8d81f760b4ee840e5a31dc53913438ad14de1b503d",
+      "sourceTriangles": 3283835,
+      "sourceUnmodified": true,
+      "sourceHeight": 12,
+      "normalization": {
+        "originalBlenderBounds": [
+          [
+            -0.6660529971122742,
+            -0.6860380172729492,
+            -1.0015089511871338
+          ],
+          [
+            0.6556969881057739,
+            0.6890559792518616,
+            0.9967569708824158
+          ]
+        ],
+        "uniformNormalization": 6.005206748244962
+      },
+      "removedPlinthFaces": 0,
+      "reassignedDisconnectedWood": {
+        "islands": 12023,
+        "triangles": 120889
+      },
+      "runtime": {
+        "near": {
+          "path": "public/models/flora/meshy-012/tree-1537-near.glb",
+          "file": "tree-1537-near.glb",
+          "bytes": 6440848,
+          "sha256": "ecd6a4b2b57207792d23563333edb95544b964f89d9ffbbc1801dd6ff8ca870f",
+          "triangles": 18526,
+          "uniqueTriangles": 18526,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 4536,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 13990,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -5.536969184875488,
+              0.0,
+              -5.011139392852783
+            ],
+            [
+              4.87471342086792,
+              12.821338653564453,
+              4.9249162673950195
+            ]
+          ],
+          "height": 12.821338653564453,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 4253729,
+              "sha256": "6c22b797bbad07c737f1e82d7c0669b1ebb9f14994206ac2e9818c50ffdce2cb",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 444402,
+              "sha256": "729e298c54e2d17d10a4e59af85a0998562eed6af6df3f6da74c7ce9fc78b64c",
+              "width": 1024,
+              "height": 1024
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 153935,
+              "sha256": "022b4322094e529410964d4061cd7e5e7b2593b17202bd8329cbc0c0a7567da0",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | gnarled oak",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | gnarled oak",
+              "normalTexture": {
+                "index": 1
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 2
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 1,
+            "degenerateMappedTangentsRepaired": 2
+          }
+        },
+        "mid": {
+          "path": "public/models/flora/meshy-012/tree-1537-mid.glb",
+          "file": "tree-1537-mid.glb",
+          "bytes": 6145684,
+          "sha256": "03887a813d3dbe85ed50f759e2a111dd3f65d6d8b886b1d5c92693cf40997ac5",
+          "triangles": 13296,
+          "uniqueTriangles": 13296,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 2016,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 11280,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -5.536969184875488,
+              -0.00260846852324903,
+              -5.011139392852783
+            ],
+            [
+              4.87471342086792,
+              12.821338653564453,
+              4.9249162673950195
+            ]
+          ],
+          "height": 12.823947122087702,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 4253729,
+              "sha256": "6c22b797bbad07c737f1e82d7c0669b1ebb9f14994206ac2e9818c50ffdce2cb",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 444402,
+              "sha256": "729e298c54e2d17d10a4e59af85a0998562eed6af6df3f6da74c7ce9fc78b64c",
+              "width": 1024,
+              "height": 1024
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 153935,
+              "sha256": "022b4322094e529410964d4061cd7e5e7b2593b17202bd8329cbc0c0a7567da0",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | gnarled oak",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | gnarled oak",
+              "normalTexture": {
+                "index": 1
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 2
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 1,
+            "degenerateMappedTangentsRepaired": 1
+          }
+        },
+        "far": {
+          "path": "public/models/flora/meshy-012/tree-1537-far.glb",
+          "file": "tree-1537-far.glb",
+          "bytes": 6104348,
+          "sha256": "71c3ee46b293bc1e2faf47a891dde96427cfb0b44121cace90df0e96e3611786",
+          "triangles": 11784,
+          "uniqueTriangles": 11784,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 504,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 11280,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -5.536969184875488,
+              -0.00260846852324903,
+              -5.011139392852783
+            ],
+            [
+              4.87471342086792,
+              12.821338653564453,
+              4.9249162673950195
+            ]
+          ],
+          "height": 12.823947122087702,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 4253729,
+              "sha256": "6c22b797bbad07c737f1e82d7c0669b1ebb9f14994206ac2e9818c50ffdce2cb",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 444402,
+              "sha256": "729e298c54e2d17d10a4e59af85a0998562eed6af6df3f6da74c7ce9fc78b64c",
+              "width": 1024,
+              "height": 1024
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 153935,
+              "sha256": "022b4322094e529410964d4061cd7e5e7b2593b17202bd8329cbc0c0a7567da0",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | gnarled oak",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | gnarled oak",
+              "normalTexture": {
+                "index": 1
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 2
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 1,
+            "degenerateMappedTangentsRepaired": 1
+          }
+        }
+      },
+      "preparation": {
+        "tool": "Blender 5.2.0 LTS",
+        "UV": "Source wood UV islands retained by collapse; original UV unwrap for two untextured palms; dense crowns use original-source spatial cluster atlas",
+        "material": "Source wood PBR maps resized to 1024; dense foliage source albedo/alpha in a 2048 atlas; all-UV mild earthy PBR tint; rough nonmetal, no emission; original noise-baked palm albedo",
+        "semanticParts": "UV albedo green-vs-bark classification plus protected low trunk; palm crown/radial mask for untextured sources; tiny disconnected upper Wood fragments returned to source Foliage. Inferred semantic boundary, not artist-authored labels.",
+        "motion": "static attached wood and foliage",
+        "geometry": "uniform source normalization; separate wood/crown budgets; dense crowns use 21 source-positioned spatial clusters with 3 source-baked views, crossed curved side cards and curved top caps following each cluster vertical span; lower ornamental soil faces trimmed only for 1459/3106; residual source base retained in reserves",
+        "crownCards": {
+          "clusters": 21,
+          "views": 63,
+          "atlas": 2048,
+          "segments": [
+            6,
+            4,
+            2
+          ]
+        }
+      },
+      "seconds": 48.4,
+      "sourceBytes": 160675500
+    },
+    {
+      "id": "tree-1527",
+      "name": "mist alder",
+      "habitat": "damp sheltered swale",
+      "selected": true,
+      "selection": "full-tree",
+      "sourceFilename": "Meshy_AI_tree_1004201527_texture.glb",
+      "sourceSha256": "0ae030432ba3c281f3559d26b6c9fc984cacbacdb5a60802023d1a4ce6639222",
+      "sourceTriangles": 21411,
+      "sourceUnmodified": true,
+      "sourceHeight": 12,
+      "normalization": {
+        "originalBlenderBounds": [
+          [
+            -0.6323649883270264,
+            -0.6302469968795776,
+            -0.999081015586853
+          ],
+          [
+            0.6302530169487,
+            0.5925859808921814,
+            0.9927650094032288
+          ]
+        ],
+        "uniformNormalization": 6.024562064258834
+      },
+      "removedPlinthFaces": 0,
+      "reassignedDisconnectedWood": {
+        "islands": 47,
+        "triangles": 277
+      },
+      "runtime": {
+        "near": {
+          "path": "public/models/flora/meshy-012/tree-1527-near.glb",
+          "file": "tree-1527-near.glb",
+          "bytes": 997564,
+          "sha256": "2119713a1851c8e034033e502872f929d80cbd310c7dd5ac26122b6dd2370a93",
+          "triangles": 18797,
+          "uniqueTriangles": 18797,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 17445,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 1352,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -3.8033602237701416,
+              0.0,
+              -3.683516502380371
+            ],
+            [
+              3.8033602237701416,
+              12.0,
+              3.683516502380371
+            ]
+          ],
+          "height": 12.0,
+          "images": [
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 140979,
+              "sha256": "488d3138b375185b40795ff0daf316993fc3fec434221589e7adb1861ce07cf1",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Foliage | mist alder",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9100000262260437,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              }
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | mist alder",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 2,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        },
+        "mid": {
+          "path": "public/models/flora/meshy-012/tree-1527-mid.glb",
+          "file": "tree-1527-mid.glb",
+          "bytes": 550448,
+          "sha256": "61adce92f4214150e99d8c15556056d6aa4bb11e70856442d6b54509d8fe4ee1",
+          "triangles": 6891,
+          "uniqueTriangles": 6891,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 6395,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 496,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -3.8033602237701416,
+              0.016411228105425835,
+              -3.683516502380371
+            ],
+            [
+              3.7738795280456543,
+              11.996408462524414,
+              3.689147710800171
+            ]
+          ],
+          "height": 11.979997234418988,
+          "images": [
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 140979,
+              "sha256": "488d3138b375185b40795ff0daf316993fc3fec434221589e7adb1861ce07cf1",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Foliage | mist alder",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9100000262260437,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              }
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | mist alder",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 2,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        },
+        "far": {
+          "path": "public/models/flora/meshy-012/tree-1527-far.glb",
+          "file": "tree-1527-far.glb",
+          "bytes": 291172,
+          "sha256": "6d0b3ab19e080440e86802d369896f3cc12378461b42045394094f678d0df1d2",
+          "triangles": 1888,
+          "uniqueTriangles": 1888,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 1753,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 135,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -3.5886006355285645,
+              0.04470227286219597,
+              -3.360300064086914
+            ],
+            [
+              3.569030284881592,
+              11.714653015136719,
+              3.6599152088165283
+            ]
+          ],
+          "height": 11.669950742274523,
+          "images": [
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 140979,
+              "sha256": "488d3138b375185b40795ff0daf316993fc3fec434221589e7adb1861ce07cf1",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Foliage | mist alder",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9100000262260437,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              }
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | mist alder",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 2,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        }
+      },
+      "preparation": {
+        "tool": "Blender 5.2.0 LTS",
+        "UV": "Source wood UV islands retained by collapse; original UV unwrap for two untextured palms; dense crowns use original-source spatial cluster atlas",
+        "material": "Source wood PBR maps resized to 1024; dense foliage source albedo/alpha in a 2048 atlas; all-UV mild earthy PBR tint; rough nonmetal, no emission; original noise-baked palm albedo",
+        "semanticParts": "UV albedo green-vs-bark classification plus protected low trunk; palm crown/radial mask for untextured sources; tiny disconnected upper Wood fragments returned to source Foliage. Inferred semantic boundary, not artist-authored labels.",
+        "motion": "static attached wood and foliage",
+        "geometry": "uniform source normalization; separate wood/crown budgets; dense crowns use 21 source-positioned spatial clusters with 3 source-baked views, crossed curved side cards and curved top caps following each cluster vertical span; lower ornamental soil faces trimmed only for 1459/3106; residual source base retained in reserves",
+        "crownCards": null
+      },
+      "seconds": 1.2,
+      "sourceBytes": 2320384
+    },
+    {
+      "id": "tree-1521",
+      "name": "meadow oak",
+      "habitat": "dry woodland margin",
+      "selected": true,
+      "selection": "full-tree",
+      "sourceFilename": "Meshy_AI_tree_1004201521_texture.glb",
+      "sourceSha256": "7f3e735f88c295fdf442cd4cab062827071b6df859f716153e2d3da1dba6d018",
+      "sourceTriangles": 273866,
+      "sourceUnmodified": true,
+      "sourceHeight": 12,
+      "normalization": {
+        "originalBlenderBounds": [
+          [
+            -0.9550399780273438,
+            -0.9760569930076599,
+            -1.0005799531936646
+          ],
+          [
+            0.9365170001983643,
+            0.9762830138206482,
+            0.9907730221748352
+          ]
+        ],
+        "uniformNormalization": 6.026053717462823
+      },
+      "removedPlinthFaces": 0,
+      "reassignedDisconnectedWood": {
+        "islands": 884,
+        "triangles": 3662
+      },
+      "runtime": {
+        "near": {
+          "path": "public/models/flora/meshy-012/tree-1521-near.glb",
+          "file": "tree-1521-near.glb",
+          "bytes": 5524792,
+          "sha256": "f65842c0949abe2295f4be31ad40698f3cc5fba431c21c212019e84c2ec8ac24",
+          "triangles": 15318,
+          "uniqueTriangles": 15318,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 4536,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 10782,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -7.229896545410156,
+              0.0,
+              -7.234018325805664
+            ],
+            [
+              6.892707824707031,
+              12.651420593261719,
+              7.099147796630859
+            ]
+          ],
+          "height": 12.651420593261719,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 4726871,
+              "sha256": "08846896982ec73c9fe2ac2993a3dc797aa290b65ff8a0a2f020a3c462865bf1",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 216230,
+              "sha256": "2e3cac0c133a0ed295ee742c4d490d2fd76447221ceda1b8029c30565533fc12",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | meadow oak",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | meadow oak",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 2,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        },
+        "mid": {
+          "path": "public/models/flora/meshy-012/tree-1521-mid.glb",
+          "file": "tree-1521-mid.glb",
+          "bytes": 5269760,
+          "sha256": "36c45501aff7007d3572d6596391e65d08de1736e1122fd6e975e9d8bade2f60",
+          "triangles": 6900,
+          "uniqueTriangles": 6900,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 2016,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 4884,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -7.229896545410156,
+              -0.0021797881927341223,
+              -7.234018325805664
+            ],
+            [
+              6.892707824707031,
+              12.651420593261719,
+              7.099147796630859
+            ]
+          ],
+          "height": 12.653600381454453,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 4726871,
+              "sha256": "08846896982ec73c9fe2ac2993a3dc797aa290b65ff8a0a2f020a3c462865bf1",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 216230,
+              "sha256": "2e3cac0c133a0ed295ee742c4d490d2fd76447221ceda1b8029c30565533fc12",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | meadow oak",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | meadow oak",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 2,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        },
+        "far": {
+          "path": "public/models/flora/meshy-012/tree-1521-far.glb",
+          "file": "tree-1521-far.glb",
+          "bytes": 5066568,
+          "sha256": "16a2129e62c5e9fd0aad1709a14ef1b7e199d49baa886cf9772735b222a82d30",
+          "triangles": 1899,
+          "uniqueTriangles": 1899,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 504,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 1395,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -7.229896545410156,
+              -0.004047942813485861,
+              -7.234018325805664
+            ],
+            [
+              6.892707824707031,
+              12.651420593261719,
+              7.099147796630859
+            ]
+          ],
+          "height": 12.655468536075205,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 4726871,
+              "sha256": "08846896982ec73c9fe2ac2993a3dc797aa290b65ff8a0a2f020a3c462865bf1",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 216230,
+              "sha256": "2e3cac0c133a0ed295ee742c4d490d2fd76447221ceda1b8029c30565533fc12",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | meadow oak",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | meadow oak",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 2,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        }
+      },
+      "preparation": {
+        "tool": "Blender 5.2.0 LTS",
+        "UV": "Source wood UV islands retained by collapse; original UV unwrap for two untextured palms; dense crowns use original-source spatial cluster atlas",
+        "material": "Source wood PBR maps resized to 1024; dense foliage source albedo/alpha in a 2048 atlas; all-UV mild earthy PBR tint; rough nonmetal, no emission; original noise-baked palm albedo",
+        "semanticParts": "UV albedo green-vs-bark classification plus protected low trunk; palm crown/radial mask for untextured sources; tiny disconnected upper Wood fragments returned to source Foliage. Inferred semantic boundary, not artist-authored labels.",
+        "motion": "static attached wood and foliage",
+        "geometry": "uniform source normalization; separate wood/crown budgets; dense crowns use 21 source-positioned spatial clusters with 3 source-baked views, crossed curved side cards and curved top caps following each cluster vertical span; lower ornamental soil faces trimmed only for 1459/3106; residual source base retained in reserves",
+        "crownCards": {
+          "clusters": 21,
+          "views": 63,
+          "atlas": 2048,
+          "segments": [
+            6,
+            4,
+            2
+          ]
+        }
+      },
+      "seconds": 19.4,
+      "sourceBytes": 21484512
+    },
+    {
+      "id": "tree-4949",
+      "name": "round-crown oak",
+      "habitat": "orchard/coppice",
+      "selected": true,
+      "selection": "full-tree",
+      "sourceFilename": "Meshy_AI_tree_1004164949_texture.glb",
+      "sourceSha256": "50cb943d9d72cd86b08763c04b92367168014df8c24594888250ef96872f62e8",
+      "sourceTriangles": 1001201,
+      "sourceUnmodified": true,
+      "sourceHeight": 12,
+      "normalization": {
+        "originalBlenderBounds": [
+          [
+            -0.9926580190658569,
+            -0.9176499843597412,
+            -0.9990509748458862
+          ],
+          [
+            0.9915099740028381,
+            0.895209014415741,
+            0.993166983127594
+          ]
+        ],
+        "uniformNormalization": 6.0234373211887995
+      },
+      "removedPlinthFaces": 0,
+      "reassignedDisconnectedWood": {
+        "islands": 706,
+        "triangles": 4931
+      },
+      "runtime": {
+        "near": {
+          "path": "public/models/flora/meshy-012/tree-4949-near.glb",
+          "file": "tree-4949-near.glb",
+          "bytes": 5705712,
+          "sha256": "e63579ca721fd97736b86c218a4d6e44609f00975da3287c9848c35c411f37ae",
+          "triangles": 18467,
+          "uniqueTriangles": 18467,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 4536,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 13931,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -7.1350626945495605,
+              0.0,
+              -6.75970458984375
+            ],
+            [
+              7.280457496643066,
+              12.99410629272461,
+              6.50908899307251
+            ]
+          ],
+          "height": 12.99410629272461,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 4844691,
+              "sha256": "a20ce506772e1397b4c6b387d6dec0ef93e0e90c1f08128eff6a04f0cb5e11fc",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 237573,
+              "sha256": "cbfa299a69888550fb57f7bb80ee787f8c8918ce565c57623ec4825f9161c07a",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | round-crown oak",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | round-crown oak",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 2,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        },
+        "mid": {
+          "path": "public/models/flora/meshy-012/tree-4949-mid.glb",
+          "file": "tree-4949-mid.glb",
+          "bytes": 5376484,
+          "sha256": "2aa7e12386850b1e157d01fc75da056282c00a89def27835755190d4a64c46e6",
+          "triangles": 6899,
+          "uniqueTriangles": 6899,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 2016,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 4883,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -7.1350626945495605,
+              0.008944745175540447,
+              -6.75970458984375
+            ],
+            [
+              7.280457496643066,
+              12.99410629272461,
+              6.50908899307251
+            ]
+          ],
+          "height": 12.985161547549069,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 4844691,
+              "sha256": "a20ce506772e1397b4c6b387d6dec0ef93e0e90c1f08128eff6a04f0cb5e11fc",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 237573,
+              "sha256": "cbfa299a69888550fb57f7bb80ee787f8c8918ce565c57623ec4825f9161c07a",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | round-crown oak",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | round-crown oak",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 2,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        },
+        "far": {
+          "path": "public/models/flora/meshy-012/tree-4949-far.glb",
+          "file": "tree-4949-far.glb",
+          "bytes": 5191052,
+          "sha256": "d3a0eaa7aa514ae510fbc9ee8333221e11296ac4990667be61bf8da82c690d4f",
+          "triangles": 1900,
+          "uniqueTriangles": 1900,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 504,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 1396,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -7.1350626945495605,
+              -0.11503355205059052,
+              -6.75970458984375
+            ],
+            [
+              7.280457496643066,
+              12.99410629272461,
+              6.50908899307251
+            ]
+          ],
+          "height": 13.1091398447752,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 4844691,
+              "sha256": "a20ce506772e1397b4c6b387d6dec0ef93e0e90c1f08128eff6a04f0cb5e11fc",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 237573,
+              "sha256": "cbfa299a69888550fb57f7bb80ee787f8c8918ce565c57623ec4825f9161c07a",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | round-crown oak",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | round-crown oak",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 2,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        }
+      },
+      "preparation": {
+        "tool": "Blender 5.2.0 LTS",
+        "UV": "Source wood UV islands retained by collapse; original UV unwrap for two untextured palms; dense crowns use original-source spatial cluster atlas",
+        "material": "Source wood PBR maps resized to 1024; dense foliage source albedo/alpha in a 2048 atlas; all-UV mild earthy PBR tint; rough nonmetal, no emission; original noise-baked palm albedo",
+        "semanticParts": "UV albedo green-vs-bark classification plus protected low trunk; palm crown/radial mask for untextured sources; tiny disconnected upper Wood fragments returned to source Foliage. Inferred semantic boundary, not artist-authored labels.",
+        "motion": "static attached wood and foliage",
+        "geometry": "uniform source normalization; separate wood/crown budgets; dense crowns use 21 source-positioned spatial clusters with 3 source-baked views, crossed curved side cards and curved top caps following each cluster vertical span; lower ornamental soil faces trimmed only for 1459/3106; residual source base retained in reserves",
+        "crownCards": {
+          "clusters": 21,
+          "views": 63,
+          "atlas": 2048,
+          "segments": [
+            6,
+            4,
+            2
+          ]
+        }
+      },
+      "seconds": 28.2,
+      "sourceBytes": 74191344
+    },
+    {
+      "id": "tree-3106",
+      "name": "coppice tree",
+      "habitat": "coppice reserve",
+      "selected": false,
+      "selection": "reserve",
+      "sourceFilename": "Meshy_AI_tree_1004003106_texture.glb",
+      "sourceSha256": "2f3696d92ecf29b9bd86b47889e0f5a55dbd30f73abbe65caa6f0beeb5d047ed",
+      "sourceTriangles": 6307,
+      "sourceUnmodified": true,
+      "sourceHeight": 12,
+      "normalization": {
+        "originalBlenderBounds": [
+          [
+            -0.6037989854812622,
+            -0.5974860191345215,
+            -0.9562919735908508
+          ],
+          [
+            0.5868970155715942,
+            0.6014819741249084,
+            0.9431759715080261
+          ]
+        ],
+        "uniformNormalization": 6.317558572632474
+      },
+      "removedPlinthFaces": 461,
+      "reassignedDisconnectedWood": {
+        "islands": 55,
+        "triangles": 138
+      },
+      "runtime": {
+        "near": {
+          "path": "public/models/flora/meshy-012/tree-3106-near.glb",
+          "file": "tree-3106-near.glb",
+          "bytes": 794200,
+          "sha256": "7f63795b056de4a4d5b7ed85e06eb54e1634d74c9003bd8fc12e5b55f072613b",
+          "triangles": 5846,
+          "uniqueTriangles": 5846,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 5083,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 763,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -3.761145830154419,
+              0.0,
+              -3.7872753143310547
+            ],
+            [
+              3.761145830154419,
+              11.750387191772461,
+              3.7872753143310547
+            ]
+          ],
+          "height": 11.750387191772461,
+          "images": [
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 219242,
+              "sha256": "74bdfd76f415cd4fad3a4ec1c1389291e551e62b3f29372d97cfa05425d0a3cf",
+              "width": 1024,
+              "height": 1024
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 151520,
+              "sha256": "86cf7be3180c5926dce7c9f6bb60826cee9e9a42c2e8586d9fb0e560f41a8425",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Foliage | coppice tree",
+              "normalTexture": {
+                "index": 0
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9100000262260437,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              }
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | coppice tree",
+              "normalTexture": {
+                "index": 0
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 0,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        },
+        "mid": {
+          "path": "public/models/flora/meshy-012/tree-3106-mid.glb",
+          "file": "tree-3106-mid.glb",
+          "bytes": 794204,
+          "sha256": "92ae1190c27f2331ee9e27eb8ed66ab4c1789c4706c6d009b93ea78518609ff7",
+          "triangles": 5846,
+          "uniqueTriangles": 5846,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 5083,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 763,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -3.761145830154419,
+              0.0,
+              -3.7872753143310547
+            ],
+            [
+              3.761145830154419,
+              11.750387191772461,
+              3.7872753143310547
+            ]
+          ],
+          "height": 11.750387191772461,
+          "images": [
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 219242,
+              "sha256": "74bdfd76f415cd4fad3a4ec1c1389291e551e62b3f29372d97cfa05425d0a3cf",
+              "width": 1024,
+              "height": 1024
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 151520,
+              "sha256": "86cf7be3180c5926dce7c9f6bb60826cee9e9a42c2e8586d9fb0e560f41a8425",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Foliage | coppice tree",
+              "normalTexture": {
+                "index": 0
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9100000262260437,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              }
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | coppice tree",
+              "normalTexture": {
+                "index": 0
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 0,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        },
+        "far": {
+          "path": "public/models/flora/meshy-012/tree-3106-far.glb",
+          "file": "tree-3106-far.glb",
+          "bytes": 561164,
+          "sha256": "5e6e8d7be22045f3af4aca4296611010919e97647e390ae377ee5d25c6fb1543",
+          "triangles": 1894,
+          "uniqueTriangles": 1894,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 1650,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 244,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -3.6370580196380615,
+              -0.06380115449428558,
+              -3.787250518798828
+            ],
+            [
+              3.6721079349517822,
+              11.719877243041992,
+              3.7785251140594482
+            ]
+          ],
+          "height": 11.783678397536278,
+          "images": [
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 219242,
+              "sha256": "74bdfd76f415cd4fad3a4ec1c1389291e551e62b3f29372d97cfa05425d0a3cf",
+              "width": 1024,
+              "height": 1024
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 151520,
+              "sha256": "86cf7be3180c5926dce7c9f6bb60826cee9e9a42c2e8586d9fb0e560f41a8425",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Foliage | coppice tree",
+              "normalTexture": {
+                "index": 0
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9100000262260437,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              }
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | coppice tree",
+              "normalTexture": {
+                "index": 0
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 0,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        }
+      },
+      "preparation": {
+        "tool": "Blender 5.2.0 LTS",
+        "UV": "Source wood UV islands retained by collapse; original UV unwrap for two untextured palms; dense crowns use original-source spatial cluster atlas",
+        "material": "Source wood PBR maps resized to 1024; dense foliage source albedo/alpha in a 2048 atlas; all-UV mild earthy PBR tint; rough nonmetal, no emission; original noise-baked palm albedo",
+        "semanticParts": "UV albedo green-vs-bark classification plus protected low trunk; palm crown/radial mask for untextured sources; tiny disconnected upper Wood fragments returned to source Foliage. Inferred semantic boundary, not artist-authored labels.",
+        "motion": "static attached wood and foliage",
+        "geometry": "uniform source normalization; separate wood/crown budgets; dense crowns use 21 source-positioned spatial clusters with 3 source-baked views, crossed curved side cards and curved top caps following each cluster vertical span; lower ornamental soil faces trimmed only for 1459/3106; residual source base retained in reserves",
+        "crownCards": null
+      },
+      "seconds": 1.7,
+      "sourceBytes": 9064892
+    },
+    {
+      "id": "tree-1505",
+      "name": "rooted oak",
+      "habitat": "open stony woodland",
+      "selected": true,
+      "selection": "full-tree",
+      "sourceFilename": "Meshy_AI_tree_1004201505_texture.glb",
+      "sourceSha256": "952e7c51694206fdd9b51891ee296630f9d14a4625e5890468ba355d7f9e81af",
+      "sourceTriangles": 813212,
+      "sourceUnmodified": true,
+      "sourceHeight": 12,
+      "normalization": {
+        "originalBlenderBounds": [
+          [
+            -0.7655209898948669,
+            -0.7323089838027954,
+            -0.9948480129241943
+          ],
+          [
+            0.7556319832801819,
+            0.7323830127716064,
+            0.9903879761695862
+          ]
+        ],
+        "uniformNormalization": 6.044621428346034
+      },
+      "removedPlinthFaces": 0,
+      "reassignedDisconnectedWood": {
+        "islands": 1958,
+        "triangles": 10308
+      },
+      "runtime": {
+        "near": {
+          "path": "public/models/flora/meshy-012/tree-1505-near.glb",
+          "file": "tree-1505-near.glb",
+          "bytes": 5166004,
+          "sha256": "1dc6200647573deb1f790505a5043d182226ef1061f90094a2a39cfe7fdf6f9b",
+          "triangles": 18536,
+          "uniqueTriangles": 18536,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 4536,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 14000,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -5.322756767272949,
+              0.0,
+              -5.697632789611816
+            ],
+            [
+              5.502545356750488,
+              12.602949142456055,
+              4.913865089416504
+            ]
+          ],
+          "height": 12.602949142456055,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 4146114,
+              "sha256": "f44f7160150d67662942f4200c70abcf0289b645c724111c069236d1eca3ee9c",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 204902,
+              "sha256": "0c7ba2804744ad73436df7277a5e325f1a658fcff2da8319bf1a7acb470aee89",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | rooted oak",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | rooted oak",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 2,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        },
+        "mid": {
+          "path": "public/models/flora/meshy-012/tree-1505-mid.glb",
+          "file": "tree-1505-mid.glb",
+          "bytes": 4723348,
+          "sha256": "f87f5932f645aee911732757f813e928b48a33f7b685c56f229dbf7ddbe6ba98",
+          "triangles": 6900,
+          "uniqueTriangles": 6900,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 2016,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 4884,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -5.322756767272949,
+              0.06722650676965714,
+              -5.697632789611816
+            ],
+            [
+              5.502545356750488,
+              12.602949142456055,
+              4.913865089416504
+            ]
+          ],
+          "height": 12.535722635686398,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 4146114,
+              "sha256": "f44f7160150d67662942f4200c70abcf0289b645c724111c069236d1eca3ee9c",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 204902,
+              "sha256": "0c7ba2804744ad73436df7277a5e325f1a658fcff2da8319bf1a7acb470aee89",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | rooted oak",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | rooted oak",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 2,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        },
+        "far": {
+          "path": "public/models/flora/meshy-012/tree-1505-far.glb",
+          "file": "tree-1505-far.glb",
+          "bytes": 4569736,
+          "sha256": "f9a6e1b4c5246ca87caf9f17b63075999951a35cf4a95616ab522414b45d8d89",
+          "triangles": 3140,
+          "uniqueTriangles": 3140,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 504,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 2636,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -5.322756767272949,
+              0.18510863184928894,
+              -5.697632789611816
+            ],
+            [
+              5.502545356750488,
+              12.602949142456055,
+              4.913865089416504
+            ]
+          ],
+          "height": 12.417840510606766,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 4146114,
+              "sha256": "f44f7160150d67662942f4200c70abcf0289b645c724111c069236d1eca3ee9c",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 204902,
+              "sha256": "0c7ba2804744ad73436df7277a5e325f1a658fcff2da8319bf1a7acb470aee89",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | rooted oak",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | rooted oak",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 2,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        }
+      },
+      "preparation": {
+        "tool": "Blender 5.2.0 LTS",
+        "UV": "Source wood UV islands retained by collapse; original UV unwrap for two untextured palms; dense crowns use original-source spatial cluster atlas",
+        "material": "Source wood PBR maps resized to 1024; dense foliage source albedo/alpha in a 2048 atlas; all-UV mild earthy PBR tint; rough nonmetal, no emission; original noise-baked palm albedo",
+        "semanticParts": "UV albedo green-vs-bark classification plus protected low trunk; palm crown/radial mask for untextured sources; tiny disconnected upper Wood fragments returned to source Foliage. Inferred semantic boundary, not artist-authored labels.",
+        "motion": "static attached wood and foliage",
+        "geometry": "uniform source normalization; separate wood/crown budgets; dense crowns use 21 source-positioned spatial clusters with 3 source-baked views, crossed curved side cards and curved top caps following each cluster vertical span; lower ornamental soil faces trimmed only for 1459/3106; residual source base retained in reserves",
+        "crownCards": {
+          "clusters": 21,
+          "views": 63,
+          "atlas": 2048,
+          "segments": [
+            6,
+            4,
+            2
+          ]
+        }
+      },
+      "seconds": 27.9,
+      "sourceBytes": 49851748
+    },
+    {
+      "id": "tree-1459",
+      "name": "orchard tree",
+      "habitat": "orchard reserve",
+      "selected": false,
+      "selection": "reserve",
+      "sourceFilename": "Meshy_AI_tree_1004201459_texture.glb",
+      "sourceSha256": "3f1f7e1d8eb5e5519c5cbb4df758626a0dd6da355dbe9fd06c541cf4122dabce",
+      "sourceTriangles": 21517,
+      "sourceUnmodified": true,
+      "sourceHeight": 12,
+      "normalization": {
+        "originalBlenderBounds": [
+          [
+            -1.0,
+            -0.9816933870315552,
+            -0.9038901925086975
+          ],
+          [
+            1.0,
+            0.9816933870315552,
+            0.9038901925086975
+          ]
+        ],
+        "uniformNormalization": 6.637974446151839
+      },
+      "removedPlinthFaces": 227,
+      "reassignedDisconnectedWood": {
+        "islands": 22,
+        "triangles": 55
+      },
+      "runtime": {
+        "near": {
+          "path": "public/models/flora/meshy-012/tree-1459-near.glb",
+          "file": "tree-1459-near.glb",
+          "bytes": 1671840,
+          "sha256": "bd5788716187a9afe831089f0e411e5ffca1f6b67acf38650f627fb02b6b553d",
+          "triangles": 18799,
+          "uniqueTriangles": 18799,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 14817,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 3982,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -6.637974262237549,
+              0.0,
+              -6.51645565032959
+            ],
+            [
+              6.637974262237549,
+              12.0,
+              6.51645565032959
+            ]
+          ],
+          "height": 12.0,
+          "images": [
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 249053,
+              "sha256": "520084aefe76ad6088d8041de67202f281817b857888ab403d291dae7c84cf45",
+              "width": 1024,
+              "height": 1024
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 180030,
+              "sha256": "4035a4fcc6082686b6cb3eb6bcd89a13d0917b783553b729074d1fd14314adf7",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Foliage | orchard tree",
+              "normalTexture": {
+                "index": 0
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9100000262260437,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              }
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | orchard tree",
+              "normalTexture": {
+                "index": 0
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 0,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        },
+        "mid": {
+          "path": "public/models/flora/meshy-012/tree-1459-mid.glb",
+          "file": "tree-1459-mid.glb",
+          "bytes": 1022656,
+          "sha256": "687d7670d28b2737556055099c709cf979ac70684f7a4c3e6be26b3bf913c5dc",
+          "triangles": 6897,
+          "uniqueTriangles": 6897,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 5436,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 1461,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -6.59591817855835,
+              0.0,
+              -6.523340225219727
+            ],
+            [
+              6.566709995269775,
+              11.874588012695312,
+              6.51645565032959
+            ]
+          ],
+          "height": 11.874588012695312,
+          "images": [
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 249053,
+              "sha256": "520084aefe76ad6088d8041de67202f281817b857888ab403d291dae7c84cf45",
+              "width": 1024,
+              "height": 1024
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 180030,
+              "sha256": "4035a4fcc6082686b6cb3eb6bcd89a13d0917b783553b729074d1fd14314adf7",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Foliage | orchard tree",
+              "normalTexture": {
+                "index": 0
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9100000262260437,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              }
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | orchard tree",
+              "normalTexture": {
+                "index": 0
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 0,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        },
+        "far": {
+          "path": "public/models/flora/meshy-012/tree-1459-far.glb",
+          "file": "tree-1459-far.glb",
+          "bytes": 626512,
+          "sha256": "10689588a8faf2e0a15a213bb8e73cdebef025ff230e9a809a909972a03a6625",
+          "triangles": 1827,
+          "uniqueTriangles": 1827,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 1425,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 402,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -6.546834945678711,
+              0.0,
+              -6.392193794250488
+            ],
+            [
+              6.455695629119873,
+              11.874588012695312,
+              6.4130964279174805
+            ]
+          ],
+          "height": 11.874588012695312,
+          "images": [
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 249053,
+              "sha256": "520084aefe76ad6088d8041de67202f281817b857888ab403d291dae7c84cf45",
+              "width": 1024,
+              "height": 1024
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 180030,
+              "sha256": "4035a4fcc6082686b6cb3eb6bcd89a13d0917b783553b729074d1fd14314adf7",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Foliage | orchard tree",
+              "normalTexture": {
+                "index": 0
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9100000262260437,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              }
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | orchard tree",
+              "normalTexture": {
+                "index": 0
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 1
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 0,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        }
+      },
+      "preparation": {
+        "tool": "Blender 5.2.0 LTS",
+        "UV": "Source wood UV islands retained by collapse; original UV unwrap for two untextured palms; dense crowns use original-source spatial cluster atlas",
+        "material": "Source wood PBR maps resized to 1024; dense foliage source albedo/alpha in a 2048 atlas; all-UV mild earthy PBR tint; rough nonmetal, no emission; original noise-baked palm albedo",
+        "semanticParts": "UV albedo green-vs-bark classification plus protected low trunk; palm crown/radial mask for untextured sources; tiny disconnected upper Wood fragments returned to source Foliage. Inferred semantic boundary, not artist-authored labels.",
+        "motion": "static attached wood and foliage",
+        "geometry": "uniform source normalization; separate wood/crown budgets; dense crowns use 21 source-positioned spatial clusters with 3 source-baked views, crossed curved side cards and curved top caps following each cluster vertical span; lower ornamental soil faces trimmed only for 1459/3106; residual source base retained in reserves",
+        "crownCards": null
+      },
+      "seconds": 2.0,
+      "sourceBytes": 10239272
+    },
+    {
+      "id": "tree-4815",
+      "name": "river broadleaf",
+      "habitat": "sheltered river grove",
+      "selected": true,
+      "selection": "full-tree",
+      "sourceFilename": "Meshy_AI_tree_1004164815_texture.glb",
+      "sourceSha256": "b19f48d90441de9e0a3a94531afccdafacb7927f042f7209f02af413ad4c09b4",
+      "sourceTriangles": 6853063,
+      "sourceUnmodified": true,
+      "sourceHeight": 12,
+      "normalization": {
+        "originalBlenderBounds": [
+          [
+            -0.5525460243225098,
+            -0.4893780052661896,
+            -0.9519799947738647
+          ],
+          [
+            0.5463929772377014,
+            0.4916149973869324,
+            0.9506250023841858
+          ]
+        ],
+        "uniformNormalization": 6.307142059399917
+      },
+      "removedPlinthFaces": 0,
+      "reassignedDisconnectedWood": {
+        "islands": 1040,
+        "triangles": 17105
+      },
+      "runtime": {
+        "near": {
+          "path": "public/models/flora/meshy-012/tree-4815-near.glb",
+          "file": "tree-4815-near.glb",
+          "bytes": 7333440,
+          "sha256": "68429877696c1304865c234b834fcf752388b5f0370c783da4a6cfdb5cdb4a71",
+          "triangles": 18536,
+          "uniqueTriangles": 18536,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 4536,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 14000,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -3.6100142002105713,
+              0.0,
+              -3.4511942863464355
+            ],
+            [
+              4.047546863555908,
+              12.138579368591309,
+              3.4356822967529297
+            ]
+          ],
+          "height": 12.138579368591309,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 5447668,
+              "sha256": "31703db6f2ccbfe8f17cd0ff992c904beed1ce14a006ef42c48a41545939fef2",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 462788,
+              "sha256": "c90c414e6a5d7d5ae357d1d2d86e33a44a57011c9522eeebe9996c62ea5be861",
+              "width": 1024,
+              "height": 1024
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 322346,
+              "sha256": "1dec5eee5e6c062f303ca0aaf20c73f06763c9d7411aa378ce401b5b77173c72",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | river broadleaf",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | river broadleaf",
+              "normalTexture": {
+                "index": 1
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 2
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 1,
+            "degenerateMappedTangentsRepaired": 1
+          }
+        },
+        "mid": {
+          "path": "public/models/flora/meshy-012/tree-4815-mid.glb",
+          "file": "tree-4815-mid.glb",
+          "bytes": 6726808,
+          "sha256": "68ddf423f00357501309c0e8e5a758e5e62aae9cc6b77248700addbb97b180ce",
+          "triangles": 6899,
+          "uniqueTriangles": 6899,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 2016,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 4883,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -3.6100142002105713,
+              -0.06936302781105042,
+              -3.4511942863464355
+            ],
+            [
+              4.047546863555908,
+              12.138579368591309,
+              3.4356822967529297
+            ]
+          ],
+          "height": 12.207942396402359,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 5447668,
+              "sha256": "31703db6f2ccbfe8f17cd0ff992c904beed1ce14a006ef42c48a41545939fef2",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 462788,
+              "sha256": "c90c414e6a5d7d5ae357d1d2d86e33a44a57011c9522eeebe9996c62ea5be861",
+              "width": 1024,
+              "height": 1024
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 322346,
+              "sha256": "1dec5eee5e6c062f303ca0aaf20c73f06763c9d7411aa378ce401b5b77173c72",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | river broadleaf",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | river broadleaf",
+              "normalTexture": {
+                "index": 1
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 2
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 1,
+            "degenerateMappedTangentsRepaired": 0
+          }
+        },
+        "far": {
+          "path": "public/models/flora/meshy-012/tree-4815-far.glb",
+          "file": "tree-4815-far.glb",
+          "bytes": 6513156,
+          "sha256": "5351a2c5a98af32f5930a30c1664e45d9ce78d37aa67c4fc12410c2c8128cf1d",
+          "triangles": 2924,
+          "uniqueTriangles": 2924,
+          "parts": [
+            {
+              "name": "Foliage",
+              "triangles": 504,
+              "mesh": 0
+            },
+            {
+              "name": "Wood",
+              "triangles": 2420,
+              "mesh": 1
+            }
+          ],
+          "bounds": [
+            [
+              -3.6100142002105713,
+              -0.07838107645511627,
+              -3.4511942863464355
+            ],
+            [
+              4.047546863555908,
+              12.138579368591309,
+              3.4356822967529297
+            ]
+          ],
+          "height": 12.216960445046425,
+          "images": [
+            {
+              "mimeType": "image/png",
+              "bytes": 5447668,
+              "sha256": "31703db6f2ccbfe8f17cd0ff992c904beed1ce14a006ef42c48a41545939fef2",
+              "width": 2048,
+              "height": 2048
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 462788,
+              "sha256": "c90c414e6a5d7d5ae357d1d2d86e33a44a57011c9522eeebe9996c62ea5be861",
+              "width": 1024,
+              "height": 1024
+            },
+            {
+              "mimeType": "image/jpeg",
+              "bytes": 322346,
+              "sha256": "1dec5eee5e6c062f303ca0aaf20c73f06763c9d7411aa378ce401b5b77173c72",
+              "width": 1024,
+              "height": 1024
+            }
+          ],
+          "materials": [
+            {
+              "alphaMode": "MASK",
+              "doubleSided": true,
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.23999999463558197
+                }
+              },
+              "name": "Foliage | river broadleaf",
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 0
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.949999988079071,
+                "baseColorFactor": [
+                  0.84,
+                  0.9,
+                  0.8,
+                  1
+                ]
+              },
+              "alphaCutoff": 0.35
+            },
+            {
+              "extensions": {
+                "KHR_materials_specular": {
+                  "specularFactor": 0.36000001430511475
+                }
+              },
+              "name": "Wood | river broadleaf",
+              "normalTexture": {
+                "index": 1
+              },
+              "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                  "index": 2
+                },
+                "metallicFactor": 0,
+                "roughnessFactor": 0.9399999976158142,
+                "baseColorFactor": [
+                  0.93,
+                  0.87,
+                  0.79,
+                  1
+                ]
+              }
+            }
+          ],
+          "requiredExtensions": [],
+          "tangentRepair": {
+            "unusedTangentAttributesRemoved": 1,
+            "degenerateMappedTangentsRepaired": 1
+          }
+        }
+      },
+      "preparation": {
+        "tool": "Blender 5.2.0 LTS",
+        "UV": "Source wood UV islands retained by collapse; original UV unwrap for two untextured palms; dense crowns use original-source spatial cluster atlas",
+        "material": "Source wood PBR maps resized to 1024; dense foliage source albedo/alpha in a 2048 atlas; all-UV mild earthy PBR tint; rough nonmetal, no emission; original noise-baked palm albedo",
+        "semanticParts": "UV albedo green-vs-bark classification plus protected low trunk; palm crown/radial mask for untextured sources; tiny disconnected upper Wood fragments returned to source Foliage. Inferred semantic boundary, not artist-authored labels.",
+        "motion": "static attached wood and foliage",
+        "geometry": "uniform source normalization; separate wood/crown budgets; dense crowns use 21 source-positioned spatial clusters with 3 source-baked views, crossed curved side cards and curved top caps following each cluster vertical span; lower ornamental soil faces trimmed only for 1459/3106; residual source base retained in reserves",
+        "crownCards": {
+          "clusters": 21,
+          "views": 63,
+          "atlas": 2048,
+          "segments": [
+            6,
+            4,
+            2
+          ]
+        }
+      },
+      "seconds": 100.1,
+      "sourceBytes": 326023440
+    }
+  ],
+  "verification": {
+    "originalSourceHashes": "All 14 verified against initial read-only inspection",
+    "protectedPineHashes": "Near/middle/far verified byte exact against approved source-pine receipts",
+    "deliveredScenes": "42 GLBs independently counted by named scene mesh instances; each strictly below 20,000 triangles",
+    "nativeAcceptance": "Combined game/menus and hardware timing are separate root-agent gates; source material/mask renders are component evidence."
+  }
+}

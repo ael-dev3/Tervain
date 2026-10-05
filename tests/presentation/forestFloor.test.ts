@@ -11,6 +11,7 @@ import { createInitialState } from '../../src/game/state';
 import { worldView } from '../../src/game/worldView';
 import { disposeTreeTextures } from '../../src/presentation/treeTextures';
 import { createFloraPopulation } from '../../src/presentation/floraPopulation';
+import { biomeAt } from '../../src/world/biomes';
 
 const terrain = new Terrain();
 const exclusions = new Exclusions(terrain);
@@ -73,8 +74,7 @@ describe('Deepwood floor', () => {
     expect(createForestFloorPopulation(terrain, exclusions, [])).toEqual([]);
     expect(new Set(population.map((p) => p.kind))).toEqual(new Set(['fern', 'shrub', 'moss', 'litter', 'log', 'fungi']));
     for (const p of population) {
-      expect(deepwoodCover(p.x, p.z)).toBeGreaterThan(0.05);
-      expect(p.x).toBeGreaterThan(DEEPWOOD.minX);
+      expect(Math.max(deepwoodCover(p.x, p.z), biomeAt(p.x, p.z).woodland)).toBeGreaterThan(0.05);
       expect(Math.hypot(p.x - SPAWN.x, p.z - SPAWN.z)).toBeGreaterThan(30);
       expect(Math.hypot(p.x - FOREST_RUIN.x, p.z - FOREST_RUIN.z)).toBeGreaterThan(FOREST_RUIN.r);
       for (const marker of FOREST_WAYMARKERS) expect(Math.hypot(p.x - marker.x, p.z - marker.z)).toBeGreaterThan(2.4);
@@ -82,6 +82,22 @@ describe('Deepwood floor', () => {
       expect(terrain.carveAt(p.x, p.z)).toBeLessThanOrEqual(0.01);
       expect(distToPolyline(p.x, p.z, ARRIVAL_ROUTE).d).toBeGreaterThan(2.1);
       expect(Number.isFinite(p.nx) && Number.isFinite(p.nz)).toBe(true);
+    }
+  });
+
+  it('extends source-crown floor into humid and warm habitats without spreading ferns into dry palm sand', () => {
+    const trees = createFloraPopulation(terrain, exclusions);
+    const source = { coverAt: () => 0.75, broadleafAt: () => 0.55 };
+    const floor = createForestFloorPopulation(terrain, exclusions, trees, source);
+    expect(floor.some(piece => piece.x > DEEPWOOD.maxX && biomeAt(piece.x, piece.z).woodland > 0.5)).toBe(true);
+    expect(floor.some(piece => piece.kind === 'fern' && biomeAt(piece.x, piece.z).weights['humid-broadleaf'] > 0.5)).toBe(true);
+    expect(floor.some(piece => piece.kind === 'litter' && biomeAt(piece.x, piece.z).weights['ochre-woodland'] > 0.5)).toBe(true);
+    expect(floor.filter(piece => piece.kind === 'fern' || piece.kind === 'moss')
+      .every(piece => biomeAt(piece.x, piece.z).weights['sheltered-palms'] <= 0.35)).toBe(true);
+    for (const piece of floor) {
+      const reach = piece.kind === 'fern' ? piece.scale * 1.5 : piece.kind === 'shrub' ? piece.scale * 0.85 : piece.kind === 'log' ? 2.6 : 0.45;
+      expect(exclusions.blocked(piece.x, piece.z, reach)).toBe(false);
+      expect(terrain.slopeAt(piece.x, piece.z)).toBeLessThanOrEqual(0.62);
     }
   });
 

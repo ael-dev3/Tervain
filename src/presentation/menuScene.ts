@@ -24,6 +24,8 @@ import { GROVE_DOOR_OPEN, GROVE_MAX_SPIRITS, createMenuGrove, type MenuGrove } f
 import { MENU_SCORE_FEATURE_INFO } from './menu/menuScoreFeatures';
 import type { MenuMusicPlayback } from './audio';
 import type { Rig } from './characters';
+import type { MeshyTreeTemplates } from './meshyTrees';
+import { MENU_TREE_SOURCE, assertMenuTreeBudget, createMenuTreeRemix } from './menu/menuTreeRemix';
 
 export type MenuQuality = 'low' | 'medium' | 'high';
 export interface MenuAwakeningState { time: number; duration: number; gain: number }
@@ -83,7 +85,7 @@ function browserResources(): MenuResources {
 export class MenuScene {
   readonly scene = new THREE.Scene();
   readonly camera = new THREE.PerspectiveCamera(MENU_CAMERA.fov, 16 / 9, 0.2, 2600);
-  readonly stats = { triangles: 0, meshes: 0, grassTufts: 0, leafCards: 0, banners: 1, lights: 0, ships: 0, wisps: 0 };
+  readonly stats = { triangles: 0, meshes: 0, grassTufts: 0, leafCards: 0, treeTriangles: 0, treeSource: 'original-hermitage', banners: 1, lights: 0, ships: 0, wisps: 0 };
   readonly quality: MenuQuality;
   private readonly res: MenuResources;
   private readonly sway: SwayUniforms = { uTime: { value: 0 }, uWind: { value: 0.8 } };
@@ -117,7 +119,7 @@ export class MenuScene {
   private readonly baseFov = MENU_CAMERA.fov;
   static readonly MAX_FOV = 76;
 
-  constructor(opts: { quality?: MenuQuality; resources?: MenuResources; trafficSeed?: number; trafficTime?: number; awakening?: MenuAwakeningState; grove?: MenuGrove; wardenRig?: Rig } = {}) {
+  constructor(opts: { quality?: MenuQuality; resources?: MenuResources; trafficSeed?: number; trafficTime?: number; awakening?: MenuAwakeningState; grove?: MenuGrove; wardenRig?: Rig; treeTemplates?: MeshyTreeTemplates } = {}) {
     this.quality = opts.quality ?? 'high';
     this.res = opts.resources ?? browserResources();
     // Deterministic standalone construction; the app supplies a fresh seed on each actual menu entry.
@@ -195,8 +197,11 @@ export class MenuScene {
     };
     const doorYaw = Math.atan2(MENU_CAMERA.x - MENU_TREE.x, MENU_CAMERA.z - MENU_TREE.z) - 0.27;
     const doorDir = new THREE.Vector3(Math.sin(doorYaw), 0, Math.cos(doorYaw)).applyAxisAngle(UP, -treeRoot.rotation.y);
+    const suppliedTree = opts.treeTemplates?.get(MENU_TREE_SOURCE);
+    if (opts.treeTemplates && !suppliedTree) throw new Error(`Menu tree source ${MENU_TREE_SOURCE} is unavailable.`);
     const tree = buildAncientTree(1207, {
-      leafCards: q === 'low' ? 900 : q === 'medium' ? 1500 : 2200,
+      leafCards: suppliedTree ? 0 : q === 'low' ? 900 : q === 'medium' ? 1500 : 2200,
+      woodDetail: suppliedTree ? 0.8 : 1,
       door: { az: Math.atan2(doorDir.z, doorDir.x), halfWidth: HERMIT_DOOR.faceHalfWidth, height: HERMIT_DOOR.faceTop,
         opening: { width: HERMIT_DOOR.width, height: HERMIT_DOOR.height } },
       ground: groundLocal,
@@ -210,9 +215,16 @@ export class MenuScene {
     woodMat.customProgramCacheKey = () => `tervain-menu-bark-${wispLight.lights.key}`;
     bark.map.wrapS = bark.map.wrapT = THREE.RepeatWrapping;
     bark.normal.wrapS = bark.normal.wrapT = THREE.RepeatWrapping;
-    const leafTex = this.res.leaf();
-    const leafMat = new THREE.MeshStandardMaterial({ map: leafTex, vertexColors: true, roughness: 0.92, metalness: 0, side: THREE.DoubleSide, alphaTest: 0.42, alphaToCoverage: true });
-    leafMat.onBeforeCompile = (sh) => {
+    const remix = suppliedTree ? createMenuTreeRemix(suppliedTree, tree, this.sway, wispLight.lights) : null;
+    if (remix) {
+      tree.crown = remix.crown; tree.leafSites = remix.leafSites;
+      tree.height = Math.max(tree.height, remix.crown.top);
+      this.stats.treeSource = `${MENU_TREE_SOURCE}:LOD${remix.sourceLod}`;
+      this.owned.push(remix);
+    }
+    const leafTex = remix ? null : this.res.leaf();
+    const leafMat = remix ? null : new THREE.MeshStandardMaterial({ map: leafTex, vertexColors: true, roughness: 0.92, metalness: 0, side: THREE.DoubleSide, alphaTest: 0.42, alphaToCoverage: true });
+    if (leafMat) leafMat.onBeforeCompile = (sh) => {
       // Same treatment as the playable leaves: never flip the crown-shaped normals for back faces, and let the low sun
       // shine through the leaves on the edge of the crown.
       sh.fragmentShader = sh.fragmentShader.replace('#include <normal_fragment_begin>', THREE.ShaderChunk.normal_fragment_begin.replace('gl_FrontFacing ? 1.0 : - 1.0', '1.0'));
@@ -229,17 +241,25 @@ export class MenuScene {
       );
       wispLight.lights.patch(sh);
     };
-    leafMat.customProgramCacheKey = () => `tervain-menu-leaf-${wispLight.lights.key}`;
+    if (leafMat) leafMat.customProgramCacheKey = () => `tervain-menu-leaf-${wispLight.lights.key}`;
     const woodMesh = new THREE.Mesh(tree.wood, woodMat);
     woodMesh.castShadow = woodMesh.receiveShadow = true;
     woodMesh.name = 'Menu_Ancient_Tree_Wood';
-    const leafMesh = new THREE.Mesh(tree.leaves, leafMat);
-    leafMesh.castShadow = q !== 'low';
-    leafMesh.name = 'Menu_Ancient_Tree_Leaves';
-    treeRoot.add(woodMesh, leafMesh);
+    treeRoot.add(woodMesh);
+    if (remix) {
+      remix.parts.forEach((part, i) => {
+        const mesh = new THREE.Mesh(part.geometry, part.material);
+        mesh.name = i === 0 ? 'Menu_Ancient_Tree_Leaves' : `Menu_Ancient_Tree_Leaves_${i}`;
+        mesh.castShadow = q !== 'low'; mesh.receiveShadow = true; treeRoot.add(mesh);
+      });
+    } else {
+      const leafMesh = new THREE.Mesh(tree.leaves, leafMat!);
+      leafMesh.castShadow = q !== 'low'; leafMesh.name = 'Menu_Ancient_Tree_Leaves'; treeRoot.add(leafMesh);
+      this.owned.push(leafMat!, leafTex!);
+    }
     this.scene.add(treeRoot);
     treeRoot.updateMatrixWorld(true);
-    this.owned.push(tree.wood, tree.leaves, woodMat, leafMat, bark.map, bark.normal, leafTex);
+    this.owned.push(tree.wood, tree.leaves, woodMat, bark.map, bark.normal);
     this.stats.leafCards = tree.stats.leafCards;
 
     // The door stands on the flat face the tree cut for it.
@@ -264,6 +284,7 @@ export class MenuScene {
     this.hollow = buildMenuHollow(face, { lights: this.wisps.lights });
     treeRoot.add(this.hollow.mesh);
     this.owned.push(this.hollow);
+    const beforeBoughHardware = R.tris;
 
     // Rags and a few iron lanterns hang from the bare low boughs: tied round the bough itself, never from the air beside it.
     const boughs = tree.lowBoughs.map((b) => ({
@@ -332,6 +353,11 @@ export class MenuScene {
     const rags = buildRibbons(anchors, this.ribbonTime);
     this.scene.add(rags.mesh);
     this.owned.push(rags);
+    if (remix) {
+      const ragTriangles = (rags.mesh.geometry.index?.count ?? rags.mesh.geometry.getAttribute('position').count) / 3;
+      this.stats.treeTriangles = assertMenuTreeBudget(treeRoot, this.camp.group.getObjectByName('Menu_Tree_Door'),
+        this.camp.doorStaticTriangles + R.tris - beforeBoughHardware + ragTriangles);
+    }
     this.banner = buildMenuBanner(this.res.canvas, this.res.emblemUrl, (x, z) => restHeight(x, z, 0.5), buildBannerHardware(R, mulberry32(77)));
     this.banner.group.position.set(MENU_BANNER.x, restHeight(MENU_BANNER.x, MENU_BANNER.z, 0.8), MENU_BANNER.z);
     const staticGroup = R.toGroup(this.mats, { isStatic: true, shadows: q !== 'low' });

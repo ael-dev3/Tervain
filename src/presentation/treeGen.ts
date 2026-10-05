@@ -10,8 +10,8 @@ import { assertNaturalModelBudget } from './naturalModelBudget';
  * its shape as it recedes. Geometry is in tree-local metres, y up, roots at y = 0.
  */
 
-export type Species = 'oak' | 'birch' | 'pine' | 'fir' | 'shorepine' | 'dead' | 'orchard' | 'shrub';
-export const SPECIES: Species[] = ['oak', 'birch', 'pine', 'fir', 'shorepine', 'dead', 'orchard', 'shrub'];
+export type Species = 'oak' | 'birch' | 'pine' | 'fir' | 'shorepine' | 'dead' | 'orchard' | 'shrub' | 'palm';
+export const SPECIES: Species[] = ['oak', 'birch', 'pine', 'fir', 'shorepine', 'dead', 'orchard', 'shrub', 'palm'];
 
 type V3 = [number, number, number];
 export type RGB = [number, number, number];
@@ -208,6 +208,10 @@ export interface LodGeometry {
 
 export interface TreeVariant {
   species: Species;
+  /** Owner-supplied source identity, when this variant uses the 0.0.12 catalog. */
+  assetId?: string;
+  /** Source-visible near-crown centroids in local metres; excludes transparent atlas pixels. */
+  leafSurfaceSites?: readonly { x: number; y: number; z: number }[];
   height: number;
   crownRadius: number;
   trunkRadius: number;
@@ -228,6 +232,7 @@ interface Spec {
 }
 
 const SPECS: Record<Species, Spec> = {
+  palm: { bark: 'oak', barkColor: barkT(0.9, 0.8, 0.68), leaf: 'oak', crownTex: 'crown', leafColors: [lin(0.86, 0.98, 0.7)], dying: 0.04 },
   oak: { bark: 'oak', barkColor: barkT(0.78, 0.72, 0.64), leaf: 'oak', crownTex: 'crown', leafColors: [lin(1.0, 0.98, 0.72), lin(0.86, 0.92, 0.66), lin(1.08, 1.02, 0.7), lin(0.92, 0.86, 0.6)], dying: 0.1 },
   birch: { bark: 'birch', barkColor: barkT(1, 1, 1), leaf: 'birch', crownTex: 'crown', leafColors: [lin(1.1, 1.1, 0.68), lin(0.96, 1.06, 0.66), lin(1.16, 1.06, 0.62)], dying: 0.06 },
   pine: { bark: 'pine', barkColor: barkT(0.95, 0.82, 0.72), leaf: 'needle', crownTex: 'conifer', leafColors: [lin(0.98, 1.08, 0.86), lin(0.86, 1.0, 0.78), lin(1.05, 1.1, 0.88)], dying: 0.05 },
@@ -285,6 +290,8 @@ interface BroadSpec {
 }
 
 const BROAD: Partial<Record<Species, BroadSpec>> = {
+  // Authoring-tool fallback only; the game requires the source palm GLBs.
+  palm: { H: 14, trunkR: 0.3, forkH: 11, limbs: 7, limbLen: 4.5, crownR: 4.5, cards: 120, cardSize: 1.4, gravity: 0.35, curl: 0.15, lean: 0.08 },
   oak: { H: 19.5, trunkR: 0.64, forkH: 8.1, limbs: 6, limbLen: 8.2, crownR: 7.8, cards: 360, cardSize: 2.55, gravity: 0.17, curl: 0.43, lean: 0.045 },
   birch: { H: 14.2, trunkR: 0.2, forkH: 6.2, limbs: 6, limbLen: 4.6, crownR: 4.3, cards: 320, cardSize: 1.65, gravity: 0.12, curl: 0.42, lean: 0.05 },
   orchard: { H: 4.4, trunkR: 0.2, forkH: 1.3, limbs: 4, limbLen: 2.7, crownR: 3.0, cards: 360, cardSize: 1.0, gravity: 0.32, curl: 0.55, lean: 0.12 },

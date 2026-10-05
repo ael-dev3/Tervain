@@ -19,6 +19,7 @@ import { LAYER } from '../terrainTextures';
 import { shoreDistance } from '../../world/coast';
 import { isWorldPickupItem } from '../../content/pickups';
 import type { PlantedCrownField } from '../plantedCrowns';
+import { biomeAt } from '../../world/biomes';
 
 /**
  * A cheap, lazily evaluated map of where plants may grow and what kind of ground it is.
@@ -33,7 +34,7 @@ import type { PlantedCrownField } from '../plantedCrowns';
 export interface HabitatSample {
   /** 0..1: how much of the surface is free for plants (paths, water, doorways and interaction points removed). */
   open: number;
-  /** 0..1: nearness to water (streams and the wetland pool). */
+  /** 0..1: plant moisture from water and the shared regional soil profile; not surface wetness. */
   wet: number;
   /** 0..1: sun-cured patch (matches the golden patches the terrain colouring paints). */
   dry: number;
@@ -238,6 +239,7 @@ export class Habitat {
 
   private evalNode(x: number, z: number, o: Float32Array, k: number) {
     const terrain = this.terrain;
+    const biome = biomeAt(x, z);
     let open = 1;
     const road = roadWeight(x, z);
     open *= 1 - smoothstep(0.03, 0.6, road);
@@ -249,7 +251,7 @@ export class Habitat {
     // Plants grow where the ground layers say soil is: not on rock, wet sand or the sea bed; a little on dry dunes.
     {
       const w = this.scratch;
-      groundSplat(terrain, x, z, w, this.plantedCrowns);
+      groundSplat(terrain, x, z, w, this.plantedCrowns, biome);
       const sd = shoreDistance(x, z);
       const dune = (1 - smoothstep(12, 44, sd)) * smoothstep(9, 16, sd);
       const soil = w[LAYER.grass]! + w[LAYER.heath]! + 0.55 * w[LAYER.earth]! + 0.4 * w[LAYER.sand]! * dune + 0.12 * w[LAYER.gravel]!;
@@ -271,10 +273,11 @@ export class Habitat {
     const sd = streamCentreDistance(x, z);
     const wetT = 1 - smoothstep(3, 26, sd);
     const n = fbm(x / 22, z / 22, 3, 21) * 0.5 + 0.5;
-    const dry = clamp(1 - wetT * 1.2, 0, 1) * smoothstep(0.35, 0.75, n);
+    const dry = clamp((1 - wetT * 1.2) * smoothstep(0.35, 0.75, n)
+      + biome.exposure * 0.48 - biome.moisture * 0.34, 0, 1);
     const wd = waterDistance(x, z);
-    const wet = 1 - smoothstep(1.5, 24, wd);
-    o[k] = open;
+    const wet = Math.max(1 - smoothstep(1.5, 24, wd), biome.moisture * 0.7);
+    o[k] = open * biome.grassDensity;
     o[k + 1] = wet;
     o[k + 2] = dry;
     o[k + 3] = this.woodAt(x, z);

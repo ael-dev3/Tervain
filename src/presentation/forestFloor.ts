@@ -10,6 +10,7 @@ import { createFloraPopulation, type FloraTree } from './floraPopulation';
 import { streamDistance } from './vegetation';
 import { attachInstanceDistanceVisibility, smoothDistanceFade, type InstanceDistanceVisibility } from './distanceVisibility';
 import type { PlantedCrownField } from './plantedCrowns';
+import { biomeAt, type BiomeSample } from '../world/biomes';
 
 export type ForestFloorKind = 'fern' | 'shrub' | 'moss' | 'litter' | 'log' | 'fungi';
 export interface ForestFloorPiece { id: string; kind: ForestFloorKind; x: number; y: number; z: number; nx: number; nz: number; yaw: number; scale: number; rank: number; variant: number; parentLogId?: string }
@@ -42,10 +43,12 @@ export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 
     }
     return 1 - Math.exp(-cover);
   };
-  const put = (kind: ForestFloorKind, x: number, z: number, scale: number, variant: number) => {
+  const put = (kind: ForestFloorKind, x: number, z: number, scale: number, variant: number, sampledBiome?: Readonly<BiomeSample>) => {
     const reach = kind === 'log' ? 2.6 : kind === 'fern' ? scale * 1.5 : kind === 'shrub' ? scale * 0.85 : 0.45;
     if (realmRadius(x, z) > 0.97 || terrain.heightAt(x, z) < 0.35 || terrain.carveAt(x, z) > 0.01 || terrain.slopeAt(x, z) > 0.62 || exclusions.blocked(x, z, reach)) return;
     if (crowns && crowns.coverAt(x, z) < 0.08) return;
+    // Dry palm sand carries sparse litter; moist temperate ferns never appear beneath it.
+    if ((kind === 'fern' || kind === 'moss') && (sampledBiome ?? biomeAt(x, z)).weights['sheltered-palms'] > 0.35) return;
     if (kind === 'log' && terrain.slopeAt(x, z) > 0.22) return;
     if (forestClearingDistance(x, z) < (kind === 'log' ? scale * 1.7 : kind === 'fern' || kind === 'shrub' ? reach : 0.4)) return;
     if (nearby(x, z).some((t) => Math.hypot(t.x - x, t.z - z) < t.radius + (kind === 'log' ? scale * 1.7 + 0.25 : 0.24))) return;
@@ -64,21 +67,23 @@ export function createForestFloorPopulation(terrain: Pick<Terrain, 'heightAt' | 
       rnd = mulberry32(50419 ^ Math.imul(Math.round(gx * 10), 71303) ^ Math.imul(Math.round(gz * 10), 31231));
       const x = gx + (rnd() - 0.5) * step * 0.8;
       const z = gz + (rnd() - 0.5) * step * 0.8;
-      const cover = deepwoodCover(x, z) * forestClearingCover(x, z);
+      const biome = biomeAt(x, z);
+      const cover = Math.max(deepwoodCover(x, z), biome.woodland) * forestClearingCover(x, z);
       if (cover < 0.1) continue;
       const canopy = canopyAt(x, z);
       if (canopy < 0.08) continue;
-      const wet = 1 - smoothstep(5, 32, streamDistance(x, z));
+      const wet = Math.max(1 - smoothstep(5, 32, streamDistance(x, z)), biome.moisture);
       const colony = smoothstep(-0.2, 0.5, fbm(x / 11, z / 11, 2, 50420));
-      if (rnd() < cover * canopy * (0.4 + colony * 0.68 + wet * 0.32)) {
-        const fern = put('fern', x, z, 0.62 + rnd() * 0.64, Math.floor(rnd() * 3));
+      const fernGrowth = biome.lowGrowth * (1 - biome.exposure * 0.7);
+      if (rnd() < cover * canopy * (0.4 + colony * 0.68 + wet * 0.32) * fernGrowth) {
+        const fern = put('fern', x, z, 0.62 + rnd() * 0.64, Math.floor(rnd() * 3), biome);
         if (fern && rnd() < colony * (0.28 + wet * 0.28)) {
           const az = rnd() * Math.PI * 2;
           put('fern', x + Math.cos(az) * 1.65, z + Math.sin(az) * 1.65, 0.5 + rnd() * 0.55, Math.floor(rnd() * 3));
         }
       }
-      if (rnd() < cover * canopy * (0.08 + colony * 0.2) * (0.4 + wet * 0.6)) put('shrub', x + 1.45, z + 0.65, 0.7 + rnd() * 0.4, Math.floor(rnd() * 2));
-      if (rnd() < cover * canopy * (0.22 + wet * 0.38 + colony * 0.16)) put('moss', x + 0.8, z - 0.55, 0.6 + rnd() * 0.8, 0);
+      if (rnd() < cover * canopy * (0.08 + colony * 0.2) * (0.4 + wet * 0.6) * biome.lowGrowth) put('shrub', x + 1.45, z + 0.65, 0.7 + rnd() * 0.4, Math.floor(rnd() * 2));
+      if (rnd() < cover * canopy * (0.22 + wet * 0.38 + colony * 0.16) * (1 - biome.exposure * 0.72)) put('moss', x + 0.8, z - 0.55, 0.6 + rnd() * 0.8, 0);
       if (rnd() < cover * canopy * (0.65 + colony * 0.25)) {
         const variant = crowns && crowns.broadleafAt(x, z) < canopy * 0.3 ? 2 : Math.floor(rnd() * 2);
         put('litter', x - 1, z + 1, 0.95 + rnd() * 0.75, variant);

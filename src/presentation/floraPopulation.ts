@@ -1,4 +1,4 @@
-import { ARRIVAL_ROUTE, DEEPWOOD, ORCHARD, WORLD } from '../world/layout';
+import { ARRIVAL_ROUTE, DEEPWOOD, ORCHARD, STRAND, WORLD } from '../world/layout';
 import { deepwoodCover, forestOpeningCover, forestClearingCover, forestClearingDistance } from '../world/forest';
 import { forestStandAt, FOREST_CROWN_ENVELOPE, type ForestFamilyRole } from '../world/forestStands';
 import { cliffiness, shoreDistance } from '../world/coast';
@@ -9,6 +9,7 @@ import type { Quality } from './context';
 import type { Species } from './treeGen';
 import { streamDistance, type Exclusions } from './vegetation';
 import { smoothDistanceFade } from './distanceVisibility';
+import { BIOME_REGIONS, biomeAt } from '../world/biomes';
 
 export type TreeAge = 'veteran' | 'mature' | 'young' | 'sapling';
 export interface FloraTree {
@@ -22,6 +23,8 @@ export interface FloraTree {
   standId?: string;
   familyRole?: ForestFamilyRole;
   age?: TreeAge;
+  /** Explicit supplied-tree override; otherwise the renderer selects the species/variant family. */
+  assetId?: string;
 }
 
 export type FloraClaimOutcome = 'site' | 'wood-clearance' | 'clearing' | 'spacing' | 'accepted';
@@ -33,13 +36,22 @@ export const FLORA_VARIANTS = 3;
 export const FLORA_TRUNK_GAP = 0.35;
 /** Local exclusions can affect spacing neighbours, never a chain across the world. */
 export const FLORA_EDIT_INFLUENCE = 16;
-const RADIUS: Record<Species, number> = { oak: 1.12, birch: 0.34, pine: 0.64, fir: 0.58, shorepine: 0.4, dead: 0.42, orchard: 0.28, shrub: 0 };
+const RADIUS: Record<Species, number> = { oak: 1.12, birch: 0.34, pine: 0.64, fir: 0.58, shorepine: 0.4, palm: 0.45, dead: 0.42, orchard: 0.28, shrub: 0 };
 function hashKey(key: string, salt = 0): number {
   let hash = (2166136261 ^ salt ^ 2026) >>> 0;
   for (let i = 0; i < key.length; i++) hash = Math.imul(hash ^ key.charCodeAt(i), 16777619) >>> 0;
   return hash;
 }
 const randomFor = (key: string, salt = 0) => mulberry32(hashKey(key, salt));
+// Conservative bounds of the fully feathered, rotated ellipses plus the exact biome warp's
+// maximum displacement. Skip only guaranteed-zero palm queries; do not quantize the field.
+const PALM_QUERY_BOUNDS = BIOME_REGIONS.palms.map(region => {
+  const feather = 1 + region.feather / Math.min(region.rx, region.rz);
+  const c = Math.cos(region.yaw), s = Math.sin(region.yaw);
+  const rx = Math.hypot(region.rx * c, region.rz * s) * feather + 3.5;
+  const rz = Math.hypot(region.rx * s, region.rz * c) * feather + 4;
+  return { minX: region.x - rx, maxX: region.x + rx, minZ: region.z - rz, maxZ: region.z + rz };
+});
 type CanopySpecies = 'oak' | 'pine' | 'fir' | 'birch';
 interface Grove { id: string; x: number; z: number; radius: number; dominant: CanopySpecies; companion: CanopySpecies; accent: CanopySpecies; tint: number; role?: ForestFamilyRole; regrowth?: number }
 interface Candidate { key: string; priority: number; footprint: number; tree: FloraTree }
@@ -49,7 +61,8 @@ interface Candidate { key: string; priority: number; footprint: number; tree: Fl
 export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slopeAt' | 'carveAt'>, excl: Pick<Exclusions, 'blocked'>,
   footprintFor?: (tree: Readonly<FloraTree>, legacyFootprint: number) => number,
   groundFor?: (tree: Readonly<FloraTree>) => number,
-  onClaim?: (claim: FloraClaim) => void): FloraTree[] {
+  onClaim?: (claim: FloraClaim) => void,
+  crownFor?: (tree: Readonly<FloraTree>) => number): FloraTree[] {
   const candidates: Candidate[] = [], groves = new Map<string, Grove>();
   const grove = (ix: number, iz: number): Grove => {
     const id = `grove:${ix}:${iz}`, found = groves.get(id);
@@ -73,8 +86,10 @@ export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slope
     nearby.sort((a, b) => a.d - b.d || a.grove.id.localeCompare(b.grove.id));
     return { first: nearby[0]!.grove, second: nearby[1]!.grove, blend: (1 - smoothstep(0, 0.45, nearby[1]!.d - nearby[0]!.d)) * 0.35 };
   };
-  const bad = (x: number, z: number, pad: number) => realmRadius(x, z) > 0.97
-    || shoreDistance(x, z) < DEEPWOOD.shoreClearance || terrain.slopeAt(x, z) > 0.62
+  const bad = (x: number, z: number, pad: number, sp: Species) => realmRadius(x, z) > 0.97
+    || shoreDistance(x, z) < (sp === 'palm' ? 16 : DEEPWOOD.shoreClearance)
+    || (sp === 'palm' && Math.hypot(x - STRAND.x, z - STRAND.z) < 56 + pad)
+    || terrain.slopeAt(x, z) > 0.62
     || terrain.heightAt(x, z) < 0.3 || excl.blocked(x, z, pad);
   const put = (key: string, sp: Species, x: number, z: number, scale = 1, collide = true, age: TreeAge = 'mature', site?: Grove) => {
     const legacyFootprint = sp === 'shrub' ? 0.4 * scale : RADIUS[sp] * scale;
@@ -85,18 +100,20 @@ export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slope
       yaw: rnd() * Math.PI * 2, tint: (site?.tint ?? 0.98) * (0.97 + rnd() * 0.06), radius,
       collisionId: radius > 0 ? `tree:${key}` : null, decorationRank: randomFor(key, 619)(),
       ...(site ? { groveId: site.id, ...(site.role ? { standId: site.id, familyRole: site.role } : {}) } : {}), age,
+      ...(sp === 'oak' && biomeAt(x, z).weights['ochre-woodland'] > 0.42 ? { assetId: 'tree-1505' } : {}),
     };
     // Avoid sampling source roots at an already excluded site. Appearance has an independent
     // stream, allowing a rejected claim to retain its stand/age diagnostic without perturbation.
-    if (bad(x, z, 0)) { onClaim?.({ key, tree, outcome: 'site', footprint: legacyFootprint }); return; }
+    if (bad(x, z, 0, sp)) { onClaim?.({ key, tree, outcome: 'site', footprint: legacyFootprint }); return; }
     if (groundFor) {
       tree.y = groundFor(tree);
       if (!Number.isFinite(tree.y)) throw new Error('Tree ground contact must be finite.');
     }
     const footprint = footprintFor?.(tree, legacyFootprint) ?? legacyFootprint;
     if (!Number.isFinite(footprint) || footprint < 0) throw new Error('Tree footprint must be finite and nonnegative.');
-    if (bad(x, z, footprint + 0.55)) { onClaim?.({ key, tree, outcome: 'wood-clearance', footprint }); return; }
-    const crown = sp in FOREST_CROWN_ENVELOPE ? FOREST_CROWN_ENVELOPE[sp as CanopySpecies] * scale : footprint;
+    if (bad(x, z, footprint + 0.55, sp)) { onClaim?.({ key, tree, outcome: 'wood-clearance', footprint }); return; }
+    const crown = crownFor?.(tree) ?? (sp in FOREST_CROWN_ENVELOPE ? FOREST_CROWN_ENVELOPE[sp as CanopySpecies] * scale : sp === 'palm' ? 5.4 * scale : footprint);
+    if (!Number.isFinite(crown) || crown < 0) throw new Error('Tree crown must be finite and nonnegative.');
     if (forestClearingDistance(x, z) < crown + 0.5) { onClaim?.({ key, tree, outcome: 'clearing', footprint }); return; }
     if (radius > 0) tree.radius = footprint;
     candidates.push({ key, priority: randomFor(key, 431)(), footprint, tree });
@@ -136,7 +153,17 @@ export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slope
         sp = stand.sp;
         site = { ...selected, id: stand.id, tint: stand.tint, role: stand.role, regrowth: stand.regrowth };
       }
-      if (forest <= 0.15) sp = height > 8 ? (rnd() < 0.6 ? 'pine' : 'fir') : wet > 0.4 ? 'birch' : sp;
+      if (forest <= 0.15) {
+        const biome = biomeAt(x, z);
+        if (biome.weights['cool-fir-ridge'] > 0.35) {
+          sp = 'fir'; site = { ...selected, id: 'north_fir_ridge', role: 'other' };
+        } else if (biome.weights['humid-broadleaf'] > 0.35) {
+          sp = fbm(x / 26 + 3, z / 26 - 4, 2, 197) > -0.15 ? 'birch' : 'oak';
+          site = { ...selected, id: 'humid_fringe', role: sp === 'oak' ? 'secondary' : 'other' };
+        } else if (biome.weights['ochre-woodland'] > 0.35) {
+          sp = 'oak'; site = { ...selected, id: 'ochre_woodland', role: 'secondary' };
+        } else sp = height > 8 ? (rnd() < 0.6 ? 'pine' : 'fir') : wet > 0.4 ? 'birch' : sp;
+      }
       const { age, scale } = ageAndScale(sp, rnd, site.regrowth);
       put(key, sp, x, z, scale, true, age, site);
       if (forest > 0.2 && age !== 'sapling' && rnd() < 0.18) {
@@ -150,6 +177,22 @@ export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slope
         const child = randomFor(`${key}:scrub`, 17), angle = child() * Math.PI * 2, reach = 2.2 + child() * 2.7;
         put(`${key}:scrub`, 'shrub', x + Math.cos(angle) * reach, z + Math.sin(angle) * reach, 0.6 + child() * 0.7, false, 'young', site);
       }
+    }
+  }
+
+  // A few palms form sheltered coastal bodies beyond the empty landing, rather than taking
+  // over the strand or turning every dry grid cell tropical. The separate claim stream and
+  // <15% acceptance preserve sparse gaps; all three supplied forms use normal source guards.
+  for (let iz = 0, gz = WORLD.minZ + 8; gz < WORLD.maxZ - 8; gz += cell, iz++) {
+    for (let ix = 0, gx = WORLD.minX + 8; gx < WORLD.maxX - 8; gx += cell, ix++) {
+      const key = `palm:${ix}:${iz}`, rnd = randomFor(key, 73);
+      const x = gx + (rnd() - 0.5) * cell * 0.9, z = gz + (rnd() - 0.5) * cell * 0.9;
+      if (!PALM_QUERY_BOUNDS.some(bounds => x >= bounds.minX && x <= bounds.maxX && z >= bounds.minZ && z <= bounds.maxZ)) continue;
+      const suitability = biomeAt(x, z).weights['sheltered-palms'];
+      if (suitability <= 0.35 || rnd() >= 0.13 * suitability) continue;
+      const age: TreeAge = rnd() < 0.22 ? 'young' : 'mature';
+      const scale = age === 'young' ? 0.7 + rnd() * 0.18 : 0.96 + rnd() * 0.24;
+      put(key, 'palm', x, z, scale, true, age);
     }
   }
 
