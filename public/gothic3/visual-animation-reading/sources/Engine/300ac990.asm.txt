@@ -1,0 +1,3 @@
+; 300ac990 bTPropertyObject<eCSpringAndDamperEffector,eCEffector>::vfunction4
+300ac990 | 8b490c | MOV ECX,dword ptr [ECX + 0xc]
+300ac993 | ff255ccaaf30 | JMP dword ptr [0x30afca5c]

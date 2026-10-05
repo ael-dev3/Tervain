@@ -1,0 +1,36 @@
+{
+  "schema": "gothic3-player-memory-loading-contract-v1",
+  "factoryImplemented": false,
+  "worldResident": false,
+  "freshConstruction": {
+    "allocator": "Game:20327f10",
+    "constructorExport": "Game:20036cdc",
+    "constructorBody": "Game:2031e9c0",
+    "nativeBytes": 184,
+    "allocationTag": 196,
+    "copyConstructorExport": "Game:2000cce3",
+    "copyConstructorIsFresh": false
+  },
+  "nativeVersion": 5,
+  "nativeRegistrars": 25,
+  "serializedProperties": 24,
+  "preservedDefault": "IsConsumingItem is registered but absent from the stored Hero property table",
+  "sharedConsumers": "startup, HUD and combat must retain the same map and OriginalNativeAttribute objects",
+  "originalOrder": [
+    "constructor base/arrays/enum/PropertyID/hash buckets",
+    "Create/Attach/defaults",
+    "PostInitialize and CreateAttributes",
+    "stored property descriptors",
+    "DestroyAttributes",
+    "count/key/accessor/cast/node/value/reference/log/destruction for each stored attribute",
+    "CreateAttributes for missing or broken entries",
+    "enclosing OnPostRead later"
+  ],
+  "remaining": [
+    "concrete PlayerMemory factory and original nested Attribute/Stat factories",
+    "real memory/CString/localization/logging capabilities and exact lifetimes",
+    "same retained attributes bound to existing consumers",
+    "enclosing entity/world integration",
+    "full original progression"
+  ]
+}

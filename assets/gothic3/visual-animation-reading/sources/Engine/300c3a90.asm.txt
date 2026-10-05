@@ -1,0 +1,25 @@
+; 300c3a90 FUN_300c3a90
+300c3a90 | 51 | PUSH ECX
+300c3a91 | 0f57c0 | XORPS XMM0,XMM0
+300c3a94 | 56 | PUSH ESI
+300c3a95 | 57 | PUSH EDI
+300c3a96 | 8bf9 | MOV EDI,ECX
+300c3a98 | 33f6 | XOR ESI,ESI
+300c3a9a | 397718 | CMP dword ptr [EDI + 0x18],ESI
+300c3a9d | f30f11442408 | MOVSS dword ptr [ESP + 0x8],XMM0
+300c3aa3 | 7e20 | JLE 0x300c3ac5
+300c3aa5 | 8b4714 | MOV EAX,dword ptr [EDI + 0x14]
+300c3aa8 | 8b0cb0 | MOV ECX,dword ptr [EAX + ESI*0x4]
+300c3aab | 8b11 | MOV EDX,dword ptr [ECX]
+300c3aad | 8b8224010000 | MOV EAX,dword ptr [EDX + 0x124]
+300c3ab3 | ffd0 | CALL EAX
+300c3ab5 | d8442408 | FADD float ptr [ESP + 0x8]
+300c3ab9 | 83c601 | ADD ESI,0x1
+300c3abc | 3b7718 | CMP ESI,dword ptr [EDI + 0x18]
+300c3abf | d95c2408 | FSTP float ptr [ESP + 0x8]
+300c3ac3 | 7ce0 | JL 0x300c3aa5
+300c3ac5 | d9442408 | FLD float ptr [ESP + 0x8]
+300c3ac9 | 5f | POP EDI
+300c3aca | 5e | POP ESI
+300c3acb | 59 | POP ECX
+300c3acc | c3 | RET

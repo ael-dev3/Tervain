@@ -1,0 +1,26 @@
+/* ENTRY 10007d47 | bCPropertyObjectFactory::WriteObject | STATUS decompiled | 9 ms */
+
+/* protected: void __thiscall bCPropertyObjectFactory::WriteObject(class bCOStream &,class
+   bCPropertyObjectBase *)const  */
+
+void __thiscall
+bCPropertyObjectFactory::WriteObject
+          (bCPropertyObjectFactory *this,bCOStream *param_1,bCPropertyObjectBase *param_2)
+
+{
+  bool bVar1;
+  ushort uVar2;
+  
+                    /* 0x7d47  4679
+                       ?WriteObject@bCPropertyObjectFactory@@IBEXAAVbCOStream@@PAVbCPropertyObjectBase@@@Z
+                        */
+  bVar1 = bCPropertyObjectBase::IsRoot((bCPropertyObjectBase *)param_2);
+  uVar2 = bCPropertyObjectBase::GetVersion((bCPropertyObjectBase *)param_2);
+  bCOStream::operator<<((bCOStream *)param_1,1);
+  bCOStream::operator<<((bCOStream *)param_1,bVar1);
+  bCOStream::operator<<((bCOStream *)param_1,uVar2);
+  (**(code **)(*(int *)param_2 + 0x18))(param_1);
+  return;
+}
+
+

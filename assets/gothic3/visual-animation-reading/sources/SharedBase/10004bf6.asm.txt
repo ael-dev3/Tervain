@@ -1,0 +1,2 @@
+; 10004bf6 bCString::GetWord
+10004bf6 | e9650d0100 | JMP 0x10015960

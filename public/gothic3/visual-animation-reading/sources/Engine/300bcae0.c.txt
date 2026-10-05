@@ -1,0 +1,76 @@
+/* ENTRY 300bcae0 | FUN_300bcae0 | STATUS decompiled | 24 ms */
+
+char __fastcall FUN_300bcae0(int param_1)
+
+{
+  int iVar1;
+  bool bVar2;
+  eCWrapper_emfx2Actor *peVar3;
+  eCWrapper_emfx2Actor *peVar4;
+  int iVar5;
+  char cVar6;
+  undefined4 uVar7;
+  undefined4 uVar8;
+  undefined4 uVar9;
+  undefined4 uVar10;
+  int local_8;
+  int local_4;
+  
+  if (*(char *)(param_1 + 0x1c) != '\x01') {
+    iVar1 = *(int *)(param_1 + 4);
+    cVar6 = '\0';
+    if (iVar1 != 0) {
+      if (((*(eCVisualAnimationLoD **)(param_1 + 0xc) != (eCVisualAnimationLoD *)0x0) &&
+          (peVar3 = (eCWrapper_emfx2Actor *)
+                    eCVisualAnimationLoD::GetActorWrapper(*(eCVisualAnimationLoD **)(param_1 + 0xc))
+          , peVar3 != (eCWrapper_emfx2Actor *)0x0)) &&
+         (bVar2 = (*peVar3->vftablePtr->IsValid)(peVar3), bVar2)) {
+        peVar4 = eCWrapper_emfx2Actor::CreateInstance(peVar3);
+        uVar7 = *(undefined4 *)(iVar1 + 0xc);
+        uVar10 = 0;
+        uVar8 = *(undefined4 *)(peVar4 + 0xc);
+        uVar9 = 0;
+        thunk_FUN_300be3a0(uVar7,uVar8,0,0);
+        FUN_30644e80(uVar7,uVar8,uVar9,uVar10);
+        FUN_3063e910();
+        (**(code **)(*(int *)peVar4 + 0x24))();
+        cVar6 = '\x01';
+      }
+      local_8 = 0;
+      if (0 < *(int *)(param_1 + 0x14)) {
+        local_4 = 0;
+        do {
+          iVar5 = local_4 + *(int *)(param_1 + 0x10);
+          if (((*(int *)(iVar5 + 8) != 0) &&
+              (peVar3 = (eCWrapper_emfx2Actor *)
+                        eCVisualAnimationLoD::GetActorWrapper(*(eCVisualAnimationLoD **)(iVar5 + 8))
+              , peVar3 != (eCWrapper_emfx2Actor *)0x0)) &&
+             (bVar2 = (*peVar3->vftablePtr->IsValid)(peVar3), bVar2)) {
+            peVar4 = eCWrapper_emfx2Actor::CreateInstance(peVar3);
+            uVar7 = *(undefined4 *)(iVar1 + 0xc);
+            uVar10 = 0;
+            uVar8 = *(undefined4 *)(peVar4 + 0xc);
+            uVar9 = 0;
+            thunk_FUN_300be3a0(uVar7,uVar8,0,0);
+            FUN_30644e80(uVar7,uVar8,uVar9,uVar10);
+            FUN_3063e910();
+            (**(code **)(*(int *)peVar4 + 0x24))();
+            cVar6 = '\x01';
+          }
+          local_8 = local_8 + 1;
+          local_4 = local_4 + 0x10;
+        } while (local_8 < *(int *)(param_1 + 0x14));
+      }
+      if (cVar6 == '\x01') {
+        thunk_FUN_30073fc0(0,0xffffffff);
+        *(undefined4 *)(param_1 + 0x24) = 0;
+        FUN_3063b5e0(0);
+      }
+    }
+    *(char *)(param_1 + 0x1c) = cVar6;
+    return cVar6;
+  }
+  return '\x01';
+}
+
+

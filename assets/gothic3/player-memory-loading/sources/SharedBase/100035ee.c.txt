@@ -1,0 +1,13 @@
+/* ENTRY 100035ee | bCPropertyTypeBase::Destroy | STATUS decompiled | 3 ms */
+
+/* protected: virtual void __thiscall bCPropertyTypeBase::Destroy(void)
+   bCPropertyTypeBase member function inherited by bTPropertyTypeOnly<bCObsoleteClass> */
+
+void __thiscall bCPropertyTypeBase::Destroy(bCPropertyTypeBase *this)
+
+{
+                    /* 0x35ee  1947  ?Destroy@bCPropertyTypeBase@@MAEXXZ */
+  return;
+}
+
+

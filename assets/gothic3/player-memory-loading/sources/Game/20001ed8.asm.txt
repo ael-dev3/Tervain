@@ -1,0 +1,2 @@
+; 20001ed8 thunk_FUN_20066aa0
+20001ed8 | e9c34b0600 | JMP 0x20066aa0

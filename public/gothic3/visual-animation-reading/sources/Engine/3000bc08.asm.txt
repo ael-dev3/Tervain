@@ -1,0 +1,2 @@
+; 3000bc08 bTPropertyType<eCVisualAnimation_PS,bCObsoleteClass>::vfunction16
+3000bc08 | e993150a00 | JMP 0x300ad1a0

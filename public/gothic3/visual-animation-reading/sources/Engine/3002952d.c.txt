@@ -1,0 +1,15 @@
+/* ENTRY 3002952d | eCSpringAndDamperEffector::GetSpringDistStretchSaturate | STATUS decompiled | 4 ms */
+
+/* public: float const & __thiscall
+   eCSpringAndDamperEffector::GetSpringDistStretchSaturate(void)const  */
+
+float * __thiscall
+eCSpringAndDamperEffector::GetSpringDistStretchSaturate(eCSpringAndDamperEffector *this)
+
+{
+                    /* 0x2952d  8921
+                       ?GetSpringDistStretchSaturate@eCSpringAndDamperEffector@@QBEABMXZ */
+  return (float *)&(this->eCEffector_data).offset_0x60;
+}
+
+

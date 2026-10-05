@@ -1,0 +1,12 @@
+/* ENTRY 30007653 | eCVisualAnimation_PS::GetBoneSwingSpringEnabled | STATUS decompiled | 6 ms */
+
+/* public: bool const & __thiscall eCVisualAnimation_PS::GetBoneSwingSpringEnabled(void)const  */
+
+bool * __thiscall eCVisualAnimation_PS::GetBoneSwingSpringEnabled(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x7653  6296  ?GetBoneSwingSpringEnabled@eCVisualAnimation_PS@@QBEAB_NXZ */
+  return (bool *)&this[3].eCEntityPropertySet_data;
+}
+
+

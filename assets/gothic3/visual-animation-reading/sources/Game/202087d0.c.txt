@@ -1,0 +1,40 @@
+/* ENTRY 202087d0 | gCClock_PS::scalar_deleting_destructor | STATUS decompiled | 15 ms */
+
+gCClock_PS * __thiscall gCClock_PS::scalar_deleting_destructor(gCClock_PS *this,byte param_1)
+
+{
+  undefined4 *_Memory;
+  int iVar1;
+  gCClock_PS *pgVar2;
+  gCClock_PS *this_00;
+  
+  if ((param_1 & 2) == 0) {
+    this->vftablePtr = &vftable;
+    bCClock::~bCClock((bCClock *)&(this->gCClock_PS_data).field_0x28);
+    eCEntityPropertySet::~eCEntityPropertySet((eCEntityPropertySet *)this);
+    if ((param_1 & 1) != 0) {
+      _free(this);
+    }
+  }
+  else {
+    _Memory = &this[-1].gCClock_PS_data.offset_0x54;
+    iVar1 = *_Memory;
+    pgVar2 = this + iVar1;
+    while (iVar1 = iVar1 + -1, -1 < iVar1) {
+      this_00 = pgVar2 + -1;
+                    /* inlined destructor: gCClock_PS::~gCClock_PS */
+      this_00->vftablePtr = &vftable;
+      bCClock::~bCClock((bCClock *)&pgVar2[-1].gCClock_PS_data.field_0x28);
+      eCEntityPropertySet::~eCEntityPropertySet((eCEntityPropertySet *)this_00);
+      pgVar2 = this_00;
+    }
+    this = (gCClock_PS *)_Memory;
+    if ((param_1 & 1) != 0) {
+      _free(_Memory);
+      return (gCClock_PS *)_Memory;
+    }
+  }
+  return this;
+}
+
+

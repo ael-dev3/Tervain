@@ -1,0 +1,15 @@
+/* ENTRY 3003689f | eCSpringAndDamperEffector::GetDamperMaxStretchForce | STATUS decompiled | 77 ms */
+
+/* public: float const & __thiscall eCSpringAndDamperEffector::GetDamperMaxStretchForce(void)const
+    */
+
+float * __thiscall
+eCSpringAndDamperEffector::GetDamperMaxStretchForce(eCSpringAndDamperEffector *this)
+
+{
+                    /* 0x3689f  6702  ?GetDamperMaxStretchForce@eCSpringAndDamperEffector@@QBEABMXZ
+                        */
+  return (float *)&(this->eCEffector_data).offset_0x78;
+}
+
+

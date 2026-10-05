@@ -1,0 +1,7 @@
+; 10020ff0 FUN_10020ff0
+10020ff0 | 8b4110 | MOV EAX,dword ptr [ECX + 0x10]
+10020ff3 | 85c0 | TEST EAX,EAX
+10020ff5 | 7402 | JZ 0x10020ff9
+10020ff7 | ffe0 | JMP EAX
+10020ff9 | b001 | MOV AL,0x1
+10020ffb | c3 | RET

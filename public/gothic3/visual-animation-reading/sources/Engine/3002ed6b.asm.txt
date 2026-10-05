@@ -1,0 +1,2 @@
+; 3002ed6b thunk_FUN_300af140
+3002ed6b | e9d0030800 | JMP 0x300af140

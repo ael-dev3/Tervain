@@ -1,0 +1,2 @@
+; 30006460 bTPropertyObjectType<eCEffector,bCObjectRefBase>::vfunction5
+30006460 | e99bef3700 | JMP 0x30385400

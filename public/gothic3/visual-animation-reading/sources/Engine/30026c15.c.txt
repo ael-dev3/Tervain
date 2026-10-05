@@ -1,0 +1,12 @@
+/* ENTRY 30026c15 | eCVisualAnimation_PS::GetDebugMode | STATUS decompiled | 27 ms */
+
+/* public: bool __thiscall eCVisualAnimation_PS::GetDebugMode(void) */
+
+bool __thiscall eCVisualAnimation_PS::GetDebugMode(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x26c15  6722  ?GetDebugMode@eCVisualAnimation_PS@@QAE_NXZ */
+  return (bool)*(undefined1 *)&this[0xe].vftablePtr;
+}
+
+

@@ -1,0 +1,15 @@
+/* ENTRY 1000380a | bCString::operator!= | STATUS decompiled | 3 ms */
+
+/* public: bool __thiscall bCString::operator!=(class bCString const &)const  */
+
+bool __thiscall bCString::operator!=(bCString *this,bCString *param_1)
+
+{
+  bool bVar1;
+  
+                    /* 0x380a  842  ??9bCString@@QBE_NABV0@@Z */
+  bVar1 = CompareFast(this,param_1);
+  return (bool)('\x01' - bVar1);
+}
+
+

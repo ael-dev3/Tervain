@@ -1,0 +1,2 @@
+; 10001d66 bCUnicodeString::SetAnsiText
+10001d66 | e955680100 | JMP 0x100185c0

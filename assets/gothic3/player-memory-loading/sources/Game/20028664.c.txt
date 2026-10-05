@@ -1,0 +1,42 @@
+/* ENTRY 20028664 | bTPropertyType<gCPlayerMemory_PS,bool>::vfunction10 | STATUS decompiled | 15 ms */
+
+void __thiscall
+bTPropertyType<gCPlayerMemory_PS,bool>::vfunction10
+          (bTPropertyType<gCPlayerMemory_PS,bool> *this,undefined4 *param_1,undefined1 *param_2)
+
+{
+  undefined1 uVar1;
+  int iVar2;
+  int *piVar3;
+  bCString *pbVar4;
+  char *pcVar5;
+  bTPropertyType<gCCameraModeParams,bool>_vftable *pbVar6;
+  undefined4 uVar7;
+  
+  if ((param_1 != (undefined4 *)0x0) && (param_2 != (undefined1 *)0x0)) {
+    iVar2 = (**(code **)*param_1)();
+    if (iVar2 != 0) {
+      piVar3 = (int *)(**(code **)*param_1)();
+      iVar2 = *piVar3;
+      uVar7 = 0;
+      pbVar4 = bCPropertyTypeBase::GetPropertyName((bCPropertyTypeBase *)this);
+      pcVar5 = bCString::operator_char_const_(pbVar4);
+      (**(code **)(iVar2 + 0x58))(pcVar5,uVar7);
+    }
+    uVar1 = *param_2;
+    pbVar6 = (*this->vftablePtr->vfunction26)(this,param_1);
+    *(undefined1 *)&pbVar6->vfunction1 = uVar1;
+    iVar2 = (**(code **)*param_1)();
+    if (iVar2 != 0) {
+      piVar3 = (int *)(**(code **)*param_1)();
+      iVar2 = *piVar3;
+      uVar7 = 0;
+      pbVar4 = bCPropertyTypeBase::GetPropertyName((bCPropertyTypeBase *)this);
+      pcVar5 = bCString::operator_char_const_(pbVar4);
+      (**(code **)(iVar2 + 0x5c))(pcVar5,uVar7);
+    }
+  }
+  return;
+}
+
+

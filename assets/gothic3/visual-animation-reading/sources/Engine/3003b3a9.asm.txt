@@ -1,0 +1,2 @@
+; 3003b3a9 eCVisualAnimation_PS::Invalidate
+3003b3a9 | e9829b0600 | JMP 0x300a4f30

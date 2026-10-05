@@ -1,0 +1,16 @@
+; 3009d190 FUN_3009d190
+3009d190 | 56 | PUSH ESI
+3009d191 | 8bf1 | MOV ESI,ECX
+3009d193 | 8b0e | MOV ECX,dword ptr [ESI]
+3009d195 | 85c9 | TEST ECX,ECX
+3009d197 | 740d | JZ 0x3009d1a6
+3009d199 | 8b01 | MOV EAX,dword ptr [ECX]
+3009d19b | 8b5024 | MOV EDX,dword ptr [EAX + 0x24]
+3009d19e | ffd2 | CALL EDX
+3009d1a0 | c70600000000 | MOV dword ptr [ESI],0x0
+3009d1a6 | 83c604 | ADD ESI,0x4
+3009d1a9 | 8bce | MOV ECX,ESI
+3009d1ab | ff1558dbaf30 | CALL dword ptr [0x30afdb58]
+3009d1b1 | 8bce | MOV ECX,ESI
+3009d1b3 | 5e | POP ESI
+3009d1b4 | ff25dcdbaf30 | JMP dword ptr [0x30afdbdc]

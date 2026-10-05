@@ -1,0 +1,12 @@
+/* ENTRY 30025cd4 | eCApplication::IsInitialised | STATUS decompiled | 2 ms */
+
+/* public: static bool __stdcall eCApplication::IsInitialised(void) */
+
+bool eCApplication::IsInitialised(void)
+
+{
+                    /* 0x25cd4  10408  ?IsInitialised@eCApplication@@SG_NXZ */
+  return ms_bInitialised;
+}
+
+

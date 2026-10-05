@@ -215,3 +215,29 @@ assets/gothic3/dialog-party-reading/** -text -eol
 assets/gothic3/dialog-party-reading/sources/** -whitespace
 public/gothic3/dialog-party-reading/** -text -eol
 public/gothic3/dialog-party-reading/sources/** -whitespace
+
+tools/gothic3/freeze_visual_properties_checkpoint.py -text -eol
+assets/gothic3/visual-properties-checkpoint.json -text -eol
+src/gothic3/illuminated-reading.ts -text -eol whitespace=cr-at-eol
+tools/gothic3/research_illuminated_reading.py -text -eol whitespace=cr-at-eol
+assets/gothic3/illuminated-reading/** -text -eol
+assets/gothic3/illuminated-reading/sources/** -whitespace
+public/gothic3/illuminated-reading/** -text -eol
+public/gothic3/illuminated-reading/sources/** -whitespace
+src/gothic3/effect-reading.ts -text -eol whitespace=cr-at-eol
+tools/gothic3/research_effect_reading.py -text -eol whitespace=cr-at-eol
+assets/gothic3/effect-reading/** -text -eol
+assets/gothic3/effect-reading/sources/** -whitespace
+public/gothic3/effect-reading/** -text -eol
+public/gothic3/effect-reading/sources/** -whitespace
+src/gothic3/visual-animation-reading.ts -text -eol whitespace=cr-at-eol
+tools/gothic3/research_visual_animation_reading.py -text -eol whitespace=cr-at-eol
+assets/gothic3/visual-animation-reading/** -text -eol
+assets/gothic3/visual-animation-reading/sources/** -whitespace
+public/gothic3/visual-animation-reading/** -text -eol
+public/gothic3/visual-animation-reading/sources/** -whitespace
+tools/gothic3/research_player_memory_loading.py -text -eol
+assets/gothic3/player-memory-loading/** -text -eol
+assets/gothic3/player-memory-loading/sources/** -whitespace
+public/gothic3/player-memory-loading/** -text -eol
+public/gothic3/player-memory-loading/sources/** -whitespace

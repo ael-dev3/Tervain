@@ -1,0 +1,2 @@
+; 10002c5c bCMatrix::GetYAxis
+10002c5c | e96f530200 | JMP 0x10027fd0

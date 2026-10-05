@@ -1,0 +1,2 @@
+; 3002f7d9 eCWnd::CreateTextItem
+3002f7d9 | e9e2651a00 | JMP 0x301d5dc0

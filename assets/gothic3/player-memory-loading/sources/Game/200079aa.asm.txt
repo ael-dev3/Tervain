@@ -1,0 +1,2 @@
+; 200079aa gCPlayerMemory_PS::CreateStat
+200079aa | e9c1633100 | JMP 0x2031dd70

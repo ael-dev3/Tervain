@@ -1,0 +1,15 @@
+/* ENTRY 30023029 | eCSpringAndDamperEffector::GetDamperMaxCompressForce | STATUS decompiled | 6 ms */
+
+/* public: float const & __thiscall eCSpringAndDamperEffector::GetDamperMaxCompressForce(void)const
+    */
+
+float * __thiscall
+eCSpringAndDamperEffector::GetDamperMaxCompressForce(eCSpringAndDamperEffector *this)
+
+{
+                    /* 0x23029  6701  ?GetDamperMaxCompressForce@eCSpringAndDamperEffector@@QBEABMXZ
+                        */
+  return (float *)&(this->eCEffector_data).offset_0x74;
+}
+
+

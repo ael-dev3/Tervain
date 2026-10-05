@@ -1,0 +1,35 @@
+; 300e2d90 FUN_300e2d90
+300e2d90 | 51 | PUSH ECX
+300e2d91 | 53 | PUSH EBX
+300e2d92 | 55 | PUSH EBP
+300e2d93 | 8bd9 | MOV EBX,ECX
+300e2d95 | 8babc0010000 | MOV EBP,dword ptr [EBX + 0x1c0]
+300e2d9b | 56 | PUSH ESI
+300e2d9c | 33f6 | XOR ESI,ESI
+300e2d9e | 85ed | TEST EBP,EBP
+300e2da0 | 7e36 | JLE 0x300e2dd8
+300e2da2 | 57 | PUSH EDI
+300e2da3 | 8b83c8010000 | MOV EAX,dword ptr [EBX + 0x1c8]
+300e2da9 | 8b3cb0 | MOV EDI,dword ptr [EAX + ESI*0x4]
+300e2dac | 8bcf | MOV ECX,EDI
+300e2dae | e88d235600 | CALL 0x30645140
+300e2db3 | 84c0 | TEST AL,AL
+300e2db5 | 7419 | JZ 0x300e2dd0
+300e2db7 | dd442418 | FLD double ptr [ESP + 0x18]
+300e2dbb | 8b17 | MOV EDX,dword ptr [EDI]
+300e2dbd | 8b4204 | MOV EAX,dword ptr [EDX + 0x4]
+300e2dc0 | d95c2410 | FSTP float ptr [ESP + 0x10]
+300e2dc4 | d9442410 | FLD float ptr [ESP + 0x10]
+300e2dc8 | 51 | PUSH ECX
+300e2dc9 | 8bcf | MOV ECX,EDI
+300e2dcb | d91c24 | FSTP float ptr [ESP]
+300e2dce | ffd0 | CALL EAX
+300e2dd0 | 83c601 | ADD ESI,0x1
+300e2dd3 | 3bf5 | CMP ESI,EBP
+300e2dd5 | 7ccc | JL 0x300e2da3
+300e2dd7 | 5f | POP EDI
+300e2dd8 | 5e | POP ESI
+300e2dd9 | 5d | POP EBP
+300e2dda | 5b | POP EBX
+300e2ddb | 59 | POP ECX
+300e2ddc | c20800 | RET 0x8

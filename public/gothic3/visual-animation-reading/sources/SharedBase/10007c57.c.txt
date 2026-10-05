@@ -1,0 +1,12 @@
+/* ENTRY 10007c57 | bCVector::GetY | STATUS decompiled | 1 ms */
+
+/* public: float __thiscall bCVector::GetY(void)const  */
+
+float __thiscall bCVector::GetY(bCVector *this)
+
+{
+                    /* 0x7c57  3274  ?GetY@bCVector@@QBEMXZ */
+  return *(float *)(this + 4);
+}
+
+

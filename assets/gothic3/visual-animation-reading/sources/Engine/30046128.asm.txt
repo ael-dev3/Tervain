@@ -1,0 +1,2 @@
+; 30046128 eCVisualAnimation_PS::AccessBoneTwistSpringDamping
+30046128 | e9e3bd0100 | JMP 0x30061f10

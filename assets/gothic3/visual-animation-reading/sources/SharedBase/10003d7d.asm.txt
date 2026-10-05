@@ -1,0 +1,2 @@
+; 10003d7d bCPoint::~bCPoint
+10003d7d | e98e810200 | JMP 0x1002bf10

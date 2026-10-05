@@ -1,0 +1,2 @@
+; 30021a0d eCEntityPropertySet::IsCopyable
+30021a0d | e94efb4500 | JMP 0x30481560

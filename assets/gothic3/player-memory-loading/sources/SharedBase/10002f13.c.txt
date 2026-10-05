@@ -1,0 +1,17 @@
+/* ENTRY 10002f13 | bCObjectRefBase::bCObjectRefBase | STATUS decompiled | 8 ms */
+
+/* public: __thiscall bCObjectRefBase::bCObjectRefBase(class bCObjectRefBase const &) */
+
+bCObjectRefBase * __thiscall
+bCObjectRefBase::bCObjectRefBase(bCObjectRefBase *this,bCObjectRefBase *param_1)
+
+{
+                    /* 0x2f13  189  ??0bCObjectRefBase@@QAE@ABV0@@Z */
+  bCObjectBase::bCObjectBase((bCObjectBase *)this);
+  (this->bCObjectRefBase_data).offset_0x0 = 0;
+  this->vftablePtr = &vftable;
+  (this->bCObjectRefBase_data).offset_0x4 = 1;
+  return this;
+}
+
+

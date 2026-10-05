@@ -1,0 +1,2 @@
+; 3001700d eCVisualAnimation_PS::SetDebugMode
+3001700d | e98e670800 | JMP 0x3009d7a0

@@ -1,0 +1,4 @@
+; 30228480 bTPropertyObject<eCIlluminated_PS,eCEntityPropertySet>::vfunction11
+30228480 | 6a00 | PUSH 0x0
+30228482 | e83580e1ff | CALL 0x300404bc
+30228487 | c3 | RET

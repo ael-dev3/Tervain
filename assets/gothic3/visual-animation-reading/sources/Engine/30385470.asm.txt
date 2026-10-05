@@ -1,0 +1,15 @@
+; 30385470 bTPropertyObjectType<eCEffector,bCObjectRefBase>::deleting_destructor
+30385470 | 56 | PUSH ESI
+30385471 | 8bf1 | MOV ESI,ECX
+30385473 | 8d4e18 | LEA ECX,[ESI + 0x18]
+30385476 | c706bc5d8630 | MOV dword ptr [ESI],0x30865dbc
+3038547c | ff1538caaf30 | CALL dword ptr [0x30afca38]
+30385482 | 8bce | MOV ECX,ESI
+30385484 | ff1534caaf30 | CALL dword ptr [0x30afca34]
+3038548a | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+3038548f | 7409 | JZ 0x3038549a
+30385491 | 56 | PUSH ESI
+30385492 | e8d1bf2e00 | CALL 0x30671468
+3038549a | 8bc6 | MOV EAX,ESI
+3038549c | 5e | POP ESI
+3038549d | c20400 | RET 0x4

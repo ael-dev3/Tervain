@@ -1,0 +1,10 @@
+/* ENTRY 10055cc0 | FUN_10055cc0 | STATUS decompiled | 3 ms */
+
+bCUnitedRay * __thiscall FUN_10055cc0(bCUnitedRay *param_1,bCUnitedRay *param_2)
+
+{
+  bCUnitedRay::CopyFrom(param_1,param_2);
+  return param_1;
+}
+
+

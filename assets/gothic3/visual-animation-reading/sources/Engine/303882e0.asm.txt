@@ -1,0 +1,2 @@
+; 303882e0 eCEffector::Destroy
+303882e0 | e988d2c9ff | JMP 0x3002556d

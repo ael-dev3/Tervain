@@ -1,0 +1,2 @@
+; 3003d39d eCEntityPropertySet::IntersectsVolume
+3003d39d | e9be444400 | JMP 0x30481860

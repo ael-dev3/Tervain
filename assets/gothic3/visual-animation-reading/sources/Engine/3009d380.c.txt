@@ -1,0 +1,10 @@
+/* ENTRY 3009d380 | FUN_3009d380 | STATUS decompiled | 2 ms */
+
+bCOStream * __thiscall FUN_3009d380(int param_1,bCOStream *param_2)
+
+{
+  operator>>((bCString *)(param_1 + 4),param_2);
+  return param_2;
+}
+
+

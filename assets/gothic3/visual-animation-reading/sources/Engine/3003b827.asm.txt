@@ -1,0 +1,2 @@
+; 3003b827 eCVisualAnimationFactory::GetAssembledActor
+3003b827 | e9c40d0800 | JMP 0x300bc5f0

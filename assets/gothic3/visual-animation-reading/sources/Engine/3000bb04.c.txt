@@ -1,0 +1,13 @@
+/* ENTRY 3000bb04 | eCRenderSystemAdmin::GetPVSPrefetcher3 | STATUS decompiled | 3 ms */
+
+/* public: class eCPVSPrefetcher3 & __thiscall eCRenderSystemAdmin::GetPVSPrefetcher3(void) */
+
+eCPVSPrefetcher3 * __thiscall eCRenderSystemAdmin::GetPVSPrefetcher3(eCRenderSystemAdmin *this)
+
+{
+                    /* 0xbb04  8051
+                       ?GetPVSPrefetcher3@eCRenderSystemAdmin@@QAEAAVeCPVSPrefetcher3@@XZ */
+  return (eCPVSPrefetcher3 *)&(this->eCRenderSystemAdmin_data).field_0x8;
+}
+
+

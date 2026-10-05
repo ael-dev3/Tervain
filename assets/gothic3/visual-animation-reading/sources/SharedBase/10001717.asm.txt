@@ -1,0 +1,2 @@
+; 10001717 bCMatrix::AccessTranslation
+10001717 | e924680200 | JMP 0x10027f40

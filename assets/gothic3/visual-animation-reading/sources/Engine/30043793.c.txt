@@ -1,0 +1,12 @@
+/* ENTRY 30043793 | eCVisualAnimation_PS::AccessBoneRaycastsEnabled | STATUS decompiled | 8 ms */
+
+/* public: bool & __thiscall eCVisualAnimation_PS::AccessBoneRaycastsEnabled(void) */
+
+bool * __thiscall eCVisualAnimation_PS::AccessBoneRaycastsEnabled(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x43793  2520  ?AccessBoneRaycastsEnabled@eCVisualAnimation_PS@@QAEAA_NXZ */
+  return (bool *)&this[1].eCEntityPropertySet_data.offset_0x8;
+}
+
+

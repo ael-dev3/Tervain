@@ -1,0 +1,19 @@
+/* ENTRY 3004606a | eCVisualAnimation_PS::SetBoneSwingSpringDamping | STATUS decompiled | 599 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetBoneSwingSpringDamping(float const &) */
+
+void __thiscall
+eCVisualAnimation_PS::SetBoneSwingSpringDamping(eCVisualAnimation_PS *this,float *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x4606a  12975  ?SetBoneSwingSpringDamping@eCVisualAnimation_PS@@QAEXABM@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"BoneSwingSpringDamping",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  this[3].eCEntityPropertySet_data.offset_0x8 = *param_1;
+  (*pNVar1)(this,"BoneSwingSpringDamping",false);
+  return;
+}
+
+

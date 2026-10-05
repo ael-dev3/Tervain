@@ -1,0 +1,23 @@
+/* ENTRY 30016e82 | thunk_FUN_30253ef0 | STATUS decompiled | 3 ms */
+
+int __thiscall thunk_FUN_30253ef0(int *param_1,int *param_2)
+
+{
+  int iVar1;
+  int *piVar2;
+  
+  iVar1 = param_1[1];
+  if (iVar1 != 0) {
+    piVar2 = (int *)(*param_1 + iVar1 * 4);
+    do {
+      piVar2 = piVar2 + -1;
+      iVar1 = iVar1 + -1;
+      if (*param_2 == *piVar2) {
+        return iVar1;
+      }
+    } while (iVar1 != 0);
+  }
+  return -1;
+}
+
+

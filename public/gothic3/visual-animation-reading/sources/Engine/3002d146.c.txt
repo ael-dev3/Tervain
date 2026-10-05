@@ -1,0 +1,13 @@
+/* ENTRY 3002d146 | eCVisualAnimation_PS::AccessBoneJointSpringEnabled | STATUS decompiled | 493 ms */
+
+/* public: bool & __thiscall eCVisualAnimation_PS::AccessBoneJointSpringEnabled(void) */
+
+bool * __thiscall eCVisualAnimation_PS::AccessBoneJointSpringEnabled(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x2d146  2517  ?AccessBoneJointSpringEnabled@eCVisualAnimation_PS@@QAEAA_NXZ
+                        */
+  return (bool *)&this[3].eCEntityPropertySet_data.offset_0xc;
+}
+
+

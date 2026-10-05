@@ -1,0 +1,11 @@
+/* ENTRY 2001cfda | bTPropertyType<gCPlayerMemory_PS,bTValArray<bool>_>::vfunction7 | STATUS decompiled | 4 ms */
+
+bool __thiscall
+bTPropertyType<gCPlayerMemory_PS,bTValArray<bool>_>::vfunction7
+          (bTPropertyType<gCPlayerMemory_PS,bTValArray<bool>_> *this)
+
+{
+  return this[8].vftablePtr != (bTPropertyType<gCPlayerMemory_PS,bTValArray<bool>_>_vftable *)0x0;
+}
+
+

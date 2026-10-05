@@ -1,0 +1,9 @@
+/* ENTRY 30317cb0 | FUN_30317cb0 | STATUS decompiled | 1 ms */
+
+eCPhysicsScene * FUN_30317cb0(void)
+
+{
+  return eCPhysicsScene::s_pCurrentInstance;
+}
+
+

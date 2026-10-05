@@ -1,0 +1,2 @@
+; 10002d01 bCUnicodeString::operator=
+10002d01 | e94a680100 | JMP 0x10019550

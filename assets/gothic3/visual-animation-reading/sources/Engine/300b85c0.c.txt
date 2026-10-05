@@ -1,0 +1,38 @@
+/* ENTRY 300b85c0 | FUN_300b85c0 | STATUS decompiled | 9 ms */
+
+void FUN_300b85c0(int param_1,int param_2)
+
+{
+  bCMemoryAdmin *pbVar1;
+  int *piVar2;
+  void *pvVar3;
+  
+  if (param_2 != 0) {
+    piVar2 = (int *)(param_1 + 4);
+    do {
+      param_2 = param_2 + -1;
+      if (piVar2 != (int *)0x0) {
+        pvVar3 = (void *)*piVar2;
+        if (pvVar3 != (void *)0x0) {
+          pbVar1 = bCMemoryAdmin::GetInstance();
+          bCMemoryAdmin::Free(pbVar1,pvVar3);
+          *piVar2 = 0;
+          piVar2[1] = 0;
+          piVar2[2] = 0;
+        }
+        pvVar3 = (void *)*piVar2;
+        if (pvVar3 != (void *)0x0) {
+          pbVar1 = bCMemoryAdmin::GetInstance();
+          bCMemoryAdmin::Free(pbVar1,pvVar3);
+          *piVar2 = 0;
+          piVar2[1] = 0;
+          piVar2[2] = 0;
+        }
+      }
+      piVar2 = piVar2 + 4;
+    } while (param_2 != 0);
+  }
+  return;
+}
+
+

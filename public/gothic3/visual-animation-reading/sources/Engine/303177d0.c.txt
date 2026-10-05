@@ -1,0 +1,9 @@
+/* ENTRY 303177d0 | FUN_303177d0 | STATUS decompiled | 1 ms */
+
+undefined * FUN_303177d0(void)
+
+{
+  return &DAT_30ae5dc0;
+}
+
+

@@ -1,0 +1,17 @@
+/* ENTRY 300025bd | eCEntityPropertySet::eCEntityPropertySet | STATUS decompiled | 9 ms */
+
+/* public: __thiscall eCEntityPropertySet::eCEntityPropertySet(void) */
+
+eCEntityPropertySet * __thiscall eCEntityPropertySet::eCEntityPropertySet(eCEntityPropertySet *this)
+
+{
+                    /* 0x25bd  285  ??0eCEntityPropertySet@@QAE@XZ */
+  bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)this);
+  (this->eCEntityPropertySet_data).offset_0xc =
+       (this->eCEntityPropertySet_data).offset_0xc & 0xf1 | 1;
+  this->vftablePtr = &vftable;
+  (this->eCEntityPropertySet_data).offset_0x8 = 0;
+  return this;
+}
+
+

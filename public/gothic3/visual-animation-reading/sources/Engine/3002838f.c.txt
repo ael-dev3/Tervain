@@ -1,0 +1,28 @@
+/* ENTRY 3002838f | eCVisualAnimation_PS::operator= | STATUS decompiled | 18 ms */
+
+/* public: class eCVisualAnimation_PS const & __thiscall eCVisualAnimation_PS::operator=(class
+   eCVisualAnimation_PS const &) */
+
+eCVisualAnimation_PS * __thiscall
+eCVisualAnimation_PS::operator=(eCVisualAnimation_PS *this,eCVisualAnimation_PS *param_1)
+
+{
+  bCPropertyObjectBase *pbVar1;
+  bCPropertyObjectBase *this_00;
+  
+                    /* 0x2838f  1841  ??4eCVisualAnimation_PS@@QAEABV0@ABV0@@Z */
+  pbVar1 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)this);
+  if (pbVar1 != (bCPropertyObjectBase *)0x0) {
+    pbVar1 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)param_1);
+    if (pbVar1 != (bCPropertyObjectBase *)0x0) {
+      pbVar1 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)param_1);
+      this_00 = (bCPropertyObjectBase *)bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)this);
+      bCPropertyObjectBase::operator=(this_00,pbVar1);
+      return (eCVisualAnimation_PS *)this;
+    }
+  }
+  (*this->vftablePtr->CopyFrom)(this,(bCObjectBase *)param_1);
+  return (eCVisualAnimation_PS *)this;
+}
+
+

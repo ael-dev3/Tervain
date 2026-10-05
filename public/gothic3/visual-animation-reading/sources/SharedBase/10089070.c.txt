@@ -1,0 +1,12 @@
+/* ENTRY 10089070 | FUN_10089070 | STATUS decompiled | 3 ms */
+
+int * __thiscall FUN_10089070(int *param_1,int *param_2)
+
+{
+  if (param_1 != param_2) {
+    (**(code **)(*param_1 + 0x3c))(param_2);
+  }
+  return param_1;
+}
+
+

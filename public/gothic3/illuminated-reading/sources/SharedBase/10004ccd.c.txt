@@ -1,0 +1,13 @@
+/* ENTRY 10004ccd | bCFloatAlphaColor::~bCFloatAlphaColor | STATUS decompiled | 3 ms */
+
+/* public: __thiscall bCFloatAlphaColor::~bCFloatAlphaColor(void) */
+
+void __thiscall bCFloatAlphaColor::~bCFloatAlphaColor(bCFloatAlphaColor *this)
+
+{
+                    /* 0x4ccd  377  ??1bCFloatAlphaColor@@QAE@XZ */
+  this->vftablePtr = (bCFloatAlphaColor_vftable *)&bCColorBase::vftable;
+  return;
+}
+
+

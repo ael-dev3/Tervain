@@ -1,0 +1,12 @@
+/* ENTRY 3009d2c0 | FUN_3009d2c0 | STATUS decompiled | 2 ms */
+
+bool __fastcall FUN_3009d2c0(int param_1)
+
+{
+  bool bVar1;
+  
+  bVar1 = bCString::IsEmpty((bCString *)(param_1 + 4));
+  return !bVar1;
+}
+
+

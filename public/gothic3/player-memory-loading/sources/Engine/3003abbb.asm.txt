@@ -1,0 +1,2 @@
+; 3003abbb eCEntityPropertySet::OnTrigger
+3003abbb | e9d06d4400 | JMP 0x30481990

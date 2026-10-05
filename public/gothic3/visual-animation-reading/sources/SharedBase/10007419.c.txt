@@ -1,0 +1,15 @@
+/* ENTRY 10007419 | bCVector::bCVector | STATUS decompiled | 2 ms */
+
+/* public: __thiscall bCVector::bCVector(float) */
+
+void __thiscall bCVector::bCVector(bCVector *this,float param_1)
+
+{
+                    /* 0x7419  340  ??0bCVector@@QAE@M@Z */
+  *(float *)this = param_1;
+  *(float *)(this + 4) = param_1;
+  *(float *)(this + 8) = param_1;
+  return;
+}
+
+

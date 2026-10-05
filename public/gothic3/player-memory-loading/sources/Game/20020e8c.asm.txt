@@ -1,0 +1,2 @@
+; 20020e8c SHAREDBASE.DLL::bCPropertyTypeBase::Write
+20020e8c | e9cf1b3000 | JMP 0x20322a60

@@ -1,0 +1,11 @@
+/* ENTRY 3003eb4e | bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>::vfunction3 | STATUS decompiled | 2 ms */
+
+undefined1 * __thiscall
+bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>::vfunction3
+          (bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet> *this)
+
+{
+  return &(this->bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>_data).field_0x14;
+}
+
+

@@ -1,0 +1,37 @@
+/* ENTRY 30045d72 | eCVisualAnimation_PS::GetDependencies | STATUS decompiled | 20 ms */
+
+/* public: virtual void __thiscall eCVisualAnimation_PS::GetDependencies(class bTValArray<class
+   bCString> &,class bTValArray<class bCString> &,class bTObjArray<class eCTemplateEntityProxy> &)
+    */
+
+void __thiscall
+eCVisualAnimation_PS::GetDependencies
+          (eCVisualAnimation_PS *this,bTValArray<bCString> *param_1,bTValArray<bCString> *param_2,
+          bTObjArray<eCTemplateEntityProxy> *param_3)
+
+{
+  bool bVar1;
+  int iVar2;
+  
+                    /* 0x45d72  6791
+                       ?GetDependencies@eCVisualAnimation_PS@@UAEXAAV?$bTValArray@VbCString@@@@0AAV?$bTObjArray@VeCTemplateEntityProxy@@@@@Z
+                        */
+  bVar1 = bCString::IsEmpty((bCString *)(this + 1));
+  if (!bVar1) {
+    iVar2 = *(int *)(param_1 + 4) + 1;
+    thunk_FUN_30095b60(iVar2,(iVar2 != 0) - 1);
+    *(int *)(param_1 + 4) = iVar2;
+    bCString::operator=((bCString *)(*(int *)param_1 + -4 + iVar2 * 4),(bCString *)(this + 1));
+  }
+  bVar1 = bCString::IsEmpty((bCString *)&this[1].eCEntityPropertySet_data);
+  if (!bVar1) {
+    iVar2 = *(int *)(param_1 + 4) + 1;
+    thunk_FUN_30095b60(iVar2,(iVar2 != 0) - 1);
+    *(int *)(param_1 + 4) = iVar2;
+    bCString::operator=((bCString *)(*(int *)param_1 + -4 + iVar2 * 4),
+                        (bCString *)&this[1].eCEntityPropertySet_data);
+  }
+  return;
+}
+
+

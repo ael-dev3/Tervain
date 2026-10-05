@@ -1,0 +1,14 @@
+; 30385ee0 bTPropertyObject<eCEffector,bCObjectRefBase>::~bTPropertyObject<eCEffector,bCObjectRefBase>
+30385ee0 | 56 | PUSH ESI
+30385ee1 | 8bf1 | MOV ESI,ECX
+30385ee3 | c7068c5e8630 | MOV dword ptr [ESI],0x30865e8c
+30385ee9 | e8d55ac9ff | CALL 0x3001b9c3
+30385eee | 8bce | MOV ECX,ESI
+30385ef0 | e8815fcbff | CALL 0x3003be76
+30385ef5 | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+30385efa | 7409 | JZ 0x30385f05
+30385efc | 56 | PUSH ESI
+30385efd | e866b52e00 | CALL 0x30671468
+30385f05 | 8bc6 | MOV EAX,ESI
+30385f07 | 5e | POP ESI
+30385f08 | c20400 | RET 0x4

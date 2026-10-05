@@ -1,0 +1,9 @@
+; 2031f3c0 bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_>::vfunction20
+2031f3c0 | 56 | PUSH ESI
+2031f3c1 | 8bf1 | MOV ESI,ECX
+2031f3c3 | ff15d8877d20 | CALL dword ptr [0x207d87d8]
+2031f3c9 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+2031f3cc | 56 | PUSH ESI
+2031f3cd | ff15cc877d20 | CALL dword ptr [0x207d87cc]
+2031f3d3 | 5e | POP ESI
+2031f3d4 | c3 | RET

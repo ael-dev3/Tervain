@@ -1,0 +1,16 @@
+/* ENTRY 3002c04d | eCIlluminated_PS::GetStaticIlluminated | STATUS decompiled | 28 ms */
+
+/* public: class bTPropertyContainer<enum eEStaticIlluminated> const & __thiscall
+   eCIlluminated_PS::GetStaticIlluminated(void)const  */
+
+bTPropertyContainer<eEStaticIlluminated> * __thiscall
+eCIlluminated_PS::GetStaticIlluminated(eCIlluminated_PS *this)
+
+{
+                    /* 0x2c04d  8965
+                       ?GetStaticIlluminated@eCIlluminated_PS@@QBEABV?$bTPropertyContainer@W4eEStaticIlluminated@@@@XZ
+                        */
+  return (bTPropertyContainer<eEStaticIlluminated> *)&(this->eCIlluminated_PS_data).offset_0x4;
+}
+
+

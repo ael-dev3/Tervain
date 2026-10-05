@@ -1,0 +1,2 @@
+; 3001ff73 eCVisualAnimation_PS::SetBoneRaycastsEnabled
+3001ff73 | e9a81c0400 | JMP 0x30061c20

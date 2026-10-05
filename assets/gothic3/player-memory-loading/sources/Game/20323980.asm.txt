@@ -1,0 +1,15 @@
+; 20323980 bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_>::vfunction8
+20323980 | 56 | PUSH ESI
+20323981 | 8bf1 | MOV ESI,ECX
+20323983 | 8b06 | MOV EAX,dword ptr [ESI]
+20323985 | 8b5018 | MOV EDX,dword ptr [EAX + 0x18]
+20323988 | ffd2 | CALL EDX
+2032398a | 84c0 | TEST AL,AL
+2032398c | 7505 | JNZ 0x20323993
+2032398e | 83c8ff | OR EAX,0xffffffff
+20323991 | 5e | POP ESI
+20323992 | c3 | RET
+20323993 | 8b4620 | MOV EAX,dword ptr [ESI + 0x20]
+20323996 | 8b4004 | MOV EAX,dword ptr [EAX + 0x4]
+20323999 | 5e | POP ESI
+2032399a | c3 | RET

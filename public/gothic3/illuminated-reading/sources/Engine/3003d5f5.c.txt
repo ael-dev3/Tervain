@@ -1,0 +1,13 @@
+/* ENTRY 3003d5f5 | bTPropertyContainer<eEDirectionalShadowType>::vfunction8 | STATUS decompiled | 3 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<eEDirectionalShadowType>::vfunction8
+          (bTPropertyContainer<eEDirectionalShadowType> *this,int param_1)
+
+{
+  (this->bTPropertyContainer<eEDirectionalShadowType>_data).offset_0x0 =
+       *(undefined ***)(param_1 + 4);
+  return 1;
+}
+
+

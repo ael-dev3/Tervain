@@ -1,0 +1,13 @@
+/* ENTRY 1000779d | bCString::bCString | STATUS decompiled | 2 ms */
+
+/* public: __thiscall bCString::bCString(void) */
+
+void __thiscall bCString::bCString(bCString *this)
+
+{
+                    /* 0x779d  279  ??0bCString@@QAE@XZ */
+  *(undefined4 *)this = 0;
+  return;
+}
+
+

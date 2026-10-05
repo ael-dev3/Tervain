@@ -1,0 +1,2 @@
+; 3000f024 eCVisualAnimation_PS::AccessMaterialSwitch
+3000f024 | e9e7330500 | JMP 0x30062410

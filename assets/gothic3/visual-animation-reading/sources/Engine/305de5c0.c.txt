@@ -1,0 +1,12 @@
+/* ENTRY 305de5c0 | FUN_305de5c0 | STATUS decompiled | 7 ms */
+
+eCArchiveFile * __thiscall
+FUN_305de5c0(eCArchiveManager *param_1,eCArchiveFile *param_2,bCString *param_3)
+
+{
+  eCArchiveFile::eCArchiveFile(param_2);
+  eCArchiveManager::GetFile(param_1,param_3,(eCArchiveFile *)param_2);
+  return param_2;
+}
+
+

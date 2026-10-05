@@ -1,0 +1,165 @@
+/* ENTRY 3001560e | eCVisualAnimation_PS::IntersectPhysicsRayNearestHit | STATUS decompiled | 108 ms */
+
+/* public: int __thiscall eCVisualAnimation_PS::IntersectPhysicsRayNearestHit(class bCUnitedRay
+   const &,float &,class bCString *)const  */
+
+int __thiscall
+eCVisualAnimation_PS::IntersectPhysicsRayNearestHit
+          (eCVisualAnimation_PS *this,bCUnitedRay *param_1,float *param_2,bCString *param_3)
+
+{
+  bool bVar1;
+  eCWrapper_emfx2Actor *peVar2;
+  eCEntity *this_00;
+  bCMatrix *pbVar3;
+  int iVar4;
+  int iVar5;
+  bCVector *pbVar6;
+  int iVar7;
+  int iVar8;
+  float fVar9;
+  float *pfVar10;
+  float fStack_a0;
+  int iStack_9c;
+  int iStack_98;
+  bCBox abStack_94 [24];
+  float fStack_7c;
+  float fStack_78;
+  float fStack_74;
+  float fStack_70;
+  float fStack_6c;
+  float fStack_68;
+  float fStack_64;
+  int iStack_60;
+  float fStack_5c;
+  float fStack_58;
+  float fStack_54;
+  float fStack_50;
+  float fStack_4c;
+  bCSphere abStack_48 [16];
+  bCUnitedRay abStack_38 [28];
+  bCUnitedRay abStack_1c [28];
+  
+                    /* 0x1560e  9851
+                       ?IntersectPhysicsRayNearestHit@eCVisualAnimation_PS@@QBEHABVbCUnitedRay@@AAMPAVbCString@@@Z
+                        */
+  peVar2 = eCVisualAnimationFactory::GetAssembledActor
+                     ((eCVisualAnimationFactory *)&this[7].eCEntityPropertySet_data.field_0x4);
+  iVar7 = 0;
+  if (peVar2 != (eCWrapper_emfx2Actor *)0x0) {
+    iVar4 = *(int *)(peVar2 + 0xc);
+    iStack_60 = iVar4;
+    bCUnitedRay::bCUnitedRay(abStack_38);
+    bCUnitedRay::bCUnitedRay(abStack_1c,param_1);
+    this_00 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+    pbVar3 = eCEntity::GetWorldMatrix(this_00);
+    bCUnitedRay::InvTransform(abStack_1c,pbVar3);
+    bCBox::bCBox(abStack_94);
+    bCSphere::bCSphere(abStack_48);
+    *param_2 = *(float *)g_fPosInfinity_exref;
+    iStack_9c = -1;
+    if (0 < *(int *)(iVar4 + 0x1b4)) {
+      iStack_98 = 0;
+      do {
+        iVar8 = *(int *)(iVar4 + 0x1bc) + iStack_98;
+        iVar4 = thunk_FUN_300ac2f0(0x500002);
+        if (iVar4 != 0) {
+          iVar5 = (**(code **)**(undefined4 **)(iVar4 + 8))();
+          bCUnitedRay::operator=(abStack_38,abStack_1c);
+          bCUnitedRay::InvTransform(abStack_38,(bCMatrix *)(iVar8 + 0x44));
+          if (iVar5 == -0x666fffff) {
+            iVar4 = *(int *)(iVar4 + 8);
+            pfVar10 = &fStack_7c;
+            fStack_7c = 0.0;
+            pbVar6 = bCBox::AccessMin(abStack_94);
+            bCVector::SetX(pbVar6,pfVar10);
+            fStack_58 = *(float *)(iVar4 + 8) * -0.5;
+            pfVar10 = &fStack_58;
+            pbVar6 = bCBox::AccessMin(abStack_94);
+            bCVector::SetY(pbVar6,pfVar10);
+            fStack_5c = *(float *)(iVar4 + 0xc) * -0.5;
+            pfVar10 = &fStack_5c;
+            pbVar6 = bCBox::AccessMin(abStack_94);
+            bCVector::SetZ(pbVar6,pfVar10);
+            fStack_78 = *(float *)(iVar4 + 4);
+            pfVar10 = &fStack_78;
+            pbVar6 = bCBox::AccessMax(abStack_94);
+            bCVector::SetX(pbVar6,pfVar10);
+            fStack_70 = *(float *)(iVar4 + 8) * 0.5;
+            pfVar10 = &fStack_70;
+            pbVar6 = bCBox::AccessMax(abStack_94);
+            bCVector::SetY(pbVar6,pfVar10);
+            fStack_68 = *(float *)(iVar4 + 0xc) * 0.5;
+            pfVar10 = &fStack_68;
+            pbVar6 = bCBox::AccessMax(abStack_94);
+            bCVector::SetZ(pbVar6,pfVar10);
+            bVar1 = bCBox::Intersects(abStack_94,abStack_38,&fStack_a0);
+            if ((bVar1) && (fStack_a0 < *param_2)) {
+              *param_2 = fStack_a0;
+              iStack_9c = iVar7;
+            }
+          }
+          else if (iVar5 == -0x666ffffe) {
+            iVar4 = *(int *)(iVar4 + 8);
+            fVar9 = 0.0;
+            pbVar6 = bCSphere::AccessPosition(abStack_48);
+            bCVector::SetVector(pbVar6,fVar9);
+            bCSphere::SetRadius(abStack_48,*(float *)(iVar4 + 4));
+            bVar1 = bCSphere::Intersects(abStack_48,abStack_38,&fStack_a0);
+            if ((bVar1) && (fStack_a0 < *param_2)) {
+              *param_2 = fStack_a0;
+              iStack_9c = iVar7;
+            }
+          }
+          else if (iVar5 == -0x666ffffd) {
+            iVar4 = *(int *)(iVar4 + 8);
+            pfVar10 = &fStack_64;
+            fStack_64 = 0.0;
+            pbVar6 = bCBox::AccessMin(abStack_94);
+            bCVector::SetX(pbVar6,pfVar10);
+            fStack_50 = -0.0 - *(float *)(iVar4 + 4);
+            pfVar10 = &fStack_50;
+            pbVar6 = bCBox::AccessMin(abStack_94);
+            bCVector::SetY(pbVar6,pfVar10);
+            fStack_74 = -0.0 - *(float *)(iVar4 + 4);
+            pfVar10 = &fStack_74;
+            pbVar6 = bCBox::AccessMin(abStack_94);
+            bCVector::SetZ(pbVar6,pfVar10);
+            fStack_54 = *(float *)(iVar4 + 8);
+            pfVar10 = &fStack_54;
+            pbVar6 = bCBox::AccessMax(abStack_94);
+            bCVector::SetX(pbVar6,pfVar10);
+            fStack_6c = *(float *)(iVar4 + 4);
+            pfVar10 = &fStack_6c;
+            pbVar6 = bCBox::AccessMax(abStack_94);
+            bCVector::SetY(pbVar6,pfVar10);
+            fStack_4c = *(float *)(iVar4 + 4);
+            pfVar10 = &fStack_4c;
+            pbVar6 = bCBox::AccessMax(abStack_94);
+            bCVector::SetZ(pbVar6,pfVar10);
+            bVar1 = bCBox::Intersects(abStack_94,abStack_38,&fStack_a0);
+            if ((bVar1) && (fStack_a0 < *param_2)) {
+              *param_2 = fStack_a0;
+              iStack_9c = iVar7;
+            }
+          }
+        }
+        iStack_98 = iStack_98 + 400;
+        iVar7 = iVar7 + 1;
+        iVar4 = iStack_60;
+      } while (iVar7 < *(int *)(iStack_60 + 0x1b4));
+    }
+    iVar7 = iStack_9c;
+    if ((param_3 != (bCString *)0x0) && (-1 < iStack_9c)) {
+      bCString::operator=(param_3,*(char **)(iStack_9c * 400 + 0x16c + *(int *)(iVar4 + 0x1bc)));
+    }
+    bCSphere::~bCSphere(abStack_48);
+    bCBox::~bCBox(abStack_94);
+    bCUnitedRay::~bCUnitedRay(abStack_1c);
+    bCUnitedRay::~bCUnitedRay(abStack_38);
+    return iVar7;
+  }
+  return -1;
+}
+
+

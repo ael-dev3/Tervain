@@ -1,0 +1,2 @@
+; 100040ca bCClock::Adjust
+100040ca | e9717c0400 | JMP 0x1004bd40

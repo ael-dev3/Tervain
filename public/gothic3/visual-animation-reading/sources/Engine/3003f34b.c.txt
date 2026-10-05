@@ -1,0 +1,14 @@
+/* ENTRY 3003f34b | eCSpringAndDamperEffector::AccessSpringDistStretchSaturate | STATUS decompiled | 3 ms */
+
+/* public: float & __thiscall eCSpringAndDamperEffector::AccessSpringDistStretchSaturate(void) */
+
+float * __thiscall
+eCSpringAndDamperEffector::AccessSpringDistStretchSaturate(eCSpringAndDamperEffector *this)
+
+{
+                    /* 0x3f34b  3163
+                       ?AccessSpringDistStretchSaturate@eCSpringAndDamperEffector@@QAEAAMXZ */
+  return (float *)&(this->eCEffector_data).offset_0x60;
+}
+
+

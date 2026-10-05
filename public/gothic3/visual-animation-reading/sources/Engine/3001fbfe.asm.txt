@@ -1,0 +1,2 @@
+; 3001fbfe eCWnd::Print
+3001fbfe | e97d6b1b00 | JMP 0x301d6780

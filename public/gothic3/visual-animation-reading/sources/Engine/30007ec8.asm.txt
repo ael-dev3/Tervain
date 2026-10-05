@@ -1,0 +1,2 @@
+; 30007ec8 eCVisualAnimationLoD::IsValid
+30007ec8 | e9936e0b00 | JMP 0x300bed60

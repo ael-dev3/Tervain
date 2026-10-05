@@ -1,0 +1,21 @@
+/* ENTRY 300afcf0 | bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::vfunction1 | STATUS decompiled | 5 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined * __thiscall bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::vfunction1(void)
+
+{
+  if ((DAT_30ad9c70 & 1) == 0) {
+    DAT_30ad9c70 = DAT_30ad9c70 | 1;
+    _DAT_30ad9c6c = DAT_30ad9d60;
+  }
+  if ((DAT_30ad9c70 & 2) == 0) {
+    DAT_30ad9c70 = DAT_30ad9c70 | 2;
+    FUN_306713ae(&DAT_30af70ac);
+    bCClassNameBase::UnMangle(&DAT_30ad9c68);
+    _atexit((_func_4879 *)&LAB_30047749);
+  }
+  return &DAT_30ad9c68;
+}
+
+

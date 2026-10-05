@@ -1,0 +1,90 @@
+/* ENTRY 30018345 | eCVisualAnimationFactory::StopFacialAnimation | STATUS decompiled | 31 ms */
+
+/* public: bool __thiscall eCVisualAnimationFactory::StopFacialAnimation(void) */
+
+bool __thiscall eCVisualAnimationFactory::StopFacialAnimation(eCVisualAnimationFactory *this)
+
+{
+  int iVar1;
+  eCVisualAnimationLoD *this_00;
+  bool bVar2;
+  bool bVar3;
+  eCWrapper_emfx2Actor *peVar4;
+  eCWrapper_emfx2Actor *peVar5;
+  int iVar6;
+  undefined4 uVar7;
+  undefined4 uVar8;
+  undefined4 uVar9;
+  undefined4 uVar10;
+  bool bStack_5;
+  int iStack_4;
+  
+                    /* 0x18345  14723  ?StopFacialAnimation@eCVisualAnimationFactory@@QAE_NXZ */
+  bVar3 = false;
+  bStack_5 = false;
+  if (this[0x1c] == (eCVisualAnimationFactory)0x1) {
+    iVar1 = *(int *)(this + 4);
+    if (iVar1 != 0) {
+      if (*(eCVisualAnimationLoD **)(this + 0xc) != (eCVisualAnimationLoD *)0x0) {
+        eCVisualAnimationLoD::SetAnimationRenderHook
+                  (*(eCVisualAnimationLoD **)(this + 0xc),(eCAnimation_BaseRenderActor *)0x0);
+        peVar4 = (eCWrapper_emfx2Actor *)
+                 eCVisualAnimationLoD::GetActorWrapper(*(eCVisualAnimationLoD **)(this + 8));
+        if ((peVar4 != (eCWrapper_emfx2Actor *)0x0) &&
+           (bVar2 = (*peVar4->vftablePtr->IsValid)(peVar4), bVar2)) {
+          peVar5 = eCWrapper_emfx2Actor::CreateInstance(peVar4);
+          uVar7 = *(undefined4 *)(iVar1 + 0xc);
+          uVar10 = 0;
+          uVar8 = *(undefined4 *)(peVar5 + 0xc);
+          uVar9 = 0;
+          thunk_FUN_300be3a0(uVar7,uVar8,0,0);
+          FUN_30644e80(uVar7,uVar8,uVar9,uVar10);
+          FUN_3063e910();
+          (**(code **)(*(int *)peVar5 + 0x24))();
+          bStack_5 = true;
+          bVar3 = true;
+        }
+      }
+      iStack_4 = 0;
+      if (0 < *(int *)(this + 0x14)) {
+        iVar6 = 0;
+        do {
+          this_00 = *(eCVisualAnimationLoD **)(*(int *)(this + 0x10) + 8 + iVar6);
+          if (this_00 != (eCVisualAnimationLoD *)0x0) {
+            eCVisualAnimationLoD::SetAnimationRenderHook(this_00,(eCAnimation_BaseRenderActor *)0x0)
+            ;
+            peVar4 = (eCWrapper_emfx2Actor *)
+                     eCVisualAnimationLoD::GetActorWrapper
+                               (*(eCVisualAnimationLoD **)(*(int *)(this + 0x10) + 4 + iVar6));
+            if ((peVar4 != (eCWrapper_emfx2Actor *)0x0) &&
+               (bVar3 = (*peVar4->vftablePtr->IsValid)(peVar4), bVar3)) {
+              peVar5 = eCWrapper_emfx2Actor::CreateInstance(peVar4);
+              uVar7 = *(undefined4 *)(iVar1 + 0xc);
+              uVar10 = 0;
+              uVar8 = *(undefined4 *)(peVar5 + 0xc);
+              uVar9 = 0;
+              thunk_FUN_300be3a0(uVar7,uVar8,0,0);
+              FUN_30644e80(uVar7,uVar8,uVar9,uVar10);
+              FUN_3063e910();
+              (**(code **)(*(int *)peVar5 + 0x24))();
+              bStack_5 = true;
+            }
+          }
+          iStack_4 = iStack_4 + 1;
+          iVar6 = iVar6 + 0x10;
+          bVar3 = bStack_5;
+        } while (iStack_4 < *(int *)(this + 0x14));
+      }
+      if (bVar3 == true) {
+        RemoveNotUsedBones(this);
+        FUN_3063b5e0(0);
+        thunk_FUN_30073fc0(0,0xffffffff);
+        *(undefined4 *)(this + 0x24) = 0;
+      }
+    }
+    this[0x1c] = (eCVisualAnimationFactory)0x0;
+  }
+  return bVar3;
+}
+
+

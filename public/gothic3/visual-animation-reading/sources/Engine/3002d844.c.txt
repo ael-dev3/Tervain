@@ -1,0 +1,31 @@
+/* ENTRY 3002d844 | eCEntity::QueryEntityProxyInternal | STATUS decompiled | 109 ms */
+
+/* protected: class eCEntityProxyInternal * __thiscall eCEntity::QueryEntityProxyInternal(void) */
+
+eCEntityProxyInternal * __thiscall eCEntity::QueryEntityProxyInternal(eCEntity *this)
+
+{
+  eCEntityProxyInternal *peVar1;
+  
+                    /* 0x2d844  12006
+                       ?QueryEntityProxyInternal@eCEntity@@IAEPAVeCEntityProxyInternal@@XZ */
+  if ((this->eCEntity_data).offset_0x15c == 0) {
+    peVar1 = (eCEntityProxyInternal *)new(8,0xa1d);
+    if (peVar1 == (eCEntityProxyInternal *)0x0) {
+      peVar1 = (eCEntityProxyInternal *)0x0;
+    }
+    else {
+      peVar1 = (eCEntityProxyInternal *)eCEntityProxyInternal::eCEntityProxyInternal(peVar1);
+    }
+    (this->eCEntity_data).offset_0x15c = peVar1;
+    eCEntityProxyInternal::SetEntity(peVar1,(eCEntity *)this);
+  }
+  peVar1 = (eCEntityProxyInternal *)(this->eCEntity_data).offset_0x15c;
+  if (peVar1 != (eCEntityProxyInternal *)0x0) {
+    eCEntityProxyInternal::AddReference(peVar1);
+    return (eCEntityProxyInternal *)(this->eCEntity_data).offset_0x15c;
+  }
+  return (eCEntityProxyInternal *)0x0;
+}
+
+

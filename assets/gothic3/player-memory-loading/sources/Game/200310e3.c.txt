@@ -1,0 +1,9 @@
+/* ENTRY 200310e3 | bTPropertyType<gCPlayerMemory_PS,bTObjArray<bCString>_>::vfunction2 | STATUS decompiled | 1 ms */
+
+undefined4 __thiscall bTPropertyType<gCPlayerMemory_PS,bTObjArray<bCString>_>::vfunction2(void)
+
+{
+  return 0xc;
+}
+
+

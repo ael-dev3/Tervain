@@ -1,0 +1,17 @@
+; 300be710 FUN_300be710
+300be710 | 56 | PUSH ESI
+300be711 | 8b74240c | MOV ESI,dword ptr [ESP + 0xc]
+300be715 | 85f6 | TEST ESI,ESI
+300be717 | 741a | JZ 0x300be733
+300be719 | 57 | PUSH EDI
+300be71a | 8b7c240c | MOV EDI,dword ptr [ESP + 0xc]
+300be71e | 8bff | MOV EDI,EDI
+300be720 | 8bcf | MOV ECX,EDI
+300be722 | 83ee01 | SUB ESI,0x1
+300be725 | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+300be72b | 83c710 | ADD EDI,0x10
+300be72e | 85f6 | TEST ESI,ESI
+300be730 | 75ee | JNZ 0x300be720
+300be732 | 5f | POP EDI
+300be733 | 5e | POP ESI
+300be734 | c20800 | RET 0x8

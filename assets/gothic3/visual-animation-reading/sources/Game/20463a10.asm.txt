@@ -1,0 +1,11 @@
+; 20463a10 FUN_20463a10
+20463a10 | 8b01 | MOV EAX,dword ptr [ECX]
+20463a12 | 8b50fc | MOV EDX,dword ptr [EAX + -0x4]
+20463a15 | 8bc1 | MOV EAX,ECX
+20463a17 | 2b4204 | SUB EAX,dword ptr [EDX + 0x4]
+20463a1a | 8b5208 | MOV EDX,dword ptr [EDX + 0x8]
+20463a1d | 85d2 | TEST EDX,EDX
+20463a1f | 7404 | JZ 0x20463a25
+20463a21 | 2bca | SUB ECX,EDX
+20463a23 | 2b01 | SUB EAX,dword ptr [ECX]
+20463a25 | c3 | RET

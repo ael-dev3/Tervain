@@ -1,0 +1,33 @@
+/* ENTRY 100047be | bCString::ToLower | STATUS decompiled | 7 ms */
+
+/* public: void __thiscall bCString::ToLower(void) */
+
+void __thiscall bCString::ToLower(bCString *this)
+
+{
+  int iVar1;
+  int iVar2;
+  int iVar3;
+  
+                    /* 0x47be  4509  ?ToLower@bCString@@QAEXXZ */
+  if (*(int *)this != 0) {
+    CopyBeforeWrite(this);
+    if (*(int *)this == 0) {
+      iVar2 = 0;
+    }
+    else {
+      iVar2 = *(int *)(*(int *)this + -8);
+    }
+    iVar3 = 0;
+    if (0 < iVar2) {
+      do {
+        iVar1 = _tolower((int)*(char *)(*(int *)this + iVar3));
+        *(char *)(iVar3 + *(int *)this) = (char)iVar1;
+        iVar3 = iVar3 + 1;
+      } while (iVar3 < iVar2);
+    }
+  }
+  return;
+}
+
+

@@ -1,0 +1,269 @@
+/* ENTRY 10005808 | bCByteColor::bCByteColor | STATUS decompiled | 40 ms */
+
+/* public: __thiscall bCByteColor::bCByteColor(enum bCColorBase::bEColor) */
+
+void __thiscall bCByteColor::bCByteColor(bCByteColor *this,bEColor param_1)
+
+{
+                    /* 0x5808  56  ??0bCByteColor@@QAE@W4bEColor@bCColorBase@@@Z */
+  this->vftablePtr = &vftable;
+  switch(param_1) {
+  case 1:
+    (this->bCByteColor_data).offset_0x2 = -1;
+    (this->bCByteColor_data).offset_0x0 = -1;
+    (this->bCByteColor_data).offset_0x1 = -1;
+    return;
+  case 2:
+    (this->bCByteColor_data).offset_0x2 = -0x40;
+    (this->bCByteColor_data).offset_0x0 = -0x40;
+    (this->bCByteColor_data).offset_0x1 = -0x40;
+    return;
+  case 3:
+    (this->bCByteColor_data).offset_0x2 = -0x51;
+    (this->bCByteColor_data).offset_0x0 = -0x51;
+    (this->bCByteColor_data).offset_0x1 = -0x51;
+    return;
+  case 4:
+    (this->bCByteColor_data).offset_0x2 = '\x7f';
+    (this->bCByteColor_data).offset_0x0 = '\x7f';
+    (this->bCByteColor_data).offset_0x1 = '\x7f';
+    return;
+  case 5:
+    (this->bCByteColor_data).offset_0x2 = 'O';
+    (this->bCByteColor_data).offset_0x0 = 'O';
+    (this->bCByteColor_data).offset_0x1 = 'O';
+    return;
+  case 6:
+    (this->bCByteColor_data).offset_0x2 = -0x2d;
+    (this->bCByteColor_data).offset_0x0 = -0x2d;
+    (this->bCByteColor_data).offset_0x1 = -0x2d;
+    return;
+  case 7:
+    (this->bCByteColor_data).offset_0x0 = -0x80;
+    (this->bCByteColor_data).offset_0x1 = -0x76;
+    (this->bCByteColor_data).offset_0x2 = -0x79;
+    return;
+  case 8:
+    (this->bCByteColor_data).offset_0x2 = 'i';
+    (this->bCByteColor_data).offset_0x0 = -0x80;
+    (this->bCByteColor_data).offset_0x1 = -0x80;
+    return;
+  case 9:
+    (this->bCByteColor_data).offset_0x0 = -1;
+    (this->bCByteColor_data).offset_0x2 = '\0';
+    (this->bCByteColor_data).offset_0x1 = '\0';
+    return;
+  case 10:
+    (this->bCByteColor_data).offset_0x0 = -0x51;
+    (this->bCByteColor_data).offset_0x2 = '\0';
+    (this->bCByteColor_data).offset_0x1 = '\0';
+    return;
+  case 0xb:
+    (this->bCByteColor_data).offset_0x0 = '\x7f';
+    (this->bCByteColor_data).offset_0x2 = '\0';
+    (this->bCByteColor_data).offset_0x1 = '\0';
+    return;
+  case 0xc:
+    (this->bCByteColor_data).offset_0x0 = 'O';
+    (this->bCByteColor_data).offset_0x2 = '\0';
+    (this->bCByteColor_data).offset_0x1 = '\0';
+    return;
+  case 0xd:
+    (this->bCByteColor_data).offset_0x0 = '\0';
+    (this->bCByteColor_data).offset_0x1 = -1;
+    (this->bCByteColor_data).offset_0x2 = '\0';
+    return;
+  case 0xe:
+    (this->bCByteColor_data).offset_0x0 = '\0';
+    (this->bCByteColor_data).offset_0x1 = -0x51;
+    (this->bCByteColor_data).offset_0x2 = '\0';
+    return;
+  case 0xf:
+    (this->bCByteColor_data).offset_0x0 = '\0';
+    (this->bCByteColor_data).offset_0x1 = '\x7f';
+    (this->bCByteColor_data).offset_0x2 = '\0';
+    return;
+  case 0x10:
+    (this->bCByteColor_data).offset_0x0 = '\0';
+    (this->bCByteColor_data).offset_0x1 = 'O';
+    (this->bCByteColor_data).offset_0x2 = '\0';
+    return;
+  case 0x11:
+    (this->bCByteColor_data).offset_0x2 = -1;
+    (this->bCByteColor_data).offset_0x0 = '\0';
+    (this->bCByteColor_data).offset_0x1 = '\0';
+    return;
+  case 0x12:
+    (this->bCByteColor_data).offset_0x2 = -0x51;
+    (this->bCByteColor_data).offset_0x0 = '\0';
+    (this->bCByteColor_data).offset_0x1 = '\0';
+    return;
+  case 0x13:
+    (this->bCByteColor_data).offset_0x2 = '\x7f';
+    (this->bCByteColor_data).offset_0x0 = '\0';
+    (this->bCByteColor_data).offset_0x1 = '\0';
+    return;
+  case 0x14:
+    (this->bCByteColor_data).offset_0x2 = 'O';
+    (this->bCByteColor_data).offset_0x0 = '\0';
+    (this->bCByteColor_data).offset_0x1 = '\0';
+    return;
+  case 0x15:
+    (this->bCByteColor_data).offset_0x0 = '\0';
+    (this->bCByteColor_data).offset_0x2 = -1;
+    (this->bCByteColor_data).offset_0x1 = -1;
+    return;
+  case 0x16:
+    (this->bCByteColor_data).offset_0x0 = '\0';
+    (this->bCByteColor_data).offset_0x2 = -0x51;
+    (this->bCByteColor_data).offset_0x1 = -0x51;
+    return;
+  case 0x17:
+    (this->bCByteColor_data).offset_0x0 = '\0';
+    (this->bCByteColor_data).offset_0x2 = '\x7f';
+    (this->bCByteColor_data).offset_0x1 = '\x7f';
+    return;
+  case 0x18:
+    (this->bCByteColor_data).offset_0x0 = '\0';
+    (this->bCByteColor_data).offset_0x2 = 'O';
+    (this->bCByteColor_data).offset_0x1 = 'O';
+    return;
+  case 0x19:
+    (this->bCByteColor_data).offset_0x2 = '\0';
+    (this->bCByteColor_data).offset_0x0 = -1;
+    (this->bCByteColor_data).offset_0x1 = -1;
+    return;
+  case 0x1a:
+    (this->bCByteColor_data).offset_0x2 = '\0';
+    (this->bCByteColor_data).offset_0x0 = -0x51;
+    (this->bCByteColor_data).offset_0x1 = -0x51;
+    return;
+  case 0x1b:
+    (this->bCByteColor_data).offset_0x2 = '\0';
+    (this->bCByteColor_data).offset_0x0 = '\x7f';
+    (this->bCByteColor_data).offset_0x1 = '\x7f';
+    return;
+  case 0x1c:
+    (this->bCByteColor_data).offset_0x2 = '\0';
+    (this->bCByteColor_data).offset_0x0 = 'O';
+    (this->bCByteColor_data).offset_0x1 = 'O';
+    return;
+  case 0x1d:
+    (this->bCByteColor_data).offset_0x0 = -1;
+    (this->bCByteColor_data).offset_0x1 = '\0';
+    (this->bCByteColor_data).offset_0x2 = -1;
+    return;
+  case 0x1e:
+    (this->bCByteColor_data).offset_0x0 = -0x51;
+    (this->bCByteColor_data).offset_0x1 = '\0';
+    (this->bCByteColor_data).offset_0x2 = -0x51;
+    return;
+  case 0x1f:
+    (this->bCByteColor_data).offset_0x0 = '\x7f';
+    (this->bCByteColor_data).offset_0x1 = '\0';
+    (this->bCByteColor_data).offset_0x2 = '\x7f';
+    return;
+  case 0x20:
+    (this->bCByteColor_data).offset_0x0 = 'O';
+    (this->bCByteColor_data).offset_0x1 = '\0';
+    (this->bCByteColor_data).offset_0x2 = 'O';
+    return;
+  case 0x21:
+    (this->bCByteColor_data).offset_0x0 = ')';
+    (this->bCByteColor_data).offset_0x1 = '$';
+    (this->bCByteColor_data).offset_0x2 = '!';
+    return;
+  case 0x22:
+    (this->bCByteColor_data).offset_0x0 = -1;
+    (this->bCByteColor_data).offset_0x1 = -0x80;
+    (this->bCByteColor_data).offset_0x2 = '\0';
+    return;
+  case 0x23:
+    (this->bCByteColor_data).offset_0x0 = -0x13;
+    (this->bCByteColor_data).offset_0x1 = -0x6f;
+    (this->bCByteColor_data).offset_0x2 = '!';
+    return;
+  case 0x24:
+    (this->bCByteColor_data).offset_0x0 = ';';
+    (this->bCByteColor_data).offset_0x1 = '^';
+    (this->bCByteColor_data).offset_0x2 = '+';
+    return;
+  case 0x25:
+    (this->bCByteColor_data).offset_0x0 = '\b';
+    (this->bCByteColor_data).offset_0x1 = '.';
+    (this->bCByteColor_data).offset_0x2 = 'T';
+    return;
+  case 0x26:
+    (this->bCByteColor_data).offset_0x0 = -0x79;
+    (this->bCByteColor_data).offset_0x1 = -0x32;
+    (this->bCByteColor_data).offset_0x2 = -0x15;
+    return;
+  case 0x27:
+    (this->bCByteColor_data).offset_0x0 = 'F';
+    (this->bCByteColor_data).offset_0x1 = -0x7e;
+    (this->bCByteColor_data).offset_0x2 = -0x4c;
+    return;
+  case 0x28:
+    (this->bCByteColor_data).offset_0x0 = '\x7f';
+    (this->bCByteColor_data).offset_0x1 = -1;
+    (this->bCByteColor_data).offset_0x2 = -0x2c;
+    return;
+  case 0x29:
+    (this->bCByteColor_data).offset_0x0 = -1;
+    (this->bCByteColor_data).offset_0x1 = -0x29;
+    (this->bCByteColor_data).offset_0x2 = '\0';
+    return;
+  case 0x2a:
+    (this->bCByteColor_data).offset_0x0 = -0x26;
+    (this->bCByteColor_data).offset_0x1 = 'p';
+    (this->bCByteColor_data).offset_0x2 = -0x2a;
+    return;
+  case 0x2b:
+    (this->bCByteColor_data).offset_0x0 = -0x60;
+    (this->bCByteColor_data).offset_0x1 = ' ';
+    (this->bCByteColor_data).offset_0x2 = -0x10;
+    return;
+  case 0x2c:
+    (this->bCByteColor_data).offset_0x0 = -0x71;
+    (this->bCByteColor_data).offset_0x1 = '^';
+    (this->bCByteColor_data).offset_0x2 = -0x67;
+    return;
+  case 0x2d:
+    (this->bCByteColor_data).offset_0x0 = -0x80;
+    (this->bCByteColor_data).offset_0x2 = '*';
+    (this->bCByteColor_data).offset_0x1 = '*';
+    return;
+  case 0x2e:
+    (this->bCByteColor_data).offset_0x0 = -0x79;
+    (this->bCByteColor_data).offset_0x1 = 'B';
+    (this->bCByteColor_data).offset_0x2 = '\x1f';
+    return;
+  case 0x2f:
+    (this->bCByteColor_data).offset_0x0 = 's';
+    (this->bCByteColor_data).offset_0x1 = '=';
+    (this->bCByteColor_data).offset_0x2 = '\x1a';
+    return;
+  case 0x30:
+    (this->bCByteColor_data).offset_0x0 = -0x5d;
+    (this->bCByteColor_data).offset_0x1 = -0x6c;
+    (this->bCByteColor_data).offset_0x2 = -0x80;
+    return;
+  case 0x31:
+    (this->bCByteColor_data).offset_0x0 = -1;
+    (this->bCByteColor_data).offset_0x1 = '}';
+    (this->bCByteColor_data).offset_0x2 = '@';
+    return;
+  case 0x32:
+    (this->bCByteColor_data).offset_0x0 = -0x10;
+    (this->bCByteColor_data).offset_0x1 = -0x1a;
+    (this->bCByteColor_data).offset_0x2 = -0x74;
+    return;
+  default:
+    (this->bCByteColor_data).offset_0x2 = '\0';
+    (this->bCByteColor_data).offset_0x0 = '\0';
+    (this->bCByteColor_data).offset_0x1 = '\0';
+    return;
+  }
+}
+
+

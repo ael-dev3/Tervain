@@ -1,0 +1,44 @@
+/* ENTRY 30046155 | eCPVSPrefetcher3::AddNewEntity | STATUS decompiled | 22 ms */
+
+/* public: bool __thiscall eCPVSPrefetcher3::AddNewEntity(class eCEntity *) */
+
+bool __thiscall eCPVSPrefetcher3::AddNewEntity(eCPVSPrefetcher3 *this,eCEntity *param_1)
+
+{
+  undefined2 *puVar1;
+  bool bVar2;
+  eCApplication *this_00;
+  int iVar3;
+  uint uVar4;
+  int *piVar5;
+  
+                    /* 0x46155  3436  ?AddNewEntity@eCPVSPrefetcher3@@QAE_NPAVeCEntity@@@Z */
+  this_00 = (eCApplication *)eCApplication::GetInstance();
+  bVar2 = eCApplication::IsInCompilingState(this_00);
+  if (!bVar2) {
+    uVar4 = (uint)(ushort)(this->eCPVSPrefetcher3_data).offset_0x36;
+    iVar3 = 0;
+    if (uVar4 != 0) {
+      piVar5 = (this->eCPVSPrefetcher3_data).offset_0x38;
+      do {
+        if (param_1 == (eCEntity *)*piVar5) {
+          if ((short)iVar3 != -1) {
+            return true;
+          }
+          break;
+        }
+        iVar3 = iVar3 + 1;
+        piVar5 = piVar5 + 1;
+      } while (iVar3 < (int)uVar4);
+    }
+    thunk_FUN_3039f600();
+    *(eCEntity **)
+     ((int)(this->eCPVSPrefetcher3_data).offset_0x38 +
+     (uint)(ushort)(this->eCPVSPrefetcher3_data).offset_0x36 * 4) = param_1;
+    puVar1 = &(this->eCPVSPrefetcher3_data).offset_0x36;
+    *puVar1 = *puVar1 + 1;
+  }
+  return true;
+}
+
+

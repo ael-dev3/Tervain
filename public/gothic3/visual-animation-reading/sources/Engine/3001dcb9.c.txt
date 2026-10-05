@@ -1,0 +1,117 @@
+/* ENTRY 3001dcb9 | eCPhysicsScene::SetEntitiesCanCollide | STATUS decompiled | 65 ms */
+
+/* public: void __thiscall eCPhysicsScene::SetEntitiesCanCollide(class eCEntity &,class eCEntity
+   &,bool,bool) */
+
+void __thiscall
+eCPhysicsScene::SetEntitiesCanCollide
+          (eCPhysicsScene *this,eCEntity *param_1,eCEntity *param_2,bool param_3,bool param_4)
+
+{
+  eCEntity *this_00;
+  eCEntity *this_01;
+  char cVar1;
+  bool bVar2;
+  int iVar3;
+  int iVar4;
+  eCVisualAnimation_PS *this_02;
+  eCPhysicObject *peVar5;
+  eCPhysicObject *peVar6;
+  NxActor *pNVar7;
+  NxActor *pNVar8;
+  uint uVar9;
+  undefined3 in_stack_00000011;
+  char cStack_4;
+  
+  this_01 = param_2;
+  this_00 = param_1;
+                    /* 0x1dcb9  13332
+                       ?SetEntitiesCanCollide@eCPhysicsScene@@QAEXAAVeCEntity@@0_N1@Z */
+  if ((param_1 != param_2) && ((this->eCPhysicsScene_data).offset_0x4 != 0)) {
+    if (param_4) {
+      _param_4 = param_1;
+      iVar3 = thunk_FUN_3032af40(&param_4);
+      _param_4 = this_01;
+      if (param_3 == true) {
+        iVar4 = thunk_FUN_30253ef0(&param_4);
+        if (iVar4 != -1) {
+          thunk_FUN_30327330(iVar4);
+        }
+      }
+      else {
+        cVar1 = thunk_FUN_30253f90(&param_4);
+        if (cVar1 == '\0') {
+          _param_4 = this_01;
+          thunk_FUN_302308d0(&param_4);
+        }
+      }
+      if (*(int *)(iVar3 + 4) == 0) {
+        _param_4 = this_00;
+        thunk_FUN_3032b630(&param_4);
+      }
+      _param_4 = this_01;
+      _param_4 = (eCEntity *)thunk_FUN_3032af40(&param_4);
+      param_1 = this_00;
+      if (param_3 == true) {
+        iVar3 = thunk_FUN_30253ef0(&param_1);
+        if (iVar3 != -1) {
+          thunk_FUN_30327330(iVar3);
+        }
+      }
+      else {
+        cVar1 = thunk_FUN_30253f90(&param_1);
+        if (cVar1 == '\0') {
+          param_1 = this_00;
+          thunk_FUN_302308d0(&param_1);
+        }
+      }
+      if (*(int *)(_param_4 + 4) == 0) {
+        _param_4 = this_01;
+        thunk_FUN_3032b630(&param_4);
+      }
+    }
+    this_02 = (eCVisualAnimation_PS *)(**(code **)(*(int *)this_00 + 0xec))(100);
+    param_2 = (eCEntity *)(**(code **)(*(int *)this_01 + 0xec))(100);
+    if (this_02 != (eCVisualAnimation_PS *)0x0) {
+      eCVisualAnimation_PS::EnableSkeletonCollisionWith(this_02,this_01,SUB41(param_1,0));
+    }
+    if (param_2 != (eCEntity *)0x0) {
+      eCVisualAnimation_PS::EnableSkeletonCollisionWith
+                ((eCVisualAnimation_PS *)param_2,this_00,SUB41(param_1,0));
+    }
+    peVar5 = eCEntity::GetPhysicObject((eCEntity *)this_00);
+    if ((((peVar5 != (eCPhysicObject *)0x0) &&
+         (peVar5 = eCEntity::GetPhysicObject((eCEntity *)this_01), peVar5 != (eCPhysicObject *)0x0))
+        && (bVar2 = eCEntity::HasProcessingRangeEntered((eCEntity *)this_00), bVar2)) &&
+       (bVar2 = eCEntity::HasProcessingRangeEntered((eCEntity *)this_01), bVar2)) {
+      bVar2 = IsLocked(this);
+      if (!bVar2) {
+        bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)&DAT_30ae5dc0);
+        iVar3 = *(int *)(this->eCPhysicsScene_data).offset_0x8;
+        peVar6 = (eCPhysicObject *)eCEntity::GetPhysicObject((eCEntity *)this_01);
+        pNVar7 = eCPhysicObject::GetActor(peVar6);
+        peVar6 = (eCPhysicObject *)eCEntity::GetPhysicObject((eCEntity *)this_00);
+        pNVar8 = eCPhysicObject::GetActor(peVar6);
+        uVar9 = (**(code **)(iVar3 + 0x38))(pNVar8,pNVar7);
+        if (cStack_4 == '\x01') {
+          uVar9 = uVar9 & 0xfffffffe;
+        }
+        else {
+          uVar9 = uVar9 | 1;
+        }
+        iVar3 = *(int *)(this->eCPhysicsScene_data).offset_0x8;
+        peVar6 = (eCPhysicObject *)eCEntity::GetPhysicObject((eCEntity *)this_01);
+        pNVar7 = eCPhysicObject::GetActor(peVar6);
+        peVar6 = (eCPhysicObject *)eCEntity::GetPhysicObject((eCEntity *)this_00);
+        pNVar8 = eCPhysicObject::GetActor(peVar6);
+        (**(code **)(iVar3 + 0x34))(pNVar8,pNVar7,uVar9);
+        bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30ae5dc0);
+        return;
+      }
+      thunk_FUN_303297a0(&stack0xffffffec);
+    }
+  }
+  return;
+}
+
+

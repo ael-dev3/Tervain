@@ -1,0 +1,36 @@
+/* ENTRY 300bf070 | FUN_300bf070 | STATUS decompiled | 15 ms */
+
+eCWrapper_emfx2Actor * __fastcall FUN_300bf070(eCVisualAnimationLoD *param_1)
+
+{
+  eCResourceAdmin *this;
+  eCResourceDataEntity *peVar1;
+  eCResourceDataEntity *this_00;
+  eCWrapper_emfx2Actor *peVar2;
+  bCString *pbVar3;
+  eEResourceCacheBehavior eVar4;
+  
+  if ((param_1->eCVisualAnimationLoD_data).offset_0x4 == (eCResourceAnimationActor_PS *)0x0) {
+    eVar4 = 3;
+    pbVar3 = (bCString *)&param_1->eCVisualAnimationLoD_data;
+    this = (eCResourceAdmin *)thunk_FUN_3007c090();
+    peVar1 = eCResourceAdmin::QueryResourceDataEntity(this,pbVar3,eVar4);
+    if (peVar1 != (eCResourceDataEntity *)0x0) {
+      eCVisualAnimationLoD::SetActor(param_1,peVar1);
+      (**(code **)(*(int *)peVar1 + 0x24))();
+    }
+    if ((param_1->eCVisualAnimationLoD_data).offset_0x4 == (eCResourceAnimationActor_PS *)0x0) {
+      return (eCWrapper_emfx2Actor *)0x0;
+    }
+  }
+  eVar4 = 1;
+  this_00 = (eCResourceDataEntity *)
+            (**(code **)(*(int *)(param_1->eCVisualAnimationLoD_data).offset_0x4 + 0x70))();
+  eCResourceDataEntity::Load(this_00,eVar4);
+  peVar2 = eCResourceAnimationActor_PS::GetEMFX2Actor
+                     ((eCResourceAnimationActor_PS *)(param_1->eCVisualAnimationLoD_data).offset_0x4
+                     );
+  return peVar2;
+}
+
+

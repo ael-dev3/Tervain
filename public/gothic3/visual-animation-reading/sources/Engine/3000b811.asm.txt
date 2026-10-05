@@ -1,0 +1,2 @@
+; 3000b811 eCVisualAnimationLoD::SetActor
+3000b811 | e94a370b00 | JMP 0x300bef60

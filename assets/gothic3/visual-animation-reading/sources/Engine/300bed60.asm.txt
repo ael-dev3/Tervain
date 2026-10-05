@@ -1,0 +1,5 @@
+; 300bed60 FUN_300bed60
+300bed60 | 33c0 | XOR EAX,EAX
+300bed62 | 394108 | CMP dword ptr [ECX + 0x8],EAX
+300bed65 | 0f95c0 | SETNZ AL
+300bed68 | c3 | RET

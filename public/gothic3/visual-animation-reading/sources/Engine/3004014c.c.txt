@@ -1,0 +1,16 @@
+/* ENTRY 3004014c | eCVisualAnimation_PS::GetMotionDesc | STATUS decompiled | 8 ms */
+
+/* public: struct eCVisualAnimation_PS::eSMotionDesc const & __thiscall
+   eCVisualAnimation_PS::GetMotionDesc(enum eCWrapper_emfx2Actor::eEMotionType) */
+
+eSMotionDesc * __thiscall
+eCVisualAnimation_PS::GetMotionDesc(eCVisualAnimation_PS *this,eEMotionType param_1)
+
+{
+                    /* 0x4014c  7878
+                       ?GetMotionDesc@eCVisualAnimation_PS@@QAEABUeSMotionDesc@1@W4eEMotionType@eCWrapper_emfx2Actor@@@Z
+                        */
+  return (eSMotionDesc *)(this[0xb].eCEntityPropertySet_data.offset_0x8 + param_1 * 0xc);
+}
+
+

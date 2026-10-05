@@ -1,0 +1,33 @@
+; 3066bc40 FUN_3066bc40
+3066bc40 | 33c0 | XOR EAX,EAX
+3066bc42 | 56 | PUSH ESI
+3066bc43 | 8bf1 | MOV ESI,ECX
+3066bc45 | 894648 | MOV dword ptr [ESI + 0x48],EAX
+3066bc48 | 89463c | MOV dword ptr [ESI + 0x3c],EAX
+3066bc4b | 894640 | MOV dword ptr [ESI + 0x40],EAX
+3066bc4e | 894644 | MOV dword ptr [ESI + 0x44],EAX
+3066bc51 | c7464c00000100 | MOV dword ptr [ESI + 0x4c],0x10000
+3066bc58 | 8906 | MOV dword ptr [ESI],EAX
+3066bc5a | 894604 | MOV dword ptr [ESI + 0x4],EAX
+3066bc5d | 894608 | MOV dword ptr [ESI + 0x8],EAX
+3066bc60 | 89460c | MOV dword ptr [ESI + 0xc],EAX
+3066bc63 | 894610 | MOV dword ptr [ESI + 0x10],EAX
+3066bc66 | 894614 | MOV dword ptr [ESI + 0x14],EAX
+3066bc69 | 894618 | MOV dword ptr [ESI + 0x18],EAX
+3066bc6c | 89461c | MOV dword ptr [ESI + 0x1c],EAX
+3066bc6f | 894620 | MOV dword ptr [ESI + 0x20],EAX
+3066bc72 | 894624 | MOV dword ptr [ESI + 0x24],EAX
+3066bc75 | 894628 | MOV dword ptr [ESI + 0x28],EAX
+3066bc78 | 89462c | MOV dword ptr [ESI + 0x2c],EAX
+3066bc7b | 894630 | MOV dword ptr [ESI + 0x30],EAX
+3066bc7e | 894634 | MOV dword ptr [ESI + 0x34],EAX
+3066bc81 | 894638 | MOV dword ptr [ESI + 0x38],EAX
+3066bc84 | 3905c8a2ad30 | CMP dword ptr [0x30ada2c8],EAX
+3066bc8a | 7505 | JNZ 0x3066bc91
+3066bc8c | e867c69cff | CALL 0x300382f8
+3066bc91 | 8b0dc8a2ad30 | MOV ECX,dword ptr [0x30ada2c8]
+3066bc97 | 6810270000 | PUSH 0x2710
+3066bc9c | e8afefffff | CALL 0x3066ac50
+3066bca1 | 8bc6 | MOV EAX,ESI
+3066bca3 | 5e | POP ESI
+3066bca4 | c3 | RET

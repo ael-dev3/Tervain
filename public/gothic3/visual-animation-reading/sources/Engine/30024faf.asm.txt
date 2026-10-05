@@ -1,0 +1,2 @@
+; 30024faf eCVisualAnimationFactory::CacheOutResources
+30024faf | e98c770900 | JMP 0x300bc740

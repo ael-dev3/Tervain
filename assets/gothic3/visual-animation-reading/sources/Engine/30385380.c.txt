@@ -1,0 +1,11 @@
+/* ENTRY 30385380 | bTPropertyObjectType<eCEffector,bCObjectRefBase>::vfunction3 | STATUS decompiled | 2 ms */
+
+undefined1 * __thiscall
+bTPropertyObjectType<eCEffector,bCObjectRefBase>::vfunction3
+          (bTPropertyObjectType<eCEffector,bCObjectRefBase> *this)
+
+{
+  return &(this->bTPropertyObjectType<eCEffector,bCObjectRefBase>_data).field_0x14;
+}
+
+

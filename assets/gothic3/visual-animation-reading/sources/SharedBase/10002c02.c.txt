@@ -1,0 +1,24 @@
+/* ENTRY 10002c02 | bCPropertyObjectFactory::GetRootObject | STATUS decompiled | 7 ms */
+
+/* public: class bCPropertyObjectBase const * __thiscall
+   bCPropertyObjectFactory::GetRootObject(void)const  */
+
+bCPropertyObjectBase * __thiscall
+bCPropertyObjectFactory::GetRootObject(bCPropertyObjectFactory *this)
+
+{
+  bool bVar1;
+  
+                    /* 0x2c02  2897
+                       ?GetRootObject@bCPropertyObjectFactory@@QBEPBVbCPropertyObjectBase@@XZ */
+  if ((this->bCPropertyObjectFactory_data).offset_0x4 != 0) {
+    bVar1 = bCPropertyObjectBase::IsRoot
+                      (*(bCPropertyObjectBase **)(this->bCPropertyObjectFactory_data).offset_0x0);
+    if (bVar1) {
+      return *(bCPropertyObjectBase **)(this->bCPropertyObjectFactory_data).offset_0x0;
+    }
+  }
+  return (bCPropertyObjectBase *)0x0;
+}
+
+

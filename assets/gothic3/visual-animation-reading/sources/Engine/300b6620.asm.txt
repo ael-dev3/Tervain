@@ -1,0 +1,15 @@
+; 300b6620 bTPropertyType<eCVisualAnimation_PS,int>::vfunction12
+300b6620 | 56 | PUSH ESI
+300b6621 | 8bf1 | MOV ESI,ECX
+300b6623 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+300b6627 | 85c9 | TEST ECX,ECX
+300b6629 | 7506 | JNZ 0x300b6631
+300b662b | 33c0 | XOR EAX,EAX
+300b662d | 5e | POP ESI
+300b662e | c20400 | RET 0x4
+300b6631 | 8b01 | MOV EAX,dword ptr [ECX]
+300b6633 | 8b10 | MOV EDX,dword ptr [EAX]
+300b6635 | ffd2 | CALL EDX
+300b6637 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+300b663a | 5e | POP ESI
+300b663b | c20400 | RET 0x4

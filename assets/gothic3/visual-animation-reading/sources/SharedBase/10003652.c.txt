@@ -1,0 +1,12 @@
+/* ENTRY 10003652 | bCUnitedRay::~bCUnitedRay | STATUS decompiled | 1 ms */
+
+/* public: __thiscall bCUnitedRay::~bCUnitedRay(void) */
+
+void __thiscall bCUnitedRay::~bCUnitedRay(bCUnitedRay *this)
+
+{
+                    /* 0x3652  439  ??1bCUnitedRay@@QAE@XZ */
+  return;
+}
+
+

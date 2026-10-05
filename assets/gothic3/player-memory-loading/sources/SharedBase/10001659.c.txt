@@ -1,0 +1,13 @@
+/* ENTRY 10001659 | bCMemoryAdmin::EnableMemoryLeakReport | STATUS decompiled | 2 ms */
+
+/* public: void __thiscall bCMemoryAdmin::EnableMemoryLeakReport(bool) */
+
+void __thiscall bCMemoryAdmin::EnableMemoryLeakReport(bCMemoryAdmin *this,bool param_1)
+
+{
+                    /* 0x1659  1995  ?EnableMemoryLeakReport@bCMemoryAdmin@@QAEX_N@Z */
+  this[1] = (bCMemoryAdmin)param_1;
+  return;
+}
+
+

@@ -1,0 +1,37 @@
+/* ENTRY 3003abed | eCEntity::RemovePropertySet | STATUS decompiled | 13 ms */
+
+/* public: bool __thiscall eCEntity::RemovePropertySet(class eCEntityPropertySet *) */
+
+bool __thiscall eCEntity::RemovePropertySet(eCEntity *this,eCEntityPropertySet *param_1)
+
+{
+  uint *puVar1;
+  bool bVar2;
+  char cVar3;
+  int iVar4;
+  uint uVar5;
+  
+                    /* 0x3abed  12532  ?RemovePropertySet@eCEntity@@QAE_NPAVeCEntityPropertySet@@@Z
+                        */
+  iVar4 = GetPropertySetIndex(this,param_1);
+  bVar2 = RemovePropertySetAt(this,iVar4);
+  if (bVar2) {
+    puVar1 = &(this->eCEntity_data).offset_0xc;
+    *puVar1 = *puVar1 & 0xfbffffff;
+    uVar5 = 0;
+    if ((this->eCEntity_data).offset_0x10e != 0) {
+      while (cVar3 = (**(code **)(**(int **)((this->eCEntity_data).offset_0x110 +
+                                            (uVar5 & 0xffff) * 4) + 0x84))(), cVar3 == '\0') {
+        uVar5 = uVar5 + 1;
+        if ((int)(uint)(this->eCEntity_data).offset_0x10e <= (int)uVar5) {
+          return true;
+        }
+      }
+      puVar1 = &(this->eCEntity_data).offset_0xc;
+      *puVar1 = *puVar1 | 0x4000000;
+    }
+  }
+  return true;
+}
+
+

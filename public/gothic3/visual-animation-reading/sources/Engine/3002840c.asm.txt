@@ -1,0 +1,2 @@
+; 3002840c eCVisualAnimation_PS::GetPropertySetType
+3002840c | e94f540700 | JMP 0x3009d860

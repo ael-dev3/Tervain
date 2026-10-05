@@ -1,0 +1,2 @@
+; 10006e06 bCBox::AccessMax
+10006e06 | e985380200 | JMP 0x1002a690

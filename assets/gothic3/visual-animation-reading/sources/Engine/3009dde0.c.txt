@@ -1,0 +1,10 @@
+/* ENTRY 3009dde0 | FUN_3009dde0 | STATUS decompiled | 1 ms */
+
+void __fastcall FUN_3009dde0(int param_1)
+
+{
+  eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)(param_1 + 0x94));
+  return;
+}
+
+

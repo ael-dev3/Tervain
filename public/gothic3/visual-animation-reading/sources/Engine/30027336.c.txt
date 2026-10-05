@@ -1,0 +1,14 @@
+/* ENTRY 30027336 | eCVisualAnimation_PS::eSMotionDesc::GetMotionFilename | STATUS decompiled | 2 ms */
+
+/* public: class bCString const & __thiscall
+   eCVisualAnimation_PS::eSMotionDesc::GetMotionFilename(void)const  */
+
+bCString * __thiscall eCVisualAnimation_PS::eSMotionDesc::GetMotionFilename(eSMotionDesc *this)
+
+{
+                    /* 0x27336  7879
+                       ?GetMotionFilename@eSMotionDesc@eCVisualAnimation_PS@@QBEABVbCString@@XZ */
+  return (bCString *)(this + 4);
+}
+
+

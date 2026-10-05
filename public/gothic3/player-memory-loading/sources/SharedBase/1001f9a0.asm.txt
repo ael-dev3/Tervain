@@ -1,0 +1,13 @@
+; 1001f9a0 bCMemoryStream::bCMemoryStream
+1001f9a0 | 56 | PUSH ESI
+1001f9a1 | 8bf1 | MOV ESI,ECX
+1001f9a3 | e8c571feff | CALL 0x10006b6d
+1001f9a8 | 33c0 | XOR EAX,EAX
+1001f9aa | 894608 | MOV dword ptr [ESI + 0x8],EAX
+1001f9ad | 894610 | MOV dword ptr [ESI + 0x10],EAX
+1001f9b0 | 89460c | MOV dword ptr [ESI + 0xc],EAX
+1001f9b3 | c706c4680e10 | MOV dword ptr [ESI],0x100e68c4
+1001f9b9 | c74604b0680e10 | MOV dword ptr [ESI + 0x4],0x100e68b0
+1001f9c0 | 8bc6 | MOV EAX,ESI
+1001f9c2 | 5e | POP ESI
+1001f9c3 | c3 | RET

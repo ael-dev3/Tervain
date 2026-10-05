@@ -1,0 +1,2 @@
+; 30016126 eCEntity::GetFrustumElementItem
+30016126 | e9c5ca4900 | JMP 0x304b2bf0

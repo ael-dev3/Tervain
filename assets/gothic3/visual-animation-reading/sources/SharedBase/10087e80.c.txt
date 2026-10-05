@@ -1,0 +1,34 @@
+/* ENTRY 10087e80 | FUN_10087e80 | STATUS decompiled | 7 ms */
+
+uint __thiscall FUN_10087e80(undefined4 *param_1,int *param_2)
+
+{
+  uint uVar1;
+  bool bVar2;
+  undefined4 *puVar3;
+  bCString *pbVar4;
+  bCString *this;
+  uint uVar5;
+  
+  puVar3 = (undefined4 *)(**(code **)(*param_2 + 0x10))();
+  pbVar4 = (bCString *)(**(code **)*param_1)();
+  this = (bCString *)(**(code **)*puVar3)();
+  bVar2 = bCString::operator==(this,pbVar4);
+  if (bVar2) {
+    uVar1 = param_1[3];
+    uVar5 = 0;
+    if (0 < (int)uVar1) {
+      bVar2 = uVar1 != 0;
+      do {
+        if ((bVar2) && (param_2 == *(int **)(param_1[2] + uVar5 * 4))) {
+          return uVar5;
+        }
+        uVar5 = uVar5 + 1;
+        bVar2 = uVar5 < uVar1;
+      } while ((int)uVar5 < (int)uVar1);
+    }
+  }
+  return 0xffffffff;
+}
+
+

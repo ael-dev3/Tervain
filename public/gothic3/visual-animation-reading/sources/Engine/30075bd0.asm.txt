@@ -1,0 +1,22 @@
+; 30075bd0 FUN_30075bd0
+30075bd0 | 56 | PUSH ESI
+30075bd1 | 8bf1 | MOV ESI,ECX
+30075bd3 | 8b06 | MOV EAX,dword ptr [ESI]
+30075bd5 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+30075bd8 | 6a00 | PUSH 0x0
+30075bda | 68f09a8130 | PUSH 0x30819af0
+30075bdf | ffd2 | CALL EDX
+30075be1 | 8b466c | MOV EAX,dword ptr [ESI + 0x6c]
+30075be4 | 8b542408 | MOV EDX,dword ptr [ESP + 0x8]
+30075be8 | 8b401c | MOV EAX,dword ptr [EAX + 0x1c]
+30075beb | 8d4e6c | LEA ECX,[ESI + 0x6c]
+30075bee | 52 | PUSH EDX
+30075bef | ffd0 | CALL EAX
+30075bf1 | 8b16 | MOV EDX,dword ptr [ESI]
+30075bf3 | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+30075bf6 | 6a00 | PUSH 0x0
+30075bf8 | 68f09a8130 | PUSH 0x30819af0
+30075bfd | 8bce | MOV ECX,ESI
+30075bff | ffd0 | CALL EAX
+30075c01 | 5e | POP ESI
+30075c02 | c20400 | RET 0x4

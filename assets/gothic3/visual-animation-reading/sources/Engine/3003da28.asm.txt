@@ -1,0 +1,2 @@
+; 3003da28 eCVisualAnimation_PS::GetBoneShapeMaterial
+3003da28 | e9f3470200 | JMP 0x30062220

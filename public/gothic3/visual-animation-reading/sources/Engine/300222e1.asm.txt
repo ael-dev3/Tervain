@@ -1,0 +1,2 @@
+; 300222e1 eCSpringAndDamperEffector::GetDamperVelStretchSaturate
+300222e1 | e9baf40300 | JMP 0x300617a0

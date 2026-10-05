@@ -1,0 +1,897 @@
+/* ENTRY 300c6340 | FUN_300c6340 | STATUS decompiled | 2063 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall FUN_300c6340(void *this,int param_2,int *param_3,int param_4)
+
+{
+  uint uVar1;
+  bool bVar2;
+  byte bVar3;
+  eCPhysicsScene *peVar4;
+  bCCriticalSectionWin32 *this_00;
+  int iVar5;
+  NxScene *pNVar6;
+  bTObjArray<eCVisualAnimation_PS::eSSubSkeleton> *pbVar7;
+  bCString *this_01;
+  eCNovodexPhysicsController *peVar8;
+  bCVector *pbVar9;
+  bCMatrix *pbVar10;
+  NxSpringAndDamperEffector *pNVar11;
+  int *piVar12;
+  NxJoint *pNVar13;
+  bCVector *this_02;
+  byte bVar14;
+  byte bVar15;
+  undefined4 *puVar16;
+  undefined3 unaff_EBX;
+  float10 fVar17;
+  int unaff_retaddr;
+  NxJointDesc *pNVar18;
+  undefined4 in_stack_fffffdf0;
+  NxJoint *pNStack_20c;
+  int iStack_208;
+  undefined4 uStack_204;
+  float fStack_200;
+  float fStack_1fc;
+  uint *puStack_1f8;
+  char *pcVar19;
+  NxSpringAndDamperEffectorDesc *pNVar20;
+  float fVar21;
+  char cVar22;
+  char local_1ce;
+  char local_1cd;
+  uint local_1cc;
+  int local_1c8;
+  int local_1c4;
+  NxRevoluteJointDesc_vftable *local_1c0;
+  undefined4 local_1bc;
+  int *local_1b8 [10];
+  undefined4 local_190 [3];
+  float fStack_184;
+  undefined4 local_180;
+  undefined4 local_17c;
+  undefined4 local_178;
+  undefined4 uStack_174;
+  undefined4 uStack_170;
+  undefined4 uStack_16c;
+  float local_168;
+  undefined4 local_164;
+  undefined4 local_160;
+  float local_15c;
+  float local_158;
+  undefined4 local_154;
+  float local_150;
+  float local_14c;
+  undefined4 local_148;
+  float local_144;
+  float local_140;
+  undefined4 local_13c;
+  uint local_138;
+  undefined4 local_134;
+  float local_130;
+  float local_12c;
+  float local_128;
+  float local_124;
+  undefined4 local_120;
+  undefined4 local_11c;
+  uint local_118;
+  undefined4 local_114;
+  undefined4 local_110;
+  undefined4 local_10c;
+  undefined4 local_108;
+  undefined4 local_104;
+  undefined4 local_100;
+  undefined4 local_fc;
+  float local_f8;
+  float fStack_f4;
+  float local_f0 [2];
+  float fStack_e8;
+  float local_e4;
+  float fStack_e0;
+  float fStack_dc;
+  float fStack_d8;
+  float fStack_d4;
+  bCMatrix local_cc [4];
+  undefined4 local_c8;
+  undefined4 local_c4;
+  undefined4 local_c0;
+  undefined4 local_bc;
+  undefined4 local_b8;
+  undefined4 local_b4;
+  undefined4 local_b0;
+  undefined4 local_ac;
+  undefined4 local_a8;
+  undefined4 local_a4;
+  undefined4 local_a0;
+  undefined4 local_9c;
+  undefined4 local_98;
+  undefined4 local_94;
+  undefined4 local_90;
+  undefined4 local_8c;
+  undefined4 local_88;
+  bCMatrix local_84 [4];
+  bCMatrix local_80 [48];
+  bCMatrix abStack_50 [8];
+  bCMatrix local_48 [4];
+  bCMatrix local_44 [4];
+  bCMatrix local_40 [64];
+  
+  local_1cc = 0;
+  peVar4 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+  this_00 = eCPhysicsScene::GetCriticalSection(peVar4);
+  bCCriticalSectionWin32::Acquire(this_00);
+  bCCriticalSectionWin32::Release(this_00);
+  iVar5 = thunk_FUN_300c3670();
+  local_1c4 = iVar5;
+  local_1c0 = (NxRevoluteJointDesc_vftable *)thunk_FUN_300c3670();
+  if ((iVar5 == -1) && (param_4 == 0)) {
+    return;
+  }
+  if (local_1c0 == (NxRevoluteJointDesc_vftable *)0xffffffff) {
+    return;
+  }
+  if (*(char *)((int)this + 0x121) == '\x01') {
+    peVar4 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+    pNVar6 = eCPhysicsScene::GetScene(peVar4);
+    (**(code **)(*(int *)pNVar6 + 0x34))();
+    *(int *)((int)this + 0x20) = *(int *)((int)this + 0x20) + 1;
+    return;
+  }
+  if (((local_1ce == '\x01') &&
+      (pbVar7 = eCVisualAnimation_PS::GetSubSkeletons(*(eCVisualAnimation_PS **)((int)this + 300)),
+      pbVar7 != (bTObjArray<eCVisualAnimation_PS::eSSubSkeleton> *)0x0)) &&
+     (local_f0[0] = 0.0, 0 < *(int *)(pbVar7 + 4))) {
+    local_1c8 = 0;
+    do {
+      puVar16 = (undefined4 *)(*(int *)pbVar7 + local_1c8);
+      iVar5 = 0;
+      if (0 < (int)puVar16[2]) {
+        piVar12 = (int *)puVar16[1];
+        do {
+          if (param_3 == (int *)*piVar12) {
+            *(undefined4 *)((int)this + 0x130) = *puVar16;
+            break;
+          }
+          iVar5 = iVar5 + 1;
+          piVar12 = piVar12 + 1;
+        } while (iVar5 < (int)puVar16[2]);
+      }
+      local_1c8 = local_1c8 + 0x10;
+      local_f0[0] = (float)((int)local_f0[0] + 1);
+    } while ((int)local_f0[0] < *(int *)(pbVar7 + 4));
+  }
+  if (*(int *)((int)this + 0x28) == 0) {
+LAB_300c64d8:
+    bVar2 = false;
+  }
+  else {
+    if ((*(char *)((int)this + 0x121) != '\0') || (local_1cd != '\x01')) {
+      iVar5 = 0;
+      pcVar19 = "_ROOT";
+      local_1cc = 1;
+      this_01 = (bCString *)bCString::bCString((bCString *)local_f0,*(char **)(param_2 + 0x16c));
+      bVar2 = bCString::Contains(this_01,pcVar19,iVar5);
+      if (!bVar2) goto LAB_300c64d8;
+    }
+    bVar2 = true;
+  }
+  if ((local_1cc & 1) != 0) {
+    bCString::~bCString((bCString *)local_f0);
+  }
+  if (bVar2) {
+    peVar8 = eCVisualAnimation_PS::GetRagDollController(*(eCVisualAnimation_PS **)((int)this + 300))
+    ;
+    if (peVar8 == (eCNovodexPhysicsController *)0x0) {
+      thunk_FUN_300c36e0();
+    }
+    else {
+      thunk_FUN_300c3cc0();
+    }
+  }
+  bCMatrix::bCMatrix(local_80,(bCMatrix *)(param_3 + 0x11));
+  fVar21 = _DAT_30aa68a0;
+  pbVar9 = bCMatrix::AccessTranslation(local_80);
+  bCVector::operator*=(pbVar9,fVar21);
+  pbVar10 = (bCMatrix *)bCMatrix::operator*((bCMatrix *)((int)this + 0x30),local_40);
+  bCMatrix::operator=(local_84,pbVar10);
+  bCMatrix::~bCMatrix(local_44);
+  if (*(char *)(*(int *)((int)this + 0x130) + 0x7c) == '\x01') {
+    pNVar20 = (NxSpringAndDamperEffectorDesc *)&local_c8;
+    local_c8 = 0;
+    local_c4 = 0;
+    local_b8 = 0;
+    local_bc = 0;
+    local_c0 = 0;
+    local_ac = 0;
+    local_b0 = 0;
+    local_b4 = 0;
+    local_a8 = 0;
+    local_a4 = 0;
+    local_a0 = 0;
+    local_9c = 0;
+    local_98 = 0;
+    local_94 = 0;
+    local_90 = 0;
+    local_8c = 0;
+    local_88 = 0;
+    peVar4 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+    pNVar11 = eCPhysicsScene::CreateSpringAndDamperEffector(peVar4,pNVar20);
+    if (param_3 == (int *)0x0) {
+      param_3 = *(int **)(*(int *)((int)this + 0x14) + local_1c8 * 4);
+    }
+    piVar12 = *(int **)(*(int *)((int)this + 0x14) + local_1c4 * 4);
+    (**(code **)(*param_3 + 0xa0))();
+    (**(code **)(*piVar12 + 0xa0))();
+    fStack_e8 = fStack_dc - local_f8;
+    local_e4 = fStack_d8 - fStack_f4;
+    fStack_e0 = fStack_d4 - local_f0[0];
+    fVar17 = (float10)FUN_30672810();
+    fStack_1fc = (float)fVar17;
+    iVar5 = *(int *)(*(int *)((int)this + 0x130) + 0x88);
+    puStack_1f8 = (uint *)(fStack_1fc * *(float *)(iVar5 + 100));
+    fStack_200 = fStack_1fc * *(float *)(iVar5 + 0x5c);
+    uStack_204 = 0x300c6764;
+    (**(code **)(*(int *)pNVar11 + 0x10))();
+    iVar5 = *(int *)(*(int *)((int)this + 0x130) + 0x88);
+    uStack_204 = *(undefined4 *)(iVar5 + 0x7c);
+    iStack_208 = *(int *)(iVar5 + 0x78);
+    pNStack_20c = *(NxJoint **)(iVar5 + 0x74);
+    (**(code **)(*(int *)pNVar11 + 0x18))(*(undefined4 *)(iVar5 + 0x70));
+    (**(code **)(*(int *)pNVar11 + 0xc))(param_3,&local_11c,piVar12,&local_100);
+    *(int *)((int)this + 0x20) = *(int *)((int)this + 0x20) + 1;
+    goto LAB_300c7a79;
+  }
+  cVar22 = *(char *)(*(int *)((int)this + 0x130) + 0x21);
+  bCString::bCString((bCString *)&local_e4,*(char **)(unaff_retaddr + 0x16c));
+  if (cVar22 == '\0') {
+    bCString::Contains((bCString *)&local_e4,"_PHX_BREAKABLE",0);
+  }
+  cVar22 = (char)((uint3)unaff_EBX >> 0x10);
+  local_1cc = thunk_FUN_300ac2f0();
+  if (local_1cc == 0) {
+    local_1bc = 3;
+    iVar5 = 0;
+    puVar16 = local_190;
+    do {
+      local_1b8[iVar5] = (int *)0x0;
+      puVar16[-2] = 0;
+      puVar16[-1] = 0;
+      *puVar16 = 0x3f800000;
+      puVar16[-8] = 0x3f800000;
+      puVar16[-7] = 0;
+      puVar16[-6] = 0;
+      puVar16[6] = 0;
+      puVar16[5] = 0;
+      puVar16[4] = 0;
+      iVar5 = iVar5 + 1;
+      puVar16 = puVar16 + 3;
+    } while (iVar5 < 2);
+    local_1c0 = (NxRevoluteJointDesc_vftable *)&NxSphericalJointDesc::vftable;
+    local_144 = 0.0;
+    local_140 = 0.0;
+    local_13c = 0x3f800000;
+    local_138 = 0;
+    local_134 = 0;
+    local_130 = 1.0;
+    iVar5 = 0;
+    puVar16 = local_190;
+    do {
+      local_1b8[iVar5] = (int *)0x0;
+      puVar16[-2] = 0;
+      puVar16[-1] = 0;
+      *puVar16 = 0x3f800000;
+      puVar16[-8] = 0x3f800000;
+      puVar16[-7] = 0;
+      puVar16[-6] = 0;
+      puVar16[6] = 0;
+      puVar16[5] = 0;
+      puVar16[4] = 0;
+      iVar5 = iVar5 + 1;
+      puVar16 = puVar16 + 3;
+    } while (iVar5 < 2);
+    local_168 = 3.4028235e+38;
+    local_164 = 0x7f7fffff;
+    local_160 = 0;
+    local_15c = 0.0;
+    local_12c = 0.0;
+    local_128 = 0.0;
+    local_124 = 1.0;
+    local_120 = 0;
+    local_11c = 0;
+    local_118 = 0;
+    local_114 = 0;
+    local_110 = 0;
+    local_10c = 0;
+    local_108 = 0;
+    local_104 = 0;
+    local_100 = 0;
+    local_148 = 0x3f800000;
+    local_f8 = 0.0;
+    local_154 = 0;
+    local_150 = 0.0;
+    local_14c = 1.0;
+    if (param_3 == (int *)0x0) {
+      local_1b8[0] = *(int **)(*(int *)((int)this + 0x14) + local_1c8 * 4);
+    }
+    else {
+      local_1b8[0] = param_3;
+    }
+    local_1b8[1] = *(int **)(*(int *)((int)this + 0x14) + local_1c4 * 4);
+    local_fc = 0;
+    local_158 = (float)((*(char *)(*(int *)((int)this + 0x130) + 0x1e) != '\0') + 2);
+    pbVar9 = bCMatrix::GetTranslation(local_84);
+    cVar22 = (char)((uint)in_stack_fffffdf0 >> 0x10);
+    bCVector::operator_class_NxVec3_const_(pbVar9);
+    piVar12 = (int *)_NxGetUtilLib_0();
+    (**(code **)(*piVar12 + 0xc0))();
+    pbVar9 = bCMatrix::GetYAxis((bCMatrix *)&local_8c);
+    bCVector::operator_class_NxVec3_const_(pbVar9);
+    piVar12 = (int *)_NxGetUtilLib_0();
+    puStack_1f8 = (uint *)0x300c78a1;
+    (**(code **)(*piVar12 + 0xc4))();
+    iVar5 = *(int *)((int)this + 0x130);
+    if ((*(char *)(iVar5 + 0x74) != '\x01') || (cVar22 != '\0')) {
+      uVar1 = local_138;
+      if (*(char *)(iVar5 + 0x34) != '\0') {
+        local_15c = *(float *)(iVar5 + 0x38);
+        local_158 = *(float *)(iVar5 + 0x3c);
+        uVar1 = local_138 | 4;
+        if (cVar22 != '\0') {
+          if (*(float *)(iVar5 + 0x78) == 0.0) {
+            uVar1 = local_138 & 0xfffffffb;
+          }
+          else {
+            local_15c = *(float *)(iVar5 + 0x78) * local_15c;
+            local_158 = *(float *)(iVar5 + 0x78) * local_158;
+          }
+        }
+      }
+      local_138 = uVar1;
+      uVar1 = local_138;
+      if (*(char *)(iVar5 + 0x40) != '\0') {
+        local_150 = *(float *)(iVar5 + 0x44);
+        local_14c = *(float *)(iVar5 + 0x48);
+        uVar1 = local_138 | 8;
+        if (cVar22 != '\0') {
+          if (*(float *)(iVar5 + 0x78) == 0.0) {
+            uVar1 = local_138 & 0xfffffff7;
+          }
+          else {
+            local_150 = *(float *)(iVar5 + 0x78) * local_150;
+            local_14c = *(float *)(iVar5 + 0x78) * local_14c;
+          }
+        }
+      }
+      local_138 = uVar1;
+      if (*(char *)(iVar5 + 0x4c) != '\0') {
+        local_144 = *(float *)(iVar5 + 0x50);
+        local_140 = *(float *)(iVar5 + 0x54);
+        if (*(float *)(iVar5 + 0x78) == 0.0) {
+          local_138 = local_138 & 0xffffffef;
+        }
+        else {
+          local_144 = *(float *)(iVar5 + 0x78) * local_144;
+          local_140 = *(float *)(iVar5 + 0x78) * local_140;
+          local_138 = local_138 | 0x10;
+        }
+      }
+    }
+    if (0.0 < *(float *)(iVar5 + 0x58)) {
+      local_134 = 1;
+      fStack_184 = *(float *)(iVar5 + 0x58);
+    }
+LAB_300c7a1c:
+    pNVar18 = (NxJointDesc *)&fStack_1fc;
+    peVar4 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+    pNVar13 = eCPhysicsScene::CreateJointInternal(peVar4,pNVar18);
+    iVar5 = *(int *)((int)this + 0x130);
+    pNStack_20c = pNVar13;
+    if (*(char *)(iVar5 + 0x21) == '\x01') {
+LAB_300c7a3b:
+      pNStack_20c = pNVar13;
+      (**(code **)(*(int *)pNVar13 + 0x1c))
+                (*(undefined4 *)(iVar5 + 0x24),*(undefined4 *)(iVar5 + 0x28));
+    }
+  }
+  else {
+    bVar3 = (byte)*(undefined2 *)(local_1cc + 0x4c);
+    bVar14 = bVar3 >> 3 & 1;
+    bVar15 = bVar3 >> 4 & 1;
+    bVar3 = bVar3 >> 5 & 1;
+    if (bVar14 == 0) {
+      if (bVar15 == 0) goto LAB_300c6e33;
+      if (bVar3 == 0) {
+        local_1bc = 1;
+        iVar5 = 0;
+        puVar16 = local_190;
+        do {
+          local_1b8[iVar5] = (int *)0x0;
+          puVar16[-2] = 0;
+          puVar16[-1] = 0;
+          *puVar16 = 0x3f800000;
+          puVar16[-8] = 0x3f800000;
+          puVar16[-7] = 0;
+          puVar16[-6] = 0;
+          puVar16[6] = 0;
+          puVar16[5] = 0;
+          puVar16[4] = 0;
+          iVar5 = iVar5 + 1;
+          puVar16 = puVar16 + 3;
+        } while (iVar5 < 2);
+        local_1c0 = &NxRevoluteJointDesc::vftable;
+        local_13c = 0x7f7fffff;
+        local_138 = 0;
+        local_134 = 0;
+        local_130 = 0.0;
+        local_12c = 0.0;
+        local_128 = 0.0;
+        iVar5 = 0;
+        puVar16 = local_190;
+        do {
+          local_1b8[iVar5] = (int *)0x0;
+          puVar16[-2] = 0;
+          puVar16[-1] = 0;
+          *puVar16 = 0x3f800000;
+          puVar16[-8] = 0x3f800000;
+          puVar16[-7] = 0;
+          puVar16[-6] = 0;
+          puVar16[6] = 0;
+          puVar16[5] = 0;
+          puVar16[4] = 0;
+          iVar5 = iVar5 + 1;
+          puVar16 = puVar16 + 3;
+        } while (iVar5 < 2);
+        local_124 = 1.0;
+        local_120 = 0x3db295ea;
+        local_154 = *(undefined4 *)(local_1cc + 0x20);
+        local_168 = 3.4028235e+38;
+        local_164 = 0x7f7fffff;
+        local_148 = *(undefined4 *)(local_1cc + 0x2c);
+        local_160 = 0;
+        local_15c = 0.0;
+        local_150 = 0.5;
+        local_14c = 0.5;
+        local_144 = 0.5;
+        local_140 = 0.5;
+        if (param_3 == (int *)0x0) {
+          local_1b8[0] = *(int **)(*(int *)((int)this + 0x14) + local_1c8 * 4);
+        }
+        else {
+          local_1b8[0] = param_3;
+        }
+        local_1b8[1] = *(int **)(*(int *)((int)this + 0x14) + local_1c4 * 4);
+        iVar5 = *(int *)((int)this + 0x130);
+        local_11c = 1;
+        local_158 = (float)((*(char *)(iVar5 + 0x1e) != '\0') + 2);
+        if (((*(char *)(iVar5 + 0x74) != '\x01') || (cVar22 != '\0')) &&
+           (*(char *)(iVar5 + 0x34) != '\0')) {
+          local_11c = 5;
+          local_130 = *(float *)(iVar5 + 0x38);
+          local_12c = *(float *)(iVar5 + 0x3c);
+          if (cVar22 != '\0') {
+            if (*(float *)(iVar5 + 0x78) == 0.0) {
+              local_11c = 1;
+            }
+            else {
+              local_130 = *(float *)(iVar5 + 0x78) * local_130;
+              local_12c = *(float *)(iVar5 + 0x78) * local_12c;
+            }
+          }
+        }
+        fVar21 = *(float *)(iVar5 + 0x58);
+        if (0.0 < fVar21) {
+          local_124 = fVar21;
+        }
+        local_118 = (uint)(0.0 < fVar21);
+        pbVar9 = bCMatrix::GetTranslation(local_84);
+        bCVector::operator_class_NxVec3_const_(pbVar9);
+        piVar12 = (int *)_NxGetUtilLib_0();
+        (**(code **)(*piVar12 + 0xc0))();
+        bCMatrix::GetZAxis((bCMatrix *)&local_8c);
+        pbVar9 = (bCVector *)&local_f8;
+        puStack_1f8 = (uint *)0x300c6df7;
+        this_02 = bCMatrix::GetXAxis((bCMatrix *)&local_8c);
+        puStack_1f8 = (uint *)0x300c6dff;
+        pbVar9 = (bCVector *)bCVector::GetCrossProduct(this_02,pbVar9);
+        bCVector::operator_class_NxVec3_(pbVar9);
+        piVar12 = (int *)_NxGetUtilLib_0();
+        puStack_1f8 = &local_1cc;
+        fStack_1fc = 5.1088184e-10;
+        (**(code **)(*piVar12 + 0xc4))();
+        bCVector::~bCVector((bCVector *)&local_12c);
+        goto LAB_300c7a1c;
+      }
+LAB_300c6e43:
+      if (bVar15 != 0) goto LAB_300c7118;
+      local_1bc = 1;
+      iVar5 = 0;
+      puVar16 = local_190;
+      do {
+        local_1b8[iVar5] = (int *)0x0;
+        puVar16[-2] = 0;
+        puVar16[-1] = 0;
+        *puVar16 = 0x3f800000;
+        puVar16[-8] = 0x3f800000;
+        puVar16[-7] = 0;
+        puVar16[-6] = 0;
+        puVar16[6] = 0;
+        puVar16[5] = 0;
+        puVar16[4] = 0;
+        iVar5 = iVar5 + 1;
+        puVar16 = puVar16 + 3;
+      } while (iVar5 < 2);
+      local_1c0 = &NxRevoluteJointDesc::vftable;
+      local_13c = 0x7f7fffff;
+      local_138 = 0;
+      local_134 = 0;
+      local_130 = 0.0;
+      local_12c = 0.0;
+      local_128 = 0.0;
+      iVar5 = 0;
+      puVar16 = local_190;
+      do {
+        local_1b8[iVar5] = (int *)0x0;
+        puVar16[-2] = 0;
+        puVar16[-1] = 0;
+        *puVar16 = 0x3f800000;
+        puVar16[-8] = 0x3f800000;
+        puVar16[-7] = 0;
+        puVar16[-6] = 0;
+        puVar16[6] = 0;
+        puVar16[5] = 0;
+        puVar16[4] = 0;
+        iVar5 = iVar5 + 1;
+        puVar16 = puVar16 + 3;
+      } while (iVar5 < 2);
+      local_124 = 1.0;
+      local_120 = 0x3db295ea;
+      local_154 = *(undefined4 *)(local_1cc + 0x24);
+      local_168 = 3.4028235e+38;
+      local_164 = 0x7f7fffff;
+      local_148 = *(undefined4 *)(local_1cc + 0x30);
+      local_160 = 0;
+      local_15c = 0.0;
+      local_150 = 0.5;
+      local_14c = 0.5;
+      local_144 = 0.5;
+      local_140 = 0.5;
+      if (param_3 == (int *)0x0) {
+        local_1b8[0] = *(int **)(*(int *)((int)this + 0x14) + local_1c8 * 4);
+      }
+      else {
+        local_1b8[0] = param_3;
+      }
+      local_1b8[1] = *(int **)(*(int *)((int)this + 0x14) + local_1c4 * 4);
+      iVar5 = *(int *)((int)this + 0x130);
+      local_11c = 1;
+      local_158 = (float)((*(char *)(iVar5 + 0x1e) != '\0') + 2);
+      if (((*(char *)(iVar5 + 0x74) != '\x01') || (cVar22 != '\0')) &&
+         (*(char *)(iVar5 + 0x34) != '\0')) {
+        local_11c = 5;
+        local_130 = *(float *)(iVar5 + 0x38);
+        local_12c = *(float *)(iVar5 + 0x3c);
+        if (cVar22 != '\0') {
+          if (*(float *)(iVar5 + 0x78) == 0.0) {
+            local_11c = 1;
+          }
+          else {
+            local_130 = *(float *)(iVar5 + 0x78) * local_130;
+            local_12c = *(float *)(iVar5 + 0x78) * local_12c;
+          }
+        }
+      }
+      fVar21 = *(float *)(iVar5 + 0x58);
+      if (0.0 < fVar21) {
+        local_124 = fVar21;
+      }
+      local_118 = (uint)(0.0 < fVar21);
+      pbVar9 = bCMatrix::GetTranslation(local_84);
+      bCVector::operator_class_NxVec3_const_(pbVar9);
+      piVar12 = (int *)_NxGetUtilLib_0();
+      (**(code **)(*piVar12 + 0xc0))();
+      pbVar9 = bCMatrix::GetYAxis((bCMatrix *)&local_8c);
+      bCVector::operator_class_NxVec3_const_(pbVar9);
+      piVar12 = (int *)_NxGetUtilLib_0();
+      puStack_1f8 = (uint *)0x300c710f;
+      (**(code **)(*piVar12 + 0xc4))();
+      goto LAB_300c7a1c;
+    }
+    if (bVar15 != 0) {
+LAB_300c6e33:
+      if (bVar3 != 0) goto LAB_300c6e3b;
+LAB_300c7118:
+      local_1bc = 3;
+      iVar5 = 0;
+      puVar16 = local_190;
+      do {
+        local_1b8[iVar5] = (int *)0x0;
+        puVar16[-2] = 0;
+        puVar16[-1] = 0;
+        *puVar16 = 0x3f800000;
+        puVar16[-8] = 0x3f800000;
+        puVar16[-7] = 0;
+        puVar16[-6] = 0;
+        puVar16[6] = 0;
+        puVar16[5] = 0;
+        puVar16[4] = 0;
+        iVar5 = iVar5 + 1;
+        puVar16 = puVar16 + 3;
+      } while (iVar5 < 2);
+                    /* inlined constructor or destructor (approx location) for NxSphericalJointDesc
+                        */
+      local_1c0 = (NxRevoluteJointDesc_vftable *)&NxSphericalJointDesc::vftable;
+      local_144 = 0.0;
+      local_140 = 0.0;
+      local_13c = 0x3f800000;
+      local_138 = 0;
+      local_134 = 0;
+      local_130 = 1.0;
+      iVar5 = 0;
+      puVar16 = local_190;
+      do {
+        local_1b8[iVar5] = (int *)0x0;
+        puVar16[-2] = 0;
+        puVar16[-1] = 0;
+        *puVar16 = 0x3f800000;
+        puVar16[-8] = 0x3f800000;
+        puVar16[-7] = 0;
+        puVar16[-6] = 0;
+        puVar16[6] = 0;
+        puVar16[5] = 0;
+        puVar16[4] = 0;
+        iVar5 = iVar5 + 1;
+        puVar16 = puVar16 + 3;
+      } while (iVar5 < 2);
+      local_168 = 3.4028235e+38;
+      local_164 = 0x7f7fffff;
+      local_160 = 0;
+      local_15c = 0.0;
+      local_12c = 0.0;
+      local_128 = 0.0;
+      local_124 = 1.0;
+      local_120 = 0;
+      local_11c = 0;
+      local_118 = 0;
+      local_114 = 0;
+      local_110 = 0;
+      local_10c = 0;
+      local_108 = 0;
+      local_104 = 0;
+      local_100 = 0;
+      local_148 = 0x3f800000;
+      local_f8 = 0.0;
+      local_154 = 0;
+      local_150 = 0.0;
+      local_14c = 1.0;
+      if (param_3 == (int *)0x0) {
+        local_1b8[0] = *(int **)(*(int *)((int)this + 0x14) + local_1c8 * 4);
+      }
+      else {
+        local_1b8[0] = param_3;
+      }
+      local_1b8[1] = *(int **)(*(int *)((int)this + 0x14) + local_1c4 * 4);
+      local_fc = 0;
+      local_158 = (float)((*(char *)(*(int *)((int)this + 0x130) + 0x1e) != '\0') + 2);
+      if (param_3 == (int *)0x0) {
+        pbVar9 = bCMatrix::GetTranslation(local_84);
+        cVar22 = (char)((uint)in_stack_fffffdf0 >> 0x10);
+        bCVector::operator_class_NxVec3_const_(pbVar9);
+        piVar12 = (int *)_NxGetUtilLib_0();
+        (**(code **)(*piVar12 + 0xc0))();
+        pbVar9 = bCMatrix::GetXAxis((bCMatrix *)&local_8c);
+        bCVector::operator_class_NxVec3_const_(pbVar9);
+        piVar12 = (int *)_NxGetUtilLib_0();
+        puStack_1f8 = (uint *)0x300c7365;
+        (**(code **)(*piVar12 + 0xc4))();
+      }
+      else {
+        bCMatrix::bCMatrix(local_44,(bCMatrix *)(unaff_retaddr + 0x44));
+        cVar22 = (char)((uint)in_stack_fffffdf0 >> 0x10);
+        fVar21 = _DAT_30aa68a0;
+        pbVar9 = bCMatrix::AccessTranslation(local_44);
+        bCVector::operator*=(pbVar9,fVar21);
+        pbVar10 = (bCMatrix *)
+                  bCMatrix::operator*((bCMatrix *)((int)this + 0x30),(bCMatrix *)&local_c8);
+        bCMatrix::operator=(local_48,pbVar10);
+        bCMatrix::~bCMatrix(local_cc);
+        pbVar9 = bCMatrix::GetTranslation(local_48);
+        bCVector::operator_class_NxVec3_const_(pbVar9);
+        piVar12 = (int *)_NxGetUtilLib_0();
+        (**(code **)(*piVar12 + 0xc0))();
+        pbVar9 = bCMatrix::GetXAxis(abStack_50);
+        bCVector::operator_class_NxVec3_const_(pbVar9);
+        piVar12 = (int *)_NxGetUtilLib_0();
+        puStack_1f8 = &local_1cc;
+        fStack_1fc = 5.109682e-10;
+        (**(code **)(*piVar12 + 0xc4))();
+        bCMatrix::~bCMatrix(local_80);
+      }
+      iVar5 = *(int *)((int)this + 0x130);
+      if ((*(char *)(iVar5 + 0x74) != '\x01') || (uVar1 = local_138, cVar22 != '\0')) {
+        uVar1 = local_138;
+        if (*(char *)(iVar5 + 0x34) != '\0') {
+          local_15c = *(float *)(iVar5 + 0x38);
+          local_158 = *(float *)(iVar5 + 0x3c);
+          uVar1 = local_138 | 4;
+          if (cVar22 != '\0') {
+            if (*(float *)(iVar5 + 0x78) == 0.0) {
+              uVar1 = local_138 & 0xfffffffb;
+            }
+            else {
+              local_15c = *(float *)(iVar5 + 0x78) * local_15c;
+              local_158 = *(float *)(iVar5 + 0x78) * local_158;
+            }
+          }
+        }
+        local_138 = uVar1;
+        uVar1 = local_138;
+        if (*(char *)(iVar5 + 0x40) != '\0') {
+          local_150 = *(float *)(iVar5 + 0x44);
+          local_14c = *(float *)(iVar5 + 0x48);
+          uVar1 = local_138 | 8;
+          if (cVar22 != '\0') {
+            if (*(float *)(iVar5 + 0x78) == 0.0) {
+              uVar1 = local_138 & 0xfffffff7;
+            }
+            else {
+              local_150 = *(float *)(iVar5 + 0x78) * local_150;
+              local_14c = *(float *)(iVar5 + 0x78) * local_14c;
+            }
+          }
+        }
+        local_138 = uVar1;
+        uVar1 = local_138;
+        if (*(char *)(iVar5 + 0x4c) != '\0') {
+          local_144 = *(float *)(iVar5 + 0x50);
+          local_140 = *(float *)(iVar5 + 0x54);
+          uVar1 = local_138 | 0x10;
+          if (cVar22 != '\0') {
+            if (*(float *)(iVar5 + 0x78) == 0.0) {
+              uVar1 = local_138 & 0xffffffef;
+            }
+            else {
+              local_144 = *(float *)(iVar5 + 0x78) * local_144;
+              local_140 = *(float *)(iVar5 + 0x78) * local_140;
+            }
+          }
+        }
+      }
+      local_138 = uVar1;
+      if (0.0 < *(float *)(iVar5 + 0x58)) {
+        local_134 = 1;
+        fStack_184 = *(float *)(iVar5 + 0x58);
+      }
+      local_128 = *(float *)(iStack_208 + 0x2c);
+      local_180 = *(undefined4 *)(iStack_208 + 0x1c);
+      uStack_174 = *(undefined4 *)(iStack_208 + 0x28);
+      local_124 = *(float *)(iStack_208 + 0x30);
+      local_138 = local_138 | 3;
+      local_178 = 0x3f000000;
+      local_17c = 0x3f000000;
+      local_168 = (local_124 + local_128) * 0.5;
+      uStack_16c = 0x3f000000;
+      uStack_170 = 0x3f000000;
+      local_160 = 0x3f000000;
+      local_164 = 0x3f000000;
+      goto LAB_300c7a1c;
+    }
+    if (bVar3 != 0) {
+LAB_300c6e3b:
+      if (bVar14 == 0) goto LAB_300c6e43;
+      goto LAB_300c7118;
+    }
+    local_1bc = 1;
+    puVar16 = local_190;
+    iVar5 = 0;
+    do {
+      local_1b8[iVar5] = (int *)0x0;
+      puVar16[-2] = 0;
+      puVar16[-1] = 0;
+      *puVar16 = 0x3f800000;
+      puVar16[-8] = 0x3f800000;
+      puVar16[-7] = 0;
+      puVar16[-6] = 0;
+      puVar16[6] = 0;
+      puVar16[5] = 0;
+      puVar16[4] = 0;
+      iVar5 = iVar5 + 1;
+      puVar16 = puVar16 + 3;
+    } while (iVar5 < 2);
+                    /* inlined constructor or destructor (approx location) for NxRevoluteJointDesc
+                        */
+    local_1c0 = &NxRevoluteJointDesc::vftable;
+    local_13c = 0x7f7fffff;
+    local_138 = 0;
+    local_134 = 0;
+    local_130 = 0.0;
+    local_12c = 0.0;
+    local_128 = 0.0;
+    iVar5 = 0;
+    puVar16 = local_190;
+    do {
+      local_1b8[iVar5] = (int *)0x0;
+      puVar16[-2] = 0;
+      puVar16[-1] = 0;
+      *puVar16 = 0x3f800000;
+      puVar16[-8] = 0x3f800000;
+      puVar16[-7] = 0;
+      puVar16[-6] = 0;
+      puVar16[6] = 0;
+      puVar16[5] = 0;
+      puVar16[4] = 0;
+      iVar5 = iVar5 + 1;
+      puVar16 = puVar16 + 3;
+    } while (iVar5 < 2);
+    local_124 = 1.0;
+    local_120 = 0x3db295ea;
+    local_154 = *(undefined4 *)(local_1cc + 0x1c);
+    local_168 = 3.4028235e+38;
+    local_164 = 0x7f7fffff;
+    local_148 = *(undefined4 *)(local_1cc + 0x28);
+    local_160 = 0;
+    local_15c = 0.0;
+    local_150 = 0.5;
+    local_14c = 0.5;
+    local_144 = 0.5;
+    local_140 = 0.5;
+    if (param_3 == (int *)0x0) {
+      local_1b8[0] = *(int **)(*(int *)((int)this + 0x14) + local_1c8 * 4);
+    }
+    else {
+      local_1b8[0] = param_3;
+    }
+    local_1b8[1] = *(int **)(*(int *)((int)this + 0x14) + local_1c4 * 4);
+    iVar5 = *(int *)((int)this + 0x130);
+    local_11c = 1;
+    local_158 = (float)((*(char *)(iVar5 + 0x1e) != '\0') + 2);
+    if (((*(char *)(iVar5 + 0x74) != '\x01') || (cVar22 != '\0')) &&
+       (*(char *)(iVar5 + 0x34) != '\0')) {
+      local_11c = 5;
+      local_130 = *(float *)(iVar5 + 0x38);
+      local_12c = *(float *)(iVar5 + 0x3c);
+      if (cVar22 != '\0') {
+        if (*(float *)(iVar5 + 0x78) == 0.0) {
+          local_11c = 1;
+        }
+        else {
+          local_130 = *(float *)(iVar5 + 0x78) * local_130;
+          local_12c = *(float *)(iVar5 + 0x78) * local_12c;
+        }
+      }
+    }
+    fVar21 = *(float *)(iVar5 + 0x58);
+    if (0.0 < fVar21) {
+      local_124 = fVar21;
+    }
+    local_118 = (uint)(0.0 < fVar21);
+    pbVar9 = bCMatrix::GetTranslation(local_84);
+    cVar22 = (char)((uint)in_stack_fffffdf0 >> 0x18);
+    bCVector::operator_class_NxVec3_const_(pbVar9);
+    piVar12 = (int *)_NxGetUtilLib_0();
+    (**(code **)(*piVar12 + 0xc0))();
+    pbVar9 = bCMatrix::GetXAxis((bCMatrix *)&local_8c);
+    bCVector::operator_class_NxVec3_const_(pbVar9);
+    piVar12 = (int *)_NxGetUtilLib_0();
+    puStack_1f8 = (uint *)0x300c6aff;
+    (**(code **)(*piVar12 + 0xc4))();
+    pNVar18 = (NxJointDesc *)&fStack_1fc;
+    peVar4 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+    pNVar13 = eCPhysicsScene::CreateJointInternal(peVar4,pNVar18);
+    pNStack_20c = pNVar13;
+    if (cVar22 == '\x01') {
+      iVar5 = *(int *)((int)this + 0x130);
+      goto LAB_300c7a3b;
+    }
+  }
+  if (pNVar13 != (NxJoint *)0x0) {
+    thunk_FUN_300d24f0(&pNStack_20c);
+  }
+  *(int *)((int)this + 0x20) = *(int *)((int)this + 0x20) + 1;
+  bCString::~bCString((bCString *)&local_120);
+LAB_300c7a79:
+  bCMatrix::~bCMatrix((bCMatrix *)&local_c0);
+  return;
+}
+
+

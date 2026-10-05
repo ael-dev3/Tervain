@@ -1,0 +1,44 @@
+/* ENTRY 10006550 | bCString::SetText | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall bCString::SetText(class bCString const &) */
+
+void __thiscall bCString::SetText(bCString *this,bCString *param_1)
+
+{
+  void *pvVar1;
+  bCMemoryAdmin *this_00;
+  int iVar2;
+  
+                    /* 0x6550  4345  ?SetText@bCString@@QAEXABV1@@Z */
+  iVar2 = *(int *)param_1;
+  if ((iVar2 != 0) && (*(int *)(iVar2 + -8) != 0)) {
+    if (*(int *)this != 0) {
+      if (*(int *)this == iVar2) {
+        return;
+      }
+      Release(this);
+      iVar2 = *(int *)param_1;
+    }
+    *(int *)this = iVar2;
+    *(short *)(iVar2 + -4) = *(short *)(iVar2 + -4) + 1;
+    return;
+  }
+  iVar2 = *(int *)this;
+  if (iVar2 != 0) {
+    if ((*(ushort *)(iVar2 + -4) < 2) && (-1 < *(int *)(iVar2 + -8))) {
+      *(undefined4 *)(iVar2 + -8) = 0;
+      **(undefined1 **)this = 0;
+      return;
+    }
+    *(short *)(iVar2 + -4) = *(short *)(iVar2 + -4) + -1;
+    pvVar1 = (void *)(iVar2 + -8);
+    if (*(short *)(iVar2 + -4) == 0) {
+      this_00 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(this_00,pvVar1);
+    }
+  }
+  *(undefined4 *)this = 0;
+  return;
+}
+
+

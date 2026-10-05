@@ -1,0 +1,2 @@
+; 2000f2b3 bTPropertyType<gCEffect_PS,float>::vfunction26
+2000f2b3 | e958cc1000 | JMP 0x2011bf10

@@ -1,0 +1,2 @@
+; 3003afc6 thunk_FUN_300b7f40
+3003afc6 | e975cf0700 | JMP 0x300b7f40

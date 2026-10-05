@@ -1,0 +1,2 @@
+; 3001f97e eCIlluminated_PS::OnPropertySetAdded
+3001f97e | e99d302000 | JMP 0x30222a20

@@ -1,0 +1,15 @@
+; 30388480 bTPropertyObject<eCSpringAndDamperEffector,eCEffector>::~bTPropertyObject<eCSpringAndDamperEffector,eCEffector>
+30388480 | 56 | PUSH ESI
+30388481 | 8bf1 | MOV ESI,ECX
+30388483 | ff1520caaf30 | CALL dword ptr [0x30afca20]
+30388489 | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+30388490 | c7062cfa8130 | MOV dword ptr [ESI],0x3081fa2c
+30388496 | e885ffc9ff | CALL 0x30028420
+3038849b | 6a01 | PUSH 0x1
+3038849d | 8bce | MOV ECX,ESI
+3038849f | 89460c | MOV dword ptr [ESI + 0xc],EAX
+303884a2 | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+303884a9 | e8a258c8ff | CALL 0x3000dd50
+303884ae | 8bc6 | MOV EAX,ESI
+303884b0 | 5e | POP ESI
+303884b1 | c20400 | RET 0x4

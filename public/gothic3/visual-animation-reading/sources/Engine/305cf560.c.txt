@@ -1,0 +1,21 @@
+/* ENTRY 305cf560 | eCVirtualFileSystem::eCVirtualFileSystem | STATUS decompiled | 12 ms */
+
+eCVirtualFileSystem * __thiscall eCVirtualFileSystem::eCVirtualFileSystem(eCVirtualFileSystem *this)
+
+{
+  bCFileSystem::bCFileSystem((bCFileSystem *)this);
+  this->vftablePtr = &vftable;
+  bCString::bCString((bCString *)&(this->eCVirtualFileSystem_data).field_0x4);
+  bCString::bCString((bCString *)&(this->eCVirtualFileSystem_data).field_0x8);
+  eCFilePathCache::eCFilePathCache((eCFilePathCache *)&(this->eCVirtualFileSystem_data).field_0xc);
+  (this->eCVirtualFileSystem_data).offset_0x2c = 0;
+  (this->eCVirtualFileSystem_data).offset_0x30 = 0;
+  (this->eCVirtualFileSystem_data).offset_0x34 = 0;
+  (this->eCVirtualFileSystem_data).offset_0x0 = 0;
+  (this->eCVirtualFileSystem_data).offset_0x38 = 0;
+  (this->eCVirtualFileSystem_data).offset_0x39 = 0;
+  Create(this);
+  return this;
+}
+
+

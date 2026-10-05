@@ -1,0 +1,12 @@
+/* ENTRY 30033b4f | eCNode::GetChildrenCount | STATUS decompiled | 61 ms */
+
+/* public: int __thiscall eCNode::GetChildrenCount(void)const  */
+
+int __thiscall eCNode::GetChildrenCount(eCNode *this)
+
+{
+                    /* 0x33b4f  6479  ?GetChildrenCount@eCNode@@QBEHXZ */
+  return (uint)(ushort)(this->eCNode_data).offset_0xe;
+}
+
+

@@ -1,0 +1,2 @@
+; 200252d9 gCPlayerMemory_PS::CreateAttrib
+200252d9 | e992882f00 | JMP 0x2031db70

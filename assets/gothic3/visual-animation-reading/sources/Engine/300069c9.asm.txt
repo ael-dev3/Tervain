@@ -1,0 +1,2 @@
+; 300069c9 bTPropertyType<eCVisualAnimation_PS,bTPropertyObject<eCSpringAndDamperEffector,eCEffector>_>::vfunction15
+300069c9 | e9a2f90a00 | JMP 0x300b6370

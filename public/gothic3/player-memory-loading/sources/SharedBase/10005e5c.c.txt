@@ -1,0 +1,22 @@
+/* ENTRY 10005e5c | bTPropertyObject<bCObsoleteClass,bCObjectRefBase>::vfunction3 | STATUS decompiled | 7 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined4 * __thiscall bTPropertyObject<bCObsoleteClass,bCObjectRefBase>::vfunction3(void)
+
+{
+  if ((DAT_102f47f8 & 1) == 0) {
+    DAT_102f47f8 = DAT_102f47f8 | 1;
+    _DAT_102f47f4 = DAT_102f48b8;
+  }
+  if ((DAT_102f47f8 & 2) == 0) {
+    DAT_102f47f8 = DAT_102f47f8 | 2;
+    type_info::name((type_info *)&bCObjectRefBase::RTTI_Type_Descriptor,
+                    (__type_info_node *)&DAT_102f6484);
+    bCClassNameBase::UnMangle((char *)&DAT_102f47f0);
+    _atexit((_func_4879 *)&LAB_10005f65);
+  }
+  return &DAT_102f47f0;
+}
+
+

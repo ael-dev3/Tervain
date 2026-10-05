@@ -1,0 +1,12 @@
+/* ENTRY 306450e0 | EMotionFX::Controller::Controller | STATUS decompiled | 4 ms */
+
+void __thiscall EMotionFX::Controller::Controller(Controller *this,undefined4 param_1)
+
+{
+  this->vftablePtr = &vftable;
+  (this->Controller_data).offset_0x0 = param_1;
+  (this->Controller_data).offset_0x4 = 1;
+  return;
+}
+
+

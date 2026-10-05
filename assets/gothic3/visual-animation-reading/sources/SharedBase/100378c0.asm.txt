@@ -1,0 +1,7 @@
+; 100378c0 FUN_100378c0
+100378c0 | 8b542408 | MOV EDX,dword ptr [ESP + 0x8]
+100378c4 | 8bc1 | MOV EAX,ECX
+100378c6 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+100378ca | 8908 | MOV dword ptr [EAX],ECX
+100378cc | 895004 | MOV dword ptr [EAX + 0x4],EDX
+100378cf | c20800 | RET 0x8

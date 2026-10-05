@@ -1,0 +1,2 @@
+; 20023e7a gCClock_PS::Read
+20023e7a | e941421e00 | JMP 0x202080c0

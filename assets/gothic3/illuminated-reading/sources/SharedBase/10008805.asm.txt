@@ -1,0 +1,2 @@
+; 10008805 bCObjectRefBase::OnNotifyPropertyValueChangedEnterEx
+10008805 | e9861b0400 | JMP 0x1004a390

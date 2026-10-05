@@ -1,0 +1,2 @@
+; 2001ef06 bTPOPureSmartPtr<gCClock_PS>::~bTPOPureSmartPtr<gCClock_PS>
+2001ef06 | e9f59c1e00 | JMP 0x20208c00

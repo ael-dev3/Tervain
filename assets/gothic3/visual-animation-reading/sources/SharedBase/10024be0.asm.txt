@@ -1,0 +1,3 @@
+; 10024be0 FUN_10024be0
+10024be0 | d901 | FLD float ptr [ECX]
+10024be2 | c3 | RET

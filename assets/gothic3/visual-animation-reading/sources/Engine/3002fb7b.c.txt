@@ -1,0 +1,12 @@
+/* ENTRY 3002fb7b | eCVisualAnimation_PS::GetInterBoneCollision | STATUS decompiled | 7 ms */
+
+/* public: bool const & __thiscall eCVisualAnimation_PS::GetInterBoneCollision(void)const  */
+
+bool * __thiscall eCVisualAnimation_PS::GetInterBoneCollision(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x2fb7b  7454  ?GetInterBoneCollision@eCVisualAnimation_PS@@QBEAB_NXZ */
+  return (bool *)&this[1].eCEntityPropertySet_data.field_0x6;
+}
+
+

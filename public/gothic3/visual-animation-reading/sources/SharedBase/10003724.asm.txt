@@ -1,0 +1,2 @@
+; 10003724 bCBox::operator=
+10003724 | e9b77e0200 | JMP 0x1002b5e0

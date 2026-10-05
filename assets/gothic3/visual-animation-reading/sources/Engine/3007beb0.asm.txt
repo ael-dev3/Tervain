@@ -1,0 +1,24 @@
+; 3007beb0 FUN_3007beb0
+3007beb0 | b801000000 | MOV EAX,0x1
+3007beb5 | 38059c98ad30 | CMP byte ptr [0x30ad989c],AL
+3007bebb | 7542 | JNZ 0x3007beff
+3007bebd | 8405d89cad30 | TEST byte ptr [0x30ad9cd8],AL
+3007bec3 | 7534 | JNZ 0x3007bef9
+3007bec5 | 0905d89cad30 | OR dword ptr [0x30ad9cd8],EAX
+3007becb | 6a00 | PUSH 0x0
+3007becd | 68cc2daa30 | PUSH 0x30aa2dcc
+3007bed2 | 682c26aa30 | PUSH 0x30aa262c
+3007bed7 | 6a00 | PUSH 0x0
+3007bed9 | e845fefaff | CALL 0x3002bd23
+3007bede | 50 | PUSH EAX
+3007bedf | e8082bfbff | CALL 0x3002e9ec
+3007bee4 | 8bc8 | MOV ECX,EAX
+3007bee6 | e82f12faff | CALL 0x3001d11a
+3007beeb | 50 | PUSH EAX
+3007beec | e8f65b5f00 | CALL 0x30671ae7
+3007bef1 | 83c414 | ADD ESP,0x14
+3007bef4 | a3d49cad30 | MOV [0x30ad9cd4],EAX
+3007bef9 | a1d49cad30 | MOV EAX,[0x30ad9cd4]
+3007befe | c3 | RET
+3007beff | 33c0 | XOR EAX,EAX
+3007bf01 | c3 | RET

@@ -1,0 +1,2 @@
+; 20031615 gCClock_PS::scalar_deleting_destructor
+20031615 | e9b6711d00 | JMP 0x202087d0

@@ -1,0 +1,2 @@
+; 3000dcab bTPropertyType<eCVisualAnimation_PS,float>::vfunction6
+3000dcab | e9e05e0a00 | JMP 0x300b3b90

@@ -1,0 +1,2 @@
+; 30024550 eCSpringAndDamperEffector::SetDamperVelCompressSaturate
+30024550 | e90bd20300 | JMP 0x30061760

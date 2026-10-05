@@ -1,0 +1,12 @@
+/* ENTRY 30044490 | eCIlluminated_PS::GetEnableDynamicLighting | STATUS decompiled | 7 ms */
+
+/* public: bool const & __thiscall eCIlluminated_PS::GetEnableDynamicLighting(void)const  */
+
+bool * __thiscall eCIlluminated_PS::GetEnableDynamicLighting(eCIlluminated_PS *this)
+
+{
+                    /* 0x44490  6979  ?GetEnableDynamicLighting@eCIlluminated_PS@@QBEAB_NXZ */
+  return (bool *)&this->eCIlluminated_PS_data;
+}
+
+

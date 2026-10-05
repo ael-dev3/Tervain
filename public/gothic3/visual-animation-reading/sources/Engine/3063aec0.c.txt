@@ -1,0 +1,41 @@
+/* ENTRY 3063aec0 | FUN_3063aec0 | STATUS decompiled | 10 ms */
+
+void __thiscall FUN_3063aec0(float *param_1,float *param_2)
+
+{
+  float fVar1;
+  
+  fVar1 = *param_2;
+  if (*param_1 < fVar1) {
+    fVar1 = *param_1;
+  }
+  *param_1 = fVar1;
+  fVar1 = param_2[1];
+  if (param_1[1] < fVar1) {
+    fVar1 = param_1[1];
+  }
+  param_1[1] = fVar1;
+  fVar1 = param_2[2];
+  if (param_1[2] < fVar1) {
+    fVar1 = param_1[2];
+  }
+  param_1[2] = fVar1;
+  fVar1 = *param_2;
+  if (fVar1 < param_1[3]) {
+    fVar1 = param_1[3];
+  }
+  param_1[3] = fVar1;
+  fVar1 = param_2[1];
+  if (fVar1 < param_1[4]) {
+    fVar1 = param_1[4];
+  }
+  param_1[4] = fVar1;
+  if (param_1[5] <= param_2[2]) {
+    param_1[5] = param_2[2];
+    return;
+  }
+  param_1[5] = param_1[5];
+  return;
+}
+
+

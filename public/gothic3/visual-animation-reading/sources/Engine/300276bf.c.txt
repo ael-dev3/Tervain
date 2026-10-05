@@ -1,0 +1,12 @@
+/* ENTRY 300276bf | eCVisualAnimation_PS::GetLookAtConstraintCount | STATUS decompiled | 8 ms */
+
+/* public: int __thiscall eCVisualAnimation_PS::GetLookAtConstraintCount(void)const  */
+
+int __thiscall eCVisualAnimation_PS::GetLookAtConstraintCount(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x276bf  7678  ?GetLookAtConstraintCount@eCVisualAnimation_PS@@QBEHXZ */
+  return *(int *)&this[0xb].eCEntityPropertySet_data;
+}
+
+

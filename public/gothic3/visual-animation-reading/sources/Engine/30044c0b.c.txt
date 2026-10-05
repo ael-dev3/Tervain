@@ -1,0 +1,18 @@
+/* ENTRY 30044c0b | eCVisualAnimation_PS::SetBoneJointSpring | STATUS decompiled | 11 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetBoneJointSpring(float const &) */
+
+void __thiscall eCVisualAnimation_PS::SetBoneJointSpring(eCVisualAnimation_PS *this,float *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x44c0b  12966  ?SetBoneJointSpring@eCVisualAnimation_PS@@QAEXABM@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"BoneJointSpring",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  this[4].vftablePtr = (eCVisualAnimation_PS_vftable *)*param_1;
+  (*pNVar1)(this,"BoneJointSpring",false);
+  return;
+}
+
+

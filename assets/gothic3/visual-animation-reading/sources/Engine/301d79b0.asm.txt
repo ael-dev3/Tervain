@@ -1,0 +1,37 @@
+; 301d79b0 FUN_301d79b0
+301d79b0 | 55 | PUSH EBP
+301d79b1 | 8b6c2410 | MOV EBP,dword ptr [ESP + 0x10]
+301d79b5 | 85ed | TEST EBP,EBP
+301d79b7 | 744d | JZ 0x301d7a06
+301d79b9 | 53 | PUSH EBX
+301d79ba | 8b5c240c | MOV EBX,dword ptr [ESP + 0xc]
+301d79be | 56 | PUSH ESI
+301d79bf | 57 | PUSH EDI
+301d79c0 | 8b7c2418 | MOV EDI,dword ptr [ESP + 0x18]
+301d79c4 | 8b07 | MOV EAX,dword ptr [EDI]
+301d79c6 | 8bf3 | MOV ESI,EBX
+301d79c8 | 8906 | MOV dword ptr [ESI],EAX
+301d79ca | 8b4f04 | MOV ECX,dword ptr [EDI + 0x4]
+301d79cd | 8d5708 | LEA EDX,[EDI + 0x8]
+301d79d0 | 894e04 | MOV dword ptr [ESI + 0x4],ECX
+301d79d3 | 52 | PUSH EDX
+301d79d4 | 8d4e08 | LEA ECX,[ESI + 0x8]
+301d79d7 | 83ed01 | SUB EBP,0x1
+301d79da | 83c320 | ADD EBX,0x20
+301d79dd | ff1584dbaf30 | CALL dword ptr [0x30afdb84]
+301d79e3 | 8d470c | LEA EAX,[EDI + 0xc]
+301d79e6 | 50 | PUSH EAX
+301d79e7 | 8d4e0c | LEA ECX,[ESI + 0xc]
+301d79ea | ff1548dbaf30 | CALL dword ptr [0x30afdb48]
+301d79f0 | 8b4f18 | MOV ECX,dword ptr [EDI + 0x18]
+301d79f3 | 894e18 | MOV dword ptr [ESI + 0x18],ECX
+301d79f6 | d9471c | FLD float ptr [EDI + 0x1c]
+301d79f9 | 83c720 | ADD EDI,0x20
+301d79fc | d95e1c | FSTP float ptr [ESI + 0x1c]
+301d79ff | 85ed | TEST EBP,EBP
+301d7a01 | 75c1 | JNZ 0x301d79c4
+301d7a03 | 5f | POP EDI
+301d7a04 | 5e | POP ESI
+301d7a05 | 5b | POP EBX
+301d7a06 | 5d | POP EBP
+301d7a07 | c20c00 | RET 0xc

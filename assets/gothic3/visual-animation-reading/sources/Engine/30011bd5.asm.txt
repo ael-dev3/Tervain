@@ -1,0 +1,2 @@
+; 30011bd5 eCVisualAnimation_PS::AccessInterBoneCollision
+30011bd5 | e976ff0400 | JMP 0x30061b50

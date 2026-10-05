@@ -1,0 +1,14 @@
+/* ENTRY 30075af0 | FUN_30075af0 | STATUS decompiled | 5 ms */
+
+void __fastcall FUN_30075af0(int *param_1)
+
+{
+  bCString *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("FacialAnimFilePath",0);
+  bCString::operator=((bCString *)(param_1 + 6),unaff_ESI);
+  (**(code **)(*param_1 + 0x5c))("FacialAnimFilePath",0);
+  return;
+}
+
+

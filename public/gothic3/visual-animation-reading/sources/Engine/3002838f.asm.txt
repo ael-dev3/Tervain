@@ -1,0 +1,2 @@
+; 3002838f eCVisualAnimation_PS::operator=
+3002838f | e9fc4c0700 | JMP 0x3009d090

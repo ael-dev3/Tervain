@@ -1,0 +1,18 @@
+/* ENTRY 300210cb | eCApplication::GetCurrentCamera | STATUS decompiled | 12 ms */
+
+/* public: class eCCameraBase & __thiscall eCApplication::GetCurrentCamera(void) */
+
+eCCameraBase * __thiscall eCApplication::GetCurrentCamera(eCApplication *this)
+
+{
+  eCCameraBase *peVar1;
+  
+                    /* 0x210cb  6659  ?GetCurrentCamera@eCApplication@@QAEAAVeCCameraBase@@XZ */
+  peVar1 = (eCCameraBase *)(this->eCApplication_data).offset_0x0;
+  if (peVar1 == (eCCameraBase *)0x0) {
+    peVar1 = *(eCCameraBase **)&(this->eCApplication_data).field_0x60;
+  }
+  return peVar1;
+}
+
+

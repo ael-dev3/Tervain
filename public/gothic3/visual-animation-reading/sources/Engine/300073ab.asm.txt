@@ -1,0 +1,2 @@
+; 300073ab bTPropertyObjectType<eCAnimationAdmin,eCEngineComponentBase>::vfunction1
+300073ab | e940090700 | JMP 0x30077cf0

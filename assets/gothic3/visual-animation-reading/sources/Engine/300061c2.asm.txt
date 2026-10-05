@@ -1,0 +1,2 @@
+; 300061c2 eCVisualAnimation_PS::UpdateFrameEffects
+300061c2 | e9e9b10900 | JMP 0x300a13b0

@@ -1,0 +1,13 @@
+/* ENTRY 3009dc20 | FUN_3009dc20 | STATUS decompiled | 4 ms */
+
+void __fastcall FUN_3009dc20(eCActorAttachment *param_1)
+
+{
+  eCVisualAnimation_PS::eCActorAttachment::Destroy(param_1);
+  bCString::~bCString((bCString *)(param_1 + 0x68));
+  bCMatrix::~bCMatrix((bCMatrix *)(param_1 + 0x20));
+  eCEntityProxy::~eCEntityProxy((eCEntityProxy *)(param_1 + 4));
+  return;
+}
+
+

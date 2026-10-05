@@ -1,0 +1,11 @@
+; 305dd460 FUN_305dd460
+305dd460 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+305dd464 | 56 | PUSH ESI
+305dd465 | 8bf1 | MOV ESI,ECX
+305dd467 | 83c008 | ADD EAX,0x8
+305dd46a | 50 | PUSH EAX
+305dd46b | 8d4e08 | LEA ECX,[ESI + 0x8]
+305dd46e | ff1560dbaf30 | CALL dword ptr [0x30afdb60]
+305dd474 | 8bc6 | MOV EAX,ESI
+305dd476 | 5e | POP ESI
+305dd477 | c20400 | RET 0x4

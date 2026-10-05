@@ -1,0 +1,12 @@
+/* ENTRY 3000f024 | eCVisualAnimation_PS::AccessMaterialSwitch | STATUS decompiled | 7 ms */
+
+/* public: int & __thiscall eCVisualAnimation_PS::AccessMaterialSwitch(void) */
+
+int * __thiscall eCVisualAnimation_PS::AccessMaterialSwitch(eCVisualAnimation_PS *this)
+
+{
+                    /* 0xf024  2898  ?AccessMaterialSwitch@eCVisualAnimation_PS@@QAEAAHXZ */
+  return (int *)&this[7].eCEntityPropertySet_data;
+}
+
+

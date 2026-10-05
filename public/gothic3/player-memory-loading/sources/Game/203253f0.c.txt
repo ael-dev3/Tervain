@@ -1,0 +1,11 @@
+/* ENTRY 203253f0 | bTPropertyType<gCPlayerMemory_PS,unsigned_long>::vfunction1 | STATUS decompiled | 3 ms */
+
+bTPropertyType<gCPlayerMemory_PS,unsigned_long>_vftable * __thiscall
+bTPropertyType<gCPlayerMemory_PS,unsigned_long>::vfunction1
+          (bTPropertyType<gCPlayerMemory_PS,unsigned_long> *this)
+
+{
+  return this[7].vftablePtr;
+}
+
+

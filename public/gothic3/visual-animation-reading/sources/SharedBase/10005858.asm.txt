@@ -1,0 +1,2 @@
+; 10005858 bCPropertyObjectSingleton::WriteObject
+10005858 | e923a90800 | JMP 0x10090180

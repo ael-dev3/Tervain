@@ -1,0 +1,12 @@
+; 305cf5b0 FUN_305cf5b0
+305cf5b0 | b801000000 | MOV EAX,0x1
+305cf5b5 | 84052469af30 | TEST byte ptr [0x30af6924],AL
+305cf5bb | 751d | JNZ 0x305cf5da
+305cf5bd | 09052469af30 | OR dword ptr [0x30af6924],EAX
+305cf5c3 | b9d868af30 | MOV ECX,0x30af68d8
+305cf5c8 | e89b9ca4ff | CALL 0x30019268
+305cf5cd | 68c07c7b30 | PUSH 0x307b7cc0
+305cf5d2 | e8bf1f0a00 | CALL 0x30671596
+305cf5d7 | 83c404 | ADD ESP,0x4
+305cf5da | b8d868af30 | MOV EAX,0x30af68d8
+305cf5df | c3 | RET

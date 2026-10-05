@@ -1,0 +1,12 @@
+/* ENTRY 3000449e | eCIlluminated_PS::GetEnableAmbient | STATUS decompiled | 6 ms */
+
+/* public: bool const & __thiscall eCIlluminated_PS::GetEnableAmbient(void)const  */
+
+bool * __thiscall eCIlluminated_PS::GetEnableAmbient(eCIlluminated_PS *this)
+
+{
+                    /* 0x449e  6977  ?GetEnableAmbient@eCIlluminated_PS@@QBEAB_NXZ */
+  return (bool *)&(this->eCIlluminated_PS_data).field_0x1;
+}
+
+

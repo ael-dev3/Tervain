@@ -1,0 +1,32 @@
+/* ENTRY 30733cd0 | bTPropertyType<eCVisualAnimation_PS,bool>::~bTPropertyType<eCVisualAnimation_PS,bool> | STATUS decompiled | 44 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCVisualAnimation_PS,bool>::~bTPropertyType<eCVisualAnimation_PS,bool>
+          (bTPropertyType<eCVisualAnimation_PS,bool> *this)
+
+{
+  bTPropertyType<eCVisualAnimation_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"BonesAreBreakable");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_bBonesAreBreakable,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_bBonesAreBreakable = &vftable;
+  DAT_30ada660 = bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>();
+  _DAT_30ada664 = 0x21;
+  _DAT_30ada668 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_bBonesAreBreakable);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30ada660,
+             (bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_bBonesAreBreakable);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}
+
+

@@ -1,0 +1,42 @@
+/* ENTRY 3000deb8 | eCVisualAnimationLoD::IntersectsRay | STATUS decompiled | 20 ms */
+
+/* public: bool __thiscall eCVisualAnimationLoD::IntersectsRay(struct eSRayIntersectionDesc &,class
+   bCMatrix const &,class eCCollisionDesc * *)const  */
+
+bool __thiscall
+eCVisualAnimationLoD::IntersectsRay
+          (eCVisualAnimationLoD *this,eSRayIntersectionDesc *param_1,bCMatrix *param_2,
+          eCCollisionDesc **param_3)
+
+{
+  bool bVar1;
+  eCResourceDataEntity *this_00;
+  eCWrapper_emfx2Actor *this_01;
+  eCCollisionDesc **ppeVar2;
+  ushort uVar3;
+  eEResourceCacheBehavior eVar4;
+  
+                    /* 0xdeb8  9871
+                       ?IntersectsRay@eCVisualAnimationLoD@@QBE_NAAUeSRayIntersectionDesc@@ABVbCMatrix@@PAPAVeCCollisionDesc@@@Z
+                        */
+  bVar1 = (*this->vftablePtr->IsValid)(this);
+  if (!bVar1) {
+    return false;
+  }
+  eVar4 = 1;
+  this_00 = (eCResourceDataEntity *)
+            (**(code **)(*(int *)(this->eCVisualAnimationLoD_data).offset_0x4 + 0x70))();
+  eCResourceDataEntity::Load(this_00,eVar4);
+  uVar3 = 0;
+  ppeVar2 = param_3;
+  this_01 = (eCWrapper_emfx2Actor *)
+            eCResourceAnimationActor_PS::GetEMFX2Actor
+                      ((eCResourceAnimationActor_PS *)(this->eCVisualAnimationLoD_data).offset_0x4);
+  bVar1 = eCWrapper_emfx2Actor::IntersectsRay(this_01,param_1,ppeVar2,uVar3);
+  if (bVar1) {
+    eCAnimationCollisionDesc::SetLocalToWorldMatrix((eCAnimationCollisionDesc *)*param_3,param_2);
+  }
+  return bVar1;
+}
+
+

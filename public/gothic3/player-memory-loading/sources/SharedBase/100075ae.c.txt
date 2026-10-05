@@ -1,0 +1,18 @@
+/* ENTRY 100075ae | bCErrorAdmin::IsInPanicState | STATUS decompiled | 3 ms */
+
+/* public: bool __thiscall bCErrorAdmin::IsInPanicState(void)const  */
+
+bool __thiscall bCErrorAdmin::IsInPanicState(bCErrorAdmin *this)
+
+{
+  bool bVar1;
+  
+                    /* 0x75ae  3643  ?IsInPanicState@bCErrorAdmin@@QBE_NXZ */
+  bVar1 = true;
+  if ((this[4] != (bCErrorAdmin)0x1) && (this[5] != (bCErrorAdmin)0x1)) {
+    bVar1 = false;
+  }
+  return bVar1;
+}
+
+

@@ -1,0 +1,2 @@
+; 3002d42f eCVisualAnimation_PS::SetSkeletonShapeGroup
+3002d42f | e99c870400 | JMP 0x30075bd0

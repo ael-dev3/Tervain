@@ -1,0 +1,2 @@
+; 3000f3f3 eCResourceAnimationActor_PS::GetNativeFileExt
+3000f3f3 | e9e8420800 | JMP 0x300936e0

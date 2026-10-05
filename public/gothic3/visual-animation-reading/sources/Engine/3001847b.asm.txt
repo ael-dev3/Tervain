@@ -1,0 +1,2 @@
+; 3001847b eCVisualAnimationFactory::eCVisualAnimationFactory
+3001847b | e9c0490a00 | JMP 0x300bce40

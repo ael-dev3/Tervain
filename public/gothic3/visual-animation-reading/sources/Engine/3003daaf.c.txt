@@ -1,0 +1,21 @@
+/* ENTRY 3003daaf | eCResourceBase_PS::GetProprietaryFileName | STATUS decompiled | 10 ms */
+
+/* public: class bCString __thiscall eCResourceBase_PS::GetProprietaryFileName(void)const  */
+
+bCString * __thiscall eCResourceBase_PS::GetProprietaryFileName(eCResourceBase_PS *this)
+
+{
+  bCString *in_stack_00000004;
+  eCResourceBase_PS *peStack_4;
+  
+                    /* 0x3daaf  8284  ?GetProprietaryFileName@eCResourceBase_PS@@QBE?AVbCString@@XZ
+                        */
+  peStack_4 = this;
+  bCString::bCString((bCString *)&peStack_4,(bCString *)&(this->eCResourceBase_PS_data).field_0x24);
+  (*this->vftablePtr->GetProprietaryFileExt)(this);
+  bCString::operator+((bCString *)&peStack_4,in_stack_00000004);
+  bCString::~bCString((bCString *)&stack0xfffffff8);
+  return in_stack_00000004;
+}
+
+

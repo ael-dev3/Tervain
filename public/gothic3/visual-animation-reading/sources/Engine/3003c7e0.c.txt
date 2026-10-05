@@ -1,0 +1,16 @@
+/* ENTRY 3003c7e0 | thunk_FUN_300c3520 | STATUS decompiled | 4 ms */
+
+void __thiscall thunk_FUN_300c3520(int param_1,float param_2)
+
+{
+  if (0.0 <= param_2) {
+    *(undefined1 *)(param_1 + 0x10c) = 1;
+    *(float *)(param_1 + 0x124) = param_2;
+    return;
+  }
+  *(undefined1 *)(param_1 + 0x10c) = 0;
+  *(float *)(param_1 + 0x124) = param_2;
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 100034a4 bCString::bCString
+100034a4 | e937ec0000 | JMP 0x100120e0

@@ -1,0 +1,2 @@
+; 100043bd bCPropertyObjectFactory::bCPropertyObjectFactory
+100043bd | e90eaa0800 | JMP 0x1008edd0

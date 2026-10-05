@@ -1,0 +1,17 @@
+/* ENTRY 2002471c | bTPropertyType<gCPlayerMemory_PS,long>::vfunction6 | STATUS decompiled | 5 ms */
+
+void __thiscall
+bTPropertyType<gCPlayerMemory_PS,long>::vfunction6
+          (bTPropertyType<gCPlayerMemory_PS,long> *this,int param_1)
+
+{
+  bTPropertyType<gCDamage_PS,long>_vftable *pbVar1;
+  
+  if (param_1 != 0) {
+    pbVar1 = (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_1);
+    pbVar1->vfunction1 = (vfunction1 *)0x0;
+  }
+  return;
+}
+
+

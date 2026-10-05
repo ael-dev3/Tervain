@@ -1,0 +1,24 @@
+; 1008fa30 bTPropertyObject<bCObsoleteClass,bCObjectRefBase>::bTPropertyObject<bCObsoleteClass,bCObjectRefBase>
+1008fa30 | 56 | PUSH ESI
+1008fa31 | 8bf1 | MOV ESI,ECX
+1008fa33 | e8f876f7ff | CALL 0x10007130
+1008fa38 | b801000000 | MOV EAX,0x1
+1008fa3d | 840538482f10 | TEST byte ptr [0x102f4838],AL
+1008fa43 | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+1008fa4a | c706e4a80e10 | MOV dword ptr [ESI],0x100ea8e4
+1008fa50 | 751d | JNZ 0x1008fa6f
+1008fa52 | 090538482f10 | OR dword ptr [0x102f4838],EAX
+1008fa58 | b9fc472f10 | MOV ECX,0x102f47fc
+1008fa5d | e85b49f7ff | CALL 0x100043bd
+1008fa62 | 6810300e10 | PUSH 0x100e3010
+1008fa67 | e864780100 | CALL 0x100a72d0
+1008fa6c | 83c404 | ADD ESP,0x4
+1008fa6f | 836604fb | AND dword ptr [ESI + 0x4],0xfffffffb
+1008fa73 | 6a00 | PUSH 0x0
+1008fa75 | 8bce | MOV ECX,ESI
+1008fa77 | c7460cfc472f10 | MOV dword ptr [ESI + 0xc],0x102f47fc
+1008fa7e | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+1008fa85 | e87688f7ff | CALL 0x10008300
+1008fa8a | 8bc6 | MOV EAX,ESI
+1008fa8c | 5e | POP ESI
+1008fa8d | c20800 | RET 0x8

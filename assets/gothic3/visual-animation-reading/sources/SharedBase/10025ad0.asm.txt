@@ -1,0 +1,3 @@
+; 10025ad0 FUN_10025ad0
+10025ad0 | 8bc1 | MOV EAX,ECX
+10025ad2 | c3 | RET

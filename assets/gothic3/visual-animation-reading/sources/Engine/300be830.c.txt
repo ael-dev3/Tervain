@@ -1,0 +1,27 @@
+/* ENTRY 300be830 | FUN_300be830 | STATUS decompiled | 6 ms */
+
+void __fastcall FUN_300be830(int *param_1)
+
+{
+  bCMemoryAdmin *this;
+  int iVar1;
+  bCString *this_00;
+  void *pvVar2;
+  
+  this_00 = (bCString *)*param_1;
+  if (this_00 != (bCString *)0x0) {
+    for (iVar1 = param_1[2]; iVar1 != 0; iVar1 = iVar1 + -1) {
+      bCString::~bCString(this_00);
+      this_00 = this_00 + 0x10;
+    }
+    pvVar2 = (void *)*param_1;
+    this = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this,pvVar2);
+    *param_1 = 0;
+    param_1[1] = 0;
+    param_1[2] = 0;
+  }
+  return;
+}
+
+

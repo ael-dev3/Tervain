@@ -1,0 +1,16 @@
+/* ENTRY 3020f7e0 | FUN_3020f7e0 | STATUS decompiled | 5 ms */
+
+short * __thiscall FUN_3020f7e0(short *param_1,short *param_2)
+
+{
+  if (*param_2 == *param_1) {
+    param_1[1] = param_2[1];
+    _memcpy(*(void **)(param_1 + 2),*(void **)(param_2 + 2),(uint)(ushort)param_2[1] * 0xc);
+    return param_1;
+  }
+  thunk_FUN_300b0280(param_2[1]);
+  _memcpy(*(void **)(param_1 + 2),*(void **)(param_2 + 2),(uint)(ushort)param_2[1] * 0xc);
+  return param_1;
+}
+
+

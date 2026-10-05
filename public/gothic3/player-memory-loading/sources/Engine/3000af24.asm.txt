@@ -1,0 +1,2 @@
+; 3000af24 eCEntityPropertySet::OnPostCopy
+3000af24 | e9a7694700 | JMP 0x304818d0

@@ -1,0 +1,45 @@
+/* ENTRY 30642840 | FUN_30642840 | STATUS decompiled | 10 ms */
+
+void __fastcall FUN_30642840(bad_alloc *param_1)
+
+{
+  uint uVar1;
+  InstanceManagerBase *this;
+  InstanceManagerBase *pIVar2;
+  void *local_c;
+  undefined1 *puStack_8;
+  undefined4 local_4;
+  
+  local_4 = 0xffffffff;
+  puStack_8 = &LAB_3072c5fb;
+  local_c = ExceptionList;
+  uVar1 = DAT_30ad43ec ^ (uint)&stack0xffffffec;
+  ExceptionList = &local_c;
+  if (DAT_30af6d58 == (InstanceManagerBase *)0x0) {
+    std::bad_alloc::~bad_alloc(param_1,0xc);
+    local_4 = 0;
+    if (this == (InstanceManagerBase *)0x0) {
+      DAT_30af6d58 = (InstanceManagerBase *)0x0;
+    }
+    else {
+                    /* inlined constructor:
+                       MCore::InstanceManager<EMotionFX::NodeIDGenerator>::InstanceManager<EMotionFX::NodeIDGenerator>
+                        */
+      MCore::InstanceManagerBase::InstanceManagerBase(this);
+      this->vftablePtr =
+           (InstanceManagerBase_vftable *)
+           &MCore::InstanceManager<EMotionFX::NodeIDGenerator>::vftable;
+      this[1].vftablePtr = (InstanceManagerBase_vftable *)0x0;
+      DAT_30af6d58 = this;
+    }
+    local_4 = 0xffffffff;
+    pIVar2 = DAT_30af6d58;
+    FUN_3066adf0(DAT_30af6d58);
+    FUN_3066ac80(pIVar2);
+  }
+  FUN_30642340(uVar1);
+  ExceptionList = local_c;
+  return;
+}
+
+

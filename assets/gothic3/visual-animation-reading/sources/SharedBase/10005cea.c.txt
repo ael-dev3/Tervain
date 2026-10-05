@@ -1,0 +1,12 @@
+/* ENTRY 10005cea | bCBox::~bCBox | STATUS decompiled | 1 ms */
+
+/* public: __thiscall bCBox::~bCBox(void) */
+
+void __thiscall bCBox::~bCBox(bCBox *this)
+
+{
+                    /* 0x5cea  355  ??1bCBox@@QAE@XZ */
+  return;
+}
+
+

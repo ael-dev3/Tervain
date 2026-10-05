@@ -1,0 +1,2 @@
+; 3000dca1 eCVisualAnimation_PS::SetCreateSpringMassCloth
+3000dca1 | e99a460500 | JMP 0x30062340

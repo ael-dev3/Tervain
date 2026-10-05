@@ -1,0 +1,16 @@
+; 305de5c0 FUN_305de5c0
+305de5c0 | 56 | PUSH ESI
+305de5c1 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+305de5c5 | 57 | PUSH EDI
+305de5c6 | 8bf9 | MOV EDI,ECX
+305de5c8 | 8bce | MOV ECX,ESI
+305de5ca | e8b93fa5ff | CALL 0x30032588
+305de5cf | 8b442410 | MOV EAX,dword ptr [ESP + 0x10]
+305de5d3 | 56 | PUSH ESI
+305de5d4 | 50 | PUSH EAX
+305de5d5 | 8bcf | MOV ECX,EDI
+305de5d7 | e81722a3ff | CALL 0x300107f3
+305de5dc | 5f | POP EDI
+305de5dd | 8bc6 | MOV EAX,ESI
+305de5df | 5e | POP ESI
+305de5e0 | c20800 | RET 0x8

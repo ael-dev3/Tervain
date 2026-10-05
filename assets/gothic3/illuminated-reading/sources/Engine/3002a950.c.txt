@@ -1,0 +1,15 @@
+/* ENTRY 3002a950 | eCIlluminated_PS::GetDirectionalShadowMap | STATUS decompiled | 8 ms */
+
+/* public: class eCShadowMapDirectionalLight * __thiscall
+   eCIlluminated_PS::GetDirectionalShadowMap(void)const  */
+
+eCShadowMapDirectionalLight * __thiscall
+eCIlluminated_PS::GetDirectionalShadowMap(eCIlluminated_PS *this)
+
+{
+                    /* 0x2a950  6869
+                       ?GetDirectionalShadowMap@eCIlluminated_PS@@QBEPAVeCShadowMapDirectionalLight@@XZ
+                        */
+  return (eCShadowMapDirectionalLight *)(this->eCIlluminated_PS_data).offset_0x20;
+}
+

@@ -1,0 +1,5 @@
+; 203227a0 bTPropertyType<gCPlayerMemory_PS,bTValArray<long>_>::vfunction3
+203227a0 | 8b4918 | MOV ECX,dword ptr [ECX + 0x18]
+203227a3 | 8b01 | MOV EAX,dword ptr [ECX]
+203227a5 | 8b10 | MOV EDX,dword ptr [EAX]
+203227a7 | ffe2 | JMP EDX

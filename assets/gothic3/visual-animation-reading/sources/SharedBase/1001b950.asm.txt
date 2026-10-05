@@ -1,0 +1,4 @@
+; 1001b950 bCFile::bCFile
+1001b950 | c701585f0e10 | MOV dword ptr [ECX],0x100e5f58
+1001b956 | c74104445f0e10 | MOV dword ptr [ECX + 0x4],0x100e5f44
+1001b95d | e9a0aefeff | JMP 0x10006802

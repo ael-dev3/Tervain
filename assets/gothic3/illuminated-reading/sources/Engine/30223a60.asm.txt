@@ -1,0 +1,12 @@
+; 30223a60 bTPropertyContainer<eEDirectionalShadowType>::deleting_destructor
+30223a60 | 56 | PUSH ESI
+30223a61 | 8bf1 | MOV ESI,ECX
+30223a63 | c7065c4c8430 | MOV dword ptr [ESI],0x30844c5c
+30223a69 | ff1520ccaf30 | CALL dword ptr [0x30afcc20]
+30223a6f | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+30223a74 | 7409 | JZ 0x30223a7f
+30223a76 | 56 | PUSH ESI
+30223a77 | e8ecd94400 | CALL 0x30671468
+30223a7f | 8bc6 | MOV EAX,ESI
+30223a81 | 5e | POP ESI
+30223a82 | c20400 | RET 0x4

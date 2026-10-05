@@ -1,0 +1,12 @@
+/* ENTRY 30005e70 | eCEffector::AccessPos1 | STATUS decompiled | 2 ms */
+
+/* public: class bCVector & __thiscall eCEffector::AccessPos1(void) */
+
+bCVector * __thiscall eCEffector::AccessPos1(eCEffector *this)
+
+{
+                    /* 0x5e70  2986  ?AccessPos1@eCEffector@@QAEAAVbCVector@@XZ */
+  return (bCVector *)&(this->eCEffector_data).field_0x40;
+}
+
+

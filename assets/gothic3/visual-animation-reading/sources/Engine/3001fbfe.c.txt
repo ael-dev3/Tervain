@@ -1,0 +1,37 @@
+/* ENTRY 3001fbfe | eCWnd::Print | STATUS decompiled | 15 ms */
+
+/* public: void __thiscall eCWnd::Print(class bCPoint const &,class bCString const &,class
+   bCByteAlphaColor const *,enum eEWinTextMode) */
+
+void __thiscall
+eCWnd::Print(eCWnd *this,bCPoint *param_1,bCString *param_2,bCByteAlphaColor *param_3,
+            eEWinTextMode param_4)
+
+{
+  eCFont *peVar1;
+  long lVar2;
+  long lVar3;
+  bCUnicodeString *pbVar4;
+  float fVar5;
+  eCWnd *peStack_4;
+  
+                    /* 0x1fbfe  11862
+                       ?Print@eCWnd@@QAEXABVbCPoint@@ABVbCString@@PBVbCByteAlphaColor@@W4eEWinTextMode@@@Z
+                        */
+  peStack_4 = this;
+  bCUnicodeString::bCUnicodeString((bCUnicodeString *)&peStack_4);
+  bCUnicodeString::SetAnsiText((bCUnicodeString *)&peStack_4,param_2);
+  if (param_3 == (bCByteAlphaColor *)0x0) {
+    peVar1 = GetFont(this);
+    param_3 = (bCByteAlphaColor *)(**(code **)(*(int *)peVar1 + 0x84))();
+  }
+  pbVar4 = (bCUnicodeString *)&peStack_4;
+  fVar5 = -2.0;
+  lVar2 = bCPoint::GetY(param_1);
+  lVar3 = bCPoint::GetX(param_1);
+  CreateTextItem(this,lVar3,lVar2,pbVar4,fVar5,param_3,param_4);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&peStack_4);
+  return;
+}
+
+

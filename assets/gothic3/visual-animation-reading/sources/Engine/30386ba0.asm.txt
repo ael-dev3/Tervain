@@ -1,0 +1,15 @@
+; 30386ba0 bTPropertyType<eCEffector,eCEntityProxy>::vfunction12
+30386ba0 | 56 | PUSH ESI
+30386ba1 | 8bf1 | MOV ESI,ECX
+30386ba3 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+30386ba7 | 85c9 | TEST ECX,ECX
+30386ba9 | 7506 | JNZ 0x30386bb1
+30386bab | 33c0 | XOR EAX,EAX
+30386bad | 5e | POP ESI
+30386bae | c20400 | RET 0x4
+30386bb1 | 8b01 | MOV EAX,dword ptr [ECX]
+30386bb3 | 8b10 | MOV EDX,dword ptr [EAX]
+30386bb5 | ffd2 | CALL EDX
+30386bb7 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+30386bba | 5e | POP ESI
+30386bbb | c20400 | RET 0x4

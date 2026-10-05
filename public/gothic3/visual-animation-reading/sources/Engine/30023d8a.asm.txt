@@ -1,0 +1,2 @@
+; 30023d8a eCVisualAnimationFactory::GetMeshBoundary
+30023d8a | e9018a0900 | JMP 0x300bc790

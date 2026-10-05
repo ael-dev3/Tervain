@@ -1,0 +1,2 @@
+; 300482c5 eCVisualAnimation_PS::eSMotionDesc::IsValid
+300482c5 | e9f64f0500 | JMP 0x3009d2c0

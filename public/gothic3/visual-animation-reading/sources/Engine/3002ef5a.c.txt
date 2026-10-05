@@ -1,0 +1,12 @@
+/* ENTRY 3002ef5a | eCEffector::Invalidate | STATUS decompiled | 4 ms */
+
+/* protected: void __thiscall eCEffector::Invalidate(void) */
+
+void __thiscall eCEffector::Invalidate(eCEffector *this)
+
+{
+                    /* 0x2ef5a  9964  ?Invalidate@eCEffector@@IAEXXZ */
+  return;
+}
+
+

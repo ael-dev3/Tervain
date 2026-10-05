@@ -1,0 +1,2 @@
+; 3001f5aa eCVisualAnimation_PS::eSMotionDesc::SetMotion
+3001f5aa | e9e1dc0700 | JMP 0x3009d290

@@ -1,0 +1,2 @@
+; 30025cd4 eCApplication::IsInitialised
+30025cd4 | e957d80300 | JMP 0x30063530

@@ -1,0 +1,32 @@
+/* ENTRY 30733af0 | bTPropertyType<eCVisualAnimation_PS,bool>::~bTPropertyType<eCVisualAnimation_PS,bool> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCVisualAnimation_PS,bool>::~bTPropertyType<eCVisualAnimation_PS,bool>
+          (bTPropertyType<eCVisualAnimation_PS,bool> *this)
+
+{
+  bTPropertyType<eCVisualAnimation_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"InterBoneCollision");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_bInterBoneCollision,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_bInterBoneCollision = &vftable;
+  DAT_30ada5f4 = bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>();
+  _DAT_30ada5f8 = 0x1e;
+  _DAT_30ada5fc = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_bInterBoneCollision);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30ada5f4,
+             (bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_bInterBoneCollision);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}
+
+

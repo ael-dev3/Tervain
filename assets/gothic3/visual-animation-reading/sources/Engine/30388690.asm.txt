@@ -1,0 +1,15 @@
+; 30388690 bTPropertyType<eCSpringAndDamperEffector,float>::vfunction12
+30388690 | 56 | PUSH ESI
+30388691 | 8bf1 | MOV ESI,ECX
+30388693 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+30388697 | 85c9 | TEST ECX,ECX
+30388699 | 7506 | JNZ 0x303886a1
+3038869b | 33c0 | XOR EAX,EAX
+3038869d | 5e | POP ESI
+3038869e | c20400 | RET 0x4
+303886a1 | 8b01 | MOV EAX,dword ptr [ECX]
+303886a3 | 8b10 | MOV EDX,dword ptr [EAX]
+303886a5 | ffd2 | CALL EDX
+303886a7 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+303886aa | 5e | POP ESI
+303886ab | c20400 | RET 0x4

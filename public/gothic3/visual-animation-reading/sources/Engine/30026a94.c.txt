@@ -1,0 +1,12 @@
+/* ENTRY 30026a94 | eCPhysicsScene::GetScene | STATUS decompiled | 6 ms */
+
+/* public: class NxScene & __thiscall eCPhysicsScene::GetScene(void) */
+
+NxScene * __thiscall eCPhysicsScene::GetScene(eCPhysicsScene *this)
+
+{
+                    /* 0x26a94  8683  ?GetScene@eCPhysicsScene@@QAEAAVNxScene@@XZ */
+  return (NxScene *)(this->eCPhysicsScene_data).offset_0x8;
+}
+
+

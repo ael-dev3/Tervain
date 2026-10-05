@@ -1,0 +1,2 @@
+; 30018ddb eCVirtualFile::~eCVirtualFile
+30018ddb | e9d0335b00 | JMP 0x305cc1b0

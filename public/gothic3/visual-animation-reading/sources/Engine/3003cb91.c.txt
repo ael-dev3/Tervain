@@ -1,0 +1,48 @@
+/* ENTRY 3003cb91 | eCVisualAnimation_PS::AddAttachment | STATUS decompiled | 49 ms */
+
+/* public: bool __thiscall eCVisualAnimation_PS::AddAttachment(class eCEntity *,class bCString const
+   &,class bCMatrix const *,unsigned long,bool) */
+
+bool __thiscall
+eCVisualAnimation_PS::AddAttachment
+          (eCVisualAnimation_PS *this,eCEntity *param_1,bCString *param_2,bCMatrix *param_3,
+          ulong param_4,bool param_5)
+
+{
+  int iVar1;
+  eCActorAttachment *peVar2;
+  bCMatrix *pbVar3;
+  eCActorAttachment *this_00;
+  eCVisualAnimation_PS_vftable *peVar4;
+  bCString *unaff_retaddr;
+  
+                    /* 0x3cb91  3360
+                       ?AddAttachment@eCVisualAnimation_PS@@QAE_NPAVeCEntity@@ABVbCString@@PBVbCMatrix@@K_N@Z
+                        */
+  RemoveAttachment(this,param_1);
+  peVar2 = (eCActorAttachment *)new(0x78,0xd86);
+  this_00 = (eCActorAttachment *)0x0;
+  if (peVar2 != (eCActorAttachment *)0x0) {
+    eCEntityProxy::eCEntityProxy((eCEntityProxy *)(peVar2 + 4));
+    pbVar3 = bCMatrix::GetIdentity();
+    bCMatrix::bCMatrix((bCMatrix *)(peVar2 + 0x20),pbVar3);
+    *(eCVisualAnimation_PS **)(peVar2 + 0x60) = this;
+    *(undefined4 *)(peVar2 + 100) = 0;
+    bCString::bCString((bCString *)(peVar2 + 0x68));
+    peVar2[0x70] = (eCActorAttachment)0x0;
+    *(undefined4 *)(peVar2 + 0x74) = 0;
+    *(undefined4 *)(peVar2 + 0x6c) = 0;
+    *(eCVisualAnimation_PS **)peVar2 = this;
+    this_00 = peVar2;
+  }
+  eCActorAttachment::Create
+            (this_00,param_1,unaff_retaddr,(bCMatrix *)param_1,(ulong)param_2,SUB41(param_3,0));
+  peVar4 = (eCVisualAnimation_PS_vftable *)((int)&(this[10].vftablePtr)->GetVersion + 1);
+  thunk_FUN_300aed30(peVar4,(peVar4 != (eCVisualAnimation_PS_vftable *)0x0) - 1);
+  iVar1 = *(int *)&this[9].eCEntityPropertySet_data.offset_0xc;
+  this[10].vftablePtr = peVar4;
+  *(eCActorAttachment **)(iVar1 + -4 + (int)peVar4 * 4) = this_00;
+  return true;
+}
+
+

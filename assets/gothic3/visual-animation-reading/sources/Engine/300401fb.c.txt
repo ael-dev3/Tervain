@@ -1,0 +1,38 @@
+/* ENTRY 300401fb | eCVisualAnimation_PS::GetBoneMatrix | STATUS decompiled | 28 ms */
+
+/* public: bool __thiscall eCVisualAnimation_PS::GetBoneMatrix(int,class bCMatrix &) */
+
+bool __thiscall
+eCVisualAnimation_PS::GetBoneMatrix(eCVisualAnimation_PS *this,int param_1,bCMatrix *param_2)
+
+{
+  undefined1 *this_00;
+  eCWrapper_emfx2Actor *peVar1;
+  eCEntity *this_01;
+  bCMatrix *this_02;
+  bCMatrix *pbVar2;
+  bCMatrix abStack_40 [64];
+  
+                    /* 0x401fb  6287  ?GetBoneMatrix@eCVisualAnimation_PS@@QAE_NHAAVbCMatrix@@@Z */
+  this_00 = &this[7].eCEntityPropertySet_data.field_0x4;
+  peVar1 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+  if (peVar1 == (eCWrapper_emfx2Actor *)0x0) {
+    return false;
+  }
+  peVar1 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+  if (*(int *)(*(int *)(peVar1 + 0xc) + 0x1b4) < param_1) {
+    return false;
+  }
+  peVar1 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+  bCMatrix::operator=(param_2,(bCMatrix *)
+                              (*(int *)(*(int *)(peVar1 + 0xc) + 0x1bc) + 0x44 + param_1 * 400));
+  pbVar2 = abStack_40;
+  this_01 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+  this_02 = eCEntity::GetWorldMatrix(this_01);
+  pbVar2 = (bCMatrix *)bCMatrix::operator*(this_02,pbVar2);
+  bCMatrix::operator=(param_2,pbVar2);
+  bCMatrix::~bCMatrix((bCMatrix *)&stack0xffffffbc);
+  return true;
+}
+
+

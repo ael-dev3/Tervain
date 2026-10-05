@@ -1,0 +1,19 @@
+/* ENTRY 3000fffb | eCVisualAnimation_PS::eCLookAtConstraint::~eCLookAtConstraint | STATUS decompiled | 4 ms */
+
+/* public: __thiscall eCVisualAnimation_PS::eCLookAtConstraint::~eCLookAtConstraint(void) */
+
+void __thiscall
+eCVisualAnimation_PS::eCLookAtConstraint::~eCLookAtConstraint(eCLookAtConstraint *this)
+
+{
+                    /* 0xfffb  1194  ??1eCLookAtConstraint@eCVisualAnimation_PS@@QAE@XZ */
+  Destroy(this);
+  bCVector::~bCVector((bCVector *)(this + 0x24));
+  bCVector::~bCVector((bCVector *)(this + 0x18));
+                    /* WARNING: Could not recover jumptable at 0x3009f4ce. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCString::~bCString((bCString *)(this + 0x10));
+  return;
+}
+
+

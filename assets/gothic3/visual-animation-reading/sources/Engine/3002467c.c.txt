@@ -1,0 +1,20 @@
+/* ENTRY 3002467c | eCPhysicsScene::IsLocked | STATUS decompiled | 9 ms */
+
+/* protected: bool __thiscall eCPhysicsScene::IsLocked(void) */
+
+bool __thiscall eCPhysicsScene::IsLocked(eCPhysicsScene *this)
+
+{
+  char cVar1;
+  
+                    /* 0x2467c  10424  ?IsLocked@eCPhysicsScene@@IAE_NXZ */
+  if ((this->eCPhysicsScene_data).offset_0x57 != (eCPhysicsScene)0x0) {
+    cVar1 = (**(code **)(*(int *)(this->eCPhysicsScene_data).offset_0x8 + 0x144))();
+    if (cVar1 != '\0') {
+      return false;
+    }
+  }
+  return true;
+}
+
+

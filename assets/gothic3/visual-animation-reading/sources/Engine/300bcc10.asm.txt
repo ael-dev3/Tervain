@@ -1,0 +1,13 @@
+; 300bcc10 FUN_300bcc10
+300bcc10 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+300bcc14 | 56 | PUSH ESI
+300bcc15 | 8bf1 | MOV ESI,ECX
+300bcc17 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+300bcc1a | 50 | PUSH EAX
+300bcc1b | e8760bf6ff | CALL 0x3001d796
+300bcc20 | 837e0400 | CMP dword ptr [ESI + 0x4],0x0
+300bcc24 | 7407 | JZ 0x300bcc2d
+300bcc26 | 8bce | MOV ECX,ESI
+300bcc28 | e847a8f8ff | CALL 0x30047474
+300bcc2d | 5e | POP ESI
+300bcc2e | c20400 | RET 0x4

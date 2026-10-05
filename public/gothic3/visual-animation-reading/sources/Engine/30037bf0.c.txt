@@ -1,0 +1,18 @@
+/* ENTRY 30037bf0 | eCVisualAnimation_PS::SetMaterialSwitch | STATUS decompiled | 15 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetMaterialSwitch(int const &) */
+
+void __thiscall eCVisualAnimation_PS::SetMaterialSwitch(eCVisualAnimation_PS *this,int *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x37bf0  13763  ?SetMaterialSwitch@eCVisualAnimation_PS@@QAEXABH@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"MaterialSwitch",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(int *)&this[7].eCEntityPropertySet_data = *param_1;
+  (*pNVar1)(this,"MaterialSwitch",false);
+  return;
+}
+
+

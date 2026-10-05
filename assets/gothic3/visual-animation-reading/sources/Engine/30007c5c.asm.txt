@@ -1,0 +1,2 @@
+; 30007c5c eCArchiveManager::SplitPath
+30007c5c | e91f685d00 | JMP 0x305de480

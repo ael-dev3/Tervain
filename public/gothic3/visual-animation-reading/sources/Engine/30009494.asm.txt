@@ -1,0 +1,2 @@
+; 30009494 eCVisualAnimation_PS::SetMotionOwner
+30009494 | e947540900 | JMP 0x3009e8e0

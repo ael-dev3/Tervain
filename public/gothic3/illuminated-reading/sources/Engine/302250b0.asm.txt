@@ -1,0 +1,5 @@
+; 302250b0 bTPropertyContainer<eEDirectionalShadowType>::vfunction7
+302250b0 | a14c1cae30 | MOV EAX,[0x30ae1c4c]
+302250b5 | 894104 | MOV dword ptr [ECX + 0x4],EAX
+302250b8 | b801000000 | MOV EAX,0x1
+302250bd | c3 | RET

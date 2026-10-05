@@ -1,0 +1,2 @@
+; 10006ece bCBox::SetBox
+10006ece | e94d390200 | JMP 0x1002a820

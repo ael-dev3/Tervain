@@ -1,0 +1,10 @@
+/* ENTRY 3009d480 | FUN_3009d480 | STATUS decompiled | 2 ms */
+
+void __fastcall FUN_3009d480(int param_1)
+
+{
+  eCEntityProxy::IsEntityIDValid((eCEntityProxy *)(param_1 + 4));
+  return;
+}
+
+

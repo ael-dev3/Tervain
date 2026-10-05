@@ -1,0 +1,60 @@
+; 3009def0 FUN_3009def0
+3009def0 | 83ec40 | SUB ESP,0x40
+3009def3 | 53 | PUSH EBX
+3009def4 | 57 | PUSH EDI
+3009def5 | 8bf9 | MOV EDI,ECX
+3009def7 | 8d9f94000000 | LEA EBX,[EDI + 0x94]
+3009defd | 8bcb | MOV ECX,EBX
+3009deff | e88accf9ff | CALL 0x3003ab8e
+3009df04 | 85c0 | TEST EAX,EAX
+3009df06 | 750a | JNZ 0x3009df12
+3009df08 | 5f | POP EDI
+3009df09 | 32c0 | XOR AL,AL
+3009df0b | 5b | POP EBX
+3009df0c | 83c440 | ADD ESP,0x40
+3009df0f | c20800 | RET 0x8
+3009df12 | 56 | PUSH ESI
+3009df13 | 8bcb | MOV ECX,EBX
+3009df15 | e874ccf9ff | CALL 0x3003ab8e
+3009df1a | 8b400c | MOV EAX,dword ptr [EAX + 0xc]
+3009df1d | 8b742450 | MOV ESI,dword ptr [ESP + 0x50]
+3009df21 | 3bb0b4010000 | CMP ESI,dword ptr [EAX + 0x1b4]
+3009df27 | 7e0b | JLE 0x3009df34
+3009df29 | 5e | POP ESI
+3009df2a | 5f | POP EDI
+3009df2b | 32c0 | XOR AL,AL
+3009df2d | 5b | POP EBX
+3009df2e | 83c440 | ADD ESP,0x40
+3009df31 | c20800 | RET 0x8
+3009df34 | 8bcb | MOV ECX,EBX
+3009df36 | e853ccf9ff | CALL 0x3003ab8e
+3009df3b | 69f690010000 | IMUL ESI,ESI,0x190
+3009df41 | 8b480c | MOV ECX,dword ptr [EAX + 0xc]
+3009df44 | 8b91bc010000 | MOV EDX,dword ptr [ECX + 0x1bc]
+3009df4a | 8d443244 | LEA EAX,[EDX + ESI*0x1 + 0x44]
+3009df4e | 8b742454 | MOV ESI,dword ptr [ESP + 0x54]
+3009df52 | 50 | PUSH EAX
+3009df53 | 8bce | MOV ECX,ESI
+3009df55 | ff1578dbaf30 | CALL dword ptr [0x30afdb78]
+3009df5b | 8b17 | MOV EDX,dword ptr [EDI]
+3009df5d | 8b4268 | MOV EAX,dword ptr [EDX + 0x68]
+3009df60 | 56 | PUSH ESI
+3009df61 | 8d4c2410 | LEA ECX,[ESP + 0x10]
+3009df65 | 51 | PUSH ECX
+3009df66 | 8bcf | MOV ECX,EDI
+3009df68 | ffd0 | CALL EAX
+3009df6a | 8bc8 | MOV ECX,EAX
+3009df6c | e879f5f6ff | CALL 0x3000d4ea
+3009df71 | 8bc8 | MOV ECX,EAX
+3009df73 | ff1524ccaf30 | CALL dword ptr [0x30afcc24]
+3009df79 | 50 | PUSH EAX
+3009df7a | 8bce | MOV ECX,ESI
+3009df7c | ff1578dbaf30 | CALL dword ptr [0x30afdb78]
+3009df82 | 8d4c240c | LEA ECX,[ESP + 0xc]
+3009df86 | ff1514dbaf30 | CALL dword ptr [0x30afdb14]
+3009df8c | 5e | POP ESI
+3009df8d | 5f | POP EDI
+3009df8e | b001 | MOV AL,0x1
+3009df90 | 5b | POP EBX
+3009df91 | 83c440 | ADD ESP,0x40
+3009df94 | c20800 | RET 0x8

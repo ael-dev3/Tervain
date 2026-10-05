@@ -1,0 +1,2 @@
+; 3003ef77 eCVisualAnimation_PS::DisablePhysicsController
+3003ef77 | e964e80500 | JMP 0x3009d7e0

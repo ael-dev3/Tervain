@@ -1,0 +1,38 @@
+/* ENTRY 304b6170 | FUN_304b6170 | STATUS decompiled | 26 ms */
+
+void __thiscall FUN_304b6170(eCNode *param_1,uint param_2)
+
+{
+  uint uVar1;
+  eCSceneAdmin *this;
+  eCEntityAdmin *this_00;
+  int iVar2;
+  eCEntity *this_01;
+  int iVar3;
+  undefined1 uVar4;
+  eCNode *peVar5;
+  
+  uVar1 = param_1[1].eCNode_data.offset_0x8;
+  if (((uVar1 >> 1 & 1) != (param_2 & 0xff)) &&
+     (uVar1 = ((param_2 & 0xff) * 2 ^ uVar1) & 2 ^ uVar1, param_1[1].eCNode_data.offset_0x8 = uVar1,
+     ((byte)uVar1 & 0x80) == 0x80)) {
+    peVar5 = param_1;
+    this = (eCSceneAdmin *)thunk_FUN_3007bf20();
+    this_00 = (eCEntityAdmin *)eCSceneAdmin::GetAccessToEntityAdmin(this);
+    eCEntityAdmin::OnEntityProcessingChanged(this_00,(eCEntity *)peVar5);
+  }
+  iVar3 = 0;
+  iVar2 = eCNode::GetChildrenCount(param_1);
+  if (0 < iVar2) {
+    do {
+      uVar4 = (undefined1)param_2;
+      this_01 = (eCEntity *)(*param_1->vftablePtr->GetChildAt)(param_1,iVar3);
+      eCEntity::DisableProcessing(this_01,(bool)uVar4);
+      iVar3 = iVar3 + 1;
+      iVar2 = eCNode::GetChildrenCount(param_1);
+    } while (iVar3 < iVar2);
+  }
+  return;
+}
+
+

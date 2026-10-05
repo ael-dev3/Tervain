@@ -1,0 +1,48 @@
+; 3032af40 FUN_3032af40
+3032af40 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+3032af44 | 53 | PUSH EBX
+3032af45 | 8b18 | MOV EBX,dword ptr [EAX]
+3032af47 | 56 | PUSH ESI
+3032af48 | 8bf1 | MOV ESI,ECX
+3032af4a | 8b4e04 | MOV ECX,dword ptr [ESI + 0x4]
+3032af4d | 8bc3 | MOV EAX,EBX
+3032af4f | c1e804 | SHR EAX,0x4
+3032af52 | 33d2 | XOR EDX,EDX
+3032af54 | f7f1 | DIV ECX
+3032af56 | 57 | PUSH EDI
+3032af57 | 8bfa | MOV EDI,EDX
+3032af59 | 3bf9 | CMP EDI,ECX
+3032af5b | 7314 | JNC 0x3032af71
+3032af5d | 8b0e | MOV ECX,dword ptr [ESI]
+3032af5f | 8b04b9 | MOV EAX,dword ptr [ECX + EDI*0x4]
+3032af62 | 85c0 | TEST EAX,EAX
+3032af64 | 740b | JZ 0x3032af71
+3032af66 | 3b18 | CMP EBX,dword ptr [EAX]
+3032af68 | 744a | JZ 0x3032afb4
+3032af6a | 8b4010 | MOV EAX,dword ptr [EAX + 0x10]
+3032af6d | 85c0 | TEST EAX,EAX
+3032af6f | 75f5 | JNZ 0x3032af66
+3032af71 | 6869010000 | PUSH 0x169
+3032af76 | 6a14 | PUSH 0x14
+3032af78 | ff15a8dbaf30 | CALL dword ptr [0x30afdba8]
+3032af7e | 85c0 | TEST EAX,EAX
+3032af80 | 7417 | JZ 0x3032af99
+3032af82 | c7400400000000 | MOV dword ptr [EAX + 0x4],0x0
+3032af89 | c7400800000000 | MOV dword ptr [EAX + 0x8],0x0
+3032af90 | c7400c00000000 | MOV dword ptr [EAX + 0xc],0x0
+3032af97 | eb02 | JMP 0x3032af9b
+3032af99 | 33c0 | XOR EAX,EAX
+3032af9b | 8b542410 | MOV EDX,dword ptr [ESP + 0x10]
+3032af9f | 8b0a | MOV ECX,dword ptr [EDX]
+3032afa1 | 8908 | MOV dword ptr [EAX],ECX
+3032afa3 | 8b16 | MOV EDX,dword ptr [ESI]
+3032afa5 | 8b0cba | MOV ECX,dword ptr [EDX + EDI*0x4]
+3032afa8 | 894810 | MOV dword ptr [EAX + 0x10],ECX
+3032afab | 8b16 | MOV EDX,dword ptr [ESI]
+3032afad | 8904ba | MOV dword ptr [EDX + EDI*0x4],EAX
+3032afb0 | 83460c01 | ADD dword ptr [ESI + 0xc],0x1
+3032afb4 | 5f | POP EDI
+3032afb5 | 5e | POP ESI
+3032afb6 | 83c004 | ADD EAX,0x4
+3032afb9 | 5b | POP EBX
+3032afba | c20400 | RET 0x4

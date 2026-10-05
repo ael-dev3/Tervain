@@ -1,0 +1,19 @@
+/* ENTRY 30029253 | eCVisualAnimation_PS::SetInterBoneCollision | STATUS decompiled | 12 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetInterBoneCollision(bool const &) */
+
+void __thiscall
+eCVisualAnimation_PS::SetInterBoneCollision(eCVisualAnimation_PS *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x29253  13550  ?SetInterBoneCollision@eCVisualAnimation_PS@@QAEXAB_N@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"InterBoneCollision",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  this[1].eCEntityPropertySet_data.field_0x6 = *param_1;
+  (*pNVar1)(this,"InterBoneCollision",false);
+  return;
+}
+
+

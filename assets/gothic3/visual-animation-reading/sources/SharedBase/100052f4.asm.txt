@@ -1,0 +1,2 @@
+; 100052f4 bCGothic3EngineDialogs::bCDialogHandle::ShowModalErrorDialog
+100052f4 | e9f7bc0100 | JMP 0x10020ff0

@@ -1,0 +1,37 @@
+; 300bf3c0 eCVisualAnimationLoD::eCVisualAnimationLoD_Constructor_or_Destructor
+300bf3c0 | 53 | PUSH EBX
+300bf3c1 | 55 | PUSH EBP
+300bf3c2 | 56 | PUSH ESI
+300bf3c3 | 57 | PUSH EDI
+300bf3c4 | 8bf1 | MOV ESI,ECX
+300bf3c6 | 33db | XOR EBX,EBX
+300bf3c8 | 53 | PUSH EBX
+300bf3c9 | c70614028230 | MOV dword ptr [ESI],0x30820214
+300bf3cf | e83dc4f4ff | CALL 0x3000b811
+300bf3d4 | 8d6e04 | LEA EBP,[ESI + 0x4]
+300bf3d7 | 8bcd | MOV ECX,EBP
+300bf3d9 | ff1558dbaf30 | CALL dword ptr [0x30afdb58]
+300bf3df | 8d7e14 | LEA EDI,[ESI + 0x14]
+300bf3e2 | 3bfb | CMP EDI,EBX
+300bf3e4 | 895e0c | MOV dword ptr [ESI + 0xc],EBX
+300bf3e7 | 895e08 | MOV dword ptr [ESI + 0x8],EBX
+300bf3ea | 885e10 | MOV byte ptr [ESI + 0x10],BL
+300bf3ed | 741d | JZ 0x300bf40c
+300bf3ef | 8b07 | MOV EAX,dword ptr [EDI]
+300bf3f1 | 3bc3 | CMP EAX,EBX
+300bf3f3 | 7417 | JZ 0x300bf40c
+300bf3f5 | 50 | PUSH EAX
+300bf3f6 | ff15acdbaf30 | CALL dword ptr [0x30afdbac]
+300bf3fc | 8bc8 | MOV ECX,EAX
+300bf3fe | ff150cdbaf30 | CALL dword ptr [0x30afdb0c]
+300bf404 | 891f | MOV dword ptr [EDI],EBX
+300bf406 | 895f04 | MOV dword ptr [EDI + 0x4],EBX
+300bf409 | 895f08 | MOV dword ptr [EDI + 0x8],EBX
+300bf40c | 8bcd | MOV ECX,EBP
+300bf40e | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+300bf414 | 5f | POP EDI
+300bf415 | 8bce | MOV ECX,ESI
+300bf417 | 5e | POP ESI
+300bf418 | 5d | POP EBP
+300bf419 | 5b | POP EBX
+300bf41a | ff2520ccaf30 | JMP dword ptr [0x30afcc20]

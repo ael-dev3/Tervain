@@ -1,0 +1,11 @@
+/* ENTRY 300105a0 | bTPropertyType<eCIlluminated_PS,bTPropertyContainer<eEDirectionalShadowType>_>::vfunction1 | STATUS decompiled | 4 ms */
+
+bTPropertyType<eCIlluminated_PS,bTPropertyContainer<eEDirectionalShadowType>_>_vftable * __thiscall
+bTPropertyType<eCIlluminated_PS,bTPropertyContainer<eEDirectionalShadowType>_>::vfunction1
+          (bTPropertyType<eCIlluminated_PS,bTPropertyContainer<eEDirectionalShadowType>_> *this)
+
+{
+  return this[7].vftablePtr;
+}
+
+

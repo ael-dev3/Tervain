@@ -1,0 +1,23 @@
+/* ENTRY 3002e9ec | eCModuleAdmin::GetInstance | STATUS decompiled | 27 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* public: static class eCModuleAdmin & __stdcall eCModuleAdmin::GetInstance(void) */
+
+eCModuleAdmin * eCModuleAdmin::GetInstance(void)
+
+{
+                    /* 0x2e9ec  7429  ?GetInstance@eCModuleAdmin@@SGAAV1@XZ */
+  if ((_DAT_30ad9ecc & 1) == 0) {
+    _DAT_30ad9ecc = _DAT_30ad9ecc | 1;
+    eCInputDispatcher::eCInputDispatcher((eCInputDispatcher *)&DAT_30ad9e78);
+    _DAT_30ad9e78 = &vftable;
+    _DAT_30ad9eac = 0;
+    _DAT_30ad9eb0 = 0;
+    _DAT_30ad9eb4 = 0;
+    eCInputDispatcher::Create((eCInputDispatcher *)&DAT_30ad9e78);
+    _atexit((_func_4879 *)&LAB_30797fc0);
+  }
+  return (eCModuleAdmin *)&DAT_30ad9e78;
+}
+
+

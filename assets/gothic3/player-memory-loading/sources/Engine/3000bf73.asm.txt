@@ -1,0 +1,2 @@
+; 3000bf73 eCEntityPropertySet::IsAutoKillEnabled
+3000bf73 | e9a85a4700 | JMP 0x30481a20

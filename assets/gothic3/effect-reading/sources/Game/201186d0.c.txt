@@ -1,0 +1,13 @@
+/* ENTRY 201186d0 | FUN_201186d0 | STATUS decompiled | 7 ms */
+
+void __fastcall FUN_201186d0(gCEffect_PS *param_1)
+
+{
+  if ((param_1->gCEffect_PS_data).field_0x24 == '\0') {
+    gCEffect_PS::CreateEffect(param_1);
+    return;
+  }
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 10004d6d thunk_FUN_1004bae0
+10004d6d | e96e6d0400 | JMP 0x1004bae0

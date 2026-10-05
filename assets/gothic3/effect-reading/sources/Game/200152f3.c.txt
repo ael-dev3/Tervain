@@ -1,0 +1,12 @@
+/* ENTRY 200152f3 | gCEffect_PS::IsProcessable | STATUS decompiled | 6 ms */
+
+/* public: virtual bool __thiscall gCEffect_PS::IsProcessable(void)const  */
+
+bool __thiscall gCEffect_PS::IsProcessable(gCEffect_PS *this)
+
+{
+                    /* 0x152f3  5207  ?IsProcessable@gCEffect_PS@@UBE_NXZ */
+  return (this->gCEffect_PS_data).field_0x24 == '\0';
+}
+
+

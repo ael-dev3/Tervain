@@ -1,0 +1,10 @@
+/* ENTRY 200142ea | bTPropertyType<gCEffect_PS,bool>::vfunction5 | STATUS decompiled | 38 ms */
+
+bTPropertyType<gCEffect_PS,bool>_vftable * __thiscall
+bTPropertyType<gCEffect_PS,bool>::vfunction5(bTPropertyType<gCEffect_PS,bool> *this)
+
+{
+  return this[6].vftablePtr;
+}
+
+

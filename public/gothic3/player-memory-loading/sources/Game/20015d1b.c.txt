@@ -1,0 +1,15 @@
+/* ENTRY 20015d1b | gCAttribute::Invalidate | STATUS decompiled | 4 ms */
+
+/* protected: void __thiscall gCAttribute::Invalidate(void) */
+
+void __thiscall gCAttribute::Invalidate(gCAttribute *this)
+
+{
+                    /* 0x15d1b  4950  ?Invalidate@gCAttribute@@IAEXXZ */
+                    /* WARNING: Could not recover jumptable at 0x20397a38. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  (*this->vftablePtr->ApplyDefaults)(this);
+  return;
+}
+
+

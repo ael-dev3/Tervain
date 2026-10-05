@@ -1,0 +1,2 @@
+; 30024fc8 eCArchiveFile::GetFileName
+30024fc8 | e9b3845b00 | JMP 0x305dd480

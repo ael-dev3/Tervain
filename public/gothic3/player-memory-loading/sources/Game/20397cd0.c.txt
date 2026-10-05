@@ -1,0 +1,13 @@
+/* ENTRY 20397cd0 | gCAttribute::gCAttribute | STATUS decompiled | 5 ms */
+
+gCAttribute * __thiscall gCAttribute::gCAttribute(gCAttribute *this)
+
+{
+  bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)this);
+  this->vftablePtr = &vftable;
+  bCString::bCString((bCString *)&(this->gCAttribute_data).field_0x8);
+  (*this->vftablePtr->ApplyDefaults)(this);
+  return this;
+}
+
+

@@ -1,0 +1,2 @@
+; 3002e28a eCResourceBase_PS::Load
+3002e28a | e931f43800 | JMP 0x303bd6c0

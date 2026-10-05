@@ -1,0 +1,45 @@
+/* ENTRY 1000696f | bCUnicodeString::Realloc | STATUS decompiled | 9 ms */
+
+/* protected: void __thiscall bCUnicodeString::Realloc(int) */
+
+void __thiscall bCUnicodeString::Realloc(bCUnicodeString *this,int param_1)
+
+{
+  int iVar1;
+  void *pvVar2;
+  bCMemoryAdmin *pbVar3;
+  undefined4 *puVar4;
+  ulong uVar5;
+  
+                    /* 0x696f  3902  ?Realloc@bCUnicodeString@@IAEXH@Z */
+  iVar1 = *(int *)this;
+  if (iVar1 != 0) {
+    if ((*(int *)(iVar1 + -0xc) < 2) && (param_1 <= *(int *)(iVar1 + -8))) {
+      *(int *)(iVar1 + -8) = param_1;
+      *(undefined2 *)(*(int *)this + param_1 * 2) = 0;
+      return;
+    }
+    *(int *)(iVar1 + -0xc) = *(int *)(iVar1 + -0xc) + -1;
+    if (*(int *)(iVar1 + -0xc) < 1) {
+      pvVar2 = (void *)(*(int *)this + -0xc);
+      pbVar3 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar3,pvVar2);
+    }
+    *(undefined4 *)this = 0;
+  }
+  if (param_1 == 0) {
+    *(undefined4 *)this = 0;
+    return;
+  }
+  uVar5 = param_1 * 2 + 0xe;
+  pbVar3 = bCMemoryAdmin::GetInstance();
+  puVar4 = bCMemoryAdmin::Malloc(pbVar3,uVar5);
+  puVar4[2] = param_1;
+  puVar4[1] = param_1;
+  *puVar4 = 1;
+  *(undefined4 **)this = puVar4 + 3;
+  *(undefined2 *)((int)(puVar4 + 3) + param_1 * 2) = 0;
+  return;
+}
+
+

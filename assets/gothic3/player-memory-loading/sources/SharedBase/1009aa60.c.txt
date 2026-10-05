@@ -1,0 +1,21 @@
+/* ENTRY 1009aa60 | FUN_1009aa60 | STATUS decompiled | 6 ms */
+
+bCOStream * FUN_1009aa60(bCOStream *param_1,int param_2)
+
+{
+  bCPropertyObjectSingleton *this;
+  bCOStream *pbVar1;
+  bCPropertyObjectBase *pbVar2;
+  
+  bCOStream::operator<<((bCOStream *)param_1,1);
+  bCOStream::operator<<((bCOStream *)param_1,*(int *)(param_2 + 4) != 0);
+  pbVar2 = *(bCPropertyObjectBase **)(param_2 + 4);
+  if (pbVar2 != (bCPropertyObjectBase *)0x0) {
+    pbVar1 = param_1;
+    this = (bCPropertyObjectSingleton *)bCPropertyObjectSingleton::GetInstance();
+    bCPropertyObjectSingleton::WriteObject(this,pbVar1,pbVar2);
+  }
+  return param_1;
+}
+
+

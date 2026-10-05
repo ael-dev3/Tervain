@@ -1,0 +1,82 @@
+; 20326db0 bTPropertyType<gCPlayerMemory_PS,bTValArray<bool>_>::vfunction15
+20326db0 | 83ec08 | SUB ESP,0x8
+20326db3 | 53 | PUSH EBX
+20326db4 | 8b5c2410 | MOV EBX,dword ptr [ESP + 0x10]
+20326db8 | 56 | PUSH ESI
+20326db9 | 57 | PUSH EDI
+20326dba | 8bf9 | MOV EDI,ECX
+20326dbc | 8b07 | MOV EAX,dword ptr [EDI]
+20326dbe | 8b5040 | MOV EDX,dword ptr [EAX + 0x40]
+20326dc1 | 53 | PUSH EBX
+20326dc2 | ffd2 | CALL EDX
+20326dc4 | 0fb7c0 | MOVZX EAX,AX
+20326dc7 | 8d4c2410 | LEA ECX,[ESP + 0x10]
+20326dcb | 51 | PUSH ECX
+20326dcc | 8bcb | MOV ECX,EBX
+20326dce | 89442410 | MOV dword ptr [ESP + 0x10],EAX
+20326dd2 | ff1560877d20 | CALL dword ptr [0x207d8760]
+20326dd8 | 8b74241c | MOV ESI,dword ptr [ESP + 0x1c]
+20326ddc | 8b16 | MOV EDX,dword ptr [ESI]
+20326dde | 8b02 | MOV EAX,dword ptr [EDX]
+20326de0 | 8bce | MOV ECX,ESI
+20326de2 | ffd0 | CALL EAX
+20326de4 | 85c0 | TEST EAX,EAX
+20326de6 | 742f | JZ 0x20326e17
+20326de8 | 8b16 | MOV EDX,dword ptr [ESI]
+20326dea | 8b02 | MOV EAX,dword ptr [EDX]
+20326dec | 55 | PUSH EBP
+20326ded | 8bce | MOV ECX,ESI
+20326def | ffd0 | CALL EAX
+20326df1 | 8be8 | MOV EBP,EAX
+20326df3 | 8b5d00 | MOV EBX,dword ptr [EBP]
+20326df6 | 6a01 | PUSH 0x1
+20326df8 | 8bcf | MOV ECX,EDI
+20326dfa | 83c358 | ADD EBX,0x58
+20326dfd | ff153c877d20 | CALL dword ptr [0x207d873c]
+20326e03 | 8bc8 | MOV ECX,EAX
+20326e05 | ff15f8867d20 | CALL dword ptr [0x207d86f8]
+20326e0b | 8b13 | MOV EDX,dword ptr [EBX]
+20326e0d | 50 | PUSH EAX
+20326e0e | 8bcd | MOV ECX,EBP
+20326e10 | ffd2 | CALL EDX
+20326e12 | 8b5c241c | MOV EBX,dword ptr [ESP + 0x1c]
+20326e16 | 5d | POP EBP
+20326e17 | 66837c240c1e | CMP word ptr [ESP + 0xc],0x1e
+20326e1d | 8b07 | MOV EAX,dword ptr [EDI]
+20326e1f | 8b5064 | MOV EDX,dword ptr [EAX + 0x64]
+20326e22 | 56 | PUSH ESI
+20326e23 | 8bcf | MOV ECX,EDI
+20326e25 | 7304 | JNC 0x20326e2b
+20326e27 | ffd2 | CALL EDX
+20326e29 | eb0a | JMP 0x20326e35
+20326e2b | ffd2 | CALL EDX
+20326e2d | 53 | PUSH EBX
+20326e2e | 8bc8 | MOV ECX,EAX
+20326e30 | e80210ceff | CALL 0x20007e37
+20326e35 | 8b06 | MOV EAX,dword ptr [ESI]
+20326e37 | 8b10 | MOV EDX,dword ptr [EAX]
+20326e39 | 8bce | MOV ECX,ESI
+20326e3b | ffd2 | CALL EDX
+20326e3d | 85c0 | TEST EAX,EAX
+20326e3f | 7428 | JZ 0x20326e69
+20326e41 | 8b06 | MOV EAX,dword ptr [ESI]
+20326e43 | 8b10 | MOV EDX,dword ptr [EAX]
+20326e45 | 8bce | MOV ECX,ESI
+20326e47 | ffd2 | CALL EDX
+20326e49 | 8bd8 | MOV EBX,EAX
+20326e4b | 8b33 | MOV ESI,dword ptr [EBX]
+20326e4d | 6a01 | PUSH 0x1
+20326e4f | 8bcf | MOV ECX,EDI
+20326e51 | 83c65c | ADD ESI,0x5c
+20326e54 | ff153c877d20 | CALL dword ptr [0x207d873c]
+20326e5a | 8bc8 | MOV ECX,EAX
+20326e5c | ff15f8867d20 | CALL dword ptr [0x207d86f8]
+20326e62 | 50 | PUSH EAX
+20326e63 | 8b06 | MOV EAX,dword ptr [ESI]
+20326e65 | 8bcb | MOV ECX,EBX
+20326e67 | ffd0 | CALL EAX
+20326e69 | 5f | POP EDI
+20326e6a | 5e | POP ESI
+20326e6b | 5b | POP EBX
+20326e6c | 83c408 | ADD ESP,0x8
+20326e6f | c20800 | RET 0x8

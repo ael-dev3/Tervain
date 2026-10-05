@@ -1,0 +1,2 @@
+; 30024316 bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>::vfunction2
+30024316 | e9556b5600 | JMP 0x3058ae70

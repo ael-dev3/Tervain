@@ -1,0 +1,10 @@
+/* ENTRY 300bc570 | FUN_300bc570 | STATUS decompiled | 2 ms */
+
+void __fastcall FUN_300bc570(int param_1)
+
+{
+  eCVisualAnimationLoD::GetActorFileName(*(eCVisualAnimationLoD **)(param_1 + 8));
+  return;
+}
+
+

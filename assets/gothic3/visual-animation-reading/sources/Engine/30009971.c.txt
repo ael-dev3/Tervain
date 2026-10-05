@@ -1,0 +1,30 @@
+/* ENTRY 30009971 | eCWrapper_emfx2Actor::IsActorPlaying | STATUS decompiled | 7 ms */
+
+/* public: bool __thiscall eCWrapper_emfx2Actor::IsActorPlaying(enum
+   eCWrapper_emfx2Actor::eEMotionType)const  */
+
+bool __thiscall
+eCWrapper_emfx2Actor::IsActorPlaying(eCWrapper_emfx2Actor *this,eEMotionType param_1)
+
+{
+  int iVar1;
+  char cVar2;
+  
+                    /* 0x9971  10246  ?IsActorPlaying@eCWrapper_emfx2Actor@@QBE_NW4eEMotionType@1@@Z
+                        */
+  if ((param_1 < 8) &&
+     (iVar1 = (&(this->eCWrapper_emfx2Actor_data).offset_0xc)[param_1], iVar1 != 0)) {
+    cVar2 = thunk_FUN_300e2c60(iVar1);
+    if (cVar2 != '\0') {
+      if (((*(int *)(iVar1 + 0x38) == -1) || (*(int *)(iVar1 + 0x34) < *(int *)(iVar1 + 0x38))) &&
+         (*(char *)(iVar1 + 0x54) == '\0')) {
+        return true;
+      }
+      return false;
+    }
+    (&(this->eCWrapper_emfx2Actor_data).offset_0xc)[param_1] = 0;
+  }
+  return false;
+}
+
+

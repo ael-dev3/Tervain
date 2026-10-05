@@ -1,0 +1,15 @@
+/* ENTRY 300222e1 | eCSpringAndDamperEffector::GetDamperVelStretchSaturate | STATUS decompiled | 5 ms */
+
+/* public: float const & __thiscall
+   eCSpringAndDamperEffector::GetDamperVelStretchSaturate(void)const  */
+
+float * __thiscall
+eCSpringAndDamperEffector::GetDamperVelStretchSaturate(eCSpringAndDamperEffector *this)
+
+{
+                    /* 0x222e1  6704
+                       ?GetDamperVelStretchSaturate@eCSpringAndDamperEffector@@QBEABMXZ */
+  return (float *)&(this->eCEffector_data).offset_0x70;
+}
+
+

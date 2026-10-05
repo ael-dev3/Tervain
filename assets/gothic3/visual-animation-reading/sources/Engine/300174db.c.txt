@@ -1,0 +1,34 @@
+/* ENTRY 300174db | eCArchiveFile::Destroy | STATUS decompiled | 11 ms */
+
+/* public: virtual void __thiscall eCArchiveFile::Destroy(void) */
+
+void __thiscall eCArchiveFile::Destroy(eCArchiveFile *this)
+
+{
+  undefined4 *puVar1;
+  char cVar2;
+  bCMemoryAdmin *this_00;
+  void *pvVar3;
+  
+                    /* 0x174db  5062  ?Destroy@eCArchiveFile@@UAEXXZ */
+  cVar2 = (**(code **)((this->eCArchiveFile_data).offset_0x4 + 0x18))();
+  if (cVar2 == '\x01') {
+    (**(code **)((this->eCArchiveFile_data).offset_0x4 + 0x24))();
+  }
+  bCString::Clear((bCString *)&this->eCArchiveFile_data);
+  if ((this->eCArchiveFile_data).offset_0x10 != (void *)0x0) {
+    thunk_FUN_3007cd40();
+    pvVar3 = (this->eCArchiveFile_data).offset_0x10;
+    this_00 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::DeleteObject(this_00,pvVar3);
+    (this->eCArchiveFile_data).offset_0x10 = (void *)0x0;
+  }
+  puVar1 = &(this->eCArchiveFile_data).offset_0x14;
+  thunk_FUN_304c41b0(puVar1);
+  *puVar1 = 0;
+  (this->eCArchiveFile_data).offset_0x10 = (void *)0x0;
+  (this->eCArchiveFile_data).offset_0x18 = 0;
+  return;
+}
+
+

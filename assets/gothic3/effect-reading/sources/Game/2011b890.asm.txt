@@ -1,0 +1,11 @@
+; 2011b890 bTPropertyType<gCEffect_PS,bCVector>::vfunction6
+2011b890 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+2011b894 | 85c0 | TEST EAX,EAX
+2011b896 | 7410 | JZ 0x2011b8a8
+2011b898 | 8b11 | MOV EDX,dword ptr [ECX]
+2011b89a | 50 | PUSH EAX
+2011b89b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+2011b89e | ffd0 | CALL EAX
+2011b8a0 | 8bc8 | MOV ECX,EAX
+2011b8a2 | ff1540867d20 | CALL dword ptr [0x207d8640]
+2011b8a8 | c20400 | RET 0x4

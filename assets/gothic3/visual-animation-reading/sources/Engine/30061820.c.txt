@@ -1,0 +1,16 @@
+/* ENTRY 30061820 | FUN_30061820 | STATUS decompiled | 4 ms */
+
+void __fastcall FUN_30061820(int *param_1)
+
+{
+  code *pcVar1;
+  int *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("DamperMaxCompressForce",0);
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  param_1[0x1e] = *unaff_ESI;
+  (*pcVar1)("DamperMaxCompressForce",0);
+  return;
+}
+
+

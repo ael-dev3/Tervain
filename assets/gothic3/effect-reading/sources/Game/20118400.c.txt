@@ -1,0 +1,19 @@
+/* ENTRY 20118400 | FUN_20118400 | STATUS decompiled | 5 ms */
+
+bEResult __fastcall FUN_20118400(bCObjectRefBase *param_1)
+
+{
+  bEResult bVar1;
+  
+  bVar1 = bCObjectRefBase::PostInitializeProperties(param_1);
+  if (bVar1 == 1) {
+    bCString::operator=((bCString *)(param_1 + 5),"");
+    param_1[0xb].bCObjectBase = (bCObjectBase)0x0;
+    *(undefined1 *)&param_1[10].bCObjectBase = 0;
+    param_1[9].bCObjectBase = (bCObjectBase)0x3f800000;
+    bVar1 = 1;
+  }
+  return bVar1;
+}
+
+

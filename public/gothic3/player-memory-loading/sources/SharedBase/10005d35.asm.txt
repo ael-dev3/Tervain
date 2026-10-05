@@ -1,0 +1,2 @@
+; 10005d35 bCPropertyTypeBase::Read
+10005d35 | e9f62d0800 | JMP 0x10088b30

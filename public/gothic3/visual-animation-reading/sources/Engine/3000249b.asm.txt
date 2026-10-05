@@ -1,0 +1,2 @@
+; 3000249b eCVisualAnimation_PS::eCLookAtConstraint::Enable
+3000249b | e9d0b20900 | JMP 0x3009d770

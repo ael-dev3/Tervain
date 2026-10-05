@@ -1,0 +1,30 @@
+/* ENTRY 30762e70 | bTPropertyType<eCEffector,bCVector>::~bTPropertyType<eCEffector,bCVector> | STATUS decompiled | 23 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCEffector,bCVector>::~bTPropertyType<eCEffector,bCVector>
+          (bTPropertyType<eCEffector,bCVector> *this)
+
+{
+  bTPropertyType<eCEffector,bCVector> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Pos2");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCEffector::ms_PropertyMember_m_vecPos2,(bCString *)&local_4,1);
+  _ms_PropertyMember_m_vecPos2 = &vftable;
+  DAT_30aeddd4 = bTPropertyObjectType<eCEffector,bCObjectRefBase>::
+                 ~bTPropertyObjectType<eCEffector,bCObjectRefBase>();
+  _DAT_30aeddd8 = 0x50;
+  _DAT_30aedddc = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&eCEffector::ms_PropertyMember_m_vecPos2);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30aeddd4,
+             (bCPropertyTypeBase *)&eCEffector::ms_PropertyMember_m_vecPos2);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCVector>::~bTPropertyTypeOnly<bCVector>);
+  return;
+}
+
+

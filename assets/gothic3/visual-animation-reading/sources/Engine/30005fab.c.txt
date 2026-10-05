@@ -1,0 +1,12 @@
+/* ENTRY 30005fab | eCVisualAnimation_PS::GetNumAttachments | STATUS decompiled | 5 ms */
+
+/* public: unsigned long __thiscall eCVisualAnimation_PS::GetNumAttachments(void) */
+
+ulong __thiscall eCVisualAnimation_PS::GetNumAttachments(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x5fab  7945  ?GetNumAttachments@eCVisualAnimation_PS@@QAEKXZ */
+  return (ulong)this[10].vftablePtr;
+}
+
+

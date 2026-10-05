@@ -1,0 +1,2 @@
+; 3002df4c eCWrapper_emfx2Actor::Process
+3002df4c | e9dfdb0a00 | JMP 0x300dbb30

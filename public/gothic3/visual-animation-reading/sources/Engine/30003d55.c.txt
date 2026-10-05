@@ -1,0 +1,14 @@
+/* ENTRY 30003d55 | eCEntityProxyInternal::eCEntityProxyInternal | STATUS decompiled | 1 ms */
+
+/* protected: __thiscall eCEntityProxyInternal::eCEntityProxyInternal(void) */
+
+void __thiscall eCEntityProxyInternal::eCEntityProxyInternal(eCEntityProxyInternal *this)
+
+{
+                    /* 0x3d55  289  ??0eCEntityProxyInternal@@IAE@XZ */
+  *(undefined4 *)this = 0;
+  *(undefined4 *)(this + 4) = 1;
+  return;
+}
+
+

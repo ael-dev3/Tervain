@@ -1,0 +1,183 @@
+/* ENTRY 3000cf68 | eCWrapper_emfx2Actor::IntersectsRay | STATUS decompiled | 101 ms */
+
+/* public: bool __thiscall eCWrapper_emfx2Actor::IntersectsRay(struct eSRayIntersectionDesc &,class
+   eCCollisionDesc * *,unsigned short)const  */
+
+bool __thiscall
+eCWrapper_emfx2Actor::IntersectsRay
+          (eCWrapper_emfx2Actor *this,eSRayIntersectionDesc *param_1,eCCollisionDesc **param_2,
+          ushort param_3)
+
+{
+  bCVector *this_00;
+  char cVar1;
+  bCVector *pbVar2;
+  Actor *pAVar3;
+  int iVar4;
+  int iVar5;
+  eCAnimationCollisionDesc *this_01;
+  uint uVar6;
+  uint *puVar7;
+  int iVar8;
+  int unaff_EBP;
+  uint uVar9;
+  int iVar10;
+  bCTriangle *this_02;
+  eSRayIntersectionDesc *peVar11;
+  float fVar12;
+  int *unaff_retaddr;
+  float *pfVar13;
+  int iVar14;
+  int iStack_80;
+  int iStack_78;
+  int iStack_74;
+  undefined4 uStack_6c;
+  int iStack_68;
+  int iStack_64;
+  bCVector abStack_5c [8];
+  bCVector abStack_54 [4];
+  bCVector abStack_50 [12];
+  float fStack_44;
+  float fStack_40;
+  float fStack_3c;
+  float fStack_38;
+  float fStack_34;
+  float fStack_30;
+  undefined1 auStack_2c [40];
+  eSRayIntersectionDesc *peStack_4;
+  
+                    /* 0xcf68  9876
+                       ?IntersectsRay@eCWrapper_emfx2Actor@@QBE_NAAUeSRayIntersectionDesc@@PAPAVeCCollisionDesc@@G@Z
+                        */
+  this_00 = (bCVector *)(param_1 + 4);
+  bCVector::bCVector(abStack_54,this_00);
+  if (*(int *)param_1 == 0) {
+    bCVector::operator+=(abStack_54,(bCVector *)(param_1 + 0x10));
+  }
+  else {
+    pfVar13 = &fStack_3c;
+    pbVar2 = (bCVector *)bCVector::GetNormalized((bCVector *)(param_1 + 0x10));
+    pbVar2 = (bCVector *)bCVector::operator*(pbVar2,(float)pfVar13);
+    bCVector::operator+=(abStack_5c,pbVar2);
+    bCVector::~bCVector((bCVector *)&fStack_38);
+    bCVector::~bCVector((bCVector *)&fStack_44);
+  }
+  fStack_44 = bCVector::GetX(abStack_5c);
+  fStack_40 = bCVector::GetY(abStack_5c);
+  fStack_3c = bCVector::GetZ(abStack_5c);
+  fStack_38 = bCVector::GetX(this_00);
+  fStack_34 = bCVector::GetY(this_00);
+  fStack_30 = bCVector::GetZ(this_00);
+  thunk_FUN_300e3040(&fStack_38,&fStack_44);
+  iVar8 = 0;
+  iVar14 = 0;
+  bCVector::bCVector(abStack_50);
+  pAVar3 = (this->eCWrapper_emfx2Actor_data).offset_0x8;
+  iStack_64 = 0;
+  if (0 < *(int *)(pAVar3 + 0x1b4)) {
+    iStack_78 = 0;
+    iVar8 = 0;
+    peVar11 = param_1;
+    do {
+      iVar4 = *(int *)(pAVar3 + 0x1bc) + iStack_78;
+      iVar5 = *(int *)(iVar4 + 0x128) + ((uint)param_1 & 0xffff) * 8;
+      if (((*(int *)(iVar5 + 4) != 0) &&
+          (iVar5 = (**(code **)(**(int **)(iVar5 + 4) + 0xc))(), iVar5 != 0)) &&
+         (cVar1 = FUN_306464e0(auStack_2c,iVar4,abStack_50,0,0,&stack0xffffff78), cVar1 == '\x01'))
+      {
+        bCVector::operator-=(abStack_50,(bCVector *)(peVar11 + 4));
+        fVar12 = bCVector::GetMagnitude(abStack_50);
+        if ((*(int *)(peVar11 + 0x38) != 2) || (fVar12 <= *(float *)(peVar11 + 0x40))) {
+          if (iVar8 == 0) {
+            this_01 = (eCAnimationCollisionDesc *)new(0x68,0x6bc);
+            if (this_01 == (eCAnimationCollisionDesc *)0x0) {
+              iVar8 = 0;
+            }
+            else {
+              iVar8 = eCAnimationCollisionDesc::eCAnimationCollisionDesc(this_01);
+            }
+            *unaff_retaddr = iVar8;
+            iVar14 = iVar8;
+          }
+          iStack_80 = -1;
+          iStack_68 = 0;
+          if (0 < *(int *)(iVar5 + 4)) {
+            do {
+              iVar10 = *(int *)(*(int *)(iVar5 + 0xc) + iStack_68 * 4);
+              if ((*(int *)(iVar10 + 8) <= unaff_EBP) &&
+                 (unaff_EBP < *(int *)(iVar10 + 0x10) + *(int *)(iVar10 + 8))) {
+                uStack_6c = CONCAT22(*(short *)(iVar10 + 0x14) + *(short *)(iVar4 + 0x18c),
+                                     param_1._0_2_);
+                uVar6 = (uStack_6c >> 4) % *(uint *)(iStack_74 + 0x5c);
+                uVar9 = 0;
+                if (uVar6 < *(uint *)(iStack_74 + 0x5c)) {
+                  for (puVar7 = *(uint **)(*(int *)(iStack_74 + 0x58) + uVar6 * 4);
+                      puVar7 != (uint *)0x0; puVar7 = (uint *)puVar7[2]) {
+                    if (uStack_6c == *puVar7) {
+                      uVar9 = puVar7[1];
+                      break;
+                    }
+                  }
+                }
+                iStack_80 = *(int *)(iVar8 + 0x60);
+                if (iStack_80 != 0) {
+                  puVar7 = (uint *)(*(int *)(iVar8 + 0x5c) + iStack_80 * 4);
+                  do {
+                    puVar7 = puVar7 + -1;
+                    iStack_80 = iStack_80 + -1;
+                    if (uVar9 == *puVar7) {
+                      if (-1 < iStack_80) goto LAB_300dd798;
+                      break;
+                    }
+                  } while (iStack_80 != 0);
+                }
+                thunk_FUN_300e9320(uVar9);
+                iStack_80 = *(int *)(iVar8 + 0x60) + -1;
+              }
+LAB_300dd798:
+              iStack_68 = iStack_68 + 1;
+            } while (iStack_68 < *(int *)(iVar5 + 4));
+          }
+          iVar4 = *(int *)(iVar5 + 0x20);
+          iVar5 = *(int *)(iVar5 + 0x10);
+          if ((*(int *)(peStack_4 + 0x38) == 2) && (*(int *)(iVar8 + 0x14) != 0)) {
+            this_02 = *(bCTriangle **)(iVar8 + 0x10);
+            bCTriangle::SetA(this_02,(bCVector *)(iVar5 + *(int *)(iVar4 + unaff_EBP * 4) * 0xc));
+            bCTriangle::SetB(this_02,(bCVector *)(iVar5 + *(int *)(iVar4 + 4 + unaff_EBP * 4) * 0xc)
+                            );
+            bCTriangle::SetC(this_02,(bCVector *)(iVar5 + *(int *)(iVar4 + 8 + unaff_EBP * 4) * 0xc)
+                            );
+          }
+          else {
+            iVar10 = *(int *)(iVar8 + 0x14) + 1;
+            thunk_FUN_300e4a50(iVar10,(iVar10 != 0) - 1);
+            *(int *)(iVar8 + 0x14) = iVar10;
+            this_02 = (bCTriangle *)(iVar10 * 0x2c + -0x2c + *(int *)(iVar8 + 0x10));
+            bCTriangle::SetA(this_02,(bCVector *)(iVar5 + *(int *)(iVar4 + unaff_EBP * 4) * 0xc));
+            bCTriangle::SetB(this_02,(bCVector *)(iVar5 + *(int *)(iVar4 + 4 + unaff_EBP * 4) * 0xc)
+                            );
+            bCTriangle::SetC(this_02,(bCVector *)(iVar5 + *(int *)(iVar4 + 8 + unaff_EBP * 4) * 0xc)
+                            );
+            iVar8 = iVar14;
+          }
+          *(int *)(this_02 + 0x28) = iStack_80;
+          *(float *)(this_02 + 0x24) = fVar12;
+          peVar11 = peStack_4;
+          if (*(int *)(peStack_4 + 0x38) == 1) {
+            bCVector::~bCVector(abStack_50);
+            bCVector::~bCVector(abStack_5c);
+            return true;
+          }
+        }
+      }
+      pAVar3 = *(Actor **)(iStack_74 + 0xc);
+      iStack_78 = iStack_78 + 400;
+      iStack_64 = iStack_64 + 1;
+    } while (iStack_64 < *(int *)(pAVar3 + 0x1b4));
+  }
+  bCVector::~bCVector(abStack_50);
+  bCVector::~bCVector(abStack_5c);
+  return iVar8 != 0;
+}
+
+

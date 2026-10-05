@@ -1,0 +1,12 @@
+/* ENTRY 30011bd5 | eCVisualAnimation_PS::AccessInterBoneCollision | STATUS decompiled | 7 ms */
+
+/* public: bool & __thiscall eCVisualAnimation_PS::AccessInterBoneCollision(void) */
+
+bool * __thiscall eCVisualAnimation_PS::AccessInterBoneCollision(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x11bd5  2826  ?AccessInterBoneCollision@eCVisualAnimation_PS@@QAEAA_NXZ */
+  return (bool *)&this[1].eCEntityPropertySet_data.field_0x6;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 3003e270 | eCApplication::GetInstance | STATUS decompiled | 2 ms */
+
+/* public: static class eCApplication & __stdcall eCApplication::GetInstance(void) */
+
+eCApplication * eCApplication::GetInstance(void)
+
+{
+                    /* 0x3e270  7418  ?GetInstance@eCApplication@@SGAAV1@XZ */
+  return ms_pApplication;
+}
+
+

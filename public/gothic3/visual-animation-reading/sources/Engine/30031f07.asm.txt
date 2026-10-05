@@ -1,0 +1,2 @@
+; 30031f07 eCSceneAdmin::RegisterResourceDataEntity
+30031f07 | e9548f4900 | JMP 0x304cae60

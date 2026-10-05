@@ -1,0 +1,2 @@
+; 30043cde bTPropertyContainer<eEDirectionalShadowType>::deleting_destructor
+30043cde | e97dfd1d00 | JMP 0x30223a60

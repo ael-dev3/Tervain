@@ -1,0 +1,4 @@
+; 10027eb0 FUN_10027eb0
+10027eb0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+10027eb4 | 8d0481 | LEA EAX,[ECX + EAX*0x4]
+10027eb7 | c20400 | RET 0x4

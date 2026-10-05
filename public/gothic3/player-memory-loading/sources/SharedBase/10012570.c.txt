@@ -1,0 +1,11 @@
+/* ENTRY 10012570 | FUN_10012570 | STATUS decompiled | 2 ms */
+
+void __fastcall FUN_10012570(GUID *param_1)
+
+{
+  CoCreateGuid(param_1);
+  *(undefined1 *)&param_1[1].Data1 = 1;
+  return;
+}
+
+

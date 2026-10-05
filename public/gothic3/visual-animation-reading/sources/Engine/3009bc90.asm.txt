@@ -1,0 +1,22 @@
+; 3009bc90 FUN_3009bc90
+3009bc90 | 51 | PUSH ECX
+3009bc91 | a1e0daaf30 | MOV EAX,[0x30afdae0]
+3009bc96 | d900 | FLD float ptr [EAX]
+3009bc98 | d91c24 | FSTP float ptr [ESP]
+3009bc9b | d90424 | FLD float ptr [ESP]
+3009bc9e | d9c0 | FLD ST0
+3009bca0 | d84c2408 | FMUL float ptr [ESP + 0x8]
+3009bca4 | d9c9 | FXCH
+3009bca6 | dc0d48eb8130 | FMUL double ptr [0x3081eb48]
+3009bcac | dee9 | FSUBP
+3009bcae | d95c2408 | FSTP float ptr [ESP + 0x8]
+3009bcb2 | d9442408 | FLD float ptr [ESP + 0x8]
+3009bcb6 | e8656a5d00 | CALL 0x30672720
+3009bcbb | d95c2408 | FSTP float ptr [ESP + 0x8]
+3009bcbf | d9442408 | FLD float ptr [ESP + 0x8]
+3009bcc3 | dc0518968130 | FADD double ptr [0x30819618]
+3009bcc9 | dc0d48eb8130 | FMUL double ptr [0x3081eb48]
+3009bccf | d95c2408 | FSTP float ptr [ESP + 0x8]
+3009bcd3 | d9442408 | FLD float ptr [ESP + 0x8]
+3009bcd7 | 59 | POP ECX
+3009bcd8 | c20400 | RET 0x4

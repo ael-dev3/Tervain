@@ -1,0 +1,49 @@
+/* ENTRY 3009d490 | FUN_3009d490 | STATUS decompiled | 21 ms */
+
+void __fastcall FUN_3009d490(undefined4 *param_1)
+
+{
+  eCEntityProxy *this;
+  eCEntity *peVar1;
+  eCEntity *peVar2;
+  eSEntityFlags *peVar3;
+  int iVar4;
+  eCEntity *this_00;
+  bool bVar5;
+  undefined4 uVar6;
+  
+  this = (eCEntityProxy *)(param_1 + 1);
+  peVar1 = eCEntityProxy::GetEntity(this);
+  if (peVar1 != (eCEntity *)0x0) {
+    peVar2 = (eCEntity *)eCEntityProxy::GetEntity(this);
+    peVar3 = eCEntity::GetEntityFlags(peVar2);
+    if ((DAT_30ada2a4 & 1) == 0) {
+      DAT_30ada2a4 = DAT_30ada2a4 | 1;
+      DAT_30ada2a0 = 0x800000;
+    }
+    if ((*(uint *)peVar3 & DAT_30ada2a0) != 0) {
+      peVar2 = (eCEntity *)eCEntityProxy::GetEntity(this);
+      uVar6 = 1;
+      (*peVar2->vftablePtr[1].IsValid)(peVar2);
+      if ((eCJoint *)param_1[0x1b] != (eCJoint *)0x0) {
+        eCEntity::RemoveLink(peVar2,(eCJoint *)param_1[0x1b]);
+      }
+      iVar4 = (**(code **)(*(int *)*param_1 + 0x68))(uVar6);
+      if (iVar4 != 0) {
+        bVar5 = true;
+        this_00 = (eCEntity *)(**(code **)(*(int *)*param_1 + 0x68))();
+        eCEntity::EnableCollisionWith(this_00,(eCEntity *)peVar2,bVar5);
+      }
+    }
+  }
+  param_1[0x19] = 0;
+  bCString::Clear((bCString *)(param_1 + 0x1a));
+  eCEntityProxy::SetEntity(this,(eCEntity *)0x0);
+  if ((int *)param_1[0x1b] != (int *)0x0) {
+    (**(code **)(*(int *)param_1[0x1b] + 0x24))();
+    param_1[0x1b] = 0;
+  }
+  return;
+}
+
+

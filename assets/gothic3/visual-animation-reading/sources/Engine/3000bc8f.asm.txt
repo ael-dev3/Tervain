@@ -1,0 +1,2 @@
+; 3000bc8f thunk_FUN_3007c090
+3000bc8f | e9fc030700 | JMP 0x3007c090

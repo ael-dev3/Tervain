@@ -1,0 +1,2 @@
+; 3000d3be eCVisualAnimation_PS::SetRagDollEnabled
+3000d3be | e91d8e0900 | JMP 0x300a61e0

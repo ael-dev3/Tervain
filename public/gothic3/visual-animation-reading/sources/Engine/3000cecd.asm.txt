@@ -1,0 +1,2 @@
+; 3000cecd eCSpringAndDamperEffector::operator=
+3000cecd | e92eb33700 | JMP 0x30388200

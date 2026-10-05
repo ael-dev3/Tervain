@@ -1,0 +1,16 @@
+; 3009d290 FUN_3009d290
+3009d290 | 56 | PUSH ESI
+3009d291 | 8bf1 | MOV ESI,ECX
+3009d293 | 8b0e | MOV ECX,dword ptr [ESI]
+3009d295 | 85c9 | TEST ECX,ECX
+3009d297 | 740d | JZ 0x3009d2a6
+3009d299 | 8b01 | MOV EAX,dword ptr [ECX]
+3009d29b | 8b5024 | MOV EDX,dword ptr [EAX + 0x24]
+3009d29e | ffd2 | CALL EDX
+3009d2a0 | c70600000000 | MOV dword ptr [ESI],0x0
+3009d2a6 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+3009d2aa | 50 | PUSH EAX
+3009d2ab | 8d4e04 | LEA ECX,[ESI + 0x4]
+3009d2ae | ff1560dbaf30 | CALL dword ptr [0x30afdb60]
+3009d2b4 | 5e | POP ESI
+3009d2b5 | c20400 | RET 0x4

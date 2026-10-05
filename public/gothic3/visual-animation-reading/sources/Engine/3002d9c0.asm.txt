@@ -1,0 +1,2 @@
+; 3002d9c0 eCVisualAnimation_PS::GetBoneSwingSpringDamping
+3002d9c0 | e95b460300 | JMP 0x30062020

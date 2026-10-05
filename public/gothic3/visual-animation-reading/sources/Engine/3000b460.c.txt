@@ -1,0 +1,34 @@
+/* ENTRY 3000b460 | eCSpringAndDamperEffector::eCSpringAndDamperEffector | STATUS decompiled | 10 ms */
+
+/* public: __thiscall eCSpringAndDamperEffector::eCSpringAndDamperEffector(class
+   eCSpringAndDamperEffector const &) */
+
+eCSpringAndDamperEffector * __thiscall
+eCSpringAndDamperEffector::eCSpringAndDamperEffector
+          (eCSpringAndDamperEffector *this,eCSpringAndDamperEffector *param_1)
+
+{
+                    /* 0xb460  776  ??0eCSpringAndDamperEffector@@QAE@ABV0@@Z */
+  bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)this,(bCObjectRefBase *)param_1);
+  this->vftablePtr = (eCSpringAndDamperEffector_vftable *)&eCEffector::vftable;
+  eCEntityProxy::eCEntityProxy
+            ((eCEntityProxy *)&(this->eCEffector_data).field_0x8,(eCEntityProxy *)(param_1 + 0xc));
+  eCEntityProxy::eCEntityProxy
+            ((eCEntityProxy *)&(this->eCEffector_data).field_0x24,(eCEntityProxy *)(param_1 + 0x28))
+  ;
+  bCVector::bCVector((bCVector *)&(this->eCEffector_data).field_0x40,(bCVector *)(param_1 + 0x44));
+  bCVector::bCVector((bCVector *)&(this->eCEffector_data).field_0x4c,(bCVector *)(param_1 + 0x50));
+  this->vftablePtr = &vftable;
+  (this->eCEffector_data).offset_0x58 = *(undefined4 *)(param_1 + 0x5c);
+  (this->eCEffector_data).offset_0x5c = *(undefined4 *)(param_1 + 0x60);
+  (this->eCEffector_data).offset_0x60 = *(undefined4 *)(param_1 + 100);
+  (this->eCEffector_data).offset_0x64 = *(undefined4 *)(param_1 + 0x68);
+  (this->eCEffector_data).offset_0x68 = *(undefined4 *)(param_1 + 0x6c);
+  (this->eCEffector_data).offset_0x6c = *(undefined4 *)(param_1 + 0x70);
+  (this->eCEffector_data).offset_0x70 = *(undefined4 *)(param_1 + 0x74);
+  (this->eCEffector_data).offset_0x74 = *(undefined4 *)(param_1 + 0x78);
+  (this->eCEffector_data).offset_0x78 = *(undefined4 *)(param_1 + 0x7c);
+  return this;
+}
+
+

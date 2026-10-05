@@ -1,0 +1,16 @@
+/* ENTRY 30004f43 | eCResourceDataEntity::SearchResourcePropertySet | STATUS decompiled | 4 ms */
+
+/* public: class eCResourceBase_PS * __thiscall
+   eCResourceDataEntity::SearchResourcePropertySet(void)const  */
+
+eCResourceBase_PS * __thiscall
+eCResourceDataEntity::SearchResourcePropertySet(eCResourceDataEntity *this)
+
+{
+                    /* 0x4f43  12835
+                       ?SearchResourcePropertySet@eCResourceDataEntity@@QBEPAVeCResourceBase_PS@@XZ
+                        */
+  return (this->eCResourceDataEntity_data).offset_0x18;
+}
+
+

@@ -1,0 +1,35 @@
+/* ENTRY 30387b50 | bTPropertyObject<eCEffector,bCObjectRefBase>::~bTPropertyObject<eCEffector,bCObjectRefBase> | STATUS decompiled | 10 ms */
+
+bCPropertyObjectBase * __thiscall
+bTPropertyObject<eCEffector,bCObjectRefBase>::~bTPropertyObject<eCEffector,bCObjectRefBase>
+          (bTPropertyObject<eCEffector,bCObjectRefBase> *this)
+
+{
+  bool bVar1;
+  bCPropertyObjectBase *this_00;
+  bCPropertyObjectBase bVar2;
+  
+  this_00 = (bCPropertyObjectBase *)new(0x10,400);
+  if (this_00 == (bCPropertyObjectBase *)0x0) {
+    this_00 = (bCPropertyObjectBase *)0x0;
+  }
+  else {
+    bCPropertyObjectBase::bCPropertyObjectBase(this_00);
+    this_00[2] = (bCPropertyObjectBase)0x0;
+    *this_00 = (bCPropertyObjectBase)&vftable;
+    bVar2 = (bCPropertyObjectBase)
+            bTPropertyObjectType<eCEffector,bCObjectRefBase>::
+            ~bTPropertyObjectType<eCEffector,bCObjectRefBase>();
+    this_00[1] = (bCPropertyObjectBase)((uint)this_00[1] & 0xfffffffb);
+    this_00[3] = bVar2;
+    this_00[2] = (bCPropertyObjectBase)0x0;
+    thunk_FUN_30385f20(0);
+  }
+  bVar1 = bCPropertyObjectBase::IsRoot((bCPropertyObjectBase *)this);
+  if (!bVar1) {
+    (**(code **)((int)*this_00 + 0x3c))(this);
+  }
+  return (bCPropertyObjectBase *)this_00;
+}
+
+

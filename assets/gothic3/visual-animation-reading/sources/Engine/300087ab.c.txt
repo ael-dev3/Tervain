@@ -1,0 +1,15 @@
+/* ENTRY 300087ab | eCSpringAndDamperEffector::GetDamperVelCompressSaturate | STATUS decompiled | 3 ms */
+
+/* public: float const & __thiscall
+   eCSpringAndDamperEffector::GetDamperVelCompressSaturate(void)const  */
+
+float * __thiscall
+eCSpringAndDamperEffector::GetDamperVelCompressSaturate(eCSpringAndDamperEffector *this)
+
+{
+                    /* 0x87ab  6703
+                       ?GetDamperVelCompressSaturate@eCSpringAndDamperEffector@@QBEABMXZ */
+  return (float *)&(this->eCEffector_data).offset_0x6c;
+}
+
+

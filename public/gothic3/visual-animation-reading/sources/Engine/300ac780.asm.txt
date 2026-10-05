@@ -1,0 +1,24 @@
+; 300ac780 bTPOPureSmartPtr<eCSpringAndDamperEffector>::vfunction12
+300ac780 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+300ac784 | 85c0 | TEST EAX,EAX
+300ac786 | 56 | PUSH ESI
+300ac787 | 8bf1 | MOV ESI,ECX
+300ac789 | 7506 | JNZ 0x300ac791
+300ac78b | 32c0 | XOR AL,AL
+300ac78d | 5e | POP ESI
+300ac78e | c20400 | RET 0x4
+300ac791 | 6a00 | PUSH 0x0
+300ac793 | 68d825aa30 | PUSH 0x30aa25d8
+300ac798 | 682c20aa30 | PUSH 0x30aa202c
+300ac79d | 6a00 | PUSH 0x0
+300ac79f | 50 | PUSH EAX
+300ac7a0 | e842535c00 | CALL 0x30671ae7
+300ac7a5 | 83c414 | ADD ESP,0x14
+300ac7a8 | 85c0 | TEST EAX,EAX
+300ac7aa | 74df | JZ 0x300ac78b
+300ac7ac | 50 | PUSH EAX
+300ac7ad | 8bce | MOV ECX,ESI
+300ac7af | e842c9f6ff | CALL 0x300190f6
+300ac7b4 | b001 | MOV AL,0x1
+300ac7b6 | 5e | POP ESI
+300ac7b7 | c20400 | RET 0x4

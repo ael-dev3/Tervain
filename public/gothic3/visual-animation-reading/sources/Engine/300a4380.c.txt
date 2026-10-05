@@ -1,0 +1,46 @@
+/* ENTRY 300a4380 | FUN_300a4380 | STATUS decompiled | 16 ms */
+
+int __thiscall FUN_300a4380(int param_1,int *param_2)
+
+{
+  eCVisualAnimationFactory *this;
+  int iVar1;
+  int *piVar2;
+  bool bVar3;
+  eCWrapper_emfx2Actor *peVar4;
+  int iVar5;
+  int iVar6;
+  int local_c;
+  int local_8;
+  
+  this = (eCVisualAnimationFactory *)(param_1 + 0x94);
+  local_c = 0;
+  peVar4 = eCVisualAnimationFactory::GetAssembledActor(this);
+  if (peVar4 != (eCWrapper_emfx2Actor *)0x0) {
+    peVar4 = eCVisualAnimationFactory::GetAssembledActor(this);
+    piVar2 = param_2;
+    local_8 = *(int *)(*(int *)(peVar4 + 0xc) + 0x1b4);
+    if (0 < local_8) {
+      iVar5 = 0;
+      do {
+        peVar4 = eCVisualAnimationFactory::GetAssembledActor(this);
+        iVar1 = *(int *)(*(int *)(peVar4 + 0xc) + 0x1bc);
+        bCString::bCString((bCString *)&param_2,*(char **)(iVar1 + 0x16c + iVar5));
+        bVar3 = bCString::Contains((bCString *)&param_2,"_PHX_PARENT",0);
+        if ((bVar3) && (local_c = local_c + 1, piVar2 != (int *)0x0)) {
+          iVar6 = piVar2[1] + 1;
+          thunk_FUN_300abaf0(iVar6,(iVar6 != 0) - 1);
+          piVar2[1] = iVar6;
+          *(int *)(*piVar2 + -4 + iVar6 * 4) = iVar1 + iVar5;
+        }
+        bCString::~bCString((bCString *)&param_2);
+        iVar5 = iVar5 + 400;
+        local_8 = local_8 + -1;
+      } while (local_8 != 0);
+      return local_c;
+    }
+  }
+  return 0;
+}
+
+

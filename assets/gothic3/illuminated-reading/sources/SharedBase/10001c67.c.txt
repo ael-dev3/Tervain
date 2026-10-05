@@ -1,0 +1,13 @@
+/* ENTRY 10001c67 | operator>> | STATUS decompiled | 2 ms */
+
+/* class bCIStream & __stdcall operator>>(class bCIStream &,class bCObjectBase &) */
+
+bCIStream * operator>>(bCIStream *param_1,bCObjectBase *param_2)
+
+{
+                    /* 0x1c67  586  ??5@YGAAVbCIStream@@AAV0@AAVbCObjectBase@@@Z */
+  (**(code **)(*(int *)param_2 + 0x10))(param_1);
+  return param_1;
+}
+
+

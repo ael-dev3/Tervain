@@ -1,0 +1,21 @@
+/* ENTRY 300159a6 | eCVisualAnimation_PS::CopyFrom | STATUS decompiled | 12 ms */
+
+/* public: virtual enum bEResult __thiscall eCVisualAnimation_PS::CopyFrom(class bCObjectBase const
+   &) */
+
+bEResult __thiscall eCVisualAnimation_PS::CopyFrom(eCVisualAnimation_PS *this,bCObjectBase *param_1)
+
+{
+                    /* 0x159a6  4292
+                       ?CopyFrom@eCVisualAnimation_PS@@UAE?AW4bEResult@@ABVbCObjectBase@@@Z */
+  eCEntityPropertySet::CopyFrom((eCEntityPropertySet *)this,param_1);
+  thunk_FUN_300b71f0(param_1 + 0xe8);
+  eCVisualAnimationFactory::CopyFrom
+            ((eCVisualAnimationFactory *)&this[7].eCEntityPropertySet_data.field_0x4,
+             (eCVisualAnimationFactory *)(param_1 + 0x94));
+  this[0x12].eCEntityPropertySet_data.field_0xe = param_1[0x17a];
+  this[0x12].eCEntityPropertySet_data.offset_0xc = (byte)param_1[0x178];
+  return 1;
+}
+
+

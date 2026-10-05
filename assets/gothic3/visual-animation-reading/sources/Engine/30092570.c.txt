@@ -1,0 +1,19 @@
+/* ENTRY 30092570 | FUN_30092570 | STATUS decompiled | 5 ms */
+
+void __thiscall FUN_30092570(int *param_1,bCString *param_2)
+
+{
+  bCString *this;
+  
+  thunk_FUN_3007fb50(param_1[1] + 1);
+  this = (bCString *)(*param_1 + -4 + param_1[1] * 4);
+  bCString::~bCString(this);
+  *(undefined4 *)this = 0;
+  if (this != (bCString *)0x0) {
+    bCString::bCString(this);
+  }
+  bCString::operator=(this,param_2);
+  return;
+}
+
+

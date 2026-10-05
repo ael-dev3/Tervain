@@ -1,0 +1,29 @@
+/* ENTRY 300b0280 | FUN_300b0280 | STATUS decompiled | 6 ms */
+
+void __thiscall FUN_300b0280(ushort *param_1,ushort param_2)
+
+{
+  ushort uVar1;
+  bCMemoryAdmin *this;
+  void *pvVar2;
+  ulong uVar3;
+  
+  if (param_2 == 0) {
+    uVar1 = 0;
+  }
+  else {
+    uVar1 = param_2 + 1;
+  }
+  if (*param_1 < uVar1) {
+    pvVar2 = *(void **)(param_1 + 2);
+    *param_1 = uVar1;
+    uVar3 = (uint)uVar1 * 0xc;
+    this = bCMemoryAdmin::GetInstance();
+    pvVar2 = bCMemoryAdmin::Realloc(this,pvVar2,uVar3);
+    *(void **)(param_1 + 2) = pvVar2;
+  }
+  param_1[1] = param_2;
+  return;
+}
+
+

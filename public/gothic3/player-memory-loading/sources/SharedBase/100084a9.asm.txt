@@ -1,0 +1,2 @@
+; 100084a9 bCAccessorCreator::operator_class_bCPropertyObjectBase*
+100084a9 | e922ac0800 | JMP 0x100930d0

@@ -1,0 +1,16 @@
+; 303850a0 eCEffector::eCEffector
+303850a0 | 56 | PUSH ESI
+303850a1 | 8bf1 | MOV ESI,ECX
+303850a3 | ff1508dcaf30 | CALL dword ptr [0x30afdc08]
+303850a9 | 8d4e0c | LEA ECX,[ESI + 0xc]
+303850ac | c7065c898130 | MOV dword ptr [ESI],0x3081895c
+303850b2 | e80287c9ff | CALL 0x3001d7b9
+303850b7 | 8d4e28 | LEA ECX,[ESI + 0x28]
+303850ba | e8fa86c9ff | CALL 0x3001d7b9
+303850bf | 8d4e44 | LEA ECX,[ESI + 0x44]
+303850c2 | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+303850c8 | 8d4e50 | LEA ECX,[ESI + 0x50]
+303850cb | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+303850d1 | 8bc6 | MOV EAX,ESI
+303850d3 | 5e | POP ESI
+303850d4 | c3 | RET

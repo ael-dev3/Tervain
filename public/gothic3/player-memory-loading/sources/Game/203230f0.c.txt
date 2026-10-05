@@ -1,0 +1,16 @@
+/* ENTRY 203230f0 | bTPropertyType<gCPlayerMemory_PS,long>::vfunction8 | STATUS decompiled | 5 ms */
+
+undefined4 __thiscall
+bTPropertyType<gCPlayerMemory_PS,long>::vfunction8(bTPropertyType<gCPlayerMemory_PS,long> *this)
+
+{
+  char cVar1;
+  
+  cVar1 = (*this->vftablePtr->vfunction7)();
+  if (cVar1 == '\0') {
+    return 0xffffffff;
+  }
+  return (this[8].vftablePtr)->vfunction2;
+}
+
+

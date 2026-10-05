@@ -1,0 +1,35 @@
+/* ENTRY 30002d33 | eCVisualAnimationFactory::SetBodyPartVisible | STATUS decompiled | 8 ms */
+
+/* public: bool __thiscall eCVisualAnimationFactory::SetBodyPartVisible(class bCString const &,bool)
+    */
+
+bool __thiscall
+eCVisualAnimationFactory::SetBodyPartVisible
+          (eCVisualAnimationFactory *this,bCString *param_1,bool param_2)
+
+{
+  int iVar1;
+  int iVar2;
+  int iVar3;
+  int iVar4;
+  
+                    /* 0x2d33  12963
+                       ?SetBodyPartVisible@eCVisualAnimationFactory@@QAE_NABVbCString@@_N@Z */
+  iVar4 = 0;
+  if (0 < *(int *)(this + 0x14)) {
+    iVar3 = 0;
+    do {
+      iVar1 = *(int *)(this + 0x10);
+      iVar2 = bCString::CompareNoCase((bCString *)(iVar1 + iVar3),param_1);
+      if (iVar2 == 0) {
+        ((bCString *)(iVar1 + iVar3))[0xc] = (bCString)param_2;
+        return true;
+      }
+      iVar4 = iVar4 + 1;
+      iVar3 = iVar3 + 0x10;
+    } while (iVar4 < *(int *)(this + 0x14));
+  }
+  return false;
+}
+
+

@@ -1,0 +1,26 @@
+/* ENTRY 30044157 | thunk_FUN_300e2d90 | STATUS decompiled | 87 ms */
+
+void __thiscall thunk_FUN_300e2d90(int param_1,double param_2)
+
+{
+  int iVar1;
+  int *piVar2;
+  char cVar3;
+  int iVar4;
+  
+  iVar1 = *(int *)(param_1 + 0x1c0);
+  iVar4 = 0;
+  if (0 < iVar1) {
+    do {
+      piVar2 = *(int **)(*(int *)(param_1 + 0x1c8) + iVar4 * 4);
+      cVar3 = FUN_30645140();
+      if (cVar3 != '\0') {
+        (**(code **)(*piVar2 + 4))((float)param_2);
+      }
+      iVar4 = iVar4 + 1;
+    } while (iVar4 < iVar1);
+  }
+  return;
+}
+
+

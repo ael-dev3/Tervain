@@ -14,8 +14,12 @@ limitations and source terms.
 
 This guide describes the source on `codex/gothic3-gameplay-initialization`.
 The last recorded successful deployment predates the latest source checkpoints,
-which have not been deployed. Online availability was not reviewed for this
-checkpoint. Sections 10–20 cover the newer runtime work.
+which have not been deployed. On 5 October 2026, a fresh request to the
+`/gothic3/` URL returned HTTP 404 and the repository's Pages API also returned
+404. The latest failed workflow still reports that its job could not start
+because of account payment or spending-limit state. This records the observed
+hosting/deployment limitation; the full game is not online. Sections 10–21
+cover the newer runtime work.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
 To reproduce an older receipt, use a checkout at that commit and its producers.
@@ -44,6 +48,11 @@ reproduce the historical source hashes.
 The current scene covers part of step 2 and the rendering side of step 5.
 The newer source components advance steps 3–4. A successful TypeScript build
 does not establish that step 5 is connected or that step 7 is possible.
+
+The latest source checkpoint in section 21 contains bounded factories for 18
+of the Hero's 19 property sets. PlayerMemory remains unfinished. These factories
+have not been connected to the enclosing live entity/world pipeline, so this
+count does not measure how much of the original game is playable.
 
 ## 1. Preserve and study the installed game
 
@@ -2327,3 +2336,180 @@ inventory, dialogue, routines, quests, original saving/loading and progression
 through the endings remain integration and completion work. This checkpoint
 keeps `gameplayReady: false`; the full game is unfinished and this newer source
 has not been deployed.
+
+## 21. Restore lighting, effects and the physical animation factory
+
+This source checkpoint adds the Hero's Illuminated, Effect and VisualAnimation
+factories to the same reflection controller. Each retains its own original
+property set and physical storage. Detached construction and reading do not
+attach these objects to the original enclosing entity or activate a world.
+The current application has not enabled these readers as live gameplay.
+
+### Keep lighting state and owner callbacks together
+
+[Illuminated](../../src/gothic3/illuminated-reading.ts) is type 74, version 8,
+with an original 188-byte allocation. Its nine property names include the
+original spellings `ReciveShadows`, `ReciveTreeShadows` and
+`ReciveStaticShadows`. The winning Hero record uses those same names.
+
+Construction preserves two embedded enum containers and seven Vector4
+constructors, then the original light, shadow, occlusion and update stores.
+Current mutable enum values are captured from an actual host or remain masked
+unknown; cold PE zero-fill does not establish their live values. PostInitialize
+sets its seven booleans in order without adding an inherited call.
+
+The current native read consumes its version, static-light count and one
+112-byte bulk directly into the same shader-light block. Its exported byte and
+mask views refer to that block. It then copies the two static shadow booleans
+from the current normal shadow fields. Earlier conversion branches stop where
+their original services are needed.
+
+Added binds the same PS to the actual owner's embedded FrustumItem. Removed
+performs CacheOut before rereading the owner and clearing that slot. A local
+Exit notification reaches the actual illumination administrator before the
+inherited notification; propagated reads skip that local branch. Fresh NULL
+light/shadow/query paths are concrete. NonNULL light membership, shadow
+reference lifetimes, occlusion and render services remain explicit dependencies.
+Public pointer reads validate the physical masks against their retained
+capabilities, including the wrapper and owner pointers.
+
+### Preserve effect allocation and immediate processing order
+
+[Effect](../../src/gothic3/effect-reading.ts) is type 96, version 1, with an
+original 64-byte allocation. Its four fields share that store with the owned
+CString, current effect handle and runtime-effect hash-map header.
+
+The native constructor requests 43 buckets. The examined reserve operation
+grows capacity to 51 and requires the actual `Realloc(NULL, 204)` allocation,
+zeros its 204 bytes, stores capacity, then stores bucket count and zeros the
+43 active heads again. JavaScript object identity does not supply a numerical
+heap address; its pointer bits remain masked while the real allocation
+capability is retained. The native reader consumes its version and returns 1.
+
+Processing tests `Static == 0`; entering the processing range tests
+`Static == 1`. The Hero's empty effect name follows the original skip path.
+For a nonempty name, creation requires the actual effect module/system and
+shared identity matrix, copies the current offset into the stack matrix, and
+passes the captured name, owner, NULL argument, matrix and true to the system.
+The current handle is stored before the failure warning and name clearing.
+Stopping preserves the captured/current receiver order and clears the handle
+after the service returns. Probability is not applied as an invented random
+gate in this immediate creation path. Terminal lifetimes and active world
+effect services remain unfinished integration work.
+
+### Retain the animation factory and its embedded cloth object
+
+[VisualAnimation](../../src/gothic3/visual-animation-reading.ts) restores the
+original version 64 record and its 31 descriptors. Its animation factory is
+embedded in the same allocation; it is not the inspector's rendered actor.
+The cloth descriptor reads into the same SpringAndDamperEffector wrapper
+constructed at native offset `+0x80`.
+
+The [reflection controller](../../src/gothic3/entity-reflection.ts) now retains
+embedded wrapper placement by parent identity and native offset, rejects a
+second constructor for the same slot, and preserves the original masked flag
+word with bit 2 set. It records an embedded constructor, without asserting a
+separate heap allocation. Attach, descriptor defaults, native reading and
+reference operations use this same wrapper. Terminal destructor and memory
+administrator calls remain actual service boundaries.
+
+The native animation reader retains the original LoD, motion and attachment
+ownership and call order. Reading an actor filename does not load an actor
+through the inspector or establish native cache residency. Archive lookup,
+resource ownership, current scene callbacks and the actual processing services
+must be connected before this property set can drive a live player. Its
+embedded motion records must supply the same resource objects to the existing
+animation/SPU consumers.
+
+This bounded reader covers the installed Hero's Visual version 64, Factory
+version 5 and LoD version 4, with canonical 0/1 bool bytes and successful
+allocations supplied by actual services. The LoD's 44-byte allocation keeps
+the allocator's returned storage and identity. Cleanup preserves captured
+record backing across callbacks; an unsupported replacement stops before
+continuing through a different object. Earlier conversion and populated
+resource branches retain their explicit service boundaries.
+
+The original Hero packet is 740 bytes including its sentinel. Its 99-byte
+native tail contains two factory parts, seven motion records, zero attachments,
+the 24-byte box and the base property set's version/enabled state. The embedded
+cloth table has 13 fields: nine SpringAndDamper fields followed by four inherited
+Effector fields, then native versions 62, 39 and 1. Those packet facts do not
+establish that actor resources have been loaded or animation is running.
+
+The three mutable enum globals lie in the original PE section's virtual tail,
+outside its file-backed data. The producer pins their actual section header and
+address ranges. Their current values still come from the live source-module
+capability; cold virtual zero-fill does not supply those values.
+
+### Prepare PlayerMemory without replacing its live attributes
+
+The separate [PlayerMemory loading evidence](../../assets/gothic3/player-memory-loading/README.md)
+is explicitly marked `factoryImplemented: false`. Its
+[loading contract](../../assets/gothic3/player-memory-loading/loading-contract.json)
+records the remaining constructor, map and nested-object work.
+
+The original allocator at `Game:20327f10` requests 184 bytes with tag `0xc4`
+and calls the no-argument constructor export `20036cdc`, whose actual body is
+`2031e9c0`. The copy overload `2000cce3` reaches `2031e440`; it is not a fresh
+constructor. PE initializer pointers prove the order of 25 registered fields.
+The stored Hero contains 24, so `IsConsumingItem` must retain its native
+default when the table is read.
+
+The original 1,617-byte packet contains a version 5 native read of 1,125 bytes
+and 15 nested attributes. The producer checks that packet and 197 focused
+record byte checks and their string references against the immutable winning
+world. This proves source layout, not execution of the missing reader.
+
+The factory still has to create the original default attributes, destroy them
+before loading the stored ones, preserve node/CString/reference lifetimes,
+handle missing or broken entries in original order, and perform the later
+PostRead resizing. Startup, HUD and combat must retain the same map and
+`OriginalNativeAttribute` objects. Copying the inspector seed would lose those
+identities and does not complete this work.
+
+### Reproduce and integrate this checkpoint
+
+The three runtime producers and the evidence-only PlayerMemory producer use
+the complete inclusive body-range capture method described in section 20.
+They check original PE bytes, descriptor/vtable metadata and focused original
+resource bytes offline. Supporting captured functions are not a count of
+implemented gameplay. Each receipt pins current producer/helper/output bytes;
+runtime receipts additionally pin the implementation and shared dependencies.
+
+Fresh offline audits compared the captured instructions and complete inclusive
+body ranges with all three original PE files, verified excerpt/current receipt
+hashes, and checked every published mirror. The Visual audit also checked its
+three virtual enum-global ranges and twelve PostInitialize constants directly
+against the original section header/data.
+
+| Evidence scope | Captured native bodies | Instructions | Original PE bytes |
+| --- | ---: | ---: | ---: |
+| Illuminated construction, reading and callbacks | 396 | 4,809 | 14,686 |
+| Effect construction, reading and processing boundaries | 298 | 3,356 | 10,186 |
+| VisualAnimation, embedded cloth, factory and resource ownership | 2,881 | 58,274 | 184,229 |
+| PlayerMemory loading research, factory still absent | 1,376 | 19,081 | 55,562 |
+
+The final combined TypeScript check and production build passed locally on
+5 October 2026 (`npm run build`, 235 Vite modules). The existing large-chunk
+warning remains. The build packages the current browser entries; it does not
+execute these detached factories or establish original gameplay. No tests,
+native execution, browser review, deployment or playthrough were run for this
+checkpoint.
+
+```powershell
+python -B tools/gothic3/research_illuminated_reading.py --study $study
+python -B tools/gothic3/research_effect_reading.py --study $study
+python -B tools/gothic3/research_visual_animation_reading.py --study $study
+python -B tools/gothic3/research_player_memory_loading.py --study $study
+python -B tools/gothic3/freeze_visual_properties_checkpoint.py
+```
+
+The [visual properties checkpoint](../../assets/gothic3/visual-properties-checkpoint.json)
+extends the frozen source at `42c7149a`, retains its historical receipts and
+records the intentional shared reflection/guide changes. PlayerMemory evidence
+does not count as a nineteenth concrete factory. All 19 still have to enter
+the original enclosing entity, template, child, layer and context pipeline
+with real cache, physics, PVS and processing activation. Original input,
+combat, inventory, dialogue, routines, quests, saving/loading and progression
+through the endings remain completion work. This source keeps
+`gameplayReady: false` and has not been deployed.

@@ -1,0 +1,779 @@
+/* ENTRY 300a13b0 | FUN_300a13b0 | STATUS decompiled | 736 ms */
+
+/* WARNING: Removing unreachable block (ram,0x300a242e) */
+/* WARNING: Removing unreachable block (ram,0x300a224d) */
+/* WARNING: Removing unreachable block (ram,0x300a205b) */
+
+void __fastcall FUN_300a13b0(int *param_1)
+
+{
+  eCVisualAnimationFactory *peVar1;
+  undefined4 *puVar2;
+  bool bVar3;
+  bool bVar4;
+  bool bVar5;
+  eCWrapper_emfx2Actor *peVar6;
+  eCWrapper_emfx2Actor *peVar7;
+  eCResourceAnimationMotion_PS *this;
+  bTObjArray<eCResourceAnimationMotion_PS::eSFrameEffect> *pbVar8;
+  eCApplication *this_00;
+  int iVar9;
+  uint uVar10;
+  eCModuleAdmin *this_01;
+  eCEngineComponentBase *peVar11;
+  int *piVar12;
+  undefined4 *puVar13;
+  bCString *pbVar14;
+  char *pcVar15;
+  eCEntity *peVar16;
+  char *pcVar17;
+  int iVar18;
+  eCWrapper_emfx2Actor *peVar19;
+  float10 extraout_ST0;
+  float10 extraout_ST0_00;
+  float fVar20;
+  float fVar21;
+  double dVar22;
+  double dVar23;
+  undefined4 uVar24;
+  TypeDescriptor *pTVar25;
+  double *pdVar26;
+  eCWrapper_emfx2Actor **ppeVar27;
+  TypeDescriptor *pTVar28;
+  undefined *puVar29;
+  undefined4 uVar30;
+  int iVar31;
+  eCWrapper_emfx2Actor *local_28;
+  int local_24;
+  eCWrapper_emfx2Actor *local_20;
+  float local_1c;
+  eCWrapper_emfx2Actor *peStack_18;
+  eCWrapper_emfx2Actor *peStack_14;
+  double local_10;
+  
+  peVar1 = (eCVisualAnimationFactory *)(param_1 + 0x25);
+  bVar4 = false;
+  bVar5 = false;
+  peVar6 = eCVisualAnimationFactory::GetAssembledActor(peVar1);
+  if (peVar6 == (eCWrapper_emfx2Actor *)0x0) {
+    return;
+  }
+  peVar7 = (eCWrapper_emfx2Actor *)eCVisualAnimationFactory::GetAssembledActor(peVar1);
+  bVar3 = eCWrapper_emfx2Actor::IsMotionRunning(peVar7,0);
+  if (!bVar3) {
+    return;
+  }
+  peVar7 = (eCWrapper_emfx2Actor *)eCVisualAnimationFactory::GetAssembledActor(peVar1);
+  dVar22 = eCWrapper_emfx2Actor::GetMaxTime(peVar7,0);
+  if (dVar22 <= 0.0) {
+    return;
+  }
+  this = (eCResourceAnimationMotion_PS *)
+         eCVisualAnimation_PS::eSMotionDesc::GetMotion((eSMotionDesc *)param_1[0x3a]);
+  if (this == (eCResourceAnimationMotion_PS *)0x0) {
+    return;
+  }
+  pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+  if (*(int *)(pbVar8 + 4) < 1) {
+    return;
+  }
+  peVar6 = eCVisualAnimationFactory::GetAssembledActor(peVar1);
+  bVar3 = *(int *)(peVar6 + 0x74) == 1;
+  local_1c = (float)param_1[0x62];
+  local_20 = (eCWrapper_emfx2Actor *)0xffffffff;
+  local_24 = -1;
+  this_00 = (eCApplication *)eCApplication::GetInstance();
+  fVar20 = eCApplication::GetScaledFrameTimeInSeconds(this_00);
+  fVar20 = fVar20 * local_1c;
+  peVar7 = (eCWrapper_emfx2Actor *)eCVisualAnimationFactory::GetAssembledActor(peVar1);
+  dVar22 = eCWrapper_emfx2Actor::GetPlayTime(peVar7,0);
+  local_28 = (eCWrapper_emfx2Actor *)(float)dVar22;
+  peVar7 = (eCWrapper_emfx2Actor *)eCVisualAnimationFactory::GetAssembledActor(peVar1);
+  fVar21 = eCWrapper_emfx2Actor::GetPlaySpeed(peVar7,0);
+  if (!bVar3) {
+    if (fVar21 < 0.0) {
+      peVar7 = (eCWrapper_emfx2Actor *)eCVisualAnimationFactory::GetAssembledActor(peVar1);
+      local_10 = (double)(float)local_28;
+      fVar21 = eCWrapper_emfx2Actor::GetPlaySpeed(peVar7,0);
+      local_28 = (eCWrapper_emfx2Actor *)((float)local_10 - fVar21 * fVar20);
+    }
+    else {
+      peVar7 = (eCWrapper_emfx2Actor *)eCVisualAnimationFactory::GetAssembledActor(peVar1);
+      fVar21 = eCWrapper_emfx2Actor::GetPlaySpeed(peVar7,0);
+      local_28 = (eCWrapper_emfx2Actor *)(fVar21 * fVar20 + (float)local_28);
+    }
+    peVar7 = (eCWrapper_emfx2Actor *)eCVisualAnimationFactory::GetAssembledActor(peVar1);
+    dVar23 = eCWrapper_emfx2Actor::GetMaxTime(peVar7,0);
+    dVar22 = (double)(float)local_28;
+    if (dVar23 < dVar22) {
+      do {
+        peVar7 = (eCWrapper_emfx2Actor *)eCVisualAnimationFactory::GetAssembledActor(peVar1);
+        dVar22 = eCWrapper_emfx2Actor::GetMaxTime(peVar7,0);
+        if (dVar22 == (double)param_1[0x55]) {
+          peVar7 = (eCWrapper_emfx2Actor *)eCVisualAnimationFactory::GetAssembledActor(peVar1);
+          local_10 = (double)(float)local_28;
+          dVar22 = eCWrapper_emfx2Actor::GetMaxTime(peVar7,0);
+          local_28 = (eCWrapper_emfx2Actor *)(float)((float10)local_10 - (float10)dVar22);
+        }
+        else {
+          peVar7 = (eCWrapper_emfx2Actor *)eCVisualAnimationFactory::GetAssembledActor(peVar1);
+          dVar22 = eCWrapper_emfx2Actor::GetMaxTime(peVar7,0);
+          local_28 = (eCWrapper_emfx2Actor *)(float)dVar22;
+        }
+        peVar7 = (eCWrapper_emfx2Actor *)eCVisualAnimationFactory::GetAssembledActor(peVar1);
+        dVar23 = eCWrapper_emfx2Actor::GetMaxTime(peVar7,0);
+        dVar22 = (double)(float)local_28;
+      } while (dVar23 < dVar22);
+    }
+    if ((0.0 <= dVar22 * 25.0) ||
+       (local_1c = (float)FUN_30672060(), extraout_ST0_00 == (float10)(int)local_1c)) {
+      iVar18 = 0;
+    }
+    else {
+      iVar18 = 1;
+    }
+    iVar9 = FUN_30672060();
+    iVar18 = -iVar9 - iVar18;
+    peVar19 = (eCWrapper_emfx2Actor *)0x0;
+    local_1c = (float)iVar18;
+    pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+    peVar7 = local_20;
+    if (-1 < *(int *)(pbVar8 + 4) + -1) {
+      do {
+        pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+        uVar10 = (uint)*(ushort *)(*(int *)pbVar8 + (int)peVar19 * 8);
+        if ((param_1[0x55] < (int)uVar10) && (peVar7 = peVar19, (int)uVar10 <= iVar18)) break;
+        peVar19 = (eCWrapper_emfx2Actor *)((int)&peVar19->vftablePtr + 1);
+        pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+        peVar7 = local_20;
+      } while ((int)peVar19 <= *(int *)(pbVar8 + 4) + -1);
+    }
+    local_20 = peVar7;
+    pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+    iVar9 = *(int *)(pbVar8 + 4);
+    do {
+      iVar9 = iVar9 + -1;
+      iVar31 = local_24;
+      if (iVar9 < 0) break;
+      pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+      uVar10 = (uint)*(ushort *)(*(int *)pbVar8 + iVar9 * 8);
+    } while (((int)uVar10 <= param_1[0x55]) || (iVar31 = iVar9, iVar18 < (int)uVar10));
+    goto LAB_300a185c;
+  }
+  if (fVar21 < 0.0) {
+    peVar7 = (eCWrapper_emfx2Actor *)eCVisualAnimationFactory::GetAssembledActor(peVar1);
+    fVar21 = eCWrapper_emfx2Actor::GetPlaySpeed(peVar7,0);
+    local_28 = (eCWrapper_emfx2Actor *)(fVar21 * fVar20 + (float)local_28);
+  }
+  else {
+    peVar7 = (eCWrapper_emfx2Actor *)eCVisualAnimationFactory::GetAssembledActor(peVar1);
+    local_10 = (double)(float)local_28;
+    fVar21 = eCWrapper_emfx2Actor::GetPlaySpeed(peVar7,0);
+    local_28 = (eCWrapper_emfx2Actor *)((float)local_10 - fVar21 * fVar20);
+  }
+  while ((float)local_28 < 0.0) {
+    if ((float)param_1[0x55] == 0.0) {
+      peVar7 = (eCWrapper_emfx2Actor *)
+               eCVisualAnimationFactory::GetAssembledActor
+                         ((eCVisualAnimationFactory *)(param_1 + 0x25));
+      dVar22 = eCWrapper_emfx2Actor::GetMaxTime(peVar7,0);
+      local_28 = (eCWrapper_emfx2Actor *)((float)dVar22 + (float)local_28);
+    }
+    else {
+      local_28 = (eCWrapper_emfx2Actor *)0x0;
+    }
+  }
+  if ((0.0 <= (float)local_28 * 25.0) ||
+     (local_1c = (float)FUN_30672060(), extraout_ST0 == (float10)(int)local_1c)) {
+    iVar18 = 0;
+  }
+  else {
+    iVar18 = 1;
+  }
+  iVar9 = FUN_30672060();
+  local_1c = (float)(-iVar9 - iVar18);
+  if (param_1[0x55] == -1) {
+    peVar1 = (eCVisualAnimationFactory *)(param_1 + 0x25);
+    peVar7 = (eCWrapper_emfx2Actor *)eCVisualAnimationFactory::GetAssembledActor(peVar1);
+    dVar22 = eCWrapper_emfx2Actor::GetMaxTime(peVar7,0);
+    if (0.0 <= dVar22 * 25.0) {
+LAB_300a1614:
+      iVar18 = 0;
+    }
+    else {
+      peVar7 = (eCWrapper_emfx2Actor *)eCVisualAnimationFactory::GetAssembledActor(peVar1);
+      local_28 = (eCWrapper_emfx2Actor *)eCVisualAnimationFactory::GetAssembledActor(peVar1);
+      local_10 = eCWrapper_emfx2Actor::GetMaxTime(peVar7,0);
+      local_10 = local_10 * 25.0;
+      eCWrapper_emfx2Actor::GetMaxTime(local_28,0);
+      local_28 = (eCWrapper_emfx2Actor *)FUN_30672060();
+      if (local_10 == (double)(int)local_28) goto LAB_300a1614;
+      iVar18 = 1;
+    }
+    peVar7 = (eCWrapper_emfx2Actor *)eCVisualAnimationFactory::GetAssembledActor(peVar1);
+    eCWrapper_emfx2Actor::GetMaxTime(peVar7,0);
+    iVar9 = FUN_30672060();
+    param_1[0x55] = (1 - iVar9) - iVar18;
+  }
+  fVar20 = local_1c;
+  pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+  iVar18 = *(int *)(pbVar8 + 4);
+  do {
+    iVar18 = iVar18 + -1;
+    peVar7 = local_20;
+    if (iVar18 < 0) break;
+    pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+    uVar10 = (uint)*(ushort *)(*(int *)pbVar8 + iVar18 * 8);
+  } while ((param_1[0x55] <= (int)uVar10) ||
+          (peVar7 = (eCWrapper_emfx2Actor *)iVar18, (int)uVar10 < (int)fVar20));
+  local_20 = peVar7;
+  iVar18 = 0;
+  pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+  iVar31 = local_24;
+  if (-1 < *(int *)(pbVar8 + 4) + -1) {
+    do {
+      pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+      uVar10 = (uint)*(ushort *)(*(int *)pbVar8 + iVar18 * 8);
+      if (((int)uVar10 < param_1[0x55]) && (iVar31 = iVar18, (int)fVar20 <= (int)uVar10)) break;
+      iVar18 = iVar18 + 1;
+      pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+      iVar31 = local_24;
+    } while (iVar18 <= *(int *)(pbVar8 + 4) + -1);
+  }
+LAB_300a185c:
+  local_24 = iVar31;
+  peVar7 = local_20;
+  if ((local_20 != (eCWrapper_emfx2Actor *)0xffffffff) && (local_24 != -1)) {
+    bCString::bCString((bCString *)&local_28,"gCEffectModule");
+    uVar30 = 0;
+    pTVar28 = &eCEffectModuleBase::RTTI_Type_Descriptor;
+    pTVar25 = &eCEngineComponentBase::RTTI_Type_Descriptor;
+    uVar24 = 0;
+    pbVar14 = (bCString *)&local_28;
+    this_01 = (eCModuleAdmin *)eCModuleAdmin::GetInstance();
+    peVar11 = eCModuleAdmin::FindModule(this_01,pbVar14);
+    piVar12 = (int *)FUN_30671ae7(peVar11,uVar24,pTVar25,pTVar28,uVar30);
+    bCString::~bCString((bCString *)&local_28);
+    if ((piVar12 != (int *)0x0) &&
+       (puVar13 = (undefined4 *)(**(code **)(*piVar12 + 0xbc))(), puVar13 != (undefined4 *)0x0)) {
+      if (bVar3) {
+        local_28 = local_20;
+        if (local_24 <= (int)peVar7) {
+          local_28 = peVar7;
+          do {
+            pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+            iVar18 = (int)local_28 * 8;
+            bVar4 = bCString::Contains((bCString *)(*(int *)pbVar8 + iVar18 + 4),"[F]",0);
+            if (bVar4) {
+LAB_300a198f:
+              bVar4 = false;
+            }
+            else {
+              pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+              bVar4 = bCString::Contains((bCString *)(*(int *)pbVar8 + iVar18 + 4),":",0);
+              if (bVar4) {
+                bVar5 = true;
+                peStack_18 = (eCWrapper_emfx2Actor *)
+                             eCVisualAnimationFactory::GetAssembledActor
+                                       ((eCVisualAnimationFactory *)(param_1 + 0x25));
+                pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+                iVar9 = *(int *)pbVar8;
+                puVar29 = &DAT_308201b4;
+                ppeVar27 = &peStack_14;
+                pbVar14 = eCWrapper_emfx2Actor::GetActorName(peStack_18);
+                pbVar14 = (bCString *)bCString::operator+(pbVar14,(char *)ppeVar27);
+                pcVar15 = bCString::operator_char_const_(pbVar14);
+                bVar4 = bCString::Contains((bCString *)(iVar9 + iVar18 + 4),pcVar15,(int)puVar29);
+                if (!bVar4) goto LAB_300a198f;
+              }
+              bVar4 = true;
+            }
+            if (bVar5) {
+              bVar5 = false;
+              bCString::~bCString((bCString *)&peStack_14);
+            }
+            if (bVar4) {
+              peVar7 = (eCWrapper_emfx2Actor *)
+                       eCVisualAnimationFactory::GetAssembledActor
+                                 ((eCVisualAnimationFactory *)(param_1 + 0x25));
+              iVar9 = 0;
+              pcVar15 = bCString::operator_char_const_((bCString *)&DAT_30ada9e0);
+              pbVar14 = eCWrapper_emfx2Actor::GetActorName(peVar7);
+              bVar4 = bCString::Contains(pbVar14,pcVar15,iVar9);
+              if (bVar4) {
+                pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+                iVar9 = *(int *)pbVar8;
+                iVar31 = 0;
+                pcVar15 = bCString::operator_char_const_((bCString *)&DAT_30ada9ec);
+                bVar4 = bCString::Contains((bCString *)(iVar9 + iVar18 + 4),pcVar15,iVar31);
+                if (bVar4) {
+                  pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+                  bCString::bCString((bCString *)&local_20,(bCString *)(*(int *)pbVar8 + 4 + iVar18)
+                                    );
+                  iVar18 = 0;
+                  pcVar15 = bCString::operator_char_const_((bCString *)&DAT_30ada9e4);
+                  peVar16 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+                  pbVar14 = eCEntity::GetName(peVar16);
+                  bVar4 = bCString::Contains(pbVar14,pcVar15,iVar18);
+                  if (bVar4) {
+                    pbVar14 = (bCString *)&DAT_30ada9f0;
+                  }
+                  else {
+                    iVar18 = 0;
+                    pcVar15 = bCString::operator_char_const_((bCString *)&DAT_30ada9e8);
+                    peVar16 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+                    pbVar14 = eCEntity::GetName(peVar16);
+                    bVar4 = bCString::Contains(pbVar14,pcVar15,iVar18);
+                    pbVar14 = (bCString *)&DAT_30ada9f4;
+                    if (!bVar4) {
+                      pbVar14 = (bCString *)&DAT_30ada9f8;
+                    }
+                  }
+                  pcVar15 = bCString::operator_char_const_(pbVar14);
+                  pcVar17 = bCString::operator_char_const_((bCString *)&DAT_30ada9ec);
+                  bCString::Replace((bCString *)&local_20,pcVar17,pcVar15);
+                  puVar2 = (undefined4 *)*puVar13;
+                  uVar24 = (**(code **)(*param_1 + 0x68))(0,0,0);
+                  (*(code *)*puVar2)(&local_20,uVar24);
+                  bCString::~bCString((bCString *)&local_20);
+                  goto LAB_300a1af5;
+                }
+              }
+              pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+              iVar9 = *(int *)pbVar8;
+              puVar2 = (undefined4 *)*puVar13;
+              uVar24 = (**(code **)(*param_1 + 0x68))(0,0,0);
+              (*(code *)*puVar2)(iVar9 + iVar18 + 4,uVar24);
+            }
+LAB_300a1af5:
+            local_28 = (eCWrapper_emfx2Actor *)&local_28[-1].eCWrapper_emfx2Actor_data.field_0x77;
+            if ((int)local_28 < local_24) {
+              param_1[0x55] = (int)local_1c;
+              return;
+            }
+          } while( true );
+        }
+        for (; bVar5 = false, -1 < (int)local_28;
+            local_28 = (eCWrapper_emfx2Actor *)&local_28[-1].eCWrapper_emfx2Actor_data.field_0x77) {
+          pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+          bVar5 = bCString::Contains((bCString *)(*(int *)pbVar8 + (int)local_28 * 8 + 4),"[F]",0);
+          if (bVar5) {
+LAB_300a1be9:
+            bVar5 = false;
+          }
+          else {
+            pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+            bVar5 = bCString::Contains((bCString *)(*(int *)pbVar8 + (int)local_28 * 8 + 4),":",0);
+            if (bVar5) {
+              bVar4 = true;
+              peStack_14 = (eCWrapper_emfx2Actor *)
+                           eCVisualAnimationFactory::GetAssembledActor
+                                     ((eCVisualAnimationFactory *)(param_1 + 0x25));
+              pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+              peStack_18 = (eCWrapper_emfx2Actor *)(*(int *)pbVar8 + (int)local_28 * 8);
+              puVar29 = &DAT_308201b4;
+              pdVar26 = &local_10;
+              pbVar14 = eCWrapper_emfx2Actor::GetActorName(peStack_14);
+              pbVar14 = (bCString *)bCString::operator+(pbVar14,(char *)pdVar26);
+              pcVar15 = bCString::operator_char_const_(pbVar14);
+              bVar5 = bCString::Contains((bCString *)((int)local_1c + 4),pcVar15,(int)puVar29);
+              if (!bVar5) goto LAB_300a1be9;
+            }
+            bVar5 = true;
+          }
+          if (bVar4) {
+            bVar4 = false;
+            bCString::~bCString((bCString *)&local_10);
+          }
+          if (bVar5) {
+            peStack_14 = (eCWrapper_emfx2Actor *)
+                         eCVisualAnimationFactory::GetAssembledActor
+                                   ((eCVisualAnimationFactory *)(param_1 + 0x25));
+            iVar18 = 0;
+            pcVar15 = bCString::operator_char_const_((bCString *)&DAT_30ada9e0);
+            pbVar14 = eCWrapper_emfx2Actor::GetActorName(peStack_14);
+            bVar5 = bCString::Contains(pbVar14,pcVar15,iVar18);
+            if (bVar5) {
+              pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+              peStack_14 = (eCWrapper_emfx2Actor *)(*(int *)pbVar8 + (int)local_28 * 8);
+              iVar18 = 0;
+              pcVar15 = bCString::operator_char_const_((bCString *)&DAT_30ada9ec);
+              bVar5 = bCString::Contains((bCString *)&peStack_14->eCWrapper_emfx2Actor_data,pcVar15,
+                                         iVar18);
+              if (bVar5) {
+                pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+                bCString::bCString((bCString *)&local_20,
+                                   (bCString *)((int)local_28 * 8 + 4 + *(int *)pbVar8));
+                iVar18 = 0;
+                pcVar15 = bCString::operator_char_const_((bCString *)&DAT_30ada9e4);
+                peVar16 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+                pbVar14 = eCEntity::GetName(peVar16);
+                bVar5 = bCString::Contains(pbVar14,pcVar15,iVar18);
+                if (bVar5) {
+                  pbVar14 = (bCString *)&DAT_30ada9f0;
+                }
+                else {
+                  iVar18 = 0;
+                  pcVar15 = bCString::operator_char_const_((bCString *)&DAT_30ada9e8);
+                  peVar16 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+                  pbVar14 = eCEntity::GetName(peVar16);
+                  bVar5 = bCString::Contains(pbVar14,pcVar15,iVar18);
+                  pbVar14 = (bCString *)&DAT_30ada9f4;
+                  if (!bVar5) {
+                    pbVar14 = (bCString *)&DAT_30ada9f8;
+                  }
+                }
+                pcVar15 = bCString::operator_char_const_(pbVar14);
+                pcVar17 = bCString::operator_char_const_((bCString *)&DAT_30ada9ec);
+                bCString::Replace((bCString *)&local_20,pcVar17,pcVar15);
+                peStack_14 = (eCWrapper_emfx2Actor *)*puVar13;
+                uVar24 = (**(code **)(*param_1 + 0x68))(0,0,0);
+                (*(code *)peStack_14->vftablePtr)(&local_20,uVar24);
+                bCString::~bCString((bCString *)&local_20);
+                goto LAB_300a1d7b;
+              }
+            }
+            pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+            peStack_14 = (eCWrapper_emfx2Actor *)(*(int *)pbVar8 + (int)local_28 * 8);
+            peStack_18 = (eCWrapper_emfx2Actor *)*puVar13;
+            uVar24 = (**(code **)(*param_1 + 0x68))(0,0,0);
+            (*(code *)peStack_18->vftablePtr)(&peStack_14->eCWrapper_emfx2Actor_data,uVar24);
+          }
+LAB_300a1d7b:
+        }
+        pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+        local_28 = (eCWrapper_emfx2Actor *)(*(int *)(pbVar8 + 4) + -1);
+        if (local_24 <= (int)local_28) {
+          do {
+            pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+            bVar4 = bCString::Contains((bCString *)(*(int *)pbVar8 + (int)local_28 * 8 + 4),"[F]",0)
+            ;
+            if (bVar4) {
+LAB_300a1e52:
+              bVar4 = false;
+            }
+            else {
+              pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+              bVar4 = bCString::Contains((bCString *)(*(int *)pbVar8 + (int)local_28 * 8 + 4),":",0)
+              ;
+              if (bVar4) {
+                bVar5 = true;
+                peVar6 = eCVisualAnimationFactory::GetAssembledActor
+                                   ((eCVisualAnimationFactory *)(param_1 + 0x25));
+                local_10 = (double)CONCAT44(local_10._4_4_,peVar6);
+                pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+                peStack_14 = (eCWrapper_emfx2Actor *)(*(int *)pbVar8 + (int)local_28 * 8);
+                puVar29 = &DAT_308201b4;
+                ppeVar27 = &peStack_18;
+                pbVar14 = eCWrapper_emfx2Actor::GetActorName(local_10._0_4_);
+                pbVar14 = (bCString *)bCString::operator+(pbVar14,(char *)ppeVar27);
+                pcVar15 = bCString::operator_char_const_(pbVar14);
+                bVar4 = bCString::Contains((bCString *)&peStack_18->eCWrapper_emfx2Actor_data,
+                                           pcVar15,(int)puVar29);
+                if (!bVar4) goto LAB_300a1e52;
+              }
+              bVar4 = true;
+            }
+            if (bVar5) {
+              bVar5 = false;
+              bCString::~bCString((bCString *)&peStack_18);
+            }
+            if (bVar4) {
+              peVar7 = (eCWrapper_emfx2Actor *)
+                       eCVisualAnimationFactory::GetAssembledActor
+                                 ((eCVisualAnimationFactory *)(param_1 + 0x25));
+              iVar18 = 0;
+              local_10._0_4_ = peVar7;
+              pcVar15 = bCString::operator_char_const_((bCString *)&DAT_30ada9e0);
+              pbVar14 = eCWrapper_emfx2Actor::GetActorName(local_10._0_4_);
+              bVar4 = bCString::Contains(pbVar14,pcVar15,iVar18);
+              if (bVar4) {
+                pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+                local_10._0_4_ = (eCWrapper_emfx2Actor *)(*(int *)pbVar8 + (int)local_28 * 8);
+                iVar18 = 0;
+                pcVar15 = bCString::operator_char_const_((bCString *)&DAT_30ada9ec);
+                bVar4 = bCString::Contains((bCString *)&(local_10._0_4_)->eCWrapper_emfx2Actor_data,
+                                           pcVar15,iVar18);
+                if (bVar4) {
+                  pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+                  bCString::bCString((bCString *)&local_20,
+                                     (bCString *)((int)local_28 * 8 + 4 + *(int *)pbVar8));
+                  iVar18 = 0;
+                  pcVar15 = bCString::operator_char_const_((bCString *)&DAT_30ada9e4);
+                  peVar16 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+                  pbVar14 = eCEntity::GetName(peVar16);
+                  bVar4 = bCString::Contains(pbVar14,pcVar15,iVar18);
+                  if (bVar4) {
+                    pbVar14 = (bCString *)&DAT_30ada9f0;
+                  }
+                  else {
+                    iVar18 = 0;
+                    pcVar15 = bCString::operator_char_const_((bCString *)&DAT_30ada9e8);
+                    peVar16 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+                    pbVar14 = eCEntity::GetName(peVar16);
+                    bVar4 = bCString::Contains(pbVar14,pcVar15,iVar18);
+                    pbVar14 = (bCString *)&DAT_30ada9f4;
+                    if (!bVar4) {
+                      pbVar14 = (bCString *)&DAT_30ada9f8;
+                    }
+                  }
+                  pcVar15 = bCString::operator_char_const_(pbVar14);
+                  pcVar17 = bCString::operator_char_const_((bCString *)&DAT_30ada9ec);
+                  bCString::Replace((bCString *)&local_20,pcVar17,pcVar15);
+                  local_10 = (double)CONCAT44(local_10._4_4_,*puVar13);
+                  uVar24 = (**(code **)(*param_1 + 0x68))(0,0,0);
+                  (**(code **)local_10._0_4_)(&local_20,uVar24);
+                  bCString::~bCString((bCString *)&local_20);
+                  goto LAB_300a1fe4;
+                }
+              }
+              pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+              peStack_14 = (eCWrapper_emfx2Actor *)*puVar13;
+              local_10 = (double)CONCAT44(local_10._4_4_,*(int *)pbVar8 + (int)local_28 * 8);
+              uVar24 = (**(code **)(*param_1 + 0x68))(0,0,0);
+              (*(code *)peStack_14->vftablePtr)((int)local_10._0_4_ + 4,uVar24);
+            }
+LAB_300a1fe4:
+            local_28 = (eCWrapper_emfx2Actor *)&local_28[-1].eCWrapper_emfx2Actor_data.field_0x77;
+            if ((int)local_28 < local_24) {
+              param_1[0x55] = (int)local_1c;
+              return;
+            }
+          } while( true );
+        }
+      }
+      else {
+        if ((int)peVar7 <= local_24) {
+          do {
+            local_20 = peVar7;
+            if (bVar3) {
+LAB_300a204f:
+              bVar5 = false;
+            }
+            else {
+              pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+              bVar4 = bCString::Contains((bCString *)(*(int *)pbVar8 + (int)local_20 * 8 + 4),"[R]",
+                                         0);
+              bVar5 = true;
+              if (bVar4) goto LAB_300a204f;
+            }
+            if (bVar5) {
+              peVar7 = (eCWrapper_emfx2Actor *)
+                       eCVisualAnimationFactory::GetAssembledActor
+                                 ((eCVisualAnimationFactory *)(param_1 + 0x25));
+              iVar18 = 0;
+              pcVar15 = bCString::operator_char_const_((bCString *)&DAT_30ada9e0);
+              pbVar14 = eCWrapper_emfx2Actor::GetActorName(peVar7);
+              bVar5 = bCString::Contains(pbVar14,pcVar15,iVar18);
+              if (bVar5) {
+                pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+                iVar18 = *(int *)pbVar8;
+                iVar9 = (int)local_20 * 8;
+                iVar31 = 0;
+                pcVar15 = bCString::operator_char_const_((bCString *)&DAT_30ada9ec);
+                bVar5 = bCString::Contains((bCString *)(iVar18 + iVar9 + 4),pcVar15,iVar31);
+                if (bVar5) {
+                  pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+                  bCString::bCString((bCString *)&local_28,
+                                     (bCString *)((int)local_20 * 8 + 4 + *(int *)pbVar8));
+                  iVar18 = 0;
+                  pcVar15 = bCString::operator_char_const_((bCString *)&DAT_30ada9e4);
+                  peVar16 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+                  pbVar14 = eCEntity::GetName(peVar16);
+                  bVar5 = bCString::Contains(pbVar14,pcVar15,iVar18);
+                  if (bVar5) {
+                    pbVar14 = (bCString *)&DAT_30ada9f0;
+                  }
+                  else {
+                    iVar18 = 0;
+                    pcVar15 = bCString::operator_char_const_((bCString *)&DAT_30ada9e8);
+                    peVar16 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+                    pbVar14 = eCEntity::GetName(peVar16);
+                    bVar5 = bCString::Contains(pbVar14,pcVar15,iVar18);
+                    pbVar14 = (bCString *)&DAT_30ada9f4;
+                    if (!bVar5) {
+                      pbVar14 = (bCString *)&DAT_30ada9f8;
+                    }
+                  }
+                  pcVar15 = bCString::operator_char_const_(pbVar14);
+                  pcVar17 = bCString::operator_char_const_((bCString *)&DAT_30ada9ec);
+                  bCString::Replace((bCString *)&local_28,pcVar17,pcVar15);
+                  puVar2 = (undefined4 *)*puVar13;
+                  uVar24 = (**(code **)(*param_1 + 0x68))(0,0,0);
+                  (*(code *)*puVar2)(&local_28,uVar24);
+                  bCString::~bCString((bCString *)&local_28);
+                  goto LAB_300a21cf;
+                }
+              }
+              pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+              iVar9 = *(int *)pbVar8;
+              iVar18 = (int)local_20 * 8;
+              local_10 = (double)CONCAT44(local_10._4_4_,*puVar13);
+              uVar24 = (**(code **)(*param_1 + 0x68))(0,0,0);
+              (**(code **)local_10._0_4_)(iVar9 + iVar18 + 4,uVar24);
+            }
+LAB_300a21cf:
+            peVar7 = (eCWrapper_emfx2Actor *)((int)&local_20->vftablePtr + 1);
+            if (local_24 < (int)peVar7) {
+              param_1[0x55] = (int)local_1c;
+              return;
+            }
+          } while( true );
+        }
+        local_28 = peVar7;
+        pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+        if ((int)peVar7 <= *(int *)(pbVar8 + 4) + -1) {
+          do {
+            if (bVar3) {
+LAB_300a2244:
+              bVar5 = false;
+            }
+            else {
+              pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+              bVar5 = bCString::Contains((bCString *)(*(int *)pbVar8 + (int)local_28 * 8 + 4),"[R]",
+                                         0);
+              if (bVar5) goto LAB_300a2244;
+              bVar5 = true;
+            }
+            if (bVar5) {
+              peVar7 = (eCWrapper_emfx2Actor *)
+                       eCVisualAnimationFactory::GetAssembledActor
+                                 ((eCVisualAnimationFactory *)(param_1 + 0x25));
+              iVar18 = 0;
+              pcVar15 = bCString::operator_char_const_((bCString *)&DAT_30ada9e0);
+              pbVar14 = eCWrapper_emfx2Actor::GetActorName(peVar7);
+              bVar5 = bCString::Contains(pbVar14,pcVar15,iVar18);
+              if (bVar5) {
+                pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+                iVar18 = *(int *)pbVar8;
+                iVar9 = (int)local_28 * 8;
+                iVar31 = 0;
+                pcVar15 = bCString::operator_char_const_((bCString *)&DAT_30ada9ec);
+                bVar5 = bCString::Contains((bCString *)(iVar18 + iVar9 + 4),pcVar15,iVar31);
+                if (bVar5) {
+                  pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+                  bCString::bCString((bCString *)&local_20,
+                                     (bCString *)((int)local_28 * 8 + 4 + *(int *)pbVar8));
+                  iVar18 = 0;
+                  pcVar15 = bCString::operator_char_const_((bCString *)&DAT_30ada9e4);
+                  peVar16 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+                  pbVar14 = eCEntity::GetName(peVar16);
+                  bVar5 = bCString::Contains(pbVar14,pcVar15,iVar18);
+                  if (bVar5) {
+                    pbVar14 = (bCString *)&DAT_30ada9f0;
+                  }
+                  else {
+                    iVar18 = 0;
+                    pcVar15 = bCString::operator_char_const_((bCString *)&DAT_30ada9e8);
+                    peVar16 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+                    pbVar14 = eCEntity::GetName(peVar16);
+                    bVar5 = bCString::Contains(pbVar14,pcVar15,iVar18);
+                    pbVar14 = (bCString *)&DAT_30ada9f4;
+                    if (!bVar5) {
+                      pbVar14 = (bCString *)&DAT_30ada9f8;
+                    }
+                  }
+                  pcVar15 = bCString::operator_char_const_(pbVar14);
+                  pcVar17 = bCString::operator_char_const_((bCString *)&DAT_30ada9ec);
+                  bCString::Replace((bCString *)&local_20,pcVar17,pcVar15);
+                  local_10 = (double)CONCAT44(local_10._4_4_,*puVar13);
+                  uVar24 = (**(code **)(*param_1 + 0x68))(0,0,0);
+                  (**(code **)local_10._0_4_)(&local_20,uVar24);
+                  bCString::~bCString((bCString *)&local_20);
+                  goto LAB_300a23c3;
+                }
+              }
+              pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+              iVar9 = *(int *)pbVar8;
+              iVar18 = (int)local_28 * 8;
+              local_10 = (double)CONCAT44(local_10._4_4_,*puVar13);
+              uVar24 = (**(code **)(*param_1 + 0x68))(0,0,0);
+              (**(code **)local_10._0_4_)(iVar9 + iVar18 + 4,uVar24);
+            }
+LAB_300a23c3:
+            peVar7 = (eCWrapper_emfx2Actor *)((int)&local_28->vftablePtr + 1);
+            local_28 = peVar7;
+            pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+          } while ((int)peVar7 <= *(int *)(pbVar8 + 4) + -1);
+        }
+        local_28 = (eCWrapper_emfx2Actor *)0x0;
+        if (-1 < local_24) {
+          do {
+            if (bVar3) {
+LAB_300a2425:
+              bVar5 = false;
+            }
+            else {
+              pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+              bVar5 = bCString::Contains((bCString *)(*(int *)pbVar8 + (int)local_28 * 8 + 4),"[R]",
+                                         0);
+              if (bVar5) goto LAB_300a2425;
+              bVar5 = true;
+            }
+            if (bVar5) {
+              peVar7 = (eCWrapper_emfx2Actor *)
+                       eCVisualAnimationFactory::GetAssembledActor
+                                 ((eCVisualAnimationFactory *)(param_1 + 0x25));
+              iVar18 = 0;
+              pcVar15 = bCString::operator_char_const_((bCString *)&DAT_30ada9e0);
+              pbVar14 = eCWrapper_emfx2Actor::GetActorName(peVar7);
+              bVar5 = bCString::Contains(pbVar14,pcVar15,iVar18);
+              if (bVar5) {
+                pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+                iVar18 = *(int *)pbVar8;
+                iVar9 = (int)local_28 * 8;
+                iVar31 = 0;
+                pcVar15 = bCString::operator_char_const_((bCString *)&DAT_30ada9ec);
+                bVar5 = bCString::Contains((bCString *)(iVar18 + iVar9 + 4),pcVar15,iVar31);
+                if (bVar5) {
+                  pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+                  bCString::bCString((bCString *)&local_20,
+                                     (bCString *)((int)local_28 * 8 + 4 + *(int *)pbVar8));
+                  iVar18 = 0;
+                  pcVar15 = bCString::operator_char_const_((bCString *)&DAT_30ada9e4);
+                  peVar16 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+                  pbVar14 = eCEntity::GetName(peVar16);
+                  bVar5 = bCString::Contains(pbVar14,pcVar15,iVar18);
+                  if (bVar5) {
+                    pbVar14 = (bCString *)&DAT_30ada9f0;
+                  }
+                  else {
+                    iVar18 = 0;
+                    pcVar15 = bCString::operator_char_const_((bCString *)&DAT_30ada9e8);
+                    peVar16 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+                    pbVar14 = eCEntity::GetName(peVar16);
+                    bVar5 = bCString::Contains(pbVar14,pcVar15,iVar18);
+                    pbVar14 = (bCString *)&DAT_30ada9f4;
+                    if (!bVar5) {
+                      pbVar14 = (bCString *)&DAT_30ada9f8;
+                    }
+                  }
+                  pcVar15 = bCString::operator_char_const_(pbVar14);
+                  pcVar17 = bCString::operator_char_const_((bCString *)&DAT_30ada9ec);
+                  bCString::Replace((bCString *)&local_20,pcVar17,pcVar15);
+                  local_10 = (double)CONCAT44(local_10._4_4_,*puVar13);
+                  uVar24 = (**(code **)(*param_1 + 0x68))(0,0,0);
+                  (**(code **)local_10._0_4_)(&local_20,uVar24);
+                  bCString::~bCString((bCString *)&local_20);
+                  goto LAB_300a25a4;
+                }
+              }
+              pbVar8 = eCResourceAnimationMotion_PS::GetFrameEffectList(this);
+              iVar9 = *(int *)pbVar8;
+              iVar18 = (int)local_28 * 8;
+              local_10 = (double)CONCAT44(local_10._4_4_,*puVar13);
+              uVar24 = (**(code **)(*param_1 + 0x68))(0,0,0);
+              (**(code **)local_10._0_4_)(iVar9 + iVar18 + 4,uVar24);
+            }
+LAB_300a25a4:
+            local_28 = (eCWrapper_emfx2Actor *)((int)&local_28->vftablePtr + 1);
+          } while ((int)local_28 <= local_24);
+        }
+      }
+    }
+  }
+  param_1[0x55] = (int)local_1c;
+  return;
+}
+
+

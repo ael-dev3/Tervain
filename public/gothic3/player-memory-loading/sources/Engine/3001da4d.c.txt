@@ -1,0 +1,28 @@
+/* ENTRY 3001da4d | eCLocAdmin::AddLanguage | STATUS decompiled | 9 ms */
+
+/* public: bool __thiscall eCLocAdmin::AddLanguage(class bCString const &) */
+
+bool __thiscall eCLocAdmin::AddLanguage(eCLocAdmin *this,bCString *param_1)
+
+{
+  bCString *pbVar1;
+  int iVar2;
+  int iVar3;
+  eCLocTable aeStack_14 [20];
+  
+                    /* 0x1da4d  3417  ?AddLanguage@eCLocAdmin@@QAE_NABVbCString@@@Z */
+  pbVar1 = param_1;
+  iVar2 = thunk_FUN_305e5bf0(param_1,&param_1);
+  if (iVar2 != 0) {
+    return false;
+  }
+  iVar2 = thunk_FUN_305e68e0(pbVar1);
+  iVar3 = eCLocTable::eCLocTable(aeStack_14,pbVar1);
+  thunk_FUN_305e7c30(iVar3);
+  bCString::operator=((bCString *)(iVar2 + 0x10),(bCString *)(iVar3 + 0x10));
+  eCLocTable::~eCLocTable(aeStack_14);
+  this[0x38] = (eCLocAdmin)0x1;
+  return true;
+}
+
+

@@ -1,0 +1,2 @@
+; 300030ad eCEntity::GetWorldNodeSphere
+300030ad | e90e094b00 | JMP 0x304b39c0

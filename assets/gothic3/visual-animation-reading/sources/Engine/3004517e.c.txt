@@ -1,0 +1,26 @@
+/* ENTRY 3004517e | eCVisualAnimation_PS::eCLookAtConstraint::Read | STATUS decompiled | 12 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::eCLookAtConstraint::Read(class bCIStream &) */
+
+void __thiscall
+eCVisualAnimation_PS::eCLookAtConstraint::Read(eCLookAtConstraint *this,bCIStream *param_1)
+
+{
+  eCLookAtConstraint *peStack_4;
+  
+  peStack_4 = this;
+                    /* 0x4517e  12172
+                       ?Read@eCLookAtConstraint@eCVisualAnimation_PS@@QAEXAAVbCIStream@@@Z */
+  Destroy(this);
+  bCString::bCString((bCString *)&peStack_4);
+  bCIStream::operator>>((bCIStream *)param_1,(bCString *)&peStack_4);
+  bCString::operator=((bCString *)(this + 0x10),(bCString *)&peStack_4);
+  *(undefined4 *)(this + 0xc) = 0;
+  bCIStream::operator>>((bCIStream *)param_1,(float *)(this + 0x14));
+  bCVector::operator<<((bCVector *)(this + 0x18),param_1);
+  bCVector::operator<<((bCVector *)(this + 0x24),param_1);
+  bCString::~bCString((bCString *)&peStack_4);
+  return;
+}
+
+

@@ -1,0 +1,33 @@
+/* ENTRY 3009bef0 | eCVisualAnimationLoD::vfunction15 | STATUS decompiled | 7 ms */
+
+eCVisualAnimationLoD * __thiscall
+eCVisualAnimationLoD::vfunction15(eCVisualAnimationLoD *this,byte param_1)
+
+{
+  bCObjectBase *_Memory;
+  int iVar1;
+  eCVisualAnimationLoD *this_00;
+  
+  if ((param_1 & 2) == 0) {
+    ~eCVisualAnimationLoD(this);
+    if ((param_1 & 1) == 0) {
+      return this;
+    }
+                    /* WARNING: Subroutine does not return */
+    _free(this);
+  }
+  iVar1 = *(int *)&this[-1].eCVisualAnimationLoD_data.offset_0x24;
+  _Memory = &this[-1].eCVisualAnimationLoD_data.offset_0x24;
+  this_00 = this + iVar1;
+  while (iVar1 = iVar1 + -1, -1 < iVar1) {
+    this_00 = this_00 + -1;
+    ~eCVisualAnimationLoD(this_00);
+  }
+  if ((param_1 & 1) == 0) {
+    return (eCVisualAnimationLoD *)_Memory;
+  }
+                    /* WARNING: Subroutine does not return */
+  _free(_Memory);
+}
+
+

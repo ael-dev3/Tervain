@@ -1,0 +1,12 @@
+/* ENTRY 100088ff | bCAccessorPropertyObject::HasPropertyObject | STATUS decompiled | 1 ms */
+
+/* public: bool __thiscall bCAccessorPropertyObject::HasPropertyObject(void)const  */
+
+bool __thiscall bCAccessorPropertyObject::HasPropertyObject(bCAccessorPropertyObject *this)
+
+{
+                    /* 0x88ff  3306  ?HasPropertyObject@bCAccessorPropertyObject@@QBE_NXZ */
+  return *(int *)(this + 4) != 0;
+}
+
+

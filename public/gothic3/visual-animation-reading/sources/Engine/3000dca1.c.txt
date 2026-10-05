@@ -1,0 +1,19 @@
+/* ENTRY 3000dca1 | eCVisualAnimation_PS::SetCreateSpringMassCloth | STATUS decompiled | 8 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetCreateSpringMassCloth(bool const &) */
+
+void __thiscall
+eCVisualAnimation_PS::SetCreateSpringMassCloth(eCVisualAnimation_PS *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0xdca1  13137  ?SetCreateSpringMassCloth@eCVisualAnimation_PS@@QAEXAB_N@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"CreateSpringMassCloth",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(bool *)&this[6].eCEntityPropertySet_data = *param_1;
+  (*pNVar1)(this,"CreateSpringMassCloth",false);
+  return;
+}
+
+

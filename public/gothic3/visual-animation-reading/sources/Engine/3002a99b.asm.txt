@@ -1,0 +1,2 @@
+; 3002a99b eCVisualAnimation_PS::GetOnScreenDebugLines
+3002a99b | e900a30700 | JMP 0x300a4ca0

@@ -1,0 +1,2 @@
+; 2001c04e bTPropertyType<gCEffect_PS,bCVector>::vfunction26
+2001c04e | e91df60f00 | JMP 0x2011b670

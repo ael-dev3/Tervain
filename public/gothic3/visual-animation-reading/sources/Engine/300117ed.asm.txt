@@ -1,0 +1,2 @@
+; 300117ed thunk_FUN_300ac390
+300117ed | e99eab0900 | JMP 0x300ac390

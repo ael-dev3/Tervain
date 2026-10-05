@@ -1,0 +1,16 @@
+/* ENTRY 30018ae3 | eCVisualAnimation_PS::GetSkeletonShapeGroup | STATUS decompiled | 6 ms */
+
+/* public: class bTPropertyContainer<enum eECollisionGroup> const & __thiscall
+   eCVisualAnimation_PS::GetSkeletonShapeGroup(void)const  */
+
+bTPropertyContainer<eECollisionGroup> * __thiscall
+eCVisualAnimation_PS::GetSkeletonShapeGroup(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x18ae3  8829
+                       ?GetSkeletonShapeGroup@eCVisualAnimation_PS@@QBEABV?$bTPropertyContainer@W4eECollisionGroup@@@@XZ
+                        */
+  return (bTPropertyContainer<eECollisionGroup> *)&this[5].eCEntityPropertySet_data.field_0x4;
+}
+
+

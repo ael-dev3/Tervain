@@ -1,0 +1,2 @@
+; 300139ad eCVisualAnimation_PS::OnPostRead
+300139ad | e95ea10800 | JMP 0x3009db10

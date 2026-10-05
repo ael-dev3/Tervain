@@ -1,0 +1,33 @@
+; 3030ad20 eCPhysicObject::eCPhysicObject
+3030ad20 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+3030ad24 | 56 | PUSH ESI
+3030ad25 | 8bf1 | MOV ESI,ECX
+3030ad27 | 8b4c240c | MOV ECX,dword ptr [ESP + 0xc]
+3030ad2b | 894604 | MOV dword ptr [ESI + 0x4],EAX
+3030ad2e | 33c0 | XOR EAX,EAX
+3030ad30 | c706b4158230 | MOV dword ptr [ESI],0x308215b4
+3030ad36 | 894610 | MOV dword ptr [ESI + 0x10],EAX
+3030ad39 | 894614 | MOV dword ptr [ESI + 0x14],EAX
+3030ad3c | 894618 | MOV dword ptr [ESI + 0x18],EAX
+3030ad3f | 89461c | MOV dword ptr [ESI + 0x1c],EAX
+3030ad42 | 894620 | MOV dword ptr [ESI + 0x20],EAX
+3030ad45 | 894624 | MOV dword ptr [ESI + 0x24],EAX
+3030ad48 | 51 | PUSH ECX
+3030ad49 | 8bce | MOV ECX,ESI
+3030ad4b | 894608 | MOV dword ptr [ESI + 0x8],EAX
+3030ad4e | 88460c | MOV byte ptr [ESI + 0xc],AL
+3030ad51 | 88460d | MOV byte ptr [ESI + 0xd],AL
+3030ad54 | 894628 | MOV dword ptr [ESI + 0x28],EAX
+3030ad57 | e80e9ecfff | CALL 0x30004b6a
+3030ad5c | 83f805 | CMP EAX,0x5
+3030ad5f | 7519 | JNZ 0x3030ad7a
+3030ad61 | 8b4e04 | MOV ECX,dword ptr [ESI + 0x4]
+3030ad64 | e86138d0ff | CALL 0x3000e5ca
+3030ad69 | 8b10 | MOV EDX,dword ptr [EAX]
+3030ad6b | 52 | PUSH EDX
+3030ad6c | 6850ea8530 | PUSH 0x3085ea50
+3030ad71 | ff1530dbaf30 | CALL dword ptr [0x30afdb30]
+3030ad77 | 83c408 | ADD ESP,0x8
+3030ad7a | 8bc6 | MOV EAX,ESI
+3030ad7c | 5e | POP ESI
+3030ad7d | c20800 | RET 0x8

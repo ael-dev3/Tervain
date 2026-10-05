@@ -1,0 +1,29 @@
+; 300aefe0 FUN_300aefe0
+300aefe0 | 56 | PUSH ESI
+300aefe1 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+300aefe5 | 57 | PUSH EDI
+300aefe6 | 8b7c2410 | MOV EDI,dword ptr [ESP + 0x10]
+300aefea | 8d04fd00000000 | LEA EAX,[EDI*0x8 + 0x0]
+300aeff1 | 50 | PUSH EAX
+300aeff2 | 6a00 | PUSH 0x0
+300aeff4 | 56 | PUSH ESI
+300aeff5 | e896265c00 | CALL 0x30671690
+300aeffa | 83c40c | ADD ESP,0xc
+300aeffd | 85ff | TEST EDI,EDI
+300aefff | 741f | JZ 0x300af020
+300af001 | 53 | PUSH EBX
+300af002 | 8b1decdbaf30 | MOV EBX,dword ptr [0x30afdbec]
+300af008 | 83ef01 | SUB EDI,0x1
+300af00b | 85f6 | TEST ESI,ESI
+300af00d | 7409 | JZ 0x300af018
+300af00f | 8bce | MOV ECX,ESI
+300af011 | ffd3 | CALL EBX
+300af013 | 8d4e04 | LEA ECX,[ESI + 0x4]
+300af016 | ffd3 | CALL EBX
+300af018 | 83c608 | ADD ESI,0x8
+300af01b | 85ff | TEST EDI,EDI
+300af01d | 75e9 | JNZ 0x300af008
+300af01f | 5b | POP EBX
+300af020 | 5f | POP EDI
+300af021 | 5e | POP ESI
+300af022 | c20800 | RET 0x8

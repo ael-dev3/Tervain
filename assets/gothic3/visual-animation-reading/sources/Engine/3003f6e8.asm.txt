@@ -1,0 +1,2 @@
+; 3003f6e8 thunk_FUN_3009bc90
+3003f6e8 | e9a3c50500 | JMP 0x3009bc90

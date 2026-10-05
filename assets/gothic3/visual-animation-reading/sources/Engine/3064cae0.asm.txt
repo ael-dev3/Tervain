@@ -1,0 +1,17 @@
+; 3064cae0 FUN_3064cae0
+3064cae0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+3064cae4 | 8b5004 | MOV EDX,dword ptr [EAX + 0x4]
+3064cae7 | 56 | PUSH ESI
+3064cae8 | 8bf1 | MOV ESI,ECX
+3064caea | 8b4808 | MOV ECX,dword ptr [EAX + 0x8]
+3064caed | 51 | PUSH ECX
+3064caee | 52 | PUSH EDX
+3064caef | 8bce | MOV ECX,ESI
+3064caf1 | e88af90100 | CALL 0x3066c480
+3064caf6 | e8455dffff | CALL 0x30642840
+3064cafb | 56 | PUSH ESI
+3064cafc | 8bc8 | MOV ECX,EAX
+3064cafe | e86d630000 | CALL 0x30652e70
+3064cb03 | 894610 | MOV dword ptr [ESI + 0x10],EAX
+3064cb06 | 5e | POP ESI
+3064cb07 | c20400 | RET 0x4

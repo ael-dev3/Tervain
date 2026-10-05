@@ -1,0 +1,103 @@
+/* ENTRY 300a2ec0 | FUN_300a2ec0 | STATUS decompiled | 43 ms */
+
+void __thiscall FUN_300a2ec0(eCEntityPropertySet *param_1,bCIStream *param_2)
+
+{
+  undefined1 *this;
+  int *piVar1;
+  int iVar2;
+  bool bVar3;
+  bCString *pbVar4;
+  eCActorAttachment *this_00;
+  bCMatrix *pbVar5;
+  bCVector *pbVar6;
+  eCEntityPropertySet_vftable *peVar7;
+  float fVar8;
+  bool local_19;
+  ushort local_18 [2];
+  uint local_14;
+  uint uStack_10;
+  bCVector abStack_c [12];
+  
+  bCIStream::operator>>(param_2,local_18);
+  this = &param_1[7].eCEntityPropertySet_data.field_0x4;
+  eCVisualAnimationFactory::Read((eCVisualAnimationFactory *)this,(bCIStream *)param_2);
+  if (local_18[0] < 0x37) {
+    bCIStream::operator>>(param_2,&local_19);
+  }
+  if (local_18[0] < 0x1c) {
+    bCIStream::operator>>(param_2,&local_19);
+    if (local_19 == true) {
+      bCString::bCString((bCString *)&local_14);
+      bCIStream::operator>>(param_2,(bCString *)&local_14);
+      piVar1 = (int *)param_1[0xb].eCEntityPropertySet_data.offset_0x8;
+      if ((int *)*piVar1 != (int *)0x0) {
+        (**(code **)(*(int *)*piVar1 + 0x24))();
+        *piVar1 = 0;
+      }
+      bCString::operator=((bCString *)(piVar1 + 1),(bCString *)&local_14);
+      bCString::~bCString((bCString *)&local_14);
+    }
+  }
+  else {
+    thunk_FUN_300ae4c0(param_2);
+  }
+  if (local_18[0] < 0x1d) {
+    pbVar4 = eCVisualAnimationFactory::GetMainActorFileName((eCVisualAnimationFactory *)this);
+    bCString::bCString((bCString *)&local_14,pbVar4);
+    bCString::operator=((bCString *)(param_1 + 1),(bCString *)&local_14);
+    bCString::~bCString((bCString *)&local_14);
+  }
+  else {
+    bVar3 = bCString::IsEmpty((bCString *)(param_1 + 1));
+    if (!bVar3) {
+      eCVisualAnimationFactory::SetMainActorFileName
+                ((eCVisualAnimationFactory *)this,(bCString *)(param_1 + 1));
+    }
+  }
+  if (0x1d < local_18[0]) {
+    eCVisualAnimation_PS::ClearAttachments((eCVisualAnimation_PS *)param_1);
+    bCIStream::operator>>(param_2,&uStack_10);
+    local_14 = 0;
+    if (uStack_10 != 0) {
+      do {
+        this_00 = (eCActorAttachment *)new(0x78,0x76a);
+        if (this_00 == (eCActorAttachment *)0x0) {
+          this_00 = (eCActorAttachment *)0x0;
+        }
+        else {
+          eCEntityProxy::eCEntityProxy((eCEntityProxy *)(this_00 + 4));
+          pbVar5 = bCMatrix::GetIdentity();
+          bCMatrix::bCMatrix((bCMatrix *)(this_00 + 0x20),pbVar5);
+          *(eCEntityPropertySet **)(this_00 + 0x60) = param_1;
+          *(undefined4 *)(this_00 + 100) = 0;
+          bCString::bCString((bCString *)(this_00 + 0x68));
+          this_00[0x70] = (eCActorAttachment)0x0;
+          *(undefined4 *)(this_00 + 0x74) = 0;
+          *(undefined4 *)(this_00 + 0x6c) = 0;
+          *(eCEntityPropertySet **)this_00 = param_1;
+        }
+        eCVisualAnimation_PS::eCActorAttachment::Read(this_00,(bCIStream *)param_2,local_18[0]);
+        peVar7 = (eCEntityPropertySet_vftable *)((int)&(param_1[10].vftablePtr)->GetVersion + 1);
+        thunk_FUN_300aed30(peVar7,(peVar7 != (eCEntityPropertySet_vftable *)0x0) - 1);
+        iVar2 = *(int *)&param_1[9].eCEntityPropertySet_data.offset_0xc;
+        param_1[10].vftablePtr = peVar7;
+        local_14 = local_14 + 1;
+        *(eCActorAttachment **)(iVar2 + -4 + (int)peVar7 * 4) = this_00;
+      } while (local_14 < uStack_10);
+    }
+  }
+  if (0x3f < local_18[0]) {
+    bCBox::operator<<((bCBox *)&param_1[0xc].eCEntityPropertySet_data,(bCIStream *)param_2);
+    eCEntityPropertySet::Read(param_1,(bCIStream *)param_2);
+    return;
+  }
+  fVar8 = 100.0;
+  pbVar6 = (bCVector *)bCVector::bCVector(abStack_c,0.0);
+  bCBox::SetBox((bCBox *)&param_1[0xc].eCEntityPropertySet_data,pbVar6,fVar8);
+  bCVector::~bCVector(abStack_c);
+  eCEntityPropertySet::Read(param_1,(bCIStream *)param_2);
+  return;
+}
+
+

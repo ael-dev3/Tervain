@@ -1,0 +1,2 @@
+; 10002e46 MemHeap::FreeUnsynced
+10002e46 | e9a59c0300 | JMP 0x1003caf0

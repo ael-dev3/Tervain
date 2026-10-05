@@ -1,0 +1,2 @@
+; 3002faf4 eCVisualAnimation_PS::ClearLookAtConstraints
+3002faf4 | e9e7470700 | JMP 0x300a42e0

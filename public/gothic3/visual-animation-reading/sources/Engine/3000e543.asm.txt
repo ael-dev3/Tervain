@@ -1,0 +1,2 @@
+; 3000e543 eCWrapper_emfx2Actor::StopAtLoopEnd
+3000e543 | e938cd0c00 | JMP 0x300db280

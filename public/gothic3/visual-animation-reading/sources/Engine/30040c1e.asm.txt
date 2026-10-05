@@ -1,0 +1,2 @@
+; 30040c1e eCSpringAndDamperEffector::GetSpringMaxCompressForce
+30040c1e | e95d0a0200 | JMP 0x30061680

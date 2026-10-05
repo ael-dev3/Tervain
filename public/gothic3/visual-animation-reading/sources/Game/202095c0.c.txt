@@ -1,0 +1,10 @@
+/* ENTRY 202095c0 | bTPropertyObject<gCClock_PS,eCEntityPropertySet>::vfunction11 | STATUS decompiled | 1 ms */
+
+void __thiscall bTPropertyObject<gCClock_PS,eCEntityPropertySet>::vfunction11(void)
+
+{
+  thunk_FUN_20209360(0);
+  return;
+}
+
+

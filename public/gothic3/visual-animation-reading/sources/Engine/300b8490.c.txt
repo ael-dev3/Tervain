@@ -1,0 +1,28 @@
+/* ENTRY 300b8490 | FUN_300b8490 | STATUS decompiled | 4 ms */
+
+void __thiscall FUN_300b8490(int param_1,undefined4 param_2)
+
+{
+  undefined4 *puVar1;
+  int iVar2;
+  int iVar3;
+  undefined4 uVar4;
+  
+  iVar2 = *(int *)(param_1 + 0x1cc);
+  iVar3 = iVar2 + 1;
+  *(int *)(param_1 + 0x1cc) = iVar3;
+  if (*(int *)(param_1 + 0x1d0) < iVar3) {
+    iVar2 = iVar2 + 2;
+    thunk_FUN_300ad900();
+    uVar4 = FUN_3066b020(*(undefined4 *)(param_1 + 0x1d4),iVar2 * 4,2,0x10,2);
+    *(int *)(param_1 + 0x1d0) = iVar2;
+    *(undefined4 *)(param_1 + 0x1d4) = uVar4;
+  }
+  puVar1 = (undefined4 *)(*(int *)(param_1 + 0x1d4) + -4 + *(int *)(param_1 + 0x1cc) * 4);
+  if (puVar1 != (undefined4 *)0x0) {
+    *puVar1 = param_2;
+  }
+  return;
+}
+
+

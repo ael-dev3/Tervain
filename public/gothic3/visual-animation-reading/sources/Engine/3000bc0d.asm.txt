@@ -1,0 +1,2 @@
+; 3000bc0d eCArchiveFile::GetFileName
+3000bc0d | e9fe135d00 | JMP 0x305dd010

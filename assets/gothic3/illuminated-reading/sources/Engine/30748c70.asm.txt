@@ -1,0 +1,15 @@
+; 30748c70 bTPropertyObject<eCIlluminated_PS,eCEntityPropertySet>::~bTPropertyObject<eCIlluminated_PS,eCEntityPropertySet>
+30748c70 | b95c1dae30 | MOV ECX,0x30ae1d5c
+30748c75 | ff1520caaf30 | CALL dword ptr [0x30afca20]
+30748c7b | c705641dae3000000000 | MOV dword ptr [0x30ae1d64],0x0
+30748c85 | c7055c1dae305c4f8430 | MOV dword ptr [0x30ae1d5c],0x30844f5c
+30748c8f | e82caa8bff | CALL 0x300036c0
+30748c94 | 6a01 | PUSH 0x1
+30748c96 | b95c1dae30 | MOV ECX,0x30ae1d5c
+30748c9b | a3681dae30 | MOV [0x30ae1d68],EAX
+30748ca0 | c705641dae3000000000 | MOV dword ptr [0x30ae1d64],0x0
+30748caa | e80d788fff | CALL 0x300404bc
+30748caf | 6840ef7930 | PUSH 0x3079ef40
+30748cb4 | e8dd88f2ff | CALL 0x30671596
+30748cb9 | 59 | POP ECX
+30748cba | c3 | RET

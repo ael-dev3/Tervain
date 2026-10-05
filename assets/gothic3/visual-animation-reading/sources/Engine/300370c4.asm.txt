@@ -1,0 +1,2 @@
+; 300370c4 eCCameraBase::WorldToScreen
+300370c4 | e9072b0d00 | JMP 0x30109bd0

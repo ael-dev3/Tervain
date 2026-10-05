@@ -1,0 +1,38 @@
+/* ENTRY 100034ef | bCPropertyID::CreateFromString | STATUS decompiled | 12 ms */
+
+/* public: void __thiscall bCPropertyID::CreateFromString(class bCString const &) */
+
+void __thiscall bCPropertyID::CreateFromString(bCPropertyID *this,bCString *param_1)
+
+{
+  char *pcVar1;
+  ulong uVar2;
+  bSCore abStack_6c [16];
+  bCMd5 abStack_5c [92];
+  
+                    /* 0x34ef  1827  ?CreateFromString@bCPropertyID@@QAEXABVbCString@@@Z */
+  bCMd5::bCMd5(abStack_5c);
+  bCMd5::Create(abStack_5c);
+  uVar2 = 0;
+  if (*(int *)param_1 != 0) {
+    uVar2 = *(ulong *)(*(int *)param_1 + -8);
+  }
+  pcVar1 = bCString::operator_char_const_(param_1);
+  bCMd5::Append(abStack_5c,pcVar1,uVar2);
+  bCMd5::Finish(abStack_5c,(bSCore *)this);
+  bCMd5::Create(abStack_5c);
+  bCMd5::Append(abStack_5c,"MAGIC",5);
+  uVar2 = 0;
+  if (*(int *)param_1 != 0) {
+    uVar2 = *(ulong *)(*(int *)param_1 + -8);
+  }
+  pcVar1 = bCString::operator_char_const_(param_1);
+  bCMd5::Append(abStack_5c,pcVar1,uVar2);
+  bCMd5::Finish(abStack_5c,abStack_6c);
+  bCMd5::GetDigest32(abStack_5c,abStack_6c);
+  *(undefined4 *)(this + 0x10) = 0;
+  bCMd5::~bCMd5(abStack_5c);
+  return;
+}
+
+

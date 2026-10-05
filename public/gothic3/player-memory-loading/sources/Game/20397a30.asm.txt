@@ -1,0 +1,4 @@
+; 20397a30 FUN_20397a30
+20397a30 | 8b01 | MOV EAX,dword ptr [ECX]
+20397a32 | 8b9084000000 | MOV EDX,dword ptr [EAX + 0x84]
+20397a38 | ffe2 | JMP EDX

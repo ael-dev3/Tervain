@@ -1,0 +1,58 @@
+/* ENTRY 30029bae | eCMainCache::CacheInResource | STATUS decompiled | 19 ms */
+
+/* public: bool __thiscall eCMainCache::CacheInResource(class eCResourceDataEntity &) */
+
+bool __thiscall eCMainCache::CacheInResource(eCMainCache *this,eCResourceDataEntity *param_1)
+
+{
+  undefined1 uVar1;
+  eCResourceBase_PS *peVar2;
+  undefined4 uVar3;
+  eCImageCache *peVar4;
+  eCSoundCache *peVar5;
+  eCMeshCache *peVar6;
+  eCMaterialCache *peVar7;
+  eCCollisionMeshCache *peVar8;
+  eCAnimationCache *peVar9;
+  eCSpeedTreeCache *peVar10;
+  
+                    /* 0x29bae  3642  ?CacheInResource@eCMainCache@@QAE_NAAVeCResourceDataEntity@@@Z
+                        */
+  peVar2 = eCResourceDataEntity::SearchResourcePropertySet((eCResourceDataEntity *)param_1);
+  if (peVar2 != (eCResourceBase_PS *)0x0) {
+    uVar3 = (**(code **)(*(int *)peVar2 + 0x6c))();
+    switch(uVar3) {
+    case 1:
+      peVar4 = AccessImageCache(this);
+      uVar1 = (**(code **)(*(int *)peVar4 + 0x68))(param_1);
+      return (bool)uVar1;
+    case 2:
+      peVar6 = AccessMeshCache(this);
+      uVar1 = (**(code **)(*(int *)peVar6 + 0x68))(param_1);
+      return (bool)uVar1;
+    case 3:
+      peVar5 = AccessSoundCache(this);
+      uVar1 = (**(code **)(*(int *)peVar5 + 0x68))(param_1);
+      return (bool)uVar1;
+    case 4:
+      peVar7 = AccessMaterialCache(this);
+      uVar1 = (**(code **)(*(int *)peVar7 + 0x68))(param_1);
+      return (bool)uVar1;
+    case 5:
+      peVar8 = AccessCollisionMeshCache(this);
+      uVar1 = (**(code **)(*(int *)peVar8 + 0x68))(param_1);
+      return (bool)uVar1;
+    case 6:
+      peVar9 = AccessAnimationCache(this);
+      uVar1 = (**(code **)(*(int *)peVar9 + 0x68))(param_1);
+      return (bool)uVar1;
+    case 7:
+      peVar10 = AccessSpeedTreeCache(this);
+      uVar1 = (**(code **)(*(int *)peVar10 + 0x68))(param_1);
+      return (bool)uVar1;
+    }
+  }
+  return false;
+}
+
+

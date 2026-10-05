@@ -1,0 +1,3 @@
+; 10027fb0 FUN_10027fb0
+10027fb0 | 8bc1 | MOV EAX,ECX
+10027fb2 | c3 | RET

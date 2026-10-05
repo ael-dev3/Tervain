@@ -1,0 +1,12 @@
+/* ENTRY 30036fcf | eCVisualAnimation_PS::AccessBoneJointSpring | STATUS decompiled | 10 ms */
+
+/* public: float & __thiscall eCVisualAnimation_PS::AccessBoneJointSpring(void) */
+
+float * __thiscall eCVisualAnimation_PS::AccessBoneJointSpring(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x36fcf  2515  ?AccessBoneJointSpring@eCVisualAnimation_PS@@QAEAAMXZ */
+  return (float *)(this + 4);
+}
+
+

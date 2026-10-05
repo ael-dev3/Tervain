@@ -1,0 +1,2 @@
+; 30386090 bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::vfunction2
+30386090 | e946e0caff | JMP 0x300340db

@@ -1,0 +1,24 @@
+/* ENTRY 20001c9e | gCEffect_PS::OnExitProcessingRange | STATUS decompiled | 9 ms */
+
+/* public: virtual void __thiscall gCEffect_PS::OnExitProcessingRange(void) */
+
+void __thiscall gCEffect_PS::OnExitProcessingRange(gCEffect_PS *this)
+
+{
+  gCEffectModule *this_00;
+  gCEffectSystem *pgVar1;
+  
+                    /* 0x1c9e  5423  ?OnExitProcessingRange@gCEffect_PS@@UAEXXZ */
+  if (((this->gCEffect_PS_data).field_0x24 == '\x01') && ((this->gCEffect_PS_data).offset_0x28 != 0)
+     ) {
+    this_00 = (gCEffectModule *)gCEffectModule::GetInstance();
+    pgVar1 = gCEffectModule::GetSystem(this_00);
+    if (pgVar1 != (gCEffectSystem *)0x0) {
+      (**(code **)(*(int *)pgVar1 + 4))((this->gCEffect_PS_data).offset_0x28,0);
+      (this->gCEffect_PS_data).offset_0x28 = 0;
+    }
+  }
+  return;
+}
+
+

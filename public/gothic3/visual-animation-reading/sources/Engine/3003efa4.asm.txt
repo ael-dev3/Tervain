@@ -1,0 +1,2 @@
+; 3003efa4 eCVisualAnimation_PS::GetCurrentLoDLevel
+3003efa4 | e9a7ea0500 | JMP 0x3009da50

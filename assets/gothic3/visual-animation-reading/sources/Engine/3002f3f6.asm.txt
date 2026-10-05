@@ -1,0 +1,2 @@
+; 3002f3f6 eCSpringAndDamperEffector::GetRootObject
+3002f3f6 | e9b58d3500 | JMP 0x303881b0

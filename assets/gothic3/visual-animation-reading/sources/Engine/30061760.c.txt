@@ -1,0 +1,16 @@
+/* ENTRY 30061760 | FUN_30061760 | STATUS decompiled | 4 ms */
+
+void __fastcall FUN_30061760(int *param_1)
+
+{
+  code *pcVar1;
+  int *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("DamperVelCompressSaturate",0);
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  param_1[0x1c] = *unaff_ESI;
+  (*pcVar1)("DamperVelCompressSaturate",0);
+  return;
+}
+
+

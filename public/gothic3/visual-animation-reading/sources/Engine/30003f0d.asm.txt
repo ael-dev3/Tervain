@@ -1,0 +1,2 @@
+; 30003f0d eCSceneAdmin::GetAccessToEntityAdmin
+30003f0d | e99e684c00 | JMP 0x304ca7b0

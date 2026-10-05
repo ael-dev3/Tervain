@@ -1,0 +1,22 @@
+/* ENTRY 300375e7 | eCEntity::UpdateGeometry | STATUS decompiled | 15 ms */
+
+/* public: void __thiscall eCEntity::UpdateGeometry(void) */
+
+void __thiscall eCEntity::UpdateGeometry(eCEntity *this)
+
+{
+  bool bVar1;
+  
+                    /* 0x375e7  14887  ?UpdateGeometry@eCEntity@@QAEXXZ */
+  (*this->vftablePtr->UpdateChildDependencies)(this);
+  bVar1 = eCNode::HasParent((eCNode *)this);
+  if (bVar1) {
+                    /* WARNING: Could not recover jumptable at 0x304b3e63. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    (*this->vftablePtr->UpdateParentDependencies)(this);
+    return;
+  }
+  return;
+}
+
+

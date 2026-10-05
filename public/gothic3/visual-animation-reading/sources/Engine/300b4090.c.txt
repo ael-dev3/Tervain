@@ -1,0 +1,19 @@
+/* ENTRY 300b4090 | bTPropertyType<eCVisualAnimation_PS,bTPropertyContainer<eEShapeGroup>_>::vfunction12 | STATUS decompiled | 4 ms */
+
+bTPropertyType<eCVisualAnimation_PS,bTPropertyContainer<eEShapeGroup>_>_vftable * __thiscall
+bTPropertyType<eCVisualAnimation_PS,bTPropertyContainer<eEShapeGroup>_>::vfunction12
+          (bTPropertyType<eCVisualAnimation_PS,bTPropertyContainer<eEShapeGroup>_> *this,
+          undefined4 *param_1)
+
+{
+  int iVar1;
+  
+  if (param_1 == (undefined4 *)0x0) {
+    return (bTPropertyType<eCVisualAnimation_PS,bTPropertyContainer<eEShapeGroup>_>_vftable *)0x0;
+  }
+  iVar1 = (**(code **)*param_1)();
+  return (bTPropertyType<eCVisualAnimation_PS,bTPropertyContainer<eEShapeGroup>_>_vftable *)
+         ((int)&(this[7].vftablePtr)->vfunction1 + iVar1);
+}
+
+

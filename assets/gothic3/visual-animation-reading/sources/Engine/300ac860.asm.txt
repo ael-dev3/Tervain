@@ -1,0 +1,28 @@
+; 300ac860 bTPOPureSmartPtr<eCSpringAndDamperEffector>::~bTPOPureSmartPtr<eCSpringAndDamperEffector>
+300ac860 | 56 | PUSH ESI
+300ac861 | 8bf1 | MOV ESI,ECX
+300ac863 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+300ac866 | 85c9 | TEST ECX,ECX
+300ac868 | 57 | PUSH EDI
+300ac869 | c706ecf68130 | MOV dword ptr [ESI],0x3081f6ec
+300ac86f | 7415 | JZ 0x300ac886
+300ac871 | ff1518caaf30 | CALL dword ptr [0x30afca18]
+300ac877 | 83f801 | CMP EAX,0x1
+300ac87a | 750a | JNZ 0x300ac886
+300ac87c | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+300ac87f | 8b01 | MOV EAX,dword ptr [ECX]
+300ac881 | 8b5014 | MOV EDX,dword ptr [EAX + 0x14]
+300ac884 | ffd2 | CALL EDX
+300ac886 | 8b7e08 | MOV EDI,dword ptr [ESI + 0x8]
+300ac889 | 85ff | TEST EDI,EDI
+300ac88b | 7412 | JZ 0x300ac89f
+300ac88d | 6a00 | PUSH 0x0
+300ac88f | 8bcf | MOV ECX,EDI
+300ac891 | ff1514caaf30 | CALL dword ptr [0x30afca14]
+300ac897 | 8bcf | MOV ECX,EDI
+300ac899 | ff1510caaf30 | CALL dword ptr [0x30afca10]
+300ac89f | 5f | POP EDI
+300ac8a0 | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+300ac8a7 | 8bce | MOV ECX,ESI
+300ac8a9 | 5e | POP ESI
+300ac8aa | ff254ccaaf30 | JMP dword ptr [0x30afca4c]

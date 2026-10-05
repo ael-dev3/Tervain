@@ -1,0 +1,13 @@
+; 305de7c0 eCArchiveManager::~eCArchiveManager
+305de7c0 | b801000000 | MOV EAX,0x1
+305de7c5 | 84058869af30 | TEST byte ptr [0x30af6988],AL
+305de7cb | 7528 | JNZ 0x305de7f5
+305de7cd | 09058869af30 | OR dword ptr [0x30af6988],EAX
+305de7d3 | b98469af30 | MOV ECX,0x30af6984
+305de7d8 | ff1508ccaf30 | CALL dword ptr [0x30afcc08]
+305de7de | 68a07d7b30 | PUSH 0x307b7da0
+305de7e3 | c7058469af3044d58830 | MOV dword ptr [0x30af6984],0x3088d544
+305de7ed | e8a42d0900 | CALL 0x30671596
+305de7f2 | 83c404 | ADD ESP,0x4
+305de7f5 | b88469af30 | MOV EAX,0x30af6984
+305de7fa | c3 | RET

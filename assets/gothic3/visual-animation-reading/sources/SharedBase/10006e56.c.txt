@@ -1,0 +1,69 @@
+/* ENTRY 10006e56 | bCString::SetText | STATUS decompiled | 14 ms */
+
+/* public: void __thiscall bCString::SetText(class bCString const &,int) */
+
+void __thiscall bCString::SetText(bCString *this,bCString *param_1,int param_2)
+
+{
+  int iVar1;
+  char *_Src;
+  char *pcVar2;
+  void *pvVar3;
+  bCMemoryAdmin *this_00;
+  
+                    /* 0x6e56  4346  ?SetText@bCString@@QAEXABV1@H@Z */
+  pcVar2 = *(char **)param_1;
+  if (((pcVar2 == (char *)0x0) || (iVar1 = *(int *)(pcVar2 + -8), iVar1 == 0)) || (param_2 == 0)) {
+    iVar1 = *(int *)this;
+    if (iVar1 != 0) {
+      if ((*(ushort *)(iVar1 + -4) < 2) && (-1 < *(int *)(iVar1 + -8))) {
+        *(undefined4 *)(iVar1 + -8) = 0;
+        **(undefined1 **)this = 0;
+        return;
+      }
+      *(short *)(iVar1 + -4) = *(short *)(iVar1 + -4) + -1;
+      pvVar3 = (void *)(iVar1 + -8);
+      if (*(short *)(iVar1 + -4) == 0) {
+        this_00 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::Free(this_00,pvVar3);
+      }
+    }
+    *(undefined4 *)this = 0;
+    return;
+  }
+  _Src = *(char **)this;
+  if (_Src == (char *)0x0) {
+    if (iVar1 <= param_2) {
+LAB_10014728:
+      *(char **)this = pcVar2;
+      *(short *)(pcVar2 + -4) = *(short *)(pcVar2 + -4) + 1;
+      return;
+    }
+    SetText(this,pcVar2,param_2);
+  }
+  else {
+    if (_Src != pcVar2) {
+      if (param_2 < iVar1) {
+        SetText(this,pcVar2,param_2);
+        return;
+      }
+      Release(this);
+      pcVar2 = *(char **)param_1;
+      goto LAB_10014728;
+    }
+    if (param_2 < iVar1) {
+      if (1 < *(ushort *)(_Src + -4)) {
+        Release(this);
+        Alloc(this,param_2);
+        _memcpy(*(void **)this,_Src,param_2);
+        return;
+      }
+      *(int *)(_Src + -8) = param_2;
+      *(undefined1 *)(param_2 + *(int *)this) = 0;
+      return;
+    }
+  }
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 10003a2b bCGothic3EngineDialogs::bCGothic3EngineDialogs
+10003a2b | e980d30100 | JMP 0x10020db0

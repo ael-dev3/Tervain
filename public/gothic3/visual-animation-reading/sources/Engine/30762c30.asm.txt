@@ -1,0 +1,15 @@
+; 30762c30 bTPropertyObject<eCEffector,bCObjectRefBase>::~bTPropertyObject<eCEffector,bCObjectRefBase>
+30762c30 | b940ddae30 | MOV ECX,0x30aedd40
+30762c35 | ff1520caaf30 | CALL dword ptr [0x30afca20]
+30762c3b | c70548ddae3000000000 | MOV dword ptr [0x30aedd48],0x0
+30762c45 | c70540ddae308c5e8630 | MOV dword ptr [0x30aedd40],0x30865e8c
+30762c4f | e804708cff | CALL 0x30029c58
+30762c54 | 6a01 | PUSH 0x1
+30762c56 | b940ddae30 | MOV ECX,0x30aedd40
+30762c5b | a34cddae30 | MOV [0x30aedd4c],EAX
+30762c60 | c70548ddae3000000000 | MOV dword ptr [0x30aedd48],0x0
+30762c6a | e89ae88aff | CALL 0x30011509
+30762c6f | 6830907a30 | PUSH 0x307a9030
+30762c74 | e81de9f0ff | CALL 0x30671596
+30762c79 | 59 | POP ECX
+30762c7a | c3 | RET

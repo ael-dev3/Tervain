@@ -1,0 +1,34 @@
+/* ENTRY 300409f8 | eCEntityPropertySet::OnCacheIn | STATUS decompiled | 8 ms */
+
+/* protected: virtual void __thiscall eCEntityPropertySet::OnCacheIn(void)
+   eCEntityPropertySet member function inherited by eCTriggerBase_PS
+   eCEntityPropertySet member function inherited by eCEventFilter_PS
+   eCEntityPropertySet member function inherited by eCTriggerCombiner_PS
+   eCEntityPropertySet member function inherited by eCStaticLight_PS
+   eCEntityPropertySet member function inherited by eCStaticPointLight_PS
+   eCEntityPropertySet member function inherited by eCStaticSpotLight_PS
+   eCEntityPropertySet member function inherited by eCEffectBase_PS
+   eCEntityPropertySet member function inherited by eCRigidBodyBase_PS
+   eCEntityPropertySet member function inherited by eCCollisionShapeBase_PS
+   eCEntityPropertySet member function inherited by eCPhysicsScene_PS
+   eCEntityPropertySet member function inherited by eCLinkContainer_PS
+   eCEntityPropertySet member function inherited by eCEngineCaps_PS
+   eCEntityPropertySet member function inherited by eCSkydome_PS
+   eCEntityPropertySet member function inherited by eCStrip_PS
+   eCEntityPropertySet member function inherited by eCVegetation_PS
+   eCEntityPropertySet member function inherited by eCVegetationBrush_PS
+   eCEntityPropertySet member function inherited by eCVegetationRubber_PS
+   eCEntityPropertySet member function inherited by eCPrecipitation_PS
+   eCEntityPropertySet member function inherited by eCWeatherZone_PS
+   eCEntityPropertySet member function inherited by eCEventDebugger_PS
+   eCEntityPropertySet member function inherited by eCParticleSystemBase_PS
+   eCEntityPropertySet member function inherited by eCRigidBody_PS */
+
+void __thiscall eCEntityPropertySet::OnCacheIn(eCEntityPropertySet *this)
+
+{
+                    /* 0x409f8  10911  ?OnCacheIn@eCEntityPropertySet@@MAEXXZ */
+  return;
+}
+
+

@@ -1,0 +1,10 @@
+/* ENTRY 1001fd30 | bCOStream::~bCOStream | STATUS decompiled | 1 ms */
+
+void __thiscall bCOStream::~bCOStream(bCOStream *this)
+
+{
+  this->vftablePtr = &vftable;
+  return;
+}
+
+

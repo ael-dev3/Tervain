@@ -1,0 +1,2 @@
+; 3001f7d0 eCIlluminated_PS::GetDirectionalShadowType
+3001f7d0 | e9fbcb0700 | JMP 0x3009c3d0

@@ -1,0 +1,8 @@
+; 100bd9a8 FUN_100bd9a8
+100bd9a8 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+100bd9ac | 250000f07f | AND EAX,0x7ff00000
+100bd9b1 | 3d0000f07f | CMP EAX,0x7ff00000
+100bd9b6 | 7401 | JZ 0x100bd9b9
+100bd9b8 | c3 | RET
+100bd9b9 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+100bd9bd | c3 | RET

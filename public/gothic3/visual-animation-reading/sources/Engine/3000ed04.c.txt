@@ -1,0 +1,16 @@
+/* ENTRY 3000ed04 | eCVisualAnimation_PS::SetForceAlwaysVisible | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetForceAlwaysVisible(bool) */
+
+void __thiscall eCVisualAnimation_PS::SetForceAlwaysVisible(eCVisualAnimation_PS *this,bool param_1)
+
+{
+                    /* 0xed04  13431  ?SetForceAlwaysVisible@eCVisualAnimation_PS@@QAEX_N@Z */
+  this[0x12].eCEntityPropertySet_data.field_0xe = param_1;
+  if (param_1) {
+    this[0x12].eCEntityPropertySet_data.offset_0xc = 1;
+  }
+  return;
+}
+
+

@@ -1,0 +1,15 @@
+; 300ab3e0 bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::deleting_destructor
+300ab3e0 | 56 | PUSH ESI
+300ab3e1 | 8bf1 | MOV ESI,ECX
+300ab3e3 | 8d4e18 | LEA ECX,[ESI + 0x18]
+300ab3e6 | c70644f78130 | MOV dword ptr [ESI],0x3081f744
+300ab3ec | ff1538caaf30 | CALL dword ptr [0x30afca38]
+300ab3f2 | 8bce | MOV ECX,ESI
+300ab3f4 | ff1534caaf30 | CALL dword ptr [0x30afca34]
+300ab3fa | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+300ab3ff | 7409 | JZ 0x300ab40a
+300ab401 | 56 | PUSH ESI
+300ab402 | e861605c00 | CALL 0x30671468
+300ab40a | 8bc6 | MOV EAX,ESI
+300ab40c | 5e | POP ESI
+300ab40d | c20400 | RET 0x4

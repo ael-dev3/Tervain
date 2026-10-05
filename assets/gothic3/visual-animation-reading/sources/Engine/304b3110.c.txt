@@ -1,0 +1,18 @@
+/* ENTRY 304b3110 | FUN_304b3110 | STATUS decompiled | 9 ms */
+
+void FUN_304b3110(eCEntity *param_1,undefined1 param_2)
+
+{
+  eCPhysicsScene *this;
+  eCEntity *extraout_var;
+  bool bVar1;
+  
+  if (param_1 != (eCEntity *)0x0) {
+    bVar1 = true;
+    this = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+    eCPhysicsScene::SetEntitiesCanCollide(this,extraout_var,param_1,(bool)param_2,bVar1);
+  }
+  return;
+}
+
+

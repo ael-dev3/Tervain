@@ -1,0 +1,64 @@
+/* ENTRY 1000167c | bCVector::SetTransformed | STATUS decompiled | 29 ms */
+
+/* public: void __thiscall bCVector::SetTransformed(class bCVector const &,class bCMatrix const &)
+    */
+
+void __thiscall bCVector::SetTransformed(bCVector *this,bCVector *param_1,bCMatrix *param_2)
+
+{
+  float fVar1;
+  bCVector abStack_c [12];
+  
+                    /* 0x167c  4400  ?SetTransformed@bCVector@@QAEXABV1@ABVbCMatrix@@@Z */
+  if (this == param_1) {
+    SetTransformed(abStack_c,param_1,param_2);
+    *(undefined4 *)this = *(undefined4 *)param_1;
+    *(undefined4 *)(this + 4) = *(undefined4 *)(param_1 + 4);
+    *(undefined4 *)(this + 8) = *(undefined4 *)(param_1 + 8);
+    return;
+  }
+  if ((((*(float *)(param_2 + 0xc) == 0.0) && (*(float *)(param_2 + 0x1c) == 0.0)) &&
+      (*(float *)(param_2 + 0x2c) == 0.0)) && (*(float *)(param_2 + 0x3c) == 1.0)) {
+    *(float *)this =
+         *(float *)(param_2 + 0x20) * *(float *)(param_1 + 8) +
+         *(float *)param_1 * *(float *)param_2 +
+         *(float *)(param_2 + 0x10) * *(float *)(param_1 + 4) + *(float *)(param_2 + 0x30);
+    *(float *)(this + 4) =
+         *(float *)(param_2 + 0x24) * *(float *)(param_1 + 8) +
+         *(float *)(param_2 + 0x14) * *(float *)(param_1 + 4) +
+         *(float *)(param_2 + 4) * *(float *)param_1 + *(float *)(param_2 + 0x34);
+    *(float *)(this + 8) =
+         *(float *)(param_2 + 0x28) * *(float *)(param_1 + 8) +
+         *(float *)(param_2 + 0x18) * *(float *)(param_1 + 4) +
+         *(float *)(param_2 + 8) * *(float *)param_1 + *(float *)(param_2 + 0x38);
+    return;
+  }
+  fVar1 = *(float *)(param_2 + 0x2c) * *(float *)(param_1 + 8) +
+          *(float *)(param_2 + 0x1c) * *(float *)(param_1 + 4) +
+          *(float *)param_1 * *(float *)(param_2 + 0xc) + *(float *)(param_2 + 0x3c);
+  if (ABS(fVar1) < 1e-05) {
+    *(undefined4 *)this = 0;
+    *(undefined4 *)(this + 4) = 0;
+    *(undefined4 *)(this + 8) = 0;
+    return;
+  }
+  *(float *)this =
+       *(float *)(param_2 + 0x30) +
+       *(float *)(param_2 + 0x20) * *(float *)(param_1 + 8) +
+       *(float *)(param_2 + 0x10) * *(float *)(param_1 + 4) + *(float *)param_2 * *(float *)param_1;
+  *(float *)(this + 4) =
+       *(float *)(param_2 + 0x24) * *(float *)(param_1 + 8) +
+       *(float *)(param_2 + 0x14) * *(float *)(param_1 + 4) +
+       *(float *)(param_2 + 4) * *(float *)param_1 + *(float *)(param_2 + 0x34);
+  *(float *)(this + 8) =
+       *(float *)(param_2 + 0x28) * *(float *)(param_1 + 8) +
+       *(float *)(param_2 + 0x18) * *(float *)(param_1 + 4) +
+       *(float *)(param_2 + 8) * *(float *)param_1 + *(float *)(param_2 + 0x38);
+  fVar1 = 1.0 / fVar1;
+  *(float *)this = fVar1 * *(float *)this;
+  *(float *)(this + 4) = *(float *)(this + 4) * fVar1;
+  *(float *)(this + 8) = fVar1 * *(float *)(this + 8);
+  return;
+}
+
+

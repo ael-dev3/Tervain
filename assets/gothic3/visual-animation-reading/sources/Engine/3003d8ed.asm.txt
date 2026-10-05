@@ -1,0 +1,2 @@
+; 3003d8ed eCSpringAndDamperEffector::Invalidate
+3003d8ed | e97ea93400 | JMP 0x30388270

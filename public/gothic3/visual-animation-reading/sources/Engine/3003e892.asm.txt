@@ -1,0 +1,2 @@
+; 3003e892 eCWnd::GetFont
+3003e892 | e959d41800 | JMP 0x301cbcf0

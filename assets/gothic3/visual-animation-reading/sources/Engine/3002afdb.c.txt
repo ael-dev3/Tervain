@@ -1,0 +1,66 @@
+/* ENTRY 3002afdb | eCPhysicObjectStateBuffer::AddActorFlag | STATUS decompiled | 48 ms */
+
+/* public: void __thiscall eCPhysicObjectStateBuffer::AddActorFlag(enum eEPhysicObjectFlag) */
+
+void __thiscall
+eCPhysicObjectStateBuffer::AddActorFlag(eCPhysicObjectStateBuffer *this,eEPhysicObjectFlag param_1)
+
+{
+  int *piVar1;
+  bool bVar2;
+  eCPhysicsScene *peVar3;
+  bCCriticalSectionWin32 *this_00;
+  eCCollisionShape_PS *this_01;
+  bTRefPtrArray<eCCollisionShape*> *pbVar4;
+  int iVar5;
+  
+                    /* 0x2afdb  3357
+                       ?AddActorFlag@eCPhysicObjectStateBuffer@@QAEXW4eEPhysicObjectFlag@@@Z */
+  if (*(int *)(this + 0x1b8) != 0) {
+    peVar3 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+    bVar2 = eCPhysicsScene::IsLocked(peVar3);
+    if (bVar2) {
+      thunk_FUN_30314220();
+      *(undefined4 *)(*(int *)(this + 0x1cc) + (uint)*(ushort *)(this + 0x1ca) * 4) = 0xd;
+      *(short *)(this + 0x1ca) = *(short *)(this + 0x1ca) + 1;
+      bCBitField::SetAt((bCBitField *)(this + 0x1d0),0xd,true);
+      iVar5 = *(int *)(this + 0x1a0) + 1;
+      thunk_FUN_300cae00(iVar5,(iVar5 != 0) - 1);
+      *(int *)(this + 0x1a0) = iVar5;
+      *(eEPhysicObjectFlag *)(*(int *)(this + 0x19c) + -4 + iVar5 * 4) = param_1;
+    }
+    else {
+      peVar3 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+      this_00 = eCPhysicsScene::GetCriticalSection(peVar3);
+      bCCriticalSectionWin32::Acquire(this_00);
+      bCCriticalSectionWin32::Release(this_00);
+      if ((int)param_1 < 4) {
+                    /* WARNING: Could not recover jumptable at 0x303104fd. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+        (**(code **)(**(int **)(this + 0x1b8) + 0x5c))();
+        return;
+      }
+      if ((*(int **)(this + 0x1b4) != (int *)0x0) &&
+         (this_01 = (eCCollisionShape_PS *)(**(code **)(**(int **)(this + 0x1b4) + 0xec))(0xe),
+         this_01 != (eCCollisionShape_PS *)0x0)) {
+        iVar5 = 0;
+        pbVar4 = eCCollisionShape_PS::GetShapes(this_01);
+        if (0 < *(int *)(pbVar4 + 4)) {
+          do {
+            pbVar4 = eCCollisionShape_PS::GetShapes(this_01);
+            piVar1 = *(int **)(*(int *)(*(int *)pbVar4 + iVar5 * 4) + 0x60);
+            if (piVar1 != (int *)0x0) {
+              (**(code **)(*piVar1 + 0x14))(0x40,1);
+            }
+            iVar5 = iVar5 + 1;
+            pbVar4 = eCCollisionShape_PS::GetShapes(this_01);
+          } while (iVar5 < *(int *)(pbVar4 + 4));
+          return;
+        }
+      }
+    }
+  }
+  return;
+}
+
+

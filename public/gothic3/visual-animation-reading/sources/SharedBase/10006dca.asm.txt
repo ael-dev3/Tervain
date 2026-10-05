@@ -1,0 +1,2 @@
+; 10006dca bCByteAlphaColor::operator=
+10006dca | e9d1590900 | JMP 0x1009c7a0

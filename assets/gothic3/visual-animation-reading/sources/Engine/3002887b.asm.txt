@@ -1,0 +1,2 @@
+; 3002887b eCSpringAndDamperEffector::Destroy
+3002887b | e960fa3500 | JMP 0x303882e0

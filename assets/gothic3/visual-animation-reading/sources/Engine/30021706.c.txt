@@ -1,0 +1,15 @@
+/* ENTRY 30021706 | eCSpringAndDamperEffector::GetSpringDistCompressSaturate | STATUS decompiled | 3 ms */
+
+/* public: float const & __thiscall
+   eCSpringAndDamperEffector::GetSpringDistCompressSaturate(void)const  */
+
+float * __thiscall
+eCSpringAndDamperEffector::GetSpringDistCompressSaturate(eCSpringAndDamperEffector *this)
+
+{
+                    /* 0x21706  8919
+                       ?GetSpringDistCompressSaturate@eCSpringAndDamperEffector@@QBEABMXZ */
+  return (float *)&(this->eCEffector_data).offset_0x58;
+}
+
+

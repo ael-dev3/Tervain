@@ -1,0 +1,2 @@
+; 10003d28 bCString::Clear
+10003d28 | e9830c0100 | JMP 0x100149b0

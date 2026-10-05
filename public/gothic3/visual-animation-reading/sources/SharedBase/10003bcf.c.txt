@@ -1,0 +1,12 @@
+/* ENTRY 10003bcf | bCAccessorCreator::operator-> | STATUS decompiled | 1 ms */
+
+/* public: class bCPropertyObjectBase * __thiscall bCAccessorCreator::operator->(void) */
+
+bCPropertyObjectBase * __thiscall bCAccessorCreator::operator->(bCAccessorCreator *this)
+
+{
+                    /* 0x3bcf  900  ??CbCAccessorCreator@@QAEPAVbCPropertyObjectBase@@XZ */
+  return *(bCPropertyObjectBase **)this;
+}
+
+

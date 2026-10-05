@@ -1,0 +1,19 @@
+; 30061fe0 FUN_30061fe0
+30061fe0 | 56 | PUSH ESI
+30061fe1 | 8bf1 | MOV ESI,ECX
+30061fe3 | 8b06 | MOV EAX,dword ptr [ESI]
+30061fe5 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+30061fe8 | 6a00 | PUSH 0x0
+30061fea | 68bc8c8130 | PUSH 0x30818cbc
+30061fef | ffd2 | CALL EDX
+30061ff1 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+30061ff5 | d900 | FLD float ptr [EAX]
+30061ff7 | 8b16 | MOV EDX,dword ptr [ESI]
+30061ff9 | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+30061ffc | d95e44 | FSTP float ptr [ESI + 0x44]
+30061fff | 6a00 | PUSH 0x0
+30062001 | 68bc8c8130 | PUSH 0x30818cbc
+30062006 | 8bce | MOV ECX,ESI
+30062008 | ffd0 | CALL EAX
+3006200a | 5e | POP ESI
+3006200b | c20400 | RET 0x4

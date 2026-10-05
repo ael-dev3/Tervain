@@ -1,0 +1,15 @@
+/* ENTRY 300274d0 | eCEffector::SetEntity1 | STATUS decompiled | 10 ms */
+
+/* public: void __thiscall eCEffector::SetEntity1(class eCEntityProxy const &) */
+
+void __thiscall eCEffector::SetEntity1(eCEffector *this,eCEntityProxy *param_1)
+
+{
+                    /* 0x274d0  13336  ?SetEntity1@eCEffector@@QAEXABVeCEntityProxy@@@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"Entity1",false);
+  eCEntityProxy::operator=((eCEntityProxy *)&(this->eCEffector_data).field_0x8,param_1);
+  (*this->vftablePtr->NotifyPropertyValueChangedExitEx)(this,"Entity1",false);
+  return;
+}
+
+

@@ -1,0 +1,14 @@
+/* ENTRY 3003fe3b | eCEffector::GetType | STATUS decompiled | 92 ms */
+
+/* public: virtual enum eEEffectorType __thiscall eCEffector::GetType(void)const  */
+
+eEEffectorType __thiscall eCEffector::GetType(eCEffector *this)
+
+{
+                    /* 0x3fe3b  9200  ?GetType@eCEffector@@UBE?AW4eEEffectorType@@XZ */
+  GE_MESSAGEF_WARN("The method %s detected an improper usage! \nHint:%s ","eCEffector::GetType",
+                   "Pure virtual call!");
+  return 0;
+}
+
+

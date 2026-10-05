@@ -1,0 +1,2 @@
+; 3001aa87 eCEntityPropertySet::OnCustomPatch
+3001aa87 | e9346e4600 | JMP 0x304818c0

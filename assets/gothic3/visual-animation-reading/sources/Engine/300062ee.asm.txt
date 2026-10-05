@@ -1,0 +1,2 @@
+; 300062ee eCResourceBase_PS::WaitUntilNonProcessing
+300062ee | e90d733b00 | JMP 0x303bd600

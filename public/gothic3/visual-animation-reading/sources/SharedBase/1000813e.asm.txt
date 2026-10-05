@@ -1,0 +1,2 @@
+; 1000813e bCVector::operator_class_NxVec3&
+1000813e | e99dd90100 | JMP 0x10025ae0

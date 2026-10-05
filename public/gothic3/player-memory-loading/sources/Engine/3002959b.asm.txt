@@ -1,0 +1,2 @@
+; 3002959b eCLocAdmin::GetInstance
+3002959b | e940a95b00 | JMP 0x305e3ee0

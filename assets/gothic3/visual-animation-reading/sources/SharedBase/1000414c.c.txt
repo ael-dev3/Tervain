@@ -1,0 +1,13 @@
+/* ENTRY 1000414c | bCSphere::SetRadius | STATUS decompiled | 1 ms */
+
+/* public: void __thiscall bCSphere::SetRadius(float) */
+
+void __thiscall bCSphere::SetRadius(bCSphere *this,float param_1)
+
+{
+                    /* 0x414c  4305  ?SetRadius@bCSphere@@QAEXM@Z */
+  *(float *)this = param_1;
+  return;
+}
+
+

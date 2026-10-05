@@ -1,0 +1,2 @@
+; 30003c38 bTPropertyContainer<eEStaticIlluminated>::deleting_destructor
+30003c38 | e9c3fd2100 | JMP 0x30223a00

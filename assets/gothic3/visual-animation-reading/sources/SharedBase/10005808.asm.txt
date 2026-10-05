@@ -1,0 +1,2 @@
+; 10005808 bCByteColor::bCByteColor
+10005808 | e9838c0900 | JMP 0x1009e490

@@ -1,0 +1,12 @@
+/* ENTRY 3066c3a0 | MCore::String::~String | STATUS decompiled | 3 ms */
+
+void __thiscall MCore::String::~String(String *this)
+
+{
+  this->vftablePtr = &vftable;
+  thunk_FUN_300ad900();
+  FUN_3066b040((this->String_data).offset_0x0);
+  return;
+}
+
+

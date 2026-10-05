@@ -1,0 +1,34 @@
+; 305de550 FUN_305de550
+305de550 | 56 | PUSH ESI
+305de551 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+305de555 | 8bce | MOV ECX,ESI
+305de557 | ff1574daaf30 | CALL dword ptr [0x30afda74]
+305de55d | 3c01 | CMP AL,0x1
+305de55f | 742a | JZ 0x305de58b
+305de561 | 8d4c2408 | LEA ECX,[ESP + 0x8]
+305de565 | ff15ecdbaf30 | CALL dword ptr [0x30afdbec]
+305de56b | 8d442408 | LEA EAX,[ESP + 0x8]
+305de56f | 50 | PUSH EAX
+305de570 | 56 | PUSH ESI
+305de571 | e85c25a3ff | CALL 0x30010ad2
+305de576 | 8bc8 | MOV ECX,EAX
+305de578 | e807c2a4ff | CALL 0x3002a784
+305de57d | 84c0 | TEST AL,AL
+305de57f | 7510 | JNZ 0x305de591
+305de581 | 8d4c2408 | LEA ECX,[ESP + 0x8]
+305de585 | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+305de58b | 32c0 | XOR AL,AL
+305de58d | 5e | POP ESI
+305de58e | c20800 | RET 0x8
+305de591 | 8b74240c | MOV ESI,dword ptr [ESP + 0xc]
+305de595 | 8bce | MOV ECX,ESI
+305de597 | e88a16a4ff | CALL 0x3001fc26
+305de59c | 8d4c2408 | LEA ECX,[ESP + 0x8]
+305de5a0 | 51 | PUSH ECX
+305de5a1 | 8d4e08 | LEA ECX,[ESI + 0x8]
+305de5a4 | ff1560dbaf30 | CALL dword ptr [0x30afdb60]
+305de5aa | 8d4c2408 | LEA ECX,[ESP + 0x8]
+305de5ae | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+305de5b4 | b001 | MOV AL,0x1
+305de5b6 | 5e | POP ESI
+305de5b7 | c20800 | RET 0x8

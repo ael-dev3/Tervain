@@ -1,0 +1,12 @@
+/* ENTRY 20027c96 | gCStat::GetMaximum | STATUS decompiled | 4 ms */
+
+/* public: virtual int __thiscall gCStat::GetMaximum(void)const  */
+
+int __thiscall gCStat::GetMaximum(gCStat *this)
+
+{
+                    /* 0x27c96  3759  ?GetMaximum@gCStat@@UBEHXZ */
+  return (this->gCAttribute_data).offset_0x18 + (this->gCAttribute_data).offset_0x14;
+}
+
+

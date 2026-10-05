@@ -1,0 +1,13 @@
+/* ENTRY 3001221a | eCVisualAnimation_PS::AccessBoneJointSpringDamping | STATUS decompiled | 5 ms */
+
+/* public: float & __thiscall eCVisualAnimation_PS::AccessBoneJointSpringDamping(void) */
+
+float * __thiscall eCVisualAnimation_PS::AccessBoneJointSpringDamping(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x1221a  2516  ?AccessBoneJointSpringDamping@eCVisualAnimation_PS@@QAEAAMXZ
+                        */
+  return (float *)&this[4].eCEntityPropertySet_data;
+}
+
+

@@ -1,0 +1,9 @@
+/* ENTRY 30388360 | FUN_30388360 | STATUS decompiled | 1 ms */
+
+undefined2 FUN_30388360(void)
+
+{
+  return 0x3e;
+}
+
+

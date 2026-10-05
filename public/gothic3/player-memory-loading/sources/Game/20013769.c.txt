@@ -1,0 +1,17 @@
+/* ENTRY 20013769 | gCAttribute::~gCAttribute | STATUS decompiled | 7 ms */
+
+/* public: virtual __thiscall gCAttribute::~gCAttribute(void) */
+
+void __thiscall gCAttribute::~gCAttribute(gCAttribute *this)
+
+{
+                    /* 0x13769  388  ??1gCAttribute@@UAE@XZ */
+  this->vftablePtr = &vftable;
+  bCString::~bCString((bCString *)&(this->gCAttribute_data).field_0x8);
+                    /* WARNING: Could not recover jumptable at 0x20397d15. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCObjectRefBase::~bCObjectRefBase((bCObjectRefBase *)this);
+  return;
+}
+
+

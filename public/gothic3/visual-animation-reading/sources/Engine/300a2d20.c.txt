@@ -1,0 +1,61 @@
+/* ENTRY 300a2d20 | FUN_300a2d20 | STATUS decompiled | 22 ms */
+
+undefined4 __thiscall FUN_300a2d20(int *param_1,undefined4 param_2)
+
+{
+  int iVar1;
+  eCWrapper_emfx2Actor *peVar2;
+  bCMemoryAdmin *this;
+  LookAtConstraintEx *pLVar3;
+  int iVar4;
+  bCVector *this_00;
+  ulong uVar5;
+  float fVar6;
+  bCMatrix local_40 [64];
+  
+  iVar1 = thunk_FUN_3009e470();
+  if (iVar1 != 0) {
+    peVar2 = eCVisualAnimationFactory::GetAssembledActor
+                       ((eCVisualAnimationFactory *)(param_1[1] + 0x94));
+    if (peVar2 != (eCWrapper_emfx2Actor *)0x0) {
+      if (*param_1 == 0) {
+        uVar5 = 0x110;
+        this = bCMemoryAdmin::GetInstance();
+        pLVar3 = bCMemoryAdmin::Malloc(this,uVar5);
+        if (pLVar3 == (LookAtConstraintEx *)0x0) {
+          pLVar3 = (LookAtConstraintEx *)0x0;
+        }
+        else {
+          peVar2 = eCVisualAnimationFactory::GetAssembledActor
+                             ((eCVisualAnimationFactory *)(param_1[1] + 0x94));
+          pLVar3 = LookAtConstraintEx::LookAtConstraintEx
+                             (pLVar3,*(undefined4 *)(peVar2 + 0xc),iVar1,0);
+        }
+        *param_1 = (int)pLVar3;
+        FUN_30640d20(1);
+        FUN_30640cc0(param_1[5]);
+        FUN_30641360(param_1 + 6,param_1 + 9);
+        iVar4 = FUN_306423e0();
+        if (iVar4 == 0) {
+          iVar4 = iVar1;
+        }
+        bCMatrix::bCMatrix(local_40,(bCMatrix *)(iVar4 + 0x84));
+        fVar6 = 0.0;
+        this_00 = bCMatrix::AccessTranslation(local_40);
+        bCVector::SetVector(this_00,fVar6);
+        FUN_30641140(local_40);
+        bCMatrix::Invert(local_40);
+        FUN_30641160(local_40);
+        eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)(param_1[1] + 0x94))
+        ;
+        thunk_FUN_300b8490(*param_1);
+        bCMatrix::~bCMatrix(local_40);
+      }
+      FUN_30641110(param_2);
+      return 1;
+    }
+  }
+  return 0;
+}
+
+

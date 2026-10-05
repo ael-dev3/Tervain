@@ -1,0 +1,8 @@
+; 30385390 bTPropertyObjectType<eCEffector,bCObjectRefBase>::vfunction8
+30385390 | 68f8cf8130 | PUSH 0x3081cff8
+30385395 | 68bccf8130 | PUSH 0x3081cfbc
+3038539a | 687ccf8130 | PUSH 0x3081cf7c
+3038539f | ff1530dbaf30 | CALL dword ptr [0x30afdb30]
+303853a5 | 83c40c | ADD ESP,0xc
+303853a8 | 33c0 | XOR EAX,EAX
+303853aa | c3 | RET

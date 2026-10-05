@@ -1,0 +1,2 @@
+; 30033244 bTPropertyType<eCVisualAnimation_PS,bTPropertyContainer<eEShapeGroup>_>::vfunction12
+30033244 | e9470e0800 | JMP 0x300b4090

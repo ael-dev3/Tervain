@@ -1,0 +1,2 @@
+; 3002e9ec eCModuleAdmin::GetInstance
+3002e9ec | e99fa40500 | JMP 0x30088e90

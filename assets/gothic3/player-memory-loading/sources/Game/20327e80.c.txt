@@ -1,0 +1,32 @@
+/* ENTRY 20327e80 | gCPlayerMemory_PS::vfunction15 | STATUS decompiled | 9 ms */
+
+/* WARNING: Type propagation algorithm not settling */
+
+gCPlayerMemory_PS * __thiscall gCPlayerMemory_PS::vfunction15(gCPlayerMemory_PS *this,byte param_1)
+
+{
+  undefined1 *_Memory;
+  int iVar1;
+  gCPlayerMemory_PS *this_00;
+  
+  if ((param_1 & 2) == 0) {
+    ~gCPlayerMemory_PS(this);
+    if ((param_1 & 1) != 0) {
+      _free(this);
+    }
+    return this;
+  }
+  iVar1 = *(int *)&this[-1].gCPlayerMemory_PS_data.field_0x64;
+  _Memory = &this[-1].gCPlayerMemory_PS_data.field_0x64;
+  this_00 = (gCPlayerMemory_PS *)(iVar1 * 0xb8 + (int)this);
+  while (iVar1 = iVar1 + -1, -1 < iVar1) {
+    this_00 = (gCPlayerMemory_PS *)((int)(this_00 + 0xfffffffe) + 0x20);
+    ~gCPlayerMemory_PS(this_00);
+  }
+  if ((param_1 & 1) != 0) {
+    _free(_Memory);
+  }
+  return (gCPlayerMemory_PS *)_Memory;
+}
+
+

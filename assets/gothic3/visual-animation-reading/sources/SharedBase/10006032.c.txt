@@ -1,0 +1,17 @@
+/* ENTRY 10006032 | bCVector::operator+ | STATUS decompiled | 4 ms */
+
+/* public: class bCVector __thiscall bCVector::operator+(class bCVector const &)const  */
+
+void __thiscall bCVector::operator+(bCVector *this,bCVector *param_1)
+
+{
+  float *in_stack_00000008;
+  
+                    /* 0x6032  1064  ??HbCVector@@QBE?AV0@ABV0@@Z */
+  *(float *)param_1 = *in_stack_00000008 + *(float *)this;
+  *(float *)(param_1 + 4) = in_stack_00000008[1] + *(float *)(this + 4);
+  *(float *)(param_1 + 8) = in_stack_00000008[2] + *(float *)(this + 8);
+  return;
+}
+
+

@@ -1,0 +1,13 @@
+/* ENTRY 300057a9 | eCPhysicsScene::GetStateAlpha | STATUS decompiled | 4 ms */
+
+/* public: float __thiscall eCPhysicsScene::GetStateAlpha(void)const  */
+
+float __thiscall eCPhysicsScene::GetStateAlpha(eCPhysicsScene *this)
+
+{
+                    /* 0x57a9  8960  ?GetStateAlpha@eCPhysicsScene@@QBEMXZ */
+  return (float)(this->eCPhysicsScene_data).offset_0x94 /
+         (float)(this->eCPhysicsScene_data).offset_0x98;
+}
+
+

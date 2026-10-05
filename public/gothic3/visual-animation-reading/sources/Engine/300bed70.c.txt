@@ -1,0 +1,39 @@
+/* ENTRY 300bed70 | FUN_300bed70 | STATUS decompiled | 15 ms */
+
+undefined4 __thiscall
+FUN_300bed70(int *param_1,eSRayIntersectionDesc *param_2,bCMatrix *param_3,eCCollisionDesc **param_4
+            )
+
+{
+  bool bVar1;
+  undefined4 uVar2;
+  eCResourceDataEntity *this;
+  eCWrapper_emfx2Actor *this_00;
+  undefined3 extraout_var;
+  undefined3 extraout_var_00;
+  undefined3 uVar3;
+  eCCollisionDesc **ppeVar4;
+  ushort uVar5;
+  eEResourceCacheBehavior eVar6;
+  
+  uVar2 = (**(code **)(*param_1 + 4))();
+  if ((char)uVar2 == '\0') {
+    return uVar2;
+  }
+  eVar6 = 1;
+  this = (eCResourceDataEntity *)(**(code **)(*(int *)param_1[2] + 0x70))();
+  eCResourceDataEntity::Load(this,eVar6);
+  uVar5 = 0;
+  ppeVar4 = param_4;
+  this_00 = (eCWrapper_emfx2Actor *)
+            eCResourceAnimationActor_PS::GetEMFX2Actor((eCResourceAnimationActor_PS *)param_1[2]);
+  bVar1 = eCWrapper_emfx2Actor::IntersectsRay(this_00,param_2,ppeVar4,uVar5);
+  uVar3 = extraout_var;
+  if (bVar1) {
+    eCAnimationCollisionDesc::SetLocalToWorldMatrix((eCAnimationCollisionDesc *)*param_4,param_3);
+    uVar3 = extraout_var_00;
+  }
+  return CONCAT31(uVar3,bVar1);
+}
+
+

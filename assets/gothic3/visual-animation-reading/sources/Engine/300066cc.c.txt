@@ -1,0 +1,78 @@
+/* ENTRY 300066cc | eCVisualAnimationFactory::StartFacialAnimation | STATUS decompiled | 25 ms */
+
+/* public: bool __thiscall eCVisualAnimationFactory::StartFacialAnimation(void) */
+
+bool __thiscall eCVisualAnimationFactory::StartFacialAnimation(eCVisualAnimationFactory *this)
+
+{
+  int iVar1;
+  bool bVar2;
+  eCWrapper_emfx2Actor *peVar3;
+  eCWrapper_emfx2Actor *peVar4;
+  eCVisualAnimationFactory eVar5;
+  undefined4 uVar6;
+  undefined4 uVar7;
+  undefined4 uVar8;
+  undefined4 uVar9;
+  int iStack_8;
+  int iStack_4;
+  
+                    /* 0x66cc  14713  ?StartFacialAnimation@eCVisualAnimationFactory@@QAE_NXZ */
+  if (this[0x1c] != (eCVisualAnimationFactory)0x1) {
+    iVar1 = *(int *)(this + 4);
+    eVar5 = (eCVisualAnimationFactory)0x0;
+    if (iVar1 != 0) {
+      if (((*(eCVisualAnimationLoD **)(this + 0xc) != (eCVisualAnimationLoD *)0x0) &&
+          (peVar3 = (eCWrapper_emfx2Actor *)
+                    eCVisualAnimationLoD::GetActorWrapper(*(eCVisualAnimationLoD **)(this + 0xc)),
+          peVar3 != (eCWrapper_emfx2Actor *)0x0)) &&
+         (bVar2 = (*peVar3->vftablePtr->IsValid)(peVar3), bVar2)) {
+        peVar4 = eCWrapper_emfx2Actor::CreateInstance(peVar3);
+        uVar6 = *(undefined4 *)(iVar1 + 0xc);
+        uVar9 = 0;
+        uVar7 = *(undefined4 *)(peVar4 + 0xc);
+        uVar8 = 0;
+        thunk_FUN_300be3a0(uVar6,uVar7,0,0);
+        FUN_30644e80(uVar6,uVar7,uVar8,uVar9);
+        FUN_3063e910();
+        (**(code **)(*(int *)peVar4 + 0x24))();
+        eVar5 = (eCVisualAnimationFactory)0x1;
+      }
+      iStack_8 = 0;
+      if (0 < *(int *)(this + 0x14)) {
+        iStack_4 = 0;
+        do {
+          if (((*(int *)(iStack_4 + *(int *)(this + 0x10) + 8) != 0) &&
+              (peVar3 = (eCWrapper_emfx2Actor *)
+                        eCVisualAnimationLoD::GetActorWrapper
+                                  (*(eCVisualAnimationLoD **)(iStack_4 + *(int *)(this + 0x10) + 8))
+              , peVar3 != (eCWrapper_emfx2Actor *)0x0)) &&
+             (bVar2 = (*peVar3->vftablePtr->IsValid)(peVar3), bVar2)) {
+            peVar4 = eCWrapper_emfx2Actor::CreateInstance(peVar3);
+            uVar6 = *(undefined4 *)(iVar1 + 0xc);
+            uVar9 = 0;
+            uVar7 = *(undefined4 *)(peVar4 + 0xc);
+            uVar8 = 0;
+            thunk_FUN_300be3a0(uVar6,uVar7,0,0);
+            FUN_30644e80(uVar6,uVar7,uVar8,uVar9);
+            FUN_3063e910();
+            (**(code **)(*(int *)peVar4 + 0x24))();
+            eVar5 = (eCVisualAnimationFactory)0x1;
+          }
+          iStack_8 = iStack_8 + 1;
+          iStack_4 = iStack_4 + 0x10;
+        } while (iStack_8 < *(int *)(this + 0x14));
+      }
+      if (eVar5 == (eCVisualAnimationFactory)0x1) {
+        thunk_FUN_30073fc0(0,0xffffffff);
+        *(undefined4 *)(this + 0x24) = 0;
+        FUN_3063b5e0(0);
+      }
+    }
+    this[0x1c] = eVar5;
+    return (bool)eVar5;
+  }
+  return true;
+}
+
+

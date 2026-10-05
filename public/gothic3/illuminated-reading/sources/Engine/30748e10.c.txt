@@ -1,0 +1,34 @@
+/* ENTRY 30748e10 | bTPropertyType<eCIlluminated_PS,bTPropertyContainer<eEStaticIlluminated>_>::~bTPropertyType<eCIlluminated_PS,bTPropertyContainer<eEStaticIlluminated>_> | STATUS decompiled | 16 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCIlluminated_PS,bTPropertyContainer<eEStaticIlluminated>_>::
+~bTPropertyType<eCIlluminated_PS,bTPropertyContainer<eEStaticIlluminated>_>
+          (bTPropertyType<eCIlluminated_PS,bTPropertyContainer<eEStaticIlluminated>_> *this)
+
+{
+  bTPropertyType<eCIlluminated_PS,bTPropertyContainer<eEStaticIlluminated>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"StaticIlluminated");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCIlluminated_PS::ms_PropertyMember_m_eStaticIlluminated,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_eStaticIlluminated = &vftable;
+  DAT_30ae1dcc = bTPropertyObjectType<eCIlluminated_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<eCIlluminated_PS,eCEntityPropertySet>();
+  _DAT_30ae1dd0 = 0x18;
+  _DAT_30ae1dd4 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&eCIlluminated_PS::ms_PropertyMember_m_eStaticIlluminated);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30ae1dcc,
+             (bCPropertyTypeBase *)&eCIlluminated_PS::ms_PropertyMember_m_eStaticIlluminated);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<eEStaticIlluminated>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<eEStaticIlluminated>_>);
+  return;
+}
+
+

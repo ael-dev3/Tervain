@@ -1,0 +1,36 @@
+/* ENTRY 100214f0 | FUN_100214f0 | STATUS decompiled | 8 ms */
+
+void FUN_100214f0(bEGE3DialogsLogMessageType param_1,char *param_2,char param_3)
+
+{
+  bCDialogHandle *this;
+  bCMessageAdmin *this_00;
+  bEMessageTypes bVar1;
+  char *pcVar2;
+  char *pcVar3;
+  int iVar4;
+  int iVar5;
+  bCGothic3EngineDialogs local_1;
+  
+  bCGothic3EngineDialogs::bCGothic3EngineDialogs(&local_1);
+  pcVar2 = param_2;
+  this = bCGothic3EngineDialogs::GetDialogHandle(&local_1);
+  bCGothic3EngineDialogs::bCDialogHandle::AddText(this,param_1,pcVar2);
+  if (param_3 == '\0') {
+    pcVar2 = "(#Fault error detected)";
+    bVar1 = 4;
+  }
+  else {
+    pcVar2 = "(##Fatal error detected !!!)";
+    bVar1 = 5;
+  }
+  iVar5 = 5;
+  iVar4 = -1;
+  pcVar3 = (char *)0x0;
+  this_00 = bCMessageAdmin::GetInstance();
+  bCMessageAdmin::OnMessage(this_00,bVar1,param_2,pcVar2,pcVar3,iVar4,iVar5);
+  bCGothic3EngineDialogs::~bCGothic3EngineDialogs(&local_1);
+  return;
+}
+
+

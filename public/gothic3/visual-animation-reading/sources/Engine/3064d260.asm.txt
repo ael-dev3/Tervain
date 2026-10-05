@@ -1,0 +1,40 @@
+; 3064d260 EMotionFX::KeyTrack<MCore::TQuaternion<float>,MCore::TCompressedQuaternion<float,short>_>::KeyTrack<MCore::TQuaternion<float>,MCore::TCompressedQuaternion<float,short>_>
+3064d260 | 6aff | PUSH -0x1
+3064d262 | 68dbd17230 | PUSH 0x3072d1db
+3064d267 | 64a100000000 | MOV EAX,FS:[0x0]
+3064d26d | 50 | PUSH EAX
+3064d26e | 51 | PUSH ECX
+3064d26f | 56 | PUSH ESI
+3064d270 | a1ec43ad30 | MOV EAX,[0x30ad43ec]
+3064d275 | 33c4 | XOR EAX,ESP
+3064d277 | 50 | PUSH EAX
+3064d278 | 8d44240c | LEA EAX,[ESP + 0xc]
+3064d27c | 64a300000000 | MOV FS:[0x0],EAX
+3064d282 | 8bf1 | MOV ESI,ECX
+3064d284 | 89742408 | MOV dword ptr [ESP + 0x8],ESI
+3064d288 | 8d4e04 | LEA ECX,[ESI + 0x4]
+3064d28b | 33c0 | XOR EAX,EAX
+3064d28d | c70600068930 | MOV dword ptr [ESI],0x30890600
+3064d293 | 8901 | MOV dword ptr [ECX],EAX
+3064d295 | 894104 | MOV dword ptr [ECX + 0x4],EAX
+3064d298 | 894108 | MOV dword ptr [ECX + 0x8],EAX
+3064d29b | 0f57c0 | XORPS XMM0,XMM0
+3064d29e | 89442414 | MOV dword ptr [ESP + 0x14],EAX
+3064d2a2 | 88461e | MOV byte ptr [ESI + 0x1e],AL
+3064d2a5 | 88461d | MOV byte ptr [ESI + 0x1d],AL
+3064d2a8 | 8b44241c | MOV EAX,dword ptr [ESP + 0x1c]
+3064d2ac | ba01000000 | MOV EDX,0x1
+3064d2b1 | f30f114614 | MOVSS dword ptr [ESI + 0x14],XMM0
+3064d2b6 | f30f100534848130 | MOVSS XMM0,dword ptr [0x30818434]
+3064d2be | 50 | PUSH EAX
+3064d2bf | 895610 | MOV dword ptr [ESI + 0x10],EDX
+3064d2c2 | f30f114618 | MOVSS dword ptr [ESI + 0x18],XMM0
+3064d2c7 | 88561c | MOV byte ptr [ESI + 0x1c],DL
+3064d2ca | e891fbffff | CALL 0x3064ce60
+3064d2cf | 8bc6 | MOV EAX,ESI
+3064d2d1 | 8b4c240c | MOV ECX,dword ptr [ESP + 0xc]
+3064d2d5 | 64890d00000000 | MOV dword ptr FS:[0x0],ECX
+3064d2dc | 59 | POP ECX
+3064d2dd | 5e | POP ESI
+3064d2de | 83c410 | ADD ESP,0x10
+3064d2e1 | c20400 | RET 0x4

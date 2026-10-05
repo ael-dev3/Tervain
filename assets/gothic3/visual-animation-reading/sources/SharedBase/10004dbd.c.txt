@@ -1,0 +1,13 @@
+/* ENTRY 10004dbd | bCPOStream::ForceLegacyMode | STATUS decompiled | 2 ms */
+
+/* public: void __thiscall bCPOStream::ForceLegacyMode(void) */
+
+void __thiscall bCPOStream::ForceLegacyMode(bCPOStream *this)
+
+{
+                    /* 0x4dbd  2049  ?ForceLegacyMode@bCPOStream@@QAEXXZ */
+  (this->bCPOStream_data).offset_0x1 = (bCPOStream)0x1;
+  return;
+}
+
+

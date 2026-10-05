@@ -1,0 +1,2 @@
+; 3000b7a8 eCResourceDataEntity::GetFileName
+3000b7a8 | e9c3424b00 | JMP 0x304bfa70

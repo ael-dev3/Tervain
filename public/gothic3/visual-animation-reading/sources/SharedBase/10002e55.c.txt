@@ -1,0 +1,17 @@
+/* ENTRY 10002e55 | bCByteAlphaColor::bCByteAlphaColor | STATUS decompiled | 4 ms */
+
+/* public: __thiscall bCByteAlphaColor::bCByteAlphaColor(void) */
+
+void __thiscall bCByteAlphaColor::bCByteAlphaColor(bCByteAlphaColor *this)
+
+{
+                    /* 0x2e55  49  ??0bCByteAlphaColor@@QAE@XZ */
+  this->vftablePtr = &vftable;
+  (this->bCByteColor_data).offset_0x0 = '\0';
+  (this->bCByteColor_data).offset_0x1 = '\0';
+  (this->bCByteColor_data).offset_0x2 = '\0';
+  (this->bCByteAlphaColor_data).offset_0x0 = 0;
+  return;
+}
+
+

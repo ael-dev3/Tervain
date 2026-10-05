@@ -1,0 +1,2 @@
+; 3003c7a4 eCVisualAnimation_PS::SetLookAtTarget
+3003c7a4 | e9a7900600 | JMP 0x300a5850

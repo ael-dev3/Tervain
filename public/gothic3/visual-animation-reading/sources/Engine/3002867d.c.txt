@@ -1,0 +1,18 @@
+/* ENTRY 3002867d | eCVisualAnimation_PS::eCLookAtConstraint::Write | STATUS decompiled | 8 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::eCLookAtConstraint::Write(class bCOStream &) */
+
+void __thiscall
+eCVisualAnimation_PS::eCLookAtConstraint::Write(eCLookAtConstraint *this,bCOStream *param_1)
+
+{
+                    /* 0x2867d  15165
+                       ?Write@eCLookAtConstraint@eCVisualAnimation_PS@@QAEXAAVbCOStream@@@Z */
+  bCOStream::operator<<((bCOStream *)param_1,(bCString *)(this + 0x10));
+  bCOStream::operator<<((bCOStream *)param_1,*(float *)(this + 0x14));
+  bCVector::operator>>((bCVector *)(this + 0x18),param_1);
+  bCVector::operator>>((bCVector *)(this + 0x24),param_1);
+  return;
+}
+
+

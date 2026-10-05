@@ -1,0 +1,18 @@
+/* ENTRY 30385340 | bTPropertyObjectType<eCEffector,bCObjectRefBase>::~bTPropertyObjectType<eCEffector,bCObjectRefBase> | STATUS decompiled | 5 ms */
+
+void __thiscall
+bTPropertyObjectType<eCEffector,bCObjectRefBase>::~bTPropertyObjectType<eCEffector,bCObjectRefBase>
+          (bTPropertyObjectType<eCEffector,bCObjectRefBase> *this)
+
+{
+  this->vftablePtr = &vftable;
+  bCPropertyObjectFactory::~bCPropertyObjectFactory
+            ((bCPropertyObjectFactory *)
+             &(this->bTPropertyObjectType<eCEffector,bCObjectRefBase>_data).field_0x14);
+                    /* WARNING: Could not recover jumptable at 0x30385355. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyObjectTypeBase::~bCPropertyObjectTypeBase((bCPropertyObjectTypeBase *)this);
+  return;
+}
+
+

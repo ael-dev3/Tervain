@@ -1,0 +1,37 @@
+/* ENTRY 303a2ec0 | FUN_303a2ec0 | STATUS decompiled | 18 ms */
+
+undefined4 __thiscall FUN_303a2ec0(int param_1,int param_2)
+
+{
+  bool bVar1;
+  eCApplication *this;
+  undefined3 extraout_var;
+  uint uVar2;
+  int *piVar3;
+  
+  this = (eCApplication *)eCApplication::GetInstance();
+  bVar1 = eCApplication::IsInCompilingState(this);
+  uVar2 = CONCAT31(extraout_var,bVar1);
+  if (!bVar1) {
+    uVar2 = 0;
+    if (*(ushort *)(param_1 + 0x3a) != 0) {
+      piVar3 = *(int **)(param_1 + 0x3c);
+      do {
+        if (param_2 == *piVar3) {
+          if ((short)uVar2 != -1) goto LAB_303a2f15;
+          break;
+        }
+        uVar2 = uVar2 + 1;
+        piVar3 = piVar3 + 1;
+      } while ((int)uVar2 < (int)(uint)*(ushort *)(param_1 + 0x3a));
+    }
+    thunk_FUN_3039f600();
+    uVar2 = (uint)*(ushort *)(param_1 + 0x3a);
+    *(int *)(*(int *)(param_1 + 0x3c) + uVar2 * 4) = param_2;
+    *(short *)(param_1 + 0x3a) = *(short *)(param_1 + 0x3a) + 1;
+  }
+LAB_303a2f15:
+  return CONCAT31((int3)(uVar2 >> 8),1);
+}
+
+

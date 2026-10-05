@@ -1,0 +1,11 @@
+/* ENTRY 30385120 | FUN_30385120 | STATUS decompiled | 2 ms */
+
+undefined4 __fastcall FUN_30385120(int *param_1)
+
+{
+  (**(code **)(*param_1 + 0x14))();
+  (**(code **)(*param_1 + 0x18))();
+  return 1;
+}
+
+

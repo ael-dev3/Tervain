@@ -1,0 +1,2 @@
+; 2003005d bTPropertyType<gCPlayerMemory_PS,bTObjArray<bCString>_>::scalar_deleting_destructor
+2003005d | e90e762f00 | JMP 0x20327670

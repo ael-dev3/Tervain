@@ -1,0 +1,19 @@
+; 300620a0 FUN_300620a0
+300620a0 | 56 | PUSH ESI
+300620a1 | 8bf1 | MOV ESI,ECX
+300620a3 | 8b06 | MOV EAX,dword ptr [ESI]
+300620a5 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+300620a8 | 6a00 | PUSH 0x0
+300620aa | 68ec8c8130 | PUSH 0x30818cec
+300620af | ffd2 | CALL EDX
+300620b1 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+300620b5 | 8a08 | MOV CL,byte ptr [EAX]
+300620b7 | 8b16 | MOV EDX,dword ptr [ESI]
+300620b9 | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+300620bc | 6a00 | PUSH 0x0
+300620be | 884e4c | MOV byte ptr [ESI + 0x4c],CL
+300620c1 | 68ec8c8130 | PUSH 0x30818cec
+300620c6 | 8bce | MOV ECX,ESI
+300620c8 | ffd0 | CALL EAX
+300620ca | 5e | POP ESI
+300620cb | c20400 | RET 0x4

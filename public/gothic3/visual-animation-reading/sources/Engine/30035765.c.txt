@@ -1,0 +1,22 @@
+/* ENTRY 30035765 | eCSpringAndDamperEffector::SetSpringDistCompressSaturate | STATUS decompiled | 12 ms */
+
+/* public: void __thiscall eCSpringAndDamperEffector::SetSpringDistCompressSaturate(float const &)
+    */
+
+void __thiscall
+eCSpringAndDamperEffector::SetSpringDistCompressSaturate
+          (eCSpringAndDamperEffector *this,float *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x35765  14260
+                       ?SetSpringDistCompressSaturate@eCSpringAndDamperEffector@@QAEXABM@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"SpringDistCompressSaturate",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->eCEffector_data).offset_0x58 = *param_1;
+  (*pNVar1)(this,"SpringDistCompressSaturate",false);
+  return;
+}
+
+

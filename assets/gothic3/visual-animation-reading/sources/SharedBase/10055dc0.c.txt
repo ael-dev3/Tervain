@@ -1,0 +1,10 @@
+/* ENTRY 10055dc0 | FUN_10055dc0 | STATUS decompiled | 2 ms */
+
+bCUnitedRay * __fastcall FUN_10055dc0(bCUnitedRay *param_1)
+
+{
+  bCUnitedRay::Clear(param_1);
+  return param_1;
+}
+
+

@@ -1,0 +1,2 @@
+; 10006ebf bCMessageAdmin::ExecuteCallbackType
+10006ebf | e9cc250400 | JMP 0x10049490

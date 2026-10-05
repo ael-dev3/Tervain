@@ -1,0 +1,8 @@
+; 10024dd0 FUN_10024dd0
+10024dd0 | f30f10442404 | MOVSS XMM0,dword ptr [ESP + 0x4]
+10024dd6 | f30f1101 | MOVSS dword ptr [ECX],XMM0
+10024dda | f30f10442408 | MOVSS XMM0,dword ptr [ESP + 0x8]
+10024de0 | f30f114104 | MOVSS dword ptr [ECX + 0x4],XMM0
+10024de5 | f30f1044240c | MOVSS XMM0,dword ptr [ESP + 0xc]
+10024deb | f30f114108 | MOVSS dword ptr [ECX + 0x8],XMM0
+10024df0 | c20c00 | RET 0xc

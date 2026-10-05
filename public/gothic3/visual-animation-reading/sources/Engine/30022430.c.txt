@@ -1,0 +1,62 @@
+/* ENTRY 30022430 | eCVisualAnimation_PS::GetBoneMatrix | STATUS decompiled | 43 ms */
+
+/* WARNING: Exceeded maximum restarts with more pending */
+/* public: bool __thiscall eCVisualAnimation_PS::GetBoneMatrix(class bCString const &,class bCMatrix
+   &) */
+
+bool __thiscall
+eCVisualAnimation_PS::GetBoneMatrix(eCVisualAnimation_PS *this,bCString *param_1,bCMatrix *param_2)
+
+{
+  undefined1 *this_00;
+  int iVar1;
+  eCWrapper_emfx2Actor *peVar2;
+  int iVar3;
+  eCEntity *this_01;
+  bCMatrix *this_02;
+  bCMatrix *pbVar4;
+  int iVar5;
+  int iVar6;
+  bCString abStack_4c [4];
+  int iStack_48;
+  eCVisualAnimation_PS *peStack_44;
+  bCMatrix abStack_40 [64];
+  
+                    /* 0x22430  6286
+                       ?GetBoneMatrix@eCVisualAnimation_PS@@QAE_NABVbCString@@AAVbCMatrix@@@Z */
+  this_00 = &this[7].eCEntityPropertySet_data.field_0x4;
+  peStack_44 = this;
+  peVar2 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+  if (peVar2 == (eCWrapper_emfx2Actor *)0x0) {
+    return false;
+  }
+  peVar2 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+  iStack_48 = *(int *)(*(int *)(peVar2 + 0xc) + 0x1b4);
+  iVar5 = 0;
+  if (0 < iStack_48) {
+    iVar6 = 0;
+    do {
+      peVar2 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+      iVar1 = *(int *)(*(int *)(peVar2 + 0xc) + 0x1bc);
+      bCString::bCString(abStack_4c,*(char **)(iVar1 + 0x16c + iVar6));
+      iVar3 = bCString::Compare(abStack_4c,param_1);
+      if (iVar3 == 0) {
+        bCMatrix::operator=(param_2,(bCMatrix *)(iVar1 + iVar6 + 0x44));
+        pbVar4 = abStack_40;
+        this_01 = (eCEntity *)(*peStack_44->vftablePtr->GetEntity)(pbVar4,param_2);
+        this_02 = eCEntity::GetWorldMatrix(this_01);
+        pbVar4 = (bCMatrix *)bCMatrix::operator*(this_02,pbVar4);
+        bCMatrix::operator=(param_2,pbVar4);
+        bCMatrix::~bCMatrix((bCMatrix *)&peStack_44);
+        bCString::~bCString((bCString *)&stack0xffffffb0);
+        return true;
+      }
+      bCString::~bCString(abStack_4c);
+      iVar5 = iVar5 + 1;
+      iVar6 = iVar6 + 400;
+    } while (iVar5 < iStack_48);
+  }
+  return false;
+}
+
+

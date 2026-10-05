@@ -1,0 +1,2 @@
+; 100059ed bCPropertyID::Destroy
+100059ed | e98ece0800 | JMP 0x10092880

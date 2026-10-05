@@ -1,0 +1,13 @@
+/* ENTRY 10005470 | bCUnitedRay::bCUnitedRay | STATUS decompiled | 2 ms */
+
+/* public: __thiscall bCUnitedRay::bCUnitedRay(void) */
+
+bCUnitedRay * __thiscall bCUnitedRay::bCUnitedRay(bCUnitedRay *this)
+
+{
+                    /* 0x5470  309  ??0bCUnitedRay@@QAE@XZ */
+  Clear(this);
+  return this;
+}
+
+

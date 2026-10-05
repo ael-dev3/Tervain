@@ -1,0 +1,2 @@
+; 30018345 eCVisualAnimationFactory::StopFacialAnimation
+30018345 | e9964f0a00 | JMP 0x300bd2e0

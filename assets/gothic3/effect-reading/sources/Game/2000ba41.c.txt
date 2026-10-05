@@ -1,0 +1,16 @@
+/* ENTRY 2000ba41 | gCEffect_PS::OnProcess | STATUS decompiled | 9 ms */
+
+/* public: virtual void __thiscall gCEffect_PS::OnProcess(void) */
+
+void __thiscall gCEffect_PS::OnProcess(gCEffect_PS *this)
+
+{
+                    /* 0xba41  5556  ?OnProcess@gCEffect_PS@@UAEXXZ */
+  if ((this->gCEffect_PS_data).field_0x24 == '\0') {
+    CreateEffect(this);
+    return;
+  }
+  return;
+}
+
+

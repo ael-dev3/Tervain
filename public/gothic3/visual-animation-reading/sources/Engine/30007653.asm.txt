@@ -1,0 +1,2 @@
+; 30007653 eCVisualAnimation_PS::GetBoneSwingSpringEnabled
+30007653 | e908a90500 | JMP 0x30061f60

@@ -1,0 +1,14 @@
+/* ENTRY 100013d9 | operator<< | STATUS decompiled | 4 ms */
+
+/* class bCOStream & __stdcall operator<<(class bCOStream &,class bCPropertyID &) */
+
+bCOStream * operator<<(bCOStream *param_1,bCPropertyID *param_2)
+
+{
+                    /* 0x13d9  702  ??6@YGAAVbCOStream@@AAV0@AAVbCPropertyID@@@Z */
+  (**(code **)(*(int *)param_1 + 4))(param_2,0x10);
+  operator>>(*(ulong *)(param_2 + 0x10),param_1);
+  return param_1;
+}
+
+

@@ -1,0 +1,16 @@
+/* ENTRY 30038c49 | eCVisualAnimation_PS::AccessFacialAnimFilePath | STATUS decompiled | 9 ms */
+
+/* public: class bCAnimationResourceString & __thiscall
+   eCVisualAnimation_PS::AccessFacialAnimFilePath(void) */
+
+bCAnimationResourceString * __thiscall
+eCVisualAnimation_PS::AccessFacialAnimFilePath(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x38c49  2722
+                       ?AccessFacialAnimFilePath@eCVisualAnimation_PS@@QAEAAVbCAnimationResourceString@@XZ
+                        */
+  return (bCAnimationResourceString *)&this[1].eCEntityPropertySet_data;
+}
+
+

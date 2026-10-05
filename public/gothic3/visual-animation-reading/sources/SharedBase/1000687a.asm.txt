@@ -1,0 +1,2 @@
+; 1000687a bCIStream::~bCIStream
+1000687a | e9a17f0100 | JMP 0x1001e820

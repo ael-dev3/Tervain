@@ -1,0 +1,18 @@
+/* ENTRY 3009d310 | FUN_3009d310 | STATUS decompiled | 5 ms */
+
+int * __thiscall FUN_3009d310(int *param_1,int *param_2)
+
+{
+  bCString::operator=((bCString *)(param_1 + 1),(bCString *)(param_2 + 1));
+  if ((int *)*param_2 != (int *)0x0) {
+    (**(code **)(*(int *)*param_2 + 0x20))();
+  }
+  if ((int *)*param_1 != (int *)0x0) {
+    (**(code **)(*(int *)*param_1 + 0x24))();
+    *param_1 = 0;
+  }
+  *param_1 = *param_2;
+  return param_1;
+}
+
+

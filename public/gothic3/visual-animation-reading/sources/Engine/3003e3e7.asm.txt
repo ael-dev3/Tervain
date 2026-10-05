@@ -1,0 +1,2 @@
+; 3003e3e7 bTPropertyObject<eCEffector,bCObjectRefBase>::~bTPropertyObject<eCEffector,bCObjectRefBase>
+3003e3e7 | e964973400 | JMP 0x30387b50

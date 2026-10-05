@@ -1,0 +1,2 @@
+; 300087ab eCSpringAndDamperEffector::GetDamperVelCompressSaturate
+300087ab | e9908f0500 | JMP 0x30061740

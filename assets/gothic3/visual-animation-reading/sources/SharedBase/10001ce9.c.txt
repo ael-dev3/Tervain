@@ -1,0 +1,12 @@
+/* ENTRY 10001ce9 | bCSphere::GetPosition | STATUS decompiled | 1 ms */
+
+/* public: class bCVector const & __thiscall bCSphere::GetPosition(void)const  */
+
+bCVector * __thiscall bCSphere::GetPosition(bCSphere *this)
+
+{
+                    /* 0x1ce9  2764  ?GetPosition@bCSphere@@QBEABVbCVector@@XZ */
+  return (bCVector *)(this + 4);
+}
+
+

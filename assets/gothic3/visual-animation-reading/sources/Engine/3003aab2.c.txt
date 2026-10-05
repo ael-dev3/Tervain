@@ -1,0 +1,12 @@
+/* ENTRY 3003aab2 | eCVisualAnimation_PS::GetMaterialSwitch | STATUS decompiled | 8 ms */
+
+/* public: int const & __thiscall eCVisualAnimation_PS::GetMaterialSwitch(void)const  */
+
+int * __thiscall eCVisualAnimation_PS::GetMaterialSwitch(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x3aab2  7772  ?GetMaterialSwitch@eCVisualAnimation_PS@@QBEABHXZ */
+  return (int *)&this[7].eCEntityPropertySet_data;
+}
+
+

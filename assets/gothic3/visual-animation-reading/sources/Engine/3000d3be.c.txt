@@ -1,0 +1,135 @@
+/* ENTRY 3000d3be | eCVisualAnimation_PS::SetRagDollEnabled | STATUS decompiled | 75 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetRagDollEnabled(bool,float,bool) */
+
+void __thiscall
+eCVisualAnimation_PS::SetRagDollEnabled
+          (eCVisualAnimation_PS *this,bool param_1,float param_2,bool param_3)
+
+{
+  undefined1 *this_00;
+  char cVar1;
+  bool bVar2;
+  eCWrapper_emfx2Actor *peVar3;
+  eCEntity *peVar4;
+  bCMemoryAdmin *this_01;
+  eCNovodexPhysicsController *peVar5;
+  int iVar6;
+  undefined3 in_stack_00000005;
+  int iVar7;
+  ulong uVar8;
+  eCVisualAnimation_PS **ppeVar9;
+  undefined4 uStack_1c;
+  eCVisualAnimation_PS *peStack_18;
+  eCVisualAnimation_PS *peStack_14;
+  undefined1 uStack_10;
+  float fStack_c;
+  undefined4 uStack_8;
+  undefined1 uStack_4;
+  undefined1 uStack_3;
+  undefined1 uStack_2;
+  
+                    /* 0xd3be  13995  ?SetRagDollEnabled@eCVisualAnimation_PS@@QAEX_NM0@Z */
+  this_00 = &this[7].eCEntityPropertySet_data.field_0x4;
+  peVar3 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+  if (peVar3 != (eCWrapper_emfx2Actor *)0x0) {
+    peVar4 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+    bVar2 = eCEntity::HasProcessingRangeEntered(peVar4);
+    if (bVar2) {
+      if ((*(char *)&this[0xf].vftablePtr == '\x01') && (param_1 == false)) {
+        this[0x12].eCEntityPropertySet_data.field_0xd = 0;
+        peVar3 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+        iVar7 = *(int *)(peVar3 + 0xc);
+        iVar6 = 0;
+        if (0 < *(int *)(iVar7 + 0x1b4)) {
+          do {
+            thunk_FUN_300ac250();
+            iVar6 = iVar6 + 1;
+          } while (iVar6 < *(int *)(iVar7 + 0x1b4));
+        }
+        FUN_3063b5e0(0);
+        if (*(int *)&this[0xe].eCEntityPropertySet_data != 0) {
+          if (param_2 == 0.0) {
+            eCVisualAnimationFactory::GetAssembledActor
+                      ((eCVisualAnimationFactory *)&this[7].eCEntityPropertySet_data.field_0x4);
+            uStack_1c = *(undefined4 *)&this[0xe].eCEntityPropertySet_data;
+            thunk_FUN_300ac4f0(&uStack_1c);
+            if (*(undefined4 **)&this[0xe].eCEntityPropertySet_data != (undefined4 *)0x0) {
+              (**(code **)**(undefined4 **)&this[0xe].eCEntityPropertySet_data)(1);
+            }
+            *(undefined4 *)&this[0xe].eCEntityPropertySet_data = 0;
+            *(undefined4 *)&this[0xf].eCEntityPropertySet_data.field_0x4 = 0;
+            *(undefined4 *)&this[0xf].eCEntityPropertySet_data = 0;
+            CreatePhysicsController(this,false,(eCVisualAnimation_PS *)0x0);
+          }
+          else {
+            thunk_FUN_300c3480(param_2);
+            *(float *)&this[0xf].eCEntityPropertySet_data.field_0x4 = param_2;
+          }
+        }
+      }
+      *(bool *)&this[0xf].vftablePtr = param_1;
+      if (param_1 == true) {
+        if (*(int *)&this[0xe].eCEntityPropertySet_data != 0) {
+          eCVisualAnimationFactory::GetAssembledActor
+                    ((eCVisualAnimationFactory *)&this[7].eCEntityPropertySet_data.field_0x4);
+          _param_1 = *(undefined4 *)&this[0xe].eCEntityPropertySet_data;
+          thunk_FUN_300ac4f0(&param_1);
+          if (*(undefined4 **)&this[0xe].eCEntityPropertySet_data != (undefined4 *)0x0) {
+            (**(code **)**(undefined4 **)&this[0xe].eCEntityPropertySet_data)(1);
+          }
+          *(undefined4 *)&this[0xe].eCEntityPropertySet_data = 0;
+        }
+        cVar1 = this[1].eCEntityPropertySet_data.field_0x4;
+        *(undefined4 *)&this[0xf].eCEntityPropertySet_data.field_0x4 = 0;
+        *(undefined4 *)&this[0xf].eCEntityPropertySet_data = 0;
+        peStack_18 = this;
+        peStack_14 = this;
+        if (cVar1 == '\0') {
+          uStack_8 = 0;
+        }
+        else {
+          peVar3 = eCVisualAnimationFactory::GetAssembledActor
+                             ((eCVisualAnimationFactory *)
+                              &this[7].eCEntityPropertySet_data.field_0x4);
+          uStack_8 = *(undefined4 *)(peVar3 + 0xc);
+        }
+        cVar1 = this[1].eCEntityPropertySet_data.field_0x4;
+        if ((cVar1 != '\0') || (uStack_10 = 1, param_2 <= 0.0)) {
+          uStack_10 = 0;
+        }
+        fStack_c = param_2;
+        if (cVar1 != '\0') {
+          fStack_c = 0.0;
+        }
+        uStack_4 = 0;
+        uStack_3 = 0;
+        uStack_2 = param_3;
+        DestroyPhysicsController(this);
+        uVar8 = 0x134;
+        this_01 = bCMemoryAdmin::GetInstance();
+        peVar5 = bCMemoryAdmin::Malloc(this_01,uVar8);
+        if (peVar5 == (eCNovodexPhysicsController *)0x0) {
+          peVar5 = (eCNovodexPhysicsController *)0x0;
+        }
+        else {
+          peVar3 = eCVisualAnimationFactory::GetAssembledActor
+                             ((eCVisualAnimationFactory *)
+                              &this[7].eCEntityPropertySet_data.field_0x4);
+          iVar7 = *(int *)(peVar3 + 0xc);
+          ppeVar9 = &peStack_18;
+          peVar4 = (eCEntity *)(*this->vftablePtr->GetEntity)(this);
+          peVar5 = EMotionFX::eCNovodexPhysicsController::eCNovodexPhysicsController
+                             (peVar5,peVar4,iVar7,ppeVar9);
+        }
+        *(eCNovodexPhysicsController **)&this[0xe].eCEntityPropertySet_data = peVar5;
+        eCVisualAnimationFactory::GetAssembledActor
+                  ((eCVisualAnimationFactory *)&this[7].eCEntityPropertySet_data.field_0x4);
+        thunk_FUN_300b8490(*(undefined4 *)&this[0xe].eCEntityPropertySet_data);
+      }
+    }
+  }
+  return;
+}
+
+

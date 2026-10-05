@@ -1,0 +1,844 @@
+/* ENTRY 300c4bd0 | FUN_300c4bd0 | STATUS decompiled | 2056 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall FUN_300c4bd0(undefined4 param_1,int param_2)
+
+{
+  size_t sVar1;
+  bool bVar2;
+  bool bVar3;
+  char cVar4;
+  bCString *pbVar5;
+  bTObjArray<eCVisualAnimation_PS::eSSubSkeleton> *pbVar6;
+  eCSceneAdmin *peVar7;
+  eCEntity *peVar8;
+  bCVector *pbVar9;
+  bCMatrix *pbVar10;
+  float *pfVar11;
+  NxVec3 *pNVar12;
+  int *piVar13;
+  undefined4 *puVar14;
+  uint uVar15;
+  eCPhysicsScene *peVar16;
+  NxActor *pNVar17;
+  eCPhysicObject *peVar18;
+  bCCriticalSectionWin32 *this;
+  NxScene *pNVar19;
+  eCPhysicObject *peVar20;
+  NxActor *pNVar21;
+  undefined4 uVar22;
+  int iVar23;
+  uint uVar24;
+  undefined4 *puVar25;
+  uint uVar26;
+  undefined4 *puVar27;
+  undefined4 *puVar28;
+  float fVar29;
+  eCEntity *peVar30;
+  NxActorDesc *pNVar31;
+  bTPtrArray<eCEntity*> *pbVar32;
+  char *pcVar33;
+  int iVar34;
+  undefined8 local_1cc;
+  int local_1c4;
+  uint local_1bc;
+  undefined4 local_1b8;
+  undefined4 local_1b4;
+  undefined4 uStack_1b0;
+  float fStack_1ac;
+  float fStack_1a8;
+  float local_1a4;
+  float local_1a0;
+  float local_19c;
+  float local_198;
+  float local_194;
+  float local_190;
+  float local_18c;
+  float local_188;
+  float local_184;
+  float local_180;
+  float local_17c;
+  float *local_178;
+  float local_174;
+  uint local_170;
+  undefined4 local_16c;
+  undefined4 local_168;
+  undefined4 local_164;
+  undefined4 local_160;
+  undefined4 *local_15c;
+  undefined4 *local_158;
+  undefined4 *local_154;
+  bCVector abStack_14c [12];
+  int iStack_140;
+  eCEntity *local_13c;
+  undefined4 local_138;
+  undefined4 local_134;
+  float local_130 [33];
+  NxActor *pNStack_ac;
+  int iStack_a8;
+  undefined4 uStack_a4;
+  undefined4 uStack_a0;
+  int iStack_90;
+  undefined4 local_8c;
+  bCMatrix local_88 [4];
+  bCMatrix local_84 [52];
+  undefined1 auStack_50 [8];
+  bCMatrix abStack_48 [4];
+  bCMatrix local_44 [64];
+  undefined4 uStack_4;
+  
+  local_1b8 = 0;
+  if (param_2 == 0) {
+    return;
+  }
+  local_1c4 = thunk_FUN_300ac2f0(0x500002);
+  if (local_1c4 == 0) {
+    return;
+  }
+  iVar34 = 0;
+  pcVar33 = "PHX";
+  uStack_1b0._0_3_ = (uint3)(ushort)uStack_1b0;
+  uStack_1b0 = (float)CONCAT13(1,(uint3)uStack_1b0);
+  local_138 = 0;
+  pbVar5 = (bCString *)
+           bCString::bCString((bCString *)((int)&local_1cc + 4),*(char **)(param_2 + 0x16c));
+  bVar3 = bCString::Contains(pbVar5,pcVar33,iVar34);
+  bCString::~bCString((bCString *)((int)&local_1cc + 4));
+  if (bVar3) {
+    if (*(char *)((int)local_1b4 + 0x121) == '\0') {
+      iVar34 = 0;
+      pcVar33 = "_PARENT";
+      local_1b8 = 1;
+      pbVar5 = (bCString *)
+               bCString::bCString((bCString *)((int)&local_1cc + 4),*(char **)(param_2 + 0x16c));
+      bVar3 = bCString::Contains(pbVar5,pcVar33,iVar34);
+      local_1cc._0_4_ = CONCAT13(1,(uint3)local_1cc);
+      if (!bVar3) goto LAB_300c4c93;
+    }
+    else {
+LAB_300c4c93:
+      local_1cc._0_4_ = (uint)(uint3)local_1cc;
+    }
+    if ((local_1b8 & 1) != 0) {
+      bCString::~bCString((bCString *)((int)&local_1cc + 4));
+    }
+    if (local_1cc._3_1_ == '\0') {
+      iVar34 = 0;
+      pcVar33 = "_MOVER_NP_";
+      pbVar5 = (bCString *)
+               bCString::bCString((bCString *)((int)&local_1cc + 4),*(char **)(param_2 + 0x16c));
+      bVar3 = bCString::Contains(pbVar5,pcVar33,iVar34);
+      local_1cc._0_4_ = CONCAT13(bVar3,(uint3)local_1cc);
+      bCString::~bCString((bCString *)((int)&local_1cc + 4));
+      if (local_1cc._3_1_ == '\0') {
+        iVar34 = 0;
+        pcVar33 = "_MOVER";
+        pbVar5 = (bCString *)
+                 bCString::bCString((bCString *)((int)&local_1cc + 4),*(char **)(param_2 + 0x16c));
+        bVar3 = bCString::Contains(pbVar5,pcVar33,iVar34);
+        local_1cc._0_4_ = CONCAT13(bVar3,(uint3)local_1cc);
+        bCString::~bCString((bCString *)((int)&local_1cc + 4));
+        if (local_1cc._3_1_ != '\0') {
+          uVar22 = 0xd;
+          puVar27 = &local_1b8;
+          pbVar5 = (bCString *)
+                   bCString::bCString((bCString *)((int)&local_1cc + 4),*(char **)(param_2 + 0x16c))
+          ;
+          bCString::Mid(pbVar5,(int)puVar27);
+          bCString::~bCString((bCString *)&local_1cc);
+          pbVar5 = (bCString *)&local_1bc;
+          peVar7 = (eCSceneAdmin *)thunk_FUN_3007bf20(pbVar5,uVar22);
+          local_13c = (eCEntity *)eCSceneAdmin::GetEntityByName(peVar7,pbVar5);
+          if (local_13c == (eCEntity *)0x0) {
+            GE_MESSAGEF_WARN();
+          }
+          bCString::~bCString((bCString *)&local_1bc);
+        }
+      }
+      else {
+        uVar22 = 0xd;
+        puVar27 = &local_1b8;
+        pbVar5 = (bCString *)
+                 bCString::bCString((bCString *)((int)&local_1cc + 4),*(char **)(param_2 + 0x16c));
+        bCString::Mid(pbVar5,(int)puVar27);
+        bCString::~bCString((bCString *)&local_1cc);
+        pbVar5 = (bCString *)&local_1bc;
+        peVar7 = (eCSceneAdmin *)thunk_FUN_3007bf20(pbVar5,uVar22);
+        peVar8 = (eCEntity *)eCSceneAdmin::GetEntityByName(peVar7,pbVar5);
+        local_13c = peVar8;
+        if (peVar8 == (eCEntity *)0x0) {
+          GE_MESSAGEF_WARN();
+          bCString::~bCString((bCString *)&local_1bc);
+        }
+        else {
+          bVar3 = eCEntity::IsProcessingDisabled(peVar8);
+          if (bVar3) {
+            local_1b4 = (float)((uint)local_1b4 & 0xffffff);
+            bCString::~bCString((bCString *)&local_1bc);
+          }
+          else {
+            eCEntity::DisableProcessing(peVar8,true);
+            bCString::~bCString((bCString *)&local_1bc);
+          }
+        }
+      }
+    }
+    else {
+      pbVar6 = eCVisualAnimation_PS::GetSubSkeletons
+                         (*(eCVisualAnimation_PS **)((int)local_1b4 + 300));
+      if ((pbVar6 != (bTObjArray<eCVisualAnimation_PS::eSSubSkeleton> *)0x0) &&
+         (local_1cc = (double)((ulonglong)local_1cc & 0xffffffff), 0 < *(int *)(pbVar6 + 4))) {
+        local_1b8 = 0;
+        do {
+          puVar27 = (undefined4 *)(*(int *)pbVar6 + local_1b8);
+          iVar34 = 0;
+          if (0 < (int)puVar27[2]) {
+            piVar13 = (int *)puVar27[1];
+            do {
+              if (param_2 == *piVar13) {
+                uStack_1b0._0_3_ = CONCAT12(1,(ushort)uStack_1b0);
+                *(undefined4 *)((int)local_1b4 + 0x130) = *puVar27;
+                break;
+              }
+              iVar34 = iVar34 + 1;
+              piVar13 = piVar13 + 1;
+            } while (iVar34 < (int)puVar27[2]);
+          }
+          local_1b8 = local_1b8 + 0x10;
+          iVar34 = local_1cc._4_4_ + 1;
+          local_1cc = (double)CONCAT44(iVar34,(uint)local_1cc);
+        } while (iVar34 < *(int *)(pbVar6 + 4));
+      }
+    }
+  }
+  uVar15 = local_1b8;
+  local_8c = *(undefined4 *)(local_1b8 + 0xd8);
+  iStack_90 = param_2;
+  local_88[0] = local_1b4._2_1_;
+  thunk_FUN_300d1e50(&iStack_90);
+  _memset(&local_1a4,0,0x5c);
+  local_1a4 = 1.0;
+  local_194 = 1.0;
+  local_184 = 1.0;
+  local_130[1] = 1.0;
+  local_130[5] = 1.0;
+  local_130[9] = 1.0;
+  local_130[0x17] = 0.39999998;
+  local_130[0x19] = 0.05;
+  local_174 = 0.0;
+  local_170 = 0;
+  local_1a0 = 0.0;
+  local_19c = 0.0;
+  local_198 = 0.0;
+  local_190 = 0.0;
+  local_18c = 0.0;
+  local_188 = 0.0;
+  local_178 = (float *)0x0;
+  local_17c = 0.0;
+  local_180 = 0.0;
+  local_16c = 0;
+  local_164 = 0;
+  local_160 = 0;
+  local_168 = (eCEntity *)((uint)local_168._2_2_ << 0x10);
+  local_154 = local_158;
+  local_15c = (undefined4 *)&DAT_00000001;
+  local_130[2] = 0.0;
+  local_130[3] = 0.0;
+  local_130[4] = 0.0;
+  local_130[6] = 0.0;
+  local_130[7] = 0.0;
+  local_130[8] = 0.0;
+  local_130[0xc] = 0.0;
+  local_130[0xb] = 0.0;
+  local_130[10] = 0.0;
+  local_130[0xf] = 0.0;
+  local_130[0xe] = 0.0;
+  local_130[0xd] = 0.0;
+  local_130[0x13] = 0.0;
+  local_130[0x12] = 0.0;
+  local_130[0x11] = 0.0;
+  local_130[0x16] = 0.0;
+  local_130[0x15] = 0.0;
+  local_130[0x14] = 0.0;
+  local_130[0x10] = 0.0;
+  local_130[0x18] = 0.0;
+  local_130[0x1a] = -1.0;
+  local_130[0x1c] = 3.58732e-43;
+  local_130[0x1d] = -1.0;
+  local_130[0x1e] = -1.0;
+  local_130[0x1b] = 0.0;
+  local_130[0x1f] = 5.60519e-45;
+  bCMatrix::bCMatrix(local_84,(bCMatrix *)(param_2 + 0x44));
+  fVar29 = _DAT_30aa68a0;
+  pbVar9 = bCMatrix::AccessTranslation(local_84);
+  bCVector::operator*=(pbVar9,fVar29);
+  pbVar10 = (bCMatrix *)bCMatrix::operator*((bCMatrix *)(uVar15 + 0x30),local_44);
+  bCMatrix::operator=(local_88,pbVar10);
+  bCMatrix::~bCMatrix(abStack_48);
+  pfVar11 = bCMatrix::AccessElement(local_88,0);
+  fStack_1a8 = *pfVar11;
+  local_1a4 = pfVar11[4];
+  local_1a0 = pfVar11[8];
+  local_19c = pfVar11[1];
+  local_198 = pfVar11[5];
+  local_194 = pfVar11[9];
+  local_190 = pfVar11[2];
+  local_18c = pfVar11[6];
+  local_188 = pfVar11[10];
+  pbVar9 = bCMatrix::GetTranslation(local_88);
+  pNVar12 = bCVector::operator_class_NxVec3_const_(pbVar9);
+  local_184 = *(float *)pNVar12;
+  local_168 = *(eCEntity **)(uVar15 + 0x10);
+  local_180 = *(float *)(pNVar12 + 4);
+  local_17c = *(float *)(pNVar12 + 8);
+  local_13c = (eCEntity *)0x0;
+  local_138 = 0;
+  local_134 = 0;
+  if (*(char *)(uVar15 + 0x121) == '\x01') {
+    local_170 = 1;
+  }
+  else {
+    local_170 = (uint)(*(char *)(*(int *)(uVar15 + 0x130) + 0x1f) == '\0');
+  }
+  iVar34 = *(int *)(uVar15 + 0x130);
+  local_130[0] = 1.0;
+  local_130[4] = 1.0;
+  local_130[8] = 1.0;
+  local_130[0x16] = 0.39999998;
+  local_16c = CONCAT22(local_16c._2_2_,*(undefined2 *)(iVar34 + 0x70));
+  iVar23 = (uint)local_1cc;
+  local_130[0x18] = 0.05;
+  local_130[1] = 0.0;
+  local_130[2] = 0.0;
+  local_130[3] = 0.0;
+  local_130[5] = 0.0;
+  local_130[6] = 0.0;
+  local_130[7] = 0.0;
+  local_130[0xb] = 0.0;
+  local_130[10] = 0.0;
+  local_130[9] = 0.0;
+  local_130[0xe] = 0.0;
+  local_130[0xd] = 0.0;
+  local_130[0xc] = 0.0;
+  local_130[0x12] = 0.0;
+  local_130[0x11] = 0.0;
+  local_130[0x10] = 0.0;
+  local_130[0x15] = 0.0;
+  local_130[0x14] = 0.0;
+  local_130[0x13] = 0.0;
+  local_130[0x17] = 0.0;
+  local_130[0x19] = -1.0;
+  local_130[0x1b] = 3.58732e-43;
+  local_130[0x1c] = -1.0;
+  local_130[0x1d] = -1.0;
+  local_130[0x1a] = 0.0;
+  local_130[0x1e] = 5.60519e-45;
+  local_130[0xf] = *(float *)((uint)local_1cc + 4);
+  if (*(float *)((uint)local_1cc + 4) <= 0.0) {
+    uVar22 = *(undefined4 *)(param_2 + 0x16c);
+    eCEntity::GetName(local_168);
+    GE_MESSAGEF_WARN("C: negative or zero mass for bone %s, entity %s!!!",uVar22);
+    thunk_FUN_300d22d0();
+    bCMatrix::~bCMatrix(local_88);
+    if (local_15c == (undefined4 *)0x0) {
+      return;
+    }
+                    /* WARNING: Subroutine does not return */
+    _free(local_15c);
+  }
+  local_130[0x18] = *(float *)(iVar34 + 0x30);
+  local_130[0x17] = *(float *)(iVar34 + 0x2c);
+  local_130[0x1e] = 1.68156e-44;
+  local_130[0x1b] = 5.35296e-43;
+  if (*(char *)(uVar15 + 0x121) == '\x01') {
+    local_130[0x1b] = 7.14662e-43;
+  }
+  local_178 = local_130;
+  iVar34 = (**(code **)**(undefined4 **)((uint)local_1cc + 8))();
+  if (iVar34 == -0x666fffff) {
+    iVar34 = *(int *)(iVar23 + 8);
+    puVar27 = (undefined4 *)new(0x74);
+    if (puVar27 == (undefined4 *)0x0) {
+      puVar27 = (undefined4 *)0x0;
+    }
+    else {
+      puVar27[1] = 2;
+                    /* inlined constructor or destructor (approx location) for NxBoxShapeDesc */
+      *puVar27 = &NxBoxShapeDesc::vftable;
+      puVar27[2] = 0x3f800000;
+      puVar27[3] = 0;
+      puVar27[4] = 0;
+      puVar27[5] = 0;
+      puVar27[6] = 0x3f800000;
+      puVar27[7] = 0;
+      puVar27[8] = 0;
+      puVar27[9] = 0;
+      puVar27[10] = 0x3f800000;
+      puVar27[0xd] = 0;
+      puVar27[0xc] = 0;
+      puVar27[0xb] = 0;
+      puVar27[0xe] = 8;
+      *(undefined2 *)(puVar27 + 0xf) = 0;
+      *(undefined2 *)((int)puVar27 + 0x3e) = 0;
+      puVar27[0x10] = 0;
+      puVar27[0x13] = 0xbf800000;
+      puVar27[0x11] = 0x3f800000;
+      puVar27[0x12] = 0xbf800000;
+      puVar27[0x14] = 0;
+      puVar27[0x15] = 0;
+      puVar27[0x16] = 0;
+      puVar27[0x17] = 0;
+      puVar27[0x18] = 0;
+      puVar27[0x19] = 0;
+      puVar27[0x1c] = 0;
+      puVar27[0x1b] = 0;
+      puVar27[0x1a] = 0;
+    }
+    local_1b4 = _DAT_30aa68a0 * *(float *)(iVar34 + 4) * 0.5;
+    uStack_1b0 = *(float *)(iVar34 + 8) * 0.5 * _DAT_30aa68a0;
+    fStack_1ac = *(float *)(iVar34 + 0xc) * 0.5 * _DAT_30aa68a0;
+    puVar27[0x1a] = local_1b4;
+    puVar27[0x1b] = uStack_1b0;
+    puVar27[0x1c] = fStack_1ac;
+    *(undefined2 *)(puVar27 + 0xf) = *(undefined2 *)(*(int *)(uVar15 + 0x130) + 0x60);
+    puVar27[0xe] = 8;
+    if (*(char *)(*(int *)(uVar15 + 0x130) + 0x20) == '\0') {
+      puVar27[0xe] = 0x48;
+    }
+    *(short *)((int)puVar27 + 0x3e) = *(short *)(*(int *)(uVar15 + 0x130) + 0x68) + 1;
+    puVar27[0x13] = 0x3c23d70a;
+    puVar27[0x14] = 0;
+    if (local_154 <= local_158) {
+      uVar26 = ((int)local_158 - (int)local_15c >> 2) * 2 + 2;
+      if (local_15c == (undefined4 *)0x0) {
+        uVar24 = 0;
+      }
+      else {
+        uVar24 = (int)local_154 - (int)local_15c >> 2;
+      }
+      if (uVar24 < uVar26) {
+        sVar1 = uVar26 * 4;
+        local_1cc = (double)CONCAT44(local_1cc._4_4_,sVar1);
+        puVar14 = _malloc(sVar1);
+        puVar28 = puVar14;
+        for (puVar25 = local_15c; puVar25 != local_158; puVar25 = puVar25 + 1) {
+          *puVar28 = *puVar25;
+          puVar28 = puVar28 + 1;
+        }
+        if (local_15c != (undefined4 *)0x0) {
+                    /* WARNING: Subroutine does not return */
+          _free(local_15c);
+        }
+        local_154 = (undefined4 *)((uint)local_1cc + (int)puVar14);
+        local_158 = puVar14 + ((int)local_158 >> 2);
+        uVar15 = local_1bc;
+        local_15c = puVar14;
+      }
+    }
+    *local_158 = puVar27;
+    local_158 = local_158 + 1;
+    local_1cc = (double)CONCAT44(local_1cc._4_4_,puVar27);
+    thunk_FUN_300d2590();
+    if (*(char *)(uVar15 + 0xc4) != '\0') {
+      pbVar9 = bCMatrix::GetXAxis(local_88);
+      bCVector::bCVector(abStack_14c,pbVar9);
+      fVar29 = *(float *)(iVar34 + 4) * 0.5;
+      local_1cc = (double)CONCAT44(local_1cc._4_4_,fVar29);
+      bCVector::operator*=(abStack_14c,fVar29);
+      bCVector::operator*=(abStack_14c,_DAT_30aa68a0);
+      pbVar9 = bCMatrix::GetTranslation(local_88);
+      fVar29 = bCVector::GetX(pbVar9);
+      local_1cc = (double)fVar29;
+      local_1b4 = bCVector::GetX(abStack_14c);
+      local_1b4 = local_1b4 + (float)local_1cc;
+      pbVar9 = bCMatrix::GetTranslation(local_88);
+      fVar29 = bCVector::GetY(pbVar9);
+      local_1cc = (double)fVar29;
+      uStack_1b0 = bCVector::GetY(abStack_14c);
+      uStack_1b0 = uStack_1b0 + (float)local_1cc;
+      pbVar9 = bCMatrix::GetTranslation(local_88);
+      fVar29 = bCVector::GetZ(pbVar9);
+      local_1cc = (double)fVar29;
+      fStack_1ac = bCVector::GetZ(abStack_14c);
+      fStack_1ac = fStack_1ac + (float)local_1cc;
+LAB_300c5ca8:
+      local_184 = local_1b4;
+      local_180 = uStack_1b0;
+      local_17c = fStack_1ac;
+      bCVector::~bCVector(abStack_14c);
+    }
+  }
+  else if (iVar34 == -0x666ffffe) {
+    iVar34 = *(int *)(iVar23 + 8);
+    puVar27 = (undefined4 *)new(0x6c);
+    if (puVar27 == (undefined4 *)0x0) {
+      puVar27 = (undefined4 *)0x0;
+    }
+    else {
+      puVar27[1] = 1;
+                    /* inlined constructor or destructor (approx location) for NxSphereShapeDesc */
+      *puVar27 = &NxSphereShapeDesc::vftable;
+      puVar27[3] = 0;
+      puVar27[4] = 0;
+      puVar27[5] = 0;
+      puVar27[7] = 0;
+      puVar27[8] = 0;
+      puVar27[9] = 0;
+      puVar27[2] = 0x3f800000;
+      puVar27[6] = 0x3f800000;
+      puVar27[10] = 0x3f800000;
+      puVar27[0xd] = 0;
+      puVar27[0xc] = 0;
+      puVar27[0xb] = 0;
+      puVar27[0xe] = 8;
+      *(undefined2 *)(puVar27 + 0xf) = 0;
+      *(undefined2 *)((int)puVar27 + 0x3e) = 0;
+      puVar27[0x10] = 0;
+      puVar27[0x13] = 0xbf800000;
+      puVar27[0x11] = 0x3f800000;
+      puVar27[0x12] = 0xbf800000;
+      puVar27[0x14] = 0;
+      puVar27[0x15] = 0;
+      puVar27[0x16] = 0;
+      puVar27[0x17] = 0;
+      puVar27[0x18] = 0;
+      puVar27[0x19] = 0;
+      puVar27[0x1a] = 0x3f800000;
+    }
+    puVar27[0x1a] = *(float *)(iVar34 + 4) * _DAT_30aa68a0;
+    *(undefined2 *)(puVar27 + 0xf) = *(undefined2 *)(*(int *)(uVar15 + 0x130) + 0x60);
+    puVar27[0xe] = 8;
+    if (*(char *)(*(int *)(uVar15 + 0x130) + 0x20) == '\0') {
+      puVar27[0xe] = 0x48;
+    }
+    *(short *)((int)puVar27 + 0x3e) = *(short *)(*(int *)(uVar15 + 0x130) + 0x68) + 1;
+    puVar27[0x13] = 0x3c23d70a;
+    puVar27[0x14] = 0;
+    if (local_154 <= local_158) {
+      uVar15 = ((int)local_158 - (int)local_15c >> 2) * 2 + 2;
+      if (local_15c == (undefined4 *)0x0) {
+        uVar26 = 0;
+      }
+      else {
+        uVar26 = (int)local_154 - (int)local_15c >> 2;
+      }
+      if (uVar26 < uVar15) {
+        sVar1 = uVar15 * 4;
+        local_1cc = (double)CONCAT44(local_1cc._4_4_,sVar1);
+        puVar14 = _malloc(sVar1);
+        puVar28 = puVar14;
+        for (puVar25 = local_15c; puVar25 != local_158; puVar25 = puVar25 + 1) {
+          *puVar28 = *puVar25;
+          puVar28 = puVar28 + 1;
+        }
+        if (local_15c != (undefined4 *)0x0) {
+                    /* WARNING: Subroutine does not return */
+          _free(local_15c);
+        }
+        local_154 = (undefined4 *)((uint)local_1cc + (int)puVar14);
+        local_158 = puVar14 + ((int)local_158 >> 2);
+        local_15c = puVar14;
+      }
+    }
+    *local_158 = puVar27;
+    local_158 = local_158 + 1;
+    local_1cc = (double)CONCAT44(local_1cc._4_4_,puVar27);
+    thunk_FUN_300d2590();
+  }
+  else if (iVar34 == -0x666ffffd) {
+    iVar34 = *(int *)(iVar23 + 8);
+    puVar27 = (undefined4 *)new(0x74);
+    if (puVar27 == (undefined4 *)0x0) {
+      puVar27 = (undefined4 *)0x0;
+    }
+    else {
+      puVar27[1] = 3;
+                    /* inlined constructor or destructor (approx location) for NxCapsuleShapeDesc */
+      *puVar27 = &NxCapsuleShapeDesc::vftable;
+      puVar27[2] = 0x3f800000;
+      puVar27[3] = 0;
+      puVar27[4] = 0;
+      puVar27[5] = 0;
+      puVar27[6] = 0x3f800000;
+      puVar27[7] = 0;
+      puVar27[8] = 0;
+      puVar27[9] = 0;
+      puVar27[10] = 0x3f800000;
+      puVar27[0xd] = 0;
+      puVar27[0xc] = 0;
+      puVar27[0xb] = 0;
+      puVar27[0xe] = 8;
+      *(undefined2 *)(puVar27 + 0xf) = 0;
+      *(undefined2 *)((int)puVar27 + 0x3e) = 0;
+      puVar27[0x10] = 0;
+      puVar27[0x13] = 0xbf800000;
+      puVar27[0x11] = 0x3f800000;
+      puVar27[0x12] = 0xbf800000;
+      puVar27[0x14] = 0;
+      puVar27[0x15] = 0;
+      puVar27[0x16] = 0;
+      puVar27[0x17] = 0;
+      puVar27[0x18] = 0;
+      puVar27[0x19] = 0;
+      puVar27[0x1a] = 0x3f800000;
+      puVar27[0x1b] = 0x3f800000;
+      puVar27[0x1c] = 0;
+    }
+    fVar29 = _DAT_30aa68a0;
+    puVar27[0x1a] = _DAT_30aa68a0 * *(float *)(iVar34 + 4);
+    fVar29 = (*(float *)(iVar34 + 8) - (*(float *)(iVar34 + 4) + *(float *)(iVar34 + 4))) * fVar29;
+    puVar27[0x1b] = fVar29;
+    if (fVar29 <= 0.0) {
+      puVar27[0x1b] = 0x3a83126f;
+    }
+    *(undefined2 *)(puVar27 + 0xf) = *(undefined2 *)(*(int *)(local_1c4 + 0x130) + 0x60);
+    puVar27[0xe] = 8;
+    iStack_a8 = 0;
+    uStack_a4 = 0x3f800000;
+    uStack_a0 = 0;
+    local_130[0x1d] = 1.0;
+    local_130[0x1e] = 0.0;
+    local_130[0x1f] = 0.0;
+    piVar13 = (int *)_NxGetUtilLib_0();
+    (**(code **)(*piVar13 + 0x84))(local_130 + 0x1d,&iStack_a8,auStack_50);
+    uVar15 = local_1bc;
+    pbVar10 = abStack_48;
+    puVar28 = puVar27 + 2;
+    for (iVar23 = 9; iVar23 != 0; iVar23 = iVar23 + -1) {
+      *puVar28 = *(undefined4 *)pbVar10;
+      pbVar10 = pbVar10 + 4;
+      puVar28 = puVar28 + 1;
+    }
+    if (*(char *)(*(int *)(local_1bc + 0x130) + 0x20) == '\0') {
+      puVar27[0xe] = puVar27[0xe] | 0x40;
+    }
+    *(short *)((int)puVar27 + 0x3e) = *(short *)(*(int *)(local_1bc + 0x130) + 0x68) + 1;
+    puVar27[0x13] = 0x3c23d70a;
+    puVar27[0x14] = 0;
+    local_1cc = (double)CONCAT44(local_1cc._4_4_,puVar27);
+    thunk_FUN_300d2590();
+    if (local_154 <= local_158) {
+      uVar26 = ((int)local_158 - (int)local_15c >> 2) * 2 + 2;
+      if (local_15c == (undefined4 *)0x0) {
+        uVar24 = 0;
+      }
+      else {
+        uVar24 = (int)local_154 - (int)local_15c >> 2;
+      }
+      if (uVar24 < uVar26) {
+        puVar14 = _malloc(uVar26 * 4);
+        puVar28 = puVar14;
+        for (puVar25 = local_15c; puVar25 != local_158; puVar25 = puVar25 + 1) {
+          *puVar28 = *puVar25;
+          puVar28 = puVar28 + 1;
+        }
+        if (local_15c != (undefined4 *)0x0) {
+                    /* WARNING: Subroutine does not return */
+          _free(local_15c);
+        }
+        local_154 = puVar14 + uVar26;
+        local_158 = puVar14 + ((int)local_158 >> 2);
+        uVar15 = local_1bc;
+        local_15c = puVar14;
+      }
+    }
+    *local_158 = puVar27;
+    local_158 = local_158 + 1;
+    if (*(char *)(uVar15 + 0xc4) != '\0') {
+      pbVar9 = bCMatrix::GetXAxis(local_88);
+      bCVector::bCVector(abStack_14c,pbVar9);
+      fVar29 = *(float *)(iVar34 + 8) * 0.5;
+      local_1cc = (double)CONCAT44(local_1cc._4_4_,fVar29);
+      bCVector::operator*=(abStack_14c,fVar29);
+      bCVector::operator*=(abStack_14c,_DAT_30aa68a0);
+      pbVar9 = bCMatrix::GetTranslation(local_88);
+      fVar29 = bCVector::GetX(pbVar9);
+      local_1cc = (double)fVar29;
+      local_1b4 = bCVector::GetX(abStack_14c);
+      local_1b4 = local_1b4 + (float)local_1cc;
+      pbVar9 = bCMatrix::GetTranslation(local_88);
+      fVar29 = bCVector::GetY(pbVar9);
+      local_1cc = (double)fVar29;
+      uStack_1b0 = bCVector::GetY(abStack_14c);
+      uStack_1b0 = uStack_1b0 + (float)local_1cc;
+      pbVar9 = bCMatrix::GetTranslation(local_88);
+      fVar29 = bCVector::GetZ(pbVar9);
+      local_1cc = (double)fVar29;
+      fStack_1ac = bCVector::GetZ(abStack_14c);
+      fStack_1ac = fStack_1ac + (float)local_1cc;
+      goto LAB_300c5ca8;
+    }
+  }
+  pfVar11 = local_178;
+  if (local_174 < 0.0) goto LAB_300c6308;
+  if (local_178 != (float *)0x0) {
+    if ((((local_178[0xf] <= 0.0 && local_178[0xf] != 0.0) ||
+         (local_178[0x16] <= 0.0 && local_178[0x16] != 0.0)) ||
+        (local_178[0x17] <= 0.0 && local_178[0x17] != 0.0)) ||
+       ((local_178[0x18] <= 0.0 && local_178[0x18] != 0.0 ||
+        (local_178[0x1a] <= 0.0 && local_178[0x1a] != 0.0)))) goto LAB_300c6308;
+    local_1cc = (double)CONCAT44(local_1cc._4_4_,*local_178);
+    uVar15 = __fpclass((double)*local_178);
+    if ((uVar15 & 0x207) != 0) goto LAB_300c6308;
+    local_1cc = (double)CONCAT44(local_1cc._4_4_,pfVar11[1]);
+    uVar15 = __fpclass((double)pfVar11[1]);
+    if ((uVar15 & 0x207) != 0) goto LAB_300c6308;
+    local_1cc = (double)CONCAT44(local_1cc._4_4_,pfVar11[2]);
+    uVar15 = __fpclass((double)pfVar11[2]);
+    if ((uVar15 & 0x207) != 0) goto LAB_300c6308;
+    local_1cc = (double)CONCAT44(local_1cc._4_4_,pfVar11[3]);
+    uVar15 = __fpclass((double)pfVar11[3]);
+    if ((uVar15 & 0x207) != 0) goto LAB_300c6308;
+    local_1cc = (double)CONCAT44(local_1cc._4_4_,pfVar11[4]);
+    uVar15 = __fpclass((double)pfVar11[4]);
+    if ((uVar15 & 0x207) != 0) goto LAB_300c6308;
+    local_1cc = (double)CONCAT44(local_1cc._4_4_,pfVar11[5]);
+    uVar15 = __fpclass((double)pfVar11[5]);
+    if ((uVar15 & 0x207) != 0) goto LAB_300c6308;
+    local_1cc = (double)CONCAT44(local_1cc._4_4_,pfVar11[6]);
+    uVar15 = __fpclass((double)pfVar11[6]);
+    if ((uVar15 & 0x207) != 0) goto LAB_300c6308;
+    local_1cc = (double)CONCAT44(local_1cc._4_4_,pfVar11[7]);
+    uVar15 = __fpclass((double)pfVar11[7]);
+    if ((uVar15 & 0x207) != 0) goto LAB_300c6308;
+    local_1cc = (double)CONCAT44(local_1cc._4_4_,pfVar11[8]);
+    uVar15 = __fpclass((double)pfVar11[8]);
+    if ((uVar15 & 0x207) != 0) goto LAB_300c6308;
+    local_1cc = (double)CONCAT44(local_1cc._4_4_,pfVar11[9]);
+    uVar15 = __fpclass((double)pfVar11[9]);
+    if ((uVar15 & 0x207) != 0) goto LAB_300c6308;
+    local_1cc = (double)CONCAT44(local_1cc._4_4_,pfVar11[10]);
+    uVar15 = __fpclass((double)pfVar11[10]);
+    if ((uVar15 & 0x207) != 0) goto LAB_300c6308;
+    local_1cc = (double)CONCAT44(local_1cc._4_4_,pfVar11[0xb]);
+    uVar15 = __fpclass((double)pfVar11[0xb]);
+    if ((uVar15 & 0x207) != 0) goto LAB_300c6308;
+  }
+  uVar15 = __fpclass((double)fStack_1a8);
+  if (((((((uVar15 & 0x207) != 0) || (uVar15 = __fpclass((double)local_1a4), (uVar15 & 0x207) != 0))
+        || ((uVar15 = __fpclass((double)local_1a0), (uVar15 & 0x207) != 0 ||
+            (((uVar15 = __fpclass((double)local_19c), (uVar15 & 0x207) != 0 ||
+              (uVar15 = __fpclass((double)local_198), (uVar15 & 0x207) != 0)) ||
+             (uVar15 = __fpclass((double)local_194), (uVar15 & 0x207) != 0)))))) ||
+       ((uVar15 = __fpclass((double)local_190), (uVar15 & 0x207) != 0 ||
+        (uVar15 = __fpclass((double)local_18c), (uVar15 & 0x207) != 0)))) ||
+      (uVar15 = __fpclass((double)local_188), (uVar15 & 0x207) != 0)) ||
+     (((uVar15 = __fpclass((double)local_184), (uVar15 & 0x207) != 0 ||
+       (uVar15 = __fpclass((double)local_180), (uVar15 & 0x207) != 0)) ||
+      (uVar15 = __fpclass((double)local_17c), (uVar15 & 0x207) != 0)))) goto LAB_300c6308;
+  uVar15 = 0;
+  if ((int)local_158 - (int)local_15c >> 2 != 0) {
+    do {
+      cVar4 = (**(code **)(*(int *)local_15c[uVar15] + 8))();
+      if (cVar4 == '\0') goto LAB_300c6308;
+      uVar15 = uVar15 + 1;
+    } while (uVar15 < (uint)((int)local_158 - (int)local_15c >> 2));
+  }
+  if ((local_178 == (float *)0x0) || (local_178[0xf] == 0.0)) {
+    bVar3 = false;
+  }
+  else {
+    bVar3 = true;
+  }
+  if (local_178 == (float *)0x0) {
+LAB_300c60dd:
+    bVar2 = false;
+  }
+  else {
+    if (((local_178[0xc] == 0.0) && (local_178[0xd] == 0.0)) && (local_178[0xe] == 0.0)) {
+      iVar34 = 1;
+    }
+    else {
+      iVar34 = 0;
+    }
+    if (0.0 < (float)iVar34) goto LAB_300c60dd;
+    bVar2 = true;
+  }
+  if ((int)local_158 - (int)local_15c >> 2 == 0) {
+    if (local_174 != 0.0) goto LAB_300c6308;
+LAB_300c6118:
+    if ((!bVar3) || (!bVar2)) goto LAB_300c6308;
+  }
+  else if (local_178 != (float *)0x0) {
+    if (local_174 == 0.0) {
+      if (!bVar3) goto LAB_300c6308;
+      if (bVar2) goto LAB_300c6118;
+    }
+    else if ((bVar3) || (bVar2)) goto LAB_300c6308;
+  }
+  pNVar31 = (NxActorDesc *)&fStack_1a8;
+  peVar16 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+  pNVar17 = eCPhysicsScene::CreateActor(peVar16,pNVar31);
+  uVar15 = local_1bc;
+  if (pNVar17 != (NxActor *)0x0) {
+    thunk_FUN_300d1de0();
+    peVar18 = eCEntity::GetPhysicObject(*(eCEntity **)(uVar15 + 0x10));
+    if (peVar18 != (eCPhysicObject *)0x0) {
+      peVar16 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+      this = eCPhysicsScene::GetCriticalSection(peVar16);
+      bCCriticalSectionWin32::Acquire(this);
+      bCCriticalSectionWin32::Release(this);
+      peVar16 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+      pNVar19 = eCPhysicsScene::GetScene(peVar16);
+      iVar34 = *(int *)pNVar19;
+      peVar20 = (eCPhysicObject *)eCEntity::GetPhysicObject(*(eCEntity **)(uVar15 + 0x10));
+      pNVar21 = eCPhysicObject::GetActor(peVar20);
+      (**(code **)(iVar34 + 0x34))(pNVar17,pNVar21);
+      peVar30 = *(eCEntity **)(uVar15 + 0x10);
+      pbVar32 = (bTPtrArray<eCEntity*> *)&local_1cc;
+      local_1cc = 0.0;
+      local_1c4 = 0;
+      peVar16 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+      eCPhysicsScene::GetIgnoreEntities(peVar16,peVar30,pbVar32);
+      if (0 < local_1cc._4_4_) {
+        peVar16 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+        pNVar19 = eCPhysicsScene::GetScene(peVar16);
+        iVar34 = 0;
+        if (0 < local_1cc._4_4_) {
+          do {
+            peVar8 = *(eCEntity **)((uint)local_1cc + iVar34 * 4);
+            peVar18 = eCEntity::GetPhysicObject(peVar8);
+            if (peVar18 != (eCPhysicObject *)0x0) {
+              iVar23 = *(int *)pNVar19;
+              peVar20 = (eCPhysicObject *)
+                        eCEntity::GetPhysicObject(*(eCEntity **)(local_1bc + 0x10));
+              eCPhysicObject::GetActor(peVar20);
+              peVar20 = (eCPhysicObject *)eCEntity::GetPhysicObject(peVar8);
+              pNVar21 = eCPhysicObject::GetActor(peVar20);
+              uVar22 = (**(code **)(iVar23 + 0x38))(pNVar21);
+              iVar23 = *(int *)pNVar19;
+              peVar20 = (eCPhysicObject *)eCEntity::GetPhysicObject(peVar8);
+              pNVar21 = eCPhysicObject::GetActor(peVar20);
+              (**(code **)(iVar23 + 0x34))(pNVar17,pNVar21,uVar22);
+            }
+            iVar34 = iVar34 + 1;
+          } while (iVar34 < local_1cc._4_4_);
+        }
+      }
+      thunk_FUN_30081020();
+      uVar15 = local_1bc;
+    }
+    if (((*(char *)(uVar15 + 0x129) == '\x01') && (*(char *)(uVar15 + 0x121) == '\0')) &&
+       ((*(int *)(uVar15 + 0x28) == 0 &&
+        ((*(int *)(uVar15 + 0x2c) == 0 && (*(int *)(uVar15 + 0x18) == 1)))))) {
+      *(undefined4 *)(uVar15 + 0x2c) = uStack_4;
+    }
+    if (*(char *)(uVar15 + 0x121) == '\x01') {
+      iStack_a8 = iStack_140;
+      local_130[0x20] = (float)uStack_4;
+      uStack_a4 = CONCAT31(uStack_a4._1_3_,local_1b8._3_1_);
+      *(byte *)(uVar15 + 0x12a) = *(byte *)(uVar15 + 0x12a) | iStack_140 != 0;
+      local_130[0x1f] = 0.0;
+      pNStack_ac = pNVar17;
+      thunk_FUN_300d1320();
+    }
+  }
+LAB_300c6308:
+  thunk_FUN_300d22d0();
+  bCMatrix::~bCMatrix(local_88);
+  thunk_FUN_300d0140();
+  return;
+}
+
+

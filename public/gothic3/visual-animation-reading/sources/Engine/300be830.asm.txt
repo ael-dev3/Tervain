@@ -1,0 +1,29 @@
+; 300be830 FUN_300be830
+300be830 | 53 | PUSH EBX
+300be831 | 8bd9 | MOV EBX,ECX
+300be833 | 57 | PUSH EDI
+300be834 | 8b3b | MOV EDI,dword ptr [EBX]
+300be836 | 85ff | TEST EDI,EDI
+300be838 | 7440 | JZ 0x300be87a
+300be83a | 56 | PUSH ESI
+300be83b | 8b7308 | MOV ESI,dword ptr [EBX + 0x8]
+300be83e | 85f6 | TEST ESI,ESI
+300be840 | 7412 | JZ 0x300be854
+300be842 | 8bcf | MOV ECX,EDI
+300be844 | 83ee01 | SUB ESI,0x1
+300be847 | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+300be84d | 83c710 | ADD EDI,0x10
+300be850 | 85f6 | TEST ESI,ESI
+300be852 | 75ee | JNZ 0x300be842
+300be854 | 8b03 | MOV EAX,dword ptr [EBX]
+300be856 | 50 | PUSH EAX
+300be857 | ff15acdbaf30 | CALL dword ptr [0x30afdbac]
+300be85d | 8bc8 | MOV ECX,EAX
+300be85f | ff150cdbaf30 | CALL dword ptr [0x30afdb0c]
+300be865 | c70300000000 | MOV dword ptr [EBX],0x0
+300be86b | c7430400000000 | MOV dword ptr [EBX + 0x4],0x0
+300be872 | c7430800000000 | MOV dword ptr [EBX + 0x8],0x0
+300be879 | 5e | POP ESI
+300be87a | 5f | POP EDI
+300be87b | 5b | POP EBX
+300be87c | c3 | RET

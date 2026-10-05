@@ -1,0 +1,14 @@
+; 100a8a7a _isspace
+100a8a7a | 833d2c692f1000 | CMP dword ptr [0x102f692c],0x0
+100a8a81 | 7512 | JNZ 0x100a8a95
+100a8a83 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+100a8a87 | 8b0d58141410 | MOV ECX,dword ptr [0x10141458]
+100a8a8d | 0fb60441 | MOVZX EAX,byte ptr [ECX + EAX*0x2]
+100a8a91 | 83e008 | AND EAX,0x8
+100a8a94 | c3 | RET
+100a8a95 | 6a00 | PUSH 0x0
+100a8a97 | ff742408 | PUSH dword ptr [ESP + 0x8]
+100a8a9b | e88bffffff | CALL 0x100a8a2b
+100a8aa0 | 59 | POP ECX
+100a8aa1 | 59 | POP ECX
+100a8aa2 | c3 | RET

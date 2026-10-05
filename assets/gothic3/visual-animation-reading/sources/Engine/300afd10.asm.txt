@@ -1,0 +1,4 @@
+; 300afd10 bTPropertyObject<eCSpringAndDamperEffector,eCEffector>::vfunction11
+300afd10 | 6a00 | PUSH 0x0
+300afd12 | e839e0f5ff | CALL 0x3000dd50
+300afd17 | c3 | RET

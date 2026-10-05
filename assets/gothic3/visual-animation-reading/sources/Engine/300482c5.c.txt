@@ -1,0 +1,15 @@
+/* ENTRY 300482c5 | eCVisualAnimation_PS::eSMotionDesc::IsValid | STATUS decompiled | 5 ms */
+
+/* public: bool __thiscall eCVisualAnimation_PS::eSMotionDesc::IsValid(void)const  */
+
+bool __thiscall eCVisualAnimation_PS::eSMotionDesc::IsValid(eSMotionDesc *this)
+
+{
+  bool bVar1;
+  
+                    /* 0x482c5  10667  ?IsValid@eSMotionDesc@eCVisualAnimation_PS@@QBE_NXZ */
+  bVar1 = bCString::IsEmpty((bCString *)(this + 4));
+  return (bool)('\x01' - bVar1);
+}
+
+

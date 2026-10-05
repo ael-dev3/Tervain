@@ -1,0 +1,2 @@
+; 1000754a bCMemoryStream::GetSize
+1000754a | e921820100 | JMP 0x1001f770

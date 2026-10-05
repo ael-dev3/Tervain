@@ -1,0 +1,2 @@
+; 10006e15 bCVector::NormalizeApprox
+10006e15 | e9f6740200 | JMP 0x1002e310

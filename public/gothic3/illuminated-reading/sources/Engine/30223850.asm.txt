@@ -1,0 +1,6 @@
+; 30223850 bTPropertyContainer<eEStaticIlluminated>::vfunction8
+30223850 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+30223854 | 8b5004 | MOV EDX,dword ptr [EAX + 0x4]
+30223857 | 895104 | MOV dword ptr [ECX + 0x4],EDX
+3022385a | b801000000 | MOV EAX,0x1
+3022385f | c20400 | RET 0x4

@@ -1,0 +1,102 @@
+/* ENTRY 300db960 | FUN_300db960 | STATUS decompiled | 52 ms */
+
+void __thiscall
+FUN_300db960(eCWrapper_emfx2Actor *param_1,eEMotionType param_2,int param_3,undefined4 *param_4)
+
+{
+  int iVar1;
+  bool bVar2;
+  undefined4 uVar3;
+  PlayModePingPong *pPVar4;
+  PlayModeBackward *this;
+  PlayModeForward *this_00;
+  undefined4 uStack_24;
+  undefined4 uStack_20;
+  undefined4 uStack_1c;
+  undefined4 uStack_18;
+  undefined4 uStack_14;
+  undefined4 uStack_10;
+  uint uStack_c;
+  undefined1 uStack_4;
+  
+  bVar2 = (*param_1->vftablePtr->IsValid)(param_1);
+  if ((!bVar2) || (*(int *)(param_3 + 4) == 0)) {
+    return;
+  }
+  (param_1->eCWrapper_emfx2Actor_data).offset_0x74 = 1;
+  bVar2 = eCWrapper_emfx2Actor::HasMotionInstance(param_1,param_2);
+  if (bVar2) {
+    eCWrapper_emfx2Actor::StopMotion(param_1,param_2,0.0);
+  }
+  if (param_4 == (undefined4 *)0x0) {
+    uVar3 = FUN_30639950(*(undefined4 *)(param_3 + 4),0);
+    (&(param_1->eCWrapper_emfx2Actor_data).offset_0xc)[param_2] = uVar3;
+    return;
+  }
+  FUN_3064c510();
+  uStack_24 = *param_4;
+  uStack_14 = param_4[3];
+  uStack_1c = param_4[2];
+  uStack_4 = 1;
+  switch(param_2) {
+  case 0:
+    uStack_10 = 4;
+    break;
+  case 1:
+    uStack_10 = 3;
+    break;
+  case 2:
+    uStack_10 = 2;
+    break;
+  default:
+    uStack_10 = 0;
+    break;
+  case 4:
+    uStack_10 = 7;
+    break;
+  case 5:
+    uStack_10 = 6;
+    break;
+  case 6:
+    uStack_10 = 5;
+    break;
+  case 7:
+    uStack_10 = 8;
+  }
+  uStack_18 = param_4[4];
+  uStack_20 = param_4[5];
+  uStack_c = (uint)(param_4[6] == 2);
+  uVar3 = FUN_30639950(*(undefined4 *)(param_3 + 4),&uStack_24);
+  (&(param_1->eCWrapper_emfx2Actor_data).offset_0xc)[param_2] = uVar3;
+  if (param_2 == 0) {
+    (param_1->eCWrapper_emfx2Actor_data).offset_0x70 = param_4[1];
+  }
+  iVar1 = param_4[1];
+  if (iVar1 == 0) {
+    this_00 = (PlayModeForward *)thunk_FUN_300da0c0(8);
+    if (this_00 == (PlayModeForward *)0x0) {
+LAB_300dbad3:
+      pPVar4 = (PlayModePingPong *)0x0;
+    }
+    else {
+      pPVar4 = (PlayModePingPong *)EMotionFX::PlayModeForward::PlayModeForward(this_00);
+    }
+  }
+  else if (iVar1 == 1) {
+    this = (PlayModeBackward *)thunk_FUN_300da0e0(8);
+    if (this == (PlayModeBackward *)0x0) goto LAB_300dbad3;
+    pPVar4 = (PlayModePingPong *)EMotionFX::PlayModeBackward::PlayModeBackward(this);
+  }
+  else {
+    if (iVar1 != 2) goto LAB_300dbadf;
+    pPVar4 = (PlayModePingPong *)thunk_FUN_300da100(0xc);
+    if (pPVar4 == (PlayModePingPong *)0x0) goto LAB_300dbad3;
+    pPVar4 = EMotionFX::PlayModePingPong::PlayModePingPong(pPVar4);
+  }
+  FUN_3064c420(pPVar4);
+LAB_300dbadf:
+  FUN_3064c560();
+  return;
+}
+
+

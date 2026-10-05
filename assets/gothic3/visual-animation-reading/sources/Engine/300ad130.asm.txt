@@ -1,0 +1,8 @@
+; 300ad130 bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>::~bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>
+300ad130 | 56 | PUSH ESI
+300ad131 | 8bf1 | MOV ESI,ECX
+300ad133 | c70684fa8130 | MOV dword ptr [ESI],0x3081fa84
+300ad139 | e859b0f6ff | CALL 0x30018197
+300ad13e | 8bce | MOV ECX,ESI
+300ad140 | 5e | POP ESI
+300ad141 | e92566f9ff | JMP 0x3004376b

@@ -1,0 +1,17 @@
+/* ENTRY 3002ed0c | eCVisualAnimationFactory::GetMainActorFileName | STATUS decompiled | 34 ms */
+
+/* public: class bCString const & __thiscall
+   eCVisualAnimationFactory::GetMainActorFileName(void)const  */
+
+bCString * __thiscall eCVisualAnimationFactory::GetMainActorFileName(eCVisualAnimationFactory *this)
+
+{
+  bCString *pbVar1;
+  
+                    /* 0x2ed0c  7696
+                       ?GetMainActorFileName@eCVisualAnimationFactory@@QBEABVbCString@@XZ */
+  pbVar1 = eCVisualAnimationLoD::GetActorFileName(*(eCVisualAnimationLoD **)(this + 8));
+  return pbVar1;
+}
+
+

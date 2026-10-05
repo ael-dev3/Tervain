@@ -1,0 +1,2 @@
+; 100032b5 bCAccessorPropertyObject::GetRootObject
+100032b5 | e936760900 | JMP 0x1009a8f0

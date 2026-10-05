@@ -1,0 +1,16 @@
+/* ENTRY 300a2e60 | FUN_300a2e60 | STATUS decompiled | 9 ms */
+
+undefined4 __thiscall FUN_300a2e60(eCEntityPropertySet *param_1,bCObjectBase *param_2)
+
+{
+  eCEntityPropertySet::CopyFrom(param_1,param_2);
+  thunk_FUN_300b71f0(param_2 + 0xe8);
+  eCVisualAnimationFactory::CopyFrom
+            ((eCVisualAnimationFactory *)&param_1[7].eCEntityPropertySet_data.field_0x4,
+             (eCVisualAnimationFactory *)(param_2 + 0x94));
+  param_1[0x12].eCEntityPropertySet_data.field_0xe = param_2[0x17a];
+  param_1[0x12].eCEntityPropertySet_data.offset_0xc = (byte)param_2[0x178];
+  return 1;
+}
+
+

@@ -1,0 +1,2 @@
+; 3000abeb eCVisualAnimation_PS::Read
+3000abeb | e9d0820900 | JMP 0x300a2ec0

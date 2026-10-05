@@ -1,0 +1,2 @@
+; 30022142 eCResourceAdmin::QueryResourceDataEntity
+30022142 | e969524100 | JMP 0x304373b0

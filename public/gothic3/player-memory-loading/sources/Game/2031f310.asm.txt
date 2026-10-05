@@ -1,0 +1,6 @@
+; 2031f310 bTPropertyContainer<gEWeaponConfig>::vfunction8
+2031f310 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+2031f314 | 8b5004 | MOV EDX,dword ptr [EAX + 0x4]
+2031f317 | 895104 | MOV dword ptr [ECX + 0x4],EDX
+2031f31a | b801000000 | MOV EAX,0x1
+2031f31f | c20400 | RET 0x4

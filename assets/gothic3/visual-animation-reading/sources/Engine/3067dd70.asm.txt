@@ -1,0 +1,55 @@
+; 3067dd70 _strcmp
+3067dd70 | 8b542404 | MOV EDX,dword ptr [ESP + 0x4]
+3067dd74 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+3067dd78 | f7c203000000 | TEST EDX,0x3
+3067dd7e | 753c | JNZ 0x3067ddbc
+3067dd80 | 8b02 | MOV EAX,dword ptr [EDX]
+3067dd82 | 3a01 | CMP AL,byte ptr [ECX]
+3067dd84 | 752e | JNZ 0x3067ddb4
+3067dd86 | 0ac0 | OR AL,AL
+3067dd88 | 7426 | JZ 0x3067ddb0
+3067dd8a | 3a6101 | CMP AH,byte ptr [ECX + 0x1]
+3067dd8d | 7525 | JNZ 0x3067ddb4
+3067dd8f | 0ae4 | OR AH,AH
+3067dd91 | 741d | JZ 0x3067ddb0
+3067dd93 | c1e810 | SHR EAX,0x10
+3067dd96 | 3a4102 | CMP AL,byte ptr [ECX + 0x2]
+3067dd99 | 7519 | JNZ 0x3067ddb4
+3067dd9b | 0ac0 | OR AL,AL
+3067dd9d | 7411 | JZ 0x3067ddb0
+3067dd9f | 3a6103 | CMP AH,byte ptr [ECX + 0x3]
+3067dda2 | 7510 | JNZ 0x3067ddb4
+3067dda4 | 83c104 | ADD ECX,0x4
+3067dda7 | 83c204 | ADD EDX,0x4
+3067ddaa | 0ae4 | OR AH,AH
+3067ddac | 75d2 | JNZ 0x3067dd80
+3067ddae | 8bff | MOV EDI,EDI
+3067ddb0 | 33c0 | XOR EAX,EAX
+3067ddb2 | c3 | RET
+3067ddb4 | 1bc0 | SBB EAX,EAX
+3067ddb6 | d1e0 | SHL EAX,0x1
+3067ddb8 | 83c001 | ADD EAX,0x1
+3067ddbb | c3 | RET
+3067ddbc | f7c201000000 | TEST EDX,0x1
+3067ddc2 | 7418 | JZ 0x3067dddc
+3067ddc4 | 8a02 | MOV AL,byte ptr [EDX]
+3067ddc6 | 83c201 | ADD EDX,0x1
+3067ddc9 | 3a01 | CMP AL,byte ptr [ECX]
+3067ddcb | 75e7 | JNZ 0x3067ddb4
+3067ddcd | 83c101 | ADD ECX,0x1
+3067ddd0 | 0ac0 | OR AL,AL
+3067ddd2 | 74dc | JZ 0x3067ddb0
+3067ddd4 | f7c202000000 | TEST EDX,0x2
+3067ddda | 74a4 | JZ 0x3067dd80
+3067dddc | 668b02 | MOV AX,word ptr [EDX]
+3067dddf | 83c202 | ADD EDX,0x2
+3067dde2 | 3a01 | CMP AL,byte ptr [ECX]
+3067dde4 | 75ce | JNZ 0x3067ddb4
+3067dde6 | 0ac0 | OR AL,AL
+3067dde8 | 74c6 | JZ 0x3067ddb0
+3067ddea | 3a6101 | CMP AH,byte ptr [ECX + 0x1]
+3067dded | 75c5 | JNZ 0x3067ddb4
+3067ddef | 0ae4 | OR AH,AH
+3067ddf1 | 74bd | JZ 0x3067ddb0
+3067ddf3 | 83c102 | ADD ECX,0x2
+3067ddf6 | eb88 | JMP 0x3067dd80

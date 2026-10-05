@@ -1,0 +1,22 @@
+; 2011ade0 bTPropertyType<gCEffect_PS,bCString>::vfunction26
+2011ade0 | 56 | PUSH ESI
+2011ade1 | 57 | PUSH EDI
+2011ade2 | 8b7c240c | MOV EDI,dword ptr [ESP + 0xc]
+2011ade6 | 85ff | TEST EDI,EDI
+2011ade8 | 8bf1 | MOV ESI,ECX
+2011adea | 7522 | JNZ 0x2011ae0e
+2011adec | 680d030000 | PUSH 0x30d
+2011adf1 | 68f8976520 | PUSH 0x206597f8
+2011adf6 | 68c8976520 | PUSH 0x206597c8
+2011adfb | 6858986520 | PUSH 0x20659858
+2011ae00 | ff1518897d20 | CALL dword ptr [0x207d8918]
+2011ae06 | 8bc8 | MOV ECX,EAX
+2011ae08 | ff15f4867d20 | CALL dword ptr [0x207d86f4]
+2011ae0e | 8b06 | MOV EAX,dword ptr [ESI]
+2011ae10 | 8b502c | MOV EDX,dword ptr [EAX + 0x2c]
+2011ae13 | 57 | PUSH EDI
+2011ae14 | 8bce | MOV ECX,ESI
+2011ae16 | ffd2 | CALL EDX
+2011ae18 | 5f | POP EDI
+2011ae19 | 5e | POP ESI
+2011ae1a | c20400 | RET 0x4

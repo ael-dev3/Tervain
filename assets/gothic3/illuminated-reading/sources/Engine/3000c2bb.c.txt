@@ -1,0 +1,15 @@
+/* ENTRY 3000c2bb | eCFrustumElementItem::SetIlluminationPS | STATUS decompiled | 1 ms */
+
+/* public: void __thiscall eCFrustumElementItem::SetIlluminationPS(class eCIlluminated_PS *) */
+
+void __thiscall
+eCFrustumElementItem::SetIlluminationPS(eCFrustumElementItem *this,eCIlluminated_PS *param_1)
+
+{
+                    /* 0xc2bb  13494
+                       ?SetIlluminationPS@eCFrustumElementItem@@QAEXPAVeCIlluminated_PS@@@Z */
+  *(eCIlluminated_PS **)(this + 0x34) = param_1;
+  return;
+}
+
+

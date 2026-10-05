@@ -1,0 +1,25 @@
+/* ENTRY 30018ddb | eCVirtualFile::~eCVirtualFile | STATUS decompiled | 8 ms */
+
+/* public: virtual __thiscall eCVirtualFile::~eCVirtualFile(void) */
+
+void __thiscall eCVirtualFile::~eCVirtualFile(eCVirtualFile *this)
+
+{
+  int iVar1;
+  
+                    /* 0x18ddb  1381  ??1eCVirtualFile@@UAE@XZ */
+  iVar1 = (this->eCVirtualFile_data).offset_0x0;
+  this->vftablePtr = &vftable_for_bCIStream_;
+  this->vftablePtr = &vftable_for_bCOStream_;
+  if (iVar1 != 0) {
+    (**(code **)(*(int *)(*(int *)(*(int *)(iVar1 + 4) + 4) + 4 + iVar1) + 4))();
+    (this->eCVirtualFile_data).offset_0x0 = 0;
+  }
+  (this->eCVirtualFile_data).offset_0x0 = 0;
+                    /* WARNING: Could not recover jumptable at 0x305cc1e9. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCFile::~bCFile((bCFile *)this);
+  return;
+}
+
+

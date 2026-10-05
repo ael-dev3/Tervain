@@ -1,0 +1,2 @@
+; 2001758f gCPlayerMemory_PS::CopyFrom
+2001758f | e94c5e3000 | JMP 0x2031d3e0

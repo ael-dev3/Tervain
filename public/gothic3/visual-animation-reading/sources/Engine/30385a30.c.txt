@@ -1,0 +1,46 @@
+/* ENTRY 30385a30 | FUN_30385a30 | STATUS decompiled | 19 ms */
+
+void __thiscall FUN_30385a30(bTPOPureSmartPtr<eCEffector> *param_1,bCPropertyObjectBase *param_2)
+
+{
+  int iVar1;
+  bCPropertyObjectBase *pbVar2;
+  bool bVar3;
+  bCPropertyTypeBase *pbVar4;
+  bCAccessorPropertyObject *this;
+  undefined4 uVar5;
+  bCAccessorProperty local_c [12];
+  
+  pbVar2 = param_2;
+  bCPropertyObjectBase::CopyFrom((bCPropertyObjectBase *)param_1,param_2);
+  bCAccessorCreator::bCAccessorCreator
+            ((bCAccessorCreator *)&param_2,(bCPropertyObjectBase *)param_1);
+  bCAccessorProperty::bCAccessorProperty(local_c,(bCAccessorCreator *)&param_2);
+  do {
+    bVar3 = bCAccessorProperty::IsValid(local_c);
+    if (bVar3) {
+      pbVar4 = bCAccessorProperty::GetPropertyTypeObject(local_c);
+      (**(code **)(*(int *)pbVar4 + 0x30))(param_1,pbVar2);
+    }
+    bVar3 = bCAccessorProperty::IsValid(local_c);
+    if (!bVar3) {
+      this = bCAccessorProperty::GetAccessorPropertyObject(local_c);
+      bVar3 = bCAccessorPropertyObject::HasBaseClass(this);
+      if (!bVar3) {
+        if ((param_1->bTPOPureSmartPtr<eCEffector>_data).offset_0x4 == (bCObjectRefBase *)0x0) {
+          bTPOPureSmartPtr<eCEffector>::vfunction11(param_1);
+        }
+        iVar1 = *(int *)(param_1->bTPOPureSmartPtr<eCEffector>_data).offset_0x4;
+        uVar5 = (*(code *)**(undefined4 **)pbVar2)();
+        (**(code **)(iVar1 + 0x1c))(uVar5);
+        bCAccessorPropertyObject::~bCAccessorPropertyObject
+                  ((bCAccessorPropertyObject *)&stack0xfffffff0);
+        bCAccessorCreator::~bCAccessorCreator((bCAccessorCreator *)&stack0x00000000);
+        return;
+      }
+    }
+    bCAccessorProperty::operator++(local_c);
+  } while( true );
+}
+
+

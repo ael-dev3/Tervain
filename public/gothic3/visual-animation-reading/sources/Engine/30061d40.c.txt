@@ -1,0 +1,16 @@
+/* ENTRY 30061d40 | FUN_30061d40 | STATUS decompiled | 4 ms */
+
+void __fastcall FUN_30061d40(int *param_1)
+
+{
+  code *pcVar1;
+  int *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("BonesBreakMaxTorque",0);
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  param_1[10] = *unaff_ESI;
+  (*pcVar1)("BonesBreakMaxTorque",0);
+  return;
+}
+
+

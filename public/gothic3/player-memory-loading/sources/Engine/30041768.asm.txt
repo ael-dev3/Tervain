@@ -1,0 +1,2 @@
+; 30041768 eCEntityPropertySet::OnPostUpdateInternals
+30041768 | e923014400 | JMP 0x30481890

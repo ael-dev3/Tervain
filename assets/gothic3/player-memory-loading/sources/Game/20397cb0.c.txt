@@ -1,0 +1,12 @@
+/* ENTRY 20397cb0 | FUN_20397cb0 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall FUN_20397cb0(int *param_1,undefined4 param_2,char param_3)
+
+{
+  if (param_3 == '\0') {
+    (**(code **)(*param_1 + 0x7c))();
+  }
+  return 1;
+}
+
+

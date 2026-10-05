@@ -1,0 +1,2 @@
+; 3002ca3e thunk_FUN_300ab070
+3002ca3e | e92de60700 | JMP 0x300ab070

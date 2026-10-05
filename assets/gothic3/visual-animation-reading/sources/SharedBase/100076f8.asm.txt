@@ -1,0 +1,2 @@
+; 100076f8 bCObjectRefBase::PostInitializeProperties
+100076f8 | e9d32d0400 | JMP 0x1004a4d0

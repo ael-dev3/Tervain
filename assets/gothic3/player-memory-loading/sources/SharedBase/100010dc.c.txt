@@ -1,0 +1,16 @@
+/* ENTRY 100010dc | bCObjectBase::CopyFrom | STATUS decompiled | 4 ms */
+
+/* public: virtual enum bEResult __thiscall bCObjectBase::CopyFrom(class bCObjectBase const &)
+   bCObjectBase member function inherited by bCObjectRefBase
+   bCObjectBase member function inherited by bCThreadObjectRefBase
+   bCObjectBase member function inherited by bCObsoleteClass
+   bCObjectBase member function inherited by bCEvent */
+
+bEResult __thiscall bCObjectBase::CopyFrom(bCObjectBase *this,bCObjectBase *param_1)
+
+{
+                    /* 0x10dc  1748  ?CopyFrom@bCObjectBase@@UAE?AW4bEResult@@ABV1@@Z */
+  return 1;
+}
+
+

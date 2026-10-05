@@ -1,0 +1,5 @@
+; 20322c00 bTPropertyType<gCPlayerMemory_PS,bTValArray<bool>_>::vfunction7
+20322c00 | 33c0 | XOR EAX,EAX
+20322c02 | 394120 | CMP dword ptr [ECX + 0x20],EAX
+20322c05 | 0f95c0 | SETNZ AL
+20322c08 | c3 | RET

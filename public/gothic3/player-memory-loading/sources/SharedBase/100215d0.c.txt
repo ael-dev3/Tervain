@@ -1,0 +1,36 @@
+/* ENTRY 100215d0 | FUN_100215d0 | STATUS decompiled | 6 ms */
+
+void FUN_100215d0(void)
+
+{
+  bCDialogHandle *pbVar1;
+  bEGE3DialogsLogMessageType bVar2;
+  char *pcVar3;
+  bCGothic3EngineDialogs local_1;
+  
+  bCGothic3EngineDialogs::bCGothic3EngineDialogs(&local_1);
+  pcVar3 = "Memory statistics";
+  bVar2 = 3;
+  pbVar1 = bCGothic3EngineDialogs::GetDialogHandle(&local_1);
+  bCGothic3EngineDialogs::bCDialogHandle::AddText(pbVar1,bVar2,pcVar3);
+  pcVar3 = "----------------------------";
+  bVar2 = 3;
+  pbVar1 = bCGothic3EngineDialogs::GetDialogHandle(&local_1);
+  bCGothic3EngineDialogs::bCDialogHandle::AddText(pbVar1,bVar2,pcVar3);
+  pcVar3 = " ";
+  bVar2 = 3;
+  pbVar1 = bCGothic3EngineDialogs::GetDialogHandle(&local_1);
+  bCGothic3EngineDialogs::bCDialogHandle::AddText(pbVar1,bVar2,pcVar3);
+  pcVar3 = "---> memory allocation summary <---";
+  bVar2 = 3;
+  pbVar1 = bCGothic3EngineDialogs::GetDialogHandle(&local_1);
+  bCGothic3EngineDialogs::bCDialogHandle::AddText(pbVar1,bVar2,pcVar3);
+  pcVar3 = " ";
+  bVar2 = 3;
+  pbVar1 = bCGothic3EngineDialogs::GetDialogHandle(&local_1);
+  bCGothic3EngineDialogs::bCDialogHandle::AddText(pbVar1,bVar2,pcVar3);
+  bCGothic3EngineDialogs::~bCGothic3EngineDialogs(&local_1);
+  return;
+}
+
+

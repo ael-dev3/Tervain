@@ -1,0 +1,2 @@
+; 30043c6b eCVisualAnimation_PS::AccessResourceFilePath
+30043c6b | e9e0dd0100 | JMP 0x30061a50

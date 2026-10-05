@@ -1,0 +1,10 @@
+/* ENTRY 1000117c | bCPropertyTypeBase::Read | STATUS decompiled | 5 ms */
+
+ushort __thiscall bCPropertyTypeBase::Read(bCPropertyTypeBase *this,bCIStream *param_1)
+
+{
+  bCIStream::operator>>((bCIStream *)param_1,(ushort *)&param_1);
+  return (ushort)param_1;
+}
+
+

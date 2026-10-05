@@ -1,0 +1,2 @@
+; 30039ec3 bTPropertyType<eCEffector,bCVector>::vfunction12
+30039ec3 | e958d53400 | JMP 0x30387420

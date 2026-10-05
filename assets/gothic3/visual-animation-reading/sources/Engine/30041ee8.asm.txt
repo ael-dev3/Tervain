@@ -1,0 +1,2 @@
+; 30041ee8 eCVisualAnimation_PS::SetBoneAngularDamping
+30041ee8 | e913ff0100 | JMP 0x30061e00

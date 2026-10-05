@@ -1,0 +1,21 @@
+/* ENTRY 10007649 | bCVector::operator*= | STATUS decompiled | 4 ms */
+
+/* public: class bCVector & __thiscall bCVector::operator*=(class bCMatrix const &) */
+
+bCVector * __thiscall bCVector::operator*=(bCVector *this,bCMatrix *param_1)
+
+{
+  bCVector *extraout_EDX;
+  undefined4 uStack_c;
+  undefined4 uStack_8;
+  undefined4 uStack_4;
+  
+                    /* 0x7649  1217  ??XbCVector@@QAEAAV0@ABVbCMatrix@@@Z */
+  SetTransformed((bCVector *)&uStack_c,this,param_1);
+  *(undefined4 *)extraout_EDX = uStack_c;
+  *(undefined4 *)(extraout_EDX + 4) = uStack_8;
+  *(undefined4 *)(extraout_EDX + 8) = uStack_4;
+  return extraout_EDX;
+}
+
+

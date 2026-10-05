@@ -1,0 +1,2 @@
+; 30024802 eCVisualAnimation_PS::PausePhysicsController
+30024802 | e919a30700 | JMP 0x3009eb20

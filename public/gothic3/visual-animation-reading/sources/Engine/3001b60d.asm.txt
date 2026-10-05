@@ -1,0 +1,2 @@
+; 3001b60d eCVisualAnimation_PS::GetBoneJointSpring
+3001b60d | e9ce6a0400 | JMP 0x300620e0

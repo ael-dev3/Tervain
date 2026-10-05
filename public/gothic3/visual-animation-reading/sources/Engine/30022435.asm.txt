@@ -1,0 +1,2 @@
+; 30022435 eCPhysicObject::SetCollisionEnabled
+30022435 | e996b12e00 | JMP 0x3030d5d0

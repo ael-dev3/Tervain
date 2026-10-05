@@ -1,0 +1,2 @@
+; 3003be9e thunk_FUN_300b7140
+3003be9e | e99db20700 | JMP 0x300b7140

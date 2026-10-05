@@ -1,0 +1,56 @@
+/* ENTRY 3009dc50 | FUN_3009dc50 | STATUS decompiled | 19 ms */
+
+undefined4 __thiscall FUN_3009dc50(void *this)
+
+{
+  bCObjectBase local_8;
+  undefined4 local_4;
+  
+  bCObjectRefBase::PostInitializeProperties(this);
+  *(undefined1 *)((int)this + 0x1c) = 0;
+  *(undefined1 *)((int)this + 0x1d) = 0;
+  *(undefined1 *)((int)this + 0x1e) = 0;
+  *(undefined1 *)((int)this + 0x1f) = 1;
+  *(undefined1 *)((int)this + 0x20) = 1;
+  bCObjectBase::bCObjectBase(&local_8);
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<eEShapeGroup> */
+  local_8 = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+  local_4 = 2;
+  (**(code **)(*(int *)((int)this + 0x5c) + 0x1c))(&local_8);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  bCObjectBase::bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<eEShapeMaterial> */
+  local_8 = (bCObjectBase)0xa;
+  (**(code **)(*(int *)((int)this + 100) + 0x1c))(&stack0xfffffff4);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff0);
+  bCObjectBase::bCObjectBase((bCObjectBase *)&stack0xfffffff0);
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<eECollisionGroup> */
+  (**(code **)(*(int *)((int)this + 0x6c) + 0x1c))(&stack0xfffffff0);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xffffffec);
+  *(undefined4 *)((int)this + 0x2c) = 0x3f000000;
+  *(undefined4 *)((int)this + 0x30) = 0x3f000000;
+  *(undefined4 *)((int)this + 0x44) = 0x3f000000;
+  *(undefined4 *)((int)this + 0x48) = 0x3dcccccd;
+  *(undefined4 *)((int)this + 0x58) = 0x3e4ccccd;
+  *(undefined4 *)((int)this + 0x50) = 0x469ca400;
+  *(undefined4 *)((int)this + 0x38) = 0x42c80000;
+  *(undefined4 *)((int)this + 0x54) = 0x3a83126f;
+  *(undefined1 *)((int)this + 0x34) = 0;
+  *(undefined4 *)((int)this + 0x3c) = 0x3f4ccccd;
+  *(undefined1 *)((int)this + 0x40) = 1;
+  *(undefined1 *)((int)this + 0x4c) = 1;
+  *(undefined1 *)((int)this + 0x7c) = 0;
+  *(undefined1 *)((int)this + 0x21) = 0;
+  *(undefined4 *)((int)this + 0x24) = 0x7f7fffff;
+  *(undefined4 *)((int)this + 0x28) = 0x7f7fffff;
+  *(undefined1 *)((int)this + 0x7d) = 1;
+  *(undefined1 *)((int)this + 0x74) = 1;
+  *(undefined4 *)((int)this + 0x90) = 0;
+  *(undefined4 *)((int)this + 0x78) = 0x3f800000;
+  return 1;
+}
+
+

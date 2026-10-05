@@ -1,0 +1,24 @@
+/* ENTRY 3009ea10 | FUN_3009ea10 | STATUS decompiled | 8 ms */
+
+void __thiscall FUN_3009ea10(int param_1,eEMotionType param_2,float param_3)
+
+{
+  bool bVar1;
+  eCWrapper_emfx2Actor *peVar2;
+  eCWrapper_emfx2Actor *this;
+  
+  peVar2 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)(param_1 + 0x94))
+  ;
+  if ((((peVar2 != (eCWrapper_emfx2Actor *)0x0) && (param_2 < 8)) &&
+      (param_2 < *(eEMotionType *)(param_1 + 0xec))) &&
+     (bVar1 = bCString::IsEmpty((bCString *)(*(int *)(param_1 + 0xe8) + param_2 * 0xc + 4)), !bVar1)
+     ) {
+    this = (eCWrapper_emfx2Actor *)
+           eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)(param_1 + 0x94))
+    ;
+    eCWrapper_emfx2Actor::StopMotion(this,param_2,param_3);
+  }
+  return;
+}
+
+

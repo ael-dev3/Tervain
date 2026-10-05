@@ -1,0 +1,2 @@
+; 30039c8e eCResourceAnimationActor_PS::GetLookAtConstraints
+30039c8e | e9cd980500 | JMP 0x30093560

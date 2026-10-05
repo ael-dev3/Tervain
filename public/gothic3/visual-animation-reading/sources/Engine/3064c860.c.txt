@@ -1,0 +1,12 @@
+/* ENTRY 3064c860 | EMotionFX::PlayModePingPong::PlayModePingPong | STATUS decompiled | 4 ms */
+
+PlayModePingPong * __thiscall EMotionFX::PlayModePingPong::PlayModePingPong(PlayModePingPong *this)
+
+{
+  PlayMode::PlayMode((PlayMode *)this);
+  this->vftablePtr = &vftable;
+  (this->PlayModePingPong_data).offset_0x0 = 1;
+  return this;
+}
+
+

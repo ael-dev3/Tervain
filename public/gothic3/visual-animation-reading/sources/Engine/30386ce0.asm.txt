@@ -1,0 +1,22 @@
+; 30386ce0 bTPropertyType<eCEffector,eCEntityProxy>::vfunction26
+30386ce0 | 56 | PUSH ESI
+30386ce1 | 57 | PUSH EDI
+30386ce2 | 8b7c240c | MOV EDI,dword ptr [ESP + 0xc]
+30386ce6 | 85ff | TEST EDI,EDI
+30386ce8 | 8bf1 | MOV ESI,ECX
+30386cea | 7522 | JNZ 0x30386d0e
+30386cec | 680d030000 | PUSH 0x30d
+30386cf1 | 6850d48130 | PUSH 0x3081d450
+30386cf6 | 6820d48130 | PUSH 0x3081d420
+30386cfb | 68b0d48130 | PUSH 0x3081d4b0
+30386d00 | ff15c0daaf30 | CALL dword ptr [0x30afdac0]
+30386d06 | 8bc8 | MOV ECX,EAX
+30386d08 | ff15f4caaf30 | CALL dword ptr [0x30afcaf4]
+30386d0e | 8b06 | MOV EAX,dword ptr [ESI]
+30386d10 | 8b502c | MOV EDX,dword ptr [EAX + 0x2c]
+30386d13 | 57 | PUSH EDI
+30386d14 | 8bce | MOV ECX,ESI
+30386d16 | ffd2 | CALL EDX
+30386d18 | 5f | POP EDI
+30386d19 | 5e | POP ESI
+30386d1a | c20400 | RET 0x4

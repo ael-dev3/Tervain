@@ -1,0 +1,2 @@
+; 200069bf gCEffectModule::GetInstance
+200069bf | e9aceb1000 | JMP 0x20115570

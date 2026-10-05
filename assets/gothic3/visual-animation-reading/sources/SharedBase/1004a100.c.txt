@@ -1,0 +1,11 @@
+/* ENTRY 1004a100 | FUN_1004a100 | STATUS decompiled | 3 ms */
+
+undefined1 FUN_1004a100(void)
+
+{
+  GE_MESSAGEF_WARN("The method %s detected an improper usage! \nHint:%s ","bCObjectBase::Write()",
+                   "How do you use this?");
+  return 1;
+}
+
+

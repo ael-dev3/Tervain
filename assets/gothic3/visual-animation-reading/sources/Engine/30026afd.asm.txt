@@ -1,0 +1,2 @@
+; 30026afd eCVisualAnimationLoD::SetAnimationRenderHook
+30026afd | e95e830900 | JMP 0x300bee60

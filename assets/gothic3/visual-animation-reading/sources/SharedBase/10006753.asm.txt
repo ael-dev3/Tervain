@@ -1,0 +1,2 @@
+; 10006753 bCString::operator+=
+10006753 | e948ed0000 | JMP 0x100154a0

@@ -1,0 +1,25 @@
+; 300daa30 FUN_300daa30
+300daa30 | 56 | PUSH ESI
+300daa31 | 57 | PUSH EDI
+300daa32 | 8b7c240c | MOV EDI,dword ptr [ESP + 0xc]
+300daa36 | 83ff07 | CMP EDI,0x7
+300daa39 | 8bf1 | MOV ESI,ECX
+300daa3b | 7723 | JA 0x300daa60
+300daa3d | 8b44be10 | MOV EAX,dword ptr [ESI + EDI*0x4 + 0x10]
+300daa41 | 85c0 | TEST EAX,EAX
+300daa43 | 741b | JZ 0x300daa60
+300daa45 | 50 | PUSH EAX
+300daa46 | 8b460c | MOV EAX,dword ptr [ESI + 0xc]
+300daa49 | 8b880c020000 | MOV ECX,dword ptr [EAX + 0x20c]
+300daa4f | e8ae6ff5ff | CALL 0x30031a02
+300daa54 | 84c0 | TEST AL,AL
+300daa56 | 750f | JNZ 0x300daa67
+300daa58 | c744be1000000000 | MOV dword ptr [ESI + EDI*0x4 + 0x10],0x0
+300daa60 | 5f | POP EDI
+300daa61 | 32c0 | XOR AL,AL
+300daa63 | 5e | POP ESI
+300daa64 | c20400 | RET 0x4
+300daa67 | 5f | POP EDI
+300daa68 | b001 | MOV AL,0x1
+300daa6a | 5e | POP ESI
+300daa6b | c20400 | RET 0x4

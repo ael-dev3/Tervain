@@ -1,0 +1,2 @@
+; 30027291 eCVisualAnimation_PS::GetBoneRaycastsEnabled
+30027291 | e96aa90300 | JMP 0x30061c00

@@ -1,0 +1,13 @@
+/* ENTRY 3003b863 | eCEntityPropertySet::Create | STATUS decompiled | 9 ms */
+
+/* public: virtual enum bEResult __thiscall eCEntityPropertySet::Create(void) */
+
+bEResult __thiscall eCEntityPropertySet::Create(eCEntityPropertySet *this)
+
+{
+                    /* 0x3b863  4456  ?Create@eCEntityPropertySet@@UAE?AW4bEResult@@XZ */
+  bCObjectRefBase::Create((bCObjectRefBase *)this);
+  return 1;
+}
+
+

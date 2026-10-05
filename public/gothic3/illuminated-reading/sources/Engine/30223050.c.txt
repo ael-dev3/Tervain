@@ -1,0 +1,43 @@
+/* ENTRY 30223050 | FUN_30223050 | STATUS decompiled | 15 ms */
+
+void __thiscall FUN_30223050(int *param_1,int param_2)
+
+{
+  eCRenderSystemAdmin *this;
+  eCOcclusionProcessor *this_00;
+  eCGfxImageData *peVar1;
+  eCEntity *peVar2;
+  eCDepthMap *this_01;
+  void *pvVar3;
+  
+  pvVar3 = (void *)param_1[0x2d];
+  if (pvVar3 != (void *)0x0) {
+    this = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+    this_00 = (eCOcclusionProcessor *)eCRenderSystemAdmin::GetOcclusionProcessor(this);
+    eCOcclusionProcessor::FreeOCQuery(this_00,pvVar3);
+  }
+  if (param_2 == 0) {
+    if ((param_1[0x2c] == 1) && (this_01 = (eCDepthMap *)param_1[0xd], this_01 != (eCDepthMap *)0x0)
+       ) {
+      peVar1 = eCDepthMap::GetImage(this_01);
+      if (peVar1 == (eCGfxImageData *)0x0) {
+        this_01 = (eCDepthMap *)this_01[6].eCDepthMap_data.offset_0xc;
+      }
+      if ((this_01 != (eCDepthMap *)0x0) && (this_01[6].eCDepthMap_data.offset_0x11 == '\x01')) {
+        peVar2 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+        eCShadowMapDirectionalLight::RemoveOcclusionTestItem
+                  ((eCShadowMapDirectionalLight *)param_1[0xd],peVar2);
+      }
+    }
+    param_1[0x2d] = 0;
+    param_1[0x2c] = 0;
+    *(undefined1 *)(param_1 + 0xe) = 0;
+    return;
+  }
+  param_1[0x2d] = param_2;
+  param_1[0x2c] = 2;
+  *(undefined1 *)(param_1 + 0xe) = 0;
+  return;
+}
+
+

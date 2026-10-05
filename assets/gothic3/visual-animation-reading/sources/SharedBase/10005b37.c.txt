@@ -1,0 +1,32 @@
+/* ENTRY 10005b37 | MemHeap::GetPointerArea | STATUS decompiled | 9 ms */
+
+/* public: static struct MemPointerArea * __stdcall MemHeap::GetPointerArea(void *) */
+
+MemPointerArea * MemHeap::GetPointerArea(void *param_1)
+
+{
+  int iVar1;
+  uint uVar2;
+  uint uVar3;
+  int iVar4;
+  
+                    /* 0x5b37  2754  ?GetPointerArea@MemHeap@@SGPAUMemPointerArea@@PAX@Z */
+  iVar4 = 0;
+  uVar3 = s_uiPointerAreas;
+  while( true ) {
+    do {
+      uVar2 = uVar3;
+      if (uVar2 == 0) {
+        return (MemPointerArea *)0x0;
+      }
+      uVar3 = uVar2 >> 1;
+      iVar1 = uVar3 + iVar4;
+    } while (param_1 < (&s_arrPointerAreas)[iVar1 * 4]);
+    if (param_1 < (void *)(&DAT_10149a1c)[iVar1 * 4]) break;
+    iVar4 = iVar1 + 1;
+    uVar3 = uVar2 + (-1 - uVar3);
+  }
+  return (MemPointerArea *)(&s_arrPointerAreas + (uVar3 + iVar4) * 4);
+}
+
+

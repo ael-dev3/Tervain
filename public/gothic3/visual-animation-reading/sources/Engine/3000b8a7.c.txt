@@ -1,0 +1,19 @@
+/* ENTRY 3000b8a7 | eCSpringAndDamperEffector::SetSpringDistRelaxed | STATUS decompiled | 6 ms */
+
+/* public: void __thiscall eCSpringAndDamperEffector::SetSpringDistRelaxed(float const &) */
+
+void __thiscall
+eCSpringAndDamperEffector::SetSpringDistRelaxed(eCSpringAndDamperEffector *this,float *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0xb8a7  14261  ?SetSpringDistRelaxed@eCSpringAndDamperEffector@@QAEXABM@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"SpringDistRelaxed",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->eCEffector_data).offset_0x5c = *param_1;
+  (*pNVar1)(this,"SpringDistRelaxed",false);
+  return;
+}
+
+

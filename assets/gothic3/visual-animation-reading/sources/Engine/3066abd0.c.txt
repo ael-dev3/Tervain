@@ -1,0 +1,11 @@
+/* ENTRY 3066abd0 | MCore::InstanceManagerBase::InstanceManagerBase | STATUS decompiled | 3 ms */
+
+void __thiscall MCore::InstanceManagerBase::InstanceManagerBase(InstanceManagerBase *this)
+
+{
+  this->vftablePtr = &vftable;
+  (this->InstanceManagerBase_data).offset_0x0 = 0;
+  return;
+}
+
+

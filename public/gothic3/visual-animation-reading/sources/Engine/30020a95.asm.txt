@@ -1,0 +1,2 @@
+; 30020a95 eCEffector::operator=
+30020a95 | e946453600 | JMP 0x30384fe0

@@ -1,0 +1,2 @@
+; 100041fb bCSphere::Intersects
+100041fb | e9606d0600 | JMP 0x1006af60

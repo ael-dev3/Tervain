@@ -1,0 +1,2 @@
+; 10002cc0 bCOStream::operator<<
+10002cc0 | e93bd40100 | JMP 0x10020100

@@ -1,0 +1,15 @@
+/* ENTRY 30652ac0 | EMotionFX::Constraint::Constraint | STATUS decompiled | 6 ms */
+
+Constraint * __thiscall
+EMotionFX::Constraint::Constraint
+          (Constraint *this,undefined4 param_1,undefined4 param_2,undefined4 param_3)
+
+{
+  Controller::Controller((Controller *)this,param_1);
+  this->vftablePtr = &vftable;
+  (this->Constraint_data).offset_0x0 = param_2;
+  (this->Constraint_data).offset_0x4 = param_3;
+  return this;
+}
+
+

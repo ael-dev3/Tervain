@@ -1,0 +1,2 @@
+; 3001a4b5 eCVisualAnimation_PS::AccessBoneAngularDamping
+3001a4b5 | e936790400 | JMP 0x30061df0

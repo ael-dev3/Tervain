@@ -1,0 +1,20 @@
+; 1002e700 FUN_1002e700
+1002e700 | 51 | PUSH ECX
+1002e701 | d94104 | FLD float ptr [ECX + 0x4]
+1002e704 | d901 | FLD float ptr [ECX]
+1002e706 | d94108 | FLD float ptr [ECX + 0x8]
+1002e709 | d9c1 | FLD ST1
+1002e70b | deca | FMULP ST2
+1002e70d | d9c2 | FLD ST2
+1002e70f | decb | FMULP ST3
+1002e711 | d9c9 | FXCH
+1002e713 | dec2 | FADDP ST2,ST0
+1002e715 | dcc8 | FMUL ST0
+1002e717 | dec1 | FADDP
+1002e719 | d91c24 | FSTP float ptr [ESP]
+1002e71c | d90424 | FLD float ptr [ESP]
+1002e71f | e8ecc80700 | CALL 0x100ab010
+1002e724 | d91c24 | FSTP float ptr [ESP]
+1002e727 | d90424 | FLD float ptr [ESP]
+1002e72a | 59 | POP ECX
+1002e72b | c3 | RET

@@ -1,0 +1,2 @@
+; 10007e28 bCBox::Invalidate
+10007e28 | e9732a0200 | JMP 0x1002a8a0

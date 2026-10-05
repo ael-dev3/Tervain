@@ -1,0 +1,15 @@
+/* ENTRY 10003607 | bCString::GetAllocLength | STATUS decompiled | 2 ms */
+
+/* public: int __thiscall bCString::GetAllocLength(void)const  */
+
+int __thiscall bCString::GetAllocLength(bCString *this)
+
+{
+                    /* 0x3607  2073  ?GetAllocLength@bCString@@QBEHXZ */
+  if (*(int *)this == 0) {
+    return 0;
+  }
+  return *(int *)(*(int *)this + -8);
+}
+
+

@@ -1,0 +1,2 @@
+; 30022ca5 eCVisualAnimationFactory::GetFacialAnimationLoD
+30022ca5 | e9a6980900 | JMP 0x300bc550

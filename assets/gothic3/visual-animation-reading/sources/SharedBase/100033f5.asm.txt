@@ -1,0 +1,2 @@
+; 100033f5 bCMatrix::GetIdentity
+100033f5 | e926c00400 | JMP 0x1004f420

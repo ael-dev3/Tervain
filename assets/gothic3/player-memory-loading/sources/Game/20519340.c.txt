@@ -1,0 +1,36 @@
+/* ENTRY 20519340 | bTPropertyType<gCPlayerMemory_PS,long>::~bTPropertyType<gCPlayerMemory_PS,long> | STATUS decompiled | 16 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCPlayerMemory_PS,long>::~bTPropertyType<gCPlayerMemory_PS,long>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Internal");
+  bCString::bCString(local_c,"BookOfZuben");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCPlayerMemory_PS::ms_PropertyMember_m_BookOfZuben,local_c,
+             local_8,local_4,1,false);
+  _ms_PropertyMember_m_BookOfZuben = &vftable;
+  DAT_207c187c = bTPropertyObjectType<gCPlayerMemory_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCPlayerMemory_PS,eCEntityPropertySet>();
+  _DAT_207c1880 = 0x8c;
+  _DAT_207c1884 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCPlayerMemory_PS::ms_PropertyMember_m_BookOfZuben);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c187c,
+             (bCPropertyTypeBase *)&gCPlayerMemory_PS::ms_PropertyMember_m_BookOfZuben);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<long>::~bTPropertyTypeOnly<long>);
+  return;
+}
+
+

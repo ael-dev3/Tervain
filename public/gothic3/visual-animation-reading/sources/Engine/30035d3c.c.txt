@@ -1,0 +1,12 @@
+/* ENTRY 30035d3c | eCVisualAnimationLoD::GetVersion | STATUS decompiled | 5 ms */
+
+/* public: virtual unsigned short __thiscall eCVisualAnimationLoD::GetVersion(void)const  */
+
+ushort __thiscall eCVisualAnimationLoD::GetVersion(eCVisualAnimationLoD *this)
+
+{
+                    /* 0x35d3c  9521  ?GetVersion@eCVisualAnimationLoD@@UBEGXZ */
+  return 4;
+}
+
+

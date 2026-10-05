@@ -1,0 +1,27 @@
+/* ENTRY 3002af2c | eCVisualAnimationFactory::~eCVisualAnimationFactory | STATUS decompiled | 8 ms */
+
+/* public: __thiscall eCVisualAnimationFactory::~eCVisualAnimationFactory(void) */
+
+void __thiscall eCVisualAnimationFactory::~eCVisualAnimationFactory(eCVisualAnimationFactory *this)
+
+{
+  eCVisualAnimationFactory *peVar1;
+  bCMemoryAdmin *this_00;
+  void *pvVar2;
+  
+                    /* 0x2af2c  1384  ??1eCVisualAnimationFactory@@QAE@XZ */
+  Destroy(this);
+  peVar1 = this + 0x20;
+  if ((peVar1 != (eCVisualAnimationFactory *)0x0) &&
+     (pvVar2 = *(void **)peVar1, pvVar2 != (void *)0x0)) {
+    this_00 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this_00,pvVar2);
+    *(int *)peVar1 = 0;
+    *(undefined4 *)(this + 0x24) = 0;
+    *(undefined4 *)(this + 0x28) = 0;
+  }
+  thunk_FUN_300be830();
+  return;
+}
+
+

@@ -1,0 +1,11 @@
+; 3009dc20 FUN_3009dc20
+3009dc20 | 56 | PUSH ESI
+3009dc21 | 8bf1 | MOV ESI,ECX
+3009dc23 | e80695f8ff | CALL 0x3002712e
+3009dc28 | 8d4e68 | LEA ECX,[ESI + 0x68]
+3009dc2b | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+3009dc31 | 8d4e20 | LEA ECX,[ESI + 0x20]
+3009dc34 | ff1514dbaf30 | CALL dword ptr [0x30afdb14]
+3009dc3a | 8d4e04 | LEA ECX,[ESI + 0x4]
+3009dc3d | 5e | POP ESI
+3009dc3e | e96274f7ff | JMP 0x300150a5

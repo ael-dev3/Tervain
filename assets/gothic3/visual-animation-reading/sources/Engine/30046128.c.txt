@@ -1,0 +1,13 @@
+/* ENTRY 30046128 | eCVisualAnimation_PS::AccessBoneTwistSpringDamping | STATUS decompiled | 7 ms */
+
+/* public: float & __thiscall eCVisualAnimation_PS::AccessBoneTwistSpringDamping(void) */
+
+float * __thiscall eCVisualAnimation_PS::AccessBoneTwistSpringDamping(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x46128  2527  ?AccessBoneTwistSpringDamping@eCVisualAnimation_PS@@QAEAAMXZ
+                        */
+  return (float *)(this + 3);
+}
+
+

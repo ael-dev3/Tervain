@@ -1,0 +1,16 @@
+/* ENTRY 304c45a0 | eCEntityProxy::eCEntityProxy | STATUS decompiled | 7 ms */
+
+eCEntityProxy * __thiscall eCEntityProxy::eCEntityProxy(eCEntityProxy *this)
+
+{
+  undefined1 *this_00;
+  
+  this_00 = &(this->eCEntityProxy_data).field_0x4;
+  this->vftablePtr = &vftable;
+  bCPropertyID::bCPropertyID((bCPropertyID *)this_00);
+  (this->eCEntityProxy_data).offset_0x0 = (eCEntityProxyInternal *)0x0;
+  bCPropertyID::Destroy((bCPropertyID *)this_00);
+  return this;
+}
+
+

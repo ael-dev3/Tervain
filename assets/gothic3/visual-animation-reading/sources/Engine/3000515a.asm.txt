@@ -1,0 +1,2 @@
+; 3000515a eCAnimationAdmin::GetPhysicControllerDistance
+3000515a | e941a90800 | JMP 0x3008faa0

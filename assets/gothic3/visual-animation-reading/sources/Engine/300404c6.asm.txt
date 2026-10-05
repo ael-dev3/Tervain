@@ -1,0 +1,2 @@
+; 300404c6 eCCameraBase::GetFrustumDatabase
+300404c6 | e9f59f0c00 | JMP 0x3010a4c0

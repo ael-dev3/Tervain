@@ -1,0 +1,32 @@
+/* ENTRY 30109bd0 | FUN_30109bd0 | STATUS decompiled | 14 ms */
+
+void __thiscall FUN_30109bd0(int param_1,bCVector *param_2)
+
+{
+  float *pfVar1;
+  long lVar2;
+  bCRect *this;
+  bCMatrix local_40 [64];
+  
+  bCMatrix::bCMatrix(local_40);
+  bCMatrix::operator=(local_40,(bCMatrix *)(param_1 + 0x4c));
+  bCMatrix::operator*=(local_40,(bCMatrix *)(param_1 + 0xc));
+  bCVector::operator*=(param_2,local_40);
+  pfVar1 = bCVector::AccessX(param_2);
+  this = (bCRect *)(param_1 + 0xc0);
+  lVar2 = bCRect::GetWidth(this);
+  *pfVar1 = (float)lVar2 * 0.5 * *pfVar1;
+  pfVar1 = bCVector::AccessY(param_2);
+  lVar2 = bCRect::GetHeight(this);
+  *pfVar1 = (float)lVar2 * -1.0 * 0.5 * *pfVar1;
+  pfVar1 = bCVector::AccessX(param_2);
+  lVar2 = bCRect::GetWidth(this);
+  *pfVar1 = (float)lVar2 * 0.5 + *pfVar1;
+  pfVar1 = bCVector::AccessY(param_2);
+  lVar2 = bCRect::GetHeight(this);
+  *pfVar1 = (float)lVar2 * 0.5 + *pfVar1;
+  bCMatrix::~bCMatrix(local_40);
+  return;
+}
+
+

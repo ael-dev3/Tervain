@@ -97,6 +97,12 @@ export interface NativeReflectionReadHandlers {
   /** Concrete native virtual Read, including its own version/legacy tail. */
   readNative(input: NativeEntityByteInput): NativeValue<void>;
 }
+/** An original wrapper held inside its parent's native storage. The offset is
+ * relative to that same retained native object, rather than a second allocation. */
+export interface NativeReflectionEmbeddedPlacement {
+  readonly parent: NativeReflectionWrapper;
+  readonly nativeOffset: number;
+}
 
 /** Physical wrapper capability; NativeLivePropertySet.wrapper holds this object.
  * Reference mask0x07fffff8 is a separate24bit count from native PS's31bit count. */
@@ -106,7 +112,8 @@ export class NativeReflectionWrapper implements NativePropertyObjectReference {
   clockProperties: OriginalClockProperties | null = null;
   deleted = false;
   constructor(readonly identity: string, readonly factory: NativeReflectionFactory,
-    readonly controller: NativeReflectionController) {
+    readonly controller: NativeReflectionController,
+    readonly embeddedIn: NativeReflectionEmbeddedPlacement | null = null) {
     if (!identity) throw new TypeError('Actual reflection allocation identity required.');
   }
   getReferenceCount(): NativeValue<number> { return this.deleted ? unknown('Deleted native wrapper') : known((word(this.flags.value) >>> 3) & 0xffffff); }
@@ -283,6 +290,28 @@ export class NativeReflectionController {
     const wrapper = new NativeReflectionWrapper(this.identity + ':wrapper:' + ++this.allocation, factory, this);
     this.heap.push({ wrapper, nativeObject: null, propertySet: null, lowerClock: null, phase: 'wrapper', initializedFields: new Set(), worldResident: false });
     this.write('wrapper successful allocation/base constructor/nonroot flag/type', source);
+    return wrapper;
+  }
+  /** Selected embedded constructor: SharedBase10089290 initializes the masked
+   * flag word; the concrete Engine300a5330 constructor ORs bit2 before native
+   * creation. The same embedded wrapper subsequently owns Attach/defaults/Read.
+   * Terminal destruction still requires the actual destructor and memory admin. */
+  allocateEmbeddedWrapper(factory: NativeReflectionFactory, source: string,
+    parent: NativeReflectionWrapper, nativeOffset: number): NativeReflectionWrapper {
+    if (this.blocked) throw new Error(this.blocked);
+    if (this.factories.get(factory.root.className) !== factory) throw new Error('Actual registered embedded factory capability required');
+    const parentAllocation = this.allocationFor(parent);
+    if (parentAllocation.nativeObject === null || !Number.isInteger(nativeOffset) || nativeOffset < 0 || nativeOffset > 0xffffffff) {
+      throw new Error('Actual parent native storage and original embedded offset required');
+    }
+    if (this.heap.some(value => value.wrapper.embeddedIn?.parent === parent &&
+        value.wrapper.embeddedIn.nativeOffset === nativeOffset)) throw new Error('Original embedded wrapper slot already constructed');
+    const placement = Object.freeze({ parent, nativeOffset });
+    const wrapper = new NativeReflectionWrapper(parent.identity + ':embedded:' + nativeOffset, factory, this, placement);
+    this.heap.push({ wrapper, nativeObject: null, propertySet: null, lowerClock: null, phase: 'wrapper', initializedFields: new Set(), worldResident: false });
+    this.write('embedded wrapper base constructor with masked flags', 'SharedBase:10089290');
+    wrapper.flags.value = (wrapper.flags.value | 4) >>> 0;
+    this.write('embedded wrapper concrete type and bit2 store', source);
     return wrapper;
   }
   private allocationFor(wrapper: NativeReflectionWrapper): NativeReflectionAllocation {

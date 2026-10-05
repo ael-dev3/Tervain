@@ -1,0 +1,11 @@
+/* ENTRY 300a9eb0 | bTPropertyContainer<eEShapeGroup>::vfunction8 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<eEShapeGroup>::vfunction8(bTPropertyContainer<eEShapeGroup> *this,int param_1)
+
+{
+  (this->bTPropertyContainer<eEShapeGroup>_data).offset_0x0 = *(undefined ***)(param_1 + 4);
+  return 1;
+}
+
+

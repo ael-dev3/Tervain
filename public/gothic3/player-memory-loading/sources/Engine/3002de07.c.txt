@@ -1,0 +1,28 @@
+/* ENTRY 3002de07 | eCLocAdmin::eCLocAdmin | STATUS decompiled | 14 ms */
+
+/* protected: __thiscall eCLocAdmin::eCLocAdmin(void) */
+
+eCLocAdmin * __thiscall eCLocAdmin::eCLocAdmin(eCLocAdmin *this)
+
+{
+  bCString *this_00;
+  
+                    /* 0x2de07  502  ??0eCLocAdmin@@IAE@XZ */
+  thunk_FUN_305e7a20();
+  this_00 = (bCString *)(this + 0x10);
+  bCString::bCString(this_00);
+  bCString::bCString((bCString *)(this + 0x14));
+  thunk_FUN_305e7a80();
+  thunk_FUN_304e7a70();
+  thunk_FUN_305e7ae0();
+  thunk_FUN_305e7ce0();
+  *(undefined4 *)(this + 0x4c) = 0;
+  bCString::operator=(this_00,"German");
+  bCString::operator=((bCString *)(this + 0x14),"German");
+  AddLanguage(this,this_00);
+  this[0x38] = (eCLocAdmin)0x1;
+  Read(this);
+  return this;
+}
+
+

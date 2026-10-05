@@ -1,0 +1,34 @@
+; 300bdf60 FUN_300bdf60
+300bdf60 | 55 | PUSH EBP
+300bdf61 | 56 | PUSH ESI
+300bdf62 | 8b74240c | MOV ESI,dword ptr [ESP + 0xc]
+300bdf66 | 57 | PUSH EDI
+300bdf67 | 8b7c2414 | MOV EDI,dword ptr [ESP + 0x14]
+300bdf6b | 8bc7 | MOV EAX,EDI
+300bdf6d | c1e004 | SHL EAX,0x4
+300bdf70 | 50 | PUSH EAX
+300bdf71 | 33ed | XOR EBP,EBP
+300bdf73 | 55 | PUSH EBP
+300bdf74 | 56 | PUSH ESI
+300bdf75 | e816375b00 | CALL 0x30671690
+300bdf7a | 83c40c | ADD ESP,0xc
+300bdf7d | 3bfd | CMP EDI,EBP
+300bdf7f | 7424 | JZ 0x300bdfa5
+300bdf81 | 53 | PUSH EBX
+300bdf82 | 8b1decdbaf30 | MOV EBX,dword ptr [0x30afdbec]
+300bdf88 | 83ef01 | SUB EDI,0x1
+300bdf8b | 3bf5 | CMP ESI,EBP
+300bdf8d | 740e | JZ 0x300bdf9d
+300bdf8f | 8bce | MOV ECX,ESI
+300bdf91 | ffd3 | CALL EBX
+300bdf93 | 896e04 | MOV dword ptr [ESI + 0x4],EBP
+300bdf96 | 896e08 | MOV dword ptr [ESI + 0x8],EBP
+300bdf99 | c6460c01 | MOV byte ptr [ESI + 0xc],0x1
+300bdf9d | 83c610 | ADD ESI,0x10
+300bdfa0 | 3bfd | CMP EDI,EBP
+300bdfa2 | 75e4 | JNZ 0x300bdf88
+300bdfa4 | 5b | POP EBX
+300bdfa5 | 5f | POP EDI
+300bdfa6 | 5e | POP ESI
+300bdfa7 | 5d | POP EBP
+300bdfa8 | c20800 | RET 0x8

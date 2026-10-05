@@ -1,0 +1,24 @@
+/* ENTRY 3003c2d6 | eCVisualAnimation_PS::OnCacheIn | STATUS decompiled | 12 ms */
+
+/* public: virtual void __thiscall eCVisualAnimation_PS::OnCacheIn(void) */
+
+void __thiscall eCVisualAnimation_PS::OnCacheIn(eCVisualAnimation_PS *this)
+
+{
+  undefined1 *this_00;
+  eCEntity *peVar1;
+  
+                    /* 0x3c2d6  10920  ?OnCacheIn@eCVisualAnimation_PS@@UAEXXZ */
+  this_00 = &this[7].eCEntityPropertySet_data.field_0x4;
+  eCVisualAnimationFactory::CacheInResources((eCVisualAnimationFactory *)this_00);
+  eCVisualAnimationFactory::GetMeshBoundary
+            ((eCVisualAnimationFactory *)this_00,(bCBox *)&this[0xc].eCEntityPropertySet_data);
+  peVar1 = (*this->vftablePtr->GetEntity)(this);
+  (**(code **)(*(int *)peVar1 + 0xd8))();
+  peVar1 = (*this->vftablePtr->GetEntity)(this);
+  (**(code **)(*(int *)peVar1 + 0xdc))();
+  eCVisualAnimationFactory::CreateActorInstance((eCVisualAnimationFactory *)this_00);
+  return;
+}
+
+

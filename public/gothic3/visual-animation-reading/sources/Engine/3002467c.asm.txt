@@ -1,0 +1,2 @@
+; 3002467c eCPhysicsScene::IsLocked
+3002467c | e96f312f00 | JMP 0x303177f0

@@ -1,0 +1,43 @@
+/* ENTRY 100074c8 | bCString::ConcatInPlace | STATUS decompiled | 13 ms */
+
+/* protected: void __thiscall bCString::ConcatInPlace(char const *,int) */
+
+void __thiscall bCString::ConcatInPlace(bCString *this,char *param_1,int param_2)
+
+{
+  char *pcVar1;
+  int iVar2;
+  bCMemoryAdmin *this_00;
+  char *pcVar3;
+  
+                    /* 0x74c8  1663  ?ConcatInPlace@bCString@@IAEXPBDH@Z */
+  if (0 < param_2) {
+    pcVar1 = *(char **)this;
+    if (pcVar1 == (char *)0x0) {
+      SetText(this,param_1,param_2);
+      return;
+    }
+    if ((*(ushort *)(pcVar1 + -4) < 2) && (iVar2 = *(int *)(pcVar1 + -8), iVar2 + param_2 <= iVar2))
+    {
+      _memcpy(pcVar1 + iVar2,param_1,param_2);
+      *(int *)(*(int *)this + -8) = *(int *)(*(int *)this + -8) + param_2;
+      iVar2 = *(int *)this;
+      if (iVar2 != 0) {
+        *(undefined1 *)(iVar2 + *(int *)(iVar2 + -8)) = 0;
+        return;
+      }
+      uRam00000000 = 0;
+      return;
+    }
+    pcVar3 = pcVar1 + -8;
+    ConcatCopy(this,pcVar1,*(int *)(pcVar1 + -8),param_1,param_2);
+    if ((pcVar3 != (char *)0x0) &&
+       (*(short *)(pcVar1 + -4) = *(short *)(pcVar1 + -4) + -1, *(short *)(pcVar1 + -4) == 0)) {
+      this_00 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(this_00,pcVar3);
+    }
+  }
+  return;
+}
+
+

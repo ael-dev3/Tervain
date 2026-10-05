@@ -1,0 +1,20 @@
+/* ENTRY 30319120 | FUN_30319120 | STATUS decompiled | 9 ms */
+
+void __thiscall FUN_30319120(eCPhysicsScene *param_1,undefined4 param_2)
+
+{
+  char cVar1;
+  
+  if ((param_1->eCPhysicsScene_data).offset_0x8 != 0) {
+    do {
+      cVar1 = (**(code **)(*(int *)(param_1->eCPhysicsScene_data).offset_0x8 + 0x144))();
+    } while (cVar1 == '\0');
+    bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)&DAT_30ae5dc0);
+    eCPhysicsScene::FetchResultsOnDemand(param_1);
+    (**(code **)(*(int *)(param_1->eCPhysicsScene_data).offset_0x8 + 0x20))(param_2);
+    bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30ae5dc0);
+  }
+  return;
+}
+
+

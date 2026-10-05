@@ -1,0 +1,4 @@
+; 300bad20 bTPropertyObject<eCVisualAnimation_PS,eCEntityPropertySet>::vfunction11
+300bad20 | 6a00 | PUSH 0x0
+300bad22 | e8e980f8ff | CALL 0x30042e10
+300bad27 | c3 | RET

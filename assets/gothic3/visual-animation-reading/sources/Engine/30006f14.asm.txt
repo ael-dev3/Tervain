@@ -1,0 +1,2 @@
+; 30006f14 eCVisualAnimation_PS::GameReset
+30006f14 | e917860900 | JMP 0x3009f530

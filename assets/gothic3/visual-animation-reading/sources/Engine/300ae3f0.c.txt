@@ -1,0 +1,25 @@
+/* ENTRY 300ae3f0 | FUN_300ae3f0 | STATUS decompiled | 6 ms */
+
+void FUN_300ae3f0(int *param_1,int param_2)
+
+{
+  bCString *this;
+  
+  if (param_2 != 0) {
+    this = (bCString *)(param_1 + 1);
+    do {
+      param_2 = param_2 + -1;
+      if ((int *)*param_1 != (int *)0x0) {
+        (**(code **)(*(int *)*param_1 + 0x24))();
+        *param_1 = 0;
+      }
+      bCString::Clear(this);
+      bCString::~bCString(this);
+      param_1 = param_1 + 3;
+      this = this + 0xc;
+    } while (param_2 != 0);
+  }
+  return;
+}
+
+

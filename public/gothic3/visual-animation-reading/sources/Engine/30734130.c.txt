@@ -1,0 +1,32 @@
+/* ENTRY 30734130 | bTPropertyType<eCVisualAnimation_PS,float>::~bTPropertyType<eCVisualAnimation_PS,float> | STATUS decompiled | 16 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCVisualAnimation_PS,float>::~bTPropertyType<eCVisualAnimation_PS,float>
+          (bTPropertyType<eCVisualAnimation_PS,float> *this)
+
+{
+  bTPropertyType<eCVisualAnimation_PS,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"BoneAngularDamping");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_fBoneAngularDamping,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_fBoneAngularDamping = &vftable;
+  DAT_30ada75c = bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>();
+  _DAT_30ada760 = 0x30;
+  _DAT_30ada764 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_fBoneAngularDamping);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30ada75c,
+             (bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_fBoneAngularDamping);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}
+
+

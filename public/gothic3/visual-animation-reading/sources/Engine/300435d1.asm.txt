@@ -1,0 +1,2 @@
+; 300435d1 eCVisualAnimationFactory::RemoveBodyPart
+300435d1 | e9daa00700 | JMP 0x300bd6b0

@@ -1,0 +1,16 @@
+/* ENTRY 30039c61 | eCVisualAnimation_PS::GetAnimationFactory | STATUS decompiled | 10 ms */
+
+/* public: class eCVisualAnimationFactory const & __thiscall
+   eCVisualAnimation_PS::GetAnimationFactory(void)const  */
+
+eCVisualAnimationFactory * __thiscall
+eCVisualAnimation_PS::GetAnimationFactory(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x39c61  6188
+                       ?GetAnimationFactory@eCVisualAnimation_PS@@QBEABVeCVisualAnimationFactory@@XZ
+                        */
+  return (eCVisualAnimationFactory *)&this[7].eCEntityPropertySet_data.field_0x4;
+}
+
+

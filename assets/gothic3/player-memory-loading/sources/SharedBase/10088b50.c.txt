@@ -1,0 +1,26 @@
+/* ENTRY 10088b50 | FUN_10088b50 | STATUS decompiled | 6 ms */
+
+void __thiscall FUN_10088b50(int param_1,bCOStream *param_2)
+
+{
+  bool bVar1;
+  bCErrorAdmin *this;
+  char *pcVar2;
+  char *pcVar3;
+  char *pcVar4;
+  int iVar5;
+  
+  bVar1 = bCString::IsEmpty((bCString *)(param_1 + 4));
+  if (bVar1) {
+    iVar5 = 0x194;
+    pcVar4 = ".\\propertysystem\\types\\ge_propertytypebase.cpp";
+    pcVar3 = "GEFalse == (GEFalse == this->m_strPropertyName.IsEmpty())";
+    pcVar2 = "bCPropertyTypeBase::Write";
+    this = bCErrorAdmin::GetInstance();
+    bCErrorAdmin::CallFatalError(this,pcVar2,pcVar3,pcVar4,iVar5);
+  }
+  bCOStream::operator<<(param_2,0x1e);
+  return;
+}
+
+

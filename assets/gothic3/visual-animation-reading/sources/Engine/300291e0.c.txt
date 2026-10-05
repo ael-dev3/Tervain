@@ -1,0 +1,12 @@
+/* ENTRY 300291e0 | eCVisualAnimation_PS::GetBonesAreBreakable | STATUS decompiled | 8 ms */
+
+/* public: bool const & __thiscall eCVisualAnimation_PS::GetBonesAreBreakable(void)const  */
+
+bool * __thiscall eCVisualAnimation_PS::GetBonesAreBreakable(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x291e0  6300  ?GetBonesAreBreakable@eCVisualAnimation_PS@@QBEAB_NXZ */
+  return (bool *)((int)&this[1].eCEntityPropertySet_data.offset_0x8 + 1);
+}
+
+

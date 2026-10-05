@@ -1,0 +1,2 @@
+; 3000f5bf eCInputDispatcher::Create
+3000f5bf | e9fc810700 | JMP 0x300877c0

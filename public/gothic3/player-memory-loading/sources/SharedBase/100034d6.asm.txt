@@ -1,0 +1,2 @@
+; 100034d6 bCGothic3EngineDialogs::bCDialogHandle::GetErrorDialogState
+100034d6 | e945db0100 | JMP 0x10021020

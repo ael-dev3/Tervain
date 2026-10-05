@@ -1,0 +1,2 @@
+; 20015b09 gCPlayerMemory_PS::IsReferencedByTemplate
+20015b09 | e912793000 | JMP 0x2031d420

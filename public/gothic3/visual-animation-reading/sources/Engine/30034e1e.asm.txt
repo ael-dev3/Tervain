@@ -1,0 +1,2 @@
+; 30034e1e eCVisualAnimation_PS::GetBoneJointSpringDamping
+30034e1e | e91dd30200 | JMP 0x30062140

@@ -1,0 +1,2 @@
+; 3002d146 eCVisualAnimation_PS::AccessBoneJointSpringEnabled
+3002d146 | e9454f0300 | JMP 0x30062090

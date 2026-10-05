@@ -1,0 +1,9 @@
+/* ENTRY 300bed30 | FUN_300bed30 | STATUS decompiled | 1 ms */
+
+undefined4 __fastcall FUN_300bed30(int param_1)
+
+{
+  return *(undefined4 *)(param_1 + 8);
+}
+
+

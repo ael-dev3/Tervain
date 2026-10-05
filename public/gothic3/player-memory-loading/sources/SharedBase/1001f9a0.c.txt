@@ -1,0 +1,15 @@
+/* ENTRY 1001f9a0 | bCMemoryStream::bCMemoryStream | STATUS decompiled | 5 ms */
+
+bCMemoryStream * __thiscall bCMemoryStream::bCMemoryStream(bCMemoryStream *this)
+
+{
+  bCIOStream::bCIOStream((bCIOStream *)this);
+  (this->bCMemoryStream_data).offset_0x0 = (void *)0x0;
+  (this->bCMemoryStream_data).offset_0x8 = 0;
+  (this->bCMemoryStream_data).offset_0x4 = 0;
+  this->vftablePtr = &vftable_for_bCIStream;
+  this->vftablePtr = &vftable_for_bCOStream;
+  return this;
+}
+
+

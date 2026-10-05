@@ -1,0 +1,2 @@
+; 300460ab eCApplication::GetScaledFrameTimeInSeconds
+300460ab | e990d20100 | JMP 0x30063340

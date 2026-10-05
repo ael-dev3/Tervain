@@ -1,0 +1,2 @@
+; 30043ae5 eCVisualAnimation_PS::IsBodyPartVisible
+30043ae5 | e9869e0500 | JMP 0x3009d970

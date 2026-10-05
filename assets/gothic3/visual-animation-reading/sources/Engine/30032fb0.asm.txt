@@ -1,0 +1,2 @@
+; 30032fb0 eCWrapper_emfx2Actor::eCWrapper_emfx2Actor
+30032fb0 | e91baa0a00 | JMP 0x300dd9d0

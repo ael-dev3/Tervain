@@ -1,0 +1,2 @@
+; 10002473 bCPropertyObjectBase::GetReferenceCount
+10002473 | e9c86c0800 | JMP 0x10089140

@@ -1,0 +1,26 @@
+/* ENTRY 200689d0 | FUN_200689d0 | STATUS decompiled | 86 ms */
+
+void __thiscall FUN_200689d0(int *param_1,int *param_2)
+
+{
+  int iVar1;
+  int iVar2;
+  
+  if (param_1 != param_2) {
+    iVar2 = param_2[1];
+    thunk_FUN_20064480(iVar2,(iVar2 != 0) - 1);
+    param_1[1] = iVar2;
+    thunk_FUN_20067020();
+    iVar2 = 0;
+    if (0 < param_2[1]) {
+      do {
+        iVar1 = iVar2 * 4;
+        iVar2 = iVar2 + 1;
+        *(undefined4 *)(*param_1 + iVar1) = *(undefined4 *)(*param_2 + iVar1);
+      } while (iVar2 < param_2[1]);
+    }
+  }
+  return;
+}
+
+

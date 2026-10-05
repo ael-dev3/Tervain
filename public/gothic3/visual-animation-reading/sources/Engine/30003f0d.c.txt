@@ -1,0 +1,13 @@
+/* ENTRY 30003f0d | eCSceneAdmin::GetAccessToEntityAdmin | STATUS decompiled | 2 ms */
+
+/* public: class eCEntityAdmin & __thiscall eCSceneAdmin::GetAccessToEntityAdmin(void) */
+
+eCEntityAdmin * __thiscall eCSceneAdmin::GetAccessToEntityAdmin(eCSceneAdmin *this)
+
+{
+                    /* 0x3f0d  6074  ?GetAccessToEntityAdmin@eCSceneAdmin@@QAEAAVeCEntityAdmin@@XZ
+                        */
+  return (eCEntityAdmin *)&(this->eCSceneAdmin_data).field_0x54;
+}
+
+

@@ -1,0 +1,14 @@
+; 300aac00 bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>::vfunction9
+300aac00 | 56 | PUSH ESI
+300aac01 | 68b0d08130 | PUSH 0x3081d0b0
+300aac06 | 6874d08130 | PUSH 0x3081d074
+300aac0b | 687ccf8130 | PUSH 0x3081cf7c
+300aac10 | 8bf1 | MOV ESI,ECX
+300aac12 | ff1530dbaf30 | CALL dword ptr [0x30afdb30]
+300aac18 | 8b442414 | MOV EAX,dword ptr [ESP + 0x14]
+300aac1c | 83c40c | ADD ESP,0xc
+300aac1f | 50 | PUSH EAX
+300aac20 | 8bce | MOV ECX,ESI
+300aac22 | ff1540caaf30 | CALL dword ptr [0x30afca40]
+300aac28 | 5e | POP ESI
+300aac29 | c20400 | RET 0x4

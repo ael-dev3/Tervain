@@ -1,0 +1,22 @@
+/* ENTRY 305cc1b0 | eCVirtualFile::eCVirtualFile_Constructor_or_Destructor | STATUS decompiled | 11 ms */
+
+void __fastcall eCVirtualFile::eCVirtualFile_Constructor_or_Destructor(bCFile *param_1)
+
+{
+  bCIStream bVar1;
+  
+  bVar1 = param_1[1].bCIOStream.bCIStream;
+  (param_1->bCIOStream).bCIStream = (bCIStream)&vftable_for_bCIStream_;
+  (param_1->bCIOStream).bCOStream = (bCOStream)&vftable_for_bCOStream_;
+  if (bVar1 != (bCIStream)0x0) {
+    (**(code **)(*(int *)(*(int *)(*(int *)((int)bVar1 + 4) + 4) + 4 + (int)bVar1) + 4))();
+    param_1[1].bCIOStream.bCIStream = (bCIStream)0x0;
+  }
+  param_1[1].bCIOStream.bCIStream = (bCIStream)0x0;
+                    /* WARNING: Could not recover jumptable at 0x305cc1e9. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCFile::~bCFile(param_1);
+  return;
+}
+
+

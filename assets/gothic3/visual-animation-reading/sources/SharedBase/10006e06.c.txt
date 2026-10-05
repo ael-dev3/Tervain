@@ -1,0 +1,12 @@
+/* ENTRY 10006e06 | bCBox::AccessMax | STATUS decompiled | 1 ms */
+
+/* public: class bCVector & __thiscall bCBox::AccessMax(void) */
+
+bCVector * __thiscall bCBox::AccessMax(bCBox *this)
+
+{
+                    /* 0x6e06  1455  ?AccessMax@bCBox@@QAEAAVbCVector@@XZ */
+  return (bCVector *)(this + 0xc);
+}
+
+

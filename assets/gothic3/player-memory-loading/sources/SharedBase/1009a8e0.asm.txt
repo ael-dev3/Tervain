@@ -1,0 +1,5 @@
+; 1009a8e0 FUN_1009a8e0
+1009a8e0 | 33c0 | XOR EAX,EAX
+1009a8e2 | 394104 | CMP dword ptr [ECX + 0x4],EAX
+1009a8e5 | 0f95c0 | SETNZ AL
+1009a8e8 | c3 | RET

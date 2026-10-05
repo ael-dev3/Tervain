@@ -1,0 +1,22 @@
+/* ENTRY 2000d9a9 | gCEffect_PS::PostInitializeProperties | STATUS decompiled | 10 ms */
+
+/* public: virtual enum bEResult __thiscall gCEffect_PS::PostInitializeProperties(void) */
+
+bEResult __thiscall gCEffect_PS::PostInitializeProperties(gCEffect_PS *this)
+
+{
+  bEResult bVar1;
+  
+                    /* 0xd9a9  5752  ?PostInitializeProperties@gCEffect_PS@@UAE?AW4bEResult@@XZ */
+  bVar1 = bCObjectRefBase::PostInitializeProperties((bCObjectRefBase *)this);
+  if (bVar1 == 1) {
+    bCString::operator=((bCString *)&(this->gCEffect_PS_data).field_0x10,"");
+    (this->gCEffect_PS_data).offset_0x28 = 0;
+    (this->gCEffect_PS_data).field_0x24 = 0;
+    *(undefined4 *)&(this->gCEffect_PS_data).field_0x20 = 0x3f800000;
+    bVar1 = 1;
+  }
+  return bVar1;
+}
+
+

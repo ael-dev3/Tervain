@@ -1,0 +1,2 @@
+; 100032c4 bCErrorAdmin::Destroy
+100032c4 | e9d7f30100 | JMP 0x100226a0

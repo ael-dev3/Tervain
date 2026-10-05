@@ -1,0 +1,2 @@
+; 100012b2 bCPropertyTypeBase::Write
+100012b2 | e999780800 | JMP 0x10088b50

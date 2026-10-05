@@ -1,0 +1,9 @@
+/* ENTRY 30455940 | FUN_30455940 | STATUS decompiled | 1 ms */
+
+bool FUN_30455940(void)
+
+{
+  return eCThreadPool::ms_bEnableThreads;
+}
+
+

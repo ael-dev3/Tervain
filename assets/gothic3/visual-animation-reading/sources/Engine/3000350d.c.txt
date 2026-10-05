@@ -1,0 +1,169 @@
+/* ENTRY 3000350d | thunk_FUN_300c3e00 | STATUS decompiled | 99 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall thunk_FUN_300c3e00(int param_1,int param_2)
+
+{
+  float fVar1;
+  int iVar2;
+  bCQuaternion *pbVar3;
+  bCMatrix *pbVar4;
+  bCVector *pbVar5;
+  uint *puVar6;
+  float *pfVar7;
+  undefined4 uVar8;
+  int *piVar9;
+  int iVar10;
+  float10 fVar11;
+  float10 fVar12;
+  bCVector *pbVar13;
+  bCVector abStack_d8 [4];
+  undefined1 auStack_d4 [4];
+  bCVector abStack_d0 [4];
+  bCQuaternion abStack_cc [4];
+  bCQuaternion abStack_c8 [12];
+  bCQuaternion abStack_bc [4];
+  bCQuaternion abStack_b8 [4];
+  bCQuaternion abStack_b4 [4];
+  undefined1 auStack_b0 [4];
+  bCMatrix abStack_ac [4];
+  bCMatrix abStack_a8 [4];
+  bCMatrix abStack_a4 [4];
+  bCMatrix abStack_a0 [52];
+  bCVector abStack_6c [4];
+  bCVector abStack_68 [8];
+  bCQuaternion abStack_60 [4];
+  bCQuaternion abStack_5c [16];
+  bCMatrix abStack_4c [4];
+  bCMatrix abStack_48 [72];
+  
+  iVar2 = thunk_FUN_300ac2f0(0x500002);
+  if (iVar2 == 0) goto LAB_300c4306;
+  _DAT_30adac0c = param_2;
+  iVar2 = thunk_FUN_300ce560(&DAT_30adac0c);
+  if (iVar2 == -1) goto LAB_300c4306;
+  fVar1 = *(float *)(*(int *)(param_1 + 0xd4) + 4 + iVar2 * 0xc);
+  if (fVar1 == -NAN) goto LAB_300c4306;
+  if (*(int *)(param_1 + 0x20) < 1) {
+    eCPhysicObject::GetBonePosition(*(eCPhysicObject **)(param_1 + 0xc),(ulong)abStack_c8,fVar1);
+    pbVar5 = *(bCVector **)(param_1 + 0x24);
+    pbVar3 = (bCQuaternion *)
+             eCPhysicObject::GetBoneOrientation
+                       (*(eCPhysicObject **)(param_1 + 0xc),(ulong)auStack_b0,fVar1);
+    bCMatrix::bCMatrix(abStack_a4,pbVar3,pbVar5);
+    bCQuaternion::~bCQuaternion(abStack_b4);
+    bCVector::~bCVector(abStack_d0);
+    pbVar4 = (bCMatrix *)bCMatrix::operator*((bCMatrix *)(param_1 + 0x80),abStack_48);
+    bCMatrix::operator*=(abStack_a8,pbVar4);
+    bCMatrix::~bCMatrix(abStack_4c);
+    if (*(char *)(param_1 + 0xc5) != '\0') {
+      bCMatrix::ModifyScaling(abStack_a8,(bCVector *)(param_1 + 200));
+    }
+    FUN_30643020(abStack_a8);
+  }
+  else {
+    eCPhysicObject::GetBonePosition(*(eCPhysicObject **)(param_1 + 0xc),(ulong)abStack_c8,fVar1);
+    pbVar5 = *(bCVector **)(param_1 + 0x24);
+    pbVar3 = (bCQuaternion *)
+             eCPhysicObject::GetBoneOrientation
+                       (*(eCPhysicObject **)(param_1 + 0xc),(ulong)auStack_b0,fVar1);
+    bCMatrix::bCMatrix(abStack_a4,pbVar3,pbVar5);
+    bCQuaternion::~bCQuaternion(abStack_b4);
+    bCVector::~bCVector(abStack_d0);
+    iVar2 = thunk_FUN_300ac2f0(0x500002);
+    if (iVar2 != 0) {
+      iVar2 = (**(code **)**(undefined4 **)(iVar2 + 8))();
+      if (iVar2 == -0x666fffff) {
+        pbVar5 = bCMatrix::GetXAxis(abStack_a4);
+        bCVector::bCVector((bCVector *)&stack0xffffff24,pbVar5);
+        puVar6 = (uint *)(**(code **)(**(int **)(*(int *)(param_1 + 0x14) + (int)fVar1 * 4) + 0x50))
+                                   ();
+        piVar9 = (int *)*puVar6;
+        iVar2 = (**(code **)(*piVar9 + 0x5c))();
+        pfVar7 = (float *)(**(code **)(*(int *)(~-(uint)(iVar2 != 2) & (uint)piVar9) + 0x8c))
+                                    (abStack_d0);
+        bCVector::operator*=((bCVector *)&stack0xffffff24,*pfVar7 * 100.0);
+      }
+      else {
+        if (iVar2 != -0x666ffffd) goto LAB_300c409c;
+        pbVar5 = bCMatrix::GetXAxis(abStack_a4);
+        bCVector::bCVector((bCVector *)&stack0xffffff24,pbVar5);
+        puVar6 = (uint *)(**(code **)(**(int **)(*(int *)(param_1 + 0x14) + (int)fVar1 * 4) + 0x50))
+                                   ();
+        piVar9 = (int *)*puVar6;
+        iVar2 = (**(code **)(*piVar9 + 0x5c))();
+        piVar9 = (int *)(~-(uint)(iVar2 != 3) & (uint)piVar9);
+        fVar11 = (float10)(**(code **)(*piVar9 + 0x90))();
+        fVar12 = (float10)(**(code **)(*piVar9 + 0x98))();
+        bCVector::operator*=
+                  ((bCVector *)&stack0xffffff24,
+                   (float)((float10)(float)fVar11 + (float10)(float)fVar11 + fVar12) * 100.0 * 0.5);
+      }
+      pbVar13 = (bCVector *)&stack0xffffff24;
+      pbVar5 = bCMatrix::AccessTranslation(abStack_a4);
+      bCVector::operator-=(pbVar5,pbVar13);
+      bCVector::~bCVector((bCVector *)&stack0xffffff24);
+    }
+LAB_300c409c:
+    if (param_2 == *(int *)(param_1 + 0x2c)) {
+      iVar2 = **(int **)(param_1 + 0x10);
+      pbVar5 = bCMatrix::GetTranslation(abStack_a4);
+      (**(code **)(iVar2 + 0xd0))(pbVar5);
+      pbVar5 = bCMatrix::GetTranslation(abStack_a0);
+      bCMatrix::ModifyTranslation((bCMatrix *)(param_1 + 0x30),pbVar5);
+      pbVar4 = (bCMatrix *)bCMatrix::GetInverted((bCMatrix *)(param_1 + 0x30));
+      bCMatrix::operator=((bCMatrix *)(param_1 + 0x80),pbVar4);
+      bCMatrix::~bCMatrix(abStack_48);
+    }
+    pbVar4 = (bCMatrix *)bCMatrix::operator*((bCMatrix *)(param_1 + 0x80),abStack_48);
+    bCMatrix::operator=(abStack_a8,pbVar4);
+    bCMatrix::~bCMatrix(abStack_4c);
+    if ((*(char *)(param_1 + 0x10c) == '\x01') && (param_2 != *(int *)(param_1 + 0x2c))) {
+      bCVector::bCVector(abStack_68,*(float *)(param_2 + 0x74),*(float *)(param_2 + 0x78),
+                         *(float *)(param_2 + 0x7c));
+      thunk_FUN_300adb60(abStack_c8,param_2 + 0x44);
+      bCQuaternion::bCQuaternion(abStack_b8,abStack_c8);
+      pbVar5 = bCMatrix::GetTranslation(abStack_a8);
+      bCVector::bCVector((bCVector *)&stack0xffffff20,pbVar5);
+      bCQuaternion::bCQuaternion(abStack_5c);
+      bCQuaternion::SetQuaternion(abStack_5c,abStack_a8);
+      if (*(char *)(param_1 + 0x120) == '\0') {
+        thunk_FUN_300c97a0(auStack_d4,*(undefined4 *)(param_1 + 0x11c),abStack_68,&stack0xffffff20);
+        bCQuaternion::GetSlerp(abStack_b8,abStack_c8,(float)abStack_5c);
+        bCQuaternion::Normalize(abStack_cc);
+      }
+      else {
+        thunk_FUN_300c97a0(auStack_d4,1.0 - *(float *)(param_1 + 0x11c),abStack_68,&stack0xffffff20)
+        ;
+        bCQuaternion::GetSlerp(abStack_b8,abStack_c8,(float)abStack_5c);
+        bCQuaternion::Normalize(abStack_cc);
+      }
+      bCMatrix::SetMatrix(abStack_ac,abStack_cc,abStack_d8);
+      bCQuaternion::~bCQuaternion(abStack_cc);
+      bCVector::~bCVector(abStack_d8);
+      bCQuaternion::~bCQuaternion(abStack_60);
+      bCVector::~bCVector((bCVector *)&stack0xffffff1c);
+      bCQuaternion::~bCQuaternion(abStack_bc);
+      bCVector::~bCVector(abStack_6c);
+    }
+    if (*(char *)(param_1 + 0xc5) == '\x01') {
+      bCMatrix::ModifyScaling(abStack_ac,(bCVector *)(param_1 + 200));
+    }
+    thunk_FUN_300c3bc0(param_2,abStack_ac);
+  }
+  bCMatrix::~bCMatrix(abStack_ac);
+LAB_300c4306:
+  iVar2 = *(int *)(param_2 + 0x150);
+  iVar10 = 0;
+  if (0 < iVar2) {
+    do {
+      uVar8 = FUN_30642420(iVar10);
+      thunk_FUN_300c3e00(uVar8);
+      iVar10 = iVar10 + 1;
+    } while (iVar10 < iVar2);
+  }
+  return;
+}
+
+

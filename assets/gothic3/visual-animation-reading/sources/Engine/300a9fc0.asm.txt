@@ -1,0 +1,6 @@
+; 300a9fc0 bTPropertyContainer<eEShapeMaterial>::vfunction8
+300a9fc0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+300a9fc4 | 8b5004 | MOV EDX,dword ptr [EAX + 0x4]
+300a9fc7 | 895104 | MOV dword ptr [ECX + 0x4],EDX
+300a9fca | b801000000 | MOV EAX,0x1
+300a9fcf | c20400 | RET 0x4

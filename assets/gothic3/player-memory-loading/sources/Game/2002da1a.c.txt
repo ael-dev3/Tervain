@@ -1,0 +1,18 @@
+/* ENTRY 2002da1a | bTPropertyType<gCPlayerMemory_PS,long>::vfunction11 | STATUS decompiled | 7 ms */
+
+bTPropertyType<gCPlayerMemory_PS,long>_vftable * __thiscall
+bTPropertyType<gCPlayerMemory_PS,long>::vfunction11
+          (bTPropertyType<gCPlayerMemory_PS,long> *this,undefined4 *param_1)
+
+{
+  int iVar1;
+  
+  if (param_1 == (undefined4 *)0x0) {
+    return (bTPropertyType<gCPlayerMemory_PS,long>_vftable *)0x0;
+  }
+  iVar1 = (**(code **)*param_1)();
+  return (bTPropertyType<gCPlayerMemory_PS,long>_vftable *)
+         ((int)&(this[7].vftablePtr)->vfunction1 + iVar1);
+}
+
+

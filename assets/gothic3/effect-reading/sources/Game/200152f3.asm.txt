@@ -1,0 +1,2 @@
+; 200152f3 gCEffect_PS::IsProcessable
+200152f3 | e958321000 | JMP 0x20118550

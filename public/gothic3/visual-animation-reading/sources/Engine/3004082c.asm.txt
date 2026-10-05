@@ -1,0 +1,2 @@
+; 3004082c eCResourceAnimationMotion_PS::GetFrameEffectList
+3004082c | e91f790500 | JMP 0x30098150

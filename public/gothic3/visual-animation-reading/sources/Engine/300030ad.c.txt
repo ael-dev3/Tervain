@@ -1,0 +1,12 @@
+/* ENTRY 300030ad | eCEntity::GetWorldNodeSphere | STATUS decompiled | 4 ms */
+
+/* public: class bCSphere const & __thiscall eCEntity::GetWorldNodeSphere(void)const  */
+
+bCSphere * __thiscall eCEntity::GetWorldNodeSphere(eCEntity *this)
+
+{
+                    /* 0x30ad  9667  ?GetWorldNodeSphere@eCEntity@@QBEABVbCSphere@@XZ */
+  return (bCSphere *)&(this->eCEntity_data).field_0xd0;
+}
+
+

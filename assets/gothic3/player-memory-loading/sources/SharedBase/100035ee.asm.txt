@@ -1,0 +1,2 @@
+; 100035ee bCPropertyTypeBase::Destroy
+100035ee | e9cd540800 | JMP 0x10088ac0

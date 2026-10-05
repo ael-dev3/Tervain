@@ -1,0 +1,27 @@
+/* ENTRY 300044ee | thunk_FUN_300e2ca0 | STATUS decompiled | 3 ms */
+
+undefined4 __thiscall thunk_FUN_300e2ca0(int param_1,int param_2)
+
+{
+  int iVar1;
+  int iVar2;
+  int iVar3;
+  
+  if (param_2 == 0) {
+    return 0;
+  }
+  iVar1 = *(int *)(param_1 + 0xc);
+  iVar3 = 0;
+  if (0 < iVar1) {
+    do {
+      iVar2 = (**(code **)(**(int **)(*(int *)(param_1 + 0x14) + iVar3 * 4) + 0x18))();
+      if (iVar2 == param_2) {
+        return 1;
+      }
+      iVar3 = iVar3 + 1;
+    } while (iVar3 < iVar1);
+  }
+  return 0;
+}
+
+

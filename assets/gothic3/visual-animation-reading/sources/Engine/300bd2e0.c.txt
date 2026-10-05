@@ -1,0 +1,86 @@
+/* ENTRY 300bd2e0 | FUN_300bd2e0 | STATUS decompiled | 28 ms */
+
+char __fastcall FUN_300bd2e0(eCVisualAnimationFactory *param_1)
+
+{
+  int iVar1;
+  eCVisualAnimationLoD *this;
+  bool bVar2;
+  eCWrapper_emfx2Actor *peVar3;
+  eCWrapper_emfx2Actor *peVar4;
+  char cVar5;
+  int iVar6;
+  undefined4 uVar7;
+  undefined4 uVar8;
+  undefined4 uVar9;
+  undefined4 uVar10;
+  char local_5;
+  int local_4;
+  
+  cVar5 = '\0';
+  local_5 = '\0';
+  if (param_1[0x1c] == (eCVisualAnimationFactory)0x1) {
+    iVar1 = *(int *)(param_1 + 4);
+    if (iVar1 != 0) {
+      if (*(eCVisualAnimationLoD **)(param_1 + 0xc) != (eCVisualAnimationLoD *)0x0) {
+        eCVisualAnimationLoD::SetAnimationRenderHook
+                  (*(eCVisualAnimationLoD **)(param_1 + 0xc),(eCAnimation_BaseRenderActor *)0x0);
+        peVar3 = (eCWrapper_emfx2Actor *)
+                 eCVisualAnimationLoD::GetActorWrapper(*(eCVisualAnimationLoD **)(param_1 + 8));
+        if ((peVar3 != (eCWrapper_emfx2Actor *)0x0) &&
+           (bVar2 = (*peVar3->vftablePtr->IsValid)(peVar3), bVar2)) {
+          peVar4 = eCWrapper_emfx2Actor::CreateInstance(peVar3);
+          uVar7 = *(undefined4 *)(iVar1 + 0xc);
+          uVar10 = 0;
+          uVar8 = *(undefined4 *)(peVar4 + 0xc);
+          uVar9 = 0;
+          thunk_FUN_300be3a0(uVar7,uVar8,0,0);
+          FUN_30644e80(uVar7,uVar8,uVar9,uVar10);
+          FUN_3063e910();
+          (**(code **)(*(int *)peVar4 + 0x24))();
+          local_5 = '\x01';
+          cVar5 = '\x01';
+        }
+      }
+      local_4 = 0;
+      if (0 < *(int *)(param_1 + 0x14)) {
+        iVar6 = 0;
+        do {
+          this = *(eCVisualAnimationLoD **)(*(int *)(param_1 + 0x10) + 8 + iVar6);
+          if (this != (eCVisualAnimationLoD *)0x0) {
+            eCVisualAnimationLoD::SetAnimationRenderHook(this,(eCAnimation_BaseRenderActor *)0x0);
+            peVar3 = (eCWrapper_emfx2Actor *)
+                     eCVisualAnimationLoD::GetActorWrapper
+                               (*(eCVisualAnimationLoD **)(*(int *)(param_1 + 0x10) + 4 + iVar6));
+            if ((peVar3 != (eCWrapper_emfx2Actor *)0x0) &&
+               (bVar2 = (*peVar3->vftablePtr->IsValid)(peVar3), bVar2)) {
+              peVar4 = eCWrapper_emfx2Actor::CreateInstance(peVar3);
+              uVar7 = *(undefined4 *)(iVar1 + 0xc);
+              uVar10 = 0;
+              uVar8 = *(undefined4 *)(peVar4 + 0xc);
+              uVar9 = 0;
+              thunk_FUN_300be3a0(uVar7,uVar8,0,0);
+              FUN_30644e80(uVar7,uVar8,uVar9,uVar10);
+              FUN_3063e910();
+              (**(code **)(*(int *)peVar4 + 0x24))();
+              local_5 = '\x01';
+            }
+          }
+          local_4 = local_4 + 1;
+          iVar6 = iVar6 + 0x10;
+          cVar5 = local_5;
+        } while (local_4 < *(int *)(param_1 + 0x14));
+      }
+      if (cVar5 == '\x01') {
+        eCVisualAnimationFactory::RemoveNotUsedBones(param_1);
+        FUN_3063b5e0(0);
+        thunk_FUN_30073fc0(0,0xffffffff);
+        *(undefined4 *)(param_1 + 0x24) = 0;
+      }
+    }
+    param_1[0x1c] = (eCVisualAnimationFactory)0x0;
+  }
+  return cVar5;
+}
+
+

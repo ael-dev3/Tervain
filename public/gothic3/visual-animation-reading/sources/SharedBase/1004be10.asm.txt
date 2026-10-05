@@ -1,0 +1,16 @@
+; 1004be10 FUN_1004be10
+1004be10 | 83ec08 | SUB ESP,0x8
+1004be13 | 833d80b11a1000 | CMP dword ptr [0x101ab180],0x0
+1004be1a | 7505 | JNZ 0x1004be21
+1004be1c | e84c8ffbff | CALL 0x10004d6d
+1004be21 | 8d0424 | LEA EAX,[ESP]
+1004be24 | 50 | PUSH EAX
+1004be25 | ff15a4962f10 | CALL dword ptr [0x102f96a4]
+1004be2b | 8b542404 | MOV EDX,dword ptr [ESP + 0x4]
+1004be2f | 8b0424 | MOV EAX,dword ptr [ESP]
+1004be32 | f73580b11a10 | DIV dword ptr [0x101ab180]
+1004be38 | 890424 | MOV dword ptr [ESP],EAX
+1004be3b | 8b0424 | MOV EAX,dword ptr [ESP]
+1004be3e | 2b0570b11a10 | SUB EAX,dword ptr [0x101ab170]
+1004be44 | 83c408 | ADD ESP,0x8
+1004be47 | c3 | RET

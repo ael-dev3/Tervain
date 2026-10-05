@@ -1,0 +1,2 @@
+; 10001e60 bCPropertyObjectSingleton::ReadObject
+10001e60 | e93be40800 | JMP 0x100902a0

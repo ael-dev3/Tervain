@@ -1,0 +1,2 @@
+; 30033aa5 eCVisualAnimation_PS::SetBoneProjectionDistance
+30033aa5 | e916e70200 | JMP 0x300621c0

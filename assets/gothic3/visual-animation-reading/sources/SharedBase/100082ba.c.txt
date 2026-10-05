@@ -1,0 +1,12 @@
+/* ENTRY 100082ba | bCMatrix::AccessElement | STATUS decompiled | 1 ms */
+
+/* public: float & __thiscall bCMatrix::AccessElement(int) */
+
+float * __thiscall bCMatrix::AccessElement(bCMatrix *this,int param_1)
+
+{
+                    /* 0x82ba  1437  ?AccessElement@bCMatrix@@QAEAAMH@Z */
+  return (float *)(this + param_1 * 4);
+}
+
+

@@ -1,0 +1,21 @@
+/* ENTRY 3003c4fc | eCVisualAnimation_PS::SetClothEffector | STATUS decompiled | 36 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetClothEffector(class bTPropertyObject<class
+   eCSpringAndDamperEffector,class eCEffector> const &) */
+
+void __thiscall
+eCVisualAnimation_PS::SetClothEffector
+          (eCVisualAnimation_PS *this,
+          bTPropertyObject<eCSpringAndDamperEffector,eCEffector> *param_1)
+
+{
+                    /* 0x3c4fc  13043
+                       ?SetClothEffector@eCVisualAnimation_PS@@QAEXABV?$bTPropertyObject@VeCSpringAndDamperEffector@@VeCEffector@@@@@Z
+                        */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"ClothEffector",false);
+  (**(code **)(*(int *)&this[6].eCEntityPropertySet_data.field_0x4 + 0x3c))(param_1);
+  (*this->vftablePtr->NotifyPropertyValueChangedExitEx)(this,"ClothEffector",false);
+  return;
+}
+
+

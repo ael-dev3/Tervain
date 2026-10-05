@@ -1,0 +1,12 @@
+/* ENTRY 300234d4 | eCDesktop::GetInstance | STATUS decompiled | 2 ms */
+
+/* public: static class eCDesktop & __stdcall eCDesktop::GetInstance(void) */
+
+eCDesktop * eCDesktop::GetInstance(void)
+
+{
+                    /* 0x234d4  7423  ?GetInstance@eCDesktop@@SGAAV1@XZ */
+  return DAT_30ae14b0;
+}
+
+

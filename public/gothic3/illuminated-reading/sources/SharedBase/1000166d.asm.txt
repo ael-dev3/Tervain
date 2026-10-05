@@ -1,0 +1,2 @@
+; 1000166d bCAccessorPropertyObject::GetNativeObject
+1000166d | e98e950900 | JMP 0x1009ac00

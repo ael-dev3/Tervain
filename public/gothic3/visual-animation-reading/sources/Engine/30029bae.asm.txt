@@ -1,0 +1,2 @@
+; 30029bae eCMainCache::CacheInResource
+30029bae | e9ed934200 | JMP 0x30452fa0

@@ -1,0 +1,6 @@
+; 307985c0 bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::~bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>
+307985c0 | b978a3ad30 | MOV ECX,0x30ada378
+307985c5 | c70560a3ad3044f78130 | MOV dword ptr [0x30ada360],0x3081f744
+307985cf | ff1538caaf30 | CALL dword ptr [0x30afca38]
+307985d5 | b960a3ad30 | MOV ECX,0x30ada360
+307985da | ff2534caaf30 | JMP dword ptr [0x30afca34]

@@ -1,0 +1,18 @@
+/* ENTRY 20020185 | gCEffect_PS::Create | STATUS decompiled | 11 ms */
+
+/* public: virtual enum bEResult __thiscall gCEffect_PS::Create(void) */
+
+bEResult __thiscall gCEffect_PS::Create(gCEffect_PS *this)
+
+{
+  bool bVar1;
+  
+                    /* 0x20185  2345  ?Create@gCEffect_PS@@UAE?AW4bEResult@@XZ */
+  bVar1 = (*this->vftablePtr->IsValid)(this);
+  if (!bVar1) {
+    eCEntityPropertySet::Create((eCEntityPropertySet *)this);
+  }
+  return 1;
+}
+
+

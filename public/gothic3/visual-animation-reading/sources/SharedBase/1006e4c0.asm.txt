@@ -1,0 +1,19 @@
+; 1006e4c0 FUN_1006e4c0
+1006e4c0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+1006e4c4 | 3bc8 | CMP ECX,EAX
+1006e4c6 | 7428 | JZ 0x1006e4f0
+1006e4c8 | d94004 | FLD float ptr [EAX + 0x4]
+1006e4cb | d95904 | FSTP float ptr [ECX + 0x4]
+1006e4ce | d94008 | FLD float ptr [EAX + 0x8]
+1006e4d1 | d95908 | FSTP float ptr [ECX + 0x8]
+1006e4d4 | d9400c | FLD float ptr [EAX + 0xc]
+1006e4d7 | d9590c | FSTP float ptr [ECX + 0xc]
+1006e4da | d94010 | FLD float ptr [EAX + 0x10]
+1006e4dd | d95910 | FSTP float ptr [ECX + 0x10]
+1006e4e0 | d94014 | FLD float ptr [EAX + 0x14]
+1006e4e3 | d95914 | FSTP float ptr [ECX + 0x14]
+1006e4e6 | d94018 | FLD float ptr [EAX + 0x18]
+1006e4e9 | d95918 | FSTP float ptr [ECX + 0x18]
+1006e4ec | 8b00 | MOV EAX,dword ptr [EAX]
+1006e4ee | 8901 | MOV dword ptr [ECX],EAX
+1006e4f0 | c20400 | RET 0x4

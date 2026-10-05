@@ -1,0 +1,2 @@
+; 3000310c eCVisualAnimation_PS::SetMotion
+3000310c | e9ffc70900 | JMP 0x3009f910

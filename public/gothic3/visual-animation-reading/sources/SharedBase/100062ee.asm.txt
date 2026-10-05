@@ -1,0 +1,2 @@
+; 100062ee bCQuaternion::bCQuaternion
+100062ee | e90df90100 | JMP 0x10025c00

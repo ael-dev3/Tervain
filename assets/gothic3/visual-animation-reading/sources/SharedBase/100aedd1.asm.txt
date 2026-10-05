@@ -1,0 +1,8 @@
+; 100aedd1 FUN_100aedd1
+100aedd1 | e8f5f6ffff | CALL 0x100ae4cb
+100aedd6 | 85c0 | TEST EAX,EAX
+100aedd8 | 7506 | JNZ 0x100aede0
+100aedda | b8400d1410 | MOV EAX,0x10140d40
+100aeddf | c3 | RET
+100aede0 | 83c008 | ADD EAX,0x8
+100aede3 | c3 | RET

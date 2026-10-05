@@ -1,0 +1,2 @@
+; 30010ab4 eCVisualAnimation_PS::SetConstrainRootToWorld
+30010ab4 | e947100500 | JMP 0x30061b00

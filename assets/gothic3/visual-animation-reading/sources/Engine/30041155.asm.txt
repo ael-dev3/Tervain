@@ -1,0 +1,2 @@
+; 30041155 eCVisualAnimation_PS::GetBonesBreakMaxForce
+30041155 | e9660b0200 | JMP 0x30061cc0

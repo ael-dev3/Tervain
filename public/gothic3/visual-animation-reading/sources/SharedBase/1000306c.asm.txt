@@ -1,0 +1,2 @@
+; 1000306c bCPoint::bCPoint
+1000306c | e94f480300 | JMP 0x100378c0

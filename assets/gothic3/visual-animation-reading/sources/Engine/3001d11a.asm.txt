@@ -1,0 +1,2 @@
+; 3001d11a eCModuleAdmin::FindModule
+3001d11a | e9d1b90600 | JMP 0x30088af0

@@ -1,0 +1,2 @@
+; 30042b63 eCVisualAnimation_PS::eCActorAttachment::Write
+30042b63 | e9b8aa0500 | JMP 0x3009d620

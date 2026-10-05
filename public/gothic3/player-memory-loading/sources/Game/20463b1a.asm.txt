@@ -1,0 +1,106 @@
+; 20463b1a FindMITargetTypeInstance
+20463b1a | 55 | PUSH EBP
+20463b1b | 8bec | MOV EBP,ESP
+20463b1d | 83ec14 | SUB ESP,0x14
+20463b20 | 8b4010 | MOV EAX,dword ptr [EAX + 0x10]
+20463b23 | 834df8ff | OR dword ptr [EBP + -0x8],0xffffffff
+20463b27 | 53 | PUSH EBX
+20463b28 | 8b5808 | MOV EBX,dword ptr [EAX + 0x8]
+20463b2b | 33c9 | XOR ECX,ECX
+20463b2d | 3bd9 | CMP EBX,ECX
+20463b2f | 56 | PUSH ESI
+20463b30 | 57 | PUSH EDI
+20463b31 | 8b780c | MOV EDI,dword ptr [EAX + 0xc]
+20463b34 | 894df0 | MOV dword ptr [EBP + -0x10],ECX
+20463b37 | 894dec | MOV dword ptr [EBP + -0x14],ECX
+20463b3a | 894df4 | MOV dword ptr [EBP + -0xc],ECX
+20463b3d | 894dfc | MOV dword ptr [EBP + -0x4],ECX
+20463b40 | 0f86cf000000 | JBE 0x20463c15
+20463b46 | 8b45fc | MOV EAX,dword ptr [EBP + -0x4]
+20463b49 | 8b3487 | MOV ESI,dword ptr [EDI + EAX*0x4]
+20463b4c | 2b45f8 | SUB EAX,dword ptr [EBP + -0x8]
+20463b4f | 3b45f4 | CMP EAX,dword ptr [EBP + -0xc]
+20463b52 | 7632 | JBE 0x20463b86
+20463b54 | 8b06 | MOV EAX,dword ptr [ESI]
+20463b56 | 8b4d14 | MOV ECX,dword ptr [EBP + 0x14]
+20463b59 | 3bc1 | CMP EAX,ECX
+20463b5b | 7413 | JZ 0x20463b70
+20463b5d | 83c108 | ADD ECX,0x8
+20463b60 | 51 | PUSH ECX
+20463b61 | 83c008 | ADD EAX,0x8
+20463b64 | 50 | PUSH EAX
+20463b65 | e8764f0000 | CALL 0x20468ae0
+20463b6a | 85c0 | TEST EAX,EAX
+20463b6c | 59 | POP ECX
+20463b6d | 59 | POP ECX
+20463b6e | 7516 | JNZ 0x20463b86
+20463b70 | 8b45ec | MOV EAX,dword ptr [EBP + -0x14]
+20463b73 | 85c0 | TEST EAX,EAX
+20463b75 | 7550 | JNZ 0x20463bc7
+20463b77 | 8b45fc | MOV EAX,dword ptr [EBP + -0x4]
+20463b7a | 8945f8 | MOV dword ptr [EBP + -0x8],EAX
+20463b7d | 8b4604 | MOV EAX,dword ptr [ESI + 0x4]
+20463b80 | 8975f0 | MOV dword ptr [EBP + -0x10],ESI
+20463b83 | 8945f4 | MOV dword ptr [EBP + -0xc],EAX
+20463b86 | 8b06 | MOV EAX,dword ptr [ESI]
+20463b88 | 8b4d0c | MOV ECX,dword ptr [EBP + 0xc]
+20463b8b | 3bc1 | CMP EAX,ECX
+20463b8d | 7413 | JZ 0x20463ba2
+20463b8f | 83c108 | ADD ECX,0x8
+20463b92 | 51 | PUSH ECX
+20463b93 | 83c008 | ADD EAX,0x8
+20463b96 | 50 | PUSH EAX
+20463b97 | e8444f0000 | CALL 0x20468ae0
+20463b9c | 85c0 | TEST EAX,EAX
+20463b9e | 59 | POP ECX
+20463b9f | 59 | POP ECX
+20463ba0 | 751b | JNZ 0x20463bbd
+20463ba2 | ff7508 | PUSH dword ptr [EBP + 0x8]
+20463ba5 | 8d4608 | LEA EAX,[ESI + 0x8]
+20463ba8 | e8eefeffff | CALL 0x20463a9b
+20463bad | 3b4510 | CMP EAX,dword ptr [EBP + 0x10]
+20463bb0 | 59 | POP ECX
+20463bb1 | 750a | JNZ 0x20463bbd
+20463bb3 | 8b45f0 | MOV EAX,dword ptr [EBP + -0x10]
+20463bb6 | 85c0 | TEST EAX,EAX
+20463bb8 | 751d | JNZ 0x20463bd7
+20463bba | 8975ec | MOV dword ptr [EBP + -0x14],ESI
+20463bbd | ff45fc | INC dword ptr [EBP + -0x4]
+20463bc0 | 395dfc | CMP dword ptr [EBP + -0x4],EBX
+20463bc3 | 7281 | JC 0x20463b46
+20463bc5 | eb4e | JMP 0x20463c15
+20463bc7 | f6461403 | TEST byte ptr [ESI + 0x14],0x3
+20463bcb | 7548 | JNZ 0x20463c15
+20463bcd | f6401401 | TEST byte ptr [EAX + 0x14],0x1
+20463bd1 | 7542 | JNZ 0x20463c15
+20463bd3 | 8bc6 | MOV EAX,ESI
+20463bd5 | eb40 | JMP 0x20463c17
+20463bd7 | 8b4dfc | MOV ECX,dword ptr [EBP + -0x4]
+20463bda | 2b4df8 | SUB ECX,dword ptr [EBP + -0x8]
+20463bdd | 3b4df4 | CMP ECX,dword ptr [EBP + -0xc]
+20463be0 | 772d | JA 0x20463c0f
+20463be2 | f6401440 | TEST byte ptr [EAX + 0x14],0x40
+20463be6 | 750e | JNZ 0x20463bf6
+20463be8 | 837df800 | CMP dword ptr [EBP + -0x8],0x0
+20463bec | 7529 | JNZ 0x20463c17
+20463bee | f6461401 | TEST byte ptr [ESI + 0x14],0x1
+20463bf2 | 7521 | JNZ 0x20463c15
+20463bf4 | eb21 | JMP 0x20463c17
+20463bf6 | 8b5018 | MOV EDX,dword ptr [EAX + 0x18]
+20463bf9 | 8b520c | MOV EDX,dword ptr [EDX + 0xc]
+20463bfc | 8b0c8a | MOV ECX,dword ptr [EDX + ECX*0x4]
+20463bff | 8a4914 | MOV CL,byte ptr [ECX + 0x14]
+20463c02 | 80e101 | AND CL,0x1
+20463c05 | f6d9 | NEG CL
+20463c07 | 1bc9 | SBB ECX,ECX
+20463c09 | f7d1 | NOT ECX
+20463c0b | 23c1 | AND EAX,ECX
+20463c0d | eb08 | JMP 0x20463c17
+20463c0f | f6401403 | TEST byte ptr [EAX + 0x14],0x3
+20463c13 | 74d9 | JZ 0x20463bee
+20463c15 | 33c0 | XOR EAX,EAX
+20463c17 | 5f | POP EDI
+20463c18 | 5e | POP ESI
+20463c19 | 5b | POP EBX
+20463c1a | c9 | LEAVE
+20463c1b | c3 | RET

@@ -1,0 +1,2 @@
+; 3001ecf4 eCEntityPropertySet::OnSaveGameEntityPostRead
+3001ecf4 | e947294600 | JMP 0x30481640

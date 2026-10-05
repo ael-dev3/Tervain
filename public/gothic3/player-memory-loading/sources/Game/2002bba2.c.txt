@@ -1,0 +1,9 @@
+/* ENTRY 2002bba2 | bTPropertyType<gCPlayerMemory_PS,long>::vfunction2 | STATUS decompiled | 1 ms */
+
+undefined4 __thiscall bTPropertyType<gCPlayerMemory_PS,long>::vfunction2(void)
+
+{
+  return 4;
+}
+
+

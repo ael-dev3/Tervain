@@ -1,0 +1,2 @@
+; 30035d3c eCVisualAnimationLoD::GetVersion
+30035d3c | e98f900800 | JMP 0x300bedd0

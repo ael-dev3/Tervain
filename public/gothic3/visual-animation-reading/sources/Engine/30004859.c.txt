@@ -1,0 +1,17 @@
+/* ENTRY 30004859 | eCVisualAnimation_PS::GetClothEffector | STATUS decompiled | 7 ms */
+
+/* public: class bTPropertyObject<class eCSpringAndDamperEffector,class eCEffector> const &
+   __thiscall eCVisualAnimation_PS::GetClothEffector(void)const  */
+
+bTPropertyObject<eCSpringAndDamperEffector,eCEffector> * __thiscall
+eCVisualAnimation_PS::GetClothEffector(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x4859  6495
+                       ?GetClothEffector@eCVisualAnimation_PS@@QBEABV?$bTPropertyObject@VeCSpringAndDamperEffector@@VeCEffector@@@@XZ
+                        */
+  return (bTPropertyObject<eCSpringAndDamperEffector,eCEffector> *)
+         &this[6].eCEntityPropertySet_data.field_0x4;
+}
+
+

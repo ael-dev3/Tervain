@@ -1,0 +1,15 @@
+/* ENTRY 30020ffe | eCVisualAnimation_PS::eCLookAtConstraint::GetNodeName | STATUS decompiled | 1 ms */
+
+/* public: class bCString const & __thiscall
+   eCVisualAnimation_PS::eCLookAtConstraint::GetNodeName(void)const  */
+
+bCString * __thiscall
+eCVisualAnimation_PS::eCLookAtConstraint::GetNodeName(eCLookAtConstraint *this)
+
+{
+                    /* 0x20ffe  7937
+                       ?GetNodeName@eCLookAtConstraint@eCVisualAnimation_PS@@QBEABVbCString@@XZ */
+  return (bCString *)(this + 0x10);
+}
+
+

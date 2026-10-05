@@ -1,0 +1,20 @@
+/* ENTRY 3001a951 | eCVisualAnimation_PS::eCLookAtConstraint::GetConstraints | STATUS decompiled | 4 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::eCLookAtConstraint::GetConstraints(class bCVector
+   &,class bCVector &,float &)const  */
+
+void __thiscall
+eCVisualAnimation_PS::eCLookAtConstraint::GetConstraints
+          (eCLookAtConstraint *this,bCVector *param_1,bCVector *param_2,float *param_3)
+
+{
+                    /* 0x1a951  6630
+                       ?GetConstraints@eCLookAtConstraint@eCVisualAnimation_PS@@QBEXAAVbCVector@@0AAM@Z
+                        */
+  bCVector::operator=(param_1,(bCVector *)(this + 0x18));
+  bCVector::operator=(param_2,(bCVector *)(this + 0x24));
+  *param_3 = *(float *)(this + 0x14);
+  return;
+}
+
+

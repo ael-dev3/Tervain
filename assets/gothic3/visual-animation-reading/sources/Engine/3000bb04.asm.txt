@@ -1,0 +1,2 @@
+; 3000bb04 eCRenderSystemAdmin::GetPVSPrefetcher3
+3000bb04 | e977863a00 | JMP 0x303b4180

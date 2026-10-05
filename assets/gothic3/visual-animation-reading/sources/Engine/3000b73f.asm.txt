@@ -1,0 +1,2 @@
+; 3000b73f thunk_FUN_300da0c0
+3000b73f | e97ce90c00 | JMP 0x300da0c0

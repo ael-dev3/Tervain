@@ -1,0 +1,110 @@
+/* ENTRY 100325c0 | FUN_100325c0 | STATUS decompiled | 29 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall FUN_100325c0(float *param_1,float *param_2,float *param_3)
+
+{
+  float fVar1;
+  float *pfVar2;
+  bCMatrix *pbVar3;
+  bCMatrix *pbVar4;
+  float *pfVar5;
+  int iVar6;
+  int iVar7;
+  
+  if ((param_1 != param_2) && (param_1 != param_3)) {
+    *param_1 = 0.0;
+    param_1[1] = 0.0;
+    param_1[2] = 0.0;
+    param_1[3] = 0.0;
+    param_1[4] = 0.0;
+    param_1[5] = 0.0;
+    param_1[6] = 0.0;
+    param_1[7] = 0.0;
+    param_1[8] = 0.0;
+    param_1[9] = 0.0;
+    param_1[10] = 0.0;
+    param_1[0xb] = 0.0;
+    param_1[0xc] = 0.0;
+    param_1[0xd] = 0.0;
+    param_1[0xe] = 0.0;
+    param_1[0xf] = 0.0;
+    param_3 = param_3 + 2;
+    iVar7 = 4;
+    do {
+      iVar6 = 4;
+      pfVar2 = param_1;
+      pfVar5 = param_2 + 8;
+      do {
+        param_1 = pfVar2 + 1;
+        iVar6 = iVar6 + -1;
+        fVar1 = pfVar5[-8] * param_3[-2] + *pfVar2;
+        *pfVar2 = fVar1;
+        fVar1 = pfVar5[-4] * param_3[-1] + fVar1;
+        *pfVar2 = fVar1;
+        fVar1 = *pfVar5 * *param_3 + fVar1;
+        *pfVar2 = fVar1;
+        *pfVar2 = pfVar5[4] * param_3[1] + fVar1;
+        pfVar2 = param_1;
+        pfVar5 = pfVar5 + 1;
+      } while (iVar6 != 0);
+      param_3 = param_3 + 4;
+      iVar7 = iVar7 + -1;
+    } while (iVar7 != 0);
+    return;
+  }
+  if ((__local_static_guard__6__ & 1) == 0) {
+    __local_static_guard__6__ = __local_static_guard__6__ | 1;
+    _atexit((_func_4879 *)&LAB_10003c2e);
+  }
+  _matProduct = 0;
+  DAT_101441bc = 0;
+  _DAT_101441c0 = 0;
+  _DAT_101441c4 = 0;
+  _DAT_101441c8 = 0;
+  _DAT_101441cc = 0;
+  _DAT_101441d0 = 0;
+  _DAT_101441d4 = 0;
+  _DAT_101441d8 = 0;
+  _DAT_101441dc = 0;
+  _DAT_101441e0 = 0;
+  _DAT_101441e4 = 0;
+  _DAT_101441e8 = 0;
+  _DAT_101441ec = 0;
+  _DAT_101441f0 = 0;
+  _DAT_101441f4 = 0;
+  pbVar3 = &`public:_void___thiscall_bCMatrix::SetToProduct(bCMatrix_const&,bCMatrix_const&)'::__l6
+            ::matProduct;
+  param_3 = param_3 + 2;
+  do {
+    iVar7 = 4;
+    pbVar4 = pbVar3;
+    pfVar2 = param_2 + 8;
+    do {
+      pbVar3 = pbVar4 + 4;
+      iVar7 = iVar7 + -1;
+      fVar1 = pfVar2[-8] * param_3[-2] + *(float *)pbVar4;
+      *(float *)pbVar4 = fVar1;
+      fVar1 = pfVar2[-4] * param_3[-1] + fVar1;
+      *(float *)pbVar4 = fVar1;
+      fVar1 = *param_3 * *pfVar2 + fVar1;
+      *(float *)pbVar4 = fVar1;
+      *(float *)pbVar4 = pfVar2[4] * param_3[1] + fVar1;
+      pbVar4 = pbVar3;
+      pfVar2 = pfVar2 + 1;
+    } while (iVar7 != 0);
+    param_3 = param_3 + 4;
+  } while ((int)pbVar3 < 0x101441f8);
+  pbVar3 = &`public:_void___thiscall_bCMatrix::SetToProduct(bCMatrix_const&,bCMatrix_const&)'::__l6
+            ::matProduct;
+  iVar7 = 0x10;
+  do {
+    iVar7 = iVar7 + -1;
+    *(undefined4 *)((int)(param_1 + -0x405106e) + (int)pbVar3) = *(undefined4 *)pbVar3;
+    pbVar3 = pbVar3 + 4;
+  } while (iVar7 != 0);
+  return;
+}
+
+

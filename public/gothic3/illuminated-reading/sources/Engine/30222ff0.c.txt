@@ -1,0 +1,18 @@
+/* ENTRY 30222ff0 | FUN_30222ff0 | STATUS decompiled | 9 ms */
+
+void __thiscall FUN_30222ff0(eCEntityPropertySet *param_1,char *param_2,bool param_3)
+
+{
+  eCIlluminationAdmin *this;
+  eCEntityPropertySet *peVar1;
+  
+  if (((param_1->eCEntityPropertySet_data).offset_0x8 != 0) && (param_3 == false)) {
+    peVar1 = param_1;
+    this = (eCIlluminationAdmin *)thunk_FUN_3007c490();
+    eCIlluminationAdmin::GetEffectedDynamicLights(this,(eCIlluminated_PS *)peVar1);
+  }
+  eCEntityPropertySet::OnNotifyPropertyValueChangedExitEx(param_1,param_2,param_3);
+  return;
+}
+
+

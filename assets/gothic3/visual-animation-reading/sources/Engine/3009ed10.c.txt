@@ -1,0 +1,36 @@
+/* ENTRY 3009ed10 | FUN_3009ed10 | STATUS decompiled | 6 ms */
+
+undefined4 __fastcall FUN_3009ed10(int param_1)
+
+{
+  int iVar1;
+  int *piVar2;
+  eCWrapper_emfx2Actor *peVar3;
+  int iVar4;
+  int local_4;
+  
+  iVar1 = *(int *)(param_1 + 0xe0);
+  iVar4 = 0;
+  if (0 < iVar1) {
+    do {
+      piVar2 = *(int **)(*(int *)(param_1 + 0xdc) + iVar4 * 4);
+      if ((*piVar2 != 0) &&
+         (peVar3 = eCVisualAnimationFactory::GetAssembledActor
+                             ((eCVisualAnimationFactory *)(piVar2[1] + 0x94)),
+         peVar3 != (eCWrapper_emfx2Actor *)0x0)) {
+        eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)(piVar2[1] + 0x94));
+        local_4 = *piVar2;
+        thunk_FUN_300ac4f0(&local_4);
+        if ((undefined4 *)*piVar2 != (undefined4 *)0x0) {
+          (*(code *)**(undefined4 **)*piVar2)(1);
+        }
+        *piVar2 = 0;
+      }
+      iVar4 = iVar4 + 1;
+      piVar2[3] = 0;
+    } while (iVar4 < iVar1);
+  }
+  return 1;
+}
+
+

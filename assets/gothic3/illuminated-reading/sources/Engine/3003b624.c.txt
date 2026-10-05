@@ -1,0 +1,27 @@
+/* ENTRY 3003b624 | eCIlluminated_PS::OnNotifyPropertyValueChangedExitEx | STATUS decompiled | 17 ms */
+
+/* public: virtual bool __thiscall eCIlluminated_PS::OnNotifyPropertyValueChangedExitEx(char const
+   *,bool) */
+
+bool __thiscall
+eCIlluminated_PS::OnNotifyPropertyValueChangedExitEx
+          (eCIlluminated_PS *this,char *param_1,bool param_2)
+
+{
+  bool bVar1;
+  eCIlluminationAdmin *this_00;
+  eCIlluminated_PS *peVar2;
+  
+                    /* 0x3b624  11265
+                       ?OnNotifyPropertyValueChangedExitEx@eCIlluminated_PS@@UAE_NPBD_N@Z */
+  if (((this->eCEntityPropertySet_data).offset_0x8 != 0) && (!param_2)) {
+    peVar2 = this;
+    this_00 = (eCIlluminationAdmin *)thunk_FUN_3007c490();
+    eCIlluminationAdmin::GetEffectedDynamicLights(this_00,(eCIlluminated_PS *)peVar2);
+  }
+  bVar1 = eCEntityPropertySet::OnNotifyPropertyValueChangedExitEx
+                    ((eCEntityPropertySet *)this,param_1,param_2);
+  return bVar1;
+}
+
+

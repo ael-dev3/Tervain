@@ -1,0 +1,11 @@
+; 20324780 bTPropertyType<gCPlayerMemory_PS,bCPropertyID>::vfunction6
+20324780 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+20324784 | 85c0 | TEST EAX,EAX
+20324786 | 7410 | JZ 0x20324798
+20324788 | 8b11 | MOV EDX,dword ptr [ECX]
+2032478a | 50 | PUSH EAX
+2032478b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+2032478e | ffd0 | CALL EAX
+20324790 | 8bc8 | MOV ECX,EAX
+20324792 | ff15447f7d20 | CALL dword ptr [0x207d7f44]
+20324798 | c20400 | RET 0x4

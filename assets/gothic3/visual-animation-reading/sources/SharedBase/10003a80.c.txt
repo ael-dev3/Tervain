@@ -1,0 +1,13 @@
+/* ENTRY 10003a80 | bCVector::SetX | STATUS decompiled | 2 ms */
+
+/* public: void __thiscall bCVector::SetX(float const &) */
+
+void __thiscall bCVector::SetX(bCVector *this,float *param_1)
+
+{
+                    /* 0x3a80  4437  ?SetX@bCVector@@QAEXABM@Z */
+  *(float *)this = *param_1;
+  return;
+}
+
+

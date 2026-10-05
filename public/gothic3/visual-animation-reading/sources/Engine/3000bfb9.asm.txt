@@ -1,0 +1,2 @@
+; 3000bfb9 thunk_FUN_300b15f0
+3000bfb9 | e932560a00 | JMP 0x300b15f0

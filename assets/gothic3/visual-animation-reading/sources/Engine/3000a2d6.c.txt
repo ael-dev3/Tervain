@@ -1,0 +1,19 @@
+/* ENTRY 3000a2d6 | bTPropertyObject<eCSpringAndDamperEffector,eCEffector>::deleting_destructor | STATUS decompiled | 5 ms */
+
+bTPropertyObject<eCSpringAndDamperEffector,eCEffector> * __thiscall
+bTPropertyObject<eCSpringAndDamperEffector,eCEffector>::deleting_destructor
+          (bTPropertyObject<eCSpringAndDamperEffector,eCEffector> *this,byte param_1)
+
+{
+  this->vftablePtr = &vftable;
+  vfunction10(this);
+  bTPOPureSmartPtr<eCSpringAndDamperEffector>::~bTPOPureSmartPtr<eCSpringAndDamperEffector>
+            ((bTPOPureSmartPtr<eCSpringAndDamperEffector> *)this);
+  if ((param_1 & 1) != 0) {
+                    /* WARNING: Subroutine does not return */
+    _free(this);
+  }
+  return this;
+}
+
+

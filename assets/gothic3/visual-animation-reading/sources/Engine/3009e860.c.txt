@@ -1,0 +1,13 @@
+/* ENTRY 3009e860 | FUN_3009e860 | STATUS decompiled | 2 ms */
+
+bool __fastcall FUN_3009e860(int param_1)
+
+{
+  eCWrapper_emfx2Actor *peVar1;
+  
+  peVar1 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)(param_1 + 0x94))
+  ;
+  return peVar1 != (eCWrapper_emfx2Actor *)0x0;
+}
+
+

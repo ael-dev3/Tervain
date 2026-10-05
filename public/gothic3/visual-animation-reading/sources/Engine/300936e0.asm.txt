@@ -1,0 +1,5 @@
+; 300936e0 FUN_300936e0
+300936e0 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+300936e4 | 68e0a1ad30 | PUSH 0x30ada1e0
+300936e9 | ff1560dbaf30 | CALL dword ptr [0x30afdb60]
+300936ef | c20400 | RET 0x4

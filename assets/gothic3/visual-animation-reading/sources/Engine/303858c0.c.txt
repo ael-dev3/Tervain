@@ -1,0 +1,14 @@
+/* ENTRY 303858c0 | bTPropertyObject<eCEffector,bCObjectRefBase>::~bTPropertyObject<eCEffector,bCObjectRefBase> | STATUS decompiled | 3 ms */
+
+void __thiscall
+bTPropertyObject<eCEffector,bCObjectRefBase>::~bTPropertyObject<eCEffector,bCObjectRefBase>
+          (bTPropertyObject<eCEffector,bCObjectRefBase> *this)
+
+{
+  this->vftablePtr = &vftable;
+  thunk_FUN_30385840();
+  bTPOPureSmartPtr<eCEffector>::~bTPOPureSmartPtr<eCEffector>((bTPOPureSmartPtr<eCEffector> *)this);
+  return;
+}
+
+

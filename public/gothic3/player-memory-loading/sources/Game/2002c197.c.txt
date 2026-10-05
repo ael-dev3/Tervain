@@ -1,0 +1,41 @@
+/* ENTRY 2002c197 | gCPlayerMemory_PS::DestroyAttributes | STATUS decompiled | 11 ms */
+
+/* protected: void __thiscall gCPlayerMemory_PS::DestroyAttributes(void) */
+
+void __thiscall gCPlayerMemory_PS::DestroyAttributes(gCPlayerMemory_PS *this)
+
+{
+  int iVar1;
+  int iVar2;
+  int *piStack_18;
+  int iStack_14;
+  int iStack_10;
+  int iStack_8;
+  
+                    /* 0x2c197  2666  ?DestroyAttributes@gCPlayerMemory_PS@@IAEXXZ */
+  thunk_FUN_20325c60(&piStack_18);
+  iStack_8 = this[1].gCPlayerMemory_PS_data.offset_0x3c;
+  iVar1 = iStack_10;
+  iVar2 = iStack_14;
+  do {
+    do {
+      if (((piStack_18 == &this[1].gCPlayerMemory_PS_data.offset_0x38) && (iVar1 == 0)) &&
+         (iVar2 == iStack_8)) {
+        FUN_20011a63();
+        return;
+      }
+      if (*(int *)(iVar1 + 4) != 0) {
+        (**(code **)(**(int **)(iVar1 + 4) + 0x24))();
+        *(undefined4 *)(iVar1 + 4) = 0;
+      }
+      iVar1 = *(int *)(iVar1 + 8);
+    } while (iVar1 != 0);
+    do {
+      iVar2 = iVar2 + 1;
+      if (piStack_18[1] <= iVar2) break;
+      iVar1 = *(int *)(*piStack_18 + iVar2 * 4);
+    } while (iVar1 == 0);
+  } while( true );
+}
+
+

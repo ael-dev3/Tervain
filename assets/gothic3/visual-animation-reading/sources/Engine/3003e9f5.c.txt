@@ -1,0 +1,76 @@
+/* ENTRY 3003e9f5 | eCEntity::RemovePropertySetAt | STATUS decompiled | 35 ms */
+
+/* public: bool __thiscall eCEntity::RemovePropertySetAt(int) */
+
+bool __thiscall eCEntity::RemovePropertySetAt(eCEntity *this,int param_1)
+
+{
+  ushort *puVar1;
+  void *_Dst;
+  uint *puVar2;
+  ushort uVar3;
+  eCEntityProxyInternal *peVar4;
+  byte bVar5;
+  int iVar6;
+  bCPropertyObjectBase *pbVar7;
+  eCRenderSystemAdmin *this_00;
+  eCPVSPrefetcher3 *this_01;
+  bCObjectBase *this_02;
+  bool bVar8;
+  eCEntity *peVar9;
+  
+                    /* 0x3e9f5  12534  ?RemovePropertySetAt@eCEntity@@QAE_NH@Z */
+  (*this->vftablePtr->OnReadContent)(this);
+  if ((param_1 != -1) && ((ushort)param_1 < (this->eCEntity_data).offset_0x10e)) {
+    (*this->vftablePtr->OnReadContent)(this);
+    if ((ushort)param_1 < (this->eCEntity_data).offset_0x10e) {
+      this_02 = *(bCObjectBase **)((this->eCEntity_data).offset_0x110 + (param_1 & 0xffffU) * 4);
+    }
+    else {
+      this_02 = (bCObjectBase *)0x0;
+    }
+    bVar8 = ((this->eCEntity_data).offset_0xc & 0x100) == 0x100;
+    if (bVar8) {
+      CacheOut(this,false,false);
+    }
+    (**(code **)((int)*this_02 + 0x13c))();
+    (**(code **)((int)*this_02 + 0xb4))(0);
+    uVar3 = (this->eCEntity_data).offset_0x10e;
+    if (uVar3 != 0) {
+      (this->eCEntity_data).offset_0x118 = 0;
+      _Dst = (void *)((this->eCEntity_data).offset_0x110 + (param_1 & 0xffffU) * 4);
+      _memmove(_Dst,(void *)((int)_Dst + 4),((uint)uVar3 - (param_1 & 0xffffU)) * 4 - 4);
+      puVar1 = &(this->eCEntity_data).offset_0x10e;
+      *puVar1 = *puVar1 - 1;
+    }
+    iVar6 = (**(code **)((int)*this_02 + 0x60))();
+    puVar2 = &(this->eCEntity_data).offset_0x164 + (iVar6 >> 5);
+    bVar5 = (**(code **)((int)*this_02 + 0x60))();
+    *puVar2 = *puVar2 & ~(1 << (bVar5 & 0x1f));
+    pbVar7 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)this_02);
+    if (pbVar7 != (bCPropertyObjectBase *)0x0) {
+      pbVar7 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)this_02);
+      (**(code **)(*(int *)pbVar7 + 0x34))();
+    }
+    if (bVar8) {
+      peVar9 = this;
+      this_00 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+      this_01 = (eCPVSPrefetcher3 *)eCRenderSystemAdmin::GetPVSPrefetcher3(this_00);
+      eCPVSPrefetcher3::AddNewEntity(this_01,(eCEntity *)peVar9);
+    }
+    (*this->vftablePtr->Modified)(this);
+    peVar4 = (eCEntityProxyInternal *)(this->eCEntity_data).offset_0x15c;
+    if (peVar4 != (eCEntityProxyInternal *)0x0) {
+      eCEntityProxyInternal::SetEntity(peVar4,(eCEntity *)0x0);
+      peVar4 = (eCEntityProxyInternal *)(this->eCEntity_data).offset_0x15c;
+      if (peVar4 != (eCEntityProxyInternal *)0x0) {
+        eCEntityProxyInternal::ReleaseReference(peVar4);
+        (this->eCEntity_data).offset_0x15c = 0;
+      }
+    }
+    return true;
+  }
+  return false;
+}
+
+

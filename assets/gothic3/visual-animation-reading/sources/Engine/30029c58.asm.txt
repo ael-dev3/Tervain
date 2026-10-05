@@ -1,0 +1,2 @@
+; 30029c58 bTPropertyObjectType<eCEffector,bCObjectRefBase>::~bTPropertyObjectType<eCEffector,bCObjectRefBase>
+30029c58 | e923c53500 | JMP 0x30386180

@@ -1,0 +1,12 @@
+/* ENTRY 300467e5 | eCVisualAnimation_PS::AccessDisablePhysicLodding | STATUS decompiled | 7 ms */
+
+/* public: bool & __thiscall eCVisualAnimation_PS::AccessDisablePhysicLodding(void) */
+
+bool * __thiscall eCVisualAnimation_PS::AccessDisablePhysicLodding(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x467e5  2672  ?AccessDisablePhysicLodding@eCVisualAnimation_PS@@QAEAA_NXZ */
+  return (bool *)&this[6].eCEntityPropertySet_data.field_0x1;
+}
+
+

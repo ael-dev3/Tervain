@@ -1,0 +1,2 @@
+; 3003b36d eCEffector::GetVersion
+3003b36d | e9ce9d3400 | JMP 0x30385140
