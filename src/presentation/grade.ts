@@ -92,7 +92,10 @@ void main() {
   // Saturation and an S-curve around mid grey.
   l = dot(c, vec3(0.2126, 0.7152, 0.0722));
   c = mix(vec3(l), c, uSaturation);
-  c = clamp((c - 0.5) * uContrast + 0.5 + 0.008, 0.0, 1.0);
+  // Daylight can carry the stronger S-curve. Fade its black subtraction at night so
+  // moonlit cloth, nearby roots and the road retain their painted dark values.
+  float sceneContrast = mix(uContrast, 1.0, clamp(uNight, 0.0, 1.0));
+  c = clamp((c - 0.5) * sceneContrast + 0.5 + 0.008, 0.0, 1.0);
   // Vignette.
   float v = smoothstep(0.95, 0.28, length(d * vec2(1.0, 0.86)));
   c *= mix(1.0 - uVignette, 1.0, v);
