@@ -226,7 +226,7 @@ const record = {
   },
   verification: {
     assetPreparation: 'Passed: approved source hash; exact decoded pixels for all three maps; byte-identical non-image buffer views; identical scene/mesh/skin/animation/material semantics; strict triangle budget and complete clip contract.',
-    gameIntegration: 'Requires the coordinating assistant’s typecheck/tests/build and running-game observations; not implied by asset preparation.',
+    gameIntegration: 'Requires integrated typecheck/tests/build and running-game observations; not implied by asset preparation.',
     publication: 'No remote publication or CI was performed by this preparation script.',
   },
 };
