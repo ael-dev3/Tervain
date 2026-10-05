@@ -1,0 +1,51 @@
+/* ENTRY 100089e5 | bCSpyAdmin::Create | STATUS decompiled | 17 ms */
+
+/* public: void __thiscall bCSpyAdmin::Create(void) */
+
+void __thiscall bCSpyAdmin::Create(bCSpyAdmin *this)
+
+{
+  ATOM AVar1;
+  ATOM AVar2;
+  bCMessageAdmin *pbVar3;
+  HWND pHVar4;
+  UINT Msg;
+  HANDLE pvVar5;
+  bEMessageCallbackPriority bVar6;
+  _func_bool_bEMessageTypes_char_ptr_char_ptr_ulong_char_ptr_int_int *p_Var7;
+  bCSpyAdmin *pbVar8;
+  
+                    /* 0x89e5  1820  ?Create@bCSpyAdmin@@QAEXXZ */
+  p_Var7 = (_func_bool_bEMessageTypes_char_ptr_char_ptr_ulong_char_ptr_int_int *)&LAB_10008c06;
+  *(undefined4 *)(this + 0x1c) = 0;
+  *(undefined4 *)(this + 0x18) = 0;
+  pbVar3 = bCMessageAdmin::GetInstance();
+  bCMessageAdmin::UnregisterCallback(pbVar3,p_Var7);
+  bVar6 = 1;
+  p_Var7 = (_func_bool_bEMessageTypes_char_ptr_char_ptr_ulong_char_ptr_int_int *)&LAB_10008c06;
+  *(undefined4 *)(this + 0x1c) = 0;
+  *(undefined4 *)(this + 0x18) = 0;
+  pbVar8 = this;
+  pbVar3 = bCMessageAdmin::GetInstance();
+  bCMessageAdmin::RegisterCallback(pbVar3,p_Var7,bVar6,(ulong)pbVar8);
+  pHVar4 = FindWindowA((LPCSTR)0x0,"[zSpy]");
+  *(HWND *)(this + 0x18) = pHVar4;
+  if (pHVar4 != (HWND)0x0) {
+    Msg = RegisterWindowMessageA("WM_LOGCOMMAND");
+    AVar1 = GlobalAddAtomA("START");
+    SendMessageA((HWND)0xffff,Msg,0,(uint)AVar1);
+    do {
+      AVar2 = GlobalDeleteAtom(AVar1);
+    } while (AVar2 != 0);
+    pvVar5 = CreateMutexA((LPSECURITY_ATTRIBUTES)0x0,0,(LPCSTR)0x0);
+    *(HANDLE *)(this + 0x1c) = pvVar5;
+    AVar1 = GlobalAddAtomA("SHOW");
+    SendMessageA((HWND)0xffff,Msg,0,(uint)AVar1);
+    do {
+      AVar2 = GlobalDeleteAtom(AVar1);
+    } while (AVar2 != 0);
+  }
+  return;
+}
+
+

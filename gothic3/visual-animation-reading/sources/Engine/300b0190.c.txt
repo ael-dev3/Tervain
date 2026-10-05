@@ -1,0 +1,27 @@
+/* ENTRY 300b0190 | FUN_300b0190 | STATUS decompiled | 10 ms */
+
+void __thiscall FUN_300b0190(int *param_1,uint param_2)
+
+{
+  bCString *this;
+  int iVar1;
+  void *_Dst;
+  
+  if (param_2 < (uint)param_1[1]) {
+    bCString::~bCString((bCString *)(*param_1 + param_2 * 4));
+    iVar1 = (param_1[1] - param_2) + -1;
+    if (0 < iVar1) {
+      _Dst = (void *)(*param_1 + param_2 * 4);
+      _memmove(_Dst,(void *)((int)_Dst + 4),iVar1 * 4);
+    }
+    this = (bCString *)(*param_1 + -4 + param_1[1] * 4);
+    *(undefined4 *)this = 0;
+    if (this != (bCString *)0x0) {
+      bCString::bCString(this);
+    }
+    param_1[1] = param_1[1] + -1;
+  }
+  return;
+}
+
+

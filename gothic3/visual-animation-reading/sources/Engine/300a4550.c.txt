@@ -1,0 +1,78 @@
+/* ENTRY 300a4550 | FUN_300a4550 | STATUS decompiled | 30 ms */
+
+void __thiscall FUN_300a4550(eCEntityPropertySet *param_1,char *param_2,undefined4 param_3)
+
+{
+  undefined1 *this;
+  undefined4 uVar1;
+  char *pcVar2;
+  bool bVar3;
+  bCString *pbVar4;
+  eCEntity *peVar5;
+  eCEntity *peVar6;
+  eCVisualAnimationLoD *peVar7;
+  bCString *pbVar8;
+  eCEntityPropertySet *local_4;
+  
+  pcVar2 = param_2;
+  local_4 = param_1;
+  if ((char)param_3 == '\0') {
+    bCString::bCString((bCString *)&param_2,"ResourceFilePath");
+    pbVar8 = (bCString *)&param_2;
+    pbVar4 = (bCString *)bCString::bCString((bCString *)&local_4,pcVar2);
+    bVar3 = bCString::CompareFast(pbVar4,pbVar8);
+    bCString::~bCString((bCString *)&local_4);
+    bCString::~bCString((bCString *)&param_2);
+    if (bVar3) {
+      eCVisualAnimationFactory::SetMainActorFileName
+                ((eCVisualAnimationFactory *)&param_1[7].eCEntityPropertySet_data.field_0x4,
+                 (bCString *)(param_1 + 1));
+      eCVisualAnimation_PS::ClearLookAtConstraints((eCVisualAnimation_PS *)param_1);
+      peVar5 = (*param_1->vftablePtr->GetEntity)(param_1);
+      if (peVar5 != (eCEntity *)0x0) {
+        peVar6 = (eCEntity *)(*param_1->vftablePtr->GetEntity)(param_1);
+        bVar3 = eCEntity::IsCachedIn(peVar6);
+        if (bVar3) {
+          peVar6 = (eCEntity *)(*param_1->vftablePtr->GetEntity)(param_1);
+          bVar3 = eCEntity::HasProcessingRangeEntered(peVar6);
+          if (bVar3) {
+            (*param_1->vftablePtr->OnExitProcessingRange)(param_1);
+          }
+          (*param_1->vftablePtr->OnCacheOut)(param_1);
+          (*param_1->vftablePtr->OnCacheIn)(param_1);
+          peVar6 = (eCEntity *)(*param_1->vftablePtr->GetEntity)(param_1);
+          bVar3 = eCEntity::HasProcessingRangeEntered(peVar6);
+          if (bVar3) {
+            (*param_1->vftablePtr->OnEnterProcessingRange)(param_1);
+          }
+          (*param_1->vftablePtr->OnUpdateInternals)(param_1);
+        }
+      }
+    }
+    bCString::bCString((bCString *)&param_2,"FacialAnimFilePath");
+    pbVar8 = (bCString *)&param_2;
+    pbVar4 = (bCString *)bCString::bCString((bCString *)&local_4,pcVar2);
+    bVar3 = bCString::CompareFast(pbVar4,pbVar8);
+    bCString::~bCString((bCString *)&local_4);
+    bCString::~bCString((bCString *)&param_2);
+    if (bVar3) {
+      eCVisualAnimationFactory::SetFacialActorFileName
+                ((eCVisualAnimationFactory *)&param_1[7].eCEntityPropertySet_data.field_0x4,
+                 (bCString *)&param_1[1].eCEntityPropertySet_data);
+    }
+  }
+  uVar1 = *(undefined4 *)&param_1[7].eCEntityPropertySet_data;
+  this = &param_1[7].eCEntityPropertySet_data.field_0x4;
+  peVar7 = eCVisualAnimationFactory::GetVisualAnimationLoD((eCVisualAnimationFactory *)this);
+  *(undefined4 *)(peVar7 + 0x24) = uVar1;
+  peVar7 = eCVisualAnimationFactory::GetFacialAnimationLoD((eCVisualAnimationFactory *)this);
+  if (peVar7 != (eCVisualAnimationLoD *)0x0) {
+    uVar1 = *(undefined4 *)&param_1[7].eCEntityPropertySet_data;
+    peVar7 = eCVisualAnimationFactory::GetFacialAnimationLoD((eCVisualAnimationFactory *)this);
+    *(undefined4 *)(peVar7 + 0x24) = uVar1;
+  }
+  eCEntityPropertySet::OnNotifyPropertyValueChangedExitEx(param_1,pcVar2,SUB41(param_3,0));
+  return;
+}
+
+

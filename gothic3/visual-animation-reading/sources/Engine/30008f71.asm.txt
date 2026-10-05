@@ -1,0 +1,2 @@
+; 30008f71 eCVisualAnimation_PS::eCActorAttachment::Create
+30008f71 | e91a640900 | JMP 0x3009f390

@@ -1,0 +1,2 @@
+; 20006a41 gCDialog_PS::SetMobEnabled
+20006a41 | e95a901a00 | JMP 0x201afaa0

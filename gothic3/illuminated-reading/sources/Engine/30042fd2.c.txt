@@ -1,0 +1,16 @@
+/* ENTRY 30042fd2 | eCIlluminated_PS::GetShaderMaterialIllumination | STATUS decompiled | 9 ms */
+
+/* public: struct eSShaderMaterialIllumination const & __thiscall
+   eCIlluminated_PS::GetShaderMaterialIllumination(void)const  */
+
+eSShaderMaterialIllumination * __thiscall
+eCIlluminated_PS::GetShaderMaterialIllumination(eCIlluminated_PS *this)
+
+{
+                    /* 0x42fd2  8754
+                       ?GetShaderMaterialIllumination@eCIlluminated_PS@@QBEABUeSShaderMaterialIllumination@@XZ
+                        */
+  return (eSShaderMaterialIllumination *)&(this->eCIlluminated_PS_data).offset_0x1c;
+}
+
+

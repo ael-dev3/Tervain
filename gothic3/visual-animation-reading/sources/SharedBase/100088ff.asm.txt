@@ -1,0 +1,2 @@
+; 100088ff bCAccessorPropertyObject::HasPropertyObject
+100088ff | e9dc1f0900 | JMP 0x1009a8e0

@@ -1,0 +1,8 @@
+newmtl EMFX_Default
+
+newmtl Women_eyes
+map_Kd ../textures/G3_Animation_Head_Eyes_01_S1.jpg
+
+newmtl G3_Animation_Head_Women_01_A|
+map_Kd ../textures/G3_Animation_Head_Women_01_S1.jpg
+

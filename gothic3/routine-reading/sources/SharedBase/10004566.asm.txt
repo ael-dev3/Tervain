@@ -1,0 +1,4 @@
+; 10004566 ?GetTemplate@bCPropertyObjectBase@@QBEPBVbCPropertyObjectTypeBase@@XZ
+10004566 | e9154c0800 | JMP 0x10089180
+; 1000456b bCMatrix2::GetRow
+; 1000456b Ordinal_2976

@@ -1,0 +1,19 @@
+; 300b18e0 FUN_300b18e0
+300b18e0 | 57 | PUSH EDI
+300b18e1 | 8b7c240c | MOV EDI,dword ptr [ESP + 0xc]
+300b18e5 | 85ff | TEST EDI,EDI
+300b18e7 | 7423 | JZ 0x300b190c
+300b18e9 | 56 | PUSH ESI
+300b18ea | 8b74240c | MOV ESI,dword ptr [ESP + 0xc]
+300b18ee | 8bff | MOV EDI,EDI
+300b18f0 | 8d4e04 | LEA ECX,[ESI + 0x4]
+300b18f3 | 83ef01 | SUB EDI,0x1
+300b18f6 | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+300b18fc | 8bce | MOV ECX,ESI
+300b18fe | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+300b1904 | 83c608 | ADD ESI,0x8
+300b1907 | 85ff | TEST EDI,EDI
+300b1909 | 75e5 | JNZ 0x300b18f0
+300b190b | 5e | POP ESI
+300b190c | 5f | POP EDI
+300b190d | c20800 | RET 0x8

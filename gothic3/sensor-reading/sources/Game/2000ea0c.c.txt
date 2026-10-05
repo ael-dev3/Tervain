@@ -1,0 +1,22 @@
+/* ENTRY 2000ea0c | gCCharacterSensor_PS::Invalidate | STATUS decompiled | 20 ms */
+
+/* protected: void __thiscall gCCharacterSensor_PS::Invalidate(void) */
+
+void __thiscall gCCharacterSensor_PS::Invalidate(gCCharacterSensor_PS *this)
+
+{
+                    /* 0xea0c  4957  ?Invalidate@gCCharacterSensor_PS@@IAEXXZ */
+  (this->gCCharacterSensor_PS_data).offset_0x38 = 0;
+  (this->gCCharacterSensor_PS_data).offset_0x3d = 1;
+  (this->gCCharacterSensor_PS_data).offset_0x34 = 1;
+  (this->gCCharacterSensor_PS_data).offset_0x35 = 1;
+  bCVector::Clear((bCVector *)&(this->gCCharacterSensor_PS_data).field_0x10);
+  bCVector::Clear((bCVector *)&(this->gCCharacterSensor_PS_data).field_0x1c);
+  bCVector::Clear((bCVector *)&(this->gCCharacterSensor_PS_data).field_0x28);
+  bCVector::Clear((bCVector *)&(this->gCCharacterSensor_PS_data).field_0x40);
+  bCQuaternion::Clear((bCQuaternion *)&(this->gCCharacterSensor_PS_data).field_0x4c);
+  (this->gCCharacterSensor_PS_data).offset_0x3c = 0;
+  return;
+}
+
+

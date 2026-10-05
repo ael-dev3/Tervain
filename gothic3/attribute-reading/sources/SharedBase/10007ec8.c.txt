@@ -1,0 +1,45 @@
+/* ENTRY 10007ec8 | bCPropertyObjectFactory::CloneObjectInstance | STATUS decompiled | 9 ms */
+
+/* protected: class bCPropertyObjectBase * __thiscall
+   bCPropertyObjectFactory::CloneObjectInstance(void)const  */
+
+bCPropertyObjectBase * __thiscall
+bCPropertyObjectFactory::CloneObjectInstance(bCPropertyObjectFactory *this)
+
+{
+  bCPropertyObjectBase *this_00;
+  bool bVar1;
+  bCMessageAdmin *this_01;
+  bCPropertyObjectBase *pbVar2;
+  bEMessageTypes bVar3;
+  char *pcVar4;
+  char *pcVar5;
+  char *pcVar6;
+  int iVar7;
+  int iVar8;
+  
+                    /* 0x7ec8  1644
+                       ?CloneObjectInstance@bCPropertyObjectFactory@@IBEPAVbCPropertyObjectBase@@XZ
+                        */
+  if ((this->bCPropertyObjectFactory_data).offset_0x4 != 0) {
+    bVar1 = bCPropertyObjectBase::IsRoot
+                      (*(bCPropertyObjectBase **)(this->bCPropertyObjectFactory_data).offset_0x0);
+    if ((bVar1) &&
+       (this_00 = *(bCPropertyObjectBase **)(this->bCPropertyObjectFactory_data).offset_0x0,
+       this_00 != (bCPropertyObjectBase *)0x0)) {
+      pbVar2 = bCPropertyObjectBase::Clone(this_00);
+      return pbVar2;
+    }
+  }
+  iVar8 = 5;
+  iVar7 = -1;
+  pcVar6 = (char *)0x0;
+  pcVar5 = (char *)0x0;
+  pcVar4 = &DAT_100ea870;
+  bVar3 = 3;
+  this_01 = bCMessageAdmin::GetInstance();
+  bCMessageAdmin::OnMessage(this_01,bVar3,pcVar4,pcVar5,pcVar6,iVar7,iVar8);
+  return (bCPropertyObjectBase *)0x0;
+}
+
+

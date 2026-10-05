@@ -1,0 +1,33 @@
+/* ENTRY 100043bd | bCPropertyObjectFactory::bCPropertyObjectFactory | STATUS decompiled | 10 ms */
+
+bCPropertyObjectFactory * __thiscall
+bCPropertyObjectFactory::bCPropertyObjectFactory(bCPropertyObjectFactory *this)
+
+{
+  int iVar1;
+  int *piVar2;
+  bCPropertyObjectSingleton *this_00;
+  bCPropertyObjectFactory *pbVar3;
+  
+  bCPropertyObjectTypeBase::bCPropertyObjectTypeBase((bCPropertyObjectTypeBase *)this,true);
+  this->vftablePtr =
+       (bCPropertyObjectFactory_vftable *)
+       &bTPropertyObjectType<bCObsoleteClass,bCObjectRefBase>::vftable;
+  piVar2 = bTPropertyObject<bCObsoleteClass,bCObjectRefBase>::vfunction2();
+  this[1].vftablePtr = &vftable;
+  this[1].bCPropertyObjectFactory_data.offset_0x0 = (void *)0x0;
+  this[1].bCPropertyObjectFactory_data.offset_0x4 = 0;
+  this[1].bCPropertyObjectFactory_data.offset_0x8 = 0;
+  this[1].bCPropertyObjectFactory_data.offset_0xc = 1;
+  iVar1 = *piVar2;
+  this[1].bCPropertyObjectFactory_data.offset_0x10 = iVar1;
+  if (iVar1 != 0) {
+    *(short *)(iVar1 + -4) = *(short *)(iVar1 + -4) + 1;
+  }
+  pbVar3 = this;
+  this_00 = (bCPropertyObjectSingleton *)bCPropertyObjectSingleton::GetInstance();
+  bCPropertyObjectSingleton::RegisterTemplate(this_00,(bCPropertyObjectTypeBase *)pbVar3);
+  return this;
+}
+
+

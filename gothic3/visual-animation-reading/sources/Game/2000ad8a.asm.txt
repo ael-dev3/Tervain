@@ -1,0 +1,2 @@
+; 2000ad8a gCClock_PS::gCClock_PS
+2000ad8a | e9d1d31f00 | JMP 0x20208160

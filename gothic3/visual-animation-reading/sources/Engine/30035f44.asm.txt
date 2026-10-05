@@ -1,0 +1,2 @@
+; 30035f44 eCEffector::GetEntity1
+30035f44 | e967b30200 | JMP 0x300612b0

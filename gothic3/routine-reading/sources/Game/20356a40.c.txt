@@ -1,0 +1,10 @@
+/* ENTRY 20356a40 | FUN_20356a40 | STATUS decompiled | 1 ms */
+
+void __fastcall FUN_20356a40(int param_1)
+
+{
+  *(undefined1 *)(param_1 + 0x1f0) = 0;
+  return;
+}
+
+

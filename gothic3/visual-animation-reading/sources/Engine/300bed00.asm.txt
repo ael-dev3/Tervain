@@ -1,0 +1,6 @@
+; 300bed00 FUN_300bed00
+300bed00 | 8b01 | MOV EAX,dword ptr [ECX]
+300bed02 | 8b5014 | MOV EDX,dword ptr [EAX + 0x14]
+300bed05 | ffd2 | CALL EDX
+300bed07 | b801000000 | MOV EAX,0x1
+300bed0c | c3 | RET

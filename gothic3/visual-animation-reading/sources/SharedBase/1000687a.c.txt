@@ -1,0 +1,13 @@
+/* ENTRY 1000687a | bCIStream::~bCIStream | STATUS decompiled | 2 ms */
+
+/* public: virtual __thiscall bCIStream::~bCIStream(void) */
+
+void __thiscall bCIStream::~bCIStream(bCIStream *this)
+
+{
+                    /* 0x687a  384  ??1bCIStream@@UAE@XZ */
+  this->vftablePtr = &vftable;
+  return;
+}
+
+

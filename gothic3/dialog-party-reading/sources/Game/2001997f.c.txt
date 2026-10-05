@@ -1,0 +1,17 @@
+/* ENTRY 2001997f | gCClock_PS::~gCClock_PS | STATUS decompiled | 10 ms */
+
+/* public: virtual __thiscall gCClock_PS::~gCClock_PS(void) */
+
+void __thiscall gCClock_PS::~gCClock_PS(gCClock_PS *this)
+
+{
+                    /* 0x1997f  397  ??1gCClock_PS@@UAE@XZ */
+  this->vftablePtr = &vftable;
+  bCClock::~bCClock((bCClock *)&(this->gCClock_PS_data).field_0x28);
+                    /* WARNING: Could not recover jumptable at 0x20207e05. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::~eCEntityPropertySet((eCEntityPropertySet *)this);
+  return;
+}
+
+

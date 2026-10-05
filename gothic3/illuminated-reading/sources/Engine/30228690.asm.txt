@@ -1,0 +1,36 @@
+; 30228690 bTPropertyObject<eCIlluminated_PS,eCEntityPropertySet>::vfunction15
+30228690 | 56 | PUSH ESI
+30228691 | 57 | PUSH EDI
+30228692 | 6890010000 | PUSH 0x190
+30228697 | 6a10 | PUSH 0x10
+30228699 | 8bf9 | MOV EDI,ECX
+3022869b | ff15a8dbaf30 | CALL dword ptr [0x30afdba8]
+302286a1 | 8bf0 | MOV ESI,EAX
+302286a3 | 85f6 | TEST ESI,ESI
+302286a5 | 7433 | JZ 0x302286da
+302286a7 | 8bce | MOV ECX,ESI
+302286a9 | ff1520caaf30 | CALL dword ptr [0x30afca20]
+302286af | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+302286b6 | c7065c4f8430 | MOV dword ptr [ESI],0x30844f5c
+302286bc | e8ffafddff | CALL 0x300036c0
+302286c1 | 836604fb | AND dword ptr [ESI + 0x4],0xfffffffb
+302286c5 | 6a00 | PUSH 0x0
+302286c7 | 8bce | MOV ECX,ESI
+302286c9 | 89460c | MOV dword ptr [ESI + 0xc],EAX
+302286cc | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+302286d3 | e8e47de1ff | CALL 0x300404bc
+302286d8 | eb02 | JMP 0x302286dc
+302286da | 33f6 | XOR ESI,ESI
+302286dc | 8bcf | MOV ECX,EDI
+302286de | ff1508cbaf30 | CALL dword ptr [0x30afcb08]
+302286e4 | 84c0 | TEST AL,AL
+302286e6 | 750a | JNZ 0x302286f2
+302286e8 | 8b06 | MOV EAX,dword ptr [ESI]
+302286ea | 8b503c | MOV EDX,dword ptr [EAX + 0x3c]
+302286ed | 57 | PUSH EDI
+302286ee | 8bce | MOV ECX,ESI
+302286f0 | ffd2 | CALL EDX
+302286f2 | 5f | POP EDI
+302286f3 | 8bc6 | MOV EAX,ESI
+302286f5 | 5e | POP ESI
+302286f6 | c3 | RET

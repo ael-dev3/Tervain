@@ -1,0 +1,4 @@
+; 10004db3 ?UnregisterPropertyObject@bCPropertyObjectFactory@@QAE_NPBVbCPropertyObjectBase@@@Z
+10004db3 | e968800800 | JMP 0x1008ce20
+; 10004db8 bCPropertyLayout::CopyTo
+; 10004db8 Ordinal_1783

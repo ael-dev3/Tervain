@@ -1,0 +1,12 @@
+/* ENTRY 30011e73 | eCCameraBase::GetPosition | STATUS decompiled | 3 ms */
+
+/* public: class bCVector const & __thiscall eCCameraBase::GetPosition(void)const  */
+
+bCVector * __thiscall eCCameraBase::GetPosition(eCCameraBase *this)
+
+{
+                    /* 0x11e73  8135  ?GetPosition@eCCameraBase@@QBEABVbCVector@@XZ */
+  return (bCVector *)&(this->eCCameraBase_data).field_0x88;
+}
+
+

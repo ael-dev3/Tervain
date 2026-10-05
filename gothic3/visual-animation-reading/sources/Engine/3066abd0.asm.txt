@@ -1,0 +1,5 @@
+; 3066abd0 MCore::InstanceManagerBase::InstanceManagerBase
+3066abd0 | 8bc1 | MOV EAX,ECX
+3066abd2 | c70008238930 | MOV dword ptr [EAX],0x30892308
+3066abd8 | c7400400000000 | MOV dword ptr [EAX + 0x4],0x0
+3066abdf | c3 | RET

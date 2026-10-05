@@ -1,0 +1,15 @@
+; 20143e20 bTPropertyType<gCFocus_PS,bool>::vfunction12
+20143e20 | 56 | PUSH ESI
+20143e21 | 8bf1 | MOV ESI,ECX
+20143e23 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+20143e27 | 85c9 | TEST ECX,ECX
+20143e29 | 7506 | JNZ 0x20143e31
+20143e2b | 33c0 | XOR EAX,EAX
+20143e2d | 5e | POP ESI
+20143e2e | c20400 | RET 0x4
+20143e31 | 8b01 | MOV EAX,dword ptr [ECX]
+20143e33 | 8b10 | MOV EDX,dword ptr [EAX]
+20143e35 | ffd2 | CALL EDX
+20143e37 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+20143e3a | 5e | POP ESI
+20143e3b | c20400 | RET 0x4

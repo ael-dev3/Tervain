@@ -1,0 +1,4 @@
+; 10020db0 FUN_10020db0
+10020db0 | 8bc1 | MOV EAX,ECX
+10020db2 | c60000 | MOV byte ptr [EAX],0x0
+10020db5 | c3 | RET

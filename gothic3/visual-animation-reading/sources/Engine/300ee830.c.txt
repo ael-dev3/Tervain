@@ -1,0 +1,243 @@
+/* ENTRY 300ee830 | FUN_300ee830 | STATUS decompiled | 118 ms */
+
+undefined4 __thiscall
+FUN_300ee830(int *param_1,SkeletalMotion *param_2,eCVisualAnimationLipSync *param_3)
+
+{
+  short *psVar1;
+  LinearInterpolator<MCore::TVector3<float>,MCore::TVector3<float>_> *this;
+  undefined4 uVar2;
+  undefined4 uVar3;
+  char cVar4;
+  short sVar5;
+  short sVar6;
+  short sVar7;
+  int iVar8;
+  int iVar9;
+  char *_Src;
+  int iVar10;
+  undefined2 uVar11;
+  undefined2 uVar12;
+  bCMemoryAdmin *this_00;
+  SkeletalMotion *this_01;
+  bTValArray<eCVisualAnimationLipSync::eSPhone> *pbVar13;
+  int iVar14;
+  int iVar15;
+  undefined4 uVar16;
+  char *pcVar17;
+  undefined4 *puVar18;
+  int iVar19;
+  undefined4 uVar20;
+  undefined4 uVar21;
+  undefined4 *puVar22;
+  int iVar23;
+  int iVar24;
+  float10 fVar25;
+  float10 extraout_ST0;
+  ulong uVar26;
+  undefined4 uStack_54;
+  undefined4 uStack_50;
+  String_vftable *pSStack_30;
+  void *pvStack_2c;
+  size_t sStack_28;
+  undefined4 uStack_24;
+  float fStack_20;
+  undefined **ppuStack_1c;
+  float fStack_18;
+  float fStack_14;
+  undefined1 auStack_10 [16];
+  
+  iVar8 = (int)param_2;
+  (**(code **)(*param_1 + 0x14))();
+  uVar26 = 0x28;
+  this_00 = bCMemoryAdmin::GetInstance();
+  this_01 = bCMemoryAdmin::Malloc(this_00,uVar26);
+  if (this_01 == (SkeletalMotion *)0x0) {
+    param_2 = (SkeletalMotion *)0x0;
+  }
+  else {
+    MCore::String::String((String *)auStack_10,*(char **)(*(int *)((int)param_2 + 4) + 8));
+    param_2 = EMotionFX::SkeletalMotion::SkeletalMotion(this_01,(int)auStack_10);
+    MCore::String::~String((String *)auStack_10);
+  }
+  param_1[1] = (int)param_2;
+  pbVar13 = eCVisualAnimationLipSync::GetPhones(param_3);
+  iVar8 = *(int *)(iVar8 + 4);
+  iVar14 = *(int *)(iVar8 + 0x1c) + -1;
+  if (-1 < iVar14) {
+    iVar23 = iVar14 * 0x9c;
+    do {
+      iVar24 = *(int *)(iVar8 + 0x24) + iVar23;
+      if (((0xd < *(int *)(iVar24 + 0x38)) || (0xd < *(int *)(iVar24 + 0x18))) ||
+         (0xd < *(int *)(iVar24 + 0x58))) {
+        iVar9 = (param_2->SkeletalMotion_data).offset_0x0;
+        iVar15 = iVar9 + 1;
+        (param_2->SkeletalMotion_data).offset_0x0 = iVar15;
+        if ((int)(param_2->SkeletalMotion_data).offset_0x4 < iVar15) {
+          iVar9 = iVar9 + 2;
+          thunk_FUN_300ad900();
+          uVar16 = FUN_3066b020((param_2->SkeletalMotion_data).offset_0x8,iVar9 * 0x9c,2,0x10,2);
+          (param_2->SkeletalMotion_data).offset_0x8 = uVar16;
+          (param_2->SkeletalMotion_data).offset_0x4 = iVar9;
+        }
+        this = (LinearInterpolator<MCore::TVector3<float>,MCore::TVector3<float>_> *)
+               ((param_2->SkeletalMotion_data).offset_0x0 * 0x9c + -0x9c +
+               (param_2->SkeletalMotion_data).offset_0x8);
+        if (this != (LinearInterpolator<MCore::TVector3<float>,MCore::TVector3<float>_> *)0x0) {
+                    /* inlined constructor: MCore::String::String */
+          EMotionFX::LinearInterpolator<MCore::TVector3<float>,MCore::TVector3<float>_>::
+          LinearInterpolator<MCore::TVector3<float>,MCore::TVector3<float>_>(this);
+        }
+        iVar9 = (param_2->SkeletalMotion_data).offset_0x0 * 0x9c + -0x9c +
+                (param_2->SkeletalMotion_data).offset_0x8;
+        _Src = *(char **)(iVar24 + 4);
+        pSStack_30 = &MCore::String::vftable;
+        pvStack_2c = (void *)0x0;
+        sStack_28 = 0;
+        uStack_24 = 0;
+        pcVar17 = _Src;
+        do {
+          cVar4 = *pcVar17;
+          pcVar17 = pcVar17 + 1;
+        } while (cVar4 != '\0');
+        FUN_3066c3c0((int)pcVar17 - (int)(_Src + 1),0);
+        if (pvStack_2c != (void *)0x0) {
+          _memcpy(pvStack_2c,_Src,sStack_28);
+        }
+        FUN_3064cae0(&pSStack_30);
+        MCore::String::~String((String *)&pSStack_30);
+        *(undefined4 *)(iVar9 + 0x84) = *(undefined4 *)(iVar24 + 0x84);
+        *(undefined4 *)(iVar9 + 0x88) = *(undefined4 *)(iVar24 + 0x88);
+        *(undefined4 *)(iVar9 + 0x8c) = *(undefined4 *)(iVar24 + 0x8c);
+        *(undefined4 *)(iVar9 + 0x74) = *(undefined4 *)(iVar24 + 0x74);
+        *(undefined4 *)(iVar9 + 0x78) = *(undefined4 *)(iVar24 + 0x78);
+        *(undefined4 *)(iVar9 + 0x7c) = *(undefined4 *)(iVar24 + 0x7c);
+        *(undefined4 *)(iVar9 + 0x80) = *(undefined4 *)(iVar24 + 0x80);
+        *(undefined4 *)(iVar9 + 0x90) = *(undefined4 *)(iVar24 + 0x90);
+        *(undefined4 *)(iVar9 + 0x94) = *(undefined4 *)(iVar24 + 0x94);
+        *(undefined4 *)(iVar9 + 0x98) = *(undefined4 *)(iVar24 + 0x98);
+        if (0xd < *(int *)(iVar24 + 0x38)) {
+          iVar15 = 0;
+          if (0 < *(int *)(pbVar13 + 4)) {
+            do {
+              puVar18 = (undefined4 *)
+                        (*(int *)(*(int *)pbVar13 + 4 + iVar15 * 8) * 0x10 + *(int *)(iVar24 + 0x40)
+                        );
+              uVar16 = *puVar18;
+              uVar21 = puVar18[1];
+              uVar2 = puVar18[2];
+              uVar3 = *(undefined4 *)(*(int *)pbVar13 + iVar15 * 8);
+              *(undefined1 *)(iVar9 + 0x52) = 0;
+              iVar10 = *(int *)(iVar9 + 0x38);
+              iVar19 = iVar10 + 1;
+              *(int *)(iVar9 + 0x38) = iVar19;
+              if (*(int *)(iVar9 + 0x3c) < iVar19) {
+                iVar10 = iVar10 + 2;
+                thunk_FUN_300ad900();
+                uVar20 = FUN_3066b020(*(undefined4 *)(iVar9 + 0x40),iVar10 * 0x10,2,0x10,2);
+                *(int *)(iVar9 + 0x3c) = iVar10;
+                *(undefined4 *)(iVar9 + 0x40) = uVar20;
+              }
+              puVar18 = (undefined4 *)
+                        (*(int *)(iVar9 + 0x38) * 0x10 + -0x10 + *(int *)(iVar9 + 0x40));
+              if (puVar18 != (undefined4 *)0x0) {
+                *puVar18 = uVar16;
+                puVar18[1] = uVar21;
+                puVar18[2] = uVar2;
+                puVar18[3] = uVar3;
+              }
+              iVar15 = iVar15 + 1;
+            } while (iVar15 < *(int *)(pbVar13 + 4));
+          }
+          (**(code **)(*(int *)(iVar9 + 0x34) + 4))();
+        }
+        if (0xd < *(int *)(iVar24 + 0x18)) {
+          iVar15 = 0;
+          if (0 < *(int *)(pbVar13 + 4)) {
+            fVar25 = (float10)3.0518509447574615e-05;
+            do {
+              psVar1 = (short *)(*(int *)(iVar24 + 0x20) +
+                                *(int *)(*(int *)pbVar13 + 4 + iVar15 * 8) * 0xc);
+              sVar5 = psVar1[1];
+              sVar6 = psVar1[2];
+              sVar7 = psVar1[3];
+              fStack_20 = (float)((float10)(int)*psVar1 * fVar25);
+              uVar16 = *(undefined4 *)(*(int *)pbVar13 + iVar15 * 8);
+              *(undefined1 *)(iVar9 + 0x32) = 0;
+              ppuStack_1c = (undefined **)(float)((float10)(int)sVar5 * fVar25);
+              fStack_18 = (float)((float10)(int)sVar6 * fVar25);
+              fStack_14 = (float)((float10)(int)sVar7 * fVar25);
+              uVar11 = FUN_30672060();
+              uVar12 = FUN_30672060();
+              uStack_54 = CONCAT22(uVar12,uVar11);
+              uVar11 = FUN_30672060();
+              uVar12 = FUN_30672060();
+              uStack_50 = CONCAT22(uVar12,uVar11);
+              iVar10 = *(int *)(iVar9 + 0x18);
+              iVar19 = iVar10 + 1;
+              *(int *)(iVar9 + 0x18) = iVar19;
+              fVar25 = extraout_ST0;
+              if (*(int *)(iVar9 + 0x1c) < iVar19) {
+                iVar10 = iVar10 + 2;
+                thunk_FUN_300ad900();
+                uVar21 = FUN_3066b020(*(undefined4 *)(iVar9 + 0x20),iVar10 * 0xc,2,0x10,2);
+                fVar25 = (float10)3.0518509447574615e-05;
+                *(int *)(iVar9 + 0x1c) = iVar10;
+                *(undefined4 *)(iVar9 + 0x20) = uVar21;
+              }
+              puVar18 = (undefined4 *)(*(int *)(iVar9 + 0x20) + -0xc + *(int *)(iVar9 + 0x18) * 0xc)
+              ;
+              if (puVar18 != (undefined4 *)0x0) {
+                *puVar18 = uStack_54;
+                puVar18[1] = uStack_50;
+                puVar18[2] = uVar16;
+              }
+              iVar15 = iVar15 + 1;
+            } while (iVar15 < *(int *)(pbVar13 + 4));
+          }
+          (**(code **)(*(int *)(iVar9 + 0x14) + 4))();
+        }
+        if (0xd < *(int *)(iVar24 + 0x58)) {
+          iVar15 = 0;
+          if (0 < *(int *)(pbVar13 + 4)) {
+            do {
+              puVar18 = (undefined4 *)(*(int *)pbVar13 + iVar15 * 8);
+              puVar22 = (undefined4 *)(puVar18[1] * 0x10 + *(int *)(iVar24 + 0x60));
+              uVar16 = *puVar22;
+              uVar21 = puVar22[1];
+              uVar2 = puVar22[2];
+              uVar3 = *puVar18;
+              *(undefined1 *)(iVar9 + 0x72) = 0;
+              iVar10 = *(int *)(iVar9 + 0x58);
+              iVar19 = iVar10 + 1;
+              *(int *)(iVar9 + 0x58) = iVar19;
+              if (*(int *)(iVar9 + 0x5c) < iVar19) {
+                iVar10 = iVar10 + 2;
+                thunk_FUN_300ad900();
+                uVar20 = FUN_3066b020(*(undefined4 *)(iVar9 + 0x60),iVar10 * 0x10,2,0x10,2);
+                *(int *)(iVar9 + 0x5c) = iVar10;
+                *(undefined4 *)(iVar9 + 0x60) = uVar20;
+              }
+              puVar18 = (undefined4 *)
+                        (*(int *)(iVar9 + 0x58) * 0x10 + -0x10 + *(int *)(iVar9 + 0x60));
+              if (puVar18 != (undefined4 *)0x0) {
+                *puVar18 = uVar16;
+                puVar18[1] = uVar21;
+                puVar18[2] = uVar2;
+                puVar18[3] = uVar3;
+              }
+              iVar15 = iVar15 + 1;
+            } while (iVar15 < *(int *)(pbVar13 + 4));
+          }
+          (**(code **)(*(int *)(iVar9 + 0x54) + 4))();
+        }
+      }
+      iVar14 = iVar14 + -1;
+      iVar23 = iVar23 + -0x9c;
+    } while (-1 < iVar14);
+  }
+  (*param_2->vftablePtr->vfunction4)(param_2);
+  return 1;
+}
+
+

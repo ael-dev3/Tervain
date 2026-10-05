@@ -1,0 +1,2 @@
+; 2002c827 bTPropertyContainer<gETradeCategory>::vfunction7
+2002c827 | e914061e00 | JMP 0x2020ce40

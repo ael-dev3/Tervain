@@ -1,0 +1,10 @@
+; 20469cd5 std::bad_cast::bad_cast
+20469cd5 | 56 | PUSH ESI
+20469cd6 | 8d442408 | LEA EAX,[ESP + 0x8]
+20469cda | 50 | PUSH EAX
+20469cdb | 8bf1 | MOV ESI,ECX
+20469cdd | e8bcfeffff | CALL 0x20469b9e
+20469ce2 | c706106b6b20 | MOV dword ptr [ESI],0x206b6b10
+20469ce8 | 8bc6 | MOV EAX,ESI
+20469cea | 5e | POP ESI
+20469ceb | c20400 | RET 0x4

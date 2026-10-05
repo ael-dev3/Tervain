@@ -1,0 +1,2 @@
+; 30008783 eCEntityPropertySet::IsProcessable
+30008783 | e9988d4700 | JMP 0x30481520

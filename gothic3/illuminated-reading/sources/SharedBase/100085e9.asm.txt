@@ -1,0 +1,2 @@
+; 100085e9 bCPropertyObjectSingleton::GetRootObject
+100085e9 | e9327f0800 | JMP 0x10090520

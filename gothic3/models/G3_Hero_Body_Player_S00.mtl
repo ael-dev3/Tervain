@@ -1,0 +1,5 @@
+newmtl EMFX_Default
+
+newmtl Hero_player
+map_Kd ../textures/G3_Human_Hero_Body_Diffuse_S1.jpg
+

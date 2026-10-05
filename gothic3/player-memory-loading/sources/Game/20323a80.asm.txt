@@ -1,0 +1,15 @@
+; 20323a80 bTPropertyType<gCPlayerMemory_PS,bTPropertyContainer<gEWeaponConfig>_>::vfunction11
+20323a80 | 56 | PUSH ESI
+20323a81 | 8bf1 | MOV ESI,ECX
+20323a83 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+20323a87 | 85c9 | TEST ECX,ECX
+20323a89 | 7506 | JNZ 0x20323a91
+20323a8b | 33c0 | XOR EAX,EAX
+20323a8d | 5e | POP ESI
+20323a8e | c20400 | RET 0x4
+20323a91 | 8b01 | MOV EAX,dword ptr [ECX]
+20323a93 | 8b10 | MOV EDX,dword ptr [EAX]
+20323a95 | ffd2 | CALL EDX
+20323a97 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+20323a9a | 5e | POP ESI
+20323a9b | c20400 | RET 0x4

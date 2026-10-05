@@ -1,0 +1,2 @@
+; 2002e474 gCDamageReceiver_PS::PostInitializeProperties
+2002e474 | e9e7b90800 | JMP 0x200b9e60

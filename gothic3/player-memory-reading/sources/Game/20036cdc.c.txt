@@ -1,0 +1,37 @@
+/* ENTRY 20036cdc | gCPlayerMemory_PS::gCPlayerMemory_PS | STATUS decompiled | 15 ms */
+
+/* public: __thiscall gCPlayerMemory_PS::gCPlayerMemory_PS(void) */
+
+gCPlayerMemory_PS * __thiscall gCPlayerMemory_PS::gCPlayerMemory_PS(gCPlayerMemory_PS *this)
+
+{
+  undefined ***this_00;
+  
+                    /* 0x36cdc  293  ??0gCPlayerMemory_PS@@QAE@XZ */
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  this->vftablePtr = &vftable;
+  (this->gCPlayerMemory_PS_data).offset_0x14 = 0;
+  (this->gCPlayerMemory_PS_data).offset_0x18 = 0;
+  (this->gCPlayerMemory_PS_data).offset_0x1c = 0;
+  (this->gCPlayerMemory_PS_data).offset_0x20 = 0;
+  (this->gCPlayerMemory_PS_data).offset_0x24 = 0;
+  (this->gCPlayerMemory_PS_data).offset_0x28 = 0;
+  (this->gCPlayerMemory_PS_data).offset_0x2c = 0;
+  (this->gCPlayerMemory_PS_data).offset_0x30 = 0;
+  (this->gCPlayerMemory_PS_data).offset_0x34 = 0;
+  (this->gCPlayerMemory_PS_data).offset_0x38 = 0;
+  (this->gCPlayerMemory_PS_data).offset_0x3c = 0;
+  (this->gCPlayerMemory_PS_data).offset_0x40 = 0;
+  this_00 = &(this->gCPlayerMemory_PS_data).offset_0x5c;
+  (this->gCPlayerMemory_PS_data).offset_0x44 = 0;
+  (this->gCPlayerMemory_PS_data).offset_0x48 = 0;
+  (this->gCPlayerMemory_PS_data).offset_0x4c = 0;
+  bCObjectBase::bCObjectBase((bCObjectBase *)this_00);
+  *this_00 = &bTPropertyContainer<gEWeaponConfig>::vftable.GetVersion;
+  (this->gCPlayerMemory_PS_data).offset_0x60 = DAT_207c1578;
+  bCPropertyID::bCPropertyID((bCPropertyID *)&(this->gCPlayerMemory_PS_data).field_0x64);
+  thunk_FUN_20327550();
+  return this;
+}
+
+

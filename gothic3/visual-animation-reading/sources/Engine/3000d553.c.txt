@@ -1,0 +1,28 @@
+/* ENTRY 3000d553 | eCVisualAnimation_PS::GetBoundary | STATUS decompiled | 14 ms */
+
+/* public: virtual void __thiscall eCVisualAnimation_PS::GetBoundary(class bCBox &,bool) */
+
+void __thiscall
+eCVisualAnimation_PS::GetBoundary(eCVisualAnimation_PS *this,bCBox *param_1,bool param_2)
+
+{
+  eCWrapper_emfx2Actor *peVar1;
+  eCWrapper_emfx2Actor *this_00;
+  bCBox *pbVar2;
+  undefined1 *this_01;
+  
+                    /* 0xd553  6346  ?GetBoundary@eCVisualAnimation_PS@@UAEXAAVbCBox@@_N@Z */
+  bCBox::operator=(param_1,(bCBox *)&this[0xc].eCEntityPropertySet_data);
+  this_01 = &this[7].eCEntityPropertySet_data.field_0x4;
+  peVar1 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_01);
+  if (peVar1 != (eCWrapper_emfx2Actor *)0x0) {
+    this_00 = (eCWrapper_emfx2Actor *)
+              eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_01);
+    pbVar2 = (bCBox *)eCWrapper_emfx2Actor::GetBoundary(this_00);
+    bCBox::Merge(param_1,pbVar2);
+    bCBox::~bCBox((bCBox *)&stack0xffffffe4);
+  }
+  return;
+}
+
+

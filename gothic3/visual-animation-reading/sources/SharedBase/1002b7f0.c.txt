@@ -1,0 +1,10 @@
+/* ENTRY 1002b7f0 | FUN_1002b7f0 | STATUS decompiled | 2 ms */
+
+int * __thiscall FUN_1002b7f0(undefined4 param_1,int *param_2)
+
+{
+  (**(code **)(*param_2 + 4))(param_1,0x18);
+  return param_2;
+}
+
+

@@ -1,0 +1,2 @@
+; 3003507b eCEntityPropertySet::GetDecayState
+3003507b | e9b0c94400 | JMP 0x30481a30

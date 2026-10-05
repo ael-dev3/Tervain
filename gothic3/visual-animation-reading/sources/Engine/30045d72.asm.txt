@@ -1,0 +1,2 @@
+; 30045d72 eCVisualAnimation_PS::GetDependencies
+30045d72 | e989d30500 | JMP 0x300a3100

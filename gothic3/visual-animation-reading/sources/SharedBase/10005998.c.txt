@@ -1,0 +1,15 @@
+/* ENTRY 10005998 | bCObsoleteClass::~bCObsoleteClass | STATUS decompiled | 6 ms */
+
+/* protected: virtual __thiscall bCObjectRefBase::~bCObjectRefBase(void) */
+
+void __thiscall bCObsoleteClass::~bCObsoleteClass(bCObsoleteClass *this)
+
+{
+                    /* 0x5998  402  ??1bCObjectRefBase@@MAE@XZ */
+  this->vftablePtr = (bCObsoleteClass_vftable *)&bCObjectRefBase::vftable;
+  (this->bCObjectRefBase_data).offset_0x0 = 0;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)this);
+  return;
+}
+
+

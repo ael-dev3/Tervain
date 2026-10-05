@@ -1,0 +1,4 @@
+; 10003215 ?CallFatalError@bCErrorAdmin@@QAEXPBD0H@Z
+10003215 | e956f30100 | JMP 0x10022570
+; 10003224 bCErrorAdmin::LockSystem
+; 10003224 Ordinal_3699

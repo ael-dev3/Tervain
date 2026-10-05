@@ -1,0 +1,25 @@
+; 200aa330 gCStat::gCStat
+200aa330 | 56 | PUSH ESI
+200aa331 | 57 | PUSH EDI
+200aa332 | 8b7c240c | MOV EDI,dword ptr [ESP + 0xc]
+200aa336 | 57 | PUSH EDI
+200aa337 | 8bf1 | MOV ESI,ECX
+200aa339 | ff15cc857d20 | CALL dword ptr [0x207d85cc]
+200aa33f | 8d470c | LEA EAX,[EDI + 0xc]
+200aa342 | 50 | PUSH EAX
+200aa343 | 8d4e0c | LEA ECX,[ESI + 0xc]
+200aa346 | c7067cda6520 | MOV dword ptr [ESI],0x2065da7c
+200aa34c | ff1524897d20 | CALL dword ptr [0x207d8924]
+200aa352 | 8b4f10 | MOV ECX,dword ptr [EDI + 0x10]
+200aa355 | 894e10 | MOV dword ptr [ESI + 0x10],ECX
+200aa358 | 8b5714 | MOV EDX,dword ptr [EDI + 0x14]
+200aa35b | 895614 | MOV dword ptr [ESI + 0x14],EDX
+200aa35e | c7064cdb6520 | MOV dword ptr [ESI],0x2065db4c
+200aa364 | 8b4718 | MOV EAX,dword ptr [EDI + 0x18]
+200aa367 | 894618 | MOV dword ptr [ESI + 0x18],EAX
+200aa36a | 8b4f1c | MOV ECX,dword ptr [EDI + 0x1c]
+200aa36d | 5f | POP EDI
+200aa36e | 894e1c | MOV dword ptr [ESI + 0x1c],ECX
+200aa371 | 8bc6 | MOV EAX,ESI
+200aa373 | 5e | POP ESI
+200aa374 | c20400 | RET 0x4

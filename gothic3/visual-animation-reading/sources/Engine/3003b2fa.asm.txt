@@ -1,0 +1,2 @@
+; 3003b2fa eCWrapper_emfx2Actor::SwitchFadeOut
+3003b2fa | e951010a00 | JMP 0x300db450

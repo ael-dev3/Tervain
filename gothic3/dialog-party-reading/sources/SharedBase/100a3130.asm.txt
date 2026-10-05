@@ -1,0 +1,4 @@
+; 100a3130 SetMessageBuffer
+100a3130 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+100a3134 | a3d84f2f10 | MOV [0x102f4fd8],EAX
+100a3139 | c20400 | RET 0x4

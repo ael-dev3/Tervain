@@ -1,0 +1,2 @@
+; 10004ccd bCFloatAlphaColor::~bCFloatAlphaColor
+10004ccd | e96e840900 | JMP 0x1009d140

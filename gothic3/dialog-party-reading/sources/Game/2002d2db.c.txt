@@ -1,0 +1,12 @@
+/* ENTRY 2002d2db | gCDialog_PS::GetEndDialogTimestamp | STATUS decompiled | 6 ms */
+
+/* public: float const & __thiscall gCDialog_PS::GetEndDialogTimestamp(void)const  */
+
+float * __thiscall gCDialog_PS::GetEndDialogTimestamp(gCDialog_PS *this)
+
+{
+                    /* 0x2d2db  3339  ?GetEndDialogTimestamp@gCDialog_PS@@QBEABMXZ */
+  return (float *)&(this->gCDialog_PS_data).field_0x14;
+}
+
+

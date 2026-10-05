@@ -1,0 +1,50 @@
+/* ENTRY 304c4a10 | eCEntityProxy::deleting_destructor | STATUS decompiled | 20 ms */
+
+eCEntityProxy * __thiscall eCEntityProxy::deleting_destructor(eCEntityProxy *this,byte param_1)
+
+{
+  undefined1 *puVar1;
+  int iVar2;
+  eCEntityProxyInternal *this_00;
+  undefined4 *puVar3;
+  
+  if ((param_1 & 2) == 0) {
+    this_00 = (this->eCEntityProxy_data).offset_0x0;
+    this->vftablePtr = &vftable;
+    if (this_00 != (eCEntityProxyInternal *)0x0) {
+      eCEntityProxyInternal::ReleaseReference(this_00);
+      (this->eCEntityProxy_data).offset_0x0 = (eCEntityProxyInternal *)0x0;
+    }
+    puVar1 = &(this->eCEntityProxy_data).field_0x4;
+    (this->eCEntityProxy_data).offset_0x0 = (eCEntityProxyInternal *)0x0;
+    bCPropertyID::Destroy((bCPropertyID *)puVar1);
+    bCPropertyID::~bCPropertyID((bCPropertyID *)puVar1);
+    if ((param_1 & 1) != 0) {
+                    /* WARNING: Subroutine does not return */
+      _free(this);
+    }
+    return this;
+  }
+  puVar1 = &this[-1].eCEntityProxy_data.field_0x4;
+  iVar2 = *(int *)puVar1;
+  puVar3 = (undefined4 *)((int)this + iVar2 * 0x1c);
+  while (iVar2 = iVar2 + -1, -1 < iVar2) {
+                    /* inlined destructor: eCEntityProxy::~eCEntityProxy */
+    puVar3[-7] = &vftable;
+    if ((eCEntityProxyInternal *)puVar3[-6] != (eCEntityProxyInternal *)0x0) {
+      eCEntityProxyInternal::ReleaseReference((eCEntityProxyInternal *)puVar3[-6]);
+      puVar3[-6] = 0;
+    }
+    puVar3[-6] = 0;
+    bCPropertyID::Destroy((bCPropertyID *)(puVar3 + -5));
+    bCPropertyID::~bCPropertyID((bCPropertyID *)(puVar3 + -5));
+    puVar3 = puVar3 + -7;
+  }
+  if ((param_1 & 1) != 0) {
+                    /* WARNING: Subroutine does not return */
+    _free(puVar1);
+  }
+  return (eCEntityProxy *)puVar1;
+}
+
+

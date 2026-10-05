@@ -1,0 +1,24 @@
+/* ENTRY 3009e410 | FUN_3009e410 | STATUS decompiled | 9 ms */
+
+void __thiscall FUN_3009e410(int param_1,bCBox *param_2)
+
+{
+  eCWrapper_emfx2Actor *peVar1;
+  eCWrapper_emfx2Actor *this;
+  bCBox *pbVar2;
+  
+  bCBox::operator=(param_2,(bCBox *)(param_1 + 0xf4));
+  peVar1 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)(param_1 + 0x94))
+  ;
+  if (peVar1 != (eCWrapper_emfx2Actor *)0x0) {
+    this = (eCWrapper_emfx2Actor *)
+           eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)(param_1 + 0x94))
+    ;
+    pbVar2 = (bCBox *)eCWrapper_emfx2Actor::GetBoundary(this);
+    bCBox::Merge(param_2,pbVar2);
+    bCBox::~bCBox((bCBox *)&stack0xffffffe4);
+  }
+  return;
+}
+
+

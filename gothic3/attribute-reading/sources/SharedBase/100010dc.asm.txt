@@ -1,0 +1,2 @@
+; 100010dc bCObjectBase::CopyFrom
+100010dc | e97f8f0400 | JMP 0x1004a060

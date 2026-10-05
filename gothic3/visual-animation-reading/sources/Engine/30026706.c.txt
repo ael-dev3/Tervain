@@ -1,0 +1,169 @@
+/* ENTRY 30026706 | EMotionFX::eCNovodexPhysicsController::eCNovodexPhysicsController | STATUS decompiled | 140 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+eCNovodexPhysicsController * __thiscall
+EMotionFX::eCNovodexPhysicsController::eCNovodexPhysicsController
+          (eCNovodexPhysicsController *this,eCEntity *param_1,int param_2,undefined4 *param_3)
+
+{
+  undefined1 *this_00;
+  code *pcVar1;
+  bCMatrix *pbVar2;
+  int iVar3;
+  float *pfVar4;
+  bCVector *this_01;
+  bCMatrix *pbVar5;
+  eCPhysicObject *this_02;
+  void *pvVar6;
+  float fVar7;
+  undefined4 uVar8;
+  int iStack_c8;
+  float fStack_c4;
+  bCMatrix abStack_c0 [56];
+  bCMatrix abStack_88 [8];
+  bCMatrix abStack_80 [56];
+  bCMatrix abStack_48 [4];
+  bCMatrix abStack_44 [4];
+  bCMatrix abStack_40 [60];
+  eCEntity *peStack_4;
+  
+  PhysicsController::PhysicsController((PhysicsController *)this,param_2);
+  this->vftablePtr = &vftable;
+  this_00 = &(this->eCNovodexPhysicsController_data).field_0x24;
+  (this->eCNovodexPhysicsController_data).offset_0x8 = (void *)0x0;
+  (this->eCNovodexPhysicsController_data).offset_0xc = 0;
+  (this->eCNovodexPhysicsController_data).offset_0x10 = 0;
+  bCMatrix::bCMatrix((bCMatrix *)this_00);
+  bCQuaternion::bCQuaternion((bCQuaternion *)&(this->eCNovodexPhysicsController_data).field_0x64);
+  bCMatrix::bCMatrix((bCMatrix *)&(this->eCNovodexPhysicsController_data).field_0x74);
+  bCVector::bCVector((bCVector *)&(this->eCNovodexPhysicsController_data).field_0xbc);
+  pcVar1 = g_ArraySortDefaultCompare_exref;
+  (this->eCNovodexPhysicsController_data).offset_0xc8 = 0;
+  (this->eCNovodexPhysicsController_data).offset_0xcc = 0;
+  (this->eCNovodexPhysicsController_data).offset_0xd0 = 0;
+  (this->eCNovodexPhysicsController_data).offset_0xd4 = pcVar1;
+  (this->eCNovodexPhysicsController_data).offset_0xd8 = 1;
+  (this->eCNovodexPhysicsController_data).offset_0xdc = (void *)0x0;
+  (this->eCNovodexPhysicsController_data).offset_0xe0 = 0;
+  (this->eCNovodexPhysicsController_data).offset_0xe4 = 0;
+  (this->eCNovodexPhysicsController_data).offset_0xe8 = (void *)0x0;
+  (this->eCNovodexPhysicsController_data).offset_0xec = 0;
+  (this->eCNovodexPhysicsController_data).offset_0xf0 = 0;
+  bCVector::bCVector((bCVector *)&(this->eCNovodexPhysicsController_data).field_0xf4);
+  if ((param_2 != 0) && (param_3 != (undefined4 *)0x0)) {
+    (this->eCNovodexPhysicsController_data).offset_0xd4 = &LAB_300367a5;
+    (this->eCNovodexPhysicsController_data).offset_0xb4 = param_3;
+    (this->eCNovodexPhysicsController_data).offset_0x14 = 0;
+    (this->eCNovodexPhysicsController_data).offset_0x18 = 0;
+    (this->eCNovodexPhysicsController_data).offset_0x1c = param_3[4];
+    (this->eCNovodexPhysicsController_data).offset_0x4 = (eCEntity *)param_1;
+    (this->eCNovodexPhysicsController_data).offset_0x0 = (void *)0x0;
+    pbVar2 = eCEntity::GetWorldMatrix(param_1);
+    bCMatrix::operator=((bCMatrix *)this_00,pbVar2);
+    (this->eCNovodexPhysicsController_data).offset_0x108 = 0;
+    (this->eCNovodexPhysicsController_data).offset_0x11c = 0;
+    (this->eCNovodexPhysicsController_data).offset_0x11e = '\0';
+    (this->eCNovodexPhysicsController_data).offset_0xb9 = 0;
+    (this->eCNovodexPhysicsController_data).offset_0x104 = param_3[3];
+    (this->eCNovodexPhysicsController_data).offset_0x100 = *(undefined1 *)(param_3 + 2);
+    (this->eCNovodexPhysicsController_data).offset_0x118 = 0xbf800000;
+    (this->eCNovodexPhysicsController_data).offset_0xb8 = 0;
+    (this->eCNovodexPhysicsController_data).offset_0x114 = 0;
+    (this->eCNovodexPhysicsController_data).offset_0x124 = param_3[1];
+    (this->eCNovodexPhysicsController_data).offset_0x120 = *param_3;
+    (this->eCNovodexPhysicsController_data).offset_0x115 = *(char *)(param_3 + 5);
+    (this->eCNovodexPhysicsController_data).offset_0x20 = 0;
+    (this->eCNovodexPhysicsController_data).offset_0x11d = *(undefined1 *)((int)param_3 + 0x16);
+    iVar3 = (this->Controller_data).offset_0x0;
+    bCVector::SetVector((bCVector *)&(this->eCNovodexPhysicsController_data).field_0xbc,
+                        *(float *)(iVar3 + 0xfc),*(float *)(iVar3 + 0x100),*(float *)(iVar3 + 0x104)
+                       );
+    iStack_c8 = 0;
+    if (0 < *(int *)((this->Controller_data).offset_0x0 + 0x150)) {
+      do {
+        iVar3 = FUN_30642420(iStack_c8);
+        if (0 < *(int *)(iVar3 + 0x150)) {
+          (this->eCNovodexPhysicsController_data).offset_0xb8 = 1;
+          break;
+        }
+        iStack_c8 = iStack_c8 + 1;
+      } while (iStack_c8 < *(int *)((this->Controller_data).offset_0x0 + 0x150));
+    }
+    bCMatrix::bCMatrix(abStack_80);
+    fVar7 = eCEntity::GetUniformScaling
+                      ((eCEntity *)(this->eCNovodexPhysicsController_data).offset_0x4);
+    fStack_c4 = ABS(fVar7 - 1.0);
+    if (0.0001 < fStack_c4) {
+      (this->eCNovodexPhysicsController_data).offset_0xb9 = 1;
+      pbVar2 = bCMatrix::GetIdentity();
+      bCMatrix::operator=(abStack_80,pbVar2);
+      pfVar4 = bCMatrix::AccessElement(abStack_80,0,0);
+      *pfVar4 = fVar7;
+      pfVar4 = bCMatrix::AccessElement(abStack_80,1,1);
+      *pfVar4 = fVar7;
+      pfVar4 = bCMatrix::AccessElement(abStack_80,2,2);
+      *pfVar4 = fVar7;
+      pbVar2 = bCMatrix::GetIdentity();
+      bCMatrix::bCMatrix(abStack_c0,pbVar2);
+      fVar7 = 1.0 / fVar7;
+      pfVar4 = bCMatrix::AccessElement(abStack_c0,0,0);
+      *pfVar4 = fVar7;
+      pfVar4 = bCMatrix::AccessElement(abStack_c0,1,1);
+      *pfVar4 = fVar7;
+      pfVar4 = bCMatrix::AccessElement(abStack_c0,2,2);
+      *pfVar4 = fVar7;
+      pbVar2 = (bCMatrix *)bCMatrix::operator*((bCMatrix *)this_00,abStack_40);
+      bCMatrix::operator=((bCMatrix *)this_00,pbVar2);
+      bCMatrix::~bCMatrix(abStack_44);
+      bCMatrix::~bCMatrix((bCMatrix *)&fStack_c4);
+    }
+    fVar7 = _DAT_30aa68a0;
+    this_01 = bCMatrix::AccessTranslation((bCMatrix *)this_00);
+    bCVector::operator*=(this_01,fVar7);
+    pbVar2 = abStack_44;
+    pbVar5 = (bCMatrix *)bCMatrix::GetInverted((bCMatrix *)this_00);
+    bCMatrix::operator=((bCMatrix *)&(this->eCNovodexPhysicsController_data).field_0x74,pbVar5);
+    bCMatrix::~bCMatrix(abStack_48);
+    if (*(char *)((int)param_3 + 0x15) == '\x01') {
+      (**(code **)(*(int *)(this->Controller_data).offset_0x0 + 0x24))(0,1,0,pbVar2);
+    }
+    iVar3 = (this->eCNovodexPhysicsController_data).offset_0x1c;
+    if (iVar3 == 0) {
+      iVar3 = (this->Controller_data).offset_0x0;
+      if (iVar3 != 0) {
+        thunk_FUN_300c7b30(iVar3);
+      }
+      iVar3 = (this->Controller_data).offset_0x0;
+      uVar8 = 0;
+    }
+    else {
+      thunk_FUN_300c7b30(iVar3);
+      iVar3 = (this->eCNovodexPhysicsController_data).offset_0x1c;
+      uVar8 = 1;
+    }
+    thunk_FUN_300c7aa0(iVar3,uVar8);
+    if (0 < (this->eCNovodexPhysicsController_data).offset_0xc) {
+      this_02 = (eCPhysicObject *)new(0x2c,0xab);
+      if (this_02 == (eCPhysicObject *)0x0) {
+        pvVar6 = (void *)0x0;
+      }
+      else {
+        pvVar6 = (void *)eCPhysicObject::eCPhysicObject
+                                   (this_02,peStack_4,
+                                    (bTPtrArray<NxActor*> *)
+                                    &(this->eCNovodexPhysicsController_data).offset_0x8);
+      }
+      (this->eCNovodexPhysicsController_data).offset_0x0 = pvVar6;
+    }
+    if (((this->eCNovodexPhysicsController_data).offset_0x115 == '\x01') &&
+       ((this->eCNovodexPhysicsController_data).offset_0x11e == '\x01')) {
+      vfunction2(this);
+    }
+    (this->eCNovodexPhysicsController_data).offset_0xb4 = (undefined4 *)0x0;
+    bCMatrix::~bCMatrix(abStack_88);
+  }
+  return this;
+}
+
+

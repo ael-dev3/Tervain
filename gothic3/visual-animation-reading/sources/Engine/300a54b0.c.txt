@@ -1,0 +1,79 @@
+/* ENTRY 300a54b0 | FUN_300a54b0 | STATUS decompiled | 34 ms */
+
+void * __thiscall FUN_300a54b0(void *this,bCObjectBase *param_2)
+
+{
+  undefined *puVar1;
+  
+  eCEntityPropertySet::eCEntityPropertySet(this);
+                    /* inlined constructor or destructor (approx location) for eCVisualAnimation_PS
+                        */
+  *(eCVisualAnimation_PS_vftable **)this = &eCVisualAnimation_PS::vftable;
+  bCString::bCString((bCString *)((int)this + 0x14));
+  bCString::bCString((bCString *)((int)this + 0x18));
+  bCObjectBase::bCObjectBase((bCObjectBase *)((int)this + 0x5c));
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<eEShapeGroup> */
+  *(bCObjectBase *)((int)this + 0x5c) = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+  *(undefined4 *)((int)this + 0x60) = DAT_30ada2b8;
+  bCObjectBase::bCObjectBase((bCObjectBase *)((int)this + 100));
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<eEShapeMaterial> */
+  *(bCObjectBase *)((int)this + 100) = (bCObjectBase)&bTPropertyContainer<eEShapeMaterial>::vftable;
+  *(undefined4 *)((int)this + 0x68) = DAT_30ada2bc;
+  bCObjectBase::bCObjectBase((bCObjectBase *)((int)this + 0x6c));
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<eECollisionGroup> */
+  *(bCObjectBase *)((int)this + 0x6c) =
+       (bCObjectBase)&bTPropertyContainer<eECollisionGroup>::vftable;
+  *(undefined4 *)((int)this + 0x70) = DAT_30ada2c0;
+  bCPropertyObjectBase::bCPropertyObjectBase((bCPropertyObjectBase *)((int)this + 0x80));
+  *(undefined4 *)((int)this + 0x88) = 0;
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyObject<eCSpringAndDamperEffector,eCEffector> */
+  *(bCPropertyObjectBase *)((int)this + 0x80) =
+       (bCPropertyObjectBase)&bTPropertyObject<eCSpringAndDamperEffector,eCEffector>::vftable;
+  puVar1 = bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::
+           ~bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>();
+  *(uint *)((int)this + 0x84) = *(uint *)((int)this + 0x84) | 4;
+  *(undefined **)((int)this + 0x8c) = puVar1;
+  *(undefined4 *)((int)this + 0x88) = 0;
+  thunk_FUN_300ae170(0);
+  eCVisualAnimationFactory::eCVisualAnimationFactory((eCVisualAnimationFactory *)((int)this + 0x94))
+  ;
+  *(undefined4 *)((int)this + 0xc4) = 0;
+  *(undefined4 *)((int)this + 200) = 0;
+  *(undefined4 *)((int)this + 0xcc) = 0;
+  *(undefined4 *)((int)this + 0xd0) = 0;
+  *(undefined4 *)((int)this + 0xd4) = 0;
+  *(undefined4 *)((int)this + 0xd8) = 0;
+  *(undefined4 *)((int)this + 0xdc) = 0;
+  *(undefined4 *)((int)this + 0xe0) = 0;
+  *(undefined4 *)((int)this + 0xe4) = 0;
+  *(undefined4 *)((int)this + 0xe8) = 0;
+  *(undefined4 *)((int)this + 0xec) = 0;
+  *(undefined4 *)((int)this + 0xf0) = 0;
+  bCBox::bCBox((bCBox *)((int)this + 0xf4));
+  *(undefined4 *)((int)this + 0x10c) = 0;
+  *(undefined4 *)((int)this + 0x110) = 0;
+  *(undefined4 *)((int)this + 0x114) = 0;
+  *(undefined4 *)((int)this + 0x120) = 0;
+  *(undefined4 *)((int)this + 0x124) = 0;
+  *(undefined4 *)((int)this + 0x128) = 0;
+  *(undefined4 *)((int)this + 0x138) = 0;
+  *(undefined4 *)((int)this + 0x13c) = 0;
+  *(undefined4 *)((int)this + 0x140) = 0;
+  bCString::bCString((bCString *)((int)this + 0x144));
+  bCString::bCString((bCString *)((int)this + 0x148));
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)((int)this + 0x158));
+  bCString::bCString((bCString *)((int)this + 0x174));
+  bCString::bCString((bCString *)((int)this + 0x184));
+  *(undefined4 *)((int)this + 0x18c) = 0;
+  *(undefined4 *)((int)this + 400) = 0;
+  *(undefined4 *)((int)this + 0x194) = 0;
+  eCVisualAnimation_PS::Invalidate(this);
+  eCVisualAnimation_PS::CopyFrom(this,param_2);
+  return this;
+}
+
+

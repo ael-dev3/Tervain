@@ -1,0 +1,2 @@
+; 10004133 bCMemoryAdmin::Realloc
+10004133 | e9d8c90100 | JMP 0x10020b10

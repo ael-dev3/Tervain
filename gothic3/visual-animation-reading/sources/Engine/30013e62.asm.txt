@@ -1,0 +1,2 @@
+; 30013e62 eCEffector::eCEffector
+30013e62 | e939123700 | JMP 0x303850a0

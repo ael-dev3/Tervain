@@ -1,0 +1,2 @@
+; 10005d3f bCGothic3EngineDialogs::bCDialogHandle::ReleaseReference
+10005d3f | e92cb30100 | JMP 0x10021070

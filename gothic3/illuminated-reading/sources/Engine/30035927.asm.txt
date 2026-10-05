@@ -1,0 +1,2 @@
+; 30035927 eCIlluminated_PS::GetCastStaticShadows
+30035927 | e9246b0600 | JMP 0x3009c450

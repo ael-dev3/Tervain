@@ -1,0 +1,21 @@
+/* ENTRY 2001007d | bTPropertyType<gCDamage_PS,long>::vfunction4 | STATUS decompiled | 7 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined * __thiscall bTPropertyType<gCDamage_PS,long>::vfunction4(void)
+
+{
+  if ((DAT_207b4cfc & 1) == 0) {
+    DAT_207b4cfc = DAT_207b4cfc | 1;
+    _DAT_207b4cf8 = DAT_207b4d78;
+  }
+  if ((DAT_207b4cfc & 2) == 0) {
+    DAT_207b4cfc = DAT_207b4cfc | 2;
+    type_info::name((type_info *)&.J::RTTI_Type_Descriptor,(__type_info_node *)&DAT_207d0a18);
+    bCClassNameBase::UnMangle(&DAT_207b4cf4);
+    _atexit((_func_4879 *)&LAB_2000c7fc);
+  }
+  return &DAT_207b4cf4;
+}
+
+

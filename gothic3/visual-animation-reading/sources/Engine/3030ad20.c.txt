@@ -1,0 +1,31 @@
+/* ENTRY 3030ad20 | eCPhysicObject::eCPhysicObject | STATUS decompiled | 11 ms */
+
+eCPhysicObject * __thiscall
+eCPhysicObject::eCPhysicObject(eCPhysicObject *this,eCEntity *param_1,bTPtrArray<NxActor*> *param_2)
+
+{
+  bEResult bVar1;
+  bCString *pbVar2;
+  
+  (this->eCPhysicObject_data).offset_0x0 = param_1;
+  this->vftablePtr = &vftable;
+  (this->eCPhysicObject_data).offset_0xc = 0;
+  (this->eCPhysicObject_data).offset_0x10 = 0;
+  (this->eCPhysicObject_data).offset_0x14 = 0;
+  (this->eCPhysicObject_data).offset_0x18 = 0;
+  (this->eCPhysicObject_data).offset_0x1c = 0;
+  (this->eCPhysicObject_data).offset_0x20 = 0;
+  (this->eCPhysicObject_data).offset_0x4 = (NxActor *)0x0;
+  (this->eCPhysicObject_data).offset_0x8 = 0;
+  (this->eCPhysicObject_data).offset_0x9 = 0;
+  (this->eCPhysicObject_data).offset_0x24 = (eCPhysicObjectStateBuffer *)0x0;
+  bVar1 = Create(this,param_2);
+  if (bVar1 == 5) {
+    pbVar2 = eCEntity::GetName((eCEntity *)(this->eCPhysicObject_data).offset_0x0);
+    GE_MESSAGEF_WARN("C: eCPhysicObject::eCPhysicObject(): could not create physic object: actor descriptor is invalid for entity %s!"
+                     ,*(undefined4 *)pbVar2);
+  }
+  return this;
+}
+
+

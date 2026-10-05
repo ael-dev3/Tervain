@@ -1,0 +1,2 @@
+; 3000c56d eCEntityPropertySet::IsVirtualReferencingEnabled
+3000c56d | e93e504700 | JMP 0x304815b0

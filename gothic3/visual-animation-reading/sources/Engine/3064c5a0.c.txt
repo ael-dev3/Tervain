@@ -1,0 +1,11 @@
+/* ENTRY 3064c5a0 | EMotionFX::PlayModeForward::PlayModeForward | STATUS decompiled | 4 ms */
+
+PlayModeForward * __thiscall EMotionFX::PlayModeForward::PlayModeForward(PlayModeForward *this)
+
+{
+  PlayMode::PlayMode((PlayMode *)this);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

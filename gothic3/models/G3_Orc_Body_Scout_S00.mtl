@@ -1,0 +1,5 @@
+newmtl EMFX_Default
+
+newmtl G3_Animation_Orc_Scout_01
+map_Kd ../textures/G3_Orc_Scout_Body_Diffuse_S1.jpg
+

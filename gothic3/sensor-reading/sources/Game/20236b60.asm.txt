@@ -1,0 +1,4 @@
+; 20236b60 FUN_20236b60
+20236b60 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+20236b64 | 89413c | MOV dword ptr [ECX + 0x3c],EAX
+20236b67 | c20400 | RET 0x4

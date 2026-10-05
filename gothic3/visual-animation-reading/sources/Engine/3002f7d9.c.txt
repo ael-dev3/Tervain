@@ -1,0 +1,89 @@
+/* ENTRY 3002f7d9 | eCWnd::CreateTextItem | STATUS decompiled | 125 ms */
+
+/* protected: class eCWnd::eCTextItem * __thiscall eCWnd::CreateTextItem(int,int,class
+   bCUnicodeString const &,float,class bCByteAlphaColor const &,enum eEWinTextMode) */
+
+eCTextItem * __thiscall
+eCWnd::CreateTextItem
+          (eCWnd *this,int param_1,int param_2,bCUnicodeString *param_3,float param_4,
+          bCByteAlphaColor *param_5,eEWinTextMode param_6)
+
+{
+  undefined4 *puVar1;
+  int iVar2;
+  int *piVar3;
+  void *pvVar4;
+  int iVar5;
+  eCTextItem *peVar6;
+  int *piVar7;
+  void **ppvVar8;
+  int iStack_20;
+  int iStack_1c;
+  bCUnicodeString abStack_18 [4];
+  bCByteAlphaColor abStack_14 [12];
+  eEWinTextMode eStack_8;
+  float fStack_4;
+  
+                    /* 0x2f7d9  4943
+                       ?CreateTextItem@eCWnd@@IAEPAVeCTextItem@1@HHABVbCUnicodeString@@MABVbCByteAlphaColor@@W4eEWinTextMode@@@Z
+                        */
+  iVar2 = (this->eCWnd_data).offset_0x4c;
+  iVar5 = 0;
+  if (0 < iVar2) {
+    piVar3 = (this->eCWnd_data).offset_0x48;
+    piVar7 = piVar3;
+    do {
+      if ((*piVar7 == param_1) && (piVar7[1] == param_2)) {
+        peVar6 = (eCTextItem *)(piVar3 + iVar5 * 8);
+        bCUnicodeString::operator=((bCUnicodeString *)(peVar6 + 8),param_3);
+        bCByteAlphaColor::operator=((bCByteAlphaColor *)(peVar6 + 0xc),param_5);
+        *(eEWinTextMode *)(peVar6 + 0x18) = param_6;
+        *(float *)(peVar6 + 0x1c) = param_4;
+        return peVar6;
+      }
+      iVar5 = iVar5 + 1;
+      piVar7 = piVar7 + 8;
+    } while (iVar5 < iVar2);
+  }
+  bCUnicodeString::bCUnicodeString(abStack_18);
+  bCByteAlphaColor::bCByteAlphaColor(abStack_14);
+  iStack_20 = param_1;
+  iStack_1c = param_2;
+  bCUnicodeString::operator=(abStack_18,param_3);
+  bCByteAlphaColor::operator=(abStack_14,param_5);
+  ppvVar8 = &(this->eCWnd_data).offset_0x48;
+  iVar5 = (this->eCWnd_data).offset_0x4c + 1;
+  eStack_8 = param_6;
+  fStack_4 = param_4;
+  thunk_FUN_301d7900(iVar5,(iVar5 != 0) - 1);
+  iVar2 = (this->eCWnd_data).offset_0x4c;
+  if (iVar5 < iVar2) {
+    thunk_FUN_301d4470((void *)((int)*ppvVar8 + iVar5 * 0x20),iVar2 - iVar5);
+    thunk_FUN_301d3e80((void *)((int)*ppvVar8 + iVar5 * 0x20),(this->eCWnd_data).offset_0x4c - iVar5
+                      );
+  }
+  (this->eCWnd_data).offset_0x4c = iVar5;
+  puVar1 = (undefined4 *)(iVar5 * 0x20 + -0x20 + (int)*ppvVar8);
+  bCByteAlphaColor::~bCByteAlphaColor((bCByteAlphaColor *)(puVar1 + 3));
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)(puVar1 + 2));
+  *puVar1 = 0;
+  puVar1[1] = 0;
+  puVar1[2] = 0;
+  puVar1[3] = 0;
+  puVar1[4] = 0;
+  puVar1[5] = 0;
+  puVar1[6] = 0;
+  puVar1[7] = 0;
+  if (puVar1 != (undefined4 *)0x0) {
+    bCUnicodeString::bCUnicodeString((bCUnicodeString *)(puVar1 + 2));
+    bCByteAlphaColor::bCByteAlphaColor((bCByteAlphaColor *)(puVar1 + 3));
+  }
+  thunk_FUN_301d79b0(puVar1,&iStack_20,1);
+  iVar2 = (this->eCWnd_data).offset_0x4c;
+  pvVar4 = *ppvVar8;
+  bCByteAlphaColor::~bCByteAlphaColor(abStack_14);
+  bCUnicodeString::~bCUnicodeString(abStack_18);
+  return (eCTextItem *)(iVar2 * 0x20 + -0x20 + (int)pvVar4);
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 30038343 | eCWrapper_emfx2Actor::GetActorName | STATUS decompiled | 4 ms */
+
+/* public: class bCString const & __thiscall eCWrapper_emfx2Actor::GetActorName(void)const  */
+
+bCString * __thiscall eCWrapper_emfx2Actor::GetActorName(eCWrapper_emfx2Actor *this)
+
+{
+                    /* 0x38343  6105  ?GetActorName@eCWrapper_emfx2Actor@@QBEABVbCString@@XZ */
+  return (bCString *)&(this->eCWrapper_emfx2Actor_data).field_0x64;
+}
+
+

@@ -1,0 +1,2 @@
+; 30013ca5 bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::deleting_destructor
+30013ca5 | e936770900 | JMP 0x300ab3e0

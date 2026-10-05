@@ -1,0 +1,32 @@
+; 3009eb20 FUN_3009eb20
+3009eb20 | 53 | PUSH EBX
+3009eb21 | 8b5c2408 | MOV EBX,dword ptr [ESP + 0x8]
+3009eb25 | 56 | PUSH ESI
+3009eb26 | 57 | PUSH EDI
+3009eb27 | 8bf9 | MOV EDI,ECX
+3009eb29 | 8b8f1c010000 | MOV ECX,dword ptr [EDI + 0x11c]
+3009eb2f | 85c9 | TEST ECX,ECX
+3009eb31 | 740e | JZ 0x3009eb41
+3009eb33 | d9442414 | FLD float ptr [ESP + 0x14]
+3009eb37 | 51 | PUSH ECX
+3009eb38 | d91c24 | FSTP float ptr [ESP]
+3009eb3b | 53 | PUSH EBX
+3009eb3c | e8d2bff7ff | CALL 0x3001ab13
+3009eb41 | 33f6 | XOR ESI,ESI
+3009eb43 | 39b724010000 | CMP dword ptr [EDI + 0x124],ESI
+3009eb49 | 7e27 | JLE 0x3009eb72
+3009eb4b | eb03 | JMP 0x3009eb50
+3009eb50 | d9442414 | FLD float ptr [ESP + 0x14]
+3009eb54 | 8b8720010000 | MOV EAX,dword ptr [EDI + 0x120]
+3009eb5a | 51 | PUSH ECX
+3009eb5b | 8b0cb0 | MOV ECX,dword ptr [EAX + ESI*0x4]
+3009eb5e | d91c24 | FSTP float ptr [ESP]
+3009eb61 | 53 | PUSH EBX
+3009eb62 | e8acbff7ff | CALL 0x3001ab13
+3009eb67 | 83c601 | ADD ESI,0x1
+3009eb6a | 3bb724010000 | CMP ESI,dword ptr [EDI + 0x124]
+3009eb70 | 7cde | JL 0x3009eb50
+3009eb72 | 5f | POP EDI
+3009eb73 | 5e | POP ESI
+3009eb74 | 5b | POP EBX
+3009eb75 | c20800 | RET 0x8

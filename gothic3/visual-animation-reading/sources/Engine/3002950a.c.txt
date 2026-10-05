@@ -1,0 +1,16 @@
+/* ENTRY 3002950a | eCVisualAnimation_PS::GetResourceFilePath | STATUS decompiled | 8 ms */
+
+/* public: class bCAnimationResourceString const & __thiscall
+   eCVisualAnimation_PS::GetResourceFilePath(void)const  */
+
+bCAnimationResourceString * __thiscall
+eCVisualAnimation_PS::GetResourceFilePath(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x2950a  8441
+                       ?GetResourceFilePath@eCVisualAnimation_PS@@QBEABVbCAnimationResourceString@@XZ
+                        */
+  return (bCAnimationResourceString *)(this + 1);
+}
+
+

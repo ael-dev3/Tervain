@@ -1,0 +1,19 @@
+/* ENTRY 30010ab4 | eCVisualAnimation_PS::SetConstrainRootToWorld | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetConstrainRootToWorld(bool const &) */
+
+void __thiscall
+eCVisualAnimation_PS::SetConstrainRootToWorld(eCVisualAnimation_PS *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x10ab4  13130  ?SetConstrainRootToWorld@eCVisualAnimation_PS@@QAEXAB_N@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"ConstrainRootToWorld",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  this[1].eCEntityPropertySet_data.field_0x5 = *param_1;
+  (*pNVar1)(this,"ConstrainRootToWorld",false);
+  return;
+}
+
+

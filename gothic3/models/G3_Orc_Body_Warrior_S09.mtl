@@ -1,0 +1,5 @@
+newmtl EMFX_Default
+
+newmtl G3_Animation_Orc_Warrior_01
+map_Kd ../textures/G3_Orc_Warrior_Body_Diffuse_S10.jpg
+

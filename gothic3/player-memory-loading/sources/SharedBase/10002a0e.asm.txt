@@ -1,0 +1,2 @@
+; 10002a0e operator<<
+10002a0e | e9fdc60100 | JMP 0x1001f110

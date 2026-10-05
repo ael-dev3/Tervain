@@ -1,0 +1,36 @@
+; 30387b50 bTPropertyObject<eCEffector,bCObjectRefBase>::~bTPropertyObject<eCEffector,bCObjectRefBase>
+30387b50 | 56 | PUSH ESI
+30387b51 | 57 | PUSH EDI
+30387b52 | 6890010000 | PUSH 0x190
+30387b57 | 6a10 | PUSH 0x10
+30387b59 | 8bf9 | MOV EDI,ECX
+30387b5b | ff15a8dbaf30 | CALL dword ptr [0x30afdba8]
+30387b61 | 8bf0 | MOV ESI,EAX
+30387b63 | 85f6 | TEST ESI,ESI
+30387b65 | 7433 | JZ 0x30387b9a
+30387b67 | 8bce | MOV ECX,ESI
+30387b69 | ff1520caaf30 | CALL dword ptr [0x30afca20]
+30387b6f | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+30387b76 | c7068c5e8630 | MOV dword ptr [ESI],0x30865e8c
+30387b7c | e8d720caff | CALL 0x30029c58
+30387b81 | 836604fb | AND dword ptr [ESI + 0x4],0xfffffffb
+30387b85 | 6a00 | PUSH 0x0
+30387b87 | 8bce | MOV ECX,ESI
+30387b89 | 89460c | MOV dword ptr [ESI + 0xc],EAX
+30387b8c | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+30387b93 | e87199c8ff | CALL 0x30011509
+30387b98 | eb02 | JMP 0x30387b9c
+30387b9a | 33f6 | XOR ESI,ESI
+30387b9c | 8bcf | MOV ECX,EDI
+30387b9e | ff1508cbaf30 | CALL dword ptr [0x30afcb08]
+30387ba4 | 84c0 | TEST AL,AL
+30387ba6 | 750a | JNZ 0x30387bb2
+30387ba8 | 8b06 | MOV EAX,dword ptr [ESI]
+30387baa | 8b503c | MOV EDX,dword ptr [EAX + 0x3c]
+30387bad | 57 | PUSH EDI
+30387bae | 8bce | MOV ECX,ESI
+30387bb0 | ffd2 | CALL EDX
+30387bb2 | 5f | POP EDI
+30387bb3 | 8bc6 | MOV EAX,ESI
+30387bb5 | 5e | POP ESI
+30387bb6 | c3 | RET

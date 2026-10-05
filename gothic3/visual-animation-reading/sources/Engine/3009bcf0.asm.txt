@@ -1,0 +1,17 @@
+; 3009bcf0 FUN_3009bcf0
+3009bcf0 | d9442404 | FLD float ptr [ESP + 0x4]
+3009bcf4 | d80d30eb8130 | FMUL float ptr [0x3081eb30]
+3009bcfa | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+3009bcfe | b9df59375f | MOV ECX,0x5f3759df
+3009bd03 | d1e8 | SHR EAX,0x1
+3009bd05 | 2bc8 | SUB ECX,EAX
+3009bd07 | 894c2404 | MOV dword ptr [ESP + 0x4],ECX
+3009bd0b | d84c2404 | FMUL float ptr [ESP + 0x4]
+3009bd0f | d9442404 | FLD float ptr [ESP + 0x4]
+3009bd13 | d84c2404 | FMUL float ptr [ESP + 0x4]
+3009bd17 | d90534eb8130 | FLD float ptr [0x3081eb34]
+3009bd1d | d84c2404 | FMUL float ptr [ESP + 0x4]
+3009bd21 | d9ca | FXCH ST2
+3009bd23 | dec9 | FMULP
+3009bd25 | dee9 | FSUBP
+3009bd27 | c3 | RET

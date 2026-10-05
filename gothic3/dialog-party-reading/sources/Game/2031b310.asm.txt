@@ -1,0 +1,10 @@
+; 2031b310 bTPropertyType<gCParty_PS,bool>::vfunction6
+2031b310 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+2031b314 | 85c0 | TEST EAX,EAX
+2031b316 | 740b | JZ 0x2031b323
+2031b318 | 8b11 | MOV EDX,dword ptr [ECX]
+2031b31a | 50 | PUSH EAX
+2031b31b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+2031b31e | ffd0 | CALL EAX
+2031b320 | c60000 | MOV byte ptr [EAX],0x0
+2031b323 | c20400 | RET 0x4

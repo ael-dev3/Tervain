@@ -1,0 +1,3 @@
+; 30061eb0 FUN_30061eb0
+30061eb0 | 8d4138 | LEA EAX,[ECX + 0x38]
+30061eb3 | c3 | RET

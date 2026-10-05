@@ -1,0 +1,2 @@
+; 10007392 bCAccessorCreator::bCAccessorCreator
+10007392 | e9c9bd0800 | JMP 0x10093160

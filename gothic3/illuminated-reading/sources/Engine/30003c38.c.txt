@@ -1,0 +1,17 @@
+/* ENTRY 30003c38 | bTPropertyContainer<eEStaticIlluminated>::deleting_destructor | STATUS decompiled | 5 ms */
+
+bTPropertyContainer<eEStaticIlluminated> * __thiscall
+bTPropertyContainer<eEStaticIlluminated>::deleting_destructor
+          (bTPropertyContainer<eEStaticIlluminated> *this,byte param_1)
+
+{
+  this->vftablePtr = &vftable;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)this);
+  if ((param_1 & 1) != 0) {
+                    /* WARNING: Subroutine does not return */
+    _free(this);
+  }
+  return this;
+}
+
+

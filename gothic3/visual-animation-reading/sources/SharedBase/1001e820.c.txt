@@ -1,0 +1,10 @@
+/* ENTRY 1001e820 | bCIStream::~bCIStream | STATUS decompiled | 1 ms */
+
+void __thiscall bCIStream::~bCIStream(bCIStream *this)
+
+{
+  this->vftablePtr = &vftable;
+  return;
+}
+
+

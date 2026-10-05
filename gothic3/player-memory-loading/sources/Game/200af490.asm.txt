@@ -1,0 +1,31 @@
+; 200af490 FUN_200af490
+200af490 | 56 | PUSH ESI
+200af491 | 8bf1 | MOV ESI,ECX
+200af493 | 8b4604 | MOV EAX,dword ptr [ESI + 0x4]
+200af496 | 3b4608 | CMP EAX,dword ptr [ESI + 0x8]
+200af499 | 7449 | JZ 0x200af4e4
+200af49b | 85c0 | TEST EAX,EAX
+200af49d | 752b | JNZ 0x200af4ca
+200af49f | 8b06 | MOV EAX,dword ptr [ESI]
+200af4a1 | 85c0 | TEST EAX,EAX
+200af4a3 | 743f | JZ 0x200af4e4
+200af4a5 | 50 | PUSH EAX
+200af4a6 | ff15e0887d20 | CALL dword ptr [0x207d88e0]
+200af4ac | 8bc8 | MOV ECX,EAX
+200af4ae | ff15dc887d20 | CALL dword ptr [0x207d88dc]
+200af4b4 | c70600000000 | MOV dword ptr [ESI],0x0
+200af4ba | c7460400000000 | MOV dword ptr [ESI + 0x4],0x0
+200af4c1 | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+200af4c8 | 5e | POP ESI
+200af4c9 | c3 | RET
+200af4ca | 50 | PUSH EAX
+200af4cb | 8b06 | MOV EAX,dword ptr [ESI]
+200af4cd | 50 | PUSH EAX
+200af4ce | ff15e0887d20 | CALL dword ptr [0x207d88e0]
+200af4d4 | 8bc8 | MOV ECX,EAX
+200af4d6 | ff15e4887d20 | CALL dword ptr [0x207d88e4]
+200af4dc | 8b4e04 | MOV ECX,dword ptr [ESI + 0x4]
+200af4df | 8906 | MOV dword ptr [ESI],EAX
+200af4e1 | 894e08 | MOV dword ptr [ESI + 0x8],ECX
+200af4e4 | 5e | POP ESI
+200af4e5 | c3 | RET

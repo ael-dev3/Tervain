@@ -1,0 +1,22 @@
+/* ENTRY 3004726c | eCVisualAnimation_PS::OnExitProcessingRange | STATUS decompiled | 40 ms */
+
+/* protected: virtual void __thiscall eCVisualAnimation_PS::OnExitProcessingRange(void) */
+
+void __thiscall eCVisualAnimation_PS::OnExitProcessingRange(eCVisualAnimation_PS *this)
+
+{
+  eCWrapper_emfx2Actor *peVar1;
+  
+                    /* 0x4726c  11077  ?OnExitProcessingRange@eCVisualAnimation_PS@@MAEXXZ */
+  peVar1 = eCVisualAnimationFactory::GetAssembledActor
+                     ((eCVisualAnimationFactory *)&this[7].eCEntityPropertySet_data.field_0x4);
+  if (peVar1 != (eCWrapper_emfx2Actor *)0x0) {
+    DestroyPhysicsController(this);
+    StopRagDoll(this);
+    SetRagDollEnabled(this,false,0.0,true);
+    this[0x12].eCEntityPropertySet_data.field_0xd = 0;
+  }
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 100051e6 bCAccessorPropertyObject::Clone
+100051e6 | e9655b0900 | JMP 0x1009ad50

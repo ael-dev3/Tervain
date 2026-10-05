@@ -1,0 +1,32 @@
+/* ENTRY 30748f30 | bTPropertyType<eCIlluminated_PS,bool>::~bTPropertyType<eCIlluminated_PS,bool> | STATUS decompiled | 18 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCIlluminated_PS,bool>::~bTPropertyType<eCIlluminated_PS,bool>
+          (bTPropertyType<eCIlluminated_PS,bool> *this)
+
+{
+  bTPropertyType<eCIlluminated_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"CastShadows");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCIlluminated_PS::ms_PropertyMember_m_bCastShadows,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_bCastShadows = &vftable;
+  DAT_30ae1df4 = bTPropertyObjectType<eCIlluminated_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<eCIlluminated_PS,eCEntityPropertySet>();
+  _DAT_30ae1df8 = 0x20;
+  _DAT_30ae1dfc = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&eCIlluminated_PS::ms_PropertyMember_m_bCastShadows);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30ae1df4,
+             (bCPropertyTypeBase *)&eCIlluminated_PS::ms_PropertyMember_m_bCastShadows);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}
+
+

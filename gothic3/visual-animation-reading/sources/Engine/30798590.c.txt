@@ -1,0 +1,17 @@
+/* ENTRY 30798590 | bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>::~bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet> | STATUS decompiled | 5 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>::
+     ~bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>(void)
+
+{
+  _DAT_30ada3a0 = &vftable;
+  bCPropertyObjectFactory::~bCPropertyObjectFactory((bCPropertyObjectFactory *)&DAT_30ada3b8);
+                    /* WARNING: Could not recover jumptable at 0x307985aa. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyObjectTypeBase::~bCPropertyObjectTypeBase((bCPropertyObjectTypeBase *)&DAT_30ada3a0);
+  return;
+}
+
+

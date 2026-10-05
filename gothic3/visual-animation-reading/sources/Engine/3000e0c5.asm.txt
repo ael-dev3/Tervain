@@ -1,0 +1,2 @@
+; 3000e0c5 eCPhysicObject::GetActor
+3000e0c5 | e9a6bf2f00 | JMP 0x3030a070

@@ -1,0 +1,2 @@
+; 20016851 bTPropertyObject<gCDamage_PS,eCEntityPropertySet>::vfunction15
+20016851 | e99a1d0a00 | JMP 0x200b85f0

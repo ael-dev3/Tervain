@@ -1,0 +1,28 @@
+/* ENTRY 10002c7a | g_GetHashValue<bCString> | STATUS decompiled | 6 ms */
+
+/* unsigned long __stdcall g_GetHashValue<class bCString>(class bCString const &) */
+
+ulong g_GetHashValue<bCString>(bCString *param_1)
+
+{
+  char *pcVar1;
+  char cVar2;
+  char *pcVar3;
+  ulong uVar4;
+  
+                    /* 0x2c7a  4  ??$g_GetHashValue@VbCString@@@@YGKABVbCString@@@Z */
+  pcVar3 = bCString::GetText(param_1);
+  uVar4 = 0;
+  if (pcVar3 != (char *)0x0) {
+    cVar2 = *pcVar3;
+    while (cVar2 != '\0') {
+      pcVar1 = pcVar3 + 1;
+      pcVar3 = pcVar3 + 1;
+      uVar4 = (int)cVar2 + uVar4 * 0x21;
+      cVar2 = *pcVar1;
+    }
+  }
+  return uVar4;
+}
+
+

@@ -1,0 +1,2 @@
+; 3002eed3 eCVisualAnimationLoD::GetActorFileName
+3002eed3 | e968fe0800 | JMP 0x300bed40

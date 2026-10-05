@@ -1,0 +1,20 @@
+/* ENTRY 30015c71 | eCVisualAnimation_PS::eSMotionDesc::operator<< | STATUS decompiled | 3 ms */
+
+/* public: class bCIStream & __thiscall eCVisualAnimation_PS::eSMotionDesc::operator<<(class
+   bCIStream &) */
+
+bCIStream * __thiscall
+eCVisualAnimation_PS::eSMotionDesc::operator<<(eSMotionDesc *this,bCIStream *param_1)
+
+{
+                    /* 0x15c71  1979  ??6eSMotionDesc@eCVisualAnimation_PS@@QAEAAVbCIStream@@AAV2@@Z
+                        */
+  ::operator<<((bCString *)(this + 4),param_1);
+  if (*(int **)this != (int *)0x0) {
+    (**(code **)(**(int **)this + 0x24))();
+    *(undefined4 *)this = 0;
+  }
+  return param_1;
+}
+
+

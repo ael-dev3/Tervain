@@ -1,0 +1,2 @@
+; 202feeb0 bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>::vfunction1
+202feeb0 | e92ea2d0ff | JMP 0x200090e3

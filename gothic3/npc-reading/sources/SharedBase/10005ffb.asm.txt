@@ -1,0 +1,4 @@
+; 10005ffb ??8bCString@@QBE_NPBD@Z
+10005ffb | e970db0000 | JMP 0x10013b70
+; 10006000 bCBox::IsNormalized
+; 10006000 Ordinal_3649

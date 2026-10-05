@@ -1,0 +1,2 @@
+; 100061fe bCVector4::bCVector4
+100061fe | e91dda0100 | JMP 0x10023c20

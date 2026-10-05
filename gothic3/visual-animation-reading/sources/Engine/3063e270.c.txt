@@ -1,0 +1,38 @@
+/* ENTRY 3063e270 | FUN_3063e270 | STATUS decompiled | 28 ms */
+
+void __fastcall FUN_3063e270(int param_1)
+
+{
+  int iVar1;
+  int iVar2;
+  int *piVar3;
+  int iVar4;
+  int iVar5;
+  
+  iVar4 = 0;
+  if (0 < *(int *)(param_1 + 400)) {
+    iVar5 = 0;
+    do {
+      iVar1 = *(int *)(param_1 + 0x198);
+      iVar2 = *(int *)(iVar5 + iVar1);
+      while (iVar2 != 0) {
+        iVar1 = *(int *)(iVar5 + 8 + iVar1) + -8 + *(int *)(iVar5 + iVar1) * 8;
+        piVar3 = *(int **)(iVar1 + 4);
+        *(undefined4 *)(iVar1 + 4) = 0;
+        if (piVar3 != (int *)0x0) {
+          (**(code **)(*piVar3 + 4))();
+        }
+        iVar1 = *(int *)(param_1 + 0x198);
+        *(int *)(iVar1 + iVar5) = *(int *)(iVar1 + iVar5) + -1;
+        (*(code *)**(undefined4 **)(*(int *)(iVar1 + iVar5 + 8) + *(int *)(iVar1 + iVar5) * 8))(0);
+        iVar1 = *(int *)(param_1 + 0x198);
+        iVar2 = *(int *)(iVar5 + iVar1);
+      }
+      iVar4 = iVar4 + 1;
+      iVar5 = iVar5 + 0xc;
+    } while (iVar4 < *(int *)(param_1 + 400));
+  }
+  return;
+}
+
+

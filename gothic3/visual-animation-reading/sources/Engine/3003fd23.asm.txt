@@ -1,0 +1,2 @@
+; 3003fd23 thunk_FUN_3009bcf0
+3003fd23 | e9c8bf0500 | JMP 0x3009bcf0

@@ -1,0 +1,12 @@
+/* ENTRY 3000774d | eCEntity::GetUniformScaling | STATUS decompiled | 6 ms */
+
+/* public: float __thiscall eCEntity::GetUniformScaling(void)const  */
+
+float __thiscall eCEntity::GetUniformScaling(eCEntity *this)
+
+{
+                    /* 0x774d  9235  ?GetUniformScaling@eCEntity@@QBEMXZ */
+  return (float)(this->eCEntity_data).offset_0x104;
+}
+
+

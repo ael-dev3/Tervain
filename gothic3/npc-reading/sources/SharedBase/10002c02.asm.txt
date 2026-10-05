@@ -1,0 +1,4 @@
+; 10002c02 ?GetRootObject@bCPropertyObjectFactory@@QBEPBVbCPropertyObjectBase@@XZ
+10002c02 | e919a00800 | JMP 0x1008cc20
+; 10002c07 bCClassLayout::Read
+; 10002c07 Ordinal_3849

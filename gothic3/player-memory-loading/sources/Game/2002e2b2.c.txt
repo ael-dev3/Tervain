@@ -1,0 +1,19 @@
+/* ENTRY 2002e2b2 | gCAttribute::OnNotifyPropertyValueChangedExitEx | STATUS decompiled | 5 ms */
+
+/* public: virtual bool __thiscall gCAttribute::OnNotifyPropertyValueChangedExitEx(char const
+   *,bool)
+   gCAttribute member function inherited by gCStat */
+
+bool __thiscall
+gCAttribute::OnNotifyPropertyValueChangedExitEx(gCAttribute *this,char *param_1,bool param_2)
+
+{
+                    /* 0x2e2b2  5488  ?OnNotifyPropertyValueChangedExitEx@gCAttribute@@UAE_NPBD_N@Z
+                        */
+  if (!param_2) {
+    (*this->vftablePtr->Cap)(this);
+  }
+  return true;
+}
+
+

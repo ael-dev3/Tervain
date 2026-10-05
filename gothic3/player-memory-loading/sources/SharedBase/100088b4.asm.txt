@@ -1,0 +1,2 @@
+; 100088b4 bCMessageAdmin::GetInstance
+100088b4 | e9a70e0400 | JMP 0x10049760

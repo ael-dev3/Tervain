@@ -1,0 +1,60 @@
+/* ENTRY 1000437c | bCPropertyObjectSingleton::ReadNewObject | STATUS decompiled | 22 ms */
+
+/* public: class bCPropertyObjectBase * __thiscall bCPropertyObjectSingleton::ReadNewObject(class
+   bCIStream &) */
+
+bCPropertyObjectBase * __thiscall
+bCPropertyObjectSingleton::ReadNewObject(bCPropertyObjectSingleton *this,bCIStream *param_1)
+
+{
+  bool bVar1;
+  int iVar2;
+  void *pvVar3;
+  bCMemoryAdmin *pbVar4;
+  bCPropertyObjectFactory *this_00;
+  bCPropertyObjectBase *pbVar5;
+  bCIStream *this_01;
+  ushort auStack_c [2];
+  int aiStack_8 [2];
+  
+                    /* 0x437c  3894
+                       ?ReadNewObject@bCPropertyObjectSingleton@@QAEPAVbCPropertyObjectBase@@AAVbCIStream@@@Z
+                        */
+  this_01 = param_1;
+  bCIStream::operator>>((bCIStream *)param_1,auStack_c);
+  bCIStream::operator>>((bCIStream *)this_01,(bool *)&param_1);
+  if ((char)param_1 == '\x01') {
+    bCString::bCString((bCString *)aiStack_8);
+    bCIStream::operator>>((bCIStream *)this_01,(bCString *)aiStack_8);
+    bVar1 = bCString::IsEmpty((bCString *)aiStack_8);
+    if (!bVar1) {
+      iVar2 = thunk_FUN_10090c90(aiStack_8);
+      if ((iVar2 != 0) && ((int *)**(int **)(iVar2 + 4) != (int *)0x0)) {
+        this_00 = (bCPropertyObjectFactory *)(**(code **)(*(int *)**(int **)(iVar2 + 4) + 0xc))();
+        pbVar5 = bCPropertyObjectFactory::ReadNewObject(this_00,this_01);
+        if ((&stack0x00000000 != (undefined1 *)0x8) && (aiStack_8[0] != 0)) {
+          *(short *)(aiStack_8[0] + -4) = *(short *)(aiStack_8[0] + -4) + -1;
+          pvVar3 = (void *)(aiStack_8[0] + -8);
+          if (*(short *)(aiStack_8[0] + -4) == 0) {
+            pbVar4 = bCMemoryAdmin::GetInstance();
+            bCMemoryAdmin::Free(pbVar4,pvVar3);
+          }
+        }
+        return pbVar5;
+      }
+    }
+    bCPropertyObjectFactory::ReadSkipObject(this_01);
+    GE_MESSAGEF_WARN(&DAT_100eb220);
+    if ((&stack0x00000000 != (undefined1 *)0x8) && (aiStack_8[0] != 0)) {
+      *(short *)(aiStack_8[0] + -4) = *(short *)(aiStack_8[0] + -4) + -1;
+      pvVar3 = (void *)(aiStack_8[0] + -8);
+      if (*(short *)(aiStack_8[0] + -4) == 0) {
+        pbVar4 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::Free(pbVar4,pvVar3);
+      }
+    }
+  }
+  return (bCPropertyObjectBase *)0x0;
+}
+
+

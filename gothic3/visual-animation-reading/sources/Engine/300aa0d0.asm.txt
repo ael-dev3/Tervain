@@ -1,0 +1,6 @@
+; 300aa0d0 bTPropertyContainer<eECollisionGroup>::vfunction8
+300aa0d0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+300aa0d4 | 8b5004 | MOV EDX,dword ptr [EAX + 0x4]
+300aa0d7 | 895104 | MOV dword ptr [ECX + 0x4],EDX
+300aa0da | b801000000 | MOV EAX,0x1
+300aa0df | c20400 | RET 0x4

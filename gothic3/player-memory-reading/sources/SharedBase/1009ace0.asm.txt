@@ -1,0 +1,14 @@
+; 1009ace0 FUN_1009ace0
+1009ace0 | 56 | PUSH ESI
+1009ace1 | 57 | PUSH EDI
+1009ace2 | 8b7c240c | MOV EDI,dword ptr [ESP + 0xc]
+1009ace6 | 8b4704 | MOV EAX,dword ptr [EDI + 0x4]
+1009ace9 | 50 | PUSH EAX
+1009acea | 8bf1 | MOV ESI,ECX
+1009acec | e86477f6ff | CALL 0x10002455
+1009acf1 | 8b0f | MOV ECX,dword ptr [EDI]
+1009acf3 | 5f | POP EDI
+1009acf4 | 890e | MOV dword ptr [ESI],ECX
+1009acf6 | 8bc6 | MOV EAX,ESI
+1009acf8 | 5e | POP ESI
+1009acf9 | c20400 | RET 0x4

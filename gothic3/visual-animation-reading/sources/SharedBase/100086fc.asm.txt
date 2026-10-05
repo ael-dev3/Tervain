@@ -1,0 +1,2 @@
+; 100086fc bCMemoryStream::SetPosition
+100086fc | e90f720100 | JMP 0x1001f910

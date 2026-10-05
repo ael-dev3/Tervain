@@ -1,0 +1,16 @@
+/* ENTRY 200b9b50 | FUN_200b9b50 | STATUS decompiled | 2 ms */
+
+void __fastcall FUN_200b9b50(int *param_1)
+
+{
+  code *pcVar1;
+  int *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("StaminaPointsMax",0);
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  param_1[8] = *unaff_ESI;
+  (*pcVar1)("StaminaPointsMax",0);
+  return;
+}
+
+

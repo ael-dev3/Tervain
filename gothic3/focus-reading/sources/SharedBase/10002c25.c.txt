@@ -1,0 +1,12 @@
+/* ENTRY 10002c25 | bCMatrix::~bCMatrix | STATUS decompiled | 2 ms */
+
+/* public: __thiscall bCMatrix::~bCMatrix(void) */
+
+void __thiscall bCMatrix::~bCMatrix(bCMatrix *this)
+
+{
+                    /* 0x2c25  391  ??1bCMatrix@@QAE@XZ */
+  return;
+}
+
+

@@ -1,0 +1,9 @@
+; 300aa970 bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::~bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>
+300aa970 | 56 | PUSH ESI
+300aa971 | 8bf1 | MOV ESI,ECX
+300aa973 | 8d4e18 | LEA ECX,[ESI + 0x18]
+300aa976 | c70644f78130 | MOV dword ptr [ESI],0x3081f744
+300aa97c | ff1538caaf30 | CALL dword ptr [0x30afca38]
+300aa982 | 8bce | MOV ECX,ESI
+300aa984 | 5e | POP ESI
+300aa985 | ff2534caaf30 | JMP dword ptr [0x30afca34]

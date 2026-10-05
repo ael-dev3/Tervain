@@ -1,0 +1,12 @@
+/* ENTRY 3003d6ea | eCVisualAnimation_PS::HasRenderAlphaComponent | STATUS decompiled | 8 ms */
+
+/* public: virtual bool __thiscall eCVisualAnimation_PS::HasRenderAlphaComponent(void)const  */
+
+bool __thiscall eCVisualAnimation_PS::HasRenderAlphaComponent(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x3d6ea  9755  ?HasRenderAlphaComponent@eCVisualAnimation_PS@@UBE_NXZ */
+  return true;
+}
+
+

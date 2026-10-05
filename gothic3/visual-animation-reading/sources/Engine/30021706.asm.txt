@@ -1,0 +1,2 @@
+; 30021706 eCSpringAndDamperEffector::GetSpringDistCompressSaturate
+30021706 | e955fe0300 | JMP 0x30061560

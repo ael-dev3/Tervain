@@ -1,0 +1,8 @@
+; 10010ea0 FUN_10010ea0
+10010ea0 | 56 | PUSH ESI
+10010ea1 | 8bf1 | MOV ESI,ECX
+10010ea3 | 56 | PUSH ESI
+10010ea4 | ff15f4952f10 | CALL dword ptr [0x102f95f4]
+10010eaa | 8bc6 | MOV EAX,ESI
+10010eac | 5e | POP ESI
+10010ead | c3 | RET

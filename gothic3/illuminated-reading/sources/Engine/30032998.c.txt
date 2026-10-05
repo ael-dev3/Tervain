@@ -1,0 +1,12 @@
+/* ENTRY 30032998 | eCIlluminated_PS::GetVersion | STATUS decompiled | 97 ms */
+
+/* public: virtual unsigned short __thiscall eCIlluminated_PS::GetVersion(void)const  */
+
+ushort __thiscall eCIlluminated_PS::GetVersion(eCIlluminated_PS *this)
+
+{
+                    /* 0x32998  9408  ?GetVersion@eCIlluminated_PS@@UBEGXZ */
+  return 8;
+}
+
+

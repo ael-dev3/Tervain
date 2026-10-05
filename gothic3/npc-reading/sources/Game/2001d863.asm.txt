@@ -1,0 +1,4 @@
+; 2001d863 bTPropertyType<gCNPC_PS,bCPropertyID>::vfunction15
+2001d863 | e948882e00 | JMP 0x203060b0
+; 2001d868 gCCharacterMovement_PS::S_SetHeightCorr
+; 2001d868 Ordinal_6176

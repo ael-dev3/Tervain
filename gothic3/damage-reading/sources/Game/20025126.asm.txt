@@ -1,0 +1,2 @@
+; 20025126 gCDamage_PS::SetDamageType
+20025126 | e9a5ed0800 | JMP 0x200b3ed0

@@ -1,0 +1,3 @@
+; 1002bf40 FUN_1002bf40
+1002bf40 | 8b01 | MOV EAX,dword ptr [ECX]
+1002bf42 | c3 | RET

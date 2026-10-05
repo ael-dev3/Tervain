@@ -1,0 +1,19 @@
+/* ENTRY 10004f98 | bCGothic3EngineDialogs::~bCGothic3EngineDialogs | STATUS decompiled | 5 ms */
+
+/* public: __thiscall bCGothic3EngineDialogs::~bCGothic3EngineDialogs(void) */
+
+void __thiscall bCGothic3EngineDialogs::~bCGothic3EngineDialogs(bCGothic3EngineDialogs *this)
+
+{
+  bCDialogHandle *pbVar1;
+  
+                    /* 0x4f98  381  ??1bCGothic3EngineDialogs@@QAE@XZ */
+  pbVar1 = GetDialogHandle(this);
+  if ((*(short *)(pbVar1 + 4) != 0) && (*this == (bCGothic3EngineDialogs)0x1)) {
+    UnloadGE3DialogLib(this);
+    return;
+  }
+  return;
+}
+
+

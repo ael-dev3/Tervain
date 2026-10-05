@@ -1,0 +1,14 @@
+/* ENTRY 300201fd | eCSpringAndDamperEffector::AccessDamperMaxCompressForce | STATUS decompiled | 3 ms */
+
+/* public: float & __thiscall eCSpringAndDamperEffector::AccessDamperMaxCompressForce(void) */
+
+float * __thiscall
+eCSpringAndDamperEffector::AccessDamperMaxCompressForce(eCSpringAndDamperEffector *this)
+
+{
+                    /* 0x201fd  2613
+                       ?AccessDamperMaxCompressForce@eCSpringAndDamperEffector@@QAEAAMXZ */
+  return (float *)&(this->eCEffector_data).offset_0x74;
+}
+
+

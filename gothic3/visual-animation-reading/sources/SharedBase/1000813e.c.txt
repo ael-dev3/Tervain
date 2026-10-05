@@ -1,0 +1,12 @@
+/* ENTRY 1000813e | bCVector::operator_class_NxVec3& | STATUS decompiled | 1 ms */
+
+/* public: __thiscall bCVector::operator class NxVec3 &(void) */
+
+NxVec3 * __thiscall bCVector::operator_class_NxVec3_(bCVector *this)
+
+{
+                    /* 0x813e  898  ??BbCVector@@QAEAAVNxVec3@@XZ */
+  return (NxVec3 *)this;
+}
+
+

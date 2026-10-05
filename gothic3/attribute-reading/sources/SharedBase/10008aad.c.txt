@@ -1,0 +1,13 @@
+/* ENTRY 10008aad | bCPropertyObjectBase::WriteData | STATUS decompiled | 2 ms */
+
+/* protected: virtual void __thiscall bCPropertyObjectBase::WriteData(class bCOStream &)
+   bCPropertyObjectBase member function inherited by bTPOPureSmartPtr<bCObsoleteClass> */
+
+void __thiscall bCPropertyObjectBase::WriteData(bCPropertyObjectBase *this,bCOStream *param_1)
+
+{
+                    /* 0x8aad  4676  ?WriteData@bCPropertyObjectBase@@MAEXAAVbCOStream@@@Z */
+  return;
+}
+
+

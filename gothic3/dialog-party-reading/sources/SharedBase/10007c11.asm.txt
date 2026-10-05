@@ -1,0 +1,2 @@
+; 10007c11 bCObjectBase::bCObjectBase
+10007c11 | e9aa250400 | JMP 0x1004a1c0

@@ -1,0 +1,11 @@
+/* ENTRY 100200a0 | FUN_100200a0 | STATUS decompiled | 2 ms */
+
+int * __thiscall FUN_100200a0(int *param_1,ushort param_2)
+
+{
+  _param_2 = (uint)param_2;
+  (**(code **)(*param_1 + 4))(&param_2,2);
+  return param_1;
+}
+
+

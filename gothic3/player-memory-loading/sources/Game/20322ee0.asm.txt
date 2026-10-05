@@ -1,0 +1,19 @@
+; 20322ee0 bTPropertyType<gCPlayerMemory_PS,bTValArray<bool>_>::vfunction9
+20322ee0 | 56 | PUSH ESI
+20322ee1 | 8bf1 | MOV ESI,ECX
+20322ee3 | 8b06 | MOV EAX,dword ptr [ESI]
+20322ee5 | 8b5018 | MOV EDX,dword ptr [EAX + 0x18]
+20322ee8 | ffd2 | CALL EDX
+20322eea | 84c0 | TEST AL,AL
+20322eec | 7506 | JNZ 0x20322ef4
+20322eee | 33c0 | XOR EAX,EAX
+20322ef0 | 5e | POP ESI
+20322ef1 | c20400 | RET 0x4
+20322ef4 | 8b4620 | MOV EAX,dword ptr [ESI + 0x20]
+20322ef7 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+20322efb | 3b4804 | CMP ECX,dword ptr [EAX + 0x4]
+20322efe | 73ee | JNC 0x20322eee
+20322f00 | 8b00 | MOV EAX,dword ptr [EAX]
+20322f02 | 8b0488 | MOV EAX,dword ptr [EAX + ECX*0x4]
+20322f05 | 5e | POP ESI
+20322f06 | c20400 | RET 0x4

@@ -1,0 +1,12 @@
+/* ENTRY 2000ecff | gCDialog_PS::AccessPartyEnabled | STATUS decompiled | 42 ms */
+
+/* public: bool & __thiscall gCDialog_PS::AccessPartyEnabled(void) */
+
+bool * __thiscall gCDialog_PS::AccessPartyEnabled(gCDialog_PS *this)
+
+{
+                    /* 0xecff  1525  ?AccessPartyEnabled@gCDialog_PS@@QAEAA_NXZ */
+  return (bool *)&(this->gCDialog_PS_data).field_0x25;
+}
+
+

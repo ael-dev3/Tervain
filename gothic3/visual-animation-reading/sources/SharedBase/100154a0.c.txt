@@ -1,0 +1,15 @@
+/* ENTRY 100154a0 | FUN_100154a0 | STATUS decompiled | 3 ms */
+
+bCString * __thiscall FUN_100154a0(bCString *param_1,undefined4 *param_2)
+
+{
+  char *pcVar1;
+  
+  pcVar1 = (char *)*param_2;
+  if ((pcVar1 != (char *)0x0) && (*(int *)(pcVar1 + -8) != 0)) {
+    bCString::ConcatInPlace(param_1,pcVar1,*(int *)(pcVar1 + -8));
+  }
+  return param_1;
+}
+
+

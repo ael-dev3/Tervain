@@ -1,0 +1,35 @@
+/* ENTRY 30763520 | bTPropertyType<eCSpringAndDamperEffector,float>::~bTPropertyType<eCSpringAndDamperEffector,float> | STATUS decompiled | 18 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCSpringAndDamperEffector,float>::~bTPropertyType<eCSpringAndDamperEffector,float>
+          (bTPropertyType<eCSpringAndDamperEffector,float> *this)
+
+{
+  bTPropertyType<eCSpringAndDamperEffector,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"DamperMaxStretchForce");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)
+             &eCSpringAndDamperEffector::ms_PropertyMember_m_fDamperMaxStretchForce,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_fDamperMaxStretchForce = &vftable;
+  DAT_30aedfdc = bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::
+                 ~bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>();
+  _DAT_30aedfe0 = 0x7c;
+  _DAT_30aedfe4 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)
+             &eCSpringAndDamperEffector::ms_PropertyMember_m_fDamperMaxStretchForce);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30aedfdc,
+             (bCPropertyTypeBase *)
+             &eCSpringAndDamperEffector::ms_PropertyMember_m_fDamperMaxStretchForce);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}
+
+

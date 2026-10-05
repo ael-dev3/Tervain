@@ -1,0 +1,14 @@
+/* ENTRY 2000ec82 | bTPropertyType<gCPlayerMemory_PS,bTObjArray<bCString>_>::vfunction3 | STATUS decompiled | 29 ms */
+
+void __thiscall
+bTPropertyType<gCPlayerMemory_PS,bTObjArray<bCString>_>::vfunction3
+          (bTPropertyType<gCPlayerMemory_PS,bTObjArray<bCString>_> *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x20322357. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  (**(code **)(this[6].vftablePtr)->vfunction1)();
+  return;
+}
+
+

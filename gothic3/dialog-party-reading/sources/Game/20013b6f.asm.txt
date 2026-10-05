@@ -1,0 +1,2 @@
+; 20013b6f gCParty_PS::CopyFrom
+20013b6f | e99c3f3000 | JMP 0x20317b10

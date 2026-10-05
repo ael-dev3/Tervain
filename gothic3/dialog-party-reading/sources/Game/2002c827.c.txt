@@ -1,0 +1,11 @@
+/* ENTRY 2002c827 | bTPropertyContainer<gETradeCategory>::vfunction7 | STATUS decompiled | 3 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gETradeCategory>::vfunction7(bTPropertyContainer<gETradeCategory> *this)
+
+{
+  (this->bTPropertyContainer<gETradeCategory>_data).offset_0x0 = DAT_207bd4c4;
+  return 1;
+}
+
+

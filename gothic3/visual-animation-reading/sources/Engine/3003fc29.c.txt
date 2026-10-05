@@ -1,0 +1,19 @@
+/* ENTRY 3003fc29 | eCVisualAnimation_PS::GetMotionOwner | STATUS decompiled | 9 ms */
+
+/* public: enum eCVisualAnimation_PS::eSMotionDesc::eEMotionOwner __thiscall
+   eCVisualAnimation_PS::GetMotionOwner(enum eCWrapper_emfx2Actor::eEMotionType)const  */
+
+eEMotionOwner __thiscall
+eCVisualAnimation_PS::GetMotionOwner(eCVisualAnimation_PS *this,eEMotionType param_1)
+
+{
+                    /* 0x3fc29  7881
+                       ?GetMotionOwner@eCVisualAnimation_PS@@QBE?AW4eEMotionOwner@eSMotionDesc@1@W4eEMotionType@eCWrapper_emfx2Actor@@@Z
+                        */
+  if (*(eEMotionType *)&this[0xb].eCEntityPropertySet_data.offset_0xc <= param_1) {
+    return 0;
+  }
+  return *(eEMotionOwner *)(this[0xb].eCEntityPropertySet_data.offset_0x8 + 8 + param_1 * 0xc);
+}
+
+

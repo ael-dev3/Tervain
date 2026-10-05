@@ -1,0 +1,10 @@
+/* ENTRY 10034770 | FUN_10034770 | STATUS decompiled | 2 ms */
+
+bCMatrix * __thiscall FUN_10034770(bCMatrix *param_1,bCMatrix *param_2)
+
+{
+  bCMatrix::SetToProduct(param_1,param_1,param_2);
+  return param_1;
+}
+
+

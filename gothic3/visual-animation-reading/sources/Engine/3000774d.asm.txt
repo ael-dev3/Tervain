@@ -1,0 +1,2 @@
+; 3000774d eCEntity::GetUniformScaling
+3000774d | e94eb54a00 | JMP 0x304b2ca0

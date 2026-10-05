@@ -1,0 +1,26 @@
+; 300dd9d0 eCWrapper_emfx2Actor::eCWrapper_emfx2Actor
+300dd9d0 | 56 | PUSH ESI
+300dd9d1 | 57 | PUSH EDI
+300dd9d2 | 8bf1 | MOV ESI,ECX
+300dd9d4 | ff1508dcaf30 | CALL dword ptr [0x30afdc08]
+300dd9da | 8d7e30 | LEA EDI,[ESI + 0x30]
+300dd9dd | 8bcf | MOV ECX,EDI
+300dd9df | c706ac278230 | MOV dword ptr [ESI],0x308227ac
+300dd9e5 | ff15a4cbaf30 | CALL dword ptr [0x30afcba4]
+300dd9eb | 8d4e58 | LEA ECX,[ESI + 0x58]
+300dd9ee | e8206df3ff | CALL 0x30014713
+300dd9f3 | 8d4e68 | LEA ECX,[ESI + 0x68]
+300dd9f6 | ff15ecdbaf30 | CALL dword ptr [0x30afdbec]
+300dd9fc | 8bcf | MOV ECX,EDI
+300dd9fe | c7460c00000000 | MOV dword ptr [ESI + 0xc],0x0
+300dda05 | c6464800 | MOV byte ptr [ESI + 0x48],0x0
+300dda09 | ff157ccbaf30 | CALL dword ptr [0x30afcb7c]
+300dda0f | f30f1005d0988130 | MOVSS XMM0,dword ptr [0x308198d0]
+300dda17 | 5f | POP EDI
+300dda18 | f30f11466c | MOVSS dword ptr [ESI + 0x6c],XMM0
+300dda1d | f30f114670 | MOVSS dword ptr [ESI + 0x70],XMM0
+300dda22 | c7467400000000 | MOV dword ptr [ESI + 0x74],0x0
+300dda29 | c6467801 | MOV byte ptr [ESI + 0x78],0x1
+300dda2d | 8bc6 | MOV EAX,ESI
+300dda2f | 5e | POP ESI
+300dda30 | c3 | RET

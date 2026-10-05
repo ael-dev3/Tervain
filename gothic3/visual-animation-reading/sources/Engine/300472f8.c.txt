@@ -1,0 +1,109 @@
+/* ENTRY 300472f8 | eCVisualAnimationFactory::Read | STATUS decompiled | 59 ms */
+
+/* public: enum bEResult __thiscall eCVisualAnimationFactory::Read(class bCIStream &) */
+
+bEResult __thiscall
+eCVisualAnimationFactory::Read(eCVisualAnimationFactory *this,bCIStream *param_1)
+
+{
+  eCVisualAnimationLoD *peVar1;
+  int *piVar2;
+  bCIStream *this_00;
+  ushort unaff_BP;
+  int iVar3;
+  undefined4 unaff_ESI;
+  int iVar4;
+  bCString *pbVar5;
+  bool bVar6;
+  uint uVar7;
+  eCVisualAnimationFactory *peStack_14;
+  uint auStack_10 [2];
+  bCIStream *pbStack_8;
+  bCIStream *pbStack_4;
+  
+  pbStack_8 = (bCIStream *)this;
+                    /* 0x472f8  12301
+                       ?Read@eCVisualAnimationFactory@@QAE?AW4bEResult@@AAVbCIStream@@@Z */
+  Destroy(this);
+  peVar1 = (eCVisualAnimationLoD *)new(0x2c,0x19c);
+  if (peVar1 == (eCVisualAnimationLoD *)0x0) {
+    piVar2 = (int *)0x0;
+  }
+  else {
+    piVar2 = (int *)eCVisualAnimationLoD::eCVisualAnimationLoD(peVar1,this);
+  }
+  *(int **)(this + 8) = piVar2;
+  (**(code **)(*piVar2 + 0x18))();
+  bCIStream::operator>>(pbStack_4,(ushort *)&stack0xffffffe8);
+  (**(code **)(**(int **)(this + 8) + 0x10))(pbStack_4);
+  bVar6 = SUB41((uint)unaff_ESI >> 0x18,0);
+  if ((3 < unaff_BP) && (bCIStream::operator>>(pbStack_4,(bool *)&stack0xffffffe3), bVar6 == true))
+  {
+    peVar1 = (eCVisualAnimationLoD *)new(0x2c,0x3eb);
+    if (peVar1 == (eCVisualAnimationLoD *)0x0) {
+      piVar2 = (int *)0x0;
+    }
+    else {
+      piVar2 = (int *)eCVisualAnimationLoD::eCVisualAnimationLoD(peVar1,this);
+    }
+    *(int **)(this + 0xc) = piVar2;
+    (**(code **)(*piVar2 + 0x10))(pbStack_4);
+  }
+  if (unaff_BP == 1) {
+    bCIStream::operator>>(pbStack_4,(ushort *)&stack0xffffffe8);
+  }
+  if (2 < unaff_BP) {
+    bCIStream::operator>>(pbStack_4,auStack_10);
+    uVar7 = 0;
+    if (auStack_10[0] != 0) {
+      do {
+        iVar4 = *(int *)(this + 0x14) + 1;
+        thunk_FUN_300be190(iVar4,(iVar4 != 0) - 1);
+        this_00 = pbStack_4;
+        if (iVar4 < *(int *)(this + 0x14)) {
+          pbVar5 = (bCString *)(*(int *)(this + 0x10) + iVar4 * 0x10);
+          for (iVar3 = *(int *)(this + 0x14) - iVar4; iVar3 != 0; iVar3 = iVar3 + -1) {
+            bCString::~bCString(pbVar5);
+            pbVar5 = pbVar5 + 0x10;
+          }
+          thunk_FUN_300bdf60(*(int *)(peStack_14 + 0x10) + iVar4 * 0x10,
+                             *(int *)(peStack_14 + 0x14) - iVar4);
+          this_00 = pbStack_8;
+        }
+        *(int *)(peStack_14 + 0x14) = iVar4;
+        pbVar5 = (bCString *)(iVar4 * 0x10 + -0x10 + *(int *)(peStack_14 + 0x10));
+        bCIStream::operator>>(this_00,pbVar5);
+        peVar1 = (eCVisualAnimationLoD *)new(0x2c,0x3fe);
+        if (peVar1 == (eCVisualAnimationLoD *)0x0) {
+          piVar2 = (int *)0x0;
+        }
+        else {
+          piVar2 = (int *)eCVisualAnimationLoD::eCVisualAnimationLoD(peVar1,peStack_14);
+        }
+        *(int **)(pbVar5 + 4) = piVar2;
+        (**(code **)(*piVar2 + 0x10))(this_00);
+        if ((3 < unaff_BP) &&
+           (bCIStream::operator>>(this_00,(bool *)&stack0xffffffe3), bVar6 == true)) {
+          peVar1 = (eCVisualAnimationLoD *)new(0x2c,0x406);
+          if (peVar1 == (eCVisualAnimationLoD *)0x0) {
+            piVar2 = (int *)0x0;
+          }
+          else {
+            piVar2 = (int *)eCVisualAnimationLoD::eCVisualAnimationLoD(peVar1,peStack_14);
+          }
+          *(int **)(pbVar5 + 8) = piVar2;
+          (**(code **)(*piVar2 + 0x10))(this_00);
+        }
+        if (4 < unaff_BP) {
+          bCIStream::operator>>(this_00,(bool *)(pbVar5 + 0xc));
+        }
+        uVar7 = uVar7 + 1;
+        pbStack_4 = this_00;
+        this = peStack_14;
+      } while (uVar7 < auStack_10[0]);
+    }
+  }
+  return 1;
+}
+
+

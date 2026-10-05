@@ -1,0 +1,2 @@
+; 3001bb6c eCVisualAnimation_PS::IsVisual
+3001bb6c | e91f1c0800 | JMP 0x3009d790

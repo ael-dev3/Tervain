@@ -1,0 +1,13 @@
+/* ENTRY 3001c99a | eCSpringAndDamperEffector::Create | STATUS decompiled | 3 ms */
+
+/* public: virtual enum bEResult __thiscall eCSpringAndDamperEffector::Create(void) */
+
+bEResult __thiscall eCSpringAndDamperEffector::Create(eCSpringAndDamperEffector *this)
+
+{
+                    /* 0x1c99a  4689  ?Create@eCSpringAndDamperEffector@@UAE?AW4bEResult@@XZ */
+  eCEffector::Create((eCEffector *)this);
+  return 1;
+}
+
+

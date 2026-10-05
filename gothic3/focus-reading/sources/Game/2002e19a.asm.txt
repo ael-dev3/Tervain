@@ -1,0 +1,2 @@
+; 2002e19a bTPropertyObject<gCFocus_PS,eCEntityPropertySet>::scalar_deleting_destructor
+2002e19a | e9c1201100 | JMP 0x20140260

@@ -1,0 +1,16 @@
+/* ENTRY 300ac950 | bTPropertyObject<eCSpringAndDamperEffector,eCEffector>::~bTPropertyObject<eCSpringAndDamperEffector,eCEffector> | STATUS decompiled | 3 ms */
+
+void __thiscall
+bTPropertyObject<eCSpringAndDamperEffector,eCEffector>::
+~bTPropertyObject<eCSpringAndDamperEffector,eCEffector>
+          (bTPropertyObject<eCSpringAndDamperEffector,eCEffector> *this)
+
+{
+  this->vftablePtr = &vftable;
+  vfunction10(this);
+  bTPOPureSmartPtr<eCSpringAndDamperEffector>::~bTPOPureSmartPtr<eCSpringAndDamperEffector>
+            ((bTPOPureSmartPtr<eCSpringAndDamperEffector> *)this);
+  return;
+}
+
+

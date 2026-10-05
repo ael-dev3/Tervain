@@ -1,0 +1,69 @@
+/* ENTRY 300a48b0 | FUN_300a48b0 | STATUS decompiled | 26 ms */
+
+undefined4 __thiscall
+FUN_300a48b0(int param_1,bCString *param_2,bCVector *param_3,bCVector *param_4,int param_5)
+
+{
+  bCString *pbVar1;
+  bool bVar2;
+  int *piVar3;
+  eCWrapper_emfx2Actor *peVar4;
+  int iVar5;
+  
+  pbVar1 = param_2;
+  iVar5 = 0;
+  if (0 < *(int *)(param_1 + 0xe0)) {
+    do {
+      bVar2 = bCString::operator==
+                        ((bCString *)(*(int *)(*(int *)(param_1 + 0xdc) + iVar5 * 4) + 0x10),pbVar1)
+      ;
+      if (bVar2) {
+        piVar3 = *(int **)(*(int *)(param_1 + 0xdc) + iVar5 * 4);
+        if (piVar3 != (int *)0x0) goto LAB_300a496d;
+        break;
+      }
+      iVar5 = iVar5 + 1;
+    } while (iVar5 < *(int *)(param_1 + 0xe0));
+  }
+  piVar3 = (int *)new(0x30,0x10b6);
+  if (piVar3 == (int *)0x0) {
+    piVar3 = (int *)0x0;
+  }
+  else {
+    *piVar3 = 0;
+    piVar3[1] = param_1;
+    piVar3[2] = param_1;
+    piVar3[3] = 0;
+    bCString::bCString((bCString *)(piVar3 + 4));
+    bCVector::bCVector((bCVector *)(piVar3 + 6));
+    bCVector::bCVector((bCVector *)(piVar3 + 9));
+  }
+  iVar5 = *(int *)(param_1 + 0xe0) + 1;
+  thunk_FUN_300af0a0(iVar5,(iVar5 != 0) - 1);
+  *(int *)(param_1 + 0xe0) = iVar5;
+  *(int **)(*(int *)(param_1 + 0xdc) + -4 + iVar5 * 4) = piVar3;
+LAB_300a496d:
+  if (*piVar3 != 0) {
+    peVar4 = eCVisualAnimationFactory::GetAssembledActor
+                       ((eCVisualAnimationFactory *)(piVar3[1] + 0x94));
+    if (peVar4 != (eCWrapper_emfx2Actor *)0x0) {
+      eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)(piVar3[1] + 0x94));
+      param_2 = (bCString *)*piVar3;
+      thunk_FUN_300ac4f0(&param_2);
+    }
+    if ((undefined4 *)*piVar3 != (undefined4 *)0x0) {
+      (*(code *)**(undefined4 **)*piVar3)(1);
+    }
+    *piVar3 = 0;
+  }
+  piVar3[3] = 0;
+  bCString::Clear((bCString *)(piVar3 + 4));
+  bCString::operator=((bCString *)(piVar3 + 4),pbVar1);
+  piVar3[3] = 0;
+  bCVector::operator=((bCVector *)(piVar3 + 6),param_3);
+  bCVector::operator=((bCVector *)(piVar3 + 9),param_4);
+  piVar3[5] = param_5;
+  return 1;
+}
+
+

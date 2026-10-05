@@ -1,0 +1,13 @@
+/* ENTRY 3009bcf0 | FUN_3009bcf0 | STATUS decompiled | 4 ms */
+
+float10 FUN_3009bcf0(float param_1)
+
+{
+  float fVar1;
+  
+  fVar1 = (float)(0x5f3759df - ((uint)param_1 >> 1));
+  return (float10)1.5 * (float10)fVar1 -
+         (float10)param_1 * (float10)0.5 * (float10)fVar1 * (float10)fVar1 * (float10)fVar1;
+}
+
+

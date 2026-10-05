@@ -1,0 +1,4 @@
+; 10004aac ??0bCPropertyObjectSingleton@@IAE@XZ
+10004aac | e99fbb0800 | JMP 0x10090650
+; 10004ab6 bCInfDoubleCylinder::SetInfDoubleCylinder
+; 10004ab6 Ordinal_4225

@@ -1,0 +1,11 @@
+/* ENTRY 2000eb60 | bTPropertyContainer<gEDamageType>::vfunction7 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gEDamageType>::vfunction7(bTPropertyContainer<gEDamageType> *this)
+
+{
+  (this->bTPropertyContainer<gEDamageType>_data).offset_0x0 = DAT_207b62a4;
+  return 1;
+}
+
+

@@ -1,0 +1,16 @@
+/* ENTRY 300470a5 | eCVisualAnimation_PS::eCActorAttachment::GetEntity | STATUS decompiled | 4 ms */
+
+/* public: class eCEntity * __thiscall eCVisualAnimation_PS::eCActorAttachment::GetEntity(void) */
+
+eCEntity * __thiscall eCVisualAnimation_PS::eCActorAttachment::GetEntity(eCActorAttachment *this)
+
+{
+  eCEntity *peVar1;
+  
+                    /* 0x470a5  7013
+                       ?GetEntity@eCActorAttachment@eCVisualAnimation_PS@@QAEPAVeCEntity@@XZ */
+  peVar1 = eCEntityProxy::GetEntity((eCEntityProxy *)(this + 4));
+  return peVar1;
+}
+
+

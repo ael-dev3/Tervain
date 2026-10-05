@@ -1,0 +1,2 @@
+; 3000d7e7 eCVisualAnimation_PS::DestroyPhysicsController
+3000d7e7 | e9e4530900 | JMP 0x300a2bd0

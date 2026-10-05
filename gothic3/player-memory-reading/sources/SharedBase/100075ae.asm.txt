@@ -1,0 +1,2 @@
+; 100075ae bCErrorAdmin::IsInPanicState
+100075ae | e91d9f0100 | JMP 0x100214d0

@@ -1,0 +1,4 @@
+; 10007dab ??1bCPropertyID@@QAE@XZ
+10007dab | e910ad0800 | JMP 0x10092ac0
+; 10007db0 operator>>
+; 10007db0 Ordinal_592

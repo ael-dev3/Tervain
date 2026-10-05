@@ -1,0 +1,60 @@
+/* ENTRY 30652e70 | FUN_30652e70 | STATUS decompiled | 17 ms */
+
+undefined4 __thiscall FUN_30652e70(void *this,int param_2)
+
+{
+  undefined4 uVar1;
+  int iVar2;
+  int iVar3;
+  int iVar4;
+  int iVar5;
+  String_vftable *local_20;
+  void *local_1c;
+  size_t local_18;
+  undefined4 local_14;
+  undefined4 local_10;
+  undefined **local_c;
+  undefined1 *puStack_8;
+  undefined4 local_4;
+  
+  local_4 = 0xffffffff;
+  puStack_8 = &LAB_3072d5d8;
+  local_c = ExceptionList;
+  ExceptionList = &local_c;
+  iVar3 = *(int *)((int)this + 4) + -1;
+  iVar4 = 0;
+  if (-1 < iVar3) {
+    do {
+      iVar5 = (iVar3 + iVar4) / 2;
+      iVar2 = FUN_3066beb0(*(int *)((int)this + 0xc) + iVar5 * 0x14);
+      if (iVar2 < 1) {
+        if (-1 < iVar2) {
+          ExceptionList = local_c;
+          return *(undefined4 *)(*(int *)((int)this + 0xc) + 0x10 + iVar5 * 0x14);
+        }
+        iVar3 = iVar5 + -1;
+      }
+      else {
+        iVar4 = iVar5 + 1;
+      }
+    } while (iVar4 <= iVar3);
+  }
+                    /* inlined constructor or destructor (approx location) for MCore::String */
+  local_20 = &MCore::String::vftable;
+  local_1c = (void *)0x0;
+  local_18 = 0;
+  local_14 = 0;
+  FUN_3066c3c0(0,0);
+  local_4 = 0;
+  FUN_3066c480(*(undefined4 *)(param_2 + 4),*(undefined4 *)(param_2 + 8));
+  *(int *)((int)this + 0x10) = *(int *)((int)this + 0x10) + 1;
+  local_10 = *(undefined4 *)((int)this + 0x10);
+  FUN_30652df0(iVar4,&local_20);
+  uVar1 = local_10;
+  local_4 = 0xffffffff;
+  MCore::String::~String((String *)&local_20);
+  ExceptionList = local_c;
+  return uVar1;
+}
+
+

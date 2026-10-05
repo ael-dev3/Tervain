@@ -1,0 +1,4 @@
+; 20019f01 bTPropertyType<gCNPC_PS,bTPropertyContainer<gENPCType>_>::vfunction15
+20019f01 | e91ab92e00 | JMP 0x20305820
+; 20019f06 gCMusicLink::OnNotifyPropertyValueChangedExitEx
+; 20019f06 Ordinal_5498

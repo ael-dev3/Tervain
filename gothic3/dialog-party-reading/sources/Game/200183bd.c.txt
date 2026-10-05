@@ -1,0 +1,15 @@
+/* ENTRY 200183bd | gCParty_PS::SetPartyLeaderEntity | STATUS decompiled | 13 ms */
+
+/* public: void __thiscall gCParty_PS::SetPartyLeaderEntity(class eCEntityProxy const &) */
+
+void __thiscall gCParty_PS::SetPartyLeaderEntity(gCParty_PS *this,eCEntityProxy *param_1)
+
+{
+                    /* 0x183bd  6873  ?SetPartyLeaderEntity@gCParty_PS@@QAEXABVeCEntityProxy@@@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"PartyLeaderEntity",false);
+  eCEntityProxy::operator=((eCEntityProxy *)&(this->gCParty_PS_data).field_0x10,param_1);
+  (*this->vftablePtr->NotifyPropertyValueChangedExitEx)(this,"PartyLeaderEntity",false);
+  return;
+}
+
+

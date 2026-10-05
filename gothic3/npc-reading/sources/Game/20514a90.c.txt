@@ -1,0 +1,35 @@
+/* ENTRY 20514a90 | bTPropertyType<gCNPC_PS,eCEntityProxy>::~bTPropertyType<gCNPC_PS,eCEntityProxy> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNPC_PS,eCEntityProxy>::~bTPropertyType<gCNPC_PS,eCEntityProxy>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Magic");
+  bCString::bCString(local_c,"SpellTarget");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_entSpellTarget,local_c,local_8,
+             local_4,1,true);
+  _ms_PropertyMember_m_entSpellTarget = &vftable;
+  DAT_207c1114 = bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>();
+  _DAT_207c1118 = 0x15c;
+  _DAT_207c111c = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_entSpellTarget);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c1114,
+             (bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_entSpellTarget);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<eCEntityProxy>::~bTPropertyTypeOnly<eCEntityProxy>);
+  return;
+}
+
+

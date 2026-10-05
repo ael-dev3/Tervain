@@ -1,0 +1,12 @@
+/* ENTRY 10006c71 | bCBox::GetDepth | STATUS decompiled | 2 ms */
+
+/* public: float __thiscall bCBox::GetDepth(void)const  */
+
+float __thiscall bCBox::GetDepth(bCBox *this)
+
+{
+                    /* 0x6c71  2261  ?GetDepth@bCBox@@QBEMXZ */
+  return *(float *)(this + 0x14) - *(float *)(this + 8);
+}
+
+

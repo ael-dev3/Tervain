@@ -1,0 +1,4 @@
+; 20328760 bTPropertyObject<gCPlayerMemory_PS,eCEntityPropertySet>::vfunction11
+20328760 | 6a00 | PUSH 0x0
+20328762 | e860e8ceff | CALL 0x20016fc7
+20328767 | c3 | RET

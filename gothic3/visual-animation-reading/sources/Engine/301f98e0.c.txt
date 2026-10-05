@@ -1,0 +1,9 @@
+/* ENTRY 301f98e0 | FUN_301f98e0 | STATUS decompiled | 1 ms */
+
+undefined4 FUN_301f98e0(void)
+
+{
+  return DAT_30ae14b0;
+}
+
+

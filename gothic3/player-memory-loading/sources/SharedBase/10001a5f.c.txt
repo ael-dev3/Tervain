@@ -1,0 +1,45 @@
+/* ENTRY 10001a5f | bCErrorAdmin::PrintMessage | STATUS decompiled | 9 ms */
+
+/* protected: void __thiscall bCErrorAdmin::PrintMessage(enum
+   bCGothic3EngineDialogs::bEGE3DialogsLogMessageType,char const *,bool) */
+
+void __thiscall
+bCErrorAdmin::PrintMessage
+          (bCErrorAdmin *this,bEGE3DialogsLogMessageType param_1,char *param_2,bool param_3)
+
+{
+  bCDialogHandle *this_00;
+  bCMessageAdmin *this_01;
+  bEMessageTypes bVar1;
+  char *pcVar2;
+  char *pcVar3;
+  int iVar4;
+  int iVar5;
+  undefined4 uStack_4;
+  
+                    /* 0x1a5f  3835
+                       ?PrintMessage@bCErrorAdmin@@IAEXW4bEGE3DialogsLogMessageType@bCGothic3EngineDialogs@@PBD_N@Z
+                        */
+  uStack_4 = this;
+  bCGothic3EngineDialogs::bCGothic3EngineDialogs((bCGothic3EngineDialogs *)((int)&uStack_4 + 3));
+  pcVar2 = param_2;
+  this_00 = bCGothic3EngineDialogs::GetDialogHandle((bCGothic3EngineDialogs *)((int)&uStack_4 + 3));
+  bCGothic3EngineDialogs::bCDialogHandle::AddText(this_00,param_1,pcVar2);
+  if (param_3) {
+    pcVar2 = "(##Fatal error detected !!!)";
+    bVar1 = 5;
+  }
+  else {
+    pcVar2 = "(#Fault error detected)";
+    bVar1 = 4;
+  }
+  iVar5 = 5;
+  iVar4 = -1;
+  pcVar3 = (char *)0x0;
+  this_01 = bCMessageAdmin::GetInstance();
+  bCMessageAdmin::OnMessage(this_01,bVar1,param_2,pcVar2,pcVar3,iVar4,iVar5);
+  bCGothic3EngineDialogs::~bCGothic3EngineDialogs((bCGothic3EngineDialogs *)((int)&uStack_4 + 3));
+  return;
+}
+
+

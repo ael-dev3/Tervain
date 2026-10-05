@@ -1,0 +1,2 @@
+; 30007a2c eCVisualAnimation_PS::GetAnimationFactory
+30007a2c | e9ff5d0900 | JMP 0x3009d830

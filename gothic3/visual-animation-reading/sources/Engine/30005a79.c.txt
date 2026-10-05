@@ -1,0 +1,31 @@
+/* ENTRY 30005a79 | eCWrapper_emfx2Actor::CreateInstance | STATUS decompiled | 8 ms */
+
+/* public: class eCWrapper_emfx2Actor * __thiscall eCWrapper_emfx2Actor::CreateInstance(void)const
+    */
+
+eCWrapper_emfx2Actor * __thiscall eCWrapper_emfx2Actor::CreateInstance(eCWrapper_emfx2Actor *this)
+
+{
+  bool bVar1;
+  eCWrapper_emfx2Actor *this_00;
+  eCWrapper_emfx2Actor *peVar2;
+  
+                    /* 0x5a79  4855  ?CreateInstance@eCWrapper_emfx2Actor@@QBEPAV1@XZ */
+  bVar1 = (*this->vftablePtr->IsValid)(this);
+  if (!bVar1) {
+    return (eCWrapper_emfx2Actor *)0x0;
+  }
+  this_00 = (eCWrapper_emfx2Actor *)new(0x80,0x713);
+  if (this_00 == (eCWrapper_emfx2Actor *)0x0) {
+    peVar2 = (eCWrapper_emfx2Actor *)0x0;
+  }
+  else {
+    peVar2 = (eCWrapper_emfx2Actor *)eCWrapper_emfx2Actor(this_00);
+  }
+  (**(code **)(*(int *)peVar2 + 0x1c))(this);
+  FUN_3063a800();
+  FUN_3063e270();
+  return peVar2;
+}
+
+

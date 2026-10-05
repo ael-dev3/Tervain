@@ -1,0 +1,31 @@
+/* ENTRY 301d6780 | FUN_301d6780 | STATUS decompiled | 17 ms */
+
+void __thiscall
+FUN_301d6780(eCWnd *param_1,bCPoint *param_2,bCString *param_3,bCByteAlphaColor *param_4,
+            eEWinTextMode param_5)
+
+{
+  eCFont *peVar1;
+  long lVar2;
+  long lVar3;
+  bCUnicodeString *pbVar4;
+  float fVar5;
+  eCWnd *local_4;
+  
+  local_4 = param_1;
+  bCUnicodeString::bCUnicodeString((bCUnicodeString *)&local_4);
+  bCUnicodeString::SetAnsiText((bCUnicodeString *)&local_4,param_3);
+  if (param_4 == (bCByteAlphaColor *)0x0) {
+    peVar1 = eCWnd::GetFont(param_1);
+    param_4 = (bCByteAlphaColor *)(**(code **)(*(int *)peVar1 + 0x84))();
+  }
+  pbVar4 = (bCUnicodeString *)&local_4;
+  fVar5 = -2.0;
+  lVar2 = bCPoint::GetY(param_2);
+  lVar3 = bCPoint::GetX(param_2);
+  eCWnd::CreateTextItem(param_1,lVar3,lVar2,pbVar4,fVar5,param_4,param_5);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&local_4);
+  return;
+}
+
+

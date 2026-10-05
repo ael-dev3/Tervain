@@ -1,0 +1,4 @@
+; 20362ce0 bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet>::vfunction11
+20362ce0 | 6a00 | PUSH 0x0
+20362ce2 | e8eedecbff | CALL 0x20020bd5
+20362ce7 | c3 | RET

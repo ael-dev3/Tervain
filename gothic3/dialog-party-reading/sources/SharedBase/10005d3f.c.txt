@@ -1,0 +1,40 @@
+/* ENTRY 10005d3f | bCGothic3EngineDialogs::bCDialogHandle::ReleaseReference | STATUS decompiled | 9 ms */
+
+/* public: unsigned short __thiscall bCGothic3EngineDialogs::bCDialogHandle::ReleaseReference(void)
+    */
+
+ushort __thiscall bCGothic3EngineDialogs::bCDialogHandle::ReleaseReference(bCDialogHandle *this)
+
+{
+  short sVar1;
+  
+                    /* 0x5d3f  3920  ?ReleaseReference@bCDialogHandle@bCGothic3EngineDialogs@@QAEGXZ
+                        */
+  sVar1 = *(short *)(this + 4);
+  if (sVar1 != 0) {
+    if (sVar1 != 1) {
+      *(ushort *)(this + 4) = sVar1 - 1U;
+      return sVar1 - 1U;
+    }
+    if (*(HMODULE *)this != (HMODULE)0x0) {
+      FreeLibrary(*(HMODULE *)this);
+    }
+    *(undefined4 *)this = 0;
+    *(undefined2 *)(this + 4) = 0;
+    *(undefined4 *)(this + 0x14) = 0;
+    *(undefined4 *)(this + 8) = 0;
+    *(undefined4 *)(this + 0xc) = 0;
+    *(undefined4 *)(this + 0x18) = 0;
+    *(undefined4 *)(this + 0x10) = 0;
+    *(undefined4 *)(this + 0x1c) = 0;
+    *(undefined4 *)(this + 0x20) = 0;
+    *(undefined4 *)(this + 0x24) = 0;
+    *(undefined4 *)(this + 0x28) = 0;
+    *(undefined4 *)(this + 0x2c) = 0;
+    *(undefined4 *)(this + 0x30) = 0;
+    *(undefined4 *)(this + 0x34) = 0;
+  }
+  return 0;
+}
+
+

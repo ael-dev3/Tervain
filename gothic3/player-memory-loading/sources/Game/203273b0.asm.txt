@@ -1,0 +1,12 @@
+; 203273b0 bTPropertyType<gCPlayerMemory_PS,float>::vfunction19
+203273b0 | 56 | PUSH ESI
+203273b1 | 8bf1 | MOV ESI,ECX
+203273b3 | ff15dc877d20 | CALL dword ptr [0x207d87dc]
+203273b9 | 8d4620 | LEA EAX,[ESI + 0x20]
+203273bc | 50 | PUSH EAX
+203273bd | e81447cfff | CALL 0x2001bad6
+203273c2 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+203273c5 | 56 | PUSH ESI
+203273c6 | ff15dc867d20 | CALL dword ptr [0x207d86dc]
+203273cc | 5e | POP ESI
+203273cd | c3 | RET

@@ -1,0 +1,10 @@
+; 203258d0 bTPropertyType<gCPlayerMemory_PS,unsigned_long>::vfunction6
+203258d0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+203258d4 | 85c0 | TEST EAX,EAX
+203258d6 | 740e | JZ 0x203258e6
+203258d8 | 8b11 | MOV EDX,dword ptr [ECX]
+203258da | 50 | PUSH EAX
+203258db | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+203258de | ffd0 | CALL EAX
+203258e0 | c70000000000 | MOV dword ptr [EAX],0x0
+203258e6 | c20400 | RET 0x4

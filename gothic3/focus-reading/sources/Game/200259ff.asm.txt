@@ -1,0 +1,2 @@
+; 200259ff gCFocus_PS::GetPropertySetType
+200259ff | e92c571100 | JMP 0x2013b130

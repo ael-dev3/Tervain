@@ -1,0 +1,2 @@
+; 20021b98 gCDamageReceiver_PS::SetManaPoints
+20021b98 | e913800900 | JMP 0x200b9bb0

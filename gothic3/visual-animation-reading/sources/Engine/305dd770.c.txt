@@ -1,0 +1,21 @@
+/* ENTRY 305dd770 | FUN_305dd770 | STATUS decompiled | 11 ms */
+
+void __fastcall FUN_305dd770(eCArchiveFile *param_1)
+
+{
+  bCMemoryAdmin *this;
+  void *pvVar1;
+  
+  eCArchiveFile::Close(param_1);
+  bCString::Clear((bCString *)&param_1->eCArchiveFile_data);
+  if ((param_1->eCArchiveFile_data).offset_0x10 != (void *)0x0) {
+    thunk_FUN_3007cd40();
+    pvVar1 = (param_1->eCArchiveFile_data).offset_0x10;
+    this = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::DeleteObject(this,pvVar1);
+    (param_1->eCArchiveFile_data).offset_0x10 = (void *)0x0;
+  }
+  return;
+}
+
+

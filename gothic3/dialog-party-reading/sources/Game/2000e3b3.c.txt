@@ -1,0 +1,12 @@
+/* ENTRY 2000e3b3 | gCDialog_PS::CopyFrom | STATUS decompiled | 5 ms */
+
+/* public: virtual enum bEResult __thiscall gCDialog_PS::CopyFrom(class bCObjectBase const &) */
+
+bEResult __thiscall gCDialog_PS::CopyFrom(gCDialog_PS *this,bCObjectBase *param_1)
+
+{
+                    /* 0xe3b3  2238  ?CopyFrom@gCDialog_PS@@UAE?AW4bEResult@@ABVbCObjectBase@@@Z */
+  return 1;
+}
+
+

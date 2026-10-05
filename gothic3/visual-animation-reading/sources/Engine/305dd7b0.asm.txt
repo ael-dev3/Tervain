@@ -1,0 +1,13 @@
+; 305dd7b0 eCArchiveFile::eCArchiveFile
+305dd7b0 | 56 | PUSH ESI
+305dd7b1 | 8bf1 | MOV ESI,ECX
+305dd7b3 | c70614d48830 | MOV dword ptr [ESI],0x3088d414
+305dd7b9 | c7460400d48830 | MOV dword ptr [ESI + 0x4],0x3088d400
+305dd7c0 | e8169da3ff | CALL 0x300174db
+305dd7c5 | 8d4e0c | LEA ECX,[ESI + 0xc]
+305dd7c8 | e80eb6a3ff | CALL 0x30018ddb
+305dd7cd | 8d4e08 | LEA ECX,[ESI + 0x8]
+305dd7d0 | ff15dcdbaf30 | CALL dword ptr [0x30afdbdc]
+305dd7d6 | 8bce | MOV ECX,ESI
+305dd7d8 | 5e | POP ESI
+305dd7d9 | ff2500daaf30 | JMP dword ptr [0x30afda00]

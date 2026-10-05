@@ -1,0 +1,2 @@
+; 30024a4b SHAREDBASE.DLL::bCPropertyTypeBase::Read
+30024a4b | e950150900 | JMP 0x300b5fa0

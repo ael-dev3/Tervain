@@ -1,0 +1,12 @@
+/* ENTRY 3003d8b6 | eCVisualAnimation_PS::AccessBonesBreakMaxTorque | STATUS decompiled | 6 ms */
+
+/* public: float & __thiscall eCVisualAnimation_PS::AccessBonesBreakMaxTorque(void) */
+
+float * __thiscall eCVisualAnimation_PS::AccessBonesBreakMaxTorque(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x3d8b6  2531  ?AccessBonesBreakMaxTorque@eCVisualAnimation_PS@@QAEAAMXZ */
+  return (float *)(this + 2);
+}
+
+

@@ -1,0 +1,2 @@
+; 10007130 bCPropertyObjectBase::bCPropertyObjectBase
+10007130 | e95b210800 | JMP 0x10089290

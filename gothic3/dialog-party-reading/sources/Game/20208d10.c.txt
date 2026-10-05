@@ -1,0 +1,11 @@
+/* ENTRY 20208d10 | bTPropertyObject<gCClock_PS,eCEntityPropertySet>::vfunction1 | STATUS decompiled | 2 ms */
+
+bCObjectRefBase * __thiscall
+bTPropertyObject<gCClock_PS,eCEntityPropertySet>::vfunction1
+          (bTPropertyObject<gCClock_PS,eCEntityPropertySet> *this)
+
+{
+  return (this->bTPOPureSmartPtr<gCClock_PS>_data).offset_0x4;
+}
+
+

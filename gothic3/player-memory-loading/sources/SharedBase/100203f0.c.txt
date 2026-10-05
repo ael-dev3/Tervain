@@ -1,0 +1,13 @@
+/* ENTRY 100203f0 | FUN_100203f0 | STATUS decompiled | 2 ms */
+
+int * FUN_100203f0(undefined4 param_1,int *param_2)
+
+{
+  int *piVar1;
+  
+  piVar1 = param_2;
+  (**(code **)(*param_2 + 4))(&param_1,4);
+  return piVar1;
+}
+
+

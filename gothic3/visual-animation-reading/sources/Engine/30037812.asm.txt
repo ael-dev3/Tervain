@@ -1,0 +1,2 @@
+; 30037812 eCVisualAnimation_PS::Write
+30037812 | e919710600 | JMP 0x3009e930

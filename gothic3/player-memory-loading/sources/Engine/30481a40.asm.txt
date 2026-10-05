@@ -1,0 +1,6 @@
+; 30481a40 FUN_30481a40
+30481a40 | 8a4110 | MOV AL,byte ptr [ECX + 0x10]
+30481a43 | 24f5 | AND AL,0xf5
+30481a45 | 0c04 | OR AL,0x4
+30481a47 | 884110 | MOV byte ptr [ECX + 0x10],AL
+30481a4a | c3 | RET

@@ -1,0 +1,30 @@
+/* ENTRY 10004949 | bCString::ConcatCopy | STATUS decompiled | 7 ms */
+
+/* protected: void __thiscall bCString::ConcatCopy(char const *,int,char const *,int) */
+
+void __thiscall
+bCString::ConcatCopy(bCString *this,char *param_1,int param_2,char *param_3,int param_4)
+
+{
+  int iVar1;
+  bCMemoryAdmin *this_00;
+  int *piVar2;
+  ulong uVar3;
+  
+                    /* 0x4949  1661  ?ConcatCopy@bCString@@IAEXPBDH0H@Z */
+  iVar1 = param_2 + param_4;
+  if (iVar1 != 0) {
+    uVar3 = iVar1 + 9;
+    this_00 = bCMemoryAdmin::GetInstance();
+    piVar2 = bCMemoryAdmin::Malloc(this_00,uVar3);
+    *piVar2 = iVar1;
+    *(undefined2 *)(piVar2 + 1) = 1;
+    *(int **)this = piVar2 + 2;
+    *(undefined1 *)((int)(piVar2 + 2) + iVar1) = 0;
+    _memcpy(*(void **)this,param_1,param_2);
+    _memcpy((void *)(*(int *)this + param_2),param_3,param_4);
+  }
+  return;
+}
+
+

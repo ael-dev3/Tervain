@@ -1,0 +1,2 @@
+; 200222f5 gCDamageReceiver_PS::SetDamageType
+200222f5 | e966820900 | JMP 0x200ba560

@@ -1,0 +1,2 @@
+; 10001f23 bCPropertyObjectSingleton::IsRegistrationEnabled
+10001f23 | e9e8e10800 | JMP 0x10090110

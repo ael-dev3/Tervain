@@ -1,0 +1,18 @@
+/* ENTRY 20006a41 | gCDialog_PS::SetMobEnabled | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall gCDialog_PS::SetMobEnabled(bool const &) */
+
+void __thiscall gCDialog_PS::SetMobEnabled(gCDialog_PS *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x6a41  6749  ?SetMobEnabled@gCDialog_PS@@QAEXAB_N@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"MobEnabled",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->gCDialog_PS_data).field_0x26 = *param_1;
+  (*pNVar1)(this,"MobEnabled",false);
+  return;
+}
+
+

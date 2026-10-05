@@ -1,0 +1,11 @@
+; 30639a00 FUN_30639a00
+30639a00 | 8b890c020000 | MOV ECX,dword ptr [ECX + 0x20c]
+30639a06 | d9442408 | FLD float ptr [ESP + 0x8]
+30639a0a | 8b01 | MOV EAX,dword ptr [ECX]
+30639a0c | 8b542404 | MOV EDX,dword ptr [ESP + 0x4]
+30639a10 | 8b4008 | MOV EAX,dword ptr [EAX + 0x8]
+30639a13 | 51 | PUSH ECX
+30639a14 | d91c24 | FSTP float ptr [ESP]
+30639a17 | 52 | PUSH EDX
+30639a18 | ffd0 | CALL EAX
+30639a1a | c20800 | RET 0x8

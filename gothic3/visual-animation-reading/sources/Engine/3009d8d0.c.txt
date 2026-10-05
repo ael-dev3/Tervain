@@ -1,0 +1,32 @@
+/* ENTRY 3009d8d0 | FUN_3009d8d0 | STATUS decompiled | 11 ms */
+
+undefined4 __fastcall FUN_3009d8d0(bCObjectRefBase *param_1)
+
+{
+  bool bVar1;
+  bCPropertyObjectBase *pbVar2;
+  undefined4 uVar3;
+  bCAccessorPropertyObject local_c [4];
+  bCAccessorPropertyObject local_8 [8];
+  
+  bCAccessorPropertyObject::bCAccessorPropertyObject(local_8,param_1);
+  bCAccessorPropertyObject::Clone(local_8);
+  bVar1 = bCAccessorPropertyObject::HasPropertyObject((bCAccessorPropertyObject *)&stack0xffffffec);
+  if (bVar1) {
+    pbVar2 = bCAccessorPropertyObject::GetPropertyObject
+                       ((bCAccessorPropertyObject *)&stack0xffffffec);
+    (**(code **)(*(int *)pbVar2 + 0x30))();
+    pbVar2 = bCAccessorPropertyObject::GetPropertyObject
+                       ((bCAccessorPropertyObject *)&stack0xffffffec);
+    uVar3 = (*(code *)**(undefined4 **)pbVar2)();
+    bCAccessorPropertyObject::~bCAccessorPropertyObject
+              ((bCAccessorPropertyObject *)&stack0xffffffec);
+    bCAccessorPropertyObject::~bCAccessorPropertyObject(local_c);
+    return uVar3;
+  }
+  bCAccessorPropertyObject::~bCAccessorPropertyObject((bCAccessorPropertyObject *)&stack0xffffffec);
+  bCAccessorPropertyObject::~bCAccessorPropertyObject(local_c);
+  return 0;
+}
+
+

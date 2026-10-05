@@ -1,0 +1,12 @@
+/* ENTRY 303882e0 | eCEffector::Destroy | STATUS decompiled | 6 ms */
+
+void __thiscall eCEffector::Destroy(eCEffector *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x30385080. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCObjectRefBase::Destroy((bCObjectRefBase *)this);
+  return;
+}
+
+

@@ -1,0 +1,8 @@
+newmtl EMFX_Default
+
+newmtl Naked_body
+map_Kd ../textures/G3_Human_babe_nakedbody_diffuse_S2.jpg
+
+newmtl Peasent_babe
+map_Kd ../textures/G3_Human_Peasant_BABE_Body_Diffuse_S2.jpg
+

@@ -1,0 +1,14 @@
+/* ENTRY 3003ed42 | eCSpringAndDamperEffector::AccessSpringMaxCompressForce | STATUS decompiled | 2 ms */
+
+/* public: float & __thiscall eCSpringAndDamperEffector::AccessSpringMaxCompressForce(void) */
+
+float * __thiscall
+eCSpringAndDamperEffector::AccessSpringMaxCompressForce(eCSpringAndDamperEffector *this)
+
+{
+                    /* 0x3ed42  3164
+                       ?AccessSpringMaxCompressForce@eCSpringAndDamperEffector@@QAEAAMXZ */
+  return (float *)&(this->eCEffector_data).offset_0x64;
+}
+
+

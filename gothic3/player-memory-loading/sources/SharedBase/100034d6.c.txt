@@ -1,0 +1,22 @@
+/* ENTRY 100034d6 | bCGothic3EngineDialogs::bCDialogHandle::GetErrorDialogState | STATUS decompiled | 3 ms */
+
+/* public: void __thiscall bCGothic3EngineDialogs::bCDialogHandle::GetErrorDialogState(bool &,bool
+   &) */
+
+void __thiscall
+bCGothic3EngineDialogs::bCDialogHandle::GetErrorDialogState
+          (bCDialogHandle *this,bool *param_1,bool *param_2)
+
+{
+                    /* 0x34d6  2336
+                       ?GetErrorDialogState@bCDialogHandle@bCGothic3EngineDialogs@@QAEXAA_N0@Z */
+  if (*(code **)(this + 0x18) != (code *)0x0) {
+                    /* WARNING: Could not recover jumptable at 0x10021027. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    (**(code **)(this + 0x18))();
+    return;
+  }
+  return;
+}
+
+

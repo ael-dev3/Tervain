@@ -1,0 +1,10 @@
+/* ENTRY 300936b0 | FUN_300936b0 | STATUS decompiled | 2 ms */
+
+void FUN_300936b0(bCString *param_1)
+
+{
+  bCString::operator=(param_1,(bCString *)&DAT_30ada1dc);
+  return;
+}
+
+

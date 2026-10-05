@@ -1,0 +1,8 @@
+newmtl EMFX_Default
+
+newmtl G3_Human_Gorn__Face_01
+map_Kd ../textures/G3_Human_Gorn__Face_Diffuse_01.jpg
+
+newmtl G3_Human_Gorn__Hair_01
+map_Kd ../textures/G3_Human_Gorn__Hair_Diffuse_01.png
+

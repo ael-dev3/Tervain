@@ -1,0 +1,2 @@
+; 2001007d bTPropertyType<gCDamage_PS,long>::vfunction4
+2001007d | e91e3a0500 | JMP 0x20063aa0

@@ -1,0 +1,15 @@
+/* ENTRY 10005a0b | bCPropertyObjectTypeBase::Destroy | STATUS decompiled | 4 ms */
+
+/* protected: virtual void __thiscall bCPropertyObjectTypeBase::Destroy(void)
+   bCPropertyObjectTypeBase member function inherited by
+   bTPropertyObjectType<bCObsoleteClass,bCObjectRefBase> */
+
+void __thiscall bCPropertyObjectTypeBase::Destroy(bCPropertyObjectTypeBase *this)
+
+{
+                    /* 0x5a0b  1946  ?Destroy@bCPropertyObjectTypeBase@@MAEXXZ */
+  FUN_10002347();
+  return;
+}
+
+

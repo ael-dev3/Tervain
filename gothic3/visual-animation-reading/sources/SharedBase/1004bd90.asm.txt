@@ -1,0 +1,5 @@
+; 1004bd90 FUN_1004bd90
+1004bd90 | f30f1005d0710e10 | MOVSS XMM0,dword ptr [0x100e71d0]
+1004bd98 | c6412001 | MOV byte ptr [ECX + 0x20],0x1
+1004bd9c | f30f11411c | MOVSS dword ptr [ECX + 0x1c],XMM0
+1004bda1 | c3 | RET

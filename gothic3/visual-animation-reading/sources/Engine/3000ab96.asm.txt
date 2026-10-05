@@ -1,0 +1,2 @@
+; 3000ab96 thunk_FUN_300ab630
+3000ab96 | e9950a0a00 | JMP 0x300ab630

@@ -1,0 +1,2 @@
+; 2000c563 bTPropertyObject<gCDialog_PS,eCEntityPropertySet>::vfunction8
+2000c563 | e988402000 | JMP 0x202105f0

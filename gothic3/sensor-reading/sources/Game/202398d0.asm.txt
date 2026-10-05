@@ -1,0 +1,2 @@
+; 202398d0 bTPropertyObjectType<gCCharacterSensor_PS,eCEntityPropertySet>::vfunction1
+202398d0 | e92fb6dfff | JMP 0x20034f04

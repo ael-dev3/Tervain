@@ -1,0 +1,12 @@
+/* ENTRY 3000f8ad | eCEntityProxy::GetVersion | STATUS decompiled | 2 ms */
+
+/* public: virtual unsigned short __thiscall eCEntityProxy::GetVersion(void)const  */
+
+ushort __thiscall eCEntityProxy::GetVersion(eCEntityProxy *this)
+
+{
+                    /* 0xf8ad  9382  ?GetVersion@eCEntityProxy@@UBEGXZ */
+  return 1;
+}
+
+

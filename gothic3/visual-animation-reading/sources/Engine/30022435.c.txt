@@ -1,0 +1,57 @@
+/* ENTRY 30022435 | eCPhysicObject::SetCollisionEnabled | STATUS decompiled | 34 ms */
+
+/* public: void __thiscall eCPhysicObject::SetCollisionEnabled(bool) */
+
+void __thiscall eCPhysicObject::SetCollisionEnabled(eCPhysicObject *this,bool param_1)
+
+{
+  eCPhysicObjectStateBuffer *this_00;
+  eCVisualAnimation_PS *this_01;
+  eCPhysicsScene *this_02;
+  bCCriticalSectionWin32 *this_03;
+  code *pcVar1;
+  int iVar2;
+  eEPhysicObjectFlag eVar3;
+  
+                    /* 0x22435  13059  ?SetCollisionEnabled@eCPhysicObject@@QAEX_N@Z */
+  if ((this->eCPhysicObject_data).offset_0x4 != (NxActor *)0x0) {
+    eVar3 = 1;
+    this_00 = GetBuffer(this);
+    if (param_1) {
+      eCPhysicObjectStateBuffer::RemoveActorFlag(this_00,eVar3);
+    }
+    else {
+      eCPhysicObjectStateBuffer::AddActorFlag(this_00,eVar3);
+    }
+    this_01 = (eCVisualAnimation_PS *)
+              (**(code **)(*(int *)(this->eCPhysicObject_data).offset_0x0 + 0xec))(100);
+    if ((this_01 != (eCVisualAnimation_PS *)0x0) &&
+       (this_01[1].eCEntityPropertySet_data.field_0x7 == '\x01')) {
+      eCVisualAnimation_PS::EnableSkeletonCollision(this_01,param_1);
+    }
+  }
+  if ((this->eCPhysicObject_data).offset_0x10 != 0) {
+    this_02 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+    this_03 = eCPhysicsScene::GetCriticalSection(this_02);
+    bCCriticalSectionWin32::Acquire(this_03);
+    bCCriticalSectionWin32::Release(this_03);
+    iVar2 = 0;
+    if (0 < (this->eCPhysicObject_data).offset_0x10) {
+      do {
+        if (param_1) {
+          pcVar1 = *(code **)(**(int **)((this->eCPhysicObject_data).offset_0xc + iVar2 * 4) + 0x60)
+          ;
+        }
+        else {
+          pcVar1 = *(code **)(**(int **)((this->eCPhysicObject_data).offset_0xc + iVar2 * 4) + 0x5c)
+          ;
+        }
+        (*pcVar1)(1);
+        iVar2 = iVar2 + 1;
+      } while (iVar2 < (this->eCPhysicObject_data).offset_0x10);
+    }
+  }
+  return;
+}
+
+

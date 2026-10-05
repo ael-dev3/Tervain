@@ -1,0 +1,483 @@
+{
+  "schema": "gothic3-routine-scripts-rules-v1",
+  "scriptGameSha256": "2f10fbb6307c4800bc44c90cb60dac0b32182c1f2416e11ac82b4ba0c35803c1",
+  "labels": {
+    "ZS_Attack_Wait": {
+      "mask": "102211e8",
+      "counter": "102211e4",
+      "labels": [
+        "102211e0",
+        "102211dc"
+      ]
+    },
+    "ZS_StandUp": {
+      "mask": "102236e4",
+      "counter": "102236e0",
+      "labels": [
+        "102236dc",
+        "102236d8"
+      ]
+    },
+    "_AI_ChangeAction": {
+      "mask": "1022193c",
+      "counter": "10221938",
+      "labels": [
+        "10221934",
+        "10221930"
+      ]
+    },
+    "_AI_StandUp": {
+      "mask": "10221ebc",
+      "counter": "10221eb8",
+      "labels": [
+        "10221eb4"
+      ]
+    },
+    "_AI_TransferItem": {
+      "mask": "10221f08",
+      "counter": "10221f04",
+      "labels": [
+        "10221f00"
+      ]
+    },
+    "_AI_HoldInventoryItems": {
+      "mask": "10221c64",
+      "counter": "10221c60",
+      "labels": [
+        "10221c5c",
+        "10221c58",
+        "10221c54"
+      ]
+    },
+    "PS_Normal": {
+      "mask": "10222ad4",
+      "counter": "10222ad0",
+      "labels": [
+        "10222acc",
+        "10222ac8",
+        "10222ac4",
+        "10222ac0"
+      ]
+    }
+  },
+  "supportedBodies": {
+    "ZS_Attack_Wait": "10020310",
+    "ZS_StandUp": "100c8640",
+    "_AI_ChangeAction": "100497d0",
+    "_AI_StandUp": "1005f140",
+    "_AI_TransferItem": "1005f9d0",
+    "_AI_HoldInventoryItems": "100583f0",
+    "PS_Normal": "1009ad30"
+  },
+  "fightPairs": [
+    [
+      0,
+      0,
+      2
+    ],
+    [
+      2,
+      37,
+      3
+    ],
+    [
+      47,
+      0,
+      3
+    ],
+    [
+      48,
+      0,
+      3
+    ],
+    [
+      26,
+      0,
+      2
+    ],
+    [
+      0,
+      26,
+      4
+    ],
+    [
+      29,
+      0,
+      2
+    ],
+    [
+      0,
+      29,
+      4
+    ],
+    [
+      36,
+      0,
+      2
+    ],
+    [
+      0,
+      36,
+      4
+    ],
+    [
+      49,
+      0,
+      2
+    ],
+    [
+      0,
+      49,
+      4
+    ],
+    [
+      0,
+      8,
+      4
+    ],
+    [
+      55,
+      55,
+      4
+    ],
+    [
+      0,
+      2,
+      4
+    ],
+    [
+      2,
+      2,
+      4
+    ],
+    [
+      9,
+      2,
+      4
+    ],
+    [
+      9,
+      0,
+      0
+    ],
+    [
+      24,
+      2,
+      4
+    ],
+    [
+      24,
+      0,
+      2
+    ],
+    [
+      0,
+      3,
+      4
+    ],
+    [
+      3,
+      0,
+      2
+    ],
+    [
+      0,
+      52,
+      4
+    ],
+    [
+      52,
+      0,
+      2
+    ],
+    [
+      0,
+      12,
+      4
+    ],
+    [
+      12,
+      0,
+      2
+    ],
+    [
+      0,
+      51,
+      4
+    ],
+    [
+      51,
+      0,
+      2
+    ],
+    [
+      5,
+      0,
+      5
+    ],
+    [
+      5,
+      4,
+      5
+    ],
+    [
+      0,
+      4,
+      7
+    ],
+    [
+      6,
+      0,
+      5
+    ],
+    [
+      6,
+      7,
+      5
+    ],
+    [
+      0,
+      7,
+      7
+    ],
+    [
+      0,
+      15,
+      6
+    ],
+    [
+      12,
+      15,
+      6
+    ],
+    [
+      2,
+      0,
+      1
+    ],
+    [
+      0,
+      37,
+      1
+    ],
+    [
+      0,
+      16,
+      1
+    ],
+    [
+      24,
+      16,
+      1
+    ],
+    [
+      24,
+      17,
+      1
+    ],
+    [
+      12,
+      16,
+      1
+    ],
+    [
+      12,
+      17,
+      1
+    ],
+    [
+      0,
+      17,
+      1
+    ],
+    [
+      0,
+      18,
+      1
+    ],
+    [
+      0,
+      19,
+      1
+    ],
+    [
+      0,
+      20,
+      1
+    ],
+    [
+      0,
+      21,
+      1
+    ],
+    [
+      0,
+      22,
+      1
+    ],
+    [
+      0,
+      23,
+      1
+    ],
+    [
+      0,
+      27,
+      1
+    ],
+    [
+      28,
+      0,
+      1
+    ],
+    [
+      0,
+      32,
+      1
+    ],
+    [
+      0,
+      33,
+      1
+    ],
+    [
+      0,
+      34,
+      1
+    ],
+    [
+      18,
+      35,
+      1
+    ],
+    [
+      35,
+      35,
+      1
+    ],
+    [
+      0,
+      38,
+      1
+    ],
+    [
+      0,
+      40,
+      1
+    ],
+    [
+      0,
+      42,
+      1
+    ],
+    [
+      0,
+      43,
+      1
+    ],
+    [
+      0,
+      44,
+      1
+    ],
+    [
+      0,
+      0,
+      8
+    ]
+  ],
+  "routine": {
+    "Rtn_Player": "100a13b0"
+  },
+  "scripts": {
+    "ContinueRoutine": "100c8100"
+  },
+  "frameStack": {
+    "add": "1001d9e0",
+    "setCount": "1001d8b0",
+    "initialize": "1001cd70",
+    "destroy": "1001d550",
+    "stride": 24,
+    "capacityGrowth": "requested + clamp(signed capacity>>3,4,1024)",
+    "spareSlotIsReinitializedByAdd": false,
+    "browserAllocationProfileMaximumSlots": 65536,
+    "allocationProfile": "Finite successful-moving Realloc. Native in-place/failure outcomes are not modeled."
+  },
+  "entityWrappers": {
+    "bytes": 168,
+    "copyDwords": 42,
+    "ownsReferences": false,
+    "copy": "Script:1002eca0",
+    "assignmentCopyFrom": "Script:1002ee50",
+    "destructor": "Script:1002ede0",
+    "attachTo": "Script:100307d0",
+    "capturedPSPointersRemainShared": true,
+    "noCallsProved": [
+      "1002eca0",
+      "1002ede0",
+      "1002ee50",
+      "1002ec00",
+      "1002c9f0",
+      "100133d0",
+      "10012c00",
+      "10015780",
+      "100178c0",
+      "100190a0",
+      "10018390",
+      "100196b0",
+      "1001bd10",
+      "1001c100",
+      "1001e530",
+      "100200b0",
+      "10028550",
+      "1002c700",
+      "10011200",
+      "10011bb0",
+      "10014670",
+      "10013d10",
+      "1002e510",
+      "100149a0",
+      "10026f50",
+      "1000f200",
+      "1001bf80",
+      "10010aa0",
+      "1001de80",
+      "1002c090",
+      "1002ada0",
+      "1002b560",
+      "1002e230",
+      "10024c40",
+      "10015be0",
+      "1001c570",
+      "1002dcc0",
+      "10010be0",
+      "100160c0",
+      "100107d0",
+      "1000dc00",
+      "1000fe60",
+      "1001df90",
+      "1002ea00",
+      "1002e700"
+    ]
+  },
+  "argumentAllocationProfile": "Captured args must remain registered and undestroyed for every field access and function return; callback deletion blocks with its prefix.",
+  "branchProfiles": {
+    "Rtn_Player": "Scalar writes and ordered ResetAll calls/task selection; engine dependencies must be supplied.",
+    "ContinueRoutine": "Navigation/application/attitude gates and Dead/StandUp task branches; normal tail stops after proven ResetAll prefix.",
+    "ZS_Attack_Wait": "Complete Action47, WAIT100ms, SetState ZS_Attack_Loop; next state is not implemented here.",
+    "_AI_ChangeAction": "Complete no-animation/no-ground-bias paths, including actual initial Action24 ->0.",
+    "_AI_StandUp": "Complete AIMode0/AniState2 path; other animation/reset branches unsupported.",
+    "ZS_StandUp": "Real function frame/destruction and AIMode0/ContinueRoutine continuation under supported function profile.",
+    "_AI_TransferItem": "Complete initial index-1 path; item/slot/animation branches unsupported.",
+    "_AI_HoldInventoryItems": "Complete initialized desired-1/-1 and empty-slot1/2 path through two actual TransferItem frames.",
+    "PS_Normal": "Source initial Action24/AniState2/Species0, desired-1/-1, empty held slots, no triggered tutorial, destinationNone path; concrete engine host operations required."
+  },
+  "unsupported": [
+    "Full normal ContinueRoutine enclave/HP/routine/party tail.",
+    "ResetAll frozen/effect/species branch and native engine operations without concrete host implementations.",
+    "PS_Normal_Loop and other player/AI registered states not yet ported; Normal unsupported branches remain explicit.",
+    "AI_ChangeAction PlayAni/ground-bias branches, AI_StandUp reset/animation branches.",
+    "Native allocator failure/in-place Realloc outcomes and unrestricted native memory addresses.",
+    "Unimplemented native Entity PS discovery outside explicitly supplied captured wrappers."
+  ]
+}

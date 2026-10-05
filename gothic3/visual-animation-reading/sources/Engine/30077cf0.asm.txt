@@ -1,0 +1,23 @@
+; 30077cf0 bTPropertyObjectType<eCAnimationAdmin,eCEngineComponentBase>::vfunction1
+30077cf0 | a1f89bad30 | MOV EAX,[0x30ad9bf8]
+30077cf5 | a801 | TEST AL,0x1
+30077cf7 | 7514 | JNZ 0x30077d0d
+30077cf9 | 8b0d889dad30 | MOV ECX,dword ptr [0x30ad9d88]
+30077cff | 83c801 | OR EAX,0x1
+30077d02 | a3f89bad30 | MOV [0x30ad9bf8],EAX
+30077d07 | 890df49bad30 | MOV dword ptr [0x30ad9bf4],ECX
+30077d0d | a802 | TEST AL,0x2
+30077d0f | 7530 | JNZ 0x30077d41
+30077d11 | 83c802 | OR EAX,0x2
+30077d14 | 68ac70af30 | PUSH 0x30af70ac
+30077d19 | b9582faa30 | MOV ECX,0x30aa2f58
+30077d1e | a3f89bad30 | MOV [0x30ad9bf8],EAX
+30077d23 | e886965f00 | CALL 0x306713ae
+30077d28 | 50 | PUSH EAX
+30077d29 | 68f09bad30 | PUSH 0x30ad9bf0
+30077d2e | ff15b0daaf30 | CALL dword ptr [0x30afdab0]
+30077d34 | 68a5fb0030 | PUSH 0x3000fba5
+30077d39 | e858985f00 | CALL 0x30671596
+30077d3e | 83c404 | ADD ESP,0x4
+30077d41 | b8f09bad30 | MOV EAX,0x30ad9bf0
+30077d46 | c3 | RET

@@ -1,0 +1,29 @@
+/* ENTRY 30045d3b | eCEntity::SetToWorldMatrix | STATUS decompiled | 23 ms */
+
+/* public: void __thiscall eCEntity::SetToWorldMatrix(class bCMatrix const &) */
+
+void __thiscall eCEntity::SetToWorldMatrix(eCEntity *this,bCMatrix *param_1)
+
+{
+  bool bVar1;
+  eCNode *peVar2;
+  bCMatrix abStack_40 [64];
+  
+                    /* 0x45d3b  14427  ?SetToWorldMatrix@eCEntity@@QAEXABVbCMatrix@@@Z */
+  bCMatrix::bCMatrix(abStack_40);
+  bVar1 = eCNode::HasParent((eCNode *)this);
+  if (bVar1) {
+    peVar2 = (*this->vftablePtr->GetParent)(this);
+    bCMatrix::operator=(abStack_40,(bCMatrix *)(peVar2 + 0x40));
+    bCMatrix::Invert(abStack_40);
+  }
+  else {
+    bCMatrix::SetIdentity(abStack_40);
+  }
+  bCMatrix::operator*=(abStack_40,param_1);
+  (*this->vftablePtr->SetLocalMatrix)(this,abStack_40);
+  bCMatrix::~bCMatrix(abStack_40);
+  return;
+}
+
+

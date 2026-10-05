@@ -1,0 +1,2 @@
+; 3002ff8b eCVisualAnimation_PS::AccessBoneSwingSpringDamping
+3002ff8b | e9a0200300 | JMP 0x30062030

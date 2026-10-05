@@ -1,0 +1,4 @@
+; 2000a745 ?OnProcess@gCScriptRoutine_PS@@UAEXXZ
+2000a745 | e936d63400 | JMP 0x20357d80
+; 2000a74a gCNavigation_PS::SetCharacterMovement
+; 2000a74a Ordinal_6297

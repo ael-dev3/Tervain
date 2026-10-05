@@ -1,0 +1,36 @@
+; 300b7d20 bTPropertyObject<eCSpringAndDamperEffector,eCEffector>::vfunction15
+300b7d20 | 56 | PUSH ESI
+300b7d21 | 57 | PUSH EDI
+300b7d22 | 6890010000 | PUSH 0x190
+300b7d27 | 6a10 | PUSH 0x10
+300b7d29 | 8bf9 | MOV EDI,ECX
+300b7d2b | ff15a8dbaf30 | CALL dword ptr [0x30afdba8]
+300b7d31 | 8bf0 | MOV ESI,EAX
+300b7d33 | 85f6 | TEST ESI,ESI
+300b7d35 | 7433 | JZ 0x300b7d6a
+300b7d37 | 8bce | MOV ECX,ESI
+300b7d39 | ff1520caaf30 | CALL dword ptr [0x30afca20]
+300b7d3f | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+300b7d46 | c7062cfa8130 | MOV dword ptr [ESI],0x3081fa2c
+300b7d4c | e8cf06f7ff | CALL 0x30028420
+300b7d51 | 836604fb | AND dword ptr [ESI + 0x4],0xfffffffb
+300b7d55 | 6a00 | PUSH 0x0
+300b7d57 | 8bce | MOV ECX,ESI
+300b7d59 | 89460c | MOV dword ptr [ESI + 0xc],EAX
+300b7d5c | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+300b7d63 | e8e85ff5ff | CALL 0x3000dd50
+300b7d68 | eb02 | JMP 0x300b7d6c
+300b7d6a | 33f6 | XOR ESI,ESI
+300b7d6c | 8bcf | MOV ECX,EDI
+300b7d6e | ff1508cbaf30 | CALL dword ptr [0x30afcb08]
+300b7d74 | 84c0 | TEST AL,AL
+300b7d76 | 750a | JNZ 0x300b7d82
+300b7d78 | 8b06 | MOV EAX,dword ptr [ESI]
+300b7d7a | 8b503c | MOV EDX,dword ptr [EAX + 0x3c]
+300b7d7d | 57 | PUSH EDI
+300b7d7e | 8bce | MOV ECX,ESI
+300b7d80 | ffd2 | CALL EDX
+300b7d82 | 5f | POP EDI
+300b7d83 | 8bc6 | MOV EAX,ESI
+300b7d85 | 5e | POP ESI
+300b7d86 | c3 | RET

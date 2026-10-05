@@ -1,0 +1,2 @@
+; 2003438d bTPOPureSmartPtr<gCScriptRoutine_PS>::vfunction12
+2003438d | e93e543200 | JMP 0x203597d0

@@ -1,0 +1,26 @@
+/* ENTRY 100211b0 | FUN_100211b0 | STATUS decompiled | 13 ms */
+
+void __fastcall FUN_100211b0(bCGothic3EngineDialogs *param_1)
+
+{
+  bCDialogHandle *pbVar1;
+  
+  pbVar1 = bCGothic3EngineDialogs::GetDialogHandle(param_1);
+  if (*(code **)(pbVar1 + 0x20) != (code *)0x0) {
+    (**(code **)(pbVar1 + 0x20))();
+  }
+  pbVar1 = bCGothic3EngineDialogs::GetDialogHandle(param_1);
+  if (*(code **)(pbVar1 + 0xc) != (code *)0x0) {
+    (**(code **)(pbVar1 + 0xc))();
+  }
+  pbVar1 = bCGothic3EngineDialogs::GetDialogHandle(param_1);
+  if (*(code **)(pbVar1 + 0x30) != (code *)0x0) {
+    (**(code **)(pbVar1 + 0x30))();
+  }
+  pbVar1 = bCGothic3EngineDialogs::GetDialogHandle(param_1);
+  bCGothic3EngineDialogs::bCDialogHandle::ReleaseReference(pbVar1);
+  *param_1 = (bCGothic3EngineDialogs)0x0;
+  return;
+}
+
+

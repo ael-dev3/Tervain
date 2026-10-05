@@ -1,0 +1,38 @@
+; 300bac90 eCVisualAnimation_PS::vfunction15
+300bac90 | f644240402 | TEST byte ptr [ESP + 0x4],0x2
+300bac95 | 55 | PUSH EBP
+300bac96 | 8be9 | MOV EBP,ECX
+300bac98 | 7443 | JZ 0x300bacdd
+300bac9a | 53 | PUSH EBX
+300bac9b | 56 | PUSH ESI
+300bac9c | 57 | PUSH EDI
+300bac9d | 8b7dfc | MOV EDI,dword ptr [EBP + -0x4]
+300baca0 | 8d5dfc | LEA EBX,[EBP + -0x4]
+300baca3 | 8bf7 | MOV ESI,EDI
+300baca5 | 69f6a8010000 | IMUL ESI,ESI,0x1a8
+300bacab | 03f5 | ADD ESI,EBP
+300bacad | 83ef01 | SUB EDI,0x1
+300bacb0 | 7812 | JS 0x300bacc4
+300bacb2 | 81eea8010000 | SUB ESI,0x1a8
+300bacb8 | 8bce | MOV ECX,ESI
+300bacba | e8042bf6ff | CALL 0x3001d7c3
+300bacbf | 83ef01 | SUB EDI,0x1
+300bacc2 | 79ee | JNS 0x300bacb2
+300bacc4 | f644241401 | TEST byte ptr [ESP + 0x14],0x1
+300bacc9 | 7409 | JZ 0x300bacd4
+300baccb | 53 | PUSH EBX
+300baccc | e89c675b00 | CALL 0x3067146d
+300bacd4 | 5f | POP EDI
+300bacd5 | 5e | POP ESI
+300bacd6 | 8bc3 | MOV EAX,EBX
+300bacd8 | 5b | POP EBX
+300bacd9 | 5d | POP EBP
+300bacda | c20400 | RET 0x4
+300bacdd | e8e12af6ff | CALL 0x3001d7c3
+300bace2 | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+300bace7 | 7409 | JZ 0x300bacf2
+300bace9 | 55 | PUSH EBP
+300bacea | e879675b00 | CALL 0x30671468
+300bacf2 | 8bc5 | MOV EAX,EBP
+300bacf4 | 5d | POP EBP
+300bacf5 | c20400 | RET 0x4

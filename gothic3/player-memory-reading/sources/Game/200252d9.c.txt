@@ -1,0 +1,83 @@
+/* ENTRY 200252d9 | gCPlayerMemory_PS::CreateAttrib | STATUS decompiled | 47 ms */
+
+/* protected: bool __thiscall gCPlayerMemory_PS::CreateAttrib(class bCString const &) */
+
+bool __thiscall gCPlayerMemory_PS::CreateAttrib(gCPlayerMemory_PS *this,bCString *param_1)
+
+{
+  bool bVar1;
+  int iVar2;
+  int *piVar3;
+  undefined4 *puVar4;
+  bCString *pbVar5;
+  eCLocAdmin *peVar6;
+  bCString *pbVar7;
+  bCString *pbStack_30;
+  bCUnicodeString abStack_1c [24];
+  
+                    /* 0x252d9  2424  ?CreateAttrib@gCPlayerMemory_PS@@IAE_NABVbCString@@@Z */
+  pbStack_30 = param_1;
+  iVar2 = thunk_FUN_203214f0();
+  if (iVar2 != 0) {
+    pbStack_30 = (bCString *)0x2031db9e;
+    piVar3 = (int *)thunk_FUN_20321560();
+    if (*piVar3 != 0) {
+      pbStack_30 = (bCString *)0x2031dbab;
+      piVar3 = (int *)thunk_FUN_20321560();
+      pbStack_30 = (bCString *)0x2031dbb7;
+      bVar1 = bCString::operator!=((bCString *)(*piVar3 + 0xc),param_1);
+      if (!bVar1) {
+        return false;
+      }
+      pbStack_30 = (bCString *)0x2031dbc7;
+      thunk_FUN_20321560();
+      pbStack_30 = *(bCString **)param_1;
+      GE_MESSAGEF_WARN();
+    }
+  }
+  piVar3 = (int *)thunk_FUN_20320af0();
+  pbStack_30 = (bCString *)&DAT_2065da5c;
+  (**(code **)(*piVar3 + 0x58))();
+  bCString::operator=((bCString *)(piVar3 + 3),param_1);
+  (**(code **)(*piVar3 + 0x5c))(&DAT_2065da5c);
+  puVar4 = (undefined4 *)thunk_FUN_20321560(param_1);
+  *puVar4 = piVar3;
+  bCUnicodeString::bCUnicodeString((bCUnicodeString *)&stack0xffffffd8," ");
+  bCUnicodeString::bCUnicodeString
+            ((bCUnicodeString *)&stack0xffffffe0,(bCUnicodeString *)&stack0xffffffd8);
+  bCUnicodeString::bCUnicodeString(abStack_1c);
+  pbVar7 = param_1;
+  pbVar5 = (bCString *)operator+(&stack0xffffffdc,(bCString *)"ATTRIB_");
+  peVar6 = eCLocAdmin::GetInstance();
+  eCLocAdmin::ReserveString(peVar6,pbVar5,(SEntry *)pbVar7);
+  bCString::~bCString((bCString *)&stack0xffffffd8);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffffe0);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffffdc);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffffd4);
+  bCUnicodeString::bCUnicodeString((bCUnicodeString *)&stack0xffffffd4," ");
+  bCUnicodeString::bCUnicodeString
+            ((bCUnicodeString *)&stack0xffffffdc,(bCUnicodeString *)&stack0xffffffd4);
+  bCUnicodeString::bCUnicodeString((bCUnicodeString *)&stack0xffffffe0);
+  pbVar7 = param_1;
+  pbVar5 = (bCString *)operator+(&stack0xffffffd8,(bCString *)"ATTRIBDESC_");
+  peVar6 = eCLocAdmin::GetInstance();
+  eCLocAdmin::ReserveString(peVar6,pbVar5,(SEntry *)pbVar7);
+  bCString::~bCString((bCString *)&stack0xffffffd4);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffffdc);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffffd8);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&pbStack_30);
+  bCUnicodeString::bCUnicodeString((bCUnicodeString *)&pbStack_30," ");
+  bCUnicodeString::bCUnicodeString
+            ((bCUnicodeString *)&stack0xffffffd8,(bCUnicodeString *)&pbStack_30);
+  bCUnicodeString::bCUnicodeString((bCUnicodeString *)&stack0xffffffdc);
+  pbVar7 = (bCString *)operator+(&stack0xffffffd4,(bCString *)"ATTRIBTAG_");
+  peVar6 = eCLocAdmin::GetInstance();
+  eCLocAdmin::ReserveString(peVar6,pbVar7,(SEntry *)param_1);
+  bCString::~bCString((bCString *)&pbStack_30);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffffd8);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffffd4);
+  bCUnicodeString::~bCUnicodeString((bCUnicodeString *)&stack0xffffffcc);
+  return true;
+}
+
+

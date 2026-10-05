@@ -1,0 +1,12 @@
+/* ENTRY 30035927 | eCIlluminated_PS::GetCastStaticShadows | STATUS decompiled | 8 ms */
+
+/* public: bool const & __thiscall eCIlluminated_PS::GetCastStaticShadows(void)const  */
+
+bool * __thiscall eCIlluminated_PS::GetCastStaticShadows(eCIlluminated_PS *this)
+
+{
+                    /* 0x35927  6442  ?GetCastStaticShadows@eCIlluminated_PS@@QBEAB_NXZ */
+  return (bool *)&(this->eCIlluminated_PS_data).field_0x19;
+}
+
+

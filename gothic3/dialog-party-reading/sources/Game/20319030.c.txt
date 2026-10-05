@@ -1,0 +1,11 @@
+/* ENTRY 20319030 | bTPropertyContainer<gEPartyMemberType>::vfunction7 | STATUS decompiled | 3 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gEPartyMemberType>::vfunction7(bTPropertyContainer<gEPartyMemberType> *this)
+
+{
+  (this->bTPropertyContainer<gEPartyMemberType>_data).offset_0x0 = DAT_207c1414;
+  return 1;
+}
+
+

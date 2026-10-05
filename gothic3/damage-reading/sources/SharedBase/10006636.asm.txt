@@ -1,0 +1,2 @@
+; 10006636 bCPropertyObjectBase::ReleaseReference
+10006636 | e9052d0800 | JMP 0x10089340

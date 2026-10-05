@@ -1,0 +1,31 @@
+/* ENTRY 300200b8 | eCEntity::UpdateInternals | STATUS decompiled | 12 ms */
+
+/* public: void __thiscall eCEntity::UpdateInternals(bool) */
+
+void __thiscall eCEntity::UpdateInternals(eCEntity *this,bool param_1)
+
+{
+  int iVar1;
+  eCEntity *this_00;
+  int iVar2;
+  bool bVar3;
+  
+                    /* 0x200b8  14894  ?UpdateInternals@eCEntity@@QAEX_N@Z */
+  (*this->vftablePtr->OnUpdateInternals)(this);
+  if (param_1) {
+    iVar2 = 0;
+    iVar1 = eCNode::GetChildrenCount((eCNode *)this);
+    if (0 < iVar1) {
+      do {
+        bVar3 = true;
+        this_00 = (eCEntity *)(*this->vftablePtr->GetChildAt)(this,iVar2);
+        UpdateInternals(this_00,bVar3);
+        iVar2 = iVar2 + 1;
+        iVar1 = eCNode::GetChildrenCount((eCNode *)this);
+      } while (iVar2 < iVar1);
+    }
+  }
+  return;
+}
+
+

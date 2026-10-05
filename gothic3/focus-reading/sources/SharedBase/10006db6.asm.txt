@@ -1,0 +1,2 @@
+; 10006db6 bCPropertyObjectFactory::RegisterPropertyObject
+10006db6 | e9d5630800 | JMP 0x1008d190

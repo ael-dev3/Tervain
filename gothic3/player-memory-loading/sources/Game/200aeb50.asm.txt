@@ -1,0 +1,23 @@
+; 200aeb50 bTPropertyType<gCPlayerMemory_PS,bTValArray<bool>_>::vfunction4
+200aeb50 | a1e4617b20 | MOV EAX,[0x207b61e4]
+200aeb55 | a801 | TEST AL,0x1
+200aeb57 | 7514 | JNZ 0x200aeb6d
+200aeb59 | 8b0d88627b20 | MOV ECX,dword ptr [0x207b6288]
+200aeb5f | 83c801 | OR EAX,0x1
+200aeb62 | a3e4617b20 | MOV [0x207b61e4],EAX
+200aeb67 | 890de0617b20 | MOV dword ptr [0x207b61e0],ECX
+200aeb6d | a802 | TEST AL,0x2
+200aeb6f | 7530 | JNZ 0x200aeba1
+200aeb71 | 83c802 | OR EAX,0x2
+200aeb74 | 68180a7d20 | PUSH 0x207d0a18
+200aeb79 | b918937920 | MOV ECX,0x20799318
+200aeb7e | a3e4617b20 | MOV [0x207b61e4],EAX
+200aeb83 | e8584c3b00 | CALL 0x204637e0
+200aeb88 | 50 | PUSH EAX
+200aeb89 | 68dc617b20 | PUSH 0x207b61dc
+200aeb8e | ff1530887d20 | CALL dword ptr [0x207d8830]
+200aeb94 | 6815a30220 | PUSH 0x2002a315
+200aeb99 | e8304c3b00 | CALL 0x204637ce
+200aeb9e | 83c404 | ADD ESP,0x4
+200aeba1 | b8dc617b20 | MOV EAX,0x207b61dc
+200aeba6 | c3 | RET

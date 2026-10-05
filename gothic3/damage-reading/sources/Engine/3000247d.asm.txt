@@ -1,0 +1,2 @@
+; 3000247d eCEntityProxy::Read
+3000247d | e98e1f4c00 | JMP 0x304c4410

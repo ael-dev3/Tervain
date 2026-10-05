@@ -1,0 +1,12 @@
+/* ENTRY 1000682f | bCPOStream::IsForcedLegacyMode | STATUS decompiled | 2 ms */
+
+/* public: bool __thiscall bCPOStream::IsForcedLegacyMode(void)const  */
+
+bool __thiscall bCPOStream::IsForcedLegacyMode(bCPOStream *this)
+
+{
+                    /* 0x682f  3636  ?IsForcedLegacyMode@bCPOStream@@QBE_NXZ */
+  return (bool)(this->bCPOStream_data).offset_0x1;
+}
+
+

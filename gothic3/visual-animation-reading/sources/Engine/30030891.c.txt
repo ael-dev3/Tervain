@@ -1,0 +1,12 @@
+/* ENTRY 30030891 | eCVisualAnimation_PS::SupportsRenderDebugOutput | STATUS decompiled | 6 ms */
+
+/* public: virtual bool __thiscall eCVisualAnimation_PS::SupportsRenderDebugOutput(void)const  */
+
+bool __thiscall eCVisualAnimation_PS::SupportsRenderDebugOutput(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x30891  14749  ?SupportsRenderDebugOutput@eCVisualAnimation_PS@@UBE_NXZ */
+  return true;
+}
+
+

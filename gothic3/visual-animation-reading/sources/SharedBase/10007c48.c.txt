@@ -1,0 +1,17 @@
+/* ENTRY 10007c48 | bCVector::operator- | STATUS decompiled | 3 ms */
+
+/* public: class bCVector __thiscall bCVector::operator-(class bCVector const &)const  */
+
+void __thiscall bCVector::operator-(bCVector *this,bCVector *param_1)
+
+{
+  float *in_stack_00000008;
+  
+                    /* 0x7c48  1022  ??GbCVector@@QBE?AV0@ABV0@@Z */
+  *(float *)param_1 = *(float *)this - *in_stack_00000008;
+  *(float *)(param_1 + 4) = *(float *)(this + 4) - in_stack_00000008[1];
+  *(float *)(param_1 + 8) = *(float *)(this + 8) - in_stack_00000008[2];
+  return;
+}
+
+

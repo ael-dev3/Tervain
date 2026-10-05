@@ -1,0 +1,4 @@
+; 10008201 ?GetGuid@bCGuid@@QAEPAU_GUID@@XZ
+10008201 | e96aa20000 | JMP 0x10012470
+; 10008206 bCFloatColorHSV::operator~
+; 10008206 Ordinal_1155

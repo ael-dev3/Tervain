@@ -1,0 +1,16 @@
+/* ENTRY 10006802 | bCIOStream::~bCIOStream | STATUS decompiled | 4 ms */
+
+/* public: virtual __thiscall bCIOStream::~bCIOStream(void) */
+
+void __thiscall bCIOStream::~bCIOStream(bCIOStream *this)
+
+{
+                    /* 0x6802  383  ??1bCIOStream@@UAE@XZ */
+  this->vftablePtr = &vftable_for_bCIStream_;
+  this->vftablePtr = &vftable_for_bCOStream_;
+  bCOStream::~bCOStream((bCOStream *)&this->vftablePtr);
+  bCIStream::~bCIStream((bCIStream *)this);
+  return;
+}
+
+

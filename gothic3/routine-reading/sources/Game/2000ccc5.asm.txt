@@ -1,0 +1,2 @@
+; 2000ccc5 bTPropertyObject<gCScriptRoutine_PS,eCEntityPropertySet>::scalar_deleting_destructor
+2000ccc5 | e9c6d13400 | JMP 0x20359e90

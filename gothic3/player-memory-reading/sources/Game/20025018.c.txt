@@ -1,0 +1,26 @@
+/* ENTRY 20025018 | gCPlayerMemory_PS::Create | STATUS decompiled | 17 ms */
+
+/* public: virtual enum bEResult __thiscall gCPlayerMemory_PS::Create(void) */
+
+bEResult __thiscall gCPlayerMemory_PS::Create(gCPlayerMemory_PS *this)
+
+{
+  bool bVar1;
+  
+                    /* 0x25018  2386  ?Create@gCPlayerMemory_PS@@UAE?AW4bEResult@@XZ */
+  bVar1 = (*this->vftablePtr->IsValid)(this);
+  if (!bVar1) {
+    thunk_FUN_20064480(9,0);
+    (this->gCPlayerMemory_PS_data).offset_0x24 = 9;
+    thunk_FUN_20064480(9,0);
+    (this->gCPlayerMemory_PS_data).offset_0x30 = 9;
+    thunk_FUN_200ae420(9,0);
+    (this->gCPlayerMemory_PS_data).offset_0x48 = 9;
+    thunk_FUN_20064480(9,0);
+    (this->gCPlayerMemory_PS_data).offset_0x3c = 9;
+    eCEntityPropertySet::Create((eCEntityPropertySet *)this);
+  }
+  return 1;
+}
+
+

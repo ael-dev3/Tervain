@@ -1,0 +1,2 @@
+; 200287ae gCParty_PS::GetPartyLeaderEntity
+200287ae | e92d280800 | JMP 0x200aafe0

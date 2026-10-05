@@ -1,0 +1,2 @@
+; 30046b32 bTPropertyType<eCIlluminated_PS,bTPropertyContainer<eEStaticIlluminated>_>::vfunction6
+30046b32 | e909061e00 | JMP 0x30227140

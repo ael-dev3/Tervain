@@ -1,0 +1,10 @@
+/* ENTRY 305dd460 | FUN_305dd460 | STATUS decompiled | 5 ms */
+
+int __thiscall FUN_305dd460(int param_1,int param_2)
+
+{
+  bCString::operator=((bCString *)(param_1 + 8),(bCString *)(param_2 + 8));
+  return param_1;
+}
+
+

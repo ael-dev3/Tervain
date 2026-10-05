@@ -1,0 +1,65 @@
+/* ENTRY 100032c4 | bCErrorAdmin::Destroy | STATUS decompiled | 13 ms */
+
+/* protected: void __thiscall bCErrorAdmin::Destroy(void) */
+
+void __thiscall bCErrorAdmin::Destroy(bCErrorAdmin *this)
+
+{
+  int *piVar1;
+  bCMemoryAdmin *pbVar2;
+  bCMessageAdmin *this_00;
+  void *pvVar3;
+  _func_bool_bEMessageTypes_char_ptr_char_ptr_ulong_char_ptr_int_int *p_Var4;
+  
+                    /* 0x32c4  1930  ?Destroy@bCErrorAdmin@@IAEXXZ */
+  piVar1 = *(int **)(this + 0x20);
+  if (piVar1 != (int *)0x0) {
+    pvVar3 = (void *)*piVar1;
+    if (pvVar3 != (void *)0x0) {
+      pbVar2 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar2,pvVar3);
+      *piVar1 = 0;
+      piVar1[1] = 0;
+      piVar1[2] = 0;
+      piVar1[3] = 0;
+      *(undefined1 *)(piVar1 + 4) = 0;
+    }
+    _free(piVar1);
+  }
+  piVar1 = *(int **)(this + 0x24);
+  if (piVar1 != (int *)0x0) {
+    pvVar3 = (void *)*piVar1;
+    if (pvVar3 != (void *)0x0) {
+      pbVar2 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar2,pvVar3);
+      *piVar1 = 0;
+      piVar1[1] = 0;
+      piVar1[2] = 0;
+    }
+    _free(piVar1);
+  }
+  piVar1 = *(int **)(this + 0x28);
+  if (piVar1 != (int *)0x0) {
+    pvVar3 = (void *)*piVar1;
+    if (pvVar3 != (void *)0x0) {
+      pbVar2 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar2,pvVar3);
+      *piVar1 = 0;
+      piVar1[1] = 0;
+      piVar1[2] = 0;
+    }
+    _free(piVar1);
+  }
+  p_Var4 = (_func_bool_bEMessageTypes_char_ptr_char_ptr_ulong_char_ptr_int_int *)&LAB_10002df6;
+  *(undefined4 *)this = 0;
+  this[4] = (bCErrorAdmin)0x0;
+  this[5] = (bCErrorAdmin)0x0;
+  *(undefined4 *)(this + 0x20) = 0;
+  *(undefined4 *)(this + 0x24) = 0;
+  *(undefined4 *)(this + 0x28) = 0;
+  this_00 = bCMessageAdmin::GetInstance();
+  bCMessageAdmin::UnregisterCallback(this_00,p_Var4);
+  return;
+}
+
+

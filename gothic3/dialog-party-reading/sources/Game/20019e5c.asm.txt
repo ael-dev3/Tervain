@@ -1,0 +1,2 @@
+; 20019e5c gCParty_PS::GetPartyMemberType
+20019e5c | e9df110900 | JMP 0x200ab040

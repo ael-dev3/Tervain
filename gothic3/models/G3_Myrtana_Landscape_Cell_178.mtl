@@ -1,0 +1,48 @@
+newmtl G3_Nature_Ground_Grass_01_A
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Nature_Ground_Grass_01_Diffuse_01.jpg
+
+newmtl G3_Nature_Ground_Gravel_02_A
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Nature_Earthground_01_Diffuse_02.jpg
+
+newmtl G3_Nature_Ground_Path_01_A
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Nature_Earthground_01_Diffuse_02.jpg
+
+newmtl G3_Nature_Myrtana_Rock_02_A
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Nature_Wall_Stone_02_Diffuse_01.jpg
+
+newmtl G3_Nature_Wall_Stone_02_F
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Nature_Wall_Stone_02_Diffuse_01.jpg
+
+newmtl G3_Myrtana_Dungeon_Stone_02_F_2_PlainSand_02_A
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Nature_Wall_Stone_02_Diffuse_01.jpg
+
+newmtl G3_Nature_Dunes_PlainSand_02_D
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Nature_Dunes_PlainSand_02_Diffuse_03.jpg

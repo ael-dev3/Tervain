@@ -1,0 +1,2 @@
+; 3003e61c thunk_FUN_300aec60
+3003e61c | e93f060700 | JMP 0x300aec60

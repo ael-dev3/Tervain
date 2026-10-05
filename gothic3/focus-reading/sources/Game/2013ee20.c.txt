@@ -1,0 +1,11 @@
+/* ENTRY 2013ee20 | bTPropertyContainer<gEFocusLookAt>::vfunction8 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gEFocusLookAt>::vfunction8(bTPropertyContainer<gEFocusLookAt> *this,int param_1)
+
+{
+  (this->bTPropertyContainer<gEFocusLookAt>_data).offset_0x0 = *(undefined ***)(param_1 + 4);
+  return 1;
+}
+
+

@@ -1,0 +1,2 @@
+; 20006811 gCDamageReceiver_PS::SetStaminaPoints
+20006811 | e9da320b00 | JMP 0x200b9af0

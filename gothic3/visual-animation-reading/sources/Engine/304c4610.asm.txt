@@ -1,0 +1,33 @@
+; 304c4610 eCEntityProxy::eCEntityProxy
+304c4610 | 53 | PUSH EBX
+304c4611 | 56 | PUSH ESI
+304c4612 | 8bf1 | MOV ESI,ECX
+304c4614 | 57 | PUSH EDI
+304c4615 | 8d7e08 | LEA EDI,[ESI + 0x8]
+304c4618 | 8bcf | MOV ECX,EDI
+304c461a | c706f4bf8730 | MOV dword ptr [ESI],0x3087bff4
+304c4620 | ff1500dbaf30 | CALL dword ptr [0x30afdb00]
+304c4626 | 8bcf | MOV ECX,EDI
+304c4628 | c7460400000000 | MOV dword ptr [ESI + 0x4],0x0
+304c462f | ff1534d8af30 | CALL dword ptr [0x30afd834]
+304c4635 | 8b5c2410 | MOV EBX,dword ptr [ESP + 0x10]
+304c4639 | 8b4b04 | MOV ECX,dword ptr [EBX + 0x4]
+304c463c | 85c9 | TEST ECX,ECX
+304c463e | 7405 | JZ 0x304c4645
+304c4640 | e8210eb4ff | CALL 0x30005466
+304c4645 | 8b4e04 | MOV ECX,dword ptr [ESI + 0x4]
+304c4648 | 85c9 | TEST ECX,ECX
+304c464a | 740c | JZ 0x304c4658
+304c464c | e8dbf2b3ff | CALL 0x3000392c
+304c4651 | c7460400000000 | MOV dword ptr [ESI + 0x4],0x0
+304c4658 | 8d4308 | LEA EAX,[EBX + 0x8]
+304c465b | 50 | PUSH EAX
+304c465c | 8bcf | MOV ECX,EDI
+304c465e | ff1578daaf30 | CALL dword ptr [0x30afda78]
+304c4664 | 8b4b04 | MOV ECX,dword ptr [EBX + 0x4]
+304c4667 | 5f | POP EDI
+304c4668 | 894e04 | MOV dword ptr [ESI + 0x4],ECX
+304c466b | 8bc6 | MOV EAX,ESI
+304c466d | 5e | POP ESI
+304c466e | 5b | POP EBX
+304c466f | c20400 | RET 0x4

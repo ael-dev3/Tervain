@@ -1,0 +1,60 @@
+/* ENTRY 30047474 | eCVisualAnimationFactory::CreateActorInstance | STATUS decompiled | 25 ms */
+
+/* public: bool __thiscall eCVisualAnimationFactory::CreateActorInstance(void) */
+
+bool __thiscall eCVisualAnimationFactory::CreateActorInstance(eCVisualAnimationFactory *this)
+
+{
+  bool bVar1;
+  eCWrapper_emfx2Actor *peVar2;
+  eCWrapper_emfx2Actor *peVar3;
+  int iVar4;
+  int iVar5;
+  undefined4 uVar6;
+  undefined4 uVar7;
+  undefined4 uVar8;
+  undefined4 uVar9;
+  
+                    /* 0x47474  4762  ?CreateActorInstance@eCVisualAnimationFactory@@QAE_NXZ */
+  if (*(int *)(this + 4) == 0) {
+    peVar2 = (eCWrapper_emfx2Actor *)
+             eCVisualAnimationLoD::GetActorWrapper(*(eCVisualAnimationLoD **)(this + 8));
+    if (peVar2 == (eCWrapper_emfx2Actor *)0x0) {
+      return false;
+    }
+    peVar3 = eCWrapper_emfx2Actor::CreateInstance(peVar2);
+    iVar5 = 0;
+    *(eCWrapper_emfx2Actor **)(this + 4) = peVar3;
+    if (0 < *(int *)(this + 0x14)) {
+      iVar4 = 0;
+      do {
+        peVar3 = eCVisualAnimationLoD::GetActorWrapper
+                           (*(eCVisualAnimationLoD **)(*(int *)(this + 0x10) + 4 + iVar4));
+        if (peVar3 != (eCWrapper_emfx2Actor *)0x0) {
+          peVar2 = (eCWrapper_emfx2Actor *)
+                   eCVisualAnimationLoD::GetActorWrapper
+                             (*(eCVisualAnimationLoD **)(*(int *)(this + 0x10) + 4 + iVar4));
+          bVar1 = (*peVar2->vftablePtr->IsValid)(peVar2);
+          if (bVar1) {
+            peVar3 = eCWrapper_emfx2Actor::CreateInstance(peVar2);
+            uVar6 = *(undefined4 *)(*(int *)(this + 4) + 0xc);
+            uVar9 = 0;
+            uVar7 = *(undefined4 *)(peVar3 + 0xc);
+            uVar8 = 0;
+            thunk_FUN_300be3a0(uVar6,uVar7,0,0);
+            FUN_30644e80(uVar6,uVar7,uVar8,uVar9);
+            FUN_3063e910();
+            (**(code **)(*(int *)peVar3 + 0x24))();
+          }
+        }
+        iVar5 = iVar5 + 1;
+        iVar4 = iVar4 + 0x10;
+      } while (iVar5 < *(int *)(this + 0x14));
+    }
+    thunk_FUN_30073fc0(0,0xffffffff);
+    *(undefined4 *)(this + 0x24) = 0;
+  }
+  return true;
+}
+
+

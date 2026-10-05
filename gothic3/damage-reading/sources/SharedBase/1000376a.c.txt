@@ -1,0 +1,29 @@
+/* ENTRY 1000376a | bCPropertyObjectFactory::ReadObject | STATUS decompiled | 8 ms */
+
+/* protected: bool __thiscall bCPropertyObjectFactory::ReadObject(class bCIStream &,class
+   bCPropertyObjectBase &) */
+
+bool __thiscall
+bCPropertyObjectFactory::ReadObject
+          (bCPropertyObjectFactory *this,bCIStream *param_1,bCPropertyObjectBase *param_2)
+
+{
+  ushort uStack_8;
+  bool abStack_6 [2];
+  ushort auStack_4 [2];
+  
+                    /* 0x376a  3895
+                       ?ReadObject@bCPropertyObjectFactory@@IAE_NAAVbCIStream@@AAVbCPropertyObjectBase@@@Z
+                        */
+  uStack_8 = 0;
+  abStack_6[0] = false;
+  auStack_4[0] = 0;
+  auStack_4[1] = 0;
+  bCIStream::operator>>((bCIStream *)param_1,auStack_4);
+  bCIStream::operator>>((bCIStream *)param_1,abStack_6);
+  bCIStream::operator>>((bCIStream *)param_1,&uStack_8);
+  (**(code **)(*(int *)param_2 + 0x14))(param_1);
+  return true;
+}
+
+

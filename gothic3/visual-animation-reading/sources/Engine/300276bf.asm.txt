@@ -1,0 +1,2 @@
+; 300276bf eCVisualAnimation_PS::GetLookAtConstraintCount
+300276bf | e9ec680700 | JMP 0x3009dfb0

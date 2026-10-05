@@ -1,0 +1,17 @@
+/* ENTRY 2030bf00 | bTPropertyType<gCNPC_PS,bTObjArray<eCTemplateEntityProxy>_>::vfunction6 | STATUS decompiled | 4 ms */
+
+void __thiscall
+bTPropertyType<gCNPC_PS,bTObjArray<eCTemplateEntityProxy>_>::vfunction6
+          (bTPropertyType<gCNPC_PS,bTObjArray<eCTemplateEntityProxy>_> *this,int param_1)
+
+{
+  if (param_1 != 0) {
+                    /* WARNING: Could not recover jumptable at 0x2030bf11. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_1);
+    return;
+  }
+  return;
+}
+
+

@@ -1,0 +1,3 @@
+; 3028e220 FUN_3028e220
+3028e220 | 83c11c | ADD ECX,0x1c
+3028e223 | ff2578dbaf30 | JMP dword ptr [0x30afdb78]

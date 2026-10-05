@@ -1,0 +1,12 @@
+/* ENTRY 10006140 | bCObjectBase::IsValid | STATUS decompiled | 3 ms */
+
+/* public: virtual bool __thiscall bCObjectBase::IsValid(void)const  */
+
+bool __thiscall bCObjectBase::IsValid(bCObjectBase *this)
+
+{
+                    /* 0x6140  3680  ?IsValid@bCObjectBase@@UBE_NXZ */
+  return true;
+}
+
+

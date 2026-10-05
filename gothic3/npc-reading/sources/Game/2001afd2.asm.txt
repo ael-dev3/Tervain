@@ -1,0 +1,4 @@
+; 2001afd2 bTPropertyType<gCNPC_PS,bTObjArray<eCTemplateEntityProxy>_>::vfunction15
+2001afd2 | e909412f00 | JMP 0x2030f0e0
+; 2001afd7 gCEffect_PS::DestroyEffect
+; 2001afd7 Ordinal_2670

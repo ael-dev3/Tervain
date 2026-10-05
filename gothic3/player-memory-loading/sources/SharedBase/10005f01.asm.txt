@@ -1,0 +1,2 @@
+; 10005f01 bCPropertyTypeBase::~bCPropertyTypeBase
+10005f01 | e9aa2e0800 | JMP 0x10088db0

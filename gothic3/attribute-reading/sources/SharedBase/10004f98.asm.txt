@@ -1,0 +1,2 @@
+; 10004f98 bCGothic3EngineDialogs::~bCGothic3EngineDialogs
+10004f98 | e983c20100 | JMP 0x10021220

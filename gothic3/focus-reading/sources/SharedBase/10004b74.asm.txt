@@ -1,0 +1,2 @@
+; 10004b74 bCPropertyObjectBase::AddReference
+10004b74 | e9a7450800 | JMP 0x10089120

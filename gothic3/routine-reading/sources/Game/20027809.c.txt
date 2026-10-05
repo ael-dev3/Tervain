@@ -1,0 +1,17 @@
+/* ENTRY 20027809 | gCScriptRoutine_PS::OnPreProcess | STATUS decompiled | 7 ms */
+
+/* public: virtual void __thiscall gCScriptRoutine_PS::OnPreProcess(void) */
+
+void __thiscall gCScriptRoutine_PS::OnPreProcess(gCScriptRoutine_PS *this)
+
+{
+  eCEntity *peVar1;
+  
+                    /* 0x27809  5547  ?OnPreProcess@gCScriptRoutine_PS@@UAEXXZ */
+  peVar1 = (*this->vftablePtr->GetEntity)(this);
+  gCScriptProcessingUnit::SetSelfEntity
+            ((gCScriptProcessingUnit *)&(this->gCScriptRoutine_PS_data).field_0x60,peVar1);
+  return;
+}
+
+

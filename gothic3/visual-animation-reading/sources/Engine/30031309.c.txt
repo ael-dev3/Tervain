@@ -1,0 +1,13 @@
+/* ENTRY 30031309 | eCVisualAnimation_PS::AccessBoneTwistSpringEnabled | STATUS decompiled | 8 ms */
+
+/* public: bool & __thiscall eCVisualAnimation_PS::AccessBoneTwistSpringEnabled(void) */
+
+bool * __thiscall eCVisualAnimation_PS::AccessBoneTwistSpringEnabled(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x31309  2528  ?AccessBoneTwistSpringEnabled@eCVisualAnimation_PS@@QAEAA_NXZ
+                        */
+  return (bool *)&this[2].eCEntityPropertySet_data.offset_0x8;
+}
+
+

@@ -1,0 +1,9 @@
+; 30385340 bTPropertyObjectType<eCEffector,bCObjectRefBase>::~bTPropertyObjectType<eCEffector,bCObjectRefBase>
+30385340 | 56 | PUSH ESI
+30385341 | 8bf1 | MOV ESI,ECX
+30385343 | 8d4e18 | LEA ECX,[ESI + 0x18]
+30385346 | c706bc5d8630 | MOV dword ptr [ESI],0x30865dbc
+3038534c | ff1538caaf30 | CALL dword ptr [0x30afca38]
+30385352 | 8bce | MOV ECX,ESI
+30385354 | 5e | POP ESI
+30385355 | ff2534caaf30 | JMP dword ptr [0x30afca34]

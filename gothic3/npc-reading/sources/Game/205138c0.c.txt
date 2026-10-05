@@ -1,0 +1,34 @@
+/* ENTRY 205138c0 | bTPropertyType<gCNPC_PS,bTPropertyContainer<gEPoliticalAlignment>_>::~bTPropertyType<gCNPC_PS,bTPropertyContainer<gEPoliticalAlignment>_> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNPC_PS,bTPropertyContainer<gEPoliticalAlignment>_>::
+~bTPropertyType<gCNPC_PS,bTPropertyContainer<gEPoliticalAlignment>_>
+          (bTPropertyType<gCNPC_PS,bTPropertyContainer<gEPoliticalAlignment>_> *this)
+
+{
+  bTPropertyType<gCNPC_PS,bTPropertyContainer<gEPoliticalAlignment>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"PoliticalAlignment");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuPoliticalAlignment,
+             (bCString *)&local_4,2);
+  _ms_PropertyMember_m_enuPoliticalAlignment = &vftable;
+  DAT_207c0d24 = bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>();
+  _DAT_207c0d28 = 0x38;
+  _DAT_207c0d2c = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuPoliticalAlignment);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c0d24,
+             (bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_enuPoliticalAlignment);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEPoliticalAlignment>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEPoliticalAlignment>_>);
+  return;
+}
+
+

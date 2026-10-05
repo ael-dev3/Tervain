@@ -1,0 +1,2 @@
+; 3003cb91 eCVisualAnimation_PS::AddAttachment
+3003cb91 | e9da750600 | JMP 0x300a4170

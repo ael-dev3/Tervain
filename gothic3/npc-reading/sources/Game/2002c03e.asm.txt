@@ -1,0 +1,2 @@
+; 2002c03e bTPropertyType<gCNPC_PS,unsigned_long>::vfunction1
+2002c03e | e93d622d00 | JMP 0x20302280

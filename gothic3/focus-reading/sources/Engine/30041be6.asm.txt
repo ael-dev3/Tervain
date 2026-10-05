@@ -1,0 +1,2 @@
+; 30041be6 eCPhysicsScene::SetQueryFilterCallback
+30041be6 | e9b55f2d00 | JMP 0x30317ba0

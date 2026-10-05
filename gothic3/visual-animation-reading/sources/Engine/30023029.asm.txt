@@ -1,0 +1,2 @@
+; 30023029 eCSpringAndDamperEffector::GetDamperMaxCompressForce
+30023029 | e9d2e70300 | JMP 0x30061800

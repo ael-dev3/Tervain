@@ -1,0 +1,2 @@
+; 10004db3 bCPropertyObjectFactory::UnregisterPropertyObject
+10004db3 | e968800800 | JMP 0x1008ce20

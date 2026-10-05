@@ -1,0 +1,2 @@
+; 3009db10 eCEntityPropertySet::OnPostRead
+3009db10 | e9f9f5f9ff | JMP 0x3003d10e

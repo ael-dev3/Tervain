@@ -1,0 +1,19 @@
+/* ENTRY 3003e941 | eCArchiveManager::GetInstance | STATUS decompiled | 6 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* public: static class eCArchiveManager & __stdcall eCArchiveManager::GetInstance(void) */
+
+eCArchiveManager * eCArchiveManager::GetInstance(void)
+
+{
+                    /* 0x3e941  7419  ?GetInstance@eCArchiveManager@@SGAAV1@XZ */
+  if ((_DAT_30af6988 & 1) == 0) {
+    _DAT_30af6988 = _DAT_30af6988 | 1;
+    bCObjectBase::bCObjectBase((bCObjectBase *)&DAT_30af6984);
+    _DAT_30af6984 = &vftable;
+    _atexit(~eCArchiveManager);
+  }
+  return (eCArchiveManager *)&DAT_30af6984;
+}
+
+

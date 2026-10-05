@@ -1,0 +1,36 @@
+/* ENTRY 10021140 | FUN_10021140 | STATUS decompiled | 7 ms */
+
+byte __thiscall FUN_10021140(bCGothic3EngineDialogs *param_1,undefined4 param_2)
+
+{
+  byte bVar1;
+  byte bVar2;
+  byte bVar3;
+  bCDialogHandle *pbVar4;
+  
+  pbVar4 = bCGothic3EngineDialogs::GetDialogHandle(param_1);
+  bCGothic3EngineDialogs::bCDialogHandle::AddReference(pbVar4);
+  *param_1 = (bCGothic3EngineDialogs)0x1;
+  pbVar4 = bCGothic3EngineDialogs::GetDialogHandle(param_1);
+  if (*(code **)(pbVar4 + 8) == (code *)0x0) {
+    bVar1 = 0;
+  }
+  else {
+    bVar1 = (**(code **)(pbVar4 + 8))(param_2);
+  }
+  pbVar4 = bCGothic3EngineDialogs::GetDialogHandle(param_1);
+  if (*(code **)(pbVar4 + 0x1c) == (code *)0x0) {
+    bVar2 = 0;
+  }
+  else {
+    bVar2 = (**(code **)(pbVar4 + 0x1c))();
+  }
+  pbVar4 = bCGothic3EngineDialogs::GetDialogHandle(param_1);
+  if (*(code **)(pbVar4 + 0x2c) != (code *)0x0) {
+    bVar3 = (**(code **)(pbVar4 + 0x2c))();
+    return bVar3 & bVar1 & bVar2;
+  }
+  return 0;
+}
+
+

@@ -1,0 +1,19 @@
+/* ENTRY 30090460 | FUN_30090460 | STATUS decompiled | 6 ms */
+
+void FUN_30090460(bCString *param_1)
+
+{
+  bool bVar1;
+  int iVar2;
+  
+  bVar1 = bCString::IsEmpty(param_1);
+  if (!bVar1) {
+    iVar2 = thunk_FUN_300915e0(param_1);
+    if (iVar2 == -1) {
+      thunk_FUN_30092570(param_1);
+    }
+  }
+  return;
+}
+
+

@@ -1,0 +1,10 @@
+/* ENTRY 2020b880 | FUN_2020b880 | STATUS decompiled | 2 ms */
+
+undefined4 FUN_2020b880(bCOStream *param_1)
+
+{
+  bCOStream::operator<<(param_1,1);
+  return 1;
+}
+
+

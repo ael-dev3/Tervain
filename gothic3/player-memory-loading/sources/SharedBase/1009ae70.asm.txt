@@ -1,0 +1,24 @@
+; 1009ae70 FUN_1009ae70
+1009ae70 | 57 | PUSH EDI
+1009ae71 | 8bf9 | MOV EDI,ECX
+1009ae73 | 833f00 | CMP dword ptr [EDI],0x0
+1009ae76 | 741e | JZ 0x1009ae96
+1009ae78 | 56 | PUSH ESI
+1009ae79 | 8b37 | MOV ESI,dword ptr [EDI]
+1009ae7b | e8dcaff6ff | CALL 0x10005e5c
+1009ae80 | 50 | PUSH EAX
+1009ae81 | 8b06 | MOV EAX,dword ptr [ESI]
+1009ae83 | 8b5008 | MOV EDX,dword ptr [EAX + 0x8]
+1009ae86 | 8bce | MOV ECX,ESI
+1009ae88 | ffd2 | CALL EDX
+1009ae8a | 8bc8 | MOV ECX,EAX
+1009ae8c | e82880f6ff | CALL 0x10002eb9
+1009ae91 | 84c0 | TEST AL,AL
+1009ae93 | 5e | POP ESI
+1009ae94 | 7405 | JZ 0x1009ae9b
+1009ae96 | e8c1aff6ff | CALL 0x10005e5c
+1009ae9b | 8b0f | MOV ECX,dword ptr [EDI]
+1009ae9d | 8b01 | MOV EAX,dword ptr [ECX]
+1009ae9f | 8b5004 | MOV EDX,dword ptr [EAX + 0x4]
+1009aea2 | 5f | POP EDI
+1009aea3 | ffe2 | JMP EDX

@@ -1,0 +1,2 @@
+; 20018d6d ?Invalidate@gCScriptRoutine_PS@@IAEXXZ
+20018d6d | e9cedc3300 | JMP 0x20356a40

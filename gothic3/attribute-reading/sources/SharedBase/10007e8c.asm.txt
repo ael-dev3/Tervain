@@ -1,0 +1,2 @@
+; 10007e8c bCObjectRefBase::IsVirtualReferencingEnabled
+10007e8c | e95f260400 | JMP 0x1004a4f0

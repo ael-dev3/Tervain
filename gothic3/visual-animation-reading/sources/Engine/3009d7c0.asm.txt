@@ -1,0 +1,3 @@
+; 3009d7c0 FUN_3009d7c0
+3009d7c0 | 8a8118010000 | MOV AL,byte ptr [ECX + 0x118]
+3009d7c6 | c3 | RET

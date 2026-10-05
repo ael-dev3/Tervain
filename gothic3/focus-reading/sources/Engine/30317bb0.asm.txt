@@ -1,0 +1,3 @@
+; 30317bb0 FUN_30317bb0
+30317bb0 | 8b81b0000000 | MOV EAX,dword ptr [ECX + 0xb0]
+30317bb6 | c3 | RET

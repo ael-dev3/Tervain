@@ -1,0 +1,15 @@
+/* ENTRY 3064f4d0 | EMotionFX::SkeletalMotion::SkeletalMotion | STATUS decompiled | 6 ms */
+
+SkeletalMotion * __thiscall
+EMotionFX::SkeletalMotion::SkeletalMotion(SkeletalMotion *this,int param_1)
+
+{
+  Motion::Motion((Motion *)this,param_1);
+  this->vftablePtr = &vftable;
+  (this->SkeletalMotion_data).offset_0x0 = 0;
+  (this->SkeletalMotion_data).offset_0x4 = 0;
+  (this->SkeletalMotion_data).offset_0x8 = 0;
+  return this;
+}
+
+

@@ -1,0 +1,2 @@
+; 20022822 bTPropertyType<gCAttribute,int>::vfunction12
+20022822 | e939783700 | JMP 0x2039a060

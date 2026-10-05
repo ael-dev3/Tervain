@@ -1,0 +1,19 @@
+/* ENTRY 300207ed | eCVisualAnimation_PS::SetBodyPartVisible | STATUS decompiled | 9 ms */
+
+/* public: bool __thiscall eCVisualAnimation_PS::SetBodyPartVisible(class bCString const &,bool) */
+
+bool __thiscall
+eCVisualAnimation_PS::SetBodyPartVisible(eCVisualAnimation_PS *this,bCString *param_1,bool param_2)
+
+{
+  bool bVar1;
+  
+                    /* 0x207ed  12964
+                       ?SetBodyPartVisible@eCVisualAnimation_PS@@QAE_NABVbCString@@_N@Z */
+  bVar1 = eCVisualAnimationFactory::SetBodyPartVisible
+                    ((eCVisualAnimationFactory *)&this[7].eCEntityPropertySet_data.field_0x4,param_1
+                     ,param_2);
+  return bVar1;
+}
+
+

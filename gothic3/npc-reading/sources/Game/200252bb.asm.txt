@@ -1,0 +1,4 @@
+; 200252bb bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttackReason>_>::vfunction26
+200252bb | e9f0232e00 | JMP 0x203076b0
+; 200252c5 gCWorkspace::AccessDatabases
+; 200252c5 Ordinal_1141

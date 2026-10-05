@@ -1,0 +1,12 @@
+/* ENTRY 3001d1e7 | eCEffector::GetEntity2 | STATUS decompiled | 1 ms */
+
+/* public: class eCEntityProxy const & __thiscall eCEffector::GetEntity2(void)const  */
+
+eCEntityProxy * __thiscall eCEffector::GetEntity2(eCEffector *this)
+
+{
+                    /* 0x1d1e7  7009  ?GetEntity2@eCEffector@@QBEABVeCEntityProxy@@XZ */
+  return (eCEntityProxy *)&(this->eCEffector_data).field_0x24;
+}
+
+

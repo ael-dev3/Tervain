@@ -1,0 +1,10 @@
+/* ENTRY 200b8490 | bTPropertyObject<gCDamage_PS,eCEntityPropertySet>::vfunction11 | STATUS decompiled | 1 ms */
+
+void __thiscall bTPropertyObject<gCDamage_PS,eCEntityPropertySet>::vfunction11(void)
+
+{
+  thunk_FUN_200b80c0(0);
+  return;
+}
+
+

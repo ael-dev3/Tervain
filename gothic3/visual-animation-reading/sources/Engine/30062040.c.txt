@@ -1,0 +1,16 @@
+/* ENTRY 30062040 | FUN_30062040 | STATUS decompiled | 4 ms */
+
+void __fastcall FUN_30062040(int *param_1)
+
+{
+  code *pcVar1;
+  int *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("BoneSwingSpringDamping",0);
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  param_1[0x12] = *unaff_ESI;
+  (*pcVar1)("BoneSwingSpringDamping",0);
+  return;
+}
+
+

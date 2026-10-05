@@ -1,0 +1,21 @@
+; 10088cc0 bCPropertyTypeBase::bCPropertyTypeBase
+10088cc0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+10088cc4 | 56 | PUSH ESI
+10088cc5 | 8bf1 | MOV ESI,ECX
+10088cc7 | c70664a10e10 | MOV dword ptr [ESI],0x100ea164
+10088ccd | 8b00 | MOV EAX,dword ptr [EAX]
+10088ccf | 85c0 | TEST EAX,EAX
+10088cd1 | 894604 | MOV dword ptr [ESI + 0x4],EAX
+10088cd4 | 7405 | JZ 0x10088cdb
+10088cd6 | 668340fc01 | ADD word ptr [EAX + -0x4],0x1
+; 10088cdb LAB_10088cdb
+10088cdb | 8d4e08 | LEA ECX,[ESI + 0x8]
+10088cde | e8baeaf7ff | CALL 0x1000779d
+10088ce3 | 8d4e0c | LEA ECX,[ESI + 0xc]
+10088ce6 | e8b2eaf7ff | CALL 0x1000779d
+10088ceb | 8b4c240c | MOV ECX,dword ptr [ESP + 0xc]
+10088cef | 894e10 | MOV dword ptr [ESI + 0x10],ECX
+10088cf2 | c6461400 | MOV byte ptr [ESI + 0x14],0x0
+10088cf6 | 8bc6 | MOV EAX,ESI
+10088cf8 | 5e | POP ESI
+10088cf9 | c20800 | RET 0x8

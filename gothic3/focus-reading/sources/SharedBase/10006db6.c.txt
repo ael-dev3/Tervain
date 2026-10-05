@@ -1,0 +1,56 @@
+/* ENTRY 10006db6 | bCPropertyObjectFactory::RegisterPropertyObject | STATUS decompiled | 18 ms */
+
+/* public: bool __thiscall bCPropertyObjectFactory::RegisterPropertyObject(class
+   bCPropertyObjectBase const *) */
+
+bool __thiscall
+bCPropertyObjectFactory::RegisterPropertyObject
+          (bCPropertyObjectFactory *this,bCPropertyObjectBase *param_1)
+
+{
+  undefined4 *puVar1;
+  bCPropertyObjectBase *this_00;
+  bool bVar2;
+  bCPropertyObjectSingleton *this_01;
+  char *pcVar3;
+  bCErrorAdmin *this_02;
+  char *pcVar4;
+  int iVar5;
+  
+                    /* 0x6db6  3908
+                       ?RegisterPropertyObject@bCPropertyObjectFactory@@QAE_NPBVbCPropertyObjectBase@@@Z
+                        */
+  this_00 = param_1;
+  if (param_1 != (bCPropertyObjectBase *)0x0) {
+    this_01 = (bCPropertyObjectSingleton *)bCPropertyObjectSingleton::GetInstance();
+    bVar2 = bCPropertyObjectSingleton::IsRegistrationEnabled(this_01);
+    if ((bVar2) && (bVar2 = bCPropertyObjectBase::IsRoot((bCPropertyObjectBase *)this_00), bVar2)) {
+      if ((this->bCPropertyObjectFactory_data).offset_0x4 != 0) {
+        bVar2 = bCPropertyObjectBase::IsRoot
+                          (*(bCPropertyObjectBase **)(this->bCPropertyObjectFactory_data).offset_0x0
+                          );
+        if (bVar2) {
+          puVar1 = (this->bCPropertyObjectFactory_data).offset_0x0;
+          (**(code **)(*(int *)*puVar1 + 4))();
+          (**(code **)(*(int *)this_00 + 4))();
+          bCString::Format((bCString *)*puVar1,(char *)&g_strDefault);
+          iVar5 = 0x112;
+          pcVar4 = ".\\propertysystem\\factories\\ge_propertyobjectfactory.cpp";
+          pcVar3 = bCString::operator_char_const_((bCString *)&g_strDefault);
+          this_02 = bCErrorAdmin::GetInstance();
+          bCErrorAdmin::CallFatalError(this_02,pcVar3,pcVar4,iVar5);
+        }
+        else {
+          thunk_FUN_1008ead0((this->bCPropertyObjectFactory_data).offset_0x0);
+          thunk_FUN_1008de10(0);
+        }
+      }
+      param_1 = this_00;
+      thunk_FUN_1008eb10(0,&param_1);
+    }
+    return true;
+  }
+  return false;
+}
+
+

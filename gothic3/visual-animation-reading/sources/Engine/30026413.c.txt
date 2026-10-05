@@ -1,0 +1,23 @@
+/* ENTRY 30026413 | eCPhysicsScene::ReleaseJointInternal | STATUS decompiled | 13 ms */
+
+/* public: void __thiscall eCPhysicsScene::ReleaseJointInternal(class NxJoint &) */
+
+void __thiscall eCPhysicsScene::ReleaseJointInternal(eCPhysicsScene *this,NxJoint *param_1)
+
+{
+  char cVar1;
+  
+                    /* 0x26413  12411  ?ReleaseJointInternal@eCPhysicsScene@@QAEXAAVNxJoint@@@Z */
+  if ((this->eCPhysicsScene_data).offset_0x8 != 0) {
+    do {
+      cVar1 = (**(code **)(*(int *)(this->eCPhysicsScene_data).offset_0x8 + 0x144))();
+    } while (cVar1 == '\0');
+    bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)&DAT_30ae5dc0);
+    FetchResultsOnDemand(this);
+    (**(code **)(*(int *)(this->eCPhysicsScene_data).offset_0x8 + 0x20))(param_1);
+    bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30ae5dc0);
+  }
+  return;
+}
+
+

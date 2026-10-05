@@ -1,0 +1,2 @@
+; 10006708 bCAccessorProperty::bCAccessorProperty
+10006708 | e933f90800 | JMP 0x10096040

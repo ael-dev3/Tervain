@@ -1,0 +1,2 @@
+; 3002a950 eCIlluminated_PS::GetDirectionalShadowMap
+3002a950 | e9bb811f00 | JMP 0x30222b10

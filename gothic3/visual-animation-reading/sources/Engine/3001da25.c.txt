@@ -1,0 +1,16 @@
+/* ENTRY 3001da25 | eCRenderContext::eCRenderContext | STATUS decompiled | 5 ms */
+
+/* public: __thiscall eCRenderContext::eCRenderContext(void) */
+
+eCRenderContext * __thiscall eCRenderContext::eCRenderContext(eCRenderContext *this)
+
+{
+                    /* 0x1da25  634  ??0eCRenderContext@@QAE@XZ */
+  bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)this);
+  (this->eCRenderContext_data).offset_0x8 = 0;
+  (this->eCRenderContext_data).offset_0xc = 0;
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

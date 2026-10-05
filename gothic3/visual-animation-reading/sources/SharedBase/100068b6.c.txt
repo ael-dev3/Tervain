@@ -1,0 +1,22 @@
+/* ENTRY 100068b6 | bCAccessorCreator::bCAccessorCreator | STATUS decompiled | 3 ms */
+
+/* public: __thiscall bCAccessorCreator::bCAccessorCreator(class bCPropertyObjectBase *) */
+
+bCAccessorCreator * __thiscall
+bCAccessorCreator::bCAccessorCreator(bCAccessorCreator *this,bCPropertyObjectBase *param_1)
+
+{
+                    /* 0x68b6  12  ??0bCAccessorCreator@@QAE@PAVbCPropertyObjectBase@@@Z */
+  *(undefined4 *)this = 0;
+  if (param_1 != (bCPropertyObjectBase *)0x0) {
+    (**(code **)(*(int *)param_1 + 0x30))();
+  }
+  if (*(int **)this != (int *)0x0) {
+    (**(code **)(**(int **)this + 0x34))();
+    *(undefined4 *)this = 0;
+  }
+  *(bCPropertyObjectBase **)this = param_1;
+  return this;
+}
+
+

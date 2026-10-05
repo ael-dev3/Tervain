@@ -1,0 +1,2 @@
+; 1000489a bCObjectBase::GetReferenceCount
+1000489a | e981570400 | JMP 0x1004a020

@@ -1,0 +1,15 @@
+/* ENTRY 30009480 | eCNode::HasParent | STATUS decompiled | 5 ms */
+
+/* public: bool __thiscall eCNode::HasParent(void)const  */
+
+bool __thiscall eCNode::HasParent(eCNode *this)
+
+{
+  eCNode *peVar1;
+  
+                    /* 0x9480  9743  ?HasParent@eCNode@@QBE_NXZ */
+  peVar1 = (*this->vftablePtr->GetParent)(this);
+  return peVar1 != (eCNode *)0x0;
+}
+
+

@@ -1,0 +1,3 @@
+; 300bed30 FUN_300bed30
+300bed30 | 8b4108 | MOV EAX,dword ptr [ECX + 0x8]
+300bed33 | c3 | RET

@@ -1,0 +1,8 @@
+newmtl EMFX_Default
+
+newmtl Orc_Face
+map_Kd ../textures/G3_Orc_Face_Diffuse_S15.jpg
+
+newmtl Orc_beard
+map_Kd ../textures/G3_Orc_Beard_Diffuse_S1.png
+

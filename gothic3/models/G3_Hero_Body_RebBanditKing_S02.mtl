@@ -1,0 +1,5 @@
+newmtl EMFX_Default
+
+newmtl G3_Animation_Body_RebBanditKing_01_A|
+map_Kd ../textures/G3_Human_RebBandit_King_Body_Diffuse_S3.jpg
+

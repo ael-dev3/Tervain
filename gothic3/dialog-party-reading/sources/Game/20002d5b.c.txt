@@ -1,0 +1,15 @@
+/* ENTRY 20002d5b | gCDialog_PS::OnProcess | STATUS decompiled | 7 ms */
+
+/* public: virtual void __thiscall gCDialog_PS::OnProcess(void) */
+
+void __thiscall gCDialog_PS::OnProcess(gCDialog_PS *this)
+
+{
+                    /* 0x2d5b  5554  ?OnProcess@gCDialog_PS@@UAEXXZ */
+                    /* WARNING: Could not recover jumptable at 0x2020b8b0. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::OnProcess((eCEntityPropertySet *)this);
+  return;
+}
+
+

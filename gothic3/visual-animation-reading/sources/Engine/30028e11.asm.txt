@@ -1,0 +1,2 @@
+; 30028e11 thunk_FUN_300c4bd0
+30028e11 | e9babd0900 | JMP 0x300c4bd0

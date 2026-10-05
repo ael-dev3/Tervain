@@ -1,0 +1,4 @@
+; 100020a9 ??0bCMatrix@@QAE@XZ
+100020a9 | e9c25d0200 | JMP 0x10027e70
+; 100020b3 bCQuaternion::GetProduct
+; 100020b3 Ordinal_2803

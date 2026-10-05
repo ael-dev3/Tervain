@@ -1,0 +1,2 @@
+; 300364ee eCVisualAnimationFactory::Destroy
+300364ee | e92d680800 | JMP 0x300bcd20

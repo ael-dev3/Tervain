@@ -1,0 +1,111 @@
+{
+  "schema": "gothic3-native-world-clock-v1",
+  "schemaVersion": 1,
+  "scope": "mutable-native-clock-arithmetic-with-explicit-host-timestamp-and-precision-profile",
+  "sourceSeed": {
+    "url": "gameplay/initial/world-clock.json",
+    "sha256": "c58ff5c0c2bfdac7f63715536ae98ba5a4483d6749a97d4e9e17fb2a51bd9240",
+    "bytes": 5004
+  },
+  "source": {
+    "family": "projects_compiled",
+    "archive": "Projects_compiled.p00",
+    "path": "G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat",
+    "sha256": "28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938",
+    "selection": "static-effective-layer-candidate",
+    "layers": [
+      "Projects_compiled.pak",
+      "Projects_compiled.p00"
+    ]
+  },
+  "calendar": {
+    "year": 0,
+    "day": 0,
+    "hour": 12,
+    "minute": 0,
+    "second": 0
+  },
+  "factor": 12,
+  "constructor": {
+    "factor": 1,
+    "secondsPerDay": 86400,
+    "daysPerYear": 365,
+    "years": 0,
+    "days": 0,
+    "seconds": 0,
+    "lastTimestamp": 0,
+    "pendingSeconds": -1,
+    "paused": true
+  },
+  "adjustment": {
+    "secondsPerDay": 86400,
+    "daysPerYear": 365
+  },
+  "millisecondsToSeconds": 0.0010000000474974513,
+  "layout": {
+    "factor": 0,
+    "secondsPerDay": 4,
+    "daysPerYear": 8,
+    "years": 12,
+    "days": 16,
+    "seconds": 20,
+    "lastTimestampU32": 24,
+    "pendingSecondsF32": 28,
+    "pausedByte": 32
+  },
+  "operations": {
+    "Adjust": "Copy factor(float32), secondsPerDay(uint32), daysPerYear(uint32); no elapsed flush or baseline reset.",
+    "Set": "Copy years/day uint32 and seconds float32; pendingSeconds=-1. No immediate calendar normalization or timer read.",
+    "Pause": "paused=true; pendingSeconds=-1; no timer read or elapsed accumulation.",
+    "Resume": "paused=false only. The sentinel from Pause/Set is handled lazily; redundant Resume retains baseline.",
+    "GetTimeAndDate": "When sentinel -1, sample raw u32 timestamp then pending=0. If running, read timestamp, subtract baseline modulo2^32, multiply exact factor/coefficient with float32 delta/pending stores, then read timestamp again into baseline. Add pending into seconds(float32), clear pending, truncate signed64 and use low32 for unsigned day/year division. Subtract whole-day seconds and store float32; uint32 year/day arithmetic wraps.",
+    "Process": "Advance GetTimeAndDate; truncate seconds to signed64 low32 and publish Year/Day/Hour/Minute/Second. Weather notification precedes changed-daytime music then ambient notifications.",
+    "QuestClock": "Copy last process-synchronized property Year/Day/Hour uint32 DWORDs. No advancing read, float conversion or fractional hours."
+  },
+  "dayTime": {
+    "0": "06:00–07:59",
+    "1": "08:00–19:59",
+    "2": "20:00–21:59",
+    "3": "22:00–05:59"
+  },
+  "ambientDayTimeTable": {
+    "address": "206857d0",
+    "bytes": "00000000010000000200000003000000",
+    "values": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "arithmeticProfiles": {
+    "precisionBits": [
+      24,
+      53,
+      64
+    ],
+    "rounding": "nearest-even",
+    "selectionRequired": true,
+    "capturedNativeControlWord": false,
+    "nativeFPUAdminDefaultPrecisionBits": 24,
+    "nativeFPUAdminDefaultIsNotProofOfActiveClockPrecision": true
+  },
+  "precision": [
+    "Float32 storage and exact PE coefficient, uint32 wrap and FISTP truncation are retained.",
+    "Finite clock arithmetic uses exact dyadic operands and explicitly selected24/53/64bit nearest-even intermediate rounding, including float32 stores and subnormals. This avoids substituting JS multiplication for extended x87 intermediates.",
+    "The active native x87 precision/rounding/control word and exception flags were not captured. Native FPU helpers support multiple precisions and default to24bits; a caller must select a profile and may not claim captured native equivalence.",
+    "Nonfinite float32 values, zero calendar divisors and signed64 FISTP overflow are explicit unsupported native exception domains, not silently clamped.",
+    "The host must supply monotonic u32 millisecond samples, with fewer than2^32ms between related reads. Browser timestamp origin/quantization is a selected host profile, not the original QPC timer."
+  ],
+  "unresolvedConsumers": [
+    "weather integration",
+    "music/ambient daytime callbacks",
+    "native property observers and session scheduling",
+    "native savegame pause/timer restoration",
+    "captured native global x87 environment"
+  ],
+  "evidence": {
+    "path": "assets/gothic3/clock/native-source-evidence.json",
+    "sha256": "9f58f1b7563e32f05085d42d8a62d6ef18c8f3a4149a3c45000f2bdde5dada20"
+  }
+}

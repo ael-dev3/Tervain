@@ -1,0 +1,13 @@
+/* ENTRY 10008012 | bCPropertyObjectBase::~bCPropertyObjectBase | STATUS decompiled | 2 ms */
+
+/* public: virtual __thiscall bCPropertyObjectBase::~bCPropertyObjectBase(void) */
+
+void __thiscall bCPropertyObjectBase::~bCPropertyObjectBase(bCPropertyObjectBase *this)
+
+{
+                    /* 0x8012  413  ??1bCPropertyObjectBase@@UAE@XZ */
+  this->vftablePtr = &vftable;
+  return;
+}
+
+

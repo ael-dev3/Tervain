@@ -1,0 +1,12 @@
+/* ENTRY 30017b6b | eCVisualAnimation_PS::AccessBoneTwistSpring | STATUS decompiled | 6 ms */
+
+/* public: float & __thiscall eCVisualAnimation_PS::AccessBoneTwistSpring(void) */
+
+float * __thiscall eCVisualAnimation_PS::AccessBoneTwistSpring(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x17b6b  2526  ?AccessBoneTwistSpring@eCVisualAnimation_PS@@QAEAAMXZ */
+  return (float *)&this[2].eCEntityPropertySet_data.offset_0xc;
+}
+
+

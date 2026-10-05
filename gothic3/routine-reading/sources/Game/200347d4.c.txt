@@ -1,0 +1,15 @@
+/* ENTRY 200347d4 | bTPropertyContainer<gEAction>::vfunction5 | STATUS decompiled | 5 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gEAction>::vfunction5(bTPropertyContainer<gEAction> *this,bCIStream *param_1)
+
+{
+  bCIStream *pbVar1;
+  
+  pbVar1 = param_1;
+  bCIStream::operator>>(param_1,(ushort *)&param_1);
+  (**(code **)((int)*pbVar1 + 4))(&this->bTPropertyContainer<gEAction>_data,4);
+  return 1;
+}
+
+

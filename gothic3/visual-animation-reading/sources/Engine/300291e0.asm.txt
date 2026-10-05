@@ -1,0 +1,2 @@
+; 300291e0 eCVisualAnimation_PS::GetBonesAreBreakable
+300291e0 | e97b8a0300 | JMP 0x30061c60

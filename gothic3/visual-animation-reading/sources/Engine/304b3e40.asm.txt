@@ -1,0 +1,17 @@
+; 304b3e40 FUN_304b3e40
+304b3e40 | 56 | PUSH ESI
+304b3e41 | 8bf1 | MOV ESI,ECX
+304b3e43 | 8b06 | MOV EAX,dword ptr [ESI]
+304b3e45 | 8b90e0000000 | MOV EDX,dword ptr [EAX + 0xe0]
+304b3e4b | ffd2 | CALL EDX
+304b3e4d | 8bce | MOV ECX,ESI
+304b3e4f | e82c56b5ff | CALL 0x30009480
+304b3e54 | 3c01 | CMP AL,0x1
+304b3e56 | 750d | JNZ 0x304b3e65
+304b3e58 | 8b06 | MOV EAX,dword ptr [ESI]
+304b3e5a | 8b90dc000000 | MOV EDX,dword ptr [EAX + 0xdc]
+304b3e60 | 8bce | MOV ECX,ESI
+304b3e62 | 5e | POP ESI
+304b3e63 | ffe2 | JMP EDX
+304b3e65 | 5e | POP ESI
+304b3e66 | c3 | RET

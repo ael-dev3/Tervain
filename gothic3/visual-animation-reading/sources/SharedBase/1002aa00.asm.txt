@@ -1,0 +1,57 @@
+; 1002aa00 FUN_1002aa00
+1002aa00 | 8b542404 | MOV EDX,dword ptr [ESP + 0x4]
+1002aa04 | d902 | FLD float ptr [EDX]
+1002aa06 | d95c2404 | FSTP float ptr [ESP + 0x4]
+1002aa0a | d9442404 | FLD float ptr [ESP + 0x4]
+1002aa0e | d901 | FLD float ptr [ECX]
+1002aa10 | dff1 | FCOMIP ST0,ST1
+1002aa12 | ddd8 | FSTP ST0
+1002aa14 | 760a | JBE 0x1002aa20
+1002aa16 | f30f10442404 | MOVSS XMM0,dword ptr [ESP + 0x4]
+1002aa1c | f30f1101 | MOVSS dword ptr [ECX],XMM0
+1002aa20 | d94204 | FLD float ptr [EDX + 0x4]
+1002aa23 | d95c2404 | FSTP float ptr [ESP + 0x4]
+1002aa27 | d9442404 | FLD float ptr [ESP + 0x4]
+1002aa2b | d94104 | FLD float ptr [ECX + 0x4]
+1002aa2e | dff1 | FCOMIP ST0,ST1
+1002aa30 | ddd8 | FSTP ST0
+1002aa32 | 760b | JBE 0x1002aa3f
+1002aa34 | f30f10442404 | MOVSS XMM0,dword ptr [ESP + 0x4]
+1002aa3a | f30f114104 | MOVSS dword ptr [ECX + 0x4],XMM0
+1002aa3f | d94208 | FLD float ptr [EDX + 0x8]
+1002aa42 | d95c2404 | FSTP float ptr [ESP + 0x4]
+1002aa46 | d9442404 | FLD float ptr [ESP + 0x4]
+1002aa4a | d94108 | FLD float ptr [ECX + 0x8]
+1002aa4d | dff1 | FCOMIP ST0,ST1
+1002aa4f | ddd8 | FSTP ST0
+1002aa51 | 760b | JBE 0x1002aa5e
+1002aa53 | f30f10442404 | MOVSS XMM0,dword ptr [ESP + 0x4]
+1002aa59 | f30f114108 | MOVSS dword ptr [ECX + 0x8],XMM0
+1002aa5e | d9420c | FLD float ptr [EDX + 0xc]
+1002aa61 | d95c2404 | FSTP float ptr [ESP + 0x4]
+1002aa65 | d9410c | FLD float ptr [ECX + 0xc]
+1002aa68 | d9442404 | FLD float ptr [ESP + 0x4]
+1002aa6c | dff1 | FCOMIP ST0,ST1
+1002aa6e | ddd8 | FSTP ST0
+1002aa70 | 760b | JBE 0x1002aa7d
+1002aa72 | f30f10442404 | MOVSS XMM0,dword ptr [ESP + 0x4]
+1002aa78 | f30f11410c | MOVSS dword ptr [ECX + 0xc],XMM0
+1002aa7d | d94210 | FLD float ptr [EDX + 0x10]
+1002aa80 | d95c2404 | FSTP float ptr [ESP + 0x4]
+1002aa84 | d94110 | FLD float ptr [ECX + 0x10]
+1002aa87 | d9442404 | FLD float ptr [ESP + 0x4]
+1002aa8b | dff1 | FCOMIP ST0,ST1
+1002aa8d | ddd8 | FSTP ST0
+1002aa8f | 760b | JBE 0x1002aa9c
+1002aa91 | f30f10442404 | MOVSS XMM0,dword ptr [ESP + 0x4]
+1002aa97 | f30f114110 | MOVSS dword ptr [ECX + 0x10],XMM0
+1002aa9c | d94214 | FLD float ptr [EDX + 0x14]
+1002aa9f | d95c2404 | FSTP float ptr [ESP + 0x4]
+1002aaa3 | d94114 | FLD float ptr [ECX + 0x14]
+1002aaa6 | d9442404 | FLD float ptr [ESP + 0x4]
+1002aaaa | dff1 | FCOMIP ST0,ST1
+1002aaac | ddd8 | FSTP ST0
+1002aaae | 760b | JBE 0x1002aabb
+1002aab0 | f30f10442404 | MOVSS XMM0,dword ptr [ESP + 0x4]
+1002aab6 | f30f114114 | MOVSS dword ptr [ECX + 0x14],XMM0
+1002aabb | c20400 | RET 0x4

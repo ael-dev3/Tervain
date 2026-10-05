@@ -1,0 +1,21 @@
+/* ENTRY 10005e2a | bCByteAlphaColor::bCByteAlphaColor | STATUS decompiled | 6 ms */
+
+/* public: __thiscall bCByteAlphaColor::bCByteAlphaColor(enum bCColorBase::bEColor) */
+
+bCByteAlphaColor * __thiscall
+bCByteAlphaColor::bCByteAlphaColor(bCByteAlphaColor *this,bEColor param_1)
+
+{
+  bCByteColor bStack_8;
+  
+                    /* 0x5e2a  48  ??0bCByteAlphaColor@@QAE@W4bEColor@bCColorBase@@@Z */
+  this->vftablePtr = &vftable;
+  ::bCByteColor::bCByteColor(&bStack_8,param_1);
+  (this->bCByteColor_data).offset_0x2 = bStack_8.bCByteColor_data.offset_0x2;
+  (this->bCByteColor_data).offset_0x0 = bStack_8.bCByteColor_data.offset_0x0;
+  (this->bCByteColor_data).offset_0x1 = bStack_8.bCByteColor_data.offset_0x1;
+  (this->bCByteAlphaColor_data).offset_0x0 = 0xff;
+  return this;
+}
+
+

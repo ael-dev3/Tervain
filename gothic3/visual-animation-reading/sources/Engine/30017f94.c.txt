@@ -1,0 +1,19 @@
+/* ENTRY 30017f94 | eCVisualAnimation_PS::SetBoneTwistSpringDamping | STATUS decompiled | 10 ms */
+
+/* public: void __thiscall eCVisualAnimation_PS::SetBoneTwistSpringDamping(float const &) */
+
+void __thiscall
+eCVisualAnimation_PS::SetBoneTwistSpringDamping(eCVisualAnimation_PS *this,float *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x17f94  12978  ?SetBoneTwistSpringDamping@eCVisualAnimation_PS@@QAEXABM@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"BoneTwistSpringDamping",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  this[3].vftablePtr = (eCVisualAnimation_PS_vftable *)*param_1;
+  (*pNVar1)(this,"BoneTwistSpringDamping",false);
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 30045d3b eCEntity::SetToWorldMatrix
+30045d3b | e930d94600 | JMP 0x304b3670

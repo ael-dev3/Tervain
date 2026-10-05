@@ -1,0 +1,2 @@
+; 3003c4fc eCVisualAnimation_PS::SetClothEffector
+3003c4fc | e91f970300 | JMP 0x30075c20

@@ -1,0 +1,37 @@
+/* ENTRY 3003fdaa | eCVisualAnimation_PS::Clone | STATUS decompiled | 15 ms */
+
+/* public: virtual class eCVisualAnimation_PS * __thiscall eCVisualAnimation_PS::Clone(class
+   eCEntity *)const  */
+
+eCVisualAnimation_PS * __thiscall
+eCVisualAnimation_PS::Clone(eCVisualAnimation_PS *this,eCEntity *param_1)
+
+{
+  bool bVar1;
+  bCPropertyObjectBase *pbVar2;
+  eCVisualAnimation_PS *peVar3;
+  bCAccessorPropertyObject abStack_c [4];
+  bCAccessorPropertyObject abStack_8 [8];
+  
+                    /* 0x3fdaa  3849  ?Clone@eCVisualAnimation_PS@@UBEPAV1@PAVeCEntity@@@Z */
+  bCAccessorPropertyObject::bCAccessorPropertyObject(abStack_8,(bCObjectRefBase *)this);
+  bCAccessorPropertyObject::Clone(abStack_8);
+  bVar1 = bCAccessorPropertyObject::HasPropertyObject((bCAccessorPropertyObject *)&stack0xffffffec);
+  if (bVar1) {
+    pbVar2 = bCAccessorPropertyObject::GetPropertyObject
+                       ((bCAccessorPropertyObject *)&stack0xffffffec);
+    (**(code **)(*(int *)pbVar2 + 0x30))();
+    pbVar2 = bCAccessorPropertyObject::GetPropertyObject
+                       ((bCAccessorPropertyObject *)&stack0xffffffec);
+    peVar3 = (eCVisualAnimation_PS *)(*(code *)**(undefined4 **)pbVar2)();
+    bCAccessorPropertyObject::~bCAccessorPropertyObject
+              ((bCAccessorPropertyObject *)&stack0xffffffec);
+    bCAccessorPropertyObject::~bCAccessorPropertyObject(abStack_c);
+    return peVar3;
+  }
+  bCAccessorPropertyObject::~bCAccessorPropertyObject((bCAccessorPropertyObject *)&stack0xffffffec);
+  bCAccessorPropertyObject::~bCAccessorPropertyObject(abStack_c);
+  return (eCVisualAnimation_PS *)0x0;
+}
+
+

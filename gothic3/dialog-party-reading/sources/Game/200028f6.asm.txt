@@ -1,0 +1,2 @@
+; 200028f6 gCDialog_PS::GetTradeCategory
+200028f6 | e9a5d01a00 | JMP 0x201af9a0

@@ -1,0 +1,4 @@
+; 2000a05b bTPropertyType<gCNPC_PS,bTPropertyContainer<gEGuardStatus>_>::vfunction6
+2000a05b | e910063000 | JMP 0x2030a670
+; 2000a060 gCCharacterMovement_PS::SetQuadrupedSlopeInertia
+; 2000a060 Ordinal_6910

@@ -1,0 +1,2 @@
+; 3003850f eCSpringAndDamperEffector::SetDamperMaxStretchForce
+3003850f | e96c930200 | JMP 0x30061880

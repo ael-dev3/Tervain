@@ -1,0 +1,47 @@
+/* ENTRY 30042cc1 | eCVisualAnimation_PS::AddOnceAttachment | STATUS decompiled | 34 ms */
+
+/* public: bool __thiscall eCVisualAnimation_PS::AddOnceAttachment(class eCEntity *,class bCString
+   const &) */
+
+bool __thiscall
+eCVisualAnimation_PS::AddOnceAttachment
+          (eCVisualAnimation_PS *this,eCEntity *param_1,bCString *param_2)
+
+{
+  int iVar1;
+  eCActorAttachment *peVar2;
+  bCMatrix *pbVar3;
+  eCActorAttachment *this_00;
+  int iVar4;
+  bCString *unaff_retaddr;
+  
+                    /* 0x42cc1  3438
+                       ?AddOnceAttachment@eCVisualAnimation_PS@@QAE_NPAVeCEntity@@ABVbCString@@@Z */
+  RemoveAttachment(this,param_1);
+  peVar2 = (eCActorAttachment *)new(0x78,0xdbf);
+  this_00 = (eCActorAttachment *)0x0;
+  if (peVar2 != (eCActorAttachment *)0x0) {
+    eCEntityProxy::eCEntityProxy((eCEntityProxy *)(peVar2 + 4));
+    pbVar3 = bCMatrix::GetIdentity();
+    bCMatrix::bCMatrix((bCMatrix *)(peVar2 + 0x20),pbVar3);
+    *(eCVisualAnimation_PS **)(peVar2 + 0x60) = this;
+    *(undefined4 *)(peVar2 + 100) = 0;
+    bCString::bCString((bCString *)(peVar2 + 0x68));
+    peVar2[0x70] = (eCActorAttachment)0x0;
+    *(undefined4 *)(peVar2 + 0x74) = 0;
+    *(undefined4 *)(peVar2 + 0x6c) = 0;
+    *(eCVisualAnimation_PS **)peVar2 = this;
+    this_00 = peVar2;
+  }
+  eCActorAttachment::Create(this_00,param_1,unaff_retaddr,(bCMatrix *)0x0,0,false);
+  iVar4 = this[10].eCEntityPropertySet_data.offset_0x8 + 1;
+  thunk_FUN_300aed30(iVar4,(iVar4 != 0) - 1);
+  iVar1 = *(int *)&this[10].eCEntityPropertySet_data.field_0x4;
+  this[10].eCEntityPropertySet_data.offset_0x8 = iVar4;
+  *(eCActorAttachment **)(iVar1 + -4 + iVar4 * 4) = this_00;
+  eCEntity::EnableRendering((eCEntity *)param_1,false);
+  eCEntity::DisableProcessing((eCEntity *)param_1,true);
+  return true;
+}
+
+

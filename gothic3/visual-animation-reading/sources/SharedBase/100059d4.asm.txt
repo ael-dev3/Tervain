@@ -1,0 +1,2 @@
+; 100059d4 bCPropertyObjectTypeBase::GetPropertyType
+100059d4 | e947250800 | JMP 0x10087f20

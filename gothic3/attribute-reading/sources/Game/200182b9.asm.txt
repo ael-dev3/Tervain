@@ -1,0 +1,2 @@
+; 200182b9 bTPropertyType<gCStat,bCObsoleteClass>::vfunction16
+200182b9 | e9c2373800 | JMP 0x2039ba80

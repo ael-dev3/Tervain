@@ -1,0 +1,10 @@
+/* ENTRY 20476d1c | thunk_FUN_20476d40 | STATUS decompiled | 1 ms */
+
+void thunk_FUN_20476d40(void)
+
+{
+  FUN_20476d40();
+  return;
+}
+
+

@@ -1,0 +1,14 @@
+/* ENTRY 1000306c | bCPoint::bCPoint | STATUS decompiled | 2 ms */
+
+/* public: __thiscall bCPoint::bCPoint(long,long) */
+
+void __thiscall bCPoint::bCPoint(bCPoint *this,long param_1,long param_2)
+
+{
+                    /* 0x306c  209  ??0bCPoint@@QAE@JJ@Z */
+  *(long *)this = param_1;
+  *(long *)(this + 4) = param_2;
+  return;
+}
+
+

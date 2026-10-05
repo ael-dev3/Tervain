@@ -1,0 +1,2 @@
+; 10006fbe bCOStream::~bCOStream
+10006fbe | e96d8d0100 | JMP 0x1001fd30

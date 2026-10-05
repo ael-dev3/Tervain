@@ -1,0 +1,3 @@
+; 1001fd30 bCOStream::~bCOStream
+1001fd30 | c701005f0e10 | MOV dword ptr [ECX],0x100e5f00
+1001fd36 | c3 | RET

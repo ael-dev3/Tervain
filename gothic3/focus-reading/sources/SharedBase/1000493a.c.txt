@@ -1,0 +1,12 @@
+/* ENTRY 1000493a | bCBox::GetWidth | STATUS decompiled | 3 ms */
+
+/* public: float __thiscall bCBox::GetWidth(void)const  */
+
+float __thiscall bCBox::GetWidth(bCBox *this)
+
+{
+                    /* 0x493a  3241  ?GetWidth@bCBox@@QBEMXZ */
+  return *(float *)(this + 0xc) - *(float *)this;
+}
+
+

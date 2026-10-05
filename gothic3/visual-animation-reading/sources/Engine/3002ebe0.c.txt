@@ -1,0 +1,12 @@
+/* ENTRY 3002ebe0 | eCPhysicObject::GetNumBones | STATUS decompiled | 60 ms */
+
+/* public: unsigned long __thiscall eCPhysicObject::GetNumBones(void)const  */
+
+ulong __thiscall eCPhysicObject::GetNumBones(eCPhysicObject *this)
+
+{
+                    /* 0x2ebe0  7946  ?GetNumBones@eCPhysicObject@@QBEKXZ */
+  return (this->eCPhysicObject_data).offset_0x10;
+}
+
+

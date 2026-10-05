@@ -1,0 +1,2 @@
+; 200239e3 bTPOPureSmartPtr<gCCharacterSensor_PS>::vfunction16
+200239e3 | e9a85e2100 | JMP 0x20239890

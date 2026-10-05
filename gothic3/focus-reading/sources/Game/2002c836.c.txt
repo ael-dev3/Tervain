@@ -1,0 +1,16 @@
+/* ENTRY 2002c836 | bTPropertyType<gCFocus_PS,float>::vfunction6 | STATUS decompiled | 5 ms */
+
+void __thiscall
+bTPropertyType<gCFocus_PS,float>::vfunction6(bTPropertyType<gCFocus_PS,float> *this,int param_1)
+
+{
+  bTPropertyType<gCCameraModeParams,float>_vftable *pbVar1;
+  
+  if (param_1 != 0) {
+    pbVar1 = (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_1);
+    pbVar1->vfunction1 = (vfunction1 *)0x0;
+  }
+  return;
+}
+
+

@@ -1,0 +1,12 @@
+/* ENTRY 30041155 | eCVisualAnimation_PS::GetBonesBreakMaxForce | STATUS decompiled | 10 ms */
+
+/* public: float const & __thiscall eCVisualAnimation_PS::GetBonesBreakMaxForce(void)const  */
+
+float * __thiscall eCVisualAnimation_PS::GetBonesBreakMaxForce(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x41155  6301  ?GetBonesBreakMaxForce@eCVisualAnimation_PS@@QBEABMXZ */
+  return (float *)&this[1].eCEntityPropertySet_data.offset_0xc;
+}
+
+

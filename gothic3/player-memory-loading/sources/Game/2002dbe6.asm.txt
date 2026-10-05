@@ -1,0 +1,2 @@
+; 2002dbe6 gCStat::Invalidate
+2002dbe6 | e9d5d23600 | JMP 0x2039aec0

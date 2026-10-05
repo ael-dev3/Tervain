@@ -1,0 +1,14 @@
+/* ENTRY 30388370 | FUN_30388370 | STATUS decompiled | 6 ms */
+
+undefined4 __thiscall FUN_30388370(eCEffector *param_1,bCIStream *param_2)
+
+{
+  bCIStream *pbVar1;
+  
+  pbVar1 = param_2;
+  bCIStream::operator>>(param_2,(ushort *)&param_2);
+  eCEffector::Read(param_1,(bCIStream *)pbVar1);
+  return 1;
+}
+
+

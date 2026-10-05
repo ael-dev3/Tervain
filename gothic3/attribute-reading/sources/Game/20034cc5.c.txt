@@ -1,0 +1,19 @@
+/* ENTRY 20034cc5 | gCStat::Cap | STATUS decompiled | 5 ms */
+
+/* protected: virtual void __thiscall gCStat::Cap(void) */
+
+void __thiscall gCStat::Cap(gCStat *this)
+
+{
+  int iVar1;
+  
+                    /* 0x34cc5  2068  ?Cap@gCStat@@MAEXXZ */
+  iVar1 = (*this->vftablePtr->GetMaximum)(this);
+  if (iVar1 < 0) {
+    (*this->vftablePtr->SetMaximum)(this,0);
+  }
+  gCAttribute::Cap((gCAttribute *)this);
+  return;
+}
+
+

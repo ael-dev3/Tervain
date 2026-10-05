@@ -1,0 +1,2 @@
+; 10001659 bCMemoryAdmin::EnableMemoryLeakReport
+10001659 | e962f40100 | JMP 0x10020ac0

@@ -1,0 +1,4 @@
+; 200107c1 bTPropertyObject<gCNPC_PS,eCEntityPropertySet>::vfunction6
+200107c1 | e9fae62e00 | JMP 0x202feec0
+; 200107cb gCCharacterMovement_PS::SetCurrentVelocity
+; 200107cb Ordinal_6361

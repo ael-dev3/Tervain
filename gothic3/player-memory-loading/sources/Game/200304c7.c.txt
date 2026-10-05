@@ -1,0 +1,14 @@
+/* ENTRY 200304c7 | gCPlayerMemory_PS::Write | STATUS decompiled | 9 ms */
+
+/* public: virtual enum bEResult __thiscall gCPlayerMemory_PS::Write(class bCOStream &) */
+
+bEResult __thiscall gCPlayerMemory_PS::Write(gCPlayerMemory_PS *this,bCOStream *param_1)
+
+{
+                    /* 0x304c7  7549  ?Write@gCPlayerMemory_PS@@UAE?AW4bEResult@@AAVbCOStream@@@Z */
+  bCOStream::operator<<((bCOStream *)param_1,6);
+  WriteAttributes(this,param_1);
+  return 1;
+}
+
+

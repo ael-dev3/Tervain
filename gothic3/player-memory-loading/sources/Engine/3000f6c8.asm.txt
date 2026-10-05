@@ -1,0 +1,2 @@
+; 3000f6c8 eCEntityPropertySet::Decay
+3000f6c8 | e973234700 | JMP 0x30481a40

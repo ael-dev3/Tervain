@@ -1,0 +1,12 @@
+/* ENTRY 30007621 | eCVisualAnimation_PS::AccessCreateSpringMassCloth | STATUS decompiled | 5 ms */
+
+/* public: bool & __thiscall eCVisualAnimation_PS::AccessCreateSpringMassCloth(void) */
+
+bool * __thiscall eCVisualAnimation_PS::AccessCreateSpringMassCloth(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x7621  2606  ?AccessCreateSpringMassCloth@eCVisualAnimation_PS@@QAEAA_NXZ */
+  return (bool *)&this[6].eCEntityPropertySet_data;
+}
+
+

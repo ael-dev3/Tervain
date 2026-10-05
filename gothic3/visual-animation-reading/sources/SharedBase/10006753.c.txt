@@ -1,0 +1,18 @@
+/* ENTRY 10006753 | bCString::operator+= | STATUS decompiled | 3 ms */
+
+/* public: class bCString & __thiscall bCString::operator+=(class bCString const &) */
+
+bCString * __thiscall bCString::operator+=(bCString *this,bCString *param_1)
+
+{
+  char *pcVar1;
+  
+                    /* 0x6753  1244  ??YbCString@@QAEAAV0@ABV0@@Z */
+  pcVar1 = *(char **)param_1;
+  if ((pcVar1 != (char *)0x0) && (*(int *)(pcVar1 + -8) != 0)) {
+    ConcatInPlace(this,pcVar1,*(int *)(pcVar1 + -8));
+  }
+  return this;
+}
+
+

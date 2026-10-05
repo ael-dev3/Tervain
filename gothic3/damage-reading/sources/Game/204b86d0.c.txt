@@ -1,0 +1,37 @@
+/* ENTRY 204b86d0 | bTPropertyType<gCDamageReceiver_PS,eCEntityProxy>::~bTPropertyType<gCDamageReceiver_PS,eCEntityProxy> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCDamageReceiver_PS,eCEntityProxy>::
+~bTPropertyType<gCDamageReceiver_PS,eCEntityProxy>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Script");
+  bCString::bCString(local_c,"LastInflictor");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCDamageReceiver_PS::ms_PropertyMember_m_LastInflictor,local_c,
+             local_8,local_4,1,false);
+  _ms_PropertyMember_m_LastInflictor = &vftable;
+  DAT_207b66a4 = bTPropertyObjectType<gCDamageReceiver_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCDamageReceiver_PS,eCEntityPropertySet>();
+  _DAT_207b66a8 = 0x38;
+  _DAT_207b66ac = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCDamageReceiver_PS::ms_PropertyMember_m_LastInflictor);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b66a4,
+             (bCPropertyTypeBase *)&gCDamageReceiver_PS::ms_PropertyMember_m_LastInflictor);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<eCEntityProxy>::~bTPropertyTypeOnly<eCEntityProxy>);
+  return;
+}
+
+

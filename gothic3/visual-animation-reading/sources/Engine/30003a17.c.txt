@@ -1,0 +1,46 @@
+/* ENTRY 30003a17 | eCVisualAnimation_PS::StopFacialMotion | STATUS decompiled | 14 ms */
+
+/* public: bool __thiscall eCVisualAnimation_PS::StopFacialMotion(void) */
+
+bool __thiscall eCVisualAnimation_PS::StopFacialMotion(eCVisualAnimation_PS *this)
+
+{
+  undefined1 *this_00;
+  int iVar1;
+  bool bVar2;
+  eCWrapper_emfx2Actor *peVar3;
+  eCWrapper_emfx2Actor *this_01;
+  eCVisualAnimation_PS *this_02;
+  eCVisualAnimation_PS_vftable *peVar4;
+  eEMotionType eVar5;
+  float fVar6;
+  
+                    /* 0x3a17  14724  ?StopFacialMotion@eCVisualAnimation_PS@@QAE_NXZ */
+  this_00 = &this[7].eCEntityPropertySet_data.field_0x4;
+  peVar3 = eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+  if (peVar3 != (eCWrapper_emfx2Actor *)0x0) {
+    if (*(int *)&this[0x14].eCEntityPropertySet_data.field_0x4 != 0) {
+      fVar6 = 0.0;
+      eVar5 = 7;
+      this_01 = (eCWrapper_emfx2Actor *)
+                eCVisualAnimationFactory::GetAssembledActor((eCVisualAnimationFactory *)this_00);
+      eCWrapper_emfx2Actor::StopMotion(this_01,eVar5,fVar6);
+      peVar4 = (eCVisualAnimation_PS_vftable *)((int)&(this[0x14].vftablePtr)->GetVersion + 1);
+      thunk_FUN_300af140(peVar4,(peVar4 != (eCVisualAnimation_PS_vftable *)0x0) - 1);
+      iVar1 = *(int *)&this[0x13].eCEntityPropertySet_data.offset_0xc;
+      this[0x14].vftablePtr = peVar4;
+      *(undefined4 *)(iVar1 + -4 + (int)peVar4 * 4) =
+           *(undefined4 *)&this[0x14].eCEntityPropertySet_data.field_0x4;
+      *(undefined4 *)&this[0x14].eCEntityPropertySet_data.field_0x4 = 0;
+    }
+    bVar2 = eCVisualAnimationFactory::StopFacialAnimation((eCVisualAnimationFactory *)this_00);
+    if (bVar2) {
+      RelinkAttachments(this);
+      RelinkLookAtConstraints(this_02);
+      return true;
+    }
+  }
+  return false;
+}
+
+

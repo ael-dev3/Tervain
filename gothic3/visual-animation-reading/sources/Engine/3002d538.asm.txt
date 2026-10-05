@@ -1,0 +1,2 @@
+; 3002d538 eCVisualAnimation_PS::AccessBoneShapeMaterial
+3002d538 | e9f34c0300 | JMP 0x30062230

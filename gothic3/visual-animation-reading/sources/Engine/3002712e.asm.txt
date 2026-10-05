@@ -1,0 +1,2 @@
+; 3002712e eCVisualAnimation_PS::eCActorAttachment::Destroy
+3002712e | e95d630700 | JMP 0x3009d490

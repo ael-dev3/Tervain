@@ -1,0 +1,2 @@
+; 10004aac bCPropertyObjectSingleton::bCPropertyObjectSingleton
+10004aac | e99fbb0800 | JMP 0x10090650

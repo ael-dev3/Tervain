@@ -1,0 +1,2 @@
+; 20026ba7 bTPropertyType<gCNPC_PS,bTPropertyContainer<gESpecies>_>::vfunction26
+20026ba7 | e9d4cb2d00 | JMP 0x20303780

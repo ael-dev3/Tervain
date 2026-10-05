@@ -1,0 +1,20 @@
+newmtl G3_Architecture_Wood_08_A
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Architecture_Wood_08_Diffuse_01.jpg
+
+newmtl G3_Nature_Tree_Bark_01_A
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Nature_Tree_Bark_01_Diffuse_01.jpg
+
+newmtl G3_Nature_Tree_Rings_01_B
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Nature_Tree_Rings_01_Diffuse_02.jpg

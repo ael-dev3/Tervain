@@ -1,0 +1,2 @@
+; 10001f5a bCString::Realloc
+10001f5a | e9111f0100 | JMP 0x10013e70

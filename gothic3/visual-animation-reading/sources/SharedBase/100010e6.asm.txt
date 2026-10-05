@@ -1,0 +1,2 @@
+; 100010e6 bCUnitedRay::Clear
+100010e6 | e955d40600 | JMP 0x1006e540

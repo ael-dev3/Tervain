@@ -1,0 +1,2 @@
+; 2000f092 bTPropertyObjectType<gCAttribute,bCObjectRefBase>::vfunction1
+2000f092 | e9f9d03800 | JMP 0x2039c190

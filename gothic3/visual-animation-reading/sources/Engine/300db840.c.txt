@@ -1,0 +1,49 @@
+/* ENTRY 300db840 | FUN_300db840 | STATUS decompiled | 14 ms */
+
+void __thiscall FUN_300db840(int param_1,float param_2)
+
+{
+  int *piVar1;
+  bool bVar2;
+  char cVar3;
+  int iVar4;
+  int iVar5;
+  float fStack_4;
+  
+  piVar1 = *(int **)(param_1 + 0x10);
+  if (piVar1 != (int *)0x0) {
+    cVar3 = thunk_FUN_300e2c60(piVar1);
+    if (cVar3 == '\0') {
+      *(undefined4 *)(param_1 + 0x10) = 0;
+      return;
+    }
+    if (((piVar1[0xe] == -1) || (piVar1[0xd] < piVar1[0xe])) && ((char)piVar1[0x15] == '\0')) {
+      bVar2 = true;
+    }
+    else {
+      bVar2 = false;
+    }
+    if (((bVar2) && ((float)piVar1[8] != 0.0)) &&
+       ((piVar1[0xe] != -1 && (piVar1[0xe] == piVar1[0xd] + 1)))) {
+      iVar4 = (**(code **)(*piVar1 + 0x18))();
+      iVar5 = *(int *)(param_1 + 0x10);
+      fStack_4 = *(float *)(iVar4 + 0x14) - (float)*(double *)(iVar5 + 8);
+      if (*(int *)(param_1 + 0x74) == 1) {
+        fStack_4 = (float)*(double *)(iVar5 + 8);
+      }
+      if (ABS(fStack_4 / *(float *)(iVar5 + 0x20)) < ABS(param_2)) {
+        *(undefined4 *)(iVar5 + 0x20) = 0;
+        if (*(int *)(param_1 + 0x74) == 1) {
+          *(double *)(*(int **)(param_1 + 0x10) + 2) = (double)*(float *)g_fEpsilon_exref;
+          return;
+        }
+        iVar5 = (**(code **)(**(int **)(param_1 + 0x10) + 0x18))();
+        *(double *)(*(int *)(param_1 + 0x10) + 8) =
+             (double)(*(float *)(iVar5 + 0x14) - *(float *)g_fEpsilon_exref);
+      }
+    }
+  }
+  return;
+}
+
+

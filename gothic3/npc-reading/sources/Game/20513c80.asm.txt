@@ -1,0 +1,26 @@
+; 20513c80 bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttackReason>_>::~bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttackReason>_>
+20513c80 | 51 | PUSH ECX
+20513c81 | 68ac756520 | PUSH 0x206575ac
+20513c86 | 8d4c2404 | LEA ECX,[ESP + 0x4]
+20513c8a | ff150c897d20 | CALL dword ptr [0x207d890c]
+20513c90 | 6a02 | PUSH 0x2
+20513c92 | 8d442404 | LEA EAX,[ESP + 0x4]
+20513c96 | 50 | PUSH EAX
+20513c97 | b9e40d7c20 | MOV ECX,0x207c0de4
+20513c9c | ff1594877d20 | CALL dword ptr [0x207d8794]
+20513ca2 | c705e40d7c203c616920 | MOV dword ptr [0x207c0de4],0x2069613c
+20513cac | e88739b1ff | CALL 0x20027638
+20513cb1 | b9e40d7c20 | MOV ECX,0x207c0de4
+20513cb6 | a3fc0d7c20 | MOV [0x207c0dfc],EAX
+20513cbb | c705000e7c2074000000 | MOV dword ptr [0x207c0e00],0x74
+20513cc5 | c705040e7c2000000000 | MOV dword ptr [0x207c0e04],0x0
+20513ccf | ff15d8877d20 | CALL dword ptr [0x207d87d8]
+20513cd5 | 8b0dfc0d7c20 | MOV ECX,dword ptr [0x207c0dfc]
+20513cdb | 68e40d7c20 | PUSH 0x207c0de4
+20513ce0 | ff15cc877d20 | CALL dword ptr [0x207d87cc]
+20513ce6 | 8d0c24 | LEA ECX,[ESP]
+20513ce9 | ff1534887d20 | CALL dword ptr [0x207d8834]
+20513cef | 6850e25520 | PUSH 0x2055e250
+20513cf4 | e8d5faf4ff | CALL 0x204637ce
+20513cf9 | 83c408 | ADD ESP,0x8
+20513cfc | c3 | RET

@@ -1,0 +1,12 @@
+/* ENTRY 30681980 | FUN_30681980 | STATUS decompiled | 4 ms */
+
+void FUN_30681980(void)
+
+{
+  float10 in_ST0;
+  
+  FUN_3068199e((double)in_ST0);
+  return;
+}
+
+

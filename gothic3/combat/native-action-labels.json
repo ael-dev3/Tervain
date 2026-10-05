@@ -1,0 +1,1114 @@
+{
+  "version": 1,
+  "source": "Game:20522a10",
+  "consumer": "Game:20027a89",
+  "inputSha256": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+  "numericValuesAuthoritative": true,
+  "note": "Animation labels can repeat; Action11 and12 remain distinct. Action24 is StumbleR in this installed build.",
+  "labels": [
+    {
+      "value": 0,
+      "label": "None",
+      "literalBytes": "4e6f6e65",
+      "storageAddress": "207cc4c0",
+      "literalAddress": "206787f0",
+      "constructorAddress": "20522a1c"
+    },
+    {
+      "value": 1,
+      "label": "Attack",
+      "literalBytes": "41747461636b",
+      "storageAddress": "207cc4c4",
+      "literalAddress": "2067e7d0",
+      "constructorAddress": "20522a28"
+    },
+    {
+      "value": 2,
+      "label": "PowerAttack",
+      "literalBytes": "506f77657241747461636b",
+      "storageAddress": "207cc4c8",
+      "literalAddress": "2069e9b4",
+      "constructorAddress": "20522a34"
+    },
+    {
+      "value": 3,
+      "label": "QuickAttack",
+      "literalBytes": "517569636b41747461636b",
+      "storageAddress": "207cc4cc",
+      "literalAddress": "2069e9a4",
+      "constructorAddress": "20522a40"
+    },
+    {
+      "value": 4,
+      "label": "QuickAttackR",
+      "literalBytes": "517569636b41747461636b52",
+      "storageAddress": "207cc4d0",
+      "literalAddress": "2069e994",
+      "constructorAddress": "20522a4c"
+    },
+    {
+      "value": 5,
+      "label": "QuickAttackL",
+      "literalBytes": "517569636b41747461636b4c",
+      "storageAddress": "207cc4d4",
+      "literalAddress": "2069e984",
+      "constructorAddress": "20522a58"
+    },
+    {
+      "value": 6,
+      "label": "WhirlAttack",
+      "literalBytes": "576869726c41747461636b",
+      "storageAddress": "207cc4d8",
+      "literalAddress": "2069e974",
+      "constructorAddress": "20522a64"
+    },
+    {
+      "value": 7,
+      "label": "WhirlAttack",
+      "literalBytes": "576869726c41747461636b",
+      "storageAddress": "207cc4dc",
+      "literalAddress": "2069e974",
+      "constructorAddress": "20522a70"
+    },
+    {
+      "value": 8,
+      "label": "PierceAttack",
+      "literalBytes": "50696572636541747461636b",
+      "storageAddress": "207cc4e0",
+      "literalAddress": "2069e964",
+      "constructorAddress": "20522a7c"
+    },
+    {
+      "value": 9,
+      "label": "JumpAttack",
+      "literalBytes": "4a756d7041747461636b",
+      "storageAddress": "207cc4e4",
+      "literalAddress": "2069e954",
+      "constructorAddress": "20522a88"
+    },
+    {
+      "value": 10,
+      "label": "RamAttack",
+      "literalBytes": "52616d41747461636b",
+      "storageAddress": "207cc4e8",
+      "literalAddress": "2069e948",
+      "constructorAddress": "20522a94"
+    },
+    {
+      "value": 11,
+      "label": "FinishingAttack",
+      "literalBytes": "46696e697368696e6741747461636b",
+      "storageAddress": "207cc4ec",
+      "literalAddress": "2069e934",
+      "constructorAddress": "20522aa0"
+    },
+    {
+      "value": 12,
+      "label": "FinishingAttack",
+      "literalBytes": "46696e697368696e6741747461636b",
+      "storageAddress": "207cc4f0",
+      "literalAddress": "2069e934",
+      "constructorAddress": "20522aac"
+    },
+    {
+      "value": 13,
+      "label": "Parade",
+      "literalBytes": "506172616465",
+      "storageAddress": "207cc4f4",
+      "literalAddress": "2069e92c",
+      "constructorAddress": "20522ab8"
+    },
+    {
+      "value": 14,
+      "label": "ParadeR",
+      "literalBytes": "50617261646552",
+      "storageAddress": "207cc4f8",
+      "literalAddress": "2069e920",
+      "constructorAddress": "20522ac4"
+    },
+    {
+      "value": 15,
+      "label": "ParadeL",
+      "literalBytes": "5061726164654c",
+      "storageAddress": "207cc4fc",
+      "literalAddress": "2069e914",
+      "constructorAddress": "20522ad0"
+    },
+    {
+      "value": 16,
+      "label": "ExitParade",
+      "literalBytes": "45786974506172616465",
+      "storageAddress": "207cc500",
+      "literalAddress": "2069e904",
+      "constructorAddress": "20522adc"
+    },
+    {
+      "value": 17,
+      "label": "QuickParadeStumble",
+      "literalBytes": "517569636b5061726164655374756d626c65",
+      "storageAddress": "207cc504",
+      "literalAddress": "2069e8ec",
+      "constructorAddress": "20522ae8"
+    },
+    {
+      "value": 18,
+      "label": "ParadeStumble",
+      "literalBytes": "5061726164655374756d626c65",
+      "storageAddress": "207cc508",
+      "literalAddress": "2069e8dc",
+      "constructorAddress": "20522af4"
+    },
+    {
+      "value": 19,
+      "label": "ParadeStumbleR",
+      "literalBytes": "5061726164655374756d626c6552",
+      "storageAddress": "207cc50c",
+      "literalAddress": "2069e8c8",
+      "constructorAddress": "20522b00"
+    },
+    {
+      "value": 20,
+      "label": "ParadeStumbleL",
+      "literalBytes": "5061726164655374756d626c654c",
+      "storageAddress": "207cc510",
+      "literalAddress": "2069e8b4",
+      "constructorAddress": "20522b0c"
+    },
+    {
+      "value": 21,
+      "label": "HeavyParadeStumble",
+      "literalBytes": "48656176795061726164655374756d626c65",
+      "storageAddress": "207cc514",
+      "literalAddress": "2069e89c",
+      "constructorAddress": "20522b18"
+    },
+    {
+      "value": 22,
+      "label": "QuickStumble",
+      "literalBytes": "517569636b5374756d626c65",
+      "storageAddress": "207cc518",
+      "literalAddress": "2069e88c",
+      "constructorAddress": "20522b24"
+    },
+    {
+      "value": 23,
+      "label": "Stumble",
+      "literalBytes": "5374756d626c65",
+      "storageAddress": "207cc51c",
+      "literalAddress": "2069e880",
+      "constructorAddress": "20522b30"
+    },
+    {
+      "value": 24,
+      "label": "StumbleR",
+      "literalBytes": "5374756d626c6552",
+      "storageAddress": "207cc520",
+      "literalAddress": "2069e874",
+      "constructorAddress": "20522b3c"
+    },
+    {
+      "value": 25,
+      "label": "StumbleL",
+      "literalBytes": "5374756d626c654c",
+      "storageAddress": "207cc524",
+      "literalAddress": "2069e868",
+      "constructorAddress": "20522b48"
+    },
+    {
+      "value": 26,
+      "label": "SitKnockDown",
+      "literalBytes": "5369744b6e6f636b446f776e",
+      "storageAddress": "207cc528",
+      "literalAddress": "2069e858",
+      "constructorAddress": "20522b54"
+    },
+    {
+      "value": 27,
+      "label": "GetUpAttack",
+      "literalBytes": "476574557041747461636b",
+      "storageAddress": "207cc52c",
+      "literalAddress": "2069e848",
+      "constructorAddress": "20522b60"
+    },
+    {
+      "value": 28,
+      "label": "GetUpParade",
+      "literalBytes": "4765745570506172616465",
+      "storageAddress": "207cc530",
+      "literalAddress": "2069e838",
+      "constructorAddress": "20522b6c"
+    },
+    {
+      "value": 29,
+      "label": "LieKnockDown",
+      "literalBytes": "4c69654b6e6f636b446f776e",
+      "storageAddress": "207cc534",
+      "literalAddress": "2069e828",
+      "constructorAddress": "20522b78"
+    },
+    {
+      "value": 30,
+      "label": "LieKnockOut",
+      "literalBytes": "4c69654b6e6f636b4f7574",
+      "storageAddress": "207cc538",
+      "literalAddress": "2069e818",
+      "constructorAddress": "20522b84"
+    },
+    {
+      "value": 31,
+      "label": "PierceStumble",
+      "literalBytes": "5069657263655374756d626c65",
+      "storageAddress": "207cc53c",
+      "literalAddress": "2069e808",
+      "constructorAddress": "20522b90"
+    },
+    {
+      "value": 32,
+      "label": "Die",
+      "literalBytes": "446965",
+      "storageAddress": "207cc540",
+      "literalAddress": "2069e804",
+      "constructorAddress": "20522b9c"
+    },
+    {
+      "value": 33,
+      "label": "LieDead",
+      "literalBytes": "4c696544656164",
+      "storageAddress": "207cc544",
+      "literalAddress": "2069e7f8",
+      "constructorAddress": "20522ba8"
+    },
+    {
+      "value": 34,
+      "label": "LiePiercedKO",
+      "literalBytes": "4c6965506965726365644b4f",
+      "storageAddress": "207cc548",
+      "literalAddress": "2069e7e8",
+      "constructorAddress": "20522bb4"
+    },
+    {
+      "value": 35,
+      "label": "LiePiercedDead",
+      "literalBytes": "4c69655069657263656444656164",
+      "storageAddress": "207cc54c",
+      "literalAddress": "2069e7d4",
+      "constructorAddress": "20522bc0"
+    },
+    {
+      "value": 36,
+      "label": "AbortAttack",
+      "literalBytes": "41626f727441747461636b",
+      "storageAddress": "207cc550",
+      "literalAddress": "2069e7c4",
+      "constructorAddress": "20522bcc"
+    },
+    {
+      "value": 37,
+      "label": "Aim",
+      "literalBytes": "41696d",
+      "storageAddress": "207cc554",
+      "literalAddress": "2069e7c0",
+      "constructorAddress": "20522bd8"
+    },
+    {
+      "value": 38,
+      "label": "Shoot",
+      "literalBytes": "53686f6f74",
+      "storageAddress": "207cc558",
+      "literalAddress": "2069e7b8",
+      "constructorAddress": "20522be4"
+    },
+    {
+      "value": 39,
+      "label": "Reload",
+      "literalBytes": "52656c6f6164",
+      "storageAddress": "207cc55c",
+      "literalAddress": "2069e7b0",
+      "constructorAddress": "20522bf0"
+    },
+    {
+      "value": 40,
+      "label": "Cock",
+      "literalBytes": "436f636b",
+      "storageAddress": "207cc560",
+      "literalAddress": "2069e7a8",
+      "constructorAddress": "20522bfc"
+    },
+    {
+      "value": 41,
+      "label": "Cast",
+      "literalBytes": "43617374",
+      "storageAddress": "207cc564",
+      "literalAddress": "2069e7a0",
+      "constructorAddress": "20522c08"
+    },
+    {
+      "value": 42,
+      "label": "PowerCast",
+      "literalBytes": "506f77657243617374",
+      "storageAddress": "207cc568",
+      "literalAddress": "2069e794",
+      "constructorAddress": "20522c14"
+    },
+    {
+      "value": 43,
+      "label": "MagicParade",
+      "literalBytes": "4d61676963506172616465",
+      "storageAddress": "207cc56c",
+      "literalAddress": "2069e784",
+      "constructorAddress": "20522c20"
+    },
+    {
+      "value": 44,
+      "label": "QuickCast",
+      "literalBytes": "517569636b43617374",
+      "storageAddress": "207cc570",
+      "literalAddress": "2069e778",
+      "constructorAddress": "20522c2c"
+    },
+    {
+      "value": 45,
+      "label": "Summon",
+      "literalBytes": "53756d6d6f6e",
+      "storageAddress": "207cc574",
+      "literalAddress": "2069e770",
+      "constructorAddress": "20522c38"
+    },
+    {
+      "value": 46,
+      "label": "Heal",
+      "literalBytes": "4865616c",
+      "storageAddress": "207cc578",
+      "literalAddress": "2069e768",
+      "constructorAddress": "20522c44"
+    },
+    {
+      "value": 47,
+      "label": "Wait",
+      "literalBytes": "57616974",
+      "storageAddress": "207cc57c",
+      "literalAddress": "2069e760",
+      "constructorAddress": "20522c50"
+    },
+    {
+      "value": 48,
+      "label": "JumpBack",
+      "literalBytes": "4a756d704261636b",
+      "storageAddress": "207cc580",
+      "literalAddress": "2069e754",
+      "constructorAddress": "20522c5c"
+    },
+    {
+      "value": 49,
+      "label": "Fwd",
+      "literalBytes": "467764",
+      "storageAddress": "207cc584",
+      "literalAddress": "2069e2a4",
+      "constructorAddress": "20522c68"
+    },
+    {
+      "value": 50,
+      "label": "Back",
+      "literalBytes": "4261636b",
+      "storageAddress": "207cc588",
+      "literalAddress": "2069e29c",
+      "constructorAddress": "20522c74"
+    },
+    {
+      "value": 51,
+      "label": "Left",
+      "literalBytes": "4c656674",
+      "storageAddress": "207cc58c",
+      "literalAddress": "2069e28c",
+      "constructorAddress": "20522c80"
+    },
+    {
+      "value": 52,
+      "label": "Right",
+      "literalBytes": "5269676874",
+      "storageAddress": "207cc590",
+      "literalAddress": "2069e294",
+      "constructorAddress": "20522c8c"
+    },
+    {
+      "value": 53,
+      "label": "Move",
+      "literalBytes": "4d6f7665",
+      "storageAddress": "207cc594",
+      "literalAddress": "2069e74c",
+      "constructorAddress": "20522c98"
+    },
+    {
+      "value": 54,
+      "label": "Jump",
+      "literalBytes": "4a756d70",
+      "storageAddress": "207cc598",
+      "literalAddress": "2069e744",
+      "constructorAddress": "20522ca4"
+    },
+    {
+      "value": 55,
+      "label": "Evade",
+      "literalBytes": "4576616465",
+      "storageAddress": "207cc59c",
+      "literalAddress": "2069e73c",
+      "constructorAddress": "20522cb0"
+    },
+    {
+      "value": 56,
+      "label": "Slide",
+      "literalBytes": "536c696465",
+      "storageAddress": "207cc5a0",
+      "literalAddress": "2069e734",
+      "constructorAddress": "20522cbc"
+    },
+    {
+      "value": 57,
+      "label": "Fall",
+      "literalBytes": "46616c6c",
+      "storageAddress": "207cc5a4",
+      "literalAddress": "2065bf44",
+      "constructorAddress": "20522cc8"
+    },
+    {
+      "value": 58,
+      "label": "Dive",
+      "literalBytes": "44697665",
+      "storageAddress": "207cc5a8",
+      "literalAddress": "2065bf5c",
+      "constructorAddress": "20522cd4"
+    },
+    {
+      "value": 59,
+      "label": "",
+      "literalBytes": "",
+      "storageAddress": "207cc5ac",
+      "literalAddress": "20657107",
+      "constructorAddress": "20522ce0"
+    },
+    {
+      "value": 60,
+      "label": "Use",
+      "literalBytes": "557365",
+      "storageAddress": "207cc5b0",
+      "literalAddress": "2069e730",
+      "constructorAddress": "20522cec"
+    },
+    {
+      "value": 61,
+      "label": "Equip",
+      "literalBytes": "4571756970",
+      "storageAddress": "207cc5b4",
+      "literalAddress": "2069e728",
+      "constructorAddress": "20522cf8"
+    },
+    {
+      "value": 62,
+      "label": "Reach",
+      "literalBytes": "5265616368",
+      "storageAddress": "207cc5b8",
+      "literalAddress": "2069e720",
+      "constructorAddress": "20522d04"
+    },
+    {
+      "value": 63,
+      "label": "Take",
+      "literalBytes": "54616b65",
+      "storageAddress": "207cc5bc",
+      "literalAddress": "2069e718",
+      "constructorAddress": "20522d10"
+    },
+    {
+      "value": 64,
+      "label": "Drop",
+      "literalBytes": "44726f70",
+      "storageAddress": "207cc5c0",
+      "literalAddress": "2069e710",
+      "constructorAddress": "20522d1c"
+    },
+    {
+      "value": 65,
+      "label": "Hold",
+      "literalBytes": "486f6c64",
+      "storageAddress": "207cc5c4",
+      "literalAddress": "2069e708",
+      "constructorAddress": "20522d28"
+    },
+    {
+      "value": 66,
+      "label": "HoldLeft",
+      "literalBytes": "486f6c644c656674",
+      "storageAddress": "207cc5c8",
+      "literalAddress": "2069e6fc",
+      "constructorAddress": "20522d34"
+    },
+    {
+      "value": 67,
+      "label": "HoldRight",
+      "literalBytes": "486f6c645269676874",
+      "storageAddress": "207cc5cc",
+      "literalAddress": "2069e6f0",
+      "constructorAddress": "20522d40"
+    },
+    {
+      "value": 68,
+      "label": "Transfer",
+      "literalBytes": "5472616e73666572",
+      "storageAddress": "207cc5d0",
+      "literalAddress": "2069e6e4",
+      "constructorAddress": "20522d4c"
+    },
+    {
+      "value": 69,
+      "label": "FlameSword",
+      "literalBytes": "466c616d6553776f7264",
+      "storageAddress": "207cc5d4",
+      "literalAddress": "2069e6d4",
+      "constructorAddress": "20522d58"
+    },
+    {
+      "value": 70,
+      "label": "Fry",
+      "literalBytes": "467279",
+      "storageAddress": "207cc5d8",
+      "literalAddress": "2069e6d0",
+      "constructorAddress": "20522d64"
+    },
+    {
+      "value": 71,
+      "label": "Eat",
+      "literalBytes": "456174",
+      "storageAddress": "207cc5dc",
+      "literalAddress": "2069e6cc",
+      "constructorAddress": "20522d70"
+    },
+    {
+      "value": 72,
+      "label": "Drink",
+      "literalBytes": "4472696e6b",
+      "storageAddress": "207cc5e0",
+      "literalAddress": "2069e6c4",
+      "constructorAddress": "20522d7c"
+    },
+    {
+      "value": 73,
+      "label": "Stand",
+      "literalBytes": "5374616e64",
+      "storageAddress": "207cc5e4",
+      "literalAddress": "2069e6bc",
+      "constructorAddress": "20522d88"
+    },
+    {
+      "value": 74,
+      "label": "Sneak",
+      "literalBytes": "536e65616b",
+      "storageAddress": "207cc5e8",
+      "literalAddress": "2069e6b4",
+      "constructorAddress": "20522d94"
+    },
+    {
+      "value": 75,
+      "label": "Kneel",
+      "literalBytes": "4b6e65656c",
+      "storageAddress": "207cc5ec",
+      "literalAddress": "2069e6ac",
+      "constructorAddress": "20522da0"
+    },
+    {
+      "value": 76,
+      "label": "SitGround",
+      "literalBytes": "53697447726f756e64",
+      "storageAddress": "207cc5f0",
+      "literalAddress": "2069e6a0",
+      "constructorAddress": "20522dac"
+    },
+    {
+      "value": 77,
+      "label": "SitStool",
+      "literalBytes": "53697453746f6f6c",
+      "storageAddress": "207cc5f4",
+      "literalAddress": "2069e694",
+      "constructorAddress": "20522db8"
+    },
+    {
+      "value": 78,
+      "label": "SitBench",
+      "literalBytes": "53697442656e6368",
+      "storageAddress": "207cc5f8",
+      "literalAddress": "2069e688",
+      "constructorAddress": "20522dc4"
+    },
+    {
+      "value": 79,
+      "label": "SitThrone",
+      "literalBytes": "5369745468726f6e65",
+      "storageAddress": "207cc5fc",
+      "literalAddress": "2069e67c",
+      "constructorAddress": "20522dd0"
+    },
+    {
+      "value": 80,
+      "label": "SleepBed",
+      "literalBytes": "536c656570426564",
+      "storageAddress": "207cc600",
+      "literalAddress": "2069e670",
+      "constructorAddress": "20522ddc"
+    },
+    {
+      "value": 81,
+      "label": "SleepGround",
+      "literalBytes": "536c65657047726f756e64",
+      "storageAddress": "207cc604",
+      "literalAddress": "2069e660",
+      "constructorAddress": "20522de8"
+    },
+    {
+      "value": 82,
+      "label": "OrcDrum",
+      "literalBytes": "4f72634472756d",
+      "storageAddress": "207cc608",
+      "literalAddress": "2069e654",
+      "constructorAddress": "20522df4"
+    },
+    {
+      "value": 83,
+      "label": "Waterpipe",
+      "literalBytes": "576174657270697065",
+      "storageAddress": "207cc60c",
+      "literalAddress": "2069e648",
+      "constructorAddress": "20522e00"
+    },
+    {
+      "value": 84,
+      "label": "Anvil",
+      "literalBytes": "416e76696c",
+      "storageAddress": "207cc610",
+      "literalAddress": "2069e640",
+      "constructorAddress": "20522e0c"
+    },
+    {
+      "value": 85,
+      "label": "OrcAnvil",
+      "literalBytes": "4f7263416e76696c",
+      "storageAddress": "207cc614",
+      "literalAddress": "2069e634",
+      "constructorAddress": "20522e18"
+    },
+    {
+      "value": 86,
+      "label": "Forge",
+      "literalBytes": "466f726765",
+      "storageAddress": "207cc618",
+      "literalAddress": "2069e62c",
+      "constructorAddress": "20522e24"
+    },
+    {
+      "value": 87,
+      "label": "CoolWeapon",
+      "literalBytes": "436f6f6c576561706f6e",
+      "storageAddress": "207cc61c",
+      "literalAddress": "2069e61c",
+      "constructorAddress": "20522e30"
+    },
+    {
+      "value": 88,
+      "label": "DrinkWaterBarrel",
+      "literalBytes": "4472696e6b576174657242617272656c",
+      "storageAddress": "207cc620",
+      "literalAddress": "2069e608",
+      "constructorAddress": "20522e3c"
+    },
+    {
+      "value": 89,
+      "label": "GrindStone",
+      "literalBytes": "4772696e6453746f6e65",
+      "storageAddress": "207cc624",
+      "literalAddress": "2069e5f8",
+      "constructorAddress": "20522e48"
+    },
+    {
+      "value": 90,
+      "label": "Cauldron",
+      "literalBytes": "4361756c64726f6e",
+      "storageAddress": "207cc628",
+      "literalAddress": "2069e5ec",
+      "constructorAddress": "20522e54"
+    },
+    {
+      "value": 91,
+      "label": "Barbecue",
+      "literalBytes": "4261726265637565",
+      "storageAddress": "207cc62c",
+      "literalAddress": "2069e5e0",
+      "constructorAddress": "20522e60"
+    },
+    {
+      "value": 92,
+      "label": "Alchemy",
+      "literalBytes": "416c6368656d79",
+      "storageAddress": "207cc630",
+      "literalAddress": "2069e5d4",
+      "constructorAddress": "20522e6c"
+    },
+    {
+      "value": 93,
+      "label": "Bookstand",
+      "literalBytes": "426f6f6b7374616e64",
+      "storageAddress": "207cc634",
+      "literalAddress": "2069e5c8",
+      "constructorAddress": "20522e78"
+    },
+    {
+      "value": 94,
+      "label": "Stoneplate",
+      "literalBytes": "53746f6e65706c617465",
+      "storageAddress": "207cc638",
+      "literalAddress": "2069e5b8",
+      "constructorAddress": "20522e84"
+    },
+    {
+      "value": 95,
+      "label": "PickOre",
+      "literalBytes": "5069636b4f7265",
+      "storageAddress": "207cc63c",
+      "literalAddress": "2069e5ac",
+      "constructorAddress": "20522e90"
+    },
+    {
+      "value": 96,
+      "label": "OpenChest",
+      "literalBytes": "4f70656e4368657374",
+      "storageAddress": "207cc640",
+      "literalAddress": "2069e5a0",
+      "constructorAddress": "20522e9c"
+    },
+    {
+      "value": 97,
+      "label": "Lockpick",
+      "literalBytes": "4c6f636b7069636b",
+      "storageAddress": "207cc644",
+      "literalAddress": "2069e594",
+      "constructorAddress": "20522ea8"
+    },
+    {
+      "value": 98,
+      "label": "OpenDoor",
+      "literalBytes": "4f70656e446f6f72",
+      "storageAddress": "207cc648",
+      "literalAddress": "2069e588",
+      "constructorAddress": "20522eb4"
+    },
+    {
+      "value": 99,
+      "label": "ExitInteract",
+      "literalBytes": "45786974496e746572616374",
+      "storageAddress": "207cc64c",
+      "literalAddress": "2069e578",
+      "constructorAddress": "20522ec0"
+    },
+    {
+      "value": 100,
+      "label": "PickGround",
+      "literalBytes": "5069636b47726f756e64",
+      "storageAddress": "207cc650",
+      "literalAddress": "2069e568",
+      "constructorAddress": "20522ecc"
+    },
+    {
+      "value": 101,
+      "label": "DigGround",
+      "literalBytes": "44696747726f756e64",
+      "storageAddress": "207cc654",
+      "literalAddress": "2069e55c",
+      "constructorAddress": "20522ed8"
+    },
+    {
+      "value": 102,
+      "label": "Repair",
+      "literalBytes": "526570616972",
+      "storageAddress": "207cc658",
+      "literalAddress": "2069e554",
+      "constructorAddress": "20522ee4"
+    },
+    {
+      "value": 103,
+      "label": "SawLog",
+      "literalBytes": "5361774c6f67",
+      "storageAddress": "207cc65c",
+      "literalAddress": "2069e54c",
+      "constructorAddress": "20522ef0"
+    },
+    {
+      "value": 104,
+      "label": "Lumberjack",
+      "literalBytes": "4c756d6265726a61636b",
+      "storageAddress": "207cc660",
+      "literalAddress": "2069e53c",
+      "constructorAddress": "20522efc"
+    },
+    {
+      "value": 105,
+      "label": "RakeField",
+      "literalBytes": "52616b654669656c64",
+      "storageAddress": "207cc664",
+      "literalAddress": "2069e530",
+      "constructorAddress": "20522f08"
+    },
+    {
+      "value": 106,
+      "label": "CleanFloor",
+      "literalBytes": "436c65616e466c6f6f72",
+      "storageAddress": "207cc668",
+      "literalAddress": "2069e520",
+      "constructorAddress": "20522f14"
+    },
+    {
+      "value": 107,
+      "label": "TiltOrcBoulder",
+      "literalBytes": "54696c744f7263426f756c646572",
+      "storageAddress": "207cc66c",
+      "literalAddress": "2069e50c",
+      "constructorAddress": "20522f20"
+    },
+    {
+      "value": 108,
+      "label": "HoldOrcBoulder",
+      "literalBytes": "486f6c644f7263426f756c646572",
+      "storageAddress": "207cc670",
+      "literalAddress": "2069e4f8",
+      "constructorAddress": "20522f2c"
+    },
+    {
+      "value": 109,
+      "label": "LiftOrcBoulder",
+      "literalBytes": "4c6966744f7263426f756c646572",
+      "storageAddress": "207cc674",
+      "literalAddress": "2069e4e4",
+      "constructorAddress": "20522f38"
+    },
+    {
+      "value": 110,
+      "label": "Fan",
+      "literalBytes": "46616e",
+      "storageAddress": "207cc678",
+      "literalAddress": "2069e4e0",
+      "constructorAddress": "20522f44"
+    },
+    {
+      "value": 111,
+      "label": "Dance",
+      "literalBytes": "44616e6365",
+      "storageAddress": "207cc67c",
+      "literalAddress": "2069e4d8",
+      "constructorAddress": "20522f50"
+    },
+    {
+      "value": 112,
+      "label": "OrcDance",
+      "literalBytes": "4f726344616e6365",
+      "storageAddress": "207cc680",
+      "literalAddress": "2069e4cc",
+      "constructorAddress": "20522f5c"
+    },
+    {
+      "value": 113,
+      "label": "FieldWork",
+      "literalBytes": "4669656c64576f726b",
+      "storageAddress": "207cc684",
+      "literalAddress": "2069e4c0",
+      "constructorAddress": "20522f68"
+    },
+    {
+      "value": 114,
+      "label": "EatGround",
+      "literalBytes": "45617447726f756e64",
+      "storageAddress": "207cc688",
+      "literalAddress": "2069e4b4",
+      "constructorAddress": "20522f74"
+    },
+    {
+      "value": 115,
+      "label": "DrinkWater",
+      "literalBytes": "4472696e6b5761746572",
+      "storageAddress": "207cc68c",
+      "literalAddress": "2069e4a4",
+      "constructorAddress": "20522f80"
+    },
+    {
+      "value": 116,
+      "label": "ArmsCrossed",
+      "literalBytes": "41726d7343726f73736564",
+      "storageAddress": "207cc690",
+      "literalAddress": "2069e494",
+      "constructorAddress": "20522f8c"
+    },
+    {
+      "value": 117,
+      "label": "HandsOnHips",
+      "literalBytes": "48616e64734f6e48697073",
+      "storageAddress": "207cc694",
+      "literalAddress": "2069e484",
+      "constructorAddress": "20522f98"
+    },
+    {
+      "value": 118,
+      "label": "Warn",
+      "literalBytes": "5761726e",
+      "storageAddress": "207cc698",
+      "literalAddress": "2069e47c",
+      "constructorAddress": "20522fa4"
+    },
+    {
+      "value": 119,
+      "label": "Ambient",
+      "literalBytes": "416d6269656e74",
+      "storageAddress": "207cc69c",
+      "literalAddress": "2069e3b4",
+      "constructorAddress": "20522fb0"
+    },
+    {
+      "value": 120,
+      "label": "Think",
+      "literalBytes": "5468696e6b",
+      "storageAddress": "207cc6a0",
+      "literalAddress": "2069e474",
+      "constructorAddress": "20522fbc"
+    },
+    {
+      "value": 121,
+      "label": "Pee",
+      "literalBytes": "506565",
+      "storageAddress": "207cc6a4",
+      "literalAddress": "2069e470",
+      "constructorAddress": "20522fc8"
+    },
+    {
+      "value": 122,
+      "label": "Say",
+      "literalBytes": "536179",
+      "storageAddress": "207cc6a8",
+      "literalAddress": "2069e46c",
+      "constructorAddress": "20522fd4"
+    },
+    {
+      "value": 123,
+      "label": "Listen",
+      "literalBytes": "4c697374656e",
+      "storageAddress": "207cc6ac",
+      "literalAddress": "2069e3ac",
+      "constructorAddress": "20522fe0"
+    },
+    {
+      "value": 124,
+      "label": "WatchFight",
+      "literalBytes": "57617463684669676874",
+      "storageAddress": "207cc6b0",
+      "literalAddress": "2069e45c",
+      "constructorAddress": "20522fec"
+    },
+    {
+      "value": 125,
+      "label": "Cheer",
+      "literalBytes": "4368656572",
+      "storageAddress": "207cc6b4",
+      "literalAddress": "2069e454",
+      "constructorAddress": "20522ff8"
+    },
+    {
+      "value": 126,
+      "label": "SuperCheer",
+      "literalBytes": "53757065724368656572",
+      "storageAddress": "207cc6b8",
+      "literalAddress": "2069e444",
+      "constructorAddress": "20523004"
+    },
+    {
+      "value": 127,
+      "label": "Applaud",
+      "literalBytes": "4170706c617564",
+      "storageAddress": "207cc6bc",
+      "literalAddress": "2069e438",
+      "constructorAddress": "20523010"
+    },
+    {
+      "value": 128,
+      "label": "QuickUse0",
+      "literalBytes": "517569636b55736530",
+      "storageAddress": "207cc6c0",
+      "literalAddress": "2069e42c",
+      "constructorAddress": "2052301c"
+    },
+    {
+      "value": 129,
+      "label": "QuickUse1",
+      "literalBytes": "517569636b55736531",
+      "storageAddress": "207cc6c4",
+      "literalAddress": "2069e420",
+      "constructorAddress": "20523028"
+    },
+    {
+      "value": 130,
+      "label": "QuickUse2",
+      "literalBytes": "517569636b55736532",
+      "storageAddress": "207cc6c8",
+      "literalAddress": "2069e414",
+      "constructorAddress": "20523034"
+    },
+    {
+      "value": 131,
+      "label": "QuickUse3",
+      "literalBytes": "517569636b55736533",
+      "storageAddress": "207cc6cc",
+      "literalAddress": "2069e408",
+      "constructorAddress": "20523040"
+    },
+    {
+      "value": 132,
+      "label": "QuickUse4",
+      "literalBytes": "517569636b55736534",
+      "storageAddress": "207cc6d0",
+      "literalAddress": "2069e3fc",
+      "constructorAddress": "2052304c"
+    },
+    {
+      "value": 133,
+      "label": "QuickUse5",
+      "literalBytes": "517569636b55736535",
+      "storageAddress": "207cc6d4",
+      "literalAddress": "2069e3f0",
+      "constructorAddress": "20523058"
+    },
+    {
+      "value": 134,
+      "label": "QuickUse6",
+      "literalBytes": "517569636b55736536",
+      "storageAddress": "207cc6d8",
+      "literalAddress": "2069e3e4",
+      "constructorAddress": "20523064"
+    },
+    {
+      "value": 135,
+      "label": "QuickUse7",
+      "literalBytes": "517569636b55736537",
+      "storageAddress": "207cc6dc",
+      "literalAddress": "2069e3d8",
+      "constructorAddress": "20523070"
+    },
+    {
+      "value": 136,
+      "label": "QuickUse8",
+      "literalBytes": "517569636b55736538",
+      "storageAddress": "207cc6e0",
+      "literalAddress": "2069e3cc",
+      "constructorAddress": "2052307c"
+    },
+    {
+      "value": 137,
+      "label": "QuickUse9",
+      "literalBytes": "517569636b55736539",
+      "storageAddress": "207cc6e4",
+      "literalAddress": "2069e3c0",
+      "constructorAddress": "20523088"
+    }
+  ]
+}

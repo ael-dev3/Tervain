@@ -1,0 +1,108 @@
+/* ENTRY 2000ed22 | gCPlayerMemory_PS::ReadAttributes | STATUS decompiled | 128 ms */
+
+/* protected: bool __thiscall gCPlayerMemory_PS::ReadAttributes(class bCIStream &) */
+
+bool __thiscall gCPlayerMemory_PS::ReadAttributes(gCPlayerMemory_PS *this,bCIStream *param_1)
+
+{
+  undefined4 *puVar1;
+  bool bVar2;
+  ulong uVar3;
+  bCObjectRefBase *pbVar4;
+  int *piVar5;
+  bCString *pbVar6;
+  int iVar7;
+  uint uVar8;
+  undefined4 uVar9;
+  TypeDescriptor *pTVar10;
+  TypeDescriptor *pTVar11;
+  undefined4 uVar12;
+  undefined4 uStack_14;
+  long lStack_10;
+  int iStack_c;
+  bCAccessorPropertyObject abStack_8 [8];
+  
+                    /* 0xed22  5978  ?ReadAttributes@gCPlayerMemory_PS@@IAE_NAAVbCIStream@@@Z */
+  DestroyAttributes(this);
+  lStack_10 = 0;
+  ::operator<<(&lStack_10,param_1);
+  iStack_c = 0;
+  if (0 < lStack_10) {
+    do {
+      bCString::bCString((bCString *)&uStack_14);
+      ::operator<<((bCString *)&uStack_14,param_1);
+      uVar8 = this[1].gCPlayerMemory_PS_data.offset_0x3c;
+      uVar3 = g_GetHashValue<bCString>((bCString *)&uStack_14);
+      uVar8 = uVar3 % uVar8;
+      if (uVar8 < (uint)this[1].gCPlayerMemory_PS_data.offset_0x3c) {
+        for (pbVar6 = *(bCString **)(this[1].gCPlayerMemory_PS_data.offset_0x38 + uVar8 * 4);
+            pbVar6 != (bCString *)0x0; pbVar6 = *(bCString **)(pbVar6 + 8)) {
+          bVar2 = bCString::operator==((bCString *)&uStack_14,pbVar6);
+          if (bVar2) {
+            if (pbVar6 != (bCString *)0x0) {
+              GE_MESSAGEF_WARN("gCPlayerMemory_PS::ReadAttributes -> Detected multiple entries for attrib: %s."
+                               ,uStack_14);
+            }
+            break;
+          }
+        }
+      }
+      bCAccessorPropertyObject::bCAccessorPropertyObject(abStack_8);
+      ::operator>>(param_1,abStack_8);
+      uVar12 = 0;
+      pTVar11 = &gCAttribute::RTTI_Type_Descriptor;
+      pTVar10 = &bCObjectRefBase::RTTI_Type_Descriptor;
+      uVar9 = 0;
+      pbVar4 = bCAccessorPropertyObject::GetNativeObject(abStack_8);
+      piVar5 = (int *)___RTDynamicCast(pbVar4,uVar9,pTVar10,pTVar11,uVar12);
+      if (piVar5 == (int *)0x0) {
+        GE_MESSAGEF_WARN("gCPlayerMemory_PS::ReadAttributes -> Detected invalid attrib: %s.",
+                         uStack_14);
+      }
+      uVar8 = this[1].gCPlayerMemory_PS_data.offset_0x3c;
+      uVar3 = g_GetHashValue<bCString>((bCString *)&uStack_14);
+      uVar8 = uVar3 % uVar8;
+      if (uVar8 < (uint)this[1].gCPlayerMemory_PS_data.offset_0x3c) {
+        for (pbVar6 = *(bCString **)(this[1].gCPlayerMemory_PS_data.offset_0x38 + uVar8 * 4);
+            pbVar6 != (bCString *)0x0; pbVar6 = *(bCString **)(pbVar6 + 8)) {
+          bVar2 = bCString::operator==((bCString *)&uStack_14,pbVar6);
+          if (bVar2) {
+            if (pbVar6 != (bCString *)0x0) goto LAB_2031e8a4;
+            break;
+          }
+        }
+      }
+      pbVar6 = (bCString *)new(0xc,0x199);
+      if (pbVar6 == (bCString *)0x0) {
+        pbVar6 = (bCString *)0x0;
+      }
+      else {
+        bCString::bCString(pbVar6);
+      }
+      bCString::operator=(pbVar6,(bCString *)&uStack_14);
+      *(undefined4 *)(pbVar6 + 8) =
+           *(undefined4 *)(this[1].gCPlayerMemory_PS_data.offset_0x38 + uVar8 * 4);
+      *(bCString **)(this[1].gCPlayerMemory_PS_data.offset_0x38 + uVar8 * 4) = pbVar6;
+      puVar1 = &this[1].gCPlayerMemory_PS_data.offset_0x44;
+      *puVar1 = *puVar1 + 1;
+LAB_2031e8a4:
+      *(int **)(pbVar6 + 4) = piVar5;
+      if (piVar5 != (int *)0x0) {
+        (**(code **)(*piVar5 + 0x20))();
+      }
+      GE_MESSAGEF_INFO(5,"gCPlayerMemory_PS::ReadAttributes -> Read attribute: %s [%s].",uStack_14,
+                       piVar5[3]);
+      bCAccessorPropertyObject::~bCAccessorPropertyObject(abStack_8);
+      bCString::~bCString((bCString *)&uStack_14);
+      iStack_c = iStack_c + 1;
+    } while (iStack_c < lStack_10);
+  }
+  iVar7 = CreateAttributes(this);
+  if (0 < iVar7) {
+    GE_MESSAGEF_WARN("gCPlayerMemory_PS::ReadAttributes -> Created %d missing/broken attributes.",
+                     iVar7);
+  }
+  return true;
+}
+
+

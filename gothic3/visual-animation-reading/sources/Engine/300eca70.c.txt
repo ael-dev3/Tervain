@@ -1,0 +1,10 @@
+/* ENTRY 300eca70 | FUN_300eca70 | STATUS decompiled | 2 ms */
+
+undefined4 __fastcall FUN_300eca70(int param_1)
+
+{
+  return CONCAT31((int3)((uint)*(int *)(param_1 + 4) >> 8),
+                  *(int *)(*(int *)(param_1 + 4) + 0x18) != 0);
+}
+
+

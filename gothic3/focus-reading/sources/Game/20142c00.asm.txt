@@ -1,0 +1,15 @@
+; 20142c00 bTPropertyType<gCFocus_PS,bTPropertyContainer<gEFocusLookAtKeysFOR>_>::vfunction12
+20142c00 | 56 | PUSH ESI
+20142c01 | 8bf1 | MOV ESI,ECX
+20142c03 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+20142c07 | 85c9 | TEST ECX,ECX
+20142c09 | 7506 | JNZ 0x20142c11
+20142c0b | 33c0 | XOR EAX,EAX
+20142c0d | 5e | POP ESI
+20142c0e | c20400 | RET 0x4
+20142c11 | 8b01 | MOV EAX,dword ptr [ECX]
+20142c13 | 8b10 | MOV EDX,dword ptr [EAX]
+20142c15 | ffd2 | CALL EDX
+20142c17 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+20142c1a | 5e | POP ESI
+20142c1b | c20400 | RET 0x4

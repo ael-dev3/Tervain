@@ -1,0 +1,2 @@
+; 10007ccf bCPropertyTypeBase::bCPropertyTypeBase
+10007ccf | e9ec0f0800 | JMP 0x10088cc0

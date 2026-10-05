@@ -1,0 +1,1519 @@
+{
+  "schema": "gothic3-rigidbody-reading-rules-v1",
+  "inputs": {
+    "SharedBase": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
+    "Engine": "d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3",
+    "Game": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f"
+  },
+  "propertyType": 13,
+  "getVersion": 65,
+  "baseGetVersion": 2,
+  "nativeBytes": 248,
+  "nativeVtable": "3085ffcc",
+  "wrapperVtable": "30860244",
+  "baseField": {
+    "name": "PhysicsEnabled",
+    "nativeOffset": 20,
+    "typeName": "bool",
+    "registrar": "3075d680",
+    "reader": "303356a0",
+    "defaultInitializer": "30335450"
+  },
+  "fields": [
+    {
+      "name": "TotalMass",
+      "nativeOffset": 24,
+      "typeName": "float",
+      "registrar": "3075caf0",
+      "reader": "303314c0",
+      "defaultInitializer": "30331260"
+    },
+    {
+      "name": "MassSpaceInertia",
+      "nativeOffset": 92,
+      "typeName": "bCVector",
+      "registrar": "3075cb90",
+      "reader": "30331d50",
+      "defaultInitializer": "30331af0"
+    },
+    {
+      "name": "StartVelocity",
+      "nativeOffset": 28,
+      "typeName": "bCVector",
+      "registrar": "3075cc30",
+      "reader": "30331d50",
+      "defaultInitializer": "30331af0"
+    },
+    {
+      "name": "StartAngularVelocity",
+      "nativeOffset": 40,
+      "typeName": "bCVector",
+      "registrar": "3075ccd0",
+      "reader": "30331d50",
+      "defaultInitializer": "30331af0"
+    },
+    {
+      "name": "StartForce",
+      "nativeOffset": 52,
+      "typeName": "bCVector",
+      "registrar": "3075cd70",
+      "reader": "30331d50",
+      "defaultInitializer": "30331af0"
+    },
+    {
+      "name": "StartTorque",
+      "nativeOffset": 64,
+      "typeName": "bCVector",
+      "registrar": "3075ce10",
+      "reader": "30331d50",
+      "defaultInitializer": "30331af0"
+    },
+    {
+      "name": "WakeUpCounter",
+      "nativeOffset": 76,
+      "typeName": "float",
+      "registrar": "3075ceb0",
+      "reader": "303314c0",
+      "defaultInitializer": "30331260"
+    },
+    {
+      "name": "LinearDamping",
+      "nativeOffset": 80,
+      "typeName": "float",
+      "registrar": "3075cf50",
+      "reader": "303314c0",
+      "defaultInitializer": "30331260"
+    },
+    {
+      "name": "AngularDamping",
+      "nativeOffset": 84,
+      "typeName": "float",
+      "registrar": "3075cff0",
+      "reader": "303314c0",
+      "defaultInitializer": "30331260"
+    },
+    {
+      "name": "MaxAngularVelocity",
+      "nativeOffset": 88,
+      "typeName": "float",
+      "registrar": "3075d090",
+      "reader": "303314c0",
+      "defaultInitializer": "30331260"
+    },
+    {
+      "name": "CenterOfMass",
+      "nativeOffset": 104,
+      "typeName": "bCVector",
+      "registrar": "3075d130",
+      "reader": "30331d50",
+      "defaultInitializer": "30331af0"
+    },
+    {
+      "name": "CCDMotionTreshold",
+      "nativeOffset": 116,
+      "typeName": "float",
+      "registrar": "3075d1d0",
+      "reader": "303314c0",
+      "defaultInitializer": "30331260"
+    },
+    {
+      "name": "BodyFlag",
+      "nativeOffset": 120,
+      "typeName": "bTPropertyContainer<enum eERigidbody_Flag>",
+      "registrar": "3075d270",
+      "reader": "303326b0",
+      "defaultInitializer": "30332450"
+    }
+  ],
+  "programs": [
+    {
+      "stage": "baseConstructor",
+      "module": "Engine",
+      "body": "30333570",
+      "operations": [
+        {
+          "module": "SharedBase",
+          "sourceVA": "1004a1c2",
+          "originalSource": {
+            "method": "SharedBase:0x1004a1c0",
+            "va": "0x1004a1c2",
+            "bytes": "c7001c7e0e10",
+            "assembly": "MOV dword ptr [EAX],0x100e7e1c"
+          },
+          "kind": "integerStore",
+          "offset": 0,
+          "bytes": 4,
+          "value": 269385244,
+          "sourceInstruction": {
+            "address": "1004a1c2",
+            "bytes": "c7001c7e0e10",
+            "assembly": "MOV dword ptr [EAX],0x100e7e1c"
+          }
+        },
+        {
+          "module": "SharedBase",
+          "sourceVA": "1004a5b7",
+          "originalSource": {
+            "method": "SharedBase:0x1004a5a0",
+            "va": "0x1004a5b7",
+            "bytes": "894604",
+            "assembly": "MOV dword ptr [ESI + 0x4],EAX"
+          },
+          "kind": "integerStore",
+          "offset": 4,
+          "bytes": 4,
+          "value": 0,
+          "sourceInstruction": {
+            "address": "1004a5b7",
+            "bytes": "894604",
+            "assembly": "MOV dword ptr [ESI + 0x4],EAX"
+          }
+        },
+        {
+          "module": "SharedBase",
+          "sourceVA": "1004a5ba",
+          "originalSource": {
+            "method": "SharedBase:0x1004a5a0",
+            "va": "0x1004a5ba",
+            "bytes": "c706ac7e0e10",
+            "assembly": "MOV dword ptr [ESI],0x100e7eac"
+          },
+          "kind": "integerStore",
+          "offset": 0,
+          "bytes": 4,
+          "value": 269385388,
+          "sourceInstruction": {
+            "address": "1004a5ba",
+            "bytes": "c706ac7e0e10",
+            "assembly": "MOV dword ptr [ESI],0x100e7eac"
+          }
+        },
+        {
+          "module": "SharedBase",
+          "sourceVA": "1004a5c0",
+          "originalSource": {
+            "method": "SharedBase:0x1004a5a0",
+            "va": "0x1004a5c0",
+            "bytes": "894e08",
+            "assembly": "MOV dword ptr [ESI + 0x8],ECX"
+          },
+          "kind": "integerStore",
+          "offset": 8,
+          "bytes": 4,
+          "value": 1,
+          "sourceInstruction": {
+            "address": "1004a5c0",
+            "bytes": "894e08",
+            "assembly": "MOV dword ptr [ESI + 0x8],ECX"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "30481a70",
+          "originalSource": {
+            "method": "Engine:0x30481a60",
+            "va": "0x30481a70",
+            "bytes": "884610",
+            "assembly": "MOV byte ptr [ESI + 0x10],AL"
+          },
+          "kind": "maskedAssign",
+          "offset": 16,
+          "value": 1,
+          "knownMask": 15,
+          "preserveMask": 241,
+          "sourceInstruction": {
+            "address": "30481a70",
+            "bytes": "884610",
+            "assembly": "MOV byte ptr [ESI + 0x10],AL"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "30481a73",
+          "originalSource": {
+            "method": "Engine:0x30481a60",
+            "va": "0x30481a73",
+            "bytes": "c7068c5d8730",
+            "assembly": "MOV dword ptr [ESI],0x30875d8c"
+          },
+          "kind": "integerStore",
+          "offset": 0,
+          "bytes": 4,
+          "value": 814177676,
+          "sourceInstruction": {
+            "address": "30481a73",
+            "bytes": "c7068c5d8730",
+            "assembly": "MOV dword ptr [ESI],0x30875d8c"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "30481a79",
+          "originalSource": {
+            "method": "Engine:0x30481a60",
+            "va": "0x30481a79",
+            "bytes": "c7460c00000000",
+            "assembly": "MOV dword ptr [ESI + 0xc],0x0"
+          },
+          "kind": "integerStore",
+          "offset": 12,
+          "bytes": 4,
+          "value": 0,
+          "sourceInstruction": {
+            "address": "30481a79",
+            "bytes": "c7460c00000000",
+            "assembly": "MOV dword ptr [ESI + 0xc],0x0"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "30333578",
+          "originalSource": {
+            "method": "Engine:0x30333570",
+            "va": "0x30333578",
+            "bytes": "c70674058630",
+            "assembly": "MOV dword ptr [ESI],0x30860574"
+          },
+          "kind": "integerStore",
+          "offset": 0,
+          "bytes": 4,
+          "value": 814089588,
+          "sourceInstruction": {
+            "address": "30333578",
+            "bytes": "c70674058630",
+            "assembly": "MOV dword ptr [ESI],0x30860574"
+          }
+        }
+      ]
+    },
+    {
+      "stage": "constructor",
+      "module": "Engine",
+      "body": "3032e900",
+      "operations": [
+        {
+          "module": "Engine",
+          "sourceVA": "3032e904",
+          "originalSource": {
+            "method": "Engine:0x3032e900",
+            "va": "0x3032e904",
+            "bytes": "e86f23d1ff",
+            "assembly": "CALL 0x30040c78"
+          },
+          "kind": "call",
+          "role": "baseConstructor",
+          "sourceInstruction": {
+            "address": "3032e904",
+            "bytes": "e86f23d1ff",
+            "assembly": "CALL 0x30040c78"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e90c",
+          "originalSource": {
+            "method": "Engine:0x3032e900",
+            "va": "0x3032e90c",
+            "bytes": "c706ccff8530",
+            "assembly": "MOV dword ptr [ESI],0x3085ffcc"
+          },
+          "kind": "integerStore",
+          "offset": 0,
+          "bytes": 4,
+          "value": 814088140,
+          "sourceInstruction": {
+            "address": "3032e90c",
+            "bytes": "c706ccff8530",
+            "assembly": "MOV dword ptr [ESI],0x3085ffcc"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e912",
+          "originalSource": {
+            "method": "Engine:0x3032e900",
+            "va": "0x3032e912",
+            "bytes": "ff1584cbaf30",
+            "assembly": "CALL dword ptr [0x30afcb84]"
+          },
+          "kind": "mathDefaultConstructor",
+          "receiverOffset": 28,
+          "nativeType": "bCVector",
+          "helper": "SharedBase:0x10024b70",
+          "sourceInstruction": {
+            "address": "3032e912",
+            "bytes": "ff1584cbaf30",
+            "assembly": "CALL dword ptr [0x30afcb84]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e91b",
+          "originalSource": {
+            "method": "Engine:0x3032e900",
+            "va": "0x3032e91b",
+            "bytes": "ff1584cbaf30",
+            "assembly": "CALL dword ptr [0x30afcb84]"
+          },
+          "kind": "mathDefaultConstructor",
+          "receiverOffset": 40,
+          "nativeType": "bCVector",
+          "helper": "SharedBase:0x10024b70",
+          "sourceInstruction": {
+            "address": "3032e91b",
+            "bytes": "ff1584cbaf30",
+            "assembly": "CALL dword ptr [0x30afcb84]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e924",
+          "originalSource": {
+            "method": "Engine:0x3032e900",
+            "va": "0x3032e924",
+            "bytes": "ff1584cbaf30",
+            "assembly": "CALL dword ptr [0x30afcb84]"
+          },
+          "kind": "mathDefaultConstructor",
+          "receiverOffset": 52,
+          "nativeType": "bCVector",
+          "helper": "SharedBase:0x10024b70",
+          "sourceInstruction": {
+            "address": "3032e924",
+            "bytes": "ff1584cbaf30",
+            "assembly": "CALL dword ptr [0x30afcb84]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e92d",
+          "originalSource": {
+            "method": "Engine:0x3032e900",
+            "va": "0x3032e92d",
+            "bytes": "ff1584cbaf30",
+            "assembly": "CALL dword ptr [0x30afcb84]"
+          },
+          "kind": "mathDefaultConstructor",
+          "receiverOffset": 64,
+          "nativeType": "bCVector",
+          "helper": "SharedBase:0x10024b70",
+          "sourceInstruction": {
+            "address": "3032e92d",
+            "bytes": "ff1584cbaf30",
+            "assembly": "CALL dword ptr [0x30afcb84]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e936",
+          "originalSource": {
+            "method": "Engine:0x3032e900",
+            "va": "0x3032e936",
+            "bytes": "ff1584cbaf30",
+            "assembly": "CALL dword ptr [0x30afcb84]"
+          },
+          "kind": "mathDefaultConstructor",
+          "receiverOffset": 92,
+          "nativeType": "bCVector",
+          "helper": "SharedBase:0x10024b70",
+          "sourceInstruction": {
+            "address": "3032e936",
+            "bytes": "ff1584cbaf30",
+            "assembly": "CALL dword ptr [0x30afcb84]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e93f",
+          "originalSource": {
+            "method": "Engine:0x3032e900",
+            "va": "0x3032e93f",
+            "bytes": "ff1584cbaf30",
+            "assembly": "CALL dword ptr [0x30afcb84]"
+          },
+          "kind": "mathDefaultConstructor",
+          "receiverOffset": 104,
+          "nativeType": "bCVector",
+          "helper": "SharedBase:0x10024b70",
+          "sourceInstruction": {
+            "address": "3032e93f",
+            "bytes": "ff1584cbaf30",
+            "assembly": "CALL dword ptr [0x30afcb84]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e94a",
+          "originalSource": {
+            "method": "Engine:0x3032e900",
+            "va": "0x3032e94a",
+            "bytes": "ff1508ccaf30",
+            "assembly": "CALL dword ptr [0x30afcc08]"
+          },
+          "kind": "integerStore",
+          "offset": 120,
+          "bytes": 4,
+          "value": 269385244,
+          "helper": "SharedBase:0x1004a1c0",
+          "sourceInstruction": {
+            "address": "3032e94a",
+            "bytes": "ff1508ccaf30",
+            "assembly": "CALL dword ptr [0x30afcc08]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e950",
+          "originalSource": {
+            "method": "Engine:0x3032e900",
+            "va": "0x3032e950",
+            "bytes": "c7070cfe8530",
+            "assembly": "MOV dword ptr [EDI],0x3085fe0c"
+          },
+          "kind": "integerStore",
+          "offset": 120,
+          "bytes": 4,
+          "value": 814087692,
+          "sourceInstruction": {
+            "address": "3032e950",
+            "bytes": "c7070cfe8530",
+            "assembly": "MOV dword ptr [EDI],0x3085fe0c"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e961",
+          "originalSource": {
+            "method": "Engine:0x3032e900",
+            "va": "0x3032e961",
+            "bytes": "894704",
+            "assembly": "MOV dword ptr [EDI + 0x4],EAX"
+          },
+          "kind": "enumDefaultRead",
+          "offset": 124,
+          "readSource": {
+            "method": "Engine:0x3032e900",
+            "va": "0x3032e956",
+            "bytes": "a138bfae30",
+            "assembly": "MOV EAX,[0x30aebf38]"
+          },
+          "sourceInstruction": {
+            "address": "3032e961",
+            "bytes": "894704",
+            "assembly": "MOV dword ptr [EDI + 0x4],EAX"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e964",
+          "originalSource": {
+            "method": "Engine:0x3032e900",
+            "va": "0x3032e964",
+            "bytes": "ff1584cbaf30",
+            "assembly": "CALL dword ptr [0x30afcb84]"
+          },
+          "kind": "mathDefaultConstructor",
+          "receiverOffset": 132,
+          "nativeType": "bCVector",
+          "helper": "SharedBase:0x10024b70",
+          "sourceInstruction": {
+            "address": "3032e964",
+            "bytes": "ff1584cbaf30",
+            "assembly": "CALL dword ptr [0x30afcb84]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e970",
+          "originalSource": {
+            "method": "Engine:0x3032e900",
+            "va": "0x3032e970",
+            "bytes": "ff1584cbaf30",
+            "assembly": "CALL dword ptr [0x30afcb84]"
+          },
+          "kind": "mathDefaultConstructor",
+          "receiverOffset": 144,
+          "nativeType": "bCVector",
+          "helper": "SharedBase:0x10024b70",
+          "sourceInstruction": {
+            "address": "3032e970",
+            "bytes": "ff1584cbaf30",
+            "assembly": "CALL dword ptr [0x30afcb84]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e97e",
+          "originalSource": {
+            "method": "Engine:0x3032e900",
+            "va": "0x3032e97e",
+            "bytes": "ff1584cbaf30",
+            "assembly": "CALL dword ptr [0x30afcb84]"
+          },
+          "kind": "mathDefaultConstructor",
+          "receiverOffset": 156,
+          "nativeType": "bCVector",
+          "helper": "SharedBase:0x10024b70",
+          "sourceInstruction": {
+            "address": "3032e97e",
+            "bytes": "ff1584cbaf30",
+            "assembly": "CALL dword ptr [0x30afcb84]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e987",
+          "originalSource": {
+            "method": "Engine:0x3032e900",
+            "va": "0x3032e987",
+            "bytes": "ff15e8ccaf30",
+            "assembly": "CALL dword ptr [0x30afcce8]"
+          },
+          "kind": "mathDefaultConstructor",
+          "receiverOffset": 168,
+          "nativeType": "bCQuaternion",
+          "helper": "SharedBase:0x10025c00",
+          "sourceInstruction": {
+            "address": "3032e987",
+            "bytes": "ff15e8ccaf30",
+            "assembly": "CALL dword ptr [0x30afcce8]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e995",
+          "originalSource": {
+            "method": "Engine:0x3032e900",
+            "va": "0x3032e995",
+            "bytes": "ff1584cbaf30",
+            "assembly": "CALL dword ptr [0x30afcb84]"
+          },
+          "kind": "mathDefaultConstructor",
+          "receiverOffset": 184,
+          "nativeType": "bCVector",
+          "helper": "SharedBase:0x10024b70",
+          "sourceInstruction": {
+            "address": "3032e995",
+            "bytes": "ff1584cbaf30",
+            "assembly": "CALL dword ptr [0x30afcb84]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e99e",
+          "originalSource": {
+            "method": "Engine:0x3032e900",
+            "va": "0x3032e99e",
+            "bytes": "ff15e8ccaf30",
+            "assembly": "CALL dword ptr [0x30afcce8]"
+          },
+          "kind": "mathDefaultConstructor",
+          "receiverOffset": 196,
+          "nativeType": "bCQuaternion",
+          "helper": "SharedBase:0x10025c00",
+          "sourceInstruction": {
+            "address": "3032e99e",
+            "bytes": "ff15e8ccaf30",
+            "assembly": "CALL dword ptr [0x30afcce8]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e9aa",
+          "originalSource": {
+            "method": "Engine:0x3032e900",
+            "va": "0x3032e9aa",
+            "bytes": "ff1584cbaf30",
+            "assembly": "CALL dword ptr [0x30afcb84]"
+          },
+          "kind": "mathDefaultConstructor",
+          "receiverOffset": 212,
+          "nativeType": "bCVector",
+          "helper": "SharedBase:0x10024b70",
+          "sourceInstruction": {
+            "address": "3032e9aa",
+            "bytes": "ff1584cbaf30",
+            "assembly": "CALL dword ptr [0x30afcb84]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e9b2",
+          "originalSource": {
+            "method": "Engine:0x3032e900",
+            "va": "0x3032e9b2",
+            "bytes": "e8214fd1ff",
+            "assembly": "CALL 0x300438d8"
+          },
+          "kind": "call",
+          "role": "invalidate",
+          "sourceInstruction": {
+            "address": "3032e9b2",
+            "bytes": "e8214fd1ff",
+            "assembly": "CALL 0x300438d8"
+          }
+        }
+      ]
+    },
+    {
+      "stage": "invalidate",
+      "module": "Engine",
+      "body": "3032ddf0",
+      "operations": [
+        {
+          "module": "Engine",
+          "sourceVA": "3032ddf8",
+          "originalSource": {
+            "method": "Engine:0x3032ddf0",
+            "va": "0x3032ddf8",
+            "bytes": "f30f1186e0000000",
+            "assembly": "MOVSS dword ptr [ESI + 0xe0],XMM0"
+          },
+          "kind": "float32Store",
+          "offset": 224,
+          "value": 0,
+          "raw": "00000000",
+          "sourceInstruction": {
+            "address": "3032ddf8",
+            "bytes": "f30f1186e0000000",
+            "assembly": "MOVSS dword ptr [ESI + 0xe0],XMM0"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032de00",
+          "originalSource": {
+            "method": "Engine:0x3032ddf0",
+            "va": "0x3032de00",
+            "bytes": "f30f1186e4000000",
+            "assembly": "MOVSS dword ptr [ESI + 0xe4],XMM0"
+          },
+          "kind": "float32Store",
+          "offset": 228,
+          "value": 0,
+          "raw": "00000000",
+          "sourceInstruction": {
+            "address": "3032de00",
+            "bytes": "f30f1186e4000000",
+            "assembly": "MOVSS dword ptr [ESI + 0xe4],XMM0"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032de08",
+          "originalSource": {
+            "method": "Engine:0x3032ddf0",
+            "va": "0x3032de08",
+            "bytes": "f30f1186e8000000",
+            "assembly": "MOVSS dword ptr [ESI + 0xe8],XMM0"
+          },
+          "kind": "float32Store",
+          "offset": 232,
+          "value": 0,
+          "raw": "00000000",
+          "sourceInstruction": {
+            "address": "3032de08",
+            "bytes": "f30f1186e8000000",
+            "assembly": "MOVSS dword ptr [ESI + 0xe8],XMM0"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032de10",
+          "originalSource": {
+            "method": "Engine:0x3032ddf0",
+            "va": "0x3032de10",
+            "bytes": "f30f1186ec000000",
+            "assembly": "MOVSS dword ptr [ESI + 0xec],XMM0"
+          },
+          "kind": "float32Store",
+          "offset": 236,
+          "value": 0,
+          "raw": "00000000",
+          "sourceInstruction": {
+            "address": "3032de10",
+            "bytes": "f30f1186ec000000",
+            "assembly": "MOVSS dword ptr [ESI + 0xec],XMM0"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032de26",
+          "originalSource": {
+            "method": "Engine:0x3032ddf0",
+            "va": "0x3032de26",
+            "bytes": "888680000000",
+            "assembly": "MOV byte ptr [ESI + 0x80],AL"
+          },
+          "kind": "integerStore",
+          "offset": 128,
+          "bytes": 1,
+          "value": 0,
+          "sourceInstruction": {
+            "address": "3032de26",
+            "bytes": "888680000000",
+            "assembly": "MOV byte ptr [ESI + 0x80],AL"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032de2c",
+          "originalSource": {
+            "method": "Engine:0x3032ddf0",
+            "va": "0x3032de2c",
+            "bytes": "888682000000",
+            "assembly": "MOV byte ptr [ESI + 0x82],AL"
+          },
+          "kind": "integerStore",
+          "offset": 130,
+          "bytes": 1,
+          "value": 0,
+          "sourceInstruction": {
+            "address": "3032de2c",
+            "bytes": "888682000000",
+            "assembly": "MOV byte ptr [ESI + 0x82],AL"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032de32",
+          "originalSource": {
+            "method": "Engine:0x3032ddf0",
+            "va": "0x3032de32",
+            "bytes": "888681000000",
+            "assembly": "MOV byte ptr [ESI + 0x81],AL"
+          },
+          "kind": "integerStore",
+          "offset": 129,
+          "bytes": 1,
+          "value": 0,
+          "sourceInstruction": {
+            "address": "3032de32",
+            "bytes": "888681000000",
+            "assembly": "MOV byte ptr [ESI + 0x81],AL"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032de38",
+          "originalSource": {
+            "method": "Engine:0x3032ddf0",
+            "va": "0x3032de38",
+            "bytes": "888683000000",
+            "assembly": "MOV byte ptr [ESI + 0x83],AL"
+          },
+          "kind": "integerStore",
+          "offset": 131,
+          "bytes": 1,
+          "value": 0,
+          "sourceInstruction": {
+            "address": "3032de38",
+            "bytes": "888683000000",
+            "assembly": "MOV byte ptr [ESI + 0x83],AL"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032de3e",
+          "originalSource": {
+            "method": "Engine:0x3032ddf0",
+            "va": "0x3032de3e",
+            "bytes": "8986f4000000",
+            "assembly": "MOV dword ptr [ESI + 0xf4],EAX"
+          },
+          "kind": "integerStore",
+          "offset": 244,
+          "bytes": 4,
+          "value": 0,
+          "sourceInstruction": {
+            "address": "3032de3e",
+            "bytes": "8986f4000000",
+            "assembly": "MOV dword ptr [ESI + 0xf4],EAX"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032de44",
+          "originalSource": {
+            "method": "Engine:0x3032ddf0",
+            "va": "0x3032de44",
+            "bytes": "f30f1186f0000000",
+            "assembly": "MOVSS dword ptr [ESI + 0xf0],XMM0"
+          },
+          "kind": "float32Store",
+          "offset": 240,
+          "value": 1,
+          "raw": "0000803f",
+          "sourceInstruction": {
+            "address": "3032de44",
+            "bytes": "f30f1186f0000000",
+            "assembly": "MOVSS dword ptr [ESI + 0xf0],XMM0"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032de4c",
+          "originalSource": {
+            "method": "Engine:0x3032ddf0",
+            "va": "0x3032de4c",
+            "bytes": "ff15e0ceaf30",
+            "assembly": "CALL dword ptr [0x30afcee0]"
+          },
+          "kind": "vectorClear",
+          "receiverOffset": 132,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "helper": "SharedBase:0x10024e00",
+          "sourceInstruction": {
+            "address": "3032de4c",
+            "bytes": "ff15e0ceaf30",
+            "assembly": "CALL dword ptr [0x30afcee0]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032de58",
+          "originalSource": {
+            "method": "Engine:0x3032ddf0",
+            "va": "0x3032de58",
+            "bytes": "ff15e0ceaf30",
+            "assembly": "CALL dword ptr [0x30afcee0]"
+          },
+          "kind": "vectorClear",
+          "receiverOffset": 144,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "helper": "SharedBase:0x10024e00",
+          "sourceInstruction": {
+            "address": "3032de58",
+            "bytes": "ff15e0ceaf30",
+            "assembly": "CALL dword ptr [0x30afcee0]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032de65",
+          "originalSource": {
+            "method": "Engine:0x3032ddf0",
+            "va": "0x3032de65",
+            "bytes": "ff25e0ceaf30",
+            "assembly": "JMP dword ptr [0x30afcee0]"
+          },
+          "kind": "vectorClear",
+          "receiverOffset": 212,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "helper": "SharedBase:0x10024e00",
+          "sourceInstruction": {
+            "address": "3032de65",
+            "bytes": "ff25e0ceaf30",
+            "assembly": "JMP dword ptr [0x30afcee0]"
+          }
+        }
+      ]
+    },
+    {
+      "stage": "basePostInitialize",
+      "module": "Engine",
+      "body": "303334c0",
+      "operations": [
+        {
+          "module": "Engine",
+          "sourceVA": "303334c5",
+          "originalSource": {
+            "method": "Engine:0x303334c0",
+            "va": "0x303334c5",
+            "bytes": "884114",
+            "assembly": "MOV byte ptr [ECX + 0x14],AL"
+          },
+          "kind": "integerStore",
+          "offset": 20,
+          "bytes": 1,
+          "value": 1,
+          "sourceInstruction": {
+            "address": "303334c5",
+            "bytes": "884114",
+            "assembly": "MOV byte ptr [ECX + 0x14],AL"
+          }
+        }
+      ]
+    },
+    {
+      "stage": "postInitialize",
+      "module": "Engine",
+      "body": "3032e810",
+      "operations": [
+        {
+          "module": "Engine",
+          "sourceVA": "3032e816",
+          "originalSource": {
+            "method": "Engine:0x3032e810",
+            "va": "0x3032e816",
+            "bytes": "e8b983cfff",
+            "assembly": "CALL 0x30026bd4"
+          },
+          "kind": "call",
+          "role": "basePostInitialize",
+          "sourceInstruction": {
+            "address": "3032e816",
+            "bytes": "e8b983cfff",
+            "assembly": "CALL 0x30026bd4"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e82b",
+          "originalSource": {
+            "method": "Engine:0x3032e810",
+            "va": "0x3032e82b",
+            "bytes": "f30f114618",
+            "assembly": "MOVSS dword ptr [ESI + 0x18],XMM0"
+          },
+          "kind": "float32Store",
+          "offset": 24,
+          "value": 10,
+          "raw": "00002041",
+          "sourceInstruction": {
+            "address": "3032e82b",
+            "bytes": "f30f114618",
+            "assembly": "MOVSS dword ptr [ESI + 0x18],XMM0"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e833",
+          "originalSource": {
+            "method": "Engine:0x3032e810",
+            "va": "0x3032e833",
+            "bytes": "f30f114e50",
+            "assembly": "MOVSS dword ptr [ESI + 0x50],XMM1"
+          },
+          "kind": "float32Store",
+          "offset": 80,
+          "value": 0.20000000298023224,
+          "raw": "cdcc4c3e",
+          "sourceInstruction": {
+            "address": "3032e833",
+            "bytes": "f30f114e50",
+            "assembly": "MOVSS dword ptr [ESI + 0x50],XMM1"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e844",
+          "originalSource": {
+            "method": "Engine:0x3032e810",
+            "va": "0x3032e844",
+            "bytes": "f30f11464c",
+            "assembly": "MOVSS dword ptr [ESI + 0x4c],XMM0"
+          },
+          "kind": "float32Store",
+          "offset": 76,
+          "value": 0,
+          "raw": "00000000",
+          "sourceInstruction": {
+            "address": "3032e844",
+            "bytes": "f30f11464c",
+            "assembly": "MOVSS dword ptr [ESI + 0x4c],XMM0"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e849",
+          "originalSource": {
+            "method": "Engine:0x3032e810",
+            "va": "0x3032e849",
+            "bytes": "f30f114e54",
+            "assembly": "MOVSS dword ptr [ESI + 0x54],XMM1"
+          },
+          "kind": "float32Store",
+          "offset": 84,
+          "value": 0.10000000149011612,
+          "raw": "cdcccc3d",
+          "sourceInstruction": {
+            "address": "3032e849",
+            "bytes": "f30f114e54",
+            "assembly": "MOVSS dword ptr [ESI + 0x54],XMM1"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e84e",
+          "originalSource": {
+            "method": "Engine:0x3032e810",
+            "va": "0x3032e84e",
+            "bytes": "f30f114658",
+            "assembly": "MOVSS dword ptr [ESI + 0x58],XMM0"
+          },
+          "kind": "float32Store",
+          "offset": 88,
+          "value": 0,
+          "raw": "00000000",
+          "sourceInstruction": {
+            "address": "3032e84e",
+            "bytes": "f30f114658",
+            "assembly": "MOVSS dword ptr [ESI + 0x58],XMM0"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e853",
+          "originalSource": {
+            "method": "Engine:0x3032e810",
+            "va": "0x3032e853",
+            "bytes": "f30f114674",
+            "assembly": "MOVSS dword ptr [ESI + 0x74],XMM0"
+          },
+          "kind": "float32Store",
+          "offset": 116,
+          "value": 0,
+          "raw": "00000000",
+          "sourceInstruction": {
+            "address": "3032e853",
+            "bytes": "f30f114674",
+            "assembly": "MOVSS dword ptr [ESI + 0x74],XMM0"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e858",
+          "originalSource": {
+            "method": "Engine:0x3032e810",
+            "va": "0x3032e858",
+            "bytes": "ff1508ccaf30",
+            "assembly": "CALL dword ptr [0x30afcc08]"
+          },
+          "kind": "sourceStackTemporary",
+          "originalOperation": {
+            "kind": "constructTemporaryObjectBase",
+            "temporary": "BodyFlag",
+            "helper": "SharedBase:0x1004a1c0",
+            "source": {
+              "method": "Engine:0x3032e810",
+              "va": "0x3032e858",
+              "bytes": "ff1508ccaf30",
+              "assembly": "CALL dword ptr [0x30afcc08]"
+            }
+          },
+          "sourceInstruction": {
+            "address": "3032e858",
+            "bytes": "ff1508ccaf30",
+            "assembly": "CALL dword ptr [0x30afcc08]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e861",
+          "originalSource": {
+            "method": "Engine:0x3032e810",
+            "va": "0x3032e861",
+            "bytes": "8b401c",
+            "assembly": "MOV EAX,dword ptr [EAX + 0x1c]"
+          },
+          "kind": "captureContainerAssignment",
+          "offset": 120,
+          "virtualSlot": 28,
+          "sourceInstruction": {
+            "address": "3032e861",
+            "bytes": "8b401c",
+            "assembly": "MOV EAX,dword ptr [EAX + 0x1c]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e86c",
+          "originalSource": {
+            "method": "Engine:0x3032e810",
+            "va": "0x3032e86c",
+            "bytes": "c74424080cfe8530",
+            "assembly": "MOV dword ptr [ESP + 0x8],0x3085fe0c"
+          },
+          "kind": "sourceStackTemporary",
+          "originalOperation": {
+            "kind": "writeTemporaryVtable",
+            "temporary": "BodyFlag",
+            "value": 814087692,
+            "source": {
+              "method": "Engine:0x3032e810",
+              "va": "0x3032e86c",
+              "bytes": "c74424080cfe8530",
+              "assembly": "MOV dword ptr [ESP + 0x8],0x3085fe0c"
+            }
+          },
+          "sourceInstruction": {
+            "address": "3032e86c",
+            "bytes": "c74424080cfe8530",
+            "assembly": "MOV dword ptr [ESP + 0x8],0x3085fe0c"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e874",
+          "originalSource": {
+            "method": "Engine:0x3032e810",
+            "va": "0x3032e874",
+            "bytes": "c744240c00000000",
+            "assembly": "MOV dword ptr [ESP + 0xc],0x0"
+          },
+          "kind": "sourceStackTemporary",
+          "originalOperation": {
+            "kind": "writeTemporaryU32",
+            "temporary": "BodyFlag",
+            "offset": 4,
+            "value": 0,
+            "source": {
+              "method": "Engine:0x3032e810",
+              "va": "0x3032e874",
+              "bytes": "c744240c00000000",
+              "assembly": "MOV dword ptr [ESP + 0xc],0x0"
+            }
+          },
+          "sourceInstruction": {
+            "address": "3032e874",
+            "bytes": "c744240c00000000",
+            "assembly": "MOV dword ptr [ESP + 0xc],0x0"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e87c",
+          "originalSource": {
+            "method": "Engine:0x3032e810",
+            "va": "0x3032e87c",
+            "bytes": "ffd0",
+            "assembly": "CALL EAX"
+          },
+          "kind": "containerZeroAssignment",
+          "offset": 124,
+          "value": 0,
+          "actualTarget": "Engine:0x3032f480",
+          "virtualSlot": 28,
+          "sourceInstruction": {
+            "address": "3032e87c",
+            "bytes": "ffd0",
+            "assembly": "CALL EAX"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e882",
+          "originalSource": {
+            "method": "Engine:0x3032e810",
+            "va": "0x3032e882",
+            "bytes": "c74424040cfe8530",
+            "assembly": "MOV dword ptr [ESP + 0x4],0x3085fe0c"
+          },
+          "kind": "sourceStackTemporary",
+          "originalOperation": {
+            "kind": "writeTemporaryVtable",
+            "temporary": "BodyFlag",
+            "value": 814087692,
+            "source": {
+              "method": "Engine:0x3032e810",
+              "va": "0x3032e882",
+              "bytes": "c74424040cfe8530",
+              "assembly": "MOV dword ptr [ESP + 0x4],0x3085fe0c"
+            }
+          },
+          "sourceInstruction": {
+            "address": "3032e882",
+            "bytes": "c74424040cfe8530",
+            "assembly": "MOV dword ptr [ESP + 0x4],0x3085fe0c"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e88a",
+          "originalSource": {
+            "method": "Engine:0x3032e810",
+            "va": "0x3032e88a",
+            "bytes": "ff1520ccaf30",
+            "assembly": "CALL dword ptr [0x30afcc20]"
+          },
+          "kind": "sourceStackTemporary",
+          "originalOperation": {
+            "kind": "destroyTemporaryObjectBase",
+            "temporary": "BodyFlag",
+            "helper": "SharedBase:0x10049fe0",
+            "source": {
+              "method": "Engine:0x3032e810",
+              "va": "0x3032e88a",
+              "bytes": "ff1520ccaf30",
+              "assembly": "CALL dword ptr [0x30afcc20]"
+            }
+          },
+          "sourceInstruction": {
+            "address": "3032e88a",
+            "bytes": "ff1520ccaf30",
+            "assembly": "CALL dword ptr [0x30afcc20]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e893",
+          "originalSource": {
+            "method": "Engine:0x3032e810",
+            "va": "0x3032e893",
+            "bytes": "ff15e0ceaf30",
+            "assembly": "CALL dword ptr [0x30afcee0]"
+          },
+          "kind": "vectorClear",
+          "receiverOffset": 92,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "helper": "SharedBase:0x10024e00",
+          "sourceInstruction": {
+            "address": "3032e893",
+            "bytes": "ff15e0ceaf30",
+            "assembly": "CALL dword ptr [0x30afcee0]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e89c",
+          "originalSource": {
+            "method": "Engine:0x3032e810",
+            "va": "0x3032e89c",
+            "bytes": "ff15e0ceaf30",
+            "assembly": "CALL dword ptr [0x30afcee0]"
+          },
+          "kind": "vectorClear",
+          "receiverOffset": 28,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "helper": "SharedBase:0x10024e00",
+          "sourceInstruction": {
+            "address": "3032e89c",
+            "bytes": "ff15e0ceaf30",
+            "assembly": "CALL dword ptr [0x30afcee0]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e8a5",
+          "originalSource": {
+            "method": "Engine:0x3032e810",
+            "va": "0x3032e8a5",
+            "bytes": "ff15e0ceaf30",
+            "assembly": "CALL dword ptr [0x30afcee0]"
+          },
+          "kind": "vectorClear",
+          "receiverOffset": 40,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "helper": "SharedBase:0x10024e00",
+          "sourceInstruction": {
+            "address": "3032e8a5",
+            "bytes": "ff15e0ceaf30",
+            "assembly": "CALL dword ptr [0x30afcee0]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e8ae",
+          "originalSource": {
+            "method": "Engine:0x3032e810",
+            "va": "0x3032e8ae",
+            "bytes": "ff15e0ceaf30",
+            "assembly": "CALL dword ptr [0x30afcee0]"
+          },
+          "kind": "vectorClear",
+          "receiverOffset": 52,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "helper": "SharedBase:0x10024e00",
+          "sourceInstruction": {
+            "address": "3032e8ae",
+            "bytes": "ff15e0ceaf30",
+            "assembly": "CALL dword ptr [0x30afcee0]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e8b7",
+          "originalSource": {
+            "method": "Engine:0x3032e810",
+            "va": "0x3032e8b7",
+            "bytes": "ff15e0ceaf30",
+            "assembly": "CALL dword ptr [0x30afcee0]"
+          },
+          "kind": "vectorClear",
+          "receiverOffset": 64,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "helper": "SharedBase:0x10024e00",
+          "sourceInstruction": {
+            "address": "3032e8b7",
+            "bytes": "ff15e0ceaf30",
+            "assembly": "CALL dword ptr [0x30afcee0]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e8c0",
+          "originalSource": {
+            "method": "Engine:0x3032e810",
+            "va": "0x3032e8c0",
+            "bytes": "ff15e0ceaf30",
+            "assembly": "CALL dword ptr [0x30afcee0]"
+          },
+          "kind": "vectorClear",
+          "receiverOffset": 104,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "helper": "SharedBase:0x10024e00",
+          "sourceInstruction": {
+            "address": "3032e8c0",
+            "bytes": "ff15e0ceaf30",
+            "assembly": "CALL dword ptr [0x30afcee0]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e8cc",
+          "originalSource": {
+            "method": "Engine:0x3032e810",
+            "va": "0x3032e8cc",
+            "bytes": "ff15c0d5af30",
+            "assembly": "CALL dword ptr [0x30afd5c0]"
+          },
+          "kind": "quaternionClear",
+          "receiverOffset": 168,
+          "values": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "helper": "SharedBase:0x10025dc0",
+          "sourceInstruction": {
+            "address": "3032e8cc",
+            "bytes": "ff15c0d5af30",
+            "assembly": "CALL dword ptr [0x30afd5c0]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e8d8",
+          "originalSource": {
+            "method": "Engine:0x3032e810",
+            "va": "0x3032e8d8",
+            "bytes": "ff15e0ceaf30",
+            "assembly": "CALL dword ptr [0x30afcee0]"
+          },
+          "kind": "vectorClear",
+          "receiverOffset": 156,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "helper": "SharedBase:0x10024e00",
+          "sourceInstruction": {
+            "address": "3032e8d8",
+            "bytes": "ff15e0ceaf30",
+            "assembly": "CALL dword ptr [0x30afcee0]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e8e4",
+          "originalSource": {
+            "method": "Engine:0x3032e810",
+            "va": "0x3032e8e4",
+            "bytes": "ff15c0d5af30",
+            "assembly": "CALL dword ptr [0x30afd5c0]"
+          },
+          "kind": "quaternionClear",
+          "receiverOffset": 196,
+          "values": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "helper": "SharedBase:0x10025dc0",
+          "sourceInstruction": {
+            "address": "3032e8e4",
+            "bytes": "ff15c0d5af30",
+            "assembly": "CALL dword ptr [0x30afd5c0]"
+          }
+        },
+        {
+          "module": "Engine",
+          "sourceVA": "3032e8f0",
+          "originalSource": {
+            "method": "Engine:0x3032e810",
+            "va": "0x3032e8f0",
+            "bytes": "ff15e0ceaf30",
+            "assembly": "CALL dword ptr [0x30afcee0]"
+          },
+          "kind": "vectorClear",
+          "receiverOffset": 184,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "helper": "SharedBase:0x10024e00",
+          "sourceInstruction": {
+            "address": "3032e8f0",
+            "bytes": "ff15e0ceaf30",
+            "assembly": "CALL dword ptr [0x30afcee0]"
+          }
+        }
+      ]
+    }
+  ],
+  "sourceHero": {
+    "index": 1,
+    "archive": "Projects_compiled.p00",
+    "path": "G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat",
+    "sha256": "28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938",
+    "packetOffset": 1184616,
+    "packetBytes": 360,
+    "packetSha256": "1ec96930a7086adc183fe6ac5956c1ec1c48057bd3c632ede66639b160bba677"
+  },
+  "readThresholds": {
+    "flags80and82": 40,
+    "flag83": 41,
+    "vectors84and90": 51,
+    "posesB8and9c": 55,
+    "flag81": 65
+  },
+  "scope": "Same physical original RigidBody scalar/pointer store and movement facade; detached construction/Read is not world residency or physics activation",
+  "unresolved": [
+    "Current enum-default module DWORD30aebf38 is required host input; cold original PE zero-fill is separate",
+    "Original GetBuffer scene lookup/creation/lifetime and NxActor/physics registration remain required concrete services",
+    "OnAdded requires actual RTTI owner cast and non-template world position/rotation services",
+    "Obsolete properties/read branches, short I/O/failure behavior, NaN/SNaN and x87 exceptions are outside selected original finite successful-read profile",
+    "No world residency, physics actor creation or deletion is inferred by detached construction/read"
+  ]
+}

@@ -1,0 +1,24 @@
+/* ENTRY 10001627 | bCAccessorPropertyObject::bCAccessorPropertyObject | STATUS decompiled | 7 ms */
+
+/* public: __thiscall bCAccessorPropertyObject::bCAccessorPropertyObject(class bCObjectRefBase const
+   *) */
+
+bCAccessorPropertyObject * __thiscall
+bCAccessorPropertyObject::bCAccessorPropertyObject
+          (bCAccessorPropertyObject *this,bCObjectRefBase *param_1)
+
+{
+  bCPropertyObjectBase *pbVar1;
+  
+                    /* 0x1627  28  ??0bCAccessorPropertyObject@@QAE@PBVbCObjectRefBase@@@Z */
+  pbVar1 = (bCPropertyObjectBase *)0x0;
+  *(undefined4 *)this = 0;
+  *(undefined4 *)(this + 4) = 0;
+  if (param_1 != (bCObjectRefBase *)0x0) {
+    pbVar1 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)param_1);
+  }
+  SetInstance(this,pbVar1);
+  return this;
+}
+
+

@@ -1,0 +1,4 @@
+; 2031bf00 bTPropertyObject<gCParty_PS,eCEntityPropertySet>::vfunction11
+2031bf00 | 6a00 | PUSH 0x0
+2031bf02 | e80930d0ff | CALL 0x2001ef10
+2031bf07 | c3 | RET

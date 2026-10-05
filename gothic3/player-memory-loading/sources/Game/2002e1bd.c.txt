@@ -1,0 +1,15 @@
+/* ENTRY 2002e1bd | bTPropertyType<gCPlayerMemory_PS,unsigned_long>::vfunction19 | STATUS decompiled | 7 ms */
+
+void __thiscall
+bTPropertyType<gCPlayerMemory_PS,unsigned_long>::vfunction19
+          (bTPropertyType<gCPlayerMemory_PS,unsigned_long> *this)
+
+{
+  bCPropertyTypeBase::Destroy((bCPropertyTypeBase *)this);
+  thunk_FUN_20070e90(this + 8);
+  bCPropertyObjectTypeBase::UnregisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)this[6].vftablePtr,(bCPropertyTypeBase *)this);
+  return;
+}
+
+

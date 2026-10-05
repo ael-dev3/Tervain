@@ -1,0 +1,2 @@
+; 30008b34 eCIlluminated_PS::Read
+30008b34 | e967a12100 | JMP 0x30222ca0

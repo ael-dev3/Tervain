@@ -1,0 +1,34 @@
+/* ENTRY 30008d78 | thunk_FUN_3007c1e0 | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined4 thunk_FUN_3007c1e0(void)
+
+{
+  bCString *pbVar1;
+  eCModuleAdmin *this;
+  eCEngineComponentBase *peVar2;
+  undefined4 uVar3;
+  TypeDescriptor *pTVar4;
+  TypeDescriptor *pTVar5;
+  undefined4 uVar6;
+  
+  if (eCApplication::ms_bInitialised) {
+    if ((_DAT_30ad9d08 & 1) == 0) {
+      _DAT_30ad9d08 = _DAT_30ad9d08 | 1;
+      uVar6 = 0;
+      pTVar5 = &eCAnimationAdmin::RTTI_Type_Descriptor;
+      pTVar4 = &eCEngineComponentBase::RTTI_Type_Descriptor;
+      uVar3 = 0;
+      pbVar1 = (bCString *)
+               bTPropertyObjectType<eCAnimationAdmin,eCEngineComponentBase>::vfunction1();
+      this = (eCModuleAdmin *)eCModuleAdmin::GetInstance();
+      peVar2 = eCModuleAdmin::FindModule(this,pbVar1);
+      DAT_30ad9d04 = FUN_30671ae7(peVar2,uVar3,pTVar4,pTVar5,uVar6);
+    }
+    return DAT_30ad9d04;
+  }
+  return 0;
+}
+
+

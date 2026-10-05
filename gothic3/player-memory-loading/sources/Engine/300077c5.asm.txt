@@ -1,0 +1,2 @@
+; 300077c5 eCEntityPropertySet::OnUpdateInternals
+300077c5 | e9b6a04700 | JMP 0x30481880

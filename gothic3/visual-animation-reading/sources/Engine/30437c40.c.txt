@@ -1,0 +1,31 @@
+/* ENTRY 30437c40 | FUN_30437c40 | STATUS decompiled | 9 ms */
+
+void __thiscall FUN_30437c40(bCPropertyObjectBase *param_1,bCObjectRefBase *param_2)
+
+{
+  bCObjectRefBase *this;
+  ulong uVar1;
+  
+  if (param_2 != (bCObjectRefBase *)0x0) {
+    bCObjectRefBase::AddVirtualReference(param_2);
+  }
+  if (*(bCObjectRefBase **)(param_1 + 8) != (bCObjectRefBase *)0x0) {
+    uVar1 = bCObjectRefBase::GetReferenceCount(*(bCObjectRefBase **)(param_1 + 8));
+    if (uVar1 == 1) {
+      (**(code **)(**(int **)(param_1 + 8) + 0x14))();
+    }
+  }
+  this = *(bCObjectRefBase **)(param_1 + 8);
+  if (this != (bCObjectRefBase *)0x0) {
+    bCObjectRefBase::SetPropertyObject(this,(bCPropertyObjectBase *)0x0);
+    bCObjectRefBase::ReleaseVirtualReference(this);
+  }
+  *(undefined4 *)(param_1 + 8) = 0;
+  if (param_2 != (bCObjectRefBase *)0x0) {
+    bCObjectRefBase::SetPropertyObject(param_2,param_1);
+  }
+  *(bCObjectRefBase **)(param_1 + 8) = param_2;
+  return;
+}
+
+

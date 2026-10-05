@@ -1,0 +1,10 @@
+/* ENTRY 200b6e90 | bTPropertyType<gCDamage_PS,float>::vfunction1 | STATUS decompiled | 2 ms */
+
+bTPropertyType<gCDamage_PS,float>_vftable * __thiscall
+bTPropertyType<gCDamage_PS,float>::vfunction1(bTPropertyType<gCDamage_PS,float> *this)
+
+{
+  return this[7].vftablePtr;
+}
+
+

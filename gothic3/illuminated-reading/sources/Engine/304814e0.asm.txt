@@ -1,0 +1,4 @@
+; 304814e0 FUN_304814e0
+304814e0 | ff1550dcaf30 | CALL dword ptr [0x30afdc50]
+304814e6 | b801000000 | MOV EAX,0x1
+304814eb | c3 | RET

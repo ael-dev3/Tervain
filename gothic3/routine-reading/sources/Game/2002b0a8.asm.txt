@@ -1,0 +1,2 @@
+; 2002b0a8 ?GetPropertySetType@gCScriptRoutine_PS@@UBE?AW4eEPropertySetType@@XZ
+2002b0a8 | e913bb3200 | JMP 0x20356bc0

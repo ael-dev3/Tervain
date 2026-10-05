@@ -1,0 +1,2 @@
+; 3000cc98 eCVisualAnimation_PS::AccessBonesBreakMaxForce
+3000cc98 | e933500500 | JMP 0x30061cd0

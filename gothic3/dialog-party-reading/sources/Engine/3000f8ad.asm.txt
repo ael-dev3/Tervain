@@ -1,0 +1,2 @@
+; 3000f8ad eCEntityProxy::GetVersion
+3000f8ad | e9de4a4b00 | JMP 0x304c4390

@@ -1,0 +1,11 @@
+; 20399b20 bTPropertyType<gCAttribute,bCString>::vfunction6
+20399b20 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+20399b24 | 85c0 | TEST EAX,EAX
+20399b26 | 7410 | JZ 0x20399b38
+20399b28 | 8b11 | MOV EDX,dword ptr [ECX]
+20399b2a | 50 | PUSH EAX
+20399b2b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+20399b2e | ffd0 | CALL EAX
+20399b30 | 8bc8 | MOV ECX,EAX
+20399b32 | ff15f4887d20 | CALL dword ptr [0x207d88f4]
+20399b38 | c20400 | RET 0x4

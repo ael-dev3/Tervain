@@ -1,0 +1,12 @@
+/* ENTRY 10005aec | bCPropertyObjectBase::IsPersistable | STATUS decompiled | 3 ms */
+
+/* public: bool __thiscall bCPropertyObjectBase::IsPersistable(void)const  */
+
+bool __thiscall bCPropertyObjectBase::IsPersistable(bCPropertyObjectBase *this)
+
+{
+                    /* 0x5aec  3657  ?IsPersistable@bCPropertyObjectBase@@QBE_NXZ */
+  return (bool)((byte)((this->bCPropertyObjectBase_data).offset_0x0 >> 1) & 1);
+}
+
+

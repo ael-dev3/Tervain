@@ -1,0 +1,2 @@
+; 20022d72 gCDialog_PS::SetSlaveryEnabled
+20022d72 | e989cd1800 | JMP 0x201afb00

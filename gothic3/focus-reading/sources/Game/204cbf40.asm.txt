@@ -1,0 +1,45 @@
+; 204cbf40 bTPropertyType<gCFocus_PS,float>::~bTPropertyType<gCFocus_PS,float>
+204cbf40 | 83ec0c | SUB ESP,0xc
+204cbf43 | 56 | PUSH ESI
+204cbf44 | 8b350c897d20 | MOV ESI,dword ptr [0x207d890c]
+204cbf4a | 6807716520 | PUSH 0x20657107
+204cbf4f | 8d4c2410 | LEA ECX,[ESP + 0x10]
+204cbf53 | ffd6 | CALL ESI
+204cbf55 | 6834756520 | PUSH 0x20657534
+204cbf5a | 8d4c240c | LEA ECX,[ESP + 0xc]
+204cbf5e | ffd6 | CALL ESI
+204cbf60 | 680cbe6520 | PUSH 0x2065be0c
+204cbf65 | 8d4c2408 | LEA ECX,[ESP + 0x8]
+204cbf69 | ffd6 | CALL ESI
+204cbf6b | 6a00 | PUSH 0x0
+204cbf6d | 6a01 | PUSH 0x1
+204cbf6f | 8d442414 | LEA EAX,[ESP + 0x14]
+204cbf73 | 50 | PUSH EAX
+204cbf74 | 8d4c2414 | LEA ECX,[ESP + 0x14]
+204cbf78 | 51 | PUSH ECX
+204cbf79 | 8d542414 | LEA EDX,[ESP + 0x14]
+204cbf7d | 52 | PUSH EDX
+204cbf7e | b9c8947b20 | MOV ECX,0x207b94c8
+204cbf83 | ff1588847d20 | CALL dword ptr [0x207d8488]
+204cbf89 | c705c8947b20849f6620 | MOV dword ptr [0x207b94c8],0x20669f84
+204cbf93 | e80f3db6ff | CALL 0x2002fca7
+204cbf98 | b9c8947b20 | MOV ECX,0x207b94c8
+204cbf9d | a3e0947b20 | MOV [0x207b94e0],EAX
+204cbfa2 | c705e4947b2068010000 | MOV dword ptr [0x207b94e4],0x168
+204cbfac | c705e8947b2000000000 | MOV dword ptr [0x207b94e8],0x0
+204cbfb6 | ff15d8877d20 | CALL dword ptr [0x207d87d8]
+204cbfbc | 8b0de0947b20 | MOV ECX,dword ptr [0x207b94e0]
+204cbfc2 | 68c8947b20 | PUSH 0x207b94c8
+204cbfc7 | ff15cc877d20 | CALL dword ptr [0x207d87cc]
+204cbfcd | 8d4c2404 | LEA ECX,[ESP + 0x4]
+204cbfd1 | ff1534887d20 | CALL dword ptr [0x207d8834]
+204cbfd7 | 8d4c2408 | LEA ECX,[ESP + 0x8]
+204cbfdb | ff1534887d20 | CALL dword ptr [0x207d8834]
+204cbfe1 | 8d4c240c | LEA ECX,[ESP + 0xc]
+204cbfe5 | ff1534887d20 | CALL dword ptr [0x207d8834]
+204cbfeb | 68c01a5520 | PUSH 0x20551ac0
+204cbff0 | e8d977f9ff | CALL 0x204637ce
+204cbff5 | 83c404 | ADD ESP,0x4
+204cbff8 | 5e | POP ESI
+204cbff9 | 83c40c | ADD ESP,0xc
+204cbffc | c3 | RET

@@ -1,0 +1,2 @@
+; 3002bd23 bTPropertyObjectType<eCRenderSystemAdmin,eCEngineComponentBase>::vfunction1
+3002bd23 | e9b8b90400 | JMP 0x300776e0

@@ -1,0 +1,2 @@
+; 3000a6f0 eCVisualAnimation_PS::SetFacialAnimFilePath
+3000a6f0 | e9fbb30600 | JMP 0x30075af0

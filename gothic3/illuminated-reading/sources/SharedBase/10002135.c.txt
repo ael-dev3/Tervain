@@ -1,0 +1,17 @@
+/* ENTRY 10002135 | bCFloatAlphaColor::bCFloatAlphaColor | STATUS decompiled | 3 ms */
+
+/* public: __thiscall bCFloatAlphaColor::bCFloatAlphaColor(void) */
+
+void __thiscall bCFloatAlphaColor::bCFloatAlphaColor(bCFloatAlphaColor *this)
+
+{
+                    /* 0x2135  107  ??0bCFloatAlphaColor@@QAE@XZ */
+  this->vftablePtr = &vftable;
+  (this->bCFloatColor_data).offset_0x0 = 0.0;
+  (this->bCFloatColor_data).offset_0x4 = 0.0;
+  (this->bCFloatColor_data).offset_0x8 = 0.0;
+  (this->bCFloatAlphaColor_data).offset_0x0 = 0.0;
+  return;
+}
+
+

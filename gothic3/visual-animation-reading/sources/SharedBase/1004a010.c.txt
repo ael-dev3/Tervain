@@ -1,0 +1,9 @@
+/* ENTRY 1004a010 | FUN_1004a010 | STATUS decompiled | 1 ms */
+
+undefined4 FUN_1004a010(void)
+
+{
+  return 1;
+}
+
+

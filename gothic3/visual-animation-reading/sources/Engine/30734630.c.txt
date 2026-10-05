@@ -1,0 +1,35 @@
+/* ENTRY 30734630 | bTPropertyType<eCVisualAnimation_PS,bool>::~bTPropertyType<eCVisualAnimation_PS,bool> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCVisualAnimation_PS,bool>::~bTPropertyType<eCVisualAnimation_PS,bool>
+          (bTPropertyType<eCVisualAnimation_PS,bool> *this)
+
+{
+  bTPropertyType<eCVisualAnimation_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"BoneJointSpringEnabled");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)
+             &eCVisualAnimation_PS::ms_PropertyMember_m_bBoneJointSpringEnabled,(bCString *)&local_4
+             ,1);
+  _ms_PropertyMember_m_bBoneJointSpringEnabled = &vftable;
+  DAT_30ada87c = bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>();
+  _DAT_30ada880 = 0x4c;
+  _DAT_30ada884 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)
+             &eCVisualAnimation_PS::ms_PropertyMember_m_bBoneJointSpringEnabled);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30ada87c,
+             (bCPropertyTypeBase *)
+             &eCVisualAnimation_PS::ms_PropertyMember_m_bBoneJointSpringEnabled);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}
+
+

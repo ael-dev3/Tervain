@@ -1,0 +1,2 @@
+; 3004198e eCEntityPropertySet::OnEnterProcessingRange
+3004198e | e9adff4300 | JMP 0x30481940

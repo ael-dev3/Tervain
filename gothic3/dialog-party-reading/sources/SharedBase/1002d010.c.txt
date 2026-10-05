@@ -1,0 +1,14 @@
+/* ENTRY 1002d010 | bCAccessorPropertyObject::~bCAccessorPropertyObject | STATUS decompiled | 3 ms */
+
+void __thiscall bCAccessorPropertyObject::~bCAccessorPropertyObject(bCAccessorPropertyObject *this)
+
+{
+  if (*(int **)(this + 4) != (int *)0x0) {
+    (**(code **)(**(int **)(this + 4) + 0x34))();
+    *(undefined4 *)(this + 4) = 0;
+  }
+  *(undefined4 *)(this + 4) = 0;
+  return;
+}
+
+

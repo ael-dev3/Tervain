@@ -1,0 +1,2 @@
+; 3002950a eCVisualAnimation_PS::GetResourceFilePath
+3002950a | e931850300 | JMP 0x30061a40

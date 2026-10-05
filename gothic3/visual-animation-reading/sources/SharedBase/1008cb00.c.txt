@@ -1,0 +1,18 @@
+/* ENTRY 1008cb00 | FUN_1008cb00 | STATUS decompiled | 11 ms */
+
+void FUN_1008cb00(bCOStream *param_1,bCPropertyObjectBase *param_2)
+
+{
+  bool bVar1;
+  ushort uVar2;
+  
+  bVar1 = bCPropertyObjectBase::IsRoot(param_2);
+  uVar2 = bCPropertyObjectBase::GetVersion(param_2);
+  bCOStream::operator<<((bCOStream *)param_1,1);
+  bCOStream::operator<<((bCOStream *)param_1,bVar1);
+  bCOStream::operator<<((bCOStream *)param_1,uVar2);
+  (*param_2->vftablePtr->Write)(param_2,param_1);
+  return;
+}
+
+

@@ -1,0 +1,35 @@
+/* ENTRY 30043dd3 | eCWrapper_emfx2Actor::HasMesh | STATUS decompiled | 9 ms */
+
+/* public: bool __thiscall eCWrapper_emfx2Actor::HasMesh(void)const  */
+
+bool __thiscall eCWrapper_emfx2Actor::HasMesh(eCWrapper_emfx2Actor *this)
+
+{
+  bool bVar1;
+  char cVar2;
+  ushort uVar3;
+  int iVar4;
+  
+                    /* 0x43dd3  9730  ?HasMesh@eCWrapper_emfx2Actor@@QBE_NXZ */
+  if ((this->eCWrapper_emfx2Actor_data).offset_0x8 != (Actor *)0x0) {
+    iVar4 = 0;
+    while( true ) {
+      bVar1 = (*this->vftablePtr->IsValid)(this);
+      if (bVar1) {
+        uVar3 = *(ushort *)((this->eCWrapper_emfx2Actor_data).offset_0x8 + 0x218);
+      }
+      else {
+        uVar3 = 0xffff;
+      }
+      if ((int)(uint)uVar3 <= iVar4) break;
+      cVar2 = (**(code **)(*(int *)(this->eCWrapper_emfx2Actor_data).offset_0x8 + 0x10))(iVar4);
+      if (cVar2 != '\0') {
+        return true;
+      }
+      iVar4 = iVar4 + 1;
+    }
+  }
+  return false;
+}
+
+

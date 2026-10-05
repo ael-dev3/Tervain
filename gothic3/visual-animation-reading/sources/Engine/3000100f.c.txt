@@ -1,0 +1,16 @@
+/* ENTRY 3000100f | eCVisualAnimationLoD::Write | STATUS decompiled | 718 ms */
+
+/* public: virtual enum bEResult __thiscall eCVisualAnimationLoD::Write(class bCOStream &) */
+
+bEResult __thiscall eCVisualAnimationLoD::Write(eCVisualAnimationLoD *this,bCOStream *param_1)
+
+{
+                    /* 0x100f  15296  ?Write@eCVisualAnimationLoD@@UAE?AW4bEResult@@AAVbCOStream@@@Z
+                        */
+  bCOStream::operator<<((bCOStream *)param_1,4);
+  bCOStream::operator<<((bCOStream *)param_1,(bCString *)&this->eCVisualAnimationLoD_data);
+  bCOStream::operator<<((bCOStream *)param_1,(this->eCVisualAnimationLoD_data).offset_0x20);
+  return 1;
+}
+
+

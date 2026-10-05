@@ -1,0 +1,2 @@
+; 10005ea2 bCPOStream::ClearStringHeaderMap
+10005ea2 | e949490800 | JMP 0x1008a7f0

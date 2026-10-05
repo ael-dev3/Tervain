@@ -1,0 +1,2 @@
+; 20002b21 gCDialog_PS::GetTalkedToBy
+20002b21 | e91a8e2000 | JMP 0x2020b940

@@ -1,0 +1,2 @@
+; 2003183b bTPropertyType<gCNPC_PS,bTPropertyContainer<gEPlayerCrime>_>::vfunction1
+2003183b | e920532d00 | JMP 0x20306b60

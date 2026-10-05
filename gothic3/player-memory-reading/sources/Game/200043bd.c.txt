@@ -1,0 +1,10 @@
+/* ENTRY 200043bd | bTPropertyObject<gCPlayerMemory_PS,eCEntityPropertySet>::vfunction11 | STATUS decompiled | 2 ms */
+
+void __thiscall bTPropertyObject<gCPlayerMemory_PS,eCEntityPropertySet>::vfunction11(void)
+
+{
+  thunk_FUN_20328570(0);
+  return;
+}
+
+

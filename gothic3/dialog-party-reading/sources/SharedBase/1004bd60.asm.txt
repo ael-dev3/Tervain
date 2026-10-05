@@ -1,0 +1,11 @@
+; 1004bd60 FUN_1004bd60
+1004bd60 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+1004bd64 | 8b10 | MOV EDX,dword ptr [EAX]
+1004bd66 | f30f1005d0710e10 | MOVSS XMM0,dword ptr [0x100e71d0]
+1004bd6e | 89510c | MOV dword ptr [ECX + 0xc],EDX
+1004bd71 | 8b5004 | MOV EDX,dword ptr [EAX + 0x4]
+1004bd74 | 895110 | MOV dword ptr [ECX + 0x10],EDX
+1004bd77 | 8b4008 | MOV EAX,dword ptr [EAX + 0x8]
+1004bd7a | 894114 | MOV dword ptr [ECX + 0x14],EAX
+1004bd7d | f30f11411c | MOVSS dword ptr [ECX + 0x1c],XMM0
+1004bd82 | c20400 | RET 0x4

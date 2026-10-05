@@ -1,0 +1,2 @@
+; 10007036 bCPropertyObjectSingleton::QueryNewObject
+10007036 | e955950800 | JMP 0x10090590

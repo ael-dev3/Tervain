@@ -1,0 +1,9 @@
+/* ENTRY 30480510 | FUN_30480510 | STATUS decompiled | 1 ms */
+
+int __fastcall FUN_30480510(int param_1)
+
+{
+  return param_1 + 0x18;
+}
+
+

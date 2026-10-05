@@ -1,0 +1,15 @@
+/* ENTRY 202fafb0 | bTPropertyContainer<gEClass>::vfunction5 | STATUS decompiled | 5 ms */
+
+undefined4 __thiscall
+bTPropertyContainer<gEClass>::vfunction5(bTPropertyContainer<gEClass> *this,bCIStream *param_1)
+
+{
+  bCIStream *pbVar1;
+  
+  pbVar1 = param_1;
+  bCIStream::operator>>(param_1,(ushort *)&param_1);
+  (**(code **)((int)*pbVar1 + 4))(&this->bTPropertyContainer<gEClass>_data,4);
+  return 1;
+}
+
+

@@ -1,0 +1,6 @@
+newmtl G3_Nature_Wall_Stone_02_C
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Nature_Wall_Stone_12_Diffuse_01.png

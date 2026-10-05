@@ -1,0 +1,14 @@
+; 2030afd0 bTPropertyType<gCNPC_PS,bTPropertyContainer<gEBearing>_>::vfunction6
+2030afd0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+2030afd4 | 85c0 | TEST EAX,EAX
+2030afd6 | 7411 | JZ 0x2030afe9
+2030afd8 | 8b11 | MOV EDX,dword ptr [ECX]
+2030afda | 50 | PUSH EAX
+2030afdb | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+2030afde | ffd0 | CALL EAX
+2030afe0 | 8b10 | MOV EDX,dword ptr [EAX]
+2030afe2 | 8bc8 | MOV ECX,EAX
+2030afe4 | 8b4218 | MOV EAX,dword ptr [EDX + 0x18]
+2030afe7 | ffd0 | CALL EAX
+; 2030afe9 LAB_2030afe9
+2030afe9 | c20400 | RET 0x4

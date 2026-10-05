@@ -1,0 +1,2 @@
+; 10007842 bCGothic3EngineDialogs::bCDialogHandle::AddText
+10007842 | e9c9970100 | JMP 0x10021010

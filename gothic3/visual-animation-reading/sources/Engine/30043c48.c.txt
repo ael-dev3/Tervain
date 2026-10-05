@@ -1,0 +1,33 @@
+/* ENTRY 30043c48 | eCSpringAndDamperEffector::vfunction15 | STATUS decompiled | 8 ms */
+
+eCSpringAndDamperEffector * __thiscall
+eCSpringAndDamperEffector::vfunction15(eCSpringAndDamperEffector *this,byte param_1)
+
+{
+  undefined4 *_Memory;
+  int iVar1;
+  eCSpringAndDamperEffector *this_00;
+  
+  if ((param_1 & 2) == 0) {
+    ~eCSpringAndDamperEffector(this);
+    if ((param_1 & 1) == 0) {
+      return this;
+    }
+                    /* WARNING: Subroutine does not return */
+    _free(this);
+  }
+  iVar1 = this[-1].eCEffector_data.offset_0x78;
+  _Memory = &this[-1].eCEffector_data.offset_0x78;
+  this_00 = this + iVar1;
+  while (iVar1 = iVar1 + -1, -1 < iVar1) {
+    this_00 = this_00 + -1;
+    ~eCSpringAndDamperEffector(this_00);
+  }
+  if ((param_1 & 1) == 0) {
+    return (eCSpringAndDamperEffector *)_Memory;
+  }
+                    /* WARNING: Subroutine does not return */
+  _free(_Memory);
+}
+
+

@@ -1,0 +1,4 @@
+; 10002f68 ?ReadData@bCPropertyObjectBase@@MAEGAAVbCIStream@@G@Z
+10002f68 | e933640800 | JMP 0x100893a0
+; 10002f6d bCUnicodeString::Trim
+; 10002f6d Ordinal_4590

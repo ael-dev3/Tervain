@@ -1,0 +1,2 @@
+; 3000522c bTPropertyType<eCVisualAnimation_PS,bCAnimationResourceString>::vfunction6
+3000522c | e95fd60a00 | JMP 0x300b2890

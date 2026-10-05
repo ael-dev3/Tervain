@@ -1,0 +1,2 @@
+; 300440ee bTPropertyType<eCEffector,eCEntityProxy>::vfunction6
+300440ee | e93d2e3400 | JMP 0x30386f30

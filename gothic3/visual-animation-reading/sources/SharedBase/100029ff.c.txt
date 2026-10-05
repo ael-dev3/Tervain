@@ -1,0 +1,150 @@
+/* ENTRY 100029ff | bCMatrix::GetInvertedExcentric | STATUS decompiled | 87 ms */
+
+/* protected: class bCMatrix __thiscall bCMatrix::GetInvertedExcentric(void)const  */
+
+void __thiscall bCMatrix::GetInvertedExcentric(bCMatrix *this)
+
+{
+  float fVar1;
+  float fVar2;
+  float fVar3;
+  float fVar4;
+  float fVar5;
+  float fVar6;
+  float fVar7;
+  float fVar8;
+  float fVar9;
+  float fVar10;
+  float fVar11;
+  float fVar12;
+  float fVar13;
+  float fVar14;
+  float fVar15;
+  float fVar16;
+  float fVar17;
+  float fVar18;
+  float fVar19;
+  float fVar20;
+  float fVar21;
+  float fVar22;
+  float fVar23;
+  float fVar24;
+  float fVar25;
+  float fVar26;
+  float fVar27;
+  float fVar28;
+  float fVar29;
+  float fVar30;
+  float fVar31;
+  float fVar32;
+  float fVar33;
+  bCMatrix *pbVar34;
+  float *in_stack_00000004;
+  
+                    /* 0x29ff  2573  ?GetInvertedExcentric@bCMatrix@@IBE?AV1@XZ */
+  fVar1 = *(float *)(this + 0x1c);
+  fVar2 = *(float *)(this + 8);
+  fVar3 = *(float *)(this + 0x18);
+  fVar4 = *(float *)(this + 0xc);
+  fVar23 = fVar1 * fVar2 - fVar3 * fVar4;
+  fVar5 = *(float *)(this + 0x2c);
+  fVar6 = *(float *)(this + 0x28);
+  fVar24 = fVar5 * fVar2 - fVar6 * fVar4;
+  fVar22 = fVar5 * fVar3 - fVar6 * fVar1;
+  fVar7 = *(float *)(this + 0x3c);
+  fVar8 = *(float *)(this + 0x38);
+  fVar21 = fVar7 * fVar3 - fVar8 * fVar1;
+  fVar6 = fVar7 * fVar6 - fVar8 * fVar5;
+  fVar5 = fVar4 * fVar8 - fVar7 * fVar2;
+  fVar1 = *(float *)(this + 0x14);
+  fVar2 = *(float *)(this + 0x24);
+  fVar3 = *(float *)(this + 0x34);
+  fVar8 = (fVar1 * fVar6 - fVar21 * fVar2) + fVar22 * fVar3;
+  fVar4 = *(float *)(this + 4);
+  fVar7 = -(fVar3 * fVar24 + fVar2 * fVar5 + fVar4 * fVar6);
+  fVar3 = fVar3 * fVar23 + fVar5 * fVar1 + fVar4 * fVar21;
+  fVar2 = -((fVar4 * fVar22 - fVar24 * fVar1) + fVar23 * fVar2);
+  fVar1 = *(float *)this;
+  fVar4 = *(float *)(this + 0x30) * fVar2 +
+          *(float *)(this + 0x20) * fVar3 + fVar1 * fVar8 + fVar7 * *(float *)(this + 0x10);
+  if (fVar4 == 0.0) {
+    pbVar34 = GetIdentity();
+    fVar1 = *(float *)(pbVar34 + 0x14);
+    fVar2 = *(float *)(pbVar34 + 4);
+    fVar3 = *(float *)(pbVar34 + 8);
+    fVar4 = *(float *)(pbVar34 + 0xc);
+    fVar5 = *(float *)(pbVar34 + 0x10);
+    fVar6 = *(float *)(pbVar34 + 0x18);
+    fVar7 = *(float *)(pbVar34 + 0x1c);
+    fVar8 = *(float *)(pbVar34 + 0x20);
+    fVar21 = *(float *)(pbVar34 + 0x24);
+    fVar22 = *(float *)(pbVar34 + 0x28);
+    fVar23 = *(float *)(pbVar34 + 0x2c);
+    fVar24 = *(float *)(pbVar34 + 0x30);
+    fVar25 = *(float *)(pbVar34 + 0x34);
+    fVar26 = *(float *)(pbVar34 + 0x38);
+    fVar27 = *(float *)(pbVar34 + 0x3c);
+    *in_stack_00000004 = *(float *)pbVar34;
+    in_stack_00000004[1] = fVar2;
+    in_stack_00000004[2] = fVar3;
+    in_stack_00000004[3] = fVar4;
+    in_stack_00000004[4] = fVar5;
+    in_stack_00000004[5] = fVar1;
+    in_stack_00000004[6] = fVar6;
+    in_stack_00000004[7] = fVar7;
+    in_stack_00000004[8] = fVar8;
+    in_stack_00000004[9] = fVar21;
+    in_stack_00000004[10] = fVar22;
+    in_stack_00000004[0xb] = fVar23;
+    in_stack_00000004[0xc] = fVar24;
+    in_stack_00000004[0xd] = fVar25;
+    in_stack_00000004[0xe] = fVar26;
+    in_stack_00000004[0xf] = fVar27;
+    return;
+  }
+  fVar4 = 1.0 / fVar4;
+  fVar25 = *(float *)(this + 0x10);
+  fVar26 = *(float *)(this + 0x20);
+  fVar27 = *(float *)(this + 0x30);
+  fVar9 = *(float *)(this + 0x14);
+  fVar10 = *(float *)(this + 4);
+  fVar33 = fVar9 * fVar1 - fVar10 * fVar25;
+  fVar11 = *(float *)(this + 0x24);
+  fVar32 = fVar11 * fVar1 - fVar10 * fVar26;
+  fVar31 = fVar11 * fVar25 - fVar9 * fVar26;
+  fVar12 = *(float *)(this + 0x34);
+  fVar28 = fVar12 * fVar25 - fVar9 * fVar27;
+  fVar30 = fVar12 * fVar26 - fVar11 * fVar27;
+  fVar29 = fVar10 * fVar27 - fVar1 * fVar12;
+  fVar9 = *(float *)(this + 0x1c);
+  fVar10 = *(float *)(this + 0x2c);
+  fVar11 = *(float *)(this + 0x3c);
+  fVar12 = *(float *)(this + 0xc);
+  fVar13 = *(float *)(this + 0x28);
+  fVar14 = *(float *)(this + 0x38);
+  fVar15 = *(float *)(this + 0x18);
+  fVar16 = *(float *)(this + 8);
+  fVar17 = *(float *)(this + 0x18);
+  fVar18 = *(float *)(this + 8);
+  fVar19 = *(float *)(this + 0x38);
+  fVar20 = *(float *)(this + 0x28);
+  *in_stack_00000004 = fVar4 * fVar8;
+  in_stack_00000004[1] = fVar4 * fVar7;
+  in_stack_00000004[2] = fVar3 * fVar4;
+  in_stack_00000004[3] = fVar2 * fVar4;
+  in_stack_00000004[4] = -(fVar4 * ((fVar25 * fVar6 - fVar26 * fVar21) + fVar27 * fVar22));
+  in_stack_00000004[5] = (fVar27 * fVar24 + fVar1 * fVar6 + fVar26 * fVar5) * fVar4;
+  in_stack_00000004[6] = -((fVar27 * fVar23 + fVar1 * fVar21 + fVar25 * fVar5) * fVar4);
+  in_stack_00000004[7] = (fVar26 * fVar23 + (fVar1 * fVar22 - fVar25 * fVar24)) * fVar4;
+  in_stack_00000004[8] = ((fVar30 * fVar9 - fVar28 * fVar10) + fVar31 * fVar11) * fVar4;
+  in_stack_00000004[9] = -(fVar4 * (fVar11 * fVar32 + fVar12 * fVar30 + fVar29 * fVar10));
+  in_stack_00000004[10] = (fVar11 * fVar33 + fVar9 * fVar29 + fVar12 * fVar28) * fVar4;
+  in_stack_00000004[0xb] = -((fVar10 * fVar33 + (fVar12 * fVar31 - fVar9 * fVar32)) * fVar4);
+  in_stack_00000004[0xc] = -((fVar14 * fVar31 + (fVar15 * fVar30 - fVar13 * fVar28)) * fVar4);
+  in_stack_00000004[0xd] = (fVar13 * fVar29 + fVar16 * fVar30 + fVar32 * fVar14) * fVar4;
+  in_stack_00000004[0xe] = -(fVar4 * (fVar33 * fVar19 + fVar18 * fVar28 + fVar17 * fVar29));
+  in_stack_00000004[0xf] = ((fVar31 * fVar18 - fVar17 * fVar32) + fVar20 * fVar33) * fVar4;
+  return;
+}
+
+

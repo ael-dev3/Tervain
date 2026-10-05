@@ -1,0 +1,69 @@
+/* ENTRY 10001159 | bCAccessorProperty::ResolveProperty | STATUS decompiled | 23 ms */
+
+/* protected: bool __thiscall bCAccessorProperty::ResolveProperty(class bCString const &) */
+
+bool __thiscall bCAccessorProperty::ResolveProperty(bCAccessorProperty *this,bCString *param_1)
+
+{
+  bool bVar1;
+  bCPropertyObjectBase *pbVar2;
+  bCPropertyObjectTypeBase *pbVar3;
+  bCString *pbVar4;
+  uint uVar5;
+  bCAccessorPropertyObject abStack_c [8];
+  uint uStack_4;
+  
+                    /* 0x1159  3944  ?ResolveProperty@bCAccessorProperty@@IAE_NABVbCString@@@Z */
+  bCAccessorPropertyObject::bCAccessorPropertyObject(abStack_c);
+  uStack_4 = 0;
+  bCAccessorPropertyObject::operator=(abStack_c,(bCAccessorPropertyObject *)this);
+  do {
+    bVar1 = bCAccessorPropertyObject::IsValid(abStack_c);
+    uVar5 = uStack_4;
+    if (bVar1) {
+      pbVar2 = (bCPropertyObjectBase *)bCAccessorPropertyObject::GetRootObject(abStack_c);
+      pbVar3 = bCPropertyObjectBase::GetTemplate(pbVar2);
+      if (uVar5 < *(uint *)(pbVar3 + 0xc)) {
+        pbVar4 = GetPropertyName((bCAccessorProperty *)abStack_c);
+        bVar1 = bCString::operator==(param_1,pbVar4);
+        if (bVar1) {
+          bCAccessorPropertyObject::operator=((bCAccessorPropertyObject *)this,abStack_c);
+          *(uint *)(this + 8) = uStack_4;
+          bCAccessorPropertyObject::~bCAccessorPropertyObject(abStack_c);
+          return true;
+        }
+      }
+    }
+    bVar1 = bCAccessorPropertyObject::IsValid(abStack_c);
+    uVar5 = uStack_4;
+    if (bVar1) {
+      pbVar2 = (bCPropertyObjectBase *)bCAccessorPropertyObject::GetRootObject(abStack_c);
+      pbVar3 = bCPropertyObjectBase::GetTemplate(pbVar2);
+      if (*(uint *)(pbVar3 + 0xc) <= uVar5) goto LAB_1009414c;
+    }
+    else {
+LAB_1009414c:
+      bVar1 = bCAccessorPropertyObject::HasBaseClass(abStack_c);
+      if (!bVar1) {
+        *(undefined4 *)(this + 8) = 0xffffffff;
+        bCAccessorPropertyObject::~bCAccessorPropertyObject(abStack_c);
+        return false;
+      }
+    }
+    uVar5 = uStack_4 + 1;
+    uStack_4 = uVar5;
+    pbVar2 = (bCPropertyObjectBase *)bCAccessorPropertyObject::GetRootObject(abStack_c);
+    pbVar3 = bCPropertyObjectBase::GetTemplate(pbVar2);
+    if (*(uint *)(pbVar3 + 0xc) <= uVar5) {
+      uStack_4 = 0;
+      bCAccessorPropertyObject::operator++(abStack_c);
+    }
+    bVar1 = bCAccessorPropertyObject::IsValid(abStack_c);
+    if (bVar1) {
+      pbVar2 = (bCPropertyObjectBase *)bCAccessorPropertyObject::GetRootObject(abStack_c);
+      bCPropertyObjectBase::GetTemplate(pbVar2);
+    }
+  } while( true );
+}
+
+

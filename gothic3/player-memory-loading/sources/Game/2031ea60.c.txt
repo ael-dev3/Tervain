@@ -1,0 +1,24 @@
+/* ENTRY 2031ea60 | FUN_2031ea60 | STATUS decompiled | 11 ms */
+
+undefined4 __thiscall FUN_2031ea60(gCPlayerMemory_PS *param_1,bCIStream *param_2)
+
+{
+  bCIStream *pbVar1;
+  
+  pbVar1 = param_2;
+  bCIStream::operator>>(param_2,(ushort *)&param_2);
+  if (4 < (ushort)param_2) {
+    gCPlayerMemory_PS::ReadAttributes(param_1,(bCIStream *)pbVar1);
+    return 1;
+  }
+  if (3 < (ushort)param_2) {
+    gCPlayerMemory_PS::ReadAttributesV4(param_1,(bCIStream *)pbVar1);
+    return 1;
+  }
+  if (2 < (ushort)param_2) {
+    gCPlayerMemory_PS::ReadAttributesV3(param_1,(bCIStream *)pbVar1);
+  }
+  return 1;
+}
+
+

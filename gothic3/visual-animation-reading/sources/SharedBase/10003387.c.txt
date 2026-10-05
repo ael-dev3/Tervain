@@ -1,0 +1,37 @@
+/* ENTRY 10003387 | bCString::TrimLeft | STATUS decompiled | 11 ms */
+
+/* public: void __thiscall bCString::TrimLeft(void) */
+
+void __thiscall bCString::TrimLeft(bCString *this)
+
+{
+  char cVar1;
+  char *_Dst;
+  int iVar2;
+  char *_Src;
+  
+                    /* 0x3387  4595  ?TrimLeft@bCString@@QAEXXZ */
+  if ((*(int *)this != 0) && (*(int *)(*(int *)this + -8) != 0)) {
+    CopyBeforeWrite(this);
+    _Src = *(char **)this;
+    cVar1 = *_Src;
+    while ((-1 < cVar1 && (iVar2 = _isspace((int)cVar1), iVar2 != 0))) {
+      cVar1 = _Src[1];
+      _Src = _Src + 1;
+    }
+    _Dst = *(char **)this;
+    if (_Src != _Dst) {
+      if (_Dst == (char *)0x0) {
+        iVar2 = 0;
+      }
+      else {
+        iVar2 = *(int *)(_Dst + -8);
+      }
+      _memmove(_Dst,_Src,(size_t)(_Dst + (iVar2 - (int)_Src) + 1));
+      *(char **)(*(int *)this + -8) = _Dst + (iVar2 - (int)_Src);
+    }
+  }
+  return;
+}
+
+

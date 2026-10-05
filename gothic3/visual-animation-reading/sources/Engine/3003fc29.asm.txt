@@ -1,0 +1,2 @@
+; 3003fc29 eCVisualAnimation_PS::GetMotionOwner
+3003fc29 | e9d2ec0500 | JMP 0x3009e900

@@ -1,0 +1,44 @@
+/* ENTRY 201461f0 | FUN_201461f0 | STATUS decompiled | 15 ms */
+
+void __thiscall FUN_201461f0(bTPOPureSmartPtr<gCFocus_PS> *param_1,bCAccessorCreator param_2)
+
+{
+  bool bVar1;
+  bCPropertyObjectFactory *this;
+  bCPropertyTypeBase *pbVar2;
+  bCObjectRefBase *pbVar3;
+  bTPOPureSmartPtr<gCFocus_PS> *pbVar4;
+  bCAccessorProperty abStack_c [12];
+  
+  *(uint *)&param_1->bTPOPureSmartPtr<gCFocus_PS>_data =
+       *(uint *)&param_1->bTPOPureSmartPtr<gCFocus_PS>_data ^
+       ((uint)(byte)param_2 ^ *(uint *)&param_1->bTPOPureSmartPtr<gCFocus_PS>_data) & 1;
+  bTPOPureSmartPtr<gCFocus_PS>::vfunction11(param_1);
+  pbVar4 = param_1;
+  this = (bCPropertyObjectFactory *)(**(code **)((param_1[1].vftablePtr)->vfunction1 + 0xc))();
+  bCPropertyObjectFactory::RegisterPropertyObject(this,(bCPropertyObjectBase *)pbVar4);
+  bVar1 = bCPropertyObjectBase::IsRoot((bCPropertyObjectBase *)param_1);
+  if (!bVar1) {
+    bCAccessorCreator::bCAccessorCreator(&param_2,(bCPropertyObjectBase *)param_1);
+    bCAccessorProperty::bCAccessorProperty(abStack_c,&param_2);
+    bVar1 = bCAccessorProperty::IsValid(abStack_c);
+    if (bVar1) {
+      do {
+        pbVar2 = bCAccessorProperty::GetPropertyTypeObject(abStack_c);
+        (**(code **)(*(int *)pbVar2 + 0x14))(param_1);
+        bCAccessorProperty::operator++(abStack_c);
+        bVar1 = bCAccessorProperty::IsValid(abStack_c);
+      } while (bVar1);
+    }
+    pbVar3 = (*param_1->vftablePtr->vfunction1)(param_1);
+    if (pbVar3 != (bCObjectRefBase *)0x0) {
+      pbVar3 = (*param_1->vftablePtr->vfunction1)(param_1);
+      (**(code **)(*(int *)pbVar3 + 0x40))();
+    }
+    bCAccessorProperty::~bCAccessorProperty(abStack_c);
+    bCAccessorCreator::~bCAccessorCreator(&param_2);
+  }
+  return;
+}
+
+

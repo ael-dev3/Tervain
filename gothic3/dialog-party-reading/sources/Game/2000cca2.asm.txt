@@ -1,0 +1,2 @@
+; 2000cca2 thunk_FUN_2007bf40
+2000cca2 | e999f20600 | JMP 0x2007bf40

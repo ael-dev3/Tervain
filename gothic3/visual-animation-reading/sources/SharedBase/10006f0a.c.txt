@@ -1,0 +1,17 @@
+/* ENTRY 10006f0a | bCObjectBase::GetProfileLastTicksSecond | STATUS decompiled | 3 ms */
+
+/* public: virtual unsigned long const __thiscall bCObjectBase::GetProfileLastTicksSecond(void)const
+   
+   bCObjectBase member function inherited by bCObjectRefBase
+   bCObjectBase member function inherited by bCThreadObjectRefBase
+   bCObjectBase member function inherited by bCObsoleteClass
+   bCObjectBase member function inherited by bCEvent */
+
+ulong __thiscall bCObjectBase::GetProfileLastTicksSecond(bCObjectBase *this)
+
+{
+                    /* 0x6f0a  2813  ?GetProfileLastTicksSecond@bCObjectBase@@UBE?BKXZ */
+  return 0;
+}
+
+

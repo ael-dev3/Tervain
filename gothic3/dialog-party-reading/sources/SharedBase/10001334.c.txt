@@ -1,0 +1,20 @@
+/* ENTRY 10001334 | bCSpieAdmin::GetInstance | STATUS decompiled | 7 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* public: static class bCSpieAdmin & __stdcall bCSpieAdmin::GetInstance(void) */
+
+bCSpieAdmin * bCSpieAdmin::GetInstance(void)
+
+{
+                    /* 0x1334  2413  ?GetInstance@bCSpieAdmin@@SGAAV1@XZ */
+  if ((_DAT_10197de4 & 1) == 0) {
+    _DAT_10197de4 = _DAT_10197de4 | 1;
+    InitializeCriticalSection((LPCRITICAL_SECTION)&DAT_10197dc0);
+    DAT_10197dd8 = 0xffffffff;
+    Create((bCSpieAdmin *)&DAT_10197dc0);
+    _atexit((_func_4879 *)&LAB_100e2830);
+  }
+  return (bCSpieAdmin *)&DAT_10197dc0;
+}
+
+

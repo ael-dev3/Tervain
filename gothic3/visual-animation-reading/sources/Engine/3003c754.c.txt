@@ -1,0 +1,12 @@
+/* ENTRY 3003c754 | eCVisualAnimation_PS::OnPreProcess | STATUS decompiled | 6 ms */
+
+/* public: virtual void __thiscall eCVisualAnimation_PS::OnPreProcess(void) */
+
+void __thiscall eCVisualAnimation_PS::OnPreProcess(eCVisualAnimation_PS *this)
+
+{
+                    /* 0x3c754  11371  ?OnPreProcess@eCVisualAnimation_PS@@UAEXXZ */
+  return;
+}
+
+

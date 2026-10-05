@@ -1,0 +1,2 @@
+; 300274e9 eCVisualAnimation_PS::GetBoneShapeGroup
+300274e9 | e912ad0300 | JMP 0x30062200

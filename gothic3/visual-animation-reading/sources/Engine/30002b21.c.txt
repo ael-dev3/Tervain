@@ -1,0 +1,13 @@
+/* ENTRY 30002b21 | eCVisualAnimationLoD::Create | STATUS decompiled | 3 ms */
+
+/* public: virtual enum bEResult __thiscall eCVisualAnimationLoD::Create(void) */
+
+bEResult __thiscall eCVisualAnimationLoD::Create(eCVisualAnimationLoD *this)
+
+{
+                    /* 0x2b21  4741  ?Create@eCVisualAnimationLoD@@UAE?AW4bEResult@@XZ */
+  (*this->vftablePtr->Destroy)(this);
+  return 1;
+}
+
+

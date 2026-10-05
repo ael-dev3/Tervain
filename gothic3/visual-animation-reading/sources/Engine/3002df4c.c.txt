@@ -1,0 +1,52 @@
+/* ENTRY 3002df4c | eCWrapper_emfx2Actor::Process | STATUS decompiled | 366 ms */
+
+/* public: void __thiscall eCWrapper_emfx2Actor::Process(class bCMatrix const &,bool,bool,float) */
+
+void __thiscall
+eCWrapper_emfx2Actor::Process
+          (eCWrapper_emfx2Actor *this,bCMatrix *param_1,bool param_2,bool param_3,float param_4)
+
+{
+  int *piVar1;
+  bool bVar2;
+  eCApplication *this_00;
+  float fVar3;
+  undefined3 in_stack_00000009;
+  
+                    /* 0x2df4c  11978  ?Process@eCWrapper_emfx2Actor@@QAEXABVbCMatrix@@_N1M@Z */
+  this_00 = (eCApplication *)eCApplication::GetInstance();
+  fVar3 = eCApplication::GetScaledFrameTimeInSeconds(this_00);
+  *(double *)&(this->eCWrapper_emfx2Actor_data).field_0x4c = (double)(fVar3 * param_4);
+  if ((this->eCWrapper_emfx2Actor_data).offset_0x74 == '\x01') {
+    bVar2 = IsActorPlaying(this,0);
+    if (!bVar2) {
+      bVar2 = IsActorPlaying(this,4);
+      if (!bVar2) {
+        *(undefined8 *)&(this->eCWrapper_emfx2Actor_data).field_0x4c = 0;
+        goto LAB_300dbb83;
+      }
+    }
+    RunStopPrevention(this,(float)*(double *)&(this->eCWrapper_emfx2Actor_data).field_0x4c);
+  }
+LAB_300dbb83:
+  if ((!param_3) &&
+     (piVar1 = *(int **)((this->eCWrapper_emfx2Actor_data).offset_0x8 + 0x20c), piVar1 != (int *)0x0
+     )) {
+    (**(code **)(*piVar1 + 0x18))
+              (*(undefined8 *)&(this->eCWrapper_emfx2Actor_data).field_0x4c,_param_2);
+  }
+  if (param_2) {
+    if (!param_3) {
+      thunk_FUN_300e2d90(*(undefined8 *)&(this->eCWrapper_emfx2Actor_data).field_0x4c);
+      FUN_3063b5e0();
+    }
+    thunk_FUN_300e2e00(*(undefined8 *)&(this->eCWrapper_emfx2Actor_data).field_0x4c);
+    FUN_3063b700();
+    bCBox::operator=((bCBox *)&(this->eCWrapper_emfx2Actor_data).field_0x2c,
+                     (bCBox *)((this->eCWrapper_emfx2Actor_data).offset_0x8 + 0x1d8));
+  }
+  (this->eCWrapper_emfx2Actor_data).offset_0x44 = 1;
+  return;
+}
+
+

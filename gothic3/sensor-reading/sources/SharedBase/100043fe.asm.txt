@@ -1,0 +1,4 @@
+; 100043fe ?Iterate@bCAccessorProperty@@IAE_NXZ
+100043fe | e96df80800 | JMP 0x10093c70
+; 1000440d bCRect::operator-=
+; 1000440d Ordinal_1276

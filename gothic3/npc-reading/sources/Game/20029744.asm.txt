@@ -1,0 +1,4 @@
+; 20029744 bTPropertyContainer<gEClass>::vfunction7
+20029744 | e9d7582d00 | JMP 0x202ff020
+; 20029749 gCCharacterSensor_PS::gCCharacterSensor_PS
+; 20029749 Ordinal_48

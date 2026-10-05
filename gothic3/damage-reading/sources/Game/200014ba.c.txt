@@ -1,0 +1,18 @@
+/* ENTRY 200014ba | gCDamageReceiver_PS::SetDamageAmount | STATUS decompiled | 36 ms */
+
+/* public: void __thiscall gCDamageReceiver_PS::SetDamageAmount(long const &) */
+
+void __thiscall gCDamageReceiver_PS::SetDamageAmount(gCDamageReceiver_PS *this,long *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x14ba  6365  ?SetDamageAmount@gCDamageReceiver_PS@@QAEXABJ@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"DamageAmount",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(long *)&(this->gCDamageReceiver_PS_data).field_0x30 = *param_1;
+  (*pNVar1)(this,"DamageAmount",false);
+  return;
+}
+
+

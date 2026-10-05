@@ -1,0 +1,15 @@
+/* ENTRY 10003a71 | operator>> | STATUS decompiled | 4 ms */
+
+/* class bCIStream & __stdcall operator>>(class bCIStream &,class bCPropertyID &) */
+
+bCIStream * operator>>(bCIStream *param_1,bCPropertyID *param_2)
+
+{
+                    /* 0x3a71  587  ??5@YGAAVbCIStream@@AAV0@AAVbCPropertyID@@@Z */
+  (**(code **)(*(int *)param_1 + 4))(param_2,0x10);
+  operator<<((ulong *)(param_2 + 0x10),param_1);
+  *(ulong *)(param_2 + 0x10) = 0;
+  return param_1;
+}
+
+

@@ -1,0 +1,15 @@
+/* ENTRY 200111b7 | gCAttribute::SetTag | STATUS decompiled | 6 ms */
+
+/* public: void __thiscall gCAttribute::SetTag(class bCString const &) */
+
+void __thiscall gCAttribute::SetTag(gCAttribute *this,bCString *param_1)
+
+{
+                    /* 0x111b7  7104  ?SetTag@gCAttribute@@QAEXABVbCString@@@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"Tag",false);
+  bCString::operator=((bCString *)&(this->gCAttribute_data).field_0x8,param_1);
+  (*this->vftablePtr->NotifyPropertyValueChangedExitEx)(this,"Tag",false);
+  return;
+}
+
+

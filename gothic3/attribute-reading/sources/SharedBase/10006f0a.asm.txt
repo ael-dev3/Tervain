@@ -1,0 +1,2 @@
+; 10006f0a bCObjectBase::GetProfileLastTicksSecond
+10006f0a | e931310400 | JMP 0x1004a040

@@ -1,0 +1,2 @@
+; 2000c19e bTPOPureSmartPtr<gCFocus_PS>::vfunction12
+2000c19e | e98d391300 | JMP 0x2013fb30

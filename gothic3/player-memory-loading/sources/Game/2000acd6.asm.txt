@@ -1,0 +1,2 @@
+; 2000acd6 gCPlayerMemory_PS::vfunction15
+2000acd6 | e9a5d13100 | JMP 0x20327e80

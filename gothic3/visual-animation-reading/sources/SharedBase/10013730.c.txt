@@ -1,0 +1,17 @@
+/* ENTRY 10013730 | FUN_10013730 | STATUS decompiled | 3 ms */
+
+void FUN_10013730(void *param_1)
+
+{
+  bCMemoryAdmin *this;
+  
+  if ((param_1 != (void *)0x0) &&
+     (*(short *)((int)param_1 + 4) = *(short *)((int)param_1 + 4) + -1,
+     *(short *)((int)param_1 + 4) == 0)) {
+    this = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this,param_1);
+  }
+  return;
+}
+
+

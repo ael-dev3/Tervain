@@ -1,0 +1,2 @@
+; 200120b7 gCStat::UnapplyTemp
+200120b7 | e994903800 | JMP 0x2039b150

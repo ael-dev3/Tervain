@@ -1,0 +1,12 @@
+/* ENTRY 300369fd | eCEntity::GetEntityFlags | STATUS decompiled | 11 ms */
+
+/* public: struct eSEntityFlags const & __thiscall eCEntity::GetEntityFlags(void)const  */
+
+eSEntityFlags * __thiscall eCEntity::GetEntityFlags(eCEntity *this)
+
+{
+                    /* 0x369fd  7038  ?GetEntityFlags@eCEntity@@QBEABUeSEntityFlags@@XZ */
+  return (eSEntityFlags *)&(this->eCEntity_data).offset_0xc;
+}
+
+

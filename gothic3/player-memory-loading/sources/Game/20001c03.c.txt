@@ -1,0 +1,40 @@
+/* ENTRY 20001c03 | bTPropertyType<gCPlayerMemory_PS,bCPropertyID>::vfunction10 | STATUS decompiled | 14 ms */
+
+void __thiscall
+bTPropertyType<gCPlayerMemory_PS,bCPropertyID>::vfunction10
+          (bTPropertyType<gCPlayerMemory_PS,bCPropertyID> *this,bCPropertyID *param_1,int param_2)
+
+{
+  int iVar1;
+  int *piVar2;
+  bCString *pbVar3;
+  char *pcVar4;
+  bTPropertyType<gCNavHelper_PS,bCPropertyID>_vftable *this_00;
+  undefined4 uVar5;
+  
+  if ((param_1 != (bCPropertyID *)0x0) && (param_2 != 0)) {
+    iVar1 = (*(code *)**(undefined4 **)param_1)();
+    if (iVar1 != 0) {
+      piVar2 = (int *)(*(code *)**(undefined4 **)param_1)();
+      iVar1 = *piVar2;
+      uVar5 = 0;
+      pbVar3 = bCPropertyTypeBase::GetPropertyName((bCPropertyTypeBase *)this);
+      pcVar4 = bCString::operator_char_const_(pbVar3);
+      (**(code **)(iVar1 + 0x58))(pcVar4,uVar5);
+    }
+    this_00 = (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_1);
+    bCPropertyID::operator=((bCPropertyID *)this_00,(bCPropertyID *)param_2);
+    iVar1 = (*(code *)**(undefined4 **)param_1)();
+    if (iVar1 != 0) {
+      piVar2 = (int *)(*(code *)**(undefined4 **)param_1)();
+      iVar1 = *piVar2;
+      uVar5 = 0;
+      pbVar3 = bCPropertyTypeBase::GetPropertyName((bCPropertyTypeBase *)this);
+      pcVar4 = bCString::operator_char_const_(pbVar3);
+      (**(code **)(iVar1 + 0x5c))(pcVar4,uVar5);
+    }
+  }
+  return;
+}
+
+

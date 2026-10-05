@@ -1,0 +1,57 @@
+; 20318f70 bTPropertyObject<gCParty_PS,eCEntityPropertySet>::vfunction6
+20318f70 | 53 | PUSH EBX
+20318f71 | 56 | PUSH ESI
+20318f72 | 8b74240c | MOV ESI,dword ptr [ESP + 0xc]
+20318f76 | 57 | PUSH EDI
+20318f77 | 56 | PUSH ESI
+20318f78 | 8bd9 | MOV EBX,ECX
+20318f7a | ff1504877d20 | CALL dword ptr [0x207d8704]
+20318f80 | 0fb7f8 | MOVZX EDI,AX
+20318f83 | 8d442410 | LEA EAX,[ESP + 0x10]
+20318f87 | 50 | PUSH EAX
+20318f88 | 8bce | MOV ECX,ESI
+20318f8a | c744241400000000 | MOV dword ptr [ESP + 0x14],0x0
+20318f92 | ff1560877d20 | CALL dword ptr [0x207d8760]
+20318f98 | e87f27cfff | CALL 0x2000b71c
+20318f9d | 50 | PUSH EAX
+20318f9e | e88b47cfff | CALL 0x2000d72e
+20318fa3 | 8bc8 | MOV ECX,EAX
+20318fa5 | ff1508877d20 | CALL dword ptr [0x207d8708]
+20318fab | 84c0 | TEST AL,AL
+20318fad | 743c | JZ 0x20318feb
+20318faf | 8b4c2410 | MOV ECX,dword ptr [ESP + 0x10]
+20318fb3 | 55 | PUSH EBP
+20318fb4 | 8b2de0887d20 | MOV EBP,dword ptr [0x207d88e0]
+20318fba | 51 | PUSH ECX
+20318fbb | ffd5 | CALL EBP
+20318fbd | 8bc8 | MOV ECX,EAX
+20318fbf | ff1564877d20 | CALL dword ptr [0x207d8764]
+20318fc5 | 8b16 | MOV EDX,dword ptr [ESI]
+20318fc7 | 8b5204 | MOV EDX,dword ptr [EDX + 0x4]
+20318fca | 8bd8 | MOV EBX,EAX
+20318fcc | 8b442414 | MOV EAX,dword ptr [ESP + 0x14]
+20318fd0 | 50 | PUSH EAX
+20318fd1 | 53 | PUSH EBX
+20318fd2 | 8bce | MOV ECX,ESI
+20318fd4 | ffd2 | CALL EDX
+20318fd6 | 53 | PUSH EBX
+20318fd7 | ffd5 | CALL EBP
+20318fd9 | 8bc8 | MOV ECX,EAX
+20318fdb | ff15dc887d20 | CALL dword ptr [0x207d88dc]
+20318fe1 | 5d | POP EBP
+20318fe2 | 668bc7 | MOV AX,DI
+20318fe5 | 5f | POP EDI
+20318fe6 | 5e | POP ESI
+20318fe7 | 5b | POP EBX
+20318fe8 | c20400 | RET 0x4
+20318feb | 8b03 | MOV EAX,dword ptr [EBX]
+20318fed | 8b501c | MOV EDX,dword ptr [EAX + 0x1c]
+20318ff0 | 57 | PUSH EDI
+20318ff1 | 56 | PUSH ESI
+20318ff2 | 8bcb | MOV ECX,EBX
+20318ff4 | ffd2 | CALL EDX
+20318ff6 | 668bc7 | MOV AX,DI
+20318ff9 | 5f | POP EDI
+20318ffa | 5e | POP ESI
+20318ffb | 5b | POP EBX
+20318ffc | c20400 | RET 0x4

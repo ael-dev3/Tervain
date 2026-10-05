@@ -1,0 +1,13 @@
+/* ENTRY 2031ea40 | FUN_2031ea40 | STATUS decompiled | 7 ms */
+
+void __fastcall FUN_2031ea40(gCPlayerMemory_PS *param_1)
+
+{
+  gCPlayerMemory_PS::DestroyAttributes(param_1);
+                    /* WARNING: Could not recover jumptable at 0x2031ea4b. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::Destroy((eCEntityPropertySet *)param_1);
+  return;
+}
+
+

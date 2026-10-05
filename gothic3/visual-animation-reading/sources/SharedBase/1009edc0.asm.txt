@@ -1,0 +1,12 @@
+; 1009edc0 bCByteAlphaColor::bCByteAlphaColor
+1009edc0 | 8a542408 | MOV DL,byte ptr [ESP + 0x8]
+1009edc4 | 8bc1 | MOV EAX,ECX
+1009edc6 | 8a4c2404 | MOV CL,byte ptr [ESP + 0x4]
+1009edca | 884804 | MOV byte ptr [EAX + 0x4],CL
+1009edcd | 8a4c240c | MOV CL,byte ptr [ESP + 0xc]
+1009edd1 | 885005 | MOV byte ptr [EAX + 0x5],DL
+1009edd4 | 8a542410 | MOV DL,byte ptr [ESP + 0x10]
+1009edd8 | c700f0b90e10 | MOV dword ptr [EAX],0x100eb9f0
+1009edde | 884806 | MOV byte ptr [EAX + 0x6],CL
+1009ede1 | 885008 | MOV byte ptr [EAX + 0x8],DL
+1009ede4 | c21000 | RET 0x10

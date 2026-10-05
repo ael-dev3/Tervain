@@ -1,0 +1,15 @@
+/* ENTRY 3009bd40 | FUN_3009bd40 | STATUS decompiled | 3 ms */
+
+float10 FUN_3009bd40(float param_1)
+
+{
+  float10 fVar1;
+  
+  if (param_1 != 0.0) {
+    fVar1 = (float10)thunk_FUN_3009bcf0(param_1);
+    return (float10)(float)(fVar1 * (float10)param_1);
+  }
+  return (float10)0.0;
+}
+
+

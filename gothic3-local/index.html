@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Explore Gothic 3's Ardea in the browser, read from your own installed copy of the game. No game files are hosted here." />
+    <meta name="theme-color" content="#14130f" />
+    <title>Gothic 3 — from your install</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3 27 28H5z' fill='%23b89a63'/%3E%3C/svg%3E" />
+    <script type="module" crossorigin src="../assets/gothic3Local-KkBZaQEX.js"></script>
+    <link rel="modulepreload" crossorigin href="../assets/three.module-B4qovCDo.js">
+    <link rel="stylesheet" crossorigin href="../assets/gothic3Local-CjSrmsMl.css">
+  </head>
+  <body>
+    <canvas id="world" aria-label="Gothic 3 world" tabindex="0"></canvas>
+    <main id="intro" class="intro">
+      <div class="eyebrow">Fan-made viewer · reads your own copy</div>
+      <h1>Gothic 3</h1>
+      <h2>Ardea, from your installation</h2>
+      <p>This page draws Gothic 3's world in the browser from <strong>the game files on your computer</strong>. Point it at your Gothic 3 folder (or its <code>Data</code> folder): the archives are read here, in this tab. Nothing is uploaded, and no Gothic 3 files are hosted on this site.</p>
+      <p class="small">Needs an installed, legally owned copy of Gothic 3 (Steam, GOG or disc) and a desktop browser with WebGL 2; Chrome or Edge can remember the folder for next time.</p>
+      <div class="actions">
+        <button id="pick" class="primary">Choose your Gothic 3 folder</button>
+        <button id="again" hidden></button>
+        <button id="dev" hidden>Use the development data folder</button>
+        <input id="folder" type="file" webkitdirectory multiple hidden />
+      </div>
+      <div id="status" class="status" role="status">Typical Steam location: <code>C:\Program Files (x86)\Steam\steamapps\common\Gothic 3</code></div>
+      <footer>
+        Gothic 3 © THQ Nordic GmbH, developed by Piranha Bytes. This viewer is not affiliated with or endorsed by them. Its code is independent of the game's: it reads the game's data formats. <a href="../">Back to Tervain</a>
+      </footer>
+    </main>
+    <div id="hud" class="hud" hidden>
+      <div class="keys"><kbd>W A S D</kbd> move · <kbd>Shift</kbd> faster · click for mouse look, <kbd>Esc</kbd> to release · <kbd>F</kbd> fly / walk · <kbd>Space</kbd> up / jump · <kbd>C</kbd> down</div>
+      <label class="time">Hour <input id="hour" type="range" min="0" max="24" step="0.25" /></label>
+      <div id="info" class="info"></div>
+      <a class="back" href="../">Tervain ↗</a>
+    </div>
+  </body>
+</html>

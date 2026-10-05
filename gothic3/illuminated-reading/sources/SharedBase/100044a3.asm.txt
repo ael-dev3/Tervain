@@ -1,0 +1,2 @@
+; 100044a3 bCString::operator_char_const*
+100044a3 | e938f00000 | JMP 0x100134e0

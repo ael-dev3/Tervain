@@ -1,0 +1,20 @@
+/* ENTRY 3000a669 | eCEntity::EnableCollisionWith | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall eCEntity::EnableCollisionWith(class eCEntity *,bool) */
+
+void __thiscall eCEntity::EnableCollisionWith(eCEntity *this,eCEntity *param_1,bool param_2)
+
+{
+  eCPhysicsScene *this_00;
+  bool bVar1;
+  
+                    /* 0xa669  5771  ?EnableCollisionWith@eCEntity@@QAEXPAV1@_N@Z */
+  if (param_1 != (eCEntity *)0x0) {
+    bVar1 = true;
+    this_00 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+    eCPhysicsScene::SetEntitiesCanCollide(this_00,(eCEntity *)this,param_1,param_2,bVar1);
+  }
+  return;
+}
+
+

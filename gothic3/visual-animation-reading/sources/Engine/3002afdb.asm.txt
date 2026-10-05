@@ -1,0 +1,2 @@
+; 3002afdb eCPhysicObjectStateBuffer::AddActorFlag
+3002afdb | e9c0542e00 | JMP 0x303104a0

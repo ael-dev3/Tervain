@@ -1,0 +1,48 @@
+newmtl G3_Architecture_Wall_Stone_09_B
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Architecture_Wall_Stone_09_Diffuse_01.png
+
+newmtl G3_Architecture_Wall_Stone_10_A
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Architecture_Wall_Stone_10_Diffuse_01.png
+
+newmtl G3_Architecture_WallHouse_02_A
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Architecture_WallHouse_02_Diffuse_01.jpg
+
+newmtl G3_Architecture_Wood_Burned_02_A
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Architecture_Wood_Burned_02_Diffuse_01.jpg
+
+newmtl G3_Nature_Wall_Stone_12_F
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Nature_Wall_Stone_12_Diffuse_06.jpg
+
+newmtl G3_Objects_Barrelmetal_01_A
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Objects_Barrelmetal_01_Diffuse_01.jpg
+
+newmtl G3_Objects_Wood_01_B
+Ka 0.25 0.25 0.25
+Kd 1 1 1
+Ks 0.03 0.03 0.03
+Ns 8
+map_Kd ../textures/G3_Objects_Wood_01_Diffuse_02.png

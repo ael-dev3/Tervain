@@ -1,0 +1,10 @@
+; 200b7d40 bTPropertyType<gCDamage_PS,int>::vfunction6
+200b7d40 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+200b7d44 | 85c0 | TEST EAX,EAX
+200b7d46 | 740e | JZ 0x200b7d56
+200b7d48 | 8b11 | MOV EDX,dword ptr [ECX]
+200b7d4a | 50 | PUSH EAX
+200b7d4b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+200b7d4e | ffd0 | CALL EAX
+200b7d50 | c700ffffffff | MOV dword ptr [EAX],0xffffffff
+200b7d56 | c20400 | RET 0x4

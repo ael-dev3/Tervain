@@ -1,0 +1,27 @@
+; 200b35f0 bTPropertyContainer<gEDamageType>::bTPropertyContainer<gEDamageType>_Constructor_or_Destructor
+200b35f0 | 83ec08 | SUB ESP,0x8
+200b35f3 | 56 | PUSH ESI
+200b35f4 | 8bf1 | MOV ESI,ECX
+200b35f6 | ff1598887d20 | CALL dword ptr [0x207d8898]
+200b35fc | 8d4c2404 | LEA ECX,[ESP + 0x4]
+200b3600 | c7461c0a000000 | MOV dword ptr [ESI + 0x1c],0xa
+200b3607 | ff1500877d20 | CALL dword ptr [0x207d8700]
+200b360d | 8b4614 | MOV EAX,dword ptr [ESI + 0x14]
+200b3610 | 8b401c | MOV EAX,dword ptr [EAX + 0x1c]
+200b3613 | 8d4e14 | LEA ECX,[ESI + 0x14]
+200b3616 | 8d542404 | LEA EDX,[ESP + 0x4]
+200b361a | 52 | PUSH EDX
+200b361b | c744240834ea6520 | MOV dword ptr [ESP + 0x8],0x2065ea34
+200b3623 | c744240c02000000 | MOV dword ptr [ESP + 0xc],0x2
+200b362b | ffd0 | CALL EAX
+200b362d | 8d4c2404 | LEA ECX,[ESP + 0x4]
+200b3631 | c744240434ea6520 | MOV dword ptr [ESP + 0x4],0x2065ea34
+200b3639 | ff1500887d20 | CALL dword ptr [0x207d8800]
+200b363f | f30f1005c4b16520 | MOVSS XMM0,dword ptr [0x2065b1c4]
+200b3647 | f30f114620 | MOVSS dword ptr [ESI + 0x20],XMM0
+200b364c | c7462800000000 | MOV dword ptr [ESI + 0x28],0x0
+200b3653 | f30f114624 | MOVSS dword ptr [ESI + 0x24],XMM0
+200b3658 | b801000000 | MOV EAX,0x1
+200b365d | 5e | POP ESI
+200b365e | 83c408 | ADD ESP,0x8
+200b3661 | c3 | RET

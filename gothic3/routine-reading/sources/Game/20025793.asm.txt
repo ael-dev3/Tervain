@@ -1,0 +1,2 @@
+; 20025793 bTPropertyType<gCScriptRoutine_PS,long>::vfunction15
+20025793 | e9a8963300 | JMP 0x2035ee40

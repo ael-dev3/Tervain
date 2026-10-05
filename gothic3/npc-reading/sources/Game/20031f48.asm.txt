@@ -1,0 +1,4 @@
+; 20031f48 ??0gCNPC_PS@@QAE@XZ
+20031f48 | e9337f2c00 | JMP 0x202f9e80
+; 20031f4d gCNavigation_PS::WriteSaveGame
+; 20031f4d Ordinal_7597

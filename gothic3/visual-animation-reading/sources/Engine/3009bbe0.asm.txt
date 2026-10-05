@@ -1,0 +1,13 @@
+; 3009bbe0 FUN_3009bbe0
+3009bbe0 | f30f10052cd88130 | MOVSS XMM0,dword ptr [0x3081d82c]
+3009bbe8 | 8bc1 | MOV EAX,ECX
+3009bbea | f30f1100 | MOVSS dword ptr [EAX],XMM0
+3009bbee | f30f100534848130 | MOVSS XMM0,dword ptr [0x30818434]
+3009bbf6 | f30f114008 | MOVSS dword ptr [EAX + 0x8],XMM0
+3009bbfb | f30f114010 | MOVSS dword ptr [EAX + 0x10],XMM0
+3009bc00 | 0f57c0 | XORPS XMM0,XMM0
+3009bc03 | c7400400000000 | MOV dword ptr [EAX + 0x4],0x0
+3009bc0a | c7400cffffffff | MOV dword ptr [EAX + 0xc],0xffffffff
+3009bc11 | f30f114014 | MOVSS dword ptr [EAX + 0x14],XMM0
+3009bc16 | c7401801000000 | MOV dword ptr [EAX + 0x18],0x1
+3009bc1d | c3 | RET

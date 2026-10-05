@@ -1,0 +1,60 @@
+{
+  "schema": "gothic3-original-hero-effect-v1",
+  "source": {
+    "archive": "Projects_compiled.p00",
+    "path": "G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat",
+    "sha256": "28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938",
+    "packetOffset": 1191565,
+    "packetBytes": 92,
+    "packetSha256": "364c745d009a1cbe64f7c021ea328677a37fe2750f82b74c6b55d557bb230c71",
+    "nativeReadOffset": 1191651,
+    "nativeTailBytes": 2,
+    "stringTableBoundary": 80040256,
+    "stringTableIndependentlyDecoded": true,
+    "genome": {
+      "version": 1,
+      "stringTableMarker": 1
+    }
+  },
+  "outerVersion": 1,
+  "nativeReadVersion": 1,
+  "worldResident": false,
+  "properties": [
+    {
+      "name": "Effect",
+      "typeName": "bCString",
+      "nativeOffset": 20,
+      "raw": "4f00",
+      "value": "",
+      "sourceOffset": 1191602
+    },
+    {
+      "name": "Offset",
+      "typeName": "bCVector",
+      "nativeOffset": 24,
+      "raw": "000000000000000000000000",
+      "value": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "sourceOffset": 1191614
+    },
+    {
+      "name": "Probability",
+      "typeName": "float",
+      "nativeOffset": 36,
+      "raw": "0000803f",
+      "value": 1.0,
+      "sourceOffset": 1191636
+    },
+    {
+      "name": "Static",
+      "typeName": "bool",
+      "nativeOffset": 40,
+      "raw": "00",
+      "value": false,
+      "sourceOffset": 1191650
+    }
+  ]
+}

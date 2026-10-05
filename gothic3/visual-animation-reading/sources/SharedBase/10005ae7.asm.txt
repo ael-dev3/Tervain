@@ -1,0 +1,2 @@
+; 10005ae7 bCVector::Clear
+10005ae7 | e914f30100 | JMP 0x10024e00

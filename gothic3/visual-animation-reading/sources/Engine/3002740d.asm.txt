@@ -1,0 +1,2 @@
+; 3002740d eCVisualAnimationFactory::GetVisualAnimationLoD
+3002740d | e92e510900 | JMP 0x300bc540

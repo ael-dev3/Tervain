@@ -1,0 +1,2 @@
+; 2000a0b0 bTPropertyType<gCPlayerMemory_PS,float>::vfunction5
+2000a0b0 | e99baa3100 | JMP 0x20324b50

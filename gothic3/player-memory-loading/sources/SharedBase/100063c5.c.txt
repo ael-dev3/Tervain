@@ -1,0 +1,13 @@
+/* ENTRY 100063c5 | bCGuid::bCGuid | STATUS decompiled | 1 ms */
+
+/* public: __thiscall bCGuid::bCGuid(void) */
+
+void __thiscall bCGuid::bCGuid(bCGuid *this)
+
+{
+                    /* 0x63c5  132  ??0bCGuid@@QAE@XZ */
+  this[0x10] = (bCGuid)0x0;
+  return;
+}
+
+

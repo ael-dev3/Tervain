@@ -1,0 +1,2 @@
+; 10007d47 bCPropertyObjectFactory::WriteObject
+10007d47 | e9b44d0800 | JMP 0x1008cb00

@@ -1,0 +1,2 @@
+; 2000e3b3 gCDialog_PS::CopyFrom
+2000e3b3 | e938d41f00 | JMP 0x2020b7f0

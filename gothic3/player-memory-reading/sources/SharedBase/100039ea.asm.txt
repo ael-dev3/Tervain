@@ -1,0 +1,2 @@
+; 100039ea bCAccessorProperty::GetPropertyName
+100039ea | e9e1020900 | JMP 0x10093cd0

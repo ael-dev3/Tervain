@@ -1,0 +1,29 @@
+/* ENTRY 100210d0 | FUN_100210d0 | STATUS decompiled | 6 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined * FUN_100210d0(void)
+
+{
+  if ((_DAT_10142a54 & 1) == 0) {
+    _DAT_10142a54 = _DAT_10142a54 | 1;
+    _DAT_10142a10 = 0;
+    _DAT_10142a14 = 0;
+    _DAT_10142a24 = 0;
+    _DAT_10142a18 = 0;
+    _DAT_10142a1c = 0;
+    _DAT_10142a28 = 0;
+    _DAT_10142a20 = 0;
+    _DAT_10142a2c = 0;
+    _DAT_10142a30 = 0;
+    _DAT_10142a34 = 0;
+    _DAT_10142a38 = 0;
+    _DAT_10142a3c = 0;
+    _DAT_10142a40 = 0;
+    _DAT_10142a44 = 0;
+    _atexit((_func_4879 *)&LAB_100e2760);
+  }
+  return &DAT_10142a10;
+}
+
+

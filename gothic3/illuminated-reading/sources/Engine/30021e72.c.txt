@@ -1,0 +1,12 @@
+/* ENTRY 30021e72 | eCIlluminated_PS::GetLightSet | STATUS decompiled | 10 ms */
+
+/* public: class eCLightSet const * __thiscall eCIlluminated_PS::GetLightSet(void)const  */
+
+eCLightSet * __thiscall eCIlluminated_PS::GetLightSet(eCIlluminated_PS *this)
+
+{
+                    /* 0x21e72  7602  ?GetLightSet@eCIlluminated_PS@@QBEPBVeCLightSet@@XZ */
+  return (eCLightSet *)(this->eCIlluminated_PS_data).offset_0x98;
+}
+
+

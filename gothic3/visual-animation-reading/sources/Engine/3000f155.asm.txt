@@ -1,0 +1,2 @@
+; 3000f155 eCVisualAnimation_PS::GetSkeletonBoundary
+3000f155 | e916330500 | JMP 0x30062470

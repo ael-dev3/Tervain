@@ -1,0 +1,2 @@
+; 30016bfd eCWrapper_emfx2Actor::StopMotion
+30016bfd | e98e450c00 | JMP 0x300db190

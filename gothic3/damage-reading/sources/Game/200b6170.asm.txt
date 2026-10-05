@@ -1,0 +1,13 @@
+; 200b6170 bTPropertyType<gCDamage_PS,bTPropertyContainer<gEDamageType>_>::vfunction6
+200b6170 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+200b6174 | 85c0 | TEST EAX,EAX
+200b6176 | 7411 | JZ 0x200b6189
+200b6178 | 8b11 | MOV EDX,dword ptr [ECX]
+200b617a | 50 | PUSH EAX
+200b617b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+200b617e | ffd0 | CALL EAX
+200b6180 | 8b10 | MOV EDX,dword ptr [EAX]
+200b6182 | 8bc8 | MOV ECX,EAX
+200b6184 | 8b4218 | MOV EAX,dword ptr [EDX + 0x18]
+200b6187 | ffd0 | CALL EAX
+200b6189 | c20400 | RET 0x4

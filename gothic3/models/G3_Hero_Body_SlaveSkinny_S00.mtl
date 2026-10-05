@@ -1,0 +1,11 @@
+newmtl EMFX_Default
+
+newmtl G3_Animation_Body_HeroSlaveWeakRock_01_A|
+map_Kd ../textures/G3_Human_Slave_Cloth_Diffuse_S1.jpg
+
+newmtl G3_Animation_Body_HeroSlaveWeakRock_01_B|
+map_Kd ../textures/G3_Human_Slave_Body_Diffuse_S2.jpg
+
+newmtl SlaveRock
+map_Kd ../textures/G3_Human_Slave_Skinny_Diffuse_01.jpg
+

@@ -1,0 +1,11 @@
+/* ENTRY 30662db0 | EMotionFX::PlayMode::PlayMode | STATUS decompiled | 3 ms */
+
+void __thiscall EMotionFX::PlayMode::PlayMode(PlayMode *this)
+
+{
+  this->vftablePtr = &vftable;
+  (this->PlayMode_data).offset_0x0 = 0;
+  return;
+}
+
+

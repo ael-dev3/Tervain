@@ -1,0 +1,9 @@
+/* ENTRY 300bedd0 | FUN_300bedd0 | STATUS decompiled | 1 ms */
+
+undefined2 FUN_300bedd0(void)
+
+{
+  return 4;
+}
+
+

@@ -1,0 +1,2 @@
+; 100019ba bCVector::operator*
+100019ba | e911d70200 | JMP 0x1002f0d0

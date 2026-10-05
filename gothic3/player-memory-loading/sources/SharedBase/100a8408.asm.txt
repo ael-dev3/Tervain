@@ -1,0 +1,9 @@
+; 100a8408 __vsnprintf
+100a8408 | ff742410 | PUSH dword ptr [ESP + 0x10]
+100a840c | 6a00 | PUSH 0x0
+100a840e | ff742414 | PUSH dword ptr [ESP + 0x14]
+100a8412 | ff742414 | PUSH dword ptr [ESP + 0x14]
+100a8416 | ff742414 | PUSH dword ptr [ESP + 0x14]
+100a841a | e838ffffff | CALL 0x100a8357
+100a841f | 83c414 | ADD ESP,0x14
+100a8422 | c3 | RET

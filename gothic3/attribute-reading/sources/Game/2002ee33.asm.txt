@@ -1,0 +1,2 @@
+; 2002ee33 gCStat::SetMaximum
+2002ee33 | e9b8c03600 | JMP 0x2039aef0

@@ -1,0 +1,21 @@
+/* ENTRY 3067155a | __onexit | STATUS decompiled | 5 ms */
+
+/* WARNING: Function: __SEH_prolog4 replaced with injection: SEH_prolog4 */
+/* WARNING: Function: __SEH_epilog4 replaced with injection: EH_epilog3 */
+/* Library Function - Single Match
+    __onexit
+   
+   Library: Visual Studio 2005 Release */
+
+_onexit_t __cdecl __onexit(_onexit_t _Func)
+
+{
+  _onexit_t p_Var1;
+  
+  FUN_3067cfe8();
+  p_Var1 = (_onexit_t)FUN_30671472(_Func);
+  FUN_30671590();
+  return p_Var1;
+}
+
+

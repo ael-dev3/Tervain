@@ -1,0 +1,4 @@
+; 10006861 ??EbCAccessorPropertyObject@@QAEAAV0@XZ
+10006861 | e94a460900 | JMP 0x1009aeb0
+; 10006866 bCAccessorProperty::operator=
+; 10006866 Ordinal_450

@@ -1,0 +1,16 @@
+/* ENTRY 20006659 | gCCharacterSensor_PS::SetMovement_PS | STATUS decompiled | 7 ms */
+
+/* protected: void __thiscall gCCharacterSensor_PS::SetMovement_PS(class gCCharacterMovement_PS &)
+    */
+
+void __thiscall
+gCCharacterSensor_PS::SetMovement_PS(gCCharacterSensor_PS *this,gCCharacterMovement_PS *param_1)
+
+{
+                    /* 0x6659  6796
+                       ?SetMovement_PS@gCCharacterSensor_PS@@IAEXAAVgCCharacterMovement_PS@@@Z */
+  (this->gCCharacterSensor_PS_data).offset_0x38 = param_1;
+  return;
+}
+
+

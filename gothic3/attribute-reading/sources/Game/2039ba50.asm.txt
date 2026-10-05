@@ -1,0 +1,3 @@
+; 2039ba50 bTPropertyObject<gCStat,gCAttribute>::vfunction4
+2039ba50 | 8b490c | MOV ECX,dword ptr [ECX + 0xc]
+2039ba53 | ff2578877d20 | JMP dword ptr [0x207d8778]

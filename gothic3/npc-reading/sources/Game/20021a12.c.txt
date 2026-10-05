@@ -1,0 +1,17 @@
+/* ENTRY 20021a12 | bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttackReason>_>::vfunction6 | STATUS decompiled | 5 ms */
+
+void __thiscall
+bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttackReason>_>::vfunction6
+          (bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttackReason>_> *this,int param_1)
+
+{
+  bTPropertyType<gCNPC_PS,bTPropertyContainer<gEAttackReason>_>_vftable *pbVar1;
+  
+  if (param_1 != 0) {
+    pbVar1 = (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_1);
+    (**(code **)(pbVar1->vfunction1 + 0x18))();
+  }
+  return;
+}
+
+

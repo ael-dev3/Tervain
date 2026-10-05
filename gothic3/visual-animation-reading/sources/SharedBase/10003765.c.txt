@@ -1,0 +1,13 @@
+/* ENTRY 10003765 | operator>> | STATUS decompiled | 2 ms */
+
+/* class bCOStream & __stdcall operator>>(class bCString const &,class bCOStream &) */
+
+bCOStream * operator>>(bCString *param_1,bCOStream *param_2)
+
+{
+                    /* 0x3765  590  ??5@YGAAVbCOStream@@ABVbCString@@AAV0@@Z */
+  (*(code *)**(undefined4 **)param_2)(param_1);
+  return param_2;
+}
+
+

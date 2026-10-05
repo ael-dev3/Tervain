@@ -1,0 +1,19 @@
+/* ENTRY 300aa970 | bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::~bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector> | STATUS decompiled | 3 ms */
+
+void __thiscall
+bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>::
+~bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>
+          (bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector> *this)
+
+{
+  this->vftablePtr = &vftable;
+  bCPropertyObjectFactory::~bCPropertyObjectFactory
+            ((bCPropertyObjectFactory *)
+             &(this->bTPropertyObjectType<eCSpringAndDamperEffector,eCEffector>_data).field_0x14);
+                    /* WARNING: Could not recover jumptable at 0x300aa985. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyObjectTypeBase::~bCPropertyObjectTypeBase((bCPropertyObjectTypeBase *)this);
+  return;
+}
+
+

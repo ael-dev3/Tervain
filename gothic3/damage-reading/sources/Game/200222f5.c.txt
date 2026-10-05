@@ -1,0 +1,20 @@
+/* ENTRY 200222f5 | gCDamageReceiver_PS::SetDamageType | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall gCDamageReceiver_PS::SetDamageType(class bTPropertyContainer<enum
+   gEDamageType> const &) */
+
+void __thiscall
+gCDamageReceiver_PS::SetDamageType
+          (gCDamageReceiver_PS *this,bTPropertyContainer<gEDamageType> *param_1)
+
+{
+                    /* 0x222f5  6370
+                       ?SetDamageType@gCDamageReceiver_PS@@QAEXABV?$bTPropertyContainer@W4gEDamageType@@@@@Z
+                        */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"DamageType",false);
+  (*(code *)(this->gCDamageReceiver_PS_data).offset_0x28[7])(param_1);
+  (*this->vftablePtr->NotifyPropertyValueChangedExitEx)(this,"DamageType",false);
+  return;
+}
+
+

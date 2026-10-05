@@ -1,0 +1,10 @@
+; 20144180 bTPropertyType<gCFocus_PS,bool>::vfunction6
+20144180 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+20144184 | 85c0 | TEST EAX,EAX
+20144186 | 740b | JZ 0x20144193
+20144188 | 8b11 | MOV EDX,dword ptr [ECX]
+2014418a | 50 | PUSH EAX
+2014418b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+2014418e | ffd0 | CALL EAX
+20144190 | c60000 | MOV byte ptr [EAX],0x0
+20144193 | c20400 | RET 0x4

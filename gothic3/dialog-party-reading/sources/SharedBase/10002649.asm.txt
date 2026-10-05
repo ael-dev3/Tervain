@@ -1,0 +1,2 @@
+; 10002649 bCPropertyObjectFactory::bCPropertyObjectFactory
+10002649 | e952aa0800 | JMP 0x1008d0a0

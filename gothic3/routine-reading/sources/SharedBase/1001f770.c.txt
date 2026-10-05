@@ -1,0 +1,9 @@
+/* ENTRY 1001f770 | FUN_1001f770 | STATUS decompiled | 1 ms */
+
+void FUN_1001f770(void)
+
+{
+  return;
+}
+
+

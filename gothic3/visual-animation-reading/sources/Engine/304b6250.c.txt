@@ -1,0 +1,29 @@
+/* ENTRY 304b6250 | FUN_304b6250 | STATUS decompiled | 6 ms */
+
+undefined4 __fastcall FUN_304b6250(int *param_1)
+
+{
+  char cVar1;
+  int *piVar2;
+  uint uVar3;
+  
+  (**(code **)(*param_1 + 0x78))();
+  uVar3 = (uint)*(ushort *)((int)param_1 + 0x13e);
+  do {
+    if (uVar3 == 0) {
+      return 0;
+    }
+    uVar3 = uVar3 - 1;
+    (**(code **)(*param_1 + 0x78))();
+    if ((ushort)uVar3 < *(ushort *)((int)param_1 + 0x13e)) {
+      piVar2 = *(int **)(param_1[0x50] + (uVar3 & 0xffff) * 4);
+    }
+    else {
+      piVar2 = (int *)0x0;
+    }
+    cVar1 = (**(code **)(*piVar2 + 0x88))();
+  } while (cVar1 != '\x01');
+  return 1;
+}
+
+

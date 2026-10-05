@@ -1,0 +1,2 @@
+; 300263f0 thunk_FUN_300ac4f0
+300263f0 | e9fb600800 | JMP 0x300ac4f0

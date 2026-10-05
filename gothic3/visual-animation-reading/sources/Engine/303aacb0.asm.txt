@@ -1,0 +1,11 @@
+; 303aacb0 eCRenderContext::eCRenderContext
+303aacb0 | 56 | PUSH ESI
+303aacb1 | 8bf1 | MOV ESI,ECX
+303aacb3 | ff1508dcaf30 | CALL dword ptr [0x30afdc08]
+303aacb9 | 33c0 | XOR EAX,EAX
+303aacbb | 89460c | MOV dword ptr [ESI + 0xc],EAX
+303aacbe | 894610 | MOV dword ptr [ESI + 0x10],EAX
+303aacc1 | c7065ceb8130 | MOV dword ptr [ESI],0x3081eb5c
+303aacc7 | 8bc6 | MOV EAX,ESI
+303aacc9 | 5e | POP ESI
+303aacca | c3 | RET

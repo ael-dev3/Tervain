@@ -1,0 +1,2 @@
+; 20016996 gCPlayerMemory_PS::ReadAttributesV3
+20016996 | e9857f3000 | JMP 0x2031e920

@@ -1,0 +1,14 @@
+/* ENTRY 3001325a | eCArchiveFile::operator= | STATUS decompiled | 4 ms */
+
+/* public: class eCArchiveFile const & __thiscall eCArchiveFile::operator=(class eCArchiveFile const
+   &) */
+
+eCArchiveFile * __thiscall eCArchiveFile::operator=(eCArchiveFile *this,eCArchiveFile *param_1)
+
+{
+                    /* 0x1325a  1449  ??4eCArchiveFile@@QAEABV0@ABV0@@Z */
+  bCString::operator=((bCString *)&this->eCArchiveFile_data,(bCString *)(param_1 + 8));
+  return (eCArchiveFile *)this;
+}
+
+

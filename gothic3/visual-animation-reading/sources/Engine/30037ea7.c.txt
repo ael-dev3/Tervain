@@ -1,0 +1,21 @@
+/* ENTRY 30037ea7 | eCSpringAndDamperEffector::SetDamperVelStretchSaturate | STATUS decompiled | 49 ms */
+
+/* public: void __thiscall eCSpringAndDamperEffector::SetDamperVelStretchSaturate(float const &) */
+
+void __thiscall
+eCSpringAndDamperEffector::SetDamperVelStretchSaturate
+          (eCSpringAndDamperEffector *this,float *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x37ea7  13180
+                       ?SetDamperVelStretchSaturate@eCSpringAndDamperEffector@@QAEXABM@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"DamperVelStretchSaturate",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->eCEffector_data).offset_0x70 = *param_1;
+  (*pNVar1)(this,"DamperVelStretchSaturate",false);
+  return;
+}
+
+

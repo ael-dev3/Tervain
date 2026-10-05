@@ -1,0 +1,2 @@
+; 3003a5df eCPhysicObjectStateBuffer::RemoveActorFlag
+3003a5df | e9ec5f2d00 | JMP 0x303105d0

@@ -1,0 +1,18 @@
+/* ENTRY 20022d72 | gCDialog_PS::SetSlaveryEnabled | STATUS decompiled | 10 ms */
+
+/* public: void __thiscall gCDialog_PS::SetSlaveryEnabled(bool const &) */
+
+void __thiscall gCDialog_PS::SetSlaveryEnabled(gCDialog_PS *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x22d72  7052  ?SetSlaveryEnabled@gCDialog_PS@@QAEXAB_N@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"SlaveryEnabled",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->gCDialog_PS_data).field_0x27 = *param_1;
+  (*pNVar1)(this,"SlaveryEnabled",false);
+  return;
+}
+
+

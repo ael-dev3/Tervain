@@ -1,0 +1,11 @@
+/* ENTRY 20322320 | bTPropertyType<gCPlayerMemory_PS,bTObjArray<bCString>_>::vfunction1 | STATUS decompiled | 3 ms */
+
+bTPropertyType<gCPlayerMemory_PS,bTObjArray<bCString>_>_vftable * __thiscall
+bTPropertyType<gCPlayerMemory_PS,bTObjArray<bCString>_>::vfunction1
+          (bTPropertyType<gCPlayerMemory_PS,bTObjArray<bCString>_> *this)
+
+{
+  return this[7].vftablePtr;
+}
+
+

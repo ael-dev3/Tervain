@@ -1,0 +1,2 @@
+; 10008cba bCAccessorProperty::operator++
+10008cba | e9b1b30800 | JMP 0x10094070
