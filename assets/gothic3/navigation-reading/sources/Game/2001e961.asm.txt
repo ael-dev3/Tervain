@@ -1,0 +1,4 @@
+; 2001e961 bTPropertyType<gCEffectCommandCreateDecal,bCVector>::vfunction4
+2001e961 | e98a8a0200 | JMP 0x200473f0
+; 2001e970 gCInfoScript_PS::Invalidate
+; 2001e970 Ordinal_5002

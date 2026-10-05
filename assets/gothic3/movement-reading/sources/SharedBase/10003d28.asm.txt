@@ -1,0 +1,4 @@
+; 10003d28 ?Clear@bCString@@QAEXXZ
+10003d28 | e9830c0100 | JMP 0x100149b0
+; 10003d2d bCFloatAlphaColor::operator*
+; 10003d2d Ordinal_910

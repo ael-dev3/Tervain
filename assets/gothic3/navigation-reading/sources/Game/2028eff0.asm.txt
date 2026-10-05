@@ -1,0 +1,16 @@
+; 2028eff0 bTPropertyType<gCNavigation_PS,bTValArray<bCPropertyID>_>::vfunction11
+2028eff0 | 56 | PUSH ESI
+2028eff1 | 8bf1 | MOV ESI,ECX
+2028eff3 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+2028eff7 | 85c9 | TEST ECX,ECX
+2028eff9 | 7506 | JNZ 0x2028f001
+2028effb | 33c0 | XOR EAX,EAX
+2028effd | 5e | POP ESI
+2028effe | c20400 | RET 0x4
+; 2028f001 LAB_2028f001
+2028f001 | 8b01 | MOV EAX,dword ptr [ECX]
+2028f003 | 8b10 | MOV EDX,dword ptr [EAX]
+2028f005 | ffd2 | CALL EDX
+2028f007 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+2028f00a | 5e | POP ESI
+2028f00b | c20400 | RET 0x4

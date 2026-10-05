@@ -1,0 +1,4 @@
+; 200303e1 bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_>::vfunction8
+200303e1 | e91af02500 | JMP 0x2028f400
+; 200303e6 gCMusicEventFragment::GetEnterTime
+; 200303e6 Ordinal_3344

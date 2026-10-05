@@ -1,0 +1,4 @@
+; 2001f05a ?SupportsRenderDebugOutput@gCNavigation_PS@@UBE_NXZ
+2001f05a | e9116f2600 | JMP 0x20285f70
+; 2001f064 gCInteraction_PS::AccessFocusNameBone
+; 2001f064 Ordinal_1231

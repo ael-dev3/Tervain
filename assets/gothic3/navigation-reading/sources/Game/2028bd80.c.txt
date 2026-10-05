@@ -1,0 +1,14 @@
+/* ENTRY 2028bd80 | bTPropertyType<gCNavigation_PS,bCString>::vfunction20 | STATUS decompiled | 4 ms */
+
+void __thiscall
+bTPropertyType<gCNavigation_PS,bCString>::vfunction20
+          (bTPropertyType<gCNavigation_PS,bCString> *this)
+
+{
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)this);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)this[7].vftablePtr,(bCPropertyTypeBase *)this);
+  return;
+}
+
+

@@ -1,0 +1,22 @@
+/* ENTRY 2023bda0 | bTPropertyObjectType<gCArena_PS,eCEntityPropertySet>::vfunction2 | STATUS decompiled | 4 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined * __thiscall bTPropertyObjectType<gCArena_PS,eCEntityPropertySet>::vfunction2(void)
+
+{
+  if ((DAT_207b45b8 & 1) == 0) {
+    DAT_207b45b8 = DAT_207b45b8 | 1;
+    _DAT_207b45b4 = DAT_207b4748;
+  }
+  if ((DAT_207b45b8 & 2) == 0) {
+    DAT_207b45b8 = DAT_207b45b8 | 2;
+    type_info::name((type_info *)&eCEntityPropertySet::RTTI_Type_Descriptor,
+                    (__type_info_node *)&DAT_207d0a18);
+    bCClassNameBase::UnMangle(&DAT_207b45b0);
+    _atexit((_func_4879 *)&LAB_2001ba4f);
+  }
+  return &DAT_207b45b0;
+}
+
+

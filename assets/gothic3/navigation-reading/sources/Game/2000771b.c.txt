@@ -1,0 +1,18 @@
+/* ENTRY 2000771b | bTPropertyType<gCNavigation_PS,eCEntityProxy>::vfunction12 | STATUS decompiled | 5 ms */
+
+bTPropertyType<gCNavigation_PS,eCEntityProxy>_vftable * __thiscall
+bTPropertyType<gCNavigation_PS,eCEntityProxy>::vfunction12
+          (bTPropertyType<gCNavigation_PS,eCEntityProxy> *this,undefined4 *param_1)
+
+{
+  int iVar1;
+  
+  if (param_1 == (undefined4 *)0x0) {
+    return (bTPropertyType<gCNavigation_PS,eCEntityProxy>_vftable *)0x0;
+  }
+  iVar1 = (**(code **)*param_1)();
+  return (bTPropertyType<gCNavigation_PS,eCEntityProxy>_vftable *)
+         ((int)&(this[7].vftablePtr)->vfunction1 + iVar1);
+}
+
+

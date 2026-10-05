@@ -69,11 +69,18 @@ const zero = nativeMovementHasZeroMagnitude;
  * source-backed property decoder may fill the identical storage later. */
 export class NativeMovementBytes {
   private readonly view: DataView;
+  /** Native masked writes can initialize selected bits of a fresh byte while
+   * its other bits remain unknown. Whole-byte knownBytes remains compatible;
+   * callers directly updating retained metadata must keep both masks coherent. */
+  readonly knownBitMasks: Uint8Array;
   revision = 0;
-  constructor(readonly bytes: Uint8Array, readonly knownBytes: Uint8Array) {
+  constructor(readonly bytes: Uint8Array, readonly knownBytes: Uint8Array, knownBitMasks?: Uint8Array) {
     if (bytes.length < 0x3dc || knownBytes.length !== bytes.length || knownBytes.some(v => v !== 0 && v !== 1)) {
       throw new Error('CharacterMovement physical byte store/known-mask shape differs');
     }
+    this.knownBitMasks = knownBitMasks ?? Uint8Array.from(knownBytes, value => value === 1 ? 255 : 0);
+    if (this.knownBitMasks.length !== bytes.length || this.knownBitMasks.some((value, index) =>
+      (value === 255) !== (knownBytes[index] === 1))) throw new Error('Movement whole-byte/bit-known masks disagree');
     this.view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
   }
   has(offset: number, length: number): boolean {
@@ -94,7 +101,20 @@ export class NativeMovementBytes {
   float(offset: number): number { this.check(offset, 4); return float(this.view.getFloat32(offset, true)); }
   vector(offset: number): NativeMovementVector { return [this.float(offset), this.float(offset + 4), this.float(offset + 8)]; }
   quaternion(offset: number): NativeMovementQuaternion { return [this.float(offset), this.float(offset + 4), this.float(offset + 8), this.float(offset + 12)]; }
-  private changed(offset: number, length: number): void { this.knownBytes.fill(1, offset, offset + length); this.revision++; }
+  private changed(offset: number, length: number): void {
+    this.knownBytes.fill(1, offset, offset + length); this.knownBitMasks.fill(255, offset, offset + length); this.revision++;
+  }
+  maskedByte(offset: number, mask: number): number {
+    this.range(offset, 1); u8(mask);
+    if ((this.knownBitMasks[offset]! & mask) !== mask) throw new Error('Unknown CharacterMovement bits+' + offset.toString(16));
+    return this.view.getUint8(offset) & mask;
+  }
+  writeMaskedByte(offset: number, mask: number, value: number): void {
+    this.range(offset, 1); u8(mask); u8(value);
+    this.view.setUint8(offset, (this.view.getUint8(offset) & ~mask) | (value & mask));
+    this.knownBitMasks[offset] = this.knownBitMasks[offset]! | mask;
+    this.knownBytes[offset] = this.knownBitMasks[offset] === 255 ? 1 : 0; this.revision++;
+  }
   writeByte(offset: number, value: number): void { this.range(offset, 1); this.view.setUint8(offset, u8(value)); this.changed(offset, 1); }
   writeInt(offset: number, value: number): void { this.range(offset, 4); this.view.setInt32(offset, integer(value, true), true); this.changed(offset, 4); }
   writeFloat(offset: number, value: number): void { this.range(offset, 4); this.view.setFloat32(offset, float(value), true); this.changed(offset, 4); }
@@ -264,7 +284,7 @@ export class NativeCharacterMovement implements NativePlayerMovement {
   set movementMode(value: number) { this.storage.writeInt(0x100, value); }
   get brakingByte(): number | null { return this.storage.has(0x17c, 1) ? this.storage.byte(0x17c) : null; }
   set brakingByte(value: number | null) {
-    if (value === null) { this.storage.knownBytes[0x17c] = 0; this.storage.revision++; }
+    if (value === null) { this.storage.knownBytes[0x17c] = 0; this.storage.knownBitMasks[0x17c] = 0; this.storage.revision++; }
     else this.storage.writeByte(0x17c, value);
   }
   owner(): NativeValue<NativeMovementOwner | null> { return this.services.owner(false); }
@@ -441,7 +461,8 @@ export class NativeCharacterMovement implements NativePlayerMovement {
       const receiver = this.physics(), call = receiver.virtuals.setLinearVelocity;
       op.call('StopMovement.SetLinearVelocity(zero)', () => call(receiver, [0, 0, 0]));
     }
-    this.v(op, 0x134, [0, 0, 0]); this.b(op, 0xfc, this.storage.byte(0xfc) | 2);
+    this.v(op, 0x134, [0, 0, 0]);
+    op.write('movement.byte+fc OR2', () => this.storage.writeMaskedByte(0xfc, 2, 2));
   }
   stopMovement(): NativeMovementResult<void> { return this.run(op => this.stop(op)); }
   private mode(op: Operation, mode: number, spu?: NativeScriptProcessingUnit): void {
@@ -452,7 +473,7 @@ export class NativeCharacterMovement implements NativePlayerMovement {
     if (u8(op.call('HasProcessingRangeEntered', () => owner.processingRangeEntered())) === 0) return;
     this.dependants(op); if (this.movementMode === mode) return;
     if (mode === 1) {
-      if ((this.storage.byte(0xfc) & 2) === 0 && u8(op.call('CanWalkOnFloor', () =>
+      if (this.storage.maskedByte(0xfc, 2) === 0 && u8(op.call('CanWalkOnFloor', () =>
         this.services.canWalkOnFloor(this, this.storage.vector(0xb8)))) === 0) return;
       if (this.movementMode === 7 || this.movementMode === 10) return;
       if (this.storage.byte(0x25f) === 1) {

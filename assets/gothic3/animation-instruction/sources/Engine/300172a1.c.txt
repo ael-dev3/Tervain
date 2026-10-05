@@ -1,0 +1,12 @@
+/* ENTRY 300172a1 | eCAnimationAdmin::GetStandardAniFadeTime | STATUS decompiled | 6 ms */
+
+/* public: float __thiscall eCAnimationAdmin::GetStandardAniFadeTime(void) */
+
+float __thiscall eCAnimationAdmin::GetStandardAniFadeTime(eCAnimationAdmin *this)
+
+{
+                    /* 0x172a1  8934  ?GetStandardAniFadeTime@eCAnimationAdmin@@QAEMXZ */
+  return (float)(this->eCAnimationAdmin_data).offset_0x44;
+}
+
+

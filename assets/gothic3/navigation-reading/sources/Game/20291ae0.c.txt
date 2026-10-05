@@ -1,0 +1,22 @@
+/* ENTRY 20291ae0 | bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::~bTPropertyObject<gCNavigation_PS,eCEntityPropertySet> | STATUS decompiled | 5 ms */
+
+bTPropertyObject<gCNavigation_PS,eCEntityPropertySet> * __thiscall
+bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::
+~bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>
+          (bTPropertyObject<gCNavigation_PS,eCEntityPropertySet> *this)
+
+{
+  undefined *puVar1;
+  
+  bCPropertyObjectBase::bCPropertyObjectBase((bCPropertyObjectBase *)this);
+  (this->bTPOPureSmartPtr<gCNavigation_PS>_data).offset_0x4 = (bCObjectRefBase *)0x0;
+  this->vftablePtr = &vftable;
+  puVar1 = bTPropertyObjectType<gCNavigation_PS,eCEntityPropertySet>::
+           ~bTPropertyObjectType<gCNavigation_PS,eCEntityPropertySet>();
+  (this->bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>_data).offset_0x0 = puVar1;
+  (this->bTPOPureSmartPtr<gCNavigation_PS>_data).offset_0x4 = (bCObjectRefBase *)0x0;
+  thunk_FUN_20291900(1);
+  return this;
+}
+
+

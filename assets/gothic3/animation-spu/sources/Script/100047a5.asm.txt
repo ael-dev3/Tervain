@@ -1,0 +1,4 @@
+; 100047a5 ?GetAni@Entity@@QBE?AVbCString@@W4gEAction@@W4gEUseType@@1W4gEPhase@@@Z
+100047a5 | e9a6b40200 | JMP 0x1002fc50
+; 100047aa PSTreasureSet::PropertyMinTransferStacks::operator_unsigned_long
+; 100047aa Ordinal_1035

@@ -1,0 +1,8 @@
+; 2028c430 bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::~bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>
+2028c430 | 56 | PUSH ESI
+2028c431 | 8bf1 | MOV ESI,ECX
+2028c433 | c706ece36820 | MOV dword ptr [ESI],0x2068e3ec
+2028c439 | e81a93d8ff | CALL 0x20015758
+2028c43e | 8bce | MOV ECX,ESI
+2028c440 | 5e | POP ESI
+2028c441 | e9841fdaff | JMP 0x2002e3ca

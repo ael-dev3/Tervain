@@ -1,0 +1,2 @@
+; 3002e659 ?ReadSaveGame@eCEntityPropertySet@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+3002e659 | e902304500 | JMP 0x30481660

@@ -1,0 +1,163 @@
+/* ENTRY 20289600 | FUN_20289600 | STATUS decompiled | 118 ms */
+
+void __fastcall FUN_20289600(int *param_1)
+
+{
+  bCMatrix *pbVar1;
+  eCGfxAdmin *peVar2;
+  eCGfxMixerAdmin *peVar3;
+  eCApplication *this;
+  eCCameraBase *this_00;
+  eCFrustumDatabase *this_01;
+  eSCaps *peVar4;
+  eCSceneAdmin *peVar5;
+  eCNode *peVar6;
+  eCEntity *peVar7;
+  eCEntity *peVar8;
+  bCVector *pbVar9;
+  bCMemoryAdmin *pbVar10;
+  bCPropertyID *pbVar11;
+  eEGetEntityTypeHint eVar12;
+  bTSmallArray<bCVector> *pbVar13;
+  ulong uVar14;
+  eECmpFunc eVar15;
+  undefined1 uVar16;
+  void *pvVar17;
+  undefined2 local_8;
+  ushort local_6;
+  void *local_4;
+  
+  pbVar1 = bCMatrix::GetIdentity();
+  peVar2 = (eCGfxAdmin *)thunk_FUN_200a38a0();
+  peVar3 = eCGfxAdmin::GetAccessToMixer(peVar2);
+  eCGfxMixerAdmin::SetWorldMatrix(peVar3,pbVar1);
+  this = eCApplication::GetInstance();
+  this_00 = eCApplication::GetCurrentCamera((eCApplication *)this);
+  this_01 = eCCameraBase::GetFrustumDatabase(this_00);
+  peVar4 = eCFrustumDatabase::GetCaps(this_01);
+  if (peVar4[8] == (eSCaps)0x1) {
+    eVar12 = 0;
+    pbVar11 = (bCPropertyID *)(param_1 + 0x12);
+    peVar5 = (eCSceneAdmin *)
+             thunk_FUN_200ae8e0(pbVar11,0,0,&eCNode::RTTI_Type_Descriptor,
+                                &eCEntity::RTTI_Type_Descriptor,0);
+    peVar6 = eCSceneAdmin::GetEntity(peVar5,pbVar11,eVar12);
+    peVar7 = (eCEntity *)___RTDynamicCast(peVar6);
+    if (peVar7 != (eCEntity *)0x0) {
+      local_4 = (void *)0x0;
+      local_8 = 0;
+      local_6 = 0;
+      peVar8 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+      pbVar9 = eCEntity::GetWorldPosition(peVar8);
+      thunk_FUN_200a4c20();
+      bCVector::operator=((bCVector *)((int)local_4 + (uint)local_6 * 0xc),pbVar9);
+      local_6 = local_6 + 1;
+      pbVar9 = eCEntity::GetWorldPosition(peVar7);
+      thunk_FUN_200a4c20();
+      bCVector::operator=((bCVector *)((int)local_4 + (uint)local_6 * 0xc),pbVar9);
+      local_6 = local_6 + 1;
+      uVar16 = 0;
+      eVar15 = 5;
+      uVar14 = 0x800000ff;
+      pbVar13 = (bTSmallArray<bCVector> *)&local_8;
+      peVar2 = (eCGfxAdmin *)thunk_FUN_200a38a0();
+      peVar3 = eCGfxAdmin::GetAccessToMixer(peVar2);
+      eCGfxMixerAdmin::DrawLineList(peVar3,pbVar13,uVar14,eVar15,(bool)uVar16);
+      uVar16 = 1;
+      eVar15 = 4;
+      uVar14 = 0xff0000ff;
+      pbVar13 = (bTSmallArray<bCVector> *)&local_8;
+      peVar2 = (eCGfxAdmin *)thunk_FUN_200a38a0();
+      peVar3 = eCGfxAdmin::GetAccessToMixer(peVar2);
+      eCGfxMixerAdmin::DrawLineList(peVar3,pbVar13,uVar14,eVar15,(bool)uVar16);
+      if (local_4 != (void *)0x0) {
+        pvVar17 = local_4;
+        pbVar10 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::Free(pbVar10,pvVar17);
+      }
+    }
+    eVar12 = 0;
+    pbVar11 = (bCPropertyID *)(param_1 + 8);
+    peVar5 = (eCSceneAdmin *)
+             thunk_FUN_200ae8e0(pbVar11,0,0,&eCNode::RTTI_Type_Descriptor,
+                                &eCEntity::RTTI_Type_Descriptor,0);
+    peVar6 = eCSceneAdmin::GetEntity(peVar5,pbVar11,eVar12);
+    peVar7 = (eCEntity *)___RTDynamicCast(peVar6);
+    if (peVar7 != (eCEntity *)0x0) {
+      local_4 = (void *)0x0;
+      local_8 = 0;
+      local_6 = 0;
+      peVar8 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+      pbVar9 = eCEntity::GetWorldPosition(peVar8);
+      thunk_FUN_200a4c20();
+      bCVector::operator=((bCVector *)((int)local_4 + (uint)local_6 * 0xc),pbVar9);
+      local_6 = local_6 + 1;
+      pbVar9 = eCEntity::GetWorldPosition(peVar7);
+      thunk_FUN_200a4c20();
+      bCVector::operator=((bCVector *)((int)local_4 + (uint)local_6 * 0xc),pbVar9);
+      local_6 = local_6 + 1;
+      uVar16 = 0;
+      eVar15 = 5;
+      uVar14 = 0x80ff0000;
+      pbVar13 = (bTSmallArray<bCVector> *)&local_8;
+      peVar2 = (eCGfxAdmin *)thunk_FUN_200a38a0();
+      peVar3 = eCGfxAdmin::GetAccessToMixer(peVar2);
+      eCGfxMixerAdmin::DrawLineList(peVar3,pbVar13,uVar14,eVar15,(bool)uVar16);
+      uVar16 = 1;
+      eVar15 = 4;
+      uVar14 = 0xffff0000;
+      pbVar13 = (bTSmallArray<bCVector> *)&local_8;
+      peVar2 = (eCGfxAdmin *)thunk_FUN_200a38a0();
+      peVar3 = eCGfxAdmin::GetAccessToMixer(peVar2);
+      eCGfxMixerAdmin::DrawLineList(peVar3,pbVar13,uVar14,eVar15,(bool)uVar16);
+      if (local_4 != (void *)0x0) {
+        pvVar17 = local_4;
+        pbVar10 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::Free(pbVar10,pvVar17);
+      }
+    }
+    eVar12 = 0;
+    pbVar11 = (bCPropertyID *)(param_1 + 0xd);
+    peVar5 = (eCSceneAdmin *)
+             thunk_FUN_200ae8e0(pbVar11,0,0,&eCNode::RTTI_Type_Descriptor,
+                                &eCEntity::RTTI_Type_Descriptor,0);
+    peVar6 = eCSceneAdmin::GetEntity(peVar5,pbVar11,eVar12);
+    peVar7 = (eCEntity *)___RTDynamicCast(peVar6);
+    if (peVar7 != (eCEntity *)0x0) {
+      local_4 = (void *)0x0;
+      local_8 = 0;
+      local_6 = 0;
+      peVar8 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+      pbVar9 = eCEntity::GetWorldPosition(peVar8);
+      thunk_FUN_200a4c20();
+      bCVector::operator=((bCVector *)((int)local_4 + (uint)local_6 * 0xc),pbVar9);
+      local_6 = local_6 + 1;
+      pbVar9 = eCEntity::GetWorldPosition(peVar7);
+      thunk_FUN_200a4c20();
+      bCVector::operator=((bCVector *)((int)local_4 + (uint)local_6 * 0xc),pbVar9);
+      local_6 = local_6 + 1;
+      uVar16 = 0;
+      eVar15 = 5;
+      uVar14 = 0x80ffff00;
+      pbVar13 = (bTSmallArray<bCVector> *)&local_8;
+      peVar2 = (eCGfxAdmin *)thunk_FUN_200a38a0();
+      peVar3 = eCGfxAdmin::GetAccessToMixer(peVar2);
+      eCGfxMixerAdmin::DrawLineList(peVar3,pbVar13,uVar14,eVar15,(bool)uVar16);
+      uVar16 = 1;
+      eVar15 = 4;
+      uVar14 = 0xffffff00;
+      pbVar13 = (bTSmallArray<bCVector> *)&local_8;
+      peVar2 = (eCGfxAdmin *)thunk_FUN_200a38a0();
+      peVar3 = eCGfxAdmin::GetAccessToMixer(peVar2);
+      eCGfxMixerAdmin::DrawLineList(peVar3,pbVar13,uVar14,eVar15,(bool)uVar16);
+      if (local_4 != (void *)0x0) {
+        pvVar17 = local_4;
+        pbVar10 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::Free(pbVar10,pvVar17);
+      }
+    }
+  }
+  return;
+}
+
+

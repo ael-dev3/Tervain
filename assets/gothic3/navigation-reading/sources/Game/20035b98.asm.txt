@@ -1,0 +1,2 @@
+; 20035b98 bTPropertyType<gCNavigation_PS,eCEntityProxy>::scalar_deleting_destructor
+20035b98 | e983c52500 | JMP 0x20292120

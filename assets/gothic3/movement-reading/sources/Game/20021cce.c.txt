@@ -1,0 +1,15 @@
+/* ENTRY 20021cce | gCCharacterMovement_PS::OnExitProcessingRange | STATUS decompiled | 8 ms */
+
+/* protected: virtual void __thiscall gCCharacterMovement_PS::OnExitProcessingRange(void) */
+
+void __thiscall gCCharacterMovement_PS::OnExitProcessingRange(gCCharacterMovement_PS *this)
+
+{
+                    /* 0x21cce  5422  ?OnExitProcessingRange@gCCharacterMovement_PS@@MAEXXZ */
+                    /* WARNING: Could not recover jumptable at 0x20221710. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::OnEnterProcessingRange((eCEntityPropertySet *)this);
+  return;
+}
+
+

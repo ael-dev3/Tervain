@@ -1,0 +1,4 @@
+; 20002946 bTPropertyType<gCNavigation_PS,bCVector>::vfunction6
+20002946 | e945b12800 | JMP 0x2028da90
+; 20002950 gCFocus_PS::operator=
+; 20002950 Ordinal_636

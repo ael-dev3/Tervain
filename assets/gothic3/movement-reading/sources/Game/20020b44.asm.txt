@@ -1,0 +1,2 @@
+; 20020b44 ?OnPostUpdateInternals@gCCharacterMovement_PS@@MAEXXZ
+20020b44 | e9a70b2000 | JMP 0x202216f0

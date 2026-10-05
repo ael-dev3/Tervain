@@ -1,0 +1,26 @@
+/* ENTRY 20236340 | bTPropertyType<gCCharacterMovement_PS,bool>::scalar_deleting_destructor | STATUS decompiled | 8 ms */
+
+bTPropertyType<gCCharacterMovement_PS,bool> * __thiscall
+bTPropertyType<gCCharacterMovement_PS,bool>::scalar_deleting_destructor
+          (bTPropertyType<gCCharacterMovement_PS,bool> *this,byte param_1)
+
+{
+                    /* inlined destructor:
+                       bTPropertyType<gCCharacterMovement_PS,bool>::~bTPropertyType<gCCharacterMovement_PS,bool>
+                        */
+  this->vftablePtr = &vftable;
+  bCPropertyTypeBase::Destroy((bCPropertyTypeBase *)this);
+  thunk_FUN_20070e90(this + 8);
+  bCPropertyObjectTypeBase::UnregisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)this[6].vftablePtr,(bCPropertyTypeBase *)this);
+                    /* inlined destructor: bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool> */
+  this->vftablePtr =
+       (bTPropertyType<gCCharacterMovement_PS,bool>_vftable *)&bTPropertyTypeOnly<bool>::vftable;
+  bCPropertyTypeBase::~bCPropertyTypeBase((bCPropertyTypeBase *)this);
+  if ((param_1 & 1) != 0) {
+    _free(this);
+  }
+  return this;
+}
+
+

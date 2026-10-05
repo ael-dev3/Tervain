@@ -1,0 +1,2 @@
+; 2002af2c bTPropertyType<gCNavigation_PS,bTValArray<bCPropertyID>_>::vfunction24
+2002af2c | e97f602600 | JMP 0x20290fb0

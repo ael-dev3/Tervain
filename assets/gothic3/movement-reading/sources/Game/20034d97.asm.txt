@@ -1,0 +1,4 @@
+; 20034d97 ?Write@gCCharacterMovement_PS@@UAE?AW4bEResult@@AAVbCOStream@@@Z
+20034d97 | e914571f00 | JMP 0x2022a4b0
+; 20034d9c gCTreasureSet_PS::GetRootObject
+; 20034d9c Ordinal_4332

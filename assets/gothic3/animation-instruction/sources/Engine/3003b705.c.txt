@@ -1,0 +1,25 @@
+/* ENTRY 3003b705 | eCVisualAnimation_PS::HasMotion | STATUS decompiled | 13 ms */
+
+/* public: bool __thiscall eCVisualAnimation_PS::HasMotion(enum
+   eCWrapper_emfx2Actor::eEMotionType)const  */
+
+bool __thiscall eCVisualAnimation_PS::HasMotion(eCVisualAnimation_PS *this,eEMotionType param_1)
+
+{
+  bool bVar1;
+  
+                    /* 0x3b705  9733
+                       ?HasMotion@eCVisualAnimation_PS@@QBE_NW4eEMotionType@eCWrapper_emfx2Actor@@@Z
+                        */
+  if ((param_1 < 8) && (param_1 < *(eEMotionType *)&this[0xb].eCEntityPropertySet_data.offset_0xc))
+  {
+    bVar1 = bCString::IsEmpty((bCString *)
+                              (this[0xb].eCEntityPropertySet_data.offset_0x8 + param_1 * 0xc + 4));
+    if (!bVar1) {
+      return true;
+    }
+  }
+  return false;
+}
+
+

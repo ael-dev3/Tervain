@@ -1,0 +1,21 @@
+/* ENTRY 10003814 | bCGuid::bCGuid | STATUS decompiled | 3 ms */
+
+/* public: __thiscall bCGuid::bCGuid(struct _GUID const *) */
+
+void __thiscall bCGuid::bCGuid(bCGuid *this,_GUID *param_1)
+
+{
+                    /* 0x3814  131  ??0bCGuid@@QAE@PBU_GUID@@@Z */
+  if (param_1 == (_GUID *)0x0) {
+    this[0x10] = (bCGuid)0x0;
+    return;
+  }
+  *(ulong *)this = param_1->Data1;
+  *(undefined4 *)(this + 4) = *(undefined4 *)&param_1->Data2;
+  *(undefined4 *)(this + 8) = *(undefined4 *)param_1->Data4;
+  *(undefined4 *)(this + 0xc) = *(undefined4 *)(param_1->Data4 + 4);
+  this[0x10] = (bCGuid)0x1;
+  return;
+}
+
+

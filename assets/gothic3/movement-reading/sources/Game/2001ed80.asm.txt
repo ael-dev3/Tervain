@@ -1,0 +1,4 @@
+; 2001ed80 ??0gCEffectModule@@QAE@XZ
+2001ed80 | e93b670f00 | JMP 0x201154c0
+; 2001ed85 gCFocus_PS::GetMeleeModeItemScanElevDown
+; 2001ed85 Ordinal_3773

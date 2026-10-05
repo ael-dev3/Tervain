@@ -1,0 +1,2 @@
+; 3003b2fa ?SwitchFadeOut@eCWrapper_emfx2Actor@@QAEXW4eEMotionType@1@_NM@Z
+3003b2fa | e951010a00 | JMP 0x300db450

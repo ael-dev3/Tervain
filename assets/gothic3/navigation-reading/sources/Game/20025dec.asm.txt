@@ -1,0 +1,4 @@
+; 20025dec bTPropertyType<gCNavigation_PS,bCVector>::vfunction2
+20025dec | e9df772600 | JMP 0x2028d5d0
+; 20025df1 gCMusicLink::AccessType
+; 20025df1 Ordinal_1788

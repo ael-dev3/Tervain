@@ -1,0 +1,10 @@
+; 2028be10 bTPropertyType<gCNavigation_PS,bool>::vfunction20
+2028be10 | 56 | PUSH ESI
+2028be11 | 8bf1 | MOV ESI,ECX
+2028be13 | ff15d8877d20 | CALL dword ptr [0x207d87d8]
+2028be19 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+2028be1c | 56 | PUSH ESI
+2028be1d | ff15cc877d20 | CALL dword ptr [0x207d87cc]
+2028be23 | 5e | POP ESI
+2028be24 | c3 | RET
+; 2028be40 bTPropertyTypeOnly<bTObjArray<bCString>_>::scalar_deleting_destructor

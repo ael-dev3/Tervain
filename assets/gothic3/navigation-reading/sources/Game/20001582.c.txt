@@ -1,0 +1,11 @@
+/* ENTRY 20001582 | bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_>::vfunction7 | STATUS decompiled | 5 ms */
+
+bool __thiscall
+bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_>::vfunction7
+          (bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_> *this)
+
+{
+  return this[8].vftablePtr != (bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_>_vftable *)0x0;
+}
+
+

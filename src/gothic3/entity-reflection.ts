@@ -17,7 +17,9 @@ import type { NativeClockPrecision, NativeClockTimestampSource } from './world-c
 import { readNativeResource } from './resource';
 import type { ResourceReceipt } from './resource';
 
-interface ClockField { name: keyof OriginalClockValues; nativeOffset: number; typeName: 'long' | 'float'; registrar: string; reader: string }
+export interface NativeReflectionField { name: string; nativeOffset: number; typeName: string; registrar: string; reader: string;
+  defaultInitializer?: string }
+interface ClockField extends NativeReflectionField { name: keyof OriginalClockValues; typeName: 'long' | 'float' }
 const rules = JSON.parse(rulesText) as { schema: string; inputs: Record<string, string>; clockVersion: number;
   clockPropertyType: number; clockWrapperVtable: string; clockFields: ClockField[]; inheritedEntityPropertyTableEmpty: boolean };
 if (rules.schema !== 'gothic3-entity-reflection-rules-v1' || rules.clockVersion !== 1 ||
@@ -54,21 +56,31 @@ export interface NativeReflectionClockHost {
 }
 export interface NativeReflectionRoot {
   readonly className: string; readonly baseClassName: string | null;
-  readonly fields: readonly ClockField[];
+  readonly fields: readonly NativeReflectionField[];
 }
 export interface NativeReflectionFactory {
   readonly root: NativeReflectionRoot;
   /** Execute original concrete Clone including constructor/Create/defaults.
    * Supplied factories must return the exact live wrapper, never a record. */
   cloneRoot(controller: NativeReflectionController): NativeValue<NativeReflectionWrapper>;
+  /** Actual wrapper virtual Read and native PS virtual GetVersion capabilities. */
+  read(wrapper: NativeReflectionWrapper, input: NativeEntityByteInput): NativeValue<number>;
+  getVersion(wrapper: NativeReflectionWrapper): NativeValue<number>;
 }
 export interface NativeReflectionAllocation {
   readonly wrapper: NativeReflectionWrapper;
   propertySet: NativeLivePropertySet<object> | null;
   lowerClock: NativeWorldClock | null;
   phase: 'wrapper' | 'native-constructor' | 'created' | 'attached' | 'initialized' | 'read';
-  readonly initializedFields: Set<keyof OriginalClockValues>;
+  readonly initializedFields: Set<string>;
   readonly worldResident: false;
+}
+export interface NativeReflectionReadHandlers {
+  wrapperSource: string; dataSource: string;
+  /** Concrete descriptor virtual+38 owns its version/size and payload reads. */
+  readField(field: NativeReflectionField, input: NativeEntityByteInput): NativeValue<void>;
+  /** Concrete native virtual Read, including its own version/legacy tail. */
+  readNative(input: NativeEntityByteInput): NativeValue<void>;
 }
 
 /** Physical wrapper capability; NativeLivePropertySet.wrapper holds this object.
@@ -114,7 +126,7 @@ export class NativeReflectionWrapper implements NativePropertyObjectReference {
   }
   /** Normal wrapper.Read consumes size, but never skips to that claimed end. */
   read(input: NativeEntityByteInput): NativeValue<number> {
-    return this.controller.value(() => this.controller.readClockWrapper(this, input));
+    return this.controller.value(() => fact(this.factory.read(this, input), 'actual factory wrapper Read'));
   }
 }
 
@@ -159,7 +171,7 @@ class PropertyIterator {
     this.accessor = new NativeReflectionAccessor(controller); this.accessor.setInstance(temporary.instance);
     this.accessor.root = temporary.root; fact(temporary.destroy(), 'property iterator temporary destruction');
   }
-  field(): ClockField | null { return this.accessor.root?.fields[this.index] ?? null; }
+  field(): NativeReflectionField | null { return this.accessor.root?.fields[this.index] ?? null; }
   advance(): void {
     this.index = (this.index + 1) >>> 0;
     this.wrapper.controller.write('property iterator increment', 'SharedBase:100043fe');
@@ -197,7 +209,10 @@ export class NativeReflectionController {
     this.roots.set(inherited.className, inherited);
     const root: NativeReflectionRoot = Object.freeze({ className: 'gCClock_PS', baseClassName: 'eCEntityPropertySet',
       fields: Object.freeze(rules.clockFields.map(value => Object.freeze({ ...value }))) });
-    const factory: NativeReflectionFactory = { root, cloneRoot: controller => controller.value(() => controller.constructClock(factory)) };
+    const factory: NativeReflectionFactory = { root, cloneRoot: controller => controller.value(() => controller.constructClock(factory)),
+      read: (wrapper, input) => this.value(() => this.readClockWrapper(wrapper, input)),
+      getVersion: wrapper => wrapper.native?.className === 'gCClock_PS' && wrapper.clockProperties?.base === wrapper.native
+        ? known(1) : unknown('Actual concrete Clock PS required') };
     fact(this.registerFactory(factory), 'Clock factory registration');
   }
   receipt(): NativeReflectionReceipt { return { trace: this.trace.slice(), applied: this.applied.slice(), attempted: this.attempted.slice(),
@@ -228,15 +243,127 @@ export class NativeReflectionController {
     return this.value(() => {
       const name = ascii(factory.root.className);
       if (!name) throw new Error('An original nonempty class name is required.');
-      if (this.factories.has(name)) throw new Error('Duplicate native root replacement/fatal branch is unresolved.');
+      if (this.factories.has(name) || this.roots.has(name)) throw new Error('Duplicate native root replacement/fatal branch is unresolved.');
       this.factories.set(name, factory); this.roots.set(name, factory.root);
       this.write('registered concrete class factory ' + name, 'SharedBase:1000191f');
+    });
+  }
+  /** Source-proven inherited metadata root without a concrete clone capability.
+   * Registering it never makes that class constructible or marks it resident. */
+  registerRoot(root: NativeReflectionRoot): NativeValue<void> {
+    return this.value(() => {
+      const name = ascii(root.className);
+      if (!name || this.roots.has(name)) throw new Error('Duplicate/empty native metadata root unresolved');
+      if (root.baseClassName !== null) ascii(root.baseClassName);
+      this.roots.set(name, root); this.write('registered inherited metadata root ' + name, 'SharedBase:1000191f');
     });
   }
   resolveRoot(name: string | null): NativeReflectionRoot | null {
     if (name === null) return null;
     const result = this.roots.get(ascii(name));
     if (!result) throw new Error('SharedBase:100085e9 actual inherited root lookup unresolved for ' + name); return result;
+  }
+  allocateWrapper(factory: NativeReflectionFactory, source: string): NativeReflectionWrapper {
+    if (this.factories.get(factory.root.className) !== factory) throw new Error('Actual registered factory capability required');
+    const wrapper = new NativeReflectionWrapper(this.identity + ':wrapper:' + ++this.allocation, factory, this);
+    this.heap.push({ wrapper, propertySet: null, lowerClock: null, phase: 'wrapper', initializedFields: new Set(), worldResident: false });
+    this.write('wrapper successful allocation/base constructor/nonroot flag/type', source);
+    return wrapper;
+  }
+  private allocationFor(wrapper: NativeReflectionWrapper): NativeReflectionAllocation {
+    const allocation = this.heap.find(value => value.wrapper === wrapper);
+    if (!allocation || wrapper.controller !== this || wrapper.deleted) throw new Error('Actual retained live wrapper required');
+    return allocation;
+  }
+  retainNative(wrapper: NativeReflectionWrapper, set: NativeLivePropertySet<object>,
+    phase: NativeReflectionAllocation['phase'] = 'native-constructor'): void {
+    const allocation = this.allocationFor(wrapper);
+    if (allocation.propertySet !== null || set.className !== wrapper.factory.root.className) throw new Error('Fresh concrete native allocation required');
+    allocation.propertySet = set; allocation.phase = phase;
+  }
+  setAllocationPhase(wrapper: NativeReflectionWrapper, phase: NativeReflectionAllocation['phase']): void {
+    this.allocationFor(wrapper).phase = phase;
+  }
+  /** Source fresh-object Attach: incoming virtual ref, pointer binding, then
+   * temporary wrapper clear around release of its initial native reference. */
+  attachConstructedNative(wrapper: NativeReflectionWrapper, set: NativeLivePropertySet<object>,
+    attachSource: string, initializeSource: string): void {
+    const allocation = this.allocationFor(wrapper);
+    if (allocation.propertySet !== set || wrapper.native !== null || set.wrapper !== null ||
+        (set.referenceWord & 0x7fffffff) !== 1) throw new Error('Fresh source attach profile requires native count1 and NULL wrapper');
+    set.referenceWord = ((set.referenceWord & 0x80000000) | 2) >>> 0;
+    this.write('native AddVirtualReference before attach', 'SharedBase:10004ea3');
+    set.wrapper = wrapper; wrapper.native = set;
+    this.write('SetPropertyObject and wrapper native assignment', attachSource);
+    const saved = set.wrapper; set.wrapper = null;
+    this.write('native temporary wrapper clear', initializeSource);
+    set.referenceWord = ((set.referenceWord & 0x80000000) | 1) >>> 0;
+    this.write('native initial ReleaseVirtualReference', 'SharedBase:1000235b');
+    set.wrapper = saved; this.write('native original wrapper restore', initializeSource);
+    allocation.phase = 'attached';
+  }
+  initializeProperties(wrapper: NativeReflectionWrapper,
+    assignDefault: (field: NativeReflectionField) => NativeValue<void>,
+    postInitialize: () => NativeValue<void>, source: string): void {
+    const allocation = this.allocationFor(wrapper);
+    if (wrapper.native !== allocation.propertySet || allocation.phase !== 'attached') throw new Error('Actual attached native object required');
+    this.trace.push({ operation: 'factory RegisterPropertyObject nonroot return', source: 'SharedBase:10006db6', value: true });
+    fact(wrapper.addReference(), 'default creator construction');
+    const iterator = new PropertyIterator(wrapper);
+    for (let field = iterator.field(); field !== null; field = iterator.field()) {
+      this.effect('descriptor default ' + field.name, field.defaultInitializer ?? field.reader, () => assignDefault(field));
+      allocation.initializedFields.add(field.name); iterator.advance();
+    }
+    if (wrapper.native !== null) {
+      const current = wrapper.native; // Original GetNativeObject occurs again.
+      if (current !== allocation.propertySet) throw new Error('Replaced native PostInitialize receiver unresolved');
+      this.effect('PostInitializeProperties', source, postInitialize);
+    }
+    allocation.phase = 'initialized'; iterator.destroy();
+    const panic = this.effect('creator ErrorAdmin.IsInPanicState', 'SharedBase:10007356', () => this.clockHost.isInPanicState());
+    if (!panic) fact(wrapper.releaseReference(), 'default creator destructor');
+  }
+  /** Shared normal object/property table path. Concrete descriptors retain
+   * their exact payload semantics and native readers retain legacy branches. */
+  readWrapperProperties(wrapper: NativeReflectionWrapper, input: NativeEntityByteInput,
+    handlers: NativeReflectionReadHandlers): number {
+    const allocation = this.allocationFor(wrapper);
+    if (wrapper.native === null || wrapper.native !== allocation.propertySet || allocation.phase !== 'initialized') throw new Error('Actual initialized concrete wrapper required');
+    const objectVersion = input.u16(); this.read('wrapper object version', 'SharedBase:10003ed6', input, objectVersion);
+    this.read('wrapper declared size; normal branch does not seek', handlers.wrapperSource, input, input.u32());
+    if (objectVersion === 1) this.read('legacy object name', 'SharedBase:10002f68', input, input.string());
+    if (objectVersion <= 81) this.read('legacy property ID20', 'SharedBase:10002f68', input, input.propertyID());
+    const propertyVersion = input.u16(); this.read('property table version', handlers.dataSource, input, propertyVersion);
+    if (propertyVersion === 0) throw new Error(handlers.dataSource + ' CallFatalError property version0 boundary');
+    fact(wrapper.addReference(), 'read creator construction');
+    const iterator = new PropertyIterator(wrapper);
+    const count = input.u32() | 0; this.read('signed property count', handlers.dataSource, input, count);
+    let fast = true;
+    for (let index = 0; index < count; index++) {
+      const name = ascii(input.string()); const type = propertyVersion > 29 ? ascii(input.string()) : null;
+      let field: NativeReflectionField | null = null;
+      if (fast) { field = iterator.field(); if ((field?.name ?? '') !== name) fast = false; iterator.advance(); }
+      if (!fast) {
+        const named = new PropertyIterator(wrapper);
+        const resolving = new NativeReflectionAccessor(this);
+        resolving.setInstance(named.accessor.instance); resolving.root = named.accessor.root;
+        const search = new PropertyIterator(wrapper, resolving);
+        while (search.field()?.name !== name) {
+          if (resolving.root === null || resolving.root.baseClassName === null) break;
+          search.advance();
+        }
+        field = search.field();
+        if (field) { named.accessor.setInstance(resolving.instance); named.accessor.root = resolving.root; named.index = search.index; }
+        fact(resolving.destroy(), 'named property resolve temporary destruction'); named.destroy();
+      }
+      if (!field || (type !== null && type !== field.typeName)) throw new Error(handlers.dataSource + ' obsolete property/critical-section reader unresolved for ' + name);
+      this.effect('descriptor reader ' + name, field.reader, () => handlers.readField(field, input));
+    }
+    this.effect('native derived Read', handlers.dataSource, () => handlers.readNative(input));
+    iterator.destroy();
+    const panic = this.effect('read creator ErrorAdmin.IsInPanicState', 'SharedBase:10007356', () => this.clockHost.isInPanicState());
+    if (!panic) fact(wrapper.releaseReference(), 'read creator destructor');
+    allocation.phase = 'read'; return objectVersion;
   }
   private constructClock(factory: NativeReflectionFactory): NativeReflectionWrapper {
     const wrapper = new NativeReflectionWrapper(this.identity + ':wrapper:' + ++this.allocation, factory, this);
@@ -287,7 +414,7 @@ export class NativeReflectionController {
     fact(wrapper.addReference(), 'default creator construction');
     const iterator = new PropertyIterator(wrapper);
     for (let field = iterator.field(); field !== null; field = iterator.field()) {
-      values[field.name] = 0; this.write('descriptor default zero ' + field.name, field.name === 'Factor' ? 'Game:2020ad40' : 'Game:2020a4b0');
+      values[field.name as keyof OriginalClockValues] = 0; this.write('descriptor default zero ' + field.name, field.name === 'Factor' ? 'Game:2020ad40' : 'Game:2020a4b0');
       allocation.initializedFields.add(field.name);
       iterator.advance();
     }
@@ -336,7 +463,7 @@ export class NativeReflectionController {
     let fast = true;
     for (let index = 0; index < count; index++) {
       const name = ascii(input.string()); const type = propertyVersion > 29 ? ascii(input.string()) : null;
-      let field: ClockField | null = null;
+      let field: NativeReflectionField | null = null;
       if (fast) { field = iterator.field(); if ((field?.name ?? '') !== name) fast = false; iterator.advance(); }
       if (!fast) {
         // Original named accessor owns temporary references throughout lookup.
@@ -367,7 +494,7 @@ export class NativeReflectionController {
       const destination = wrapper.native;
       if (!destination || destination.className !== 'gCClock_PS' || !wrapper.clockProperties || destination.values !== wrapper.clockProperties.values) throw new Error('Scalar destination GetNativeObject is unavailable or replaced');
       const value = field.typeName === 'float' ? input.f32() : input.u32();
-      (destination.values as OriginalClockValues)[field.name] = value;
+      (destination.values as OriginalClockValues)[field.name as keyof OriginalClockValues] = value;
       this.write('serialized scalar write ' + name, field.reader);
       if (wrapper.native !== null) {
         const captured = wrapper.clockProperties;
@@ -390,7 +517,8 @@ export class NativeReflectionController {
     return object === null ? known(null) : object instanceof NativeLivePropertySet ? known(object) : unknown('Original dynamic_cast source capability unresolved');
   }
   propertySetVersion(set: NativeLivePropertySet<object>): NativeValue<number> {
-    return set.className === 'gCClock_PS' && set.wrapper instanceof NativeReflectionWrapper && set.wrapper.native === set ? known(1) : unknown('Actual concrete PS virtual GetVersion unresolved');
+    return set.wrapper instanceof NativeReflectionWrapper && set.wrapper.native === set && set.wrapper.factory.root.className === set.className
+      ? set.wrapper.factory.getVersion(set.wrapper) : unknown('Actual concrete PS virtual GetVersion unresolved');
   }
   clock(set: NativeLivePropertySet<object>): NativeValue<OriginalClockProperties> {
     const wrapper = set.wrapper;

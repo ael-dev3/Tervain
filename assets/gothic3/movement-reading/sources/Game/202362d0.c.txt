@@ -1,0 +1,15 @@
+/* ENTRY 202362d0 | bTPropertyType<gCCharacterMovement_PS,float>::vfunction19 | STATUS decompiled | 5 ms */
+
+void __thiscall
+bTPropertyType<gCCharacterMovement_PS,float>::vfunction19
+          (bTPropertyType<gCCharacterMovement_PS,float> *this)
+
+{
+  bCPropertyTypeBase::Destroy((bCPropertyTypeBase *)this);
+  thunk_FUN_20070e90(this + 8);
+  bCPropertyObjectTypeBase::UnregisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)this[6].vftablePtr,(bCPropertyTypeBase *)this);
+  return;
+}
+
+

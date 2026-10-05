@@ -1,0 +1,4 @@
+; 30030e27 ?Invalidate@eCEntityProxy@@IAEXXZ
+30030e27 | e9b4344900 | JMP 0x304c42e0
+; 30030e2c eCGUIManager::GetDesktopWindow
+; 30030e2c Ordinal_6822

@@ -1,0 +1,11 @@
+/* ENTRY 2023add0 | gCMovementBase_PS::gCMovementBase_PS | STATUS decompiled | 8 ms */
+
+gCMovementBase_PS * __thiscall gCMovementBase_PS::gCMovementBase_PS(gCMovementBase_PS *this)
+
+{
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  this->vftablePtr = &vftable;
+  return this;
+}
+
+

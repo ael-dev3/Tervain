@@ -1,0 +1,15 @@
+/* ENTRY 20036313 | gCCharacterMovement_PS::OnPropertySetAdded | STATUS decompiled | 8 ms */
+
+/* protected: virtual void __thiscall gCCharacterMovement_PS::OnPropertySetAdded(void) */
+
+void __thiscall gCCharacterMovement_PS::OnPropertySetAdded(gCCharacterMovement_PS *this)
+
+{
+                    /* 0x36313  5573  ?OnPropertySetAdded@gCCharacterMovement_PS@@MAEXXZ */
+                    /* WARNING: Could not recover jumptable at 0x20221700. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::OnPropertySetAdded((eCEntityPropertySet *)this);
+  return;
+}
+
+

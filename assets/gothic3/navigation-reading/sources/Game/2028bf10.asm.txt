@@ -1,0 +1,9 @@
+; 2028bf10 bTPOPureSmartPtr<gCNavigation_PS>::bTPOPureSmartPtr<gCNavigation_PS>
+2028bf10 | 56 | PUSH ESI
+2028bf11 | 8bf1 | MOV ESI,ECX
+2028bf13 | ff15b8877d20 | CALL dword ptr [0x207d87b8]
+2028bf19 | c7064ce36820 | MOV dword ptr [ESI],0x2068e34c
+2028bf1f | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+2028bf26 | 8bc6 | MOV EAX,ESI
+2028bf28 | 5e | POP ESI
+2028bf29 | c3 | RET

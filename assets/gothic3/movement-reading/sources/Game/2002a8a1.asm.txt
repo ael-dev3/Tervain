@@ -1,0 +1,2 @@
+; 2002a8a1 ?CopyFrom@gCCharacterMovement_PS@@UAE?AW4bEResult@@ABVbCObjectBase@@@Z
+2002a8a1 | e90a871f00 | JMP 0x20222fb0

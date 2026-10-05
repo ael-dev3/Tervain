@@ -1,0 +1,2 @@
+; 20030738 bTPOPureSmartPtr<gCNavigation_PS>::vfunction12
+20030738 | e963bb2500 | JMP 0x2028c2a0

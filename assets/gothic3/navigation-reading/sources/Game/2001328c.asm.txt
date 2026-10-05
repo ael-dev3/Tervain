@@ -1,0 +1,4 @@
+; 2001328c bTPropertyObjectType<gCNavigation_PS,eCEntityPropertySet>::vfunction1
+2001328c | e99fe50400 | JMP 0x20061830
+; 20013291 gCAmbientSequencer::AccessDayTime
+; 20013291 Ordinal_1143

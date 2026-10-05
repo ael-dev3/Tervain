@@ -1,0 +1,12 @@
+/* ENTRY 304b3740 | FUN_304b3740 | STATUS decompiled | 4 ms */
+
+void __fastcall FUN_304b3740(int param_1)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x304b3743. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCMatrix::GetTranslation((bCMatrix *)(param_1 + 0x40));
+  return;
+}
+
+

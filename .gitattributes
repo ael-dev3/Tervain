@@ -29,11 +29,16 @@ assets/gothic3/startup-controller/** -text -eol whitespace=cr-at-eol,-blank-at-e
 assets/gothic3/entity-reflection/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/movement-state/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/animation-state/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/animation-spu/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/animation-instruction/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/navigation-reading/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/movement-reading/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/session-checkpoint.json -text -eol
 assets/gothic3/dispatch-checkpoint.json -text -eol
 assets/gothic3/lifecycle-checkpoint.json -text -eol
 assets/gothic3/processing-checkpoint.json -text -eol
 assets/gothic3/activation-checkpoint.json -text -eol
+assets/gothic3/actor-reading-checkpoint.json -text -eol
 # These implementations/producers are individually byte-pinned by native receipts.
 src/gothic3/inventory.ts -text -eol
 src/gothic3/startup.ts -text -eol
@@ -67,6 +72,10 @@ src/gothic3/entity-reflection.ts -text -eol
 src/gothic3/movement-state.ts -text -eol
 src/gothic3/animation-state.ts -text -eol
 src/gothic3/native-motion.ts -text -eol
+src/gothic3/animation-spu.ts -text -eol
+src/gothic3/animation-instruction.ts -text -eol
+src/gothic3/navigation-reading.ts -text -eol
+src/gothic3/movement-reading.ts -text -eol
 tools/gothic3/research_native_clock.py -text -eol
 tools/gothic3/research_native_navigation.py -text -eol
 tools/gothic3/research_inventory_observers.py -text -eol
@@ -92,6 +101,11 @@ tools/gothic3/research_entity_reflection.py -text -eol whitespace=cr-at-eol
 tools/gothic3/research_movement_state.py -text -eol
 tools/gothic3/research_animation_state.py -text -eol
 tools/gothic3/freeze_activation_checkpoint.py -text -eol
+tools/gothic3/research_animation_spu.py -text -eol whitespace=cr-at-eol
+tools/gothic3/research_animation_instruction.py -text -eol whitespace=cr-at-eol
+tools/gothic3/research_navigation_reading.py -text -eol whitespace=cr-at-eol
+tools/gothic3/research_movement_reading.py -text -eol whitespace=cr-at-eol
+tools/gothic3/freeze_actor_checkpoint.py -text -eol
 src/gothic3/world-clock-view.ts -text -eol
 src/gothic3/main.ts -text -eol
 docs/engineering/gothic3-rebuilding-process.md -text -eol
@@ -120,3 +134,7 @@ assets/gothic3/startup-controller/sources/** -whitespace
 assets/gothic3/entity-reflection/sources/** -whitespace
 assets/gothic3/movement-state/sources/** -whitespace
 assets/gothic3/animation-state/sources/** -whitespace
+assets/gothic3/animation-spu/sources/** -whitespace
+assets/gothic3/animation-instruction/sources/** -whitespace
+assets/gothic3/navigation-reading/sources/** -whitespace
+assets/gothic3/movement-reading/sources/** -whitespace

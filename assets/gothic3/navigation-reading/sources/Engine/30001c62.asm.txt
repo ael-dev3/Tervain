@@ -1,0 +1,2 @@
+; 30001c62 ?IntersectsRay@eCEntityPropertySet@@UBE_NAAUeSRayIntersectionDesc@@ABVbCMatrix@@PAPAVeCCollisionDesc@@@Z
+30001c62 | e9e9fb4700 | JMP 0x30481850

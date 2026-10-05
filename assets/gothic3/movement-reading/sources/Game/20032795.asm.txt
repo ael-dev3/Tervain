@@ -1,0 +1,2 @@
+; 20032795 bTPropertyObjectType<gCMovementBase_PS,eCEntityPropertySet>::~bTPropertyObjectType<gCMovementBase_PS,eCEntityPropertySet>
+20032795 | e936972000 | JMP 0x2023bed0

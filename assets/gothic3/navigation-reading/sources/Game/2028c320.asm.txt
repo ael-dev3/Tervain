@@ -1,0 +1,7 @@
+; 2028c320 bTPOPureSmartPtr<gCNavigation_PS>::vfunction7
+2028c320 | 8b4108 | MOV EAX,dword ptr [ECX + 0x8]
+2028c323 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+2028c327 | 50 | PUSH EAX
+2028c328 | 51 | PUSH ECX
+2028c329 | ff158c877d20 | CALL dword ptr [0x207d878c]
+2028c32f | c20400 | RET 0x4

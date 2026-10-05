@@ -1,0 +1,4 @@
+; 200152c1 SHAREDBASE.DLL::bCPropertyTypeBase::Read
+200152c1 | e98a9f2700 | JMP 0x2028f250
+; 200152c6 gCCharacterMovement_PS::Read
+; 200152c6 Ordinal_5887

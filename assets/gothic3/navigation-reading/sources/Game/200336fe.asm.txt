@@ -1,0 +1,4 @@
+; 200336fe ?Invalidate@gCNavigation_PS@@IAEXXZ
+200336fe | e94d372500 | JMP 0x20286e50
+; 20033703 gCEventScript_PS::AccessScriptTriggerFunc
+; 20033703 Ordinal_1656

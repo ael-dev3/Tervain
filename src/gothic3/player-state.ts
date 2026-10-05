@@ -8,6 +8,7 @@
  */
 import rulesText from '../../assets/gothic3/player-state/runtime-rules.json?raw';
 import type { NativeValue } from './dialogue';
+import type { NativePlayAniArguments } from './animation-state';
 import type { NativeInventory } from './inventory';
 import type { OriginalPlayerMemory } from './player-properties';
 import type { NativeScriptActor, NativeScriptValues } from './routine-scripts';
@@ -95,6 +96,14 @@ export interface NativePlayerStateHost {
   /** Complex Game2022c810 physical mode transition. Its ordered shape/speed/
    * effects/callback operations must be implemented before this can returnknown. */
   physicalMovementMode(actor: NativePlayerActor, mode: number, spu: NativeScriptProcessingUnit): NativeValue<void>;
+  /** Actual Entity.GetAni overload and live SPU PlayAni instruction. These
+   * preserve actor/PS identity; a renderer clip name is not a GetAni result. */
+  animation?: {
+    getAni(actor: NativePlayerActor, action: 54 | 57, useTypeA: 0, useTypeB: 0, phase: 12 | 5,
+      spu: NativeScriptProcessingUnit, access: NativeSPUSchedulerAccess): NativeValue<string>;
+    playAni(args: NativePlayAniArguments<NativePlayerActor>, spu: NativeScriptProcessingUnit,
+      access: NativeSPUSchedulerAccess): NativeValue<0 | 1>;
+  };
 }
 
 export interface NativePlayerActionRecord {
@@ -683,7 +692,7 @@ export class NativePlayerStates {
     if (this.stage('PS_Normal_Jump', access) && this.pushJump(actor, spu, access) !== 1) return 0;
     this.stage('PS_Normal_Jump', access, 1); return 1;
   }
-  private jumpFunction(spu: NativeScriptProcessingUnit, access: NativeSPUSchedulerAccess): 1 {
+  private jumpFunction(spu: NativeScriptProcessingUnit, access: NativeSPUSchedulerAccess): 0 | 1 {
     const argument = this.argument(spu, access);
     const actor = (): NativePlayerActor => {
       const value = argument.self; if (!value) throw new Error('Jump Self assignment incomplete'); return value;
@@ -703,11 +712,20 @@ export class NativePlayerStates {
       //1000c4d0 invokes AddSP(Self,None,−10), then GetSP(Self,None,0), ignoring
       //itsAL result. This lossless ordered prefix precedes missing animation.
       this.staminaScript('AddStaminaPoints', actor(), access); void this.staminaScript('GetStaminaPoints', actor(), access);
-      throw new Error('Jump GetAni(Action54,UseTypes0/0,Phase12) and PlayAni descriptor(loop0,speed1,flags0) are unresolved after actual movement/SP prefix');
+      const name = fact(this.host.animation?.getAni(actor(), 54, 0, 0, 12, spu, access), 'Jump Entity.GetAni');
+      if (typeof name !== 'string') throw new Error('Original Jump animation CString unresolved');
+      const result = fact(this.host.animation?.playAni({ self: actor(), other: null, name, duration: 0,
+        reverseByte: 0, playSpeed: 1, waitForFadeByte: 0, overlayByte: 0 }, spu, access), 'Jump sAIPlayAniInstr');
+      if (result !== 0 && result !== 1) throw new Error('Jump instruction must return native AL');
+      if (result === 0) return 0;
     }
     if (this.stage('_AI_Jump', access, 1)) {
-      void actor();
-      throw new Error('Resumed Jump GetAni(Action57,UseTypes0/0,Phase5)/PlayAni(loop−1,speed1,flags0) unresolved');
+      const name = fact(this.host.animation?.getAni(actor(), 57, 0, 0, 5, spu, access), 'Fall Entity.GetAni');
+      if (typeof name !== 'string') throw new Error('Original Fall animation CString unresolved');
+      const result = fact(this.host.animation?.playAni({ self: actor(), other: null, name, duration: -1,
+        reverseByte: 0, playSpeed: 1, waitForFadeByte: 0, overlayByte: 0 }, spu, access), 'Fall sAIPlayAniInstr');
+      if (result !== 0 && result !== 1) throw new Error('Fall instruction must return native AL');
+      if (result === 0) return 0;
     }
     this.stage('_AI_Jump', access, 2); void argument.kind; return 1;
   }

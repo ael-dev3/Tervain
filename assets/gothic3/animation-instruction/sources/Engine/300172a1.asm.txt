@@ -1,0 +1,2 @@
+; 300172a1 ?GetStandardAniFadeTime@eCAnimationAdmin@@QAEMXZ
+300172a1 | e9da870700 | JMP 0x3008fa80

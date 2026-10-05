@@ -1,0 +1,2 @@
+; 20023790 ?OnIntersect@gCCharacterMovement_PS@@UAEXPAVeCEntity@@AAVeCContactIterator@@@Z
+20023790 | e9cb412000 | JMP 0x20227960

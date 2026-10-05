@@ -1,0 +1,4 @@
+; 2001617b bTPropertyType<gCNavigation_PS,bTValArray<bCPropertyID>_>::vfunction7
+2001617b | e9308e2700 | JMP 0x2028efb0
+; 2001618f gCPrefPath_PSObj::LimitSectionToCone
+; 2001618f Ordinal_5299

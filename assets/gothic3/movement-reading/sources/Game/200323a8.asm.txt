@@ -1,0 +1,4 @@
+; 200323a8 bTPropertyType<gCCharacterMovement_PS,bool>::vfunction7
+200323a8 | e953262000 | JMP 0x20234a00
+; 200323b2 gCFlock_PS::AccessScatterAni
+; 200323b2 Ordinal_1652

@@ -1,0 +1,24 @@
+; 20292060 bTPropertyType<gCNavigation_PS,bTValArray<bCPropertyID>_>::vector_deleting_destructor
+20292060 | 56 | PUSH ESI
+20292061 | 8bf1 | MOV ESI,ECX
+20292063 | c70684e66820 | MOV dword ptr [ESI],0x2068e684
+20292069 | ff15dc877d20 | CALL dword ptr [0x207d87dc]
+2029206f | 8d4620 | LEA EAX,[ESI + 0x20]
+20292072 | 50 | PUSH EAX
+20292073 | e85e9ad8ff | CALL 0x2001bad6
+20292078 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+2029207b | 56 | PUSH ESI
+2029207c | ff15dc867d20 | CALL dword ptr [0x207d86dc]
+20292082 | 8bce | MOV ECX,ESI
+20292084 | c70674d06820 | MOV dword ptr [ESI],0x2068d074
+2029208a | ff15e8877d20 | CALL dword ptr [0x207d87e8]
+20292090 | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+20292095 | 7409 | JZ 0x202920a0
+20292097 | 56 | PUSH ESI
+20292098 | e898181d00 | CALL 0x20463935
+2029209d | 83c404 | ADD ESP,0x4
+; 202920a0 LAB_202920a0
+202920a0 | 8bc6 | MOV EAX,ESI
+202920a2 | 5e | POP ESI
+202920a3 | c20400 | RET 0x4
+; 202920c0 bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_>::scalar_deleting_destructor

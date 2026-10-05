@@ -1,0 +1,4 @@
+; 100013ca ??0bCVector@@QAE@QBM@Z
+100013ca | e9e1ce0200 | JMP 0x1002e2b0
+; 100013cf bCVector4::AccessW
+; 100013cf Ordinal_1504

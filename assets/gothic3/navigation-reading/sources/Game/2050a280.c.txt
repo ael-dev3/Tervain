@@ -1,0 +1,32 @@
+/* ENTRY 2050a280 | bTPropertyType<gCNavigation_PS,bCPropertyID>::~bTPropertyType<gCNavigation_PS,bCPropertyID> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNavigation_PS,bCPropertyID>::~bTPropertyType<gCNavigation_PS,bCPropertyID>
+          (bTPropertyType<gCNavigation_PS,bCPropertyID> *this)
+
+{
+  bTPropertyType<gCNavigation_PS,bCPropertyID> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"SleepingPoint");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNavigation_PS::ms_PropertyMember_m_SleepingPoint,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_SleepingPoint = &vftable;
+  DAT_207bf904 = bTPropertyObjectType<gCNavigation_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNavigation_PS,eCEntityPropertySet>();
+  _DAT_207bf908 = 0x48;
+  _DAT_207bf90c = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCNavigation_PS::ms_PropertyMember_m_SleepingPoint);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bf904,
+             (bCPropertyTypeBase *)&gCNavigation_PS::ms_PropertyMember_m_SleepingPoint);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCPropertyID>::~bTPropertyTypeOnly<bCPropertyID>);
+  return;
+}
+
+

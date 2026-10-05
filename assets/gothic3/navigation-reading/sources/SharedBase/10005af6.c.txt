@@ -1,0 +1,28 @@
+/* ENTRY 10005af6 | bCString::bCString | STATUS decompiled | 6 ms */
+
+/* public: __thiscall bCString::bCString(class bCString const &,int) */
+
+bCString * __thiscall bCString::bCString(bCString *this,bCString *param_1,int param_2)
+
+{
+  int iVar1;
+  
+                    /* 0x5af6  273  ??0bCString@@QAE@ABV0@H@Z */
+  iVar1 = *(int *)param_1;
+  if ((iVar1 != 0) && (param_2 != 0)) {
+    if (*(int *)(iVar1 + -8) <= param_2) {
+      *(int *)this = iVar1;
+      *(short *)(iVar1 + -4) = *(short *)(iVar1 + -4) + 1;
+      return this;
+    }
+    if (param_2 != 0) {
+      Alloc(this,param_2);
+      _memcpy(*(void **)this,*(void **)param_1,param_2);
+      return this;
+    }
+  }
+  *(undefined4 *)this = 0;
+  return this;
+}
+
+

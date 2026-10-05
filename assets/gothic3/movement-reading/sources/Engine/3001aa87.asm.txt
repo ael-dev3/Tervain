@@ -1,0 +1,4 @@
+; 3001aa87 ?OnCustomPatch@eCEntityPropertySet@@UAEXPBV1@@Z
+3001aa87 | e9346e4600 | JMP 0x304818c0
+; 3001aa8c eCVertexbufferPool::PostInitialize
+; 3001aa8c Ordinal_11719

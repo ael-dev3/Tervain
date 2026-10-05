@@ -1,0 +1,4 @@
+; 20032849 ?OnTouch@gCCharacterMovement_PS@@UAEXPAVeCEntity@@AAVeCContactIterator@@@Z
+20032849 | e9a2321f00 | JMP 0x20225af0
+; 2003284e gCAmbientSoundList::gCAmbientSoundList
+; 2003284e Ordinal_20

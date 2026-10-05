@@ -1,0 +1,4 @@
+; 2000df80 bTPropertyType<gCNavigation_PS,bTValArray<bCPropertyID>_>::vfunction10
+2000df80 | e95b2f2800 | JMP 0x20290ee0
+; 2000df85 gCPlayerMemory_PS::GetTutorialFlags
+; 2000df85 Ordinal_4638

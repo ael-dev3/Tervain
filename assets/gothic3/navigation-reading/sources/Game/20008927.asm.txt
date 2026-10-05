@@ -1,0 +1,4 @@
+; 20008927 bTPropertyType<gCNavigation_PS,bCPropertyID>::vfunction14
+20008927 | e9945a2800 | JMP 0x2028e3c0
+; 2000892c gCEditorEntityPropertySet::operator=
+; 2000892c Ordinal_613

@@ -1,0 +1,40 @@
+/* ENTRY 200223cc | gCNavigation_PS::OnPropertySetRemoved | STATUS decompiled | 19 ms */
+
+/* public: virtual void __thiscall gCNavigation_PS::OnPropertySetRemoved(void) */
+
+void __thiscall gCNavigation_PS::OnPropertySetRemoved(gCNavigation_PS *this)
+
+{
+  gCNavigationAdmin *pgVar1;
+  eCEntity *peVar2;
+  int iVar3;
+  undefined4 uVar4;
+  TypeDescriptor *pTVar5;
+  TypeDescriptor *pTVar6;
+  gCNavigation_PS *pgVar7;
+  undefined4 uVar8;
+  
+                    /* 0x223cc  5597  ?OnPropertySetRemoved@gCNavigation_PS@@UAEXXZ */
+  if ((this->gCNavigation_PS_data).offset_0x1e1 == (gCNavigation_PS)0x1) {
+    pgVar7 = this;
+    pgVar1 = (gCNavigationAdmin *)thunk_FUN_20079ea0();
+    gCNavigationAdmin::DeregisterNavigationPSInROI(pgVar1,(gCNavigation_PS *)pgVar7);
+  }
+  uVar8 = 0;
+  pTVar6 = &eCTemplateEntity::RTTI_Type_Descriptor;
+  pTVar5 = &eCEntity::RTTI_Type_Descriptor;
+  uVar4 = 0;
+  peVar2 = (*this->vftablePtr->GetEntity)(this);
+  iVar3 = ___RTDynamicCast(peVar2,uVar4,pTVar5,pTVar6,uVar8);
+  if (iVar3 == 0) {
+    pgVar7 = this;
+    pgVar1 = (gCNavigationAdmin *)thunk_FUN_20079ea0();
+    gCNavigationAdmin::DeregisterNavigationPS(pgVar1,(gCNavigation_PS *)pgVar7);
+  }
+                    /* WARNING: Could not recover jumptable at 0x20287c9d. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::OnPropertySetRemoved((eCEntityPropertySet *)this);
+  return;
+}
+
+

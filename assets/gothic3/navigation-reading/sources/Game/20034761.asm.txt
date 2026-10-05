@@ -1,0 +1,4 @@
+; 20034761 SHAREDBASE.DLL::bCPropertyTypeBase::Read
+20034761 | e9ba922500 | JMP 0x2028da20
+; 2003476b gCSession::WorldActivate
+; 2003476b Ordinal_7474

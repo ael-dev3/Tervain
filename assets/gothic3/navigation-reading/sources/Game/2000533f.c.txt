@@ -1,0 +1,10 @@
+/* ENTRY 2000533f | bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::vfunction11 | STATUS decompiled | 1 ms */
+
+void __thiscall bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::vfunction11(void)
+
+{
+  thunk_FUN_20291900(0);
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 2002e3ca bTPOPureSmartPtr<gCNavigation_PS>::~bTPOPureSmartPtr<gCNavigation_PS>
+2002e3ca | e971df2500 | JMP 0x2028c340

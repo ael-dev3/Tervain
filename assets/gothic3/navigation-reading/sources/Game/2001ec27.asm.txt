@@ -1,0 +1,4 @@
+; 2001ec27 bTPropertyType<gCNavHelper_PS,bCPropertyID>::vfunction4
+2001ec27 | e9e4f62600 | JMP 0x2028e310
+; 2001ec2c gCNavPath_PS::SetNetIndex
+; 2001ec2c Ordinal_6816

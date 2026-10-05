@@ -1,0 +1,2 @@
+; 2001f12c bTPropertyType<gCNavigation_PS,bCPropertyID>::vfunction13
+2001f12c | e91ff22600 | JMP 0x2028e350

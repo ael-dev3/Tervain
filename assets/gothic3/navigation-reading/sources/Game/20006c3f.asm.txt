@@ -1,0 +1,4 @@
+; 20006c3f bTPropertyType<gCNavigation_PS,bCPropertyID>::vfunction9
+20006c3f | e98c762800 | JMP 0x2028e2d0
+; 20006c44 gCDummyVisualBase_PS::SetVisGameEntity
+; 20006c44 Ordinal_7196

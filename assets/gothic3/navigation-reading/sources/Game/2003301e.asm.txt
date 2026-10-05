@@ -1,0 +1,2 @@
+; 2003301e bTPOPureSmartPtr<gCNavigation_PS>::vfunction10
+2003301e | e91d922500 | JMP 0x2028c240

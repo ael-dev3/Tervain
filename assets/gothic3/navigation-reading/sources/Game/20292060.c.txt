@@ -1,0 +1,29 @@
+/* ENTRY 20292060 | bTPropertyType<gCNavigation_PS,bTValArray<bCPropertyID>_>::scalar_deleting_destructor | STATUS decompiled | 7 ms */
+
+bTPropertyType<gCNavigation_PS,bTValArray<bCPropertyID>_> * __thiscall
+bTPropertyType<gCNavigation_PS,bTValArray<bCPropertyID>_>::scalar_deleting_destructor
+          (bTPropertyType<gCNavigation_PS,bTValArray<bCPropertyID>_> *this,byte param_1)
+
+{
+                    /* inlined destructor:
+                       bTPropertyType<gCNavigation_PS,bTValArray<bCPropertyID>_>::~bTPropertyType<gCNavigation_PS,bTValArray<bCPropertyID>_>
+                        */
+  this->vftablePtr = &vftable;
+  bCPropertyTypeBase::Destroy((bCPropertyTypeBase *)this);
+  thunk_FUN_20070e90(this + 8);
+  bCPropertyObjectTypeBase::UnregisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)this[6].vftablePtr,(bCPropertyTypeBase *)this);
+                    /* inlined destructor:
+                       bTPropertyTypeOnly<bTValArray<bCPropertyID>_>::~bTPropertyTypeOnly<bTValArray<bCPropertyID>_>
+                        */
+  this->vftablePtr =
+       (bTPropertyType<gCNavigation_PS,bTValArray<bCPropertyID>_>_vftable *)
+       &bTPropertyTypeOnly<bTValArray<bCPropertyID>_>::vftable;
+  bCPropertyTypeBase::~bCPropertyTypeBase((bCPropertyTypeBase *)this);
+  if ((param_1 & 1) != 0) {
+    _free(this);
+  }
+  return this;
+}
+
+

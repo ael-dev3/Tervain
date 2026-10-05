@@ -1,0 +1,168 @@
+/* ENTRY 200152c6 | gCCharacterMovement_PS::Read | STATUS decompiled | 277 ms */
+
+/* public: virtual enum bEResult __thiscall gCCharacterMovement_PS::Read(class bCIStream &) */
+
+bEResult __thiscall gCCharacterMovement_PS::Read(gCCharacterMovement_PS *this,bCIStream *param_1)
+
+{
+  gCCharacterMovement_PS *pgVar1;
+  bCIStream *this_00;
+  byte bStack_5a;
+  uchar uStack_59;
+  ushort auStack_58 [2];
+  ushort auStack_54 [2];
+  float fStack_50;
+  float fStack_4c;
+  float fStack_48;
+  bCVector abStack_44 [12];
+  bCVector abStack_38 [12];
+  bCQuaternion abStack_2c [16];
+  eCEntityProxy eStack_1c;
+  
+                    /* 0x152c6  5887
+                       ?Read@gCCharacterMovement_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z */
+  this_00 = param_1;
+  bCIStream::operator>>((bCIStream *)param_1,auStack_58);
+  if (auStack_58[0] < 0x4c) {
+    if (0x27 < auStack_58[0]) {
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(float *)&(this->gCCharacterMovement_PS_data).offset_0x160);
+    }
+    if (0x34 < auStack_58[0]) {
+      bCIStream::operator>>((bCIStream *)this_00,&bStack_5a);
+      pgVar1 = &(this->gCCharacterMovement_PS_data).offset_0x95;
+      *pgVar1 = (gCCharacterMovement_PS)
+                ((byte)*pgVar1 ^
+                ((byte)(this->gCCharacterMovement_PS_data).offset_0x95 ^ bStack_5a) & 1);
+      bCIStream::operator>>((bCIStream *)this_00,&uStack_59);
+      thunk_FUN_202330a0(this_00);
+      bCIStream::operator>>((bCIStream *)this_00,&(this->gCCharacterMovement_PS_data).offset_0xfc);
+      bCIStream::operator>>((bCIStream *)this_00,&(this->gCCharacterMovement_PS_data).offset_0x100);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(float *)&(this->gCCharacterMovement_PS_data).field_0x104);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(float *)&(this->gCCharacterMovement_PS_data).offset_0x108);
+      bCVector::bCVector(abStack_44);
+      bCVector::operator<<(abStack_44,this_00);
+      bCIStream::operator>>((bCIStream *)this_00,&fStack_50);
+      bCIStream::operator>>((bCIStream *)this_00,&fStack_50);
+      if (auStack_58[0] < 0x36) {
+        bCIStream::operator>>((bCIStream *)this_00,&fStack_48);
+      }
+      bCVector::operator<<((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x118,this_00);
+      bCVector::operator<<((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x124,this_00);
+      bCVector::operator<<((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x130,this_00);
+      bCVector::operator<<((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x13c,this_00);
+      bCVector::operator<<((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x148,this_00);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(float *)&(this->gCCharacterMovement_PS_data).offset_0x154);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(float *)&(this->gCCharacterMovement_PS_data).offset_0x158);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(float *)&(this->gCCharacterMovement_PS_data).offset_0x15c);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(float *)&(this->gCCharacterMovement_PS_data).field_0x164);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(bool *)&(this->gCCharacterMovement_PS_data).offset_0x168);
+      bCIStream::operator>>((bCIStream *)this_00,auStack_54);
+      bCIStream::operator>>((bCIStream *)this_00,auStack_54);
+      bCIStream::operator>>((bCIStream *)this_00,auStack_54);
+      bCIStream::operator>>((bCIStream *)this_00,(bool *)&param_1);
+      eCEntityProxy::eCEntityProxy(&eStack_1c);
+      ::operator>>(this_00,(eCEntityProxy *)&eStack_1c);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(bool *)&(this->gCCharacterMovement_PS_data).offset_0x178);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(bool *)&(this->gCCharacterMovement_PS_data).offset_0x179);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(bool *)&(this->gCCharacterMovement_PS_data).field_0x17a);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(bool *)&(this->gCCharacterMovement_PS_data).offset_0x17b);
+      ::operator>>(this_00,(eCEntityProxy *)&(this->gCCharacterMovement_PS_data).field_0x17c);
+      bCMatrix::operator<<((bCMatrix *)&(this->gCCharacterMovement_PS_data).field_0x198,this_00);
+      bCMatrix::operator<<((bCMatrix *)&(this->gCCharacterMovement_PS_data).field_0x1d8,this_00);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(bool *)&(this->gCCharacterMovement_PS_data).offset_0x218);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(bool *)&(this->gCCharacterMovement_PS_data).offset_0x21a);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(float *)&(this->gCCharacterMovement_PS_data).offset_0x21c);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(float *)&(this->gCCharacterMovement_PS_data).offset_0x220);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(float *)&(this->gCCharacterMovement_PS_data).offset_0x224);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(bool *)&(this->gCCharacterMovement_PS_data).offset_0x228);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(bool *)&(this->gCCharacterMovement_PS_data).offset_0x229);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(bool *)&(this->gCCharacterMovement_PS_data).offset_0x22a);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(float *)&(this->gCCharacterMovement_PS_data).offset_0x22c);
+      bCVector::operator<<((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x230,this_00);
+      bCIStream::operator>>((bCIStream *)this_00,&fStack_4c);
+      bCIStream::operator>>((bCIStream *)this_00,&fStack_4c);
+      ::operator>>(this_00,(eCEntityProxy *)&(this->gCCharacterMovement_PS_data).field_0x23c);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(bool *)&(this->gCCharacterMovement_PS_data).offset_0x259);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(bool *)&(this->gCCharacterMovement_PS_data).offset_0x25a);
+      bCIStream::operator>>((bCIStream *)this_00,(bool *)&param_1);
+      bCIStream::operator>>((bCIStream *)this_00,(bool *)&param_1);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(bool *)&(this->gCCharacterMovement_PS_data).offset_0x25b);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(bool *)&(this->gCCharacterMovement_PS_data).offset_0x25d);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(bool *)&(this->gCCharacterMovement_PS_data).offset_0x25e);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(bool *)&(this->gCCharacterMovement_PS_data).offset_0x25f);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(bool *)&(this->gCCharacterMovement_PS_data).offset_0x2b8);
+      bCVector::bCVector(abStack_38);
+      bCQuaternion::bCQuaternion(abStack_2c);
+      (**(code **)(*(int *)this_00 + 4))(abStack_38,0x1c);
+      (**(code **)(*(int *)this_00 + 4))(&(this->gCCharacterMovement_PS_data).field_0x2bc,0x1c);
+      (**(code **)(*(int *)this_00 + 4))(&(this->gCCharacterMovement_PS_data).field_0x2d8,0x1c);
+      thunk_FUN_20235ae0(this_00);
+      ::operator>>(this_00,(eCEntityProxy *)&(this->gCCharacterMovement_PS_data).field_0x318);
+      bCVector::operator<<((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x350,this_00);
+      (**(code **)(*(int *)this_00 + 4))(&(this->gCCharacterMovement_PS_data).field_0x35c,0x1c);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(float *)&(this->gCCharacterMovement_PS_data).offset_0x378);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(float *)&(this->gCCharacterMovement_PS_data).offset_0x37c);
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(bool *)&(this->gCCharacterMovement_PS_data).offset_0x380);
+      bCQuaternion::~bCQuaternion(abStack_2c);
+      bCVector::~bCVector(abStack_38);
+      eCEntityProxy::~eCEntityProxy(&eStack_1c);
+      bCVector::~bCVector(abStack_44);
+    }
+    if (0x36 < auStack_58[0]) {
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(bool *)&(this->gCCharacterMovement_PS_data).offset_0x25c);
+    }
+    if (auStack_58[0] == 0x38) {
+      bCIStream::operator>>((bCIStream *)this_00,(bool *)&param_1);
+    }
+    if (0x38 < auStack_58[0]) {
+      bCIStream::operator>>((bCIStream *)this_00,(float *)&param_1);
+    }
+    if (0x3a < auStack_58[0]) {
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(float *)&(this->gCCharacterMovement_PS_data).offset_0x384);
+    }
+    if (0x3b < auStack_58[0]) {
+      bCIStream::operator>>
+                ((bCIStream *)this_00,(float *)&(this->gCCharacterMovement_PS_data).offset_0x388);
+    }
+    if (0x3c < auStack_58[0]) {
+      ::operator>>(this_00,(eCEntityProxy *)&(this->gCCharacterMovement_PS_data).field_0x334);
+    }
+    Invalidate(this);
+  }
+  return 1;
+}
+
+

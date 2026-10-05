@@ -1,0 +1,4 @@
+; 200081d4 bTPropertyType<gCNavigation_PS,bCVector>::vfunction9
+200081d4 | e977582800 | JMP 0x2028da50
+; 200081d9 gCGUIEntityRenderer::BeginFrame
+; 200081d9 Ordinal_1987

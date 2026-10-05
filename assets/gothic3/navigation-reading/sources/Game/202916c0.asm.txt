@@ -1,0 +1,21 @@
+; 202916c0 bTPOPureSmartPtr<gCNavigation_PS>::vfunction16
+202916c0 | 56 | PUSH ESI
+202916c1 | 8bf1 | MOV ESI,ECX
+202916c3 | 837e0800 | CMP dword ptr [ESI + 0x8],0x0
+202916c7 | 57 | PUSH EDI
+202916c8 | 7505 | JNZ 0x202916cf
+202916ca | e872f6d9ff | CALL 0x20030d41
+; 202916cf LAB_202916cf
+202916cf | 8b4608 | MOV EAX,dword ptr [ESI + 0x8]
+202916d2 | 8b4c240c | MOV ECX,dword ptr [ESP + 0xc]
+202916d6 | 8b11 | MOV EDX,dword ptr [ECX]
+202916d8 | 8b38 | MOV EDI,dword ptr [EAX]
+202916da | 8b02 | MOV EAX,dword ptr [EDX]
+202916dc | ffd0 | CALL EAX
+202916de | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+202916e1 | 8b571c | MOV EDX,dword ptr [EDI + 0x1c]
+202916e4 | 50 | PUSH EAX
+202916e5 | ffd2 | CALL EDX
+202916e7 | 5f | POP EDI
+202916e8 | 5e | POP ESI
+202916e9 | c20400 | RET 0x4

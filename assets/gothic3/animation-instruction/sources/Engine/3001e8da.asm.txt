@@ -1,0 +1,2 @@
+; 3001e8da ?GetEntity@eCEntityProxy@@QAEPAVeCEntity@@XZ
+3001e8da | e9015e4a00 | JMP 0x304c46e0

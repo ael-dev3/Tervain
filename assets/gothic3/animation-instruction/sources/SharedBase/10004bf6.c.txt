@@ -1,0 +1,126 @@
+/* ENTRY 10004bf6 | bCString::GetWord | STATUS decompiled | 42 ms */
+
+/* public: int __thiscall bCString::GetWord(int,class bCString const &,class bCString
+   &,bool,bool)const  */
+
+int __thiscall
+bCString::GetWord(bCString *this,int param_1,bCString *param_2,bCString *param_3,bool param_4,
+                 bool param_5)
+
+{
+  bool bVar1;
+  bool bVar2;
+  char *_Str;
+  char *pcVar3;
+  bCString *pbVar4;
+  void *pvVar5;
+  bCMemoryAdmin *pbVar6;
+  int iVar7;
+  int iVar8;
+  char *pcStack_18;
+  int iStack_14;
+  int iStack_10;
+  int iStack_c;
+  undefined1 auStack_8 [4];
+  int iStack_4;
+  
+  bVar2 = false;
+                    /* 0x4bf6  3244  ?GetWord@bCString@@QBEHHABV1@AAV1@_N2@Z */
+  bVar1 = false;
+  iStack_4 = 0;
+  iVar7 = -1;
+  iStack_14 = 0;
+  bCString((bCString *)&iStack_10,"");
+  pcStack_18 = *(char **)this;
+  if (pcStack_18 != (char *)0x0) {
+    *(short *)(pcStack_18 + -4) = *(short *)(pcStack_18 + -4) + 1;
+  }
+  do {
+    _Str = pcStack_18;
+    if (param_1 < 0) {
+LAB_10015b06:
+      SetText(param_3,(bCString *)&iStack_10);
+      if (param_4) {
+        TrimLeft(param_3);
+      }
+      if (param_5) {
+        TrimRight(param_3);
+      }
+      if ((&stack0x00000000 != (undefined1 *)0x18) && (_Str != (char *)0x0)) {
+        *(short *)(_Str + -4) = *(short *)(_Str + -4) + -1;
+        pcVar3 = _Str + -8;
+        if (*(short *)(_Str + -4) == 0) {
+          pbVar6 = bCMemoryAdmin::GetInstance();
+          bCMemoryAdmin::Free(pbVar6,pcVar3);
+        }
+      }
+      if ((&stack0x00000000 != (undefined1 *)0x10) && (iStack_10 != 0)) {
+        *(short *)(iStack_10 + -4) = *(short *)(iStack_10 + -4) + -1;
+        pvVar5 = (void *)(iStack_10 + -8);
+        if (*(short *)(iStack_10 + -4) == 0) {
+          pbVar6 = bCMemoryAdmin::GetInstance();
+          bCMemoryAdmin::Free(pbVar6,pvVar5);
+        }
+      }
+      return iStack_14;
+    }
+    param_1 = param_1 + -1;
+    iStack_14 = iStack_14 + 1 + iVar7;
+    if (pcStack_18 == (char *)0x0) {
+      iVar8 = 0;
+    }
+    else {
+      iVar8 = *(int *)(pcStack_18 + -8);
+    }
+    pcVar3 = operator_char_const_(param_2);
+    if ((((_Str == (char *)0x0) || (*(int *)(_Str + -8) < 1)) ||
+        (pcVar3 = _strpbrk(_Str,pcVar3), pcVar3 == (char *)0x0)) ||
+       (iVar7 = (int)pcVar3 - (int)_Str, iVar7 == -1)) {
+      SetText((bCString *)&iStack_10,(bCString *)&pcStack_18);
+      if (-1 < param_1) {
+        iStack_14 = -1;
+      }
+      goto LAB_10015b06;
+    }
+    pbVar4 = (bCString *)Left((bCString *)&pcStack_18,(int)auStack_8);
+    SetText((bCString *)&iStack_14,pbVar4);
+    if ((&stack0x00000000 != (undefined1 *)0xc) && (iStack_c != 0)) {
+      *(short *)(iStack_c + -4) = *(short *)(iStack_c + -4) + -1;
+      pvVar5 = (void *)(iStack_c + -8);
+      if (*(short *)(iStack_c + -4) == 0) {
+        pbVar6 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::Free(pbVar6,pvVar5);
+      }
+    }
+    if ((iVar8 - iVar7) + -1 < 0) {
+      bVar1 = true;
+      iVar8 = 0;
+      iStack_10 = 0;
+      pbVar4 = (bCString *)&iStack_10;
+    }
+    else {
+      bVar2 = true;
+      pbVar4 = (bCString *)Right((bCString *)&stack0xffffffe4,(int)auStack_8);
+      iVar8 = iStack_14;
+    }
+    SetText((bCString *)&pcStack_18,pbVar4);
+    if (((bVar1) && (bVar1 = false, &stack0x00000000 != (undefined1 *)0xc)) && (iVar8 != 0)) {
+      *(short *)(iVar8 + -4) = *(short *)(iVar8 + -4) + -1;
+      pvVar5 = (void *)(iVar8 + -8);
+      if (*(short *)(iVar8 + -4) == 0) {
+        pbVar6 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::Free(pbVar6,pvVar5);
+      }
+    }
+    if (((bVar2) && (bVar2 = false, &stack0x00000000 != (undefined1 *)0x4)) && (iStack_4 != 0)) {
+      *(short *)(iStack_4 + -4) = *(short *)(iStack_4 + -4) + -1;
+      pvVar5 = (void *)(iStack_4 + -8);
+      if (*(short *)(iStack_4 + -4) == 0) {
+        pbVar6 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::Free(pbVar6,pvVar5);
+      }
+    }
+  } while( true );
+}
+
+

@@ -14,7 +14,12 @@ limitations and source terms.
 
 This guide describes the source on `codex/gothic3-gameplay-initialization`.
 The hosted page remains at its last successful deployment; the latest source
-checkpoints have not been deployed. Sections 10–15 cover the newer runtime work.
+checkpoints have not been deployed. Sections 10–16 cover the newer runtime work.
+
+Each checkpoint's reproduction commands describe its recorded source revision.
+To reproduce an older receipt, use a checkout at that commit and its producers.
+Running an older producer against today's extended shared source does not
+reproduce the historical source hashes.
 
 ## Process at a glance
 
@@ -1490,12 +1495,15 @@ ResourceAdmin cache lifetime or loaded-actor motion membership. Exporting the
 Jump/Fall tracks and sampling their bones does not prove that the player's
 movement and animation are connected in the browser.
 
-The current SPU can expose its instruction pointer and, inside a live scheduler
-scope, its wait fields. It does not yet provide the PlayAni completed byte or
-animation scratch/descriptor fields. A complete PlayAni storage binding is
-therefore missing. A cloned SPU snapshot cannot supply that shared storage;
-the missing fields, proxy cleanup, polling and abort adapter must join the
-existing processor before this conductor can drive gameplay.
+At source checkpoint `4252aa9a`, the SPU could expose its instruction pointer and, inside a live scheduler
+scope, its wait fields. It did not yet provide the PlayAni completed byte or
+animation scratch/descriptor fields. A complete PlayAni storage binding was
+therefore missing. A cloned SPU snapshot could not supply that shared storage;
+the missing fields, proxy cleanup, polling and abort adapter needed to join the
+existing processor before this conductor could drive gameplay.
+
+Section 16 implements that shared storage and instruction binding. It still
+requires actual loaded actor and engine services before browser gameplay.
 
 ### Reproduce this source checkpoint
 
@@ -1541,3 +1549,160 @@ with its player, camera, input, startup, script/AI scheduling, clock, collision,
 animation and renderer sharing the same runtime objects. Original gameplay,
 save/load and progression through the endings remain unfinished. This source
 checkpoint keeps `gameplayReady: false`.
+
+## 16. Bind animation instructions and read physical Hero properties
+
+This checkpoint builds on `4252aa9a`. It connects the recovered PlayAni
+conductor to the existing script processor and implements concrete factory/read
+paths for the Hero's Navigation and CharacterMovement property sets. The
+browser entry point still uses the exploration controller; these components
+require the original entity, actor, resource and physics services before they
+can own a playable world.
+
+### Retain the actual SPU animation fields
+
+[script-routine.ts](../../src/gothic3/script-routine.ts) now retains the
+completion byte, VisualAnimation pointer, embedded motion descriptor, animation
+name, wait-for-fade flag and phase state in the same `NativeScriptProcessingUnit`
+as the scheduler. The descriptor has seven physical fields at `+134..14c`.
+
+The original fresh constructor gives that descriptor fade-in `0.3f`, mode 0,
+speed 1, unsigned loop count `0xffffffff`, weight 1, fade-out 0 and blend mode 1.
+Its `Invalidate` clears the completion byte and VisualAnimation pointer, clears
+the name, and resets wait elapsed. Neither body initializes `+158`, `+15c` or
+`+164`; their values remain unknown until an original write occurs. The factory
+adapter supplies the proven completed constructor state. It does not replay
+`Invalidate` on an existing loaded processor.
+
+[animation-spu.ts](../../src/gothic3/animation-spu.ts) exposes one persistent
+field facade and one persistent embedded descriptor for each bound processor.
+Every getter and setter requires the current scheduler scope for that same
+processor. Snapshot copies remain diagnostic data. The descriptor passed to
+`PlayMotion` is the same object whose fields subsequent original calls can
+change; it is never substituted with a descriptor snapshot.
+
+Initial PlayAni invocation, `ProcessScript` polling at `2001c76f`, and
+`FullStop` abort share that conductor, physical storage and
+[NativeInstructionProxyRegistry](../../src/gothic3/script-instructions.ts).
+The proxy reader supports retained live internals and zero IDs. Lazy resolution
+of a nonzero ID and destroyed owners still require the original EntityAdmin
+and lifetime services. Failed engine callbacks retain preceding writes and
+prevent automatic replay.
+
+### Execute Start and the internal loop
+
+[animation-instruction.ts](../../src/gothic3/animation-instruction.ts) ports
+the installed `sAIPlayAniStart` and `sAIPlayAniItlLoop` bodies. Start assigns
+the instruction proxy, follows the original resource fallback candidates,
+updates the actual NPC CurrentAni field, stops/fades the relevant existing
+layers, sets and releases resource references, writes the shared descriptor,
+and reaches `PlayMotion` and motion-owner changes in source order. Optional
+Other playback can change that same captured descriptor after Self playback.
+
+The internal loop preserves the timer gate, repeated actor speed/time reads,
+overlay completion branches, movement-disable calls and Begin phase handling.
+Begin's state script captures the ScriptAdmin virtual slot before the next
+proxy read and dereferences the slot at invocation afterward. A successful
+name/catalog lookup does not supply resource-cache ownership, actor loaded
+membership or an animation layer implementation.
+
+`connectOriginalAnimationSPU` composes those actual bodies with the conductor;
+it supplies the shared proxy and storage operations and requires concrete actor
+services for the remaining engine calls. `originalPlayerAnimationPort`
+connects that binding to the original Hero
+[_AI_Jump handler](../../src/gothic3/player-state.ts). Jump now calls the
+actual GetAni path for action 54/phase 12, invokes PlayAni with duration 0 and
+returns AL 0 while pending. Its next stage requests action 57/phase 5 and
+duration -1. It resumes through the original frame labels rather than advancing
+both animations in one call. A rendered clip or elapsed browser time alone
+cannot satisfy those instruction results.
+
+### Create and read concrete Navigation and Movement objects
+
+The shared [reflection controller](../../src/gothic3/entity-reflection.ts) now
+dispatches a registered factory's actual virtual reader and version. It has
+metadata-only base-root registration, separate from factory registration; an
+empty inherited property table does not claim a concrete constructor exists.
+Shared wrapper/default/property-reader helpers retain their iterator,
+reference-count and notification order. The newly selected read profile is a
+fresh initialized wrapper; a repeat read is not silently treated as a fresh
+object.
+
+[navigation-reading.ts](../../src/gothic3/navigation-reading.ts) constructs
+the native Navigation object, initializes original descriptor defaults, and
+reads the Hero's actual reflective records and modern native tail. Its state,
+numeric fields and wished movement refer to the same retained stores used by
+the navigation and Hero handlers. Source constructors and Invalidate write
+only their proven bytes; unrelated bytes remain masked as unknown.
+The movement wish aliases physical `+218`; the separate `+21c` field is not
+used as a substitute. The native tail consumes version 37 while this class's
+virtual `GetVersion` returns 1.
+
+Default PropertyID creation still invokes the original GUID generation
+boundary, even when a later serialized field replaces that default. The port
+requires the actual captured GUID scratch writes and preserves the ignored
+HRESULT behavior. A browser entropy adapter must declare its own profile.
+OnAdded/Removed use the existing navigation lifecycle; full PostRead/GameReset
+and owner/context effects remain required services.
+
+[movement-reading.ts](../../src/gothic3/movement-reading.ts) constructs and
+reads the Hero's CharacterMovement object into the same
+[NativeMovementBytes](../../src/gothic3/movement-state.ts) used by its native
+operations. Bit masks retain constructor OR writes without asserting that the
+other bits were initialized. Whole-byte reads continue to reject unknown bits.
+Embedded animation/effect resets require the actual application total-time
+store and captured effect-module service. They are not supplied with a guessed
+zero timestamp or a presumed missing module.
+The class has 36 registered scalar descriptors; the installed Hero packet
+serializes 35. `TreatWaterAsSolid` keeps its factory default when absent from
+that packet. The selected modern native tail consumes version 76 without
+calling the older migration/reset path. The installed class's virtual
+`GetVersion` returns 77 and its property-set selector is `0x15` (21); these
+values are separate from the stored packet version.
+
+The Hero records begin with Navigation, RigidBody, CollisionShape and
+CharacterMovement. A detached factory/read of the first or fourth record does
+not permit the entity reader to skip the intervening unresolved factories.
+All nineteen original property sets, their native tails, owner additions and
+world activation still need to finish before the Hero is resident and can be
+processed in the browser.
+
+### Reproduce and integrate the checkpoint
+
+```powershell
+python -B tools/gothic3/research_animation_instruction.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/research_navigation_reading.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/research_movement_reading.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/research_animation_spu.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/freeze_actor_checkpoint.py
+```
+
+The [actor reading checkpoint](../../assets/gothic3/actor-reading-checkpoint.json)
+preserves the prior activation receipt, unchanged source/resource bytes and
+the current implementations' source/evidence pins. Older receipts remain
+historical at their recorded commits.
+
+The producers checked these selected instructions against the original PE
+bytes. Entries can include forwarding exports and overlapping bodies; these
+counts describe the examined evidence and do not measure game completion.
+
+| Evidence set | Entries | Instructions | Original instruction bytes |
+| --- | ---: | ---: | ---: |
+| Shared SPU fields, proxies and Hero Jump | 45 | 1,164 | 3,670 |
+| PlayAni Start and internal loop | 90 | 2,941 | 8,920 |
+| Navigation factory, defaults and readers | 767 | 11,194 | 33,630 |
+| CharacterMovement construction and readers | 449 | 6,346 | 21,718 |
+
+The combined TypeScript check and production build passed locally on
+5 October 2026 (`npm run build`, 235 Vite modules). The existing large-chunk
+warning remains. This checks the new source types and packages the current
+browser entry points; it does not connect these readers or animation services
+to a playable world. No tests, original native execution, browser review,
+deployment or playthrough were run for this checkpoint.
+
+Remaining work includes the intervening Hero factories, full world loading and
+activation, actual actor/layer/resource lifetimes, collision/contact processing,
+camera/input, script registry and story services, save/load restoration, and
+original progression through the endings. This checkpoint keeps
+`gameplayReady: false`; compilation does not establish full gameplay or online
+deployment.

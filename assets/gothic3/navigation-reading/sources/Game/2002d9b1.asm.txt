@@ -1,0 +1,4 @@
+; 2002d9b1 bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_>::vfunction5
+2002d9b1 | e90a1a2600 | JMP 0x2028f3c0
+; 2002d9bb gCQuest_PS::SetDeliveryCounter
+; 2002d9bb Ordinal_6390

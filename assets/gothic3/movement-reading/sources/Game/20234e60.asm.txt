@@ -1,0 +1,21 @@
+; 20234e60 bTPropertyType<gCCharacterMovement_PS,bool>::vfunction9
+20234e60 | 56 | PUSH ESI
+20234e61 | 8bf1 | MOV ESI,ECX
+20234e63 | 8b06 | MOV EAX,dword ptr [ESI]
+20234e65 | 8b5018 | MOV EDX,dword ptr [EAX + 0x18]
+20234e68 | ffd2 | CALL EDX
+20234e6a | 84c0 | TEST AL,AL
+20234e6c | 7506 | JNZ 0x20234e74
+; 20234e6e LAB_20234e6e
+20234e6e | 33c0 | XOR EAX,EAX
+20234e70 | 5e | POP ESI
+20234e71 | c20400 | RET 0x4
+; 20234e74 LAB_20234e74
+20234e74 | 8b4620 | MOV EAX,dword ptr [ESI + 0x20]
+20234e77 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+20234e7b | 3b4804 | CMP ECX,dword ptr [EAX + 0x4]
+20234e7e | 73ee | JNC 0x20234e6e
+20234e80 | 8b00 | MOV EAX,dword ptr [EAX]
+20234e82 | 8b0488 | MOV EAX,dword ptr [EAX + ECX*0x4]
+20234e85 | 5e | POP ESI
+20234e86 | c20400 | RET 0x4

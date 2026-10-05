@@ -1,0 +1,16 @@
+/* ENTRY 20001c4e | bTPropertyType<gCNavigation_PS,bCString>::vfunction8 | STATUS decompiled | 6 ms */
+
+undefined4 __thiscall
+bTPropertyType<gCNavigation_PS,bCString>::vfunction8(bTPropertyType<gCNavigation_PS,bCString> *this)
+
+{
+  char cVar1;
+  
+  cVar1 = (*this->vftablePtr->vfunction7)();
+  if (cVar1 == '\0') {
+    return 0xffffffff;
+  }
+  return (this[9].vftablePtr)->vfunction2;
+}
+
+

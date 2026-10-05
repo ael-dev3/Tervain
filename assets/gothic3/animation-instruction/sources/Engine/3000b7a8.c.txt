@@ -1,0 +1,21 @@
+/* ENTRY 3000b7a8 | eCResourceDataEntity::GetFileName | STATUS decompiled | 9 ms */
+
+/* public: class bCString __thiscall eCResourceDataEntity::GetFileName(void)const  */
+
+bCString * __thiscall eCResourceDataEntity::GetFileName(eCResourceDataEntity *this)
+
+{
+  eCResourceBase_PS *this_00;
+  bCString *in_stack_00000004;
+  
+                    /* 0xb7a8  7101  ?GetFileName@eCResourceDataEntity@@QBE?AVbCString@@XZ */
+  this_00 = (eCResourceBase_PS *)(this->eCResourceDataEntity_data).offset_0x18;
+  if (this_00 == (eCResourceBase_PS *)0x0) {
+    bCString::bCString(in_stack_00000004,"");
+    return in_stack_00000004;
+  }
+  eCResourceBase_PS::GetProprietaryFileName(this_00);
+  return in_stack_00000004;
+}
+
+

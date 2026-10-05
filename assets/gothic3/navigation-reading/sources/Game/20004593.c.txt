@@ -1,0 +1,18 @@
+/* ENTRY 20004593 | gCNavigation_PS::Create | STATUS decompiled | 14 ms */
+
+/* public: virtual enum bEResult __thiscall gCNavigation_PS::Create(void) */
+
+bEResult __thiscall gCNavigation_PS::Create(gCNavigation_PS *this)
+
+{
+  bool bVar1;
+  
+                    /* 0x4593  2381  ?Create@gCNavigation_PS@@UAE?AW4bEResult@@XZ */
+  bVar1 = (*this->vftablePtr->IsValid)(this);
+  if (!bVar1) {
+    eCEntityPropertySet::Create((eCEntityPropertySet *)this);
+  }
+  return 1;
+}
+
+

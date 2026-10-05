@@ -1,0 +1,12 @@
+; 2028e320 bTPropertyType<gCNavigation_PS,bCPropertyID>::vfunction6
+2028e320 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+2028e324 | 85c0 | TEST EAX,EAX
+2028e326 | 7410 | JZ 0x2028e338
+2028e328 | 8b11 | MOV EDX,dword ptr [ECX]
+2028e32a | 50 | PUSH EAX
+2028e32b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+2028e32e | ffd0 | CALL EAX
+2028e330 | 8bc8 | MOV ECX,EAX
+2028e332 | ff15447f7d20 | CALL dword ptr [0x207d7f44]
+; 2028e338 LAB_2028e338
+2028e338 | c20400 | RET 0x4

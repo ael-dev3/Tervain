@@ -1,0 +1,21 @@
+; 2028f750 bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_>::vfunction9
+2028f750 | 56 | PUSH ESI
+2028f751 | 8bf1 | MOV ESI,ECX
+2028f753 | 8b06 | MOV EAX,dword ptr [ESI]
+2028f755 | 8b5018 | MOV EDX,dword ptr [EAX + 0x18]
+2028f758 | ffd2 | CALL EDX
+2028f75a | 84c0 | TEST AL,AL
+2028f75c | 7506 | JNZ 0x2028f764
+; 2028f75e LAB_2028f75e
+2028f75e | 33c0 | XOR EAX,EAX
+2028f760 | 5e | POP ESI
+2028f761 | c20400 | RET 0x4
+; 2028f764 LAB_2028f764
+2028f764 | 8b4620 | MOV EAX,dword ptr [ESI + 0x20]
+2028f767 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+2028f76b | 3b4804 | CMP ECX,dword ptr [EAX + 0x4]
+2028f76e | 73ee | JNC 0x2028f75e
+2028f770 | 8b00 | MOV EAX,dword ptr [EAX]
+2028f772 | 8b0488 | MOV EAX,dword ptr [EAX + ECX*0x4]
+2028f775 | 5e | POP ESI
+2028f776 | c20400 | RET 0x4

@@ -1,0 +1,2 @@
+; 30037eca ?GetEntity@eCEntityProxyInternal@@QAEPAVeCEntity@@XZ
+30037eca | e961cc4800 | JMP 0x304c4b30

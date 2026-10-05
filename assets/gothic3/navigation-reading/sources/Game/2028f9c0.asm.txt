@@ -1,0 +1,130 @@
+; 2028f9c0 bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_>::vfunction14
+2028f9c0 | 83ec18 | SUB ESP,0x18
+2028f9c3 | 53 | PUSH EBX
+2028f9c4 | 8b5c2424 | MOV EBX,dword ptr [ESP + 0x24]
+2028f9c8 | 85db | TEST EBX,EBX
+2028f9ca | 56 | PUSH ESI
+2028f9cb | 57 | PUSH EDI
+2028f9cc | 8bf9 | MOV EDI,ECX
+2028f9ce | 7522 | JNZ 0x2028f9f2
+2028f9d0 | 687d020000 | PUSH 0x27d
+2028f9d5 | 68f8976520 | PUSH 0x206597f8
+2028f9da | 689c996520 | PUSH 0x2065999c
+2028f9df | 6840996520 | PUSH 0x20659940
+2028f9e4 | ff1518897d20 | CALL dword ptr [0x207d8918]
+2028f9ea | 8bc8 | MOV ECX,EAX
+2028f9ec | ff15f4867d20 | CALL dword ptr [0x207d86f4]
+; 2028f9f2 LAB_2028f9f2
+2028f9f2 | 8b07 | MOV EAX,dword ptr [EDI]
+2028f9f4 | 8b742428 | MOV ESI,dword ptr [ESP + 0x28]
+2028f9f8 | 8b5044 | MOV EDX,dword ptr [EAX + 0x44]
+2028f9fb | 56 | PUSH ESI
+2028f9fc | 8bcf | MOV ECX,EDI
+2028f9fe | ffd2 | CALL EDX
+2028fa00 | 6a00 | PUSH 0x0
+2028fa02 | 6800817920 | PUSH 0x20798100
+2028fa07 | 68c4807920 | PUSH 0x207980c4
+2028fa0c | 6a00 | PUSH 0x0
+2028fa0e | 56 | PUSH ESI
+2028fa0f | e85c431d00 | CALL 0x20463d70
+2028fa14 | 83c414 | ADD ESP,0x14
+2028fa17 | 85c0 | TEST EAX,EAX
+2028fa19 | 7564 | JNZ 0x2028fa7f
+2028fa1b | 56 | PUSH ESI
+2028fa1c | 8d4c2410 | LEA ECX,[ESP + 0x10]
+2028fa20 | e877dcd8ff | CALL 0x2001d69c
+2028fa25 | 8b07 | MOV EAX,dword ptr [EDI]
+2028fa27 | 8b5064 | MOV EDX,dword ptr [EAX + 0x64]
+2028fa2a | 53 | PUSH EBX
+2028fa2b | 8bcf | MOV ECX,EDI
+2028fa2d | ffd2 | CALL EDX
+2028fa2f | 56 | PUSH ESI
+2028fa30 | 8bc8 | MOV ECX,EAX
+2028fa32 | e893c6d9ff | CALL 0x2002c0ca
+2028fa37 | 8b742414 | MOV ESI,dword ptr [ESP + 0x14]
+2028fa3b | 8b06 | MOV EAX,dword ptr [ESI]
+2028fa3d | 8b500c | MOV EDX,dword ptr [EAX + 0xc]
+2028fa40 | 8bce | MOV ECX,ESI
+2028fa42 | ffd2 | CALL EDX
+2028fa44 | 8b4c240c | MOV ECX,dword ptr [ESP + 0xc]
+2028fa48 | 6a00 | PUSH 0x0
+2028fa4a | 8bf8 | MOV EDI,EAX
+2028fa4c | 8b06 | MOV EAX,dword ptr [ESI]
+2028fa4e | 8b5010 | MOV EDX,dword ptr [EAX + 0x10]
+2028fa51 | 6a00 | PUSH 0x0
+2028fa53 | 51 | PUSH ECX
+2028fa54 | 8bce | MOV ECX,ESI
+2028fa56 | ffd2 | CALL EDX
+2028fa58 | 8bc7 | MOV EAX,EDI
+2028fa5a | 2b442410 | SUB EAX,dword ptr [ESP + 0x10]
+2028fa5e | 8d4e04 | LEA ECX,[ESI + 0x4]
+2028fa61 | 50 | PUSH EAX
+2028fa62 | ff157c877d20 | CALL dword ptr [0x207d877c]
+2028fa68 | 8b16 | MOV EDX,dword ptr [ESI]
+2028fa6a | 8b4210 | MOV EAX,dword ptr [EDX + 0x10]
+2028fa6d | 6a00 | PUSH 0x0
+2028fa6f | 6a00 | PUSH 0x0
+2028fa71 | 57 | PUSH EDI
+2028fa72 | 8bce | MOV ECX,ESI
+2028fa74 | ffd0 | CALL EAX
+2028fa76 | 5f | POP EDI
+2028fa77 | 5e | POP ESI
+2028fa78 | 5b | POP EBX
+2028fa79 | 83c418 | ADD ESP,0x18
+2028fa7c | c20800 | RET 0x8
+; 2028fa7f LAB_2028fa7f
+2028fa7f | 8d4c240c | LEA ECX,[ESP + 0xc]
+2028fa83 | ff1548877d20 | CALL dword ptr [0x207d8748]
+2028fa89 | 6a00 | PUSH 0x0
+2028fa8b | 6800817920 | PUSH 0x20798100
+2028fa90 | 68c4807920 | PUSH 0x207980c4
+2028fa95 | 6a00 | PUSH 0x0
+2028fa97 | 56 | PUSH ESI
+2028fa98 | e8d3421d00 | CALL 0x20463d70
+2028fa9d | 83c414 | ADD ESP,0x14
+2028faa0 | 85c0 | TEST EAX,EAX
+2028faa2 | 740c | JZ 0x2028fab0
+2028faa4 | 8bc8 | MOV ECX,EAX
+2028faa6 | ff154c877d20 | CALL dword ptr [0x207d874c]
+2028faac | 3c01 | CMP AL,0x1
+2028faae | 750a | JNZ 0x2028faba
+; 2028fab0 LAB_2028fab0
+2028fab0 | 8d4c240c | LEA ECX,[ESP + 0xc]
+2028fab4 | ff1550877d20 | CALL dword ptr [0x207d8750]
+; 2028faba LAB_2028faba
+2028faba | 8b17 | MOV EDX,dword ptr [EDI]
+2028fabc | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+2028fabf | 53 | PUSH EBX
+2028fac0 | 8bcf | MOV ECX,EDI
+2028fac2 | ffd0 | CALL EAX
+2028fac4 | 8d4c2410 | LEA ECX,[ESP + 0x10]
+2028fac8 | 51 | PUSH ECX
+2028fac9 | 8bc8 | MOV ECX,EAX
+2028facb | e8fac5d9ff | CALL 0x2002c0ca
+2028fad0 | 8d4c240c | LEA ECX,[ESP + 0xc]
+2028fad4 | ff1554877d20 | CALL dword ptr [0x207d8754]
+2028fada | 8bf8 | MOV EDI,EAX
+2028fadc | 57 | PUSH EDI
+2028fadd | 8bce | MOV ECX,ESI
+2028fadf | ff157c877d20 | CALL dword ptr [0x207d877c]
+2028fae5 | 6a00 | PUSH 0x0
+2028fae7 | 6a00 | PUSH 0x0
+2028fae9 | 6a00 | PUSH 0x0
+2028faeb | 8d4c2418 | LEA ECX,[ESP + 0x18]
+2028faef | ff1570877d20 | CALL dword ptr [0x207d8770]
+2028faf5 | 8b1e | MOV EBX,dword ptr [ESI]
+2028faf7 | 57 | PUSH EDI
+2028faf8 | 6a00 | PUSH 0x0
+2028fafa | 8d4c2414 | LEA ECX,[ESP + 0x14]
+2028fafe | ff1558877d20 | CALL dword ptr [0x207d8758]
+2028fb04 | 8b5304 | MOV EDX,dword ptr [EBX + 0x4]
+2028fb07 | 50 | PUSH EAX
+2028fb08 | 8bce | MOV ECX,ESI
+2028fb0a | ffd2 | CALL EDX
+2028fb0c | 8d4c240c | LEA ECX,[ESP + 0xc]
+2028fb10 | ff155c877d20 | CALL dword ptr [0x207d875c]
+2028fb16 | 5f | POP EDI
+2028fb17 | 5e | POP ESI
+2028fb18 | 5b | POP EBX
+2028fb19 | 83c418 | ADD ESP,0x18
+2028fb1c | c20800 | RET 0x8

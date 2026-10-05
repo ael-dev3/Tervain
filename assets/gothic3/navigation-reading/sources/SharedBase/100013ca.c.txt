@@ -1,0 +1,15 @@
+/* ENTRY 100013ca | bCVector::bCVector | STATUS decompiled | 3 ms */
+
+/* public: __thiscall bCVector::bCVector(float const * const) */
+
+void __thiscall bCVector::bCVector(bCVector *this,float *param_1)
+
+{
+                    /* 0x13ca  342  ??0bCVector@@QAE@QBM@Z */
+  *(float *)this = *param_1;
+  *(float *)(this + 4) = param_1[1];
+  *(float *)(this + 8) = param_1[2];
+  return;
+}
+
+

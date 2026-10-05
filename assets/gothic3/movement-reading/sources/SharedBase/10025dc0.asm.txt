@@ -1,0 +1,8 @@
+; 10025dc0 FUN_10025dc0
+10025dc0 | 0f57c0 | XORPS XMM0,XMM0
+10025dc3 | f30f1101 | MOVSS dword ptr [ECX],XMM0
+10025dc7 | f30f114104 | MOVSS dword ptr [ECX + 0x4],XMM0
+10025dcc | f30f114108 | MOVSS dword ptr [ECX + 0x8],XMM0
+10025dd1 | f30f1005bc710e10 | MOVSS XMM0,dword ptr [0x100e71bc]
+10025dd9 | f30f11410c | MOVSS dword ptr [ECX + 0xc],XMM0
+10025dde | c3 | RET

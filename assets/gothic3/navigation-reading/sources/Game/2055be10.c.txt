@@ -1,0 +1,19 @@
+/* ENTRY 2055be10 | bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::~bTPropertyObject<gCNavigation_PS,eCEntityPropertySet> | STATUS decompiled | 4 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::
+~bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>(void)
+
+{
+  _ms_PropertyObjectInstance_gCNavigation_PS = &vftable;
+  vfunction10((bTPropertyObject<gCNavigation_PS,eCEntityPropertySet> *)
+              &gCNavigation_PS::ms_PropertyObjectInstance_gCNavigation_PS);
+  bTPOPureSmartPtr<gCNavigation_PS>::~bTPOPureSmartPtr<gCNavigation_PS>
+            ((bTPOPureSmartPtr<gCNavigation_PS> *)
+             &gCNavigation_PS::ms_PropertyObjectInstance_gCNavigation_PS);
+  return;
+}
+
+

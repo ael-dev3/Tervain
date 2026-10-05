@@ -1,0 +1,27 @@
+/* ENTRY 30014664 | eCWrapper_emfx2Actor::SetIntroExtroBlending | STATUS decompiled | 11 ms */
+
+/* public: void __thiscall eCWrapper_emfx2Actor::SetIntroExtroBlending(enum
+   eCWrapper_emfx2Actor::eEMotionType,class bCString &) */
+
+void __thiscall
+eCWrapper_emfx2Actor::SetIntroExtroBlending
+          (eCWrapper_emfx2Actor *this,eEMotionType param_1,bCString *param_2)
+
+{
+  eCAnimationAdmin *this_00;
+  float fVar1;
+  
+                    /* 0x14664  13555
+                       ?SetIntroExtroBlending@eCWrapper_emfx2Actor@@QAEXW4eEMotionType@1@AAVbCString@@@Z
+                        */
+  this_00 = (eCAnimationAdmin *)thunk_FUN_3007c1e0();
+  if (this_00 != (eCAnimationAdmin *)0x0) {
+    fVar1 = eCAnimationAdmin::GetAniIntroBlending(this_00,param_2);
+    (this->eCWrapper_emfx2Actor_data).offset_0x68 = fVar1;
+    fVar1 = eCAnimationAdmin::GetAniExtroBlending(this_00,param_2);
+    (this->eCWrapper_emfx2Actor_data).offset_0x6c = fVar1;
+  }
+  return;
+}
+
+

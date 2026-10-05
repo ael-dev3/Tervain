@@ -1,0 +1,2 @@
+; 3000da80 ?OnChildrenAvailable@eCEntityPropertySet@@UAEXKKPAVeCTemplateEntity@@@Z
+3000da80 | e92b3e4700 | JMP 0x304818b0

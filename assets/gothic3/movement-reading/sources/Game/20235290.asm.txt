@@ -1,0 +1,16 @@
+; 20235290 bTPropertyType<gCCharacterMovement_PS,float>::vfunction8
+20235290 | 56 | PUSH ESI
+20235291 | 8bf1 | MOV ESI,ECX
+20235293 | 8b06 | MOV EAX,dword ptr [ESI]
+20235295 | 8b5018 | MOV EDX,dword ptr [EAX + 0x18]
+20235298 | ffd2 | CALL EDX
+2023529a | 84c0 | TEST AL,AL
+2023529c | 7505 | JNZ 0x202352a3
+2023529e | 83c8ff | OR EAX,0xffffffff
+202352a1 | 5e | POP ESI
+202352a2 | c3 | RET
+; 202352a3 LAB_202352a3
+202352a3 | 8b4620 | MOV EAX,dword ptr [ESI + 0x20]
+202352a6 | 8b4004 | MOV EAX,dword ptr [EAX + 0x4]
+202352a9 | 5e | POP ESI
+202352aa | c3 | RET

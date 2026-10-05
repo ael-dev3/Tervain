@@ -1,0 +1,22 @@
+; 200ae660 FUN_200ae660
+200ae660 | 56 | PUSH ESI
+200ae661 | 8bf1 | MOV ESI,ECX
+200ae663 | 8b06 | MOV EAX,dword ptr [ESI]
+200ae665 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+200ae668 | 6a00 | PUSH 0x0
+200ae66a | 6850e26520 | PUSH 0x2065e250
+200ae66f | ffd2 | CALL EDX
+200ae671 | 8b463c | MOV EAX,dword ptr [ESI + 0x3c]
+200ae674 | 8b542408 | MOV EDX,dword ptr [ESP + 0x8]
+200ae678 | 8b401c | MOV EAX,dword ptr [EAX + 0x1c]
+200ae67b | 8d4e3c | LEA ECX,[ESI + 0x3c]
+200ae67e | 52 | PUSH EDX
+200ae67f | ffd0 | CALL EAX
+200ae681 | 8b16 | MOV EDX,dword ptr [ESI]
+200ae683 | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+200ae686 | 6a00 | PUSH 0x0
+200ae688 | 6850e26520 | PUSH 0x2065e250
+200ae68d | 8bce | MOV ECX,ESI
+200ae68f | ffd0 | CALL EAX
+200ae691 | 5e | POP ESI
+200ae692 | c20400 | RET 0x4

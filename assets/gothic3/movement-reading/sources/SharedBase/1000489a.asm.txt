@@ -1,0 +1,4 @@
+; 1000489a ?GetReferenceCount@bCObjectBase@@UAEKXZ
+1000489a | e981570400 | JMP 0x1004a020
+; 100048a4 bCRect::operator+
+; 100048a4 Ordinal_1050

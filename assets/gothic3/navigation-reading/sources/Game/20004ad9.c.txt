@@ -1,0 +1,18 @@
+/* ENTRY 20004ad9 | gCNavigation_PS::OnIntersect | STATUS decompiled | 11 ms */
+
+/* protected: virtual void __thiscall gCNavigation_PS::OnIntersect(class eCEntity *,class
+   eCContactIterator &) */
+
+void __thiscall
+gCNavigation_PS::OnIntersect(gCNavigation_PS *this,eCEntity *param_1,eCContactIterator *param_2)
+
+{
+                    /* 0x4ad9  5444
+                       ?OnIntersect@gCNavigation_PS@@MAEXPAVeCEntity@@AAVeCContactIterator@@@Z */
+                    /* WARNING: Could not recover jumptable at 0x202864e0. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::OnIntersect((eCEntityPropertySet *)this,param_1,param_2);
+  return;
+}
+
+

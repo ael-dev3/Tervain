@@ -1,0 +1,9 @@
+/* ENTRY 200357fb | bTPropertyType<gCCharacterMovement_PS,float>::vfunction2 | STATUS decompiled | 1 ms */
+
+undefined4 __thiscall bTPropertyType<gCCharacterMovement_PS,float>::vfunction2(void)
+
+{
+  return 4;
+}
+
+

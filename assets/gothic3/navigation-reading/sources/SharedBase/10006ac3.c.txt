@@ -1,0 +1,15 @@
+/* ENTRY 10006ac3 | bCVector::bCVector | STATUS decompiled | 2 ms */
+
+/* public: __thiscall bCVector::bCVector(float,float,float) */
+
+void __thiscall bCVector::bCVector(bCVector *this,float param_1,float param_2,float param_3)
+
+{
+                    /* 0x6ac3  341  ??0bCVector@@QAE@MMM@Z */
+  *(float *)this = param_1;
+  *(float *)(this + 4) = param_2;
+  *(float *)(this + 8) = param_3;
+  return;
+}
+
+

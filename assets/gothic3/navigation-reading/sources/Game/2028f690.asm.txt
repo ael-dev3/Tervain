@@ -1,0 +1,2 @@
+; 2028f690 SHAREDBASE.DLL::bCPropertyTypeBase::Read
+2028f690 | ff25e4877d20 | JMP dword ptr [0x207d87e4]

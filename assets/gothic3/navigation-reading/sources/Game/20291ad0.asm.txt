@@ -1,0 +1,4 @@
+; 20291ad0 bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::vfunction11
+20291ad0 | 6a00 | PUSH 0x0
+20291ad2 | e85414d8ff | CALL 0x20012f2b
+20291ad7 | c3 | RET

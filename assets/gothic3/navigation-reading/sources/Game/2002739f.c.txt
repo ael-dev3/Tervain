@@ -1,0 +1,71 @@
+/* ENTRY 2002739f | gCNavigation_PS::OnExitProcessingRange | STATUS decompiled | 42 ms */
+
+/* protected: virtual void __thiscall gCNavigation_PS::OnExitProcessingRange(void) */
+
+void __thiscall gCNavigation_PS::OnExitProcessingRange(gCNavigation_PS *this)
+
+{
+  gCDynamicCollisionCircle_PS *this_00;
+  gCCharacterMovement_PS *this_01;
+  char cVar1;
+  bool bVar2;
+  gCNavigationAdmin *this_02;
+  eCEntity *peVar3;
+  eCApplication *peVar4;
+  int *piVar5;
+  int iVar6;
+  undefined4 uVar7;
+  TypeDescriptor *pTVar8;
+  TypeDescriptor *pTVar9;
+  gCNavigation_PS *pgVar10;
+  undefined4 uVar11;
+  
+                    /* 0x2739f  5427  ?OnExitProcessingRange@gCNavigation_PS@@MAEXXZ */
+  if ((this->gCNavigation_PS_data).offset_0x1e1 == (gCNavigation_PS)0x1) {
+    pgVar10 = this;
+    this_02 = (gCNavigationAdmin *)thunk_FUN_20079ea0();
+    gCNavigationAdmin::DeregisterNavigationPSInROI(this_02,(gCNavigation_PS *)pgVar10);
+    (this->gCNavigation_PS_data).offset_0x188 = 0;
+  }
+  this_00 = (gCDynamicCollisionCircle_PS *)(this->gCNavigation_PS_data).offset_0x1d8;
+  (this->gCNavigation_PS_data).offset_0x1e1 = (gCNavigation_PS)0x0;
+  if (this_00 != (gCDynamicCollisionCircle_PS *)0x0) {
+    gCDynamicCollisionCircle_PS::DestroyCollisionCirclePSObject(this_00);
+  }
+  peVar3 = (*this->vftablePtr->GetEntity)(this);
+  if (peVar3 != (eCEntity *)0x0) {
+    uVar11 = 1;
+    pTVar9 = &gCGameApp::RTTI_Type_Descriptor;
+    pTVar8 = &eCApplication::RTTI_Type_Descriptor;
+    uVar7 = 0;
+    peVar4 = eCApplication::GetInstance();
+    piVar5 = (int *)___RTDynamicCast(peVar4,uVar7,pTVar8,pTVar9,uVar11);
+    cVar1 = (**(code **)(*piVar5 + 0x270))();
+    if ((cVar1 == '\x01') &&
+       (this_01 = (gCCharacterMovement_PS *)(this->gCNavigation_PS_data).offset_0x1dc,
+       this_01 != (gCCharacterMovement_PS *)0x0)) {
+      bVar2 = gCCharacterMovement_PS::GetGoalReached(this_01,false,false,false);
+      if (bVar2) {
+        (this->gCNavigation_PS_data).offset_0x205 = (gCNavigation_PS)0x0;
+      }
+      else {
+        (this->gCNavigation_PS_data).offset_0x205 = (gCNavigation_PS)0x1;
+      }
+      piVar5 = *(int **)&(this->gCNavigation_PS_data).field_0x8;
+      if (piVar5 != (int *)0x0) {
+        iVar6 = (**(code **)(*piVar5 + 0xec))(0x2d);
+        if ((iVar6 != 0) && (*(int *)(iVar6 + 0x58) == 9)) {
+          (this->gCNavigation_PS_data).offset_0x205 = (gCNavigation_PS)0x0;
+        }
+      }
+      gCCharacterMovement_PS::StopMovement
+                ((gCCharacterMovement_PS *)(this->gCNavigation_PS_data).offset_0x1dc);
+      gCCharacterMovement_PS::ResetIsProcessing
+                ((gCCharacterMovement_PS *)(this->gCNavigation_PS_data).offset_0x1dc);
+      return;
+    }
+  }
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 20017c65 bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::scalar_deleting_destructor
+20017c65 | e9a64d2700 | JMP 0x2028ca10
+; 20017c6a gCSessionInfo::CopyFrom
+; 20017c6a Ordinal_2292

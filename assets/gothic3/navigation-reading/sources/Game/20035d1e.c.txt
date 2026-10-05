@@ -1,0 +1,13 @@
+/* ENTRY 20035d1e | gCNavigation_PS::Write | STATUS decompiled | 7 ms */
+
+/* public: virtual enum bEResult __thiscall gCNavigation_PS::Write(class bCOStream &) */
+
+bEResult __thiscall gCNavigation_PS::Write(gCNavigation_PS *this,bCOStream *param_1)
+
+{
+                    /* 0x35d1e  7545  ?Write@gCNavigation_PS@@UAE?AW4bEResult@@AAVbCOStream@@@Z */
+  bCOStream::operator<<((bCOStream *)param_1,0x25);
+  return 1;
+}
+
+

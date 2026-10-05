@@ -1,0 +1,4 @@
+; 2000dcc9 ?GetRootObject@gCCharacterMovement_PS@@SGPBVbCPropertyObjectBase@@XZ
+2000dcc9 | e902362100 | JMP 0x202212d0
+; 2000dcce gCGUIEntityRenderer::AddFocusName
+; 2000dcce Ordinal_1862

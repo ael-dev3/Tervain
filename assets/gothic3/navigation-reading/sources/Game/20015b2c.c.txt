@@ -1,0 +1,15 @@
+/* ENTRY 20015b2c | bTPOPureSmartPtr<gCNavigation_PS>::scalar_deleting_destructor | STATUS decompiled | 4 ms */
+
+bTPOPureSmartPtr<gCNavigation_PS> * __thiscall
+bTPOPureSmartPtr<gCNavigation_PS>::scalar_deleting_destructor
+          (bTPOPureSmartPtr<gCNavigation_PS> *this,byte param_1)
+
+{
+  ~bTPOPureSmartPtr<gCNavigation_PS>(this);
+  if ((param_1 & 1) != 0) {
+    _free(this);
+  }
+  return this;
+}
+
+

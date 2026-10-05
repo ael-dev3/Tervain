@@ -1,0 +1,31 @@
+/* ENTRY 10001c99 | Entity::GetAniEx | STATUS decompiled | 9 ms */
+
+/* public: class bCString __thiscall Entity::GetAniEx(enum gEAction,enum gEPhase,class bCString
+   const &,bool)const  */
+
+gEUseType __thiscall
+Entity::GetAniEx(Entity *this,gEAction param_1,gEPhase param_2,bCString *param_3,bool param_4)
+
+{
+  int iVar1;
+  gEUseType gVar2;
+  gEUseType gVar3;
+  gEAction gVar4;
+  bCString *pbVar5;
+  undefined1 auStack_150 [164];
+  undefined1 auStack_ac [168];
+  gEUseType gStack_4;
+  
+                    /* 0x1c99  1501
+                       ?GetAniEx@Entity@@QBE?AVbCString@@W4gEAction@@W4gEPhase@@ABV2@_N@Z */
+  pbVar5 = (bCString *)0x1;
+  iVar1 = PSInventory::GetItemFromSlot((PSInventory *)(this + 0x24),(gESlot)auStack_150);
+  gVar2 = PSInteraction::GetUseType((PSInteraction *)(iVar1 + 0x1c));
+  gVar4 = 2;
+  iVar1 = PSInventory::GetItemFromSlot((PSInventory *)(this + 0x24),(gESlot)auStack_ac);
+  gVar3 = PSInteraction::GetUseType((PSInteraction *)(iVar1 + 0x1c));
+  GetAniEx(this,gStack_4,gVar3,gVar4,gVar2,pbVar5,(bool)(undefined1)param_2);
+  return gStack_4;
+}
+
+

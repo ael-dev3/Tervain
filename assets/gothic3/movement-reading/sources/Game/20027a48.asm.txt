@@ -1,0 +1,4 @@
+; 20027a48 ?GetSystemBase@gCEffectModule@@UBEPAVeCEffectSystemBase@@XZ
+20027a48 | e993d90e00 | JMP 0x201153e0
+; 20027a4d gCEffectCommandKillEntity::SetDescriptor
+; 20027a4d Ordinal_6397

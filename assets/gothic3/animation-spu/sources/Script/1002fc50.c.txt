@@ -1,0 +1,17 @@
+/* ENTRY 1002fc50 | FUN_1002fc50 | STATUS decompiled | 9 ms */
+
+gEUseType __thiscall
+FUN_1002fc50(void *this,gEUseType param_1,gEPhase param_2,gEUseType param_3,gEAction param_4,
+            bCString *param_5)
+
+{
+  void *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"");
+  Entity::GetAniEx(this,param_1,param_3,param_4,param_2,param_5,SUB41(&local_4,0));
+  bCString::~bCString((bCString *)&stack0xfffffff8);
+  return param_1;
+}
+
+

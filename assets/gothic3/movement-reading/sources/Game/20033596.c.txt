@@ -1,0 +1,15 @@
+/* ENTRY 20033596 | gCCharacterMovement_PS::GetPropertySetType | STATUS decompiled | 6 ms */
+
+/* public: virtual enum eEPropertySetType __thiscall
+   gCCharacterMovement_PS::GetPropertySetType(void)const  */
+
+eEPropertySetType __thiscall
+gCCharacterMovement_PS::GetPropertySetType(gCCharacterMovement_PS *this)
+
+{
+                    /* 0x33596  4035
+                       ?GetPropertySetType@gCCharacterMovement_PS@@UBE?AW4eEPropertySetType@@XZ */
+  return 0x15;
+}
+
+

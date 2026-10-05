@@ -1,0 +1,4 @@
+; 2001ff73 thunk_FUN_20232c00
+2001ff73 | e9882c2100 | JMP 0x20232c00
+; 2001ff78 gCNavigation_PS::AccessLastUseableNavigationZoneIsPath
+; 2001ff78 Ordinal_1341

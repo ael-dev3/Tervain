@@ -1,0 +1,138 @@
+/* ENTRY 200050c9 | gCNavigation_PS::GameReset | STATUS decompiled | 78 ms */
+
+/* protected: void __thiscall gCNavigation_PS::GameReset(void) */
+
+void __thiscall gCNavigation_PS::GameReset(gCNavigation_PS *this)
+
+{
+  void **ppvVar1;
+  GetEntity *pGVar2;
+  gCDynamicCollisionCircle_PS *this_00;
+  eCEntity *peVar3;
+  bCVector *pbVar4;
+  bCMemoryAdmin *pbVar5;
+  void *pvVar6;
+  bCVector abStack_c [12];
+  
+                    /* 0x50c9  2865  ?GameReset@gCNavigation_PS@@IAEXXZ */
+  pGVar2 = this->vftablePtr->GetEntity;
+  (this->gCNavigation_PS_data).offset_0x1c8 = 0xffffffff;
+  peVar3 = (*pGVar2)(this);
+  if (peVar3 == (eCEntity *)0x0) {
+    pbVar4 = (bCVector *)bCVector::bCVector(abStack_c,0.0,0.0,0.0);
+    bCVector::operator=((bCVector *)&(this->gCNavigation_PS_data).field_0x1b0,pbVar4);
+    bCVector::~bCVector(abStack_c);
+  }
+  else {
+    peVar3 = (*this->vftablePtr->GetEntity)(this);
+    pbVar4 = eCEntity::GetWorldPosition((eCEntity *)peVar3);
+    bCVector::operator=((bCVector *)&(this->gCNavigation_PS_data).field_0x1b0,pbVar4);
+  }
+  pbVar4 = (bCVector *)bCVector::bCVector(abStack_c,0.0,0.0,0.0);
+  bCVector::operator=((bCVector *)&(this->gCNavigation_PS_data).field_0x10,pbVar4);
+  bCVector::~bCVector(abStack_c);
+  ppvVar1 = &(this->gCNavigation_PS_data).offset_0x18c;
+  if ((ppvVar1 != (void **)0x0) && (pvVar6 = *ppvVar1, pvVar6 != (void *)0x0)) {
+    pbVar5 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar5,pvVar6);
+    *ppvVar1 = (void *)0x0;
+    (this->gCNavigation_PS_data).offset_0x190 = 0;
+    (this->gCNavigation_PS_data).offset_0x194 = 0;
+  }
+  ppvVar1 = &(this->gCNavigation_PS_data).offset_0x198;
+  if ((ppvVar1 != (void **)0x0) && (pvVar6 = *ppvVar1, pvVar6 != (void *)0x0)) {
+    pbVar5 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar5,pvVar6);
+    *ppvVar1 = (void *)0x0;
+    (this->gCNavigation_PS_data).offset_0x19c = 0;
+    (this->gCNavigation_PS_data).offset_0x1a0 = 0;
+  }
+  ppvVar1 = &(this->gCNavigation_PS_data).offset_0x1a4;
+  if ((ppvVar1 != (void **)0x0) && (pvVar6 = *ppvVar1, pvVar6 != (void *)0x0)) {
+    pbVar5 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar5,pvVar6);
+    *ppvVar1 = (void *)0x0;
+    (this->gCNavigation_PS_data).offset_0x1a8 = 0;
+    (this->gCNavigation_PS_data).offset_0x1ac = 0;
+  }
+  ppvVar1 = &(this->gCNavigation_PS_data).offset_0x1bc;
+  if ((ppvVar1 != (void **)0x0) && (pvVar6 = *ppvVar1, pvVar6 != (void *)0x0)) {
+    pbVar5 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar5,pvVar6);
+    *ppvVar1 = (void *)0x0;
+    (this->gCNavigation_PS_data).offset_0x1c0 = 0;
+    (this->gCNavigation_PS_data).offset_0x1c4 = 0;
+  }
+  this_00 = (gCDynamicCollisionCircle_PS *)(this->gCNavigation_PS_data).offset_0x1d8;
+  (this->gCNavigation_PS_data).offset_0x1cc = (gCNavigation_PS)0x0;
+  (this->gCNavigation_PS_data).offset_0x1cd = (gCNavigation_PS)0x0;
+  (this->gCNavigation_PS_data).offset_0x1d0 = 0;
+  (this->gCNavigation_PS_data).offset_0x1d4 = 0;
+  if (this_00 != (gCDynamicCollisionCircle_PS *)0x0) {
+    gCDynamicCollisionCircle_PS::DestroyCollisionCirclePSObject(this_00);
+  }
+  (this->gCNavigation_PS_data).offset_0x1d8 = 0;
+  (this->gCNavigation_PS_data).offset_0x1dc = 0;
+  (this->gCNavigation_PS_data).offset_0x1e0 = (gCNavigation_PS)0x1;
+  (this->gCNavigation_PS_data).offset_0x1e1 = (gCNavigation_PS)0x0;
+  (this->gCNavigation_PS_data).offset_0x1e2 = (gCNavigation_PS)0x0;
+  (this->gCNavigation_PS_data).offset_0x1e4 = 0;
+  (this->gCNavigation_PS_data).offset_0x205 = (gCNavigation_PS)0x0;
+  (this->gCNavigation_PS_data).offset_0x204 = (gCNavigation_PS)0x0;
+  (this->gCNavigation_PS_data).offset_0x20c = (gCNavigation_PS)0x1;
+  (this->gCNavigation_PS_data).offset_0x20d = (gCNavigation_PS)0x0;
+  (this->gCNavigation_PS_data).offset_0x210 = 0;
+  (this->gCNavigation_PS_data).offset_0x214 = 4;
+  (this->gCNavigation_PS_data).offset_0x218 = 0;
+  (this->gCNavigation_PS_data).offset_0x251 = (gCNavigation_PS)0x0;
+  (this->gCNavigation_PS_data).offset_0x21c = (gCNavigation_PS)0x0;
+  (this->gCNavigation_PS_data).offset_0x2a8 = 0xffff;
+  bCPropertyID::Destroy((bCPropertyID *)&(this->gCNavigation_PS_data).field_0x220);
+  (this->gCNavigation_PS_data).offset_0x234 = (gCNavigation_PS)0x0;
+  bCPropertyID::Destroy((bCPropertyID *)&(this->gCNavigation_PS_data).field_0x238);
+  (this->gCNavigation_PS_data).offset_0x24c = (gCNavigation_PS)0x0;
+  ppvVar1 = &(this->gCNavigation_PS_data).offset_0x108;
+  (this->gCNavigation_PS_data).field_0x101 = 1;
+  *(undefined4 *)&(this->gCNavigation_PS_data).field_0x104 = 0;
+  if ((ppvVar1 != (void **)0x0) && (pvVar6 = *ppvVar1, pvVar6 != (void *)0x0)) {
+    pbVar5 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar5,pvVar6);
+    *ppvVar1 = (void *)0x0;
+    (this->gCNavigation_PS_data).offset_0x10c = 0;
+    (this->gCNavigation_PS_data).offset_0x110 = 0;
+  }
+  ppvVar1 = &(this->gCNavigation_PS_data).offset_0x114;
+  if ((ppvVar1 != (void **)0x0) && (pvVar6 = *ppvVar1, pvVar6 != (void *)0x0)) {
+    pbVar5 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar5,pvVar6);
+    *ppvVar1 = (void *)0x0;
+    (this->gCNavigation_PS_data).offset_0x118 = 0;
+    (this->gCNavigation_PS_data).offset_0x11c = 0;
+  }
+  bCPropertyID::Destroy((bCPropertyID *)&(this->gCNavigation_PS_data).field_0x120);
+  ppvVar1 = &(this->gCNavigation_PS_data).offset_0x134;
+  if ((ppvVar1 != (void **)0x0) && (pvVar6 = *ppvVar1, pvVar6 != (void *)0x0)) {
+    pbVar5 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar5,pvVar6);
+    *ppvVar1 = (void *)0x0;
+    (this->gCNavigation_PS_data).offset_0x138 = 0;
+    (this->gCNavigation_PS_data).offset_0x13c = 0;
+  }
+  ppvVar1 = &(this->gCNavigation_PS_data).offset_0x140;
+  if ((ppvVar1 != (void **)0x0) && (pvVar6 = *ppvVar1, pvVar6 != (void *)0x0)) {
+    pbVar5 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar5,pvVar6);
+    *ppvVar1 = (void *)0x0;
+    (this->gCNavigation_PS_data).offset_0x144 = 0;
+    (this->gCNavigation_PS_data).offset_0x148 = 0;
+  }
+  eCEntityProxy::SetEntity
+            ((eCEntityProxy *)&(this->gCNavigation_PS_data).field_0x14c,(eCEntity *)0x0);
+  eCEntityProxy::SetEntity
+            ((eCEntityProxy *)&(this->gCNavigation_PS_data).field_0x168,(eCEntity *)0x0);
+  *(undefined4 *)&(this->gCNavigation_PS_data).field_0x184 = 1;
+  (this->gCNavigation_PS_data).offset_0x188 = 0;
+  return;
+}
+
+

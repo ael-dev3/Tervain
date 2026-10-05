@@ -1,0 +1,2 @@
+; 20015023 bTPOPureSmartPtr<gCCharacterMovement_PS>::vfunction12
+20015023 | e9b8e32100 | JMP 0x202333e0

@@ -1,0 +1,4 @@
+; 2001fd02 bTPropertyType<gCCharacterMovement_PS,float>::vfunction22
+2001fd02 | e989582100 | JMP 0x20235590
+; 2001fd07 gCDoor_PS::OnNotifyPropertyValueChangedExitEx
+; 2001fd07 Ordinal_5494

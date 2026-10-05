@@ -1,0 +1,2 @@
+; 20003ce2 bTPropertyType<gCEffectCommandCreateDecal,bCVector>::vfunction4
+20003ce2 | e9599d2800 | JMP 0x2028da40

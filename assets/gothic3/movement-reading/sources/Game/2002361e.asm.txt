@@ -1,0 +1,2 @@
+; 2002361e bTPropertyType<gCCharacterMovement_PS,float>::vfunction13
+2002361e | e92d212100 | JMP 0x20235750

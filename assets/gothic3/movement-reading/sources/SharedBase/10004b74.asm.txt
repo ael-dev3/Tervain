@@ -1,0 +1,4 @@
+; 10004b74 ?AddReference@bCPropertyObjectBase@@UAEKXZ
+10004b74 | e9a7450800 | JMP 0x10089120
+; 10004b79 bCFPUAdmin::EnableDenormalFloatExceptions
+; 10004b79 Ordinal_1990

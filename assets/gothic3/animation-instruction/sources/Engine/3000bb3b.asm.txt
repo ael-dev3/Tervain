@@ -1,0 +1,2 @@
+; 3000bb3b ?GetMaxTime@eCWrapper_emfx2Actor@@QBENW4eEMotionType@1@@Z
+3000bb3b | e9d0fb0c00 | JMP 0x300db710

@@ -173,6 +173,22 @@ export class NativeInstructionProxyRegistry {
   bind(spu: NativeScriptProcessingUnit, seed: NativeSPUSchedulerStorage): void {
     this.bindings.set(spu, this.binding(spu, seed));
   }
+  /** Bounded GetEntity/Query profile: every nonnull slot already owns a live
+   * internal reference; every null slot has the source zero PropertyID. No
+   * missing EntityAdmin lookup or lazy nonzero-ID resolution is simulated. */
+  get(spu: NativeScriptProcessingUnit, key: 'instructionEntity' | 'instructionTarget',
+    access: NativeSPUSchedulerAccess): string | null {
+    if (!spu.ownsSchedulerAccess(access)) throw new Error('Expired or cross-instance native proxy capability');
+    const slot = this.bindings.get(spu)?.[key];
+    if (!slot || slot.entity !== access.storage()[key]) throw new Error('Instruction proxy reference binding differs');
+    if (slot.entity !== null) {
+      const entity = this.entities.get(slot.entity);
+      if (!entity || entity.references === null || entity.references < 2) throw new Error('Instruction proxy lacks a live retained internal');
+    } else if (slot.nativeId !== '0000000000000000000000000000000000000000') {
+      throw new Error('Lazy nonzero PropertyID resolution requires actual EntityAdmin');
+    }
+    return slot.entity;
+  }
   set(spu: NativeScriptProcessingUnit, key: 'instructionEntity' | 'instructionTarget', id: string | null,
     access: NativeSPUSchedulerAccess): void {
     if (!spu.ownsSchedulerAccess(access)) throw new Error('Expired or cross-instance native proxy capability');
@@ -268,11 +284,18 @@ export class NativeInstructionScheduler {
     const seed: NativeSPUState = { self: null, frames: Array.from({ length: 5 }, frame), frameCount: 1,
       task: '', localCallback: '', taskMilliseconds: 0, stateMilliseconds: 0,
       detectingTask: false, detectedTask: '', activeInstruction: null };
-    return new NativeInstructionScheduler(new NativeScriptProcessingUnit(seed, routineHost), {
+    const scheduler = new NativeInstructionScheduler(new NativeScriptProcessingUnit(seed, routineHost), {
       waitElapsedMilliseconds: 0, waitDurationMilliseconds: null, instructionEntity: null,
       instructionTarget: null, taskCallbackMilliseconds: null, localCallbackMilliseconds: null,
       localTimeScale: 1, lastFrameTimestamp: 0, audioChannel: null,
     }, frames, arithmetic, proxies, host);
+    // Actual2036c270 constructor descriptor stores and2036bf90 Invalidate.
+    // +158/+15c/+164 are not initialized by either recovered body.
+    succeeded(scheduler.spu.initializeAnimation({ completedByte: 0, visualAnimation: null, name: '',
+      waitForFadeByte: null, phaseMode: null, phaseFinishedByte: null,
+      motionDescriptor: { fadeIn: Math.fround(.3), mode: 0, playSpeed: 1,
+        loops: 0xffffffff, weight: 1, fadeOut: 0, blendMode: 1 } }));
+    return scheduler;
   }
   wait(argument: NativeWaitDescriptor | null, abort = false): NativeRoutineResult {
     return this.spu.dispatchScheduler(access => this.waitInternal(access, argument, abort));

@@ -1,0 +1,4 @@
+; 100079e1 ??0bCGuid@@QAE@ABU_GUID@@@Z
+100079e1 | e96aaf0000 | JMP 0x10012950
+; 100079e6 bCUnicodeString::bCUnicodeString
+; 100079e6 Ordinal_302

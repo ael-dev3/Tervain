@@ -1,0 +1,4 @@
+; 10004bf6 ?GetWord@bCString@@QBEHHABV1@AAV1@_N2@Z
+10004bf6 | e9650d0100 | JMP 0x10015960
+; 10004bfb bCString::Compare
+; 10004bfb Ordinal_1650

@@ -1,0 +1,2 @@
+; 20025612 bTPropertyObjectType<gCCharacterMovement_PS,gCMovementBase_PS>::~bTPropertyObjectType<gCCharacterMovement_PS,gCMovementBase_PS>
+20025612 | e9e9e92000 | JMP 0x20234000

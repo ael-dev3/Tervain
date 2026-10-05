@@ -1,0 +1,61 @@
+/* ENTRY 2001a6d6 | gCCharacterMovement_PS::OnUpdatedWorldMatrix | STATUS decompiled | 34 ms */
+
+/* protected: virtual void __thiscall gCCharacterMovement_PS::OnUpdatedWorldMatrix(void) */
+
+void __thiscall gCCharacterMovement_PS::OnUpdatedWorldMatrix(gCCharacterMovement_PS *this)
+
+{
+  bool bVar1;
+  eCPhysicsScene *this_00;
+  eCEntity *peVar2;
+  bCMatrix *pbVar3;
+  bCVector *pbVar4;
+  float *pfVar5;
+  bCVector abStack_5c [12];
+  bCQuaternion abStack_50 [16];
+  bCMatrix abStack_40 [64];
+  
+                    /* 0x1a6d6  5666  ?OnUpdatedWorldMatrix@gCCharacterMovement_PS@@MAEXXZ */
+  this_00 = eCPhysicsScene::GetInstance();
+  bVar1 = eCPhysicsScene::IsPlacingEntities(this_00);
+  if ((!bVar1) && ((this->gCCharacterMovement_PS_data).offset_0xfc != 0xe)) {
+    StopMovement(this);
+    peVar2 = (*this->vftablePtr->GetEntity)(this);
+    bVar1 = gCEntity::IsDead(peVar2);
+    if (!bVar1) {
+      SetMovementMode(this,1);
+      (this->gCCharacterMovement_PS_data).offset_0x3bc = (gCCharacterMovement_PS)0x1;
+      return;
+    }
+    peVar2 = (*this->vftablePtr->GetEntity)(this);
+    pbVar3 = eCEntity::GetWorldMatrix((eCEntity *)peVar2);
+    bCMatrix::bCMatrix(abStack_40,pbVar3);
+    pbVar4 = bCMatrix::GetZAxis(abStack_40);
+    bCVector::bCVector(abStack_5c,pbVar4);
+    pfVar5 = bCVector::AccessY(abStack_5c);
+    *pfVar5 = 0.0;
+    bVar1 = bCVector::HasZeroMagnitude(abStack_5c);
+    if (bVar1) {
+      bCVector::operator=(abStack_5c,(bCVector *)&(this->gCCharacterMovement_PS_data).field_0x124);
+      pfVar5 = bCVector::AccessY(abStack_5c);
+      *pfVar5 = 0.0;
+    }
+    bVar1 = bCVector::HasZeroMagnitude(abStack_5c);
+    if (!bVar1) {
+      bCVector::Normalize(abStack_5c);
+      bCMatrix::LookAt(abStack_40,abStack_5c);
+      bCQuaternion::bCQuaternion(abStack_50,abStack_40);
+      CalcQuadrupedDistances(this);
+      ProcessQuadrupedXRotation(this,abStack_50,true);
+      bCQuaternion::Normalize(abStack_50);
+      (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 0x164))(abStack_50);
+      bCQuaternion::~bCQuaternion(abStack_50);
+    }
+    bCVector::~bCVector(abStack_5c);
+    bCMatrix::~bCMatrix(abStack_40);
+    (this->gCCharacterMovement_PS_data).offset_0x3bc = (gCCharacterMovement_PS)0x1;
+  }
+  return;
+}
+
+

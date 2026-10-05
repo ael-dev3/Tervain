@@ -1,0 +1,4 @@
+; 100043d6 ?Find@bCString@@QBEHPBDH_N@Z
+100043d6 | e975fc0000 | JMP 0x10014050
+; 100043db bCMatrix::GetTranslation
+; 100043db Ordinal_3175

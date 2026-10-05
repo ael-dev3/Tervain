@@ -1,0 +1,17 @@
+/* ENTRY 2002eb22 | gCCharacterMovement_PS::Destroy | STATUS decompiled | 13 ms */
+
+/* public: virtual void __thiscall gCCharacterMovement_PS::Destroy(void) */
+
+void __thiscall gCCharacterMovement_PS::Destroy(gCCharacterMovement_PS *this)
+
+{
+                    /* 0x2eb22  2553  ?Destroy@gCCharacterMovement_PS@@UAEXXZ */
+  thunk_FUN_20233ee0();
+  Invalidate(this);
+                    /* WARNING: Could not recover jumptable at 0x202280a8. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::Destroy((eCEntityPropertySet *)this);
+  return;
+}
+
+

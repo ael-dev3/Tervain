@@ -1,0 +1,4 @@
+; 10005af6 ??0bCString@@QAE@ABV0@H@Z
+10005af6 | e955da0000 | JMP 0x10013550
+; 10005afb bCAccessorEnum::GetEnumTypeInt
+; 10005afb Ordinal_2334

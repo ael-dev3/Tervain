@@ -1,0 +1,4 @@
+; 10004e99 ?GetReferenceCount@bCObjectRefBase@@QBEKXZ
+10004e99 | e9d2550400 | JMP 0x1004a470
+; 10004e9e bCLine::GetInvTransformed
+; 10004e9e Ordinal_2482

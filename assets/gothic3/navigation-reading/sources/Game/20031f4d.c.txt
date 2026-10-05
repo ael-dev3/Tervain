@@ -1,0 +1,24 @@
+/* ENTRY 20031f4d | gCNavigation_PS::WriteSaveGame | STATUS decompiled | 23 ms */
+
+/* public: virtual enum bEResult __thiscall gCNavigation_PS::WriteSaveGame(class bCOStream &) */
+
+bEResult __thiscall gCNavigation_PS::WriteSaveGame(gCNavigation_PS *this,bCOStream *param_1)
+
+{
+                    /* 0x31f4d  7597
+                       ?WriteSaveGame@gCNavigation_PS@@UAE?AW4bEResult@@AAVbCOStream@@@Z */
+  bCVector::operator>>((bCVector *)&(this->gCNavigation_PS_data).field_0x10,param_1);
+  ::operator<<(param_1,(bCPropertyID *)&(this->gCNavigation_PS_data).field_0x1c);
+  ::operator<<(param_1,(bCPropertyID *)&(this->gCNavigation_PS_data).field_0x30);
+  ::operator<<(param_1,(bCPropertyID *)&(this->gCNavigation_PS_data).field_0x44);
+  bCOStream::operator<<((bCOStream *)param_1,(bCString *)&(this->gCNavigation_PS_data).field_0x58);
+  ::operator<<(param_1,(eCEntityProxy *)&(this->gCNavigation_PS_data).field_0x8c);
+  ::operator<<(param_1,(eCEntityProxy *)&(this->gCNavigation_PS_data).field_0xa8);
+  ::operator<<(param_1,(eCEntityProxy *)&(this->gCNavigation_PS_data).field_0xc4);
+  bCVector::operator>>((bCVector *)&(this->gCNavigation_PS_data).field_0xe0,param_1);
+  ::operator<<(param_1,(bCPropertyID *)&(this->gCNavigation_PS_data).field_0xec);
+  bCOStream::operator<<((bCOStream *)param_1,(bool)(this->gCNavigation_PS_data).field_0x100);
+  return 1;
+}
+
+

@@ -1,0 +1,37 @@
+/* ENTRY 3003b124 | eCAnimationAdmin::SetAniVariationMax | STATUS decompiled | 48 ms */
+
+/* public: void __thiscall eCAnimationAdmin::SetAniVariationMax(class bCString const &) */
+
+void __thiscall eCAnimationAdmin::SetAniVariationMax(eCAnimationAdmin *this,bCString *param_1)
+
+{
+  bCString *this_00;
+  int iVar1;
+  undefined1 *puVar2;
+  bCString abStack_8 [4];
+  bCString abStack_4 [4];
+  
+                    /* 0x3b124  12914  ?SetAniVariationMax@eCAnimationAdmin@@QAEXABVbCString@@@Z */
+  this_00 = param_1;
+  iVar1 = bCString::Find(param_1,'%',0,false);
+  if (0 < iVar1) {
+    iVar1 = bCString::Find(this_00,'%',0,false);
+    bCString::bCString((bCString *)&param_1,this_00,iVar1);
+    bCString::ToUpper((bCString *)&param_1);
+    iVar1 = thunk_FUN_300921e0(&param_1,abStack_4);
+    if (iVar1 == 0) {
+      bCString::bCString(abStack_8);
+      bCString::bCString(abStack_4,"_");
+      bCString::GetWord(this_00,0xb,abStack_4,abStack_8,false,false);
+      bCString::~bCString(abStack_4);
+      iVar1 = bCString::GetInteger(abStack_8,0,false);
+      puVar2 = (undefined1 *)thunk_FUN_30092250(&param_1);
+      *puVar2 = (char)iVar1;
+      bCString::~bCString(abStack_8);
+    }
+    bCString::~bCString((bCString *)&param_1);
+  }
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 30038794 ?StopMotion@eCVisualAnimation_PS@@QAEXW4eEMotionType@eCWrapper_emfx2Actor@@M@Z
+30038794 | e977620600 | JMP 0x3009ea10

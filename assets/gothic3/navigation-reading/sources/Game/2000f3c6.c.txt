@@ -1,0 +1,245 @@
+/* ENTRY 2000f3c6 | gCNavigation_PS::OnEnterProcessingRange | STATUS decompiled | 1070 ms */
+
+/* protected: virtual void __thiscall gCNavigation_PS::OnEnterProcessingRange(void) */
+
+void __thiscall gCNavigation_PS::OnEnterProcessingRange(gCNavigation_PS *this)
+
+{
+  bool bVar1;
+  char cVar2;
+  bool bVar3;
+  gCNavigationAdmin *this_00;
+  eCEntity *peVar4;
+  eCApplication *peVar5;
+  int *piVar6;
+  eCEntity *peVar7;
+  gCNavZone_PS *this_01;
+  gCNavPath_PS *this_02;
+  bCVector *pbVar8;
+  float *pfVar9;
+  bCString *pbVar10;
+  bCString *pbVar11;
+  char *pcVar12;
+  bCMessageAdmin *pbVar13;
+  int iVar14;
+  float fVar15;
+  bEMessageTypes bVar16;
+  char *pcVar17;
+  undefined4 uVar18;
+  TypeDescriptor *pTVar19;
+  int iVar20;
+  TypeDescriptor *pTVar21;
+  gCNavigation_PS *pgVar22;
+  undefined4 uVar23;
+  float fStack_48;
+  double dStack_44;
+  eCEntity *peStack_38;
+  bCVector abStack_34 [12];
+  bCVector abStack_28 [12];
+  eCEntityProxy eStack_1c;
+  
+                    /* 0xf3c6  5417  ?OnEnterProcessingRange@gCNavigation_PS@@MAEXXZ */
+  if ((this->gCNavigation_PS_data).offset_0x1e1 == (gCNavigation_PS)0x0) {
+    pgVar22 = this;
+    this_00 = (gCNavigationAdmin *)thunk_FUN_20079ea0();
+    gCNavigationAdmin::RegisterNavigationPSInROI(this_00,(gCNavigation_PS *)pgVar22);
+  }
+  (this->gCNavigation_PS_data).offset_0x1e1 = (gCNavigation_PS)0x1;
+  (this->gCNavigation_PS_data).offset_0x1e2 = (gCNavigation_PS)0x0;
+  bCPropertyID::Destroy((bCPropertyID *)&(this->gCNavigation_PS_data).field_0x238);
+  (this->gCNavigation_PS_data).offset_0x24c = (gCNavigation_PS)0x0;
+  peVar4 = (*this->vftablePtr->GetEntity)(this);
+  if (peVar4 == (eCEntity *)0x0) {
+    return;
+  }
+  uVar23 = 1;
+  pTVar21 = &gCGameApp::RTTI_Type_Descriptor;
+  pTVar19 = &eCApplication::RTTI_Type_Descriptor;
+  uVar18 = 0;
+  peStack_38 = peVar4;
+  peVar5 = eCApplication::GetInstance();
+  piVar6 = (int *)___RTDynamicCast(peVar5,uVar18,pTVar19,pTVar21,uVar23);
+  cVar2 = (**(code **)(*piVar6 + 0x270))();
+  if (cVar2 != '\x01') {
+    return;
+  }
+  if ((this->gCNavigation_PS_data).offset_0x1dc == 0) {
+    return;
+  }
+  dStack_44 = (double)CONCAT44(dStack_44._4_4_,0xbf800000);
+  eCEntityProxy::eCEntityProxy(&eStack_1c);
+  peVar7 = eCEntityProxy::GetEntity((eCEntityProxy *)&(this->gCNavigation_PS_data).field_0xa8);
+  eCEntityProxy::SetEntity(&eStack_1c,peVar7);
+  peVar7 = eCEntityProxy::GetEntity(&eStack_1c);
+  if (peVar7 != (eCEntity *)0x0) {
+    peVar7 = eCEntityProxy::GetEntity(&eStack_1c);
+    this_01 = (gCNavZone_PS *)(**(code **)(*(int *)peVar7 + 0xec))(8);
+    if (this_01 == (gCNavZone_PS *)0x0) {
+      peVar7 = eCEntityProxy::GetEntity(&eStack_1c);
+      this_02 = (gCNavPath_PS *)(**(code **)(*(int *)peVar7 + 0xec))(10);
+      if (this_02 != (gCNavPath_PS *)0x0) {
+        fVar15 = gCNavPath_PS::GetPathBottomHeight(this_02);
+        dStack_44 = (double)CONCAT44(dStack_44._4_4_,fVar15);
+        gCNavPath_PS::GetPathTopHeight(this_02);
+      }
+    }
+    else {
+      fVar15 = gCNavZone_PS::GetZoneBottomHeight(this_01);
+      dStack_44 = (double)CONCAT44(dStack_44._4_4_,fVar15);
+      gCNavZone_PS::GetZoneTopHeight(this_01);
+    }
+  }
+  bVar3 = gCCharacterMovement_PS::GetMovementIsSelfControled
+                    ((gCCharacterMovement_PS *)(this->gCNavigation_PS_data).offset_0x1dc);
+  if ((!bVar3) && (bVar3 = gCEntity::IsDead(peVar4), !bVar3)) goto LAB_2028a836;
+  pbVar8 = eCEntity::GetWorldPosition((eCEntity *)peVar4);
+  bCVector::bCVector(abStack_34,pbVar8);
+  bVar3 = gCCharacterMovement_PS::GetMovementIsControledByPlayer
+                    ((gCCharacterMovement_PS *)(this->gCNavigation_PS_data).offset_0x1dc);
+  if (!bVar3) {
+    pfVar9 = bCVector::AccessY(abStack_34);
+    *pfVar9 = *pfVar9 + 149.99;
+  }
+  bVar3 = false;
+  fStack_48 = gCCharacterMovement_PS::GetDistToGround
+                        ((gCCharacterMovement_PS *)(this->gCNavigation_PS_data).offset_0x1dc,
+                         abStack_34,false);
+  peVar4 = eCEntityProxy::GetEntity(&eStack_1c);
+  if ((peVar4 != (eCEntity *)0x0) && (0.0 < fStack_48)) {
+    dStack_44 = (double)dStack_44._0_4_;
+    fVar15 = bCVector::GetY(abStack_34);
+    if (fVar15 - fStack_48 < (float)dStack_44) {
+      bVar3 = true;
+    }
+  }
+  bVar1 = false;
+  if (fStack_48 == 0.0) {
+    bVar1 = true;
+    iVar14 = 0;
+    do {
+      pfVar9 = bCVector::AccessY(abStack_34);
+      *pfVar9 = *pfVar9 + 10000.0;
+      fStack_48 = gCCharacterMovement_PS::GetDistToGround
+                            ((gCCharacterMovement_PS *)(this->gCNavigation_PS_data).offset_0x1dc,
+                             abStack_34,false);
+      if (fStack_48 != 0.0) {
+        pfVar9 = bCVector::AccessY(abStack_34);
+        iVar14 = 0;
+        *pfVar9 = *pfVar9 - 10000.0;
+        goto LAB_2028a5b0;
+      }
+      iVar14 = iVar14 + 1;
+    } while (iVar14 < 0x14);
+  }
+  goto LAB_2028a652;
+  while (iVar14 = iVar14 + 1, iVar14 < 10) {
+LAB_2028a5b0:
+    pfVar9 = bCVector::AccessY(abStack_34);
+    *pfVar9 = *pfVar9 + 1000.0;
+    fStack_48 = gCCharacterMovement_PS::GetDistToGround
+                          ((gCCharacterMovement_PS *)(this->gCNavigation_PS_data).offset_0x1dc,
+                           abStack_34,false);
+    if (fStack_48 != 0.0) {
+      pfVar9 = bCVector::AccessY(abStack_34);
+      iVar14 = 0;
+      *pfVar9 = *pfVar9 - 1000.0;
+      goto LAB_2028a610;
+    }
+  }
+  goto LAB_2028a652;
+  while (iVar14 = iVar14 + 1, iVar14 < 6) {
+LAB_2028a610:
+    pfVar9 = bCVector::AccessY(abStack_34);
+    *pfVar9 = *pfVar9 + 167.0;
+    fStack_48 = gCCharacterMovement_PS::GetDistToGround
+                          ((gCCharacterMovement_PS *)(this->gCNavigation_PS_data).offset_0x1dc,
+                           abStack_34,false);
+    if (fStack_48 != 0.0) break;
+  }
+LAB_2028a652:
+  if (bVar3) {
+    iVar20 = -1;
+    iVar14 = 0;
+    pcVar17 = (char *)0x0;
+    peVar4 = (*this->vftablePtr->GetEntity)(this);
+    pbVar10 = eCEntity::GetName((eCEntity *)peVar4);
+    pbVar11 = (bCString *)
+              operator+((char *)&dStack_44,
+                        (bCString *)
+                        "gCNavigation_PS::OnEnterProcessingRange - Floordetection (type 1) for NPC: "
+                       );
+    pcVar12 = bCString::operator_char_const_(pbVar11);
+    bVar16 = 3;
+    pbVar13 = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::OnMessage(pbVar13,bVar16,pcVar12,(char *)pbVar10,pcVar17,iVar14,iVar20);
+    bCString::~bCString((bCString *)&fStack_48);
+  }
+  if (bVar1) {
+    iVar20 = -1;
+    iVar14 = 0;
+    pcVar17 = (char *)0x0;
+    peVar4 = (*this->vftablePtr->GetEntity)(this);
+    pbVar10 = eCEntity::GetName((eCEntity *)peVar4);
+    pbVar11 = (bCString *)
+              operator+((char *)&dStack_44,
+                        (bCString *)
+                        "gCNavigation_PS::OnEnterProcessingRange - Floordetection (type 2) for NPC: "
+                       );
+    pcVar12 = bCString::operator_char_const_(pbVar11);
+    bVar16 = 3;
+    pbVar13 = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::OnMessage(pbVar13,bVar16,pcVar12,(char *)pbVar10,pcVar17,iVar14,iVar20);
+    bCString::~bCString((bCString *)&fStack_48);
+  }
+  peVar4 = peStack_38;
+  if (bVar3) {
+    (**(code **)(*(int *)peStack_38 + 0xd0))(abStack_34);
+  }
+  else {
+    if (fStack_48 == 0.0) {
+      peVar4 = (*this->vftablePtr->GetEntity)(this);
+      pbVar10 = eCEntity::GetName((eCEntity *)peVar4);
+      GE_MESSAGEF_WARN("gCNavigation_PS::OnEnterProcessingRange - Floordetection for NPC:%s failed!"
+                       ,*(undefined4 *)pbVar10);
+      (this->gCNavigation_PS_data).offset_0x1e2 = (gCNavigation_PS)0x1;
+      bCVector::~bCVector(abStack_34);
+      eCEntityProxy::~eCEntityProxy(&eStack_1c);
+      return;
+    }
+    bVar3 = gCEntity::IsDead(peStack_38);
+    iVar14 = *(int *)peVar4;
+    if (bVar3) {
+      uVar18 = bCVector::bCVector(abStack_28,0.0,fStack_48,0.0);
+      uVar23 = bCVector::operator-(abStack_34,(bCVector *)&dStack_44);
+      (**(code **)(iVar14 + 0xd0))(uVar23,uVar18);
+      bCVector::~bCVector((bCVector *)&dStack_44);
+      bCVector::~bCVector(abStack_28);
+    }
+    else {
+      peStack_38 = (eCEntity *)(fStack_48 - 30.0);
+      uVar18 = bCVector::bCVector((bCVector *)&dStack_44,0.0,(float)peStack_38,0.0);
+      uVar23 = bCVector::operator-(abStack_34,abStack_28);
+      (**(code **)(iVar14 + 0xd0))(uVar23,uVar18);
+      bCVector::~bCVector(abStack_28);
+      bCVector::~bCVector((bCVector *)&dStack_44);
+    }
+  }
+  bCVector::~bCVector(abStack_34);
+LAB_2028a836:
+  if (((this->gCNavigation_PS_data).offset_0x205 == (gCNavigation_PS)0x1) &&
+     ((this->gCNavigation_PS_data).offset_0x204 == (gCNavigation_PS)0x1)) {
+    gCCharacterMovement_PS::SetGoalPose
+              ((gCCharacterMovement_PS *)(this->gCNavigation_PS_data).offset_0x1dc,
+               (bCMotion *)&(this->gCNavigation_PS_data).field_0x1e8,false,false);
+    gCCharacterMovement_PS::SetMovementMode
+              ((gCCharacterMovement_PS *)(this->gCNavigation_PS_data).offset_0x1dc,
+               (this->gCNavigation_PS_data).offset_0x214);
+    eCEntityProxy::~eCEntityProxy(&eStack_1c);
+    return;
+  }
+  Reset(this,false,true,true);
+  eCEntityProxy::~eCEntityProxy(&eStack_1c);
+  return;
+}
+
+

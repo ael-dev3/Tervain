@@ -1,0 +1,4 @@
+; 100086b6 ?Write@bCObjectBase@@EBE_NAAVbCOStream@@@Z
+100086b6 | e9451a0400 | JMP 0x1004a100
+; 100086bb bCOrientedBox::Create
+; 100086bb Ordinal_1810

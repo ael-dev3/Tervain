@@ -1,0 +1,3 @@
+; 2023aa10 FUN_2023aa10
+2023aa10 | 83c8ff | OR EAX,0xffffffff
+2023aa13 | c20400 | RET 0x4

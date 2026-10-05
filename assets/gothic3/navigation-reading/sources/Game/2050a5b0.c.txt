@@ -1,0 +1,33 @@
+/* ENTRY 2050a5b0 | bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_>::~bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_>::
+~bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_>
+          (bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_> *this)
+
+{
+  bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"RoutineNames");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNavigation_PS::ms_PropertyMember_m_arrRoutineNames,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_arrRoutineNames = &vftable;
+  DAT_207bf9bc = bTPropertyObjectType<gCNavigation_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNavigation_PS,eCEntityPropertySet>();
+  _DAT_207bf9c0 = 0x84;
+  _DAT_207bf9c4 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCNavigation_PS::ms_PropertyMember_m_arrRoutineNames);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bf9bc,
+             (bCPropertyTypeBase *)&gCNavigation_PS::ms_PropertyMember_m_arrRoutineNames);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bTObjArray<bCString>_>::~bTPropertyTypeOnly<bTObjArray<bCString>_>);
+  return;
+}
+
+

@@ -1,0 +1,60 @@
+/* ENTRY 2022e2d0 | FUN_2022e2d0 | STATUS decompiled | 30 ms */
+
+void __fastcall FUN_2022e2d0(gCCharacterMovement_PS *param_1)
+
+{
+  bool bVar1;
+  eCPhysicsScene *this;
+  eCEntity *peVar2;
+  bCMatrix *pbVar3;
+  bCVector *pbVar4;
+  float *pfVar5;
+  bCVector abStack_5c [12];
+  bCQuaternion abStack_50 [16];
+  bCMatrix abStack_40 [64];
+  
+  this = eCPhysicsScene::GetInstance();
+  bVar1 = eCPhysicsScene::IsPlacingEntities(this);
+  if ((!bVar1) && ((param_1->gCCharacterMovement_PS_data).offset_0xfc != 0xe)) {
+    gCCharacterMovement_PS::StopMovement(param_1);
+    peVar2 = (*param_1->vftablePtr->GetEntity)(param_1);
+    bVar1 = gCEntity::IsDead(peVar2);
+    if (!bVar1) {
+      gCCharacterMovement_PS::SetMovementMode(param_1,1);
+      (param_1->gCCharacterMovement_PS_data).offset_0x3bc = (gCCharacterMovement_PS)0x1;
+      return;
+    }
+    peVar2 = (*param_1->vftablePtr->GetEntity)(param_1);
+    pbVar3 = eCEntity::GetWorldMatrix((eCEntity *)peVar2);
+    bCMatrix::bCMatrix(abStack_40,pbVar3);
+    pbVar4 = bCMatrix::GetZAxis(abStack_40);
+    bCVector::bCVector(abStack_5c,pbVar4);
+    pfVar5 = bCVector::AccessY(abStack_5c);
+    *pfVar5 = 0.0;
+    bVar1 = bCVector::HasZeroMagnitude(abStack_5c);
+    if (bVar1) {
+      bCVector::operator=(abStack_5c,(bCVector *)&(param_1->gCCharacterMovement_PS_data).field_0x124
+                         );
+      pfVar5 = bCVector::AccessY(abStack_5c);
+      *pfVar5 = 0.0;
+    }
+    bVar1 = bCVector::HasZeroMagnitude(abStack_5c);
+    if (!bVar1) {
+      bCVector::Normalize(abStack_5c);
+      bCMatrix::LookAt(abStack_40,abStack_5c);
+      bCQuaternion::bCQuaternion(abStack_50,abStack_40);
+      gCCharacterMovement_PS::CalcQuadrupedDistances(param_1);
+      gCCharacterMovement_PS::ProcessQuadrupedXRotation(param_1,abStack_50,true);
+      bCQuaternion::Normalize(abStack_50);
+      (**(code **)(*(int *)(param_1->gCCharacterMovement_PS_data).offset_0x16c + 0x164))(abStack_50)
+      ;
+      bCQuaternion::~bCQuaternion(abStack_50);
+    }
+    bCVector::~bCVector(abStack_5c);
+    bCMatrix::~bCMatrix(abStack_40);
+    (param_1->gCCharacterMovement_PS_data).offset_0x3bc = (gCCharacterMovement_PS)0x1;
+  }
+  return;
+}
+
+

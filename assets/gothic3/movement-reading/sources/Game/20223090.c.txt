@@ -1,0 +1,48 @@
+/* ENTRY 20223090 | FUN_20223090 | STATUS decompiled | 13 ms */
+
+void __fastcall FUN_20223090(bCObjectRefBase *param_1)
+
+{
+  bCObjectRefBase::PostInitializeProperties(param_1);
+  param_1[8].bCObjectBase = (bCObjectBase)0x43c80000;
+  param_1[9].bCObjectBase = (bCObjectBase)0x43c80000;
+  param_1[10].bCObjectBase = (bCObjectBase)0x43c80000;
+  param_1[0xc].bCObjectBase = (bCObjectBase)0x3f000000;
+  param_1[0xb].bCObjectBase = (bCObjectBase)0x43340000;
+  param_1[0x11].bCObjectBase = (bCObjectBase)0x3ec00000;
+  param_1[0xf].bCObjectBase = (bCObjectBase)0x43340000;
+  param_1[0x12].bCObjectBase = (bCObjectBase)0x3fc00000;
+  param_1[0xd].bCObjectBase = (bCObjectBase)0x447a0000;
+  param_1[0x10].bCObjectBase = (bCObjectBase)0xc3340000;
+  param_1[0x13].bCObjectBase = (bCObjectBase)0x3f333333;
+  param_1[0xe].bCObjectBase = (bCObjectBase)0xc3fa0000;
+  param_1[7].bCObjectBase = (bCObjectBase)0x42820000;
+  param_1[0x16].bCObjectBase = (bCObjectBase)0x3f333333;
+  param_1[0x14].bCObjectBase = (bCObjectBase)0x41a00000;
+  param_1[0x15].bCObjectBase = (bCObjectBase)0x42440000;
+  param_1[0x18].bCObjectBase = (bCObjectBase)0x41a00000;
+  param_1[0x1d].bCObjectBase = (bCObjectBase)0x3e19999a;
+  param_1[0x19].bCObjectBase = (bCObjectBase)0x3f800000;
+  param_1[0x1b].bCObjectBase = (bCObjectBase)0x3ecccccd;
+  param_1[6].bCObjectBase = (bCObjectBase)0x40a00000;
+  param_1[0x1e].bCObjectBase = (bCObjectBase)0x40a00000;
+  param_1[0x21].bCObjectBase = (bCObjectBase)0x3f800000;
+  param_1[0x22].bCObjectBase = (bCObjectBase)0x3f800000;
+  *(undefined1 *)&param_1[5].bCObjectBase = 1;
+  param_1[5].bCObjectBase.field_0x1 = 1;
+  param_1[5].bCObjectBase.field_0x2 = 0;
+  param_1[0x97].bCObjectBase.field_0x3 = 1;
+  param_1[0x1a].bCObjectBase = (bCObjectBase)0x0;
+  *(undefined1 *)&param_1[0x17].bCObjectBase = 1;
+  param_1[0x1c].bCObjectBase = (bCObjectBase)0x44480000;
+  param_1[0x5f].bCObjectBase.field_0x2 = 0;
+  *(undefined1 *)&param_1[0x1f].bCObjectBase = 0;
+  param_1[0x20].bCObjectBase = (bCObjectBase)0x43fa0000;
+  param_1[0x23].bCObjectBase = (bCObjectBase)0x43200000;
+  *(undefined1 *)&param_1[0x24].bCObjectBase = 0;
+  param_1[0x25].bCObjectBase = (bCObjectBase)0x0;
+  *(undefined1 *)&param_1[0x26].bCObjectBase = 0;
+  return;
+}
+
+

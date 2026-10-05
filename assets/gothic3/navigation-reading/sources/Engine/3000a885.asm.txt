@@ -1,0 +1,2 @@
+; 3000a885 ?OnUpdatedWorldTreeBoundary@eCEntityPropertySet@@MAEXXZ
+3000a885 | e976714700 | JMP 0x30481a00

@@ -1,0 +1,9 @@
+/* ENTRY 2002af0e | bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_>::vfunction2 | STATUS decompiled | 1 ms */
+
+undefined4 __thiscall bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_>::vfunction2(void)
+
+{
+  return 0xc;
+}
+
+

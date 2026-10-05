@@ -1,0 +1,69 @@
+/* ENTRY 2000e985 | bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_>::vfunction14 | STATUS decompiled | 29 ms */
+
+void __thiscall
+bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_>::vfunction14
+          (bTPropertyType<gCNavigation_PS,bTObjArray<bCString>_> *this,bCOStream *param_1,
+          int param_2)
+
+{
+  bCOStream bVar1;
+  bool bVar2;
+  bCErrorAdmin *this_00;
+  bCPOStream *this_01;
+  ulong uVar3;
+  uchar *puVar4;
+  int unaff_ESI;
+  __int64 _Var5;
+  char *pcVar6;
+  char *pcVar7;
+  char *pcVar8;
+  int iVar9;
+  undefined4 uStack_18;
+  undefined1 auStack_14 [4];
+  int *piStack_10;
+  
+  if (param_2 == 0) {
+    iVar9 = 0x27d;
+    pcVar8 = "e:\\!g3 src\\temp\\source\\sharedbase\\propertysystem\\types\\ge_propertytype.inl";
+    pcVar7 = "GEFalse == (NULL != a_pSource)";
+    pcVar6 = "bTPropertyType<CLASS, TYPE>::PropertyWrite - Propertysource must not NULL ! ";
+    this_00 = bCErrorAdmin::GetInstance();
+    bCErrorAdmin::CallFatalError(this_00,pcVar6,pcVar7,pcVar8,iVar9);
+  }
+  (*this->vftablePtr->Write)(this,(bCOStream *)param_1);
+  iVar9 = ___RTDynamicCast(param_1,0,&bCOStream::RTTI_Type_Descriptor,
+                           &bCPOStream::RTTI_Type_Descriptor,0);
+  if (iVar9 == 0) {
+    thunk_FUN_2006e020(param_1);
+    (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_2);
+    thunk_FUN_2028f6d0(param_1);
+    iVar9 = (**(code **)(*piStack_10 + 0xc))();
+    (**(code **)(*piStack_10 + 0x10))(uStack_18,0,0);
+    bCOStream::operator<<((bCOStream *)(piStack_10 + 1),iVar9 - unaff_ESI);
+    (**(code **)(*piStack_10 + 0x10))(iVar9,0,0);
+    return;
+  }
+  bCPOStream::bCPOStream((bCPOStream *)&uStack_18);
+  this_01 = (bCPOStream *)
+            ___RTDynamicCast(param_1,0,&bCOStream::RTTI_Type_Descriptor,
+                             &bCPOStream::RTTI_Type_Descriptor,0);
+  if (this_01 != (bCPOStream *)0x0) {
+    bVar2 = bCPOStream::IsForcedLegacyMode(this_01);
+    if (!bVar2) goto LAB_2028faba;
+  }
+  bCPOStream::ForceLegacyMode((bCPOStream *)&uStack_18);
+LAB_2028faba:
+  (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_2);
+  thunk_FUN_2028f6d0(auStack_14);
+  _Var5 = bCMemoryStream::GetSize((bCMemoryStream *)&uStack_18);
+  uVar3 = (ulong)_Var5;
+  bCOStream::operator<<(param_1,uVar3);
+  bCMemoryStream::SetPosition((bCMemoryStream *)&uStack_18,0,0);
+  bVar1 = *param_1;
+  puVar4 = bCMemoryStream::AccessBuffer((bCMemoryStream *)&uStack_18,0);
+  (**(code **)((int)bVar1 + 4))(puVar4,uVar3);
+  bCPOStream::~bCPOStream((bCPOStream *)&stack0xffffffe0);
+  return;
+}
+
+

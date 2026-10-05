@@ -1,0 +1,17 @@
+/* ENTRY 2028da90 | bTPropertyType<gCNavigation_PS,bCVector>::vfunction6 | STATUS decompiled | 5 ms */
+
+void __thiscall
+bTPropertyType<gCNavigation_PS,bCVector>::vfunction6
+          (bTPropertyType<gCNavigation_PS,bCVector> *this,int param_1)
+
+{
+  bTPropertyType<gCEffectCommandCreateDecal,bCVector>_vftable *this_00;
+  
+  if (param_1 != 0) {
+    this_00 = (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_1);
+    bCVector::Clear((bCVector *)this_00);
+  }
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 20008715 bTPropertyType<gCCameraModeParams,bool>::vfunction4
+20008715 | e936c72200 | JMP 0x20234e50
+; 2000871f gCTouchDamage_PS::GetPropertySetType
+; 2000871f Ordinal_4098

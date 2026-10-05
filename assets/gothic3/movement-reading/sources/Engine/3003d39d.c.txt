@@ -1,0 +1,54 @@
+/* ENTRY 3003d39d | eCEntityPropertySet::IntersectsVolume | STATUS decompiled | 8 ms */
+
+/* public: virtual bool __thiscall eCEntityPropertySet::IntersectsVolume(class bCVolume &,class
+   bCMatrix const &,class bTValArray<class bCTriangle> *,bool)const 
+   eCEntityPropertySet member function inherited by eCAudioEmitter_PS
+   eCEntityPropertySet member function inherited by eCDecal_PS
+   eCEntityPropertySet member function inherited by eCTriggerBase_PS
+   eCEntityPropertySet member function inherited by eCEventFilter_PS
+   eCEntityPropertySet member function inherited by eCTrigger_PS
+   eCEntityPropertySet member function inherited by eCTriggerCombiner_PS
+   eCEntityPropertySet member function inherited by eCTriggerList_PS
+   eCEntityPropertySet member function inherited by eCDynamicLight_PS
+   eCEntityPropertySet member function inherited by eCHemisphere_PS
+   eCEntityPropertySet member function inherited by eCIlluminated_PS
+   eCEntityPropertySet member function inherited by eCStaticLight_PS
+   eCEntityPropertySet member function inherited by eCLightStreaks_PS
+   eCEntityPropertySet member function inherited by eCEffectBase_PS
+   eCEntityPropertySet member function inherited by eCParticle_PS
+   eCEntityPropertySet member function inherited by eCRigidBodyBase_PS
+   eCEntityPropertySet member function inherited by eCCollisionShapeBase_PS
+   eCEntityPropertySet member function inherited by eCPhysicsScene_PS
+   eCEntityPropertySet member function inherited by eCLinkContainer_PS
+   eCEntityPropertySet member function inherited by eCForceField_PS
+   eCEntityPropertySet member function inherited by eCEngineCaps_PS
+   eCEntityPropertySet member function inherited by eCEditorEntityPropertySet
+   eCEntityPropertySet member function inherited by eCSpeedTreeWind_PS
+   eCEntityPropertySet member function inherited by eCSkydome_PS
+   eCEntityPropertySet member function inherited by eCStrip_PS
+   eCEntityPropertySet member function inherited by eCVegetation_PS
+   eCEntityPropertySet member function inherited by eCVegetationBrush_PS
+   eCEntityPropertySet member function inherited by eCVegetationRubber_PS
+   eCEntityPropertySet member function inherited by eCPrecipitation_PS
+   eCEntityPropertySet member function inherited by eCWeatherZone_PS
+   eCEntityPropertySet member function inherited by eCVisualAnimation_PS
+   eCEntityPropertySet member function inherited by eCEventDebugger_PS
+   eCEntityPropertySet member function inherited by eCEventLogic_PS
+   eCEntityPropertySet member function inherited by eCDirectionalLight_PS
+   eCEntityPropertySet member function inherited by eCParticleSystemBase_PS
+   eCEntityPropertySet member function inherited by eCRigidBody_PS
+   eCEntityPropertySet member function inherited by eCCollisionShape_PS */
+
+bool __thiscall
+eCEntityPropertySet::IntersectsVolume
+          (eCEntityPropertySet *this,bCVolume *param_1,bCMatrix *param_2,
+          bTValArray<bCTriangle> *param_3,bool param_4)
+
+{
+                    /* 0x3d39d  9877
+                       ?IntersectsVolume@eCEntityPropertySet@@UBE_NAAVbCVolume@@ABVbCMatrix@@PAV?$bTValArray@VbCTriangle@@@@_N@Z
+                        */
+  return false;
+}
+
+

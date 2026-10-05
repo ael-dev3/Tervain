@@ -1,0 +1,23 @@
+/* ENTRY 3000392c | eCEntityProxyInternal::ReleaseReference | STATUS decompiled | 3 ms */
+
+/* public: unsigned long __thiscall eCEntityProxyInternal::ReleaseReference(void) */
+
+ulong __thiscall eCEntityProxyInternal::ReleaseReference(eCEntityProxyInternal *this)
+
+{
+  ulong uVar1;
+  bCMemoryAdmin *this_00;
+  
+                    /* 0x392c  12414  ?ReleaseReference@eCEntityProxyInternal@@QAEKXZ */
+  if (1 < *(uint *)(this + 4)) {
+    uVar1 = *(uint *)(this + 4) - 1;
+    *(ulong *)(this + 4) = uVar1;
+    return uVar1;
+  }
+  *(undefined4 *)(this + 4) = 0;
+  this_00 = bCMemoryAdmin::GetInstance();
+  bCMemoryAdmin::DeleteObject(this_00,this);
+  return 0;
+}
+
+

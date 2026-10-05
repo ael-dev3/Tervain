@@ -1,0 +1,4 @@
+; 20032781 bTPropertyType<gCNavigation_PS,bool>::vfunction6
+20032781 | e9bae12500 | JMP 0x20290940
+; 2003278b gCProjectile_PS::operator=
+; 2003278b Ordinal_705

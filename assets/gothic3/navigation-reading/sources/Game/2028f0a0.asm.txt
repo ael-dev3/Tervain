@@ -1,0 +1,23 @@
+; 2028f0a0 bTPropertyType<gCNavigation_PS,bTValArray<bCPropertyID>_>::vfunction26
+2028f0a0 | 56 | PUSH ESI
+2028f0a1 | 57 | PUSH EDI
+2028f0a2 | 8b7c240c | MOV EDI,dword ptr [ESP + 0xc]
+2028f0a6 | 85ff | TEST EDI,EDI
+2028f0a8 | 8bf1 | MOV ESI,ECX
+2028f0aa | 7522 | JNZ 0x2028f0ce
+2028f0ac | 680d030000 | PUSH 0x30d
+2028f0b1 | 68f8976520 | PUSH 0x206597f8
+2028f0b6 | 68c8976520 | PUSH 0x206597c8
+2028f0bb | 6858986520 | PUSH 0x20659858
+2028f0c0 | ff1518897d20 | CALL dword ptr [0x207d8918]
+2028f0c6 | 8bc8 | MOV ECX,EAX
+2028f0c8 | ff15f4867d20 | CALL dword ptr [0x207d86f4]
+; 2028f0ce LAB_2028f0ce
+2028f0ce | 8b06 | MOV EAX,dword ptr [ESI]
+2028f0d0 | 8b502c | MOV EDX,dword ptr [EAX + 0x2c]
+2028f0d3 | 57 | PUSH EDI
+2028f0d4 | 8bce | MOV ECX,ESI
+2028f0d6 | ffd2 | CALL EDX
+2028f0d8 | 5f | POP EDI
+2028f0d9 | 5e | POP ESI
+2028f0da | c20400 | RET 0x4

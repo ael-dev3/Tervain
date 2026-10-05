@@ -1,0 +1,4 @@
+; 20014efc SHAREDBASE.DLL::bCPropertyTypeBase::Write
+20014efc | e95fb12700 | JMP 0x20290060
+; 20014f01 gCEffectCommandSequence::CopyFrom
+; 20014f01 Ordinal_2243

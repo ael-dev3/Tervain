@@ -1,0 +1,16 @@
+/* ENTRY 2028c470 | bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::vfunction4 | STATUS decompiled | 3 ms */
+
+void __thiscall
+bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>::vfunction4
+          (bTPropertyObject<gCNavigation_PS,eCEntityPropertySet> *this)
+
+{
+                    /* WARNING: Could not recover jumptable at 0x2028c473. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCPropertyObjectTypeBase::GetDescription
+            ((bCPropertyObjectTypeBase *)
+             (this->bTPropertyObject<gCNavigation_PS,eCEntityPropertySet>_data).offset_0x0);
+  return;
+}
+
+

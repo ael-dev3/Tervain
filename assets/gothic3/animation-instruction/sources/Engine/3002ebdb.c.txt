@@ -1,0 +1,15 @@
+/* ENTRY 3002ebdb | eCWrapper_emfx2Actor::GetIntroBlending | STATUS decompiled | 61 ms */
+
+/* public: float __thiscall eCWrapper_emfx2Actor::GetIntroBlending(enum
+   eCWrapper_emfx2Actor::eEMotionType)const  */
+
+float __thiscall
+eCWrapper_emfx2Actor::GetIntroBlending(eCWrapper_emfx2Actor *this,eEMotionType param_1)
+
+{
+                    /* 0x2ebdb  7470
+                       ?GetIntroBlending@eCWrapper_emfx2Actor@@QBEMW4eEMotionType@1@@Z */
+  return (float)(this->eCWrapper_emfx2Actor_data).offset_0x68;
+}
+
+

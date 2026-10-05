@@ -1,0 +1,12 @@
+; 202362d0 bTPropertyType<gCCharacterMovement_PS,float>::vfunction19
+202362d0 | 56 | PUSH ESI
+202362d1 | 8bf1 | MOV ESI,ECX
+202362d3 | ff15dc877d20 | CALL dword ptr [0x207d87dc]
+202362d9 | 8d4620 | LEA EAX,[ESI + 0x20]
+202362dc | 50 | PUSH EAX
+202362dd | e8f457deff | CALL 0x2001bad6
+202362e2 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+202362e5 | 56 | PUSH ESI
+202362e6 | ff15dc867d20 | CALL dword ptr [0x207d86dc]
+202362ec | 5e | POP ESI
+202362ed | c3 | RET

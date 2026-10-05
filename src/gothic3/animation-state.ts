@@ -250,8 +250,9 @@ export function nativePlayAniDescriptor<E>(args: NativePlayAniArguments<E>, reso
 }
 
 /** These fields must alias the SAME physical SPU used by its scheduler.
- * Constructor initialization of the extra PlayAni scratch has not been
- * recovered; no default state is manufactured for an uninitialized SPU.
+ * Constructor/Invalidate defaults for the descriptor, name, cached Visual and
+ * completed byte are recovered in the SPU factory. Offsets+158/+15c/+164 remain
+ * uninitialized there; their live facade rejects reads until source writes them.
  */
 export interface NativePlayAniStorage<V> {
   waitElapsedMilliseconds: number; // +98
@@ -259,9 +260,21 @@ export interface NativePlayAniStorage<V> {
   completedByte: number; // +94
   activeInstruction: string | null; // +74
   visualAnimation: V | null; // +130
+  /** Stable embedded +134..14c field facade. Never a descriptor snapshot. */
+  motionDescriptor: NativeEmbeddedMotionDescriptor;
   name: string; // +150
+  waitForFadeByte: number | null; // +158 (Invalidate does not initialize it)
   phaseMode: number; // +15c
   phaseFinishedByte: number; // +164
+}
+export interface NativeEmbeddedMotionDescriptor {
+  fadeIn: number | null; // +134 f32
+  mode: 0 | 1 | 2 | null; // +138 int32
+  playSpeed: number | null; // +13c f32
+  loops: number | null; // +140 uint32
+  weight: number | null; // +144 f32
+  fadeOut: number | null; // +148 f32
+  blendMode: 1 | 2 | null; // +14c int32
 }
 export type NativeAnimationKnown<T> = { known: true; value: T } | { known: false; reason: string };
 export interface NativePlayAniHost<E, V, M> {

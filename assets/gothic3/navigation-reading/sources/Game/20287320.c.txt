@@ -1,0 +1,45 @@
+/* ENTRY 20287320 | FUN_20287320 | STATUS decompiled | 46 ms */
+
+void __fastcall FUN_20287320(gCNavigation_PS *param_1)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  gCNavZone_PS *this;
+  gCNavPath_PS *this_00;
+  eEPropertySetType eVar3;
+  eCEntityProxy local_1c;
+  
+  eCEntityProxy::eCEntityProxy(&local_1c);
+  eCEntityProxy::operator=(&local_1c,(eCEntityProxy *)&(param_1->gCNavigation_PS_data).field_0xa8);
+  peVar2 = eCEntityProxy::GetEntity(&local_1c);
+  if (peVar2 != (eCEntity *)0x0) {
+    eVar3 = 8;
+    peVar2 = eCEntityProxy::GetEntity(&local_1c);
+    bVar1 = eCEntity::HasPropertySet((eCEntity *)peVar2,eVar3);
+    if (bVar1) {
+      peVar2 = eCEntityProxy::GetEntity(&local_1c);
+      this = (gCNavZone_PS *)(**(code **)(*(int *)peVar2 + 0xec))(8);
+      gCNavZone_PS::DeregisterDCCPS
+                (this,(gCDynamicCollisionCircle_PS *)(param_1->gCNavigation_PS_data).offset_0x1d8);
+    }
+    else {
+      eVar3 = 10;
+      peVar2 = eCEntityProxy::GetEntity(&local_1c);
+      bVar1 = eCEntity::HasPropertySet((eCEntity *)peVar2,eVar3);
+      if (bVar1) {
+        peVar2 = eCEntityProxy::GetEntity(&local_1c);
+        this_00 = (gCNavPath_PS *)(**(code **)(*(int *)peVar2 + 0xec))(10);
+        gCNavPath_PS::DeregisterDCCPS
+                  (this_00,(gCDynamicCollisionCircle_PS *)
+                           (param_1->gCNavigation_PS_data).offset_0x1d8);
+      }
+    }
+  }
+  gCNavigation_PS::Invalidate(param_1);
+  eCEntityPropertySet::Destroy((eCEntityPropertySet *)param_1);
+  eCEntityProxy::~eCEntityProxy(&local_1c);
+  return;
+}
+
+

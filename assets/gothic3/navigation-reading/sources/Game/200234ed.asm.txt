@@ -1,0 +1,2 @@
+; 200234ed ?OnTouch@gCNavigation_PS@@MAEXPAVeCEntity@@AAVeCContactIterator@@@Z
+200234ed | e9ce2f2600 | JMP 0x202864c0

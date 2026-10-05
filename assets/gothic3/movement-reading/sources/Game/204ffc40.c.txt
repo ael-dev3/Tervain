@@ -1,0 +1,32 @@
+/* ENTRY 204ffc40 | bTPropertyType<gCCharacterMovement_PS,bool>::~bTPropertyType<gCCharacterMovement_PS,bool> | STATUS decompiled | 13 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCCharacterMovement_PS,bool>::~bTPropertyType<gCCharacterMovement_PS,bool>
+          (bTPropertyType<gCCharacterMovement_PS,bool> *this)
+
+{
+  bTPropertyType<gCCharacterMovement_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"IsQuadruped");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCCharacterMovement_PS::ms_PropertyMember_m_bIsQuadruped,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_bIsQuadruped = &vftable;
+  DAT_207bdb3c = bTPropertyObjectType<gCCharacterMovement_PS,gCMovementBase_PS>::
+                 ~bTPropertyObjectType<gCCharacterMovement_PS,gCMovementBase_PS>();
+  _DAT_207bdb40 = 0x16;
+  _DAT_207bdb44 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCCharacterMovement_PS::ms_PropertyMember_m_bIsQuadruped);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bdb3c,
+             (bCPropertyTypeBase *)&gCCharacterMovement_PS::ms_PropertyMember_m_bIsQuadruped);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}
+
+

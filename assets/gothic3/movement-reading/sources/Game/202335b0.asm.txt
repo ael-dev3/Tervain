@@ -1,0 +1,3 @@
+; 202335b0 bTPropertyObject<gCCharacterMovement_PS,gCMovementBase_PS>::vfunction4
+202335b0 | 8b490c | MOV ECX,dword ptr [ECX + 0xc]
+202335b3 | ff2578877d20 | JMP dword ptr [0x207d8778]

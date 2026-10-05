@@ -101,6 +101,23 @@ export interface NativeSPUSchedulerStorage {
   lastFrameTimestamp: number;
   audioChannel: string | null;
 }
+/** Original embedded animation descriptor. Null retains an unknown field;
+ * pointers preserve the actual capability identity instead of cloning it. */
+export interface NativeSPUAnimationDescriptor {
+  fadeIn: number | null; mode: 0 | 1 | 2 | null; playSpeed: number | null;
+  loops: number | null; weight: number | null; fadeOut: number | null;
+  blendMode: 1 | 2 | null;
+}
+export interface NativeSPUAnimationStorage {
+  completedByte: number | null; // +94
+  visualAnimation: object | null; // +130
+  motionDescriptor: NativeSPUAnimationDescriptor; // +134..14c
+  name: string; // +150 CString
+  waitForFadeByte: number | null; // +158
+  phaseMode: number | null; // +15c
+  phaseFinishedByte: number | null; // +164
+}
+export type NativeSPUAnimationField = Exclude<keyof NativeSPUAnimationStorage, 'motionDescriptor'>;
 /** Scoped access used by the original ProcessScript port. No mutable state
  * reference escapes: all writes share this SPU's journal, revision and failure. */
 export interface NativeSPUSchedulerAccess {
@@ -109,6 +126,9 @@ export interface NativeSPUSchedulerAccess {
   resolveSelf(): NativeRoutineEntity | null;
   writeMilliseconds(kind: 'task' | 'state', value: number): void;
   writeStorage<K extends keyof NativeSPUSchedulerStorage>(key: K, value: NativeSPUSchedulerStorage[K]): void;
+  animationStorage(): Readonly<NativeSPUAnimationStorage>;
+  writeAnimation<K extends NativeSPUAnimationField>(key: K, value: NativeSPUAnimationStorage[K]): void;
+  writeAnimationDescriptor<K extends keyof NativeSPUAnimationDescriptor>(key: K, value: NativeSPUAnimationDescriptor[K]): void;
   writeTaskCallback(name: string): void;
   writeFrame<K extends keyof NativeAIStateFrame>(index: number, key: K, value: NativeAIStateFrame[K]): void;
   writeProperty<K extends keyof NativeRoutineProperties>(entity: NativeRoutineEntity,
@@ -138,6 +158,7 @@ export class NativeScriptProcessingUnit {
   private blocked: string | null = null;
   private traces: NativeRoutineTrace[][] = [];
   private schedulerState: NativeSPUSchedulerStorage | null = null;
+  private animationState: NativeSPUAnimationStorage | null = null;
   private schedulerAccess: NativeSPUSchedulerAccess | null = null;
   private schedulerScopeRevision = 0;
 
@@ -163,6 +184,54 @@ export class NativeScriptProcessingUnit {
 
   schedulerSnapshot(): Readonly<NativeSPUSchedulerStorage> | null {
     return this.schedulerState === null ? null : structuredClone(this.schedulerState);
+  }
+  /** Diagnostic scalar copy. The visual pointer intentionally remains the same
+   * native capability; the embedded descriptor's writable store never escapes. */
+  animationSnapshot(): Readonly<NativeSPUAnimationStorage> | null {
+    return this.animationState === null ? null : { ...this.animationState,
+      motionDescriptor: { ...this.animationState.motionDescriptor } };
+  }
+  /** Supplied constructor/read state, bound once. No implicit zero-fill. */
+  initializeAnimation(seed: NativeSPUAnimationStorage): NativeRoutineResult {
+    return this.run(() => {
+      if (this.animationState !== null) throw new Error('SPU animation fields are already bound');
+      if (!seed || Object.keys(seed).sort().join(',') !==
+          'completedByte,motionDescriptor,name,phaseFinishedByte,phaseMode,visualAnimation,waitForFadeByte' ||
+          !seed.motionDescriptor || Object.keys(seed.motionDescriptor).sort().join(',') !==
+          'blendMode,fadeIn,fadeOut,loops,mode,playSpeed,weight') throw new Error('Incomplete native animation seed');
+      for (const key of ['completedByte', 'visualAnimation', 'name', 'waitForFadeByte', 'phaseMode', 'phaseFinishedByte'] as const) {
+        this.validateAnimationField(key, seed[key]);
+      }
+      for (const key of Object.keys(seed.motionDescriptor) as (keyof NativeSPUAnimationDescriptor)[]) {
+        this.validateAnimationDescriptor(key, seed.motionDescriptor[key]);
+      }
+      this.animationState = { ...seed, motionDescriptor: { ...seed.motionDescriptor } };
+      this.record({ operation: 'initialize-animation-fields' }); return null;
+    });
+  }
+  private validateAnimationField(key: NativeSPUAnimationField, value: NativeSPUAnimationStorage[NativeSPUAnimationField]): void {
+    if (key === 'visualAnimation') {
+      if (value !== null && (typeof value !== 'object' || value === undefined)) throw new Error('Actual VisualAnimation capability required');
+    } else if (key === 'name') {
+      if (typeof value !== 'string') throw new Error('Native animation CString required');
+    } else if (key === 'phaseMode') {
+      if (value !== null && (typeof value !== 'number' || !i32(value))) throw new Error('Native animation phase mode must be int32');
+    } else if (['completedByte', 'waitForFadeByte', 'phaseFinishedByte'].includes(key)) {
+      if (value !== null && (typeof value !== 'number' || !Number.isInteger(value) || value < 0 || value > 255)) throw new Error('Native animation flag must be a byte');
+    } else throw new Error('Unknown physical animation field');
+  }
+  private validateAnimationDescriptor(key: keyof NativeSPUAnimationDescriptor,
+    value: NativeSPUAnimationDescriptor[keyof NativeSPUAnimationDescriptor]): void {
+    if (!['fadeIn', 'mode', 'playSpeed', 'loops', 'weight', 'fadeOut', 'blendMode'].includes(key)) throw new Error('Unknown embedded motion field');
+    if (value === null) return;
+    if (typeof value !== 'number') throw new Error('Native descriptor scalar required');
+    if (key === 'mode') {
+      if (![0, 1, 2].includes(value)) throw new Error('Native play mode outside recovered enum');
+    } else if (key === 'blendMode') {
+      if (![1, 2].includes(value)) throw new Error('Native blend mode outside recovered enum');
+    } else if (key === 'loops') {
+      if (!Number.isInteger(value) || value < 0 || value > 0xffffffff) throw new Error('Native loop count must be uint32');
+    } else if (!finiteFloat(value) || !Object.is(value, Math.fround(value))) throw new Error('Native descriptor must store finite float32');
   }
   /** Identity and lifetime check for source adapters using scoped capabilities. */
   ownsSchedulerAccess(access: NativeSPUSchedulerAccess): boolean { return this.schedulerAccess === access; }
@@ -220,6 +289,23 @@ export class NativeScriptProcessingUnit {
         writeStorage: (key, value) => {
           check(); this.validateSchedulerField(key, value); this.schedulerState![key] = value;
           this.record({ operation: 'scheduler-' + key, value });
+        },
+        animationStorage: () => {
+          check(); const state = this.animationSnapshot();
+          if (!state) throw new Error('SPU animation fields are unbound'); return state;
+        },
+        writeAnimation: (key, value) => {
+          check(); this.validateAnimationField(key, value);
+          if (!this.animationState) throw new Error('SPU animation fields are unbound');
+          this.animationState[key] = value;
+          this.record({ operation: 'animation-' + key,
+            ...(typeof value === 'object' && value !== null ? {} : { value }) });
+        },
+        writeAnimationDescriptor: (key, value) => {
+          check(); this.validateAnimationDescriptor(key, value);
+          if (!this.animationState) throw new Error('SPU animation fields are unbound');
+          this.animationState.motionDescriptor[key] = value;
+          this.record({ operation: 'animation-descriptor-' + key, value });
         },
         writeTaskCallback: name => {
           check(); if (typeof name !== 'string') throw new Error('Invalid task callback name');
