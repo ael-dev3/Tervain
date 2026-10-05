@@ -14,7 +14,21 @@ The browser prototype's intended hosted address is above. On 5 October 2026, rep
 
 ## Repository status
 
-The current `0.0.12` follow-up adds the owner-supplied **Verdant Sentinel** and original custom foliage for each of the fifteen supplied tree derivatives. It retains the exact custom under-10k Pine, static attached gameplay foliage and the strict under-20k complete-tree budget including added stems/leaves. Final local implementation `5876ea3` passes strict TypeScript, **1,100 tests in 110 files**, all 45 complete-tree/texture/attachment audits and Khronos validation with zero errors/warnings. Its committed-source production build passes (5.00 s); bounded native High/Medium/Low, repaired-tree gallery and actual-song Reduced Motion follow-up checks pass with empty captured warning/error logs; earlier fourteen-source observations remain historical. Current acceptance and publication status are recorded in the [0.0.12 release record](docs/production/releases/0.0.12.md).
+The current same-version **0.0.12 Gothic /Remake review follow-up** improves
+accepted warm-oak groupings, connected understory colonies, finer same-topology
+grass, calmer clouds and coastal reflections. Resident full-detail terrain
+tiles keep the same rendered/support surface while allowing ordinary frustum
+culling; CPU geometry and draw-call tradeoffs remain unbenchmarked. Local runtime
+**88cf6678** passes strict TypeScript, **1,131 tests in 115 files**, production
+build and bounded native day/night/coast, all-preset and input review. Final
+sunlit-grass and default-brightness night corrections are recorded in the
+[new study record](docs/art/gothic-remake-review-revision-2026-10-05.md) and
+[0.0.12 release record](docs/production/releases/0.0.12.md). The owner's attachment
+studied the older `0.0.10 /d1f3ba6` build, so its counts and scores are historical.
+Source models, static attached foliage, hero movement, saves and the score-led
+menu are retained. Publication remains blocked by the required CI/hosting gates.
+
+The preceding `0.0.12` tree follow-up adds the owner-supplied **Verdant Sentinel** and original custom foliage for each of the fifteen supplied tree derivatives. It retains the exact custom under-10k Pine, static attached gameplay foliage and the strict under-20k complete-tree budget including added stems/leaves. Final local implementation `5876ea3` passes strict TypeScript, **1,100 tests in 110 files**, all 45 complete-tree/texture/attachment audits and Khronos validation with zero errors/warnings. Its committed-source production build passes (5.00 s); bounded native High/Medium/Low, repaired-tree gallery and actual-song Reduced Motion follow-up checks pass with empty captured warning/error logs; earlier fourteen-source observations remain historical. Current acceptance and publication status are recorded in the [0.0.12 release record](docs/production/releases/0.0.12.md).
 
 ### Separate Gothic 3 reconstruction
 
@@ -34,7 +48,7 @@ your tab. No game files are hosted for it. See its
 
 **Foundation / pre-production — seeded 29 September 2026; first playable prototype added the same day.**
 
-This repository contains a design and production outline and a browser-playable exploration prototype. The owner-authorized **0.0.12** candidate replaces older tree families with world-fitting derivatives of fifteen supplied Meshy trees, adds original custom cutout foliage and coherent habitat variety, and retains the exact **9,706-triangle Solitary Pine**. All 45 prepared near/middle/far GLBs meet the strict **under-20k** complete-tree limit (maximum **19,496**); thirteen catalog entries are selected and two remain reserves. Actual-file and combined runtime verification are recorded in [tree engineering](docs/engineering/meshy-trees-0.0.12.md) and the [0.0.12 release record](docs/production/releases/0.0.12.md). Local implementation `5876ea3` passes TypeScript and 1,100 tests; successful required CI and approved hosted publication remain separate gates.
+This repository contains a design and production outline and a browser-playable exploration prototype. The owner-authorized **0.0.12** candidate replaces older tree families with world-fitting derivatives of fifteen supplied Meshy trees, adds original custom cutout foliage and coherent habitat variety, and retains the exact **9,706-triangle Solitary Pine**. All 45 prepared near/middle/far GLBs meet the strict **under-20k** complete-tree limit (maximum **19,496**); thirteen catalog entries are selected and two remain reserves. Actual-file verification belongs to the preceding asset checkpoint `5876ea3`, whose TypeScript and 1,100 tests passed; current combined-source evidence is in the [0.0.12 release record](docs/production/releases/0.0.12.md). See [tree engineering](docs/engineering/meshy-trees-0.0.12.md) for retained source budgets/provenance. Successful required CI and approved hosted publication remain separate gates.
 
 The candidate retains the locally validated **0.0.11** work: deeper, stable moving coastal water, roughly **133 seconds of running** from a fresh stamina meter, calibrated Wanderer motion, natural grounded rocks and reliable ordinary traversal, Meshy NPCs, rich crown-aware understory and camera/input/save corrections. It keeps **0.0.10**'s detailed bark/terrain/grass, nine physical movable supplies and supplied six-clip Wanderer rig. The [0.0.11 record](docs/production/releases/0.0.11.md) preserves its exact source and results. Local source/build review and successful final-source CI/Pages publication are separate gates; verify the hosted version and source revision rather than treating a push as deployment. GitHub blocked the preceding required check before runner start for account billing/spending-limit reasons.
 
