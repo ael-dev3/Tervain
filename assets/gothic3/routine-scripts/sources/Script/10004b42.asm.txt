@@ -1,0 +1,4 @@
+; 10004b42 ??4PropertyAIMode@PSRoutine@@QAEAAV01@ABW4gEAIMode@@@Z
+10004b42 | e929840200 | JMP 0x1002cf70
+; 10004b47 PSMagic::PropertyReloadDelaySeconds::operator=
+; 10004b47 Ordinal_580

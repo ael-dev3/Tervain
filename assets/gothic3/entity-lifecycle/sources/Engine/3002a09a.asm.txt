@@ -1,0 +1,2 @@
+; 3002a09a ?GetPropertySet@eCEntity@@QAEPAVeCEntityPropertySet@@ABVbCString@@@Z
+3002a09a | e9a1944800 | JMP 0x304b3540

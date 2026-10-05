@@ -1,0 +1,12 @@
+/* ENTRY 2001259e | gCAttribute::AccessModifier | STATUS decompiled | 3 ms */
+
+/* public: int & __thiscall gCAttribute::AccessModifier(void) */
+
+int * __thiscall gCAttribute::AccessModifier(gCAttribute *this)
+
+{
+                    /* 0x1259e  1463  ?AccessModifier@gCAttribute@@QAEAAHXZ */
+  return &(this->gCAttribute_data).offset_0xc;
+}
+
+

@@ -1,0 +1,29 @@
+/* ENTRY 100022d4 | bCObjectRefBase::AddReference | STATUS decompiled | 6 ms */
+
+/* public: virtual unsigned long __thiscall bCObjectRefBase::AddReference(void)
+   bCObjectRefBase member function inherited by bCThreadObjectRefBase
+   bCObjectRefBase member function inherited by bCObsoleteClass
+   bCObjectRefBase member function inherited by bCEvent */
+
+ulong __thiscall bCObjectRefBase::AddReference(bCObjectRefBase *this)
+
+{
+  int *piVar1;
+  ulong uVar2;
+  uint uVar3;
+  
+                    /* 0x22d4  1559  ?AddReference@bCObjectRefBase@@UAEKXZ */
+  piVar1 = (int *)(this->bCObjectRefBase_data).offset_0x0;
+  if (piVar1 != (int *)0x0) {
+                    /* WARNING: Could not recover jumptable at 0x1004a3de. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    uVar2 = (**(code **)(*piVar1 + 0x30))();
+    return uVar2;
+  }
+  uVar3 = (this->bCObjectRefBase_data).offset_0x4;
+  uVar3 = (uVar3 + 1 ^ uVar3) & 0x7fffffff ^ uVar3;
+  (this->bCObjectRefBase_data).offset_0x4 = uVar3;
+  return uVar3 & 0x7fffffff;
+}
+
+

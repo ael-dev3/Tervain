@@ -1,0 +1,156 @@
+/* ENTRY 1000452f | Entity::AttachTo | STATUS decompiled | 108 ms */
+
+/* public: bool __thiscall Entity::AttachTo(class eCEntity *) */
+
+bool __thiscall Entity::AttachTo(Entity *this,eCEntity *param_1)
+
+{
+  char cVar1;
+  int iVar2;
+  eCEntityPropertySet *peVar3;
+  undefined4 uVar4;
+  int iVar5;
+  
+                    /* 0x452f  1287  ?AttachTo@Entity@@QAE_NPAVeCEntity@@@Z */
+  _memset(this,0,0xa8);
+  if ((param_1 != (eCEntity *)0x0) &&
+     (cVar1 = (**(code **)(*(int *)param_1 + 0xa0))(), cVar1 == '\0')) {
+    iVar2 = eCEntity::GetPropertySetCount(param_1);
+    iVar5 = 0;
+    if (0 < iVar2) {
+      do {
+        peVar3 = eCEntity::GetPropertySetAt(param_1,iVar5);
+        uVar4 = (**(code **)(*(int *)peVar3 + 0x60))();
+        switch(uVar4) {
+        case 5:
+          PSNavigation::AttachTo((PSNavigation *)(this + 0x30),peVar3);
+          break;
+        case 0xd:
+          PSRigidBody::AttachTo((PSRigidBody *)(this + 0x3c),peVar3);
+          break;
+        case 0xe:
+          PSCollisionShape::AttachTo((PSCollisionShape *)(this + 0xc),peVar3);
+          break;
+        case 0x15:
+          PSCharacterMovement::AttachTo((PSCharacterMovement *)(this + 0x44),peVar3);
+          break;
+        case 0x16:
+          PSCharacterControl::AttachTo((PSCharacterControl *)(this + 0x40),peVar3);
+          break;
+        case 0x18:
+          PSCamera::AttachTo((PSCamera *)(this + 0x80),peVar3);
+          break;
+        case 0x1e:
+          PSNpc::AttachTo((PSNpc *)(this + 0x34),peVar3);
+          break;
+        case 0x1f:
+          PSInventory::AttachTo((PSInventory *)(this + 0x24),peVar3);
+          break;
+        case 0x20:
+          PSClock::AttachTo((PSClock *)(this + 0x10),peVar3);
+          break;
+        case 0x27:
+          PSTrigger::AttachTo((PSTrigger *)(this + 0xa0),peVar3);
+          break;
+        case 0x2d:
+          PSRoutine::AttachTo((PSRoutine *)(this + 4),peVar3);
+          break;
+        case 0x30:
+          PSItem::AttachTo((PSItem *)(this + 0x28),peVar3);
+          break;
+        case 0x31:
+          PSInteraction::AttachTo((PSInteraction *)(this + 0x1c),peVar3);
+          break;
+        case 0x32:
+          PSTouchDamage::AttachTo((PSTouchDamage *)(this + 0x50),peVar3);
+          break;
+        case 0x33:
+          PSDamage::AttachTo((PSDamage *)(this + 0x48),peVar3);
+          break;
+        case 0x34:
+          PSDamageReceiver::AttachTo((PSDamageReceiver *)(this + 0x4c),peVar3);
+          break;
+        case 0x35:
+          PSQuestManager::AttachTo((PSQuestManager *)(this + 0x74),peVar3);
+          break;
+        case 0x37:
+          PSInfoManager::AttachTo((PSInfoManager *)(this + 0x20),peVar3);
+          break;
+        case 0x3b:
+          PSFocus::AttachTo((PSFocus *)(this + 0x18),peVar3);
+          break;
+        case 0x3c:
+          PSPlayerMemory::AttachTo((PSPlayerMemory *)(this + 0x38),peVar3);
+          break;
+        case 0x3e:
+          PSEnclave::AttachTo((PSEnclave *)(this + 0x84),peVar3);
+          break;
+        case 0x3f:
+          PSArena::AttachTo((PSArena *)(this + 0x88),peVar3);
+          break;
+        case 0x44:
+          PSDialog::AttachTo((PSDialog *)(this + 0x54),peVar3);
+          break;
+        case 0x45:
+          PSLock::AttachTo((PSLock *)(this + 0x2c),peVar3);
+          break;
+        case 0x46:
+          PSDoor::AttachTo((PSDoor *)(this + 0x14),peVar3);
+          break;
+        case 0x4d:
+          PSParty::AttachTo((PSParty *)(this + 0x58),peVar3);
+          break;
+        case 0x4e:
+          PSAnchor::AttachTo((PSAnchor *)(this + 0x5c),peVar3);
+          break;
+        case 0x4f:
+          PSLetter::AttachTo((PSLetter *)(this + 0x60),peVar3);
+          break;
+        case 0x50:
+          PSBook::AttachTo((PSBook *)(this + 100),peVar3);
+          break;
+        case 0x51:
+          PSMap::AttachTo((PSMap *)(this + 0x68),peVar3);
+          break;
+        case 0x53:
+          PSProjectile::AttachTo((PSProjectile *)(this + 0x70),peVar3);
+          break;
+        case 0x55:
+          PSStrip::AttachTo((PSStrip *)(this + 0x78),peVar3);
+          break;
+        case 0x57:
+          PSParticle::AttachTo((PSParticle *)(this + 0x7c),peVar3);
+          break;
+        case 0x5e:
+          PSAIZone::AttachTo((PSAIZone *)(this + 0x8c),peVar3);
+          break;
+        case 0x60:
+          PSEffect::AttachTo((PSEffect *)(this + 0x90),peVar3);
+          break;
+        case 100:
+          PSAnimation::AttachTo((PSAnimation *)(this + 8),peVar3);
+          break;
+        case 0x65:
+          PSMagic::AttachTo((PSMagic *)(this + 0x94),peVar3);
+          break;
+        case 0x66:
+          PSSkill::AttachTo((PSSkill *)(this + 0x98),peVar3);
+          break;
+        case 0x67:
+          PSMover::AttachTo((PSMover *)(this + 0x9c),peVar3);
+          break;
+        case 0x6c:
+          PSTreasureSet::AttachTo((PSTreasureSet *)(this + 0xa4),peVar3);
+          break;
+        case 0x6d:
+          PSRecipe::AttachTo((PSRecipe *)(this + 0x6c),peVar3);
+        }
+        iVar5 = iVar5 + 1;
+      } while (iVar5 < iVar2);
+    }
+    *(eCEntity **)this = param_1;
+  }
+  return true;
+}
+
+

@@ -1,0 +1,13 @@
+/* ENTRY 2000551f | gCPlayerMemory_PS::IsTutorialEnabled | STATUS decompiled | 7 ms */
+
+/* public: bool __thiscall gCPlayerMemory_PS::IsTutorialEnabled(enum gETutorialFlag)const  */
+
+bool __thiscall gCPlayerMemory_PS::IsTutorialEnabled(gCPlayerMemory_PS *this,gETutorialFlag param_1)
+
+{
+                    /* 0x551f  5262  ?IsTutorialEnabled@gCPlayerMemory_PS@@QBE_NW4gETutorialFlag@@@Z
+                        */
+  return param_1 != (this[1].gCPlayerMemory_PS_data.offset_0x28 & param_1);
+}
+
+

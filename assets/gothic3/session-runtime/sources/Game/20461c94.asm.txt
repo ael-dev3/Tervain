@@ -1,0 +1,2 @@
+; 20461c94 ENGINE.DLL::eCApplication::IsEditorRunning
+20461c94 | ff25fc707d20 | JMP dword ptr [0x207d70fc]

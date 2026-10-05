@@ -1,0 +1,2 @@
+; 20031b06 ?FindStackIndex@gCInventory_PS@@QBEHW4gESlot@@@Z
+20031b06 | e965c61700 | JMP 0x201ae170

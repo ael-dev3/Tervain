@@ -1,0 +1,4 @@
+; 200367eb thunk_FUN_2037bcd0
+200367eb | e9e0543400 | JMP 0x2037bcd0
+; 200367f0 gCCharacterMovement_PS::MarkSpatialStateAsUninited
+; 200367f0 Ordinal_5320

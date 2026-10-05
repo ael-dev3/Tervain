@@ -1,0 +1,17 @@
+/* ENTRY 1012dd30 | FUN_1012dd30 | STATUS decompiled | 7 ms */
+
+void FUN_1012dd30(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Commands\\AI_Dialog.cpp");
+  bCString::bCString(local_8,"GeneratePickpocketInventory");
+  thunk_FUN_10017a50(local_8,thunk_FUN_1004d8f0,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

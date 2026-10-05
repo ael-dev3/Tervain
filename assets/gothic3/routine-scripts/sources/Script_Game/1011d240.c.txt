@@ -1,0 +1,17 @@
+/* ENTRY 1011d240 | FUN_1011d240 | STATUS decompiled | 7 ms */
+
+void FUN_1011d240(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Tasks\\Reaction_Tasks\\ZS_Unconscious.cpp");
+  bCString::bCString(local_8,"ZS_Unconscious");
+  thunk_FUN_1001db60(local_8,&LAB_10003198,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

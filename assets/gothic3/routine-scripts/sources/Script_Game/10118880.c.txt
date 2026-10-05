@@ -1,0 +1,17 @@
+/* ENTRY 10118880 | FUN_10118880 | STATUS decompiled | 6 ms */
+
+void FUN_10118880(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Tasks\\Reaction_Tasks\\ZS_ObserveSuspect.cpp");
+  bCString::bCString(local_8,"ZS_ReactToSneak");
+  thunk_FUN_1001db60(local_8,&LAB_10001c58,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

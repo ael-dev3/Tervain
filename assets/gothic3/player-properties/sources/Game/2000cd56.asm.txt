@@ -1,0 +1,4 @@
+; 2000cd56 ??4gCStat@@QAEABV0@ABV0@@Z
+2000cd56 | e9e5e03800 | JMP 0x2039ae40
+; 2000cd5b gCFlock_PS::AccessPerchAni
+; 2000cd5b Ordinal_1531

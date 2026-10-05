@@ -1,0 +1,20 @@
+/* ENTRY 10001b68 | PSPlayerMemory::SetStaminaPointsMax | STATUS decompiled | 10 ms */
+
+/* public: void __thiscall PSPlayerMemory::SetStaminaPointsMax(int) */
+
+void __thiscall PSPlayerMemory::SetStaminaPointsMax(PSPlayerMemory *this,int param_1)
+
+{
+  PSPlayerMemory *pPStack_4;
+  
+                    /* 0x1b68  1995  ?SetStaminaPointsMax@PSPlayerMemory@@QAEXH@Z */
+  pPStack_4 = this;
+  bCString::bCString((bCString *)&pPStack_4,"SP");
+  if (*(gCPlayerMemory_PS **)this != (gCPlayerMemory_PS *)0x0) {
+    gCPlayerMemory_PS::SetMaximum(*(gCPlayerMemory_PS **)this,(bCString *)&pPStack_4,param_1);
+  }
+  bCString::~bCString((bCString *)&pPStack_4);
+  return;
+}
+
+

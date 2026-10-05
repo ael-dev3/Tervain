@@ -1,0 +1,4 @@
+; 20013ed5 ?ApplyDefaults@gCAttribute@@MAEXXZ
+20013ed5 | e9263b3800 | JMP 0x20397a00
+; 20013eda gCCameraAI_PS::GetCamModeDialogShoulder2L
+; 20013eda Ordinal_3011

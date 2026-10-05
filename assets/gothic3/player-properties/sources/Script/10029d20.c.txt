@@ -1,0 +1,17 @@
+/* ENTRY 10029d20 | FUN_10029d20 | STATUS decompiled | 7 ms */
+
+void __thiscall FUN_10029d20(void *this,int param_1)
+
+{
+  void *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"DEX");
+  if (*(gCPlayerMemory_PS **)this != (gCPlayerMemory_PS *)0x0) {
+    gCPlayerMemory_PS::SetBaseValue(*(gCPlayerMemory_PS **)this,(bCString *)&local_4,param_1);
+  }
+  bCString::~bCString((bCString *)&local_4);
+  return;
+}
+
+

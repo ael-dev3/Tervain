@@ -1,0 +1,12 @@
+/* ENTRY 100329b0 | FUN_100329b0 | STATUS decompiled | 2 ms */
+
+bool __fastcall FUN_100329b0(int *param_1)
+
+{
+  int *piVar1;
+  
+  piVar1 = (int *)Entity::GetPlayer();
+  return *param_1 == *piVar1;
+}
+
+

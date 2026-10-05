@@ -1,0 +1,20 @@
+/* ENTRY 2000ae89 | gCAttribute::GetShortName | STATUS decompiled | 10 ms */
+
+/* public: class eCLocString __thiscall gCAttribute::GetShortName(void)const  */
+
+eCLocString * __thiscall gCAttribute::GetShortName(gCAttribute *this)
+
+{
+  bCString *pbVar1;
+  eCLocString *unaff_retaddr;
+  gCAttribute *pgStack_4;
+  
+                    /* 0xae89  4436  ?GetShortName@gCAttribute@@QBE?AVeCLocString@@XZ */
+  pgStack_4 = this;
+  pbVar1 = (bCString *)operator+((char *)&pgStack_4,(bCString *)"ATTRIBTAG_");
+  eCLocString::eCLocString(unaff_retaddr,pbVar1);
+  bCString::~bCString((bCString *)&stack0xfffffff8);
+  return unaff_retaddr;
+}
+
+

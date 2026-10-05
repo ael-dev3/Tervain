@@ -1,0 +1,14 @@
+/* ENTRY 10003f26 | PSPlayerMemory::PropertyLPAttribs::operator= | STATUS decompiled | 2 ms */
+
+/* public: class PSPlayerMemory::PropertyLPAttribs & __thiscall
+   PSPlayerMemory::PropertyLPAttribs::operator=(class PSPlayerMemory::PropertyLPAttribs const &) */
+
+PropertyLPAttribs * __thiscall
+PSPlayerMemory::PropertyLPAttribs::operator=(PropertyLPAttribs *this,PropertyLPAttribs *param_1)
+
+{
+                    /* 0x3f26  467  ??4PropertyLPAttribs@PSPlayerMemory@@QAEAAV01@ABV01@@Z */
+  return this;
+}
+
+

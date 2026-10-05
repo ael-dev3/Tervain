@@ -1,0 +1,17 @@
+/* ENTRY 101721b0 | FUN_101721b0 | STATUS decompiled | 6 ms */
+
+void FUN_101721b0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Engine\\Engine_Callback\\OnMovementModeChanged.cpp");
+  bCString::bCString(local_8,"ZS_Land");
+  thunk_FUN_1001db60(local_8,&LAB_10001f50,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

@@ -1,0 +1,13 @@
+/* ENTRY 3002208e | eCEntityDynamicContext::Create | STATUS decompiled | 5 ms */
+
+/* public: virtual enum bEResult __thiscall eCEntityDynamicContext::Create(void) */
+
+bEResult __thiscall eCEntityDynamicContext::Create(eCEntityDynamicContext *this)
+
+{
+                    /* 0x2208e  4455  ?Create@eCEntityDynamicContext@@UAE?AW4bEResult@@XZ */
+  eCContextBase::Create((eCContextBase *)this);
+  return 1;
+}
+
+

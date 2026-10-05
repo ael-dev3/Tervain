@@ -1,0 +1,12 @@
+/* ENTRY 20017b98 | gCStat::GetBaseMaximum | STATUS decompiled | 3 ms */
+
+/* public: int const & __thiscall gCStat::GetBaseMaximum(void)const  */
+
+int * __thiscall gCStat::GetBaseMaximum(gCStat *this)
+
+{
+                    /* 0x17b98  2959  ?GetBaseMaximum@gCStat@@QBEABHXZ */
+  return &(this->gCAttribute_data).offset_0x14;
+}
+
+

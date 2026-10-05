@@ -1,0 +1,12 @@
+/* ENTRY 2001fe01 | gCAttribute::AccessBaseValue | STATUS decompiled | 5 ms */
+
+/* public: int & __thiscall gCAttribute::AccessBaseValue(void) */
+
+int * __thiscall gCAttribute::AccessBaseValue(gCAttribute *this)
+
+{
+                    /* 0x1fe01  1031  ?AccessBaseValue@gCAttribute@@QAEAAHXZ */
+  return &(this->gCAttribute_data).offset_0x10;
+}
+
+

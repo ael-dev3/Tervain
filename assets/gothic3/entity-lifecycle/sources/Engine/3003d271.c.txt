@@ -1,0 +1,25 @@
+/* ENTRY 3003d271 | eCEntity::Read | STATUS decompiled | 15 ms */
+
+/* public: virtual enum bEResult __thiscall eCEntity::Read(class bCIStream &) */
+
+bEResult __thiscall eCEntity::Read(eCEntity *this,bCIStream *param_1)
+
+{
+  ushort uVar1;
+  bEResult bVar2;
+  ushort auStack_4 [2];
+  
+                    /* 0x3d271  12090  ?Read@eCEntity@@UAE?AW4bEResult@@AAVbCIStream@@@Z */
+  auStack_4[0] = 0;
+  auStack_4[1] = 0;
+  bCIStream::operator>>((bCIStream *)param_1,auStack_4);
+  uVar1 = auStack_4[0];
+  if (0x52 < uVar1) {
+    bVar2 = (*this->vftablePtr->ReadV83)(this,param_1,uVar1);
+    return bVar2;
+  }
+  bVar2 = (*this->vftablePtr->ReadV63)(this,param_1,uVar1);
+  return bVar2;
+}
+
+

@@ -1,0 +1,17 @@
+/* ENTRY 10172ce0 | FUN_10172ce0 | STATUS decompiled | 7 ms */
+
+void FUN_10172ce0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Engine\\Engine_Callback\\OnPlayerScriptFinished.cpp");
+  bCString::bCString(local_8,"OnPlayerScriptFinished");
+  thunk_FUN_10017a50(local_8,&LAB_10003454,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

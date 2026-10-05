@@ -1,0 +1,4 @@
+; 10001195 ?GetModifier@PSPlayerMemory@@QBEHABVbCString@@@Z
+10001195 | e9e6810200 | JMP 0x10029380
+; 1000119a PSEnclave::GetSuspectComment
+; 1000119a Ordinal_1674

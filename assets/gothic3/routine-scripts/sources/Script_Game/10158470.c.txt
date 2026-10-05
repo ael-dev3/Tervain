@@ -1,0 +1,17 @@
+/* ENTRY 10158470 | FUN_10158470 | STATUS decompiled | 8 ms */
+
+void FUN_10158470(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Routine\\Routine_Tasks\\ZS_Alchemy.cpp");
+  bCString::bCString(local_8,"ZS_Alchemy_Alchemy");
+  thunk_FUN_1001db60(local_8,&LAB_10003256,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

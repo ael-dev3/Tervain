@@ -1,0 +1,37 @@
+/* ENTRY 10019910 | FUN_10019910 | STATUS decompiled | 17 ms */
+
+undefined4 FUN_10019910(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  eCEntity *peVar1;
+  undefined4 uVar2;
+  Entity local_1f8 [164];
+  Entity local_154 [4];
+  Entity local_150 [164];
+  Entity local_ac [172];
+  
+  Entity::Entity(local_1f8);
+  if (param_2 == (Entity *)0x0) {
+    peVar1 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_1f8,peVar1);
+  }
+  else {
+    Entity::operator=(local_1f8,param_2);
+  }
+  Entity::Entity(local_150);
+  if (param_3 == (Entity *)0x0) {
+    peVar1 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_150,peVar1);
+  }
+  else {
+    Entity::operator=(local_150,param_3);
+  }
+  Entity::GetPlayer();
+  uVar2 = thunk_FUN_100194c0(param_1,&stack0xfffffe04,local_ac,0);
+  Entity::~Entity(local_ac);
+  Entity::~Entity(local_154);
+  Entity::~Entity((Entity *)&stack0xfffffe04);
+  return uVar2;
+}
+
+

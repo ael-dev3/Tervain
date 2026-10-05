@@ -36,7 +36,7 @@ export type OriginalPropertySetKind = 'gCScriptRoutine_PS' | 'gCPlayerMemory_PS'
 export type OriginalPropertyPhase = 'enter' | 'exit';
 export interface OriginalPropertyTrace {
   operation: 'owner-modified-read' | 'virtual-on-notify' | 'proxy-id-copy' |
-    'proxy-release-reference' | 'proxy-internal-clear' | 'shared-base-return';
+    'proxy-release-reference' | 'proxy-internal-clear' | 'proxy-id-destroy' | 'shared-base-return';
   phase: OriginalPropertyPhase;
   property: string;
   owner?: string;
@@ -95,6 +95,26 @@ export class OriginalEnclaveProxy {
     return new OriginalEnclaveProxy('0000000000000000000000000000000000000000', null);
   }
   propertyID(): string { return this.id; }
+  /** Exact Entity*-NULL overload, Engine30017e77 ->304c43a0, unlike the
+   * PropertyID overload below: release first, clear internal pointer, then
+   * SharedBase100059ed Destroy all20 ID bytes. An unknown release preserves
+   * the already-attempted prefix and does not proceed to pointer/ID clearing.
+   * New source pins reside in the entity-lifecycle receipt; historical
+   * property receipts continue to describe their earlier source checkpoint. */
+  clearEntityPointer(emit: (operation: OriginalPropertyTrace['operation'], value?: string | null) => void): void {
+    const internal = this.internal;
+    if (internal !== null) {
+      emit('proxy-release-reference', internal.identity);
+      const result = internal.releaseReference();
+      if (!result.known) throw new Error('Entity-pointer proxy ReleaseReference: ' + result.reason);
+      this.internal = null;
+      emit('proxy-internal-clear', null);
+    }
+    this.internal = null; // Native also storesnull unconditionally after this branch.
+    emit('proxy-internal-clear', null);
+    this.id = '0000000000000000000000000000000000000000';
+    emit('proxy-id-destroy', this.id);
+  }
   /** ID assignment precedes reference release. Equal IDs leave cached refs intact. */
   setEntity(id: string, emit: (operation: OriginalPropertyTrace['operation'], value?: string | null) => void): void {
     propertyID(id);

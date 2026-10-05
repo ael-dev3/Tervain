@@ -1,0 +1,17 @@
+/* ENTRY 10153650 | FUN_10153650 | STATUS decompiled | 6 ms */
+
+void FUN_10153650(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\PS_Magic.cpp");
+  bCString::bCString(local_8,"PS_Magic_StaffParade");
+  thunk_FUN_1001db60(local_8,&LAB_100023bf,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

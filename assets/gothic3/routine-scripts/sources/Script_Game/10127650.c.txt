@@ -1,0 +1,17 @@
+/* ENTRY 10127650 | FUN_10127650 | STATUS decompiled | 7 ms */
+
+void FUN_10127650(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Perception\\SendPerception.cpp");
+  bCString::bCString(local_8,"CanReceivePerceptionFrom");
+  thunk_FUN_10017a50(local_8,thunk_FUN_100424e0,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

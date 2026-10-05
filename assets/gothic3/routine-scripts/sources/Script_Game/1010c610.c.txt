@@ -1,0 +1,17 @@
+/* ENTRY 1010c610 | FUN_1010c610 | STATUS decompiled | 7 ms */
+
+void FUN_1010c610(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Decision\\IsEvil.cpp");
+  bCString::bCString(local_8,"IsEvil");
+  thunk_FUN_10017a50(local_8,thunk_FUN_1001ab10,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

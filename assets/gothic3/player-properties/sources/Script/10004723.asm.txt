@@ -1,0 +1,2 @@
+; 10004723 ?GetPoliticalPlayerCrime@PSPlayerMemory@@QAE_NW4gEPoliticalAlignment@@@Z
+10004723 | e9983f0200 | JMP 0x100286c0

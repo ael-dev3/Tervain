@@ -1,0 +1,68 @@
+; 10009580 FUN_10009580
+10009580 | 8d4c2438 | LEA ECX,[ESP + 0x38]
+10009584 | ff1530652210 | CALL dword ptr [0x10226530]
+1000958a | 83f833 | CMP EAX,0x33
+1000958d | 771d | JA 0x100095ac
+1000958f | 0fb680c4950010 | MOVZX EAX,byte ptr [EAX + 0x100095c4]
+; 10009596 switchD_10009596::switchD
+10009596 | ff2485bc950010 | JMP dword ptr [EAX*0x4 + 0x100095bc]
+; 1000959d switchD_10009596::caseD_0
+; 1000959d switchD_10009596::caseD_1
+; 1000959d switchD_10009596::caseD_2
+; 1000959d switchD_10009596::caseD_3
+; 1000959d switchD_10009596::caseD_4
+; 1000959d switchD_10009596::caseD_5
+; 1000959d switchD_10009596::caseD_6
+; 1000959d switchD_10009596::caseD_7
+; 1000959d switchD_10009596::caseD_8
+; 1000959d switchD_10009596::caseD_12
+; 1000959d switchD_10009596::caseD_16
+; 1000959d switchD_10009596::caseD_17
+; 1000959d switchD_10009596::caseD_29
+; 1000959d switchD_10009596::caseD_30
+; 1000959d switchD_10009596::caseD_31
+; 1000959d switchD_10009596::caseD_32
+; 1000959d switchD_10009596::caseD_33
+1000959d | 8d4c2404 | LEA ECX,[ESP + 0x4]
+100095a1 | ff15906f2210 | CALL dword ptr [0x10226f90]
+100095a7 | b001 | MOV AL,0x1
+100095a9 | c2a800 | RET 0xa8
+; 100095ac switchD_10009596::caseD_9
+; 100095ac switchD_10009596::caseD_a
+; 100095ac switchD_10009596::caseD_b
+; 100095ac switchD_10009596::caseD_c
+; 100095ac switchD_10009596::caseD_d
+; 100095ac switchD_10009596::caseD_e
+; 100095ac switchD_10009596::caseD_f
+; 100095ac switchD_10009596::caseD_10
+; 100095ac switchD_10009596::caseD_11
+; 100095ac switchD_10009596::caseD_13
+; 100095ac switchD_10009596::caseD_14
+; 100095ac switchD_10009596::caseD_15
+; 100095ac switchD_10009596::caseD_18
+; 100095ac switchD_10009596::caseD_19
+; 100095ac switchD_10009596::caseD_1a
+; 100095ac switchD_10009596::caseD_1b
+; 100095ac switchD_10009596::caseD_1c
+; 100095ac switchD_10009596::caseD_1d
+; 100095ac switchD_10009596::caseD_1e
+; 100095ac switchD_10009596::caseD_1f
+; 100095ac switchD_10009596::caseD_20
+; 100095ac switchD_10009596::caseD_21
+; 100095ac switchD_10009596::caseD_22
+; 100095ac switchD_10009596::caseD_23
+; 100095ac switchD_10009596::caseD_24
+; 100095ac switchD_10009596::caseD_25
+; 100095ac switchD_10009596::caseD_26
+; 100095ac switchD_10009596::caseD_27
+; 100095ac switchD_10009596::caseD_28
+; 100095ac switchD_10009596::caseD_2a
+; 100095ac switchD_10009596::caseD_2b
+; 100095ac switchD_10009596::caseD_2c
+; 100095ac switchD_10009596::caseD_2d
+; 100095ac switchD_10009596::caseD_2e
+; 100095ac switchD_10009596::caseD_2f
+100095ac | 8d4c2404 | LEA ECX,[ESP + 0x4]
+100095b0 | ff15906f2210 | CALL dword ptr [0x10226f90]
+100095b6 | 32c0 | XOR AL,AL
+100095b8 | c2a800 | RET 0xa8

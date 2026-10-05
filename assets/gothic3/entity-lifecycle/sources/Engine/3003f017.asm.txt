@@ -1,0 +1,4 @@
+; 3003f017 ?ReadV63@eCEntity@@MAE?AW4bEResult@@AAVbCIStream@@G@Z
+3003f017 | e9149e4700 | JMP 0x304b8e30
+; 3003f01c eCShadowMapDirectionalLight::GetShadowMapMatrix
+; 3003f01c Ordinal_8774

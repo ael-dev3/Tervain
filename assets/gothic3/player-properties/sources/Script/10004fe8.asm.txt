@@ -1,0 +1,4 @@
+; 10004fe8 ?GetValue@PSPlayerMemory@@QBEHABVbCString@@@Z
+10004fe8 | e953430200 | JMP 0x10029340
+; 10004fed PSParticle::PropertyMaxAbsoluteVelocity::operator_class_bCVector
+; 10004fed Ordinal_1026

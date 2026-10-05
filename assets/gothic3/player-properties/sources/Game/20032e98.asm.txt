@@ -1,0 +1,2 @@
+; 20032e98 ?SetLPAttribs@gCPlayerMemory_PS@@QAEXABJ@Z
+20032e98 | e9a3760700 | JMP 0x200aa540

@@ -1,0 +1,20 @@
+/* ENTRY 100041ab | PSPlayerMemory::SetStrength | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall PSPlayerMemory::SetStrength(int) */
+
+void __thiscall PSPlayerMemory::SetStrength(PSPlayerMemory *this,int param_1)
+
+{
+  PSPlayerMemory *pPStack_4;
+  
+                    /* 0x41ab  1998  ?SetStrength@PSPlayerMemory@@QAEXH@Z */
+  pPStack_4 = this;
+  bCString::bCString((bCString *)&pPStack_4,"STR");
+  if (*(gCPlayerMemory_PS **)this != (gCPlayerMemory_PS *)0x0) {
+    gCPlayerMemory_PS::SetBaseValue(*(gCPlayerMemory_PS **)this,(bCString *)&pPStack_4,param_1);
+  }
+  bCString::~bCString((bCString *)&pPStack_4);
+  return;
+}
+
+

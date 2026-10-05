@@ -1,0 +1,25 @@
+/* ENTRY 10009600 | FUN_10009600 | STATUS decompiled | 9 ms */
+
+void FUN_10009600(void)
+
+{
+  float fVar1;
+  char cVar2;
+  Entity aEStack_ac [160];
+  undefined4 uStack_c;
+  
+  Entity::Entity(aEStack_ac,(Entity *)&stack0x00000004);
+  cVar2 = thunk_FUN_10009580();
+  if (cVar2 == '\x01') {
+    fVar1 = 0.0;
+  }
+  else {
+    fVar1 = 360.0;
+  }
+  uStack_c = 0x1000963c;
+  PSCharacterControl::SetMovementConstraints((PSCharacterControl *)&stack0x00000044,fVar1);
+  Entity::~Entity((Entity *)&stack0x00000004);
+  return;
+}
+
+

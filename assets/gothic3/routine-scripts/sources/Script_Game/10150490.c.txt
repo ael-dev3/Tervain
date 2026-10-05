@@ -1,0 +1,17 @@
+/* ENTRY 10150490 | FUN_10150490 | STATUS decompiled | 5 ms */
+
+void FUN_10150490(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\PS_HUD.cpp");
+  bCString::bCString(local_8,"PlayerOpenFry");
+  thunk_FUN_10017a50(local_8,&LAB_100023e2,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

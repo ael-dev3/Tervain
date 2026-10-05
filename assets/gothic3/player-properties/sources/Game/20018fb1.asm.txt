@@ -1,0 +1,2 @@
+; 20018fb1 ?AccessChapter@gCPlayerMemory_PS@@QAEAAJXZ
+20018fb1 | e9fa180900 | JMP 0x200aa8b0

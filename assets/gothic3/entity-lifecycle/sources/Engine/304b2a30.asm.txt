@@ -1,0 +1,43 @@
+; 304b2a30 FUN_304b2a30
+304b2a30 | 53 | PUSH EBX
+304b2a31 | 56 | PUSH ESI
+304b2a32 | 8bf1 | MOV ESI,ECX
+304b2a34 | 8b463c | MOV EAX,dword ptr [ESI + 0x3c]
+304b2a37 | 33db | XOR EBX,EBX
+304b2a39 | 2538d803c0 | AND EAX,0xc003d838
+304b2a3e | 0d28180000 | OR EAX,0x1828
+304b2a43 | 8d4e40 | LEA ECX,[ESI + 0x40]
+304b2a46 | 899e94010000 | MOV dword ptr [ESI + 0x194],EBX
+304b2a4c | 899e98010000 | MOV dword ptr [ESI + 0x198],EBX
+304b2a52 | 899e9c010000 | MOV dword ptr [ESI + 0x19c],EBX
+304b2a58 | 899ea0010000 | MOV dword ptr [ESI + 0x1a0],EBX
+304b2a5e | 895e30 | MOV dword ptr [ESI + 0x30],EBX
+304b2a61 | 89463c | MOV dword ptr [ESI + 0x3c],EAX
+304b2a64 | ff1534ceaf30 | CALL dword ptr [0x30afce34]
+304b2a6a | 8d8e80000000 | LEA ECX,[ESI + 0x80]
+304b2a70 | ff1534ceaf30 | CALL dword ptr [0x30afce34]
+304b2a76 | 8d8e10010000 | LEA ECX,[ESI + 0x110]
+304b2a7c | ff157ccbaf30 | CALL dword ptr [0x30afcb7c]
+304b2a82 | 8d8ee8000000 | LEA ECX,[ESI + 0xe8]
+304b2a88 | ff157ccbaf30 | CALL dword ptr [0x30afcb7c]
+304b2a8e | 8d8ec0000000 | LEA ECX,[ESI + 0xc0]
+304b2a94 | ff157ccbaf30 | CALL dword ptr [0x30afcb7c]
+304b2a9a | 8d8ed8000000 | LEA ECX,[ESI + 0xd8]
+304b2aa0 | ff1548d6af30 | CALL dword ptr [0x30afd648]
+304b2aa6 | 8d8e00010000 | LEA ECX,[ESI + 0x100]
+304b2aac | ff1548d6af30 | CALL dword ptr [0x30afd648]
+304b2ab2 | 8d8e38010000 | LEA ECX,[ESI + 0x138]
+304b2ab8 | ff1558dbaf30 | CALL dword ptr [0x30afdb58]
+304b2abe | f30f100534848130 | MOVSS XMM0,dword ptr [0x30818434]
+304b2ac6 | 81663cff3ffcff | AND dword ptr [ESI + 0x3c],0xfffc3fff
+304b2acd | 885e38 | MOV byte ptr [ESI + 0x38],BL
+304b2ad0 | 66899e90010000 | MOV word ptr [ESI + 0x190],BX
+304b2ad7 | 899e8c010000 | MOV dword ptr [ESI + 0x18c],EBX
+304b2add | f30f114634 | MOVSS dword ptr [ESI + 0x34],XMM0
+304b2ae2 | f30f118628010000 | MOVSS dword ptr [ESI + 0x128],XMM0
+304b2aea | f30f11862c010000 | MOVSS dword ptr [ESI + 0x12c],XMM0
+304b2af2 | c78630010000ffffffff | MOV dword ptr [ESI + 0x130],0xffffffff
+304b2afc | f30f118634010000 | MOVSS dword ptr [ESI + 0x134],XMM0
+304b2b04 | 5e | POP ESI
+304b2b05 | 5b | POP EBX
+304b2b06 | c3 | RET

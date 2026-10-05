@@ -1,0 +1,17 @@
+/* ENTRY 1011b740 | FUN_1011b740 | STATUS decompiled | 7 ms */
+
+void FUN_1011b740(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Tasks\\Reaction_Tasks\\ZS_Stumble.cpp");
+  bCString::bCString(local_8,"ZS_SitKnockDown_GetUpAttack");
+  thunk_FUN_1001db60(local_8,&LAB_1000147e,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

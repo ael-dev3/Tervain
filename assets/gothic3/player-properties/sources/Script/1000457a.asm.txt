@@ -1,0 +1,4 @@
+; 1000457a ??4PropertyLPPerks@PSPlayerMemory@@QAEAAV01@ABV01@@Z
+1000457a | e991730000 | JMP 0x1000b910
+; 1000457f PSLock::CopyFrom
+; 1000457f Ordinal_1412

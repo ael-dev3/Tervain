@@ -1,0 +1,17 @@
+/* ENTRY 1011dde0 | FUN_1011dde0 | STATUS decompiled | 7 ms */
+
+void FUN_1011dde0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Tasks\\Reaction_Tasks\\ZS_WatchFight.cpp");
+  bCString::bCString(local_8,"CheerFight");
+  thunk_FUN_10017a50(local_8,thunk_FUN_10037e60,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

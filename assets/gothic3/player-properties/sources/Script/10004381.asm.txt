@@ -1,0 +1,2 @@
+; 10004381 ?SetPoliticalCrimeCount@PSPlayerMemory@@QAEXW4gEPoliticalAlignment@@J@Z
+10004381 | e99a430200 | JMP 0x10028720

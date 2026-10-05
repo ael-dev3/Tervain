@@ -1,0 +1,17 @@
+/* ENTRY 10156460 | FUN_10156460 | STATUS decompiled | 7 ms */
+
+void FUN_10156460(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Routine\\Rtn_Monster.cpp");
+  bCString::bCString(local_8,"Rtn_Dead");
+  thunk_FUN_100a12c0(local_8,&LAB_10002f4a,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

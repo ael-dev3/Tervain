@@ -1,0 +1,17 @@
+/* ENTRY 1014b050 | FUN_1014b050 | STATUS decompiled | 7 ms */
+
+void FUN_1014b050(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Magic\\Magic_Barrier\\OnTouchMagicBarrier.cpp");
+  bCString::bCString(local_8,"OnToucheBarrier");
+  thunk_FUN_10017a50(local_8,&LAB_10002211,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 10001a73 ?SetProtectionImpact@PSPlayerMemory@@QAEXH@Z
+10001a73 | e988870200 | JMP 0x1002a200
+; 10001a7d PSAnimation::AttachTo
+; 10001a7d Ordinal_1293

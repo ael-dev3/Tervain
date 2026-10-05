@@ -17,8 +17,13 @@ assets/gothic3/properties/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/hud/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/instructions/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/navigation-scene/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/entity-lifecycle/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/player-properties/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/routine-scripts/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/session-runtime/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/session-checkpoint.json -text -eol
 assets/gothic3/dispatch-checkpoint.json -text -eol
+assets/gothic3/lifecycle-checkpoint.json -text -eol
 # These implementations/producers are individually byte-pinned by native receipts.
 src/gothic3/inventory.ts -text -eol
 src/gothic3/startup.ts -text -eol
@@ -38,6 +43,10 @@ src/gothic3/hud-runtime.ts -text -eol
 src/gothic3/script-instructions.ts -text -eol
 src/gothic3/navigation-scene.ts -text -eol
 src/gothic3/resource.ts -text -eol
+src/gothic3/entity-lifecycle.ts -text -eol
+src/gothic3/player-properties.ts -text -eol
+src/gothic3/routine-scripts.ts -text -eol
+src/gothic3/session-runtime.ts -text -eol
 tools/gothic3/research_native_clock.py -text -eol
 tools/gothic3/research_native_navigation.py -text -eol
 tools/gothic3/research_inventory_observers.py -text -eol
@@ -48,6 +57,11 @@ tools/gothic3/research_native_hud.py -text -eol
 tools/gothic3/research_spu_instructions.py -text -eol
 tools/gothic3/research_navigation_scene.py -text -eol
 tools/gothic3/freeze_dispatch_checkpoint.py -text -eol
+tools/gothic3/research_entity_lifecycle.py -text -eol
+tools/gothic3/research_player_properties.py -text -eol
+tools/gothic3/research_routine_scripts.py -text -eol
+tools/gothic3/research_session_runtime.py -text -eol
+tools/gothic3/freeze_lifecycle_checkpoint.py -text -eol
 src/gothic3/world-clock-view.ts -text -eol
 src/gothic3/main.ts -text -eol
 docs/engineering/gothic3-rebuilding-process.md -text -eol
@@ -64,3 +78,7 @@ assets/gothic3/properties/sources/** -whitespace
 assets/gothic3/hud/sources/** -whitespace
 assets/gothic3/instructions/sources/** -whitespace
 assets/gothic3/navigation-scene/sources/** -whitespace
+assets/gothic3/entity-lifecycle/sources/** -whitespace
+assets/gothic3/player-properties/sources/** -whitespace
+assets/gothic3/routine-scripts/sources/** -whitespace
+assets/gothic3/session-runtime/sources/** -whitespace

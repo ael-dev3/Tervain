@@ -1,0 +1,287 @@
+/* ENTRY 1009ad30 | FUN_1009ad30 | STATUS decompiled | 833 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined4
+FUN_1009ad30(bTObjStack<gScriptRunTimeSingleState> *param_1,gCScriptProcessingUnit *param_2)
+
+{
+  bool bVar1;
+  char cVar2;
+  eCEntity *peVar3;
+  PSCamera *this;
+  undefined4 *puVar4;
+  bCString *pbVar5;
+  gCScriptAdmin *pgVar6;
+  int iVar7;
+  gSArgsFor__AI_HUD_OpenTutorial *pgVar8;
+  eCLocString *peVar9;
+  code *pcVar10;
+  code *pcVar11;
+  Entity aEStack_364 [148];
+  undefined4 uStack_2d0;
+  gEAIMode *pgVar12;
+  undefined1 uVar13;
+  bTObjStack<gScriptRunTimeSingleState> *pbVar14;
+  gCScriptProcessingUnit *pgVar15;
+  gEAIMode local_2ac;
+  gEFocus gStack_2a8;
+  eCLocString aeStack_2a4 [3];
+  bool bStack_2a1;
+  Entity local_2a0 [4];
+  PropertyAIMode local_29c [20];
+  PSFocus aPStack_288 [32];
+  PSPlayerMemory aPStack_268 [104];
+  Entity aEStack_200 [8];
+  Entity aEStack_1f8 [168];
+  Entity local_150 [168];
+  Entity aEStack_a8 [168];
+  
+  peVar3 = gCScriptProcessingUnit::GetSelfEntity(param_2);
+  Entity::Entity(local_2a0,peVar3);
+  peVar3 = gCScriptProcessingUnit::GetTargetEntity(param_2);
+  Entity::Entity(local_150,peVar3);
+  if ((_DAT_10222ad4 & 1) == 0) {
+    _DAT_10222ad4 = _DAT_10222ad4 | 1;
+    DAT_10222acc = DAT_10222ad0;
+    DAT_10222ad0 = DAT_10222ad0 + 1;
+  }
+  pcVar10 = operator=_exref;
+  pcVar11 = ~Entity_exref;
+  if (*(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) <= DAT_10222acc) {
+    *(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) = DAT_10222acc + 1;
+    local_2ac = 0;
+    PSRoutine::PropertyAIMode::operator=(local_29c,&local_2ac);
+    bVar1 = true;
+    uVar13 = 2;
+    pgVar12 = &local_2ac;
+    uStack_2d0 = 0x1009ade5;
+    this = (PSCamera *)Entity::GetCamera();
+    uStack_2d0 = 0x1009aded;
+    PSCamera::SetMode(this,(gECameraMode)pgVar12,(bool)uVar13,bVar1);
+    PSCamera::~PSCamera((PSCamera *)&stack0xfffffd50);
+    thunk_FUN_1001d8b0();
+    bCString::operator=((bCString *)(*(int *)param_1 + -0x14 + *(int *)(param_1 + 4) * 0x18),
+                        "_AI_ChangeAction");
+    *(undefined1 *)(*(int *)param_1 + -0x10 + *(int *)(param_1 + 4) * 0x18) = 0;
+    puVar4 = (undefined4 *)new();
+    if (puVar4 == (undefined4 *)0x0) {
+      puVar4 = (undefined4 *)0x0;
+    }
+    else {
+                    /* inlined constructor: gSArgsFor__AI_ChangeAction::gSArgsFor__AI_ChangeAction
+                        */
+      *puVar4 = &gSArgsFor__AI_ChangeAction::vftable;
+      Entity::Entity((Entity *)(puVar4 + 1));
+      Entity::Entity((Entity *)(puVar4 + 0x2b));
+    }
+    *(undefined4 **)(*(int *)param_1 + -0xc + *(int *)(param_1 + 4) * 0x18) = puVar4;
+    iVar7 = *(int *)param_1 + *(int *)(param_1 + 4) * 0x18;
+    bCString::operator=((bCString *)(iVar7 + -8),(bCString *)(iVar7 + -0x20));
+    Entity::Entity(aEStack_1f8,(Entity *)None_exref);
+    Entity::Entity(aEStack_a8,local_2a0);
+    pcVar10 = operator=_exref;
+    Entity::operator=((Entity *)(puVar4 + 1),aEStack_a8);
+    Entity::operator=((Entity *)(puVar4 + 0x2b),aEStack_1f8);
+    puVar4[0x55] = 0;
+    pcVar11 = ~Entity_exref;
+    Entity::~Entity(aEStack_a8);
+    Entity::~Entity(aEStack_1f8);
+    pbVar5 = (bCString *)(*(int *)param_1 + *(int *)(param_1 + 4) * 0x18 + -0x14);
+    pbVar14 = param_1;
+    pgVar15 = param_2;
+    pgVar6 = (gCScriptAdmin *)thunk_FUN_10015630();
+    bVar1 = gCScriptAdmin::RunScriptFunction(pgVar6,pbVar5,pbVar14,pgVar15);
+    if (!bVar1) goto LAB_1009af09;
+  }
+  if ((_DAT_10222ad4 & 2) == 0) {
+    _DAT_10222ad4 = _DAT_10222ad4 | 2;
+    DAT_10222ac8 = DAT_10222ad0;
+    DAT_10222ad0 = DAT_10222ad0 + 1;
+  }
+  if (*(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) <= DAT_10222ac8) {
+    *(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) = DAT_10222ac8 + 1;
+    local_2ac = thunk_FUN_10009800();
+    gStack_2a8 = thunk_FUN_10009810();
+    Entity::Entity((Entity *)&stack0xfffffc94,local_2a0);
+    iVar7 = thunk_FUN_1000bfa0();
+    if (iVar7 != 2) {
+      Entity::Entity((Entity *)&stack0xfffffc94,local_2a0);
+      thunk_FUN_100096e0();
+    }
+    thunk_FUN_1001d8b0();
+    bCString::operator=((bCString *)(*(int *)param_1 + -0x14 + *(int *)(param_1 + 4) * 0x18),
+                        "_AI_HoldInventoryItems");
+    *(undefined1 *)(*(int *)param_1 + -0x10 + *(int *)(param_1 + 4) * 0x18) = 0;
+    puVar4 = (undefined4 *)new();
+    if (puVar4 == (undefined4 *)0x0) {
+      puVar4 = (undefined4 *)0x0;
+    }
+    else {
+                    /* inlined constructor:
+                       gSArgsFor__AI_HoldInventoryItems::gSArgsFor__AI_HoldInventoryItems */
+      *puVar4 = &gSArgsFor__AI_HoldInventoryItems::vftable;
+      Entity::Entity((Entity *)(puVar4 + 1));
+    }
+    *(undefined4 **)(*(int *)param_1 + -0xc + *(int *)(param_1 + 4) * 0x18) = puVar4;
+    iVar7 = *(int *)param_1 + *(int *)(param_1 + 4) * 0x18;
+    bCString::operator=((bCString *)(iVar7 + -8),(bCString *)(iVar7 + -0x20));
+    Entity::Entity(aEStack_200,(Entity *)&gStack_2a8);
+    (*pcVar10)();
+    puVar4[0x2b] = local_2ac;
+    puVar4[0x2c] = gStack_2a8;
+    pcVar11 = ~Entity_exref;
+    Entity::~Entity(aEStack_1f8);
+    pbVar5 = (bCString *)(*(int *)param_1 + *(int *)(param_1 + 4) * 0x18 + -0x14);
+    pbVar14 = param_1;
+    pgVar15 = param_2;
+    pgVar6 = (gCScriptAdmin *)thunk_FUN_10015630();
+    bVar1 = gCScriptAdmin::RunScriptFunction(pgVar6,pbVar5,pbVar14,pgVar15);
+    if (!bVar1) goto LAB_1009af09;
+  }
+  if ((_DAT_10222ad4 & 4) == 0) {
+    _DAT_10222ad4 = _DAT_10222ad4 | 4;
+    DAT_10222ac4 = DAT_10222ad0;
+    DAT_10222ad0 = DAT_10222ad0 + 1;
+  }
+  if (*(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) <= DAT_10222ac4) {
+    *(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) = DAT_10222ac4 + 1;
+    bVar1 = PSPlayerMemory::IsTutorialEnabled(aPStack_268,2);
+    if ((((bVar1) &&
+         (bVar1 = PSPlayerMemory::PropertyTalkedToDiego::operator_bool
+                            ((PropertyTalkedToDiego *)aPStack_268), bVar1)) &&
+        (bVar1 = PSPlayerMemory::PropertyTalkedToMilten::operator_bool
+                           ((PropertyTalkedToMilten *)aPStack_268), bVar1)) &&
+       (bVar1 = PSPlayerMemory::PropertyTalkedToGorn::operator_bool
+                          ((PropertyTalkedToGorn *)aPStack_268), bVar1)) {
+      PSPlayerMemory::EnableTutorial(aPStack_268,2,false);
+      thunk_FUN_1001d9e0();
+      bCString::operator=((bCString *)(*(int *)param_1 + -0x14 + *(int *)(param_1 + 4) * 0x18),
+                          "_AI_HUD_OpenTutorial");
+      *(undefined1 *)(*(int *)param_1 + -0x10 + *(int *)(param_1 + 4) * 0x18) = 0;
+      pgVar8 = (gSArgsFor__AI_HUD_OpenTutorial *)new();
+      if (pgVar8 == (gSArgsFor__AI_HUD_OpenTutorial *)0x0) {
+        pgVar8 = (gSArgsFor__AI_HUD_OpenTutorial *)0x0;
+      }
+      else {
+        pgVar8 = gSArgsFor__AI_HUD_OpenTutorial::gSArgsFor__AI_HUD_OpenTutorial(pgVar8);
+      }
+      *(gSArgsFor__AI_HUD_OpenTutorial **)(*(int *)param_1 + -0xc + *(int *)(param_1 + 4) * 0x18) =
+           pgVar8;
+      iVar7 = *(int *)param_1 + *(int *)(param_1 + 4) * 0x18;
+      bCString::operator=((bCString *)(iVar7 + -8),(bCString *)(iVar7 + -0x20));
+      bCString::bCString((bCString *)&gStack_2a8,"TUT_AfterFriends");
+      peVar9 = (eCLocString *)eCLocString::eCLocString(aeStack_2a4,(bCString *)&gStack_2a8);
+      eCLocString::GetString(peVar9);
+      Entity::Entity((Entity *)&stack0xfffffc98,local_2a0);
+      thunk_FUN_10097280();
+      eCLocString::~eCLocString((eCLocString *)&gStack_2a8);
+      bCString::~bCString((bCString *)&local_2ac);
+      pbVar5 = (bCString *)(*(int *)param_1 + *(int *)(param_1 + 4) * 0x18 + -0x14);
+      pbVar14 = param_1;
+      pgVar15 = param_2;
+      pgVar6 = (gCScriptAdmin *)thunk_FUN_10015630();
+      bVar1 = gCScriptAdmin::RunScriptFunction(pgVar6,pbVar5,pbVar14,pgVar15);
+      if (!bVar1) goto LAB_1009b255;
+    }
+    bVar1 = PSPlayerMemory::IsTutorialEnabled(aPStack_268,4);
+    if ((bVar1) &&
+       (bVar1 = PSPlayerMemory::PropertyTalkedToLester::operator_bool
+                          ((PropertyTalkedToLester *)aPStack_268), bVar1)) {
+      PSPlayerMemory::EnableTutorial(aPStack_268,2,false);
+      PSPlayerMemory::EnableTutorial(aPStack_268,4,false);
+      thunk_FUN_1001d9e0();
+      bCString::operator=((bCString *)(*(int *)param_1 + -0x14 + *(int *)(param_1 + 4) * 0x18),
+                          "_AI_HUD_OpenTutorial");
+      *(undefined1 *)(*(int *)param_1 + -0x10 + *(int *)(param_1 + 4) * 0x18) = 0;
+      pgVar8 = (gSArgsFor__AI_HUD_OpenTutorial *)new();
+      if (pgVar8 == (gSArgsFor__AI_HUD_OpenTutorial *)0x0) {
+        pgVar8 = (gSArgsFor__AI_HUD_OpenTutorial *)0x0;
+      }
+      else {
+        pgVar8 = gSArgsFor__AI_HUD_OpenTutorial::gSArgsFor__AI_HUD_OpenTutorial(pgVar8);
+      }
+      *(gSArgsFor__AI_HUD_OpenTutorial **)(*(int *)param_1 + -0xc + *(int *)(param_1 + 4) * 0x18) =
+           pgVar8;
+      iVar7 = *(int *)param_1 + *(int *)(param_1 + 4) * 0x18;
+      bCString::operator=((bCString *)(iVar7 + -8),(bCString *)(iVar7 + -0x20));
+      bCString::bCString((bCString *)&gStack_2a8,"TUT_AfterLester");
+      peVar9 = (eCLocString *)eCLocString::eCLocString(aeStack_2a4,(bCString *)&gStack_2a8);
+      eCLocString::GetString(peVar9);
+      Entity::Entity((Entity *)&stack0xfffffc98,local_2a0);
+      thunk_FUN_10097280();
+      eCLocString::~eCLocString((eCLocString *)&gStack_2a8);
+      bCString::~bCString((bCString *)&local_2ac);
+      pbVar5 = (bCString *)(*(int *)param_1 + *(int *)(param_1 + 4) * 0x18 + -0x14);
+      pbVar14 = param_1;
+      pgVar15 = param_2;
+      pgVar6 = (gCScriptAdmin *)thunk_FUN_10015630();
+      bVar1 = gCScriptAdmin::RunScriptFunction(pgVar6,pbVar5,pbVar14,pgVar15);
+      if (!bVar1) {
+LAB_1009b255:
+        Entity::~Entity(local_150);
+        Entity::~Entity(local_2a0);
+        return 0;
+      }
+    }
+    PSFocus::SetFocusEntity(aPStack_288,(Entity *)None_exref);
+    gStack_2a8 = 2;
+    PSFocus::PropertyCurrentMode::operator=((PropertyCurrentMode *)aPStack_288,&gStack_2a8);
+    bStack_2a1 = false;
+    PSFocus::PropertyEnableRangeRating::operator=
+              ((PropertyEnableRangeRating *)aPStack_288,&bStack_2a1);
+    Entity::SetLookAtTarget(local_2a0,(Entity *)None_exref);
+    Entity::SetAlignmentTarget(local_2a0,(Entity *)None_exref);
+    thunk_FUN_1001d8b0();
+    bCString::operator=((bCString *)(*(int *)param_1 + -0x14 + *(int *)(param_1 + 4) * 0x18),
+                        "_AI_StandUp");
+    *(undefined1 *)(*(int *)param_1 + -0x10 + *(int *)(param_1 + 4) * 0x18) = 0;
+    puVar4 = (undefined4 *)new();
+    if (puVar4 == (undefined4 *)0x0) {
+      puVar4 = (undefined4 *)0x0;
+    }
+    else {
+                    /* inlined constructor: gSArgsFor__AI_StandUp::gSArgsFor__AI_StandUp */
+      *puVar4 = &gSArgsFor__AI_StandUp::vftable;
+      Entity::Entity((Entity *)(puVar4 + 1));
+    }
+    *(undefined4 **)(*(int *)param_1 + -0xc + *(int *)(param_1 + 4) * 0x18) = puVar4;
+    iVar7 = *(int *)param_1 + *(int *)(param_1 + 4) * 0x18;
+    bCString::operator=((bCString *)(iVar7 + -8),(bCString *)(iVar7 + -0x20));
+    Entity::Entity(aEStack_1f8,local_2a0);
+    Entity::operator=((Entity *)(puVar4 + 1),aEStack_1f8);
+    pcVar11 = ~Entity_exref;
+    Entity::~Entity(aEStack_1f8);
+    pbVar5 = (bCString *)(*(int *)param_1 + *(int *)(param_1 + 4) * 0x18 + -0x14);
+    pbVar14 = param_1;
+    pgVar6 = (gCScriptAdmin *)thunk_FUN_10015630();
+    bVar1 = gCScriptAdmin::RunScriptFunction(pgVar6,pbVar5,pbVar14,param_2);
+    if (!bVar1) {
+LAB_1009af09:
+      (*pcVar11)();
+      (*pcVar11)();
+      return 0;
+    }
+  }
+  if ((_DAT_10222ad4 & 8) == 0) {
+    _DAT_10222ad4 = _DAT_10222ad4 | 8;
+    DAT_10222ac0 = DAT_10222ad0;
+    DAT_10222ad0 = DAT_10222ad0 + 1;
+  }
+  if (*(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) <= DAT_10222ac0) {
+    *(int *)(*(int *)param_1 + -0x18 + *(int *)(param_1 + 4) * 0x18) = DAT_10222ac0 + 1;
+    Entity::Entity(aEStack_364,local_2a0);
+    cVar2 = thunk_FUN_1000bae0();
+    gStack_2a8 = (gEFocus)(cVar2 == '\x01');
+    PSFocus::PropertyFocusLookAtMode::operator=((PropertyFocusLookAtMode *)aPStack_288,&gStack_2a8);
+    uStack_2d0 = 0x1009b57f;
+    thunk_FUN_100c9560();
+    bCString::bCString((bCString *)&stack0xfffffd40,"PS_Normal_Loop");
+    PSRoutine::SetState((PSRoutine *)local_29c);
+  }
+  (*pcVar11)();
+  (*pcVar11)();
+  return 1;
+}
+
+

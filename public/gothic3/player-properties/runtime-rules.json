@@ -1,0 +1,244 @@
+{
+  "schema": "gothic3-player-properties-rules-v1",
+  "inputs": {
+    "Game": {
+      "path": "00_Original_Runtime/Game.dll",
+      "sha256": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f"
+    },
+    "Script": {
+      "path": "00_Original_Runtime/Script.dll",
+      "sha256": "9375605676faaae44a50d48539a7b3995bed471e099ef573666221a044cd4e08"
+    },
+    "Script_Game": {
+      "path": "00_Original_Runtime/scripts/Script_Game.dll",
+      "sha256": "2f10fbb6307c4800bc44c90cb60dac0b32182c1f2416e11ac82b4ba0c35803c1"
+    },
+    "SharedBase": {
+      "path": "00_Original_Runtime/SharedBase.dll",
+      "sha256": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214"
+    }
+  },
+  "profile": "original-loaded-valid-PC_Hero-PlayerMemory-gCAttribute-gCStat",
+  "physicalStorage": {
+    "sharedByStartupHudRoutineAndCombat": true,
+    "entityPS": "gCPlayerMemory_PS",
+    "attributeObjectKinds": [
+      "gCAttribute",
+      "gCStat"
+    ],
+    "missingMapEntryGetter": 0,
+    "lookupStringComparison": "case-sensitive",
+    "mapIterationOrderPorted": false
+  },
+  "attributeFields": {
+    "Tag": 12,
+    "Modifier": 16,
+    "Value": 20
+  },
+  "statFields": {
+    "BaseMaximum": 24,
+    "MaximumModifier": 28
+  },
+  "constructorDefaults": {
+    "gCAttribute": {
+      "Tag": "",
+      "Modifier": 0,
+      "Value": 100
+    },
+    "gCStat": {
+      "Tag": "",
+      "Modifier": 0,
+      "Value": 100,
+      "BaseMaximum": 100,
+      "MaximumModifier": 0
+    }
+  },
+  "loadedRecord": {
+    "version": 5,
+    "readDispatch": "Game:20014268->2000ed22",
+    "attributes": 15,
+    "source": "28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938",
+    "phase": "before OnGameStartUp"
+  },
+  "notifications": {
+    "attributeEnter": [
+      "SharedBase:10001186",
+      "SharedBase:10008805"
+    ],
+    "attributeExit": [
+      "SharedBase:10005a65",
+      "Game:2002e2b2",
+      "virtual Cap unless propagated"
+    ],
+    "attributeEntityOwnerModified": false,
+    "playerMemoryScalar": "OriginalEntityPropertySet exact captured receiver, Notify enter/write/exit",
+    "directStatSetterInventoryNotifications": []
+  },
+  "startupSetters": [
+    {
+      "setter": "SetHitPointsMax",
+      "tag": "HP",
+      "nativeFieldOperation": "Maximum",
+      "source": "Script_Game:10045c90",
+      "startupValue": 200
+    },
+    {
+      "setter": "SetHitPoints",
+      "tag": "HP",
+      "nativeFieldOperation": "BaseValue",
+      "source": "Script_Game:10045b20",
+      "startupValue": 200
+    },
+    {
+      "setter": "SetManaPointsMax",
+      "tag": "MP",
+      "nativeFieldOperation": "Maximum",
+      "source": "Script_Game:100462a0",
+      "startupValue": 100
+    },
+    {
+      "setter": "SetManaPoints",
+      "tag": "MP",
+      "nativeFieldOperation": "BaseValue",
+      "source": "Script_Game:100461d0",
+      "startupValue": 100
+    },
+    {
+      "setter": "SetStaminaPointsMax",
+      "tag": "SP",
+      "nativeFieldOperation": "Maximum",
+      "source": "Script_Game:10046960",
+      "startupValue": 100
+    },
+    {
+      "setter": "SetStaminaPoints",
+      "tag": "SP",
+      "nativeFieldOperation": "BaseValue",
+      "source": "Script_Game:100467f0",
+      "startupValue": 100
+    },
+    {
+      "setter": "SetStrength",
+      "tag": "STR",
+      "nativeFieldOperation": "BaseValue",
+      "source": "Script_Game:100443c0",
+      "startupValue": 100
+    },
+    {
+      "setter": "SetDexterity",
+      "tag": "DEX",
+      "nativeFieldOperation": "BaseValue",
+      "source": "Script_Game:10044490",
+      "startupValue": 100
+    },
+    {
+      "setter": "SetIntelligence",
+      "tag": "INT",
+      "nativeFieldOperation": "BaseValue",
+      "source": "Script_Game:10044560",
+      "startupValue": 0
+    },
+    {
+      "setter": "SetSmithing",
+      "tag": "SMT",
+      "nativeFieldOperation": "BaseValue",
+      "source": "Script_Game:10044700",
+      "startupValue": 10
+    },
+    {
+      "setter": "SetTheft",
+      "tag": "THF",
+      "nativeFieldOperation": "BaseValue",
+      "source": "Script_Game:100447d0",
+      "startupValue": 10
+    },
+    {
+      "setter": "SetAlchemy",
+      "tag": "ALC",
+      "nativeFieldOperation": "BaseValue",
+      "source": "Script_Game:10044630",
+      "startupValue": 10
+    },
+    {
+      "setter": "SetProtectionBlades",
+      "tag": "PROT_BLADE",
+      "nativeFieldOperation": "BaseValue",
+      "source": "Script_Game:10044f00",
+      "startupValue": 0
+    },
+    {
+      "setter": "SetProtectionImpact",
+      "tag": "PROT_IMPACT",
+      "nativeFieldOperation": "BaseValue",
+      "source": "Script_Game:10044fd0",
+      "startupValue": 0
+    },
+    {
+      "setter": "SetProtectionMissile",
+      "tag": "PROT_MISSILE",
+      "nativeFieldOperation": "BaseValue",
+      "source": "Script_Game:100450a0",
+      "startupValue": 0
+    },
+    {
+      "setter": "SetProtectionFire",
+      "tag": "PROT_FIRE",
+      "nativeFieldOperation": "BaseValue",
+      "source": "Script_Game:10045170",
+      "startupValue": 0
+    },
+    {
+      "setter": "SetProtectionIce",
+      "tag": "PROT_ICE",
+      "nativeFieldOperation": "BaseValue",
+      "source": "Script_Game:10045240",
+      "startupValue": 0
+    },
+    {
+      "setter": "SetProtectionLightning",
+      "tag": "PROT_LIGHTNING",
+      "nativeFieldOperation": "BaseValue",
+      "source": "Script_Game:10045310",
+      "startupValue": 0
+    }
+  ],
+  "hitAndStaminaPoints": {
+    "setCurrent": "read current (discard); read max; clamp request to0..oldMax; SetBaseValue",
+    "setMaximum": "read current; read max (discard); SetBaseValue(max(0,current)); SetMaximum(request)"
+  },
+  "maximumManaPoints": "SetMaximum(request) directly",
+  "integerArithmetic": "signed32 add/sub/multiply wrap; signed division truncates toward zero",
+  "temporaryModifiers": {
+    "ordinarySupportedOperation": 0,
+    "statOperation1": "mutate MaximumModifier, Cap, then base returns false",
+    "statOperation2": "required native warning host, then base returns false",
+    "statOperation3": "signed magic divide argument by100 first (negated division for unapply), FILD/FIMUL BaseMaximum, convert, add MaximumModifier, Cap, then base false",
+    "percentageConversion": {
+      "source": "Game:20465320",
+      "liveFlagAddress": "207d2b50",
+      "supportedProduct": "signed32 integer exactly representable as binary32; all x87 precision/rounding modes and both conversion branches agree",
+      "outOfRangeOrNonBinary32ExactProduct": "unsupported before write; native FPU precision/rounding and CPU conversion flag are not known"
+    }
+  },
+  "permanentStatOperation5": "preserve original SetMaximum(oldMaximum); only increase current when requested-old is positive",
+  "nativeFalseMayFollowAppliedEffects": true,
+  "tutorial": {
+    "enableTrue": "clear mask bits",
+    "enableFalse": "set mask bits",
+    "query": "mask != (TutorialFlags & mask)",
+    "directMaskWriteNotifies": false
+  },
+  "remaining": [
+    "Entity/Script wrapper attachment, validity and transformed/DamageReceiver branches belong to session host",
+    "Loaded source values are retained; original deserialization/logging/AddRef and whole entity PostRead lifecycle are not executed by the seed loader",
+    "Equipment category/slot selection, modifier enumeration/application callers and inventory observer completeness are separate dependencies",
+    "Live native FPU precision/rounding is required for temporary percentage integer product not exactly representable as binary32; CPU conversion flag207d2b50 additionally matters outside signed32",
+    "Other PlayerMemory gameplay actions and unexamined derived attribute vtables are unsupported"
+  ],
+  "audit": {
+    "nativeCodeExecuted": false,
+    "testsExecuted": false,
+    "buildExecuted": false,
+    "browserExecuted": false
+  }
+}

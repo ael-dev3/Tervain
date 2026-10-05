@@ -1,0 +1,2 @@
+; 2000e0bb ?Read@gCNavPath_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+2000e0bb | e960a82800 | JMP 0x20298920

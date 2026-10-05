@@ -1,0 +1,159 @@
+/* ENTRY 10031280 | FUN_10031280 | STATUS decompiled | 158 ms */
+
+undefined4 FUN_10031280(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  Entity *this;
+  int iVar3;
+  gEUseType gVar4;
+  PSEffect *this_00;
+  Entity aEStack_40c [140];
+  undefined4 uStack_380;
+  eECollisionGroup eVar5;
+  Entity *pEVar6;
+  char *pcVar7;
+  bCString local_354 [4];
+  gEAmbientAction local_350;
+  Entity local_34c [4];
+  Entity local_348 [4];
+  PropertyAmbientAction local_344 [20];
+  PSInventory local_330 [4];
+  PSInventory local_32c [12];
+  PropertyIsConsumingItem local_320 [4];
+  PSNavigation local_31c [4];
+  PSNpc local_318 [80];
+  PSEffect local_2c8 [12];
+  PSEffect local_2bc [12];
+  Entity local_2b0 [8];
+  undefined1 local_2a8 [20];
+  PSInteraction local_294 [92];
+  PropertyEnabled local_238 [24];
+  PSEffect local_220 [24];
+  Entity local_208 [4];
+  undefined1 local_204 [24];
+  PSInteraction local_1ec [92];
+  PropertyEnabled local_190 [48];
+  Entity local_160 [16];
+  Entity local_150 [164];
+  Entity local_ac [4];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_348);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_348,peVar2);
+  }
+  else {
+    Entity::operator=(local_348,param_2);
+  }
+  Entity::Entity(local_150);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_150,peVar2);
+  }
+  else {
+    Entity::operator=(local_150,param_3);
+  }
+  local_350 = 0;
+  PSRoutine::PropertyAmbientAction::operator=(local_344,&local_350);
+  Entity::Entity(aEStack_40c,local_348);
+  thunk_FUN_1000ecc0();
+  Entity::Entity((Entity *)&stack0xfffffbf0,local_348);
+  thunk_FUN_10009520();
+  Entity::SetLookAtTarget(local_348,(Entity *)None_exref);
+  Entity::SetAlignmentTarget(local_348,(Entity *)None_exref);
+  Entity::Entity(aEStack_40c,local_348);
+  thunk_FUN_10009650();
+  pEVar6 = local_a8;
+  this = (Entity *)Entity::GetPlayer();
+  bVar1 = Entity::operator==(this,pEVar6);
+  Entity::~Entity(local_ac);
+  if (bVar1) {
+    GUI2::ShowCrossHair((GUI2 *)gui2_exref,false);
+  }
+  bCString::bCString(local_354,"");
+  Entity::EnableAutoAiming(local_34c,false,(Entity *)None_exref,local_354);
+  bCString::~bCString(local_354);
+  PSNavigation::SetDCCEnabled(local_31c,true);
+  bVar1 = PSNpc::HasStatusEffects(local_318,2);
+  if (bVar1) {
+    PSEffect::StopEffect(local_2bc,false);
+    iVar3 = thunk_FUN_1001b0c0();
+    if (iVar3 == 0) {
+      iVar3 = thunk_FUN_100187b0();
+      if (iVar3 != 0) goto LAB_1003148a;
+      iVar3 = thunk_FUN_1006d240();
+      if (iVar3 == 0) {
+        pcVar7 = "eff_magic_icespell_burst_02";
+      }
+      else {
+        pcVar7 = "eff_magic_icespell_burst_03";
+      }
+    }
+    else {
+LAB_1003148a:
+      pcVar7 = "eff_magic_icespell_burst_01";
+    }
+    bCString::bCString(local_354,pcVar7);
+    EffectSystem::StartEffect((bCString *)&local_350,(Entity *)local_354);
+    bCString::~bCString((bCString *)&stack0xfffffca8);
+    PSNpc::EnableFrozen((PSNpc *)local_31c,false);
+    Entity::SetTimeScale((Entity *)&local_350,1.0);
+  }
+  bVar1 = PSNpc::HasStatusEffects((PSNpc *)local_31c,0x80);
+  if (bVar1) {
+    eVar5 = 0x10;
+  }
+  else {
+    bVar1 = Entity::IsPlayer((Entity *)&local_350);
+    if (bVar1) {
+      eVar5 = 3;
+    }
+    else {
+      eVar5 = 4;
+    }
+  }
+  Entity::SetCollisionGroup((Entity *)&local_350,eVar5);
+  PSInventory::GetItemFromSlot(local_32c,(gESlot)local_2a8);
+  PSInventory::GetItemFromSlot(local_330,(gESlot)local_204);
+  bVar1 = Entity::operator!=(local_2b0,(Entity *)None_exref);
+  if (bVar1) {
+    PSStrip::PropertyEnabled::operator=(local_238,(bool *)&stack0xfffffc9f);
+    Entity::SetCollisionGroup(local_2b0,5);
+  }
+  bVar1 = Entity::operator!=(local_208,(Entity *)None_exref);
+  if (bVar1) {
+    PSStrip::PropertyEnabled::operator=(local_190,(bool *)&stack0xfffffc9f);
+    Entity::SetCollisionGroup(local_208,5);
+    gVar4 = PSInteraction::GetUseType(local_1ec);
+    if (gVar4 == 5) {
+      Entity::RevertPlayingAni(local_208,100.0);
+      gVar4 = PSInteraction::GetUseType(local_294);
+      if (gVar4 != 4) goto LAB_10031628;
+      bCString::bCString((bCString *)&stack0xfffffca0,"eff_ani_fight_bow_raise_01");
+      this_00 = local_220;
+    }
+    else {
+      if (gVar4 != 0xc) goto LAB_10031628;
+      bCString::bCString((bCString *)&stack0xfffffca0,"eff_magic_parade_shield_01");
+      this_00 = local_2c8;
+    }
+    uStack_380 = 0x1003161e;
+    PSEffect::StopRuntimeEffect(this_00,(bCString *)&stack0xfffffca0,false);
+    bCString::~bCString((bCString *)&stack0xfffffca0);
+  }
+LAB_10031628:
+  bVar1 = Entity::IsPlayer((Entity *)&stack0xfffffca8);
+  if (bVar1) {
+    PSPlayerMemory::PropertyIsConsumingItem::operator=(local_320,(bool *)&stack0xfffffc9f);
+  }
+  Entity::~Entity(local_208);
+  Entity::~Entity(local_2b0);
+  Entity::~Entity(local_160);
+  Entity::~Entity((Entity *)&stack0xfffffca8);
+  return 1;
+}
+
+

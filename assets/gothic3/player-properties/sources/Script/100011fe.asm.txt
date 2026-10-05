@@ -1,0 +1,2 @@
+; 100011fe ?SetSmithing@PSPlayerMemory@@QAEXH@Z
+100011fe | e9dd8b0200 | JMP 0x10029de0

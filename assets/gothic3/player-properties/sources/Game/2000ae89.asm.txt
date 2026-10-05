@@ -1,0 +1,4 @@
+; 2000ae89 ?GetShortName@gCAttribute@@QBE?AVeCLocString@@XZ
+2000ae89 | e912cc3800 | JMP 0x20397aa0
+; 2000ae8e gCNavZone_PS::GameReset
+; 2000ae8e Ordinal_2864

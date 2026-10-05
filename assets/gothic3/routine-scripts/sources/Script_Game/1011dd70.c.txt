@@ -1,0 +1,17 @@
+/* ENTRY 1011dd70 | FUN_1011dd70 | STATUS decompiled | 7 ms */
+
+void FUN_1011dd70(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Tasks\\Reaction_Tasks\\ZS_WatchFight.cpp");
+  bCString::bCString(local_8,"OnWatchFight_Goto");
+  thunk_FUN_1001da70(local_8,&LAB_100031d9,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

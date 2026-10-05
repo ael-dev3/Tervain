@@ -1,0 +1,2 @@
+; 20027e4e gCStat::vfunction15
+20027e4e | e9fd660800 | JMP 0x200ae550

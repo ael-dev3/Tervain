@@ -1,0 +1,16 @@
+/* ENTRY 200aa5a0 | FUN_200aa5a0 | STATUS decompiled | 2 ms */
+
+void __fastcall FUN_200aa5a0(int *param_1)
+
+{
+  code *pcVar1;
+  int *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("LPPerks",0);
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  param_1[0x17] = *unaff_ESI;
+  (*pcVar1)("LPPerks",0);
+  return;
+}
+
+

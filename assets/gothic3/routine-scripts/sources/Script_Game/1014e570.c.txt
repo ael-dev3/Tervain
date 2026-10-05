@@ -1,0 +1,17 @@
+/* ENTRY 1014e570 | FUN_1014e570 | STATUS decompiled | 6 ms */
+
+void FUN_1014e570(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\PS_DuskToDawn.cpp");
+  bCString::bCString(local_8,"PS_DuskToDawn");
+  thunk_FUN_1001db60(local_8,&LAB_10002301,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

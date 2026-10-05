@@ -1,0 +1,36 @@
+; 2031e440 bTPropertyContainer<gEWeaponConfig>::bTPropertyContainer<gEWeaponConfig>
+2031e440 | 56 | PUSH ESI
+2031e441 | 57 | PUSH EDI
+2031e442 | 8bf1 | MOV ESI,ECX
+2031e444 | ff15f86d7d20 | CALL dword ptr [0x207d6df8]
+2031e44a | 33c0 | XOR EAX,EAX
+2031e44c | c7065c846920 | MOV dword ptr [ESI],0x2069845c
+2031e452 | 894618 | MOV dword ptr [ESI + 0x18],EAX
+2031e455 | 89461c | MOV dword ptr [ESI + 0x1c],EAX
+2031e458 | 894620 | MOV dword ptr [ESI + 0x20],EAX
+2031e45b | 894624 | MOV dword ptr [ESI + 0x24],EAX
+2031e45e | 894628 | MOV dword ptr [ESI + 0x28],EAX
+2031e461 | 89462c | MOV dword ptr [ESI + 0x2c],EAX
+2031e464 | 894630 | MOV dword ptr [ESI + 0x30],EAX
+2031e467 | 894634 | MOV dword ptr [ESI + 0x34],EAX
+2031e46a | 894638 | MOV dword ptr [ESI + 0x38],EAX
+2031e46d | 89463c | MOV dword ptr [ESI + 0x3c],EAX
+2031e470 | 894640 | MOV dword ptr [ESI + 0x40],EAX
+2031e473 | 894644 | MOV dword ptr [ESI + 0x44],EAX
+2031e476 | 8d7e60 | LEA EDI,[ESI + 0x60]
+2031e479 | 8bcf | MOV ECX,EDI
+2031e47b | 894648 | MOV dword ptr [ESI + 0x48],EAX
+2031e47e | 89464c | MOV dword ptr [ESI + 0x4c],EAX
+2031e481 | 894650 | MOV dword ptr [ESI + 0x50],EAX
+2031e484 | ff1500877d20 | CALL dword ptr [0x207d8700]
+2031e48a | c707c47b6920 | MOV dword ptr [EDI],0x20697bc4
+2031e490 | a178157c20 | MOV EAX,[0x207c1578]
+2031e495 | 8d4e68 | LEA ECX,[ESI + 0x68]
+2031e498 | 894704 | MOV dword ptr [EDI + 0x4],EAX
+2031e49b | ff15d8887d20 | CALL dword ptr [0x207d88d8]
+2031e4a1 | 8d8ea8000000 | LEA ECX,[ESI + 0xa8]
+2031e4a7 | e8ce35d1ff | CALL 0x20031a7a
+2031e4ac | 5f | POP EDI
+2031e4ad | 8bc6 | MOV EAX,ESI
+2031e4af | 5e | POP ESI
+2031e4b0 | c20400 | RET 0x4

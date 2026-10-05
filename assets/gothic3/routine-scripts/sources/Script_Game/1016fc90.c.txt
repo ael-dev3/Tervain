@@ -1,0 +1,17 @@
+/* ENTRY 1016fc90 | FUN_1016fc90 | STATUS decompiled | 65 ms */
+
+void FUN_1016fc90(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Engine\\Engine_Callback\\OnExitProcessingRange.cpp");
+  bCString::bCString(local_8,"OnExitProcessingRange");
+  thunk_FUN_10017a50(local_8,&LAB_100010fa,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 1000452f ?AttachTo@Entity@@QAE_NPAVeCEntity@@@Z
+1000452f | e99cc20200 | JMP 0x100307d0
+; 10004534 PSRoutine::SetState
+; 10004534 Ordinal_1996

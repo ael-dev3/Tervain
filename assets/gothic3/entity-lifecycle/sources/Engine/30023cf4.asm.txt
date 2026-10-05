@@ -1,0 +1,4 @@
+; 30023cf4 ?Invalidate@eCEntityPropertySet@@IAEXXZ
+30023cf4 | e997d74500 | JMP 0x30481490
+; 30023d17 eTShaderEllementProxy<eCTexCoordSrcBase>::operator!=
+; 30023d17 Ordinal_1990

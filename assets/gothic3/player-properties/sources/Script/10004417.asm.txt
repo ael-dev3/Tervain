@@ -1,0 +1,2 @@
+; 10004417 ?SetPoliticalSuspectComment@PSPlayerMemory@@QAEXW4gEPoliticalAlignment@@J@Z
+10004417 | e9e4420200 | JMP 0x10028700

@@ -1,0 +1,2 @@
+; 10002540 ?GetHitPointsMax@PSPlayerMemory@@QBEHXZ
+10002540 | e9eb6f0200 | JMP 0x10029530

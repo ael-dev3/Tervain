@@ -1,0 +1,4 @@
+; 2000132a ?GetLPPerks@gCPlayerMemory_PS@@QBEABJXZ
+2000132a | e951920a00 | JMP 0x200aa580
+; 2000132f gCWorld::DoSaveLocalConfiguration
+; 2000132f Ordinal_2711

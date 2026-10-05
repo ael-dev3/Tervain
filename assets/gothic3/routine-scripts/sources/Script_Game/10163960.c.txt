@@ -1,0 +1,17 @@
+/* ENTRY 10163960 | FUN_10163960 | STATUS decompiled | 7 ms */
+
+void FUN_10163960(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Routine\\Routine_Tasks\\ZS_RunToAttackPoint.cpp");
+  bCString::bCString(local_8,"ZS_RunToAttackPoint");
+  thunk_FUN_1001db60(local_8,&LAB_1000291e,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

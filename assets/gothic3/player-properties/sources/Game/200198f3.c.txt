@@ -1,0 +1,12 @@
+/* ENTRY 200198f3 | gCStat::AccessMaximumModifier | STATUS decompiled | 3 ms */
+
+/* public: int & __thiscall gCStat::AccessMaximumModifier(void) */
+
+int * __thiscall gCStat::AccessMaximumModifier(gCStat *this)
+
+{
+                    /* 0x198f3  1403  ?AccessMaximumModifier@gCStat@@QAEAAHXZ */
+  return &(this->gCAttribute_data).offset_0x18;
+}
+
+

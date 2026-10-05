@@ -1,0 +1,18 @@
+/* ENTRY 2002cbf1 | gCNavigationAdmin::RegisterNavPathPS | STATUS decompiled | 6 ms */
+
+/* public: enum bEResult __thiscall gCNavigationAdmin::RegisterNavPathPS(class gCNavPath_PS *) */
+
+bEResult __thiscall
+gCNavigationAdmin::RegisterNavPathPS(gCNavigationAdmin *this,gCNavPath_PS *param_1)
+
+{
+  bEResult bVar1;
+  
+                    /* 0x2cbf1  6032
+                       ?RegisterNavPathPS@gCNavigationAdmin@@QAE?AW4bEResult@@PAVgCNavPath_PS@@@Z */
+  bVar1 = gCNavigationMap::RegisterNavPathPS
+                    ((gCNavigationMap *)&(this->gCNavigationAdmin_data).field_0x50,param_1);
+  return bVar1;
+}
+
+

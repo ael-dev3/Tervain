@@ -1,0 +1,17 @@
+/* ENTRY 10134f30 | FUN_10134f30 | STATUS decompiled | 7 ms */
+
+void FUN_10134f30(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Commands\\AI_JumpAttack.cpp");
+  bCString::bCString(local_8,"OnAI_JumpAttack");
+  thunk_FUN_1001da70(local_8,&LAB_10002eaa,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

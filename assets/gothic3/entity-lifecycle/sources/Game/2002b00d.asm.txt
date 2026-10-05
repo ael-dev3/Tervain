@@ -1,0 +1,2 @@
+; 2002b00d ?OnPropertySetAdded@gCNavPath_PS@@UAEXXZ
+2002b00d | e97ed82600 | JMP 0x20298890

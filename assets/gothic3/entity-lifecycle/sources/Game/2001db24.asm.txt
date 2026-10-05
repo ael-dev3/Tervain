@@ -1,0 +1,2 @@
+; 2001db24 ?GetPropertySetType@gCDamageReceiver_PS@@UBE?AW4eEPropertySetType@@XZ
+2001db24 | e967c30900 | JMP 0x200b9e90

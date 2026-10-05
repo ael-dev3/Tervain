@@ -1,0 +1,47 @@
+/* ENTRY 100323f0 | FUN_100323f0 | STATUS decompiled | 31 ms */
+
+void __thiscall FUN_100323f0(void *this,undefined4 *param_1)
+
+{
+  undefined4 *puVar1;
+  char *pcVar2;
+  bCString *this_00;
+  bCPropertyObjectBase *pbVar3;
+  int local_10;
+  bCString local_c [4];
+  eCVisualAnimation_PS *local_8;
+  bCString local_4 [4];
+  
+  thunk_FUN_100388a0(&local_8,*(eCEntity **)this);
+  puVar1 = param_1;
+  if (local_8 != (eCVisualAnimation_PS *)0x0) {
+    if ((eCEntity *)*param_1 != (eCEntity *)0x0) {
+      thunk_FUN_100388a0(&local_10,(eCEntity *)*param_1);
+      if (local_10 != 0) {
+        bCString::bCString((bCString *)&param_1,(bCString *)(local_10 + 0x14));
+        bCString::Remove((bCString *)&param_1,"G3_");
+        pcVar2 = (char *)bCString::Find((bCString *)&param_1,'_',0,false);
+        this_00 = (bCString *)bCString::Left((bCString *)&param_1,(int)local_4);
+        bCString::operator+(this_00,pcVar2);
+        bCString::~bCString(local_c);
+        eCVisualAnimation_PS::SetLookAtTarget
+                  (local_8,(eCEntity *)*puVar1,(bCString *)&stack0xffffffec);
+        bCString::~bCString((bCString *)&stack0xffffffec);
+        bCString::~bCString(local_4);
+        thunk_FUN_10038920((undefined4 *)&stack0xffffffe8);
+        thunk_FUN_10038920(&local_10);
+        return;
+      }
+      thunk_FUN_10038920(&local_10);
+    }
+    eCVisualAnimation_PS::SetLookAtTarget(local_8,(eCEntity *)*puVar1);
+    pbVar3 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)local_8);
+    if (pbVar3 != (bCPropertyObjectBase *)0x0) {
+      pbVar3 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)local_8);
+      (**(code **)(*(int *)pbVar3 + 0x34))();
+    }
+  }
+  return;
+}
+
+

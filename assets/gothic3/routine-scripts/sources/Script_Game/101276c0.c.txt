@@ -1,0 +1,17 @@
+/* ENTRY 101276c0 | FUN_101276c0 | STATUS decompiled | 7 ms */
+
+void FUN_101276c0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Perception\\SendPerception.cpp");
+  bCString::bCString(local_8,"SendPerceptionCmdAttack");
+  thunk_FUN_10017a50(local_8,&LAB_10002860,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

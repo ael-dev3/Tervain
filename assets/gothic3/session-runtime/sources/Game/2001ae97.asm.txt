@@ -1,0 +1,2 @@
+; 2001ae97 ?Resume@gCSession@@QAEXXZ
+2001ae97 | e9c4703500 | JMP 0x20371f60

@@ -1,0 +1,26 @@
+/* ENTRY 304b8a80 | FUN_304b8a80 | STATUS decompiled | 12 ms */
+
+void __fastcall FUN_304b8a80(eCEntity *param_1)
+
+{
+  uint *puVar1;
+  uint uVar2;
+  
+  (*param_1->vftablePtr->OnReadContent)(param_1);
+  uVar2 = (uint)(param_1->eCEntity_data).offset_0x10e;
+  while (uVar2 != 0) {
+    do {
+      uVar2 = uVar2 - 1;
+      (*param_1->vftablePtr->OnReadContent)(param_1);
+    } while (uVar2 == 0xffffffff);
+    if ((ushort)uVar2 < (param_1->eCEntity_data).offset_0x10e) {
+      eCEntity::RemovePropertySetAt(param_1,uVar2);
+    }
+  }
+  puVar1 = &(param_1->eCEntity_data).offset_0xc;
+  *puVar1 = *puVar1 & 0xfbffffff;
+  (param_1->eCEntity_data).offset_0x10e = 0;
+  return;
+}
+
+

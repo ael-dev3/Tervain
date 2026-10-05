@@ -1,0 +1,17 @@
+/* ENTRY 10121d90 | FUN_10121d90 | STATUS decompiled | 7 ms */
+
+void FUN_10121d90(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Perception\\AssessMurder.cpp");
+  bCString::bCString(local_8,"AssessMurder");
+  thunk_FUN_10017a50(local_8,thunk_FUN_1003f370,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

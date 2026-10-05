@@ -1,0 +1,2 @@
+; 2000ef48 ?Invalidate@gCEntity@@IAEXXZ
+2000ef48 | e923cd1100 | JMP 0x2012bc70

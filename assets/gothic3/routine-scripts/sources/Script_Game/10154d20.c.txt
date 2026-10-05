@@ -1,0 +1,17 @@
+/* ENTRY 10154d20 | FUN_10154d20 | STATUS decompiled | 6 ms */
+
+void FUN_10154d20(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\PS_Normal.cpp");
+  bCString::bCString(local_8,"PS_Normal");
+  thunk_FUN_1001db60(local_8,&LAB_100011f4,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

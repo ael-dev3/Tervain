@@ -1,0 +1,2 @@
+; 300253e2 ?Invalidate@eCEntity@@IAEXXZ
+300253e2 | e949d64800 | JMP 0x304b2a30

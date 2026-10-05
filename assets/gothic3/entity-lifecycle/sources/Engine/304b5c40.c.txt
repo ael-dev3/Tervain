@@ -1,0 +1,28 @@
+/* ENTRY 304b5c40 | FUN_304b5c40 | STATUS decompiled | 5 ms */
+
+void __fastcall FUN_304b5c40(int *param_1)
+
+{
+  int *piVar1;
+  uint uVar2;
+  
+  uVar2 = 0;
+  (**(code **)(*param_1 + 0x78))();
+  if (*(short *)((int)param_1 + 0x13e) != 0) {
+    do {
+      (**(code **)(*param_1 + 0x78))();
+      if ((ushort)uVar2 < *(ushort *)((int)param_1 + 0x13e)) {
+        piVar1 = *(int **)(param_1[0x50] + (uVar2 & 0xffff) * 4);
+      }
+      else {
+        piVar1 = (int *)0x0;
+      }
+      (**(code **)(*piVar1 + 300))();
+      uVar2 = uVar2 + 1;
+      (**(code **)(*param_1 + 0x78))();
+    } while ((int)uVar2 < (int)(uint)*(ushort *)((int)param_1 + 0x13e));
+  }
+  return;
+}
+
+

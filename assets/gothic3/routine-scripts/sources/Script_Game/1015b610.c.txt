@@ -1,0 +1,17 @@
+/* ENTRY 1015b610 | FUN_1015b610 | STATUS decompiled | 7 ms */
+
+void FUN_1015b610(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Routine\\Routine_Tasks\\ZS_Break.cpp");
+  bCString::bCString(local_8,"ZS_Break_Bench");
+  thunk_FUN_1001db60(local_8,&LAB_10001b31,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

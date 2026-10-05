@@ -1,0 +1,10 @@
+; 201cf160 FUN_201cf160
+201cf160 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+201cf164 | 3b4104 | CMP EAX,dword ptr [ECX + 0x4]
+201cf167 | 7308 | JNC 0x201cf171
+201cf169 | 8b09 | MOV ECX,dword ptr [ECX]
+201cf16b | 8b0481 | MOV EAX,dword ptr [ECX + EAX*0x4]
+201cf16e | c20400 | RET 0x4
+; 201cf171 LAB_201cf171
+201cf171 | 33c0 | XOR EAX,EAX
+201cf173 | c20400 | RET 0x4

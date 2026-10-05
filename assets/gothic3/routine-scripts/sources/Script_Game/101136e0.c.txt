@@ -1,0 +1,17 @@
+/* ENTRY 101136e0 | FUN_101136e0 | STATUS decompiled | 7 ms */
+
+void FUN_101136e0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Tasks\\Party_Tasks\\ZS_GuidePlayer.cpp");
+  bCString::bCString(local_8,"ZS_GuidePlayer");
+  thunk_FUN_1001db60(local_8,&LAB_100030c1,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

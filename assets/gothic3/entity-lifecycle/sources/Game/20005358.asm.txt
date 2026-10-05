@@ -1,0 +1,4 @@
+; 20005358 ?Invalidate@gCNavPath_PS@@IAEXXZ
+20005358 | e913302900 | JMP 0x20298370
+; 2000535d gCCharacterMovement_PS::ContributeFloorActions
+; 2000535d Ordinal_2210

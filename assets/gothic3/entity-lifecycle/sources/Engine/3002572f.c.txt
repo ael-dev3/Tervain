@@ -1,0 +1,13 @@
+/* ENTRY 3002572f | eCDynamicEntity::Create | STATUS decompiled | 9 ms */
+
+/* public: virtual enum bEResult __thiscall eCDynamicEntity::Create(void) */
+
+bEResult __thiscall eCDynamicEntity::Create(eCDynamicEntity *this)
+
+{
+                    /* 0x2572f  4443  ?Create@eCDynamicEntity@@UAE?AW4bEResult@@XZ */
+  eCEntity::Create((eCEntity *)this);
+  return 1;
+}
+
+

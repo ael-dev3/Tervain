@@ -1,0 +1,12 @@
+/* ENTRY 2000132a | gCPlayerMemory_PS::GetLPPerks | STATUS decompiled | 23 ms */
+
+/* public: long const & __thiscall gCPlayerMemory_PS::GetLPPerks(void)const  */
+
+long * __thiscall gCPlayerMemory_PS::GetLPPerks(gCPlayerMemory_PS *this)
+
+{
+                    /* 0x132a  3634  ?GetLPPerks@gCPlayerMemory_PS@@QBEABJXZ */
+  return (long *)&(this->gCPlayerMemory_PS_data).field_0x58;
+}
+
+

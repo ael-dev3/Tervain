@@ -1,0 +1,12 @@
+/* ENTRY 200287c2 | gCPlayerMemory_PS::AccessLPAttribs | STATUS decompiled | 5 ms */
+
+/* public: long & __thiscall gCPlayerMemory_PS::AccessLPAttribs(void) */
+
+long * __thiscall gCPlayerMemory_PS::AccessLPAttribs(gCPlayerMemory_PS *this)
+
+{
+                    /* 0x287c2  1319  ?AccessLPAttribs@gCPlayerMemory_PS@@QAEAAJXZ */
+  return (long *)&(this->gCPlayerMemory_PS_data).field_0x54;
+}
+
+

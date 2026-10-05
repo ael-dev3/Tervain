@@ -1,0 +1,46 @@
+/* ENTRY 304b5020 | FUN_304b5020 | STATUS decompiled | 18 ms */
+
+uint __thiscall FUN_304b5020(int param_1,int param_2)
+
+{
+  int iVar1;
+  int iVar2;
+  uint uVar3;
+  int iVar4;
+  
+  if (*(char *)(param_1 + 0x148) == '\0') {
+    g_ArrayInsertionSort
+              (*(void **)(param_1 + 0x140),(uint)*(ushort *)(param_1 + 0x13e),4,
+               *(_func_int_void_ptr_void_ptr **)(param_1 + 0x144),true);
+    *(undefined1 *)(param_1 + 0x148) = 1;
+  }
+  if (*(ushort *)(param_1 + 0x13e) == 0) {
+    return 0xffff;
+  }
+  iVar4 = *(ushort *)(param_1 + 0x13e) - 1;
+  uVar3 = iVar4 / 2;
+  iVar2 = 0;
+  iVar1 = (**(code **)(**(int **)(*(int *)(param_1 + 0x140) + (uVar3 & 0xffff) * 4) + 0x60))();
+  iVar1 = param_2 - iVar1;
+  if (0 < iVar4) {
+    do {
+      if (iVar1 < 1) {
+        if (-1 < iVar1) goto LAB_304b50e4;
+        iVar4 = uVar3 - 1;
+      }
+      else {
+        iVar2 = uVar3 + 1;
+      }
+      uVar3 = (iVar4 + iVar2) / 2;
+      iVar1 = (**(code **)(**(int **)(*(int *)(param_1 + 0x140) + (uVar3 & 0xffff) * 4) + 0x60))();
+      iVar1 = param_2 - iVar1;
+    } while (iVar2 < iVar4);
+  }
+  if (iVar1 != 0) {
+    return 0xffff;
+  }
+LAB_304b50e4:
+  return uVar3 & 0xffff;
+}
+
+

@@ -1,0 +1,15 @@
+/* ENTRY 30023cf4 | eCEntityPropertySet::Invalidate | STATUS decompiled | 9 ms */
+
+/* protected: void __thiscall eCEntityPropertySet::Invalidate(void) */
+
+void __thiscall eCEntityPropertySet::Invalidate(eCEntityPropertySet *this)
+
+{
+                    /* 0x23cf4  9971  ?Invalidate@eCEntityPropertySet@@IAEXXZ */
+  (this->eCEntityPropertySet_data).offset_0x8 = 0;
+  (this->eCEntityPropertySet_data).offset_0xc =
+       (this->eCEntityPropertySet_data).offset_0xc & 0xf1 | 1;
+  return;
+}
+
+

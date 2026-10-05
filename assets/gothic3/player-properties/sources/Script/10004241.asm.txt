@@ -1,0 +1,4 @@
+; 10004241 ??BPropertyLPPerks@PSPlayerMemory@@QBEJXZ
+10004241 | e91a3c0200 | JMP 0x10027e60
+; 10004246 PSDialog::PropertyTradeCategory::operator_enum_gETradeCategory
+; 10004246 Ordinal_1138

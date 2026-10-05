@@ -1,0 +1,17 @@
+/* ENTRY 1014c920 | FUN_1014c920 | STATUS decompiled | 8 ms */
+
+void FUN_1014c920(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_Interface\\OnPlayerGameKeyPressed.cpp");
+  bCString::bCString(local_8,"OnPlayerGameKeyPressed");
+  thunk_FUN_10017a50(local_8,&LAB_1000295f,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

@@ -1,0 +1,19 @@
+/* ENTRY 10002d38 | PSPlayerMemory::PropertyXP::operator= | STATUS decompiled | 8 ms */
+
+/* public: class PSPlayerMemory::PropertyXP & __thiscall PSPlayerMemory::PropertyXP::operator=(long
+   const &) */
+
+PropertyXP * __thiscall PSPlayerMemory::PropertyXP::operator=(PropertyXP *this,long *param_1)
+
+{
+                    /* 0x2d38  800  ??4PropertyXP@PSPlayerMemory@@QAEAAV01@ABJ@Z */
+  if (*(gCPlayerMemory_PS **)this == (gCPlayerMemory_PS *)0x0) {
+    GE_MESSAGEF_WARN("Cannot set property \'%s\' in propertyset \'%s\'!",&DAT_10082384,
+                     "gCPlayerMemory_PS");
+    return this;
+  }
+  gCPlayerMemory_PS::SetXP(*(gCPlayerMemory_PS **)this,param_1);
+  return this;
+}
+
+

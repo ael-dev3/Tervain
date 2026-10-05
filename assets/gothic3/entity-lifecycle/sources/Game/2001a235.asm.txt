@@ -1,0 +1,4 @@
+; 2001a235 ?DeregisterNavPathPS@gCNavigationAdmin@@QAE?AW4bEResult@@PAVgCNavPath_PS@@@Z
+2001a235 | e9461d2a00 | JMP 0x202bbf80
+; 2001a23f gCFocus_PS::GetMagicModeInteractScanElevUp
+; 2001a23f Ordinal_3724

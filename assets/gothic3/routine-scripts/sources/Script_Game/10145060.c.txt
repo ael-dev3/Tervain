@@ -1,0 +1,17 @@
+/* ENTRY 10145060 | FUN_10145060 | STATUS decompiled | 8 ms */
+
+void FUN_10145060(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Magic\\Magic_Spells\\MagicInnos.cpp");
+  bCString::bCString(local_8,"MagicOpenLocks");
+  thunk_FUN_10017a50(local_8,&LAB_1000123f,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

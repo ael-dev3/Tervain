@@ -1,0 +1,17 @@
+/* ENTRY 10175290 | FUN_10175290 | STATUS decompiled | 7 ms */
+
+void FUN_10175290(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Engine\\Engine_Callback\\OnTouchCharacter.cpp");
+  bCString::bCString(local_8,"OnCharacterTouchesCharacter");
+  thunk_FUN_10017a50(local_8,&LAB_10001e15,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

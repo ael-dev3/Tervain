@@ -1,0 +1,4 @@
+; 30020356 ?GetEntity@eCSceneAdmin@@QAEPAVeCNode@@ABVbCPropertyID@@W4eEGetEntityTypeHint@@@Z
+30020356 | e9a5ad4a00 | JMP 0x304cb100
+; 3002035b eCResourceAnimationMotion_PS::IsProprietaryFileType
+; 3002035b Ordinal_10533

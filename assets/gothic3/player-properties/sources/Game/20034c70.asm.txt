@@ -1,0 +1,4 @@
+; 20034c70 ?SetLPPerks@gCPlayerMemory_PS@@QAEXABJ@Z
+20034c70 | e92b590700 | JMP 0x200aa5a0
+; 20034c75 gCCharacterMovement_PS::AccessJumpSteerScaleFactor
+; 20034c75 Ordinal_1316

@@ -1,0 +1,17 @@
+/* ENTRY 10118a40 | FUN_10118a40 | STATUS decompiled | 7 ms */
+
+void FUN_10118a40(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Tasks\\Reaction_Tasks\\ZS_ObserveSuspect.cpp");
+  bCString::bCString(local_8,"ZS_ReactToFootsteps");
+  thunk_FUN_1001db60(local_8,&LAB_10003409,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 20018fde ?CreateAttributes@gCPlayerMemory_PS@@IAEHXZ
+20018fde | e95d513000 | JMP 0x2031e140

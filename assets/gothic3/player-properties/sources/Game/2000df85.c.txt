@@ -1,0 +1,12 @@
+/* ENTRY 2000df85 | gCPlayerMemory_PS::GetTutorialFlags | STATUS decompiled | 6 ms */
+
+/* public: unsigned long const & __thiscall gCPlayerMemory_PS::GetTutorialFlags(void)const  */
+
+ulong * __thiscall gCPlayerMemory_PS::GetTutorialFlags(gCPlayerMemory_PS *this)
+
+{
+                    /* 0xdf85  4638  ?GetTutorialFlags@gCPlayerMemory_PS@@QBEABKXZ */
+  return &this[1].gCPlayerMemory_PS_data.offset_0x28;
+}
+
+

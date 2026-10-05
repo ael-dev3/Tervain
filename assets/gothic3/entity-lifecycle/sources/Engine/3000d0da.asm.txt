@@ -1,0 +1,4 @@
+; 3000d0da ??0eCSpatialEntity@@IAE@ABV0@@Z
+3000d0da | e941fc4a00 | JMP 0x304bcd20
+; 3000d0e9 eCPointLight_PS::SupportsRenderDebugOutput
+; 3000d0e9 Ordinal_14746

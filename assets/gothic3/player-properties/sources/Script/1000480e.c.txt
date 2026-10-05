@@ -1,0 +1,12 @@
+/* ENTRY 1000480e | PSPlayerMemory::IsValid | STATUS decompiled | 2 ms */
+
+/* public: bool __thiscall PSPlayerMemory::IsValid(void)const  */
+
+bool __thiscall PSPlayerMemory::IsValid(PSPlayerMemory *this)
+
+{
+                    /* 0x480e  1846  ?IsValid@PSPlayerMemory@@QBE_NXZ */
+  return *(int *)this != 0;
+}
+
+

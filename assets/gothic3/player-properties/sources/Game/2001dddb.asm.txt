@@ -1,0 +1,2 @@
+; 2001dddb ?ApplyMod@gCPlayerMemory_PS@@QAE_NABVbCString@@HW4EAttribModOperation@@@Z
+2001dddb | e9f0fb2f00 | JMP 0x2031d9d0

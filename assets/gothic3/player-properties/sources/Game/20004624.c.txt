@@ -1,0 +1,16 @@
+/* ENTRY 20004624 | gCPlayerMemory_PS::GetAttributes | STATUS decompiled | 11 ms */
+
+/* public: class bTObjMap<class bCString,class gCAttribute *> const & __thiscall
+   gCPlayerMemory_PS::GetAttributes(void)const  */
+
+bTObjMap<bCString,gCAttribute*> * __thiscall
+gCPlayerMemory_PS::GetAttributes(gCPlayerMemory_PS *this)
+
+{
+                    /* 0x4624  2949
+                       ?GetAttributes@gCPlayerMemory_PS@@QBEABV?$bTObjMap@VbCString@@PAVgCAttribute@@@@XZ
+                        */
+  return (bTObjMap<bCString,gCAttribute*> *)&this[1].gCPlayerMemory_PS_data.offset_0x38;
+}
+
+

@@ -1,0 +1,4 @@
+; 10003670 ?GetAlchemy@PSPlayerMemory@@QBEHXZ
+10003670 | e97b650200 | JMP 0x10029bf0
+; 10003675 PSNavigation::PropertyIsOnDestination::operator=
+; 10003675 Ordinal_457

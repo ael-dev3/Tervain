@@ -1,0 +1,63 @@
+/* ENTRY 1007d060 | FUN_1007d060 | STATUS decompiled | 39 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined4 FUN_1007d060(int *param_1,gCScriptProcessingUnit *param_2)
+
+{
+  eCEntity *peVar1;
+  int iVar2;
+  Entity aEStack_354 [160];
+  undefined4 uStack_2b4;
+  Entity aEStack_2ac [156];
+  undefined4 uStack_210;
+  Entity local_1f8 [20];
+  PSFocus local_1e4 [4];
+  PSFocus local_1e0 [24];
+  PSNpc local_1c8 [112];
+  Entity aEStack_158 [4];
+  Entity local_154 [4];
+  undefined1 local_150 [160];
+  Entity aEStack_b0 [4];
+  Entity local_ac [4];
+  Entity local_a8 [168];
+  
+  peVar1 = gCScriptProcessingUnit::GetSelfEntity(param_2);
+  Entity::Entity(local_1f8,peVar1);
+  peVar1 = gCScriptProcessingUnit::GetTargetEntity(param_2);
+  Entity::Entity(local_a8,peVar1);
+  if ((_DAT_102223a8 & 1) == 0) {
+    _DAT_102223a8 = _DAT_102223a8 | 1;
+    DAT_102223a0 = DAT_102223a4;
+    DAT_102223a4 = DAT_102223a4 + 1;
+  }
+  if (*(int *)(*param_1 + -0x18 + param_1[1] * 0x18) <= DAT_102223a0) {
+    *(int *)(*param_1 + -0x18 + param_1[1] * 0x18) = DAT_102223a0 + 1;
+    uStack_210 = 0x1007d101;
+    PSFocus::GetFocusEntity(local_1e0,(gECombatMode)local_150,1);
+    PSFocus::SetFocusEntity(local_1e4,local_154);
+    PSNpc::SetCurrentTarget(local_1c8,local_154);
+    uStack_2b4 = 0x1007d13d;
+    Entity::Entity(aEStack_2ac,local_154);
+    Entity::Entity(aEStack_354,(Entity *)&stack0xfffffe04);
+    thunk_FUN_10012460();
+    uStack_2b4 = 0x1007d16b;
+    Entity::Entity(aEStack_2ac,(Entity *)&stack0xfffffe04);
+    iVar2 = thunk_FUN_1000cf80();
+    if (iVar2 == 0x36) {
+      uStack_210 = 0x1007d1ad;
+      bCString::bCString((bCString *)&stack0xfffffdf8,"PS_Ghost_Jump");
+      PSRoutine::SetState((PSRoutine *)local_1f8);
+      Entity::~Entity(aEStack_158);
+      Entity::~Entity(aEStack_b0);
+      Entity::~Entity((Entity *)&stack0xfffffe00);
+      return 1;
+    }
+    Entity::~Entity(local_154);
+  }
+  Entity::~Entity(local_ac);
+  Entity::~Entity((Entity *)&stack0xfffffe04);
+  return 1;
+}
+
+

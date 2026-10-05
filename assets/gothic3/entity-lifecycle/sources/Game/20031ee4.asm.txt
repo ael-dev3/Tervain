@@ -1,0 +1,4 @@
+; 20031ee4 ?GetPropertySetType@gCInteraction_PS@@UBE?AW4eEPropertySetType@@XZ
+20031ee4 | e977203d00 | JMP 0x20403f60
+; 20031ee9 gCScriptAdmin::GetScriptDLLWithFunction
+; 20031ee9 Ordinal_4386

@@ -1,0 +1,28 @@
+/* ENTRY 1000bae0 | FUN_1000bae0 | STATUS decompiled | 13 ms */
+
+undefined4 FUN_1000bae0(void)
+
+{
+  bool bVar1;
+  Entity aEStack_154 [160];
+  undefined4 uStack_b4;
+  Entity local_a8 [64];
+  PSCharacterControl local_68 [104];
+  
+  bVar1 = Entity::IsAlternateCameraEnabled();
+  if (bVar1) {
+    uStack_b4 = 0x1000bb05;
+    Entity::Entity(local_a8,(Entity *)&stack0x00000004);
+    uStack_b4 = 0x1000bb19;
+    PSCharacterControl::SetMovementConstraints(local_68,360.0);
+    Entity::~Entity(local_a8);
+    Entity::~Entity((Entity *)&stack0x00000004);
+    return 1;
+  }
+  Entity::Entity(aEStack_154,(Entity *)&stack0x00000004);
+  thunk_FUN_10009600();
+  Entity::~Entity((Entity *)&stack0x00000004);
+  return 0;
+}
+
+

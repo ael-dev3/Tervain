@@ -1,0 +1,4 @@
+; 10004e44 ?SetMaximum@PSPlayerMemory@@QAEXABVbCString@@H@Z
+10004e44 | e987450200 | JMP 0x100293d0
+; 10004e49 PSLock::GetKey
+; 10004e49 Ordinal_1585

@@ -1,0 +1,21 @@
+/* ENTRY 10004b1a | PSInventory::GetItemFromSlot | STATUS decompiled | 7 ms */
+
+/* public: class Entity __thiscall PSInventory::GetItemFromSlot(enum gESlot)const  */
+
+gESlot __thiscall PSInventory::GetItemFromSlot(PSInventory *this,gESlot param_1)
+
+{
+  eCEntity *peVar1;
+  gESlot in_stack_00000008;
+  
+                    /* 0x4b1a  1584  ?GetItemFromSlot@PSInventory@@QBE?AVEntity@@W4gESlot@@@Z */
+  if (*(gCInventory_PS **)this == (gCInventory_PS *)0x0) {
+    Entity::Entity((Entity *)param_1,(eCEntity *)0x0);
+    return param_1;
+  }
+  peVar1 = gCInventory_PS::GetStackFromSlot(*(gCInventory_PS **)this,in_stack_00000008);
+  Entity::Entity((Entity *)param_1,peVar1);
+  return param_1;
+}
+
+

@@ -1,0 +1,10 @@
+/* ENTRY 10026f50 | FUN_10026f50 | STATUS decompiled | 1 ms */
+
+bool __thiscall FUN_10026f50(void *this,int param_1)
+
+{
+  *(int *)this = param_1;
+  return param_1 != 0;
+}
+
+

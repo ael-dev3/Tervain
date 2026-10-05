@@ -1,0 +1,17 @@
+/* ENTRY 1014fe00 | FUN_1014fe00 | STATUS decompiled | 6 ms */
+
+void FUN_1014fe00(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\PS_HUD.cpp");
+  bCString::bCString(local_8,"OnPlayerAssignStackKey");
+  thunk_FUN_10017a50(local_8,&LAB_10002725,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

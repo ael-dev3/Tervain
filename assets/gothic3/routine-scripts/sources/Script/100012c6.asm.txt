@@ -1,0 +1,4 @@
+; 100012c6 ?SetMovementConstraints@PSCharacterControl@@QAEXM@Z
+100012c6 | e975ff0000 | JMP 0x10011240
+; 100012cb PSRigidBody::PSRigidBody
+; 100012cb Ordinal_119

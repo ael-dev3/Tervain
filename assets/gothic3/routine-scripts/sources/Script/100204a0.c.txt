@@ -1,0 +1,17 @@
+/* ENTRY 100204a0 | FUN_100204a0 | STATUS decompiled | 5 ms */
+
+bool __thiscall FUN_100204a0(void *this,gEStatusEffect param_1)
+
+{
+  bool bVar1;
+  
+  if (*(gCNPC_PS **)this != (gCNPC_PS *)0x0) {
+                    /* WARNING: Could not recover jumptable at 0x100204a6. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    bVar1 = gCNPC_PS::HasStatusEffect(*(gCNPC_PS **)this,param_1);
+    return bVar1;
+  }
+  return false;
+}
+
+

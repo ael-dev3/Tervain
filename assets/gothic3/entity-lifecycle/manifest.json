@@ -1,0 +1,24 @@
+{
+  "schema": "gothic3-entity-lifecycle-manifest-v1",
+  "inputs": {
+    "Engine": "d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3",
+    "Game": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+    "SharedBase": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214"
+  },
+  "sourceCandidates": {
+    "path": "source-candidates.json.gz",
+    "bytes": 1906531,
+    "sha256": "b840e64d234351fcda5311cc58a018e86890c3a5c07ecec8b0834a724cfc3f2c",
+    "encoding": "gzip",
+    "uncompressedBytes": 17749501,
+    "uncompressedSha256": "314e53da18bd7fa3266954c2f7c573b028c42b6caa6cb9157693c4091fcc950b"
+  },
+  "sourceCandidatesAreLiveEntities": false,
+  "originalResourceReceipt": {
+    "path": "assets/gothic3/entity-lifecycle/original-resources.json",
+    "bytes": 148551,
+    "sha256": "e6f2e209d0f47ed260edea734ed38d140993e967b45f9efab227dff906e0677e"
+  },
+  "nativeCodeExecuted": false,
+  "runtimeActivationAsserted": false
+}

@@ -1,0 +1,2 @@
+; 3002059f ?AttachChild@eCNode@@UAEHPAV1@@Z
+3002059f | e94c054600 | JMP 0x30480af0

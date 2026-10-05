@@ -1,0 +1,12 @@
+/* ENTRY 20023cef | gCSession::IsGameRunning | STATUS decompiled | 4 ms */
+
+/* public: bool const __thiscall gCSession::IsGameRunning(void)const  */
+
+bool __thiscall gCSession::IsGameRunning(gCSession *this)
+
+{
+                    /* 0x23cef  5156  ?IsGameRunning@gCSession@@QBE?B_NXZ */
+  return (bool)(this->gCSession_data).offset_0xe4;
+}
+
+

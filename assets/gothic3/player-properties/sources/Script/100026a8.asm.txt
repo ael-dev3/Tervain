@@ -1,0 +1,4 @@
+; 100026a8 ?GetHitPoints@PSPlayerMemory@@QBEHXZ
+100026a8 | e9936d0200 | JMP 0x10029440
+; 100026ad PSEffect::AttachTo
+; 100026ad Ordinal_1316

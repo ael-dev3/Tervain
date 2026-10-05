@@ -1,0 +1,14 @@
+/* ENTRY 20031ee4 | gCInteraction_PS::GetPropertySetType | STATUS decompiled | 5 ms */
+
+/* public: virtual enum eEPropertySetType __thiscall gCInteraction_PS::GetPropertySetType(void)const
+    */
+
+eEPropertySetType __thiscall gCInteraction_PS::GetPropertySetType(gCInteraction_PS *this)
+
+{
+                    /* 0x31ee4  4068
+                       ?GetPropertySetType@gCInteraction_PS@@UBE?AW4eEPropertySetType@@XZ */
+  return 0x31;
+}
+
+

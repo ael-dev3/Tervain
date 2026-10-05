@@ -1,0 +1,17 @@
+/* ENTRY 10165310 | FUN_10165310 | STATUS decompiled | 7 ms */
+
+void FUN_10165310(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Routine\\Routine_Tasks\\ZS_Smalltalk.cpp");
+  bCString::bCString(local_8,"ZS_Smalltalk_Partner_Loop");
+  thunk_FUN_1001db60(local_8,&LAB_10002991,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

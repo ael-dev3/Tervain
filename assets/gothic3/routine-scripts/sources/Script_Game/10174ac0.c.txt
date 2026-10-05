@@ -1,0 +1,17 @@
+/* ENTRY 10174ac0 | FUN_10174ac0 | STATUS decompiled | 7 ms */
+
+void FUN_10174ac0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Engine\\Engine_Callback\\OnTick.cpp");
+  bCString::bCString(local_8,"OnEnclaveSectorRefresh");
+  thunk_FUN_10017a50(local_8,thunk_FUN_100d3730,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

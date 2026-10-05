@@ -1,0 +1,18 @@
+304b22f0 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+304b22f4 | 8b09 | MOV ECX,dword ptr [ECX]
+304b22f6 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+304b22fa | 8b11 | MOV EDX,dword ptr [ECX]
+304b22fc | 56 | PUSH ESI
+304b22fd | 8b30 | MOV ESI,dword ptr [EAX]
+304b22ff | 8b4260 | MOV EAX,dword ptr [EDX + 0x60]
+304b2302 | 57 | PUSH EDI
+304b2303 | ffd0 | CALL EAX
+304b2305 | 8b16 | MOV EDX,dword ptr [ESI]
+304b2307 | 8bf8 | MOV EDI,EAX
+304b2309 | 8b4260 | MOV EAX,dword ptr [EDX + 0x60]
+304b230c | 8bce | MOV ECX,ESI
+304b230e | ffd0 | CALL EAX
+304b2310 | 2bc7 | SUB EAX,EDI
+304b2312 | 5f | POP EDI
+304b2313 | 5e | POP ESI
+304b2314 | c3 | RET

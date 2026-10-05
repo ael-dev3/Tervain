@@ -1,0 +1,4 @@
+; 10001c1c ?SetProtectionLightning@PSPlayerMemory@@QAEXH@Z
+10001c1c | e9df860200 | JMP 0x1002a300
+; 10001c21 PSProjectile::IsFlying
+; 10001c21 Ordinal_1759

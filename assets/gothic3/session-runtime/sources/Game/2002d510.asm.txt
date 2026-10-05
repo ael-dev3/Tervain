@@ -1,0 +1,2 @@
+; 2002d510 ?Invalidate@gCSession@@QAEXXZ
+2002d510 | e92b523400 | JMP 0x20372740

@@ -1,0 +1,4 @@
+; 1000480e ?IsValid@PSPlayerMemory@@QBE_NXZ
+1000480e | e93d700000 | JMP 0x1000b850
+; 10004813 PSNavigation::PropertyCurrentAniDirection::operator=
+; 10004813 Ordinal_333

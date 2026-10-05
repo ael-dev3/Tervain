@@ -1,0 +1,4 @@
+; 2001708f ?OnPostRead@gCNavigation_PS@@UAEXXZ
+2001708f | e91c382700 | JMP 0x2028a8b0
+; 20017094 gCMagicBarrier_PS::Invalidate
+; 20017094 Ordinal_5013

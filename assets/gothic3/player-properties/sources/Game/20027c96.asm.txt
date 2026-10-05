@@ -1,0 +1,2 @@
+; 20027c96 ?GetMaximum@gCStat@@UBEHXZ
+20027c96 | e945323700 | JMP 0x2039aee0

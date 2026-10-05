@@ -1,0 +1,4 @@
+; 100022a7 ?SetGameEvent@PSPlayerMemory@@QAE_NABVbCString@@@Z
+100022a7 | e934650200 | JMP 0x100287e0
+; 100022ac PSRecipe::AttachTo
+; 100022ac Ordinal_1354

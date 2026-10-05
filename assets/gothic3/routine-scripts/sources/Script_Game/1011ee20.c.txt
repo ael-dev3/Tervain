@@ -1,0 +1,17 @@
+/* ENTRY 1011ee20 | FUN_1011ee20 | STATUS decompiled | 8 ms */
+
+void FUN_1011ee20(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Perception\\AssessBody.cpp");
+  bCString::bCString(local_8,"AssessBody");
+  thunk_FUN_10017a50(local_8,&LAB_10002162,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

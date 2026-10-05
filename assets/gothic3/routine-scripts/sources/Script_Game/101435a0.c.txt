@@ -1,0 +1,17 @@
+/* ENTRY 101435a0 | FUN_101435a0 | STATUS decompiled | 7 ms */
+
+void FUN_101435a0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Magic\\Magic_Spells\\MagicAdanos.cpp");
+  bCString::bCString(local_8,"MagicHeatWave");
+  thunk_FUN_10017a50(local_8,&LAB_100011a9,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

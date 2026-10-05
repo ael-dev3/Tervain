@@ -1,0 +1,17 @@
+/* ENTRY 100293a0 | FUN_100293a0 | STATUS decompiled | 3 ms */
+
+int __thiscall FUN_100293a0(void *this,bCString *param_1)
+
+{
+  int iVar1;
+  
+  if (*(gCPlayerMemory_PS **)this != (gCPlayerMemory_PS *)0x0) {
+                    /* WARNING: Could not recover jumptable at 0x100293a6. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+    iVar1 = gCPlayerMemory_PS::GetBaseValue(*(gCPlayerMemory_PS **)this,param_1);
+    return iVar1;
+  }
+  return 0;
+}
+
+

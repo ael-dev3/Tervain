@@ -1,0 +1,4 @@
+; 300210c1 ?Read@eCSpatialEntity@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+300210c1 | e92ab84900 | JMP 0x304bc8f0
+; 300210c6 eCTitleBarCtrl::~eCTitleBarCtrl
+; 300210c6 Ordinal_1351

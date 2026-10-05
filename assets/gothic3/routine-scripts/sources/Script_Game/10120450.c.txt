@@ -1,0 +1,17 @@
+/* ENTRY 10120450 | FUN_10120450 | STATUS decompiled | 7 ms */
+
+void FUN_10120450(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Perception\\AssessDoor.cpp");
+  bCString::bCString(local_8,"AssessDoor");
+  thunk_FUN_10017a50(local_8,thunk_FUN_1003aee0,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 10002b67 ?SetCollisionGroup@Entity@@QAEXW4eECollisionGroup@@@Z
+10002b67 | e994d60200 | JMP 0x10030200

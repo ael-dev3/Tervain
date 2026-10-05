@@ -1,0 +1,16 @@
+/* ENTRY 304b2f30 | FUN_304b2f30 | STATUS decompiled | 6 ms */
+
+void __fastcall FUN_304b2f30(int param_1)
+
+{
+  if (*(eCEntityProxyInternal **)(param_1 + 0x18c) != (eCEntityProxyInternal *)0x0) {
+    eCEntityProxyInternal::SetEntity(*(eCEntityProxyInternal **)(param_1 + 0x18c),(eCEntity *)0x0);
+    if (*(eCEntityProxyInternal **)(param_1 + 0x18c) != (eCEntityProxyInternal *)0x0) {
+      eCEntityProxyInternal::ReleaseReference(*(eCEntityProxyInternal **)(param_1 + 0x18c));
+      *(undefined4 *)(param_1 + 0x18c) = 0;
+    }
+  }
+  return;
+}
+
+

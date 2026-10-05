@@ -1,0 +1,4 @@
+; 100027de ?OnNotifyPropertyValueChangedExitEx@bCObjectRefBase@@UAE_NPBD_N@Z
+100027de | e9bd7b0400 | JMP 0x1004a3a0
+; 100027e3 bCMatrix3::SetRow
+; 100027e3 Ordinal_4323

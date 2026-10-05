@@ -1,0 +1,39 @@
+/* ENTRY 200093b3 | gCNavPath_PS::Create | STATUS decompiled | 23 ms */
+
+/* public: virtual enum bEResult __thiscall gCNavPath_PS::Create(void) */
+
+bEResult __thiscall gCNavPath_PS::Create(gCNavPath_PS *this)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  bool bVar2;
+  
+                    /* 0x93b3  2378  ?Create@gCNavPath_PS@@UAE?AW4bEResult@@XZ */
+  bVar2 = (*this->vftablePtr->IsValid)(this);
+  if (!bVar2) {
+    (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"TopToleranz",false);
+    pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+    *(undefined4 *)&(this->gCNavPath_PS_data).field_0x9c = 0x43160000;
+    (*pNVar1)(this,"TopToleranz",false);
+    (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"BottomToleranz",false);
+    pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+    *(undefined4 *)&(this->gCNavPath_PS_data).field_0xa0 = 0x42c80000;
+    (*pNVar1)(this,"BottomToleranz",false);
+    (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"LinkInnerArea",false);
+    pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+    (this->gCNavPath_PS_data).field_0xa4 = 0;
+    (*pNVar1)(this,"LinkInnerArea",false);
+    (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"LinkInnerTopArea",false);
+    pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+    (this->gCNavPath_PS_data).field_0xa5 = 0;
+    (*pNVar1)(this,"LinkInnerTopArea",false);
+    (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"LinkInnerBottomArea",false);
+    pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+    (this->gCNavPath_PS_data).field_0xa6 = 0;
+    (*pNVar1)(this,"LinkInnerBottomArea",false);
+    eCEntityPropertySet::Create((eCEntityPropertySet *)this);
+  }
+  return 1;
+}
+
+

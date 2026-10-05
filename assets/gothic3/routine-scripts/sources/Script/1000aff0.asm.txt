@@ -1,0 +1,3 @@
+; 1000aff0 FUN_1000aff0
+1000aff0 | 8bc1 | MOV EAX,ECX
+1000aff2 | c20400 | RET 0x4

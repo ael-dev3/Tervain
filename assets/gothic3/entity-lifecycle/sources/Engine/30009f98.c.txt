@@ -1,0 +1,21 @@
+/* ENTRY 30009f98 | eCNode::IsValid | STATUS decompiled | 3 ms */
+
+/* public: virtual bool __thiscall eCNode::IsValid(void)const 
+   eCNode member function inherited by eCEntity
+   eCNode member function inherited by eCSpatialEntity
+   eCNode member function inherited by eCDynamicEntity
+   eCNode member function inherited by eCTemplateEntity */
+
+bool __thiscall eCNode::IsValid(eCNode *this)
+
+{
+  bool bVar1;
+  
+                    /* 0x9f98  10649  ?IsValid@eCNode@@UBE_NXZ */
+                    /* WARNING: Could not recover jumptable at 0x304805e3. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bVar1 = bCPropertyID::IsValid((bCPropertyID *)&(this->eCNode_data).field_0x14);
+  return bVar1;
+}
+
+

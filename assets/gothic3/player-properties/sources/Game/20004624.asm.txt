@@ -1,0 +1,2 @@
+; 20004624 ?GetAttributes@gCPlayerMemory_PS@@QBEABV?$bTObjMap@VbCString@@PAVgCAttribute@@@@XZ
+20004624 | e9178e3100 | JMP 0x2031d440

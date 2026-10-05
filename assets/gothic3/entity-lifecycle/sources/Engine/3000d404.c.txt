@@ -1,0 +1,27 @@
+/* ENTRY 3000d404 | eCContextBase::Enable | STATUS decompiled | 18 ms */
+
+/* public: void __thiscall eCContextBase::Enable(bool) */
+
+void __thiscall eCContextBase::Enable(eCContextBase *this,bool param_1)
+
+{
+  eCEntity *this_00;
+  eCRenderSystemAdmin *this_01;
+  eCPVSPrefetcher3 *this_02;
+  
+                    /* 0xd404  5753  ?Enable@eCContextBase@@QAEX_N@Z */
+  this_00 = (eCEntity *)(this->eCContextBase_data).offset_0x3c;
+  (this->eCContextBase_data).offset_0x41 = param_1;
+  if (this_00 != (eCEntity *)0x0) {
+    if (!param_1) {
+      eCEntity::CacheOut(this_00,true,false);
+    }
+    eCEntity::Enable(this_00,param_1);
+  }
+  this_01 = (eCRenderSystemAdmin *)thunk_FUN_3007beb0();
+  this_02 = (eCPVSPrefetcher3 *)eCRenderSystemAdmin::GetPVSPrefetcher3(this_01);
+  eCPVSPrefetcher3::ForcePrefetch(this_02);
+  return;
+}
+
+

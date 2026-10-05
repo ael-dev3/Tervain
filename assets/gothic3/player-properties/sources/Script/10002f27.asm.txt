@@ -1,0 +1,4 @@
+; 10002f27 ?GetBaseValue@PSPlayerMemory@@QBEHABVbCString@@@Z
+10002f27 | e974640200 | JMP 0x100293a0
+; 10002f2c PSNpc::SetAlternativeTarget
+; 10002f2c Ordinal_1923

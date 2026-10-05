@@ -1,0 +1,9 @@
+/* ENTRY 20048640 | FUN_20048640 | STATUS decompiled | 1 ms */
+
+byte __fastcall FUN_20048640(int param_1)
+
+{
+  return *(byte *)(param_1 + 0xd0) & 1;
+}
+
+

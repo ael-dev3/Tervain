@@ -1,0 +1,166 @@
+/* ENTRY 100194c0 | FUN_100194c0 | STATUS decompiled | 127 ms */
+
+int FUN_100194c0(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  bool bVar2;
+  eCEntity *peVar3;
+  gENPCType gVar4;
+  int iVar5;
+  gEAIMode gVar6;
+  Entity *this;
+  Entity *pEVar7;
+  gEPartyMemberType gVar8;
+  code *pcVar9;
+  Entity local_350 [3];
+  char cStack_34d;
+  undefined4 local_34c;
+  Entity local_348 [44];
+  PSNavigation local_31c [4];
+  PropertyType local_318 [28];
+  PSParty local_2fc [8];
+  PSParty aPStack_2f4 [68];
+  Entity local_2b0 [8];
+  Entity local_2a8 [4];
+  Entity local_2a4 [4];
+  Entity local_2a0 [44];
+  PSNavigation local_274 [36];
+  PSParty local_250 [4];
+  PropertyPartyMemberType aPStack_24c [4];
+  PSParty aPStack_248 [72];
+  Entity local_200 [4];
+  Entity local_1fc [164];
+  Entity local_158 [4];
+  Entity aEStack_154 [4];
+  Entity aEStack_150 [160];
+  Entity local_b0 [4];
+  Entity local_ac [4];
+  Entity aEStack_a8 [164];
+  undefined4 local_4;
+  
+  local_34c = 0;
+  Entity::Entity(local_348);
+  if (param_2 == (Entity *)0x0) {
+    peVar3 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_348,peVar3);
+  }
+  else {
+    Entity::operator=(local_348,param_2);
+  }
+  Entity::Entity(local_2a0);
+  if (param_3 == (Entity *)0x0) {
+    peVar3 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_2a0,peVar3);
+  }
+  else {
+    Entity::operator=(local_2a0,param_3);
+  }
+  bVar1 = Entity::operator==((Entity *)None_exref,local_348);
+  pcVar9 = ~Entity_exref;
+  if ((bVar1) ||
+     (bVar1 = Entity::operator==((Entity *)None_exref,local_2a0), pcVar9 = ~Entity_exref, bVar1)) {
+LAB_100198f5:
+    (*pcVar9)();
+    (*pcVar9)();
+    return 0;
+  }
+  Entity::GetPlayer();
+  bVar1 = Entity::operator==(local_1fc,(Entity *)&local_34c);
+  if ((bVar1) ||
+     ((bVar1 = PSNavigation::IsValid(local_31c), !bVar1 ||
+      (bVar1 = PSNavigation::IsValid(local_274), !bVar1)))) {
+    pcVar9 = ~Entity_exref;
+    Entity::~Entity(local_1fc);
+    goto LAB_100198f5;
+  }
+  bVar1 = Entity::HasCopyCheckFailed();
+  if (bVar1) {
+LAB_100195e3:
+    Entity::~Entity(local_1fc);
+    Entity::~Entity(local_2a4);
+    Entity::~Entity((Entity *)&local_34c);
+    return 4;
+  }
+  gVar4 = PSNpc::PropertyType::operator_enum_gENPCType(local_318);
+  if (gVar4 == 3) {
+    iVar5 = thunk_FUN_100194c0(param_1,local_2a4,local_1fc,0);
+    if (iVar5 == 4) goto LAB_100195e3;
+    pcVar9 = ~Entity_exref;
+    if (iVar5 == 1) goto LAB_1001964a;
+  }
+  gVar6 = PSRoutine::PropertyAIMode::operator_enum_gEAIMode((PropertyAIMode *)local_348);
+  pcVar9 = ~Entity_exref;
+  if (gVar6 == 4) {
+    pEVar7 = local_ac;
+    this = (Entity *)PSNpc::GetCurrentTarget((PSNpc *)local_318);
+    bVar1 = Entity::operator==(this,pEVar7);
+    Entity::~Entity(local_b0);
+    if (bVar1) {
+      Entity::~Entity(local_200);
+      Entity::~Entity(local_2a8);
+      Entity::~Entity(local_350);
+      return 6;
+    }
+  }
+  iVar5 = thunk_FUN_10018070(param_1,local_350,local_2a8,0);
+  if ((iVar5 != 0) || (iVar5 = thunk_FUN_100188c0(local_4,local_350,local_2a8,0), iVar5 != 0))
+  goto LAB_100198b8;
+  bVar1 = false;
+  pEVar7 = (Entity *)PSParty::GetPartyLeader(local_250);
+  bVar2 = Entity::operator==((Entity *)&stack0xfffffcac,pEVar7);
+  if (bVar2) {
+LAB_1001976f:
+    cStack_34d = '\x01';
+  }
+  else {
+    bVar1 = true;
+    pEVar7 = (Entity *)PSParty::GetPartyLeader(local_2fc);
+    bVar2 = Entity::operator==(local_2b0,pEVar7);
+    if (bVar2) goto LAB_1001976f;
+  }
+  if (bVar1) {
+    Entity::~Entity(aEStack_a8);
+  }
+  Entity::~Entity(aEStack_150);
+  if (cStack_34d != '\0') {
+LAB_1001964a:
+    (*pcVar9)();
+    (*pcVar9)();
+    (*pcVar9)();
+    return 1;
+  }
+  pEVar7 = (Entity *)PSParty::GetPartyLeader(aPStack_248);
+  bVar1 = Entity::operator==(local_1fc,pEVar7);
+  Entity::~Entity(aEStack_154);
+  if (bVar1) {
+    gVar8 = PSParty::PropertyPartyMemberType::operator_enum_gEPartyMemberType(aPStack_24c);
+    if (gVar8 != 5) {
+LAB_10019801:
+      Entity::~Entity(local_200);
+      Entity::~Entity(local_2a8);
+      Entity::~Entity(local_350);
+      return 2;
+    }
+    pEVar7 = (Entity *)PSParty::GetPartyLeader(aPStack_2f4);
+    bVar1 = Entity::operator==(local_200,pEVar7);
+    Entity::~Entity(local_158);
+    if (bVar1) goto LAB_10019801;
+  }
+  bVar1 = Entity::operator==(local_200,local_2a8);
+  if (((bVar1) && (iVar5 = thunk_FUN_10018c10(local_4,local_350,None_exref,0), iVar5 != 0)) ||
+     (iVar5 = thunk_FUN_100183e0(local_4,local_350,local_2a8,0), iVar5 != 0)) {
+    Entity::~Entity(local_200);
+    Entity::~Entity(local_2a8);
+    Entity::~Entity(local_350);
+    return iVar5;
+  }
+  iVar5 = thunk_FUN_10019050(local_4,local_350,local_2a8,0);
+LAB_100198b8:
+  Entity::~Entity(local_200);
+  Entity::~Entity(local_2a8);
+  Entity::~Entity(local_350);
+  return iVar5;
+}
+
+

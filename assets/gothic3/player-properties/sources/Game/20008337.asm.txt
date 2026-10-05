@@ -1,0 +1,2 @@
+; 20008337 ?GetChapter@gCPlayerMemory_PS@@QBEABJXZ
+20008337 | e964250a00 | JMP 0x200aa8a0

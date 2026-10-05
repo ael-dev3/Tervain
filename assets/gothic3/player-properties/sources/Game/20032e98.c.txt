@@ -1,0 +1,18 @@
+/* ENTRY 20032e98 | gCPlayerMemory_PS::SetLPAttribs | STATUS decompiled | 10 ms */
+
+/* public: void __thiscall gCPlayerMemory_PS::SetLPAttribs(long const &) */
+
+void __thiscall gCPlayerMemory_PS::SetLPAttribs(gCPlayerMemory_PS *this,long *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x32e98  6624  ?SetLPAttribs@gCPlayerMemory_PS@@QAEXABJ@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"LPAttribs",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(long *)&(this->gCPlayerMemory_PS_data).field_0x54 = *param_1;
+  (*pNVar1)(this,"LPAttribs",false);
+  return;
+}
+
+

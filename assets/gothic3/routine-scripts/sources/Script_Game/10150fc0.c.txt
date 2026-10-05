@@ -1,0 +1,17 @@
+/* ENTRY 10150fc0 | FUN_10150fc0 | STATUS decompiled | 7 ms */
+
+void FUN_10150fc0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\PS_Interact.cpp");
+  bCString::bCString(local_8,"PS_Interact_End");
+  thunk_FUN_1001db60(local_8,&LAB_10002d10,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

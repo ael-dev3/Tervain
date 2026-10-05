@@ -1,0 +1,14 @@
+/* ENTRY 20461c94 | ENGINE.DLL::eCApplication::IsEditorRunning | STATUS decompiled | 1 ms */
+
+bool __thiscall eCApplication::IsEditorRunning(eCApplication *this)
+
+{
+  bool bVar1;
+  
+                    /* WARNING: Could not recover jumptable at 0x20461c94. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bVar1 = IsEditorRunning(this);
+  return bVar1;
+}
+
+

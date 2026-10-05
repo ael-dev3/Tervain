@@ -1,0 +1,17 @@
+/* ENTRY 10150180 | FUN_10150180 | STATUS decompiled | 6 ms */
+
+void FUN_10150180(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\PS_HUD.cpp");
+  bCString::bCString(local_8,"PlayerOpenSkills");
+  thunk_FUN_10017a50(local_8,thunk_FUN_10080400,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

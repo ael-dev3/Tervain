@@ -1,0 +1,13 @@
+/* ENTRY 30028cfe | eCNode::Create | STATUS decompiled | 5 ms */
+
+/* public: virtual enum bEResult __thiscall eCNode::Create(void) */
+
+bEResult __thiscall eCNode::Create(eCNode *this)
+
+{
+                    /* 0x28cfe  4584  ?Create@eCNode@@UAE?AW4bEResult@@XZ */
+  bCObjectRefBase::Create((bCObjectRefBase *)this);
+  return 1;
+}
+
+

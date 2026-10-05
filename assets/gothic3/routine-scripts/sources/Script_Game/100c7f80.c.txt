@@ -1,0 +1,74 @@
+/* ENTRY 100c7f80 | FUN_100c7f80 | STATUS decompiled | 82 ms */
+
+undefined4 FUN_100c7f80(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  int iVar3;
+  Entity *this;
+  gEClass gVar4;
+  uint unaff_EBP;
+  Entity *pEVar5;
+  Entity local_2a8 [8];
+  Entity local_2a0 [28];
+  PSInventory local_284 [16];
+  PropertyClass local_274 [116];
+  Entity local_200 [8];
+  Entity local_1f8 [160];
+  Entity local_158 [168];
+  Entity local_b0 [8];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_2a0);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_2a0,peVar2);
+  }
+  else {
+    Entity::operator=(local_2a0,param_2);
+  }
+  Entity::Entity(local_1f8);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_1f8,peVar2);
+  }
+  else {
+    Entity::operator=(local_1f8,param_3);
+  }
+  pEVar5 = local_a8;
+  iVar3 = Entity::GetPlayer();
+  this = (Entity *)PSParty::GetPartyLeader((PSParty *)(iVar3 + 0x58));
+  bVar1 = Entity::operator==(this,pEVar5);
+  Entity::~Entity(local_158);
+  Entity::~Entity(local_b0);
+  if (bVar1) {
+    Entity::~Entity(local_200);
+    Entity::~Entity(local_2a8);
+    return 1;
+  }
+  gVar4 = PSNpc::PropertyClass::operator_enum_gEClass(local_274);
+  if ((gVar4 != 1) && (gVar4 = PSNpc::PropertyClass::operator_enum_gEClass(local_274), gVar4 != 2))
+  {
+    Template::Template((Template *)&stack0xfffffd44,"It_Potion_Health");
+    unaff_EBP = 1;
+    bVar1 = PSInventory::HasItems(local_284,(Template *)&stack0xfffffd44,1);
+    if (!bVar1) {
+      bVar1 = false;
+      goto LAB_100c80c1;
+    }
+  }
+  bVar1 = true;
+LAB_100c80c1:
+  if ((unaff_EBP & 1) != 0) {
+    Template::~Template((Template *)&stack0xfffffd44);
+  }
+  Entity::~Entity(local_200);
+  Entity::~Entity(local_2a8);
+  if (bVar1) {
+    return 1;
+  }
+  return 0;
+}
+
+

@@ -1,0 +1,4 @@
+; 10002752 ??4PropertyIsConsumingItem@PSPlayerMemory@@QAEAAV01@AB_N@Z
+10002752 | e9795d0200 | JMP 0x100284d0
+; 10002757 PSParticle::PropertyFadeIn::operator_bool
+; 10002757 Ordinal_979

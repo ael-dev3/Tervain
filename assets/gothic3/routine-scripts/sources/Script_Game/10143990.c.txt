@@ -1,0 +1,17 @@
+/* ENTRY 10143990 | FUN_10143990 | STATUS decompiled | 7 ms */
+
+void FUN_10143990(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Magic\\Magic_Spells\\MagicAdanos.cpp");
+  bCString::bCString(local_8,"MagicSleep");
+  thunk_FUN_10017a50(local_8,&LAB_10002bc1,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

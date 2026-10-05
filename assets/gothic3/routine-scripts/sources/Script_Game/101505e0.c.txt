@@ -1,0 +1,17 @@
+/* ENTRY 101505e0 | FUN_101505e0 | STATUS decompiled | 5 ms */
+
+void FUN_101505e0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\PS_HUD.cpp");
+  bCString::bCString(local_8,"HasRecipes");
+  thunk_FUN_10017a50(local_8,thunk_FUN_10080da0,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

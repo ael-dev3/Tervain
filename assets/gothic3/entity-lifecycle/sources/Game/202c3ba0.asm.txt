@@ -1,0 +1,49 @@
+; 202c3ba0 FUN_202c3ba0
+202c3ba0 | 56 | PUSH ESI
+202c3ba1 | 8bf1 | MOV ESI,ECX
+202c3ba3 | 8b4648 | MOV EAX,dword ptr [ESI + 0x48]
+202c3ba6 | 85c0 | TEST EAX,EAX
+202c3ba8 | 7421 | JZ 0x202c3bcb
+202c3baa | 8b4e44 | MOV ECX,dword ptr [ESI + 0x44]
+202c3bad | 8b542408 | MOV EDX,dword ptr [ESP + 0x8]
+202c3bb1 | 8d0c81 | LEA ECX,[ECX + EAX*0x4]
+; 202c3bb4 LAB_202c3bb4
+202c3bb4 | 83e904 | SUB ECX,0x4
+202c3bb7 | 83e801 | SUB EAX,0x1
+202c3bba | 3b11 | CMP EDX,dword ptr [ECX]
+202c3bbc | 7408 | JZ 0x202c3bc6
+202c3bbe | 85c0 | TEST EAX,EAX
+202c3bc0 | 75f2 | JNZ 0x202c3bb4
+202c3bc2 | 5e | POP ESI
+202c3bc3 | c20400 | RET 0x4
+; 202c3bc6 LAB_202c3bc6
+202c3bc6 | 83f8ff | CMP EAX,-0x1
+202c3bc9 | 7506 | JNZ 0x202c3bd1
+; 202c3bcb LAB_202c3bcb
+202c3bcb | 33c0 | XOR EAX,EAX
+202c3bcd | 5e | POP ESI
+202c3bce | c20400 | RET 0x4
+; 202c3bd1 LAB_202c3bd1
+202c3bd1 | 8b4e48 | MOV ECX,dword ptr [ESI + 0x48]
+202c3bd4 | 3bc1 | CMP EAX,ECX
+202c3bd6 | 7325 | JNC 0x202c3bfd
+202c3bd8 | 2bc8 | SUB ECX,EAX
+202c3bda | 83e901 | SUB ECX,0x1
+202c3bdd | 85c9 | TEST ECX,ECX
+202c3bdf | 7e18 | JLE 0x202c3bf9
+202c3be1 | 8b5644 | MOV EDX,dword ptr [ESI + 0x44]
+202c3be4 | 03c9 | ADD ECX,ECX
+202c3be6 | 8d0482 | LEA EAX,[EDX + EAX*0x4]
+202c3be9 | 03c9 | ADD ECX,ECX
+202c3beb | 51 | PUSH ECX
+202c3bec | 8d5004 | LEA EDX,[EAX + 0x4]
+202c3bef | 52 | PUSH EDX
+202c3bf0 | 50 | PUSH EAX
+202c3bf1 | e80a091a00 | CALL 0x20464500
+202c3bf6 | 83c40c | ADD ESP,0xc
+; 202c3bf9 LAB_202c3bf9
+202c3bf9 | 834648ff | ADD dword ptr [ESI + 0x48],-0x1
+; 202c3bfd LAB_202c3bfd
+202c3bfd | b801000000 | MOV EAX,0x1
+202c3c02 | 5e | POP ESI
+202c3c03 | c20400 | RET 0x4

@@ -1,0 +1,4 @@
+; 2003014d ?CalcPathHeights@gCNavPath_PS@@QAE?AW4bEResult@@XZ
+2003014d | e92e7e2600 | JMP 0x20297f80
+; 20030161 gCScriptRoutine_PS::GetCurrentState
+; 20030161 Ordinal_3162

@@ -1,0 +1,17 @@
+/* ENTRY 1011c190 | FUN_1011c190 | STATUS decompiled | 7 ms */
+
+void FUN_1011c190(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Tasks\\Reaction_Tasks\\ZS_Talk.cpp");
+  bCString::bCString(local_8,"ZS_Talk");
+  thunk_FUN_1001db60(local_8,&LAB_10002590,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

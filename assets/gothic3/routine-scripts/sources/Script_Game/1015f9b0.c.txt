@@ -1,0 +1,17 @@
+/* ENTRY 1015f9b0 | FUN_1015f9b0 | STATUS decompiled | 6 ms */
+
+void FUN_1015f9b0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Routine\\Routine_Tasks\\ZS_HangAround.cpp");
+  bCString::bCString(local_8,"ZS_HangAround_Pee");
+  thunk_FUN_1001db60(local_8,thunk_FUN_100b49d0,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

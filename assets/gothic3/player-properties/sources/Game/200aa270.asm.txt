@@ -1,0 +1,3 @@
+; 200aa270 FUN_200aa270
+200aa270 | 8d4118 | LEA EAX,[ECX + 0x18]
+200aa273 | c3 | RET

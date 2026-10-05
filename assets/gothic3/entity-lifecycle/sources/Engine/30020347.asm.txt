@@ -1,0 +1,2 @@
+; 30020347 ?Read@eCNode@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+30020347 | e954074600 | JMP 0x30480aa0

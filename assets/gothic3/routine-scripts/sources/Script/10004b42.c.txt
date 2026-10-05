@@ -1,0 +1,29 @@
+/* ENTRY 10004b42 | PSRoutine::PropertyAIMode::operator= | STATUS decompiled | 13 ms */
+
+/* public: class PSRoutine::PropertyAIMode & __thiscall PSRoutine::PropertyAIMode::operator=(enum
+   gEAIMode const &) */
+
+PropertyAIMode * __thiscall
+PSRoutine::PropertyAIMode::operator=(PropertyAIMode *this,gEAIMode *param_1)
+
+{
+  bCObjectBase bStack_8;
+  gEAIMode gStack_4;
+  
+                    /* 0x4b42  249  ??4PropertyAIMode@PSRoutine@@QAEAAV01@ABW4gEAIMode@@@Z */
+  if (*(int *)this == 0) {
+    GE_MESSAGEF_WARN("Cannot set property \'%s\' in propertyset \'%s\'!","AIMode",
+                     "gCScriptRoutine_PS");
+    return this;
+  }
+  bCObjectBase::bCObjectBase(&bStack_8);
+  gStack_4 = *param_1;
+  bStack_8 = (bCObjectBase)&bTPropertyContainer<gEAIMode>::vftable;
+  gCScriptRoutine_PS::SetAIMode
+            (*(gCScriptRoutine_PS **)this,(bTPropertyContainer<gEAIMode> *)&bStack_8);
+  bStack_8 = (bCObjectBase)&bTPropertyContainer<gEAIMode>::vftable;
+  bCObjectBase::~bCObjectBase(&bStack_8);
+  return this;
+}
+
+

@@ -113,6 +113,9 @@ export interface NativeSPUSchedulerAccess {
   writeFrame<K extends keyof NativeAIStateFrame>(index: number, key: K, value: NativeAIStateFrame[K]): void;
   writeProperty<K extends keyof NativeRoutineProperties>(entity: NativeRoutineEntity,
     properties: NativeRoutineProperties, key: K, value: NativeRoutineProperties[K]): void;
+  /** Original Script_Game frame-stack Add/SetCount. Returns the live appended
+   * slot; an existing spare slot is deliberately not reinitialized. */
+  pushFrame(): number;
   removeFrame(index: number): void;
   record(trace: NativeRoutineTrace): void;
 }
@@ -235,6 +238,7 @@ export class NativeScriptProcessingUnit {
           check(); validateProperties({ ...properties, [key]: value });
           this.write(entity, key, value, properties);
         },
+        pushFrame: () => { check(); return this.pushSchedulerFrame(); },
         removeFrame: index => { check(); this.removeSchedulerFrame(index); },
         record: trace => { check(); this.record(trace); },
       };
@@ -243,6 +247,33 @@ export class NativeScriptProcessingUnit {
       try { return operation(access); }
       finally { live = false; this.schedulerAccess = null; }
     });
+  }
+  /** Script_Game1001d9e0 Add ->1001d8b0 SetCount. This bounded successful-moving
+   * Realloc profile copies live and spare values and invalidates old physical
+   * addresses. Native Realloc may instead retain its address; that outcome is
+   * outside this profile. Only new slots receive1001cd70 constructor defaults.
+   * Native allocator failure and stacks above65536 slots are also excluded. */
+  private pushSchedulerFrame(): number {
+    const requested = this.state.frameCount + 1, capacity = this.state.frames.length;
+    if (!i32(requested) || requested < 1 || requested > 65536) {
+      throw new Error('Frame Add exceeds the explicit finite successful-allocation profile');
+    }
+    if (capacity < requested) {
+      const growth = Math.max(4, Math.min(1024, capacity >> 3));
+      const nextCapacity = requested + growth;
+      if (nextCapacity > 65536) throw new Error('Native frame Realloc exceeds the bounded allocation profile');
+      const allocation = this.state.frames.map(frame => ({ ...frame }));
+      this.state.frames = allocation;
+      this.record({ operation: 'frame-realloc-copy', value: nextCapacity });
+      for (let i = capacity; i < nextCapacity; i++) {
+        allocation.push({ position: 0, script: '', begin: true, object: null, callback: '', timeMilliseconds: 1000 });
+        this.record({ operation: 'initialize-new-frame', value: i });
+      }
+      this.record({ operation: 'frame-capacity', value: nextCapacity });
+    }
+    this.state.frameCount = requested;
+    this.record({ operation: 'frame-count', value: requested });
+    return this.state.frameCount - 1;
   }
   private removeSchedulerFrame(index: number): void {
     if (!i32(index) || index < 0 || index >= this.state.frameCount) throw new Error('Invalid native RemoveAt index');

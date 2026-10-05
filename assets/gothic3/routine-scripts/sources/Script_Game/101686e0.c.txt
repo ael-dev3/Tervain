@@ -1,0 +1,17 @@
+/* ENTRY 101686e0 | FUN_101686e0 | STATUS decompiled | 6 ms */
+
+void FUN_101686e0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Routine\\Routine_Commands\\SelectRoutineDestination.cpp");
+  bCString::bCString(local_8,"SelectRoutineDestination");
+  thunk_FUN_10017a50(local_8,thunk_FUN_100cacf0,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

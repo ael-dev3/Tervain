@@ -1,0 +1,2 @@
+; 30028cfe ?Create@eCNode@@UAE?AW4bEResult@@XZ
+30028cfe | e9fd774500 | JMP 0x30480500

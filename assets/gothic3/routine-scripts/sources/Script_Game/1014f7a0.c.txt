@@ -1,0 +1,17 @@
+/* ENTRY 1014f7a0 | FUN_1014f7a0 | STATUS decompiled | 6 ms */
+
+void FUN_1014f7a0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Player\\Player_States\\PS_HUD.cpp");
+  bCString::bCString(local_8,"PS_HUD_UnEquip");
+  thunk_FUN_1001db60(local_8,&LAB_100016b3,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

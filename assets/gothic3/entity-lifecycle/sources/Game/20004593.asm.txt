@@ -1,0 +1,2 @@
+; 20004593 ?Create@gCNavigation_PS@@UAE?AW4bEResult@@XZ
+20004593 | e9a8192800 | JMP 0x20285f40

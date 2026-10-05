@@ -1,0 +1,4 @@
+; 2000d75b ??0gCNavPath_PS@@QAE@ABV0@@Z
+2000d75b | e950af2800 | JMP 0x202986b0
+; 2000d760 gCInventoryStack::CompareArtefact
+; 2000d760 Ordinal_2163

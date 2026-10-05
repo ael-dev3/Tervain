@@ -1,0 +1,17 @@
+/* ENTRY 1011f560 | FUN_1011f560 | STATUS decompiled | 8 ms */
+
+void FUN_1011f560(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Perception\\AssessCmdAttack.cpp");
+  bCString::bCString(local_8,"AssessCmdAttack");
+  thunk_FUN_10017a50(local_8,thunk_FUN_1003a740,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

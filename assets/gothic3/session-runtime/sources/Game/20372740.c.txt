@@ -1,0 +1,30 @@
+/* ENTRY 20372740 | FUN_20372740 | STATUS decompiled | 4 ms */
+
+void __fastcall FUN_20372740(int param_1)
+
+{
+  *(byte *)(param_1 + 0xd0) = *(byte *)(param_1 + 0xd0) & 0xf0;
+  *(undefined4 *)(param_1 + 0x1c) = 0;
+  *(undefined4 *)(param_1 + 0x24) = 0;
+  *(undefined4 *)(param_1 + 0x20) = 0;
+  *(undefined4 *)(param_1 + 0x28) = 0;
+  *(undefined4 *)(param_1 + 0x2c) = 0;
+  *(undefined4 *)(param_1 + 200) = 0;
+  *(undefined1 *)(param_1 + 0xd1) = 0;
+  *(undefined1 *)(param_1 + 0xd2) = 0;
+  *(undefined4 *)(param_1 + 0xcc) = 0;
+  *(undefined1 *)(param_1 + 0xe8) = 0;
+  *(undefined4 *)(param_1 + 0xf8) = 0;
+  *(undefined4 *)(param_1 + 0xd8) = 0;
+  *(undefined4 *)(param_1 + 0xdc) = 0;
+  *(undefined4 *)(param_1 + 0xe0) = 0;
+  *(undefined4 *)(param_1 + 0xf4) = 0;
+  *(undefined4 *)(param_1 + 0xe4) = 0;
+  *(undefined1 *)(param_1 + 0xf0) = 0;
+  *(undefined4 *)(param_1 + 0x100) = 0;
+  *(undefined4 *)(param_1 + 0x104) = 0;
+  *(undefined4 *)(param_1 + 0x108) = 0;
+  return;
+}
+
+

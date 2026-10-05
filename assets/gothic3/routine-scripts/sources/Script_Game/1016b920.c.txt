@@ -1,0 +1,17 @@
+/* ENTRY 1016b920 | FUN_1016b920 | STATUS decompiled | 34 ms */
+
+void FUN_1016b920(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Engine\\Engine_Callback\\GetCombatMoveLength.cpp");
+  bCString::bCString(local_8,"GetCombatMoveLength");
+  thunk_FUN_10017a50(local_8,thunk_FUN_100cd4e0,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

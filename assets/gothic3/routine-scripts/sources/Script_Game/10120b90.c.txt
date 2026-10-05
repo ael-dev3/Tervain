@@ -1,0 +1,17 @@
+/* ENTRY 10120b90 | FUN_10120b90 | STATUS decompiled | 8 ms */
+
+void FUN_10120b90(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Perception\\AssessFightSound.cpp");
+  bCString::bCString(local_8,"AssessFightSound");
+  thunk_FUN_10017a50(local_8,thunk_FUN_1003b070,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

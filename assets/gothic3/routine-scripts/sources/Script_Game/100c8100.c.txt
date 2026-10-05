@@ -1,0 +1,199 @@
+/* ENTRY 100c8100 | FUN_100c8100 | STATUS decompiled | 339 ms */
+
+undefined4 FUN_100c8100(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  bool bVar1;
+  char cVar2;
+  eCEntity *peVar3;
+  eCApplication *peVar4;
+  gEAIMode gVar5;
+  int iVar6;
+  gEEnclaveStatus gVar7;
+  Entity *this;
+  bCMemoryAdmin *this_00;
+  code *pcVar8;
+  Entity *pEVar9;
+  void *pvVar10;
+  char *pcVar11;
+  void *pvStack_36c;
+  undefined4 uStack_368;
+  undefined4 uStack_364;
+  undefined4 uStack_360;
+  Entity aEStack_35c [4];
+  Entity aEStack_358 [4];
+  Entity local_354 [4];
+  PropertyAIMode aPStack_350 [40];
+  PSNpc aPStack_328 [4];
+  PSNavigation local_324 [4];
+  PropertyAttitudeToPlayer2 aPStack_320 [32];
+  PSParty aPStack_300 [80];
+  Entity aEStack_2b0 [4];
+  PropertyAniState aPStack_2ac [4];
+  Entity aEStack_2a8 [44];
+  PSNavigation aPStack_27c [16];
+  PSCharacterMovement aPStack_26c [116];
+  Entity local_1f8 [164];
+  Entity aEStack_154 [132];
+  PropertyStatus aPStack_d0 [24];
+  Entity aEStack_b8 [4];
+  Entity aEStack_b4 [4];
+  Entity aEStack_b0 [172];
+  undefined4 uStack_4;
+  
+  Entity::Entity(local_354);
+  if (param_2 == (Entity *)0x0) {
+    peVar3 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_354,peVar3);
+  }
+  else {
+    Entity::operator=(local_354,param_2);
+  }
+  Entity::Entity(local_1f8);
+  if (param_3 == (Entity *)0x0) {
+    peVar3 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_1f8,peVar3);
+  }
+  else {
+    Entity::operator=(local_1f8,param_3);
+  }
+  bVar1 = PSNavigation::IsValid(local_324);
+  if (!bVar1) {
+    Entity::~Entity(local_1f8);
+    Entity::~Entity(local_354);
+    return 0;
+  }
+  peVar4 = eCApplication::GetInstance();
+  cVar2 = (**(code **)(*(int *)peVar4 + 0x26c))();
+  if (cVar2 == '\x01') {
+                    /* WARNING: Subroutine does not return */
+    _abort();
+  }
+  peVar4 = eCApplication::GetInstance();
+  cVar2 = (**(code **)(*(int *)peVar4 + 0x270))();
+  if (cVar2 == '\0') {
+                    /* WARNING: Subroutine does not return */
+    _abort();
+  }
+  pvStack_36c = (void *)thunk_FUN_10019910(param_1);
+  PSNpc::PropertyAttitudeToPlayer2::operator=(aPStack_320,(gEAttitude *)&pvStack_36c);
+  gVar5 = PSRoutine::PropertyAIMode::operator_enum_gEAIMode(aPStack_350);
+  if (gVar5 == 9) {
+    PSNpc::SetCurrentTarget((PSNpc *)aPStack_320,(Entity *)None_exref);
+    pcVar11 = "ZS_Dead";
+  }
+  else {
+    gVar5 = PSRoutine::PropertyAIMode::operator_enum_gEAIMode(aPStack_350);
+    if (gVar5 != 8) {
+      pvStack_36c = (void *)0x0;
+      PSNpc::PropertyAttackReason::operator=
+                ((PropertyAttackReason *)aPStack_320,(gEAttackReason *)&pvStack_36c);
+      uStack_368 = uStack_368 & 0xffffff;
+      PSNpc::PropertyRansacked::operator=
+                ((PropertyRansacked *)aPStack_320,(bool *)((int)&uStack_368 + 3));
+      thunk_FUN_10031280(param_1);
+      PSNpc::GetEnclave((PSNpc *)aPStack_320);
+      bVar1 = Entity::operator!=((Entity *)None_exref,aEStack_154);
+      if (bVar1) {
+        iVar6 = thunk_FUN_100183e0(param_1,aEStack_358);
+        gVar7 = PSEnclave::PropertyStatus::operator_enum_gEEnclaveStatus(aPStack_d0);
+        if ((gVar7 == 1) && ((iVar6 == 1 || (iVar6 == 4)))) {
+          PSNpc::SetCurrentTarget((PSNpc *)local_324,(Entity *)None_exref);
+          pcVar11 = "ZS_RevolutionAttack";
+        }
+        else {
+          gVar7 = PSEnclave::PropertyStatus::operator_enum_gEEnclaveStatus(aPStack_d0);
+          if ((gVar7 != 2) || (iVar6 != 1)) goto LAB_100c8375;
+          PSNpc::SetCurrentTarget((PSNpc *)local_324,(Entity *)None_exref);
+          pcVar11 = "ZS_Flee";
+        }
+LAB_100c832d:
+        bCString::bCString((bCString *)&stack0xfffffc7c,pcVar11);
+        PSRoutine::SetTask((PSRoutine *)local_354);
+        pcVar8 = ~Entity_exref;
+      }
+      else {
+LAB_100c8375:
+        iVar6 = thunk_FUN_100459e0(param_1,aEStack_358);
+        if ((iVar6 < 0x3d) && (iVar6 = thunk_FUN_100c7f80(param_1,aEStack_358), iVar6 != 0)) {
+          PSNpc::SetCurrentTarget((PSNpc *)local_324,(Entity *)None_exref);
+          pcVar11 = "ZS_HealSelf";
+          goto LAB_100c832d;
+        }
+        PSRoutine::PropertyAIMode::operator=
+                  ((PropertyAIMode *)local_354,(gEAIMode *)&stack0xfffffc90);
+        thunk_FUN_100cacf0(param_1,aEStack_358);
+        uStack_368 = 0;
+        uStack_364 = 0;
+        uStack_360 = 0;
+        bVar1 = PSParty::IsValid(aPStack_300);
+        if (bVar1) {
+          PSParty::GetMembers(aPStack_300,(bool)SUB41(aEStack_2b0,0));
+          thunk_FUN_1006ed30();
+          thunk_FUN_1001df40();
+        }
+        else {
+          Entity::operator_class_eCEntity_(aEStack_358);
+          thunk_FUN_100c9520();
+        }
+        uStack_360 = thunk_FUN_100cccb0(param_1,aEStack_35c,None_exref);
+        pcVar8 = ~Entity_exref;
+        if (0 < (int)uStack_368) {
+          iVar6 = 0;
+          do {
+            Entity::Entity(aEStack_2a8,*(eCEntity **)((int)pvStack_36c + iVar6 * 4));
+            pEVar9 = aEStack_b0;
+            this = (Entity *)Entity::GetPlayer();
+            bVar1 = Entity::operator==(this,pEVar9);
+            Entity::~Entity(aEStack_b4);
+            if ((!bVar1) &&
+               (gVar5 = PSRoutine::PropertyAIMode::operator_enum_gEAIMode
+                                  ((PropertyAIMode *)aEStack_2a8), gVar5 == 0)) {
+              PSRoutine::FullStop((PSRoutine *)aEStack_2a8);
+              bVar1 = PSNavigation::IsInProcessingRange(aPStack_27c);
+              if (!bVar1) {
+                gVar5 = PSRoutine::PropertyAIMode::operator_enum_gEAIMode
+                                  ((PropertyAIMode *)aEStack_2a8);
+                if (gVar5 == 8) {
+                  PSRoutine::PropertyAIMode::operator=
+                            ((PropertyAIMode *)aEStack_2a8,(gEAIMode *)&stack0xfffffc88);
+                }
+                PSNavigation::GetCurrentDestinationPoint(aPStack_27c);
+                PSCharacterMovement::SetGroundBias(aPStack_26c,(Entity *)None_exref);
+                PSRoutine::PropertyAniState::operator=(aPStack_2ac,(gEAniState *)&stack0xfffffc84);
+                Entity::StartGoto(aEStack_2b0,aEStack_b8,uStack_368);
+                Entity::~Entity(aEStack_b8);
+              }
+              thunk_FUN_100cc390(uStack_4,aEStack_2a8,None_exref);
+            }
+            Entity::~Entity(aEStack_2a8);
+            iVar6 = iVar6 + 1;
+          } while (iVar6 < (int)uStack_368);
+        }
+        bVar1 = Entity::IsPlayer(aEStack_35c);
+        if ((bVar1) && (bVar1 = PSNpc::IsTransformed(aPStack_328), bVar1)) {
+          bCString::bCString((bCString *)&stack0xfffffc78,"PS_Melee");
+          PSRoutine::SetTask((PSRoutine *)aEStack_358);
+        }
+        if ((&stack0x00000000 != (undefined1 *)0x36c) && (pvStack_36c != (void *)0x0)) {
+          pvVar10 = pvStack_36c;
+          this_00 = bCMemoryAdmin::GetInstance();
+          bCMemoryAdmin::Free(this_00,pvVar10);
+        }
+      }
+      (*pcVar8)();
+      goto LAB_100c861b;
+    }
+    PSNpc::SetCurrentTarget((PSNpc *)aPStack_320,(Entity *)None_exref);
+    pcVar11 = "ZS_StandUp";
+  }
+  bCString::bCString((bCString *)&stack0xfffffc80,pcVar11);
+  PSRoutine::SetTask((PSRoutine *)aPStack_350);
+  pcVar8 = ~Entity_exref;
+LAB_100c861b:
+  (*pcVar8)();
+  (*pcVar8)();
+  return 1;
+}
+
+

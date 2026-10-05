@@ -1,0 +1,17 @@
+/* ENTRY 1000212b | PSPlayerMemory::SetPoliticalFame | STATUS decompiled | 3 ms */
+
+/* public: void __thiscall PSPlayerMemory::SetPoliticalFame(enum gEPoliticalAlignment,long) */
+
+void __thiscall
+PSPlayerMemory::SetPoliticalFame(PSPlayerMemory *this,gEPoliticalAlignment param_1,long param_2)
+
+{
+                    /* 0x212b  1977
+                       ?SetPoliticalFame@PSPlayerMemory@@QAEXW4gEPoliticalAlignment@@J@Z */
+  if ((*(int *)this != 0) && (param_1 < 9)) {
+    *(long *)(*(int *)(*(int *)this + 0x24) + param_1 * 4) = param_2;
+  }
+  return;
+}
+
+

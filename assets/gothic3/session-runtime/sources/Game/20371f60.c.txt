@@ -1,0 +1,28 @@
+/* ENTRY 20371f60 | FUN_20371f60 | STATUS decompiled | 13 ms */
+
+void __fastcall FUN_20371f60(int param_1)
+
+{
+  eCEntity *peVar1;
+  gCClock_PS *this;
+  eCApplication *this_00;
+  bool bVar2;
+  
+  if ((*(byte *)(param_1 + 0xd0) & 1) != 0) {
+    if (*(gCWorld **)(param_1 + 200) != (gCWorld *)0x0) {
+      peVar1 = gCWorld::GetWorldEntity(*(gCWorld **)(param_1 + 200));
+      if (peVar1 != (eCEntity *)0x0) {
+        peVar1 = gCWorld::GetWorldEntity(*(gCWorld **)(param_1 + 200));
+        this = (gCClock_PS *)(**(code **)(*(int *)peVar1 + 0xec))(0x20);
+        gCClock_PS::ResumeClock(this);
+      }
+    }
+    *(byte *)(param_1 + 0xd0) = *(byte *)(param_1 + 0xd0) & 0xfe;
+    bVar2 = false;
+    this_00 = eCApplication::GetInstance();
+    eCApplication::SetPaused((eCApplication *)this_00,bVar2);
+  }
+  return;
+}
+
+

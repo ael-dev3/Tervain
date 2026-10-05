@@ -1,0 +1,10 @@
+/* ENTRY 201ae170 | FUN_201ae170 | STATUS decompiled | 0 ms */
+
+void FUN_201ae170(void)
+
+{
+  FUN_2002f013();
+  return;
+}
+
+

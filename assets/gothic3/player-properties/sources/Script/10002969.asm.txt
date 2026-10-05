@@ -1,0 +1,4 @@
+; 10002969 ?GetHitPointsPercent@PSPlayerMemory@@QBEMXZ
+10002969 | e9b26c0200 | JMP 0x10029620
+; 1000296e PSParticle::PropertyCollideWithStatic::operator_bool
+; 1000296e Ordinal_926

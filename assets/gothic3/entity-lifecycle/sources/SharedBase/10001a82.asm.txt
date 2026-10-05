@@ -1,0 +1,2 @@
+; 10001a82 ?IsValid@bCPropertyID@@QBE_NXZ
+10001a82 | e9b90c0900 | JMP 0x10092740

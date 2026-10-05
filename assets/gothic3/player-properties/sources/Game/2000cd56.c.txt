@@ -1,0 +1,26 @@
+/* ENTRY 2000cd56 | gCStat::operator= | STATUS decompiled | 38 ms */
+
+/* public: class gCStat const & __thiscall gCStat::operator=(class gCStat const &) */
+
+gCStat * __thiscall gCStat::operator=(gCStat *this,gCStat *param_1)
+
+{
+  bCPropertyObjectBase *pbVar1;
+  bCPropertyObjectBase *this_00;
+  
+                    /* 0xcd56  724  ??4gCStat@@QAEABV0@ABV0@@Z */
+  pbVar1 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)this);
+  if (pbVar1 != (bCPropertyObjectBase *)0x0) {
+    pbVar1 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)param_1);
+    if (pbVar1 != (bCPropertyObjectBase *)0x0) {
+      pbVar1 = bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)param_1);
+      this_00 = (bCPropertyObjectBase *)bCObjectRefBase::GetPropertyObject((bCObjectRefBase *)this);
+      bCPropertyObjectBase::operator=(this_00,pbVar1);
+      return (gCStat *)this;
+    }
+  }
+  (*this->vftablePtr->CopyFrom)(this,(bCObjectBase *)param_1);
+  return (gCStat *)this;
+}
+
+

@@ -1,0 +1,17 @@
+/* ENTRY 10131a40 | FUN_10131a40 | STATUS decompiled | 7 ms */
+
+void FUN_10131a40(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Commands\\AI_Goto_Ext.cpp");
+  bCString::bCString(local_8,"ZS_WaitForFreeDestination");
+  thunk_FUN_1001db60(local_8,&LAB_10002c7a,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

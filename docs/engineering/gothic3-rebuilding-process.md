@@ -7,14 +7,14 @@ incomplete game reconstruction. Completing the original game in the browser
 remains the objective; the inspector does not satisfy that objective.
 
 The owner requested this separate project and explicitly approved hosting it
-in the public Tervain repository. The route is
+in Tervain. GitHub reports the repository as private on 5 October 2026. The route is
 [Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/).
 The [scope record](gothic3-browser-port.md) describes the current controls,
 limitations and source terms.
 
 This guide describes the source on `codex/gothic3-gameplay-initialization`.
 The hosted page remains at its last successful deployment; the latest source
-checkpoints have not been deployed. Sections 10–12 cover the newer runtime work.
+checkpoints have not been deployed. Sections 10–13 cover the newer runtime work.
 
 ## 1. Preserve and study the installed game
 
@@ -964,6 +964,10 @@ treating unresolved native work as a successful frame.
 
 ### Reproduce and checkpoint the source work
 
+These are the commands for the historical `2637d1e` checkout. Use that commit's
+files when reproducing its receipt; the current branch extends the shared
+routine API and uses the new checkpoint in section 13.
+
 ```powershell
 python -B tools/gothic3/research_native_properties.py --study <LOCAL_GOTHIC3_STUDY>
 python -B tools/gothic3/research_native_hud.py --study <LOCAL_GOTHIC3_STUDY>
@@ -1005,3 +1009,165 @@ and concrete AI/script bodies in their source order. Movement, contact and
 physics then support combat, spells, dialogue, quest/enclave events and saves.
 Completion requires an original-game playthrough in the browser, including
 quest progression and endings. Those delivery requirements remain unfinished.
+
+## 13. Connect entity identity, player storage, script bodies and session order
+
+The next source checkpoint implements several parts of that integration. It
+does not supply a complete browser engine host or change the deployed game's
+completion status. The parts use the same live entity, property value and SPU
+objects. Source records and an independently rendered model do not establish
+that an entity has completed its original loading and activation lifecycle.
+
+| Runtime component | Responsibility |
+| --- | --- |
+| [entity-lifecycle.ts](../../src/gothic3/entity-lifecycle.ts) | Original entity identity registration/rekeying, ordered property-set operations and examined lifecycle/notification profiles |
+| [player-properties.ts](../../src/gothic3/player-properties.ts) | One captured PlayerMemory_PS and shared original gCAttribute/gCStat objects, seeded before startup |
+| [routine-scripts.ts](../../src/gothic3/routine-scripts.ts) | Examined original ContinueRoutine, Hero routine and state/function prefixes on the existing SPU |
+| [session-runtime.ts](../../src/gothic3/session-runtime.ts) | Original session controller and concrete GameApp application frame order, with explicit engine subcalls |
+
+### Retain physical state and complete the loading stages
+
+Original ID registration and world residency are separate operations. An
+entity constructor can register its generated ID before Node::Read replaces
+it with the serialized ID. Property sets also have a specific order for
+setting their owner, receiving OnPropertySetAdded and being appended to the
+entity's property-set array. Reflective validity, the property-set flag byte,
+entity registration and active world context must each be tracked according
+to their own original fields.
+
+Node::Read consumes the 20 serialized ID bytes but clears the live ID's trailing
+cache word after copying its first 16 bytes. The raw source ID remains intact
+in the provenance record. NavPath reset also preserves a valid original height
+cache; its first height calculation uses the live owner's matrix storage.
+Its reset uses the recovered entity-pointer NULL proxy overload: release a
+cached reference, clear the pointer, then destroy all 20 ID bytes. The
+PropertyID overload used by the NPC enclave setter has a different order.
+
+The installation contains separate Ardea NPC contexts with different context
+flags. Enabling a sector registry entry alone does not prove that every source
+entity in that sector is resident. Template patching, class-specific callbacks,
+context activation and engine cache/physics effects remain explicit loading
+requirements. The new lifecycle code supplies examined operations for those
+objects; it does not activate every indexed entity as a shortcut.
+
+### Share the original player properties
+
+The player-property producer reads the original serialized PC_Hero record,
+before OnGameStartUp changes its stats. It retains 15 original attribute/stat
+objects, 24 serialized PlayerMemory fields and 51 attribute/stat property values
+(75 values in total). A caller can bind the
+existing captured PS rather than create another player-state copy.
+
+The 18 startup stat setters use their recovered wrappers and attribute
+notification chains. Hit-point and stamina current/max setters have ordering
+and clamping behavior which a plain assignment would lose. gCAttribute and
+gCStat notifications are different from entity property-set notifications.
+Chapter, learning points and other PlayerMemory fields use their examined
+paths on the same store. The session tutorial adapter also retains that store.
+
+Startup, HUD, equipment, routines and combat must read these same objects.
+This component does not by itself complete inventory population, physical
+equipment changes or all attribute-modifier enumeration.
+
+### Execute registered script prefixes on the existing SPU
+
+The serialized Hero has `Routine = Rtn_Player`. Its execution must dispatch
+that registered script, while the examined empty-routine NPC branch uses
+ContinueRoutine. The new script module retains those identities and uses the
+existing scheduler, property stores, instruction state and native frame stack.
+It supplies examined routine/state/function bodies and exposes unimplemented
+engine effects at their original call positions.
+
+The shared frame API now supports the original Add/SetCount behavior needed
+by player function calls. Its explicit successful moving-allocation profile
+copies slot values into new physical frame objects; only newly allocated slots receive constructor
+defaults. The examined Script Entity wrappers are nonowning field copies; their recovered
+copy and destructor behavior must be retained without inventing AddRef/Release
+calls. Native allocation and unsupported wrapper branches remain explicit.
+Captured arguments must still belong to the same SPU allocation when read or
+written after a callback. Reentrant destruction retains the applied prefix
+and blocks the next access rather than using a surviving JavaScript object.
+Known script branches can advance through their recovered prefix. Missing
+player input, animation, targeting, movement or other bodies cannot return a
+fabricated completion value.
+
+### Preserve session startup and the application loop
+
+The recovered Start controller performs these steps in order:
+
+1. Stop an existing selected player when the start mode requires it, then
+   select the original player and camera entities.
+2. Fetch ScriptAdmin, compile navigation with the original force flag, and
+   write the session's game-running byte from `compileResult === 1`.
+3. Invoke OnInit for modes 0/1 and OnGameStartUp for mode 0. The original
+   controller continues this sequence even when compilation returned a
+   supported result other than 1.
+4. Apply the optional command-line clock hour, factor 12 and ResumeClock,
+   then resume the session. The Clock_PS adapter must include its property
+   notifications; the arithmetic-only clock does not complete that setter.
+5. For a new game, disable the engine component and mute channel 0.
+6. Set warmup, perform 20 actual GameApp OnRun calls, and await the host's
+   100 ms delay after each call. Clear warmup after all iterations.
+7. Close the menu/page, invoke OnReturnFromMenu, play G3_Intro.bik for mode 0,
+   restore the component/audio, handle TUT_Start and restore the thread pool.
+
+GameApp's virtual `+0x270` reads that same current session game-running byte.
+The routine host adapter and SPU frame input use it. The scaled frame time is
+the original stored float32 field; the adapter does not invent an additional
+pause or AI switch.
+
+Each warmup frame follows the recovered OnRun/Process order: outer panic
+check, optional memory validation, frame-counter increment and inner panic
+check, keyboard, mouse, module processing, application OnProcess, entity
+processing, module post-processing, physics, entity removal and rendering.
+The original byte comparisons and repeated receiver lookups are retained.
+The named input/module/entity/physics/rendering subcalls still need concrete
+browser implementations. A counter-only warmup is insufficient.
+
+The controller records attempted/applied calls and blocks after an unknown
+dependency, retaining its earlier effects. It does not roll back those effects
+or restore audio/warmup flags through a cleanup path absent from the original
+function. Async browser video and delays must finish before the next source
+step. Their timing is a selected browser host profile, not a Win32 capture.
+Successful execution of an examined controller remains `gameplayReady: false`.
+
+### Reproduce this checkpoint
+
+```powershell
+python -B tools/gothic3/research_entity_lifecycle.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/research_player_properties.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/research_routine_scripts.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/research_session_runtime.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/freeze_lifecycle_checkpoint.py
+```
+
+[lifecycle-checkpoint.json](../../assets/gothic3/lifecycle-checkpoint.json)
+records current files and deliberate changes from `2637d1e`. The earlier
+dispatch/instruction receipts remain historical evidence at their recorded
+commits, including the previous shared routine implementation. They are not
+rewritten to claim that the extended frame API has unchanged bytes. The new
+receipt also records the deliberate `native-properties.ts` addition for the
+entity-pointer NULL proxy overload; its existing PropertyID setter is retained.
+
+The offline producers verified these instruction excerpts against the original
+PE bytes. Entries include forwarding exports and overlapping bodies, so these
+counts are evidence sizes rather than a percentage of the game implemented.
+
+| Evidence set | Entries | Instructions | Original instruction bytes |
+| --- | ---: | ---: | ---: |
+| Entity lifecycle | 270 | 5,300 | 16,632 |
+| Player properties | 383 | 6,088 | 18,846 |
+| Routine scripts | 1,013 | 29,182 | 102,962 |
+| Session/application order | 49 | 1,058 | 3,727 |
+
+The combined TypeScript check and production build passed locally on 5 October
+2026 (`npm run build`, 235 Vite modules). The build retains the existing large
+chunk warning. The new modules are source components requiring engine-host
+integration; this build does not establish that their session path ran in the
+browser. No tests, native execution, browser session or playthrough were run
+for this checkpoint. Publishing this source branch does not deploy it.
+
+The remaining delivery work includes complete world activation and browser
+engine services, the rest of the original scripts, movement/contact/physics,
+animations, equipment, combat, spells, dialogue, quest and enclave chains,
+saves, deployment and an original-game playthrough through its endings.

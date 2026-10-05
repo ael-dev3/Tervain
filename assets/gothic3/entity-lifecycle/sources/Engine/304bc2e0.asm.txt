@@ -1,0 +1,18 @@
+; 304bc2e0 FUN_304bc2e0
+304bc2e0 | 56 | PUSH ESI
+304bc2e1 | 8bf1 | MOV ESI,ECX
+304bc2e3 | 66837e0200 | CMP word ptr [ESI + 0x2],0x0
+304bc2e8 | 7604 | JBE 0x304bc2ee
+304bc2ea | c6460c00 | MOV byte ptr [ESI + 0xc],0x0
+; 304bc2ee LAB_304bc2ee
+304bc2ee | e8b143b5ff | CALL 0x300106a4
+304bc2f3 | 0fb74602 | MOVZX EAX,word ptr [ESI + 0x2]
+304bc2f7 | 8b542408 | MOV EDX,dword ptr [ESP + 0x8]
+304bc2fb | 8b4e04 | MOV ECX,dword ptr [ESI + 0x4]
+304bc2fe | 8b12 | MOV EDX,dword ptr [EDX]
+304bc300 | 891481 | MOV dword ptr [ECX + EAX*0x4],EDX
+304bc303 | 6683460201 | ADD word ptr [ESI + 0x2],0x1
+304bc308 | 0fb74602 | MOVZX EAX,word ptr [ESI + 0x2]
+304bc30c | 83c0ff | ADD EAX,-0x1
+304bc30f | 5e | POP ESI
+304bc310 | c20400 | RET 0x4

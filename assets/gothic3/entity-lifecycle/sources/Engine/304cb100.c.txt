@@ -1,0 +1,35 @@
+/* ENTRY 304cb100 | FUN_304cb100 | STATUS decompiled | 12 ms */
+
+int FUN_304cb100(undefined4 param_1,int param_2)
+
+{
+  int iVar1;
+  
+  if (param_2 == 0) {
+    iVar1 = thunk_FUN_304cfb90(param_1,&param_2);
+    if ((iVar1 != 0) && (*(int *)(iVar1 + 0x14) != 0)) {
+      return *(int *)(iVar1 + 0x14);
+    }
+  }
+  else if (param_2 != 1) {
+    if (param_2 != 2) {
+      return 0;
+    }
+    goto LAB_304cb17f;
+  }
+  bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)&DAT_30af24c4);
+  iVar1 = thunk_FUN_3044f9d0(param_1,&param_2);
+  if ((iVar1 != 0) && (iVar1 = *(int *)(iVar1 + 0x14), iVar1 != 0)) {
+    bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30af24c4);
+    return iVar1;
+  }
+  bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30af24c4);
+LAB_304cb17f:
+  iVar1 = thunk_FUN_304ce3d0(param_1,&param_2);
+  if ((iVar1 == 0) || (iVar1 = *(int *)(iVar1 + 0x14), iVar1 == 0)) {
+    iVar1 = 0;
+  }
+  return iVar1;
+}
+
+

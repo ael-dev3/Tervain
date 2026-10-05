@@ -1,0 +1,17 @@
+/* ENTRY 10137450 | FUN_10137450 | STATUS decompiled | 8 ms */
+
+void FUN_10137450(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\AI\\AI_Commands\\AI_PierceAttack.cpp");
+  bCString::bCString(local_8,"OnAI_PierceAttack");
+  thunk_FUN_1001da70(local_8,&LAB_100020c2,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

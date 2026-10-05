@@ -1,0 +1,4 @@
+; 1000873d ??8bCPropertyID@@QBE_NABV0@@Z
+1000873d | e90eb20100 | JMP 0x10023950
+; 10008747 bCVariant::operator=
+; 10008747 Ordinal_575

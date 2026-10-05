@@ -1,0 +1,10 @@
+/* ENTRY 1002ea00 | FUN_1002ea00 | STATUS decompiled | 3 ms */
+
+bool __thiscall FUN_1002ea00(void *this,int param_1)
+
+{
+  *(int *)this = param_1;
+  return param_1 != 0;
+}
+
+

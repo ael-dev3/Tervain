@@ -1,0 +1,21 @@
+/* ENTRY 20050d20 | gCGameApp::gCGameApp | STATUS decompiled | 16 ms */
+
+gCGameApp * __thiscall gCGameApp::gCGameApp(gCGameApp *this)
+
+{
+  eCApplication::eCApplication((eCApplication *)this);
+  this->vftablePtr = &vftable;
+  bCString::bCString((bCString *)(this + 0x412));
+  bCString::bCString((bCString *)(this + 0x413));
+  bCString::bCString((bCString *)(this + 0x414));
+  *(gCGameApp **)ms_pApplication_exref = this;
+  bCString::Clear((bCString *)(this + 0x412));
+  bCString::Clear((bCString *)(this + 0x414));
+  bCString::Clear((bCString *)(this + 0x413));
+  this[0x416].vftablePtr = (gCGameApp_vftable *)0x0;
+  this[0x417].vftablePtr = (gCGameApp_vftable *)0x0;
+  *(undefined1 *)&this[0x415].vftablePtr = 1;
+  return this;
+}
+
+

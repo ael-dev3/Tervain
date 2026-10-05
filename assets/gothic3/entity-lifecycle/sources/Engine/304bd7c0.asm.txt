@@ -1,0 +1,4 @@
+; 304bd7c0 FUN_304bd7c0
+304bd7c0 | e80ebab4ff | CALL 0x300091d3
+304bd7c5 | b801000000 | MOV EAX,0x1
+304bd7ca | c3 | RET

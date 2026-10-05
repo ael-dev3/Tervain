@@ -1,0 +1,4 @@
+; 10003175 ?GetManaPoints@PSPlayerMemory@@QBEHXZ
+10003175 | e916630200 | JMP 0x10029490
+; 1000317a PSDoor::CopyFrom
+; 1000317a Ordinal_1403

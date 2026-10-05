@@ -1,0 +1,2 @@
+; 3001b2f2 ?AddPropertySet@eCEntity@@QAE_NPAVbCPropertyObjectBase@@@Z
+3001b2f2 | e959814900 | JMP 0x304b3450

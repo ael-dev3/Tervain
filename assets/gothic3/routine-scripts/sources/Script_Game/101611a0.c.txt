@@ -1,0 +1,17 @@
+/* ENTRY 101611a0 | FUN_101611a0 | STATUS decompiled | 6 ms */
+
+void FUN_101611a0(void)
+
+{
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,".\\Script\\Routine\\Routine_Tasks\\ZS_Lumberjack.cpp");
+  bCString::bCString(local_8,"ZS_Lumberjack");
+  thunk_FUN_1001db60(local_8,&LAB_10002adb,local_4);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  return;
+}
+
+

@@ -1,0 +1,36 @@
+/* ENTRY 2002d510 | gCSession::Invalidate | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall gCSession::Invalidate(void) */
+
+void __thiscall gCSession::Invalidate(gCSession *this)
+
+{
+  gCSession *pgVar1;
+  
+  pgVar1 = &(this->gCSession_data).offset_0xcc;
+                    /* 0x2d510  5061  ?Invalidate@gCSession@@QAEXXZ */
+  *pgVar1 = (gCSession)((byte)*pgVar1 & 0xf0);
+  (this->gCSession_data).offset_0x18 = 0;
+  (this->gCSession_data).offset_0x20 = 0;
+  (this->gCSession_data).offset_0x1c = 0;
+  (this->gCSession_data).offset_0x24 = 0;
+  (this->gCSession_data).offset_0x28 = 0;
+  (this->gCSession_data).offset_0xc4 = 0;
+  (this->gCSession_data).offset_0xcd = (gCSession)0x0;
+  (this->gCSession_data).offset_0xce = (gCSession)0x0;
+  (this->gCSession_data).offset_0xc8 = 0;
+  (this->gCSession_data).offset_0xe4 = (gCSession)0x0;
+  (this->gCSession_data).offset_0xf4 = 0;
+  (this->gCSession_data).offset_0xd4 = 0;
+  (this->gCSession_data).offset_0xd8 = 0;
+  (this->gCSession_data).offset_0xdc = 0;
+  (this->gCSession_data).offset_0xf0 = 0;
+  (this->gCSession_data).offset_0xe0 = 0;
+  (this->gCSession_data).offset_0xec = (gCSession)0x0;
+  (this->gCSession_data).offset_0xfc = 0;
+  (this->gCSession_data).offset_0x100 = 0;
+  (this->gCSession_data).offset_0x104 = 0;
+  return;
+}
+
+

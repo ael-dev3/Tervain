@@ -1,0 +1,4 @@
+; 20006064 ?AddModifier@gCPlayerMemory_PS@@QAE_NABVbCString@@H@Z
+20006064 | e907783100 | JMP 0x2031d870
+; 2000606e gCCharacterMovement_PS::IsSwimming
+; 2000606e Ordinal_5255

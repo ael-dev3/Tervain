@@ -1,0 +1,4 @@
+; 1000272a ?SetProtectionBlades@PSPlayerMemory@@QAEXH@Z
+1000272a | e9917a0200 | JMP 0x1002a1c0
+; 1000272f Entity::GetAIZoneType
+; 1000272f Ordinal_1487
