@@ -1,14 +1,18 @@
 # Gothic-inspired presentation revision — 5 October 2026
 
-Status: same-version `0.0.12` art follow-up in preparation. The owner asked for
-the main Tervain game to look substantially closer to Gothic 3 after studying
+Status: locally checkpointed at `108c5a8` within `0.0.12`; final combined tests,
+asset audits and committed-source production build pass. Bounded native views,
+quality rebuilds and actual-score menu continuity are reviewed. Fresh native F3
+confirms the committed production stamp `0.0.12 /108c5a80`. Publication remains
+blocked. The owner asked for the main Tervain game to look substantially closer to Gothic 3 after studying
 the separate browser reconstruction and available reference files. This extends
 the existing rugged, exaggerated fantasy direction; it does not replace
 Tervain's original world with the separate port or promote the version. See
 [A52](../decisions.md) and the [release record](../production/releases/0.0.12.md).
 The checked tree/menu implementation at `5876ea3`, with documentation at
 `30e9692`, is the before-source. Its previous tests validate that source, not
-this new presentation candidate.
+this presentation revision. The preceding daylight checkpoint `106eb21` does
+not validate the later night correction by itself.
 
 ## What was studied
 
@@ -100,11 +104,18 @@ copying the port's preview camera or exposure.
 
 ## Presentation choices and preserved contracts
 
-The candidate reworks original procedural materials and lighting relationships:
+The revision reworks original procedural materials and lighting relationships:
 rough directional timber/thatch, broader wear and damp patches, less uniformly
 green ground, calmer folded grass, warmer selective direct sun, cooler distant
 haze and reduced ambient fill. A modest grade retains day/night detail; original
-serif HUD refinements should reduce its visual weight without changing controls.
+serif HUD refinements reduce its visual weight without changing controls. The
+default gameplay camera moves from 58° to 60°; the comparison views deliberately
+use the original 58° projection. Direct daylight is selectively warmer, daytime
+ambient fill is lower and distant haze cooler. A native 22:00 woodland view
+exposed excessively crushed shadows after the first daytime grade: the final
+two-file tune supplies cooler night fill/moonlight and eases contrast from the
+daytime 1.06 toward 1.0 at night. It retains a dim, cool night with readable road,
+leaf surfaces and hero outline; it does not make every shadow bright.
 
 The terrain component uses original hand-coded pressed-root/straw,
 interwoven-herb and leaf-humus paint, lower relief, rough gravel/coastal stone
@@ -129,11 +140,13 @@ The frozen terrain component comprises `terrainTextures.ts`,
 `ground/patchMaterial.ts`, `forestFloor.ts`, `treeMaterials.ts` and
 `menu/menuLand.ts`; its updated checks are `terrainVisuals.test.ts` and
 `treeBarkDetail.test.ts`. Its component typecheck and 52 focused tests pass,
-with 24 affected tests rerun after the last shape correction. The original
+with 24 affected tests rerun after the last shape correction. Private immutable
+CPU leaf pixels are cached; each world still owns distinct texture, Source and
+upload bytes, with normal disposal. The original
 authored material sheet and actual 512px measurements are retained in local
 `outputs/tervain-gothic3-direction-ground/`. They compare the original authored
-before/after maps, not native-rendered frames or GPU performance. Final combined
-source and native acceptance remain separate.
+before/after maps, not native-rendered frames or GPU performance. Component and
+final combined evidence remain distinct.
 
 The architecture component replaces all-over cellular wear with split-face
 horizontal rubble and sparse peeled/rain-stained limewash. It gives roof ends
@@ -181,26 +194,65 @@ Material/camera art changes must not silently alter these gameplay contracts.
 
 ## Verification and remaining limits
 
-Final-source validation is pending. Required acceptance is:
+| Evidence for final runtime `108c5a8` | Result |
+| --- | --- |
+| Main/reference boundary | Reference route/code/data/assets remain unchanged; main presentation imports no Gothic content or code. No reference images enter image generation. Source-painted hero, supplied NPC/tree GLBs and protected Pine are not modified by this art pass. |
+| Actual source assets | All 45 tree GLBs pass hash/budget checks, maximum complete 19,496 triangles and 215,635,120 bytes; Pine remains exact. All seventeen NPC GLBs pass hashes, scene budgets, weights/binds and map checks, maximum 46,000 scene triangles. A file audit does not establish every NPC's in-game deformation quality. |
+| Aggregate geometry and resource contracts | Complete lighthouse 19,998 and complete menu tree 19,213 stay below 20k. Existing closed shells, actor/route/camera contacts, source proportions, saves and menu resource ownership regressions pass. New leaf cutout checks retain the same color/depth/distance mask and independently owned per-world bytes. |
+| Combined final-source regression suite | **1,110 tests in 111 files pass (40.20 s)** at `108c5a8`. Existing timeout thresholds and required assertions remain. The preceding `106eb21` run (38.95 s) is superseded for final-source acceptance. |
+| Strict TypeScript and production build | Passes on committed `108c5a8`; Vite completes in 4.59 s. The existing approximately 5.33 MB minified main-chunk advisory remains; it is not a device-performance qualification or a reason to bypass release gates. |
+| Bounded native appearance | Noon woodland/town/coast views inspect quieter ground, rounded veined undergrowth, rough roof/plaster/bronze and shoreline bark. The final 22:00 tune retains cool dim road/leaf/hero legibility in the sampled woodland view. This is not every hour, weather state or shadow location. |
+| Native quality/contact preservation | High →Medium →Low →High through Settings retains all 245 canonical tree contacts and grounded player (-268,0.5,27), RelaxedIdle, HP/stamina 100. Captured populations remain 445/388/335 and floor pieces 552/369/179. |
+| Actual-score menu continuity | High score 33.16/214.2 s shows door 96%, 40 drawn spirits, audible gain 0.352 and three ships. With Reduced Motion checked, media advances 85.4→134.2 s while grove stays at 75.06 s/14,567 steps/door 100% and ship phase 85.1 s remains fixed. This is bounded continuity rather than a full-song video or every rebuild path. |
+| Native warnings/errors | The latest `native-console.json` after coast/rebuild/menu review is empty. This is the captured scope, not a claim that every previous reference/viewer navigation emitted no warning. |
+| Stamped final browser /remote release | Fresh F3 confirms `0.0.12 /108c5a80`, High, actual 1280×720 canvas /DPR0.899999976. Required final-source remote CI and approved deployment remain blocked. |
 
-- Inspect the main/reference diff boundary and protected source hashes; audit
-  actual complete asset budgets and finite material/uniform values.
-- Run strict TypeScript and proportionate terrain, architecture, presentation,
-  camera/contact, tree/menu lifecycle and save/quality regressions, followed by
-  the combined suite and committed-source production build.
-- Compare main before/after views with source, hour, pose, camera, resolution and
-  quality recorded. Inspect woodland, town, sparse strand/lighthouse, people
-  and title/pause; check daylight and night legibility and avoid crushed shadows.
-- Check native High/Medium/Low rebuilds, retained contacts/player pose, actual
-  score-led opening and Reduced Motion continuity; capture warnings/errors.
-- Measure any performance claim on a warmed matched route separately. Texture
-  means, unique geometry counts and a successful build are not renderer parity,
-  a frame-time improvement or minimum-PC qualification.
+An intermediate full-suite attempt passed 1,106 checks but timed out four while
+heavy reference/game/gallery tabs were active. After those tabs were blanked,
+the implicated existing shoreline fixture ran in 6 ms rather than 9,341 ms.
+Bounded cache/fixture refinements preserve independent GPU/source/upload data
+and every byte assertion, avoiding repeated read-only terrain construction and
+slow deep-array comparison. Uncached leaf-art generation measured about 10 ms;
+it was not established as the cause of the four timeouts. Recovered historical
+coverage passes 22 checks in three files (5.83 s), then the final combined suite
+passes normally. No timeout, assertion, workflow or test configuration was
+relaxed. These test wall times are not gameplay frame-time evidence.
+
+Captures and actual-state logs are retained in local
+`outputs/tervain-0.0.12-gothic-art/`: `forest-after.png`, `town-after.png`,
+`coast-after.png`, `forest-night.png`, `menu-after.png`, quality-state files,
+audits and final test/build logs. Appearance and continuity review used the
+pre-stamp bundle whose printed revision is `106eb21f` but whose frozen runtime
+content became `108c5a8`; a separate fresh `final-source-stamp.txt` confirms the committed production revision `108c5a80`. The final comparison's forest, town and coast after views were subsequently refreshed from that clean committed build (`town-final.png` supplies its town row).
+Daytime comparison uses the same authored projection (58°), time and pose
+parameters; the ordinary default is now 60°.
+
+The after screenshot files are 1422×800 but include an actual 1280×720 main
+canvas plus right/bottom in-app-browser override/zoom margins. Runtime DPR is
+approximately 0.9. The before files show a different render resolution; their
+DPR is not established by borrowing the preceding tree review's 1.8 metadata.
+Any displayed canvas crops normalized to a common display size must disclose
+that normalization. This is framing-comparable art evidence, not equal-pixel
+resolution, a full-resolution High result or a numerical image/FPS comparison.
+No new warmed 72-second forest-route benchmark or minimum-PC specification is
+claimed. A separate final-stamp **12-second shoreline camera route**, at
+ordinary 60° FOV and normal motion, was recorded at **13:43:10 UTC** on
+5 October 2026: High, 1280×720/DPR0.899999976, Apple M5 /ANGLE Metal,
+Chromium 154 on macOS, game hour 12:02 with time unpinned. Its 721 wall-clock
+animation-frame intervals have median 16.70 ms, p95 17.20, p99 17.60 and worst
+17.8; the last frame submits 207 draw calls /4,300,806 triangles across renderer
+passes. The route keeps reflected land/shallow depth in view and its captured
+`water-console.json` is empty. This short, display-refresh-limited observation
+has no matched before run and does not establish isolated GPU speed or
+jitter-free water in every frame. `final-water-route-state.txt` retains the
+actual report.
 
 The previous `5876ea3` tree verification remains historical for that source.
-This document makes no current candidate pass, 10/10 quality, native parity,
-live deployment or new minimum-PC claim. The preserved required-CI billing and
-hosting gates remain in the [release publication record](../production/releases/0.0.12.md#publication).
+This document establishes bounded original-art progress and the recorded checks,
+not 10/10 quality, native renderer parity, a completed Gothic reconstruction,
+live deployment or exhaustive hardware/full-route validation. The preserved
+required-CI billing and hosting gates remain in the
+[release publication record](../production/releases/0.0.12.md#publication).
 The coordinator owns publication. Any push, PR change, merge, dispatch, rerun or
 trigger change requires a fresh read-only review of all current UTC-day
 workflows, branches, actors, states and attempts, including reruns of older
