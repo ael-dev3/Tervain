@@ -42,7 +42,7 @@ function setup(start: V2) {
   const context: PlayerCtx = {
     terrain, colliders, physics: (() => { const p = new RealmPhysics(terrain, colliders, []); worlds.push(p); return p; })(), settings: defaultSettings(), game: new Game(),
     input: { move: () => ({ x: 0, y: moving ? 1 : 0 }), held: () => false, pressed: () => false, clearToggle: vi.fn(), uiOpen: false } as unknown as Input,
-    audio: { footstep: vi.fn(), swing: vi.fn(), hit: vi.fn(), hurt: vi.fn() } as unknown as AudioEngine,
+    audio: { footstep: vi.fn(), swing: vi.fn(), hit: vi.fn(), hurt: vi.fn(), jump: vi.fn(), land: vi.fn(), dodge: vi.fn() } as unknown as AudioEngine,
     npcs: [], enemies: [], viewYaw: 0, controllable: true,
     onHitEnemy: vi.fn(), onHurt: vi.fn(), onDeath: vi.fn(), onBoundary: vi.fn(),
   };

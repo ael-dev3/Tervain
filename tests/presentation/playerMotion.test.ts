@@ -27,7 +27,7 @@ function setup(ground: (x: number, z: number) => number = () => 0, walkable: (x:
     groundAt: ground, supportAt: ground, walkable, valleyRadius: () => 0,
     deckAt: () => null, carveAt: () => 0, seaDepth: () => 0, slopeAt: () => 0,
   } as unknown as Terrain;
-  const audio = { footstep: vi.fn(), swing: vi.fn(), hit: vi.fn(), hurt: vi.fn() } as unknown as AudioEngine;
+  const audio = { footstep: vi.fn(), swing: vi.fn(), hit: vi.fn(), hurt: vi.fn(), jump: vi.fn(), land: vi.fn(), dodge: vi.fn() } as unknown as AudioEngine;
   const input = {
     move: () => move, held: (a: string) => held.has(a), pressed: (a: string) => presses.has(a),
     clearToggle: vi.fn(), uiOpen: false,

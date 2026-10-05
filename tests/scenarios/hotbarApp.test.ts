@@ -11,7 +11,7 @@ function fixture() {
   const app = Object.assign(Object.create(App.prototype) as object, {
     game, mode: 'play', worldBuilding: false, worldBuildFailed: false, qualityReload: null,
     panels: { isOpen: false }, player: { alive: true, syncEquipment: vi.fn(), readyWeapon: vi.fn() },
-    hud: { toast: vi.fn() }, audio: { uiConfirm: vi.fn(), pickup: vi.fn() },
+    hud: { toast: vi.fn() }, audio: { uiConfirm: vi.fn(), pickup: vi.fn(), consume: vi.fn(), equip: vi.fn() },
     input: { consumePad: vi.fn(), clearToggle: vi.fn() },
   });
   game.subscribe((events) => Reflect.apply(Reflect.get(App.prototype, 'onGameEvents'), app, [events]));
@@ -33,7 +33,8 @@ describe('actual App hotbar and inventory routes', () => {
     expect(game.state).toEqual(depleted);
     expect(app.input.consumePad).not.toHaveBeenCalled();
     expect(app.player.syncEquipment).not.toHaveBeenCalled();
-    expect(app.audio.pickup).not.toHaveBeenCalled();
+    expect(app.audio.consume).not.toHaveBeenCalled();
+    expect(app.audio.equip).not.toHaveBeenCalled();
   });
 
   it('equips a weapon from a numbered slot without consuming it or healing the player', () => {
@@ -46,7 +47,8 @@ describe('actual App hotbar and inventory routes', () => {
     expect(app.player.syncEquipment).toHaveBeenCalledWith(game, true);
     expect(app.input.clearToggle).toHaveBeenCalledWith('block');
     expect(app.input.consumePad).toHaveBeenCalledOnce();
-    expect(app.audio.pickup).not.toHaveBeenCalled();
+    expect(app.audio.consume).not.toHaveBeenCalled();
+    expect(app.audio.equip.mock.calls).toEqual([[true]]);
   });
 
   it('consumes exactly one carried unit per activation and retains the depleted binding', () => {
@@ -61,7 +63,7 @@ describe('actual App hotbar and inventory routes', () => {
     expect(game.state.quickSlots[2]).toBe('bread');
     call('activateQuickSlot', 2);
     expect(game.state.player.health).toBe(72);
-    expect(app.audio.pickup).toHaveBeenCalledTimes(2);
+    expect(app.audio.consume.mock.calls).toEqual([['bread'], ['bread']]);
     expect(app.player.syncEquipment).not.toHaveBeenCalled();
   });
 
@@ -72,7 +74,7 @@ describe('actual App hotbar and inventory routes', () => {
     call('activateQuickSlot', 0); call('usePoultice');
     expect(game.state.inventory.bread).toBe(2);
     expect(game.state.inventory.poultice).toBe(1);
-    expect(app.audio.pickup).not.toHaveBeenCalled();
+    expect(app.audio.consume).not.toHaveBeenCalled();
     expect(app.hud.toast).toHaveBeenCalledTimes(2);
   });
 
@@ -109,7 +111,8 @@ describe('actual App hotbar and inventory routes', () => {
     expect(app.input.consumePad).not.toHaveBeenCalled();
     expect(app.player.syncEquipment).not.toHaveBeenCalled();
     expect(app.audio.uiConfirm).not.toHaveBeenCalled();
-    expect(app.audio.pickup).not.toHaveBeenCalled();
+    expect(app.audio.consume).not.toHaveBeenCalled();
+    expect(app.audio.equip).not.toHaveBeenCalled();
   });
 
   it('moves duplicate assignments, swaps occupied slots atomically and clears bindings without changing inventory', () => {
@@ -137,6 +140,8 @@ describe('actual App hotbar and inventory routes', () => {
     game.state.inventory.rusted_sword = 0; call('equipWeapon', 'rusted_sword');
     expect(app.player.syncEquipment).toHaveBeenCalledTimes(2);
     expect(app.audio.uiConfirm).toHaveBeenCalledTimes(2);
+    // The blade is drawn, then put away; rejected requests make no sound.
+    expect(app.audio.equip.mock.calls).toEqual([[true], [false]]);
   });
   it('readies an already equipped weapon without repeating geometry sync or clearing a current guard', () => {
     const { app, call } = fixture();

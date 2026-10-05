@@ -76,7 +76,7 @@ describe('props standing on the authored landscape', () => {
       const ctx: PlayerCtx = {
         terrain, colliders: buildStaticColliders(terrain), settings: defaultSettings(), game: new Game(),
         input: { move: () => ({ x: 0, y: 1 }), held: () => false, pressed: () => false, clearToggle: vi.fn(), uiOpen: false } as unknown as Input,
-        audio: { footstep: vi.fn(), swing: vi.fn(), hit: vi.fn(), hurt: vi.fn() } as unknown as AudioEngine,
+        audio: { footstep: vi.fn(), swing: vi.fn(), hit: vi.fn(), hurt: vi.fn(), jump: vi.fn(), land: vi.fn(), dodge: vi.fn() } as unknown as AudioEngine,
         npcs: [], enemies: [], viewYaw: b.yaw + Math.PI, controllable: true,
         onHitEnemy: vi.fn(), onHurt: vi.fn(), onDeath: vi.fn(), onBoundary: vi.fn(),
       };

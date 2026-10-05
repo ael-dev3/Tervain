@@ -1,0 +1,947 @@
+import type { NpcId } from '../../game/types';
+import { ANCHORS, bySpec, frontOf } from '../../world/layout';
+import type { Terrain } from '../../world/terrain';
+import { npcStyle } from '../npcStyle';
+import { type BankName, clipRef, VariantPicker } from './clips';
+import { type Cue, stepCue, workSound, type WorkSound } from './foley';
+import { type MusicAction, MusicDirector, type Threat } from './musicDirector';
+import { bedTargets, EmitterScheduler, groundSurface, type Vec3, type WorldSoundState } from './soundscape';
+import { WORLD_AUDIO, type LoopId, type MusicId } from './worldAudioManifest';
+
+/**
+ * Tervain's recorded world sound at run time: one-shots placed in the world, looping beds that follow the place,
+ * wildlife calls around the listener, the residents' footsteps, work and talk, enemies' calls, objects knocking into
+ * things, and the in-world score. The decisions come from the pure modules (foley, soundscape, musicDirector); this
+ * class only turns them into Web Audio nodes, and no audio failure ever reaches the game.
+ */
+
+export interface SoundBuses {
+  effects: GainNode;
+  ambience: GainNode;
+  music: GainNode;
+  dialogue: GainNode;
+}
+
+export interface SoundResident {
+  readonly id: NpcId;
+  readonly x: number;
+  readonly y: number;
+  readonly z: number;
+  /** The actor's animation mode: walk, work, talk, sit or idle. */
+  readonly mode: string;
+  readonly hidden: boolean;
+}
+
+export interface SoundEnemy {
+  readonly id: string;
+  readonly x: number;
+  readonly y: number;
+  readonly z: number;
+  readonly state: string;
+  readonly alive: boolean;
+  readonly spawn: { readonly kind: 'bandit' | 'thornback' };
+}
+
+export interface SoundProp {
+  id: string;
+  kind: 'barrel' | 'crate';
+  x: number;
+  y: number;
+  z: number;
+  vx: number;
+  vy: number;
+  vz: number;
+  held: boolean;
+}
+
+export type GroundProbe = Pick<Terrain, 'deckAt' | 'carveAt' | 'seaDepth' | 'slopeAt'>;
+
+export interface SoundFrame {
+  /** play: the world runs; paused: a panel or conversation is open over it; dead: the fall. */
+  mode: 'play' | 'paused' | 'dead';
+  /** The camera: position and forward direction. */
+  listener: Vec3 & { fx: number; fy: number; fz: number };
+  player: Vec3 & { exhausted: boolean };
+  world: WorldSoundState;
+  indoors: boolean;
+  threat: Threat;
+  npcs: readonly SoundResident[];
+  enemies: readonly SoundEnemy[];
+  props: readonly SoundProp[];
+  terrain: GroundProbe;
+}
+
+type Bus = keyof SoundBuses;
+
+export interface PlayOptions {
+  /** Placed in the world; without a position the sound belongs to the player and is not panned. */
+  at?: Vec3;
+  bus?: Bus;
+  /** Multiplies the cue's own level. */
+  scale?: number;
+  /** Distance (metres) inside which a placed sound is at full level; larger for loud sources. */
+  ref?: number;
+  /** Beyond this distance a placed sound is not started at all. */
+  maxDistance?: number;
+  /** Reverb send before the distance increase, 0..1. */
+  reverb?: number;
+  rate?: number;
+}
+
+interface Voice {
+  source: AudioBufferSourceNode;
+  nodes: AudioNode[];
+  bus: Bus;
+  started: number;
+}
+
+interface Bed {
+  id: LoopId;
+  gain: GainNode;
+  panner: PannerNode | null;
+  source: AudioBufferSourceNode | null;
+  loading: boolean;
+  buffer: AudioBuffer | null;
+  silentFor: number;
+  target: number;
+}
+
+interface PersonClock {
+  /** Where they were last heard, and how far they have walked since their last footfall. */
+  x: number;
+  z: number;
+  walked: number;
+  work: number;
+  burst: number;
+  idle: number;
+  talk: number;
+}
+
+/**
+ * Metres between footfalls: a resident's walk (the measured stride of the walking people), a toll-jumper walking and
+ * running, the creature pacing and charging. Feet sound only for ground actually covered, never for walking in place.
+ */
+const STRIDE = { resident: 0.74, bandit: 0.8, banditRun: 1.2, beast: 0.65, beastRun: 1.3 } as const;
+/** A larger jump between checks is a teleport or a respawn, not a walk. */
+const TELEPORT = 4;
+
+const LIMIT: Record<Bus, number> = { effects: 28, ambience: 18, dialogue: 6, music: 4 };
+const UPDATE_INTERVAL = 1 / 20;
+const LISTENER_INTERVAL = 1 / 60;
+/** A bed that stays silent this long gives its decoded memory back. */
+const BED_RELEASE = 45;
+/** Fight loops and stings are decoded on demand and released after this long unused. */
+const MUSIC_RELEASE = 150;
+
+/** The hamlet's three silent residents stand on the same marks as in ambient.ts; two of them sleep after dark. */
+const MENDER = frontOf(bySpec('net_store'), 2.4);
+const FIRE = ANCHORS.strand_fire ?? { x: -103, z: 16 };
+const KEEPER_DOOR = frontOf(bySpec('keeper_cottage'), 2.4);
+const NET_MENDING: WorkSound = { clip: 'item.cloth', every: [5, 11], gain: 0.24 };
+export const AMBIENT_PEOPLE_SOUND: readonly { id: string; x: number; z: number; work: WorkSound | null; sleeps: boolean }[] = [
+  { id: 'ambient:fisher', x: MENDER.x, z: MENDER.z, work: NET_MENDING, sleeps: true },
+  { id: 'ambient:fireside', x: FIRE.x + 1.6, z: FIRE.z + 1.5, work: null, sleeps: true },
+  { id: 'ambient:keeper', x: KEEPER_DOOR.x + 2.6, z: KEEPER_DOOR.z - 1.2, work: null, sleeps: false },
+];
+
+/** A procedural stereo impulse response: sparse early reflections, then a decaying, decorrelated diffuse tail. */
+export function impulse(ctx: BaseAudioContext, seconds: number, decay: number, early: readonly number[]): AudioBuffer {
+  const n = Math.max(1, Math.round(seconds * ctx.sampleRate));
+  const ir = ctx.createBuffer(2, n, ctx.sampleRate);
+  let seed = 0x2545f491;
+  const rnd = () => {
+    seed ^= seed << 13;
+    seed ^= seed >>> 17;
+    seed ^= seed << 5;
+    return ((seed >>> 0) / 4294967296) * 2 - 1;
+  };
+  for (let c = 0; c < 2; c++) {
+    const d = ir.getChannelData(c);
+    for (let i = 0; i < n; i++) {
+      const t = i / ctx.sampleRate;
+      // A short fade-in: the dry path already carries the direct sound.
+      d[i] = rnd() * Math.exp(-t / decay) * Math.min(1, t / 0.012) * 0.6;
+    }
+    early.forEach((at, k) => {
+      const i = Math.round((at + c * 0.0037) * ctx.sampleRate);
+      if (i < n) d[i] = d[i]! + (k % 2 ? -1 : 1) * 0.5 * Math.exp(-at / decay);
+    });
+  }
+  return ir;
+}
+
+/** Place a new one-shot's panner at once. */
+function placeAt(p: PannerNode, at: Vec3) {
+  if (p.positionX) {
+    p.positionX.value = at.x;
+    p.positionY.value = at.y;
+    p.positionZ.value = at.z;
+  } else (p as unknown as { setPosition(x: number, y: number, z: number): void }).setPosition(at.x, at.y, at.z);
+}
+
+function quietly(fn: () => void) {
+  try {
+    fn();
+  } catch {
+    // stopping or disconnecting twice is harmless
+  }
+}
+
+export class SoundWorld {
+  private readonly ctx: AudioContext;
+  private readonly buses: SoundBuses;
+  private readonly base: string;
+  /** Ogg Opus where the browser plays it; AAC otherwise, and for good after an Opus file fails to decode. */
+  private ext: 'ogg' | 'm4a';
+  private readonly bankBuffers = new Map<BankName, AudioBuffer>();
+  private readonly bankLoads = new Map<BankName, Promise<void>>();
+  private readonly musicBuffers = new Map<MusicId, { buffer: AudioBuffer; used: number }>();
+  private readonly musicLoads = new Map<MusicId, Promise<AudioBuffer | null>>();
+  private readonly beds = new Map<LoopId, Bed>();
+  private readonly voices = new Set<Voice>();
+  private readonly picker: VariantPicker;
+  private readonly random: () => number;
+  private readonly emitters: EmitterScheduler;
+  private readonly director: MusicDirector;
+  private readonly owned: AudioNode[] = [];
+  private readonly targets = new WeakMap<AudioParam, number>();
+  /** Outdoor beds and point sources pass a muffle that closes indoors and in panels, and fall silent under a menu. */
+  private readonly outdoor: { filter: BiquadFilterNode; gain: GainNode };
+  /** Open air among trees and walls, and a stone room. */
+  private readonly reverbs: { send: GainNode }[] = [];
+  /** Pieces and fight loops step back under a sting. */
+  private readonly duck: GainNode;
+  private readonly people = new Map<string, PersonClock>();
+  private readonly foes = new Map<string, { state: string; x: number; z: number; walked: number }>();
+  private readonly objects = new Map<string, { speed: number; cooldown: number }>();
+  private piece: { media: HTMLAudioElement; source: MediaElementAudioSourceNode; gain: GainNode } | null = null;
+  private loop: { id: MusicId; source: AudioBufferSourceNode; gain: GainNode } | null = null;
+  private loopWanted: MusicId | null = null;
+  private acc = 0;
+  private listenerAcc = 0;
+  private breath = 0.4;
+  private clock = 0;
+  private open = false;
+  private lastFrame: SoundFrame | null = null;
+  private disposed = false;
+  /** Counts for the developer panel. */
+  readonly stats = { voices: 0, beds: 0, emitted: 0, dropped: 0, decodeErrors: 0 };
+
+  constructor(ctx: AudioContext, buses: SoundBuses, base: string, random: () => number = Math.random) {
+    this.ctx = ctx;
+    this.buses = buses;
+    this.base = base;
+    this.random = random;
+    this.picker = new VariantPicker(random);
+    this.emitters = new EmitterScheduler(random);
+    this.director = new MusicDirector(random);
+    const probe = typeof Audio === 'function' ? new Audio() : null;
+    this.ext = probe && probe.canPlayType('audio/ogg; codecs="opus"') ? 'ogg' : 'm4a';
+    try {
+      const filter = this.own(ctx.createBiquadFilter());
+      filter.type = 'lowpass';
+      filter.frequency.value = 20000;
+      filter.Q.value = 0.5;
+      const gain = this.own(ctx.createGain());
+      gain.gain.value = 0;
+      filter.connect(gain).connect(buses.ambience);
+      this.outdoor = { filter, gain };
+      const rooms: [AudioBuffer, number][] = [
+        [impulse(ctx, 1.8, 0.42, [0.021, 0.034, 0.055, 0.081]), 0.32],
+        [impulse(ctx, 1.1, 0.25, [0.006, 0.011, 0.017, 0.024, 0.031]), 0.42],
+      ];
+      rooms.forEach(([ir, level], i) => {
+        const send = this.own(ctx.createGain());
+        send.gain.value = i === 0 ? 1 : 0;
+        const convolver = this.own(ctx.createConvolver());
+        convolver.normalize = true;
+        convolver.buffer = ir;
+        const wet = this.own(ctx.createGain());
+        wet.gain.value = level;
+        send.connect(convolver).connect(wet).connect(buses.effects);
+        this.reverbs.push({ send });
+      });
+      this.duck = this.own(ctx.createGain());
+      this.duck.connect(buses.music);
+    } catch (error) {
+      for (const n of this.owned) quietly(() => n.disconnect());
+      throw error;
+    }
+    for (const name of Object.keys(WORLD_AUDIO.banks) as BankName[]) void this.loadBank(name);
+  }
+
+  private own<T extends AudioNode>(node: T): T {
+    this.owned.push(node);
+    return node;
+  }
+
+  /**
+   * Bounded automation, as in the audio facade: an unchanged target schedules nothing, and a new one replaces the
+   * pending ramp instead of piling events onto the parameter's timeline.
+   */
+  private target(param: AudioParam, value: number, t: number, constant: number, epsilon = 1e-4) {
+    const last = this.targets.get(param);
+    if (last !== undefined && Math.abs(last - value) < epsilon) return;
+    this.targets.set(param, value);
+    if (typeof param.cancelAndHoldAtTime === 'function') param.cancelAndHoldAtTime(t);
+    else {
+      const current = param.value;
+      param.cancelScheduledValues(t);
+      param.setValueAtTime(current, t);
+    }
+    param.setTargetAtTime(value, t, constant);
+  }
+
+  /** Move a bed's panner smoothly; centimetre changes are not worth an automation event. */
+  private moveTo(p: PannerNode, at: Vec3, t: number) {
+    if (p.positionX) {
+      this.target(p.positionX, at.x, t, 0.4, 0.05);
+      this.target(p.positionY, at.y, t, 0.4, 0.05);
+      this.target(p.positionZ, at.z, t, 0.4, 0.05);
+    } else placeAt(p, at);
+  }
+
+  /* ------------------------------------------------------------------ loading */
+
+  url(file: string, ext = this.ext): string {
+    return `${this.base}${WORLD_AUDIO.base}${file}.${ext}`;
+  }
+
+  private async decode(file: string): Promise<AudioBuffer | null> {
+    for (;;) {
+      const ext = this.ext;
+      try {
+        const res = await fetch(this.url(file, ext));
+        if (!res.ok) throw new Error(`${res.status}`);
+        const data = await res.arrayBuffer();
+        if (this.disposed) return null;
+        return await this.ctx.decodeAudioData(data);
+      } catch {
+        // As with the menu score, a browser that names Opus but cannot use it falls back to AAC.
+        if (ext === 'ogg' && !this.disposed) {
+          this.ext = 'm4a';
+          continue;
+        }
+        this.stats.decodeErrors++;
+        return null;
+      }
+    }
+  }
+
+  private loadBank(name: BankName): Promise<void> {
+    let p = this.bankLoads.get(name);
+    if (!p) {
+      p = this.decode(WORLD_AUDIO.banks[name].file).then((buffer) => {
+        if (buffer) this.bankBuffers.set(name, buffer);
+        // A failed bank is tried again on a later request.
+        else this.bankLoads.delete(name);
+      });
+      this.bankLoads.set(name, p);
+    }
+    return p;
+  }
+
+  private loadMusic(id: MusicId): Promise<AudioBuffer | null> {
+    const held = this.musicBuffers.get(id);
+    if (held) {
+      held.used = this.clock;
+      return Promise.resolve(held.buffer);
+    }
+    let p = this.musicLoads.get(id);
+    if (!p) {
+      p = this.decode(WORLD_AUDIO.music[id].file).then((buffer) => {
+        this.musicLoads.delete(id);
+        if (buffer && !this.disposed) this.musicBuffers.set(id, { buffer, used: this.clock });
+        return buffer;
+      });
+      this.musicLoads.set(id, p);
+    }
+    return p;
+  }
+
+  /** True once every one-shot bank is decoded (for the developer panel and the browser review). */
+  get banksReady(): boolean {
+    return this.bankBuffers.size === Object.keys(WORLD_AUDIO.banks).length;
+  }
+
+  /** 1 while recorded beds are sounding in the world; the procedural beds step back underneath them. */
+  get recordedLevel(): number {
+    if (!this.open) return 0;
+    for (const bed of this.beds.values()) if (bed.source) return 1;
+    return 0;
+  }
+
+  /* ------------------------------------------------------------------ one-shots */
+
+  /** Play a cue now (or after its delay). Returns false when it was not started. */
+  play(cue: Cue, opt: PlayOptions = {}): boolean {
+    if (this.disposed || this.ctx.state === 'closed') return false;
+    try {
+      const ref = clipRef(cue.clip);
+      const buffer = this.bankBuffers.get(ref.bank);
+      if (!buffer) {
+        void this.loadBank(ref.bank);
+        this.stats.dropped++;
+        return false;
+      }
+      const bus = opt.bus ?? 'effects';
+      let distance = 0;
+      if (opt.at) {
+        const l = this.lastFrame?.listener ?? opt.at;
+        distance = Math.hypot(opt.at.x - l.x, opt.at.y - l.y, opt.at.z - l.z);
+        if (distance > (opt.maxDistance ?? 60)) return false;
+      }
+      const [offset, length] = ref.variants[this.picker.pick(cue.clip)]!;
+      const from = Math.min(length, Math.max(0, cue.from ?? 0));
+      const to = Math.min(length, cue.to ?? length);
+      if (to - from < 0.02) return false;
+      this.makeRoom(bus);
+      const ctx = this.ctx;
+      const source = ctx.createBufferSource();
+      source.buffer = buffer;
+      const spread = cue.pitch ?? 0;
+      source.playbackRate.value = (opt.rate ?? 1) * (1 + (this.random() * 2 - 1) * spread);
+      const gain = ctx.createGain();
+      gain.gain.value = cue.gain * (opt.scale ?? 1) * (0.92 + 0.16 * this.random());
+      source.connect(gain);
+      const nodes: AudioNode[] = [source, gain];
+      let tail: AudioNode = gain;
+      if (opt.at) {
+        // Air takes the top off distant sounds; the panner places them and lowers them with distance.
+        if (distance > 12) {
+          const air = ctx.createBiquadFilter();
+          air.type = 'lowpass';
+          air.frequency.value = Math.max(1400, 18000 * Math.exp(-(distance - 12) / 40));
+          tail.connect(air);
+          tail = air;
+          nodes.push(air);
+        }
+        const panner = ctx.createPanner();
+        panner.panningModel = 'equalpower';
+        panner.distanceModel = 'inverse';
+        panner.refDistance = opt.ref ?? 2;
+        panner.rolloffFactor = 1;
+        panner.maxDistance = 10000;
+        placeAt(panner, opt.at);
+        tail.connect(panner);
+        tail = panner;
+        nodes.push(panner);
+      }
+      tail.connect(this.buses[bus]);
+      const send = Math.min(1, (opt.reverb ?? 0.06) + (opt.at ? Math.min(0.35, distance / 120) : 0));
+      if (send > 0.01) {
+        const s = ctx.createGain();
+        s.gain.value = send;
+        tail.connect(s);
+        for (const r of this.reverbs) s.connect(r.send);
+        nodes.push(s);
+      }
+      const voice: Voice = { source, nodes, bus, started: ctx.currentTime };
+      this.voices.add(voice);
+      source.onended = () => this.release(voice);
+      source.start(ctx.currentTime + Math.max(0, cue.delay ?? 0), offset + from, to - from);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  /** Several layers of one action. */
+  playAll(cues: readonly Cue[], opt: PlayOptions = {}) {
+    for (const c of cues) this.play(c, opt);
+  }
+
+  private release(v: Voice) {
+    if (!this.voices.delete(v)) return;
+    for (const n of v.nodes) quietly(() => n.disconnect());
+  }
+
+  /** Keep each bus within its voice budget by ending its oldest voice. */
+  private makeRoom(bus: Bus) {
+    let count = 0;
+    let oldest: Voice | null = null;
+    for (const v of this.voices) {
+      if (v.bus !== bus) continue;
+      count++;
+      if (!oldest || v.started < oldest.started) oldest = v;
+    }
+    if (count >= LIMIT[bus] && oldest) {
+      const v = oldest;
+      quietly(() => v.source.stop());
+      this.release(v);
+    }
+  }
+
+  /* ------------------------------------------------------------------ the frame */
+
+  /** Called every frame; `null` while a menu covers the world. */
+  update(dt: number, frame: SoundFrame | null) {
+    if (this.disposed) return;
+    try {
+      this.clock += dt;
+      if (frame) {
+        this.lastFrame = frame;
+        this.listenerAcc += dt;
+        if (this.listenerAcc >= LISTENER_INTERVAL) {
+          this.listenerAcc = 0;
+          this.setListener(frame.listener);
+        }
+        // Fights and knocks are timed to the frame; the rest of the world is checked twenty times a second.
+        if (frame.mode === 'play') this.updateEnemies(frame);
+        if (frame.mode !== 'paused') this.updateProps(dt, frame);
+      }
+      this.acc += dt;
+      if (this.acc < UPDATE_INTERVAL) return;
+      const step = Math.min(0.25, this.acc);
+      this.acc = 0;
+      this.updateBeds(step, frame);
+      this.updateMusic(step, frame);
+      if (frame?.mode === 'play') {
+        for (const e of this.emitters.update(step, { ...frame.listener, indoors: frame.indoors }, frame.world)) {
+          if (this.play({ clip: e.clip, gain: e.gain, pitch: e.pitch }, { at: e.at, bus: 'ambience', ref: 9, maxDistance: 110, reverb: 0.12 })) this.stats.emitted++;
+        }
+        this.updatePeople(step, frame);
+        this.updateBreath(step, frame);
+      }
+      this.stats.voices = this.voices.size;
+    } catch {
+      // A broken frame of sound never stops the game.
+    }
+  }
+
+  private setListener(l: SoundFrame['listener']) {
+    const li = this.ctx.listener;
+    const t = this.ctx.currentTime;
+    if (li.positionX) {
+      this.target(li.positionX, l.x, t, 0.02, 0.01);
+      this.target(li.positionY, l.y, t, 0.02, 0.01);
+      this.target(li.positionZ, l.z, t, 0.02, 0.01);
+      this.target(li.forwardX, l.fx, t, 0.02, 0.002);
+      this.target(li.forwardY, l.fy, t, 0.02, 0.002);
+      this.target(li.forwardZ, l.fz, t, 0.02, 0.002);
+    } else {
+      const old = li as unknown as { setPosition(x: number, y: number, z: number): void; setOrientation(a: number, b: number, c: number, d: number, e: number, f: number): void };
+      old.setPosition(l.x, l.y, l.z);
+      old.setOrientation(l.fx, l.fy, l.fz, 0, 1, 0);
+    }
+  }
+
+  /* ------------------------------------------------------------------ beds */
+
+  private updateBeds(dt: number, frame: SoundFrame | null) {
+    const t = this.ctx.currentTime;
+    this.open = !!frame;
+    // Under a menu the world's beds give way to the menu's own; indoors and in panels they are muffled.
+    const cutoff = !frame ? 20000 : frame.indoors ? 1100 : frame.mode === 'paused' ? 5200 : 20000;
+    this.target(this.outdoor.gain.gain, frame ? 1 : 0, t, frame ? 0.6 : 0.35);
+    this.target(this.outdoor.filter.frequency, cutoff, t, 0.25, 1);
+    const indoors = !!frame?.indoors;
+    this.reverbs.forEach((r, i) => this.target(r.send.gain, (i === 1) === indoors ? 1 : 0, t, 0.3));
+    const targets = frame ? bedTargets({ ...frame.listener, indoors }, frame.world) : null;
+    let active = 0;
+    for (const id of Object.keys(WORLD_AUDIO.loops) as LoopId[]) {
+      const target = targets?.[id];
+      const gain = frame ? target?.gain ?? 0 : 0;
+      let bed = this.beds.get(id);
+      if (!bed) {
+        if (gain <= 0.004) continue;
+        bed = this.makeBed(id, !!target?.at);
+      }
+      bed.target = gain;
+      if (gain > 0.004) {
+        bed.silentFor = 0;
+        if (!bed.source) this.startBed(bed);
+      } else bed.silentFor += dt;
+      this.target(bed.gain.gain, gain, t, gain > bed.gain.gain.value ? 1.4 : 0.9, 0.002);
+      if (bed.panner && target?.at) this.moveTo(bed.panner, target.at, t);
+      if (bed.source && bed.silentFor > BED_RELEASE) this.stopBed(bed);
+      if (bed.source) active++;
+    }
+    this.stats.beds = active;
+  }
+
+  private makeBed(id: LoopId, positioned: boolean): Bed {
+    const gain = this.own(this.ctx.createGain());
+    gain.gain.value = 0;
+    let panner: PannerNode | null = null;
+    if (positioned) {
+      panner = this.own(this.ctx.createPanner());
+      panner.panningModel = 'equalpower';
+      // Rivers, wheels and quarries are large sources: the place level already carries the distance, so the panner
+      // only gives the side.
+      panner.rolloffFactor = 0;
+      gain.connect(panner).connect(this.outdoor.filter);
+    } else if (id === 'interior' || id === 'hall_drone') gain.connect(this.buses.ambience);
+    else gain.connect(this.outdoor.filter);
+    const bed: Bed = { id, gain, panner, source: null, loading: false, buffer: null, silentFor: 0, target: 0 };
+    this.beds.set(id, bed);
+    return bed;
+  }
+
+  private startBed(bed: Bed) {
+    if (bed.loading) return;
+    const play = (buffer: AudioBuffer) => {
+      if (this.disposed || bed.source || bed.target <= 0.004) return;
+      const s = this.ctx.createBufferSource();
+      s.buffer = buffer;
+      s.loop = true;
+      s.connect(bed.gain);
+      // Start anywhere in the loop, so two visits never begin identically.
+      s.start(this.ctx.currentTime, this.random() * buffer.duration);
+      bed.source = s;
+    };
+    if (bed.buffer) {
+      play(bed.buffer);
+      return;
+    }
+    bed.loading = true;
+    void this.decode(WORLD_AUDIO.loops[bed.id].file).then((buffer) => {
+      bed.loading = false;
+      if (!buffer || this.disposed) return;
+      bed.buffer = buffer;
+      play(buffer);
+    });
+  }
+
+  private stopBed(bed: Bed) {
+    const s = bed.source;
+    bed.source = null;
+    bed.buffer = null;
+    if (!s) return;
+    quietly(() => s.stop());
+    quietly(() => s.disconnect());
+  }
+
+  /* ------------------------------------------------------------------ residents, enemies, objects */
+
+  private clockFor(id: string, x: number, z: number): PersonClock {
+    let s = this.people.get(id);
+    if (!s) {
+      s = { x, z, walked: this.random() * STRIDE.resident, work: 1 + this.random() * 4, burst: 0, idle: 10 + this.random() * 30, talk: this.random() * 3 };
+      this.people.set(id, s);
+    }
+    return s;
+  }
+
+  private updatePeople(dt: number, frame: SoundFrame) {
+    const l = frame.listener;
+    for (const a of frame.npcs) {
+      const d = Math.hypot(a.x - l.x, a.z - l.z);
+      if (a.hidden || d > 36) continue;
+      const s = this.clockFor(a.id, a.x, a.z);
+      const at = { x: a.x, y: a.y + 0.2, z: a.z };
+      const moved = Math.hypot(a.x - s.x, a.z - s.z);
+      s.x = a.x;
+      s.z = a.z;
+      if (a.mode === 'walk') {
+        if (moved < TELEPORT) s.walked += moved;
+        if (s.walked >= STRIDE.resident) {
+          s.walked %= STRIDE.resident;
+          this.play(stepCue(groundSurface(frame.terrain, a.x, a.z), false, this.random), { at, scale: 0.85, ref: 1.6, maxDistance: 26, reverb: 0.05 });
+        }
+      } else if (a.mode === 'work') {
+        this.workTick(s, workSound(a.id, npcStyle(a.id).work), dt, at);
+      } else if (a.mode === 'talk') {
+        s.talk -= dt;
+        if (s.talk <= 0) {
+          s.talk = 4.3 + 2.5 * this.random();
+          if (d < 20) this.play({ clip: 'voice.murmur', gain: 0.5, pitch: 0.06 }, { at: { ...at, y: a.y + 1.6 }, bus: 'dialogue', ref: 2, maxDistance: 22 });
+        }
+      }
+      if (a.mode !== 'walk' && a.mode !== 'talk') this.idleTick(s, dt, at, d);
+    }
+    for (const p of AMBIENT_PEOPLE_SOUND) {
+      const d = Math.hypot(p.x - l.x, p.z - l.z);
+      if (d > 30 || (p.sleeps && frame.world.nightness > 0.75)) continue;
+      const s = this.clockFor(p.id, p.x, p.z);
+      const at = { x: p.x, y: 1, z: p.z };
+      this.workTick(s, p.work, dt, at);
+      this.idleTick(s, dt, at, d);
+    }
+  }
+
+  private workTick(s: PersonClock, w: WorkSound | null, dt: number, at: Vec3) {
+    if (!w) return;
+    s.work -= dt;
+    if (s.work > 0) return;
+    this.play({ clip: w.clip, gain: w.gain, pitch: 0.05 }, { at, ref: 2.5, maxDistance: 36, reverb: 0.08 });
+    const span = (r: readonly [number, number]) => r[0] + (r[1] - r[0]) * this.random();
+    if (w.burst && w.rest) {
+      if (s.burst <= 0) s.burst = Math.round(span(w.burst));
+      s.burst--;
+      s.work = s.burst > 0 ? span(w.every) : span(w.rest);
+    } else s.work = span(w.every);
+  }
+
+  /** Someone standing about now and then clears their throat or shifts their clothes. */
+  private idleTick(s: PersonClock, dt: number, at: Vec3, d: number) {
+    s.idle -= dt;
+    if (s.idle > 0) return;
+    s.idle = 22 + 40 * this.random();
+    if (d > 16) return;
+    const cough = this.random() < 0.3;
+    this.play(
+      cough ? { clip: 'voice.cough', gain: 0.32, pitch: 0.08 } : { clip: 'item.cloth', gain: 0.2, pitch: 0.06, from: 0, to: 1.2 },
+      { at: { ...at, y: at.y + (cough ? 1.4 : 0.8) }, bus: cough ? 'dialogue' : 'effects', ref: 1.6, maxDistance: 18 },
+    );
+  }
+
+  /** Enemies are heard by what they do: winding up, striking, staggering, falling, running. Noticing comes from the game. */
+  private updateEnemies(frame: SoundFrame) {
+    for (const e of frame.enemies) {
+      let s = this.foes.get(e.id);
+      if (!s) {
+        s = { state: e.state, x: e.x, z: e.z, walked: 0 };
+        this.foes.set(e.id, s);
+      }
+      const beast = e.spawn.kind === 'thornback';
+      if (e.state !== s.state) {
+        const at = { x: e.x, y: e.y + 1, z: e.z };
+        switch (e.state) {
+          case 'telegraph':
+            if (beast) this.play({ clip: 'beast.attack', gain: 0.7, pitch: 0.05, to: 1.8 }, { at, ref: 5, maxDistance: 80 });
+            else if (this.random() < 0.5) this.play({ clip: 'bandit.shout', gain: 0.55, pitch: 0.06 }, { at, bus: 'dialogue', ref: 4, maxDistance: 60 });
+            break;
+          case 'strike':
+            this.play(beast ? { clip: 'swing.heavy', gain: 0.5, pitch: 0.05 } : { clip: 'swing', gain: 0.5, pitch: 0.06 }, { at, rate: beast ? 0.8 : 1, ref: 3 });
+            break;
+          case 'stagger':
+            this.play(beast ? { clip: 'beast.hurt', gain: 0.6, pitch: 0.06, to: 1.4 } : { clip: 'voice.hurt', gain: 0.6, pitch: 0.06 }, { at, bus: beast ? 'effects' : 'dialogue', rate: beast ? 1 : 0.9, ref: 4 });
+            break;
+          case 'dead':
+            this.play(beast ? { clip: 'beast.hurt', gain: 0.75, pitch: 0.03 } : { clip: 'voice.death', gain: 0.65, pitch: 0.04 }, { at, bus: beast ? 'effects' : 'dialogue', rate: beast ? 0.85 : 0.92, ref: 4, maxDistance: 70 });
+            break;
+        }
+        s.state = e.state;
+      }
+      // Feet for ground covered: the creature paces its patch even at rest, and a lunge or a stagger is a footfall too.
+      const moved = Math.hypot(e.x - s.x, e.z - s.z);
+      s.x = e.x;
+      s.z = e.z;
+      if (!e.alive || moved >= TELEPORT) continue;
+      const running = e.state === 'chase' || e.state === 'strike';
+      const stride = beast ? (running ? STRIDE.beastRun : STRIDE.beast) : running ? STRIDE.banditRun : STRIDE.bandit;
+      s.walked += moved;
+      if (s.walked < stride) continue;
+      s.walked %= stride;
+      const foot = { x: e.x, y: e.y + 0.1, z: e.z };
+      if (beast) this.play({ clip: 'land', gain: running ? 0.45 : 0.25, pitch: 0.08 }, { at: foot, rate: 0.72, ref: 3, maxDistance: 40 });
+      else this.play(stepCue(groundSurface(frame.terrain, e.x, e.z), running, this.random), { at: foot, ref: 1.8, maxDistance: 40 });
+    }
+  }
+
+  /** A barrel or crate that suddenly loses speed has hit something: louder for a harder knock. */
+  private updateProps(dt: number, frame: SoundFrame) {
+    for (const p of frame.props) {
+      const speed = Math.hypot(p.vx, p.vy, p.vz);
+      let s = this.objects.get(p.id);
+      if (!s) {
+        s = { speed, cooldown: 0 };
+        this.objects.set(p.id, s);
+      }
+      s.cooldown -= dt;
+      const lost = s.speed - speed;
+      if (!p.held && s.speed > 1.1 && lost > Math.max(0.9, s.speed * 0.38) && s.cooldown <= 0) {
+        const hard = Math.min(1, lost / 7);
+        this.play({ clip: 'wood.impact', gain: 0.25 + 0.65 * hard, pitch: 0.07 }, { at: { x: p.x, y: p.y, z: p.z }, rate: p.kind === 'barrel' ? 0.86 : 1.06, ref: 2.5, maxDistance: 45, reverb: 0.1 });
+        s.cooldown = 0.12;
+      }
+      s.speed = speed;
+    }
+  }
+
+  private updateBreath(dt: number, frame: SoundFrame) {
+    if (!frame.player.exhausted) {
+      this.breath = 0.4;
+      return;
+    }
+    this.breath -= dt;
+    if (this.breath > 0) return;
+    this.breath = 1.05 + 0.35 * this.random();
+    this.play({ clip: 'voice.breath', gain: 0.4, pitch: 0.05 }, { bus: 'dialogue', reverb: 0.02 });
+  }
+
+  /* ------------------------------------------------------------------ the score */
+
+  private updateMusic(dt: number, frame: SoundFrame | null) {
+    const actions = this.director.update(dt, {
+      active: !!frame && frame.mode !== 'dead',
+      x: frame?.player.x ?? 0,
+      z: frame?.player.z ?? 0,
+      night: (frame?.world.nightness ?? 0) > 0.55,
+      // A panel opened mid-fight pauses the fight, not its music.
+      threat: frame && frame.mode !== 'dead' ? frame.threat : 'none',
+    });
+    this.applyMusic(actions);
+    // Decoded loops and stings that have not been needed for a while give their memory back.
+    for (const [id, held] of this.musicBuffers) {
+      if (this.clock - held.used > MUSIC_RELEASE && this.loop?.id !== id) this.musicBuffers.delete(id);
+    }
+  }
+
+  /** Discovery, quest, victory and death stings, from game events. */
+  sting(kind: 'discover' | 'quest' | 'victory' | 'death') {
+    if (this.disposed) return;
+    this.applyMusic(this.director.sting(kind));
+  }
+
+  private applyMusic(actions: readonly MusicAction[]) {
+    for (const a of actions) {
+      try {
+        if (a.t === 'stop') this.stopMusic(a.fadeOut);
+        else if (a.t === 'piece') this.playPiece(a.id, a.fadeIn);
+        else if (a.t === 'loop') this.playLoop(a.id, a.fadeIn);
+        else this.playSting(a.id);
+      } catch {
+        // the score is never worth a broken frame
+      }
+    }
+  }
+
+  private fadeOut(gain: GainNode, seconds: number, after: () => void) {
+    const t = this.ctx.currentTime;
+    gain.gain.cancelScheduledValues(t);
+    gain.gain.setValueAtTime(gain.gain.value, t);
+    gain.gain.linearRampToValueAtTime(0, t + Math.max(0.05, seconds));
+    setTimeout(after, Math.max(50, seconds * 1000 + 80));
+  }
+
+  private releasePiece(seconds: number) {
+    const piece = this.piece;
+    this.piece = null;
+    if (!piece) return;
+    this.fadeOut(piece.gain, seconds, () => {
+      piece.media.pause();
+      piece.media.removeAttribute('src');
+      piece.media.load();
+      quietly(() => piece.source.disconnect());
+      quietly(() => piece.gain.disconnect());
+    });
+  }
+
+  private releaseLoop(seconds: number) {
+    const loop = this.loop;
+    this.loop = null;
+    if (!loop) return;
+    this.fadeOut(loop.gain, seconds, () => {
+      quietly(() => loop.source.stop());
+      quietly(() => loop.source.disconnect());
+      quietly(() => loop.gain.disconnect());
+    });
+  }
+
+  private stopMusic(seconds: number) {
+    this.loopWanted = null;
+    this.releasePiece(seconds);
+    this.releaseLoop(seconds);
+  }
+
+  private playPiece(id: MusicId, fadeIn: number) {
+    this.stopMusic(1.5);
+    if (typeof Audio !== 'function') return;
+    // Pieces stream like the menu score: a whole piece is never decoded into memory.
+    const media = new Audio();
+    media.preload = 'auto';
+    const file = WORLD_AUDIO.music[id].file;
+    media.src = this.url(file);
+    media.addEventListener('error', () => {
+      if (this.piece?.media !== media || !media.src.endsWith('.ogg')) return;
+      this.ext = 'm4a';
+      media.src = this.url(file, 'm4a');
+      void media.play().catch(() => undefined);
+    }, { once: true });
+    const gain = this.ctx.createGain();
+    const source = this.ctx.createMediaElementSource(media);
+    source.connect(gain).connect(this.duck);
+    const t = this.ctx.currentTime;
+    gain.gain.setValueAtTime(0, t);
+    gain.gain.linearRampToValueAtTime(0.85, t + fadeIn);
+    this.piece = { media, source, gain };
+    void media.play().catch(() => undefined);
+  }
+
+  private playLoop(id: MusicId, fadeIn: number) {
+    this.loopWanted = id;
+    this.releasePiece(2);
+    if (this.loop?.id === id) return;
+    this.releaseLoop(0.8);
+    void this.loadMusic(id).then((buffer) => {
+      if (!buffer || this.disposed || this.loopWanted !== id || this.loop) return;
+      const source = this.ctx.createBufferSource();
+      source.buffer = buffer;
+      source.loop = true;
+      const gain = this.ctx.createGain();
+      const t = this.ctx.currentTime;
+      gain.gain.setValueAtTime(0, t);
+      gain.gain.linearRampToValueAtTime(0.8, t + fadeIn);
+      source.connect(gain).connect(this.duck);
+      source.start();
+      this.loop = { id, source, gain };
+    });
+  }
+
+  private playSting(id: MusicId) {
+    void this.loadMusic(id).then((buffer) => {
+      if (!buffer || this.disposed) return;
+      const source = this.ctx.createBufferSource();
+      source.buffer = buffer;
+      const gain = this.ctx.createGain();
+      gain.gain.value = 0.8;
+      source.connect(gain).connect(this.buses.music);
+      // Whatever else is playing steps back for the sting.
+      const t = this.ctx.currentTime;
+      this.duck.gain.cancelScheduledValues(t);
+      this.duck.gain.setTargetAtTime(0.35, t, 0.15);
+      this.duck.gain.setTargetAtTime(1, t + buffer.duration * 0.85, 0.6);
+      source.onended = () => {
+        quietly(() => source.disconnect());
+        quietly(() => gain.disconnect());
+      };
+      source.start();
+    });
+  }
+
+  /** A hidden tab suspends the audio clock; a streamed piece must not run on silently under it. */
+  setHidden(hidden: boolean) {
+    const media = this.piece?.media;
+    if (!media || this.disposed) return;
+    if (hidden) media.pause();
+    else if (!media.ended) void media.play().catch(() => undefined);
+  }
+
+  /** The score's state, for the developer panel and the browser review. */
+  get musicState(): { phase: string; piece: MusicId | null; loop: MusicId | null } {
+    return { phase: this.director.phase, piece: this.director.current, loop: this.loop?.id ?? null };
+  }
+
+  dispose() {
+    if (this.disposed) return;
+    this.disposed = true;
+    this.loopWanted = null;
+    const piece = this.piece;
+    this.piece = null;
+    if (piece) {
+      piece.media.pause();
+      piece.media.removeAttribute('src');
+      piece.media.load();
+      quietly(() => piece.source.disconnect());
+      quietly(() => piece.gain.disconnect());
+    }
+    const loop = this.loop;
+    this.loop = null;
+    if (loop) {
+      quietly(() => loop.source.stop());
+      quietly(() => loop.source.disconnect());
+      quietly(() => loop.gain.disconnect());
+    }
+    for (const v of [...this.voices]) {
+      quietly(() => v.source.stop());
+      this.release(v);
+    }
+    for (const bed of this.beds.values()) this.stopBed(bed);
+    this.beds.clear();
+    for (const n of this.owned) quietly(() => n.disconnect());
+    this.bankBuffers.clear();
+    this.musicBuffers.clear();
+  }
+}

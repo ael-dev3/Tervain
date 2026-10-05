@@ -23,7 +23,7 @@ function setup(ground: Terrain = terrain, collisions: Colliders = colliders) {
   const ctx: PlayerCtx = {
     terrain: ground, colliders: collisions, game: new Game(), settings: defaultSettings(),
     input: { move: () => ({ x: 0, y: movement ? 1 : 0 }), held: () => false, pressed: (key: string) => presses.has(key), clearToggle: () => {} } as unknown as Input,
-    audio: { footstep: () => {}, swing: () => {}, hit: () => {}, hurt: () => {} } as unknown as AudioEngine,
+    audio: { footstep: () => {}, swing: () => {}, hit: () => {}, hurt: () => {}, jump: () => {}, land: () => {}, dodge: () => {} } as unknown as AudioEngine,
     npcs: [], enemies: [], viewYaw: 0, controllable: true,
     onHitEnemy: () => {}, onHurt: () => {}, onDeath: () => {}, onBoundary: () => {},
   };
