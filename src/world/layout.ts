@@ -39,7 +39,7 @@ export const COAST: V2[] = [
 /** Original low coastal shelves frame the cove; their broken lips face sand, not the inland travel road. */
 export const COAST_SHELVES = [
   { x: -282, z: -92, rx: 42, rz: 43, height: 12, edge: 0.26 },
-  { x: -254, z: -27, rx: 30, rz: 23, height: 7.8, edge: 0.32 },
+  { x: -254, z: -38, rx: 30, rz: 23, height: 7.8, edge: 0.32 },
   { x: -248, z: 14, rx: 20, rz: 12, height: 4.8, edge: 0.32 },
   { x: -245, z: 68, rx: 26, rz: 24, height: 6.8, edge: 0.3 },
 ] as const;
