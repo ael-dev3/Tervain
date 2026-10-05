@@ -67,6 +67,16 @@ The unchanged source is archived at [assets/audio/source/the-sovereigns-oath-ori
 
 The [human-readable source record](menu-score.md) and [machine-readable audio inventory](menu-audio-assets.json) pin sizes, hashes, media properties, preparation, and source disclosure. Embedded metadata says the source was made with Suno; authorship, model/version and service/account terms were not independently verified. The owner instruction records this particular Tervain use, repository delivery and requested video. No separate open-content grant or independent ownership finding is asserted. Final integration, browser, video and publication evidence belongs to the [0.0.5 handoff](../production/releases/0.0.5.md).
 
+## Generated world sound, 5 October 2026
+
+A50 adds 99 sound-effects generations made for Tervain with the owner's ElevenLabs account from original prompts:
+
+- footsteps, combat, items, the world's moving parts, residents' work and voices, wildlife;
+- sixteen place beds;
+- the in-world score.
+
+The unchanged MP3 generations are archived in [assets/audio/source/world/](../../assets/audio/source/world/). Runtime sprites, loops and pieces in [public/assets/audio/world/](../../public/assets/audio/world/) are rebuilt by [tools/world-audio/prepare.mjs](../../tools/world-audio/prepare.mjs) as Ogg Opus with AAC fallbacks. Every prompt and hash is in [world-audio-assets.json](world-audio-assets.json). Credit to ElevenLabs (elevenlabs.io) is required under the free-plan sound-effects terms and is given in the About text and NOTICE; no independent rights review is asserted. Nothing from Gothic, Warpkeep or another game is used. See [world-audio.md](world-audio.md).
+
 ## Replacement people sheets (0.0.8)
 
 Since `0.0.8` ([A36](../decisions.md)) every person's texture is a sheet the game paints in code at load; painted sheets are not files and need no record. An image saved as `src/assets/people/<id>.png` (or `.jpg`, `.jpeg`, `.webp`) replaces one person's painted sheet, and Vite bundles it into the build. The [retexture guide](../art/people-retexture.md) describes the layout, the export and the rules.
