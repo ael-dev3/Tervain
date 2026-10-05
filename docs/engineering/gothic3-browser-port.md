@@ -43,6 +43,10 @@ Gothic assets as original Tervain content or change earlier Tervain asset rules.
   fresh-world journal now seeds all 641 native quest states and applies the
   audited startup `RunQuest("Xardas_FindXardas")` transition. Other startup
   callbacks and quest actions remain incomplete.
+- Loads PC_Hero's retained PlayerMemory when the browser session starts. Its
+  verified `PlayerKnows` seed initializes an ordered browser game-event store;
+  native `SetGameEvent`/`ClearGameEvent` semantics are implemented there, but
+  dialogue execution does not yet call those operations.
 - Streams 782 original landscape cells across Myrtana, Nordmar and Varant,
   using recovered texture/UV/blend graphs and tangent-space normal maps.
 - Offers landscape views near Ardea, Xardas's tower and Lago, plus read-only
@@ -136,8 +140,9 @@ The prepared derivatives and newly written renderer have separate provenance.
 | Save browser session | P |
 
 Current save key: `gothic3:ardea:game:v2`. It holds browser exploration state,
-landscape selection, the 641 quest states and world-clock date. Quest/clock
-restore requires matching source hashes. Legacy key
+landscape selection, the 641 quest states, world-clock date and PlayerKnows
+game events. Restore checks the Hero PlayerMemory source hash as well as the
+quest/clock hashes. Legacy key
 `gothic3:ardea:exploration:v1` still restores position and view, then starts a
 fresh quest session. Neither format imports original Gothic saves or changes
 Tervain saves.

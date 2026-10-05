@@ -10,8 +10,9 @@ The objective is a playable reconstruction of the original game's progression,
 not only a model viewer or a recreated starting area. The current Ardea scene,
 Hero presentation, original-data inspectors, selected Hero property readers,
 and a source-backed first quest state are runtime milestones. Browser saves now
-retain exploration position, quest states and world-clock time. These features
-do not yet provide ordinary gameplay through quests and endings.
+retain exploration position, quest states, world-clock time and the Hero's
+PlayerKnows game events. These features do not yet provide ordinary gameplay
+through quests and endings.
 
 ## The rebuilding loop
 

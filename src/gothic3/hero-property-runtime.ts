@@ -13,7 +13,7 @@ import { OriginalAttributeReader } from './attribute-reading';
 import type { NativePlayerMemoryReadingHost, NativePlayerMemoryCStringAllocation,
   NativePlayerMemoryCStringSlot, NativePlayerMemoryGuidScratch,
   NativePlayerMemoryUnicodeString } from './player-memory-reading';
-import { OriginalPlayerMemoryReader } from './player-memory-reading';
+import { NativePlayerMemoryArray, OriginalPlayerMemoryReader } from './player-memory-reading';
 import type { OriginalPlayerMemory } from './player-properties';
 import type { NativeClockTimestampSource } from './world-clock';
 
@@ -300,6 +300,8 @@ export interface NativeHeroPlayerMemory {
   readonly controller: NativeReflectionController;
   readonly source: { readonly sha256: string; readonly bytes: number; readonly propertySetIndex: 13 };
   readonly cursor: { readonly consumed: number; readonly total: number };
+  /** Initial native PlayerKnows bCString entries from this same retained PS. */
+  readonly gameEvents: readonly string[];
   readonly summary: NativeBrowserMemorySummary;
   readonly unresolved: readonly string[];
 }
@@ -332,6 +334,11 @@ export async function loadNativeHeroPlayerMemory(): Promise<NativeHeroPlayerMemo
   }
   const memoryValue = playerMemory.playerMemory(accessor.instance);
   if (!memoryValue.known) throw new Error('Original Hero PlayerMemory storage is unavailable: ' + memoryValue.reason);
+  const playerKnows = memoryValue.value.properties.values.PlayerKnows;
+  if (!(playerKnows instanceof NativePlayerMemoryArray) || playerKnows.kind !== 'CString' ||
+      !playerKnows.items.every((event) => typeof event === 'string')) {
+    throw new Error('Original Hero PlayerKnows bCString array is not available.');
+  }
   // Serialized property candidates retain the enclosing entity's four-byte
   // sentinel after the accessor. This packet loader is the caller that owns it.
   const sentinel = packet.input.u32();
@@ -343,5 +350,6 @@ export async function loadNativeHeroPlayerMemory(): Promise<NativeHeroPlayerMemo
   return Object.freeze({ memory: memoryValue.value, accessor, controller,
     source: Object.freeze({ sha256: packet.source.serializedSha256, bytes: packet.source.serializedRaw.length / 2, propertySetIndex: 13 as const }),
     cursor: Object.freeze({ consumed: packet.input.cursor(), total: packet.input.end }),
+    gameEvents: Object.freeze(playerKnows.items as string[]),
     summary: memoryHost.summary(), unresolved: Object.freeze(controllerReceipt.required ? [controllerReceipt.required] : []) });
 }

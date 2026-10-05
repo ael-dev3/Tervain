@@ -9,6 +9,15 @@ import type { NativeClock, QuestState } from './quest-state';
 import { readNativeResource } from './resource';
 import { loadOriginalWorldClock, monotonicClockMilliseconds } from './world-clock';
 import type { NativeCalendar, NativeClockProcess, NativeWorldClock } from './world-clock';
+import { NativeGameEvents } from './game-events';
+import type { NativeHeroPlayerMemory } from './hero-property-runtime';
+
+interface NativeQuestSessionSources {
+  readonly initialQuestStates: string;
+  readonly questDefinitions: string;
+  readonly worldClock: string;
+  readonly heroPlayerMemory?: string;
+}
 
 interface InitialQuestRow extends QuestState { id: string }
 interface InitialQuestDocument {
@@ -27,16 +36,18 @@ interface InitialQuestReceipt {
 
 export interface NativeQuestSessionSave {
   readonly schema: 'gothic3-quest-session-save-v1';
-  readonly sources: { readonly initialQuestStates: string; readonly questDefinitions: string; readonly worldClock: string };
+  readonly sources: NativeQuestSessionSources;
   readonly clock: { readonly years: number; readonly days: number; readonly seconds: number };
   readonly quests: Readonly<Record<string, QuestState>>;
+  /** Optional only for migration from sessions saved before this service existed. */
+  readonly gameEvents?: readonly string[];
 }
 
 interface QuestSourceBundle {
   definitions: NativeQuest[];
   initial: InitialQuestDocument;
   clock: NativeWorldClock;
-  sources: NativeQuestSessionSave['sources'];
+  sources: Omit<NativeQuestSessionSources, 'heroPlayerMemory'>;
 }
 
 function sourceQuestReceipt(): InitialQuestReceipt {
@@ -120,11 +131,12 @@ export interface QuestSessionRow {
 /** One mutable quest manager and original-seeded game clock for the browser session. */
 export class NativeQuestRuntime {
   readonly quests: NativeQuests;
+  readonly gameEvents: NativeGameEvents;
   private readonly listeners = new Set<() => void>();
   private tickFailure: string | null = null;
 
   private constructor(readonly definitions: readonly NativeQuest[], readonly clock: NativeWorldClock,
-    private readonly sources: NativeQuestSessionSave['sources']) {
+    private readonly sources: NativeQuestSessionSources, initialGameEvents: readonly string[]) {
     this.quests = new NativeQuests(definitions, {
       clock: () => clock.questClock(),
       apply: (effects) => effects.length === 0
@@ -132,10 +144,11 @@ export class NativeQuestRuntime {
         : { applied: false, reason: 'This browser session has not implemented native quest reward/service handlers.' },
       changed: () => { for (const listener of this.listeners) listener(); },
     });
+    this.gameEvents = new NativeGameEvents(initialGameEvents);
   }
 
   /** Load verified source records and apply the one audited startup quest run. */
-  static async newGame(): Promise<NativeQuestRuntime> {
+  static async newGame(player: Pick<NativeHeroPlayerMemory, 'source' | 'gameEvents'>): Promise<NativeQuestRuntime> {
     const source = await loadQuestSourceBundle();
     const { definitions, initial, clock } = source;
     const clockState = clock.snapshot();
@@ -144,7 +157,8 @@ export class NativeQuestRuntime {
         clockState.adjustment.secondsPerDay !== 86400 || clockState.adjustment.daysPerYear !== 365 || !clockState.paused) {
       throw new Error('Original new-world clock seed is not the audited noon/factor-12 state.');
     }
-    const runtime = new NativeQuestRuntime(definitions, clock, source.sources);
+    const runtimeSources: NativeQuestSessionSources = { ...source.sources, heroPlayerMemory: player.source.sha256 };
+    const runtime = new NativeQuestRuntime(definitions, clock, runtimeSources, player.gameEvents);
     seedQuestStates(runtime, initial.quests);
 
     const firstQuest = runtime.quests.run('Xardas_FindXardas');
@@ -160,7 +174,7 @@ export class NativeQuestRuntime {
   }
 
   /** Restore only a browser save tied to these exact source receipts. */
-  static async restore(raw: unknown): Promise<NativeQuestRuntime> {
+  static async restore(raw: unknown, player: Pick<NativeHeroPlayerMemory, 'source' | 'gameEvents'>): Promise<NativeQuestRuntime> {
     if (!record(raw) || raw.schema !== 'gothic3-quest-session-save-v1' || !record(raw.sources) ||
         !record(raw.clock) || !record(raw.quests)) throw new Error('Unsupported Gothic 3 browser save.');
     const source = await loadQuestSourceBundle();
@@ -168,11 +182,19 @@ export class NativeQuestRuntime {
         raw.sources.questDefinitions !== source.sources.questDefinitions || raw.sources.worldClock !== source.sources.worldClock) {
       throw new Error('Browser save belongs to different Gothic 3 source data.');
     }
+    if (raw.sources.heroPlayerMemory !== undefined && raw.sources.heroPlayerMemory !== player.source.sha256) {
+      throw new Error('Browser save belongs to different Gothic 3 Hero PlayerMemory data.');
+    }
     if (!uint32(raw.clock.years) || !uint32(raw.clock.days) || typeof raw.clock.seconds !== 'number' ||
         !Number.isFinite(raw.clock.seconds) || raw.clock.seconds < 0 || raw.clock.seconds >= 86400) {
       throw new Error('Browser save has an invalid world clock.');
     }
-    const runtime = new NativeQuestRuntime(source.definitions, source.clock, source.sources);
+    const savedEvents = raw.gameEvents === undefined ? player.gameEvents : raw.gameEvents;
+    if (!Array.isArray(savedEvents) || !savedEvents.every((event) => typeof event === 'string' && !event.includes('\0'))) {
+      throw new Error('Browser save has invalid PlayerKnows game events.');
+    }
+    const runtimeSources: NativeQuestSessionSources = { ...source.sources, heroPlayerMemory: player.source.sha256 };
+    const runtime = new NativeQuestRuntime(source.definitions, source.clock, runtimeSources, savedEvents);
     seedQuestStates(runtime, raw.quests as Record<string, QuestState>);
     const set = runtime.clock.set({ years: raw.clock.years, days: raw.clock.days, seconds: raw.clock.seconds });
     if (set.kind !== 'applied') throw new Error('Saved world time cannot be restored: ' + set.reason);
@@ -208,7 +230,8 @@ export class NativeQuestRuntime {
       quests[definition.id] = state;
     }
     return { schema: 'gothic3-quest-session-save-v1', sources: { ...this.sources },
-      clock: { years: time.years, days: time.days, seconds: time.seconds }, quests };
+      clock: { years: time.years, days: time.days, seconds: time.seconds }, quests,
+      gameEvents: this.gameEvents.snapshot() };
   }
 
   rows(): QuestSessionRow[] {

@@ -74,7 +74,7 @@ export async function showQuestCatalog(parent: HTMLElement): Promise<void> {
     await catalog.load();
     if (!view.isConnected) return;
     view.replaceChildren();
-    text(view, catalog.quests.length + ' original quests · ' + catalog.infos.length + ' dialogue records. Quest progress is not enabled yet.');
+    text(view, catalog.quests.length + ' original quests · ' + catalog.infos.length + ' dialogue records. Runtime quest state could not be loaded; these source records are for reference.');
     const controls = document.createElement('div');
     controls.className = 'catalog-controls';
     const search = document.createElement('input');

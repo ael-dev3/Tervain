@@ -111,9 +111,9 @@ export const PORT_SCOPE: string[] = [
   'A third-person Hero follows the browser controller and selects recovered idle, walk and run clips. The 19 native Hero property sets, original movement blending/collision, combat timing, attachments and NPC animation selection are not yet connected to ordinary play.',
   'The journal contains 641 original quest definitions and 4,381 dialogue records in five source languages. Catalog presence does not establish gameplay execution.',
   '782 original landscape cells stream across Myrtana, Nordmar and Varant, using recovered texture/blend/UV graphs. Native lightmaps, lower mips, global lighting and collision remain incomplete.',
-  'Original player and quest seeds can be inspected. Reviewed combat/dialogue kernels require runtime host services; remaining startup callbacks and ordinary gameplay are pending.',
+  'The retained Hero PlayerMemory seeds the browser game-event list, and the journal uses source quest state. Ordinary dialogue, remaining startup callbacks, combat and progression still need runtime host services.',
   'The six character summaries describe the original Ardea dialogue. This milestone does not execute the original dialogue tree, its predicates or its side effects.',
-  'All six listed original quests are unimplemented. Inspection grants no XP, reputation, gold, skills or quest completion.',
+  'The six listed quest action sequences remain unimplemented; only the audited Xardas_FindXardas startup transition is live. Inspection grants no XP, reputation, gold, skills or quest completion.',
   'Native combat, NPC routines, faction simulation, trading, original save compatibility and the full streamed world still require implementation.',
   'Recovered Ghidra C-like code is a behavior reference. It is not buildable original source or an automatically converted TypeScript engine.',
 ];

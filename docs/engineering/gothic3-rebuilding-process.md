@@ -11,8 +11,8 @@ inspection, an on-demand Hero character sheet backed by captured PlayerMemory
 and Attribute/Stat data in TypeScript, and a fresh-world quest journal seeded
 from the original 641 quest states. It applies the audited startup run of
 `Xardas_FindXardas`, advances the source-seeded clock, and saves/restores the
-browser session's position, clock and quest states with source-hash checks.
-This is an incomplete game reconstruction.
+browser session's position, clock, quest states and PlayerKnows game events
+with source-hash checks. This is an incomplete game reconstruction.
 Completing the original game in the browser remains the objective; the inspectors
 do not satisfy that objective.
 
@@ -2731,26 +2731,30 @@ full browser playthrough, original executable comparison or deployment was run.
 ## 26. Save and restore the source-backed browser session
 
 The browser's version-2 local save contains the explorer position and view,
-selected landscape, all 641 quest states and the world-clock date. Restore
-checks that the quest seed, effective quest definitions and clock seed have
-the same SHA-256 receipts as the current prepared data. It validates the saved
-quest IDs and state values before seeding the quest manager, and restores the
-clock through its set/adjust/process/resume operations. A legacy version-1 save
-still restores its exploration position; it starts a fresh source-backed quest
-session because the older format contains no quest or clock state. These browser
-saves are not compatible with Gothic 3's native save files and do not serialize
-the original Hero PlayerMemory, inventory, NPC routines or world entity
-activation.
+selected landscape, all 641 quest states, the world-clock date and the ordered
+PlayerKnows game-event list. Game events start from the actual retained Hero
+PlayerMemory packet. Their Set operation adds only a missing exact string;
+Clear removes the first exact match, following the source-instruction sequence.
+Restore checks that the quest seed, effective quest definitions, clock seed
+and Hero PlayerMemory have the same SHA-256 receipts as the current prepared
+data. It validates saved quest IDs and state values before seeding the manager,
+and restores the clock through set/adjust/process/resume. A legacy version-1
+save still restores its exploration position; it starts a fresh source-backed
+quest session because that format contains no quest, clock or event state.
+These browser saves are not compatible with Gothic 3's native save files and
+do not serialize the full Hero PlayerMemory, inventory, NPC routines or world
+entity activation.
 
 Saving remains a partial session feature. A malformed or source-incompatible
 quest session is not silently replaced by new-game state; exploration remains
 available and the error is shown. This keeps the mismatch visible while
-preserving the saved record. `npm run build` passes with 259 Vite modules; the
+preserving the saved record. `npm run build` passes with 261 Vite modules; the
 existing large Tervain bundle warning remains. A one-off Vite SSR invocation
-created a new game, advanced its clock, serialized the session, restored it,
-and confirmed 641 quest states, `Xardas_FindXardas` Running at 0/0/12 and the
-restored clock at noon. A second restore with a changed quest-definition hash
-was rejected. `git diff --check` also passes. No automated test suite, manual
-save/reload in the browser, complete gameplay playthrough, original executable
-comparison or deployment was run. This does not establish a full gameplay
-save/load path, and `gameplayReady` remains `false`.
+loaded the captured Hero PlayerMemory, confirmed its empty fresh-world event
+array, started a new game, exercised idempotent Set and Clear event operations,
+serialized/restored them with all 641 quest states, and rejected a changed Hero
+PlayerMemory hash. `Xardas_FindXardas` remained Running at 0/0/12.
+`git diff --check` also passes. No automated test suite, manual save/reload in
+the browser, complete gameplay playthrough, original executable comparison or
+deployment was run. This does not establish a full gameplay save/load path,
+and `gameplayReady` remains `false`.

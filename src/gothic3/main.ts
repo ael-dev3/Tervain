@@ -262,17 +262,21 @@ function formatWorldClock(clock: { year: number; day: number; hour: number; minu
   return 'Year ' + clock.year + ' · Day ' + clock.day + ' · ' + time;
 }
 
-function showCharacterSheet(): void {
-  const content = openPanel('PC_Hero · Character');
-  const lifetime = panelLifetime.signal;
-  paragraph(content, 'Reading the original Hero PlayerMemory and Attribute property sets…');
+function loadHeroMemoryRuntime(): Promise<NativeHeroPlayerMemory> {
   if (!nativeHeroMemory) {
     nativeHeroMemory = loadNativeHeroPlayerMemory().catch((error: unknown) => {
       nativeHeroMemory = null;
       throw error;
     });
   }
-  void nativeHeroMemory.then(result => {
+  return nativeHeroMemory;
+}
+
+function showCharacterSheet(): void {
+  const content = openPanel('PC_Hero · Character');
+  const lifetime = panelLifetime.signal;
+  paragraph(content, 'Reading the original Hero PlayerMemory and Attribute property sets…');
+  void loadHeroMemoryRuntime().then(result => {
     if (lifetime.aborted) return;
     content.replaceChildren();
     const eyebrow = document.createElement('div');
@@ -319,7 +323,7 @@ function showCharacterSheet(): void {
 function showHelp(): void {
   const content = openPanel('Controls & current scope');
   paragraph(content, 'WASD / arrows: move. Shift: run. Drag to look, or click the scene for captured mouse look. Escape releases the pointer. E inspects a nearby person.');
-  paragraph(content, 'F toggles free flight; Space moves up and Q moves down. Third person follows the Hero model and recovered idle, walk and run clips. R returns to the arrival point. P saves your position locally. Tab switches to character models; drag to rotate, wheel to zoom, right-drag to pan. M opens the local position map.');
+  paragraph(content, 'F toggles free flight; Space moves up and Q moves down. Third person follows the Hero model and recovered idle, walk and run clips. R returns to the arrival point. P saves this browser session locally. Tab switches to character models; drag to rotate, wheel to zoom, right-drag to pan. M opens the local position map.');
   paragraph(content, 'Character loads PC_Hero’s serialized PlayerMemory and Attribute/Stat data into the browser’s TypeScript runtime. The quest journal runs one source-audited new-game quest transition; other startup operations and gameplay progression are still being connected.');
   const brightnessLabel = document.createElement('label');
   brightnessLabel.textContent = 'Preview brightness ';
@@ -754,14 +758,15 @@ async function enterWorld(): Promise<void> {
   enteringWorld = true;
   const button = element<HTMLButtonElement>('start-button');
   button.disabled = true;
-  element('load-status').textContent = 'Loading original new-world quest state and clock…';
+  element('load-status').textContent = 'Loading original Hero state, quest journal and world clock…';
   let restoredSession = false;
   try {
+    const player = await loadHeroMemoryRuntime();
     const savedSession = savedNativeSession();
     if (savedSession.kind === 'saved') {
-      questRuntime = await NativeQuestRuntime.restore(savedSession.value);
+      questRuntime = await NativeQuestRuntime.restore(savedSession.value, player);
       restoredSession = true;
-    } else questRuntime = await NativeQuestRuntime.newGame();
+    } else questRuntime = await NativeQuestRuntime.newGame(player);
     questRuntimeError = null;
   } catch (error) {
     questRuntime = null;
