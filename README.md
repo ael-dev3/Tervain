@@ -14,7 +14,23 @@ The browser prototype's intended hosted address is above. On 5 October 2026, rep
 
 ## Repository status
 
-The current same-version **0.0.12 Gothic /Remake review follow-up** improves
+The current same-version **0.0.12 character repair** rebuilds all 17 supplied
+NPC derivatives from unchanged originals, restores collapsed faces and gives
+source paint a clean active atlas with source UVs retained. Authored shading
+basis and bounded normal-map conditioning remove broken facial lighting.
+Resolved enemy gait and a private long-skirt fit improve motion without changing
+the approved hero/controller. Every complete NPC including hidden gear remains
+below 50k (maximum **46,980**). Local runtime **67788fa1** passes strict
+TypeScript, **1,161 tests /117 files**, production build and bounded native
+character-gallery /High Rillford review with empty captured warning/error logs.
+[Diagnosis, final checks and limits](docs/art/character-polish-2026-10-05.md) and
+[the 0.0.12 record](docs/production/releases/0.0.12.md) distinguish the accepted
+source from rejected surface/skirt prototypes, numerical audits and historical
+results. Source costume roughness remains; no cloth-simulation, every-pose or
+performance claim is made. The preserved required CI/hosting gates still block
+publication.
+
+The preceding same-version **0.0.12 Gothic /Remake review follow-up** improves
 accepted warm-oak groupings, connected understory colonies, finer same-topology
 grass, calmer clouds and coastal reflections. Resident full-detail terrain
 tiles keep the same rendered/support surface while allowing ordinary frustum
