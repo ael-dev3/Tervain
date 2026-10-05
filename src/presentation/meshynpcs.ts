@@ -4,6 +4,7 @@ import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js
 import { NPCS } from '../content/npcs';
 import { createNpcAttachments, setArmed, type Grip, type Rig, type NpcEquipment, type Mode } from './characters';
 import { BONES, type BoneName } from './human/skin';
+import { repairNpcSurfaceGeometry, repairNpcSurfaceMaterial } from './npcSurface';
 
 export const NPC_TRIANGLE_LIMIT = 50_000;
 export const NPC_ROLES = [
@@ -19,6 +20,8 @@ export interface MeshyNpcEntry {
   bytes: number;
   sha256: string;
   height: number;
+  /** Verified authoring-stage normals/tangents baked only from source geometry, never from the source normal texture. */
+  surfaceBake?: 'geometry-only-v1';
 }
 
 export interface MeshyNpcManifest {
@@ -49,7 +52,8 @@ export function validateMeshyNpcManifest(value: unknown): MeshyNpcManifest {
     if (!entry || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(entry.id) || !/^[a-z0-9]+(?:-[a-z0-9]+)*\.glb$/.test(entry.file)
       || ids.has(entry.id) || files.has(entry.file) || !Number.isInteger(entry.triangles) || entry.triangles <= 0
       || entry.triangles > NPC_TRIANGLE_LIMIT || !Number.isInteger(entry.bytes) || entry.bytes < 20
-      || !/^[0-9a-f]{64}$/.test(entry.sha256) || !Number.isFinite(entry.height) || entry.height < 1.4 || entry.height > 2.2) {
+      || !/^[0-9a-f]{64}$/.test(entry.sha256) || !Number.isFinite(entry.height) || entry.height < 1.4 || entry.height > 2.2
+      || (entry.surfaceBake !== undefined && entry.surfaceBake !== 'geometry-only-v1')) {
       throw new Error(`The resident model manifest has an invalid entry (${entry?.id ?? 'unnamed'}).`);
     }
     ids.add(entry.id); files.add(entry.file);
@@ -146,7 +150,12 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
         if (!texture) { texture = value.clone(); textures.set(value, texture); }
         Reflect.set(copy, key, texture);
       }
-      if ((copy as THREE.MeshStandardMaterial).isMeshStandardMaterial) paint.push(copy as THREE.MeshStandardMaterial);
+      if ((copy as THREE.MeshStandardMaterial).isMeshStandardMaterial) {
+        // Material.copy intentionally omits callback functions; retain any environmental/inspection extension.
+        copy.onBeforeCompile = source.onBeforeCompile; copy.customProgramCacheKey = source.customProgramCacheKey;
+        repairNpcSurfaceMaterial(copy as THREE.MeshStandardMaterial);
+        paint.push(copy as THREE.MeshStandardMaterial);
+      }
     }
     return copy;
   };
@@ -154,7 +163,13 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
     const mesh = object as THREE.Mesh;
     if (!mesh.isMesh) return;
     let geometry = geometries.get(mesh.geometry);
-    if (!geometry) { geometry = mesh.geometry.clone(); geometries.set(mesh.geometry, geometry); }
+    if (!geometry) {
+      geometry = mesh.geometry.clone();
+      // Properly rebaked templates already carry the precise Blender basis used by their normal texture.
+      // Only old prepared templates/recovery fixtures need runtime geometric-normal reconstruction.
+      if (entry.surfaceBake !== 'geometry-only-v1') repairNpcSurfaceGeometry(geometry);
+      geometries.set(mesh.geometry, geometry);
+    }
     mesh.geometry = geometry;
     mesh.material = Array.isArray(mesh.material) ? mesh.material.map(ownMaterial) : ownMaterial(mesh.material);
     mesh.castShadow = mesh.receiveShadow = true;

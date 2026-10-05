@@ -63,7 +63,7 @@ describe('budgeted Meshy NPC replacement and lifetime', () => {
   });
 
   it.each([
-    { triangles: 50_001 }, { triangles: -1 }, { triangles: 3.5 }, { height: NaN }, { sha256: '' }, { file: '../outside.glb' }, { bytes: 1 },
+    { triangles: 50_001 }, { triangles: -1 }, { triangles: 3.5 }, { height: NaN }, { sha256: '' }, { file: '../outside.glb' }, { bytes: 1 }, { surfaceBake: 'unknown-bake' },
   ])('rejects unsafe or over-budget catalog data %j', invalid => {
     const value = manifest(); Object.assign(value.assets[0]!, invalid);
     expect(() => validateMeshyNpcManifest(value)).toThrow(/invalid entry/);
@@ -103,6 +103,27 @@ describe('budgeted Meshy NPC replacement and lifetime', () => {
     expect(rig.body.scale.toArray()).toEqual([1.06, 1.06, 1.06]);
     expect(f.bones.armL.rotation.toArray().slice(0, 3)).toEqual([0, 0, 0]);
     expect(Array.from(f.geometry.getAttribute('position').array)).toEqual(Array.from(mesh.geometry.getAttribute('position').array));
+  });
+
+  it('keeps a verified rebake basis on an owned clone and repairs only unflagged legacy templates', () => {
+    const f = source();
+    f.geometry.setAttribute('normal', new THREE.Float32BufferAttribute([0.8, 0, 0.6, 0.8, 0, 0.6, 0.8, 0, 0.6], 3));
+    f.geometry.setAttribute('uv', new THREE.Float32BufferAttribute([0, 0, 0, 1, 1, 0], 2));
+    f.geometry.setAttribute('tangent', new THREE.Float32BufferAttribute([0.6, 0, -0.8, -1, 0.6, 0, -0.8, -1, 0.6, 0, -0.8, -1], 4));
+    const normalBytes = Array.from(f.geometry.getAttribute('normal').array), tangentBytes = Array.from(f.geometry.getAttribute('tangent').array);
+    const rebaked = createMeshyNpcRig(f.asset, { ...entry, surfaceBake: 'geometry-only-v1' });
+    const preserved = (rebaked.body.getObjectByProperty('isSkinnedMesh', true) as THREE.SkinnedMesh).geometry;
+    expect(preserved).not.toBe(f.geometry);
+    expect(Array.from(preserved.getAttribute('normal').array)).toEqual(normalBytes);
+    expect(Array.from(preserved.getAttribute('tangent').array)).toEqual(tangentBytes);
+    expect(preserved.userData.npcSurface).toBeUndefined();
+    const legacy = createMeshyNpcRig(f.asset, entry);
+    const repaired = (legacy.body.getObjectByProperty('isSkinnedMesh', true) as THREE.SkinnedMesh).geometry;
+    expect(Array.from(repaired.getAttribute('normal').array)).not.toEqual(normalBytes);
+    expect(repaired.userData.npcSurface).toMatchObject({ rebuiltTangents: true });
+    expect(Array.from(f.geometry.getAttribute('normal').array)).toEqual(normalBytes);
+    const value = manifest(); value.assets[0]!.surfaceBake = 'geometry-only-v1';
+    expect(validateMeshyNpcManifest(value)).toBe(value);
   });
 
   it('keeps shared source pixels but owns geometry, skeleton, materials and texture GPU references across worlds', () => {

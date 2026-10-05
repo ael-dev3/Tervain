@@ -5,138 +5,155 @@
     {
       "id": "caravan-master",
       "file": "caravan-master.glb",
-      "triangles": 45997,
-      "bytes": 7817996,
-      "sha256": "4327de36f11b0f1bb543d3acb715adc1f15eb1272dcd4addba8b3987979dd997",
-      "height": 1.8004202842712402
+      "triangles": 45996,
+      "bytes": 8397452,
+      "sha256": "f9761d0c218664ddb6b11998530b91650d6a8f34e68465f60eb93d38f3a7bb5e",
+      "height": 1.7998065948486328,
+      "surfaceBake": "geometry-only-v1"
     },
     {
       "id": "rillford-reeve",
       "file": "rillford-reeve.glb",
-      "triangles": 45919,
-      "bytes": 8274844,
-      "sha256": "a36d6ad55932ca704e9b5cb27e33e166699272a48dd44f783b137431f47f3550",
-      "height": 1.799272894859314
+      "triangles": 45957,
+      "bytes": 11512824,
+      "sha256": "6b77c6125db65e442c3c5f212a56428d494e882a12bc854aae04ef3cb38087ed",
+      "height": 1.8000023365020752,
+      "surfaceBake": "geometry-only-v1"
     },
     {
       "id": "spring-steward",
       "file": "spring-steward.glb",
       "triangles": 10328,
-      "bytes": 5481076,
-      "sha256": "14ec5062313c71eafc853eea244c70ef10469fc0583ecb84e919fdfd019fd3e2",
-      "height": 1.7999999523162842
+      "bytes": 4204576,
+      "sha256": "d4dc3f02e3ff156acf020946d6b5edb195e6f226aaae59a0abac554e12728d9d",
+      "height": 1.7999999523162842,
+      "surfaceBake": "geometry-only-v1"
     },
     {
       "id": "quarry-foreman",
       "file": "quarry-foreman.glb",
       "triangles": 46000,
-      "bytes": 7394640,
-      "sha256": "5363c0ea9c23da1025bdd935c9e7a74f54d551cf6374b74d3f4ecf96970ec168",
-      "height": 1.799849510192871
+      "bytes": 8520012,
+      "sha256": "5655797071def938a333bfab87ec41694a8b48c68334d913bd82b172fa59007c",
+      "height": 1.7997812032699585,
+      "surfaceBake": "geometry-only-v1"
     },
     {
       "id": "maintenance-worker",
       "file": "maintenance-worker.glb",
-      "triangles": 45992,
-      "bytes": 7301020,
-      "sha256": "89fbea3b711b5203fe8d465e05703e9a6efa1c8ff06e972cba18d71ba8c7dac4",
-      "height": 1.7970865964889526
+      "triangles": 45994,
+      "bytes": 7999928,
+      "sha256": "0a293717adb6541ee6f4adf1c02368589afbc0e17f9513543ca1b78e4c51e838",
+      "height": 1.7998889684677124,
+      "surfaceBake": "geometry-only-v1"
     },
     {
       "id": "estate-steward",
       "file": "estate-steward.glb",
       "triangles": 46000,
-      "bytes": 7769732,
-      "sha256": "8391ef955f68e8ed040c40afba7dc351d692f68bbdbd8171b75b5092470e3fc5",
-      "height": 1.79977548122406
+      "bytes": 8090820,
+      "sha256": "2ea5cd78c0ace3775a745ce4345250ea944728168ba07cac4dc156572db89333",
+      "height": 1.7997856140136719,
+      "surfaceBake": "geometry-only-v1"
     },
     {
       "id": "ash-recorder",
       "file": "ash-recorder.glb",
       "triangles": 34220,
-      "bytes": 6208388,
-      "sha256": "72ecda29803d574d3720f42444e18a5cfe4e5b667c573e967f778104966552f2",
-      "height": 1.7999999523162842
+      "bytes": 5938408,
+      "sha256": "a0fa94035a2a0e38c89265767db0e63ea615414a91a44ecf488e514956580475",
+      "height": 1.7999999523162842,
+      "surfaceBake": "geometry-only-v1"
     },
     {
       "id": "shrine-warden",
       "file": "shrine-warden.glb",
-      "triangles": 45999,
-      "bytes": 7677108,
-      "sha256": "3b183739fd9c88739744238ea5d1897d145e7ee7c8891c4c47398c91f4a096cb",
-      "height": 1.7987786531448364
+      "triangles": 46000,
+      "bytes": 8497100,
+      "sha256": "113af114f2581feb89f55b843c617af6624f04996f0e0fb306074fcb39c7418d",
+      "height": 1.801082968711853,
+      "surfaceBake": "geometry-only-v1"
     },
     {
       "id": "mill-hand",
       "file": "mill-hand.glb",
       "triangles": 10328,
-      "bytes": 5432240,
-      "sha256": "4a4b14a20d69734fa7b0ca85d75ea726f8ea32d9bf85ef628a512db7e556b749",
-      "height": 1.7999999523162842
+      "bytes": 4156620,
+      "sha256": "923a11e2d38dc4ae523379442244146e28535b61a80f6d6bea61dd2109c089f1",
+      "height": 1.7999999523162842,
+      "surfaceBake": "geometry-only-v1"
     },
     {
       "id": "quarry-hand",
       "file": "quarry-hand.glb",
-      "triangles": 45959,
-      "bytes": 8648700,
-      "sha256": "e1cee3c57659e45c9b280154e48947dfd8204b78a8a4a3278299f721e8b7cab0",
-      "height": 1.7970525026321411
+      "triangles": 45965,
+      "bytes": 11608676,
+      "sha256": "4bdf9fd3e998efc7321c49d8feefff54f401d7da363f653f020f65557144162e",
+      "height": 1.7994439601898193,
+      "surfaceBake": "geometry-only-v1"
     },
     {
       "id": "village-baker",
       "file": "village-baker.glb",
       "triangles": 45998,
-      "bytes": 7548640,
-      "sha256": "250ec85b115b6c78f31e6cfaaeb0369603c43a3946bf546011451907cb23529a",
-      "height": 1.7991772890090942
+      "bytes": 8034236,
+      "sha256": "08a6e0f394b753c928c92db46016699303b89b6a7052cae285181a71089054c0",
+      "height": 1.7999660968780518,
+      "surfaceBake": "geometry-only-v1"
     },
     {
       "id": "fisher",
       "file": "fisher.glb",
-      "triangles": 45999,
-      "bytes": 8464484,
-      "sha256": "9d624a6dfa8d8adfdb9b2abb90567d366c1a16ef6a987f6ee2ed79ebb8fac067",
-      "height": 1.7998878955841064
+      "triangles": 46000,
+      "bytes": 9396060,
+      "sha256": "9f3f7e576f28d66756ff3b563a74c128de5e10df74a8b19330c2f99720f1c980",
+      "height": 1.7980806827545166,
+      "surfaceBake": "geometry-only-v1"
     },
     {
       "id": "fireside",
       "file": "fireside.glb",
-      "triangles": 45919,
-      "bytes": 8262900,
-      "sha256": "0a0321f9b98c5f9d1d6133b6deda90821ef3bdcb487512cd4fd396af35ac1f36",
-      "height": 1.799272894859314
+      "triangles": 45957,
+      "bytes": 11500624,
+      "sha256": "728e18da4e9f5d8dd393a0eb81d564b0456fd3c933226ca5f587d68e28565ad8",
+      "height": 1.8000023365020752,
+      "surfaceBake": "geometry-only-v1"
     },
     {
       "id": "keeper",
       "file": "keeper.glb",
       "triangles": 9365,
-      "bytes": 5529940,
-      "sha256": "7b73711a0ac662d106f877439fe1be624d6805e3cb9371c029a926190741b474",
-      "height": 1.7999999523162842
+      "bytes": 4759632,
+      "sha256": "b7866e8477ced006aaa9563c89e1a241fbe67c70dd4b2a2ee8d71d8e29292db6",
+      "height": 1.7999999523162842,
+      "surfaceBake": "geometry-only-v1"
     },
     {
       "id": "ford-bandit-a",
       "file": "ford-bandit-a.glb",
       "triangles": 45963,
-      "bytes": 9770712,
-      "sha256": "ac46ec7693f765ea5a0b8dbeb8596f7cee06975b04a1ddc0989e84f6d1a1d21b",
-      "height": 1.7958805561065674
+      "bytes": 11767292,
+      "sha256": "5f56d0305eb21031c7e1336f89ab8536224770eac2a60187e5fb3654a65d55a2",
+      "height": 1.801072359085083,
+      "surfaceBake": "geometry-only-v1"
     },
     {
       "id": "ford-bandit-b",
       "file": "ford-bandit-b.glb",
-      "triangles": 46000,
-      "bytes": 7479676,
-      "sha256": "525c455b11c850233f0d02888c8a9f8e4008abe22a18ab56be9f6dcadaf0a025",
-      "height": 1.8002848625183105
+      "triangles": 45999,
+      "bytes": 8374680,
+      "sha256": "edaa8f5402e9c4ffb31a89a3bbb00bc675bd77a216939cd950b3c5418cae5b1e",
+      "height": 1.8001842498779297,
+      "surfaceBake": "geometry-only-v1"
     },
     {
       "id": "menu-warden",
       "file": "menu-warden.glb",
       "triangles": 45998,
-      "bytes": 7351516,
-      "sha256": "0b622a12af0538da396ee5c80852c5d1d2d3b129fabb76f99894974bd9437d45",
-      "height": 1.7995463609695435
+      "bytes": 7671612,
+      "sha256": "533727123105bc7a449cf668f328e385a4a5a82afa961ac8ae392bdae7574d2e",
+      "height": 1.800502061843872,
+      "surfaceBake": "geometry-only-v1"
     }
   ],
   "roles": {

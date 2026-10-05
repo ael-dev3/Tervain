@@ -1,15 +1,298 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tervain · Meshy resident review</title>
-<style>*{box-sizing:border-box}body{margin:0;background:#232b2e;color:#eee6d6;font:14px system-ui}canvas{display:block;width:100vw;height:100vh}aside{position:absolute;left:18px;top:18px;width:270px;padding:18px;background:#20282aed;border:1px solid #626157;border-radius:8px}h1{font:600 21px Georgia;margin:0 0 12px}label{display:block;margin-top:12px}select,button{font:inherit;width:100%;margin-top:5px;background:#343e40;color:inherit;border:1px solid #7c8076;border-radius:4px;padding:7px}p{line-height:1.5;color:#c3c5bd}output{white-space:pre-line;font:12px monospace;display:block;margin-top:14px}</style>
-<canvas id="view" aria-label="Rotatable Meshy NPC preview"></canvas><aside><h1>Tervain residents</h1><p>Actual game models and skeletal poser. Drag to rotate; scroll to zoom. Check faces, sides, backs and garment motion.</p><label>Resident<select id="resident"></select></label><label>Motion<select id="motion"><option value="idle">Idle</option><option value="walk">Walk</option><option value="work">Working</option><option value="sit">Sitting</option><option value="talk">Talking</option><option value="strike">Blade strike</option></select></label><label>Task<select id="task"><option value="general">General work</option><option value="mending">Mend</option><option value="baking">Bake</option><option value="stonework">Stonework</option><option value="writing">Write</option><option value="measuring">Measure</option><option value="ledger">Ledger</option><option value="guard">Guard</option></select></label><button id="pause">Pause</button><button id="front">Front view</button><button id="side">Side view</button><button id="rear">Rear view</button><output id="status">Loading…</output></aside>
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tervain · Meshy resident review</title>
+<style>
+  *{box-sizing:border-box}body{margin:0;background:#232b2e;color:#eee6d6;font:14px system-ui}
+  canvas{display:block;width:100vw;height:100vh}
+  aside{position:absolute;left:18px;top:18px;width:270px;max-height:calc(100vh - 36px);overflow:auto;padding:18px;background:#20282aed;border:1px solid #626157;border-radius:8px}
+  h1{font:600 21px Georgia;margin:0 0 12px}label{display:block;margin-top:12px}
+  select,button{font:inherit;width:100%;margin-top:5px;background:#343e40;color:inherit;border:1px solid #7c8076;border-radius:4px;padding:7px}
+  .check{display:flex;align-items:center;gap:8px}.check input{margin:0}
+  .views{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.framing{grid-template-columns:repeat(2,1fr)}
+  p{line-height:1.5;color:#c3c5bd}output{white-space:pre-line;font:12px monospace;display:block;margin-top:14px}
+</style>
+<canvas id="view" aria-label="Rotatable Meshy NPC preview"></canvas>
+<aside>
+  <h1>Tervain residents</h1>
+  <p>Actual game models and skeletal poser. Drag to rotate; scroll to zoom. Compare sculpt shading with the source paint.</p>
+  <label>Resident<select id="resident"></select></label>
+  <label>Motion<select id="motion">
+    <option value="idle">Idle</option><option value="walk">Walk</option><option value="work">Working</option>
+    <option value="sit">Sitting</option><option value="talk">Talking</option><option value="strike">Blade strike</option>
+  </select></label>
+  <label>Task<select id="task">
+    <option value="general">General work</option><option value="mending">Mend</option><option value="baking">Bake</option>
+    <option value="stonework">Stonework</option><option value="writing">Write</option><option value="measuring">Measure</option>
+    <option value="ledger">Ledger</option><option value="guard">Guard</option>
+  </select></label>
+  <label>Sculpt detail<select id="sculpt">
+    <option value="runtime">Runtime material strength</option><option value="1">Source strength · 1.00</option>
+    <option value="0.4">Moderate · 0.40</option><option value="0">Off · 0.00</option>
+  </select></label>
+  <label class="check"><input id="albedo" type="checkbox">Lighting-free albedo</label>
+  <label class="check"><input id="pick" type="checkbox">Inspect a surface</label>
+  <button id="pause">Pause</button>
+  <div class="views framing"><button id="full">Full figure</button><button id="upper">Upper body</button></div>
+  <div class="views"><button id="front">Front</button><button id="side">Side</button><button id="rear">Rear</button></div>
+  <output id="status">Loading…</output>
+</aside>
 <script type="module">
-import * as THREE from 'three';import { loadMeshyNpcCatalog } from '../src/presentation/meshynpcs.ts';import { poseRig } from '../src/presentation/characters.ts';
-const canvas=document.querySelector('#view'),status=document.querySelector('#status'),select=document.querySelector('#resident');document.querySelectorAll('select,button').forEach(x=>x.disabled=true);
-const renderer=new THREE.WebGLRenderer({canvas,antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
-const scene=new THREE.Scene();scene.background=new THREE.Color(0x38434a);scene.add(new THREE.HemisphereLight(0xe1edf5,0x74624a,1.8));const key=new THREE.DirectionalLight(0xffe0b3,2.7);key.position.set(3,6,4);key.castShadow=true;key.shadow.mapSize.set(2048,2048);Object.assign(key.shadow.camera,{left:-3,right:3,top:3,bottom:-3});scene.add(key);const fill=new THREE.DirectionalLight(0xa5c5e8,1);fill.position.set(-4,3,-3);scene.add(fill);
-const ground=new THREE.Mesh(new THREE.PlaneGeometry(50,50),new THREE.MeshStandardMaterial({color:0x64675b,roughness:1}));ground.rotation.x=-Math.PI/2;ground.receiveShadow=true;scene.add(ground);const grid=new THREE.GridHelper(24,48,0x979a88,0x777c6e);grid.position.y=.002;scene.add(grid);
-const camera=new THREE.PerspectiveCamera(36,1,.05,100);let yaw=.4,pitch=.1,dist=4.5,time=0,paused=false,rig,entry,catalog,role;
-try{catalog=await loadMeshyNpcCatalog((done,total)=>status.textContent=`Loading ${done} / ${total} residents…`);for(const [r,id] of Object.entries(catalog.manifest.roles)){const o=document.createElement('option');o.value=r;o.textContent=id.replaceAll('-',' ');select.append(o);}role=new URLSearchParams(location.search).get('role')??'named:shrine_warden';select.value=role;
-const choose=()=>{if(rig){scene.remove(rig.root);const resources=new Set();rig.root.traverse(o=>{if(o.isMesh){resources.add(o.geometry);for(const m of Array.isArray(o.material)?o.material:[o.material]){resources.add(m);for(const x of Object.values(m))if(x?.isTexture)resources.add(x);}}if(o.isSkinnedMesh)resources.add(o.skeleton);});resources.forEach(x=>x.dispose());}role=select.value;entry=catalog.manifest.assets.find(x=>x.id===catalog.manifest.roles[role]);rig=catalog.create(role,1,role.startsWith('enemy:')?'blade':'none');scene.add(rig.root);time=0;};select.onchange=choose;choose();document.querySelectorAll('select,button').forEach(x=>x.disabled=false);}catch(error){status.textContent=String(error);throw error;}
-document.querySelector('#pause').onclick=e=>{paused=!paused;e.target.textContent=paused?'Resume':'Pause';};document.querySelector('#front').onclick=()=>{yaw=0;pitch=.08;};document.querySelector('#side').onclick=()=>{yaw=Math.PI/2;pitch=.08;};document.querySelector('#rear').onclick=()=>{yaw=Math.PI;pitch=.08;};let pointer=null;canvas.onpointerdown=e=>{pointer={x:e.clientX,y:e.clientY};canvas.setPointerCapture(e.pointerId);};canvas.onpointerup=()=>pointer=null;canvas.onpointermove=e=>{if(pointer){yaw-=(e.clientX-pointer.x)*.008;pitch=THREE.MathUtils.clamp(pitch+(e.clientY-pointer.y)*.005,-.15,.75);pointer={x:e.clientX,y:e.clientY};}};canvas.addEventListener('wheel',e=>{e.preventDefault();dist=THREE.MathUtils.clamp(dist+e.deltaY*.004,2.2,10);},{passive:false});
-let previous=performance.now();function frame(now){const dt=Math.min(.05,(now-previous)/1000);previous=now;if(!paused){time+=dt;const mode=document.querySelector('#motion').value;poseRig(rig,{mode,speed:mode==='walk'?.78:0,time:time*(mode==='walk'?1.55/(1.48*rig.height/1.8):1),t:(time%1.6)/1.6,amp:1,workGesture:document.querySelector('#task').value},dt);grid.position.z=mode==='walk'?-(time*1.55%.5):0;}const w=innerWidth,h=innerHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.setViewOffset(w,h,-Math.round(w*.15),0,w,h);camera.updateProjectionMatrix();camera.position.set(Math.sin(yaw)*Math.cos(pitch)*dist,1.0+Math.sin(pitch)*dist,Math.cos(yaw)*Math.cos(pitch)*dist);camera.lookAt(0,1.0,0);renderer.render(scene,camera);let actual=0;rig.root.traverse(o=>{if(o.isMesh)actual+=(o.geometry.index?.count??o.geometry.attributes.position.count)/3;});status.textContent=`${actual.toLocaleString()} total triangles\n50,000 limit · ${entry.height.toFixed(2)} m\n11 skinned joints · whole-UV paint\n${(entry.bytes/1048576).toFixed(2)} MiB model\nDerived game motion`;requestAnimationFrame(frame);}requestAnimationFrame(frame);
-</script></html>
+import * as THREE from 'three';
+import { loadMeshyNpcCatalog } from '../src/presentation/meshynpcs.ts';
+import { poseRig } from '../src/presentation/characters.ts';
+
+const canvas = document.querySelector('#view');
+const status = document.querySelector('#status');
+const select = document.querySelector('#resident');
+const motion = document.querySelector('#motion');
+const task = document.querySelector('#task');
+const sculpt = document.querySelector('#sculpt');
+const albedo = document.querySelector('#albedo');
+const pick = document.querySelector('#pick');
+const controls = document.querySelectorAll('select,button,input');
+controls.forEach(control => control.disabled = true);
+
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.05;
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x38434a);
+scene.add(new THREE.HemisphereLight(0xe1edf5, 0x74624a, 1.8));
+const key = new THREE.DirectionalLight(0xffe0b3, 2.7);
+key.position.set(3, 6, 4);
+key.castShadow = true;
+key.shadow.mapSize.set(2048, 2048);
+// A person-sized inspection stage needs person-sized shadow depth precision.
+// Three's default 500 m far plane and zero bias produce contour acne on a close face.
+Object.assign(key.shadow.camera, { left: -3, right: 3, top: 3, bottom: -3, near: .1, far: 16 });
+key.shadow.bias = -.0001;
+key.shadow.normalBias = .015;
+scene.add(key);
+const fill = new THREE.DirectionalLight(0xa5c5e8, 1);
+fill.position.set(-4, 3, -3);
+scene.add(fill);
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(50, 50), new THREE.MeshStandardMaterial({ color: 0x64675b, roughness: 1 }));
+ground.rotation.x = -Math.PI / 2;
+ground.receiveShadow = true;
+scene.add(ground);
+const grid = new THREE.GridHelper(24, 48, 0x979a88, 0x777c6e);
+grid.position.y = .002;
+scene.add(grid);
+const camera = new THREE.PerspectiveCamera(36, 1, .05, 100);
+let yaw = .4, pitch = .1, dist = 4.5, targetY = 1, time = 0, paused = false;
+let rig, entry, catalog, role, upperBody = false;
+let picked = '';
+let actualTriangles = 0;
+const bindings = [];
+const normalMaterials = new Map();
+const albedoMaterials = new Map();
+
+// These inspector materials borrow the actor's owned textures. They never own or dispose those textures.
+function albedoMaterial(source) {
+  let material = albedoMaterials.get(source);
+  if (!material) {
+    material = new THREE.MeshBasicMaterial({
+      color: source.color ?? 0xffffff,
+      map: source.map ?? null,
+      alphaMap: source.alphaMap ?? null,
+      opacity: source.opacity,
+      transparent: source.transparent,
+      alphaTest: source.alphaTest,
+      side: source.side,
+      vertexColors: source.vertexColors ?? false,
+      depthTest: source.depthTest,
+      depthWrite: source.depthWrite,
+      // Inspect the source paint without scene light, normal maps, exposure or filmic tone mapping.
+      toneMapped: false,
+    });
+    material.name = `${source.name || 'Resident paint'} / albedo inspection`;
+    albedoMaterials.set(source, material);
+  }
+  return material;
+}
+
+function applyInspection() {
+  for (const [material, source] of normalMaterials) {
+    const nextMap = sculpt.value === '0' ? null : source.map;
+    if (material.normalMap !== nextMap) {
+      material.normalMap = nextMap;
+      material.needsUpdate = true;
+    }
+    const initialScale = source.scale;
+    if (sculpt.value === 'runtime') material.normalScale.copy(initialScale);
+    else {
+      const strength = Number(sculpt.value);
+      material.normalScale.set((Math.sign(initialScale.x) || 1) * strength, (Math.sign(initialScale.y) || 1) * strength);
+    }
+  }
+  for (const { mesh, original } of bindings) {
+    mesh.material = albedo.checked
+      ? (Array.isArray(original) ? original.map(albedoMaterial) : albedoMaterial(original))
+      : original;
+  }
+}
+
+function disposeActor() {
+  if (!rig) return;
+  scene.remove(rig.root);
+  // Restore PBR references before finding resources, including textures hidden by albedo inspection.
+  for (const { mesh, original } of bindings) mesh.material = original;
+  for (const [material, source] of normalMaterials) {
+    material.normalMap = source.map;
+    material.normalScale.copy(source.scale);
+  }
+  for (const material of albedoMaterials.values()) material.dispose();
+  albedoMaterials.clear();
+  bindings.length = 0;
+  normalMaterials.clear();
+  const resources = new Set();
+  rig.root.traverse(object => {
+    if (object.isMesh) {
+      resources.add(object.geometry);
+      for (const material of Array.isArray(object.material) ? object.material : [object.material]) {
+        resources.add(material);
+        for (const value of Object.values(material)) if (value?.isTexture) resources.add(value);
+      }
+    }
+    if (object.isSkinnedMesh) resources.add(object.skeleton);
+  });
+  resources.forEach(resource => resource.dispose());
+  rig = undefined;
+}
+
+function frameFigure(upper) {
+  upperBody = upper;
+  targetY = rig.height * (upper ? .79 : .54);
+  dist = rig.height * (upper ? .83 : 2.35);
+  pitch = .08;
+}
+
+function choose() {
+  disposeActor();
+  picked = '';
+  role = select.value;
+  entry = catalog.manifest.assets.find(asset => asset.id === catalog.manifest.roles[role]);
+  rig = catalog.create(role, 1, role.startsWith('enemy:') ? 'blade' : 'none');
+  actualTriangles = 0;
+  rig.root.traverse(object => {
+    if (!object.isMesh) return;
+    actualTriangles += (object.geometry.index?.count ?? object.geometry.attributes.position.count) / 3;
+    const original = object.material;
+    bindings.push({ mesh: object, original });
+    for (const material of Array.isArray(original) ? original : [original]) {
+      if (material.normalMap && material.normalScale && !normalMaterials.has(material)) {
+        normalMaterials.set(material, { scale: material.normalScale.clone(), map: material.normalMap });
+      }
+    }
+  });
+  scene.add(rig.root);
+  time = 0;
+  applyInspection();
+  frameFigure(upperBody);
+}
+
+try {
+  catalog = await loadMeshyNpcCatalog((done, total) => status.textContent = `Loading ${done} / ${total} residents…`);
+  for (const [residentRole, id] of Object.entries(catalog.manifest.roles)) {
+    const option = document.createElement('option');
+    option.value = residentRole;
+    option.textContent = id.replaceAll('-', ' ');
+    select.append(option);
+  }
+  const requestedRole = new URLSearchParams(location.search).get('role') ?? 'named:shrine_warden';
+  select.value = Object.hasOwn(catalog.manifest.roles, requestedRole) ? requestedRole : 'named:shrine_warden';
+  select.onchange = choose;
+  choose();
+  controls.forEach(control => control.disabled = false);
+} catch (error) {
+  status.textContent = String(error);
+  throw error;
+}
+
+sculpt.onchange = applyInspection;
+albedo.onchange = applyInspection;
+document.querySelector('#pause').onclick = event => {
+  paused = !paused;
+  event.target.textContent = paused ? 'Resume' : 'Pause';
+};
+document.querySelector('#full').onclick = () => frameFigure(false);
+document.querySelector('#upper').onclick = () => frameFigure(true);
+for (const [id, angle] of [['front', 0], ['side', Math.PI / 2], ['rear', Math.PI]]) {
+  document.querySelector(`#${id}`).onclick = () => { yaw = angle; pitch = .08; };
+}
+let pointer = null;
+canvas.onpointerdown = event => {
+  if (pick.checked) {
+    const rect = canvas.getBoundingClientRect();
+    const ray = new THREE.Raycaster();
+    ray.setFromCamera(new THREE.Vector2((event.clientX - rect.left) / rect.width * 2 - 1, 1 - (event.clientY - rect.top) / rect.height * 2), camera);
+    const hit = ray.intersectObject(rig.body, true)[0];
+    if (hit?.face && hit.uv) {
+      const mesh = hit.object, face = hit.face;
+      const vertices = [face.a, face.b, face.c].map(index => mesh.getVertexPosition(index, new THREE.Vector3()));
+      const point = mesh.worldToLocal(hit.point.clone());
+      const weights = THREE.Triangle.getBarycoord(point, ...vertices, new THREE.Vector3());
+      const bind = new THREE.Vector3(), normal = new THREE.Vector3();
+      [face.a, face.b, face.c].forEach((index, k) => {
+        bind.addScaledVector(new THREE.Vector3().fromBufferAttribute(mesh.geometry.attributes.position, index), weights.getComponent(k));
+        normal.addScaledVector(new THREE.Vector3().fromBufferAttribute(mesh.geometry.attributes.normal, index), weights.getComponent(k));
+      });
+      const values = vector => vector.toArray().map(value => value.toFixed(6)).join(', ');
+      picked = `\nPicked triangle: ${hit.faceIndex}\nBind position: ${values(bind)}\nUV: ${values(hit.uv)}\nBind shading normal: ${values(normal.normalize())}`;
+    } else picked = '\nNo character surface at that point.';
+    return;
+  }
+  pointer = { x: event.clientX, y: event.clientY };
+  canvas.setPointerCapture(event.pointerId);
+};
+canvas.onpointerup = canvas.onpointercancel = () => pointer = null;
+canvas.onpointermove = event => {
+  if (!pointer) return;
+  yaw -= (event.clientX - pointer.x) * .008;
+  pitch = THREE.MathUtils.clamp(pitch + (event.clientY - pointer.y) * .005, -.15, .75);
+  pointer = { x: event.clientX, y: event.clientY };
+};
+canvas.addEventListener('wheel', event => {
+  event.preventDefault();
+  dist = THREE.MathUtils.clamp(dist + event.deltaY * .004, rig.height * .45, 10);
+}, { passive: false });
+
+function scalesText(scales) {
+  return [...new Set(scales.map(scale => `${scale.x.toFixed(2)} / ${scale.y.toFixed(2)}`))].join(', ') || 'no normal maps';
+}
+let previous = performance.now(), renderedWidth = 0, renderedHeight = 0;
+function frame(now) {
+  const dt = Math.min(.05, (now - previous) / 1000);
+  previous = now;
+  if (!paused) {
+    time += dt;
+    const mode = motion.value;
+    poseRig(rig, {
+      mode, speed: mode === 'walk' ? .78 : 0,
+      time: time * (mode === 'walk' ? 1.55 / (1.48 * rig.height / 1.8) : 1),
+      t: (time % 1.6) / 1.6, amp: 1, workGesture: task.value,
+    }, dt);
+    grid.position.z = mode === 'walk' ? -(time * 1.55 % .5) : 0;
+  }
+  const width = innerWidth, height = innerHeight;
+  if (width !== renderedWidth || height !== renderedHeight) {
+    renderer.setSize(width, height, false);
+    camera.aspect = width / height;
+    camera.setViewOffset(width, height, -Math.round(width * .15), 0, width, height);
+    camera.updateProjectionMatrix();
+    renderedWidth = width; renderedHeight = height;
+  }
+  camera.position.set(Math.sin(yaw) * Math.cos(pitch) * dist, targetY + Math.sin(pitch) * dist, Math.cos(yaw) * Math.cos(pitch) * dist);
+  camera.lookAt(0, targetY, 0);
+  renderer.render(scene, camera);
+  status.textContent = `${entry.triangles.toLocaleString()} model triangles\n${actualTriangles.toLocaleString()} total · 50,000 limit\n${entry.height.toFixed(2)} m · 11 skinned joints\n${(entry.bytes / 1048576).toFixed(2)} MiB model\nRuntime sculpt X/Y: ${scalesText([...normalMaterials.values()].map(source => source.scale))}\nLive sculpt X/Y: ${sculpt.value === '0' ? 'off (normal map removed)' : scalesText([...normalMaterials.keys()].map(material => material.normalScale))}\nMode: ${albedo.checked ? 'lighting-free albedo (sculpt bypassed)' : 'runtime PBR'}\n${paused ? 'Paused' : 'Derived game motion'}${picked}`;
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</html>

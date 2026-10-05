@@ -38,7 +38,8 @@ function imageDimensions(bytes) {
   throw new Error('image is not a supported embedded PNG/JPEG');
 }
 
-export function auditNpcGlb(data, { label = 'NPC GLB', triangleBudget = 50000, textureDimensionCap = 2048 } = {}) {
+export function auditNpcGlb(data, { label = 'NPC GLB', triangleBudget = 50000, textureDimensionCap = 2048, surfaceBake } = {}) {
+  need(surfaceBake === undefined || surfaceBake === 'geometry-only-v1', 'unsupported surface bake contract');
   need(data.length >= 20 && data.readUInt32LE(0) === 0x46546c67 && data.readUInt32LE(4) === 2 && data.readUInt32LE(8) === data.length, `${label}: invalid GLB header`);
   let doc; let binary; let at = 12;
   while (at < data.length) {
@@ -99,12 +100,20 @@ export function auditNpcGlb(data, { label = 'NPC GLB', triangleBudget = 50000, t
   });
   need(images.length > 0 && materials.length > 0, 'no baked material resources');
   const meshes = doc.meshes ?? []; const primitiveData = new Map(); let uniqueTriangles = 0; let vertices = 0; let maximumWeightSumError = 0; let zeroAreaTriangles = 0;
+  let maximumNormalLengthError = 0, maximumTangentLengthError = 0, maximumTangentNormalDot = 0, retainedSourceUvPrimitives = 0;
   meshes.forEach((mesh, meshIndex) => mesh.primitives.forEach((primitive, primitiveIndex) => {
     need((primitive.mode ?? 4) === 4 && !primitive.extensions?.KHR_draco_mesh_compression, 'unsupported primitive mode/compression');
     integer(primitive.material, 'primitive material', materials.length - 1); const attr = primitive.attributes;
     for (const semantic of ['POSITION', 'NORMAL', 'TEXCOORD_0', 'JOINTS_0', 'WEIGHTS_0']) need(attr?.[semantic] !== undefined, `missing ${semantic}`);
     need(attr.JOINTS_1 === undefined && attr.WEIGHTS_1 === undefined, 'unsupported additional skin influences');
     const positions = decode(attr.POSITION); const normals = decode(attr.NORMAL); const uvs = decode(attr.TEXCOORD_0); const joints = decode(attr.JOINTS_0); const weights = decode(attr.WEIGHTS_0);
+    const tangents = attr.TANGENT === undefined ? undefined : decode(attr.TANGENT);
+    if (surfaceBake) need(tangents && accessors[attr.TANGENT].type === 'VEC4' && tangents.length === positions.length, 'rebaked NPC is missing a complete tangent basis');
+    if (surfaceBake) {
+      need(attr.TEXCOORD_1 !== undefined && accessors[attr.TEXCOORD_1]?.type === 'VEC2', 'rebuilt NPC is missing its retained source UV set');
+      need(decode(attr.TEXCOORD_1).length === positions.length, 'retained source UV count differs from the rebuilt vertices');
+      retainedSourceUvPrimitives++;
+    }
     need(accessors[attr.POSITION].type === 'VEC3' && accessors[attr.NORMAL].type === 'VEC3' && accessors[attr.TEXCOORD_0].type === 'VEC2' && accessors[attr.JOINTS_0].type === 'VEC4' && accessors[attr.WEIGHTS_0].type === 'VEC4', 'incorrect vertex attribute type');
     need([normals, uvs, joints, weights].every((rows) => rows.length === positions.length), 'vertex attribute count mismatch');
     need([5121, 5123].includes(accessors[attr.JOINTS_0].componentType) && !accessors[attr.JOINTS_0].normalized, 'invalid joint index encoding');
@@ -113,7 +122,17 @@ export function auditNpcGlb(data, { label = 'NPC GLB', triangleBudget = 50000, t
     need(indices.length % 3 === 0 && indices.every((index) => Number.isInteger(index) && index >= 0 && index < positions.length), 'invalid triangle indices');
     for (let i = 0; i < weights.length; i++) {
       need(weights[i].every((w) => w >= 0 && w <= 1), 'negative/oversized skin weight'); const error = Math.abs(weights[i].reduce((a, b) => a + b, 0) - 1); maximumWeightSumError = Math.max(maximumWeightSumError, error); need(error <= 0.001, 'skin weights do not sum to one');
-      need(Math.abs(Math.hypot(...normals[i]) - 1) <= 0.02, 'nonunit vertex normal');
+      const normalError = Math.abs(Math.hypot(...normals[i]) - 1);
+      maximumNormalLengthError = Math.max(maximumNormalLengthError, normalError);
+      need(normalError <= 0.02, 'nonunit vertex normal');
+      if (tangents) {
+        const tangent = tangents[i]; need(tangent?.length === 4, 'incomplete vertex tangent');
+        const tangentError = Math.abs(Math.hypot(...tangent.slice(0, 3)) - 1);
+        const dot = Math.abs(normals[i].reduce((sum, value, k) => sum + value * tangent[k], 0));
+        maximumTangentLengthError = Math.max(maximumTangentLengthError, tangentError);
+        maximumTangentNormalDot = Math.max(maximumTangentNormalDot, dot);
+        if (surfaceBake) need(normalError <= 0.0001 && tangentError <= 0.0001 && dot <= 0.0001 && Math.abs(tangent[3]) === 1, 'rebaked NPC has an invalid normal/tangent basis');
+      }
     }
     for (let i = 0; i < indices.length; i += 3) { const a = positions[indices[i]]; const b = positions[indices[i + 1]]; const c = positions[indices[i + 2]]; const u = b.map((n, k) => n - a[k]); const v = c.map((n, k) => n - a[k]); if (Math.hypot(u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0]) <= 1e-12) zeroAreaTriangles++; }
     const triangles = indices.length / 3; uniqueTriangles += triangles; vertices += positions.length; primitiveData.set(`${meshIndex}:${primitiveIndex}`, { triangles, joints, positions });
@@ -151,7 +170,7 @@ export function auditNpcGlb(data, { label = 'NPC GLB', triangleBudget = 50000, t
   });
   instances.forEach((instance) => meshes[instance.mesh].primitives.forEach((_, i) => { const primitive = primitiveData.get(`${instance.mesh}:${i}`); need(primitive.joints.every((row) => row.every((j) => Number.isInteger(j) && j >= 0 && j < skins[instance.skin].joints.length)), 'joint index outside skin'); }));
   need((doc.animations ?? []).length === 0, 'unexpected embedded animation clips: this pipeline uses the procedural poser');
-  return { label, bytes: data.length, sha256: sha256(data), storedTriangles: uniqueTriangles, sceneTriangles, vertices, meshCount: meshes.length, sceneMeshInstances: instances, skins, animationCount: 0, materialCount: materials.length, materials, images, maximumWeightSumError, zeroAreaTriangles, triangleBudget, textureDimensionCap };
+  return { label, bytes: data.length, sha256: sha256(data), storedTriangles: uniqueTriangles, sceneTriangles, vertices, meshCount: meshes.length, sceneMeshInstances: instances, skins, animationCount: 0, materialCount: materials.length, materials, images, maximumWeightSumError, zeroAreaTriangles, maximumNormalLengthError, maximumTangentLengthError, maximumTangentNormalDot, retainedSourceUvPrimitives, surfaceBake: surfaceBake ?? null, triangleBudget, textureDimensionCap };
 }
 
 function main() {
@@ -159,16 +178,28 @@ function main() {
   for (let i = 0; i < args.length; i++) { if (args[i] === '--only') only = args[++i]?.split(','); else if (args[i] === '--json') jsonOutput = resolve(args[++i]); else throw new Error(`Unknown argument ${args[i]}`); }
   const configBytes = readFileSync(resolve(repo, 'tools/meshy-npc-sources.json')); const config = JSON.parse(configBytes); need(config.maxTriangles === 50000, 'NPC manifest changes the owner-established 50k cap'); const provenancePath = resolve(repo, 'docs/engineering/meshy-npc-assets.json'); const provenance = JSON.parse(readFileSync(provenancePath, 'utf8'));
   need(provenance.selection.sha256 === sha256(configBytes), 'stale role-selection provenance');
+  const runtimeManifest = JSON.parse(readFileSync(resolve(repo, 'public/models/npcs/manifest.json'), 'utf8'));
+  need(runtimeManifest.schema === 1 && runtimeManifest.maxTriangles === config.maxTriangles && runtimeManifest.assets?.length === config.assets.length, 'incompatible public NPC manifest');
+  need(new Set(runtimeManifest.assets.map(entry => entry.id)).size === config.assets.length, 'duplicate public NPC manifest entry');
+  need(new Set(runtimeManifest.assets.map(entry => entry.file)).size === config.assets.length
+    && runtimeManifest.assets.every(entry => config.assets.some(row => row.id === entry.id && entry.file === `${row.id}.glb`))
+    && Object.keys(runtimeManifest.roles ?? {}).length === config.assets.length
+    && config.assets.every(row => runtimeManifest.roles[row.role] === row.id), 'public NPC assignments differ from the source selection');
   const selected = config.assets.filter((asset) => !only || only.includes(asset.id)); need(selected.length > 0 && (!only || selected.length === new Set(only).size), 'unknown/empty --only selection');
   const known = new Set(config.assets.map((asset) => `${asset.id}.glb`)); const directory = resolve(repo, 'public/models/npcs');
   function glbs(folder, prefix = '') { return readdirSync(folder, { withFileTypes: true }).flatMap((entry) => { need(!entry.isSymbolicLink(), 'NPC asset folder contains a symlink'); const name = prefix + entry.name; return entry.isDirectory() ? glbs(resolve(folder, entry.name), name + '/') : name.endsWith('.glb') ? [name] : []; }); }
   const unexpected = glbs(directory).filter((file) => !known.has(file)); need(unexpected.length === 0, `unregistered NPC GLBs: ${unexpected.join(', ')}`);
   const assets = selected.map((assignment) => {
-    const path = resolve(directory, `${assignment.id}.glb`); const actual = auditNpcGlb(readFileSync(path), { label: relative(repo, path), triangleBudget: config.maxTriangles });
+    const served = runtimeManifest.assets.find(entry => entry.id === assignment.id);
+    need(served?.file === `${assignment.id}.glb` && runtimeManifest.roles?.[assignment.role] === assignment.id, `${assignment.id}: missing/incorrect public role assignment`);
+    const path = resolve(directory, `${assignment.id}.glb`); const actual = auditNpcGlb(readFileSync(path), { label: relative(repo, path), triangleBudget: config.maxTriangles, surfaceBake: served.surfaceBake });
+    need(served.sha256 === actual.sha256 && served.bytes === actual.bytes && served.triangles === actual.sceneTriangles, `${assignment.id}: stale public manifest`);
     const recorded = provenance.assignments.find((entry) => entry.id === assignment.id); need(recorded?.status === 'prepared' && recorded.runtime?.sha256 === actual.sha256 && recorded.runtime.bytes === actual.bytes && recorded.runtime.triangles === actual.sceneTriangles, `${assignment.id}: missing/stale runtime provenance`);
+    need(Number.isFinite(served.height) && Math.abs(served.height - recorded.runtime.height) <= 0.000001, `${assignment.id}: stale public model height`);
     need(recorded.role === assignment.role && recorded.pose === assignment.pose && recorded.surface === assignment.surface && JSON.stringify(recorded.palette) === JSON.stringify(assignment.palette), `${assignment.id}: role/material selection provenance mismatch`);
     need(recorded.source.filename === assignment.sourceFilename && recorded.source.id === assignment.sourceId && recorded.source.sha256 === recorded.receipt.sourceSha256, `${assignment.id}: source provenance mismatch`);
     need(recorded.receipt.id === assignment.id && recorded.receipt.role === assignment.role && recorded.receipt.sourceFilename === assignment.sourceFilename && recorded.receipt.runtime.sha256 === actual.sha256 && recorded.receipt.runtime.bytes === actual.bytes && recorded.receipt.runtime.triangles === actual.sceneTriangles, `${assignment.id}: preparation receipt mismatch`);
+    if (served.surfaceBake) need(recorded.surfaceRebake?.contract === served.surfaceBake && recorded.surfaceRebake.candidate?.sha256 === actual.sha256 && recorded.surfaceRebake.source?.sha256 === recorded.source.sha256, `${assignment.id}: missing/stale surface rebake evidence`);
     return { id: assignment.id, role: assignment.role, ...actual };
   });
   const report = { schemaVersion: 1, verifiedUTC: new Date().toISOString(), scope: only ? 'selected assets only; not complete pack acceptance' : `all${config.assets.length} assignments and all registered public NPC GLBs`, assetCount: assets.length, sumPerModelSceneTriangles: assets.reduce((sum, asset) => sum + asset.sceneTriangles, 0), assets };
