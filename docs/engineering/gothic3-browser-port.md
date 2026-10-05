@@ -29,9 +29,12 @@ Gothic assets as original Tervain content or change earlier Tervain asset rules.
   not the installed game's native actor/controller pipeline.
 - Provides a grounded support/wall approximation,
   free flight, mouse look, character inspection, orbit/zoom, wireframe,
-  rotation, a local position map and isolated browser camera-position saves.
-- Presents recovered original quest references as inspection data.
-  It never invents quest activation, dialogue choices or quest completion.
+  rotation and a local position map. Browser saves retain exploration state,
+  source-backed quest states and world-clock time; they are separate from
+  Gothic 3 native saves.
+- Presents recovered original quest references as inspection data and applies
+  the single audited new-world `Xardas_FindXardas` transition. Remaining quest
+  activation, dialogue choices and completion are not broadly playable.
 - Loads the native skinned Hero and 11 source motion clips in the inspector,
   preserving every bone influence, body/head inverse binds and source poses.
 - Provides a searchable catalog of all 641 original quests and 4,381 dialogue
@@ -53,8 +56,8 @@ The native Normal/Masked/AlphaBlend modes and MaskReference byte are retained.
 Masked cutoffs use byte/255 with a small comparison epsilon; the complete
 native shader and fading behavior remain unimplemented.
 The remaining native materials, global lighting, SpeedTree runtime,
-NPC animation selection, sound, combat, AI, inventory, economy, original quests,
-world-object streaming and native save compatibility are not implemented.
+NPC animation selection, sound, combat, AI, inventory, economy, most quest
+progression, world-object streaming and native save compatibility are not implemented.
 Reviewed combat/dialogue kernels have explicit unsupported outcomes and host
 APIs, but are not enabled for ordinary play. Only the audited first startup
 quest run is connected; remaining startup callbacks and entity mutations are
@@ -130,11 +133,14 @@ The prepared derivatives and newly written renderer have separate provenance.
 | Return to scene arrival | R |
 | Original quest reference journal | J |
 | Local position map | M |
-| Save exploration position | P |
+| Save browser session | P |
 
-Save key: `gothic3:ardea:exploration:v1`. It holds only the browser camera
-position/orientation and flight mode. It neither imports original Gothic saves
-nor changes Tervain saves.
+Current save key: `gothic3:ardea:game:v2`. It holds browser exploration state,
+landscape selection, the 641 quest states and world-clock date. Quest/clock
+restore requires matching source hashes. Legacy key
+`gothic3:ardea:exploration:v1` still restores position and view, then starts a
+fresh quest session. Neither format imports original Gothic saves or changes
+Tervain saves.
 
 ## Reproduction and publication
 

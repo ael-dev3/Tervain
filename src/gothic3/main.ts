@@ -18,7 +18,8 @@ import './style.css';
 
 // This is an independent port milestone. It does not import Tervain simulation,
 // menus, lore, saves, proprietary native libraries, or the reconstructed engine.
-const SAVE_KEY = 'gothic3:ardea:exploration:v1';
+const SAVE_KEY = 'gothic3:ardea:game:v2';
+const LEGACY_SAVE_KEY = 'gothic3:ardea:exploration:v1';
 const canvas = document.querySelector<HTMLCanvasElement>('#world')!;
 const ui = document.querySelector<HTMLDivElement>('#interface')!;
 ui.innerHTML = '<header class="masthead"><div class="eyebrow">Gothic 3 · browser port</div><h1 id="world-title">Ardea</h1><p id="world-caption">Recovered scene · native landscape</p></header>' +
@@ -405,33 +406,51 @@ async function showLandscape(): Promise<void> {
 function save(): void {
   if (!started) return;
   try {
-    localStorage.setItem(SAVE_KEY, JSON.stringify({ version: 1, ...explorer.getState(), landscapeName }));
-    notify('Exploration position saved in this browser. Gothic 3 and Tervain saves are separate.');
-  } catch { notify('Browser storage is unavailable. Exploration can continue.'); }
+    localStorage.setItem(SAVE_KEY, JSON.stringify({ version: 2, ...explorer.getState(), landscapeName,
+      nativeSession: questRuntime?.saveData() ?? null }));
+    notify(questRuntime
+      ? 'Position, world clock and quest journal saved in this browser. Original Gothic 3 saves are separate.'
+      : 'Exploration position saved; quest state was unavailable. Original Gothic 3 saves are separate.');
+  } catch (error) { notify('Could not save this browser session: ' + String(error)); }
 }
 
 function restore(): void {
-  try {
-    const raw = localStorage.getItem(SAVE_KEY);
-    if (!raw) return;
-    const value = JSON.parse(raw) as { version?: number; position?: unknown; yaw?: unknown; pitch?: unknown; fly?: unknown; landscapeName?: unknown };
-    const position = value.position;
-    if (value.version !== 1 || !Array.isArray(position) || position.length !== 3 ||
-        !position.every((part) => typeof part === 'number' && Number.isFinite(part)) ||
-        typeof value.yaw !== 'number' || !Number.isFinite(value.yaw) ||
-        typeof value.pitch !== 'number' || !Number.isFinite(value.pitch)) return;
-    const origin = terrain.originMetres;
-    const absolute = [position[0] + origin.x, position[1] + origin.y, position[2] + origin.z];
-    const bounds = terrain.manifest?.cells.map((cell) => cell.boundsMetres) ?? [manifest.bounds];
-    const point = terrain.manifest ? absolute : position;
-    if (!bounds.some((bound) => point[0]! >= bound.min[0] - 100 && point[0]! <= bound.max[0] + 100 &&
-        point[2]! >= bound.min[2] - 100 && point[2]! <= bound.max[2] + 100 &&
-        point[1]! >= bound.min[1] - 100 && point[1]! <= bound.max[1] + 1000)) return;
-    landscapeName = typeof value.landscapeName === 'string' && value.landscapeName.length <= 64 ? value.landscapeName : null;
-    explorer.fly = value.fly === true;
-    explorer.teleport([position[0], position[1], position[2]], value.yaw, value.pitch);
-    notify('Restored your saved exploration position.');
-  } catch { /* A malformed or unavailable local save never prevents a start. */ }
+  let candidates: (string | null)[];
+  try { candidates = [localStorage.getItem(SAVE_KEY), localStorage.getItem(LEGACY_SAVE_KEY)]; }
+  catch { return; }
+  for (const raw of candidates) {
+    if (!raw) continue;
+    try {
+      const value = JSON.parse(raw) as { version?: number; position?: unknown; yaw?: unknown; pitch?: unknown; fly?: unknown; landscapeName?: unknown };
+      if ((value.version !== 2 && value.version !== 1) || !Array.isArray(value.position) || value.position.length !== 3 ||
+          !value.position.every((part) => typeof part === 'number' && Number.isFinite(part)) ||
+          typeof value.yaw !== 'number' || !Number.isFinite(value.yaw) ||
+          typeof value.pitch !== 'number' || !Number.isFinite(value.pitch)) continue;
+      const position = value.position as [number, number, number];
+      const origin = terrain.originMetres;
+      const absolute = [position[0] + origin.x, position[1] + origin.y, position[2] + origin.z];
+      const bounds = terrain.manifest?.cells.map((cell) => cell.boundsMetres) ?? [manifest.bounds];
+      const point = terrain.manifest ? absolute : position;
+      if (!bounds.some((bound) => point[0]! >= bound.min[0] - 100 && point[0]! <= bound.max[0] + 100 &&
+          point[2]! >= bound.min[2] - 100 && point[2]! <= bound.max[2] + 100 &&
+          point[1]! >= bound.min[1] - 100 && point[1]! <= bound.max[1] + 1000)) continue;
+      landscapeName = typeof value.landscapeName === 'string' && value.landscapeName.length <= 64 ? value.landscapeName : null;
+      explorer.fly = value.fly === true;
+      explorer.teleport(position, value.yaw, value.pitch);
+      notify(value.version === 2 ? 'Restored your saved game session.' : 'Restored your saved exploration position.');
+      return;
+    } catch { /* Try the previous position-only format if the current record is malformed. */ }
+  }
+}
+
+function savedNativeSession(): { readonly kind: 'none' } | { readonly kind: 'empty' } |
+  { readonly kind: 'saved'; readonly value: unknown } {
+  const raw = localStorage.getItem(SAVE_KEY);
+  if (!raw) return { kind: 'none' };
+  const value = JSON.parse(raw) as { version?: number; nativeSession?: unknown };
+  if (value.version === 1) return { kind: 'none' };
+  if (value.version !== 2) throw new Error('Unsupported browser save version.');
+  return value.nativeSession ? { kind: 'saved', value: value.nativeSession } : { kind: 'empty' };
 }
 
 async function character(person: ScenePerson): Promise<THREE.Group> {
@@ -736,8 +755,13 @@ async function enterWorld(): Promise<void> {
   const button = element<HTMLButtonElement>('start-button');
   button.disabled = true;
   element('load-status').textContent = 'Loading original new-world quest state and clock…';
+  let restoredSession = false;
   try {
-    questRuntime = await NativeQuestRuntime.newGame();
+    const savedSession = savedNativeSession();
+    if (savedSession.kind === 'saved') {
+      questRuntime = await NativeQuestRuntime.restore(savedSession.value);
+      restoredSession = true;
+    } else questRuntime = await NativeQuestRuntime.newGame();
     questRuntimeError = null;
   } catch (error) {
     questRuntime = null;
@@ -749,7 +773,9 @@ async function enterWorld(): Promise<void> {
   restore();
   canvas.focus();
   if (failures.length) notify('Scene loaded with ' + failures.length + ' asset warnings. See Help for details.');
-  if (questRuntime) notify('New-world quest journal loaded · Xardas_FindXardas is running.');
+  if (questRuntime) notify(restoredSession
+    ? 'Saved quest journal and world clock restored.'
+    : 'New-world quest journal loaded · Xardas_FindXardas is running.');
   else notify('Exploration started without quest progression: ' + questRuntimeError);
   enteringWorld = false;
 }

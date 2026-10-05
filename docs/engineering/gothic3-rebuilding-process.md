@@ -10,8 +10,9 @@ Hero motion inspection, original quest/dialogue catalogs, source-state/clock
 inspection, an on-demand Hero character sheet backed by captured PlayerMemory
 and Attribute/Stat data in TypeScript, and a fresh-world quest journal seeded
 from the original 641 quest states. It applies the audited startup run of
-`Xardas_FindXardas` and advances the source-seeded clock. This is an incomplete
-game reconstruction.
+`Xardas_FindXardas`, advances the source-seeded clock, and saves/restores the
+browser session's position, clock and quest states with source-hash checks.
+This is an incomplete game reconstruction.
 Completing the original game in the browser remains the objective; the inspectors
 do not satisfy that objective.
 
@@ -2726,3 +2727,30 @@ browser loaded the scene and its 202 scene objects, but the new session start
 and journal interaction were not manually reviewed. No automated test suite,
 full browser playthrough, original executable comparison or deployment was run.
 `gameplayReady` remains `false`.
+
+## 26. Save and restore the source-backed browser session
+
+The browser's version-2 local save contains the explorer position and view,
+selected landscape, all 641 quest states and the world-clock date. Restore
+checks that the quest seed, effective quest definitions and clock seed have
+the same SHA-256 receipts as the current prepared data. It validates the saved
+quest IDs and state values before seeding the quest manager, and restores the
+clock through its set/adjust/process/resume operations. A legacy version-1 save
+still restores its exploration position; it starts a fresh source-backed quest
+session because the older format contains no quest or clock state. These browser
+saves are not compatible with Gothic 3's native save files and do not serialize
+the original Hero PlayerMemory, inventory, NPC routines or world entity
+activation.
+
+Saving remains a partial session feature. A malformed or source-incompatible
+quest session is not silently replaced by new-game state; exploration remains
+available and the error is shown. This keeps the mismatch visible while
+preserving the saved record. `npm run build` passes with 259 Vite modules; the
+existing large Tervain bundle warning remains. A one-off Vite SSR invocation
+created a new game, advanced its clock, serialized the session, restored it,
+and confirmed 641 quest states, `Xardas_FindXardas` Running at 0/0/12 and the
+restored clock at noon. A second restore with a changed quest-definition hash
+was rejected. `git diff --check` also passes. No automated test suite, manual
+save/reload in the browser, complete gameplay playthrough, original executable
+comparison or deployment was run. This does not establish a full gameplay
+save/load path, and `gameplayReady` remains `false`.
