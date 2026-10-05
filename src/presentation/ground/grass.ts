@@ -60,7 +60,9 @@ export function createGrassPatch(blades: number, seed: number): THREE.BufferGeom
   const rng = mulberry32(seed);
   const b = new GeoBuilder();
   const roots: number[] = [];
-  b.upBias = 0.54;
+  // Keep the folded faces visible. A large sky bias lit every ribbon almost like
+  // horizontal straw, especially on the sunny oak slopes.
+  b.upBias = 0.26;
   const white: Vec3 = [1, 1, 1];
   const R = 0.44;
   for (let i = 0; i < blades; i++) {
@@ -110,10 +112,10 @@ export function createGrassPatch(blades: number, seed: number): THREE.BufferGeom
   return geometry;
 }
 
-const cMeadow = new THREE.Color().setHex(0x687354);
-const cDeep = new THREE.Color().setHex(0x596b4d);
-const cGold = new THREE.Color().setHex(0x887b53);
-const cShade = new THREE.Color().setHex(0x48563f);
+const cMeadow = new THREE.Color().setHex(0x566347);
+const cDeep = new THREE.Color().setHex(0x4a5c40);
+const cGold = new THREE.Color().setHex(0x716345);
+const cShade = new THREE.Color().setHex(0x45523c);
 
 /** Under real crowns, grass yields to humus and fern colonies instead of becoming a pale verge ribbon. */
 export interface GrassHabitatProfile { density: number; height: number; exposure: number; shade: number }
@@ -143,8 +145,8 @@ export function createGrassLayer(ctx: BuildContext, habitat: Habitat, shared: Pa
     sizeComp: GRASS_SIZE_COMP,
     power: GRASS_THINNING_POWER,
     windAmp: GRASS_WIND_AMP,
-    rootShade: 0.6,
-    tipShade: 1.02,
+    rootShade: 0.43,
+    tipShade: 0.84,
     terrain: ctx.terrain,
   });
   const T = q.tile;
@@ -200,7 +202,7 @@ export function createGrassLayer(ctx: BuildContext, habitat: Habitat, shared: Pa
         hs *= 0.82 + 0.36 * uH;
         hs = Math.max(0.38, Math.min(1.5, hs));
         // Colour: deep green by water, meadow green, gold on the sun-cured patches, cooler in the woods.
-        tint.copy(cMeadow).lerp(cDeep, S.wet * 0.65).lerp(cGold, profile.exposure * 0.68).lerp(cShade, profile.shade * 0.84);
+        tint.copy(cMeadow).lerp(cDeep, S.wet * 0.65).lerp(cGold, profile.exposure * 0.38).lerp(cShade, profile.shade * 0.84);
         const j = 0.9 + uC * 0.2;
         const o = n * 4;
         out.base[o] = x;

@@ -5,6 +5,7 @@ import { SKY } from '../../src/presentation/skyState';
 
 let sky: SkyRig;
 const focus = new THREE.Vector3(-268, 0.5, 27);
+const luminance = (color: THREE.Color) => color.r * 0.2126 + color.g * 0.7152 + color.b * 0.0722;
 
 beforeEach(() => {
   vi.stubGlobal('window', { devicePixelRatio: 1 });
@@ -42,6 +43,36 @@ describe('continuous coastal atmosphere', () => {
     expect(SKY.top.value.equals(top)).toBe(true);
     expect(sky.fog.color.equals(fog)).toBe(true);
     expect(sky.hemi.intensity).toBe(intensity);
+  });
+
+  it('retains a cool diffuse reading floor throughout night with the normal environment active', () => {
+    SKY.ibl.value = 1;
+    sky.update(12, focus, 120, true);
+    expect(sky.sun.intensity).toBeGreaterThan(2.5);
+    // This measures available linear diffuse illumination, not final pixels:
+    // the ordinary native forest review still decides route/hero readability.
+    for (let sample = 0; sample <= 90; sample++) {
+      const hour = (20.2 + sample * 0.1) % 24;
+      sky.update(hour, focus, 120, true);
+      const fill = luminance(sky.hemi.color) * sky.hemi.intensity;
+      const bounce = luminance(sky.hemi.groundColor) * sky.hemi.intensity;
+      expect(fill, `default night sky fill at ${hour.toFixed(1)}`).toBeGreaterThanOrEqual(0.25);
+      expect(fill, 'diffuse night illumination remains bounded below HDR white energy').toBeLessThan(0.55);
+      expect(bounce, 'roots and dark downward faces need a subdued bounce').toBeGreaterThan(0.09);
+      expect(sky.hemi.color.b).toBeGreaterThan(sky.hemi.color.r);
+    }
+    for (const hour of [22, 23, 24, 0]) {
+      sky.update(hour, focus, 120, true);
+      expect(sky.sun.intensity, 'night readability comes from fill, not artificial sunlight').toBe(0);
+      expect(sky.sun.castShadow).toBe(false);
+    }
+    for (const boundary of [0, 5.2, 20.2, 22]) {
+      sky.update((boundary + 24 - 0.001) % 24, focus, 120, true);
+      const before = SKY.ambient.value.clone();
+      sky.update((boundary + 0.001) % 24, focus, 120, true);
+      const after = SKY.ambient.value;
+      expect(Math.abs(luminance(before) - luminance(after))).toBeLessThan(0.001);
+    }
   });
 
   it('freezes cloud and star motion while day/night lighting and brightness remain accessible', () => {

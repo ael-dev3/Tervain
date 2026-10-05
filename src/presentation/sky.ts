@@ -27,16 +27,18 @@ interface Key {
 }
 
 const KEYS: Key[] = [
-  { h: 0, top: 0x070b16, horizon: 0x141b2a, sun: 0x8fa0c8, sunI: 0.0, hemiSky: 0x4b5b79, hemiGround: 0x262a31, hemiI: 0.65, fog: 0x141b2a, cover: 0.55 },
-  { h: 5.2, top: 0x1a2236, horizon: 0x5c5560, sun: 0xd89a68, sunI: 0.1, hemiSky: 0x4b5670, hemiGround: 0x232326, hemiI: 0.55, fog: 0x5c5560, cover: 0.6 },
+  // A slate-blue diffuse floor keeps the route, roots and dark cloth readable
+  // under crowns without replacing the night sky or introducing artificial lamps.
+  { h: 0, top: 0x070b16, horizon: 0x141b2a, sun: 0x8fa0c8, sunI: 0.0, hemiSky: 0x9aafc8, hemiGround: 0x66758a, hemiI: 1.02, fog: 0x141b2a, cover: 0.55 },
+  { h: 5.2, top: 0x1a2236, horizon: 0x5c5560, sun: 0xd89a68, sunI: 0.1, hemiSky: 0x8e9db5, hemiGround: 0x5d697d, hemiI: 0.9, fog: 0x5c5560, cover: 0.6 },
   { h: 6.5, top: 0x4f6f96, horizon: 0xc8a682, sun: 0xf0b078, sunI: 1.0, hemiSky: 0x8298b0, hemiGround: 0x4a4230, hemiI: 0.72, fog: 0xb8a58c, cover: 0.62 },
   { h: 9, top: 0x627f94, horizon: 0xb3b9b7, sun: 0xffdfb1, sunI: 2.5, hemiSky: 0x8ca4bd, hemiGround: 0x454334, hemiI: 0.65, fog: 0xa8b3b4, cover: 0.52 },
   { h: 13, top: 0x5e7e91, horizon: 0xb1bab8, sun: 0xffe8bf, sunI: 2.75, hemiSky: 0x89a3bd, hemiGround: 0x484434, hemiI: 0.67, fog: 0xa3b2b3, cover: 0.5 },
   { h: 17, top: 0x506f98, horizon: 0xc0b49d, sun: 0xffd19a, sunI: 2.3, hemiSky: 0x8b9fb9, hemiGround: 0x494031, hemiI: 0.64, fog: 0xacae9f, cover: 0.59 },
   { h: 18.8, top: 0x3d4a6c, horizon: 0xd08a5a, sun: 0xff8f52, sunI: 0.9, hemiSky: 0x7a7a94, hemiGround: 0x3e2e28, hemiI: 0.62, fog: 0xb8825e, cover: 0.66 },
-  { h: 20.2, top: 0x161f3a, horizon: 0x5f4a5a, sun: 0xd0784c, sunI: 0.1, hemiSky: 0x40507a, hemiGround: 0x22212a, hemiI: 0.52, fog: 0x4c4152, cover: 0.6 },
-  { h: 22, top: 0x080d1c, horizon: 0x151c2e, sun: 0x8fa0c8, sunI: 0.0, hemiSky: 0x4b5b79, hemiGround: 0x262a31, hemiI: 0.65, fog: 0x151c2e, cover: 0.56 },
-  { h: 24, top: 0x070b16, horizon: 0x141b2a, sun: 0x8fa0c8, sunI: 0.0, hemiSky: 0x4b5b79, hemiGround: 0x262a31, hemiI: 0.65, fog: 0x141b2a, cover: 0.55 },
+  { h: 20.2, top: 0x161f3a, horizon: 0x5f4a5a, sun: 0xd0784c, sunI: 0.1, hemiSky: 0x8e9db5, hemiGround: 0x5d697d, hemiI: 0.9, fog: 0x4c4152, cover: 0.6 },
+  { h: 22, top: 0x080d1c, horizon: 0x151c2e, sun: 0x8fa0c8, sunI: 0.0, hemiSky: 0x9aafc8, hemiGround: 0x66758a, hemiI: 1.02, fog: 0x151c2e, cover: 0.56 },
+  { h: 24, top: 0x070b16, horizon: 0x141b2a, sun: 0x8fa0c8, sunI: 0.0, hemiSky: 0x9aafc8, hemiGround: 0x66758a, hemiI: 1.02, fog: 0x141b2a, cover: 0.55 },
 ];
 
 const ca = new THREE.Color();
