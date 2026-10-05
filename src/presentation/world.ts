@@ -40,6 +40,7 @@ import { buildSourceRockPiles, loadSourceRockPile } from './sourceRockPile';
 import { loadMeshyTrees, type MeshyTreeTemplates } from './meshyTrees';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { buildCoastalBackdrop } from './coastalBackdrop';
+import { createGroundContactField } from './groundContacts';
 
 /** Everything static in Bellwether Vale, plus the presentation that follows durable state. */
 export class WorldScene {
@@ -123,8 +124,6 @@ export class WorldScene {
     const landmarks = buildForestLandmarks(this.terrain, this.colliders, settings.quality);
     const forest = buildFlora(ctx, pine, true, treeTemplates);
     forest.initializeFloor();
-    this.terrainMesh = buildTerrainTiles(this.terrain, terrainTex, ctx.plantedCrowns);
-    this.scene.add(this.terrainMesh);
     const scatter = buildScatter(ctx);
     const sourceRocks = buildSourceRockPiles(ctx, rockPile);
     const ambient = buildAmbient(ctx);
@@ -144,6 +143,11 @@ export class WorldScene {
     this.environment = buildEnvironment(this.scene, settings.quality);
     this.scenery = buildScenery(this.terrain, this.colliders, settings.quality);
     this.scene.add(this.scenery.group);
+    // Register accepted source rocks and constructed thresholds before painting their ground contacts.
+    // This field changes surface dressing only; support, obstacle identities and terrain planes are unchanged.
+    const contacts = createGroundContactField(this.terrain, this.colliders.rockMeshes);
+    this.terrainMesh = buildTerrainTiles(this.terrain, terrainTex, ctx.plantedCrowns, undefined, contacts);
+    this.scene.add(this.terrainMesh);
     this.physics = new RealmPhysics(this.terrain, this.colliders, undefined, forest.physicalWood);
     const physicalProps = buildPhysicalProps(this.physics, settings.quality);
     this.modules.push({ name: 'physical supplies', module: physicalProps });

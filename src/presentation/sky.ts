@@ -32,8 +32,10 @@ const KEYS: Key[] = [
   { h: 0, top: 0x070b16, horizon: 0x141b2a, sun: 0x8fa0c8, sunI: 0.0, hemiSky: 0x9aafc8, hemiGround: 0x66758a, hemiI: 1.02, fog: 0x141b2a, cover: 0.55 },
   { h: 5.2, top: 0x1a2236, horizon: 0x5c5560, sun: 0xd89a68, sunI: 0.1, hemiSky: 0x8e9db5, hemiGround: 0x5d697d, hemiI: 0.9, fog: 0x5c5560, cover: 0.6 },
   { h: 6.5, top: 0x4f6f96, horizon: 0xc8a682, sun: 0xf0b078, sunI: 1.0, hemiSky: 0x8298b0, hemiGround: 0x4a4230, hemiI: 0.72, fog: 0xb8a58c, cover: 0.62 },
-  { h: 9, top: 0x627f94, horizon: 0xb3b9b7, sun: 0xffdfb1, sunI: 2.5, hemiSky: 0x8ca4bd, hemiGround: 0x454334, hemiI: 0.65, fog: 0xa8b3b4, cover: 0.52 },
-  { h: 13, top: 0x5e7e91, horizon: 0xb1bab8, sun: 0xffe8bf, sunI: 2.75, hemiSky: 0x89a3bd, hemiGround: 0x484434, hemiI: 0.67, fog: 0xa3b2b3, cover: 0.5 },
+  // Pale blue air and warm mineral light separate roof/earth masses from cooler
+  // shadow. This is a daylight material relationship, not a sepia or dark filter.
+  { h: 9, top: 0x7794a8, horizon: 0xc1c6c2, sun: 0xffe6c4, sunI: 2.5, hemiSky: 0x8fa8bd, hemiGround: 0x4c4738, hemiI: 0.65, fog: 0xb5bfc0, cover: 0.52 },
+  { h: 13, top: 0x718ea4, horizon: 0xbec8c6, sun: 0xffe9c8, sunI: 2.75, hemiSky: 0x8da8c1, hemiGround: 0x4c4838, hemiI: 0.67, fog: 0xb2bfc3, cover: 0.5 },
   { h: 17, top: 0x506f98, horizon: 0xc0b49d, sun: 0xffd19a, sunI: 2.3, hemiSky: 0x8b9fb9, hemiGround: 0x494031, hemiI: 0.64, fog: 0xacae9f, cover: 0.59 },
   { h: 18.8, top: 0x3d4a6c, horizon: 0xd08a5a, sun: 0xff8f52, sunI: 0.9, hemiSky: 0x7a7a94, hemiGround: 0x3e2e28, hemiI: 0.62, fog: 0xb8825e, cover: 0.66 },
   { h: 20.2, top: 0x161f3a, horizon: 0x5f4a5a, sun: 0xd0784c, sunI: 0.1, hemiSky: 0x8e9db5, hemiGround: 0x5d697d, hemiI: 0.9, fog: 0x4c4152, cover: 0.6 },
@@ -159,15 +161,17 @@ void main() {
     vec2 drift = uWind * uTime;
     // Smaller separate cloud banks leave broad quiet sky between the land silhouettes.
     vec2 bank = p * vec2(1.8, 2.25) + drift;
-    float n1 = cumulusField(bank);
+    // Long quiet cloud shelves frame the low headlands. Their torn ends and
+    // small nested lobes retain painted form without enormous swirling blobs.
+    float n1 = cumulusField(bank * vec2(0.82, 1.36));
     float thr = 0.66 - uCover * 0.20;
     float c1 = cloudEdge(thr, 0.12, n1);
     if (c1 > 0.002) {
-      float n2 = cumulusField(bank + uSunDir.xz * 0.12);
+      float n2 = cumulusField(bank * vec2(0.82, 1.36) + uSunDir.xz * 0.12);
       float lightT = clamp(0.56 + (n1 - n2) * 2.8, 0.0, 1.0);
       float thick = smoothstep(thr, thr + 0.24, n1);
       vec3 ambient = mix(uHorizon, uTop, 0.35);
-      vec3 shade = ambient * (0.55 + 0.20 * day) + vec3(0.02, 0.03, 0.045);
+      vec3 shade = ambient * (0.55 + 0.20 * day) + vec3(0.024, 0.026, 0.032);
       // The directional light already carries the sunlight. Painted cloud bodies
       // stay pearl/slate rather than producing white HDR sheets across the bay.
       vec3 lit = (uSunColor * min(uSunI, 2.8) * 0.24 + ambient * 0.68) * (1.0 + 0.28 * lowSun * pow(sd, 3.0));

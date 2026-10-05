@@ -127,20 +127,41 @@ export function buildStandard(R: Region, terrain: Terrain, b: BuildingSpec, out:
       for (const sz of [-1, 1]) R.timber.rod(x, eaveY, sz * b.d / 2, x, roof.ridgeY - 0.06, 0, 0.05, 4, jitterTone(TINT.woodDark, rnd));
     }
   }
+  // Short knee braces carry the eaves into existing wall posts; all remain inside the established
+  // wall/eave envelope. Local deterministic hashes do not perturb the cargo or window RNG stream.
+  const structureTint = mulc(rgb(TINT.woodDark), 1.65);
+  if (b.wall !== 'stone') {
+    for (const sx of [-1, 1]) for (const sz of [-1, 1]) {
+      const bx = sx * (b.w / 2 + 0.06), bz = sz * (b.d / 2 + 0.055);
+      R.timber.rod(bx, y0 + wallH - 0.67, bz, bx - sx * 0.52, y0 + wallH - 0.07, bz,
+        0.082, 4, structureTint, { jit: 0.025, amp: 0.025 });
+      R.timber.box(0.046, 0.046, 0.028, bx - sx * 0.43, y0 + wallH - 0.145, bz + sz * 0.09,
+        structureTint, { jit: 0, amp: 0 });
+    }
+  }
+  if (b.wall !== 'stone' && b.roof === 'gable') {
+    const slope = Math.tan(roof.pitch);
+    for (const sx of [-1, 1]) for (const fraction of [-0.55, 0.55]) {
+      const x = sx * (b.w / 2 + 0.13), z = fraction * b.d / 2;
+      const lower = y0 + wallH - 0.02, upper = roof.ridgeY - Math.abs(z) * slope - 0.13;
+      if (upper > lower) R.timber.box(0.11, upper - lower, 0.11, x, lower, z,
+        structureTint, { grain: 'y', jit: 0.025, amp: 0.025 });
+    }
+  }
   // Ridge sag: a beam under the ridge that visibly dips.
   if (b.roof === 'gable') R.timber.bx(-b.w / 2 - 0.2, roof.ridgeY - 0.35, -0.08, b.w / 2 + 0.2, roof.ridgeY - 0.2, 0.08, jitterTone(TINT.woodDark, rnd, 0.1), { jit: 0.08 });
 
   // Door and windows.
   const doorX = buildingEntry(b).x;
   rnd(); // Retain the existing decorative RNG sequence after the now-shared, authored door position.
-  door(R, rnd, { x: doorX, y: y0, z: b.d / 2 + 0.03 });
+  door(R, rnd, { x: doorX, y: y0, z: b.d / 2 + 0.03, stone: b.wall === 'stone' });
   for (const side of [-1, 1]) {
     const wx = side * Math.min(b.w * 0.32, b.w / 2 - 0.75);
-    if (Math.abs(wx - doorX) >= 1.25) windowAt(R, rnd, { x: wx, y: y0 + wallH * 0.45, z: b.d / 2 + 0.02, shutters: true });
+    if (Math.abs(wx - doorX) >= 1.25) windowAt(R, rnd, { x: wx, y: y0 + wallH * 0.45, z: b.d / 2 + 0.02, shutters: true, stone: b.wall === 'stone' });
   }
-  windowAt(R, rnd, { x: b.w / 2 + 0.02, y: y0 + wallH * 0.45, z: (rnd() - 0.5) * b.d * 0.4, ry: Math.PI / 2 });
-  windowAt(R, rnd, { x: -b.w / 2 - 0.02, y: y0 + wallH * 0.45, z: (rnd() - 0.5) * b.d * 0.4, ry: -Math.PI / 2 });
-  for (const side of [-1, 1]) windowAt(R, rnd, { x: side * b.w * 0.24, y: y0 + wallH * 0.45, z: -b.d / 2 - 0.02, ry: Math.PI });
+  windowAt(R, rnd, { x: b.w / 2 + 0.02, y: y0 + wallH * 0.45, z: (rnd() - 0.5) * b.d * 0.4, ry: Math.PI / 2, stone: b.wall === 'stone' });
+  windowAt(R, rnd, { x: -b.w / 2 - 0.02, y: y0 + wallH * 0.45, z: (rnd() - 0.5) * b.d * 0.4, ry: -Math.PI / 2, stone: b.wall === 'stone' });
+  for (const side of [-1, 1]) windowAt(R, rnd, { x: side * b.w * 0.24, y: y0 + wallH * 0.45, z: -b.d / 2 - 0.02, ry: Math.PI, stone: b.wall === 'stone' });
 
   // Chimney.
   if (b.kind !== 'lodge' && b.kind !== 'office' && b.kind !== 'bunks' && b.kind !== 'store') chimney(R, rnd, b.w * 0.28, -b.d * 0.12, y0 + wallH - 0.5, roof.rise + 1.6);

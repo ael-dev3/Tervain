@@ -202,6 +202,9 @@ void main() {
   float cellFootprint = fwidth(cell);
   // Receding shore wash: narrow cell-edge lace instead of solid white noise blobs.
   float noise = texture2D(uNoise, vWorld.xz * 0.048 + vec2(0.0, uTime * 0.002)).r;
+  // Stable metre-scale bank variation belongs to water depth/body, not the animated
+  // foam clock. Gather this footprint-safe sample before the shoreline discard.
+  float shoal = texture2D(uNoise, vWorld.xz * 0.021 + vec2(0.37, 0.19)).a;
   float phase = vShore * 0.65 - uTime * 0.7 + vWorld.z * 0.025 + noise * 1.4;
   float run = 0.16 + 0.22 * (0.5 + 0.5 * sin(uTime * 0.75 + vWorld.z * 0.035));
   float edge = d - run;
@@ -219,9 +222,9 @@ void main() {
   // explicit LOD/gradients remain valid across the shoreline's discarded lanes.
   float day = 1.0 - uNight;
   float light = 0.18 + day * (0.5 + min(uSunI, 2.2) * 0.22);
-  vec3 shallow = vec3(0.026, 0.137, 0.126);
-  vec3 deep = vec3(0.009, 0.038, 0.058);
-  vec3 body = mix(shallow, deep, 1.0 - exp(-d * 0.38)) * light;
+  vec3 shallow = mix(vec3(0.025, 0.103, 0.098), vec3(0.039, 0.122, 0.107), shoal);
+  vec3 deep = vec3(0.012, 0.035, 0.052);
+  vec3 body = mix(shallow, deep, 1.0 - exp(-d * 0.31)) * light;
   body = waterTransmission(body, N, vWorld, d);
   float caustic = (1.0 - waterSmooth(0.015, 0.11, cell, cellFootprint)) * (1.0 - smoothstep(1.0, 4.0, d)) * smoothstep(0.05, 0.45, d);
   body += vec3(0.012, 0.027, 0.022) * caustic * day * uDetail * facing;
@@ -236,6 +239,9 @@ void main() {
   color += shallow * max(vCrest, 0.0) * backlight * day * 0.5;
   float foam = clamp(wash * (0.035 + lace * 0.46) + breaker * (0.04 + lace * 0.29), 0.0, 0.7);
   foam *= breakup * (0.65 + noise * 0.35);
+  // A shallow sand apron supports receding surf. Steep rock faces retain only
+  // their captured narrow contact lip, avoiding a white outline around all land.
+  foam *= 1.0 - smoothstep(0.48, 1.25, length(depthGradient)) * 0.8;
   // A small broken lip where submerged rocks cut the surface, using captured depth.
   foam += waterContactEdge(vWorld, pixelMetres) * smoothstep(0.45, 1.0, d) * (0.08 + lace * 0.28) * breakup;
   foam = min(foam, 0.8);

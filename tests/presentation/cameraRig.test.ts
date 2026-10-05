@@ -41,9 +41,9 @@ describe('woodland camera obstruction', () => {
     cam.follow(1 / 60, 0, 0, 0, flat, colliders, true, 0);
     const first = distance(cam);
     expect(first).toBeGreaterThan(blocked);
-    expect(first).toBeLessThan(5.4);
+    expect(first).toBeLessThan(6.2);
     for (let i = 0; i < 180; i++) cam.follow(1 / 60, 0, 0, 0, flat, colliders, true, 0);
-    expect(distance(cam)).toBeGreaterThan(5.35);
+    expect(distance(cam)).toBeGreaterThan(6.15);
   });
 
   it('clears a rising bank while keeping an unobstructed boom steady', () => {
@@ -67,19 +67,19 @@ describe('woodland camera obstruction', () => {
       cam.follow(1 / hz, 0, 0, 0, flat, colliders, false, 1);
       expect(cam.camera.position.x + CAMERA_CLEARANCE).toBeLessThanOrEqual(0.35 + 1e-6);
     }
-    expect(distance(cam)).toBeGreaterThan(5.3);
+    expect(distance(cam)).toBeGreaterThan(6.1);
   });
 
   it('clips recoil against a round post without retracting an otherwise clear boom', () => {
     const colliders = new Colliders();
-    const z = -Math.cos(0.32) * 5.4;
+    const z = -Math.cos(0.32) * 6.2;
     colliders.circle('post', 0.56, z, 0.21, true, { minY: 0, maxY: 6 });
     const cam = new CameraRig();
     for (let frame = 0; frame < 120; frame++) {
       cam.follow(1 / 60, 0, 0, 0, flat, colliders, false, 1);
       expect(Math.hypot(cam.camera.position.x - 0.56, cam.camera.position.z - z)).toBeGreaterThanOrEqual(0.21 + CAMERA_CLEARANCE);
     }
-    expect(distance(cam)).toBeGreaterThan(5.3);
+    expect(distance(cam)).toBeGreaterThan(6.1);
   });
 
   it('keeps recoil out of the terrain clearance envelope and freezes it for Reduced Motion', () => {

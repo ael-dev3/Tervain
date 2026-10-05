@@ -702,7 +702,7 @@ def write_manifest(args):
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--stage',choices=['inspect','prepare','manifest','repair'],default='inspect')
-    p.add_argument('--downloads',type=pathlib.Path,default=pathlib.Path('/Users/ael/Downloads'))
+    p.add_argument('--downloads',type=pathlib.Path,default=pathlib.Path.home()/'Downloads')
     p.add_argument('--workshop',type=pathlib.Path,required=True);p.add_argument('--only')
     p.add_argument('--additional-workshop',type=pathlib.Path,action='append',default=[],help='Additional original inspections/component receipts for manifest assembly; leaves each source inventory unchanged')
     p.add_argument('--output',type=pathlib.Path,default=pathlib.Path(__file__).resolve().parents[1]/'public/models/flora/meshy-012')

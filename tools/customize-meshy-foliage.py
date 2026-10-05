@@ -3,8 +3,9 @@
 
 This is an offline GLB postprocess, not a camera-relative runtime deformation.
 Wood attributes/indices and the original crown geometry remain byte-identical.
-Existing 63-view atlases receive paint only in their previously empty 64th tile;
-smaller source maps receive a matching 2k composite without downsampling.
+Source RGB tissue remains intact; broadleaf alpha is remixed into fine branching
+leaflet clusters. Existing 63-view atlases use their empty 64th tile for connected
+custom sprigs; smaller maps receive a matching 2k composite without downsampling.
 Run with a Python environment containing numpy and Pillow. Originals are read
 only, and a durable prepared-file baseline makes this operation reproducible.
 """
@@ -192,6 +193,77 @@ def paint_leaf(style, rgb, variant, size):
     return image.resize((size, size), Image.Resampling.LANCZOS)
 
 
+def paint_cluster(style, rgb, variant, size):
+    """A connected small-leaf branch texture, for geometry anchored on real source Wood.
+
+    Three shoots form a modest sprig, with six alternating paired leaflets per
+    shoot. Their bases meet the drawn twig; the atlas root matches the real card
+    root UV. Leaves are painted independently, not one large oval plate.
+    """
+    if style in ('palm','needle'):
+        return paint_leaf(style,rgb,variant,size)
+    n=size*3;art=Image.new('RGBA',(n,n),(0,0,0,0));draw=ImageDraw.Draw(art)
+    rng=np.random.default_rng(272601+variant*37+sum(map(ord,style)))
+    root=(n*.5,n*.925);junction=(n*.5,n*.66)
+    bark=(89,76,46,255)
+    draw.line([root,junction],fill=bark,width=max(3,n//100))
+    for shoot,sign in enumerate((-1,0,1)):
+        tip=(n*(.5+sign*.215),n*(.16+abs(sign)*.04))
+        start=(n*.5,n*(.69-shoot*.025))
+        draw.line([start,tip],fill=bark,width=max(2,n//140))
+        direction=np.array(tip)-np.array(start);length=np.linalg.norm(direction);direction/=length
+        side=np.array([-direction[1],direction[0]])
+        for level in range(6):
+            t=.17+level*.135;base=np.array(start)+(np.array(tip)-np.array(start))*t
+            for hand in (-1,1):
+                leafdir=normalize(direction*.40+side*hand*.92)
+                leaf_length=n*(.115-level*.006)*rng.uniform(.86,1.12)
+                leaf_width=leaf_length*(.38 if style=='round' else .29)
+                centre=base+leafdir*leaf_length*.52;perp=np.array([-leafdir[1],leafdir[0]])
+                polygon=[]
+                for u in np.linspace(0,1,11):
+                    lobes=(.87+.13*math.cos(u*7*math.pi)) if style=='oak' else 1
+                    polygon.append(tuple(base+leafdir*leaf_length*u+perp*leaf_width*math.sin(u*math.pi)*lobes))
+                for u in np.linspace(1,0,11):
+                    lobes=(.87+.13*math.cos(u*7*math.pi)) if style=='oak' else 1
+                    polygon.append(tuple(base+leafdir*leaf_length*u-perp*leaf_width*math.sin(u*math.pi)*lobes))
+                factor=rng.uniform(.76,1.10)*( .87,1,.95,1.08)[variant]
+                colour=tuple(min(255,int(c*factor)) for c in rgb)+(255,)
+                draw.polygon(polygon,fill=colour)
+                tip_leaf=base+leafdir*leaf_length
+                draw.line([tuple(base),tuple(tip_leaf)],fill=tuple(min(255,int(c*1.13)) for c in colour[:3])+(255,),width=max(1,n//320))
+    draw.rectangle((n*.03,n*.94,n*.16,n*.985),fill=bark)
+    return art.resize((size,size),Image.Resampling.LANCZOS)
+
+
+def fine_crown_mask(size, style):
+    """Original small connected leafy tissue. Every leaf meets a drawn twig.
+    This alpha-only prepared-asset remix preserves all source RGB and UVs.
+    Native source envelope geometry and source wood remain authoritative.
+    """
+    tile=256;mask=Image.new('L',(size,size),0)
+    for ty in range(0,size,tile):
+        for tx in range(0,size,tile):
+            art=Image.new('L',(tile,tile),0);draw=ImageDraw.Draw(art)
+            rng=np.random.default_rng(660041+(ty//tile)*19+(tx//tile)*31+sum(map(ord,style)))
+            for branch in range(28):
+                x=rng.uniform(12,tile-12);y=rng.uniform(35,tile-8)
+                angle=rng.uniform(-2.35,-.8);length=rng.uniform(35,76)
+                tip=(x+math.cos(angle)*length,y+math.sin(angle)*length)
+                draw.line([(x,y),tip],fill=255,width=2)
+                direction=np.array([math.cos(angle),math.sin(angle)]);side=np.array([-direction[1],direction[0]])
+                for level in range(6):
+                    t=.16+level*.125;base=np.array([x,y])+direction*length*t
+                    for hand in (-1,1):
+                        leafdir=normalize(direction*.42+side*.91*hand);llen=rng.uniform(8,15);half=llen*(.35 if style=='round' else .27)
+                        perp=np.array([-leafdir[1],leafdir[0]]);polygon=[]
+                        for u in np.linspace(0,1,6):polygon.append(tuple(base+leafdir*llen*u+perp*half*math.sin(u*math.pi)))
+                        for u in np.linspace(1,0,6):polygon.append(tuple(base+leafdir*llen*u-perp*half*math.sin(u*math.pi)))
+                        draw.polygon(polygon,fill=255)
+            mask.paste(art,(tx,ty))
+    return mask
+
+
 def make_composite(image, cards, style, rgb, kind='albedo'):
     if cards:
         assert image.size == (2048, 2048)
@@ -208,8 +280,13 @@ def make_composite(image, cards, style, rgb, kind='albedo'):
         output = Image.new('RGBA', (2048, 2048), fill)
         # Nearest preserves source texels exactly and keeps synthetic audit direct.
         output.paste(image.resize((1536, 1536), Image.Resampling.NEAREST), (0, 0))
+    if kind=='albedo' and style not in ('palm','needle'):
+        data=np.array(output);original_alpha=data[:,:,3].copy()
+        fine=np.array(fine_crown_mask(2048,style))
+        data[:,:,3]=np.minimum(original_alpha,fine)
+        output=Image.fromarray(data)
     for tile in tiles:
-        art = paint_leaf(style, rgb, tile['variant'], tile['w'])
+        art = paint_cluster(style, rgb, tile['variant'], tile['w'])
         if kind != 'albedo':
             # Painted albedo relief does not pretend to be an authored leaf normal.
             flat = Image.new('RGBA', art.size, (128, 128, 255, 255) if kind == 'normal' else (255, 242, 0, 255))
@@ -403,7 +480,7 @@ def curved_leaf(geometry, origin, direction, length, width, twist, tile, lod, bo
         # An interior AABB margin guarantees the original complete tree's height
         # and per-family uniform runtime scale remain unchanged.
         return np.clip(q, bounds[0]+.0005, bounds[1]-.0005)
-    if lod == 'near':
+    if False: # Historical folded support; new clusters use two-triangle connected supports.
         start = geometry.vertex(point(0, 0), tile_uv(tile,.5,.925))
         rows=[]
         for t, span in ((.34,.84),(.72,.75)):
@@ -414,14 +491,14 @@ def curved_leaf(geometry, origin, direction, length, width, twist, tile, lod, bo
             a,b=rows[0][col:col+2];c,d=rows[1][col:col+2]
             geometry.face(a,c,d);geometry.face(a,d,b)
         geometry.face(rows[1][0],tip,rows[1][1]);geometry.face(rows[1][1],tip,rows[1][2])
-    elif lod == 'mid':
+    elif False:
         verts=[geometry.vertex(point(t,a),tile_uv(tile,.5+a*.34,.925-t*.85)) for t,a in ((0,0),(.52,-1),(.52,0),(.52,1),(1,0))]
         geometry.face(verts[0],verts[1],verts[2]);geometry.face(verts[0],verts[2],verts[3]);geometry.face(verts[1],verts[4],verts[2]);geometry.face(verts[2],verts[4],verts[3])
     else:
         # A small continuous blade rather than a separate billboard envelope.
         verts=[geometry.vertex(point(t,a),tile_uv(tile,.5+a*.34,.925-t*.85)) for t,a in ((0,0),(.50,-1),(.50,1),(1,0))]
         geometry.face(verts[0],verts[1],verts[2]);geometry.face(verts[1],verts[3],verts[2])
-    return start if lod == 'near' else verts[0]
+    return verts[0]
 
 
 def geometry_for_sites(sites, source, lod, key, tiles):
@@ -436,7 +513,7 @@ def geometry_for_sites(sites, source, lod, key, tiles):
         if style=='palm': length*=1.12
         side,normal=basis(direction)
         bend=normal*(.10*length)
-        segments={'near':4,'mid':2,'far':1}[lod];sides=4 if lod=='near' else 3
+        segments={'near':2,'mid':2,'far':1}[lod];sides=3
         def raw_spine(t):return np.clip(root+direction*length*t+bend*math.sin(math.pi*t),source['bounds'][0],source['bounds'][1])
         def spine(t):
             # Leaves must attach to the actual polygonal stem, including far's
@@ -457,9 +534,9 @@ def geometry_for_sites(sites, source, lod, key, tiles):
                 a,b=rings[segment][k],rings[segment][(k+1)%sides];c,d=rings[segment+1][k],rings[segment+1][(k+1)%sides]
                 geometry.face(a,c,d);geometry.face(a,d,b)
         stem_triangles=len(geometry.faces)-triangle_start
-        leaf_count={'near':6,'mid':4,'far':2}[lod]
+        leaf_count={'near':8,'mid':6,'far':4}[lod]
         leaf_bases=[];leaf_base_indices=[]
-        leaf_length=(.60 if style=='palm' else .46 if style=='needle' else .39)*rng.uniform(.87,1.14)
+        leaf_length=(.60 if style=='palm' else .46 if style=='needle' else .61)*rng.uniform(.87,1.14)
         width_ratio=.22 if style in ('palm','spear') else .30 if style=='needle' else .34
         for k in range(leaf_count):
             # Every leaf's first point lies on the connected shoot, alternating
@@ -671,8 +748,8 @@ def process(row, workshop, builder):
         data[lod]=load_glb(backup);sources[lod]=inspect_source(*data[lod],key)
     near_original=len(sources['near']['li'])+len(sources['near']['wi'])
     # Menu's architecture requires a tighter addition for its elder crown.
-    max_add=880 if key=='tree-0208' else 1760
-    sprig_count=min(22,max_add//80,(19500-near_original)//80)
+    max_add=880 if key=='tree-0208' else 1900
+    sprig_count=min(68,max_add//28,(19500-near_original)//28)
     assert sprig_count>=1,(key,near_original)
     sites=attachment_sites(sources,key,sprig_count)
     runtime={}
@@ -721,6 +798,20 @@ def process(row, workshop, builder):
         crown_primitive=primitive(final_doc,'Foliage')
         crown_material=final_doc['materials'][crown_primitive['material']]
         texture_index=crown_material['pbrMetallicRoughness']['baseColorTexture']['index']
+        remixed = style not in ('palm','needle')
+        source_alpha=np.array(source['image'])[:,:,3]
+        remapped_source=source['image'].resize((1536,1536),Image.Resampling.NEAREST) if not cards else source['image']
+        before=np.array(remapped_source)
+        after=np.array(composite)[:before.shape[0],:before.shape[1]].copy()
+        # Custom art occupies source atlas's formerly empty last tile; exclude it from original-surface evidence.
+        for tile in tiles:
+            x,y,w,h=[tile[k] for k in ('x','y','w','h')]
+            if x<before.shape[1] and y<before.shape[0]:after[y:y+h,x:x+w]=before[y:y+h,x:x+w]
+        assert np.array_equal(before[:,:,:3],after[:,:,:3])
+        assert np.all(after[:,:,3]<=before[:,:,3])
+        alpha_changed=int(np.count_nonzero(before[:,:,3]!=after[:,:,3]))
+        alpha_before=int(np.count_nonzero(before[:,:,3]>=90))
+        alpha_after=int(np.count_nonzero(after[:,:,3]>=90))
         audit['customFoliage']={'schemaVersion':1,'style':label,'sprigCount':len(sites),
                                'baselineSha256':hashlib.sha256((base/path.name).read_bytes()).hexdigest(),
                                'sourceTriangles':base_tri,'sourceVertices':base_count,'customTriangles':len(indices),
@@ -728,6 +819,7 @@ def process(row, workshop, builder):
                                'woodGeometrySha256Before':wood_before,'woodGeometrySha256After':wood_before,
                                'sourceFoliageUvTransform':transform,'sourceImageRectangle':source_rect,
                                'sourceResampling':'unchanged pixels' if cards else 'nearest upsample to 1536; no downsample',
+                               'crownSurfaceRemix':{'enabled':remixed,'method':'Original fine branching leaflet alpha, preserving every source RGB texel and original geometry/UV; custom sprigs use connected leaflet clusters.', 'originalOpaquePixels':alpha_before,'remixedOpaquePixels':alpha_after,'changedAlphaPixels':alpha_changed, 'sourceRgbPreserved':True,'sourceAlphaNeverExpanded':True},
                                'sourceAtlasEmptyTileFilled':cards,'baseColorImageIndex':final_doc['textures'][texture_index]['source'],
                                'structuralWoodComponent':source['groundedWoodInfo'],
                                'customAtlasTiles':tiles,'sprigs':records,
@@ -738,8 +830,8 @@ def process(row, workshop, builder):
         runtime[lod]=audit
     row['runtime']=runtime
     row['preparation']['customFoliage']={'schemaVersion':1,'tool':'tools/customize-meshy-foliage.py',
-                                        'style':label,'art':'Original procedural alpha-painted cutouts with irregular leaf shape, midrib, secondary veins, granular shade and warm worn edges; individual curved attached blades and fine connected twig tubes.',
-                                        'sourcePreservation':'Original Wood attributes and indices remain exact except the documented source-derived palm-fan far bole repair and exact near-Wood copies for the Verdant Sentinel middle/far shafts; original Foliage vertex positions, normals and triangle prefix remain exact. Existing source 63-view atlas pixels/UVs stay untouched, or source 1k maps are nearest-upsampled with matching UV/normal-map remap.',
+                                        'style':label,'art':'Original fine branching leaflet alpha over source crown envelopes, plus connected small-leaf cluster cutouts on physical custom twig tubes. Needle and palm silhouettes retain their family-specific original cutouts. No reference pixels.',
+                                        'sourcePreservation':'Original Wood attributes and indices remain exact except the documented source-derived palm-fan far bole repair and exact near-Wood copies for the Verdant Sentinel middle/far shafts; original Foliage vertex positions, normals and triangle prefix remain exact. Existing source RGB and UVs stay exact, with original broadleaf alpha-only small-leaf tissue masking that is independently checked; source 1k maps are nearest-upsampled with matching UV/normal-map remap. Source alpha is never expanded.',
                                         'attachment':'Upper bark faces of the ground-connected structural Wood component, with spatially equal UV seam vertices welded only for analysis. Each LOD root projects onto that LOD connected bole/branches within 0.5 m of the shared near root; each leaf starts on its actual polygonal connected twig. Crown target is an alpha-visible source triangle centroid, or a short outward aim when that point already touches Wood. Reserved tree-1459 retains its documented detached low soil face, so its structural bole root plane is recorded separately and it remains unassigned.',
                                         'bounds':'Every custom position stays within that LOD original complete bounds, preserving source height and uniform world scaling.',
                                         'motion':'Static attached custom sprigs; existing detached-leaf/menu-only motion rules remain.',

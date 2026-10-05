@@ -7,6 +7,7 @@ import type { BuildContext, SceneModule } from './context';
 import { makeTexPair } from './buildingTextures';
 import { Region, type MatKey } from './regions';
 import { rockShapes } from './rockGeometry';
+import { attachGroundedRockSurface } from './rockSurface';
 export { rockShapes } from './rockGeometry';
 import { streamDistance } from './groundSplat';
 import { createScatterPopulation, createShoreDetailPopulation, registerScatterColliders, selectScatterPopulation, type ShoreDetail } from './scatterPopulation';
@@ -202,6 +203,7 @@ export function buildScatter(ctx: BuildContext): SceneModule & { counts: { rocks
   matBark.normalScale.set(0.45, 0.45);
   const rockTex = makeTexPair('rock', 256, 8);
   const matRock = new THREE.MeshStandardMaterial({ vertexColors: true, map: rockTex.map, normalMap: rockTex.normal, roughness: 0.97, metalness: 0, envMapIntensity: 0.35 });
+  attachGroundedRockSurface(matRock, terrain);
   const lite = {
     get: (k: MatKey): THREE.Material => (k === 'cloth' ? matShoreLeaf : k === 'leaf' ? matLeaf : k === 'bark' ? matBark : k === 'rock' ? matRock : matVc),
   };

@@ -1,5 +1,5 @@
 import { HANDCART_CONSTRUCTION, WAGON_CONSTRUCTION, WELL_CONSTRUCTION as W } from '../world/layout';
-import { hash3 } from './buildKit';
+import { hash3, mulc, rgb } from './buildKit';
 import { vehicleFrame } from './wagonGeometry';
 import type { Region } from './regions';
 import { TINT, barrel, crate, fieldstone, jitterTone, sack, type Rnd } from './structures';
@@ -295,12 +295,40 @@ export function wreck(R: Region, rnd: Rnd, x: number, y: number, z: number, yaw:
   ctx.pop();
 }
 
+/** An original trestle table with a real plank top, pegged bearers and open leg space.
+ * Its complete envelope is w × d × height; callers retain the existing canonical furniture obstacle. */
+export function workTable(R: Region, w: number, d: number, height: number, x: number, y: number, z: number, yaw = 0) {
+  R.ctx.push(x, y, z, yaw);
+  const top = height - 0.11;
+  const wood = mulc(rgb(TINT.wood), 1.65), dark = mulc(rgb(TINT.woodDark), 1.65);
+  // Three hand-planed boards sit over a continuous underside; the shallow seams cannot expose daylight.
+  R.timber.box(w - 0.06, 0.035, d - 0.06, 0, top, 0, dark, { grain: 'x', jit: 0.025, amp: 0.02 });
+  for (let i = 0; i < 3; i++) {
+    const width = d / 3;
+    R.planks.box(w, 0.075, width - 0.008, 0, height - 0.075, -d / 2 + (i + 0.5) * width,
+      mulc(wood, 0.95 + hash3(x, z, i + 149) * 0.08), { grain: 'x', jit: 0.025, amp: 0.02 });
+  }
+  for (const side of [-1, 1]) {
+    const px = side * w * 0.36;
+    R.timber.box(0.11, top, 0.11, px, 0, -d * 0.3, dark, { grain: 'y', jit: 0.025, amp: 0.02 });
+    R.timber.box(0.11, top, 0.11, px, 0, d * 0.3, dark, { grain: 'y', jit: 0.025, amp: 0.02 });
+    R.timber.box(0.15, 0.10, d * 0.9, px, top - 0.1, 0, dark, { grain: 'z', jit: 0.025, amp: 0.02 });
+    R.timber.box(0.15, 0.12, d * 0.9, px, 0.08, 0, dark, { grain: 'z', jit: 0.025, amp: 0.02 });
+    R.timber.rod(px, 0.20, -d * 0.24, px, top - 0.08, d * 0.23, 0.038, 4, dark, { jit: 0.02, amp: 0.02 });
+  }
+  R.timber.box(w * 0.76, 0.085, 0.1, 0, 0.16, 0, dark, { grain: 'x', jit: 0.02, amp: 0.02 });
+  R.ctx.pop();
+}
+
 /** A rough table-and-stools set. */
 export function benchSet(R: Region, rnd: Rnd, x: number, y: number, z: number, yaw: number) {
   const ctx = R.ctx;
   ctx.push(x, y, z, yaw);
   R.planks.box(1.9, 0.09, 0.42, 0, 0.46, 0, jitterTone(TINT.wood, rnd, 0.14), { jit: 0.1, grain: 'x', rz: (rnd() - 0.5) * 0.02 });
   for (const s of [-1, 1]) R.timber.box(0.12, 0.5, 0.36, s * 0.78, -0.04, 0, jitterTone(TINT.woodDark, rnd, 0.1), { jit: 0.08, grain: 'y' });
+  const brace = mulc(rgb(TINT.woodDark), 1.65);
+  R.timber.box(1.55, 0.065, 0.08, 0, 0.13, 0, brace, { grain: 'x', jit: 0.025, amp: 0.025 });
+  for (const side of [-1, 1]) R.timber.rod(side * 0.78, 0.1, 0, side * 0.45, 0.435, 0, 0.032, 4, brace, { jit: 0.025, amp: 0.025 });
   ctx.pop();
 }
 

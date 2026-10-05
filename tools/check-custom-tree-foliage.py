@@ -459,18 +459,31 @@ def audit_level(asset: dict, level: str, baseline_dir: Path) -> dict:
     _, original_image = baseline.albedo(source_leaf)
     if receipt['sourceResampling'] == 'unchanged pixels':
         assert original_image.size == image.size
-        before_pixels, after_pixels = bytearray(original_image.tobytes()), bytearray(image.tobytes())
+        expected = original_image.copy()
+        after = image.copy()
+        # Custom sprig art fills source atlas's reserved empty last tile; it is
+        # independent of the retained source crown's intentional alpha remix.
         for tile in tiles:
-            for y in range(tile['y'], tile['y'] + tile['h']):
-                start = (y * image.width + tile['x']) * 4
-                stop = start + tile['w'] * 4
-                before_pixels[start:stop] = after_pixels[start:stop]
-        assert before_pixels == after_pixels, f'{art.path}: retained source atlas pixels changed outside custom tiles'
+            rectangle=(tile['x'],tile['y'],tile['x']+tile['w'],tile['y']+tile['h'])
+            after.paste(expected.crop(rectangle),(tile['x'],tile['y']))
     else:
         assert receipt['sourceResampling'] == 'nearest upsample to 1536; no downsample'
         assert max(original_image.size) <= 1536
         expected = original_image.resize((1536, 1536), Image.Resampling.NEAREST)
-        assert image.crop((0, 0, 1536, 1536)).tobytes() == expected.tobytes(), f'{art.path}: remapped source paint changed'
+        after = image.crop((0, 0, 1536, 1536))
+    before_rgb=expected.convert('RGB').tobytes(); after_rgb=after.convert('RGB').tobytes()
+    assert before_rgb==after_rgb, f'{art.path}: source RGB tissue changed'
+    before_alpha=expected.getchannel('A').tobytes(); after_alpha=after.getchannel('A').tobytes()
+    remix=receipt.get('crownSurfaceRemix',{})
+    if remix.get('enabled'):
+        assert all(a<=b for a,b in zip(after_alpha,before_alpha)), f'{art.path}: source crown alpha expanded'
+        changed=sum(a!=b for a,b in zip(after_alpha,before_alpha))
+        opaque_before=sum(a>=90 for a in before_alpha);opaque_after=sum(a>=90 for a in after_alpha)
+        assert changed==remix['changedAlphaPixels'] and changed>0
+        assert opaque_before==remix['originalOpaquePixels'] and opaque_after==remix['remixedOpaquePixels']
+        assert .07<opaque_after/max(1,opaque_before)<.85, f'{art.path}: fine-leaf masking emptied or retained the original opaque plates'
+    else:
+        assert before_alpha==after_alpha, f'{art.path}: unremixed palm/needle source alpha changed'
     def custom_uv_inside(value):
         return any((tile['x'] - 0.01) / image.width <= value[0] <= (tile['x'] + tile['w'] + 0.01) / image.width and
                    (tile['y'] - 0.01) / image.height <= value[1] <= (tile['y'] + tile['h'] + 0.01) / image.height for tile in tiles)
@@ -578,7 +591,7 @@ def audit_level(asset: dict, level: str, baseline_dir: Path) -> dict:
             'sprigs': len(sprigs), 'woodUnchanged': bole_repair is None,
             'woodEqualsPostRepairBaseline': True, 'sourceCrownPreserved': True,
             **({'sourceDerivedLodBoleRepair': bole_repair} if bole_repair else {}),
-            'sourcePaintPreserved': True, 'maximumActualLodWoodRootDistance': max_contact,
+            'sourceRgbPreserved': True, 'sourceAlphaRemixed': bool(remix.get('enabled')), 'sourceAlphaNeverExpanded': True, 'maximumActualLodWoodRootDistance': max_contact,
             'groundConnectedWoodAttachments': not reserve_bole_exception,
             'reserveStructuralBoleAttachments': reserve_bole_exception,
             **({'reserveStructuralRootY': actual_components[actual_structural]['minimumY'],

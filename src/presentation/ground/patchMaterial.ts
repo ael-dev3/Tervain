@@ -37,6 +37,8 @@ export interface PatchUniforms {
 export interface PatchMaterialOptions {
   /** Read a per-vertex `aColor` (flowers, ferns) instead of shading purely from the instance tint (grass). */
   vertexColors: boolean;
+  /** Original rooted multistem cutout. Texture ownership stays with the layer. */
+  cutoutMap?: THREE.Texture;
   fadeStart: number;
   fadeEnd: number;
   sizeComp: number;
@@ -194,6 +196,7 @@ export function createPatchMaterial(sway: SwayUniforms, pushers: THREE.Vector4[]
     uSun: { value: sun },
   };
   const material = new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.DoubleSide, roughness: 0.99, metalness: 0, envMapIntensity: 0.4 });
+  if (opts.cutoutMap) { material.map = opts.cutoutMap; material.alphaTest = 0.36; material.alphaToCoverage = true; }
   material.defines = { ...(opts.vertexColors ? { GCOL: '' } : {}), ...(opts.terrain ? { GROUND_FIT: '' } : {}) };
   if (opts.terrain) {
     const { nx, nz, heights } = opts.terrain;
@@ -232,7 +235,7 @@ export function createPatchMaterial(sway: SwayUniforms, pushers: THREE.Vector4[]
         float gRib = 1.0 - smoothstep(0.04, 0.2, abs(vGAcross));
         float gFibre = sin(vGAcross * 43.0 + vGPhase * 3.0 + vGH * 14.0) * 0.025;
         float gWear = smoothstep(0.8, 1.0, vGH) * (0.88 + 0.12 * sin(vGPhase));
-        diffuseColor.rgb = vGCol * (0.96 + 0.045 * gRib + gFibre * 0.6);
+        diffuseColor.rgb *= vGCol * (0.96 + 0.045 * gRib + gFibre * 0.6);
         diffuseColor.rgb = mix(diffuseColor.rgb, diffuseColor.rgb * vec3(1.08, 1.025, 0.92), gWear * 0.2);
       `)
       .replace('#include <normal_fragment_maps>', '#include <normal_fragment_maps>\nnormal = normalize(vNormal);\nnonPerturbedNormal = normal;')
@@ -246,6 +249,6 @@ export function createPatchMaterial(sway: SwayUniforms, pushers: THREE.Vector4[]
         }`,
       );
   };
-  material.customProgramCacheKey = () => `tervain-patch-v4-herb-mat-${opts.vertexColors ? 'c' : 'g'}-${opts.terrain ? 'terrain' : 'flat'}`;
+  material.customProgramCacheKey = () => `tervain-patch-v5-fine-clusters-${opts.cutoutMap ? 'cutout' : 'solid'}-${opts.vertexColors ? 'c' : 'g'}-${opts.terrain ? 'terrain' : 'flat'}`;
   return { material, uniforms, ok: () => !failed };
 }

@@ -27,50 +27,54 @@ const set = (f: Field, o: number, c: RGB, h: number) => {
 
 function planks(n: number): [Field, number] {
   const f = newField(n);
-  const rows = 6;
-  const streak = fbmField(n, 2, 72, 3, 301);
-  const streak2 = fbmField(n, 5, 32, 2, 302);
+  // The U axis is long grain. Geometry assigns it along each board/beam rather than around a barrel hoop.
+  // Different board widths, occasional butt joints and fibre wear replace six perfectly regular dark stripes.
+  const widths = [0.12, 0.19, 0.15, 0.22, 0.14, 0.18];
+  const edges = [0];
+  for (const width of widths) edges.push(edges[edges.length - 1]! + width);
+  const streak = fbmField(n, 2, 78, 3, 301);
+  const streak2 = fbmField(n, 4, 38, 2, 302);
   const stain = fbmField(n, 3, 3, 4, 303);
-  const fine = fbmField(n, 48, 48, 2, 304);
-  const rh = n / rows;
+  const fine = fbmField(n, 40, 64, 2, 304);
   for (let j = 0; j < n; j++) {
-    const row = Math.floor(j / rh);
-    const v = (j % rh) / rh;
-    const rowTone = 0.55 + rnd(row * 97, 305) * 0.7;
-    const rowShift = Math.floor(rnd(row * 13, 306) * n);
+    const vv = j / n;
+    const row = Math.min(widths.length - 1, edges.findIndex((e, k) => k > 0 && vv < e) - 1);
+    const width = widths[row]!;
+    const v = (vv - edges[row]!) / width;
+    const tone = 0.91 + rnd(row * 97, 305) * 0.17;
+    const shift = Math.floor(rnd(row * 13, 306) * n);
     for (let i = 0; i < n; i++) {
       const o = j * n + i;
-      const gi = (i + rowShift) % n;
-      const g = streak[j * n + gi]! * 0.6 + streak2[j * n + gi]! * 0.4;
-      // board edge: dark gap, bevelled
+      const gi = (i + shift) % n;
+      const g = streak[j * n + gi]! * 0.64 + streak2[j * n + gi]! * 0.36;
+      // Thin recess, with a bleached worn shoulder; contrast belongs to actual overlaps, not every grain line.
       const edge = Math.min(v, 1 - v);
-      const gap = 1 - sstep(0.0, 0.055, edge);
-      // butt joints
-      const jx = Math.floor(rnd(row, 307) * n);
-      const joint = 1 - sstep(0, 3, Math.abs(i - jx));
-      const split = (1 - sstep(0.012, 0.065, Math.abs(g - 0.43))) * sstep(0.28, 0.55, stain[o]!);
-      let base = mixc([0.10, 0.085, 0.063], [0.43, 0.38, 0.29], clamp01(g * 0.8 + stain[o]! * 0.36));
-      // Sun-bleached fibres belong to the board, rather than a separate bright speckle on every face.
-      base = mixc(base, [0.44, 0.42, 0.35], sstep(0.65, 0.88, g) * 0.32);
-      const k = 0.68 + rowTone * 0.46 * (0.8 + fine[o]! * 0.25);
+      const gap = 1 - sstep(0.0, 0.032, edge);
+      const shoulder = sstep(0.022, 0.052, edge) * (1 - sstep(0.052, 0.14, edge));
+      const jx = rnd(row, 307);
+      const du = Math.min(Math.abs(i / n - jx), 1 - Math.abs(i / n - jx));
+      const joint = (1 - sstep(0.0015, 0.005, du)) * (row % 3 === 1 ? 1 : 0);
+      const split = (1 - sstep(0.006, 0.021, Math.abs(g - 0.43))) * sstep(0.48, 0.69, stain[o]!);
+      let base = mixc([0.15, 0.125, 0.09], [0.47, 0.405, 0.30], clamp01(g * 0.82 + stain[o]! * 0.25));
+      base = mixc(base, [0.49, 0.46, 0.37], sstep(0.62, 0.85, g) * 0.38 + shoulder * 0.07);
+      const k = tone * (0.93 + fine[o]! * 0.14);
       base = [base[0] * k, base[1] * k, base[2] * k];
-      const lap = 1 - sstep(0.045, 0.24, v);
-      const dark = clamp01(gap * 0.95 + joint * 0.7 + split * 0.42 + lap * 0.24);
-      base = [base[0] * (1 - dark * 0.9), base[1] * (1 - dark * 0.9), base[2] * (1 - dark * 0.9)];
-      set(f, o, base, clamp01(0.52 + g * 0.12 - gap * 0.26 - joint * 0.17 - split * 0.12 + v * 0.08));
+      base = mixc(base, [0.09, 0.079, 0.064], clamp01(gap * 0.72 + joint * 0.45 + split * 0.30));
+      set(f, o, base, clamp01(0.52 + g * 0.075 - gap * 0.16 - joint * 0.10 - split * 0.08 + shoulder * 0.028));
     }
   }
-  // nails
-  for (let r = 0; r < rows; r++) for (const nx of [0.18, 0.7]) {
-    const cx = Math.floor(nx * n + rnd(r, 308) * 12);
-    const cy = Math.floor((r + 0.5) * rh);
-    for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) {
-      if (dx * dx + dy * dy > 5) continue;
+  // Irregular paired nail heads sit within real board edges, not a repeated dot at every pixel course.
+  for (let r = 0; r < widths.length; r++) for (const nx of [0.16, 0.73]) {
+    const cx = Math.floor(nx * n + rnd(r, 308) * n * 0.012);
+    const cy = Math.floor((edges[r]! + widths[r]! * 0.28) * n);
+    const radius = Math.max(1, Math.round(n / 160));
+    for (let dy = -radius; dy <= radius; dy++) for (let dx = -radius; dx <= radius; dx++) {
+      if (dx * dx + dy * dy > radius * radius) continue;
       const o = ((cy + dy + n) % n) * n + ((cx + dx + n) % n);
-      set(f, o, [0.08, 0.075, 0.07], 0.9);
+      set(f, o, [0.095, 0.087, 0.073], 0.65);
     }
   }
-  return [f, 1.55];
+  return [f, 1.25];
 }
 
 function timber(n: number): [Field, number] {
@@ -119,47 +123,49 @@ function plaster(n: number): [Field, number] {
     const crack = (1 - sstep(0.0, 0.012, edge)) * sstep(0.42, 0.72, low[o]!);
     // peeled patches expose the rubble behind
     const pm = sstep(0.69, 0.79, mid[o]! * 0.6 + (1 - peel.f1[o]!) * 0.5 + low[o]! * 0.2);
-    let c = mixc([0.36, 0.315, 0.24], [0.61, 0.56, 0.44], clamp01(low[o]! * 0.85 + fine[o]! * 0.17));
+    let c = mixc([0.415, 0.375, 0.294], [0.66, 0.603, 0.485], clamp01(low[o]! * 0.85 + fine[o]! * 0.17));
     const u = (o % n) / n, v = Math.floor(o / n) / n;
     const rain = pnoise(u, v, 20, 2, 327) * pnoise(u, v, 3, 3, 328);
-    c = mixc(c, [0.23, 0.21, 0.16], sstep(0.3, 0.58, rain) * 0.48);
+    c = mixc(c, [0.23, 0.21, 0.16], sstep(0.36, 0.66, rain) * 0.32);
     const st: RGB = [rubble.rgb[o * 3]!, rubble.rgb[o * 3 + 1]!, rubble.rgb[o * 3 + 2]!];
     c = mixc(c, st, pm);
     c = [c[0] * (1 - crack * 0.4), c[1] * (1 - crack * 0.4), c[2] * (1 - crack * 0.4)];
     set(f, o, c, clamp01(0.57 - pm * 0.12 + rubble.h[o]! * pm * 0.1 - crack * 0.12 + fine[o]! * 0.035));
   }
-  return [f, 1.8];
+  return [f, 1.15];
 }
 
 function stone(n: number): [Field, number] {
   const f = newField(n);
-  // Original coursed rubble: broad split faces and thin recessed mortar, never a field of round pebbles.
-  // Periodic warps keep every repeat seamless; per-course offsets interrupt the manufactured grid.
-  const grit = fbmField(n, 38, 38, 3, 332);
+  // Original split rubble, not outlined manufactured brick. Broad angular pieces have unequal heights,
+  // muted sandy mortar and planar face variation; real corner/threshold geometry provides the deep shadows.
+  const rubble = voronoi(n, 5, 331, 0.98, 7);
+  const grit = fbmField(n, 42, 42, 3, 332);
   const low = fbmField(n, 3, 3, 3, 333);
+  const splitField = fbmField(n, 9, 13, 2, 334);
+  const mineral = fbmField(n, 19, 22, 2, 335);
   for (let j = 0; j < n; j++) for (let i = 0; i < n; i++) {
     const o = j * n + i, u = i / n, v = j / n;
-    const course = ((v + (pnoise(u, v, 4, 3, 334) - 0.5) * 0.035) * 7 + 7) % 7;
-    const row = Math.floor(course), cv = course - row;
-    const cols = rnd(row, 335) > 0.5 ? 4 : 5;
-    const across = ((u * cols + rnd(row, 336) * 4 + (pnoise(u, v, 5, 4, 337) - 0.5) * 0.11) % cols + cols) % cols;
-    const col = Math.floor(across), cu = across - col;
-    const id = rnd(row * 17 + col, 338);
-    const verticalJoint = 1 - sstep(0.018, 0.065, Math.min(cu, 1 - cu));
-    const horizontalJoint = 1 - sstep(0.025, 0.105, Math.min(cv, 1 - cv));
-    const mortar = Math.max(verticalJoint, horizontalJoint);
-    const split = (1 - sstep(0.018, 0.055, Math.abs(cv - (0.35 + id * 0.27 + (cu - 0.5) * 0.23)))) * sstep(0.48, 0.72, low[o]!);
-    const face = clamp01(0.19 + id * 0.57 + low[o]! * 0.19 + grit[o]! * 0.10);
-    let c = mixc([0.22, 0.205, 0.16], [0.53, 0.49, 0.38], face);
-    const upperShade = 1 - sstep(0.1, 0.34, cv);
-    const lowerLip = sstep(0.71, 0.86, cv) * (1 - horizontalJoint);
-    const k = 1 - upperShade * 0.21 - split * 0.22 + lowerLip * 0.12;
+    const edge = rubble.f2[o]! - rubble.f1[o]!;
+    const jointWidth = 0.014 + pnoise(u, v, 12, 12, 336) * 0.014;
+    const mortar = 1 - sstep(jointWidth, jointWidth + 0.057, edge);
+    const shoulder = sstep(0.015, 0.045, edge) * (1 - sstep(0.075, 0.18, edge));
+    const id = rubble.id[o]!;
+    const warm = sstep(0.61, 0.83, id);
+    const face = clamp01(0.27 + id * 0.34 + low[o]! * 0.19 + grit[o]! * 0.1);
+    let c = mixc([0.295, 0.282, 0.242], [0.57, 0.54, 0.455], face);
+    c = mixc(c, [0.49, 0.415, 0.30], warm * 0.23);
+    // Broken cleavage follows a face, never a second complete cell grid or dark circular pebble rim.
+    const cleavage = (1 - sstep(0.006, 0.024, Math.abs(splitField[o]! - (0.35 + id * 0.18))))
+      * sstep(0.64, 0.82, low[o]!) * (1 - mortar);
+    const k = 0.96 + mineral[o]! * 0.065 - cleavage * 0.11 + shoulder * 0.06;
     c = [c[0] * k, c[1] * k, c[2] * k];
-    c = mixc(c, [0.13, 0.15, 0.09], sstep(0.68, 0.86, low[o]!) * (0.13 + horizontalJoint * 0.35));
-    c = mixc(c, [0.075, 0.07, 0.052], mortar * 0.9);
-    set(f, o, c, clamp01(0.58 + id * 0.06 + grit[o]! * 0.045 - mortar * 0.3 - split * 0.045 + lowerLip * 0.02));
+    c = mixc(c, [0.31, 0.315, 0.235], sstep(0.69, 0.85, low[o]!) * 0.19);
+    const mortarColor: RGB = [0.26 + grit[o]! * 0.046, 0.248 + grit[o]! * 0.04, 0.208 + grit[o]! * 0.037];
+    c = mixc(c, mortarColor, mortar * 0.91);
+    set(f, o, c, clamp01(0.54 + id * 0.035 + mineral[o]! * 0.025 + grit[o]! * 0.018 - mortar * 0.12 - cleavage * 0.025 + shoulder * 0.022));
   }
-  return [f, 1.8];
+  return [f, 1.35];
 }
 
 function cobble(n: number): [Field, number] {
@@ -179,7 +185,7 @@ function cobble(n: number): [Field, number] {
 
 function tile(n: number): [Field, number] {
   const f = newField(n);
-  const rows = 6;
+  const rows = 4;
   const rh = n / rows;
   const streak = fbmField(n, 5, 20, 2, 351);
   const stain = fbmField(n, 4, 4, 3, 352);
@@ -190,7 +196,7 @@ function tile(n: number): [Field, number] {
     const off = (row % 2) * 0.5;
     for (let i = 0; i < n; i++) {
       const o = j * n + i;
-      const cols = 6;
+      const cols = 5;
       const u = ((i / n) * cols + off) % 1;
       const col = Math.floor((i / n) * cols + off);
       const id = rnd(row * 31 + col, 354);
@@ -198,15 +204,15 @@ function tile(n: number): [Field, number] {
       const seam = 1 - sstep(0.0, 0.06, seamX);
       const lip = sstep(0.75, 1.0, v);
       const shadow = 1 - sstep(0.0, 0.22, v);
-      let c = mixc([0.2, 0.1, 0.075], [0.4, 0.22, 0.15], clamp01(id * 0.9 + stain[o]! * 0.4));
+      let c = mixc([0.285, 0.162, 0.092], [0.58, 0.354, 0.20], clamp01(id * 0.9 + stain[o]! * 0.4));
       c = mixc(c, [0.18, 0.2, 0.13], sstep(0.68, 0.85, stain[o]!) * 0.5);
-      const k = (0.72 + streak[o]! * 0.4 + fine[o]! * 0.2) * (1 - shadow * 0.5) * (1 - seam * 0.6);
+      const k = (0.72 + streak[o]! * 0.4 + fine[o]! * 0.2) * (1 - shadow * 0.30) * (1 - seam * 0.31);
       c = [c[0] * k, c[1] * k, c[2] * k];
-      if (id > 0.93) c = [c[0] * 0.5, c[1] * 0.5, c[2] * 0.5];
+      if (id > 0.93) c = [c[0] * 0.76, c[1] * 0.76, c[2] * 0.76];
       set(f, o, c, clamp01(0.4 + v * 0.5 - seam * 0.3 + lip * 0.1));
     }
   }
-  return [f, 2.0];
+  return [f, 1.25];
 }
 
 function thatch(n: number): [Field, number] {
@@ -220,15 +226,15 @@ function thatch(n: number): [Field, number] {
     for (let i = 0; i < n; i++) {
       const o = j * n + i;
       const g = fibre[o]! * 0.6 + fibre2[o]! * 0.4;
-      let c = mixc([0.16, 0.125, 0.07], [0.5, 0.4, 0.23], clamp01(g * 1.15 - 0.1 + stain[o]! * 0.25));
+      let c = mixc([0.245, 0.182, 0.092], [0.60, 0.485, 0.29], clamp01(g * 1.15 - 0.1 + stain[o]! * 0.25));
       c = mixc(c, [0.15, 0.17, 0.09], sstep(0.66, 0.84, stain[o]!) * 0.5);
-      c = mixc(c, [0.12, 0.09, 0.06], bind * 0.6);
+      c = mixc(c, [0.12, 0.09, 0.06], bind * 0.34);
       const lap = 1 - sstep(0.04, 0.2, (v * 4) % 1);
-      c = [c[0] * (1 - lap * 0.27), c[1] * (1 - lap * 0.27), c[2] * (1 - lap * 0.27)];
+      c = [c[0] * (1 - lap * 0.18), c[1] * (1 - lap * 0.18), c[2] * (1 - lap * 0.18)];
       set(f, o, c, clamp01(0.4 + g * 0.24 - bind * 0.09 - lap * 0.08));
     }
   }
-  return [f, 1.7];
+  return [f, 1.2];
 }
 
 function slate(n: number): [Field, number] {

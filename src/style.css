@@ -1790,3 +1790,47 @@ body.quick-drag-active, body.quick-drag-active * { cursor: grabbing !important; 
 .quick-drag-ghost { position: fixed; left: 0; top: 0; z-index: 100; display: flex; align-items: center; gap: 7px; max-width: 240px; padding: 7px 10px; border: 2px solid #cfac6f; background: #241910ed; color: #f1dbac; font: .76rem/1.25 var(--menu-serif); box-shadow: 0 3px 12px #0007; pointer-events: none; }
 .quick-drag-ghost .ui-icon { flex: 0 0 32px; width: 32px; height: 32px; }
 body.high-contrast .quick-drag-ghost { background: #000; color: #fff; border-color: #fff; box-shadow: none; }
+
+/* Field-study revision: weathered, quiet framing keeps the playable world dominant. */
+.hud-top-left {
+  max-width: min(310px, calc(100vw - 190px));
+  padding: 7px 10px 8px;
+  border: 0;
+  border-left: 2px solid #b5a07b70;
+  background: linear-gradient(90deg, #171710c4, #1717108a 74%, transparent);
+  box-shadow: none;
+}
+.hud-top-left .obj-title { font-size: .59rem; letter-spacing: .065em; color: #c5b38f; }
+.hud-top-left .obj-text { font-size: .81rem; line-height: 1.42; color: #e7ddc8; }
+.hud-top-right { color: #dbd3c2; font-size: .7rem; }
+.hud-top-right .coin { color: #c6b58e; }
+.hud-access-hints { color: #c4bcab; font-size: .6rem; }
+.hud-hotbar { width: min(520px, max(300px, calc(100vw - 460px))); }
+.hud-hotbar.hotbar {
+  gap: 3px; padding: 3px; border: 2px solid #796449;
+  border-image: none; background: #18130ed9; box-shadow: 0 2px 5px #0005;
+}
+.hud-hotbar .hotbar-slot { height: max(45px, 2.8rem); border-color: #8a765555; box-shadow: inset 0 0 0 1px #08050480; }
+.hud-hotbar .hotbar-slot:hover, .hud-hotbar .hotbar-slot.is-drop-target { border-color: #e1c393; }
+.hud-hotbar .hotbar-slot:focus-visible { outline-color: #f4e6bd; }
+.hud-hotbar .slot-key { color: #d9cfb9; }
+.hud-bars { width: clamp(190px, 21vw, 260px); gap: 4px; }
+.hud-bars .bar {
+  height: max(22px, 1.4rem); border: 2px solid #7e684d;
+  border-image: none; box-shadow: 0 1px 3px #0008, inset 0 1px 3px #000;
+}
+.hud-bars .bar :is(.meter-label,.meter-value) { font-size: .69rem; }
+.hud-compass { width: 72px; height: 72px; background: radial-gradient(circle, #171710ab 18%, #191b1670 62%, transparent 64%); }
+.hud-compass > .ui-icon { color: #b9a47a; opacity: .72; }
+.compass-n { left: 32px; } .compass-s { left: 33px; }
+.compass-e, .compass-w { top: 30px; }
+.compass-needle { inset: 17px; }
+.hud-messages .prompt {
+  padding: 5px 9px; border: 0; border-bottom: 1px solid #c9b48b65;
+  font-size: .88rem; color: #f0e7d1;
+  background: linear-gradient(90deg, transparent, #17110ec4 14%, #17110ec4 86%, transparent);
+  box-shadow: none; text-shadow: 0 1px 3px #000, 0 0 4px #000;
+}
+.hud-messages .prompt kbd { padding: 2px 5px; font-size: .76rem; border-color: #b4a17b90; background: #30271cc9; }
+body.high-contrast .hud-messages .prompt { background: #000; border: 1px solid #fff; color: #fff; }
+body.high-contrast .hud-hotbar .hotbar-slot { border-color: #fff; }

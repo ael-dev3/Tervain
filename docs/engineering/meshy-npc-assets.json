@@ -321,7 +321,7 @@
             ]
           },
           "height": 1.7998065948486328,
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/caravan-master/caravan-master-surface-candidate.glb"
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/caravan-master/caravan-master-surface-candidate.glb"
         },
         "preparation": {
           "tool": "Blender 5.2.0 LTS",
@@ -595,12 +595,12 @@
         "tool": "Blender 5.2.0 LTS",
         "scriptSha256": "28c8e29f4fbe603e3cd93813f9fa384f850a530ec92af7df10812b5a78615fb3",
         "source": {
-          "path": "/Users/ael/Downloads/Meshy_AI_Human_1004193211_texture.glb",
+          "path": "owner-supplied/Meshy_AI_Human_1004193211_texture.glb",
           "sha256": "9b5cabe82f6e99932bcc9dc77e15e5469f69b251f1010d1873c8e778b9f5945a",
           "unmodified": true
         },
         "preparedBefore": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/before-assets/caravan-master.glb",
+          "path": "local-evidence/tervain-character-polish/before-assets/caravan-master.glb",
           "sha256": "4327de36f11b0f1bb543d3acb715adc1f15eb1272dcd4addba8b3987979dd997",
           "unmodified": true
         },
@@ -615,7 +615,7 @@
           }
         },
         "candidate": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/caravan-master/caravan-master-surface-candidate.glb",
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/caravan-master/caravan-master-surface-candidate.glb",
           "bytes": 8397452,
           "sha256": "f9761d0c218664ddb6b11998530b91650d6a8f34e68465f60eb93d38f3a7bb5e",
           "triangles": 45996,
@@ -822,7 +822,7 @@
         },
         "maps": {
           "normal": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/caravan-master/caravan-master-normal.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/caravan-master/caravan-master-normal.png",
             "bytes": 1442626,
             "sha256": "57ad6cdd5415854f560f00b80adea4573c47652f16eba9301dfb16d3d6a7d58d",
             "dimensions": [
@@ -832,7 +832,7 @@
             "finite": true
           },
           "albedo": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/caravan-master/caravan-master-albedo.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/caravan-master/caravan-master-albedo.png",
             "bytes": 3106452,
             "sha256": "9400a8e188f86c328e8262662c33896bfbbc2cdc4b4c46ea8796889bb90bfa0c",
             "dimensions": [
@@ -1072,7 +1072,7 @@
             ]
           },
           "height": 1.8000023365020752,
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/rillford-reeve/rillford-reeve-surface-candidate.glb"
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/rillford-reeve/rillford-reeve-surface-candidate.glb"
         },
         "preparation": {
           "tool": "Blender 5.2.0 LTS",
@@ -1346,12 +1346,12 @@
         "tool": "Blender 5.2.0 LTS",
         "scriptSha256": "28c8e29f4fbe603e3cd93813f9fa384f850a530ec92af7df10812b5a78615fb3",
         "source": {
-          "path": "/Users/ael/Downloads/Meshy_AI_Medieval_Woman_1003230113_texture.glb",
+          "path": "owner-supplied/Meshy_AI_Medieval_Woman_1003230113_texture.glb",
           "sha256": "02b22047a7fa59ad724cdc6fd02044dcd9620904f62e753988c836988a26b91a",
           "unmodified": true
         },
         "preparedBefore": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/before-assets/rillford-reeve.glb",
+          "path": "local-evidence/tervain-character-polish/before-assets/rillford-reeve.glb",
           "sha256": "a36d6ad55932ca704e9b5cb27e33e166699272a48dd44f783b137431f47f3550",
           "unmodified": true
         },
@@ -1366,7 +1366,7 @@
           }
         },
         "candidate": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/rillford-reeve/rillford-reeve-surface-candidate.glb",
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/rillford-reeve/rillford-reeve-surface-candidate.glb",
           "bytes": 11512824,
           "sha256": "6b77c6125db65e442c3c5f212a56428d494e882a12bc854aae04ef3cb38087ed",
           "triangles": 45957,
@@ -1573,7 +1573,7 @@
         },
         "maps": {
           "normal": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/rillford-reeve/rillford-reeve-normal.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/rillford-reeve/rillford-reeve-normal.png",
             "bytes": 2078411,
             "sha256": "f44af2644ebf37f93a59f308b281faefceaa313a1dab9fa52573befb18a3bf67",
             "dimensions": [
@@ -1583,7 +1583,7 @@
             "finite": true
           },
           "albedo": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/rillford-reeve/rillford-reeve-albedo.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/rillford-reeve/rillford-reeve-albedo.png",
             "bytes": 3626341,
             "sha256": "e1d87543f601ca61b04f665116eebee5355a572fc0830601426bdec93ca870c0",
             "dimensions": [
@@ -1816,7 +1816,7 @@
             ]
           },
           "height": 1.7999999523162842,
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/spring-steward/spring-steward-surface-candidate.glb"
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/spring-steward/spring-steward-surface-candidate.glb"
         },
         "preparation": {
           "tool": "Blender 5.2.0 LTS",
@@ -2090,12 +2090,12 @@
         "tool": "Blender 5.2.0 LTS",
         "scriptSha256": "28c8e29f4fbe603e3cd93813f9fa384f850a530ec92af7df10812b5a78615fb3",
         "source": {
-          "path": "/Users/ael/Downloads/Meshy_AI_Generic_Peasant_Woman_1004193219_texture.glb",
+          "path": "owner-supplied/Meshy_AI_Generic_Peasant_Woman_1004193219_texture.glb",
           "sha256": "873a80373e5a9154791f0bd2fd3536fa9ff754994e667851e444e3efaf8e0bb3",
           "unmodified": true
         },
         "preparedBefore": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/before-assets/spring-steward.glb",
+          "path": "local-evidence/tervain-character-polish/before-assets/spring-steward.glb",
           "sha256": "14ec5062313c71eafc853eea244c70ef10469fc0583ecb84e919fdfd019fd3e2",
           "unmodified": true
         },
@@ -2110,7 +2110,7 @@
           }
         },
         "candidate": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/spring-steward/spring-steward-surface-candidate.glb",
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/spring-steward/spring-steward-surface-candidate.glb",
           "bytes": 4204576,
           "sha256": "d4dc3f02e3ff156acf020946d6b5edb195e6f226aaae59a0abac554e12728d9d",
           "triangles": 10328,
@@ -2317,7 +2317,7 @@
         },
         "maps": {
           "normal": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/spring-steward/spring-steward-normal.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/spring-steward/spring-steward-normal.png",
             "bytes": 361202,
             "sha256": "83a0a3509c76e93bf472e9c21eec39f817e8e7376d4b33333f89c388362f2e39",
             "dimensions": [
@@ -2327,7 +2327,7 @@
             "finite": true
           },
           "albedo": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/spring-steward/spring-steward-albedo.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/spring-steward/spring-steward-albedo.png",
             "bytes": 2595374,
             "sha256": "8e38e6c4930c694dc4d08cb38c811b27608a5e142490ed8a718b83d3fbf44530",
             "dimensions": [
@@ -2560,7 +2560,7 @@
             ]
           },
           "height": 1.7997812032699585,
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/quarry-foreman/quarry-foreman-surface-candidate.glb"
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/quarry-foreman/quarry-foreman-surface-candidate.glb"
         },
         "preparation": {
           "tool": "Blender 5.2.0 LTS",
@@ -2834,12 +2834,12 @@
         "tool": "Blender 5.2.0 LTS",
         "scriptSha256": "28c8e29f4fbe603e3cd93813f9fa384f850a530ec92af7df10812b5a78615fb3",
         "source": {
-          "path": "/Users/ael/Downloads/Meshy_AI_Rugged_Medieval_Warri_1004193202_texture.glb",
+          "path": "owner-supplied/Meshy_AI_Rugged_Medieval_Warri_1004193202_texture.glb",
           "sha256": "60a3a43f10b95d8401d4505cc3e45b05615b39a193e9b67ef508d0cd858e55fd",
           "unmodified": true
         },
         "preparedBefore": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/before-assets/quarry-foreman.glb",
+          "path": "local-evidence/tervain-character-polish/before-assets/quarry-foreman.glb",
           "sha256": "5363c0ea9c23da1025bdd935c9e7a74f54d551cf6374b74d3f4ecf96970ec168",
           "unmodified": true
         },
@@ -2854,7 +2854,7 @@
           }
         },
         "candidate": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/quarry-foreman/quarry-foreman-surface-candidate.glb",
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/quarry-foreman/quarry-foreman-surface-candidate.glb",
           "bytes": 8520012,
           "sha256": "5655797071def938a333bfab87ec41694a8b48c68334d913bd82b172fa59007c",
           "triangles": 46000,
@@ -3061,7 +3061,7 @@
         },
         "maps": {
           "normal": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/quarry-foreman/quarry-foreman-normal.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/quarry-foreman/quarry-foreman-normal.png",
             "bytes": 1413932,
             "sha256": "8afbbc72944e3830574fc16dc51f391909d6d7d6a9a5d6fbc76ee4c36ee1048f",
             "dimensions": [
@@ -3071,7 +3071,7 @@
             "finite": true
           },
           "albedo": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/quarry-foreman/quarry-foreman-albedo.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/quarry-foreman/quarry-foreman-albedo.png",
             "bytes": 3951338,
             "sha256": "c901c7fbd4e85bfe22d2cdf83828cfe265acb2da16ff8346d9ff03840503ca9f",
             "dimensions": [
@@ -3304,7 +3304,7 @@
             ]
           },
           "height": 1.7998889684677124,
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/maintenance-worker/maintenance-worker-surface-candidate.glb"
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/maintenance-worker/maintenance-worker-surface-candidate.glb"
         },
         "preparation": {
           "tool": "Blender 5.2.0 LTS",
@@ -3578,12 +3578,12 @@
         "tool": "Blender 5.2.0 LTS",
         "scriptSha256": "28c8e29f4fbe603e3cd93813f9fa384f850a530ec92af7df10812b5a78615fb3",
         "source": {
-          "path": "/Users/ael/Downloads/Meshy_AI_The_Waiting_Maid_1004193246_texture.glb",
+          "path": "owner-supplied/Meshy_AI_The_Waiting_Maid_1004193246_texture.glb",
           "sha256": "d5ca1d5a3b6e30014199406b6a67d6c54bd0518854775ab5d766a60a42befe8a",
           "unmodified": true
         },
         "preparedBefore": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/before-assets/maintenance-worker.glb",
+          "path": "local-evidence/tervain-character-polish/before-assets/maintenance-worker.glb",
           "sha256": "89fbea3b711b5203fe8d465e05703e9a6efa1c8ff06e972cba18d71ba8c7dac4",
           "unmodified": true
         },
@@ -3598,7 +3598,7 @@
           }
         },
         "candidate": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/maintenance-worker/maintenance-worker-surface-candidate.glb",
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/maintenance-worker/maintenance-worker-surface-candidate.glb",
           "bytes": 7999928,
           "sha256": "0a293717adb6541ee6f4adf1c02368589afbc0e17f9513543ca1b78e4c51e838",
           "triangles": 45994,
@@ -3805,7 +3805,7 @@
         },
         "maps": {
           "normal": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/maintenance-worker/maintenance-worker-normal.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/maintenance-worker/maintenance-worker-normal.png",
             "bytes": 1351301,
             "sha256": "8d0bf1d6d8bfa208d31fd8583d7b4420b6111841c70aa06671d36d166b723713",
             "dimensions": [
@@ -3815,7 +3815,7 @@
             "finite": true
           },
           "albedo": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/maintenance-worker/maintenance-worker-albedo.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/maintenance-worker/maintenance-worker-albedo.png",
             "bytes": 2997822,
             "sha256": "5e47684aa785ad39451fd49b3fc2def66f9de4dffc497ccda1c0a9a691fa73c3",
             "dimensions": [
@@ -4048,7 +4048,7 @@
             ]
           },
           "height": 1.7997856140136719,
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/estate-steward/estate-steward-surface-candidate.glb"
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/estate-steward/estate-steward-surface-candidate.glb"
         },
         "preparation": {
           "tool": "Blender 5.2.0 LTS",
@@ -4322,12 +4322,12 @@
         "tool": "Blender 5.2.0 LTS",
         "scriptSha256": "28c8e29f4fbe603e3cd93813f9fa384f850a530ec92af7df10812b5a78615fb3",
         "source": {
-          "path": "/Users/ael/Downloads/Meshy_AI_Leatherbound_Wanderer_1004193030_texture.glb",
+          "path": "owner-supplied/Meshy_AI_Leatherbound_Wanderer_1004193030_texture.glb",
           "sha256": "47d0619bbd7009f14911f50c642a597a77148cecd34bcd8adc3adece93c988e5",
           "unmodified": true
         },
         "preparedBefore": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/before-assets/estate-steward.glb",
+          "path": "local-evidence/tervain-character-polish/before-assets/estate-steward.glb",
           "sha256": "8391ef955f68e8ed040c40afba7dc351d692f68bbdbd8171b75b5092470e3fc5",
           "unmodified": true
         },
@@ -4342,7 +4342,7 @@
           }
         },
         "candidate": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/estate-steward/estate-steward-surface-candidate.glb",
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/estate-steward/estate-steward-surface-candidate.glb",
           "bytes": 8090820,
           "sha256": "2ea5cd78c0ace3775a745ce4345250ea944728168ba07cac4dc156572db89333",
           "triangles": 46000,
@@ -4549,7 +4549,7 @@
         },
         "maps": {
           "normal": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/estate-steward/estate-steward-normal.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/estate-steward/estate-steward-normal.png",
             "bytes": 1335329,
             "sha256": "8031fa3a517e4e47cd8a24d64bb2f4ffe7613fd7e93831ba07fee0cb9a20574b",
             "dimensions": [
@@ -4559,7 +4559,7 @@
             "finite": true
           },
           "albedo": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/estate-steward/estate-steward-albedo.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/estate-steward/estate-steward-albedo.png",
             "bytes": 3316882,
             "sha256": "ab97c4ef05ada721af704d1ed720df6164fecba16303ab77f31f1f8cd097813c",
             "dimensions": [
@@ -4792,7 +4792,7 @@
             ]
           },
           "height": 1.7999999523162842,
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/ash-recorder/ash-recorder-surface-candidate.glb"
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/ash-recorder/ash-recorder-surface-candidate.glb"
         },
         "preparation": {
           "tool": "Blender 5.2.0 LTS",
@@ -5066,12 +5066,12 @@
         "tool": "Blender 5.2.0 LTS",
         "scriptSha256": "28c8e29f4fbe603e3cd93813f9fa384f850a530ec92af7df10812b5a78615fb3",
         "source": {
-          "path": "/Users/ael/Downloads/Meshy_AI_Medieval_Ranger_1003211131_texture.glb",
+          "path": "owner-supplied/Meshy_AI_Medieval_Ranger_1003211131_texture.glb",
           "sha256": "880b04695e822ed2b656d71223cfb2fdcd54721f87a8c26e9a8d26aa89d25ed6",
           "unmodified": true
         },
         "preparedBefore": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/before-assets/ash-recorder.glb",
+          "path": "local-evidence/tervain-character-polish/before-assets/ash-recorder.glb",
           "sha256": "72ecda29803d574d3720f42444e18a5cfe4e5b667c573e967f778104966552f2",
           "unmodified": true
         },
@@ -5086,7 +5086,7 @@
           }
         },
         "candidate": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/ash-recorder/ash-recorder-surface-candidate.glb",
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/ash-recorder/ash-recorder-surface-candidate.glb",
           "bytes": 5938408,
           "sha256": "a0fa94035a2a0e38c89265767db0e63ea615414a91a44ecf488e514956580475",
           "triangles": 34220,
@@ -5293,7 +5293,7 @@
         },
         "maps": {
           "normal": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/ash-recorder/ash-recorder-normal.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/ash-recorder/ash-recorder-normal.png",
             "bytes": 180920,
             "sha256": "bb9f62ab39f5d71fb9b2f9f7661b62d53395d41978f9ba6307adaf7b21ef8e48",
             "dimensions": [
@@ -5303,7 +5303,7 @@
             "finite": true
           },
           "albedo": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/ash-recorder/ash-recorder-albedo.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/ash-recorder/ash-recorder-albedo.png",
             "bytes": 2694179,
             "sha256": "782f6151dc9179d7ea99754d0b253bab59fea9d449e698e22ec1431c236fe21d",
             "dimensions": [
@@ -5536,7 +5536,7 @@
             ]
           },
           "height": 1.801082968711853,
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/shrine-warden/shrine-warden-surface-candidate.glb"
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/shrine-warden/shrine-warden-surface-candidate.glb"
         },
         "preparation": {
           "tool": "Blender 5.2.0 LTS",
@@ -5810,12 +5810,12 @@
         "tool": "Blender 5.2.0 LTS",
         "scriptSha256": "28c8e29f4fbe603e3cd93813f9fa384f850a530ec92af7df10812b5a78615fb3",
         "source": {
-          "path": "/Users/ael/Downloads/Meshy_AI_Medieval_Knight_Chara_1004193332_image-to-3d-texture.glb",
+          "path": "owner-supplied/Meshy_AI_Medieval_Knight_Chara_1004193332_image-to-3d-texture.glb",
           "sha256": "8d9aae663d6bcbce89add5ca3414dffba7f7aa3642f65994372f3d5cfdc23b0e",
           "unmodified": true
         },
         "preparedBefore": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/before-assets/shrine-warden.glb",
+          "path": "local-evidence/tervain-character-polish/before-assets/shrine-warden.glb",
           "sha256": "3b183739fd9c88739744238ea5d1897d145e7ee7c8891c4c47398c91f4a096cb",
           "unmodified": true
         },
@@ -5830,7 +5830,7 @@
           }
         },
         "candidate": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/shrine-warden/shrine-warden-surface-candidate.glb",
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/shrine-warden/shrine-warden-surface-candidate.glb",
           "bytes": 8497100,
           "sha256": "113af114f2581feb89f55b843c617af6624f04996f0e0fb306074fcb39c7418d",
           "triangles": 46000,
@@ -6037,7 +6037,7 @@
         },
         "maps": {
           "normal": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/shrine-warden/shrine-warden-normal.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/shrine-warden/shrine-warden-normal.png",
             "bytes": 1504503,
             "sha256": "b64255bc1e8d996d81891a4fe4384139b5eb8b4927378380cad5dbab01669f11",
             "dimensions": [
@@ -6047,7 +6047,7 @@
             "finite": true
           },
           "albedo": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/shrine-warden/shrine-warden-albedo.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/shrine-warden/shrine-warden-albedo.png",
             "bytes": 3727659,
             "sha256": "b5adff700ae2a373a7febddfeb182eb8649776c254043c8461d936a72d304f22",
             "dimensions": [
@@ -6280,7 +6280,7 @@
             ]
           },
           "height": 1.7999999523162842,
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/mill-hand/mill-hand-surface-candidate.glb"
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/mill-hand/mill-hand-surface-candidate.glb"
         },
         "preparation": {
           "tool": "Blender 5.2.0 LTS",
@@ -6554,12 +6554,12 @@
         "tool": "Blender 5.2.0 LTS",
         "scriptSha256": "28c8e29f4fbe603e3cd93813f9fa384f850a530ec92af7df10812b5a78615fb3",
         "source": {
-          "path": "/Users/ael/Downloads/Meshy_AI_Generic_Peasant_Woman_1004193219_texture.glb",
+          "path": "owner-supplied/Meshy_AI_Generic_Peasant_Woman_1004193219_texture.glb",
           "sha256": "873a80373e5a9154791f0bd2fd3536fa9ff754994e667851e444e3efaf8e0bb3",
           "unmodified": true
         },
         "preparedBefore": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/before-assets/mill-hand.glb",
+          "path": "local-evidence/tervain-character-polish/before-assets/mill-hand.glb",
           "sha256": "4a4b14a20d69734fa7b0ca85d75ea726f8ea32d9bf85ef628a512db7e556b749",
           "unmodified": true
         },
@@ -6574,7 +6574,7 @@
           }
         },
         "candidate": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/mill-hand/mill-hand-surface-candidate.glb",
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/mill-hand/mill-hand-surface-candidate.glb",
           "bytes": 4156620,
           "sha256": "923a11e2d38dc4ae523379442244146e28535b61a80f6d6bea61dd2109c089f1",
           "triangles": 10328,
@@ -6781,7 +6781,7 @@
         },
         "maps": {
           "normal": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/mill-hand/mill-hand-normal.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/mill-hand/mill-hand-normal.png",
             "bytes": 361202,
             "sha256": "83a0a3509c76e93bf472e9c21eec39f817e8e7376d4b33333f89c388362f2e39",
             "dimensions": [
@@ -6791,7 +6791,7 @@
             "finite": true
           },
           "albedo": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/mill-hand/mill-hand-albedo.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/mill-hand/mill-hand-albedo.png",
             "bytes": 2547437,
             "sha256": "9fa4e45fc1a9f28d38bd1886a31344e0cdc60789c0afc5ad83fa38da031d32e0",
             "dimensions": [
@@ -7024,7 +7024,7 @@
             ]
           },
           "height": 1.7994439601898193,
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/quarry-hand/quarry-hand-surface-candidate.glb"
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/quarry-hand/quarry-hand-surface-candidate.glb"
         },
         "preparation": {
           "tool": "Blender 5.2.0 LTS",
@@ -7298,12 +7298,12 @@
         "tool": "Blender 5.2.0 LTS",
         "scriptSha256": "28c8e29f4fbe603e3cd93813f9fa384f850a530ec92af7df10812b5a78615fb3",
         "source": {
-          "path": "/Users/ael/Downloads/Meshy_AI_Peasant_Stance_1003230046_texture.glb",
+          "path": "owner-supplied/Meshy_AI_Peasant_Stance_1003230046_texture.glb",
           "sha256": "05ccfb07a2f21d690e962097b1052e4a8159703b77cf2136b0699d4f4597b7e1",
           "unmodified": true
         },
         "preparedBefore": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/before-assets/quarry-hand.glb",
+          "path": "local-evidence/tervain-character-polish/before-assets/quarry-hand.glb",
           "sha256": "e1cee3c57659e45c9b280154e48947dfd8204b78a8a4a3278299f721e8b7cab0",
           "unmodified": true
         },
@@ -7318,7 +7318,7 @@
           }
         },
         "candidate": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/quarry-hand/quarry-hand-surface-candidate.glb",
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/quarry-hand/quarry-hand-surface-candidate.glb",
           "bytes": 11608676,
           "sha256": "4bdf9fd3e998efc7321c49d8feefff54f401d7da363f653f020f65557144162e",
           "triangles": 45965,
@@ -7525,7 +7525,7 @@
         },
         "maps": {
           "normal": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/quarry-hand/quarry-hand-normal.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/quarry-hand/quarry-hand-normal.png",
             "bytes": 1999610,
             "sha256": "18762ceeb0b9849bbd69b4c49422cc96ab40e2a40f7b74862bc936ddd16bf988",
             "dimensions": [
@@ -7535,7 +7535,7 @@
             "finite": true
           },
           "albedo": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/quarry-hand/quarry-hand-albedo.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/quarry-hand/quarry-hand-albedo.png",
             "bytes": 3530088,
             "sha256": "89e1c0d4f742c2933b8b1bc865f25260435aed58e33b5836029dd44d9e017f88",
             "dimensions": [
@@ -7768,7 +7768,7 @@
             ]
           },
           "height": 1.7999660968780518,
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/village-baker/village-baker-surface-candidate.glb"
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/village-baker/village-baker-surface-candidate.glb"
         },
         "preparation": {
           "tool": "Blender 5.2.0 LTS",
@@ -8042,12 +8042,12 @@
         "tool": "Blender 5.2.0 LTS",
         "scriptSha256": "28c8e29f4fbe603e3cd93813f9fa384f850a530ec92af7df10812b5a78615fb3",
         "source": {
-          "path": "/Users/ael/Downloads/Meshy_AI_The_Cook_1004193100_texture.glb",
+          "path": "owner-supplied/Meshy_AI_The_Cook_1004193100_texture.glb",
           "sha256": "b1f14764c274635ddce5fa0e1edfdd0c2c6525359779d86501a3360644f3e2fc",
           "unmodified": true
         },
         "preparedBefore": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/before-assets/village-baker.glb",
+          "path": "local-evidence/tervain-character-polish/before-assets/village-baker.glb",
           "sha256": "250ec85b115b6c78f31e6cfaaeb0369603c43a3946bf546011451907cb23529a",
           "unmodified": true
         },
@@ -8062,7 +8062,7 @@
           }
         },
         "candidate": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/village-baker/village-baker-surface-candidate.glb",
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/village-baker/village-baker-surface-candidate.glb",
           "bytes": 8034236,
           "sha256": "08a6e0f394b753c928c92db46016699303b89b6a7052cae285181a71089054c0",
           "triangles": 45998,
@@ -8269,7 +8269,7 @@
         },
         "maps": {
           "normal": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/village-baker/village-baker-normal.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/village-baker/village-baker-normal.png",
             "bytes": 1413576,
             "sha256": "a8f5bdfc525f2416f4644eedc1e1c44abee8ac2b4996252084c5f388c8bdbb63",
             "dimensions": [
@@ -8279,7 +8279,7 @@
             "finite": true
           },
           "albedo": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/village-baker/village-baker-albedo.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/village-baker/village-baker-albedo.png",
             "bytes": 3146042,
             "sha256": "ab875b8422f2053733448f0e627eb593e3f0001b6eb9994c301730770cbe783a",
             "dimensions": [
@@ -8512,7 +8512,7 @@
             ]
           },
           "height": 1.7980806827545166,
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/fisher/fisher-surface-candidate.glb"
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/fisher/fisher-surface-candidate.glb"
         },
         "preparation": {
           "tool": "Blender 5.2.0 LTS",
@@ -8786,12 +8786,12 @@
         "tool": "Blender 5.2.0 LTS",
         "scriptSha256": "28c8e29f4fbe603e3cd93813f9fa384f850a530ec92af7df10812b5a78615fb3",
         "source": {
-          "path": "/Users/ael/Downloads/Meshy_AI_The_Patchwork_Wandere_1004193042_texture.glb",
+          "path": "owner-supplied/Meshy_AI_The_Patchwork_Wandere_1004193042_texture.glb",
           "sha256": "4e0973b612e59b2e1100ab3891d5d80e1148ff7da6398c86bed718babca1726a",
           "unmodified": true
         },
         "preparedBefore": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/before-assets/fisher.glb",
+          "path": "local-evidence/tervain-character-polish/before-assets/fisher.glb",
           "sha256": "9d624a6dfa8d8adfdb9b2abb90567d366c1a16ef6a987f6ee2ed79ebb8fac067",
           "unmodified": true
         },
@@ -8806,7 +8806,7 @@
           }
         },
         "candidate": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/fisher/fisher-surface-candidate.glb",
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/fisher/fisher-surface-candidate.glb",
           "bytes": 9396060,
           "sha256": "9f3f7e576f28d66756ff3b563a74c128de5e10df74a8b19330c2f99720f1c980",
           "triangles": 46000,
@@ -9013,7 +9013,7 @@
         },
         "maps": {
           "normal": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/fisher/fisher-normal.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/fisher/fisher-normal.png",
             "bytes": 1749062,
             "sha256": "30fe7e0a717a123fbeb375612fb1a149f167c88e2c2348505164fc380fa0e26b",
             "dimensions": [
@@ -9023,7 +9023,7 @@
             "finite": true
           },
           "albedo": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/fisher/fisher-albedo.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/fisher/fisher-albedo.png",
             "bytes": 4026286,
             "sha256": "01a4f1cab79e504ccc0383923cd8a35e435fe8ec3a2ba874ffc2d8c2ea5e84c6",
             "dimensions": [
@@ -9263,7 +9263,7 @@
             ]
           },
           "height": 1.8000023365020752,
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/fireside/fireside-surface-candidate.glb"
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/fireside/fireside-surface-candidate.glb"
         },
         "preparation": {
           "tool": "Blender 5.2.0 LTS",
@@ -9537,12 +9537,12 @@
         "tool": "Blender 5.2.0 LTS",
         "scriptSha256": "28c8e29f4fbe603e3cd93813f9fa384f850a530ec92af7df10812b5a78615fb3",
         "source": {
-          "path": "/Users/ael/Downloads/Meshy_AI_Medieval_Woman_1003230113_texture.glb",
+          "path": "owner-supplied/Meshy_AI_Medieval_Woman_1003230113_texture.glb",
           "sha256": "02b22047a7fa59ad724cdc6fd02044dcd9620904f62e753988c836988a26b91a",
           "unmodified": true
         },
         "preparedBefore": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/before-assets/fireside.glb",
+          "path": "local-evidence/tervain-character-polish/before-assets/fireside.glb",
           "sha256": "0a0321f9b98c5f9d1d6133b6deda90821ef3bdcb487512cd4fd396af35ac1f36",
           "unmodified": true
         },
@@ -9557,7 +9557,7 @@
           }
         },
         "candidate": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/fireside/fireside-surface-candidate.glb",
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/fireside/fireside-surface-candidate.glb",
           "bytes": 11500624,
           "sha256": "728e18da4e9f5d8dd393a0eb81d564b0456fd3c933226ca5f587d68e28565ad8",
           "triangles": 45957,
@@ -9764,7 +9764,7 @@
         },
         "maps": {
           "normal": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/fireside/fireside-normal.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/fireside/fireside-normal.png",
             "bytes": 2078411,
             "sha256": "f44af2644ebf37f93a59f308b281faefceaa313a1dab9fa52573befb18a3bf67",
             "dimensions": [
@@ -9774,7 +9774,7 @@
             "finite": true
           },
           "albedo": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/fireside/fireside-albedo.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/fireside/fireside-albedo.png",
             "bytes": 3614167,
             "sha256": "c7920ed7b901b22e88ebb991a790e709a4b34ebcc672dccb26697f6bb7665698",
             "dimensions": [
@@ -10007,7 +10007,7 @@
             ]
           },
           "height": 1.7999999523162842,
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/keeper/keeper-surface-candidate.glb"
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/keeper/keeper-surface-candidate.glb"
         },
         "preparation": {
           "tool": "Blender 5.2.0 LTS",
@@ -10281,12 +10281,12 @@
         "tool": "Blender 5.2.0 LTS",
         "scriptSha256": "28c8e29f4fbe603e3cd93813f9fa384f850a530ec92af7df10812b5a78615fb3",
         "source": {
-          "path": "/Users/ael/Downloads/Meshy_AI_The_Wayfarer_1004193053_texture.glb",
+          "path": "owner-supplied/Meshy_AI_The_Wayfarer_1004193053_texture.glb",
           "sha256": "8c250d91fc13c3f560b6eb5ef7baeed13bd294c098beb5e2e7dba6709017fbc0",
           "unmodified": true
         },
         "preparedBefore": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/before-assets/keeper.glb",
+          "path": "local-evidence/tervain-character-polish/before-assets/keeper.glb",
           "sha256": "7b73711a0ac662d106f877439fe1be624d6805e3cb9371c029a926190741b474",
           "unmodified": true
         },
@@ -10301,7 +10301,7 @@
           }
         },
         "candidate": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/keeper/keeper-surface-candidate.glb",
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/keeper/keeper-surface-candidate.glb",
           "bytes": 4759632,
           "sha256": "b7866e8477ced006aaa9563c89e1a241fbe67c70dd4b2a2ee8d71d8e29292db6",
           "triangles": 9365,
@@ -10508,7 +10508,7 @@
         },
         "maps": {
           "normal": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/keeper/keeper-normal.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/keeper/keeper-normal.png",
             "bytes": 353175,
             "sha256": "562b201e63bcf53f083c2f89ba316fb25bd8f41e06af94ba8458aa8d4d7491fa",
             "dimensions": [
@@ -10518,7 +10518,7 @@
             "finite": true
           },
           "albedo": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/keeper/keeper-albedo.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/keeper/keeper-albedo.png",
             "bytes": 3435486,
             "sha256": "ac394f924a4f17e8b586719372ee35a7babb06fe6179c8827255ad9880bb6bab",
             "dimensions": [
@@ -10751,7 +10751,7 @@
             ]
           },
           "height": 1.801072359085083,
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/ford-bandit-a/ford-bandit-a-surface-candidate.glb"
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/ford-bandit-a/ford-bandit-a-surface-candidate.glb"
         },
         "preparation": {
           "tool": "Blender 5.2.0 LTS",
@@ -11025,12 +11025,12 @@
         "tool": "Blender 5.2.0 LTS",
         "scriptSha256": "28c8e29f4fbe603e3cd93813f9fa384f850a530ec92af7df10812b5a78615fb3",
         "source": {
-          "path": "/Users/ael/Downloads/Meshy_AI_Medieval_Warrior_1003194934_texture.glb",
+          "path": "owner-supplied/Meshy_AI_Medieval_Warrior_1003194934_texture.glb",
           "sha256": "00b5b6bf05b2cb734846d31be5c42de9185d437223664a7a1a3b55a350d2c96d",
           "unmodified": true
         },
         "preparedBefore": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/before-assets/ford-bandit-a.glb",
+          "path": "local-evidence/tervain-character-polish/before-assets/ford-bandit-a.glb",
           "sha256": "ac46ec7693f765ea5a0b8dbeb8596f7cee06975b04a1ddc0989e84f6d1a1d21b",
           "unmodified": true
         },
@@ -11045,7 +11045,7 @@
           }
         },
         "candidate": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/ford-bandit-a/ford-bandit-a-surface-candidate.glb",
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/ford-bandit-a/ford-bandit-a-surface-candidate.glb",
           "bytes": 11767292,
           "sha256": "5f56d0305eb21031c7e1336f89ab8536224770eac2a60187e5fb3654a65d55a2",
           "triangles": 45963,
@@ -11252,7 +11252,7 @@
         },
         "maps": {
           "normal": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/ford-bandit-a/ford-bandit-a-normal.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/ford-bandit-a/ford-bandit-a-normal.png",
             "bytes": 2117253,
             "sha256": "464f75d78113e2aed8a3c6d6751ed4aa438913e98de27b6b166e85c6486bad0b",
             "dimensions": [
@@ -11262,7 +11262,7 @@
             "finite": true
           },
           "albedo": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/ford-bandit-a/ford-bandit-a-albedo.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/ford-bandit-a/ford-bandit-a-albedo.png",
             "bytes": 3837691,
             "sha256": "282cf321c2698f06bd745fea0c7bbb45f24a6ccfa3cc0f19c4c345d93ef031fc",
             "dimensions": [
@@ -11495,7 +11495,7 @@
             ]
           },
           "height": 1.8001842498779297,
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/ford-bandit-b/ford-bandit-b-surface-candidate.glb"
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/ford-bandit-b/ford-bandit-b-surface-candidate.glb"
         },
         "preparation": {
           "tool": "Blender 5.2.0 LTS",
@@ -11769,12 +11769,12 @@
         "tool": "Blender 5.2.0 LTS",
         "scriptSha256": "28c8e29f4fbe603e3cd93813f9fa384f850a530ec92af7df10812b5a78615fb3",
         "source": {
-          "path": "/Users/ael/Downloads/Meshy_AI_The_Dungeon_Wretch_1004193146_texture.glb",
+          "path": "owner-supplied/Meshy_AI_The_Dungeon_Wretch_1004193146_texture.glb",
           "sha256": "43c59718ab924991dcdc806a10ad97ecf77b1e56c4d60cb62659e677e6b082b8",
           "unmodified": true
         },
         "preparedBefore": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/before-assets/ford-bandit-b.glb",
+          "path": "local-evidence/tervain-character-polish/before-assets/ford-bandit-b.glb",
           "sha256": "525c455b11c850233f0d02888c8a9f8e4008abe22a18ab56be9f6dcadaf0a025",
           "unmodified": true
         },
@@ -11789,7 +11789,7 @@
           }
         },
         "candidate": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/ford-bandit-b/ford-bandit-b-surface-candidate.glb",
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/ford-bandit-b/ford-bandit-b-surface-candidate.glb",
           "bytes": 8374680,
           "sha256": "edaa8f5402e9c4ffb31a89a3bbb00bc675bd77a216939cd950b3c5418cae5b1e",
           "triangles": 45999,
@@ -11996,7 +11996,7 @@
         },
         "maps": {
           "normal": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/ford-bandit-b/ford-bandit-b-normal.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/ford-bandit-b/ford-bandit-b-normal.png",
             "bytes": 1585573,
             "sha256": "29402883039409a30929d8c3a044e0f94dbca5518a3b167d93de46ce41c3debc",
             "dimensions": [
@@ -12006,7 +12006,7 @@
             "finite": true
           },
           "albedo": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/ford-bandit-b/ford-bandit-b-albedo.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/ford-bandit-b/ford-bandit-b-albedo.png",
             "bytes": 3226613,
             "sha256": "f6b652842612fc789b814165863834b25a07eb34878a90045663241f091f486f",
             "dimensions": [
@@ -12239,7 +12239,7 @@
             ]
           },
           "height": 1.800502061843872,
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/menu-warden/menu-warden-surface-candidate.glb"
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/menu-warden/menu-warden-surface-candidate.glb"
         },
         "preparation": {
           "tool": "Blender 5.2.0 LTS",
@@ -12513,12 +12513,12 @@
         "tool": "Blender 5.2.0 LTS",
         "scriptSha256": "28c8e29f4fbe603e3cd93813f9fa384f850a530ec92af7df10812b5a78615fb3",
         "source": {
-          "path": "/Users/ael/Downloads/Meshy_AI_Warrior_Stance_Avatar_1004193023_texture.glb",
+          "path": "owner-supplied/Meshy_AI_Warrior_Stance_Avatar_1004193023_texture.glb",
           "sha256": "19261fa3290d80cc2bff7caabf1b171bddab5ee3093b270a14abd9a634314ab7",
           "unmodified": true
         },
         "preparedBefore": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/before-assets/menu-warden.glb",
+          "path": "local-evidence/tervain-character-polish/before-assets/menu-warden.glb",
           "sha256": "0b622a12af0538da396ee5c80852c5d1d2d3b129fabb76f99894974bd9437d45",
           "unmodified": true
         },
@@ -12533,7 +12533,7 @@
           }
         },
         "candidate": {
-          "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/menu-warden/menu-warden-surface-candidate.glb",
+          "path": "local-evidence/tervain-character-polish/rebake/final-cast/menu-warden/menu-warden-surface-candidate.glb",
           "bytes": 7671612,
           "sha256": "533727123105bc7a449cf668f328e385a4a5a82afa961ac8ae392bdae7574d2e",
           "triangles": 45998,
@@ -12740,7 +12740,7 @@
         },
         "maps": {
           "normal": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/menu-warden/menu-warden-normal.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/menu-warden/menu-warden-normal.png",
             "bytes": 1386741,
             "sha256": "8da94a634321e99a37373555bc93495ccbbc98c697358bb53b142d8a51f3b7b3",
             "dimensions": [
@@ -12750,7 +12750,7 @@
             "finite": true
           },
           "albedo": {
-            "path": "/Users/ael/Documents/Codex/2026-09-14/yo-2/outputs/tervain-character-polish/rebake/final-cast/menu-warden/menu-warden-albedo.png",
+            "path": "local-evidence/tervain-character-polish/rebake/final-cast/menu-warden/menu-warden-albedo.png",
             "bytes": 2856509,
             "sha256": "a121ac23a3e29d3bef1196a2c375e958e2f254077cdca1e91ff27ab0536e6bca",
             "dimensions": [
@@ -13975,5 +13975,6 @@
       "geometryBoundary": "Finite settled CPU poses and measured counts only. Native textures, seam quality, sustained frame time, all-frame clipping and collision behavior need separate native acceptance."
     },
     "releaseState": "Final combined local strict TypeScript, 1027 tests in 97 files, production build and bounded native game/gallery review are complete; the prior 1020-test result predates final gait/equipment source. PR26's required CI attempt failed before job steps for account billing/spending-limit reasons. Required CI/Pages and served-revision gates remain blocked in docs/production/releases/0.0.11.md; no rerun, merge or live deployment is claimed."
-  }
+  },
+  "pathNormalization": "Machine-specific directory prefixes are normalized to owner-supplied/ or local-evidence/ labels. Source filenames, hashes and preparation evidence are unchanged; local artifacts require an explicitly supplied local root and are not repository-relative downloads."
 }

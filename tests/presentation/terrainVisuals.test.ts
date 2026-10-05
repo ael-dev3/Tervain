@@ -213,19 +213,20 @@ describe('close-view ground and plant detail', () => {
     } finally { material.dispose(); texture.albedo.dispose(); texture.normal.dispose(); }
   });
 
-  it('builds genuinely folded grass rather than two flat ribbons and retains rooted wind weights and finite normals', () => {
+  it('uses small bent cutout supports with real terrain roots and finite normals, instead of opaque folded ribbons', () => {
     const geometry = createGrassPatch(13, 12345);
     const positions = geometry.getAttribute('position'), normals = geometry.getAttribute('normal'), blade = geometry.getAttribute('aBlade');
-    expect(positions.count / 3).toBe(13 * 6);
-    let maximumFold = 0;
-    for (let first = 0; first < positions.count; first += 18) {
-      // Mid-left, mid-centre and mid-right belong to each physical blade ridge.
-      const left = new THREE.Vector3().fromBufferAttribute(positions, first + 2);
-      const centre = new THREE.Vector3().fromBufferAttribute(positions, first + 4);
-      const right = new THREE.Vector3().fromBufferAttribute(positions, first + 10);
-      maximumFold = Math.max(maximumFold, centre.distanceTo(left.clone().add(right).multiplyScalar(0.5)));
+    expect(positions.count / 3).toBe(13 * 4);
+    let maximumBend = 0;
+    for (let first = 0; first < positions.count; first += 12) {
+      const rootLeft = new THREE.Vector3().fromBufferAttribute(positions, first);
+      const rootRight = new THREE.Vector3().fromBufferAttribute(positions, first + 1);
+      const topLeft = new THREE.Vector3().fromBufferAttribute(positions, first + 11);
+      const topRight = new THREE.Vector3().fromBufferAttribute(positions, first + 8);
+      const root = rootLeft.add(rootRight).multiplyScalar(0.5), tip = topLeft.add(topRight).multiplyScalar(0.5);
+      maximumBend = Math.max(maximumBend, Math.hypot(tip.x - root.x, tip.z - root.z));
     }
-    expect(maximumFold).toBeGreaterThan(0.012);
+    expect(maximumBend).toBeGreaterThan(0.025);
     for (let i = 0; i < positions.count; i++) {
       expect(Math.hypot(normals.getX(i), normals.getY(i), normals.getZ(i))).toBeCloseTo(1, 5);
       if (positions.getY(i) === 0) {
@@ -240,9 +241,9 @@ describe('close-view ground and plant detail', () => {
   it('mixes ankle-height herb leaves and taller grass within a low tuft, with attached veins on grounded forest plants', () => {
     const geometry = createGrassPatch(13, 12345), positions = geometry.getAttribute('position');
     const heights: number[] = [];
-    for (let blade = 0; blade < positions.count; blade += 18) {
+    for (let blade = 0; blade < positions.count; blade += 12) {
       let height = 0;
-      for (let vertex = blade; vertex < blade + 18; vertex++) height = Math.max(height, positions.getY(vertex));
+      for (let vertex = blade; vertex < blade + 12; vertex++) height = Math.max(height, positions.getY(vertex));
       heights.push(height);
     }
     heights.sort((a, b) => a - b);

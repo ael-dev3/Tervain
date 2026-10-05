@@ -149,10 +149,17 @@ export function door(R: Region, rnd: Rnd, o: DoorOpts) {
   const z = o.z;
   const base = o.y ?? 0;
   R.ctx.push(0, base, 0);
-  const T = R.timber;
-  T.box(0.2, h + 0.2, 0.2, x - w / 2 - 0.1, -0.05, z + 0.08, jitterTone(TINT.woodDark, rnd), { rz: (rnd() - 0.5) * 0.02, grain: 'y', jit: 0.1 });
-  T.box(0.2, h + 0.2, 0.2, x + w / 2 + 0.1, -0.05, z + 0.08, jitterTone(TINT.woodDark, rnd), { rz: (rnd() - 0.5) * 0.02, grain: 'y', jit: 0.1 });
-  T.box(w + 0.7, 0.24, 0.24, x, h + 0.02, z + 0.08, jitterTone(TINT.woodDark, rnd), { rz: (rnd() - 0.5) * 0.03, grain: 'x', jit: 0.1 });
+  const T = o.stone ? R.stone : R.timber;
+  const frameTint = o.stone ? TINT.stone : TINT.woodDark;
+  T.box(0.2, h + 0.2, 0.2, x - w / 2 - 0.1, -0.05, z + 0.08, jitterTone(frameTint, rnd, 0.075), { rz: (rnd() - 0.5) * 0.02, grain: 'y', jit: 0.1 });
+  T.box(0.2, h + 0.2, 0.2, x + w / 2 + 0.1, -0.05, z + 0.08, jitterTone(frameTint, rnd, 0.075), { rz: (rnd() - 0.5) * 0.02, grain: 'y', jit: 0.1 });
+  T.box(w + 0.7, 0.24, 0.24, x, h + 0.02, z + 0.08, jitterTone(frameTint, rnd, 0.075), { rz: (rnd() - 0.5) * 0.03, grain: 'x', jit: 0.1 });
+  if (o.stone) {
+    for (const side of [-1, 1]) for (let j = 0; j < 5; j++) {
+      const tone = mulc(rgb(TINT.stone), TONE_GAIN * (0.91 + hash3(x + side, j, z) * 0.13));
+      R.stone.box(0.24, h / 5 - 0.035, 0.035, x + side * (w / 2 + 0.1), -0.025 + j * h / 5, z + 0.198, tone, { jit: 0.015, amp: 0.015 });
+    }
+  }
   const P = R.planks;
   R.vc.box(w, h, 0.045, x, 0, z + 0.015, 0x17110c, { jit: 0, amp: 0 });
   const n = Math.round(w / 0.2);
@@ -185,6 +192,8 @@ export interface WindowOpts {
   /** Rotation of the window about y, in the caller's frame (0 faces +z). */
   ry?: number;
   shutters?: boolean;
+  /** Heavy lime-set jambs on stone structures, retaining the same window envelope. */
+  stone?: boolean;
 }
 
 /** A small window: frame, sill, glowing pane, and shutters standing open at odd angles. */
@@ -193,12 +202,14 @@ export function windowAt(R: Region, rnd: Rnd, o: WindowOpts) {
   const h = o.h ?? 0.82;
   const ctx = R.ctx;
   ctx.push(o.x, o.y, o.z, o.ry ?? 0);
+  const frame = o.stone ? R.stone : R.timber;
+  const tint = () => jitterTone(o.stone ? TINT.stone : TINT.woodDark, rnd, 0.075);
   // A recessed dark reveal makes the small opening legible in bright sunlight without bright glass.
   R.vc.box(w + 0.15, h + 0.12, 0.02, 0, -0.055, 0.005, 0x171610, { jit: 0, amp: 0 });
-  R.timber.box(w + 0.2, 0.11, 0.2, 0, -0.1, 0.06, jitterTone(TINT.woodDark, rnd), { jit: 0.1 });
-  R.timber.box(w + 0.2, 0.11, 0.16, 0, h, 0.05, jitterTone(TINT.woodDark, rnd), { jit: 0.1 });
-  R.timber.box(0.1, h + 0.1, 0.14, -w / 2 - 0.05, -0.03, 0.05, jitterTone(TINT.woodDark, rnd), { jit: 0.1, grain: 'y' });
-  R.timber.box(0.1, h + 0.1, 0.14, w / 2 + 0.05, -0.03, 0.05, jitterTone(TINT.woodDark, rnd), { jit: 0.1, grain: 'y' });
+  frame.box(w + 0.2, 0.11, 0.2, 0, -0.1, 0.06, tint(), { jit: 0.1 });
+  frame.box(w + 0.2, 0.11, 0.16, 0, h, 0.05, tint(), { jit: 0.1 });
+  frame.box(0.1, h + 0.1, 0.14, -w / 2 - 0.05, -0.03, 0.05, tint(), { jit: 0.1, grain: 'y' });
+  frame.box(0.1, h + 0.1, 0.14, w / 2 + 0.05, -0.03, 0.05, tint(), { jit: 0.1, grain: 'y' });
   R.glow.box(w, h, 0.03, 0, 0, 0.04, 0xffffff, { jit: 0 });
   R.pane.box(w, h, 0.04, 0, 0, 0.045, 0xffffff, { jit: 0 });
   R.timber.box(0.05, h, 0.06, 0, 0, 0.075, jitterTone(TINT.woodDark, rnd), { jit: 0.05 });
@@ -254,7 +265,14 @@ export function gableEnd(R: Region, side: 1 | -1, w: number, d: number, y: numbe
   const hs = d / 2;
   ctx.push(side * (w / 2), y, 0, (side * Math.PI) / 2);
   const profile: [number, number][] = knee > 0 ? [[-hs, 0], [hs, 0], [hs, knee], [0, rise], [-hs, knee]] : [[-hs, 0], [hs, 0], [0, rise]];
-  R.get(mat).prism(profile, -thickness * 0.5, thickness * 0.5, mulc(rgb(mat === 'stone' ? TINT.stone : mat === 'plaster' ? TINT.plaster : TINT.wood), TONE_GAIN), { jit: 0.06, amp: 0.1 });
+  const batch = R.get(mat);
+  const firstUV = batch.uv.n;
+  batch.prism(profile, -thickness * 0.5, thickness * 0.5, mulc(rgb(mat === 'stone' ? TINT.stone : mat === 'plaster' ? TINT.plaster : TINT.wood), TONE_GAIN), { jit: 0.06, amp: 0.1 });
+  if (mat === 'planks') for (let i = firstUV; i < batch.uv.n; i += 2) {
+    const u = batch.uv.a[i]!;
+    batch.uv.a[i] = batch.uv.a[i + 1]!;
+    batch.uv.a[i + 1] = u;
+  }
   ctx.pop();
 }
 

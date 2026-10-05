@@ -22,8 +22,9 @@ export class CameraRig {
   readonly camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1400);
   yaw = 0;
   pitch = 0.32;
-  wantDist = 5.4;
-  private curDist = 5.4;
+  /** A little more room for the road and construction around the figure, without automatic zoom or bob. */
+  wantDist = 6.2;
+  private curDist = 6.2;
   private target = new THREE.Vector3();
   private smoothTarget = new THREE.Vector3();
   private titleAngle = 0;

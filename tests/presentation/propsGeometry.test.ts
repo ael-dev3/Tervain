@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
 import { Ctx } from '../../src/presentation/buildKit';
 import { authorLighthouse, radialPlank } from '../../src/presentation/lighthouse';
-import { cart, wagon, well } from '../../src/presentation/props';
+import { cart, wagon, well, workTable } from '../../src/presentation/props';
 import { Region } from '../../src/presentation/regions';
 import { barrel } from '../../src/presentation/structures';
 import { spokedWheel } from '../../src/presentation/wagonGeometry';
@@ -31,6 +31,28 @@ function validGeometry(r: Region) {
 }
 
 describe('connected coast props', () => {
+  it.each([[1, 0.6, 0.75], [1.9, 1, 0.9]])('a %s metre work table has a backed top, grounded trestles and open leg space', (w, d, height) => {
+    const r = new Region('table', new Ctx());
+    workTable(r, w, d, height, 0, 0, 0);
+    const g = group(r), bounds = new THREE.Box3().setFromObject(g);
+    expect(bounds.min.x).toBeCloseTo(-w / 2, 6);
+    expect(bounds.min.y).toBeCloseTo(0, 6);
+    expect(bounds.min.z).toBeCloseTo(-d / 2 + 0.004, 6);
+    expect(bounds.max.x).toBeCloseTo(w / 2, 6);
+    expect(bounds.max.y).toBeCloseTo(height, 6);
+    expect(bounds.max.z).toBeCloseTo(d / 2 - 0.004, 6);
+    for (const z of [-d * 0.31, 0, d * 0.31]) {
+      const top = hits(g, new THREE.Vector3(w * 0.15, height + 1, z))[0];
+      expect(top).toBeDefined(); expect(top!.point.y).toBeCloseTo(height, 6);
+    }
+    // The broad low furniture blocker is unchanged, but its visible assembly no longer looks like a solid cargo cube.
+    expect(hits(g, new THREE.Vector3(0, height * 0.56, d + 1), new THREE.Vector3(0, 0, -1))).toHaveLength(0);
+    for (const side of [-1, 1]) {
+      const foot = hits(g, new THREE.Vector3(side * w * 0.36, -1, d * 0.3), new THREE.Vector3(0, 1, 0))[0];
+      expect(foot).toBeDefined(); expect(foot!.point.y).toBeCloseTo(0, 6);
+    }
+    validGeometry(r); expect(r.tris).toBeLessThan(260); dispose(g);
+  });
   it.each([1, 7, 18])('the well hood rests on its actual crossbeam and grounded posts (seed %i)', (seed) => {
     const random = mulberry32(seed);
     const yaw = random() * 0.5;

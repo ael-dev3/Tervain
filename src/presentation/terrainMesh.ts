@@ -4,13 +4,14 @@ import { groundSplat } from './groundSplat';
 import { createTerrainMaterial } from './terrainMaterial';
 import type { TerrainTextures } from './terrainTextures';
 import type { PlantedCrownField } from './plantedCrowns';
+import type { GroundContactField } from './groundContacts';
 
 /** Refine material boundaries without changing the authored ground planes used by physics. */
 export const TERRAIN_RENDER_SUBDIVISIONS = 2;
 /** Spatial culling only: every tile retains the full authored triangles at every graphics preset. */
 export const TERRAIN_TILE_CELLS = 64;
 
-export function buildTerrainMesh(terrain: Terrain, tex: TerrainTextures, crowns?: PlantedCrownField): THREE.Mesh {
+export function buildTerrainMesh(terrain: Terrain, tex: TerrainTextures, crowns?: PlantedCrownField, contacts?: GroundContactField): THREE.Mesh {
   const subdivisions = TERRAIN_RENDER_SUBDIVISIONS;
   const nx = terrain.nx * subdivisions, nz = terrain.nz * subdivisions;
   const w = nx + 1;
@@ -20,6 +21,7 @@ export function buildTerrainMesh(terrain: Terrain, tex: TerrainTextures, crowns?
   const splatB = new Float32Array(w * h * 4);
   const wet = new Float32Array(w * h);
   const canopy = new Float32Array(w * h);
+  const surface = new Float32Array(w * h * 3), contact = new Float32Array(3);
   const sp = new Float32Array(8);
   for (let j = 0; j < h; j++) {
     for (let i = 0; i < w; i++) {
@@ -31,9 +33,11 @@ export function buildTerrainMesh(terrain: Terrain, tex: TerrainTextures, crowns?
       pos[k * 3 + 2] = z;
       const cover = crowns?.coverAt(x, z) ?? 0;
       canopy[k] = Math.min(1, Math.max(0, cover));
+      contacts?.sampleAt(x, z, contact);
+      surface.set(contact, k * 3);
       // Keep double precision for material weights; storing the shader attribute first would
       // round cover and disagree with the shared grass / floor sample at this coordinate.
-      wet[k] = groundSplat(terrain, x, z, sp, crowns, undefined, cover);
+      wet[k] = groundSplat(terrain, x, z, sp, crowns, undefined, cover, contact);
       for (let q = 0; q < 4; q++) {
         splatA[k * 4 + q] = sp[q]!;
         splatB[k * 4 + q] = sp[4 + q]!;
@@ -62,6 +66,7 @@ export function buildTerrainMesh(terrain: Terrain, tex: TerrainTextures, crowns?
   geo.setAttribute('aSplatB', new THREE.BufferAttribute(splatB, 4));
   geo.setAttribute('aWet', new THREE.BufferAttribute(wet, 1));
   geo.setAttribute('aCanopy', new THREE.BufferAttribute(canopy, 1));
+  geo.setAttribute('aSurface', new THREE.BufferAttribute(surface, 3));
   geo.setIndex(new THREE.BufferAttribute(idx, 1));
   geo.computeVertexNormals();
   geo.computeBoundingSphere();
@@ -75,9 +80,9 @@ export function buildTerrainMesh(terrain: Terrain, tex: TerrainTextures, crowns?
 /** Partition the same surface into resident pieces so a camera (including water captures) submits
  * only intersecting ground. Copy globally computed normals/material fields at shared boundaries:
  * independent per-tile normal generation would make lighting seams. No distance LOD or unloading. */
-export function buildTerrainTiles(terrain: Terrain, tex: TerrainTextures, crowns?: PlantedCrownField, tileCells = TERRAIN_TILE_CELLS): THREE.Group {
+export function buildTerrainTiles(terrain: Terrain, tex: TerrainTextures, crowns?: PlantedCrownField, tileCells = TERRAIN_TILE_CELLS, contacts?: GroundContactField): THREE.Group {
   if (!Number.isInteger(tileCells) || tileCells < 1) throw new Error('Terrain tile cells must be a positive integer.');
-  const source = buildTerrainMesh(terrain, tex, crowns), geometry = source.geometry;
+  const source = buildTerrainMesh(terrain, tex, crowns, contacts), geometry = source.geometry;
   const nx = terrain.nx * TERRAIN_RENDER_SUBDIVISIONS, nz = terrain.nz * TERRAIN_RENDER_SUBDIVISIONS;
   const sourceRow = nx + 1, group = new THREE.Group();
   group.name = 'terrain';

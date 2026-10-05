@@ -4,15 +4,14 @@ import type { BuildContext, Quality } from '../context';
 import { GeoBuilder, type GV, type Vec3 } from './geoBuilder';
 import { Habitat, hash3, newSample, woodlandColonyAt, type HabitatSample } from './habitat';
 import { createPatchMaterial, type PatchMaterial } from './patchMaterial';
+import { buildGrassClusterTexture } from './grassTexture';
 import { TileLayer, type TileBuffers } from './tileStream';
 import type { PatchShared } from './shared';
 
-/**
- * Meadow grass: clumps of individual tapered blades, thousands of them, streamed around the camera.
- * A "patch" is a tuft of folded blades with a centre ridge (six triangles each); the blade layout and the wind/normal/colour treatment are
- * ports of ael-dev3/Warpkeep src/components/realm/createLowPolyGrassGeometry.ts and createRealmGrassMaterial.ts
- * @786c0b2 (Apache-2.0), rewritten for a free camera at ground level.
- */
+/** Original fine grass, herb and seed-head clusters, streamed on the existing rooted tile system.
+ * Several stems occupy each painted cutout; modest bent supports carry the silhouette instead
+ * of repeating a broad opaque folded ribbon. World population, exclusions and fades remain
+ * deterministic; the shared wind/pusher system is separate from paused attached tree foliage. */
 
 interface GrassQuality {
   blades: number;
@@ -25,9 +24,9 @@ interface GrassQuality {
 }
 
 export const GRASS_Q: Readonly<Record<Quality, GrassQuality>> = {
-  high: { blades: 13, density: 4.6, tile: 16, fadeStart: 12, fadeEnd: 96, shadows: true },
-  medium: { blades: 10, density: 3.0, tile: 16, fadeStart: 10, fadeEnd: 80, shadows: true },
-  low: { blades: 6, density: 1.4, tile: 16, fadeStart: 8, fadeEnd: 64, shadows: false },
+  high: { blades: 9, density: 6.4, tile: 16, fadeStart: 12, fadeEnd: 96, shadows: true },
+  medium: { blades: 7, density: 4.2, tile: 16, fadeStart: 10, fadeEnd: 80, shadows: true },
+  low: { blades: 5, density: 2.0, tile: 16, fadeStart: 8, fadeEnd: 64, shadows: false },
 };
 
 /** Thin smoothly across the extended reach rather than enlarging the entire full-density meadow. */
@@ -55,66 +54,53 @@ export function grassPatchBounds(geometry: THREE.BufferGeometry): { maxHeight: n
   };
 }
 
-/** One tuft: blades on a golden-angle spiral so a few patches overlapping read as a meadow. */
+/** Several short herb clusters interlock beneath a few meadow stems. Supports are four
+ * triangles, with an individual terrain-fitted foot at each edge; no free floating cards. */
 export function createGrassPatch(blades: number, seed: number): THREE.BufferGeometry {
-  const rng = mulberry32(seed);
-  const b = new GeoBuilder();
-  const roots: number[] = [];
-  // Keep the folded faces visible. A large sky bias lit every ribbon almost like
-  // horizontal straw, especially on the sunny oak slopes.
-  b.upBias = 0.26;
+  const rng = mulberry32(seed), b = new GeoBuilder();
+  const roots: number[] = [], uv: number[] = [];
+  b.upBias = 0.42;
   const white: Vec3 = [1, 1, 1];
-  const R = 0.44;
+  const R = 0.37;
   for (let i = 0; i < blades; i++) {
-    const r = R * Math.sqrt((i + 0.5) / blades) * (0.9 + rng() * 0.2);
-    const a = i * 2.39996 + rng() * 0.5;
-    const rx = Math.cos(a) * r;
-    const rz = Math.sin(a) * r;
-    // A low herb carpet, folded ribbons and occasional taller stems share one rooted tuft.
-    // Their irregular lengths / widths keep the skyline from becoming an evenly cut row of spikes.
-    const psi = Math.atan2(rz, rx) + (rng() - 0.5) * 1.7;
-    const ax = Math.cos(psi);
-    const az = Math.sin(psi);
-    const fx = -az;
-    const fz = ax;
-    const heart = 1 - r / R;
-    const herb = i % 4 === 1;
-    const accent = i % 7 === 0;
-    const h = (herb ? 0.12 : accent ? 0.44 : 0.23) + heart * 0.065 + rng() * (herb ? 0.105 : 0.16);
-    const w0 = (herb ? 0.025 : 0.017) + rng() * (herb ? 0.018 : 0.014);
-    const lean = h * (0.3 + rng() * 0.55 + (1 - heart) * 0.2);
-    b.phase = rng() * Math.PI * 2;
-    b.stiff = 0.8 + rng() * 0.36;
-    const my = h * (herb ? 0.48 : 0.56);
-    const mw = w0 * (herb ? 1.12 : 0.77);
-    const mo = lean * 0.3;
-    const rootWidth = w0 * (herb ? 0.45 : 0.85);
-    const rl: GV = { p: [rx - ax * rootWidth, 0, rz - az * rootWidth], c: white, w: 0 };
-    const rc: GV = { p: [rx, 0, rz], c: white, w: 0 };
-    const rr: GV = { p: [rx + ax * rootWidth, 0, rz + az * rootWidth], c: white, w: 0 };
-    const ml: GV = { p: [rx - ax * mw + fx * mo, my, rz - az * mw + fz * mo], c: white, w: 0.52 };
-    const mr: GV = { p: [rx + ax * mw + fx * mo, my, rz + az * mw + fz * mo], c: white, w: 0.52 };
-    const mc: GV = { p: [rx + fx * (mo + w0 * 0.58), my, rz + fz * (mo + w0 * 0.58)], c: white, w: 0.52 };
-    const tp: GV = { p: [rx + fx * lean, h, rz + fz * lean], c: white, w: 1 };
-    const start = b.triangles;
-    b.tri(rl, rc, ml);
-    b.tri(rc, mc, ml);
-    b.tri(rc, rr, mc);
-    b.tri(rr, mr, mc);
-    b.tri(ml, mc, tp);
-    b.tri(mc, mr, tp);
-    b.setAcross(start, [-1, 0, -1, 0, 0, -1, 0, 1, 0, 1, 1, 0, -1, 0, 0, 0, 1, 0]);
-    const left = [rl.p[0], rl.p[2]], centre = [rc.p[0], rc.p[2]], right = [rr.p[0], rr.p[2]];
-    for (const foot of [left, centre, left, centre, centre, left, centre, right, centre, right, right, centre, left, centre, centre, centre, right, centre]) roots.push(...foot);
+    const r = R * Math.sqrt((i + 0.5) / blades) * (0.88 + rng() * 0.24);
+    const a = i * 2.39996 + rng() * 0.6, rx = Math.cos(a) * r, rz = Math.sin(a) * r;
+    const herb = i % 3 !== 0;
+    const tile = herb ? i % 2 === 0 ? 2 : 0 : i % 4 === 0 ? 3 : 1;
+    const yaw = a + rng() * 1.9, ax = Math.cos(yaw), az = Math.sin(yaw), fx = -az, fz = ax;
+    const h = (herb ? 0.13 : 0.29) + rng() * (herb ? 0.11 : 0.14);
+    const w = (herb ? 0.125 : 0.08) + rng() * 0.035;
+    const lean = h * (0.15 + rng() * 0.28);
+    b.phase = rng() * Math.PI * 2; b.stiff = 0.86 + rng() * 0.3;
+    const rows: [GV, GV][] = [0, 0.5, 1].map(t => {
+      const offset = lean * t * t, span = w * (1 - t * 0.16);
+      const at = (sign: number): GV => ({ p: [rx + ax * span * sign + fx * offset, h * t, rz + az * span * sign + fz * offset], c: white, w: t });
+      return [at(-1), at(1)];
+    });
+    const tx = tile % 2, ty = Math.floor(tile / 2);
+    const paintUV = (u: number, v: number) => [(tx + 0.012 + u * 0.976) * 0.5, (ty + 0.012 + v * 0.976) * 0.5];
+    for (let segment = 0; segment < 2; segment++) {
+      const t0 = segment * 0.5, t1 = (segment + 1) * 0.5;
+      const vertices = [rows[segment]![0], rows[segment]![1], rows[segment + 1]![1], rows[segment]![0], rows[segment + 1]![1], rows[segment + 1]![0]];
+      b.tri(vertices[0]!, vertices[1]!, vertices[2]!); b.tri(vertices[3]!, vertices[4]!, vertices[5]!);
+      const chart = [[0, t0], [1, t0], [1, t1], [0, t0], [1, t1], [0, t1]];
+      for (const [across, t] of chart) {
+        uv.push(...paintUV(across!, t!));
+        const sign = across! * 2 - 1;
+        // Each vertical side begins on the actual terrain below its own support edge.
+        roots.push(rx + ax * w * sign, rz + az * w * sign);
+      }
+    }
   }
   const geometry = b.build();
   geometry.setAttribute('aRoot', new THREE.Float32BufferAttribute(roots, 2));
+  geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
   return geometry;
 }
 
-const cMeadow = new THREE.Color().setHex(0x566347);
-const cDeep = new THREE.Color().setHex(0x4a5c40);
-const cGold = new THREE.Color().setHex(0x716345);
+const cMeadow = new THREE.Color().setHex(0x58634b);
+const cDeep = new THREE.Color().setHex(0x46583d);
+const cGold = new THREE.Color().setHex(0x75694e);
 const cShade = new THREE.Color().setHex(0x45523c);
 
 /** Under real crowns, grass yields to humus and fern colonies instead of becoming a pale verge ribbon. */
@@ -138,17 +124,20 @@ export interface GrassLayer {
 export function createGrassLayer(ctx: BuildContext, habitat: Habitat, shared: PatchShared): GrassLayer {
   const q = GRASS_Q[ctx.quality];
   const geometry = createGrassPatch(q.blades, 12345);
+  const texture = buildGrassClusterTexture();
   const material = createPatchMaterial(ctx.sway, shared.pushers, shared.sun, {
     vertexColors: false,
+    cutoutMap: texture,
     fadeStart: q.fadeStart,
     fadeEnd: q.fadeEnd,
     sizeComp: GRASS_SIZE_COMP,
     power: GRASS_THINNING_POWER,
     windAmp: GRASS_WIND_AMP,
     rootShade: 0.43,
-    tipShade: 0.84,
+    tipShade: 0.92,
     terrain: ctx.terrain,
   });
+  material.material.addEventListener('dispose', () => texture.dispose());
   const T = q.tile;
   const capacity = Math.ceil(T * T * q.density);
   const terrain = ctx.terrain;

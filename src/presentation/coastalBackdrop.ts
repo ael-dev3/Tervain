@@ -38,6 +38,7 @@ export function coastalBackdropGeometry(): THREE.BufferGeometry {
   g.setAttribute('aWet', new THREE.BufferAttribute(wet, 1));
   // This uninhabited background has no planted crowns; it receives the same surface shader with an open sky.
   g.setAttribute('aCanopy', new THREE.BufferAttribute(new Float32Array(count), 1)); g.setIndex(indices);
+  g.setAttribute('aSurface', new THREE.BufferAttribute(new Float32Array(count * 3), 3));
   g.computeVertexNormals(); g.computeBoundingSphere(); g.computeBoundingBox();
   return g;
 }

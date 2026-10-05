@@ -126,6 +126,30 @@ function groundDebris(l: Layer, n: number, seed: number, count: number) {
   }
 }
 
+/** Small broken shale/soil aggregates are pressed into the same tileable skin.
+ * Incomplete angular rims, broad painted facets and shallow relief avoid shiny
+ * round beads or a regular Voronoi paving grid on the walking surface. */
+function groundFragments(l: Layer, n: number, seed: number, count: number, pale: number) {
+  for (let fragment = 0; fragment < count; fragment++) {
+    const cx = hashi(fragment, 0, seed) * n, cy = hashi(fragment, 1, seed) * n;
+    const angle = hashi(fragment, 2, seed) * Math.PI * 2, ax = Math.cos(angle), ay = Math.sin(angle);
+    const length = n * (0.003 + hashi(fragment, 3, seed) * 0.008), width = length * (0.3 + hashi(fragment, 4, seed) * 0.35);
+    const radius = Math.ceil(length + 1), tone = hashi(fragment, 5, seed);
+    const color = mixc([0.255, 0.235, 0.195], [0.445, 0.425, 0.345], tone * pale);
+    for (let y = Math.floor(cy) - radius; y <= cy + radius; y++) for (let x = Math.floor(cx) - radius; x <= cx + radius; x++) {
+      const dx = x + 0.5 - cx, dy = y + 0.5 - cy;
+      const u = (dx * ax + dy * ay) / length, v = (-dx * ay + dy * ax) / width;
+      const shape = Math.max(Math.abs(u + v * 0.18), Math.abs(v - u * 0.14)) + Math.max(0, -u - v) * 0.18;
+      const edge = 1 - sstep(0.68, 1.0, shape);
+      if (edge <= 0) continue;
+      const o = ((y % n + n) % n) * n + ((x % n + n) % n);
+      const facet = 0.92 + (v > u * 0.6 ? 0.08 : -0.035), opacity = edge * (0.4 + tone * 0.25);
+      for (let channel = 0; channel < 3; channel++) l.rgb[o * 3 + channel] = l.rgb[o * 3 + channel]! * (1 - opacity) + color[channel]! * facet * opacity;
+      l.h[o] = clamp01(l.h[o]! + opacity * 0.012);
+    }
+  }
+}
+
 
 function grass(n: number): Layer {
   const L = newLayer(n);
@@ -195,6 +219,7 @@ function earth(n: number): Layer {
   }
   groundThreads(L, n, 58, 170, 0.8);
   groundDebris(L, n, 59, 118);
+  groundFragments(L, n, 60, 96, 0.7);
   return L;
 }
 
@@ -238,7 +263,9 @@ function sand(n: number): Layer {
     if (sp > 0.985) c = [c[0] * 0.55, c[1] * 0.55, c[2] * 0.5];
     else if (sp < 0.008) c = [0.7, 0.66, 0.58];
     if (shell.f1[o]! < 0.06 && shell.id[o]! > 0.8) c = [0.62, 0.58, 0.5];
-    put(L, o, c, clamp01(0.5 + (r - 0.5) * 0.22 + grain[o]! * 0.3));
+    // Fine sandy marks remain colour detail. Oversized normal ridges made an
+    // otherwise dry beach look like embossed foil under low coastal sunlight.
+    put(L, o, c, clamp01(0.46 + (r - 0.5) * 0.12 + grain[o]! * 0.12));
   }
   return L;
 }
@@ -254,7 +281,7 @@ function wetsand(n: number): Layer {
     const k = 0.92 + grain[o]! * 0.14 + (r - 0.5) * 0.1;
     c = [c[0] * k, c[1] * k, c[2] * k];
     if (rnd(o, 105) > 0.995) c = [0.14, 0.12, 0.1];
-    put(L, o, c, clamp01(0.5 + (r - 0.5) * 0.3));
+    put(L, o, c, clamp01(0.48 + (r - 0.5) * 0.11 + grain[o]! * 0.035));
   }
   return L;
 }
@@ -315,6 +342,7 @@ function path(n: number): Layer {
   }
   groundThreads(L, n, 128, 210, 0.95);
   groundDebris(L, n, 129, 25);
+  groundFragments(L, n, 130, 74, 1);
   return L;
 }
 

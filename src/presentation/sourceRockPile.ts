@@ -5,6 +5,7 @@ import type { PhysicalRockGeometry } from '../world/physicsGeometry';
 import type { BuildContext, SceneModule } from './context';
 import { assertNaturalModelBudget } from './naturalModelBudget';
 import { groundedNaturalGeometryY } from './treeGrounding';
+import { attachGroundedRockSurface } from './rockSurface';
 
 export const ROCK_PILE_FILE = 'weathered-rock-pile-under-20k.glb';
 let pending: Promise<GLTF> | null = null;
@@ -120,6 +121,7 @@ export function buildSourceRockPiles(ctx: BuildContext, template: GLTF): SceneMo
   material.name = 'Weathered source rock pile';
   material.metalness = 0; material.roughness = 1; material.envMapIntensity = 0.35;
   material.emissive.set(0); material.emissiveMap = null; material.normalScale.set(0.8, 0.8);
+  attachGroundedRockSurface(material, ctx.terrain);
   const placements = sourceRockPilePlacements(ctx, geometry), contacts: PhysicalRockGeometry[] = [];
   const group = new THREE.Group(); group.name = 'source-rock-piles';
   for (const placement of placements) {

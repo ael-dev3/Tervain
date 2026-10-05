@@ -29,12 +29,14 @@ attribute vec4 aSplatA;
 attribute vec4 aSplatB;
 attribute float aWet;
 attribute float aCanopy;
+attribute vec3 aSurface;
 varying vec4 vSplatA;
 varying vec4 vSplatB;
 varying vec3 vWorldPos;
 varying vec3 vWorldNormal;
 varying float vWet;
 varying float vCanopy;
+varying vec3 vSurface;
 `;
 
 const VERT_BODY = /* glsl */ `
@@ -44,6 +46,7 @@ vWorldPos = position;
 vWorldNormal = normal;
 vWet = aWet;
 vCanopy = aCanopy;
+vSurface = aSurface;
 `;
 
 const FRAG_DECL = /* glsl */ `
@@ -56,6 +59,7 @@ varying vec3 vWorldPos;
 varying vec3 vWorldNormal;
 varying float vWet;
 varying float vCanopy;
+varying vec3 vSurface;
 
 float th21(vec2 p) { p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
 float tvn(vec2 p) {
@@ -193,6 +197,13 @@ tAlb *= mix(0.82, 1.14, mix(tM, 0.52, tPathShare * 0.6));
 tAlb *= mix(0.84, 1.12, tvn(tXZ / 131.0 + 3.0) * 0.7 + tvn(tXZ / 37.0 + 8.0) * 0.3);
 tAlb *= mix(vec3(0.97, 1.0, 1.035), vec3(1.035, 1.0, 0.95), tvn(tXZ / 71.0 + 9.0));
 float tWet = clamp(vWet, 0.0, 1.0);
+// Earth/mineral joins are tied to accepted object feet. Their broad material groups
+// feather through the existing height blend; no offset planes fight the surface.
+float tContactBreak = smoothstep(0.18, 0.82, tvn(tXZ * 1.7 + 17.0));
+float tShelter = clamp(vSurface.z, 0.0, 1.0) * (0.55 + tContactBreak * 0.45);
+tAlb *= mix(vec3(1.0), vec3(0.89, 0.92, 0.84), tShelter);
+float tWear = clamp(vSurface.x, 0.0, 1.0);
+tAlb *= mix(vec3(1.0), vec3(1.065, 1.035, 0.975), tWear * 0.6);
 tAlb *= mix(1.0, mix(0.5, 0.72, tStone), tWet);
 // Damp sand may carry a sheen. Fractured stone only darkens and broadens its highlight: never a mirror-like wet wall.
 tRough = mix(tRough, mix(0.36, 0.88, tStone), tWet);
@@ -228,6 +239,6 @@ export function createTerrainMaterial(tex: TerrainTextures): THREE.MeshStandardM
       .replace('#include <aomap_fragment>', '#include <aomap_fragment>\nreflectedLight.indirectDiffuse *= mix(0.8, 1.0, smoothstep(0.2, 0.8, tHeight)) * mix(1.0, 0.74, clamp(vCanopy, 0.0, 1.0));')
       .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>\n${FRAG_NORMAL}`);
   };
-  mat.customProgramCacheKey = () => 'tervain-terrain-v5-planted-sky-occlusion';
+  mat.customProgramCacheKey = () => 'tervain-terrain-v6-object-soil-joins';
   return mat;
 }

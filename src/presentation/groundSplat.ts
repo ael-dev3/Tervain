@@ -42,7 +42,7 @@ function blend(w: Float32Array, layer: number, a: number) {
 }
 
 /** Fills `w` (length 8) and returns the wetness. */
-export function groundSplat(terrain: Terrain, x: number, z: number, w: Float32Array, crowns?: PlantedCrownField, sampledBiome?: Readonly<BiomeSample>, sampledCanopy?: number): number {
+export function groundSplat(terrain: Terrain, x: number, z: number, w: Float32Array, crowns?: PlantedCrownField, sampledBiome?: Readonly<BiomeSample>, sampledCanopy?: number, contacts?: Readonly<Float32Array>): number {
   const h = terrain.heightAt(x, z);
   const slope = terrain.slopeAt(x, z);
   const carve = terrain.carveAt(x, z);
@@ -127,6 +127,15 @@ export function groundSplat(terrain: Terrain, x: number, z: number, w: Float32Ar
   // Rock: steep faces, high ground, and the cliffs where the sea meets the headlands.
   const rock = smoothstep(0.66, 1.05, slope) + smoothstep(22, 46, h) * 0.8 + cl * (1 - smoothstep(8, 26, sd)) * (sd > 0 ? 0.9 : 0);
   blend(w, LAYER.rock, clamp(rock, 0, 1));
+
+  // Actual registered boulder feet collect fallen mineral chips and sheltered soil.
+  // Foundation edges and door aprons receive restrained packed earth, rather than
+  // an unrelated decal plane or a perfectly circular decorative pebble ring.
+  if (contacts) {
+    blend(w, LAYER.earth, contacts[2]! * 0.48);
+    blend(w, LAYER.gravel, contacts[1]! * 0.52);
+    blend(w, LAYER.path, contacts[0]! * 0.73);
+  }
 
   // Worn tracks keep their authored centre. Only the visual shoulders fray into the same earth
   // and herb mat as their surroundings; path / collider geometry is never moved by this noise.
