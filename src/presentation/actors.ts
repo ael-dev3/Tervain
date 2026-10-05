@@ -40,7 +40,10 @@ export interface ActorContext {
   onBark: (a: NpcActor, text: string) => void;
 }
 
-const WALK_SPEED = 1.55;
+export const NPC_WALK_SPEED = 1.55;
+/** Actual Meshy sole sweeps measured at 60 Hz: 0.78 pose speed gives roughly this stance-cycle travel at 1.8 m stature. */
+export const NPC_WALK_CYCLE_METRES = 1.48;
+export const NPC_WALK_POSE_SPEED = 0.78;
 
 export class NpcActor {
   readonly def: NpcDef;
@@ -62,9 +65,9 @@ export class NpcActor {
   private viaMaint = false;
   mode: Mode = 'idle';
 
-  constructor(def: NpcDef) {
+  constructor(def: NpcDef, rig?: Rig) {
     this.def = def;
-    this.rig = createNpcRig(def);
+    this.rig = rig ?? createNpcRig(def);
     this.rig.root.traverse((o) => {
       o.userData.npc = def.id;
     });
@@ -147,6 +150,7 @@ export class NpcActor {
 
     this.clock += dt;
     let moving = false;
+    const previousX = this.x, previousZ = this.z;
     if (this.path && this.pi < this.path.length && !this.talking) {
       const wp = this.path[this.pi]!;
       const dx = wp.x - this.x;
@@ -157,7 +161,7 @@ export class NpcActor {
         // Wait rather than shove through the player in a doorway.
         const pd = Math.hypot(ctx.player.x - (this.x + (dx / d) * 0.8), ctx.player.z - (this.z + (dz / d) * 0.8));
         if (pd > 0.9) {
-          const step = Math.min(d, WALK_SPEED * dt);
+          const step = Math.min(d, NPC_WALK_SPEED * dt);
           let nx = this.x + (dx / d) * step;
           let nz = this.z + (dz / d) * step;
           if (!this.viaMaint) {
@@ -169,7 +173,7 @@ export class NpcActor {
           this.z = nz;
           const target = Math.atan2(dx, dz);
           this.yaw = lerpAngle(this.yaw, target, 1 - Math.exp(-dt * 8));
-          moving = true;
+          moving = Math.hypot(nx - previousX, nz - previousZ) > 1e-6;
         }
       }
       if (this.pi >= this.path.length) this.path = null;
@@ -200,14 +204,19 @@ export class NpcActor {
       // Work only reads as work at a work place; a distant anchor mismatch leaves them idle.
     }
     this.mode = mode;
-    this.anim += dt * (moving ? 1.05 : 0.3);
+    const travel = Math.hypot(this.x - previousX, this.z - previousZ);
+    // A resident waiting at a doorway cannot keep walking in place. Only resolved route metres advance the gait.
+    this.anim += moving ? travel / (NPC_WALK_CYCLE_METRES * (this.rig.height / 1.8)) : dt * 0.3;
     const style = npcStyle(this.def.id);
     const pose: Pose = {
       mode,
-      speed: moving ? 0.55 : 0,
+      speed: moving ? NPC_WALK_POSE_SPEED : 0,
       time: mode === 'work' || mode === 'sit' ? this.clock : this.anim,
       t: 0,
-      amp: ctx.reducedMotion ? 0.4 : 1,
+      // Locomotion remains distance-matched; Reduced Motion reduces idle/work gestures rather than making moving feet shuffle.
+      amp: ctx.reducedMotion && !moving ? 0.4 : 1,
+      travel,
+      moveSpeed: dt > 0 ? travel / dt : 0,
       workGesture: style.work,
       // Standing about, a resident folds their arms, looks round, shifts their weight (still when motion is reduced).
       idle: ctx.reducedMotion ? undefined : { seed: style.faceSeed, clock: this.clock },
@@ -282,7 +291,7 @@ export class EnemyActor {
   private readonly cfg: { speed: number; reach: number; wind: number; strike: number; recover: number; damage: number; notice: number; leash: number; heavy: boolean };
   readonly name: string;
 
-  constructor(spawn: EnemySpawn) {
+  constructor(spawn: EnemySpawn, rig?: Rig) {
     this.spawn = spawn;
     this.id = spawn.id;
     this.x = spawn.x;
@@ -294,7 +303,7 @@ export class EnemyActor {
       this.cfg = { speed: 4.4, reach: 2.9, wind: 0.95, strike: 0.4, recover: 1.1, damage: 20, notice: 10, leash: spawn.leash, heavy: true };
       this.name = 'Thornback';
     } else {
-      this.rig = createBanditRig(spawn.id === 'ford_bandit_b' ? 1 : 0);
+      this.rig = rig ?? createBanditRig(spawn.id === 'ford_bandit_b' ? 1 : 0);
       this.hp = this.maxHp = 55;
       this.cfg = { speed: 3.5, reach: 1.9, wind: 0.6, strike: 0.2, recover: 0.9, damage: 11, notice: 12, leash: spawn.leash, heavy: false };
       this.name = 'Toll-jumper';

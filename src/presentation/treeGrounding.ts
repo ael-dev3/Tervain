@@ -2,6 +2,7 @@ import type { TreeVariant } from './treeGen';
 import type { FloraTree } from './floraPopulation';
 import { WORLD } from '../world/layout';
 import type { Terrain } from '../world/terrain';
+import type * as THREE from 'three';
 
 /** The first few centimetres of woody geometry belong inside the soil, not above it. */
 export const TREE_ROOT_PLANE = 0.025;
@@ -19,27 +20,32 @@ export function treeRootPolygons(variant: TreeVariant): readonly (readonly Point
   for (const lod of variant.lods) {
     const geometry = lod.wood;
     if (!geometry) continue;
-    const p = geometry.getAttribute('position'), index = geometry.index;
-    const count = index?.count ?? p.count;
-    for (let i = 0; i < count; i += 3) {
-      const triangle: Point[] = [];
-      for (let j = 0; j < 3; j++) {
-        const at = index ? index.getX(i + j) : i + j;
-        triangle.push([p.getX(at), p.getY(at), p.getZ(at)]);
-      }
-      const polygon: Point[] = [];
-      for (let j = 0; j < triangle.length; j++) {
-        const a = triangle[j]!, b = triangle[(j + 1) % triangle.length]!;
-        if (a[1] <= TREE_ROOT_PLANE) polygon.push(a);
-        if ((a[1] < TREE_ROOT_PLANE && b[1] > TREE_ROOT_PLANE) || (a[1] > TREE_ROOT_PLANE && b[1] < TREE_ROOT_PLANE)) {
-          polygon.push(mix(a, b, (TREE_ROOT_PLANE - a[1]) / (b[1] - a[1])));
-        }
-      }
-      if (polygon.length >= 3) polygons.push(polygon);
-    }
+    polygons.push(...basalPolygons(geometry, TREE_ROOT_PLANE));
   }
   if (polygons.length === 0) throw new Error(`Tree ${variant.species} has no woody ground-contact surface.`);
   roots.set(variant, polygons);
+  return polygons;
+}
+
+/** Shared finite-surface clipping; rock piles choose their own basal height. */
+function basalPolygons(geometry: THREE.BufferGeometry, plane: number): Point[][] {
+  const polygons: Point[][] = [];
+  const p = geometry.getAttribute('position'), index = geometry.index;
+  const count = index?.count ?? p.count;
+  for (let i = 0; i < count; i += 3) {
+    const triangle: Point[] = [];
+    for (let j = 0; j < 3; j++) {
+      const at = index ? index.getX(i + j) : i + j;
+      triangle.push([p.getX(at), p.getY(at), p.getZ(at)]);
+    }
+    const polygon: Point[] = [];
+    for (let j = 0; j < triangle.length; j++) {
+      const a = triangle[j]!, b = triangle[(j + 1) % triangle.length]!;
+      if (a[1] <= plane) polygon.push(a);
+      if ((a[1] < plane && b[1] > plane) || (a[1] > plane && b[1] < plane)) polygon.push(mix(a, b, (plane - a[1]) / (b[1] - a[1])));
+    }
+    if (polygon.length >= 3) polygons.push(polygon);
+  }
   return polygons;
 }
 
@@ -84,11 +90,24 @@ function interiorTerrainVertices(polygon: readonly Point[], visit: (point: Point
  * under every rotated/scaled root, while six centimetres of overlap hides raster seams.
  * The minimum occurs at intersections of the root and terrain triangles, checked exactly. */
 export function groundedTreeY(terrain: Pick<Terrain, 'heightAt'>, tree: Pick<FloraTree, 'x' | 'z' | 's' | 'yaw'>, variant: TreeVariant): number {
-  let y = terrain.heightAt(tree.x, tree.z) - TREE_SOIL_OVERLAP;
+  return groundedPolygonsY(terrain, tree, treeRootPolygons(variant), TREE_SOIL_OVERLAP);
+}
+
+/** Uniform source rocks use the same terrain-facet checks, without altering roots or tree policy. */
+export function groundedNaturalGeometryY(terrain: Pick<Terrain, 'heightAt'>, placement: Pick<FloraTree, 'x' | 'z' | 's' | 'yaw'>,
+  geometry: THREE.BufferGeometry, basalPlane: number, overlap = 0.06): number {
+  const polygons = basalPolygons(geometry, basalPlane);
+  if (!polygons.length) throw new Error('Natural model has no ground-contact surface.');
+  return groundedPolygonsY(terrain, placement, polygons, overlap);
+}
+
+function groundedPolygonsY(terrain: Pick<Terrain, 'heightAt'>, tree: Pick<FloraTree, 'x' | 'z' | 's' | 'yaw'>,
+  polygons: readonly (readonly Point[])[], overlap: number): number {
+  let y = terrain.heightAt(tree.x, tree.z) - overlap;
   const c = Math.cos(tree.yaw), s = Math.sin(tree.yaw);
   const world = (point: Point): Point => [tree.x + tree.s * (point[0] * c + point[2] * s), point[1] * tree.s, tree.z + tree.s * (point[2] * c - point[0] * s)];
-  const contact = (point: Point) => { y = Math.min(y, terrain.heightAt(point[0], point[2]) - point[1] - TREE_SOIL_OVERLAP); };
-  for (const local of treeRootPolygons(variant)) {
+  const contact = (point: Point) => { y = Math.min(y, terrain.heightAt(point[0], point[2]) - point[1] - overlap); };
+  for (const local of polygons) {
     const polygon = local.map(world);
     for (let i = 0; i < polygon.length; i++) facetCrossings(polygon[i]!, polygon[(i + 1) % polygon.length]!, contact);
     interiorTerrainVertices(polygon, contact);

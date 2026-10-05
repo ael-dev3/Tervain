@@ -1,0 +1,80 @@
+{
+  "source": {
+    "filename": "Meshy_AI_Ancient_Guardian_1004193348_texture.glb",
+    "sha256": "53b103d7cbaa7ddedfe9cdbd2a5fae45d0caf82ad8ee2a8c3087fae9c6b3198d",
+    "bytes": 149465460,
+    "triangles": 1890128,
+    "bounds": [
+      -0.7962070107460022,
+      -0.9717779755592346,
+      -0.7448139786720276,
+      0.787975013256073,
+      0.9518089890480042,
+      0.7199839949607849
+    ]
+  },
+  "runtime": {
+    "path": "public/models/scenery/ancient-guardian-broadleaf-under-20k.glb",
+    "sha256": "a2962f54e7b97cae24576b0ca7219c2e50ac067c7af647f600f59fa45c080cc9",
+    "bytes": 14565860,
+    "triangles": 19319,
+    "meshes": [
+      {
+        "name": "Guardian woody volume",
+        "triangles": 4551
+      },
+      {
+        "name": "Guardian crown volume",
+        "triangles": 14168
+      },
+      {
+        "name": "Guardian small leaf fringe",
+        "triangles": 600
+      }
+    ],
+    "maps": [
+      {
+        "name": "Source projected whole-volume paint",
+        "width": 2048,
+        "height": 2048,
+        "bytes": 3563535,
+        "sha256": "c9a1c05766290822765a2c067cc1d0e879dbf0c0e0575c730eec8d5cad1ab5db"
+      },
+      {
+        "name": "Source projected sculpt normal",
+        "width": 1536,
+        "height": 1536,
+        "bytes": 4814297,
+        "sha256": "1957130f9825387a5dddb07e29b6f1f27aa536cf961d954e56c04883a0b47241"
+      },
+      {
+        "name": "Native source-alpha small leaf fringe",
+        "width": 2048,
+        "height": 2048,
+        "bytes": 4951529,
+        "sha256": "2646ec2d5eff09d16d9a6f305d4bf67caf1c3df80d091f1703fbcecf8b1ce9c0"
+      }
+    ]
+  },
+  "method": {
+    "tool": "Blender 5.2.0 LTS / native CPU Cycles source-paint and normal projection; Pillow texture encoding",
+    "geometry": "Reviewed isotropic 0.016 source-unit crown/trunk/root volume union, 19k collapse target and new UV projection: 18,719 real core triangles. Packaging retains each core triangle and exact reviewed positions/normals/UVs once; 300 small exterior leaf quads add 600 triangles. This is source-derived retopology, not unchanged original topology or UVs.",
+    "texture": "2048 source-projected paint, 1536 normalized sculpt normals and 2048 native source-alpha fringe atlas. No generated art, emissive stone/tree paint or fabricated leaf normals.",
+    "fringe": {
+      "quads": 300,
+      "triangles": 600,
+      "widthSourceUnits": [
+        0.045,
+        0.07
+      ],
+      "heightSourceUnits": [
+        0.035,
+        0.06
+      ],
+      "placement": "Deterministic spaced exterior crown surfaces; normals shared with the reviewed volume; static attached foliage."
+    },
+    "transforms": "Uniform instance scale, yaw and whole-base terrain-facet grounding only."
+  },
+  "authorization": "Owner-supplied Meshy tree selected for Tervain integration and under-20k optimization. No general open asset licence is asserted.",
+  "verification": "Binary, whole-model triangle and source-map checks accompany runtime grounding/ownership tests. Native GPU and final scene acceptance remain separate; no frame-rate or hardware-capacity claim."
+}

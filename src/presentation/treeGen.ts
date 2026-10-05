@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { mulberry32 } from '../world/noise';
 import type { BarkKind, LeafKind } from './treeTextures';
+import { assertNaturalModelBudget } from './naturalModelBudget';
 
 /**
  * Procedural trees. Every tree is a hierarchy of curved, tapering, slightly lumpy tubes (trunk, limbs, boughs, twigs) with
@@ -614,6 +615,9 @@ export function buildTreeVariant(species: Species, variant: number): TreeVariant
     }
   }
   const far = buildFar(species, height, crownRadius, Number.isFinite(crownBase) ? crownBase : height, a.trunkR, seed);
+  for (const [level, parts] of [near, middle, lodFrom(far.wood, far.leaf)].entries()) {
+    assertNaturalModelBudget(`${species}:${variant}:LOD${level}`, [parts.wood, parts.leaf]);
+  }
   return {
     species,
     height,

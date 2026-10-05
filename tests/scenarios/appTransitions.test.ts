@@ -12,6 +12,10 @@ import { track } from '../../src/presentation/human/sheetPool';
 
 const menuFailure = vi.hoisted(() => ({ next: false }));
 const stagedActors = vi.hoisted(() => ({ roots: [] as unknown[] }));
+const npcCatalog = vi.hoisted(() => ({ load: vi.fn() }));
+vi.mock('../../src/presentation/meshynpcs', async (importOriginal) => ({
+  ...await importOriginal<typeof import('../../src/presentation/meshynpcs')>(), loadMeshyNpcCatalog: npcCatalog.load,
+}));
 vi.mock('three', async (importOriginal) => {
   const actual = await importOriginal<typeof import('three')>();
   return { ...actual, WebGLRenderer: class {
@@ -119,7 +123,7 @@ function fixture() {
   return { app, input, canvas, document, key, call };
 }
 
-afterEach(() => { menuFailure.next = false; stagedActors.roots.length = 0; vi.restoreAllMocks(); vi.useRealTimers(); vi.unstubAllGlobals(); });
+afterEach(() => { menuFailure.next = false; stagedActors.roots.length = 0; npcCatalog.load.mockReset(); vi.restoreAllMocks(); vi.useRealTimers(); vi.unstubAllGlobals(); });
 
 function deferred<T>() {
   let resolve!: (value: T) => void;
@@ -133,7 +137,7 @@ function rebuildFixture() {
   const oldWorld = { scene: new THREE.Scene(), dispose: vi.fn(), terrain: {}, sky: { brightness: 1 }, syncStatic: vi.fn(), physics: { supportAt: vi.fn(() => null), snapshot: vi.fn(() => []), restore: vi.fn(), reset: vi.fn(), release: vi.fn() } };
   const nextWorld = () => ({ scene: new THREE.Scene(), dispose: vi.fn(), terrain: {}, sky: { brightness: 1 }, syncStatic: vi.fn(), physics: { supportAt: vi.fn(() => null), snapshot: vi.fn(() => []), restore: vi.fn(), reset: vi.fn(), release: vi.fn() } });
   Object.assign(f.app, {
-    world: oldWorld, library: {}, menuScene: new MenuScene({ quality: f.app.settings.quality }),
+    world: oldWorld, library: {}, menuScene: new MenuScene({ quality: f.app.settings.quality }), npcAssets: { create: () => undefined },
     applyUiSettings: vi.fn(), applyQualityToRenderer: vi.fn(), renderer: {},
     frameClock: new FrameClock(), frameTimes: [], audioClock: 0, worldDirty: true,
     hud: { ...f.app.hud, el: new ElementFixture('DIV') },
@@ -146,6 +150,43 @@ function rebuildFixture() {
 async function finishReload(app: object) { await Reflect.get(app, 'qualityReload'); }
 
 describe('actual application world transitions', () => {
+  it('preserves the loading error and prior menu until resident preparation succeeds, then installs the set once', async () => {
+    const { app, call } = rebuildFixture();
+    Reflect.set(app, 'npcAssets', null);
+    const previousMenu = Reflect.get(app, 'menuScene') as MenuScene;
+    const models = { create: vi.fn(() => undefined) };
+    const failure = new Error('Resident model download failed its integrity check.');
+    npcCatalog.load.mockRejectedValueOnce(failure).mockResolvedValueOnce(models);
+    await expect(call('prepareNpcAssets')).rejects.toBe(failure);
+    expect(previousMenu.dispose).not.toHaveBeenCalled();
+    expect(Reflect.get(app, 'npcAssets')).toBeNull();
+    expect(Reflect.get(app, 'menuScene')).toBe(previousMenu);
+    await call('prepareNpcAssets');
+    expect(previousMenu.dispose).toHaveBeenCalledOnce();
+    expect(models.create).toHaveBeenCalledWith('menu:warden');
+    expect(Reflect.get(app, 'npcAssets')).toBe(models);
+    const installed = Reflect.get(app, 'menuScene');
+    await call('prepareNpcAssets');
+    expect(Reflect.get(app, 'menuScene')).toBe(installed);
+    expect(npcCatalog.load).toHaveBeenCalledTimes(2);
+    expect(models.create).toHaveBeenCalledOnce();
+  });
+
+  it('resident download failure keeps a graphics rebuild paused and presents the existing Retry affordance', async () => {
+    const { app, call, oldWorld } = rebuildFixture();
+    Reflect.set(app, 'npcAssets', null);
+    npcCatalog.load.mockRejectedValue(new Error('Resident models could not load (HTTP 503).'));
+    const create = vi.spyOn(WorldScene, 'create');
+    call('applySettings', true);
+    await finishReload(app);
+    expect(create).not.toHaveBeenCalled();
+    expect(oldWorld.dispose).toHaveBeenCalledOnce();
+    expect(Reflect.get(app, 'worldBuildFailed')).toBe(true);
+    expect(app.loadingEl.textContent).toContain('Retry graphics');
+    expect(console.error).toHaveBeenCalledWith('Graphics rebuild failed', expect.objectContaining({ message: 'Resident models could not load (HTTP 503).' }));
+    expect(app.titleEl.inert).toBe(true);
+  });
+
   it('settles staged painters and releases their final textures when world construction fails', async () => {
     const { app, oldWorld, call } = rebuildFixture();
     const painting = deferred<void>();

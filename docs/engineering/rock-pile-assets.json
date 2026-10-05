@@ -1,0 +1,76 @@
+{
+  "name": "Weathered Rock Pile",
+  "source": {
+    "filename": "Meshy_AI_Rock_Pile_1004134927_texture.glb",
+    "sha256": "b43f03dda495bbfefe0594db8708490e2a48c25c3dd54699d270f2d5ba1c5362",
+    "bytes": 16213388,
+    "triangles": 5220,
+    "authorization": "Owner supplied the GLB and requested this game integration; no general open-content license asserted."
+  },
+  "runtime": {
+    "path": "public/models/scenery/weathered-rock-pile-under-20k.glb",
+    "sha256": "3c41c0a398a83bfd7b1a337a792d99b86660f7c7545daecda1c3961ebbc0d325",
+    "bytes": 3382900,
+    "triangles": 5220,
+    "vertices": 5578,
+    "geometry": "Original position, normal, UV and index buffer bytes retained exactly; no decimation or geometric deformation.",
+    "textureChanges": "2048px JPEG albedo; normalized 1024px source normal; 512px source roughness in dry-stone range; black unused emissive removed; metallic zero.",
+    "images": [
+      {
+        "role": "Source rock albedo",
+        "size": [
+          2048,
+          2048
+        ],
+        "bytes": 1486838,
+        "sha256": "cd4cc5a96886e7419ff562376ada5b6b8f79be7dbb9fda70df911a7093c7a5b3"
+      },
+      {
+        "role": "Filtered source rock normals",
+        "size": [
+          1024,
+          1024
+        ],
+        "bytes": 1604197,
+        "sha256": "a6e193105e75b01632ab23bd9f378e7f5039b82853511f3db9423bd3ec0bfa98"
+      },
+      {
+        "role": "Rough nonmetallic source stone",
+        "size": [
+          512,
+          512
+        ],
+        "bytes": 80164,
+        "sha256": "d930c1229febd6e0d87ec1a5aaea1d8017e0337b7bbdeff667ceb183ce4e2a6b"
+      }
+    ],
+    "geometryBufferFidelity": [
+      {
+        "sourceBufferView": 0,
+        "runtimeBufferView": 0,
+        "bytes": 66936,
+        "sha256": "ece97bb1bca50f575a96e4e395df194fe7a5ab8c7b9218d9b2acbe41447b2b74"
+      },
+      {
+        "sourceBufferView": 1,
+        "runtimeBufferView": 1,
+        "bytes": 66936,
+        "sha256": "e4cbb68f4836d206280cb5847c5aac9395b9e6ff77ddd773637631d62bb8a5d0"
+      },
+      {
+        "sourceBufferView": 2,
+        "runtimeBufferView": 2,
+        "bytes": 44624,
+        "sha256": "62a05241ae22d41ae6bc61487bb001636f401b11c028167f514d57986223b6f0"
+      },
+      {
+        "sourceBufferView": 3,
+        "runtimeBufferView": 3,
+        "bytes": 31320,
+        "sha256": "0fda4ec58578a1e6682f6716641c64d59426dcc07ce9a80302519415faf53960"
+      }
+    ]
+  },
+  "reproduce": "python3 tools/prepare-rock-pile.py --source /path/to/Meshy_AI_Rock_Pile_1004134927_texture.glb",
+  "verification": "Binary and rendered placement acceptance is recorded separately by the coordinating release review."
+}

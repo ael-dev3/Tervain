@@ -5,6 +5,7 @@ import type { Colliders } from '../world/colliders';
 import type { Terrain } from '../world/terrain';
 import type { AssetLibrary } from './assets/library';
 import type { Exclusions, SwayUniforms } from './vegetation';
+import type { MeshyNpcCatalog } from './meshynpcs';
 
 export type Quality = 'low' | 'medium' | 'high';
 
@@ -19,6 +20,8 @@ export interface BuildContext {
   sway: SwayUniforms;
   /** Keeps foliage and props out of paths, water, doorways and interaction points. */
   excl: Exclusions;
+  /** Explicit runtime replacement set; omitted only by procedural export tools and synthetic fixtures. */
+  npcAssets?: MeshyNpcCatalog;
 }
 
 /** Per-frame inputs shared by every scene module. */

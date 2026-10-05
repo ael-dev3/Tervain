@@ -9,6 +9,8 @@ import { buildCloakedFigure, type CloakedFigure } from './menuFigure';
 import { MENU_BANNER, MENU_FIRE, MENU_STONES, browZ, menuHeight, trackDistance, type Keep } from './menuLayout';
 import { puddleSpots, restHeight } from './menuLand';
 import { slabGeometry } from './menuStones';
+import { poseRig, type Rig } from '../characters';
+import { disposeSceneResources } from '../disposeScene';
 
 /**
  * The camp and its people. A warden of the order keeps the night's vigil by the fire, hood up, his sword driven into the
@@ -307,7 +309,7 @@ export interface CampTree {
  * Build everything static in the camp into `R`, and the living warden as his own rig. `door` places the hermit's door on
  * the flat face the tree cut for it (world position of the face at the ground, and the yaw of its outward normal).
  */
-export function buildMenuCamp(R: Region, door: { at: THREE.Vector3; facing: number }, tree: CampTree, mats: { get(key: MatKey): THREE.Material }): MenuCamp {
+export function buildMenuCamp(R: Region, door: { at: THREE.Vector3; facing: number }, tree: CampTree, mats: { get(key: MatKey): THREE.Material }, wardenRig?: Rig): MenuCamp {
   const rnd = mulberry32(51);
   const claims = new Claims();
   const group = new THREE.Group();
@@ -457,7 +459,7 @@ export function buildMenuCamp(R: Region, door: { at: THREE.Vector3; facing: numb
   }
 
   // The warden: undyed dark wool, hood up, hands to the fire, sitting on the split log.
-  const warden = buildCloakedFigure(90417);
+  const warden = wardenRig ? seatedWarden(wardenRig) : buildCloakedFigure(90417);
   warden.group.position.set(seat.x, sy, seat.z);
   warden.group.rotation.y = Math.atan2(fx - seat.x, fz - seat.z) + 0.15;
   warden.group.name = 'Menu_Warden';
@@ -485,6 +487,32 @@ export function buildMenuCamp(R: Region, door: { at: THREE.Vector3; facing: numb
       disposed = true;
       warden.dispose();
       doorway.dispose();
+    },
+  };
+}
+
+/** Same grounded seat and quiet vigil as the original composition, on a real private skinned NPC. */
+function seatedWarden(rig: Rig): CloakedFigure {
+  let previous = 0, disposed = false;
+  const pose = (time: number, dt: number, amp: number) => poseRig(rig, {
+    mode: 'sit', speed: 0, time, t: 0, amp, workGesture: 'guard',
+  }, dt);
+  pose(0, 1, 1);
+  return {
+    group: rig.root,
+    update(time, amp) {
+      if (disposed || amp === 0) return;
+      const dt = Math.min(0.1, Math.max(0, time - previous));
+      previous = time;
+      if (dt > 0) pose(time, dt, amp);
+    },
+    dispose() {
+      if (disposed) return;
+      disposed = true;
+      const retired = new THREE.Scene();
+      retired.add(rig.root);
+      disposeSceneResources(retired, () => {});
+      retired.clear();
     },
   };
 }

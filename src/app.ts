@@ -39,6 +39,8 @@ import { disposeSceneResources } from './presentation/disposeScene';
 import { GAME_VERSION } from './version';
 import { loadMainHero } from './presentation/mainHero';
 import { createHeroRig } from './presentation/hero/rig';
+import { loadMeshyNpcCatalog, type MeshyNpcCatalog } from './presentation/meshynpcs';
+import { npcStyle } from './presentation/npcStyle';
 
 type Mode = 'loading' | 'title' | 'play' | 'dead';
 
@@ -61,6 +63,7 @@ export class App {
   cam = new CameraRig();
   player = new Player();
   private mainHeroInstalled = false;
+  private npcAssets: MeshyNpcCatalog | null = null;
   npcs: NpcActor[] = [];
   enemies: EnemyActor[] = [];
   hud = new Hud();
@@ -145,7 +148,7 @@ export class App {
 
     // Let the loading text paint before the (synchronous) valley build.
     await new Promise((r) => setTimeout(r, 30));
-    // The 0.0.x scene is built from primitives and generated textures; the shared-model library is only opened when a module asks for a model.
+    // The optional shared library opens only for declared needs; the hero, resident and natural GLBs load through their own catalogues.
     if (ALL_NEEDS.length > 0) {
       try {
         this.library = await AssetLibrary.open();
@@ -330,22 +333,26 @@ export class App {
       // Shared flora caches must be released before replacement assets are constructed.
       if (this.world && !this.worldDisposed) this.rebuildPropPoses = this.world.physics.snapshot();
       if (this.world) this.disposeWorld();
-      // Residents' sheets are half the size on Low (a quarter of the texture memory); the player keeps a full one.
+      if (!this.npcAssets) await this.prepareNpcAssets();
+      // Legacy procedural export/fallback controls; Meshy residents retain their baked 1536 px surface maps in every preset.
       personBuildOptions.sheetSize = this.settings.quality === 'low' ? 512 : 1024;
-      // Actors first: their texture sheets are painted on worker threads while the valley is built.
+      // Stage private Meshy rigs before the world adopts them, so a failed build can release the complete cast.
       for (const definition of Object.values(NPCS)) {
-        const npc = new NpcActor(definition);
+        const height = definition.look.height * (npcStyle(definition.id).build === 'woman' ? 0.94 : 1);
+        const npc = new NpcActor(definition, this.npcAssets!.create(`named:${definition.id}`, height));
         npcs.push(npc);
         stagedCast.add(npc.rig.root);
       }
       for (const spawn of ENEMY_SPAWNS) {
-        const enemy = new EnemyActor(spawn);
+        const variant = spawn.id === 'ford_bandit_b' ? 1 : 0;
+        const rig = spawn.kind === 'thornback' ? undefined : this.npcAssets!.create(`enemy:${spawn.id}`, 1.04 + variant * 0.05, 'blade');
+        const enemy = new EnemyActor(spawn, rig);
         enemies.push(enemy);
         stagedCast.add(enemy.rig.root);
       }
       this.world = await WorldScene.create(this.game.state, structuredClone(this.settings), this.library, (p) => {
         this.loadingEl.textContent = `${S('menu.loading')} ${p.loaded}/${p.total}`;
-      });
+      }, this.npcAssets!);
       this.worldDisposed = false;
       if (this.rebuildPropPoses) this.world.physics.restore(this.rebuildPropPoses);
       this.world.scene.add(this.player.group);
@@ -356,7 +363,7 @@ export class App {
       for (const e of this.enemies) this.world.scene.add(e.rig.root);
       this.interactables = buildInteractables(this);
       this.syncWorldFromState(true);
-      // People's sheets are painted on worker threads; keep the loading screen up until every one is on.
+      // Settle any provisional hero/procedural-tool sheets; imported NPC surfaces are already baked and loaded.
       await sheetsSettled();
       this.rebuildPropPoses = null;
     } catch (error) {
@@ -368,6 +375,20 @@ export class App {
     } finally {
       this.worldBuilding = false;
     }
+  }
+
+  /** No silent runtime fallback: an incomplete resident download uses the existing graphics recovery screen. */
+  private async prepareNpcAssets() {
+    if (this.npcAssets) return;
+    const assets = await loadMeshyNpcCatalog((loaded, total) => {
+      this.loadingEl.textContent = `Preparing the residents… ${loaded}/${total}`;
+    });
+    const replacement = new MenuScene({ quality: this.settings.quality, wardenRig: assets.create('menu:warden') });
+    this.menuScene.dispose();
+    this.menuScene = replacement;
+    this.menuSceneDisposed = false;
+    this.menuScene.resize(window.innerWidth, window.innerHeight);
+    this.npcAssets = assets;
   }
 
   private disposeWorld() {
@@ -496,7 +517,8 @@ export class App {
             this.menuSceneDisposed = true;
             this.menuScene.dispose();
           }
-          this.menuScene = new MenuScene({ quality: this.settings.quality, trafficSeed: traffic.seed, trafficTime: traffic.elapsed, awakening, grove });
+          this.menuScene = new MenuScene({ quality: this.settings.quality, trafficSeed: traffic.seed, trafficTime: traffic.elapsed, awakening, grove,
+            wardenRig: this.npcAssets?.create('menu:warden') });
           this.menuSceneDisposed = false;
           this.menuScene.resize(window.innerWidth, window.innerHeight);
         }

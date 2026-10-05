@@ -4,6 +4,7 @@ import { mulberry32 } from '../world/noise';
 import type { Species, TreeVariant } from './treeGen';
 import { barkTextures } from './treeTextures';
 import { installBarkDetail } from './treeMaterials';
+import { assertNaturalModelBudget } from './naturalModelBudget';
 
 export const PINE_FILES = ['solitary-pine-under-10k.glb', 'solitary-pine-mid.glb', 'solitary-pine-far.glb'] as const;
 export type PineSpecies = 'pine' | 'fir' | 'shorepine';
@@ -74,8 +75,13 @@ function parts(gltf: GLTF): Parts {
       wood = part;
     }
   });
-  if (!leaf) throw new Error('The forest model has no masked foliage.');
-  return { wood, leaf };
+  // traverse assigns these synchronously; an explicit result avoids TypeScript
+  // treating callback-assigned locals as their initial null values.
+  const complete = { wood, leaf } as { wood: Part | null; leaf: Part | null };
+  const leafPart = complete.leaf;
+  if (!leafPart) throw new Error('The forest model has no masked foliage.');
+  assertNaturalModelBudget('Solitary Pine', [complete.wood?.geometry ?? null, leafPart.geometry]);
+  return { wood: complete.wood, leaf: leafPart };
 }
 
 const PROFILE: Record<PineSpecies, { height: number }> = {

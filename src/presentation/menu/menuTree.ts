@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { fbm, mulberry32, valueNoise } from '../../world/noise';
+import { assertNaturalModelBudget } from '../naturalModelBudget';
 
 /**
  * The ancient tree of the menu vigil. A Templar hermitage has been made in its roots (see menuCamp); the tree is older than
@@ -561,6 +562,7 @@ export function buildAncientTree(seed = 1207, opts: AncientTreeOptions = {}): An
   }
   const woodGeo = wood.geometry();
   const leafGeo = leaves.geometry();
+  assertNaturalModelBudget('Ancient menu tree', [woodGeo, ...(cards ? [leafGeo] : [])]);
   // Cards light like a crown, not like flat planes: normals point out of the crown's centre (and a little up).
   const lp = leafGeo.getAttribute('position') as THREE.BufferAttribute;
   const ln = leafGeo.getAttribute('normal') as THREE.BufferAttribute;

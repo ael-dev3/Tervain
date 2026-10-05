@@ -1,0 +1,286 @@
+import * as THREE from 'three';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { NPC_LIST } from '../../src/content/npcs';
+import { poseRig } from '../../src/presentation/characters';
+import { NpcActor, EnemyActor, resolveGoal, type ActorContext } from '../../src/presentation/actors';
+import { BONES, type BoneName } from '../../src/presentation/human/skin';
+import { Frame } from '../../src/presentation/human/frame';
+import { disposeSceneResources } from '../../src/presentation/disposeScene';
+import { ENEMY_SPAWNS } from '../../src/world/layout';
+import { createInitialState } from '../../src/game/state';
+import { createMeshyNpcRig, validateMeshyNpcAsset, validateMeshyNpcManifest, NPC_ROLES,
+  MeshyNpcCatalog, type MeshyNpcEntry, type MeshyNpcManifest } from '../../src/presentation/meshynpcs';
+
+const loader = vi.hoisted(() => ({ parse: vi.fn() }));
+vi.mock('three/examples/jsm/loaders/GLTFLoader.js', () => ({ GLTFLoader: class { parseAsync = loader.parse; } }));
+
+const PARENT: Record<BoneName, BoneName | null> = {
+  hips: null, torso: 'hips', head: 'torso', armL: 'torso', elbowL: 'armL', armR: 'torso',
+  elbowR: 'armR', legL: 'hips', kneeL: 'legL', legR: 'hips', kneeR: 'legR',
+};
+const entry: MeshyNpcEntry = { id: 'test-resident', file: 'test-resident.glb', triangles: 1, bytes: 20, sha256: '0'.repeat(64), height: 1.8 };
+
+/** Small original CPU-only fixture: actual joints, inverse binds and arm-weighted triangles. */
+function source() {
+  const scene = new THREE.Group();
+  const bones = {} as Record<BoneName, THREE.Bone>;
+  const joints = new Frame('man', 1, 1).joints();
+  for (const name of BONES) {
+    const bone = new THREE.Bone(); bone.name = name; bones[name] = bone;
+    const at = new THREE.Vector3(...joints[name]), parent = PARENT[name];
+    if (parent) at.sub(new THREE.Vector3(...joints[parent]));
+    bone.position.copy(at); (parent ? bones[parent] : scene).add(bone);
+  }
+  scene.updateMatrixWorld(true);
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute([0.2, 1.12, 0, 0.2, 0.85, 0, 0.26, 1.1, 0], 3));
+  geometry.setAttribute('skinIndex', new THREE.Uint16BufferAttribute([4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0], 4));
+  geometry.setAttribute('skinWeight', new THREE.Float32BufferAttribute([1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0], 4));
+  geometry.computeVertexNormals();
+  const texture = new THREE.Texture();
+  const material = new THREE.MeshStandardMaterial({ map: texture, normalMap: texture });
+  const mesh = new THREE.SkinnedMesh(geometry, material); scene.add(mesh);
+  mesh.bind(new THREE.Skeleton(BONES.map(name => bones[name])));
+  const asset = { scene, animations: [] } as unknown as GLTF;
+  return { asset, bones, mesh, geometry, material, texture };
+}
+
+function manifest(): MeshyNpcManifest {
+  return { schema: 1, maxTriangles: 50_000, assets: [{ ...entry }], roles: Object.fromEntries(NPC_ROLES.map(role => [role, entry.id])) };
+}
+
+afterEach(() => { vi.restoreAllMocks(); vi.unstubAllGlobals(); vi.unstubAllEnvs(); vi.useRealTimers(); });
+
+describe('budgeted Meshy NPC replacement and lifetime', () => {
+  it('requires every named, ambient, hostile and menu role and stable assignments', () => {
+    const complete = manifest();
+    expect(validateMeshyNpcManifest(complete)).toBe(complete);
+    delete complete.roles['ambient:fisher'];
+    expect(() => validateMeshyNpcManifest(complete)).toThrow(/ambient:fisher/);
+    complete.roles['ambient:fisher'] = 'unknown';
+    expect(() => validateMeshyNpcManifest(complete)).toThrow(/ambient:fisher/);
+  });
+
+  it.each([
+    { triangles: 50_001 }, { triangles: -1 }, { triangles: 3.5 }, { height: NaN }, { sha256: '' }, { file: '../outside.glb' }, { bytes: 1 },
+  ])('rejects unsafe or over-budget catalog data %j', invalid => {
+    const value = manifest(); Object.assign(value.assets[0]!, invalid);
+    expect(() => validateMeshyNpcManifest(value)).toThrow(/invalid entry/);
+  });
+
+  it('counts all complete mesh instances including an invisible copy', () => {
+    const f = source();
+    expect(validateMeshyNpcAsset(f.asset, entry)).toBe(1);
+    const hidden = new THREE.Mesh(f.geometry, f.material); hidden.visible = false; f.asset.scene.add(hidden);
+    expect(() => validateMeshyNpcAsset(f.asset, entry)).toThrow(/geometry does not match/);
+    expect(validateMeshyNpcAsset(f.asset, { ...entry, triangles: 2 })).toBe(2);
+  });
+
+  it('rejects rigid dolls, incompatible bone axes, nonnormalised skinning and invented clips', () => {
+    const rigid = source(); rigid.asset.scene.remove(rigid.mesh);
+    rigid.asset.scene.add(new THREE.Mesh(rigid.geometry, rigid.material));
+    expect(() => validateMeshyNpcAsset(rigid.asset, entry)).toThrow(/geometry does not match/);
+    const rotated = source(); rotated.bones.armL.rotation.z = 0.5;
+    expect(() => validateMeshyNpcAsset(rotated.asset, entry)).toThrow(/bind transform/);
+    const badWeight = source(); badWeight.mesh.geometry.getAttribute('skinWeight').setX(0, 0.4);
+    expect(() => validateMeshyNpcAsset(badWeight.asset, entry)).toThrow(/unnormalised/);
+    const invented = source(); invented.asset.animations = [new THREE.AnimationClip('Walking', 1, [])];
+    expect(() => validateMeshyNpcAsset(invented.asset, entry)).toThrow(/unexpected animation/);
+  });
+
+  it('animates actual skinned vertices and retains the controller-owned position, yaw and source geometry', () => {
+    const f = source(), rig = createMeshyNpcRig(f.asset, entry, 1.06);
+    rig.root.position.set(4, 2, 7); rig.root.rotation.y = 0.8;
+    const mesh = rig.body.getObjectByProperty('isSkinnedMesh', true) as THREE.SkinnedMesh;
+    rig.root.updateMatrixWorld(true); mesh.skeleton.update();
+    const before = mesh.getVertexPosition(1, new THREE.Vector3());
+    poseRig(rig, { mode: 'work', workGesture: 'stonework', speed: 0, time: 0.4, t: 0, amp: 1 }, 1);
+    rig.root.updateMatrixWorld(true); mesh.skeleton.update();
+    const after = mesh.getVertexPosition(1, new THREE.Vector3());
+    expect(after.distanceTo(before)).toBeGreaterThan(0.02);
+    expect(rig.root.position.toArray()).toEqual([4, 2, 7]); expect(rig.root.rotation.y).toBe(0.8);
+    expect(rig.body.scale.toArray()).toEqual([1.06, 1.06, 1.06]);
+    expect(f.bones.armL.rotation.toArray().slice(0, 3)).toEqual([0, 0, 0]);
+    expect(Array.from(f.geometry.getAttribute('position').array)).toEqual(Array.from(mesh.geometry.getAttribute('position').array));
+  });
+
+  it('keeps shared source pixels but owns geometry, skeleton, materials and texture GPU references across worlds', () => {
+    const f = source(), first = createMeshyNpcRig(f.asset, entry), second = createMeshyNpcRig(f.asset, entry);
+    const a = first.body.getObjectByProperty('isSkinnedMesh', true) as THREE.SkinnedMesh;
+    const b = second.body.getObjectByProperty('isSkinnedMesh', true) as THREE.SkinnedMesh;
+    const aMaterial = a.material as THREE.MeshStandardMaterial, bMaterial = b.material as THREE.MeshStandardMaterial;
+    expect(a.geometry).not.toBe(b.geometry); expect(a.geometry).not.toBe(f.geometry);
+    expect(a.skeleton).not.toBe(b.skeleton); expect(a.skeleton.bones[0]).not.toBe(b.skeleton.bones[0]);
+    expect(aMaterial).not.toBe(bMaterial); expect(aMaterial.map).not.toBe(bMaterial.map); expect(aMaterial.map).not.toBe(f.texture);
+    expect(aMaterial.map).toBe(aMaterial.normalMap); expect(aMaterial.map!.source).toBe(f.texture.source);
+    const own = { geometry: vi.spyOn(a.geometry, 'dispose'), material: vi.spyOn(aMaterial, 'dispose'), texture: vi.spyOn(aMaterial.map!, 'dispose'), skeleton: vi.spyOn(a.skeleton, 'dispose') };
+    const retained = [vi.spyOn(f.geometry, 'dispose'), vi.spyOn(f.material, 'dispose'), vi.spyOn(f.texture, 'dispose'), vi.spyOn(b.geometry, 'dispose'), vi.spyOn(bMaterial.map!, 'dispose')];
+    const scene = new THREE.Scene(); scene.add(first.root); disposeSceneResources(scene, () => {});
+    for (const call of Object.values(own)) expect(call).toHaveBeenCalledOnce();
+    for (const call of retained) expect(call).not.toHaveBeenCalled();
+    poseRig(second, { mode: 'sit', speed: 0, time: 0.5, t: 0, amp: 1 }, 0.1);
+    expect(second.legL.rotation.x).toBeLessThan(-1);
+  });
+
+  it('replaces appearance without changing NPC or hostile identities, schedules or combat budgets', () => {
+    const f = source();
+    for (const definition of NPC_LIST) {
+      const rig = createMeshyNpcRig(f.asset, entry), actor = new NpcActor(definition, rig);
+      expect(actor.rig).toBe(rig); expect(actor.id).toBe(definition.id); expect(actor.def).toBe(definition);
+      rig.root.traverse(object => expect(object.userData.npc).toBe(definition.id));
+    }
+    for (const spawn of ENEMY_SPAWNS.filter(candidate => candidate.kind !== 'thornback')) {
+      const rig = createMeshyNpcRig(f.asset, entry, 1, 'blade'), actor = new EnemyActor(spawn, rig);
+      expect(actor.rig).toBe(rig); expect(actor.id).toBe(spawn.id); expect(actor.hp).toBe(55); expect(actor.radius).toBe(0.4);
+      expect(rig.grip).toBe('blade'); rig.root.traverse(object => expect(object.userData.enemy).toBe(spawn.id));
+    }
+  });
+
+  it('restores the existing blade/club and warden sheath on real moving bone sockets, including hidden pieces in the budget', () => {
+    const f = source(), catalog = new MeshyNpcCatalog(manifest(), new Map([[entry.id, f.asset]]));
+    const blade = catalog.create('enemy:ford_bandit_a', 1, 'blade');
+    const club = catalog.create('enemy:ford_bandit_b', 1, 'blade');
+    const warden = catalog.create('named:shrine_warden');
+    expect(blade.weapon?.name).toBe('NPC / weathered arming sword');
+    expect(blade.weapon?.visible).toBe(true); expect(blade.grip).toBe('blade');
+    expect(blade.scabbard?.visible).toBe(true); expect(blade.sheathed?.visible).toBe(false);
+    expect(club.weapon?.name).toBe('NPC / knotted club'); expect(club.weapon?.visible).toBe(true);
+    expect(club.scabbard).toBeNull(); expect(club.shield).toBeNull();
+    expect(warden.weapon?.visible).toBe(false); expect(warden.sheathed?.visible).toBe(true);
+    expect(warden.grip).toBe('none');
+    expect(blade.root.userData.meshyNpc.attachmentTriangles).toBe(980);
+    expect(club.root.userData.meshyNpc.attachmentTriangles).toBe(434);
+    expect(warden.root.userData.meshyNpc.triangles).toBe(981);
+    const socket = blade.root.getObjectByName('NPC / right palm equipment socket')!;
+    expect(socket.parent).toBe(blade.elbowR);
+    blade.root.updateMatrixWorld(true); const before = socket.getWorldPosition(new THREE.Vector3());
+    poseRig(blade, { mode: 'strike', speed: 0, time: 0.5, t: 0.8, amp: 1 }, 1);
+    blade.root.updateMatrixWorld(true);
+    expect(socket.getWorldPosition(new THREE.Vector3()).distanceTo(before)).toBeGreaterThan(0.1);
+  });
+
+  it('refuses an otherwise legal 50k model when carried equipment exceeds the complete actor cap', () => {
+    const f = source(); f.geometry.setIndex(new THREE.BufferAttribute(new Uint32Array(50_000 * 3), 1));
+    const full = { ...entry, triangles: 50_000 };
+    expect(validateMeshyNpcAsset(f.asset, full)).toBe(50_000);
+    expect(() => createMeshyNpcRig(f.asset, full, 1, 'blade')).toThrow(/after equipment/);
+  });
+
+  it('uses cached sole samples to remove small visual penetration without physical-root motion or frame accumulation', () => {
+    const f = source();
+    f.geometry.setAttribute('position', new THREE.Float32BufferAttribute([0.1, -0.04, 0.08, 0.11, -0.04, 0.09, 0.12, -0.04, 0.1], 3));
+    f.geometry.setAttribute('skinIndex', new THREE.Uint16BufferAttribute([8, 0, 0, 0, 8, 0, 0, 0, 8, 0, 0, 0], 4));
+    const rig = createMeshyNpcRig(f.asset, entry); rig.root.position.set(7, 3, -2);
+    const idle = { mode: 'idle' as const, speed: 0, time: 0, t: 0, amp: 1 };
+    poseRig(rig, idle, 1);
+    const clearance = rig.body.position.y;
+    expect(clearance).toBeGreaterThan(0.03); expect(clearance).toBeLessThanOrEqual(0.1);
+    expect(rig.root.userData.meshyNpc.soleSamples).toBe(3);
+    for (let frame = 0; frame < 10; frame++) poseRig(rig, idle, 1);
+    expect(rig.body.position.y).toBeCloseTo(clearance, 5);
+    expect(rig.root.position.toArray()).toEqual([7, 3, -2]);
+    expect(rig.hips.position.y).toBeCloseTo(0.95, 6);
+    expect(f.geometry.getAttribute('position').getY(0)).toBeCloseTo(-0.04, 6);
+  });
+
+  it('does not animate walking through a blocking contact, and preserves schedule hiding on the replacement rig', () => {
+    const f = source(), rig = createMeshyNpcRig(f.asset, entry);
+    const definition = NPC_LIST.find(candidate => candidate.id === 'shrine_warden')!;
+    const actor = new NpcActor(definition, rig), state = createInitialState();
+    const resolve = vi.fn((_x: number, _z: number) => ({ x: 0, z: 0 }));
+    const ctx = { state, hour: 8, player: { x: 100, y: 0, z: 100 }, reducedMotion: false,
+      terrain: { groundAt: () => 0.5 }, colliders: { resolve }, nav: {}, onBark: vi.fn(),
+    } as unknown as ActorContext;
+    Reflect.set(actor, 'placed', true); actor.goal = resolveGoal(definition, state, ctx.hour);
+    Reflect.set(actor, 'path', [{ x: 0, z: 5 }]);
+    actor.update(0.1, ctx);
+    expect(actor.mode).toBe('idle'); expect([actor.x, actor.z]).toEqual([0, 0]);
+    expect(rig.root.position.toArray()).toEqual([0, 0.5, 0]);
+    resolve.mockImplementation((x, z) => ({ x, z }));
+    actor.update(0.1, ctx);
+    expect(actor.mode).toBe('walk'); expect(actor.z).toBeCloseTo(0.155, 6);
+    state.npcs[actor.id].available = false;
+    actor.update(0.1, ctx);
+    expect(actor.interactable).toBe(false); expect(rig.root.visible).toBe(false);
+  });
+});
+
+function glb(): ArrayBuffer {
+  const bytes = new ArrayBuffer(20), header = new DataView(bytes);
+  header.setUint32(0, 0x46546c67, true); header.setUint32(4, 2, true); header.setUint32(8, 20, true);
+  return bytes;
+}
+
+describe('Meshy resident transport, selective loading and retry', () => {
+  const fetchMock = vi.fn<typeof fetch>();
+  let subject: typeof import('../../src/presentation/meshynpcs');
+  beforeEach(async () => {
+    vi.resetModules(); fetchMock.mockReset(); loader.parse.mockReset().mockResolvedValue(source().asset);
+    vi.stubGlobal('fetch', fetchMock); vi.stubGlobal('document', { baseURI: 'https://example.test/Tervain/index.html' });
+    vi.stubGlobal('crypto', { subtle: { digest: vi.fn(async () => new Uint8Array(32).buffer) } });
+    vi.stubEnv('BASE_URL', './');
+    subject = await import('../../src/presentation/meshynpcs');
+  });
+
+  it('loads only assigned models, shares concurrent requests and retains decoded CPU templates for rebuilds', async () => {
+    const value = manifest(); value.assets.push({ ...entry, id: 'unused', file: 'unused.glb' });
+    fetchMock.mockImplementation(async url => new Response(String(url).endsWith('manifest.json') ? JSON.stringify(value) : glb()));
+    const progress = vi.fn(), a = subject.loadMeshyNpcCatalog(progress), b = subject.loadMeshyNpcCatalog();
+    expect(a).toBe(b);
+    const catalog = await a;
+    expect(fetchMock).toHaveBeenCalledTimes(2); expect(loader.parse).toHaveBeenCalledOnce();
+    expect(loader.parse).toHaveBeenCalledWith(expect.any(ArrayBuffer), 'https://example.test/Tervain/models/npcs/');
+    expect(progress.mock.calls).toEqual([[0, 1], [1, 1]]);
+    expect(catalog.create('ambient:fisher').root).not.toBe(catalog.create('ambient:fisher').root);
+    expect(subject.loadMeshyNpcCatalog()).toBe(a);
+    expect(() => catalog.create('unknown')).toThrow(/has not been prepared/);
+    expect(fetchMock.mock.calls.some(([url]) => String(url).endsWith('unused.glb'))).toBe(false);
+  });
+
+  it.each([
+    { name: 'HTTP error', response: () => new Response('', { status: 503 }), message: /HTTP 503/ },
+    { name: 'HTML fallback', response: () => new Response('<html>', { headers: { 'content-type': 'text/html' } }), message: /page instead/ },
+    { name: 'truncated body', response: () => new Response(new ArrayBuffer(12)), message: /incomplete/ },
+    { name: 'wrong GLB header', response: () => new Response(new ArrayBuffer(20)), message: /complete GLB/ },
+  ])('keeps $name visible and lets loading Retry fetch the missing model again', async ({ response, message }) => {
+    const value = manifest(); let fail = true;
+    fetchMock.mockImplementation(async url => {
+      if (String(url).endsWith('manifest.json')) return new Response(JSON.stringify(value));
+      if (fail) { fail = false; return response(); }
+      return new Response(glb());
+    });
+    const first = subject.loadMeshyNpcCatalog(); await expect(first).rejects.toThrow(message);
+    expect(loader.parse).not.toHaveBeenCalled();
+    const second = subject.loadMeshyNpcCatalog(); expect(second).not.toBe(first);
+    await expect(second).resolves.toBeInstanceOf(subject.MeshyNpcCatalog);
+    expect(fetchMock).toHaveBeenCalledTimes(4); expect(loader.parse).toHaveBeenCalledOnce();
+  });
+
+  it('fails a hash mismatch before parsing even when a download has the expected size', async () => {
+    const value = manifest(); value.assets[0]!.sha256 = 'f'.repeat(64);
+    fetchMock.mockImplementation(async url => new Response(String(url).endsWith('manifest.json') ? JSON.stringify(value) : glb()));
+    await expect(subject.loadMeshyNpcCatalog()).rejects.toThrow(/integrity check/);
+    expect(loader.parse).not.toHaveBeenCalled();
+  });
+
+  it('late parallel downloads cannot replace the recovery UI after a sibling model failed', async () => {
+    const value = manifest();
+    for (const id of ['second', 'third']) value.assets.push({ ...entry, id, file: `${id}.glb` });
+    value.roles[NPC_ROLES[1]!] = 'second'; value.roles[NPC_ROLES[2]!] = 'third';
+    let finishSecond!: (response: Response) => void, finishThird!: (response: Response) => void;
+    fetchMock.mockImplementation(async url => {
+      if (String(url).endsWith('manifest.json')) return new Response(JSON.stringify(value));
+      if (String(url).endsWith('second.glb')) return new Promise(resolve => { finishSecond = resolve; });
+      if (String(url).endsWith('third.glb')) return new Promise(resolve => { finishThird = resolve; });
+      return new Response('unavailable', { status: 503 });
+    });
+    const progress = vi.fn();
+    await expect(subject.loadMeshyNpcCatalog(progress)).rejects.toThrow(/HTTP 503/);
+    expect(progress.mock.calls).toEqual([[0, 3]]);
+    finishSecond(new Response(glb())); finishThird(new Response(glb()));
+    // Drain the real response-buffer/parser promise chain rather than advancing a made-up gameplay clock.
+    await vi.waitFor(() => expect(loader.parse).toHaveBeenCalledTimes(2));
+    expect(progress.mock.calls).toEqual([[0, 3]]);
+  });
+});

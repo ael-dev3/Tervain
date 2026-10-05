@@ -23,6 +23,7 @@ import { buildMenuHollow } from './menu/menuHollow';
 import { GROVE_DOOR_OPEN, GROVE_MAX_SPIRITS, createMenuGrove, type MenuGrove } from './menu/menuGrove';
 import { MENU_SCORE_FEATURE_INFO } from './menu/menuScoreFeatures';
 import type { MenuMusicPlayback } from './audio';
+import type { Rig } from './characters';
 
 export type MenuQuality = 'low' | 'medium' | 'high';
 export interface MenuAwakeningState { time: number; duration: number; gain: number }
@@ -116,7 +117,7 @@ export class MenuScene {
   private readonly baseFov = MENU_CAMERA.fov;
   static readonly MAX_FOV = 76;
 
-  constructor(opts: { quality?: MenuQuality; resources?: MenuResources; trafficSeed?: number; trafficTime?: number; awakening?: MenuAwakeningState; grove?: MenuGrove } = {}) {
+  constructor(opts: { quality?: MenuQuality; resources?: MenuResources; trafficSeed?: number; trafficTime?: number; awakening?: MenuAwakeningState; grove?: MenuGrove; wardenRig?: Rig } = {}) {
     this.quality = opts.quality ?? 'high';
     this.res = opts.resources ?? browserResources();
     // Deterministic standalone construction; the app supplies a fresh seed on each actual menu entry.
@@ -254,7 +255,7 @@ export class MenuScene {
     if (glow.color) glow.color.setRGB(0.62, 0.24, 0.05);
     const R = new Region('Menu_Camp_Static', new Ctx());
     const worldRoots = tree.roots.map((r) => ({ ...r, pts: r.pts.map((p) => treeRoot.localToWorld(new THREE.Vector3(...p))) }));
-    this.camp = buildMenuCamp(R, { at: doorAt, facing: doorFacing }, { x: MENU_TREE.x, z: MENU_TREE.z, r: 2.9, roots: worldRoots }, this.mats);
+    this.camp = buildMenuCamp(R, { at: doorAt, facing: doorFacing }, { x: MENU_TREE.x, z: MENU_TREE.z, r: 2.9, roots: worldRoots }, this.mats, opts.wardenRig);
     this.wisps = wispLight;
     this.scene.add(this.wisps.group);
     this.owned.push(this.wisps);
