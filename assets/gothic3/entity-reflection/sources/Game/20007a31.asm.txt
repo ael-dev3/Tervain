@@ -1,0 +1,4 @@
+; 20007a31 ?Create@gCCharacterSensor_PS@@UAE?AW4bEResult@@XZ
+20007a31 | e9caf32200 | JMP 0x20236e00
+; 20007a40 gCInfo_PS::FindEntityFromString
+; 20007a40 Ordinal_2800

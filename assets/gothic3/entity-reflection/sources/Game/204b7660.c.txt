@@ -1,0 +1,35 @@
+/* ENTRY 204b7660 | bTPropertyType<gCDamage_PS,float>::~bTPropertyType<gCDamage_PS,float> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCDamage_PS,float>::~bTPropertyType<gCDamage_PS,float>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Script");
+  bCString::bCString(local_c,"DamageHitMultiplier");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCDamage_PS::ms_PropertyMember_m_fDamageHitMultiplier,local_c,
+             local_8,local_4,1,false);
+  _ms_PropertyMember_m_fDamageHitMultiplier = &vftable;
+  DAT_207b6418 = bTPropertyObjectType<gCDamage_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCDamage_PS,eCEntityPropertySet>();
+  _DAT_207b641c = 0x24;
+  _DAT_207b6420 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCDamage_PS::ms_PropertyMember_m_fDamageHitMultiplier);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b6418,
+             (bCPropertyTypeBase *)&gCDamage_PS::ms_PropertyMember_m_fDamageHitMultiplier);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}
+
+

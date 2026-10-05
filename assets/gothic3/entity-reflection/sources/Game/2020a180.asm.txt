@@ -1,0 +1,69 @@
+; 2020a180 bTPropertyType<gCClock_PS,unsigned_long>::vfunction24
+2020a180 | 53 | PUSH EBX
+2020a181 | 56 | PUSH ESI
+2020a182 | 8b74240c | MOV ESI,dword ptr [ESP + 0xc]
+2020a186 | 85f6 | TEST ESI,ESI
+2020a188 | 8bd9 | MOV EBX,ECX
+2020a18a | 747f | JZ 0x2020a20b
+2020a18c | 8b06 | MOV EAX,dword ptr [ESI]
+2020a18e | 8b10 | MOV EDX,dword ptr [EAX]
+2020a190 | 57 | PUSH EDI
+2020a191 | 8bce | MOV ECX,ESI
+2020a193 | ffd2 | CALL EDX
+2020a195 | 85c0 | TEST EAX,EAX
+2020a197 | 742b | JZ 0x2020a1c4
+2020a199 | 8b06 | MOV EAX,dword ptr [ESI]
+2020a19b | 8b10 | MOV EDX,dword ptr [EAX]
+2020a19d | 55 | PUSH EBP
+2020a19e | 8bce | MOV ECX,ESI
+2020a1a0 | ffd2 | CALL EDX
+2020a1a2 | 8be8 | MOV EBP,EAX
+2020a1a4 | 8b7d00 | MOV EDI,dword ptr [EBP]
+2020a1a7 | 6a00 | PUSH 0x0
+2020a1a9 | 8bcb | MOV ECX,EBX
+2020a1ab | 83c758 | ADD EDI,0x58
+2020a1ae | ff153c877d20 | CALL dword ptr [0x207d873c]
+2020a1b4 | 8bc8 | MOV ECX,EAX
+2020a1b6 | ff15f8867d20 | CALL dword ptr [0x207d86f8]
+2020a1bc | 50 | PUSH EAX
+2020a1bd | 8b07 | MOV EAX,dword ptr [EDI]
+2020a1bf | 8bcd | MOV ECX,EBP
+2020a1c1 | ffd0 | CALL EAX
+2020a1c3 | 5d | POP EBP
+; 2020a1c4 LAB_2020a1c4
+2020a1c4 | 8b13 | MOV EDX,dword ptr [EBX]
+2020a1c6 | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+2020a1c9 | 56 | PUSH ESI
+2020a1ca | 8bcb | MOV ECX,EBX
+2020a1cc | ffd0 | CALL EAX
+2020a1ce | 8b4c2414 | MOV ECX,dword ptr [ESP + 0x14]
+2020a1d2 | 8b11 | MOV EDX,dword ptr [ECX]
+2020a1d4 | 8910 | MOV dword ptr [EAX],EDX
+2020a1d6 | 8b06 | MOV EAX,dword ptr [ESI]
+2020a1d8 | 8b10 | MOV EDX,dword ptr [EAX]
+2020a1da | 8bce | MOV ECX,ESI
+2020a1dc | ffd2 | CALL EDX
+2020a1de | 85c0 | TEST EAX,EAX
+2020a1e0 | 7428 | JZ 0x2020a20a
+2020a1e2 | 8b06 | MOV EAX,dword ptr [ESI]
+2020a1e4 | 8b10 | MOV EDX,dword ptr [EAX]
+2020a1e6 | 8bce | MOV ECX,ESI
+2020a1e8 | ffd2 | CALL EDX
+2020a1ea | 8bf8 | MOV EDI,EAX
+2020a1ec | 8b37 | MOV ESI,dword ptr [EDI]
+2020a1ee | 6a00 | PUSH 0x0
+2020a1f0 | 8bcb | MOV ECX,EBX
+2020a1f2 | 83c65c | ADD ESI,0x5c
+2020a1f5 | ff153c877d20 | CALL dword ptr [0x207d873c]
+2020a1fb | 8bc8 | MOV ECX,EAX
+2020a1fd | ff15f8867d20 | CALL dword ptr [0x207d86f8]
+2020a203 | 50 | PUSH EAX
+2020a204 | 8b06 | MOV EAX,dword ptr [ESI]
+2020a206 | 8bcf | MOV ECX,EDI
+2020a208 | ffd0 | CALL EAX
+; 2020a20a LAB_2020a20a
+2020a20a | 5f | POP EDI
+; 2020a20b LAB_2020a20b
+2020a20b | 5e | POP ESI
+2020a20c | 5b | POP EBX
+2020a20d | c20800 | RET 0x8

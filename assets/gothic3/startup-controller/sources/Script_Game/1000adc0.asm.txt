@@ -1,0 +1,2 @@
+; 1000adc0 FUN_1000adc0
+1000adc0 | c3 | RET

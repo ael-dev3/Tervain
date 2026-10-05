@@ -1,0 +1,42 @@
+/* ENTRY 200113ec | gCInteraction_PS::gCInteraction_PS | STATUS decompiled | 27 ms */
+
+/* public: __thiscall gCInteraction_PS::gCInteraction_PS(void) */
+
+gCInteraction_PS * __thiscall gCInteraction_PS::gCInteraction_PS(gCInteraction_PS *this)
+
+{
+  undefined ***pppuVar1;
+  
+                    /* 0x113ec  191  ??0gCInteraction_PS@@QAE@XZ */
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  pppuVar1 = &(this->gCInteraction_PS_data).offset_0x10;
+  this->vftablePtr = &vftable;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<gEFocusPriority>::vftable.GetVersion;
+  (this->gCInteraction_PS_data).offset_0x14 = DAT_207b61a8;
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCInteraction_PS_data).field_0x18);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCInteraction_PS_data).field_0x34);
+  pppuVar1 = &(this->gCInteraction_PS_data).offset_0x50;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<gEUseType>::vftable.GetVersion;
+  (this->gCInteraction_PS_data).offset_0x54 = DAT_207cef3c;
+  bCString::bCString((bCString *)&(this->gCInteraction_PS_data).field_0x58);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCInteraction_PS_data).field_0x5c);
+  pppuVar1 = &(this->gCInteraction_PS_data).offset_0x78;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<gEFocusNameType>::vftable.GetVersion;
+  (this->gCInteraction_PS_data).offset_0x7c = DAT_207b61ac;
+  bCString::bCString((bCString *)&(this->gCInteraction_PS_data).field_0x80);
+  bCVector::bCVector((bCVector *)&(this->gCInteraction_PS_data).field_0x84);
+  bCVector::bCVector((bCVector *)&(this->gCInteraction_PS_data).field_0x90);
+  bCString::bCString((bCString *)&(this->gCInteraction_PS_data).field_0xa0);
+  bCString::bCString((bCString *)&(this->gCInteraction_PS_data).field_0xa4);
+  eCTemplateEntityProxy::eCTemplateEntityProxy
+            ((eCTemplateEntityProxy *)&(this->gCInteraction_PS_data).field_0xa8);
+  eCPropertySetProxy::eCPropertySetProxy
+            ((eCPropertySetProxy *)&(this->gCInteraction_PS_data).field_0xb4);
+  (this->gCInteraction_PS_data).offset_0xd8 = 0;
+  return this;
+}
+
+

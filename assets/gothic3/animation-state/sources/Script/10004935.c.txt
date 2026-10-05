@@ -1,0 +1,60 @@
+/* ENTRY 10004935 | Entity::FixAniDirection | STATUS decompiled | 38 ms */
+
+/* private: bool __thiscall Entity::FixAniDirection(enum gEAction,enum gEPhase,enum gEDirection
+   &)const  */
+
+bool __thiscall
+Entity::FixAniDirection(Entity *this,gEAction param_1,gEPhase param_2,gEDirection *param_3)
+
+{
+  gEAniState gVar1;
+  bCString *pbVar2;
+  gEDirection gVar3;
+  char *pcVar4;
+  int iVar5;
+  
+                    /* 0x4935  1479
+                       ?FixAniDirection@Entity@@ABE_NW4gEAction@@W4gEPhase@@AAW4gEDirection@@@Z */
+  gVar3 = 1;
+  if (*(int *)(this + 0x30) == 0) goto LAB_1002fa72;
+  switch(param_1) {
+  case 1:
+  case 9:
+  case 10:
+  case 0xb:
+  case 0xc:
+    if (param_2 == 3) goto LAB_1002fa31;
+    break;
+  case 0x1d:
+  case 0x1e:
+  case 0x20:
+  case 0x21:
+  case 0x22:
+  case 0x23:
+  case 0x50:
+  case 0x62:
+    iVar5 = 0;
+    pcVar4 = "Slombat";
+    pbVar2 = eCEntity::GetName(*(eCEntity **)this);
+    bCString::Contains(pbVar2,pcVar4,iVar5);
+LAB_1002fa31:
+    gVar3 = *param_3;
+  }
+  gVar1 = PSRoutine::PropertyAniState::operator_enum_gEAniState((PropertyAniState *)(this + 4));
+  if ((gVar1 == 10) || (gVar1 - 0x10 < 6)) {
+    iVar5 = 0;
+    pcVar4 = "Slombat";
+    pbVar2 = eCEntity::GetName(*(eCEntity **)this);
+    bCString::Contains(pbVar2,pcVar4,iVar5);
+    gVar3 = *param_3;
+  }
+  if ((1 < (int)gVar3) && ((int)gVar3 < 5)) {
+    *param_3 = gVar3;
+    return true;
+  }
+LAB_1002fa72:
+  *param_3 = 1;
+  return true;
+}
+
+

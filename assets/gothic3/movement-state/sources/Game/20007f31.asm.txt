@@ -1,0 +1,4 @@
+; 20007f31 ?IsDead@gCEntity@@SG_NPAVeCEntity@@@Z
+20007f31 | e9fa3f1200 | JMP 0x2012bf30
+; 20007f45 gCDummyCollectorAdmin::AddEntitiesFromCollections
+; 20007f45 Ordinal_1860

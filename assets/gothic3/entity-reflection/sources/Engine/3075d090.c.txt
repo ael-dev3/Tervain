@@ -1,0 +1,32 @@
+/* ENTRY 3075d090 | bTPropertyType<eCRigidBody_PS,float>::~bTPropertyType<eCRigidBody_PS,float> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCRigidBody_PS,float>::~bTPropertyType<eCRigidBody_PS,float>
+          (bTPropertyType<eCRigidBody_PS,float> *this)
+
+{
+  bTPropertyType<eCRigidBody_PS,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"MaxAngularVelocity");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCRigidBody_PS::ms_PropertyMember_m_fMaxAngularVelocity,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_fMaxAngularVelocity = &vftable;
+  DAT_30aec134 = bTPropertyObjectType<eCRigidBody_PS,eCRigidBodyBase_PS>::
+                 ~bTPropertyObjectType<eCRigidBody_PS,eCRigidBodyBase_PS>();
+  _DAT_30aec138 = 0x58;
+  _DAT_30aec13c = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&eCRigidBody_PS::ms_PropertyMember_m_fMaxAngularVelocity);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30aec134,
+             (bCPropertyTypeBase *)&eCRigidBody_PS::ms_PropertyMember_m_fMaxAngularVelocity);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}
+
+

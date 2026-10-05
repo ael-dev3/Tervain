@@ -1,0 +1,42 @@
+; 20221fe0 FUN_20221fe0
+20221fe0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+20221fe4 | 83c0ff | ADD EAX,-0x1
+20221fe7 | 83f80d | CMP EAX,0xd
+20221fea | 7754 | JA 0x20222040
+20221fec | 0fb68070202220 | MOVZX EAX,byte ptr [EAX + 0x20222070]
+; 20221ff3 switchD_20221ff3::switchD
+20221ff3 | ff248558202220 | JMP dword ptr [EAX*0x4 + 0x20222058]
+; 20221ffa switchD_20221ff3::caseD_3
+; 20221ffa switchD_20221ff3::caseD_a
+20221ffa | f30f104144 | MOVSS XMM0,dword ptr [ECX + 0x44]
+20221fff | f30f11442404 | MOVSS dword ptr [ESP + 0x4],XMM0
+20222005 | d9442404 | FLD float ptr [ESP + 0x4]
+20222009 | c20400 | RET 0x4
+; 2022200c switchD_20221ff3::caseD_2
+2022200c | f30f10414c | MOVSS XMM0,dword ptr [ECX + 0x4c]
+20222011 | f30f11442404 | MOVSS dword ptr [ESP + 0x4],XMM0
+20222017 | d9442404 | FLD float ptr [ESP + 0x4]
+2022201b | c20400 | RET 0x4
+; 2022201e switchD_20221ff3::caseD_5
+2022201e | f30f104148 | MOVSS XMM0,dword ptr [ECX + 0x48]
+20222023 | f30f11442404 | MOVSS dword ptr [ESP + 0x4],XMM0
+20222029 | d9442404 | FLD float ptr [ESP + 0x4]
+2022202d | c20400 | RET 0x4
+; 20222030 switchD_20221ff3::caseD_e
+20222030 | 0f57c0 | XORPS XMM0,XMM0
+20222033 | f30f11442404 | MOVSS dword ptr [ESP + 0x4],XMM0
+20222039 | d9442404 | FLD float ptr [ESP + 0x4]
+2022203d | c20400 | RET 0x4
+; 20222040 switchD_20221ff3::caseD_1
+; 20222040 switchD_20221ff3::caseD_4
+; 20222040 switchD_20221ff3::caseD_6
+; 20222040 switchD_20221ff3::caseD_7
+; 20222040 switchD_20221ff3::caseD_8
+; 20222040 switchD_20221ff3::caseD_9
+; 20222040 switchD_20221ff3::caseD_b
+; 20222040 switchD_20221ff3::caseD_c
+; 20222040 switchD_20221ff3::caseD_d
+20222040 | f30f1005c4b16520 | MOVSS XMM0,dword ptr [0x2065b1c4]
+20222048 | f30f11442404 | MOVSS dword ptr [ESP + 0x4],XMM0
+2022204e | d9442404 | FLD float ptr [ESP + 0x4]
+20222052 | c20400 | RET 0x4

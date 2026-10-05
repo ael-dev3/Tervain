@@ -1,0 +1,33 @@
+/* ENTRY 20031f3e | gCCharacterMovement_PS::ProcessControledMovements | STATUS decompiled | 21 ms */
+
+/* protected: void __thiscall gCCharacterMovement_PS::ProcessControledMovements(void) */
+
+void __thiscall gCCharacterMovement_PS::ProcessControledMovements(gCCharacterMovement_PS *this)
+
+{
+  bool bVar1;
+  bCVector *this_00;
+  undefined4 uStack_10;
+  undefined1 auStack_c [12];
+  
+                    /* 0x31f3e  5846  ?ProcessControledMovements@gCCharacterMovement_PS@@IAEXXZ */
+  uStack_10 = 0;
+  ValidateZoneGeometry(this);
+  ProcessControledTranslation(this);
+  ProcessControledRotation(this);
+  ContributeFloorMovements(this);
+  this_00 = (bCVector *)
+            (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 0x18c))
+                      (auStack_c);
+  bVar1 = bCVector::HasZeroMagnitude(this_00);
+  if ((!bVar1) || ((this->gCCharacterMovement_PS_data).field_0x8c != '\0')) {
+    bVar1 = false;
+  }
+  bCVector::~bCVector((bCVector *)&uStack_10);
+  if (bVar1 != false) {
+    (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 0x1f0))(0xe);
+  }
+  return;
+}
+
+

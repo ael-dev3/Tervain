@@ -1,0 +1,4 @@
+; 20024339 ?GetSpeedByMode@gCCharacterMovement_PS@@QAEMW4gECharMovementMode@@@Z
+20024339 | e9a2dc1f00 | JMP 0x20221fe0
+; 20024348 gCCharacterMovement_PS::CreateDependantPSets
+; 20024348 Ordinal_2434

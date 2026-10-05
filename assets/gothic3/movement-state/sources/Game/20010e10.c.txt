@@ -1,0 +1,49 @@
+/* ENTRY 20010e10 | gCScriptAdmin::CallScript | STATUS decompiled | 93 ms */
+
+/* public: virtual int __thiscall gCScriptAdmin::CallScript(class bCString const &,class eCEntity
+   *,class eCEntity *,int) */
+
+int __thiscall
+gCScriptAdmin::CallScript
+          (gCScriptAdmin *this,bCString *param_1,eCEntity *param_2,eCEntity *param_3,int param_4)
+
+{
+  undefined1 *this_00;
+  char cVar1;
+  bool bVar2;
+  eCApplication *peVar3;
+  int *piVar4;
+  eCSceneAdmin *this_01;
+  eCEntityAdmin *this_02;
+  int iVar5;
+  undefined4 uVar6;
+  TypeDescriptor *pTVar7;
+  TypeDescriptor *pTVar8;
+  undefined4 uVar9;
+  
+                    /* 0x10e10  2027  ?CallScript@gCScriptAdmin@@UAEHABVbCString@@PAVeCEntity@@1H@Z
+                        */
+  uVar9 = 1;
+  pTVar8 = &gCGameApp::RTTI_Type_Descriptor;
+  pTVar7 = &eCApplication::RTTI_Type_Descriptor;
+  uVar6 = 0;
+  peVar3 = eCApplication::GetInstance();
+  piVar4 = (int *)___RTDynamicCast(peVar3,uVar6,pTVar7,pTVar8,uVar9);
+  cVar1 = (**(code **)(*piVar4 + 0x270))();
+  if (cVar1 != '\0') {
+    this_01 = (eCSceneAdmin *)thunk_FUN_200ae8e0();
+    this_02 = eCSceneAdmin::GetAccessToEntityAdmin(this_01);
+    bVar2 = eCEntityAdmin::IsProcessingEnabled(this_02);
+    if (bVar2) {
+      this_00 = &(this->gCScriptAdmin_data).field_0x10;
+      gCScriptProcessingUnit::SetSelfEntity((gCScriptProcessingUnit *)this_00,param_2);
+      gCScriptProcessingUnit::SetOtherEntity((gCScriptProcessingUnit *)this_00,param_3);
+      gCScriptProcessingUnit::SetIntParameter((gCScriptProcessingUnit *)this_00,param_4);
+      iVar5 = RunScript(this,param_1,(gCScriptProcessingUnit *)this_00);
+      return iVar5;
+    }
+  }
+  return 0;
+}
+
+

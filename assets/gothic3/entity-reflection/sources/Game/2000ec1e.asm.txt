@@ -1,0 +1,4 @@
+; 2000ec1e ?GetSaveGameRelevance@gCClock_PS@@UBE?AW4eEPSSaveGameRelevance@eCEntityPropertySet@@XZ
+2000ec1e | e97d931f00 | JMP 0x20207fa0
+; 2000ec23 gCInfoManager_PS::HasImportantInfo
+; 2000ec23 Ordinal_4835

@@ -1,0 +1,91 @@
+/* ENTRY 200049a3 | gCNPC_PS::gCNPC_PS | STATUS decompiled | 79 ms */
+
+/* public: __thiscall gCNPC_PS::gCNPC_PS(class gCNPC_PS const &) */
+
+gCNPC_PS * __thiscall gCNPC_PS::gCNPC_PS(gCNPC_PS *this,gCNPC_PS *param_1)
+
+{
+  undefined ***pppuVar1;
+  
+                    /* 0x49a3  268  ??0gCNPC_PS@@QAE@ABV0@@Z */
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  this->vftablePtr = &vftable;
+  bCString::bCString((bCString *)&(this->gCNPC_PS_data).field_0x10);
+  bCString::bCString((bCString *)&(this->gCNPC_PS_data).field_0x14);
+  bCString::bCString((bCString *)&(this->gCNPC_PS_data).field_0x18);
+  pppuVar1 = &(this->gCNPC_PS_data).offset_0x24;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<gEGender>::vftable.GetVersion;
+  (this->gCNPC_PS_data).offset_0x28 = DAT_207c0928;
+  pppuVar1 = &(this->gCNPC_PS_data).offset_0x2c;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<gESpecies>::vftable.GetVersion;
+  (this->gCNPC_PS_data).offset_0x30 = DAT_207c092c;
+  pppuVar1 = &(this->gCNPC_PS_data).offset_0x34;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<gEPoliticalAlignment>::vftable.GetVersion;
+  (this->gCNPC_PS_data).offset_0x38 = DAT_207b7f08;
+  pppuVar1 = &(this->gCNPC_PS_data).offset_0x3c;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<gEClass>::vftable.GetVersion;
+  (this->gCNPC_PS_data).offset_0x40 = DAT_207c0930;
+  pppuVar1 = &(this->gCNPC_PS_data).offset_0x44;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<gENPCType>::vftable.GetVersion;
+  (this->gCNPC_PS_data).offset_0x48 = DAT_207c0934;
+  bCPropertyID::bCPropertyID((bCPropertyID *)&(this->gCNPC_PS_data).field_0x4c);
+  pppuVar1 = &(this->gCNPC_PS_data).offset_0x60;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<gEAttitude>::vftable.GetVersion;
+  (this->gCNPC_PS_data).offset_0x64 = DAT_207c0938;
+  pppuVar1 = &(this->gCNPC_PS_data).offset_0x68;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<gEPlayerCrime>::vftable.GetVersion;
+  (this->gCNPC_PS_data).offset_0x6c = DAT_207b7f0c;
+  pppuVar1 = &(this->gCNPC_PS_data).offset_0x70;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<gEAttackReason>::vftable.GetVersion;
+  (this->gCNPC_PS_data).offset_0x74 = DAT_207c093c;
+  pppuVar1 = &(this->gCNPC_PS_data).offset_0x78;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<gEAttackReason>::vftable.GetVersion;
+  (this->gCNPC_PS_data).offset_0x7c = DAT_207c093c;
+  pppuVar1 = &(this->gCNPC_PS_data).offset_0x80;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<gELastFightAgainstPlayer>::vftable.GetVersion;
+  (this->gCNPC_PS_data).offset_0x84 = DAT_207c0940;
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCNPC_PS_data).field_0x98);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCNPC_PS_data).field_0xb4);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCNPC_PS_data).field_0xd0);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCNPC_PS_data).field_0xec);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCNPC_PS_data).field_0x10c);
+  bCObjectBase::bCObjectBase((bCObjectBase *)&(this->gCNPC_PS_data).offset_0x128);
+  (this->gCNPC_PS_data).offset_0x128 = &bTPropertyContainer<gEGuardStatus>::vftable.GetVersion;
+  (this->gCNPC_PS_data).offset_0x12c = DAT_207bb2f4;
+  bCObjectBase::bCObjectBase((bCObjectBase *)&(this->gCNPC_PS_data).offset_0x134);
+  (this->gCNPC_PS_data).offset_0x134 = &bTPropertyContainer<gEBearing>::vftable.GetVersion;
+  (this->gCNPC_PS_data).offset_0x138 = DAT_207c0944;
+  (this->gCNPC_PS_data).offset_0x13c = 0;
+  (this->gCNPC_PS_data).offset_0x140 = 0;
+  (this->gCNPC_PS_data).offset_0x144 = 0;
+  (this->gCNPC_PS_data).offset_0x148 = 0;
+  (this->gCNPC_PS_data).offset_0x14c = 0;
+  (this->gCNPC_PS_data).offset_0x150 = 0;
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCNPC_PS_data).field_0x158);
+  bCString::bCString((bCString *)&(this->gCNPC_PS_data).field_0x174);
+  bCString::bCString((bCString *)&(this->gCNPC_PS_data).field_0x19c);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCNPC_PS_data).field_0x1a4);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCNPC_PS_data).field_0x1c0);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCNPC_PS_data).field_0x1dc);
+  (this->gCNPC_PS_data).offset_0x1a0 = 0;
+  (this->gCNPC_PS_data).offset_0x154 = 0;
+  (this->gCNPC_PS_data).offset_0x178 = 0;
+  (this->gCNPC_PS_data).offset_0x188 = 0;
+  (this->gCNPC_PS_data).offset_0x18c = 0;
+  (this->gCNPC_PS_data).offset_0x17c = 0;
+  (this->gCNPC_PS_data).offset_0x180 = 0;
+  (this->gCNPC_PS_data).offset_0x184 = 0;
+  return this;
+}
+
+

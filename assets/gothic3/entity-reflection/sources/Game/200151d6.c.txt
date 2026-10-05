@@ -1,0 +1,12 @@
+/* ENTRY 200151d6 | gCScriptRoutine_PS::GetVersion | STATUS decompiled | 5 ms */
+
+/* public: virtual unsigned short __thiscall gCScriptRoutine_PS::GetVersion(void)const  */
+
+ushort __thiscall gCScriptRoutine_PS::GetVersion(gCScriptRoutine_PS *this)
+
+{
+                    /* 0x151d6  4726  ?GetVersion@gCScriptRoutine_PS@@UBEGXZ */
+  return 1;
+}
+
+

@@ -1,0 +1,43 @@
+; 20237ad0 gCCharacterSensor_PS::gCCharacterSensor_PS
+20237ad0 | 53 | PUSH EBX
+20237ad1 | 55 | PUSH EBP
+20237ad2 | 56 | PUSH ESI
+20237ad3 | 57 | PUSH EDI
+20237ad4 | 8bf1 | MOV ESI,ECX
+20237ad6 | ff15f86d7d20 | CALL dword ptr [0x207d6df8]
+20237adc | 8d6e14 | LEA EBP,[ESI + 0x14]
+20237adf | 8bcd | MOV ECX,EBP
+20237ae1 | c706e4846820 | MOV dword ptr [ESI],0x206884e4
+20237ae7 | ff1534897d20 | CALL dword ptr [0x207d8934]
+20237aed | 8d5e20 | LEA EBX,[ESI + 0x20]
+20237af0 | 8bcb | MOV ECX,EBX
+20237af2 | ff1534897d20 | CALL dword ptr [0x207d8934]
+20237af8 | 8d4e2c | LEA ECX,[ESI + 0x2c]
+20237afb | ff1534897d20 | CALL dword ptr [0x207d8934]
+20237b01 | 8d7e44 | LEA EDI,[ESI + 0x44]
+20237b04 | 8bcf | MOV ECX,EDI
+20237b06 | ff1534897d20 | CALL dword ptr [0x207d8934]
+20237b0c | 8d4f0c | LEA ECX,[EDI + 0xc]
+20237b0f | ff1500857d20 | CALL dword ptr [0x207d8500]
+20237b15 | b001 | MOV AL,0x1
+20237b17 | 8bcd | MOV ECX,EBP
+20237b19 | c7463c00000000 | MOV dword ptr [ESI + 0x3c],0x0
+20237b20 | 884641 | MOV byte ptr [ESI + 0x41],AL
+20237b23 | 884638 | MOV byte ptr [ESI + 0x38],AL
+20237b26 | 884639 | MOV byte ptr [ESI + 0x39],AL
+20237b29 | ff1540867d20 | CALL dword ptr [0x207d8640]
+20237b2f | 8bcb | MOV ECX,EBX
+20237b31 | ff1540867d20 | CALL dword ptr [0x207d8640]
+20237b37 | 8d4e2c | LEA ECX,[ESI + 0x2c]
+20237b3a | ff1540867d20 | CALL dword ptr [0x207d8640]
+20237b40 | 8bcf | MOV ECX,EDI
+20237b42 | ff1540867d20 | CALL dword ptr [0x207d8640]
+20237b48 | 8d4f0c | LEA ECX,[EDI + 0xc]
+20237b4b | ff1538807d20 | CALL dword ptr [0x207d8038]
+20237b51 | 5f | POP EDI
+20237b52 | c6464000 | MOV byte ptr [ESI + 0x40],0x0
+20237b56 | 8bc6 | MOV EAX,ESI
+20237b58 | 5e | POP ESI
+20237b59 | 5d | POP EBP
+20237b5a | 5b | POP EBX
+20237b5b | c20400 | RET 0x4

@@ -1,0 +1,15 @@
+/* ENTRY 1000358f | Entity::operator= | STATUS decompiled | 2 ms */
+
+/* public: class Entity & __thiscall Entity::operator=(class Entity const &) */
+
+Entity * __thiscall Entity::operator=(Entity *this,Entity *param_1)
+
+{
+  Entity *extraout_ECX;
+  
+                    /* 0x358f  200  ??4Entity@@QAEAAV0@ABV0@@Z */
+  CopyFrom(this,param_1);
+  return extraout_ECX;
+}
+
+

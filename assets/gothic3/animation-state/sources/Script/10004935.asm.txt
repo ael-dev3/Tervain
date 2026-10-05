@@ -1,0 +1,2 @@
+; 10004935 ?FixAniDirection@Entity@@ABE_NW4gEAction@@W4gEPhase@@AAW4gEDirection@@@Z
+10004935 | e9a6b00200 | JMP 0x1002f9e0

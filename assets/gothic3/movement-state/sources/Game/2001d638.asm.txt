@@ -1,0 +1,4 @@
+; 2001d638 ?SetGoalPosition@gCCharacterMovement_PS@@QAEXABVbCVector@@_N1@Z
+2001d638 | e9a3902000 | JMP 0x202266e0
+; 2001d63d gCWorld::RestartWorld
+; 2001d63d Ordinal_6139

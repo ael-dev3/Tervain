@@ -1,0 +1,22 @@
+/* ENTRY 20317c20 | bTPropertyContainer<gEPartyMemberType>::bTPropertyContainer<gEPartyMemberType> | STATUS decompiled | 12 ms */
+
+bTPropertyContainer<gEPartyMemberType> * __thiscall
+bTPropertyContainer<gEPartyMemberType>::bTPropertyContainer<gEPartyMemberType>
+          (bTPropertyContainer<gEPartyMemberType> *this)
+
+{
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+                    /* inlined constructor: gCParty_PS::gCParty_PS */
+  this->vftablePtr = (bTPropertyContainer<gEPartyMemberType>_vftable *)&gCParty_PS::vftable;
+  eCEntityProxy::eCEntityProxy
+            ((eCEntityProxy *)&this[1].bTPropertyContainer<gEPartyMemberType>_data);
+  bCObjectBase::bCObjectBase((bCObjectBase *)(this + 3));
+  this[3].vftablePtr = &vftable;
+  this[3].bTPropertyContainer<gEPartyMemberType>_data.offset_0x0 = DAT_207c1414;
+  this[3].bTPropertyContainer<gEPartyMemberType>_data.offset_0x8 = (bCObjectBase *)0x0;
+  this[4].vftablePtr = (bTPropertyContainer<gEPartyMemberType>_vftable *)0x0;
+  this[4].bTPropertyContainer<gEPartyMemberType>_data.offset_0x0 = (undefined **)0x0;
+  return this;
+}
+
+

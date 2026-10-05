@@ -1,0 +1,4 @@
+; 3002467c ?IsLocked@eCPhysicsScene@@IAE_NXZ
+3002467c | e96f312f00 | JMP 0x303177f0
+; 30024681 eCParticle_PS::GetFaceInFactor
+; 30024681 Ordinal_7063

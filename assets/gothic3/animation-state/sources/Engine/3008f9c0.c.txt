@@ -1,0 +1,25 @@
+/* ENTRY 3008f9c0 | FUN_3008f9c0 | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined4 __fastcall FUN_3008f9c0(eCEngineComponentBase *param_1)
+
+{
+  eCAnimation_HardwareSkinner *this;
+  eCEngineComponentBase_vftable *peVar1;
+  
+  eCEngineComponentBase::Create(param_1);
+  this = (eCAnimation_HardwareSkinner *)new(0x28,0xea);
+  if (this != (eCAnimation_HardwareSkinner *)0x0) {
+    peVar1 = (eCEngineComponentBase_vftable *)
+             eCAnimation_HardwareSkinner::eCAnimation_HardwareSkinner(this);
+    param_1[1].vftablePtr = peVar1;
+    (**(code **)(peVar1->GetVersion + 0x18))();
+    return 1;
+  }
+  param_1[1].vftablePtr = (eCEngineComponentBase_vftable *)0x0;
+  (**(code **)(_DAT_00000000 + 0x18))();
+  return 1;
+}
+
+

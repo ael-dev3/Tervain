@@ -1,0 +1,74 @@
+/* ENTRY 305c9eb0 | FUN_305c9eb0 | STATUS decompiled | 42 ms */
+
+undefined4 __thiscall FUN_305c9eb0(int *param_1,bCString *param_2,uint param_3)
+
+{
+  bool bVar1;
+  uint uVar2;
+  int iVar3;
+  bCString *this;
+  bCString *pbVar4;
+  bCMessageAdmin *this_00;
+  char *pcVar5;
+  bEMessageTypes bVar6;
+  char *pcVar7;
+  char *pcVar8;
+  int iVar9;
+  undefined4 local_c;
+  bCString local_8 [4];
+  uint local_4;
+  
+  pbVar4 = param_2;
+  bVar1 = bCString::IsEmpty(param_2);
+  if (!bVar1) {
+    bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)&DAT_30af68bc);
+    if (param_3 < (uint)param_1[6]) {
+      bCString::bCString(local_8);
+      local_c = 0;
+      bCString::operator=(local_8,pbVar4);
+      local_4 = 0xffffffff;
+      uVar2 = thunk_FUN_305cad60(&local_c);
+      bCString::~bCString(local_8);
+      if (uVar2 < (uint)param_1[1]) {
+        if (*(uint *)(*param_1 + 8 + uVar2 * 0xc) == param_3) {
+          iVar3 = bCString::Find(pbVar4,'%',0,false);
+          if (iVar3 == -1) goto LAB_305c9fb7;
+        }
+        pcVar8 = "\'";
+        pcVar5 = "eCFilePathCache::InsertFileName: Filename not unique: \'";
+      }
+      else {
+        bCString::bCString(local_8);
+        local_c = 0;
+        bCString::operator=(local_8,pbVar4);
+        local_4 = param_3;
+        uVar2 = thunk_FUN_305cb640(&local_c);
+        bCString::~bCString(local_8);
+        if (uVar2 < (uint)param_1[1]) {
+LAB_305c9fb7:
+          bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30af68bc);
+          return 1;
+        }
+        pcVar8 = "\' to the internal file list";
+        pcVar5 = "eCFilePathCache::InsertFileName: Error on adding \'";
+      }
+      pcVar7 = (char *)&param_3;
+      iVar9 = 0;
+      iVar3 = 0;
+      this = (bCString *)operator+((char *)&param_2,(bCString *)pcVar5);
+      pbVar4 = (bCString *)bCString::operator+(this,(char *)pbVar4);
+      pcVar5 = bCString::operator_char_const_(pbVar4);
+      bVar6 = 3;
+      this_00 = bCMessageAdmin::GetInstance();
+      bCMessageAdmin::OnMessage(this_00,bVar6,pcVar5,pcVar7,pcVar8,iVar3,iVar9);
+      bCString::~bCString((bCString *)&stack0x00000000);
+      bCString::~bCString((bCString *)&local_4);
+      bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30af68bc);
+      return 0;
+    }
+    bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30af68bc);
+  }
+  return 0;
+}
+
+

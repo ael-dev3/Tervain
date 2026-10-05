@@ -1,0 +1,32 @@
+/* ENTRY 204ec530 | bTPropertyType<gCInventory_PS,bool>::~bTPropertyType<gCInventory_PS,bool> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCInventory_PS,bool>::~bTPropertyType<gCInventory_PS,bool>
+          (bTPropertyType<gCInventory_PS,bool> *this)
+
+{
+  bTPropertyType<gCInventory_PS,bool> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"GeneratedPlunder");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInventory_PS::ms_PropertyMember_m_bGeneratedPlunder,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_bGeneratedPlunder = &vftable;
+  DAT_207bb170 = bTPropertyObjectType<gCInventory_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCInventory_PS,eCEntityPropertySet>();
+  _DAT_207bb174 = 0x18;
+  _DAT_207bb178 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCInventory_PS::ms_PropertyMember_m_bGeneratedPlunder);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bb170,
+             (bCPropertyTypeBase *)&gCInventory_PS::ms_PropertyMember_m_bGeneratedPlunder);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}
+
+

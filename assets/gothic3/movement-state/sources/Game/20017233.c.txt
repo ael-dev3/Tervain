@@ -1,0 +1,23 @@
+/* ENTRY 20017233 | gCCharacterMovement_PS::CanWalkOnFloor | STATUS decompiled | 18 ms */
+
+/* public: bool __thiscall gCCharacterMovement_PS::CanWalkOnFloor(class bCVector const &)const  */
+
+bool __thiscall
+gCCharacterMovement_PS::CanWalkOnFloor(gCCharacterMovement_PS *this,bCVector *param_1)
+
+{
+  float fVar1;
+  bCVector *pbVar2;
+  float fVar3;
+  bCVector abStack_c [12];
+  
+                    /* 0x17233  2063  ?CanWalkOnFloor@gCCharacterMovement_PS@@QBE_NABVbCVector@@@Z
+                        */
+  pbVar2 = (bCVector *)bCVector::bCVector(abStack_c,0.0,1.0,0.0);
+  fVar3 = bCVector::GetAngleUnitDeg(param_1,pbVar2);
+  fVar1 = *(float *)&(this->gCCharacterMovement_PS_data).field_0x50;
+  bCVector::~bCVector(abStack_c);
+  return fVar3 <= fVar1;
+}
+
+

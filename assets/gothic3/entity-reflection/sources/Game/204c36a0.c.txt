@@ -1,0 +1,31 @@
+/* ENTRY 204c36a0 | bTPropertyType<gCEffect_PS,float>::~bTPropertyType<gCEffect_PS,float> | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCEffect_PS,float>::~bTPropertyType<gCEffect_PS,float>
+          (bTPropertyType<gCEffect_PS,float> *this)
+
+{
+  bTPropertyType<gCEffect_PS,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Probability");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCEffect_PS::ms_PropertyMember_m_fProbability,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_fProbability = &vftable;
+  DAT_207b7eb0 = bTPropertyObjectType<gCEffect_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCEffect_PS,eCEntityPropertySet>();
+  _DAT_207b7eb4 = 0x24;
+  _DAT_207b7eb8 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCEffect_PS::ms_PropertyMember_m_fProbability);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b7eb0,
+             (bCPropertyTypeBase *)&gCEffect_PS::ms_PropertyMember_m_fProbability);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}
+
+

@@ -1,0 +1,4 @@
+; 20012cc4 ?CopyFrom@gCClock_PS@@UAE?AW4bEResult@@ABVbCObjectBase@@@Z
+20012cc4 | e967511f00 | JMP 0x20207e30
+; 20012cc9 gCEffectModule::Process
+; 20012cc9 Ordinal_5829

@@ -1,0 +1,2 @@
+; 200106ef bTPropertyType<gCClock_PS,float>::vfunction13
+200106ef | e96ca61f00 | JMP 0x2020ad60

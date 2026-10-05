@@ -1,0 +1,99 @@
+; 3030f440 FUN_3030f440
+3030f440 | 53 | PUSH EBX
+3030f441 | 56 | PUSH ESI
+3030f442 | 57 | PUSH EDI
+3030f443 | 8bf1 | MOV ESI,ECX
+3030f445 | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+3030f44b | 8d4e0c | LEA ECX,[ESI + 0xc]
+3030f44e | ff15e8ccaf30 | CALL dword ptr [0x30afcce8]
+3030f454 | 8d4e1c | LEA ECX,[ESI + 0x1c]
+3030f457 | ff15f4d4af30 | CALL dword ptr [0x30afd4f4]
+3030f45d | 8d4e40 | LEA ECX,[ESI + 0x40]
+3030f460 | ff15a8cdaf30 | CALL dword ptr [0x30afcda8]
+3030f466 | 8d8e80000000 | LEA ECX,[ESI + 0x80]
+3030f46c | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+3030f472 | 8d8e8c000000 | LEA ECX,[ESI + 0x8c]
+3030f478 | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+3030f47e | 8d8e98000000 | LEA ECX,[ESI + 0x98]
+3030f484 | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+3030f48a | 8d8ea4000000 | LEA ECX,[ESI + 0xa4]
+3030f490 | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+3030f496 | 8d8eb0000000 | LEA ECX,[ESI + 0xb0]
+3030f49c | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+3030f4a2 | 8d8ebc000000 | LEA ECX,[ESI + 0xbc]
+3030f4a8 | ff1584cbaf30 | CALL dword ptr [0x30afcb84]
+3030f4ae | 33ff | XOR EDI,EDI
+3030f4b0 | 89bed0000000 | MOV dword ptr [ESI + 0xd0],EDI
+3030f4b6 | 89bed4000000 | MOV dword ptr [ESI + 0xd4],EDI
+3030f4bc | 89bed8000000 | MOV dword ptr [ESI + 0xd8],EDI
+3030f4c2 | 89bedc000000 | MOV dword ptr [ESI + 0xdc],EDI
+3030f4c8 | 89bee0000000 | MOV dword ptr [ESI + 0xe0],EDI
+3030f4ce | 89bee4000000 | MOV dword ptr [ESI + 0xe4],EDI
+3030f4d4 | 89bee8000000 | MOV dword ptr [ESI + 0xe8],EDI
+3030f4da | 89beec000000 | MOV dword ptr [ESI + 0xec],EDI
+3030f4e0 | 89bef0000000 | MOV dword ptr [ESI + 0xf0],EDI
+3030f4e6 | 89bef4000000 | MOV dword ptr [ESI + 0xf4],EDI
+3030f4ec | 89bef8000000 | MOV dword ptr [ESI + 0xf8],EDI
+3030f4f2 | 89befc000000 | MOV dword ptr [ESI + 0xfc],EDI
+3030f4f8 | 89be00010000 | MOV dword ptr [ESI + 0x100],EDI
+3030f4fe | 89be04010000 | MOV dword ptr [ESI + 0x104],EDI
+3030f504 | 89be08010000 | MOV dword ptr [ESI + 0x108],EDI
+3030f50a | 89be0c010000 | MOV dword ptr [ESI + 0x10c],EDI
+3030f510 | 89be10010000 | MOV dword ptr [ESI + 0x110],EDI
+3030f516 | 89be14010000 | MOV dword ptr [ESI + 0x114],EDI
+3030f51c | 89be18010000 | MOV dword ptr [ESI + 0x118],EDI
+3030f522 | 89be1c010000 | MOV dword ptr [ESI + 0x11c],EDI
+3030f528 | 89be20010000 | MOV dword ptr [ESI + 0x120],EDI
+3030f52e | 89be24010000 | MOV dword ptr [ESI + 0x124],EDI
+3030f534 | 89be28010000 | MOV dword ptr [ESI + 0x128],EDI
+3030f53a | 89be2c010000 | MOV dword ptr [ESI + 0x12c],EDI
+3030f540 | 89be30010000 | MOV dword ptr [ESI + 0x130],EDI
+3030f546 | 89be34010000 | MOV dword ptr [ESI + 0x134],EDI
+3030f54c | 89be38010000 | MOV dword ptr [ESI + 0x138],EDI
+3030f552 | 89be3c010000 | MOV dword ptr [ESI + 0x13c],EDI
+3030f558 | 89be40010000 | MOV dword ptr [ESI + 0x140],EDI
+3030f55e | 89be44010000 | MOV dword ptr [ESI + 0x144],EDI
+3030f564 | 89be48010000 | MOV dword ptr [ESI + 0x148],EDI
+3030f56a | 89be4c010000 | MOV dword ptr [ESI + 0x14c],EDI
+3030f570 | 89be50010000 | MOV dword ptr [ESI + 0x150],EDI
+3030f576 | 89be54010000 | MOV dword ptr [ESI + 0x154],EDI
+3030f57c | 89be58010000 | MOV dword ptr [ESI + 0x158],EDI
+3030f582 | 89be5c010000 | MOV dword ptr [ESI + 0x15c],EDI
+3030f588 | 89be60010000 | MOV dword ptr [ESI + 0x160],EDI
+3030f58e | 89be64010000 | MOV dword ptr [ESI + 0x164],EDI
+3030f594 | 89be68010000 | MOV dword ptr [ESI + 0x168],EDI
+3030f59a | 89be6c010000 | MOV dword ptr [ESI + 0x16c],EDI
+3030f5a0 | 89be70010000 | MOV dword ptr [ESI + 0x170],EDI
+3030f5a6 | 89be74010000 | MOV dword ptr [ESI + 0x174],EDI
+3030f5ac | 89be78010000 | MOV dword ptr [ESI + 0x178],EDI
+3030f5b2 | 89be7c010000 | MOV dword ptr [ESI + 0x17c],EDI
+3030f5b8 | 89be80010000 | MOV dword ptr [ESI + 0x180],EDI
+3030f5be | 89be84010000 | MOV dword ptr [ESI + 0x184],EDI
+3030f5c4 | 89be88010000 | MOV dword ptr [ESI + 0x188],EDI
+3030f5ca | 89be8c010000 | MOV dword ptr [ESI + 0x18c],EDI
+3030f5d0 | 89be90010000 | MOV dword ptr [ESI + 0x190],EDI
+3030f5d6 | 89be94010000 | MOV dword ptr [ESI + 0x194],EDI
+3030f5dc | 89be98010000 | MOV dword ptr [ESI + 0x198],EDI
+3030f5e2 | 89be9c010000 | MOV dword ptr [ESI + 0x19c],EDI
+3030f5e8 | 89bea0010000 | MOV dword ptr [ESI + 0x1a0],EDI
+3030f5ee | 89bea4010000 | MOV dword ptr [ESI + 0x1a4],EDI
+3030f5f4 | 89bea8010000 | MOV dword ptr [ESI + 0x1a8],EDI
+3030f5fa | 89beac010000 | MOV dword ptr [ESI + 0x1ac],EDI
+3030f600 | 89beb0010000 | MOV dword ptr [ESI + 0x1b0],EDI
+3030f606 | 8d9ed0010000 | LEA EBX,[ESI + 0x1d0]
+3030f60c | 6a40 | PUSH 0x40
+3030f60e | 8bcb | MOV ECX,EBX
+3030f610 | 89becc010000 | MOV dword ptr [ESI + 0x1cc],EDI
+3030f616 | 6689bec8010000 | MOV word ptr [ESI + 0x1c8],DI
+3030f61d | 6689beca010000 | MOV word ptr [ESI + 0x1ca],DI
+3030f624 | ff1560cdaf30 | CALL dword ptr [0x30afcd60]
+3030f62a | 6a40 | PUSH 0x40
+3030f62c | 8bcb | MOV ECX,EBX
+3030f62e | ff152cd5af30 | CALL dword ptr [0x30afd52c]
+3030f634 | 89beb8010000 | MOV dword ptr [ESI + 0x1b8],EDI
+3030f63a | 89beb4010000 | MOV dword ptr [ESI + 0x1b4],EDI
+3030f640 | 5f | POP EDI
+3030f641 | 8bc6 | MOV EAX,ESI
+3030f643 | 5e | POP ESI
+3030f644 | 5b | POP EBX
+3030f645 | c3 | RET

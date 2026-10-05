@@ -1,0 +1,2 @@
+; 2001e871 ??0gCInventory_PS@@QAE@ABV0@@Z
+2001e871 | e9daa71800 | JMP 0x201a9050

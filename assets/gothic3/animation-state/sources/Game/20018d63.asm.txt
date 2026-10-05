@@ -1,0 +1,2 @@
+; 20018d63 ?GetCurrentAniDirection@gCNavigation_PS@@QBE?AW4gEDirection@@XZ
+20018d63 | e908080300 | JMP 0x20049570

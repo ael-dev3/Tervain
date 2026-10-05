@@ -1,0 +1,4 @@
+; 20029749 ??0gCCharacterSensor_PS@@QAE@ABV0@@Z
+20029749 | e982e32000 | JMP 0x20237ad0
+; 2002974e gCDummyCollectorAdmin::OnViewLights
+; 2002974e Ordinal_5674

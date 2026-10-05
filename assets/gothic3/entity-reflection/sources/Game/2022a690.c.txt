@@ -1,0 +1,61 @@
+/* ENTRY 2022a690 | gCCharacterMovement_PS::gCCharacterMovement_PS | STATUS decompiled | 43 ms */
+
+gCCharacterMovement_PS * __thiscall
+gCCharacterMovement_PS::gCCharacterMovement_PS(gCCharacterMovement_PS *this)
+
+{
+  gCCharacterMovement_PS *pgVar1;
+  
+  gCMovementBase_PS::gCMovementBase_PS((gCMovementBase_PS *)this);
+  this->vftablePtr = &vftable;
+  bCVector::bCVector((bCVector *)&(this->gCCharacterMovement_PS_data).field_0xb4);
+  bCVector::bCVector((bCVector *)&(this->gCCharacterMovement_PS_data).field_0xc0);
+  bCVector::bCVector((bCVector *)&(this->gCCharacterMovement_PS_data).field_0xcc);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCCharacterMovement_PS_data).field_0xd8);
+  pgVar1 = &(this->gCCharacterMovement_PS_data).offset_0xf8;
+  *pgVar1 = (gCCharacterMovement_PS)((byte)*pgVar1 | 2);
+  bCVector::bCVector((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x10c);
+  bCVector::bCVector((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x118);
+  bCVector::bCVector((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x124);
+  bCVector::bCVector((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x130);
+  bCVector::bCVector((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x13c);
+  bCVector::bCVector((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x148);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCCharacterMovement_PS_data).field_0x17c);
+  bCMatrix::bCMatrix((bCMatrix *)&(this->gCCharacterMovement_PS_data).field_0x198);
+  bCMatrix::bCMatrix((bCMatrix *)&(this->gCCharacterMovement_PS_data).field_0x1d8);
+  bCVector::bCVector((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x230);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCCharacterMovement_PS_data).field_0x23c);
+  gCCharacterAnimation::gCCharacterAnimation
+            ((gCCharacterAnimation *)&(this->gCCharacterMovement_PS_data).field_0x264);
+  gCCharacterEffect::gCCharacterEffect
+            ((gCCharacterEffect *)&(this->gCCharacterMovement_PS_data).field_0x2a8);
+  bCVector::bCVector((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x2bc);
+  bCQuaternion::bCQuaternion((bCQuaternion *)&(this->gCCharacterMovement_PS_data).field_0x2c8);
+  bCVector::bCVector((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x2d8);
+  bCQuaternion::bCQuaternion((bCQuaternion *)&(this->gCCharacterMovement_PS_data).field_0x2e4);
+  (this->gCCharacterMovement_PS_data).offset_0x2f4 = (void *)0x0;
+  (this->gCCharacterMovement_PS_data).offset_0x2f8 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x2fc = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x300 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x304 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x308 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x30c = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x310 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x314 = 0;
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCCharacterMovement_PS_data).field_0x318);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCCharacterMovement_PS_data).field_0x334);
+  bCVector::bCVector((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x350);
+  bCVector::bCVector((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x35c);
+  bCQuaternion::bCQuaternion((bCQuaternion *)&(this->gCCharacterMovement_PS_data).field_0x368);
+  (this->gCCharacterMovement_PS_data).offset_0x3a4 = (void *)0x0;
+  (this->gCCharacterMovement_PS_data).offset_0x3a0 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x3a2 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x3ac = (void *)0x0;
+  (this->gCCharacterMovement_PS_data).offset_0x3a8 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x3aa = 0;
+  bCString::bCString((bCString *)&(this->gCCharacterMovement_PS_data).field_0x3d4);
+  Invalidate(this);
+  return this;
+}
+
+

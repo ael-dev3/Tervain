@@ -1,0 +1,15 @@
+/* ENTRY 2000ec1e | gCClock_PS::GetSaveGameRelevance | STATUS decompiled | 7 ms */
+
+/* public: virtual enum eCEntityPropertySet::eEPSSaveGameRelevance __thiscall
+   gCClock_PS::GetSaveGameRelevance(void)const  */
+
+eEPSSaveGameRelevance __thiscall gCClock_PS::GetSaveGameRelevance(gCClock_PS *this)
+
+{
+                    /* 0xec1e  4357
+                       ?GetSaveGameRelevance@gCClock_PS@@UBE?AW4eEPSSaveGameRelevance@eCEntityPropertySet@@XZ
+                        */
+  return 1;
+}
+
+

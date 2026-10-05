@@ -1,0 +1,23 @@
+/* ENTRY 1000128a | Entity::GetWorldEntity | STATUS decompiled | 11 ms */
+
+/* public: static class Entity __stdcall Entity::GetWorldEntity(void) */
+
+Entity * Entity::GetWorldEntity(void)
+
+{
+  gCWorld *this;
+  eCEntity *peVar1;
+  Entity *in_stack_00000004;
+  
+                    /* 0x128a  1705  ?GetWorldEntity@Entity@@SG?AV1@XZ */
+  this = gCWorld::GetCurrentWorld();
+  if (this == (gCWorld *)0x0) {
+    Entity(in_stack_00000004,(Entity *)&None);
+    return in_stack_00000004;
+  }
+  peVar1 = gCWorld::GetWorldEntity(this);
+  Entity(in_stack_00000004,peVar1);
+  return in_stack_00000004;
+}
+
+

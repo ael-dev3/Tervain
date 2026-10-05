@@ -1,0 +1,41 @@
+/* ENTRY 1002f7b0 | FUN_1002f7b0 | STATUS decompiled | 32 ms */
+
+char * FUN_1002f7b0(undefined4 param_1,char *param_2,bCString *param_3,int param_4,int param_5,
+                   int param_6,int param_7,bCString *param_8,int param_9,int param_10,int param_11)
+
+{
+  undefined4 uVar1;
+  undefined4 uVar2;
+  char *pcVar3;
+  char *pcVar4;
+  char *pcVar5;
+  char *pcVar6;
+  char *pcVar7;
+  char *pcVar8;
+  char *pcVar9;
+  bCString *this;
+  char *pcStack00000030;
+  
+  bCString::bCString((bCString *)&stack0xfffffffc,"00");
+  if (0 < param_11) {
+    bCString::Format(this,&stack0xfffffffc);
+  }
+  pcVar3 = bCString::operator_char_const_((bCString *)&stack0x00000000);
+  pcVar4 = bCString::operator_char_const_((bCString *)(&DAT_100b3a8c + param_11 * 4));
+  pcVar5 = bCString::operator_char_const_((bCString *)(&DAT_100b3a80 + param_10 * 4));
+  pcStack00000030 =
+       bCString::operator_char_const_((bCString *)(g_pstrPhaseString_exref + param_9 * 4));
+  pcVar6 = bCString::operator_char_const_(param_8);
+  pcVar7 = bCString::operator_char_const_((bCString *)(g_pstrPoseString_exref + param_7 * 4));
+  uVar1 = *(undefined4 *)(g_ppszUseTypes_exref + param_6 * 4);
+  uVar2 = *(undefined4 *)(g_ppszUseTypes_exref + param_5 * 4);
+  pcVar8 = bCString::operator_char_const_((bCString *)(g_pstrAniStateString_exref + param_4 * 4));
+  pcVar9 = bCString::operator_char_const_(param_3);
+  bCString::GetFormattedString
+            (param_2,"%s_%s_%s_%s_%s_%s_%s_%s_%s_%s_",pcVar9,pcVar8,uVar2,uVar1,pcVar7,pcVar6,
+             pcStack00000030,pcVar5,pcVar4,pcVar3);
+  bCString::~bCString((bCString *)&stack0x00000000);
+  return param_2;
+}
+
+

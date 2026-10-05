@@ -1,0 +1,29 @@
+/* ENTRY 3000e543 | eCWrapper_emfx2Actor::StopAtLoopEnd | STATUS decompiled | 6 ms */
+
+/* public: void __thiscall eCWrapper_emfx2Actor::StopAtLoopEnd(enum
+   eCWrapper_emfx2Actor::eEMotionType) */
+
+void __thiscall eCWrapper_emfx2Actor::StopAtLoopEnd(eCWrapper_emfx2Actor *this,eEMotionType param_1)
+
+{
+  int iVar1;
+  char cVar2;
+  
+                    /* 0xe543  14722  ?StopAtLoopEnd@eCWrapper_emfx2Actor@@QAEXW4eEMotionType@1@@Z
+                        */
+  if ((param_1 < 8) &&
+     (iVar1 = (&(this->eCWrapper_emfx2Actor_data).offset_0xc)[param_1], iVar1 != 0)) {
+    cVar2 = thunk_FUN_300e2c60(iVar1);
+    if (cVar2 == '\0') {
+      (&(this->eCWrapper_emfx2Actor_data).offset_0xc)[param_1] = 0;
+      return;
+    }
+    if (((*(int *)(iVar1 + 0x38) == -1) || (*(int *)(iVar1 + 0x34) < *(int *)(iVar1 + 0x38))) &&
+       (*(char *)(iVar1 + 0x54) == '\0')) {
+      *(int *)(iVar1 + 0x38) = *(int *)(iVar1 + 0x34) + 1;
+    }
+  }
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 2000cbdf ?GetVersion@gCFocus_PS@@UBEGXZ
+2000cbdf | e93ce51200 | JMP 0x2013b120

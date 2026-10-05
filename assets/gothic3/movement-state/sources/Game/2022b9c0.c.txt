@@ -1,0 +1,277 @@
+/* ENTRY 2022b9c0 | FUN_2022b9c0 | STATUS decompiled | 245 ms */
+
+undefined4 __thiscall FUN_2022b9c0(void *this,int param_2)
+
+{
+  byte bVar1;
+  bool bVar2;
+  int *piVar3;
+  undefined4 uVar4;
+  eCEntity *peVar5;
+  undefined4 *puVar6;
+  bCAccessorPropertyObject *pbVar7;
+  bCObjectRefBase *pbVar8;
+  bCString *pbVar9;
+  bCVector *pbVar10;
+  bCVector *pbVar11;
+  eCCollisionShape *this_00;
+  int iVar12;
+  float fVar13;
+  eEPropertySetType eVar14;
+  bool abStack_cd [4];
+  bool bStack_c9;
+  undefined4 uStack_c8;
+  bCObjectBase bStack_c4;
+  undefined4 *puStack_c0;
+  bCObjectBase bStack_bc;
+  undefined4 *puStack_b8;
+  bCObjectBase bStack_b4;
+  undefined4 *puStack_b0;
+  undefined8 uStack_ac;
+  int iStack_a0;
+  bCVector abStack_9c [4];
+  bCVector abStack_98 [4];
+  bCVector abStack_94 [4];
+  bCVector abStack_90 [4];
+  bCVector abStack_8c [12];
+  bCCapsule abStack_80 [4];
+  bCCapsule abStack_7c [120];
+  
+  if (*(int *)((int)this + 0x174) == 0) {
+    piVar3 = (int *)(**(code **)(*(int *)this + 0x68))();
+    uVar4 = (**(code **)(*piVar3 + 0xec))(0xd);
+    *(undefined4 *)((int)this + 0x170) = uVar4;
+    piVar3 = (int *)(**(code **)(*(int *)this + 0x68))();
+    uVar4 = (**(code **)(*piVar3 + 0xec))(0xe);
+    *(undefined4 *)((int)this + 0x174) = uVar4;
+    piVar3 = (int *)(**(code **)(*(int *)this + 0x68))();
+    uVar4 = (**(code **)(*piVar3 + 0xec))();
+    *(undefined4 *)((int)this + 0x178) = uVar4;
+    if (*(int *)((int)this + 0x174) == 0) {
+      return 0;
+    }
+  }
+  gCCharacterMovement_PS::CreateDependantShapes(this);
+  iVar12 = *(int *)((int)this + 0x100);
+  if ((((iVar12 != 0) && (iVar12 != 1)) && (param_2 != 0xd)) &&
+     (((iVar12 != 0xd && (param_2 != 0xe)) && (iVar12 != 0xe)))) {
+    if (0xb < iVar12) {
+      if (0xb < param_2) {
+        return 0;
+      }
+      if (0xb < iVar12) goto LAB_2022ba84;
+    }
+    if (param_2 < 0xc) {
+      return 0;
+    }
+  }
+LAB_2022ba84:
+  gCCharacterMovement_PS::CalcQuadrupedDistances(this);
+  (**(code **)(**(int **)((int)this + 0x174) + 0x184))(6);
+  eVar14 = 0x16;
+  peVar5 = (eCEntity *)(**(code **)(*(int *)this + 0x6c))();
+  bVar2 = eCEntity::HasPropertySet(peVar5,eVar14);
+  if (!bVar2) {
+    (**(code **)(**(int **)((int)this + 0x174) + 0x184))(0xc);
+  }
+  eVar14 = 0x16;
+  peVar5 = (eCEntity *)(**(code **)(*(int *)this + 0x6c))();
+  bVar2 = eCEntity::HasPropertySet(peVar5,eVar14);
+  if (((bVar2) || (*(char *)((int)this + 0x25d) == '\0')) ||
+     ((*(char *)((int)this + 0x25e) == '\x01' ||
+      ((*(char *)((int)this + 0x22e) == '\x01' || (0xb < *(int *)((int)this + 0x100))))))) {
+    bVar1 = 1;
+  }
+  else {
+    bVar1 = 0;
+  }
+  puVar6 = (undefined4 *)((-(uint)bVar1 & 0xfffffffa) + 0xc);
+  puStack_b0 = puVar6;
+  if (param_2 == 0xd) {
+    iVar12 = 0;
+    if (0 < *(int *)((int)this + 0x314)) {
+      do {
+        *(undefined1 *)(*(int *)(*(int *)((int)this + 0x310) + iVar12 * 4) + 0x44) = 0;
+        bCObjectBase::bCObjectBase(&bStack_bc);
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<eEShapeGroup> */
+        bStack_bc = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+        puStack_b8 = puVar6;
+        eCCollisionShape::SetGroup
+                  (*(eCCollisionShape **)(*(int *)((int)this + 0x310) + iVar12 * 4),
+                   (bTPropertyContainer<eEShapeGroup> *)&bStack_bc);
+        bStack_bc = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+        bCObjectBase::~bCObjectBase(&bStack_bc);
+        (**(code **)(**(int **)((int)this + 0x174) + 0x15c))
+                  (*(undefined4 *)(*(int *)((int)this + 0x310) + iVar12 * 4));
+        iVar12 = iVar12 + 1;
+      } while (iVar12 < *(int *)((int)this + 0x314));
+      return 1;
+    }
+  }
+  else if ((((param_2 == 6) || (0xc < param_2)) || (*(char *)((int)this + 0x14) == '\0')) ||
+          (gCCharacterMovement_PS::ms_bHeightCorr == false)) {
+    if ((param_2 != 0xe) && (iVar12 = 0, 0 < *(int *)((int)this + 0x308))) {
+      do {
+        *(undefined1 *)(*(int *)(*(int *)((int)this + 0x304) + iVar12 * 4) + 0x44) = 0;
+        bCObjectBase::bCObjectBase(&bStack_c4);
+        bStack_c4 = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+        puStack_c0 = puVar6;
+        eCCollisionShape::SetGroup
+                  (*(eCCollisionShape **)(*(int *)((int)this + 0x304) + iVar12 * 4),
+                   (bTPropertyContainer<eEShapeGroup> *)&bStack_c4);
+        bStack_c4 = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+        bCObjectBase::~bCObjectBase(&bStack_c4);
+        (**(code **)(**(int **)((int)this + 0x174) + 0x15c))
+                  (*(undefined4 *)(*(int *)((int)this + 0x304) + iVar12 * 4));
+        iVar12 = iVar12 + 1;
+      } while (iVar12 < *(int *)((int)this + 0x308));
+    }
+  }
+  else {
+    if (*(char *)((int)this + 0x16) == '\0') {
+      iStack_a0 = 0;
+      if (0 < *(int *)((int)this + 0x308)) {
+        do {
+          iVar12 = iStack_a0 * 4;
+          pbVar7 = (bCAccessorPropertyObject *)
+                   bCAccessorPropertyObject::bCAccessorPropertyObject
+                             ((bCAccessorPropertyObject *)&uStack_ac,
+                              *(bCObjectRefBase **)(*(int *)((int)this + 0x304) + iVar12));
+          bCAccessorPropertyObject::Clone(pbVar7);
+          bCAccessorPropertyObject::~bCAccessorPropertyObject
+                    ((bCAccessorPropertyObject *)&puStack_b0);
+          pbVar8 = bCAccessorPropertyObject::GetNativeObject((bCAccessorPropertyObject *)&iStack_a0)
+          ;
+          bCObjectBase::bCObjectBase((bCObjectBase *)&uStack_c8);
+          uStack_c8 = &bTPropertyContainer<eEShapeGroup>::vftable;
+          bStack_c4 = bStack_b4;
+          eCCollisionShape::SetGroup
+                    ((eCCollisionShape *)pbVar8,(bTPropertyContainer<eEShapeGroup> *)&uStack_c8);
+          uStack_c8 = &bTPropertyContainer<eEShapeGroup>::vftable;
+          bCObjectBase::~bCObjectBase((bCObjectBase *)&uStack_c8);
+          puStack_b8 = *(undefined4 **)((int)this + 0x1c);
+          fVar13 = eCCollisionShape::GetHeight
+                             (*(eCCollisionShape **)(*(int *)((int)this + 0x304) + iVar12));
+          if (fVar13 - (float)puStack_b8 < 0.001) {
+            peVar5 = (eCEntity *)(**(code **)(*(int *)this + 0x68))();
+            pbVar9 = eCEntity::GetName(peVar5);
+            GE_MESSAGEF_WARN("C: entity %s: heightcorrection of %f would create a degenerated movement shape, please change shape dims or change heightcorrection value!"
+                             ,*(undefined4 *)pbVar9,(double)(float)puStack_b8);
+            fVar13 = eCCollisionShape::GetHeight
+                               (*(eCCollisionShape **)(*(int *)((int)this + 0x304) + iVar12));
+            puStack_b8 = (undefined4 *)(fVar13 - 0.001);
+          }
+          fVar13 = eCCollisionShape::GetHeight
+                             (*(eCCollisionShape **)(*(int *)((int)this + 0x304) + iVar12));
+          uStack_ac = (double)CONCAT44(fVar13 - (float)puStack_b8,(undefined4)uStack_ac);
+          eCCollisionShape::SetHeight((eCCollisionShape *)pbVar8,fVar13 - (float)puStack_b8);
+          fVar13 = eCCollisionShape::GetHeight((eCCollisionShape *)pbVar8);
+          if (fVar13 < 0.001) {
+            eCCollisionShape::SetHeight((eCCollisionShape *)pbVar8,0.001);
+          }
+          puStack_c0 = (undefined4 *)(*(int *)((int)this + 0x304) + iVar12);
+          uStack_ac = (double)CONCAT44((float)puStack_b8 * 0.5,(undefined4)uStack_ac);
+          bCVector::bCVector(abStack_98,0.0,(float)puStack_b8 * 0.5,0.0);
+          pbVar11 = abStack_8c;
+          pbVar10 = eCCollisionShape::GetCenter((eCCollisionShape *)*puStack_c0);
+          pbVar11 = (bCVector *)bCVector::operator+(pbVar10,pbVar11);
+          eCCollisionShape::SetCenter((eCCollisionShape *)pbVar8,pbVar11);
+          bCVector::~bCVector(abStack_90);
+          bCVector::~bCVector(abStack_9c);
+          abStack_cd[0] = true;
+          eCCollisionShape::SetIsLazyGenerated((eCCollisionShape *)pbVar8,abStack_cd);
+          (**(code **)(**(int **)((int)this + 0x174) + 0x15c))(pbVar8);
+          bCAccessorPropertyObject::~bCAccessorPropertyObject
+                    ((bCAccessorPropertyObject *)abStack_9c);
+          iStack_a0 = iStack_a0 + 1;
+        } while (iStack_a0 < *(int *)((int)this + 0x308));
+      }
+    }
+    else {
+      iVar12 = 0;
+      if (0 < *(int *)((int)this + 0x308)) {
+        do {
+          pbVar7 = (bCAccessorPropertyObject *)
+                   bCAccessorPropertyObject::bCAccessorPropertyObject
+                             ((bCAccessorPropertyObject *)&uStack_ac,
+                              *(bCObjectRefBase **)(*(int *)((int)this + 0x304) + iVar12 * 4));
+          bCAccessorPropertyObject::Clone(pbVar7);
+          bCAccessorPropertyObject::~bCAccessorPropertyObject
+                    ((bCAccessorPropertyObject *)&puStack_b0);
+          pbVar8 = bCAccessorPropertyObject::GetNativeObject((bCAccessorPropertyObject *)&iStack_a0)
+          ;
+          bCObjectBase::bCObjectBase((bCObjectBase *)&uStack_c8);
+          bStack_c4 = bStack_b4;
+          uStack_c8 = &bTPropertyContainer<eEShapeGroup>::vftable;
+          eCCollisionShape::SetGroup
+                    ((eCCollisionShape *)pbVar8,(bTPropertyContainer<eEShapeGroup> *)&uStack_c8);
+          uStack_c8 = &bTPropertyContainer<eEShapeGroup>::vftable;
+          bCObjectBase::~bCObjectBase((bCObjectBase *)&uStack_c8);
+          bStack_c9 = true;
+          eCCollisionShape::SetIsLazyGenerated((eCCollisionShape *)pbVar8,&bStack_c9);
+          bCVector::bCVector(abStack_8c,0.0,*(float *)((int)this + 0x1c),0.0);
+          pbVar11 = abStack_98;
+          pbVar10 = eCCollisionShape::GetCenter((eCCollisionShape *)pbVar8);
+          pbVar11 = (bCVector *)bCVector::operator+(pbVar10,pbVar11);
+          eCCollisionShape::SetCenter((eCCollisionShape *)pbVar8,pbVar11);
+          bCVector::~bCVector(abStack_9c);
+          bCVector::~bCVector(abStack_90);
+          (**(code **)(**(int **)((int)this + 0x174) + 0x15c))(pbVar8);
+          bCAccessorPropertyObject::~bCAccessorPropertyObject
+                    ((bCAccessorPropertyObject *)abStack_9c);
+          iVar12 = iVar12 + 1;
+        } while (iVar12 < *(int *)((int)this + 0x308));
+      }
+    }
+    puVar6 = puStack_b0;
+    if (param_2 == 0xc) {
+      bCCapsule::bCCapsule(abStack_7c);
+      bCCapsule::SetRadius(abStack_7c,10.0);
+      uStack_ac = (double)*(float *)((int)this + 0x1c);
+      fVar13 = bCCapsule::GetRadius(abStack_7c);
+      bStack_bc = (bCObjectBase)((float)uStack_ac - (fVar13 + fVar13));
+      bCCapsule::SetHeight(abStack_7c,(float)bStack_bc);
+      fVar13 = bCCapsule::GetHeight(abStack_7c);
+      if (fVar13 <= 0.0001) {
+        bCCapsule::SetHeight(abStack_7c,0.0001);
+      }
+      fVar13 = bCCapsule::GetHeight(abStack_7c);
+      uStack_ac = (double)(fVar13 * 0.5);
+      fVar13 = bCCapsule::GetRadius(abStack_7c);
+      bStack_bc = (bCObjectBase)(fVar13 + (float)uStack_ac + 2.0);
+      pbVar11 = (bCVector *)bCVector::bCVector(abStack_94,0.0,(float)bStack_bc,0.0);
+      bCCapsule::SetCenter(abStack_7c,pbVar11);
+      bCVector::~bCVector(abStack_94);
+      this_00 = (eCCollisionShape *)thunk_FUN_20233f70();
+      eCCollisionShape::SetShape(this_00,abStack_7c);
+      bCObjectBase::bCObjectBase(&bStack_c4);
+      bStack_c4 = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+      puStack_c0 = puVar6;
+      eCCollisionShape::SetGroup(this_00,(bTPropertyContainer<eEShapeGroup> *)&bStack_c4);
+      bStack_c4 = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+      bCObjectBase::~bCObjectBase(&bStack_c4);
+      bCObjectBase::bCObjectBase(&bStack_c4);
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<eEShapeMaterial> */
+      bStack_c4 = (bCObjectBase)&bTPropertyContainer<eEShapeMaterial>::vftable;
+      puStack_c0 = (undefined4 *)0x6;
+      eCCollisionShape::SetMaterial(this_00,(bTPropertyContainer<eEShapeMaterial> *)&bStack_c4);
+      bStack_c4 = (bCObjectBase)&bTPropertyContainer<eEShapeMaterial>::vftable;
+      bCObjectBase::~bCObjectBase(&bStack_c4);
+      uStack_c8._3_1_ = 1;
+      eCCollisionShape::SetIsLazyGenerated(this_00,(bool *)((int)&uStack_c8 + 3));
+      uStack_c8._3_1_ = 1;
+      eCCollisionShape::SetIgnoredByTraceRay(this_00,(bool *)((int)&uStack_c8 + 3));
+      (**(code **)(**(int **)((int)this + 0x174) + 0x15c))(this_00);
+      if (this_00 != (eCCollisionShape *)0x0) {
+        (**(code **)(*(int *)this_00 + 0x24))();
+      }
+      bCCapsule::~bCCapsule(abStack_80);
+      return 1;
+    }
+  }
+  return 1;
+}
+
+

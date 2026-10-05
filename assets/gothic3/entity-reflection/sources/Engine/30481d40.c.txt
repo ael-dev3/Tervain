@@ -1,0 +1,16 @@
+/* ENTRY 30481d40 | eCEntityPropertySet::eCEntityPropertySet | STATUS decompiled | 8 ms */
+
+eCEntityPropertySet * __thiscall
+eCEntityPropertySet::eCEntityPropertySet(eCEntityPropertySet *this,byte param_1)
+
+{
+  this->vftablePtr = &vftable;
+  bCObjectRefBase::~bCObjectRefBase((bCObjectRefBase *)this);
+  if ((param_1 & 1) != 0) {
+                    /* WARNING: Subroutine does not return */
+    _free(this);
+  }
+  return this;
+}
+
+

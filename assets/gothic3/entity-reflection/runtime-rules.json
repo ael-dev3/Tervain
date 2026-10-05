@@ -1,0 +1,76 @@
+{
+  "schema": "gothic3-entity-reflection-rules-v1",
+  "inputs": {
+    "SharedBase": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
+    "Engine": "d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3",
+    "Game": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f"
+  },
+  "objectVersion": 83,
+  "propertyVersion": 30,
+  "clockVersion": 1,
+  "clockPropertyType": 32,
+  "clockWrapperVtable": "20685bc4",
+  "clockNativeVtable": "206858fc",
+  "clockFields": [
+    {
+      "name": "Year",
+      "nativeOffset": 20,
+      "typeName": "long",
+      "descriptor": "207bd3a0",
+      "registrar": "Game:204fc6c0",
+      "reader": "Game:2020a700"
+    },
+    {
+      "name": "Day",
+      "nativeOffset": 24,
+      "typeName": "long",
+      "descriptor": "207bd3c4",
+      "registrar": "Game:204fc760",
+      "reader": "Game:2020a700"
+    },
+    {
+      "name": "Hour",
+      "nativeOffset": 28,
+      "typeName": "long",
+      "descriptor": "207bd3e8",
+      "registrar": "Game:204fc800",
+      "reader": "Game:2020a700"
+    },
+    {
+      "name": "Minute",
+      "nativeOffset": 32,
+      "typeName": "long",
+      "descriptor": "207bd40c",
+      "registrar": "Game:204fc8a0",
+      "reader": "Game:2020a700"
+    },
+    {
+      "name": "Second",
+      "nativeOffset": 36,
+      "typeName": "long",
+      "descriptor": "207bd430",
+      "registrar": "Game:204fc940",
+      "reader": "Game:2020a700"
+    },
+    {
+      "name": "Factor",
+      "nativeOffset": 40,
+      "typeName": "float",
+      "descriptor": "207bd454",
+      "registrar": "Game:204fc9e0",
+      "reader": "Game:2020afa0"
+    }
+  ],
+  "clockRegistryInitializer": {
+    "address": "205b770c",
+    "bytes": "60c64f20c0c64f2060c74f2000c84f20a0c84f2040c94f20e0c94f20"
+  },
+  "inheritedEntityPropertyTableEmpty": true,
+  "supportedProfile": "successful-allocation; canonical bool; ASCII names; nonpanic creator cleanup; finite float32; detached Clock construction",
+  "unresolved": [
+    "Other native property-set clone/constructor/default/Create/Read effects",
+    "Obsolete/mismatched property lazy descriptor/critical section branch",
+    "Last wrapper release deleting destructor and memory admin deletion",
+    "Full entity context load/template patch/world residency"
+  ]
+}

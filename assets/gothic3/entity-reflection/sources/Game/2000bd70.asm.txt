@@ -1,0 +1,4 @@
+; 2000bd70 ?Read@gCDamageReceiver_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+2000bd70 | e92be10a00 | JMP 0x200b9ea0
+; 2000bd75 gCEffectCommandTriggerEntity::GetEntityIndex
+; 2000bd75 Ordinal_3362

@@ -1,0 +1,3384 @@
+{
+  "schema": "gothic3-native-animation-rules-v1",
+  "tables": {
+    "actions": [
+      "None",
+      "Attack",
+      "PowerAttack",
+      "QuickAttack",
+      "QuickAttackR",
+      "QuickAttackL",
+      "WhirlAttack",
+      "WhirlAttack",
+      "PierceAttack",
+      "JumpAttack",
+      "RamAttack",
+      "FinishingAttack",
+      "FinishingAttack",
+      "Parade",
+      "ParadeR",
+      "ParadeL",
+      "ExitParade",
+      "QuickParadeStumble",
+      "ParadeStumble",
+      "ParadeStumbleR",
+      "ParadeStumbleL",
+      "HeavyParadeStumble",
+      "QuickStumble",
+      "Stumble",
+      "StumbleR",
+      "StumbleL",
+      "SitKnockDown",
+      "GetUpAttack",
+      "GetUpParade",
+      "LieKnockDown",
+      "LieKnockOut",
+      "PierceStumble",
+      "Die",
+      "LieDead",
+      "LiePiercedKO",
+      "LiePiercedDead",
+      "AbortAttack",
+      "Aim",
+      "Shoot",
+      "Reload",
+      "Cock",
+      "Cast",
+      "PowerCast",
+      "MagicParade",
+      "QuickCast",
+      "Summon",
+      "Heal",
+      "Wait",
+      "JumpBack",
+      "Fwd",
+      "Back",
+      "Left",
+      "Right",
+      "Move",
+      "Jump",
+      "Evade",
+      "Slide",
+      "Fall",
+      "Dive",
+      "",
+      "Use",
+      "Equip",
+      "Reach",
+      "Take",
+      "Drop",
+      "Hold",
+      "HoldLeft",
+      "HoldRight",
+      "Transfer",
+      "FlameSword",
+      "Fry",
+      "Eat",
+      "Drink",
+      "Stand",
+      "Sneak",
+      "Kneel",
+      "SitGround",
+      "SitStool",
+      "SitBench",
+      "SitThrone",
+      "SleepBed",
+      "SleepGround",
+      "OrcDrum",
+      "Waterpipe",
+      "Anvil",
+      "OrcAnvil",
+      "Forge",
+      "CoolWeapon",
+      "DrinkWaterBarrel",
+      "GrindStone",
+      "Cauldron",
+      "Barbecue",
+      "Alchemy",
+      "Bookstand",
+      "Stoneplate",
+      "PickOre",
+      "OpenChest",
+      "Lockpick",
+      "OpenDoor",
+      "ExitInteract",
+      "PickGround",
+      "DigGround",
+      "Repair",
+      "SawLog",
+      "Lumberjack",
+      "RakeField",
+      "CleanFloor",
+      "TiltOrcBoulder",
+      "HoldOrcBoulder",
+      "LiftOrcBoulder",
+      "Fan",
+      "Dance",
+      "OrcDance",
+      "FieldWork",
+      "EatGround",
+      "DrinkWater",
+      "ArmsCrossed",
+      "HandsOnHips",
+      "Warn",
+      "Ambient",
+      "Think",
+      "Pee",
+      "Say",
+      "Listen",
+      "WatchFight",
+      "Cheer",
+      "SuperCheer",
+      "Applaud",
+      "QuickUse0",
+      "QuickUse1",
+      "QuickUse2",
+      "QuickUse3",
+      "QuickUse4",
+      "QuickUse5",
+      "QuickUse6",
+      "QuickUse7",
+      "QuickUse8",
+      "QuickUse9"
+    ],
+    "phases": [
+      "Raise",
+      "Hit",
+      "Aim",
+      "Recover",
+      "Begin",
+      "Loop",
+      "End",
+      "Full",
+      "Walk",
+      "Run",
+      "Sprint",
+      "Far",
+      "Stand",
+      "StrafeL",
+      "StrafeR",
+      "Turn90",
+      "Ambient",
+      "Proud",
+      "Approve",
+      "Thoughtful",
+      "Angry",
+      "Threaten",
+      "Nervous",
+      "Point",
+      "Preach",
+      "Beg",
+      "Sad",
+      ""
+    ],
+    "poses": [
+      "None",
+      "P0",
+      "P1",
+      "P2",
+      "P3",
+      "P00",
+      "P01",
+      "P02",
+      "P03",
+      "P10",
+      "P11",
+      "P12",
+      "P13",
+      "P20",
+      "P21",
+      "P22",
+      "P23",
+      "P30",
+      "P31",
+      "P32",
+      "P33",
+      "P40",
+      "P50",
+      "P60",
+      "P70"
+    ],
+    "aniStates": [
+      "Dummy0",
+      "Dummy1",
+      "Stand",
+      "Sneak",
+      "Parade",
+      "Kneel",
+      "SitGround",
+      "SitStool",
+      "SitBench",
+      "SitThrone",
+      "SleepBed",
+      "SleepGround",
+      "TiltOrcBoulder",
+      "HoldOrcBoulder",
+      "LiftOrcBoulder",
+      "SitKnockDown",
+      "LieKnockDown",
+      "LieKnockOut",
+      "LieStraightDead",
+      "LieDead",
+      "LiePiercedKO",
+      "LiePiercedDead",
+      "TalkStand",
+      "TalkSitGround",
+      "TalkSitStool",
+      "TalkSitBench",
+      "TalkSitThrone",
+      "Wade",
+      "Swim",
+      "Dive"
+    ],
+    "overlays": [
+      "N",
+      "O",
+      "I"
+    ],
+    "directions": [
+      "None",
+      "Fwd",
+      "Back",
+      "Left",
+      "Right",
+      "FwdLeft",
+      "FwdRight",
+      "BackLeft",
+      "BackRight"
+    ],
+    "useTypes": [
+      "None",
+      "Action",
+      "1H",
+      "2H",
+      "Arrow",
+      "Bow",
+      "CrossBow",
+      "Bolt",
+      "Fist",
+      "Shield",
+      "Armor",
+      "Helmet",
+      "Staff",
+      "Amulet",
+      "Ring",
+      "Cast",
+      "Potion",
+      "Bread",
+      "Meat",
+      "Fruit",
+      "Bread",
+      "Potion",
+      "Cup",
+      "Bowl",
+      "Torch",
+      "Alarmhorn",
+      "Staff",
+      "Block",
+      "Lute",
+      "Staff",
+      "TrophyTeeth",
+      "Valuable",
+      "Smoke",
+      "OrcPipe",
+      "Tool",
+      "Tool",
+      "Staff",
+      "Tool",
+      "Staff",
+      "Tool",
+      "Tool",
+      "TrophySkin",
+      "Letter",
+      "Letter",
+      "Letter",
+      "Key",
+      "Key",
+      "CarryFront",
+      "CarryShoulder",
+      "2H",
+      "TrophyFur",
+      "Staff",
+      "2H",
+      "ITEM_E",
+      "Modify",
+      "Fist",
+      "ITEM_H"
+    ]
+  },
+  "tableEvidence": {
+    "actions": [
+      {
+        "address": "206787f0",
+        "bytes": "4e6f6e6500",
+        "text": "None",
+        "slotAddress": "207cc4c0",
+        "constructorCall": {
+          "address": "20522a21",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2067e7d0",
+        "bytes": "41747461636b00",
+        "text": "Attack",
+        "slotAddress": "207cc4c4",
+        "constructorCall": {
+          "address": "20522a2d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e9b4",
+        "bytes": "506f77657241747461636b00",
+        "text": "PowerAttack",
+        "slotAddress": "207cc4c8",
+        "constructorCall": {
+          "address": "20522a39",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e9a4",
+        "bytes": "517569636b41747461636b00",
+        "text": "QuickAttack",
+        "slotAddress": "207cc4cc",
+        "constructorCall": {
+          "address": "20522a45",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e994",
+        "bytes": "517569636b41747461636b5200",
+        "text": "QuickAttackR",
+        "slotAddress": "207cc4d0",
+        "constructorCall": {
+          "address": "20522a51",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e984",
+        "bytes": "517569636b41747461636b4c00",
+        "text": "QuickAttackL",
+        "slotAddress": "207cc4d4",
+        "constructorCall": {
+          "address": "20522a5d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e974",
+        "bytes": "576869726c41747461636b00",
+        "text": "WhirlAttack",
+        "slotAddress": "207cc4d8",
+        "constructorCall": {
+          "address": "20522a69",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e974",
+        "bytes": "576869726c41747461636b00",
+        "text": "WhirlAttack",
+        "slotAddress": "207cc4dc",
+        "constructorCall": {
+          "address": "20522a75",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e964",
+        "bytes": "50696572636541747461636b00",
+        "text": "PierceAttack",
+        "slotAddress": "207cc4e0",
+        "constructorCall": {
+          "address": "20522a81",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e954",
+        "bytes": "4a756d7041747461636b00",
+        "text": "JumpAttack",
+        "slotAddress": "207cc4e4",
+        "constructorCall": {
+          "address": "20522a8d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e948",
+        "bytes": "52616d41747461636b00",
+        "text": "RamAttack",
+        "slotAddress": "207cc4e8",
+        "constructorCall": {
+          "address": "20522a99",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e934",
+        "bytes": "46696e697368696e6741747461636b00",
+        "text": "FinishingAttack",
+        "slotAddress": "207cc4ec",
+        "constructorCall": {
+          "address": "20522aa5",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e934",
+        "bytes": "46696e697368696e6741747461636b00",
+        "text": "FinishingAttack",
+        "slotAddress": "207cc4f0",
+        "constructorCall": {
+          "address": "20522ab1",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e92c",
+        "bytes": "50617261646500",
+        "text": "Parade",
+        "slotAddress": "207cc4f4",
+        "constructorCall": {
+          "address": "20522abd",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e920",
+        "bytes": "5061726164655200",
+        "text": "ParadeR",
+        "slotAddress": "207cc4f8",
+        "constructorCall": {
+          "address": "20522ac9",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e914",
+        "bytes": "5061726164654c00",
+        "text": "ParadeL",
+        "slotAddress": "207cc4fc",
+        "constructorCall": {
+          "address": "20522ad5",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e904",
+        "bytes": "4578697450617261646500",
+        "text": "ExitParade",
+        "slotAddress": "207cc500",
+        "constructorCall": {
+          "address": "20522ae1",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e8ec",
+        "bytes": "517569636b5061726164655374756d626c6500",
+        "text": "QuickParadeStumble",
+        "slotAddress": "207cc504",
+        "constructorCall": {
+          "address": "20522aed",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e8dc",
+        "bytes": "5061726164655374756d626c6500",
+        "text": "ParadeStumble",
+        "slotAddress": "207cc508",
+        "constructorCall": {
+          "address": "20522af9",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e8c8",
+        "bytes": "5061726164655374756d626c655200",
+        "text": "ParadeStumbleR",
+        "slotAddress": "207cc50c",
+        "constructorCall": {
+          "address": "20522b05",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e8b4",
+        "bytes": "5061726164655374756d626c654c00",
+        "text": "ParadeStumbleL",
+        "slotAddress": "207cc510",
+        "constructorCall": {
+          "address": "20522b11",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e89c",
+        "bytes": "48656176795061726164655374756d626c6500",
+        "text": "HeavyParadeStumble",
+        "slotAddress": "207cc514",
+        "constructorCall": {
+          "address": "20522b1d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e88c",
+        "bytes": "517569636b5374756d626c6500",
+        "text": "QuickStumble",
+        "slotAddress": "207cc518",
+        "constructorCall": {
+          "address": "20522b29",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e880",
+        "bytes": "5374756d626c6500",
+        "text": "Stumble",
+        "slotAddress": "207cc51c",
+        "constructorCall": {
+          "address": "20522b35",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e874",
+        "bytes": "5374756d626c655200",
+        "text": "StumbleR",
+        "slotAddress": "207cc520",
+        "constructorCall": {
+          "address": "20522b41",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e868",
+        "bytes": "5374756d626c654c00",
+        "text": "StumbleL",
+        "slotAddress": "207cc524",
+        "constructorCall": {
+          "address": "20522b4d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e858",
+        "bytes": "5369744b6e6f636b446f776e00",
+        "text": "SitKnockDown",
+        "slotAddress": "207cc528",
+        "constructorCall": {
+          "address": "20522b59",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e848",
+        "bytes": "476574557041747461636b00",
+        "text": "GetUpAttack",
+        "slotAddress": "207cc52c",
+        "constructorCall": {
+          "address": "20522b65",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e838",
+        "bytes": "476574557050617261646500",
+        "text": "GetUpParade",
+        "slotAddress": "207cc530",
+        "constructorCall": {
+          "address": "20522b71",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e828",
+        "bytes": "4c69654b6e6f636b446f776e00",
+        "text": "LieKnockDown",
+        "slotAddress": "207cc534",
+        "constructorCall": {
+          "address": "20522b7d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e818",
+        "bytes": "4c69654b6e6f636b4f757400",
+        "text": "LieKnockOut",
+        "slotAddress": "207cc538",
+        "constructorCall": {
+          "address": "20522b89",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e808",
+        "bytes": "5069657263655374756d626c6500",
+        "text": "PierceStumble",
+        "slotAddress": "207cc53c",
+        "constructorCall": {
+          "address": "20522b95",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e804",
+        "bytes": "44696500",
+        "text": "Die",
+        "slotAddress": "207cc540",
+        "constructorCall": {
+          "address": "20522ba1",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e7f8",
+        "bytes": "4c69654465616400",
+        "text": "LieDead",
+        "slotAddress": "207cc544",
+        "constructorCall": {
+          "address": "20522bad",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e7e8",
+        "bytes": "4c6965506965726365644b4f00",
+        "text": "LiePiercedKO",
+        "slotAddress": "207cc548",
+        "constructorCall": {
+          "address": "20522bb9",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e7d4",
+        "bytes": "4c6965506965726365644465616400",
+        "text": "LiePiercedDead",
+        "slotAddress": "207cc54c",
+        "constructorCall": {
+          "address": "20522bc5",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e7c4",
+        "bytes": "41626f727441747461636b00",
+        "text": "AbortAttack",
+        "slotAddress": "207cc550",
+        "constructorCall": {
+          "address": "20522bd1",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e7c0",
+        "bytes": "41696d00",
+        "text": "Aim",
+        "slotAddress": "207cc554",
+        "constructorCall": {
+          "address": "20522bdd",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e7b8",
+        "bytes": "53686f6f7400",
+        "text": "Shoot",
+        "slotAddress": "207cc558",
+        "constructorCall": {
+          "address": "20522be9",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e7b0",
+        "bytes": "52656c6f616400",
+        "text": "Reload",
+        "slotAddress": "207cc55c",
+        "constructorCall": {
+          "address": "20522bf5",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e7a8",
+        "bytes": "436f636b00",
+        "text": "Cock",
+        "slotAddress": "207cc560",
+        "constructorCall": {
+          "address": "20522c01",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e7a0",
+        "bytes": "4361737400",
+        "text": "Cast",
+        "slotAddress": "207cc564",
+        "constructorCall": {
+          "address": "20522c0d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e794",
+        "bytes": "506f7765724361737400",
+        "text": "PowerCast",
+        "slotAddress": "207cc568",
+        "constructorCall": {
+          "address": "20522c19",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e784",
+        "bytes": "4d6167696350617261646500",
+        "text": "MagicParade",
+        "slotAddress": "207cc56c",
+        "constructorCall": {
+          "address": "20522c25",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e778",
+        "bytes": "517569636b4361737400",
+        "text": "QuickCast",
+        "slotAddress": "207cc570",
+        "constructorCall": {
+          "address": "20522c31",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e770",
+        "bytes": "53756d6d6f6e00",
+        "text": "Summon",
+        "slotAddress": "207cc574",
+        "constructorCall": {
+          "address": "20522c3d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e768",
+        "bytes": "4865616c00",
+        "text": "Heal",
+        "slotAddress": "207cc578",
+        "constructorCall": {
+          "address": "20522c49",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e760",
+        "bytes": "5761697400",
+        "text": "Wait",
+        "slotAddress": "207cc57c",
+        "constructorCall": {
+          "address": "20522c55",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e754",
+        "bytes": "4a756d704261636b00",
+        "text": "JumpBack",
+        "slotAddress": "207cc580",
+        "constructorCall": {
+          "address": "20522c61",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e2a4",
+        "bytes": "46776400",
+        "text": "Fwd",
+        "slotAddress": "207cc584",
+        "constructorCall": {
+          "address": "20522c6d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e29c",
+        "bytes": "4261636b00",
+        "text": "Back",
+        "slotAddress": "207cc588",
+        "constructorCall": {
+          "address": "20522c79",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e28c",
+        "bytes": "4c65667400",
+        "text": "Left",
+        "slotAddress": "207cc58c",
+        "constructorCall": {
+          "address": "20522c85",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e294",
+        "bytes": "526967687400",
+        "text": "Right",
+        "slotAddress": "207cc590",
+        "constructorCall": {
+          "address": "20522c91",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e74c",
+        "bytes": "4d6f766500",
+        "text": "Move",
+        "slotAddress": "207cc594",
+        "constructorCall": {
+          "address": "20522c9d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e744",
+        "bytes": "4a756d7000",
+        "text": "Jump",
+        "slotAddress": "207cc598",
+        "constructorCall": {
+          "address": "20522ca9",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e73c",
+        "bytes": "457661646500",
+        "text": "Evade",
+        "slotAddress": "207cc59c",
+        "constructorCall": {
+          "address": "20522cb5",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e734",
+        "bytes": "536c69646500",
+        "text": "Slide",
+        "slotAddress": "207cc5a0",
+        "constructorCall": {
+          "address": "20522cc1",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2065bf44",
+        "bytes": "46616c6c00",
+        "text": "Fall",
+        "slotAddress": "207cc5a4",
+        "constructorCall": {
+          "address": "20522ccd",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2065bf5c",
+        "bytes": "4469766500",
+        "text": "Dive",
+        "slotAddress": "207cc5a8",
+        "constructorCall": {
+          "address": "20522cd9",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "20657107",
+        "bytes": "00",
+        "text": "",
+        "slotAddress": "207cc5ac",
+        "constructorCall": {
+          "address": "20522ce5",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e730",
+        "bytes": "55736500",
+        "text": "Use",
+        "slotAddress": "207cc5b0",
+        "constructorCall": {
+          "address": "20522cf1",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e728",
+        "bytes": "457175697000",
+        "text": "Equip",
+        "slotAddress": "207cc5b4",
+        "constructorCall": {
+          "address": "20522cfd",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e720",
+        "bytes": "526561636800",
+        "text": "Reach",
+        "slotAddress": "207cc5b8",
+        "constructorCall": {
+          "address": "20522d09",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e718",
+        "bytes": "54616b6500",
+        "text": "Take",
+        "slotAddress": "207cc5bc",
+        "constructorCall": {
+          "address": "20522d15",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e710",
+        "bytes": "44726f7000",
+        "text": "Drop",
+        "slotAddress": "207cc5c0",
+        "constructorCall": {
+          "address": "20522d21",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e708",
+        "bytes": "486f6c6400",
+        "text": "Hold",
+        "slotAddress": "207cc5c4",
+        "constructorCall": {
+          "address": "20522d2d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e6fc",
+        "bytes": "486f6c644c65667400",
+        "text": "HoldLeft",
+        "slotAddress": "207cc5c8",
+        "constructorCall": {
+          "address": "20522d39",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e6f0",
+        "bytes": "486f6c64526967687400",
+        "text": "HoldRight",
+        "slotAddress": "207cc5cc",
+        "constructorCall": {
+          "address": "20522d45",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e6e4",
+        "bytes": "5472616e7366657200",
+        "text": "Transfer",
+        "slotAddress": "207cc5d0",
+        "constructorCall": {
+          "address": "20522d51",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e6d4",
+        "bytes": "466c616d6553776f726400",
+        "text": "FlameSword",
+        "slotAddress": "207cc5d4",
+        "constructorCall": {
+          "address": "20522d5d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e6d0",
+        "bytes": "46727900",
+        "text": "Fry",
+        "slotAddress": "207cc5d8",
+        "constructorCall": {
+          "address": "20522d69",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e6cc",
+        "bytes": "45617400",
+        "text": "Eat",
+        "slotAddress": "207cc5dc",
+        "constructorCall": {
+          "address": "20522d75",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e6c4",
+        "bytes": "4472696e6b00",
+        "text": "Drink",
+        "slotAddress": "207cc5e0",
+        "constructorCall": {
+          "address": "20522d81",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e6bc",
+        "bytes": "5374616e6400",
+        "text": "Stand",
+        "slotAddress": "207cc5e4",
+        "constructorCall": {
+          "address": "20522d8d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e6b4",
+        "bytes": "536e65616b00",
+        "text": "Sneak",
+        "slotAddress": "207cc5e8",
+        "constructorCall": {
+          "address": "20522d99",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e6ac",
+        "bytes": "4b6e65656c00",
+        "text": "Kneel",
+        "slotAddress": "207cc5ec",
+        "constructorCall": {
+          "address": "20522da5",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e6a0",
+        "bytes": "53697447726f756e6400",
+        "text": "SitGround",
+        "slotAddress": "207cc5f0",
+        "constructorCall": {
+          "address": "20522db1",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e694",
+        "bytes": "53697453746f6f6c00",
+        "text": "SitStool",
+        "slotAddress": "207cc5f4",
+        "constructorCall": {
+          "address": "20522dbd",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e688",
+        "bytes": "53697442656e636800",
+        "text": "SitBench",
+        "slotAddress": "207cc5f8",
+        "constructorCall": {
+          "address": "20522dc9",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e67c",
+        "bytes": "5369745468726f6e6500",
+        "text": "SitThrone",
+        "slotAddress": "207cc5fc",
+        "constructorCall": {
+          "address": "20522dd5",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e670",
+        "bytes": "536c65657042656400",
+        "text": "SleepBed",
+        "slotAddress": "207cc600",
+        "constructorCall": {
+          "address": "20522de1",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e660",
+        "bytes": "536c65657047726f756e6400",
+        "text": "SleepGround",
+        "slotAddress": "207cc604",
+        "constructorCall": {
+          "address": "20522ded",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e654",
+        "bytes": "4f72634472756d00",
+        "text": "OrcDrum",
+        "slotAddress": "207cc608",
+        "constructorCall": {
+          "address": "20522df9",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e648",
+        "bytes": "57617465727069706500",
+        "text": "Waterpipe",
+        "slotAddress": "207cc60c",
+        "constructorCall": {
+          "address": "20522e05",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e640",
+        "bytes": "416e76696c00",
+        "text": "Anvil",
+        "slotAddress": "207cc610",
+        "constructorCall": {
+          "address": "20522e11",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e634",
+        "bytes": "4f7263416e76696c00",
+        "text": "OrcAnvil",
+        "slotAddress": "207cc614",
+        "constructorCall": {
+          "address": "20522e1d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e62c",
+        "bytes": "466f72676500",
+        "text": "Forge",
+        "slotAddress": "207cc618",
+        "constructorCall": {
+          "address": "20522e29",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e61c",
+        "bytes": "436f6f6c576561706f6e00",
+        "text": "CoolWeapon",
+        "slotAddress": "207cc61c",
+        "constructorCall": {
+          "address": "20522e35",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e608",
+        "bytes": "4472696e6b576174657242617272656c00",
+        "text": "DrinkWaterBarrel",
+        "slotAddress": "207cc620",
+        "constructorCall": {
+          "address": "20522e41",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e5f8",
+        "bytes": "4772696e6453746f6e6500",
+        "text": "GrindStone",
+        "slotAddress": "207cc624",
+        "constructorCall": {
+          "address": "20522e4d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e5ec",
+        "bytes": "4361756c64726f6e00",
+        "text": "Cauldron",
+        "slotAddress": "207cc628",
+        "constructorCall": {
+          "address": "20522e59",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e5e0",
+        "bytes": "426172626563756500",
+        "text": "Barbecue",
+        "slotAddress": "207cc62c",
+        "constructorCall": {
+          "address": "20522e65",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e5d4",
+        "bytes": "416c6368656d7900",
+        "text": "Alchemy",
+        "slotAddress": "207cc630",
+        "constructorCall": {
+          "address": "20522e71",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e5c8",
+        "bytes": "426f6f6b7374616e6400",
+        "text": "Bookstand",
+        "slotAddress": "207cc634",
+        "constructorCall": {
+          "address": "20522e7d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e5b8",
+        "bytes": "53746f6e65706c61746500",
+        "text": "Stoneplate",
+        "slotAddress": "207cc638",
+        "constructorCall": {
+          "address": "20522e89",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e5ac",
+        "bytes": "5069636b4f726500",
+        "text": "PickOre",
+        "slotAddress": "207cc63c",
+        "constructorCall": {
+          "address": "20522e95",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e5a0",
+        "bytes": "4f70656e436865737400",
+        "text": "OpenChest",
+        "slotAddress": "207cc640",
+        "constructorCall": {
+          "address": "20522ea1",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e594",
+        "bytes": "4c6f636b7069636b00",
+        "text": "Lockpick",
+        "slotAddress": "207cc644",
+        "constructorCall": {
+          "address": "20522ead",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e588",
+        "bytes": "4f70656e446f6f7200",
+        "text": "OpenDoor",
+        "slotAddress": "207cc648",
+        "constructorCall": {
+          "address": "20522eb9",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e578",
+        "bytes": "45786974496e74657261637400",
+        "text": "ExitInteract",
+        "slotAddress": "207cc64c",
+        "constructorCall": {
+          "address": "20522ec5",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e568",
+        "bytes": "5069636b47726f756e6400",
+        "text": "PickGround",
+        "slotAddress": "207cc650",
+        "constructorCall": {
+          "address": "20522ed1",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e55c",
+        "bytes": "44696747726f756e6400",
+        "text": "DigGround",
+        "slotAddress": "207cc654",
+        "constructorCall": {
+          "address": "20522edd",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e554",
+        "bytes": "52657061697200",
+        "text": "Repair",
+        "slotAddress": "207cc658",
+        "constructorCall": {
+          "address": "20522ee9",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e54c",
+        "bytes": "5361774c6f6700",
+        "text": "SawLog",
+        "slotAddress": "207cc65c",
+        "constructorCall": {
+          "address": "20522ef5",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e53c",
+        "bytes": "4c756d6265726a61636b00",
+        "text": "Lumberjack",
+        "slotAddress": "207cc660",
+        "constructorCall": {
+          "address": "20522f01",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e530",
+        "bytes": "52616b654669656c6400",
+        "text": "RakeField",
+        "slotAddress": "207cc664",
+        "constructorCall": {
+          "address": "20522f0d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e520",
+        "bytes": "436c65616e466c6f6f7200",
+        "text": "CleanFloor",
+        "slotAddress": "207cc668",
+        "constructorCall": {
+          "address": "20522f19",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e50c",
+        "bytes": "54696c744f7263426f756c64657200",
+        "text": "TiltOrcBoulder",
+        "slotAddress": "207cc66c",
+        "constructorCall": {
+          "address": "20522f25",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e4f8",
+        "bytes": "486f6c644f7263426f756c64657200",
+        "text": "HoldOrcBoulder",
+        "slotAddress": "207cc670",
+        "constructorCall": {
+          "address": "20522f31",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e4e4",
+        "bytes": "4c6966744f7263426f756c64657200",
+        "text": "LiftOrcBoulder",
+        "slotAddress": "207cc674",
+        "constructorCall": {
+          "address": "20522f3d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e4e0",
+        "bytes": "46616e00",
+        "text": "Fan",
+        "slotAddress": "207cc678",
+        "constructorCall": {
+          "address": "20522f49",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e4d8",
+        "bytes": "44616e636500",
+        "text": "Dance",
+        "slotAddress": "207cc67c",
+        "constructorCall": {
+          "address": "20522f55",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e4cc",
+        "bytes": "4f726344616e636500",
+        "text": "OrcDance",
+        "slotAddress": "207cc680",
+        "constructorCall": {
+          "address": "20522f61",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e4c0",
+        "bytes": "4669656c64576f726b00",
+        "text": "FieldWork",
+        "slotAddress": "207cc684",
+        "constructorCall": {
+          "address": "20522f6d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e4b4",
+        "bytes": "45617447726f756e6400",
+        "text": "EatGround",
+        "slotAddress": "207cc688",
+        "constructorCall": {
+          "address": "20522f79",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e4a4",
+        "bytes": "4472696e6b576174657200",
+        "text": "DrinkWater",
+        "slotAddress": "207cc68c",
+        "constructorCall": {
+          "address": "20522f85",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e494",
+        "bytes": "41726d7343726f7373656400",
+        "text": "ArmsCrossed",
+        "slotAddress": "207cc690",
+        "constructorCall": {
+          "address": "20522f91",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e484",
+        "bytes": "48616e64734f6e4869707300",
+        "text": "HandsOnHips",
+        "slotAddress": "207cc694",
+        "constructorCall": {
+          "address": "20522f9d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e47c",
+        "bytes": "5761726e00",
+        "text": "Warn",
+        "slotAddress": "207cc698",
+        "constructorCall": {
+          "address": "20522fa9",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e3b4",
+        "bytes": "416d6269656e7400",
+        "text": "Ambient",
+        "slotAddress": "207cc69c",
+        "constructorCall": {
+          "address": "20522fb5",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e474",
+        "bytes": "5468696e6b00",
+        "text": "Think",
+        "slotAddress": "207cc6a0",
+        "constructorCall": {
+          "address": "20522fc1",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e470",
+        "bytes": "50656500",
+        "text": "Pee",
+        "slotAddress": "207cc6a4",
+        "constructorCall": {
+          "address": "20522fcd",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e46c",
+        "bytes": "53617900",
+        "text": "Say",
+        "slotAddress": "207cc6a8",
+        "constructorCall": {
+          "address": "20522fd9",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e3ac",
+        "bytes": "4c697374656e00",
+        "text": "Listen",
+        "slotAddress": "207cc6ac",
+        "constructorCall": {
+          "address": "20522fe5",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e45c",
+        "bytes": "5761746368466967687400",
+        "text": "WatchFight",
+        "slotAddress": "207cc6b0",
+        "constructorCall": {
+          "address": "20522ff1",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e454",
+        "bytes": "436865657200",
+        "text": "Cheer",
+        "slotAddress": "207cc6b4",
+        "constructorCall": {
+          "address": "20522ffd",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e444",
+        "bytes": "5375706572436865657200",
+        "text": "SuperCheer",
+        "slotAddress": "207cc6b8",
+        "constructorCall": {
+          "address": "20523009",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e438",
+        "bytes": "4170706c61756400",
+        "text": "Applaud",
+        "slotAddress": "207cc6bc",
+        "constructorCall": {
+          "address": "20523015",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e42c",
+        "bytes": "517569636b5573653000",
+        "text": "QuickUse0",
+        "slotAddress": "207cc6c0",
+        "constructorCall": {
+          "address": "20523021",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e420",
+        "bytes": "517569636b5573653100",
+        "text": "QuickUse1",
+        "slotAddress": "207cc6c4",
+        "constructorCall": {
+          "address": "2052302d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e414",
+        "bytes": "517569636b5573653200",
+        "text": "QuickUse2",
+        "slotAddress": "207cc6c8",
+        "constructorCall": {
+          "address": "20523039",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e408",
+        "bytes": "517569636b5573653300",
+        "text": "QuickUse3",
+        "slotAddress": "207cc6cc",
+        "constructorCall": {
+          "address": "20523045",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e3fc",
+        "bytes": "517569636b5573653400",
+        "text": "QuickUse4",
+        "slotAddress": "207cc6d0",
+        "constructorCall": {
+          "address": "20523051",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e3f0",
+        "bytes": "517569636b5573653500",
+        "text": "QuickUse5",
+        "slotAddress": "207cc6d4",
+        "constructorCall": {
+          "address": "2052305d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e3e4",
+        "bytes": "517569636b5573653600",
+        "text": "QuickUse6",
+        "slotAddress": "207cc6d8",
+        "constructorCall": {
+          "address": "20523069",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e3d8",
+        "bytes": "517569636b5573653700",
+        "text": "QuickUse7",
+        "slotAddress": "207cc6dc",
+        "constructorCall": {
+          "address": "20523075",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e3cc",
+        "bytes": "517569636b5573653800",
+        "text": "QuickUse8",
+        "slotAddress": "207cc6e0",
+        "constructorCall": {
+          "address": "20523081",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e3c0",
+        "bytes": "517569636b5573653900",
+        "text": "QuickUse9",
+        "slotAddress": "207cc6e4",
+        "constructorCall": {
+          "address": "2052308d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      }
+    ],
+    "phases": [
+      {
+        "address": "2069e3a4",
+        "bytes": "526169736500",
+        "text": "Raise",
+        "slotAddress": "207cc6e8",
+        "constructorCall": {
+          "address": "20523261",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e278",
+        "bytes": "48697400",
+        "text": "Hit",
+        "slotAddress": "207cc6ec",
+        "constructorCall": {
+          "address": "2052326d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e7c0",
+        "bytes": "41696d00",
+        "text": "Aim",
+        "slotAddress": "207cc6f0",
+        "constructorCall": {
+          "address": "20523279",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "20695254",
+        "bytes": "5265636f76657200",
+        "text": "Recover",
+        "slotAddress": "207cc6f4",
+        "constructorCall": {
+          "address": "20523285",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "20688de4",
+        "bytes": "426567696e00",
+        "text": "Begin",
+        "slotAddress": "207cc6f8",
+        "constructorCall": {
+          "address": "20523291",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea5c",
+        "bytes": "4c6f6f7000",
+        "text": "Loop",
+        "slotAddress": "207cc6fc",
+        "constructorCall": {
+          "address": "2052329d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea58",
+        "bytes": "456e6400",
+        "text": "End",
+        "slotAddress": "207cc700",
+        "constructorCall": {
+          "address": "205232a9",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea50",
+        "bytes": "46756c6c00",
+        "text": "Full",
+        "slotAddress": "207cc704",
+        "constructorCall": {
+          "address": "205232b5",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea48",
+        "bytes": "57616c6b00",
+        "text": "Walk",
+        "slotAddress": "207cc708",
+        "constructorCall": {
+          "address": "205232c1",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea44",
+        "bytes": "52756e00",
+        "text": "Run",
+        "slotAddress": "207cc70c",
+        "constructorCall": {
+          "address": "205232cd",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea3c",
+        "bytes": "537072696e7400",
+        "text": "Sprint",
+        "slotAddress": "207cc710",
+        "constructorCall": {
+          "address": "205232d9",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea38",
+        "bytes": "46617200",
+        "text": "Far",
+        "slotAddress": "207cc714",
+        "constructorCall": {
+          "address": "205232e5",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e6bc",
+        "bytes": "5374616e6400",
+        "text": "Stand",
+        "slotAddress": "207cc718",
+        "constructorCall": {
+          "address": "205232f1",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea2c",
+        "bytes": "5374726166654c00",
+        "text": "StrafeL",
+        "slotAddress": "207cc71c",
+        "constructorCall": {
+          "address": "205232fd",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea20",
+        "bytes": "5374726166655200",
+        "text": "StrafeR",
+        "slotAddress": "207cc720",
+        "constructorCall": {
+          "address": "20523309",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea18",
+        "bytes": "5475726e393000",
+        "text": "Turn90",
+        "slotAddress": "207cc724",
+        "constructorCall": {
+          "address": "20523315",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e3b4",
+        "bytes": "416d6269656e7400",
+        "text": "Ambient",
+        "slotAddress": "207cc728",
+        "constructorCall": {
+          "address": "20523321",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea10",
+        "bytes": "50726f756400",
+        "text": "Proud",
+        "slotAddress": "207cc72c",
+        "constructorCall": {
+          "address": "2052332d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea04",
+        "bytes": "417070726f766500",
+        "text": "Approve",
+        "slotAddress": "207cc730",
+        "constructorCall": {
+          "address": "20523339",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e9f4",
+        "bytes": "54686f7567687466756c00",
+        "text": "Thoughtful",
+        "slotAddress": "207cc734",
+        "constructorCall": {
+          "address": "20523345",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e9ec",
+        "bytes": "416e67727900",
+        "text": "Angry",
+        "slotAddress": "207cc738",
+        "constructorCall": {
+          "address": "20523351",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e9e0",
+        "bytes": "546872656174656e00",
+        "text": "Threaten",
+        "slotAddress": "207cc73c",
+        "constructorCall": {
+          "address": "2052335d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e9d4",
+        "bytes": "4e6572766f757300",
+        "text": "Nervous",
+        "slotAddress": "207cc740",
+        "constructorCall": {
+          "address": "20523369",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "20658cf0",
+        "bytes": "506f696e7400",
+        "text": "Point",
+        "slotAddress": "207cc744",
+        "constructorCall": {
+          "address": "20523375",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e9cc",
+        "bytes": "50726561636800",
+        "text": "Preach",
+        "slotAddress": "207cc748",
+        "constructorCall": {
+          "address": "20523381",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e9c8",
+        "bytes": "42656700",
+        "text": "Beg",
+        "slotAddress": "207cc74c",
+        "constructorCall": {
+          "address": "2052338d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e9c4",
+        "bytes": "53616400",
+        "text": "Sad",
+        "slotAddress": "207cc750",
+        "constructorCall": {
+          "address": "20523399",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "text": "",
+        "defaultConstructor": true,
+        "slotAddress": "207cc754",
+        "constructorCall": {
+          "address": "205233a0",
+          "bytes": "ff1528897d20",
+          "assembly": "CALL dword ptr [0x207d8928]"
+        }
+      }
+    ],
+    "poses": [
+      {
+        "address": "206787f0",
+        "bytes": "4e6f6e6500",
+        "text": "None",
+        "slotAddress": "207cc758",
+        "constructorCall": {
+          "address": "20523421",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e1d4",
+        "bytes": "503000",
+        "text": "P0",
+        "slotAddress": "207cc75c",
+        "constructorCall": {
+          "address": "2052342d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069eabc",
+        "bytes": "503100",
+        "text": "P1",
+        "slotAddress": "207cc760",
+        "constructorCall": {
+          "address": "20523439",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069eab8",
+        "bytes": "503200",
+        "text": "P2",
+        "slotAddress": "207cc764",
+        "constructorCall": {
+          "address": "20523445",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069eab4",
+        "bytes": "503300",
+        "text": "P3",
+        "slotAddress": "207cc768",
+        "constructorCall": {
+          "address": "20523451",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069eab0",
+        "bytes": "50303000",
+        "text": "P00",
+        "slotAddress": "207cc76c",
+        "constructorCall": {
+          "address": "2052345d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069eaac",
+        "bytes": "50303100",
+        "text": "P01",
+        "slotAddress": "207cc770",
+        "constructorCall": {
+          "address": "20523469",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069eaa8",
+        "bytes": "50303200",
+        "text": "P02",
+        "slotAddress": "207cc774",
+        "constructorCall": {
+          "address": "20523475",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069eaa4",
+        "bytes": "50303300",
+        "text": "P03",
+        "slotAddress": "207cc778",
+        "constructorCall": {
+          "address": "20523481",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069eaa0",
+        "bytes": "50313000",
+        "text": "P10",
+        "slotAddress": "207cc77c",
+        "constructorCall": {
+          "address": "2052348d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea9c",
+        "bytes": "50313100",
+        "text": "P11",
+        "slotAddress": "207cc780",
+        "constructorCall": {
+          "address": "20523499",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea98",
+        "bytes": "50313200",
+        "text": "P12",
+        "slotAddress": "207cc784",
+        "constructorCall": {
+          "address": "205234a5",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea94",
+        "bytes": "50313300",
+        "text": "P13",
+        "slotAddress": "207cc788",
+        "constructorCall": {
+          "address": "205234b1",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea90",
+        "bytes": "50323000",
+        "text": "P20",
+        "slotAddress": "207cc78c",
+        "constructorCall": {
+          "address": "205234bd",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea8c",
+        "bytes": "50323100",
+        "text": "P21",
+        "slotAddress": "207cc790",
+        "constructorCall": {
+          "address": "205234c9",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea88",
+        "bytes": "50323200",
+        "text": "P22",
+        "slotAddress": "207cc794",
+        "constructorCall": {
+          "address": "205234d5",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea84",
+        "bytes": "50323300",
+        "text": "P23",
+        "slotAddress": "207cc798",
+        "constructorCall": {
+          "address": "205234e1",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea80",
+        "bytes": "50333000",
+        "text": "P30",
+        "slotAddress": "207cc79c",
+        "constructorCall": {
+          "address": "205234ed",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea7c",
+        "bytes": "50333100",
+        "text": "P31",
+        "slotAddress": "207cc7a0",
+        "constructorCall": {
+          "address": "205234f9",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea78",
+        "bytes": "50333200",
+        "text": "P32",
+        "slotAddress": "207cc7a4",
+        "constructorCall": {
+          "address": "20523505",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea74",
+        "bytes": "50333300",
+        "text": "P33",
+        "slotAddress": "207cc7a8",
+        "constructorCall": {
+          "address": "20523511",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea70",
+        "bytes": "50343000",
+        "text": "P40",
+        "slotAddress": "207cc7ac",
+        "constructorCall": {
+          "address": "2052351d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea6c",
+        "bytes": "50353000",
+        "text": "P50",
+        "slotAddress": "207cc7b0",
+        "constructorCall": {
+          "address": "20523529",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea68",
+        "bytes": "50363000",
+        "text": "P60",
+        "slotAddress": "207cc7b4",
+        "constructorCall": {
+          "address": "20523535",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ea64",
+        "bytes": "50373000",
+        "text": "P70",
+        "slotAddress": "207cc7b8",
+        "constructorCall": {
+          "address": "20523541",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      }
+    ],
+    "aniStates": [
+      {
+        "address": "2069eb30",
+        "bytes": "44756d6d793000",
+        "text": "Dummy0",
+        "slotAddress": "207cc7c8",
+        "constructorCall": {
+          "address": "205235c1",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069eb28",
+        "bytes": "44756d6d793100",
+        "text": "Dummy1",
+        "slotAddress": "207cc7cc",
+        "constructorCall": {
+          "address": "205235cd",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e6bc",
+        "bytes": "5374616e6400",
+        "text": "Stand",
+        "slotAddress": "207cc7d0",
+        "constructorCall": {
+          "address": "205235d9",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e6b4",
+        "bytes": "536e65616b00",
+        "text": "Sneak",
+        "slotAddress": "207cc7d4",
+        "constructorCall": {
+          "address": "205235e5",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e92c",
+        "bytes": "50617261646500",
+        "text": "Parade",
+        "slotAddress": "207cc7d8",
+        "constructorCall": {
+          "address": "205235f1",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e6ac",
+        "bytes": "4b6e65656c00",
+        "text": "Kneel",
+        "slotAddress": "207cc7dc",
+        "constructorCall": {
+          "address": "205235fd",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e6a0",
+        "bytes": "53697447726f756e6400",
+        "text": "SitGround",
+        "slotAddress": "207cc7e0",
+        "constructorCall": {
+          "address": "20523609",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e694",
+        "bytes": "53697453746f6f6c00",
+        "text": "SitStool",
+        "slotAddress": "207cc7e4",
+        "constructorCall": {
+          "address": "20523615",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e688",
+        "bytes": "53697442656e636800",
+        "text": "SitBench",
+        "slotAddress": "207cc7e8",
+        "constructorCall": {
+          "address": "20523621",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e67c",
+        "bytes": "5369745468726f6e6500",
+        "text": "SitThrone",
+        "slotAddress": "207cc7ec",
+        "constructorCall": {
+          "address": "2052362d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e670",
+        "bytes": "536c65657042656400",
+        "text": "SleepBed",
+        "slotAddress": "207cc7f0",
+        "constructorCall": {
+          "address": "20523639",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e660",
+        "bytes": "536c65657047726f756e6400",
+        "text": "SleepGround",
+        "slotAddress": "207cc7f4",
+        "constructorCall": {
+          "address": "20523645",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e50c",
+        "bytes": "54696c744f7263426f756c64657200",
+        "text": "TiltOrcBoulder",
+        "slotAddress": "207cc7f8",
+        "constructorCall": {
+          "address": "20523651",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e4f8",
+        "bytes": "486f6c644f7263426f756c64657200",
+        "text": "HoldOrcBoulder",
+        "slotAddress": "207cc7fc",
+        "constructorCall": {
+          "address": "2052365d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e4e4",
+        "bytes": "4c6966744f7263426f756c64657200",
+        "text": "LiftOrcBoulder",
+        "slotAddress": "207cc800",
+        "constructorCall": {
+          "address": "20523669",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e858",
+        "bytes": "5369744b6e6f636b446f776e00",
+        "text": "SitKnockDown",
+        "slotAddress": "207cc804",
+        "constructorCall": {
+          "address": "20523675",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e828",
+        "bytes": "4c69654b6e6f636b446f776e00",
+        "text": "LieKnockDown",
+        "slotAddress": "207cc808",
+        "constructorCall": {
+          "address": "20523681",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e818",
+        "bytes": "4c69654b6e6f636b4f757400",
+        "text": "LieKnockOut",
+        "slotAddress": "207cc80c",
+        "constructorCall": {
+          "address": "2052368d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069eb14",
+        "bytes": "4c696553747261696768744465616400",
+        "text": "LieStraightDead",
+        "slotAddress": "207cc810",
+        "constructorCall": {
+          "address": "20523699",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e7f8",
+        "bytes": "4c69654465616400",
+        "text": "LieDead",
+        "slotAddress": "207cc814",
+        "constructorCall": {
+          "address": "205236a5",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e7e8",
+        "bytes": "4c6965506965726365644b4f00",
+        "text": "LiePiercedKO",
+        "slotAddress": "207cc818",
+        "constructorCall": {
+          "address": "205236b1",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069e7d4",
+        "bytes": "4c6965506965726365644465616400",
+        "text": "LiePiercedDead",
+        "slotAddress": "207cc81c",
+        "constructorCall": {
+          "address": "205236bd",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069eb08",
+        "bytes": "54616c6b5374616e6400",
+        "text": "TalkStand",
+        "slotAddress": "207cc820",
+        "constructorCall": {
+          "address": "205236c9",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069eaf8",
+        "bytes": "54616c6b53697447726f756e6400",
+        "text": "TalkSitGround",
+        "slotAddress": "207cc824",
+        "constructorCall": {
+          "address": "205236d5",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069eae8",
+        "bytes": "54616c6b53697453746f6f6c00",
+        "text": "TalkSitStool",
+        "slotAddress": "207cc828",
+        "constructorCall": {
+          "address": "205236e1",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069ead8",
+        "bytes": "54616c6b53697442656e636800",
+        "text": "TalkSitBench",
+        "slotAddress": "207cc82c",
+        "constructorCall": {
+          "address": "205236ed",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069eac8",
+        "bytes": "54616c6b5369745468726f6e6500",
+        "text": "TalkSitThrone",
+        "slotAddress": "207cc830",
+        "constructorCall": {
+          "address": "205236f9",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2069eac0",
+        "bytes": "5761646500",
+        "text": "Wade",
+        "slotAddress": "207cc834",
+        "constructorCall": {
+          "address": "20523705",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2065bf64",
+        "bytes": "5377696d00",
+        "text": "Swim",
+        "slotAddress": "207cc838",
+        "constructorCall": {
+          "address": "20523711",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "2065bf5c",
+        "bytes": "4469766500",
+        "text": "Dive",
+        "slotAddress": "207cc83c",
+        "constructorCall": {
+          "address": "2052371d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      }
+    ],
+    "overlays": [
+      {
+        "address": "10083098",
+        "bytes": "4e00",
+        "text": "N",
+        "slotAddress": "100b3a80",
+        "constructorCall": {
+          "address": "10074ce1",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "10083094",
+        "bytes": "4f00",
+        "text": "O",
+        "slotAddress": "100b3a84",
+        "constructorCall": {
+          "address": "10074ced",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "10083090",
+        "bytes": "4900",
+        "text": "I",
+        "slotAddress": "100b3a88",
+        "constructorCall": {
+          "address": "10074cf9",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      }
+    ],
+    "directions": [
+      {
+        "address": "100830e8",
+        "bytes": "4e6f6e6500",
+        "text": "None",
+        "slotAddress": "100b3a8c",
+        "constructorCall": {
+          "address": "10074d31",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "100830e4",
+        "bytes": "46776400",
+        "text": "Fwd",
+        "slotAddress": "100b3a90",
+        "constructorCall": {
+          "address": "10074d3d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "100830dc",
+        "bytes": "4261636b00",
+        "text": "Back",
+        "slotAddress": "100b3a94",
+        "constructorCall": {
+          "address": "10074d49",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "100830d4",
+        "bytes": "4c65667400",
+        "text": "Left",
+        "slotAddress": "100b3a98",
+        "constructorCall": {
+          "address": "10074d55",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "100830cc",
+        "bytes": "526967687400",
+        "text": "Right",
+        "slotAddress": "100b3a9c",
+        "constructorCall": {
+          "address": "10074d61",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "100830c0",
+        "bytes": "4677644c65667400",
+        "text": "FwdLeft",
+        "slotAddress": "100b3aa0",
+        "constructorCall": {
+          "address": "10074d6d",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "100830b4",
+        "bytes": "467764526967687400",
+        "text": "FwdRight",
+        "slotAddress": "100b3aa4",
+        "constructorCall": {
+          "address": "10074d79",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "100830a8",
+        "bytes": "4261636b4c65667400",
+        "text": "BackLeft",
+        "slotAddress": "100b3aa8",
+        "constructorCall": {
+          "address": "10074d85",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      },
+      {
+        "address": "1008309c",
+        "bytes": "4261636b526967687400",
+        "text": "BackRight",
+        "slotAddress": "100b3aac",
+        "constructorCall": {
+          "address": "10074d91",
+          "bytes": "ffd6",
+          "assembly": "CALL ESI"
+        }
+      }
+    ],
+    "useTypes": [
+      {
+        "address": "206787f0",
+        "bytes": "4e6f6e6500",
+        "text": "None",
+        "slotAddress": "206aafd0",
+        "pointerBytes": "f0876720",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "2065e25c",
+        "bytes": "416374696f6e00",
+        "text": "Action",
+        "slotAddress": "206aafd4",
+        "pointerBytes": "5ce26520",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aafcc",
+        "bytes": "314800",
+        "text": "1H",
+        "slotAddress": "206aafd8",
+        "pointerBytes": "ccaf6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aafc8",
+        "bytes": "324800",
+        "text": "2H",
+        "slotAddress": "206aafdc",
+        "pointerBytes": "c8af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aafc0",
+        "bytes": "4172726f7700",
+        "text": "Arrow",
+        "slotAddress": "206aafe0",
+        "pointerBytes": "c0af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206818ec",
+        "bytes": "426f7700",
+        "text": "Bow",
+        "slotAddress": "206aafe4",
+        "pointerBytes": "ec186820",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aafb4",
+        "bytes": "43726f7373426f7700",
+        "text": "CrossBow",
+        "slotAddress": "206aafe8",
+        "pointerBytes": "b4af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aafac",
+        "bytes": "426f6c7400",
+        "text": "Bolt",
+        "slotAddress": "206aafec",
+        "pointerBytes": "acaf6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aafa4",
+        "bytes": "4669737400",
+        "text": "Fist",
+        "slotAddress": "206aaff0",
+        "pointerBytes": "a4af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf9c",
+        "bytes": "536869656c6400",
+        "text": "Shield",
+        "slotAddress": "206aaff4",
+        "pointerBytes": "9caf6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206818d8",
+        "bytes": "41726d6f7200",
+        "text": "Armor",
+        "slotAddress": "206aaff8",
+        "pointerBytes": "d8186820",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206818b0",
+        "bytes": "48656c6d657400",
+        "text": "Helmet",
+        "slotAddress": "206aaffc",
+        "pointerBytes": "b0186820",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf94",
+        "bytes": "537461666600",
+        "text": "Staff",
+        "slotAddress": "206ab000",
+        "pointerBytes": "94af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206818c8",
+        "bytes": "416d756c657400",
+        "text": "Amulet",
+        "slotAddress": "206ab004",
+        "pointerBytes": "c8186820",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf8c",
+        "bytes": "52696e6700",
+        "text": "Ring",
+        "slotAddress": "206ab008",
+        "pointerBytes": "8caf6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "2069e7a0",
+        "bytes": "4361737400",
+        "text": "Cast",
+        "slotAddress": "206ab00c",
+        "pointerBytes": "a0e76920",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf84",
+        "bytes": "506f74696f6e00",
+        "text": "Potion",
+        "slotAddress": "206ab010",
+        "pointerBytes": "84af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf7c",
+        "bytes": "427265616400",
+        "text": "Bread",
+        "slotAddress": "206ab014",
+        "pointerBytes": "7caf6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf74",
+        "bytes": "4d65617400",
+        "text": "Meat",
+        "slotAddress": "206ab018",
+        "pointerBytes": "74af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf6c",
+        "bytes": "467275697400",
+        "text": "Fruit",
+        "slotAddress": "206ab01c",
+        "pointerBytes": "6caf6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf7c",
+        "bytes": "427265616400",
+        "text": "Bread",
+        "slotAddress": "206ab020",
+        "pointerBytes": "7caf6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf84",
+        "bytes": "506f74696f6e00",
+        "text": "Potion",
+        "slotAddress": "206ab024",
+        "pointerBytes": "84af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf68",
+        "bytes": "43757000",
+        "text": "Cup",
+        "slotAddress": "206ab028",
+        "pointerBytes": "68af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf60",
+        "bytes": "426f776c00",
+        "text": "Bowl",
+        "slotAddress": "206ab02c",
+        "pointerBytes": "60af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf58",
+        "bytes": "546f72636800",
+        "text": "Torch",
+        "slotAddress": "206ab030",
+        "pointerBytes": "58af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf4c",
+        "bytes": "416c61726d686f726e00",
+        "text": "Alarmhorn",
+        "slotAddress": "206ab034",
+        "pointerBytes": "4caf6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf94",
+        "bytes": "537461666600",
+        "text": "Staff",
+        "slotAddress": "206ab038",
+        "pointerBytes": "94af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf44",
+        "bytes": "426c6f636b00",
+        "text": "Block",
+        "slotAddress": "206ab03c",
+        "pointerBytes": "44af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf3c",
+        "bytes": "4c75746500",
+        "text": "Lute",
+        "slotAddress": "206ab040",
+        "pointerBytes": "3caf6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf94",
+        "bytes": "537461666600",
+        "text": "Staff",
+        "slotAddress": "206ab044",
+        "pointerBytes": "94af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf2c",
+        "bytes": "54726f706879546565746800",
+        "text": "TrophyTeeth",
+        "slotAddress": "206ab048",
+        "pointerBytes": "2caf6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf20",
+        "bytes": "56616c7561626c6500",
+        "text": "Valuable",
+        "slotAddress": "206ab04c",
+        "pointerBytes": "20af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf18",
+        "bytes": "536d6f6b6500",
+        "text": "Smoke",
+        "slotAddress": "206ab050",
+        "pointerBytes": "18af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf0c",
+        "bytes": "4f72635069706500",
+        "text": "OrcPipe",
+        "slotAddress": "206ab054",
+        "pointerBytes": "0caf6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf04",
+        "bytes": "546f6f6c00",
+        "text": "Tool",
+        "slotAddress": "206ab058",
+        "pointerBytes": "04af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf04",
+        "bytes": "546f6f6c00",
+        "text": "Tool",
+        "slotAddress": "206ab05c",
+        "pointerBytes": "04af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf94",
+        "bytes": "537461666600",
+        "text": "Staff",
+        "slotAddress": "206ab060",
+        "pointerBytes": "94af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf04",
+        "bytes": "546f6f6c00",
+        "text": "Tool",
+        "slotAddress": "206ab064",
+        "pointerBytes": "04af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf94",
+        "bytes": "537461666600",
+        "text": "Staff",
+        "slotAddress": "206ab068",
+        "pointerBytes": "94af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf04",
+        "bytes": "546f6f6c00",
+        "text": "Tool",
+        "slotAddress": "206ab06c",
+        "pointerBytes": "04af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf04",
+        "bytes": "546f6f6c00",
+        "text": "Tool",
+        "slotAddress": "206ab070",
+        "pointerBytes": "04af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaef4",
+        "bytes": "54726f706879536b696e00",
+        "text": "TrophySkin",
+        "slotAddress": "206ab074",
+        "pointerBytes": "f4ae6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaeec",
+        "bytes": "4c657474657200",
+        "text": "Letter",
+        "slotAddress": "206ab078",
+        "pointerBytes": "ecae6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaeec",
+        "bytes": "4c657474657200",
+        "text": "Letter",
+        "slotAddress": "206ab07c",
+        "pointerBytes": "ecae6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaeec",
+        "bytes": "4c657474657200",
+        "text": "Letter",
+        "slotAddress": "206ab080",
+        "pointerBytes": "ecae6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "2066c404",
+        "bytes": "4b657900",
+        "text": "Key",
+        "slotAddress": "206ab084",
+        "pointerBytes": "04c46620",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "2066c404",
+        "bytes": "4b657900",
+        "text": "Key",
+        "slotAddress": "206ab088",
+        "pointerBytes": "04c46620",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaedc",
+        "bytes": "436172727946726f6e7400",
+        "text": "CarryFront",
+        "slotAddress": "206ab08c",
+        "pointerBytes": "dcae6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaecc",
+        "bytes": "436172727953686f756c64657200",
+        "text": "CarryShoulder",
+        "slotAddress": "206ab090",
+        "pointerBytes": "ccae6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aafc8",
+        "bytes": "324800",
+        "text": "2H",
+        "slotAddress": "206ab094",
+        "pointerBytes": "c8af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaec0",
+        "bytes": "54726f70687946757200",
+        "text": "TrophyFur",
+        "slotAddress": "206ab098",
+        "pointerBytes": "c0ae6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaf94",
+        "bytes": "537461666600",
+        "text": "Staff",
+        "slotAddress": "206ab09c",
+        "pointerBytes": "94af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aafc8",
+        "bytes": "324800",
+        "text": "2H",
+        "slotAddress": "206ab0a0",
+        "pointerBytes": "c8af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaeb8",
+        "bytes": "4954454d5f4500",
+        "text": "ITEM_E",
+        "slotAddress": "206ab0a4",
+        "pointerBytes": "b8ae6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaeb0",
+        "bytes": "4d6f6469667900",
+        "text": "Modify",
+        "slotAddress": "206ab0a8",
+        "pointerBytes": "b0ae6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aafa4",
+        "bytes": "4669737400",
+        "text": "Fist",
+        "slotAddress": "206ab0ac",
+        "pointerBytes": "a4af6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      },
+      {
+        "address": "206aaea8",
+        "bytes": "4954454d5f4800",
+        "text": "ITEM_H",
+        "slotAddress": "206ab0b0",
+        "pointerBytes": "a8ae6a20",
+        "export": "?g_ppszUseTypes@@3QBQBDB"
+      }
+    ]
+  },
+  "jump": [
+    {
+      "action": 54,
+      "phase": 12,
+      "useTypeA": 0,
+      "useTypeB": 0,
+      "duration": 0
+    },
+    {
+      "action": 57,
+      "phase": 5,
+      "useTypeA": 0,
+      "useTypeB": 0,
+      "duration": -1
+    }
+  ],
+  "defaultWrapperDescriptor": {
+    "fadeIn": 0.30000001192092896,
+    "mode": 0,
+    "playSpeed": 1,
+    "loops": 4294967295,
+    "weight": 1,
+    "fadeOut": 0,
+    "blendMode": 1
+  },
+  "motionPriorities": [
+    4,
+    3,
+    2,
+    0,
+    7,
+    6,
+    5,
+    8
+  ],
+  "standardAniFadeTime": 0.20000000298023224,
+  "limitations": [
+    "JS floating-point storage reconstruction, not x87 emulation",
+    "full actor layer blending, masks, motion extraction, frame effects and movement remain engine dependencies",
+    "longitudinal/strafe helper outputs need original diagonal combiner/phase synchronization before full locomotion"
+  ]
+}

@@ -1,0 +1,3 @@
+; 3008fa80 FUN_3008fa80
+3008fa80 | d94158 | FLD float ptr [ECX + 0x58]
+3008fa83 | c3 | RET

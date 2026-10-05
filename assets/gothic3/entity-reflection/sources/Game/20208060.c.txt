@@ -1,0 +1,15 @@
+/* ENTRY 20208060 | FUN_20208060 | STATUS decompiled | 6 ms */
+
+undefined4 __thiscall FUN_20208060(int param_1,bCOStream *param_2)
+
+{
+  bCOStream::operator<<(param_2,*(ulong *)(param_1 + 0x14));
+  bCOStream::operator<<(param_2,*(ulong *)(param_1 + 0x18));
+  bCOStream::operator<<(param_2,*(ulong *)(param_1 + 0x1c));
+  bCOStream::operator<<(param_2,*(ulong *)(param_1 + 0x20));
+  bCOStream::operator<<(param_2,*(ulong *)(param_1 + 0x24));
+  bCOStream::operator<<(param_2,*(float *)(param_1 + 0x28));
+  return 1;
+}
+
+

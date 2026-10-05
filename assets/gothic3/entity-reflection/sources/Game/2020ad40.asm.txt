@@ -1,0 +1,12 @@
+; 2020ad40 bTPropertyType<gCClock_PS,float>::vfunction6
+2020ad40 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+2020ad44 | 85c0 | TEST EAX,EAX
+2020ad46 | 740f | JZ 0x2020ad57
+2020ad48 | 8b11 | MOV EDX,dword ptr [ECX]
+2020ad4a | 50 | PUSH EAX
+2020ad4b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+2020ad4e | ffd0 | CALL EAX
+2020ad50 | 0f57c0 | XORPS XMM0,XMM0
+2020ad53 | f30f1100 | MOVSS dword ptr [EAX],XMM0
+; 2020ad57 LAB_2020ad57
+2020ad57 | c20400 | RET 0x4

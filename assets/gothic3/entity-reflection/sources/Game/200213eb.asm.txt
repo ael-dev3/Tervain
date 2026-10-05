@@ -1,0 +1,4 @@
+; 200213eb bTPropertyType<gCClock_PS,float>::vfunction9
+200213eb | e910991e00 | JMP 0x2020ad00
+; 200213f0 gCCameraAI_PS::IsInSpecialBowMode
+; 200213f0 Ordinal_5163

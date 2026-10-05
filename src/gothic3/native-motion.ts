@@ -275,6 +275,19 @@ export class NativeMotionPlayer {
 
   get clipName(): string | null { return this.selected?.name ?? null; }
 
+  /** Native clip extent. Gameplay owns time, loop-count and stopping policy. */
+  get duration(): number | null { return this.selected?.duration ?? null; }
+
+  /** Sample an explicit finite clip time without the inspector's modulo loop.
+   * Original sparse channels use their MotionPart pose and keyed channels
+   * clamp at their own first/last keys. This does not advance or stop playback.
+   */
+  sampleAt(seconds: number): void {
+    if (!Number.isFinite(seconds) || seconds < 0) throw new Error('Invalid native animation time');
+    if (!this.selected) throw new Error('No native clip selected for explicit sampling');
+    this.apply(this.selected, seconds);
+  }
+
   select(name: string | null): void {
     const motion = name === null ? null : this.motions.get(name);
     if (name !== null && !motion) throw new Error('Native clip is missing: ' + name);

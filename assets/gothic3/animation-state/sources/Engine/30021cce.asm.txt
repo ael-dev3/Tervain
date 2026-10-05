@@ -1,0 +1,4 @@
+; 30021cce ?GetAniIntroBlending@eCAnimationAdmin@@QBEMAAVbCString@@@Z
+30021cce | e9cde20600 | JMP 0x3008ffa0
+; 30021cd3 eCEditCtrl::IsOverwrite
+; 30021cd3 Ordinal_10481

@@ -1,0 +1,2 @@
+; 2003579c ?IsProcessable@gCCharacterMovement_PS@@MBE_NXZ
+2003579c | e97fbe1e00 | JMP 0x20221620

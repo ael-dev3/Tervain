@@ -1,0 +1,24 @@
+; 2020b240 bTPropertyType<gCClock_PS,unsigned_long>::vector_deleting_destructor
+2020b240 | 56 | PUSH ESI
+2020b241 | 8bf1 | MOV ESI,ECX
+2020b243 | c706c45c6820 | MOV dword ptr [ESI],0x20685cc4
+2020b249 | ff15dc877d20 | CALL dword ptr [0x207d87dc]
+2020b24f | 8d4620 | LEA EAX,[ESI + 0x20]
+2020b252 | 50 | PUSH EAX
+2020b253 | e87e08e1ff | CALL 0x2001bad6
+2020b258 | 8b4e18 | MOV ECX,dword ptr [ESI + 0x18]
+2020b25b | 56 | PUSH ESI
+2020b25c | ff15dc867d20 | CALL dword ptr [0x207d86dc]
+2020b262 | 8bce | MOV ECX,ESI
+2020b264 | c7065ca96520 | MOV dword ptr [ESI],0x2065a95c
+2020b26a | ff15e8877d20 | CALL dword ptr [0x207d87e8]
+2020b270 | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+2020b275 | 7409 | JZ 0x2020b280
+2020b277 | 56 | PUSH ESI
+2020b278 | e8b8862500 | CALL 0x20463935
+2020b27d | 83c404 | ADD ESP,0x4
+; 2020b280 LAB_2020b280
+2020b280 | 8bc6 | MOV EAX,ESI
+2020b282 | 5e | POP ESI
+2020b283 | c20400 | RET 0x4
+; 2020b2a0 bTPropertyType<gCClock_PS,float>::scalar_deleting_destructor

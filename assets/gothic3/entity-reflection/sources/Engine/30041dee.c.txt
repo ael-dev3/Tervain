@@ -1,0 +1,48 @@
+/* ENTRY 30041dee | eCEntityPropertySet::GetDependencies | STATUS decompiled | 39 ms */
+
+/* public: virtual void __thiscall eCEntityPropertySet::GetDependencies(class bTValArray<class
+   bCString> &,class bTValArray<class bCString> &,class bTObjArray<class eCTemplateEntityProxy> &)
+   eCEntityPropertySet member function inherited by eCTriggerBase_PS
+   eCEntityPropertySet member function inherited by eCEventFilter_PS
+   eCEntityPropertySet member function inherited by eCTrigger_PS
+   eCEntityPropertySet member function inherited by eCTriggerCombiner_PS
+   eCEntityPropertySet member function inherited by eCTriggerList_PS
+   eCEntityPropertySet member function inherited by eCDynamicLight_PS
+   eCEntityPropertySet member function inherited by eCHemisphere_PS
+   eCEntityPropertySet member function inherited by eCIlluminated_PS
+   eCEntityPropertySet member function inherited by eCPointLight_PS
+   eCEntityPropertySet member function inherited by eCStaticLight_PS
+   eCEntityPropertySet member function inherited by eCStaticPointLight_PS
+   eCEntityPropertySet member function inherited by eCStaticSpotLight_PS
+   eCEntityPropertySet member function inherited by eCLightStreaks_PS
+   eCEntityPropertySet member function inherited by eCEffectBase_PS
+   eCEntityPropertySet member function inherited by eCRigidBodyBase_PS
+   eCEntityPropertySet member function inherited by eCCollisionShapeBase_PS
+   eCEntityPropertySet member function inherited by eCPhysicsScene_PS
+   eCEntityPropertySet member function inherited by eCLinkContainer_PS
+   eCEntityPropertySet member function inherited by eCForceField_PS
+   eCEntityPropertySet member function inherited by eCEngineCaps_PS
+   eCEntityPropertySet member function inherited by eCEditorEntityPropertySet
+   eCEntityPropertySet member function inherited by eCSpeedTreeWind_PS
+   eCEntityPropertySet member function inherited by eCVegetationBrush_PS
+   eCEntityPropertySet member function inherited by eCVegetationRubber_PS
+   eCEntityPropertySet member function inherited by eCWeatherZone_PS
+   eCEntityPropertySet member function inherited by eCEventDebugger_PS
+   eCEntityPropertySet member function inherited by eCEventLogic_PS
+   eCEntityPropertySet member function inherited by eCDirectionalLight_PS
+   eCEntityPropertySet member function inherited by eCParticleSystemBase_PS
+   eCEntityPropertySet member function inherited by eCRigidBody_PS */
+
+void __thiscall
+eCEntityPropertySet::GetDependencies
+          (eCEntityPropertySet *this,bTValArray<bCString> *param_1,bTValArray<bCString> *param_2,
+          bTObjArray<eCTemplateEntityProxy> *param_3)
+
+{
+                    /* 0x41dee  6775
+                       ?GetDependencies@eCEntityPropertySet@@UAEXAAV?$bTValArray@VbCString@@@@0AAV?$bTObjArray@VeCTemplateEntityProxy@@@@@Z
+                        */
+  return;
+}
+
+

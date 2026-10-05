@@ -1,0 +1,35 @@
+/* ENTRY 20500dc0 | bTPropertyType<gCCharacterMovement_PS,float>::~bTPropertyType<gCCharacterMovement_PS,float> | STATUS decompiled | 11 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCCharacterMovement_PS,float>::~bTPropertyType<gCCharacterMovement_PS,float>
+          (bTPropertyType<gCCharacterMovement_PS,float> *this)
+
+{
+  bTPropertyType<gCCharacterMovement_PS,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"JumpSteerScaleFactor");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)
+             &gCCharacterMovement_PS::ms_PropertyMember_m_fJumpSteerScaleFactor,(bCString *)&local_4
+             ,1);
+  _ms_PropertyMember_m_fJumpSteerScaleFactor = &vftable;
+  DAT_207bdf2c = bTPropertyObjectType<gCCharacterMovement_PS,gCMovementBase_PS>::
+                 ~bTPropertyObjectType<gCCharacterMovement_PS,gCMovementBase_PS>();
+  _DAT_207bdf30 = 0x84;
+  _DAT_207bdf34 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)
+             &gCCharacterMovement_PS::ms_PropertyMember_m_fJumpSteerScaleFactor);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207bdf2c,
+             (bCPropertyTypeBase *)
+             &gCCharacterMovement_PS::ms_PropertyMember_m_fJumpSteerScaleFactor);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}
+
+

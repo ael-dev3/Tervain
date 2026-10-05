@@ -142,6 +142,15 @@ export class NativePlayerControls {
     records: this.actions.map(record => this.copy(record)), pending: this.copy(this.pending) }; }
   movementByte(offset: 0 | 1 | 2 | 3 | 4 | 5 | 6): number { return byte(this.movement[offset], 'live movement byte'); }
   queueByte(offset: 0 | 1 | 2): number { return byte(this.queue[offset], 'live queue byte'); }
+  /** Direct OnInit10009680, without introducing an SPU state frame. */
+  resetOriginalMovementOnInit(): void { this.movement.fill(0); }
+  /** First three writes of OnInit1000ed50. The subsequent original array
+   * destruction/free remains the startup host's boundary. Pending+164/+168/
+   * +16c is deliberately retained: this native helper never resets it. */
+  resetOriginalQueueFlagsOnInit(): void { this.queue.fill(0); }
+  /** Call only after1000ed50's existing storage destruction/free completed.
+   * These are the same JS-owned value records used by all player handlers. */
+  clearOriginalQueueAfterOnInitRelease(): void { this.actions.length = 0; }
   writeMovement(offset: 0 | 1 | 2 | 3 | 4 | 5 | 6, value: number, access: NativeSPUSchedulerAccess): void {
     access.snapshot();
     this.movement[offset] = byte(value, 'movement byte');

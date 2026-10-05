@@ -1,0 +1,4 @@
+; 1000376a ?ReadObject@bCPropertyObjectFactory@@IAE_NAAVbCIStream@@AAVbCPropertyObjectBase@@@Z
+1000376a | e9f1930800 | JMP 0x1008cb60
+; 1000376f bCTrackBitField::GetMask
+; 1000376f Ordinal_2620

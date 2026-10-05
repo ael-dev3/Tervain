@@ -1,0 +1,45 @@
+/* ENTRY 20224320 | FUN_20224320 | STATUS decompiled | 16 ms */
+
+void __fastcall FUN_20224320(gCCharacterMovement_PS *param_1)
+
+{
+  bool bVar1;
+  int *piVar2;
+  undefined4 uVar3;
+  eCEntity *this;
+  int iVar4;
+  bCErrorAdmin *this_00;
+  char *pcVar5;
+  char *pcVar6;
+  eEPropertySetType eVar7;
+  
+  if (*(int *)(param_1 + 0x170) == 0) {
+    piVar2 = (int *)(**(code **)(*(int *)param_1 + 0x68))();
+    uVar3 = (**(code **)(*piVar2 + 0xec))(0xd);
+    *(undefined4 *)(param_1 + 0x170) = uVar3;
+  }
+  if (*(int *)(param_1 + 0x174) == 0) {
+    piVar2 = (int *)(**(code **)(*(int *)param_1 + 0x68))();
+    uVar3 = (**(code **)(*piVar2 + 0xec))(0xe);
+    *(undefined4 *)(param_1 + 0x174) = uVar3;
+  }
+  eVar7 = 0x16;
+  this = (eCEntity *)(**(code **)(*(int *)param_1 + 0x6c))();
+  bVar1 = eCEntity::HasPropertySet(this,eVar7);
+  if ((bVar1) && (*(int *)(param_1 + 0x178) == 0)) {
+    piVar2 = (int *)(**(code **)(*(int *)param_1 + 0x68))();
+    iVar4 = (**(code **)(*piVar2 + 0xec))(0x17);
+    *(int *)(param_1 + 0x178) = iVar4;
+    if (iVar4 == 0) {
+      iVar4 = 0x9bb;
+      pcVar6 = ".\\movement\\propertysets\\ge_ps_charactermovement.cpp";
+      pcVar5 = "C: player has no gCCharacterSensor_PS, this is not allowed!";
+      this_00 = bCErrorAdmin::GetInstance();
+      bCErrorAdmin::CallFatalError(this_00,pcVar5,pcVar6,iVar4);
+    }
+    gCCharacterSensor_PS::SetMovement_PS(*(gCCharacterSensor_PS **)(param_1 + 0x178),param_1);
+  }
+  return;
+}
+
+

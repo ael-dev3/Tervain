@@ -1,0 +1,4 @@
+; 10003fa3 ??4PropertyChapter@PSPlayerMemory@@QAEAAV01@ABJ@Z
+10003fa3 | e988420200 | JMP 0x10028230
+; 10003fa8 PSCharacterMovement::operator=
+; 10003fa8 Ordinal_212

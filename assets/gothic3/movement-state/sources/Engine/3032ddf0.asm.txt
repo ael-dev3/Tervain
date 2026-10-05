@@ -1,0 +1,23 @@
+; 3032ddf0 FUN_3032ddf0
+3032ddf0 | 0f57c0 | XORPS XMM0,XMM0
+3032ddf3 | 33c0 | XOR EAX,EAX
+3032ddf5 | 56 | PUSH ESI
+3032ddf6 | 8bf1 | MOV ESI,ECX
+3032ddf8 | f30f1186e0000000 | MOVSS dword ptr [ESI + 0xe0],XMM0
+3032de00 | f30f1186e4000000 | MOVSS dword ptr [ESI + 0xe4],XMM0
+3032de08 | f30f1186e8000000 | MOVSS dword ptr [ESI + 0xe8],XMM0
+3032de10 | f30f1186ec000000 | MOVSS dword ptr [ESI + 0xec],XMM0
+3032de18 | f30f100534848130 | MOVSS XMM0,dword ptr [0x30818434]
+3032de20 | 8d8e84000000 | LEA ECX,[ESI + 0x84]
+3032de26 | 888680000000 | MOV byte ptr [ESI + 0x80],AL
+3032de2c | 888682000000 | MOV byte ptr [ESI + 0x82],AL
+3032de32 | 888681000000 | MOV byte ptr [ESI + 0x81],AL
+3032de38 | 888683000000 | MOV byte ptr [ESI + 0x83],AL
+3032de3e | 8986f4000000 | MOV dword ptr [ESI + 0xf4],EAX
+3032de44 | f30f1186f0000000 | MOVSS dword ptr [ESI + 0xf0],XMM0
+3032de4c | ff15e0ceaf30 | CALL dword ptr [0x30afcee0]
+3032de52 | 8d8e90000000 | LEA ECX,[ESI + 0x90]
+3032de58 | ff15e0ceaf30 | CALL dword ptr [0x30afcee0]
+3032de5e | 8d8ed4000000 | LEA ECX,[ESI + 0xd4]
+3032de64 | 5e | POP ESI
+3032de65 | ff25e0ceaf30 | JMP dword ptr [0x30afcee0]

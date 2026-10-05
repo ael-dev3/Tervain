@@ -1,0 +1,115 @@
+/* ENTRY 20225af0 | FUN_20225af0 | STATUS decompiled | 45 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall FUN_20225af0(int *param_1,eCEntity *param_2,eCContactIterator *param_3)
+
+{
+  int iVar1;
+  bool bVar2;
+  bool bVar3;
+  eEPropertySetType eVar4;
+  eCEntity *peVar5;
+  bCVector *this;
+  eCEntity *peVar6;
+  eCCollisionShape *peVar7;
+  eSEntityFlags *peVar8;
+  float fVar9;
+  
+  if (param_2 != (eCEntity *)0x0) {
+    eVar4 = eCContactIterator::GetCollisionType(param_3);
+    if (eVar4 == 0xe) {
+      if (param_1[0x40] == 0xd) {
+        peVar5 = (eCEntity *)(**(code **)(*param_1 + 0x68))();
+        this = eCEntity::GetWorldPosition(peVar5);
+        fVar9 = bCVector::GetY(this);
+        if (fVar9 - (float)param_1[0x27] < (float)param_1[7]) {
+          *(undefined1 *)((int)param_1 + 0x17e) = 0;
+        }
+      }
+      peVar6 = eCEntityProxy::GetEntity((eCEntityProxy *)(param_1 + 0x90));
+      if ((peVar6 == (eCEntity *)0x0) ||
+         (peVar6 = eCEntityProxy::GetEntity((eCEntityProxy *)(param_1 + 0x90)), param_2 != peVar6))
+      {
+        if (((param_1[0x40] == 0xd) || (param_1[0x40] == 6)) &&
+           (bVar3 = eCContactIterator::GoNextShape(param_3), bVar3)) {
+          do {
+            peVar7 = eCContactIterator::GetShape(param_3,0);
+            if ((peVar7 != (eCCollisionShape *)0x0) &&
+               ((((iVar1 = *(int *)(peVar7 + 0x18), iVar1 == 1 || (iVar1 == 6)) ||
+                 ((iVar1 == 0xc || (iVar1 == 9)))) &&
+                ((peVar7[0x2f] == (eCCollisionShape)0x0 && (peVar7[0x30] == (eCCollisionShape)0x0)))
+                ))) {
+              param_1[0xef] = 0x40000000;
+            }
+            bVar3 = eCContactIterator::GoNextPatch(param_3);
+            if (bVar3) {
+              do {
+                do {
+                  bVar3 = eCContactIterator::GoNextPoint(param_3);
+                } while (bVar3);
+                bVar3 = eCContactIterator::GoNextPatch(param_3);
+              } while (bVar3);
+            }
+            bVar3 = eCContactIterator::GoNextShape(param_3);
+          } while (bVar3);
+        }
+      }
+      else {
+        bVar3 = false;
+        bVar2 = eCContactIterator::GoNextShape(param_3);
+        if (bVar2) {
+          do {
+            peVar7 = eCContactIterator::GetShape(param_3,0);
+            if ((peVar7 != (eCCollisionShape *)0x0) && (*(int *)(peVar7 + 0x18) == 7)) {
+              bVar3 = true;
+            }
+            bVar2 = eCContactIterator::GoNextPatch(param_3);
+            if (bVar2) {
+              do {
+                do {
+                  bVar2 = eCContactIterator::GoNextPoint(param_3);
+                } while (bVar2);
+                bVar2 = eCContactIterator::GoNextPatch(param_3);
+              } while (bVar2);
+            }
+            bVar2 = eCContactIterator::GoNextShape(param_3);
+          } while (bVar2);
+          if (bVar3) {
+            *(undefined1 *)(param_1 + 0xe5) = 1;
+          }
+        }
+      }
+    }
+    peVar8 = eCEntity::GetEntityFlags((eCEntity *)param_2);
+    if ((_DAT_207b858c & 1) == 0) {
+      _DAT_207b858c = _DAT_207b858c | 1;
+      DAT_207b8588 = 0x800000;
+    }
+    if ((*(uint *)peVar8 & DAT_207b8588) != 0) {
+      eVar4 = 0x16;
+      peVar5 = (eCEntity *)(**(code **)(*param_1 + 0x6c))();
+      bVar3 = eCEntity::HasPropertySet(peVar5,eVar4);
+      if (!bVar3) {
+        eVar4 = eCContactIterator::GetCollisionType(param_3);
+        if (eVar4 == 0xe) {
+          bVar3 = eCEntity::HasPropertySet((eCEntity *)param_2,0x16);
+          if (bVar3) {
+            *(undefined1 *)((int)param_1 + 0x25e) = 1;
+          }
+        }
+        else {
+          eVar4 = eCContactIterator::GetCollisionType(param_3);
+          if (((eVar4 == 8) || (eVar4 = eCContactIterator::GetCollisionType(param_3), eVar4 == 10))
+             || (eVar4 = eCContactIterator::GetCollisionType(param_3), eVar4 == 0xb)) {
+            *(undefined1 *)((int)param_1 + 0x25d) = 1;
+            return;
+          }
+        }
+      }
+    }
+  }
+  return;
+}
+
+

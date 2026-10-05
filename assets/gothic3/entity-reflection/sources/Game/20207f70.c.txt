@@ -1,0 +1,16 @@
+/* ENTRY 20207f70 | FUN_20207f70 | STATUS decompiled | 3 ms */
+
+undefined4 __fastcall FUN_20207f70(bCObjectRefBase *param_1)
+
+{
+  param_1[5].bCObjectBase = (bCObjectBase)0x0;
+  param_1[6].bCObjectBase = (bCObjectBase)0x0;
+  param_1[7].bCObjectBase = (bCObjectBase)0x0;
+  param_1[8].bCObjectBase = (bCObjectBase)0x0;
+  param_1[9].bCObjectBase = (bCObjectBase)0x0;
+  param_1[10].bCObjectBase = (bCObjectBase)0x41400000;
+  bCObjectRefBase::PostInitializeProperties(param_1);
+  return 1;
+}
+
+

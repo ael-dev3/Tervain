@@ -1,0 +1,4 @@
+; 2002db87 ?GetIsProcessing@gCCharacterMovement_PS@@QAE_NXZ
+2002db87 | e934471f00 | JMP 0x202222c0
+; 2002dba5 gCInfoScript_PS::SetInfoScriptLines
+; 2002dba5 Ordinal_6587

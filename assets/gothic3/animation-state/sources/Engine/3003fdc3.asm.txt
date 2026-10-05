@@ -1,0 +1,4 @@
+; 3003fdc3 ?SetMotion@eCVisualAnimation_PS@@QAEXW4eEMotionType@eCWrapper_emfx2Actor@@PAVeCResourceDataEntity@@@Z
+3003fdc3 | e9d8fa0500 | JMP 0x3009f8a0
+; 3003fdc8 eCParticle_PS::GetCollisionSound
+; 3003fdc8 Ordinal_6534

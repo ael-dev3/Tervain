@@ -1,0 +1,2 @@
+; 200098bd ??0gCScriptAdmin@@QAE@XZ
+200098bd | e96e5a3400 | JMP 0x2034f330

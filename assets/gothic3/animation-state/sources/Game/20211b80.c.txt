@@ -1,0 +1,21 @@
+/* ENTRY 20211b80 | FUN_20211b80 | STATUS decompiled | 4 ms */
+
+int * __fastcall FUN_20211b80(int *param_1)
+
+{
+  int iVar1;
+  
+  thunk_FUN_202163f0();
+  bCString::bCString((bCString *)(param_1 + 5));
+  bCString::bCString((bCString *)(param_1 + 6));
+  thunk_FUN_20214670(0x1df,0);
+  param_1[1] = 0x1df;
+  iVar1 = 0;
+  do {
+    *(undefined4 *)(iVar1 + *param_1) = 0;
+    iVar1 = iVar1 + 4;
+  } while (iVar1 < 0x77c);
+  return param_1;
+}
+
+

@@ -1,0 +1,69 @@
+/* ENTRY 10045b20 | FUN_10045b20 | STATUS decompiled | 32 ms */
+
+undefined4 FUN_10045b20(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3,int param_4)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  int iVar3;
+  int local_154;
+  Entity local_150 [56];
+  PSPlayerMemory local_118 [20];
+  PSDamageReceiver local_104 [92];
+  Entity local_a8 [168];
+  
+  Entity::Entity(local_150);
+  if (param_2 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_150,peVar2);
+  }
+  else {
+    Entity::operator=(local_150,param_2);
+  }
+  Entity::Entity(local_a8);
+  if (param_3 == (Entity *)0x0) {
+    peVar2 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_a8,peVar2);
+  }
+  else {
+    Entity::operator=(local_a8,param_3);
+  }
+  bVar1 = PSPlayerMemory::IsValid(local_118);
+  if (bVar1) {
+    PSPlayerMemory::GetHitPoints(local_118);
+    iVar3 = PSPlayerMemory::GetHitPointsMax(local_118);
+  }
+  else {
+    bVar1 = PSDamageReceiver::IsValid(local_104);
+    if (!bVar1) {
+      Entity::~Entity(local_a8);
+      Entity::~Entity(local_150);
+      return 0;
+    }
+    PSDamageReceiver::PropertyHitPoints::operator_long((PropertyHitPoints *)local_104);
+    iVar3 = PSDamageReceiver::PropertyHitPointsMax::operator_long((PropertyHitPointsMax *)local_104)
+    ;
+  }
+  if (param_4 < 1) {
+    param_4 = 0;
+  }
+  if (iVar3 < param_4) {
+    param_4 = iVar3;
+  }
+  bVar1 = PSPlayerMemory::IsValid(local_118);
+  if (bVar1) {
+    PSPlayerMemory::SetHitPoints(local_118,param_4);
+  }
+  else {
+    bVar1 = PSDamageReceiver::IsValid(local_104);
+    if (bVar1) {
+      local_154 = param_4;
+      PSDamageReceiver::PropertyHitPoints::operator=((PropertyHitPoints *)local_104,&local_154);
+    }
+  }
+  Entity::~Entity(local_a8);
+  Entity::~Entity(local_150);
+  return 1;
+}
+
+

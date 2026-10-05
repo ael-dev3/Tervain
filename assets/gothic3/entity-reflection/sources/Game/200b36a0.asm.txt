@@ -1,0 +1,16 @@
+; 200b36a0 bTPropertyContainer<gEDamageType>::bTPropertyContainer<gEDamageType>
+200b36a0 | 56 | PUSH ESI
+200b36a1 | 57 | PUSH EDI
+200b36a2 | 8bf1 | MOV ESI,ECX
+200b36a4 | ff15f86d7d20 | CALL dword ptr [0x207d6df8]
+200b36aa | 8d7e14 | LEA EDI,[ESI + 0x14]
+200b36ad | 8bcf | MOV ECX,EDI
+200b36af | c70634ec6520 | MOV dword ptr [ESI],0x2065ec34
+200b36b5 | ff1500877d20 | CALL dword ptr [0x207d8700]
+200b36bb | c70734ea6520 | MOV dword ptr [EDI],0x2065ea34
+200b36c1 | a1a4627b20 | MOV EAX,[0x207b62a4]
+200b36c6 | 894704 | MOV dword ptr [EDI + 0x4],EAX
+200b36c9 | 5f | POP EDI
+200b36ca | 8bc6 | MOV EAX,ESI
+200b36cc | 5e | POP ESI
+200b36cd | c20400 | RET 0x4

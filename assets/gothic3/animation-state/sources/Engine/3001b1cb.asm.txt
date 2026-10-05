@@ -1,0 +1,4 @@
+; 3001b1cb ?IsAnimationMissed@eCAnimationAdmin@@QBE_NABVbCString@@@Z
+3001b1cb | e9a04a0700 | JMP 0x3008fc70
+; 3001b1d0 eCMessageHandler::OnMouseButtonLeftClickDouble
+; 3001b1d0 Ordinal_11204

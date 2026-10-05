@@ -1,0 +1,4 @@
+; 2001d129 ??0gCEffect_PS@@QAE@ABV0@@Z
+2001d129 | e992ba0f00 | JMP 0x20118bc0
+; 2001d12e gCItem_PS::AccessModAttrib1Tag
+; 2001d12e Ordinal_1436

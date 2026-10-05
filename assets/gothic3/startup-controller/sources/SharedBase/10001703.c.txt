@@ -1,0 +1,22 @@
+/* ENTRY 10001703 | bCMatrix::bCMatrix | STATUS decompiled | 3 ms */
+
+/* public: __thiscall bCMatrix::bCMatrix(class bCMatrix const &) */
+
+void __thiscall bCMatrix::bCMatrix(bCMatrix *this,bCMatrix *param_1)
+
+{
+  int iVar1;
+  int iVar2;
+  
+                    /* 0x1703  162  ??0bCMatrix@@QAE@ABV0@@Z */
+  iVar1 = 0x10;
+  iVar2 = (int)this - (int)param_1;
+  do {
+    iVar1 = iVar1 + -1;
+    *(undefined4 *)(param_1 + iVar2) = *(undefined4 *)param_1;
+    param_1 = param_1 + 4;
+  } while (iVar1 != 0);
+  return;
+}
+
+

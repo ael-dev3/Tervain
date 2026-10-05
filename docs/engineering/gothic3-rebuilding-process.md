@@ -14,7 +14,7 @@ limitations and source terms.
 
 This guide describes the source on `codex/gothic3-gameplay-initialization`.
 The hosted page remains at its last successful deployment; the latest source
-checkpoints have not been deployed. Sections 10–14 cover the newer runtime work.
+checkpoints have not been deployed. Sections 10–15 cover the newer runtime work.
 
 ## Process at a glance
 
@@ -1359,3 +1359,185 @@ The remaining delivery requirement is a connected browser runtime with the
 original world activation and gameplay services, followed by a complete
 original-game progression and save/load playthrough. This checkpoint keeps
 `gameplayReady: false`.
+
+## 15. Execute live startup and connect physical model state
+
+The next source checkpoint continues the runtime work above. Its purpose is to
+connect the original callbacks to retained objects: the same loaded property
+sets, player queue, movement fields, script processor and animation skeleton.
+It adds implementations of selected native paths, with the remaining engine
+operations required explicitly from their hosts. The current browser entry
+point still uses the exploration controller and inspection tools. These new
+components are not yet bound into a playable session.
+
+### Execute startup in original order
+
+[startup-controller.ts](../../src/gothic3/startup-controller.ts) implements the
+live call order of `OnInit` and `OnGameStartUp`. The atomic planner in section
+10 remains a separate planning API. For runtime execution, each original call
+acts on the current objects; a failed or unresolved call retains preceding
+effects and prevents automatic replay. A host callback may have applied effects
+before reporting that it cannot finish.
+
+`OnInit` constructs its local Self/Other wrappers, then invokes the original
+twelve module helpers. Its movement reset changes the seven bytes in the same
+[NativePlayerControls](../../src/gothic3/player-state.ts) used by the Hero
+handlers. The queue reset changes its first three bytes, then reaches the
+original array destruction/free boundary. Existing records are cleared after
+a confirmed release. A NULL storage pointer preserves the original metadata.
+The pending signal, argument and Other at offsets `+164/+168/+16c` are retained:
+the native helper does not clear them. The remaining helper bodies require
+their actual module storage and allocation operations.
+
+`OnGameStartUp` clears the two imported Entity caches when allocated, zeros the
+last-frame counter and assigns None to the imported player cache. It then
+captures the real player and applies Chapter 1. The dirty-hack callback copies
+the Al Shedim door's matrix and lowers its Y translation by 50 native
+centimetres through the original world-matrix setter. It also sets Yepas's
+political alignment to 7 when his NPC wrapper is valid. The original door
+warning is deliberately repeated when Yepas is missing or invalid.
+
+The following calls retain their original sequence: Larson's `Start` routine;
+Ardea's alignment, raid and revolution setters; `NotifyEnclave` event 2 with
+Hero Self and Ardea_Orkboss Other; world `RunQuest Xardas_FindXardas`; Gorn's
+`OnExit_Gorn`; the eighteen stat setters; zero attribute learning points; and
+`InventoryPopulate`. Direct stat and inventory calls pass the captured player
+and explicit global None. They do not introduce another SPU state frame.
+
+The scalar PlayerMemory adapter delegates to the already retained
+[OriginalPlayerMemory](../../src/gothic3/player-properties.ts), including its
+property notification chain. It requires the captured wrapper's actual PS
+pointer; a NULL pointer reaches the original warning callback without a property
+write. Full stat-wrapper fallback branches,
+entity lookup/AttachTo, native allocation, navigation, enclave, quest, inventory
+and world-matrix effects remain required host implementations. A completed
+ordered callback alone does not establish a completed game session.
+
+### Construct real property objects before adding them to entities
+
+[entity-reflection.ts](../../src/gothic3/entity-reflection.ts) follows the
+serialized accessor, registered class factory and property-wrapper path used
+by the base entity reader. The accessor, singleton, factory and wrapper each
+consume their own header fields; reading one layer does not imply that the next
+object exists. A source class
+name selects a registered factory, whose actual template/clone operation must
+create the concrete object before its reflective and native readers can run.
+
+The bounded Clock path retains one physical
+[OriginalClockProperties](../../src/gothic3/clock-properties.ts), including its
+values and reference word. Reflective properties dispatch the real descriptor
+reader, notify enter, resolve the captured wrapper's current native storage,
+write the payload, then notify exit. Clock's derived `Read` follows and applies
+its nonpropagated notification. The normal property reader consumes the stored
+size field without using it to skip or bound a successfully dispatched reader.
+
+The original Hero's nineteen property-set records and the World_MCP records
+provide schemas and serialized inputs. Unsupported constructors/readers stop
+at their native boundary. A detached, successfully read Clock is still not a
+resident world entity; preceding property sets, entity addition, context
+activation, cache/physics residency and processing registration remain separate
+operations.
+
+### Change the shared movement state through native operations
+
+[movement-state.ts](../../src/gothic3/movement-state.ts) retains the actual
+CharacterMovement byte store and its known-byte mask. Its movement mode is the
+same DWORD at `+100` read by the Hero scripts. Navigation and CharacterControl
+wishes continue to use their existing storage. No second movement mode or
+exploration position is substituted.
+
+The recovered `SetMovementMode` performs its dependency creation, shape,
+speed, rigid-body flag/velocity and effect operations before writing the mode.
+Jump sets the captured rigid body's upward velocity before publishing mode 6.
+The mode-change callback and trailing resets follow in source order. Ordinary
+branches are bounded by their recovered conditions; unsupported swim, fall,
+contact and effect paths require their real implementations.
+
+The callback captures the actual ScriptAdmin dispatcher before rereading the
+owner. Its host must preserve the game/processing gates, embedded admin SPU
+updates and installed script registration. The incoming Hero SPU cannot stand
+in for that admin processor, even when the selected callback body returns 1.
+
+Rigid-body flag assignments and pending physics commands preserve the
+examined physical stores and queue ordering. Sensor and translation prefixes
+require the original collision, ray/floor and actor services. These operations
+do not establish full browser physics or convert a rendered mesh into a native
+collision shape.
+
+### Select the original animation descriptors and tracks
+
+[animation-state.ts](../../src/gothic3/animation-state.ts) uses the installed
+program's action, phase, pose and direction definitions. The installed action
+table identifies action 54 as Jump; the Hero jump script requests `Jump_Stand`
+then `Fall_Loop`. Naming and selection use the live actor prefix, animation
+state, equipment UseTypes, pose and direction, followed by the native variation
+and resource lookup rules.
+
+Recovered motion tracks bind to the existing Hero skeleton through
+[native-motion.ts](../../src/gothic3/native-motion.ts). Its added `sampleAt`
+entry samples an explicit time without applying the inspector's modulo loop,
+while retaining sparse channels, base-pose values and endpoint clamping. The
+existing inspector controls keep their previous playback behavior.
+
+Native playback descriptors, loop counts, animation layer operations,
+repositioning and weighted locomotion selection remain distinct from sampling
+one full-weight clip. The longitudinal/strafe axis helpers use original
+filename speeds; the diagonal combiner, synchronized layers and footsteps
+remain dependencies. The PlayAni instruction conductor preserves continuation
+and cleanup order, while its Start and internal-loop bodies require actual
+VisualAnimation/actor services. Resource identity lookup does not manufacture
+ResourceAdmin cache lifetime or loaded-actor motion membership. Exporting the
+Jump/Fall tracks and sampling their bones does not prove that the player's
+movement and animation are connected in the browser.
+
+The current SPU can expose its instruction pointer and, inside a live scheduler
+scope, its wait fields. It does not yet provide the PlayAni completed byte or
+animation scratch/descriptor fields. A complete PlayAni storage binding is
+therefore missing. A cloned SPU snapshot cannot supply that shared storage;
+the missing fields, proxy cleanup, polling and abort adapter must join the
+existing processor before this conductor can drive gameplay.
+
+### Reproduce this source checkpoint
+
+The four producers read the preserved local study and compare their examined
+instructions with original binary bytes:
+
+```powershell
+python -B tools/gothic3/research_startup_controller.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/research_entity_reflection.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/research_movement_state.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/research_animation_state.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/freeze_activation_checkpoint.py
+```
+
+[activation-checkpoint.json](../../assets/gothic3/activation-checkpoint.json)
+chains from source commit `48c7ee73` and its processing receipt. It preserves
+unchanged baseline bytes, the new source/resource receipts and the intentional
+shared changes to player controls and motion sampling. Older receipts remain
+historical at their recorded commits. The freezer checks local source/excerpt
+hashes; it does not run the game, tests, a browser, a build or a deployment.
+
+The offline evidence totals for this checkpoint are below. Entries can include
+forwarding exports and overlapping bodies; these counts do not measure game
+completion. Three movement entries are preserved only as assembly excerpts;
+no decompiled C counterpart is asserted for them.
+
+| Evidence set | Entries | Instructions | Original instruction bytes |
+| --- | ---: | ---: | ---: |
+| Ordered startup callbacks | 69 | 3,034 | 10,360 |
+| Entity reflection and property registrars | 996 | 28,412 | 108,725 |
+| Physical movement and pending physics commands | 162 | 11,210 | 39,176 |
+| Animation selection and instruction conductor | 109 | 8,741 | 28,248 |
+
+The combined TypeScript check and production build passed locally on
+5 October 2026 (`npm run build`, 235 Vite modules). The existing large-chunk
+warning remains. This build checks the new source types and packages the
+current browser entry points; it does not connect the new controllers. No
+tests, original native execution, browser review, deployment or playthrough
+were run for this checkpoint.
+
+The required next integration is still one actual loaded and active world,
+with its player, camera, input, startup, script/AI scheduling, clock, collision,
+animation and renderer sharing the same runtime objects. Original gameplay,
+save/load and progression through the endings remain unfinished. This source
+checkpoint keeps `gameplayReady: false`.

@@ -1,0 +1,2 @@
+; 300145bf ?IsEditorRelevant@eCEntityPropertySet@@UBE_NXZ
+300145bf | e97ccf4600 | JMP 0x30481540

@@ -1,0 +1,15 @@
+/* ENTRY 20208790 | gCClock_PS::gCClock_PS | STATUS decompiled | 9 ms */
+
+gCClock_PS * __thiscall gCClock_PS::gCClock_PS(gCClock_PS *this,byte param_1)
+
+{
+  this->vftablePtr = &vftable;
+  bCClock::~bCClock((bCClock *)&(this->gCClock_PS_data).field_0x28);
+  eCEntityPropertySet::~eCEntityPropertySet((eCEntityPropertySet *)this);
+  if ((param_1 & 1) != 0) {
+    _free(this);
+  }
+  return this;
+}
+
+

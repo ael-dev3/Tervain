@@ -1,0 +1,4 @@
+; 10001703 ??0bCMatrix@@QAE@ABV0@@Z
+10001703 | e9d8070300 | JMP 0x10031ee0
+; 10001708 bCFloatColor::GetInverted
+; 10001708 Ordinal_2551

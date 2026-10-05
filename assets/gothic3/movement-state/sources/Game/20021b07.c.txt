@@ -1,0 +1,292 @@
+/* ENTRY 20021b07 | gCCharacterMovement_PS::SetShapeByMode | STATUS decompiled | 235 ms */
+
+/* protected: bool __thiscall gCCharacterMovement_PS::SetShapeByMode(enum gECharMovementMode) */
+
+bool __thiscall
+gCCharacterMovement_PS::SetShapeByMode(gCCharacterMovement_PS *this,gECharMovementMode param_1)
+
+{
+  gCCharacterMovement_PS_vftable *pgVar1;
+  byte bVar2;
+  bool bVar3;
+  eCEntity *peVar4;
+  undefined4 uVar5;
+  undefined4 *puVar6;
+  bCAccessorPropertyObject *pbVar7;
+  bCObjectRefBase *pbVar8;
+  bCString *pbVar9;
+  bCVector *pbVar10;
+  bCVector *pbVar11;
+  eCCollisionShape *this_00;
+  int iVar12;
+  float fVar13;
+  eEPropertySetType eVar14;
+  bool abStack_cd [4];
+  bool bStack_c9;
+  undefined4 uStack_c8;
+  bCObjectBase bStack_c4;
+  undefined4 *puStack_c0;
+  bCObjectBase bStack_bc;
+  undefined4 *puStack_b8;
+  bCObjectBase bStack_b4;
+  undefined4 *puStack_b0;
+  undefined8 uStack_ac;
+  int iStack_a0;
+  bCVector abStack_9c [4];
+  bCVector abStack_98 [4];
+  bCVector abStack_94 [4];
+  bCVector abStack_90 [4];
+  bCVector abStack_8c [12];
+  bCCapsule abStack_80 [4];
+  bCCapsule abStack_7c [120];
+  
+                    /* 0x21b07  7039
+                       ?SetShapeByMode@gCCharacterMovement_PS@@IAE_NW4gECharMovementMode@@@Z */
+  if ((this->gCCharacterMovement_PS_data).offset_0x170 == 0) {
+    peVar4 = (*this->vftablePtr->GetEntity)(this);
+    uVar5 = (**(code **)(*(int *)peVar4 + 0xec))(0xd);
+    pgVar1 = this->vftablePtr;
+    (this->gCCharacterMovement_PS_data).offset_0x16c = uVar5;
+    peVar4 = (*pgVar1->GetEntity)(this);
+    uVar5 = (**(code **)(*(int *)peVar4 + 0xec))(0xe);
+    pgVar1 = this->vftablePtr;
+    (this->gCCharacterMovement_PS_data).offset_0x170 = uVar5;
+    peVar4 = (*pgVar1->GetEntity)(this);
+    uVar5 = (**(code **)(*(int *)peVar4 + 0xec))();
+    (this->gCCharacterMovement_PS_data).offset_0x174 = uVar5;
+    if ((this->gCCharacterMovement_PS_data).offset_0x170 == 0) {
+      return false;
+    }
+  }
+  CreateDependantShapes(this);
+  iVar12 = (this->gCCharacterMovement_PS_data).offset_0xfc;
+  if ((((iVar12 != 0) && (iVar12 != 1)) && (param_1 != 0xd)) &&
+     (((iVar12 != 0xd && (param_1 != 0xe)) && (iVar12 != 0xe)))) {
+    if (0xb < iVar12) {
+      if (0xb < (int)param_1) {
+        return false;
+      }
+      if (0xb < iVar12) goto LAB_2022ba84;
+    }
+    if ((int)param_1 < 0xc) {
+      return false;
+    }
+  }
+LAB_2022ba84:
+  CalcQuadrupedDistances(this);
+  (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x170 + 0x184))(6);
+  eVar14 = 0x16;
+  peVar4 = (*this->vftablePtr->GetEntity)(this);
+  bVar3 = eCEntity::HasPropertySet((eCEntity *)peVar4,eVar14);
+  if (!bVar3) {
+    (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x170 + 0x184))(0xc);
+  }
+  eVar14 = 0x16;
+  peVar4 = (*this->vftablePtr->GetEntity)(this);
+  bVar3 = eCEntity::HasPropertySet((eCEntity *)peVar4,eVar14);
+  if (((bVar3) || ((this->gCCharacterMovement_PS_data).offset_0x259 == (gCCharacterMovement_PS)0x0))
+     || (((this->gCCharacterMovement_PS_data).offset_0x25a == (gCCharacterMovement_PS)0x1 ||
+         (((this->gCCharacterMovement_PS_data).offset_0x22a == (gCCharacterMovement_PS)0x1 ||
+          (0xb < (int)(this->gCCharacterMovement_PS_data).offset_0xfc)))))) {
+    bVar2 = 1;
+  }
+  else {
+    bVar2 = 0;
+  }
+  puVar6 = (undefined4 *)((-(uint)bVar2 & 0xfffffffa) + 0xc);
+  puStack_b0 = puVar6;
+  if (param_1 == 0xd) {
+    iVar12 = 0;
+    if (0 < (int)(this->gCCharacterMovement_PS_data).offset_0x310) {
+      do {
+        *(undefined1 *)
+         (*(int *)((this->gCCharacterMovement_PS_data).offset_0x30c + iVar12 * 4) + 0x44) = 0;
+        bCObjectBase::bCObjectBase(&bStack_bc);
+        bStack_bc = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+        puStack_b8 = puVar6;
+        eCCollisionShape::SetGroup
+                  (*(eCCollisionShape **)
+                    ((this->gCCharacterMovement_PS_data).offset_0x30c + iVar12 * 4),
+                   (bTPropertyContainer<eEShapeGroup> *)&bStack_bc);
+        bStack_bc = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+        bCObjectBase::~bCObjectBase(&bStack_bc);
+        (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x170 + 0x15c))
+                  (*(undefined4 *)((this->gCCharacterMovement_PS_data).offset_0x30c + iVar12 * 4));
+        iVar12 = iVar12 + 1;
+      } while (iVar12 < (int)(this->gCCharacterMovement_PS_data).offset_0x310);
+      return true;
+    }
+  }
+  else if ((((param_1 == 6) || (0xc < (int)param_1)) ||
+           ((this->gCCharacterMovement_PS_data).field_0x10 == '\0')) || (ms_bHeightCorr == false)) {
+    if ((param_1 != 0xe) && (iVar12 = 0, 0 < (int)(this->gCCharacterMovement_PS_data).offset_0x304))
+    {
+      do {
+        *(undefined1 *)
+         (*(int *)((this->gCCharacterMovement_PS_data).offset_0x300 + iVar12 * 4) + 0x44) = 0;
+        bCObjectBase::bCObjectBase(&bStack_c4);
+        bStack_c4 = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+        puStack_c0 = puVar6;
+        eCCollisionShape::SetGroup
+                  (*(eCCollisionShape **)
+                    ((this->gCCharacterMovement_PS_data).offset_0x300 + iVar12 * 4),
+                   (bTPropertyContainer<eEShapeGroup> *)&bStack_c4);
+        bStack_c4 = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+        bCObjectBase::~bCObjectBase(&bStack_c4);
+        (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x170 + 0x15c))
+                  (*(undefined4 *)((this->gCCharacterMovement_PS_data).offset_0x300 + iVar12 * 4));
+        iVar12 = iVar12 + 1;
+      } while (iVar12 < (int)(this->gCCharacterMovement_PS_data).offset_0x304);
+    }
+  }
+  else {
+    if ((this->gCCharacterMovement_PS_data).field_0x12 == '\0') {
+      iStack_a0 = 0;
+      if (0 < (int)(this->gCCharacterMovement_PS_data).offset_0x304) {
+        do {
+          iVar12 = iStack_a0 * 4;
+          pbVar7 = (bCAccessorPropertyObject *)
+                   bCAccessorPropertyObject::bCAccessorPropertyObject
+                             ((bCAccessorPropertyObject *)&uStack_ac,
+                              *(bCObjectRefBase **)
+                               ((this->gCCharacterMovement_PS_data).offset_0x300 + iVar12));
+          bCAccessorPropertyObject::Clone(pbVar7);
+          bCAccessorPropertyObject::~bCAccessorPropertyObject
+                    ((bCAccessorPropertyObject *)&puStack_b0);
+          pbVar8 = bCAccessorPropertyObject::GetNativeObject((bCAccessorPropertyObject *)&iStack_a0)
+          ;
+          bCObjectBase::bCObjectBase((bCObjectBase *)&uStack_c8);
+          uStack_c8 = &bTPropertyContainer<eEShapeGroup>::vftable;
+          bStack_c4 = bStack_b4;
+          eCCollisionShape::SetGroup
+                    ((eCCollisionShape *)pbVar8,(bTPropertyContainer<eEShapeGroup> *)&uStack_c8);
+          uStack_c8 = &bTPropertyContainer<eEShapeGroup>::vftable;
+          bCObjectBase::~bCObjectBase((bCObjectBase *)&uStack_c8);
+          puStack_b8 = *(undefined4 **)&(this->gCCharacterMovement_PS_data).field_0x18;
+          fVar13 = eCCollisionShape::GetHeight
+                             (*(eCCollisionShape **)
+                               ((this->gCCharacterMovement_PS_data).offset_0x300 + iVar12));
+          if (fVar13 - (float)puStack_b8 < 0.001) {
+            peVar4 = (*this->vftablePtr->GetEntity)(this);
+            pbVar9 = eCEntity::GetName((eCEntity *)peVar4);
+            GE_MESSAGEF_WARN("C: entity %s: heightcorrection of %f would create a degenerated movement shape, please change shape dims or change heightcorrection value!"
+                             ,*(undefined4 *)pbVar9,(double)(float)puStack_b8);
+            fVar13 = eCCollisionShape::GetHeight
+                               (*(eCCollisionShape **)
+                                 ((this->gCCharacterMovement_PS_data).offset_0x300 + iVar12));
+            puStack_b8 = (undefined4 *)(fVar13 - 0.001);
+          }
+          fVar13 = eCCollisionShape::GetHeight
+                             (*(eCCollisionShape **)
+                               ((this->gCCharacterMovement_PS_data).offset_0x300 + iVar12));
+          uStack_ac = (double)CONCAT44(fVar13 - (float)puStack_b8,(undefined4)uStack_ac);
+          eCCollisionShape::SetHeight((eCCollisionShape *)pbVar8,fVar13 - (float)puStack_b8);
+          fVar13 = eCCollisionShape::GetHeight((eCCollisionShape *)pbVar8);
+          if (fVar13 < 0.001) {
+            eCCollisionShape::SetHeight((eCCollisionShape *)pbVar8,0.001);
+          }
+          puStack_c0 = (undefined4 *)((this->gCCharacterMovement_PS_data).offset_0x300 + iVar12);
+          uStack_ac = (double)CONCAT44((float)puStack_b8 * 0.5,(undefined4)uStack_ac);
+          bCVector::bCVector(abStack_98,0.0,(float)puStack_b8 * 0.5,0.0);
+          pbVar11 = abStack_8c;
+          pbVar10 = eCCollisionShape::GetCenter((eCCollisionShape *)*puStack_c0);
+          pbVar11 = (bCVector *)bCVector::operator+(pbVar10,pbVar11);
+          eCCollisionShape::SetCenter((eCCollisionShape *)pbVar8,pbVar11);
+          bCVector::~bCVector(abStack_90);
+          bCVector::~bCVector(abStack_9c);
+          abStack_cd[0] = true;
+          eCCollisionShape::SetIsLazyGenerated((eCCollisionShape *)pbVar8,abStack_cd);
+          (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x170 + 0x15c))(pbVar8);
+          bCAccessorPropertyObject::~bCAccessorPropertyObject
+                    ((bCAccessorPropertyObject *)abStack_9c);
+          iStack_a0 = iStack_a0 + 1;
+        } while (iStack_a0 < (int)(this->gCCharacterMovement_PS_data).offset_0x304);
+      }
+    }
+    else {
+      iVar12 = 0;
+      if (0 < (int)(this->gCCharacterMovement_PS_data).offset_0x304) {
+        do {
+          pbVar7 = (bCAccessorPropertyObject *)
+                   bCAccessorPropertyObject::bCAccessorPropertyObject
+                             ((bCAccessorPropertyObject *)&uStack_ac,
+                              *(bCObjectRefBase **)
+                               ((this->gCCharacterMovement_PS_data).offset_0x300 + iVar12 * 4));
+          bCAccessorPropertyObject::Clone(pbVar7);
+          bCAccessorPropertyObject::~bCAccessorPropertyObject
+                    ((bCAccessorPropertyObject *)&puStack_b0);
+          pbVar8 = bCAccessorPropertyObject::GetNativeObject((bCAccessorPropertyObject *)&iStack_a0)
+          ;
+          bCObjectBase::bCObjectBase((bCObjectBase *)&uStack_c8);
+          bStack_c4 = bStack_b4;
+          uStack_c8 = &bTPropertyContainer<eEShapeGroup>::vftable;
+          eCCollisionShape::SetGroup
+                    ((eCCollisionShape *)pbVar8,(bTPropertyContainer<eEShapeGroup> *)&uStack_c8);
+          uStack_c8 = &bTPropertyContainer<eEShapeGroup>::vftable;
+          bCObjectBase::~bCObjectBase((bCObjectBase *)&uStack_c8);
+          bStack_c9 = true;
+          eCCollisionShape::SetIsLazyGenerated((eCCollisionShape *)pbVar8,&bStack_c9);
+          bCVector::bCVector(abStack_8c,0.0,
+                             *(float *)&(this->gCCharacterMovement_PS_data).field_0x18,0.0);
+          pbVar11 = abStack_98;
+          pbVar10 = eCCollisionShape::GetCenter((eCCollisionShape *)pbVar8);
+          pbVar11 = (bCVector *)bCVector::operator+(pbVar10,pbVar11);
+          eCCollisionShape::SetCenter((eCCollisionShape *)pbVar8,pbVar11);
+          bCVector::~bCVector(abStack_9c);
+          bCVector::~bCVector(abStack_90);
+          (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x170 + 0x15c))(pbVar8);
+          bCAccessorPropertyObject::~bCAccessorPropertyObject
+                    ((bCAccessorPropertyObject *)abStack_9c);
+          iVar12 = iVar12 + 1;
+        } while (iVar12 < (int)(this->gCCharacterMovement_PS_data).offset_0x304);
+      }
+    }
+    puVar6 = puStack_b0;
+    if (param_1 == 0xc) {
+      bCCapsule::bCCapsule(abStack_7c);
+      bCCapsule::SetRadius(abStack_7c,10.0);
+      uStack_ac = (double)*(float *)&(this->gCCharacterMovement_PS_data).field_0x18;
+      fVar13 = bCCapsule::GetRadius(abStack_7c);
+      bStack_bc = (bCObjectBase)((float)uStack_ac - (fVar13 + fVar13));
+      bCCapsule::SetHeight(abStack_7c,(float)bStack_bc);
+      fVar13 = bCCapsule::GetHeight(abStack_7c);
+      if (fVar13 <= 0.0001) {
+        bCCapsule::SetHeight(abStack_7c,0.0001);
+      }
+      fVar13 = bCCapsule::GetHeight(abStack_7c);
+      uStack_ac = (double)(fVar13 * 0.5);
+      fVar13 = bCCapsule::GetRadius(abStack_7c);
+      bStack_bc = (bCObjectBase)(fVar13 + (float)uStack_ac + 2.0);
+      pbVar11 = (bCVector *)bCVector::bCVector(abStack_94,0.0,(float)bStack_bc,0.0);
+      bCCapsule::SetCenter(abStack_7c,pbVar11);
+      bCVector::~bCVector(abStack_94);
+      this_00 = (eCCollisionShape *)thunk_FUN_20233f70();
+      eCCollisionShape::SetShape(this_00,abStack_7c);
+      bCObjectBase::bCObjectBase(&bStack_c4);
+      bStack_c4 = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+      puStack_c0 = puVar6;
+      eCCollisionShape::SetGroup(this_00,(bTPropertyContainer<eEShapeGroup> *)&bStack_c4);
+      bStack_c4 = (bCObjectBase)&bTPropertyContainer<eEShapeGroup>::vftable;
+      bCObjectBase::~bCObjectBase(&bStack_c4);
+      bCObjectBase::bCObjectBase(&bStack_c4);
+      bStack_c4 = (bCObjectBase)&bTPropertyContainer<eEShapeMaterial>::vftable;
+      puStack_c0 = (undefined4 *)0x6;
+      eCCollisionShape::SetMaterial(this_00,(bTPropertyContainer<eEShapeMaterial> *)&bStack_c4);
+      bStack_c4 = (bCObjectBase)&bTPropertyContainer<eEShapeMaterial>::vftable;
+      bCObjectBase::~bCObjectBase(&bStack_c4);
+      uStack_c8._3_1_ = 1;
+      eCCollisionShape::SetIsLazyGenerated(this_00,(bool *)((int)&uStack_c8 + 3));
+      uStack_c8._3_1_ = 1;
+      eCCollisionShape::SetIgnoredByTraceRay(this_00,(bool *)((int)&uStack_c8 + 3));
+      (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x170 + 0x15c))(this_00);
+      if (this_00 != (eCCollisionShape *)0x0) {
+        (**(code **)(*(int *)this_00 + 0x24))();
+      }
+      bCCapsule::~bCCapsule(abStack_80);
+      return true;
+    }
+  }
+  return true;
+}
+
+

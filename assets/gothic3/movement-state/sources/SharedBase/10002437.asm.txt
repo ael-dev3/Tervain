@@ -1,0 +1,2 @@
+; 10002437 ?GetZAxis@bCMatrix@@QBEABVbCVector@@XZ
+10002437 | e9b45b0200 | JMP 0x10027ff0

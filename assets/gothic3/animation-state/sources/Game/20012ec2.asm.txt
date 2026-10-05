@@ -1,0 +1,2 @@
+; 20012ec2 ?GetPrimaryPoseExt@gCNPC_PS@@QAE?AW4gEPose@@W4gEAction@@VbCString@@@Z
+20012ec2 | e9a9612e00 | JMP 0x202f9070

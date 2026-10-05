@@ -1,0 +1,31 @@
+/* ENTRY 3075caf0 | bTPropertyType<eCRigidBody_PS,float>::~bTPropertyType<eCRigidBody_PS,float> | STATUS decompiled | 17 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCRigidBody_PS,float>::~bTPropertyType<eCRigidBody_PS,float>
+          (bTPropertyType<eCRigidBody_PS,float> *this)
+
+{
+  bTPropertyType<eCRigidBody_PS,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"TotalMass");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCRigidBody_PS::ms_PropertyMember_m_fMass,(bCString *)&local_4,1
+            );
+  _ms_PropertyMember_m_fMass = &vftable;
+  DAT_30aebff0 = bTPropertyObjectType<eCRigidBody_PS,eCRigidBodyBase_PS>::
+                 ~bTPropertyObjectType<eCRigidBody_PS,eCRigidBodyBase_PS>();
+  _DAT_30aebff4 = 0x18;
+  _DAT_30aebff8 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&eCRigidBody_PS::ms_PropertyMember_m_fMass);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30aebff0,
+             (bCPropertyTypeBase *)&eCRigidBody_PS::ms_PropertyMember_m_fMass);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}
+
+

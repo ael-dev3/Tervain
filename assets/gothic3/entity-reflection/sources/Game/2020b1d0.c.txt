@@ -1,0 +1,14 @@
+/* ENTRY 2020b1d0 | bTPropertyType<gCClock_PS,float>::vfunction19 | STATUS decompiled | 4 ms */
+
+void __thiscall
+bTPropertyType<gCClock_PS,float>::vfunction19(bTPropertyType<gCClock_PS,float> *this)
+
+{
+  bCPropertyTypeBase::Destroy((bCPropertyTypeBase *)this);
+  thunk_FUN_20070e90(this + 8);
+  bCPropertyObjectTypeBase::UnregisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)this[6].vftablePtr,(bCPropertyTypeBase *)this);
+  return;
+}
+
+

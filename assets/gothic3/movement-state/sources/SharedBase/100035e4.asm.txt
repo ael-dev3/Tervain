@@ -1,0 +1,4 @@
+; 100035e4 ??0bCMatrix3@@QAE@XZ
+100035e4 | e987380200 | JMP 0x10026e70
+; 100035ee bCPropertyTypeBase::Destroy
+; 100035ee Ordinal_1947

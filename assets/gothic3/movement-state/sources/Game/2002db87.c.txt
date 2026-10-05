@@ -1,0 +1,12 @@
+/* ENTRY 2002db87 | gCCharacterMovement_PS::GetIsProcessing | STATUS decompiled | 9 ms */
+
+/* public: bool __thiscall gCCharacterMovement_PS::GetIsProcessing(void) */
+
+bool __thiscall gCCharacterMovement_PS::GetIsProcessing(gCCharacterMovement_PS *this)
+
+{
+                    /* 0x2db87  3603  ?GetIsProcessing@gCCharacterMovement_PS@@QAE_NXZ */
+  return (bool)(this->gCCharacterMovement_PS_data).offset_0x2b8;
+}
+
+

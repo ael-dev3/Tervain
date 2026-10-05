@@ -1,0 +1,14 @@
+/* ENTRY 200347b6 | gCCharacterMovement_PS::OnPreProcess | STATUS decompiled | 7 ms */
+
+/* protected: virtual void __thiscall gCCharacterMovement_PS::OnPreProcess(void) */
+
+void __thiscall gCCharacterMovement_PS::OnPreProcess(gCCharacterMovement_PS *this)
+
+{
+                    /* 0x347b6  5539  ?OnPreProcess@gCCharacterMovement_PS@@MAEXXZ */
+  eCEntityPropertySet::OnPreProcess((eCEntityPropertySet *)this);
+  (this->gCCharacterMovement_PS_data).offset_0x2b8 = (gCCharacterMovement_PS)0x1;
+  return;
+}
+
+

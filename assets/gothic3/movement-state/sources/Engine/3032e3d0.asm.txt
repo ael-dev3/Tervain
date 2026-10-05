@@ -1,0 +1,36 @@
+; 3032e3d0 bTPropertyContainer<eERigidbody_Flag>::bTPropertyContainer<eERigidbody_Flag>_Constructor_or_Destructor
+3032e3d0 | 83ec08 | SUB ESP,0x8
+3032e3d3 | 53 | PUSH EBX
+3032e3d4 | 8b5c2410 | MOV EBX,dword ptr [ESP + 0x10]
+3032e3d8 | 56 | PUSH ESI
+3032e3d9 | 8bf1 | MOV ESI,ECX
+3032e3db | 57 | PUSH EDI
+3032e3dc | 8b7e7c | MOV EDI,dword ptr [ESI + 0x7c]
+3032e3df | 8d4c240c | LEA ECX,[ESP + 0xc]
+3032e3e3 | 0bfb | OR EDI,EBX
+3032e3e5 | ff1508ccaf30 | CALL dword ptr [0x30afcc08]
+3032e3eb | 8b4678 | MOV EAX,dword ptr [ESI + 0x78]
+3032e3ee | 8b401c | MOV EAX,dword ptr [EAX + 0x1c]
+3032e3f1 | 8d4e78 | LEA ECX,[ESI + 0x78]
+3032e3f4 | 8d54240c | LEA EDX,[ESP + 0xc]
+3032e3f8 | 52 | PUSH EDX
+3032e3f9 | c74424100cfe8530 | MOV dword ptr [ESP + 0x10],0x3085fe0c
+3032e401 | 897c2414 | MOV dword ptr [ESP + 0x14],EDI
+3032e405 | ffd0 | CALL EAX
+3032e407 | 8d4c240c | LEA ECX,[ESP + 0xc]
+3032e40b | c744240c0cfe8530 | MOV dword ptr [ESP + 0xc],0x3085fe0c
+3032e413 | ff1520ccaf30 | CALL dword ptr [0x30afcc20]
+3032e419 | 8b16 | MOV EDX,dword ptr [ESI]
+3032e41b | 8b4268 | MOV EAX,dword ptr [EDX + 0x68]
+3032e41e | 53 | PUSH EBX
+3032e41f | 8bce | MOV ECX,ESI
+3032e421 | ffd0 | CALL EAX
+3032e423 | 50 | PUSH EAX
+3032e424 | e848a6cdff | CALL 0x30008a71
+3032e429 | 8bc8 | MOV ECX,EAX
+3032e42b | e8bc0bcfff | CALL 0x3001efec
+3032e430 | 5f | POP EDI
+3032e431 | 5e | POP ESI
+3032e432 | 5b | POP EBX
+3032e433 | 83c408 | ADD ESP,0x8
+3032e436 | c20400 | RET 0x4

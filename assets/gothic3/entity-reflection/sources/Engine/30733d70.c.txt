@@ -1,0 +1,32 @@
+/* ENTRY 30733d70 | bTPropertyType<eCVisualAnimation_PS,float>::~bTPropertyType<eCVisualAnimation_PS,float> | STATUS decompiled | 43 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<eCVisualAnimation_PS,float>::~bTPropertyType<eCVisualAnimation_PS,float>
+          (bTPropertyType<eCVisualAnimation_PS,float> *this)
+
+{
+  bTPropertyType<eCVisualAnimation_PS,float> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"BonesBreakMaxForce");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_fBonesBreakMaxForce,
+             (bCString *)&local_4,1);
+  _ms_PropertyMember_m_fBonesBreakMaxForce = &vftable;
+  DAT_30ada684 = bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<eCVisualAnimation_PS,eCEntityPropertySet>();
+  _DAT_30ada688 = 0x24;
+  _DAT_30ada68c = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_fBonesBreakMaxForce);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_30ada684,
+             (bCPropertyTypeBase *)&eCVisualAnimation_PS::ms_PropertyMember_m_fBonesBreakMaxForce);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}
+
+

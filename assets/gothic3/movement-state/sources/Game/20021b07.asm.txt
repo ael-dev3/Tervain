@@ -1,0 +1,2 @@
+; 20021b07 ?SetShapeByMode@gCCharacterMovement_PS@@IAE_NW4gECharMovementMode@@@Z
+20021b07 | e9b49e2000 | JMP 0x2022b9c0

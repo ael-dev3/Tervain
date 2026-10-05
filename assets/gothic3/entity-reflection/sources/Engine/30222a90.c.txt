@@ -1,0 +1,9 @@
+/* ENTRY 30222a90 | FUN_30222a90 | STATUS decompiled | 1 ms */
+
+undefined2 FUN_30222a90(void)
+
+{
+  return 8;
+}
+
+

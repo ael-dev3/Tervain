@@ -1,0 +1,4 @@
+; 2002daa1 ?Read@gCEffect_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+2002daa1 | e9baa90e00 | JMP 0x20118460
+; 2002daa6 gCWorkspace::gCWorkspace
+; 2002daa6 Ordinal_362

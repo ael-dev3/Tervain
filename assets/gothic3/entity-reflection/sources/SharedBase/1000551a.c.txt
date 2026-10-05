@@ -1,0 +1,42 @@
+/* ENTRY 1000551a | bCObjectRefBase::ReleaseReference | STATUS decompiled | 20 ms */
+
+/* public: virtual unsigned long __thiscall bCObjectRefBase::ReleaseReference(void)
+   bCObjectRefBase member function inherited by bCThreadObjectRefBase
+   bCObjectRefBase member function inherited by bCObsoleteClass
+   bCObjectRefBase member function inherited by bCEvent */
+
+ulong __thiscall bCObjectRefBase::ReleaseReference(bCObjectRefBase *this)
+
+{
+  bCPropertyObjectBase *this_00;
+  deleting_destructor *pdVar1;
+  ulong uVar2;
+  uint uVar3;
+  bCMemoryAdmin *this_01;
+  
+                    /* 0x551a  3922  ?ReleaseReference@bCObjectRefBase@@UAEKXZ */
+  this_00 = (bCPropertyObjectBase *)(this->bCObjectRefBase_data).offset_0x0;
+  if (this_00 != (bCPropertyObjectBase *)0x0) {
+    uVar2 = bCPropertyObjectBase::GetReferenceCount(this_00);
+    if (uVar2 != 0) {
+                    /* WARNING: Could not recover jumptable at 0x1004a41c. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+      uVar2 = (**(code **)(*(int *)(this->bCObjectRefBase_data).offset_0x0 + 0x34))();
+      return uVar2;
+    }
+  }
+  uVar3 = (this->bCObjectRefBase_data).offset_0x4;
+  if (1 < (uVar3 & 0x7fffffff)) {
+    uVar3 = (uVar3 - 1 ^ uVar3) & 0x7fffffff ^ uVar3;
+    (this->bCObjectRefBase_data).offset_0x4 = uVar3;
+    return uVar3 & 0x7fffffff;
+  }
+  pdVar1 = this->vftablePtr->deleting_destructor;
+  (this->bCObjectRefBase_data).offset_0x4 = uVar3 & 0x80000000;
+  (*pdVar1)(this,0);
+  this_01 = bCMemoryAdmin::GetInstance();
+  bCMemoryAdmin::DeleteObject(this_01,this);
+  return 0;
+}
+
+

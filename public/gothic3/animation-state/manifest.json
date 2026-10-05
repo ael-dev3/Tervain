@@ -1,0 +1,34 @@
+{
+  "schema": "gothic3-native-animation-state-manifest-v1",
+  "rules": {
+    "path": "public/gothic3/animation-state/rules.json",
+    "bytes": 84046,
+    "sha256": "4c09a3f20057072a7ba6a8d68ac461bd550427bc9561346f03757dda631ed230"
+  },
+  "catalog": {
+    "path": "public/gothic3/animation-state/resource-catalog.json.gz",
+    "bytes": 357290,
+    "sha256": "c07e4620e6fc5f90f2e6288a943a025df5f387b34a1c4f0679a6cb33c883c09b",
+    "contentEncoding": "gzip",
+    "uncompressedBytes": 2751360,
+    "uncompressedSha256": "33fbee4bef273132b8afb8c8a9453a0ab793820beaefba8b266da006a67b0aeb"
+  },
+  "heroMotions": {
+    "path": "public/gothic3/animation-state/hero-motions.json.gz",
+    "bytes": 2547405,
+    "sha256": "bb21f9100e0da5f9e2941d97831f3ee785b21ade50339fe74fba9afaec948318",
+    "contentEncoding": "gzip",
+    "uncompressedBytes": 10460152,
+    "uncompressedSha256": "80c9e95f6599460c9b807bdf3f0da68fe405bdead8610c71779f909748994f64"
+  },
+  "rig": {
+    "path": "public/gothic3/animated/hero-native.json",
+    "bytes": 6385203,
+    "sha256": "80e274ba176b88d4780937d6794a1bf5d3f8988be76f5ee820c41f697697c97e"
+  },
+  "sourceEvidence": {
+    "path": "assets/gothic3/animation-state/native-evidence.json",
+    "bytes": 1113071,
+    "sha256": "1878b01152ea6eeb2084d4ee7167861b2933a63ebc0b9716a45ef831d4f0ea83"
+  }
+}

@@ -1,0 +1,4 @@
+; 100056e6 ?Clone@bCPropertyObjectBase@@QBEPAV1@XZ
+100056e6 | e9e5390800 | JMP 0x100890d0
+; 100056f0 bCVariant::operator=
+; 100056f0 Ordinal_568

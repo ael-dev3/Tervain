@@ -1,0 +1,17 @@
+/* ENTRY 2012bf30 | FUN_2012bf30 | STATUS decompiled | 2 ms */
+
+bool FUN_2012bf30(int *param_1)
+
+{
+  int iVar1;
+  
+  if (param_1 != (int *)0x0) {
+    iVar1 = (**(code **)(*param_1 + 0xec))(0x2d);
+    if (iVar1 != 0) {
+      return *(int *)(iVar1 + 0x58) == 9;
+    }
+  }
+  return false;
+}
+
+

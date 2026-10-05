@@ -1,0 +1,90 @@
+/* ENTRY 2002efaa | gCNPC_PS::GetPrimaryPoseExt | STATUS decompiled | 21 ms */
+
+/* public: enum gEPose __thiscall gCNPC_PS::GetPrimaryPoseExt(enum gEAction,enum gEPhase) */
+
+gEPose __thiscall gCNPC_PS::GetPrimaryPoseExt(gCNPC_PS *this,gEAction param_1,gEPhase param_2)
+
+{
+  int iVar1;
+  gEPose gVar2;
+  
+                    /* 0x2efaa  4005
+                       ?GetPrimaryPoseExt@gCNPC_PS@@QAE?AW4gEPose@@W4gEAction@@W4gEPhase@@@Z */
+  iVar1 = (this->gCNPC_PS_data).offset_0x1a0;
+  if (iVar1 != 0) {
+    *(int *)&(this->gCNPC_PS_data).field_0x190 = iVar1;
+    *(int *)&(this->gCNPC_PS_data).field_0x194 = iVar1;
+  }
+  gVar2 = 1;
+  switch(param_1) {
+  case 1:
+  case 3:
+  case 4:
+  case 5:
+  case 0x16:
+  case 0x17:
+  case 0x18:
+  case 0x19:
+    if (param_2 == 3) {
+      gVar2 = *(gEPose *)&(this->gCNPC_PS_data).field_0x190;
+      goto switchD_202f8f3d_caseD_1;
+    }
+  }
+  switch(*(undefined4 *)&(this->gCNPC_PS_data).field_0x190) {
+  case 2:
+  case 6:
+  case 10:
+  case 0xe:
+  case 0x12:
+    gVar2 = 2;
+    break;
+  case 3:
+  case 7:
+  case 0xb:
+  case 0xf:
+  case 0x13:
+    gVar2 = 3;
+    break;
+  case 4:
+  case 8:
+  case 0xc:
+  case 0x10:
+  case 0x14:
+    gVar2 = 4;
+  }
+switchD_202f8f3d_caseD_1:
+  switch(param_1) {
+  case 1:
+  case 2:
+  case 3:
+  case 4:
+  case 5:
+  case 0xd:
+  case 0xe:
+  case 0xf:
+  case 0x16:
+  case 0x17:
+  case 0x18:
+  case 0x19:
+  case 0x77:
+    return gVar2;
+  case 0x35:
+    if (param_2 == 0xc) {
+      return gVar2;
+    }
+    if (param_2 == 0xf) {
+      return gVar2;
+    }
+  }
+  if (gVar2 != 3) {
+    if (gVar2 == 4) {
+      gVar2 = 2;
+    }
+    *(gEPose *)&(this->gCNPC_PS_data).field_0x190 = gVar2;
+    return gVar2;
+  }
+  *(undefined4 *)&(this->gCNPC_PS_data).field_0x190 = 1;
+  return 1;
+}
+
+

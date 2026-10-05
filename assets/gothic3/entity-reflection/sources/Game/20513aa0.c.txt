@@ -1,0 +1,30 @@
+/* ENTRY 20513aa0 | bTPropertyType<gCNPC_PS,bCPropertyID>::~bTPropertyType<gCNPC_PS,bCPropertyID> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCNPC_PS,bCPropertyID>::~bTPropertyType<gCNPC_PS,bCPropertyID>
+          (bTPropertyType<gCNPC_PS,bCPropertyID> *this)
+
+{
+  bTPropertyType<gCNPC_PS,bCPropertyID> *local_4;
+  
+  local_4 = this;
+  bCString::bCString((bCString *)&local_4,"Enclave");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_Enclave,(bCString *)&local_4,1);
+  _ms_PropertyMember_m_Enclave = &vftable;
+  DAT_207c0d90 = bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCNPC_PS,eCEntityPropertySet>();
+  _DAT_207c0d94 = 0x50;
+  _DAT_207c0d98 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_Enclave);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207c0d90,
+             (bCPropertyTypeBase *)&gCNPC_PS::ms_PropertyMember_m_Enclave);
+  bCString::~bCString((bCString *)&local_4);
+  _atexit(bTPropertyTypeOnly<bCPropertyID>::~bTPropertyTypeOnly<bCPropertyID>);
+  return;
+}
+
+

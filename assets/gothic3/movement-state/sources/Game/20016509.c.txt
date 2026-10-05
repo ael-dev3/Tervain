@@ -1,0 +1,101 @@
+/* ENTRY 20016509 | gCCharacterMovement_PS::SetFlagsByMode | STATUS decompiled | 45 ms */
+
+/* protected: bool __thiscall gCCharacterMovement_PS::SetFlagsByMode(enum gECharMovementMode) */
+
+bool __thiscall
+gCCharacterMovement_PS::SetFlagsByMode(gCCharacterMovement_PS *this,gECharMovementMode param_1)
+
+{
+  bool bVar1;
+  eCEntity *peVar2;
+  int *piVar3;
+  undefined4 uVar4;
+  
+                    /* 0x16509  6500
+                       ?SetFlagsByMode@gCCharacterMovement_PS@@IAE_NW4gECharMovementMode@@@Z */
+  (this->gCCharacterMovement_PS_data).offset_0x25c = (gCCharacterMovement_PS)0x0;
+  if ((this->gCCharacterMovement_PS_data).offset_0x25d == (gCCharacterMovement_PS)0x1) {
+    (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 0x1f0))(4);
+    return false;
+  }
+  peVar2 = (*this->vftablePtr->GetEntity)(this);
+  bVar1 = gCEntity::IsDead(peVar2);
+  if (bVar1) {
+    (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 0x1f0))(0xe);
+    (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 0x1f0))(0x70);
+    (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 0x1d4))(0);
+    return true;
+  }
+  if ((((param_1 == 1) || (param_1 == 3)) || (param_1 == 10)) ||
+     (((param_1 == 4 || (param_1 == 2)) || (param_1 == 5)))) {
+    piVar3 = (int *)(this->gCCharacterMovement_PS_data).offset_0x16c;
+    if (piVar3 == (int *)0x0) {
+      return true;
+    }
+    (**(code **)(*piVar3 + 500))(0xe);
+    piVar3 = (int *)(this->gCCharacterMovement_PS_data).offset_0x16c;
+    uVar4 = 4;
+  }
+  else {
+    if (param_1 == 6) {
+      piVar3 = (int *)(this->gCCharacterMovement_PS_data).offset_0x16c;
+      (this->gCCharacterMovement_PS_data).field_0x17a = 0;
+      if (piVar3 == (int *)0x0) {
+        return true;
+      }
+      (**(code **)(*piVar3 + 500))(0xe);
+      (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 0x1d4))(1);
+      (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 0x1f0))(0x70);
+      return true;
+    }
+    if (param_1 == 0xd) {
+      piVar3 = (int *)(this->gCCharacterMovement_PS_data).offset_0x16c;
+      if (piVar3 == (int *)0x0) {
+        return true;
+      }
+      (**(code **)(*piVar3 + 500))(0xe);
+      (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 0x1d4))
+                ((this->gCCharacterMovement_PS_data).field_0x11);
+      (this->gCCharacterMovement_PS_data).field_0x17a = 1;
+      return true;
+    }
+    if (param_1 == 0xc) {
+      piVar3 = (int *)(this->gCCharacterMovement_PS_data).offset_0x16c;
+      (this->gCCharacterMovement_PS_data).field_0x17a = 0;
+      if (piVar3 == (int *)0x0) {
+        return true;
+      }
+      (**(code **)(*piVar3 + 0x1f0))(0x70);
+      (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 500))(0xe);
+      (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 0x1d4))
+                ((this->gCCharacterMovement_PS_data).field_0x11);
+      return true;
+    }
+    if (param_1 == 0) {
+      piVar3 = (int *)(this->gCCharacterMovement_PS_data).offset_0x16c;
+      if (piVar3 == (int *)0x0) {
+        return true;
+      }
+      (**(code **)(*piVar3 + 500))(0xe);
+      (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 500))(0x70);
+      (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 0x1d4))
+                ((this->gCCharacterMovement_PS_data).field_0x11);
+      return true;
+    }
+    if (param_1 != 0xe) {
+      return true;
+    }
+    piVar3 = (int *)(this->gCCharacterMovement_PS_data).offset_0x16c;
+    (this->gCCharacterMovement_PS_data).field_0x17a = 0;
+    if (piVar3 == (int *)0x0) {
+      return true;
+    }
+    uVar4 = 0xe;
+  }
+  (**(code **)(*piVar3 + 0x1f0))(uVar4);
+  (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 0x1f0))(0x70);
+  (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 0x1d4))(0);
+  return true;
+}
+
+

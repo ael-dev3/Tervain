@@ -1,0 +1,638 @@
+{
+  "schema": "gothic3-movement-state-rules-v1",
+  "gameSha256": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f",
+  "entries": {
+    "SetMovementMode": {
+      "entry": "2022c810",
+      "body": "2022c810",
+      "jumpTrail": []
+    },
+    "CreateDependantPSets": {
+      "entry": "20024348",
+      "body": "20224320",
+      "jumpTrail": [
+        {
+          "address": "20024348",
+          "bytes": "e9d3ff1f00",
+          "target": "20224320"
+        }
+      ]
+    },
+    "CanWalkOnFloor": {
+      "entry": "20017233",
+      "body": "20222320",
+      "jumpTrail": [
+        {
+          "address": "20017233",
+          "bytes": "e9e8b02000",
+          "target": "20222320"
+        }
+      ]
+    },
+    "FindFloorWaterCeiling": {
+      "entry": "20035a3f",
+      "body": "202224e0",
+      "jumpTrail": [
+        {
+          "address": "20035a3f",
+          "bytes": "e99cca1e00",
+          "target": "202224e0"
+        }
+      ]
+    },
+    "PutToGround": {
+      "entry": "20002068",
+      "body": "202249d0",
+      "jumpTrail": [
+        {
+          "address": "20002068",
+          "bytes": "e963292200",
+          "target": "202249d0"
+        }
+      ]
+    },
+    "StopMovement": {
+      "entry": "20032029",
+      "body": "20226e10",
+      "jumpTrail": [
+        {
+          "address": "20032029",
+          "bytes": "e9e24d1f00",
+          "target": "20226e10"
+        }
+      ]
+    },
+    "VisualAnimationModeProxy": {
+      "entry": "20020b71",
+      "body": "202113a0",
+      "jumpTrail": [
+        {
+          "address": "20020b71",
+          "bytes": "e92a081f00",
+          "target": "202113a0"
+        }
+      ]
+    },
+    "SetShapeByMode": {
+      "entry": "20021b07",
+      "body": "2022b9c0",
+      "jumpTrail": [
+        {
+          "address": "20021b07",
+          "bytes": "e9b49e2000",
+          "target": "2022b9c0"
+        }
+      ]
+    },
+    "SetSpeedByMode": {
+      "entry": "20001988",
+      "body": "20221f20",
+      "jumpTrail": [
+        {
+          "address": "20001988",
+          "bytes": "e993052200",
+          "target": "20221f20"
+        }
+      ]
+    },
+    "SetFlagsByMode": {
+      "entry": "20016509",
+      "body": "20221a80",
+      "jumpTrail": [
+        {
+          "address": "20016509",
+          "bytes": "e972b52000",
+          "target": "20221a80"
+        }
+      ]
+    },
+    "SetEffectsByMode": {
+      "entry": "2001b4b4",
+      "body": "202245e0",
+      "jumpTrail": [
+        {
+          "address": "2001b4b4",
+          "bytes": "e927912000",
+          "target": "202245e0"
+        }
+      ]
+    },
+    "GetMovementIsControledByPlayer": {
+      "entry": "2000d963",
+      "body": "20221d40",
+      "jumpTrail": [
+        {
+          "address": "2000d963",
+          "bytes": "e9d8432100",
+          "target": "20221d40"
+        }
+      ]
+    },
+    "SetGoalPosition": {
+      "entry": "2001d638",
+      "body": "202266e0",
+      "jumpTrail": [
+        {
+          "address": "2001d638",
+          "bytes": "e9a3902000",
+          "target": "202266e0"
+        }
+      ]
+    },
+    "CreateDependantShapes": {
+      "entry": "20009278",
+      "body": "2022aeb0",
+      "jumpTrail": [
+        {
+          "address": "20009278",
+          "bytes": "e9331c2200",
+          "target": "2022aeb0"
+        }
+      ]
+    },
+    "CalcQuadrupedDistances": {
+      "entry": "20034892",
+      "body": "20227b10",
+      "jumpTrail": [
+        {
+          "address": "20034892",
+          "bytes": "e979321f00",
+          "target": "20227b10"
+        }
+      ]
+    },
+    "IsDead": {
+      "entry": "20007f31",
+      "body": "2012bf30",
+      "jumpTrail": [
+        {
+          "address": "20007f31",
+          "bytes": "e9fa3f1200",
+          "target": "2012bf30"
+        }
+      ]
+    },
+    "Read": {
+      "entry": "200152c6",
+      "body": "2022aa50",
+      "jumpTrail": [
+        {
+          "address": "200152c6",
+          "bytes": "e985572100",
+          "target": "2022aa50"
+        }
+      ]
+    },
+    "Invalidate": {
+      "entry": "20021468",
+      "body": "20227d50",
+      "jumpTrail": [
+        {
+          "address": "20021468",
+          "bytes": "e9e3682000",
+          "target": "20227d50"
+        }
+      ]
+    },
+    "Create": {
+      "entry": "200362c8",
+      "body": "20223210",
+      "jumpTrail": [
+        {
+          "address": "200362c8",
+          "bytes": "e943cf1e00",
+          "target": "20223210"
+        }
+      ]
+    },
+    "OnPostRead": {
+      "entry": "2002e6f4",
+      "body": "202243e0",
+      "jumpTrail": [
+        {
+          "address": "2002e6f4",
+          "bytes": "e9e75c1f00",
+          "target": "202243e0"
+        }
+      ]
+    },
+    "GetSpeedByMode": {
+      "entry": "20024339",
+      "body": "20221fe0",
+      "jumpTrail": [
+        {
+          "address": "20024339",
+          "bytes": "e9a2dc1f00",
+          "target": "20221fe0"
+        }
+      ]
+    },
+    "OnProcess": {
+      "entry": "20032ec0",
+      "body": "2022f0c0",
+      "jumpTrail": [
+        {
+          "address": "20032ec0",
+          "bytes": "e9fbc11f00",
+          "target": "2022f0c0"
+        }
+      ]
+    },
+    "ProcessMovements": {
+      "entry": "2002c72d",
+      "body": "2022f090",
+      "jumpTrail": [
+        {
+          "address": "2002c72d",
+          "bytes": "e95e292000",
+          "target": "2022f090"
+        }
+      ]
+    },
+    "ProcessControlled": {
+      "entry": "20031f3e",
+      "body": "2022f010",
+      "jumpTrail": [
+        {
+          "address": "20031f3e",
+          "bytes": "e9cdd01f00",
+          "target": "2022f010"
+        }
+      ]
+    },
+    "Translation": {
+      "entry": "20014894",
+      "body": "2022cba0",
+      "jumpTrail": [
+        {
+          "address": "20014894",
+          "bytes": "e907832100",
+          "target": "2022cba0"
+        }
+      ]
+    },
+    "Rotation": {
+      "entry": "200324a2",
+      "body": "20228f00",
+      "jumpTrail": [
+        {
+          "address": "200324a2",
+          "bytes": "e9596a1f00",
+          "target": "20228f00"
+        }
+      ]
+    },
+    "Physics": {
+      "entry": "20020234",
+      "body": "2022d8e0",
+      "jumpTrail": [
+        {
+          "address": "20020234",
+          "bytes": "e9a7d62000",
+          "target": "2022d8e0"
+        }
+      ]
+    },
+    "Sensor": {
+      "entry": "2000c5bd",
+      "body": "20226960",
+      "jumpTrail": [
+        {
+          "address": "2000c5bd",
+          "bytes": "e99ea32100",
+          "target": "20226960"
+        }
+      ]
+    },
+    "Animation": {
+      "entry": "2001c161",
+      "body": "20223510",
+      "jumpTrail": [
+        {
+          "address": "2001c161",
+          "bytes": "e9aa732000",
+          "target": "20223510"
+        }
+      ]
+    },
+    "OnTouch": {
+      "entry": "20032849",
+      "body": "20225af0",
+      "jumpTrail": [
+        {
+          "address": "20032849",
+          "bytes": "e9a2321f00",
+          "target": "20225af0"
+        }
+      ]
+    },
+    "OnUntouch": {
+      "entry": "20017332",
+      "body": "20225d40",
+      "jumpTrail": [
+        {
+          "address": "20017332",
+          "bytes": "e909ea2000",
+          "target": "20225d40"
+        }
+      ]
+    },
+    "OnIntersect": {
+      "entry": "20023790",
+      "body": "20227960",
+      "jumpTrail": [
+        {
+          "address": "20023790",
+          "bytes": "e9cb412000",
+          "target": "20227960"
+        }
+      ]
+    },
+    "PreProcess": {
+      "entry": "200347b6",
+      "body": "20221630",
+      "jumpTrail": [
+        {
+          "address": "200347b6",
+          "bytes": "e975ce1e00",
+          "target": "20221630"
+        }
+      ]
+    },
+    "ResetProcessing": {
+      "entry": "2001e35d",
+      "body": "202222b0",
+      "jumpTrail": [
+        {
+          "address": "2001e35d",
+          "bytes": "e94e3f2000",
+          "target": "202222b0"
+        }
+      ]
+    },
+    "GetProcessing": {
+      "entry": "2002db87",
+      "body": "202222c0",
+      "jumpTrail": [
+        {
+          "address": "2002db87",
+          "bytes": "e934471f00",
+          "target": "202222c0"
+        }
+      ]
+    },
+    "IsProcessable": {
+      "entry": "2003579c",
+      "body": "20221620",
+      "jumpTrail": [
+        {
+          "address": "2003579c",
+          "bytes": "e97fbe1e00",
+          "target": "20221620"
+        }
+      ]
+    },
+    "CalcNextSteps": {
+      "entry": "20033bae",
+      "body": "20225e00",
+      "jumpTrail": [
+        {
+          "address": "20033bae",
+          "bytes": "e94d221f00",
+          "target": "20225e00"
+        }
+      ]
+    },
+    "SetCurrentVelocity": {
+      "entry": "202215e0",
+      "body": "202215e0",
+      "jumpTrail": []
+    },
+    "SaveFrameStates": {
+      "entry": "20036c19",
+      "body": "20223010",
+      "jumpTrail": [
+        {
+          "address": "20036c19",
+          "bytes": "e9f2c31e00",
+          "target": "20223010"
+        }
+      ]
+    },
+    "SensorPostProcess": {
+      "entry": "20015cf3",
+      "body": "20236f40",
+      "jumpTrail": [
+        {
+          "address": "20015cf3",
+          "bytes": "e948122200",
+          "target": "20236f40"
+        }
+      ]
+    },
+    "SensorSetMovement": {
+      "entry": "20006659",
+      "body": "20236b60",
+      "jumpTrail": [
+        {
+          "address": "20006659",
+          "bytes": "e902052300",
+          "target": "20236b60"
+        }
+      ]
+    },
+    "SensorGetPosition": {
+      "entry": "20035f03",
+      "body": "20236bb0",
+      "jumpTrail": [
+        {
+          "address": "20035f03",
+          "bytes": "e9a80c2000",
+          "target": "20236bb0"
+        }
+      ]
+    },
+    "SensorGoalRotation": {
+      "entry": "200058df",
+      "body": "20236d40",
+      "jumpTrail": [
+        {
+          "address": "200058df",
+          "bytes": "e95c142300",
+          "target": "20236d40"
+        }
+      ]
+    },
+    "SensorSetGoalPosition": {
+      "entry": "2001c715",
+      "body": "20236ca0",
+      "jumpTrail": [
+        {
+          "address": "2001c715",
+          "bytes": "e986a52100",
+          "target": "20236ca0"
+        }
+      ]
+    },
+    "ContributeFloorActions": {
+      "entry": "2000535d",
+      "body": "20225510",
+      "jumpTrail": [
+        {
+          "address": "2000535d",
+          "bytes": "e9ae012200",
+          "target": "20225510"
+        }
+      ]
+    },
+    "GetCurrentVelocity": {
+      "entry": "20023687",
+      "body": "20222ba0",
+      "jumpTrail": [
+        {
+          "address": "20023687",
+          "bytes": "e914f51f00",
+          "target": "20222ba0"
+        }
+      ]
+    },
+    "ScriptAdminGetter": {
+      "entry": "2001afbe",
+      "body": "200a4bb0",
+      "jumpTrail": [
+        {
+          "address": "2001afbe",
+          "bytes": "e9ed9b0800",
+          "target": "200a4bb0"
+        }
+      ]
+    },
+    "ScriptAdminConstructor": {
+      "entry": "200098bd",
+      "body": "2034f330",
+      "jumpTrail": [
+        {
+          "address": "200098bd",
+          "bytes": "e96e5a3400",
+          "target": "2034f330"
+        }
+      ]
+    },
+    "ScriptAdminCallScript": {
+      "entry": "20010e10",
+      "body": "2034dbe0",
+      "jumpTrail": [
+        {
+          "address": "20010e10",
+          "bytes": "e9cbcd3300",
+          "target": "2034dbe0"
+        }
+      ]
+    },
+    "ScriptAdminRunScript": {
+      "entry": "2002ad92",
+      "body": "2034d260",
+      "jumpTrail": [
+        {
+          "address": "2002ad92",
+          "bytes": "e9c9243200",
+          "target": "2034d260"
+        }
+      ]
+    },
+    "AdminSPUSetSelf": {
+      "entry": "2001fa41",
+      "body": "20367e20",
+      "jumpTrail": [
+        {
+          "address": "2001fa41",
+          "bytes": "e9da833400",
+          "target": "20367e20"
+        }
+      ]
+    },
+    "AdminSPUSetOther": {
+      "entry": "2002eb72",
+      "body": "20367e80",
+      "jumpTrail": [
+        {
+          "address": "2002eb72",
+          "bytes": "e909933300",
+          "target": "20367e80"
+        }
+      ]
+    },
+    "AdminSPUSetIntParameter": {
+      "entry": "20016f72",
+      "body": "20367ea0",
+      "jumpTrail": [
+        {
+          "address": "20016f72",
+          "bytes": "e9290f3500",
+          "target": "20367ea0"
+        }
+      ]
+    }
+  },
+  "scope": "Examined installed movement semantics; renderer/explorer movement is not a native substitute",
+  "speedModeTargets": {
+    "1": "20221f96",
+    "2": "20221f48",
+    "3": "20221f3a",
+    "4": "20221f96",
+    "5": "20221f56",
+    "6": "20221f74",
+    "7": "20221f96",
+    "8": "20221f96",
+    "9": "20221f96",
+    "10": "20221f3a",
+    "11": "20221f96",
+    "12": "20221f96",
+    "13": "20221f85",
+    "14": "20221f64"
+  },
+  "speedSourceOffsets": {
+    "2": 76,
+    "3": 68,
+    "5": 72,
+    "6": 132,
+    "10": 68,
+    "13": 136
+  },
+  "defaultSpeed": 1.0,
+  "onMovementModeChanged": {
+    "entry": "100029f5",
+    "body": "100d07c0",
+    "ordinaryNoEffectDomain": "new mode outside 7,10,12,13; previous outside 7,12,13 (previous 10 returns without effects)",
+    "dispatcher": "Game getter200a4bb0, captured ScriptAdmin vtable2069bebc+bc→20010e10→2034dbe0",
+    "dispatcherEffects": "CallScript rechecks game-running and entity-processing; updates the embedded admin SPU Self, Other and IntParameter before RunScript. Ordinary body inlining is available only inside an actual captured dispatcher, after original registration selection and wrapper capture."
+  },
+  "physics": {
+    "rigidBodyVtable": "3085ffcc",
+    "flagContainerAssignment": "3032f480",
+    "setVelocity": "3032c8b0",
+    "getVelocity": "3032ccf0",
+    "gravity": "3032d370",
+    "pendingVelocityCommand": 4,
+    "addFlagCommand": 11,
+    "removeFlagCommand": 12,
+    "velocityCommandDeduplicated": true,
+    "flagCommandsDeduplicated": false,
+    "flagPayloadSelection": "last element, pop after NxActor call; command list is FIFO",
+    "numericPayloadConstructorInitialized": false,
+    "freshActor": null
+  },
+  "callbackProfile": "Explicit captured original ScriptAdmin dispatcher must preserve source gates and embedded admin SPU writes. Original body helper requires installed registration 100029f5→100d07c0, copied Self/Other wrappers and matching captured owner CharacterMovement PS; arbitrary callback replacement/source-only entity membership is unsupported.",
+  "precisionProfile": "Finite binary32 fields; nearest-even; HasZeroMagnitude tests all x87 PC24/53/64 widths and rejects disagreements; other extended arithmetic boundaries explicit",
+  "unimplemented": [
+    "loaded CharacterMovement full reflected/stream state materialization",
+    "CreateDependantShapes default/clone/weapontrigger/cache construction",
+    "remaining SetShapeByMode shape reconfiguration",
+    "floor/water/ceiling TraceRay collision and PutToGround",
+    "full controlled translation/rotation and braking/acceleration",
+    "NxActor, unlocked physical buffer application, whole scene locking/critical-section scheduling",
+    "full ScriptAdmin module selection/cache, CallScript embedded SPU state and RunScript provider integration",
+    "fall/swim/slide callback, effects and animation services",
+    "complete OnProcess/OnIntersect scene lifecycle"
+  ]
+}

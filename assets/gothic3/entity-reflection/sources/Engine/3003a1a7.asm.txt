@@ -1,0 +1,4 @@
+; 3003a1a7 ?GetVersion@eCRigidBody_PS@@UBEGXZ
+3003a1a7 | e9e43c2f00 | JMP 0x3032de90
+; 3003a1ac eCCollisionShape::AccessMaterial
+; 3003a1ac Ordinal_2889

@@ -1,0 +1,520 @@
+/* ENTRY 20014894 | gCCharacterMovement_PS::ProcessControledTranslation | STATUS decompiled | 832 ms */
+
+/* protected: void __thiscall gCCharacterMovement_PS::ProcessControledTranslation(void) */
+
+void __thiscall gCCharacterMovement_PS::ProcessControledTranslation(gCCharacterMovement_PS *this)
+
+{
+  undefined1 *this_00;
+  GetEntity *pGVar1;
+  bool bVar2;
+  bool bVar3;
+  bool bVar4;
+  bool bVar5;
+  char cVar6;
+  bool bVar7;
+  eCApplication *this_01;
+  eCEntity *peVar8;
+  gCSession *this_02;
+  gCCameraAI_PS *pgVar9;
+  bCVector *pbVar10;
+  bCBox *this_03;
+  float *pfVar11;
+  eCEntity *peVar12;
+  eCPhysicsScene *peVar13;
+  bCVector *pbVar14;
+  gECharMovementMode gVar15;
+  int iVar16;
+  code *pcVar17;
+  float fVar18;
+  eCEntity *peVar19;
+  eCEntity *peVar20;
+  eEShapeGroup eVar21;
+  float fVar22;
+  eEPropertySetType eVar23;
+  float fStack_94;
+  bCVector abStack_90 [4];
+  bCVector abStack_8c [4];
+  bCVector abStack_88 [4];
+  bCVector abStack_84 [4];
+  float fStack_80;
+  float fStack_7c;
+  float fStack_78;
+  float fStack_74;
+  float fStack_70;
+  bCVector abStack_6c [4];
+  bCVector abStack_68 [4];
+  bCVector abStack_64 [4];
+  bCVector abStack_60 [4];
+  float fStack_5c;
+  float fStack_58;
+  bCVector abStack_54 [4];
+  undefined4 uStack_50;
+  bCVector abStack_4c [4];
+  bCVector abStack_48 [4];
+  bCVector abStack_44 [4];
+  bCVector abStack_40 [4];
+  undefined1 auStack_3c [4];
+  undefined1 auStack_38 [4];
+  float afStack_34 [2];
+  bCVector abStack_2c [4];
+  undefined1 auStack_28 [4];
+  undefined1 auStack_24 [36];
+  
+                    /* 0x14894  5850  ?ProcessControledTranslation@gCCharacterMovement_PS@@IAEXXZ */
+  uStack_50 = 0;
+  this_01 = eCApplication::GetInstance();
+  fStack_70 = eCApplication::GetScaledFrameTimeInSeconds((eCApplication *)this_01);
+  fStack_74 = (float)(this->gCCharacterMovement_PS_data).offset_0x3d0;
+  if (0.0 < fStack_74) {
+    if (0.0 <= fStack_74 - fStack_70) {
+      (this->gCCharacterMovement_PS_data).offset_0x3d0 = fStack_74 - fStack_70;
+    }
+    else {
+      (this->gCCharacterMovement_PS_data).offset_0x3d0 = 0;
+    }
+  }
+  eVar23 = 0x16;
+  peVar8 = (*this->vftablePtr->GetEntity)(this);
+  bVar5 = eCEntity::HasPropertySet((eCEntity *)peVar8,eVar23);
+  if (bVar5) {
+    this_02 = (gCSession *)gCSession::GetInstance();
+    pgVar9 = gCSession::GetCamera_PS(this_02);
+    if ((pgVar9 != (gCCameraAI_PS *)0x0) &&
+       (cVar6 = (**(code **)(*(int *)pgVar9 + 0x168))(), cVar6 == '\x01')) {
+      PutToGround(this,false,false);
+      AddToCurrentVelocity(this,(bCVector *)&(this->gCCharacterMovement_PS_data).field_0x13c);
+      return;
+    }
+  }
+  iVar16 = (this->gCCharacterMovement_PS_data).offset_0xfc;
+  if (iVar16 == 6) {
+LAB_2022cc7f:
+    bCVector::bCVector((bCVector *)&fStack_5c,0.0,
+                       *(float *)&(this->gCCharacterMovement_PS_data).field_0x18,0.0);
+    pbVar14 = abStack_68;
+    peVar8 = (*this->vftablePtr->GetEntity)(this);
+    pbVar10 = eCEntity::GetWorldPosition((eCEntity *)peVar8);
+    bCVector::operator+(pbVar10,pbVar14);
+    bCVector::~bCVector(abStack_60);
+    bCVector::bCVector(abStack_60,0.0,10.0,0.0);
+    pbVar14 = abStack_44;
+    peVar8 = (*this->vftablePtr->GetEntity)(this);
+    pbVar10 = eCEntity::GetWorldPosition((eCEntity *)peVar8);
+    bCVector::operator+(pbVar10,pbVar14);
+    bCVector::~bCVector(abStack_64);
+    bCVector::bCVector(abStack_64,0.0,-1.0,0.0);
+    pbVar14 = abStack_54;
+    peVar8 = (*this->vftablePtr->GetEntity)(this);
+    pbVar10 = eCEntity::GetWorldPosition((eCEntity *)peVar8);
+    bCVector::operator+(pbVar10,pbVar14);
+    bCVector::~bCVector(abStack_68);
+    fVar22 = 0.0;
+    peVar8 = (*this->vftablePtr->GetEntity)(this);
+    this_03 = eCEntity::GetWorldNodeBoundary((eCEntity *)peVar8);
+    fVar18 = bCBox::GetHeight(this_03);
+    bCVector::bCVector(abStack_68,0.0,fVar18,fVar22);
+    pbVar14 = abStack_40;
+    peVar8 = (*this->vftablePtr->GetEntity)(this);
+    pbVar10 = eCEntity::GetWorldPosition((eCEntity *)peVar8);
+    bCVector::operator+(pbVar10,pbVar14);
+    bCVector::~bCVector(abStack_6c);
+    peVar8 = (*this->vftablePtr->GetEntity)(this);
+    eCEntity::GetWorldPosition((eCEntity *)peVar8);
+    bCVector::operator-((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x2bc,abStack_90);
+    pfVar11 = bCVector::AccessY((bCVector *)&fStack_94);
+    *pfVar11 = 0.0;
+    bVar5 = bCVector::HasZeroMagnitude((bCVector *)&fStack_94);
+    if (!bVar5) {
+      bCVector::Normalize((bCVector *)&fStack_94);
+    }
+    eVar21 = 0;
+    bVar4 = false;
+    bVar3 = false;
+    bVar2 = false;
+    bVar5 = false;
+    peVar8 = (*this->vftablePtr->GetEntity)(this);
+    peVar20 = (eCEntity *)0x1;
+    peVar12 = (*this->vftablePtr->GetEntity)(this);
+    peVar19 = (eCEntity *)0x42a00000;
+    pbVar10 = (bCVector *)bCVector::operator*((bCVector *)&fStack_94,(float)&stack0xffffff5c);
+    pbVar14 = (bCVector *)&fStack_80;
+    peVar13 = eCPhysicsScene::GetInstance();
+    bVar7 = eCPhysicsScene::TraceRayFirstHit
+                      (peVar13,pbVar14,pbVar10,peVar19,(ulong)peVar12,peVar20,
+                       (eEPropertySetType)peVar8,eVar21);
+    if (bVar7) {
+LAB_2022cf7c:
+      cVar6 = '\x01';
+    }
+    else {
+      eVar21 = 0;
+      bVar4 = true;
+      bVar3 = false;
+      bVar2 = false;
+      bVar5 = false;
+      peVar8 = (*this->vftablePtr->GetEntity)(this);
+      peVar20 = (eCEntity *)0x1;
+      peVar12 = (*this->vftablePtr->GetEntity)(this);
+      peVar19 = (eCEntity *)0x42a00000;
+      pbVar10 = (bCVector *)bCVector::operator*((bCVector *)&stack0xffffff68,(float)auStack_3c);
+      pbVar14 = (bCVector *)&fStack_5c;
+      peVar13 = eCPhysicsScene::GetInstance();
+      bVar7 = eCPhysicsScene::TraceRayFirstHit
+                        (peVar13,pbVar14,pbVar10,peVar19,(ulong)peVar12,peVar20,
+                         (eEPropertySetType)peVar8,eVar21);
+      if (bVar7) goto LAB_2022cf7c;
+      eVar21 = 0;
+      bVar4 = true;
+      bVar3 = true;
+      bVar2 = false;
+      bVar5 = false;
+      peVar8 = (*this->vftablePtr->GetEntity)(this);
+      peVar20 = (eCEntity *)0x1;
+      peVar12 = (*this->vftablePtr->GetEntity)(this);
+      peVar19 = (eCEntity *)0x42a00000;
+      pbVar10 = (bCVector *)bCVector::operator*((bCVector *)&stack0xffffff64,(float)auStack_28);
+      pbVar14 = abStack_6c;
+      peVar13 = eCPhysicsScene::GetInstance();
+      bVar7 = eCPhysicsScene::TraceRayFirstHit
+                        (peVar13,pbVar14,pbVar10,peVar19,(ulong)peVar12,peVar20,
+                         (eEPropertySetType)peVar8,eVar21);
+      if (bVar7) goto LAB_2022cf7c;
+      eVar21 = 0;
+      bVar4 = true;
+      bVar3 = true;
+      bVar2 = true;
+      bVar5 = false;
+      peVar8 = (*this->vftablePtr->GetEntity)(this);
+      peVar20 = (eCEntity *)0x1;
+      peVar12 = (*this->vftablePtr->GetEntity)(this);
+      peVar19 = (eCEntity *)0x42a00000;
+      pbVar10 = (bCVector *)bCVector::operator*((bCVector *)&stack0xffffff60,(float)auStack_38);
+      pbVar14 = (bCVector *)&fStack_70;
+      peVar13 = eCPhysicsScene::GetInstance();
+      bVar7 = eCPhysicsScene::TraceRayFirstHit
+                        (peVar13,pbVar14,pbVar10,peVar19,(ulong)peVar12,peVar20,
+                         (eEPropertySetType)peVar8,eVar21);
+      if (bVar7) goto LAB_2022cf7c;
+      eVar21 = 0;
+      bVar4 = true;
+      bVar3 = true;
+      bVar2 = true;
+      bVar5 = true;
+      peVar8 = (*this->vftablePtr->GetEntity)(this);
+      peVar20 = (eCEntity *)0x1;
+      peVar12 = (*this->vftablePtr->GetEntity)(this);
+      peVar19 = (eCEntity *)0x42a00000;
+      pbVar10 = (bCVector *)bCVector::operator*((bCVector *)&stack0xffffff5c,(float)&fStack_80);
+      pbVar14 = (bCVector *)&fStack_5c;
+      peVar13 = eCPhysicsScene::GetInstance();
+      bVar7 = eCPhysicsScene::TraceRayFirstHit
+                        (peVar13,pbVar14,pbVar10,peVar19,(ulong)peVar12,peVar20,
+                         (eEPropertySetType)peVar8,eVar21);
+      cVar6 = '\0';
+      if (bVar7) goto LAB_2022cf7c;
+    }
+    if (bVar5) {
+      bCVector::~bCVector(abStack_84);
+    }
+    if (bVar2) {
+      bCVector::~bCVector(abStack_40);
+    }
+    if (bVar3) {
+      bCVector::~bCVector((bCVector *)afStack_34);
+    }
+    if (bVar4) {
+      bCVector::~bCVector(abStack_4c);
+    }
+    bCVector::~bCVector((bCVector *)&stack0xffffff48);
+    bCVector::~bCVector((bCVector *)&stack0xffffff58);
+    bCVector::~bCVector((bCVector *)&fStack_5c);
+    bCVector::~bCVector((bCVector *)&fStack_74);
+    bCVector::~bCVector(abStack_68);
+    bCVector::~bCVector(abStack_90);
+    if (cVar6 != '\0') {
+      return;
+    }
+LAB_2022d026:
+    pcVar17 = GetWorldPosition_exref;
+    CalcDistToGoal(this);
+    pbVar14 = (bCVector *)
+              (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 0x18c))
+                        (&stack0xffffff48);
+    fStack_7c = bCVector::GetX(pbVar14);
+    bCVector::~bCVector((bCVector *)&stack0xffffff44);
+    pbVar14 = (bCVector *)
+              (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 0x18c))
+                        (&stack0xffffff44);
+    fStack_58 = bCVector::GetZ(pbVar14);
+    bCVector::~bCVector((bCVector *)&stack0xffffff40);
+    pbVar14 = (bCVector *)
+              (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 0x18c))
+                        (&stack0xffffff40);
+    fStack_74 = bCVector::GetY(pbVar14);
+    bCVector::~bCVector(abStack_90);
+    if (0.0 < *(float *)&(this->gCCharacterMovement_PS_data).field_0x104) {
+      bCVector::bCVector((bCVector *)&fStack_80);
+      fStack_94 = (float)(this->gCCharacterMovement_PS_data).offset_0x378;
+      if (fStack_94 == 0.0) {
+        pbVar14 = (bCVector *)&(this->gCCharacterMovement_PS_data).field_0x2bc;
+        (this->gCCharacterMovement_PS_data).offset_0x378 = 0xbf800000;
+        thunk_FUN_20048730();
+        peVar8 = (*this->vftablePtr->GetEntity)(this);
+        eCEntity::GetWorldPosition((eCEntity *)peVar8);
+      }
+      else {
+        pGVar1 = this->vftablePtr->GetEntity;
+        if (fStack_94 == -1.0) {
+          peVar8 = (*pGVar1)(this);
+          eCEntity::GetWorldPosition((eCEntity *)peVar8);
+          pbVar14 = (bCVector *)&(this->gCCharacterMovement_PS_data).field_0x2bc;
+        }
+        else {
+          peVar8 = (*pGVar1)(this);
+          eCEntity::GetWorldPosition((eCEntity *)peVar8);
+          pbVar14 = (bCVector *)&(this->gCCharacterMovement_PS_data).field_0x35c;
+        }
+      }
+      pbVar14 = (bCVector *)bCVector::operator-(pbVar14,abStack_90);
+      bCVector::operator=(abStack_84,pbVar14);
+      bCVector::~bCVector((bCVector *)&fStack_94);
+      pfVar11 = bCVector::AccessY(abStack_84);
+      *pfVar11 = 0.0;
+      bVar5 = bCVector::HasZeroMagnitude2D(abStack_84,1);
+      pbVar14 = abStack_84;
+      if (bVar5) goto LAB_2022d894;
+      bCVector::GetNormalized(pbVar14);
+      fStack_74 = GetCurrentMaxSpeedOfDir(this,abStack_88);
+      fVar18 = *(float *)&(this->gCCharacterMovement_PS_data).field_0x30 * fStack_78 +
+               (float)(this->gCCharacterMovement_PS_data).offset_0x154;
+      if (fStack_74 < fVar18) {
+        fVar18 = fStack_74;
+      }
+      bVar5 = GetGoalChanged(this);
+      if (bVar5) {
+        eVar23 = 0x16;
+        peVar8 = (*this->vftablePtr->GetEntity)(this);
+        bVar5 = eCEntity::HasPropertySet((eCEntity *)peVar8,eVar23);
+        if (bVar5) {
+LAB_2022d261:
+          (this->gCCharacterMovement_PS_data).offset_0x154 = fVar18;
+        }
+        else {
+          fVar22 = (float)(this->gCCharacterMovement_PS_data).offset_0x154 + 0.9;
+          if (fVar18 <= fVar22) {
+            (this->gCCharacterMovement_PS_data).offset_0x154 = fVar18;
+          }
+          else {
+            (this->gCCharacterMovement_PS_data).offset_0x154 = fVar22;
+          }
+        }
+        (this->gCCharacterMovement_PS_data).offset_0x178 = (gCCharacterMovement_PS)0x0;
+      }
+      else {
+        fVar22 = GetBrakingDistance(this);
+        if (fVar22 < *(float *)&(this->gCCharacterMovement_PS_data).field_0x104) goto LAB_2022d261;
+        (this->gCCharacterMovement_PS_data).offset_0x178 = (gCCharacterMovement_PS)0x1;
+        (this->gCCharacterMovement_PS_data).offset_0x154 =
+             *(float *)&(this->gCCharacterMovement_PS_data).field_0x34 * fStack_78 +
+             (float)(this->gCCharacterMovement_PS_data).offset_0x154;
+      }
+      if ((this->gCCharacterMovement_PS_data).offset_0xfc == 0xc) {
+        bCVector::operator*(abStack_48,(float)abStack_54);
+        bCVector::bCVector(abStack_40,fStack_5c,fStack_80,afStack_34[0]);
+        pbVar14 = abStack_40;
+        pbVar10 = (bCVector *)
+                  bCVector::operator+((bCVector *)&fStack_58,(bCVector *)&stack0xffffff64);
+        bCVector::operator*(pbVar10,(float)pbVar14);
+        bCVector::~bCVector((bCVector *)&stack0xffffff5c);
+        pfVar11 = bCVector::AccessY((bCVector *)&fStack_7c);
+        *pfVar11 = 0.0;
+        AddToCurrentVelocity(this,(bCVector *)&fStack_7c);
+        bCVector::~bCVector((bCVector *)&fStack_7c);
+        bCVector::~bCVector(abStack_48);
+        pbVar14 = abStack_60;
+      }
+      else {
+        bCVector::operator*(abStack_48,(float)&fStack_70);
+        AddToCurrentVelocity(this,(bCVector *)&fStack_74);
+        pbVar14 = (bCVector *)&fStack_74;
+      }
+      bCVector::~bCVector(pbVar14);
+      bCVector::~bCVector(abStack_40);
+      bCVector::~bCVector((bCVector *)&fStack_80);
+    }
+    pbVar14 = (bCVector *)bCVector::bCVector(abStack_90,0.0,fStack_74,0.0);
+    AddToCurrentVelocity(this,pbVar14);
+    bCVector::~bCVector(abStack_90);
+    if ((this->gCCharacterMovement_PS_data).offset_0x22a == (gCCharacterMovement_PS)0x0) {
+      return;
+    }
+  }
+  else if ((iVar16 == 0xc) || (pcVar17 = GetWorldPosition_exref, iVar16 == 0xd)) {
+    if (iVar16 == 6) goto LAB_2022cc7f;
+    goto LAB_2022d026;
+  }
+  if ((this->gCCharacterMovement_PS_data).offset_0x22a == (gCCharacterMovement_PS)0x1) {
+    iVar16 = (this->gCCharacterMovement_PS_data).offset_0xfc;
+    if ((iVar16 != 6) && (iVar16 != 0xd)) {
+      PutToGround(this,false,false);
+    }
+    peVar8 = eCEntityProxy::GetEntity
+                       ((eCEntityProxy *)&(this->gCCharacterMovement_PS_data).field_0x23c);
+    if ((peVar8 != (eCEntity *)0x0) &&
+       ((this->gCCharacterMovement_PS_data).offset_0x390 == (gCCharacterMovement_PS)0x1)) {
+      pbVar14 = (bCVector *)bCVector::bCVector(abStack_90,0.0,0.0,0.0);
+      SetCurrentVelocity(this,pbVar14);
+      bCVector::~bCVector(abStack_90);
+      (this->gCCharacterMovement_PS_data).field_0x258 = 1;
+      return;
+    }
+    this_00 = &(this->gCCharacterMovement_PS_data).field_0x230;
+    bCVector::operator*((bCVector *)this_00,(float)auStack_24);
+    pbVar14 = (bCVector *)&fStack_94;
+    (*this->vftablePtr->GetEntity)(this);
+    pbVar10 = (bCVector *)(*pcVar17)();
+    pbVar14 = (bCVector *)bCVector::operator+(pbVar10,pbVar14);
+    gVar15 = GetMovementModeAtPosition(this,pbVar14);
+    bCVector::~bCVector((bCVector *)&stack0xffffff68);
+    bCVector::~bCVector(abStack_2c);
+    if ((gVar15 != 3) && (gVar15 != 10)) {
+      pbVar14 = (bCVector *)bCVector::bCVector((bCVector *)&stack0xffffff68,0.0,0.0,0.0);
+      SetCurrentVelocity(this,pbVar14);
+      bCVector::~bCVector((bCVector *)&stack0xffffff68);
+      return;
+    }
+    AddToCurrentVelocity(this,(bCVector *)this_00);
+    return;
+  }
+  if ((this->gCCharacterMovement_PS_data).offset_0x228 == (gCCharacterMovement_PS)0x0) {
+    pbVar14 = (bCVector *)bCVector::bCVector(abStack_90,0.0,0.0,0.0);
+    SetCurrentVelocity(this,pbVar14);
+    bCVector::~bCVector(abStack_90);
+    return;
+  }
+  if ((((this->gCCharacterMovement_PS_data).offset_0x218 == (gCCharacterMovement_PS)0x1) ||
+      (iVar16 = (this->gCCharacterMovement_PS_data).offset_0xfc, iVar16 == 1)) &&
+     (iVar16 = (this->gCCharacterMovement_PS_data).offset_0xfc, iVar16 < 0xc)) {
+    pbVar14 = (bCVector *)
+              (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 0x18c))();
+    fVar18 = bCVector::GetSquareMagnitude(pbVar14);
+    bCVector::~bCVector((bCVector *)&fStack_94);
+    if (0.0 < fVar18) {
+      pbVar14 = (bCVector *)bCVector::bCVector((bCVector *)&fStack_94,0.0,0.0,0.0);
+      SetCurrentVelocity(this,pbVar14);
+      bCVector::~bCVector((bCVector *)&fStack_94);
+    }
+    PutToGround(this,false,false);
+    CalcDistToGoal(this);
+    if (*(float *)&(this->gCCharacterMovement_PS_data).field_0x104 <= 10.0) {
+      return;
+    }
+    SetMovementMode(this,3);
+    (this->gCCharacterMovement_PS_data).offset_0x218 = (gCCharacterMovement_PS)0x0;
+    return;
+  }
+  if (((((iVar16 != 3) && (iVar16 != 2)) && ((iVar16 != 4 && ((iVar16 != 5 && (iVar16 != 7)))))) &&
+      (iVar16 != 8)) && (((iVar16 != 9 && (iVar16 != 10)) && (iVar16 != 0xb)))) {
+    return;
+  }
+  PutToGround(this,false,false);
+  CalcDistToGoal(this);
+  CorrectGoalMiss(this);
+  bVar5 = GetGoalReached(this,false,true,false);
+  if (bVar5) {
+LAB_2022d8cd:
+    SetMovementMode(this,1);
+    return;
+  }
+  if (*(float *)&(this->gCCharacterMovement_PS_data).field_0x104 <= 0.0) {
+    if ((float)(this->gCCharacterMovement_PS_data).offset_0x378 == -1.0) {
+      return;
+    }
+    if ((this->gCCharacterMovement_PS_data).offset_0x17b != (gCCharacterMovement_PS)0x0) {
+      return;
+    }
+    bVar5 = GetGoalChanged(this);
+    if (bVar5) {
+      return;
+    }
+    goto LAB_2022d8cd;
+  }
+  bCVector::bCVector((bCVector *)&fStack_80);
+  fStack_94 = (float)(this->gCCharacterMovement_PS_data).offset_0x378;
+  if (fStack_94 == 0.0) {
+    pbVar14 = (bCVector *)&(this->gCCharacterMovement_PS_data).field_0x2bc;
+    (this->gCCharacterMovement_PS_data).offset_0x378 = 0xbf800000;
+    thunk_FUN_20048730();
+    (*this->vftablePtr->GetEntity)(this);
+    (*pcVar17)();
+  }
+  else {
+    pGVar1 = this->vftablePtr->GetEntity;
+    if (fStack_94 == -1.0) {
+      (*pGVar1)(this);
+      (*pcVar17)();
+      pbVar14 = (bCVector *)&(this->gCCharacterMovement_PS_data).field_0x2bc;
+    }
+    else {
+      (*pGVar1)(this);
+      (*pcVar17)();
+      pbVar14 = (bCVector *)&(this->gCCharacterMovement_PS_data).field_0x35c;
+    }
+  }
+  pbVar14 = (bCVector *)bCVector::operator-(pbVar14,abStack_8c);
+  bCVector::operator=((bCVector *)&fStack_80,pbVar14);
+  bCVector::~bCVector(abStack_90);
+  pfVar11 = bCVector::AccessY((bCVector *)&fStack_80);
+  *pfVar11 = 0.0;
+  bVar5 = bCVector::HasZeroMagnitude2D((bCVector *)&fStack_80,1);
+  pbVar14 = (bCVector *)&fStack_80;
+  if (bVar5) goto LAB_2022d894;
+  bCVector::GetNormalized(pbVar14);
+  fStack_70 = GetCurrentMaxSpeedOfDir(this,abStack_84);
+  fStack_78 = (float)(this->gCCharacterMovement_PS_data).offset_0x154;
+  fVar18 = fStack_78 + fStack_74 * *(float *)&(this->gCCharacterMovement_PS_data).field_0x30;
+  if (((0.0 < (float)(this->gCCharacterMovement_PS_data).offset_0x3d0) && (fStack_70 * 0.5 < fVar18)
+      ) && (fVar18 = fStack_78, fStack_70 * 0.5 < fStack_78)) {
+    fVar18 = *(float *)&(this->gCCharacterMovement_PS_data).field_0x34 * fStack_74 + fStack_78;
+  }
+  if (fStack_70 < fVar18) {
+    fVar18 = fStack_70;
+  }
+  bVar5 = GetGoalChanged(this);
+  if (bVar5) {
+    bVar5 = GetMovementIsControledByPlayer(this);
+    if (bVar5) {
+LAB_2022d846:
+      (this->gCCharacterMovement_PS_data).offset_0x154 = fVar18;
+    }
+    else {
+      fVar22 = (float)(this->gCCharacterMovement_PS_data).offset_0x154 + 0.9;
+      if (fVar18 <= fVar22) {
+        (this->gCCharacterMovement_PS_data).offset_0x154 = fVar18;
+      }
+      else {
+        (this->gCCharacterMovement_PS_data).offset_0x154 = fVar22;
+      }
+    }
+    (this->gCCharacterMovement_PS_data).offset_0x178 = (gCCharacterMovement_PS)0x0;
+  }
+  else {
+    fVar22 = GetBrakingDistance(this);
+    if (fVar22 < *(float *)&(this->gCCharacterMovement_PS_data).field_0x104) goto LAB_2022d846;
+    (this->gCCharacterMovement_PS_data).offset_0x178 = (gCCharacterMovement_PS)0x1;
+    (this->gCCharacterMovement_PS_data).offset_0x154 =
+         *(float *)&(this->gCCharacterMovement_PS_data).field_0x34 * fStack_74 +
+         (float)(this->gCCharacterMovement_PS_data).offset_0x154;
+  }
+  pbVar14 = (bCVector *)thunk_FUN_2007e1b0();
+  AddToCurrentVelocity(this,pbVar14);
+  bCVector::~bCVector((bCVector *)&fStack_94);
+  bCVector::~bCVector(abStack_6c);
+  pbVar14 = abStack_84;
+LAB_2022d894:
+  bCVector::~bCVector(pbVar14);
+  return;
+}
+
+

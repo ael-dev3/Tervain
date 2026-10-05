@@ -1,0 +1,128 @@
+/* ENTRY 2000da3f | gCScriptProcessingUnit::GetAniName | STATUS decompiled | 190 ms */
+
+/* protected: void __thiscall gCScriptProcessingUnit::GetAniName(class bCString &,class eCEntity
+   *,enum gEAction,class bCString,class bCString &,bool) */
+
+void __thiscall
+gCScriptProcessingUnit::GetAniName(undefined4 param_1_00,bCString *param_1,int *param_2)
+
+{
+  bCString *this;
+  int *piVar1;
+  eCVisualAnimation_PS *this_00;
+  eCWrapper_emfx2Actor *this_01;
+  bCString *this_02;
+  gCInventory_PS *this_03;
+  eCEntity *peVar2;
+  gCNPC_PS *pgVar3;
+  gEPose gVar4;
+  code *pcVar5;
+  int iVar6;
+  char *pcVar7;
+  bCString *pbVar8;
+  bCString *pbVar9;
+  bool bVar10;
+  bool bVar11;
+  
+                    /* 0xda3f  2920
+                       ?GetAniName@gCScriptProcessingUnit@@IAEXAAVbCString@@PAVeCEntity@@W4gEAction@@V2@0_N@Z
+                        */
+  this = param_1;
+  bCString::Clear(param_1);
+  piVar1 = param_2;
+  if (param_2 == (int *)0x0) goto LAB_2036836d;
+  this_00 = (eCVisualAnimation_PS *)(**(code **)(*param_2 + 0xec))();
+  if (this_00 == (eCVisualAnimation_PS *)0x0) goto LAB_2036836d;
+  this_01 = eCVisualAnimation_PS::GetActor(this_00);
+  if (this_01 == (eCWrapper_emfx2Actor *)0x0) goto LAB_2036836d;
+  bCString::bCString((bCString *)&param_1,"_");
+  bVar11 = false;
+  bVar10 = false;
+  pbVar8 = (bCString *)&param_1;
+  iVar6 = 1;
+  pbVar9 = this;
+  this_02 = eCWrapper_emfx2Actor::GetActorName(this_01);
+  bCString::GetWord(this_02,iVar6,pbVar8,pbVar9,bVar10,bVar11);
+  bCString::~bCString((bCString *)&param_1);
+  bCString::operator+=(this,"_");
+  iVar6 = (**(code **)(*piVar1 + 0xec))();
+  if (iVar6 == 0) goto LAB_2036836d;
+  bCString::operator+=(this,(bCString *)(&g_pstrAniStateString + *(int *)(iVar6 + 0x40)));
+  bCString::operator+=(this,"_");
+  this_03 = (gCInventory_PS *)(**(code **)(*piVar1 + 0xec))();
+  if ((this_03 == (gCInventory_PS *)0x0) || (param_2 == (int *)0x39)) {
+    bCString::operator+=(this,"None");
+    bCString::operator+=(this,"_");
+LAB_20368287:
+    pcVar7 = "None";
+LAB_2036828e:
+    bCString::operator+=(this,pcVar7);
+    bCString::operator+=(this,"_");
+  }
+  else {
+    peVar2 = gCInventory_PS::GetStackFromSlot(this_03,2);
+    if (peVar2 == (eCEntity *)0x0) {
+      pcVar7 = "None";
+LAB_2036822d:
+      bCString::operator+=(this,pcVar7);
+      bCString::operator+=(this,"_");
+    }
+    else {
+      iVar6 = (**(code **)(*(int *)peVar2 + 0xec))();
+      if (iVar6 != 0) {
+        if (*(int *)(iVar6 + 0x58) < 0x39) {
+          pcVar7 = (&g_ppszUseTypes)[*(int *)(iVar6 + 0x58)];
+        }
+        else {
+          pcVar7 = "None";
+        }
+        goto LAB_2036822d;
+      }
+    }
+    peVar2 = gCInventory_PS::GetStackFromSlot(this_03,1);
+    if (peVar2 == (eCEntity *)0x0) {
+      pcVar7 = "None";
+      goto LAB_2036828e;
+    }
+    iVar6 = (**(code **)(*(int *)peVar2 + 0xec))();
+    if (iVar6 != 0) {
+      if (0x38 < *(int *)(iVar6 + 0x58)) goto LAB_20368287;
+      pcVar7 = (&g_ppszUseTypes)[*(int *)(iVar6 + 0x58)];
+      goto LAB_2036828e;
+    }
+  }
+  pgVar3 = (gCNPC_PS *)(**(code **)(*piVar1 + 0xec))();
+  if (pgVar3 == (gCNPC_PS *)0x0) {
+    bCString::operator+=(this,"P0");
+    bCString::operator+=(this,"_");
+    pcVar5 = operator+=_exref;
+  }
+  else {
+    bCString::bCString((bCString *)&stack0xffffffe4,(bCString *)&param_2);
+    gVar4 = gCNPC_PS::GetPrimaryPoseExt(pgVar3,param_1);
+    pcVar5 = operator+=_exref;
+    bCString::operator+=(this,(bCString *)(&g_pstrPoseString + gVar4));
+    bCString::operator+=(this,"_");
+  }
+  (*pcVar5)();
+  bCString::operator+=(this,"_");
+  (*pcVar5)(&param_1);
+  bCString::operator+=(this,"_");
+  if (param_2._0_1_ == (bCString)0x0) {
+    pcVar7 = "N";
+  }
+  else {
+    pcVar7 = "O";
+  }
+  bCString::operator+=(this,pcVar7);
+  bCString::operator+=(this,"_");
+  (*pcVar5)(param_1);
+  bCString::operator+=(this,"_");
+  bCString::operator+=(this,"00");
+  bCString::operator+=(this,"_");
+LAB_2036836d:
+  bCString::~bCString((bCString *)&stack0x00000010);
+  return;
+}
+
+

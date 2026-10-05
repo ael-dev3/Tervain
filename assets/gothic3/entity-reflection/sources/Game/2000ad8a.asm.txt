@@ -1,0 +1,2 @@
+; 2000ad8a ??0gCClock_PS@@QAE@XZ
+2000ad8a | e9d1d31f00 | JMP 0x20208160

@@ -1,0 +1,9 @@
+/* ENTRY 2002dee3 | bTPropertyType<gCClock_PS,float>::vfunction7 | STATUS decompiled | 4 ms */
+
+bool __thiscall bTPropertyType<gCClock_PS,float>::vfunction7(bTPropertyType<gCClock_PS,float> *this)
+
+{
+  return this[8].vftablePtr != (bTPropertyType<gCClock_PS,float>_vftable *)0x0;
+}
+
+

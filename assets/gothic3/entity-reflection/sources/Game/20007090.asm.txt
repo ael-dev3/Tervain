@@ -1,0 +1,2 @@
+; 20007090 ?OnNotifyPropertyValueChangedExitEx@gCClock_PS@@UAE_NPBD_N@Z
+20007090 | e9ab0d2000 | JMP 0x20207e40

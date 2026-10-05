@@ -1,0 +1,2 @@
+; 2002ad92 ?RunScript@gCScriptAdmin@@QAEHABVbCString@@PAVgCScriptProcessingUnit@@@Z
+2002ad92 | e9c9243200 | JMP 0x2034d260

@@ -1,0 +1,12 @@
+/* ENTRY 20023687 | gCCharacterMovement_PS::GetCurrentVelocity | STATUS decompiled | 8 ms */
+
+/* public: float __thiscall gCCharacterMovement_PS::GetCurrentVelocity(void)const  */
+
+float __thiscall gCCharacterMovement_PS::GetCurrentVelocity(gCCharacterMovement_PS *this)
+
+{
+                    /* 0x23687  3166  ?GetCurrentVelocity@gCCharacterMovement_PS@@QBEMXZ */
+  return (float)(this->gCCharacterMovement_PS_data).offset_0x154;
+}
+
+

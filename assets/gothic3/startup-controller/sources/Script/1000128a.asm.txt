@@ -1,0 +1,4 @@
+; 1000128a ?GetWorldEntity@Entity@@SG?AV1@XZ
+1000128a | e9d1fe0200 | JMP 0x10031160
+; 1000128f PSRecipe::PropertyResultAmount::operator_unsigned_long
+; 1000128f Ordinal_1067

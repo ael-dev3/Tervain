@@ -1,0 +1,12 @@
+/* ENTRY 100050b5 | Entity::~Entity | STATUS decompiled | 1 ms */
+
+/* public: __thiscall Entity::~Entity(void) */
+
+void __thiscall Entity::~Entity(Entity *this)
+
+{
+                    /* 0x50b5  148  ??1Entity@@QAE@XZ */
+  return;
+}
+
+

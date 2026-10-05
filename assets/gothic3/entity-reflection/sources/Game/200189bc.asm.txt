@@ -1,0 +1,2 @@
+; 200189bc ??0gCParty_PS@@QAE@ABV0@@Z
+200189bc | e90ff22f00 | JMP 0x20317bd0

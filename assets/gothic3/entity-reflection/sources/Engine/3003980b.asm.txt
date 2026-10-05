@@ -1,0 +1,4 @@
+; 3003980b ??0eCVisualAnimation_PS@@QAE@ABV0@@Z
+3003980b | e9a0bc0600 | JMP 0x300a54b0
+; 30039810 eCApplication::GetLastScaledFrameTimeInSeconds
+; 30039810 Ordinal_7549

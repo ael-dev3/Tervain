@@ -1,0 +1,4 @@
+; 3000bf73 ?IsAutoKillEnabled@eCEntityPropertySet@@UBE_NXZ
+3000bf73 | e9a85a4700 | JMP 0x30481a20
+; 3000bf8c eCParticleModule::eCParticleModule
+; 3000bf8c Ordinal_569

@@ -1,0 +1,19 @@
+/* ENTRY 10003bb6 | Entity::GetAni | STATUS decompiled | 8 ms */
+
+/* public: class bCString __thiscall Entity::GetAni(enum gEAction,enum gEPhase)const  */
+
+gEAction __thiscall Entity::GetAni(Entity *this,gEAction param_1,gEPhase param_2)
+
+{
+  bCString *in_stack_0000000c;
+  Entity *pEStack_4;
+  
+                    /* 0x3bb6  1498  ?GetAni@Entity@@QBE?AVbCString@@W4gEAction@@W4gEPhase@@@Z */
+  pEStack_4 = this;
+  bCString::bCString((bCString *)&pEStack_4,"");
+  GetAniEx(this,param_1,param_2,in_stack_0000000c,SUB41(&pEStack_4,0));
+  bCString::~bCString((bCString *)&stack0xfffffff8);
+  return param_1;
+}
+
+

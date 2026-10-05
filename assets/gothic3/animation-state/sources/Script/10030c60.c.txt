@@ -1,0 +1,25 @@
+/* ENTRY 10030c60 | FUN_10030c60 | STATUS decompiled | 9 ms */
+
+gEUseType __thiscall FUN_10030c60(void *this,undefined4 param_1,undefined1 param_2)
+
+{
+  int iVar1;
+  gEUseType gVar2;
+  gEUseType gVar3;
+  gEAction gVar4;
+  bCString *pbVar5;
+  undefined1 local_150 [164];
+  undefined1 local_ac [168];
+  gEUseType local_4;
+  
+  pbVar5 = (bCString *)0x1;
+  iVar1 = PSInventory::GetItemFromSlot((PSInventory *)((int)this + 0x24),(gESlot)local_150);
+  gVar2 = PSInteraction::GetUseType((PSInteraction *)(iVar1 + 0x1c));
+  gVar4 = 2;
+  iVar1 = PSInventory::GetItemFromSlot((PSInventory *)((int)this + 0x24),(gESlot)local_ac);
+  gVar3 = PSInteraction::GetUseType((PSInteraction *)(iVar1 + 0x1c));
+  Entity::GetAniEx(this,local_4,gVar3,gVar4,gVar2,pbVar5,(bool)param_2);
+  return local_4;
+}
+
+

@@ -1,0 +1,20 @@
+/* ENTRY 20007f31 | gCEntity::IsDead | STATUS decompiled | 3 ms */
+
+/* public: static bool __stdcall gCEntity::IsDead(class eCEntity *) */
+
+bool gCEntity::IsDead(eCEntity *param_1)
+
+{
+  int iVar1;
+  
+                    /* 0x7f31  5100  ?IsDead@gCEntity@@SG_NPAVeCEntity@@@Z */
+  if (param_1 != (eCEntity *)0x0) {
+    iVar1 = (**(code **)(*(int *)param_1 + 0xec))(0x2d);
+    if (iVar1 != 0) {
+      return *(int *)(iVar1 + 0x58) == 9;
+    }
+  }
+  return false;
+}
+
+

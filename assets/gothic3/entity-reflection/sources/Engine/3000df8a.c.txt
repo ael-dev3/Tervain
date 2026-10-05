@@ -1,0 +1,28 @@
+/* ENTRY 3000df8a | eCEntityPropertySet::Read | STATUS decompiled | 10 ms */
+
+/* public: virtual enum bEResult __thiscall eCEntityPropertySet::Read(class bCIStream &) */
+
+bEResult __thiscall eCEntityPropertySet::Read(eCEntityPropertySet *this,bCIStream *param_1)
+
+{
+  byte *pbVar1;
+  bCIStream *this_00;
+  eCEntityPropertySet *peStack_4;
+  
+                    /* 0xdf8a  12093  ?Read@eCEntityPropertySet@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+                        */
+  this_00 = param_1;
+  peStack_4 = this;
+  bCIStream::operator>>((bCIStream *)param_1,(ushort *)&peStack_4);
+  if (1 < (ushort)peStack_4) {
+    bCIStream::operator>>((bCIStream *)this_00,(bool *)&param_1);
+    pbVar1 = &(this->eCEntityPropertySet_data).offset_0xc;
+    *pbVar1 = *pbVar1 ^ ((this->eCEntityPropertySet_data).offset_0xc ^ (byte)param_1) & 1;
+    return 1;
+  }
+  pbVar1 = &(this->eCEntityPropertySet_data).offset_0xc;
+  *pbVar1 = *pbVar1 | 1;
+  return 1;
+}
+
+

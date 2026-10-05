@@ -1,0 +1,4 @@
+; 20032ec0 ?OnProcess@gCCharacterMovement_PS@@MAEXXZ
+20032ec0 | e9fbc11f00 | JMP 0x2022f0c0
+; 20032eca gCLayerBase::AccessSectorPtr
+; 20032eca Ordinal_1661

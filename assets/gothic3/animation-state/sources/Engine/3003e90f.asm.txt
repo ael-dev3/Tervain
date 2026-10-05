@@ -1,0 +1,2 @@
+; 3003e90f ?Create@eCAnimationAdmin@@UAE?AW4bEResult@@XZ
+3003e90f | e9ac100500 | JMP 0x3008f9c0

@@ -1,0 +1,31 @@
+/* ENTRY 20036c19 | gCCharacterMovement_PS::SaveFrameStates | STATUS decompiled | 20 ms */
+
+/* protected: void __thiscall gCCharacterMovement_PS::SaveFrameStates(void) */
+
+void __thiscall gCCharacterMovement_PS::SaveFrameStates(gCCharacterMovement_PS *this)
+
+{
+  undefined1 *this_00;
+  eCEntity *peVar1;
+  bCVector *pbVar2;
+  bCMatrix *pbVar3;
+  
+                    /* 0x36c19  6180  ?SaveFrameStates@gCCharacterMovement_PS@@IAEXXZ */
+  peVar1 = (*this->vftablePtr->GetEntity)(this);
+  pbVar2 = eCEntity::GetWorldPosition((eCEntity *)peVar1);
+  bCVector::operator=((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x118,pbVar2);
+  peVar1 = (*this->vftablePtr->GetEntity)(this);
+  pbVar3 = eCEntity::GetWorldMatrix((eCEntity *)peVar1);
+  pbVar2 = bCMatrix::GetZAxis(pbVar3);
+  bCVector::operator=((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x124,pbVar2);
+  this_00 = &(this->gCCharacterMovement_PS_data).field_0xd8;
+  peVar1 = eCEntityProxy::GetEntity((eCEntityProxy *)this_00);
+  if (peVar1 != (eCEntity *)0x0) {
+    peVar1 = eCEntityProxy::operator->((eCEntityProxy *)this_00);
+    pbVar3 = eCEntity::GetWorldMatrix((eCEntity *)peVar1);
+    bCMatrix::operator=((bCMatrix *)&(this->gCCharacterMovement_PS_data).field_0x198,pbVar3);
+  }
+  return;
+}
+
+

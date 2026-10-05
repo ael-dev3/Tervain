@@ -1,0 +1,115 @@
+/* ENTRY 20021468 | gCCharacterMovement_PS::Invalidate | STATUS decompiled | 56 ms */
+
+/* protected: void __thiscall gCCharacterMovement_PS::Invalidate(void) */
+
+void __thiscall gCCharacterMovement_PS::Invalidate(gCCharacterMovement_PS *this)
+
+{
+  gCCharacterMovement_PS *pgVar1;
+  undefined1 *this_00;
+  
+                    /* 0x21468  4956  ?Invalidate@gCCharacterMovement_PS@@IAEXXZ */
+  thunk_FUN_20213090();
+  thunk_FUN_20217250();
+  pgVar1 = &(this->gCCharacterMovement_PS_data).offset_0x95;
+  *pgVar1 = (gCCharacterMovement_PS)((byte)*pgVar1 | 1);
+  (this->gCCharacterMovement_PS_data).offset_0x278 = (gCCharacterMovement_PS *)this;
+  (this->gCCharacterMovement_PS_data).offset_0x2ac = (gCCharacterMovement_PS *)this;
+  (this->gCCharacterMovement_PS_data).offset_0x2b8 = (gCCharacterMovement_PS)0x0;
+  (this->gCCharacterMovement_PS_data).offset_0x154 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x158 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x108 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x94 = (gCCharacterMovement_PS)0x0;
+  (this->gCCharacterMovement_PS_data).offset_0xfc = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x100 = 0xd;
+  (this->gCCharacterMovement_PS_data).offset_0x15c = 0x3f800000;
+  (this->gCCharacterMovement_PS_data).offset_0x168 = (gCCharacterMovement_PS)0x0;
+  (this->gCCharacterMovement_PS_data).offset_0x179 = (gCCharacterMovement_PS)0x0;
+  (this->gCCharacterMovement_PS_data).offset_0x16c = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x170 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x259 = (gCCharacterMovement_PS)0x0;
+  (this->gCCharacterMovement_PS_data).offset_0x174 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x178 = (gCCharacterMovement_PS)0x0;
+  (this->gCCharacterMovement_PS_data).offset_0x17b = (gCCharacterMovement_PS)0x0;
+  (this->gCCharacterMovement_PS_data).offset_0x398 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x394 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x3b0 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x228 = (gCCharacterMovement_PS)0x1;
+  (this->gCCharacterMovement_PS_data).offset_0x229 = (gCCharacterMovement_PS)0x0;
+  (this->gCCharacterMovement_PS_data).offset_0x22a = (gCCharacterMovement_PS)0x0;
+  (this->gCCharacterMovement_PS_data).offset_0x380 = (gCCharacterMovement_PS)0x0;
+  (this->gCCharacterMovement_PS_data).offset_0x25a = (gCCharacterMovement_PS)0x0;
+  (this->gCCharacterMovement_PS_data).offset_0x218 = (gCCharacterMovement_PS)0x0;
+  (this->gCCharacterMovement_PS_data).offset_0x21a = (gCCharacterMovement_PS)0x0;
+  (this->gCCharacterMovement_PS_data).offset_0x25c = (gCCharacterMovement_PS)0x0;
+  (this->gCCharacterMovement_PS_data).offset_0x22c = 0;
+  bCVector::Clear((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x230);
+  eCEntityProxy::SetEntity
+            ((eCEntityProxy *)&(this->gCCharacterMovement_PS_data).field_0x23c,(eCEntity *)0x0);
+  eCEntityProxy::SetEntity
+            ((eCEntityProxy *)&(this->gCCharacterMovement_PS_data).field_0x17c,(eCEntity *)0x0);
+  (this->gCCharacterMovement_PS_data).offset_0x378 = 0xbf800000;
+  (this->gCCharacterMovement_PS_data).offset_0x37c = 0x3f800000;
+  (this->gCCharacterMovement_PS_data).offset_0x21c = 0xbf800000;
+  (this->gCCharacterMovement_PS_data).offset_0x220 = 0xbf800000;
+  (this->gCCharacterMovement_PS_data).offset_0x160 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x224 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x74 = 0x40a00000;
+  (this->gCCharacterMovement_PS_data).offset_0x25d = (gCCharacterMovement_PS)0x0;
+  (this->gCCharacterMovement_PS_data).offset_0x25e = (gCCharacterMovement_PS)0x0;
+  (this->gCCharacterMovement_PS_data).offset_0x25f = (gCCharacterMovement_PS)0x1;
+  (this->gCCharacterMovement_PS_data).offset_0x384 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x388 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x38c = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x390 = (gCCharacterMovement_PS)0x0;
+  (this->gCCharacterMovement_PS_data).offset_0x260 = (gCCharacterMovement_PS)0x0;
+  (this->gCCharacterMovement_PS_data).offset_0x25b = (gCCharacterMovement_PS)0x1;
+  (this->gCCharacterMovement_PS_data).offset_0x39c = 0xffffffff;
+  bCVector::SetCoordinates((bCVector *)&(this->gCCharacterMovement_PS_data).field_0xc0,0.0,1.0,0.0);
+  (this->gCCharacterMovement_PS_data).offset_0x3a2 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x3aa = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x3b0 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x3b8 = 0xbf800000;
+  (this->gCCharacterMovement_PS_data).offset_0x219 = (gCCharacterMovement_PS)0x1;
+  (this->gCCharacterMovement_PS_data).offset_0x2b9 = (gCCharacterMovement_PS)0x1;
+  bCMatrix::Clear((bCMatrix *)&(this->gCCharacterMovement_PS_data).field_0x198);
+  bCMatrix::Clear((bCMatrix *)&(this->gCCharacterMovement_PS_data).field_0x1d8);
+  bCVector::Clear((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x2bc);
+  bCQuaternion::Clear((bCQuaternion *)&(this->gCCharacterMovement_PS_data).field_0x2c8);
+  bCVector::Clear((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x35c);
+  bCQuaternion::Clear((bCQuaternion *)&(this->gCCharacterMovement_PS_data).field_0x368);
+  bCVector::Clear((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x2d8);
+  bCQuaternion::Clear((bCQuaternion *)&(this->gCCharacterMovement_PS_data).field_0x2e4);
+  bCVector::Clear((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x118);
+  this_00 = &(this->gCCharacterMovement_PS_data).field_0x130;
+  bCVector::Clear((bCVector *)this_00);
+  bCVector::Clear((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x13c);
+  bCVector::Clear((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x148);
+  bCVector::Clear((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x124);
+  eCEntityProxy::SetEntity
+            ((eCEntityProxy *)&(this->gCCharacterMovement_PS_data).field_0x318,(eCEntity *)0x0);
+  eCEntityProxy::SetEntity
+            ((eCEntityProxy *)&(this->gCCharacterMovement_PS_data).field_0x334,(eCEntity *)0x0);
+  bCVector::Clear((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x350);
+  thunk_FUN_20233ee0();
+  (this->gCCharacterMovement_PS_data).offset_0x25b = (gCCharacterMovement_PS)0x1;
+  (this->gCCharacterMovement_PS_data).offset_0x3b4 = (gCCharacterMovement_PS)0x0;
+  (this->gCCharacterMovement_PS_data).offset_0x3bc = (gCCharacterMovement_PS)0x1;
+  (this->gCCharacterMovement_PS_data).offset_0x3c0 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x3d0 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x3c8 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x3c4 = 0;
+  (this->gCCharacterMovement_PS_data).offset_0x3cc = (gCCharacterMovement_PS)0x0;
+  (this->gCCharacterMovement_PS_data).offset_0x3cd = (gCCharacterMovement_PS)0x0;
+  bCString::Clear((bCString *)&(this->gCCharacterMovement_PS_data).field_0x3d4);
+  pgVar1 = &(this->gCCharacterMovement_PS_data).offset_0xf8;
+  *pgVar1 = (gCCharacterMovement_PS)((byte)*pgVar1 | 2);
+  (this->gCCharacterMovement_PS_data).offset_0x179 = (gCCharacterMovement_PS)0x0;
+  (this->gCCharacterMovement_PS_data).offset_0x219 = (gCCharacterMovement_PS)0x0;
+                    /* WARNING: Could not recover jumptable at 0x20228086. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCVector::Clear((bCVector *)this_00);
+  return;
+}
+
+

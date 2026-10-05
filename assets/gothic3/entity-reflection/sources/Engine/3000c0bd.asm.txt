@@ -1,0 +1,4 @@
+; 3000c0bd ?OnExitProcessingRange@eCEntityPropertySet@@MAEXXZ
+3000c0bd | e98e584700 | JMP 0x30481950
+; 3000c0c7 eCEntityPropertySet::OnPropertySetRemoved
+; 3000c0c7 Ordinal_11414

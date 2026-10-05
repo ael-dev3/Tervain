@@ -1,0 +1,4 @@
+; 10007e8c ?IsVirtualReferencingEnabled@bCObjectRefBase@@UBE_NXZ
+10007e8c | e95f260400 | JMP 0x1004a4f0
+; 10007e91 bCLine::SetOrigin
+; 10007e91 Ordinal_4275

@@ -1,0 +1,12 @@
+/* ENTRY 2001567c | gCEffect_PS::GetVersion | STATUS decompiled | 7 ms */
+
+/* public: virtual unsigned short __thiscall gCEffect_PS::GetVersion(void)const  */
+
+ushort __thiscall gCEffect_PS::GetVersion(gCEffect_PS *this)
+
+{
+                    /* 0x1567c  4692  ?GetVersion@gCEffect_PS@@UBEGXZ */
+  return 1;
+}
+
+

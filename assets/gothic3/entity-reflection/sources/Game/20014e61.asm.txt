@@ -1,0 +1,4 @@
+; 20014e61 bTPropertyType<gCClock_PS,float>::vfunction20
+20014e61 | e9ca361f00 | JMP 0x20208530
+; 20014e66 gCEffect_PS::OnCacheOut
+; 20014e66 Ordinal_5359

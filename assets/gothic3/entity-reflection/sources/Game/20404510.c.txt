@@ -1,0 +1,49 @@
+/* ENTRY 20404510 | bTPropertyContainer<gEFocusNameType>::bTPropertyContainer<gEFocusNameType> | STATUS decompiled | 24 ms */
+
+bTPropertyContainer<gEFocusNameType> * __thiscall
+bTPropertyContainer<gEFocusNameType>::bTPropertyContainer<gEFocusNameType>
+          (bTPropertyContainer<gEFocusNameType> *this)
+
+{
+  bCObjectBase **this_00;
+  
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+                    /* inlined constructor: gCInteraction_PS::gCInteraction_PS */
+  this->vftablePtr = (bTPropertyContainer<gEFocusNameType>_vftable *)&gCInteraction_PS::vftable;
+  bCObjectBase::bCObjectBase((bCObjectBase *)&this[1].bTPropertyContainer<gEFocusNameType>_data);
+                    /* inlined constructor:
+                       bTPropertyContainer<gEFocusPriority>::bTPropertyContainer<gEFocusPriority> */
+  this[1].bTPropertyContainer<gEFocusNameType>_data.offset_0x0 =
+       &bTPropertyContainer<gEFocusPriority>::vftable.GetVersion;
+  this[1].bTPropertyContainer<gEFocusNameType>_data.offset_0x4 = DAT_207b61a8;
+  eCEntityProxy::eCEntityProxy
+            ((eCEntityProxy *)&this[1].bTPropertyContainer<gEFocusNameType>_data.offset_0x8);
+  eCEntityProxy::eCEntityProxy
+            ((eCEntityProxy *)&this[3].bTPropertyContainer<gEFocusNameType>_data.offset_0x4);
+  bCObjectBase::bCObjectBase((bCObjectBase *)&this[5].bTPropertyContainer<gEFocusNameType>_data);
+                    /* inlined constructor:
+                       bTPropertyContainer<gEUseType>::bTPropertyContainer<gEUseType> */
+  this[5].bTPropertyContainer<gEFocusNameType>_data.offset_0x0 =
+       &bTPropertyContainer<gEUseType>::vftable.GetVersion;
+  this[5].bTPropertyContainer<gEFocusNameType>_data.offset_0x4 = DAT_207cef3c;
+  bCString::bCString((bCString *)&this[5].bTPropertyContainer<gEFocusNameType>_data.offset_0x8);
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)(this + 6));
+  this_00 = &this[7].bTPropertyContainer<gEFocusNameType>_data.offset_0x8;
+  bCObjectBase::bCObjectBase((bCObjectBase *)this_00);
+  *this_00 = (bCObjectBase *)&vftable;
+  this[8].vftablePtr = DAT_207b61ac;
+  bCString::bCString((bCString *)&this[8].bTPropertyContainer<gEFocusNameType>_data);
+  bCVector::bCVector((bCVector *)&this[8].bTPropertyContainer<gEFocusNameType>_data.offset_0x4);
+  bCVector::bCVector((bCVector *)&this[9].bTPropertyContainer<gEFocusNameType>_data);
+  bCString::bCString((bCString *)&this[10].bTPropertyContainer<gEFocusNameType>_data);
+  bCString::bCString((bCString *)&this[10].bTPropertyContainer<gEFocusNameType>_data.offset_0x4);
+  eCTemplateEntityProxy::eCTemplateEntityProxy
+            ((eCTemplateEntityProxy *)&this[10].bTPropertyContainer<gEFocusNameType>_data.offset_0x8
+            );
+  eCPropertySetProxy::eCPropertySetProxy
+            ((eCPropertySetProxy *)&this[0xb].bTPropertyContainer<gEFocusNameType>_data.offset_0x4);
+  *(undefined1 *)&this[0xd].bTPropertyContainer<gEFocusNameType>_data.offset_0x8 = 0;
+  return this;
+}
+
+

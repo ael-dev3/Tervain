@@ -1,0 +1,2 @@
+; 2002dc68 bTPropertyType<gCClock_PS,float>::vfunction2
+2002dc68 | e903cc1d00 | JMP 0x2020a870

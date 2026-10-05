@@ -1,0 +1,4 @@
+; 20019209 ??0gCParty_PS@@QAE@XZ
+20019209 | e912ea2f00 | JMP 0x20317c20
+; 20019218 gCMusicTransition::GetFadeOutEnd
+; 20019218 Ordinal_3400

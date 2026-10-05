@@ -1,0 +1,2 @@
+; 2001c161 ?ProcessMovementAnimation@gCCharacterMovement_PS@@IAEXXZ
+2001c161 | e9aa732000 | JMP 0x20223510

@@ -1,0 +1,2 @@
+; 2000813e ?Destroy@gCClock_PS@@UAEXXZ
+2000813e | e9cdfd1f00 | JMP 0x20207f10

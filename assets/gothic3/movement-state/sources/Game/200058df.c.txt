@@ -1,0 +1,17 @@
+/* ENTRY 200058df | gCCharacterSensor_PS::GetGoalRotation | STATUS decompiled | 11 ms */
+
+/* public: class bCQuaternion __thiscall gCCharacterSensor_PS::GetGoalRotation(void)const  */
+
+bCQuaternion * __thiscall gCCharacterSensor_PS::GetGoalRotation(gCCharacterSensor_PS *this)
+
+{
+  bCQuaternion *in_stack_00000004;
+  
+                    /* 0x58df  3499  ?GetGoalRotation@gCCharacterSensor_PS@@QBE?AVbCQuaternion@@XZ
+                        */
+  bCQuaternion::bCQuaternion
+            (in_stack_00000004,(bCQuaternion *)&(this->gCCharacterSensor_PS_data).field_0x4c);
+  return in_stack_00000004;
+}
+
+

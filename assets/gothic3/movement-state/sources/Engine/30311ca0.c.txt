@@ -1,0 +1,410 @@
+/* ENTRY 30311ca0 | FUN_30311ca0 | STATUS decompiled | 342 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __fastcall FUN_30311ca0(bCVector *param_1)
+
+{
+  undefined4 *puVar1;
+  int iVar2;
+  bool bVar3;
+  bool bVar4;
+  char cVar5;
+  float *pfVar6;
+  eCCollisionShape_PS *peVar7;
+  bTRefPtrArray<eCCollisionShape*> *pbVar8;
+  bCVector *pbVar9;
+  int *piVar10;
+  NxVec3 *pNVar11;
+  NxVec3 *pNVar12;
+  int iVar13;
+  NxShape *unaff_EDI;
+  undefined1 *puVar14;
+  undefined4 uVar15;
+  eCCollisionShape_PS *local_c4;
+  uint local_c0;
+  float local_bc;
+  float local_b8;
+  float local_b4;
+  float local_b0;
+  float local_ac;
+  float local_a8;
+  float local_a4;
+  float local_a0;
+  float local_9c;
+  float local_98;
+  float local_94;
+  float local_90;
+  float fStack_8c;
+  float fStack_88;
+  undefined1 auStack_7c [4];
+  bCVector abStack_78 [12];
+  bCVector local_6c [8];
+  undefined1 auStack_64 [4];
+  bCVector abStack_60 [12];
+  bCVector local_54 [12];
+  bCVector local_48 [12];
+  bCVector local_3c [8];
+  bCVector local_34 [4];
+  undefined1 local_30 [12];
+  bCVector local_24 [12];
+  bCVector local_18 [4];
+  undefined1 auStack_14 [20];
+  
+  if (*(short *)(param_1 + 0x1ca) == 0) {
+    return;
+  }
+  if (*(int **)(param_1 + 0x1b4) == (int *)0x0) {
+    local_c4 = (eCCollisionShape_PS *)0x0;
+  }
+  else {
+    local_c4 = (eCCollisionShape_PS *)(**(code **)(**(int **)(param_1 + 0x1b4) + 0xec))(0xe);
+  }
+  bVar4 = false;
+  bVar3 = false;
+  local_c0 = 0;
+  if (*(short *)(param_1 + 0x1ca) != 0) {
+    do {
+      switch(*(undefined4 *)(*(int *)(param_1 + 0x1cc) + local_c0 * 4)) {
+      case 0:
+        iVar13 = **(int **)(param_1 + 0x1b8);
+        uVar15 = _DAT_30ab3be0;
+        pbVar9 = (bCVector *)bCVector::operator*(param_1,(float)local_24);
+        pNVar11 = bCVector::operator_class_NxVec3_(pbVar9);
+        (**(code **)(iVar13 + 0x18))(pNVar11,uVar15);
+        bCVector::~bCVector(local_24);
+        break;
+      case 1:
+        pfVar6 = bCMatrix3::AccessElement((bCMatrix3 *)(param_1 + 0x1c),0);
+        local_bc = *pfVar6;
+        local_b8 = pfVar6[3];
+        local_b4 = pfVar6[6];
+        local_b0 = pfVar6[1];
+        local_ac = pfVar6[4];
+        local_a8 = pfVar6[7];
+        local_a4 = pfVar6[2];
+        local_a0 = pfVar6[5];
+        local_9c = pfVar6[8];
+        (**(code **)(**(int **)(param_1 + 0x1b8) + 0x1c))(&local_bc);
+        break;
+      case 2:
+        (**(code **)(**(int **)(param_1 + 0x1b8) + 0x20))(param_1 + 0xc);
+        break;
+      case 3:
+        local_90 = 0.0;
+        local_94 = 0.0;
+        local_98 = 0.0;
+        local_bc = 1.0;
+        local_b8 = 0.0;
+        local_b4 = 0.0;
+        local_b0 = 0.0;
+        local_ac = 1.0;
+        local_a8 = 0.0;
+        local_a4 = 0.0;
+        local_a0 = 0.0;
+        local_9c = 1.0;
+        pfVar6 = bCMatrix::AccessElement((bCMatrix *)(param_1 + 0x40),0);
+        local_bc = *pfVar6;
+        local_b8 = pfVar6[4];
+        local_b4 = pfVar6[8];
+        local_b0 = pfVar6[1];
+        local_ac = pfVar6[5];
+        local_a8 = pfVar6[9];
+        local_a4 = pfVar6[2];
+        local_a0 = pfVar6[6];
+        puVar14 = local_30;
+        local_9c = pfVar6[10];
+        uVar15 = _DAT_30ab3be0;
+        pbVar9 = bCMatrix::GetTranslation((bCMatrix *)(param_1 + 0x40));
+        pbVar9 = (bCVector *)bCVector::operator*(pbVar9,(float)puVar14);
+        pNVar11 = bCVector::operator_class_NxVec3_(pbVar9);
+        local_9c = *(float *)pNVar11;
+        local_98 = *(float *)(pNVar11 + 4);
+        local_94 = *(float *)(pNVar11 + 8);
+        bCVector::~bCVector(local_34);
+        (**(code **)(**(int **)(param_1 + 0x1b8) + 0x14))(&local_c0,uVar15);
+        break;
+      case 4:
+        cVar5 = (**(code **)(**(int **)(param_1 + 0x1b8) + 0x158))(0x80);
+        if (cVar5 == '\0') {
+          iVar13 = **(int **)(param_1 + 0x1b8);
+          pbVar9 = (bCVector *)bCVector::operator*(param_1 + 0x80,(float)auStack_7c);
+          pNVar11 = bCVector::operator_class_NxVec3_(pbVar9);
+          (**(code **)(iVar13 + 0xd4))(pNVar11);
+          bCVector::~bCVector(abStack_78);
+        }
+        else {
+          uVar15 = _DAT_30ab3be0;
+          pbVar9 = (bCVector *)bCVector::operator*(param_1 + 0x80,(float)auStack_64);
+          pNVar11 = bCVector::operator_class_NxVec3_(pbVar9);
+          pfVar6 = (float *)(**(code **)(**(int **)(param_1 + 0x1b8) + 0x28))(auStack_14,uVar15);
+          local_94 = pfVar6[1] + *(float *)(pNVar11 + 4);
+          local_98 = pfVar6[2] + *(float *)(pNVar11 + 8);
+          local_90 = *pfVar6 + *(float *)pNVar11;
+          fStack_8c = local_94;
+          fStack_88 = local_98;
+          (**(code **)(**(int **)(param_1 + 0x1b8) + 0x38))(&local_90);
+          bCVector::~bCVector(abStack_60);
+        }
+        break;
+      case 5:
+        iVar13 = **(int **)(param_1 + 0x1b8);
+        uVar15 = _DAT_30ab3be0;
+        pbVar9 = (bCVector *)bCVector::operator*(param_1 + 0x8c,(float)local_48);
+        pNVar11 = bCVector::operator_class_NxVec3_(pbVar9);
+        (**(code **)(iVar13 + 0xd8))(pNVar11,uVar15);
+        bCVector::~bCVector(local_48);
+        break;
+      case 6:
+        iVar13 = **(int **)(param_1 + 0x1b8);
+        uVar15 = _DAT_30ab3be0;
+        pbVar9 = (bCVector *)bCVector::operator*(param_1 + 0x98,(float)local_18);
+        pNVar11 = bCVector::operator_class_NxVec3_(pbVar9);
+        (**(code **)(iVar13 + 0xf4))(pNVar11,uVar15);
+        bCVector::~bCVector(local_18);
+        break;
+      case 7:
+        iVar13 = **(int **)(param_1 + 0x1b8);
+        uVar15 = _DAT_30ab3be0;
+        pbVar9 = (bCVector *)bCVector::operator*(param_1 + 0xa4,(float)local_6c);
+        pNVar11 = bCVector::operator_class_NxVec3_(pbVar9);
+        (**(code **)(iVar13 + 0xf8))(pNVar11,uVar15);
+        bCVector::~bCVector(local_6c);
+        break;
+      case 8:
+        (**(code **)(**(int **)(param_1 + 0x1b8) + 0xa8))(*(undefined4 *)(param_1 + 200));
+        break;
+      case 9:
+        iVar13 = **(int **)(param_1 + 0x1b8);
+        uVar15 = _DAT_30ab3be0;
+        pbVar9 = (bCVector *)bCVector::operator*(param_1 + 0xb0,(float)local_54);
+        pNVar11 = bCVector::operator_class_NxVec3_(pbVar9);
+        (**(code **)(iVar13 + 0x88))(pNVar11,uVar15);
+        bCVector::~bCVector(local_54);
+        break;
+      case 10:
+        iVar13 = **(int **)(param_1 + 0x1b8);
+        uVar15 = _DAT_30ab3be0;
+        pbVar9 = (bCVector *)bCVector::operator*(param_1 + 0xbc,(float)local_3c);
+        pNVar11 = bCVector::operator_class_NxVec3_(pbVar9);
+        (**(code **)(iVar13 + 0xb0))(pNVar11,uVar15);
+        bCVector::~bCVector(local_3c);
+        break;
+      case 0xb:
+        (**(code **)(**(int **)(param_1 + 0x1b8) + 0x150))
+                  (*(undefined4 *)(*(int *)(param_1 + 0x184) + -4 + *(int *)(param_1 + 0x188) * 4));
+        thunk_FUN_30313f60(*(int *)(param_1 + 0x188) + -1);
+        break;
+      case 0xc:
+        (**(code **)(**(int **)(param_1 + 0x1b8) + 0x154))
+                  (*(undefined4 *)(*(int *)(param_1 + 400) + -4 + *(int *)(param_1 + 0x194) * 4));
+        thunk_FUN_30313f60(*(int *)(param_1 + 0x194) + -1);
+        break;
+      case 0xd:
+        iVar13 = *(int *)(*(int *)(param_1 + 0x19c) + -4 + *(int *)(param_1 + 0x1a0) * 4);
+        if (iVar13 < 4) {
+          (**(code **)(**(int **)(param_1 + 0x1b8) + 0x5c))(iVar13);
+          thunk_FUN_30313fc0(*(int *)(param_1 + 0x1a0) + -1);
+        }
+        else {
+          peVar7 = (eCCollisionShape_PS *)thunk_FUN_3014d790(*(undefined4 *)(param_1 + 0x1b4));
+          if (peVar7 != (eCCollisionShape_PS *)0x0) {
+            pbVar8 = eCCollisionShape_PS::GetShapes(peVar7);
+            iVar13 = *(int *)(pbVar8 + 4);
+            while (iVar13 = iVar13 + -1, -1 < iVar13) {
+              pbVar8 = eCCollisionShape_PS::GetShapes(peVar7);
+              iVar2 = *(int *)(*(int *)pbVar8 + iVar13 * 4);
+              if ((iVar2 != 0) && (piVar10 = *(int **)(iVar2 + 0x60), piVar10 != (int *)0x0)) {
+                (**(code **)(*piVar10 + 0x14))(0x40,1);
+              }
+            }
+          }
+        }
+        break;
+      case 0xe:
+        iVar13 = *(int *)(*(int *)(param_1 + 0x1a8) + -4 + *(int *)(param_1 + 0x1ac) * 4);
+        if (iVar13 < 4) {
+          (**(code **)(**(int **)(param_1 + 0x1b8) + 0x60))(iVar13);
+          thunk_FUN_30313fc0(*(int *)(param_1 + 0x1ac) + -1);
+        }
+        else {
+          peVar7 = (eCCollisionShape_PS *)thunk_FUN_3014d790(*(undefined4 *)(param_1 + 0x1b4));
+          if (peVar7 != (eCCollisionShape_PS *)0x0) {
+            pbVar8 = eCCollisionShape_PS::GetShapes(peVar7);
+            iVar13 = *(int *)(pbVar8 + 4);
+            while (iVar13 = iVar13 + -1, -1 < iVar13) {
+              pbVar8 = eCCollisionShape_PS::GetShapes(peVar7);
+              iVar2 = *(int *)(*(int *)pbVar8 + iVar13 * 4);
+              if ((iVar2 != 0) && (piVar10 = *(int **)(iVar2 + 0x60), piVar10 != (int *)0x0)) {
+                (**(code **)(*piVar10 + 0x14))(0x40,0);
+              }
+            }
+          }
+        }
+        break;
+      case 0xf:
+        if (param_1[0xcc] == (bCVector)0x1) {
+          (**(code **)(**(int **)(param_1 + 0x1b8) + 0x14c))();
+        }
+        else {
+          (**(code **)(**(int **)(param_1 + 0x1b8) + 0x148))(0x3ecccccc);
+        }
+        break;
+      case 0x10:
+        iVar13 = **(int **)(param_1 + 0x1b8);
+        pbVar9 = (bCVector *)(*(int *)(param_1 + 0x11c) * 0x10 + -0x10 + *(int *)(param_1 + 0x118));
+        uVar15 = *(undefined4 *)(pbVar9 + 0xc);
+        pNVar11 = bCVector::operator_class_NxVec3_(pbVar9);
+        (**(code **)(iVar13 + 0x114))(pNVar11,uVar15);
+        thunk_FUN_30313e80(*(int *)(param_1 + 0x11c) + -1);
+        break;
+      case 0x11:
+        iVar13 = **(int **)(param_1 + 0x1b8);
+        pbVar9 = (bCVector *)(*(int *)(param_1 + 0x134) * 0x10 + -0x10 + *(int *)(param_1 + 0x130));
+        uVar15 = *(undefined4 *)(pbVar9 + 0xc);
+        pNVar11 = bCVector::operator_class_NxVec3_(pbVar9);
+        (**(code **)(iVar13 + 0x11c))(pNVar11,uVar15);
+        thunk_FUN_30313e80(*(int *)(param_1 + 0x134) + -1);
+        break;
+      case 0x12:
+        pbVar9 = (bCVector *)(*(int *)(param_1 + 0x128) * 0x10 + -0x10 + *(int *)(param_1 + 0x124));
+        uVar15 = *(undefined4 *)(pbVar9 + 0xc);
+        iVar13 = **(int **)(param_1 + 0x1b8);
+        pNVar11 = bCVector::operator_class_NxVec3_(pbVar9);
+        (**(code **)(iVar13 + 0x118))(pNVar11,uVar15);
+        thunk_FUN_30313e80(*(int *)(param_1 + 0x128) + -1);
+        break;
+      case 0x13:
+        iVar13 = **(int **)(param_1 + 0x1b8);
+        pbVar9 = (bCVector *)(*(int *)(param_1 + 0x140) * 0x10 + -0x10 + *(int *)(param_1 + 0x13c));
+        uVar15 = *(undefined4 *)(pbVar9 + 0xc);
+        pNVar11 = bCVector::operator_class_NxVec3_(pbVar9);
+        (**(code **)(iVar13 + 0x120))(pNVar11,uVar15);
+        thunk_FUN_30313e80(*(int *)(param_1 + 0x140) + -1);
+        break;
+      case 0x14:
+        iVar13 = **(int **)(param_1 + 0x1b8);
+        pbVar9 = (bCVector *)(*(int *)(param_1 + 0x160) + -0x1c + *(int *)(param_1 + 0x164) * 0x1c);
+        uVar15 = *(undefined4 *)(pbVar9 + 0x18);
+        pNVar11 = bCVector::operator_class_NxVec3_(pbVar9 + 0xc);
+        pNVar12 = bCVector::operator_class_NxVec3_(pbVar9);
+        (**(code **)(iVar13 + 0x104))(pNVar12,pNVar11,uVar15);
+        iVar13 = *(int *)(param_1 + 0x164);
+        goto LAB_30312867;
+      case 0x15:
+        iVar13 = **(int **)(param_1 + 0x1b8);
+        pbVar9 = (bCVector *)(*(int *)(param_1 + 0x16c) + -0x1c + *(int *)(param_1 + 0x170) * 0x1c);
+        uVar15 = *(undefined4 *)(pbVar9 + 0x18);
+        pNVar11 = bCVector::operator_class_NxVec3_(pbVar9 + 0xc);
+        pNVar12 = bCVector::operator_class_NxVec3_(pbVar9);
+        (**(code **)(iVar13 + 0x108))(pNVar12,pNVar11,uVar15);
+        iVar13 = *(int *)(param_1 + 0x170);
+        goto LAB_30312867;
+      case 0x16:
+        iVar13 = **(int **)(param_1 + 0x1b8);
+        pbVar9 = (bCVector *)(*(int *)(param_1 + 0x148) + -0x1c + *(int *)(param_1 + 0x14c) * 0x1c);
+        uVar15 = *(undefined4 *)(pbVar9 + 0x18);
+        pNVar11 = bCVector::operator_class_NxVec3_(pbVar9 + 0xc);
+        pNVar12 = bCVector::operator_class_NxVec3_(pbVar9);
+        (**(code **)(iVar13 + 0x10c))(pNVar12,pNVar11,uVar15);
+        iVar13 = *(int *)(param_1 + 0x14c);
+        goto LAB_30312867;
+      case 0x17:
+        iVar13 = **(int **)(param_1 + 0x1b8);
+        pbVar9 = (bCVector *)(*(int *)(param_1 + 0x154) + -0x1c + *(int *)(param_1 + 0x158) * 0x1c);
+        uVar15 = *(undefined4 *)(pbVar9 + 0x18);
+        pNVar11 = bCVector::operator_class_NxVec3_(pbVar9 + 0xc);
+        pNVar12 = bCVector::operator_class_NxVec3_(pbVar9);
+        (**(code **)(iVar13 + 0x110))(pNVar12,pNVar11,uVar15);
+        iVar13 = *(int *)(param_1 + 0x158);
+LAB_30312867:
+        thunk_FUN_30313ef0(iVar13 + -1);
+        break;
+      case 0x18:
+        bVar4 = true;
+        bVar3 = true;
+        break;
+      case 0x19:
+        bVar4 = true;
+        (*local_c4->vftablePtr->RemoveShapesInternal)(local_c4,unaff_EDI);
+        break;
+      case 0x1a:
+        bVar4 = true;
+        (*local_c4->vftablePtr->RemoveShapesInternal)
+                  (local_c4,*(NxShape **)
+                             (*(int *)(param_1 + 0xd0) + -4 + *(int *)(param_1 + 0xd4) * 4));
+        thunk_FUN_30313c40(*(int *)(param_1 + 0xd4) + -1);
+        break;
+      case 0x1b:
+        bVar4 = true;
+        (*local_c4->vftablePtr->RemoveShapesInternal)
+                  (local_c4,*(NxShape **)
+                             (*(int *)(param_1 + 0x10c) + -4 + *(int *)(param_1 + 0x110) * 4));
+        thunk_FUN_30313e20(*(int *)(param_1 + 0x110) + -1);
+        break;
+      case 0x1c:
+        bVar4 = true;
+        (*local_c4->vftablePtr->RemoveShapesInternal)
+                  (local_c4,*(NxShape **)
+                             (*(int *)(param_1 + 0xdc) + -4 + *(int *)(param_1 + 0xe0) * 4));
+        thunk_FUN_30313ca0(*(int *)(param_1 + 0xe0) + -1);
+        break;
+      case 0x1d:
+        (**(code **)(**(int **)(param_1 + 0x1b8) + 0x54))(*(undefined2 *)(param_1 + 0x1c0));
+        break;
+      case 0x1e:
+        iVar13 = **(int **)(param_1 + 0x1b8);
+        uVar15 = 1;
+        if (param_1[0x1bc] == (bCVector)0x1) {
+          (**(code **)(iVar13 + 0x5c))();
+        }
+        else {
+LAB_303125fe:
+          (**(code **)(iVar13 + 0x60))(uVar15);
+        }
+        break;
+      case 0x1f:
+        iVar13 = **(int **)(param_1 + 0x1b8);
+        uVar15 = 2;
+        if (param_1[0x1bd] != (bCVector)0x1) goto LAB_303125fe;
+        (**(code **)(iVar13 + 0x5c))(2);
+        break;
+      case 0x20:
+        piVar10 = (int *)thunk_FUN_3014d790(*(undefined4 *)(param_1 + 0x1b4));
+        puVar1 = (undefined4 *)(*(int *)(param_1 + 0xe8) + -0xc + *(int *)(param_1 + 0xec) * 0xc);
+        if (piVar10 != (int *)0x0) {
+          (**(code **)(*piVar10 + 0x194))(*puVar1,*(undefined1 *)(puVar1 + 1),puVar1[2]);
+        }
+        thunk_FUN_30313d10(*(int *)(param_1 + 0xec) + -1);
+        break;
+      case 0x21:
+        piVar10 = (int *)thunk_FUN_3014d790(*(undefined4 *)(param_1 + 0x1b4));
+        puVar1 = (undefined4 *)(*(int *)(param_1 + 0xf4) + -8 + *(int *)(param_1 + 0xf8) * 8);
+        if (piVar10 != (int *)0x0) {
+          (**(code **)(*piVar10 + 0x198))(*puVar1,puVar1[1]);
+        }
+        thunk_FUN_30313d90(*(int *)(param_1 + 0xf8) + -1);
+        break;
+      case 0x22:
+        puVar1 = (undefined4 *)
+                 (*(int *)(param_1 + 0x100) + -0x1c + *(int *)(param_1 + 0x104) * 0x1c);
+        eCCollisionShape::SetByLocalAABB((eCCollisionShape *)*puVar1,(bCBox *)(puVar1 + 1));
+        thunk_FUN_30314100(*(int *)(param_1 + 0x104) + -1);
+      }
+      local_c0 = local_c0 + 1;
+    } while (local_c0 < *(ushort *)(param_1 + 0x1ca));
+    if (bVar3) {
+      eCCollisionShape_PS::SetProprietaryShapes(local_c4);
+    }
+    if (bVar4) {
+      eCCollisionShape_PS::OnProprietaryShapesChanged(local_c4);
+    }
+  }
+  *(undefined2 *)(param_1 + 0x1ca) = 0;
+                    /* WARNING: Could not recover jumptable at 0x303128c5. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCBitField::DisableAll((bCBitField *)(param_1 + 0x1d0));
+  return;
+}
+
+

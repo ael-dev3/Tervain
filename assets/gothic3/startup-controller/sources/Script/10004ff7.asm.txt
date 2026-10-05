@@ -1,0 +1,2 @@
+; 10004ff7 ??4PropertyLPAttribs@PSPlayerMemory@@QAEAAV01@ABJ@Z
+10004ff7 | e9242e0200 | JMP 0x10027e20

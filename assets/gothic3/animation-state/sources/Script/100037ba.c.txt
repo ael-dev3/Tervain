@@ -1,0 +1,38 @@
+/* ENTRY 100037ba | PSAnimation::GetSkeletonName | STATUS decompiled | 14 ms */
+
+/* public: bool __thiscall PSAnimation::GetSkeletonName(class bCString &)const  */
+
+bool __thiscall PSAnimation::GetSkeletonName(PSAnimation *this,bCString *param_1)
+
+{
+  eCWrapper_emfx2Actor *peVar1;
+  bCString *this_00;
+  int iVar2;
+  bCString *pbVar3;
+  bool bVar4;
+  bool bVar5;
+  PSAnimation *pPStack_4;
+  
+                    /* 0x37ba  1655  ?GetSkeletonName@PSAnimation@@QBE_NAAVbCString@@@Z */
+  if (*(eCVisualAnimation_PS **)this != (eCVisualAnimation_PS *)0x0) {
+    pPStack_4 = this;
+    peVar1 = eCVisualAnimation_PS::GetActor(*(eCVisualAnimation_PS **)this);
+    if (peVar1 != (eCWrapper_emfx2Actor *)0x0) {
+      peVar1 = eCVisualAnimation_PS::GetActor(*(eCVisualAnimation_PS **)this);
+      if (peVar1 != (eCWrapper_emfx2Actor *)0x0) {
+        bCString::bCString((bCString *)&pPStack_4,"_");
+        bVar5 = false;
+        bVar4 = false;
+        pbVar3 = (bCString *)&pPStack_4;
+        iVar2 = 1;
+        this_00 = eCWrapper_emfx2Actor::GetActorName(peVar1);
+        bCString::GetWord(this_00,iVar2,pbVar3,param_1,bVar4,bVar5);
+        bCString::~bCString((bCString *)&pPStack_4);
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+

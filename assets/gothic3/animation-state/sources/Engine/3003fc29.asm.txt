@@ -1,0 +1,4 @@
+; 3003fc29 ?GetMotionOwner@eCVisualAnimation_PS@@QBE?AW4eEMotionOwner@eSMotionDesc@1@W4eEMotionType@eCWrapper_emfx2Actor@@@Z
+3003fc29 | e9d2ec0500 | JMP 0x3009e900
+; 3003fc33 eCDX9VertexData::~eCDX9VertexData
+; 3003fc33 Ordinal_1056

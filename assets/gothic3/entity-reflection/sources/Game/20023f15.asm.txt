@@ -1,0 +1,2 @@
+; 20023f15 bTPropertyType<gCClock_PS,float>::scalar_deleting_destructor
+20023f15 | e986731e00 | JMP 0x2020b2a0

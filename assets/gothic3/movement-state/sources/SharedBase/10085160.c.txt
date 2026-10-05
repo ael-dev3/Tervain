@@ -1,0 +1,19 @@
+/* ENTRY 10085160 | FUN_10085160 | STATUS decompiled | 3 ms */
+
+void __thiscall FUN_10085160(int *param_1,int param_2,char param_3)
+
+{
+  uint *puVar1;
+  uint uVar2;
+  
+  puVar1 = (uint *)(*param_1 + ((int)(param_2 + (param_2 >> 0x1f & 0x1fU)) >> 5) * 4);
+  uVar2 = 1 << ((byte)param_2 & 0x1f);
+  if (param_3 != '\0') {
+    *puVar1 = *puVar1 | uVar2;
+    return;
+  }
+  *puVar1 = *puVar1 & ~uVar2;
+  return;
+}
+
+

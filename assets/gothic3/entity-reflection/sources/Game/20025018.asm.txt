@@ -1,0 +1,2 @@
+; 20025018 ?Create@gCPlayerMemory_PS@@UAE?AW4bEResult@@XZ
+20025018 | e983842f00 | JMP 0x2031d4a0

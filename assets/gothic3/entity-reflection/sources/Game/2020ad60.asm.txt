@@ -1,0 +1,41 @@
+; 2020ad60 bTPropertyType<gCClock_PS,float>::vfunction13
+2020ad60 | 53 | PUSH EBX
+2020ad61 | 55 | PUSH EBP
+2020ad62 | 8b6c240c | MOV EBP,dword ptr [ESP + 0xc]
+2020ad66 | 85ed | TEST EBP,EBP
+2020ad68 | 56 | PUSH ESI
+2020ad69 | 8bf1 | MOV ESI,ECX
+2020ad6b | 743c | JZ 0x2020ada9
+2020ad6d | 8b5c2414 | MOV EBX,dword ptr [ESP + 0x14]
+2020ad71 | 85db | TEST EBX,EBX
+2020ad73 | 7434 | JZ 0x2020ada9
+2020ad75 | e8e358e1ff | CALL 0x2002065d
+2020ad7a | 50 | PUSH EAX
+2020ad7b | e89c09e0ff | CALL 0x2000b71c
+2020ad80 | 8bc8 | MOV ECX,EAX
+2020ad82 | ff1508877d20 | CALL dword ptr [0x207d8708]
+2020ad88 | 84c0 | TEST AL,AL
+2020ad8a | 751d | JNZ 0x2020ada9
+2020ad8c | 57 | PUSH EDI
+2020ad8d | 8b3e | MOV EDI,dword ptr [ESI]
+2020ad8f | 8b4760 | MOV EAX,dword ptr [EDI + 0x60]
+2020ad92 | 53 | PUSH EBX
+2020ad93 | 8bce | MOV ECX,ESI
+2020ad95 | ffd0 | CALL EAX
+2020ad97 | 8b575c | MOV EDX,dword ptr [EDI + 0x5c]
+2020ad9a | 50 | PUSH EAX
+2020ad9b | 55 | PUSH EBP
+2020ad9c | 8bce | MOV ECX,ESI
+2020ad9e | ffd2 | CALL EDX
+2020ada0 | 5f | POP EDI
+2020ada1 | 5e | POP ESI
+2020ada2 | 5d | POP EBP
+2020ada3 | b001 | MOV AL,0x1
+2020ada5 | 5b | POP EBX
+2020ada6 | c20800 | RET 0x8
+; 2020ada9 LAB_2020ada9
+2020ada9 | 5e | POP ESI
+2020adaa | 5d | POP EBP
+2020adab | 32c0 | XOR AL,AL
+2020adad | 5b | POP EBX
+2020adae | c20800 | RET 0x8

@@ -1,0 +1,103 @@
+/* ENTRY 2001c76f | gCScriptProcessingUnit::sAIPlayAniInstr | STATUS decompiled | 46 ms */
+
+/* public: static bool __stdcall gCScriptProcessingUnit::sAIPlayAniInstr(void *,class
+   gCScriptProcessingUnit *,bool) */
+
+bool gCScriptProcessingUnit::sAIPlayAniInstr
+               (void *param_1,gCScriptProcessingUnit *param_2,bool param_3)
+
+{
+  eCEntityProxy *this;
+  float fVar1;
+  bool bVar2;
+  eCEntity *peVar3;
+  int iVar4;
+  gCCharacterMovement_PS *this_00;
+  eEMotionOwner eVar5;
+  eEMotionType eVar6;
+  bCVector abStack_c [12];
+  
+                    /* 0x1c76f  8571  ?sAIPlayAniInstr@gCScriptProcessingUnit@@SG_NPAXPAV1@_N@Z */
+  if (param_3) {
+    if (*(eCVisualAnimation_PS **)(param_2 + 0x130) != (eCVisualAnimation_PS *)0x0) {
+      if (*(int *)(param_2 + 0x15c) == 1) {
+        eVar6 = 4;
+      }
+      else if (*(int *)(param_2 + 0x15c) == 2) {
+        eVar6 = 5;
+      }
+      else {
+        eVar6 = 0;
+      }
+      eCVisualAnimation_PS::StopAtLoopEnd(*(eCVisualAnimation_PS **)(param_2 + 0x130),eVar6);
+    }
+  }
+  else {
+    if (param_1 == (void *)0x0) {
+      sAIPlayAniItlLoop(param_2);
+    }
+    else {
+      *(undefined4 *)(param_2 + 0x98) = 0;
+      iVar4 = *(int *)((int)param_1 + 0xc) * 1000;
+      fVar1 = (float)iVar4;
+      if (iVar4 < 0) {
+        fVar1 = fVar1 + 4.2949673e+09;
+      }
+      *(float *)(param_2 + 0x9c) = fVar1;
+      if (*(int *)param_1 == 0) goto LAB_2036b924;
+      bVar2 = sAIPlayAniStart(param_1,param_2);
+      if (!bVar2) {
+        return true;
+      }
+      param_2[0x164] = (gCScriptProcessingUnit)0x0;
+      param_2[0x94] = (gCScriptProcessingUnit)0x0;
+    }
+    if (param_2[0x94] == (gCScriptProcessingUnit)0x0) {
+      *(code **)(param_2 + 0x74) = sAIPlayAniInstr;
+      return false;
+    }
+  }
+LAB_2036b924:
+  this = (eCEntityProxy *)(param_2 + 0x78);
+  peVar3 = eCEntityProxy::GetEntity(this);
+  if (peVar3 != (eCEntity *)0x0) {
+    peVar3 = eCEntityProxy::GetEntity(this);
+    iVar4 = (**(code **)(*(int *)peVar3 + 0xec))(0x1e);
+    if (iVar4 != 0) {
+      peVar3 = eCEntityProxy::GetEntity(this);
+      this_00 = (gCCharacterMovement_PS *)(**(code **)(*(int *)peVar3 + 0xec))(0x15);
+      if (this_00 != (gCCharacterMovement_PS *)0x0) {
+        bCVector::bCVector(abStack_c);
+        bCVector::Clear(abStack_c);
+        gCCharacterMovement_PS::EnableMovementFromSPU(this_00,true);
+        bCVector::~bCVector(abStack_c);
+      }
+    }
+  }
+  if (*(int *)(param_2 + 0x15c) == 1) {
+    eVar5 = 2;
+    eVar6 = 4;
+  }
+  else if (*(int *)(param_2 + 0x15c) == 2) {
+    eVar6 = 5;
+    eVar5 = 2;
+  }
+  else {
+    if (param_3) {
+      eVar5 = 8;
+    }
+    else {
+      eVar5 = 7;
+    }
+    eVar6 = 0;
+  }
+  eCVisualAnimation_PS::SetMotionOwner(*(eCVisualAnimation_PS **)(param_2 + 0x130),eVar6,eVar5);
+  bCString::Clear((bCString *)(param_2 + 0x150));
+  *(undefined4 *)(param_2 + 0x130) = 0;
+  eCEntityProxy::SetEntity(this,(eCEntity *)0x0);
+  eCEntityProxy::SetEntity((eCEntityProxy *)(param_2 + 0x108),(eCEntity *)0x0);
+  *(undefined4 *)(param_2 + 0x74) = 0;
+  return true;
+}
+
+

@@ -1,0 +1,4 @@
+; 10004b01 ?GetAniEx@Entity@@QBE?AVbCString@@W4gEUseType@@0W4gEAction@@W4gEPhase@@ABV2@_N@Z
+10004b01 | e9eaaf0200 | JMP 0x1002faf0
+; 10004b06 PSPlayerMemory::SetIntelligence
+; 10004b06 Ordinal_1954

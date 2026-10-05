@@ -1,0 +1,46 @@
+; 1002ec00 FUN_1002ec00
+1002ec00 | 8bc1 | MOV EAX,ECX
+1002ec02 | 33c9 | XOR ECX,ECX
+1002ec04 | 8908 | MOV dword ptr [EAX],ECX
+1002ec06 | 894804 | MOV dword ptr [EAX + 0x4],ECX
+1002ec09 | 894808 | MOV dword ptr [EAX + 0x8],ECX
+1002ec0c | 89480c | MOV dword ptr [EAX + 0xc],ECX
+1002ec0f | 894810 | MOV dword ptr [EAX + 0x10],ECX
+1002ec12 | 894814 | MOV dword ptr [EAX + 0x14],ECX
+1002ec15 | 894818 | MOV dword ptr [EAX + 0x18],ECX
+1002ec18 | 89481c | MOV dword ptr [EAX + 0x1c],ECX
+1002ec1b | 894820 | MOV dword ptr [EAX + 0x20],ECX
+1002ec1e | 894824 | MOV dword ptr [EAX + 0x24],ECX
+1002ec21 | 894828 | MOV dword ptr [EAX + 0x28],ECX
+1002ec24 | 89482c | MOV dword ptr [EAX + 0x2c],ECX
+1002ec27 | 894830 | MOV dword ptr [EAX + 0x30],ECX
+1002ec2a | 894834 | MOV dword ptr [EAX + 0x34],ECX
+1002ec2d | 894838 | MOV dword ptr [EAX + 0x38],ECX
+1002ec30 | 89483c | MOV dword ptr [EAX + 0x3c],ECX
+1002ec33 | 894840 | MOV dword ptr [EAX + 0x40],ECX
+1002ec36 | 894844 | MOV dword ptr [EAX + 0x44],ECX
+1002ec39 | 894848 | MOV dword ptr [EAX + 0x48],ECX
+1002ec3c | 89484c | MOV dword ptr [EAX + 0x4c],ECX
+1002ec3f | 894850 | MOV dword ptr [EAX + 0x50],ECX
+1002ec42 | 894854 | MOV dword ptr [EAX + 0x54],ECX
+1002ec45 | 894858 | MOV dword ptr [EAX + 0x58],ECX
+1002ec48 | 89485c | MOV dword ptr [EAX + 0x5c],ECX
+1002ec4b | 894860 | MOV dword ptr [EAX + 0x60],ECX
+1002ec4e | 894864 | MOV dword ptr [EAX + 0x64],ECX
+1002ec51 | 894868 | MOV dword ptr [EAX + 0x68],ECX
+1002ec54 | 89486c | MOV dword ptr [EAX + 0x6c],ECX
+1002ec57 | 894870 | MOV dword ptr [EAX + 0x70],ECX
+1002ec5a | 894874 | MOV dword ptr [EAX + 0x74],ECX
+1002ec5d | 894878 | MOV dword ptr [EAX + 0x78],ECX
+1002ec60 | 89487c | MOV dword ptr [EAX + 0x7c],ECX
+1002ec63 | 898880000000 | MOV dword ptr [EAX + 0x80],ECX
+1002ec69 | 898884000000 | MOV dword ptr [EAX + 0x84],ECX
+1002ec6f | 898888000000 | MOV dword ptr [EAX + 0x88],ECX
+1002ec75 | 89888c000000 | MOV dword ptr [EAX + 0x8c],ECX
+1002ec7b | 898890000000 | MOV dword ptr [EAX + 0x90],ECX
+1002ec81 | 898894000000 | MOV dword ptr [EAX + 0x94],ECX
+1002ec87 | 898898000000 | MOV dword ptr [EAX + 0x98],ECX
+1002ec8d | 89889c000000 | MOV dword ptr [EAX + 0x9c],ECX
+1002ec93 | 8988a0000000 | MOV dword ptr [EAX + 0xa0],ECX
+1002ec99 | 8988a4000000 | MOV dword ptr [EAX + 0xa4],ECX
+1002ec9f | c3 | RET

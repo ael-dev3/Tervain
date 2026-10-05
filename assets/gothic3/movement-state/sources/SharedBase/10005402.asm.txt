@@ -1,0 +1,4 @@
+; 10005402 ??0bCBitField@@QAE@H@Z
+10005402 | e9790d0800 | JMP 0x10086180
+; 10005407 bCTriangle::GetIntersectionDistance
+; 10005407 Ordinal_2447

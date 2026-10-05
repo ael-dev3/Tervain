@@ -1,0 +1,4 @@
+; 2002fa72 bTPropertyType<gCClock_PS,unsigned_long>::scalar_deleting_destructor
+2002fa72 | e9c9b71d00 | JMP 0x2020b240
+; 2002fa77 gCEnclave_PS::AccessSuspectComment
+; 2002fa77 Ordinal_1720

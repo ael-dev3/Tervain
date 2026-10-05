@@ -1,0 +1,2 @@
+; 2000cbee SHAREDBASE.DLL::bCPropertyTypeBase::Read
+2000cbee | e94dd81f00 | JMP 0x2020a440

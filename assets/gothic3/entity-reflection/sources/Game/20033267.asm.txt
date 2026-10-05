@@ -1,0 +1,4 @@
+; 20033267 bTPropertyObject<gCClock_PS,eCEntityPropertySet>::vfunction16
+20033267 | e9045c1d00 | JMP 0x20208e70
+; 2003326c gCCharacterSensor_PS::MessageDebug
+; 2003326c Ordinal_5325

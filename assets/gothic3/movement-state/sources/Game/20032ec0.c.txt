@@ -1,0 +1,111 @@
+/* ENTRY 20032ec0 | gCCharacterMovement_PS::OnProcess | STATUS decompiled | 68 ms */
+
+/* protected: virtual void __thiscall gCCharacterMovement_PS::OnProcess(void) */
+
+void __thiscall gCCharacterMovement_PS::OnProcess(gCCharacterMovement_PS *this)
+
+{
+  bool bVar1;
+  char cVar2;
+  eCEntity *peVar3;
+  bCMatrix *pbVar4;
+  bCVector *pbVar5;
+  bCString *pbVar6;
+  eCApplication *this_00;
+  eCPhysicsScene *peVar7;
+  gCSession *this_01;
+  gCCameraAI_PS *pgVar8;
+  float fVar9;
+  eEPropertySetType eVar10;
+  bCVector abStack_c [12];
+  
+                    /* 0x32ec0  5551  ?OnProcess@gCCharacterMovement_PS@@MAEXXZ */
+  peVar3 = (*this->vftablePtr->GetEntity)(this);
+  bVar1 = gCEntity::IsDead(peVar3);
+  if (bVar1) {
+    if ((this->gCCharacterMovement_PS_data).offset_0xfc == 0) {
+      SetMovementMode(this,4);
+    }
+    cVar2 = (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 0x1f8))(0xe);
+    if (cVar2 != '\0') {
+      return;
+    }
+    (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 0x1f0))(0xe);
+    return;
+  }
+  if ((this->gCCharacterMovement_PS_data).field_0x12 == '\0') {
+    peVar3 = (*this->vftablePtr->GetEntity)(this);
+    pbVar4 = eCEntity::GetWorldMatrix((eCEntity *)peVar3);
+    pbVar5 = bCMatrix::GetXAxis(pbVar4);
+    fVar9 = bCVector::GetY(pbVar5);
+    if (ABS(fVar9) <= 0.5) {
+      peVar3 = (*this->vftablePtr->GetEntity)(this);
+      pbVar4 = eCEntity::GetWorldMatrix((eCEntity *)peVar3);
+      pbVar5 = bCMatrix::GetZAxis(pbVar4);
+      fVar9 = bCVector::GetY(pbVar5);
+      if (ABS(fVar9) <= 0.5) goto LAB_2022f1b3;
+    }
+    peVar3 = (*this->vftablePtr->GetEntity)(this);
+    pbVar6 = eCEntity::GetName((eCEntity *)peVar3);
+    GE_MESSAGEF_WARN(" entity %s has wrong orientation, what the heck has happened ? call 555-32351 !"
+                     ,*(undefined4 *)pbVar6);
+  }
+LAB_2022f1b3:
+  eCEntityPropertySet::OnProcess((eCEntityPropertySet *)this);
+  bVar1 = false;
+  this_00 = eCApplication::GetInstance();
+  bVar1 = eCApplication::IsPaused((eCApplication *)this_00,bVar1);
+  if (bVar1) {
+    return;
+  }
+  (this->gCCharacterMovement_PS_data).offset_0x2b8 = (gCCharacterMovement_PS)0x1;
+  peVar7 = eCPhysicsScene::GetInstance();
+  if (peVar7[0x14] == (eCPhysicsScene)0x0) {
+    return;
+  }
+  CreateDependantPSets(this);
+  if ((this->gCCharacterMovement_PS_data).offset_0x16c == 0) {
+    return;
+  }
+  if ((this->gCCharacterMovement_PS_data).offset_0x2b9 == (gCCharacterMovement_PS)0x1) {
+    InitFirstPose(this);
+  }
+  eVar10 = 0x16;
+  peVar3 = (*this->vftablePtr->GetEntity)(this);
+  bVar1 = eCEntity::HasPropertySet((eCEntity *)peVar3,eVar10);
+  if (bVar1) {
+    this_01 = (gCSession *)gCSession::GetInstance();
+    pgVar8 = gCSession::GetCamera_PS(this_01);
+    if ((pgVar8 != (gCCameraAI_PS *)0x0) &&
+       (cVar2 = (**(code **)(*(int *)pgVar8 + 0x168))(), cVar2 == '\x01')) goto LAB_2022f273;
+  }
+  pbVar5 = (bCVector *)
+           (**(code **)(*(int *)(this->gCCharacterMovement_PS_data).offset_0x16c + 0x18c))
+                     (abStack_c);
+  bCVector::operator=((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x13c,pbVar5);
+  bCVector::~bCVector(abStack_c);
+LAB_2022f273:
+  CheckCharacterGotStuck(this);
+  CheckChangedMovementStates(this);
+  CorrectWeaponTrigger(this);
+  ProcessSensorMovements(this);
+  CalcNextSteps(this);
+  ProcessMovements(this);
+  ShowDebug(this);
+  SaveFrameStates(this);
+  (this->gCCharacterMovement_PS_data).offset_0x179 = (gCCharacterMovement_PS)0x0;
+  (this->gCCharacterMovement_PS_data).offset_0x219 = (gCCharacterMovement_PS)0x0;
+  bCVector::Clear((bCVector *)&(this->gCCharacterMovement_PS_data).field_0x130);
+  eVar10 = 0x16;
+  peVar3 = (*this->vftablePtr->GetEntity)(this);
+  bVar1 = eCEntity::HasPropertySet((eCEntity *)peVar3,eVar10);
+  if ((bVar1) && ((this->gCCharacterMovement_PS_data).offset_0x174 != 0)) {
+    CreateDependantPSets(this);
+    gCCharacterSensor_PS::PostProcessMovements
+              ((gCCharacterSensor_PS *)(this->gCCharacterMovement_PS_data).offset_0x174);
+    return;
+  }
+  return;
+}
+
+
