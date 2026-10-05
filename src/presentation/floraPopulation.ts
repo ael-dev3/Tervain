@@ -100,8 +100,14 @@ export function createFloraPopulation(terrain: Pick<Terrain, 'heightAt' | 'slope
       yaw: rnd() * Math.PI * 2, tint: (site?.tint ?? 0.98) * (0.97 + rnd() * 0.06), radius,
       collisionId: radius > 0 ? `tree:${key}` : null, decorationRank: randomFor(key, 619)(),
       ...(site ? { groveId: site.id, ...(site.role ? { standId: site.id, familyRole: site.role } : {}) } : {}), age,
-      ...(sp === 'oak' && biomeAt(x, z).weights['ochre-woodland'] > 0.42 ? { assetId: 'tree-1505' } : {}),
     };
+    // Select the source before evaluating its roots, wood footprint and crown. The tall
+    // leafy Sentinel belongs to the moist broadleaf groves, retaining each claim's RNG.
+    if (sp === 'oak' || sp === 'birch') {
+      const habitat = biomeAt(x, z);
+      if (sp === 'oak' && habitat.weights['ochre-woodland'] > 0.42) tree.assetId = 'tree-1505';
+      else if (habitat.weights['humid-broadleaf'] > 0.42 && tree.v === 2) tree.assetId = 'verdant-sentinel';
+    }
     // Avoid sampling source roots at an already excluded site. Appearance has an independent
     // stream, allowing a rejected claim to retain its stand/age diagnostic without perturbation.
     if (bad(x, z, 0, sp)) { onClaim?.({ key, tree, outcome: 'site', footprint: legacyFootprint }); return; }

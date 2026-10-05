@@ -21,6 +21,7 @@ SOURCES = [
     ('tree-1505', 'Meshy_AI_tree_1004201505_texture.glb'),
     ('tree-1459', 'Meshy_AI_tree_1004201459_texture.glb'),
     ('tree-4815', 'Meshy_AI_tree_1004164815_texture.glb'),
+    ('verdant-sentinel', 'Meshy_AI_Verdant_Sentinel_1004183231_texture.glb'),
 ]
 
 def mesh_import(source):
@@ -82,8 +83,12 @@ HABITATS = {
     'tree-1505': ('rooted oak', 'open stony woodland', True),
     'tree-1459': ('orchard tree', 'orchard reserve', False),
     'tree-4815': ('river broadleaf', 'sheltered river grove', True),
+    'verdant-sentinel': ('verdant sentinel', 'sheltered elder woodland', True),
 }
-CARD_SOURCES={'palm-fan','palm-lean','fir-spire','oak-elder','tree-0208','tree-1537','tree-1521','tree-4949','tree-1505','tree-4815'}
+CARD_SOURCES={'palm-fan','palm-lean','fir-spire','oak-elder','tree-0208','tree-1537','tree-1521','tree-4949','tree-1505','tree-4815','verdant-sentinel'}
+# The owner added this source together with custom attached-foliage work.
+# Reserve real scene-triangle headroom before that independently audited pass.
+WOOD_NEAR_BUDGETS={'verdant-sentinel':13000}
 
 def select(ob):
     import bpy
@@ -241,7 +246,7 @@ def split_source(ob,key,mask):
         for p in part.data.polygons:p.material_index=0
     return parts
 
-def refine_disconnected_wood(parts):
+def refine_disconnected_wood(parts,key=None):
     """Return tiny upper crown fragments to Foliage, retaining rooted wood.
 
     The single Meshy albedo paints some shadowed leaf pieces brown/black.
@@ -260,7 +265,13 @@ def refine_disconnected_wood(parts):
                 if other not in seen:seen.add(other);stack.append(other)
         if not faces:continue
         lo=[min(v.co[k] for v in vertices) for k in range(3)];hi=[max(v.co[k] for v in vertices) for k in range(3)]
-        if lo[2]>2 and max(hi[k]-lo[k] for k in range(3))<1.2:
+        # Sentinel's dark albedo leaves form larger connected tuft islands.
+        # Source review measured the entire root/bole/branch skeleton as one
+        # 70,767-triangle grounded component; its upper shadow-leaf islands
+        # span <=1.88 m. Returning those tufts to the crown bake preserves the
+        # connected real skeleton instead of making foliage into woody contact.
+        maximum_span=2.6 if key=='verdant-sentinel' else 1.2
+        if lo[2]>2 and max(hi[k]-lo[k] for k in range(3))<maximum_span:
             islands+=1;triangles+=sum(len(f.verts)-2 for f in faces);transfer.extend(v.index for v in vertices)
     bm.free()
     if not transfer:return {'islands':0,'triangles':0}
@@ -557,11 +568,11 @@ def prepare(args,key,filename,ob,normalization):
     # Split semantics BEFORE reduction. A combined collapse can spend its whole
     # budget on thousands of leaf islands and starve the complete trunk.
     mask=semantic_mask(ob,key);assert (~mask).sum()>25,(key,'missing wood');parts=split_source(ob,key,mask)
-    reassigned=refine_disconnected_wood(parts)
+    reassigned=refine_disconnected_wood(parts,key)
     print('SPLIT '+json.dumps({'id':key,'wood':triangle_count(parts[0]),'foliage':triangle_count(parts[1])}),flush=True)
     cards=None
     if key in CARD_SOURCES:
-        reduce(parts[0],min(14000,triangle_count(parts[0])))
+        reduce(parts[0],min(WOOD_NEAR_BUDGETS.get(key,14000),triangle_count(parts[0])))
         images=materials([parts[0]],key,args.workshop)
         cards,card_mat,card_image=foliage_cards(parts[1],key,args.workshop);images.add(card_image)
         parts=[parts[0],card_mesh(cards,card_mat,6)]
@@ -631,6 +642,11 @@ def prepare(args,key,filename,ob,normalization):
     bpy.ops.wm.save_as_mainfile(filepath=str(args.workshop/(key+'-near.blend')),compress=True)
     assert hashlib.sha256(source.read_bytes()).hexdigest()==source_sha
     receipt={'id':key,'name':HABITATS[key][0],'habitat':HABITATS[key][1],'selected':HABITATS[key][2],'selection':'wood-only' if key=='tree-1537' else 'full-tree' if HABITATS[key][2] else 'reserve','sourceFilename':filename,'sourceSha256':source_sha,'sourceTriangles':source_tris,'sourceUnmodified':True,'sourceHeight':12,'normalization':normalization,'removedPlinthFaces':plinth,'reassignedDisconnectedWood':reassigned,'runtime':lods,'preparation':{'tool':'Blender '+bpy.app.version_string,'UV':'Source wood UV islands retained by collapse; original UV unwrap for two untextured palms; dense crowns use original-source spatial cluster atlas','material':'Source wood PBR maps resized to 1024; dense foliage source albedo/alpha in a 2048 atlas; all-UV mild earthy PBR tint; rough nonmetal, no emission; original noise-baked palm albedo','semanticParts':'UV albedo green-vs-bark classification plus protected low trunk; palm crown/radial mask for untextured sources; tiny disconnected upper Wood fragments returned to source Foliage. Inferred semantic boundary, not artist-authored labels.','motion':'static attached wood and foliage','geometry':'uniform source normalization; separate wood/crown budgets; dense crowns use 21 source-positioned spatial clusters with 3 source-baked views, crossed curved side cards and curved top caps following each cluster vertical span; lower ornamental soil faces trimmed only for 1459/3106; residual source base retained in reserves','crownCards':{'clusters':len(cards)//3,'views':len(cards),'atlas':2048,'segments':[6,4,2]} if cards else None},'seconds':round(time.monotonic()-started,1)}
+    receipt['sourceBytes']=source.stat().st_size
+    if key=='verdant-sentinel':
+        receipt['componentStage']='source-derived base prior to custom attached foliage'
+        receipt['preparation']['semanticParts']+=' Sentinel additionally returns <=2.6m disconnected upper dark leaf tufts into canopy; preserves actual grounded source component. Root-connected upper fine source surfaces remain inferred wood.'
+        receipt['preparation']['baseBudgetHeadroom']=19999-lods['near']['triangles']
     (args.workshop/(key+'-receipt.json')).write_text(json.dumps(receipt,indent=2)+'\n');print('PREPARED '+json.dumps({'id':key,'triangles':{k:v['triangles'] for k,v in lods.items()},'bytes':{k:v['bytes'] for k,v in lods.items()},'seconds':receipt['seconds']}),flush=True)
     return receipt
 
@@ -639,10 +655,30 @@ def write_manifest(args):
     from io import BytesIO
     from PIL import Image
     repo=pathlib.Path(__file__).resolve().parents[1]
-    source_rows={row['sourceFilename']:row for row in json.loads((args.workshop/'source-inspection.json').read_text())}
+    # Later owner additions may have a separate component workshop. Merge
+    # read-only source inspections in memory; never overwrite the initial
+    # fourteen-source inventory or fabricate its original inspection hashes.
+    workshops=[args.workshop,*getattr(args,'additional_workshop',[])]
+    source_rows={}
+    for workshop in workshops:
+        inspection=workshop/'source-inspection.json'
+        if inspection.exists():
+            for row in json.loads(inspection.read_text()):
+                prior=source_rows.get(row['sourceFilename'])
+                assert prior is None or prior['sourceSha256']==row['sourceSha256']
+                source_rows[row['sourceFilename']]=row
     assets=[]
     for key,filename in SOURCES:
-        row=json.loads((args.workshop/(key+'-receipt.json')).read_text());original=source_rows[filename]
+        receipt_path=next((w/(key+'-receipt.json') for w in workshops if (w/(key+'-receipt.json')).exists()),None)
+        assert receipt_path is not None,(key,'missing prepared component receipt')
+        row=json.loads(receipt_path.read_text())
+        if filename not in source_rows:
+            inspection=next((w/(key+'-inspection.json') for w in workshops if (w/(key+'-inspection.json')).exists()),None)
+            assert inspection is not None,(key,'missing original inspection')
+            inspected=json.loads(inspection.read_text())
+            assert inspected['sourceFilename']==filename and inspected['sourceSha256']
+            source_rows[filename]=inspected
+        original=source_rows[filename]
         row['sourceBytes']=original['bytes'];assert row['sourceSha256']==original['sourceSha256']
         assert hashlib.sha256((args.downloads/filename).read_bytes()).hexdigest()==row['sourceSha256']
         for level,lod in row['runtime'].items():
@@ -659,7 +695,8 @@ def write_manifest(args):
     for row in pine['runtime']:
         data=(repo/row['path']).read_bytes();assert hashlib.sha256(data).hexdigest()==row['sha256'] and len(data)==row['bytes']
         protected.append({key:row[key] for key in ('path','bytes','sha256','triangles')})
-    manifest={'schemaVersion':1,'gameVersion':'0.0.12','provenance':{'source':'14 Meshy GLBs supplied directly by the owner on 5 October 2026; originals read-only in Downloads','license':'Owner-supplied project use; no blanket third-party open license is asserted. Do not redistribute unmodified originals by assumption.','derivatives':'Original source silhouettes/materials studied; separately budgeted wood; source-derived clustered crown cards where dense foliage exceeds the budget; original procedural bark/frond palette for the two untextured palms.','copyrightReferences':'No Gothic/Warcraft game data, art or code included.'},'budgets':{'strictTrianglesPerSceneInstance':19999,'lodsCountedSeparately':True,'sourceHeightReferenceMetres':12,'maximumTextureDimension':2048},'protectedPine':protected,'assets':assets,'verification':{'originalSourceHashes':'All 14 verified against initial read-only inspection','protectedPineHashes':'Near/middle/far verified byte exact against approved source-pine receipts','deliveredScenes':'42 GLBs independently counted by named scene mesh instances; each strictly below 20,000 triangles','nativeAcceptance':'Combined game/menus and hardware timing are separate root-agent gates; source material/mask renders are component evidence.'}}
+    count=len(assets);scenes=sum(len(row['runtime']) for row in assets)
+    manifest={'schemaVersion':1,'gameVersion':'0.0.12','provenance':{'source':f'{count} Meshy GLBs supplied directly by the owner on 5 October 2026; originals read-only in Downloads','license':'Owner-supplied project use; no blanket third-party open license is asserted. Do not redistribute unmodified originals by assumption.','derivatives':'Original source silhouettes/materials studied; separately budgeted wood; source-derived clustered crown cards where dense foliage exceeds the budget; original procedural bark/frond palette for the two untextured palms. This preparation manifest precedes any independently receipted custom attached-foliage pass.','copyrightReferences':'No Gothic/Warcraft game data, art or code included.'},'budgets':{'strictTrianglesPerSceneInstance':19999,'lodsCountedSeparately':True,'sourceHeightReferenceMetres':12,'maximumTextureDimension':2048},'protectedPine':protected,'assets':assets,'verification':{'originalSourceHashes':f'All {count} verified against read-only original inspection','protectedPineHashes':'Near/middle/far verified byte exact against approved source-pine receipts','deliveredScenes':f'{scenes} GLBs independently counted by named scene mesh instances; each strictly below 20,000 triangles','nativeAcceptance':'Combined game/menus and hardware timing are separate root-agent gates; source material/mask renders are component evidence.'}}
     target=repo/'docs/engineering/meshy-tree-assets.json';target.write_text(json.dumps(manifest,indent=2)+'\n')
     print('MANIFEST '+str(target)+' '+str(len(assets))+' assets',flush=True)
 
@@ -667,6 +704,7 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('--stage',choices=['inspect','prepare','manifest','repair'],default='inspect')
     p.add_argument('--downloads',type=pathlib.Path,default=pathlib.Path('/Users/ael/Downloads'))
     p.add_argument('--workshop',type=pathlib.Path,required=True);p.add_argument('--only')
+    p.add_argument('--additional-workshop',type=pathlib.Path,action='append',default=[],help='Additional original inspections/component receipts for manifest assembly; leaves each source inventory unchanged')
     p.add_argument('--output',type=pathlib.Path,default=pathlib.Path(__file__).resolve().parents[1]/'public/models/flora/meshy-012')
     args=p.parse_args(sys.argv[sys.argv.index('--')+1:]);args.workshop.mkdir(parents=True,exist_ok=True)
     if args.stage=='manifest':write_manifest(args);return
@@ -686,7 +724,10 @@ def main():
         started=time.monotonic();source=args.downloads/filename;ob,normalization=mesh_import(source)
         if args.stage=='inspect':
             render(ob,args.workshop/(key+'-source.png'))
-            report={'id':key,'source':filename,**normalization,'triangles':sum(len(p.vertices)-2 for p in ob.data.polygons),'vertices':len(ob.data.vertices),'materials':[m.name for m in ob.data.materials],'seconds':round(time.monotonic()-started,1)}
+            if key=='verdant-sentinel':
+                render(ob,args.workshop/(key+'-source-back.png'),yaw=0.7+math.pi)
+            source_bytes=source.read_bytes()
+            report={'id':key,'source':filename,'sourceFilename':filename,'bytes':len(source_bytes),'sourceSha256':hashlib.sha256(source_bytes).hexdigest(),**normalization,'triangles':sum(len(p.vertices)-2 for p in ob.data.polygons),'vertices':len(ob.data.vertices),'materials':[m.name for m in ob.data.materials],'seconds':round(time.monotonic()-started,1)}
             (args.workshop/(key+'-inspection.json')).write_text(json.dumps(report,indent=2)+'\n')
             print('INSPECTED '+json.dumps(report),flush=True)
         else:

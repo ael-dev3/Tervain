@@ -11,6 +11,12 @@ export const MENU_TREE_SOURCE = 'tree-0208';
 const ARCHITECTURE_RESERVE = 2500;
 const TRIANGLE_LIMIT = 20_000;
 
+interface CustomSprig {
+  vertexStart: number;
+  vertexCount: number;
+  stemRootVertexIndices: readonly number[];
+}
+interface CustomFoliage { sourceVertices: number; sprigs: readonly CustomSprig[] }
 interface CrownPart { geometry: THREE.BufferGeometry; material: THREE.MeshStandardMaterial }
 export interface MenuTreeRemix {
   readonly parts: readonly CrownPart[];
@@ -35,11 +41,98 @@ function sourceFoliage(template: GLTF): THREE.Mesh<THREE.BufferGeometry, THREE.M
   return parts;
 }
 
+/** Minimal embedded attachment ranges; the full asset manifest is never a runtime dependency. */
+function customFoliage(mesh: THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial>): CustomFoliage | undefined {
+  const data = mesh.userData.tervainCustomFoliage ?? mesh.geometry.userData.tervainCustomFoliage;
+  if (data === undefined) return;
+  const count = mesh.geometry.getAttribute('position').count;
+  if (!data || data.schemaVersion !== 1 || !Number.isInteger(data.sourceVertices) || data.sourceVertices <= 0 ||
+    data.sourceVertices >= count || !Array.isArray(data.sprigs) || !data.sprigs.length) {
+    throw new Error('Supplied menu foliage has invalid custom attachment metadata.');
+  }
+  const occupied = new Uint8Array(count);
+  for (const sprig of data.sprigs as CustomSprig[]) {
+    if (!sprig || typeof sprig !== 'object') throw new Error('Supplied menu foliage has an invalid custom sprig range or stem root.');
+    const end = sprig.vertexStart + sprig.vertexCount;
+    if (!Number.isInteger(sprig.vertexStart) || !Number.isInteger(sprig.vertexCount) || sprig.vertexCount <= 0 ||
+      sprig.vertexStart < data.sourceVertices || end > count || !Array.isArray(sprig.stemRootVertexIndices) ||
+      sprig.stemRootVertexIndices.length < 3 || new Set(sprig.stemRootVertexIndices).size !== sprig.stemRootVertexIndices.length ||
+      sprig.stemRootVertexIndices.some(index => !Number.isInteger(index) || index < sprig.vertexStart || index >= end)) {
+      throw new Error('Supplied menu foliage has an invalid custom sprig range or stem root.');
+    }
+    for (let i = sprig.vertexStart; i < end; i++) {
+      if (occupied[i]) throw new Error('Supplied menu foliage custom sprig ranges overlap.');
+      occupied[i] = 1;
+    }
+  }
+  for (let i = data.sourceVertices; i < count; i++) if (!occupied[i]) {
+    throw new Error('Supplied menu foliage custom vertices lack an attachment range.');
+  }
+  return data as CustomFoliage;
+}
+
+/** Exact closest-point queries on retained carved wood; boxes only reject distant triangles. */
+function nearestWoodSurface(wood: THREE.BufferGeometry): (point: THREE.Vector3, target: THREE.Vector3) => void {
+  const positions = wood.getAttribute('position'), indices = wood.index;
+  const count = indices?.count ?? positions.count;
+  const triangles: THREE.Triangle[] = [], bounds: THREE.Box3[] = [];
+  for (let i = 0; i < count; i += 3) {
+    const point = (offset: number) => new THREE.Vector3().fromBufferAttribute(positions, indices?.getX(i + offset) ?? i + offset);
+    const triangle = new THREE.Triangle(point(0), point(1), point(2));
+    if (triangle.getArea() <= 1e-12) continue;
+    triangles.push(triangle); bounds.push(new THREE.Box3().setFromPoints([triangle.a, triangle.b, triangle.c]));
+  }
+  if (!triangles.length) throw new Error('Supplied menu sprigs need finite retained wood triangles.');
+  const candidate = new THREE.Vector3(), boxPoint = new THREE.Vector3();
+  return (point, target) => {
+    let distance = Infinity;
+    for (let i = 0; i < triangles.length; i++) {
+      bounds[i]!.clampPoint(point, boxPoint);
+      if (boxPoint.distanceToSquared(point) > distance) continue;
+      triangles[i]!.closestPointToPoint(point, candidate);
+      const next = candidate.distanceToSquared(point);
+      if (Number.isFinite(next) && next < distance) { distance = next; target.copy(candidate); }
+    }
+    if (!Number.isFinite(distance)) throw new Error('Supplied menu sprig cannot meet retained wood.');
+  };
+}
+
+/** Move each owned sprig as one rigid piece; the ordinary source crown stays uniformly fitted. */
+function bindCustomSprigs(
+  geometry: THREE.BufferGeometry, custom: CustomFoliage | undefined,
+  nearest: ReturnType<typeof nearestWoodSurface> | undefined,
+): void {
+  const positions = geometry.getAttribute('position'), weights = new Float32Array(positions.count).fill(1);
+  const root = new THREE.Vector3(), anchor = new THREE.Vector3(), delta = new THREE.Vector3(), point = new THREE.Vector3();
+  for (const sprig of custom?.sprigs ?? []) {
+    root.set(0, 0, 0);
+    for (const index of sprig.stemRootVertexIndices) root.add(point.fromBufferAttribute(positions, index));
+    root.divideScalar(sprig.stemRootVertexIndices.length);
+    nearest!(root, anchor); delta.subVectors(anchor, root);
+    let reach = 0;
+    const end = sprig.vertexStart + sprig.vertexCount;
+    for (let i = sprig.vertexStart; i < end; i++) {
+      point.fromBufferAttribute(positions, i); reach = Math.max(reach, point.distanceTo(root));
+      point.add(delta); positions.setXYZ(i, point.x, point.y, point.z);
+    }
+    for (let i = sprig.vertexStart; i < end; i++) {
+      point.fromBufferAttribute(positions, i);
+      weights[i] = Math.min(1, point.distanceTo(anchor) / Math.max(reach, 1e-6));
+    }
+    for (const index of sprig.stemRootVertexIndices) weights[index] = 0;
+  }
+  positions.needsUpdate = true;
+  geometry.setAttribute('menuCrownWindWeight', new THREE.Float32BufferAttribute(weights, 1));
+}
+
 /**
  * Actual source-painted foliage over the functional carved hermitage. One uniform
  * crown fit preserves source proportions/UVs; the original bole/root/branch curves
  * retain the door and music-driven collision authority. The same selected source
  * LOD and sampled perches are used on every preset, so a rebuild cannot alter the dance.
+ * Added custom sprigs have different source wood: after the uniform fit each is
+ * rigidly translated onto an actual retained architectural wood triangle. Their
+ * stem roots receive zero wind displacement, without deforming the sprig or source.
  */
 export function createMenuTreeRemix(
   source: readonly [GLTF, GLTF, GLTF], architecture: AncientTree, sway: SwayUniforms, lights: WispLighting,
@@ -53,12 +146,18 @@ export function createMenuTreeRemix(
   }
   if (!selected) throw new Error(`Supplied menu crown cannot fit the complete under-20k tree budget (${available} foliage triangles available).`);
 
+  const attachments = selected.map(customFoliage);
+  const nearest = attachments.some(Boolean) ? nearestWoodSurface(architecture.wood) : undefined;
+
   const textures = new Map<THREE.Texture, THREE.Texture>();
   const parts: CrownPart[] = [];
   const sourceBounds = new THREE.Box3();
-  for (const mesh of selected) {
+  for (const [partIndex, mesh] of selected.entries()) {
     const geometry = mesh.geometry.clone().applyMatrix4(mesh.matrixWorld);
-    geometry.computeBoundingBox(); sourceBounds.union(geometry.boundingBox!);
+    // The original painted crown determines the fit. New attached sprigs cannot
+    // change its scale or centre merely by adding a tip outside that envelope.
+    const custom = attachments[partIndex], position = geometry.getAttribute('position'), point = new THREE.Vector3();
+    for (let i = 0; i < (custom?.sourceVertices ?? position.count); i++) sourceBounds.expandByPoint(point.fromBufferAttribute(position, i));
     const material = mesh.material.clone();
     const fields = material as unknown as Record<string, unknown>;
     for (const [key, value] of Object.entries(fields)) if ((value as THREE.Texture | null)?.isTexture) {
@@ -73,17 +172,17 @@ export function createMenuTreeRemix(
     material.transparent = false; material.alphaToCoverage = material.alphaTest > 0;
     material.onBeforeCompile = shader => {
       shader.uniforms.uMenuCrownTime = sway.uTime; shader.uniforms.uMenuCrownWind = sway.uWind;
-      shader.vertexShader = `uniform float uMenuCrownTime;\nuniform float uMenuCrownWind;\n${shader.vertexShader}`.replace(
+      shader.vertexShader = `uniform float uMenuCrownTime;\nuniform float uMenuCrownWind;\nattribute float menuCrownWindWeight;\n${shader.vertexShader}`.replace(
         '#include <begin_vertex>',
         `#include <begin_vertex>
-        transformed.x += sin(position.y * 0.63 + position.z * 0.24 + uMenuCrownTime * 0.55) * uMenuCrownWind * 0.055;
-        transformed.z += sin(position.y * 0.48 + position.x * 0.21 + uMenuCrownTime * 0.43) * uMenuCrownWind * 0.035;`,
+        transformed.x += sin(position.y * 0.63 + position.z * 0.24 + uMenuCrownTime * 0.55) * uMenuCrownWind * menuCrownWindWeight * 0.055;
+        transformed.z += sin(position.y * 0.48 + position.x * 0.21 + uMenuCrownTime * 0.43) * uMenuCrownWind * menuCrownWindWeight * 0.035;`,
       );
       shader.fragmentShader = shader.fragmentShader.replace('#include <normal_fragment_begin>',
         THREE.ShaderChunk.normal_fragment_begin.replace('gl_FrontFacing ? 1.0 : - 1.0', '1.0'));
       lights.patch(shader);
     };
-    material.customProgramCacheKey = () => `tervain-menu-supplied-crown-v1-${lights.key}`;
+    material.customProgramCacheKey = () => `tervain-menu-supplied-crown-v2-anchored-sprigs-${lights.key}`;
     parts.push({ geometry, material });
   }
   const sourceSize = sourceBounds.getSize(new THREE.Vector3()), sourceCenter = sourceBounds.getCenter(new THREE.Vector3());
@@ -106,8 +205,10 @@ export function createMenuTreeRemix(
     .multiply(new THREE.Matrix4().makeTranslation(-sourceCenter.x, -sourceCenter.y, -sourceCenter.z));
   const crown = { x: target.x, z: target.z, radius: 0, bottom: Infinity, top: -Infinity };
   const leafSites: AncientTree['leafSites'] = [];
-  for (const part of parts) {
-    part.geometry.applyMatrix4(fit); part.geometry.computeBoundingBox(); part.geometry.computeBoundingSphere();
+  for (const [partIndex, part] of parts.entries()) {
+    part.geometry.applyMatrix4(fit);
+    bindCustomSprigs(part.geometry, attachments[partIndex], nearest);
+    part.geometry.computeBoundingBox(); part.geometry.computeBoundingSphere();
     const p = part.geometry.getAttribute('position');
     for (let i = 0; i < p.count; i++) {
       crown.radius = Math.max(crown.radius, Math.hypot(p.getX(i) - crown.x, p.getZ(i) - crown.z));

@@ -6,7 +6,7 @@ import { deduplicateTreeTextures } from './treeTexturePool';
 import { sampleLeafSurfaceSites } from './leafSurfaceSites';
 
 /** Owner-supplied sources. Plinth-bearing 3106/1459 are prepared reserves, not active plantings. */
-export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1537', 'tree-1527', 'tree-1521', 'tree-4949', 'tree-1505', 'tree-4815'] as const;
+export const MESHY_TREE_IDS = ['fir-spire', 'oak-elder', 'palm-date', 'palm-fan', 'palm-lean', 'tree-0208', 'tree-1537', 'tree-1527', 'tree-1521', 'tree-4949', 'tree-1505', 'tree-4815', 'verdant-sentinel'] as const;
 export type MeshyTreeTemplates = ReadonlyMap<string, readonly [GLTF, GLTF, GLTF]>;
 export const MESHY_TREE_LODS = ['near', 'mid', 'far'] as const;
 const pending = new Map<string, Promise<GLTF>>();

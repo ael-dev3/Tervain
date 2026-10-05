@@ -19,10 +19,10 @@ let manifest: TreeManifest;
 beforeAll(() => { manifest = JSON.parse(readFileSync(new URL('../../docs/engineering/meshy-tree-assets.json', import.meta.url), 'utf8')) as TreeManifest; });
 
 describe('frozen supplied-tree preparation receipts', () => {
-  it('records fourteen distinct owner originals, exactly twelve active source IDs and two explicit reserves', () => {
-    expect(manifest.schemaVersion).toBe(1); expect(manifest.gameVersion).toBe('0.0.12'); expect(manifest.assets).toHaveLength(14);
-    expect(new Set(manifest.assets.map(asset => asset.id)).size).toBe(14);
-    expect(new Set(manifest.assets.map(asset => asset.sourceFilename)).size).toBe(14);
+  it('records fifteen distinct owner originals, exactly thirteen active source IDs and two explicit reserves', () => {
+    expect(manifest.schemaVersion).toBe(1); expect(manifest.gameVersion).toBe('0.0.12'); expect(manifest.assets).toHaveLength(15);
+    expect(new Set(manifest.assets.map(asset => asset.id)).size).toBe(15);
+    expect(new Set(manifest.assets.map(asset => asset.sourceFilename)).size).toBe(15);
     expect(manifest.assets.filter(asset => asset.selected).map(asset => asset.id).sort()).toEqual([...MESHY_TREE_IDS].sort());
     expect(manifest.assets.filter(asset => !asset.selected).map(asset => asset.id).sort()).toEqual(['tree-1459', 'tree-3106']);
     for (const asset of manifest.assets) {
@@ -32,7 +32,7 @@ describe('frozen supplied-tree preparation receipts', () => {
     }
   });
 
-  it('matches actual bytes, SHA-256, embedded image hashes and complete mesh-instance triangles for all 42 prepared GLBs', () => {
+  it('matches actual bytes, SHA-256, embedded image hashes and complete mesh-instance triangles for all 45 prepared GLBs', () => {
     for (const asset of manifest.assets) for (const level of MESHY_TREE_LODS) {
       const receipt = asset.runtime[level], file = `${asset.id}-${level}.glb`, { bytes, json } = meshyTreeBinary(file);
       expect(receipt.path).toBe(`public/models/flora/meshy-012/${file}`); expect(receipt.file).toBe(file);

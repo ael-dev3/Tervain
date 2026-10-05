@@ -35,6 +35,12 @@ describe('0.0.12 real source forest and connected habitats', () => {
     const families = new Set(population.map(tree => tree.sp));
     expect(families.has('palm')).toBe(true); expect(families.has('pine')).toBe(true); expect(families.has('fir')).toBe(true);
     expect(population.some(tree => tree.assetId === 'tree-1505')).toBe(true);
+    const sentinels = population.filter(tree => tree.assetId === 'verdant-sentinel');
+    expect(sentinels.length).toBeGreaterThan(0);
+    for (const tree of sentinels) {
+      expect(['oak', 'birch']).toContain(tree.sp);
+      expect(biomeAt(tree.x, tree.z).weights['humid-broadleaf']).toBeGreaterThan(0.42);
+    }
     for (const tree of population) {
       const variant = variantFor(tree);
       expect(variant.assetId !== undefined).toBe(tree.sp !== 'pine');

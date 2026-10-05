@@ -6,7 +6,7 @@ import { createHash } from 'node:crypto';
 const root = new URL('../', import.meta.url);
 const digest = (bytes) => createHash('sha256').update(bytes).digest('hex');
 const manifest = JSON.parse(readFileSync(new URL('docs/engineering/meshy-tree-assets.json', root), 'utf8'));
-assert.equal(manifest.assets.length, 14);
+assert.equal(manifest.assets.length, 15);
 let totalBytes = 0;
 for (const asset of manifest.assets) {
   for (const level of ['near', 'mid', 'far']) {
@@ -92,4 +92,4 @@ for (const asset of manifest.protectedPine) {
   assert.equal(digest(data), asset.sha256, `${asset.path}: protected pine must be unchanged`);
   assert.equal(data.length, asset.bytes);
 }
-console.log(`14 trees / 42 LOD GLBs verified; ${totalBytes.toLocaleString()} bytes; protected pine unchanged.`);
+console.log(`15 trees / 45 LOD GLBs verified; ${totalBytes.toLocaleString()} bytes; protected pine unchanged.`);
