@@ -137,6 +137,7 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
   body.add(scene);
   const bones = bindNpcBones(scene);
   const geometries = new Map<THREE.BufferGeometry, THREE.BufferGeometry>();
+  const fittedSkirts = new Set<THREE.BufferGeometry>();
   const materials = new Map<THREE.Material, THREE.Material>();
   const textures = new Map<THREE.Texture, THREE.Texture>();
   const paint: THREE.MeshStandardMaterial[] = [];
@@ -165,6 +166,8 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
     let geometry = geometries.get(mesh.geometry);
     if (!geometry) {
       geometry = mesh.geometry.clone();
+      // BufferGeometry.copy shares userData; owned repair/garment annotations must not mark the cached template.
+      geometry.userData = { ...geometry.userData };
       // Properly rebaked templates already carry the precise Blender basis used by their normal texture.
       // Only old prepared templates/recovery fixtures need runtime geometric-normal reconstruction.
       if (entry.surfaceBake !== 'geometry-only-v1') repairNpcSurfaceGeometry(geometry);
@@ -175,6 +178,11 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
     mesh.castShadow = mesh.receiveShadow = true;
     if ((mesh as THREE.SkinnedMesh).isSkinnedMesh) {
       const skin = mesh as THREE.SkinnedMesh;
+      // These two source variants share a continuous ankle-length skirt, not two trouser legs.
+      // Fit its private skin once; leave the cached source and every other resident's gait untouched.
+      if ((entry.id === 'rillford-reeve' || entry.id === 'fireside') && !fittedSkirts.has(geometry)) {
+        conditionLongSkirtSkin(skin); fittedSkirts.add(geometry);
+      }
       skin.boundingSphere = new THREE.Sphere(new THREE.Vector3(0, entry.height / 2, 0), entry.height * 1.2);
     }
   });
@@ -234,6 +242,63 @@ export function createMeshyNpcRig(asset: Pick<GLTF, 'scene' | 'animations'>, ent
   root.userData.meshyNpc.soleSamples = sole.reduce((total, sample) => total + sample.vertices.length, 0);
   if (carried) setArmed(rig, carried === 'sheathed' ? 'sheathed' : 'drawn');
   return rig;
+}
+
+/**
+ * The measured Mara/fireside source skirt begins just above the boots (.10 m) and joins the waist (.90 m).
+ * A broad paired-leg field keeps continuous cloth rounded instead of pulling it into two independent knee panels.
+ * Original hip/thigh/knee totals remain exact, so equal left/right sitting rotations preserve the source's seated form.
+ * This is a bounded skin-weight fit, not simulated cloth: sole/boot tips, sleeves, face, UVs and the baked basis stay intact.
+ */
+function conditionLongSkirtSkin(mesh: THREE.SkinnedMesh) {
+  const position = mesh.geometry.getAttribute('position'), indices = mesh.geometry.getAttribute('skinIndex');
+  const weights = mesh.geometry.getAttribute('skinWeight');
+  const named = (name: BoneName) => mesh.skeleton.bones.findIndex(bone => bone.name === name);
+  const hips = named('hips'), legL = named('legL'), legR = named('legR'), kneeL = named('kneeL'), kneeR = named('kneeR');
+  const lower = new Set([legL, legR, kneeL, kneeR]);
+  const smooth = (a: number, b: number, value: number) => {
+    const t = THREE.MathUtils.clamp((value - a) / (b - a), 0, 1); return t * t * (3 - 2 * t);
+  };
+  let fitted = 0;
+  for (let vertex = 0; vertex < position.count; vertex++) {
+    const x = position.getX(vertex), y = position.getY(vertex), z = position.getZ(vertex);
+    if (y <= 0.095 || y >= 0.9) continue;
+    let lowerWeight = 0;
+    for (let slot = 0; slot < 4; slot++) {
+      const joint = indices.getComponent(vertex, slot);
+      if (lower.has(joint) || joint === hips) lowerWeight += weights.getComponent(vertex, slot);
+    }
+    // Spatial overlap with a relaxed hand does not make it cloth.
+    if (lowerWeight < 0.99) continue;
+    const outsideBoot = Math.max(smooth(0.18, 0.24, Math.abs(x)), 1 - smooth(-0.14, -0.08, z), smooth(0.17, 0.22, z));
+    const fit = smooth(0.095, 0.125, y) * Math.max(outsideBoot, smooth(0.14, 0.24, y)) * (1 - smooth(0.78, 0.9, y));
+    if (fit < 1e-6) continue;
+    const side = 0.35 + 0.3 * smooth(-0.28, 0.28, x);
+    const original = new Map<number, number>();
+    for (let slot = 0; slot < 4; slot++) {
+      const joint = indices.getComponent(vertex, slot), weight = weights.getComponent(vertex, slot);
+      original.set(joint, (original.get(joint) ?? 0) + weight);
+    }
+    const combined = new Map(original);
+    for (const [left, right] of [[legL, legR], [kneeL, kneeR]] as const) {
+      const leftWeight = original.get(left) ?? 0, rightWeight = original.get(right) ?? 0, total = leftWeight + rightWeight;
+      combined.set(left, leftWeight * (1 - fit) + total * side * fit);
+      combined.set(right, rightWeight * (1 - fit) + total * (1 - side) * fit);
+    }
+    const strongest = [...combined].filter(([, weight]) => weight > 1e-8).sort((a, b) => b[1] - a[1]);
+    // This source field never mixes hip, thigh and knee bands simultaneously. Preserve unusual imported mixes intact.
+    if (strongest.length > 4) continue;
+    const total = strongest.reduce((sum, [, weight]) => sum + weight, 0);
+    for (let slot = 0; slot < 4; slot++) {
+      indices.setComponent(vertex, slot, strongest[slot]?.[0] ?? 0);
+      weights.setComponent(vertex, slot, (strongest[slot]?.[1] ?? 0) / total);
+    }
+    fitted++;
+  }
+  if (fitted) {
+    indices.needsUpdate = weights.needsUpdate = true;
+    mesh.geometry.userData.npcGarment = { profile: 'mara-long-skirt-v1', fittedVertices: fitted };
+  }
 }
 
 /** At most 64 cached heel/toe/sole representatives for the complete actor, selected once in bind space. */

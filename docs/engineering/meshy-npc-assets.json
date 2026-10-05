@@ -991,7 +991,14 @@
           "modelTriangles": 45957,
           "attachmentTriangles": 0,
           "triangles": 45957,
-          "cachedSoleSamples": 37
+          "cachedSoleSamples": 41
+        },
+        "garmentFit": {
+          "profile": "mara-long-skirt-v1",
+          "where": "Private runtime geometry skin-weight clone only; original GLB unchanged",
+          "fittedVertices": 11785,
+          "method": "Preserve original hip/thigh/knee totals and smoothly share paired left/right influences; retain sole/lower boot tips and upper body",
+          "limits": "No cloth simulation, penetration proof or every-frame guarantee; see final native review"
         }
       },
       "receipt": {
@@ -9175,7 +9182,14 @@
           "modelTriangles": 45957,
           "attachmentTriangles": 0,
           "triangles": 45957,
-          "cachedSoleSamples": 37
+          "cachedSoleSamples": 41
+        },
+        "garmentFit": {
+          "profile": "mara-long-skirt-v1",
+          "where": "Private runtime geometry skin-weight clone only; original GLB unchanged",
+          "fittedVertices": 11785,
+          "method": "Preserve original hip/thigh/knee totals and smoothly share paired left/right influences; retain sole/lower boot tips and upper body",
+          "limits": "No cloth simulation, penetration proof or every-frame guarantee; see final native review"
         }
       },
       "receipt": {
@@ -13875,13 +13889,13 @@
     "runtimeAudit": {
       "schema": 1,
       "passed": true,
-      "verifiedUTC": "2026-10-05T17:34:23.659Z",
+      "verifiedUTC": "2026-10-05T17:56:52.851Z",
       "scope": "All final manifest assets and complete role equipment.",
       "method": "Actual GLB bytes/geometry/skin and production catalog/poser; private decoded skeletons at real role scales; 9 settled modes + 8 walking phases; original/template ownership checked before and after disposal.",
       "limits": "Only texture image decoding is synthetic. This does not validate source/baked paint pixels, native shaders/lighting, seam appearance, cloth stretch/penetration, physical world contacts, hardware timing, or every animation frame.",
-      "sourceRevision": "7ca12747fc8cb341372c2b0d71b822634d2aa7d4",
+      "sourceRevision": "8096396e33b51bad04dd2abcb52c42c5f9eee79b",
       "runtimeSourceHashes": {
-        "src/presentation/meshynpcs.ts": "3118dd365a640a2cfa90dd2bb2416a3f73f673ce9fecc3fe136a7aef9a74cf7f",
+        "src/presentation/meshynpcs.ts": "1931361a2c5a2c4997d2045835fff0af0796fd24c6642de7e9a4b595ba1f895c",
         "src/presentation/characters.ts": "3bcfdab775e482c4ad4860ac098fcc3dbc00346e1fe816f65ad86cfd5667f85c",
         "src/presentation/npcSurface.ts": "c695b43369a1427916dad520c524980d5ad372e1395b0f3cd4ff74c430a8c9d4",
         "src/presentation/disposeScene.ts": "181a01ddf0d68b35083e8326e09f7f6e654453e3fa565d982ade5ee0b606fb76",
@@ -13892,7 +13906,7 @@
       "manifestSha256": "5330bd6da44bcd0e8e1a7d151863f930005a5bb44162d04224337461db83658b",
       "assetCount": 17,
       "threeRevision": "186",
-      "auditToolSha256": "d8fe7b3d7242921976dbc8dc9f4c0d1ebb79ab89857f8da0df8bf2e76f5bf28d",
+      "auditToolSha256": "acd88ff8e32de6ef419da9fe04d4409e6b0ac489d1df8b41be4f955b54371d94",
       "totalModelTriangles": 662068,
       "totalCompleteActorTriangles": 664462,
       "maximumCompleteActorTriangles": 46980,
@@ -13901,7 +13915,7 @@
         44
       ],
       "inspectedVertices": 11978166,
-      "elapsedSeconds": 5.0245039590000005
+      "elapsedSeconds": 8.134667
     },
     "totalCompleteActorTriangles": 664462,
     "maximumCompleteActorTriangles": 46980

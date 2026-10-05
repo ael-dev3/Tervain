@@ -50,6 +50,27 @@ function manifest(): MeshyNpcManifest {
   return { schema: 1, maxTriangles: 50_000, assets: [{ ...entry }], roles: Object.fromEntries(NPC_ROLES.map(role => [role, entry.id])) };
 }
 
+/** Connected long-skirt panels, boot tips, a relaxed hand and a face: a small original deformation fixture. */
+function skirtSource() {
+  const f = source();
+  const points = [
+    -0.08, 0.2, 0.24, 0.08, 0.2, 0.24, -0.08, 0.6, 0.15, 0.08, 0.6, 0.15, -0.12, 0.85, 0.13, 0.12, 0.85, 0.13,
+    -0.12, 0.04, 0.12, -0.15, 0.04, 0.16, -0.10, 0.05, 0.16,
+    0.1, 1.6, 0.1, 0.12, 1.6, 0.1, 0.1, 1.62, 0.1,
+    -0.28, 0.8, 0.13, -0.30, 0.8, 0.13, -0.28, 0.82, 0.13,
+  ];
+  const joints = [10, 8, 9, 7, 0, 0, 10, 10, 10, 2, 2, 2, 6, 6, 6];
+  f.geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3));
+  f.geometry.setAttribute('skinIndex', new THREE.Uint16BufferAttribute(joints.flatMap(joint => [joint, 0, 0, 0]), 4));
+  f.geometry.setAttribute('skinWeight', new THREE.Float32BufferAttribute(joints.flatMap(() => [1, 0, 0, 0]), 4));
+  f.geometry.setIndex([0, 1, 2, 1, 3, 2, 2, 3, 4, 3, 5, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
+  f.geometry.computeVertexNormals();
+  f.geometry.setAttribute('uv', new THREE.Float32BufferAttribute(joints.flatMap((_, i) => [i / 15, 0.5]), 2));
+  f.geometry.setAttribute('uv1', new THREE.Float32BufferAttribute(joints.flatMap((_, i) => [0.5, i / 15]), 2));
+  f.geometry.setAttribute('tangent', new THREE.Float32BufferAttribute(joints.flatMap(() => [1, 0, 0, -1]), 4));
+  return f;
+}
+
 afterEach(() => { vi.restoreAllMocks(); vi.unstubAllGlobals(); vi.unstubAllEnvs(); vi.useRealTimers(); });
 
 describe('budgeted Meshy NPC replacement and lifetime', () => {
@@ -203,6 +224,73 @@ describe('budgeted Meshy NPC replacement and lifetime', () => {
     expect(rig.root.position.toArray()).toEqual([7, 3, -2]);
     expect(rig.hips.position.y).toBeCloseTo(0.95, 6);
     expect(f.geometry.getAttribute('position').getY(0)).toBeCloseTo(-0.04, 6);
+  });
+
+  it.each(['rillford-reeve', 'fireside'])('fits %s continuous cloth instead of stretching the hem across two bent knees', id => {
+    const f = skirtSource(), garmentEntry = { ...entry, id, triangles: 7, surfaceBake: 'geometry-only-v1' as const };
+    const sourceAttributes = Object.fromEntries(Object.entries(f.geometry.attributes).map(([name, attribute]) => [name, Array.from(attribute.array)]));
+    const generic = createMeshyNpcRig(f.asset, { ...garmentEntry, id: 'test-resident' });
+    const fitted = createMeshyNpcRig(f.asset, garmentEntry);
+    const a = generic.body.getObjectByProperty('isSkinnedMesh', true) as THREE.SkinnedMesh;
+    const b = fitted.body.getObjectByProperty('isSkinnedMesh', true) as THREE.SkinnedMesh;
+    const neutral = new THREE.Vector3(), original = new THREE.Vector3();
+    fitted.root.updateMatrixWorld(true); b.skeleton.update();
+    for (let vertex = 0; vertex < 15; vertex++) {
+      b.getVertexPosition(vertex, neutral); original.fromBufferAttribute(f.geometry.getAttribute('position'), vertex);
+      expect(neutral.distanceTo(original)).toBeLessThan(1e-6);
+    }
+    let oldStretch = 0, newStretch = 0;
+    for (let phase = 0; phase < 8; phase++) {
+      const pose = { mode: 'walk' as const, speed: 0.78, time: phase / 8, t: 0, amp: 1 };
+      for (let frame = 0; frame < 90; frame++) { poseRig(generic, pose, 1 / 60); poseRig(fitted, pose, 1 / 60); }
+      for (const rig of [generic, fitted]) { rig.root.updateMatrixWorld(true); (rig === generic ? a : b).skeleton.update(); }
+      const width = (mesh: THREE.SkinnedMesh) => mesh.getVertexPosition(0, new THREE.Vector3()).distanceTo(mesh.getVertexPosition(1, new THREE.Vector3())) / 0.16;
+      oldStretch = Math.max(oldStretch, width(a)); newStretch = Math.max(newStretch, width(b));
+      expect(fitted.legL.rotation.x).toBeCloseTo(generic.legL.rotation.x, 8);
+      expect(fitted.kneeL!.rotation.x).toBeCloseTo(generic.kneeL!.rotation.x, 8);
+      expect(fitted.root.position.toArray()).toEqual([0, 0, 0]);
+    }
+    expect(oldStretch).toBeGreaterThan(3);
+    expect(newStretch).toBeLessThan(oldStretch * 0.55);
+    const ownWeights = b.geometry.getAttribute('skinWeight'), ownIndices = b.geometry.getAttribute('skinIndex');
+    for (let vertex = 0; vertex < 15; vertex++) {
+      let sum = 0;
+      for (let slot = 0; slot < 4; slot++) {
+        const weight = ownWeights.getComponent(vertex, slot); sum += weight;
+        expect(Number.isFinite(weight) && weight >= 0 && weight <= 1).toBe(true);
+        expect(ownIndices.getComponent(vertex, slot)).toBeLessThan(11);
+      }
+      expect(sum).toBeCloseTo(1, 6);
+      if (vertex >= 6) for (const name of ['skinIndex', 'skinWeight']) {
+        const own = b.geometry.getAttribute(name), original = f.geometry.getAttribute(name);
+        for (let slot = 0; slot < 4; slot++) expect(own.getComponent(vertex, slot)).toBe(original.getComponent(vertex, slot));
+      }
+    }
+    for (const name of ['position', 'normal', 'tangent', 'uv', 'uv1']) expect(Array.from(b.geometry.getAttribute(name).array)).toEqual(sourceAttributes[name]);
+    for (const [name, original] of Object.entries(sourceAttributes)) expect(Array.from(f.geometry.getAttribute(name).array)).toEqual(original);
+    expect(f.geometry.userData.npcGarment).toBeUndefined();
+    expect(b.geometry.userData.npcGarment).toMatchObject({ profile: 'mara-long-skirt-v1' });
+    expect(fitted.root.userData.meshyNpc.triangles).toBe(7);
+    expect(fitted.root.userData.meshyNpc.soleSamples).toBeGreaterThanOrEqual(3);
+    expect(fitted.root.userData.meshyNpc.soleSamples).toBeLessThanOrEqual(64);
+    const sit = { mode: 'sit' as const, speed: 0, time: 0.4, t: 0, amp: 1 };
+    for (let frame = 0; frame < 180; frame++) { poseRig(generic, sit, 1 / 60); poseRig(fitted, sit, 1 / 60); }
+    for (const rig of [generic, fitted]) { rig.root.updateMatrixWorld(true); (rig === generic ? a : b).skeleton.update(); }
+    for (let vertex = 0; vertex < 15; vertex++) {
+      expect(a.getVertexPosition(vertex, new THREE.Vector3()).distanceTo(b.getVertexPosition(vertex, new THREE.Vector3()))).toBeLessThan(1e-6);
+    }
+    for (const mode of ['sit', 'work', 'dead'] as const) {
+      poseRig(fitted, { mode, speed: 0, time: 0.4, t: 0.7, amp: 1 }, 0.2);
+      fitted.root.updateMatrixWorld(true); b.skeleton.update();
+      for (let vertex = 0; vertex < 15; vertex++) expect(b.getVertexPosition(vertex, new THREE.Vector3()).toArray().every(Number.isFinite)).toBe(true);
+    }
+  });
+
+  it.each(['spring-steward', 'mill-hand', 'maintenance-worker', 'ford-bandit-a'])('preserves %s source skinning instead of imposing the Mara garment fit', id => {
+    const f = skirtSource(), rig = createMeshyNpcRig(f.asset, { ...entry, id, triangles: 7, surfaceBake: 'geometry-only-v1' });
+    const mesh = rig.body.getObjectByProperty('isSkinnedMesh', true) as THREE.SkinnedMesh;
+    for (const name of ['skinIndex', 'skinWeight']) expect(Array.from(mesh.geometry.getAttribute(name).array)).toEqual(Array.from(f.geometry.getAttribute(name).array));
+    expect(mesh.geometry.userData.npcGarment).toBeUndefined();
   });
 
   it('does not animate walking through a blocking contact, and preserves schedule hiding on the replacement rig', () => {

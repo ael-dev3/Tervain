@@ -44,7 +44,7 @@ const geometrySnapshot = geometry => {
     count: attribute.count, itemSize: attribute.itemSize,
     sha256: digest(bytesOf(attribute.isInterleavedBufferAttribute ? attribute.data.array : attribute.array)),
   }]));
-  return { attributes, index: geometry.index ? digest(bytesOf(geometry.index.array)) : null };
+  return { attributes, index: geometry.index ? digest(bytesOf(geometry.index.array)) : null, userData: geometry.userData };
 };
 function templateSnapshot(asset) {
   const result = { geometries: [], joints: [], materials: [] };
@@ -204,6 +204,7 @@ try {
       entries.push({ id: entry.id, role, sha256: entry.sha256, bytes: entry.bytes, surfaceBake: entry.surfaceBake,
         heightScale, actualHeight: rig.height, triangles: entry.triangles, completeActorTriangles: completeTriangles,
         attachmentTriangles: completeTriangles - entry.triangles, cachedSoleSamples: sampleCount,
+        garmentFits: ownMeshes.filter(mesh => mesh.geometry.userData.npcGarment).map(mesh => mesh.geometry.userData.npcGarment),
         templateUnchanged: true, ownedResourcesPrivate: true, poses, walkSamples });
       console.log(`${entry.id}: ${completeTriangles.toLocaleString()} complete triangles; ${sampleCount} cached soles; ${poses.length + walkSamples.length} finite full-geometry poses`);
     }
