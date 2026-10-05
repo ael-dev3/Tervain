@@ -15,7 +15,7 @@ limitations and source terms.
 This guide describes the source on `codex/gothic3-gameplay-initialization`.
 The last recorded successful deployment predates the latest source checkpoints,
 which have not been deployed. Online availability was not reviewed for this
-checkpoint. Sections 10–17 cover the newer runtime work.
+checkpoint. Sections 10–18 cover the newer runtime work.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
 To reproduce an older receipt, use a checkout at that commit and its producers.
@@ -1893,3 +1893,139 @@ browser review, deployment or playthrough were run for this checkpoint.
 
 This work keeps `gameplayReady: false`; the full playable browser game and its
 deployment remain unfinished.
+
+## 18. Construct the original entity and restore Control/Sensor
+
+The next source checkpoint adds the actual custom entity factory and the next
+two Hero property factories. These are prerequisites for loading the original
+Hero as a live engine object. The current browser entry still uses its existing
+exploration controller; it does not yet execute this construction/read pipeline.
+
+### Follow the constructor before reading serialized state
+
+[entity-construction.ts](../../src/gothic3/entity-construction.ts) retains one
+entity, owner, embedded arrays and dynamic creator store through this sequence:
+
+```text
+successful new(0x1c0,0x170)
+  RefBase constructor: wrapper NULL, reference word1
+  Node: empty child storage; PropertyID constructor; CreateRandom; parent NULL
+  Entity: embedded no-store math constructors; empty name/property storage
+    frustum defaults; actual timestamp service
+    Invalidate: property bits/pointer/flag masks; current shared identity matrices
+      invalid box/sphere sentinels; name clear; remaining scalar defaults
+  Dynamic: creator ID; ordered word/flag masks; context NULL
+    clear creator; increment captured live SceneAdmin construction counter
+  Game final vtable
+  virtual Create: validity high bit, frustum owner, property comparator
+  fresh SceneAdmin getter for NULL check
+  if non-NULL: second fresh getter; RegisterEntity with generated constructor ID
+```
+
+The allocator's second argument is recorded without inferring its meaning.
+The original NULL allocation path subsequently dereferences NULL; this
+implementation has an explicit successful-allocation profile. A missing
+constructor service stops with the preceding writes retained. Its diagnostic
+copies expose only initialized fields and masks; a partially constructed
+entity or owner capability is not returned to the world loader.
+
+Node's temporary GUID has sixteen initially unknown bytes. Its constructor
+initializes only the validity byte. Generate calls the external CoCreateGuid
+service, ignores HRESULT, sets validity, and CreateRandom copies the actual
+GUID bytes while clearing the cached DWORD. The browser service uses browser
+UUIDs with native GUID field byte order. It is a replacement platform service,
+without a claim to reproduce the installed Windows generation algorithm.
+
+The timer uses the already documented selected monotonic uint32 millisecond
+profile. The original QueryPerformanceCounter quantization and origin were not
+captured. SceneAdmin's live construction counter increments with uint32 wrap;
+it is never reset or replaced by a captured counter value. Its constructor
+getter and the factory's two conditional getters remain distinct calls.
+
+The source timestamp at entity `+130` has one physical backing:
+`entity.propertyOwner.modifiedWord`. Existing ReadV83 and notification callbacks
+use that same store. Frustum timestamp `+15c` remains separate. Original
+read-only float constants are checked against their PE bytes and section
+permissions. The identity matrix is a mutable lazy module cache and has a real
+shared implementation, rather than an assumed constant matrix.
+
+### Preserve Control's owner effects and Sensor's shared movement data
+
+| Original property set | Hero packet | Selector | GetVersion | Packet bytes including sentinel |
+| --- | ---: | ---: | ---: | ---: |
+| `gCCharacterControl_PS` | 4 | 22 | 2 | 223 |
+| `gCCharacterSensor_PS` | 5 | 23 | 2 | 101 |
+
+[control-reading.ts](../../src/gothic3/control-reading.ts) reads the five
+reflective descriptors and original derived tail. Its wished movement and
+pressed-event facades use its actual physical fields. Current enum defaults
+and the shared Matrix.GetIdentity guard/cache belong to one retained module
+state. A cold original image and a supplied live module state are distinct
+profiles. Lazy initialization records its guard and sixteen DWORD writes before
+the original CRT destructor registration attempt; its ignored native return is
+preserved. The registered destructor's original body is a literal RET absent
+from the exported C catalog, so the receipt records it as assembly evidence.
+
+Control's virtual SetEntity first performs inherited owner assignment and then,
+for a non-NULL incoming owner, calls that same entity's DisableProcessing(false).
+The property lifecycle now dispatches this real override during add/remove.
+The new connector maps the actual entity to its retained data and invokes the
+existing entity setter. The constructor's matrix connector also reads Control's
+same module cache through live indexed getters at each copy step.
+
+Movement contact queries using selector 22 now have CharacterControl names.
+PlayerMemory is selector 60. The literal contact query remains 22; its name
+must identify the actual queried class for later integration.
+
+[sensor-reading.ts](../../src/gothic3/sensor-reading.ts) has no reflective
+fields. Its version-2 tail consumes three raw vectors, four bool bytes and one
+raw 28-byte goal-position/quaternion block in source order. The movement pointer
+is not serialized. Constructor and Invalidate defaults preserve known masks and
+Quaternion.Clear's original XYZ=0/W=1. The movement facade shares the same
+physical vectors, quaternion, flags and nonowning movement capability used by
+the actual property set. Full ProcessPlayerMovements remains a required body
+service, including its real collision/control/navigation/application calls.
+
+Inherited added/removed/post-read callbacks and processable results are taken
+from their examined bodies. Source-empty inherited callbacks do not establish
+physics or world services. Lifecycle guards now stop immediately after an
+unsupported callback reentry, retaining the attempted prefix before any later
+OnAdded/reference/append/flag operations.
+
+### Reproduce and integrate the checkpoint
+
+```powershell
+python -B tools/gothic3/research_entity_construction.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/research_control_reading.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/research_sensor_reading.py --study <LOCAL_GOTHIC3_STUDY>
+python -B tools/gothic3/freeze_construction_checkpoint.py
+```
+
+The [construction reading checkpoint](../../assets/gothic3/construction-reading-checkpoint.json)
+chains the physics source at `cce28354`, verifies retained baseline files and
+pins the intentional lifecycle/contact API changes. Older receipts keep their
+original source hashes and reproduction revisions.
+
+| Evidence set | Entries | Instructions | Original instruction bytes |
+| --- | ---: | ---: | ---: |
+| Custom entity construction and factory | 67 | 584 | 2,180 |
+| CharacterControl, including one ASM-only destructor | 196 | 2,963 | 9,442 |
+| CharacterSensor construction and reading | 243 | 3,879 | 11,997 |
+
+The final combined TypeScript check and production build passed locally on
+5 October 2026 (`npm run build`, 235 Vite modules). The existing large-chunk
+warning remains. This checks source types and packages current browser entry
+points; the new pipeline is not yet invoked by the browser. No tests, native
+execution, browser review, deployment or playthrough were run for this
+checkpoint.
+
+The first six Hero factories now have separate source implementations. They
+still need one connected application with the remaining thirteen factories,
+their callbacks and full template/graph/context services. Subsequent work must
+connect construction and all nineteen property reads to world cache, physics,
+PVS and processing activation, then original input, scripts, story, combat,
+inventory, animation and save/load restoration. Browser progression through the
+original endings and successful online deployment remain unproven.
+
+This checkpoint keeps `gameplayReady: false`; it does not establish a playable
+or fully deployed game.

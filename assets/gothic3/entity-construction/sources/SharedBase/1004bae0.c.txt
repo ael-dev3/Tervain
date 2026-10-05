@@ -1,0 +1,33 @@
+/* ENTRY 1004bae0 | FUN_1004bae0 | STATUS decompiled | 12 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_1004bae0(void)
+
+{
+  LARGE_INTEGER local_8;
+  
+  QueryPerformanceFrequency((LARGE_INTEGER *)&DAT_101ab168);
+  DAT_101ab180 = DAT_101ab168 / 1000;
+  DAT_101ab184 = DAT_101ab168 / 0x46;
+  if (DAT_101ab180 == 0) {
+    thunk_FUN_1004bae0();
+  }
+  QueryPerformanceCounter(&local_8);
+  _DAT_101ab170 = (DWORD)(CONCAT44(local_8.s.HighPart,local_8.s.LowPart) / (ulonglong)DAT_101ab180);
+  local_8.s.LowPart = _DAT_101ab170;
+  if (DAT_101ab180 == 0) {
+    thunk_FUN_1004bae0();
+  }
+  QueryPerformanceCounter(&local_8);
+  _DAT_101ab178 = local_8.s.LowPart;
+  _DAT_101ab17c = local_8.s.HighPart;
+  if (DAT_101ab180 == 0) {
+    thunk_FUN_1004bae0();
+  }
+  QueryPerformanceCounter(&local_8);
+  _DAT_101ab174 = (int)(CONCAT44(local_8.s.HighPart,local_8.s.LowPart) / (ulonglong)DAT_101ab184);
+  return;
+}
+
+

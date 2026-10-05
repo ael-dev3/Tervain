@@ -1,0 +1,41 @@
+{
+  "schema": "gothic3-sensor-reading-rules-v1",
+  "inputs": {
+    "SharedBase": "5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214",
+    "Engine": "d49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3",
+    "Game": "b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f"
+  },
+  "className": "gCCharacterSensor_PS",
+  "propertyType": 23,
+  "getVersion": 2,
+  "nativeBytes": 96,
+  "nativeVtable": "206884e4",
+  "wrapperVtable": "2068872c",
+  "fields": [],
+  "heroSerialized": {
+    "className": "gCCharacterSensor_PS",
+    "outerVersion": 2,
+    "nativeReadVersion": 2,
+    "objectVersion": 83,
+    "propertyVersion": 30,
+    "sourceOffset": 1186426,
+    "endSourceOffset": 1186523,
+    "serializedRaw": "0200010001010001800d010000530053004c0000001e000000000002000000000000000000000000000000000000000000000000000000000000000000000000000101000178d8ab4783cca045e9551fc60000000086c65c3f00000000a797013fdec0adde",
+    "serializedSha256": "ff0e66a711b8c0694c152900cb4235e12cea1afa220d5a2fd728c6abaabdb1cf",
+    "properties": [],
+    "tailRaw": "0000000000000000000000000000000000000000000000000000000000000000000000000101000178d8ab4783cca045e9551fc60000000086c65c3f00000000a797013f",
+    "nativeReadOffset": 1186453,
+    "worldResident": false
+  },
+  "nativeTailRaw": "02000000000000000000000000000000000000000000000000000000000000000000000000000101000178d8ab4783cca045e9551fc60000000086c65c3f00000000a797013f",
+  "profile": {
+    "allocation": "fresh successful TypeScript/native-capability allocation; physical numeric heap pointers remain masked",
+    "derivedRead": "version<=1 consumes only itsu16; version>=2 reads3 vectors12,4 boolbytes,raw28 bytes; no inherited base read",
+    "unresolved": [
+      "full collision/sensor Process body",
+      "terminal destruction/memory services",
+      "world/spatial registration and preceding Hero property-set factories"
+    ],
+    "worldResident": false
+  }
+}

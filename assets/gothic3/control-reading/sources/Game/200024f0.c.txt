@@ -1,0 +1,42 @@
+/* ENTRY 200024f0 | gCCharacterControl_PS::Read | STATUS decompiled | 24 ms */
+
+/* public: virtual enum bEResult __thiscall gCCharacterControl_PS::Read(class bCIStream &) */
+
+bEResult __thiscall gCCharacterControl_PS::Read(gCCharacterControl_PS *this,bCIStream *param_1)
+
+{
+  ushort auStack_4 [2];
+  
+                    /* 0x24f0  5886  ?Read@gCCharacterControl_PS@@UAE?AW4bEResult@@AAVbCIStream@@@Z
+                        */
+  auStack_4[0] = 0;
+  auStack_4[1] = 0;
+  bCIStream::operator>>((bCIStream *)param_1,auStack_4);
+  if (1 < auStack_4[0]) {
+    bCIStream::operator>>
+              ((bCIStream *)param_1,(float *)&(this->gCCharacterControl_PS_data).offset_0x28);
+    bCIStream::operator>>
+              ((bCIStream *)param_1,(float *)&(this->gCCharacterControl_PS_data).offset_0x2c);
+    bCIStream::operator>>
+              ((bCIStream *)param_1,(float *)&(this->gCCharacterControl_PS_data).offset_0x30);
+    bCIStream::operator>>
+              ((bCIStream *)param_1,(float *)&(this->gCCharacterControl_PS_data).offset_0x34);
+    bCIStream::operator>>((bCIStream *)param_1,&(this->gCCharacterControl_PS_data).offset_0x38);
+    bCIStream::operator>>((bCIStream *)param_1,&(this->gCCharacterControl_PS_data).offset_0x3c);
+    bCIStream::operator>>((bCIStream *)param_1,&(this->gCCharacterControl_PS_data).offset_0x40);
+    bCIStream::operator>>((bCIStream *)param_1,&(this->gCCharacterControl_PS_data).offset_0x44);
+    bCIStream::operator>>((bCIStream *)param_1,&(this->gCCharacterControl_PS_data).offset_0x48);
+    bCIStream::operator>>((bCIStream *)param_1,&(this->gCCharacterControl_PS_data).offset_0x4c);
+    bCIStream::operator>>
+              ((bCIStream *)param_1,(bool *)&(this->gCCharacterControl_PS_data).offset_0x50);
+    bCIStream::operator>>
+              ((bCIStream *)param_1,(bool *)&(this->gCCharacterControl_PS_data).offset_0x51);
+    bCIStream::operator>>
+              ((bCIStream *)param_1,(float *)&(this->gCCharacterControl_PS_data).offset_0x58);
+    bCVector::operator<<((bCVector *)&(this->gCCharacterControl_PS_data).field_0x5c,param_1);
+    bCMatrix::operator<<((bCMatrix *)&(this->gCCharacterControl_PS_data).field_0x68,param_1);
+  }
+  return 1;
+}
+
+

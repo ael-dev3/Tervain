@@ -1,0 +1,15 @@
+; 304814b0 FUN_304814b0
+304814b0 | 56 | PUSH ESI
+304814b1 | 8bf1 | MOV ESI,ECX
+304814b3 | 8b06 | MOV EAX,dword ptr [ESI]
+304814b5 | 8b90b4000000 | MOV EDX,dword ptr [EAX + 0xb4]
+304814bb | 6a00 | PUSH 0x0
+304814bd | ffd2 | CALL EDX
+304814bf | 8a4610 | MOV AL,byte ptr [ESI + 0x10]
+304814c2 | 24f1 | AND AL,0xf1
+304814c4 | 0c01 | OR AL,0x1
+304814c6 | c7460c00000000 | MOV dword ptr [ESI + 0xc],0x0
+304814cd | 884610 | MOV byte ptr [ESI + 0x10],AL
+304814d0 | 8bce | MOV ECX,ESI
+304814d2 | 5e | POP ESI
+304814d3 | ff2554dcaf30 | JMP dword ptr [0x30afdc54]

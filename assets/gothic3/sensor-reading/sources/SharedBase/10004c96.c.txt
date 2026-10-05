@@ -1,0 +1,16 @@
+/* ENTRY 10004c96 | bCVector::operator!= | STATUS decompiled | 7 ms */
+
+/* public: bool __thiscall bCVector::operator!=(class bCVector const &)const  */
+
+bool __thiscall bCVector::operator!=(bCVector *this,bCVector *param_1)
+
+{
+                    /* 0x4c96  849  ??9bCVector@@QBE_NABV0@@Z */
+  if (((*(float *)this == *(float *)param_1) && (*(float *)(this + 4) == *(float *)(param_1 + 4)))
+     && (*(float *)(this + 8) == *(float *)(param_1 + 8))) {
+    return false;
+  }
+  return true;
+}
+
+

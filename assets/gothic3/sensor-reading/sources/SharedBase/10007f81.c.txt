@@ -1,0 +1,15 @@
+/* ENTRY 10007f81 | bCObjectRefBase::IsValid | STATUS decompiled | 4 ms */
+
+/* public: virtual bool __thiscall bCObjectRefBase::IsValid(void)const 
+   bCObjectRefBase member function inherited by bCThreadObjectRefBase
+   bCObjectRefBase member function inherited by bCObsoleteClass
+   bCObjectRefBase member function inherited by bCEvent */
+
+bool __thiscall bCObjectRefBase::IsValid(bCObjectRefBase *this)
+
+{
+                    /* 0x7f81  3681  ?IsValid@bCObjectRefBase@@UBE_NXZ */
+  return ((this->bCObjectRefBase_data).offset_0x4 & 0x80000000) == 0x80000000;
+}
+
+

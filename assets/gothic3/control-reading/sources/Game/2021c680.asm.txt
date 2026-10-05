@@ -1,0 +1,16 @@
+; 2021c680 bTPropertyType<gCCharacterControl_PS,bTPropertyContainer<gECharacterControlFOR>_>::vfunction12
+2021c680 | 56 | PUSH ESI
+2021c681 | 8bf1 | MOV ESI,ECX
+2021c683 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+2021c687 | 85c9 | TEST ECX,ECX
+2021c689 | 7506 | JNZ 0x2021c691
+2021c68b | 33c0 | XOR EAX,EAX
+2021c68d | 5e | POP ESI
+2021c68e | c20400 | RET 0x4
+; 2021c691 LAB_2021c691
+2021c691 | 8b01 | MOV EAX,dword ptr [ECX]
+2021c693 | 8b10 | MOV EDX,dword ptr [EAX]
+2021c695 | ffd2 | CALL EDX
+2021c697 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+2021c69a | 5e | POP ESI
+2021c69b | c20400 | RET 0x4

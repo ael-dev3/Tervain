@@ -1,0 +1,14 @@
+/* ENTRY 20461e9e | ENGINE.DLL::eCEntityPropertySet::GetEntity | STATUS decompiled | 1 ms */
+
+eCEntity * __thiscall eCEntityPropertySet::GetEntity(eCEntityPropertySet *this)
+
+{
+  eCEntity *peVar1;
+  
+                    /* WARNING: Could not recover jumptable at 0x20461e9e. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  peVar1 = GetEntity(this);
+  return peVar1;
+}
+
+

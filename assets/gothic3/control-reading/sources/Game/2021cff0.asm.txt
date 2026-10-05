@@ -1,0 +1,16 @@
+; 2021cff0 bTPropertyType<gCCharacterControl_PS,bTPropertyContainer<gESessionKey>_>::vfunction12
+2021cff0 | 56 | PUSH ESI
+2021cff1 | 8bf1 | MOV ESI,ECX
+2021cff3 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+2021cff7 | 85c9 | TEST ECX,ECX
+2021cff9 | 7506 | JNZ 0x2021d001
+2021cffb | 33c0 | XOR EAX,EAX
+2021cffd | 5e | POP ESI
+2021cffe | c20400 | RET 0x4
+; 2021d001 LAB_2021d001
+2021d001 | 8b01 | MOV EAX,dword ptr [ECX]
+2021d003 | 8b10 | MOV EDX,dword ptr [EAX]
+2021d005 | ffd2 | CALL EDX
+2021d007 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+2021d00a | 5e | POP ESI
+2021d00b | c20400 | RET 0x4

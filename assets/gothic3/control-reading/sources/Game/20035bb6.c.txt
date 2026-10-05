@@ -1,0 +1,16 @@
+/* ENTRY 20035bb6 | gCCharacterControl_PS::Destroy | STATUS decompiled | 8 ms */
+
+/* public: virtual void __thiscall gCCharacterControl_PS::Destroy(void) */
+
+void __thiscall gCCharacterControl_PS::Destroy(gCCharacterControl_PS *this)
+
+{
+                    /* 0x35bb6  2552  ?Destroy@gCCharacterControl_PS@@UAEXXZ */
+  Invalidate(this);
+                    /* WARNING: Could not recover jumptable at 0x20218c6b. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::Destroy((eCEntityPropertySet *)this);
+  return;
+}
+
+

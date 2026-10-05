@@ -1,0 +1,2 @@
+; 20461fca ENGINE.DLL::eCEntityPropertySet::OnPropertySetAdded
+20461fca | ff25106e7d20 | JMP dword ptr [0x207d6e10]

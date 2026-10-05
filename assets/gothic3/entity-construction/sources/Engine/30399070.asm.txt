@@ -1,0 +1,27 @@
+; 30399070 FUN_30399070
+30399070 | f30f100534848130 | MOVSS XMM0,dword ptr [0x30818434]
+30399078 | 0f57c9 | XORPS XMM1,XMM1
+3039907b | 33c0 | XOR EAX,EAX
+3039907d | 56 | PUSH ESI
+3039907e | 8bf1 | MOV ESI,ECX
+30399080 | 894620 | MOV dword ptr [ESI + 0x20],EAX
+30399083 | 894624 | MOV dword ptr [ESI + 0x24],EAX
+30399086 | 894628 | MOV dword ptr [ESI + 0x28],EAX
+30399089 | 89462c | MOV dword ptr [ESI + 0x2c],EAX
+3039908c | 89460c | MOV dword ptr [ESI + 0xc],EAX
+3039908f | 894610 | MOV dword ptr [ESI + 0x10],EAX
+30399092 | f30f110e | MOVSS dword ptr [ESI],XMM1
+30399096 | f30f114604 | MOVSS dword ptr [ESI + 0x4],XMM0
+3039909b | 894614 | MOV dword ptr [ESI + 0x14],EAX
+3039909e | 894618 | MOV dword ptr [ESI + 0x18],EAX
+303990a1 | c7461cffffffff | MOV dword ptr [ESI + 0x1c],0xffffffff
+303990a8 | 894630 | MOV dword ptr [ESI + 0x30],EAX
+303990ab | 894634 | MOV dword ptr [ESI + 0x34],EAX
+303990ae | f30f114e3c | MOVSS dword ptr [ESI + 0x3c],XMM1
+303990b3 | f30f114608 | MOVSS dword ptr [ESI + 0x8],XMM0
+303990b8 | 66894638 | MOV word ptr [ESI + 0x38],AX
+303990bc | ff15b4daaf30 | CALL dword ptr [0x30afdab4]
+303990c2 | 894610 | MOV dword ptr [ESI + 0x10],EAX
+303990c5 | 8bc6 | MOV EAX,ESI
+303990c7 | 5e | POP ESI
+303990c8 | c3 | RET

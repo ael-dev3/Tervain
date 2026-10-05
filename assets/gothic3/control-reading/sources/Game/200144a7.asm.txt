@@ -1,0 +1,2 @@
+; 200144a7 ?Create@gCCharacterControl_PS@@UAE?AW4bEResult@@XZ
+200144a7 | e9e43d2000 | JMP 0x20218290

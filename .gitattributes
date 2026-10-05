@@ -43,6 +43,10 @@ assets/gothic3/entity-loading/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/rigidbody-reading/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/collision-reading/** -text -eol whitespace=cr-at-eol,-blank-at-eof
 assets/gothic3/physics-reading-checkpoint.json -text -eol
+assets/gothic3/entity-construction/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/control-reading/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/sensor-reading/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/construction-reading-checkpoint.json -text -eol
 # These implementations/producers are individually byte-pinned by native receipts.
 src/gothic3/inventory.ts -text -eol
 src/gothic3/startup.ts -text -eol
@@ -83,6 +87,9 @@ src/gothic3/movement-reading.ts -text -eol
 src/gothic3/entity-loading.ts -text -eol
 src/gothic3/rigidbody-reading.ts -text -eol
 src/gothic3/collision-reading.ts -text -eol whitespace=cr-at-eol
+src/gothic3/entity-construction.ts -text -eol
+src/gothic3/control-reading.ts -text -eol whitespace=cr-at-eol
+src/gothic3/sensor-reading.ts -text -eol whitespace=cr-at-eol
 tools/gothic3/research_native_clock.py -text -eol
 tools/gothic3/research_native_navigation.py -text -eol
 tools/gothic3/research_inventory_observers.py -text -eol
@@ -117,6 +124,10 @@ tools/gothic3/research_entity_loading.py -text -eol
 tools/gothic3/research_rigidbody_reading.py -text -eol whitespace=cr-at-eol
 tools/gothic3/research_collision_reading.py -text -eol whitespace=cr-at-eol
 tools/gothic3/freeze_physics_checkpoint.py -text -eol
+tools/gothic3/research_entity_construction.py -text -eol
+tools/gothic3/research_control_reading.py -text -eol whitespace=cr-at-eol
+tools/gothic3/research_sensor_reading.py -text -eol whitespace=cr-at-eol
+tools/gothic3/freeze_construction_checkpoint.py -text -eol
 src/gothic3/world-clock-view.ts -text -eol
 src/gothic3/main.ts -text -eol
 docs/engineering/gothic3-rebuilding-process.md -text -eol
@@ -152,3 +163,7 @@ assets/gothic3/movement-reading/sources/** -whitespace
 assets/gothic3/entity-loading/sources/** -whitespace
 assets/gothic3/rigidbody-reading/sources/** -whitespace
 assets/gothic3/collision-reading/sources/** -whitespace
+assets/gothic3/entity-construction/sources/** -whitespace
+assets/gothic3/control-reading/sources/** -whitespace
+assets/gothic3/sensor-reading/sources/** -whitespace
+public/gothic3/sensor-reading/sources/** -whitespace

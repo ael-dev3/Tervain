@@ -1,0 +1,14 @@
+/* ENTRY 20460326 | SHAREDBASE.DLL::bCObjectBase::Write | STATUS decompiled | 1 ms */
+
+bool __thiscall bCObjectBase::Write(bCObjectBase *this,bCOStream *param_1)
+
+{
+  bool bVar1;
+  
+                    /* WARNING: Could not recover jumptable at 0x20460326. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bVar1 = Write(this,param_1);
+  return bVar1;
+}
+
+

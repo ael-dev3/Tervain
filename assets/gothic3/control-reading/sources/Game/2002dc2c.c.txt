@@ -1,0 +1,26 @@
+/* ENTRY 2002dc2c | gCCharacterControl_PS::~gCCharacterControl_PS | STATUS decompiled | 18 ms */
+
+/* public: virtual __thiscall gCCharacterControl_PS::~gCCharacterControl_PS(void) */
+
+void __thiscall gCCharacterControl_PS::~gCCharacterControl_PS(gCCharacterControl_PS *this)
+
+{
+  undefined ***pppuVar1;
+  
+                    /* 0x2dc2c  393  ??1gCCharacterControl_PS@@UAE@XZ */
+  this->vftablePtr = &vftable;
+  bCMatrix::~bCMatrix((bCMatrix *)&(this->gCCharacterControl_PS_data).field_0x68);
+  bCVector::~bCVector((bCVector *)&(this->gCCharacterControl_PS_data).field_0x5c);
+  pppuVar1 = &(this->gCCharacterControl_PS_data).offset_0x18;
+  *pppuVar1 = &bTPropertyContainer<gESessionKey>::vftable.GetVersion;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)pppuVar1);
+  pppuVar1 = &(this->gCCharacterControl_PS_data).offset_0x10;
+  *pppuVar1 = &bTPropertyContainer<gECharacterControlFOR>::vftable.GetVersion;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)pppuVar1);
+                    /* WARNING: Could not recover jumptable at 0x20218bcc. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::~eCEntityPropertySet((eCEntityPropertySet *)this);
+  return;
+}
+
+

@@ -1,0 +1,11 @@
+/* ENTRY 20028a06 | bTPropertyObject<gCCharacterSensor_PS,eCEntityPropertySet>::vfunction1 | STATUS decompiled | 2 ms */
+
+bCObjectRefBase * __thiscall
+bTPropertyObject<gCCharacterSensor_PS,eCEntityPropertySet>::vfunction1
+          (bTPropertyObject<gCCharacterSensor_PS,eCEntityPropertySet> *this)
+
+{
+  return (this->bTPOPureSmartPtr<gCCharacterSensor_PS>_data).offset_0x4;
+}
+
+

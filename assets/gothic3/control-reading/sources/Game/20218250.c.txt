@@ -1,0 +1,15 @@
+/* ENTRY 20218250 | FUN_20218250 | STATUS decompiled | 3 ms */
+
+void __fastcall FUN_20218250(eCEntityPropertySet *param_1)
+
+{
+  *(undefined1 *)&param_1[0x15].bCObjectRefBase.bCObjectBase = 0;
+  param_1[0x16].bCObjectRefBase.bCObjectBase = (bCObjectBase)0x0;
+  bCVector::Clear((bCVector *)(param_1 + 0x18));
+                    /* WARNING: Could not recover jumptable at 0x20218267. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::OnPostProcess(param_1);
+  return;
+}
+
+

@@ -1,0 +1,14 @@
+/* ENTRY 2002da92 | gCCharacterControl_PS::GetPropertySetType | STATUS decompiled | 8 ms */
+
+/* public: virtual enum eEPropertySetType __thiscall
+   gCCharacterControl_PS::GetPropertySetType(void)const  */
+
+eEPropertySetType __thiscall gCCharacterControl_PS::GetPropertySetType(gCCharacterControl_PS *this)
+
+{
+                    /* 0x2da92  4034
+                       ?GetPropertySetType@gCCharacterControl_PS@@UBE?AW4eEPropertySetType@@XZ */
+  return 0x16;
+}
+
+

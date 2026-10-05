@@ -1,0 +1,4 @@
+; 20029951 bTPropertyObjectType<gCCharacterControl_PS,eCEntityPropertySet>::~bTPropertyObjectType<gCCharacterControl_PS,eCEntityPropertySet>
+20029951 | e98a191f00 | JMP 0x2021b2e0
+; 20029956 gCFocus_PS::SetCurrentMode
+; 20029956 Ordinal_6350

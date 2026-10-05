@@ -1,0 +1,28 @@
+/* ENTRY 200136ab | gCCharacterControl_PS::PostInitializeProperties | STATUS decompiled | 110 ms */
+
+/* public: virtual enum bEResult __thiscall gCCharacterControl_PS::PostInitializeProperties(void) */
+
+bEResult __thiscall gCCharacterControl_PS::PostInitializeProperties(gCCharacterControl_PS *this)
+
+{
+  bCObjectBase bStack_8;
+  undefined4 uStack_4;
+  
+                    /* 0x136ab  5741
+                       ?PostInitializeProperties@gCCharacterControl_PS@@UAE?AW4bEResult@@XZ */
+  bCObjectRefBase::PostInitializeProperties((bCObjectRefBase *)this);
+  bCObjectBase::bCObjectBase(&bStack_8);
+  bStack_8 = (bCObjectBase)&bTPropertyContainer<gESessionKey>::vftable;
+  uStack_4 = 0;
+  (*(code *)(this->gCCharacterControl_PS_data).offset_0x18[7])(&bStack_8);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  (this->gCCharacterControl_PS_data).field_0x20 = 0;
+  (this->gCCharacterControl_PS_data).field_0x21 = 0;
+  bCObjectBase::bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  bStack_8 = (bCObjectBase)0x0;
+  (*(code *)(this->gCCharacterControl_PS_data).offset_0x10[7])(&stack0xfffffff4);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff0);
+  return 1;
+}
+
+

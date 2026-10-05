@@ -1,0 +1,2 @@
+; 2046031a SHAREDBASE.DLL::bCObjectRefBase::IsValid
+2046031a | ff25c8887d20 | JMP dword ptr [0x207d88c8]

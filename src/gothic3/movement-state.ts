@@ -674,21 +674,22 @@ export interface NativeMovementContact {
 export interface NativeMovementContactEntity {
   readonly identity: object;
   flags(): NativeValue<number>;
-  hasPlayerMemory(): NativeValue<number>;
+  /** Literal selector22 is gCCharacterControl_PS; PlayerMemory is selector60. */
+  hasCharacterControl(): NativeValue<number>;
 }
 export interface NativeMovementContactHost {
   targetProxy(): NativeValue<NativeMovementContactEntity | null>; // actual movement+240 proxy
-  ownerHasPlayerMemory(): NativeValue<number>;
+  ownerHasCharacterControl(): NativeValue<number>;
   ownerPosition(): NativeValue<NativeMovementVector>;
 }
 export function nativeMovementOnUntouch(storage: NativeMovementBytes, entity: NativeMovementContactEntity | null,
-  contact: NativeMovementContact, host: Pick<NativeMovementContactHost, 'ownerHasPlayerMemory'>): NativeMovementResult<void> {
+  contact: NativeMovementContact, host: Pick<NativeMovementContactHost, 'ownerHasCharacterControl'>): NativeMovementResult<void> {
   const op = new Operation();
   try {
     if (entity !== null && (integer(op.call('contactEntity.flags', () => entity.flags())) & 0x800000) !== 0 &&
-        u8(op.call('owner.HasPS22', () => host.ownerHasPlayerMemory())) === 0) {
+        u8(op.call('owner.HasPS22', () => host.ownerHasCharacterControl())) === 0) {
       if (integer(op.call('collisionType14', () => contact.collisionType()), true) === 14) {
-        if (u8(op.call('contactEntity.HasPS22', () => entity.hasPlayerMemory())) === 1) {
+        if (u8(op.call('contactEntity.HasPS22', () => entity.hasCharacterControl())) === 1) {
           op.write('movement.byte+25e', () => storage.writeByte(0x25e, 0));
         }
       } else if (integer(op.call('collisionType8', () => contact.collisionType()), true) === 8 ||
@@ -735,10 +736,10 @@ export function nativeMovementOnTouch(storage: NativeMovementBytes, entity: Nati
       }
     }
     if ((integer(op.call('contactEntity.flags', () => entity.flags())) & 0x800000) !== 0 &&
-        readByte('owner.HasPS22', () => host.ownerHasPlayerMemory()) === 0) {
+        readByte('owner.HasPS22', () => host.ownerHasCharacterControl()) === 0) {
       const type = integer(op.call('collisionType reread', () => contact.collisionType()), true);
       if (type === 14) {
-        if (readByte('contactEntity.HasPS22', () => entity.hasPlayerMemory()) === 1) op.write('movement.byte+25e', () => storage.writeByte(0x25e, 1));
+        if (readByte('contactEntity.HasPS22', () => entity.hasCharacterControl()) === 1) op.write('movement.byte+25e', () => storage.writeByte(0x25e, 1));
       } else {
         if (integer(op.call('collisionType8', () => contact.collisionType()), true) === 8 || integer(op.call('collisionType10', () => contact.collisionType()), true) === 10 ||
             integer(op.call('collisionType11', () => contact.collisionType()), true) === 11) {

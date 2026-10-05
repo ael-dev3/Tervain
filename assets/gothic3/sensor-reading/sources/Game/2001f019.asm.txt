@@ -1,0 +1,2 @@
+; 2001f019 bTPropertyObject<gCCharacterSensor_PS,eCEntityPropertySet>::vfunction15
+2001f019 | e962b42100 | JMP 0x2023a480

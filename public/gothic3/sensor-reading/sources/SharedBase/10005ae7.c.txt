@@ -1,0 +1,15 @@
+/* ENTRY 10005ae7 | bCVector::Clear | STATUS decompiled | 2 ms */
+
+/* public: void __thiscall bCVector::Clear(void) */
+
+void __thiscall bCVector::Clear(bCVector *this)
+
+{
+                    /* 0x5ae7  1635  ?Clear@bCVector@@QAEXXZ */
+  *(undefined4 *)this = 0;
+  *(undefined4 *)(this + 4) = 0;
+  *(undefined4 *)(this + 8) = 0;
+  return;
+}
+
+

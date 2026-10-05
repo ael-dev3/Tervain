@@ -1,0 +1,10 @@
+/* ENTRY 2023a3d0 | bTPropertyObject<gCCharacterSensor_PS,eCEntityPropertySet>::vfunction11 | STATUS decompiled | 1 ms */
+
+void __thiscall bTPropertyObject<gCCharacterSensor_PS,eCEntityPropertySet>::vfunction11(void)
+
+{
+  thunk_FUN_20239aa0(0);
+  return;
+}
+
+

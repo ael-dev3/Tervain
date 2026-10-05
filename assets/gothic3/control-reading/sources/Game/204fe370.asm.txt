@@ -1,0 +1,15 @@
+; 204fe370 bTPropertyObject<gCCharacterControl_PS,eCEntityPropertySet>::~bTPropertyObject<gCCharacterControl_PS,eCEntityPropertySet>
+204fe370 | b9a0d87b20 | MOV ECX,0x207bd8a0
+204fe375 | ff15b8877d20 | CALL dword ptr [0x207d87b8]
+204fe37b | c705a8d87b2000000000 | MOV dword ptr [0x207bd8a8],0x0
+204fe385 | c705a0d87b205c6c6820 | MOV dword ptr [0x207bd8a0],0x20686c5c
+204fe38f | e8bdb5b2ff | CALL 0x20029951
+204fe394 | 6a01 | PUSH 0x1
+204fe396 | b9a0d87b20 | MOV ECX,0x207bd8a0
+204fe39b | a3acd87b20 | MOV [0x207bd8ac],EAX
+204fe3a0 | c705a8d87b2000000000 | MOV dword ptr [0x207bd8a8],0x0
+204fe3aa | e837cbb2ff | CALL 0x2002aee6
+204fe3af | 6850815520 | PUSH 0x20558150
+204fe3b4 | e81554f6ff | CALL 0x204637ce
+204fe3b9 | 59 | POP ECX
+204fe3ba | c3 | RET

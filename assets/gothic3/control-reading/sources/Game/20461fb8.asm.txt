@@ -1,0 +1,2 @@
+; 20461fb8 ENGINE.DLL::eCEntityPropertySet::OnPostRead
+20461fb8 | ff251c6e7d20 | JMP dword ptr [0x207d6e1c]

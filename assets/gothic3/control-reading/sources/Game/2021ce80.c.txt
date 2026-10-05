@@ -1,0 +1,11 @@
+/* ENTRY 2021ce80 | bTPropertyType<gCCharacterControl_PS,bTPropertyContainer<gESessionKey>_>::vfunction5 | STATUS decompiled | 2 ms */
+
+bTPropertyType<gCCharacterControl_PS,bTPropertyContainer<gESessionKey>_>_vftable * __thiscall
+bTPropertyType<gCCharacterControl_PS,bTPropertyContainer<gESessionKey>_>::vfunction5
+          (bTPropertyType<gCCharacterControl_PS,bTPropertyContainer<gESessionKey>_> *this)
+
+{
+  return this[6].vftablePtr;
+}
+
+

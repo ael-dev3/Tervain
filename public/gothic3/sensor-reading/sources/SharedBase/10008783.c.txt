@@ -1,0 +1,16 @@
+/* ENTRY 10008783 | bCQuaternion::Clear | STATUS decompiled | 1 ms */
+
+/* public: void __thiscall bCQuaternion::Clear(void) */
+
+void __thiscall bCQuaternion::Clear(bCQuaternion *this)
+
+{
+                    /* 0x8783  1625  ?Clear@bCQuaternion@@QAEXXZ */
+  *(undefined4 *)this = 0;
+  *(undefined4 *)(this + 4) = 0;
+  *(undefined4 *)(this + 8) = 0;
+  *(undefined4 *)(this + 0xc) = 0x3f800000;
+  return;
+}
+
+

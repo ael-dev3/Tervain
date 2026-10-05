@@ -1,0 +1,2 @@
+; 2001b6b7 ?ClearVolatileFrameStates@gCCharacterControl_PS@@IAEXXZ
+2001b6b7 | e9c4cb1f00 | JMP 0x20218280

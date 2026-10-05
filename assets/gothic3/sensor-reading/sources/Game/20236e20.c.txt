@@ -1,0 +1,9 @@
+/* ENTRY 20236e20 | FUN_20236e20 | STATUS decompiled | 0 ms */
+
+undefined4 FUN_20236e20(void)
+
+{
+  return 0x17;
+}
+
+

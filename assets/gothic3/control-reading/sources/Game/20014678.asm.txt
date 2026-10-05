@@ -1,0 +1,4 @@
+; 20014678 ?CopyFrom@gCCharacterControl_PS@@UAE?AW4bEResult@@ABVbCObjectBase@@@Z
+20014678 | e9f33b2000 | JMP 0x20218270
+; 2001467d gCAmbientModule::Unregister
+; 2001467d Ordinal_7409

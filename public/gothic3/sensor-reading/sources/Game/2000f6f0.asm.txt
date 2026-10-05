@@ -1,0 +1,4 @@
+; 2000f6f0 bTPropertyObjectType<gCCharacterSensor_PS,eCEntityPropertySet>::vfunction1
+2000f6f0 | e9dba12200 | JMP 0x202398d0
+; 2000f6fa gCMusicSequencer::Init
+; 2000f6fa Ordinal_4879

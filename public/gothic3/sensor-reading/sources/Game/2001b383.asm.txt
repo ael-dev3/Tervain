@@ -1,0 +1,2 @@
+; 2001b383 ?GetPropertySetType@gCCharacterSensor_PS@@UBE?AW4eEPropertySetType@@XZ
+2001b383 | e998ba2100 | JMP 0x20236e20

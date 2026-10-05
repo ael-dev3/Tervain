@@ -1,0 +1,4 @@
+; 2023a3d0 bTPropertyObject<gCCharacterSensor_PS,eCEntityPropertySet>::vfunction11
+2023a3d0 | 6a00 | PUSH 0x0
+2023a3d2 | e851a7ddff | CALL 0x20014b28
+2023a3d7 | c3 | RET

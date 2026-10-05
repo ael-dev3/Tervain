@@ -1,0 +1,6 @@
+; 10007cf2 ??4bCVector@@QAEAAV0@ABV0@@Z
+10007cf2 | e9c9db0100 | JMP 0x100258c0
+; 10007cf7 LAB_10007cf7
+10007cf7 | e9c4b10d00 | JMP 0x100e2ec0
+; 10007cfc bCVector::GetInvTranslated
+; 10007cfc Ordinal_2540

@@ -1,0 +1,19 @@
+; 1008cc20 FUN_1008cc20
+1008cc20 | 56 | PUSH ESI
+1008cc21 | 8bf1 | MOV ESI,ECX
+1008cc23 | 837e0800 | CMP dword ptr [ESI + 0x8],0x0
+1008cc27 | 7704 | JA 0x1008cc2d
+; 1008cc29 LAB_1008cc29
+1008cc29 | 33c0 | XOR EAX,EAX
+1008cc2b | 5e | POP ESI
+1008cc2c | c3 | RET
+; 1008cc2d LAB_1008cc2d
+1008cc2d | 8b4604 | MOV EAX,dword ptr [ESI + 0x4]
+1008cc30 | 8b08 | MOV ECX,dword ptr [EAX]
+1008cc32 | e86c8cf7ff | CALL 0x100058a3
+1008cc37 | 84c0 | TEST AL,AL
+1008cc39 | 74ee | JZ 0x1008cc29
+1008cc3b | 8b4604 | MOV EAX,dword ptr [ESI + 0x4]
+1008cc3e | 8b00 | MOV EAX,dword ptr [EAX]
+1008cc40 | 5e | POP ESI
+1008cc41 | c3 | RET

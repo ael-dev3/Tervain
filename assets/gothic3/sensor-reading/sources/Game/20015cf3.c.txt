@@ -1,0 +1,13 @@
+/* ENTRY 20015cf3 | gCCharacterSensor_PS::PostProcessMovements | STATUS decompiled | 6 ms */
+
+/* protected: void __thiscall gCCharacterSensor_PS::PostProcessMovements(void) */
+
+void __thiscall gCCharacterSensor_PS::PostProcessMovements(gCCharacterSensor_PS *this)
+
+{
+                    /* 0x15cf3  5798  ?PostProcessMovements@gCCharacterSensor_PS@@IAEXXZ */
+  (this->gCCharacterSensor_PS_data).offset_0x3c = 0;
+  return;
+}
+
+

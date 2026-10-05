@@ -1,0 +1,4 @@
+; 20014524 bTPropertyObject<gCCharacterSensor_PS,eCEntityPropertySet>::vfunction7
+20014524 | e9674d2200 | JMP 0x20239290
+; 20014529 gCCameraAI_PS::SetCamModeDialogSideL
+; 20014529 Ordinal_6276

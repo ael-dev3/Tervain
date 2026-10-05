@@ -1,0 +1,228 @@
+/* ENTRY 20237b60 | FUN_20237b60 | STATUS decompiled | 392 ms */
+
+/* WARNING: Removing unreachable block (ram,0x20237f60) */
+/* WARNING: Removing unreachable block (ram,0x20237f66) */
+/* WARNING: Removing unreachable block (ram,0x20238044) */
+/* WARNING: Removing unreachable block (ram,0x20237faa) */
+/* WARNING: Removing unreachable block (ram,0x20237fe2) */
+/* WARNING: Removing unreachable block (ram,0x20237fe0) */
+/* WARNING: Removing unreachable block (ram,0x20237fe4) */
+/* WARNING: Removing unreachable block (ram,0x20237ff9) */
+/* WARNING: Removing unreachable block (ram,0x2023804b) */
+/* WARNING: Removing unreachable block (ram,0x2023816e) */
+/* WARNING: Removing unreachable block (ram,0x2023817d) */
+/* WARNING: Removing unreachable block (ram,0x2023839a) */
+/* WARNING: Removing unreachable block (ram,0x20238245) */
+/* WARNING: Removing unreachable block (ram,0x202380e4) */
+/* WARNING: Removing unreachable block (ram,0x20238392) */
+/* WARNING: Removing unreachable block (ram,0x20238163) */
+/* WARNING: Removing unreachable block (ram,0x2023824b) */
+/* WARNING: Removing unreachable block (ram,0x20238259) */
+/* WARNING: Removing unreachable block (ram,0x2023824f) */
+/* WARNING: Removing unreachable block (ram,0x2023825f) */
+/* WARNING: Removing unreachable block (ram,0x202383a2) */
+/* WARNING: Removing unreachable block (ram,0x20238296) */
+/* WARNING: Removing unreachable block (ram,0x2023829e) */
+/* WARNING: Removing unreachable block (ram,0x202382c7) */
+/* WARNING: Removing unreachable block (ram,0x20238303) */
+/* WARNING: Removing unreachable block (ram,0x202382ff) */
+/* WARNING: Removing unreachable block (ram,0x20238305) */
+/* WARNING: Removing unreachable block (ram,0x20238327) */
+/* WARNING: Removing unreachable block (ram,0x20238390) */
+/* WARNING: Removing unreachable block (ram,0x20238431) */
+
+void __fastcall FUN_20237b60(gCCharacterSensor_PS *param_1)
+
+{
+  undefined1 *this;
+  char cVar1;
+  bool bVar2;
+  eCApplication *peVar3;
+  eCEntity *peVar4;
+  undefined4 uVar5;
+  int *piVar6;
+  gCNavigation_PS *this_00;
+  float fVar7;
+  bCVector *pbVar8;
+  int iVar9;
+  bCVector *pbVar10;
+  eCEntity *this_01;
+  bCBox *this_02;
+  float unaff_ESI;
+  float *pfVar11;
+  undefined1 *puVar12;
+  float fVar13;
+  undefined1 *puStack_17c;
+  bCVector abStack_15c [4];
+  float fStack_158;
+  bCVector abStack_154 [4];
+  float fStack_150;
+  float fStack_14c;
+  undefined4 uStack_148;
+  bCVector abStack_144 [4];
+  bCVector abStack_140 [8];
+  bCVector abStack_138 [4];
+  bCVector abStack_134 [8];
+  bCVector abStack_12c [4];
+  undefined1 auStack_128 [8];
+  bCVector abStack_120 [12];
+  bCVector abStack_114 [4];
+  bCVector abStack_110 [8];
+  bCVector abStack_108 [4];
+  bCVector abStack_104 [8];
+  bCVector abStack_fc [12];
+  bCVector abStack_f0 [8];
+  bCVector abStack_e8 [4];
+  bCVector abStack_e4 [12];
+  bCVector abStack_d8 [4];
+  undefined1 auStack_d4 [208];
+  
+  peVar3 = eCApplication::GetInstance();
+  cVar1 = (**(code **)(*(int *)peVar3 + 0x270))();
+  if (cVar1 != '\0') {
+    if ((param_1->gCCharacterSensor_PS_data).offset_0x38 == 0) {
+      peVar4 = (*param_1->vftablePtr->GetEntity)(param_1);
+      uVar5 = (**(code **)(*(int *)peVar4 + 0xec))();
+      (param_1->gCCharacterSensor_PS_data).offset_0x38 = uVar5;
+    }
+    this = &(param_1->gCCharacterSensor_PS_data).field_0x10;
+    bCVector::operator=((bCVector *)&(param_1->gCCharacterSensor_PS_data).field_0x28,
+                        (bCVector *)this);
+    piVar6 = (int *)(**(code **)(*(int *)(param_1->gCCharacterSensor_PS_data).offset_0x38 + 0x68))()
+    ;
+    this_00 = (gCNavigation_PS *)(**(code **)(*piVar6 + 0xec))();
+    if ((this_00 != (gCNavigation_PS *)0x0) &&
+       (bVar2 = gCNavigation_PS::GetOnTheWay(this_00), bVar2)) {
+      puStack_17c = (undefined1 *)0x20237bf6;
+      bCVector::operator=((bCVector *)this,
+                          (bCVector *)&(param_1->gCCharacterSensor_PS_data).field_0x40);
+      return;
+    }
+    if ((((param_1->gCCharacterSensor_PS_data).offset_0x34 == '\0') ||
+        (bVar2 = gCCharacterMovement_PS::GetMovementIsSelfControled
+                           ((gCCharacterMovement_PS *)
+                            (param_1->gCCharacterSensor_PS_data).offset_0x38), !bVar2)) ||
+       (bVar2 = gCCharacterMovement_PS::IsJumping
+                          ((gCCharacterMovement_PS *)
+                           (param_1->gCCharacterSensor_PS_data).offset_0x38), bVar2)) {
+      puStack_17c = (undefined1 *)0x2023847c;
+      gCCharacterSensor_PS::SmoothGoal
+                (param_1,(bCVector *)&(param_1->gCCharacterSensor_PS_data).field_0x40);
+      return;
+    }
+    thunk_FUN_200a6130();
+    peVar3 = eCApplication::GetInstance();
+    eCApplication::GetScaledFrameTimeInSeconds((eCApplication *)peVar3);
+    puStack_17c = &stack0xfffffe9c;
+    puVar12 = &(param_1->gCCharacterSensor_PS_data).field_0x40;
+    fVar7 = (float)gCCharacterMovement_PS::GetCurrentPosition
+                             ((gCCharacterMovement_PS *)
+                              (param_1->gCCharacterSensor_PS_data).offset_0x38);
+    pbVar8 = (bCVector *)bCVector::operator-((bCVector *)puVar12,abStack_134);
+    fStack_14c = bCVector::GetMagnitude2D(pbVar8,(bECoordinate)fVar7);
+    bCVector::~bCVector(abStack_138);
+    bCVector::~bCVector((bCVector *)&stack0xfffffe94);
+    if (fStack_14c != 0.0) {
+      fStack_158 = fStack_14c / 20.0;
+      thunk_FUN_20236910();
+      iVar9 = FUN_20465320();
+      if (iVar9 < 1) {
+        uStack_148 = 1;
+      }
+      else {
+        thunk_FUN_20236910();
+        uStack_148 = FUN_20465320();
+      }
+      fStack_150 = *(float *)((param_1->gCCharacterSensor_PS_data).offset_0x38 + 0x1c) + 40.0;
+      bCVector::bCVector((bCVector *)&stack0xfffffe94,0.0,fStack_150,0.0);
+      pbVar8 = abStack_138;
+      pbVar10 = (bCVector *)
+                gCCharacterMovement_PS::GetCurrentPosition
+                          ((gCCharacterMovement_PS *)
+                           (param_1->gCCharacterSensor_PS_data).offset_0x38);
+      bCVector::operator+(pbVar10,pbVar8);
+      bCVector::~bCVector(abStack_140);
+      bCVector::~bCVector((bCVector *)&stack0xfffffe8c);
+      pbVar8 = (bCVector *)bCVector::operator-((bCVector *)puVar12,(bCVector *)&stack0xfffffe8c);
+      bCVector::GetZ(pbVar8);
+      pbVar8 = abStack_114;
+      fVar13 = 0.0;
+      pbVar10 = (bCVector *)bCVector::operator-((bCVector *)puVar12,abStack_144);
+      fVar7 = bCVector::GetX(pbVar10);
+      bCVector::bCVector(abStack_e8,fVar7,(float)pbVar8,fVar13);
+      bCVector::~bCVector((bCVector *)&uStack_148);
+      bCVector::~bCVector((bCVector *)&puStack_17c);
+      bCVector::GetNormalizedSafe(abStack_e8);
+      if (1.0 <= unaff_ESI) {
+        pfVar11 = &fStack_14c;
+        uVar5 = 0x41a00000;
+      }
+      else {
+        pfVar11 = (float *)&stack0xfffffe80;
+        uVar5 = 0;
+      }
+      pbVar8 = (bCVector *)thunk_FUN_2007e1b0(pfVar11,uVar5,auStack_128);
+      bCVector::bCVector(abStack_110,pbVar8);
+      if (1.0 <= unaff_ESI) {
+        bCVector::~bCVector((bCVector *)&fStack_14c);
+      }
+      else {
+        bCVector::~bCVector((bCVector *)&stack0xfffffe80);
+      }
+      puVar12 = auStack_128;
+      this_01 = (eCEntity *)
+                (**(code **)(*(int *)(param_1->gCCharacterSensor_PS_data).offset_0x38 + 0x68))
+                          (puVar12);
+      this_02 = eCEntity::GetLocalNodeBoundary(this_01);
+      fVar7 = bCBox::GetWidth(this_02);
+      thunk_FUN_2007e1b0(auStack_d4,fVar7 * 0.5,puVar12);
+      bCVector::operator+(abStack_110,abStack_104);
+      fVar7 = bCVector::GetMagnitude2D(abStack_f0,1);
+      if (0.01 <= fVar7) {
+        bCVector::bCVector(abStack_138);
+        bCVector::bCVector(abStack_15c);
+        bCVector::bCVector(abStack_fc);
+        bCVector::bCVector(abStack_144,abStack_120);
+        pbVar8 = (bCVector *)
+                 bCVector::bCVector(abStack_e4,0.0,
+                                    *(float *)((param_1->gCCharacterSensor_PS_data).offset_0x38 +
+                                              0x1c) + 40.0,0.0);
+        bCVector::operator-=(abStack_144,pbVar8);
+        bCVector::~bCVector(abStack_e4);
+        bVar2 = gCCharacterMovement_PS::GetMovementIsSelfControled
+                          ((gCCharacterMovement_PS *)
+                           (param_1->gCCharacterSensor_PS_data).offset_0x38);
+        if (bVar2) {
+          gCCharacterMovement_PS::IsJumping
+                    ((gCCharacterMovement_PS *)(param_1->gCCharacterSensor_PS_data).offset_0x38);
+        }
+        gCCharacterSensor_PS::SmoothGoal(param_1,abStack_144);
+        bCVector::~bCVector(abStack_144);
+        bCVector::~bCVector(abStack_fc);
+        bCVector::~bCVector(abStack_15c);
+        bCVector::~bCVector(abStack_138);
+      }
+      else {
+        pbVar8 = (bCVector *)
+                 gCCharacterMovement_PS::GetCurrentPosition
+                           ((gCCharacterMovement_PS *)
+                            (param_1->gCCharacterSensor_PS_data).offset_0x38);
+        bCVector::operator=((bCVector *)this,pbVar8);
+        bCVector::~bCVector(abStack_154);
+        bCVector::operator=((bCVector *)&(param_1->gCCharacterSensor_PS_data).field_0x1c,
+                            (bCVector *)this);
+        (param_1->gCCharacterSensor_PS_data).offset_0x3c = 0;
+      }
+      bCVector::~bCVector(abStack_108);
+      bCVector::~bCVector(abStack_d8);
+      bCVector::~bCVector(abStack_114);
+      bCVector::~bCVector(abStack_12c);
+      bCVector::~bCVector(abStack_f0);
+      bCVector::~bCVector(abStack_120);
+      return;
+    }
+  }
+  return;
+}
+
+

@@ -1,0 +1,9 @@
+/* ENTRY 202182b0 | FUN_202182b0 | STATUS decompiled | 0 ms */
+
+undefined4 FUN_202182b0(void)
+
+{
+  return 0x16;
+}
+
+

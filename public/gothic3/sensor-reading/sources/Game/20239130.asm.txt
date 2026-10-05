@@ -1,0 +1,3 @@
+; 20239130 bTPropertyObject<gCCharacterSensor_PS,eCEntityPropertySet>::vfunction1
+20239130 | 8b4108 | MOV EAX,dword ptr [ECX + 0x8]
+20239133 | c3 | RET

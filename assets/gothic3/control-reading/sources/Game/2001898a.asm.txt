@@ -1,0 +1,4 @@
+; 2001898a ?GetRootObject@gCCharacterControl_PS@@SGPBVbCPropertyObjectBase@@XZ
+2001898a | e991f71f00 | JMP 0x20218120
+; 2001898f gCDamageReceiver_PS::GetLastInflictor
+; 2001898f Ordinal_3645

@@ -1,0 +1,14 @@
+; 2021d420 bTPropertyType<gCCharacterControl_PS,bTPropertyContainer<gESessionKey>_>::vfunction6
+2021d420 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+2021d424 | 85c0 | TEST EAX,EAX
+2021d426 | 7411 | JZ 0x2021d439
+2021d428 | 8b11 | MOV EDX,dword ptr [ECX]
+2021d42a | 50 | PUSH EAX
+2021d42b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+2021d42e | ffd0 | CALL EAX
+2021d430 | 8b10 | MOV EDX,dword ptr [EAX]
+2021d432 | 8bc8 | MOV ECX,EAX
+2021d434 | 8b4218 | MOV EAX,dword ptr [EDX + 0x18]
+2021d437 | ffd0 | CALL EAX
+; 2021d439 LAB_2021d439
+2021d439 | c20400 | RET 0x4

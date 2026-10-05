@@ -1,0 +1,2 @@
+; 20016c61 ?Invalidate@gCCharacterControl_PS@@IAEXXZ
+20016c61 | e97a1f2000 | JMP 0x20218be0

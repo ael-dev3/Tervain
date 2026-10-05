@@ -1,0 +1,2 @@
+; 2002c291 bTPropertyContainer<gESessionKey>::vfunction5
+2002c291 | e90ad61e00 | JMP 0x202198a0

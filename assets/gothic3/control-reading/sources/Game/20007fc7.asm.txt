@@ -1,0 +1,2 @@
+; 20007fc7 bTPropertyType<gCCharacterControl_PS,bTPropertyContainer<gECharacterControlFOR>_>::vfunction6
+20007fc7 | e9e44a2100 | JMP 0x2021cab0

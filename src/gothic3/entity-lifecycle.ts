@@ -61,14 +61,18 @@ export type NativeLifecycleResult<T> =
 class Operation {
   readonly applied: string[] = [];
   readonly attempted: string[] = [];
+  constructor(private readonly guard: () => void) {}
   callback<T>(label: string, body: () => NativeValue<T>): T {
     // Unknown/throwing callbacks can have already applied a native prefix.
-    this.attempted.push(label);
-    const result = fact(body(), label);
+    this.guard(); this.attempted.push(label);
+    const response = body(); this.guard();
+    const result = fact(response, label);
     this.applied.push(label);
     return result;
   }
-  write(label: string, body: () => void): void { body(); this.applied.push(label); }
+  write(label: string, body: () => void): void {
+    this.guard(); body(); this.applied.push(label); this.guard();
+  }
 }
 /** Blocking after a partial prefix is an integration guard, not a native reset.
  * Reconstruct a fresh detached state/host if rollback and replay are required. */
@@ -78,7 +82,9 @@ class LifecycleGuard {
   private blocked: string | null = null;
   failure(): string | null { return this.blocked; }
   protected run<T>(body: (op: Operation) => T): NativeLifecycleResult<T> {
-    const op = new Operation();
+    const op = new Operation(() => {
+      if (this.reentrantAttempt) throw new Error('A callback attempted unsupported reentrant lifecycle mutation.');
+    });
     if (this.active) this.reentrantAttempt = true;
     if (this.active || this.blocked) return { outcome: 'unsupported', value: null,
       required: this.blocked ?? 'Reentrant lifecycle operation is unsupported.', applied: [], attempted: [] };
@@ -133,20 +139,47 @@ export class NativeLiveEntity {
   propertySortProfile: 'default' | 'entity-property-set' = 'default';
   /** A host value, not a browser radius or source enabled flag. */
   sourceReadStage: 'constructor' | 'node-id-read' | 'entity-read-complete' = 'constructor';
+  private constructorFlags: 'entity-pending' | 'entity-final-pending' |
+    'dynamic-pending' | 'dynamic-final-pending' | 'complete' = 'entity-pending';
   constructor(readonly identity: string, readonly propertyOwner: OriginalPropertyOwner,
-    constructorId20: string) {
+    constructorId20: string, initialization: 'complete' | 'deferred-source-construction' = 'complete') {
     if (!identity || !['eCEntity', 'eCSpatialEntity', 'eCDynamicEntity', 'gCEntity'].includes(propertyOwner.kind)) {
       throw new TypeError('An audited concrete entity owner and pointer identity are required.');
     }
     this.propertyId20 = id(constructorId20);
-    // Engine300253e2: ANDc003d838/OR1828, then clear render-priority bits.
-    maskedWrite(this.flags, (~0xc003d838 | 0x1828) >>> 0, 0x1828);
-    maskedWrite(this.flags, 0x3c000, 0);
-    if (propertyOwner.kind === 'eCSpatialEntity') maskedWrite(this.flags, 0x7c, 0x2c);
-    if (propertyOwner.kind === 'eCDynamicEntity' || propertyOwner.kind === 'gCEntity') {
-      maskedWrite(this.flags, 0x3c, 0x2c);
-      maskedWrite(this.flags, 0x800000, 0x800000);
+    if (initialization === 'complete') {
+      this.initializeEntityConstructorFlags();
+      this.completeEntityConstructorFlags();
+      if (this.kind === 'eCDynamicEntity' || this.kind === 'gCEntity') {
+        this.initializeDynamicConstructorFlags(); this.completeDynamicConstructorFlags();
+      }
     }
+  }
+  /** Deferred construction uses the same physical flags after the original
+   * frustum timestamp call. Existing callers retain the completed defaults. */
+  initializeEntityConstructorFlags(): void {
+    if (this.constructorFlags !== 'entity-pending') throw new Error('Entity constructor flags already applied');
+    // Engine304b2a30: ANDc003d838/OR1828 before embedded matrix/box clears.
+    maskedWrite(this.flags, (~0xc003d838 | 0x1828) >>> 0, 0x1828);
+    this.constructorFlags = 'entity-final-pending';
+  }
+  completeEntityConstructorFlags(): void {
+    if (this.constructorFlags !== 'entity-final-pending') throw new Error('Entity constructor flag tail outside source stage');
+    // Original render-priority clear follows the name CString clear.
+    maskedWrite(this.flags, 0x3c000, 0);
+    if (this.kind === 'eCSpatialEntity') maskedWrite(this.flags, 0x7c, 0x2c);
+    this.constructorFlags = this.kind === 'eCDynamicEntity' || this.kind === 'gCEntity'
+      ? 'dynamic-pending' : 'complete';
+  }
+  initializeDynamicConstructorFlags(): void {
+    if (this.constructorFlags !== 'dynamic-pending') throw new Error('Dynamic constructor flags outside source stage');
+    maskedWrite(this.flags, 0x3c, 0x2c);
+    this.constructorFlags = 'dynamic-final-pending';
+  }
+  completeDynamicConstructorFlags(): void {
+    if (this.constructorFlags !== 'dynamic-final-pending') throw new Error('Dynamic constructor flag tail outside source stage');
+    maskedWrite(this.flags, 0x800000, 0x800000);
+    this.constructorFlags = 'complete';
   }
   get kind(): OriginalPropertyOwnerKind { return this.propertyOwner.kind; }
   /** gCEntity inherits eCNode::IsValid: any of its first four ID DWORDs nonzero. */
@@ -154,6 +187,7 @@ export class NativeLiveEntity {
   /** Exact Create chain subset (no cache-in or world activation): reference
    * high bit, frustum backpointer, property-sort comparator, return1. */
   create(): 1 {
+    if (this.constructorFlags !== 'complete') throw new Error('Create requires completed original constructor flags');
     if (this.kind === 'eCSpatialEntity') throw new Error('The spatial Create override is outside the proved dynamic/base Create chain.');
     this.referenceWord = (uint(this.referenceWord) | 0x80000000) >>> 0;
     this.frustumEntity = this;
@@ -248,11 +282,18 @@ export class NativeLivePropertySet<P extends object> {
   constructor(readonly identity: string, readonly className: string, readonly propertyType: number,
     readonly values: P, readonly owner: NativePropertyOwnerStorage,
     public wrapper: NativePropertyObjectReference | null,
-    readonly callbacks: NativePropertyCallbacks, readonly processable: () => NativeValue<boolean>) {
+    readonly callbacks: NativePropertyCallbacks, readonly processable: () => NativeValue<boolean>,
+    /** Concrete virtual override must perform its own inherited raw assignment
+     * before any class-specific effects, preserving a failed callback prefix. */
+    readonly setEntityOverride?: (entity: NativeLiveEntity | null) => NativeValue<void>) {
     if (!identity || !className || className.includes('\0') || propertyType < 0 || propertyType > 127) {
       throw new TypeError('Original pointer/class/PS type0..127 required.');
     }
     uint(propertyType);
+  }
+  setEntity(entity: NativeLiveEntity | null): NativeValue<void> {
+    if (this.setEntityOverride) return this.setEntityOverride(entity);
+    this.owner.write(entity); return known(undefined);
   }
   /** Base bCObjectRefBase validity only. A class-specific override must remain
    * its actual callback; NavPath's pinned slot inherits this exact profile. */
@@ -308,7 +349,7 @@ export class NativeEntityPropertyLifecycle extends LifecycleGuard {
       if (sort) throw new Error('Sorted AddPropertySet(true) comparator/insertion not implemented.');
       const cached = fact(maskedBit(entity.flags, 0x100), 'Entity cached flag');
       if (cached) op.callback('CacheOut(false,false)', () => this.host.cacheOut(entity, false, false));
-      op.callback('PS.SetEntity(owner)', () => { set.owner.write(entity); return known(undefined); });
+      op.callback('PS.SetEntity(owner)', () => set.setEntity(entity));
       op.callback('PS.OnPropertySetAdded', () => set.callbacks.added(set));
       // Native re-fetches wrapper after OnAdded, and again before AddReference.
       if (set.wrapper !== null) op.callback('PS.wrapper.AddReference', () => {
@@ -383,7 +424,7 @@ export class NativeEntityPropertyLifecycle extends LifecycleGuard {
     const cached = fact(maskedBit(entity.flags, 0x100), 'Entity cached flag');
     if (cached) op.callback('CacheOut(false,false)', () => this.host.cacheOut(entity, false, false));
     op.callback('PS.OnPropertySetRemoved', () => set.callbacks.removed(set));
-    op.callback('PS.SetEntity(null)', () => { set.owner.write(null); return known(undefined); });
+    op.callback('PS.SetEntity(null)', () => set.setEntity(null));
     if (entity.propertySets.length !== 0) op.write('entity.propertySets.eraseAt', () => {
       entity.propertyArraySorted = false;
       entity.propertySets.splice(nativeIndex, 1);

@@ -1,0 +1,30 @@
+/* ENTRY 200113e7 | gCCharacterControl_PS::gCCharacterControl_PS | STATUS decompiled | 18 ms */
+
+/* public: __thiscall gCCharacterControl_PS::gCCharacterControl_PS(class gCCharacterControl_PS const
+   &) */
+
+gCCharacterControl_PS * __thiscall
+gCCharacterControl_PS::gCCharacterControl_PS
+          (gCCharacterControl_PS *this,gCCharacterControl_PS *param_1)
+
+{
+  undefined ***pppuVar1;
+  
+                    /* 0x113e7  44  ??0gCCharacterControl_PS@@QAE@ABV0@@Z */
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  pppuVar1 = &(this->gCCharacterControl_PS_data).offset_0x10;
+  this->vftablePtr = &vftable;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<gECharacterControlFOR>::vftable.GetVersion;
+  (this->gCCharacterControl_PS_data).offset_0x14 = DAT_207bd774;
+  pppuVar1 = &(this->gCCharacterControl_PS_data).offset_0x18;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<gESessionKey>::vftable.GetVersion;
+  (this->gCCharacterControl_PS_data).offset_0x1c = DAT_207bd778;
+  bCVector::bCVector((bCVector *)&(this->gCCharacterControl_PS_data).field_0x5c);
+  bCMatrix::bCMatrix((bCMatrix *)&(this->gCCharacterControl_PS_data).field_0x68);
+  Invalidate(this);
+  return this;
+}
+
+

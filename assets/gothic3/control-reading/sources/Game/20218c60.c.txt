@@ -1,0 +1,13 @@
+/* ENTRY 20218c60 | FUN_20218c60 | STATUS decompiled | 6 ms */
+
+void __fastcall FUN_20218c60(gCCharacterControl_PS *param_1)
+
+{
+  gCCharacterControl_PS::Invalidate(param_1);
+                    /* WARNING: Could not recover jumptable at 0x20218c6b. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::Destroy((eCEntityPropertySet *)param_1);
+  return;
+}
+
+
