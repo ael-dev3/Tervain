@@ -1,0 +1,2 @@
+; 200088a5 bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEUseType>_>::vfunction5
+200088a5 | e936084000 | JMP 0x204090e0

@@ -1,0 +1,15 @@
+; 20409bd0 bTPropertyType<gCInteraction_PS,bCString>::vfunction12
+20409bd0 | 56 | PUSH ESI
+20409bd1 | 8bf1 | MOV ESI,ECX
+20409bd3 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+20409bd7 | 85c9 | TEST ECX,ECX
+20409bd9 | 7506 | JNZ 0x20409be1
+20409bdb | 33c0 | XOR EAX,EAX
+20409bdd | 5e | POP ESI
+20409bde | c20400 | RET 0x4
+20409be1 | 8b01 | MOV EAX,dword ptr [ECX]
+20409be3 | 8b10 | MOV EDX,dword ptr [EAX]
+20409be5 | ffd2 | CALL EDX
+20409be7 | 034620 | ADD EAX,dword ptr [ESI + 0x20]
+20409bea | 5e | POP ESI
+20409beb | c20400 | RET 0x4

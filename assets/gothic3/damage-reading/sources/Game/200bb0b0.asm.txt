@@ -1,0 +1,2 @@
+; 200bb0b0 bTPropertyObjectType<gCDamageReceiver_PS,eCEntityPropertySet>::vfunction1
+200bb0b0 | e96321f7ff | JMP 0x2002d218

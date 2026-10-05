@@ -1,0 +1,19 @@
+; 200b33c0 FUN_200b33c0
+200b33c0 | 56 | PUSH ESI
+200b33c1 | 8bf1 | MOV ESI,ECX
+200b33c3 | 8b06 | MOV EAX,dword ptr [ESI]
+200b33c5 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+200b33c8 | 6a00 | PUSH 0x0
+200b33ca | 6880e96520 | PUSH 0x2065e980
+200b33cf | ffd2 | CALL EDX
+200b33d1 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+200b33d5 | d900 | FLD float ptr [EAX]
+200b33d7 | 8b16 | MOV EDX,dword ptr [ESI]
+200b33d9 | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+200b33dc | d95e24 | FSTP float ptr [ESI + 0x24]
+200b33df | 6a00 | PUSH 0x0
+200b33e1 | 6880e96520 | PUSH 0x2065e980
+200b33e6 | 8bce | MOV ECX,ESI
+200b33e8 | ffd0 | CALL EAX
+200b33ea | 5e | POP ESI
+200b33eb | c20400 | RET 0x4

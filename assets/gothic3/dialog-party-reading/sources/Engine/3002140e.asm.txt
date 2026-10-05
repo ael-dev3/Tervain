@@ -1,0 +1,2 @@
+; 3002140e bTPOPureSmartPtr<eCEntityPropertySet>::vfunction11
+3002140e | e98d804100 | JMP 0x304394a0

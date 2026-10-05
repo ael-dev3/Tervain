@@ -1,0 +1,2 @@
+; 20009a25 bTPropertyContainer<gEDamageType>::vfunction5
+20009a25 | e9c69d0a00 | JMP 0x200b37f0

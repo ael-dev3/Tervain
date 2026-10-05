@@ -1,0 +1,32 @@
+/* ENTRY 20317c70 | FUN_20317c70 | STATUS decompiled | 14 ms */
+
+void __thiscall FUN_20317c70(void *this)
+
+{
+  bCMemoryAdmin *this_00;
+  void *pvVar1;
+  
+                    /* inlined constructor or destructor (approx location) for gCParty_PS */
+  *(gCParty_PS_vftable **)this = &gCParty_PS::vftable;
+  if (*(int *)((int)this + 0x3c) != 0) {
+    thunk_FUN_20078cc0(*(int *)((int)this + 0x3c),*(undefined4 *)((int)this + 0x44));
+    pvVar1 = *(void **)((int)this + 0x3c);
+    this_00 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this_00,pvVar1);
+    *(undefined4 *)((int)this + 0x3c) = 0;
+    *(undefined4 *)((int)this + 0x40) = 0;
+    *(undefined4 *)((int)this + 0x44) = 0;
+  }
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<gEPartyMemberType> */
+  *(bCObjectBase *)((int)this + 0x30) =
+       (bCObjectBase)&bTPropertyContainer<gEPartyMemberType>::vftable;
+  bCObjectBase::~bCObjectBase((bCObjectBase *)((int)this + 0x30));
+  eCEntityProxy::~eCEntityProxy((eCEntityProxy *)((int)this + 0x14));
+                    /* WARNING: Could not recover jumptable at 0x20317ccc. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::~eCEntityPropertySet(this);
+  return;
+}
+
+

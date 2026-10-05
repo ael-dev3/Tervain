@@ -1,0 +1,11 @@
+/* ENTRY 2000d7ab | bTPropertyType<gCDamageReceiver_PS,bTPropertyContainer<gEDamageType>_>::vfunction1 | STATUS decompiled | 3 ms */
+
+bTPropertyType<gCDamageReceiver_PS,bTPropertyContainer<gEDamageType>_>_vftable * __thiscall
+bTPropertyType<gCDamageReceiver_PS,bTPropertyContainer<gEDamageType>_>::vfunction1
+          (bTPropertyType<gCDamageReceiver_PS,bTPropertyContainer<gEDamageType>_> *this)
+
+{
+  return this[7].vftablePtr;
+}
+
+

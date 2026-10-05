@@ -1,0 +1,20 @@
+/* ENTRY 204103c0 | gCInteractionAdmin::~gCInteractionAdmin | STATUS decompiled | 8 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined * __thiscall gCInteractionAdmin::~gCInteractionAdmin(void)
+
+{
+  if ((_DAT_207cf404 & 1) == 0) {
+    _DAT_207cf404 = _DAT_207cf404 | 1;
+    eCEngineComponentBase::eCEngineComponentBase((eCEngineComponentBase *)&DAT_207cf3dc);
+    _DAT_207cf3dc = &vftable;
+    DAT_207cf3f0 = 0;
+    _DAT_207cf3f4 = 0;
+    _DAT_207cf3f8 = 0;
+    _atexit(~gCInteractionAdmin);
+  }
+  return &DAT_207cf3dc;
+}
+
+

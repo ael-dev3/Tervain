@@ -1,0 +1,10 @@
+/* ENTRY 1003aea0 | FUN_1003aea0 | STATUS decompiled | 3 ms */
+
+bCMatrix * __thiscall FUN_1003aea0(bCMatrix *param_1,bCMatrix *param_2)
+
+{
+  bCMatrix::GetInverted(param_1,param_2);
+  return param_2;
+}
+
+

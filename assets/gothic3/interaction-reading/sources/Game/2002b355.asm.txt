@@ -1,0 +1,2 @@
+; 2002b355 gCInteraction_PS::OnExitProcessingRange
+2002b355 | e996943d00 | JMP 0x204047f0

@@ -1,0 +1,2 @@
+; 2001de8a gCDialog_PS::GetTalkedToByCount
+2001de8a | e9a1da1e00 | JMP 0x2020b930

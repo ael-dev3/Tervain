@@ -1,0 +1,49 @@
+/* ENTRY 200071c1 | thunk_FUN_2007a810 | STATUS decompiled | 23 ms */
+
+bCIStream * __thiscall thunk_FUN_2007a810(int *param_1,bCIStream *param_2)
+
+{
+  ulong uVar1;
+  bCMemoryAdmin *this;
+  void *pvVar2;
+  eCEntityProxy *this_00;
+  int iVar3;
+  int iVar4;
+  ulong uVar5;
+  uchar uStack_5;
+  ulong uStack_4;
+  
+  bCIStream::operator>>(param_2,&uStack_5);
+  uStack_4 = 0;
+  bCIStream::operator>>(param_2,&uStack_4);
+  uVar1 = uStack_4;
+  if ((uStack_4 != 0) && (iVar4 = param_1[2], iVar4 < (int)uStack_4)) {
+    uVar5 = uStack_4 * 0x1c;
+    pvVar2 = (void *)*param_1;
+    this = bCMemoryAdmin::GetInstance();
+    pvVar2 = bCMemoryAdmin::Realloc(this,pvVar2,uVar5);
+    *param_1 = (int)pvVar2;
+    eCEntityProxy::~eCEntityProxy
+              ((eCEntityProxy *)param_1[2],(eCEntityProxy *)((int)pvVar2 + param_1[2] * 0x1c),
+               uVar1 - iVar4);
+    param_1[2] = uVar1;
+  }
+  if ((int)uVar1 < param_1[1]) {
+    thunk_FUN_20078cc0(*param_1 + uVar1 * 0x1c,param_1[1] - uVar1);
+    eCEntityProxy::~eCEntityProxy
+              (this_00,(eCEntityProxy *)(*param_1 + uVar1 * 0x1c),param_1[1] - uVar1);
+  }
+  iVar4 = 0;
+  param_1[1] = uVar1;
+  if (0 < (int)uVar1) {
+    iVar3 = 0;
+    do {
+      eCEntityProxy::operator<<((eCEntityProxy *)(*param_1 + iVar3),(bCIStream *)param_2);
+      iVar4 = iVar4 + 1;
+      iVar3 = iVar3 + 0x1c;
+    } while (iVar4 < param_1[1]);
+  }
+  return param_2;
+}
+
+

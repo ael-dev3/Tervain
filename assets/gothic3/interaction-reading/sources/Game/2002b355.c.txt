@@ -1,0 +1,47 @@
+/* ENTRY 2002b355 | gCInteraction_PS::OnExitProcessingRange | STATUS decompiled | 31 ms */
+
+/* protected: virtual void __thiscall gCInteraction_PS::OnExitProcessingRange(void) */
+
+void __thiscall gCInteraction_PS::OnExitProcessingRange(gCInteraction_PS *this)
+
+{
+  undefined1 *this_00;
+  char cVar1;
+  bool bVar2;
+  eCEntity *peVar3;
+  eCApplication *peVar4;
+  int *piVar5;
+  gCInteractionAdmin *pgVar6;
+  undefined4 uVar7;
+  TypeDescriptor *pTVar8;
+  gCInteraction_PS *pgStack_4;
+  
+                    /* 0x2b355  5425  ?OnExitProcessingRange@gCInteraction_PS@@MAEXXZ */
+  pgStack_4 = this;
+  peVar3 = (*this->vftablePtr->GetEntity)(this);
+  if (peVar3 != (eCEntity *)0x0) {
+    pTVar8 = &eCApplication::RTTI_Type_Descriptor;
+    uVar7 = 0;
+    peVar4 = eCApplication::GetInstance();
+    piVar5 = (int *)___RTDynamicCast(peVar4,uVar7,pTVar8);
+    cVar1 = (**(code **)(*piVar5 + 0x270))();
+    if ((cVar1 == '\x01') && (piVar5 = (int *)thunk_FUN_200a4bb0(), piVar5 != (int *)0x0)) {
+      this_00 = &(this->gCInteraction_PS_data).field_0xa4;
+      bVar2 = bCString::IsEmpty((bCString *)this_00);
+      if (bVar2) {
+        bCString::bCString((bCString *)&pgStack_4,"OnExitProcessingRange");
+        (**(code **)(*piVar5 + 0xbc))(&pgStack_4,peVar3,0,0);
+        bCString::~bCString((bCString *)&stack0xffffffec);
+        pgVar6 = (gCInteractionAdmin *)gCInteractionAdmin::GetInstance();
+        gCInteractionAdmin::RemoveInteractionInROI(pgVar6,(gCInteraction_PS *)this);
+        return;
+      }
+      (**(code **)(*piVar5 + 0xbc))(this_00,peVar3,0,0);
+    }
+  }
+  pgVar6 = (gCInteractionAdmin *)gCInteractionAdmin::GetInstance();
+  gCInteractionAdmin::RemoveInteractionInROI(pgVar6,(gCInteraction_PS *)this);
+  return;
+}
+
+

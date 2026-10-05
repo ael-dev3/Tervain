@@ -1,0 +1,13 @@
+/* ENTRY 2013b0d0 | FUN_2013b0d0 | STATUS decompiled | 3 ms */
+
+void __fastcall FUN_2013b0d0(eCEntityPropertySet *param_1)
+
+{
+  bCVector::Clear((bCVector *)(param_1 + 99));
+                    /* WARNING: Could not recover jumptable at 0x2013b0e2. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::OnPostProcess(param_1);
+  return;
+}
+
+

@@ -1,0 +1,16 @@
+/* ENTRY 20002b21 | gCDialog_PS::GetTalkedToBy | STATUS decompiled | 9 ms */
+
+/* public: class eCEntity * __thiscall gCDialog_PS::GetTalkedToBy(int)const  */
+
+eCEntity * __thiscall gCDialog_PS::GetTalkedToBy(gCDialog_PS *this,int param_1)
+
+{
+  eCEntity *peVar1;
+  
+                    /* 0x2b21  4532  ?GetTalkedToBy@gCDialog_PS@@QBEPAVeCEntity@@H@Z */
+  peVar1 = eCEntityProxy::operator_class_eCEntity_
+                     ((eCEntityProxy *)((this->gCDialog_PS_data).offset_0x48 + param_1 * 0x1c));
+  return peVar1;
+}
+
+

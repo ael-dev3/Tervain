@@ -1,0 +1,22 @@
+/* ENTRY 2002bcec | gCInteraction_PS::OnNotifyPropertyValueChangedExitEx | STATUS decompiled | 8 ms */
+
+/* public: virtual bool __thiscall gCInteraction_PS::OnNotifyPropertyValueChangedExitEx(char const
+   *,bool) */
+
+bool __thiscall
+gCInteraction_PS::OnNotifyPropertyValueChangedExitEx
+          (gCInteraction_PS *this,char *param_1,bool param_2)
+
+{
+  bool bVar1;
+  
+                    /* 0x2bcec  5496
+                       ?OnNotifyPropertyValueChangedExitEx@gCInteraction_PS@@UAE_NPBD_N@Z */
+                    /* WARNING: Could not recover jumptable at 0x20403f40. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bVar1 = eCEntityPropertySet::OnNotifyPropertyValueChangedExitEx
+                    ((eCEntityPropertySet *)this,param_1,param_2);
+  return bVar1;
+}
+
+

@@ -1,0 +1,2 @@
+; 20027214 bTPropertyObject<gCInteraction_PS,eCEntityPropertySet>::vfunction9
+20027214 | e9e7e93d00 | JMP 0x20405c00

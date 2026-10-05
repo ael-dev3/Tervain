@@ -1,0 +1,42 @@
+; 2020bec0 FUN_2020bec0
+2020bec0 | 53 | PUSH EBX
+2020bec1 | 8b5c2408 | MOV EBX,dword ptr [ESP + 0x8]
+2020bec5 | 85db | TEST EBX,EBX
+2020bec7 | 55 | PUSH EBP
+2020bec8 | 56 | PUSH ESI
+2020bec9 | 8bf1 | MOV ESI,ECX
+2020becb | 7408 | JZ 0x2020bed5
+2020becd | 8bcb | MOV ECX,EBX
+2020becf | ff15bc877d20 | CALL dword ptr [0x207d87bc]
+2020bed5 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+2020bed8 | 85c9 | TEST ECX,ECX
+2020beda | 7415 | JZ 0x2020bef1
+2020bedc | ff15c0877d20 | CALL dword ptr [0x207d87c0]
+2020bee2 | 83f801 | CMP EAX,0x1
+2020bee5 | 750a | JNZ 0x2020bef1
+2020bee7 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+2020beea | 8b01 | MOV EAX,dword ptr [ECX]
+2020beec | 8b5014 | MOV EDX,dword ptr [EAX + 0x14]
+2020beef | ffd2 | CALL EDX
+2020bef1 | 8b2dc4877d20 | MOV EBP,dword ptr [0x207d87c4]
+2020bef7 | 57 | PUSH EDI
+2020bef8 | 8b7e08 | MOV EDI,dword ptr [ESI + 0x8]
+2020befb | 85ff | TEST EDI,EDI
+2020befd | 740e | JZ 0x2020bf0d
+2020beff | 6a00 | PUSH 0x0
+2020bf01 | 8bcf | MOV ECX,EDI
+2020bf03 | ffd5 | CALL EBP
+2020bf05 | 8bcf | MOV ECX,EDI
+2020bf07 | ff15c8877d20 | CALL dword ptr [0x207d87c8]
+2020bf0d | 85db | TEST EBX,EBX
+2020bf0f | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+2020bf16 | 5f | POP EDI
+2020bf17 | 7405 | JZ 0x2020bf1e
+2020bf19 | 56 | PUSH ESI
+2020bf1a | 8bcb | MOV ECX,EBX
+2020bf1c | ffd5 | CALL EBP
+2020bf1e | 895e08 | MOV dword ptr [ESI + 0x8],EBX
+2020bf21 | 5e | POP ESI
+2020bf22 | 5d | POP EBP
+2020bf23 | 5b | POP EBX
+2020bf24 | c20400 | RET 0x4

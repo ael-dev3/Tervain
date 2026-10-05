@@ -1,0 +1,21 @@
+/* ENTRY 100052ea | bCClock::bCClock | STATUS decompiled | 5 ms */
+
+/* public: __thiscall bCClock::bCClock(void) */
+
+void __thiscall bCClock::bCClock(bCClock *this)
+
+{
+                    /* 0x52ea  63  ??0bCClock@@QAE@XZ */
+  *(undefined4 *)this = 0x3f800000;
+  *(undefined4 *)(this + 0x14) = 0;
+  *(undefined4 *)(this + 4) = 0x15180;
+  *(undefined4 *)(this + 8) = 0x16d;
+  *(undefined4 *)(this + 0xc) = 0;
+  *(undefined4 *)(this + 0x10) = 0;
+  *(undefined4 *)(this + 0x18) = 0;
+  *(undefined4 *)(this + 0x1c) = 0xbf800000;
+  this[0x20] = (bCClock)0x1;
+  return;
+}
+
+

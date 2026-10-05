@@ -1,0 +1,2 @@
+; 2002b3fa thunk_FUN_2020fa30
+2002b3fa | e931461e00 | JMP 0x2020fa30

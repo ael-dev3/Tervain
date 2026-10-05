@@ -1,0 +1,2 @@
+; 10007f81 bCObjectRefBase::IsValid
+10007f81 | e9aa250400 | JMP 0x1004a530

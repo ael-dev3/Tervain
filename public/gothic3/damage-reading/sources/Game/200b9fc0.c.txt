@@ -1,0 +1,22 @@
+/* ENTRY 200b9fc0 | bTPropertyContainer<gEDamageType>::bTPropertyContainer<gEDamageType> | STATUS decompiled | 11 ms */
+
+bTPropertyContainer<gEDamageType> * __thiscall
+bTPropertyContainer<gEDamageType>::bTPropertyContainer<gEDamageType>
+          (bTPropertyContainer<gEDamageType> *this)
+
+{
+  bCObjectBase **this_00;
+  
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  this_00 = &this[2].bTPropertyContainer<gEDamageType>_data.offset_0x8;
+                    /* inlined constructor: gCDamageReceiver_PS::gCDamageReceiver_PS */
+  this->vftablePtr = (bTPropertyContainer<gEDamageType>_vftable *)&gCDamageReceiver_PS::vftable;
+  bCObjectBase::bCObjectBase((bCObjectBase *)this_00);
+  *this_00 = (bCObjectBase *)&vftable;
+  this[3].vftablePtr = DAT_207b62a4;
+  eCEntityProxy::eCEntityProxy
+            ((eCEntityProxy *)&this[3].bTPropertyContainer<gEDamageType>_data.offset_0x4);
+  return this;
+}
+
+

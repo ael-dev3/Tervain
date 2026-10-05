@@ -1,0 +1,2 @@
+; 10003ba7 bCString::bCString
+10003ba7 | e944fa0000 | JMP 0x100135f0

@@ -1,0 +1,2 @@
+; 100089e5 bCSpyAdmin::Create
+100089e5 | e9162e0400 | JMP 0x1004b800

@@ -1,0 +1,4 @@
+; 1004a1c0 bCObjectBase::~bCObjectBase
+1004a1c0 | 8bc1 | MOV EAX,ECX
+1004a1c2 | c7001c7e0e10 | MOV dword ptr [EAX],0x100e7e1c
+1004a1c8 | c3 | RET

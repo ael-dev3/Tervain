@@ -1,0 +1,3 @@
+; 2013fd00 bTPropertyObject<gCFocus_PS,eCEntityPropertySet>::vfunction4
+2013fd00 | 8b490c | MOV ECX,dword ptr [ECX + 0xc]
+2013fd03 | ff2578877d20 | JMP dword ptr [0x207d8778]

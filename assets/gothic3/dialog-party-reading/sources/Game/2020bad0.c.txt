@@ -1,0 +1,23 @@
+/* ENTRY 2020bad0 | FUN_2020bad0 | STATUS decompiled | 8 ms */
+
+undefined4 __fastcall FUN_2020bad0(bCObjectRefBase *param_1)
+
+{
+  eCEntityProxy local_1c;
+  
+  bCObjectRefBase::PostInitializeProperties(param_1);
+  thunk_FUN_200799b0(0,0xffffffff);
+  if (0 < (int)param_1[0x14].bCObjectBase) {
+    thunk_FUN_20078cc0(param_1[0x13].bCObjectBase,param_1[0x14].bCObjectBase);
+    eCEntityProxy::~eCEntityProxy
+              ((eCEntityProxy *)param_1[0x14].bCObjectBase,
+               (eCEntityProxy *)param_1[0x13].bCObjectBase,(int)param_1[0x14].bCObjectBase);
+  }
+  param_1[0x14].bCObjectBase = (bCObjectBase)0x0;
+  eCEntityProxy::eCEntityProxy(&local_1c,(eCEntity *)0x0);
+  eCEntityProxy::operator=((eCEntityProxy *)(param_1 + 0xc),(eCEntityProxy *)&local_1c);
+  eCEntityProxy::~eCEntityProxy(&local_1c);
+  return 1;
+}
+
+

@@ -1,0 +1,15 @@
+; 20318bf0 bTPropertyObject<gCParty_PS,eCEntityPropertySet>::scalar_deleting_destructor
+20318bf0 | 56 | PUSH ESI
+20318bf1 | 8bf1 | MOV ESI,ECX
+20318bf3 | c706bc756920 | MOV dword ptr [ESI],0x206975bc
+20318bf9 | e835facfff | CALL 0x20018633
+20318bfe | 8bce | MOV ECX,ESI
+20318c00 | e8128acfff | CALL 0x20011617
+20318c05 | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+20318c0a | 7409 | JZ 0x20318c15
+20318c0c | 56 | PUSH ESI
+20318c0d | e823ad1400 | CALL 0x20463935
+20318c12 | 83c404 | ADD ESP,0x4
+20318c15 | 8bc6 | MOV EAX,ESI
+20318c17 | 5e | POP ESI
+20318c18 | c20400 | RET 0x4

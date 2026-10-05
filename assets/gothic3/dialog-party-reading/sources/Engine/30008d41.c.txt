@@ -1,0 +1,26 @@
+/* ENTRY 30008d41 | eCEntityProxy::operator_class_eCEntity_const* | STATUS decompiled | 11 ms */
+
+/* public: __thiscall eCEntityProxy::operator class eCEntity const *(void)const  */
+
+eCEntity * __thiscall eCEntityProxy::operator_class_eCEntity_const_(eCEntityProxy *this)
+
+{
+  eCEntityProxyInternal *this_00;
+  bool bVar1;
+  eCEntity *peVar2;
+  
+                    /* 0x8d41  2006  ??BeCEntityProxy@@QBEPBVeCEntity@@XZ */
+  this_00 = (this->eCEntityProxy_data).offset_0x0;
+  if ((this_00 != (eCEntityProxyInternal *)0x0) &&
+     (peVar2 = eCEntityProxyInternal::GetEntity(this_00), peVar2 != (eCEntity *)0x0)) {
+    return peVar2;
+  }
+  peVar2 = (eCEntity *)0x0;
+  bVar1 = bCPropertyID::IsValid((bCPropertyID *)&(this->eCEntityProxy_data).field_0x4);
+  if ((bVar1) && (peVar2 = (*this->vftablePtr->ResolveEntity)(this), peVar2 != (eCEntity *)0x0)) {
+    SetEntity(this,peVar2);
+  }
+  return peVar2;
+}
+
+

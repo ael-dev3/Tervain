@@ -1,0 +1,24 @@
+/* ENTRY 10004d59 | bCObjectRefBase::Destroy | STATUS decompiled | 9 ms */
+
+/* public: virtual void __thiscall bCObjectRefBase::Destroy(void)
+   bCObjectRefBase member function inherited by bCThreadObjectRefBase
+   bCObjectRefBase member function inherited by bCObsoleteClass */
+
+void __thiscall bCObjectRefBase::Destroy(bCObjectRefBase *this)
+
+{
+  undefined4 *puVar1;
+  bool bVar2;
+  
+                    /* 0x4d59  1939  ?Destroy@bCObjectRefBase@@UAEXXZ */
+  bVar2 = (*this->vftablePtr->IsValid)(this);
+  if (bVar2) {
+    puVar1 = &(this->bCObjectRefBase_data).offset_0x4;
+    *puVar1 = *puVar1 & 0x7fffffff;
+    bCObjectBase::Destroy((bCObjectBase *)this);
+    return;
+  }
+  return;
+}
+
+

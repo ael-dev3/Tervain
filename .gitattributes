@@ -187,3 +187,31 @@ assets/gothic3/routine-reading/sources/** -whitespace
 public/gothic3/npc-reading/sources/** -whitespace
 public/gothic3/inventory-reading/sources/** -whitespace
 public/gothic3/routine-reading/sources/** -whitespace
+
+tools/gothic3/freeze_hero_properties_checkpoint.py -text -eol
+tools/gothic3/bounded_native_capture.py -text -eol
+assets/gothic3/hero-properties-checkpoint.json -text -eol
+src/gothic3/interaction-reading.ts -text -eol whitespace=cr-at-eol
+tools/gothic3/research_interaction_reading.py -text -eol whitespace=cr-at-eol
+assets/gothic3/interaction-reading/** -text -eol
+assets/gothic3/interaction-reading/sources/** -whitespace
+public/gothic3/interaction-reading/** -text -eol
+public/gothic3/interaction-reading/sources/** -whitespace
+src/gothic3/damage-reading.ts -text -eol whitespace=cr-at-eol
+tools/gothic3/research_damage_reading.py -text -eol whitespace=cr-at-eol
+assets/gothic3/damage-reading/** -text -eol
+assets/gothic3/damage-reading/sources/** -whitespace
+public/gothic3/damage-reading/** -text -eol
+public/gothic3/damage-reading/sources/** -whitespace
+src/gothic3/focus-reading.ts -text -eol whitespace=cr-at-eol
+tools/gothic3/research_focus_reading.py -text -eol whitespace=cr-at-eol
+assets/gothic3/focus-reading/** -text -eol
+assets/gothic3/focus-reading/sources/** -whitespace
+public/gothic3/focus-reading/** -text -eol
+public/gothic3/focus-reading/sources/** -whitespace
+src/gothic3/dialog-party-reading.ts -text -eol whitespace=cr-at-eol
+tools/gothic3/research_dialog_party_reading.py -text -eol whitespace=cr-at-eol
+assets/gothic3/dialog-party-reading/** -text -eol
+assets/gothic3/dialog-party-reading/sources/** -whitespace
+public/gothic3/dialog-party-reading/** -text -eol
+public/gothic3/dialog-party-reading/sources/** -whitespace

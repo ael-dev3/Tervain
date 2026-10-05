@@ -1,0 +1,15 @@
+/* ENTRY 200028f6 | gCDialog_PS::GetTradeCategory | STATUS decompiled | 8 ms */
+
+/* public: class bTPropertyContainer<enum gETradeCategory> const & __thiscall
+   gCDialog_PS::GetTradeCategory(void)const  */
+
+bTPropertyContainer<gETradeCategory> * __thiscall gCDialog_PS::GetTradeCategory(gCDialog_PS *this)
+
+{
+                    /* 0x28f6  4591
+                       ?GetTradeCategory@gCDialog_PS@@QBEABV?$bTPropertyContainer@W4gETradeCategory@@@@XZ
+                        */
+  return (bTPropertyContainer<gETradeCategory> *)&(this->gCDialog_PS_data).offset_0x1c;
+}
+
+

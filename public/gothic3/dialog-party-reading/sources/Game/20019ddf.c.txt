@@ -1,0 +1,18 @@
+/* ENTRY 20019ddf | gCDialog_PS::SetTalkingTo | STATUS decompiled | 11 ms */
+
+/* public: void __thiscall gCDialog_PS::SetTalkingTo(class eCEntity *) */
+
+void __thiscall gCDialog_PS::SetTalkingTo(gCDialog_PS *this,eCEntity *param_1)
+
+{
+  eCEntityProxy eStack_1c;
+  
+                    /* 0x19ddf  7112  ?SetTalkingTo@gCDialog_PS@@QAEXPAVeCEntity@@@Z */
+  eCEntityProxy::eCEntityProxy(&eStack_1c,param_1);
+  eCEntityProxy::operator=
+            ((eCEntityProxy *)&(this->gCDialog_PS_data).field_0x2c,(eCEntityProxy *)&eStack_1c);
+  eCEntityProxy::~eCEntityProxy(&eStack_1c);
+  return;
+}
+
+

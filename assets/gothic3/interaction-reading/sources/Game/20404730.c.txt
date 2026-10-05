@@ -1,0 +1,42 @@
+/* ENTRY 20404730 | FUN_20404730 | STATUS decompiled | 18 ms */
+
+void __fastcall FUN_20404730(gCInteraction_PS *param_1)
+
+{
+  char cVar1;
+  bool bVar2;
+  gCInteractionAdmin *this;
+  int iVar3;
+  eCApplication *peVar4;
+  int *piVar5;
+  undefined4 uVar6;
+  TypeDescriptor *pTVar7;
+  gCInteraction_PS *pgVar8;
+  gCInteraction_PS *pgStack_4;
+  
+  pgVar8 = param_1;
+  pgStack_4 = param_1;
+  this = (gCInteractionAdmin *)gCInteractionAdmin::GetInstance();
+  gCInteractionAdmin::AddInteractionInROI(this,pgVar8);
+  iVar3 = (**(code **)(*(int *)param_1 + 0x68))();
+  if (iVar3 != 0) {
+    pTVar7 = &eCApplication::RTTI_Type_Descriptor;
+    uVar6 = 0;
+    peVar4 = eCApplication::GetInstance();
+    piVar5 = (int *)___RTDynamicCast(peVar4,uVar6,pTVar7);
+    cVar1 = (**(code **)(*piVar5 + 0x270))();
+    if ((cVar1 == '\x01') && (piVar5 = (int *)thunk_FUN_200a4bb0(), piVar5 != (int *)0x0)) {
+      bVar2 = bCString::IsEmpty((bCString *)(param_1 + 0xa4));
+      if (bVar2) {
+        bCString::bCString((bCString *)&pgStack_4,"OnEnterProcessingRange");
+        (**(code **)(*piVar5 + 0xbc))(&pgStack_4,iVar3,0);
+        bCString::~bCString((bCString *)&stack0xffffffec);
+        return;
+      }
+      (**(code **)(*piVar5 + 0xbc))((bCString *)(param_1 + 0xa4),iVar3,0);
+    }
+  }
+  return;
+}
+
+

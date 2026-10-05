@@ -1,0 +1,17 @@
+/* ENTRY 2020a4b0 | bTPropertyType<gCClock_PS,unsigned_long>::vfunction6 | STATUS decompiled | 4 ms */
+
+void __thiscall
+bTPropertyType<gCClock_PS,unsigned_long>::vfunction6
+          (bTPropertyType<gCClock_PS,unsigned_long> *this,int param_1)
+
+{
+  bTPropertyType<gCAnchor_PS,unsigned_long>_vftable *pbVar1;
+  
+  if (param_1 != 0) {
+    pbVar1 = (*this->vftablePtr->vfunction26)(this,(undefined4 *)param_1);
+    pbVar1->vfunction1 = (vfunction1 *)0x0;
+  }
+  return;
+}
+
+

@@ -1,0 +1,6 @@
+; 20404ca0 bTPropertyContainer<gEUseType>::vfunction8
+20404ca0 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+20404ca4 | 8b5004 | MOV EDX,dword ptr [EAX + 0x4]
+20404ca7 | 895104 | MOV dword ptr [ECX + 0x4],EDX
+20404caa | b801000000 | MOV EAX,0x1
+20404caf | c20400 | RET 0x4

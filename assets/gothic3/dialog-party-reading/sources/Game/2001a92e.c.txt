@@ -1,0 +1,12 @@
+/* ENTRY 2001a92e | gCDialog_PS::IsProcessable | STATUS decompiled | 5 ms */
+
+/* public: virtual bool __thiscall gCDialog_PS::IsProcessable(void)const  */
+
+bool __thiscall gCDialog_PS::IsProcessable(gCDialog_PS *this)
+
+{
+                    /* 0x1a92e  5205  ?IsProcessable@gCDialog_PS@@UBE_NXZ */
+  return true;
+}
+
+

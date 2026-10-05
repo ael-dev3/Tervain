@@ -1,0 +1,15 @@
+/* ENTRY 304814b0 | FUN_304814b0 | STATUS decompiled | 5 ms */
+
+void __fastcall FUN_304814b0(bCObjectBase *param_1)
+
+{
+  (**(code **)((int)*param_1 + 0xb4))(0);
+  param_1[3] = (bCObjectBase)0x0;
+  *(byte *)(param_1 + 4) = *(byte *)(param_1 + 4) & 0xf1 | 1;
+                    /* WARNING: Could not recover jumptable at 0x304814d3. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCObjectRefBase::Destroy((bCObjectRefBase *)param_1);
+  return;
+}
+
+

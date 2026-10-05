@@ -1,0 +1,32 @@
+/* ENTRY 1009a920 | FUN_1009a920 | STATUS decompiled | 9 ms */
+
+uint __thiscall FUN_1009a920(bCAccessorPropertyObject *param_1,bCIStream *param_2)
+
+{
+  bCPropertyObjectSingleton *pbVar1;
+  bCPropertyObjectBase *pbVar2;
+  bCIStream *this;
+  bCAccessorPropertyObject *local_4;
+  
+  this = param_2;
+  local_4 = param_1;
+  bCIStream::operator>>((bCIStream *)param_2,(ushort *)&local_4);
+  bCIStream::operator>>((bCIStream *)this,(bool *)&param_2);
+  if (param_2._0_1_ == true) {
+    pbVar2 = *(bCPropertyObjectBase **)(param_1 + 4);
+    if (pbVar2 != (bCPropertyObjectBase *)0x0) {
+      pbVar1 = (bCPropertyObjectSingleton *)bCPropertyObjectSingleton::GetInstance();
+      bCPropertyObjectSingleton::ReadObject(pbVar1,this,pbVar2);
+      return (uint)local_4 & 0xffff;
+    }
+    pbVar1 = (bCPropertyObjectSingleton *)bCPropertyObjectSingleton::GetInstance();
+    pbVar2 = bCPropertyObjectSingleton::ReadNewObject(pbVar1,this);
+    bCAccessorPropertyObject::SetInstance(param_1,pbVar2);
+    if (pbVar2 != (bCPropertyObjectBase *)0x0) {
+      (**(code **)(*(int *)pbVar2 + 0x34))();
+    }
+  }
+  return (uint)local_4 & 0xffff;
+}
+
+

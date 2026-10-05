@@ -1,0 +1,15 @@
+; 20408050 bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEFocusPriority>_>::vfunction12
+20408050 | 56 | PUSH ESI
+20408051 | 8bf1 | MOV ESI,ECX
+20408053 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+20408057 | 85c9 | TEST ECX,ECX
+20408059 | 7506 | JNZ 0x20408061
+2040805b | 33c0 | XOR EAX,EAX
+2040805d | 5e | POP ESI
+2040805e | c20400 | RET 0x4
+20408061 | 8b01 | MOV EAX,dword ptr [ECX]
+20408063 | 8b10 | MOV EDX,dword ptr [EAX]
+20408065 | ffd2 | CALL EDX
+20408067 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+2040806a | 5e | POP ESI
+2040806b | c20400 | RET 0x4

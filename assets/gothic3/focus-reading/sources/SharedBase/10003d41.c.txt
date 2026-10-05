@@ -1,0 +1,13 @@
+/* ENTRY 10003d41 | bCCriticalSectionWin32::Acquire | STATUS decompiled | 3 ms */
+
+/* public: void __thiscall bCCriticalSectionWin32::Acquire(void) */
+
+void __thiscall bCCriticalSectionWin32::Acquire(bCCriticalSectionWin32 *this)
+
+{
+                    /* 0x3d41  1534  ?Acquire@bCCriticalSectionWin32@@QAEXXZ */
+  EnterCriticalSection((LPCRITICAL_SECTION)this);
+  return;
+}
+
+

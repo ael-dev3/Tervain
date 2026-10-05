@@ -1,0 +1,2 @@
+; 2002e5b9 gCInteractionAdmin::GetInstance
+2002e5b9 | e9021e3e00 | JMP 0x204103c0

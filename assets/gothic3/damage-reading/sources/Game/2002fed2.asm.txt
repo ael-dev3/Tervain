@@ -1,0 +1,2 @@
+; 2002fed2 bTPropertyObjectType<gCDamage_PS,eCEntityPropertySet>::vfunction1
+2002fed2 | e9d94c0800 | JMP 0x200b4bb0

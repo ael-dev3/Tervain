@@ -1,0 +1,2 @@
+; 20403f40 ENGINE.DLL::eCEntityPropertySet::OnNotifyPropertyValueChangedExitEx
+20403f40 | ff2548727d20 | JMP dword ptr [0x207d7248]

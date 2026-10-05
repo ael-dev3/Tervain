@@ -1,0 +1,57 @@
+; 200b4bc0 bTPropertyObject<gCDamage_PS,eCEntityPropertySet>::vfunction6
+200b4bc0 | 53 | PUSH EBX
+200b4bc1 | 56 | PUSH ESI
+200b4bc2 | 8b74240c | MOV ESI,dword ptr [ESP + 0xc]
+200b4bc6 | 57 | PUSH EDI
+200b4bc7 | 56 | PUSH ESI
+200b4bc8 | 8bd9 | MOV EBX,ECX
+200b4bca | ff1504877d20 | CALL dword ptr [0x207d8704]
+200b4bd0 | 0fb7f8 | MOVZX EDI,AX
+200b4bd3 | 8d442410 | LEA EAX,[ESP + 0x10]
+200b4bd7 | 50 | PUSH EAX
+200b4bd8 | 8bce | MOV ECX,ESI
+200b4bda | c744241400000000 | MOV dword ptr [ESP + 0x14],0x0
+200b4be2 | ff1560877d20 | CALL dword ptr [0x207d8760]
+200b4be8 | e82f6bf5ff | CALL 0x2000b71c
+200b4bed | 50 | PUSH EAX
+200b4bee | e81ac3f7ff | CALL 0x20030f0d
+200b4bf3 | 8bc8 | MOV ECX,EAX
+200b4bf5 | ff1508877d20 | CALL dword ptr [0x207d8708]
+200b4bfb | 84c0 | TEST AL,AL
+200b4bfd | 743c | JZ 0x200b4c3b
+200b4bff | 8b4c2410 | MOV ECX,dword ptr [ESP + 0x10]
+200b4c03 | 55 | PUSH EBP
+200b4c04 | 8b2de0887d20 | MOV EBP,dword ptr [0x207d88e0]
+200b4c0a | 51 | PUSH ECX
+200b4c0b | ffd5 | CALL EBP
+200b4c0d | 8bc8 | MOV ECX,EAX
+200b4c0f | ff1564877d20 | CALL dword ptr [0x207d8764]
+200b4c15 | 8b16 | MOV EDX,dword ptr [ESI]
+200b4c17 | 8b5204 | MOV EDX,dword ptr [EDX + 0x4]
+200b4c1a | 8bd8 | MOV EBX,EAX
+200b4c1c | 8b442414 | MOV EAX,dword ptr [ESP + 0x14]
+200b4c20 | 50 | PUSH EAX
+200b4c21 | 53 | PUSH EBX
+200b4c22 | 8bce | MOV ECX,ESI
+200b4c24 | ffd2 | CALL EDX
+200b4c26 | 53 | PUSH EBX
+200b4c27 | ffd5 | CALL EBP
+200b4c29 | 8bc8 | MOV ECX,EAX
+200b4c2b | ff15dc887d20 | CALL dword ptr [0x207d88dc]
+200b4c31 | 5d | POP EBP
+200b4c32 | 668bc7 | MOV AX,DI
+200b4c35 | 5f | POP EDI
+200b4c36 | 5e | POP ESI
+200b4c37 | 5b | POP EBX
+200b4c38 | c20400 | RET 0x4
+200b4c3b | 8b03 | MOV EAX,dword ptr [EBX]
+200b4c3d | 8b501c | MOV EDX,dword ptr [EAX + 0x1c]
+200b4c40 | 57 | PUSH EDI
+200b4c41 | 56 | PUSH ESI
+200b4c42 | 8bcb | MOV ECX,EBX
+200b4c44 | ffd2 | CALL EDX
+200b4c46 | 668bc7 | MOV AX,DI
+200b4c49 | 5f | POP EDI
+200b4c4a | 5e | POP ESI
+200b4c4b | 5b | POP EBX
+200b4c4c | c20400 | RET 0x4

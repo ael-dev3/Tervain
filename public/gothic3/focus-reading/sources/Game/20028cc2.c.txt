@@ -1,0 +1,18 @@
+/* ENTRY 20028cc2 | gCFocus_PS::Create | STATUS decompiled | 9 ms */
+
+/* public: virtual enum bEResult __thiscall gCFocus_PS::Create(void) */
+
+bEResult __thiscall gCFocus_PS::Create(gCFocus_PS *this)
+
+{
+  bool bVar1;
+  
+                    /* 0x28cc2  2350  ?Create@gCFocus_PS@@UAE?AW4bEResult@@XZ */
+  bVar1 = (*this->vftablePtr->IsValid)(this);
+  if (!bVar1) {
+    eCEntityPropertySet::Create((eCEntityPropertySet *)this);
+  }
+  return 1;
+}
+
+

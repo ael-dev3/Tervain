@@ -1,0 +1,12 @@
+; 100aebad __SEH_epilog4
+100aebad | 8b4df0 | MOV ECX,dword ptr [EBP + -0x10]
+100aebb0 | 64890d00000000 | MOV dword ptr FS:[0x0],ECX
+100aebb7 | 59 | POP ECX
+100aebb8 | 5f | POP EDI
+100aebb9 | 5f | POP EDI
+100aebba | 5e | POP ESI
+100aebbb | 5b | POP EBX
+100aebbc | 8be5 | MOV ESP,EBP
+100aebbe | 5d | POP EBP
+100aebbf | 51 | PUSH ECX
+100aebc0 | c3 | RET

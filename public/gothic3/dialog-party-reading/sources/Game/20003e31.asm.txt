@@ -1,0 +1,2 @@
+; 20003e31 gCDialog_PS::AccessPickedPocket
+20003e31 | e91abd1a00 | JMP 0x201afb50

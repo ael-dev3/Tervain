@@ -1,0 +1,18 @@
+/* ENTRY 200074af | gCDamage_PS::Create | STATUS decompiled | 10 ms */
+
+/* public: virtual enum bEResult __thiscall gCDamage_PS::Create(void) */
+
+bEResult __thiscall gCDamage_PS::Create(gCDamage_PS *this)
+
+{
+  bool bVar1;
+  
+                    /* 0x74af  2332  ?Create@gCDamage_PS@@UAE?AW4bEResult@@XZ */
+  bVar1 = (*this->vftablePtr->IsValid)(this);
+  if (!bVar1) {
+    eCEntityPropertySet::Create((eCEntityPropertySet *)this);
+  }
+  return 1;
+}
+
+

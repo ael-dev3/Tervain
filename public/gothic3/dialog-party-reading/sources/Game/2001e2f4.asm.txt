@@ -1,0 +1,2 @@
+; 2001e2f4 gCDialog_PS::RemoveTalkedToBy
+2001e2f4 | e967d61e00 | JMP 0x2020b960

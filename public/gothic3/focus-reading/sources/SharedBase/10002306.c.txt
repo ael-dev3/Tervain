@@ -1,0 +1,13 @@
+/* ENTRY 10002306 | bCPropertyObjectBase::Write | STATUS decompiled | 5 ms */
+
+/* public: virtual void __thiscall bCPropertyObjectBase::Write(class bCOStream &) */
+
+void __thiscall bCPropertyObjectBase::Write(bCPropertyObjectBase *this,bCOStream *param_1)
+
+{
+                    /* 0x2306  4671  ?Write@bCPropertyObjectBase@@UAEXAAVbCOStream@@@Z */
+  bCOStream::operator<<((bCOStream *)param_1,0x53);
+  return;
+}
+
+

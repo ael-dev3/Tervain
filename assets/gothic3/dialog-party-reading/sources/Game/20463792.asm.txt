@@ -1,0 +1,15 @@
+; 20463792 __onexit
+20463792 | 6a0c | PUSH 0xc
+20463794 | 6808896e20 | PUSH 0x206e8908
+20463799 | e8d24d0000 | CALL 0x20468570
+2046379e | e8722c0000 | CALL 0x20466415
+204637a3 | 8365fc00 | AND dword ptr [EBP + -0x4],0x0
+204637a7 | ff7508 | PUSH dword ptr [EBP + 0x8]
+204637aa | e8fbfeffff | CALL 0x204636aa
+204637af | 59 | POP ECX
+204637b0 | 8945e4 | MOV dword ptr [EBP + -0x1c],EAX
+204637b3 | c745fcfeffffff | MOV dword ptr [EBP + -0x4],0xfffffffe
+204637ba | e809000000 | CALL 0x204637c8
+204637bf | 8b45e4 | MOV EAX,dword ptr [EBP + -0x1c]
+204637c2 | e8ee4d0000 | CALL 0x204685b5
+204637c7 | c3 | RET

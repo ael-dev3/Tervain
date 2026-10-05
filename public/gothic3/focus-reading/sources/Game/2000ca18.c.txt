@@ -1,0 +1,35 @@
+/* ENTRY 2000ca18 | gCFocus_PS::gCFocus_PS | STATUS decompiled | 193 ms */
+
+/* public: __thiscall gCFocus_PS::gCFocus_PS(class gCFocus_PS const &) */
+
+gCFocus_PS * __thiscall gCFocus_PS::gCFocus_PS(gCFocus_PS *this,gCFocus_PS *param_1)
+
+{
+  undefined ***pppuVar1;
+  
+                    /* 0xca18  160  ??0gCFocus_PS@@QAE@ABV0@@Z */
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+  pppuVar1 = &(this->gCFocus_PS_data).offset_0x10;
+  this->vftablePtr = &vftable;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<gEFocusLookAt>::vftable.GetVersion;
+  (this->gCFocus_PS_data).offset_0x14 = DAT_207b8850;
+  pppuVar1 = &(this->gCFocus_PS_data).offset_0x18;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<gEFocusLookAtKeysFOR>::vftable.GetVersion;
+  (this->gCFocus_PS_data).offset_0x1c = DAT_207b8854;
+  pppuVar1 = &(this->gCFocus_PS_data).offset_0x124;
+  bCObjectBase::bCObjectBase((bCObjectBase *)pppuVar1);
+  *pppuVar1 = &bTPropertyContainer<gEFocus>::vftable.GetVersion;
+  (this->gCFocus_PS_data).offset_0x128 = DAT_207b5f34;
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)&(this->gCFocus_PS_data).field_0x12c);
+  bCVector::bCVector((bCVector *)&(this->gCFocus_PS_data).field_0x148);
+  (this->gCFocus_PS_data).offset_0x174 = (void *)0x0;
+  (this->gCFocus_PS_data).offset_0x178 = 0;
+  (this->gCFocus_PS_data).offset_0x17c = 0;
+  bCVector::bCVector((bCVector *)&(this->gCFocus_PS_data).field_0x188);
+  Invalidate(this);
+  return this;
+}
+
+

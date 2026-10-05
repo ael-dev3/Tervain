@@ -1,0 +1,11 @@
+/* ENTRY 20408850 | bTPropertyType<gCInteraction_PS,eCEntityProxy>::vfunction5 | STATUS decompiled | 2 ms */
+
+bTPropertyType<gCInteraction_PS,eCEntityProxy>_vftable * __thiscall
+bTPropertyType<gCInteraction_PS,eCEntityProxy>::vfunction5
+          (bTPropertyType<gCInteraction_PS,eCEntityProxy> *this)
+
+{
+  return this[6].vftablePtr;
+}
+
+

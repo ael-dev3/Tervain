@@ -1,0 +1,13 @@
+; 200b3950 bTPropertyContainer<gEDamageType>::scalar_deleting_destructor
+200b3950 | 56 | PUSH ESI
+200b3951 | 8bf1 | MOV ESI,ECX
+200b3953 | c70634ea6520 | MOV dword ptr [ESI],0x2065ea34
+200b3959 | ff1500887d20 | CALL dword ptr [0x207d8800]
+200b395f | f644240801 | TEST byte ptr [ESP + 0x8],0x1
+200b3964 | 7409 | JZ 0x200b396f
+200b3966 | 56 | PUSH ESI
+200b3967 | e8c9ff3a00 | CALL 0x20463935
+200b396c | 83c404 | ADD ESP,0x4
+200b396f | 8bc6 | MOV EAX,ESI
+200b3971 | 5e | POP ESI
+200b3972 | c20400 | RET 0x4

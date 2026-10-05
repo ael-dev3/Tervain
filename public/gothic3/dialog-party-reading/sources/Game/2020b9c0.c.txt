@@ -1,0 +1,21 @@
+/* ENTRY 2020b9c0 | bTPropertyContainer<gETradeCategory>::bTPropertyContainer<gETradeCategory> | STATUS decompiled | 24 ms */
+
+bTPropertyContainer<gETradeCategory> * __thiscall
+bTPropertyContainer<gETradeCategory>::bTPropertyContainer<gETradeCategory>
+          (bTPropertyContainer<gETradeCategory> *this)
+
+{
+  eCEntityPropertySet::eCEntityPropertySet((eCEntityPropertySet *)this);
+                    /* inlined constructor: gCDialog_PS::gCDialog_PS */
+  this->vftablePtr = (bTPropertyContainer<gETradeCategory>_vftable *)&gCDialog_PS::vftable;
+  bCObjectBase::bCObjectBase((bCObjectBase *)(this + 2));
+  this[2].vftablePtr = &vftable;
+  this[2].bTPropertyContainer<gETradeCategory>_data.offset_0x0 = DAT_207bd4c4;
+  eCEntityProxy::eCEntityProxy((eCEntityProxy *)(this + 3));
+  this[4].bTPropertyContainer<gETradeCategory>_data.offset_0x8 = (bCObjectBase *)0x0;
+  this[5].vftablePtr = (bTPropertyContainer<gETradeCategory>_vftable *)0x0;
+  this[5].bTPropertyContainer<gETradeCategory>_data.offset_0x0 = (undefined **)0x0;
+  return this;
+}
+
+

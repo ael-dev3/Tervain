@@ -1,0 +1,9 @@
+/* ENTRY 20317b10 | FUN_20317b10 | STATUS decompiled | 0 ms */
+
+undefined4 FUN_20317b10(void)
+
+{
+  return 1;
+}
+
+

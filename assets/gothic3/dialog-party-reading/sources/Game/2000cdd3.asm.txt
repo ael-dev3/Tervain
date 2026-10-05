@@ -1,0 +1,2 @@
+; 2000cdd3 gCDialog_PS::GetTradeEnabled
+2000cdd3 | e9682b1a00 | JMP 0x201af940

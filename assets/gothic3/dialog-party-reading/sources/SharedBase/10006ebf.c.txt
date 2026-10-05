@@ -1,0 +1,43 @@
+/* ENTRY 10006ebf | bCMessageAdmin::ExecuteCallbackType | STATUS decompiled | 8 ms */
+
+/* protected: bool __thiscall bCMessageAdmin::ExecuteCallbackType(enum
+   bEMessageCallbackPriority,enum bEMessageTypes,char const *,char const *,char const *,int,int) */
+
+bool __thiscall
+bCMessageAdmin::ExecuteCallbackType
+          (bCMessageAdmin *this,bEMessageCallbackPriority param_1,bEMessageTypes param_2,
+          char *param_3,char *param_4,char *param_5,int param_6,int param_7)
+
+{
+  code *pcVar1;
+  int *piVar2;
+  int iVar3;
+  int iVar4;
+  int iVar5;
+  
+                    /* 0x6ebf  2017
+                       ?ExecuteCallbackType@bCMessageAdmin@@IAE_NW4bEMessageCallbackPriority@@W4bEMessageTypes@@PBD22HH@Z
+                        */
+  piVar2 = *(int **)this;
+  if (piVar2 == (int *)0x0) {
+    return false;
+  }
+  iVar5 = 0;
+  if (0 < piVar2[1]) {
+    iVar4 = 0;
+    do {
+      pcVar1 = *(code **)(*piVar2 + iVar4);
+      iVar3 = *piVar2 + iVar4;
+      if ((pcVar1 != (code *)0x0) && (param_1 == *(bEMessageCallbackPriority *)(iVar3 + 8))) {
+        (*pcVar1)(param_2,param_3,0,*(undefined4 *)(iVar3 + 4),param_5,param_6,param_7);
+      }
+      piVar2 = *(int **)this;
+      iVar5 = iVar5 + 1;
+      iVar4 = iVar4 + 0xc;
+    } while (iVar5 < piVar2[1]);
+    return false;
+  }
+  return false;
+}
+
+

@@ -1,0 +1,2 @@
+; 2002c3f4 bTPropertyType<gCInteraction_PS,bCString>::vfunction5
+2002c3f4 | e967d63d00 | JMP 0x20409a60

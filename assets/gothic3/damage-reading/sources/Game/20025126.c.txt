@@ -1,0 +1,19 @@
+/* ENTRY 20025126 | gCDamage_PS::SetDamageType | STATUS decompiled | 12 ms */
+
+/* public: void __thiscall gCDamage_PS::SetDamageType(class bTPropertyContainer<enum gEDamageType>
+   const &) */
+
+void __thiscall
+gCDamage_PS::SetDamageType(gCDamage_PS *this,bTPropertyContainer<gEDamageType> *param_1)
+
+{
+                    /* 0x25126  6371
+                       ?SetDamageType@gCDamage_PS@@QAEXABV?$bTPropertyContainer@W4gEDamageType@@@@@Z
+                        */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"DamageType",false);
+  (*(code *)(this->gCDamage_PS_data).offset_0x10[7])(param_1);
+  (*this->vftablePtr->NotifyPropertyValueChangedExitEx)(this,"DamageType",false);
+  return;
+}
+
+

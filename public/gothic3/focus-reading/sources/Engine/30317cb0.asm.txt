@@ -1,0 +1,3 @@
+; 30317cb0 FUN_30317cb0
+30317cb0 | a1a45dae30 | MOV EAX,[0x30ae5da4]
+30317cb5 | c3 | RET

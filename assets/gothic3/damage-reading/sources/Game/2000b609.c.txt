@@ -1,0 +1,18 @@
+/* ENTRY 2000b609 | gCDamage_PS::SetDamageAmount | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall gCDamage_PS::SetDamageAmount(long const &) */
+
+void __thiscall gCDamage_PS::SetDamageAmount(gCDamage_PS *this,long *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0xb609  6366  ?SetDamageAmount@gCDamage_PS@@QAEXABJ@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"DamageAmount",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  this[1].vftablePtr = (gCDamage_PS_vftable *)*param_1;
+  (*pNVar1)(this,"DamageAmount",false);
+  return;
+}
+
+

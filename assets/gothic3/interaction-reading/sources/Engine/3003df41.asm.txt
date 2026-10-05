@@ -1,0 +1,2 @@
+; 3003df41 eCEntityProxy::Create
+3003df41 | e9da634800 | JMP 0x304c4320

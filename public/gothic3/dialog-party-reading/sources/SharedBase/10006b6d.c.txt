@@ -1,0 +1,16 @@
+/* ENTRY 10006b6d | bCIOStream::bCIOStream | STATUS decompiled | 5 ms */
+
+/* public: __thiscall bCIOStream::bCIOStream(void) */
+
+bCIOStream * __thiscall bCIOStream::bCIOStream(bCIOStream *this)
+
+{
+                    /* 0x6b6d  134  ??0bCIOStream@@QAE@XZ */
+  bCIStream::bCIStream((bCIStream *)this);
+  bCOStream::bCOStream((bCOStream *)&this->vftablePtr);
+  this->vftablePtr = &vftable_for_bCOStream_;
+  this->vftablePtr = &vftable_for_bCIStream_;
+  return this;
+}
+
+

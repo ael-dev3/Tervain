@@ -1,0 +1,2 @@
+; 10006c71 bCBox::GetDepth
+10006c71 | e9da460200 | JMP 0x1002b350

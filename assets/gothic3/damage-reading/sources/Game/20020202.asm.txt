@@ -1,0 +1,2 @@
+; 20020202 gCDamageReceiver_PS::SetManaPointsMax
+20020202 | e9099a0900 | JMP 0x200b9c10

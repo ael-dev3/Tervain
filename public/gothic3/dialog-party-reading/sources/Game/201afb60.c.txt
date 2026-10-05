@@ -1,0 +1,16 @@
+/* ENTRY 201afb60 | FUN_201afb60 | STATUS decompiled | 2 ms */
+
+void __fastcall FUN_201afb60(int *param_1)
+
+{
+  code *pcVar1;
+  undefined1 *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("PickedPocket",0);
+  pcVar1 = *(code **)(*param_1 + 0x5c);
+  *(undefined1 *)(param_1 + 0xb) = *unaff_ESI;
+  (*pcVar1)("PickedPocket",0);
+  return;
+}
+
+

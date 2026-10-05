@@ -1,0 +1,17 @@
+/* ENTRY 100025d6 | bCAccessorPropertyObject::~bCAccessorPropertyObject | STATUS decompiled | 3 ms */
+
+/* public: __thiscall bCAccessorPropertyObject::~bCAccessorPropertyObject(void) */
+
+void __thiscall bCAccessorPropertyObject::~bCAccessorPropertyObject(bCAccessorPropertyObject *this)
+
+{
+                    /* 0x25d6  352  ??1bCAccessorPropertyObject@@QAE@XZ */
+  if (*(int **)(this + 4) != (int *)0x0) {
+    (**(code **)(**(int **)(this + 4) + 0x34))();
+    *(undefined4 *)(this + 4) = 0;
+  }
+  *(undefined4 *)(this + 4) = 0;
+  return;
+}
+
+

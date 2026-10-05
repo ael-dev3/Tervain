@@ -1,0 +1,2 @@
+; 20032448 gCFocus_PS::OnProcess
+20032448 | e9e3bc1000 | JMP 0x2013e130

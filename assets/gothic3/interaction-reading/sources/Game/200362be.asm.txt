@@ -1,0 +1,2 @@
+; 200362be gCInteraction_PS::Create
+200362be | e95ddc3c00 | JMP 0x20403f20

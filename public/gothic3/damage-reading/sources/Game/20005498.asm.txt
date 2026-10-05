@@ -1,0 +1,2 @@
+; 20005498 gCDamage_PS::SetManaUsed
+20005498 | e983df0a00 | JMP 0x200b3420

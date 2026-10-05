@@ -1,0 +1,330 @@
+/* ENTRY 2013da20 | FUN_2013da20 | STATUS decompiled | 364 ms */
+
+eCEntity * __thiscall FUN_2013da20(gCFocus_PS *param_1,char param_2)
+
+{
+  undefined1 auVar1 [8];
+  bool bVar2;
+  char cVar3;
+  eCEntity *peVar4;
+  eCEntity *peVar5;
+  bCVector *pbVar6;
+  bCVector *pbVar7;
+  bCBox *pbVar8;
+  gECombatMode gVar9;
+  int iVar10;
+  gCInventory_PS *this;
+  gEItemCategory gVar11;
+  gCInventoryStack *pgVar12;
+  eCEntity *peVar13;
+  eCApplication *peVar14;
+  eCCameraBase *peVar15;
+  bCMatrix *pbVar16;
+  eCPhysicsScene *peVar17;
+  eCPhysicQueryReport *peVar18;
+  float fVar19;
+  float fVar20;
+  char unaff_retaddr;
+  ulong uVar21;
+  eEPropertySetType eVar22;
+  code *pcVar23;
+  eEShapeGroup eVar24;
+  eCEntity *peStack_8c;
+  undefined4 local_88;
+  eCEntity *peStack_84;
+  eCEntity *peStack_80;
+  float fStack_7c;
+  eCEntity *peStack_78;
+  float fStack_74;
+  undefined1 auStack_70 [8];
+  undefined4 uStack_68;
+  undefined4 uStack_64;
+  undefined4 uStack_60;
+  undefined4 uStack_5c;
+  float fStack_58;
+  float fStack_54;
+  float fStack_50;
+  float fStack_4c;
+  float fStack_48;
+  bCMatrix abStack_44 [68];
+  
+  local_88 = 0;
+  peVar4 = (*param_1->vftablePtr->GetEntity)(param_1);
+  if (peVar4 == (eCEntity *)0x0) {
+    return (eCEntity *)0x0;
+  }
+  peStack_80 = peVar4;
+  if (((((param_1->gCFocus_PS_data).field_0x154 == '\0') ||
+       ((param_1->gCFocus_PS_data).offset_0x128 == 3)) &&
+      (eCEntityProxy::SetEntity
+                 ((eCEntityProxy *)&(param_1->gCFocus_PS_data).field_0x12c,(eCEntity *)0x0),
+      (param_1->gCFocus_PS_data).offset_0x128 == 3)) || (param_2 == '\x01')) {
+    peVar14 = eCApplication::GetInstance();
+    peVar15 = eCApplication::GetCurrentCamera((eCApplication *)peVar14);
+    pbVar7 = eCCameraBase::GetPosition(peVar15);
+    bCVector::bCVector((bCVector *)(auStack_70 + 4),pbVar7);
+    peVar14 = eCApplication::GetInstance();
+    peVar15 = eCApplication::GetCurrentCamera((eCApplication *)peVar14);
+    pbVar16 = eCCameraBase::GetViewMatrix(peVar15);
+    pbVar16 = (bCMatrix *)bCMatrix::GetInverted(pbVar16);
+    pbVar7 = bCMatrix::GetZAxis(pbVar16);
+    bCVector::bCVector((bCVector *)&uStack_64,pbVar7);
+    bCMatrix::~bCMatrix(abStack_44);
+    pcVar23 = gCFocus_PS::S_FilterEntity;
+    peVar17 = eCPhysicsScene::GetInstance();
+    eCPhysicsScene::SetQueryFilterCallback(peVar17,pcVar23);
+    eVar24 = 0;
+    eVar22 = 0x31;
+    peVar13 = (eCEntity *)0x0;
+    uVar21 = 0x1003;
+    pbVar7 = (bCVector *)&uStack_64;
+    pbVar6 = (bCVector *)auStack_70;
+    peVar5 = peVar4;
+    peVar17 = eCPhysicsScene::GetInstance();
+    bVar2 = eCPhysicsScene::TraceRayAllHits
+                      (peVar17,pbVar6,pbVar7,peVar5,uVar21,peVar13,eVar22,eVar24);
+    if (bVar2) {
+      peStack_78 = (eCEntity *)0x7f7fffff;
+      peVar4 = (eCEntity *)0x0;
+      peVar17 = eCPhysicsScene::GetInstance();
+      peVar18 = eCPhysicsScene::GetQueryReport(peVar17);
+      iVar10 = 0;
+      if (*(int *)(peVar18 + 0x14) < 1) goto LAB_2013e0cf;
+      do {
+        peStack_80 = *(eCEntity **)(*(int *)(peVar18 + 0x58) + iVar10 * 4);
+        if (((float)peStack_80 < (float)peStack_78) &&
+           (bVar2 = eCEntity::IsFreeLOS((eCEntity *)peVar4,
+                                        *(eCEntity **)&(param_1->gCFocus_PS_data).field_0x8,false),
+           bVar2)) {
+          peVar4 = *(eCEntity **)(*(int *)(peVar18 + 0x10) + iVar10 * 4);
+          peStack_78 = peStack_80;
+        }
+        iVar10 = iVar10 + 1;
+      } while (iVar10 < *(int *)(peVar18 + 0x14));
+      if ((peVar4 == (eCEntity *)0x0) ||
+         (bVar2 = eCEntity::IsFreeLOS((eCEntity *)peVar4,
+                                      *(eCEntity **)&(param_1->gCFocus_PS_data).field_0x8,false),
+         !bVar2)) goto LAB_2013e0cf;
+      eCEntityProxy::SetEntity((eCEntityProxy *)&(param_1->gCFocus_PS_data).field_0x12c,peVar4);
+      peVar4 = gCFocus_PS::GetFocusEntity(param_1,0,0);
+      pbVar7 = eCEntity::GetWorldPosition((eCEntity *)peVar4);
+    }
+    else {
+      if (unaff_retaddr != '\x01') goto LAB_2013e0cf;
+      pcVar23 = gCFocus_PS::S_FilterEntity;
+      peVar17 = eCPhysicsScene::GetInstance();
+      eCPhysicsScene::SetQueryFilterCallback(peVar17,pcVar23);
+      eVar24 = 0;
+      eVar22 = 0;
+      peVar5 = (eCEntity *)0x0;
+      uVar21 = 0x1003;
+      pbVar7 = (bCVector *)&uStack_64;
+      pbVar6 = (bCVector *)auStack_70;
+      peVar17 = eCPhysicsScene::GetInstance();
+      bVar2 = eCPhysicsScene::TraceRayNearestHit
+                        (peVar17,pbVar6,pbVar7,peVar4,uVar21,peVar5,eVar22,eVar24);
+      if (!bVar2) goto LAB_2013e0cf;
+      peVar17 = eCPhysicsScene::GetInstance();
+      peVar18 = eCPhysicsScene::GetQueryReport(peVar17);
+      eCEntityProxy::SetEntity
+                ((eCEntityProxy *)&(param_1->gCFocus_PS_data).field_0x12c,
+                 *(eCEntity **)(peVar18 + 4));
+      peVar17 = eCPhysicsScene::GetInstance();
+      peVar18 = eCPhysicsScene::GetQueryReport(peVar17);
+      pbVar7 = (bCVector *)(peVar18 + 0x68);
+    }
+    bCVector::operator=((bCVector *)&(param_1->gCFocus_PS_data).field_0x148,pbVar7);
+LAB_2013e0cf:
+    peVar4 = gCFocus_PS::GetFocusEntity(param_1,0,0);
+    bCVector::~bCVector((bCVector *)&uStack_64);
+    bCVector::~bCVector((bCVector *)auStack_70);
+    return peVar4;
+  }
+  if ((param_1->gCFocus_PS_data).field_0x154 == '\x01') {
+    peVar5 = gCFocus_PS::GetFocusEntity(param_1,0,0);
+    if (peVar5 == (eCEntity *)0x0) {
+LAB_2013db05:
+      bVar2 = true;
+    }
+    else {
+      bVar2 = gCEntity::IsCharacter(peVar5);
+      if (bVar2) {
+        bVar2 = gCEntity::IsDead(peVar5);
+        if (bVar2) goto LAB_2013db05;
+      }
+      unique0x0000aa00 = (double)*(float *)&(param_1->gCFocus_PS_data).field_0x114;
+      local_88 = 1;
+      eCEntity::GetWorldPosition((eCEntity *)peVar5);
+      pbVar7 = (bCVector *)&uStack_60;
+      pbVar6 = eCEntity::GetWorldPosition((eCEntity *)peVar4);
+      pbVar7 = (bCVector *)bCVector::operator-(pbVar6,pbVar7);
+      fVar19 = bCVector::GetSquareMagnitude(pbVar7);
+      if ((double)CONCAT44(auStack_70._4_4_,auStack_70._0_4_) *
+          (double)CONCAT44(auStack_70._4_4_,auStack_70._0_4_) < (double)fVar19) goto LAB_2013db05;
+      bVar2 = false;
+    }
+    if (((uint)peStack_8c & 1) != 0) {
+      bCVector::~bCVector((bCVector *)&uStack_64);
+    }
+    if (!bVar2) goto LAB_2013df06;
+    eCEntityProxy::SetEntity
+              ((eCEntityProxy *)&(param_1->gCFocus_PS_data).field_0x12c,(eCEntity *)0x0);
+    local_88 = local_88 & 0xffffff;
+    gCFocus_PS::SetFocusLocked(param_1,(bool *)((int)&local_88 + 3));
+  }
+  fVar19 = gCFocus_PS::GetCurrentMaxRange(param_1);
+  gCFocus_PS::CollectInteractionEntities(param_1,fVar19);
+  fStack_58 = 181.0;
+  fStack_50 = 0.0;
+  uStack_64 = 0;
+  uStack_60 = 0;
+  uStack_5c = 0;
+  peStack_8c = (eCEntity *)0x0;
+  peStack_80 = (eCEntity *)0x0;
+  fStack_4c = 3.4028235e+38;
+  pbVar8 = eCEntity::GetWorldNodeBoundary((eCEntity *)peVar4);
+  fVar19 = bCBox::GetWidth(pbVar8);
+  auStack_70 = (undefined1  [8])(double)fVar19;
+  pbVar8 = eCEntity::GetWorldNodeBoundary((eCEntity *)peVar4);
+  fVar19 = bCBox::GetDepth(pbVar8);
+  if ((float)(double)auStack_70 <= fVar19) {
+    pbVar8 = eCEntity::GetWorldNodeBoundary((eCEntity *)peVar4);
+    fVar19 = bCBox::GetDepth(pbVar8);
+  }
+  else {
+    pbVar8 = eCEntity::GetWorldNodeBoundary((eCEntity *)peVar4);
+    fVar19 = bCBox::GetWidth(pbVar8);
+  }
+  gVar9 = gCEntity::GetCombatMode(peVar4);
+  if (gVar9 == 2) {
+    peVar5 = gCEntity::GetWeapon(peVar4,true);
+    if (peVar5 == (eCEntity *)0x0) goto LAB_2013dc13;
+    peVar5 = gCEntity::GetWeapon(peVar4,true);
+    pbVar8 = eCEntity::GetLocalNodeBoundary((eCEntity *)peVar5);
+    fVar20 = bCBox::GetMaxExtend(pbVar8);
+  }
+  else {
+LAB_2013dc13:
+    fVar20 = *(float *)&(param_1->gCFocus_PS_data).field_0x118;
+  }
+  fVar20 = fVar20 + fVar19 * 0.5;
+  if (fVar20 < 0.0) {
+    fVar20 = 1.0;
+  }
+  peStack_78 = (eCEntity *)0x0;
+  peVar5 = (eCEntity *)0x0;
+  if (0 < (int)(param_1->gCFocus_PS_data).offset_0x178) {
+    do {
+      peVar5 = *(eCEntity **)((int)(param_1->gCFocus_PS_data).offset_0x174 + (int)peStack_78 * 4);
+      if (peVar5 == (eCEntity *)0x0) {
+        iVar10 = 0;
+      }
+      else {
+        iVar10 = (**(code **)(*(int *)peVar5 + 0xec))(0x31);
+      }
+      auVar1 = auStack_70;
+      if (*(int *)(iVar10 + 0x18) != 0) {
+        if (peVar5 == (eCEntity *)0x0) {
+          this = (gCInventory_PS *)0x0;
+LAB_2013dcab:
+          cVar3 = (**(code **)(*(int *)peVar5 + 0xa0))();
+          if (cVar3 != '\0') goto LAB_2013dcbb;
+        }
+        else {
+          iVar10 = (**(code **)(*(int *)peVar5 + 0xec))(0x2d);
+          this = (gCInventory_PS *)(**(code **)(*(int *)peVar5 + 0xec))(0x1f);
+          if ((iVar10 == 0) || (*(int *)(iVar10 + 0x58) != 9)) goto LAB_2013dcab;
+LAB_2013dcbb:
+          if (this != (gCInventory_PS *)0x0) {
+            fVar19 = (float)gCInventory_PS::GetStackCount(this);
+            iVar10 = 0;
+            peVar4 = peStack_84;
+            auStack_70._0_4_ = fVar19;
+            auVar1 = (undefined1  [8])CONCAT44(auStack_70._4_4_,fVar19);
+            if (0 < (int)fVar19) {
+              do {
+                gVar11 = gCInventory_PS::GetStackCategory(this,iVar10);
+                if ((gVar11 != 0) &&
+                   (gVar11 = gCInventory_PS::GetStackCategory(this,iVar10), gVar11 != 9)) {
+                  pgVar12 = gCInventory_PS::GetStack(this,iVar10);
+                  if (*(int *)(pgVar12 + 0x50) != 2) goto LAB_2013dd0d;
+                }
+                iVar10 = iVar10 + 1;
+                peVar4 = peStack_84;
+                auVar1 = (undefined1  [8])CONCAT44(auStack_70._4_4_,auStack_70._0_4_);
+              } while (iVar10 < (int)auStack_70._0_4_);
+            }
+            goto LAB_2013dd96;
+          }
+        }
+LAB_2013dd0d:
+        bVar2 = gCFocus_PS::IsValidEntity(param_1,peVar5);
+        peVar4 = peStack_84;
+        auVar1 = auStack_70;
+        if (bVar2) {
+          bVar2 = gCFocus_PS::FocusCheck(param_1,peVar5,peStack_8c,fStack_58,&fStack_50);
+          peVar4 = peStack_84;
+          auVar1 = auStack_70;
+          if (bVar2) {
+            bVar2 = gCFocus_PS::HasLowerPriority(param_1,peVar5,peStack_8c);
+            peVar4 = peStack_84;
+            auVar1 = auStack_70;
+            if (!bVar2) {
+              fVar19 = eCEntity::GetDistanceToEntity2((eCEntity *)peStack_84,peVar5);
+              if (fVar19 < fStack_4c) {
+                peStack_80 = peVar5;
+                fStack_4c = fVar19;
+              }
+              fStack_58 = fStack_50;
+              eCEntityProxy::SetEntity
+                        ((eCEntityProxy *)&(param_1->gCFocus_PS_data).field_0x12c,peVar5);
+              peVar4 = peStack_84;
+              peStack_8c = peVar5;
+              auVar1 = auStack_70;
+            }
+          }
+        }
+      }
+LAB_2013dd96:
+      auStack_70 = auVar1;
+      peStack_78 = peStack_78 + 1;
+      peVar5 = peStack_80;
+    } while ((int)peStack_78 < (int)(param_1->gCFocus_PS_data).offset_0x178);
+  }
+  if ((((param_1->gCFocus_PS_data).offset_0x155 == (gCFocus_PS)0x1) &&
+      ((param_1->gCFocus_PS_data).offset_0x128 != 1)) && (peVar5 != (eCEntity *)0x0)) {
+    peVar13 = gCFocus_PS::GetFocusEntity(param_1,0,0);
+    if (peVar5 != peVar13) {
+      peVar13 = gCFocus_PS::GetFocusEntity(param_1,0,0);
+      if (peVar13 == (eCEntity *)0x0) {
+        thunk_FUN_20069e10();
+        return (eCEntity *)0x0;
+      }
+      gCFocus_PS::GetAngles(param_1,peVar13,(float *)&peStack_78,&fStack_4c);
+      fStack_58 = eCEntity::GetDistanceToEntity((eCEntity *)peVar4,peVar13);
+      gCFocus_PS::GetAngles(param_1,peVar5,&fStack_74,&fStack_48);
+      fStack_54 = eCEntity::GetDistanceToEntity((eCEntity *)peVar4,peVar5);
+      gCFocus_PS::GetCurrentMaxAngles
+                (param_1,(float *)&peStack_80,(float *)auStack_70,(float *)auStack_70);
+      auStack_70._4_4_ = 1.0;
+      auStack_70._0_4_ = auStack_70._4_4_;
+      if ((float)peStack_78 != 0.0) {
+        auStack_70._0_4_ = (float)peStack_78 / (float)peStack_80;
+      }
+      if (fStack_74 != 0.0) {
+        auStack_70._4_4_ = fStack_74 / (float)peStack_80;
+      }
+      peStack_80 = (eCEntity *)((fStack_58 / fVar20) * 8.0 + (float)auStack_70._0_4_ * 2.0);
+      fStack_7c = (fStack_54 / fVar20) * 8.0 + (float)auStack_70._4_4_ * 2.0;
+      if (fStack_7c < (float)peStack_80) {
+        eCEntityProxy::SetEntity((eCEntityProxy *)&(param_1->gCFocus_PS_data).field_0x12c,peVar5);
+      }
+    }
+  }
+  thunk_FUN_20069e10();
+LAB_2013df06:
+  peVar4 = gCFocus_PS::GetFocusEntity(param_1,0,0);
+  return peVar4;
+}
+
+

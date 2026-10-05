@@ -1,0 +1,15 @@
+; 2040ade0 bTPropertyType<gCInteraction_PS,bCVector>::vfunction12
+2040ade0 | 56 | PUSH ESI
+2040ade1 | 8bf1 | MOV ESI,ECX
+2040ade3 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+2040ade7 | 85c9 | TEST ECX,ECX
+2040ade9 | 7506 | JNZ 0x2040adf1
+2040adeb | 33c0 | XOR EAX,EAX
+2040aded | 5e | POP ESI
+2040adee | c20400 | RET 0x4
+2040adf1 | 8b01 | MOV EAX,dword ptr [ECX]
+2040adf3 | 8b10 | MOV EDX,dword ptr [EAX]
+2040adf5 | ffd2 | CALL EDX
+2040adf7 | 03461c | ADD EAX,dword ptr [ESI + 0x1c]
+2040adfa | 5e | POP ESI
+2040adfb | c20400 | RET 0x4

@@ -1,0 +1,2 @@
+; 2002edc0 bTPropertyType<gCDamage_PS,long>::vfunction15
+2002edc0 | e96b7f0800 | JMP 0x200b6d30

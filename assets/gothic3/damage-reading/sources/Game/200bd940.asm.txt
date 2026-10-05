@@ -1,0 +1,4 @@
+; 200bd940 bTPropertyObject<gCDamageReceiver_PS,eCEntityPropertySet>::vfunction11
+200bd940 | 6a00 | PUSH 0x0
+200bd942 | e88b31f5ff | CALL 0x20010ad2
+200bd947 | c3 | RET

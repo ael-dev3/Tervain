@@ -1,0 +1,4 @@
+; 304c4240 FUN_304c4240
+304c4240 | 8b01 | MOV EAX,dword ptr [ECX]
+304c4242 | 8b4018 | MOV EAX,dword ptr [EAX + 0x18]
+304c4245 | ffe0 | JMP EAX

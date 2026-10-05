@@ -1,0 +1,2 @@
+; 20024730 gCDamage_PS::SetDamageManaMultiplier
+20024730 | e92bec0800 | JMP 0x200b3360

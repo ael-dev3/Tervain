@@ -1,0 +1,2 @@
+; 20020aea gCParty_PS::AccessPartyMemberType
+20020aea | e961a50800 | JMP 0x200ab050

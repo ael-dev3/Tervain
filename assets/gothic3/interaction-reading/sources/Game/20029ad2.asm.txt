@@ -1,0 +1,2 @@
+; 20029ad2 bTPropertyType<gCInteraction_PS,eCEntityProxy>::vfunction12
+20029ad2 | e9e9ee3d00 | JMP 0x204089c0

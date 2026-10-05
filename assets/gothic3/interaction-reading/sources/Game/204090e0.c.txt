@@ -1,0 +1,11 @@
+/* ENTRY 204090e0 | bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEUseType>_>::vfunction5 | STATUS decompiled | 3 ms */
+
+bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEUseType>_>_vftable * __thiscall
+bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEUseType>_>::vfunction5
+          (bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEUseType>_> *this)
+
+{
+  return this[6].vftablePtr;
+}
+
+

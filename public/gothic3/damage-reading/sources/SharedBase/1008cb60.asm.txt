@@ -1,0 +1,29 @@
+; 1008cb60 FUN_1008cb60
+1008cb60 | 83ec08 | SUB ESP,0x8
+1008cb63 | 33c0 | XOR EAX,EAX
+1008cb65 | 56 | PUSH ESI
+1008cb66 | 8b742410 | MOV ESI,dword ptr [ESP + 0x10]
+1008cb6a | 6689442404 | MOV word ptr [ESP + 0x4],AX
+1008cb6f | 88442406 | MOV byte ptr [ESP + 0x6],AL
+1008cb73 | 89442408 | MOV dword ptr [ESP + 0x8],EAX
+1008cb77 | 8d442408 | LEA EAX,[ESP + 0x8]
+1008cb7b | 50 | PUSH EAX
+1008cb7c | 8bce | MOV ECX,ESI
+1008cb7e | e84a9af7ff | CALL 0x100065cd
+1008cb83 | 8d4c2406 | LEA ECX,[ESP + 0x6]
+1008cb87 | 51 | PUSH ECX
+1008cb88 | 8bce | MOV ECX,ESI
+1008cb8a | e88ca1f7ff | CALL 0x10006d1b
+1008cb8f | 8d542404 | LEA EDX,[ESP + 0x4]
+1008cb93 | 52 | PUSH EDX
+1008cb94 | 8bce | MOV ECX,ESI
+1008cb96 | e8329af7ff | CALL 0x100065cd
+1008cb9b | 8b4c2414 | MOV ECX,dword ptr [ESP + 0x14]
+1008cb9f | 8b01 | MOV EAX,dword ptr [ECX]
+1008cba1 | 8b5014 | MOV EDX,dword ptr [EAX + 0x14]
+1008cba4 | 56 | PUSH ESI
+1008cba5 | ffd2 | CALL EDX
+1008cba7 | b001 | MOV AL,0x1
+1008cba9 | 5e | POP ESI
+1008cbaa | 83c408 | ADD ESP,0x8
+1008cbad | c20800 | RET 0x8

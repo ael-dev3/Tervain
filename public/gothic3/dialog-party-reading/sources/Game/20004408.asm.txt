@@ -1,0 +1,2 @@
+; 20004408 eCEntityProxy::~eCEntityProxy
+20004408 | e943480700 | JMP 0x20078c50

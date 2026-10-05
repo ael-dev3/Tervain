@@ -1,0 +1,120 @@
+/* ENTRY 3003d8d9 | eCEntity::IsFreeLOS | STATUS decompiled | 72 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* public: bool __thiscall eCEntity::IsFreeLOS(class eCEntity *,bool)const  */
+
+bool __thiscall eCEntity::IsFreeLOS(eCEntity *this,eCEntity *param_1,bool param_2)
+
+{
+  bCBox *this_00;
+  undefined1 *this_01;
+  bool bVar1;
+  bCVector *pbVar2;
+  float *pfVar3;
+  eCPhysicsScene *peVar4;
+  float fVar5;
+  bCVector *pbVar6;
+  eCEntity *peVar7;
+  ulong uVar8;
+  eCEntity *peVar9;
+  eEPropertySetType eVar10;
+  bTPtrArray<eCEntity*> *pbVar11;
+  eEShapeGroup eVar12;
+  bCVector abStack_48 [4];
+  bCVector abStack_44 [4];
+  bCVector abStack_40 [4];
+  bCVector abStack_3c [4];
+  bCVector abStack_38 [4];
+  bCVector abStack_34 [4];
+  bCVector abStack_30 [4];
+  bCVector abStack_2c [12];
+  bCVector abStack_20 [4];
+  bCVector abStack_1c [4];
+  bCVector abStack_18 [4];
+  bCVector abStack_14 [4];
+  bCVector abStack_10 [4];
+  bCVector abStack_c [8];
+  float fStack_4;
+  
+                    /* 0x3d8d9  10389  ?IsFreeLOS@eCEntity@@QBE_NPAV1@_N@Z */
+  if (param_1 == (eCEntity *)0x0) {
+    return false;
+  }
+  bCVector::bCVector(abStack_30);
+  this_00 = (bCBox *)(param_1 + 0xe8);
+  bVar1 = bCBox::IsValid(this_00);
+  if (bVar1) {
+    fVar5 = bCBox::GetVolume(this_00);
+    if (fVar5 <= 0.0) goto LAB_304b9d10;
+    pbVar2 = (bCVector *)bCBox::GetCenter(this_00);
+    bCVector::operator=(abStack_34,pbVar2);
+    bCVector::~bCVector(abStack_1c);
+    fVar5 = bCBox::GetHeight(this_00);
+    if (fVar5 < 350.0) {
+      pfVar3 = bCVector::AccessY(abStack_34);
+      *pfVar3 = fVar5 * 0.25 + *pfVar3;
+    }
+  }
+  else {
+LAB_304b9d10:
+    pbVar2 = bCMatrix::GetTranslation((bCMatrix *)(param_1 + 0x40));
+    bCVector::bCVector(abStack_c,0.0,0.005,0.0);
+    pbVar2 = (bCVector *)bCVector::operator+(pbVar2,abStack_18);
+    bCVector::operator=(abStack_34,pbVar2);
+    bCVector::~bCVector(abStack_1c);
+    bCVector::~bCVector(abStack_10);
+  }
+  bCVector::bCVector(abStack_40);
+  this_01 = &(this->eCEntity_data).field_0xb8;
+  bVar1 = bCBox::IsValid((bCBox *)this_01);
+  if (bVar1) {
+    fVar5 = bCBox::GetVolume((bCBox *)this_01);
+    if (0.0 < fVar5) {
+      pbVar2 = (bCVector *)bCBox::GetCenter((bCBox *)this_01);
+      bCVector::operator=(abStack_44,pbVar2);
+      bCVector::~bCVector(abStack_14);
+      fStack_4 = bCBox::GetHeight((bCBox *)this_01);
+      if (fStack_4 < 350.0) {
+        pfVar3 = bCVector::AccessY(abStack_44);
+        *pfVar3 = fStack_4 * 0.25 + *pfVar3;
+      }
+      goto LAB_304b9e46;
+    }
+  }
+  pbVar2 = bCMatrix::GetTranslation((bCMatrix *)&(this->eCEntity_data).field_0x10);
+  bCVector::bCVector(abStack_1c,0.0,0.005,0.0);
+  pbVar2 = (bCVector *)bCVector::operator+(pbVar2,abStack_10);
+  bCVector::operator=(abStack_44,pbVar2);
+  bCVector::~bCVector(abStack_14);
+  bCVector::~bCVector(abStack_20);
+LAB_304b9e46:
+  bCVector::operator-(abStack_38,abStack_2c);
+  thunk_FUN_30073b10(1,0);
+  _DAT_00000000 = this;
+  thunk_FUN_30073b10(2,0);
+  pbVar11 = (bTPtrArray<eCEntity*> *)&stack0xffffffac;
+  _DAT_00000004 = param_1;
+  peVar4 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+  eCPhysicsScene::SetQueryIgnoreEntities(peVar4,pbVar11);
+  eVar12 = 0;
+  eVar10 = 0;
+  peVar9 = (eCEntity *)0x0;
+  if (fStack_4._0_1_ == '\x01') {
+    uVar8 = 0xf;
+  }
+  else {
+    uVar8 = 0x1f;
+  }
+  pbVar6 = abStack_30;
+  pbVar2 = abStack_48;
+  peVar7 = (eCEntity *)0x0;
+  peVar4 = (eCPhysicsScene *)eCPhysicsScene::GetInstance();
+  bVar1 = eCPhysicsScene::TraceRayFirstHit(peVar4,pbVar2,pbVar6,peVar7,uVar8,peVar9,eVar10,eVar12);
+  thunk_FUN_30081020();
+  bCVector::~bCVector(abStack_30);
+  bCVector::~bCVector(abStack_48);
+  bCVector::~bCVector(abStack_3c);
+  return !bVar1;
+}
+
+

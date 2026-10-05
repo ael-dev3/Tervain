@@ -1,0 +1,25 @@
+/* ENTRY 30771900 | bTPropertyObject<eCEntityPropertySet,bCObjectRefBase>::~bTPropertyObject<eCEntityPropertySet,bCObjectRefBase> | STATUS decompiled | 10 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyObject<eCEntityPropertySet,bCObjectRefBase>::
+~bTPropertyObject<eCEntityPropertySet,bCObjectRefBase>
+          (bTPropertyObject<eCEntityPropertySet,bCObjectRefBase> *this)
+
+{
+  bCPropertyObjectBase::bCPropertyObjectBase
+            ((bCPropertyObjectBase *)
+             &eCEntityPropertySet::ms_PropertyObjectInstance_eCEntityPropertySet);
+  _DAT_30af0f18 = 0;
+  _ms_PropertyObjectInstance_eCEntityPropertySet = &vftable;
+  _DAT_30af0f1c =
+       bTPropertyObjectType<eCEntityPropertySet,bCObjectRefBase>::
+       ~bTPropertyObjectType<eCEntityPropertySet,bCObjectRefBase>();
+  _DAT_30af0f18 = 0;
+  thunk_FUN_30440210(1);
+  _atexit(~bTPropertyObject<eCEntityPropertySet,bCObjectRefBase>);
+  return;
+}
+
+

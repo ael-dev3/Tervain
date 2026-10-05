@@ -1,0 +1,2 @@
+; 10001a5f bCErrorAdmin::PrintMessage
+10001a5f | e98cfa0100 | JMP 0x100214f0

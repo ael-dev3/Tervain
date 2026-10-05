@@ -1,0 +1,19 @@
+/* ENTRY 200288a3 | gCDialog_PS::SetTradeCategory | STATUS decompiled | 9 ms */
+
+/* public: void __thiscall gCDialog_PS::SetTradeCategory(class bTPropertyContainer<enum
+   gETradeCategory> const &) */
+
+void __thiscall
+gCDialog_PS::SetTradeCategory(gCDialog_PS *this,bTPropertyContainer<gETradeCategory> *param_1)
+
+{
+                    /* 0x288a3  7149
+                       ?SetTradeCategory@gCDialog_PS@@QAEXABV?$bTPropertyContainer@W4gETradeCategory@@@@@Z
+                        */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"TradeCategory",false);
+  (*(code *)(this->gCDialog_PS_data).offset_0x1c[7])(param_1);
+  (*this->vftablePtr->NotifyPropertyValueChangedExitEx)(this,"TradeCategory",false);
+  return;
+}
+
+

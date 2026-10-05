@@ -1,0 +1,13 @@
+/* ENTRY 20018def | gCDialog_PS::GetPropertySetType | STATUS decompiled | 5 ms */
+
+/* public: virtual enum eEPropertySetType __thiscall gCDialog_PS::GetPropertySetType(void)const  */
+
+eEPropertySetType __thiscall gCDialog_PS::GetPropertySetType(gCDialog_PS *this)
+
+{
+                    /* 0x18def  4041  ?GetPropertySetType@gCDialog_PS@@UBE?AW4eEPropertySetType@@XZ
+                        */
+  return 0x44;
+}
+
+

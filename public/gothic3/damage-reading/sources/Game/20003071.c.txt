@@ -1,0 +1,18 @@
+/* ENTRY 20003071 | gCDamage_PS::SetDamageHitMultiplier | STATUS decompiled | 10 ms */
+
+/* public: void __thiscall gCDamage_PS::SetDamageHitMultiplier(float const &) */
+
+void __thiscall gCDamage_PS::SetDamageHitMultiplier(gCDamage_PS *this,float *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x3071  6368  ?SetDamageHitMultiplier@gCDamage_PS@@QAEXABM@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"DamageHitMultiplier",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  *(float *)&this[1].gCDamage_PS_data.field_0x4 = *param_1;
+  (*pNVar1)(this,"DamageHitMultiplier",false);
+  return;
+}
+
+

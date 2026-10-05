@@ -1,0 +1,13 @@
+; 1001ecd0 FUN_1001ecd0
+1001ecd0 | 56 | PUSH ESI
+1001ecd1 | 8bf1 | MOV ESI,ECX
+1001ecd3 | 8b4c2408 | MOV ECX,dword ptr [ESP + 0x8]
+1001ecd7 | 8b06 | MOV EAX,dword ptr [ESI]
+1001ecd9 | 8b5004 | MOV EDX,dword ptr [EAX + 0x4]
+1001ecdc | 6a01 | PUSH 0x1
+1001ecde | 51 | PUSH ECX
+1001ecdf | 8bce | MOV ECX,ESI
+1001ece1 | ffd2 | CALL EDX
+1001ece3 | 8bc6 | MOV EAX,ESI
+1001ece5 | 5e | POP ESI
+1001ece6 | c20400 | RET 0x4

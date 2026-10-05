@@ -1,0 +1,2 @@
+; 200137af gCParty_PS::GetPropertySetType
+200137af | e99c433000 | JMP 0x20317b50

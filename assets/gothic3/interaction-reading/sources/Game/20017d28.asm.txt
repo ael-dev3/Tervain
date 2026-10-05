@@ -1,0 +1,2 @@
+; 20017d28 gCInteraction_PS::OnPropertySetRemoved
+20017d28 | e993cb3e00 | JMP 0x204048c0

@@ -1,0 +1,11 @@
+/* ENTRY 20028d0d | bTPropertyType<gCDamageReceiver_PS,eCEntityProxy>::vfunction1 | STATUS decompiled | 3 ms */
+
+bTPropertyType<gCDamageReceiver_PS,eCEntityProxy>_vftable * __thiscall
+bTPropertyType<gCDamageReceiver_PS,eCEntityProxy>::vfunction1
+          (bTPropertyType<gCDamageReceiver_PS,eCEntityProxy> *this)
+
+{
+  return this[7].vftablePtr;
+}
+
+

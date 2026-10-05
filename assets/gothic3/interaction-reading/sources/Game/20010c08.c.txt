@@ -1,0 +1,11 @@
+/* ENTRY 20010c08 | bTPropertyObject<gCInteraction_PS,eCEntityPropertySet>::vfunction1 | STATUS decompiled | 44 ms */
+
+bCObjectRefBase * __thiscall
+bTPropertyObject<gCInteraction_PS,eCEntityPropertySet>::vfunction1
+          (bTPropertyObject<gCInteraction_PS,eCEntityPropertySet> *this)
+
+{
+  return (this->bTPOPureSmartPtr<gCInteraction_PS>_data).offset_0x4;
+}
+
+

@@ -1,0 +1,3 @@
+; 20403f00 FUN_20403f00
+20403f00 | c681dc00000000 | MOV byte ptr [ECX + 0xdc],0x0
+20403f07 | c3 | RET

@@ -1,0 +1,2 @@
+; 20019209 gCParty_PS::gCParty_PS
+20019209 | e912ea2f00 | JMP 0x20317c20

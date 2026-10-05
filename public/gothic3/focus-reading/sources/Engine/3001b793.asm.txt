@@ -1,0 +1,2 @@
+; 3001b793 eCEntity::GetDistanceToEntity
+3001b793 | e928874900 | JMP 0x304b3ec0

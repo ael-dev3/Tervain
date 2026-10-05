@@ -1,0 +1,10 @@
+/* ENTRY 2002bad5 | bTPropertyType<gCDamage_PS,long>::vfunction1 | STATUS decompiled | 4 ms */
+
+bTPropertyType<gCDamage_PS,long>_vftable * __thiscall
+bTPropertyType<gCDamage_PS,long>::vfunction1(bTPropertyType<gCDamage_PS,long> *this)
+
+{
+  return this[7].vftablePtr;
+}
+
+

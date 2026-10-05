@@ -1,0 +1,2 @@
+; 20028f74 gCParty_PS::GetVersion
+20028f74 | e9c7eb2e00 | JMP 0x20317b40

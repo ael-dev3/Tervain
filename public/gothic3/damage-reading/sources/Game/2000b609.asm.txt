@@ -1,0 +1,2 @@
+; 2000b609 gCDamage_PS::SetDamageAmount
+2000b609 | e9f27c0a00 | JMP 0x200b3300

@@ -1,0 +1,2 @@
+; 1000191f bCPropertyObjectSingleton::RegisterTemplate
+1000191f | e9aceb0800 | JMP 0x100904d0

@@ -1,0 +1,37 @@
+/* ENTRY 20140c30 | bTPropertyObject<gCFocus_PS,eCEntityPropertySet>::vfunction6 | STATUS decompiled | 15 ms */
+
+ushort __thiscall
+bTPropertyObject<gCFocus_PS,eCEntityPropertySet>::vfunction6
+          (bTPropertyObject<gCFocus_PS,eCEntityPropertySet> *this,bCIStream *param_1)
+
+{
+  bCIStream *this_00;
+  bool bVar1;
+  ushort uVar2;
+  bCString *pbVar3;
+  bCString *this_01;
+  bCMemoryAdmin *pbVar4;
+  void *pvVar5;
+  bCIStream *pbVar6;
+  
+  this_00 = param_1;
+  uVar2 = bCPropertyObjectBase::Read((bCPropertyObjectBase *)this,(bCIStream *)param_1);
+  param_1 = (bCIStream *)0x0;
+  bCIStream::operator>>(this_00,(ulong *)&param_1);
+  pbVar3 = (bCString *)bTPropertyType<gCArena_PS,bCObsoleteClass>::vfunction4();
+  this_01 = (bCString *)bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>::vfunction1();
+  bVar1 = bCString::operator==(this_01,pbVar3);
+  if (bVar1) {
+    pbVar6 = param_1;
+    pbVar4 = bCMemoryAdmin::GetInstance();
+    pvVar5 = bCMemoryAdmin::Malloc(pbVar4,(ulong)pbVar6);
+    (**(code **)((int)*this_00 + 4))(pvVar5,param_1);
+    pbVar4 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar4,pvVar5);
+    return uVar2;
+  }
+  (*this->vftablePtr->vfunction8)(this,this_00,(uint)uVar2);
+  return uVar2;
+}
+
+

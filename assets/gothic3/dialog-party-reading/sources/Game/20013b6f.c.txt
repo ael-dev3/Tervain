@@ -1,0 +1,12 @@
+/* ENTRY 20013b6f | gCParty_PS::CopyFrom | STATUS decompiled | 6 ms */
+
+/* public: virtual enum bEResult __thiscall gCParty_PS::CopyFrom(class bCObjectBase const &) */
+
+bEResult __thiscall gCParty_PS::CopyFrom(gCParty_PS *this,bCObjectBase *param_1)
+
+{
+                    /* 0x13b6f  2277  ?CopyFrom@gCParty_PS@@UAE?AW4bEResult@@ABVbCObjectBase@@@Z */
+  return 1;
+}
+
+

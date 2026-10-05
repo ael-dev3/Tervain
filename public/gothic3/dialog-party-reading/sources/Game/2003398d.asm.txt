@@ -1,0 +1,2 @@
+; 2003398d bTPOPureSmartPtr<gCParty_PS>::vfunction11
+2003398d | e97e7f2e00 | JMP 0x2031b910

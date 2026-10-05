@@ -1,0 +1,11 @@
+/* ENTRY 2020c4f0 | bTPropertyObject<gCDialog_PS,eCEntityPropertySet>::vfunction1 | STATUS decompiled | 2 ms */
+
+bCObjectRefBase * __thiscall
+bTPropertyObject<gCDialog_PS,eCEntityPropertySet>::vfunction1
+          (bTPropertyObject<gCDialog_PS,eCEntityPropertySet> *this)
+
+{
+  return (this->bTPOPureSmartPtr<gCDialog_PS>_data).offset_0x4;
+}
+
+

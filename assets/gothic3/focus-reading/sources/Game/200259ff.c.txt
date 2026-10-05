@@ -1,0 +1,13 @@
+/* ENTRY 200259ff | gCFocus_PS::GetPropertySetType | STATUS decompiled | 7 ms */
+
+/* public: virtual enum eEPropertySetType __thiscall gCFocus_PS::GetPropertySetType(void)const  */
+
+eEPropertySetType __thiscall gCFocus_PS::GetPropertySetType(gCFocus_PS *this)
+
+{
+                    /* 0x259ff  4064  ?GetPropertySetType@gCFocus_PS@@UBE?AW4eEPropertySetType@@XZ
+                        */
+  return 0x3b;
+}
+
+

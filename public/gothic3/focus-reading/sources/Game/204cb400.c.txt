@@ -1,0 +1,35 @@
+/* ENTRY 204cb400 | bTPropertyType<gCFocus_PS,bool>::~bTPropertyType<gCFocus_PS,bool> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCFocus_PS,bool>::~bTPropertyType<gCFocus_PS,bool>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"DisplayType");
+  bCString::bCString(local_c,"HighlightFocus");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_bHighlightFocus,local_c,local_8,
+             local_4,1,false);
+  _ms_PropertyMember_m_bHighlightFocus = &vftable;
+  DAT_207b9330 = bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>();
+  _DAT_207b9334 = 0x126;
+  _DAT_207b9338 = 0;
+  bCPropertyTypeBase::Create((bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_bHighlightFocus)
+  ;
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b9330,
+             (bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_bHighlightFocus);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bool>::~bTPropertyTypeOnly<bool>);
+  return;
+}
+
+

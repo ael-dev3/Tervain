@@ -1,0 +1,12 @@
+/* ENTRY 20029ec9 | gCDialog_PS::AccessTeachEnabled | STATUS decompiled | 9 ms */
+
+/* public: bool & __thiscall gCDialog_PS::AccessTeachEnabled(void) */
+
+bool * __thiscall gCDialog_PS::AccessTeachEnabled(gCDialog_PS *this)
+
+{
+                    /* 0x29ec9  1739  ?AccessTeachEnabled@gCDialog_PS@@QAEAA_NXZ */
+  return (bool *)&(this->gCDialog_PS_data).field_0x24;
+}
+
+

@@ -1,0 +1,51 @@
+/* ENTRY 10008887 | bCSpieAdmin::Create | STATUS decompiled | 15 ms */
+
+/* public: void __thiscall bCSpieAdmin::Create(void) */
+
+void __thiscall bCSpieAdmin::Create(bCSpieAdmin *this)
+
+{
+  bCMessageAdmin *pbVar1;
+  FILE *_File;
+  SOCKET SVar2;
+  bEMessageCallbackPriority bVar3;
+  _func_bool_bEMessageTypes_char_ptr_char_ptr_ulong_char_ptr_int_int *p_Var4;
+  bCSpieAdmin *pbVar5;
+  char acStack_1a2 [2];
+  sockaddr sStack_1a0;
+  WSADATA WStack_190;
+  
+                    /* 0x8887  1819  ?Create@bCSpieAdmin@@QAEXXZ */
+  if (*(SOCKET *)(this + 0x18) != 0xffffffff) {
+    acStack_1a2[1] = 1;
+    send(*(SOCKET *)(this + 0x18),acStack_1a2 + 1,1,0);
+  }
+  p_Var4 = (_func_bool_bEMessageTypes_char_ptr_char_ptr_ulong_char_ptr_int_int *)&LAB_10005722;
+  pbVar1 = bCMessageAdmin::GetInstance();
+  bCMessageAdmin::UnregisterCallback(pbVar1,p_Var4);
+  *(undefined4 *)(this + 0x18) = 0xffffffff;
+  _File = _fopen("zSpie.txt","r");
+  if (_File != (FILE *)0x0) {
+    _fclose(_File);
+    bVar3 = 1;
+    p_Var4 = (_func_bool_bEMessageTypes_char_ptr_char_ptr_ulong_char_ptr_int_int *)&LAB_10005722;
+    DAT_10197dbc = 1;
+    pbVar5 = this;
+    pbVar1 = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::RegisterCallback(pbVar1,p_Var4,bVar3,(ulong)pbVar5);
+    WSAStartup(0x101,&WStack_190);
+    SVar2 = socket(2,2,0);
+    *(SOCKET *)(this + 0x18) = SVar2;
+    if (SVar2 != 0xffffffff) {
+      sStack_1a0.sa_data._2_4_ = inet_addr("127.0.0.1");
+      sStack_1a0.sa_data._0_2_ = htons(0x1267);
+      sStack_1a0.sa_family = 2;
+      connect(*(SOCKET *)(this + 0x18),&sStack_1a0,0x10);
+    }
+    acStack_1a2[0] = '\0';
+    send(*(SOCKET *)(this + 0x18),acStack_1a2,1,0);
+  }
+  return;
+}
+
+

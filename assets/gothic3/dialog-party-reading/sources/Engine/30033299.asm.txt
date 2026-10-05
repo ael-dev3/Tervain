@@ -1,0 +1,2 @@
+; 30033299 eCEntityProxy::deleting_destructor
+30033299 | e972174900 | JMP 0x304c4a10

@@ -1,0 +1,2 @@
+; 3003816d eCTemplateEntityProxy::eCTemplateEntityProxy
+3003816d | e91ef44800 | JMP 0x304c7590

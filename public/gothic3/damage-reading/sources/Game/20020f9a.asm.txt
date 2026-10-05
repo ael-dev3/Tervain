@@ -1,0 +1,2 @@
+; 20020f9a gCDamage_PS::GetPropertySetType
+20020f9a | e9d1250900 | JMP 0x200b3570

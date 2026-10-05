@@ -1,0 +1,12 @@
+/* ENTRY 20003e31 | gCDialog_PS::AccessPickedPocket | STATUS decompiled | 8 ms */
+
+/* public: bool & __thiscall gCDialog_PS::AccessPickedPocket(void) */
+
+bool * __thiscall gCDialog_PS::AccessPickedPocket(gCDialog_PS *this)
+
+{
+                    /* 0x3e31  1534  ?AccessPickedPocket@gCDialog_PS@@QAEAA_NXZ */
+  return (bool *)&(this->gCDialog_PS_data).field_0x28;
+}
+
+

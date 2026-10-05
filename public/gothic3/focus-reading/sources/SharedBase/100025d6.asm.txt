@@ -1,0 +1,2 @@
+; 100025d6 bCAccessorPropertyObject::~bCAccessorPropertyObject
+100025d6 | e985850900 | JMP 0x1009ab60

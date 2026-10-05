@@ -1,0 +1,19 @@
+; 201af960 FUN_201af960
+201af960 | 56 | PUSH ESI
+201af961 | 8bf1 | MOV ESI,ECX
+201af963 | 8b06 | MOV EAX,dword ptr [ESI]
+201af965 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+201af968 | 6a00 | PUSH 0x0
+201af96a | 686cd76720 | PUSH 0x2067d76c
+201af96f | ffd2 | CALL EDX
+201af971 | 8b442408 | MOV EAX,dword ptr [ESP + 0x8]
+201af975 | 8a08 | MOV CL,byte ptr [EAX]
+201af977 | 8b16 | MOV EDX,dword ptr [ESI]
+201af979 | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+201af97c | 6a00 | PUSH 0x0
+201af97e | 884e1c | MOV byte ptr [ESI + 0x1c],CL
+201af981 | 686cd76720 | PUSH 0x2067d76c
+201af986 | 8bce | MOV ECX,ESI
+201af988 | ffd0 | CALL EAX
+201af98a | 5e | POP ESI
+201af98b | c20400 | RET 0x4

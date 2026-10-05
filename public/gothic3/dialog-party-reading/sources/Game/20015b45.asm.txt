@@ -1,0 +1,2 @@
+; 20015b45 bTPropertyType<gCParty_PS,bTPropertyContainer<gEPartyMemberType>_>::vfunction26
+20015b45 | e9464c3000 | JMP 0x2031a790

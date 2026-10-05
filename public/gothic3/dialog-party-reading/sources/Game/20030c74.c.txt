@@ -1,0 +1,18 @@
+/* ENTRY 20030c74 | gCDialog_PS::SetTeachEnabled | STATUS decompiled | 8 ms */
+
+/* public: void __thiscall gCDialog_PS::SetTeachEnabled(bool const &) */
+
+void __thiscall gCDialog_PS::SetTeachEnabled(gCDialog_PS *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x30c74  7123  ?SetTeachEnabled@gCDialog_PS@@QAEXAB_N@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"TeachEnabled",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->gCDialog_PS_data).field_0x24 = *param_1;
+  (*pNVar1)(this,"TeachEnabled",false);
+  return;
+}
+
+

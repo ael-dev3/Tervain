@@ -1,0 +1,2 @@
+; 2001800c gCInteraction_PS::GetVersion
+2001800c | e93fbf3e00 | JMP 0x20403f50

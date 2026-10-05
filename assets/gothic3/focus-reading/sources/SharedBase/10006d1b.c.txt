@@ -1,0 +1,13 @@
+/* ENTRY 10006d1b | bCIStream::operator>> | STATUS decompiled | 3 ms */
+
+/* public: class bCIStream & __thiscall bCIStream::operator>>(bool &) */
+
+bCIStream * __thiscall bCIStream::operator>>(bCIStream *this,bool *param_1)
+
+{
+                    /* 0x6d1b  641  ??5bCIStream@@QAEAAV0@AA_N@Z */
+  (*this->vftablePtr->Read)(this,(bCString *)param_1);
+  return (bCIStream *)this;
+}
+
+

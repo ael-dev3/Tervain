@@ -1,0 +1,2 @@
+; 20006177 bTPropertyType<gCAnchor_PS,unsigned_long>::vfunction4
+20006177 | e934cc0500 | JMP 0x20062db0

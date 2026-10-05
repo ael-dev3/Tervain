@@ -1,0 +1,2 @@
+; 20019ddf gCDialog_PS::SetTalkingTo
+20019ddf | e90c1b1f00 | JMP 0x2020b8f0

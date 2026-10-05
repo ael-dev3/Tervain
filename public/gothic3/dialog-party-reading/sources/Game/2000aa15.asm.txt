@@ -1,0 +1,2 @@
+; 2000aa15 bTPropertyType<gCParty_PS,bool>::vfunction26
+2000aa15 | e9d6063100 | JMP 0x2031b0f0

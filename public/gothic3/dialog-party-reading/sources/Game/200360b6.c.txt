@@ -1,0 +1,13 @@
+/* ENTRY 200360b6 | gCDialog_PS::Write | STATUS decompiled | 7 ms */
+
+/* public: virtual enum bEResult __thiscall gCDialog_PS::Write(class bCOStream &) */
+
+bEResult __thiscall gCDialog_PS::Write(gCDialog_PS *this,bCOStream *param_1)
+
+{
+                    /* 0x360b6  7498  ?Write@gCDialog_PS@@UAE?AW4bEResult@@AAVbCOStream@@@Z */
+  bCOStream::operator<<((bCOStream *)param_1,1);
+  return 1;
+}
+
+

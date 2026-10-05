@@ -1,0 +1,2 @@
+; 2001db83 gCFocus_PS::Invalidate
+2001db83 | e9b8ec1100 | JMP 0x2013c840

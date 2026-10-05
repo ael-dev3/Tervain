@@ -1,0 +1,2 @@
+; 2002bad5 bTPropertyType<gCDamage_PS,long>::vfunction1
+2002bad5 | e946aa0800 | JMP 0x200b6520

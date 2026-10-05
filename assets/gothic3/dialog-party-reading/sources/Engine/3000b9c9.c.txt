@@ -1,0 +1,12 @@
+/* ENTRY 3000b9c9 | eCNode::GetID | STATUS decompiled | 3 ms */
+
+/* public: class bCPropertyID const & __thiscall eCNode::GetID(void)const  */
+
+bCPropertyID * __thiscall eCNode::GetID(eCNode *this)
+
+{
+                    /* 0xb9c9  7314  ?GetID@eCNode@@QBEABVbCPropertyID@@XZ */
+  return (bCPropertyID *)&(this->eCNode_data).field_0x14;
+}
+
+

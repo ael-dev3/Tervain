@@ -1,0 +1,26 @@
+/* ENTRY 30008adf | eCEntityProxy::CopyFrom | STATUS decompiled | 7 ms */
+
+/* protected: virtual enum bEResult __thiscall eCEntityProxy::CopyFrom(class eCEntityProxy const &)
+    */
+
+bEResult __thiscall eCEntityProxy::CopyFrom(eCEntityProxy *this,eCEntityProxy *param_1)
+
+{
+  eCEntityProxyInternal *this_00;
+  
+                    /* 0x8adf  4093  ?CopyFrom@eCEntityProxy@@MAE?AW4bEResult@@ABV1@@Z */
+  if (*(eCEntityProxyInternal **)(param_1 + 4) != (eCEntityProxyInternal *)0x0) {
+    eCEntityProxyInternal::AddReference(*(eCEntityProxyInternal **)(param_1 + 4));
+  }
+  this_00 = (this->eCEntityProxy_data).offset_0x0;
+  if (this_00 != (eCEntityProxyInternal *)0x0) {
+    eCEntityProxyInternal::ReleaseReference(this_00);
+    (this->eCEntityProxy_data).offset_0x0 = (eCEntityProxyInternal *)0x0;
+  }
+  bCPropertyID::operator=
+            ((bCPropertyID *)&(this->eCEntityProxy_data).field_0x4,(bCPropertyID *)(param_1 + 8));
+  (this->eCEntityProxy_data).offset_0x0 = *(eCEntityProxyInternal **)(param_1 + 4);
+  return 1;
+}
+
+

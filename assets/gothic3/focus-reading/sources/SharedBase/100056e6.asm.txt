@@ -1,0 +1,2 @@
+; 100056e6 bCPropertyObjectBase::Clone
+100056e6 | e9e5390800 | JMP 0x100890d0

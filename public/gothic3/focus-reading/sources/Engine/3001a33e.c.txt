@@ -1,0 +1,195 @@
+/* ENTRY 3001a33e | eCPhysicsScene::TraceRayAllHits | STATUS decompiled | 131 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+/* public: bool __thiscall eCPhysicsScene::TraceRayAllHits(class bCVector const &,class bCVector
+   const &,class eCEntity const *,unsigned long,class eCEntity const *,enum eEPropertySetType,enum
+   eEShapeGroup) */
+
+bool __thiscall
+eCPhysicsScene::TraceRayAllHits
+          (eCPhysicsScene *this,bCVector *param_1,bCVector *param_2,eCEntity *param_3,ulong param_4,
+          eCEntity *param_5,eEPropertySetType param_6,eEShapeGroup param_7)
+
+{
+  undefined4 *puVar1;
+  undefined1 uVar2;
+  byte bVar3;
+  void **ppvVar4;
+  uint uVar5;
+  NxVec3 *pNVar6;
+  bCVector *this_00;
+  NxVec3 *pNVar7;
+  uint uVar8;
+  uint uVar9;
+  undefined4 unaff_EBX;
+  int iVar10;
+  int unaff_EBP;
+  uint uVar11;
+  undefined4 unaff_EDI;
+  bool bVar12;
+  __uint64 _Var13;
+  bCVector *unaff_retaddr;
+  float fVar14;
+  eCEntity *peVar15;
+  undefined8 uStack_48;
+  void **ppvStack_3c;
+  undefined8 uStack_38;
+  bCVector abStack_28 [4];
+  undefined1 auStack_24 [4];
+  undefined4 uStack_20;
+  undefined4 uStack_1c;
+  undefined4 uStack_18;
+  undefined4 uStack_14;
+  undefined4 uStack_10;
+  undefined4 uStack_c;
+  
+                    /* 0x1a33e  14769
+                       ?TraceRayAllHits@eCPhysicsScene@@QAE_NABVbCVector@@0PBVeCEntity@@K1W4eEPropertySetType@@W4eEShapeGroup@@@Z
+                        */
+  uStack_48._4_4_ = 0;
+  if ((this->eCPhysicsScene_data).offset_0x8 == 0) {
+    return false;
+  }
+  if ((this->eCPhysicsScene_data).offset_0xc8 == (eCPhysicsScene)0x1) {
+    return false;
+  }
+  bVar3 = (byte)param_4;
+  if ((bVar3 & 3) == 3) {
+    uStack_48._0_4_ = 3;
+  }
+  else if ((bVar3 & 1) == 1) {
+    uStack_48._0_4_ = 1;
+  }
+  else {
+    if ((bVar3 & 2) != 2) {
+      return false;
+    }
+    uStack_48._0_4_ = 2;
+  }
+  uStack_38 = bCTimer::QueryPerformanceCounter();
+  eCPhysicQueryReport::Reset((eCPhysicQueryReport *)(this->eCPhysicsScene_data).offset_0x9c);
+  thunk_FUN_3032a8d0();
+  _DAT_30ab3d00 = (this->eCPhysicsScene_data).offset_0x90;
+  ppvStack_3c = &(this->eCPhysicsScene_data).offset_0xa0;
+  thunk_FUN_3007ef40(ppvStack_3c);
+  peVar15 = param_3;
+  thunk_FUN_30329b30(param_3);
+  _DAT_30ab3c90 = param_6;
+  DAT_30ab3c94 = (this->eCPhysicsScene_data).offset_0xac == (eCPhysicsScene)0x1;
+  DAT_30ab3cfc = (param_4 & 0x400) == 0x400;
+  uVar5 = param_4 & 0x80;
+  DAT_30ab3cec = uVar5 == 0x80;
+  uVar11 = param_4 & 0x100;
+  DAT_30ab3cef = uVar11 == 0x100;
+  DAT_30ab3cf0 = (param_4 & 0x200) == 0x200;
+  uVar8 = param_4 & 0x20;
+  DAT_30ab3cee = uVar8 == 0x20;
+  uVar9 = param_4 & 0x40;
+  DAT_30ab3ced = uVar9 == 0x40;
+  _DAT_30ab3cf8 = param_5;
+  DAT_30ab3cf3 = (param_4 & 0x2000) == 0x2000;
+  DAT_30ab3cf4 = (param_4 & 0x8000) == 0x8000;
+  DAT_30ab3cf5 = (param_4 & 0x4000) == 0x4000;
+  DAT_30ab3cf1 = (bVar3 & 8) == 8;
+  DAT_30ab3cf2 = (bVar3 & 0x10) == 0x10;
+  bVar12 = (param_4 & 0x1000) != 0x1000;
+  if (bVar12) {
+    peVar15 = (eCEntity *)0x3031cbc1;
+    param_4 = (ulong)bCVector::GetMagnitude(param_2);
+  }
+  else {
+    param_4 = 0x3f800000;
+  }
+  ppvVar4 = ppvStack_3c;
+  if ((float)param_4 != 0.0) {
+    if ((float)param_4 != 1.0) {
+      uStack_48._4_4_ = 1;
+      param_2 = (bCVector *)bCVector::GetInvScaled(param_2,(float)auStack_24);
+      peVar15 = (eCEntity *)param_4;
+    }
+    bCVector::bCVector((bCVector *)((int)&uStack_38 + 4),param_2);
+    if (((uint)uStack_48 & 1) != 0) {
+      bCVector::~bCVector(abStack_28);
+    }
+    bCCriticalSectionWin32::Acquire((bCCriticalSectionWin32 *)&DAT_30ae5dc0);
+    if (bVar12) {
+      fVar14 = _DAT_30ab3c6c * (float)param_3;
+    }
+    else {
+      fVar14 = 3.4028235e+38;
+    }
+    uStack_48 = (double)fVar14;
+    if (param_6 == 0) {
+      iVar10 = -1;
+    }
+    else {
+      iVar10 = 1 << ((byte)param_6 & 0x1f);
+    }
+    pNVar6 = bCVector::operator_class_NxVec3_const_((bCVector *)((int)&uStack_38 + 4));
+    fVar14 = _DAT_30ab3c6c;
+    this_00 = (bCVector *)bCVector::operator*(unaff_retaddr,(float)abStack_28);
+    pNVar7 = bCVector::operator_class_NxVec3_(this_00);
+    uStack_20 = *(undefined4 *)pNVar7;
+    uStack_1c = *(undefined4 *)(pNVar7 + 4);
+    uStack_18 = *(undefined4 *)(pNVar7 + 8);
+    uStack_14 = *(undefined4 *)pNVar6;
+    uStack_10 = *(undefined4 *)(pNVar6 + 4);
+    uStack_c = *(undefined4 *)(pNVar6 + 8);
+    iVar10 = (**(code **)(*(int *)(this->eCPhysicsScene_data).offset_0x8 + 0xe8))
+                       (&uStack_20,&PTR_vftable_30ab3c80,unaff_EBX,iVar10,
+                        (float)(double)CONCAT44((uint)uStack_48,unaff_EDI),
+                        (uVar9 != 0x40) - 1U & 4 | (uVar8 != 0x20) - 1U & 0x40 |
+                        (uVar11 != 0x100) - 1U & 0x10 | (uVar5 != 0x80) - 1U & 2 | 1,0);
+    bCVector::~bCVector((bCVector *)&uStack_48);
+    (this->eCPhysicsScene_data).offset_0x90 = 0;
+    thunk_FUN_30073b10(0,0xffffffff);
+    *(undefined4 *)((int)fVar14 + 4) = 0;
+    if (iVar10 == 0) {
+      _Var13 = bCTimer::QueryPerformanceCounter();
+      uVar8 = (int)(eCEntity *)_Var13 - (int)peVar15;
+      puVar1 = &(this->eCPhysicsScene_data).offset_0x7c;
+      uVar5 = *puVar1;
+      *puVar1 = *puVar1 + uVar8;
+      puVar1 = &(this->eCPhysicsScene_data).offset_0x80;
+      *puVar1 = *puVar1 + (((int)(_Var13 >> 0x20) - unaff_EBP) -
+                          (uint)((eCEntity *)_Var13 < peVar15)) + (uint)CARRY4(uVar5,uVar8);
+      puVar1 = &(this->eCPhysicsScene_data).offset_0x84;
+      *puVar1 = *puVar1 + 1;
+      bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30ae5dc0);
+      bCVector::~bCVector((bCVector *)&stack0xffffffac);
+      return false;
+    }
+    *(undefined4 *)((this->eCPhysicsScene_data).offset_0x9c + 0x8c) = 0;
+    *(undefined4 *)((this->eCPhysicsScene_data).offset_0x9c + 4) = 0;
+    bCVector::Clear((bCVector *)((this->eCPhysicsScene_data).offset_0x9c + 0x68));
+    thunk_FUN_3007ef40(&DAT_30ab3c98);
+    thunk_FUN_3007c8e0(&DAT_30ab3cc8);
+    thunk_FUN_3007c8e0(&DAT_30ab3cc8);
+    thunk_FUN_3007c800(&DAT_30ab3cd4);
+    thunk_FUN_3007c8e0(&DAT_30ab3cb0);
+    thunk_FUN_3007f780(&DAT_30ab3ce0);
+    thunk_FUN_3007f6a0(&DAT_30ab3ca4);
+    iVar10 = (this->eCPhysicsScene_data).offset_0x9c;
+    *(bool *)iVar10 = 0 < *(int *)(iVar10 + 0x14);
+    _Var13 = bCTimer::QueryPerformanceCounter();
+    uVar8 = (int)(eCEntity *)_Var13 - (int)peVar15;
+    puVar1 = &(this->eCPhysicsScene_data).offset_0x7c;
+    uVar5 = *puVar1;
+    *puVar1 = *puVar1 + uVar8;
+    puVar1 = &(this->eCPhysicsScene_data).offset_0x80;
+    *puVar1 = *puVar1 + (((int)(_Var13 >> 0x20) - unaff_EBP) - (uint)((eCEntity *)_Var13 < peVar15))
+              + (uint)CARRY4(uVar5,uVar8);
+    puVar1 = &(this->eCPhysicsScene_data).offset_0x84;
+    *puVar1 = *puVar1 + 1;
+    uVar2 = *(undefined1 *)(this->eCPhysicsScene_data).offset_0x9c;
+    bCCriticalSectionWin32::Release((bCCriticalSectionWin32 *)&DAT_30ae5dc0);
+    bCVector::~bCVector((bCVector *)&stack0xffffffac);
+    return (bool)uVar2;
+  }
+  (this->eCPhysicsScene_data).offset_0x90 = 0;
+  thunk_FUN_30073b10(0,0xffffffff);
+  ppvVar4[1] = (void *)0x0;
+  return false;
+}
+
+

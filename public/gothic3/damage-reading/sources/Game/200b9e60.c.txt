@@ -1,0 +1,12 @@
+/* ENTRY 200b9e60 | FUN_200b9e60 | STATUS decompiled | 2 ms */
+
+void __fastcall FUN_200b9e60(bCObjectRefBase *param_1)
+
+{
+  bCObjectRefBase::PostInitializeProperties(param_1);
+  param_1[5].bCObjectBase = (bCObjectBase)0x1;
+  param_1[6].bCObjectBase = (bCObjectBase)0x1;
+  return;
+}
+
+

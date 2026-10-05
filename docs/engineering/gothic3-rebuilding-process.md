@@ -15,7 +15,7 @@ limitations and source terms.
 This guide describes the source on `codex/gothic3-gameplay-initialization`.
 The last recorded successful deployment predates the latest source checkpoints,
 which have not been deployed. Online availability was not reviewed for this
-checkpoint. Sections 10–19 cover the newer runtime work.
+checkpoint. Sections 10–20 cover the newer runtime work.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
 To reproduce an older receipt, use a checkout at that commit and its producers.
@@ -2173,3 +2173,157 @@ embedded SPU, equipment mutation, templates and scene graph must be connected
 before world cache, physics, PVS, processing, original inputs and story can
 become live. Original save/load, progression through the endings and successful
 online deployment remain unproven. This checkpoint keeps `gameplayReady: false`.
+
+## 20. Restore interaction, damage, focus, dialogue and party state
+
+Six more Hero property sets now have bounded construction and serialized-read
+implementations. These continue the original record from section 19 and also
+cover Dialog and Party later in that record. They require the original host
+services at the recorded call sites before they can run in the browser world.
+
+| Property set | Hero packet | Relative bytes including sentinel | Version | Type selector | Reflected fields |
+| --- | ---: | --- | ---: | ---: | ---: |
+| `gCInteraction_PS` | 9 | `[3922,4158)` — 236 bytes | 84 | 49 | 14 |
+| `gCDamage_PS` | 10 | `[4158,4263)` — 105 bytes | 76 | 51 | 5 |
+| `gCDamageReceiver_PS` | 11 | `[4263,4423)` — 160 bytes | 33 | 52 | 9 |
+| `gCFocus_PS` | 12 | `[4423,5563)` — 1,140 bytes | 44 | 59 | 80 |
+| `gCDialog_PS` | 14 | `[7180,7320)` — 140 bytes | 1 | 68 | 9 |
+| `gCParty_PS` | 16 | `[7575,7653)` — 78 bytes | 1 | 77 | 3 |
+
+Each row describes a source packet, not an activated entity or a working
+gameplay system. These readers are not yet invoked by the browser application.
+
+### Interaction includes real proxy and CString ownership
+
+[interaction-reading.ts](../../src/gothic3/interaction-reading.ts) preserves
+the separate inherited entity owner and the reflected Owner/User/AnchorPoint
+proxies. The same 224-byte allocation also owns a Spell template proxy and an
+additional nonreflected property-set proxy. Defaults, reads and callbacks
+retain those physical slots and capability identities.
+
+The original FocusNameBone default is `Head_Head_End`. Its literal assignment
+and subsequent indexed archive read require the actual CString ownership
+service, including allocation, references and release. Returning JavaScript
+text alone does not implement that service. NULL and allocated-empty strings
+remain distinct. Current masked enum globals are required at the original
+constructor and default boundaries.
+
+Interaction is not processable. Its added/removed callbacks still require
+actual NavigationAdmin registration, subject to the original template-owner
+branch. Processing-range entry adds it to InteractionAdmin before the script
+gate; exit runs the script and destroys a fallback name before removal.
+The application-mode check is strict byte value 1, and ScriptAdmin may be
+NULL. Real registry, application and script services remain dependencies.
+
+### Damage records precede combat implementation
+
+[damage-reading.ts](../../src/gothic3/damage-reading.ts) supplies both concrete
+factories. Their reflective views, base objects, enum containers and receiver's
+LastInflictor proxy retain one store for each allocation. The original native
+read consumes its two-byte version and returns 1 for each class. Both classes
+are not processable; their examined process and lifecycle callbacks are empty.
+
+Damage PostInitialize sets DamageAmount to 10, DamageType to 2 through its
+actual enum temporary, ManaMultiplier to 1, ManaUsed to 0 and HitMultiplier to
+1. Receiver PostInitialize sets HitPoints and HitPointsMax to 1. Serialized
+fields then replace the reflective defaults in their original order. The
+receiver's entity proxy follows 16-byte GUID equality, cache-DWORD clearing
+and the original reference-release order. Constructing these records does
+not yet execute attacks, animation events, hit detection or combat scripts.
+
+### Focus defaults and search belong to the same allocation
+
+[focus-reading.ts](../../src/gothic3/focus-reading.ts) restores 80 reflected
+fields in the 408-byte Focus allocation. Its 70 floats, six booleans, three
+enum containers and CurrentEntity proxy share that physical storage. The
+vector constructors leave uninitialized bits unknown. Descriptor defaults,
+Invalidate and PostInitialize then apply their recorded stores in source
+order. Reused eight-byte enum temporaries retain their base and typed vtable
+writes, scalar copies and destruction boundaries.
+
+CurrentEntity's descriptor default resolves the member without clearing it.
+Focus Enter uses the inherited second owner.Modified read. Focus overrides
+OnNotifyExit with literal return 1, so Exit performs only the outer owner
+read. Treating every property set's notification chain as identical would
+change that behavior.
+
+Invalidate frees a captured nonNULL candidate array before clearing its
+pointer, count and capacity. A NULL pointer leaves count and capacity alone.
+Focus is processable. Process calls the actual FindFocusEntity search only when
+DrawFocusName is strict byte value 1. PostProcess clears the same look-direction
+vector before the inherited empty callback. Candidate allocation/free and the live scene,
+picking and interaction search must be supplied by their real services.
+
+### Dialog and Party preserve embedded identities and list state
+
+[dialog-party-reading.ts](../../src/gothic3/dialog-party-reading.ts) restores
+the 88-byte Dialog and 72-byte Party allocations, including their embedded
+entity proxies and masked TradeCategory/PartyMemberType defaults. Dialog
+PostInitialize clears TalkedToBy and assigns NULL to the existing TalkingTo
+proxy through the original temporary and assignment order. Party's
+PartyLeaderEntity descriptor default resolves its member without a preset.
+
+Party's native tail consumes its version, a list prefix byte and a uint32
+count. The original Hero count is zero. Nonempty-list allocation and element
+lifetimes remain explicit dependencies; the current empty record does not
+prove that branch. Cached proxy resolution, QueryEntityProxyInternal,
+GetEntity, nonNULL internal references and terminal destruction also require
+their actual services. Dialog is processable but its examined processing
+callbacks are empty; Party is not processable.
+
+### Reproduce and review this checkpoint
+
+The four offline producers verify the immutable Game/Engine/SharedBase inputs,
+selected instruction bytes, vtables, descriptor metadata and focused Hero
+packets. Evidence includes supporting native bodies whose full behavior may
+remain unimplemented. Counts measure the examined evidence, not completed
+gameplay features. Current receipts pin each implementation, producer,
+imported Python helper and owned output.
+
+This checkpoint selects assembly globally by each original catalog function's
+inclusive body ranges, including discontiguous ranges. Every range must have
+complete instruction-byte coverage and match the original PE. Adjacent
+functions are excluded. The earlier collector used the next assembly ENTRY
+header as its boundary; historical receipts retain that recorded method and
+their original counts. The new [capture helper](../../tools/gothic3/bounded_native_capture.py)
+and checkpoint audit enforce the tighter boundaries for these four evidence
+sets.
+
+Reproduce them at this recorded source revision:
+
+```powershell
+python -B tools/gothic3/research_interaction_reading.py --study $study
+python -B tools/gothic3/research_damage_reading.py --study $study
+python -B tools/gothic3/research_focus_reading.py --study $study
+python -B tools/gothic3/research_dialog_party_reading.py --study $study
+python -B tools/gothic3/freeze_hero_properties_checkpoint.py
+```
+
+The [Hero properties checkpoint](../../assets/gothic3/hero-properties-checkpoint.json)
+chains the unchanged character-reading source at `fd804884`, retains the
+historical receipts and pins the current code, evidence and guide.
+
+| Evidence set | Entries | Instructions | Original instruction bytes |
+| --- | ---: | ---: | ---: |
+| Interaction construction, read and callbacks | 299 | 4,103 | 12,698 |
+| Damage and DamageReceiver construction and reading | 441 | 5,612 | 17,316 |
+| Focus construction, defaults, reading and process boundaries | 544 | 10,804 | 38,245 |
+| Dialog and Party construction, proxies and list reading | 1,044 | 17,592 | 52,250 |
+
+The final combined TypeScript check and production build passed locally on
+5 October 2026 (`npm run build`, 235 Vite modules). The existing large-chunk
+warning remains. This validates source types and packages the current browser
+entries; it does not exercise these detached readers or establish gameplay
+completion. No tests, native execution, browser review, deployment or
+playthrough were run for this checkpoint.
+
+Fifteen of the Hero's 19 property sets now have bounded source factories.
+PlayerMemory, Illuminated, Effect and VisualAnimation still need concrete
+factories and native reads. Existing PlayerMemory behavior must use the same
+live player storage when its factory is connected. All 19 must then enter the
+original enclosing entity reader and template/child/context pipeline, with
+the actual world cache, physics, PVS and processing activation. Input, combat,
+inventory, dialogue, routines, quests, original saving/loading and progression
+through the endings remain integration and completion work. This checkpoint
+keeps `gameplayReady: false`; the full game is unfinished and this newer source
+has not been deployed.

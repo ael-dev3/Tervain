@@ -1,0 +1,2 @@
+; 2002a4d2 gCDialog_PS::GetVersion
+2002a4d2 | e969131e00 | JMP 0x2020b840

@@ -1,0 +1,2 @@
+; 3003d8d9 eCEntity::IsFreeLOS
+3003d8d9 | e992c34700 | JMP 0x304b9c70

@@ -1,0 +1,9 @@
+/* ENTRY 201afb50 | FUN_201afb50 | STATUS decompiled | 0 ms */
+
+int __fastcall FUN_201afb50(int param_1)
+
+{
+  return param_1 + 0x2c;
+}
+
+

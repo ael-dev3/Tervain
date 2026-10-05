@@ -1,0 +1,34 @@
+/* ENTRY 30017e77 | eCEntityProxy::SetEntity | STATUS decompiled | 15 ms */
+
+/* public: void __thiscall eCEntityProxy::SetEntity(class eCEntity const *) */
+
+void __thiscall eCEntityProxy::SetEntity(eCEntityProxy *this,eCEntity *param_1)
+
+{
+  bCPropertyID *pbVar1;
+  eCEntityProxyInternal *peVar2;
+  
+                    /* 0x17e77  13344  ?SetEntity@eCEntityProxy@@QAEXPBVeCEntity@@@Z */
+  if (param_1 == (eCEntity *)0x0) {
+    peVar2 = (this->eCEntityProxy_data).offset_0x0;
+    if (peVar2 != (eCEntityProxyInternal *)0x0) {
+      eCEntityProxyInternal::ReleaseReference(peVar2);
+      (this->eCEntityProxy_data).offset_0x0 = (eCEntityProxyInternal *)0x0;
+    }
+    (this->eCEntityProxy_data).offset_0x0 = (eCEntityProxyInternal *)0x0;
+    bCPropertyID::Destroy((bCPropertyID *)&(this->eCEntityProxy_data).field_0x4);
+    return;
+  }
+  pbVar1 = eCNode::GetID((eCNode *)param_1);
+  bCPropertyID::operator=((bCPropertyID *)&(this->eCEntityProxy_data).field_0x4,pbVar1);
+  peVar2 = (this->eCEntityProxy_data).offset_0x0;
+  if (peVar2 != (eCEntityProxyInternal *)0x0) {
+    eCEntityProxyInternal::ReleaseReference(peVar2);
+    (this->eCEntityProxy_data).offset_0x0 = (eCEntityProxyInternal *)0x0;
+  }
+  peVar2 = eCEntity::QueryEntityProxyInternal((eCEntity *)param_1);
+  (this->eCEntityProxy_data).offset_0x0 = peVar2;
+  return;
+}
+
+

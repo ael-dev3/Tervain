@@ -1,0 +1,4 @@
+; 20146610 bTPropertyObject<gCFocus_PS,eCEntityPropertySet>::vfunction11
+20146610 | 6a00 | PUSH 0x0
+20146612 | e82228eeff | CALL 0x20028e39
+20146617 | c3 | RET

@@ -1,0 +1,10 @@
+; 200bc250 bTPropertyType<gCDamageReceiver_PS,long>::vfunction6
+200bc250 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+200bc254 | 85c0 | TEST EAX,EAX
+200bc256 | 740e | JZ 0x200bc266
+200bc258 | 8b11 | MOV EDX,dword ptr [ECX]
+200bc25a | 50 | PUSH EAX
+200bc25b | 8b4264 | MOV EAX,dword ptr [EDX + 0x64]
+200bc25e | ffd0 | CALL EAX
+200bc260 | c70000000000 | MOV dword ptr [EAX],0x0
+200bc266 | c20400 | RET 0x4

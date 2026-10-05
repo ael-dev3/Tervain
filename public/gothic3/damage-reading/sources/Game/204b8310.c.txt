@@ -1,0 +1,36 @@
+/* ENTRY 204b8310 | bTPropertyType<gCDamageReceiver_PS,long>::~bTPropertyType<gCDamageReceiver_PS,long> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCDamageReceiver_PS,long>::~bTPropertyType<gCDamageReceiver_PS,long>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Basic");
+  bCString::bCString(local_c,"ManaPoints");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCDamageReceiver_PS::ms_PropertyMember_m_iManaPoints,local_c,
+             local_8,local_4,1,false);
+  _ms_PropertyMember_m_iManaPoints = &vftable;
+  DAT_207b6614 = bTPropertyObjectType<gCDamageReceiver_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCDamageReceiver_PS,eCEntityPropertySet>();
+  _DAT_207b6618 = 0x24;
+  _DAT_207b661c = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCDamageReceiver_PS::ms_PropertyMember_m_iManaPoints);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b6614,
+             (bCPropertyTypeBase *)&gCDamageReceiver_PS::ms_PropertyMember_m_iManaPoints);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<long>::~bTPropertyTypeOnly<long>);
+  return;
+}
+
+

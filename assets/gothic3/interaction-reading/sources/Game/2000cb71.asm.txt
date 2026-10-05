@@ -1,0 +1,2 @@
+; 2000cb71 gCInteraction_PS::OnEnterProcessingRange
+2000cb71 | e9ba7b3f00 | JMP 0x20404730

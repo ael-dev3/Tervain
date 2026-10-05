@@ -1,0 +1,2 @@
+; 3003e270 eCApplication::GetInstance
+3003e270 | e95b470200 | JMP 0x300629d0

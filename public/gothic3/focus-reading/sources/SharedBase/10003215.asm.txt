@@ -1,0 +1,2 @@
+; 10003215 bCErrorAdmin::CallFatalError
+10003215 | e956f30100 | JMP 0x10022570

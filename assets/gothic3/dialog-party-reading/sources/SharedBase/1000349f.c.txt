@@ -1,0 +1,16 @@
+/* ENTRY 1000349f | bCPropertyTypeBase::Create | STATUS decompiled | 4 ms */
+
+/* protected: virtual void __thiscall bCPropertyTypeBase::Create(void)
+   bCPropertyTypeBase member function inherited by bTPropertyTypeOnly<bCObsoleteClass> */
+
+void __thiscall bCPropertyTypeBase::Create(bCPropertyTypeBase *this)
+
+{
+                    /* 0x349f  1817  ?Create@bCPropertyTypeBase@@MAEXXZ */
+                    /* WARNING: Could not recover jumptable at 0x10088ad5. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  (*this->vftablePtr->Destroy)(this);
+  return;
+}
+
+

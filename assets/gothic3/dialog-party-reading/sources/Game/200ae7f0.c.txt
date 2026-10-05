@@ -1,0 +1,14 @@
+/* ENTRY 200ae7f0 | FUN_200ae7f0 | STATUS decompiled | 2 ms */
+
+void __fastcall FUN_200ae7f0(int *param_1)
+
+{
+  undefined4 unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("PartyMemberType",0);
+  (**(code **)(param_1[0xc] + 0x1c))(unaff_ESI);
+  (**(code **)(*param_1 + 0x5c))("PartyMemberType",0);
+  return;
+}
+
+

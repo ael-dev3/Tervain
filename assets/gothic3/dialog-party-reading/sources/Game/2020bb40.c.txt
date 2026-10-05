@@ -1,0 +1,39 @@
+/* ENTRY 2020bb40 | eCEntityProxy::eCEntityProxy_Constructor_or_Destructor | STATUS decompiled | 13 ms */
+
+/* WARNING: Exceeded maximum restarts with more pending */
+
+int __thiscall
+eCEntityProxy::eCEntityProxy_Constructor_or_Destructor(eCEntityProxy *this,eCEntity *param_1)
+
+{
+  eCEntityProxy *this_00;
+  int iVar1;
+  eCEntityProxy local_1c;
+  
+  eCEntityProxy::eCEntityProxy(&local_1c,param_1);
+  iVar1 = thunk_FUN_200ae850(&local_1c);
+  eCEntityProxy::~eCEntityProxy(&local_1c);
+  if (iVar1 < 0) {
+    eCEntityProxy::eCEntityProxy(&local_1c,param_1);
+    thunk_FUN_2007bf40(this[2].eCEntityProxy_data.offset_0x14 + 1);
+    this_00 = (eCEntityProxy *)
+              (this[2].eCEntityProxy_data.offset_0x10 + -0x1c +
+              this[2].eCEntityProxy_data.offset_0x14 * 0x1c);
+    (*this_00->vftablePtr->deleting_destructor)(0);
+    this_00->vftablePtr = (eCEntityProxy_vftable *)0x0;
+    (this_00->eCEntityProxy_data).offset_0x0 = 0;
+    (this_00->eCEntityProxy_data).offset_0x4 = 0;
+    (this_00->eCEntityProxy_data).offset_0x8 = 0;
+    (this_00->eCEntityProxy_data).offset_0xc = 0;
+    (this_00->eCEntityProxy_data).offset_0x10 = 0;
+    (this_00->eCEntityProxy_data).offset_0x14 = 0;
+    eCEntityProxy::eCEntityProxy(this_00);
+    this_00->vftablePtr = &vftable;
+    eCEntityProxy::operator=(this_00,(eCEntityProxy *)&stack0xffffffe0);
+    eCEntityProxy::~eCEntityProxy((eCEntityProxy *)&stack0xffffffe0);
+    iVar1 = this[2].eCEntityProxy_data.offset_0x14 + -1;
+  }
+  return iVar1;
+}
+
+

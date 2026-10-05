@@ -1,0 +1,12 @@
+/* ENTRY 2000cdd3 | gCDialog_PS::GetTradeEnabled | STATUS decompiled | 68 ms */
+
+/* public: bool const & __thiscall gCDialog_PS::GetTradeEnabled(void)const  */
+
+bool * __thiscall gCDialog_PS::GetTradeEnabled(gCDialog_PS *this)
+
+{
+                    /* 0xcdd3  4592  ?GetTradeEnabled@gCDialog_PS@@QBEAB_NXZ */
+  return (bool *)&(this->gCDialog_PS_data).field_0x18;
+}
+
+

@@ -1,0 +1,38 @@
+/* ENTRY 204b8040 | bTPropertyType<gCDamageReceiver_PS,long>::~bTPropertyType<gCDamageReceiver_PS,long> | STATUS decompiled | 15 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCDamageReceiver_PS,long>::~bTPropertyType<gCDamageReceiver_PS,long>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,
+                     "maximum hitpoints for living and maximum strutural points for non living objects"
+                    );
+  bCString::bCString(local_8,"Basic");
+  bCString::bCString(local_c,"HitPointsMax");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCDamageReceiver_PS::ms_PropertyMember_m_iHitPointsMax,local_c,
+             local_8,local_4,1,false);
+  _ms_PropertyMember_m_iHitPointsMax = &vftable;
+  DAT_207b65a8 = bTPropertyObjectType<gCDamageReceiver_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCDamageReceiver_PS,eCEntityPropertySet>();
+  _DAT_207b65ac = 0x18;
+  _DAT_207b65b0 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCDamageReceiver_PS::ms_PropertyMember_m_iHitPointsMax);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b65a8,
+             (bCPropertyTypeBase *)&gCDamageReceiver_PS::ms_PropertyMember_m_iHitPointsMax);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<long>::~bTPropertyTypeOnly<long>);
+  return;
+}
+
+

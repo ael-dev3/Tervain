@@ -1,0 +1,22 @@
+; 2020ce90 bTPropertyObjectType<gCDialog_PS,eCEntityPropertySet>::~bTPropertyObjectType<gCDialog_PS,eCEntityPropertySet>
+2020ce90 | b801000000 | MOV EAX,0x1
+2020ce95 | 840504d57b20 | TEST byte ptr [0x207bd504],AL
+2020ce9b | 754d | JNZ 0x2020ceea
+2020ce9d | 090504d57b20 | OR dword ptr [0x207bd504],EAX
+2020cea3 | 50 | PUSH EAX
+2020cea4 | b9c8d47b20 | MOV ECX,0x207bd4c8
+2020cea9 | ff150c877d20 | CALL dword ptr [0x207d870c]
+2020ceaf | c705c8d47b201c5f6820 | MOV dword ptr [0x207bd4c8],0x20685f1c
+2020ceb9 | e87818e1ff | CALL 0x2001e736
+2020cebe | 50 | PUSH EAX
+2020cebf | b9e0d47b20 | MOV ECX,0x207bd4e0
+2020cec4 | ff1510877d20 | CALL dword ptr [0x207d8710]
+2020ceca | 68c8d47b20 | PUSH 0x207bd4c8
+2020cecf | ff1568887d20 | CALL dword ptr [0x207d8868]
+2020ced5 | 8bc8 | MOV ECX,EAX
+2020ced7 | ff1514877d20 | CALL dword ptr [0x207d8714]
+2020cedd | 68907b5520 | PUSH 0x20557b90
+2020cee2 | e8e7682500 | CALL 0x204637ce
+2020cee7 | 83c404 | ADD ESP,0x4
+2020ceea | b8c8d47b20 | MOV EAX,0x207bd4c8
+2020ceef | c3 | RET

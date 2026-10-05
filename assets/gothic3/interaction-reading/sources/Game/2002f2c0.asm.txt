@@ -1,0 +1,2 @@
+; 2002f2c0 bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEFocusNameType>_>::vfunction12
+2002f2c0 | e9abb13d00 | JMP 0x2040a470

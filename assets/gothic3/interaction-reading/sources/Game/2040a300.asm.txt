@@ -1,0 +1,3 @@
+; 2040a300 bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEFocusNameType>_>::vfunction5
+2040a300 | 8b4118 | MOV EAX,dword ptr [ECX + 0x18]
+2040a303 | c3 | RET

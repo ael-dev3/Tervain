@@ -1,0 +1,2 @@
+; 2000f493 gCDialog_PS::operator=
+2000f493 | e9f8c21f00 | JMP 0x2020b790

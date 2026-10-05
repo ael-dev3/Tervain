@@ -1,0 +1,15 @@
+/* ENTRY 2003557b | gCDialog_PS::GetSaveGameRelevance | STATUS decompiled | 6 ms */
+
+/* public: virtual enum eCEntityPropertySet::eEPSSaveGameRelevance __thiscall
+   gCDialog_PS::GetSaveGameRelevance(void)const  */
+
+eEPSSaveGameRelevance __thiscall gCDialog_PS::GetSaveGameRelevance(gCDialog_PS *this)
+
+{
+                    /* 0x3557b  4359
+                       ?GetSaveGameRelevance@gCDialog_PS@@UBE?AW4eEPSSaveGameRelevance@eCEntityPropertySet@@XZ
+                        */
+  return 2;
+}
+
+

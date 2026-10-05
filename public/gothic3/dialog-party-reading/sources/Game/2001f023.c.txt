@@ -1,0 +1,18 @@
+/* ENTRY 2001f023 | gCDialog_PS::SetPartyEnabled | STATUS decompiled | 11 ms */
+
+/* public: void __thiscall gCDialog_PS::SetPartyEnabled(bool const &) */
+
+void __thiscall gCDialog_PS::SetPartyEnabled(gCDialog_PS *this,bool *param_1)
+
+{
+  NotifyPropertyValueChangedExitEx *pNVar1;
+  
+                    /* 0x1f023  6871  ?SetPartyEnabled@gCDialog_PS@@QAEXAB_N@Z */
+  (*this->vftablePtr->NotifyPropertyValueChangedEnterEx)(this,"PartyEnabled",false);
+  pNVar1 = this->vftablePtr->NotifyPropertyValueChangedExitEx;
+  (this->gCDialog_PS_data).field_0x25 = *param_1;
+  (*pNVar1)(this,"PartyEnabled",false);
+  return;
+}
+
+

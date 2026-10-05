@@ -1,0 +1,2 @@
+; 20033c80 gCParty_PS::AccessWaiting
+20033c80 | e9eb730700 | JMP 0x200ab070

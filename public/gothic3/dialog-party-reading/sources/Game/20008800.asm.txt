@@ -1,0 +1,2 @@
+; 20008800 gCDialog_PS::SetEndDialogTimestamp
+20008800 | e9fb701a00 | JMP 0x201af900

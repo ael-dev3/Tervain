@@ -1,0 +1,2 @@
+; 30022589 eCEntityProxy::operator_class_eCEntity*
+30022589 | e902b60300 | JMP 0x3005db90

@@ -1,0 +1,35 @@
+/* ENTRY 204cb7c0 | bTPropertyType<gCFocus_PS,float>::~bTPropertyType<gCFocus_PS,float> | STATUS decompiled | 32 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCFocus_PS,float>::~bTPropertyType<gCFocus_PS,float>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"HardMode");
+  bCString::bCString(local_c,"HardFocusMaxRange");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_fHardFocusMaxRange,local_c,
+             local_8,local_4,1,false);
+  _ms_PropertyMember_m_fHardFocusMaxRange = &vftable;
+  DAT_207b93c0 = bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>();
+  _DAT_207b93c4 = 0x174;
+  _DAT_207b93c8 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_fHardFocusMaxRange);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b93c0,
+             (bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_fHardFocusMaxRange);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}
+
+

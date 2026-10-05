@@ -1,0 +1,12 @@
+/* ENTRY 20006f19 | gCDialog_PS::AccessMobEnabled | STATUS decompiled | 8 ms */
+
+/* public: bool & __thiscall gCDialog_PS::AccessMobEnabled(void) */
+
+bool * __thiscall gCDialog_PS::AccessMobEnabled(gCDialog_PS *this)
+
+{
+                    /* 0x6f19  1432  ?AccessMobEnabled@gCDialog_PS@@QAEAA_NXZ */
+  return (bool *)&(this->gCDialog_PS_data).field_0x26;
+}
+
+

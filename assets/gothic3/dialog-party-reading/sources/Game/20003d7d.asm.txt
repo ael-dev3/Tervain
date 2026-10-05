@@ -1,0 +1,2 @@
+; 20003d7d gCDialog_PS::SetPickedPocket
+20003d7d | e9debd1a00 | JMP 0x201afb60

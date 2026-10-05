@@ -1,0 +1,2 @@
+; 100058a3 bCPropertyObjectBase::IsRoot
+100058a3 | e908390800 | JMP 0x100891b0

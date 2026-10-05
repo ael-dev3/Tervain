@@ -1,0 +1,12 @@
+/* ENTRY 20021247 | gCParty_PS::IsReferencedByTemplate | STATUS decompiled | 7 ms */
+
+/* protected: virtual bool __thiscall gCParty_PS::IsReferencedByTemplate(void)const  */
+
+bool __thiscall gCParty_PS::IsReferencedByTemplate(gCParty_PS *this)
+
+{
+                    /* 0x21247  5233  ?IsReferencedByTemplate@gCParty_PS@@MBE_NXZ */
+  return false;
+}
+
+

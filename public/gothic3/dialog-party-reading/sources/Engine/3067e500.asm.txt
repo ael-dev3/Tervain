@@ -1,0 +1,22 @@
+; 3067e500 __SEH_prolog4
+3067e500 | 6890e56730 | PUSH 0x3067e590
+3067e505 | 64ff3500000000 | PUSH dword ptr FS:[0x0]
+3067e50c | 8b442410 | MOV EAX,dword ptr [ESP + 0x10]
+3067e510 | 896c2410 | MOV dword ptr [ESP + 0x10],EBP
+3067e514 | 8d6c2410 | LEA EBP,[ESP + 0x10]
+3067e518 | 2be0 | SUB ESP,EAX
+3067e51a | 53 | PUSH EBX
+3067e51b | 56 | PUSH ESI
+3067e51c | 57 | PUSH EDI
+3067e51d | a1ec43ad30 | MOV EAX,[0x30ad43ec]
+3067e522 | 3145fc | XOR dword ptr [EBP + -0x4],EAX
+3067e525 | 33c5 | XOR EAX,EBP
+3067e527 | 50 | PUSH EAX
+3067e528 | 8965e8 | MOV dword ptr [EBP + -0x18],ESP
+3067e52b | ff75f8 | PUSH dword ptr [EBP + -0x8]
+3067e52e | 8b45fc | MOV EAX,dword ptr [EBP + -0x4]
+3067e531 | c745fcfeffffff | MOV dword ptr [EBP + -0x4],0xfffffffe
+3067e538 | 8945f8 | MOV dword ptr [EBP + -0x8],EAX
+3067e53b | 8d45f0 | LEA EAX,[EBP + -0x10]
+3067e53e | 64a300000000 | MOV FS:[0x0],EAX
+3067e544 | c3 | RET

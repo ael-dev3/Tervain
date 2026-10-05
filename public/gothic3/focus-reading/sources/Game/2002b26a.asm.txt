@@ -1,0 +1,2 @@
+; 2002b26a bTPropertyObjectType<gCArena_PS,eCEntityPropertySet>::vfunction2
+2002b26a | e9c14b1100 | JMP 0x2013fe30

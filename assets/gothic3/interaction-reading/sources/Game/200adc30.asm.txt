@@ -1,0 +1,20 @@
+; 200adc30 bTPropertyContainer<gEFocusNameType>::vfunction5
+200adc30 | 56 | PUSH ESI
+200adc31 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+200adc35 | 57 | PUSH EDI
+200adc36 | 8d44240c | LEA EAX,[ESP + 0xc]
+200adc3a | 8bf9 | MOV EDI,ECX
+200adc3c | 50 | PUSH EAX
+200adc3d | 8bce | MOV ECX,ESI
+200adc3f | ff1508887d20 | CALL dword ptr [0x207d8808]
+200adc45 | 8b16 | MOV EDX,dword ptr [ESI]
+200adc47 | 8b4204 | MOV EAX,dword ptr [EDX + 0x4]
+200adc4a | 6a04 | PUSH 0x4
+200adc4c | 83c704 | ADD EDI,0x4
+200adc4f | 57 | PUSH EDI
+200adc50 | 8bce | MOV ECX,ESI
+200adc52 | ffd0 | CALL EAX
+200adc54 | 5f | POP EDI
+200adc55 | b801000000 | MOV EAX,0x1
+200adc5a | 5e | POP ESI
+200adc5b | c20400 | RET 0x4

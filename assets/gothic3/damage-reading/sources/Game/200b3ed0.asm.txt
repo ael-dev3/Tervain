@@ -1,0 +1,22 @@
+; 200b3ed0 FUN_200b3ed0
+200b3ed0 | 56 | PUSH ESI
+200b3ed1 | 8bf1 | MOV ESI,ECX
+200b3ed3 | 8b06 | MOV EAX,dword ptr [ESI]
+200b3ed5 | 8b5058 | MOV EDX,dword ptr [EAX + 0x58]
+200b3ed8 | 6a00 | PUSH 0x0
+200b3eda | 681cec6520 | PUSH 0x2065ec1c
+200b3edf | ffd2 | CALL EDX
+200b3ee1 | 8b4614 | MOV EAX,dword ptr [ESI + 0x14]
+200b3ee4 | 8b542408 | MOV EDX,dword ptr [ESP + 0x8]
+200b3ee8 | 8b401c | MOV EAX,dword ptr [EAX + 0x1c]
+200b3eeb | 8d4e14 | LEA ECX,[ESI + 0x14]
+200b3eee | 52 | PUSH EDX
+200b3eef | ffd0 | CALL EAX
+200b3ef1 | 8b16 | MOV EDX,dword ptr [ESI]
+200b3ef3 | 8b425c | MOV EAX,dword ptr [EDX + 0x5c]
+200b3ef6 | 6a00 | PUSH 0x0
+200b3ef8 | 681cec6520 | PUSH 0x2065ec1c
+200b3efd | 8bce | MOV ECX,ESI
+200b3eff | ffd0 | CALL EAX
+200b3f01 | 5e | POP ESI
+200b3f02 | c20400 | RET 0x4

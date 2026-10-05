@@ -1,0 +1,2 @@
+; 3001d7b9 eCEntityProxy::eCEntityProxy
+3001d7b9 | e9e26d4a00 | JMP 0x304c45a0

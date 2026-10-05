@@ -1,0 +1,15 @@
+/* ENTRY 20031552 | gCParty_PS::Destroy | STATUS decompiled | 6 ms */
+
+/* public: virtual void __thiscall gCParty_PS::Destroy(void) */
+
+void __thiscall gCParty_PS::Destroy(gCParty_PS *this)
+
+{
+                    /* 0x31552  2634  ?Destroy@gCParty_PS@@UAEXXZ */
+                    /* WARNING: Could not recover jumptable at 0x20317ae0. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::Destroy((eCEntityPropertySet *)this);
+  return;
+}
+
+

@@ -1,0 +1,2 @@
+; 10004435 bCPropertyObjectFactory::ReadSkipObject
+10004435 | e9368e0800 | JMP 0x1008d270

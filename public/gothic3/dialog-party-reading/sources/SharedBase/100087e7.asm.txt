@@ -1,0 +1,2 @@
+; 100087e7 bCPropertyObjectBase::operator=
+100087e7 | e984080800 | JMP 0x10089070

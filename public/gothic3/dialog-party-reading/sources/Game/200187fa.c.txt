@@ -1,0 +1,19 @@
+/* ENTRY 200187fa | gCClock_PS::PostInitializeProperties | STATUS decompiled | 11 ms */
+
+/* public: virtual enum bEResult __thiscall gCClock_PS::PostInitializeProperties(void) */
+
+bEResult __thiscall gCClock_PS::PostInitializeProperties(gCClock_PS *this)
+
+{
+                    /* 0x187fa  5744  ?PostInitializeProperties@gCClock_PS@@UAE?AW4bEResult@@XZ */
+  *(undefined4 *)&(this->gCClock_PS_data).field_0x10 = 0;
+  *(undefined4 *)&(this->gCClock_PS_data).field_0x14 = 0;
+  *(undefined4 *)&(this->gCClock_PS_data).field_0x18 = 0;
+  *(undefined4 *)&(this->gCClock_PS_data).field_0x1c = 0;
+  *(undefined4 *)&(this->gCClock_PS_data).field_0x20 = 0;
+  *(undefined4 *)&(this->gCClock_PS_data).field_0x24 = 0x41400000;
+  bCObjectRefBase::PostInitializeProperties((bCObjectRefBase *)this);
+  return 1;
+}
+
+

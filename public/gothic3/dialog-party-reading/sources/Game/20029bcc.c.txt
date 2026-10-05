@@ -1,0 +1,12 @@
+/* ENTRY 20029bcc | gCDialog_PS::AccessTradeEnabled | STATUS decompiled | 8 ms */
+
+/* public: bool & __thiscall gCDialog_PS::AccessTradeEnabled(void) */
+
+bool * __thiscall gCDialog_PS::AccessTradeEnabled(gCDialog_PS *this)
+
+{
+                    /* 0x29bcc  1764  ?AccessTradeEnabled@gCDialog_PS@@QAEAA_NXZ */
+  return (bool *)&(this->gCDialog_PS_data).field_0x18;
+}
+
+

@@ -1,0 +1,11 @@
+/* ENTRY 20208650 | bTPropertyObjectType<gCClock_PS,eCEntityPropertySet>::vfunction4 | STATUS decompiled | 2 ms */
+
+undefined1 * __thiscall
+bTPropertyObjectType<gCClock_PS,eCEntityPropertySet>::vfunction4
+          (bTPropertyObjectType<gCClock_PS,eCEntityPropertySet> *this)
+
+{
+  return &(this->bTPropertyObjectType<gCClock_PS,eCEntityPropertySet>_data).field_0x14;
+}
+
+

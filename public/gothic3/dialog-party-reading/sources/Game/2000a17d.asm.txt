@@ -1,0 +1,2 @@
+; 2000a17d gCParty_PS::Read
+2000a17d | e95edb3000 | JMP 0x20317ce0

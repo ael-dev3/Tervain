@@ -1,0 +1,10 @@
+/* ENTRY 304c4540 | FUN_304c4540 | STATUS decompiled | 3 ms */
+
+undefined4 __thiscall FUN_304c4540(int *param_1,undefined4 param_2)
+
+{
+  (**(code **)(*param_1 + 0x10))(param_2);
+  return param_2;
+}
+
+

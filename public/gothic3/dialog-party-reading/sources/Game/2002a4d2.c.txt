@@ -1,0 +1,12 @@
+/* ENTRY 2002a4d2 | gCDialog_PS::GetVersion | STATUS decompiled | 7 ms */
+
+/* public: virtual unsigned short __thiscall gCDialog_PS::GetVersion(void)const  */
+
+ushort __thiscall gCDialog_PS::GetVersion(gCDialog_PS *this)
+
+{
+                    /* 0x2a4d2  4686  ?GetVersion@gCDialog_PS@@UBEGXZ */
+  return 1;
+}
+
+

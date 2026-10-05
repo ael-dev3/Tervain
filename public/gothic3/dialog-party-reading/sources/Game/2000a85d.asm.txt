@@ -1,0 +1,2 @@
+; 2000a85d gCDialog_PS::GetTalkedToPlayer
+2000a85d | e91e501a00 | JMP 0x201af880

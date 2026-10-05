@@ -1,0 +1,2 @@
+; 300210cb eCApplication::GetCurrentCamera
+300210cb | e950250400 | JMP 0x30063620

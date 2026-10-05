@@ -1,0 +1,2 @@
+; 3000c0c7 eCEntityPropertySet::OnPropertySetRemoved
+3000c0c7 | e974574700 | JMP 0x30481840

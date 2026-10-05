@@ -1,0 +1,42 @@
+; 200ba1b0 FUN_200ba1b0
+200ba1b0 | 53 | PUSH EBX
+200ba1b1 | 8b5c2408 | MOV EBX,dword ptr [ESP + 0x8]
+200ba1b5 | 85db | TEST EBX,EBX
+200ba1b7 | 55 | PUSH EBP
+200ba1b8 | 56 | PUSH ESI
+200ba1b9 | 8bf1 | MOV ESI,ECX
+200ba1bb | 7408 | JZ 0x200ba1c5
+200ba1bd | 8bcb | MOV ECX,EBX
+200ba1bf | ff15bc877d20 | CALL dword ptr [0x207d87bc]
+200ba1c5 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+200ba1c8 | 85c9 | TEST ECX,ECX
+200ba1ca | 7415 | JZ 0x200ba1e1
+200ba1cc | ff15c0877d20 | CALL dword ptr [0x207d87c0]
+200ba1d2 | 83f801 | CMP EAX,0x1
+200ba1d5 | 750a | JNZ 0x200ba1e1
+200ba1d7 | 8b4e08 | MOV ECX,dword ptr [ESI + 0x8]
+200ba1da | 8b01 | MOV EAX,dword ptr [ECX]
+200ba1dc | 8b5014 | MOV EDX,dword ptr [EAX + 0x14]
+200ba1df | ffd2 | CALL EDX
+200ba1e1 | 8b2dc4877d20 | MOV EBP,dword ptr [0x207d87c4]
+200ba1e7 | 57 | PUSH EDI
+200ba1e8 | 8b7e08 | MOV EDI,dword ptr [ESI + 0x8]
+200ba1eb | 85ff | TEST EDI,EDI
+200ba1ed | 740e | JZ 0x200ba1fd
+200ba1ef | 6a00 | PUSH 0x0
+200ba1f1 | 8bcf | MOV ECX,EDI
+200ba1f3 | ffd5 | CALL EBP
+200ba1f5 | 8bcf | MOV ECX,EDI
+200ba1f7 | ff15c8877d20 | CALL dword ptr [0x207d87c8]
+200ba1fd | 85db | TEST EBX,EBX
+200ba1ff | c7460800000000 | MOV dword ptr [ESI + 0x8],0x0
+200ba206 | 5f | POP EDI
+200ba207 | 7405 | JZ 0x200ba20e
+200ba209 | 56 | PUSH ESI
+200ba20a | 8bcb | MOV ECX,EBX
+200ba20c | ffd5 | CALL EBP
+200ba20e | 895e08 | MOV dword ptr [ESI + 0x8],EBX
+200ba211 | 5e | POP ESI
+200ba212 | 5d | POP EBP
+200ba213 | 5b | POP EBX
+200ba214 | c20400 | RET 0x4

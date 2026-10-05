@@ -1,0 +1,12 @@
+/* ENTRY 10005b73 | bCPropertyObjectBase::GetVersion | STATUS decompiled | 3 ms */
+
+/* public: unsigned short __thiscall bCPropertyObjectBase::GetVersion(void)const  */
+
+ushort __thiscall bCPropertyObjectBase::GetVersion(bCPropertyObjectBase *this)
+
+{
+                    /* 0x5b73  3214  ?GetVersion@bCPropertyObjectBase@@QBEGXZ */
+  return 0x53;
+}
+
+

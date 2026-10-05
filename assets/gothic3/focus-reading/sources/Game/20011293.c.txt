@@ -1,0 +1,12 @@
+/* ENTRY 20011293 | gCFocus_PS::IsProcessable | STATUS decompiled | 5 ms */
+
+/* protected: virtual bool __thiscall gCFocus_PS::IsProcessable(void)const  */
+
+bool __thiscall gCFocus_PS::IsProcessable(gCFocus_PS *this)
+
+{
+                    /* 0x11293  5208  ?IsProcessable@gCFocus_PS@@MBE_NXZ */
+  return true;
+}
+
+

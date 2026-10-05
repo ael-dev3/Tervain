@@ -1,0 +1,10 @@
+/* ENTRY 2020b860 | FUN_2020b860 | STATUS decompiled | 1 ms */
+
+undefined4 FUN_2020b860(bCIStream *param_1)
+
+{
+  bCIStream::operator>>(param_1,(ushort *)&param_1);
+  return 1;
+}
+
+

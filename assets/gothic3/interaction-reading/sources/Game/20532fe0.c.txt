@@ -1,0 +1,38 @@
+/* ENTRY 20532fe0 | bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEFocusPriority>_>::~bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEFocusPriority>_> | STATUS decompiled | 17 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall
+bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEFocusPriority>_>::
+~bTPropertyType<gCInteraction_PS,bTPropertyContainer<gEFocusPriority>_>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"Focus");
+  bCString::bCString(local_c,"FocusPriority");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCInteraction_PS::ms_PropertyMember_m_enuFocusPri,local_c,
+             local_8,local_4,2,false);
+  _ms_PropertyMember_m_enuFocusPri = &vftable;
+  DAT_207cf0a4 = bTPropertyObjectType<gCInteraction_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCInteraction_PS,eCEntityPropertySet>();
+  _DAT_207cf0a8 = 0x14;
+  _DAT_207cf0ac = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCInteraction_PS::ms_PropertyMember_m_enuFocusPri);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207cf0a4,
+             (bCPropertyTypeBase *)&gCInteraction_PS::ms_PropertyMember_m_enuFocusPri);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<bTPropertyContainer<gEFocusPriority>_>::
+          ~bTPropertyTypeOnly<bTPropertyContainer<gEFocusPriority>_>);
+  return;
+}
+
+

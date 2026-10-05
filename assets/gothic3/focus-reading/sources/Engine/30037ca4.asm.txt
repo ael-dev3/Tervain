@@ -1,0 +1,2 @@
+; 30037ca4 eCEntityPropertySet::OnNotifyPropertyValueChangedExitEx
+30037ca4 | e9479e4400 | JMP 0x30481af0

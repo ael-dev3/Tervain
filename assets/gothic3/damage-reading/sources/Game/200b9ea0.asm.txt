@@ -1,0 +1,7 @@
+; 200b9ea0 FUN_200b9ea0
+200b9ea0 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+200b9ea4 | 8d442404 | LEA EAX,[ESP + 0x4]
+200b9ea8 | 50 | PUSH EAX
+200b9ea9 | ff1508887d20 | CALL dword ptr [0x207d8808]
+200b9eaf | b801000000 | MOV EAX,0x1
+200b9eb4 | c20400 | RET 0x4

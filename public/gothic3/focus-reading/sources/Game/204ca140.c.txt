@@ -1,0 +1,35 @@
+/* ENTRY 204ca140 | bTPropertyType<gCFocus_PS,float>::~bTPropertyType<gCFocus_PS,float> | STATUS decompiled | 14 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void __thiscall bTPropertyType<gCFocus_PS,float>::~bTPropertyType<gCFocus_PS,float>(void)
+
+{
+  bCString local_c [4];
+  bCString local_8 [4];
+  bCString local_4 [4];
+  
+  bCString::bCString(local_4,"");
+  bCString::bCString(local_8,"MagicMode");
+  bCString::bCString(local_c,"MagicModeItemScanRange");
+  bCPropertyTypeBase::bCPropertyTypeBase
+            ((bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_fMagicModeItemScanRange,local_c,
+             local_8,local_4,1,false);
+  _ms_PropertyMember_m_fMagicModeItemScanRange = &vftable;
+  DAT_207b9060 = bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>::
+                 ~bTPropertyObjectType<gCFocus_PS,eCEntityPropertySet>();
+  _DAT_207b9064 = 0xd8;
+  _DAT_207b9068 = 0;
+  bCPropertyTypeBase::Create
+            ((bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_fMagicModeItemScanRange);
+  bCPropertyObjectTypeBase::RegisterPropertyTemplate
+            ((bCPropertyObjectTypeBase *)DAT_207b9060,
+             (bCPropertyTypeBase *)&gCFocus_PS::ms_PropertyMember_m_fMagicModeItemScanRange);
+  bCString::~bCString(local_c);
+  bCString::~bCString(local_8);
+  bCString::~bCString(local_4);
+  _atexit(bTPropertyTypeOnly<float>::~bTPropertyTypeOnly<float>);
+  return;
+}
+
+

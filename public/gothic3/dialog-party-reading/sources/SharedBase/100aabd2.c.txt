@@ -1,0 +1,31 @@
+/* ENTRY 100aabd2 | FUN_100aabd2 | STATUS decompiled | 9 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_100aabd2(size_t param_1)
+
+{
+  int iVar1;
+  void *pvVar2;
+  exception local_10;
+  
+  do {
+    pvVar2 = _malloc(param_1);
+    if (pvVar2 != (void *)0x0) {
+      return;
+    }
+    iVar1 = __callnewh(param_1);
+  } while (iVar1 != 0);
+  if ((_DAT_102f647c & 1) == 0) {
+    _DAT_102f647c = _DAT_102f647c | 1;
+    std::bad_alloc::bad_alloc((bad_alloc *)&DAT_102f6470);
+    _atexit(std::bad_alloc::~bad_alloc);
+  }
+                    /* inlined constructor: std::bad_alloc::bad_alloc */
+  std::exception::exception(&local_10,(exception *)&DAT_102f6470);
+  local_10.vftablePtr = (exception_vftable *)&std::bad_alloc::vftable;
+                    /* WARNING: Subroutine does not return */
+  __CxxThrowException_8(&local_10,&DAT_100f83dc);
+}
+
+

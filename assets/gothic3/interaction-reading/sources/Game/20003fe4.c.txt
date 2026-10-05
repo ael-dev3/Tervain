@@ -1,0 +1,35 @@
+/* ENTRY 20003fe4 | gCInteraction_PS::OnPropertySetAdded | STATUS decompiled | 21 ms */
+
+/* public: virtual void __thiscall gCInteraction_PS::OnPropertySetAdded(void) */
+
+void __thiscall gCInteraction_PS::OnPropertySetAdded(gCInteraction_PS *this)
+
+{
+  eCEntity *peVar1;
+  int iVar2;
+  gCNavigationAdmin *this_00;
+  undefined4 uVar3;
+  TypeDescriptor *pTVar4;
+  TypeDescriptor *pTVar5;
+  undefined4 uVar6;
+  gCInteraction_PS *pgVar7;
+  
+                    /* 0x3fe4  5578  ?OnPropertySetAdded@gCInteraction_PS@@UAEXXZ */
+  uVar6 = 0;
+  pTVar5 = &eCTemplateEntity::RTTI_Type_Descriptor;
+  pTVar4 = &eCEntity::RTTI_Type_Descriptor;
+  uVar3 = 0;
+  peVar1 = (*this->vftablePtr->GetEntity)(this);
+  iVar2 = ___RTDynamicCast(peVar1,uVar3,pTVar4,pTVar5,uVar6);
+  if (iVar2 == 0) {
+    pgVar7 = this;
+    this_00 = (gCNavigationAdmin *)thunk_FUN_20079ea0();
+    gCNavigationAdmin::RegisterInteractionPS(this_00,(gCInteraction_PS *)pgVar7);
+  }
+                    /* WARNING: Could not recover jumptable at 0x20404935. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  eCEntityPropertySet::OnPropertySetAdded((eCEntityPropertySet *)this);
+  return;
+}
+
+

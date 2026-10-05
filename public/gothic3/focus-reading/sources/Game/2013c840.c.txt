@@ -1,0 +1,49 @@
+/* ENTRY 2013c840 | FUN_2013c840 | STATUS decompiled | 21 ms */
+
+void __thiscall FUN_2013c840(void *this)
+
+{
+  int *piVar1;
+  bCMemoryAdmin *this_00;
+  void *pvVar2;
+  bCObjectBase local_8;
+  undefined4 local_4;
+  
+  piVar1 = (int *)((int)this + 0x178);
+  if ((piVar1 != (int *)0x0) && (pvVar2 = (void *)*piVar1, pvVar2 != (void *)0x0)) {
+    this_00 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(this_00,pvVar2);
+    *piVar1 = 0;
+    *(undefined4 *)((int)this + 0x17c) = 0;
+    *(undefined4 *)((int)this + 0x180) = 0;
+  }
+  *(undefined4 *)((int)this + 0x15c) = 0;
+  *(undefined4 *)((int)this + 0x164) = 0;
+  *(undefined4 *)((int)this + 0x160) = 0;
+  *(undefined4 *)((int)this + 0x168) = 0;
+  *(undefined4 *)((int)this + 0x174) = 0xbf800000;
+  *(undefined4 *)((int)this + 0x16c) = 0x41200000;
+  *(undefined1 *)((int)this + 0x159) = 1;
+  *(undefined4 *)((int)this + 0x170) = 0x41700000;
+  *(undefined1 *)((int)this + 0x188) = 0;
+  *(undefined4 *)((int)this + 0x184) = 1;
+  bCObjectBase::bCObjectBase(&local_8);
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<gEFocusLookAt> */
+  local_8 = (bCObjectBase)&bTPropertyContainer<gEFocusLookAt>::vftable;
+  local_4 = 1;
+  (**(code **)(*(int *)((int)this + 0x14) + 0x1c))(&local_8);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+  bCObjectBase::bCObjectBase((bCObjectBase *)&stack0xfffffff4);
+                    /* inlined constructor or destructor (approx location) for
+                       bTPropertyContainer<gEFocusLookAtKeysFOR> */
+  local_8 = (bCObjectBase)0x0;
+  (**(code **)(*(int *)((int)this + 0x1c) + 0x1c))(&stack0xfffffff4);
+  bCObjectBase::~bCObjectBase((bCObjectBase *)&stack0xfffffff0);
+                    /* WARNING: Could not recover jumptable at 0x2013c954. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCVector::Clear((bCVector *)((int)this + 0x18c));
+  return;
+}
+
+

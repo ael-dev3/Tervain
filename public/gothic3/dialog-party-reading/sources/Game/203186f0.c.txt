@@ -1,0 +1,11 @@
+/* ENTRY 203186f0 | bTPropertyObject<gCParty_PS,eCEntityPropertySet>::vfunction5 | STATUS decompiled | 2 ms */
+
+undefined4 __thiscall
+bTPropertyObject<gCParty_PS,eCEntityPropertySet>::vfunction5
+          (bTPropertyObject<gCParty_PS,eCEntityPropertySet> *this)
+
+{
+  return (this->bTPropertyObject<gCParty_PS,eCEntityPropertySet>_data).offset_0x0;
+}
+
+

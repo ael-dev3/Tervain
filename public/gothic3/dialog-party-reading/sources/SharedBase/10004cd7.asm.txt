@@ -1,0 +1,2 @@
+; 10004cd7 bTPOPureSmartPtr<bCObsoleteClass>::vfunction11
+10004cd7 | e9348c0800 | JMP 0x1008d910

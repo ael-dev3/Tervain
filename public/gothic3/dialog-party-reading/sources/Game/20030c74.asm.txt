@@ -1,0 +1,2 @@
+; 20030c74 gCDialog_PS::SetTeachEnabled
+20030c74 | e967ed1700 | JMP 0x201af9e0

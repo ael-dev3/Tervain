@@ -1,0 +1,2 @@
+; 300082c4 eCPhysicsScene::GetQueryReport
+300082c4 | e9e7f83000 | JMP 0x30317bb0

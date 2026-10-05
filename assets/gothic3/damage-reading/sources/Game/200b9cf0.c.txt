@@ -1,0 +1,14 @@
+/* ENTRY 200b9cf0 | FUN_200b9cf0 | STATUS decompiled | 5 ms */
+
+void __fastcall FUN_200b9cf0(int *param_1)
+
+{
+  eCEntityProxy *unaff_ESI;
+  
+  (**(code **)(*param_1 + 0x58))("LastInflictor",0);
+  eCEntityProxy::operator=((eCEntityProxy *)(param_1 + 0xe),unaff_ESI);
+  (**(code **)(*param_1 + 0x5c))("LastInflictor",0);
+  return;
+}
+
+

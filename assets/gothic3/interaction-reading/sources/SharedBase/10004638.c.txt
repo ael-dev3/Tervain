@@ -1,0 +1,13 @@
+/* ENTRY 10004638 | bCString::operator= | STATUS decompiled | 3 ms */
+
+/* public: class bCString & __thiscall bCString::operator=(class bCString const &) */
+
+bCString * __thiscall bCString::operator=(bCString *this,bCString *param_1)
+
+{
+                    /* 0x4638  547  ??4bCString@@QAEAAV0@ABV0@@Z */
+  SetText(this,param_1);
+  return this;
+}
+
+

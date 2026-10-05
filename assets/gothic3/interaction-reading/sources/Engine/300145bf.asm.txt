@@ -1,0 +1,2 @@
+; 300145bf eCEntityPropertySet::IsEditorRelevant
+300145bf | e97ccf4600 | JMP 0x30481540

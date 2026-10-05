@@ -1,0 +1,14 @@
+/* ENTRY 3003544f | eCEntity::Modified | STATUS decompiled | 30 ms */
+
+/* public: virtual unsigned long __thiscall eCEntity::Modified(void)
+   eCEntity member function inherited by eCSpatialEntity
+   eCEntity member function inherited by eCDynamicEntity */
+
+ulong __thiscall eCEntity::Modified(eCEntity *this)
+
+{
+                    /* 0x3544f  10834  ?Modified@eCEntity@@UAEKXZ */
+  return (this->eCEntity_data).offset_0x100;
+}
+
+
