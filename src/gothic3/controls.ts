@@ -66,6 +66,7 @@ export class ExplorerController {
   private supported = false;
   private fallbackFloor: number | null = null;
   private verticalSpeed = 0;
+  private readonly location = new THREE.Vector3();
   private yaw = 0;
   private pitch = 0;
   private spawn: [number, number, number];
@@ -105,6 +106,7 @@ export class ExplorerController {
   ) {
     this.originalTabIndex = this.canvas.getAttribute('tabindex');
     if (this.originalTabIndex === null) this.canvas.tabIndex = 0;
+    this.location.copy(this.camera.position);
     this.camera.rotation.order = 'YXZ';
     this.yaw = this.camera.rotation.y;
     this.pitch = THREE.MathUtils.clamp(this.camera.rotation.x, -PITCH_LIMIT, PITCH_LIMIT);
@@ -150,10 +152,13 @@ export class ExplorerController {
     this.supported = false;
   }
 
-  /** Live camera eye position. Changing it directly bypasses placement checks. */
+  /** Controller eye position, independent of a follow camera. Direct changes bypass placement checks. */
   get position(): THREE.Vector3 {
-    return this.camera.position;
+    return this.location;
   }
+
+  get heading(): number { return this.yaw; }
+  get viewPitch(): number { return this.pitch; }
 
   get grounded(): boolean {
     return !this.flying && this.supported;
@@ -290,6 +295,7 @@ export class ExplorerController {
         this.settleOnGround(step);
       }
     }
+    this.camera.position.copy(this.position);
     this.camera.updateMatrixWorld();
   }
 
@@ -464,6 +470,7 @@ export class ExplorerController {
   }
 
   private applyLook(): void {
+    this.camera.position.copy(this.position);
     this.camera.rotation.set(this.pitch, this.yaw, 0, 'YXZ');
     this.camera.updateMatrixWorld();
   }

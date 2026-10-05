@@ -19,7 +19,7 @@ const SAVE_KEY = 'gothic3:ardea:exploration:v1';
 const canvas = document.querySelector<HTMLCanvasElement>('#world')!;
 const ui = document.querySelector<HTMLDivElement>('#interface')!;
 ui.innerHTML = '<header class="masthead"><div class="eyebrow">Gothic 3 · browser port</div><h1 id="world-title">Ardea</h1><p id="world-caption">Recovered scene · native landscape</p></header>' +
-  '<nav class="toolbar"><button id="explore-button">Explore</button><button id="landscape-button">Landscape</button><button id="inspect-button">Models <kbd>Tab</kbd></button><button id="journal-button">Journal <kbd>J</kbd></button><button id="map-button">Map <kbd>M</kbd></button><button id="save-button">Save <kbd>P</kbd></button><button id="help-button">Help</button><a href="../">Tervain ↗</a></nav>' +
+  '<nav class="toolbar"><button id="explore-button">Explore</button><button id="view-button">Third person</button><button id="landscape-button">Landscape</button><button id="inspect-button">Models <kbd>Tab</kbd></button><button id="journal-button">Journal <kbd>J</kbd></button><button id="map-button">Map <kbd>M</kbd></button><button id="save-button">Save <kbd>P</kbd></button><button id="help-button">Help</button><a href="../">Tervain ↗</a></nav>' +
   '<div class="crosshair" id="crosshair"></div><div class="prompt hidden" id="prompt"></div><div class="toast hidden" id="toast" role="status"></div>' +
   '<footer class="bottom"><div class="keys" id="keys"><kbd>W A S D</kbd> move &nbsp; <kbd>Shift</kbd> run &nbsp; drag mouse / click for mouse look<br><kbd>E</kbd> inspect person &nbsp; <kbd>F</kbd> fly &nbsp; <kbd>R</kbd> return to arrival &nbsp; <kbd>Esc</kbd> release mouse</div><div class="coordinate"><span id="coordinates">Loading native scene</span><div id="terrain-status"></div><div class="scope-tag">Work in progress · native gameplay still being rewritten</div></div></footer>' +
   '<section class="inspector panel hidden" id="inspector"><div class="eyebrow">Original geometry</div><h2>Character inspection</h2><select id="model-select" aria-label="Character model"></select><div class="row"><button id="wire-button">Wireframe</button><button id="spin-button">Rotate</button><button id="frame-button">Frame</button></div><div id="animation-controls" class="hidden"><label for="clip-select">Native motion</label><select id="clip-select" aria-label="Native motion"><option value="">Bind pose</option></select><button id="clip-play" disabled>Play motion</button></div><p>Drag to rotate · wheel to zoom · right-drag to pan.</p><p id="model-info">Native body and head; exported bind pose.</p><div class="source" id="model-source"></div></section>' +
@@ -67,6 +67,14 @@ let toastUntil = 0;
 let inspectRequest = 0;
 let inspectorModel: THREE.Group | null = null;
 let inspectorActor: AnimatedActor | null = null;
+let heroActor: AnimatedActor | null = null;
+let playerClipName: string | null = null;
+let thirdPerson = false;
+let lastHeroX = 0;
+let lastHeroZ = 0;
+let hasLastHeroPosition = false;
+const playerCameraForward = new THREE.Vector3();
+const playerFocus = new THREE.Vector3();
 let mapShown = false;
 let lastFrame = performance.now();
 let lastHud = 0;
@@ -178,7 +186,7 @@ function showJournal(): void {
 function showHelp(): void {
   const content = openPanel('Controls & current scope');
   paragraph(content, 'WASD / arrows: move. Shift: run. Drag to look, or click the scene for captured mouse look. Escape releases the pointer. E inspects a nearby person.');
-  paragraph(content, 'F toggles free flight; Space moves up and Q moves down. R returns to the arrival point. P saves your camera position locally. Tab switches to character models; drag to rotate, wheel to zoom, right-drag to pan. M opens the local position map.');
+  paragraph(content, 'F toggles free flight; Space moves up and Q moves down. Third person follows the Hero model and recovered idle, walk and run clips. R returns to the arrival point. P saves your position locally. Tab switches to character models; drag to rotate, wheel to zoom, right-drag to pan. M opens the local position map.');
   const brightnessLabel = document.createElement('label');
   brightnessLabel.textContent = 'Preview brightness ';
   const brightness = document.createElement('input');
@@ -319,6 +327,46 @@ function frameInspector(): void {
   // Original Gothic 3 exported characters face -Z.
   inspectCamera.position.set(center.x + distance * 0.14, center.y + size.y * 0.08, center.z - distance);
   orbit.update();
+}
+
+function updateHeroPresentation(dt: number): void {
+  if (!heroActor) {
+    camera.position.copy(explorer.position);
+    camera.rotation.set(explorer.viewPitch, explorer.heading, 0, 'YXZ');
+    return;
+  }
+  const eye = explorer.position;
+  const feetY = eye.y - 1.65;
+  heroActor.object.position.set(eye.x, feetY, eye.z);
+  heroActor.object.rotation.y = explorer.heading;
+  heroActor.object.visible = thirdPerson;
+
+  const moved = hasLastHeroPosition ? Math.hypot(eye.x - lastHeroX, eye.z - lastHeroZ) : 0;
+  lastHeroX = eye.x;
+  lastHeroZ = eye.z;
+  hasLastHeroPosition = true;
+  const speed = moved > 0 && moved < 1 ? moved / Math.max(dt, 1 / 240) : 0;
+  const role = explorer.fly || speed < 0.15 ? 'idle' : speed < 5.9 ? 'walk' : 'run';
+  const motion = heroActor.asset.clips.find((clip) => clip.role === role);
+  if (motion && motion.name !== playerClipName) {
+    heroActor.select(motion.name);
+    playerClipName = motion.name;
+  }
+  heroActor.update(dt);
+
+  if (!thirdPerson) {
+    camera.position.copy(eye);
+    camera.rotation.set(explorer.viewPitch, explorer.heading, 0, 'YXZ');
+    camera.updateMatrixWorld();
+    return;
+  }
+  const pitch = THREE.MathUtils.clamp(explorer.viewPitch, -0.75, 0.3);
+  playerCameraForward.set(Math.sin(explorer.heading) * Math.cos(pitch), Math.sin(pitch),
+    -Math.cos(explorer.heading) * Math.cos(pitch));
+  playerFocus.set(eye.x, feetY + 1.28, eye.z);
+  camera.position.copy(playerFocus).addScaledVector(playerCameraForward, -4.25);
+  camera.lookAt(playerFocus);
+  camera.updateMatrixWorld();
 }
 
 function updateWireframe(): void {
@@ -478,7 +526,7 @@ async function boot(): Promise<void> {
     terrain.initialize().catch((error: unknown) => { failures.push('Native terrain: ' + String(error)); }),
   ]);
   if (manifest.units !== 'metres' || !Array.isArray(manifest.meshes) || !manifest.meshes.length) throw new Error('No recovered world geometry in this scene manifest.');
-  const total = manifest.meshes.length + manifest.people.length;
+  const total = manifest.meshes.length + manifest.people.length + 1;
   let done = 0;
   const progress = (label: string): void => {
     element('load-status').textContent = label + ' · ' + done + ' / ' + total;
@@ -511,6 +559,19 @@ async function boot(): Promise<void> {
       } catch (error) { failures.push(person.name + ': ' + String(error)); }
       done++; progress('Placing original characters');
     }),
+    async () => {
+      try {
+        heroActor = await animations.actor('hero');
+        if (!heroActor) throw new Error('Recovered Hero animation asset is not in the manifest');
+        heroActor.object.name = 'PC_Hero';
+        heroActor.object.userData.source = 'PC_Hero · original native rig and motion tracks';
+        heroActor.object.visible = false;
+        world.add(heroActor.object);
+        const idle = heroActor.asset.clips.find((clip) => clip.role === 'idle');
+        if (idle) { heroActor.select(idle.name); playerClipName = idle.name; }
+      } catch (error) { failures.push('Hero actor: ' + String(error)); }
+      done++; progress('Loading the Hero');
+    },
   ];
   let next = 0;
   await Promise.all(Array.from({ length: 4 }, async () => {
@@ -523,6 +584,7 @@ async function boot(): Promise<void> {
   const spawn: [number, number, number] = [...manifest.spawn];
   if (!manifest.spawnIsEye) spawn[1] += 1.65;
   explorer.setWorld(sceneObjects, spawn, manifest.spawnYaw ?? 0);
+  element<HTMLButtonElement>('view-button').disabled = heroActor === null;
   const options = element<HTMLSelectElement>('model-select');
   for (const person of [...(manifest.inspectionPeople ?? []), ...manifest.people]) {
     if (!person.body || !person.head) continue;
@@ -544,6 +606,12 @@ element('start-button').onclick = () => {
   if (failures.length) notify('Scene loaded with ' + failures.length + ' asset warnings. See Help for details.');
 };
 element('explore-button').onclick = () => { void setInspection(false); closePanel(); };
+element('view-button').onclick = () => {
+  if (!heroActor) { notify('The recovered Hero model did not load. See Help for asset errors.'); return; }
+  thirdPerson = !thirdPerson;
+  element('view-button').textContent = thirdPerson ? 'First person' : 'Third person';
+  element('world-caption').textContent = thirdPerson ? 'PC_Hero · recovered native motion preview' : 'Recovered scene · native landscape';
+};
 element('landscape-button').onclick = () => { void showLandscape(); };
 element('inspect-button').onclick = () => { void setInspection(!inspectMode); };
 element('journal-button').onclick = showJournal;
@@ -614,6 +682,7 @@ function frame(now: number): void {
       explorer.setGeometry([...sceneObjects.filter((object) => !nativeTerrainActive || object.userData.kind !== 'terrain'), ...terrain.objects]);
     }
     if (started && !modalOpen) explorer.update(dt);
+    updateHeroPresentation(dt);
     renderer.render(world, camera);
   }
   if (now - lastHud > 180 && started) {

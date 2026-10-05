@@ -108,7 +108,7 @@ export const ARDEA_QUESTS: ArdeaQuest[] = [
 
 export const PORT_SCOPE: string[] = [
   'A TypeScript browser rebuild milestone using local Gothic 3 study data, with source records attached to the inspected people and quests.',
-  'The Hero inspector preserves native skin weights and 11 original motion clips. Combat timing, attachment binding and NPC animation selection remain incomplete.',
+  'A third-person Hero follows the browser controller and selects recovered idle, walk and run clips. The 19 native Hero property sets, original movement blending/collision, combat timing, attachments and NPC animation selection are not yet connected to ordinary play.',
   'The journal contains 641 original quest definitions and 4,381 dialogue records in five source languages. Catalog presence does not establish gameplay execution.',
   '782 original landscape cells stream across Myrtana, Nordmar and Varant, using recovered texture/blend/UV graphs. Native lightmaps, lower mips, global lighting and collision remain incomplete.',
   'Original player and quest seeds can be inspected. Reviewed combat/dialogue kernels require runtime host services; remaining startup callbacks and ordinary gameplay are pending.',

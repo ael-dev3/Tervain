@@ -1,6 +1,6 @@
 # Gothic 3 browser port
 
-Date: 4 October 2026. Status: exploration and native-data foundations of an incomplete port.
+Date: 5 October 2026. Status: exploration, a moving Hero presentation and native-data foundations of an incomplete port.
 
 ## Owner request and route
 
@@ -23,7 +23,11 @@ Gothic assets as original Tervain content or change earlier Tervain asset rules.
   `public/gothic3/source-manifest.json`.
 - Loads actual static geometry and original body/head meshes rather than
   generating an invented Ardea village or substituting Tervain's residents.
-- Provides first-person exploration, a grounded support/wall approximation,
+- Provides first-person exploration and a third-person Hero that follows the
+  browser controller using recovered idle, walk and run motion clips. Ground
+  support, collision and animation selection remain approximations; this is
+  not the installed game's native actor/controller pipeline.
+- Provides a grounded support/wall approximation,
   free flight, mouse look, character inspection, orbit/zoom, wireframe,
   rotation, a local position map and isolated browser camera-position saves.
 - Presents recovered original quest references as inspection data.
@@ -52,10 +56,12 @@ world-object streaming and native save compatibility are not implemented.
 Reviewed combat/dialogue kernels have explicit unsupported outcomes and host
 APIs, but are not enabled for ordinary play. Startup callbacks remain pending.
 Original SpeedTree vegetation has not yet been placed in this scene.
-NPC derivatives are static bind-pose previews. Hero clip playback uses verified
-raw native keys, signed-short packing, shortest-sign component interpolation,
-pose fallback and final normalization. Multi-layer blending, effects and
-repositioning remain separate work. Missing attachments
+NPC derivatives are static bind-pose previews. The moving Hero chooses one
+recovered idle, walk or run clip from browser-controller displacement. Hero
+clip playback uses verified raw native keys, signed-short packing, shortest-sign
+component interpolation, pose fallback and final normalization. Multi-layer
+blending, effects and repositioning remain separate work. The visual Hero is
+not yet constructed by the original entity/property-set readers. Missing attachments
 and unsupported world entity types are recorded by the preparation pipeline.
 
 The prepared snapshot contains 202 world instances, 67 NPC source records
@@ -111,6 +117,7 @@ The prepared derivatives and newly written renderer have separate provenance.
 | Move / run | WASD or arrows / Shift |
 | Look | Drag mouse, or click scene for captured mouse |
 | Release mouse | Escape |
+| Third-person Hero view | Third person / First person button |
 | Inspect nearby person | E |
 | Character model inspection | Tab or Models |
 | Rotate / zoom / pan model | Drag / wheel / right-drag |

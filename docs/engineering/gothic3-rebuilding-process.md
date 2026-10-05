@@ -1,8 +1,9 @@
 # How Gothic 3 is being rebuilt for the browser
 
-Updated: 5 October 2026. Current source result: Ardea exploration, streamed native landscape
-across three regions, Hero motion inspection, original quest/dialogue catalogs
-and source-state/clock inspection in TypeScript. This is an
+Updated: 5 October 2026. Current source result: Ardea exploration, a third-person
+Hero presentation, streamed native landscape across three regions, Hero motion
+inspection, original quest/dialogue catalogs and source-state/clock inspection
+in TypeScript. This is an
 incomplete game reconstruction. Completing the original game in the browser
 remains the objective; the inspector does not satisfy that objective.
 
@@ -229,7 +230,7 @@ code is under [src/gothic3](../../src/gothic3):
 | --- | --- |
 | `types.ts` | Portable scene, character and material data shapes |
 | `assets.ts` | Model caching, OBJ/MTL loading, texture completion and native alpha modes |
-| `controls.ts` | New first-person movement, raycast ground support, wall sliding and flight |
+| `controls.ts` | New first-person movement, independent controller position, raycast ground support, wall sliding and flight |
 | `main.ts` | Scene assembly, character inspector, map, journal, camera saves and UI |
 | `content.ts` | Recovered character and quest reference summaries |
 | `animation.ts`, `skinning.ts` | Hero clip playback and all native bone influences |
@@ -2598,3 +2599,26 @@ still disconnected from entity/template/child/layer/context loading, world
 cache, physics, PVS, input, combat, inventory, dialogue, quests, save/load and
 the endings. No tests, native execution, browser playthrough or deployment
 were performed for this checkpoint; `gameplayReady` remains `false`.
+
+## 23. Present the moving Hero in third person
+
+The local Ardea scene now loads the recovered skinned Hero rig and native
+motion data as a world actor. The view toggle follows the controller's
+position behind the actor; first-person camera coordinates and the logical
+movement position are separate, so changing the rendered camera does not move
+the controller. The Hero root follows that position and heading. Browser
+displacement chooses one recovered idle, walk or run clip. The ready page
+loaded 202 scene objects and 67 characters, with the Hero view enabled.
+
+This makes the moving player model visible while traversing the current scene,
+but does not yet bind it to the reconstructed native entity, PlayerMemory,
+movement, animation-state or collision pipelines. Input, raycast support and
+clip selection remain browser implementations. The Hero view is not a native
+third-person controller; NPCs, dialogue effects, combat, quests, save/load and
+the rest of the game progression remain unimplemented for ordinary play.
+
+The production TypeScript build passed after this change (235 Vite modules;
+the existing large bundle warning remains). The local browser reached its
+ready state. No tests, complete gameplay session, native execution, deployment
+or playthrough were performed. The view is still a partial step toward a
+playable game and `gameplayReady` remains `false`.
