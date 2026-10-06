@@ -39,13 +39,15 @@ enclave callback. Native NPC
 activation, AI, responses, full death handling and most campaign progression remain
 unavailable.
 
-Checkpoints 73–81 add retained source NPC readers, shared runtime admins,
+Checkpoints 73–82 add retained source NPC readers, shared runtime admins,
 heap-backed field owners, physical SceneAdmin startup components and the
 selected Engine CRT class-name decoder and an ordinary DLL attach prefix.
 Checkpoint 79 preserves Navigation notifications and application/area ownership;
 checkpoint 80 corrects the fresh CString text constructor and its owned byte
-operations, and checkpoint 81 adds the separate Game CRT ownership and startup
-prefix before the Game Navigation class-name/type integration. The new
+operations, checkpoint 81 adds the separate Game CRT ownership and startup
+prefix, and checkpoint 82 reconstructs its encoded onexit table initialization
+and within-capacity callback registration before Game Navigation
+class-name/type integration. The new
 admin, heap and SceneAdmin owners remain separate from the live NPC reader,
 which still stops at its first property-factory dependency. The [overview](gothic3-rebuild-overview.md)
 records the latest confirmed publication; the individual receipts below
@@ -5711,3 +5713,97 @@ and fifteen Navigation descriptors on the same MemoryAdmin as the NPC entity,
 wrapper and ErrorAdmin. This prefix supplies none of those completed owners.
 The live reader remains at 338/6,544 bytes and 0/16 attached property sets;
 full NPC activation, AI and campaign completion remain unavailable.
+
+## 82. Rebuild the Game CRT onexit table within its original capacity
+
+Date: 7 October 2026. This component continues checkpoint 81's separate Game
+CRT owner. It follows the source-backed cold initializer and the registration
+prefix through the table's initial capacity; it does not execute registered
+callbacks or implement CRT shutdown traversal.
+
+### Follow the selected Game functions
+
+[`native-game-crt-profile.ts`](../../src/gothic3/native-game-crt-profile.ts)
+now pins the Game methods for the onexit cold initializer (`20463763`),
+`__onexit` (`20463792`), its table append (`204636aa`), the lock-8 and unlock-8
+helpers (`20466415` and `2046641e`), cleanup thunk (`204637c8`), `__msize`
+(`204684cd`) and `__realloc_crt` (`20468416`). Its import admission includes
+the original Game `HeapSize` IAT slot `207d7bac`.
+
+The cold initializer is an ASM-only source entry (`20463763`); the model uses
+its verified instruction sequence and preserves that source gap instead of
+inventing a decompiler listing. All method receipts below are checked against
+the frozen `game-crt` rules before a Game owner can be created.
+
+| Function | Entry | Pinned instruction SHA-256 |
+| --- | --- | --- |
+| Cold onexit initializer | `20463763` | `4d870c8f2cada371c595d208b6c80eabc6e271a4b9c3a46f9cb96a7c58c3baa2` |
+| `__onexit` | `20463792` | `ba75dc6aa1fdda6487dfefe03480ffc39ee0c914682069d4d651b1edfc50e5d5` |
+| `_atexit` | `204637ce` | `09942fe4905f48be972c0e6824f517bcc0cde802100baff5d8a61369ddad30b6` |
+| Table append | `204636aa` | `9453717792cfdcbdf7b4d672df5eb89cf286e2528e89ecc86c464502e24d2ea9` |
+| Lock 8 | `20466415` | `bc4b460b14e2f6f2d3d110be920239eda737759cb6373edb0411856b4c988d3e` |
+| Unlock 8 | `2046641e` | `604fe4c0bc3711292d62e32f3649ddb85f226ddca357cb4aad2b17756c1a1a08` |
+| Cleanup thunk | `204637c8` | `b7ae05a03705ad46b63487031e4f8a1386ba4d6198d175c304042b1103a8fdb7` |
+| `__msize` | `204684cd` | `50faaccc0f8c787aa6ad46efefbca57bdab8a6241aea6debaf893b52bee2399e` |
+| `__realloc_crt` wrapper | `20468416` | `aeb19f5e258e2a4d26d926e59d64e841d059901d844eec6d301cadbe78636f81` |
+
+[`native-game-crt-exit-table.ts`](../../src/gothic3/native-game-crt-exit-table.ts)
+shares one facade per canonical `NativeGameCrtOwner`. Its cold initializer
+calls the Game `calloc(32, 4)` path, encodes the returned pointer and writes the
+actual `crtExitBegin` and `crtExitEnd` globals in source order. On successful
+allocation it clears the first DWORD and returns zero. On allocation failure
+it still writes both encoded NULL globals before returning 24. It does not
+invent a once guard: another initializer call allocates and publishes another
+table, retaining the old allocation as the source would.
+
+Each `onexit` registration enters the physical Game lock 8, decodes the two
+globals, checks their retained allocation geometry, and calls the newly
+admitted Game `__msize` path. Mode 1 reaches the actual lower `HeapSize` call;
+the platform reports capacity only for the exact live base pointer owned by
+the selected Game heap. The 128-byte calloc allocation holds 32 four-byte
+entries. Every accepted registration stores an encoded callback at the
+physical end pointer, advances the encoded end global, and leaves lock 8. A
+NULL callback is stored as encoded NULL; the modeled `atexit(NULL)` then
+returns -1 after the original registration effects.
+
+The 33rd registration computes a 256-byte growth request and reaches the
+unowned `_realloc` callee `20477d87` inside the pinned CRT wrapper. The runtime
+therefore preserves the 32 existing cells, the old begin/end globals and the
+held lock, then blocks replay. It does not substitute host allocation or
+pretend the table moved. `__msize(NULL)` similarly retains errno 22 before its
+unowned invalid-parameter-handler boundary; Game small-block mode retains
+lock 4 at its unowned lookup. Full callback traversal and reverse-order
+termination remain separate unimplemented source paths.
+
+### Reproduce this component checkpoint
+
+```powershell
+npm run typecheck
+npx vitest run tests/gothic3-dialogue/game-crt-exit-table.test.ts tests/gothic3-dialogue/game-crt-owner.test.ts
+npm test
+npm run build
+```
+
+The focused tests verify canonical facade identity, cold allocation and global
+store order, repeated initialization, allocation failure, unavailable pointer
+encoding, NULL-table `__msize`, exact heap capacity, 32 physical encoded cells,
+the 33rd-entry realloc boundary, and held-lock state. The callback values are
+source-admitted Game method capabilities used only as data. The table snapshot
+explicitly records `traversalOwned: false`.
+
+Local verification passes typecheck and the focused two-file run (**28 tests**).
+The full suite passes **2,361 tests across 223 files**. The production build
+transforms 375 modules and passes with the existing large-chunk warning. Its
+Gothic and NPC chunks remain unchanged because this CRT component has not been
+connected to the browser NPC reader. `git diff --check` and the modified
+documents' relative file links also pass.
+
+This does not run the Game C initializer table or clear the earlier startup
+boundary at `GetCommandLineA` (`204678b9`). The first C initializer is now
+represented in isolation, but the preceding startup calls and subsequent
+initializers are not connected. Navigation type registration still needs its
+actual Game RTTI demangler and cached class-name owner, SharedBase factory and
+type registration, and fifteen Navigation descriptors on the same MemoryAdmin
+as the live NPC entity, wrapper and ErrorAdmin. The browser NPC reader remains
+unchanged; this component does not activate characters or advance campaign
+completion.

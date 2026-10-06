@@ -260,6 +260,27 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform, NativeByteGe
     }
     return allocated;
   }
+  win32HeapSize(heap: NativeWin32HeapCapability | null, _flags: 0, pointer: NativeBytePointer): NativeValue<number> {
+    if (heap === null) return unknown('Selected actual HeapSize call on the NULL CRT heap handle is unowned');
+    const retained = this.winHeaps.get(heap.identity);
+    if (!retained || retained.capability !== heap || retained.destroyed) return unknown('Actual live selected HeapSize heap handle required');
+    const geometry = this.resolveNativePointer(pointer);
+    if (!geometry.known) return unknown('Selected HeapSize pointer has no retained native allocation geometry');
+    const backing = geometry.value.canonicalBacking;
+    const allocation = this.backing.get(backing.identity);
+    if (!allocation || allocation.backing !== backing || allocation.kind !== 'win32-heap' ||
+        !retained.allocations.has(backing) || backing.freed || geometry.value.offset !== geometry.value.allocationBegin) {
+      // HeapSize reports SIZE_T(-1) for a selected call that does not identify a
+      // live base pointer owned by this exact heap.
+      return known(0xffffffff);
+    }
+    const proof = allocation.nativeGeometry;
+    if (!proof || proof.bytes !== backing.bytes || proof.masks !== backing.knownMask ||
+        proof.capacity !== backing.bytes.length || proof.alignment !== 'win32-heap-eight') {
+      return unknown('Actual retained HeapAlloc capacity proof required by HeapSize');
+    }
+    return known(proof.capacity);
+  }
   resolveNativePointer(pointer: NativeBytePointer): NativeValue<NativePointerGeometry> {
     try {
       if (!(pointer.fields instanceof NativeHeapObjectViews) || !Number.isSafeInteger(pointer.offset)) throw new Error('Actual retained native byte pointer required');

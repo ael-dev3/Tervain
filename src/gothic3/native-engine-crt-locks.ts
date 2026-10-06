@@ -98,6 +98,7 @@ function bootstrapStorage(label: string, address: string, bytes: number, raw = '
 export interface NativeEngineCrtPlatform {
   createWin32Heap(owner: object, options: 0 | 1, initialBytes: 4096, maximumBytes: 0): NativeValue<NativeWin32HeapCapability | null>;
   win32HeapAlloc(heap: NativeWin32HeapCapability, flags: 0 | 8, bytes: number): NativeValue<NativeMemoryBacking | null>;
+  win32HeapSize(heap: NativeWin32HeapCapability | null, flags: 0, pointer: NativeBytePointer): NativeValue<number>;
   win32HeapFree(heap: NativeWin32HeapCapability, flags: 0, backing: NativeMemoryBacking): NativeValue<boolean>;
   win32HeapDestroy(heap: NativeWin32HeapCapability): NativeValue<boolean>;
   initializePhysicalCriticalSection(fields: NativeHeapObjectViews, owner: object, spinCount: 4000): NativeValue<boolean>;
@@ -540,6 +541,22 @@ export class NativeModuleCrtOwner {
     }
   }
   free(backing: NativeMemoryBacking | null): NativeValue<void> { return this.run('free30672f8a', () => this.release(backing), true, backing ?? 'freeNULL'); }
+  msize(pointer: NativeBytePointer | null): NativeValue<number> {
+    if (this.module !== 'Game') return unknown('Game __msize source owner required');
+    return this.run('msize204684cd', () => {
+      if (pointer === null) { this.errno(22); this.gate('invalidParameter2046a20a(0,0,0,0,0) after msize(NULL)'); }
+      if (this.physical.heapSelector.readUnsigned(0) === 3) {
+        const locked = this.lock(4);
+        if (!locked.known) throw new Error(locked.reason);
+        this.gate('small-block size lookup20476d1c and msize cleanup20468567');
+      }
+      const heap = this.physical.heapHandle.pointer<NativeWin32HeapCapability>(0).get();
+      const size = this.call('HeapSize207d7bac(Game heap,0,pointer)',
+        () => this.host.platform.win32HeapSize(heap, 0, pointer));
+      if (!Number.isInteger(size) || size < 0 || size > 0xffffffff) throw new Error('Original 32-bit HeapSize result required');
+      return size >>> 0;
+    });
+  }
   private ensure(id: number): number {
     this.id(id); this.heap();
     if (this.slot(id) !== null) return 1;

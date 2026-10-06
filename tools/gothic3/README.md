@@ -484,7 +484,10 @@ remain separate. Earlier packages stay frozen.
 The runtime gives Game its own canonical module owner, physical heap/locks,
 pointer state and 532-byte thread record. Its ordinary process-attach prefix
 scans the independently verified empty RTC table and stops at the actual
-GetCommandLineA dependency. The later C/C++ tables, physical onexit state,
-Navigation class-name/type registration and live NPC attachment are still
-required. See
+GetCommandLineA dependency. Checkpoint 82 adds the isolated encoded 32-entry
+onexit table and registration prefix; table growth and callback traversal
+remain unowned. The later C/C++ initializers, Navigation class-name/type
+registration and live NPC attachment are still required. See
 [checkpoint 81](../../docs/engineering/gothic3-rebuilding-process.md#81-preserve-canonical-game-crt-ownership-before-navigation-type-construction).
+The onexit table receipt is at
+[checkpoint 82](../../docs/engineering/gothic3-rebuilding-process.md#82-rebuild-the-game-crt-onexit-table-within-its-original-capacity).
