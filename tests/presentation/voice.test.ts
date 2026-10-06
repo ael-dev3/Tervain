@@ -319,3 +319,117 @@ describe('speech in the world', () => {
     expect(say.mock.calls[0]![0]).toBe('hero.ask.where');
   });
 });
+
+describe('speech waits for actual playback', () => {
+  const here = () => ({ x: 2, y: 1.6, z: 3 });
+  function playback(ready: (line: string, time: number) => boolean, duration: (line: string) => number) {
+    let clock = 0;
+    const played: { line: string; at: number; length: number }[] = [];
+    const captions: { text: string; at: number }[] = [];
+    const hush = vi.fn();
+    const d = new SpeechDirector({
+      say: (line) => {
+        if (!ready(line, clock)) return null;
+        const length = duration(line);
+        played.push({ line, at: clock, length });
+        return length;
+      },
+      caption: (_, text) => captions.push({ text, at: clock }),
+      hush,
+    });
+    const advance = (seconds: number) => {
+      const end = clock + seconds;
+      while (clock + 1e-8 < end) {
+        const dt = Math.min(0.05, end - clock);
+        clock += dt;
+        d.update(dt);
+      }
+    };
+    return { d, played, captions, hush, advance };
+  }
+
+  it('starts the answer after a slowly loaded question finishes, using its playable duration', () => {
+    const p = playback((line, t) => line !== 'hero.ask.where' || t >= 2.5, () => 4);
+    expect(p.d.talk('caravan_master', here, createInitialState('slot-1'))).toBe(true);
+    p.advance(2);
+    expect(p.played).toEqual([]);
+    expect(p.d.busyFor('caravan_master')).toBeGreaterThan(0);
+    // The resident remains held throughout loading, and repeated interaction cannot start a second exchange.
+    expect(p.d.talk('caravan_master', here, createInitialState('slot-1'))).toBe(false);
+    p.advance(10);
+    expect(p.played.map((x) => x.line)).toEqual(['hero.ask.where', 'joss.where']);
+    const [question, answer] = p.played;
+    expect(answer!.at).toBeGreaterThanOrEqual(question!.at + question!.length + 0.35 - 1e-8);
+    expect(p.d.busyFor('caravan_master')).toBe(0);
+  });
+
+  it('keeps alternating scene turns connected through slow banks and differing playback durations', () => {
+    const scene = SCENES.find((s) => s.id === 'quarry.waiting')!;
+    const readyAt = new Map(scene.lines.map((id, i) => [id, i === 0 ? 2.5 : 9]));
+    const p = playback((line, t) => t >= (readyAt.get(line) ?? 0), () => 6);
+    expect(p.d.scene(scene, 0, () => here())).toBe(true);
+    p.advance(2);
+    expect(p.played).toEqual([]);
+    for (const npc of scene.cast) expect(p.d.busyFor(npc)).toBeGreaterThan(0);
+    p.advance(60);
+    expect(p.played.map((x) => x.line)).toEqual(scene.lines);
+    for (let i = 1; i < p.played.length; i++) {
+      const previous = p.played[i - 1]!;
+      expect(p.played[i]!.at).toBeGreaterThanOrEqual(previous.at + previous.length + 0.35 - 1e-8);
+    }
+    for (const npc of scene.cast) expect(p.d.busyFor(npc)).toBe(0);
+  });
+
+  it('serializes two player exchanges even when their first questions are both waiting for audio', () => {
+    const p = playback((line, t) => !line.startsWith('hero.ask.') || t >= 5, () => 2);
+    const s = createInitialState('slot-1');
+    // Hear the warden's introduction first, so both subsequent exchanges start with the hero's question.
+    expect(p.d.talk('shrine_warden', here, s)).toBe(true);
+    p.advance(3);
+    p.played.length = 0;
+    expect(p.d.talk('caravan_master', here, s)).toBe(true);
+    expect(p.d.talk('shrine_warden', here, s)).toBe(true);
+    p.advance(20);
+    const first = TALKS.find((t) => t.npc === 'caravan_master')!;
+    const second = TALKS.find((t) => t.npc === 'shrine_warden' && t.ask)!;
+    expect(p.played.map((x) => x.line)).toEqual([first.ask, first.reply, second.ask, second.reply]);
+    for (let i = 1; i < p.played.length; i++) {
+      const previous = p.played[i - 1]!;
+      expect(p.played[i]!.at).toBeGreaterThanOrEqual(previous.at + previous.length + 0.35 - 1e-8);
+    }
+  });
+
+  it('waits a full silent question duration after loading times out, and game-clock pauses hold the chain', () => {
+    let ready = false;
+    const p = playback((line) => ready || line !== 'hero.ask.where', (line) => VOICE_AUDIO.lines[line as keyof typeof VOICE_AUDIO.lines][2]);
+    p.d.talk('caravan_master', here, createInitialState('slot-1'));
+    // Advancing wall-clock readiness alone does not run a paused game or spend its loading retries.
+    ready = true;
+    p.d.update(0);
+    expect(p.played).toEqual([]);
+    ready = false;
+    p.advance(3.05);
+    expect(p.captions).toHaveLength(1);
+    expect(p.played).toEqual([]);
+    const questionEnd = p.captions[0]!.at + VOICE_AUDIO.lines['hero.ask.where'][2];
+    p.advance(2);
+    expect(p.played.map((x) => x.line)).toEqual(['joss.where']);
+    expect(p.played[0]!.at).toBeGreaterThanOrEqual(questionEnd + 0.35 - 1e-8);
+  });
+
+  it('hushes active speakers and discards pending turns when a session is cleared', () => {
+    const p = playback(() => true, () => 4);
+    p.d.talk('caravan_master', here, createInitialState('slot-1'));
+    expect(p.played.map((x) => x.line)).toEqual(['hero.ask.where']);
+    p.d.clear();
+    expect(p.hush).toHaveBeenCalledWith('hero');
+    p.advance(20);
+    expect(p.played.map((x) => x.line)).toEqual(['hero.ask.where']);
+    expect(p.d.busyFor('hero')).toBe(0);
+    expect(p.d.busyFor('caravan_master')).toBe(0);
+    // Clear also stops spatial voices which have already started.
+    p.d.remark('mill_hand', 'bess.bark.wheel', here());
+    p.d.clear();
+    expect(p.hush).toHaveBeenCalledWith('mill_hand');
+  });
+});

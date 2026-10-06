@@ -29,10 +29,25 @@ export interface SpeechHooks {
   hush?(speaker: Speaker): void;
 }
 
-interface Queued {
-  at: number;
+interface SpeechStep {
   line: string;
   where?: () => Vec3;
+}
+
+interface SpeechChain {
+  cast: readonly NpcId[];
+  remaining: SpeechStep[];
+  /** An exchange stays pending while a line is loading, even past its estimated end. */
+  pending: boolean;
+  until: number;
+  interaction: boolean;
+  /** Player exchanges take turns, including when their first question has not loaded yet. */
+  after?: SpeechChain;
+}
+
+interface Queued extends SpeechStep {
+  at: number;
+  chain?: SpeechChain;
   /** A remark of the hero's own waits for a conversation to finish, but not for ever. */
   remark?: { until: number };
   /** Times it has waited for its voice to load. */
@@ -53,6 +68,7 @@ export class SpeechDirector {
   private readonly busy = new Map<Speaker, number>();
   /** Until when an exchange holds someone (a passing remark does not). */
   private readonly held = new Map<NpcId, number>();
+  private readonly chains = new Set<SpeechChain>();
   private readonly turns = new Map<HeroCue, number>();
   private readonly cycles = new Map<NpcId, number>();
   /** The game day each scene was last overheard. */
@@ -64,7 +80,8 @@ export class SpeechDirector {
 
   /** Seconds until this speaker has finished what they are saying (0 when quiet). */
   busyFor(speaker: Speaker): number {
-    return Math.max(0, (this.busy.get(speaker) ?? 0) - this.clock);
+    const held = speaker === 'hero' ? 0 : this.held.get(speaker) ?? 0;
+    return Math.max(0, Math.max(this.busy.get(speaker) ?? 0, held) - this.clock);
   }
 
   /** The exchange someone would have with the player now: the first unheard one that applies, else a repeatable one. */
@@ -117,14 +134,10 @@ export class SpeechDirector {
       this.hooks.hush?.(npc);
       this.busy.delete(npc);
     }
-    let at = this.clock + this.busyFor('hero');
-    if (t.ask) {
-      this.queue.push({ at, line: t.ask });
-      at += this.length(t.ask) + ANSWER_GAP;
-    }
-    this.queue.push({ at, line: t.reply, where });
-    this.busy.set(npc, at + this.length(t.reply));
-    this.held.set(npc, at + this.length(t.reply));
+    const steps: SpeechStep[] = [];
+    if (t.ask) steps.push({ line: t.ask });
+    steps.push({ line: t.reply, where });
+    this.enqueueChain([npc], steps, this.clock + this.busyFor('hero'), true);
     this.update(0);
     return true;
   }
@@ -149,16 +162,11 @@ export class SpeechDirector {
   scene(scene: Scene, day: number, where: (npc: NpcId) => Vec3): boolean {
     if (!this.sceneDue(scene, day)) return false;
     this.scenes.set(scene.id, day);
-    let at = this.clock + 0.3;
-    for (const id of scene.lines) {
+    const steps = scene.lines.map((id) => {
       const speaker = VOICE_LINES[id]!.speaker as NpcId;
-      this.queue.push({ at, line: id, where: () => where(speaker) });
-      at += this.length(id) + ANSWER_GAP;
-    }
-    for (const n of scene.cast) {
-      this.held.set(n, at);
-      this.busy.set(n, at);
-    }
+      return { line: id, where: () => where(speaker) };
+    });
+    this.enqueueChain(scene.cast, steps, this.clock + 0.3, false);
     this.update(0);
     return true;
   }
@@ -187,11 +195,22 @@ export class SpeechDirector {
   /** Advance the game clock and start the lines that are due. */
   update(dt: number) {
     this.clock += dt;
+    for (const chain of this.chains) if (!chain.pending && chain.until <= this.clock) this.chains.delete(chain);
+    this.syncHeld();
     this.queue.sort((a, b) => a.at - b.at);
     while (this.queue.length && this.queue[0]!.at <= this.clock + 1e-9) {
       const q = this.queue.shift()!;
       const line = VOICE_LINES[q.line];
       if (!line) continue;
+      if (q.chain?.after) {
+        const after = q.chain.after;
+        if (after.pending || after.until + ANSWER_GAP > this.clock + 1e-9) {
+          const at = after.pending ? this.clock + 0.25 : after.until + ANSWER_GAP;
+          this.defer(q, at);
+          continue;
+        }
+        q.chain.after = undefined;
+      }
       if (q.remark) {
         // Never over a conversation or over himself: later, while it is still worth saying.
         const free = Math.max(this.busy.get('hero') ?? 0, ...[...this.held.values()]);
@@ -205,25 +224,67 @@ export class SpeechDirector {
       if (seconds === null) {
         // Its voice is on its way: wait a moment, then go ahead without it if need be.
         if ((q.tries ?? 0) < LOAD_TRIES) {
-          this.queue.push({ ...q, at: this.clock + 0.25, tries: (q.tries ?? 0) + 1 });
-          this.queue.sort((a, b) => a.at - b.at);
+          this.defer({ ...q, tries: (q.tries ?? 0) + 1 }, this.clock + 0.25);
           continue;
         }
         seconds = this.length(q.line);
       }
       const until = this.clock + seconds;
       this.busy.set(line.speaker, Math.max(this.busy.get(line.speaker) ?? 0, until));
-      // An exchange's answer holds its speaker for as long as it actually lasts.
-      if (line.speaker !== 'hero' && (this.held.get(line.speaker) ?? 0) > this.clock) this.held.set(line.speaker, until);
+      if (q.chain) {
+        // Only schedule the next turn after this one starts. Loading and playback durations can both differ from
+        // the estimate, so no answer or later scene line can overtake its predecessor.
+        this.reserve(q.chain, this.clock, seconds);
+        const next = q.chain.remaining.shift();
+        if (next) this.queue.push({ ...next, at: until + ANSWER_GAP, chain: q.chain });
+        else {
+          q.chain.pending = false;
+          q.chain.until = until;
+        }
+        this.syncHeld();
+        this.queue.sort((a, b) => a.at - b.at);
+      }
       this.hooks.caption(line.speaker, shown(line.text), seconds);
     }
   }
 
   /** Forget the queue (a load, a new game, the title). What has been heard stays heard this session. */
   clear() {
+    // Forgetting scheduling metadata must also stop the sources belonging to the old session.
+    for (const speaker of this.busy.keys()) this.hooks.hush?.(speaker);
     this.queue = [];
     this.busy.clear();
     this.held.clear();
+    this.chains.clear();
+  }
+
+  private enqueueChain(cast: readonly NpcId[], steps: SpeechStep[], at: number, interaction: boolean) {
+    const first = steps.shift();
+    if (!first) return;
+    const after = interaction ? [...this.chains].filter((c) => c.interaction && (c.pending || c.until > this.clock)).at(-1) : undefined;
+    const chain: SpeechChain = { cast, remaining: steps, pending: true, until: at, interaction, after };
+    this.chains.add(chain);
+    this.reserve(chain, Math.max(at, after?.until ?? at), this.length(first.line));
+    this.queue.push({ ...first, at, chain });
+  }
+
+  private reserve(chain: SpeechChain, at: number, seconds: number) {
+    chain.until = at + seconds + chain.remaining.reduce((sum, step) => sum + ANSWER_GAP + this.length(step.line), 0);
+    this.syncHeld();
+  }
+
+  private syncHeld() {
+    this.held.clear();
+    for (const chain of this.chains) {
+      const until = chain.pending ? Math.max(chain.until, this.clock + 0.25) : chain.until;
+      for (const npc of chain.cast) this.held.set(npc, Math.max(this.held.get(npc) ?? 0, until));
+    }
+  }
+
+  private defer(q: Queued, at: number) {
+    if (q.chain) this.reserve(q.chain, at, this.length(q.line));
+    this.queue.push({ ...q, at });
+    this.queue.sort((a, b) => a.at - b.at);
   }
 
   private length(line: string): number {
