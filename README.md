@@ -12,6 +12,8 @@ Eligible original Tervain software code is offered under the [PolyForm Noncommer
 
 This is a source-available project. Public access does not make its art, music, 3D models, story, branding or other non-code content freely reusable. Those materials retain their own rights and provenance. Dependencies and separately licensed files keep their existing terms; see [NOTICE](NOTICE) and [third-party notices](public/third-party-notices.txt). Gothic 3 study and reconstruction material is expressly outside this grant.
 
+For models, see the [3D asset credits and license ledger](docs/engineering/model-licenses.md), also linked from the game's About screen. A confirmed Creative Commons asset retains its own permitted uses, including commercial uses where its license allows them; the code license does not restrict those rights. Model entries with unresolved provenance are explicitly marked pending.
+
 ## Prototype status
 
 This integration develops the **0.0.12** browser prototype. A source version alone does not establish deployment; check the normal publish workflow and the game’s displayed revision. Tervain stays in the **0.0.x** stage until its quality gate is met. A desktop package and Steam integration are not yet available.

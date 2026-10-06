@@ -20,6 +20,7 @@ export const EN: Record<string, string> = {
   'menu.controls': 'Controls',
   'menu.about': 'About this build',
   'about.audioLicenses': 'World audio sources and license limits',
+  'about.modelLicenses': '3D model credits and licenses',
   'menu.resume': 'Resume',
   'menu.quit': 'Quit to title',
   'menu.back': 'Back',
