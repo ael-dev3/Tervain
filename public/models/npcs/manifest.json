@@ -1,0 +1,178 @@
+{
+  "schema": 1,
+  "maxTriangles": 50000,
+  "assets": [
+    {
+      "id": "caravan-master",
+      "file": "caravan-master.glb",
+      "triangles": 45996,
+      "bytes": 8397452,
+      "sha256": "f9761d0c218664ddb6b11998530b91650d6a8f34e68465f60eb93d38f3a7bb5e",
+      "height": 1.7998065948486328,
+      "surfaceBake": "geometry-only-v1"
+    },
+    {
+      "id": "rillford-reeve",
+      "file": "rillford-reeve.glb",
+      "triangles": 45957,
+      "bytes": 11512824,
+      "sha256": "6b77c6125db65e442c3c5f212a56428d494e882a12bc854aae04ef3cb38087ed",
+      "height": 1.8000023365020752,
+      "surfaceBake": "geometry-only-v1"
+    },
+    {
+      "id": "spring-steward",
+      "file": "spring-steward.glb",
+      "triangles": 10328,
+      "bytes": 4204576,
+      "sha256": "d4dc3f02e3ff156acf020946d6b5edb195e6f226aaae59a0abac554e12728d9d",
+      "height": 1.7999999523162842,
+      "surfaceBake": "geometry-only-v1"
+    },
+    {
+      "id": "quarry-foreman",
+      "file": "quarry-foreman.glb",
+      "triangles": 46000,
+      "bytes": 8520012,
+      "sha256": "5655797071def938a333bfab87ec41694a8b48c68334d913bd82b172fa59007c",
+      "height": 1.7997812032699585,
+      "surfaceBake": "geometry-only-v1"
+    },
+    {
+      "id": "maintenance-worker",
+      "file": "maintenance-worker.glb",
+      "triangles": 45994,
+      "bytes": 7999928,
+      "sha256": "0a293717adb6541ee6f4adf1c02368589afbc0e17f9513543ca1b78e4c51e838",
+      "height": 1.7998889684677124,
+      "surfaceBake": "geometry-only-v1"
+    },
+    {
+      "id": "estate-steward",
+      "file": "estate-steward.glb",
+      "triangles": 46000,
+      "bytes": 8090820,
+      "sha256": "2ea5cd78c0ace3775a745ce4345250ea944728168ba07cac4dc156572db89333",
+      "height": 1.7997856140136719,
+      "surfaceBake": "geometry-only-v1"
+    },
+    {
+      "id": "ash-recorder",
+      "file": "ash-recorder.glb",
+      "triangles": 34220,
+      "bytes": 5938408,
+      "sha256": "a0fa94035a2a0e38c89265767db0e63ea615414a91a44ecf488e514956580475",
+      "height": 1.7999999523162842,
+      "surfaceBake": "geometry-only-v1"
+    },
+    {
+      "id": "shrine-warden",
+      "file": "shrine-warden.glb",
+      "triangles": 46000,
+      "bytes": 8497100,
+      "sha256": "113af114f2581feb89f55b843c617af6624f04996f0e0fb306074fcb39c7418d",
+      "height": 1.801082968711853,
+      "surfaceBake": "geometry-only-v1"
+    },
+    {
+      "id": "mill-hand",
+      "file": "mill-hand.glb",
+      "triangles": 10328,
+      "bytes": 4156620,
+      "sha256": "923a11e2d38dc4ae523379442244146e28535b61a80f6d6bea61dd2109c089f1",
+      "height": 1.7999999523162842,
+      "surfaceBake": "geometry-only-v1"
+    },
+    {
+      "id": "quarry-hand",
+      "file": "quarry-hand.glb",
+      "triangles": 45965,
+      "bytes": 11608676,
+      "sha256": "4bdf9fd3e998efc7321c49d8feefff54f401d7da363f653f020f65557144162e",
+      "height": 1.7994439601898193,
+      "surfaceBake": "geometry-only-v1"
+    },
+    {
+      "id": "village-baker",
+      "file": "village-baker.glb",
+      "triangles": 45998,
+      "bytes": 8034236,
+      "sha256": "08a6e0f394b753c928c92db46016699303b89b6a7052cae285181a71089054c0",
+      "height": 1.7999660968780518,
+      "surfaceBake": "geometry-only-v1"
+    },
+    {
+      "id": "fisher",
+      "file": "fisher.glb",
+      "triangles": 46000,
+      "bytes": 9396060,
+      "sha256": "9f3f7e576f28d66756ff3b563a74c128de5e10df74a8b19330c2f99720f1c980",
+      "height": 1.7980806827545166,
+      "surfaceBake": "geometry-only-v1"
+    },
+    {
+      "id": "fireside",
+      "file": "fireside.glb",
+      "triangles": 45957,
+      "bytes": 11500624,
+      "sha256": "728e18da4e9f5d8dd393a0eb81d564b0456fd3c933226ca5f587d68e28565ad8",
+      "height": 1.8000023365020752,
+      "surfaceBake": "geometry-only-v1"
+    },
+    {
+      "id": "keeper",
+      "file": "keeper.glb",
+      "triangles": 9365,
+      "bytes": 4759632,
+      "sha256": "b7866e8477ced006aaa9563c89e1a241fbe67c70dd4b2a2ee8d71d8e29292db6",
+      "height": 1.7999999523162842,
+      "surfaceBake": "geometry-only-v1"
+    },
+    {
+      "id": "ford-bandit-a",
+      "file": "ford-bandit-a.glb",
+      "triangles": 45963,
+      "bytes": 11767292,
+      "sha256": "5f56d0305eb21031c7e1336f89ab8536224770eac2a60187e5fb3654a65d55a2",
+      "height": 1.801072359085083,
+      "surfaceBake": "geometry-only-v1"
+    },
+    {
+      "id": "ford-bandit-b",
+      "file": "ford-bandit-b.glb",
+      "triangles": 45999,
+      "bytes": 8374680,
+      "sha256": "edaa8f5402e9c4ffb31a89a3bbb00bc675bd77a216939cd950b3c5418cae5b1e",
+      "height": 1.8001842498779297,
+      "surfaceBake": "geometry-only-v1"
+    },
+    {
+      "id": "menu-warden",
+      "file": "menu-warden.glb",
+      "triangles": 45998,
+      "bytes": 7671612,
+      "sha256": "533727123105bc7a449cf668f328e385a4a5a82afa961ac8ae392bdae7574d2e",
+      "height": 1.800502061843872,
+      "surfaceBake": "geometry-only-v1"
+    }
+  ],
+  "roles": {
+    "named:caravan_master": "caravan-master",
+    "named:rillford_reeve": "rillford-reeve",
+    "named:spring_steward": "spring-steward",
+    "named:quarry_foreman": "quarry-foreman",
+    "named:maintenance_worker": "maintenance-worker",
+    "named:estate_steward": "estate-steward",
+    "named:ash_recorder": "ash-recorder",
+    "named:shrine_warden": "shrine-warden",
+    "named:mill_hand": "mill-hand",
+    "named:quarry_hand": "quarry-hand",
+    "named:village_baker": "village-baker",
+    "ambient:fisher": "fisher",
+    "ambient:fireside": "fireside",
+    "ambient:keeper": "keeper",
+    "enemy:ford_bandit_a": "ford-bandit-a",
+    "enemy:ford_bandit_b": "ford-bandit-b",
+    "menu:warden": "menu-warden"
+  }
+}

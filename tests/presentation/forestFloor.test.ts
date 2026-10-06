@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { describe, expect, it, vi } from 'vitest';
-import { buildForestFernGeometry, buildForestFloor, buildForestLitterGeometry, createForestFloorPopulation, selectForestFloorPopulation, FOREST_FLOOR_DISTANCE } from '../../src/presentation/forestFloor';
+import { buildForestFernGeometry, buildForestFloor, buildForestLitterGeometry, buildForestShrubGeometry, createForestFloorPopulation, selectForestFloorPopulation, FOREST_FLOOR_DISTANCE } from '../../src/presentation/forestFloor';
 import { Terrain } from '../../src/world/terrain';
 import { Exclusions } from '../../src/presentation/vegetation';
 import { deepwoodCover } from '../../src/world/forest';
@@ -11,6 +11,7 @@ import { createInitialState } from '../../src/game/state';
 import { worldView } from '../../src/game/worldView';
 import { disposeTreeTextures } from '../../src/presentation/treeTextures';
 import { createFloraPopulation } from '../../src/presentation/floraPopulation';
+import { biomeAt } from '../../src/world/biomes';
 
 const terrain = new Terrain();
 const exclusions = new Exclusions(terrain);
@@ -44,16 +45,36 @@ describe('Deepwood floor', () => {
     expect(minimumFootingGap).toBeGreaterThanOrEqual(0.24);
   });
 
+  it('uses the shared planted crown field rather than unrelated logical trunk shade, including pine needle litter', () => {
+    const trees = createFloraPopulation(terrain, exclusions);
+    const zero = { coverAt: () => 0, broadleafAt: () => 0 };
+    expect(createForestFloorPopulation(terrain, exclusions, trees, zero)).toEqual([]);
+    const anchor = population.find(piece => piece.kind === 'fern')!;
+    const crown = {
+      coverAt: (x: number, z: number) => Math.hypot(x - anchor.x, z - anchor.z) < 24 ? 0.7 : 0,
+      broadleafAt: () => 0,
+    };
+    const floor = createForestFloorPopulation(terrain, exclusions, trees, crown);
+    expect(floor.some(piece => piece.kind === 'fern')).toBe(true);
+    expect(floor.some(piece => piece.kind === 'shrub')).toBe(true);
+    expect(floor.filter(piece => piece.kind === 'litter').every(piece => piece.variant === 2)).toBe(true);
+    expect(floor.every(piece => crown.coverAt(piece.x, piece.z) > 0)).toBe(true);
+    expect(floor).toEqual(createForestFloorPopulation(terrain, exclusions, trees, crown));
+    const needleLitter = buildForestLitterGeometry(2);
+    expect(needleLitter.index!.count / 3).toBe(96);
+    expect(needleLitter.boundingBox!.max.y).toBeLessThan(0.06);
+    needleLitter.dispose();
+  });
+
   it('creates repeatable fern, litter, moss, fallen timber and fungi layers inside the woodland, keeping arrival sand and relics clear', () => {
     expect(createForestFloorPopulation(terrain, exclusions)).toEqual(population);
     // Broad clearings deliberately remove clutter. Actual canopy must supply a woodland floor,
     // while removing that canopy must remove the shade-dependent layer rather than meeting an old count.
     expect(population.some(p => p.kind === 'fern' && deepwoodCover(p.x, p.z) > 0.5)).toBe(true);
     expect(createForestFloorPopulation(terrain, exclusions, [])).toEqual([]);
-    expect(new Set(population.map((p) => p.kind))).toEqual(new Set(['fern', 'moss', 'litter', 'log', 'fungi']));
+    expect(new Set(population.map((p) => p.kind))).toEqual(new Set(['fern', 'shrub', 'moss', 'litter', 'log', 'fungi']));
     for (const p of population) {
-      expect(deepwoodCover(p.x, p.z)).toBeGreaterThan(0.05);
-      expect(p.x).toBeGreaterThan(DEEPWOOD.minX);
+      expect(Math.max(deepwoodCover(p.x, p.z), biomeAt(p.x, p.z).woodland)).toBeGreaterThan(0.05);
       expect(Math.hypot(p.x - SPAWN.x, p.z - SPAWN.z)).toBeGreaterThan(30);
       expect(Math.hypot(p.x - FOREST_RUIN.x, p.z - FOREST_RUIN.z)).toBeGreaterThan(FOREST_RUIN.r);
       for (const marker of FOREST_WAYMARKERS) expect(Math.hypot(p.x - marker.x, p.z - marker.z)).toBeGreaterThan(2.4);
@@ -61,6 +82,22 @@ describe('Deepwood floor', () => {
       expect(terrain.carveAt(p.x, p.z)).toBeLessThanOrEqual(0.01);
       expect(distToPolyline(p.x, p.z, ARRIVAL_ROUTE).d).toBeGreaterThan(2.1);
       expect(Number.isFinite(p.nx) && Number.isFinite(p.nz)).toBe(true);
+    }
+  });
+
+  it('extends source-crown floor into humid and warm habitats without spreading ferns into dry palm sand', () => {
+    const trees = createFloraPopulation(terrain, exclusions);
+    const source = { coverAt: () => 0.75, broadleafAt: () => 0.55 };
+    const floor = createForestFloorPopulation(terrain, exclusions, trees, source);
+    expect(floor.some(piece => piece.x > DEEPWOOD.maxX && biomeAt(piece.x, piece.z).woodland > 0.5)).toBe(true);
+    expect(floor.some(piece => piece.kind === 'fern' && biomeAt(piece.x, piece.z).weights['humid-broadleaf'] > 0.5)).toBe(true);
+    expect(floor.some(piece => piece.kind === 'litter' && biomeAt(piece.x, piece.z).weights['ochre-woodland'] > 0.5)).toBe(true);
+    expect(floor.filter(piece => piece.kind === 'fern' || piece.kind === 'moss')
+      .every(piece => biomeAt(piece.x, piece.z).weights['sheltered-palms'] <= 0.35)).toBe(true);
+    for (const piece of floor) {
+      const reach = piece.kind === 'fern' ? piece.scale * 1.5 : piece.kind === 'shrub' ? piece.scale * 0.85 : piece.kind === 'log' ? 2.6 : 0.45;
+      expect(exclusions.blocked(piece.x, piece.z, reach)).toBe(false);
+      expect(terrain.slopeAt(piece.x, piece.z)).toBeLessThanOrEqual(0.62);
     }
   });
 
@@ -79,6 +116,49 @@ describe('Deepwood floor', () => {
     }
     const fungus = population.find((p) => p.kind === 'fungi')!;
     expect(selectForestFloorPopulation([fungus], 'high')).toEqual([]);
+  });
+
+  it('builds mixed-age fern colonies and keeps unrelated litter, shrub and timber streams stable if one fern is rejected', () => {
+    const colonies = new Map<string, typeof population>();
+    for (const piece of population) {
+      expect(piece.colonyId).toBeDefined();
+      const colony = colonies.get(piece.colonyId!) ?? [];
+      colony.push(piece); colonies.set(piece.colonyId!, colony);
+    }
+    const fernColony = [...colonies.values()].find(colony => colony.filter(piece => piece.kind === 'fern').length > 1)!;
+    expect(fernColony).toBeDefined();
+    const ferns = fernColony.filter(piece => piece.kind === 'fern');
+    expect(Math.max(...ferns.map(piece => piece.scale)) - Math.min(...ferns.map(piece => piece.scale))).toBeGreaterThan(0.04);
+    for (const child of ferns.slice(1)) expect(Math.hypot(child.x - ferns[0]!.x, child.z - ferns[0]!.z)).toBeLessThanOrEqual(2.4);
+    const parent = ferns[0]!;
+    const targeted = {
+      blocked: (x: number, z: number, pad: number) => exclusions.blocked(x, z, pad)
+        || (Math.abs(x - parent.x) < 1e-6 && Math.abs(z - parent.z) < 1e-6),
+    };
+    const revised = createForestFloorPopulation(terrain, targeted, createFloraPopulation(terrain, exclusions));
+    expect(revised.some(piece => piece.id === parent.id)).toBe(false);
+    expect(revised.filter(piece => piece.kind !== 'fern')).toEqual(population.filter(piece => piece.kind !== 'fern'));
+  });
+
+  it('roots low carpet surfaces in gradual terrain instead of bridging folded ground', () => {
+    const floor = buildForestFloor(terrain, exclusions, 'high');
+    try {
+      const up = new THREE.Vector3(0, 1, 0), normal = new THREE.Vector3(), rotation = new THREE.Quaternion(), yaw = new THREE.Quaternion();
+      const point = new THREE.Vector3(), matrix = new THREE.Matrix4();
+      let maximumGap = 0;
+      for (const piece of population.filter(piece => piece.kind === 'moss' || piece.kind === 'litter')) {
+        const mesh = floor.group.getObjectByName(`forest_floor_${piece.kind}:${piece.variant}`) as THREE.InstancedMesh;
+        normal.set(piece.nx, 1, piece.nz).normalize();
+        rotation.setFromUnitVectors(up, normal).multiply(yaw.setFromAxisAngle(up, piece.yaw));
+        matrix.compose(new THREE.Vector3(piece.x, piece.y, piece.z), rotation, new THREE.Vector3().setScalar(piece.scale));
+        const vertices = mesh.geometry.getAttribute('position');
+        for (let i = 0; i < vertices.count; i++) {
+          point.fromBufferAttribute(vertices, i).applyMatrix4(matrix);
+          maximumGap = Math.max(maximumGap, point.y - terrain.heightAt(point.x, point.z));
+        }
+      }
+      expect(maximumGap).toBeLessThan(0.12);
+    } finally { floor.dispose?.(); disposeTreeTextures(); }
   });
 
   it('keeps grounded fungi geometry beside fallen logs after both pieces follow their local slopes', () => {
@@ -145,6 +225,31 @@ describe('Deepwood floor', () => {
     expect(litter.index!.count / 3).toBe(52);
     expect(litter.boundingBox!.max.y).toBeLessThan(0.06);
     litter.dispose();
+  });
+
+  it('joins woodland shrub leaves to five complete curved stems with finite normals and a bounded low silhouette', () => {
+    for (let variant = 0; variant < 2; variant++) {
+      const geometry = buildForestShrubGeometry(variant);
+      const positions = geometry.getAttribute('position'), normals = geometry.getAttribute('normal');
+      expect(geometry.index!.count / 3).toBeLessThan(400);
+      expect(Array.from(positions.array).every(Number.isFinite)).toBe(true);
+      expect(Array.from(normals.array).every(Number.isFinite)).toBe(true);
+      expect(geometry.boundingBox!.min.y).toBeLessThan(0.015);
+      expect(geometry.boundingBox!.max.y).toBeGreaterThan(0.45);
+      expect(geometry.boundingBox!.max.y).toBeLessThan(0.85);
+      // Six 4-vertex stem rings followed by eight 5-vertex leaves per branch. Leaves emerge from
+      // the centre of the corresponding solid ring; they are not disconnected floating quads.
+      const stride = 24 + 8 * 5;
+      for (let branch = 0; branch < 5; branch++) for (let node = 1; node <= 4; node++) for (let side = 0; side < 2; side++) {
+        const leafRoot = branch * stride + 24 + ((node - 1) * 2 + side) * 5;
+        const ring = branch * stride + node * 4;
+        for (let axis = 0; axis < 3; axis++) {
+          const centre = [0, 1, 2, 3].reduce((sum, i) => sum + positions.array[(ring + i) * 3 + axis]!, 0) / 4;
+          expect(positions.array[leafRoot * 3 + axis]).toBeCloseTo(centre, 5);
+        }
+      }
+      geometry.dispose();
+    }
   });
 
   it('culls floor instances with the camera, keeps geometry static and releases all owned buffers once', () => {

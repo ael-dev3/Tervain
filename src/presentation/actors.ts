@@ -37,10 +37,14 @@ export interface ActorContext {
   hour: number;
   player: { x: number; z: number; y: number };
   reducedMotion: boolean;
-  onBark: (a: NpcActor, text: string) => void;
+  /** A remark, by its line in voice.ts. */
+  onBark: (a: NpcActor, line: string) => void;
 }
 
-const WALK_SPEED = 1.55;
+export const NPC_WALK_SPEED = 1.55;
+/** Actual Meshy sole sweeps measured at 60 Hz: 0.78 pose speed gives roughly this stance-cycle travel at 1.8 m stature. */
+export const NPC_WALK_CYCLE_METRES = 1.48;
+export const NPC_WALK_POSE_SPEED = 0.78;
 
 export class NpcActor {
   readonly def: NpcDef;
@@ -51,6 +55,8 @@ export class NpcActor {
   yaw = 0;
   hidden = false;
   talking = false;
+  /** Whom they face while talking: the player unless another person is set (an overheard scene). */
+  faceTo: { x: number; z: number } | null = null;
   goal: Goal = { anchor: '', activity: 'stand' };
   private path: V2[] | null = null;
   private pi = 0;
@@ -62,9 +68,9 @@ export class NpcActor {
   private viaMaint = false;
   mode: Mode = 'idle';
 
-  constructor(def: NpcDef) {
+  constructor(def: NpcDef, rig?: Rig) {
     this.def = def;
-    this.rig = createNpcRig(def);
+    this.rig = rig ?? createNpcRig(def);
     this.rig.root.traverse((o) => {
       o.userData.npc = def.id;
     });
@@ -147,6 +153,7 @@ export class NpcActor {
 
     this.clock += dt;
     let moving = false;
+    const previousX = this.x, previousZ = this.z;
     if (this.path && this.pi < this.path.length && !this.talking) {
       const wp = this.path[this.pi]!;
       const dx = wp.x - this.x;
@@ -157,7 +164,7 @@ export class NpcActor {
         // Wait rather than shove through the player in a doorway.
         const pd = Math.hypot(ctx.player.x - (this.x + (dx / d) * 0.8), ctx.player.z - (this.z + (dz / d) * 0.8));
         if (pd > 0.9) {
-          const step = Math.min(d, WALK_SPEED * dt);
+          const step = Math.min(d, NPC_WALK_SPEED * dt);
           let nx = this.x + (dx / d) * step;
           let nz = this.z + (dz / d) * step;
           if (!this.viaMaint) {
@@ -169,7 +176,7 @@ export class NpcActor {
           this.z = nz;
           const target = Math.atan2(dx, dz);
           this.yaw = lerpAngle(this.yaw, target, 1 - Math.exp(-dt * 8));
-          moving = true;
+          moving = Math.hypot(nx - previousX, nz - previousZ) > 1e-6;
         }
       }
       if (this.pi >= this.path.length) this.path = null;
@@ -177,7 +184,8 @@ export class NpcActor {
 
     if (!moving) {
       if (this.talking) {
-        const target = Math.atan2(ctx.player.x - this.x, ctx.player.z - this.z);
+        const to = this.faceTo ?? ctx.player;
+        const target = Math.atan2(to.x - this.x, to.z - this.z);
         this.yaw = lerpAngle(this.yaw, target, 1 - Math.exp(-dt * 6));
       } else if (!this.path) {
         const a = this.anchorPos(this.goal.anchor);
@@ -200,14 +208,19 @@ export class NpcActor {
       // Work only reads as work at a work place; a distant anchor mismatch leaves them idle.
     }
     this.mode = mode;
-    this.anim += dt * (moving ? 1.05 : 0.3);
+    const travel = Math.hypot(this.x - previousX, this.z - previousZ);
+    // A resident waiting at a doorway cannot keep walking in place. Only resolved route metres advance the gait.
+    this.anim += moving ? travel / (NPC_WALK_CYCLE_METRES * (this.rig.height / 1.8)) : dt * 0.3;
     const style = npcStyle(this.def.id);
     const pose: Pose = {
       mode,
-      speed: moving ? 0.55 : 0,
+      speed: moving ? NPC_WALK_POSE_SPEED : 0,
       time: mode === 'work' || mode === 'sit' ? this.clock : this.anim,
       t: 0,
-      amp: ctx.reducedMotion ? 0.4 : 1,
+      // Locomotion remains distance-matched; Reduced Motion reduces idle/work gestures rather than making moving feet shuffle.
+      amp: ctx.reducedMotion && !moving ? 0.4 : 1,
+      travel,
+      moveSpeed: dt > 0 ? travel / dt : 0,
       workGesture: style.work,
       // Standing about, a resident folds their arms, looks round, shifts their weight (still when motion is reduced).
       idle: ctx.reducedMotion ? undefined : { seed: style.faceSeed, clock: this.clock },
@@ -219,12 +232,12 @@ export class NpcActor {
       this.barkCooldown -= dt;
       const pd = Math.hypot(ctx.player.x - this.x, ctx.player.z - this.z);
       if (this.barkCooldown <= 0 && pd < 6.5 && !this.talking) {
-        const pool = BARKS.filter((b) => b.npc === this.def.id && evalAll(ctx.state, b.when));
+        const pool = BARKS.filter((b) => b.npc === this.def.id && evalAll(ctx.state, b.when) && (!b.hours || hourIn(ctx.hour, b.hours[0], b.hours[1])));
         if (pool.length > 0) {
           const pick = pool[Math.floor(Math.random() * pool.length)]!;
-          if (pick.text !== this.lastBarkKey || pool.length === 1) {
-            this.lastBarkKey = pick.text;
-            ctx.onBark(this, pick.text);
+          if (pick.line !== this.lastBarkKey || pool.length === 1) {
+            this.lastBarkKey = pick.line;
+            ctx.onBark(this, pick.line);
           }
         }
         this.barkCooldown = 28 + Math.random() * 20;
@@ -244,6 +257,9 @@ function lerpAngle(a: number, b: number, t: number) {
 }
 
 export { lerpAngle };
+
+/** Preserve the established 60 Hz turn response without making it faster on a higher-refresh display. */
+const enemyTurnEase = (perFrame: number, dt: number) => -Math.expm1(Math.log1p(-perFrame) * 60 * dt);
 
 /* ============================ Enemies ============================ */
 
@@ -274,6 +290,7 @@ export class EnemyActor {
   private t = 0;
   private struck = false;
   private clock = Math.random() * 5;
+  private gait = 0;
   private searchT = 0;
   private dashDir = { x: 0, z: 0 };
   engaged = false;
@@ -282,7 +299,7 @@ export class EnemyActor {
   private readonly cfg: { speed: number; reach: number; wind: number; strike: number; recover: number; damage: number; notice: number; leash: number; heavy: boolean };
   readonly name: string;
 
-  constructor(spawn: EnemySpawn) {
+  constructor(spawn: EnemySpawn, rig?: Rig) {
     this.spawn = spawn;
     this.id = spawn.id;
     this.x = spawn.x;
@@ -294,7 +311,7 @@ export class EnemyActor {
       this.cfg = { speed: 4.4, reach: 2.9, wind: 0.95, strike: 0.4, recover: 1.1, damage: 20, notice: 10, leash: spawn.leash, heavy: true };
       this.name = 'Thornback';
     } else {
-      this.rig = createBanditRig(spawn.id === 'ford_bandit_b' ? 1 : 0);
+      this.rig = rig ?? createBanditRig(spawn.id === 'ford_bandit_b' ? 1 : 0);
       this.hp = this.maxHp = 55;
       this.cfg = { speed: 3.5, reach: 1.9, wind: 0.6, strike: 0.2, recover: 0.9, damage: 11, notice: 12, leash: spawn.leash, heavy: false };
       this.name = 'Toll-jumper';
@@ -351,6 +368,7 @@ export class EnemyActor {
     this.z = this.spawn.z;
     this.engaged = false;
     this.y = ctx.terrain.groundAt(this.x, this.z);
+    this.gait = 0;
   }
 
   private moveToward(tx: number, tz: number, speed: number, dt: number, ctx: EnemyContext, stopDist = 0) {
@@ -370,11 +388,12 @@ export class EnemyActor {
     const r = ctx.colliders.resolve(nx, nz, this.radius);
     this.x = r.x;
     this.z = r.z;
-    this.yaw = lerpAngle(this.yaw, Math.atan2(dx, dz), 0.25);
+    this.yaw = lerpAngle(this.yaw, Math.atan2(dx, dz), enemyTurnEase(0.25, dt));
     return true;
   }
 
   update(dt: number, ctx: EnemyContext) {
+    const previousX = this.x, previousZ = this.z;
     this.clock += dt;
     if (this.state === 'dead') {
       this.t += dt;
@@ -407,7 +426,7 @@ export class EnemyActor {
           }
         }
         // Idle bandits shift and look about; the creature paces its patch.
-        this.yaw = lerpAngle(this.yaw, this.idleYaw + Math.sin(this.clock * 0.4) * 0.5, 0.02);
+        this.yaw = lerpAngle(this.yaw, this.idleYaw + Math.sin(this.clock * 0.4) * 0.5, enemyTurnEase(0.02, dt));
         if (this.spawn.kind === 'thornback') {
           const a = this.clock * 0.25;
           this.moveToward(this.spawn.x + Math.cos(a) * 3, this.spawn.z + Math.sin(a) * 3, 0.9, dt, ctx);
@@ -417,7 +436,7 @@ export class EnemyActor {
         break;
       }
       case 'alert':
-        this.yaw = lerpAngle(this.yaw, Math.atan2(dx, dz), 0.2);
+        this.yaw = lerpAngle(this.yaw, Math.atan2(dx, dz), enemyTurnEase(0.2, dt));
         this.t -= dt;
         if (this.t <= 0) this.state = 'chase';
         break;
@@ -441,7 +460,7 @@ export class EnemyActor {
       case 'telegraph': {
         // The wind-up tracks the player only at the start, so sidestepping works.
         this.t += dt;
-        if (this.t < this.cfg.wind * 0.45) this.yaw = lerpAngle(this.yaw, Math.atan2(dx, dz), 0.25);
+        if (this.t < this.cfg.wind * 0.45) this.yaw = lerpAngle(this.yaw, Math.atan2(dx, dz), enemyTurnEase(0.25, dt));
         mode = 'telegraph';
         if (this.t >= this.cfg.wind) {
           this.state = 'strike';
@@ -513,15 +532,35 @@ export class EnemyActor {
       }
     }
     void this.searchT;
-    this.applyTransform(ctx, mode, speed01, this.t, dt);
+    this.applyTransform(ctx, mode, speed01, this.t, dt, Math.hypot(this.x - previousX, this.z - previousZ));
   }
 
-  private applyTransform(ctx: EnemyContext, mode: Mode, speed01: number, t: number, dt: number) {
+  private applyTransform(ctx: EnemyContext, mode: Mode, speed01: number, t: number, dt: number, travel = 0) {
     this.y = ctx.terrain.groundAt(this.x, this.z);
     this.rig.root.position.set(this.x, this.y, this.z);
     this.rig.root.rotation.y = this.yaw;
     const actionT = mode === 'telegraph' ? Math.min(1, t / this.cfg.wind) : mode === 'strike' ? Math.min(1, t / this.cfg.strike) : 0;
-    const pose: Pose = { mode: this.state === 'stagger' ? 'hurt' : mode, speed: speed01, time: this.clock * (mode === 'run' ? 1.5 : 0.9), t: this.state === 'stagger' ? 1 - Math.max(0, this.t) / 0.85 : actionT, amp: ctx.reducedMotion ? 0.5 : 1 };
+    // Resident/player gait already follows resolved metres. Do the same for humanoid enemies,
+    // retaining their existing free-travel cycle rates (run 1.5 Hz, return 0.9 Hz) and amplitude.
+    // Switching state must not rescale a lifetime clock or animate footsteps against a blocking contact.
+    let poseMode = this.state === 'stagger' ? 'hurt' : mode;
+    const locomotion = mode === 'walk' || mode === 'run';
+    if (this.rig.kind === 'humanoid' && locomotion) {
+      if (travel > 1e-6 && dt > 0) {
+        const nominalSpeed = this.cfg.speed * (mode === 'run' ? 1 : 0.7);
+        this.gait += travel / (nominalSpeed / (mode === 'run' ? 1.5 : 0.9));
+        speed01 *= Math.min(1, travel / (dt * nominalSpeed));
+      } else {
+        poseMode = 'idle';
+        speed01 = 0;
+      }
+    }
+    const movingPose = poseMode === 'walk' || poseMode === 'run';
+    const pose: Pose = { mode: poseMode, speed: speed01,
+      // A contact holds only gait. The resolved idle must still breathe/look around on its continuous clock.
+      time: this.rig.kind === 'humanoid' && movingPose ? this.gait : this.clock * (poseMode === 'run' ? 1.5 : 0.9),
+      travel, moveSpeed: dt > 0 ? travel / dt : 0,
+      t: this.state === 'stagger' ? 1 - Math.max(0, this.t) / 0.85 : actionT, amp: ctx.reducedMotion ? 0.5 : 1 };
     poseRig(this.rig, pose, dt);
     if (this.state === 'dead') {
       // Fall over.

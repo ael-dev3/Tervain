@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
 import { buildTreeVariant, type TreeVariant } from '../../src/presentation/treeGen';
-import { groundedTreeY, TREE_ROOT_PLANE, TREE_SOIL_OVERLAP } from '../../src/presentation/treeGrounding';
+import { groundedTreeY, treeWoodCollisionRadius, TREE_ROOT_PLANE, TREE_SOIL_OVERLAP } from '../../src/presentation/treeGrounding';
 import { buildFlora } from '../../src/presentation/flora';
 import { createFloraPopulation, registerFloraColliders, selectFloraPopulation, floraLodWeights, type FloraTree } from '../../src/presentation/floraPopulation';
 import { pineTemplates } from './pineFixture';
@@ -34,20 +34,26 @@ beforeAll(async () => {
   templates = await pineTemplates();
   terrain = new Terrain(); excl = new Exclusions(terrain);
   const source = createPineForest(templates); canonical = new Colliders();
-    const variants = new Map<string, TreeVariant>();
+  const variants = new Map<string, TreeVariant>();
+  const variantFor = (tree: Pick<FloraTree, 'sp' | 'v'>): TreeVariant => {
+    const key = `${tree.sp}:${tree.v}`;
+    let variant = variants.get(key);
+    if (!variant) {
+      variant = isPineSpecies(tree.sp) ? source.variant(tree.sp, tree.v + 1) : buildTreeVariant(tree.sp, tree.v + 1);
+      variants.set(key, variant);
+    }
+    return variant;
+  };
   population = createFloraPopulation(terrain, excl, (tree, footprint) => isPineSpecies(tree.sp)
-      ? source.collisionRadius(tree.sp, tree.v + 1, tree.s, terrain.heightAt(tree.x, tree.z) - tree.y) : footprint, (tree) => {
-      const key = `${tree.sp}:${tree.v}`;
-      let variant = variants.get(key);
-      if (!variant) { variant = isPineSpecies(tree.sp) ? source.variant(tree.sp, tree.v + 1) : buildTreeVariant(tree.sp, tree.v + 1); variants.set(key, variant); }
-      return groundedTreeY(terrain, tree, variant);
-    });
-    registerFloraColliders(population, canonical);
-    source.dispose();
-    for (const variant of variants.values()) if (!isPineSpecies(variant.species)) for (const lod of variant.lods) { lod.wood?.dispose(); lod.leaf?.dispose(); }
+    ? source.collisionRadius(tree.sp, tree.v + 1, tree.s, terrain.heightAt(tree.x, tree.z) - tree.y)
+    : footprint > 0 ? treeWoodCollisionRadius(variantFor(tree), tree.s, terrain.heightAt(tree.x, tree.z) - tree.y) : footprint,
+    tree => groundedTreeY(terrain, tree, variantFor(tree)));
+  registerFloraColliders(population, canonical);
+  source.dispose();
+  for (const variant of variants.values()) if (!isPineSpecies(variant.species)) for (const lod of variant.lods) { lod.wood?.dispose(); lod.leaf?.dispose(); }
 });
 
-describe('world forest render substitution', () => {
+describe('historical source-Pine component render substitution without the Meshy catalog', () => {
   it('exports exact complete woody contact for canonical trees with shared buffers, uniform planted transforms and no leaf cards', () => {
     vi.stubGlobal('location', { search: '' });
     let firstTransforms: unknown;
@@ -74,7 +80,7 @@ describe('world forest render substitution', () => {
         for (let i = 0; i < contact.indices.length; i++) if (contact.indices[i] !== (index ? index.getX(i) : i)) topologyErrors++;
         expect(topologyErrors).toBe(0);
         if (isPineSpecies(tree.sp)) expect(contact.indices.length / 3).toBe(4378);
-        const key = `${tree.sp}:${tree.v}`, previous = variantBuffers.get(key);
+        const key = `${tree.sp}:${tree.v}:${tree.assetId ?? ''}`, previous = variantBuffers.get(key);
         if (previous) { expect(contact.positions).toBe(previous.positions); expect(contact.indices).toBe(previous.indices); }
         else variantBuffers.set(key, contact);
       }
@@ -92,9 +98,13 @@ describe('world forest render substitution', () => {
       const colliders = new Colliders();
       const forest = buildFlora({ terrain, excl, colliders, quality, settings: { ...defaultSettings(), quality }, library: AssetLibrary.empty(), sway: { uTime: { value: 0 }, uWind: { value: 0 } } }, templates);
       expect(colliders.all).toEqual(canonical.all);
-      expect(forest.stats!().solitaryPines).toBe({ low: 259, medium: 271, high: 281 }[quality]);
+      // This component explicitly omits the new catalog and retains its historical
+      // all-conifer substitution. A51 changes accepted habitat claims and density;
+      // presets still change only decorations, never canonical obstacle identities.
+      const selectedPopulation = selectFloraPopulation(population, quality).trees;
+      expect(forest.stats!().solitaryPines).toBe(selectedPopulation.filter(tree => isPineSpecies(tree.sp)).length);
       const imported = forest.group.children.filter((object) => object.name.startsWith('solitary-pine:')) as THREE.InstancedMesh[];
-      const batches = new Set(selectFloraPopulation(population, quality).trees.filter((tree) => isPineSpecies(tree.sp)).map((tree) => `${tree.sp}:${tree.v}`));
+      const batches = new Set(selectedPopulation.filter((tree) => isPineSpecies(tree.sp)).map((tree) => `${tree.sp}:${tree.v}`));
       // Every populated source batch owns two near parts, two middle parts and one far card mesh.
       expect(imported).toHaveLength(batches.size * 5);
       expect(imported.filter((mesh) => mesh.name === 'solitary-pine:2:foliage').every((mesh) => mesh.geometry.index!.count / 3 === 48)).toBe(true);

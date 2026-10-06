@@ -2,7 +2,9 @@ import { beforeAll, describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
 import { createPineForest, isPineSpecies, PINE_FILES, solitaryPineUrl, type PineTemplates } from '../../src/presentation/solitaryPine';
 import { pineBinary, pineTemplates } from './pineFixture';
-import { createFloraPopulation, selectFloraPopulation } from '../../src/presentation/floraPopulation';
+import { createFloraPopulation, selectFloraPopulation, type FloraTree } from '../../src/presentation/floraPopulation';
+import { buildTreeVariant, type TreeVariant } from '../../src/presentation/treeGen';
+import { groundedTreeY, treeWoodCollisionRadius } from '../../src/presentation/treeGrounding';
 import { Terrain } from '../../src/world/terrain';
 import { Exclusions, TREE_SWAY_ENABLED } from '../../src/presentation/vegetation';
 
@@ -85,18 +87,48 @@ describe('delivered Solitary Pine forest', () => {
     forest.dispose();
   });
 
-  it('matches all dark conifers including the distant ring, on every preset without thinning collision obstacles', () => {
+  it('retains the historical catalog-omitted conifer source and canonical obstacles while presets select nested decorations', () => {
     const forest = createPineForest(templates);
-    const terrain = new Terrain(), population = createFloraPopulation(terrain, new Exclusions(terrain), (tree, footprint) => isPineSpecies(tree.sp)
-      ? forest.collisionRadius(tree.sp, tree.v + 1, tree.s) : footprint);
-    expect(population.filter((tree) => isPineSpecies(tree.sp))).toHaveLength(281);
-    for (const [quality, count] of [['low', 259], ['medium', 271], ['high', 281]] as const) {
-      const plan = selectFloraPopulation(population, quality);
-      expect(plan.trees.filter((tree) => isPineSpecies(tree.sp))).toHaveLength(count);
-      expect(plan.obstacles.filter((tree) => isPineSpecies(tree.sp))).toHaveLength(233);
+    const terrain = new Terrain(), variants = new Map<string, TreeVariant>();
+    const variantFor = (tree: Pick<FloraTree, 'sp' | 'v'>): TreeVariant => {
+      const key = `${tree.sp}:${tree.v}`;
+      let variant = variants.get(key);
+      if (!variant) {
+        variant = isPineSpecies(tree.sp) ? forest.variant(tree.sp, tree.v + 1) : buildTreeVariant(tree.sp, tree.v + 1);
+        variants.set(key, variant);
+      }
+      return variant;
+    };
+    // Use runtime source grounding and both conifer/broadleaf wood acceptance, rather than
+    // a synthetic legacy-radius population with ungrounded roots.
+    const population = createFloraPopulation(terrain, new Exclusions(terrain), (tree, footprint) => isPineSpecies(tree.sp)
+      ? forest.collisionRadius(tree.sp, tree.v + 1, tree.s, terrain.heightAt(tree.x, tree.z) - tree.y)
+      : footprint > 0 ? treeWoodCollisionRadius(variantFor(tree), tree.s, terrain.heightAt(tree.x, tree.z) - tree.y) : footprint,
+      tree => groundedTreeY(terrain, tree, variantFor(tree)));
+    // A51 changes the accepted habitat population; the historical no-catalog
+    // component still uses the custom Pine for each conifer. Verify identities
+    // and physical continuity instead of preserving the obsolete density snapshot.
+    const conifers = population.filter(tree => isPineSpecies(tree.sp));
+    expect(conifers.length).toBeGreaterThan(0);
+    expect(conifers.some(tree => tree.radius === 0)).toBe(true);
+    const canonical = population.filter(tree => tree.radius > 0);
+    const high = selectFloraPopulation(population, 'high');
+    expect(high.trees).toEqual(population);
+    const medium = selectFloraPopulation(population, 'medium'), low = selectFloraPopulation(population, 'low');
+    for (const tree of low.trees) expect(medium.trees).toContain(tree);
+    for (const tree of medium.trees) expect(high.trees).toContain(tree);
+    for (const plan of [low, medium, high]) {
+      expect(plan.obstacles).toEqual(canonical);
+      for (const tree of canonical) expect(plan.trees).toContain(tree);
+      expect(new Set(plan.trees).size).toBe(plan.trees.length);
+      for (const tree of plan.trees.filter(tree => isPineSpecies(tree.sp))) {
+        expect(conifers).toContain(tree);
+        expect(variantFor(tree).lods[0].tris).toBeLessThan(10_000);
+      }
     }
     expect(['oak', 'birch', 'orchard', 'dead', 'shrub'].some((species) => isPineSpecies(species as 'oak'))).toBe(false);
     forest.dispose();
+    for (const variant of variants.values()) if (!isPineSpecies(variant.species)) for (const lod of variant.lods) { lod.wood?.dispose(); lod.leaf?.dispose(); }
   });
 
   it('owns each world’s GPU resources, shares needle materials, and retains separate remeshed bark through disposal/rebuilds', () => {

@@ -24,6 +24,8 @@ The [setting](../world/setting.md) and [factions](../world/factions.md) explain 
 
 Proposed movement starts with walking, running, a stamina-limited sprint, a modest jump, and explicit low obstacle traversal. Unrestricted climbing, swimming combat, mounts, and parkour are expansion decisions. Terrain readability takes priority over movement complexity: a traversable slope must look different from a cliff, and a fence must behave consistently.
 
+The owner requires at least two minutes of uninterrupted running from a fresh full stamina meter ([A47](../decisions.md)). The `0.0.10` tuning provides roughly 133 seconds before exhaustion; jumping and combat remain separate stamina expenses. This is an exploration comfort requirement, not a new movement skill or increase to running speed.
+
 Bellwether Vale provides one legible network: Rillford, its ford, a quarry route, a spring shrine, and the damaged sluice. A safer road takes longer; a narrow maintenance path bypasses a confrontation; a conspicuous locked route grants access only through permission, a key, or trespass. Each shortcut should have a world reason to exist. Avoid placing invisible walls across plausible openings.
 
 The current arrival route precedes that network: sparse strand → dense woodland → relocated waystation → Rillford. Habitat blending, grounded floor detail, trail markers, and connected canopy masses should give that transition depth while keeping movement clearance. Dense decoration is not a reason to block the authored trail or detach a visual tree from its collision proxy. Gameplay tree and leaf motion remains paused.

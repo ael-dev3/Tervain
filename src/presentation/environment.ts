@@ -19,9 +19,9 @@ interface Spec {
 }
 
 const SPECS: Record<Quality, Spec> = {
-  high: { w: 128, h: 64, intensity: 0.95 },
-  medium: { w: 128, h: 64, intensity: 0.9 },
-  low: { w: 64, h: 32, intensity: 0.8 },
+  high: { w: 128, h: 64, intensity: 0.78 },
+  medium: { w: 128, h: 64, intensity: 0.78 },
+  low: { w: 64, h: 32, intensity: 0.73 },
 };
 
 /** Seconds of real time between regenerations. The day is 24 minutes long, so the sky changes very slowly. */
@@ -52,7 +52,7 @@ function paint(data: Uint16Array, w: number, h: number) {
   const br = SKY.brightness.value;
   const cover = SKY.cover.value;
   // Bright ground bounce needs light: sunlit grass and rock return the sun, not just the sky.
-  const bounce = 0.55 + 0.75 * clamp(sunI / 2.2, 0, 1);
+  const bounce = 0.5 + 0.65 * clamp(sunI / 2.5, 0, 1);
   const gr = tmpGround.r * bounce * 1.5;
   const gg = tmpGround.g * bounce * 1.5;
   const gb = tmpGround.b * bounce * 1.5;
@@ -88,7 +88,9 @@ function paint(data: Uint16Array, w: number, h: number) {
       const cs = clamp(dx * sun.x + dy * sun.y + dz * sun.z, -1, 1);
       if (cs > 0) {
         const a = Math.acos(cs);
-        const core = Math.exp(-(a * a) / (0.11 * 0.11)) * 3.2 * coreK;
+        // The directional light carries the strong sunlight. A calmer environment hotspot retains broad material
+        // colours in rough timber/stone instead of giving every surface a polished plastic sheen.
+        const core = Math.exp(-(a * a) / (0.11 * 0.11)) * 1.9 * coreK;
         const glow = Math.exp(-(a * a) / (0.62 * 0.62)) * glowK;
         r += tmpSun.r * (core + glow);
         g += tmpSun.g * (core + glow);
@@ -168,7 +170,7 @@ export function buildEnvironment(scene: THREE.Scene, quality: Quality): Environm
         regenerate();
       }
       // Exposure: ease toward the value for this time of day.
-      const target = 0.96 + 0.34 * SKY.night.value;
+      const target = 1.0 + 0.34 * SKY.night.value;
       exposure += (target - exposure) * (1 - Math.exp(-dt * 1.5));
       if (renderer) renderer.toneMappingExposure = exposure * EXPOSURE_BASE;
     },
@@ -183,4 +185,4 @@ export function buildEnvironment(scene: THREE.Scene, quality: Quality): Environm
 }
 
 /** Overall exposure. 1.22 was the flat value before the environment light was added. */
-const EXPOSURE_BASE = 1.1;
+const EXPOSURE_BASE = 1.14;

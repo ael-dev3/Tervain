@@ -1,5 +1,5 @@
 import { clamp, fbm, lerp, ridged, smoothstep } from './noise';
-import { COAST, LIGHTHOUSE, SEA_LEVEL } from './layout';
+import { COAST, COAST_SHELVES, LIGHTHOUSE, SEA_LEVEL } from './layout';
 
 /**
  * The west coast: a beach with dunes on the Grey Strand, rock and cliff to the north and around Lantern Point. Everything
@@ -33,12 +33,34 @@ function shoreNoise(z: number) {
   return 3.4 * fbm(z / 24, 1.7, 3, 61) + 1.2 * fbm(z / 7, 8.4, 2, 62);
 }
 
+/** Grassy bench cover shared by physical terrain and its surface paint. The noisy radius breaks a smooth oval lip. */
+export function coastalShelfAt(x: number, z: number): number {
+  let cover = 0;
+  for (const shelf of COAST_SHELVES) {
+    const d = Math.hypot((x - shelf.x) / shelf.rx, (z - shelf.z) / shelf.rz)
+      + fbm(x / 12, z / 14, 2, 211) * 0.075;
+    cover = Math.max(cover, 1 - smoothstep(1 - shelf.edge, 1, d));
+  }
+  return cover;
+}
+
+/** Height of the original bench tops. Cut roads and source-tree grounding still sample the final physical grid. */
+export function coastalShelfHeight(x: number, z: number): number {
+  let height = 0;
+  for (const shelf of COAST_SHELVES) {
+    const d = Math.hypot((x - shelf.x) / shelf.rx, (z - shelf.z) / shelf.rz)
+      + fbm(x / 12, z / 14, 2, 211) * 0.075;
+    height = Math.max(height, shelf.height * (1 - smoothstep(1 - shelf.edge, 1, d)));
+  }
+  return height;
+}
+
 /** Signed distance from the waterline: negative in the sea, positive on land (measured along x, which is good enough here). */
 export const shoreDistance = (x: number, z: number) => x - coastX(z);
 
 /** 0 on the sandy strand, 1 where the shore is rock and cliff (north of the strand and around Lantern Point). */
 export function cliffiness(z: number): number {
-  const north = 1 - smoothstep(-92, -38, z);
+  const north = 1 - smoothstep(-116, -65, z);
   const south = smoothstep(72, 90, z);
   return clamp(Math.max(north, south), 0, 1);
 }
@@ -64,20 +86,23 @@ export function shapeCoast(x: number, z: number, inland: number): number {
   // Sand: rises to a berm, drops to the dune slack, then the dunes and heath.
   const dunes = fbm(x / 13, z / 15, 3, 73);
   const berm = 0.07 * sd * (1 - smoothstep(7, 15, sd)) + 1.05 * smoothstep(7, 15, sd);
-  const dune = smoothstep(12, 22, sd) * (0.9 + 1.5 * (dunes * 0.5 + 0.5)) * (1 - smoothstep(34, 52, sd));
+  const dune = smoothstep(23, 34, sd) * (0.55 + 0.9 * (dunes * 0.5 + 0.5)) * (1 - smoothstep(42, 62, sd));
   const sand = Math.min(inland + 0.4, berm + dune) + 0.12 * fbm(x / 3.2, z / 3.2, 2, 75);
   // Rock: a steep lip out of the water, cut into crags, joining the inland ground about 18 m back.
   const lip = 0.9 + 0.7 * sd + 4.5 * rocks * smoothstep(1, 9, sd);
   const rock = lerp(lip, inland, smoothstep(6, 22, sd));
   const shore = lerp(sand, rock, cl);
-  return lerp(shore, inland, smoothstep(cl > 0.5 ? 12 : 36, cl > 0.5 ? 30 : 64, sd));
+  const beach = lerp(shore, inland, smoothstep(cl > 0.5 ? 12 : 40, cl > 0.5 ? 30 : 64, sd));
+  const shelf = coastalShelfHeight(x, z) * smoothstep(14, 23, sd);
+  return Math.max(beach, shelf + 0.16 * fbm(x / 8, z / 9, 2, 213) * coastalShelfAt(x, z));
 }
 
 /** The rocky knob the lighthouse stands on, rising out of the headland. */
 export function lighthouseRock(x: number, z: number): number {
   const d = Math.hypot(x - LIGHTHOUSE.x, z - LIGHTHOUSE.z) / LIGHTHOUSE.rockR;
   const n = 0.75 + 0.5 * ridged(x / 11, z / 11, 3, 77);
-  return LIGHTHOUSE.rockH * n * (1 - smoothstep(0.12, 1, d));
+  // A broad weathered cap above a steeper foot gives the tower a headland, rather than a smooth cone.
+  return LIGHTHOUSE.rockH * n * (1 - smoothstep(0.46, 1, d));
 }
 
 /** 0..1 how wet the ground is from the sea (wet sand line, spray on the rocks). */

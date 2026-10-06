@@ -6,8 +6,9 @@ import { Exclusions, TREE_SWAY_MULTIPLIER } from '../../src/presentation/vegetat
 import { deepwoodCover, forestOpeningCover } from '../../src/world/forest';
 import { shoreDistance } from '../../src/world/coast';
 import { Terrain } from '../../src/world/terrain';
-import { ARRIVAL_ROUTE, DEEPWOOD, FOREST_RUIN, FOREST_WAYMARKERS, SPAWN } from '../../src/world/layout';
+import { ARRIVAL_ROUTE, DEEPWOOD, FOREST_RUIN, FOREST_WAYMARKERS, SPAWN, STRAND } from '../../src/world/layout';
 import { distToPolyline } from '../../src/world/terrain';
+import { biomeAt } from '../../src/world/biomes';
 
 const terrain = new Terrain();
 const population = createFloraPopulation(terrain, new Exclusions(terrain));
@@ -26,8 +27,16 @@ describe('Deepwood forest canopy', () => {
     const core = population.filter((p) => p.radius > 0 && deepwoodCover(p.x, p.z) > 0.8);
     const types = new Set(core.map((p) => p.sp));
     expect(types).toEqual(new Set(['oak', 'pine', 'fir', 'birch']));
-    const sandTrees = population.filter((p) => shoreDistance(p.x, p.z) < DEEPWOOD.shoreClearance || Math.hypot(p.x - SPAWN.x, p.z - SPAWN.z) < 30);
+    // Ordinary woodland keeps its established shore clearance. Sheltered palms are the
+    // owner-authorized coastal exception, beyond the deliberately empty landing itself.
+    const sandTrees = population.filter((p) => (p.sp !== 'palm' && shoreDistance(p.x, p.z) < DEEPWOOD.shoreClearance)
+      || Math.hypot(p.x - SPAWN.x, p.z - SPAWN.z) < 30);
     expect(sandTrees).toEqual([]);
+    for (const palm of population.filter(p => p.sp === 'palm')) {
+      expect(shoreDistance(palm.x, palm.z)).toBeGreaterThanOrEqual(16);
+      expect(biomeAt(palm.x, palm.z).weights['sheltered-palms']).toBeGreaterThan(0.35);
+      expect(Math.hypot(palm.x - STRAND.x, palm.z - STRAND.z)).toBeGreaterThanOrEqual(56 + palm.radius + 0.55);
+    }
     const heights = core.map(p => model(p.sp, p.v + 1).height * p.s);
     // A lower stratum may be young members of the local stand, rather than unrelated birches everywhere.
     expect(heights.filter(height => height < 16).length / core.length).toBeGreaterThan(0.15);

@@ -30,11 +30,19 @@ export const SEA_LEVEL = 0;
  * added on top of this line (see world/coast.ts) so the shore is never a clean curve.
  */
 export const COAST: V2[] = [
-  { x: -312, z: -172 }, { x: -306, z: -138 }, { x: -298, z: -98 }, { x: -292, z: -58 }, { x: -286, z: -22 },
+  { x: -350, z: -172 }, { x: -345, z: -138 }, { x: -328, z: -98 }, { x: -304, z: -58 }, { x: -286, z: -22 },
   { x: -281, z: 8 }, { x: -273, z: 34 }, { x: -270, z: 52 }, { x: -282, z: 70 }, { x: -304, z: 84 },
   { x: -330, z: 95 }, { x: -346, z: 108 }, { x: -340, z: 124 }, { x: -318, z: 137 }, { x: -298, z: 148 },
   { x: -290, z: 172 },
 ];
+
+/** Original low coastal shelves frame the cove; their broken lips face sand, not the inland travel road. */
+export const COAST_SHELVES = [
+  { x: -282, z: -92, rx: 42, rz: 43, height: 12, edge: 0.26 },
+  { x: -254, z: -38, rx: 30, rz: 23, height: 7.8, edge: 0.32 },
+  { x: -248, z: 14, rx: 20, rz: 12, height: 4.8, edge: 0.32 },
+  { x: -245, z: 68, rx: 26, rz: 24, height: 6.8, edge: 0.3 },
+] as const;
 
 export interface StreamSpec {
   id: 'main' | 'village' | 'quarry';

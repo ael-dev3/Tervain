@@ -18,6 +18,9 @@ import { HERO_WALK_SPEED, HERO_RUN_SPEED, HERO_GUARD_SPEED, HERO_WALK_CYCLE, HER
 export type PlayerState = 'free' | 'light' | 'heavy' | 'dodge' | 'hurt' | 'channel' | 'dead';
 
 export const STAMINA_MAX = 100;
+/** A fresh meter supports about 133 seconds of uninterrupted exploration running. */
+const SPRINT_STAMINA_PER_SECOND = 0.75;
+const SPRINT_MIN_STAMINA = 0.5;
 const COST = { light: 12, heavy: 30, dodge: 22, jump: 6, blockHit: 18 };
 const DUR = { light: 0.62, heavy: 1.05, dodge: 0.4, hurt: 0.38 };
 /** Portion of the action after which the blow lands. */
@@ -253,6 +256,19 @@ export class Player {
     return Math.max(ctx.terrain.supportAt(x, z, feetY), ctx.physics?.supportAt(x, z, feetY) ?? -Infinity);
   }
 
+  /** Reachable standing windows select stairs for walking, but a fast fall must also meet surfaces crossed this frame. */
+  private fallingSupport(nextY: number, support: number, ctx: PlayerCtx): number {
+    if (nextY >= this.y || support >= this.y - STEP_HEIGHT) return support;
+    const samples = Math.min(64, Math.max(1, Math.ceil((this.y - nextY) / 0.4)));
+    for (let i = 1; i <= samples; i++) {
+      const feetY = this.y + (nextY - this.y) * i / samples;
+      const crossed = this.supportAt(this.x, this.z, ctx, feetY);
+      // A nearby overhead tread is never a foothold above the descending body's previous feet.
+      if (crossed <= this.y + 1e-6) support = Math.max(support, crossed);
+    }
+    return support;
+  }
+
   /** Source-supported rocks use the modest ledge budget; authored stairs retain their established step height. */
   private stepHeightAt(x: number, z: number, support: number, ctx: PlayerCtx): number {
     const rock = ctx.terrain.rockSupportAt?.(x, z, this.y);
@@ -417,7 +433,7 @@ export class Player {
       const share = perfect && typeof arms.guard.perfect === 'number' ? arms.guard.perfect : tired ? arms.guard.tired : arms.guard.fresh;
       const dmg = Math.round(damage * share);
       this.spend(cost);
-      ctx.audio.hit('block');
+      ctx.audio.hit('block', arms === BLADE);
       this.shake = Math.max(this.shake, 0.18);
       if (this.stamina <= 0 && heavy) {
         // Guard break on a heavy blow: a brief stagger, never a lock.
@@ -502,7 +518,8 @@ export class Player {
 
     // Sprint.
     const sprintHeld = control && inp.held('sprint') && hasInput && !this.blocking;
-    const sprinting = sprintHeld && this.stamina > 0.5 && !this.exhausted && this.state === 'free';
+    if (sprintHeld && this.state === 'free' && this.stamina <= SPRINT_MIN_STAMINA) this.exhausted = true;
+    const sprinting = sprintHeld && this.stamina > SPRINT_MIN_STAMINA && !this.exhausted && this.state === 'free';
     if (sprintHeld && this.exhausted) inp.clearToggle('sprint');
 
     // Actions (edge-triggered).
@@ -511,11 +528,11 @@ export class Player {
       if (inp.pressed('attack') && !this.blocking && this.stamina >= arms.cost.light) {
         this.startAction('light', arms);
         this.spend(arms.cost.light);
-        ctx.audio.swing(false);
+        ctx.audio.swing(false, arms === BLADE);
       } else if (inp.pressed('heavy') && !this.exhausted && this.stamina >= arms.cost.heavy) {
         this.startAction('heavy', arms);
         this.spend(arms.cost.heavy);
-        ctx.audio.swing(true);
+        ctx.audio.swing(true, arms === BLADE);
       } else if (inp.pressed('dodge') && !this.exhausted && this.stamina >= COST.dodge) {
         this.state = 'dodge';
         this.timer = 0;
@@ -523,6 +540,7 @@ export class Player {
         this.iframes = 0.3;
         this.blocking = false;
         this.spend(COST.dodge);
+        ctx.audio.dodge(this.surface);
         this.dodgeDir = hasInput ? { x: wx, z: wz } : { x: -fx, z: -fz };
         this.yaw = Math.atan2(this.dodgeDir.x, this.dodgeDir.z);
       } else if (inp.pressed('jump') && this.grounded && this.stamina >= COST.jump) {
@@ -530,6 +548,7 @@ export class Player {
         this.grounded = false;
         this.stamina = Math.max(0, this.stamina - COST.jump);
         this.staminaPause = 0.4;
+        ctx.audio.jump(this.surface);
       }
     }
 
@@ -641,7 +660,7 @@ export class Player {
     }
 
     // Feet follow legal small steps exactly; leaving a ledge starts a fall instead of snapping to its bottom.
-    const ground = this.supportAt(this.x, this.z, ctx);
+    let ground = this.supportAt(this.x, this.z, ctx);
     if (this.grounded) {
       if (this.y - ground > GROUND_FOLLOW_DROP) this.grounded = false;
       else { this.y = ground; this.vy = 0; }
@@ -649,12 +668,15 @@ export class Player {
     if (!this.grounded) {
       // Analytic ballistic step keeps jump height and fall travel consistent across frame rates.
       const nextY = this.y + this.vy * dt - 0.5 * GRAVITY * dt * dt;
+      ground = this.fallingSupport(nextY, ground, ctx);
       const staticCeiling = ctx.colliders.ceilingAt(this.x, this.z, PLAYER_RADIUS, this.y + PLAYER_BODY_HEIGHT, nextY + PLAYER_BODY_HEIGHT);
       const movableCeiling = ctx.physics?.ceilingAt(this.x, this.z, PLAYER_RADIUS, this.y + PLAYER_BODY_HEIGHT, nextY + PLAYER_BODY_HEIGHT) ?? null;
       const ceiling = staticCeiling === null ? movableCeiling : movableCeiling === null ? staticCeiling : Math.min(staticCeiling, movableCeiling);
       this.y = ceiling === null ? nextY : ceiling - PLAYER_BODY_HEIGHT - 0.0001;
       this.vy = ceiling === null ? this.vy - GRAVITY * dt : 0;
       if (this.vy <= 0 && this.y <= ground) {
+        // Stepping down a kerb is silent; a jump or a real drop lands audibly.
+        if (this.vy < -3.2) ctx.audio.land(this.surface, -this.vy);
         this.y = ground;
         this.vy = 0;
         this.grounded = true;
@@ -665,9 +687,9 @@ export class Player {
 
     // Stamina.
     if (sprinting && this.state === 'free' && this.lastMoveSpeed > 1) {
-      this.stamina = Math.max(0, this.stamina - 12 * dt);
+      this.stamina = Math.max(0, this.stamina - SPRINT_STAMINA_PER_SECOND * dt);
       this.staminaPause = 0.5;
-      if (this.stamina <= 0.01) {
+      if (this.stamina <= SPRINT_MIN_STAMINA) {
         this.exhausted = true;
         inp.clearToggle('sprint');
       }
@@ -717,7 +739,7 @@ export class Player {
       if (ang > half) continue;
       const dmg = arms[kind];
       const killed = e.takeHit(dmg, this.heavy, this.x, this.z);
-      ctx.audio.hit('flesh');
+      ctx.audio.hit('flesh', arms === BLADE);
       ctx.onHitEnemy(e, killed, this.heavy);
       any = true;
     }

@@ -113,15 +113,19 @@ ${WATER_OPTICS_GLSL}
 void main() {
   if (uIsPool < 0.5 && uFlow < 0.025) discard;
   // Bank intersection is derived from the sampled carved floor, not a painted white outline.
-  float wet = smoothstep(-0.015, 0.055, vDepth);
-  if (wet < 0.01) discard;
+  float depthPixel = fwidth(vDepth);
+  float wet = waterSmooth(-0.015, 0.055, vDepth, min(depthPixel, 0.025));
   float depth = max(vDepth, 0.0);
   vec3 V = normalize(cameraPosition - vWorld);
   float distanceToEye = length(cameraPosition - vWorld);
   vec2 slopes = rippleSlope(vWorld.xz, vFlowDir, uTime, vSurfaceFlow, uEffects);
+  float pixelMetres = length(dFdx(vWorld)) + length(dFdy(vWorld));
+  slopes *= waterWaveCoverage(pixelMetres * 7.512);
   slopes *= 1.0 - smoothstep(32.0, 150.0, distanceToEye) * 0.85;
   vec3 N = normalize(vec3(-slopes.x * 2.4, 1.0, -slopes.y * 2.4));
   vec3 R = reflect(-V, N);
+  vec3 rayDx = dFdx(R), rayDy = dFdy(R);
+  float rayFootprintSquared = dot(rayDx, rayDx) + dot(rayDy, rayDy);
   float fresnel = 0.025 + 0.975 * pow(1.0 - clamp(dot(N, V), 0.0, 1.0), 5.0);
 
   // Clear earthy teal over the shallows gives way to a deeper green body, with no opaque blue fill.
@@ -136,24 +140,26 @@ void main() {
     vec2 q = vWorld.xz - waterDrift(vFlowDir, uTime * 0.36, vSurfaceFlow);
     float crossing = sin(dot(q, vec2(3.2, 1.9)) + uTime * 0.25)
       + cos(dot(q, vec2(-2.7, 3.1)) - uTime * 0.21);
-    float caustic = pow(max(0.0, 1.0 - abs(crossing) * 0.72), 8.0);
+    float caustic = pow(max(0.0, 1.0 - abs(crossing) * 0.72), 8.0) * waterWaveCoverage(fwidth(crossing) * 2.828);
     body += vec3(0.035, 0.049, 0.027) * caustic * (1.0 - smoothstep(0.12, 0.65, depth)) * daylight * 0.34;
   }
 
   float up = clamp(R.y, 0.0, 1.0);
   vec3 reflectedSky = mix(uHorizon, uTop, pow(up, 0.45));
   float sunAlignment = max(dot(R, uSunDir), 0.0);
-  reflectedSky += uSunColor * (pow(sunAlignment, 160.0) * 2.1 + pow(sunAlignment, 22.0) * 0.09) * uSunI * (1.0 - uNight);
+  reflectedSky += uSunColor * (waterHighlight(sunAlignment, 160.0, rayFootprintSquared) * 2.1
+    + waterHighlight(sunAlignment, 22.0, rayFootprintSquared) * 0.09) * uSunI * (1.0 - uNight);
   vec3 col = mix(body, reflectedSky, min(fresnel, 0.86));
 
   // Advected, warped pockets break up foam. A bank does not get a permanent opaque white stripe.
   vec2 foamQ = vWorld.xz * 1.25 - waterDrift(vFlowDir, uTime * 0.8, vSurfaceFlow);
   float warp = sin(foamQ.y * 0.73 + sin(foamQ.x * 0.41)) * 0.7;
   float cells = sin(foamQ.x * 2.2 + warp) * sin(foamQ.y * 1.7 - warp);
-  float broken = smoothstep(0.34, 0.79, cells * 0.5 + 0.5);
-  float bank = 1.0 - smoothstep(0.035, 0.2, depth);
+  float broken = waterSmooth(0.34, 0.79, cells * 0.5 + 0.5, fwidth(cells) * 0.5);
+  float bank = 1.0 - waterSmooth(0.035, 0.2, depth, depthPixel);
   float foam = bank * broken * (0.11 + uFlow * 0.17) * mix(0.5, 1.0, uEffects);
-  float streak = pow(max(0.0, sin(vAlong * 1.1 - uTime * (0.55 + uFlow) + sin(foamQ.x * 0.6))), 12.0);
+  float streakPhase = vAlong * 1.1 - uTime * (0.55 + uFlow) + sin(foamQ.x * 0.6);
+  float streak = pow(max(0.0, sin(streakPhase)), 12.0) * waterWaveCoverage(fwidth(streakPhase) * 3.464);
   foam += streak * smoothstep(0.2, 0.8, uFlow) * 0.022 * uEffects;
   col = mix(col, vec3(0.44, 0.48, 0.37) * daylight, min(foam, 0.3));
 
@@ -161,6 +167,8 @@ void main() {
   float alpha = mix(0.48, 0.9, smoothstep(0.05, 0.65, depth));
   // Captured transmission already contains the bottom color; avoid blending it into itself twice.
   alpha = mix(alpha, 0.96, uWaterCapture);
+  // All derivative-based coverage and lighting inputs precede bank divergence.
+  if (wet < 0.01) discard;
   gl_FragColor = vec4(col, alpha * wet * edgeFade);
   #include <fog_fragment>
   #include <tonemapping_fragment>

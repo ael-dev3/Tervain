@@ -104,6 +104,8 @@ export type Grip = 'none' | 'blade';
 export interface Rig {
   /** The approved main hero has its own skeleton and distance-aware animation. */
   hero?: HeroAnimationController;
+  /** Imported residents' bounded visual sole clearance. This never moves the physical actor root or performs foot IK. */
+  npc?: { settle(mode: Mode): void };
   root: THREE.Group;
   /** Root of the visual body; lowered when sitting and rotated when defeated. */
   body: THREE.Group;
@@ -575,6 +577,31 @@ function scabbardModel(leatherM: THREE.Material, metalM: THREE.Material): THREE.
     if (geo) g.add(new THREE.Mesh(geo, mat));
   }
   return g;
+}
+
+export type NpcEquipment = 'blade' | 'club' | 'sheathed';
+
+/** Reuse the game's original modest weapons on imported residents, without inventing new equipment or shield semantics. */
+export function createNpcAttachments(kind: NpcEquipment): {
+  weapon: THREE.Group; scabbard: THREE.Group | null; sheathed: THREE.Group | null; materials: THREE.MeshStandardMaterial[];
+} {
+  const metal = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.63, metalness: 0.55 });
+  const leather = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.88 });
+  const wood = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.94 });
+  const weapon = kind === 'club' ? clubModel(wood, leather, metal) : swordModel(metal, leather, true);
+  const scabbard = kind === 'club' ? null : scabbardModel(leather, metal);
+  const sheathed = kind === 'club' ? null : swordModel(metal, leather, false);
+  weapon.name = kind === 'club' ? 'NPC / knotted club' : 'NPC / weathered arming sword';
+  if (scabbard && sheathed) {
+    scabbard.name = 'NPC / hip scabbard'; sheathed.name = 'NPC / sheathed sword hilt';
+    sheathed.rotation.x = Math.PI; scabbard.add(sheathed);
+  }
+  for (const holder of [weapon, scabbard]) holder?.traverse(object => {
+    if ((object as THREE.Mesh).isMesh) (object as THREE.Mesh).castShadow = (object as THREE.Mesh).receiveShadow = true;
+  });
+  // Only the club uses wood; do not allocate an orphan GPU material into a rig's lifetime.
+  if (kind !== 'club') wood.dispose();
+  return { weapon, scabbard, sheathed, materials: kind === 'club' ? [metal, leather, wood] : [metal, leather] };
 }
 
 /* ---------------------------------------------------------------- who is who */
@@ -1148,6 +1175,8 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
     rig.body.rotation.x = c.bodyX;
     rig.body.position.y = c.bodyX !== 0 ? (0.22 * scale * Math.abs(c.bodyX)) / 1.5 : 0;
   }
+  // The body pivot has just been reset from this frame's pose, so visual clearance cannot accumulate between frames.
+  rig.npc?.settle(p.mode);
   // Hit flash tints materials briefly.
   if (rig.hitFlash > 0) {
     rig.hitFlash = Math.max(0, rig.hitFlash - dt * 4);

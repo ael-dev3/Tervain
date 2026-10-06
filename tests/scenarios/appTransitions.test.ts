@@ -12,6 +12,14 @@ import { track } from '../../src/presentation/human/sheetPool';
 
 const menuFailure = vi.hoisted(() => ({ next: false }));
 const stagedActors = vi.hoisted(() => ({ roots: [] as unknown[] }));
+const npcCatalog = vi.hoisted(() => ({ load: vi.fn() }));
+const treeCatalog = vi.hoisted(() => ({ load: vi.fn() }));
+vi.mock('../../src/presentation/meshyTrees', async (importOriginal) => ({
+  ...await importOriginal<typeof import('../../src/presentation/meshyTrees')>(), loadMeshyTrees: treeCatalog.load,
+}));
+vi.mock('../../src/presentation/meshynpcs', async (importOriginal) => ({
+  ...await importOriginal<typeof import('../../src/presentation/meshynpcs')>(), loadMeshyNpcCatalog: npcCatalog.load,
+}));
 vi.mock('three', async (importOriginal) => {
   const actual = await importOriginal<typeof import('three')>();
   return { ...actual, WebGLRenderer: class {
@@ -82,6 +90,7 @@ class ElementFixture {
 }
 
 function fixture() {
+  treeCatalog.load.mockResolvedValue(new Map());
   const listeners = new Map<string, ((event: Record<string, unknown>) => void)[]>();
   const document = {
     pointerLockElement: null as HTMLElement | null, exitPointerLock: vi.fn(),
@@ -111,7 +120,8 @@ function fixture() {
     cam: { reset: vi.fn(), yaw: 0, pitch: 0 }, world: { terrain: {}, physics: { supportAt: vi.fn(() => null), reset: vi.fn(), restore: vi.fn(), release: vi.fn() } },
     syncMenuHudVisibility: vi.fn(), syncWorldFromState: vi.fn(),
     safePosition: (x: number, z: number, y = 0) => ({ x, z, y }),
-    wantLock: vi.fn(), openPause: vi.fn(),
+    wantLock: vi.fn(), openPause: vi.fn(), speech: { clear: vi.fn() },
+    audio: { pauseWorld: vi.fn() },
     wantPlayLock: false, lockingOut: false, worldBuilding: false, worldBuildFailed: false,
     worldDisposed: false, menuSceneDisposed: false, qualityReload: null, reloadAgain: false,
   });
@@ -119,7 +129,7 @@ function fixture() {
   return { app, input, canvas, document, key, call };
 }
 
-afterEach(() => { menuFailure.next = false; stagedActors.roots.length = 0; vi.restoreAllMocks(); vi.useRealTimers(); vi.unstubAllGlobals(); });
+afterEach(() => { menuFailure.next = false; stagedActors.roots.length = 0; npcCatalog.load.mockReset(); treeCatalog.load.mockReset(); vi.restoreAllMocks(); vi.useRealTimers(); vi.unstubAllGlobals(); });
 
 function deferred<T>() {
   let resolve!: (value: T) => void;
@@ -133,7 +143,7 @@ function rebuildFixture() {
   const oldWorld = { scene: new THREE.Scene(), dispose: vi.fn(), terrain: {}, sky: { brightness: 1 }, syncStatic: vi.fn(), physics: { supportAt: vi.fn(() => null), snapshot: vi.fn(() => []), restore: vi.fn(), reset: vi.fn(), release: vi.fn() } };
   const nextWorld = () => ({ scene: new THREE.Scene(), dispose: vi.fn(), terrain: {}, sky: { brightness: 1 }, syncStatic: vi.fn(), physics: { supportAt: vi.fn(() => null), snapshot: vi.fn(() => []), restore: vi.fn(), reset: vi.fn(), release: vi.fn() } });
   Object.assign(f.app, {
-    world: oldWorld, library: {}, menuScene: new MenuScene({ quality: f.app.settings.quality }),
+    world: oldWorld, library: {}, menuScene: new MenuScene({ quality: f.app.settings.quality }), npcAssets: { create: () => undefined },
     applyUiSettings: vi.fn(), applyQualityToRenderer: vi.fn(), renderer: {},
     frameClock: new FrameClock(), frameTimes: [], audioClock: 0, worldDirty: true,
     hud: { ...f.app.hud, el: new ElementFixture('DIV') },
@@ -146,6 +156,63 @@ function rebuildFixture() {
 async function finishReload(app: object) { await Reflect.get(app, 'qualityReload'); }
 
 describe('actual application world transitions', () => {
+  it('preserves the loading error and prior menu until resident preparation succeeds, then installs the set once', async () => {
+    const { app, call } = rebuildFixture();
+    Reflect.set(app, 'npcAssets', null);
+    const previousMenu = Reflect.get(app, 'menuScene') as MenuScene;
+    const models = { create: vi.fn(() => undefined) };
+    const failure = new Error('Resident model download failed its integrity check.');
+    npcCatalog.load.mockRejectedValueOnce(failure).mockResolvedValueOnce(models);
+    await expect(call('prepareNpcAssets')).rejects.toBe(failure);
+    expect(previousMenu.dispose).not.toHaveBeenCalled();
+    expect(Reflect.get(app, 'npcAssets')).toBeNull();
+    expect(Reflect.get(app, 'menuScene')).toBe(previousMenu);
+    await call('prepareNpcAssets');
+    expect(previousMenu.dispose).toHaveBeenCalledOnce();
+    expect(models.create).toHaveBeenCalledWith('menu:warden');
+    expect(Reflect.get(app, 'npcAssets')).toBe(models);
+    const installed = Reflect.get(app, 'menuScene');
+    await call('prepareNpcAssets');
+    expect(Reflect.get(app, 'menuScene')).toBe(installed);
+    expect(npcCatalog.load).toHaveBeenCalledTimes(2);
+    expect(treeCatalog.load).toHaveBeenCalledExactlyOnceWith(['tree-0208']);
+    expect(models.create).toHaveBeenCalledOnce();
+  });
+
+  it('keeps the previous menu and residents uninstalled when the required grove download fails, then retries', async () => {
+    const { app, call } = rebuildFixture();
+    Reflect.set(app, 'npcAssets', null);
+    const previousMenu = Reflect.get(app, 'menuScene') as MenuScene;
+    const failure = new Error('Required grove texture could not be decoded.');
+    const trees = new Map(), residents = { create: vi.fn(() => undefined) };
+    treeCatalog.load.mockRejectedValueOnce(failure).mockResolvedValueOnce(trees);
+    npcCatalog.load.mockResolvedValueOnce(residents);
+    await expect(call('prepareNpcAssets')).rejects.toBe(failure);
+    expect(previousMenu.dispose).not.toHaveBeenCalled();
+    expect(npcCatalog.load).not.toHaveBeenCalled();
+    expect(Reflect.get(app, 'treeTemplates')).toBeUndefined();
+    await call('prepareNpcAssets');
+    expect(Reflect.get(app, 'treeTemplates')).toBe(trees);
+    expect(Reflect.get(app, 'npcAssets')).toBe(residents);
+    expect(previousMenu.dispose).toHaveBeenCalledOnce();
+    expect(treeCatalog.load).toHaveBeenCalledTimes(2);
+  });
+
+  it('resident download failure keeps a graphics rebuild paused and presents the existing Retry affordance', async () => {
+    const { app, call, oldWorld } = rebuildFixture();
+    Reflect.set(app, 'npcAssets', null);
+    npcCatalog.load.mockRejectedValue(new Error('Resident models could not load (HTTP 503).'));
+    const create = vi.spyOn(WorldScene, 'create');
+    call('applySettings', true);
+    await finishReload(app);
+    expect(create).not.toHaveBeenCalled();
+    expect(oldWorld.dispose).toHaveBeenCalledOnce();
+    expect(Reflect.get(app, 'worldBuildFailed')).toBe(true);
+    expect(app.loadingEl.textContent).toContain('Retry graphics');
+    expect(console.error).toHaveBeenCalledWith('Graphics rebuild failed', expect.objectContaining({ message: 'Resident models could not load (HTTP 503).' }));
+    expect(app.titleEl.inert).toBe(true);
+  });
+
   it('settles staged painters and releases their final textures when world construction fails', async () => {
     const { app, oldWorld, call } = rebuildFixture();
     const painting = deferred<void>();
@@ -243,6 +310,32 @@ describe('actual application world transitions', () => {
     expect(app.player.group.position.y).toBe(0);
   });
 
+  it('cancels a pending speech chain when any world-pausing panel opens', () => {
+    const { app, call } = fixture();
+    Object.assign(app, { uiRoot: new ElementFixture('DIV'), mapView: {} });
+    Object.assign(app.player, { vx: 3, vz: 4, lastMoveSpeed: 5 });
+    call('buildShell');
+    const opened = Reflect.get(app.panels, 'onOpen') as () => void;
+    opened();
+    expect(app.speech.clear).toHaveBeenCalledOnce();
+    expect(app.player).toMatchObject({ vx: 0, vz: 0, lastMoveSpeed: 0 });
+    expect(app.input.uiOpen).toBe(true);
+  });
+
+  it('cancels a pending speech chain before the title or death transition', () => {
+    const { app, call } = fixture();
+    const death = vi.fn();
+    Object.assign(app, { audio: { death }, buildTitle: vi.fn(), focusTitle: vi.fn() });
+    call('enterTitle');
+    expect(app.speech.clear).toHaveBeenCalledOnce();
+    expect(app.mode).toBe('title');
+    app.mode = 'play';
+    call('onPlayerDeath');
+    expect(app.speech.clear).toHaveBeenCalledTimes(2);
+    expect(death).toHaveBeenCalledOnce();
+    expect(app.mode).toBe('dead');
+  });
+
   it('does not request pointer lock from the title, a modal, or a world rebuild', () => {
     const { app, canvas, call } = fixture();
     app.mode = 'title'; call('wantLock');
@@ -266,6 +359,8 @@ describe('actual application world transitions', () => {
     key('KeyW'); key('ShiftLeft'); key('Space');
     input.captureNext = vi.fn(); input.captureCancel = vi.fn();
     call('applySettings', true);
+    expect(Reflect.get(app, 'audio').pauseWorld).toHaveBeenCalledOnce();
+    expect(app.speech.clear).toHaveBeenCalledOnce();
     expect(oldWorld.dispose).toHaveBeenCalledOnce();
     expect(input.captureNext).toBeNull(); expect(input.captureCancel).toBeNull();
     expect(app.panels.el.inert).toBe(true);
@@ -288,8 +383,12 @@ describe('actual application world transitions', () => {
     expect(app.game.state).toEqual(savedState);
     expect(canvas.requestPointerLock).not.toHaveBeenCalled();
     expect(input.uiOpen).toBe(true);
+    // A failed scene stays silent without advancing gameplay or restarting its mix.
+    expect(Reflect.get(app, 'audio').pauseWorld).toHaveBeenCalledOnce();
 
     button.click(); button.click();
+    expect(Reflect.get(app, 'audio').pauseWorld).toHaveBeenCalledTimes(2);
+    expect(app.speech.clear).toHaveBeenCalledTimes(2);
     expect(create).toHaveBeenCalledTimes(2);
     expect(oldWorld.dispose).toHaveBeenCalledOnce();
     const recovered = nextWorld();
@@ -349,7 +448,7 @@ describe('actual application world transitions', () => {
     Reflect.set(app, 'world', undefined);
     Reflect.set(app, 'mode', 'loading');
     const canvas = { addEventListener: vi.fn() };
-    const audio = { resume: vi.fn(), setPageHidden: vi.fn() };
+    const audio = { resume: vi.fn(), setPageHidden: vi.fn(), pauseWorld: vi.fn() };
     Object.assign(app, {
       canvas, audio, buildShell: vi.fn(), prepareMainHero: vi.fn().mockResolvedValue(undefined), applyPixelRatio: vi.fn(), onResize: vi.fn(),
       enterTitle: vi.fn(() => Reflect.set(app, 'mode', 'title')), applyShotParams: vi.fn(),
@@ -373,6 +472,17 @@ describe('actual application world transitions', () => {
     expect(requestAnimationFrame).toHaveBeenCalledOnce();
     expect(app.mode).toBe('title');
     expect(app.loadingEl.classList.contains('off')).toBe(true);
+    const visibility = document.addEventListener.mock.calls.find(([name]) => name === 'visibilitychange')?.[1] as (() => void) | undefined;
+    expect(visibility).toBeTypeOf('function');
+    app.speech.clear.mockClear();
+    Reflect.set(app, 'autosaveQuiet', vi.fn());
+    document.visibilityState = 'hidden';
+    visibility!();
+    expect(app.speech.clear).toHaveBeenCalledOnce();
+    expect(audio.setPageHidden).toHaveBeenLastCalledWith(true);
+    document.visibilityState = 'visible';
+    visibility!();
+    expect(app.speech.clear).toHaveBeenCalledOnce();
   });
 
   it.each([['26.2', 26.2], ['Infinity', undefined], ['bad', undefined]] as const)('passes only a finite shot feet hint (%s) to height-aware placement', (hint, expected) => {

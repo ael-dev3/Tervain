@@ -68,7 +68,7 @@ export function buildAmbient(ctx: BuildContext): SceneModule & { counts: { peopl
   group.name = 'ambient';
   const people: { rig: Rig; spec: Spec; t: number }[] = [];
   SPECS.forEach((spec, i) => {
-    const rig = createAmbientRig(spec.look, spec.style);
+    const rig = ctx.npcAssets?.create(`ambient:${spec.style.id}`, spec.look.height * (spec.style.build === 'woman' ? 0.94 : 1)) ?? createAmbientRig(spec.look, spec.style);
     rig.root.position.set(spec.x, terrain.heightAt(spec.x, spec.z), spec.z);
     rig.root.rotation.y = spec.yaw;
     group.add(rig.root);

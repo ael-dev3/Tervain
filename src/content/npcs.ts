@@ -191,24 +191,69 @@ export const NPCS: Record<NpcId, NpcDef> = {
 
 export const NPC_LIST: NpcDef[] = Object.values(NPCS);
 
-/** Short ambient lines shown as barks when the player walks near; text keys live in dialogue strings. */
+/**
+ * Remarks people make when the player walks near (voiced, A53): each names a line in voice.ts, whose text is also
+ * the bubble. `hours` limits a remark to part of the day.
+ */
 export interface Bark {
   npc: NpcId;
   when?: Cond[];
-  text: string;
+  hours?: [from: number, to: number];
+  line: string;
 }
 
+const below: Cond = { t: 'phase', below: 'committed' };
+const settledWith = (is: 'rillford' | 'quarry' | 'rotation'): Cond[] => [{ t: 'phase', is: 'settled' }, { t: 'alloc', is }];
+const stranded: Cond = { t: 'not', c: F('ila_rescued') };
+
 export const BARKS: Bark[] = [
-  { npc: 'mill_hand', when: [{ t: 'phase', below: 'committed' }], text: 'The wheel has not turned since the flood.' },
-  { npc: 'mill_hand', when: [{ t: 'phase', is: 'settled' }, { t: 'alloc', is: 'rillford' }], text: 'Grain by evening!' },
-  { npc: 'village_baker', when: [{ t: 'phase', below: 'committed' }], text: 'No water, no dough.' },
-  { npc: 'quarry_hand', when: [{ t: 'phase', below: 'committed' }], text: 'Nothing to cut with. Nothing to drink.' },
-  { npc: 'quarry_hand', when: [{ t: 'phase', is: 'settled' }, { t: 'alloc', is: 'quarry' }], text: 'Load the wagon. Quickly.' },
-  { npc: 'quarry_hand', when: [{ t: 'phase', is: 'settled' }, { t: 'alloc', is: 'rotation' }], text: 'Night shift again...' },
-  { npc: 'rillford_reeve', when: [{ t: 'phase', below: 'committed' }], text: 'Where is the water going?' },
-  { npc: 'quarry_foreman', when: [{ t: 'phase', below: 'committed' }], text: 'Contract does not care about the weather.' },
-  { npc: 'spring_steward', when: [{ t: 'phase', below: 'committed' }], text: 'The spring is quiet today.' },
-  { npc: 'shrine_warden', text: 'Keep the lamp out of the archive.' },
-  { npc: 'ash_recorder', text: 'Write it down. Someone must.' },
-  { npc: 'estate_steward', when: [{ t: 'phase', below: 'committed' }], text: 'The delivery date has not moved.' },
+  { npc: 'mill_hand', when: [below], line: 'bess.bark.wheel' },
+  { npc: 'mill_hand', when: [{ t: 'phase', below: 'settled' }], line: 'bess.bark.grain' },
+  { npc: 'mill_hand', when: settledWith('rillford'), line: 'bess.bark.evening' },
+  { npc: 'village_baker', when: [below], line: 'hesper.bark.dough' },
+  { npc: 'village_baker', when: [below], line: 'hesper.bark.barrel' },
+  { npc: 'village_baker', line: 'hesper.bark.step' },
+  { npc: 'quarry_hand', when: [below], line: 'pell.bark.nothing' },
+  { npc: 'quarry_hand', when: [below], line: 'pell.bark.dust' },
+  { npc: 'quarry_hand', when: settledWith('quarry'), line: 'pell.bark.load' },
+  { npc: 'quarry_hand', when: settledWith('rotation'), line: 'pell.bark.night' },
+  { npc: 'rillford_reeve', when: [below], line: 'mara.bark.where' },
+  { npc: 'rillford_reeve', when: [below], line: 'mara.bark.bucket' },
+  { npc: 'rillford_reeve', when: settledWith('rillford'), line: 'mara.bark.bread' },
+  { npc: 'quarry_foreman', when: [below], line: 'darin.bark.contract' },
+  { npc: 'quarry_foreman', when: [below], line: 'darin.bark.count' },
+  { npc: 'quarry_foreman', line: 'darin.bark.stack' },
+  { npc: 'spring_steward', when: [below], line: 'edda.bark.quiet' },
+  { npc: 'spring_steward', line: 'edda.bark.patience' },
+  { npc: 'spring_steward', line: 'edda.bark.reeds' },
+  { npc: 'maintenance_worker', when: [stranded], line: 'ila.bark.hello' },
+  { npc: 'maintenance_worker', when: [stranded], line: 'ila.bark.down' },
+  { npc: 'maintenance_worker', when: [F('ila_rescued')], line: 'ila.bark.bench' },
+  { npc: 'shrine_warden', line: 'tolan.bark.lamp' },
+  { npc: 'shrine_warden', line: 'tolan.bark.hands' },
+  { npc: 'shrine_warden', hours: [19, 6], line: 'tolan.bark.lock' },
+  { npc: 'ash_recorder', line: 'sel.bark.write' },
+  { npc: 'ash_recorder', line: 'sel.bark.ink' },
+  { npc: 'ash_recorder', line: 'sel.bark.hour' },
+  { npc: 'estate_steward', when: [below], line: 'oren.bark.date' },
+  { npc: 'estate_steward', line: 'oren.bark.columns' },
+  { npc: 'caravan_master', line: 'joss.bark.horse' },
+  // The time of day in their voices.
+  { npc: 'caravan_master', hours: [5, 9], line: 'joss.bark.fog' },
+  { npc: 'caravan_master', hours: [20, 5], line: 'joss.bark.lamp' },
+  { npc: 'rillford_reeve', hours: [6, 8], when: [below], line: 'mara.bark.morning' },
+  { npc: 'rillford_reeve', hours: [17, 20], when: [{ t: 'phase', below: 'settled' }], line: 'mara.bark.short' },
+  { npc: 'spring_steward', hours: [5, 8], line: 'edda.bark.blessed' },
+  { npc: 'spring_steward', hours: [16, 21], line: 'edda.bark.light' },
+  { npc: 'quarry_foreman', hours: [6, 18], line: 'darin.bark.edge' },
+  { npc: 'quarry_foreman', hours: [18, 21], line: 'darin.bark.ledgers' },
+  { npc: 'maintenance_worker', hours: [18, 24], when: [F('ila_rescued')], line: 'ila.bark.cheerful' },
+  { npc: 'estate_steward', hours: [8, 18], line: 'oren.bark.counting' },
+  { npc: 'ash_recorder', hours: [8, 18], line: 'sel.bark.river' },
+  { npc: 'ash_recorder', hours: [19, 6], line: 'sel.bark.dark' },
+  { npc: 'shrine_warden', hours: [6, 20], line: 'tolan.bark.along' },
+  { npc: 'mill_hand', hours: [7, 9], when: [{ t: 'phase', below: 'settled' }], line: 'bess.bark.morning' },
+  { npc: 'quarry_hand', hours: [17, 20], when: [{ t: 'phase', below: 'settled' }], line: 'pell.bark.done' },
+  { npc: 'village_baker', hours: [5, 8], line: 'hesper.bark.ovens' },
+  { npc: 'village_baker', hours: [17, 20], line: 'hesper.bark.queue' },
 ];

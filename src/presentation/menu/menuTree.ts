@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { fbm, mulberry32, valueNoise } from '../../world/noise';
+import { assertNaturalModelBudget } from '../naturalModelBudget';
 
 /**
  * The ancient tree of the menu vigil. A Templar hermitage has been made in its roots (see menuCamp); the tree is older than
@@ -284,7 +285,7 @@ function carveDoorBox(m: Mesh3, face: TreeDoorFace, box: { hw: number; y0: numbe
  * A tapered, lumpy tube along a polyline, with rings aligned by parallel transport so it never corkscrews. Segments thick
  * enough to matter to anything flying past are recorded in `caps` as tapered capsules.
  */
-function tube(m: Mesh3, pts: V3[], r0: number, r1: number, seed: number, capEnd: boolean, caps?: number[]) {
+function tube(m: Mesh3, pts: V3[], r0: number, r1: number, seed: number, capEnd: boolean, caps?: number[], detail = 1) {
   const n = pts.length;
   if (caps) {
     for (let i = 0; i < n - 1; i++) {
@@ -294,7 +295,9 @@ function tube(m: Mesh3, pts: V3[], r0: number, r1: number, seed: number, capEnd:
       caps.push(...pts[i]!, ...pts[i + 1]!, ra * 1.08, rb * 1.08);
     }
   }
-  const seg = r0 > 0.4 ? 14 : r0 > 0.15 ? 9 : 6;
+  // The supplied-crown menu keeps every branch/root curve and collision capsule. Only
+  // its radial tessellation is reduced to leave room for actual source-painted foliage.
+  const seg = Math.max(4, Math.round((r0 > 0.4 ? 14 : r0 > 0.15 ? 9 : 6) * detail));
   const base = m.n;
   let ref: V3 = Math.abs(normv(sub(pts[1]!, pts[0]!))[1]) > 0.9 ? [1, 0, 0] : [0, 1, 0];
   let along = 0;
@@ -363,6 +366,8 @@ export interface AncientTree {
 
 export interface AncientTreeOptions {
   leafCards?: number;
+  /** Radial detail for branches and roots only; the carved bole and all contact curves stay unchanged. */
+  woodDetail?: number;
   door?: TreeDoorSpec;
   /** Ground height under a tree-local point, tree-local metres; surface roots follow it half-buried. Flat at y = 0 if absent. */
   ground?: (x: number, z: number) => number;
@@ -370,6 +375,7 @@ export interface AncientTreeOptions {
 
 export function buildAncientTree(seed = 1207, opts: AncientTreeOptions = {}): AncientTree {
   const rng = mulberry32(seed);
+  const woodDetail = Number.isFinite(opts.woodDetail) ? THREE.MathUtils.clamp(opts.woodDetail!, 0.5, 1) : 1;
   const wood = new Mesh3();
   const ground = opts.ground ?? (() => 0);
   const { top, lobes, face, shape } = trunk(wood, rng, opts.door, ground);
@@ -408,7 +414,7 @@ export function buildAncientTree(seed = 1207, opts: AncientTreeOptions = {}): An
     const dir: V3 = [Math.cos(mn.az) * Math.cos(mn.el), Math.sin(mn.el), Math.sin(mn.az) * Math.cos(mn.el)];
     const pts = growPath(addv(top, mulv(dir, -0.5)), dir, mn.len * (mn.dead ? 0.6 : 1), 8, 0.35, mn.dead ? 0.02 : 0.07);
     const r0 = mn.dead ? 0.6 : 0.72;
-    tube(wood, pts, r0, mn.dead ? 0.36 : 0.16, 11, mn.dead, caps);
+    tube(wood, pts, r0, mn.dead ? 0.36 : 0.16, 11, mn.dead, caps, woodDetail);
     if (mn.dead) {
       perches.push(pts[pts.length - 1]!, pts[pts.length - 3]!);
       // A couple of dead stubs off the broken limb.
@@ -416,7 +422,7 @@ export function buildAncientTree(seed = 1207, opts: AncientTreeOptions = {}): An
         const at = pts[2 + j * 2]!;
         const sd = normv(addv(dir, [rng() - 0.5, rng() * 0.6, rng() - 0.5]));
         const sp = growPath(at, sd, 1.6 + rng() * 1.4, 3, 0.5, 0.03);
-        tube(wood, sp, 0.14, 0.05, 40 + j, true, caps);
+        tube(wood, sp, 0.14, 0.05, 40 + j, true, caps, woodDetail);
         perches.push(sp[sp.length - 1]!);
       }
       continue;
@@ -434,13 +440,13 @@ export function buildAncientTree(seed = 1207, opts: AncientTreeOptions = {}): An
       const bp = growPath(at, bd, bl, 5, 0.55, 0.05);
       const f = ti / (pts.length - 1);
       const br = (0.72 + (0.16 - 0.72) * f) * 0.55;
-      tube(wood, bp, br, 0.045, 20 + j, false, caps);
+      tube(wood, bp, br, 0.045, 20 + j, false, caps, woodDetail);
       sites.push({ p: bp[bp.length - 1]!, dir: normv(sub(bp[bp.length - 1]!, bp[bp.length - 2]!)) });
       for (let q = 0; q < 3; q++) {
         const a2 = bp[1 + Math.floor(rng() * (bp.length - 2))]!;
         const td = normv(addv(addv(bd, [rng() - 0.5, rng() * 0.5, rng() - 0.5]), mulv(normv(sub(a2, crownC)), 0.45)));
         const tp = growPath(a2, td, bl * (0.3 + rng() * 0.2), 3, 0.7, 0.04);
-        tube(wood, tp, 0.05, 0.018, 60 + q, false);
+        tube(wood, tp, 0.05, 0.018, 60 + q, false, undefined, woodDetail);
         sites.push({ p: tp[tp.length - 1]!, dir: td });
         sites.push({ p: tp[1]!, dir: td });
       }
@@ -460,7 +466,7 @@ export function buildAncientTree(seed = 1207, opts: AncientTreeOptions = {}): An
     }
     const r0 = 0.38;
     const r1 = 0.045;
-    tube(wood, pts, r0, r1, 80, false, caps);
+    tube(wood, pts, r0, r1, 80, false, caps, woodDetail);
     // Kept bare: this is where the rags and lanterns hang, and the sunset shows through.
     for (let i = 2; i < pts.length; i++) lowBoughs.push({ p: pts[i]!, dir: normv(sub(pts[i]!, pts[i - 1]!)), r: r0 + ((r1 - r0) * i) / (pts.length - 1) });
     // A few side twigs, spreading and climbing rather than hanging, stopped short of anyone's head; the end of the bough
@@ -479,7 +485,7 @@ export function buildAncientTree(seed = 1207, opts: AncientTreeOptions = {}): An
       const tp = growPath(t.from, t.dir, t.len, 4, 0.8, 0.04);
       const cut = tp.findIndex((p) => p[1] < ground(p[0], p[2]) + 1.7);
       const twig = cut < 0 ? tp : tp.slice(0, cut);
-      if (twig.length >= 2) tube(wood, twig, t.r, 0.012, 90 + q, false);
+      if (twig.length >= 2) tube(wood, twig, t.r, 0.012, 90 + q, false, undefined, woodDetail);
     });
   }
   // Surface roots: each buttress runs on into a root that crawls over the ground half buried and dives at its tip. None
@@ -518,7 +524,7 @@ export function buildAncientTree(seed = 1207, opts: AncientTreeOptions = {}): An
       p = [p[0], ground(p[0], p[2]) - r * (0.2 + 1.05 * f * f), p[2]];
       pts.push(p);
     }
-    tube(wood, pts, r0, r1, 100 + k, false, caps);
+    tube(wood, pts, r0, r1, 100 + k, false, caps, woodDetail);
     roots.push({ pts, r0, r1 });
   }
 
@@ -561,6 +567,7 @@ export function buildAncientTree(seed = 1207, opts: AncientTreeOptions = {}): An
   }
   const woodGeo = wood.geometry();
   const leafGeo = leaves.geometry();
+  assertNaturalModelBudget('Ancient menu tree', [woodGeo, ...(cards ? [leafGeo] : [])]);
   // Cards light like a crown, not like flat planes: normals point out of the crown's centre (and a little up).
   const lp = leafGeo.getAttribute('position') as THREE.BufferAttribute;
   const ln = leafGeo.getAttribute('normal') as THREE.BufferAttribute;

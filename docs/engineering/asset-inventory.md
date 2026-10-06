@@ -1,6 +1,8 @@
 # Shared asset inventory (Warpkeep → Tervain)
 
-Status, 30 September 2026: **209 historical runtime GLBs remain archived outside the published build; the exact approved Hegemony emblem is integrated into the locally validated native 3D menu revision.** Source-byte verification and combined `0.0.5` production-browser review pass; source is published in the repository and public Pages hosting is unavailable (404), as recorded in the [combined handoff](../production/releases/0.0.5.md). Browser HTTP-failure simulation and desktop-package checks remain unverified. Follows the inventory convention in [shared-assets.md](shared-assets.md).
+Historical shared-archive status, 30 September 2026: **209 historical runtime GLBs remain archived outside the published build; the exact approved Hegemony emblem is integrated into the locally validated native 3D menu revision.** Source-byte verification and combined `0.0.5` production-browser review pass; source is published in the repository and public Pages hosting is unavailable (404), as recorded in the [combined handoff](../production/releases/0.0.5.md). Browser HTTP-failure simulation and desktop-package checks remain unverified. Follows the inventory convention in [shared-assets.md](shared-assets.md).
+
+Current candidate, 5 October 2026: **0.0.12 uses owner-supplied Meshy tree derivatives and coherent habitats under A51 while preserving the custom Solitary Pine.** The earlier Warpkeep archive remains outside the published build. The approved emblem/score, animated Wanderer and Meshy NPC cast remain separate sourced assets. The frozen 45-file pack totals 211,637,844 bytes, with all complete trees below 20k and all three custom Pine hashes unchanged. Actual-file counts, material preparation and final-source review belong to [tree engineering](meshy-trees-0.0.12.md) and the [0.0.12 release record](../production/releases/0.0.12.md); final combined-source CI and Pages publication remain pending. Dated rows below retain their original evidence rather than claiming acceptance for the new candidate.
 
 Tervain and Warpkeep are set in the same world and are meant to share technology and assets ([A10](../decisions.md)). On 29 September 2026 the project owner instructed that Tervain use the same assets and technology as [Warpkeep](https://github.com/ael-dev3/Warpkeep) and [Warpkeep-Assets](https://github.com/ael-dev3/Warpkeep-Assets). This document records exactly what was taken and on what terms.
 
@@ -67,9 +69,28 @@ The unchanged source is archived at [assets/audio/source/the-sovereigns-oath-ori
 
 The [human-readable source record](menu-score.md) and [machine-readable audio inventory](menu-audio-assets.json) pin sizes, hashes, media properties, preparation, and source disclosure. Embedded metadata says the source was made with Suno; authorship, model/version and service/account terms were not independently verified. The owner instruction records this particular Tervain use, repository delivery and requested video. No separate open-content grant or independent ownership finding is asserted. Final integration, browser, video and publication evidence belongs to the [0.0.5 handoff](../production/releases/0.0.5.md).
 
+## Generated world sound and voices, 5–6 October 2026
+
+A56's sound was generated on a free ElevenLabs plan. A58 made all of it again on a recorded paid subscription; Music output retains its model-specific distribution limits, and added more. There are 110 generations from original prompts:
+
+- 84 effects, beds and calls: footsteps, combat, items, the world's moving parts, residents' work and voices, wildlife, and sixteen place beds;
+- 23 pieces of music from the Eleven Music API: the in-world score, and two songs sung at the inn with original lyrics;
+- three of the hero's sounds, put through his designed voice.
+
+A58 also adds twelve voices designed from written descriptions; none is cloned from a person. They speak the game's 244 lines and the 199 recordings of the text-first story dialogue.
+
+- The unchanged MP3 generations are archived in [assets/audio/source/world/](../../assets/audio/source/world/) and [assets/audio/source/voice/](../../assets/audio/source/voice/).
+- Runtime sprites, loops, pieces and voice banks in [public/assets/audio/world/](../../public/assets/audio/world/) and [public/assets/audio/voice/](../../public/assets/audio/voice/) are rebuilt by [tools/world-audio/prepare.mjs](../../tools/world-audio/prepare.mjs) as Ogg Opus with AAC fallbacks.
+- [world-audio-assets.json](world-audio-assets.json) records every prompt and hash. [voice-assets.json](voice-assets.json) records every voice, line, transcript and hash.
+- The credit to ElevenLabs (elevenlabs.io) stays in the About text and NOTICE, although the paid plan does not require it. No independent rights review is asserted.
+- A56's free-plan generations are no longer used.
+- Nothing from Gothic, Warpkeep or another game is used.
+
+A57 adds crafted music and sounds rendered by original code in [tools/world-audio/compose/](../../tools/world-audio/compose/): no recordings or generators, each render recorded by hash under `composed`. See [world-audio.md](world-audio.md).
+
 ## Replacement people sheets (0.0.8)
 
-Since `0.0.8` ([A36](../decisions.md)) every person's texture is a sheet the game paints in code at load; painted sheets are not files and need no record. An image saved as `src/assets/people/<id>.png` (or `.jpg`, `.jpeg`, `.webp`) replaces one person's painted sheet, and Vite bundles it into the build. The [retexture guide](../art/people-retexture.md) describes the layout, the export and the rules.
+In the historical `0.0.8` pipeline ([A36](../decisions.md)), each procedural person's texture is a sheet painted in code at load; painted sheets are not files and need no record. An image saved as `src/assets/people/<id>.png` (or `.jpg`, `.jpeg`, `.webp`) replaces one person's painted sheet, and Vite bundles it into the build. The [retexture guide](../art/people-retexture.md) describes the layout, the export and the rules.
 
 **No replacement sheet is installed.** Before one is committed, check it with `npm run people:check` and record it here; leave nothing in the folder without a row:
 
@@ -81,13 +102,13 @@ A sheet made with an image-generation service carries that service's terms; reco
 
 ## Approved playable Weathered Wanderer, 2 October 2026
 
-A37 selects the owner-approved 49,500-triangle model for the main character only. The runtime file is [public/models/hero/weathered-wanderer-hero-50k.glb](../../public/models/hero/weathered-wanderer-hero-50k.glb): 28,184,920 bytes, SHA-256 `4d4c16e56ce8696b195828bb41ca2d1fb015c3ef855a9cd2472eaa4a1c7d6691`, with 30 joints and five source clips. Lossless WebP preparation preserves every decoded texture pixel and every non-image payload. The owner-supplied Meshy source, approved reduction/material refinement/rigging, specific project-use authority and preparation audit are recorded in [main-hero.md](main-hero.md) and [main-hero-assets.json](main-hero-assets.json). This is separate from the archived Warpkeep GLBs and the A36 procedural people sheets. NPCs and the menu warden keep that existing pipeline. Running-game verification is recorded in the [integration handoff](../production/main-hero-integration.md).
+A37 selects the owner-approved 49,500-triangle model for the main character only. The runtime file is [public/models/hero/weathered-wanderer-hero-50k.glb](../../public/models/hero/weathered-wanderer-hero-50k.glb): 28,184,920 bytes, SHA-256 `4d4c16e56ce8696b195828bb41ca2d1fb015c3ef855a9cd2472eaa4a1c7d6691`, with 30 joints and five source clips. Lossless WebP preparation preserves every decoded texture pixel and every non-image payload. The owner-supplied Meshy source, approved reduction/material refinement/rigging, specific project-use authority and preparation audit are recorded in [main-hero.md](main-hero.md) and [main-hero-assets.json](main-hero-assets.json). This is separate from the archived Warpkeep GLBs and the A36 procedural people sheets. NPCs and the menu warden kept that pipeline at the time; A49 now supplies their separate Meshy derivatives. Running-game verification is recorded in the [integration handoff](../production/main-hero-integration.md).
 
 ## Terms
 
 Warpkeep's own [asset ledger](https://github.com/ael-dev3/Warpkeep/blob/main/ASSETS-LICENSE.md) records these runtime files as **use-authorised** (`LicenseRef-Warpkeep-Provenance-Required`), not as open content: presence in a repository does not establish ownership, an open licence, or general redistribution rights, and each source set keeps its dated provenance record in Warpkeep-Assets. Some sets were produced with generation tools (see the creation disclosure in Warpkeep-Assets' README).
 
-For the historical first import, the project owner instructed their use and chose to make this repository public and serve the game from GitHub Pages. That records the project's specific-use authority; it is not an independent ownership review, an open-content grant, or a new right for other users. The current build keeps these GLBs outside `public/` and uses procedural scene geometry. The menu emblem's current specific authorization and source boundary are recorded separately above.
+For the historical first import, the project owner instructed their use and chose to make this repository public and serve the game from GitHub Pages. That records the project's specific-use authority; it is not an independent ownership review, an open-content grant, or a new right for other users. The current build keeps those archived Warpkeep GLBs outside `public/`; its approved emblem, score, playable hero, NPCs and A51 trees follow their separate specific authorizations and provenance records. The menu emblem's source boundary is recorded separately above.
 
 ## Technology reused
 
@@ -108,9 +129,9 @@ Warpkeep's software is Apache-2.0 ([LICENSING.md](https://github.com/ael-dev3/Wa
 | Verification | Loaded and rendered in the browser prototype; no desktop package, no per-asset review of every close view |
 | State | Usable under recorded (owner-authorised) terms → adapted at load → tested in the browser build |
 
-## Solitary Pine woodland (A38)
+## Historical Solitary Pine woodland (A38)
 
-The owner-supplied Meshy pine replaces all ordinary dark conifers, including the distant treeline, in the combined `0.0.9` release. Three hosted GLBs contain the 9,706-triangle near tree and matching middle/far geometry. [Provenance and render contract](solitary-pine.md) and [runtime inventory](solitary-pine-assets.json) record authority, hashes, counts and source-matching collision footprints. A39's larger woodland layout and final combined population/checks are recorded separately in the [0.0.9 release](../production/releases/0.0.9.md); dated component results remain historical. Source/master files remain in the workshop, separate from the earlier Warpkeep catalog above.
+The owner-supplied Meshy pine replaced all ordinary dark conifers, including the distant treeline, in the combined `0.0.9` release. A51 keeps the custom Pine but supersedes that blanket assignment with additional supplied conifers and broadleaf/palm families. Three hosted GLBs contain the 9,706-triangle near tree and matching middle/far geometry. [Provenance and render contract](solitary-pine.md) and [runtime inventory](solitary-pine-assets.json) record authority, hashes, counts and source-matching collision footprints. A39's larger woodland layout and final combined population/checks are recorded separately in the [0.0.9 release](../production/releases/0.0.9.md); dated component results remain historical. Source/master files remain in the workshop, separate from the earlier Warpkeep catalog above.
 
 ## Not yet done
 
@@ -125,3 +146,21 @@ The owner-supplied All Animations GLB supersedes A37's runtime selection. The [c
 ## Original coastal follow-up in 0.0.10
 
 A46 revises original procedural [sea waves](../../src/presentation/sea.ts), [water optics](../../src/presentation/waterOptics.ts), generated stone textures and the shared seeded [rock geometry](../../src/presentation/rockGeometry.ts). Source triangles supply finite player/cargo contacts. No new third-party model, bitmap, dependency or separate Gothic 3 content is copied. Existing shader/source attribution remains in place. See [coastal water and rocks](coastal-water-rocks-0.0.10.md).
+
+## Owner-supplied Meshy NPC cast (A49, 0.0.11 candidate)
+
+The owner's 4 October UTC / 5 October 2026 Belgrade request selects supplied Meshy models for a slight remix/retexture of the in-game humanoid NPCs. This replaces their historical A31/A36 runtime appearance and generic sheet layout, retaining the sheet tools and the approved Wanderer/Thornback selections. Seventeen role derivatives use 15 distinct originals, each below 50k triangles; natural assets have a separate 20k cap. Originals remain read-only outside the repository. No new faction identity or source-game content is adopted.
+
+[Machine-readable provenance](meshy-npc-assets.json) contains source/runtime SHA-256 values and sizes, the 17 role assignments, exact preparation receipts, independently measured mesh instances/skin/materials/maps, and classification/readiness of all unassigned supplied originals. [Engineering notes](meshy-npcs.md) explain whole-UV sculpt-normal/albedo baking and the original 11-joint Tervain rig driven by the existing procedural poser. The safely inspected villager ZIP's authored Walking/Running clips are not imported or shipped. The local [rotatable gallery](../../tools/meshy-npcs.html) is an inspection tool, not publication evidence.
+
+The generated [weathered textile input](../../tools/assets/tervain-weathered-linen.png) is a 1254×1254 PNG, 3,492,125 bytes, SHA-256 `bffc8611c05ca792ff69119aa33a8f034a0eef620a194d6309a220a1846871b6`. OpenAI builtin `image_gen` generated grayscale linen/wool detail from the exact prompt recorded in the asset JSON; requested dimensions were 1024². It contributes subtle UV-tiled grain to the baked runtime albedo, not a generated figure or screenshot projection. Current owner retexture authority covers this specific project use; no open-content license or independently reviewed third-party rights are asserted.
+
+Actual-file audit covers all 17 selected GLBs, totaling 661,984 submitted triangles and 126,413,612 bytes. Every GLB meets the 50k cap and has embedded 1024² normal / 1536² albedo maps, neutral 11-joint bind transforms and normalized weights. The aggregate is a file sum, not total visible scene geometry or a performance qualification. Full-turn textures/deformation, native game loading and final-source deployment belong to the [0.0.11 release record](../production/releases/0.0.11.md). Historical source/import entries above retain their dated evidence.
+
+The supplied [Rock Pile](rock-pile-assets.json) is a separate 5,220-triangle natural derivative with unchanged geometry/UV buffer bytes and rough nonmetallic materials. The historical [Ancient Guardian](broadleaf-assets.json) selection was a tree, reduced from 1,890,128 to 19,319 complete-model triangles: source-projected woody/crown volume plus 300 small alpha-leaf fringe quads. It added four grounded forest accents in 0.0.11 with exact rendered wood contacts, while preserving every existing pine and authored route at that stage. A51 retires that live asset assignment; its binary and provenance remain historical. Its crown is visibly more volumetric than the original micro-leaf mesh; original topology/UVs are not claimed. Shared complete-model guards also enforce the 20k limit on procedural trees, rocks, the supplied pine and the separate menu grove. Attached foliage remains still; detached leaves retain their existing animation.
+
+## Owner-supplied tree diversity (A51, 0.0.12 candidate)
+
+Fourteen supplied Meshy originals are inspected read-only, remixed and prepared as complete Wood/Foliage trees below 20,000 triangles each. Twelve source IDs are selected for fir, broadleaf, orchard, sapling, dead-wood and palm roles; two plinth-bearing originals are prepared reserves without a runtime assignment. The custom 9,706-triangle Solitary Pine and its approved lighter files remain byte-identical. The menu uses a source-derived crown with the retained carved architectural bole/door and score-led grove; the complete hybrid, including installed door hardware, has the same strict budget.
+
+Dense source foliage is baked into spatial canopy clusters and fitted curved cards, with new atlas UVs; original topology/UVs are not claimed for those crowns. Reduced wood retains coherent source UV paint. Two untextured source palms receive original procedural Blender bark/frond albedo and UV baking. Source PBR maps, source canopy bake inputs, original-source hashes, derivative counts and semantic-mask limitations are distinguished in [tree preparation](meshy-trees-0.0.12.md). No copied reference-game asset, new generation of character/tree art or separate open-content license is introduced. Final native appearance and runtime performance remain separate from file-budget and geometry checks.

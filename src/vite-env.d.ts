@@ -5,3 +5,6 @@ declare const __SOURCE_REVISION__: string;
 
 /** Product version from package.json; Vite enforces the active pre-0.1 quality hold. */
 declare const __GAME_VERSION__: string;
+
+/** Empty for local builds; full immutable raw model URL for hosted production builds. */
+declare const __MODEL_ASSET_BASE__: string;

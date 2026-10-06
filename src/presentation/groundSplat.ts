@@ -1,9 +1,11 @@
-import { cliffiness, seaWetness, shoreDistance } from '../world/coast';
+import { cliffiness, coastalShelfAt, seaWetness, shoreDistance } from '../world/coast';
 import { FIELDS, SEA_LEVEL, STREAMS } from '../world/layout';
 import { clamp, fbm, smoothstep } from '../world/noise';
 import { distToPolyline, roadWeight, type Terrain } from '../world/terrain';
 import { LAYER } from './terrainTextures';
 import { deepwoodCover } from '../world/forest';
+import type { PlantedCrownField } from './plantedCrowns';
+import { biomeAt, type BiomeSample } from '../world/biomes';
 
 /**
  * What the ground is made of at a point: eight layer weights (summing to 1) and a wetness. Everything comes from the
@@ -40,7 +42,7 @@ function blend(w: Float32Array, layer: number, a: number) {
 }
 
 /** Fills `w` (length 8) and returns the wetness. */
-export function groundSplat(terrain: Terrain, x: number, z: number, w: Float32Array): number {
+export function groundSplat(terrain: Terrain, x: number, z: number, w: Float32Array, crowns?: PlantedCrownField, sampledBiome?: Readonly<BiomeSample>, sampledCanopy?: number, contacts?: Readonly<Float32Array>): number {
   const h = terrain.heightAt(x, z);
   const slope = terrain.slopeAt(x, z);
   const carve = terrain.carveAt(x, z);
@@ -52,26 +54,43 @@ export function groundSplat(terrain: Terrain, x: number, z: number, w: Float32Ar
   const cl = nearSea ? cliffiness(z) : 0;
   const sDist = streamDistance(x, z);
   const wetStream = 1 - smoothstep(0.5, 7, sDist);
+  const biome = sampledBiome ?? biomeAt(x, z);
 
   w.fill(0);
   // Damp hollows and stream banks are lush; exposed, high or windy ground is dry heath.
-  const wood = deepwoodCover(x, z);
-  const lush = Math.max(wood * 0.78, clamp(0.28 + 0.95 * wetStream + (nLow - 0.5) * 1.1 - smoothstep(8, 40, h) * 0.5, 0, 1));
+  const wood = crowns ? sampledCanopy ?? crowns.coverAt(x, z) : deepwoodCover(x, z);
+  const lush = Math.max(wood * 0.78, clamp(0.28 + 0.95 * wetStream + (nLow - 0.5) * 1.1 - smoothstep(8, 40, h) * 0.5
+    + biome.moisture * 0.32 - biome.exposure * 0.3, 0, 1));
   w[LAYER.grass] = lush;
   w[LAYER.heath] = 1 - lush;
 
   // Bare patches of earth in the open, gravel where the ground is broken.
   blend(w, LAYER.earth, smoothstep(0.62, 0.8, nMid) * 0.55);
   // Moss islands and humus beneath the canopy, rather than the exposed heath's straw base.
-  blend(w, LAYER.earth, wood * (0.22 + 0.32 * nMid));
+  blend(w, LAYER.earth, wood * (0.36 + 0.36 * nMid));
   blend(w, LAYER.gravel, smoothstep(0.28, 0.5, slope) * 0.55 * nMid + smoothstep(0.78, 0.9, nHi) * 0.25);
+
+  // Soil changes with the same regional field that selects the trees. Damp broadleaf bodies
+  // have dark green soil gaps; cool ridges keep humus and broken stone; warm ochre woods expose
+  // their brown earth. None of these fertility cues marks the surface physically wet.
+  blend(w, LAYER.grass, biome.weights['humid-broadleaf'] * (0.12 + nLow * 0.1));
+  blend(w, LAYER.earth, biome.weights['cool-fir-ridge'] * (0.2 + nMid * 0.14));
+  blend(w, LAYER.gravel, biome.weights['cool-fir-ridge'] * smoothstep(0.12, 0.4, slope) * 0.16);
+  blend(w, LAYER.earth, biome.weights['ochre-woodland'] * (0.18 + nMid * 0.16));
+  blend(w, LAYER.heath, biome.weights['ochre-woodland'] * (0.1 + nHi * 0.1));
+  blend(w, LAYER.sand, biome.weights['sheltered-palms'] * (0.22 + nMid * 0.28));
 
   // The coast: sand above the tide line, wet sand at the water, rock and shingle on the headlands.
   let wet = 0;
   if (nearSea) {
-    const sandEnd = 15 + 14 * (nMid - 0.4) + 8 * nHi;
-    const sand = (1 - cl) * (1 - smoothstep(sandEnd * 0.55, sandEnd, sd)) * smoothstep(-40, 0.5, sd);
+    const shelf = coastalShelfAt(x, z);
+    const sandEnd = 31 + 10 * (nMid - 0.4) + 5 * nHi;
+    const sand = (1 - cl) * (1 - smoothstep(sandEnd * 0.76, sandEnd, sd)) * smoothstep(-40, 0.5, sd)
+      * (1 - smoothstep(2, 4.2, h));
     blend(w, LAYER.sand, sand);
+    // Low wind-cut grassy caps, exposed mineral faces and a narrow rubble toe share actual elevation/slope.
+    blend(w, LAYER.grass, shelf * smoothstep(2.2, 5, h) * (1 - smoothstep(0.35, 0.7, slope)) * 0.74);
+    blend(w, LAYER.gravel, shelf * smoothstep(0.25, 0.8, slope) * (1 - smoothstep(0.9, 1.3, slope)) * 0.34);
     // Shingle band behind the wet sand, and around rocks.
     blend(w, LAYER.gravel, (1 - cl) * smoothstep(3, 6, sd) * (1 - smoothstep(6, 11, sd)) * nHi * 0.7);
     // Horizontal distance alone marks the entire lighthouse cliff as soaked. Only the actual tidal/splash band is wet;
@@ -109,9 +128,25 @@ export function groundSplat(terrain: Terrain, x: number, z: number, w: Float32Ar
   const rock = smoothstep(0.66, 1.05, slope) + smoothstep(22, 46, h) * 0.8 + cl * (1 - smoothstep(8, 26, sd)) * (sd > 0 ? 0.9 : 0);
   blend(w, LAYER.rock, clamp(rock, 0, 1));
 
-  // Worn tracks.
+  // Actual registered boulder feet collect fallen mineral chips and sheltered soil.
+  // Foundation edges and door aprons receive restrained packed earth, rather than
+  // an unrelated decal plane or a perfectly circular decorative pebble ring.
+  if (contacts) {
+    blend(w, LAYER.earth, contacts[2]! * 0.48);
+    blend(w, LAYER.gravel, contacts[1]! * 0.52);
+    blend(w, LAYER.path, contacts[0]! * 0.73);
+  }
+
+  // Worn tracks keep their authored centre. Only the visual shoulders fray into the same earth
+  // and herb mat as their surroundings; path / collider geometry is never moved by this noise.
   const road = roadWeight(x, z);
-  if (road > 0) blend(w, LAYER.path, road * 0.92);
+  if (road > 0) {
+    const centre = smoothstep(0.35, 0.9, road);
+    const edgePockets = smoothstep(0.28, 0.72, nHi * 0.65 + nMid * 0.35);
+    const shoulder = 0.7 + edgePockets * 0.28;
+    blend(w, LAYER.earth, road * (1 - centre) * (0.28 + wood * 0.36));
+    blend(w, LAYER.path, road * (0.92 * centre + shoulder * (1 - centre)));
+  }
 
   let sum = 0;
   for (let i = 0; i < NL; i++) sum += w[i]!;

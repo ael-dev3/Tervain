@@ -1,6 +1,7 @@
 node_modules/
 dist/
 out/
+outputs/
 *.log
 .DS_Store
 .claude/

@@ -12,26 +12,28 @@ export class MaterialSet {
   private disposables: { dispose(): void }[] = [];
 
   constructor(size: number) {
-    const tex = (key: TexKey, opts: { side?: THREE.Side; rough?: number; normal?: number } = {}) => {
+    const tex = (key: TexKey, opts: { side?: THREE.Side; rough?: number; normal?: number; metal?: number } = {}) => {
       const pair = makeTexPair(key, size, 8);
       this.disposables.push(pair.map, pair.normal);
-      const m = new THREE.MeshStandardMaterial({ vertexColors: true, map: pair.map, normalMap: pair.normal, roughness: opts.rough ?? 0.92, metalness: 0, side: opts.side ?? THREE.FrontSide });
+      const m = new THREE.MeshStandardMaterial({ vertexColors: true, map: pair.map, normalMap: pair.normal, roughness: opts.rough ?? 0.92, metalness: opts.metal ?? 0, side: opts.side ?? THREE.FrontSide });
       m.normalScale.set(opts.normal ?? 1, opts.normal ?? 1);
       this.map.set(key, m);
     };
-    tex('plaster', { normal: 0.8 });
-    tex('timber', { normal: 1 });
-    tex('planks', { normal: 1 });
-    tex('stone', { normal: 1.1 });
+    tex('plaster', { normal: 0.65, rough: 0.98 });
+    tex('timber', { normal: 0.8, rough: 0.98 });
+    tex('planks', { normal: 0.8, rough: 0.98 });
+    tex('stone', { normal: 0.8, rough: 0.98 });
     tex('cobble', { normal: 1.1 });
-    tex('tile', { normal: 1, rough: 0.8 });
-    tex('thatch', { normal: 1, rough: 1 });
-    tex('slate', { normal: 1, rough: 0.7 });
+    tex('tile', { normal: 0.85, rough: 0.95 });
+    tex('thatch', { normal: 0.8, rough: 1 });
+    tex('slate', { normal: 0.85, rough: 0.96 });
     tex('cloth', { side: THREE.DoubleSide, normal: 0.6, rough: 1 });
     tex('bark', { normal: 1.2, rough: 1 });
-    tex('rock', { normal: 1.0, rough: 0.92 });
+    tex('rock', { normal: 0.75, rough: 0.99 });
+    tex('bronze', { normal: 0.65, rough: 0.87, metal: 0.6 });
     this.map.set('vc', new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.88, metalness: 0 }));
-    this.map.set('metal', new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.5, metalness: 0.45 }));
+    // Forged, oxidised iron on hinges/hoops should retain broad dark values in hard coastal light.
+    this.map.set('metal', new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.85, metalness: 0.28 }));
     this.map.set('leaf', new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95, metalness: 0, side: THREE.DoubleSide }));
     const paneTex = makePaneTexture();
     this.disposables.push(paneTex);
@@ -107,6 +109,9 @@ export class Region {
   }
   get metal() {
     return this.get('metal');
+  }
+  get bronze() {
+    return this.get('bronze');
   }
   get leaf() {
     return this.get('leaf');

@@ -1,6 +1,8 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { createFloraPopulation, FLORA_EDIT_INFLUENCE, FLORA_TRUNK_GAP, type FloraTree } from '../../src/presentation/floraPopulation';
 import { createPineForest, isPineSpecies, type PineForest } from '../../src/presentation/solitaryPine';
+import { buildTreeVariant, type TreeVariant } from '../../src/presentation/treeGen';
+import { groundedTreeY, treeWoodCollisionRadius } from '../../src/presentation/treeGrounding';
 import { Exclusions } from '../../src/presentation/vegetation';
 import { Terrain } from '../../src/world/terrain';
 import { deepwoodCover, FOREST_OPENINGS, forestOpeningCover } from '../../src/world/forest';
@@ -8,16 +10,33 @@ import { pineTemplates } from './pineFixture';
 
 let terrain: Terrain, exclusions: Exclusions, population: FloraTree[];
 let pine: PineForest;
+const variants = new Map<string, TreeVariant>();
+function variantFor(tree: Pick<FloraTree, 'sp' | 'v'>): TreeVariant {
+  const key = `${tree.sp}:${tree.v}`;
+  let variant = variants.get(key);
+  if (!variant) {
+    variant = isPineSpecies(tree.sp) ? pine.variant(tree.sp, tree.v + 1) : buildTreeVariant(tree.sp, tree.v + 1);
+    variants.set(key, variant);
+  }
+  return variant;
+}
 const footprintFor = (tree: Readonly<FloraTree>, fallback: number) => isPineSpecies(tree.sp)
-  ? pine.collisionRadius(tree.sp, tree.v + 1, tree.s) : fallback;
+  ? pine.collisionRadius(tree.sp, tree.v + 1, tree.s, terrain.heightAt(tree.x, tree.z) - tree.y)
+  : fallback > 0 ? treeWoodCollisionRadius(variantFor(tree), tree.s, terrain.heightAt(tree.x, tree.z) - tree.y) : fallback;
+const groundFor = (tree: Readonly<FloraTree>) => groundedTreeY(terrain, tree, variantFor(tree));
 const distance = (a: { x: number; z: number }, b: { x: number; z: number }) => Math.hypot(a.x - b.x, a.z - b.z);
 beforeAll(async () => {
   pine = createPineForest(await pineTemplates());
   terrain = new Terrain();
   exclusions = new Exclusions(terrain);
-  population = createFloraPopulation(terrain, exclusions, footprintFor);
+  population = createFloraPopulation(terrain, exclusions, footprintFor, groundFor);
 });
-afterAll(() => pine.dispose());
+afterAll(() => {
+  for (const variant of variants.values()) if (!isPineSpecies(variant.species)) {
+    for (const lod of variant.lods) { lod.wood?.dispose(); lod.leaf?.dispose(); }
+  }
+  pine.dispose();
+});
 
 describe('cohesive woodland placement', () => {
   it('retains safe trunk separation across cells, satellites and every authoring pass', () => {
@@ -32,8 +51,8 @@ describe('cohesive woodland placement', () => {
 
   it('groups actual nearest neighbours by species beyond an independent global mixture', () => {
     const trees = population.filter(tree => tree.radius > 0 && tree.age !== 'sapling' && deepwoodCover(tree.x, tree.z) > 0.8);
-    // Larger source wood footprints leave 84 accepted nonsapling trees in this dense-core
-    // sample. Guard a meaningful sample size without requiring the old small-trunk density.
+    // Guard a meaningful dense-core sample after complete source/procedural wood rejection,
+    // without requiring the earlier small-trunk density.
     expect(trees.length).toBeGreaterThan(50);
     const counts = new Map<string, number>();
     let matching = 0;
@@ -60,7 +79,7 @@ describe('cohesive woodland placement', () => {
     for (const target of [targets[0]!, targets[Math.floor(targets.length / 2)]!, targets[targets.length - 1]!]) {
       const changed = createFloraPopulation(terrain, {
         blocked: (x, z, pad) => exclusions.blocked(x, z, pad) || Math.hypot(x - target.x, z - target.z) < 1,
-      }, footprintFor);
+      }, footprintFor, groundFor);
       expect(changed.some(tree => tree.collisionId === target.collisionId)).toBe(false);
       const far = (trees: FloraTree[]) => trees.filter(tree => distance(tree, target) > FLORA_EDIT_INFLUENCE);
       expect(far(changed)).toEqual(far(population));

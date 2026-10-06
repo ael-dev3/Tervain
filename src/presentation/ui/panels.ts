@@ -605,7 +605,9 @@ export function slotsPanel(ctx: PanelCtx, mode: 'save' | 'load'): HTMLElement {
 }
 
 export function aboutPanel(ctx: PanelCtx): HTMLElement {
-  return h('div', {}, h('h1', {}, S('menu.about')), h('p', {}, S('about.body', { version: GAME_VERSION })), h('div', { class: 'row', style: { marginTop: '14px' } }, closeBtn(ctx, S('menu.back'))));
+  return h('div', {}, h('h1', {}, S('menu.about')), h('p', {}, S('about.body', { version: GAME_VERSION })),
+    h('p', {}, h('a', { href: `${import.meta.env.BASE_URL}world-audio-licenses.html`, target: '_blank', rel: 'noopener noreferrer' }, S('about.audioLicenses'))),
+    h('div', { class: 'row', style: { marginTop: '14px' } }, closeBtn(ctx, S('menu.back'))));
 }
 
 export function controlsPanel(ctx: PanelCtx): HTMLElement {

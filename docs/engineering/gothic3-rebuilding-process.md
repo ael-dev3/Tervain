@@ -887,10 +887,9 @@ It records the files present; it does not run or certify a typecheck, build,
 browser inspection or native playthrough. Those validations need their own
 evidence for the source being reviewed.
 
-The candidate's source is reviewed separately from live deployment. The latest
-new PR checks were refused before any workflow steps because GitHub reported
-an account payment or spending-limit issue. A source-only checkpoint branch
-can be reviewed without treating it as a successful Pages release. The live
+The candidate's source was reviewed separately from live deployment. Historical
+PR checks did not execute workflow steps. A source-only checkpoint can be
+reviewed without treating it as a successful Pages release. The live
 site remains at its last successfully deployed revision until required CI and
 deployment are available again; no checks or triggers are bypassed.
 

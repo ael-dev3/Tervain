@@ -1,0 +1,229 @@
+{
+  "schema": 1,
+  "maxTriangles": 50000,
+  "targetTriangles": 46000,
+  "height": 1.8,
+  "assets": [
+    {
+      "id": "caravan-master",
+      "role": "named:caravan_master",
+      "sourceFilename": "Meshy_AI_Human_1004193211_texture.glb",
+      "sourceId": "1004193211",
+      "pose": "down",
+      "surface": "cloth",
+      "palette": [
+        0.46,
+        0.34,
+        0.22
+      ]
+    },
+    {
+      "id": "rillford-reeve",
+      "role": "named:rillford_reeve",
+      "sourceFilename": "Meshy_AI_Medieval_Woman_1003230113_texture.glb",
+      "sourceId": "1003230113",
+      "pose": "a",
+      "surface": "dress",
+      "palette": [
+        0.27,
+        0.39,
+        0.29
+      ]
+    },
+    {
+      "id": "spring-steward",
+      "role": "named:spring_steward",
+      "sourceFilename": "Meshy_AI_Generic_Peasant_Woman_1004193219_texture.glb",
+      "sourceId": "1004193219",
+      "pose": "a",
+      "surface": "dress",
+      "palette": [
+        0.36,
+        0.43,
+        0.54
+      ]
+    },
+    {
+      "id": "quarry-foreman",
+      "role": "named:quarry_foreman",
+      "sourceFilename": "Meshy_AI_Rugged_Medieval_Warri_1004193202_texture.glb",
+      "sourceId": "1004193202",
+      "pose": "a",
+      "surface": "cloth",
+      "palette": [
+        0.45,
+        0.29,
+        0.22
+      ]
+    },
+    {
+      "id": "maintenance-worker",
+      "role": "named:maintenance_worker",
+      "sourceFilename": "Meshy_AI_The_Waiting_Maid_1004193246_texture.glb",
+      "sourceId": "1004193246",
+      "pose": "a",
+      "surface": "dress",
+      "palette": [
+        0.39,
+        0.33,
+        0.28
+      ]
+    },
+    {
+      "id": "estate-steward",
+      "role": "named:estate_steward",
+      "sourceFilename": "Meshy_AI_Leatherbound_Wanderer_1004193030_texture.glb",
+      "sourceId": "1004193030",
+      "pose": "t",
+      "surface": "cloth",
+      "palette": [
+        0.26,
+        0.29,
+        0.39
+      ]
+    },
+    {
+      "id": "ash-recorder",
+      "role": "named:ash_recorder",
+      "sourceFilename": "Meshy_AI_Medieval_Ranger_1003211131_texture.glb",
+      "sourceId": "1003211131",
+      "pose": "a",
+      "surface": "cloth",
+      "palette": [
+        0.29,
+        0.29,
+        0.32
+      ]
+    },
+    {
+      "id": "shrine-warden",
+      "role": "named:shrine_warden",
+      "sourceFilename": "Meshy_AI_Medieval_Knight_Chara_1004193332_image-to-3d-texture.glb",
+      "sourceId": "1004193332",
+      "pose": "t",
+      "surface": "armor",
+      "palette": [
+        0.31,
+        0.37,
+        0.47
+      ]
+    },
+    {
+      "id": "mill-hand",
+      "role": "named:mill_hand",
+      "sourceFilename": "Meshy_AI_Generic_Peasant_Woman_1004193219_texture.glb",
+      "sourceId": "1004193219",
+      "pose": "a",
+      "surface": "dress",
+      "palette": [
+        0.56,
+        0.49,
+        0.34
+      ]
+    },
+    {
+      "id": "quarry-hand",
+      "role": "named:quarry_hand",
+      "sourceFilename": "Meshy_AI_Peasant_Stance_1003230046_texture.glb",
+      "sourceId": "1003230046",
+      "pose": "t",
+      "surface": "cloth",
+      "palette": [
+        0.39,
+        0.39,
+        0.34
+      ]
+    },
+    {
+      "id": "village-baker",
+      "role": "named:village_baker",
+      "sourceFilename": "Meshy_AI_The_Cook_1004193100_texture.glb",
+      "sourceId": "1004193100",
+      "pose": "down",
+      "surface": "cloth",
+      "palette": [
+        0.61,
+        0.54,
+        0.39
+      ]
+    },
+    {
+      "id": "fisher",
+      "role": "ambient:fisher",
+      "sourceFilename": "Meshy_AI_The_Patchwork_Wandere_1004193042_texture.glb",
+      "sourceId": "1004193042",
+      "pose": "a",
+      "surface": "cloth",
+      "palette": [
+        0.29,
+        0.29,
+        0.25
+      ]
+    },
+    {
+      "id": "fireside",
+      "role": "ambient:fireside",
+      "sourceFilename": "Meshy_AI_Medieval_Woman_1003230113_texture.glb",
+      "sourceId": "1003230113",
+      "pose": "a",
+      "surface": "dress",
+      "palette": [
+        0.37,
+        0.3,
+        0.24
+      ]
+    },
+    {
+      "id": "keeper",
+      "role": "ambient:keeper",
+      "sourceFilename": "Meshy_AI_The_Wayfarer_1004193053_texture.glb",
+      "sourceId": "1004193053",
+      "pose": "a",
+      "surface": "cloth",
+      "palette": [
+        0.28,
+        0.29,
+        0.31
+      ]
+    },
+    {
+      "id": "ford-bandit-a",
+      "role": "enemy:ford_bandit_a",
+      "sourceFilename": "Meshy_AI_Medieval_Warrior_1003194934_texture.glb",
+      "sourceId": "1003194934",
+      "pose": "t",
+      "surface": "armor",
+      "palette": [
+        0.28,
+        0.25,
+        0.23
+      ]
+    },
+    {
+      "id": "ford-bandit-b",
+      "role": "enemy:ford_bandit_b",
+      "sourceFilename": "Meshy_AI_The_Dungeon_Wretch_1004193146_texture.glb",
+      "sourceId": "1004193146",
+      "pose": "a",
+      "surface": "cloth",
+      "palette": [
+        0.31,
+        0.3,
+        0.27
+      ]
+    },
+    {
+      "id": "menu-warden",
+      "role": "menu:warden",
+      "sourceFilename": "Meshy_AI_Warrior_Stance_Avatar_1004193023_texture.glb",
+      "sourceId": "1004193023",
+      "pose": "t",
+      "surface": "armor",
+      "palette": [
+        0.31,
+        0.36,
+        0.43
+      ]
+    }
+  ]
+}

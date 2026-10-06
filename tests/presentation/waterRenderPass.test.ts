@@ -14,6 +14,7 @@ interface Draw {
   mask: number;
   autoClear: boolean;
   visibility: boolean[];
+  meshMasks: number[];
 }
 
 /** A real Three scene/target with only the GL renderer replaced; this checks orchestration, not shader pixels. */
@@ -49,7 +50,7 @@ function fixture() {
     clear: vi.fn(),
     render: vi.fn((drawScene: THREE.Scene, drawCamera: THREE.Camera) => {
       draws.push({ scene: drawScene, camera: drawCamera, target, mask: drawCamera.layers.mask,
-        autoClear: renderer.autoClear, visibility: meshes.map(mesh => mesh.visible) });
+        autoClear: renderer.autoClear, visibility: meshes.map(mesh => mesh.visible), meshMasks: meshes.map(mesh => mesh.layers.mask) });
     }),
   };
   const pass = new WaterRenderPass();
@@ -270,6 +271,19 @@ describe('water capture/composite orchestration', () => {
     expect(f.renderer.getRenderTarget()).toBe(f.previousTarget);
   });
 
+  it('does not make water from an excluded camera layer visible during the isolated water traversal', () => {
+    const f = setup();
+    // The stream remains in view, so this cannot pass merely by skipping the composite.
+    f.meshes[0]!.position.x = 0;
+    f.meshes[0]!.layers.set(8);
+    const originalMasks = f.meshes.map(mesh => mesh.layers.mask);
+    f.render();
+    expect(f.draws).toHaveLength(3);
+    expect(f.draws[2]!.meshMasks).toEqual([0, 2]);
+    expect(f.draws[2]!.mask).toBe(2);
+    expect(f.meshes.map(mesh => mesh.layers.mask)).toEqual(originalMasks);
+  });
+
   it.each([0, 1, 2])('restores caller state when render stage %s throws', (stage) => {
     const f = setup();
     const originalMask = f.camera.layers.mask;
@@ -300,6 +314,7 @@ describe('water capture/composite orchestration', () => {
     expect(f.draws).toHaveLength(1);
     expect(f.draws[0]!.target).toBe(f.source);
     expect(f.draws[0]!.mask).toBe(originalMask);
+    expect(f.draws[0]!.autoClear).toBe(true); // A moving fallback camera cannot retain the previous frame.
     expect(dispose).toHaveBeenCalledTimes(1);
     for (const mesh of f.meshes) {
       const u = mesh.material.uniforms;
@@ -396,6 +411,9 @@ describe('water capture/composite orchestration', () => {
     expect(reflected.visibility).toEqual([false, false]);
     expect(reflected.target!.samples).toBe(0);
     expect([reflected.target!.width, reflected.target!.height]).toEqual([384, 384]);
+    expect(reflected.target!.texture.generateMipmaps).toBe(true);
+    expect(reflected.target!.texture.minFilter).toBe(THREE.LinearMipmapLinearFilter);
+    expect(reflected.target!.texture.colorSpace).toBe(THREE.LinearSRGBColorSpace);
     const u = f.input.seaMaterial.uniforms;
     expect(u.uWaterReflectionReady!.value).toBe(1);
     expect(u.tWaterReflection!.value).toBe(reflected.target!.texture);
@@ -413,20 +431,101 @@ describe('water capture/composite orchestration', () => {
     expect(f.renderer.getRenderTarget()).toBe(f.previousTarget);
   });
 
-  it.each([['medium', 1 / 10], ['high', 1 / 15]] as const)('caps %s reflection refresh despite continuous camera movement', (quality, interval) => {
+  it.each(['medium', 'high'] as const)('keeps %s reflections paired with every running camera pose below the stationary refresh interval', quality => {
     const f = setup();
     coastalView(f);
     f.input.quality = quality;
     f.render();
+    const target = f.draws[0]!.target;
+    let projection = f.input.seaMaterial.uniforms.uWaterReflectionMatrix!.value.clone();
+    for (let frame = 0; frame < 12; frame++) {
+      f.draws.length = 0;
+      f.camera.position.x += 5.85 / 120;
+      f.pass.render(f.renderer as unknown as THREE.WebGLRenderer, f.scene, f.camera, f.source, 1 / 120, f.input);
+      expect(f.draws).toHaveLength(4);
+      expect(f.draws[0]!.target).toBe(target);
+      expect(f.draws[0]!.visibility).toEqual([false, false]);
+      expect(f.draws[0]!.camera.position.x).toBeCloseTo(f.camera.position.x, 8);
+      const next = f.input.seaMaterial.uniforms.uWaterReflectionMatrix!.value;
+      expect(next.equals(projection)).toBe(false);
+      projection = next.clone();
+    }
+  });
+
+  it.each(['translation', 'rotation', 'zoom'] as const)('refreshes immediately for slow %s even in Reduced Motion', movement => {
+    const f = setup(); coastalView(f); f.input.reducedMotion = true;
+    f.render(); f.draws.length = 0;
+    if (movement === 'translation') f.camera.position.x += 0.001;
+    if (movement === 'rotation') f.camera.rotateY(0.001);
+    if (movement === 'zoom') { f.camera.fov -= 0.1; f.camera.updateProjectionMatrix(); }
+    f.pass.render(f.renderer as unknown as THREE.WebGLRenderer, f.scene, f.camera, f.source, 1 / 240, f.input);
+    expect(f.draws).toHaveLength(4);
+  });
+
+  it('tracks a parented camera world pose, even when its local pose stays unchanged', () => {
+    const f = setup(); coastalView(f); f.input.reducedMotion = true;
+    const rig = new THREE.Group(); rig.add(f.camera); f.scene.add(rig);
+    f.render(); const reflection = f.draws[0]!.target;
+    const localPosition = f.camera.position.clone(), localRotation = f.camera.quaternion.clone();
+    rig.position.x = 0.025;
+    f.draws.length = 0; f.render();
+    expect(f.camera.position.equals(localPosition)).toBe(true);
+    expect(f.camera.quaternion.equals(localRotation)).toBe(true);
+    expect(f.draws).toHaveLength(4);
+    expect(f.draws[0]!.target).toBe(reflection);
+    expect(f.draws[0]!.camera.position.x).toBeCloseTo(-299.975, 8);
+    rig.position.y = -3.1; f.camera.lookAt(-300, 0, 0); f.draws.length = 0; f.render();
+    expect(f.draws).toHaveLength(3); // World camera is below the plane although local y still equals 3.
+    expect(f.input.seaMaterial.uniforms.uWaterReflectionReady!.value).toBe(0);
+  });
+
+  it('fades reflected coast continuously into the clipping-safe plane instead of flipping between captures and sky', () => {
+    const f = setup(); coastalView(f); f.input.reducedMotion = true;
+    let previous = 0;
+    for (let step = 0; step <= 54; step++) {
+      f.camera.position.y = 0.08 + step * 0.005;
+      f.camera.lookAt(-300, 0, 0);
+      f.draws.length = 0; f.render();
+      const strength = Number(f.input.seaMaterial.uniforms.uWaterReflectionReady!.value);
+      expect(strength).toBeGreaterThanOrEqual(previous);
+      expect(strength - previous).toBeLessThan(0.03);
+      expect(strength).toBeGreaterThanOrEqual(0);
+      expect(strength).toBeLessThanOrEqual(1);
+      expect(f.draws).toHaveLength(step === 0 ? 3 : 4);
+      previous = strength;
+    }
+    expect(previous).toBe(1);
+  });
+
+  it('recreates color-format-dependent private targets without releasing borrowed source textures', () => {
+    const f = setup(); coastalView(f); f.input.reducedMotion = true;
+    f.render();
+    const reflection = f.draws[0]!.target!, composite = f.draws[2]!.target!;
+    const releaseReflection = vi.spyOn(reflection, 'dispose'), releaseComposite = vi.spyOn(composite, 'dispose');
+    const releaseColor = vi.spyOn(f.source.texture, 'dispose'), releaseDepth = vi.spyOn(f.source.depthTexture!, 'dispose');
+    f.source.texture.type = THREE.UnsignedByteType;
+    f.draws.length = 0; f.render();
+    expect(f.draws).toHaveLength(4);
+    expect(f.draws[0]!.target).not.toBe(reflection);
+    expect(f.draws[2]!.target).not.toBe(composite);
+    expect(f.draws[0]!.target!.texture.type).toBe(THREE.UnsignedByteType);
+    expect(f.draws[2]!.target!.texture.type).toBe(THREE.UnsignedByteType);
+    expect(f.input.seaMaterial.uniforms.tWaterReflection!.value).toBe(f.draws[0]!.target!.texture);
+    expect(releaseReflection).toHaveBeenCalledTimes(1);
+    expect(releaseComposite).toHaveBeenCalledTimes(1);
+    expect(releaseColor).not.toHaveBeenCalled(); expect(releaseDepth).not.toHaveBeenCalled();
+  });
+
+  it.each([['medium', 1 / 10], ['high', 1 / 15]] as const)('retains the %s stationary scene refresh cadence without reallocating', (quality, interval) => {
+    const f = setup(); coastalView(f); f.input.quality = quality;
+    f.render(); const target = f.draws[0]!.target;
     f.draws.length = 0;
-    f.camera.position.x += 1;
     f.pass.render(f.renderer as unknown as THREE.WebGLRenderer, f.scene, f.camera, f.source, interval / 4, f.input);
     expect(f.draws).toHaveLength(3);
     f.draws.length = 0;
-    f.camera.position.x += 1;
     f.pass.render(f.renderer as unknown as THREE.WebGLRenderer, f.scene, f.camera, f.source, interval, f.input);
     expect(f.draws).toHaveLength(4);
-    expect(f.draws[0]!.visibility).toEqual([false, false]);
+    expect(f.draws[0]!.target).toBe(target);
   });
 
   it('invalidates the reduced-motion reflection after a world rebuild even with an unchanged camera', () => {

@@ -19,6 +19,7 @@ export const EN: Record<string, string> = {
   'menu.settings': 'Settings',
   'menu.controls': 'Controls',
   'menu.about': 'About this build',
+  'about.audioLicenses': 'World audio sources and license limits',
   'menu.resume': 'Resume',
   'menu.quit': 'Quit to title',
   'menu.back': 'Back',
@@ -47,7 +48,7 @@ export const EN: Record<string, string> = {
   'menu.savetime': '{day} · {phase} · {play}',
   'menu.day': 'Day {n}',
   'about.body':
-    'Tervain {version} is a PC-focused exploration pre-alpha: a solitary arrival with no remembered name, a grey strand, dense old woodland and an inland settlement. Gather provisions, plants and salvage; manage your inventory and an initially empty ten-slot item and weapon bar; explore with a journal and a map that keeps your personal marker. This build combines the world, movement and collision improvements with repaintable skinned characters. The opening uses environmental clues without conversation windows. The earlier water-dispute systems and dialogue graph remain for future work. The Wanderer and conifers use owner-supplied models; the remaining scenery and default character textures are authored for Tervain. Steam packaging and minimum PC requirements are not yet established. See docs/engineering/prototype.md for the implemented scope.',
+    'Tervain {version} is a PC-focused exploration pre-alpha: a solitary arrival with no remembered name, a grey strand, dense old woodland and an inland settlement. Gather provisions, plants and salvage; manage your inventory and an initially empty ten-slot item and weapon bar; explore with a journal and a map that keeps your personal marker. This build combines the world, movement and collision improvements with repaintable skinned characters. The opening uses environmental clues without conversation windows. The earlier water-dispute systems and dialogue graph remain for future work. The Wanderer, residents and selected trees use supplied models adapted for Tervain; original scenery and material work complement them. The menu score is owner-supplied. The sound effects, ambience, score and voices in the world were partly generated with ElevenLabs (elevenlabs.io), and partly composed and synthesized in code for Tervain. Generated sources have recorded paid-plan provenance with service-specific limits. See world-audio-licenses.html for rights and commercial-release boundaries. Steam packaging and minimum PC requirements are not yet established. See docs/engineering/prototype.md for the implemented scope.',
 
   /* ---------- Silent arrival ---------- */
   'arrival.wake': 'Salt on your lips. No memory of your name, or how you reached this shore.',

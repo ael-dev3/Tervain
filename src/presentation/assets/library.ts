@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { clone as cloneSkinned } from 'three/examples/jsm/utils/SkeletonUtils.js';
+import { modelAssetUrl } from './modelUrl';
 
 /**
  * Loader and catalog for the runtime GLBs shared with Warpkeep (see assets/warpkeep/manifest.json,
@@ -52,7 +53,9 @@ export interface LoadProgress {
   label: string;
 }
 
-const BASE = `${import.meta.env.BASE_URL}models/warpkeep/`;
+export function warpkeepModelUrl(file: string, base = import.meta.env.BASE_URL, page = document.baseURI): URL {
+  return modelAssetUrl(`warpkeep/${file}`, base, page);
+}
 
 export class AssetLibrary {
   private manifest: Manifest;
@@ -68,7 +71,7 @@ export class AssetLibrary {
   }
 
   static async open(): Promise<AssetLibrary> {
-    const res = await fetch(`${BASE}manifest.json`);
+    const res = await fetch(warpkeepModelUrl('manifest.json'));
     if (!res.ok) throw new Error(`asset manifest unavailable (${res.status})`);
     return new AssetLibrary((await res.json()) as Manifest);
   }
@@ -125,7 +128,7 @@ export class AssetLibrary {
     let p = this.cache.get(key);
     if (!p) {
       const entry = this.byId.get(id)!.lods[lod]!;
-      p = this.loader.loadAsync(`${BASE}${entry.file}`).then((gltf) => {
+      p = this.loader.loadAsync(warpkeepModelUrl(entry.file).href).then((gltf) => {
         this.bytesLoaded += entry.bytes;
         const asset: LoadedAsset = { id, lod, entry, scene: gltf.scene, animations: gltf.animations };
         gltf.scene.traverse((o) => {

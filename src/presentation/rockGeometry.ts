@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { clamp, fbm, mulberry32, ridged, smoothstep } from '../world/noise';
+import { assertNaturalModelBudget } from './naturalModelBudget';
 
 type V3 = [number, number, number];
 type RGB = [number, number, number];
@@ -84,6 +85,7 @@ function rockGeometry(seed: number, detail: 1 | 2, tone: RGB): THREE.BufferGeome
   // Faceted: rocks are angular. Convert to flat-shaded normals.
   // IcosahedronGeometry is already non-indexed, so every triangle has its own vertices and computeVertexNormals gives flat facets.
   g.computeVertexNormals();
+  assertNaturalModelBudget(`Fractured rock ${seed}`, [g]);
   return g;
 }
 

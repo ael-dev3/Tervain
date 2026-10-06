@@ -192,6 +192,14 @@ export class Hud {
     setTimeout(() => el.remove(), 3200);
   }
 
+  /** A spoken line's words, with who says them, for as long as they are heard. */
+  speech(name: string, text: string, seconds: number) {
+    const el = h('div', { class: 'caption speech' }, h('b', {}, name), ` ${text}`);
+    this.captions.append(el);
+    while (this.captions.children.length > 3) this.captions.firstElementChild?.remove();
+    setTimeout(() => el.remove(), Math.max(1500, seconds * 1000 + 600));
+  }
+
   setThreat(text: string | null) {
     this.threat.classList.toggle('on', !!text);
     if (text) this.threat.textContent = text;

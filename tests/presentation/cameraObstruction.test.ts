@@ -36,7 +36,7 @@ describe('continuous camera clearance', () => {
     const c = new Colliders(); c.circle('tree:test',0,-2,0.5);
     const cam = new CameraRig();cam.follow(1/60,0,0,0,flat,c,true,0);
     cam.reset();cam.follow(1/60,12,0,0,flat,c,false,0);
-    expect(Math.hypot(cam.camera.position.y-1.55,cam.camera.position.z)).toBeCloseTo(5.4);
+    expect(Math.hypot(cam.camera.position.y-1.55,cam.camera.position.z)).toBeCloseTo(6.2);
     cam.applyLook(NaN,Infinity,NaN);
     expect(Number.isFinite(cam.yaw) && Number.isFinite(cam.pitch) && Number.isFinite(cam.wantDist)).toBe(true);
   });

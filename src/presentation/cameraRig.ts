@@ -1,19 +1,30 @@
 import * as THREE from 'three';
-import type { Colliders } from '../world/colliders';
+import type { Collider, Colliders } from '../world/colliders';
 import type { Terrain } from '../world/terrain';
 import { BUILDINGS, LIGHTHOUSE, PLACES } from '../world/layout';
 import { CAMERA_CLEARANCE, cameraColliderEntry } from './cameraObstruction';
+
+const MAX_RECOIL = 0.04;
+
+function obstacleHeight(c: Collider): number {
+  const building = c.id.startsWith('b:') ? BUILDINGS.find((b) => `b:${b.id}` === c.id) : null;
+  return c.id === 'lighthouse' ? LIGHTHOUSE.h + 2
+    : c.id.startsWith('tree:') ? 20
+    : building ? building.h + Math.min(building.w, building.d) * 0.6
+    : c.id.startsWith('archive_') ? 3.4 : 5;
+}
 
 /**
  * A stable third-person camera. Obstruction shortens the boom immediately but lets it
  * lengthen slowly, so it never oscillates against an edge or fights the input.
  */
 export class CameraRig {
-  readonly camera = new THREE.PerspectiveCamera(58, 1, 0.1, 1400);
+  readonly camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1400);
   yaw = 0;
   pitch = 0.32;
-  wantDist = 5.4;
-  private curDist = 5.4;
+  /** A little more room for the road and construction around the figure, without automatic zoom or bob. */
+  wantDist = 6.2;
+  private curDist = 6.2;
   private target = new THREE.Vector3();
   private smoothTarget = new THREE.Vector3();
   private titleAngle = 0;
@@ -79,14 +90,9 @@ export class CameraRig {
       z: this.smoothTarget.z + dirZ * this.wantDist,
     };
     let allowed = this.wantDist;
-    const candidates = colliders.near(px, pz, this.wantDist + CAMERA_CLEARANCE);
+    const candidates = colliders.near(px, pz, this.wantDist + CAMERA_CLEARANCE + MAX_RECOIL);
     for (const c of candidates) {
-      const building = c.id.startsWith('b:') ? BUILDINGS.find((b) => `b:${b.id}` === c.id) : null;
-      const height = c.id === 'lighthouse' ? LIGHTHOUSE.h + 2
-        : c.id.startsWith('tree:') ? 20
-        : building ? building.h + Math.min(building.w, building.d) * 0.6
-        : c.id.startsWith('archive_') ? 3.4 : 5;
-      const t = cameraColliderEntry(this.smoothTarget, desired, c, terrain.groundAt(c.x, c.z), height);
+      const t = cameraColliderEntry(this.smoothTarget, desired, c, terrain.groundAt(c.x, c.z), obstacleHeight(c));
       if (t !== null) allowed = Math.min(allowed, Math.max(0.04, t * this.wantDist - 0.025));
     }
     // The rendered terrain is piecewise planar. A short spatial march followed by bisection finds bank contact
@@ -126,11 +132,44 @@ export class CameraRig {
     this.camera.position.set(cx, cy, cz);
     if (!reducedMotion && shake > 0 && this.curDist > 1) {
       this.shakeT += dt * 60;
-      const kick = Math.min(0.04, shake * 0.12);
+      const kick = Math.min(MAX_RECOIL, shake * 0.12);
       const lateral = Math.sin(this.shakeT * 1.7) * kick;
-      this.camera.position.x += Math.cos(this.yaw) * lateral;
-      this.camera.position.z -= Math.sin(this.yaw) * lateral;
-      this.camera.position.y += Math.cos(this.shakeT * 2.3) * kick;
+      const recoil = {
+        x: cx + Math.cos(this.yaw) * lateral,
+        y: cy + Math.cos(this.shakeT * 2.3) * kick,
+        z: cz - Math.sin(this.yaw) * lateral,
+      };
+      const recoilLength = Math.hypot(recoil.x - cx, recoil.y - cy, recoil.z - cz);
+      let share = 1;
+      // Recoil is presentation motion, but it still has the camera's near-plane volume.
+      // Reuse the one broad-phase query: a clear boom can run alongside a wall less than a pulse away.
+      for (const c of candidates) {
+        const entry = cameraColliderEntry(this.camera.position, recoil, c, terrain.groundAt(c.x, c.z), obstacleHeight(c));
+        if (entry !== null) share = Math.min(share, Math.max(0, entry - 0.001 / Math.max(recoilLength, 0.001)));
+      }
+      const clearRecoil = (t: number) => {
+        const x = cx + (recoil.x - cx) * t, y = cy + (recoil.y - cy) * t, z = cz + (recoil.z - cz) * t;
+        const r = CAMERA_CLEARANCE;
+        const floor = Math.max(terrain.groundAt(x,z), terrain.groundAt(x-r,z), terrain.groundAt(x+r,z), terrain.groundAt(x,z-r), terrain.groundAt(x,z+r));
+        return y >= floor + r;
+      };
+      // Four samples cover the short, at-most 5.7 cm pulse; bisect the first terrain contact.
+      let previous = 0;
+      for (let i = 1; i <= 4; i++) {
+        const t = share * i / 4;
+        if (!clearRecoil(t)) {
+          let lo = previous, hi = t;
+          for (let j = 0; j < 8; j++) {
+            const mid = (lo + hi) / 2;
+            if (clearRecoil(mid)) lo = mid;
+            else hi = mid;
+          }
+          share = lo;
+          break;
+        }
+        previous = t;
+      }
+      this.camera.position.set(cx + (recoil.x - cx) * share, cy + (recoil.y - cy) * share, cz + (recoil.z - cz) * share);
     }
     this.camera.lookAt(this.smoothTarget);
   }

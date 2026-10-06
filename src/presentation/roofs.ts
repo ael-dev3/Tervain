@@ -25,10 +25,10 @@ export interface RoofStyle {
 }
 
 export const ROOFS: Record<'tile' | 'slate' | 'thatch' | 'shingle', RoofStyle> = {
-  tile: { key: 'tile', ch: 0.2, t: 0.04, pw: 0.3333, pitch: 0.62, colors: [0xa5573e, 0x9a4e37, 0xb0634a, 0x8f4a35, 0xb5694c], jit: 0.1, wiggle: 0.012 },
-  slate: { key: 'slate', ch: 0.2, t: 0.03, pw: 0.25, pitch: 0.66, colors: [0x5d6570, 0x545c66, 0x687079, 0x4c535c, 0x60686f], jit: 0.08, wiggle: 0.01 },
-  thatch: { key: 'thatch', ch: 0.3, t: 0.12, pw: 0.6, pitch: 0.86, colors: [0xb59a56, 0xa78c4a, 0xc2a862, 0x9a7f42, 0xb9a05c], jit: 0.12, wiggle: 0.04 },
-  shingle: { key: 'planks', ch: 0.24, t: 0.035, pw: 0.24, pitch: 0.6, colors: [0x7a5b3c, 0x6d5034, 0x86664a, 0x5f452e], jit: 0.1, wiggle: 0.012 },
+  tile: { key: 'tile', ch: 0.31, t: 0.075, pw: 0.41, pitch: 0.62, colors: [0xa25b41, 0x9b583f, 0xa76145, 0x94533d], jit: 0.045, wiggle: 0.026 },
+  slate: { key: 'slate', ch: 0.32, t: 0.06, pw: 0.39, pitch: 0.66, colors: [0x61635c, 0x5b605b, 0x686b63, 0x5c615e], jit: 0.04, wiggle: 0.024 },
+  thatch: { key: 'thatch', ch: 0.42, t: 0.22, pw: 0.76, pitch: 0.86, colors: [0xb39a60, 0xad945b, 0xb9a16a, 0xa58d57], jit: 0.055, wiggle: 0.07 },
+  shingle: { key: 'planks', ch: 0.43, t: 0.105, pw: 0.34, pitch: 0.6, colors: [0x84715a, 0x7c6b55, 0x89765e, 0x76654f], jit: 0.045, wiggle: 0.035 },
 };
 
 const cross = (a: V3, b: V3): V3 => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
@@ -70,31 +70,40 @@ export function roofPlane(B: Batch, st: RoofStyle, O: V3, A: V3, Sv: V3, S: numb
   N = norm(N);
   const pal = (palette ?? st.colors).map((c) => asRGB(c));
   const P = (a: number, s: number, n: number): V3 => [O[0] + A[0] * a + Sv[0] * s + N[0] * n, O[1] + A[1] * a + Sv[1] * s + N[1] * n, O[2] + A[2] * a + Sv[2] * s + N[2] * n];
+  // Plank grain runs down each long shingle, while clay/slate/thatch retain horizontal overlap courses.
+  const UV = (points: number[]) => st.key === 'planks' ? points.map((_v, i) => points[i ^ 1]!) : points;
   const courses = Math.max(1, Math.round(S / st.ch));
-  const ch = S / courses;
+  // Hand-laid courses vary as connected groups. Normalize widths to the true slope endpoint so
+  // gables/hip boundaries and the continuous backing never acquire gaps or a changed support envelope.
+  const weights = Array.from({ length: courses }, (_, j) => 0.82 + hash3(seed, j, 83) * 0.36);
+  const weightSum = weights.reduce((a, b) => a + b, 0);
+  const boundaries = [0];
+  for (const weight of weights) boundaries.push(boundaries[boundaries.length - 1]! + S * weight / weightSum);
+  boundaries[courses] = S;
   const thatch = st.key === 'thatch';
   for (let j = 0; j < courses; j++) {
-    const s0 = j * ch;
-    const s1 = s0 + ch;
-    const sm = s0 + ch * 0.5;
+    const s0 = boundaries[j]!;
+    const s1 = boundaries[j + 1]!;
+    const ch = s1 - s0;
+    const sm = (s0 + s1) * 0.5;
     const a0 = lo(sm);
     const a1 = hi(sm);
     if (a1 - a0 < 1e-6) continue;
     const pieces = Math.max(1, Math.round((a1 - a0) / st.pw));
     const w = (a1 - a0) / pieces;
-    const stagger = (j % 2) * 0.5;
+    const stagger = (j % 2) * 0.42;
+    const pieceEdges = [a0];
+    for (let i = 1; i < pieces; i++) {
+      const offset = (hash3(seed, i, j + 89) - 0.5) * 0.36;
+      pieceEdges.push(a0 + (i - stagger + offset) * w);
+    }
+    pieceEdges.push(a1);
     for (let i = 0; i < pieces; i++) {
-      let pa0 = a0 + i * w;
-      let pa1 = pa0 + w;
-      // Half-shifted courses: shorten the first and last pieces instead of overhanging.
-      if (stagger) {
-        pa0 = Math.max(a0, pa0 - w * 0.5);
-        pa1 = Math.min(a1, pa1 - w * 0.5);
-        if (i === pieces - 1) pa1 = a1;
-        if (pa1 - pa0 < 0.03) continue;
-      }
-      const h = hash3(seed + i * 1.7, j * 3.1, seed * 0.3);
-      const base = mulc(pal[Math.floor(h * pal.length) % pal.length]!, 1.9);
+      const pa0 = pieceEdges[i]!;
+      const pa1 = pieceEdges[i + 1]!;
+      // Broad areas weather together; fine grain supplies detail without random checkerboard roof colours.
+      const h = hash3(seed + Math.floor(pa0 / 1.3), Math.floor(s0 / 1.4), seed * 0.3);
+      const base = mulc(pal[Math.floor(h * pal.length) % pal.length]!, 1.65);
       const k = 1 + (hash3(pa0 * 3.3, s0 * 2.9, seed) - 0.5) * 2 * st.jit;
       const lift = (hash3(seed, pa0 * 5, s0 * 5) - 0.5) * st.wiggle;
       const t = st.t * (thatch ? 0.7 + hash3(pa0, s0, 3) * 0.6 : 1);
@@ -104,19 +113,26 @@ export function roofPlane(B: Batch, st: RoofStyle, O: V3, A: V3, Sv: V3, S: numb
       const edgeA = lo(s0), edgeB = hi(s0), edgeC = lo(s1), edgeD = hi(s1);
       const bottom0 = edgeA + (edgeB - edgeA) * f0, bottom1 = edgeA + (edgeB - edgeA) * f1;
       const top0 = edgeC + (edgeD - edgeC) * f0, top1 = edgeC + (edgeD - edgeC) * f1;
-      const p0 = P(bottom0, s0, t + lift);
-      const p1 = P(bottom1, s0, t + lift);
+      // Chipped/uneven free ends expose the continuous deck below. True hip boundaries and the
+      // structural shell remain unchanged, so irregular silhouettes never create open roof seams.
+      const cut = thatch ? 0.22 : st.key === 'planks' ? 0.18 : 0.1;
+      const chip0 = i === 0 ? 0 : hash3(seed, i, j + 31) * ch * cut;
+      const chip1 = i === pieces - 1 ? 0 : hash3(seed, i + 7, j + 53) * ch * cut;
+      const fray0 = thatch ? (hash3(seed, i, j + 61) - 0.5) * 0.055 : 0;
+      const fray1 = thatch ? (hash3(seed, i + 9, j + 67) - 0.5) * 0.055 : 0;
+      const p0 = P(bottom0, s0 + chip0, t + lift + fray0);
+      const p1 = P(bottom1, s0 + chip1, t + lift + fray1);
       const p2 = P(top1, s1, lift * 0.3);
       const p3 = P(top0, s1, lift * 0.3);
       // Sloped exposed face; uv follows the eave and slope so texture rows line up with the courses.
       if (Math.abs(edgeD - edgeC) < 1e-6) {
-        if (flip) B.tri3(...p0, ...p2, ...p1, base, k, [bottom0, s0, top1, s1, bottom1, s0]);
-        else B.tri3(...p0, ...p1, ...p2, base, k, [bottom0, s0, bottom1, s0, top1, s1]);
-      } else B.quad([...p0, ...p1, ...p2, ...p3], base, { uv: [bottom0, s0, bottom1, s0, top1, s1, top0, s1], k, flip, amp: 0.03 });
+        if (flip) B.tri3(...p0, ...p2, ...p1, base, k, UV([bottom0, s0, top1, s1, bottom1, s0]));
+        else B.tri3(...p0, ...p1, ...p2, base, k, UV([bottom0, s0, bottom1, s0, top1, s1]));
+      } else B.quad([...p0, ...p1, ...p2, ...p3], base, { uv: UV([bottom0, s0, bottom1, s0, top1, s1, top0, s1]), k, flip, amp: 0.03 });
       // Riser: the free edge's thickness, darker because it is in the shadow of the course above.
-      const q0 = P(bottom0, s0, lift);
-      const q1 = P(bottom1, s0, lift);
-      B.quad([...q0, ...q1, ...p1, ...p0], mulc(base, 0.78), { uv: [bottom0, s0, bottom1, s0, bottom1, s0 + t, bottom0, s0 + t], k: k * 0.92, flip, amp: 0.02 });
+      const q0 = P(bottom0, s0 + chip0, lift);
+      const q1 = P(bottom1, s0 + chip1, lift);
+      B.quad([...q0, ...q1, ...p1, ...p0], mulc(base, 0.57), { uv: UV([bottom0, s0, bottom1, s0, bottom1, s0 + t, bottom0, s0 + t]), k: k * 0.92, flip, amp: 0.015 });
     }
   }
 }
@@ -197,16 +213,16 @@ export function gableRoof(R: Region, o: GableOpts): RoofResult {
     for (const sx of [-1, 1]) {
       const x = sx * (len / 2 - 0.02);
       // Barge board along the slope edge.
-      R.timber.rod(x, ey, sz * hs, x, ry, 0, 0.055, 4, dark);
+      R.timber.rod(x, ey - 0.04, sz * hs, x, ry, 0, 0.12, 4, dark);
     }
   }
   // Eave fascia and rafter tails.
   for (const sz of [-1, 1]) {
-    R.timber.bx(-len / 2, ey - 0.13, sz * hs - 0.03, len / 2, ey - 0.01, sz * hs + 0.03, dark, { jit: 0.02 });
+    R.timber.bx(-len / 2, ey - 0.26, sz * hs - 0.075, len / 2, ey - 0.01, sz * hs + 0.075, dark, { jit: 0.02, amp: 0.025, grain: 'x' });
     const n = Math.max(3, Math.round(len / 0.62));
     for (let i = 0; i <= n; i++) {
       const x = -len / 2 + (i * len) / n;
-      R.timber.bx(x - 0.045, ey - 0.13, sz * (hs - 0.34), x + 0.045, ey - 0.06, sz * hs, dark, { jit: 0.03 });
+      R.timber.bx(x - 0.065, ey - 0.2, sz * (hs - 0.34), x + 0.065, ey - 0.06, sz * hs, dark, { jit: 0.025, amp: 0.025, grain: 'z' });
     }
   }
   return { rise, ridgeY: ry, halfSpan: hs, pitch, slope: S };
@@ -261,8 +277,8 @@ export function hipRoof(R: Region, o: HipOpts): RoofResult {
   B.rod(-rl, ry + 0.03, 0, rl, ry + 0.03, 0, 0.13, 6, rc);
   for (const sx of [-1, 1]) for (const sz of [-1, 1]) B.rod(sx * Hw, ey + 0.02, sz * Hd, sx * rl, ry + 0.03, 0, 0.1, 5, rc);
   // Fascia is separate from the structural decking and follows the four actual eaves.
-  for (const sz of [-1, 1]) R.timber.bx(-Hw, ey - 0.16, sz * Hd - 0.03, Hw, ey - 0.02, sz * Hd + 0.03, 0x4b3826, { jit: 0.02 });
-  for (const sx of [-1, 1]) R.timber.bx(sx * Hw - 0.03, ey - 0.16, -Hd, sx * Hw + 0.03, ey - 0.02, Hd, 0x4b3826, { jit: 0.02 });
+  for (const sz of [-1, 1]) R.timber.bx(-Hw, ey - 0.22, sz * Hd - 0.05, Hw, ey - 0.02, sz * Hd + 0.05, 0x4b3826, { jit: 0.02, amp: 0.025, grain: 'x' });
+  for (const sx of [-1, 1]) R.timber.bx(sx * Hw - 0.05, ey - 0.22, -Hd, sx * Hw + 0.05, ey - 0.02, Hd, 0x4b3826, { jit: 0.02, amp: 0.025, grain: 'z' });
   return { rise, ridgeY: ry, halfSpan: Hd, pitch, slope: S };
 }
 
@@ -303,11 +319,11 @@ export function leanRoof(R: Region, o: LeanOpts): RoofResult {
   const highR: V3 = [-O[0], ey + rise, -side * hd];
   const highL: V3 = [O[0], ey + rise, -side * hd];
   roofShell(B, R.timber, [[O, lowR, highR, highL]], [O, lowR, highR, highL], mulc(asRGB((o.palette ?? st.colors)[0]!), 1.4), 0x4b3826);
-  R.timber.bx(-len / 2, ey - 0.14, side * hd - 0.03, len / 2, ey - 0.01, side * hd + 0.03, 0x4b3826, { jit: 0.02 });
+  R.timber.bx(-len / 2, ey - 0.2, side * hd - 0.05, len / 2, ey - 0.01, side * hd + 0.05, 0x4b3826, { jit: 0.02, amp: 0.025, grain: 'x' });
   // The high edge is closed too, rather than an uncapped sheet seen from behind.
-  R.timber.bx(-len / 2, ey + rise - 0.14, -side * hd - 0.03, len / 2, ey + rise - 0.01, -side * hd + 0.03, 0x4b3826, { jit: 0.02 });
+  R.timber.bx(-len / 2, ey + rise - 0.2, -side * hd - 0.05, len / 2, ey + rise - 0.01, -side * hd + 0.05, 0x4b3826, { jit: 0.02, amp: 0.025, grain: 'x' });
   // side boards
-  for (const sx of [-1, 1]) R.timber.rod(sx * (len / 2 - 0.02), ey, side * hd, sx * (len / 2 - 0.02), ey + rise, -side * hd, 0.05, 4, 0x4b3826);
+  for (const sx of [-1, 1]) R.timber.rod(sx * (len / 2 - 0.02), ey - 0.025, side * hd, sx * (len / 2 - 0.02), ey + rise, -side * hd, 0.085, 4, 0x4b3826);
   return { rise, ridgeY: ey + rise, halfSpan: hd, pitch, slope: S };
 }
 

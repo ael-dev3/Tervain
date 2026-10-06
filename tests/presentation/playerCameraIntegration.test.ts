@@ -23,7 +23,7 @@ function setup(ground: Terrain = terrain, collisions: Colliders = colliders) {
   const ctx: PlayerCtx = {
     terrain: ground, colliders: collisions, game: new Game(), settings: defaultSettings(),
     input: { move: () => ({ x: 0, y: movement ? 1 : 0 }), held: () => false, pressed: (key: string) => presses.has(key), clearToggle: () => {} } as unknown as Input,
-    audio: { footstep: () => {}, swing: () => {}, hit: () => {}, hurt: () => {} } as unknown as AudioEngine,
+    audio: { footstep: () => {}, swing: () => {}, hit: () => {}, hurt: () => {}, jump: () => {}, land: () => {}, dodge: () => {} } as unknown as AudioEngine,
     npcs: [], enemies: [], viewYaw: 0, controllable: true,
     onHitEnemy: () => {}, onHurt: () => {}, onDeath: () => {}, onBoundary: () => {},
   };
@@ -127,6 +127,23 @@ describe('the player and camera share the authored lighthouse surfaces', () => {
       for (let frame = 0; frame < 60; frame++) { s.tick(60); assertFrameClear(s); }
       expect(s.player.y).toBeCloseTo(y, 6);
     }
+  });
+
+  it.each([20, 30, 60, 120])('lands a fast descending body on the real gallery without skipping its narrow support window at %i Hz', (hz) => {
+    const point = stairPoint(93);
+    const floor = terrain.heightAt(LIGHTHOUSE.x, LIGHTHOUSE.z) + L.stairTop;
+    const s = setup();
+    s.player.setPosition(point.x, point.z, 0, terrain, floor);
+    s.player.y = floor + 0.9;
+    s.player.vy = -60;
+    s.player.grounded = false;
+    for (let frame = 0; frame < 10; frame++) {
+      s.tick(hz);
+      expect(s.player.y).toBeGreaterThanOrEqual(floor - 1e-6);
+    }
+    expect(s.player.grounded).toBe(true);
+    expect(s.player.y).toBeCloseTo(floor, 6);
+    expect(s.player.surface).toBe('deck');
   });
 
   it('restores a stone doorstep save on a rotated house and retains its stone footstep surface', () => {

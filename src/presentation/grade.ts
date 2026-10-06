@@ -86,12 +86,16 @@ void main() {
   float l = dot(c, vec3(0.2126, 0.7152, 0.0722));
   // Cool shadows, warm lights.
   vec3 shadowTint = vec3(0.94, 0.99, 1.06);
-  vec3 lightTint = vec3(1.06, 1.0, 0.9);
+  // Warm sunlight remains selective. Moonlit highlights retain their cooler identity through the night cycle.
+  vec3 lightTint = mix(vec3(1.06, 1.0, 0.9), vec3(0.97, 1.0, 1.04), clamp(uNight, 0.0, 1.0));
   c *= mix(shadowTint, lightTint, smoothstep(0.12, 0.7, l));
   // Saturation and an S-curve around mid grey.
   l = dot(c, vec3(0.2126, 0.7152, 0.0722));
   c = mix(vec3(l), c, uSaturation);
-  c = clamp((c - 0.5) * uContrast + 0.5 + 0.008, 0.0, 1.0);
+  // Daylight can carry the stronger S-curve. Fade its black subtraction at night so
+  // moonlit cloth, nearby roots and the road retain their painted dark values.
+  float sceneContrast = mix(uContrast, 1.0, clamp(uNight, 0.0, 1.0));
+  c = clamp((c - 0.5) * sceneContrast + 0.5 + 0.008, 0.0, 1.0);
   // Vignette.
   float v = smoothstep(0.95, 0.28, length(d * vec2(1.0, 0.86)));
   c *= mix(1.0 - uVignette, 1.0, v);
@@ -136,10 +140,10 @@ export class Grade {
         tBloom: { value: null as THREE.Texture | null },
         uBloom: { value: 0.24 },
         uTime: { value: 0 },
-        uSaturation: { value: 0.97 },
-        uContrast: { value: 1.01 },
-        uVignette: { value: 0.08 },
-        uGrain: { value: 0.003 },
+        uSaturation: { value: 0.94 },
+        uContrast: { value: 1.06 },
+        uVignette: { value: 0.1 },
+        uGrain: { value: 0.004 },
         uNight: { value: 0 },
         uChromatic: { value: 0 },
         uTexel: { value: new THREE.Vector2(1, 1) },

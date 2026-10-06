@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { createFloraPopulation, selectFloraPopulation, type FloraTree } from '../../src/presentation/floraPopulation';
 import { createPineForest, isPineSpecies, type PineForest } from '../../src/presentation/solitaryPine';
 import { buildTreeVariant, SPECIES, type TreeVariant } from '../../src/presentation/treeGen';
-import { groundedTreeY, treeRootPolygons, TREE_ROOT_PLANE, TREE_SOIL_OVERLAP } from '../../src/presentation/treeGrounding';
+import { groundedTreeY, treeRootPolygons, treeWoodCollisionRadius, TREE_ROOT_PLANE, TREE_SOIL_OVERLAP } from '../../src/presentation/treeGrounding';
 import { Terrain } from '../../src/world/terrain';
 import { Exclusions } from '../../src/presentation/vegetation';
 import { WORLD } from '../../src/world/layout';
@@ -23,7 +23,8 @@ const variantFor = (tree: Pick<FloraTree, 'sp' | 'v'>) => {
 beforeAll(async () => {
   forest = createPineForest(await pineTemplates()); terrain = new Terrain();
   population = createFloraPopulation(terrain, new Exclusions(terrain), (tree, radius) => isPineSpecies(tree.sp)
-    ? forest.collisionRadius(tree.sp, tree.v + 1, tree.s, terrain.heightAt(tree.x, tree.z) - tree.y) : radius,
+    ? forest.collisionRadius(tree.sp, tree.v + 1, tree.s, terrain.heightAt(tree.x, tree.z) - tree.y)
+    : radius > 0 ? treeWoodCollisionRadius(variantFor(tree), tree.s, terrain.heightAt(tree.x, tree.z) - tree.y) : radius,
     (tree) => groundedTreeY(terrain, tree, variantFor(tree)));
 });
 afterAll(() => {
@@ -37,6 +38,19 @@ const worldPoint = (tree: Pick<FloraTree, 'x' | 'y' | 'z' | 's' | 'yaw'>, x: num
 };
 
 describe('actual woody tree bases follow the visible ground', () => {
+  it('covers a branch crossing player height and the widest woody LOD, while excluding overhead tips', () => {
+    const narrow = new THREE.BufferGeometry(), broad = new THREE.BufferGeometry();
+    narrow.setAttribute('position', new THREE.Float32BufferAttribute([0.2, 0, 0, 9, 9, 0, 0.2, 0, 0.2], 3));
+    broad.setAttribute('position', new THREE.Float32BufferAttribute([4, 1, 0, 4, 3, 0, 4, 2, 0.2], 3));
+    const variant: TreeVariant = { species: 'oak', height: 9, crownRadius: 9, trunkRadius: 0.2,
+      bark: 'oak', leafTexture: 'oak', crownTexture: 'crown', lods: [narrow, broad, narrow].map(wood => ({ wood, leaf: null, tris: 1 })) as TreeVariant['lods'] };
+    const radius = treeWoodCollisionRadius(variant, 1);
+    expect(radius).toBeGreaterThanOrEqual(Math.hypot(4, 0.2));
+    expect(radius).toBeLessThan(4.1);
+    expect(treeWoodCollisionRadius(variant, 1, 3)).toBeGreaterThan(radius + 1);
+    expect(treeWoodCollisionRadius(variant, 2)).toBeGreaterThanOrEqual(8);
+    narrow.dispose(); broad.dispose();
+  });
   it('detects a downhill root rather than trusting the trunk origin', () => {
     const tree = { sp: 'pine' as const, v: 0, x: 0, z: 0, s: 1.25, yaw: 0.73 };
     const slope = { heightAt: (x: number, z: number) => 8 + 0.43 * x - 0.31 * z };

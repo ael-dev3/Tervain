@@ -73,7 +73,7 @@ export function installBarkDetail(material: THREE.MeshStandardMaterial, textures
         vec2 tvBarkReliefRoughness = tvBarkSample(tvBarkSurface, tvBarkCoordinates, tvBarkWeights).rg;
         float tvBarkClose = 1.0 - smoothstep(45.0, 100.0, length(vViewPosition));
         float tvBarkMacro = clamp(dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722)) * 4.0, 0.65, 1.35);
-        diffuseColor.rgb = mix(diffuseColor.rgb, tvBarkAlbedo * tvBarkMacro, 0.86 * tvBarkClose);`)
+        diffuseColor.rgb = mix(diffuseColor.rgb, tvBarkAlbedo * tvBarkMacro, 0.45 * tvBarkClose);`)
       .replace('#include <roughnessmap_fragment>', `#include <roughnessmap_fragment>
         roughnessFactor = mix(roughnessFactor, tvBarkReliefRoughness.y, tvBarkClose);`)
       .replace('#include <normal_fragment_maps>', `#include <normal_fragment_maps>
@@ -84,11 +84,11 @@ export function installBarkDetail(material: THREE.MeshStandardMaterial, textures
         vec3 tvBarkR1 = cross(tvBarkSigmaY, normal);
         vec3 tvBarkR2 = cross(normal, tvBarkSigmaX);
         float tvBarkDet = dot(tvBarkSigmaX, tvBarkR1);
-        float tvBarkHeight = tvBarkReliefRoughness.x * 0.022 * tvBarkClose;
+        float tvBarkHeight = tvBarkReliefRoughness.x * 0.012 * tvBarkClose;
         vec3 tvBarkGradient = sign(tvBarkDet) * (dFdx(tvBarkHeight) * tvBarkR1 + dFdy(tvBarkHeight) * tvBarkR2);
         if (abs(tvBarkDet) > 0.00000001) normal = normalize(abs(tvBarkDet) * normal - tvBarkGradient);`);
   };
-  material.customProgramCacheKey = function() { return `${cacheKey.call(this)}|tervain-metre-bark-v1`; };
+  material.customProgramCacheKey = function() { return `${cacheKey.call(this)}|tervain-metre-bark-v2`; };
   material.needsUpdate = true;
 }
 

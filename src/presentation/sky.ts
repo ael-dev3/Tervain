@@ -27,16 +27,20 @@ interface Key {
 }
 
 const KEYS: Key[] = [
-  { h: 0, top: 0x070b16, horizon: 0x141b2a, sun: 0x8fa0c8, sunI: 0.0, hemiSky: 0x2c3852, hemiGround: 0x14161c, hemiI: 0.52, fog: 0x141b2a, cover: 0.55 },
-  { h: 5.2, top: 0x1a2236, horizon: 0x5c5560, sun: 0xd89a68, sunI: 0.1, hemiSky: 0x4b5670, hemiGround: 0x232326, hemiI: 0.55, fog: 0x5c5560, cover: 0.6 },
+  // A slate-blue diffuse floor keeps the route, roots and dark cloth readable
+  // under crowns without replacing the night sky or introducing artificial lamps.
+  { h: 0, top: 0x070b16, horizon: 0x141b2a, sun: 0x8fa0c8, sunI: 0.0, hemiSky: 0x9aafc8, hemiGround: 0x66758a, hemiI: 1.02, fog: 0x141b2a, cover: 0.55 },
+  { h: 5.2, top: 0x1a2236, horizon: 0x5c5560, sun: 0xd89a68, sunI: 0.1, hemiSky: 0x8e9db5, hemiGround: 0x5d697d, hemiI: 0.9, fog: 0x5c5560, cover: 0.6 },
   { h: 6.5, top: 0x4f6f96, horizon: 0xc8a682, sun: 0xf0b078, sunI: 1.0, hemiSky: 0x8298b0, hemiGround: 0x4a4230, hemiI: 0.72, fog: 0xb8a58c, cover: 0.62 },
-  { h: 9, top: 0x5a7fae, horizon: 0xa9b6b8, sun: 0xffe8c6, sunI: 2.15, hemiSky: 0x8aa2bc, hemiGround: 0x4c4a34, hemiI: 0.78, fog: 0xa6b0ad, cover: 0.62 },
-  { h: 13, top: 0x4f7aa8, horizon: 0xa0aeb2, sun: 0xfff0d2, sunI: 2.4, hemiSky: 0x88a0b8, hemiGround: 0x504c36, hemiI: 0.81, fog: 0x9eaaaa, cover: 0.62 },
-  { h: 17, top: 0x55779f, horizon: 0xb8b09a, sun: 0xffd9a0, sunI: 2.05, hemiSky: 0x8a9ab0, hemiGround: 0x4c4232, hemiI: 0.73, fog: 0xb0a790, cover: 0.64 },
+  // Pale blue air and warm mineral light separate roof/earth masses from cooler
+  // shadow. This is a daylight material relationship, not a sepia or dark filter.
+  { h: 9, top: 0x7794a8, horizon: 0xc1c6c2, sun: 0xffe6c4, sunI: 2.5, hemiSky: 0x8fa8bd, hemiGround: 0x4c4738, hemiI: 0.65, fog: 0xb5bfc0, cover: 0.52 },
+  { h: 13, top: 0x718ea4, horizon: 0xbec8c6, sun: 0xffe9c8, sunI: 2.75, hemiSky: 0x8da8c1, hemiGround: 0x4c4838, hemiI: 0.67, fog: 0xb2bfc3, cover: 0.5 },
+  { h: 17, top: 0x506f98, horizon: 0xc0b49d, sun: 0xffd19a, sunI: 2.3, hemiSky: 0x8b9fb9, hemiGround: 0x494031, hemiI: 0.64, fog: 0xacae9f, cover: 0.59 },
   { h: 18.8, top: 0x3d4a6c, horizon: 0xd08a5a, sun: 0xff8f52, sunI: 0.9, hemiSky: 0x7a7a94, hemiGround: 0x3e2e28, hemiI: 0.62, fog: 0xb8825e, cover: 0.66 },
-  { h: 20.2, top: 0x161f3a, horizon: 0x5f4a5a, sun: 0xd0784c, sunI: 0.1, hemiSky: 0x40507a, hemiGround: 0x22212a, hemiI: 0.52, fog: 0x4c4152, cover: 0.6 },
-  { h: 22, top: 0x080d1c, horizon: 0x151c2e, sun: 0x8fa0c8, sunI: 0.0, hemiSky: 0x2c3852, hemiGround: 0x14161c, hemiI: 0.52, fog: 0x151c2e, cover: 0.56 },
-  { h: 24, top: 0x070b16, horizon: 0x141b2a, sun: 0x8fa0c8, sunI: 0.0, hemiSky: 0x2c3852, hemiGround: 0x14161c, hemiI: 0.52, fog: 0x141b2a, cover: 0.55 },
+  { h: 20.2, top: 0x161f3a, horizon: 0x5f4a5a, sun: 0xd0784c, sunI: 0.1, hemiSky: 0x8e9db5, hemiGround: 0x5d697d, hemiI: 0.9, fog: 0x4c4152, cover: 0.6 },
+  { h: 22, top: 0x080d1c, horizon: 0x151c2e, sun: 0x8fa0c8, sunI: 0.0, hemiSky: 0x9aafc8, hemiGround: 0x66758a, hemiI: 1.02, fog: 0x151c2e, cover: 0.56 },
+  { h: 24, top: 0x070b16, horizon: 0x141b2a, sun: 0x8fa0c8, sunI: 0.0, hemiSky: 0x9aafc8, hemiGround: 0x66758a, hemiI: 1.02, fog: 0x141b2a, cover: 0.55 },
 ];
 
 const ca = new THREE.Color();
@@ -81,11 +85,17 @@ uniform sampler2D uNoise;
 varying vec3 vDir;
 
 float cumulusField(vec2 p) {
-  vec2 w = (texture2D(uNoise, p * 0.05).gb - 0.5) * 0.55;
-  float n = texture2D(uNoise, p * 0.11 + w).r * 0.56
-          + texture2D(uNoise, p * 0.27 + w * 1.6 + 0.31).r * 0.29
-          + texture2D(uNoise, p * 0.66 + w * 2.4 + 0.62).r * 0.15;
+  // Independent value channels bend the banks gently. The derivative channels
+  // made the former low-frequency field curl into enormous bright whirlpools.
+  vec2 w = (texture2D(uNoise, p * 0.08 + 0.19).ra - 0.5) * 0.12;
+  float n = texture2D(uNoise, p * 0.15 + w).r * 0.57
+          + texture2D(uNoise, p * 0.39 + w * 1.3 + 0.31).a * 0.28
+          + texture2D(uNoise, p * 0.92 + w * 1.8 + 0.62).r * 0.15;
   return n;
+}
+
+float cloudEdge(float threshold, float width, float density) {
+  return smoothstep(threshold, threshold + max(width, fwidth(density) * 1.5), density);
 }
 
 void main() {
@@ -104,7 +114,7 @@ void main() {
   float towardSun = pow(sd, 3.0);
   col = mix(col, uHorizon * (1.0 + 0.55 * lowSun) + uSunColor * 0.35 * lowSun, towardSun * (1.0 - e) * (0.35 + 0.65 * lowSun) * min(uSunI, 1.0));
   // Scattering halo and the disc.
-  col += uSunColor * (pow(sd, 6.0) * 0.16 + pow(sd, 32.0) * 0.32 + pow(sd, 260.0) * 0.9) * uSunI * (0.6 + 0.4 * day);
+  col += uSunColor * (pow(sd, 6.0) * 0.09 + pow(sd, 32.0) * 0.16 + pow(sd, 260.0) * 0.62) * uSunI * (0.6 + 0.4 * day);
   float disc = smoothstep(0.99955, 0.99985, sd);
   col = mix(col, uSunColor * 9.0, disc * clamp(uSunI * 3.0, 0.0, 1.0) * step(0.0, y + 0.03));
   // Crepuscular streaks: low sun only.
@@ -149,27 +159,32 @@ void main() {
   if (y > 0.0) {
     vec2 p = d.xz / (y + 0.09);
     vec2 drift = uWind * uTime;
-    // Mid layer: cumulus, lit from the sun's side.
-    float n1 = cumulusField(p * 0.55 + drift);
-    float thr = 0.60 - uCover * 0.24;
-    float c1 = smoothstep(thr, thr + 0.2, n1);
+    // Smaller separate cloud banks leave broad quiet sky between the land silhouettes.
+    vec2 bank = p * vec2(1.8, 2.25) + drift;
+    // Long quiet cloud shelves frame the low headlands. Their torn ends and
+    // small nested lobes retain painted form without enormous swirling blobs.
+    float n1 = cumulusField(bank * vec2(0.82, 1.36));
+    float thr = 0.66 - uCover * 0.20;
+    float c1 = cloudEdge(thr, 0.12, n1);
     if (c1 > 0.002) {
-      float n2 = cumulusField(p * 0.55 + drift + uSunDir.xz * 0.16);
-      float lightT = clamp(0.62 + (n1 - n2) * 3.4, 0.0, 1.0);
-      float thick = smoothstep(thr, thr + 0.34, n1);
+      float n2 = cumulusField(bank * vec2(0.82, 1.36) + uSunDir.xz * 0.12);
+      float lightT = clamp(0.56 + (n1 - n2) * 2.8, 0.0, 1.0);
+      float thick = smoothstep(thr, thr + 0.24, n1);
       vec3 ambient = mix(uHorizon, uTop, 0.35);
-      vec3 shade = ambient * (0.55 + 0.25 * day) + vec3(0.02, 0.03, 0.06);
-      vec3 lit = (uSunColor * uSunI * 0.62 + ambient * 0.78) * (1.0 + 0.5 * lowSun * pow(sd, 3.0));
-      lit += uSunColor * pow(sd, 8.0) * (1.0 - thick) * 0.7 * uSunI;
+      vec3 shade = ambient * (0.55 + 0.20 * day) + vec3(0.024, 0.026, 0.032);
+      // The directional light already carries the sunlight. Painted cloud bodies
+      // stay pearl/slate rather than producing white HDR sheets across the bay.
+      vec3 lit = (uSunColor * min(uSunI, 2.8) * 0.24 + ambient * 0.68) * (1.0 + 0.28 * lowSun * pow(sd, 3.0));
+      lit += uSunColor * pow(sd, 8.0) * (1.0 - thick) * 0.24 * uSunI;
       vec3 moonLit = vec3(0.5, 0.6, 0.9) * (0.18 + 0.5 * pow(max(dot(d, uMoonDir), 0.0), 6.0)) * uNight;
       vec3 cc = mix(shade, lit, lightT * (0.4 + 0.6 * (1.0 - thick * 0.5))) + moonLit * 0.55;
       col = mix(col, cc, c1 * horizonFade * (0.86 - 0.12 * uNight));
     }
     // High layer: thin, stretched cirrus.
-    vec2 q = vec2(p.x * 0.34, p.y * 1.3) + drift * 0.6;
-    float ci = texture2D(uNoise, q * 0.16).r * 0.6 + texture2D(uNoise, q * 0.41 + 0.5).r * 0.4;
-    float cir = smoothstep(0.58 - uCover * 0.14, 0.86, ci) * 0.34 * horizonFade * smoothstep(0.12, 0.5, y);
-    vec3 cirCol = mix(uHorizon, vec3(1.0), 0.6) * (0.55 + 0.6 * uSunI * 0.4) + uSunColor * pow(sd, 6.0) * 0.4 * uSunI;
+    vec2 q = vec2(p.x * 0.8, p.y * 2.6) + drift * 0.6;
+    float ci = texture2D(uNoise, q * 0.29).r * 0.6 + texture2D(uNoise, q * 0.83 + 0.5).a * 0.4;
+    float cir = cloudEdge(0.69 - uCover * 0.1, 0.2, ci) * 0.12 * horizonFade * smoothstep(0.12, 0.5, y);
+    vec3 cirCol = mix(uHorizon, vec3(0.7, 0.72, 0.7), 0.45) * (0.55 + 0.17 * uSunI) + uSunColor * pow(sd, 6.0) * 0.16 * uSunI;
     col = mix(col, cirCol * mix(0.16, 1.0, day), cir);
   }
 
@@ -354,7 +369,7 @@ export class SkyRig {
 
     this.moon.color.setHex(0x9ab0e8);
     const moonUp = clampNum(moonDir.y * 4, 0, 1);
-    this.moon.intensity = 0.42 * nightAmt * br * moonUp;
+    this.moon.intensity = 0.5 * nightAmt * br * moonUp;
     this.moon.position.copy(focus).addScaledVector(moonDir, 120);
     this.moon.target.position.copy(focus);
 
@@ -371,8 +386,9 @@ export class SkyRig {
 
     lerpHex(this.tmp, a.fog, b.fog, t);
     this.fog.color.copy(this.tmp);
-    // Heavy haze: the far coast and the forests on the ridges dissolve into it well before the horizon.
-    this.fog.density = 0.0024 + 0.0016 * nightAmt;
+    // Cool distance separates warm ground, shaded woodland and the far ridge without shortening the draw window.
+    // Keep nearby materials legible; exponential haze grows gradually rather than introducing a visibility cutoff.
+    this.fog.density = 0.0019 + 0.0019 * nightAmt;
     SKY.horizon.value.copy(this.tmp);
     this.state.horizon.copy(this.tmp);
 

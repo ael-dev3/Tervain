@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { shoreDistance } from '../world/coast';
 import { SEA_LEVEL, WORLD } from '../world/layout';
 import type { Terrain } from '../world/terrain';
+import { DISTANT_COAST, distantCoastHeight } from '../world/distantCoast';
 
 export type SeaQuality = 'low' | 'medium' | 'high';
 
@@ -16,9 +17,15 @@ export type SeaQuality = 'low' | 'medium' | 'high';
  */
 export function buildSeaGeometry(terrain: Pick<Terrain, 'heightAt'>, quality: SeaQuality = 'medium'): THREE.BufferGeometry {
   const cell = quality === 'high' ? 2 : quality === 'low' ? 4 : 3;
-  const x0 = WORLD.minX, x1 = -180;
+  const x0 = DISTANT_COAST.minX, x1 = -180;
   const z0 = WORLD.minZ - 12, z1 = WORLD.maxZ + 12;
-  const nx = Math.ceil((x1 - x0) / cell), nz = Math.ceil((z1 - z0) / cell);
+  // Only the offshore addition is coarse. The existing physical coast retains its quality grid,
+  // and every row across the distant land uses the same 2m diagonals as that resident mesh.
+  const xs: number[] = [];
+  for (let x = x0; x < WORLD.minX; x += DISTANT_COAST.cellX) xs.push(x);
+  const nearNx = Math.ceil((x1 - WORLD.minX) / cell);
+  for (let i = 0; i <= nearNx; i++) xs.push(i === nearNx ? x1 : WORLD.minX + (x1 - WORLD.minX) * i / nearNx);
+  const nx = xs.length - 1, nz = Math.ceil((z1 - z0) / Math.min(cell, DISTANT_COAST.cellZ));
   const row = nx + 1, reach = 5200;
   const position: number[] = [], depth: number[] = [], shore: number[] = [], index: number[] = [];
 
@@ -32,8 +39,10 @@ export function buildSeaGeometry(terrain: Pick<Terrain, 'heightAt'>, quality: Se
     position.push(x, SEA_LEVEL, z);
     // Outside authored terrain, only offshore vertices become deep ocean.
     // The far eastern tips remain dry instead of inventing water inland.
-    depth.push(far && coastDepth > 0 ? 16 : actualDepth);
-    shore.push(far ? Math.min(500, coastDepth) : coastDepth);
+    const offshoreLand = !far && x < WORLD.minX;
+    const bedDepth = offshoreLand ? SEA_LEVEL - distantCoastHeight(x, z) : actualDepth;
+    depth.push(far && coastDepth > 0 ? 16 : bedDepth);
+    shore.push(offshoreLand ? bedDepth : far ? Math.min(500, coastDepth) : coastDepth);
     return id;
   };
   const quad = (nw: number, sw: number, se: number, ne: number) => {
@@ -43,8 +52,7 @@ export function buildSeaGeometry(terrain: Pick<Terrain, 'heightAt'>, quality: Se
   for (let j = 0; j <= nz; j++) {
     const z = j === nz ? z1 : z0 + (z1 - z0) * j / nz;
     for (let i = 0; i <= nx; i++) {
-      const x = i === nx ? x1 : x0 + (x1 - x0) * i / nx;
-      vertex(x, z);
+      vertex(xs[i]!, z);
     }
   }
   for (let j = 0; j < nz; j++) for (let i = 0; i < nx; i++) {

@@ -164,11 +164,14 @@ vec2 meanDepthGradient() {
 }
 void main() {
   float d = max(vDepth, 0.0);
-  float landMask = smoothstep(${LAND_MASK_START.toFixed(3)}, 0.065, vDepth);
-  // Derivatives must be evaluated before the nonuniform shoreline discard.
+  float depthPixel = fwidth(vDepth);
+  float landMask = waterSmooth(${LAND_MASK_START.toFixed(3)}, 0.065, vDepth, min(depthPixel, 0.04));
+  // Gather all pixel footprints before the nonuniform shoreline discard.
+  // This includes noise thresholds, reflected rays and projected reflection UVs.
+  // Texture gradients evaluated after a neighboring lane is discarded are undefined.
+  float pixelMetres = length(dFdx(vWorld)) + length(dFdy(vWorld));
   vec2 depthGradient = meanDepthGradient();
   vec3 geometric = normalize(cross(dFdx(vWorld), dFdy(vWorld)));
-  if (landMask < 0.005) discard;
   if (geometric.y < 0.0) geometric = -geometric;
   vec3 V = normalize(cameraPosition - vWorld);
   float distanceToCamera = length(cameraPosition - vWorld);
@@ -184,45 +187,63 @@ void main() {
   vec2 uv2 = vWorld.xz * 0.24 + vec2(uTime * 0.012, -uTime * 0.009);
   vec2 ripple = (texture2D(uNoise, uv).gb - 0.5) * 0.12;
   ripple += (texture2D(uNoise, uv2).gb - 0.5) * 0.075 * uDetail;
-  ripple += cos(dot(vWorld.xz, vec2(3.63, 1.23)) - uTime * 1.6) * vec2(3.63, 1.23) * 0.009;
+  float ripplePhase = dot(vWorld.xz, vec2(3.63, 1.23)) - uTime * 1.6;
+  ripple += cos(ripplePhase) * vec2(3.63, 1.23) * 0.009 * waterWaveCoverage(fwidth(ripplePhase));
   ripple *= (1.0 - smoothstep(18.0, 160.0, distanceToCamera)) * smoothstep(0.02, 0.5, d);
   vec3 N = normalize(surfaceNormal + vec3(-ripple.x, 0.0, -ripple.y));
   float facing = clamp(dot(N, V), 0.0, 1.0);
   float fresnel = 0.025 + 0.975 * pow(1.0 - facing, 5.0);
   vec3 R = reflect(-V, N);
-  float day = 1.0 - uNight;
-  float light = 0.18 + day * (0.5 + min(uSunI, 2.2) * 0.22);
-  vec3 shallow = vec3(0.034, 0.192, 0.155);
-  vec3 deep = vec3(0.008, 0.047, 0.075);
-  vec3 body = mix(shallow, deep, 1.0 - exp(-d * 0.38)) * light;
-  body = waterTransmission(body, N, vWorld, d);
+  vec3 rayDx = dFdx(R), rayDy = dFdy(R);
+  float rayFootprintSquared = dot(rayDx, rayDx) + dot(rayDy, rayDy);
+  vec3 reflectionUV = waterReflectionProjection(N, vWorld);
+  vec2 reflectionDx = dFdx(reflectionUV.xy), reflectionDy = dFdy(reflectionUV.xy);
   float cell = texture2D(uCells, vWorld.xz * 0.12 + ripple * 0.05 + vec2(uTime * 0.0015, -uTime * 0.001)).b;
-  float caustic = (1.0 - smoothstep(0.015, 0.11, cell)) * (1.0 - smoothstep(1.0, 4.0, d)) * smoothstep(0.05, 0.45, d);
-  body += vec3(0.012, 0.027, 0.022) * caustic * day * uDetail * facing;
-  vec3 sky = mix(uHorizon, uTop, pow(clamp(R.y, 0.0, 1.0), 0.5));
-  vec3 reflected = waterReflection(sky, N, vWorld);
-  float sd = max(dot(R, uSunDir), 0.0);
-  reflected += uSunColor * (pow(sd, 112.0) * 0.95 + pow(sd, 18.0) * 0.035) * uSunI * day;
-  vec3 color = mix(body, reflected, clamp(fresnel, 0.025, 0.92));
-  float backlight = pow(max(dot(V, -uSunDir), 0.0), 3.0);
-  color += shallow * max(vCrest, 0.0) * backlight * day * 0.5;
+  float cellFootprint = fwidth(cell);
   // Receding shore wash: narrow cell-edge lace instead of solid white noise blobs.
   float noise = texture2D(uNoise, vWorld.xz * 0.048 + vec2(0.0, uTime * 0.002)).r;
+  // Stable metre-scale bank variation belongs to water depth/body, not the animated
+  // foam clock. Gather this footprint-safe sample before the shoreline discard.
+  float shoal = texture2D(uNoise, vWorld.xz * 0.021 + vec2(0.37, 0.19)).a;
   float phase = vShore * 0.65 - uTime * 0.7 + vWorld.z * 0.025 + noise * 1.4;
   float run = 0.16 + 0.22 * (0.5 + 0.5 * sin(uTime * 0.75 + vWorld.z * 0.035));
   float edge = d - run;
-  float wash = (1.0 - smoothstep(0.06, 0.28, abs(edge))) * smoothstep(-0.015, 0.08, d);
+  float wash = (1.0 - waterSmooth(0.06, 0.28, abs(edge), fwidth(edge))) * waterSmooth(-0.015, 0.08, d, depthPixel);
   float breaker = pow(max(sin(phase), 0.0), 7.0) * smoothstep(0.3, 0.9, d) * (1.0 - smoothstep(1.0, 2.8, d));
+  breaker *= waterWaveCoverage(fwidth(phase) * 2.646);
   breaker *= 0.35 + 0.65 * smoothstep(-0.015, 0.16, vCrest);
   vec2 churn = vWorld.xz * 0.11 + vec2(sin(vWorld.z * 0.9), cos(vWorld.x * 0.7)) * 0.027;
   float laceCell = texture2D(uCells, churn + vec2(-uTime * 0.004, uTime * 0.003)).b;
-  float lace = 1.0 - smoothstep(0.01, 0.085, laceCell);
+  float lace = 1.0 - waterSmooth(0.01, 0.085, laceCell, fwidth(laceCell));
   float pockets = texture2D(uNoise, vWorld.xz * 0.26 + vec2(-uTime * 0.008, uTime * 0.002)).r;
-  float breakup = smoothstep(0.36, 0.68, pockets);
+  float breakup = waterSmooth(0.36, 0.68, pockets, fwidth(pockets));
+  if (landMask < 0.005) discard;
+  // Opaque-depth and reflection reads happen only for surviving water. Their
+  // explicit LOD/gradients remain valid across the shoreline's discarded lanes.
+  float day = 1.0 - uNight;
+  float light = 0.18 + day * (0.5 + min(uSunI, 2.2) * 0.22);
+  vec3 shallow = mix(vec3(0.025, 0.103, 0.098), vec3(0.039, 0.122, 0.107), shoal);
+  vec3 deep = vec3(0.012, 0.035, 0.052);
+  vec3 body = mix(shallow, deep, 1.0 - exp(-d * 0.31)) * light;
+  body = waterTransmission(body, N, vWorld, d);
+  float caustic = (1.0 - waterSmooth(0.015, 0.11, cell, cellFootprint)) * (1.0 - smoothstep(1.0, 4.0, d)) * smoothstep(0.05, 0.45, d);
+  body += vec3(0.012, 0.027, 0.022) * caustic * day * uDetail * facing;
+  vec3 sky = mix(uHorizon, uTop, pow(clamp(R.y, 0.0, 1.0), 0.5));
+  // The sheltered sea carries restrained silver-blue reflections instead of bleaching the bay into the sky.
+  vec3 reflected = waterReflection(sky, reflectionUV, reflectionDx, reflectionDy) * 0.42;
+  float sd = max(dot(R, uSunDir), 0.0);
+  reflected += uSunColor * (waterHighlight(sd, 112.0, rayFootprintSquared) * 0.72
+    + waterHighlight(sd, 18.0, rayFootprintSquared) * 0.025) * uSunI * day;
+  vec3 color = mix(body, reflected, clamp(fresnel, 0.025, 0.92));
+  float backlight = pow(max(dot(V, -uSunDir), 0.0), 3.0);
+  color += shallow * max(vCrest, 0.0) * backlight * day * 0.5;
   float foam = clamp(wash * (0.035 + lace * 0.46) + breaker * (0.04 + lace * 0.29), 0.0, 0.7);
   foam *= breakup * (0.65 + noise * 0.35);
+  // A shallow sand apron supports receding surf. Steep rock faces retain only
+  // their captured narrow contact lip, avoiding a white outline around all land.
+  foam *= 1.0 - smoothstep(0.48, 1.25, length(depthGradient)) * 0.8;
   // A small broken lip where submerged rocks cut the surface, using captured depth.
-  foam += waterContactEdge(vWorld) * smoothstep(0.45, 1.0, d) * (0.08 + lace * 0.28) * breakup;
+  foam += waterContactEdge(vWorld, pixelMetres) * smoothstep(0.45, 1.0, d) * (0.08 + lace * 0.28) * breakup;
   foam = min(foam, 0.8);
   vec3 foamColor = vec3(0.72, 0.78, 0.73) * light;
   color = mix(color, foamColor, foam);

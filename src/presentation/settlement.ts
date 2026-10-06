@@ -27,9 +27,9 @@ import type { Terrain } from '../world/terrain';
 import { Ctx, hash3 } from './buildKit';
 import { authorMillWheel, authorMillWheelSupports } from './millWheel';
 import { buildArchiveShell, buildLighthouse, buildStandard, groundOf, type BuildOut } from './buildings';
-import { benchSet, campfire, cart, fence, palisade, pot, ropeCoil, stockadeGate, wagon, watchtower, well, wreck } from './props';
+import { benchSet, campfire, cart, fence, palisade, pot, ropeCoil, stockadeGate, wagon, watchtower, well, workTable, wreck } from './props';
 import { MaterialSet, Region } from './regions';
-import { TINT, buildShrineHallShell, crate, door, fieldstone, jitterTone, roofFor, sack, windowAt, woodpile, type Rnd } from './structures';
+import { TINT, buildShrineHallShell, crate, door, fieldstone, jitterTone, roofFor, sack, villageBell, windowAt, woodpile, type Rnd } from './structures';
 import type { AssetNeed } from './assets/library';
 import { buildWorldPickups, isWorldPickupItem } from './worldPickups';
 
@@ -278,8 +278,8 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     }
     R.stone.bx(-hall.w / 2 - 0.3, 0.5 + hall.h - 0.5, hall.d / 2 + 0.2, hall.w / 2 + 0.3, 0.5 + hall.h - 0.1, hall.d / 2 + 1.4, jitterTone(TINT.stoneDark, rnd, 0.06), { jit: 0.05 });
     // Great door and two windows, steps.
-    door(R, rnd, { x: 0, y: 0.5, z: hall.d / 2 + 0.05, w: 1.9, h: 3.0 });
-    for (const dx of [-3.6, 3.6]) windowAt(R, rnd, { x: dx, y: 2.4, z: hall.d / 2 + 0.03, w: 0.8, h: 1.3 });
+    door(R, rnd, { x: 0, y: 0.5, z: hall.d / 2 + 0.05, w: 1.9, h: 3.0, stone: true });
+    for (const dx of [-3.6, 3.6]) windowAt(R, rnd, { x: dx, y: 2.4, z: hall.d / 2 + 0.03, w: 0.8, h: 1.3, stone: true });
     for (let i = 0; i < 3; i++) R.stone.box(4.4 + i * 0.3, 0.63 - i * 0.17, 0.72, 0, -0.08, hall.d / 2 + 1.15 + i * 0.67, jitterTone(TINT.stone, rnd, 0.12), { jit: 0.08 });
     const lp = R.ctx.toWorld(6.4, 2.4, hall.d / 2 + 1.6);
     lanternPositions.push(lp.clone());
@@ -330,7 +330,11 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
       R.planks.box(0.6, 2.2, 1.3, -hw + 0.55, 0.2, sz, jitterTone(TINT.wood, rnd, 0.12), { jit: 0.1 });
       for (let k = 0; k < 4; k++) R.cloth.box(0.4, 0.28, 1.0, -hw + 0.55, 0.5 + k * 0.5, sz, jitterTone(k % 2 ? 0xc8bca0 : 0x6a4a3a, rnd, 0.12), { jit: 0.1 });
     }
-    R.planks.box(1.9, 0.9, 1.0, 0, 0.2, -1.9, jitterTone(TINT.wood, rnd, 0.12), { jit: 0.1, grain: 'x' });
+    // The archive's existing desk footprint now reads as furniture, with a supported writing surface.
+    workTable(R, 1.9, 1.0, 0.9, 0, 0.2, -1.9);
+    R.cloth.box(0.46, 0.007, 0.31, -0.36, 1.1, -1.78, TINT.cloth, { ry: -0.12, jit: 0.015, amp: 0.01 });
+    R.metal.rod(-0.52, 1.116, -1.80, -0.27, 1.116, -1.69, 0.012, 4, TINT.iron, { jit: 0, amp: 0 });
+    R.vc.lathe([0.055, 0, 0.065, 0.055, 0.045, 0.085, 0, 0.085], 7, -0.62, 1.1, -1.62, 0x342b21, { jit: 0.02, amp: 0.02 });
     R.glow.box(0.2, 0.3, 0.2, 0.6, 1.1, -1.9, 0xffffff, { jit: 0 });
     lanternPositions.push(R.ctx.toWorld(0, 2.4, 0));
     R.ctx.pop();
@@ -384,11 +388,7 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     for (let i = 0; i < 9; i++) R.stone.box(0.9, 0.34, 0.9, -1.4 + (i % 3) * 1.4, -0.22, -1.4 + Math.floor(i / 3) * 1.4, jitterTone(TINT.stone, rnd, 0.14), { ry: rnd() * 0.5, jit: 0.14 });
     R.ctx.pop();
     bell.position.set(BELL_TOWER.x, bellPos.y + 3.5, BELL_TOWER.z);
-    const body = dyn('bell', (D) => {
-      D.metal.lathe([0.62, -0.96, 0.6, -0.92, 0.42, -0.72, 0.34, -0.5, 0.3, -0.1, 0.1, -0.04], 14, 0, 0, 0, jitterTone(0x8a6a3a, rnd, 0.1), { jit: 0.06, amp: 0.08 });
-      D.metal.blob(0.11, 0.11, 0.11, 0, -0.98, 0, TINT.iron, { seg: 6, rings: 3, lump: 0.08, seed: 9, smooth: true });
-      D.timber.box(0.7, 0.12, 0.16, 0, 0, 0, TINT.woodDark, { jit: 0.05 });
-    });
+    const body = dyn('bell', (D) => villageBell(D, rnd));
     group.remove(body);
     bell.add(body);
     group.add(bell);
@@ -776,8 +776,15 @@ export function buildScenery(terrain: Terrain, colliders: Colliders, quality: 'l
     for (const [x, z, yaw] of [[-9, 35.6, 0], [44, 32.4, 1.0], [10, 17, 0.2]] as const) benchSet(R, rnd, x, gy(x, z), z, yaw);
     // The town's loose barrels now belong to the same physical work-supply system.
     const ky = gy(15, 20.5);
-    R.planks.box(1.0, 0.75, 0.6, 15, ky, 20.5, jitterTone(TINT.wood, rnd, 0.1), { jit: 0.1, grain: 'x' });
+    // Existing tool station: trestles, a folded repair cloth, a gauge and a mallet share one coherent work site.
+    // These details fit the retained kit_table bounds, rather than adding stray obstacles to the lane.
+    rnd(); // Preserve the downstream decorative RNG after the former table tint.
+    workTable(R, 1.0, 0.6, 0.75, 15, ky, 20.5);
+    R.cloth.box(0.34, 0.035, 0.25, 14.76, ky + 0.75, 20.45, TINT.cloth, { ry: 0.08, jit: 0.02, amp: 0.02 });
+    R.timber.box(0.37, 0.032, 0.045, 15.09, ky + 0.75, 20.66, TINT.woodPale, { ry: -0.14, grain: 'x', jit: 0.015, amp: 0.015 });
     R.metal.box(0.5, 0.06, 0.16, 15, ky + 0.78, 20.5, 0x8a7a3a, { jit: 0.1 });
+    R.timber.rod(15.22, ky + 0.77, 20.30, 15.38, ky + 0.77, 20.54, 0.017, 4, TINT.woodDark, { jit: 0.01, amp: 0.01 });
+    R.timber.box(0.11, 0.055, 0.065, 15.37, ky + 0.765, 20.55, TINT.woodDark, { ry: 0.48, jit: 0.01, amp: 0.01 });
     R.timber.box(0.06, 1.3, 0.06, 15.4, ky + 0.75, 20.5, 0xc2b07a, { jit: 0.05 });
     colliders.box('kit_table', 15, 20.5, 0.55, 0.35, 0, true, { minY: ky, maxY: ky + 0.84 });
     colliders.circle('kit_staff', 15.4, 20.5, Math.hypot(0.03, 0.03), true, { minY: ky + 0.75, maxY: ky + 2.05 });

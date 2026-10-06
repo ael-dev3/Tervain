@@ -1,13 +1,23 @@
+import type { ItemId, PlaceId } from '../game/types';
 import type { Settings } from '../platform/settings';
+import {
+  bellCue, consumeCues, EQUIP, hitCue, landCues, MAP_OPEN, PAGE, pickupCues, SATCHEL_CLOSE, SATCHEL_OPEN, stepCue, swingCue, UNEQUIP, worldCues,
+  type Cue, type SurfaceKind, type WorldAction,
+} from './sound/foley';
+import type { Vec3 } from './sound/soundscape';
+import { type PlayOptions, type SoundFrame, SoundWorld } from './sound/soundWorld';
+import { VOICE_AUDIO, type VoiceLineId } from './sound/voiceManifest';
 
 /**
  * Audio facade for the prototype. The owner-supplied menu score streams through
- * the music bus; until sourced and reviewed recordings are available,
- * ordinary UI, dialogue, footstep and combat contacts stay deliberately quiet. The
- * broad wind/water beds remain procedural; semantic captions are raised
- * independently of AudioContext availability and volume settings.
+ * the music bus. In the world, the recorded sound (sound/soundWorld.ts) plays
+ * footsteps, combat, items, the world's moving parts, residents, wildlife,
+ * place beds and the in-world score; interface navigation stays deliberately
+ * quiet. The broad procedural wind/water beds remain underneath and step back
+ * while recorded beds sound. Semantic captions are raised independently of
+ * AudioContext availability and volume settings.
  */
-export type SurfaceKind = 'grass' | 'road' | 'stone' | 'water' | 'deck' | 'sand';
+export type { SurfaceKind } from './sound/foley';
 
 export interface AmbienceEnvironment {
   nightness: number;
@@ -21,6 +31,8 @@ export interface AmbienceEnvironment {
   time: number;
   underRoof: boolean;
   seaProximity?: number;
+  /** Centre of the wind's band in Hz: higher in needles, lower in broad leaves and open ground. */
+  windTone?: number;
 }
 
 const unit = (value: number) => Number.isFinite(value) ? Math.max(0, Math.min(1, value)) : 0;
@@ -87,7 +99,7 @@ export function ambienceMix(e: AmbienceEnvironment, audioTime: number) {
   const sea = unit(e.seaProximity ?? 0) * roof;
   return {
     wind: 0.05 * (0.5 + unit(e.windAmount)) * roof * (0.88 + 0.12 * Math.sin(t * 0.2)),
-    windFrequency: 420 + 120 * Math.sin(t * Math.PI * 0.22),
+    windFrequency: (e.windTone !== undefined && Number.isFinite(e.windTone) ? e.windTone : 420) + 120 * Math.sin(t * Math.PI * 0.22),
     water: unit(e.waterProximity) * (0.05 + 0.35 * flow) * roof,
     waterFrequency: 700 + 1400 * flow,
     rumble: 0.16 * sea * (0.72 + 0.24 * Math.sin(t * 0.75) + 0.04 * Math.sin(t * 1.09)),
@@ -109,6 +121,7 @@ export class AudioEngine {
   private lastAutomation = -Infinity;
   private disposed = false;
   private resuming = false;
+  private contextResumeGeneration = 0;
   private pageHidden = false;
   private menuActive = false;
   private musicUnlocked = false;
@@ -123,14 +136,16 @@ export class AudioEngine {
   private musicPauseTimer: ReturnType<typeof setTimeout> | null = null;
   private musicSeek = 0;
   private musicListeners: [string, EventListener][] = [];
+  private soundWorld: SoundWorld | null = null;
+  private worldFailed = false;
   onCaption: ((text: string) => void) | null = null;
   onMusicState: ((state: MenuMusicState) => void) | null = null;
   enabled = true;
 
   constructor(private getSettings: () => Settings) {}
 
-  /** Must be called from a user gesture. */
-  resume() {
+  /** Must be called from a user gesture. The explicit Play control may retry a browser-held pending resume request. */
+  resume(options: { retryPending?: boolean } = {}) {
     if (this.pageHidden || this.disposed) return;
     this.musicUnlocked = true;
     if (!this.ctx) {
@@ -142,6 +157,7 @@ export class AudioEngine {
       }
       try {
         this.ctx = new AC({ latencyHint: 'interactive' });
+        this.ctx.addEventListener('statechange', this.onContextStateChange);
         this.master = this.own(this.ctx.createGain());
         this.master.gain.value = unit(this.getSettings().volumes.master);
         this.master.connect(this.ctx.destination);
@@ -164,12 +180,18 @@ export class AudioEngine {
       }
     }
     this.enabled = this.ctx.state !== 'closed';
-    if (this.ctx.state !== 'running' && this.ctx.state !== 'closed' && !this.resuming) {
+    if (this.ctx.state !== 'running' && this.ctx.state !== 'closed' && (!this.resuming || options.retryPending)) {
+      const ctx = this.ctx, generation = ++this.contextResumeGeneration;
       this.resuming = true;
-      void this.ctx.resume().catch(() => undefined).finally(() => { this.resuming = false; });
+      void ctx.resume().then(() => {
+        if (this.ctx === ctx && generation === this.contextResumeGeneration) this.onContextStateChange();
+      }).catch(() => {
+        if (this.ctx === ctx && generation === this.contextResumeGeneration) this.onContextStateChange();
+      }).finally(() => { if (generation === this.contextResumeGeneration) this.resuming = false; });
     }
     // Calling play in the same gesture unlocks browser media playback too.
     this.syncMusic();
+    this.soundWorld?.resumeStreams();
   }
 
   /** Menus share one stream; scene/quality rebuilds never allocate another score. */
@@ -206,10 +228,23 @@ export class AudioEngine {
   }
 
   private setMusicState(state: MenuMusicState) {
+    // A native media element can be ready and unpaused while its WebAudio destination is suspended. The title must
+    // expose its gesture control rather than claiming audible playback or inventing progress for the grove clock.
+    if ((state === 'playing' || state === 'loading') && this.wantsMusic && this.ctx?.state !== 'running') state = 'blocked';
     if (state === this.musicState) return;
     this.musicState = state;
     this.onMusicState?.(state);
   }
+
+  private onContextStateChange = () => {
+    if (!this.ctx || this.disposed || this.pageHidden || !this.menuActive || !this.musicUnlocked) return;
+    if (this.ctx.state === 'closed') { this.setMusicState('unavailable'); return; }
+    // Muted/hidden menus and terminal media errors keep their own meaning. Unexpected suspension only affects a score
+    // the player actually wants to hear; this event handler never calls context.resume() or starts a retry timer.
+    if (!this.wantsMusic || this.music?.error || this.musicState === 'unavailable') return;
+    if (this.ctx.state !== 'running') this.setMusicState('blocked');
+    else this.syncMusic();
+  };
 
   private get wantsMusic() {
     const v = this.getSettings().volumes;
@@ -258,7 +293,25 @@ export class AudioEngine {
       this.musicBuffering = false;
       if (this.wantsMusic) this.setMusicState('playing');
     });
-    listen('waiting', () => { this.musicBuffering = true; });
+    listen('waiting', () => {
+      this.musicBuffering = true;
+      if (this.wantsMusic) this.setMusicState('loading');
+    });
+    listen('seeking', () => {
+      this.musicBuffering = true;
+      if (this.wantsMusic) this.setMusicState('loading');
+    });
+    listen('seeked', () => {
+      this.musicBuffering = media.readyState < 3;
+      if (this.wantsMusic && !media.paused) this.setMusicState(this.musicBuffering ? 'loading' : 'playing');
+    });
+    // Native pause/media controls and buffering can change playback independently of our play() promise. Diagnostic/UI
+    // state must describe that real stream without starting a retry loop or allocating another score.
+    listen('pause', () => {
+      // pause() queues a native event: it may arrive after a terminal decoder error was already reported, or after a
+      // replacement source resumed. Neither delayed event is evidence that the current, healthy stream was paused.
+      if (this.wantsMusic && media.paused && !media.error && this.musicState !== 'unavailable') this.setMusicState('paused');
+    });
     listen('loadedmetadata', () => {
       if (this.musicSeek > 0) {
         try { media.currentTime = this.musicSeek; } catch { /* unseekable media still plays */ }
@@ -319,7 +372,7 @@ export class AudioEngine {
       if (!this.music.paused) {
         // Returning during the fade keeps playback alive, so no new native
         // playing event will arrive to restore the menu's diagnostic state.
-        this.setMusicState(this.music.readyState >= 3 ? 'playing' : 'loading');
+        this.setMusicState(!this.musicBuffering && !this.music.seeking && this.music.readyState >= 3 ? 'playing' : 'loading');
         return;
       }
       const media = this.music;
@@ -329,7 +382,7 @@ export class AudioEngine {
       void media.play().then(() => {
         if (!this.wantsMusic) media.pause();
         if (generation !== this.musicGeneration || this.disposed) return;
-        if (this.wantsMusic) this.setMusicState('playing');
+        if (this.wantsMusic) this.setMusicState(!this.musicBuffering && !media.seeking && media.readyState >= 3 ? 'playing' : 'loading');
       }).catch(() => {
         // Autoplay, offline and decoder failures cannot block the menu. A new
         // gesture may retry; no per-frame retry or unhandled rejection is raised.
@@ -344,11 +397,13 @@ export class AudioEngine {
   setPageHidden(hidden: boolean) {
     this.pageHidden = hidden;
     this.syncMusic();
+    this.soundWorld?.setHidden(hidden);
     if (this.disposed || !this.ctx || this.ctx.state === 'closed') return;
     this.lastAutomation = -Infinity;
     // Queue both transitions, including a quick hide/show before suspend has resolved.
-    const transition = hidden ? this.ctx.suspend() : this.ctx.resume();
-    void transition.catch(() => undefined);
+    const ctx = this.ctx, transition = hidden ? ctx.suspend() : ctx.resume();
+    void transition.then(() => { if (this.ctx === ctx) this.onContextStateChange(); })
+      .catch(() => { if (this.ctx === ctx) this.onContextStateChange(); });
   }
 
   get ready() {
@@ -366,6 +421,7 @@ export class AudioEngine {
         state: this.musicState, source: this.musicSource,
         currentTime: this.music?.currentTime ?? 0, duration: this.music?.duration ?? 0,
       },
+      world: this.soundWorld ? { ...this.soundWorld.stats, banksReady: this.soundWorld.banksReady, score: this.soundWorld.musicState, speaking: this.soundWorld.speakers } : null,
     };
   }
 
@@ -465,19 +521,55 @@ export class AudioEngine {
     if (t - this.lastAutomation < AUTOMATION_INTERVAL) return;
     this.lastAutomation = t;
     const mix = ambienceMix(e, t);
-    this.target(this.wind.gain.gain, mix.wind, t, 0.35);
+    // Recorded beds carry the place; the procedural noise stays underneath as body and as a fallback.
+    const recorded = this.soundWorld?.recordedLevel ?? 0;
+    this.target(this.wind.gain.gain, mix.wind * (1 - 0.55 * recorded), t, 0.35);
     this.target(this.wind.filter.frequency, mix.windFrequency, t, 0.35);
-    this.target(this.water.gain.gain, mix.water, t, 0.18);
+    this.target(this.water.gain.gain, mix.water * (1 - 0.75 * recorded), t, 0.18);
     this.target(this.water.filter.frequency, mix.waterFrequency, t, 0.25);
-    this.target(this.sea.rumble.gain, mix.rumble, t, 0.3);
-    this.target(this.sea.hiss.gain, mix.hiss, t, 0.25);
-    // Wildlife and quarry impacts remain silent until they can
-    // be supplied as locally packaged, provenance-checked, reviewed audio assets.
+    this.target(this.sea.rumble.gain, mix.rumble * (1 - 0.6 * recorded), t, 0.3);
+    this.target(this.sea.hiss.gain, mix.hiss * (1 - 0.8 * recorded), t, 0.25);
+  }
+
+  /**
+   * The recorded world: beds, wildlife, residents, enemies, objects and the in-world score; `null` while a menu covers
+   * the world. Created on the first world frame, so menus and tests that never enter the world allocate nothing.
+   */
+  updateWorld(dt: number, frame: SoundFrame | null) {
+    if (!this.ready || !this.ctx) return;
+    if (frame && !this.soundWorld && !this.worldFailed) {
+      try {
+        this.soundWorld = new SoundWorld(this.ctx, this.buses, import.meta.env.BASE_URL);
+      } catch {
+        // Without convolution or panning support the world keeps its procedural beds and captions.
+        this.worldFailed = true;
+      }
+    }
+    this.soundWorld?.update(dt, frame);
+  }
+
+  /** A graphics build stops world frames; retire their mix once without touching the menu score or device. */
+  pauseWorld() {
+    if (this.disposed) return;
+    // Reach the world even while the tab/context is suspended: late decodes must see the pause boundary.
+    this.soundWorld?.update(1 / 20, null);
+    if (this.ctx && this.ctx.state !== 'closed') {
+      const t = this.ctx.currentTime;
+      for (const gain of [this.wind?.gain, this.water?.gain, this.sea?.rumble, this.sea?.hiss]) {
+        if (gain) this.target(gain.gain, 0, t, 0.18);
+      }
+    }
+    // The first recovered world frame must replace the silent targets, even within the usual update interval.
+    this.lastAutomation = -Infinity;
   }
 
   private releaseGraph() {
+    this.soundWorld?.dispose();
+    this.soundWorld = null;
     this.clearMusicPause();
     this.musicGeneration++;
+    this.contextResumeGeneration++;
+    this.resuming = false;
     this.musicPending = false;
     this.musicBuffering = false;
     if (this.music) {
@@ -496,6 +588,7 @@ export class AudioEngine {
     for (const node of this.nodes) node.disconnect();
     this.nodes.clear();
     const ctx = this.ctx;
+    ctx?.removeEventListener('statechange', this.onContextStateChange);
     this.ctx = null;
     this.noiseBuf = null;
     this.wind = this.water = this.sea = null;
@@ -512,33 +605,94 @@ export class AudioEngine {
     this.releaseGraph();
   }
 
+  /* ---- speech ---- */
+
+  /** A spoken line (src/content/voice.ts): it plays when the world's sound is running, and its length is returned either way. */
+  say(line: string, at?: Vec3): number | null {
+    const voiced = (VOICE_AUDIO.lines as Record<string, readonly [string, number, number, string]>)[line];
+    if (!voiced) return 0;
+    // While the world's sound runs, a line whose voice is still loading waits (null); otherwise it is shown silently.
+    if (this.ready && this.soundWorld && !this.soundWorld.speak(line as VoiceLineId, { at }) && !this.soundWorld.voiceReady(line as VoiceLineId)) return null;
+    return voiced[2];
+  }
+
+  /** Stops what someone is saying. */
+  hush(speaker: string) {
+    this.soundWorld?.hush(speaker);
+  }
+
   /* ---- effects ---- */
-  footstep(_surface: SurfaceKind, _running: boolean) {
-    // Surface-specific recordings are required before a boot contact is emitted.
+  private cue(cues: Cue | readonly Cue[], opt?: PlayOptions) {
+    if (!this.ready || !this.soundWorld) return;
+    if (Array.isArray(cues)) this.soundWorld.playAll(cues, opt);
+    else this.soundWorld.play(cues as Cue, opt);
   }
 
-  swing(_heavy: boolean) {
-    // A synthesized sweep reads as an electronic effect; keep the contact quiet for now.
+  footstep(surface: SurfaceKind, running: boolean) {
+    this.cue(stepCue(surface, running), { reverb: 0.04 });
   }
 
-  hit(_kind: 'flesh' | 'block' | 'perfect') {
-    // Combat outcome remains visible in the existing health, stamina and hit reactions.
+  jump(surface: SurfaceKind) {
+    this.cue([{ ...stepCue(surface, true), gain: 0.45 }, { clip: 'item.cloth', gain: 0.18, pitch: 0.06, from: 0, to: 0.5 }]);
+  }
+
+  /** Touching down after a jump or a drop; harder for a faster fall (metres per second). */
+  land(surface: SurfaceKind, fallSpeed: number) {
+    this.cue(landCues(surface, fallSpeed), { reverb: 0.05 });
+  }
+
+  dodge(surface: SurfaceKind) {
+    this.cue([{ clip: 'item.cloth', gain: 0.32, pitch: 0.06, from: 0, to: 0.7 }, { ...stepCue(surface, true), gain: 0.5, delay: 0.18 }]);
+  }
+
+  swing(heavy: boolean, armed = true) {
+    // A bare-handed blow is a shorter, quicker rush of air.
+    this.cue(swingCue(heavy), armed ? undefined : { rate: 1.25, scale: 0.7 });
+  }
+
+  hit(kind: 'flesh' | 'block' | 'perfect', armed = true) {
+    this.cue(hitCue(kind, armed), { reverb: 0.08 });
   }
 
   hurt() {
-    // Replace with a reviewed, licensed exertion cue before enabling.
+    // The hero's own voice (A53): the generic take, performed again by his designed voice.
+    this.cue({ clip: 'hero.hurt', gain: 0.55, pitch: 0.05 }, { bus: 'dialogue' });
   }
 
-  growl() {
+  growl(at?: Vec3) {
+    this.cue({ clip: 'beast.growl', gain: 0.75, pitch: 0.04 }, { at, ref: 6, maxDistance: 90, reverb: 0.12 });
     this.caption('[A low growl]');
   }
 
-  pickup() {
-    // The item toast is the feedback until a material-specific sample is available.
+  /** A toll-jumper has seen the player. */
+  shout(at?: Vec3) {
+    this.cue({ clip: 'bandit.shout', gain: 0.6, pitch: 0.05 }, { at, bus: 'dialogue', ref: 5, maxDistance: 80 });
+    this.caption('[A rough shout]');
+  }
+
+  /** Picking something up: the object itself, and the satchel it goes into. */
+  pickup(item?: ItemId) {
+    this.cue(item ? pickupCues(item) : { clip: 'item.cloth', gain: 0.32, pitch: 0.05, from: 0, to: 0.9 });
+  }
+
+  /** Eating, chewing or applying a remedy. */
+  consume(item: ItemId) {
+    this.cue(consumeCues(item));
+  }
+
+  /** Drawing (true) or putting away (false) the blade. */
+  equip(drawn: boolean) {
+    this.cue(drawn ? EQUIP : UNEQUIP);
+  }
+
+  /** Lifting or throwing a barrel or crate. */
+  prop(action: 'grab' | 'throw') {
+    this.cue(action === 'grab' ? { clip: 'wood.lift', gain: 0.45, pitch: 0.05 } : { clip: 'swing.heavy', gain: 0.35, pitch: 0.08 });
   }
 
   interact() {
-    // The world interaction supplies visual state and caption feedback where needed.
+    // Reaching for something: a soft movement of clothing. The thing itself answers with its own sound.
+    this.cue({ clip: 'item.cloth', gain: 0.16, pitch: 0.06, from: 0, to: 0.5 });
   }
 
   uiMove() {
@@ -550,24 +704,51 @@ export class AudioEngine {
   }
 
   journal() {
-    // Reading is silent until there is a reviewed page-turn sample.
+    this.cue(PAGE);
+  }
+
+  /** Opening (or closing) the journal, the satchel or the map. */
+  panel(kind: 'journal' | 'inventory' | 'map', open = true) {
+    if (kind === 'inventory') this.cue(open ? SATCHEL_OPEN : SATCHEL_CLOSE);
+    else this.cue(kind === 'journal' ? PAGE : MAP_OPEN, open ? undefined : { scale: 0.7 });
+  }
+
+  /** The world's moving parts: doors, gates, the lever, the sluice, the surge and the rite. */
+  worldEvent(action: WorldAction, caption?: string) {
+    this.cue(worldCues(action), { reverb: 0.12 });
+    if (caption) this.caption(caption);
   }
 
   gateCreak(caption = '[The sluice gate groans]') {
-    this.caption(caption);
+    this.worldEvent('gate', caption);
   }
 
   waterSurge() {
-    this.caption('[Water begins to rush through the channel]');
+    this.worldEvent('surge', '[Water begins to rush through the channel]');
   }
 
   rite() {
-    this.caption('[Water settles at the spring]');
+    this.worldEvent('rite', '[Water settles at the spring]');
   }
 
-  /** Keep the story bell silent until a reviewed acoustic recording is available. */
-  bell(_gain: number, _bright = false) {
-    // The app raises its separate semantic caption when a bell event matters.
+  /**
+   * The story bell, cast on D and placed at its tower: `gain` is the app's distance fade, `bright` the all-clear peal,
+   * `index` the strike's place in its sequence (the peal rings high to low).
+   */
+  bell(gain: number, bright = false, at?: Vec3, index = 0) {
+    if (!(gain > 0.01)) return;
+    // A huge reference distance leaves the level to the app's fade and uses the panner only for direction.
+    this.cue(bellCue(bright, index), { at, scale: Math.min(1, gain), ref: 1e4, maxDistance: 1e4, reverb: 0.3 });
+  }
+
+  /** Short pieces of score over the quiet: a newly found place (its region's motif), a step of the story, a won fight, a fall. */
+  discover(place?: PlaceId) { this.soundWorld?.sting('discover', place); }
+  quest() { this.soundWorld?.sting('quest'); }
+  victory() { this.soundWorld?.sting('victory'); }
+
+  death() {
+    this.cue({ clip: 'hero.death', gain: 0.6 }, { bus: 'dialogue' });
+    this.soundWorld?.sting('death');
   }
 
   caption(text: string) {
