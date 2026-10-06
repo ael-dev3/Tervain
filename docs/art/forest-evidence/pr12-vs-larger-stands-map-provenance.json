@@ -53,7 +53,7 @@
   ],
   "inputs": [
     {
-      "path": "C:\\Users\\heyas\\Documents\\Codex\\2026-10-03\\task\\audit\\stands\\pr12-metrics.json",
+      "path": "pr12-metrics.json",
       "sha256": "5cafa64165df645b0edb2e9a0498c88eea87751a7c11e60f11a8e4c4eb53c96b",
       "generatedAt": "2026-10-03T11:42:48.036Z",
       "sourceHashes": {
@@ -65,7 +65,7 @@
       }
     },
     {
-      "path": "C:\\Users\\heyas\\Documents\\Codex\\2026-10-03\\task\\audit\\stands\\larger-stands-metrics.json",
+      "path": "larger-stands-metrics.json",
       "sha256": "a690dd9aef1233a9e6be6f29340a20e5d84098b8d61c132c68e01a6ed8cd025c",
       "generatedAt": "2026-10-03T11:42:48.512Z",
       "sourceHashes": {

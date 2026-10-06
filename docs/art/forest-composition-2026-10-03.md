@@ -40,4 +40,4 @@ Large oak crowns remain much wider than trunk circles (about 13.7 m radius at sc
 
 Gothic 3 is the experiential reference. The changes are independent original rules, not imported assets or a claimed reconstruction of Gothic 3's placement algorithm. Exact matching of game/reference cameras and materials remains a separate visual acceptance task; source statistics alone cannot establish the same game feel. The original supplied-reference materialisation blocker and inspected/uninspected evidence are retained in the external audit.
 
-No workflow triggers or permissions are changed. Source publication and a draft PR remain subject to the current Actions allowance/approval gate; local completion is not evidence of publication.
+No workflow triggers or permissions are changed. Local completion is not evidence of a merged or deployed build.
