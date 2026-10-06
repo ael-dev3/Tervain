@@ -38,6 +38,22 @@ export interface Tag {
   frac?: number;
 }
 
+export interface HuntingHudData {
+  bowEquipped: boolean;
+  aiming: boolean;
+  drawing: boolean;
+  drawFraction: number;
+  arrows: number;
+  aimKey?: string;
+  drawKey?: string;
+  skinKey?: string;
+  carcassName?: string | null;
+  canSkin?: boolean;
+  skinUnavailable?: string | null;
+  /** Present only during the timed skinning action. The same button then cancels it. */
+  skinProgress?: number | null;
+}
+
 export class Hud {
   readonly el: HTMLElement;
   private healthFill: HTMLElement;
@@ -53,6 +69,7 @@ export class Hud {
   onQuickSlotActivate: ((slot: number) => void) | null = null;
   onAssignQuickSlot: ((slot: number, item: ItemId | null) => void) | null = null;
   onSwapQuickSlots: ((from: number, to: number) => void) | null = null;
+  onSkin: (() => void) | null = null;
   private coinEl: HTMLElement;
   private timeEl: HTMLElement;
   private objWrap: HTMLElement;
@@ -62,6 +79,17 @@ export class Hud {
   private channelEl: HTMLElement;
   private channelLabel: HTMLElement;
   private channelFill: HTMLElement;
+  private bowReticle: HTMLElement;
+  private bowReadout: HTMLElement;
+  private bowDrawFill: HTMLElement;
+  private bowDrawBar: HTMLElement;
+  private bowHint: HTMLElement;
+  private skinPanel: HTMLElement;
+  private skinName: HTMLElement;
+  private skinButton: HTMLButtonElement;
+  private skinHint: HTMLElement;
+  private skinBar: HTMLElement;
+  private skinFill: HTMLElement;
   private toasts: HTMLElement;
   private captions: HTMLElement;
   private bubbles: HTMLElement;
@@ -101,6 +129,20 @@ export class Hud {
     this.channelLabel = h('div');
     this.channelFill = h('i');
     this.channelEl = h('div', { class: 'channel surface-soot' }, this.channelLabel, h('div', { class: 'bar' }, this.channelFill));
+    this.bowDrawFill = h('i');
+    this.bowDrawBar = h('div', { class: 'bow-draw-bar', role: 'progressbar', 'aria-label': S('hunting.draw'), 'aria-valuemin': 0, 'aria-valuemax': 100 }, this.bowDrawFill);
+    this.bowReadout = h('div', { class: 'bow-readout' });
+    this.bowReticle = h('div', { class: 'bow-reticle', hidden: true }, h('div', { class: 'bow-crosshair', 'aria-hidden': 'true' }, h('i'), h('i'), h('i'), h('i')), this.bowDrawBar, this.bowReadout);
+    this.bowHint = h('div', { class: 'hunting-bow-hint surface-soot', hidden: true });
+    this.skinName = h('strong', { id: 'hunting-skin-name' });
+    this.skinHint = h('div', { class: 'skin-hint', id: 'hunting-skin-hint' });
+    this.skinButton = h('button', {
+      class: 'btn skin-button', type: 'button', 'data-nav': true, 'data-focus-key': 'skin-carcass',
+      'aria-describedby': 'hunting-skin-name hunting-skin-hint', onClick: () => this.onSkin?.(),
+    });
+    this.skinFill = h('i');
+    this.skinBar = h('div', { class: 'skin-progress bar', role: 'progressbar', hidden: true, 'aria-label': S('hunting.skinning'), 'aria-valuemin': 0, 'aria-valuemax': 100 }, this.skinFill);
+    this.skinPanel = h('div', { class: 'hunting-skin surface-soot', hidden: true }, this.skinName, this.skinButton, this.skinBar, this.skinHint);
     this.toasts = h('div', { class: 'toasts', 'aria-live': 'polite' });
     this.captions = h('div', { class: 'captions', 'aria-live': 'polite' });
     this.bubbles = h('div', { class: 'bubbles' });
@@ -108,8 +150,8 @@ export class Hud {
     this.vignette = h('div', { class: 'vignette' });
     this.fade = h('div', { class: 'fade' });
     // One flow keeps a long remapped key hint, a held action and captions from occupying the same screen position.
-    const messages = h('div', { class: 'hud-messages' }, this.channelEl, this.promptEl, this.captions);
-    this.el = h('div', { id: 'hud', class: 'hud' }, this.vignette, this.bubbles, bars, compass, this.hotbar.el, this.objWrap, topRight, messages, this.toasts, this.threat, this.fade);
+    const messages = h('div', { class: 'hud-messages' }, this.channelEl, this.skinPanel, this.promptEl, this.bowHint, this.captions);
+    this.el = h('div', { id: 'hud', class: 'hud' }, this.vignette, this.bubbles, bars, compass, this.hotbar.el, this.objWrap, topRight, this.bowReticle, messages, this.toasts, this.threat, this.fade);
     this.el.style.display = 'none';
   }
 
@@ -172,6 +214,41 @@ export class Hud {
     this.channelEl.classList.add('on');
     this.channelLabel.textContent = label;
     this.channelFill.style.width = `${resourceFraction(frac, 1) * 100}%`;
+  }
+
+  /** Render hunting state without rebuilding the focused Skin button each frame. */
+  setHunting(data: HuntingHudData | null) {
+    if (!data) {
+      this.bowReticle.hidden = this.bowHint.hidden = this.skinPanel.hidden = true;
+      this.skinButton.disabled = true;
+      return;
+    }
+    const arrows = Number.isFinite(data.arrows) ? Math.max(0, Math.floor(data.arrows)) : 0;
+    const draw = resourceFraction(data.drawFraction, 1);
+    const skinning = data.skinProgress !== undefined && data.skinProgress !== null;
+    this.bowReticle.hidden = !data.bowEquipped || (!data.aiming && !data.drawing) || skinning;
+    this.bowReticle.classList.toggle('drawing', data.drawing);
+    this.bowReticle.classList.toggle('drawn', data.drawing && draw >= 1 && arrows > 0);
+    this.bowReticle.classList.toggle('empty', arrows === 0);
+    this.bowDrawBar.hidden = !data.drawing;
+    this.bowDrawBar.setAttribute('aria-valuenow', String(Math.round(draw * 100)));
+    this.bowDrawFill.style.width = `${draw * 100}%`;
+    this.bowReadout.textContent = arrows > 0 ? S(data.drawing && draw >= 1 ? 'hunting.release' : 'hunting.ammo', { arrows }) : S('hunting.no_arrows');
+    this.bowHint.hidden = !data.bowEquipped || skinning || !!data.carcassName;
+    this.bowHint.textContent = S('hunting.bow_hint', { aim: data.aimKey ?? 'Right click', draw: data.drawKey ?? 'Left click', arrows });
+    this.skinPanel.hidden = !data.carcassName && !skinning;
+    this.skinName.textContent = skinning ? S('hunting.skinning_name', { name: data.carcassName ?? S('hunting.animal') }) : data.carcassName ?? '';
+    this.skinButton.disabled = !skinning && !data.canSkin;
+    const buttonLabel = S(skinning ? 'hunting.cancel_skin' : 'action.skin');
+    const key = data.skinKey ?? 'V';
+    const buttonText = `${key} · ${buttonLabel}`;
+    if (this.skinButton.textContent !== buttonText) this.skinButton.textContent = buttonText;
+    this.skinButton.setAttribute('aria-label', `${buttonLabel}${data.carcassName ? ` ${data.carcassName}` : ''} · ${key}`);
+    this.skinHint.textContent = skinning ? S('hunting.skin_cancel_hint') : data.skinUnavailable ?? S('hunting.skin_hint');
+    this.skinBar.hidden = !skinning;
+    const progress = resourceFraction(data.skinProgress ?? 0, 1);
+    this.skinBar.setAttribute('aria-valuenow', String(Math.round(progress * 100)));
+    this.skinFill.style.width = `${progress * 100}%`;
   }
 
   toast(text: string, kind: '' | 'evidence' | 'good' | 'bad' = '') {

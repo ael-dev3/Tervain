@@ -8,6 +8,60 @@ const flat = { groundAt: () => 0 };
 const distance = (cam: CameraRig) => Math.hypot(cam.camera.position.x, cam.camera.position.y - 1.55, cam.camera.position.z);
 
 describe('woodland camera obstruction', () => {
+  it('aims over the right shoulder with a closer boom and narrower field of view without changing exploration zoom', () => {
+    const cam = new CameraRig(); cam.pitch = 0; cam.wantDist = 7;
+    cam.setAiming(true);
+    cam.follow(1 / 60, 0, 0, 0, flat, new Colliders(), true, 0);
+    expect(cam.camera.position.x).toBeCloseTo(-.42, 8);
+    expect(cam.camera.position.z).toBeCloseTo(-2.8, 8);
+    expect(cam.camera.fov).toBe(48);
+    expect(cam.wantDist).toBe(7);
+    expect(cam.camera.getWorldDirection(new THREE.Vector3()).dot(new THREE.Vector3(0, 0, 1))).toBeCloseTo(1, 8);
+    cam.setAiming(false);
+    for (let i = 0; i < 240; i++) cam.follow(1 / 60, 0, 0, 0, flat, new Colliders(), true, 0);
+    expect(cam.camera.position.x).toBeCloseTo(0, 8);
+    expect(cam.camera.fov).toBe(60);
+    expect(distance(cam)).toBeGreaterThan(6.98);
+    cam.setAiming(true); cam.reset();
+    expect(cam.isAiming).toBe(false); expect(cam.camera.fov).toBe(60);
+    cam.follow(1 / 60, 0, 0, 0, flat, new Colliders(), true, 0);
+    expect(distance(cam)).toBeCloseTo(7, 8);
+  });
+
+  it('sweeps both the shoulder shift and aimed boom against nearby walls and trees', () => {
+    const wall = new Colliders(); wall.box('ruin:shoulder-wall', -.65, 0, .1, .8, 0);
+    const cam = new CameraRig(); cam.pitch = 0; cam.setAiming(true);
+    const near = vi.spyOn(wall, 'near');
+    cam.follow(1 / 60, 0, 0, 0, flat, wall, true, 0);
+    expect(cam.camera.position.x).toBeGreaterThan(-.21);
+    expect(near).toHaveBeenCalledTimes(1);
+    const trunk = new Colliders(); trunk.circle('tree:aim-path', -.42, -1.7, .3);
+    cam.reset(); cam.setAiming(true);
+    cam.follow(1 / 60, 0, 0, 0, flat, trunk, true, 0);
+    expect(cam.camera.position.z).toBeGreaterThan(-1.05);
+    expect(Math.hypot(cam.camera.position.x + .42, cam.camera.position.z + 1.7)).toBeGreaterThan(.64);
+  });
+
+  it('keeps an aimed low camera above a rising bank and smooths aim FOV only when motion is enabled', () => {
+    const cam = new CameraRig(); cam.pitch = -.3; cam.setAiming(true);
+    const bank = { groundAt: (_x: number, z: number) => z < -1.7 ? 2 : 0 };
+    cam.follow(1 / 60, 0, 0, 0, bank, new Colliders(), false, 0);
+    expect(cam.camera.position.z).toBeGreaterThan(-1.7);
+    expect(cam.camera.fov).toBeGreaterThan(48); expect(cam.camera.fov).toBeLessThan(60);
+    for (let i = 0; i < 60; i++) cam.follow(1 / 60, 0, 0, 0, bank, new Colliders(), false, 0);
+    expect(cam.camera.fov).toBe(48);
+    expect(cam.camera.position.y).toBeGreaterThanOrEqual(bank.groundAt(cam.camera.position.x, cam.camera.position.z) + .45);
+  });
+
+  it('clips the shoulder shift at a terrain bank before moving the camera pivot into it', () => {
+    const cam = new CameraRig(); cam.pitch = 0; cam.setAiming(true);
+    const bank = { groundAt: (x: number) => x < -.4 ? 3 : 0 };
+    cam.follow(1 / 60, 0, 0, 0, bank, new Colliders(), true, 0);
+    expect(cam.camera.position.x).toBeGreaterThan(-.06);
+    expect(cam.camera.position.y).toBeCloseTo(1.55, 8);
+    expect(cam.camera.position.z).toBeCloseTo(-2.8, 8);
+  });
+
   it('allows a regular upward view of tall landmarks while retaining terrain clearance', () => {
     const camera = new CameraRig();
     camera.applyLook(0, -0.8, 0);

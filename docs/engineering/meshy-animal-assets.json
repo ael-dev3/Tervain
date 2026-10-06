@@ -1,0 +1,4676 @@
+{
+  "schemaVersion": 1,
+  "coordinateContract": {
+    "up": "+Y",
+    "forward": "+Z",
+    "units": "meters",
+    "origin": "ground-centered",
+    "rootMotion": false
+  },
+  "triangleBudget": 50000,
+  "animals": [
+    {
+      "id": "1005232739",
+      "species": "tiger",
+      "filename": "tiger-1005232739.glb",
+      "sourceFilename": "Meshy_AI_tiger_1005232739_texture.glb",
+      "sourceSha256": "23fd4488d6c24ec7b090c5c476bfd9f74f242aedcfcd46333bdd294ac861dcca",
+      "outputSha256": "09ef740c9e01d5219bf3e7bef8f5f7bb43f6f454f10d71bad8aed0f2210f96a9",
+      "sourceTriangles": 335654,
+      "triangles": 47155,
+      "removedSourceGroundBridgeTriangles": 0,
+      "bytes": 8316704,
+      "height": 1.2,
+      "bounds": {
+        "min": [
+          -0.28704407811164856,
+          -0.0001329050719505176,
+          -1.193141222000122
+        ],
+        "max": [
+          0.2869155704975128,
+          1.1996828317642212,
+          1.1916728019714355
+        ]
+      },
+      "sourceFacingVerified": "Blender -Y; glTF +Z",
+      "restPose": "standing",
+      "ikBendBranch": "fixed anatomical fore-backward / hind-forward",
+      "joints": {
+        "animalRoot": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hips": [
+          -0.05230630934238434,
+          0.7080000042915344,
+          -0.5485072135925293
+        ],
+        "spine": [
+          -0.02224385365843773,
+          0.7260000109672546,
+          -0.023848140612244606
+        ],
+        "chest": [
+          0.00781860202550888,
+          0.7440000176429749,
+          0.5008109211921692
+        ],
+        "neck": [
+          0.00781860202550888,
+          0.828000009059906,
+          0.6677479147911072
+        ],
+        "head": [
+          0.00781860202550888,
+          0.8759999871253967,
+          0.8823812007904053
+        ],
+        "jaw": [
+          0.00781860202550888,
+          0.7680000066757202,
+          0.9054951071739197
+        ],
+        "earL": [
+          0.12261053174734116,
+          0.972000002861023,
+          0.7869886159896851
+        ],
+        "earR": [
+          -0.1069733276963234,
+          0.972000002861023,
+          0.7869886159896851
+        ],
+        "tailBase": [
+          0.0,
+          0.7080000042915344,
+          -0.6796720027923584
+        ],
+        "tail1": [
+          -0.047840483486652374,
+          0.36155128479003906,
+          -0.870457112789154
+        ],
+        "tail2": [
+          0.0,
+          0.5640000104904175,
+          -1.0254700183868408
+        ],
+        "tail3": [
+          0.0,
+          0.492000013589859,
+          -1.1804829835891724
+        ],
+        "frontShoulderL": [
+          0.10923464596271515,
+          0.7440000176429749,
+          0.5008109211921692
+        ],
+        "frontElbowL": [
+          0.10923464596271515,
+          0.49848002195358276,
+          0.4253918528556824
+        ],
+        "frontWristL": [
+          0.10923464596271515,
+          0.14880000054836273,
+          0.42797279357910156
+        ],
+        "frontPawL": [
+          0.10923464596271515,
+          0.01769319921731949,
+          0.4459728002548218
+        ],
+        "frontShoulderR": [
+          -0.09359744191169739,
+          0.7440000176429749,
+          0.5008109211921692
+        ],
+        "frontElbowR": [
+          -0.09359744191169739,
+          0.49848002195358276,
+          0.21205034852027893
+        ],
+        "frontWristR": [
+          -0.09359744191169739,
+          0.194193035364151,
+          0.0012897617416456342
+        ],
+        "frontPawR": [
+          -0.09359744191169739,
+          0.08019304275512695,
+          0.019289761781692505
+        ],
+        "hindHipL": [
+          -0.014852807857096195,
+          0.7080000042915344,
+          -0.5485072135925293
+        ],
+        "hindKneeL": [
+          -0.014852807857096195,
+          0.40356001257896423,
+          -0.507014811038971
+        ],
+        "hindHockL": [
+          -0.014852807857096195,
+          0.14159999787807465,
+          -0.6395224332809448
+        ],
+        "hindPawL": [
+          -0.014852807857096195,
+          0.022396337240934372,
+          -0.6215224266052246
+        ],
+        "hindHipR": [
+          -0.08975981175899506,
+          0.7080000042915344,
+          -0.5485072135925293
+        ],
+        "hindKneeR": [
+          -0.08975981175899506,
+          0.40356001257896423,
+          -0.34401318430900574
+        ],
+        "hindHockR": [
+          -0.08975981175899506,
+          0.15060929954051971,
+          -0.3135191798210144
+        ],
+        "hindPawR": [
+          -0.08975981175899506,
+          0.036609306931495667,
+          -0.2955191731452942
+        ]
+      },
+      "pawBones": [
+        "frontPawL",
+        "frontPawR",
+        "hindPawL",
+        "hindPawR"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Walk",
+          "duration": 1.2,
+          "referenceSpeed": 0.4168300650968013,
+          "requestedReferenceSpeed": 1.1,
+          "stanceDistance": 0.3201254899943434,
+          "stanceFraction": 0.64,
+          "maxStanceReachError": 9.12696123123169e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Run",
+          "duration": 0.65,
+          "referenceSpeed": 1.6502564074678132,
+          "requestedReferenceSpeed": 3.8,
+          "stanceDistance": 0.4076133326445499,
+          "stanceFraction": 0.38,
+          "maxStanceReachError": 9.12696123123169e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Alert",
+          "duration": 2.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Call",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        }
+      ],
+      "surface": "source textures/materials and UV islands retained; anatomical UV-aware mesh collapse",
+      "preparationSeconds": 52.56,
+      "sourceContactRepair": {
+        "cutBounds": {
+          "min": [
+            -0.23,
+            -0.02,
+            -0.137
+          ],
+          "max": [
+            0.035,
+            0.26,
+            -0.123
+          ]
+        },
+        "capBevelMeters": 0.003,
+        "capPolygons": 2,
+        "closedContactSurface": true,
+        "authoredUVLoopsRetained": 138177,
+        "authoredUVLoopsChanged": 0
+      }
+    },
+    {
+      "id": "1005232726",
+      "species": "lion",
+      "filename": "lion-1005232726.glb",
+      "sourceFilename": "Meshy_AI_Lion_1005232726_texture.glb",
+      "sourceSha256": "2c7ef06a3ed4a53fc3069bcb1fe0bbc25a081336bae1787b6233e6fbb311c604",
+      "outputSha256": "84b2d1131bda6aac3b9d2826e0c9d659304a7a3089ca3c80ab1c3c5c5bf93d0c",
+      "sourceTriangles": 17934,
+      "triangles": 17790,
+      "removedSourceGroundBridgeTriangles": 144,
+      "bytes": 2239268,
+      "height": 1.3,
+      "bounds": {
+        "min": [
+          -0.3075293302536011,
+          0.0,
+          -1.0594189167022705
+        ],
+        "max": [
+          0.3075293302536011,
+          1.2999999523162842,
+          1.0594189167022705
+        ]
+      },
+      "sourceFacingVerified": "Blender -Y; glTF +Z",
+      "restPose": "standing",
+      "joints": {
+        "animalRoot": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hips": [
+          0.006666034460067749,
+          0.6890000104904175,
+          -0.31311774253845215
+        ],
+        "spine": [
+          0.004111383110284805,
+          0.734499990940094,
+          0.13231898844242096
+        ],
+        "chest": [
+          0.0015567317605018616,
+          0.7799999713897705,
+          0.5777556896209717
+        ],
+        "neck": [
+          0.0015567317605018616,
+          0.9100000262260437,
+          0.7260743379592896
+        ],
+        "head": [
+          0.0015567317605018616,
+          0.9879999756813049,
+          0.8475351333618164
+        ],
+        "jaw": [
+          0.0015567317605018616,
+          0.8709999918937683,
+          0.8051583766937256
+        ],
+        "earL": [
+          0.12456846237182617,
+          1.0920000076293945,
+          0.7627816200256348
+        ],
+        "earR": [
+          -0.12145499885082245,
+          1.0920000076293945,
+          0.7627816200256348
+        ],
+        "tailBase": [
+          0.0,
+          0.6890000104904175,
+          -0.4296538233757019
+        ],
+        "tail1": [
+          -5.306160346663091e-07,
+          0.4538356065750122,
+          -0.5991608500480652
+        ],
+        "tail2": [
+          -5.306160346663091e-07,
+          0.19416643679141998,
+          -0.7368853092193604
+        ],
+        "tail3": [
+          -5.306160346663091e-07,
+          0.21064290404319763,
+          -0.8746097683906555
+        ],
+        "frontShoulderL": [
+          0.1146005243062973,
+          0.7799999713897705,
+          0.5777556896209717
+        ],
+        "frontElbowL": [
+          0.1146005243062973,
+          0.522599995136261,
+          0.5252118110656738
+        ],
+        "frontWristL": [
+          0.1146005243062973,
+          0.15599998831748962,
+          0.5571679472923279
+        ],
+        "frontPawL": [
+          0.1146005243062973,
+          0.015599999576807022,
+          0.5766679644584656
+        ],
+        "frontShoulderR": [
+          -0.11148706078529358,
+          0.7799999713897705,
+          0.5777556896209717
+        ],
+        "frontElbowR": [
+          -0.11148706078529358,
+          0.522599995136261,
+          0.5262995958328247
+        ],
+        "frontWristR": [
+          -0.11148706078529358,
+          0.15599998831748962,
+          0.5593434572219849
+        ],
+        "frontPawR": [
+          -0.11148706078529358,
+          0.015599999576807022,
+          0.5788434743881226
+        ],
+        "hindHipL": [
+          0.12953811883926392,
+          0.6890000104904175,
+          -0.31311774253845215
+        ],
+        "hindKneeL": [
+          0.12953811883926392,
+          0.3927299976348877,
+          -0.22625891864299774
+        ],
+        "hindHockL": [
+          0.12953811883926392,
+          0.14249755442142487,
+          -0.32790008187294006
+        ],
+        "hindPawL": [
+          0.12953811883926392,
+          0.018997561186552048,
+          -0.30840009450912476
+        ],
+        "hindHipR": [
+          -0.11620604991912842,
+          0.6890000104904175,
+          -0.31311774253845215
+        ],
+        "hindKneeR": [
+          -0.11620604991912842,
+          0.3927299976348877,
+          -0.23097656667232513
+        ],
+        "hindHockR": [
+          -0.11620604991912842,
+          0.14189694821834564,
+          -0.33733537793159485
+        ],
+        "hindPawR": [
+          -0.11620604991912842,
+          0.018396951258182526,
+          -0.31783539056777954
+        ]
+      },
+      "pawBones": [
+        "frontPawL",
+        "frontPawR",
+        "hindPawL",
+        "hindPawR"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Walk",
+          "duration": 1.2,
+          "referenceSpeed": 0.41931053005084795,
+          "requestedReferenceSpeed": 1.05,
+          "stanceDistance": 0.32203048707905124,
+          "stanceFraction": 0.64,
+          "maxStanceReachError": 9.06402249678704e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Run",
+          "duration": 0.65,
+          "referenceSpeed": 1.6914193507329003,
+          "requestedReferenceSpeed": 3.4,
+          "stanceDistance": 0.41778057963102644,
+          "stanceFraction": 0.38,
+          "maxStanceReachError": 6.664001874625056e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Alert",
+          "duration": 2.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Call",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        }
+      ],
+      "surface": "source textures/materials and UV islands retained; anatomical UV-aware mesh collapse",
+      "preparationSeconds": 2.88,
+      "ikBendBranch": "fixed anatomical fore-backward / hind-forward"
+    },
+    {
+      "id": "1005170943",
+      "species": "bear",
+      "filename": "bear-1005170943.glb",
+      "sourceFilename": "Meshy_AI__bear_1005170943_texture.glb",
+      "sourceSha256": "8ce7280949fbb5506780b240a574a8b09acd6d9c48c58d0090c4f6e5077aa817",
+      "outputSha256": "3b5bd25bd1fce8e7d77e34f95a2d513018bb918c6410c09553d6e9d30b2ff03e",
+      "sourceTriangles": 19169,
+      "triangles": 19169,
+      "removedSourceGroundBridgeTriangles": 0,
+      "bytes": 2041200,
+      "height": 1.5,
+      "bounds": {
+        "min": [
+          -0.6443129777908325,
+          0.0,
+          -1.5043468475341797
+        ],
+        "max": [
+          0.6443129777908325,
+          1.5,
+          1.5043468475341797
+        ]
+      },
+      "sourceFacingVerified": "Blender -Y; glTF +Z",
+      "restPose": "standing",
+      "joints": {
+        "animalRoot": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hips": [
+          1.4901161193847656e-08,
+          0.9599999785423279,
+          -0.847939133644104
+        ],
+        "spine": [
+          7.450580596923828e-09,
+          0.9674999713897705,
+          -0.2594768702983856
+        ],
+        "chest": [
+          0.0,
+          0.9750000238418579,
+          0.32898539304733276
+        ],
+        "neck": [
+          0.0,
+          0.8849999904632568,
+          0.5395939350128174
+        ],
+        "head": [
+          0.0,
+          0.8550000190734863,
+          0.8103764057159424
+        ],
+        "jaw": [
+          0.0,
+          0.7200000286102295,
+          1.143303632736206
+        ],
+        "earL": [
+          0.25772517919540405,
+          0.9750000238418579,
+          0.6900286674499512
+        ],
+        "earR": [
+          -0.25772517919540405,
+          0.9750000238418579,
+          0.6900286674499512
+        ],
+        "tailBase": [
+          0.0,
+          0.9599999785423279,
+          -1.0134172439575195
+        ],
+        "tail1": [
+          7.635530892002862e-07,
+          0.8516414761543274,
+          -1.2541128396987915
+        ],
+        "tail2": [
+          7.635530892002862e-07,
+          0.9333937764167786,
+          -1.44967782497406
+        ],
+        "tail3": [
+          0.0,
+          0.6899999976158142,
+          -1.6452429294586182
+        ],
+        "frontShoulderL": [
+          0.46678027510643005,
+          0.9750000238418579,
+          0.32898539304733276
+        ],
+        "frontElbowL": [
+          0.46678027510643005,
+          0.6532500386238098,
+          0.268985390663147
+        ],
+        "frontWristL": [
+          0.46678027510643005,
+          0.19500000774860382,
+          0.3064853847026825
+        ],
+        "frontPawL": [
+          0.46678027510643005,
+          0.017999999225139618,
+          0.32898539304733276
+        ],
+        "frontShoulderR": [
+          -0.46678027510643005,
+          0.9750000238418579,
+          0.32898539304733276
+        ],
+        "frontElbowR": [
+          -0.46678027510643005,
+          0.6532500386238098,
+          0.268985390663147
+        ],
+        "frontWristR": [
+          -0.46678027510643005,
+          0.19500000774860382,
+          0.3064853847026825
+        ],
+        "frontPawR": [
+          -0.46678027510643005,
+          0.017999999225139618,
+          0.32898539304733276
+        ],
+        "hindHipL": [
+          0.38068196177482605,
+          0.9599999785423279,
+          -0.847939133644104
+        ],
+        "hindKneeL": [
+          0.38068196177482605,
+          0.5471999645233154,
+          -0.7504391074180603
+        ],
+        "hindHockL": [
+          0.38068196177482605,
+          0.20328596234321594,
+          -0.8704391121864319
+        ],
+        "hindPawL": [
+          0.38068196177482605,
+          0.060785967856645584,
+          -0.847939133644104
+        ],
+        "hindHipR": [
+          -0.38068193197250366,
+          0.9599999785423279,
+          -0.847939133644104
+        ],
+        "hindKneeR": [
+          -0.38068193197250366,
+          0.5471999645233154,
+          -0.7504391074180603
+        ],
+        "hindHockR": [
+          -0.38068193197250366,
+          0.20328596234321594,
+          -0.8704391121864319
+        ],
+        "hindPawR": [
+          -0.38068193197250366,
+          0.060785967856645584,
+          -0.847939133644104
+        ]
+      },
+      "pawBones": [
+        "frontPawL",
+        "frontPawR",
+        "hindPawL",
+        "hindPawR"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Walk",
+          "duration": 1.3,
+          "referenceSpeed": 0.5200794132163713,
+          "requestedReferenceSpeed": 0.8,
+          "stanceDistance": 0.43270607179602094,
+          "stanceFraction": 0.64,
+          "maxStanceReachError": 1.519626234052415e-07,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Run",
+          "duration": 0.8,
+          "referenceSpeed": 1.4750870370683182,
+          "requestedReferenceSpeed": 2.2,
+          "stanceDistance": 0.4484264592687688,
+          "stanceFraction": 0.38,
+          "maxStanceReachError": 1.4901161193847656e-07,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Alert",
+          "duration": 2.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Call",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        }
+      ],
+      "surface": "source textures/materials and UV islands retained; anatomical UV-aware mesh collapse",
+      "preparationSeconds": 4.29,
+      "ikBendBranch": "fixed anatomical fore-backward / hind-forward"
+    },
+    {
+      "id": "1005232657",
+      "species": "bear",
+      "filename": "bear-1005232657.glb",
+      "sourceFilename": "Meshy_AI_Bear__1005232657_texture.glb",
+      "sourceSha256": "b2a1761e0713649cc33a1bf15ede455526539a994d64f224458591b6eac25d13",
+      "outputSha256": "f426b15053ee3e8df55326fc2617586287e74238b82dda096b4d945855e8a7f4",
+      "sourceTriangles": 10000,
+      "triangles": 9970,
+      "removedSourceGroundBridgeTriangles": 30,
+      "bytes": 1854764,
+      "height": 1.5,
+      "bounds": {
+        "min": [
+          -0.4585523009300232,
+          0.0,
+          -1.352362871170044
+        ],
+        "max": [
+          0.4585523009300232,
+          1.5,
+          1.352362871170044
+        ]
+      },
+      "sourceFacingVerified": "Blender -Y; glTF +Z",
+      "restPose": "standing",
+      "joints": {
+        "animalRoot": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hips": [
+          -0.007089197635650635,
+          0.9599999785423279,
+          -0.9992877244949341
+        ],
+        "spine": [
+          -0.00902489572763443,
+          0.9674999713897705,
+          -0.37012165784835815
+        ],
+        "chest": [
+          -0.010960593819618225,
+          0.9750000238418579,
+          0.25904446840286255
+        ],
+        "neck": [
+          -0.010960593819618225,
+          0.8849999904632568,
+          0.44837525486946106
+        ],
+        "head": [
+          -0.010960593819618225,
+          0.8550000190734863,
+          0.691800594329834
+        ],
+        "jaw": [
+          -0.010960593819618225,
+          0.7200000286102295,
+          1.0277957916259766
+        ],
+        "earL": [
+          0.17246033251285553,
+          0.9750000238418579,
+          0.5836115479469299
+        ],
+        "earR": [
+          -0.19438152015209198,
+          0.9750000238418579,
+          0.5836115479469299
+        ],
+        "tailBase": [
+          0.0,
+          0.9599999785423279,
+          -1.148047685623169
+        ],
+        "tail1": [
+          0.0209481343626976,
+          0.8833645582199097,
+          -1.364425778388977
+        ],
+        "tail2": [
+          0.0,
+          0.7799999713897705,
+          -1.5402328968048096
+        ],
+        "tail3": [
+          0.0,
+          0.6899999976158142,
+          -1.7160401344299316
+        ],
+        "frontShoulderL": [
+          0.17284733057022095,
+          0.9750000238418579,
+          0.25904446840286255
+        ],
+        "frontElbowL": [
+          0.17284733057022095,
+          0.6532500386238098,
+          0.20572711527347565
+        ],
+        "frontWristL": [
+          0.17284733057022095,
+          0.19500000774860382,
+          0.24990977346897125
+        ],
+        "frontPawL": [
+          0.17284733057022095,
+          0.01916271075606346,
+          0.2724097669124603
+        ],
+        "frontShoulderR": [
+          -0.1947685182094574,
+          0.9750000238418579,
+          0.25904446840286255
+        ],
+        "frontElbowR": [
+          -0.1947685182094574,
+          0.6532500386238098,
+          0.19236180186271667
+        ],
+        "frontWristR": [
+          -0.1947685182094574,
+          0.19500000774860382,
+          0.2231791466474533
+        ],
+        "frontPawR": [
+          -0.1947685182094574,
+          0.02307177148759365,
+          0.24567914009094238
+        ],
+        "hindHipL": [
+          0.21961495280265808,
+          0.9599999785423279,
+          -0.9992877244949341
+        ],
+        "hindKneeL": [
+          0.21961495280265808,
+          0.5471999645233154,
+          -0.912105917930603
+        ],
+        "hindHockL": [
+          0.21961495280265808,
+          0.19200000166893005,
+          -1.042424201965332
+        ],
+        "hindPawL": [
+          0.21961495280265808,
+          0.020138300955295563,
+          -1.0199241638183594
+        ],
+        "hindHipR": [
+          -0.23379334807395935,
+          0.9599999785423279,
+          -0.9992877244949341
+        ],
+        "hindKneeR": [
+          -0.23379334807395935,
+          0.5471999645233154,
+          -0.8914695382118225
+        ],
+        "hindHockR": [
+          -0.23379334807395935,
+          0.19200000166893005,
+          -1.0011513233184814
+        ],
+        "hindPawR": [
+          -0.23379334807395935,
+          0.01867888867855072,
+          -0.9786513447761536
+        ]
+      },
+      "pawBones": [
+        "frontPawL",
+        "frontPawR",
+        "hindPawL",
+        "hindPawR"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Walk",
+          "duration": 1.3,
+          "referenceSpeed": 0.5113308052240149,
+          "requestedReferenceSpeed": 0.8,
+          "stanceDistance": 0.4254272299463804,
+          "stanceFraction": 0.64,
+          "maxStanceReachError": 1.4901161193847656e-07,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Run",
+          "duration": 0.8,
+          "referenceSpeed": 1.4518695989960908,
+          "requestedReferenceSpeed": 2.2,
+          "stanceDistance": 0.4413683580948117,
+          "stanceFraction": 0.38,
+          "maxStanceReachError": 1.228781230931777e-07,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Alert",
+          "duration": 2.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Call",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        }
+      ],
+      "surface": "source textures/materials and UV islands retained; anatomical UV-aware mesh collapse",
+      "preparationSeconds": 2.54,
+      "ikBendBranch": "fixed anatomical fore-backward / hind-forward"
+    },
+    {
+      "id": "1005232644",
+      "species": "wolf",
+      "filename": "wolf-1005232644.glb",
+      "sourceFilename": "Meshy_AI_Wolf_1005232644_texture.glb",
+      "sourceSha256": "968c13e84fe37952fd5b9f32456d702b631a700f31e12e960e81ccda2d48cb6c",
+      "outputSha256": "86fa3a4f600a0850faf1eabad2973861ea9170fb4f53c783ffb1917a72cb12ce",
+      "sourceTriangles": 757625,
+      "triangles": 45968,
+      "removedSourceGroundBridgeTriangles": 24,
+      "bytes": 8695576,
+      "height": 0.95,
+      "bounds": {
+        "min": [
+          -0.17350171506404877,
+          5.109650010126643e-05,
+          -0.6827318668365479
+        ],
+        "max": [
+          0.1739780604839325,
+          0.9484918117523193,
+          0.6848477125167847
+        ]
+      },
+      "sourceFacingVerified": "Blender -Y; glTF +Z",
+      "restPose": "standing",
+      "joints": {
+        "animalRoot": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hips": [
+          -0.010020826011896133,
+          0.5130000114440918,
+          -0.4627516269683838
+        ],
+        "spine": [
+          -0.01326086837798357,
+          0.5320000052452087,
+          -0.09423480182886124
+        ],
+        "chest": [
+          -0.016500910744071007,
+          0.5509999990463257,
+          0.2742820084095001
+        ],
+        "neck": [
+          -0.016500910744071007,
+          0.6365000009536743,
+          0.3700125813484192
+        ],
+        "head": [
+          -0.016500910744071007,
+          0.703000009059906,
+          0.4930947422981262
+        ],
+        "jaw": [
+          -0.016500910744071007,
+          0.6175000071525574,
+          0.5207381844520569
+        ],
+        "earL": [
+          0.052995044738054276,
+          0.7789999842643738,
+          0.4383915662765503
+        ],
+        "earR": [
+          -0.08599686622619629,
+          0.7789999842643738,
+          0.4383915662765503
+        ],
+        "tailBase": [
+          0.0,
+          0.5130000114440918,
+          -0.5379685163497925
+        ],
+        "tail1": [
+          0.009298333898186684,
+          0.38427984714508057,
+          -0.6473748683929443
+        ],
+        "tail2": [
+          0.0,
+          0.39900001883506775,
+          -0.7362675070762634
+        ],
+        "tail3": [
+          0.0,
+          0.34200000762939453,
+          -0.8251602053642273
+        ],
+        "frontShoulderL": [
+          0.05489778891205788,
+          0.5509999990463257,
+          0.2742820084095001
+        ],
+        "frontElbowL": [
+          0.05489778891205788,
+          0.36917001008987427,
+          0.2493976652622223
+        ],
+        "frontWristL": [
+          0.05489778891205788,
+          0.11020000278949738,
+          0.2862633168697357
+        ],
+        "frontPawL": [
+          0.05489778891205788,
+          0.01140000019222498,
+          0.3005133271217346
+        ],
+        "frontShoulderR": [
+          -0.08789961040019989,
+          0.5509999990463257,
+          0.2742820084095001
+        ],
+        "frontElbowR": [
+          -0.08789961040019989,
+          0.36917001008987427,
+          0.2231663465499878
+        ],
+        "frontWristR": [
+          -0.08789961040019989,
+          0.11020000278949738,
+          0.23380069434642792
+        ],
+        "frontPawR": [
+          -0.08789961040019989,
+          0.01140000019222498,
+          0.24805068969726562
+        ],
+        "hindHipL": [
+          0.11465940624475479,
+          0.5130000114440918,
+          -0.4627516269683838
+        ],
+        "hindKneeL": [
+          0.11465940624475479,
+          0.2924100160598755,
+          -0.38755980134010315
+        ],
+        "hindHockL": [
+          0.11465940624475479,
+          0.10260000079870224,
+          -0.45011797547340393
+        ],
+        "hindPawL": [
+          0.11465940624475479,
+          0.01140000019222498,
+          -0.43586796522140503
+        ],
+        "hindHipR": [
+          -0.13470105826854706,
+          0.5130000114440918,
+          -0.4627516269683838
+        ],
+        "hindKneeR": [
+          -0.13470105826854706,
+          0.2924100160598755,
+          -0.4144434332847595
+        ],
+        "hindHockR": [
+          -0.13470105826854706,
+          0.10260000079870224,
+          -0.5038852691650391
+        ],
+        "hindPawR": [
+          -0.13470105826854706,
+          0.01140000019222498,
+          -0.48963525891304016
+        ]
+      },
+      "pawBones": [
+        "frontPawL",
+        "frontPawR",
+        "hindPawL",
+        "hindPawR"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Walk",
+          "duration": 0.9,
+          "referenceSpeed": 0.39412626081113067,
+          "requestedReferenceSpeed": 1.2,
+          "stanceDistance": 0.2270167262272113,
+          "stanceFraction": 0.64,
+          "maxStanceReachError": 7.450580596923828e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Run",
+          "duration": 0.65,
+          "referenceSpeed": 1.199321496925183,
+          "requestedReferenceSpeed": 3.5,
+          "stanceDistance": 0.29623240974052023,
+          "stanceFraction": 0.38,
+          "maxStanceReachError": 5.960464477539063e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Alert",
+          "duration": 2.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Call",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        }
+      ],
+      "surface": "source textures/materials and UV islands retained; anatomical UV-aware mesh collapse",
+      "preparationSeconds": 32.5,
+      "ikBendBranch": "fixed anatomical fore-backward / hind-forward"
+    },
+    {
+      "id": "1005232637",
+      "species": "wolf",
+      "filename": "wolf-1005232637.glb",
+      "sourceFilename": "Meshy_AI_Wolf_1005232637_texture.glb",
+      "sourceSha256": "4a7bb2485113e4878574f8c4645e1abb4db36f0cce27554624a57c46e075cea6",
+      "outputSha256": "d709962b161403642a77659cf244bab6daf19df70058af2282bd018b630e5e5d",
+      "sourceTriangles": 202214,
+      "triangles": 45888,
+      "removedSourceGroundBridgeTriangles": 112,
+      "bytes": 4162360,
+      "height": 0.95,
+      "bounds": {
+        "min": [
+          -0.27117300033569336,
+          0.00043719663517549634,
+          -0.802018404006958
+        ],
+        "max": [
+          0.26943936944007874,
+          0.9535744786262512,
+          0.8026084899902344
+        ]
+      },
+      "sourceFacingVerified": "Blender -Y; glTF +Z",
+      "restPose": "standing",
+      "joints": {
+        "animalRoot": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hips": [
+          -0.009731508791446686,
+          0.5130000114440918,
+          -0.3221449851989746
+        ],
+        "spine": [
+          -0.006446462124586105,
+          0.5320000052452087,
+          0.014871448278427124
+        ],
+        "chest": [
+          -0.003161415457725525,
+          0.5509999990463257,
+          0.35188788175582886
+        ],
+        "neck": [
+          -0.003161415457725525,
+          0.6365000009536743,
+          0.46421176195144653
+        ],
+        "head": [
+          -0.003161415457725525,
+          0.703000009059906,
+          0.6086281538009644
+        ],
+        "jaw": [
+          -0.003161415457725525,
+          0.6175000071525574,
+          0.6100532412528992
+        ],
+        "earL": [
+          0.10496105998754501,
+          0.7789999842643738,
+          0.5444430708885193
+        ],
+        "earR": [
+          -0.11128389090299606,
+          0.7789999842643738,
+          0.5444430708885193
+        ],
+        "tailBase": [
+          0.0,
+          0.5130000114440918,
+          -0.4103994369506836
+        ],
+        "tail1": [
+          -0.014044818468391895,
+          0.37422648072242737,
+          -0.5387696027755737
+        ],
+        "tail2": [
+          -0.0313187912106514,
+          0.33755916357040405,
+          -0.6430703401565552
+        ],
+        "tail3": [
+          0.01518335659056902,
+          0.2535366117954254,
+          -0.7473710775375366
+        ],
+        "frontShoulderL": [
+          0.1017710268497467,
+          0.5509999990463257,
+          0.35188788175582886
+        ],
+        "frontElbowL": [
+          0.1017710268497467,
+          0.36917001008987427,
+          0.31391406059265137
+        ],
+        "frontWristL": [
+          0.1017710268497467,
+          0.11020000278949738,
+          0.33769023418426514
+        ],
+        "frontPawL": [
+          0.1017710268497467,
+          0.01140000019222498,
+          0.35194024443626404
+        ],
+        "frontShoulderR": [
+          -0.10809385776519775,
+          0.5509999990463257,
+          0.35188788175582886
+        ],
+        "frontElbowR": [
+          -0.10809385776519775,
+          0.36917001008987427,
+          0.3138616979122162
+        ],
+        "frontWristR": [
+          -0.10809385776519775,
+          0.11020000278949738,
+          0.3375854790210724
+        ],
+        "frontPawR": [
+          -0.10809385776519775,
+          0.01140000019222498,
+          0.3518354892730713
+        ],
+        "hindHipL": [
+          0.11693376302719116,
+          0.5130000114440918,
+          -0.3221449851989746
+        ],
+        "hindKneeL": [
+          0.11693376302719116,
+          0.2924100160598755,
+          -0.2615283131599426
+        ],
+        "hindHockL": [
+          0.11693376302719116,
+          0.10260000079870224,
+          -0.33866164088249207
+        ],
+        "hindPawL": [
+          0.11693376302719116,
+          0.01140000019222498,
+          -0.32441163063049316
+        ],
+        "hindHipR": [
+          -0.13639678061008453,
+          0.5130000114440918,
+          -0.3221449851989746
+        ],
+        "hindKneeR": [
+          -0.13639678061008453,
+          0.2924100160598755,
+          -0.2592616379261017
+        ],
+        "hindHockR": [
+          -0.13639678061008453,
+          0.10260000079870224,
+          -0.33412832021713257
+        ],
+        "hindPawR": [
+          -0.13639678061008453,
+          0.01140000019222498,
+          -0.31987830996513367
+        ]
+      },
+      "pawBones": [
+        "frontPawL",
+        "frontPawR",
+        "hindPawL",
+        "hindPawR"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Walk",
+          "duration": 0.9,
+          "referenceSpeed": 0.38461913352925564,
+          "requestedReferenceSpeed": 1.2,
+          "stanceDistance": 0.22154062091285126,
+          "stanceFraction": 0.64,
+          "maxStanceReachError": 5.960464477539063e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Run",
+          "duration": 0.65,
+          "referenceSpeed": 1.182419452461212,
+          "requestedReferenceSpeed": 3.5,
+          "stanceDistance": 0.29205760475791936,
+          "stanceFraction": 0.38,
+          "maxStanceReachError": 6.664001874625056e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Alert",
+          "duration": 2.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Call",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        }
+      ],
+      "surface": "source textures/materials and UV islands retained; anatomical UV-aware mesh collapse",
+      "preparationSeconds": 18.59,
+      "ikBendBranch": "fixed anatomical fore-backward / hind-forward"
+    },
+    {
+      "id": "1005232631",
+      "species": "wolf",
+      "filename": "wolf-1005232631.glb",
+      "sourceFilename": "Meshy_AI_wolf_1005232631_texture.glb",
+      "sourceSha256": "8e11f90d5a90699cb0beda881e3a87617f5fa4bcb043a8f24095bb651a7fed1a",
+      "outputSha256": "509b595a044acde49c444bf25544356d91ef827b07d98407ff47fa0aa50ff963",
+      "sourceTriangles": 14840,
+      "triangles": 14773,
+      "removedSourceGroundBridgeTriangles": 67,
+      "bytes": 7783968,
+      "height": 0.95,
+      "bounds": {
+        "min": [
+          -0.17390134930610657,
+          0.0,
+          -0.7043766975402832
+        ],
+        "max": [
+          0.17390134930610657,
+          0.949999988079071,
+          0.7043766975402832
+        ]
+      },
+      "sourceFacingVerified": "Blender -Y; glTF +Z",
+      "restPose": "standing",
+      "joints": {
+        "animalRoot": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hips": [
+          0.0001721847802400589,
+          0.5130000114440918,
+          -0.6009870767593384
+        ],
+        "spine": [
+          -0.00012445636093616486,
+          0.5320000052452087,
+          -0.1649526059627533
+        ],
+        "chest": [
+          -0.0004210975021123886,
+          0.5509999990463257,
+          0.2710818648338318
+        ],
+        "neck": [
+          -0.0004210975021123886,
+          0.6365000009536743,
+          0.36969462037086487
+        ],
+        "head": [
+          -0.0004210975021123886,
+          0.703000009059906,
+          0.4964824318885803
+        ],
+        "jaw": [
+          -0.0004210975021123886,
+          0.6175000071525574,
+          0.5353263020515442
+        ],
+        "earL": [
+          0.06913944333791733,
+          0.7789999842643738,
+          0.4401322901248932
+        ],
+        "earR": [
+          -0.0699816346168518,
+          0.7789999842643738,
+          0.4401322901248932
+        ],
+        "tailBase": [
+          0.0,
+          0.5130000114440918,
+          -0.6784685254096985
+        ],
+        "tail1": [
+          0.0,
+          0.4560000002384186,
+          -0.7911688089370728
+        ],
+        "tail2": [
+          0.0,
+          0.39900001883506775,
+          -0.8827377557754517
+        ],
+        "tail3": [
+          0.0,
+          0.34200000762939453,
+          -0.9743067622184753
+        ],
+        "frontShoulderL": [
+          0.055549077689647675,
+          0.5509999990463257,
+          0.2710818648338318
+        ],
+        "frontElbowL": [
+          0.055549077689647675,
+          0.36917001008987427,
+          0.23145392537117004
+        ],
+        "frontWristL": [
+          0.055549077689647675,
+          0.11020000278949738,
+          0.25357598066329956
+        ],
+        "frontPawL": [
+          0.055549077689647675,
+          0.01140000019222498,
+          0.26782599091529846
+        ],
+        "frontShoulderR": [
+          -0.05639127269387245,
+          0.5509999990463257,
+          0.2710818648338318
+        ],
+        "frontElbowR": [
+          -0.05639127269387245,
+          0.36917001008987427,
+          0.23470981419086456
+        ],
+        "frontWristR": [
+          -0.05639127269387245,
+          0.11020000278949738,
+          0.2600877583026886
+        ],
+        "frontPawR": [
+          -0.05639127269387245,
+          0.01140000019222498,
+          0.2743377685546875
+        ],
+        "hindHipL": [
+          0.060646019876003265,
+          0.5130000114440918,
+          -0.6009870767593384
+        ],
+        "hindKneeL": [
+          0.060646019876003265,
+          0.2924100160598755,
+          -0.5388655662536621
+        ],
+        "hindHockL": [
+          0.060646019876003265,
+          0.10260000079870224,
+          -0.6144940257072449
+        ],
+        "hindPawL": [
+          0.060646019876003265,
+          0.01140000019222498,
+          -0.6002440452575684
+        ],
+        "hindHipR": [
+          -0.06030165031552315,
+          0.5130000114440918,
+          -0.6009870767593384
+        ],
+        "hindKneeR": [
+          -0.06030165031552315,
+          0.2924100160598755,
+          -0.5396085977554321
+        ],
+        "hindHockR": [
+          -0.06030165031552315,
+          0.10260000079870224,
+          -0.6159801483154297
+        ],
+        "hindPawR": [
+          -0.06030165031552315,
+          0.01140000019222498,
+          -0.6017301678657532
+        ]
+      },
+      "pawBones": [
+        "frontPawL",
+        "frontPawR",
+        "hindPawL",
+        "hindPawR"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Walk",
+          "duration": 0.9,
+          "referenceSpeed": 0.3968994324969689,
+          "requestedReferenceSpeed": 1.2,
+          "stanceDistance": 0.2286140731182541,
+          "stanceFraction": 0.64,
+          "maxStanceReachError": 5.960464477539063e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Run",
+          "duration": 0.65,
+          "referenceSpeed": 1.2050045970314496,
+          "requestedReferenceSpeed": 3.5,
+          "stanceDistance": 0.2976361354667681,
+          "stanceFraction": 0.38,
+          "maxStanceReachError": 4.470348358154297e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Alert",
+          "duration": 2.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Call",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        }
+      ],
+      "surface": "source textures/materials and UV islands retained; anatomical UV-aware mesh collapse",
+      "preparationSeconds": 4.11,
+      "ikBendBranch": "fixed anatomical fore-backward / hind-forward"
+    },
+    {
+      "id": "1005232619",
+      "species": "cat",
+      "filename": "cat-1005232619.glb",
+      "sourceFilename": "Meshy_AI_cat_1005232619_texture.glb",
+      "sourceSha256": "c82af13a94f32f7b61bda5066a10fa57394765d05c180954b2827fdd4f90ea06",
+      "outputSha256": "4b31da3e0fbbca2176f68866d565f36ac0ff741e3f891c9e5fcc8a98c0368aba",
+      "sourceTriangles": 216993,
+      "triangles": 45869,
+      "removedSourceGroundBridgeTriangles": 125,
+      "bytes": 9322732,
+      "height": 0.4,
+      "bounds": {
+        "min": [
+          -0.1252843737602234,
+          5.174387297302019e-06,
+          -0.29027605056762695
+        ],
+        "max": [
+          0.12533290684223175,
+          0.3997105360031128,
+          0.29010534286499023
+        ]
+      },
+      "sourceFacingVerified": "Blender -Y; glTF +Z",
+      "restPose": "standing",
+      "joints": {
+        "animalRoot": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hips": [
+          -0.050062716007232666,
+          0.21199999749660492,
+          -0.15225157141685486
+        ],
+        "spine": [
+          -0.0100106755271554,
+          0.22200000286102295,
+          -0.005794573575258255
+        ],
+        "chest": [
+          0.030041363090276718,
+          0.23199999332427979,
+          0.14066243171691895
+        ],
+        "neck": [
+          0.030041363090276718,
+          0.2680000066757202,
+          0.18128912150859833
+        ],
+        "head": [
+          0.030041363090276718,
+          0.30799999833106995,
+          0.23206719756126404
+        ],
+        "jaw": [
+          0.030041363090276718,
+          0.2720000147819519,
+          0.22045958042144775
+        ],
+        "earL": [
+          0.0801648199558258,
+          0.3400000035762787,
+          0.20885194838047028
+        ],
+        "earR": [
+          -0.02008209377527237,
+          0.3400000035762787,
+          0.20885194838047028
+        ],
+        "tailBase": [
+          0.0,
+          0.21199999749660492,
+          -0.18417254090309143
+        ],
+        "tail1": [
+          -0.026973657310009003,
+          0.17043393850326538,
+          -0.23060305416584015
+        ],
+        "tail2": [
+          0.0,
+          0.164000004529953,
+          -0.26832786202430725
+        ],
+        "tail3": [
+          0.0,
+          0.14000000059604645,
+          -0.30605265498161316
+        ],
+        "frontShoulderL": [
+          0.08936592936515808,
+          0.23199999332427979,
+          0.14066243171691895
+        ],
+        "frontElbowL": [
+          0.08936592936515808,
+          0.15544000267982483,
+          0.11530328541994095
+        ],
+        "frontWristL": [
+          0.08936592936515808,
+          0.04639999940991402,
+          0.11594414710998535
+        ],
+        "frontPawL": [
+          0.08936592936515808,
+          0.004800000227987766,
+          0.12194414436817169
+        ],
+        "frontShoulderR": [
+          -0.029283203184604645,
+          0.23199999332427979,
+          0.14066243171691895
+        ],
+        "frontElbowR": [
+          -0.029283203184604645,
+          0.15544000267982483,
+          0.1340215653181076
+        ],
+        "frontWristR": [
+          -0.029283203184604645,
+          0.04639999940991402,
+          0.15338070690631866
+        ],
+        "frontPawR": [
+          -0.029283203184604645,
+          0.004800000227987766,
+          0.159380704164505
+        ],
+        "hindHipL": [
+          -0.007470894604921341,
+          0.21199999749660492,
+          -0.15225157141685486
+        ],
+        "hindKneeL": [
+          -0.007470894604921341,
+          0.12083999812602997,
+          -0.1297321319580078
+        ],
+        "hindHockL": [
+          -0.007470894604921341,
+          0.04280000180006027,
+          -0.16521267592906952
+        ],
+        "hindPawL": [
+          -0.007470894604921341,
+          0.004800000227987766,
+          -0.15921267867088318
+        ],
+        "hindHipR": [
+          -0.09265453368425369,
+          0.21199999749660492,
+          -0.15225157141685486
+        ],
+        "hindKneeR": [
+          -0.09265453368425369,
+          0.12083999812602997,
+          -0.1227710172533989
+        ],
+        "hindHockR": [
+          -0.09265453368425369,
+          0.04280000180006027,
+          -0.15129046142101288
+        ],
+        "hindPawR": [
+          -0.09265453368425369,
+          0.004800000227987766,
+          -0.14529046416282654
+        ]
+      },
+      "pawBones": [
+        "frontPawL",
+        "frontPawR",
+        "hindPawL",
+        "hindPawR"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Walk",
+          "duration": 0.9,
+          "referenceSpeed": 0.1560456513447986,
+          "requestedReferenceSpeed": 0.55,
+          "stanceDistance": 0.08988229517460401,
+          "stanceFraction": 0.64,
+          "maxStanceReachError": 2.9802322387695312e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Run",
+          "duration": 0.65,
+          "referenceSpeed": 0.48709112755660366,
+          "requestedReferenceSpeed": 1.8,
+          "stanceDistance": 0.12031150850648112,
+          "stanceFraction": 0.38,
+          "maxStanceReachError": 1.4901161193847656e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Alert",
+          "duration": 2.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Call",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        }
+      ],
+      "surface": "source textures/materials and UV islands retained; anatomical UV-aware mesh collapse",
+      "preparationSeconds": 18.3,
+      "ikBendBranch": "fixed anatomical fore-backward / hind-forward"
+    },
+    {
+      "id": "1005232608",
+      "species": "cat",
+      "filename": "cat-1005232608.glb",
+      "sourceFilename": "Meshy_AI_cat_1005232608_texture.glb",
+      "sourceSha256": "bd526c835317a9cd2d89cf084773a9f35114189a4f813d279213bc60f69d22b0",
+      "outputSha256": "0ddc6430b7fc3ffc37eb86ec795fd32762fd45347851e46b44b9b227c75cf522",
+      "sourceTriangles": 333721,
+      "triangles": 45423,
+      "removedSourceGroundBridgeTriangles": 566,
+      "bytes": 11947516,
+      "height": 0.47,
+      "bounds": {
+        "min": [
+          -0.13198016583919525,
+          -1.644075382500887e-05,
+          -0.18701793253421783
+        ],
+        "max": [
+          0.13205859065055847,
+          0.47024744749069214,
+          0.18634837865829468
+        ]
+      },
+      "sourceFacingVerified": "Blender -Y; glTF +Z",
+      "restPose": "seated",
+      "joints": {
+        "animalRoot": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hips": [
+          -0.021885521709918976,
+          0.09870000183582306,
+          -0.048344701528549194
+        ],
+        "spine": [
+          -0.021773967891931534,
+          0.17389999330043793,
+          0.014340800233185291
+        ],
+        "chest": [
+          -0.021662412211298943,
+          0.249099999666214,
+          0.07702630758285522
+        ],
+        "neck": [
+          -0.021662412211298943,
+          0.3102000057697296,
+          0.10316194593906403
+        ],
+        "head": [
+          -0.021662412211298943,
+          0.3619000017642975,
+          0.13676491379737854
+        ],
+        "jaw": [
+          -0.021662412211298943,
+          0.319599986076355,
+          0.1415444165468216
+        ],
+        "earL": [
+          0.031145339831709862,
+          0.3995000123977661,
+          0.12183026224374771
+        ],
+        "earR": [
+          -0.0744701623916626,
+          0.3995000123977661,
+          0.12183026224374771
+        ],
+        "tailBase": [
+          0.0,
+          0.09870000183582306,
+          -0.06887985020875931
+        ],
+        "tail1": [
+          0.008271359838545322,
+          0.1470806896686554,
+          -0.09874915331602097
+        ],
+        "tail2": [
+          -0.009762346744537354,
+          0.10017384588718414,
+          -0.12301796674728394
+        ],
+        "tail3": [
+          -0.016167664900422096,
+          0.06620803475379944,
+          -0.1472867727279663
+        ],
+        "frontShoulderL": [
+          0.026165474206209183,
+          0.249099999666214,
+          0.07702630758285522
+        ],
+        "frontElbowL": [
+          0.026165474206209183,
+          0.1668969988822937,
+          0.057418759912252426
+        ],
+        "frontWristL": [
+          0.026165474206209183,
+          0.050289999693632126,
+          0.06836121529340744
+        ],
+        "frontPawL": [
+          0.026165474206209183,
+          0.005640000104904175,
+          0.07541121542453766
+        ],
+        "frontShoulderR": [
+          -0.06949029862880707,
+          0.249099999666214,
+          0.07702630758285522
+        ],
+        "frontElbowR": [
+          -0.06949029862880707,
+          0.1668969988822937,
+          0.059033848345279694
+        ],
+        "frontWristR": [
+          -0.06949029862880707,
+          0.050289999693632126,
+          0.07159139215946198
+        ],
+        "frontPawR": [
+          -0.06949029862880707,
+          0.005640000104904175,
+          0.0786413922905922
+        ],
+        "hindHipL": [
+          0.03879539668560028,
+          0.09870000183582306,
+          -0.048344701528549194
+        ],
+        "hindKneeL": [
+          0.03879539668560028,
+          0.057245999574661255,
+          -0.0038433840963989496
+        ],
+        "hindHockL": [
+          0.03879539668560028,
+          0.028200000524520874,
+          -0.06964338570833206
+        ],
+        "hindPawL": [
+          0.03879539668560028,
+          0.005640000104904175,
+          -0.050843384116888046
+        ],
+        "hindHipR": [
+          -0.08256644010543823,
+          0.09870000183582306,
+          -0.048344701528549194
+        ],
+        "hindKneeR": [
+          -0.08256644010543823,
+          0.057245999574661255,
+          0.0011539773549884558
+        ],
+        "hindHockR": [
+          -0.08256644010543823,
+          0.028200000524520874,
+          -0.06464602053165436
+        ],
+        "hindPawR": [
+          -0.08256644010543823,
+          0.005640000104904175,
+          -0.04584602266550064
+        ]
+      },
+      "pawBones": [
+        "frontPawL",
+        "frontPawR",
+        "hindPawL",
+        "hindPawR"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Alert",
+          "duration": 2.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Call",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Groom",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Sleep",
+          "duration": 5.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        }
+      ],
+      "surface": "source textures/materials and UV islands retained; anatomical UV-aware mesh collapse",
+      "preparationSeconds": 20.6,
+      "ikBendBranch": "fixed anatomical fore-backward / hind-forward"
+    },
+    {
+      "id": "1005232556",
+      "species": "cat",
+      "filename": "cat-1005232556.glb",
+      "sourceFilename": "Meshy_AI_cat_1005232556_texture.glb",
+      "sourceSha256": "02869e5775739d8f5d34b591eeb41dc07c0507c626bda91f523ffb9213eb6fa7",
+      "outputSha256": "4234c20537f315fe7fb82cee5189ce5a7ab63a4cf8f562fbdabb449957d59222",
+      "sourceTriangles": 265126,
+      "triangles": 45798,
+      "removedSourceGroundBridgeTriangles": 201,
+      "bytes": 9386552,
+      "height": 0.4,
+      "bounds": {
+        "min": [
+          -0.2143048495054245,
+          -0.00010522782395128161,
+          -0.34258711338043213
+        ],
+        "max": [
+          0.21524691581726074,
+          0.39916083216667175,
+          0.34001424908638
+        ]
+      },
+      "sourceFacingVerified": "Blender -Y; glTF +Z",
+      "restPose": "standing",
+      "joints": {
+        "animalRoot": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hips": [
+          -0.06667829304933548,
+          0.21199999749660492,
+          -0.14032459259033203
+        ],
+        "spine": [
+          -0.002709413878619671,
+          0.22200000286102295,
+          -0.0157039575278759
+        ],
+        "chest": [
+          0.06125946715474129,
+          0.23199999332427979,
+          0.10891667008399963
+        ],
+        "neck": [
+          0.06125946715474129,
+          0.2680000066757202,
+          0.15669876337051392
+        ],
+        "head": [
+          0.06125946715474129,
+          0.30799999833106995,
+          0.218132883310318
+        ],
+        "jaw": [
+          0.06125946715474129,
+          0.2720000147819519,
+          0.25810208916664124
+        ],
+        "earL": [
+          0.1471698135137558,
+          0.3400000035762787,
+          0.1908288300037384
+        ],
+        "earR": [
+          -0.02465088665485382,
+          0.3400000035762787,
+          0.1908288300037384
+        ],
+        "tailBase": [
+          0.0,
+          0.21199999749660492,
+          -0.17786766588687897
+        ],
+        "tail1": [
+          -0.03342977166175842,
+          0.17041483521461487,
+          -0.23247577250003815
+        ],
+        "tail2": [
+          0.0,
+          0.164000004529953,
+          -0.27684485912323
+        ],
+        "tail3": [
+          0.0,
+          0.14000000059604645,
+          -0.321213960647583
+        ],
+        "frontShoulderL": [
+          0.08579862862825394,
+          0.23199999332427979,
+          0.10891667008399963
+        ],
+        "frontElbowL": [
+          0.08579862862825394,
+          0.15544000267982483,
+          0.0863337591290474
+        ],
+        "frontWristL": [
+          0.08579862862825394,
+          0.04639999940991402,
+          0.08975085616111755
+        ],
+        "frontPawL": [
+          0.08579862862825394,
+          0.004800000227987766,
+          0.0957508534193039
+        ],
+        "frontShoulderR": [
+          0.03672030568122864,
+          0.23199999332427979,
+          0.10891667008399963
+        ],
+        "frontElbowR": [
+          0.03672030568122864,
+          0.15544000267982483,
+          0.09949957579374313
+        ],
+        "frontWristR": [
+          0.03672030568122864,
+          0.04639999940991402,
+          0.11608248949050903
+        ],
+        "frontPawR": [
+          0.03672030568122864,
+          0.006146510597318411,
+          0.12208248674869537
+        ],
+        "hindHipL": [
+          -0.009030673652887344,
+          0.21199999749660492,
+          -0.14032459259033203
+        ],
+        "hindKneeL": [
+          -0.009030673652887344,
+          0.12083999812602997,
+          -0.11509428918361664
+        ],
+        "hindHockL": [
+          -0.009030673652887344,
+          0.04824000597000122,
+          -0.1478639841079712
+        ],
+        "hindPawL": [
+          -0.009030673652887344,
+          0.010240006260573864,
+          -0.14186398684978485
+        ],
+        "hindHipR": [
+          -0.12432591617107391,
+          0.21199999749660492,
+          -0.14032459259033203
+        ],
+        "hindKneeR": [
+          -0.12432591617107391,
+          0.12083999812602997,
+          -0.11355488747358322
+        ],
+        "hindHockR": [
+          -0.12432591617107391,
+          0.044847168028354645,
+          -0.14478518068790436
+        ],
+        "hindPawR": [
+          -0.12432591617107391,
+          0.006847167853266001,
+          -0.13878518342971802
+        ]
+      },
+      "pawBones": [
+        "frontPawL",
+        "frontPawR",
+        "hindPawL",
+        "hindPawR"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Walk",
+          "duration": 0.9,
+          "referenceSpeed": 0.1403202826769144,
+          "requestedReferenceSpeed": 0.55,
+          "stanceDistance": 0.0808244828219027,
+          "stanceFraction": 0.64,
+          "maxStanceReachError": 2.356080457693621e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Run",
+          "duration": 0.65,
+          "referenceSpeed": 0.45904543024900624,
+          "requestedReferenceSpeed": 1.8,
+          "stanceDistance": 0.11338422127150455,
+          "stanceFraction": 0.38,
+          "maxStanceReachError": 1.4901161193847656e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Alert",
+          "duration": 2.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Call",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        }
+      ],
+      "surface": "source textures/materials and UV islands retained; anatomical UV-aware mesh collapse",
+      "preparationSeconds": 16.54,
+      "ikBendBranch": "fixed anatomical fore-backward / hind-forward"
+    },
+    {
+      "id": "1005232529",
+      "species": "dog",
+      "filename": "dog-1005232529.glb",
+      "sourceFilename": "Meshy_AI_dog_1005232529_texture.glb",
+      "sourceSha256": "318f62cc06ca7f84bfe0ee518666fa7df07d4868e0404b2546e9a6224e4e6355",
+      "outputSha256": "e67d090731783b23d39dac59acb75634b8960b9827ffafdfea5175ee0ba7b386",
+      "sourceTriangles": 101084,
+      "triangles": 46000,
+      "removedSourceGroundBridgeTriangles": 0,
+      "bytes": 3468088,
+      "height": 0.8,
+      "bounds": {
+        "min": [
+          -0.13443979620933533,
+          0.00022580033692065626,
+          -0.4940585494041443
+        ],
+        "max": [
+          0.1343463510274887,
+          0.7999650835990906,
+          0.4940556287765503
+        ]
+      },
+      "sourceFacingVerified": "Blender -Y; glTF +Z",
+      "restPose": "standing",
+      "joints": {
+        "animalRoot": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hips": [
+          -0.0012895837426185608,
+          0.4320000112056732,
+          -0.3343457579612732
+        ],
+        "spine": [
+          -0.001183394342660904,
+          0.4519999921321869,
+          -0.07155203819274902
+        ],
+        "chest": [
+          -0.001077204942703247,
+          0.47200000286102295,
+          0.19124168157577515
+        ],
+        "neck": [
+          -0.001077204942703247,
+          0.5519999861717224,
+          0.2604096829891205
+        ],
+        "head": [
+          -0.001077204942703247,
+          0.6320000290870667,
+          0.34933996200561523
+        ],
+        "jaw": [
+          -0.001077204942703247,
+          0.5600000023841858,
+          0.3754819333553314
+        ],
+        "earL": [
+          0.05268002301454544,
+          0.6959999799728394,
+          0.3098154067993164
+        ],
+        "earR": [
+          -0.054834432899951935,
+          0.6959999799728394,
+          0.3098154067993164
+        ],
+        "tailBase": [
+          0.0,
+          0.4320000112056732,
+          -0.38869205117225647
+        ],
+        "tail1": [
+          -0.0007583420956507325,
+          0.2577956020832062,
+          -0.4677411913871765
+        ],
+        "tail2": [
+          -0.00141927320510149,
+          0.2386314570903778,
+          -0.5319685935974121
+        ],
+        "tail3": [
+          0.0,
+          0.2880000174045563,
+          -0.5961960554122925
+        ],
+        "frontShoulderL": [
+          0.0625050738453865,
+          0.47200000286102295,
+          0.19124168157577515
+        ],
+        "frontElbowL": [
+          0.0625050738453865,
+          0.31624001264572144,
+          0.1595185399055481
+        ],
+        "frontWristL": [
+          0.0625050738453865,
+          0.09440000355243683,
+          0.17979539930820465
+        ],
+        "frontPawL": [
+          0.0625050738453865,
+          0.009600000455975533,
+          0.19179539382457733
+        ],
+        "frontShoulderR": [
+          -0.064659483730793,
+          0.47200000286102295,
+          0.19124168157577515
+        ],
+        "frontElbowR": [
+          -0.064659483730793,
+          0.31624001264572144,
+          0.1589648276567459
+        ],
+        "frontWristR": [
+          -0.064659483730793,
+          0.09440000355243683,
+          0.17868798971176147
+        ],
+        "frontPawR": [
+          -0.064659483730793,
+          0.009600000455975533,
+          0.19068798422813416
+        ],
+        "hindHipL": [
+          0.09860102832317352,
+          0.4320000112056732,
+          -0.3343457579612732
+        ],
+        "hindKneeL": [
+          0.09860102832317352,
+          0.24624000489711761,
+          -0.28257834911346436
+        ],
+        "hindHockL": [
+          0.09860102832317352,
+          0.08640000224113464,
+          -0.346810907125473
+        ],
+        "hindPawL": [
+          0.09860102832317352,
+          0.009600000455975533,
+          -0.33481091260910034
+        ],
+        "hindHipR": [
+          -0.10118019580841064,
+          0.4320000112056732,
+          -0.3343457579612732
+        ],
+        "hindKneeR": [
+          -0.10118019580841064,
+          0.24624000489711761,
+          -0.2821131944656372
+        ],
+        "hindHockR": [
+          -0.10118019580841064,
+          0.08640000224113464,
+          -0.3458806276321411
+        ],
+        "hindPawR": [
+          -0.10118019580841064,
+          0.009600000455975533,
+          -0.33388063311576843
+        ]
+      },
+      "pawBones": [
+        "frontPawL",
+        "frontPawR",
+        "hindPawL",
+        "hindPawR"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Walk",
+          "duration": 0.9,
+          "referenceSpeed": 0.3337325058552388,
+          "requestedReferenceSpeed": 1.0,
+          "stanceDistance": 0.19222992337261757,
+          "stanceFraction": 0.64,
+          "maxStanceReachError": 4.470348358154297e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Run",
+          "duration": 0.65,
+          "referenceSpeed": 1.0178373162477432,
+          "requestedReferenceSpeed": 2.6,
+          "stanceDistance": 0.2514058171131926,
+          "stanceFraction": 0.38,
+          "maxStanceReachError": 4.470348358154297e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Alert",
+          "duration": 2.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Call",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        }
+      ],
+      "surface": "source textures/materials and UV islands retained; anatomical UV-aware mesh collapse",
+      "preparationSeconds": 13.05,
+      "ikBendBranch": "fixed anatomical fore-backward / hind-forward"
+    },
+    {
+      "id": "1005232511",
+      "species": "dog",
+      "filename": "dog-1005232511.glb",
+      "sourceFilename": "Meshy_AI_dog_1005232511_texture.glb",
+      "sourceSha256": "dcf72635e50e74592233335ed5d1d4b983b28bb41469294305603245546cd6d8",
+      "outputSha256": "ef8b25bdd4a565601b16ff4562cc116e384877b3ce730b5a3fdc5eb624223f68",
+      "sourceTriangles": 16236,
+      "triangles": 16235,
+      "removedSourceGroundBridgeTriangles": 0,
+      "bytes": 6159064,
+      "height": 0.8,
+      "bounds": {
+        "min": [
+          -0.13453711569309235,
+          0.0,
+          -0.43972882628440857
+        ],
+        "max": [
+          0.13453711569309235,
+          0.800000011920929,
+          0.43972882628440857
+        ]
+      },
+      "sourceFacingVerified": "Blender -Y; glTF +Z",
+      "restPose": "standing",
+      "joints": {
+        "animalRoot": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hips": [
+          -1.1548399925231934e-07,
+          0.4320000112056732,
+          -0.35665902495384216
+        ],
+        "spine": [
+          -5.774199962615967e-08,
+          0.4519999921321869,
+          -0.0948081836104393
+        ],
+        "chest": [
+          0.0,
+          0.47200000286102295,
+          0.16704265773296356
+        ],
+        "neck": [
+          0.0,
+          0.5519999861717224,
+          0.22860468924045563
+        ],
+        "head": [
+          0.0,
+          0.6320000290870667,
+          0.30775588750839233
+        ],
+        "jaw": [
+          0.0,
+          0.5600000023841858,
+          0.3341939151287079
+        ],
+        "earL": [
+          0.053814847022295,
+          0.6959999799728394,
+          0.27257758378982544
+        ],
+        "earR": [
+          -0.053814847022295,
+          0.6959999799728394,
+          0.27257758378982544
+        ],
+        "tailBase": [
+          0.0,
+          0.4320000112056732,
+          -0.40502920746803284
+        ],
+        "tail1": [
+          0.03882617503404617,
+          0.5905192494392395,
+          -0.4753858149051666
+        ],
+        "tail2": [
+          0.0,
+          0.3360000252723694,
+          -0.532550573348999
+        ],
+        "tail3": [
+          0.0,
+          0.2880000174045563,
+          -0.589715301990509
+        ],
+        "frontShoulderL": [
+          0.06952595710754395,
+          0.47200000286102295,
+          0.16704265773296356
+        ],
+        "frontElbowL": [
+          0.06952595710754395,
+          0.31624001264572144,
+          0.13504265248775482
+        ],
+        "frontWristL": [
+          0.06952595710754395,
+          0.09440000355243683,
+          0.15504266321659088
+        ],
+        "frontPawL": [
+          0.06952595710754395,
+          0.009600000455975533,
+          0.16704265773296356
+        ],
+        "frontShoulderR": [
+          -0.06952595710754395,
+          0.47200000286102295,
+          0.16704265773296356
+        ],
+        "frontElbowR": [
+          -0.06952595710754395,
+          0.31624001264572144,
+          0.13504265248775482
+        ],
+        "frontWristR": [
+          -0.06952595710754395,
+          0.09440000355243683,
+          0.15504266321659088
+        ],
+        "frontPawR": [
+          -0.06952595710754395,
+          0.009600000455975533,
+          0.16704265773296356
+        ],
+        "hindHipL": [
+          0.07765212655067444,
+          0.4320000112056732,
+          -0.35665902495384216
+        ],
+        "hindKneeL": [
+          0.07765212655067444,
+          0.24624000489711761,
+          -0.30465903878211975
+        ],
+        "hindHockL": [
+          0.07765212655067444,
+          0.08640000224113464,
+          -0.36865901947021484
+        ],
+        "hindPawL": [
+          0.07765212655067444,
+          0.009600000455975533,
+          -0.35665902495384216
+        ],
+        "hindHipR": [
+          -0.07765235751867294,
+          0.4320000112056732,
+          -0.35665902495384216
+        ],
+        "hindKneeR": [
+          -0.07765235751867294,
+          0.24624000489711761,
+          -0.30465903878211975
+        ],
+        "hindHockR": [
+          -0.07765235751867294,
+          0.08640000224113464,
+          -0.36865901947021484
+        ],
+        "hindPawR": [
+          -0.07765235751867294,
+          0.009600000455975533,
+          -0.35665902495384216
+        ]
+      },
+      "pawBones": [
+        "frontPawL",
+        "frontPawR",
+        "hindPawL",
+        "hindPawR"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Walk",
+          "duration": 0.9,
+          "referenceSpeed": 0.3238128945175367,
+          "requestedReferenceSpeed": 1.0,
+          "stanceDistance": 0.18651622724210115,
+          "stanceFraction": 0.64,
+          "maxStanceReachError": 4.470348358154297e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Run",
+          "duration": 0.65,
+          "referenceSpeed": 0.9997678690918609,
+          "requestedReferenceSpeed": 2.6,
+          "stanceDistance": 0.24694266366568968,
+          "stanceFraction": 0.38,
+          "maxStanceReachError": 4.712160915387242e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Alert",
+          "duration": 2.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Call",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        }
+      ],
+      "surface": "source textures/materials and UV islands retained; anatomical UV-aware mesh collapse",
+      "preparationSeconds": 2.13,
+      "ikBendBranch": "fixed anatomical fore-backward / hind-forward"
+    },
+    {
+      "id": "1005232450",
+      "species": "boar",
+      "filename": "boar-1005232450.glb",
+      "sourceFilename": "Meshy_AI_Wild_Boar_1005232450_texture.glb",
+      "sourceSha256": "6f99c5a7b3f66162000a25e8bf6f88926019512376f6e31179111723f09c1046",
+      "outputSha256": "83005905157086f6409b4359b093213b7596f711aac7eb523e79a5369856ef84",
+      "sourceTriangles": 494855,
+      "triangles": 45999,
+      "removedSourceGroundBridgeTriangles": 0,
+      "bytes": 11335756,
+      "height": 1.0,
+      "bounds": {
+        "min": [
+          -0.23584143817424774,
+          -0.0002717641764320433,
+          -0.8794259428977966
+        ],
+        "max": [
+          0.23665980994701385,
+          1.00019109249115,
+          0.8789418339729309
+        ]
+      },
+      "sourceFacingVerified": "Blender -Y; glTF +Z",
+      "restPose": "standing",
+      "joints": {
+        "animalRoot": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hips": [
+          0.005592934787273407,
+          0.5799999833106995,
+          -0.5960456132888794
+        ],
+        "spine": [
+          0.002689918503165245,
+          0.5849999785423279,
+          -0.15591657161712646
+        ],
+        "chest": [
+          -0.00021309778094291687,
+          0.5899999737739563,
+          0.2842124104499817
+        ],
+        "neck": [
+          -0.00021309778094291687,
+          0.5799999833106995,
+          0.40729817748069763
+        ],
+        "head": [
+          -0.00021309778094291687,
+          0.5600000023841858,
+          0.5655512809753418
+        ],
+        "jaw": [
+          -0.00021309778094291687,
+          0.4699999988079071,
+          0.667937695980072
+        ],
+        "earL": [
+          0.09428714960813522,
+          0.6399999856948853,
+          0.49521657824516296
+        ],
+        "earR": [
+          -0.09471334517002106,
+          0.6399999856948853,
+          0.49521657824516296
+        ],
+        "tailBase": [
+          0.0,
+          0.5799999833106995,
+          -0.6927558183670044
+        ],
+        "tail1": [
+          -0.0008562925504520535,
+          0.5383425354957581,
+          -0.8334252238273621
+        ],
+        "tail2": [
+          -0.0022601434029638767,
+          0.4598195552825928,
+          -0.947719156742096
+        ],
+        "tail3": [
+          0.0,
+          0.3999999761581421,
+          -1.062013030052185
+        ],
+        "frontShoulderL": [
+          0.11169151961803436,
+          0.5899999737739563,
+          0.2842124104499817
+        ],
+        "frontElbowL": [
+          0.11169151961803436,
+          0.3952999711036682,
+          0.2470712661743164
+        ],
+        "frontWristL": [
+          0.11169151961803436,
+          0.11799999326467514,
+          0.2749301493167877
+        ],
+        "frontPawL": [
+          0.11169151961803436,
+          0.012000000104308128,
+          0.289930135011673
+        ],
+        "frontShoulderR": [
+          -0.1121177151799202,
+          0.5899999737739563,
+          0.2842124104499817
+        ],
+        "frontElbowR": [
+          -0.1121177151799202,
+          0.3952999711036682,
+          0.24135355651378632
+        ],
+        "frontWristR": [
+          -0.1121177151799202,
+          0.11799999326467514,
+          0.26349472999572754
+        ],
+        "frontPawR": [
+          -0.1121177151799202,
+          0.012000000104308128,
+          0.2784947156906128
+        ],
+        "hindHipL": [
+          0.16084091365337372,
+          0.5799999833106995,
+          -0.5960456132888794
+        ],
+        "hindKneeL": [
+          0.16084091365337372,
+          0.33059999346733093,
+          -0.5324235558509827
+        ],
+        "hindHockL": [
+          0.16084091365337372,
+          0.11599999666213989,
+          -0.6138015389442444
+        ],
+        "hindPawL": [
+          0.16084091365337372,
+          0.02089674584567547,
+          -0.5988015532493591
+        ],
+        "hindHipR": [
+          -0.1496550440788269,
+          0.5799999833106995,
+          -0.5960456132888794
+        ],
+        "hindKneeR": [
+          -0.1496550440788269,
+          0.33059999346733093,
+          -0.5296676158905029
+        ],
+        "hindHockR": [
+          -0.1496550440788269,
+          0.11599999666213989,
+          -0.6082895994186401
+        ],
+        "hindPawR": [
+          -0.1496550440788269,
+          0.02040194347500801,
+          -0.5932896137237549
+        ]
+      },
+      "pawBones": [
+        "frontPawL",
+        "frontPawR",
+        "hindPawL",
+        "hindPawR"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Walk",
+          "duration": 1.3,
+          "referenceSpeed": 0.37116378741509887,
+          "requestedReferenceSpeed": 0.75,
+          "stanceDistance": 0.30880827112936227,
+          "stanceFraction": 0.64,
+          "maxStanceReachError": 5.3726900748371916e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Run",
+          "duration": 0.8,
+          "referenceSpeed": 1.045491282867148,
+          "requestedReferenceSpeed": 2.0,
+          "stanceDistance": 0.31782934999161305,
+          "stanceFraction": 0.38,
+          "maxStanceReachError": 4.470348358154297e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Alert",
+          "duration": 2.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Call",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Graze",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        }
+      ],
+      "surface": "source textures/materials and UV islands retained; anatomical UV-aware mesh collapse",
+      "preparationSeconds": 23.66,
+      "ikBendBranch": "fixed anatomical fore-backward / hind-forward"
+    },
+    {
+      "id": "1005232442",
+      "species": "boar",
+      "filename": "boar-1005232442.glb",
+      "sourceFilename": "Meshy_AI_boar_1005232442_texture.glb",
+      "sourceSha256": "c93ee2d2a7884b9b6cd64336470c3fc9e8ce9b8ed74098d00d146dfa0b69c8b9",
+      "outputSha256": "379603393eaccf21649f694141224483338dc8d7ca6163c5691133abace144a4",
+      "sourceTriangles": 19638,
+      "triangles": 19638,
+      "removedSourceGroundBridgeTriangles": 0,
+      "bytes": 2524816,
+      "height": 1.0,
+      "bounds": {
+        "min": [
+          -0.29465124011039734,
+          0.0,
+          -0.8113188743591309
+        ],
+        "max": [
+          0.29465124011039734,
+          1.0,
+          0.8113188743591309
+        ]
+      },
+      "sourceFacingVerified": "Blender -Y; glTF +Z",
+      "restPose": "standing",
+      "joints": {
+        "animalRoot": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hips": [
+          0.0018355101346969604,
+          0.5799999833106995,
+          -0.3732066750526428
+        ],
+        "spine": [
+          -0.005346434190869331,
+          0.5849999785423279,
+          -0.09924399852752686
+        ],
+        "chest": [
+          -0.012528378516435623,
+          0.5899999737739563,
+          0.1747186779975891
+        ],
+        "neck": [
+          -0.012528378516435623,
+          0.5799999833106995,
+          0.28830331563949585
+        ],
+        "head": [
+          -0.012528378516435623,
+          0.5600000023841858,
+          0.4343407154083252
+        ],
+        "jaw": [
+          -0.012528378516435623,
+          0.4699999988079071,
+          0.61660236120224
+        ],
+        "earL": [
+          0.10533212125301361,
+          0.6399999856948853,
+          0.36943519115448
+        ],
+        "earR": [
+          -0.13038887083530426,
+          0.6399999856948853,
+          0.36943519115448
+        ],
+        "tailBase": [
+          0.0,
+          0.5799999833106995,
+          -0.4624517560005188
+        ],
+        "tail1": [
+          -0.003262271173298359,
+          0.45238661766052246,
+          -0.5922628045082092
+        ],
+        "tail2": [
+          0.0068152002058923244,
+          0.54060959815979,
+          -0.6977342367172241
+        ],
+        "tail3": [
+          0.01714768260717392,
+          0.3986266851425171,
+          -0.803205668926239
+        ],
+        "frontShoulderL": [
+          0.12206899374723434,
+          0.5899999737739563,
+          0.1747186779975891
+        ],
+        "frontElbowL": [
+          0.12206899374723434,
+          0.3952999711036682,
+          0.12465022504329681
+        ],
+        "frontWristL": [
+          0.12206899374723434,
+          0.11799999326467514,
+          0.13958176970481873
+        ],
+        "frontPawL": [
+          0.12206899374723434,
+          0.012000000104308128,
+          0.15458177030086517
+        ],
+        "frontShoulderR": [
+          -0.1471257507801056,
+          0.5899999737739563,
+          0.1747186779975891
+        ],
+        "frontElbowR": [
+          -0.1471257507801056,
+          0.3952999711036682,
+          0.14478713274002075
+        ],
+        "frontWristR": [
+          -0.1471257507801056,
+          0.11799999326467514,
+          0.1798555850982666
+        ],
+        "frontPawR": [
+          -0.1471257507801056,
+          0.012000000104308128,
+          0.19485558569431305
+        ],
+        "hindHipL": [
+          0.13945981860160828,
+          0.5799999833106995,
+          -0.3732066750526428
+        ],
+        "hindKneeL": [
+          0.13945981860160828,
+          0.33059999346733093,
+          -0.31055140495300293
+        ],
+        "hindHockL": [
+          0.13945981860160828,
+          0.11599999666213989,
+          -0.3928961157798767
+        ],
+        "hindPawL": [
+          0.13945981860160828,
+          0.012000000104308128,
+          -0.37789613008499146
+        ],
+        "hindHipR": [
+          -0.13578879833221436,
+          0.5799999833106995,
+          -0.3732066750526428
+        ],
+        "hindKneeR": [
+          -0.13578879833221436,
+          0.33059999346733093,
+          -0.45163601636886597
+        ],
+        "hindHockR": [
+          -0.13578879833221436,
+          0.11599999666213989,
+          -0.6750653386116028
+        ],
+        "hindPawR": [
+          -0.13578879833221436,
+          0.012000000104308128,
+          -0.6600653529167175
+        ]
+      },
+      "pawBones": [
+        "frontPawL",
+        "frontPawR",
+        "hindPawL",
+        "hindPawR"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Walk",
+          "duration": 1.3,
+          "referenceSpeed": 0.35283968631807755,
+          "requestedReferenceSpeed": 0.75,
+          "stanceDistance": 0.29356261901664055,
+          "stanceFraction": 0.64,
+          "maxStanceReachError": 5.960464477539063e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Run",
+          "duration": 0.8,
+          "referenceSpeed": 0.9959929559607011,
+          "requestedReferenceSpeed": 2.0,
+          "stanceDistance": 0.3027818586120532,
+          "stanceFraction": 0.38,
+          "maxStanceReachError": 3.332000937312528e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Alert",
+          "duration": 2.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Call",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Graze",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        }
+      ],
+      "surface": "source textures/materials and UV islands retained; anatomical UV-aware mesh collapse",
+      "preparationSeconds": 2.94,
+      "ikBendBranch": "fixed anatomical fore-backward / hind-forward"
+    },
+    {
+      "id": "1005174818",
+      "species": "boar",
+      "filename": "boar-1005174818.glb",
+      "sourceFilename": "Meshy_AI_BOAR_1005174818_texture.glb",
+      "sourceSha256": "b3d81b85e2db966d8268c11e579a696977e3395dd501ae6f3256489fc9ec30f0",
+      "outputSha256": "ab76c49df449e2bd18880c444caa18d0ec27d63290490abdc3f5802d1b7be3f4",
+      "sourceTriangles": 781976,
+      "triangles": 45748,
+      "removedSourceGroundBridgeTriangles": 0,
+      "bytes": 14673220,
+      "height": 1.0,
+      "bounds": {
+        "min": [
+          -0.235856831073761,
+          4.261053982190788e-05,
+          -0.8612253069877625
+        ],
+        "max": [
+          0.23559783399105072,
+          1.0,
+          0.861107587814331
+        ]
+      },
+      "sourceFacingVerified": "Blender -Y; glTF +Z",
+      "restPose": "standing",
+      "joints": {
+        "animalRoot": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hips": [
+          4.4986605644226074e-05,
+          0.5799999833106995,
+          -0.55497145652771
+        ],
+        "spine": [
+          4.6797096729278564e-05,
+          0.5849999785423279,
+          -0.1449763923883438
+        ],
+        "chest": [
+          4.8607587814331055e-05,
+          0.5899999737739563,
+          0.2650187015533447
+        ],
+        "neck": [
+          4.8607587814331055e-05,
+          0.5799999833106995,
+          0.38558200001716614
+        ],
+        "head": [
+          4.8607587814331055e-05,
+          0.5600000023841858,
+          0.5405919551849365
+        ],
+        "jaw": [
+          4.8607587814331055e-05,
+          0.4699999988079071,
+          0.6544276475906372
+        ],
+        "earL": [
+          0.09433954209089279,
+          0.6399999856948853,
+          0.4716986417770386
+        ],
+        "earR": [
+          -0.09424232691526413,
+          0.6399999856948853,
+          0.4716986417770386
+        ],
+        "tailBase": [
+          0.0,
+          0.5799999833106995,
+          -0.6496998071670532
+        ],
+        "tail1": [
+          0.0006384882144629955,
+          0.4754102826118469,
+          -0.7874864339828491
+        ],
+        "tail2": [
+          0.0012896363623440266,
+          0.3554190993309021,
+          -0.8994380831718445
+        ],
+        "tail3": [
+          0.0,
+          0.3999999761581421,
+          -1.0113897323608398
+        ],
+        "frontShoulderL": [
+          0.11014898121356964,
+          0.5899999737739563,
+          0.2650187015533447
+        ],
+        "frontElbowL": [
+          0.11014898121356964,
+          0.3952999711036682,
+          0.2244565635919571
+        ],
+        "frontWristL": [
+          0.11014898121356964,
+          0.11799999326467514,
+          0.24889443814754486
+        ],
+        "frontPawL": [
+          0.11014898121356964,
+          0.012000000104308128,
+          0.2638944387435913
+        ],
+        "frontShoulderR": [
+          -0.11005176603794098,
+          0.5899999737739563,
+          0.2650187015533447
+        ],
+        "frontElbowR": [
+          -0.11005176603794098,
+          0.3952999711036682,
+          0.2255808264017105
+        ],
+        "frontWristR": [
+          -0.11005176603794098,
+          0.11799999326467514,
+          0.2511429786682129
+        ],
+        "frontPawR": [
+          -0.11005176603794098,
+          0.012000000104308128,
+          0.26614296436309814
+        ],
+        "hindHipL": [
+          0.13036133348941803,
+          0.5799999833106995,
+          -0.55497145652771
+        ],
+        "hindKneeL": [
+          0.13036133348941803,
+          0.33059999346733093,
+          -0.4857340157032013
+        ],
+        "hindHockL": [
+          0.13036133348941803,
+          0.11599999666213989,
+          -0.5614965558052063
+        ],
+        "hindPawL": [
+          0.13036133348941803,
+          0.012000000104308128,
+          -0.546496570110321
+        ],
+        "hindHipR": [
+          -0.13027136027812958,
+          0.5799999833106995,
+          -0.55497145652771
+        ],
+        "hindKneeR": [
+          -0.13027136027812958,
+          0.33059999346733093,
+          -0.4942089319229126
+        ],
+        "hindHockR": [
+          -0.13027136027812958,
+          0.11599999666213989,
+          -0.5784463882446289
+        ],
+        "hindPawR": [
+          -0.13027136027812958,
+          0.012000000104308128,
+          -0.5634464025497437
+        ]
+      },
+      "pawBones": [
+        "frontPawL",
+        "frontPawR",
+        "hindPawL",
+        "hindPawR"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Walk",
+          "duration": 1.3,
+          "referenceSpeed": 0.3707278548896871,
+          "requestedReferenceSpeed": 0.75,
+          "stanceDistance": 0.3084455752682197,
+          "stanceFraction": 0.64,
+          "maxStanceReachError": 7.450580596923828e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Run",
+          "duration": 0.8,
+          "referenceSpeed": 1.0436446492123965,
+          "requestedReferenceSpeed": 2.0,
+          "stanceDistance": 0.3172679733605686,
+          "stanceFraction": 0.38,
+          "maxStanceReachError": 8.024520884654677e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Alert",
+          "duration": 2.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Call",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Graze",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        }
+      ],
+      "surface": "source textures/materials and UV islands retained; anatomical UV-aware mesh collapse",
+      "preparationSeconds": 14.15,
+      "ikBendBranch": "fixed anatomical fore-backward / hind-forward"
+    },
+    {
+      "id": "1005232424",
+      "species": "deer",
+      "filename": "deer-1005232424.glb",
+      "sourceFilename": "Meshy_AI_Red_Deer_Stag_1005232424_texture.glb",
+      "sourceSha256": "be4abbf9a65eb72f13962ce90bbbc27e8b3445c7bf83e239959f49a75e181aab",
+      "outputSha256": "77dac28f5728d12f1a7f51392252bd1a89c1d06b5de2d412c6de7af36a188524",
+      "sourceTriangles": 190339,
+      "triangles": 45999,
+      "removedSourceGroundBridgeTriangles": 0,
+      "bytes": 7340172,
+      "height": 2.25,
+      "bounds": {
+        "min": [
+          -0.37360599637031555,
+          -0.0003320287214592099,
+          -1.0121935606002808
+        ],
+        "max": [
+          0.37360498309135437,
+          2.2525901794433594,
+          1.0122219324111938
+        ]
+      },
+      "sourceFacingVerified": "Blender -Y; glTF +Z",
+      "restPose": "standing",
+      "joints": {
+        "animalRoot": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hips": [
+          0.017549686133861542,
+          1.0575000047683716,
+          -0.7886489629745483
+        ],
+        "spine": [
+          0.01541040651500225,
+          1.068750023841858,
+          -0.2558533251285553
+        ],
+        "chest": [
+          0.01327112689614296,
+          1.0800000429153442,
+          0.27694231271743774
+        ],
+        "neck": [
+          0.01327112689614296,
+          1.3949999809265137,
+          0.41865137219429016
+        ],
+        "head": [
+          0.01327112689614296,
+          1.5525000095367432,
+          0.6008487939834595
+        ],
+        "jaw": [
+          0.01327112689614296,
+          1.350000023841858,
+          0.7692920565605164
+        ],
+        "earL": [
+          0.16271331906318665,
+          1.7324999570846558,
+          0.5198721885681152
+        ],
+        "earR": [
+          -0.13617107272148132,
+          1.7324999570846558,
+          0.5198721885681152
+        ],
+        "tailBase": [
+          0.0,
+          1.0575000047683716,
+          -0.8999918103218079
+        ],
+        "tail1": [
+          0.005587724968791008,
+          1.0954769849777222,
+          -1.0619450807571411
+        ],
+        "tail2": [
+          0.0,
+          0.7875000238418579,
+          -1.1935319900512695
+        ],
+        "tail3": [
+          0.0,
+          0.6525000333786011,
+          -1.3251190185546875
+        ],
+        "frontShoulderL": [
+          0.09680286794900894,
+          1.0800000429153442,
+          0.27694231271743774
+        ],
+        "frontElbowL": [
+          0.09680286794900894,
+          0.7236000299453735,
+          0.18678316473960876
+        ],
+        "frontWristL": [
+          0.09680286794900894,
+          0.2407499998807907,
+          0.24287402629852295
+        ],
+        "frontPawL": [
+          0.09680286794900894,
+          0.027000000700354576,
+          0.27662402391433716
+        ],
+        "frontShoulderR": [
+          -0.07026061415672302,
+          1.0800000429153442,
+          0.27694231271743774
+        ],
+        "frontElbowR": [
+          -0.07026061415672302,
+          0.7236000299453735,
+          0.18710143864154816
+        ],
+        "frontWristR": [
+          -0.07026061415672302,
+          0.2407499998807907,
+          0.24351057410240173
+        ],
+        "frontPawR": [
+          -0.07026061415672302,
+          0.027000000700354576,
+          0.27726057171821594
+        ],
+        "hindHipL": [
+          0.1623978167772293,
+          1.0575000047683716,
+          -0.7886489629745483
+        ],
+        "hindKneeL": [
+          0.1623978167772293,
+          0.602774977684021,
+          -0.609688937664032
+        ],
+        "hindHockL": [
+          0.1623978167772293,
+          0.2407499998807907,
+          -0.7569788694381714
+        ],
+        "hindPawL": [
+          0.1623978167772293,
+          0.027000000700354576,
+          -0.7232288718223572
+        ],
+        "hindHipR": [
+          -0.12729844450950623,
+          1.0575000047683716,
+          -0.7886489629745483
+        ],
+        "hindKneeR": [
+          -0.12729844450950623,
+          0.602774977684021,
+          -0.6751089692115784
+        ],
+        "hindHockR": [
+          -0.12729844450950623,
+          0.2407499998807907,
+          -0.8878189921379089
+        ],
+        "hindPawR": [
+          -0.12729844450950623,
+          0.027000000700354576,
+          -0.8540689945220947
+        ]
+      },
+      "pawBones": [
+        "frontPawL",
+        "frontPawR",
+        "hindPawL",
+        "hindPawR"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Walk",
+          "duration": 1.2,
+          "referenceSpeed": 0.6342677324093662,
+          "requestedReferenceSpeed": 1.15,
+          "stanceDistance": 0.4871176184903932,
+          "stanceFraction": 0.64,
+          "maxStanceReachError": 1.4901161193847656e-07,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Run",
+          "duration": 0.65,
+          "referenceSpeed": 2.09700959349611,
+          "requestedReferenceSpeed": 3.5,
+          "stanceDistance": 0.5179613695935392,
+          "stanceFraction": 0.38,
+          "maxStanceReachError": 9.06402249678704e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Alert",
+          "duration": 2.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Call",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Graze",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        }
+      ],
+      "surface": "source textures/materials and UV islands retained; anatomical UV-aware mesh collapse",
+      "preparationSeconds": 28.33,
+      "ikBendBranch": "fixed anatomical fore-backward / hind-forward"
+    },
+    {
+      "id": "1005232412",
+      "species": "deer",
+      "filename": "deer-1005232412.glb",
+      "sourceFilename": "Meshy_AI_Deer_Mount_1005232412_texture.glb",
+      "sourceSha256": "19cf404163f58fa7eb225a829751a82783694169b6ab30f2c93a84f9c5e7f5c2",
+      "outputSha256": "3c40f75b9d0db0371ca398472a776af51d699397688db13812d0c22d45546736",
+      "sourceTriangles": 38476,
+      "triangles": 38476,
+      "removedSourceGroundBridgeTriangles": 0,
+      "bytes": 3706152,
+      "height": 2.25,
+      "bounds": {
+        "min": [
+          -0.6279283165931702,
+          0.0,
+          -0.9235035181045532
+        ],
+        "max": [
+          0.6279283165931702,
+          2.25,
+          0.9235035181045532
+        ]
+      },
+      "sourceFacingVerified": "Blender -Y; glTF +Z",
+      "restPose": "standing",
+      "joints": {
+        "animalRoot": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hips": [
+          -0.004272103309631348,
+          1.0575000047683716,
+          -0.6559432744979858
+        ],
+        "spine": [
+          -0.0024980567395687103,
+          1.068750023841858,
+          -0.17621253430843353
+        ],
+        "chest": [
+          -0.000724010169506073,
+          1.0800000429153442,
+          0.3035182058811188
+        ],
+        "neck": [
+          -0.000724010169506073,
+          1.3949999809265137,
+          0.43280869722366333
+        ],
+        "head": [
+          -0.000724010169506073,
+          1.5525000095367432,
+          0.5990393161773682
+        ],
+        "jaw": [
+          -0.000724010169506073,
+          1.350000023841858,
+          0.7018626928329468
+        ],
+        "earL": [
+          0.2504473030567169,
+          1.7324999570846558,
+          0.5251590609550476
+        ],
+        "earR": [
+          -0.25189533829689026,
+          1.7324999570846558,
+          0.5251590609550476
+        ],
+        "tailBase": [
+          0.0,
+          1.0575000047683716,
+          -0.7575286626815796
+        ],
+        "tail1": [
+          -0.004001644905656576,
+          1.0133026838302612,
+          -0.9052892327308655
+        ],
+        "tail2": [
+          0.0,
+          0.7875000238418579,
+          -1.025344729423523
+        ],
+        "tail3": [
+          0.0,
+          0.6525000333786011,
+          -1.1454001665115356
+        ],
+        "frontShoulderL": [
+          0.1492564082145691,
+          1.0800000429153442,
+          0.3035182058811188
+        ],
+        "frontElbowL": [
+          0.1492564082145691,
+          0.7236000299453735,
+          0.2132914811372757
+        ],
+        "frontWristL": [
+          0.1492564082145691,
+          0.2407499998807907,
+          0.2693147659301758
+        ],
+        "frontPawL": [
+          0.1492564082145691,
+          0.027000000700354576,
+          0.30306476354599
+        ],
+        "frontShoulderR": [
+          -0.15070442855358124,
+          1.0800000429153442,
+          0.3035182058811188
+        ],
+        "frontElbowR": [
+          -0.15070442855358124,
+          0.7236000299453735,
+          0.21374492347240448
+        ],
+        "frontWristR": [
+          -0.15070442855358124,
+          0.2407499998807907,
+          0.27022165060043335
+        ],
+        "frontPawR": [
+          -0.15070442855358124,
+          0.027000000700354576,
+          0.30397164821624756
+        ],
+        "hindHipL": [
+          0.1260225772857666,
+          1.0575000047683716,
+          -0.6559432744979858
+        ],
+        "hindKneeL": [
+          0.1260225772857666,
+          0.602774977684021,
+          -0.5029561519622803
+        ],
+        "hindHockL": [
+          0.1260225772857666,
+          0.2407499998807907,
+          -0.6762189865112305
+        ],
+        "hindPawL": [
+          0.1260225772857666,
+          0.027000000700354576,
+          -0.6424689888954163
+        ],
+        "hindHipR": [
+          -0.1345667839050293,
+          1.0575000047683716,
+          -0.6559432744979858
+        ],
+        "hindKneeR": [
+          -0.1345667839050293,
+          0.602774977684021,
+          -0.5164304375648499
+        ],
+        "hindHockR": [
+          -0.1345667839050293,
+          0.2407499998807907,
+          -0.7031675577163696
+        ],
+        "hindPawR": [
+          -0.1345667839050293,
+          0.027000000700354576,
+          -0.6694175601005554
+        ]
+      },
+      "pawBones": [
+        "frontPawL",
+        "frontPawR",
+        "hindPawL",
+        "hindPawR"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Walk",
+          "duration": 1.2,
+          "referenceSpeed": 0.6325019057402594,
+          "requestedReferenceSpeed": 1.15,
+          "stanceDistance": 0.4857614636085193,
+          "stanceFraction": 0.64,
+          "maxStanceReachError": 1.3328003749250113e-07,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Run",
+          "duration": 0.65,
+          "referenceSpeed": 2.091798987921442,
+          "requestedReferenceSpeed": 3.5,
+          "stanceDistance": 0.5166743500165962,
+          "stanceFraction": 0.38,
+          "maxStanceReachError": 1.1920928955078125e-07,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Alert",
+          "duration": 2.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Call",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Graze",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        }
+      ],
+      "surface": "source textures/materials and UV islands retained; anatomical UV-aware mesh collapse",
+      "preparationSeconds": 9.77,
+      "ikBendBranch": "fixed anatomical fore-backward / hind-forward"
+    },
+    {
+      "id": "1005232351",
+      "species": "deer",
+      "filename": "deer-1005232351.glb",
+      "sourceFilename": "Meshy_AI_Deer_1005232351_texture.glb",
+      "sourceSha256": "20a7c9e2ccecdcb3923d6f5cab68ee094b7460dabcc63b1842bdb39f6b3340da",
+      "outputSha256": "1ecaadeac8242db746c0b996df0f4111b013cd0e0f95611922109762418fbd5a",
+      "sourceTriangles": 199316,
+      "triangles": 45954,
+      "removedSourceGroundBridgeTriangles": 46,
+      "bytes": 10474444,
+      "height": 2.25,
+      "bounds": {
+        "min": [
+          -0.4302123188972473,
+          9.018248238135129e-05,
+          -1.0677493810653687
+        ],
+        "max": [
+          0.4281672537326813,
+          2.2504022121429443,
+          1.0674949884414673
+        ]
+      },
+      "sourceFacingVerified": "Blender -Y; glTF +Z",
+      "restPose": "standing",
+      "ikBendBranch": "fixed anatomical fore-backward / hind-forward",
+      "joints": {
+        "animalRoot": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hips": [
+          -0.04033777117729187,
+          1.0575000047683716,
+          -0.49110621213912964
+        ],
+        "spine": [
+          -0.028027990832924843,
+          1.068750023841858,
+          -0.12247186154127121
+        ],
+        "chest": [
+          -0.015718210488557816,
+          1.0800000429153442,
+          0.24616247415542603
+        ],
+        "neck": [
+          -0.015718210488557816,
+          1.3949999809265137,
+          0.3956295847892761
+        ],
+        "head": [
+          -0.015718210488557816,
+          1.5525000095367432,
+          0.5878015756607056
+        ],
+        "jaw": [
+          -0.015718210488557816,
+          1.350000023841858,
+          0.8112656474113464
+        ],
+        "earL": [
+          0.15595769882202148,
+          1.7324999570846558,
+          0.5023918151855469
+        ],
+        "earR": [
+          -0.1873941272497177,
+          1.7324999570846558,
+          0.5023918151855469
+        ],
+        "tailBase": [
+          0.0,
+          1.0575000047683716,
+          -0.608544647693634
+        ],
+        "tail1": [
+          -0.03637590631842613,
+          0.7882882356643677,
+          -0.7793641686439514
+        ],
+        "tail2": [
+          0.03820165619254112,
+          0.9429904222488403,
+          -0.9181550741195679
+        ],
+        "tail3": [
+          0.019206643104553223,
+          0.9946692585945129,
+          -1.0569459199905396
+        ],
+        "frontShoulderL": [
+          0.09972932189702988,
+          1.0800000429153442,
+          0.24616247415542603
+        ],
+        "frontElbowL": [
+          0.09972932189702988,
+          0.7236000299453735,
+          0.12317732721567154
+        ],
+        "frontWristL": [
+          0.09972932189702988,
+          0.2407499998807907,
+          0.14644218981266022
+        ],
+        "frontPawL": [
+          0.09972932189702988,
+          0.027000000700354576,
+          0.18019218742847443
+        ],
+        "frontShoulderR": [
+          -0.1311657428741455,
+          1.0800000429153442,
+          0.24616247415542603
+        ],
+        "frontElbowR": [
+          -0.1311657428741455,
+          0.7236000299453735,
+          0.18914762139320374
+        ],
+        "frontWristR": [
+          -0.1311657428741455,
+          0.2407499998807907,
+          0.2783827781677246
+        ],
+        "frontPawR": [
+          -0.1311657428741455,
+          0.027000000700354576,
+          0.3121327757835388
+        ],
+        "hindHipL": [
+          0.11677500605583191,
+          1.0575000047683716,
+          -0.49110621213912964
+        ],
+        "hindKneeL": [
+          0.11677500605583191,
+          0.602774977684021,
+          -0.5585728287696838
+        ],
+        "hindHockL": [
+          0.11677500605583191,
+          0.2407499998807907,
+          -0.9522894024848938
+        ],
+        "hindPawL": [
+          0.11677500605583191,
+          0.027000000700354576,
+          -0.9185394048690796
+        ],
+        "hindHipR": [
+          -0.19745054841041565,
+          1.0575000047683716,
+          -0.49110621213912964
+        ],
+        "hindKneeR": [
+          -0.19745054841041565,
+          0.602774977684021,
+          -0.38641536235809326
+        ],
+        "hindHockR": [
+          -0.19745054841041565,
+          0.2407499998807907,
+          -0.6079745292663574
+        ],
+        "hindPawR": [
+          -0.19745054841041565,
+          0.027000000700354576,
+          -0.5742245316505432
+        ]
+      },
+      "pawBones": [
+        "frontPawL",
+        "frontPawR",
+        "hindPawL",
+        "hindPawR"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Walk",
+          "duration": 1.2,
+          "referenceSpeed": 0.6220045580249782,
+          "requestedReferenceSpeed": 1.15,
+          "stanceDistance": 0.4776995005631833,
+          "stanceFraction": 0.64,
+          "maxStanceReachError": 1.1920928955078125e-07,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Run",
+          "duration": 0.8,
+          "referenceSpeed": 0.9952072928399652,
+          "requestedReferenceSpeed": 3.5,
+          "stanceDistance": 0.4776995005631833,
+          "stanceFraction": 0.6,
+          "maxStanceReachError": 9.06402249678704e-08,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Alert",
+          "duration": 2.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Call",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Graze",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        }
+      ],
+      "surface": "source textures/materials and UV islands retained; anatomical UV-aware mesh collapse",
+      "preparationSeconds": 14.6,
+      "runStyle": "brisk-trot",
+      "upperThighPelvisBlend": {
+        "startHeight": 0.19,
+        "endHeight": 0.27,
+        "pelvisShare": 0.85
+      }
+    },
+    {
+      "id": "1005232341",
+      "species": "deer",
+      "filename": "deer-1005232341.glb",
+      "sourceFilename": "Meshy_AI_Deer_1005232341_texture.glb",
+      "sourceSha256": "3332cdc6a0c928e35ba87828a515fb1ffcfeb525a7321e531a29bc8129d5e37a",
+      "outputSha256": "af78158ee4626b05c0e3129b581cb649e2d27e8c6687936dc39e0b1913e0da98",
+      "sourceTriangles": 247788,
+      "triangles": 46000,
+      "removedSourceGroundBridgeTriangles": 0,
+      "bytes": 11355452,
+      "height": 2.25,
+      "bounds": {
+        "min": [
+          -0.39473143219947815,
+          0.0002170268417103216,
+          -1.1239413022994995
+        ],
+        "max": [
+          0.3943972885608673,
+          2.2527360916137695,
+          1.1245054006576538
+        ]
+      },
+      "sourceFacingVerified": "Blender -Y; glTF +Z",
+      "restPose": "standing",
+      "joints": {
+        "animalRoot": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "hips": [
+          -0.001798003911972046,
+          1.0575000047683716,
+          -0.9425820112228394
+        ],
+        "spine": [
+          8.2455575466156e-05,
+          1.068750023841858,
+          -0.31572335958480835
+        ],
+        "chest": [
+          0.001962915062904358,
+          1.0800000429153442,
+          0.3111352324485779
+        ],
+        "neck": [
+          0.001962915062904358,
+          1.3949999809265137,
+          0.4685265123844147
+        ],
+        "head": [
+          0.001962915062904358,
+          1.5525000095367432,
+          0.6708866953849792
+        ],
+        "jaw": [
+          0.001962915062904358,
+          1.350000023841858,
+          0.8546918034553528
+        ],
+        "earL": [
+          0.15978865325450897,
+          1.7324999570846558,
+          0.5809488296508789
+        ],
+        "earR": [
+          -0.15586282312870026,
+          1.7324999570846558,
+          0.5809488296508789
+        ],
+        "tailBase": [
+          0.0,
+          1.0575000047683716,
+          -1.066246509552002
+        ],
+        "tail1": [
+          0.0,
+          0.9225000143051147,
+          -1.2461222410202026
+        ],
+        "tail2": [
+          0.0,
+          0.7875000238418579,
+          -1.3922712802886963
+        ],
+        "tail3": [
+          0.0,
+          0.6525000333786011,
+          -1.53842031955719
+        ],
+        "frontShoulderL": [
+          0.13369597494602203,
+          1.0800000429153442,
+          0.3111352324485779
+        ],
+        "frontElbowL": [
+          0.13369597494602203,
+          0.7236000299453735,
+          0.22063584625720978
+        ],
+        "frontWristL": [
+          0.13369597494602203,
+          0.2407499998807907,
+          0.27638646960258484
+        ],
+        "frontPawL": [
+          0.13369597494602203,
+          0.027000000700354576,
+          0.31013646721839905
+        ],
+        "frontShoulderR": [
+          -0.12977014482021332,
+          1.0800000429153442,
+          0.3111352324485779
+        ],
+        "frontElbowR": [
+          -0.12977014482021332,
+          0.7236000299453735,
+          0.2216346263885498
+        ],
+        "frontWristR": [
+          -0.12977014482021332,
+          0.2407499998807907,
+          0.2783840298652649
+        ],
+        "frontPawR": [
+          -0.12977014482021332,
+          0.027000000700354576,
+          0.3121340274810791
+        ],
+        "hindHipL": [
+          0.16766363382339478,
+          1.0575000047683716,
+          -0.9425820112228394
+        ],
+        "hindKneeL": [
+          0.16766363382339478,
+          0.602774977684021,
+          -0.7957351207733154
+        ],
+        "hindHockL": [
+          0.16766363382339478,
+          0.2407499998807907,
+          -0.9751381874084473
+        ],
+        "hindPawL": [
+          0.16766363382339478,
+          0.027000000700354576,
+          -0.9413881897926331
+        ],
+        "hindHipR": [
+          -0.17125964164733887,
+          1.0575000047683716,
+          -0.9425820112228394
+        ],
+        "hindKneeR": [
+          -0.17125964164733887,
+          0.602774977684021,
+          -0.796928882598877
+        ],
+        "hindHockR": [
+          -0.17125964164733887,
+          0.2407499998807907,
+          -0.9775257706642151
+        ],
+        "hindPawR": [
+          -0.17125964164733887,
+          0.027000000700354576,
+          -0.9437757730484009
+        ]
+      },
+      "pawBones": [
+        "frontPawL",
+        "frontPawR",
+        "hindPawL",
+        "hindPawR"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Walk",
+          "duration": 1.2,
+          "referenceSpeed": 0.6326992328145773,
+          "requestedReferenceSpeed": 1.15,
+          "stanceDistance": 0.4859130108015954,
+          "stanceFraction": 0.64,
+          "maxStanceReachError": 1.4901161193847656e-07,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Run",
+          "duration": 0.65,
+          "referenceSpeed": 2.0923743619466926,
+          "requestedReferenceSpeed": 3.5,
+          "stanceDistance": 0.5168164674008331,
+          "stanceFraction": 0.38,
+          "maxStanceReachError": 1.228781230931777e-07,
+          "rootMotion": false,
+          "loopable": true
+        },
+        {
+          "name": "Alert",
+          "duration": 2.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Call",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": false
+        },
+        {
+          "name": "Graze",
+          "duration": 4.0,
+          "referenceSpeed": 0,
+          "requestedReferenceSpeed": 0,
+          "stanceDistance": 0,
+          "stanceFraction": null,
+          "maxStanceReachError": 0,
+          "rootMotion": false,
+          "loopable": true
+        }
+      ],
+      "surface": "source textures/materials and UV islands retained; anatomical UV-aware mesh collapse",
+      "preparationSeconds": 30.79,
+      "ikBendBranch": "fixed anatomical fore-backward / hind-forward"
+    }
+  ],
+  "totalTriangles": 687852
+}

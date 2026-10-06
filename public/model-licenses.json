@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "reviewedAt": "2026-10-06",
-  "auditedModelRevision": "d8c32707ce06dce951be2a0dced41138bc8c7a1c",
+  "auditedModelRevision": "dbb4e8e296e1f4aa5adca5e4b01d83ad98ea828b",
   "summary": {
-    "publicModelFiles": 69,
-    "publicModelBytes": 419384144,
+    "publicModelFiles": 88,
+    "publicModelBytes": 556171948,
     "archivedWarpkeepFiles": 209,
     "archivedWarpkeepBytes": 23676804,
-    "hashesMatchedExistingSourceRecords": 278,
+    "hashesMatchedExistingSourceRecords": 297,
     "modelsWithEmbeddedCcDeclaration": 0,
     "licenseClassification": "Unresolved Meshy branches are explicitly pending; absence of an embedded CC label does not establish absence of CC rights."
   },
@@ -666,6 +666,348 @@
       },
       "credit": "Owner-supplied Meshy natural asset; prepared for Tervain.",
       "changes": "2048px JPEG albedo; normalized 1024px source normal; 512px source roughness in dry-stone range; black unused emissive removed; metallic zero. Original geometry buffer bytes retained.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-1005232739": {
+      "filename": "Meshy_AI_tiger_1005232739_texture.glb",
+      "sha256": "23fd4488d6c24ec7b090c5c476bfd9f74f242aedcfcd46333bdd294ac861dcca",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/meshy-animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Owner-supplied Meshy tiger; source-derived Tervain preparation, original quadruped rig and animations.",
+      "changes": "UV-preserving complete-model reduction where required, source-derived foot-contact repairs, consistent meter conversion, original Tervain quadruped rig, skin weights and in-place animation clips. Supplied textures and seated posture are retained; see the per-source transformation receipt.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-1005232726": {
+      "filename": "Meshy_AI_Lion_1005232726_texture.glb",
+      "sha256": "2c7ef06a3ed4a53fc3069bcb1fe0bbc25a081336bae1787b6233e6fbb311c604",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/meshy-animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Owner-supplied Meshy lion; source-derived Tervain preparation, original quadruped rig and animations.",
+      "changes": "UV-preserving complete-model reduction where required, source-derived foot-contact repairs, consistent meter conversion, original Tervain quadruped rig, skin weights and in-place animation clips. Supplied textures and seated posture are retained; see the per-source transformation receipt.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-1005170943": {
+      "filename": "Meshy_AI__bear_1005170943_texture.glb",
+      "sha256": "8ce7280949fbb5506780b240a574a8b09acd6d9c48c58d0090c4f6e5077aa817",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/meshy-animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Owner-supplied Meshy bear; source-derived Tervain preparation, original quadruped rig and animations.",
+      "changes": "UV-preserving complete-model reduction where required, source-derived foot-contact repairs, consistent meter conversion, original Tervain quadruped rig, skin weights and in-place animation clips. Supplied textures and seated posture are retained; see the per-source transformation receipt.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-1005232657": {
+      "filename": "Meshy_AI_Bear__1005232657_texture.glb",
+      "sha256": "b2a1761e0713649cc33a1bf15ede455526539a994d64f224458591b6eac25d13",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/meshy-animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Owner-supplied Meshy bear; source-derived Tervain preparation, original quadruped rig and animations.",
+      "changes": "UV-preserving complete-model reduction where required, source-derived foot-contact repairs, consistent meter conversion, original Tervain quadruped rig, skin weights and in-place animation clips. Supplied textures and seated posture are retained; see the per-source transformation receipt.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-1005232644": {
+      "filename": "Meshy_AI_Wolf_1005232644_texture.glb",
+      "sha256": "968c13e84fe37952fd5b9f32456d702b631a700f31e12e960e81ccda2d48cb6c",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/meshy-animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Owner-supplied Meshy wolf; source-derived Tervain preparation, original quadruped rig and animations.",
+      "changes": "UV-preserving complete-model reduction where required, source-derived foot-contact repairs, consistent meter conversion, original Tervain quadruped rig, skin weights and in-place animation clips. Supplied textures and seated posture are retained; see the per-source transformation receipt.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-1005232637": {
+      "filename": "Meshy_AI_Wolf_1005232637_texture.glb",
+      "sha256": "4a7bb2485113e4878574f8c4645e1abb4db36f0cce27554624a57c46e075cea6",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/meshy-animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Owner-supplied Meshy wolf; source-derived Tervain preparation, original quadruped rig and animations.",
+      "changes": "UV-preserving complete-model reduction where required, source-derived foot-contact repairs, consistent meter conversion, original Tervain quadruped rig, skin weights and in-place animation clips. Supplied textures and seated posture are retained; see the per-source transformation receipt.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-1005232631": {
+      "filename": "Meshy_AI_wolf_1005232631_texture.glb",
+      "sha256": "8e11f90d5a90699cb0beda881e3a87617f5fa4bcb043a8f24095bb651a7fed1a",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/meshy-animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Owner-supplied Meshy wolf; source-derived Tervain preparation, original quadruped rig and animations.",
+      "changes": "UV-preserving complete-model reduction where required, source-derived foot-contact repairs, consistent meter conversion, original Tervain quadruped rig, skin weights and in-place animation clips. Supplied textures and seated posture are retained; see the per-source transformation receipt.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-1005232619": {
+      "filename": "Meshy_AI_cat_1005232619_texture.glb",
+      "sha256": "c82af13a94f32f7b61bda5066a10fa57394765d05c180954b2827fdd4f90ea06",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/meshy-animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Owner-supplied Meshy cat; source-derived Tervain preparation, original quadruped rig and animations.",
+      "changes": "UV-preserving complete-model reduction where required, source-derived foot-contact repairs, consistent meter conversion, original Tervain quadruped rig, skin weights and in-place animation clips. Supplied textures and seated posture are retained; see the per-source transformation receipt.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-1005232608": {
+      "filename": "Meshy_AI_cat_1005232608_texture.glb",
+      "sha256": "bd526c835317a9cd2d89cf084773a9f35114189a4f813d279213bc60f69d22b0",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/meshy-animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Owner-supplied Meshy cat; source-derived Tervain preparation, original quadruped rig and animations.",
+      "changes": "UV-preserving complete-model reduction where required, source-derived foot-contact repairs, consistent meter conversion, original Tervain quadruped rig, skin weights and in-place animation clips. Supplied textures and seated posture are retained; see the per-source transformation receipt.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-1005232556": {
+      "filename": "Meshy_AI_cat_1005232556_texture.glb",
+      "sha256": "02869e5775739d8f5d34b591eeb41dc07c0507c626bda91f523ffb9213eb6fa7",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/meshy-animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Owner-supplied Meshy cat; source-derived Tervain preparation, original quadruped rig and animations.",
+      "changes": "UV-preserving complete-model reduction where required, source-derived foot-contact repairs, consistent meter conversion, original Tervain quadruped rig, skin weights and in-place animation clips. Supplied textures and seated posture are retained; see the per-source transformation receipt.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-1005232529": {
+      "filename": "Meshy_AI_dog_1005232529_texture.glb",
+      "sha256": "318f62cc06ca7f84bfe0ee518666fa7df07d4868e0404b2546e9a6224e4e6355",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/meshy-animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Owner-supplied Meshy dog; source-derived Tervain preparation, original quadruped rig and animations.",
+      "changes": "UV-preserving complete-model reduction where required, source-derived foot-contact repairs, consistent meter conversion, original Tervain quadruped rig, skin weights and in-place animation clips. Supplied textures and seated posture are retained; see the per-source transformation receipt.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-1005232511": {
+      "filename": "Meshy_AI_dog_1005232511_texture.glb",
+      "sha256": "dcf72635e50e74592233335ed5d1d4b983b28bb41469294305603245546cd6d8",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/meshy-animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Owner-supplied Meshy dog; source-derived Tervain preparation, original quadruped rig and animations.",
+      "changes": "UV-preserving complete-model reduction where required, source-derived foot-contact repairs, consistent meter conversion, original Tervain quadruped rig, skin weights and in-place animation clips. Supplied textures and seated posture are retained; see the per-source transformation receipt.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-1005232450": {
+      "filename": "Meshy_AI_Wild_Boar_1005232450_texture.glb",
+      "sha256": "6f99c5a7b3f66162000a25e8bf6f88926019512376f6e31179111723f09c1046",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/meshy-animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Owner-supplied Meshy boar; source-derived Tervain preparation, original quadruped rig and animations.",
+      "changes": "UV-preserving complete-model reduction where required, source-derived foot-contact repairs, consistent meter conversion, original Tervain quadruped rig, skin weights and in-place animation clips. Supplied textures and seated posture are retained; see the per-source transformation receipt.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-1005232442": {
+      "filename": "Meshy_AI_boar_1005232442_texture.glb",
+      "sha256": "c93ee2d2a7884b9b6cd64336470c3fc9e8ce9b8ed74098d00d146dfa0b69c8b9",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/meshy-animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Owner-supplied Meshy boar; source-derived Tervain preparation, original quadruped rig and animations.",
+      "changes": "UV-preserving complete-model reduction where required, source-derived foot-contact repairs, consistent meter conversion, original Tervain quadruped rig, skin weights and in-place animation clips. Supplied textures and seated posture are retained; see the per-source transformation receipt.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-1005174818": {
+      "filename": "Meshy_AI_BOAR_1005174818_texture.glb",
+      "sha256": "b3d81b85e2db966d8268c11e579a696977e3395dd501ae6f3256489fc9ec30f0",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/meshy-animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Owner-supplied Meshy boar; source-derived Tervain preparation, original quadruped rig and animations.",
+      "changes": "UV-preserving complete-model reduction where required, source-derived foot-contact repairs, consistent meter conversion, original Tervain quadruped rig, skin weights and in-place animation clips. Supplied textures and seated posture are retained; see the per-source transformation receipt.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-1005232424": {
+      "filename": "Meshy_AI_Red_Deer_Stag_1005232424_texture.glb",
+      "sha256": "be4abbf9a65eb72f13962ce90bbbc27e8b3445c7bf83e239959f49a75e181aab",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/meshy-animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Owner-supplied Meshy deer; source-derived Tervain preparation, original quadruped rig and animations.",
+      "changes": "UV-preserving complete-model reduction where required, source-derived foot-contact repairs, consistent meter conversion, original Tervain quadruped rig, skin weights and in-place animation clips. Supplied textures and seated posture are retained; see the per-source transformation receipt.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-1005232412": {
+      "filename": "Meshy_AI_Deer_Mount_1005232412_texture.glb",
+      "sha256": "19cf404163f58fa7eb225a829751a82783694169b6ab30f2c93a84f9c5e7f5c2",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/meshy-animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Owner-supplied Meshy deer; source-derived Tervain preparation, original quadruped rig and animations.",
+      "changes": "UV-preserving complete-model reduction where required, source-derived foot-contact repairs, consistent meter conversion, original Tervain quadruped rig, skin weights and in-place animation clips. Supplied textures and seated posture are retained; see the per-source transformation receipt.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-1005232351": {
+      "filename": "Meshy_AI_Deer_1005232351_texture.glb",
+      "sha256": "20a7c9e2ccecdcb3923d6f5cab68ee094b7460dabcc63b1842bdb39f6b3340da",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/meshy-animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Owner-supplied Meshy deer; source-derived Tervain preparation, original quadruped rig and animations.",
+      "changes": "UV-preserving complete-model reduction where required, source-derived foot-contact repairs, consistent meter conversion, original Tervain quadruped rig, skin weights and in-place animation clips. Supplied textures and seated posture are retained; see the per-source transformation receipt.",
+      "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
+    },
+    "animal-1005232341": {
+      "filename": "Meshy_AI_Deer_1005232341_texture.glb",
+      "sha256": "3332cdc6a0c928e35ba87828a515fb1ffcfeb525a7321e531a29bc8129d5e37a",
+      "sourceRecord": "https://github.com/ael-dev3/Tervain/blob/main/docs/engineering/meshy-animal-assets.json",
+      "sourceAssetUrl": null,
+      "recordedSupplier": "Ael",
+      "creator": "Not established by the available source record",
+      "generationService": "Meshy",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification",
+        "reason": "Generation-time Free/Paid status and Community/source-listing license are not recorded."
+      },
+      "credit": "Owner-supplied Meshy deer; source-derived Tervain preparation, original quadruped rig and animations.",
+      "changes": "UV-preserving complete-model reduction where required, source-derived foot-contact repairs, consistent meter conversion, original Tervain quadruped rig, skin weights and in-place animation clips. Supplied textures and seated posture are retained; see the per-source transformation receipt.",
       "rightsBoundary": "Project-specific Tervain use is recorded. This is not proof of ownership or a general content license."
     }
   },
@@ -5685,6 +6027,310 @@
       },
       "modified": false,
       "changes": "Byte-exact source copy; not imported into the current original-game runtime."
+    },
+    {
+      "file": "public/models/animals/bear-1005170943.glb",
+      "bytes": 2041200,
+      "sha256": "3b5bd25bd1fce8e7d77e34f95a2d513018bb918c6410c09553d6e9d30b2ff03e",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-1005170943",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/animals/bear-1005232657.glb",
+      "bytes": 1854764,
+      "sha256": "f426b15053ee3e8df55326fc2617586287e74238b82dda096b4d945855e8a7f4",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-1005232657",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/animals/boar-1005174818.glb",
+      "bytes": 14673220,
+      "sha256": "ab76c49df449e2bd18880c444caa18d0ec27d63290490abdc3f5802d1b7be3f4",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-1005174818",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/animals/boar-1005232442.glb",
+      "bytes": 2524816,
+      "sha256": "379603393eaccf21649f694141224483338dc8d7ca6163c5691133abace144a4",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-1005232442",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/animals/boar-1005232450.glb",
+      "bytes": 11335756,
+      "sha256": "83005905157086f6409b4359b093213b7596f711aac7eb523e79a5369856ef84",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-1005232450",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/animals/cat-1005232556.glb",
+      "bytes": 9386552,
+      "sha256": "4234c20537f315fe7fb82cee5189ce5a7ab63a4cf8f562fbdabb449957d59222",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-1005232556",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/animals/cat-1005232608.glb",
+      "bytes": 11947516,
+      "sha256": "0ddc6430b7fc3ffc37eb86ec795fd32762fd45347851e46b44b9b227c75cf522",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-1005232608",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/animals/cat-1005232619.glb",
+      "bytes": 9322732,
+      "sha256": "4b31da3e0fbbca2176f68866d565f36ac0ff741e3f891c9e5fcc8a98c0368aba",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-1005232619",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/animals/deer-1005232341.glb",
+      "bytes": 11355452,
+      "sha256": "af78158ee4626b05c0e3129b581cb649e2d27e8c6687936dc39e0b1913e0da98",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-1005232341",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/animals/deer-1005232351.glb",
+      "bytes": 10474444,
+      "sha256": "1ecaadeac8242db746c0b996df0f4111b013cd0e0f95611922109762418fbd5a",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-1005232351",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/animals/deer-1005232412.glb",
+      "bytes": 3706152,
+      "sha256": "3c40f75b9d0db0371ca398472a776af51d699397688db13812d0c22d45546736",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-1005232412",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/animals/deer-1005232424.glb",
+      "bytes": 7340172,
+      "sha256": "77dac28f5728d12f1a7f51392252bd1a89c1d06b5de2d412c6de7af36a188524",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-1005232424",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/animals/dog-1005232511.glb",
+      "bytes": 6159064,
+      "sha256": "ef8b25bdd4a565601b16ff4562cc116e384877b3ce730b5a3fdc5eb624223f68",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-1005232511",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/animals/dog-1005232529.glb",
+      "bytes": 3468088,
+      "sha256": "e67d090731783b23d39dac59acb75634b8960b9827ffafdfea5175ee0ba7b386",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-1005232529",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/animals/lion-1005232726.glb",
+      "bytes": 2239268,
+      "sha256": "84b2d1131bda6aac3b9d2826e0c9d659304a7a3089ca3c80ab1c3c5c5bf93d0c",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-1005232726",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/animals/tiger-1005232739.glb",
+      "bytes": 8316704,
+      "sha256": "09ef740c9e01d5219bf3e7bef8f5f7bb43f6f454f10d71bad8aed0f2210f96a9",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-1005232739",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/animals/wolf-1005232631.glb",
+      "bytes": 7783968,
+      "sha256": "509b595a044acde49c444bf25544356d91ef827b07d98407ff47fa0aa50ff963",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-1005232631",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/animals/wolf-1005232637.glb",
+      "bytes": 4162360,
+      "sha256": "d709962b161403642a77659cf244bab6daf19df70058af2282bd018b630e5e5d",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-1005232637",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
+    },
+    {
+      "file": "public/models/animals/wolf-1005232644.glb",
+      "bytes": 8695576,
+      "sha256": "86fa3a4f600a0850faf1eabad2973861ea9170fb4f53c783ffb1917a72cb12ce",
+      "embeddedCopyright": null,
+      "embeddedCcDeclaration": false,
+      "externalDependencies": [],
+      "scope": "original-game-model-catalog",
+      "sourceId": "animal-1005232644",
+      "license": {
+        "spdx": null,
+        "version": null,
+        "evidenceStatus": "pending-source-classification"
+      },
+      "modified": true
     },
     {
       "file": "public/models/flora/meshy-012/fir-spire-far.glb",

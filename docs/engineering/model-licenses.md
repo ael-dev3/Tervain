@@ -6,10 +6,12 @@ Reviewed 6 October 2026 against the actual original-game GLBs and historical War
 
 | Set | Files | Bytes | Recorded source and scope |
 | --- | ---: | ---: | --- |
-| Original-game public model catalog | 69 | 419,384,144 | 35 owner-supplied Meshy source files; source-derived Tervain preparation. Includes an earlier hero retained for audit and tree variants not necessarily placed. |
+| Original-game public model catalog | 88 | 556,171,948 | 54 owner-supplied Meshy source files; source-derived Tervain preparation. Includes an earlier hero retained for audit and tree variants not necessarily placed. |
 | Historical Warpkeep archive | 209 | 23,676,804 | 76 catalog assets, copied byte for byte from Warpkeep `786c0b2be6f2d2e7eb2de02ef3b6826c8907fc32`; archive-only. |
 
-All 278 actual file hashes match their existing engineering or archive records. None of these GLBs declares a CC license in embedded metadata or uses an external image/buffer URI. Thirty-one archived Warpkeep GLBs retain Ael/Warpkeep copyright text. An absent CC label is not evidence that CC rights are absent; an embedded copyright or generator label is not independent ownership proof.
+All 297 actual file hashes match their existing engineering or archive records. None of these GLBs declares a CC license in embedded metadata or uses an external image/buffer URI. Thirty-one archived Warpkeep GLBs retain Ael/Warpkeep copyright text. An absent CC label is not evidence that CC rights are absent; an embedded copyright or generator label is not independent ownership proof.
+
+The 19 supplied animals each retain their source filename/hash, original surface textures, complete-model triangle count, rig/clip record and prepared output hash in the [animal transformation record](meshy-animal-assets.json). Their original sources remain unchanged. Quadruped rigging, in-place gait preparation and source-derived contact repairs are credited modifications.
 
 The public ledger records file hashes, source filenames/hashes, source-record links, preparation changes, catalog/runtime scope and retained copyright metadata. It omits machine-specific paths, private prompts and account details.
 

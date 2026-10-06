@@ -5,6 +5,11 @@ export type IconName = ItemId | 'inventory' | 'journal' | 'map' | 'compass' | 'h
 const SHAPES: Record<IconName, string> = {
   coin: '<ellipse cx="29" cy="39" rx="17" ry="6"/><path d="M12 33v6m34-6v6M12 27v6m34-6v6"/><ellipse cx="29" cy="27" rx="17" ry="6"/><ellipse cx="35" cy="17" rx="17" ry="6"/><path d="M18 17v5m34-5v5"/>',
   rusted_sword: '<path d="m40 7 9-1-1 9-25 27-6-6z"/><path d="m11 31 22 20M21 41 9 53m-3-3 6 6M43 12 23 34"/>',
+  hunting_bow: '<path d="M17 7c28 8 28 42 0 50M17 7l7 25-7 25M11 32h43m-9-7 9 7-9 7M22 26v12"/>',
+  arrow: '<path d="m12 51 39-39m-15 0 16-1-1 16M7 45l12 12m-8-16 12 12M12 51l-5 6"/>',
+  skinning_knife: '<path d="m12 51 15-15M7 48l9 9 15-15-9-9zM26 35C48 33 56 18 56 7L28 29zM47 19l-14 14"/>',
+  animal_hide: '<path d="m14 7 11 7h14l11-7-1 15 8 10-8 10 1 15-11-7H25l-11 7 1-15-8-10 8-10zM20 20l6 4m12 0 6-4M23 43l6-3m7 0 6 3"/>',
+  raw_meat: '<path d="M11 20c10-13 31-11 40 0 9 11 3 29-11 35-13 6-29 2-33-11-3-9-2-18 4-24zM17 23c6-8 21-8 28 0 7 9 2 22-8 26-9 4-20 1-23-7-2-6-1-13 3-19z"/><path d="M28 29c8-4 16 3 9 9-8 6-16-4-9-9"/>',
   sluice_brace: '<path d="M13 7h9v48h-9zm29 0h9v48h-9zM22 18h20v9H22zm0 20h20v9H22z"/>',
   gate_wrench: '<path d="m44 9 8 1-10 11 1 7 7 1L60 18l-1 11-12 12-11-2-18 18-8-8 18-18-2-11z"/>',
   archive_key: '<circle cx="22" cy="18" r="11"/><circle cx="22" cy="18" r="4"/><path d="m28 27 23 24-6 6-4-4 3-3-7-7-3 3-5-5 3-3-9-9"/>',

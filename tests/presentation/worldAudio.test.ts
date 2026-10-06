@@ -7,6 +7,7 @@ import { S } from '../../src/content/strings';
 import type { ItemId, NpcId } from '../../src/game/types';
 import { defaultSettings } from '../../src/platform/settings';
 import { AudioEngine, ambienceMix } from '../../src/presentation/audio';
+import { ANIMAL_AUDIO, ANIMAL_CALL_EVENT, animalCallDetail, type AnimalCall } from '../../src/presentation/sound/animalAudio';
 import { NPC_STYLES } from '../../src/presentation/npcStyle';
 import { allClipIds, clipRef, hasClip, rng, VariantPicker } from '../../src/presentation/sound/clips';
 import {
@@ -338,7 +339,8 @@ describe('wildlife calls', () => {
   });
 
   it('keeps the birds out of a closed room and every rule finds a place to call', () => {
-    expect(run(7, at(PLACES.archive, { indoors: true }), day(7)).filter((e) => e.rule !== 'dog')).toEqual([]);
+    expect(run(7, at(PLACES.archive, { indoors: true }), day(7))).toEqual([]);
+    expect(emitterRuleIds()).not.toContain('dog');
     const heard = new Set<string>();
     const hall = BUILDINGS.find((b) => b.kind === 'shrine')!;
     for (const [p, w] of [[STRAND, day()], [PLACES.deepwood, day(7)], [PLACES.deepwood, night()], [FORD, night()], [PLACES.rillford, day(6.2)], [INLAND_HAMLET, day()], [{ x: -180, z: -22 }, day()], [{ x: hall.x + 6, z: hall.z + 8 }, day()], [{ x: RITE_ALTAR.x + 3, z: RITE_ALTAR.z }, day()]] as const) {
@@ -627,6 +629,7 @@ class FakeContext {
   close = vi.fn(async () => { this.state = 'closed'; });
   decodeAudioData = vi.fn(async (data: { file: string }) => {
     const name = path.basename(data.file).replace(/\.(ogg|m4a)$/, '');
+    if (Object.values(ANIMAL_AUDIO.species).some((animal) => animal.files.some((file) => file === name))) return { duration: 4, file: name };
     const all = [...Object.values(WORLD_AUDIO.banks), ...Object.values(WORLD_AUDIO.loops), ...Object.values(WORLD_AUDIO.music), ...Object.values(VOICE_AUDIO.banks)];
     const entry = all.find((e) => e.file === name);
     if (!entry) throw new Error(`no such file ${name}`);
@@ -648,6 +651,7 @@ class FakeMedia {
   removeAttribute = vi.fn((name: string) => { if (name === 'src') this.src = ''; });
   listeners = new Map<string, () => void>();
   addEventListener = vi.fn((type: string, listener: () => void) => { this.listeners.set(type, listener); });
+  removeEventListener = vi.fn((type: string, listener: () => void) => { if (this.listeners.get(type) === listener) this.listeners.delete(type); });
 }
 
 function runtime(seed = 3) {
@@ -689,6 +693,98 @@ function chain(source: FakeNode, buses: Record<string, unknown>): string[] {
   for (let n: FakeNode | undefined = source; n && !ends.has(n); n = n.outputs[0]) out.push(n.kind);
   return out;
 }
+
+describe('positioned animal calls', () => {
+  const call = (over: Partial<AnimalCall> = {}): AnimalCall => ({
+    id: 'lion-actor', species: 'lion', position: { x: 20, y: 1.3, z: 8 }, callVariant: 1, ...over,
+  });
+
+  it('validates the gesture event and copies finite positions', () => {
+    const detail = call();
+    expect(animalCallDetail(detail)).toEqual(detail);
+    expect(animalCallDetail(detail)?.position).not.toBe(detail.position);
+    for (const bad of [null, {}, { ...detail, id: '' }, { ...detail, species: 'dragon' }, { ...detail, species: '__proto__' },
+      { ...detail, callVariant: 0 }, { ...detail, position: { x: NaN, y: 1, z: 2 } }]) expect(animalCallDetail(bad)).toBeNull();
+  });
+
+  it('prepares calls only in an audible playing world and never replays a gesture after a late decode', async () => {
+    const { world, ctx, fetched } = runtime();
+    expect(world.callAnimal(call())).toBe(false);
+    world.update(0.05, frame({ x: 0, z: 0 }, { mode: 'paused' }));
+    expect(fetched.some((url) => url.includes('/audio/animals/'))).toBe(false);
+    world.setAnimalsAudible(false);
+    world.update(0.05, frame({ x: 0, z: 0 }));
+    expect(fetched.some((url) => url.includes('/audio/animals/'))).toBe(false);
+    world.setAnimalsAudible(true);
+    world.update(0.05, frame({ x: 0, z: 0 }));
+    expect(fetched.filter((url) => url.includes('/audio/animals/'))).toHaveLength(16);
+    expect(world.callAnimal(call())).toBe(false);
+    world.update(0.001, null);
+    await flush();
+    expect(playing(ctx, 'lion-1')).toHaveLength(0);
+    world.update(0.05, frame({ x: 0, z: 0 }));
+    expect(world.callAnimal(call())).toBe(true);
+    expect(playing(ctx, 'lion-1')).toHaveLength(1);
+    world.dispose();
+  });
+
+  it('uses the actual actor position, camera direction, species falloff and the outdoor muffle', async () => {
+    const { world, ctx, buses } = runtime();
+    world.update(0.05, frame({ x: 0, z: 0 }, { listener: { x: 0, y: 3, z: 0, fx: 1, fy: 0, fz: 0 }, indoors: true }));
+    await flush();
+    expect(world.callAnimal(call())).toBe(true);
+    const source = playing(ctx, 'lion-1')[0]!;
+    expect(source.loop).toBe(false);
+    expect(chain(source, buses)).toEqual(['source', 'gain', 'filter', 'panner', 'filter', 'gain']);
+    const panner = source.outputs[0]!.outputs[0]!.outputs[0] as FakeNode & { refDistance: number; positionX: Param; positionY: Param; positionZ: Param };
+    expect([panner.positionX.value, panner.positionY.value, panner.positionZ.value]).toEqual([20, 1.3, 8]);
+    expect(panner.refDistance).toBe(ANIMAL_AUDIO.species.lion.ref);
+    expect(ctx.listener.forwardX.value).toBe(1);
+    expect(ctx.listener.forwardZ.value).toBe(0);
+    const outdoor = panner.outputs[0] as FakeNode & { frequency: Param };
+    expect(outdoor.frequency.value).toBe(1100);
+    expect(world.callAnimal(call({ id: 'lion-far', position: { x: 100, y: 1.3, z: 0 } }))).toBe(false);
+    expect(world.callAnimal(call({ id: 'cat-far', species: 'cat', position: { x: 30, y: 1, z: 0 } }))).toBe(false);
+    world.dispose();
+    expect(source.stopped).toBe(true);
+  });
+
+  it('bounds simultaneous calls and duplicate actor events without starting a per-frame loop', async () => {
+    const { world, ctx } = runtime();
+    world.update(0.05, frame({ x: 0, z: 0 }));
+    await flush();
+    expect(world.callAnimal(call())).toBe(true);
+    expect(world.callAnimal(call())).toBe(false);
+    expect(world.callAnimal(call({ id: 'wolf-actor', species: 'wolf', callVariant: 2 }))).toBe(true);
+    expect(world.callAnimal(call({ id: 'bear-actor', species: 'bear' }))).toBe(true);
+    expect(world.callAnimal(call({ id: 'tiger-actor', species: 'tiger' }))).toBe(false);
+    const lion = playing(ctx, 'lion-1')[0]!;
+    lion.onended?.();
+    expect(world.callAnimal(call())).toBe(false);
+    world.update(12.1, frame({ x: 0, z: 0 }));
+    expect(world.callAnimal(call({ callVariant: 2 }))).toBe(true);
+    expect(playing(ctx, 'lion-2')).toHaveLength(1);
+    for (let i = 0; i < 60; i++) world.update(1 / 60, frame({ x: 0, z: 0 }));
+    expect(playing(ctx, 'lion-2')).toHaveLength(1);
+    world.dispose();
+  });
+
+  it.each(['menu', 'panel', 'dead', 'hidden', 'mute'] as const)('retires calls at a %s boundary and drops incoming gestures', async (transition) => {
+    const { world, ctx } = runtime();
+    world.update(0.05, frame({ x: 0, z: 0 }));
+    await flush();
+    expect(world.callAnimal(call())).toBe(true);
+    const source = playing(ctx, 'lion-1')[0]!;
+    if (transition === 'menu') world.update(0.001, null);
+    else if (transition === 'panel' || transition === 'dead') world.update(0.001, frame({ x: 0, z: 0 }, { mode: transition === 'panel' ? 'paused' : 'dead' }));
+    else if (transition === 'hidden') world.setHidden(true);
+    else world.setAnimalsAudible(false);
+    expect(source.stopped).toBe(true);
+    expect(source.disconnect).toHaveBeenCalledExactlyOnceWith();
+    expect(world.callAnimal(call({ id: 'other-lion' }))).toBe(false);
+    world.dispose();
+  });
+});
 
 describe('world sound runtime', () => {
   it('loads every sprite bank at once from the deployed base, and drops sounds that arrive before them', async () => {
@@ -1209,6 +1305,54 @@ describe('audio engine and the recorded world', () => {
     const audio = new AudioEngine(defaultSettings);
     return { ctx, audio };
   }
+
+  it('handles animated call events only when unlocked, visible and audible, and removes its event listener on disposal', async () => {
+    const ctx = new FakeContext();
+    const settings = defaultSettings();
+    const target = Object.assign(new EventTarget(), { AudioContext: vi.fn(function () { return ctx; }), Audio: FakeMedia });
+    const remove = vi.spyOn(target, 'removeEventListener');
+    vi.stubGlobal('window', target);
+    vi.stubGlobal('Audio', FakeMedia);
+    vi.stubGlobal('fetch', vi.fn(async (url: string) => ({ ok: true, arrayBuffer: async () => ({ file: url }) })));
+    const audio = new AudioEngine(() => settings);
+    const emit = (id: string) => {
+      const event = new Event(ANIMAL_CALL_EVENT);
+      Object.defineProperty(event, 'detail', { value: { id, species: 'dog', position: { x: 3, y: 0.7, z: 1 }, callVariant: 2 } });
+      target.dispatchEvent(event);
+    };
+    emit('locked');
+    expect(ctx.sources).toHaveLength(0);
+    audio.resume();
+    audio.updateWorld(0.05, frame({ x: 0, z: 0 }));
+    await flush();
+    emit('audible');
+    expect(playing(ctx, 'dog-2')).toHaveLength(1);
+    settings.volumes.ambience = 0;
+    audio.applySettings();
+    emit('ambience-muted');
+    expect(playing(ctx, 'dog-2')).toHaveLength(0);
+    settings.volumes.ambience = 1;
+    settings.volumes.master = 0;
+    audio.applySettings();
+    emit('master-muted');
+    expect(playing(ctx, 'dog-2')).toHaveLength(0);
+    settings.volumes.master = 1;
+    audio.applySettings();
+    audio.setMenuActive(true);
+    emit('menu');
+    expect(playing(ctx, 'dog-2')).toHaveLength(0);
+    audio.setMenuActive(false);
+    audio.updateWorld(0.05, frame({ x: 0, z: 0 }));
+    emit('visible');
+    expect(playing(ctx, 'dog-2')).toHaveLength(1);
+    audio.setPageHidden(true);
+    emit('hidden');
+    expect(playing(ctx, 'dog-2')).toHaveLength(0);
+    audio.dispose();
+    expect(remove).toHaveBeenCalledWith(ANIMAL_CALL_EVENT, expect.any(Function));
+    emit('disposed');
+    expect(playing(ctx, 'dog-2')).toHaveLength(0);
+  });
 
   it('builds nothing for menus and builds the recorded world on the first world frame', async () => {
     const { ctx, audio } = engine();

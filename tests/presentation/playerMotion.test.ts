@@ -45,6 +45,73 @@ function setup(ground: (x: number, z: number) => number = () => 0, walkable: (x:
 beforeEach(() => vi.clearAllMocks());
 
 describe('player motion and action contacts', () => {
+  it('keeps bow input out of the legacy fist/sword attack and block paths', () => {
+    const s = setup();
+    s.ctx.game.state.inventory.hunting_bow = 1;
+    s.ctx.game.dispatch({ t: 'equipWeapon', item: 'hunting_bow' });
+    s.player.syncEquipment(s.ctx.game);
+    s.player.setBowAim(new THREE.Vector3(0, 0, 1), .5);
+    s.presses.add('attack'); s.presses.add('heavy'); s.held.add('block');
+    s.tick();
+    expect(s.player.bowEquipped(s.ctx.game)).toBe(true);
+    expect(s.player.state).toBe('free');
+    expect(s.player.blocking).toBe(false);
+    expect(s.audio.swing).not.toHaveBeenCalled();
+    expect(s.player.stamina).toBe(100);
+  });
+
+  it('locks a skinning channel against combat, pauses its progress and completes only after three active seconds', () => {
+    const s = setup();
+    const done = vi.fn(), cancelled = vi.fn();
+    expect(s.player.beginSkinning(0, .7, 3, done, cancelled, .4)).toBe(true);
+    s.presses.add('attack'); s.presses.add('heavy'); s.presses.add('jump'); s.presses.add('dodge');
+    for (let i = 0; i < 60; i++) s.tick();
+    expect(s.player.skinningProgress).toBeCloseTo(1 / 3, 8);
+    expect(s.audio.swing).not.toHaveBeenCalled();
+    expect(s.player.x).toBe(0); expect(s.player.z).toBe(0);
+    s.ctx.controllable = false;
+    for (let i = 0; i < 60; i++) s.tick();
+    expect(s.player.skinningProgress).toBeCloseTo(1 / 3, 8);
+    expect(done).not.toHaveBeenCalled();
+    s.ctx.controllable = true;
+    for (let i = 0; i < 121; i++) s.tick();
+    expect(s.player.state).toBe('free');
+    expect(done).toHaveBeenCalledOnce();
+    expect(cancelled).not.toHaveBeenCalled();
+  });
+
+  it('cancels skinning on movement intent or an accepted hit without completing the harvest callback', () => {
+    const s = setup();
+    const done = vi.fn(), cancelled = vi.fn();
+    expect(s.player.beginSkinning(0, .7, 3, done, cancelled)).toBe(true);
+    s.tick();
+    s.setMove(.1, 0); s.tick();
+    expect(s.player.channel).toBeNull();
+    expect(cancelled).toHaveBeenCalledOnce();
+    expect(done).not.toHaveBeenCalled();
+    s.setMove(0, 0);
+    expect(s.player.beginSkinning(0, .7, 3, done, cancelled)).toBe(true);
+    const attacker = { x: 0, y: 0, z: .9 } as EnemyActor;
+    s.player.receiveHit(1, false, attacker, s.ctx);
+    expect(s.player.state).toBe('hurt');
+    expect(s.player.channel).toBeNull();
+    expect(cancelled).toHaveBeenCalledTimes(2);
+    expect(done).not.toHaveBeenCalled();
+  });
+
+  it('cancels a movement request on the exact skinning completion frame before its harvest callback', () => {
+    const s = setup();
+    const done = vi.fn(), cancelled = vi.fn();
+    expect(s.player.beginSkinning(0, .7, 3, done, cancelled)).toBe(true);
+    s.player.channel!.t = 3 - 1 / 60;
+    s.setMove(.1, 0);
+    s.tick(1 / 60);
+    expect(s.player.channel).toBeNull();
+    expect(s.player.state).toBe('free');
+    expect(cancelled).toHaveBeenCalledOnce();
+    expect(done).not.toHaveBeenCalled();
+  });
+
   it('matches the supplied walking and running stride speeds after acceleration, including diagonal input', () => {
     for (const sprint of [false, true]) {
       const s = setup();
@@ -389,6 +456,18 @@ describe('player motion and action contacts', () => {
     s.setMove(0, 1); s.presses.add('dodge'); s.tick(0.3);
     expect(s.player.z).toBeLessThanOrEqual(0.75);
     expect(s.ctx.colliders.blocked(s.player.x, s.player.z, 0.4)).toBe(false);
+  });
+
+  it('sweeps against an animal body during a long dodge without crossing its skin or adjacent scenery', () => {
+    const s = setup();
+    s.ctx.wildlifeContacts = [{ id: 'animal:seated-pet', kind: 'box', x: 0, z: 1.6, hw: 0.4, hd: 0.7, yaw: 0,
+      active: true, minY: 0, maxY: 0.6 }];
+    s.ctx.colliders.box('wall', 0, 3, 4, 0.05);
+    s.setMove(0, 1); s.presses.add('dodge'); s.tick(0.3);
+    for (let i = 0; i < 90; i++) s.tick();
+    expect(s.player.z).toBeLessThan(0.65);
+    const clear = s.ctx.colliders.resolve(s.player.x, s.player.z, 0.4, undefined, { minY: s.player.y + 0.02, maxY: s.player.y + 1.9 }, s.ctx.wildlifeContacts);
+    expect(clear.hit).toBe(false); expect(s.ctx.colliders.blocked(s.player.x, s.player.z, 0.4)).toBe(false);
   });
 
   it('cannot strike or receive a strike through a wall or across separate floors', () => {

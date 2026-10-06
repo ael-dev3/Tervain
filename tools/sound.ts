@@ -14,6 +14,8 @@ import { SCENES, SPEAKER_NAMES, VOICE_LINES, type Speaker } from '../src/content
 import type { ItemId, NpcId } from '../src/game/types';
 import { defaultSettings } from '../src/platform/settings';
 import { NPC_STYLES } from '../src/presentation/npcStyle';
+import { HuntingAudio, HUNTING_SOUND_KINDS } from '../src/presentation/huntingAudio';
+import { ANIMAL_AUDIO, type AnimalSpecies } from '../src/presentation/sound/animalAudio';
 import { type ClipId } from '../src/presentation/sound/clips';
 import { INN } from '../src/presentation/sound/soundscape';
 import {
@@ -35,6 +37,7 @@ const ext = new Audio().canPlayType('audio/ogg; codecs="opus"') ? 'ogg' : 'm4a';
 let ctx: AudioContext | null = null;
 let buses: { effects: GainNode; ambience: GainNode; music: GainNode; dialogue: GainNode } | null = null;
 let world: SoundWorld | null = null;
+let hunting: HuntingAudio | null = null;
 
 /** The first press creates the audio graph (browsers need a gesture), with the game's default levels. */
 function audio() {
@@ -74,6 +77,64 @@ function el<K extends keyof HTMLElementTagNameMap>(tag: K, props: Record<string,
 }
 const button = (label: string, onclick: () => void) => el('button', { onclick, textContent: label, type: 'button' });
 const row = (name: string, ...items: Node[]) => el('div', { className: 'row' }, el('span', { className: 'name', textContent: name }), ...items);
+
+/** The six handling/impact recordings on the game's Effects graph, including the cancellable skinning loop. */
+function huntingSection() {
+  const part = el('section', {}, el('h2', { textContent: 'Hunting sounds' }),
+    el('p', { textContent: 'Local bow, impact and skinning sounds at the game’s Effects level. Skinning repeats until stopped.' }));
+  for (const kind of HUNTING_SOUND_KINDS) part.append(row(kind.replaceAll('_', ' '), button('play', () => {
+    const { ctx: c, buses: b } = audio();
+    hunting ??= new HuntingAudio(c, b.effects, () => !document.hidden);
+    hunting.stop(); hunting.setActive(true); hunting.sound(kind);
+  })));
+  part.append(button('stop hunting sounds', () => hunting?.stop()));
+  document.addEventListener('visibilitychange', () => { if (document.hidden) hunting?.stop(); });
+  window.addEventListener('pagehide', () => hunting?.dispose());
+  return part;
+}
+
+/** Every animal take at its real game level, with camera-relative positions for a quick listening review. */
+function animalSection() {
+  const part = el('section', {}, el('h2', { textContent: 'Animated animal calls' }),
+    el('p', { textContent: 'Two calls per species, at the game’s Ambience level. Position follows the current listener; distant quiet animals fall outside their hearing range.' }));
+  const position = el('select');
+  for (const [value, label] of [['close', 'close · 2 m'], ['left', 'left · 6 m'], ['right', 'right · 6 m'], ['far', 'ahead · 30 m']]) position.append(el('option', { value, textContent: label }));
+  part.append(row('source position', position));
+  let current: AudioBufferSourceNode | null = null;
+  for (const [species, profile] of Object.entries(ANIMAL_AUDIO.species) as [AnimalSpecies, typeof ANIMAL_AUDIO.species[AnimalSpecies]][]) {
+    part.append(row(species, ...profile.files.map((file, variant) => button(`call ${variant + 1}`, () => {
+      const { ctx: c, buses: b } = audio();
+      void load(file, ANIMAL_AUDIO.base).then((buffer) => {
+        if (current) { try { current.stop(); } catch { /* finished */ } current = null; }
+        const distance = position.value === 'far' ? 30 : position.value === 'close' ? 2 : 6;
+        if (distance > profile.maxDistance) return;
+        const side = position.value === 'left' ? -1 : position.value === 'right' ? 1 : 0;
+        const fx = c.listener.forwardX.value;
+        const fz = c.listener.forwardZ.value;
+        const norm = Math.hypot(fx, fz) || 1;
+        const dx = side ? -fz / norm * side : fx / norm;
+        const dz = side ? fx / norm * side : fz / norm;
+        const source = c.createBufferSource();
+        const gain = c.createGain();
+        const panner = c.createPanner();
+        source.buffer = buffer;
+        gain.gain.value = profile.gain;
+        panner.panningModel = 'equalpower';
+        panner.distanceModel = 'inverse';
+        panner.refDistance = profile.ref;
+        panner.rolloffFactor = 1;
+        panner.positionX.value = c.listener.positionX.value + dx * distance;
+        panner.positionY.value = c.listener.positionY.value - 0.6;
+        panner.positionZ.value = c.listener.positionZ.value + dz * distance;
+        source.connect(gain).connect(panner).connect(b.ambience);
+        current = source;
+        source.onended = () => { source.disconnect(); gain.disconnect(); panner.disconnect(); if (current === source) current = null; };
+        source.start();
+      }).catch(() => { status.textContent = `Could not load ${file}; check the prepared animal files.`; });
+    }))));
+  }
+  return part;
+}
 
 /** A cue or a layered action exactly as the game plays it (variant choice, pitch and level jitter, reverb). */
 function cue(cues: Cue | readonly Cue[], bus: 'effects' | 'dialogue' = 'effects') {
@@ -337,6 +398,6 @@ function voiceSection() {
   return part;
 }
 
-app.append(placeSection(), cueSection(), voiceSection(), bedSection(), scoreSection(), songSection(), takeSection());
+app.append(placeSection(), animalSection(), huntingSection(), cueSection(), voiceSection(), bedSection(), scoreSection(), songSection(), takeSection());
 const clips = Object.values(WORLD_AUDIO.banks).reduce((n, b) => n + Object.values(b.clips).reduce((m, v) => m + v.length, 0), 0);
 status.textContent = `${Object.keys(WORLD_AUDIO.banks).length} sprite banks with ${clips} takes, ${Object.keys(WORLD_AUDIO.loops).length} beds, ${Object.keys(WORLD_AUDIO.music).length} pieces of score, ${Object.keys(WORLD_AUDIO.songs).length} inn tunes, ${Object.keys(VOICE_AUDIO.lines).length} spoken lines, ${Object.keys(VOICE_AUDIO.story).length} story keys · ${ext === 'ogg' ? 'Ogg Opus' : 'AAC'} · default levels (master ${volumes.master}, music ${volumes.music}, effects ${volumes.effects}, ambience ${volumes.ambience})`;

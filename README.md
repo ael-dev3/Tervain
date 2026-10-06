@@ -16,13 +16,15 @@ For models, see the [3D asset credits and license ledger](docs/engineering/model
 
 ## Prototype status
 
-This integration develops the **0.0.12** browser prototype. A source version alone does not establish deployment; check the normal publish workflow and the game’s displayed revision. Tervain stays in the **0.0.x** stage until its quality gate is met. A desktop package and Steam integration are not yet available.
+This integration develops the **0.0.13** browser prototype. A source version alone does not establish deployment; check the normal publish workflow and the game’s displayed revision. Tervain stays in the **0.0.x** stage until its quality gate is met. A desktop package and Steam integration are not yet available.
 
 The prototype includes:
 
 - A sparse coastal arrival, a continuous woodland journey and inland settlements.
 - The animated Wanderer, 17 adapted Meshy NPC roles and diverse supplied-tree habitats, with protected custom Pine geometry.
 - Rougher terrain, rooted vegetation, weathered buildings, grounded scenery and coastal water.
+- Nineteen supplied, optimized and rigged animals across settlement, forest and warm-woodland habitats.
+- Bow hunting, grounded carcasses and saved skinning rewards for fourteen wild animals; settlement cats and dogs remain peaceful.
 - Adaptive world music, surface footsteps, item/combat/work sounds, wildlife and captioned resident speech.
 - World pickups, inventory, equipment, an initially empty ten-slot item hotbar, journal and map.
 - Physical movable supplies, saved progress and keyboard/mouse or controller controls.
@@ -30,7 +32,7 @@ The prototype includes:
 
 **[Launch Tervain](https://ael-dev3.github.io/Tervain/)** — Published from `main` through the normal GitHub Pages workflow. Use a desktop WebGL browser; save data is stored in that browser. The title shows the version and F3 shows the source revision.
 
-See the [0.0.12 release record](docs/production/releases/0.0.12.md) for verified results and limitations, and the [prototype guide](docs/engineering/prototype.md) for controls and boundaries.
+See the [0.0.13 release record](docs/production/releases/0.0.13.md) for verified results and limitations, and the [prototype guide](docs/engineering/prototype.md) for controls and boundaries.
 
 ## Develop locally
 

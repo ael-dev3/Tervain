@@ -1,5 +1,5 @@
-/** Original loose provisions, useful plants and salvage. Each world placement is durable and can be taken once. */
-export const WORLD_PICKUP_ITEM_IDS = ['shore_apple', 'bread', 'healing_herb', 'field_mushroom', 'iron_scrap'] as const;
+/** Loose provisions, plants, salvage and hunting gear. Each placement can be taken once. */
+export const WORLD_PICKUP_ITEM_IDS = ['shore_apple', 'bread', 'healing_herb', 'field_mushroom', 'iron_scrap', 'hunting_bow', 'skinning_knife', 'arrow'] as const;
 export type WorldPickupItem = typeof WORLD_PICKUP_ITEM_IDS[number];
 
 export const WORLD_PICKUP_MODELS: Record<WorldPickupItem, { nameKey: string }> = {
@@ -8,6 +8,9 @@ export const WORLD_PICKUP_MODELS: Record<WorldPickupItem, { nameKey: string }> =
   healing_herb: { nameKey: 'item.healing_herb' },
   field_mushroom: { nameKey: 'item.field_mushroom' },
   iron_scrap: { nameKey: 'item.iron_scrap' },
+  hunting_bow: { nameKey: 'item.hunting_bow' },
+  skinning_knife: { nameKey: 'item.skinning_knife' },
+  arrow: { nameKey: 'item.arrow' },
 };
 
 export function isWorldPickupItem(item: string): item is WorldPickupItem {

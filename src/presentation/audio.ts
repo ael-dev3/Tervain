@@ -1,5 +1,8 @@
+import { HuntingAudio, huntingSoundCaption, huntingSoundCooldown, huntingSoundMix, type HuntingSoundKind, type HuntingSoundPosition, type HuntingSoundListener } from './huntingAudio';
+export type { HuntingSoundKind, HuntingSoundPosition } from './huntingAudio';
 import type { ItemId, PlaceId } from '../game/types';
 import type { Settings } from '../platform/settings';
+import { ANIMAL_CALL_EVENT, animalCallDetail, type AnimalCall } from './sound/animalAudio';
 import {
   bellCue, consumeCues, EQUIP, hitCue, landCues, MAP_OPEN, PAGE, pickupCues, SATCHEL_CLOSE, SATCHEL_OPEN, stepCue, swingCue, UNEQUIP, worldCues,
   type Cue, type SurfaceKind, type WorldAction,
@@ -138,11 +141,32 @@ export class AudioEngine {
   private musicListeners: [string, EventListener][] = [];
   private soundWorld: SoundWorld | null = null;
   private worldFailed = false;
+  private hunting: HuntingAudio | null = null;
+  private wildlifeActive = false;
+  private readonly huntingCaptionCooldowns = new Map<HuntingSoundKind, number>();
+  private skinningCaptionActive = false;
   onCaption: ((text: string) => void) | null = null;
   onMusicState: ((state: MenuMusicState) => void) | null = null;
   enabled = true;
 
-  constructor(private getSettings: () => Settings) {}
+  private readonly onAnimalCall = (event: Event) => {
+    const call = animalCallDetail((event as CustomEvent<unknown>).detail);
+    if (call) this.animalCall(call);
+  };
+
+  constructor(private getSettings: () => Settings) {
+    if (typeof window !== 'undefined') window.addEventListener?.(ANIMAL_CALL_EVENT, this.onAnimalCall);
+  }
+
+  private get animalsAudible(): boolean {
+    const v = this.getSettings().volumes;
+    return !this.menuActive && unit(v.master) > 0 && unit(v.ambience) > 0;
+  }
+
+  /** The wildlife controller emits this only at an animated animal's positioned Call gesture. */
+  animalCall(call: AnimalCall): boolean {
+    return this.ready && this.animalsAudible ? this.soundWorld?.callAnimal(call) ?? false : false;
+  }
 
   /** Must be called from a user gesture. The explicit Play control may retry a browser-held pending resume request. */
   resume(options: { retryPending?: boolean } = {}) {
@@ -169,6 +193,9 @@ export class AudioEngine {
         };
         const v = this.getSettings().volumes;
         this.buses = { music: mk(v.music), effects: mk(v.effects), ambience: mk(v.ambience), dialogue: mk(v.dialogue) };
+        this.hunting = new HuntingAudio(this.ctx, this.buses.effects, () => this.ready && !this.menuActive
+          && !this.pageHidden && unit(this.getSettings().volumes.master) > 0 && unit(this.getSettings().volumes.effects) > 0);
+        this.hunting.setActive(this.wildlifeActive);
         this.noiseBuf = this.makeNoise();
         this.startBeds();
       } catch {
@@ -198,6 +225,8 @@ export class AudioEngine {
   setMenuActive(active: boolean) {
     if (active === this.menuActive || this.disposed) return;
     this.menuActive = active;
+    if (active) this.stopHuntingSounds();
+    this.soundWorld?.setAnimalsAudible(this.animalsAudible);
     this.syncMusic();
   }
 
@@ -396,6 +425,7 @@ export class AudioEngine {
   /** Suspend looping sources and the audio clock in a hidden tab. */
   setPageHidden(hidden: boolean) {
     this.pageHidden = hidden;
+    if (hidden) this.stopHuntingSounds();
     this.syncMusic();
     this.soundWorld?.setHidden(hidden);
     if (this.disposed || !this.ctx || this.ctx.state === 'closed') return;
@@ -417,6 +447,7 @@ export class AudioEngine {
       sampleRate: this.ctx?.sampleRate ?? 0,
       baseLatency: this.ctx?.baseLatency ?? null,
       voices: this.sources.size,
+      hunting: this.hunting?.diagnostics ?? { state: 'not loaded', voices: 0, pending: 0, decoded: 0, skinning: false },
       music: {
         state: this.musicState, source: this.musicSource,
         currentTime: this.music?.currentTime ?? 0, duration: this.music?.duration ?? 0,
@@ -471,6 +502,8 @@ export class AudioEngine {
     this.target(this.buses.effects.gain, unit(v.effects), t, 0.035);
     this.target(this.buses.ambience.gain, unit(v.ambience), t, 0.035);
     this.target(this.buses.dialogue.gain, unit(v.dialogue), t, 0.035);
+    if (unit(v.master) === 0 || unit(v.effects) === 0) this.stopHuntingSounds();
+    this.soundWorld?.setAnimalsAudible(this.animalsAudible);
     this.syncMusic();
   }
 
@@ -545,12 +578,14 @@ export class AudioEngine {
         this.worldFailed = true;
       }
     }
+    this.soundWorld?.setAnimalsAudible(this.animalsAudible);
     this.soundWorld?.update(dt, frame);
   }
 
   /** A graphics build stops world frames; retire their mix once without touching the menu score or device. */
   pauseWorld() {
     if (this.disposed) return;
+    this.stopHuntingSounds();
     // Reach the world even while the tab/context is suspended: late decodes must see the pause boundary.
     this.soundWorld?.update(1 / 20, null);
     if (this.ctx && this.ctx.state !== 'closed') {
@@ -564,6 +599,8 @@ export class AudioEngine {
   }
 
   private releaseGraph() {
+    this.hunting?.dispose();
+    this.hunting = null;
     this.soundWorld?.dispose();
     this.soundWorld = null;
     this.clearMusicPause();
@@ -599,9 +636,12 @@ export class AudioEngine {
   dispose() {
     if (this.disposed) return;
     this.disposed = true;
+    if (typeof window !== 'undefined') window.removeEventListener?.(ANIMAL_CALL_EVENT, this.onAnimalCall);
     this.enabled = false;
     this.onCaption = null;
     this.onMusicState = null;
+    this.huntingCaptionCooldowns.clear();
+    this.skinningCaptionActive = false;
     this.releaseGraph();
   }
 
@@ -622,6 +662,34 @@ export class AudioEngine {
   }
 
   /* ---- effects ---- */
+  /** Gate hunting actions at the same menu, pause and rebuild boundaries as the world. */
+  setWildlifeActive(active: boolean) {
+    this.wildlifeActive = active;
+    this.hunting?.setActive(active);
+    if (!active) this.stopHuntingSounds();
+  }
+
+  huntingSound(kind: HuntingSoundKind, position?: HuntingSoundPosition, listener?: HuntingSoundListener) {
+    if (this.disposed || !this.wildlifeActive || this.pageHidden || this.menuActive
+      || huntingSoundMix(position, listener).gain < 0.005) return;
+    const text = huntingSoundCaption(kind);
+    if (!text || (kind === 'skinning' && this.skinningCaptionActive)) return;
+    const time = performance.now() / 1000;
+    if (time - (this.huntingCaptionCooldowns.get(kind) ?? -Infinity) < huntingSoundCooldown(kind)) return;
+    this.huntingCaptionCooldowns.set(kind, time);
+    if (kind === 'skinning') this.skinningCaptionActive = true;
+    this.caption(text);
+    this.hunting?.sound(kind, position, listener);
+  }
+
+  /** Cancel a draw/skinning action, or release every effect before rebuilding a scene. */
+  stopHuntingSounds(kind?: HuntingSoundKind) {
+    this.hunting?.stop(kind);
+    if (kind === undefined) this.huntingCaptionCooldowns.clear();
+    else this.huntingCaptionCooldowns.delete(kind);
+    if (kind === undefined || kind === 'skinning') this.skinningCaptionActive = false;
+  }
+
   private cue(cues: Cue | readonly Cue[], opt?: PlayOptions) {
     if (!this.ready || !this.soundWorld) return;
     if (Array.isArray(cues)) this.soundWorld.playAll(cues, opt);

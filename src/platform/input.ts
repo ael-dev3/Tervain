@@ -7,6 +7,7 @@ import { ACTIONS, type Action, type Settings } from './settings';
 
 const PAD = {
   interact: 0,
+  skin: 14,
   grab: 10,
   throw: 11,
   dodge: 1,
@@ -60,6 +61,14 @@ export class Input {
   /** Reported once per gamepad D-pad/stick menu step. */
   onNavigate: ((dx: number, dy: number) => void) | null = null;
   private navCooldown = 0;
+  private bow = false;
+  /** The bow uses RT to draw rather than sprint; all keyboard bindings remain rebindable. */
+  get bowMode() { return this.bow; }
+  set bowMode(value: boolean) {
+    if (value === this.bow) return;
+    this.reset();
+    this.bow = value;
+  }
 
   constructor(private target: HTMLElement, private getSettings: () => Settings) {
     window.addEventListener('keydown', this.onKeyDown);
@@ -158,6 +167,7 @@ export class Input {
     }
     // Only clicks that reach the 3D view count as gameplay input; UI panels handle their own clicks.
     const t = e.target as HTMLElement | null;
+    if (t?.closest?.('button, input, select, textarea, [role="button"]')) return;
     if (t !== this.target && !this.locked) return;
     if (document.pointerLockElement && !this.locked) return;
     const code = `Mouse${e.button}`;
@@ -266,9 +276,15 @@ export class Input {
     return this.getSettings().bindings[a];
   }
 
+  private padFor(a: Action): number | undefined {
+    if (this.bow && a === 'attack') return 7;
+    if (this.bow && a === 'sprint') return undefined;
+    return PAD_ACTIONS[a];
+  }
+
   isDown(a: Action): boolean {
     if (this.codesFor(a).some((c) => this.down.has(c))) return true;
-    const b = PAD_ACTIONS[a];
+    const b = this.padFor(a);
     if (b !== undefined && this.padDown.has(b)) return true;
     return false;
   }
@@ -276,7 +292,7 @@ export class Input {
   /** Edge-triggered: true once per press. */
   pressed(a: Action): boolean {
     if (this.codesFor(a).some((c) => this.pressedCodes.has(c))) return true;
-    const b = PAD_ACTIONS[a];
+    const b = this.padFor(a);
     return b !== undefined && this.padPressed.has(b);
   }
 
@@ -354,8 +370,8 @@ export class Input {
   /** Whether the pressed action was caused by a device other than keyboard (for prompt glyphs). */
   label(a: Action, codeLabel: (c: string) => string): string {
     if (this.device === 'gamepad') {
-      const b = PAD_ACTIONS[a];
-      const names: Record<number, string> = { 0: 'A', 1: 'B', 2: 'X', 3: 'Y', 4: 'LB', 5: 'RB', 6: 'LT', 7: 'RT', 8: 'Back', 9: 'Start', 10: 'Left stick', 11: 'Right stick', 12: 'D-pad ↑', 13: 'D-pad ↓' };
+      const b = this.padFor(a);
+      const names: Record<number, string> = { 0: 'A', 1: 'B', 2: 'X', 3: 'Y', 4: 'LB', 5: 'RB', 6: 'LT', 7: 'RT', 8: 'Back', 9: 'Start', 10: 'Left stick', 11: 'Right stick', 12: 'D-pad ↑', 13: 'D-pad ↓', 14: 'D-pad ←' };
       if (b !== undefined) return names[b] ?? `Button ${b}`;
     }
     const c = this.codesFor(a)[0];

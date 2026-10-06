@@ -9,6 +9,7 @@ import { FrameClock } from '../../src/platform/frameTiming';
 import { WorldScene } from '../../src/presentation/world';
 import { MenuScene } from '../../src/presentation/menuScene';
 import { track } from '../../src/presentation/human/sheetPool';
+import { HuntingController } from '../../src/presentation/huntingController';
 
 const menuFailure = vi.hoisted(() => ({ next: false }));
 const stagedActors = vi.hoisted(() => ({ roots: [] as unknown[] }));
@@ -116,17 +117,50 @@ function fixture() {
     panels: { isOpen: false, closeAll: vi.fn(), el: new ElementFixture('DIV') },
     titleEl: new ElementFixture('DIV'), loadingEl: new ElementFixture('DIV'), debugEl: new ElementFixture('DIV'),
     hud: { el: { inert: true }, show: vi.fn(), showFade: vi.fn(), toast: vi.fn() },
-    player: { x: 0, y: 0, z: 0, yaw: 0, group: new THREE.Group(), setPosition: vi.fn() },
-    cam: { reset: vi.fn(), yaw: 0, pitch: 0 }, world: { terrain: {}, physics: { supportAt: vi.fn(() => null), reset: vi.fn(), restore: vi.fn(), release: vi.fn() } },
+    player: {
+      x: 0, y: 0, z: 0, yaw: 0, alive: true, state: 'free', group: new THREE.Group(), setPosition: vi.fn(),
+      channel: null as { kind?: 'skinning'; t: number; dur: number; cancelled?: () => void } | null,
+      bowEquipped: vi.fn((game: Game) => game.state.equippedWeapon === 'hunting_bow' && (game.state.inventory.hunting_bow ?? 0) > 0),
+      setBowAim: vi.fn(), cancelSkinning: vi.fn(),
+    },
+    cam: { reset: vi.fn(), setAiming: vi.fn(), yaw: 0, pitch: 0 }, world: { terrain: {}, physics: { holding: null, supportAt: vi.fn(() => null), reset: vi.fn(), restore: vi.fn(), release: vi.fn() } },
     syncMenuHudVisibility: vi.fn(), syncWorldFromState: vi.fn(),
     safePosition: (x: number, z: number, y = 0) => ({ x, z, y }),
     wantLock: vi.fn(), openPause: vi.fn(), speech: { clear: vi.fn() },
-    audio: { pauseWorld: vi.fn() },
+    audio: { pauseWorld: vi.fn(), setWildlifeActive: vi.fn(), stopHuntingSounds: vi.fn(), huntingSound: vi.fn() },
     wantPlayLock: false, lockingOut: false, worldBuilding: false, worldBuildFailed: false,
     worldDisposed: false, menuSceneDisposed: false, qualityReload: null, reloadAgain: false,
   });
+  app.player.cancelSkinning.mockImplementation(() => {
+    if (app.player.channel?.kind !== 'skinning') return;
+    const channel = app.player.channel;
+    app.player.channel = null; app.player.state = 'free'; channel.cancelled?.();
+  });
+  const hunting = new HuntingController(app as unknown as ConstructorParameters<typeof HuntingController>[0],
+    () => app.mode === 'play' && !app.panels.isOpen && !app.worldBuilding && !app.worldBuildFailed && !app.qualityReload && document.visibilityState !== 'hidden');
+  Reflect.set(app, 'hunting', hunting);
+  vi.spyOn(hunting, 'controls'); vi.spyOn(hunting, 'reset');
   const call = (name: string, ...args: unknown[]) => Reflect.apply(Reflect.get(App.prototype, name), app, args);
-  return { app, input, canvas, document, key, call };
+  return { app, input, canvas, document, key, call, hunting };
+}
+
+function startHunting(f: ReturnType<typeof fixture>, action: 'draw' | 'release' | 'skinning') {
+  Object.assign(f.app.game.state.inventory, { hunting_bow: 1, arrow: 6, skinning_knife: 1 });
+  f.app.game.state.equippedWeapon = 'hunting_bow';
+  if (action !== 'skinning') {
+    f.key('KeyJ'); f.hunting.controls(.2, true);
+    expect(f.hunting.isDrawing).toBe(true);
+    if (action === 'release') {
+      f.key('KeyJ', false, 'keyup'); f.hunting.controls(0, true);
+      expect(f.hunting.isDrawing).toBe(false);
+    }
+  } else {
+    f.app.player.state = 'channel';
+    f.app.player.channel = { kind: 'skinning', t: .5, dur: 3.2, cancelled: vi.fn(() => f.app.audio.stopHuntingSounds('skinning')) };
+  }
+  f.app.audio.stopHuntingSounds.mockClear(); f.app.player.cancelSkinning.mockClear();
+  vi.mocked(f.hunting.controls).mockClear(); vi.mocked(f.hunting.reset).mockClear();
+  return structuredClone(f.app.game.state.inventory);
 }
 
 afterEach(() => { menuFailure.next = false; stagedActors.roots.length = 0; npcCatalog.load.mockReset(); treeCatalog.load.mockReset(); vi.restoreAllMocks(); vi.useRealTimers(); vi.unstubAllGlobals(); });
@@ -322,10 +356,46 @@ describe('actual application world transitions', () => {
     expect(app.input.uiOpen).toBe(true);
   });
 
+  it.each(['draw', 'release', 'skinning'] as const)('opening a panel cancels active %s without spending an arrow or granting loot', (action) => {
+    const f = fixture();
+    Object.assign(f.app, { uiRoot: new ElementFixture('DIV'), mapView: {} });
+    f.call('buildShell');
+    const inventory = startHunting(f, action);
+    f.app.panels.isOpen = true;
+    Reflect.get(f.app.panels, 'onOpen')();
+    f.hunting.afterWorld(.2, false);
+    f.app.panels.isOpen = false; f.input.uiOpen = false;
+    f.hunting.afterWorld(.2, true);
+    expect(f.hunting.controls).toHaveBeenCalledExactlyOnceWith(0, false);
+    expect(f.hunting.isDrawing).toBe(false);
+    expect(f.app.player.cancelSkinning).toHaveBeenCalledOnce();
+    expect(f.app.player.channel).toBeNull();
+    expect(f.app.audio.stopHuntingSounds).toHaveBeenCalledWith(action === 'skinning' ? 'skinning' : 'bow_draw');
+    expect(f.app.audio.setWildlifeActive).toHaveBeenCalledExactlyOnceWith(false);
+    expect(f.app.cam.setAiming).toHaveBeenLastCalledWith(false);
+    expect(f.app.game.state.inventory).toEqual(inventory);
+    expect(f.hunting.arrows.activeCount).toBe(0);
+  });
+
+  it.each(['draw', 'release', 'skinning'] as const)('a graphics pause resets active %s and its pending effects before any rebuilt frame', (action) => {
+    const f = fixture(), inventory = startHunting(f, action);
+    f.call('pauseForWorldBuild');
+    f.hunting.afterWorld(.2, false);
+    f.hunting.afterWorld(.2, true);
+    expect(f.hunting.reset).toHaveBeenCalledOnce();
+    expect(f.hunting.isDrawing).toBe(false);
+    expect(f.app.player.channel).toBeNull();
+    expect(f.app.audio.stopHuntingSounds).toHaveBeenCalledWith();
+    expect(f.app.audio.setWildlifeActive).toHaveBeenCalledExactlyOnceWith(false);
+    expect(f.app.audio.pauseWorld).toHaveBeenCalledOnce();
+    expect(f.app.game.state.inventory).toEqual(inventory);
+    expect(f.hunting.arrows.activeCount).toBe(0);
+  });
+
   it('cancels a pending speech chain before the title or death transition', () => {
     const { app, call } = fixture();
     const death = vi.fn();
-    Object.assign(app, { audio: { death }, buildTitle: vi.fn(), focusTitle: vi.fn() });
+    Object.assign(app, { audio: { ...app.audio, death }, buildTitle: vi.fn(), focusTitle: vi.fn() });
     call('enterTitle');
     expect(app.speech.clear).toHaveBeenCalledOnce();
     expect(app.mode).toBe('title');
@@ -448,7 +518,7 @@ describe('actual application world transitions', () => {
     Reflect.set(app, 'world', undefined);
     Reflect.set(app, 'mode', 'loading');
     const canvas = { addEventListener: vi.fn() };
-    const audio = { resume: vi.fn(), setPageHidden: vi.fn(), pauseWorld: vi.fn() };
+    const audio = { ...app.audio, resume: vi.fn(), setPageHidden: vi.fn() };
     Object.assign(app, {
       canvas, audio, buildShell: vi.fn(), prepareMainHero: vi.fn().mockResolvedValue(undefined), applyPixelRatio: vi.fn(), onResize: vi.fn(),
       enterTitle: vi.fn(() => Reflect.set(app, 'mode', 'title')), applyShotParams: vi.fn(),

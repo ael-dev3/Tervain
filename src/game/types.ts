@@ -1,6 +1,7 @@
 // Persistent world model and command vocabulary for the Bellwether Vale slice.
 // Everything in src/game is renderer-free so scenarios can run without a browser
 // (docs/engineering/architecture.md: "The renderer displays state").
+import type { AnimalHit, AnimalId, HuntingState } from './hunting';
 
 export const SAVE_FORMAT_VERSION = 1;
 export const CONTENT_REVISION = 'deepwood-proto-0.0.5-unarmed';
@@ -84,6 +85,11 @@ export const PARTIES: readonly Party[] = ['mara', 'edda', 'darin'];
 export type ItemId =
   | 'coin'
   | 'rusted_sword'
+  | 'hunting_bow'
+  | 'arrow'
+  | 'skinning_knife'
+  | 'animal_hide'
+  | 'raw_meat'
   | 'sluice_brace'
   | 'gate_wrench'
   | 'archive_key'
@@ -207,6 +213,8 @@ export interface WorldState {
   npcs: Record<NpcId, NpcState>;
   offenses: { pending: PendingReport[]; known: KnownOffense[] };
   defeated: Partial<Record<EncounterId, true>>;
+  /** Injuries, corpse poses and harvested individuals persist across saves and scene rebuilds. */
+  hunting: HuntingState;
   discovered: Partial<Record<PlaceId, true>>;
   /** Persistent differences from the content baseline (opened doors, taken pickups). */
   locationChanges: Record<string, string>;
@@ -253,6 +261,10 @@ export type Command =
   | { t: 'enter'; trigger: string }
   | { t: 'discover'; place: PlaceId }
   | { t: 'pickup'; pickupId: string; item: ItemId; qty: number }
+  | { t: 'fireBow'; hit?: AnimalHit }
+  | { t: 'hitAnimal'; hit: AnimalHit }
+  | { t: 'skinAnimal'; id: AnimalId }
+  | { t: 'restockArrows' }
   | { t: 'rescueWorker'; method: 'fight' | 'shortcut' }
   | { t: 'openShortcut' }
   | { t: 'archiveAccess'; method: 'permission' | 'borrowed_key' | 'trespass'; observedBy?: NpcId[] }
@@ -287,6 +299,9 @@ export type GameEvent =
   | { t: 'autosave'; reason: string }
   | { t: 'report'; offense: OffenseKind; to: NpcId }
   | { t: 'item'; id: ItemId; delta: number }
+  | { t: 'bowShot'; hit: AnimalHit | null; killed: boolean }
+  | { t: 'animalHit'; hit: AnimalHit; killed: boolean }
+  | { t: 'animalSkinned'; id: AnimalId; items: Partial<Record<ItemId, number>> }
   | { t: 'quickSlots' }
   | { t: 'equipment'; item: ItemId | null }
   | { t: 'mapMarker'; marker: MapMarker | null }

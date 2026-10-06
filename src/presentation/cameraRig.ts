@@ -27,6 +27,9 @@ export class CameraRig {
   private curDist = 6.2;
   private target = new THREE.Vector3();
   private smoothTarget = new THREE.Vector3();
+  private followPivot = new THREE.Vector3();
+  private aiming = false;
+  get isAiming() { return this.aiming; }
   private titleAngle = 0;
   private initialized = false;
   /** Used to hide the local body only when the boom is forced inside it. */
@@ -37,6 +40,9 @@ export class CameraRig {
     this.initialized = false;
     this.curDist = this.wantDist;
     this.shakeT = 0;
+    this.aiming = false;
+    this.camera.fov = 60;
+    this.camera.updateProjectionMatrix();
   }
   mode: 'follow' | 'title' | 'bench' = 'follow';
   benchPath: { p: THREE.Vector3; look: THREE.Vector3 }[] = [];
@@ -52,6 +58,11 @@ export class CameraRig {
 
   lookAtYaw(yaw: number) {
     if (Number.isFinite(yaw)) this.yaw = yaw;
+  }
+
+  /** A closer shoulder view leaves the exploration zoom preference intact. */
+  setAiming(aiming: boolean) {
+    this.aiming = aiming;
   }
 
   applyLook(dyaw: number, dpitch: number, zoom: number) {
@@ -84,30 +95,67 @@ export class CameraRig {
     const dirX = -Math.sin(this.yaw) * cp;
     const dirY = Math.sin(this.pitch);
     const dirZ = -Math.cos(this.yaw) * cp;
+    const boomDistance = this.aiming ? 2.8 : this.wantDist;
+    const aimOffset = this.aiming ? 0.42 : 0;
+    this.followPivot.copy(this.smoothTarget);
+    const candidates = colliders.near(px, pz, boomDistance + aimOffset + CAMERA_CLEARANCE + MAX_RECOIL);
+    if (aimOffset > 0) {
+      // At yaw zero the screen's right is -X. Sweep the short shoulder shift before sweeping the boom.
+      const offset = new THREE.Vector3(-Math.cos(this.yaw) * aimOffset, 0, Math.sin(this.yaw) * aimOffset);
+      const shoulder = this.smoothTarget.clone().add(offset);
+      let shoulderFraction = 1;
+      for (const c of candidates) {
+        const t = cameraColliderEntry(this.smoothTarget, shoulder, c, terrain.groundAt(c.x, c.z), obstacleHeight(c));
+        if (t !== null) shoulderFraction = Math.min(shoulderFraction, Math.max(0, t - 0.025 / aimOffset));
+      }
+      const clearShoulder = (fraction: number) => {
+        const x = this.smoothTarget.x + offset.x * fraction, z = this.smoothTarget.z + offset.z * fraction;
+        const r = CAMERA_CLEARANCE;
+        const floor = Math.max(terrain.groundAt(x,z), terrain.groundAt(x-r,z), terrain.groundAt(x+r,z), terrain.groundAt(x,z-r), terrain.groundAt(x,z+r));
+        return this.smoothTarget.y >= floor + r;
+      };
+      const shoulderSteps = Math.ceil(aimOffset / .06);
+      let previousShoulder = 0;
+      for (let i = 1; i <= shoulderSteps; i++) {
+        const fraction = Math.min(i / shoulderSteps, shoulderFraction);
+        if (fraction <= previousShoulder) break;
+        if (!clearShoulder(fraction)) {
+          let lo = previousShoulder, hi = fraction;
+          for (let j = 0; j < 10; j++) {
+            const mid = (lo + hi) / 2;
+            if (clearShoulder(mid)) lo = mid;
+            else hi = mid;
+          }
+          shoulderFraction = Math.max(0, lo - .025 / aimOffset);
+          break;
+        }
+        previousShoulder = fraction;
+      }
+      this.followPivot.addScaledVector(offset, shoulderFraction);
+    }
     const desired = {
-      x: this.smoothTarget.x + dirX * this.wantDist,
-      y: this.smoothTarget.y + dirY * this.wantDist,
-      z: this.smoothTarget.z + dirZ * this.wantDist,
+      x: this.followPivot.x + dirX * boomDistance,
+      y: this.followPivot.y + dirY * boomDistance,
+      z: this.followPivot.z + dirZ * boomDistance,
     };
-    let allowed = this.wantDist;
-    const candidates = colliders.near(px, pz, this.wantDist + CAMERA_CLEARANCE + MAX_RECOIL);
+    let allowed = boomDistance;
     for (const c of candidates) {
-      const t = cameraColliderEntry(this.smoothTarget, desired, c, terrain.groundAt(c.x, c.z), obstacleHeight(c));
-      if (t !== null) allowed = Math.min(allowed, Math.max(0.04, t * this.wantDist - 0.025));
+      const t = cameraColliderEntry(this.followPivot, desired, c, terrain.groundAt(c.x, c.z), obstacleHeight(c));
+      if (t !== null) allowed = Math.min(allowed, Math.max(0.04, t * boomDistance - 0.025));
     }
     // The rendered terrain is piecewise planar. A short spatial march followed by bisection finds bank contact
     // independently of frame rate, rather than stepping over a bank in fourteen widely spaced samples.
-    const steps = Math.ceil(this.wantDist / 0.12);
+    const steps = Math.ceil(boomDistance / 0.12);
     let previous = 0;
     for (let i = 1; i <= steps; i++) {
-      const d = this.wantDist * i / steps;
+      const d = boomDistance * i / steps;
       if (d > allowed) break;
       const clear = (distance: number) => {
-        const x = this.smoothTarget.x + dirX * distance;
-        const z = this.smoothTarget.z + dirZ * distance;
+        const x = this.followPivot.x + dirX * distance;
+        const z = this.followPivot.z + dirZ * distance;
         const r = CAMERA_CLEARANCE;
         const floor = Math.max(terrain.groundAt(x,z), terrain.groundAt(x-r,z), terrain.groundAt(x+r,z), terrain.groundAt(x,z-r), terrain.groundAt(x,z+r));
-        return this.smoothTarget.y + dirY * distance >= floor + r;
+        return this.followPivot.y + dirY * distance >= floor + r;
       };
       if (!clear(d)) {
         let lo = previous;
@@ -125,9 +173,9 @@ export class CameraRig {
     // Shorten instantly; lengthen slowly.
     if (allowed < this.curDist) this.curDist = allowed;
     else this.curDist += (allowed - this.curDist) * (1 - Math.exp(-dt * 1.6));
-    const cx = this.smoothTarget.x + dirX * this.curDist;
-    let cy = this.smoothTarget.y + dirY * this.curDist;
-    const cz = this.smoothTarget.z + dirZ * this.curDist;
+    const cx = this.followPivot.x + dirX * this.curDist;
+    let cy = this.followPivot.y + dirY * this.curDist;
+    const cz = this.followPivot.z + dirZ * this.curDist;
     cy = Math.max(cy, terrain.groundAt(cx, cz) + 0.45);
     this.camera.position.set(cx, cy, cz);
     if (!reducedMotion && shake > 0 && this.curDist > 1) {
@@ -171,7 +219,13 @@ export class CameraRig {
       }
       this.camera.position.set(cx + (recoil.x - cx) * share, cy + (recoil.y - cy) * share, cz + (recoil.z - cz) * share);
     }
-    this.camera.lookAt(this.smoothTarget);
+    this.camera.lookAt(this.followPivot);
+    const fov = this.aiming ? 48 : 60;
+    if (this.camera.fov !== fov) {
+      this.camera.fov += (fov - this.camera.fov) * k;
+      if (Math.abs(this.camera.fov - fov) < 0.01) this.camera.fov = fov;
+      this.camera.updateProjectionMatrix();
+    }
   }
 
   /**
