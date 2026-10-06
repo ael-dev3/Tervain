@@ -21,6 +21,7 @@ import {
   temperatureAt, windTone, type ListenerState, type WorldSoundState,
 } from '../../src/presentation/sound/soundscape';
 import { SoundWorld, type SoundFrame } from '../../src/presentation/sound/soundWorld';
+import { VOICE_AUDIO } from '../../src/presentation/sound/voiceManifest';
 import { WORLD_AUDIO } from '../../src/presentation/sound/worldAudioManifest';
 import { coastX } from '../../src/world/coast';
 import { BUILDINGS, FORD, INLAND_HAMLET, LIGHTHOUSE, PLACES, RITE_ALTAR, STREAMS } from '../../src/world/layout';
@@ -74,7 +75,10 @@ describe('prepared world audio', () => {
     const derived = new Set<string>();
     for (const a of provenance.assets) {
       expect(a.prompt.length, a.id).toBeGreaterThan(20);
-      expect(a.model).toBe('eleven_text_to_sound_v2');
+      // Effects and beds from the sound-effects model; the score from the music model (A53).
+      // The hero's pain and breath are generic takes performed again in his designed voice (voice changer).
+      const model = ['piece', 'musicLoop', 'sting', 'song'].includes(a.use.type) ? 'music_v2_5' : (a as { from?: string }).from ? 'eleven_multilingual_sts_v2' : 'eleven_text_to_sound_v2';
+      expect(a.model, a.id).toBe(model);
       expect(sha256(path.join(ROOT, a.source.path)), a.id).toBe(a.source.sha256);
       expect(a.derivatives.length, a.id).toBe(2);
       for (const d of a.derivatives) {
@@ -470,8 +474,8 @@ describe('music director', () => {
     expect(step(d, 0.3, ctx())).toEqual([{ t: 'stop', fadeOut: 3 }]);
     expect(d.phase).toBe('wait');
     expect(step(d, 0.05, ctx({ threat: 'combat' }))).toEqual([{ t: 'loop', id: 'combat', fadeIn: 0.8 }]);
-    expect(THREAT_LOOPS.alert.sort()).toEqual(['danger', 'danger_watch']);
-    expect(THREAT_LOOPS.combat.sort()).toEqual(['battle_ford', 'combat']);
+    expect(THREAT_LOOPS.alert.sort()).toEqual(['danger', 'danger_2', 'danger_watch']);
+    expect(THREAT_LOOPS.combat.sort()).toEqual(['battle_ford', 'combat', 'combat_2']);
   });
 
   it('opens each mood with its own arrangement of the theme, then varies', () => {
@@ -615,7 +619,7 @@ class FakeContext {
   close = vi.fn(async () => { this.state = 'closed'; });
   decodeAudioData = vi.fn(async (data: { file: string }) => {
     const name = path.basename(data.file).replace(/\.(ogg|m4a)$/, '');
-    const all = [...Object.values(WORLD_AUDIO.banks), ...Object.values(WORLD_AUDIO.loops), ...Object.values(WORLD_AUDIO.music)];
+    const all = [...Object.values(WORLD_AUDIO.banks), ...Object.values(WORLD_AUDIO.loops), ...Object.values(WORLD_AUDIO.music), ...Object.values(VOICE_AUDIO.banks)];
     const entry = all.find((e) => e.file === name);
     if (!entry) throw new Error(`no such file ${name}`);
     return { duration: entry.duration, file: name };
@@ -684,7 +688,9 @@ describe('world sound runtime', () => {
     expect(world.play({ clip: 'step.grass', gain: 0.4 })).toBe(false);
     expect(world.stats.dropped).toBe(1);
     await flush();
-    expect(fetched.sort()).toEqual(Object.values(WORLD_AUDIO.banks).map((b) => `/tervain/assets/audio/world/${b.file}.ogg`).sort());
+    // ...and the hero's voice, who speaks first; everyone else's lines wait until the player is near them.
+    const heroFirst = VOICE_AUDIO.banks[VOICE_AUDIO.lines['hero.arrival'][0]].file;
+    expect(fetched.sort()).toEqual([...Object.values(WORLD_AUDIO.banks).map((b) => `/tervain/assets/audio/world/${b.file}.ogg`), `/tervain/assets/audio/voice/${heroFirst}.ogg`].sort());
     expect(world.banksReady).toBe(true);
   });
 
@@ -699,7 +705,7 @@ describe('world sound runtime', () => {
     await flush();
     expect(world.banksReady).toBe(true);
     expect(world.stats.decodeErrors).toBe(0);
-    expect(fetched.filter((f) => f.endsWith('.m4a'))).toHaveLength(Object.keys(WORLD_AUDIO.banks).length);
+    expect(fetched.filter((f) => f.endsWith('.m4a'))).toHaveLength(Object.keys(WORLD_AUDIO.banks).length + 1);
     expect(world.url('loop-sea')).toBe('/tervain/assets/audio/world/loop-sea.m4a');
   });
 
@@ -785,7 +791,8 @@ describe('world sound runtime', () => {
     expect(media.paused).toBe(true);
     world.sting('victory');
     await flush();
-    expect(playing(ctx, 'music-sting_victory')).toHaveLength(1);
+    // One victory sting, in either voice (the generated and the composed take turns at random).
+    expect(playing(ctx, 'music-sting_victory').length + playing(ctx, 'music-sting_victory_theme').length).toBe(1);
     vi.advanceTimersByTime(3000);
     expect(playing(ctx, 'music-battle_ford')).toHaveLength(0);
     world.dispose();
@@ -1010,6 +1017,63 @@ describe('world sound runtime', () => {
     for (const i of [0, 1, 2]) world.play(bellCue(true, i));
     const peal = WORLD_AUDIO.banks.crafted.clips['bell.peal'];
     expect(ctx.sources.slice(-3).map((s) => s.started![1])).toEqual(peal.map(([o]) => o));
+  });
+
+  it('speaks a line from its speaker\'s sprite on the dialogue bus, one line per speaker, with the score stepped back', async () => {
+    const { ctx, world, fetched, buses } = runtime();
+    await flush();
+    // The hero's first lines are already loaded; a resident's load when wanted (or when the player comes near).
+    const [maraBank, offset, length] = VOICE_AUDIO.lines['mara.intro'];
+    expect(world.speak('mara.intro')).toBe(false);
+    expect(world.voiceReady('mara.intro')).toBe(false);
+    expect(fetched).toContain(`/tervain/assets/audio/voice/${VOICE_AUDIO.banks[maraBank].file}.ogg`);
+    await flush();
+    expect(world.voiceReady('mara.intro')).toBe(true);
+    const at = { x: PLACES.rillford.x + 2, y: 1.7, z: PLACES.rillford.z };
+    expect(world.speak('mara.intro', { at })).toBe(true);
+    const line = ctx.sources.at(-1)!;
+    expect(line.buffer!.file).toBe(VOICE_AUDIO.banks[maraBank].file);
+    expect(line.started![1]).toBeCloseTo(offset);
+    expect(line.started![2]).toBeCloseTo(length);
+    expect(chain(line, buses)).toEqual(['source', 'gain', 'panner']);
+    expect(line.outputs[0]!.outputs[0]!.outputs).toContain(buses.dialogue);
+    expect(world.speakers).toEqual(['rillford_reeve']);
+    // Her next line cuts the first short; the hero speaks close and centred.
+    await world.prepareVoice('rillford_reeve');
+    expect(world.speak('mara.water', { at })).toBe(true);
+    expect(line.stopped).toBe(true);
+    await world.prepareVoice('hero');
+    expect(world.speak('hero.ask.water')).toBe(true);
+    expect(chain(ctx.sources.at(-1)!, buses)).toEqual(['source', 'gain']);
+    const talk = ctx.nodes.find((n) => (n as unknown as { gain?: Param }).gain?.setTargetAtTime.mock.calls.some(([v]) => v === 0.55));
+    expect(talk).toBeDefined();
+    world.dispose();
+    expect(world.speakers).toEqual([]);
+  });
+
+  it('decodes the voices of lines wanted soon, keeps them while wanted, and lets the rest go after a minute', async () => {
+    const { world, fetched } = runtime();
+    await flush();
+    const heroFirst = VOICE_AUDIO.lines['hero.arrival'][0];
+    const [maraBank] = VOICE_AUDIO.lines['mara.intro'];
+    const [bakerBank] = VOICE_AUDIO.lines['hesper.intro'];
+    // Only the banks holding the named lines are fetched, not everything the speaker could ever say.
+    world.update(0.05, frame(PLACES.rillford, { speech: ['mara.intro', 'hero.ask.water', 'not.a.line'] }));
+    await flush();
+    expect(world.voiceReady('mara.intro')).toBe(true);
+    const maraBanks = Object.values(VOICE_AUDIO.banks).filter((b) => b.speaker === 'rillford_reeve' && b.set === 'spoken');
+    expect(fetched.filter((u) => u.includes('/voice-rillford_reeve-')).length).toBe(1);
+    expect(maraBanks.length).toBeGreaterThan(1);
+    // Still wanted for two minutes: kept. Then the baker is wanted instead, and Mara's voice goes a minute later.
+    for (let t = 0; t < 120; t += 0.5) world.update(0.5, frame(PLACES.rillford, { speech: ['mara.intro'] }));
+    expect(world.voiceBanksHeld).toContain(maraBank);
+    for (let t = 0; t < 70; t += 0.5) world.update(0.5, frame(PLACES.rillford, { speech: ['hesper.intro'] }));
+    await flush();
+    expect(world.voiceBanksHeld).not.toContain(maraBank);
+    expect(world.voiceBanksHeld).toContain(bakerBank);
+    // The hero's opening bank was never wanted again either.
+    expect(world.voiceBanksHeld).not.toContain(heroFirst);
+    world.dispose();
   });
 
   it('cleans up partially built graphs when the browser lacks convolution', () => {

@@ -144,10 +144,17 @@ export class MusicDirector {
     return choices[Math.floor(this.random() * choices.length)] ?? null;
   }
 
-  /** A fight keeps one voice: a composed warning leads to the composed battle. */
+  private readonly loopTurns = new Map<string, number>();
+
+  /** A fight keeps one voice: a composed warning leads to the composed battle. Within a voice the takes come in turn. */
   private loopFor(level: 'alert' | 'combat'): MusicId {
     const list = THREAT_LOOPS[level];
-    return list.find((id) => WORLD_AUDIO.music[id].origin === this.fightVoice) ?? list[0]!;
+    const voice = list.filter((id) => WORLD_AUDIO.music[id].origin === this.fightVoice);
+    const pool = voice.length ? voice : list;
+    const key = `${level}.${this.fightVoice}`;
+    const turn = this.loopTurns.get(key) ?? 0;
+    this.loopTurns.set(key, turn + 1);
+    return pool[turn % pool.length]!;
   }
 
   update(dt: number, ctx: MusicContext): MusicAction[] {

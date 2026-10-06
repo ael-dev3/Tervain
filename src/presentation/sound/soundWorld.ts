@@ -8,6 +8,7 @@ import { type MusicAction, MusicDirector, type Threat } from './musicDirector';
 import {
   bedTargets, cricketDensity, cricketRate, EmitterScheduler, groundSurface, innSong, temperatureAt, type Vec3, type WorldSoundState,
 } from './soundscape';
+import { VOICE_AUDIO, type VoiceBank, type VoiceLineId } from './voiceManifest';
 import { WORLD_AUDIO, type LoopId, type MusicId, type SongId } from './worldAudioManifest';
 
 /**
@@ -73,6 +74,8 @@ export interface SoundFrame {
   enemies: readonly SoundEnemy[];
   props: readonly SoundProp[];
   terrain: GroundProbe;
+  /** Lines the people nearby may say soon (voice.ts ids): their banks are decoded ahead and kept while wanted. */
+  speech?: readonly string[];
 }
 
 type Bus = keyof SoundBuses;
@@ -224,6 +227,15 @@ export class SoundWorld {
   private readonly reverbs: { send: GainNode }[] = [];
   /** Pieces and fight loops step back under a sting. */
   private readonly duck: GainNode;
+  /** ...and under speech. */
+  private readonly talk: GainNode;
+  private readonly voiceBuffers = new Map<VoiceBank, AudioBuffer>();
+  private readonly voiceLoads = new Map<VoiceBank, Promise<void>>();
+  /** When each loaded bank last played or was wanted, for letting go of the ones nobody near is using. */
+  private readonly voiceUsed = new Map<VoiceBank, number>();
+  private voiceSweep = 0;
+  /** Each speaker says one thing at a time. */
+  private readonly speaking = new Map<string, { source: AudioBufferSourceNode; nodes: AudioNode[] }>();
   private readonly people = new Map<string, PersonClock>();
   private readonly foes = new Map<string, { state: string; x: number; z: number; walked: number }>();
   private readonly objects = new Map<string, { speed: number; cooldown: number }>();
@@ -283,12 +295,15 @@ export class SoundWorld {
         this.reverbs.push({ send });
       });
       this.duck = this.own(ctx.createGain());
-      this.duck.connect(buses.music);
+      this.talk = this.own(ctx.createGain());
+      this.duck.connect(this.talk).connect(buses.music);
     } catch (error) {
       for (const n of this.owned) quietly(() => n.disconnect());
       throw error;
     }
     for (const name of Object.keys(WORLD_AUDIO.banks) as BankName[]) void this.loadBank(name);
+    // The hero speaks first, on the strand; his other lines and everyone else's load when they are wanted.
+    void this.loadVoiceBank(VOICE_AUDIO.lines['hero.arrival'][0]);
   }
 
   private own<T extends AudioNode>(node: T): T {
@@ -324,15 +339,15 @@ export class SoundWorld {
 
   /* ------------------------------------------------------------------ loading */
 
-  url(file: string, ext = this.ext): string {
-    return `${this.base}${WORLD_AUDIO.base}${file}.${ext}`;
+  url(file: string, ext = this.ext, folder: string = WORLD_AUDIO.base): string {
+    return `${this.base}${folder}${file}.${ext}`;
   }
 
-  private async decode(file: string): Promise<AudioBuffer | null> {
+  private async decode(file: string, folder: string = WORLD_AUDIO.base): Promise<AudioBuffer | null> {
     for (;;) {
       const ext = this.ext;
       try {
-        const res = await fetch(this.url(file, ext));
+        const res = await fetch(this.url(file, ext, folder));
         if (!res.ok) throw new Error(`${res.status}`);
         const data = await res.arrayBuffer();
         if (this.disposed) return null;
@@ -381,6 +396,132 @@ export class SoundWorld {
       this.musicLoads.set(id, p);
     }
     return p;
+  }
+
+  private loadVoiceBank(bank: VoiceBank): Promise<void> {
+    this.voiceUsed.set(bank, this.clock);
+    let p = this.voiceLoads.get(bank);
+    if (!p) {
+      p = this.decode(VOICE_AUDIO.banks[bank].file, VOICE_AUDIO.base).then((buffer) => {
+        if (buffer && this.voiceLoads.get(bank) === p) this.voiceBuffers.set(bank, buffer);
+        else if (!buffer) this.voiceLoads.delete(bank);
+      });
+      this.voiceLoads.set(bank, p);
+    }
+    return p;
+  }
+
+  /** Fetches all of a speaker's spoken lines at once. The game instead names the lines it may need (`speech`). */
+  prepareVoice(speaker: string): Promise<void> {
+    const banks = (Object.keys(VOICE_AUDIO.banks) as VoiceBank[]).filter((b) => VOICE_AUDIO.banks[b].speaker === speaker && VOICE_AUDIO.banks[b].set === 'spoken');
+    return Promise.all(banks.map((b) => this.loadVoiceBank(b))).then(() => undefined);
+  }
+
+  /** True when a line can start now; false while its bank is still on its way (it is requested). */
+  voiceReady(id: VoiceLineId): boolean {
+    const bank = VOICE_AUDIO.lines[id][0];
+    if (this.voiceBuffers.has(bank)) return true;
+    void this.loadVoiceBank(bank);
+    return false;
+  }
+
+  /**
+   * A spoken line on the dialogue bus, from the speaker's place in the world when given (a resident), or close and
+   * centred (the hero). The speaker's previous line stops, and the score steps back while anyone speaks. False when
+   * the line's bank has not loaded yet.
+   */
+  speak(id: VoiceLineId, opt: { at?: Vec3 } = {}): boolean {
+    if (this.disposed || this.ctx.state === 'closed') return false;
+    const [bank, offset, length, speaker] = VOICE_AUDIO.lines[id];
+    const buffer = this.voiceBuffers.get(bank);
+    if (!buffer) {
+      void this.loadVoiceBank(bank);
+      return false;
+    }
+    this.voiceUsed.set(bank, this.clock);
+    try {
+      this.hush(speaker);
+      const ctx = this.ctx;
+      const source = ctx.createBufferSource();
+      source.buffer = buffer;
+      const gain = ctx.createGain();
+      gain.gain.value = 1;
+      source.connect(gain);
+      const nodes: AudioNode[] = [source, gain];
+      let tail: AudioNode = gain;
+      if (opt.at) {
+        const panner = ctx.createPanner();
+        panner.panningModel = 'equalpower';
+        panner.distanceModel = 'inverse';
+        // Speech carries a little further than a footfall before it begins to fall away.
+        panner.refDistance = 3;
+        panner.rolloffFactor = 1;
+        panner.maxDistance = 10000;
+        placeAt(panner, opt.at);
+        tail.connect(panner);
+        tail = panner;
+        nodes.push(panner);
+      }
+      tail.connect(this.buses.dialogue);
+      if (opt.at) {
+        // A little of the place's air on a voice out in the world.
+        const send = ctx.createGain();
+        send.gain.value = 0.1;
+        tail.connect(send);
+        for (const r of this.reverbs) send.connect(r.send);
+        nodes.push(send);
+      }
+      const v = { source, nodes };
+      this.speaking.set(speaker, v);
+      source.onended = () => {
+        if (this.speaking.get(speaker) === v) this.speaking.delete(speaker);
+        for (const n of nodes) quietly(() => n.disconnect());
+        this.duckForSpeech();
+      };
+      source.start(ctx.currentTime, offset, length);
+      this.duckForSpeech();
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  /** Lets go of decoded speech nobody has wanted for a minute; it is fetched again when wanted. */
+  private sweepVoices() {
+    for (const bank of [...this.voiceBuffers.keys()]) {
+      if (this.speaking.has(VOICE_AUDIO.banks[bank].speaker)) continue;
+      // Banks of lines still wanted nearby are touched every frame; anything else goes after a minute.
+      if (this.clock - (this.voiceUsed.get(bank) ?? 0) > 60) {
+        this.voiceBuffers.delete(bank);
+        this.voiceLoads.delete(bank);
+        this.voiceUsed.delete(bank);
+      }
+    }
+  }
+
+  /** Banks of decoded speech held now (for the developer panel and the tests). */
+  get voiceBanksHeld(): VoiceBank[] {
+    return [...this.voiceBuffers.keys()];
+  }
+
+  /** Stops whatever this speaker is saying. */
+  hush(speaker: string) {
+    const v = this.speaking.get(speaker);
+    if (!v) return;
+    this.speaking.delete(speaker);
+    quietly(() => v.source.stop());
+    for (const n of v.nodes) quietly(() => n.disconnect());
+    this.duckForSpeech();
+  }
+
+  /** Who is speaking now (for the developer panel and the browser review). */
+  get speakers(): string[] {
+    return [...this.speaking.keys()];
+  }
+
+  private duckForSpeech() {
+    const talking = this.speaking.size > 0;
+    this.target(this.talk.gain, talking ? 0.55 : 1, this.ctx.currentTime, talking ? 0.08 : 0.6);
   }
 
   /** True once every one-shot bank is decoded (for the developer panel and the browser review). */
@@ -518,6 +659,15 @@ export class SoundWorld {
         // Fights and knocks are timed to the frame; the rest of the world is checked twenty times a second.
         if (frame.mode === 'play') this.updateEnemies(frame);
         if (frame.mode !== 'paused') this.updateProps(dt, frame);
+        for (const id of frame.speech ?? []) {
+          const line = VOICE_AUDIO.lines[id as VoiceLineId];
+          if (line) void this.loadVoiceBank(line[0]);
+        }
+      }
+      this.voiceSweep += dt;
+      if (this.voiceSweep > 5) {
+        this.voiceSweep = 0;
+        this.sweepVoices();
       }
       this.acc += dt;
       if (this.acc < UPDATE_INTERVAL) return;
@@ -790,7 +940,7 @@ export class SoundWorld {
     this.breath -= dt;
     if (this.breath > 0) return;
     this.breath = 1.05 + 0.35 * this.random();
-    this.play({ clip: 'voice.breath', gain: 0.4, pitch: 0.05 }, { bus: 'dialogue', reverb: 0.02 });
+    this.play({ clip: 'hero.breath', gain: 0.4, pitch: 0.05 }, { bus: 'dialogue', reverb: 0.02 });
   }
 
   /**
@@ -1113,6 +1263,7 @@ export class SoundWorld {
     if (hidden && !this.hidden) this.stingEpoch++;
     this.hidden = hidden;
     if (hidden) for (const media of this.retiringMedia) media.pause();
+    if (hidden) for (const speaker of [...this.speaking.keys()]) this.hush(speaker);
     for (const media of [this.piece?.media, this.song?.media]) {
       if (!media) continue;
       if (hidden) {
@@ -1165,6 +1316,7 @@ export class SoundWorld {
       quietly(() => v.source.stop());
       this.release(v);
     }
+    for (const speaker of [...this.speaking.keys()]) this.hush(speaker);
     for (const bed of this.beds.values()) this.stopBed(bed);
     this.beds.clear();
     for (const n of this.owned) quietly(() => n.disconnect());
@@ -1173,5 +1325,6 @@ export class SoundWorld {
     this.musicBuffers.clear();
     this.musicLoads.clear();
     this.pendingMedia.clear();
+    this.voiceBuffers.clear();
   }
 }

@@ -157,7 +157,9 @@ describe('composed pieces', () => {
     const ids = composed.map((c) => c.id);
     expect(new Set(ids).size).toBe(ids.length);
     for (const [id, e] of Object.entries(WORLD_AUDIO.music)) if (e.origin === 'composed') expect(ids, id).toContain(id);
-    for (const id of Object.keys(WORLD_AUDIO.songs)) expect(ids, id).toContain(id);
+    // The inn's lute tunes are composed; its two sung songs were generated (A53) and come from plan.json instead.
+    const sung = new Set(['drought_bell', 'bread_and_water']);
+    for (const id of Object.keys(WORLD_AUDIO.songs)) if (!sung.has(id)) expect(ids, id).toContain(id);
     const light = composed.find((c) => c.id === 'place_light')!;
     const [a, b] = [light.render(), light.render()];
     expect(a[0]!.length).toBe(b[0]!.length);

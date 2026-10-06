@@ -7,211 +7,225 @@ export const WORLD_AUDIO = {
   "banks": {
     "steps": {
       "file": "bank-steps",
-      "duration": 29.5707,
+      "duration": 30.9,
       "clips": {
         "step.grass": [
-          [0.06, 0.33667],
-          [0.45667, 0.31],
-          [0.82667, 0.334],
-          [1.22067, 0.34733],
-          [1.628, 0.32867],
-          [2.01667, 0.206],
-          [2.28267, 0.28867],
-          [2.63133, 0.334],
-          [3.02533, 0.33667],
-          [3.422, 0.17933]
+          [0.06, 1.05933],
+          [1.17933, 0.414],
+          [1.65333, 0.30467],
+          [2.018, 0.46733],
+          [2.54533, 0.36867],
+          [2.974, 0.38733],
+          [3.42133, 0.39]
         ],
         "step.dirt": [
-          [3.66133, 0.278],
-          [3.99933, 0.25133],
-          [4.31067, 0.26733],
-          [4.638, 0.21667],
-          [4.91467, 0.27],
-          [5.24467, 0.29133],
-          [5.596, 0.28333],
-          [5.93933, 0.23]
+          [3.87133, 0.134],
+          [4.06533, 0.21667],
+          [4.342, 0.15533],
+          [4.55733, 0.18733],
+          [4.80467, 0.206],
+          [5.07067, 0.25133],
+          [5.382, 0.13667],
+          [5.57867, 0.17933],
+          [5.818, 0.15267],
+          [6.03067, 0.102]
         ],
         "step.stone": [
-          [6.22933, 0.29133],
-          [6.58067, 0.33133],
-          [6.972, 0.19267],
-          [7.22467, 0.23],
-          [7.51467, 0.29667],
-          [7.87133, 0.30467],
-          [8.236, 0.33667],
-          [8.63267, 0.25667],
-          [8.94933, 0.32867],
-          [9.338, 0.222]
+          [6.19267, 0.23],
+          [6.48267, 0.486],
+          [7.02867, 0.438],
+          [7.52667, 0.34467],
+          [7.93133, 0.28333],
+          [8.27467, 0.294],
+          [8.62867, 0.27],
+          [8.95867, 0.294]
         ],
         "step.wood": [
-          [9.62, 0.518],
-          [10.198, 0.422],
-          [10.68, 0.446],
-          [11.186, 0.33933],
-          [11.58533, 0.36867],
-          [12.014, 0.35],
-          [12.424, 0.35],
-          [12.834, 0.36333],
-          [13.25733, 0.41933]
+          [9.31267, 0.37933],
+          [9.752, 0.366],
+          [10.178, 0.33133],
+          [10.56933, 0.374],
+          [11.00333, 0.342],
+          [11.40533, 0.33933],
+          [11.80467, 0.44067],
+          [12.30533, 0.518],
+          [12.88333, 0.326]
         ],
         "step.sand": [
-          [13.73667, 0.21067],
-          [14.00733, 0.29933],
-          [14.36667, 0.20867],
-          [14.63533, 0.286],
-          [14.98133, 0.286],
-          [15.32733, 0.20333],
-          [15.59067, 0.19533],
-          [15.846, 0.35533],
-          [16.26133, 0.20067]
+          [13.26933, 0.342],
+          [13.67133, 0.27],
+          [14.00133, 0.254],
+          [14.31533, 0.28067],
+          [14.656, 0.77933],
+          [15.49533, 0.286],
+          [15.84133, 0.294],
+          [16.19533, 0.342],
+          [16.59733, 0.69133]
         ],
         "step.water": [
-          [16.522, 0.4],
-          [16.982, 0.62],
-          [17.662, 0.57],
-          [18.292, 0.64],
-          [18.992, 0.66],
-          [19.712, 0.34],
-          [20.112, 0.34]
+          [17.34867, 0.46],
+          [17.86867, 0.54],
+          [18.46867, 0.55],
+          [19.07867, 0.4],
+          [19.53867, 0.5],
+          [20.09867, 0.42],
+          [20.57867, 0.53]
         ],
         "step.gravel": [
-          [20.512, 0.31],
-          [20.882, 0.27267],
-          [21.21467, 0.41933],
-          [21.694, 0.28867],
-          [22.04267, 0.374],
-          [22.47667, 0.32067],
-          [22.85733, 0.406],
-          [23.32333, 0.28333],
-          [23.66667, 0.29933],
-          [24.026, 0.23]
+          [21.16867, 0.33933],
+          [21.568, 0.31533],
+          [21.94333, 0.39267],
+          [22.396, 0.34733],
+          [22.80333, 0.35533],
+          [23.21867, 0.31267],
+          [23.59133, 0.382],
+          [24.03333, 0.29133],
+          [24.38467, 0.32333]
         ],
         "step.run": [
-          [24.316, 0.29867],
-          [24.67467, 0.38467],
-          [25.11933, 0.28333],
-          [25.46267, 0.31533],
-          [25.838, 0.438],
-          [26.336, 0.37133],
-          [26.76733, 0.29933],
-          [27.12667, 0.31],
-          [27.49667, 0.294]
+          [24.768, 0.28067],
+          [25.10867, 0.438],
+          [25.60667, 0.28867],
+          [25.95533, 0.438],
+          [26.45333, 0.27533],
+          [26.78867, 0.438],
+          [27.28667, 0.31533],
+          [27.662, 0.238]
         ],
-        "land": [[27.85067, 0.95], [28.86067, 0.65]]
+        "land": [[27.96, 0.98], [29, 0.8], [29.86, 0.98]]
       }
     },
     "combat": {
       "file": "bank-combat",
-      "duration": 38.1573,
+      "duration": 41.8947,
       "clips": {
-        "swing": [
-          [0.06, 0.20867],
-          [0.32867, 0.65667],
-          [1.04533, 0.21933],
-          [1.32467, 0.25133],
-          [1.636, 0.32867],
-          [2.02467, 0.18733],
-          [2.272, 0.45933],
-          [2.79133, 0.222]
+        "swing": [[0.06, 0.46467], [0.58467, 0.286], [0.93067, 0.25133], [1.242, 0.37133], [1.67333, 0.28067]],
+        "swing.heavy": [[2.014, 2.05867]],
+        "hit.flesh": [[4.13267, 0.47267], [4.66533, 0.48867], [5.214, 1.638]],
+        "hit.block": [[6.912, 0.44867], [7.42067, 0.398], [7.87867, 0.37667]],
+        "hit.parry": [[8.31533, 1.2], [9.57533, 1.35]],
+        "hit.punch": [[10.98533, 0.84867]],
+        "voice.hurt": [[11.894, 0.41333], [12.36733, 0.34467], [12.772, 0.42733], [13.25933, 0.42733]],
+        "voice.death": [[13.74667, 2.58933]],
+        "voice.breath": [
+          [16.396, 0.26933],
+          [16.72533, 0.23533],
+          [17.02067, 0.32333],
+          [17.404, 0.30467],
+          [17.76867, 1.00333],
+          [18.832, 0.53133],
+          [19.42333, 0.414]
         ],
-        "swing.heavy": [[3.07333, 1.91733]],
-        "hit.flesh": [[5.05067, 0.558], [5.66867, 1.00067]],
-        "hit.block": [[6.72933, 0.28], [7.06933, 1.214], [8.34333, 0.56867]],
-        "hit.parry": [[8.972, 0.45], [9.482, 1.85]],
-        "hit.punch": [[11.392, 0.32533], [11.77733, 0.37933], [12.21667, 0.40333]],
-        "voice.hurt": [[12.68, 0.296], [13.036, 0.23], [13.326, 0.39533], [13.78133, 0.542]],
-        "voice.death": [[14.38333, 2.50933]],
-        "voice.breath": [[16.95267, 1.77867], [18.79133, 0.646], [19.49733, 0.28067], [19.838, 0.494], [20.392, 0.47267]],
-        "beast.growl": [[20.92467, 1.31267], [22.29733, 2.61667], [24.974, 1.646]],
-        "beast.attack": [[26.68, 4]],
-        "beast.hurt": [[30.74, 3.272]],
-        "bandit.shout": [[34.072, 0.832], [34.964, 0.45667], [35.48067, 2.61667]]
+        "beast.growl": [[19.89733, 1.87533], [21.83267, 2.61667]],
+        "beast.attack": [[24.50933, 3.16533]],
+        "beast.hurt": [[27.73467, 2.33067]],
+        "bandit.shout": [[30.12533, 0.534], [30.71933, 2.166], [32.94533, 0.48333]],
+        "hero.hurt": [[33.48867, 0.43467], [33.98333, 0.48067], [34.524, 0.48867], [35.07267, 0.45667]],
+        "hero.breath": [
+          [35.58933, 0.29333],
+          [35.94267, 0.24067],
+          [36.24333, 0.318],
+          [36.62133, 0.31533],
+          [36.99667, 1.00867],
+          [38.06533, 0.55533],
+          [38.68067, 0.446]
+        ],
+        "hero.death": [[39.18667, 2.648]]
       }
     },
     "items": {
       "file": "bank-items",
-      "duration": 30.9907,
+      "duration": 34.9787,
       "clips": {
-        "item.coins": [[0.06, 0.99267], [1.11267, 1.75267]],
-        "item.coin": [[2.92533, 0.60533]],
-        "item.metal": [[3.59067, 0.76867], [4.41933, 1.31533]],
-        "item.sword.draw": [[5.79467, 1.40267]],
-        "item.sword.sheathe": [[7.25733, 0.632]],
-        "item.cloth": [[7.94933, 2.98133]],
-        "item.satchel": [[10.99067, 3.97867]],
-        "item.herb": [[15.02933, 3.79733]],
-        "item.eat": [[18.88667, 4.56267]],
-        "item.poultice": [[23.50933, 3.272]],
-        "item.page": [[26.84133, 1.352]],
-        "item.map": [[28.25333, 2.67733]]
+        "item.coins": [[0.06, 1.07267], [1.19267, 1.11533], [2.368, 0.534]],
+        "item.coin": [[2.962, 0.84]],
+        "item.metal": [[3.862, 0.926], [4.848, 1.02467], [5.93267, 1.214]],
+        "item.sword.draw": [[7.20667, 1.31733]],
+        "item.sword.sheathe": [[8.584, 0.744]],
+        "item.cloth": [[9.388, 2.952]],
+        "item.satchel": [[12.4, 3.77067]],
+        "item.herb": [[16.23067, 3.82933]],
+        "item.eat": [[20.12, 4.824]],
+        "item.poultice": [[25.004, 3.80267]],
+        "item.page": [[28.86667, 3.45867]],
+        "item.map": [[32.38533, 2.53333]]
       }
     },
     "world": {
       "file": "bank-world",
-      "duration": 47.796,
+      "duration": 45.8387,
       "clips": {
-        "door.open": [[0.06, 3.84267]],
-        "door.close": [[3.96267, 1.752]],
-        "shutter.break": [[5.77467, 2.54133]],
-        "lever": [[8.376, 2.368]],
-        "gate": [[10.804, 3.54133]],
-        "sluice": [[14.40533, 4.728]],
-        "water.surge": [[19.19333, 6]],
-        "bell.big": [[25.25333, 7.272]],
-        "bell.small": [[32.58533, 5]],
-        "rite": [[37.64533, 5]],
-        "wood.impact": [[42.70533, 0.76067], [43.526, 1.35]],
-        "wood.lift": [[44.936, 2.8]]
+        "door.open": [[0.06, 3.83733]],
+        "door.close": [[3.95733, 1.008]],
+        "shutter.break": [[5.02533, 2.576]],
+        "lever": [[7.66133, 1.83467]],
+        "gate": [[9.556, 3.35467]],
+        "sluice": [[12.97067, 4.07733]],
+        "water.surge": [[17.108, 5.97067]],
+        "bell.big": [[23.13867, 7.65333]],
+        "bell.small": [[30.852, 5]],
+        "rite": [[35.912, 5]],
+        "wood.impact": [[40.972, 0.94467], [41.97667, 0.85933]],
+        "wood.lift": [[42.896, 2.88267]]
       }
     },
     "nature": {
       "file": "bank-nature",
-      "duration": 40.204,
+      "duration": 39.322,
       "clips": {
-        "gull": [[0.06, 1.25], [1.37, 1.31], [2.74, 1.04]],
-        "songbird": [[3.84, 2.73067], [6.63067, 3.41667]],
-        "smallbird": [[10.10733, 2.518]],
-        "crow": [[12.68533, 2.39467], [15.14, 1.63267]],
-        "owl": [[16.83267, 3.60267]],
-        "woodpecker": [[20.49533, 1.95467]],
-        "frog": [[22.51, 1.77133], [24.34133, 1.97133]],
-        "dog": [[26.37267, 0.51], [26.94267, 0.33133], [27.334, 0.75267], [28.14667, 0.318]],
-        "chicken": [[28.52467, 1.61067]],
-        "rooster": [[30.19533, 2.30667]],
-        "horse": [[32.562, 4.896]],
-        "creak": [[37.518, 0.58467], [38.16267, 1.42467], [39.64733, 0.49667]]
+        "gull": [[0.06, 0.75], [0.87, 2.55], [3.48, 1.1], [4.64, 1.1]],
+        "songbird": [[5.8, 2.696], [8.556, 3.518]],
+        "smallbird": [[12.134, 0.69133], [12.88533, 2.518]],
+        "crow": [[15.46333, 2.768], [18.29133, 0.50467], [18.856, 0.45933]],
+        "owl": [[19.37533, 2.104]],
+        "woodpecker": [[21.53933, 2.00267]],
+        "frog": [[23.602, 2.01067], [25.67267, 0.44333]],
+        "dog": [[26.176, 0.19533], [26.43133, 1.45133], [27.94267, 0.446]],
+        "chicken": [[28.44867, 1.61667]],
+        "rooster": [[30.12533, 2.34133]],
+        "horse": [[32.52667, 4.848]],
+        "creak": [[37.43467, 1.82733]]
       }
     },
     "people": {
       "file": "bank-people",
-      "duration": 45.1947,
+      "duration": 48.4093,
       "clips": {
         "work.hammer": [
-          [0.06, 0.19267],
-          [0.31267, 0.206],
-          [0.57867, 0.23],
-          [0.86867, 0.23267],
-          [1.16133, 0.20333],
-          [1.42467, 0.19],
-          [1.67467, 0.20867],
-          [1.94333, 0.20333]
+          [0.06, 0.19533],
+          [0.31533, 0.23267],
+          [0.608, 0.20067],
+          [0.86867, 0.21933],
+          [1.148, 0.27267],
+          [1.48067, 0.254],
+          [1.79467, 0.26733],
+          [2.122, 0.254]
         ],
-        "work.saw": [[2.20667, 4.89333]],
-        "work.sweep": [[7.16, 0.69133], [7.91133, 0.726], [8.69733, 0.622], [9.37933, 0.486], [9.92533, 0.46733], [10.45267, 0.47]],
+        "work.saw": [[2.436, 4.82133]],
+        "work.sweep": [
+          [7.31733, 0.44867],
+          [7.826, 0.48333],
+          [8.36933, 0.48333],
+          [8.91267, 0.46467],
+          [9.43733, 0.48067],
+          [9.978, 1.21667]
+        ],
         "work.chisel": [
-          [10.98267, 0.30467],
-          [11.34733, 0.29933],
-          [11.70667, 0.326],
-          [12.09267, 0.334],
-          [12.48667, 0.37667],
-          [12.92333, 0.25133]
+          [11.25467, 0.286],
+          [11.60067, 0.28867],
+          [11.94933, 0.182],
+          [12.19133, 0.182],
+          [12.43333, 0.174],
+          [12.66733, 0.27267],
+          [13, 0.15],
+          [13.21, 0.15267]
         ],
-        "work.knead": [[13.23467, 3.80533]],
-        "work.quill": [[17.1, 4.94933]],
-        "work.bucket": [[22.10933, 4.792]],
-        "work.sack": [[26.96133, 2.944]],
-        "voice.murmur": [[29.96533, 4.1], [34.12533, 4.1], [38.28533, 4.1]],
-        "voice.cough": [[42.44533, 0.66667], [43.172, 1.07], [44.302, 0.83267]]
+        "work.knead": [[13.42267, 4.06133]],
+        "work.quill": [[17.544, 4.96]],
+        "work.bucket": [[22.564, 4.56]],
+        "work.sack": [[27.184, 4.776]],
+        "voice.murmur": [[32.02, 4.1], [36.18, 4.1], [40.34, 4.1]],
+        "voice.cough": [[44.5, 0.99733], [45.55733, 1.14467], [46.762, 1.58733]]
       }
     },
     "crafted": {
@@ -249,233 +263,287 @@ export const WORLD_AUDIO = {
       "file": "loop-sea",
       "duration": 24.6502,
       "channels": 2,
-      "sourceLevelDb": -19.7
+      "sourceLevelDb": -19.8
     },
     "forest_day": {
       "file": "loop-forest_day",
       "duration": 24.6502,
       "channels": 2,
-      "sourceLevelDb": -42.5
+      "sourceLevelDb": -38
     },
     "forest_night": {
       "file": "loop-forest_night",
       "duration": 24.6502,
       "channels": 2,
-      "sourceLevelDb": -30.2
+      "sourceLevelDb": -23.3
     },
     "meadow_day": {
       "file": "loop-meadow_day",
       "duration": 24.6502,
       "channels": 2,
-      "sourceLevelDb": -19.6
+      "sourceLevelDb": -17.9
     },
     "village_day": {
       "file": "loop-village_day",
       "duration": 24.6502,
       "channels": 2,
-      "sourceLevelDb": -37.4
+      "sourceLevelDb": -36.1
     },
     "village_night": {
       "file": "loop-village_night",
       "duration": 14.65,
       "channels": 2,
-      "sourceLevelDb": -43
+      "sourceLevelDb": -30.8
     },
     "cliff_wind": {
       "file": "loop-cliff_wind",
       "duration": 19.65,
       "channels": 2,
-      "sourceLevelDb": -19
+      "sourceLevelDb": -17.4
     },
     "interior": {
       "file": "loop-interior",
       "duration": 14.65,
       "channels": 2,
-      "sourceLevelDb": -51.3
+      "sourceLevelDb": -53.6
     },
     "cut": {
       "file": "loop-cut",
       "duration": 14.65,
       "channels": 2,
-      "sourceLevelDb": -44.6
+      "sourceLevelDb": -41.9
     },
     "brook": {
       "file": "loop-brook",
       "duration": 14.65,
       "channels": 1,
-      "sourceLevelDb": -20.1
+      "sourceLevelDb": -22.3
     },
     "mill": {
       "file": "loop-mill",
       "duration": 14.65,
       "channels": 1,
-      "sourceLevelDb": -15
+      "sourceLevelDb": -18
     },
     "quarry": {
       "file": "loop-quarry",
       "duration": 19.65,
       "channels": 1,
-      "sourceLevelDb": -28.8
+      "sourceLevelDb": -22.3
     },
     "spring": {
       "file": "loop-spring",
       "duration": 11.65,
       "channels": 1,
-      "sourceLevelDb": -33.3
+      "sourceLevelDb": -35.7
     },
     "marsh": {
       "file": "loop-marsh",
       "duration": 14.65,
       "channels": 1,
-      "sourceLevelDb": -33
+      "sourceLevelDb": -27.3
     },
     "fire": {
       "file": "loop-fire",
       "duration": 11.65,
       "channels": 1,
-      "sourceLevelDb": -33.1
+      "sourceLevelDb": -35.5
     },
     "hall_drone": {
       "file": "loop-hall_drone",
       "duration": 9.65,
       "channels": 2,
-      "sourceLevelDb": -13.3
+      "sourceLevelDb": -12.1
     }
   },
   "music": {
     "vale_1": {
       "file": "music-vale_1",
-      "duration": 30,
+      "duration": 74.184,
       "channels": 2,
       "kind": "piece",
       "mood": "vale",
-      "sourceLevelDb": -10.7,
+      "sourceLevelDb": -16.3,
       "origin": "generated"
     },
     "vale_2": {
       "file": "music-vale_2",
-      "duration": 30,
+      "duration": 73.7627,
       "channels": 2,
       "kind": "piece",
       "mood": "vale",
-      "sourceLevelDb": -30.9,
+      "sourceLevelDb": -17.2,
       "origin": "generated"
     },
     "wild_1": {
       "file": "music-wild_1",
-      "duration": 30,
+      "duration": 73.9253,
       "channels": 2,
       "kind": "piece",
       "mood": "wild",
-      "sourceLevelDb": -15.1,
+      "sourceLevelDb": -16.7,
       "origin": "generated"
     },
     "wild_2": {
       "file": "music-wild_2",
-      "duration": 30,
+      "duration": 73.9067,
       "channels": 2,
       "kind": "piece",
       "mood": "wild",
-      "sourceLevelDb": -12.8,
+      "sourceLevelDb": -15.7,
       "origin": "generated"
     },
     "wild_3": {
       "file": "music-wild_3",
-      "duration": 30,
+      "duration": 71.936,
       "channels": 2,
       "kind": "piece",
       "mood": "wild",
-      "sourceLevelDb": -13.8,
+      "sourceLevelDb": -21.1,
       "origin": "generated"
     },
     "night_1": {
       "file": "music-night_1",
-      "duration": 30,
+      "duration": 72.856,
       "channels": 2,
       "kind": "piece",
       "mood": "night",
-      "sourceLevelDb": -26.5,
+      "sourceLevelDb": -21.4,
       "origin": "generated"
     },
     "night_2": {
       "file": "music-night_2",
-      "duration": 29.584,
+      "duration": 70.9013,
       "channels": 2,
       "kind": "piece",
       "mood": "night",
-      "sourceLevelDb": -11.5,
+      "sourceLevelDb": -16.2,
       "origin": "generated"
     },
     "sacred": {
       "file": "music-sacred",
-      "duration": 30,
+      "duration": 72.8533,
       "channels": 2,
       "kind": "piece",
       "mood": "sacred",
-      "sourceLevelDb": -20.6,
+      "sourceLevelDb": -29.4,
       "origin": "generated"
     },
     "danger": {
       "file": "music-danger",
-      "duration": 19.5,
+      "duration": 38.18,
       "channels": 2,
-      "sourceLevelDb": -16.6,
+      "sourceLevelDb": -29,
       "kind": "loop",
       "mood": "danger",
       "origin": "generated"
     },
     "combat": {
       "file": "music-combat",
-      "duration": 19.7,
+      "duration": 36.8,
       "channels": 2,
-      "sourceLevelDb": -16.4,
+      "sourceLevelDb": -14.4,
       "kind": "loop",
       "mood": "combat",
       "origin": "generated"
     },
     "sting_discover": {
       "file": "music-sting_discover",
-      "duration": 4.2933,
+      "duration": 5.1707,
       "channels": 2,
       "kind": "sting",
       "mood": "sting",
-      "sourceLevelDb": -8.8,
+      "sourceLevelDb": -17.8,
       "origin": "generated"
     },
     "sting_victory": {
       "file": "music-sting_victory",
-      "duration": 3.5733,
+      "duration": 5.2293,
       "channels": 2,
       "kind": "sting",
       "mood": "sting",
-      "sourceLevelDb": -24,
+      "sourceLevelDb": -14.2,
       "origin": "generated"
     },
     "sting_death": {
       "file": "music-sting_death",
-      "duration": 4.4907,
+      "duration": 4.8933,
       "channels": 2,
       "kind": "sting",
       "mood": "sting",
-      "sourceLevelDb": -18.1,
+      "sourceLevelDb": -17.8,
       "origin": "generated"
     },
     "sting_quest": {
       "file": "music-sting_quest",
-      "duration": 5,
+      "duration": 5.5787,
       "channels": 2,
       "kind": "sting",
       "mood": "sting",
-      "sourceLevelDb": -11.5,
+      "sourceLevelDb": -21.1,
       "origin": "generated"
     },
     "sting_lute": {
       "file": "music-sting_lute",
-      "duration": 7.7093,
+      "duration": 7.0533,
       "channels": 2,
       "kind": "sting",
       "mood": "sting",
-      "sourceLevelDb": -10.6,
+      "sourceLevelDb": -19,
+      "origin": "generated"
+    },
+    "vale_3": {
+      "file": "music-vale_3",
+      "duration": 72.488,
+      "channels": 2,
+      "kind": "piece",
+      "mood": "vale",
+      "sourceLevelDb": -17.4,
+      "origin": "generated"
+    },
+    "wild_4": {
+      "file": "music-wild_4",
+      "duration": 71.4293,
+      "channels": 2,
+      "kind": "piece",
+      "mood": "wild",
+      "sourceLevelDb": -18.1,
+      "origin": "generated"
+    },
+    "night_3": {
+      "file": "music-night_3",
+      "duration": 71.1413,
+      "channels": 2,
+      "kind": "piece",
+      "mood": "night",
+      "sourceLevelDb": -27.5,
+      "origin": "generated"
+    },
+    "sacred_2": {
+      "file": "music-sacred_2",
+      "duration": 72.4373,
+      "channels": 2,
+      "kind": "piece",
+      "mood": "sacred",
+      "sourceLevelDb": -19,
+      "origin": "generated"
+    },
+    "danger_2": {
+      "file": "music-danger_2",
+      "duration": 27.5,
+      "channels": 2,
+      "sourceLevelDb": -21.7,
+      "kind": "loop",
+      "mood": "danger",
+      "origin": "generated"
+    },
+    "combat_2": {
+      "file": "music-combat_2",
+      "duration": 32,
+      "channels": 2,
+      "sourceLevelDb": -14.8,
+      "kind": "loop",
+      "mood": "combat",
       "origin": "generated"
     },
     "theme_vale": {
@@ -630,6 +698,20 @@ export const WORLD_AUDIO = {
     }
   },
   "songs": {
+    "drought_bell": {
+      "file": "song-drought_bell",
+      "duration": 119.904,
+      "channels": 1,
+      "title": "The Drought Bell",
+      "sourceLevelDb": -11.6
+    },
+    "bread_and_water": {
+      "file": "song-bread_and_water",
+      "duration": 118.4453,
+      "channels": 1,
+      "title": "Bread and Water",
+      "sourceLevelDb": -11.9
+    },
     "wanderers_air": {
       "file": "song-wanderers_air",
       "duration": 70.8613,

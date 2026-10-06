@@ -6,6 +6,7 @@ import {
 } from './sound/foley';
 import type { Vec3 } from './sound/soundscape';
 import { type PlayOptions, type SoundFrame, SoundWorld } from './sound/soundWorld';
+import { VOICE_AUDIO, type VoiceLineId } from './sound/voiceManifest';
 
 /**
  * Audio facade for the prototype. The owner-supplied menu score streams through
@@ -420,7 +421,7 @@ export class AudioEngine {
         state: this.musicState, source: this.musicSource,
         currentTime: this.music?.currentTime ?? 0, duration: this.music?.duration ?? 0,
       },
-      world: this.soundWorld ? { ...this.soundWorld.stats, banksReady: this.soundWorld.banksReady, score: this.soundWorld.musicState } : null,
+      world: this.soundWorld ? { ...this.soundWorld.stats, banksReady: this.soundWorld.banksReady, score: this.soundWorld.musicState, speaking: this.soundWorld.speakers } : null,
     };
   }
 
@@ -589,6 +590,22 @@ export class AudioEngine {
     this.releaseGraph();
   }
 
+  /* ---- speech ---- */
+
+  /** A spoken line (src/content/voice.ts): it plays when the world's sound is running, and its length is returned either way. */
+  say(line: string, at?: Vec3): number | null {
+    const voiced = (VOICE_AUDIO.lines as Record<string, readonly [string, number, number, string]>)[line];
+    if (!voiced) return 0;
+    // While the world's sound runs, a line whose voice is still loading waits (null); otherwise it is shown silently.
+    if (this.ready && this.soundWorld && !this.soundWorld.speak(line as VoiceLineId, { at }) && !this.soundWorld.voiceReady(line as VoiceLineId)) return null;
+    return voiced[2];
+  }
+
+  /** Stops what someone is saying. */
+  hush(speaker: string) {
+    this.soundWorld?.hush(speaker);
+  }
+
   /* ---- effects ---- */
   private cue(cues: Cue | readonly Cue[], opt?: PlayOptions) {
     if (!this.ready || !this.soundWorld) return;
@@ -623,7 +640,8 @@ export class AudioEngine {
   }
 
   hurt() {
-    this.cue({ clip: 'voice.hurt', gain: 0.55, pitch: 0.05 }, { bus: 'dialogue' });
+    // The hero's own voice (A53): the generic take, performed again by his designed voice.
+    this.cue({ clip: 'hero.hurt', gain: 0.55, pitch: 0.05 }, { bus: 'dialogue' });
   }
 
   growl(at?: Vec3) {
@@ -714,7 +732,7 @@ export class AudioEngine {
   victory() { this.soundWorld?.sting('victory'); }
 
   death() {
-    this.cue({ clip: 'voice.death', gain: 0.6 }, { bus: 'dialogue' });
+    this.cue({ clip: 'hero.death', gain: 0.6 }, { bus: 'dialogue' });
     this.soundWorld?.sting('death');
   }
 

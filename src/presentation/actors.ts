@@ -37,7 +37,8 @@ export interface ActorContext {
   hour: number;
   player: { x: number; z: number; y: number };
   reducedMotion: boolean;
-  onBark: (a: NpcActor, text: string) => void;
+  /** A remark, by its line in voice.ts. */
+  onBark: (a: NpcActor, line: string) => void;
 }
 
 export const NPC_WALK_SPEED = 1.55;
@@ -54,6 +55,8 @@ export class NpcActor {
   yaw = 0;
   hidden = false;
   talking = false;
+  /** Whom they face while talking: the player unless another person is set (an overheard scene). */
+  faceTo: { x: number; z: number } | null = null;
   goal: Goal = { anchor: '', activity: 'stand' };
   private path: V2[] | null = null;
   private pi = 0;
@@ -181,7 +184,8 @@ export class NpcActor {
 
     if (!moving) {
       if (this.talking) {
-        const target = Math.atan2(ctx.player.x - this.x, ctx.player.z - this.z);
+        const to = this.faceTo ?? ctx.player;
+        const target = Math.atan2(to.x - this.x, to.z - this.z);
         this.yaw = lerpAngle(this.yaw, target, 1 - Math.exp(-dt * 6));
       } else if (!this.path) {
         const a = this.anchorPos(this.goal.anchor);
@@ -228,12 +232,12 @@ export class NpcActor {
       this.barkCooldown -= dt;
       const pd = Math.hypot(ctx.player.x - this.x, ctx.player.z - this.z);
       if (this.barkCooldown <= 0 && pd < 6.5 && !this.talking) {
-        const pool = BARKS.filter((b) => b.npc === this.def.id && evalAll(ctx.state, b.when));
+        const pool = BARKS.filter((b) => b.npc === this.def.id && evalAll(ctx.state, b.when) && (!b.hours || hourIn(ctx.hour, b.hours[0], b.hours[1])));
         if (pool.length > 0) {
           const pick = pool[Math.floor(Math.random() * pool.length)]!;
-          if (pick.text !== this.lastBarkKey || pool.length === 1) {
-            this.lastBarkKey = pick.text;
-            ctx.onBark(this, pick.text);
+          if (pick.line !== this.lastBarkKey || pool.length === 1) {
+            this.lastBarkKey = pick.line;
+            ctx.onBark(this, pick.line);
           }
         }
         this.barkCooldown = 28 + Math.random() * 20;
