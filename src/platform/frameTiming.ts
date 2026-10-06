@@ -10,6 +10,9 @@ export class FrameClock {
   private last: number | null = null;
   private hidden = false;
 
+  /** Loading may span many frames without advancing simulation. Start with a fresh baseline afterward. */
+  reset() { this.last = null; }
+
   setHidden(hidden: boolean) {
     if (hidden === this.hidden) return;
     this.hidden = hidden;

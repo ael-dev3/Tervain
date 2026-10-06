@@ -95,9 +95,29 @@ describe('required tree download and rejected-parse lifecycle', () => {
     vi.spyOn(GLTFLoader.prototype, 'parseAsync').mockImplementation(async () => model().gltf);
     const progress = vi.fn();
     await expect(loadMeshyTrees(['loading-fail-fast', 'loading-inflight-b', 'loading-inflight-c', 'loading-must-not-start'], progress)).rejects.toThrow(/HTTP 404/);
-    expect(waiting).toHaveLength(6); waiting.forEach(resolve => resolve());
+    // The failed batch shares the global four-model budget. Finish active
+    // downloads, then any accepted sibling requests waiting for a slot.
+    expect(waiting.length).toBeLessThanOrEqual(4);
+    await vi.waitFor(() => {
+      waiting.splice(0).forEach(resolve => resolve());
+      expect(requested).toHaveLength(9);
+    });
+    waiting.splice(0).forEach(resolve => resolve());
     await loadMeshyTrees(['loading-inflight-b', 'loading-inflight-c']);
-    expect(progress).not.toHaveBeenCalled(); expect(requested).toHaveLength(9);
+    expect(progress.mock.calls).toEqual([[0, 4]]); expect(requested).toHaveLength(9);
     expect(requested.some(path => path.includes('loading-must-not-start'))).toBe(false);
+  });
+
+  it('counts unique completed tree families and reports cached completion without a new download', async () => {
+    const fetcher = vi.fn(async () => response(101)); vi.stubGlobal('fetch', fetcher);
+    vi.spyOn(GLTFLoader.prototype, 'parseAsync').mockImplementation(async () => model().gltf);
+    const progress = vi.fn();
+    const result = await loadMeshyTrees(['loading-duplicate-progress', 'loading-duplicate-progress'], progress);
+    expect(result.size).toBe(1); expect(fetcher).toHaveBeenCalledTimes(3);
+    expect(progress.mock.calls).toEqual([[0, 1], [1, 1]]);
+    const cachedProgress = vi.fn();
+    await loadMeshyTrees(['loading-duplicate-progress'], cachedProgress);
+    expect(cachedProgress.mock.calls).toEqual([[0, 1], [1, 1]]);
+    expect(fetcher).toHaveBeenCalledTimes(3);
   });
 });

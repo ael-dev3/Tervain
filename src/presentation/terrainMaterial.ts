@@ -224,6 +224,8 @@ const FRAG_NORMAL = /* glsl */ `
 
 export function createTerrainMaterial(tex: TerrainTextures): THREE.MeshStandardMaterial {
   const mat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.95, metalness: 0, envMapIntensity: 0.55 });
+  // These samplers are injected at compile time; expose their identities for cooperative first-view uploads.
+  mat.userData.preparationTextures = [tex.albedo, tex.normal];
   const layer = LAYER_PARAMS.map((p) => new THREE.Vector4(...p));
   mat.onBeforeCompile = (shader) => {
     shader.uniforms.uAlb = { value: tex.albedo };

@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 import type { Terrain } from '../../src/world/terrain';
 import type { TerrainTextures } from '../../src/presentation/terrainTextures';
 import type { PlantedCrownField } from '../../src/presentation/plantedCrowns';
-import { buildTerrainMesh, buildTerrainTiles } from '../../src/presentation/terrainMesh';
+import { buildTerrainMesh, buildTerrainTiles, buildTerrainTilesAsync } from '../../src/presentation/terrainMesh';
 import { disposeSceneResources } from '../../src/presentation/disposeScene';
 
 const crop = {
@@ -102,5 +102,49 @@ describe('resident terrain tiles', () => {
       for (const size of [0, -1, 0.5, Infinity, NaN]) expect(() => buildTerrainTiles(crop, tex, undefined, size)).toThrow('positive integer');
       expect(height).not.toHaveBeenCalled();
     } finally { height.mockRestore(); tex.albedo.dispose(); tex.normal.dispose(); }
+  });
+
+  it('cooperatively builds the exact same triangles, normals and ground fields before returning the ready group', async () => {
+    const tex = textures(), reference = buildTerrainTiles(crop, tex, undefined, 3);
+    const yieldNow = vi.fn(async () => {}), progress: { phase: string; completed: number; total: number }[] = [];
+    const result = await buildTerrainTilesAsync(crop, tex, undefined, 3, undefined, { yieldNow, budgetMs: 0, onProgress: p => progress.push(p) });
+    try {
+      expect(yieldNow).toHaveBeenCalled();
+      expect(progress.filter(p => p.phase === 'tiles').map(p => p.completed)).toEqual(Array.from({ length: 12 }, (_, i) => i + 1));
+      for (let i = 0; i < result.children.length; i++) {
+        const a = (result.children[i] as THREE.Mesh).geometry, b = (reference.children[i] as THREE.Mesh).geometry;
+        expect(a.index!.array).toEqual(b.index!.array);
+        for (const name of Object.keys(b.attributes)) expect(a.getAttribute(name).array).toEqual(b.getAttribute(name).array);
+      }
+    } finally { release(result); release(reference); tex.albedo.dispose(); tex.normal.dispose(); }
+  });
+
+  it('releases completed and partial terrain allocations when cancelled between tiles, while retaining borrowed textures', async () => {
+    const tex = textures(), controller = new AbortController();
+    const geometries = vi.spyOn(THREE.BufferGeometry.prototype, 'dispose'), materials = vi.spyOn(THREE.MeshStandardMaterial.prototype, 'dispose');
+    const albedo = vi.spyOn(tex.albedo, 'dispose'), normal = vi.spyOn(tex.normal, 'dispose');
+    const reason = new DOMException('New world request', 'AbortError');
+    try {
+      await expect(buildTerrainTilesAsync(crop, tex, undefined, 3, undefined, {
+        signal: controller.signal, yieldNow: async () => {}, budgetMs: 0,
+        onProgress: p => { if (p.phase === 'tiles' && p.completed === 3) controller.abort(reason); },
+      })).rejects.toBe(reason);
+      // One whole-surface buffer and the three complete tiles are owned; sampler arrays belong to WorldScene.
+      expect(geometries).toHaveBeenCalledTimes(4);
+      expect(materials).toHaveBeenCalledOnce();
+      expect(albedo).not.toHaveBeenCalled(); expect(normal).not.toHaveBeenCalled();
+    } finally { geometries.mockRestore(); materials.mockRestore(); tex.albedo.dispose(); tex.normal.dispose(); }
+  });
+
+  it('releases a completed source surface when its loading callback fails before any tiles are accepted', async () => {
+    const tex = textures(), failure = new Error('Loading UI detached');
+    const geometries = vi.spyOn(THREE.BufferGeometry.prototype, 'dispose'), materials = vi.spyOn(THREE.MeshStandardMaterial.prototype, 'dispose');
+    try {
+      await expect(buildTerrainTilesAsync(crop, tex, undefined, 3, undefined, {
+        yieldNow: async () => {}, budgetMs: 0,
+        onProgress: p => { if (p.phase === 'surface' && p.completed === p.total) throw failure; },
+      })).rejects.toBe(failure);
+      expect(geometries).toHaveBeenCalledOnce(); expect(materials).toHaveBeenCalledOnce();
+    } finally { geometries.mockRestore(); materials.mockRestore(); tex.albedo.dispose(); tex.normal.dispose(); }
   });
 });

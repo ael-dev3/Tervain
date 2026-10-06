@@ -37,6 +37,13 @@ export default defineConfig(({ command, mode }) => {
       __SOURCE_REVISION__: JSON.stringify(sourceRevision()),
       __MODEL_ASSET_BASE__: JSON.stringify(modelBase),
     },
+    server: {
+      watch: {
+        // These generated study archives are served/read on demand, not application sources.
+        // Keep src/gothic3 and assets/gothic3 receipts/manifests watched for normal HMR.
+        ignored: ['**/assets/gothic3/**/sources{,/**}', '**/public/gothic3{,/**}'],
+      },
+    },
     build: {
       rolldownOptions: {
         input: {

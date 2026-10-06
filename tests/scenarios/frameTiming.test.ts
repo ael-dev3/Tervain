@@ -29,6 +29,18 @@ describe('visible frame timing', () => {
     expect(clock.tick(400)).toEqual({ interval: 0.4, dt: 0.05 });
   });
 
+  it('starts a new timing baseline after loading without simulating its elapsed time', () => {
+    const clock = new FrameClock();
+    clock.tick(1000);
+    clock.tick(1016);
+    clock.reset();
+    expect(clock.tick(90000)).toBeNull();
+    expect(clock.tick(90016)).toEqual({ interval: .016, dt: .016 });
+    clock.setHidden(true);
+    clock.reset();
+    expect(clock.tick(100000)).toBeNull();
+  });
+
   it('does not pass invalid or backwards time into actors and resets after an invalid timestamp', () => {
     const clock = new FrameClock();
     clock.tick(100);

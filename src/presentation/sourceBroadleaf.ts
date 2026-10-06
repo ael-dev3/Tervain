@@ -10,6 +10,7 @@ import { buildFallingLeaves } from './fallingLeaves';
 import type { FloraTree } from './floraPopulation';
 import type { TreeVariant } from './treeGen';
 import { modelAssetUrl } from './assets/modelUrl';
+import { observeModelLoad, withModelLoadSlot, type ModelLoadProgress } from './assets/modelLoadQueue';
 
 export const BROADLEAF_FILE = 'ancient-guardian-broadleaf-under-20k.glb';
 /** Owner-source height anchors uniform scale for the reviewed volume and tiny leaf fringe. */
@@ -37,22 +38,24 @@ export function broadleafUrl(base = import.meta.env.BASE_URL, page = document.ba
   return modelAssetUrl(`scenery/${BROADLEAF_FILE}`, base, page);
 }
 
-export function loadSourceBroadleaf(): Promise<GLTF> {
-  if (pending) return pending;
-  const controller = new AbortController(), timeout = setTimeout(() => controller.abort(), 60_000);
-  pending = (async () => {
-    const url = broadleafUrl(), response = await fetch(url, { signal: controller.signal });
-    if (!response.ok) throw new Error(`Guardian tree could not load (HTTP ${response.status}).`);
-    if (response.headers.get('content-type')?.includes('text/html')) throw new Error('Guardian tree URL returned a page instead of model data.');
-    const bytes = await response.arrayBuffer();
-    if (bytes.byteLength < 12) throw new Error('Guardian tree download is incomplete.');
-    const header = new DataView(bytes);
-    if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== bytes.byteLength) throw new Error('Guardian tree download is not a complete GLB 2 file.');
-    const template = await new GLTFLoader().parseAsync(bytes, new URL('.', url).href);
-    sourceParts(template);
-    return template;
-  })().catch(error => { pending = null; throw error; }).finally(() => clearTimeout(timeout));
-  return pending;
+export function loadSourceBroadleaf(progress?: ModelLoadProgress): Promise<GLTF> {
+  if (pending) return observeModelLoad(pending, progress);
+  pending = withModelLoadSlot(async () => {
+    const controller = new AbortController(), timeout = setTimeout(() => controller.abort(), 60_000);
+    try {
+      const url = broadleafUrl(), response = await fetch(url, { signal: controller.signal });
+      if (!response.ok) throw new Error(`Guardian tree could not load (HTTP ${response.status}).`);
+      if (response.headers.get('content-type')?.includes('text/html')) throw new Error('Guardian tree URL returned a page instead of model data.');
+      const bytes = await response.arrayBuffer();
+      if (bytes.byteLength < 12) throw new Error('Guardian tree download is incomplete.');
+      const header = new DataView(bytes);
+      if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== bytes.byteLength) throw new Error('Guardian tree download is not a complete GLB 2 file.');
+      const template = await new GLTFLoader().parseAsync(bytes, new URL('.', url).href);
+      sourceParts(template);
+      return template;
+    } finally { clearTimeout(timeout); }
+  }).catch(error => { pending = null; throw error; });
+  return observeModelLoad(pending, progress);
 }
 
 export interface BroadleafPlacement { id: string; x: number; y: number; z: number; yaw: number; s: number; radius: number }

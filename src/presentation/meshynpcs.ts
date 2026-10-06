@@ -6,6 +6,7 @@ import { createNpcAttachments, setArmed, type Grip, type Rig, type NpcEquipment,
 import { BONES, type BoneName } from './human/skin';
 import { repairNpcSurfaceGeometry, repairNpcSurfaceMaterial } from './npcSurface';
 import { modelAssetUrl } from './assets/modelUrl';
+import { withModelLoadSlot, type ModelLoadProgress } from './assets/modelLoadQueue';
 
 export const NPC_TRIANGLE_LIMIT = 50_000;
 export const NPC_ROLES = [
@@ -398,10 +399,12 @@ export class MeshyNpcCatalog {
   }
 }
 
-let pending: Promise<MeshyNpcCatalog> | null = null;
 const templates = new Map<string, Promise<GLTF>>();
+interface CatalogProgress { loaded: number; total: number; complete: boolean; failed: boolean; listeners: Set<ModelLoadProgress> }
+const catalogs = new Map<string, { request: Promise<MeshyNpcCatalog>; progress: CatalogProgress }>();
+let manifestRequest: Promise<MeshyNpcManifest> | null = null;
 
-async function fetchNpc(url: URL): Promise<Response> {
+async function fetchNpc(url: URL): Promise<ArrayBuffer> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 60_000);
   try {
@@ -409,19 +412,43 @@ async function fetchNpc(url: URL): Promise<Response> {
     if (!response.ok) throw new Error(`Resident models could not load (HTTP ${response.status}).`);
     if (response.headers.get('content-type')?.includes('text/html')) throw new Error('Resident model URL returned a page instead of model data.');
     // Buffer while the timeout still covers the download, not just response headers.
-    return new Response(await response.arrayBuffer(), { headers: response.headers });
+    return await response.arrayBuffer();
   } finally { clearTimeout(timeout); }
 }
 
-/** Required roles only, four downloads at a time. A failed download remains a visible, retryable loading error. */
-export function loadMeshyNpcCatalog(progress?: (loaded: number, total: number) => void): Promise<MeshyNpcCatalog> {
-  if (pending) return pending;
-  pending = (async () => {
-    const manifest = validateMeshyNpcManifest(await (await fetchNpc(meshyNpcUrl())).json());
-    const selected = [...new Set(NPC_ROLES.map(role => manifest.roles[role]!))];
+function loadNpcManifest(): Promise<MeshyNpcManifest> {
+  if (!manifestRequest) {
+    manifestRequest = fetchNpc(meshyNpcUrl()).then(buffer => validateMeshyNpcManifest(JSON.parse(new TextDecoder().decode(buffer))))
+      .catch(error => { manifestRequest = null; throw error; });
+  }
+  return manifestRequest;
+}
+
+/** Only requested roles download; menu/world catalogs share immutable GLBs and the global decode budget.
+ * A failed request remains visible and retryable without discarding accepted resident templates. */
+export function loadMeshyNpcCatalog(progress?: ModelLoadProgress, requiredRoles: readonly string[] = NPC_ROLES): Promise<MeshyNpcCatalog> {
+  const roles = [...new Set(requiredRoles)];
+  if (!roles.length || roles.some(role => !NPC_ROLES.includes(role))) return Promise.reject(new Error('The requested resident roles are invalid.'));
+  const key = JSON.stringify([...roles].sort()), cached = catalogs.get(key);
+  if (cached) {
+    const status = cached.progress;
+    if (progress) {
+      if (status.total) progress(status.loaded, status.total);
+      if (!status.complete && !status.failed) status.listeners.add(progress);
+    }
+    return cached.request;
+  }
+  const status: CatalogProgress = { loaded: 0, total: 0, complete: false, failed: false, listeners: new Set(progress ? [progress] : []) };
+  const report = (loaded: number, total: number) => {
+    status.loaded = loaded; status.total = total;
+    for (const listener of status.listeners) listener(loaded, total);
+  };
+  const request = (async () => {
+    const manifest = await loadNpcManifest();
+    const selected = [...new Set(roles.map(role => manifest.roles[role]!))];
     const loaded = new Map<string, GLTF>();
     let next = 0, done = 0, failed = false;
-    progress?.(0, selected.length);
+    report(0, selected.length);
     await Promise.all(Array.from({ length: Math.min(4, selected.length) }, async () => {
       try {
         while (next < selected.length && !failed) {
@@ -429,8 +456,8 @@ export function loadMeshyNpcCatalog(progress?: (loaded: number, total: number) =
           const url = meshyNpcUrl(entry.file), key = `${url.href}|${entry.sha256}`;
           let template = templates.get(key);
           if (!template) {
-            template = (async () => {
-              const buffer = await (await fetchNpc(url)).arrayBuffer();
+            template = withModelLoadSlot(async () => {
+              const buffer = await fetchNpc(url);
               if (buffer.byteLength !== entry.bytes || buffer.byteLength < 20) throw new Error(`Resident ${id} download is incomplete.`);
               const header = new DataView(buffer);
               if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== buffer.byteLength) throw new Error(`Resident ${id} is not a complete GLB 2 file.`);
@@ -439,16 +466,18 @@ export function loadMeshyNpcCatalog(progress?: (loaded: number, total: number) =
               const asset = await new GLTFLoader().parseAsync(buffer, new URL('.', url).href);
               validateMeshyNpcAsset(asset, entry);
               return asset;
-            })().catch(error => { templates.delete(key); throw error; });
+            }).catch(error => { templates.delete(key); throw error; });
             templates.set(key, template);
           }
           loaded.set(id, await template);
           // A sibling failure may already have put up Retry. Late downloads cannot overwrite that recovery button.
-          if (!failed) progress?.(++done, selected.length);
+          if (!failed) report(++done, selected.length);
         }
       } catch (error) { failed = true; throw error; }
     }));
+    status.complete = true; status.listeners.clear();
     return new MeshyNpcCatalog(manifest, loaded);
-  })().catch(error => { pending = null; throw error; });
-  return pending;
+  })().catch(error => { status.failed = true; status.listeners.clear(); catalogs.delete(key); throw error; });
+  catalogs.set(key, { request, progress: status });
+  return request;
 }
