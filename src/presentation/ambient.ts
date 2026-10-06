@@ -16,7 +16,9 @@ interface Spec {
   yaw: number;
   /** Poses to cycle through, with how many seconds each lasts. */
   cycle: [Mode, number][];
-  /** Stays out after dark (asleep). */
+  /** Conversation changes the upper body while this resident stays on their seat. */
+  seated?: boolean;
+  /** Retires indoors after dark. */
   sleeps: boolean;
   /** Radius of the small collider that keeps the player from walking through them. */
   radius: number;
@@ -41,9 +43,12 @@ const SPECS: Spec[] = [
     look: { skin: 0xc79a72, primary: 0x5a4a3a, secondary: 0x6a6a52, hair: 0x3a2a1a, height: 1.0, girth: 0.9, accessory: 'shawl' },
     style: { id: 'fireside', build: 'woman', cut: 'bun', beard: 'none', age: 0.45, faceSeed: 12107 },
     x: FIRE.x + 1.6,
-    z: FIRE.z + 1.5,
-    yaw: -2.5,
+    z: FIRE.z + 1,
+    // The backless hearth bench is authored at yaw .4. Face across its narrow
+    // axis toward the fire, with the hips above its center rather than behind it.
+    yaw: 0.4 + Math.PI,
     cycle: [['sit', 12], ['talk', 4], ['sit', 8]],
+    seated: true,
     sleeps: true,
     radius: 0.4,
   },
@@ -62,53 +67,69 @@ const SPECS: Spec[] = [
 /** Who the hamlet's people are (for the people lineup and the sheet export). */
 export const AMBIENT_PEOPLE: readonly { look: Look; style: AmbientStyle }[] = SPECS.map((s) => ({ look: s.look, style: s.style }));
 
+interface Resident { rig: Rig; spec: Spec; t: number }
+
+function poseResident(p: Resident, dt: number, reducedMotion: boolean) {
+  const total = p.spec.cycle.reduce((a, c) => a + c[1], 0);
+  let u = p.t % total;
+  let mode: Mode = p.spec.cycle[0]![0];
+  for (const [m, d] of p.spec.cycle) {
+    if (u < d) { mode = m; break; }
+    u -= d;
+  }
+  poseRig(p.rig, {
+    mode,
+    seated: p.spec.seated,
+    speed: 0,
+    // A single actor clock preserves gesture phase through pauses and mode changes.
+    time: p.t,
+    t: u / 3,
+    amp: reducedMotion ? 0.35 : 1,
+    workGesture: p.spec.style.id === 'fisher' ? 'mending' : 'general',
+    idle: reducedMotion ? undefined : { seed: p.spec.style.faceSeed, clock: p.t },
+  }, dt);
+}
+
 export function buildAmbient(ctx: BuildContext): SceneModule & { counts: { people: number } } {
   const { terrain, colliders } = ctx;
   const group = new THREE.Group();
   group.name = 'ambient';
-  const people: { rig: Rig; spec: Spec; t: number }[] = [];
+  const people: Resident[] = [];
   SPECS.forEach((spec, i) => {
     const rig = ctx.npcAssets?.create(`ambient:${spec.style.id}`, spec.look.height * (spec.style.build === 'woman' ? 0.94 : 1)) ?? createAmbientRig(spec.look, spec.style);
-    rig.root.position.set(spec.x, terrain.heightAt(spec.x, spec.z), spec.z);
+    const ground = terrain.groundAt(spec.x, spec.z);
+    rig.root.position.set(spec.x, ground, spec.z);
     rig.root.rotation.y = spec.yaw;
     group.add(rig.root);
-    colliders.circle(`ambient:${i}`, spec.x, spec.z, spec.radius);
-    people.push({ rig, spec, t: i * 5.3 });
+    // Real finite bodies leave air above their heads clear for a raised camera.
+    const seatedLowering = spec.seated ? 0.48 * rig.hipY / 0.95 : 0;
+    colliders.circle(`ambient:${i}`, spec.x, spec.z, spec.radius, true,
+      { minY: ground - 0.04, maxY: ground + rig.height - seatedLowering + 0.1 });
+    const p = { rig, spec, t: i * 5.3 };
+    // The first rendered frame already has its authored posture, without a bind-pose flash.
+    poseResident(p, 1, ctx.settings?.reducedMotion ?? false);
+    people.push(p);
   });
   return {
     group,
     counts: { people: people.length },
     update(dt: number, f: FrameContext) {
+      if (f.wildlifeActive === false || !Number.isFinite(dt) || dt <= 0) return;
+      // A resumed tab must not skip entire activities. Ordinary frame partitions
+      // still consume the same elapsed time, with bounded steps through gesture transitions.
+      const elapsed = Math.min(dt, 0.25);
       people.forEach((p, i) => {
-        p.t += dt;
-        const total = p.spec.cycle.reduce((a, c) => a + c[1], 0);
-        let u = p.t % total;
-        let mode: Mode = p.spec.cycle[0]![0];
-        for (const [m, d] of p.spec.cycle) {
-          if (u < d) {
-            mode = m;
-            break;
-          }
-          u -= d;
-        }
         p.rig.root.visible = !(p.spec.sleeps && f.nightness > 0.75);
         colliders.setActive(`ambient:${i}`, p.rig.root.visible);
-        if (!p.rig.root.visible) return;
-        // The shadow camera culls actual rig bounds. A separate player-distance
-        // cutoff removed still-visible shadows as the camera crossed 55 metres.
-        poseRig(
-          p.rig,
-          {
-            mode,
-            speed: 0,
-            time: f.time + p.t * 0.13,
-            t: u / 3,
-            amp: f.reducedMotion ? 0.35 : 1,
-            workGesture: i === 0 ? 'mending' : 'general',
-            idle: f.reducedMotion ? undefined : { seed: p.spec.style.faceSeed, clock: p.t },
-          },
-          dt,
-        );
+        if (!p.rig.root.visible) { p.t += elapsed; return; }
+        // The shadow camera culls actual rig bounds, never a separate distance cutoff.
+        let remaining = elapsed;
+        while (remaining > 1e-8) {
+          const step = Math.min(remaining, 1 / 30);
+          p.t += step;
+          poseResident(p, step, f.reducedMotion);
+          remaining -= step;
+        }
       });
     },
     stats: () => ({ people: people.length }),

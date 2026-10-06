@@ -133,6 +133,7 @@ describe('precise NPC workbench approaches', () => {
     const anchor = ANCHORS.hunter_station!, npc = new NpcActor(NPCS.trail_hunter,
       { root: new THREE.Group(), height: 1.836, materials: [], hitFlash: 0 } as unknown as Rig);
     Reflect.set(npc, 'placed', true);
+    Reflect.set(npc, 'destination', anchor);
     npc.goal = { anchor: 'hunter_station', activity: 'work' };
     npc.x = anchor.x - 1.25; npc.z = anchor.z;
     Reflect.set(npc, 'path', [{ x: anchor.x, z: anchor.z }]);

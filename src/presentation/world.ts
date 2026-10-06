@@ -168,6 +168,8 @@ export class WorldScene {
     this.modules.push({ name: 'physical supplies', module: physicalProps });
     this.scene.add(physicalProps.group);
     this.nav = new NavGrid(this.terrain, this.colliders);
+    // Build the Thornback's wider lanes during loading, rather than on its first pursuit frame.
+    this.nav.forRadius(.85);
 
     // A few real lights near the player make lanterns matter at night without a per-lantern cost.
     for (let i = 0; i < 3; i++) {

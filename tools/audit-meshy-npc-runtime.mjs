@@ -197,6 +197,45 @@ try {
         poseRig(rig, { mode: 'walk', speed: 0.78, time: phase, t: 0, amp: 1 }, 1 / 60);
         if (frame >= 120 && frame % 15 === 0) walkSamples.push(scanPose(`walk-phase-${(phase % 1).toFixed(3)}`));
       }
+      // Measure continuous task changes on the real private joints, not just finite settled screenshots.
+      const transitions = [
+        { mode: 'work', workGesture: 'mending' },
+        { mode: 'idle', idle: { seed: 1103, clock: 3, force: 'arms crossed' } },
+        { mode: 'idle', idle: { seed: 1103, clock: 3, force: 'scratch head' } },
+        { mode: 'walk', speed: .78 }, { mode: 'sit' }, { mode: 'talk', seated: true },
+        { mode: 'walk', speed: .78 }, { mode: 'work', workGesture: 'provisioning' }, { mode: 'idle' },
+      ];
+      const maxRates = { angular: 0, head: 0, hipLower: 0, soleRelease: 0 };
+      const transitionPoses = [];
+      let clock = 4, seatedSupport = null;
+      for (const transition of transitions) {
+        for (let frame = 0; frame < 180; frame++) {
+          const prior = { ...rig.cur }, priorClearance = rig.root.userData.meshyNpc.soleClearance;
+          clock += 1 / 60;
+          poseRig(rig, { speed: 0, t: 0, amp: 1, ...transition, time: clock }, 1 / 60);
+          for (const [key, value] of Object.entries(rig.cur)) {
+            const rate = Math.abs(value - prior[key]) * 60;
+            const category = key === 'lower' ? 'hipLower' : key.startsWith('head') ? 'head' : 'angular';
+            const limit = category === 'hipLower' ? .72 : category === 'head' ? 1.5 : 4;
+            maxRates[category] = Math.max(maxRates[category], rate);
+            must(Number.isFinite(rate) && rate <= limit + 1e-8, `${entry.id}/${transition.mode}: Abrupt ${key} transition (${rate}).`);
+          }
+          const clearance = rig.root.userData.meshyNpc.soleClearance;
+          maxRates.soleRelease = Math.max(maxRates.soleRelease, (priorClearance - clearance) * 60);
+          must(Number.isFinite(clearance) && clearance >= 0 && clearance <= .1, `${entry.id}: Invalid transition sole fit.`);
+          must(rig.root.position.equals(rootPosition) && rig.root.quaternion.equals(rootQuaternion), `${entry.id}: Transition moved physical root.`);
+          if (transition.seated && seatedSupport) {
+            for (const key of ['legL', 'legR', 'kneeL', 'kneeR', 'lower']) {
+              must(Math.abs(rig.cur[key] - seatedSupport[key]) < .001, `${entry.id}: Seated speech abandoned ${key} support.`);
+            }
+          }
+        }
+        if (transition.mode === 'sit') seatedSupport = { ...rig.cur };
+        transitionPoses.push(scanPose(`${transition.mode}${transition.seated ? '-seated' : ''}-transition`));
+      }
+      must(Math.abs(rig.cur.legL) < .001 && Math.abs(rig.cur.legR) < .001 && Math.abs(rig.cur.lower) < .001,
+        `${entry.id}: Seated/working pose remained stuck after returning to idle.`);
+      must(maxRates.soleRelease <= 1 + 1e-8, `${entry.id}: Abrupt visual sole release.`);
       must(templateSnapshot(asset) === original, `${entry.id}: Posing mutated a cached template's geometry, bones or materials.`);
       const scene = new THREE.Scene(); scene.add(rig.root); disposeSceneResources(scene, () => {});
       must(templateSnapshot(asset) === original, `${entry.id}: Actor disposal mutated its cached template.`);
@@ -205,14 +244,15 @@ try {
         heightScale, actualHeight: rig.height, triangles: entry.triangles, completeActorTriangles: completeTriangles,
         attachmentTriangles: completeTriangles - entry.triangles, cachedSoleSamples: sampleCount,
         garmentFits: ownMeshes.filter(mesh => mesh.geometry.userData.npcGarment).map(mesh => mesh.geometry.userData.npcGarment),
-        templateUnchanged: true, ownedResourcesPrivate: true, poses, walkSamples });
-      console.log(`${entry.id}: ${completeTriangles.toLocaleString()} complete triangles; ${sampleCount} cached soles; ${poses.length + walkSamples.length} finite full-geometry poses`);
+        templateUnchanged: true, ownedResourcesPrivate: true, poses, walkSamples,
+        smoothTransitions: { frames: transitions.length * 180, maxRates, seatedSpeechSupported: true, returnsToStanding: true, transitionPoses } });
+      console.log(`${entry.id}: ${completeTriangles.toLocaleString()} complete triangles; ${sampleCount} cached soles; ${poses.length + walkSamples.length + transitionPoses.length} finite full-geometry poses; ${transitions.length * 180} smooth transition frames`);
     }
     must(digest(await fs.readFile(manifestFile)) === digest(manifestBytes), 'Manifest changed during audit.');
     for (const [name, hash] of Object.entries(moduleHashes)) must(digest(await fs.readFile(path.join(repo, name))) === hash, `${name}: Runtime code changed during audit.`);
     const report = { schema: 1, passed: true, verifiedUTC: new Date().toISOString(),
       scope: only ? 'Selected assets only; not complete-pack acceptance.' : 'All final manifest assets and complete role equipment.',
-      method: 'Actual GLB bytes/geometry/skin and production catalog/poser; private decoded skeletons at real role scales; 9 settled modes + 8 walking phases; original/template ownership checked before and after disposal.',
+      method: 'Actual GLB bytes/geometry/skin and production catalog/poser; private decoded skeletons at real role scales; 9 settled modes + 8 walking phases + 9 three-second task transitions; framewise joint/hip velocity and seated-speech support; original/template ownership checked before and after disposal.',
       limits: 'Only texture image decoding is synthetic. This does not validate source/baked paint pixels, native shaders/lighting, seam appearance, cloth stretch/penetration, physical world contacts, hardware timing, or every animation frame.',
       sourceRevision: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: repo, encoding: 'utf8' }).trim(),
       runtimeSourceHashes: moduleHashes, manifestSha256: digest(manifestBytes), assetCount: entries.length,

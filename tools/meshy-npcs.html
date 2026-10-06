@@ -20,7 +20,7 @@
   <label>Resident<select id="resident"></select></label>
   <label>Motion<select id="motion">
     <option value="idle">Idle</option><option value="walk">Walk</option><option value="work">Working</option>
-    <option value="sit">Sitting</option><option value="talk">Talking</option><option value="strike">Blade strike</option>
+    <option value="sit">Sitting</option><option value="talk">Talking</option><option value="seated-talk">Seated conversation</option><option value="strike">Blade strike</option>
   </select></label>
   <label>Task<select id="task">
     <option value="general">General work</option><option value="mending">Mend</option><option value="baking">Bake</option>
@@ -84,7 +84,7 @@ const grid = new THREE.GridHelper(24, 48, 0x979a88, 0x777c6e);
 grid.position.y = .002;
 scene.add(grid);
 const camera = new THREE.PerspectiveCamera(36, 1, .05, 100);
-let yaw = .4, pitch = .1, dist = 4.5, targetY = 1, time = 0, paused = false;
+let yaw = .4, pitch = .1, dist = 4.5, targetY = 1, time = 0, gait = 0, paused = false;
 let rig, entry, catalog, role, upperBody = false;
 let picked = '';
 let actualTriangles = 0;
@@ -191,7 +191,7 @@ function choose() {
     }
   });
   scene.add(rig.root);
-  time = 0;
+  time = gait = 0;
   applyInspection();
   frameFigure(upperBody);
 }
@@ -271,11 +271,13 @@ function frame(now) {
   previous = now;
   if (!paused) {
     time += dt;
-    const mode = motion.value;
+    const mode = motion.value === 'seated-talk' ? 'talk' : motion.value;
+    if (mode === 'walk') gait += dt * 1.55 / (1.48 * rig.height / 1.8);
     poseRig(rig, {
       mode, speed: mode === 'walk' ? .78 : 0,
-      time: time * (mode === 'walk' ? 1.55 / (1.48 * rig.height / 1.8) : 1),
+      time: mode === 'walk' ? gait : time,
       t: (time % 1.6) / 1.6, amp: 1, workGesture: task.value,
+      seated: motion.value === 'seated-talk', idle: { seed: 411, clock: time },
     }, dt);
     grid.position.z = mode === 'walk' ? -(time * 1.55 % .5) : 0;
   }
