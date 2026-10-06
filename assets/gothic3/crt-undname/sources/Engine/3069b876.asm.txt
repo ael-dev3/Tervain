@@ -1,0 +1,63 @@
+3069b876 | 55 | PUSH EBP
+3069b877 | 8bec | MOV EBP,ESP
+3069b879 | 83ec18 | SUB ESP,0x18
+3069b87c | ff750c | PUSH dword ptr [EBP + 0xc]
+3069b87f | 8d4df8 | LEA ECX,[EBP + -0x8]
+3069b882 | e874b7ffff | CALL 0x30696ffb
+3069b887 | a1747caf30 | MOV EAX,[0x30af7c74]
+3069b88c | 8a00 | MOV AL,byte ptr [EAX]
+3069b88e | 33c9 | XOR ECX,ECX
+3069b890 | 3ac1 | CMP AL,CL
+3069b892 | 747d | JZ 0x3069b911
+3069b894 | 3c3f | CMP AL,0x3f
+3069b896 | 7448 | JZ 0x3069b8e0
+3069b898 | 3c58 | CMP AL,0x58
+3069b89a | 7410 | JZ 0x3069b8ac
+3069b89c | 8d45f8 | LEA EAX,[EBP + -0x8]
+3069b89f | 50 | PUSH EAX
+3069b8a0 | ff7508 | PUSH dword ptr [EBP + 0x8]
+3069b8a3 | e890feffff | CALL 0x3069b738
+3069b8a8 | 59 | POP ECX
+3069b8a9 | 59 | POP ECX
+3069b8aa | eb76 | JMP 0x3069b922
+3069b8ac | ff05747caf30 | INC dword ptr [0x30af7c74]
+3069b8b2 | 8d4df8 | LEA ECX,[EBP + -0x8]
+3069b8b5 | e80fb8ffff | CALL 0x306970c9
+3069b8ba | 85c0 | TEST EAX,EAX
+3069b8bc | 740f | JZ 0x3069b8cd
+3069b8be | 8b4d08 | MOV ECX,dword ptr [EBP + 0x8]
+3069b8c1 | 682cf38930 | PUSH 0x3089f32c
+3069b8c6 | e80dbeffff | CALL 0x306976d8
+3069b8cb | eb55 | JMP 0x3069b922
+3069b8cd | 8d45f8 | LEA EAX,[EBP + -0x8]
+3069b8d0 | 50 | PUSH EAX
+3069b8d1 | 689cf38930 | PUSH 0x3089f39c
+3069b8d6 | ff7508 | PUSH dword ptr [EBP + 0x8]
+3069b8d9 | e800c5ffff | CALL 0x30697dde
+3069b8de | eb3f | JMP 0x3069b91f
+3069b8e0 | ff05747caf30 | INC dword ptr [0x30af7c74]
+3069b8e6 | 8165f400f0ffff | AND dword ptr [EBP + -0xc],0xfffff000
+3069b8ed | 51 | PUSH ECX
+3069b8ee | 8d45f0 | LEA EAX,[EBP + -0x10]
+3069b8f1 | 50 | PUSH EAX
+3069b8f2 | 51 | PUSH ECX
+3069b8f3 | 8d45f8 | LEA EAX,[EBP + -0x8]
+3069b8f6 | 50 | PUSH EAX
+3069b8f7 | 8d45e8 | LEA EAX,[EBP + -0x18]
+3069b8fa | 50 | PUSH EAX
+3069b8fb | 894df0 | MOV dword ptr [EBP + -0x10],ECX
+3069b8fe | e8d1f1ffff | CALL 0x3069aad4
+3069b903 | 83c414 | ADD ESP,0x14
+3069b906 | 50 | PUSH EAX
+3069b907 | 8d4df8 | LEA ECX,[EBP + -0x8]
+3069b90a | e89ab4ffff | CALL 0x30696da9
+3069b90f | eb8b | JMP 0x3069b89c
+3069b911 | 8d45f8 | LEA EAX,[EBP + -0x8]
+3069b914 | 50 | PUSH EAX
+3069b915 | 6a02 | PUSH 0x2
+3069b917 | ff7508 | PUSH dword ptr [EBP + 0x8]
+3069b91a | e89dc4ffff | CALL 0x30697dbc
+3069b91f | 83c40c | ADD ESP,0xc
+3069b922 | 8b4508 | MOV EAX,dword ptr [EBP + 0x8]
+3069b925 | c9 | LEAVE
+3069b926 | c3 | RET

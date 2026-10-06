@@ -1,0 +1,13 @@
+30696f3c | 837c240800 | CMP dword ptr [ESP + 0x8],0x0
+30696f41 | 8b4c2404 | MOV ECX,dword ptr [ESP + 0x4]
+30696f45 | 7410 | JZ 0x30696f57
+30696f47 | 8a02 | MOV AL,byte ptr [EDX]
+30696f49 | 84c0 | TEST AL,AL
+30696f4b | 8801 | MOV byte ptr [ECX],AL
+30696f4d | 7408 | JZ 0x30696f57
+30696f4f | 41 | INC ECX
+30696f50 | 42 | INC EDX
+30696f51 | ff4c2408 | DEC dword ptr [ESP + 0x8]
+30696f55 | 75f0 | JNZ 0x30696f47
+30696f57 | 8b442404 | MOV EAX,dword ptr [ESP + 0x4]
+30696f5b | c3 | RET

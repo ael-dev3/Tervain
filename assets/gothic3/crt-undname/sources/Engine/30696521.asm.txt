@@ -1,0 +1,6 @@
+30696521 | 8b65e8 | MOV ESP,dword ptr [EBP + -0x18]
+30696524 | 817ddc170000c0 | CMP dword ptr [EBP + -0x24],0xc0000017
+3069652b | 7508 | JNZ 0x30696535
+3069652d | 6a08 | PUSH 0x8
+3069652f | ff150cc7af30 | CALL dword ptr [0x30afc70c]
+30696535 | 8365e000 | AND dword ptr [EBP + -0x20],0x0

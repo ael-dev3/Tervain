@@ -1,0 +1,4 @@
+3069b305 | 6a05 | PUSH 0x5
+3069b307 | e8aa7ffeff | CALL 0x306832b6
+3069b30c | 59 | POP ECX
+3069b30d | c3 | RET

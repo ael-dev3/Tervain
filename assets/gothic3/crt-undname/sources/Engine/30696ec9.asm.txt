@@ -1,0 +1,16 @@
+30696ec9 | 8b542404 | MOV EDX,dword ptr [ESP + 0x4]
+30696ecd | 8bc1 | MOV EAX,ECX
+30696ecf | 83600400 | AND dword ptr [EAX + 0x4],0x0
+30696ed3 | 85d2 | TEST EDX,EDX
+30696ed5 | c7009cf28930 | MOV dword ptr [EAX],0x3089f29c
+30696edb | 7415 | JZ 0x30696ef2
+30696edd | 8b4a04 | MOV ECX,dword ptr [EDX + 0x4]
+30696ee0 | c1e11c | SHL ECX,0x1c
+30696ee3 | c1f91c | SAR ECX,0x1c
+30696ee6 | 83f901 | CMP ECX,0x1
+30696ee9 | 7405 | JZ 0x30696ef0
+30696eeb | 83f903 | CMP ECX,0x3
+30696eee | 7502 | JNZ 0x30696ef2
+30696ef0 | 33d2 | XOR EDX,EDX
+30696ef2 | 895008 | MOV dword ptr [EAX + 0x8],EDX
+30696ef5 | c20400 | RET 0x4

@@ -1,0 +1,2 @@
+30696ea6 | 8a4108 | MOV AL,byte ptr [ECX + 0x8]
+30696ea9 | c3 | RET

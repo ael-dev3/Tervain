@@ -1,0 +1,13 @@
+/* ENTRY 30696eaa | charNode::vfunction3 | STATUS decompiled | 3 ms */
+
+DNameNode * __thiscall charNode::vfunction3(charNode *this,DNameNode *param_1,int param_2)
+
+{
+  if ((param_1 == (DNameNode *)0x0) || (param_2 == 0)) {
+    param_1 = (DNameNode *)0x0;
+  }
+  else {
+    *param_1 = (this->charNode_data).offset_0x4;
+  }
+  return param_1;
+}
