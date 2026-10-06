@@ -4,7 +4,7 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
-Updated: 6 October 2026. Deployed baseline preceding checkpoint 72:
+Updated: 6 October 2026. Historical deployed baseline preceding checkpoint 72:
 `main` commit `610619f43a809e14118ee8edb186fed67aa2052b`. Checkpoints 55–71 add
 browser NPC Plunder inventory in checkpoint 55, resolves NPC armor class in
 checkpoint 56, materializes deterministic Weaponry stacks with unapplied
@@ -39,6 +39,13 @@ enclave callback. Native NPC
 activation, AI, responses, full death handling and most campaign progression remain
 unavailable.
 
+Checkpoints 73–76 add retained source NPC readers, shared runtime admins,
+heap-backed field owners and physical SceneAdmin startup components. The new
+admin, heap and SceneAdmin owners remain separate from the live NPC reader,
+which still stops at its first property-factory dependency. The [overview](gothic3-rebuild-overview.md)
+records the latest confirmed publication; the individual receipts below
+distinguish locally validated components from published browser behavior.
+
 The [Gothic 3 / Ardea route](https://ael-dev3.github.io/Tervain/gothic3/) serves
 this incomplete build. The preceding baseline was deployed by [workflow run
 37504891018](https://github.com/ael-dev3/Tervain/actions/runs/37504891018);
@@ -47,9 +54,9 @@ later publication receipts are available in the repository's
 The [scope record](gothic3-browser-port.md) describes the current controls,
 limitations and source terms.
 
-This guide records the preceding hosted baseline and the changes prepared on
-`codex/gothic3-native-death-lifecycle`, with dated checkpoints that preserve
-the evidence for each stage. Sections 10–72 cover the later runtime work.
+This guide records the preceding hosted baseline and subsequent dated
+checkpoints that preserve the evidence for each stage. Sections 10–76 cover
+the later runtime work; each receipt identifies its source revision and scope.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
 To reproduce an older receipt, use a checkout at that commit and its producers.
@@ -4960,3 +4967,37 @@ the earlier source packages remain unchanged. Documentation file links and
 the staged diff are checked. These results establish the admitted component
 behavior and build compatibility, not native NPC activation or campaign
 completion.
+
+### Combined integration validation
+
+On 6 October 2026, the local `codex/gothic3-reviewed-integration` branch
+at merge `d1182e43ad29b4cb238505f0b83ffb4afcaf97e1` combines the frozen Scene
+checkpoint `9ad68431` with the reviewed [Tervain loading changes](loading-performance.md)
+at `b96a5cba`. Its ancestry retains the original PR42 and PR43 heads. Gothic
+source and assets match the frozen Scene checkpoint; Tervain loading code
+matches the reviewed loading branch.
+
+Combined local validation passes `npm run typecheck`, all 2,085 tests across
+206 files in 143.72 seconds, and `npm run build` with 370 modules in 53.14
+seconds. The isolated checkpoint 76 receipt above remains the record of its
+earlier component validation. The later PR42 commit `916aa661` only clarifies
+the distinction between animation-frame callbacks and raster paints in its
+measurement notes; including it does not change the validated runtime.
+
+The combined production preview loads 202 scene objects and 70 characters,
+enters Ardea at HP 100, and inspects `Ardea_OutNovice_01` (11,280 triangles,
+two meshes). Wireframe and automatic rotation controls work. The retained
+source reader still stops at 338 / 6,544 bytes, with zero of 16 property sets
+attached and no graph context. No warnings or errors were captured on this
+Gothic route. The startup owners remain isolated; this browser check does not
+establish native NPC activation. Online publication of this integration has
+not yet been verified.
+
+The original Tervain route opens its menu before world construction. New Game
+advances through the counted loading phases to a playable High-quality view
+with HP 100 and six coins; pause, settings inspection and resume also work.
+No runtime errors were captured. A Three.js shader precision warning was
+recorded during preparation. This concurrent browser smoke check is not a
+performance benchmark; the matched measurements and the loading branch's
+browser validation are described in its separate
+[loading report](loading-performance.md).
