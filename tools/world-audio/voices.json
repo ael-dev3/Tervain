@@ -3,12 +3,12 @@
     "service": "ElevenLabs Text to Speech API (POST /v1/text-to-speech/{voice_id}, mp3_44100_192), with each voice designed from a written description (POST /v1/text-to-voice/design, then saved with POST /v1/text-to-voice).",
     "model": "eleven_v4",
     "designModel": "eleven_ttv_v3",
-    "account": "The owner's ElevenLabs account on the Creator plan, used at the owner's requests of 6 October 2026 (A53).",
-    "check": "Every take was transcribed with ElevenLabs Speech to Text (scribe_v1) and compared with the words as shown (delivery directions removed). A take whose words differed was retaken up to twice and the closest kept; the transcripts are recorded.",
-    "regenerate": "node tools/world-audio/generate.mjs voices (ELEVENLABS_API_KEY in the environment): voices any line whose text changed or is new, then node tools/world-audio/prepare.mjs."
+    "check": "Generated speech was transcribed. The regeneration tool retries takes above a 10% word-error threshold, with a bounded attempt limit; accepted transcripts retain spelling and delivery differences. No human listening review is recorded.",
+    "regenerate": "node tools/world-audio/generate.mjs voices (ELEVENLABS_API_KEY in the environment): voices any line whose text changed or is new, then node tools/world-audio/prepare.mjs.",
+    "generationPlan": "paid, as recorded at source generation"
   },
   "terms": {
-    "summary": "Generated on a paid ElevenLabs plan, whose terms include a commercial licence for the output and do not require attribution. The voices are designed from text descriptions, not cloned from any person. No independent rights review is asserted.",
+    "summary": "Recorded paid-generation speech from text-designed voices, not clones of a person. Applicable general paid-output terms and non-Beta conditions must be verified for commercial distribution; no blanket copyright ownership or public asset reuse grant is made.",
     "attribution": "Voices generated with ElevenLabs (elevenlabs.io)."
   },
   "targetDb": -19,
@@ -16,73 +16,73 @@
   "bankSeconds": 12,
   "voices": {
     "hero": {
-      "name": "Tervain · The Wanderer",
+      "name": "Tervain \u00b7 The Wanderer",
       "description": "A weathered man in his late thirties who has lost his memory. Low, rough baritone with a little gravel; quiet, restrained and wary, with a dry sense of humour. Speaks plainly and briefly. Neutral northern English accent. Close, intimate recording.",
       "designSample": "Salt in my mouth, sand in everything, and no name to go with any of it. Fine. Start with the road, and see who is waiting at the end of it.",
       "voiceId": "39Emn1eRbKKiuJwt1ekL"
     },
     "caravan_master": {
-      "name": "Tervain · Joss Merrin",
+      "name": "Tervain \u00b7 Joss Merrin",
       "description": "A caravan master around sixty. Warm, gravelly baritone; unhurried, kindly but tired. Rural northern English accent. A man who has driven wagons all his life.",
       "designSample": "Rillford is as far as the wagon goes. The ford road washed out in the thaw, and that bell has been ringing since dawn. Walk inland, friend.",
       "voiceId": "ckBJf856iROfdJMSmIRb"
     },
     "rillford_reeve": {
-      "name": "Tervain · Mara Venn",
+      "name": "Tervain \u00b7 Mara Venn",
       "description": "A woman around forty, the elected reeve of a farming village. Firm and practical, clear mid-low voice, tired but resolute, warm underneath. West Country English accent.",
       "designSample": "I am Mara Venn. Rillford elected me to keep it fed, and this morning I have very little to feed anyone with. Look at the channel, then tell me what you see.",
       "voiceId": "JAJyTByh91EA0BwKUvOY"
     },
     "spring_steward": {
-      "name": "Tervain · Sister Edda Sorn",
+      "name": "Tervain \u00b7 Sister Edda Sorn",
       "description": "An elderly woman in her seventies, the devout keeper of a holy spring. Calm, measured and soft, slightly husky, never hurried. Gentle Scottish accent. Serene.",
       "designSample": "The spring gives what it is given. Silt, sorrow, patience. Kneel if you wish, stranger, but do not drink until I say the water is clear.",
       "voiceId": "mMn6n4kyCcZZmTnVHyrn"
     },
     "quarry_foreman": {
-      "name": "Tervain · Darin Kest",
+      "name": "Tervain \u00b7 Darin Kest",
       "description": "A big, gruff quarry foreman in his fifties. Deep, loud, gravelly baritone; blunt and impatient. Broad Yorkshire accent. Used to shouting over stone saws.",
       "designSample": "The contract says forty blocks by the new moon. The contract doesn't care about the weather, and neither do I. You want work? Then lift something.",
       "voiceId": "BKyq4albIqvaPIPVrhJ7"
     },
     "maintenance_worker": {
-      "name": "Tervain · Ila Rusk",
+      "name": "Tervain \u00b7 Ila Rusk",
       "description": "A young woman in her mid twenties, a wiry seasonal stoneworker from the cold north. Quick and dry, slightly hoarse voice. Light Scandinavian-tinged English accent. Wary but brave.",
       "designSample": "Don't look down, they said. Easy for them. The ledge is crumbling, the path is gone, and I have been counting the same three handholds since noon.",
       "voiceId": "tOPNq5P4ZUs29P4krNTE"
     },
     "estate_steward": {
-      "name": "Tervain · Oren Halvek",
+      "name": "Tervain \u00b7 Oren Halvek",
       "description": "A thin, well-dressed estate steward in his sixties. Refined, precise, clipped dry tenor. Received pronunciation, faintly condescending, smooth and careful with numbers.",
       "designSample": "The delivery date has not moved, and the estate does not move dates. Water is a regrettable problem. Late stone is an expensive one.",
       "voiceId": "udyfSUjsheTK0rzPXBHR"
     },
     "ash_recorder": {
-      "name": "Tervain · Sel Anrit",
+      "name": "Tervain \u00b7 Sel Anrit",
       "description": "A quiet scholar who keeps records for an order of witnesses. A soft, mid-pitched androgynous voice that could belong to a woman or a man; careful diction, solemn and attentive, a faint Irish lilt. Speaks as if dictating into a ledger.",
       "designSample": "Write it down. Someone must. The day, the weather, who spoke first and who stayed silent. Memory lies. Ink only fades.",
       "voiceId": "Su7uuqriJEiuOhu97c5A"
     },
     "shrine_warden": {
-      "name": "Tervain · Tolan Harrow",
+      "name": "Tervain \u00b7 Tolan Harrow",
       "description": "A stern old knight in his sixties who guards a shrine archive. Deep, authoritative bass-baritone; terse and formal. A slight Welsh accent. Suspicious of strangers, a voice used to giving orders.",
       "designSample": "Keep the lamp out of the archive. Keep your hands where I can see them. The order allows pilgrims at the spring, not thieves at the door.",
       "voiceId": "ex2T9hvTFn3YZ37fni8P"
     },
     "mill_hand": {
-      "name": "Tervain · Bess Corran",
+      "name": "Tervain \u00b7 Bess Corran",
       "description": "A cheerful, earthy woman in her early thirties who works at a water mill. Bright mid voice, plain-spoken, a laugh close to the surface even when worried. East Anglian English accent.",
       "designSample": "The wheel hasn't turned since the flood, so here I stand, watching a dry ditch like it owes me money. Go on, ask me how the grain is doing.",
       "voiceId": "DkAP6FXiXY2q5HZvzUaV"
     },
     "quarry_hand": {
-      "name": "Tervain · Pell Dunmore",
+      "name": "Tervain \u00b7 Pell Dunmore",
       "description": "A tired quarry labourer around forty. Rough, husky tenor; weary and a little mumbling, with dry gallows humour. Working-class Midlands English accent.",
       "designSample": "Nothing to cut with, nothing to drink. Night shift again, they say. Night shift of what? Staring at rocks in the dark?",
       "voiceId": "uO6o3bp0UfxgCZQsORfT"
     },
     "village_baker": {
-      "name": "Tervain · Hesper Lowe",
+      "name": "Tervain \u00b7 Hesper Lowe",
       "description": "A warm, chatty village baker in her fifties. Round, motherly voice, quick and kind, slightly out of breath from work. Cornish English accent.",
       "designSample": "No water, no dough, my love. I have been baking with the last of the rain barrel and praying over every loaf. Take one. You look like you need it.",
       "voiceId": "EMyu53sp8CUkgojdBwWs"
@@ -387,7 +387,7 @@
     },
     "hero.item.archive_key": {
       "speaker": "hero",
-      "text": "A key to a room full of other people’s memories.",
+      "text": "A key to a room full of other people\u2019s memories.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -787,7 +787,7 @@
     },
     "joss.bell": {
       "speaker": "caravan_master",
-      "text": "Rillford’s drought bell. They ring it when the household channels run dry, and nobody rings it lightly. It has been going since dawn.",
+      "text": "Rillford\u2019s drought bell. They ring it when the household channels run dry, and nobody rings it lightly. It has been going since dawn.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -1195,7 +1195,7 @@
     },
     "darin.after.quarry": {
       "speaker": "quarry_foreman",
-      "text": "Water in the cutting trench again. The delivery goes out. I will not thank you for the look on the village’s face, mind.",
+      "text": "Water in the cutting trench again. The delivery goes out. I will not thank you for the look on the village\u2019s face, mind.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -1299,7 +1299,7 @@
     },
     "ila.down": {
       "speaker": "maintenance_worker",
-      "text": "There is an old maintenance gate. The lever is by the quarry’s lower stack. Pull it, and I can walk the old track round the ledge.",
+      "text": "There is an old maintenance gate. The lever is by the quarry\u2019s lower stack. Pull it, and I can walk the old track round the ledge.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -1403,7 +1403,7 @@
     },
     "oren.reserve": {
       "speaker": "estate_steward",
-      "text": "The repair reserve is… sufficient.",
+      "text": "The repair reserve is\u2026 sufficient.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -1571,7 +1571,7 @@
     },
     "tolan.see": {
       "speaker": "shrine_warden",
-      "text": "Not without the Sister’s word. Bring me that, and I will turn the key myself.",
+      "text": "Not without the Sister\u2019s word. Bring me that, and I will turn the key myself.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -1659,7 +1659,7 @@
     },
     "bess.built": {
       "speaker": "mill_hand",
-      "text": "My grandmother’s grandmother, if you believe my grandmother. The wheel is younger. Only just.",
+      "text": "My grandmother\u2019s grandmother, if you believe my grandmother. The wheel is younger. Only just.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -1835,7 +1835,7 @@
     },
     "hesper.help": {
       "speaker": "village_baker",
-      "text": "Take a loaf, you look like you need it. Then go and help the reeve. You cannot ask a bucket to do a river’s work.",
+      "text": "Take a loaf, you look like you need it. Then go and help the reeve. You cannot ask a bucket to do a river\u2019s work.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -1987,7 +1987,7 @@
     },
     "pell.bark.night": {
       "speaker": "quarry_hand",
-      "text": "[sighs] Night shift again…",
+      "text": "[sighs] Night shift again\u2026",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2045,7 +2045,7 @@
   "story": {
     "d.joss_intro": {
       "speaker": "caravan_master",
-      "text": "Rillford is as far as the wagon goes. The ford road washed out in the thaw, and listen — that bell has been ringing since dawn. It is their drought bell. I have your six coin against passage; it will not stretch far. Walk inland, over the overlook, and find work; I will turn the wagon when the road is fit.",
+      "text": "Rillford is as far as the wagon goes. The ford road washed out in the thaw, and listen \u2014 that bell has been ringing since dawn. It is their drought bell. I have your six coin against passage; it will not stretch far. Walk inland, over the overlook, and find work; I will turn the wagon when the road is fit.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2095,7 +2095,7 @@
     },
     "d.joss_work": {
       "speaker": "caravan_master",
-      "text": "Ask for the reeve, Mara Venn — the Hearth League keeps the village. East there is a quarry under a Marcher contract, north a Templar spring shrine. Between them they will have work for a spare pair of hands, and arguments to go with it.",
+      "text": "Ask for the reeve, Mara Venn \u2014 the Hearth League keeps the village. East there is a quarry under a Marcher contract, north a Templar spring shrine. Between them they will have work for a spare pair of hands, and arguments to go with it.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2137,7 +2137,7 @@
     },
     "d.joss_after": {
       "speaker": "caravan_master",
-      "text": "I heard the bell ring differently this morning. You have earned your passage twice over. The wagon leaves whenever you are ready — though I think you may find reasons to stay a while.",
+      "text": "I heard the bell ring differently this morning. You have earned your passage twice over. The wagon leaves whenever you are ready \u2014 though I think you may find reasons to stay a while.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2185,7 +2185,7 @@
     },
     "d.mara_cause": {
       "speaker": "rillford_reeve",
-      "text": "The late thaw broke the old sluice upstream and choked the spring channels with silt. The household channel behind the mill is dry — go and see it. The quarry wants water, the shrine wants its share, and I cannot give all three what each is owed.",
+      "text": "The late thaw broke the old sluice upstream and choked the spring channels with silt. The household channel behind the mill is dry \u2014 go and see it. The quarry wants water, the shrine wants its share, and I cannot give all three what each is owed.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2209,7 +2209,7 @@
     },
     "d.mara_directions": {
       "speaker": "rillford_reeve",
-      "text": "North along the mill lane to the sluice; past it, up the steps, is the spring shrine. The cut track east of the fields leads to the quarry — Darin Kest and his crew. The ford is south-east. The side path off the ford has not been safe lately.",
+      "text": "North along the mill lane to the sluice; past it, up the steps, is the spring shrine. The cut track east of the fields leads to the quarry \u2014 Darin Kest and his crew. The ford is south-east. The side path off the ford has not been safe lately.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2262,7 +2262,7 @@
     },
     "d.mara_hub#2": {
       "speaker": "hero",
-      "text": "That side diversion above the fields — that was Rillford?",
+      "text": "That side diversion above the fields \u2014 that was Rillford?",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2310,7 +2310,7 @@
     },
     "d.mara_needs": {
       "speaker": "rillford_reeve",
-      "text": "Every household is down to a bucket a day. The communal mill is idle, and without it the planting will not be ground into bread. I promised more relief than the remaining flow can carry — I said days. That is on me. If it comes to one or the other, I would choose the village, and I will not pretend otherwise.",
+      "text": "Every household is down to a bucket a day. The communal mill is idle, and without it the planting will not be ground into bread. I promised more relief than the remaining flow can carry \u2014 I said days. That is on me. If it comes to one or the other, I would choose the village, and I will not pretend otherwise.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2342,7 +2342,7 @@
     },
     "d.mara_rotation": {
       "speaker": "rillford_reeve",
-      "text": "A schedule the whole valley can watch, kept by witnesses. The households have given more labor than the public ledger records — the schedule has to count it. If Darin will sign and Edda will stand as waterkeeper, I will stand for Rillford.",
+      "text": "A schedule the whole valley can watch, kept by witnesses. The households have given more labor than the public ledger records \u2014 the schedule has to count it. If Darin will sign and Edda will stand as waterkeeper, I will stand for Rillford.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2358,7 +2358,7 @@
     },
     "d.mara_ledger": {
       "speaker": "rillford_reeve",
-      "text": "So there is a record. Then we can say plainly what the village gave, and ask the quarry for the same honesty. Thank you — it is more than the Templars ever offered me.",
+      "text": "So there is a record. Then we can say plainly what the village gave, and ask the quarry for the same honesty. Thank you \u2014 it is more than the Templars ever offered me.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2374,7 +2374,7 @@
     },
     "d.mara_hide": {
       "speaker": "rillford_reeve",
-      "text": "You want the account to say only that the flood broke the sluice? That is not the whole truth, and you know it. But it would spare people. …I do not like it. I will not contradict you.",
+      "text": "You want the account to say only that the flood broke the sluice? That is not the whole truth, and you know it. But it would spare people. \u2026I do not like it. I will not contradict you.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2411,7 +2411,7 @@
     },
     "d.mara_report_rillford": {
       "speaker": "rillford_reeve",
-      "text": "The channel behind the mill is filling — I can hear it. The wheel will turn by midday. It cost the quarry, and I know it. This is an emergency allocation; the Accord says it expires unless reviewed. We will owe a review.",
+      "text": "The channel behind the mill is filling \u2014 I can hear it. The wheel will turn by midday. It cost the quarry, and I know it. This is an emergency allocation; the Accord says it expires unless reviewed. We will owe a review.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2435,7 +2435,7 @@
     },
     "d.mara_report_quarry": {
       "speaker": "rillford_reeve",
-      "text": "The mill sits still and the households still ration. I said I would abide by what you decided, and I will — but Rillford is protesting, and so am I. An emergency allocation expires unless it is reviewed.",
+      "text": "The mill sits still and the households still ration. I said I would abide by what you decided, and I will \u2014 but Rillford is protesting, and so am I. An emergency allocation expires unless it is reviewed.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2453,7 +2453,7 @@
     },
     "d.mara_report_rotation": {
       "speaker": "rillford_reeve",
-      "text": "There it is on the board: mill by day, quarry by night. Neither of us has what we asked for. It will hold as long as we keep watching it — and we will. Witnessed, as the Accord asks.",
+      "text": "There it is on the board: mill by day, quarry by night. Neither of us has what we asked for. It will hold as long as we keep watching it \u2014 and we will. Witnessed, as the Accord asks.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2528,7 +2528,7 @@
     },
     "d.mara_after_law": {
       "speaker": "rillford_reeve",
-      "text": "A witnessed rotation, with the waterkeeper standing for it, is the kind of change the Accord recognizes. An emergency allocation is not — it lapses unless reviewed, and nobody owns the water for having held the gate. Whichever you chose, that is the truth of it.",
+      "text": "A witnessed rotation, with the waterkeeper standing for it, is the kind of change the Accord recognizes. An emergency allocation is not \u2014 it lapses unless reviewed, and nobody owns the water for having held the gate. Whichever you chose, that is the truth of it.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2544,7 +2544,7 @@
     },
     "d.edda_intro": {
       "speaker": "spring_steward",
-      "text": "You have the look of someone walking since dawn. I am Sister Edda Sorn, waterkeeper of this spring. If Rillford has sent you, tell them the spring still gives what it can — it is the channels below that have failed, not the water at its source.",
+      "text": "You have the look of someone walking since dawn. I am Sister Edda Sorn, waterkeeper of this spring. If Rillford has sent you, tell them the spring still gives what it can \u2014 it is the channels below that have failed, not the water at its source.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2648,7 +2648,7 @@
     },
     "d.edda_flow": {
       "speaker": "spring_steward",
-      "text": "The foreman says the spring is failing. It is not failing — sediment obstructs it. If you doubt me, kneel at the intake and put your hand in.",
+      "text": "The foreman says the spring is failing. It is not failing \u2014 sediment obstructs it. If you doubt me, kneel at the intake and put your hand in.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2661,7 +2661,7 @@
     },
     "d.edda_sluice": {
       "speaker": "spring_steward",
-      "text": "The support beside the gate cracked in the flood. I have not examined it closely since. An inspection was due before the thaw, and the roads were closed. I would not force that gate open — it could give way.",
+      "text": "The support beside the gate cracked in the flood. I have not examined it closely since. An inspection was due before the thaw, and the roads were closed. I would not force that gate open \u2014 it could give way.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2677,7 +2677,7 @@
     },
     "d.edda_admits": {
       "speaker": "spring_steward",
-      "text": "…Yes. I deferred it. I told myself the roads were closed; the truth is I trusted old stone. I will say so publicly if it helps. The order preaches restraint, and I let restraint become neglect.",
+      "text": "\u2026Yes. I deferred it. I told myself the roads were closed; the truth is I trusted old stone. I will say so publicly if it helps. The order preaches restraint, and I let restraint become neglect.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2709,7 +2709,7 @@
     },
     "d.edda_rite": {
       "speaker": "spring_steward",
-      "text": "The rite calms an unstable flow for a while — perhaps forty minutes — long enough to work the sluice safely. It does not make water; it makes a gate less violent. It takes a votive reed, and I have one to spare. There is no second.",
+      "text": "The rite calms an unstable flow for a while \u2014 perhaps forty minutes \u2014 long enough to work the sluice safely. It does not make water; it makes a gate less violent. It takes a votive reed, and I have one to spare. There is no second.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2725,7 +2725,7 @@
     },
     "d.edda_consent": {
       "speaker": "spring_steward",
-      "text": "The minimum flow to the wetland stays as the Accord sets it. The sluice is braced before anything is opened. Both users' needs are written down and witnessed. If all that is done, yes — I will stand for the spring.",
+      "text": "The minimum flow to the wetland stays as the Accord sets it. The sluice is braced before anything is opened. Both users' needs are written down and witnessed. If all that is done, yes \u2014 I will stand for the spring.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2754,7 +2754,7 @@
     },
     "d.edda_jammed": {
       "speaker": "spring_steward",
-      "text": "Someone forced the gate. I warned you it could give way. It has, in the quietest way it could — jammed rather than broken. Brace it properly, and this can still be mended.",
+      "text": "Someone forced the gate. I warned you it could give way. It has, in the quietest way it could \u2014 jammed rather than broken. Brace it properly, and this can still be mended.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2770,7 +2770,7 @@
     },
     "d.edda_after_rillford": {
       "speaker": "spring_steward",
-      "text": "The wetland has its minimum, and the village has its water. It is an emergency allocation, and it lapses unless it is reviewed — I will hold the review, and the quarry will be there.",
+      "text": "The wetland has its minimum, and the village has its water. It is an emergency allocation, and it lapses unless it is reviewed \u2014 I will hold the review, and the quarry will be there.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2796,7 +2796,7 @@
     },
     "d.edda_after_rotation": {
       "speaker": "spring_steward",
-      "text": "A schedule witnessed by the reeve, the foreman and the spring. This is what the Accord meant. Keep the sluice braced and the log current — I will not miss another inspection.",
+      "text": "A schedule witnessed by the reeve, the foreman and the spring. This is what the Accord meant. Keep the sluice braced and the log current \u2014 I will not miss another inspection.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2947,7 +2947,7 @@
     },
     "d.darin_cut": {
       "speaker": "quarry_foreman",
-      "text": "Ila Rusk — Rimeward stoneworker on seasonal maintenance. She went along the cut path to read the seep gully and something big took the path from her. There is an old maintenance gate; its lever is by the lower stack. It opens a way round.",
+      "text": "Ila Rusk \u2014 Rimeward stoneworker on seasonal maintenance. She went along the cut path to read the seep gully and something big took the path from her. There is an old maintenance gate; its lever is by the lower stack. It opens a way round.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2963,7 +2963,7 @@
     },
     "d.darin_brace": {
       "speaker": "quarry_foreman",
-      "text": "That brace is Rillford's — on loan since the last repair, not mine to keep. Take it, and the wrench beside it, if you can use them. Fix the gate before anyone else decides to force it.",
+      "text": "That brace is Rillford's \u2014 on loan since the last repair, not mine to keep. Take it, and the wrench beside it, if you can use them. Fix the gate before anyone else decides to force it.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2976,7 +2976,7 @@
     },
     "d.darin_contract": {
       "speaker": "quarry_foreman",
-      "text": "The Marcher estate wants its stone and its steward wants excuses. Oren Halvek is in the office by the gate; he will tell you the contract stands whatever the weather does. Ask him about the reserve — I would.",
+      "text": "The Marcher estate wants its stone and its steward wants excuses. Oren Halvek is in the office by the gate; he will tell you the contract stands whatever the weather does. Ask him about the reserve \u2014 I would.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -2989,7 +2989,7 @@
     },
     "d.darin_humiliate": {
       "speaker": "quarry_foreman",
-      "text": "You said that in front of my crew. …Fine. Then you have nothing more to say to me until you take it back.",
+      "text": "You said that in front of my crew. \u2026Fine. Then you have nothing more to say to me until you take it back.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -3140,7 +3140,7 @@
     },
     "d.darin_after_quarry": {
       "speaker": "quarry_foreman",
-      "text": "We cut and we load. Rillford queues at the well. I would not want to be the man they blame — and they will blame you, not me.",
+      "text": "We cut and we load. Rillford queues at the well. I would not want to be the man they blame \u2014 and they will blame you, not me.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -3153,7 +3153,7 @@
     },
     "d.darin_after_rotation": {
       "speaker": "quarry_foreman",
-      "text": "Nights. Bad for sleep, good for wages. The estate does not love it, the crew does not love it — but the sluice is braced, and I can say I signed it.",
+      "text": "Nights. Bad for sleep, good for wages. The estate does not love it, the crew does not love it \u2014 but the sluice is braced, and I can say I signed it.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -3166,7 +3166,7 @@
     },
     "d.ila_stranded": {
       "speaker": "maintenance_worker",
-      "text": "Keep back from the path! A thornback took the ledge below and it does not like company. I am Ila Rusk — Rimeward, seasonal maintenance. I have been up here since dawn. There is an old maintenance gate; the lever is by the quarry's lower stack. Or deal with the beast yourself.",
+      "text": "Keep back from the path! A thornback took the ledge below and it does not like company. I am Ila Rusk \u2014 Rimeward, seasonal maintenance. I have been up here since dawn. There is an old maintenance gate; the lever is by the quarry's lower stack. Or deal with the beast yourself.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -3206,7 +3206,7 @@
     },
     "d.ila_free_fight": {
       "speaker": "maintenance_worker",
-      "text": "The thornback is dead? Then the ledge is clear. Give me a moment — my legs have forgotten how to be legs. I will meet you in Rillford, and I will tell you what I saw in the gully.",
+      "text": "The thornback is dead? Then the ledge is clear. Give me a moment \u2014 my legs have forgotten how to be legs. I will meet you in Rillford, and I will tell you what I saw in the gully.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -3222,7 +3222,7 @@
     },
     "d.ila_free_shortcut": {
       "speaker": "maintenance_worker",
-      "text": "You opened the gate! And walked round the ledge without a fight. Clever. Give me a moment — I will meet you in Rillford, and I will tell you what I saw in the gully.",
+      "text": "You opened the gate! And walked round the ledge without a fight. Clever. Give me a moment \u2014 I will meet you in Rillford, and I will tell you what I saw in the gully.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -3267,7 +3267,7 @@
     },
     "d.ila_testimony": {
       "speaker": "maintenance_worker",
-      "text": "You cleared the ledge — thank you. Here is what I saw before the beast came: fresh fractures on the support beside the gate, sediment in the intake, and the seep in the quarry gully feeding the wrong channel. Close the gate slowly, from the downstream side, with the brace set before you turn the wheel. Do it that way and it will not surge.",
+      "text": "You cleared the ledge \u2014 thank you. Here is what I saw before the beast came: fresh fractures on the support beside the gate, sediment in the intake, and the seep in the quarry gully feeding the wrong channel. Close the gate slowly, from the downstream side, with the brace set before you turn the wheel. Do it that way and it will not surge.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -3328,7 +3328,7 @@
     },
     "d.ila_procedure": {
       "speaker": "maintenance_worker",
-      "text": "From the downstream side. Set the brace against the cracked post first, turn the wheel a quarter, wait for the water to settle, then another quarter. If the flow is calm — the rite, if Sister Edda taught you — it will not push back at all.",
+      "text": "From the downstream side. Set the brace against the cracked post first, turn the wheel a quarter, wait for the water to settle, then another quarter. If the flow is calm \u2014 the rite, if Sister Edda taught you \u2014 it will not push back at all.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -3370,7 +3370,7 @@
     },
     "d.oren_intro": {
       "speaker": "estate_steward",
-      "text": "Steward Halvek, Marcher estate. If you are here about the delivery, the contract stands regardless of who has water. As for the repair reserve — it is sufficient.",
+      "text": "Steward Halvek, Marcher estate. If you are here about the delivery, the contract stands regardless of who has water. As for the repair reserve \u2014 it is sufficient.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -3394,7 +3394,7 @@
     },
     "d.oren_reserve": {
       "speaker": "estate_steward",
-      "text": "…It is empty. The estate has not funded repairs since the winter levy. Please do not repeat it. If you must, say the estate is reviewing its commitments.",
+      "text": "\u2026It is empty. The estate has not funded repairs since the winter levy. Please do not repeat it. If you must, say the estate is reviewing its commitments.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -3418,7 +3418,7 @@
     },
     "d.oren_hub#0": {
       "speaker": "hero",
-      "text": "About the reserve…",
+      "text": "About the reserve\u2026",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -3636,7 +3636,7 @@
     },
     "d.harrow_key": {
       "speaker": "shrine_warden",
-      "text": "I should not. But that gate worries me too — it worries all of us. Take the key. Bring it back, and do not let the Sister find that you had it before she agreed.",
+      "text": "I should not. But that gate worries me too \u2014 it worries all of us. Take the key. Bring it back, and do not let the Sister find that you had it before she agreed.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -3652,7 +3652,7 @@
     },
     "d.harrow_train": {
       "speaker": "shrine_warden",
-      "text": "Steady Guard: raise your guard, blade or bare arms, and it costs you 40% less stamina to hold it, so you can wait out a heavy blow instead of running from it. Ten coin — or nothing, if you have already proved you can stand in front of something dangerous.",
+      "text": "Steady Guard: raise your guard, blade or bare arms, and it costs you 40% less stamina to hold it, so you can wait out a heavy blow instead of running from it. Ten coin \u2014 or nothing, if you have already proved you can stand in front of something dangerous.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -3723,11 +3723,11 @@
     },
     "d.harrow_caretaker": {
       "speaker": "shrine_warden",
-      "text": "The Sister is gone. I keep the shrine and the noticeboard now. If the valley needs a waterkeeper's witness, I will stand — though it will not carry the weight hers did.",
+      "text": "The Sister is gone. I keep the shrine and the noticeboard now. If the valley needs a waterkeeper's witness, I will stand \u2014 though it will not carry the weight hers did.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
-      "transcript": "The Sister is gone. I keep the shrine and the notice board now. If the valley needs a Waterkeeper’s witness, I will stand, though it will not carry the weight hers did."
+      "transcript": "The Sister is gone. I keep the shrine and the notice board now. If the valley needs a Waterkeeper\u2019s witness, I will stand, though it will not carry the weight hers did."
     },
     "d.harrow_caretaker#0": {
       "speaker": "hero",
@@ -3741,7 +3741,7 @@
     },
     "d.bess_default": {
       "speaker": "mill_hand",
-      "text": "The wheel has been dry since the flood. Without water I have nothing to grind — I stand here so the reeve sees somebody is minding it.",
+      "text": "The wheel has been dry since the flood. Without water I have nothing to grind \u2014 I stand here so the reeve sees somebody is minding it.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -3786,7 +3786,7 @@
     },
     "d.bess_rotation": {
       "speaker": "mill_hand",
-      "text": "Days for the mill. I mind the board. It is not much, but it is not nothing — and it is written where everyone can read it.",
+      "text": "Days for the mill. I mind the board. It is not much, but it is not nothing \u2014 and it is written where everyone can read it.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -3799,7 +3799,7 @@
     },
     "d.pell_default": {
       "speaker": "quarry_hand",
-      "text": "Foreman says we wait. Nothing to cut with, nothing to drink. If you are looking for Ila — the Cut path is closed. Something big took the ledge. Foreman knows about the gate.",
+      "text": "Foreman says we wait. Nothing to cut with, nothing to drink. If you are looking for Ila \u2014 the Cut path is closed. Something big took the ledge. Foreman knows about the gate.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -3854,7 +3854,7 @@
     },
     "d.pell_caretaker": {
       "speaker": "quarry_hand",
-      "text": "Foreman Kest is gone. Somebody has to sign for the crew. If the reeve and the steward want a witness for the quarry, it is me — I will carry it as well as I can.",
+      "text": "Foreman Kest is gone. Somebody has to sign for the crew. If the reeve and the steward want a witness for the quarry, it is me \u2014 I will carry it as well as I can.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",
@@ -3919,7 +3919,7 @@
     },
     "d.hesper_caretaker": {
       "speaker": "village_baker",
-      "text": "Mara is gone. Someone has to mind the noticeboard and speak for the village. I will — I am not the reeve, but I know every household.",
+      "text": "Mara is gone. Someone has to mind the noticeboard and speak for the village. I will \u2014 I am not the reeve, but I know every household.",
       "model": "eleven_v4",
       "format": "mp3_44100_192",
       "generated": "2026-10-06",

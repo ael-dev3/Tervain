@@ -1,9 +1,11 @@
 Tervain third-party notices
 
 Copyright 2026 the Tervain project.
-No project-wide license has been selected for Tervain. The licenses below apply
-only to their identified third-party software; they do not license Tervain's own
-work, music, models, logos, or faction identity by assumption.
+Eligible original Tervain software code is licensed under the PolyForm
+Noncommercial License 1.0.0, as defined by LICENSE and LICENSE-SCOPE.md in the
+source repository. There is no blanket license for repository content. The
+licenses below apply only to their identified third-party software; they do not
+license Tervain's music, models, logos, faction identity or other media.
 
 Warpkeep software adaptations (Apache-2.0)
 Source: https://github.com/ael-dev3/Warpkeep

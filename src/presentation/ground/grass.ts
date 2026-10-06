@@ -8,10 +8,15 @@ import { buildGrassClusterTexture } from './grassTexture';
 import { TileLayer, type TileBuffers } from './tileStream';
 import type { PatchShared } from './shared';
 
-/** Original fine grass, herb and seed-head clusters, streamed on the existing rooted tile system.
- * Several stems occupy each painted cutout; modest bent supports carry the silhouette instead
- * of repeating a broad opaque folded ribbon. World population, exclusions and fades remain
- * deterministic; the shared wind/pusher system is separate from paused attached tree foliage. */
+/**
+ * Fine grass, herb and seed-head clusters, streamed on the existing rooted tile system.
+ * Adapted from ael-dev3/Warpkeep src/components/realm/createLowPolyGrassGeometry.ts and
+ * createRealmGrassMaterial.ts @786c0b2 (Apache-2.0), rewritten for a free camera at ground level.
+ * The original folded-blade geometry is replaced by original Tervain painted cutouts and bent
+ * supports. Several stems occupy each cutout; world population, exclusions and fades remain
+ * deterministic, and the adapted shared wind/normal/colour treatment is retained. The wind/pusher
+ * system is separate from paused attached tree foliage.
+ */
 
 interface GrassQuality {
   blades: number;
