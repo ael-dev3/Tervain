@@ -6,6 +6,7 @@ import type { Terrain } from './terrain';
 import type { PhysicalObjectPose } from '../game/types';
 import { RockSurfaces, ROCK_CLIMB_ANGLE, ROCK_STEP_HEIGHT } from './rockContacts';
 import type { PhysicalWoodGeometry } from './physicsGeometry';
+import type { WaterSample } from './water/waterWorld';
 
 export interface Vec3 { x: number; y: number; z: number }
 export interface PropSpec {
@@ -19,7 +20,26 @@ export const PHYSICAL_PROPS: readonly PropSpec[] = [
   ...[[-16.5, 2.4], [16.4, 21], [-136.5, 31.5], [88, -13], [-14.4, -3]].map(([x, z], i) => ({ id: `loose_barrel_${i}`, name: 'Empty wooden barrel', kind: 'barrel' as const, x: x!, z: z!, width: .76, height: 1, depth: .76, yaw: .17 * i, mass: 18 })),
 ];
 export interface PropPose extends PhysicalObjectPose { sleeping: boolean }
-interface Prop { spec: PropSpec; body: RAPIER.RigidBody; collider: RAPIER.Collider; previous: PropPose }
+interface Prop { spec: PropSpec; body: RAPIER.RigidBody; collider: RAPIER.Collider; previous: PropPose; wet: number }
+
+/** The water a floating body needs to know about: where it stands and how it moves (WaterWorld provides it). */
+export interface WaterField {
+  sample(x: number, z: number): WaterSample | null;
+  /** Changes when inland surfaces are re-solved, so floating bodies at rest wake to a new level. */
+  readonly revision: number;
+}
+
+/** A body meeting the water hard enough to throw spray. Energy is 0..1 (a dropped crate .. a thrown barrel). */
+export interface WaterSplash { id: string; x: number; y: number; z: number; energy: number }
+
+/**
+ * How far under a floating body rides at rest. Loose cargo is light for carrying and throwing, but a sealed barrel and a
+ * plank crate both sit well down in the water, so their buoyancy is taken from this line, not from their gameplay mass.
+ */
+export const FLOAT_LINE: Readonly<Record<PropSpec['kind'], number>> = { barrel: 0.42, crate: 0.55 };
+/** Water's drag on a floating body, per second of relative speed, as a share of its mass. */
+const WATER_DRAG = 2.4;
+const GRAVITY = 17;
 export interface PhysicalActor { id: string; x: number; y: number; z: number; radius: number; height: number; active: boolean }
 interface ActorContact { body: RAPIER.RigidBody; collider: RAPIER.Collider; from: Vec3; target: Vec3; active: boolean }
 let initialization: Promise<void> | undefined;
@@ -57,6 +77,9 @@ export class RealmPhysics {
   private initial: PropPose[] = [];
   private queriesDirty = false;
   private projectileQueryDirty = new Set<RAPIER.Collider>();
+  private water: WaterField | null = null;
+  private waterRevision = -1;
+  private splashes: WaterSplash[] = [];
 
   constructor(terrain: Terrain, colliders: Colliders, specs: readonly PropSpec[] = PHYSICAL_PROPS, wood: readonly PhysicalWoodGeometry[] = []) {
     // Exact original triangle diagonal, including the seabed. Visual subdivision does not change these planes.
@@ -130,7 +153,7 @@ export class RealmPhysics {
       const desc = spec.kind === 'barrel' ? RAPIER.ColliderDesc.cylinder(spec.height / 2, spec.width / 2)
         : RAPIER.ColliderDesc.cuboid(spec.width / 2, spec.height / 2, spec.depth / 2);
       const collider = this.world.createCollider(desc.setMass(spec.mass).setFriction(.72).setRestitution(.08), body);
-      const prop = { spec, body, collider, previous: this.poseOf(spec.id, body) };
+      const prop = { spec, body, collider, previous: this.poseOf(spec.id, body), wet: 0 };
       this.props.push(prop); this.propHandles.add(collider.handle);
     }
     this.character = this.world.createRigidBody(RAPIER.RigidBodyDesc.kinematicPositionBased().setTranslation(0, -100, 0));
@@ -340,6 +363,71 @@ export class RealmPhysics {
     return { x: from.x + delta.x * fraction, y: from.y + delta.y * fraction, z: from.z + delta.z * fraction };
   }
 
+  /** Let loose bodies float: buoyancy, drag and current from the realm's water. Null leaves everything dry. */
+  setWater(field: WaterField | null) {
+    this.water = field;
+    this.waterRevision = -1;
+    // Buoyancy is a standing force: release it from anything that was afloat, or it would keep lifting on dry land.
+    for (const p of this.props) {
+      if (p.wet > 0 && p !== this.held) { p.body.resetForces(true); p.body.resetTorques(true); }
+      p.wet = 0;
+    }
+  }
+
+  /** Splashes since the last call, oldest first. */
+  drainSplashes(): WaterSplash[] {
+    const out = this.splashes;
+    this.splashes = [];
+    return out;
+  }
+
+  /**
+   * Buoyancy as eight point forces, one per octant of the body, each lifting by the share of its slab under the surface
+   * and dragged toward the water's own motion there. A body tilted in the water rights itself, rides the swell and
+   * drifts with the current or the surf without any special case for either.
+   */
+  private float(prop: Prop, field: WaterField, wake: boolean) {
+    const { body, spec } = prop;
+    const centre = body.translation();
+    const here = field.sample(centre.x, centre.z);
+    const reach = Math.hypot(spec.width, spec.height, spec.depth) / 2;
+    if (!here || centre.y - reach > here.surface + 0.05) {
+      if (prop.wet > 0) { body.resetForces(false); body.resetTorques(false); }
+      prop.wet = 0;
+      return;
+    }
+    if (body.isSleeping() && !wake) return;
+    body.resetForces(true); body.resetTorques(true);
+    const q = body.rotation(), v = body.linvel(), w = body.angvel();
+    const lift = spec.mass * GRAVITY / FLOAT_LINE[spec.kind] / 8, drag = spec.mass * WATER_DRAG / 8;
+    // Each sample stands for a slab half the body's height; how much of it is under water sets its share of lift.
+    const slab = spec.height / 2;
+    let wet = 0;
+    for (const sx of [-1, 1]) for (const sy of [-1, 1]) for (const sz of [-1, 1]) {
+      const r = rotateVector({ x: sx * spec.width / 4, y: sy * spec.height / 4, z: sz * spec.depth / 4 }, q);
+      const px = centre.x + r.x, py = centre.y + r.y, pz = centre.z + r.z;
+      const water = field.sample(px, pz);
+      if (!water) continue;
+      const under = Math.max(0, Math.min(1, (water.surface - py) / slab + 0.5));
+      if (under <= 0) continue;
+      wet += under / 8;
+      const vx = v.x + w.y * r.z - w.z * r.y, vy = v.y + w.z * r.x - w.x * r.z, vz = v.z + w.x * r.y - w.y * r.x;
+      const d = drag * under;
+      body.addForceAtPoint({ x: (water.flowX - vx) * d, y: lift * under - vy * d * 1.5, z: (water.flowZ - vz) * d }, { x: px, y: py, z: pz }, true);
+    }
+    // Meeting the water at speed throws spray; settling into it does not.
+    if (prop.wet < 0.02 && wet > 0.04 && v.y < -1.6) {
+      this.splashes.push({ id: spec.id, x: centre.x, y: here.surface, z: centre.z, energy: Math.min(1, -v.y * spec.mass / 160) });
+      if (this.splashes.length > 32) this.splashes.shift();
+    }
+    prop.wet = wet;
+  }
+
+  /** How much of each loose body is under water (0 dry .. 1 sunk), for tests and the developer panel. */
+  wetness(): Record<string, number> {
+    return Object.fromEntries(this.props.map((p) => [p.spec.id, +p.wet.toFixed(3)]));
+  }
+
   /** Fixed-step simulation, capped time accumulation and pose interpolation; paused time is never accrued. */
   step(dt: number, player: Vec3, yaw: number, pitch: number) {
     if (!Number.isFinite(dt) || dt <= 0 || !this.alive) return;
@@ -361,6 +449,13 @@ export class RealmPhysics {
         z: actor.from.z + (actor.target.z - actor.from.z) * t,
       });
       for (const p of this.props) p.previous = this.poseOf(p.spec.id, p.body);
+      if (this.water) {
+        // A re-solved stream may have risen around a barrel at rest; wake what stands in water once.
+        const wake = this.water.revision !== this.waterRevision;
+        this.waterRevision = this.water.revision;
+        for (const p of this.props) if (p !== this.held) this.float(p, this.water, wake);
+        if (this.held) this.held.wet = 0;
+      }
       if (this.held) {
         const p = this.held.body.translation(), v = this.held.body.linvel(), m = this.held.spec.mass;
         const d = Math.hypot(p.x - player.x, p.y - player.y, p.z - player.z);
@@ -433,7 +528,7 @@ export class RealmPhysics {
   motions() {
     return this.props.map(p => {
       const at = p.body.translation(), v = p.body.isSleeping() ? { x: 0, y: 0, z: 0 } : p.body.linvel();
-      return { id: p.spec.id, kind: p.spec.kind, x: at.x, y: at.y, z: at.z, vx: v.x, vy: v.y, vz: v.z, held: this.held === p };
+      return { id: p.spec.id, kind: p.spec.kind, x: at.x, y: at.y, z: at.z, vx: v.x, vy: v.y, vz: v.z, held: this.held === p, wet: p.wet };
     });
   }
   reset() { this.restore(this.initial); this.accumulated = 0; }
@@ -445,9 +540,11 @@ export class RealmPhysics {
       if (norm < 1e-6) continue;
       const p = this.props.find(p => p.spec.id === pose.id);
       if (!p) continue;
+      p.body.resetForces(true); p.body.resetTorques(true);
       p.body.setTranslation(pose.position, true);
       p.body.setRotation({ x: pose.rotation.x / norm, y: pose.rotation.y / norm, z: pose.rotation.z / norm, w: pose.rotation.w / norm }, true);
       p.body.setLinvel({ x: 0, y: 0, z: 0 }, true); p.body.setAngvel({ x: 0, y: 0, z: 0 }, true); p.previous = this.poseOf(p.spec.id, p.body);
+      p.wet = 0;
     }
     this.world.propagateModifiedBodyPositionsToColliders();
     this.queriesDirty = true;

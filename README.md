@@ -22,7 +22,9 @@ The prototype includes:
 
 - A sparse coastal arrival, a continuous woodland journey and inland settlements.
 - The animated Wanderer, 17 adapted Meshy NPC roles and diverse supplied-tree habitats, with protected custom Pine geometry.
-- Rougher terrain, rooted vegetation, weathered buildings, grounded scenery and coastal water.
+- Rougher terrain, rooted vegetation, weathered buildings and grounded scenery.
+- One physical water system: a refracting, breaking sea with surf and swash, streams within their banks, a spring
+  and its pool; floating cargo, wading, swimming and a view under the surface.
 - Nineteen supplied, optimized and rigged animals across settlement, forest and warm-woodland habitats.
 - Bow hunting, grounded carcasses and saved skinning rewards for thirteen wild animals; cats, dogs and the saddled trail mount remain protected. Rowan Vale welcomes you at a solid woodland supply table with an offline Eleven v4 voice.
 - Adaptive world music, surface footsteps, item/combat/work sounds, wildlife and captioned resident speech.

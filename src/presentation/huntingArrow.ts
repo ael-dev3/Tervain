@@ -44,11 +44,22 @@ export interface ArrowShot {
 export type ArrowSweep = (from: THREE.Vector3, to: THREE.Vector3, shot: ArrowShot) => ArrowImpact | null;
 export const HUNTING_ARROW_GRAVITY = 9.81;
 
+/** Water an arrow can fall into: its surface and current, and what happens as an arrow breaks the surface. */
+export interface ArrowWater {
+  sample(x: number, z: number): { surface: number; flowX: number; flowZ: number } | null;
+  enter(point: THREE.Vector3, speed: number): void;
+}
+/** In water an arrow loses speed within a few tenths of a second; slower than this it floats up and drifts. */
+const ARROW_WATER_DRAG = 9;
+const ARROW_FLOAT_SPEED = 1.2;
+const ARROW_FLOAT_SECONDS = 30;
+
 /** Presentation-owned flights. Gameplay resolves swept contacts and ammunition separately. */
 export class HuntingArrows {
   readonly group = new THREE.Group();
-  private readonly flights: { id: number; position: THREE.Vector3; velocity: THREE.Vector3; mesh: THREE.Group; age: number }[] = [];
+  private readonly flights: { id: number; position: THREE.Vector3; velocity: THREE.Vector3; mesh: THREE.Group; age: number; wet?: boolean }[] = [];
   private readonly lodged: { mesh: THREE.Group; age: number }[] = [];
+  private readonly floating: { mesh: THREE.Group; age: number; heading: number }[] = [];
   private nextId = 1;
   private disposed = false;
 
@@ -58,6 +69,7 @@ export class HuntingArrows {
 
   get activeCount(): number { return this.flights.length; }
   get lodgedCount(): number { return this.lodged.length; }
+  get floatingCount(): number { return this.floating.length; }
 
   launch(origin: THREE.Vector3, direction: THREE.Vector3, speed = 38): ArrowShot | null {
     if (this.disposed || !origin.toArray().every(Number.isFinite) || !direction.toArray().every(Number.isFinite) ||
@@ -73,8 +85,9 @@ export class HuntingArrows {
   }
 
   /** Small analytic ballistic segments keep collision reliable even during a long frame. */
-  update(dt: number, sweep: ArrowSweep, onImpact?: (shot: ArrowShot, impact: ArrowImpact) => void): void {
+  update(dt: number, sweep: ArrowSweep, onImpact?: (shot: ArrowShot, impact: ArrowImpact) => void, water?: ArrowWater): void {
     if (this.disposed || !Number.isFinite(dt) || dt <= 0) return;
+    this.drift(dt, water);
     for (let i = this.lodged.length - 1; i >= 0; i--) {
       const lodged = this.lodged[i]!;
       lodged.age += dt;
@@ -88,10 +101,21 @@ export class HuntingArrows {
         const step = Math.min(remaining, 1 / 120);
         const from = shot.position.clone();
         const to = from.clone().addScaledVector(shot.velocity, step);
-        to.y -= .5 * HUNTING_ARROW_GRAVITY * step * step;
+        const gravity = shot.wet ? HUNTING_ARROW_GRAVITY * 0.25 : HUNTING_ARROW_GRAVITY;
+        to.y -= .5 * gravity * step * step;
+        // Breaking the surface: a splash, and from then on the water's drag.
+        if (water && !shot.wet) {
+          const w = water.sample(to.x, to.z);
+          if (w && from.y >= w.surface && to.y < w.surface) {
+            shot.wet = true;
+            const t = (from.y - w.surface) / Math.max(1e-6, from.y - to.y);
+            water.enter(from.clone().lerp(to, t), shot.velocity.length());
+          }
+        }
         const impact = sweep(from, to, shot);
         shot.age += step;
-        shot.velocity.y -= HUNTING_ARROW_GRAVITY * step;
+        shot.velocity.y -= gravity * step;
+        if (shot.wet) shot.velocity.multiplyScalar(Math.exp(-ARROW_WATER_DRAG * step));
         if (impact) {
           shot.position.copy(impact.point);
           shot.mesh.position.copy(impact.point);
@@ -108,6 +132,14 @@ export class HuntingArrows {
         }
         shot.position.copy(to);
         remaining -= step;
+        if (shot.wet && shot.velocity.length() < ARROW_FLOAT_SPEED) {
+          // Spent in the water: wood floats, so it rises and lies on the surface.
+          shot.mesh.position.copy(shot.position);
+          this.floating.push({ mesh: shot.mesh, age: 0, heading: Math.atan2(shot.velocity.x, shot.velocity.z) });
+          while (this.floating.length > this.maxLodged) this.remove(this.floating.shift()!.mesh);
+          hit = true;
+          break;
+        }
       }
       if (hit) this.flights.splice(i, 1);
       else if (shot.age >= 7) { this.remove(shot.mesh); this.flights.splice(i, 1); }
@@ -118,7 +150,24 @@ export class HuntingArrows {
   clear(): void {
     for (const shot of this.flights) this.remove(shot.mesh);
     for (const shot of this.lodged) this.remove(shot.mesh);
-    this.flights.length = this.lodged.length = 0;
+    for (const shot of this.floating) this.remove(shot.mesh);
+    this.flights.length = this.lodged.length = this.floating.length = 0;
+  }
+
+  /** Floating arrows rise to the surface, lie flat along their last heading and drift with the current. */
+  private drift(dt: number, water?: ArrowWater) {
+    for (let i = this.floating.length - 1; i >= 0; i--) {
+      const f = this.floating[i]!;
+      f.age += dt;
+      if (f.age >= ARROW_FLOAT_SECONDS) { this.remove(f.mesh); this.floating.splice(i, 1); continue; }
+      const p = f.mesh.position, w = water?.sample(p.x, p.z);
+      if (!w) continue;
+      const rise = 1 - Math.exp(-dt * 3);
+      p.y += (w.surface + 0.005 - p.y) * rise;
+      p.x += w.flowX * dt; p.z += w.flowZ * dt;
+      // Tip first along the heading, level on the water.
+      f.mesh.quaternion.setFromEuler(new THREE.Euler(0, f.heading, 0));
+    }
   }
 
   dispose(): void { this.clear(); this.disposed = true; this.group.removeFromParent(); }

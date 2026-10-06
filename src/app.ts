@@ -279,8 +279,8 @@ export class App {
       const m = this.world.modules.find((x) => x.name === name);
       if (m) m.module.group.visible = false;
       else if (name === 'scenery') this.world.scenery.group.visible = false;
-      else if (name === 'water') this.world.water.group.visible = false;
-      else if (name === 'sea') this.world.sea.group.visible = false;
+      else if (name === 'water') this.world.water.inland.group.visible = false;
+      else if (name === 'sea') this.world.water.ocean.mesh.visible = false;
       else if (name === 'actors') for (const a of [...this.npcs.map((n) => n.rig.root), ...this.enemies.map((e) => e.rig.root), this.player.group]) a.visible = false;
     }
     if (q.get('hud') === '0') this.hud.show(false);
@@ -924,6 +924,7 @@ export class App {
     if (this.cam.mode === 'follow' && !this.bench.active) {
       const sitting = 0;
       this.cam.follow(dt, this.player.x, this.player.y, this.player.z, this.world.terrain, this.world.colliders, this.settings.reducedMotion, this.player.shake, 1.55 + sitting);
+      this.cam.clearWater((x, z) => this.world.water.world.surfaceAt(x, z), this.player.swimming);
       this.player.group.visible = this.cam.bodyVisible;
     }
 
@@ -1738,6 +1739,7 @@ export class App {
       terrain: this.world.terrain,
       colliders: this.world.colliders,
       physics: this.world.physics,
+      water: this.world.water,
       input: this.input,
       settings: this.settings,
       game: this.game,
@@ -1897,6 +1899,7 @@ export class App {
       props: this.world.physics.motions(),
       terrain: this.world.terrain,
       speech: this.speechSoon,
+      water: this.world.water.soundState(camPos.x, camPos.y, camPos.z, dt),
     });
   }
 

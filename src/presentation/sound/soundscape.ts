@@ -6,13 +6,17 @@ import { distToPolyline, roadWeight, type Terrain } from '../../world/terrain';
 import type { ClipId } from './clips';
 import type { SurfaceKind } from './foley';
 import type { LoopId } from './worldAudioManifest';
+import type { WaterSoundState } from '../water/waterSound';
 
 /**
  * Where the listener is, and what the world sounds like there. Pure functions of position, time and world state:
  *
  * - beds: looping layers whose levels follow the place (sea, forest by day and night, meadow, village by day and
  *   night, cliff wind, a gully's uneasy quiet, an archive's room tone) and point sources placed in the world (the brook
- *   at its nearest bank, the mill wheel, the quarry, the spring, reeds by the ford, a fire);
+ *   at its nearest bank, the mill wheel, the quarry, the spring, reeds by the ford, a fire); the water's own beds sit
+ *   where the water model finds them (surf at the nearest breaker line, surf on rock, white water inland, calm water
+ *   lapping at an edge), the open sea's far roar carries up to the heights, and below the surface there is only the
+ *   muffled sea;
  * - emitters: single calls placed around the listener (gulls over the sea, songbirds and a woodpecker in the woods,
  *   crows over open ground and the ruin, an owl at night, frogs at the water, hens in the village, a horse
  *   at the wagon, creaking wood), with rates that follow the hour; the shrine's wind chime and the spring's bubbles
@@ -115,7 +119,14 @@ export function windTone(x: number, z: number): number {
   return 300 + (crown - 300) * cover;
 }
 
-export function bedTargets(l: ListenerState, w: WorldSoundState): Record<LoopId, BedTarget> {
+/** The open sea heard from far off or from high above it: a broad roar, never the near break. */
+export function farSea(l: Vec3): number {
+  const d = Math.max(0, shoreDistance(l.x, l.z));
+  const high = smooth(6, 40, l.y) * within(d, 20, 160);
+  return Math.min(1, Math.max(within(d, 120, 300) * smooth(25, 90, d), high));
+}
+
+export function bedTargets(l: ListenerState, w: WorldSoundState, water?: WaterSoundState | null): Record<LoopId, BedTarget> {
   const day = dayness(w);
   const night = 1 - day;
   const sea = seaProximity(l.x, l.z);
@@ -148,6 +159,12 @@ export function bedTargets(l: ListenerState, w: WorldSoundState): Record<LoopId,
     quarry: { gain: w.quarryWorking ? out(0.85 * within(dist2(QUARRY_WORK, l.x, l.z), 14, 140)) : 0, at: { x: QUARRY_WORK.x, y: 2, z: QUARRY_WORK.z } },
     spring: { gain: out(0.8 * within(dist2(RITE_ALTAR, l.x, l.z), 3, 32)), at: { x: RITE_ALTAR.x, y: 0.5, z: RITE_ALTAR.z } },
     fire: { gain: out(0.85 * within(dist2(STRAND_FIRE, l.x, l.z), 2, 24)), at: { x: STRAND_FIRE.x, y: 0.4, z: STRAND_FIRE.z } },
+    surf: water?.surf ? { gain: out(0.85 * within(water.surf.d, 4, 70)), at: { x: water.surf.x, y: 0, z: water.surf.z } } : { gain: 0 },
+    surf_rocks: water?.rocks ? { gain: out(0.9 * within(water.rocks.d, 5, 80)), at: { x: water.rocks.x, y: 0, z: water.rocks.z } } : { gain: 0 },
+    sea_far: { gain: out(0.6 * farSea(l)) },
+    lap: water?.calm ? { gain: out(0.75 * within(water.calm.d, 1.5, 16)), at: { x: water.calm.x, y: 0, z: water.calm.z } } : { gain: 0 },
+    rapids: water?.rapids ? { gain: out(0.9 * Math.min(1, water.rapids.rough * 1.2) * within(water.rapids.d, 2, 45)), at: { x: water.rapids.x, y: 0, z: water.rapids.z } } : { gain: 0 },
+    underwater: { gain: water && water.under > 0.05 ? 0.9 : 0 },
   };
 }
 

@@ -4707,6 +4707,671 @@
           "sha256": "b70c473cb63a9751d47cec3c545e9d155c00ebf013fb7a9099af720a1652e7a0"
         }
       ]
+    },
+    {
+      "id": "a_surf",
+      "prompt": "Seamless loop: close shore break on a sandy beach, waves curling over and crashing a few metres away one after another, white water rushing up the sand and draining back with a fizzing hiss, no gulls, no wind, no music",
+      "seconds": 22,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "source": {
+        "path": "assets/audio/source/world/a_surf.mp3",
+        "bytes": 529807,
+        "sha256": "34065aa60c478a5c9567c84e43e2491caa5f59930f7706c8666ee58cf8db48ab"
+      },
+      "use": {
+        "type": "loop",
+        "name": "surf",
+        "targetDb": -23
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/loop-surf.ogg",
+          "bytes": 224250,
+          "sha256": "c6088575febae1d9bdc448868c408fa27af3b992936aa3052e67f6e00e75a36c"
+        },
+        {
+          "path": "public/assets/audio/world/loop-surf.m4a",
+          "bytes": 330401,
+          "sha256": "cd91c9838e813deaf4388e62eeb16b44d28631a62ef314e78eb59181721f85e2"
+        }
+      ]
+    },
+    {
+      "id": "a_surf_rocks",
+      "prompt": "Seamless loop: sea waves surging against dark rocks at the foot of a headland, heavy splashes and falling spray, water sucking and gurgling back through crevices between boulders, no gulls, no music",
+      "seconds": 20,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "source": {
+        "path": "assets/audio/source/world/a_surf_rocks.mp3",
+        "bytes": 481533,
+        "sha256": "6ff5c20caa9c079b8327a827bd3864af4169515b04271b99a7c915051592b626"
+      },
+      "use": {
+        "type": "loop",
+        "name": "surf_rocks",
+        "targetDb": -23
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/loop-surf_rocks.ogg",
+          "bytes": 203673,
+          "sha256": "e1af766c029a9a797aa9d395c198a862cdf7e81e09da4cdda011c5a9f1e60397"
+        },
+        {
+          "path": "public/assets/audio/world/loop-surf_rocks.m4a",
+          "bytes": 300087,
+          "sha256": "ba815734900bf7ca716c5ec7fd7abcac918f3d5bb78b3065d9d71b9592fb347a"
+        }
+      ]
+    },
+    {
+      "id": "a_sea_far",
+      "prompt": "Seamless loop: the open sea heard from high on a headland, a soft broad distant roar of surf along a long coast, steady and deep, no gulls, no wind gusts, no music",
+      "seconds": 20,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "source": {
+        "path": "assets/audio/source/world/a_sea_far.mp3",
+        "bytes": 481533,
+        "sha256": "0579e4503d10b6df2adf8d3b55fd4a78ab45a67d575418fc101ff6e23efdb673"
+      },
+      "use": {
+        "type": "loop",
+        "name": "sea_far",
+        "targetDb": -26
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/loop-sea_far.ogg",
+          "bytes": 204294,
+          "sha256": "f4e00d924060636ff08570936630ec7786de9a3d6abb72b9fb13debb1c6b06b3"
+        },
+        {
+          "path": "public/assets/audio/world/loop-sea_far.m4a",
+          "bytes": 299500,
+          "sha256": "0f6b0715c67c0f84c76e615fd01ca2957e35bd7e3f3287ed4c1b202683d991bc"
+        }
+      ]
+    },
+    {
+      "id": "a_lap",
+      "prompt": "Seamless loop: still water gently lapping against stones at the edge of a quiet pool, small soft clucks and splashes, very close, no birds, no insects, no music",
+      "seconds": 15,
+      "loop": true,
+      "promptInfluence": 0.5,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "source": {
+        "path": "assets/audio/source/world/a_lap.mp3",
+        "bytes": 361787,
+        "sha256": "51273ff0f9d11997fb816af5993a3f2b09a646ca83d496a4bb29f6c131c955cb"
+      },
+      "use": {
+        "type": "loop",
+        "name": "lap",
+        "targetDb": -27,
+        "channels": 1
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/loop-lap.ogg",
+          "bytes": 87977,
+          "sha256": "0617368fd402292618584271de57d6801354bf3fb34e52c8814acac89bd5929e"
+        },
+        {
+          "path": "public/assets/audio/world/loop-lap.m4a",
+          "bytes": 114057,
+          "sha256": "1e1af02e9f4b95b048e89d3718663d9146e0ebadbc2b94b4788db573f35c6439"
+        }
+      ]
+    },
+    {
+      "id": "a_rapids",
+      "prompt": "Seamless loop: a lively river tumbling over a rocky cascade and a low stone weir, churning white water, full and close, no birds, no music",
+      "seconds": 15,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "source": {
+        "path": "assets/audio/source/world/a_rapids.mp3",
+        "bytes": 361787,
+        "sha256": "a15a93c4e76ea493eb674ac0c56df4f65026340bd1cfcd0ec9777776e64a2a7a"
+      },
+      "use": {
+        "type": "loop",
+        "name": "rapids",
+        "targetDb": -23,
+        "channels": 1
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/loop-rapids.ogg",
+          "bytes": 83422,
+          "sha256": "798dfd389c448c9f2ba0a82f14c9f8b9906e8e1684113009e3032ce38fa9513b"
+        },
+        {
+          "path": "public/assets/audio/world/loop-rapids.m4a",
+          "bytes": 113949,
+          "sha256": "7bba184b82850eba2a5f5efba87148df614b35a62ecbd5d1683791f7b72e23f8"
+        }
+      ]
+    },
+    {
+      "id": "a_underwater",
+      "prompt": "Seamless loop: ambience heard with the head under the surface of the sea near a beach, muffled deep rumble, soft distant thuds of breaking waves, a few small bubbles, no music",
+      "seconds": 16,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "source": {
+        "path": "assets/audio/source/world/a_underwater.mp3",
+        "bytes": 385611,
+        "sha256": "59f83215572f091863df8a2047874c7c16d7d38830a9db1c03354a1b964629c9"
+      },
+      "use": {
+        "type": "loop",
+        "name": "underwater",
+        "targetDb": -24
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/loop-underwater.ogg",
+          "bytes": 141728,
+          "sha256": "004149f8b07938bad9664760c6c4e894bc0f0f05e0eefc538b8fd5a7b413e3b4"
+        },
+        {
+          "path": "public/assets/audio/world/loop-underwater.m4a",
+          "bytes": 249449,
+          "sha256": "9e126b668e438e91523ce6faa9365eb1f7b5faa1d7a6211cb45ad5afed9297f0"
+        }
+      ]
+    },
+    {
+      "id": "x_wave",
+      "prompt": "A single ocean wave curling over and breaking on a sandy beach right in front of the listener: a deep crash, then white water rushing up the sand and fizzing away, close, no gulls, no wind, no music",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "source": {
+        "path": "assets/audio/source/world/x_wave.mp3",
+        "bytes": 145493,
+        "sha256": "c4b2b57debc4e78d5e26f95b8961a33475fc35e7c8ba0b569f95bdaf29fc73ff"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "water",
+        "name": "water.wave",
+        "targetDb": -20,
+        "fadeOut": 1.2,
+        "variants": 1,
+        "spans": [
+          [
+            0,
+            5.704
+          ]
+        ]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-water.ogg",
+          "bytes": 194125,
+          "sha256": "bec11a9b03912d9c40a2f727a1dbeb0dc39af3fae6d8041870e58906ecad87a8"
+        },
+        {
+          "path": "public/assets/audio/world/bank-water.m4a",
+          "bytes": 268963,
+          "sha256": "4eb2d6c210c72b3e96c797b7c38c1f7a58afb741b831201a52a2453d6b84efdd"
+        }
+      ]
+    },
+    {
+      "id": "x_rock",
+      "prompt": "A heavy sea wave slamming into a large rock: a deep boom and a burst of spray falling back onto stone, then water draining away through cracks, close, no gulls, no music",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "source": {
+        "path": "assets/audio/source/world/x_rock.mp3",
+        "bytes": 145493,
+        "sha256": "27155fb0672f69284be82bd6e800d2fd17aef73a4fda9196fbf30ef1535562c3"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "water",
+        "name": "water.rock",
+        "targetDb": -19,
+        "fadeOut": 1,
+        "variants": 1,
+        "spans": [
+          [
+            0,
+            4.453
+          ]
+        ]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-water.ogg",
+          "bytes": 194125,
+          "sha256": "bec11a9b03912d9c40a2f727a1dbeb0dc39af3fae6d8041870e58906ecad87a8"
+        },
+        {
+          "path": "public/assets/audio/world/bank-water.m4a",
+          "bytes": 268963,
+          "sha256": "4eb2d6c210c72b3e96c797b7c38c1f7a58afb741b831201a52a2453d6b84efdd"
+        }
+      ]
+    },
+    {
+      "id": "x_splash_big",
+      "prompt": "A heavy wooden barrel thrown into deep water: one big deep splash and water slapping back down, close, no music",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "source": {
+        "path": "assets/audio/source/world/x_splash_big.mp3",
+        "bytes": 97846,
+        "sha256": "f9e8447c97f4498b5a5ee72a724f4584b85ba5feb06cc7e336dec38bcba5206c"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "water",
+        "name": "water.splash.big",
+        "targetDb": -18,
+        "fadeOut": 0.6,
+        "variants": 1,
+        "spans": [
+          [
+            0,
+            3.328
+          ]
+        ]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-water.ogg",
+          "bytes": 194125,
+          "sha256": "bec11a9b03912d9c40a2f727a1dbeb0dc39af3fae6d8041870e58906ecad87a8"
+        },
+        {
+          "path": "public/assets/audio/world/bank-water.m4a",
+          "bytes": 268963,
+          "sha256": "4eb2d6c210c72b3e96c797b7c38c1f7a58afb741b831201a52a2453d6b84efdd"
+        }
+      ]
+    },
+    {
+      "id": "x_splash_small",
+      "prompt": "Several separate small stones dropped one at a time into a calm pond, each a short sharp plop and a tiny splash, clear quiet gaps between them, close, no music",
+      "seconds": 7,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "source": {
+        "path": "assets/audio/source/world/x_splash_small.mp3",
+        "bytes": 169317,
+        "sha256": "e34aa14eef467dd373546eb53476320da6ae6562fd5cd7c65812fc4eeafd1b34"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "water",
+        "name": "water.splash.small",
+        "mergeMs": 140,
+        "max": 6,
+        "maxSeconds": 1.2,
+        "targetDb": -21,
+        "variants": 2,
+        "spans": [
+          [
+            0.714,
+            1.56
+          ],
+          [
+            4.655,
+            5.499
+          ]
+        ]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-water.ogg",
+          "bytes": 194125,
+          "sha256": "bec11a9b03912d9c40a2f727a1dbeb0dc39af3fae6d8041870e58906ecad87a8"
+        },
+        {
+          "path": "public/assets/audio/world/bank-water.m4a",
+          "bytes": 268963,
+          "sha256": "4eb2d6c210c72b3e96c797b7c38c1f7a58afb741b831201a52a2453d6b84efdd"
+        }
+      ]
+    },
+    {
+      "id": "x_swim",
+      "prompt": "Separate swimming strokes of one person doing a slow breaststroke in a calm lake, each stroke a soft swish of arms through water and a gentle splash, quiet gaps between strokes, close, no music",
+      "seconds": 9,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "source": {
+        "path": "assets/audio/source/world/x_swim.mp3",
+        "bytes": 217591,
+        "sha256": "dbd537567e10945b8ded69422deabb6418884f3825049be769addfc7fad53d6a"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "water",
+        "name": "water.swim",
+        "mergeMs": 300,
+        "max": 6,
+        "maxSeconds": 1.8,
+        "targetDb": -23,
+        "variants": 2,
+        "spans": [
+          [
+            0,
+            1.811
+          ],
+          [
+            3.954,
+            5.771
+          ]
+        ]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-water.ogg",
+          "bytes": 194125,
+          "sha256": "bec11a9b03912d9c40a2f727a1dbeb0dc39af3fae6d8041870e58906ecad87a8"
+        },
+        {
+          "path": "public/assets/audio/world/bank-water.m4a",
+          "bytes": 268963,
+          "sha256": "4eb2d6c210c72b3e96c797b7c38c1f7a58afb741b831201a52a2453d6b84efdd"
+        }
+      ]
+    },
+    {
+      "id": "x_wade",
+      "prompt": "Separate heavy steps of a person wading through knee-deep river water, each step a deep slosh and push of water around the legs, quiet gaps between steps, close, no music",
+      "seconds": 7,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "source": {
+        "path": "assets/audio/source/world/x_wade.mp3",
+        "bytes": 169317,
+        "sha256": "2c45169c3d96e810da5a18f071ce041e0998f8d5442241fa27c2ba6ba02ca376"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "water",
+        "name": "water.wade",
+        "mergeMs": 220,
+        "max": 6,
+        "maxSeconds": 1.2,
+        "minSeconds": 0.3,
+        "targetDb": -22,
+        "variants": 4,
+        "spans": [
+          [
+            0.455,
+            1.672
+          ],
+          [
+            3.037,
+            3.923
+          ],
+          [
+            4.319,
+            4.955
+          ],
+          [
+            5.202,
+            5.699
+          ]
+        ]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-water.ogg",
+          "bytes": 194125,
+          "sha256": "bec11a9b03912d9c40a2f727a1dbeb0dc39af3fae6d8041870e58906ecad87a8"
+        },
+        {
+          "path": "public/assets/audio/world/bank-water.m4a",
+          "bytes": 268963,
+          "sha256": "4eb2d6c210c72b3e96c797b7c38c1f7a58afb741b831201a52a2453d6b84efdd"
+        }
+      ]
+    },
+    {
+      "id": "x_enter",
+      "prompt": "A person wading in and dropping down into deep cool water up to the chest, a deep splash and swirl, then calm, close, no music",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "source": {
+        "path": "assets/audio/source/world/x_enter.mp3",
+        "bytes": 97846,
+        "sha256": "d60b20643ecb3f21f99c985a84b1b38acc740b0eaf04c0d7584ccea6816e1b66"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "water",
+        "name": "water.enter",
+        "targetDb": -21,
+        "fadeOut": 0.6,
+        "variants": 1,
+        "spans": [
+          [
+            0,
+            3.053
+          ]
+        ]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-water.ogg",
+          "bytes": 194125,
+          "sha256": "bec11a9b03912d9c40a2f727a1dbeb0dc39af3fae6d8041870e58906ecad87a8"
+        },
+        {
+          "path": "public/assets/audio/world/bank-water.m4a",
+          "bytes": 268963,
+          "sha256": "4eb2d6c210c72b3e96c797b7c38c1f7a58afb741b831201a52a2453d6b84efdd"
+        }
+      ]
+    },
+    {
+      "id": "x_exit",
+      "prompt": "A person climbing out of a lake onto stones, water pouring off wet clothes and dripping, close, no music",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "source": {
+        "path": "assets/audio/source/world/x_exit.mp3",
+        "bytes": 121670,
+        "sha256": "fb09a8385352970d64352546877447164446338b0cc5e5dd61821c2f4738436b"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "water",
+        "name": "water.exit",
+        "targetDb": -22,
+        "fadeOut": 0.8,
+        "variants": 1,
+        "spans": [
+          [
+            0.083,
+            4.509
+          ]
+        ]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-water.ogg",
+          "bytes": 194125,
+          "sha256": "bec11a9b03912d9c40a2f727a1dbeb0dc39af3fae6d8041870e58906ecad87a8"
+        },
+        {
+          "path": "public/assets/audio/world/bank-water.m4a",
+          "bytes": 268963,
+          "sha256": "4eb2d6c210c72b3e96c797b7c38c1f7a58afb741b831201a52a2453d6b84efdd"
+        }
+      ]
+    },
+    {
+      "id": "x_knock",
+      "prompt": "Several separate hollow knocks of an empty wooden barrel floating in water and bumping against rocks, each knock with a small slosh, quiet gaps between, close, no music",
+      "seconds": 7,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "source": {
+        "path": "assets/audio/source/world/x_knock.mp3",
+        "bytes": 169317,
+        "sha256": "eee16eeb1a737f0005349aa5ee9c3efb3b041ab6f73d6a91227d484c4a96e0ff"
+      },
+      "use": {
+        "type": "slices",
+        "bank": "water",
+        "name": "water.knock",
+        "mergeMs": 160,
+        "max": 5,
+        "maxSeconds": 1.2,
+        "targetDb": -21,
+        "variants": 3,
+        "spans": [
+          [
+            0.754,
+            1.971
+          ],
+          [
+            3.762,
+            4.979
+          ],
+          [
+            5.471,
+            6.213
+          ]
+        ]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-water.ogg",
+          "bytes": 194125,
+          "sha256": "bec11a9b03912d9c40a2f727a1dbeb0dc39af3fae6d8041870e58906ecad87a8"
+        },
+        {
+          "path": "public/assets/audio/world/bank-water.m4a",
+          "bytes": 268963,
+          "sha256": "4eb2d6c210c72b3e96c797b7c38c1f7a58afb741b831201a52a2453d6b84efdd"
+        }
+      ]
+    },
+    {
+      "id": "x_gulp",
+      "prompt": "A short burst of air bubbles rising past the ears underwater, heard underwater, close, no music",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "source": {
+        "path": "assets/audio/source/world/x_gulp.mp3",
+        "bytes": 73395,
+        "sha256": "808866d01ff9e266fc9ea6dc559abe76ba48e49857a466ca991a44424521ade7"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "water",
+        "name": "water.bubbles",
+        "targetDb": -22,
+        "fadeOut": 0.4,
+        "variants": 1,
+        "spans": [
+          [
+            0.027,
+            2.933
+          ]
+        ]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-water.ogg",
+          "bytes": 194125,
+          "sha256": "bec11a9b03912d9c40a2f727a1dbeb0dc39af3fae6d8041870e58906ecad87a8"
+        },
+        {
+          "path": "public/assets/audio/world/bank-water.m4a",
+          "bytes": 268963,
+          "sha256": "4eb2d6c210c72b3e96c797b7c38c1f7a58afb741b831201a52a2453d6b84efdd"
+        }
+      ]
+    },
+    {
+      "id": "x_fish",
+      "prompt": "A fish leaping out of a calm river and falling back with a light slap and splash, quiet surroundings, close, no music",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "source": {
+        "path": "assets/audio/source/world/x_fish.mp3",
+        "bytes": 73395,
+        "sha256": "98d559857f9bee8c4f25b8abdeb359773d186ea4e0f721a7a8f5a934f21160ad"
+      },
+      "use": {
+        "type": "whole",
+        "bank": "water",
+        "name": "water.fish",
+        "targetDb": -23,
+        "fadeOut": 0.4,
+        "variants": 1,
+        "spans": [
+          [
+            0,
+            3
+          ]
+        ]
+      },
+      "derivatives": [
+        {
+          "path": "public/assets/audio/world/bank-water.ogg",
+          "bytes": 194125,
+          "sha256": "bec11a9b03912d9c40a2f727a1dbeb0dc39af3fae6d8041870e58906ecad87a8"
+        },
+        {
+          "path": "public/assets/audio/world/bank-water.m4a",
+          "bytes": 268963,
+          "sha256": "4eb2d6c210c72b3e96c797b7c38c1f7a58afb741b831201a52a2453d6b84efdd"
+        }
+      ]
     }
   ],
   "composed": [

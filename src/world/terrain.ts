@@ -4,6 +4,7 @@ import { clamp, fbm, lerp, ridged, smoothstep, warp } from './noise';
 import { lighthouseRock, shapeCoast, shoreDistance } from './coast';
 import { lighthouseFloorAt, lighthouseSurfacesAt } from './lighthouse';
 import { buildingStepSurfacesAt } from './buildingEntries';
+import { springBasinGround } from './water/spring';
 import { isWorldPickupItem } from '../content/pickups';
 import {
   ANCHORS,
@@ -39,7 +40,6 @@ import {
   SHRINE_PLATEAU,
   SLUICE,
   SPAWN,
-  SPRING_POOL,
   STREAMS,
   VALLEY,
   WAGON,
@@ -360,9 +360,49 @@ export function carveDepthAt(x: number, z: number): number {
     const c = depth * (1 - smoothstep(s.halfWidth * 0.5, s.halfWidth * 1.65, d));
     carve = Math.max(carve, c);
   }
-  const pd = Math.hypot(x - SPRING_POOL.x, z - SPRING_POOL.z);
-  carve = Math.max(carve, 1.3 * (1 - smoothstep(SPRING_POOL.r * 0.55, SPRING_POOL.r * 1.0, pd)));
   return carve;
+}
+
+/**
+ * The mill race leaves the main stream over a low rise. Water cannot climb it, so the race's bed is cut down through the
+ * rise until it falls, gently but all the way, from its head. Only ever deepens the existing cut, within its own banks.
+ */
+let raceProfile: { s: Float64Array; bed: Float64Array; length: number[] } | null = null;
+function raceTarget(): NonNullable<typeof raceProfile> {
+  if (raceProfile) return raceProfile;
+  const race = STREAMS.find((stream) => stream.id === 'village')!;
+  const pts = race.points;
+  const length: number[] = [0];
+  for (let i = 1; i < pts.length; i++) length.push(length[i - 1]! + Math.hypot(pts[i]!.x - pts[i - 1]!.x, pts[i]!.z - pts[i - 1]!.z));
+  const total = length[length.length - 1]!;
+  const n = Math.ceil(total) + 1;
+  const s = new Float64Array(n), bed = new Float64Array(n);
+  for (let k = 0; k < n; k++) {
+    const at = Math.min(total, k);
+    let seg = 0;
+    while (seg < pts.length - 2 && length[seg + 1]! < at) seg++;
+    const u = (at - length[seg]!) / Math.max(1e-9, length[seg + 1]! - length[seg]!);
+    const x = pts[seg]!.x + (pts[seg + 1]!.x - pts[seg]!.x) * u, z = pts[seg]!.z + (pts[seg + 1]!.z - pts[seg]!.z) * u;
+    s[k] = at;
+    // Never higher than any bed upstream, less a fall of 4 mm per metre.
+    const natural = baseHeight(x, z) - carveDepthAt(x, z);
+    bed[k] = k === 0 ? natural : Math.min(natural, bed[k - 1]! - 0.004);
+  }
+  return (raceProfile = { s, bed, length });
+}
+
+function raceTrenchGround(x: number, z: number, ground: number): number {
+  const race = STREAMS.find((stream) => stream.id === 'village')!;
+  const reach = race.halfWidth * 1.65;
+  const { d, seg, t } = distToPolyline(x, z, race.points);
+  if (d >= reach) return ground;
+  const profile = raceTarget();
+  const along = profile.length[seg]! + t * (profile.length[seg + 1]! - profile.length[seg]!);
+  const k = Math.min(profile.s.length - 2, Math.max(0, Math.floor(along)));
+  const f = Math.min(1, Math.max(0, along - k));
+  const bed = profile.bed[k]! + (profile.bed[k + 1]! - profile.bed[k]!) * f;
+  // The cut's own cross-section: the bed across its middle, rising to the banks.
+  return Math.min(ground, bed + race.depth * smoothstep(race.halfWidth * 0.5, reach, d));
 }
 
 export function roadWeight(x: number, z: number): number {
@@ -400,8 +440,11 @@ export class Terrain {
         const z = WORLD.minZ + j * WORLD.cell;
         const base = baseHeight(x, z);
         const c = carveDepthAt(x, z);
-        this.heights[j * w + i] = base - c;
-        this.carve[j * w + i] = c;
+        // The race's cut through its rise and the spring's basin reshape the ground; the carve keeps its meaning as
+        // the depth of the cut water stands in (the basin's own still water included).
+        const basin = springBasinGround(x, z, raceTrenchGround(x, z, base - c));
+        this.heights[j * w + i] = basin.ground;
+        this.carve[j * w + i] = Math.max(c, basin.water);
       }
     }
   }

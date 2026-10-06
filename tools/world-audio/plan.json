@@ -2119,6 +2119,277 @@
           39.8
         ]
       }
+    },
+    {
+      "id": "a_surf",
+      "prompt": "Seamless loop: close shore break on a sandy beach, waves curling over and crashing a few metres away one after another, white water rushing up the sand and draining back with a fizzing hiss, no gulls, no wind, no music",
+      "seconds": 22,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "use": {
+        "type": "loop",
+        "name": "surf",
+        "targetDb": -23
+      }
+    },
+    {
+      "id": "a_surf_rocks",
+      "prompt": "Seamless loop: sea waves surging against dark rocks at the foot of a headland, heavy splashes and falling spray, water sucking and gurgling back through crevices between boulders, no gulls, no music",
+      "seconds": 20,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "use": {
+        "type": "loop",
+        "name": "surf_rocks",
+        "targetDb": -23
+      }
+    },
+    {
+      "id": "a_sea_far",
+      "prompt": "Seamless loop: the open sea heard from high on a headland, a soft broad distant roar of surf along a long coast, steady and deep, no gulls, no wind gusts, no music",
+      "seconds": 20,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "use": {
+        "type": "loop",
+        "name": "sea_far",
+        "targetDb": -26
+      }
+    },
+    {
+      "id": "a_lap",
+      "prompt": "Seamless loop: still water gently lapping against stones at the edge of a quiet pool, small soft clucks and splashes, very close, no birds, no insects, no music",
+      "seconds": 15,
+      "loop": true,
+      "promptInfluence": 0.5,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "use": {
+        "type": "loop",
+        "name": "lap",
+        "targetDb": -27,
+        "channels": 1
+      }
+    },
+    {
+      "id": "a_rapids",
+      "prompt": "Seamless loop: a lively river tumbling over a rocky cascade and a low stone weir, churning white water, full and close, no birds, no music",
+      "seconds": 15,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "use": {
+        "type": "loop",
+        "name": "rapids",
+        "targetDb": -23,
+        "channels": 1
+      }
+    },
+    {
+      "id": "a_underwater",
+      "prompt": "Seamless loop: ambience heard with the head under the surface of the sea near a beach, muffled deep rumble, soft distant thuds of breaking waves, a few small bubbles, no music",
+      "seconds": 16,
+      "loop": true,
+      "promptInfluence": 0.45,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "use": {
+        "type": "loop",
+        "name": "underwater",
+        "targetDb": -24
+      }
+    },
+    {
+      "id": "x_wave",
+      "prompt": "A single ocean wave curling over and breaking on a sandy beach right in front of the listener: a deep crash, then white water rushing up the sand and fizzing away, close, no gulls, no wind, no music",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "use": {
+        "type": "whole",
+        "bank": "water",
+        "name": "water.wave",
+        "targetDb": -20,
+        "fadeOut": 1.2
+      }
+    },
+    {
+      "id": "x_rock",
+      "prompt": "A heavy sea wave slamming into a large rock: a deep boom and a burst of spray falling back onto stone, then water draining away through cracks, close, no gulls, no music",
+      "seconds": 6,
+      "loop": false,
+      "promptInfluence": 0.55,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "use": {
+        "type": "whole",
+        "bank": "water",
+        "name": "water.rock",
+        "targetDb": -19,
+        "fadeOut": 1
+      }
+    },
+    {
+      "id": "x_splash_big",
+      "prompt": "A heavy wooden barrel thrown into deep water: one big deep splash and water slapping back down, close, no music",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "use": {
+        "type": "whole",
+        "bank": "water",
+        "name": "water.splash.big",
+        "targetDb": -18,
+        "fadeOut": 0.6
+      }
+    },
+    {
+      "id": "x_splash_small",
+      "prompt": "Several separate small stones dropped one at a time into a calm pond, each a short sharp plop and a tiny splash, clear quiet gaps between them, close, no music",
+      "seconds": 7,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "use": {
+        "type": "slices",
+        "bank": "water",
+        "name": "water.splash.small",
+        "mergeMs": 140,
+        "max": 6,
+        "maxSeconds": 1.2,
+        "targetDb": -21
+      }
+    },
+    {
+      "id": "x_swim",
+      "prompt": "Separate swimming strokes of one person doing a slow breaststroke in a calm lake, each stroke a soft swish of arms through water and a gentle splash, quiet gaps between strokes, close, no music",
+      "seconds": 9,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "use": {
+        "type": "slices",
+        "bank": "water",
+        "name": "water.swim",
+        "mergeMs": 300,
+        "max": 6,
+        "maxSeconds": 1.8,
+        "targetDb": -23
+      }
+    },
+    {
+      "id": "x_wade",
+      "prompt": "Separate heavy steps of a person wading through knee-deep river water, each step a deep slosh and push of water around the legs, quiet gaps between steps, close, no music",
+      "seconds": 7,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "use": {
+        "type": "slices",
+        "bank": "water",
+        "name": "water.wade",
+        "mergeMs": 220,
+        "max": 6,
+        "maxSeconds": 1.2,
+        "minSeconds": 0.3,
+        "targetDb": -22
+      }
+    },
+    {
+      "id": "x_enter",
+      "prompt": "A person wading in and dropping down into deep cool water up to the chest, a deep splash and swirl, then calm, close, no music",
+      "seconds": 4,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "use": {
+        "type": "whole",
+        "bank": "water",
+        "name": "water.enter",
+        "targetDb": -21,
+        "fadeOut": 0.6
+      }
+    },
+    {
+      "id": "x_exit",
+      "prompt": "A person climbing out of a lake onto stones, water pouring off wet clothes and dripping, close, no music",
+      "seconds": 5,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "use": {
+        "type": "whole",
+        "bank": "water",
+        "name": "water.exit",
+        "targetDb": -22,
+        "fadeOut": 0.8
+      }
+    },
+    {
+      "id": "x_knock",
+      "prompt": "Several separate hollow knocks of an empty wooden barrel floating in water and bumping against rocks, each knock with a small slosh, quiet gaps between, close, no music",
+      "seconds": 7,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "use": {
+        "type": "slices",
+        "bank": "water",
+        "name": "water.knock",
+        "mergeMs": 160,
+        "max": 5,
+        "maxSeconds": 1.2,
+        "targetDb": -21
+      }
+    },
+    {
+      "id": "x_gulp",
+      "prompt": "A short burst of air bubbles rising past the ears underwater, heard underwater, close, no music",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "use": {
+        "type": "whole",
+        "bank": "water",
+        "name": "water.bubbles",
+        "targetDb": -22,
+        "fadeOut": 0.4
+      }
+    },
+    {
+      "id": "x_fish",
+      "prompt": "A fish leaping out of a calm river and falling back with a light slap and splash, quiet surroundings, close, no music",
+      "seconds": 3,
+      "loop": false,
+      "promptInfluence": 0.6,
+      "model": "eleven_text_to_sound_v2",
+      "generated": "2026-10-06",
+      "use": {
+        "type": "whole",
+        "bank": "water",
+        "name": "water.fish",
+        "targetDb": -23,
+        "fadeOut": 0.4
+      }
     }
   ]
 }

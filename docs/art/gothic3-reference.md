@@ -77,7 +77,7 @@ This maps the existing `0.0.4` world treatment to its source. A20 is the accepte
 | --- | --- |
 | Weathered base palette | `kit.ts` (`PAL`), `terrainTextures.ts`, `buildingTextures.ts`, `treeTextures.ts`, `treeGen.ts` (`LEAF_GAIN`), `human/outfits.ts` |
 | Light, haze and grade | `sky.ts` (keyframes, `FogExp2`), `environment.ts`, `grade.ts` |
-| Coast and headland | `world/coast.ts`, `world/terrain.ts`, `sea.ts`, `groundSplat.ts` |
+| Coast and headland | `world/coast.ts`, `world/terrain.ts`, `world/water/`, `groundSplat.ts` |
 | Empty heath, distant forests | `flora.ts` (placement), `ground/habitat.ts`, `ground/grass.ts` |
 | Rough buildings, the palisade and its gate | `structures.ts`, `buildings.ts`, `props.ts`, `roofs.ts`, `settlement.ts` |
 | Worn people | `characters.ts`, `human/` (skeleton and weights, heads, clothes, costumes, and the painted model sheet), `npcStyle.ts`; see [People](#people) |

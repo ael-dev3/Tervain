@@ -54,7 +54,9 @@ animal-audio-assets.json record: Sound Effects v2, paid Creator generation on
 6 October 2026, with source/derivative fingerprints. The six imported hunting
 effects retain separate records in hunting-sounds.json; their generation-time
 subscription evidence is pending and commercial clearance is not established.
-See public/world-audio-licenses.html
+Seventeen water sounds (Sound Effects v2, 6 October 2026) are recorded in
+world-audio-assets.json without generation-time subscription evidence; their
+commercial clearance is not established. See public/world-audio-licenses.html
 for the built-site disclosure. The project code license does not override asset terms.
 
 This product uses Three.js, including its unmodified Reflector addon, under the MIT

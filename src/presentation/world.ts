@@ -25,8 +25,8 @@ import { ALL_NEEDS } from './assets/needs';
 import type { AssetLibrary, LoadProgress } from './assets/library';
 import { setSharedLibrary } from './assets/library';
 import type { BuildContext, FrameContext, SceneModule } from './context';
-import { buildWater, type WaterSystem } from './waterMesh';
-import { buildSea, type SeaHandle } from './sea';
+import { WaterSystem } from './water/waterSystem';
+import { SkyCapture } from './water/skyCapture';
 import type { WaterRenderInputs } from './waterRenderPass';
 import type { Settings } from '../platform/settings';
 import { buildRiteResponse, type RiteResponse } from './riteResponse';
@@ -54,8 +54,6 @@ export class WorldScene {
   readonly physics: RealmPhysics;
   readonly sky: SkyRig;
   readonly water: WaterSystem;
-  readonly sea: SeaHandle;
-  private waterMeshes: WaterRenderInputs['meshes'];
   readonly sway: SwayUniforms = { uTime: { value: 0 }, uWind: { value: 1 } };
   readonly library: AssetLibrary;
   /** Forest, ground cover, wildlife: updated every frame with the shared frame context. */
@@ -105,7 +103,6 @@ export class WorldScene {
   dispose() {
     this.physics.dispose();
     this.water.dispose();
-    this.sea.dispose();
     this.environment.dispose?.();
     for (const m of this.modules) m.module.dispose?.();
     this.riteResponse.dispose();
@@ -121,11 +118,10 @@ export class WorldScene {
     this.sky = new SkyRig(settings.quality === 'low' ? 1024 : settings.quality === 'medium' ? 2048 : 4096);
     this.scene.add(this.sky.group);
     this.scene.fog = this.sky.fog;
-    this.water = buildWater(this.terrain);
+    // The sky dome and stars are also drawn into the water's own small sky capture, for reflected clouds.
+    SkyCapture.include(this.sky.group);
+    this.water = new WaterSystem(this.terrain, settings.quality);
     this.scene.add(this.water.group);
-    this.sea = buildSea(this.terrain, settings.quality);
-    this.scene.add(this.sea.group);
-    this.waterMeshes = [...Object.values(this.water.ribbons).map(r => r.mesh), this.water.pool, this.sea.mesh] as WaterRenderInputs['meshes'];
     const ctx: BuildContext = { terrain: this.terrain, colliders: this.colliders, library, quality: settings.quality, settings, sway: this.sway, excl: new Exclusions(this.terrain), npcAssets };
     const landmarks = buildForestLandmarks(this.terrain, this.colliders, settings.quality);
     const forest = buildFlora(ctx, pine, true, treeTemplates);
@@ -164,6 +160,8 @@ export class WorldScene {
     this.terrainMesh = buildTerrainTiles(this.terrain, terrainTex, ctx.plantedCrowns, undefined, contacts);
     this.scene.add(this.terrainMesh);
     this.physics = new RealmPhysics(this.terrain, this.colliders, undefined, forest.physicalWood);
+    // Loose barrels and crates float on the same water that is drawn and heard.
+    this.physics.setWater(this.water.world);
     const physicalProps = buildPhysicalProps(this.physics, settings.quality);
     this.modules.push({ name: 'physical supplies', module: physicalProps });
     this.scene.add(physicalProps.group);
@@ -266,8 +264,7 @@ export class WorldScene {
   }
 
   waterRenderInputs(settings: Settings): WaterRenderInputs {
-    return { meshes: this.waterMeshes, seaMaterial: this.sea.mesh.material, quality: settings.quality,
-      enabled: settings.quality !== 'low' && !settings.reduceEffects, reducedMotion: settings.reducedMotion };
+    return this.water.renderInputs(settings.quality !== 'low' && !settings.reduceEffects, settings.reducedMotion);
   }
 
   /** Nearest distance to any watercourse, for the ambience bed. */
@@ -322,9 +319,8 @@ export class WorldScene {
     const night = this.sky.state.nightness;
     this.scenery.setNight(night);
     this.scenery.update(dt, this.time, night);
-    const light = 0.42 + 0.58 * (1 - night);
-    this.water.update(dt, this.time, v.flow, light, reduced, settings.reduceEffects);
-    this.sea.update(dt, this.time, reduced, settings.reduceEffects);
+    for (const s of this.physics.drainSplashes()) this.water.splash(s.x, s.y, s.z, s.energy);
+    this.water.update(dt, v.flow, camera, focus, reduced, settings.reduceEffects);
     let shadowFrustum: THREE.Frustum | null = null;
     if (settings.quality !== 'low' && this.sky.sun.castShadow) {
       // Scene modules cull before the renderer updates light matrices. Use the real snapped

@@ -2,7 +2,6 @@ import * as THREE from 'three';
 import { beforeAll, describe, expect, it, vi } from 'vitest';
 import { buildCoastalBackdrop, coastalBackdropGeometry } from '../src/presentation/coastalBackdrop';
 import { groundSplat } from '../src/presentation/groundSplat';
-import { buildSeaGeometry } from '../src/presentation/seaGeometry';
 import { buildTerrainMesh } from '../src/presentation/terrainMesh';
 import { LAYER, type TerrainTextures } from '../src/presentation/terrainTextures';
 import { MAP_BOUNDS } from '../src/presentation/ui/mapProjection';
@@ -11,6 +10,7 @@ import { coastX, shoreDistance } from '../src/world/coast';
 import { DISTANT_COAST, distantCoastHeight } from '../src/world/distantCoast';
 import { ARRIVAL_ROUTE, COAST_SHELVES, LIGHTHOUSE, SEA_LEVEL, SPAWN, WORLD } from '../src/world/layout';
 import { Terrain } from '../src/world/terrain';
+import { BATHY, BATHY_NX, BATHY_NZ, buildBathymetry, SWASH_LIMIT } from '../src/world/water/bathymetry';
 
 let terrain: Terrain;
 beforeAll(() => { terrain = new Terrain(); });
@@ -116,7 +116,7 @@ describe('original coastal bay composition and physical ground', () => {
 
 describe('resident uninhabited promontory and sea contact', () => {
   it('uses finite upward triangles under20k, normalized surfaces and the same dry-land planes as the water', () => {
-    const land = coastalBackdropGeometry(), sea = buildSeaGeometry(terrain, 'high');
+    const land = coastalBackdropGeometry(), bathymetry = buildBathymetry(terrain);
     try {
       const position = land.getAttribute('position'), index = land.index!;
       expect(index.count / 3).toBeGreaterThan(1000);
@@ -143,26 +143,24 @@ describe('resident uninhabited promontory and sea contact', () => {
           + splatB.getX(vertex) + splatB.getY(vertex) + splatB.getZ(vertex) + splatB.getW(vertex);
         expect(sum).toBeCloseTo(1, 5);
       }
-      const waterPosition = sea.getAttribute('position'), depth = sea.getAttribute('aDepth'), seaIndex = sea.index!;
+      // The sea's bed under the distant coast is that same ground: water stands exactly where it lies below sea level,
+      // and land above the swash's reach is never sea.
+      const columns = BATHY_NX + 1;
       let maximumWaterError = 0, checked = 0;
-      for (let triangle = 0; triangle < seaIndex.count; triangle += 3) {
-        const ids = [0, 1, 2].map(corner => seaIndex.getX(triangle + corner));
-        if (ids.some(id => waterPosition.getX(id) < DISTANT_COAST.minX || waterPosition.getX(id) >= WORLD.minX
-          || waterPosition.getZ(id) < DISTANT_COAST.minZ || waterPosition.getZ(id) > DISTANT_COAST.maxZ)) continue;
-        const x = ids.reduce((sum, id) => sum + waterPosition.getX(id), 0) / 3;
-        const z = ids.reduce((sum, id) => sum + waterPosition.getZ(id), 0) / 3;
-        const meanDepth = ids.reduce((sum, id) => sum + depth.getX(id), 0) / 3;
-        const actualDepth = SEA_LEVEL - distantCoastHeight(x, z);
-        maximumWaterError = Math.max(maximumWaterError, Math.abs(meanDepth - actualDepth));
-        if (actualDepth < -0.1) { expect(meanDepth).toBeLessThan(0); dry++; }
-        if (actualDepth > 0.1) { expect(meanDepth).toBeGreaterThan(0); wet++; }
+      for (let j = 0; j <= BATHY_NZ; j++) for (let i = 0; i <= BATHY_NX; i++) {
+        const x = BATHY.minX + i * BATHY.cell, z = BATHY.minZ + j * BATHY.cell;
+        if (x < DISTANT_COAST.minX || x >= WORLD.minX || z < DISTANT_COAST.minZ || z > DISTANT_COAST.maxZ) continue;
+        const id = j * columns + i, actualDepth = SEA_LEVEL - distantCoastHeight(x, z);
+        maximumWaterError = Math.max(maximumWaterError, Math.abs(SEA_LEVEL - bathymetry.bed[id]! - actualDepth));
+        if (actualDepth < -SWASH_LIMIT - 0.1) { expect(bathymetry.height[id]!).toBeLessThan(0); dry++; }
+        if (actualDepth > 0.1 && bathymetry.height[id]! >= 0) wet++;
         checked++;
       }
       expect(checked).toBeGreaterThan(9000);
       expect(dry).toBeGreaterThan(500);
       expect(wet).toBeGreaterThan(1000);
       expect(maximumWaterError).toBeLessThan(0.000008);
-    } finally { land.dispose(); sea.dispose(); }
+    } finally { land.dispose(); }
   });
 
   it('retains its silhouette through updates and releases private geometry/material without disposing borrowed terrain textures', () => {

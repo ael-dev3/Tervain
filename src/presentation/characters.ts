@@ -50,7 +50,8 @@ export type Mode =
   | 'talk'
   | 'dead'
   | 'telegraph'
-  | 'strike';
+  | 'strike'
+  | 'swim';
 
 export interface Pose {
   mode: Mode;
@@ -1132,6 +1133,21 @@ export function poseRig(rig: Rig, p: Pose, dt: number) {
             break;
         }
         fast = 8;
+        break;
+      }
+      case 'swim': {
+        // The simple figure's breaststroke: leaning into the water, arms sweeping, legs kicking behind.
+        const st = Math.sin(p.time * TAU * 0.8);
+        a.torsoX = 0.9;
+        a.headX = -0.5;
+        a.armLx = -2.4 + 0.6 * st * amp;
+        a.armRx = -2.4 + 0.6 * st * amp;
+        a.armLz = 0.4 + 0.3 * st * amp;
+        a.armRz = -0.4 - 0.3 * st * amp;
+        a.legL = 0.35 * st * amp;
+        a.legR = -0.35 * st * amp;
+        a.kneeL = 0.5;
+        a.kneeR = 0.5;
         break;
       }
       case 'sit':
