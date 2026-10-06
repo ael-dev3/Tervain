@@ -1,0 +1,2 @@
+3067df67 | a14048ad30 | MOV EAX,[0x30ad4840]
+3067df6c | c3 | RET

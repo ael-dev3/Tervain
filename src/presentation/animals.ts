@@ -283,6 +283,37 @@ function cloneAnimal(template: GLTF, definition: AnimalDefinition): AnimalBody {
     paws, skeletons, animation: new AnimalAnimation(scene, template.animations, definition.species, validated.motionSpeeds) };
 }
 
+/** One posable copy of a validated animal with its own skeleton, materials and actions, outside the wildlife module
+ * (the title meadow's grazing deer). Disposing it releases only what the copy owns. */
+export interface AnimalFigure {
+  readonly scene: THREE.Group;
+  readonly size: THREE.Vector3;
+  readonly animation: AnimalAnimation;
+  dispose(): void;
+}
+
+export function createAnimalFigure(template: GLTF, definition: AnimalDefinition): AnimalFigure {
+  const body = cloneAnimal(template, definition);
+  let disposed = false;
+  return {
+    scene: body.scene, size: body.size, animation: body.animation,
+    dispose() {
+      if (disposed) return;
+      disposed = true;
+      body.animation.dispose(); body.skeletons.forEach(skeleton => skeleton.dispose());
+      const geometry = new Set<THREE.BufferGeometry>(), materials = new Set<THREE.Material>(), textures = new Set<THREE.Texture>();
+      body.scene.traverse(object => {
+        const mesh = object as THREE.Mesh; if (!mesh.isMesh) return;
+        geometry.add(mesh.geometry);
+        for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) {
+          materials.add(material); for (const value of Object.values(material)) if (value instanceof THREE.Texture) textures.add(value);
+        }
+      });
+      geometry.forEach(value => value.dispose()); materials.forEach(value => value.dispose()); textures.forEach(value => value.dispose());
+    },
+  };
+}
+
 export interface AnimalSnapshot { id: string; species: AnimalSpecies; x: number; y: number; z: number; yaw: number; radius: number; state: AnimalClip | 'Dead' | 'Skinned'; visible: boolean }
 interface AnimalInstance extends AnimalBody {
   definition: AnimalDefinition;

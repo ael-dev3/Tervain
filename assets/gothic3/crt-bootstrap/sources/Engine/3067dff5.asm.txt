@@ -1,0 +1,49 @@
+3067dff5 | 6a0c | PUSH 0xc
+3067dff7 | 68b86a9530 | PUSH 0x30956ab8
+3067dffc | e8ff040000 | CALL 0x3067e500
+3067e001 | 687c378930 | PUSH 0x3089377c
+3067e006 | ff153cc8af30 | CALL dword ptr [0x30afc83c]
+3067e00c | 8945e4 | MOV dword ptr [EBP + -0x1c],EAX
+3067e00f | 8b7508 | MOV ESI,dword ptr [EBP + 0x8]
+3067e012 | c7465c1054ad30 | MOV dword ptr [ESI + 0x5c],0x30ad5410
+3067e019 | 33ff | XOR EDI,EDI
+3067e01b | 47 | INC EDI
+3067e01c | 897e14 | MOV dword ptr [ESI + 0x14],EDI
+3067e01f | 85c0 | TEST EAX,EAX
+3067e021 | 742f | JZ 0x3067e052
+3067e023 | e8d0fdffff | CALL 0x3067ddf8
+3067e028 | 85c0 | TEST EAX,EAX
+3067e02a | 7426 | JZ 0x3067e052
+3067e02c | 686c378930 | PUSH 0x3089376c
+3067e031 | ff75e4 | PUSH dword ptr [EBP + -0x1c]
+3067e034 | 8b1d40c8af30 | MOV EBX,dword ptr [0x30afc840]
+3067e03a | ffd3 | CALL EBX
+3067e03c | 8986f8010000 | MOV dword ptr [ESI + 0x1f8],EAX
+3067e042 | 688c378930 | PUSH 0x3089378c
+3067e047 | ff75e4 | PUSH dword ptr [EBP + -0x1c]
+3067e04a | ffd3 | CALL EBX
+3067e04c | 8986fc010000 | MOV dword ptr [ESI + 0x1fc],EAX
+3067e052 | 897e70 | MOV dword ptr [ESI + 0x70],EDI
+3067e055 | c686c800000043 | MOV byte ptr [ESI + 0xc8],0x43
+3067e05c | c6864b01000043 | MOV byte ptr [ESI + 0x14b],0x43
+3067e063 | b8d04bad30 | MOV EAX,0x30ad4bd0
+3067e068 | 894668 | MOV dword ptr [ESI + 0x68],EAX
+3067e06b | 50 | PUSH EAX
+3067e06c | ff15f8c6af30 | CALL dword ptr [0x30afc6f8]
+3067e072 | 6a0c | PUSH 0xc
+3067e074 | e82d530000 | CALL 0x306833a6
+3067e079 | 59 | POP ECX
+3067e07a | 8365fc00 | AND dword ptr [EBP + -0x4],0x0
+3067e07e | 8b450c | MOV EAX,dword ptr [EBP + 0xc]
+3067e081 | 89466c | MOV dword ptr [ESI + 0x6c],EAX
+3067e084 | 85c0 | TEST EAX,EAX
+3067e086 | 7508 | JNZ 0x3067e090
+3067e088 | a1d851ad30 | MOV EAX,[0x30ad51d8]
+3067e08d | 89466c | MOV dword ptr [ESI + 0x6c],EAX
+3067e090 | ff766c | PUSH dword ptr [ESI + 0x6c]
+3067e093 | e85fc1ffff | CALL 0x3067a1f7
+3067e098 | 59 | POP ECX
+3067e099 | c745fcfeffffff | MOV dword ptr [EBP + -0x4],0xfffffffe
+3067e0a0 | e806000000 | CALL 0x3067e0ab
+3067e0a5 | e89b040000 | CALL 0x3067e545
+3067e0aa | c3 | RET

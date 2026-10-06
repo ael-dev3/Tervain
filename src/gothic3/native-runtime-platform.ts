@@ -34,6 +34,13 @@ export interface NativeCrtSectionProcedure {
   readonly identity: object; readonly owner: object; readonly name: 'InitializeCriticalSectionAndSpinCount';
   invoke(fields: NativeHeapObjectViews, owner: object, spinCount: 4000): NativeValue<boolean>;
 }
+export interface NativeCrtThreadDestructor { readonly address: '3067e143'; invoke(value: object | null): NativeValue<void>; }
+export interface NativeCrtLocalAllocProcedure { readonly kind: 'alloc'; readonly name: 'FlsAlloc' | 'TlsAllocFallback3067df49'; invoke(callback: NativeCrtThreadDestructor): NativeValue<number>; }
+export interface NativeCrtLocalGetProcedure { readonly kind: 'get'; readonly name: 'FlsGetValue' | 'TlsGetValue'; invoke(index: number): NativeValue<object | null>; }
+export interface NativeCrtLocalSetProcedure { readonly kind: 'set'; readonly name: 'FlsSetValue' | 'TlsSetValue'; invoke(index: number, value: object | null): NativeValue<boolean>; }
+export interface NativeCrtLocalFreeProcedure { readonly kind: 'free'; readonly name: 'FlsFree' | 'TlsFree'; invoke(index: number): NativeValue<boolean>; }
+export type NativeCrtLocalProcedure = NativeCrtLocalAllocProcedure | NativeCrtLocalGetProcedure | NativeCrtLocalSetProcedure | NativeCrtLocalFreeProcedure;
+export type NativeCrtPlatformProcedure = NativeCrtPointerProcedure | NativeCrtSectionProcedure | NativeCrtLocalProcedure;
 export class NativeWin32PlatformException extends Error {
   constructor(readonly code: number) { super('Owned Win32 exception0x' + code.toString(16)); }
 }
@@ -44,6 +51,16 @@ export interface NativeEngineCrtPlatformServices {
   readonly kernel32Available: boolean;
   readonly pointerCodec: 'absent' | 'owned-bijection';
   readonly sectionSpinProcedure?: boolean;
+  readonly fiberLocalStorage?: boolean;
+  readonly processHeap?: boolean;
+  readonly osVersion?: { readonly platform: number; readonly major: number; readonly minor: number; readonly build: number } | null;
+  readonly entropy?: {
+    systemTimeAsFileTime?(): NativeValue<{ low: number; high: number }>;
+    currentProcessId?(): NativeValue<number>;
+    currentThreadId?(): NativeValue<number>;
+    tickCount?(): NativeValue<number>;
+    performanceCounter?(): NativeValue<{ success: boolean; low?: number; high?: number }>;
+  };
 }
 interface WinHeap {
   readonly capability: NativeWin32HeapCapability;
@@ -114,6 +131,14 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform {
   private readonly winHeaps = new Map<object, WinHeap>();
   private readonly crtServices: NativeEngineCrtPlatformServices | undefined;
   private readonly crtTlsValues = new Map<number, object>();
+  private readonly tlsIndexes = new Set<number>();
+  private readonly flsIndexes = new Map<number, { callback: NativeCrtThreadDestructor; value: object | null }>();
+  private nextTlsIndex = 0;
+  private nextFlsIndex = 0;
+  private readonly localProcedures = new Set<NativeCrtLocalProcedure>();
+  readonly tlsProcedures: Readonly<{ alloc: NativeCrtLocalAllocProcedure; get: NativeCrtLocalGetProcedure; set: NativeCrtLocalSetProcedure; free: NativeCrtLocalFreeProcedure }>;
+  private readonly flsProcedures: typeof this.tlsProcedures;
+  private processHeap: NativeWin32HeapCapability | null = null;
   private readonly kernel32: NativeWin32ModuleCapability;
   private readonly pointerEncode: NativeCrtPointerProcedure;
   private readonly pointerDecode: NativeCrtPointerProcedure;
@@ -134,7 +159,7 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform {
     this.maximumAllocationBytes = options.maximumAllocationBytes ?? 64 * 1024 * 1024;
     this.maximumOwnedBytes = options.maximumOwnedBytes ?? 256 * 1024 * 1024;
     this.crtServices = options.engineCrtServices;
-    for (const [index, value] of options.engineCrtServices?.tlsValues ?? []) this.crtTlsValues.set(index, value);
+    for (const [index, value] of options.engineCrtServices?.tlsValues ?? []) { this.crtTlsValues.set(index, value); this.tlsIndexes.add(index); }
     const owner = Object.freeze({});
     this.kernel32 = Object.freeze({ identity: Object.freeze({}), owner, name: 'KERNEL32.DLL' });
     this.pointerEncode = Object.freeze({ identity: Object.freeze({}), owner, name: 'EncodePointer',
@@ -153,6 +178,19 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform {
       } });
     this.sectionProcedure = Object.freeze({ identity: Object.freeze({}), owner, name: 'InitializeCriticalSectionAndSpinCount',
       invoke: (fields: NativeHeapObjectViews, sectionOwner: object, spinCount: 4000) => this.initializePhysicalCriticalSection(fields, sectionOwner, spinCount) });
+    this.tlsProcedures = Object.freeze({
+      alloc: Object.freeze({ kind: 'alloc', name: 'TlsAllocFallback3067df49', invoke: (_callback: NativeCrtThreadDestructor) => this.tlsAlloc() }),
+      get: Object.freeze({ kind: 'get', name: 'TlsGetValue', invoke: (index: number) => this.tlsGetValue(index) }),
+      set: Object.freeze({ kind: 'set', name: 'TlsSetValue', invoke: (index: number, value: object | null) => this.tlsSetValue(index, value) }),
+      free: Object.freeze({ kind: 'free', name: 'TlsFree', invoke: (index: number) => this.tlsFree(index) }),
+    });
+    this.flsProcedures = Object.freeze({
+      alloc: Object.freeze({ kind: 'alloc', name: 'FlsAlloc', invoke: (callback: NativeCrtThreadDestructor) => this.flsAlloc(callback) }),
+      get: Object.freeze({ kind: 'get', name: 'FlsGetValue', invoke: (index: number) => this.flsGetValue(index) }),
+      set: Object.freeze({ kind: 'set', name: 'FlsSetValue', invoke: (index: number, value: object | null) => this.flsSetValue(index, value) }),
+      free: Object.freeze({ kind: 'free', name: 'FlsFree', invoke: (index: number) => this.flsFree(index) }),
+    });
+    for (const procedure of [...Object.values(this.tlsProcedures), ...Object.values(this.flsProcedures)]) this.localProcedures.add(procedure);
     for (const limit of [this.maximumAllocationBytes, this.maximumOwnedBytes]) {
       if (!Number.isSafeInteger(limit) || limit <= 0) throw new Error('Selected platform allocation bounds must be positive integers');
     }
@@ -198,13 +236,13 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform {
     this.winHeaps.set(capability.identity, { capability, options, allocations: new Set(), destroyed: false });
     return known(capability);
   }
-  win32HeapAlloc(heap: NativeWin32HeapCapability, flags: 0, bytes: number): NativeValue<NativeMemoryBacking | null> {
+  win32HeapAlloc(heap: NativeWin32HeapCapability, flags: 0 | 8, bytes: number): NativeValue<NativeMemoryBacking | null> {
     const retained = this.winHeaps.get(heap.identity);
-    if (!retained || retained.capability !== heap || retained.destroyed || flags !== 0) {
+    if (!retained || retained.capability !== heap || retained.destroyed || (flags !== 0 && flags !== 8)) {
       return unknown('Actual live selected HeapAlloc handle and flags required');
     }
     const allocated = this.allocate(bytes, 'win32-heap');
-    if (allocated.known && allocated.value) retained.allocations.add(allocated.value);
+    if (allocated.known && allocated.value) { retained.allocations.add(allocated.value); if (flags === 8) { allocated.value.bytes.fill(0); allocated.value.knownMask.fill(255); } }
     return allocated;
   }
   win32HeapFree(heap: NativeWin32HeapCapability, flags: 0, backing: NativeMemoryBacking): NativeValue<boolean> {
@@ -217,13 +255,83 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform {
   }
   win32HeapDestroy(heap: NativeWin32HeapCapability): NativeValue<boolean> {
     const retained = this.winHeaps.get(heap.identity);
-    if (!retained || retained.capability !== heap || retained.destroyed) return unknown('Actual live selected HeapDestroy handle required');
+    if (!retained || retained.capability !== heap || retained.destroyed || heap === this.processHeap) return unknown('Actual live destroyable selected HeapDestroy handle required');
     for (const backing of retained.allocations) if (!backing.freed) { backing.freed = true; this.bytesOwned -= backing.bytes.length; }
     retained.destroyed = true; return known(true);
   }
   tlsGetValue(index: number): NativeValue<object | null> {
     if (!this.crtServices || !Number.isInteger(index) || index < 0 || index > 0xffffffff) return unknown('Actual owned CRT TLS registry and uint32 index required');
+    // The explicitly selected lower TLS endpoint clears LastError on success.
+    // An unallocated scalar index takes its owned invalid-index error branch.
+    this.win32LastError.writeUnsigned(0, this.tlsIndexes.has(index) ? 0 : 87);
     return known(this.crtTlsValues.get(index) ?? null);
+  }
+  tlsAlloc(): NativeValue<number> {
+    if (!this.crtServices) return unknown('Actual owned TLS allocation service required');
+    while (this.tlsIndexes.has(this.nextTlsIndex)) this.nextTlsIndex++;
+    if (this.nextTlsIndex >= 0xffffffff) return known(0xffffffff);
+    const index = this.nextTlsIndex++; this.tlsIndexes.add(index); return known(index);
+  }
+  tlsSetValue(index: number, value: object | null): NativeValue<boolean> {
+    if (!this.crtServices) return unknown('Actual owned TLS publication service required');
+    if (!this.tlsIndexes.has(index)) return known(false);
+    if (value === null) this.crtTlsValues.delete(index); else this.crtTlsValues.set(index, value); return known(true);
+  }
+  tlsFree(index: number): NativeValue<boolean> {
+    if (!this.crtServices) return unknown('Actual owned TLS free service required');
+    if (!this.tlsIndexes.delete(index)) return known(false); this.crtTlsValues.delete(index); return known(true);
+  }
+  private flsAlloc(callback: NativeCrtThreadDestructor): NativeValue<number> {
+    if (!this.crtServices?.fiberLocalStorage || callback.address !== '3067e143') return unknown('Actual selected FLS allocator/destructor required');
+    if (this.nextFlsIndex >= 0xffffffff) return known(0xffffffff);
+    const index = this.nextFlsIndex++; this.flsIndexes.set(index, { callback, value: null }); return known(index);
+  }
+  private flsGetValue(index: number): NativeValue<object | null> { return this.crtServices?.fiberLocalStorage ? known(this.flsIndexes.get(index)?.value ?? null) : unknown('Actual selected FLS getter required'); }
+  private flsSetValue(index: number, value: object | null): NativeValue<boolean> {
+    if (!this.crtServices?.fiberLocalStorage) return unknown('Actual selected FLS setter required');
+    const entry = this.flsIndexes.get(index); if (!entry) return known(false); entry.value = value; return known(true);
+  }
+  private flsFree(index: number): NativeValue<boolean> {
+    if (!this.crtServices?.fiberLocalStorage) return unknown('Actual selected FLS free required');
+    const entry = this.flsIndexes.get(index); if (!entry) return known(false);
+    this.flsIndexes.delete(index); const value = entry.value; entry.value = null;
+    if (value !== null) { const destroyed = entry.callback.invoke(value); if (!destroyed.known) return destroyed; }
+    return known(true);
+  }
+  ownsLocalStorageProcedure(procedure: NativeCrtLocalProcedure): boolean { return this.localProcedures.has(procedure); }
+  private canonicalFields(fields: NativeHeapObjectViews, size: number): void {
+    const backing = fields.backing, canonical = 'region' in backing ? backing.region : backing;
+    const position = ('region' in backing ? backing.offset : 0) + fields.bytes.byteOffset - backing.bytes.byteOffset;
+    if (fields.bytes.length !== size || fields.knownMask.length !== size || backing.freed || canonical.freed || position < 0 || position + size > canonical.bytes.length ||
+        fields.bytes.buffer !== canonical.bytes.buffer || fields.bytes.byteOffset !== canonical.bytes.byteOffset + position ||
+        fields.knownMask.buffer !== canonical.knownMask.buffer || fields.knownMask.byteOffset !== canonical.knownMask.byteOffset + position) throw new Error('Actual canonical live platform output storage required');
+  }
+  interlockedCounter(fields: NativeHeapObjectViews, delta: 1 | -1): NativeValue<number> {
+    if (!this.crtServices) return unknown('Actual selected Interlocked counter service required');
+    try { this.canonicalFields(fields, 4); const value = (fields.readUnsigned(0) + delta) >>> 0; fields.writeUnsigned(0, value); return known(value | 0); }
+    catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+  }
+  getProcessHeap(): NativeValue<NativeWin32HeapCapability> {
+    if (!this.crtServices?.processHeap) return unknown('Actual selected process heap service required');
+    if (!this.processHeap) { const capability = Object.freeze({ identity: Object.freeze({}), owner: this.kernel32.owner }); this.processHeap = capability; this.winHeaps.set(capability.identity, { capability, options: 0, allocations: new Set(), destroyed: false }); }
+    return known(this.processHeap);
+  }
+  getVersionExA(fields: NativeHeapObjectViews): NativeValue<boolean> {
+    if (this.crtServices?.osVersion === undefined) return unknown('Actual selected GetVersionExA service required');
+    try { this.canonicalFields(fields, 148); if (fields.readUnsigned(0) !== 148) return unknown('Original OSVERSIONINFOA size148 required'); const version = this.crtServices.osVersion; if (!version) return known(false);
+      fields.writeUnsigned(4, version.major); fields.writeUnsigned(8, version.minor); fields.writeUnsigned(12, version.build); fields.writeUnsigned(16, version.platform); return known(true); }
+    catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+  }
+  getSystemTimeAsFileTime(fields: NativeHeapObjectViews): NativeValue<void> {
+    const result = this.crtServices?.entropy?.systemTimeAsFileTime?.() ?? unknown('Actual selected system time service required'); if (!result.known) return result;
+    try { this.canonicalFields(fields, 8); fields.writeUnsigned(0, result.value.low); fields.writeUnsigned(4, result.value.high); return known(undefined); } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
+  }
+  getCurrentProcessId(): NativeValue<number> { return this.crtServices?.entropy?.currentProcessId?.() ?? unknown('Actual selected process ID service required'); }
+  getCurrentThreadId(): NativeValue<number> { return this.crtServices?.entropy?.currentThreadId?.() ?? unknown('Actual selected thread ID service required'); }
+  getTickCount(): NativeValue<number> { return this.crtServices?.entropy?.tickCount?.() ?? unknown('Actual selected tick count service required'); }
+  queryPerformanceCounter(fields: NativeHeapObjectViews): NativeValue<boolean> {
+    const result = this.crtServices?.entropy?.performanceCounter?.() ?? unknown('Actual selected performance counter service required'); if (!result.known) return result;
+    try { this.canonicalFields(fields, 8); if (result.value.low !== undefined) fields.writeUnsigned(0, result.value.low); if (result.value.high !== undefined) fields.writeUnsigned(4, result.value.high); return known(result.value.success); } catch (error) { return unknown(error instanceof Error ? error.message : String(error)); }
   }
   setWin32LastError(error: number): NativeValue<void> {
     if (!this.crtServices || !Number.isInteger(error) || error < 0 || error > 0xffffffff) return unknown('Actual owned Win32 last-error slot and uint32 error required');
@@ -240,11 +348,14 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform {
   }
   getWin32Procedure(module: NativeWin32ModuleCapability, name: 'EncodePointer' | 'DecodePointer'): NativeValue<NativeCrtPointerProcedure | null>;
   getWin32Procedure(module: NativeWin32ModuleCapability, name: 'InitializeCriticalSectionAndSpinCount'): NativeValue<NativeCrtSectionProcedure | null>;
-  getWin32Procedure(module: NativeWin32ModuleCapability, name: string): NativeValue<NativeCrtPointerProcedure | NativeCrtSectionProcedure | null> {
+  getWin32Procedure(module: NativeWin32ModuleCapability, name: 'FlsAlloc' | 'FlsGetValue' | 'FlsSetValue' | 'FlsFree'): NativeValue<NativeCrtLocalProcedure | null>;
+  getWin32Procedure(module: NativeWin32ModuleCapability, name: string): NativeValue<NativeCrtPlatformProcedure | null> {
     if (!this.crtServices || module !== this.kernel32 || !this.crtServices.kernel32Available) return unknown('Actual owned CRT Win32 module capability required');
     if (name === 'EncodePointer') return known(this.crtServices.pointerCodec === 'owned-bijection' ? this.pointerEncode : null);
     if (name === 'DecodePointer') return known(this.crtServices.pointerCodec === 'owned-bijection' ? this.pointerDecode : null);
     if (name === 'InitializeCriticalSectionAndSpinCount') return known(this.crtServices.sectionSpinProcedure === false ? null : this.sectionProcedure);
+    const key = ({ FlsAlloc: 'alloc', FlsGetValue: 'get', FlsSetValue: 'set', FlsFree: 'free' } as const)[name as 'FlsAlloc'];
+    if (key) return known(this.crtServices.fiberLocalStorage ? this.flsProcedures[key] : null);
     return unknown('Admitted selected CRT Win32 procedure name required');
   }
   /** Lower Win32 endpoint. The CRT owner performs its source resolver/cache. */

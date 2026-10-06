@@ -1,16 +1,13 @@
 import * as THREE from 'three';
-import { mulberry32, smoothstep } from '../../world/noise';
-import { createGrassPatch } from '../ground/grass';
-import { createPatchMaterial, createPushers } from '../ground/patchMaterial';
-import type { SwayUniforms } from '../vegetation';
-import { MENU_SKY_GLSL, MENU_SUN_DIR, MENU_SEA_LEVEL, menuSkyUniforms } from './menuSky';
-import { MENU_FIRE, MENU_TREE, browZ, keepTest, menuHeight, menuSplat, trackDistance, type Keep } from './menuLayout';
+import { mulberry32 } from '../../world/noise';
+import { MENU_SKY_GLSL, MENU_SEA_LEVEL, menuSkyUniforms } from './menuSky';
+import { MENU_FIRE, menuHeight, menuSplat, trackDistance } from './menuLayout';
 
 /**
  * The ground of the menu vigil: a muddy hilltop camp above the sea. The mesh is a rectilinear grid that is fine near the
  * camp (30 cm, enough for wheel ruts and trodden mud) and coarse toward the edges. It carries the same eight-layer weights and
  * wetness the playable terrain uses, so it is drawn by the game's own terrain material and looks like the same world.
- * Rain water stands in the ruts; tufts of heath grass lean in the evening wind.
+ * Rain water stands in the ruts. The heath that grows over it is its own module (menuMeadow.ts).
  */
 
 /** Grid coordinates between lo and hi: `fine` spacing inside [a, b], widening by `grow` per metre outside it. */
@@ -236,84 +233,6 @@ export function buildPuddles(fog: THREE.FogExp2, fire: THREE.Vector3) {
   mesh.name = 'Menu_Rut_Puddles';
   mesh.renderOrder = 1;
   return mesh;
-}
-
-/* ------------------------------------------------------------------ grass ------------------------------------------------------------------ */
-
-const cDry = new THREE.Color().setHex(0x716b50);
-const cOlive = new THREE.Color().setHex(0x586047);
-const cStraw = new THREE.Color().setHex(0x938262);
-const cDead = new THREE.Color().setHex(0x675a45);
-
-/**
- * Heath grass as instanced tufts, using the playable ground cover's blade geometry and wind shader so it moves like the
- * game's grass. Placement follows the splat: none in the mud, taller and more golden at the brow where nobody treads.
- */
-export function buildMenuGrass(quality: 'low' | 'medium' | 'high', sway: SwayUniforms, keep: readonly Keep[] = []) {
-  const free = keepTest(keep);
-  const blades = quality === 'high' ? 11 : quality === 'medium' ? 9 : 6;
-  const target = quality === 'high' ? 7200 : quality === 'medium' ? 4600 : 2200;
-  const patch = createGrassPatch(blades, 7071);
-  const sun = new THREE.Vector4(MENU_SUN_DIR.x, MENU_SUN_DIR.y, MENU_SUN_DIR.z, 0.85);
-  const mat = createPatchMaterial(sway, createPushers(), sun, {
-    vertexColors: false,
-    fadeStart: 26,
-    fadeEnd: 70,
-    sizeComp: 1.12,
-    power: 1.3,
-    windAmp: 0.1,
-    rootShade: 0.6,
-    tipShade: 1.02,
-  });
-  const rng = mulberry32(90210);
-  const base: number[] = [];
-  const shape: number[] = [];
-  const tint: number[] = [];
-  const col = new THREE.Color();
-  let tries = 0;
-  while (base.length / 4 < target && tries < target * 12) {
-    tries++;
-    // Denser sampling near the camera, where each tuft is seen.
-    const u = rng();
-    const x = (rng() - 0.5) * 2 * (8 + u * u * 46);
-    const z = 13 - Math.pow(rng(), 0.8) * 56;
-    const b = browZ(x);
-    if (z < b - 0.5) continue;
-    const { d } = trackDistance(x, z);
-    const s = menuSplat(x, z);
-    const green = s.w[0]! + s.w[1]!;
-    if (green < 0.35 || d < 1.25) continue;
-    const campD = Math.hypot(x - MENU_FIRE.x, z - MENU_FIRE.z);
-    const treeD = Math.hypot(x - MENU_TREE.x, z - MENU_TREE.z);
-    if (campD < 3.4 || treeD < 3.2) continue;
-    // Nothing grows through a stone, a root, a step or a peg.
-    if (!free(x, z, 0.12)) continue;
-    if (rng() > green * (0.55 + 0.45 * smoothstep(1.2, 4, d))) continue;
-    const y = menuHeight(x, z) - 0.03;
-    const edge = smoothstep(b + 12, b + 1, z);
-    let hs = 0.48 + 0.36 * rng() + 0.23 * edge + 0.12 * smoothstep(2, 6, d);
-    hs *= 1 - 0.35 * s.wet;
-    // Trampled short round the camp and near the lens, so the frame's edge is not a wall of blades.
-    hs *= 0.45 + 0.55 * Math.min(1, Math.hypot(x - 0.3, z - 9.4) / 7);
-    col.copy(cOlive).lerp(cDry, 0.35 + 0.4 * rng()).lerp(cStraw, edge * 0.5 + 0.15 * rng()).lerp(cDead, rng() * 0.3);
-    base.push(x, y, z, (base.length / 4 + rng()) / target);
-    shape.push(rng() * Math.PI * 2, 0.8 + rng() * 0.6, Math.min(1.2, hs), rng() * 20);
-    tint.push(col.r, col.g, col.b, 1);
-  }
-  const n = base.length / 4;
-  const geo = new THREE.InstancedBufferGeometry();
-  for (const [name, attr] of Object.entries(patch.attributes)) geo.setAttribute(name, attr);
-  if (patch.index) geo.setIndex(patch.index);
-  geo.setAttribute('aBase', new THREE.InstancedBufferAttribute(new Float32Array(base), 4));
-  geo.setAttribute('aShape', new THREE.InstancedBufferAttribute(new Float32Array(shape), 4));
-  geo.setAttribute('aTint', new THREE.InstancedBufferAttribute(new Float32Array(tint), 4));
-  geo.instanceCount = n;
-  geo.boundingSphere = new THREE.Sphere(new THREE.Vector3(0, -2, -15), 70);
-  const mesh = new THREE.Mesh(geo, mat.material);
-  mesh.name = 'Menu_Heath_Grass';
-  mesh.frustumCulled = false;
-  mesh.receiveShadow = quality !== 'low';
-  return { mesh, count: n, material: mat.material, dispose: () => (patch.dispose(), geo.dispose(), mat.material.dispose()) };
 }
 
 /** Where a small ground object should rest: the lowest of five samples round its footprint, so nothing floats. */

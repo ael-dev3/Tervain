@@ -25,12 +25,14 @@ The prototype includes:
 - Rougher terrain, rooted vegetation, weathered buildings and grounded scenery.
 - One physical water system: a refracting, breaking sea with surf and swash, streams within their banks, a spring
   and its pool; floating cargo, wading, swimming and a view under the surface.
+- Lush blade-by-blade meadows that gusts sweep across and that the hero, residents, animals and cargo push through,
+  leaving trails that slowly close.
 - Nineteen supplied, optimized and rigged animals across settlement, forest and warm-woodland habitats.
 - Bow hunting, grounded carcasses and saved skinning rewards for thirteen wild animals; cats, dogs and the saddled trail mount remain protected. Rowan Vale welcomes you at a solid woodland supply table with an offline Eleven v4 voice.
 - Adaptive world music, surface footsteps, item/combat/work sounds, wildlife and captioned resident speech.
 - World pickups, inventory, equipment, an initially empty ten-slot item hotbar, journal and map.
 - Physical movable supplies, saved progress and keyboard/mouse or controller controls.
-- A Templar vigil menu with The Sovereign's Oath, distant ships and a score-led spirit grove.
+- A Templar vigil menu with The Sovereign's Oath, distant ships, a score-led spirit grove and a backlit heath that the sea wind, a grazing stag and your pointer move through.
 
 **[Launch Tervain](https://ael-dev3.github.io/Tervain/)** — Published from `main` through the normal GitHub Pages workflow. Use a desktop WebGL browser; save data is stored in that browser. The title shows the version and F3 shows the source revision.
 

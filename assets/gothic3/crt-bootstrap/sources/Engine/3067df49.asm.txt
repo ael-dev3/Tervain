@@ -1,0 +1,2 @@
+3067df49 | ff1500c7af30 | CALL dword ptr [0x30afc700]
+3067df4f | c20400 | RET 0x4

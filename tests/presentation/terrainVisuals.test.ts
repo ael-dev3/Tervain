@@ -4,8 +4,7 @@ import { Terrain } from '../../src/world/terrain';
 import { buildTerrainMesh, TERRAIN_RENDER_SUBDIVISIONS } from '../../src/presentation/terrainMesh';
 import { createTerrainMaterial } from '../../src/presentation/terrainMaterial';
 import { LAYERS, LAYER, makeTerrainTextures, type TerrainTextures } from '../../src/presentation/terrainTextures';
-import { createGrassPatch, grassHabitatProfile } from '../../src/presentation/ground/grass';
-import { createPatchMaterial, createPushers } from '../../src/presentation/ground/patchMaterial';
+import { meadowProfile } from '../../src/presentation/grass/grassField';
 import { groundSplat } from '../../src/presentation/groundSplat';
 import { coastX } from '../../src/world/coast';
 import { ROADS, SEA_LEVEL } from '../../src/world/layout';
@@ -28,19 +27,25 @@ function unequalBytes(a: Uint8Array, b: Uint8Array): number {
 describe('close-view ground and plant detail', () => {
   it('lets patchy fern floor dominate below dense crowns while preserving sunny meadow grass', () => {
     const habitat = { open: 1, wet: 0.2, dry: 1, wood: 0, slope: 0 };
-    const sun = grassHabitatProfile(habitat, 0.85);
-    const shade = grassHabitatProfile({ ...habitat, wood: 1 }, 0.85);
+    const sun = meadowProfile(habitat, 0.85);
+    const shade = meadowProfile({ ...habitat, wood: 1 }, 0.85);
     expect(shade.density).toBeLessThan(sun.density * 0.23);
-    expect(shade.height).toBeLessThan(sun.height * 0.75);
-    expect(shade.exposure).toBeLessThan(sun.exposure * 0.07);
-    expect(grassHabitatProfile(habitat, 0.1).density).toBeLessThan(sun.density * 0.35);
-    expect(grassHabitatProfile({ ...habitat, open: 0 }, 0.85).density).toBe(0);
-    expect(grassHabitatProfile({ ...habitat, wet: 1 }, 0.85).height).toBeGreaterThan(sun.height);
-    for (const wood of [0, 0.2, 0.4, 0.6, 0.8, 1]) {
-      const profile = grassHabitatProfile({ ...habitat, wood }, 0.85);
+    expect(shade.height).toBeLessThan(sun.height * 0.76);
+    expect(shade.shade).toBeGreaterThan(0.95);
+    expect(sun.shade).toBe(0);
+    // Under crowns the soil keeps its moisture: shaded grass is green, not sun-cured gold.
+    expect(shade.dry).toBeLessThan(sun.dry * 0.4);
+    expect(meadowProfile(habitat, 0.1).density).toBeLessThan(sun.density * 0.75);
+    expect(meadowProfile({ ...habitat, open: 0 }, 0.85).density).toBe(0);
+    expect(meadowProfile({ ...habitat, wet: 1 }, 0.85).height).toBeGreaterThan(sun.height);
+    for (const wood of [0, 0.2, 0.4, 0.6, 0.8, 1]) for (const slope of [0, 0.5, 1]) {
+      const profile = meadowProfile({ ...habitat, wood, slope }, 0.85);
       expect(Object.values(profile).every(Number.isFinite)).toBe(true);
       expect(profile.density).toBeGreaterThanOrEqual(0);
       expect(profile.density).toBeLessThanOrEqual(1);
+      expect(profile.height).toBeGreaterThanOrEqual(0.25);
+      expect(profile.height).toBeLessThanOrEqual(1.6);
+      expect(profile.flowers).toBeLessThanOrEqual(0.2);
     }
   });
 
@@ -213,45 +218,7 @@ describe('close-view ground and plant detail', () => {
     } finally { material.dispose(); texture.albedo.dispose(); texture.normal.dispose(); }
   });
 
-  it('uses small bent cutout supports with real terrain roots and finite normals, instead of opaque folded ribbons', () => {
-    const geometry = createGrassPatch(13, 12345);
-    const positions = geometry.getAttribute('position'), normals = geometry.getAttribute('normal'), blade = geometry.getAttribute('aBlade');
-    expect(positions.count / 3).toBe(13 * 4);
-    let maximumBend = 0;
-    for (let first = 0; first < positions.count; first += 12) {
-      const rootLeft = new THREE.Vector3().fromBufferAttribute(positions, first);
-      const rootRight = new THREE.Vector3().fromBufferAttribute(positions, first + 1);
-      const topLeft = new THREE.Vector3().fromBufferAttribute(positions, first + 11);
-      const topRight = new THREE.Vector3().fromBufferAttribute(positions, first + 8);
-      const root = rootLeft.add(rootRight).multiplyScalar(0.5), tip = topLeft.add(topRight).multiplyScalar(0.5);
-      maximumBend = Math.max(maximumBend, Math.hypot(tip.x - root.x, tip.z - root.z));
-    }
-    expect(maximumBend).toBeGreaterThan(0.025);
-    for (let i = 0; i < positions.count; i++) {
-      expect(Math.hypot(normals.getX(i), normals.getY(i), normals.getZ(i))).toBeCloseTo(1, 5);
-      if (positions.getY(i) === 0) {
-        expect(blade.getY(i)).toBe(0);
-        expect(geometry.getAttribute('aRoot').getX(i)).toBe(positions.getX(i));
-        expect(geometry.getAttribute('aRoot').getY(i)).toBe(positions.getZ(i));
-      }
-    }
-    geometry.dispose();
-  });
-
-  it('mixes ankle-height herb leaves and taller grass within a low tuft, with attached veins on grounded forest plants', () => {
-    const geometry = createGrassPatch(13, 12345), positions = geometry.getAttribute('position');
-    const heights: number[] = [];
-    for (let blade = 0; blade < positions.count; blade += 12) {
-      let height = 0;
-      for (let vertex = blade; vertex < blade + 12; vertex++) height = Math.max(height, positions.getY(vertex));
-      heights.push(height);
-    }
-    heights.sort((a, b) => a - b);
-    expect(heights[0]).toBeLessThan(0.35);
-    expect(heights[Math.floor(heights.length / 2)]).toBeLessThan(0.6);
-    expect(heights.at(-1)).toBeLessThan(0.9);
-    expect(heights.at(-1)! / heights[0]!).toBeGreaterThan(2);
-    geometry.dispose();
+  it('attaches veins to grounded forest plants', () => {
     for (const plant of [buildForestFernGeometry(0), buildForestShrubGeometry(0)]) {
       const detail = plant.getAttribute('aLeafDetail');
       expect(detail.count).toBe(plant.getAttribute('position').count);
@@ -317,43 +284,5 @@ describe('close-view ground and plant detail', () => {
       floor.dispose?.(); floor.dispose?.();
       expect(releases).toBe(1);
     } finally { floor.dispose?.(); disposeTreeTextures(); }
-  });
-
-  it('injects the physical grass shader into the actual Three standard chunks, with coverage after alpha testing', () => {
-    const patch = createPatchMaterial({ uTime: { value: 0 }, uWind: { value: 1 } }, createPushers(), new THREE.Vector4(0, 1, 0, 1),
-      { vertexColors: false, fadeStart: 12, fadeEnd: 96, sizeComp: 1.12, power: 2.1, windAmp: 0.13, rootShade: 0.42, tipShade: 1.08 });
-    const shader = { vertexShader: THREE.ShaderLib.standard.vertexShader, fragmentShader: THREE.ShaderLib.standard.fragmentShader, uniforms: {} } as Parameters<THREE.Material['onBeforeCompile']>[0];
-    patch.material.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
-    expect(patch.ok()).toBe(true);
-    expect(patch.material.isMeshStandardMaterial).toBe(true);
-    expect(shader.fragmentShader.indexOf('tvDistanceNoise(gl_FragCoord.xy) >= vGCoverage')).toBeGreaterThan(shader.fragmentShader.indexOf('#include <alphatest_fragment>'));
-    expect(shader.vertexShader.match(/varying float vGAcross;/g)).toHaveLength(1);
-    expect(shader.fragmentShader.match(/varying float vGAcross;/g)).toHaveLength(1);
-    patch.material.dispose();
-  });
-
-  it('binds the authoritative height grid to fitted roots and releases its private GPU texture once', () => {
-    const terrain = physicalTerrain;
-    const patch = createPatchMaterial({ uTime: { value: 0 }, uWind: { value: 1 } }, createPushers(), new THREE.Vector4(0, 1, 0, 1),
-      { vertexColors: false, fadeStart: 12, fadeEnd: 96, sizeComp: 1.12, power: 2.1, windAmp: 0.13, rootShade: 0.42, tipShade: 1.08, terrain });
-    const texture = patch.uniforms.uGroundHeights!.value;
-    expect(texture.image.data).toBe(terrain.heights);
-    expect([texture.image.width, texture.image.height]).toEqual([terrain.nx + 1, terrain.nz + 1]);
-    expect(texture.minFilter).toBe(THREE.NearestFilter);
-    expect(texture.type).toBe(THREE.FloatType);
-    expect(texture.format).toBe(THREE.RedFormat);
-    expect(texture.colorSpace).toBe(THREE.NoColorSpace);
-    expect(patch.material.defines).toHaveProperty('GROUND_FIT');
-    const shader = { vertexShader: THREE.ShaderLib.standard.vertexShader, fragmentShader: THREE.ShaderLib.standard.fragmentShader, uniforms: {} } as Parameters<THREE.Material['onBeforeCompile']>[0];
-    patch.material.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
-    expect(patch.ok()).toBe(true);
-    expect(shader.uniforms.uGroundHeights!.value).toBe(texture);
-    expect(shader.vertexShader).toContain('fraction.x + fraction.y <= 1.0');
-    expect(shader.vertexShader).toContain('gOriginY = gTerrainHeight(worldRoot)');
-    expect(shader.vertexShader).toContain('float gh = max(gw.y - gOriginY, 0.0)');
-    let releases = 0;
-    texture.addEventListener('dispose', () => releases++);
-    patch.material.dispose(); patch.material.dispose();
-    expect(releases).toBe(1);
   });
 });

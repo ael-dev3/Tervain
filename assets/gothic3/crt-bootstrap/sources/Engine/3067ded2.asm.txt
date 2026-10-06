@@ -1,0 +1,4 @@
+3067ded2 | 6a00 | PUSH 0x0
+3067ded4 | e88bffffff | CALL 0x3067de64
+3067ded9 | 59 | POP ECX
+3067deda | c3 | RET

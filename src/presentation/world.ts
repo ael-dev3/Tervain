@@ -17,7 +17,8 @@ import { buildScenery, type SceneryHandles } from './settlement';
 import { buildFlora } from './flora';
 import { buildScatter } from './scatter';
 import { buildAmbient } from './ambient';
-import { buildGroundcover } from './groundcover';
+import { buildGroundcover, type Groundcover } from './groundcover';
+import type { GrassMover } from './grass/trample';
 import { buildWildlife } from './wildlife';
 import { buildEnvironment, type EnvironmentHandle } from './environment';
 import { Exclusions, type SwayUniforms } from './vegetation';
@@ -97,6 +98,11 @@ export class WorldScene {
   /** Forest, ground cover, wildlife: updated every frame with the shared frame context. */
   readonly modules: WorldModules;
   private environment: EnvironmentHandle;
+  /** The grass (ground cover module): its wind, and the field everything moving through it writes into. */
+  private readonly groundcover: Groundcover | null;
+  /** Residents and enemies walking through the grass this frame (from the app); animals and cargo are added here. */
+  private grassPeople: readonly GrassMover[] = [];
+  private readonly grassLast = new Map<string, { x: number; z: number }>();
   readonly scenery: SceneryHandles;
   readonly animals: AnimalWildlife;
   readonly terrainMesh: THREE.Group;
@@ -337,6 +343,7 @@ export class WorldScene {
     this.water = resources.water;
     this.sway = resources.sway;
     this.modules = resources.modules;
+    this.groundcover = (resources.modules.find((m) => m.name === 'groundcover')?.module as Groundcover | undefined) ?? null;
     this.environment = resources.environment;
     this.scenery = resources.scenery;
     this.animals = resources.animals;
@@ -417,6 +424,47 @@ export class WorldScene {
     }
   }
 
+  /** Everything moving through the grass: the app's people, every visible animal and any loose cargo that is moving. */
+  private grassMovers(dt: number): GrassMover[] {
+    const movers: GrassMover[] = [...this.grassPeople];
+    const step = Number.isFinite(dt) && dt > 0 ? dt : 1 / 60;
+    const seen = new Set<string>();
+    for (const a of this.animals.physicalActors) {
+      if (!a.active) continue;
+      seen.add(a.id);
+      const last = this.grassLast.get(a.id);
+      const vx = last ? (a.x - last.x) / step : 0, vz = last ? (a.z - last.z) / step : 0;
+      // A jump (a respawn or a restored save) is not a walk.
+      const walking = Math.hypot(vx, vz) < 20;
+      this.grassLast.set(a.id, { x: a.x, z: a.z });
+      // Heavier animals lay grass down; a cat only parts it.
+      movers.push({ x: a.x, z: a.z, radius: Math.max(0.35, a.radius * 1.25), weight: Math.min(1, 0.35 + a.radius * 0.9), vx: walking ? vx : 0, vz: walking ? vz : 0 });
+    }
+    for (const id of this.grassLast.keys()) if (!seen.has(id)) this.grassLast.delete(id);
+    for (const p of this.physics.motions()) {
+      if (Math.hypot(p.vx, p.vz) < 0.05 && !p.held) {
+        // Cargo at rest presses down what it stands on.
+        movers.push({ x: p.x, z: p.z, radius: p.kind === 'barrel' ? 0.42 : 0.45, weight: 0.85 });
+      } else movers.push({ x: p.x, z: p.z, radius: 0.45, weight: 0.9, vx: p.vx, vz: p.vz });
+    }
+    return movers;
+  }
+
+  /** Residents and enemies in the grass this frame (the app knows where they are). */
+  setGrassMovers(people: readonly GrassMover[]) {
+    this.grassPeople = people;
+  }
+
+  /** Renderer work the ground cover needs before the frame is drawn (the grass interaction field). */
+  prepareGrass(renderer: THREE.WebGLRenderer, dt: number) {
+    this.groundcover?.prepare(renderer, dt);
+  }
+
+  /** The wind the grass shows, for anything else that should move with it. */
+  get grassWind() {
+    return this.groundcover?.wind ?? null;
+  }
+
   waterRenderInputs(settings: Settings): WaterRenderInputs {
     return this.water.renderInputs(settings.quality !== 'low' && !settings.reduceEffects, settings.reducedMotion);
   }
@@ -488,6 +536,7 @@ export class WorldScene {
     this.animals.syncHunting(state.hunting);
     this.animals.setReduceEffects(settings.reduceEffects);
     this.environment.update(dt, frame);
+    this.groundcover?.setMovers(this.grassMovers(dt));
     for (const m of this.modules) m.module.update(dt, frame);
 
     // Three resident lamps fade at range, and a slot only changes lamp after dimming.

@@ -15,10 +15,15 @@ import { smoothstep } from '../../world/noise';
  * stable ranks for LOD handoff, and pooled instance buffers.
  */
 
+/** Ranks kept at full density: the shader keeps rank < q·RANK_HEADROOM, so at q = 1 even the last rank is whole. */
+export const RANK_HEADROOM = 1.12;
+
 export interface TileBuffers {
   base: Float32Array; // x, y, z, rank
   shape: Float32Array; // yaw, widthScale, heightScale, phase
   tint: Float32Array; // r, g, b, sunExposure
+  /** Ground gradient under the instance (x, z), and two layer-specific values (grass: dryness, flowering share). */
+  slope: Float32Array;
   ymin: number;
   ymax: number;
 }
@@ -37,6 +42,8 @@ export interface TileLayerOptions {
   /** Maximum horizontal extent from an instance anchor, including shader wind and interaction displacement. */
   maxRadius?: number;
   receiveShadow: boolean;
+  /** Distances (m) between which this layer draws at all; tiles wholly outside the band submit nothing. */
+  band?: { start: number; end: number };
   /** Fill the buffers for tile (tx, tz) with instances in ascending rank; return how many. */
   generate(tx: number, tz: number, out: TileBuffers): number;
 }
@@ -78,6 +85,7 @@ export class TileLayer {
       base: new Float32Array(o.capacity * 4),
       shape: new Float32Array(o.capacity * 4),
       tint: new Float32Array(o.capacity * 4),
+      slope: new Float32Array(o.capacity * 4),
       ymin: 0,
       ymax: 0,
     };
@@ -101,7 +109,7 @@ export class TileLayer {
       geo.setAttribute(name, a);
       return a;
     };
-    const attrs = [mk('aBase'), mk('aShape'), mk('aTint')];
+    const attrs = [mk('aBase'), mk('aShape'), mk('aTint'), mk('aSlope')];
     geo.instanceCount = 0;
     geo.boundingSphere = new THREE.Sphere();
     const mesh = new THREE.Mesh(geo, o.material);
@@ -119,6 +127,7 @@ export class TileLayer {
     const o = this.o;
     this.buf.ymin = Infinity;
     this.buf.ymax = -Infinity;
+    this.buf.slope.fill(0);
     const n = Math.min(o.generate(tx, tz, this.buf), o.capacity);
     t.tx = tx;
     t.tz = tz;
@@ -128,9 +137,9 @@ export class TileLayer {
     t.z0 = tz * o.tileSize;
     t.ymin = n > 0 ? this.buf.ymin : 0;
     t.ymax = n > 0 ? this.buf.ymax : 0;
-    const dst = [t.attrs[0]!, t.attrs[1]!, t.attrs[2]!];
-    const src = [this.buf.base, this.buf.shape, this.buf.tint];
-    for (let i = 0; i < 3; i++) {
+    const dst = t.attrs;
+    const src = [this.buf.base, this.buf.shape, this.buf.tint, this.buf.slope];
+    for (let i = 0; i < dst.length; i++) {
       const a = dst[i]!;
       (a.array as Float32Array).set(src[i]!.subarray(0, n * 4));
       a.clearUpdateRanges();
@@ -165,6 +174,15 @@ export class TileLayer {
     return Math.hypot(dx, dy, dz);
   }
 
+  /** Distance to the tile's farthest corner (horizontal, with the tile's lowest ground for height). */
+  private farthest(t: { x0: number; z0: number; ymin: number; ymax: number }, c: THREE.Vector3): number {
+    const s = this.o.tileSize;
+    const dx = Math.max(Math.abs(t.x0 - c.x), Math.abs(t.x0 + s - c.x));
+    const dz = Math.max(Math.abs(t.z0 - c.z), Math.abs(t.z0 + s - c.z));
+    const dy = Math.max(Math.abs(t.ymin - c.y), Math.abs(t.ymax - c.y));
+    return Math.hypot(dx, dy, dz);
+  }
+
   update(cam: THREE.Vector3) {
     if (this.disposed) return;
     const o = this.o;
@@ -177,7 +195,7 @@ export class TileLayer {
     const T = o.tileSize;
     // Two complete rings buy generation time before an anchor enters the visible fade. Streaming uses
     // horizontal distance: high terrain must not be released and immediately regenerated every frame.
-    const reach = o.fadeEnd + T * 2;
+    const reach = Math.min(o.fadeEnd, o.band?.end ?? Infinity) + T * 2;
     const tx0 = Math.floor((cam.x - reach) / T);
     const tx1 = Math.floor((cam.x + reach) / T);
     const tz0 = Math.floor((cam.z - reach) / T);
@@ -218,10 +236,16 @@ export class TileLayer {
     let draws = 0;
     for (const t of this.tiles.values()) {
       const d = this.distTo(t, cam);
+      // Outside the layer's band the whole tile is skipped: beyond its far edge, or nearer than its inner edge everywhere.
+      if (o.band && (d > o.band.end || this.farthest(t, cam) < o.band.start)) {
+        t.geo.instanceCount = 0;
+        t.mesh.visible = false;
+        continue;
+      }
       const q = Math.pow(1 - smoothstep(o.fadeStart, o.fadeEnd, d), o.power);
-      // gKeep = smoothstep(0,.12,gQ-rank) has zero coverage when rank >= gQ. The nearest anchor
-      // interval is conservative for every patch, so no extra .12 rank tail needs to be submitted.
-      const limit = q + 1e-6;
+      // gKeep = smoothstep(0,.12,gQ*RANK_HEADROOM-rank) has zero coverage when rank >= gQ*RANK_HEADROOM. The nearest
+      // anchor interval is conservative for every patch, so no extra rank tail needs to be submitted.
+      const limit = q * RANK_HEADROOM + 1e-6;
       // Binary search: first instance whose rank >= limit.
       const base = t.attrs[0]!.array as Float32Array;
       let lo = 0;

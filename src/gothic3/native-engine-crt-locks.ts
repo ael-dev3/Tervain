@@ -2,11 +2,12 @@
  * handling and the encoded section-procedure resolver remain explicit gates.
  * The selected platform supplies the lower Win32 heap/section capabilities. */
 import sourceText from '../../assets/gothic3/crt-undname/runtime-rules.json?raw';
+import bootstrapText from '../../assets/gothic3/crt-bootstrap/runtime-rules.json?raw';
 import type { NativeValue } from './dialogue';
 import { NativeHeapObjectViews } from './native-heap-views';
 import type { NativeMemoryBacking } from './native-memory-admin';
 import { NativeWin32PlatformException } from './native-runtime-platform';
-import type { NativeWin32HeapCapability, NativeWin32ModuleCapability, NativeCrtPointerProcedure, NativeCrtSectionProcedure } from './native-runtime-platform';
+import type { NativeWin32HeapCapability, NativeWin32ModuleCapability, NativeCrtPointerProcedure, NativeCrtSectionProcedure, NativeCrtLocalProcedure, NativeCrtLocalGetProcedure, NativeCrtPlatformProcedure } from './native-runtime-platform';
 
 const known = <T>(value: T): NativeValue<T> => ({ known: true, value });
 const unknown = (reason: string): { known: false; reason: string } => ({ known: false, reason });
@@ -18,6 +19,7 @@ interface SourceRules {
   constBytes: Record<string, { address: string; raw: string }>;
 }
 const source = JSON.parse(sourceText) as SourceRules;
+const bootstrap = JSON.parse(bootstrapText) as SourceRules;
 const methods = [
   ['heapInit', '3068442b', '46963b42dec8462674df243412038b449670d890a22369ae04ec8c9211217874'],
   ['heapSelect', '306843d0', '0946c4bd9670236ac2df9bc668cdfe905a2a7073179bced80072102db9f78d28'],
@@ -52,6 +54,13 @@ function admitSource(): void {
         source.methods[label]?.body !== address || source.methods[label]?.bodyInstructionBytesSha256 !== hash)) {
     throw new Error('Selected Engine CRT heap/lock source receipt differs');
   }
+  const callocMethods = [
+    ['callocCrt', '3067ca01', '76f1de0df4720ce729627f72ba5a0f28c354776887a7eeb49ebf8d8e22e26a00'],
+    ['callocImpl', '30695a7f', '5055e24ade74c406a0b254137b79a293db9f5f0b8101f8306f739ffb0c68d16d'],
+    ['callocCleanup', '30695b7b', '2e50f043ddd3d230ab493904073c8006fe8a8caa8669055cf23526a024f10dd4'],
+  ] as const;
+  if (bootstrap.schema !== 'gothic3-crt-bootstrap-rules-v1' || bootstrap.inputs.Engine !== source.inputs.Engine ||
+      callocMethods.some(([label, address, hash]) => bootstrap.methods[label]?.entry !== address || bootstrap.methods[label]?.body !== address || bootstrap.methods[label]?.bodyInstructionBytesSha256 !== hash)) throw new Error('Selected Engine calloc source receipt differs');
 }
 function storage(label: string, address: string, bytes: number): NativeHeapObjectViews {
   const receipt = source.coldGlobals[label];
@@ -73,19 +82,34 @@ function literal(label: string, address: string, expected: string): string {
   if (!receipt || receipt.address !== address || receipt.raw !== raw) throw new Error('Selected CRT source literal differs: ' + label);
   return expected;
 }
+function bootstrapStorage(label: string, address: string, bytes: number, raw = '00'.repeat(bytes)): NativeHeapObjectViews {
+  const receipt = bootstrap.coldGlobals[label];
+  if (bootstrap.schema !== 'gothic3-crt-bootstrap-rules-v1' || bootstrap.inputs.Engine !== source.inputs.Engine ||
+      !receipt || receipt.module !== 'Engine' || receipt.address !== address || receipt.bytes !== bytes || receipt.raw !== raw ||
+      receipt.knownMask !== 'ff'.repeat(bytes) || receipt.scope !== 'cold-original-image' || receipt.liveValueCaptured !== false) throw new Error('Selected CRT bootstrap storage differs: ' + label);
+  return new NativeHeapObjectViews({ identity: Object.freeze({}), bytes: Uint8Array.from(raw.match(/../g)!, byte => parseInt(byte, 16)), knownMask: new Uint8Array(bytes).fill(255), freed: false });
+}
 
 export interface NativeEngineCrtPlatform {
   createWin32Heap(owner: object, options: 0 | 1, initialBytes: 4096, maximumBytes: 0): NativeValue<NativeWin32HeapCapability | null>;
-  win32HeapAlloc(heap: NativeWin32HeapCapability, flags: 0, bytes: number): NativeValue<NativeMemoryBacking | null>;
+  win32HeapAlloc(heap: NativeWin32HeapCapability, flags: 0 | 8, bytes: number): NativeValue<NativeMemoryBacking | null>;
   win32HeapFree(heap: NativeWin32HeapCapability, flags: 0, backing: NativeMemoryBacking): NativeValue<boolean>;
   win32HeapDestroy(heap: NativeWin32HeapCapability): NativeValue<boolean>;
   initializePhysicalCriticalSection(fields: NativeHeapObjectViews, owner: object, spinCount: 4000): NativeValue<boolean>;
   initializePhysicalCriticalSectionWithoutSpin?(fields: NativeHeapObjectViews, owner: object): NativeValue<void>;
   tlsGetValue?(index: number): NativeValue<object | null>;
+  tlsAlloc?(): NativeValue<number>;
+  tlsSetValue?(index: number, value: object | null): NativeValue<boolean>;
+  tlsFree?(index: number): NativeValue<boolean>;
+  readonly tlsProcedures?: Readonly<{ alloc: Extract<NativeCrtLocalProcedure, {kind:'alloc'}>; get: NativeCrtLocalGetProcedure; set: Extract<NativeCrtLocalProcedure, {kind:'set'}>; free: Extract<NativeCrtLocalProcedure, {kind:'free'}> }>;
+  ownsLocalStorageProcedure?(procedure: NativeCrtLocalProcedure): boolean;
+  interlockedCounter?(fields: NativeHeapObjectViews, delta: 1 | -1): NativeValue<number>;
+  getCurrentThreadId?(): NativeValue<number>;
+  getWin32LastError?(): NativeValue<number>;
   setWin32LastError?(error: number): NativeValue<void>;
   getWin32ModuleHandle?(name: 'KERNEL32.DLL' | 'kernel32.dll'): NativeValue<NativeWin32ModuleCapability | null>;
-  getWin32Procedure?(module: NativeWin32ModuleCapability, name: 'EncodePointer' | 'DecodePointer' | 'InitializeCriticalSectionAndSpinCount'):
-    NativeValue<NativeCrtPointerProcedure | NativeCrtSectionProcedure | null>;
+  getWin32Procedure?(module: NativeWin32ModuleCapability, name: 'EncodePointer' | 'DecodePointer' | 'InitializeCriticalSectionAndSpinCount' | 'FlsAlloc' | 'FlsGetValue' | 'FlsSetValue' | 'FlsFree'):
+    NativeValue<NativeCrtPlatformProcedure | null>;
   enterPhysicalCriticalSection(fields: NativeHeapObjectViews, owner: object): NativeValue<void>;
   leavePhysicalCriticalSection(fields: NativeHeapObjectViews, owner: object): NativeValue<void>;
   deletePhysicalCriticalSection(fields: NativeHeapObjectViews, owner: object): NativeValue<void>;
@@ -103,7 +127,7 @@ type InitPhase = 'cold' | 'initializing' | 'ready' | 'null' | 'blocked';
 
 export class NativeEngineCrtOwner {
   readonly identity = Object.freeze({});
-  readonly physical = Object.freeze({
+  readonly physical = (() => { const sectionInitializer = storage('crtSectionInitializer', '30af7c50', 4); return Object.freeze({
     heapHandle: storage('crtHeapHandle', '30af76f4', 4),
     heapSelector: storage('crtHeapMode', '30af7e20', 4),
     lockTable: storage('crtLockTable', '30ad4aa0', 288),
@@ -112,9 +136,19 @@ export class NativeEngineCrtOwner {
     mallocWait: storage('crtMallocRetry', '30af70f0', 4),
     newMode: storage('newMode', '30af76f8', 4),
     crtTypeInfoList: storage('crtTypeInfoList', '30af70ac', 8),
-    sectionInitializer: storage('crtSectionInitializer', '30af7c50', 4),
+    sectionInitializer,
     crtTlsIndexes: storage('crtTlsIndexes', '30ad4840', 8),
-  });
+    pointerInitialization: Object.freeze({
+      newHandler: bootstrapStorage('newHandler', '30af759c', 4),
+      sectionInitializer,
+      invalidParameter: bootstrapStorage('invalidParameter', '30af70c8', 4),
+      exceptionFilter: bootstrapStorage('exceptionFilter', '30af7474', 4),
+      mathError: bootstrapStorage('mathError', '30af7c4c', 4),
+      winSignalPointers: bootstrapStorage('winSignalPointers', '30af7c38', 16),
+      terminateHandler: bootstrapStorage('terminateHandler', '30af7744', 4),
+      exitFunction: bootstrapStorage('exitHandler', '30ad4830', 4, '4cd36730'),
+    }),
+  }); })();
   private heapPhase: InitPhase = 'cold';
   private locksPhase: InitPhase = 'cold';
   private locksTerminated = false;
@@ -220,15 +254,25 @@ export class NativeEngineCrtOwner {
     const tlsIndex = this.physical.crtTlsIndexes.readUnsigned(4);
     const tls = this.call('TlsGetValue(' + tlsIndex + ')', () => this.host.platform.tlsGetValue?.(tlsIndex) ?? unknown('Actual owned CRT pointer-wrapper TLS capability required'));
     if (tls !== null && this.physical.crtTlsIndexes.readUnsigned(0) !== 0xffffffff) {
-      this.call('TlsGetValue(' + tlsIndex + ').dispatch', () => this.host.platform.tlsGetValue?.(tlsIndex) ?? unknown('Actual owned CRT TLS dispatcher required'));
-      this.gate('CRT TLS pointer-wrapper dispatch before +0x' + (direction === 'EncodePointer' ? '1f8' : '1fc'));
+      const ptdIndex = this.physical.crtTlsIndexes.readUnsigned(0), dispatchIndex = this.physical.crtTlsIndexes.readUnsigned(4);
+      const getter = this.call('TlsGetValue(' + dispatchIndex + ').dispatch', () => this.host.platform.tlsGetValue?.(dispatchIndex) ?? unknown('Actual owned CRT TLS dispatcher required')) as NativeCrtLocalGetProcedure | null;
+      if (!getter || getter.kind !== 'get' || !this.host.platform.ownsLocalStorageProcedure?.(getter)) this.gate('CRT TLS pointer-wrapper dispatch before +0x' + (direction === 'EncodePointer' ? '1f8' : '1fc'));
+      const ptd = this.call('tlsGetterDispatcher3067df52', () => getter.invoke(ptdIndex));
+      if (ptd !== null) {
+        if (!(ptd instanceof NativeHeapObjectViews) || ptd.bytes.length !== 532) throw new Error('Actual live532-byte PTD required by pointer codec');
+        const backing = ptd.backing;
+        if (!this.allocations.has(backing as NativeMemoryBacking) || backing.freed || ptd.bytes.buffer !== backing.bytes.buffer || ptd.bytes.byteOffset !== backing.bytes.byteOffset ||
+            ptd.knownMask.buffer !== backing.knownMask.buffer || ptd.knownMask.byteOffset !== backing.knownMask.byteOffset || ptd.knownMask.length !== 532) throw new Error('Actual same-CRT canonical PTD allocation required by pointer codec');
+        const procedure = ptd.pointer<NativeCrtPointerProcedure>(direction === 'EncodePointer' ? 0x1f8 : 0x1fc).get();
+        if (procedure === null) return value;
+        if (procedure.name !== direction) throw new Error('Actual matching retained PTD pointer procedure required');
+        return this.call(direction, () => procedure.invoke(value));
+      }
     }
     const moduleName = literal('pointerKernel32Module', '3089377c', 'KERNEL32.DLL') as 'KERNEL32.DLL';
     const module = this.call('GetModuleHandleA(' + moduleName + ')', () => this.host.platform.getWin32ModuleHandle?.(moduleName) ?? unknown('Actual owned CRT Win32 module lookup required'));
     if (module === null) return value;
-    this.trace.push('pointerEncodingAvailability3067ddf8');
-    const major = this.osField('getWinMajor3067d0e1', 12);
-    if ((major | 0) < 6) this.gate('GetModuleHandleA(NULL) / physical process PE .mixcrt scan3067ddf8');
+    this.pointerAvailable();
     const label = direction === 'EncodePointer' ? 'encodePointerName' : 'decodePointerName';
     const address = direction === 'EncodePointer' ? '3089376c' : '3089378c';
     const name = literal(label, address, direction) as 'EncodePointer' | 'DecodePointer';
@@ -237,6 +281,15 @@ export class NativeEngineCrtOwner {
     if (procedure.name !== direction) throw new Error('Actual matching owned CRT pointer procedure required');
     return this.call(direction, () => procedure.invoke(value));
   }
+  private pointerAvailable(): boolean {
+    this.trace.push('pointerEncodingAvailability3067ddf8');
+    const major = this.osField('getWinMajor3067d0e1', 12);
+    if ((major | 0) < 6) this.gate('GetModuleHandleA(NULL) / physical process PE .mixcrt scan3067ddf8');
+    return true;
+  }
+  pointerEncodingAvailable(): NativeValue<boolean> { return this.run('pointerEncodingAvailability3067ddf8', () => this.pointerAvailable()); }
+  encodePointer(value: object | null): NativeValue<object | null> { return this.run('encodePointer3067de64', () => this.codec(value, 'EncodePointer')); }
+  decodePointer(value: object | null): NativeValue<object | null> { return this.run('decodePointer3067dedb', () => this.codec(value, 'DecodePointer')); }
   private initializeSection(fields: NativeHeapObjectViews): boolean {
     const encoded = this.physical.sectionInitializer.pointer<object>(0).get();
     let selected = this.codec(encoded, 'DecodePointer');
@@ -349,6 +402,35 @@ export class NativeEngineCrtOwner {
         delay = (delay + 1000) >>> 0;
         if (this.physical.mallocWait.readUnsigned(0) < delay) delay = 0xffffffff;
         if (delay === 0xffffffff) return null;
+      }
+    });
+  }
+  callocCrt(count: number, size: number): NativeValue<NativeMemoryBacking | null> {
+    return this.run('callocCrt3067ca01', () => {
+      for (const value of [count, size]) if (!Number.isInteger(value) || value < 0 || value > 0xffffffff) throw new Error('Original uint32 calloc operands required');
+      if (count !== 0 && size > Math.floor(0xffffffe0 / count)) { this.errno(12); this.gate('invalidParameter30674d58 after calloc overflow'); }
+      const bytes = Math.max(1, count * size); let delay = 0;
+      for (;;) {
+        let backing: NativeMemoryBacking | null;
+        for (;;) {
+          const selector = this.physical.heapSelector.readUnsigned(0);
+          if (selector === 3) this.gate('callocImpl30695a7f small-block allocation under lock4');
+          const heap = this.physical.heapHandle.pointer<NativeWin32HeapCapability>(0).get();
+          if (heap === null) this.gate('callocImpl30695a7f HeapAlloc(NULL,8) platform call');
+          if (!this.heaps.has(heap) || heap.owner !== this.identity) throw new Error('Actual same-owner calloc HeapAlloc handle required');
+          backing = this.call('HeapAlloc(' + bytes + ',8)', () => this.host.platform.win32HeapAlloc(heap, 8, bytes), value => { if (value) this.allocations.add(value); });
+          if (backing || this.physical.newMode.readUnsigned(0) === 0) break;
+          const retry = this.call('callNewHandler306824b9', () => this.host.callNewHandler?.(bytes) ?? unknown('Original calloc new-handler retry required'));
+          if (retry === 0) break;
+        }
+        if (backing) {
+          if (backing.freed || backing.bytes.length < bytes || backing.knownMask.length !== backing.bytes.length ||
+              backing.bytes.subarray(0, bytes).some(value => value !== 0) || backing.knownMask.subarray(0, bytes).some(mask => mask !== 255)) throw new Error('Actual owned zeroed calloc HeapAlloc storage required');
+          return backing;
+        }
+        if (this.physical.mallocWait.readUnsigned(0) === 0) return null;
+        this.call('Sleep(' + delay + ')', () => this.host.sleep?.(delay) ?? unknown('Original calloc CRT Sleep retry required'));
+        delay = (delay + 1000) >>> 0; if (this.physical.mallocWait.readUnsigned(0) < delay) delay = 0xffffffff; if (delay === 0xffffffff) return null;
       }
     });
   }

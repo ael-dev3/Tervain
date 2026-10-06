@@ -39,9 +39,9 @@ enclave callback. Native NPC
 activation, AI, responses, full death handling and most campaign progression remain
 unavailable.
 
-Checkpoints 73–77 add retained source NPC readers, shared runtime admins,
+Checkpoints 73–78 add retained source NPC readers, shared runtime admins,
 heap-backed field owners, physical SceneAdmin startup components and the
-selected Engine CRT class-name decoder. The new
+selected Engine CRT class-name decoder and an ordinary DLL attach prefix. The new
 admin, heap and SceneAdmin owners remain separate from the live NPC reader,
 which still stops at its first property-factory dependency. The [overview](gothic3-rebuild-overview.md)
 records the latest confirmed publication; the individual receipts below
@@ -56,7 +56,7 @@ The [scope record](gothic3-browser-port.md) describes the current controls,
 limitations and source terms.
 
 This guide records the preceding hosted baseline and subsequent dated
-checkpoints that preserve the evidence for each stage. Sections 10–77 cover
+checkpoints that preserve the evidence for each stage. Sections 10–78 cover
 the later runtime work; each receipt identifies its source revision and scope.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
@@ -5110,9 +5110,154 @@ All 233 relative file links in the two rebuilding documents resolve, and
 `git diff --check` passes. These results establish component behavior and build
 compatibility; they do not establish activated NPCs or further quest progress.
 
+This checkpoint was merged in [PR 46](https://github.com/ael-dev3/Tervain/pull/46)
+as `main` commit `57c60dcddb215d4c66589acdc586831f2a0b8584` and published by
+successful [run 37532478269](https://github.com/ael-dev3/Tervain/actions/runs/37532478269),
+attempt one. A fresh public browser check loaded 202 objects and seventy
+characters, entered Ardea at HP 100, inspected the 10,692-triangle Hero and
+11,280-triangle coastal bandit, and confirmed the unchanged source-reader
+boundary. The served Gothic entry remained `gothic3-CAj9xpg6.js`; no captured
+warnings or errors occurred during that check.
+
 The live source reader remains at 338 / 6,544 bytes with zero of sixteen
 property sets attached and no native processing graph. Connecting these
 components requires owned CRT OS/TLS startup, the remaining ErrorAdmin path,
 EntityAdmin, module/application initialization, reflection/type registration,
 Navigation getters and indexed-string/name-map operations. Campaign completion
 still requires the full gameplay integration and playthrough described above.
+
+## 78. Rebuild the ordinary Engine DLL attach prefix
+
+Checkpoint 77's isolated fixtures supplied OS fields and a TLS registry before
+CRT heap/lock use. This checkpoint implements the ordinary source prefix that
+produces those dependencies through retained platform calls. It does not
+connect a ready DLL or an active NPC to the browser scene.
+
+### Follow the source startup order
+
+[`native-crt-bootstrap.ts`](../../src/gothic3/native-crt-bootstrap.ts) follows
+Engine entry `3067744b`, security-cookie initialization `3068e9a5`, the selected
+DLL startup dispatcher `30677355` and process attach `3067717c`:
+
+1. For process attach, initialize the physical cookie from owned FILETIME,
+   process/thread IDs, ticks and performance-counter output. Preserve the
+   source's default-cookie and high-word branches. QueryPerformanceCounter's
+   Boolean return is ignored; an output that remains unknown still prevents
+   the subsequent physical reads. Store the complement after the cookie.
+2. Obtain the process heap and allocate the actual 148-byte OSVERSIONINFOA
+   record with HeapAlloc flags zero. Store its size and call GetVersionExA.
+   Read its platform, major, minor and build fields, call HeapFree and publish
+   the five canonical CRT OS DWORDs in the original store order.
+3. Call the existing physical heap initializer with argument one. The selected
+   NT profile reaches heap selector one. Other source branches retain their
+   writes and stop at their remaining dependency.
+4. Run the thread startup owner and walk the original 64-slot pre-C-init table.
+   The captured table is all NULL; each slot is read from its retained bytes.
+5. Stop at the next actual source call, GetCommandLineA through IAT `30afc69c`
+   at `30677251`. The attachment count remains zero because its increment
+   occurs only after the later I/O, argument, environment and C initialization.
+
+Known-null allocation and known-false version-query branches return zero in
+source order. Unknown calls retain the executed prefix and do not replay
+allocations or writes. The cookie's actual 16-byte local frame expires on normal
+return; unknown counter output leaves that frame suspended and accessible only
+according to its owned masks. A cold process detach returns zero before cookie,
+OS or Engine DllMain work. Other dispatcher paths and native exception/unwind
+mechanics are outside this selected ordinary trace. The canonical bootstrap
+owner admits one entry frame and binds cached results to its actual module,
+reason and reserved arguments; a different invocation requires another owned
+frame rather than reusing that result.
+
+### Produce thread and encoded-pointer storage
+
+[`native-crt-thread-startup.ts`](../../src/gothic3/native-crt-thread-startup.ts)
+uses actual TLS/FLS procedure capabilities and indices returned by allocation
+calls. It publishes the unencoded getter in the first TLS slot before calling
+the pointer-initialization callback, then encodes the procedure globals and
+initializes the physical critical sections. The second index receives the
+actual zeroed thread-data allocation before its initializer runs.
+
+The original request is `calloc(1, 0x214)`: **532 bytes**. It uses HeapAlloc
+flags eight; a malloc followed by a fabricated zero record would not reproduce
+that operation. The initializer aliases retained MBC and locale objects,
+increments the MBC counter before taking lock twelve, and updates locale
+references while holding that lock. The errno accessor
+uses the thread record's actual `+8` field, preserves Win32 last error and
+retains the source fallback errno value twelve when no PTD is available.
+
+The root callback implements `initPointers3067d37b`. Its encoded NULL is the
+actual EncodePointer result. Source helpers write the canonical new-handler,
+section-initializer, invalid-parameter, report, exception and signal slots.
+The terminate and exit stores encode retained source-procedure capabilities;
+their invocation remains an explicit boundary. The existing section-initializer
+view at `30af7c50` is shared by both startup and lock initialization. Cold
+numerical zero is not substituted for encoded NULL.
+
+The selected platform profile declares the OS and lower API capabilities it
+owns. Without those services, production constructors leave source globals
+cold and return an unknown result at the first required call. These profiles
+are component inputs, not observations of a running Windows Gothic process.
+
+### Reproduce and validate
+
+The separate source package is generated from the owner's saved local study:
+
+```powershell
+python -B tools/gothic3/prepare_crt_bootstrap_source.py --study '<LOCAL_DESKTOP_STUDY>'
+npm run typecheck
+npm test -- tests/gothic3-dialogue/crt-bootstrap.test.ts
+npm test -- tests/gothic3-dialogue/native-crt-thread-startup.test.ts
+npm test
+npm run build
+```
+
+[`prepare_crt_bootstrap_source.py`](../../tools/gothic3/prepare_crt_bootstrap_source.py)
+checks original instruction bytes and captures cold storage, output layouts,
+pointer bindings, callbacks and omitted post-free continuations. The
+[`source package`](../../assets/gothic3/crt-bootstrap/README.md) separates new
+receipts from reused CRT evidence. Regeneration executes no game code and does
+not alter the older packages.
+
+The frozen package contains 52 method receipts: 31 newly audited catalog
+methods, eighteen reused methods (seventeen unchanged and one attach body
+extended with its omitted continuation), and three uncataloged compiler thunks.
+All 1,665 unique instructions match the original Engine PE. Forty-nine recovered
+post-free instructions comprise forty-one new recoveries and eight reused ones.
+All 105 generated files reproduced identically; 101 excerpt references matched
+their recorded SHA-256. All 166 files in the preceding CRT package remained
+unchanged. The producer executes no native code.
+
+| Frozen output | Bytes | SHA-256 |
+| --- | ---: | --- |
+| Bootstrap rules | 134,847 | `a57679bc2772b4be46bb0c7e960be3c17b5c1fe3a41e4c31d40d8a4a243050ef` |
+| Bootstrap evidence | 329,223 | `95795ca42bce2bd0d658b63e62571a716167d92c3931f0e4bbdce7014cc46f21` |
+
+The combined checkout includes the reviewed [grass contribution](https://github.com/ael-dev3/Tervain/pull/45)
+and its local fix commit `6ee7185b19949264d8aee677c738521476b096fa`.
+Pointer stamps persist until consumed and all configured flower LODs retain a
+bloom row; the [grass record](grass-0.0.13.md#integration-fixes) describes those
+changes. Independent reviews checked startup source order, canonical aliases,
+partial cleanup, held locks, index rereads and the grass fixes.
+
+Combined local validation passes typecheck and all **2,231 tests across 215
+files** in 123.64 seconds. The production build succeeds with 373 modules in
+30.26 seconds. The Gothic entry remains `gothic3-CAj9xpg6.js` (1,156.02 kB),
+with unchanged NPC entity and services chunks. These startup components have
+no browser application-entry import. The separate Tervain build contains the
+grass changes; the existing large-chunk warning remains. All 260 relative
+links checked across the rebuilding guides, tool guide and grass record resolve,
+and the combined diff passes whitespace checks.
+
+Local browser review exercised the title meadow at High, Low and Medium with
+pointer brushing, then loaded a new High game and checked movement and a
+pause/resume round trip. Health remained 100 and coin count six; the captured
+browser console contained no warnings or errors. This was a functional review,
+without a new performance benchmark.
+
+This startup prefix still requires command-line, environment, I/O and full C
+initialization before Engine DllMain and native application/module startup.
+ErrorAdmin, EntityAdmin, reflection/type registration, Navigation and indexed
+names remain part of the downstream NPC activation work. The live reader still
+stops at 338 of 6,544 bytes, with zero of sixteen property sets attached and no
+native processing graph. Passing component checks does not establish campaign
+completion.

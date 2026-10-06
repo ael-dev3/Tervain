@@ -1,0 +1,8 @@
+/* ENTRY 30682468 | FUN_30682468 | STATUS decompiled | 3 ms */
+
+void FUN_30682468(undefined4 param_1)
+
+{
+  DAT_30af759c = param_1;
+  return;
+}
