@@ -256,9 +256,9 @@ export class BrowserNpcEntityRuntime {
         },
         findZoneAt: (...args) => this.services.findZoneAt?.(...args) ??
           missing('Compiled navigation query requires actual owned area proxy resolution'),
-        notifyProperty: (state, phase, name) => {
+        notifyProperty: (state, phase, name, propagated) => {
           const physical = physicalStates.get(state);
-          return physical ? reflection.value(() => physical.notify(phase, name)) : missing('Actual Navigation physical property storage missing');
+          return physical ? reflection.value(() => physical.notify(phase, name, propagated)) : missing('Actual Navigation physical property storage missing');
         },
         // Audited inherited Engine30481830 is a literal RET, rather than an
         // invented success callback for the concrete Navigation lifecycle.

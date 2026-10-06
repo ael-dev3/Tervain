@@ -1,0 +1,11 @@
+/* ENTRY 30481af0 | FUN_30481af0 | STATUS decompiled | 4 ms */
+
+void __thiscall FUN_30481af0(bCObjectRefBase *param_1,char *param_2,bool param_3)
+
+{
+  if (param_1[3].bCObjectBase != (bCObjectBase)0x0) {
+    (**(code **)(*(int *)param_1[3].bCObjectBase + 0x118))();
+  }
+  bCObjectRefBase::OnNotifyPropertyValueChangedExitEx(param_1,param_2,param_3);
+  return;
+}

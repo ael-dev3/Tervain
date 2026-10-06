@@ -1,0 +1,13 @@
+/* ENTRY 201327e0 | FUN_201327e0 | STATUS decompiled | 2 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+bool __fastcall FUN_201327e0(uint *param_1)
+
+{
+  if ((_DAT_207b858c & 1) == 0) {
+    _DAT_207b858c = _DAT_207b858c | 1;
+    DAT_207b8588 = 0x800000;
+  }
+  return (*param_1 & DAT_207b8588) != 0;
+}

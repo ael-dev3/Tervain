@@ -424,3 +424,23 @@ OS version, encoded NULL, thread-data record or active NPC.
 See [checkpoint 77](../../docs/engineering/gothic3-rebuilding-process.md#77-own-the-engine-crt-heap-locks-and-selected-class-name-decoder)
 and [checkpoint 78](../../docs/engineering/gothic3-rebuilding-process.md#78-rebuild-the-ordinary-engine-dll-attach-prefix)
 for reproducible source admission, component checks and remaining boundaries.
+
+## Navigation application and attachment notifications
+
+```powershell
+python -B tools/gothic3/prepare_browser_navigation_owner_source.py --study '<LOCAL_DESKTOP_STUDY>'
+```
+
+This producer captures 31 selected methods from the pinned Game, Engine and
+SharedBase DLLs. All 1,403 instructions and complete selected body extents are
+checked against the original PEs. The separate
+[`browser-navigation-owner` package](../../assets/gothic3/browser-navigation-owner/README.md)
+contains source excerpts, entry/body mappings, module cache storage, runtime
+rules and a manifest of generated files and producer dependencies.
+
+The browser owner retains the session cache and source area query algorithms.
+Actual constructed area capabilities and a caller-owned live property proxy
+lookup are required for registration and resolution. The false Navigation
+notification implementation also requires lower CString/proxy/contact/script
+services. These components do not establish original NPC activation. See
+[checkpoint 79](../../docs/engineering/gothic3-rebuilding-process.md#79-preserve-navigation-attachment-notifications-and-live-area-ownership).

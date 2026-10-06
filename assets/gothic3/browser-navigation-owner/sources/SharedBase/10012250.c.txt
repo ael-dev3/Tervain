@@ -1,0 +1,19 @@
+/* ENTRY 10012250 | FUN_10012250 | STATUS decompiled | 4 ms */
+
+void __fastcall FUN_10012250(int *param_1)
+
+{
+  int iVar1;
+  void *pvVar2;
+  bCMemoryAdmin *this;
+
+  if ((param_1 != (int *)0x0) && (iVar1 = *param_1, iVar1 != 0)) {
+    *(short *)(iVar1 + -4) = *(short *)(iVar1 + -4) + -1;
+    pvVar2 = (void *)(iVar1 + -8);
+    if (*(short *)(iVar1 + -4) == 0) {
+      this = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(this,pvVar2);
+    }
+  }
+  return;
+}

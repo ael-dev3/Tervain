@@ -4,7 +4,7 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
-Updated: 6 October 2026. Historical deployed baseline preceding checkpoint 72:
+Updated: 7 October 2026. Historical deployed baseline preceding checkpoint 72:
 `main` commit `610619f43a809e14118ee8edb186fed67aa2052b`. Checkpoints 55–71 add
 browser NPC Plunder inventory in checkpoint 55, resolves NPC armor class in
 checkpoint 56, materializes deterministic Weaponry stacks with unapplied
@@ -5261,3 +5261,134 @@ names remain part of the downstream NPC activation work. The live reader still
 stops at 338 of 6,544 bytes, with zero of sixteen property sets attached and no
 native processing graph. Passing component checks does not establish campaign
 completion.
+
+## 79. Preserve Navigation attachment notifications and live area ownership
+
+Navigation attachment calls its property notifications with `propagated=false`.
+Reflective packet reading uses `true`. The false branch can register collision
+circles, send area contacts and invoke `OnEnterArea` or `OnLeaveArea`; using the
+payload reader's true branch would silently omit those effects. The browser
+entity callback now forwards the source flag, and
+[`navigation-reading.ts`](../../src/gothic3/navigation-reading.ts) places the
+custom override between the two separate owner `Modified` reads.
+
+### Preserve the source callback sequence
+
+[`navigation-notifications.ts`](../../src/gothic3/navigation-notifications.ts)
+implements the false override with explicit lower services. Enter compares
+the three point names before its inherited callback. Exit constructs a
+temporary CString, compares CurrentZone, resolves current and last proxy
+entities, and compares their pointer identity. Equal pointers, including both
+NULL, skip area transitions. Different pointers cause a fresh last lookup and
+leave sequence before a fresh current lookup and enter sequence. The later
+Routine and point comparisons precede CString destruction and the inherited
+owner read.
+
+Each area sequence retains its temporary proxy, tests NavZone before NavPath,
+and captures the actual property-set pointer. Leave deregisters even a NULL
+cached DCC. Enter queries owner PS6 only when the cache is NULL, stores the
+actual result before registration, and registers only a non-NULL pointer.
+Contacts retain the receiver's vtable slot before iterator construction and
+read that slot's current function after argument callbacks. Script dispatch
+similarly preserves the captured vtable, reads OTHER before SELF and calls
+the source area script with argument zero.
+
+CString comparisons branch on any nonzero AL; property-set and notification
+flag checks compare AL exactly with one. Unknown calls preserve temporary
+strings, proxies, pointer stores and registration already performed. Cleanup
+does not run beyond the first missing source call, and failed prefixes cannot
+be replayed as success. Matched Routine and point branches still require their
+actual lower lookup/setter services.
+
+### Own the application cache and area query boundary
+
+[`browser-npc-navigation-owner.ts`](../../src/gothic3/browser-npc-navigation-owner.ts)
+owns a declared browser module bridge and retained source session-cache
+storage. The Engine initialized byte must equal one. Cache guard bit zero is
+set before module resolution, NULL results remain cached, and the application
+getter calls the session getter twice before reading the current session's
+mode byte. The browser mode allocation owns that field only; it does not
+represent the surrounding original Session construction or Start callbacks.
+
+The area owner reuses the verified source query geometry and existing NavPath
+binding algorithms. Loading a definition creates no game entity. Admission
+requires an actual live entity, attached valid property set, the same retained
+area value store and a caller capability proving its full construction/read
+and lifetime. Resolution asks the caller's complete property-proxy lookup;
+an admitted record or local registry miss cannot substitute for SceneAdmin.
+Area deregistration removes its Navigation membership while leaving entity
+and property-set ownership to their actual lifecycle services.
+
+The selected browser reader still stops at **338 of 6,544 bytes**, with zero
+of sixteen property sets attached. These owners do not supply the missing
+ErrorAdmin, reflection type, area constructors or contact/script services.
+Production does not manufacture a nonpanic result, initialized application,
+running session or active NPC from these component receipts.
+
+### Reproduce and check the component
+
+```powershell
+python -B tools/gothic3/prepare_browser_navigation_owner_source.py --study '<LOCAL_DESKTOP_STUDY>'
+npm run typecheck
+npm test -- tests/gothic3-dialogue/browser-npc-navigation-owner.test.ts
+npm test -- tests/gothic3-dialogue/navigation-notifications.test.ts
+npm test
+npm run build
+```
+
+The [source package](../../assets/gothic3/browser-navigation-owner/README.md)
+contains 31 selected methods and 1,403 fully covered instructions from the
+original Game, Engine and SharedBase PEs. Two regenerations produce identical
+contents across 66 package files, and all 69 manifest file references match
+their sizes and SHA-256 values. Older packages remain unchanged. The producer
+records trailing-whitespace removal and LF normalization for its C excerpts,
+while retaining each original reconstructed source-file hash. It executes no
+native code and captures no running native state.
+
+| Frozen output | SHA-256 |
+| --- | --- |
+| Navigation owner rules | `8084042afe1b2843f165ef8a953255d93ebcd655be1e2260309c313d12d4bf05` |
+| Navigation owner evidence | `fcaa941feeebaa9b07cb288b0ee61d6720bfb442380be0d4c4e6cf7d81705c4d` |
+
+The two new focused files pass **35 tests**: nineteen cover application cache,
+area admission/query/lifetime and partial registration; sixteen cover false
+notification order, pointer equality, DCC stores, retained vtable slots and
+temporary lifetimes, including destruction during callbacks. Their explicit
+isolated fixtures do not establish that the corresponding production services
+are available.
+
+Final local validation passes typecheck, all **2,266 tests across 217 files**
+in 131.18 seconds, and a production build of 375 modules in 28.94 seconds.
+The Gothic entry is `gothic3-C3iMc5TP.js`; its NPC reader chunk is
+`browser-npc-entity-BF2Tojqt.js`. The existing large-chunk warning remains.
+All 256 relative file links across both rebuilding guides, the tool guide and
+the new source package resolve.
+
+The final production preview loaded 202 scene objects and 70 characters,
+entered Ardea with HP 100, and inspected the Hero and `Ardea_OutNovice_01`.
+The latter retained its 11,280-triangle, two-mesh model and the same original
+reader boundary, with no Navigation owner, attached sets or processing graph.
+The captured browser console contained no warnings or errors.
+
+The next physical integration must construct the real Navigation type and
+descriptor table on the same heap as the entity, wrapper and ErrorAdmin. The
+Game initializer sequence constructs its cached class name, static root and
+fifteen descriptors in that order. Native descriptor registration performs
+allocation and logging after append. The existing SceneAdmin class-name
+adapter also needs its CString text constructor corrected before reuse:
+source nonempty construction allocates and copies without a prior NULL-slot
+store. Copying its current default-constructor/SetText path into Navigation
+would preserve that discrepancy.
+
+### Latest confirmed publication
+
+Checkpoint 78 and the reviewed grass integration reached `main` commit
+`351bd200277a1214e94ccdca1552d5ef2c2a473b` through
+[PR 47](https://github.com/ael-dev3/Tervain/pull/47). Successful
+[Pages run 37535953025](https://github.com/ael-dev3/Tervain/actions/runs/37535953025),
+attempt one, finished at 21:52:45 UTC on 6 October 2026. The public Gothic
+route served `gothic3-CAj9xpg6.js`, loaded 202 scene objects and 70 character
+models, entered Ardea and inspected the Hero and a coastal bandit without
+captured warnings or errors. The separate Tervain route served its v0.0.13
+grass build and completed movement and pause/resume review. These functional
+observations do not establish a completed Gothic campaign.
