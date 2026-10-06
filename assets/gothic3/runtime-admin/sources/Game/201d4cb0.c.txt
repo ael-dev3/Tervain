@@ -1,0 +1,27 @@
+/* ENTRY 201d4cb0 | FUN_201d4cb0 | STATUS decompiled | 14 ms */
+
+eCEntity * FUN_201d4cb0(void)
+
+{
+  gCEntity *this;
+  eCEntity *peVar1;
+  int iVar2;
+  eCSceneAdmin *this_00;
+  eCEntity *peVar3;
+  
+  this = (gCEntity *)new(0x1c0,0x170);
+  if (this == (gCEntity *)0x0) {
+    peVar1 = (eCEntity *)0x0;
+  }
+  else {
+    peVar1 = (eCEntity *)gCEntity::gCEntity(this);
+  }
+  (**(code **)(*(int *)peVar1 + 0x18))();
+  iVar2 = thunk_FUN_200ae8e0();
+  if (iVar2 != 0) {
+    peVar3 = peVar1;
+    this_00 = (eCSceneAdmin *)thunk_FUN_200ae8e0();
+    eCSceneAdmin::RegisterEntity(this_00,peVar3);
+  }
+  return peVar1;
+}

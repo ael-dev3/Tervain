@@ -1,0 +1,46 @@
+/* ENTRY 1004b1b0 | FUN_1004b1b0 | STATUS decompiled | 19 ms */
+
+void __fastcall FUN_1004b1b0(ulong param_1)
+
+{
+  bCMessageAdmin *pbVar1;
+  FILE *_File;
+  SOCKET SVar2;
+  bEMessageCallbackPriority bVar3;
+  _func_bool_bEMessageTypes_char_ptr_char_ptr_ulong_char_ptr_int_int *p_Var4;
+  ulong uVar5;
+  char local_1a2 [2];
+  sockaddr local_1a0;
+  WSADATA local_190;
+  
+  if (*(SOCKET *)(param_1 + 0x18) != 0xffffffff) {
+    local_1a2[1] = 1;
+    send(*(SOCKET *)(param_1 + 0x18),local_1a2 + 1,1,0);
+  }
+  p_Var4 = (_func_bool_bEMessageTypes_char_ptr_char_ptr_ulong_char_ptr_int_int *)&LAB_10005722;
+  pbVar1 = bCMessageAdmin::GetInstance();
+  bCMessageAdmin::UnregisterCallback(pbVar1,p_Var4);
+  *(undefined4 *)(param_1 + 0x18) = 0xffffffff;
+  _File = _fopen("zSpie.txt","r");
+  if (_File != (FILE *)0x0) {
+    _fclose(_File);
+    bVar3 = 1;
+    p_Var4 = (_func_bool_bEMessageTypes_char_ptr_char_ptr_ulong_char_ptr_int_int *)&LAB_10005722;
+    DAT_10197dbc = 1;
+    uVar5 = param_1;
+    pbVar1 = bCMessageAdmin::GetInstance();
+    bCMessageAdmin::RegisterCallback(pbVar1,p_Var4,bVar3,uVar5);
+    WSAStartup(0x101,&local_190);
+    SVar2 = socket(2,2,0);
+    *(SOCKET *)(param_1 + 0x18) = SVar2;
+    if (SVar2 != 0xffffffff) {
+      local_1a0.sa_data._2_4_ = inet_addr("127.0.0.1");
+      local_1a0.sa_data._0_2_ = htons(0x1267);
+      local_1a0.sa_family = 2;
+      connect(*(SOCKET *)(param_1 + 0x18),&local_1a0,0x10);
+    }
+    local_1a2[0] = '\0';
+    send(*(SOCKET *)(param_1 + 0x18),local_1a2,1,0);
+  }
+  return;
+}

@@ -1,0 +1,25 @@
+201d4cb0 | 56 | PUSH ESI
+201d4cb1 | 6870010000 | PUSH 0x170
+201d4cb6 | 68c0010000 | PUSH 0x1c0
+201d4cbb | ff15f8887d20 | CALL dword ptr [0x207d88f8]
+201d4cc1 | 85c0 | TEST EAX,EAX
+201d4cc3 | 740b | JZ 0x201d4cd0
+201d4cc5 | 8bc8 | MOV ECX,EAX
+201d4cc7 | e84002e3ff | CALL 0x20004f0c
+201d4ccc | 8bf0 | MOV ESI,EAX
+201d4cce | eb02 | JMP 0x201d4cd2
+201d4cd0 | 33f6 | XOR ESI,ESI
+201d4cd2 | 8b06 | MOV EAX,dword ptr [ESI]
+201d4cd4 | 8b5018 | MOV EDX,dword ptr [EAX + 0x18]
+201d4cd7 | 8bce | MOV ECX,ESI
+201d4cd9 | ffd2 | CALL EDX
+201d4cdb | e87d2ee3ff | CALL 0x20007b5d
+201d4ce0 | 85c0 | TEST EAX,EAX
+201d4ce2 | 740e | JZ 0x201d4cf2
+201d4ce4 | 56 | PUSH ESI
+201d4ce5 | e8732ee3ff | CALL 0x20007b5d
+201d4cea | 8bc8 | MOV ECX,EAX
+201d4cec | ff1500667d20 | CALL dword ptr [0x207d6600]
+201d4cf2 | 8bc6 | MOV EAX,ESI
+201d4cf4 | 5e | POP ESI
+201d4cf5 | c3 | RET

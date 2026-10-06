@@ -1,0 +1,16 @@
+/* ENTRY 1004af90 | FUN_1004af90 | STATUS decompiled | 6 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined * FUN_1004af90(void)
+
+{
+  if ((_DAT_10197de4 & 1) == 0) {
+    _DAT_10197de4 = _DAT_10197de4 | 1;
+    InitializeCriticalSection((LPCRITICAL_SECTION)&DAT_10197dc0);
+    DAT_10197dd8 = 0xffffffff;
+    bCSpieAdmin::Create((bCSpieAdmin *)&DAT_10197dc0);
+    _atexit((_func_4879 *)&LAB_100e2830);
+  }
+  return &DAT_10197dc0;
+}

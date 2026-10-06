@@ -1,0 +1,31 @@
+/* ENTRY 1003cb50 | FUN_1003cb50 | STATUS decompiled | 11 ms */
+
+void FUN_1003cb50(void *param_1)
+
+{
+  BOOL BVar1;
+  void *local_14;
+  undefined1 *puStack_10;
+  undefined *puStack_c;
+  undefined4 local_8;
+  
+  local_8 = 0xffffffff;
+  puStack_c = &DAT_100f82e8;
+  puStack_10 = &LAB_100a6f80;
+  local_14 = ExceptionList;
+  ExceptionList = &local_14;
+  if (DAT_102fb000 == '\0') {
+    ExceptionList = &local_14;
+    BVar1 = InitializeCriticalSectionAndSpinCount((LPCRITICAL_SECTION)&DAT_10189a18,1000);
+    DAT_102fb000 = BVar1 == 1;
+    if (!(bool)DAT_102fb000) goto LAB_1003cba9;
+  }
+  EnterCriticalSection((LPCRITICAL_SECTION)&DAT_10189a18);
+LAB_1003cba9:
+  local_8 = 0;
+  MemHeap::FreeUnsynced(param_1);
+  local_8 = 0xffffffff;
+  LeaveCriticalSection((LPCRITICAL_SECTION)&DAT_10189a18);
+  ExceptionList = local_14;
+  return;
+}

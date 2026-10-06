@@ -1,0 +1,14 @@
+1004af90 | b801000000 | MOV EAX,0x1
+1004af95 | 8405e47d1910 | TEST byte ptr [0x10197de4],AL
+1004af9b | 7532 | JNZ 0x1004afcf
+1004af9d | 0905e47d1910 | OR dword ptr [0x10197de4],EAX
+1004afa3 | 68c07d1910 | PUSH 0x10197dc0
+1004afa8 | ff15f4952f10 | CALL dword ptr [0x102f95f4]
+1004afae | b9c07d1910 | MOV ECX,0x10197dc0
+1004afb3 | c705d87d1910ffffffff | MOV dword ptr [0x10197dd8],0xffffffff
+1004afbd | e8c5d8fbff | CALL 0x10008887
+1004afc2 | 6830280e10 | PUSH 0x100e2830
+1004afc7 | e804c30500 | CALL 0x100a72d0
+1004afcc | 83c404 | ADD ESP,0x4
+1004afcf | b8c07d1910 | MOV EAX,0x10197dc0
+1004afd4 | c3 | RET

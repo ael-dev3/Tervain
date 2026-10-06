@@ -1,0 +1,31 @@
+/* ENTRY 304d0f60 | FUN_304d0f60 | STATUS decompiled | 8 ms */
+
+bCString * __thiscall FUN_304d0f60(int *param_1,bCString *param_2)
+
+{
+  bCString *pbVar1;
+  int iVar2;
+  bCString *this;
+  int unaff_EBX;
+  
+  pbVar1 = param_2;
+  iVar2 = thunk_FUN_304ce450(param_2,&param_2);
+  if (iVar2 != 0) {
+    return (bCString *)(iVar2 + 4);
+  }
+  this = (bCString *)new(0x14,0x199);
+  if (this == (bCString *)0x0) {
+    this = (bCString *)0x0;
+  }
+  else {
+    bCString::bCString(this);
+    *(undefined4 *)(this + 4) = 0;
+    *(undefined4 *)(this + 8) = 0;
+    *(undefined4 *)(this + 0xc) = 0;
+  }
+  bCString::operator=(this,pbVar1);
+  *(undefined4 *)(this + 0x10) = *(undefined4 *)(*param_1 + unaff_EBX * 4);
+  *(bCString **)(*param_1 + unaff_EBX * 4) = this;
+  param_1[3] = param_1[3] + 1;
+  return this + 4;
+}

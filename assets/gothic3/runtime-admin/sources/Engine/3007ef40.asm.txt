@@ -1,0 +1,36 @@
+3007ef40 | 53 | PUSH EBX
+3007ef41 | 57 | PUSH EDI
+3007ef42 | 8b7c240c | MOV EDI,dword ptr [ESP + 0xc]
+3007ef46 | 8bd9 | MOV EBX,ECX
+3007ef48 | 3bdf | CMP EBX,EDI
+3007ef4a | 7443 | JZ 0x3007ef8f
+3007ef4c | 56 | PUSH ESI
+3007ef4d | 8b7704 | MOV ESI,dword ptr [EDI + 0x4]
+3007ef50 | 8bc6 | MOV EAX,ESI
+3007ef52 | f7d8 | NEG EAX
+3007ef54 | 1bc0 | SBB EAX,EAX
+3007ef56 | f7d8 | NEG EAX
+3007ef58 | 83e801 | SUB EAX,0x1
+3007ef5b | 50 | PUSH EAX
+3007ef5c | 56 | PUSH ESI
+3007ef5d | e8fac1faff | CALL 0x3002b15c
+3007ef62 | 8bcb | MOV ECX,EBX
+3007ef64 | 897304 | MOV dword ptr [EBX + 0x4],ESI
+3007ef67 | e8fc8cfbff | CALL 0x30037c68
+3007ef6c | 33d2 | XOR EDX,EDX
+3007ef6e | 395704 | CMP dword ptr [EDI + 0x4],EDX
+3007ef71 | 7e1b | JLE 0x3007ef8e
+3007ef73 | 8b07 | MOV EAX,dword ptr [EDI]
+3007ef75 | 8b0b | MOV ECX,dword ptr [EBX]
+3007ef77 | 8d349500000000 | LEA ESI,[EDX*0x4 + 0x0]
+3007ef7e | 03c6 | ADD EAX,ESI
+3007ef80 | 8b00 | MOV EAX,dword ptr [EAX]
+3007ef82 | 03ce | ADD ECX,ESI
+3007ef84 | 83c201 | ADD EDX,0x1
+3007ef87 | 8901 | MOV dword ptr [ECX],EAX
+3007ef89 | 3b5704 | CMP EDX,dword ptr [EDI + 0x4]
+3007ef8c | 7ce5 | JL 0x3007ef73
+3007ef8e | 5e | POP ESI
+3007ef8f | 5f | POP EDI
+3007ef90 | 5b | POP EBX
+3007ef91 | c20400 | RET 0x4
