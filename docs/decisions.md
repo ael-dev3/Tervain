@@ -97,6 +97,12 @@ Its code is original, written from observed file formats; its trees, sky
 palette, water and vegetation fading are engineering choices, not measurements
 of the game.
 
+The same day the owner asked for four screenshots of that viewer in the README.
+This is a narrow owner exception to A14 for those files: they document the
+viewer, show Gothic 3 rather than Tervain, and are never Tervain assets or
+image-generator input. Their provenance is in the
+[viewer's record](engineering/gothic3-local.md#screenshots).
+
 ## Proposed development baseline
 
 | ID | Proposal | Evaluate / revise when |
@@ -190,3 +196,5 @@ These are scope boundaries for the foundation, not permanent bans. A later owner
 | 2026-10-05 | Added the world's sound: a recorded runtime with footsteps by surface, combat, item, panel and world-action foley, residents' work, talk and footfalls, enemy calls, crate and barrel impacts, place beds with placed point sources, wildlife calls by place and hour, procedural reverb, and an in-world score with mood pieces, quiet intervals, danger/battle loops and stings. Includes the reproducible preparation tool and the `/tools/sound.html` audition page. | A56. Generated with ElevenLabs from original prompts; sources, prompts and hashes are in [world-audio-assets.json](engineering/world-audio-assets.json). Local typecheck, the full test suite, the production build and browser sessions on the dev server and production build pass, with measured mix levels in the [record](engineering/world-audio.md). Historical PR CI did not execute build steps. No listening review, reference-hardware or perceived-latency result is claimed. Version unchanged. |
 
 | 2026-10-05 | Added the crafted half of the world's sound, composed and synthesized in code. It has the Tervain theme in four mood arrangements, composed danger and battle loops, stings and six region motifs, the inn's three evening tunes, and a town bell on D, a wind chime, spring bubbles, temperature-paced crickets and a heartbeat. Includes composer checks, render hashes and the audition page's new sections. | A57. Local typecheck, the full test suite, the production build and a dev-server browser session pass (inn, crickets, bells, heartbeat, region motif). Historical PR CI did not execute build steps. No listening review is claimed. Version unchanged. |
+
+| 2026-10-04 | Showed four screenshots of the `/gothic3-local/` viewer in the README at the owner's request. | A narrow owner exception to A14 for these documentation files (see the Gothic 3 section above); no game data or runtime asset is added. See [the screenshots' provenance](engineering/gothic3-local.md#screenshots). |
