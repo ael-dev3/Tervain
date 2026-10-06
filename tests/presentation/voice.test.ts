@@ -432,4 +432,19 @@ describe('speech waits for actual playback', () => {
     p.d.clear();
     expect(p.hush).toHaveBeenCalledWith('mill_hand');
   });
+
+  it('replays an interrupted question while preserving exchanges whose answers already started', () => {
+    const p = playback(() => true, () => 2);
+    const s = createInitialState('slot-1');
+    p.d.talk('caravan_master', here, s);
+    p.advance(0.5);
+    p.d.clear();
+    p.d.talk('caravan_master', here, s);
+    expect(p.played.map((x) => x.line)).toEqual(['hero.ask.where', 'hero.ask.where']);
+    p.advance(2.4);
+    expect(p.played.at(-1)!.line).toBe('joss.where');
+    p.d.clear();
+    p.d.talk('caravan_master', here, s);
+    expect(p.played.at(-1)!.line).toBe('hero.ask.bell');
+  });
 });

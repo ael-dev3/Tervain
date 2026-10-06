@@ -41,6 +41,8 @@ interface SpeechChain {
   pending: boolean;
   until: number;
   interaction: boolean;
+  /** Mark an exchange heard when its answer starts, so an interrupted question can be asked again. */
+  talk?: number;
   /** Player exchanges take turns, including when their first question has not loaded yet. */
   after?: SpeechChain;
 }
@@ -129,7 +131,6 @@ export class SpeechDirector {
     const i = this.nextTalk(npc, state);
     if (i === null) return false;
     const t = TALKS[i]!;
-    this.heard.add(i);
     if (this.busyFor(npc) > 0) {
       this.hooks.hush?.(npc);
       this.busy.delete(npc);
@@ -137,7 +138,7 @@ export class SpeechDirector {
     const steps: SpeechStep[] = [];
     if (t.ask) steps.push({ line: t.ask });
     steps.push({ line: t.reply, where });
-    this.enqueueChain([npc], steps, this.clock + this.busyFor('hero'), true);
+    this.enqueueChain([npc], steps, this.clock + this.busyFor('hero'), true, i);
     this.update(0);
     return true;
   }
@@ -240,6 +241,7 @@ export class SpeechDirector {
         else {
           q.chain.pending = false;
           q.chain.until = until;
+          if (q.chain.talk !== undefined) this.heard.add(q.chain.talk);
         }
         this.syncHeld();
         this.queue.sort((a, b) => a.at - b.at);
@@ -258,11 +260,11 @@ export class SpeechDirector {
     this.chains.clear();
   }
 
-  private enqueueChain(cast: readonly NpcId[], steps: SpeechStep[], at: number, interaction: boolean) {
+  private enqueueChain(cast: readonly NpcId[], steps: SpeechStep[], at: number, interaction: boolean, talk?: number) {
     const first = steps.shift();
     if (!first) return;
     const after = interaction ? [...this.chains].filter((c) => c.interaction && (c.pending || c.until > this.clock)).at(-1) : undefined;
-    const chain: SpeechChain = { cast, remaining: steps, pending: true, until: at, interaction, after };
+    const chain: SpeechChain = { cast, remaining: steps, pending: true, until: at, interaction, after, talk };
     this.chains.add(chain);
     this.reserve(chain, Math.max(at, after?.until ?? at), this.length(first.line));
     this.queue.push({ ...first, at, chain });
