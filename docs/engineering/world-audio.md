@@ -137,7 +137,7 @@ Loops are rendered as three identical passes. The middle one is kept, with its r
 
 ### Cast
 
-Each voice was designed from a written description with ElevenLabs Voice Design (`eleven_ttv_v3`) and saved to the owner's account. Of three previews, the one whose sample line transcribed correctly and whose pitch suited the person was kept. [voices.json](../../tools/world-audio/voices.json) keeps the description, the sample and the voice's id.
+Each voice was designed from a written description with ElevenLabs Voice Design (`eleven_ttv_v3`) and saved for reuse. Of three previews, the one whose sample line transcribed correctly and whose pitch suited the person was kept. [voices.json](../../tools/world-audio/voices.json) keeps the description, the sample and the voice's id.
 
 | Speaker | Voice | Lines | Story |
 | --- | --- | --- | --- |

@@ -14,19 +14,21 @@ This is a source-available project. Public access does not make its art, music, 
 
 ## Prototype status
 
-The main branch contains the **0.0.10** browser prototype. Later work remains in development; a branch or version label alone does not establish a deployed release. Tervain stays in the **0.0.x** stage until its quality gate is met. A desktop package and Steam integration are not yet available.
+This integration develops the **0.0.12** browser prototype. A source version alone does not establish deployment; check the normal publish workflow and the game’s displayed revision. Tervain stays in the **0.0.x** stage until its quality gate is met. A desktop package and Steam integration are not yet available.
 
 The prototype includes:
 
 - A sparse coastal arrival, a continuous woodland journey and inland settlements.
-- A supplied animated Wanderer, grounded natural scenery and coastal water.
+- The animated Wanderer, 17 adapted Meshy NPC roles and diverse supplied-tree habitats, with protected custom Pine geometry.
+- Rougher terrain, rooted vegetation, weathered buildings, grounded scenery and coastal water.
+- Adaptive world music, surface footsteps, item/combat/work sounds, wildlife and captioned resident speech.
 - World pickups, inventory, equipment, an initially empty ten-slot item hotbar, journal and map.
 - Physical movable supplies, saved progress and keyboard/mouse or controller controls.
 - A Templar vigil menu with The Sovereign's Oath, distant ships and a score-led spirit grove.
 
-[Launch address](https://ael-dev3.github.io/Tervain/) — GitHub Pages is currently disabled. The source remains available for local evaluation. Use a desktop WebGL browser; save data is stored in that browser.
+**[Launch Tervain](https://ael-dev3.github.io/Tervain/)** — Published from `main` through the normal GitHub Pages workflow. Use a desktop WebGL browser; save data is stored in that browser. The title shows the version and F3 shows the source revision.
 
-See the [0.0.10 release record](docs/production/releases/0.0.10.md) for verified results and limitations, and the [prototype guide](docs/engineering/prototype.md) for controls and boundaries.
+See the [0.0.12 release record](docs/production/releases/0.0.12.md) for verified results and limitations, and the [prototype guide](docs/engineering/prototype.md) for controls and boundaries.
 
 ## Develop locally
 
@@ -57,7 +59,6 @@ Browser checks do not establish packaged desktop compatibility or performance on
 ## Separate study viewers
 
 The [Gothic 3 / Ardea reconstruction](https://ael-dev3.github.io/Tervain/gothic3/) is an incomplete TypeScript browser port; see its [scope and controls](docs/engineering/gothic3-browser-port.md) and [rebuilding process](docs/engineering/gothic3-rebuild-overview.md). It is separate from the original Tervain game and from the [local-install study viewer](docs/engineering/gothic3-local.md), which reads the visitor's own installed files in their browser and hosts no game data. Neither route grants rights to Gothic 3 material or establishes commercial-release clearance.
-
 
 ### Gothic 3 study viewer examples
 
