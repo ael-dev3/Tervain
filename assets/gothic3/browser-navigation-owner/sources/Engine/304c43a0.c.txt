@@ -1,0 +1,27 @@
+/* ENTRY 304c43a0 | FUN_304c43a0 | STATUS decompiled | 17 ms */
+
+void __thiscall FUN_304c43a0(int param_1,eCEntity *param_2)
+
+{
+  bCPropertyID *pbVar1;
+  eCEntityProxyInternal *peVar2;
+
+  if (param_2 == (eCEntity *)0x0) {
+    if (*(eCEntityProxyInternal **)(param_1 + 4) != (eCEntityProxyInternal *)0x0) {
+      eCEntityProxyInternal::ReleaseReference(*(eCEntityProxyInternal **)(param_1 + 4));
+      *(undefined4 *)(param_1 + 4) = 0;
+    }
+    *(undefined4 *)(param_1 + 4) = 0;
+    bCPropertyID::Destroy((bCPropertyID *)(param_1 + 8));
+    return;
+  }
+  pbVar1 = eCNode::GetID((eCNode *)param_2);
+  bCPropertyID::operator=((bCPropertyID *)(param_1 + 8),pbVar1);
+  if (*(eCEntityProxyInternal **)(param_1 + 4) != (eCEntityProxyInternal *)0x0) {
+    eCEntityProxyInternal::ReleaseReference(*(eCEntityProxyInternal **)(param_1 + 4));
+    *(undefined4 *)(param_1 + 4) = 0;
+  }
+  peVar2 = eCEntity::QueryEntityProxyInternal(param_2);
+  *(eCEntityProxyInternal **)(param_1 + 4) = peVar2;
+  return;
+}

@@ -1,0 +1,28 @@
+/* ENTRY 202c64a0 | FUN_202c64a0 | STATUS decompiled | 4 ms */
+
+undefined4 __thiscall FUN_202c64a0(int param_1,int param_2)
+
+{
+  int iVar1;
+  int *piVar2;
+
+  iVar1 = *(int *)(param_1 + 0x3c);
+  if (iVar1 != 0) {
+    piVar2 = (int *)(*(int *)(param_1 + 0x38) + iVar1 * 4);
+    do {
+      piVar2 = piVar2 + -1;
+      iVar1 = iVar1 + -1;
+      if (param_2 == *piVar2) {
+        if (iVar1 != -1) {
+          return 0;
+        }
+        break;
+      }
+    } while (iVar1 != 0);
+  }
+  iVar1 = *(int *)(param_1 + 0x3c) + 1;
+  thunk_FUN_2005e3c0(iVar1,(iVar1 != 0) - 1);
+  *(int *)(param_1 + 0x3c) = iVar1;
+  *(int *)(*(int *)(param_1 + 0x38) + -4 + iVar1 * 4) = param_2;
+  return 1;
+}

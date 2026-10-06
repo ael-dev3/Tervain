@@ -1,0 +1,7 @@
+/* ENTRY 30063530 | FUN_30063530 | STATUS decompiled | 1 ms */
+
+bool FUN_30063530(void)
+
+{
+  return eCApplication::ms_bInitialised;
+}

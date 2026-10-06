@@ -270,10 +270,10 @@ route when the reviewed changes reach `main`.
 
 The separate TypeScript route is live at
 [Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/). The deployed
-integration through checkpoint 77 is `main` commit
-`57c60dcddb215d4c66589acdc586831f2a0b8584`, merged in
-[PR 46](https://github.com/ael-dev3/Tervain/pull/46) and published by successful
-[workflow run 37532478269](https://github.com/ael-dev3/Tervain/actions/runs/37532478269), attempt 1.
+integration through checkpoint 78 is `main` commit
+`351bd200277a1214e94ccdca1552d5ef2c2a473b`, merged in
+[PR 47](https://github.com/ael-dev3/Tervain/pull/47) and published by successful
+[workflow run 37535953025](https://github.com/ael-dev3/Tervain/actions/runs/37535953025), attempt 1.
 
 The public browser check loads 202 scene objects and 70 character models,
 enters Ardea with Hero HP 100 and inspects the Hero model (10,692 triangles,
@@ -297,6 +297,11 @@ adds the ordinary Engine DLL attach prefix: physical security cookie, OS
 output, TLS/FLS indices, encoded pointers and the 532-byte CRT thread record.
 It reaches the next GetCommandLineA dependency before full DLL startup; these
 components remain separate from the live NPC reader.
+[Checkpoint 79](gothic3-rebuilding-process.md#79-preserve-navigation-attachment-notifications-and-live-area-ownership)
+adds the original nonpropagated Navigation notification sequence and a browser
+owner for the application session cache and area query services. Actual area
+construction, reflected type ownership and lower notification services remain
+required before this can activate the selected NPCs.
 Subsequent build and deployment receipts are recorded in the
 [Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml).
 This is an incomplete reconstruction; hosting and a successful build do not

@@ -17,6 +17,8 @@ import type { NativePlayerWishedMovement } from './player-state';
 import { nativeNavigationRoutinePointAssignments } from './navigation-routine';
 import type { NativeNavigationRoutinePoint } from './navigation-routine';
 import { OriginalEnclaveProxy } from './native-properties';
+import { nativeNavigationCustomNotification } from './navigation-notifications';
+import type { NativeNavigationNotificationHost } from './navigation-notifications';
 
 const rules = JSON.parse(rulesText) as { schema: string; inputs: Record<string, string>; version: number; getVersion: number;
   propertyType: number; nativeBytes: number; wrapperVtable: string; fields: NativeReflectionField[] };
@@ -52,6 +54,9 @@ export interface NativeNavigationReadingHost {
   /** Full original GameReset/array fallback/proxy SetEntity/PostRead sequence.
    * Required after addition; derived Read itself does not invoke PostRead. */
   postRead?(properties: OriginalNavigationProperties): NativeValue<void>;
+  /** Actual lower CString/proxy/contact/script owners for nonpropagated
+   * lifecycle notifications. Reflective payload reads remain propagated. */
+  notifications?: NativeNavigationNotificationHost;
 }
 export interface NativeNavigationValueArray {
   allocation: Uint8Array | null; count: number; capacity: number;
@@ -303,20 +308,28 @@ export class OriginalNavigationProperties {
     this.knownMask.fill(0xff, offset, offset + 12);
   }
   exact(): void {
-    if (this.wrapper.native !== this.base || this.base.values !== this.values || this.base.wrapper !== this.wrapper || this.wrapper.deleted) throw new Error('Actual retained Navigation PS/value store required');
+    this.live();
+    if (this.wrapper.native !== this.base || this.base.values !== this.values || this.base.wrapper !== this.wrapper ||
+        this.wrapper.deleted || this.wrapper.backing?.freed || this.wrapper.backing?.region.freed) throw new Error('Actual retained Navigation PS/value store required');
   }
-  /** Propagated=true selects both original custom overrides' inherited branch.
-   * Each owner pointer is independently reread; Modified is its actual read. */
-  notify(phase: 'enter' | 'exit', property: string): void {
+  /** The custom override lies between the two independently reread owners.
+   * Only propagated payload notifications skip its area/routine branches. */
+  notify(phase: 'enter' | 'exit', property: string, propagated = true): void {
     this.exact();
     const controller = this.wrapper.controller;
     for (let index = 0; index < 2; index++) {
+      // The custom override can destroy the receiver. Independent temporary
+      // cleanup still follows source order before this next PS dereference.
+      this.exact();
       const owner = this.base.owner.read();
       if (owner !== null) { owner.propertyOwner.modified(); controller.write('owner.Modified read ' + phase, index === 0 ? 'Engine:NotifyEx' : 'Engine:OnNotifyEx'); }
-      if (index === 0) controller.write('Navigation virtual OnNotify ' + phase + '(propagated=true) ' + property,
-        phase === 'enter' ? 'Game:200328bc' : 'Game:2002bb11');
+      if (index === 0) {
+        controller.write('Navigation virtual OnNotify ' + phase + '(propagated=' + propagated + ') ' + property,
+          phase === 'enter' ? 'Game:200328bc' : 'Game:2002bb11');
+        if (!propagated) nativeNavigationCustomNotification(this, phase, property, this.host.notifications);
+      }
     }
-    controller.write('SharedBase inherited OnNotify true', phase === 'enter' ? 'Engine:3002ad10' : 'Engine:30037ca4');
+    controller.write('SharedBase inherited OnNotify ' + propagated, phase === 'enter' ? 'Engine:3002ad10' : 'Engine:30037ca4');
   }
   /** Apply the source Routine string and its three indexed point properties.
    * This preserves the native setter order but does not resolve a point into a

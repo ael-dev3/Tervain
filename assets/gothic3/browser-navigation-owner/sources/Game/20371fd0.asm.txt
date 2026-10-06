@@ -1,0 +1,2 @@
+20371fd0 | 8a81e8000000 | MOV AL,byte ptr [ECX + 0xe8]
+20371fd6 | c3 | RET
