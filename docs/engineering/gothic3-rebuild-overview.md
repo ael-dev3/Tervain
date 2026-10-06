@@ -121,6 +121,49 @@ recreate the native quick-use task or animation, and combat still cannot injure
 the Hero in ordinary play. The detailed evidence and limits are recorded in
 [checkpoint 50](gothic3-rebuilding-process.md#50-apply-the-source-defined-health-potion-effect).
 
+## Example: trace a native inventory handoff
+
+The original `Give` dialogue command illustrates why a rebuild follows the
+whole native call path. `Script_Game.dll` reads donor, recipient, item template
+and amount; it calls `PSInventory::AssureItems` on the donor at quality 0 with
+the requested amount, then passes the returned stack index to
+`PSInfoManager::Give`. The indexed Game.dll overload clamps the transfer amount
+only when the donor is the player, then delegates to
+`gCInventory_PS::TransferItemsTo`; that transfer creates the recipient stack
+before subtracting from the donor. Its remaining behavior includes inventory
+callbacks, conditional quest manager notification, and localized Given/Taken
+messages. The TypeScript inventory module now models this positive-amount
+command path separately from the template-based Info Give overload. The
+captured command registration and behavior summary are in
+[`native-command-table.json`](../../assets/gothic3/gameplay/native-command-table.json)
+and [`native-semantics.json`](../../public/gothic3/gameplay/native-semantics.json);
+the assurance body is in
+[`10003c65.c.txt`](../../assets/gothic3/inventory/sources/Script/10003c65.c.txt),
+and the selected transfer bodies are under
+[`assets/gothic3/inventory/sources/Game/`](../../assets/gothic3/inventory/sources/Game/).
+
+The browser now connects positive-amount `Give` records that transfer the
+source-pinned `It_Gold` template between PC_Hero and the active Ardea dialogue
+owner. A new game replays the Hero's 121 source-seeded inventory assurances;
+the native Script_Game path assures quality 0 for the donor and uses its
+returned stack index. Before transfer, the host checks both inventories and
+all 641 loaded quest definitions for a matching item-receive delivery target
+with the item and participants. The dialogue host now also handles condition-8 NPC delivery
+callbacks for Running type-1/type-4 quests: the first exact `Info.Npc` target
+counter advances once, and source-backed rewards are preflighted before a
+completed quest changes state. The browser PickPocket action transfers
+source-resolved loot, but its property-listener and quest-start chain is not
+connected, so `Ardea_Pocket` remains Open and its theft-reporting sequence is
+not reachable in a fresh game. Both inventories retain their source-resolved
+templates and stack values in browser saves, so a gold transfer survives
+reload. The browser prints a simple transfer receipt; the game's localized
+Given/Taken messages are not reproduced. Other templates, linked items,
+item-receive quest delivery, trade and equipment remain outside this slice.
+See [checkpoint
+61](gothic3-rebuilding-process.md#61-connect-the-source-backed-ardea-gold-give-path)
+and [checkpoint
+62](gothic3-rebuilding-process.md#62-connect-the-bounded-info-delivery-callback).
+
 ## Where each stage lives
 
 | Stage | Repository location | Result |
@@ -138,164 +181,153 @@ alone proves that the original game has been rebuilt. Each playable slice should
 carry its source evidence through conversion, TypeScript behavior, browser use
 and saving before the next campaign feature is treated as integrated.
 
-## Current milestone
+## Current implementation status
 
-The current browser project has an Ardea exploration scene, a moving third-
-person Hero presentation, original-data inspectors, streamed landscapes for
-Myrtana, Nordmar and Varant, and a source-backed fresh-world quest journal. The
-audited startup path runs `Xardas_FindXardas`; browser saves retain exploration
-state, the world clock, quest states and the Hero's `PlayerKnows` game events.
-A bounded Ardea dialogue slice now adds selected native predicates, event
-changes, ended actor flags, quest-log pairs and condition 6/11/21 quest status
-transitions. Native Hello records now use their captured `Dialog` and
-`TalkedToPlayer` state, without depending on unresolved death/wound facts. A
-manual browser conversation with Milten confirmed that the
-source record `BPANKRATZ31756` requires 12 `It_FiremageCup` items. Bounded
-`CondItems` checks now read the Hero's 121 hash-checked starting inventory
-stacks, so this requirement is known to be unmet at the captured starting
-state. The source inventory remains the baseline, with a browser-owned health
-potion action now applying its exact source modifier and saving its remaining
-count. Other item use, transfer, equipment and live inventory changes are not
-implemented. Source-backed
-`SetTradeEnabled` commands from Jack and Hamlar now update `Dialog.TradeEnabled`
-and persist through browser saves; the trade interface and item exchange remain
-unavailable. Source-backed
-`SetPartyEnabled` and `SetTeachEnabled` commands now persist their matching
-Dialog flags too, while follower behavior and training effects remain absent.
-At scene startup, three Ardea residents are now placed at their native `Start`
-routine points when all stored work/rest/sleep assignments agree. Diego's
-source point is within the original 5 m dialogue radius of `Ardea_4Friends`.
-After source placement, the browser opens Diego's panel and completes two
-responses; the saved session restores with no repeat response currently ready.
-The browser still does not execute the native scheduler, move residents between
-points or activate their native entity lifecycle.
-Actor-dialog state now covers all 67 visible Ardea characters. Each is resolved
-to its hash-checked source archive and path, exact entity index, name and GUID;
-the browser save records those source identities, and older saves preserve the
-new actors' source-default enable flags. Repeated display names remain distinct
-by GUID, with unresolved secondary name references kept ambiguous. This reads
-serialized NPC/Dialog flags only; it does not activate routines, AI or native
-entity lifecycle. See [checkpoint 51](gothic3-rebuilding-process.md#51-load-dialog-state-for-the-visible-ardea-actors).
-Source-backed
-`GiveXP` awards update retained Hero PlayerMemory;
-threshold crossings also update a source-constructed Hero NPC Level, grant LP,
-show the localized level-up text and persist through save/restore. The
-hash-checked Hero NPC packet now reads through its registered accessor; the
-old `Level` record is preserved as opaque `bCObsoleteClass` bytes. The property
-set is not attached to a live entity, and the level-up visual effect is absent.
-Bounded `SucceedQuest` calls now apply native PoliticalFame increments and
-attribute-base rewards before GiveXP. Ardea_Pocket raises THF and awards XP;
-Anog_ReportInog increments its alignment's PoliticalFame entry. Saves retain
-these values. Enclave-fame rewards, arena updates and the Ardea_Revolution
-tutorial popup still block their quests.
-The play HUD displays Hero HP; the source-backed `SetHitPoints` path clamps it
-to the live native range and browser saves preserve it through the PlayerMemory
-setters. Inventory now has a working health-potion action: it verifies the
-exact source template, applies the native `HP` modifier through
-`gCPlayerMemory_PS::ApplyMod`, and saves the remaining count. The original
-`PS_QuickUse` task, drink animation and inventory observer callbacks are still
-outside the browser runtime, and attacks still do not damage live NPCs.
-These are integrated foundations, while most original dialogue
-progression, combat, NPC schedules and movement, inventory, faction
-consequences and endings still need to be rebuilt. A byte-audited combat kernel
-covers bounded damage and defeat arithmetic. A single-use effect executor now
-dispatches resolved melee effects through ordered host callbacks and reports
-partial application, but its host is not connected to live actors;
-the Hero also plays the recovered fist attack phases from mouse or keyboard
-input. At the hit window, the animated right hand now samples rendered
-character bounds and reports a contact candidate, but it does not damage a
-target or trigger an NPC response. A contact candidate now resolves to one
-hash-checked Ardea NPC source record, checks its script-routine, navigation and
-damage-receiver property sets, and initializes browser-owned mutable HP and
-stamina from the audited processing-range refresh. Those points persist in the
-browser save and are rejected on restore if the source hash or re-derived
-maximum differs. This still does not construct or activate a native entity,
-accept engine collision, run an AI task, or apply damage;
-`ordinaryPlayIntegrated`
-remains false: the live Ardea actors do not yet pass the original entity
-construction, context, cache-in and processing-range lifecycle needed to accept
-combat. The entity lifecycle evidence explicitly leaves those world-activation
-steps unresolved, so a verified damage formula is not yet an encounter the
-player can fight. The original unarmed `Fist` carrier now resolves from its
-exact template source path (Impact1, 10 damage), but it is not attached to live
-combat state. The NPC combat bridge now follows named treasure sets into their
-hash-checked templates and resolves deterministic Weaponry recipes to item
-damage and equipment-slot plans. For the Ardea Raider, the recipe resolves to
-`It_Axe_OrcSword_01` with 125 Edge damage; random Plunder generation and native
-cache-in are still absent, so the item is not attached to an active actor. The
-same source actor record now resolves serialized inventory references for
-`Orc_Head_S12` in slot 16 and `Orc_Body_Warrior_Outlaw` in slot 17 to their
-hash-checked templates. These are serialized head/body template references,
-not generated treasure or proof of active equipment. Diego's post-placement
-dialogue has now been verified in the browser. The next integration gate is to
-finish tracing random treasure generation and connect the resolved weaponry
-recipe through NPC cache-in, then construct and activate a source-backed NPC
-through the native lifecycle. After that, connect accepted contact, damage,
-response, defeat, quest counters and save/load as one playable encounter. The
-current limits and controls are listed in the
-[browser-port scope](gothic3-browser-port.md); native readers, conversion
-choices and dated implementation checkpoints are in the
-[detailed process record](gothic3-rebuilding-process.md), including
-[checkpoint 52](gothic3-rebuilding-process.md#52-resolve-serialized-npc-equipment-slot-templates)
-and [checkpoint 53](gothic3-rebuilding-process.md#53-verify-diegos-start-point-dialogue-in-the-browser).
+The steps above can be followed in the checked-out repository. The committed
+portable assets are sufficient to run the browser build; regenerating original
+assets additionally requires the owner's offline study and the tools described
+in the [preparation guide](../../tools/gothic3/README.md).
 
-The requested second URL is now live at
-[Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/). It serves the
-incomplete `main` build at commit
-`72e2a3993437e4b108291f8cb19692d0d4e5f620`; newer local gameplay changes have
-not yet been published. A live URL confirms hosting, not completion of the
-reconstruction.
+```powershell
+npm ci
+npm run dev
+# Open the local Vite URL with /gothic3/ appended.
+```
 
-## Rebuild sequence from here
+Before publishing implementation changes, run `npm run typecheck`, `npm test`
+and `npm run build`, inspect the diff and exercise the changed interaction in
+the browser. Keep its source receipts and save/restore checks with the same
+checkpoint. The production workflow checks the build and deploys the separate
+route when the reviewed changes reach `main`.
 
-The current branch resolves the native Start point for three residents and the
-local preview reports those placements at scene startup. It also resolves an
-attack-contact candidate to one exact source NPC and creates browser-owned,
-source-hash-bound mutable health and stamina state, which survives a save and
-restore. The NPC bridge resolves named treasure sets and deterministic
-Weaponry recipes through their hash-checked templates; it identifies the
-Ardea Raider's `It_Axe_OrcSword_01` as a UseType 52, 125-damage Edge weapon
-whose native primary slot is 6. Plunder generation remains unimplemented, and
-this source recipe is not yet applied to a live entity. The unarmed `Fist`
-damage carrier resolves from its exact template path, but it is not attached to
-the Hero. The Raider's serialized inventory record resolves head and body
-template references in slots 16 and 17, but these are not cache-in attachments.
-The post-placement browser check reached Diego at his resolved source `Start`
-point and opened his dialogue. Two source responses completed as
-`BPANKRATZ31453` and `BPANKRATZ31454`; after saving and reloading, his panel had
-no repeat response available. This verifies that bounded dialogue path and the
-saved-session behavior for this encounter. It does not run Diego's schedule or
-AI. The next milestone is to finish tracing random treasure generation and
-connect the resolved weaponry recipe through NPC cache-in so a resident's
-generated inventory, equipped weapon and armor come from the same live actor.
-Activate that resident through the full entity lifecycle: construct it, attach
-its properties, supply its world context, cache it in and register it for scene
-processing. Current browser actors remain presentation objects with a separate
-mutable state record; this bridge does not make them active engine entities.
-The routine-point integration seeds transforms only and does not bypass
-dialogue conditions.
+The separate TypeScript route is live at
+[Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/). The deployed
+baseline preceding checkpoints 55–71 was `main` commit
+`59854ed6e4daca03d6d0d6265a97fa1099c0c724`, published by
+[workflow run 37502708509](https://github.com/ael-dev3/Tervain/actions/runs/37502708509).
+Subsequent build and deployment receipts are recorded in the
+[Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml).
+This is an incomplete reconstruction; hosting and a successful build do not
+mean the campaign can be completed.
 
-Once that gate works, use the resident to complete a small encounter from start
-to finish: approach and interact, run the source-backed dialogue and quest
-changes, accept contact using the reconstructed collision rules, execute the
-damage and NPC response, update the journal and reward, then save and restore
-the result. Review each link against native evidence and the installed game
-before treating the encounter as integrated.
+The current playable slice combines a source-derived Ardea scene, a moving
+third-person Hero, model and motion inspection, and streamed landscape cells
+from Myrtana, Nordmar and Varant. Its browser-owned session can save and restore
+the Hero's position, world clock, quest states, supported game events, selected
+dialogue flags, and bounded progression values. The startup quest run,
+selected dialogue conditions and effects, Hero XP/level/learning-point changes,
+some quest rewards, and a source-verified health-potion effect are connected to
+that session. These are narrow supported paths; most original quests, item
+interactions, faction consequences and endings are not implemented.
 
-After the first encounter is end-to-end, extend the same connected runtime to
-the rest of Ardea's dialogue, NPC routines, combat and inventory; then cover
-faction consequences and travel across Myrtana, Nordmar and Varant. Complete the
-campaign branches and endings last, with save/load exercised at each major
-progression boundary. This order keeps new systems tied to a playable path
-instead of counting isolated readers or inspectors as finished game features.
+Scene data identifies all 70 placed Ardea actors by their source records,
+including Jack's three coastal bandits.
+Three residents can be placed at matching native Start routine points when
+their work, rest and sleep assignments agree. Diego's bounded dialogue was
+exercised after placement and across save/restore.
+These actors still do not run the original scheduler, AI or native entity
+lifecycle. Combat research resolves damage rules, the unarmed Fist carrier,
+serialized equipment references and deterministic Weaponry recipes. On the
+current checkpoint, the Plunder bridge resolves distribution-0 draws
+with a browser-owned MSVCRT-compatible random stream and creates NPC inventory
+stacks through `NativeInventory`. Distribution-3 Weaponry now adds the
+hash-checked Raider axe through `AssureItems` at quality 256 and amount 1; its
+primary-slot-6 `EquipStack` plan is retained with `applied: false`. UseType 2
+two-hand weapons are marked as requiring a split-stack/slots-6-and-5 path that
+is not yet implemented. Browser NPC save schema v2 persists the source-bounded
+inventory, and v1 saves rebuild the new Weaponry stack from their stored Plunder
+draws. Creation still occurs on browser first contact, not native NPC cache-in;
+the browser seed and global
+random-call order do not reproduce the installed game's sequence. Physical
+ItemWorld objects, actual equipment attachment and AI remain disconnected.
+This checkpoint applies browser-hosted fist damage to the 15 exact
+starting Raider identities and Jack's three coastal bandits. It uses
+source-verified Hero and Fist data and the audited damage calculation, then
+updates NPC HP in browser saves. Zero-HP visuals hide immediately and stay
+hidden after restore. Only the bandits have a source-resolved lethal
+disposition; Raider zero HP does not establish a kill. The kill callback
+updates exact-name targets for types 2/3/4 and can complete eligible quests,
+with their supported rewards saved once. The hit detector and standing target
+state remain browser-owned; native NPC activation, AI, attacks and responses,
+Kill/Defeat task execution, death animation, defeat XP, loot and several reward
+services remain absent. The
+retained initialized Hero seed supplies verified enum fields because the sparse
+runtime NPC reader does not decode them. Details are in [checkpoint
+55](gothic3-rebuilding-process.md#55-create-browser-npc-inventory-from-plunder)
+and [checkpoint
+57](gothic3-rebuilding-process.md#57-materialize-deterministic-weaponry-in-the-browser-npc-inventory).
+The branch also connects Jack's first bandit-quest dialogue: its source events,
+condition-5 report and condition-6 quest start now persist through browser
+save/restore ([checkpoint
+69](gothic3-rebuilding-process.md#69-start-jacks-source-backed-bandit-quest)).
+The three source-directed bandit kill callbacks can now complete the quest,
+award its 500 XP and unlock the condition-10 return dialogue for 50 gold and
+250 further XP. This is a bounded browser path; native Kill/Defeat task
+acceptance and defeat XP remain unimplemented. See [checkpoint
+70](gothic3-rebuilding-process.md#70-connect-jacks-bandits-and-correct-native-quest-callbacks).
+The current branch also resolves the native body-template `Robe` flag from
+inventory slot17 and labels routine `Action`/`AniState` fields separately from
+live combat animation state. A new reader maps the selected Hero motion into
+the pose candidates and blend weight that `TrackCurrentPose` writes when the
+actor transition flag is supplied. It is not connected to the damage planner;
+other NPCs still use static bind-pose models. Diego is now an exception: the
+branch converts his exact source body and head XACT files into a skinned actor,
+checks their shared bind hierarchy, and maps the 11 audited Hero clips onto
+matching named bones. The browser places and idles Diego's actor by his source
+person GUID, and the model inspector can play the same clips. These are visual
+and verified combat inputs; they do not select original NPC animations, apply
+damage or activate NPC responses. See [checkpoint
+56](gothic3-rebuilding-process.md#56-resolve-npc-armor-class-without-misusing-routine-state),
+[checkpoint
+58](gothic3-rebuilding-process.md#58-decode-the-live-motions-tracked-pose-fields),
+and [checkpoint
+59](gothic3-rebuilding-process.md#59-convert-and-connect-diegos-source-skinned-actor).
+The bounded damage integration is described in [checkpoint
+60](gothic3-rebuilding-process.md#60-apply-a-bounded-browser-hero-fist-hit), and
+the 15-Raider HP, defeat-visual and save/restore integration is described in
+[checkpoint 67](gothic3-rebuilding-process.md#67-persist-defeat-for-the-starting-ardea-raiders).
+The current branch also exposes a browser PickPocket action. It reads the
+source Hero Theft value and target level, applies the source gate, and adds
+successful distribution-7 loot to the saved Hero inventory. The target's
+`Dialog.PickedPocket` flag is saved by exact actor identity. Failure/caught
+responses, the enclave crime effect, native InfoManager lifecycle, property
+listeners and the `Ardea_Pocket` quest-start path remain unresolved, so the
+quest stays Open. See [checkpoint
+64](gothic3-rebuilding-process.md#64-port-the-bounded-pickpocket-gate-and-loot-generator)
+and [checkpoint
+65](gothic3-rebuilding-process.md#65-persist-the-source-backed-pickedpocket-actor-flag)
+and [checkpoint
+66](gothic3-rebuilding-process.md#66-connect-source-backed-pickpocket-loot-to-hero-inventory).
 
-## Completion standard
+## Next playable integration gate
 
-The reconstruction is complete when a player can start a new game and play
-through Gothic 3's progression to its available endings, with the required
-worlds, NPC routines, factions, dialogue, quests, combat and save/load working
-together. A successful build or faithful conversion validates only its own
-part of that experience.
+The next slice is to connect a source-backed NPC encounter through native
+activation, action state and saved game state. The browser can already apply
+bounded damage to the 15 starting Raiders and Jack's three bandits, and
+complete Jack's supported quest through source-directed bandit kill callbacks.
+Their native behavior is not connected:
+
+1. Trace and connect the PickPocket failure/caught response, enclave crime,
+   `Dialog.PickedPocket` property-listener and quest-start callback, then route
+   the browser action through the native InfoManager lifecycle.
+2. Replace browser first-contact inventory creation with the NPC
+   processing-range/cache-in callback order and the native process-wide random
+   sequence for Plunder.
+3. Apply the Weaponry stack through the live actor's entity/skeleton/stat
+   equipment host, including the source-serialized body/head attachments.
+4. Construct and activate that NPC through property attachment, world context
+   and processing registration.
+5. Replace browser-owned hit and kill-counter dispatch with native contact
+   eligibility, animation/action state, NPC response, Kill/Defeat task
+   acceptance, full quest callbacks, XP and rewards in the recovered order.
+6. Save, reload and verify the encounter's resulting state.
+
+Then expand the connected loop across Ardea, the other regions, faction
+consequences and the campaign branches. Completion means a player can start a
+new game and play through Gothic 3's progression to an available ending, with
+worlds, NPC behavior, factions, dialogue, quests, combat and save/load working
+together. A decoder, inspector, isolated formula or browser scene is evidence
+for that component only.
 
 For local asset preparation and source requirements, see the
 [preparation guide](../../tools/gothic3/README.md).

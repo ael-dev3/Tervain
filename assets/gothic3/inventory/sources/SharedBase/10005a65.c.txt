@@ -1,23 +1,20 @@
-/* ENTRY 10005a65 | bCObjectRefBase::NotifyPropertyValueChangedExitEx | STATUS decompiled | 6 ms */
+/* ENTRY 10005a65 | bCObjectRefBase::NotifyPropertyValueChangedExitEx | STATUS decompiled | 2 ms */
 
 /* public: virtual bool __thiscall bCObjectRefBase::NotifyPropertyValueChangedExitEx(char const
-   *,bool)
-   bCObjectRefBase member function inherited by bCThreadObjectRefBase
-   bCObjectRefBase member function inherited by bCObsoleteClass
-   bCObjectRefBase member function inherited by bCEvent */
+   *,bool) */
 
 bool __thiscall
 bCObjectRefBase::NotifyPropertyValueChangedExitEx(bCObjectRefBase *this,char *param_1,bool param_2)
 
 {
-  bool bVar1;
+  undefined1 uVar1;
   
                     /* 0x5a65  3813  ?NotifyPropertyValueChangedExitEx@bCObjectRefBase@@UAE_NPBD_N@Z
                         */
                     /* WARNING: Could not recover jumptable at 0x1004a3c5. Too many branches */
                     /* WARNING: Treating indirect jump as call */
-  bVar1 = (*this->vftablePtr->OnNotifyPropertyValueChangedExitEx)(this,param_1,param_2);
-  return bVar1;
+  uVar1 = (**(code **)(*(int *)this + 0x50))();
+  return (bool)uVar1;
 }
 
 

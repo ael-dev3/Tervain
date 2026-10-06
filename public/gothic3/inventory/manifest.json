@@ -27,8 +27,8 @@
   "outputs": [
     {
       "url": "native-inventory-evidence.json",
-      "sha256": "6388d8486a8f15eea400c68c7f1a4cbd6eb5a2d83300f8f05dc51be2b7653bf6",
-      "bytes": 479382
+      "sha256": "59cedabead4ed573e56c664b5ad601ca46fddf60152175b9256283c88dc11b65",
+      "bytes": 547447
     },
     {
       "url": "starting-inventory.json",
@@ -37,9 +37,9 @@
     }
   ],
   "audit": {
-    "selectedEntries": 136,
-    "instructionRecords": 2772,
-    "matchedInstructionBytes": 7666,
+    "selectedEntries": 143,
+    "instructionRecords": 3306,
+    "matchedInstructionBytes": 9188,
     "allInstructionBytesMatch": true
   }
 }

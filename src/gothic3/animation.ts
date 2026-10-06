@@ -4,6 +4,8 @@ import { clone } from 'three/addons/utils/SkeletonUtils.js';
 import { assetUrl } from './assets';
 import { configureNativeSkinning } from './skinning';
 import { NativeMotionPlayer } from './native-motion';
+import { trackNativePoseFromMotion } from './native-current-pose';
+import type { NativeTrackedPoseResult } from './native-current-pose';
 
 export interface NativeClip {
   name: string;
@@ -19,8 +21,11 @@ export interface NativeClip {
 
 export interface AnimatedAsset {
   id: string;
+  personId?: string;
+  personName?: string;
   glb: string;
   native: string;
+  motionSourceAsset?: { id: string; native: string; sha256: string; auditSHA256: string };
   parts: { name: string; source: string; triangles: number; splitVertices: number; joints: number; skinAttributeSets: number }[];
   clips: NativeClip[];
 }
@@ -55,6 +60,17 @@ export class AnimatedActor {
   get clip(): NativeClip | null { return this.selected; }
   get playing(): boolean { return this.motion.playing; }
   set playing(value: boolean) { this.motion.playing = value; }
+
+  /** Read the source-backed pose fields for the current single motion track.
+   * The caller supplies the captured native actor transition flag. */
+  trackedPose(transitionState: 0 | 1): NativeTrackedPoseResult {
+    const name = this.motion.clipName;
+    const duration = this.motion.duration;
+    if (!this.playing || name === null || duration === null) {
+      return { status: 'unsupported', reason: 'A selected, playing native motion is required.', dependencies: ['live-animation-track'] };
+    }
+    return trackNativePoseFromMotion(name, this.motion.playTime, duration, transitionState);
+  }
 
   select(name: string | null): void {
     const record = name === null ? null : this.asset.clips.find((clip) => clip.name === name);

@@ -10052,6 +10052,132 @@
       "sourceActivation": "original quest-controlled activation is not reproduced"
     },
     {
+      "id": "0c3ad5c499a37e479901ef8b1a19877900000000",
+      "name": "Ardea_OutNovice_01",
+      "position": [
+        110.432422,
+        -0.384512,
+        81.931602
+      ],
+      "rotationY": 0.33,
+      "body": "G3_Hero_Body_RebBandit_S01",
+      "head": "G3_Head_Hero_Myrtana_Animated_05_S01",
+      "source": "Projects_compiled.p00 :: G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat # entity 22138",
+      "sourceFlags": [
+        1,
+        1,
+        0,
+        1,
+        0,
+        1,
+        1
+      ],
+      "appearanceSlots": [
+        {
+          "slot": "actor",
+          "file": "G3_Hero_Skeleton.fxa",
+          "materialSwitch": 0
+        },
+        {
+          "slot": "Slot_Head",
+          "file": "G3_Head_Hero_Myrtana_05.fxa",
+          "materialSwitch": 1,
+          "file2": "G3_Head_Hero_Myrtana_Animated_05.fxa",
+          "materialSwitch2": 1
+        },
+        {
+          "slot": "Slot_Body",
+          "file": "G3_Hero_Body_RebBandit.fxa",
+          "materialSwitch": 1
+        }
+      ],
+      "sourceActivation": "original quest-controlled activation is not reproduced"
+    },
+    {
+      "id": "ef1adbed209ec647b20ebc9fc989642500000000",
+      "name": "Ardea_OutNovice_02",
+      "position": [
+        106.492656,
+        0.197041,
+        84.789746
+      ],
+      "rotationY": -1.46,
+      "body": "G3_Hero_Body_RebBanditMed_S01",
+      "head": "G3_Head_Hero_Myrtana_Animated_06_S01",
+      "source": "Projects_compiled.p00 :: G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat # entity 22141",
+      "sourceFlags": [
+        1,
+        1,
+        0,
+        1,
+        0,
+        1,
+        1
+      ],
+      "appearanceSlots": [
+        {
+          "slot": "actor",
+          "file": "G3_Hero_Skeleton.fxa",
+          "materialSwitch": 0
+        },
+        {
+          "slot": "Slot_Head",
+          "file": "G3_Head_Hero_Myrtana_06.fxa",
+          "materialSwitch": 1,
+          "file2": "G3_Head_Hero_Myrtana_Animated_06.fxa",
+          "materialSwitch2": 1
+        },
+        {
+          "slot": "Slot_Body",
+          "file": "G3_Hero_Body_RebBanditMed.fxa",
+          "materialSwitch": 1
+        }
+      ],
+      "sourceActivation": "original quest-controlled activation is not reproduced"
+    },
+    {
+      "id": "81630a69bab9c44b9df46b76df0ac7b100000000",
+      "name": "Ardea_OutNovice_03",
+      "position": [
+        105.497187,
+        0.138384,
+        79.031816
+      ],
+      "rotationY": -1.46,
+      "body": "G3_Hero_Body_RebBandit_S01",
+      "head": "G3_Head_Hero_Myrtana_Animated_09_S04",
+      "source": "Projects_compiled.p00 :: G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat # entity 22144",
+      "sourceFlags": [
+        1,
+        1,
+        0,
+        1,
+        0,
+        1,
+        1
+      ],
+      "appearanceSlots": [
+        {
+          "slot": "actor",
+          "file": "G3_Hero_Skeleton.fxa",
+          "materialSwitch": 0
+        },
+        {
+          "slot": "Slot_Head",
+          "file": "G3_Head_Hero_Myrtana_09.fxa",
+          "materialSwitch": 4,
+          "file2": "G3_Head_Hero_Myrtana_Animated_09.fxa",
+          "materialSwitch2": 4
+        },
+        {
+          "slot": "Slot_Body",
+          "file": "G3_Hero_Body_RebBandit.fxa",
+          "materialSwitch": 1
+        }
+      ],
+      "sourceActivation": "original quest-controlled activation is not reproduced"
+    },
+    {
       "id": "2da6e6d0b7884a44a2bd7f9749379cc400000000",
       "name": "Hamlar",
       "position": [
@@ -11555,6 +11681,88 @@
         }
       }
     },
+    "G3_Hero_Body_RebBandit_S01": {
+      "obj": "models/G3_Hero_Body_RebBandit_S01.obj",
+      "mtl": "models/G3_Hero_Body_RebBandit_S01.mtl",
+      "source": "_compiledAnimation.pak :: G3_Hero_Body_RebBandit.xact",
+      "unitScale": 1,
+      "materials": {
+        "G3_Animation_Body_RebBandit_01_A": {
+          "blendMode": 0,
+          "maskReference": 0,
+          "source": "_compiledMaterial.pak :: G3_Animation_Body_RebBandit_01_A.xshmat"
+        }
+      }
+    },
+    "G3_Head_Hero_Myrtana_Animated_05_S01": {
+      "obj": "models/G3_Head_Hero_Myrtana_Animated_05_S01.obj",
+      "mtl": "models/G3_Head_Hero_Myrtana_Animated_05_S01.mtl",
+      "source": "_compiledAnimation.pak :: G3_Head_Hero_Myrtana_Animated_05.xact",
+      "unitScale": 1,
+      "materials": {
+        "G3_Animation_Head_Eyes_01": {
+          "blendMode": 0,
+          "maskReference": 0,
+          "source": "_compiledMaterial.pak :: G3_Animation_Head_Eyes_01.xshmat"
+        },
+        "G3_Animation_Head_Main_01": {
+          "blendMode": 0,
+          "maskReference": 0,
+          "source": "_compiledMaterial.pak :: G3_Animation_Head_Main_01.xshmat"
+        },
+        "G3_Animation_Head_Mouth_01": {
+          "blendMode": 0,
+          "maskReference": 0,
+          "source": "_compiledMaterial.pak :: G3_Animation_Head_Mouth_01.xshmat"
+        }
+      }
+    },
+    "G3_Head_Hero_Myrtana_Animated_06_S01": {
+      "obj": "models/G3_Head_Hero_Myrtana_Animated_06_S01.obj",
+      "mtl": "models/G3_Head_Hero_Myrtana_Animated_06_S01.mtl",
+      "source": "_compiledAnimation.pak :: G3_Head_Hero_Myrtana_Animated_06.xact",
+      "unitScale": 1,
+      "materials": {
+        "G3_Animation_Head_Eyes_01": {
+          "blendMode": 0,
+          "maskReference": 0,
+          "source": "_compiledMaterial.pak :: G3_Animation_Head_Eyes_01.xshmat"
+        },
+        "G3_Animation_Head_Main_01": {
+          "blendMode": 0,
+          "maskReference": 0,
+          "source": "_compiledMaterial.pak :: G3_Animation_Head_Main_01.xshmat"
+        },
+        "G3_Animation_Head_Mouth_01": {
+          "blendMode": 0,
+          "maskReference": 0,
+          "source": "_compiledMaterial.pak :: G3_Animation_Head_Mouth_01.xshmat"
+        }
+      }
+    },
+    "G3_Head_Hero_Myrtana_Animated_09_S04": {
+      "obj": "models/G3_Head_Hero_Myrtana_Animated_09_S04.obj",
+      "mtl": "models/G3_Head_Hero_Myrtana_Animated_09_S04.mtl",
+      "source": "_compiledAnimation.pak :: G3_Head_Hero_Myrtana_Animated_09.xact",
+      "unitScale": 1,
+      "materials": {
+        "G3_Animation_Head_Eyes_01": {
+          "blendMode": 0,
+          "maskReference": 0,
+          "source": "_compiledMaterial.pak :: G3_Animation_Head_Eyes_01.xshmat"
+        },
+        "G3_Animation_Head_Main_01": {
+          "blendMode": 0,
+          "maskReference": 0,
+          "source": "_compiledMaterial.pak :: G3_Animation_Head_Main_01.xshmat"
+        },
+        "G3_Animation_Head_Mouth_01": {
+          "blendMode": 0,
+          "maskReference": 0,
+          "source": "_compiledMaterial.pak :: G3_Animation_Head_Mouth_01.xshmat"
+        }
+      }
+    },
     "G3_Hero_Body_FatSmith_S01": {
       "obj": "models/G3_Hero_Body_FatSmith_S01.obj",
       "mtl": "models/G3_Hero_Body_FatSmith_S01.mtl",
@@ -11625,19 +11833,19 @@
   },
   "metrics": {
     "worldInstances": 202,
-    "people": 67,
-    "uniqueModels": 130,
-    "textures": 139,
-    "uniqueModelTriangles": 634836,
-    "textureBytes": 54477726,
-    "assetBytes": 130869971
+    "people": 70,
+    "uniqueModels": 134,
+    "textures": 140,
+    "uniqueModelTriangles": 652328,
+    "textureBytes": 54771486,
+    "assetBytes": 132962888
   },
   "notes": [
     "Native geometry and recorded entity transforms from the local Gothic 3 installation; centimetres become metres and Z is reflected for right-handed WebGL.",
     "Structures use full-detail family resources at their corresponding recorded low-detail family transforms. sourceResource and selectedResource record this choice.",
     "Terrain is six original Myrtana landscape LOD cells. The original high-detail terrain mesh resources referenced by legacy .node data are not available as independent installed archive files.",
     "Humans and orcs use their actual Ardea/SysDyn NPC body/head slots and material switch values, exported as static bind-pose geometry. Hair/beard/equipment attachments, skeletal motion and original facial animation are not ported.",
-    "Both local Ardea NPC layers and six named nearby SysDyn story NPCs are listed as source exhibits. Original quest-controlled activation and NPC combat/AI are not implemented.",
+    "Both local Ardea NPC layers, six named nearby SysDyn story NPCs and the three exact Jack_KillBandits target actors are listed at their source placements. Original quest-controlled activation and NPC combat/AI are not implemented.",
     "The arrival position is the recorded PC_Hero entity in the winning SysDyn world layer. Camera yaw is explicitly derived from its reflected orientation; this does not recover the original game camera controller.",
     "Diffuse samplers are converted from native DXT texture pixels. Opaque images use JPEG quality92; alpha images use PNG. Original shader graphs, terrain layer blending, normal/specular maps, native lighting and SpeedTree wind are not ported."
   ],

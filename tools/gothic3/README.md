@@ -52,7 +52,8 @@ and source references, not machine-specific desktop paths.
   with the recorded material switch. Child body/head entity records are not
   duplicated as additional NPCs. Both original NPC layers are included as source
   exhibits; original quest-controlled activation is not reproduced.
-- Diego, Milten, Gorn, Lester, Jack and Hamlar also use their exact body/head
+- Diego, Milten, Gorn, Lester, Jack, Hamlar and Jack's coastal bandits
+  `Ardea_OutNovice_01`, `Ardea_OutNovice_02` and `Ardea_OutNovice_03` use their exact body/head
   slots and recorded world transforms from the patch-winning `SysDyn` layer.
   They are source exhibits; the original quest-controlled activation is unknown
   in this browser runtime. Matching GUIDs are included only once.
@@ -183,9 +184,34 @@ to float32; it does not emulate x87 instructions bit for bit or reproduce the
 original layer masks, additive blends, fades, root repositioning and effect
 dispatch. Those systems remain separate reconstruction work.
 
-This export supplies the initial native animated Hero asset path. Additional
-actor rigs, attachment binding, expression/face motion, animation selection and
+This export supplies the initial native animated Hero asset path. The source-
+checked Diego conversion below reuses its audited clips; other actor rigs,
+attachment binding, expression/face motion, native animation selection and
 blending, combat timing and world gameplay remain separate reconstruction work.
+
+## Diego source actor with mapped Hero motions
+
+The Diego exporter uses the patch-winning body XACT and animated head XACT from
+the local installation. It checks both file hashes and sizes against
+`public/gothic3/source-manifest.json`, then checks the source Hero motion JSON
+against its receipt and independent `audit.json` before reusing those clips.
+The selected XACT files must be extracted locally; no installed files are
+modified. Supply their paths explicitly:
+
+```powershell
+python tools/gothic3/export_diego_animated.py `
+  --body-xact "<extracted G3_Hero_Body_RebBanditMed.xact>" `
+  --head-xact "<extracted G3_Head_Hero_Diego_Animated_01.xact>"
+```
+
+The result is written to `public/gothic3/animated/diego.glb` and
+`diego-native.json`, with output hashes and source identities in the animated
+manifest. Only motion parts whose names exist in both the Diego model and the
+audited Hero rig are mapped to runtime bones. Diego's output receipt is labeled
+`source-checked-conversion`; it is not an independent Diego audit. The browser
+uses these compatible Hero clips for Diego's idle and model inspection. Native
+NPC schedule-driven clip selection, attachments, face motion and combat remain
+unimplemented. See [checkpoint 59](../../docs/engineering/gothic3-rebuilding-process.md#59-convert-and-connect-diegos-source-skinned-actor).
 
 ## Gameplay catalogs, properties and initialization
 

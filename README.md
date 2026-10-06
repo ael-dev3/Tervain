@@ -64,7 +64,38 @@ Browser checks do not establish packaged desktop compatibility or performance on
 
 ## Separate study viewers
 
-The [Gothic 3 / Ardea reconstruction](https://ael-dev3.github.io/Tervain/gothic3/) is an incomplete TypeScript browser port; see its [scope and controls](docs/engineering/gothic3-browser-port.md) and [rebuilding process](docs/engineering/gothic3-rebuild-overview.md). It is separate from the original Tervain game and from the [local-install study viewer](docs/engineering/gothic3-local.md), which reads the visitor's own installed files in their browser and hosts no game data. Neither route grants rights to Gothic 3 material or establishes commercial-release clearance.
+The [Gothic 3 / Ardea reconstruction](https://ael-dev3.github.io/Tervain/gothic3/)
+is a separate, incomplete TypeScript browser port. The rebuild proceeds in
+connected stages:
+
+### Rebuilding process
+
+1. Inventory the local installation, hash the files and identify which archive
+   or patch layer supplies each resource. The installed game remains a read-only
+   reference.
+2. Decode selected world, model, texture, animation and gameplay data into
+   portable browser assets, keeping the source path, hash and known conversion
+   limits with the result.
+3. Study one native behavior at a time. Decompiled listings help trace the
+   operation, while original binary bytes and resource records check the facts;
+   the listings are not original source code to compile for the browser.
+4. Implement the supported behavior in TypeScript and connect it with the
+   recovered assets, live world and actor state, input and save/load.
+5. Exercise that connected gameplay slice in the browser, record gaps, and
+   continue until a new game can progress through the campaign to an ending.
+
+An extracted file, converted model, passing unit test or successful build only
+proves its own part of this chain. The [rebuilding overview](docs/engineering/gothic3-rebuild-overview.md)
+explains the method with examples, and the
+[detailed process with dated checkpoints](docs/engineering/gothic3-rebuilding-process.md)
+keeps the evidence and implementation history. See also the
+[current scope and controls](docs/engineering/gothic3-browser-port.md).
+
+This project is separate from the original Tervain game and from the
+[local-install study viewer](docs/engineering/gothic3-local.md), which reads
+the visitor's own installed files in their browser and hosts no game data.
+Neither route grants rights to Gothic 3 material or establishes
+commercial-release clearance.
 
 ### Gothic 3 study viewer examples
 

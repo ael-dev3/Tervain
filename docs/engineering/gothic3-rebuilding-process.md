@@ -4,65 +4,50 @@ For a short, reader-facing explanation of the approach and completion standard,
 start with the [rebuilding overview](gothic3-rebuild-overview.md). This document
 is the detailed technical record and dated checkpoint history.
 
-Updated: 6 October 2026. Current source result: an Ardea exploration scene, a
-third-person Hero presentation, streamed native landscape across three regions,
-Hero motion inspection, original quest/dialogue catalogs, source-state/clock
-inspection, an on-demand Hero character sheet backed by captured PlayerMemory
-and Attribute/Stat data in TypeScript, and a fresh-world quest journal seeded
-from the original 641 quest states. It applies the audited startup run of
-`Xardas_FindXardas`, advances the source-seeded clock, and saves/restores the
-browser session's position, clock, quest states, PlayerKnows events, accepted
-InfoManager Given flags and ended Ardea actor-dialog flags with source checks.
-A source-backed `SetTradeEnabled`, `SetPartyEnabled` or `SetTeachEnabled`
-command updates the matching Ardea actor Dialog flag and browser saves preserve
-the state. Trading, party following and teaching interfaces/effects remain
+Updated: 6 October 2026. Deployed baseline preceding checkpoints 55–71:
+`main` commit `59854ed6e4daca03d6d0d6265a97fa1099c0c724`. This checkpoint adds
+browser NPC Plunder inventory in checkpoint 55, resolves NPC armor class in
+checkpoint 56, materializes deterministic Weaponry stacks with unapplied
+equip plans in checkpoint 57, reads tracked pose fields from selected native
+motions in checkpoint 58, adds a source-checked animated Diego actor in
+checkpoint 59, and adds a bounded browser-hosted fist damage profile for one
+Ardea Orc record in checkpoint 60. Checkpoint 61 connects source-backed Hero
+and Ardea NPC inventories to a bounded gold `Give` path. Checkpoint 62 connects
+condition-7 status preservation and a narrowly supported condition-8 delivery
+callback for running quest types 1/4; the Ardea pickpocket quest still has no
+connected start action. Checkpoint 63 traces the native PickPocket command,
+and checkpoint 64 adds TypeScript helpers for its level/perk/roll gate and
+distribution-7 loot generator. Checkpoint 65 reads, saves and restores the
+actor's `Dialog.PickedPocket` flag. Checkpoint 66 connects a browser PickPocket
+action to the source gate, successful loot transfer and saved actor flag.
+Checkpoint 67 applies the damage profile to all 15 exact starting Ardea
+Raiders, persists NPC HP and hides defeated visuals across save restore.
+Checkpoint 68 introduced exact-name kill-objective counters. Checkpoint 69
+connects Jack's condition-5 report and condition-6 bandit-quest start to saved
+browser dialogue state. Checkpoint 70 corrects the native callback evidence,
+adds Jack's three original bandits and connects their bounded quest success
+and return rewards. Raider zero HP now leaves the kill-versus-defeat decision
+unresolved and does not dispatch kill credit. The TypeScript reconstruction has an
+Ardea exploration scene, a moving Hero, three streamed regions, and
+source-backed foundations for selected dialogue, quests, player progression
+and browser saves. Diego now uses his original skinned body and head with
+mapped Hero clips; other NPCs remain static. Bounded browser fist hits update
+saved Raider and bandit HP; source-directed lethal bandit hits can advance
+Jack's quest. Native NPC
+activation, AI, responses, defeat rewards and most campaign progression remain
 unavailable.
-A Character panel displays the current Hero Level alongside chapter, XP,
-learning points and attributes. The play HUD displays Hero HP; a source-backed
-`SetHitPoints` operation clamps and persists it through PlayerMemory save/load.
-A bounded Ardea dialogue path evaluates native Hello records from the owner's
-source `Dialog` and `TalkedToPlayer` fields, writes supported `OnEndInfo` Say
-pairs to quest journals, and starts/cancels/restarts quests for conditions 6,
-11 and 21.
-Bounded `SucceedQuest` commands apply PoliticalFame, attribute-base and XP
-rewards when their native host state is available; PoliticalFame and rewarded
-attribute bases survive browser save/restore. Enclave, arena and tutorial-popup
-reward effects still prevent their associated quest completions.
-Source-backed `GiveXP` awards update the retained Hero
-PlayerMemory; a threshold crossing now updates the retained Hero NPC Level and
-LP, displays localized level-up text and persists through save/restore. The
-hash-checked serialized NPC property packet also reads through its registered
-accessor, retaining a legacy Level value as opaque obsolete-property bytes.
-Scene startup also resolves the native `Start` routine point for three Ardea
-actors when their work, rest and sleep assignments agree, and places their
-browser models at those source transforms. This is a bounded placement bridge;
-the original scheduler and live entity lifecycle remain incomplete. A Hero hand
-contact candidate can resolve to one source-verified Ardea NPC and initialize a
-separate browser-owned HP/stamina record from the processing-range refresh;
-that record saves against the source hash, but it does not accept engine
-collision or apply damage. This is still an incomplete game reconstruction.
-The source-backed unarmed `Fist` damage carrier is now resolved from its exact
-original template path, but is not attached to a live Hero or NPC.
-The NPC combat bridge also resolves serialized inventory-slot template
-identities from the same source actor record; those references are not generated
-treasure or active equipment.
-Completing the original game in the browser remains the objective; the inspectors
-do not satisfy that objective.
 
-The owner requested this separate project as a second URL in Tervain. GitHub
-Pages is enabled and the live route is
-[Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/). It currently
-serves `main` commit `72e2a3993437e4b108291f8cb19692d0d4e5f620` from successful
-workflow run [37387661546](https://github.com/ael-dev3/Tervain/actions/runs/37387661546).
-That deployed scene is an incomplete milestone; the newer local gameplay
-changes on this branch have not been published. The full game is not online.
+The [Gothic 3 / Ardea route](https://ael-dev3.github.io/Tervain/gothic3/) serves
+this incomplete build. The preceding baseline was deployed by [workflow run
+37502708509](https://github.com/ael-dev3/Tervain/actions/runs/37502708509);
+later publication receipts are available in the repository's
+[Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml).
 The [scope record](gothic3-browser-port.md) describes the current controls,
 limitations and source terms.
 
-This guide describes the source on `codex/gothic3-gameplay-initialization`.
-The successful deployment above predates the latest source checkpoints, which
-have not been deployed. The current Pages routes were verified over HTTP on
-6 October 2026. Sections 10–52 cover the newer runtime work.
+This guide records the preceding hosted baseline and the changes prepared on
+`codex/gothic3-ardea-quest-progression`, with dated checkpoints that preserve
+the evidence for each stage. Sections 10–71 cover the later runtime work.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
 To reproduce an older receipt, use a checkout at that commit and its producers.
@@ -94,8 +79,22 @@ flags and bounded Hero XP/level/LP progression now connect to browser sessions
 and saves. The Ardea scene also seeds three residents from unambiguous native
 `Start` routine points; it does not execute routines or activate native NPC
 entities. A collision candidate can resolve and save source-bound NPC point
-state, including the template identities in its serialized inventory slots, but
-the original entity and combat callbacks remain unconnected.
+state, including serialized inventory-slot templates. Its Plunder runtime now
+follows recovered distribution-0 draws and creates browser NPC inventory stacks
+from exact source templates. The inventory and browser-owned random state are
+saved and restored. This first-contact path does not reproduce native cache-in
+timing or the original process-wide random sequence; it creates no physical
+ItemWorld entities. The deterministic distribution-3 Weaponry recipe now
+creates source-resolved NPC inventory stacks with the native quality bit and
+configured minimum amount. The runtime retains an `EquipStack` plan, but it is
+not applied to an actor or skeleton. The UseType 2 split-stack case is still
+explicitly unresolved. Original actor activation and combat callbacks remain
+unconnected. The browser also applies the audited Hero Fist damage calculation
+to 15 exact starting Raider profiles and three coastal bandit profiles, and
+saves their resulting HP. Each profile
+uses browser contact detection and a standing target state; it does not
+construct the native actor, run attack eligibility or execute native combat
+callbacks, NPC responses, defeat, XP or loot.
 The captured Hero PlayerMemory and Attribute/Stat data also feed an on-demand
 character panel. These are bounded integrations: most dialogue, live NPC
 activation, combat, schedule changes, world interactions and campaign
@@ -329,6 +328,7 @@ code is under [src/gothic3](../../src/gothic3):
 | `assets.ts` | Model caching, OBJ/MTL loading, texture completion and native alpha modes |
 | `controls.ts` | New first-person movement, independent controller position, raycast ground support, wall sliding and flight |
 | `main.ts` | Scene assembly, character inspector, map, journal, camera saves and UI |
+| `combat.ts`, `browser-melee.ts`, `npc-combat-runtime.ts` | Audited combat arithmetic plus the narrow browser-hosted Ardea Raider damage profile and saved NPC HP; native actor lifecycle and responses remain open |
 | `content.ts` | Recovered character and quest reference summaries |
 | `animation.ts`, `skinning.ts` | Hero clip playback and all native bone influences |
 | `native-motion.ts` | Source quaternion packing/interpolation, pose fallback and normalization |
@@ -3648,3 +3648,719 @@ and three routine positions, the two completed Diego records, save and reload,
 and no ready repeat response after restore. `git diff --check` passes. This
 checkpoint changes documentation only; it does not claim a new build or test
 run.
+
+## 54. Trace distribution-0 Plunder draws and retain browser results
+
+The local decompilation study identifies
+`gCTreasureSet_PS::GeneratePlunderInventory` at `Game.dll:0x2000c626`; that
+entry forwards to the body at `0x204123c0`. The implementation first requires
+an attached treasure-set entity, its `gCInventory_PS`, and at least one
+configured stack. For distribution 0, it chooses an inclusive transfer count
+from the configured minimum and maximum (sorting the bounds when needed; equal
+values below one produce one transfer). Each transfer selects a configured
+stack with replacement. For configured amounts above one, its output amount is
+drawn inclusively from `floor(amount / 2)` through the configured amount. It
+then calls destination `gCInventory_PS::CreateItems` with the selected template,
+quality argument 0, the drawn amount and final flag 1.
+
+The function calls the local `Game.dll` `_rand` implementation at `0x20464af7`.
+Its verified transition is `state = state * 0x343fd + 0x269ec3` modulo 2^32,
+returning `(state >>> 16) & 0x7fff`. The loader menu's `FUN_20175290` seeds this
+shared stream from `bCTimer::GetTimeStamp`; unrelated game systems also consume
+the global stream. The reproducible inventory-research tool now records the
+`0x20003558` once-only dispatcher, the `0x2000c626` forwarding entry and its
+full `0x204123c0` target body, the `_rand` implementation and the loading-time
+seed function. Against the read-only local `Game.dll`
+(`b09afc5c180969a6302d9d706f0ad8efebf7c1fcd9301096bf5c1b1f2cf8eb2f`,
+8,228,864 bytes), all recorded instruction bytes match: 393 instructions / 1,104
+bytes for the target body, 9 / 34 for `_rand`, and 72 / 215 for the seed
+function. The two named forwarding entries each match their five-byte `E9`
+instruction and retain their resolved target addresses in the receipt.
+
+The evidence is reproducible with
+`python -B tools/gothic3/research_native_inventory.py --study <completed-study-directory>`.
+The emitted receipt is
+[`native-inventory-evidence.json`](../../public/gothic3/inventory/native-inventory-evidence.json);
+source excerpts are retained under
+[`assets/gothic3/inventory/sources/Game/`](../../assets/gothic3/inventory/sources/Game/).
+
+`loadNativeTreasureSet()` now resolves every Plunder candidate through its
+unique GUID-indexed item template and retains both template source hashes.
+`generateNativePlunder()` mirrors the verified count, replacement-selection and
+amount draws. The Ardea Orc Raider's `TS_Plunder_Orc_Warrior` contains three
+configured choices: 50 `It_Gold`, one `It_Booze`, and one
+`It_Plant_Health_03`; its configured transfer count is 2–4. The browser uses a
+separately seeded MSVCRT-compatible 15-bit stream and saves both its current
+state and each source-bound `CreateItems` argument record. Restore checks those
+records against the resolved source set and candidate templates instead of
+drawing them again.
+
+This is a browser-side generation plan created during first-contact NPC
+resolution. Its random seed and call sequence are not the installed game's
+timestamp-seeded global sequence. The records are not instantiated inventory
+items; they are not attached to an actor, and the browser has not reproduced the
+native once-only `GeneratedPlunder` cache-in flag or callback timing. The next
+step is to construct and activate the NPC, execute the real destination
+inventory path, and join that inventory with Weaponry/equipment cache-in before
+attempting one end-to-end fight.
+
+Validation on 6 October 2026: read-only comparison matched the original PE bytes
+for the dispatcher and Plunder body/alias, `_rand` and seed function. The
+inventory evidence audit records 143 selected entries, 3,306 instructions and
+9,188 matched instruction bytes. `npm run build` passes; no test suite or
+browser fight was run. The working branch remains unpublished.
+
+## 55. Create browser NPC inventory from Plunder
+
+The source-bound Plunder draws from checkpoint 54 now flow into the existing
+TypeScript `NativeInventory` stack kernel. The Ardea NPC runtime resolves each
+generated template by its full 20-byte GUID, confirms the exact template name,
+archive path and SHA-256, and reads the source UseType, item category and item
+flags needed by the inventory definition. It invokes `createItems` for every
+saved draw with quality 0 and stack type 0. Repeated draws for the same item
+merge according to the existing CreateItems path. The byte-audited overload
+`Game:0x2001563b` forwards to `0x201ae430`, which calls `0x201d0210`; that
+helper passes the default stack type 0 to the original stack creator. Plunder's
+extra final argument is not consumed by that GUID overload.
+
+The NPC combat state now owns this inventory. Browser saves retain its stack
+snapshot alongside the draw records. Restore resolves the templates again and
+rehydrates the intrinsic stack values without rerolling; the source GUID and
+name must match, and an unresolved observer side effect rejects restoration.
+The TypeScript context supplies an empty observer list because no NPC inventory
+UI listener has been connected to this actor in the browser. That is a browser
+host fact only; it does not prove the complete original runtime listener
+registry. The existing UI still does not expose NPC loot or mutate the Hero's
+starting inventory.
+
+This makes Plunder observable as browser NPC inventory state but does not
+complete the native cache-in path. Creation still happens on first browser
+contact, the browser's seed and random call sequence differ from the installed
+process, and generated stacks do not spawn physical ItemWorld entities. The NPC
+is not yet constructed and activated through the native entity/context/PVS
+lifecycle; Weaponry/equipment attachment, AI, incoming attacks, damage, defeat
+credit and loot transfer remain separate work.
+
+Validation on 6 October 2026: `npm run typecheck` passes; the focused NPC
+runtime suite passes all three tests, including source-resolved stack amounts
+and inventory save/restore. The full suite passes 110 files and 994 tests.
+`npm run build` passes and packages 276 modules. Vite reports the existing
+Tervain chunk at 5,265.79 kB, above the 1,200 kB warning threshold. `git diff
+--check` passes. The browser policy blocked local-route navigation, so no
+browser encounter or full playthrough was verified. No deployment was run; the
+branch remains unpublished.
+
+## 56. Resolve NPC armor class without misusing routine state
+
+The attack planner's target-protection path follows `Script_Game:1003c980`.
+Its audited body looks up inventory slot17, obtains that slot's template item,
+calls `PSItem::IsRobe`, and then queries `Perk_LightArmor` or
+`Perk_HeavyArmor`. The byte receipt records 165 instructions / 541 bytes
+matching the installed `Script_Game.dll`. The source excerpt is
+[`1003c980.c.txt`](../../assets/gothic3/combat/sources/Script_Game/1003c980.c.txt);
+the evidence record is in
+[`native-source-evidence.json`](../../assets/gothic3/combat/native-source-evidence.json).
+
+The NPC bridge now resolves its serialized slot17 template by GUID and
+source-hash, loads that template, and reads the exact `gCItem_PS.Robe` boolean.
+For `Orc_GameStartRaider_Warrior_01`, slot17 is
+`Orc_Body_Warrior_Outlaw` and the captured value is `false`. Other slots keep
+`robe: null`; a missing/undecoded body template remains an explicit unknown.
+This identifies the armor-class fact needed by the native protection branch
+without inferring it from an item's name or UseType.
+
+The source actor also carries `Action`, `AniState` and `StatePosition` on
+`gCScriptRoutine_PS`. Those serialized schedule fields are now named
+`routineAction`, `routineAniState` and `routineStatePosition` in the browser
+state. They do not supply the current combat animation action used by the
+melee planner; that state still requires the live NPC animation/task runtime.
+
+This checkpoint adds combat inputs only. It does not apply damage, activate an
+NPC, execute AI or task callbacks, or make an encounter playable. Validation
+on 6 October 2026: `npm run typecheck` passes and
+`npm test -- --reporter=dot tests/gothic3-dialogue/npc-combat-runtime.test.ts`
+passes all three tests, including the source-verified slot17 robe value and
+source slot identity. The branch remains unpublished.
+
+## 57. Materialize deterministic Weaponry in the browser NPC inventory
+
+The audited `Script_Game:100ced90` callback registered as `EquipWeaponry`
+handles distribution 3. It reads each configured weapon stack's amount,
+quality, UseType and template; ORs `0x100` into quality except for UseTypes 4
+and 7; ensures the configured minimum amount in the NPC inventory; then calls
+`EquipStack` (or explicit hand-slot attachment for UseType 2). All 502 bytes of
+the callback body match the installed `Script_Game.dll` receipt in
+[`native-source-evidence.json`](../../assets/gothic3/combat/native-source-evidence.json).
+
+The browser NPC inventory now runs the resolved Weaponry recipe through
+`NativeInventory.assureItems` after the recorded Plunder draws. This preserves
+the native ensure-at-least behavior for each configured stack and the Weaponry
+quality bit. The Raider's `It_Axe_OrcSword_01` is present in browser inventory
+at quality 256 and amount 1, with its exact template GUID, path and SHA-256.
+The runtime also records the corresponding `NativeInventory.planEquipStack`
+result: the axe would link to primary slot 6. That plan has `applied: false`;
+it does not attach the weapon to the rendered NPC, update its hand, apply stats
+or create a physical ItemWorld item. UseType 2 is recorded as requiring the
+native split into primary/offhand slots 6 and 5; that split has not been
+implemented.
+
+Browser save schema v2 persists this inventory and rejects stacks outside the
+source-derived Plunder and Weaponry bounds. Version-1 browser NPC saves are
+migrated by reconstructing deterministic Weaponry from their retained Plunder
+draws instead of interpreting a Plunder-only snapshot as an equipped actor.
+Version-2 restore permits an expected stack to be partially or fully consumed,
+while refusing invented templates, amounts above their generated source
+amount, linked slots and physical-item identities. Generation still occurs on
+browser first contact; the native processing-range callback order and equip
+effect host are not reproduced.
+
+Validation on 6 October 2026: `npm run typecheck` passes and the focused NPC
+runtime suite passes all three tests, including Raider Weaponry stack creation,
+the unapplied primary-slot plan, save/restore, version-1 migration and rejection
+of an invented stack. The full suite passes all 110 files and 994 tests.
+`npm run build` succeeds with 276 modules; Vite reports the existing Tervain
+bundle at 5,265.79 kB, above its 1,200 kB warning limit. `git diff --check`
+passes. No browser encounter was verified or deployed for this checkpoint; the
+branch remains unpublished.
+
+## 58. Decode the live motion's tracked pose fields
+
+`gCNPC_PS::TrackCurrentPose` (`Game:202f90c0`) reads the active visual motion
+filename, play time, maximum time and actor transition-direction flag. It maps
+the first pose from the fourth underscore and the alternate from eight more
+underscores, then selects their order and float32 blend weight from normalized
+play time and the actor flag. `trackNativePoseFromMotion()` ports that bounded
+filename/time mapping. `NativeMotionPlayer.playTime` and `AnimatedActor.trackedPose()`
+expose the fields for a selected animated actor when the caller has the actual
+transition flag.
+
+The implementation does not select NPC animations or create a live NPC
+animation host. The browser manifest still animates only the Hero; Ardea NPCs
+are static bind-pose models. The new pose result is not wired into `combat.ts`
+or used to permit damage. Combat still needs the target's live animation/action,
+equipment, eligibility and effect hosts.
+
+Validation on 6 October 2026: `npm run typecheck` passes and the focused pose
+tests cover Hero idle and fist-hit motion names, time-based pose ordering, and
+unknown transition/malformed filename inputs. The branch remains unpublished.
+
+## 59. Convert and connect Diego's source-skinned actor
+
+The actor identity comes from Ardea person GUID
+`1e51df278c13ed4f9d578491bbd3c4cd00000000`. The exact body is
+`_compiledAnimation.p00 :: G3_Hero_Body_RebBanditMed.xact`
+(`0b145b0bb6c9b01793a034c78e9d773be417ab0fe268ac5e3204f417e282aa3c`); the
+head is `_compiledAnimation.pak :: G3_Head_Hero_Diego_Animated_01.xact`
+(`27bc51d9632594d1563312859bf77a8761600b71a99e2aa760eb1df2f5b8c153`). The
+exporter requires those local extracted files and checks their hashes and sizes
+against the scene's source manifest before decoding them. It does not modify or
+load the installed game. The reproducible command is:
+
+```powershell
+python tools/gothic3/export_diego_animated.py `
+  --body-xact "<extracted G3_Hero_Body_RebBanditMed.xact>" `
+  --head-xact "<extracted G3_Head_Hero_Diego_Animated_01.xact>"
+```
+
+The converter retains Diego's original skin weights, triangles, UVs and
+source-selected textures/material metadata. The cleaned body and head rigs have
+58 common named nodes; their maximum bind-position difference is
+`4.39e-7` metres and their maximum quaternion component difference is
+`1.19e-7`. The combined actor has 95 joints and 17,670 triangles. Its maximum
+weighted rest-pose error is `5.19e-7` metres. The exporter carries all skin
+influences across two joint/weight sets and the separate first-weight backup
+used by the Three.js skinning path.
+
+Motion data comes from `animated/hero-native.json`, whose source bytes and
+independent audit are already checked for the Hero asset. The converter maps
+the 11 audited idle, locomotion and fist-attack clips onto bones whose names
+exist in both the Diego actor and the audited Hero rig, retaining the original
+tracks on those retargeted bones. The clips contain 15,531 source keyframes;
+15,218 are mapped onto Diego's compatible rig. The motion files also contain
+helper and unrelated actor entries; those are retained as unmatched metadata
+and excluded from the runtime clips. In particular, a same-named `Diego`
+motion entry is not treated as a Hero skeleton joint. The converter records
+source and mapped keyframe counts with source-checked output receipts in
+[`manifest.json`](../../public/gothic3/animated/manifest.json):
+[`diego.glb`](../../public/gothic3/animated/diego.glb) and
+[`diego-native.json`](../../public/gothic3/animated/diego-native.json). The
+receipt is marked `source-checked-conversion`; Diego is not listed as an
+independently audited actor. The motion curves are Hero motions mapped onto a
+compatible skeleton, not recovered Diego-specific animation selection.
+
+The browser resolves the animated asset by Diego's person GUID, replaces his
+static scene model with the skinned actor, and loops an idle clip during play.
+The model inspector can also rotate and zoom the animated actor and select its
+11 clips. Other NPCs remain bind-pose models. This does not execute Diego's
+schedule, select his native motions, provide facial animation or attachments,
+activate NPC AI, or connect combat damage.
+
+Validation on 6 October 2026: the exporter completed from the exact source
+files; `npm run typecheck` passes and `npm run build` succeeds with 277 modules.
+Vite retains its existing Tervain chunk-size warning (`5,265.79 kB` above the
+`1,200 kB` warning threshold). The local browser preview was then opened and
+Diego's skinned actor was inspected in the model panel: the source-person model
+loaded, displayed its idle motion, and exposed the mapped clips for inspection.
+The browser console had no warnings or errors. This verifies the local preview
+path, not native schedule-driven animation, combat, or a complete in-game
+encounter. No deployment was run; the branch remains unpublished.
+
+## 60. Apply a bounded browser Hero fist hit
+
+The existing hit-window now carries the recovered attack or power-attack style
+into a browser combat adapter. It resolves the installed `Fist` item by its
+source GUID, path and SHA-256, loads the retained `PC_Hero` PlayerMemory, and
+passes the live Strength, current Hero level and source-seeded `Perk_OrcSlayer`
+state into `calculateNativeHeroMelee()`.
+
+The target gate accepts only `Orc_GameStartRaider_Warrior_01` at its recorded
+Ardea GUID, source path and file hash. It also checks the source Level 10 /
+LevelMax 30 / Species 5 / Type 0 profile, zero status effects, absent current
+attacker, empty serialized inventory stack list, and the slot17 `Robe=false`
+template value. The source-resolved browser Plunder and Weaponry stack
+templates must have no `gCItem_PS.Skill` reference; this gives the bounded
+damage calculation a known inactive `Perk_HeavyArmor` value.
+
+Only the resulting browser HP value changes. The rendered Raider is a static
+bind-pose actor with an explicit browser standing profile and no attached
+Weaponry; browser fist contact still uses the Hero hand bone against rendered
+bounds. This does not implement the native NPC entity/context lifecycle,
+`AssessHit` eligibility, live animation selection, AI/task callbacks, incoming
+attacks, reactions, death/defeat, XP, quest credit or loot. The NPC runtime
+already saves and restores its bounded HP value, so the change flows through
+that browser save record.
+
+Validation on 6 October 2026: `npm run typecheck` passes, and `npm run build`
+completes with 279 modules. Vite reports the existing Tervain chunk warning
+(`5,265.79 kB` above the `1,200 kB` threshold). No test suite, browser
+encounter, save/reload interaction or deployment was run for this checkpoint.
+The code update remains unpublished. A successful build does not establish
+source-game combat equivalence or full campaign playability.
+
+## 61. Connect the source-backed Ardea gold Give path
+
+The live dialogue host now handles positive Script_Game `Give` operations when
+the donor and recipient are PC_Hero and the active Ardea dialogue owner, and
+the item is the source-pinned `It_Gold` template. The template identity is
+checked by GUID, source path and SHA-256, UseType, category and MissionItem
+value. The host resolves both mutable inventories before planning a record.
+NPC inventory initialization uses the existing Ardea source actor bridge;
+Hero new-game inventory replays the 121 original `AssureItemsEx` startup calls
+from the validated player seed.
+
+Execution follows the recovered Script_Game opcode-13 flow: assure at least the
+requested amount at quality 0, use the returned stack index, clamp only for a
+player donor, then transfer into the recipient before reducing the donor.
+Before enabling a transfer, the browser scans all 641 loaded quest definitions
+for type 0/11 delivery records whose destination is either participant and
+whose target entity is exactly `It_Gold`. A possible match keeps the response
+unavailable because `gCQuest_PS::OnReceiveItem` can change delivery counters
+and trigger quest success. Other item templates and participant combinations
+remain gated. After success the browser shows a simple gold transfer receipt;
+native localized Given/Taken messages are still host work.
+
+The Hero save now includes a mutable inventory snapshot. NPC combat saves
+already retained initialized actor inventories; transferred source template
+records are kept in those snapshots so both ends survive reload. Saves created
+before the Hero snapshot existed rebuild the 121-stack source inventory and
+restore their separately recorded consumed-potion counts. The source observer
+registry is still supplied as an explicit empty browser registry; this does
+not reproduce native external listeners, physical ItemWorld objects, equipment
+attachment, or the full inventory GUI.
+
+Validation on 6 October 2026: `npm run typecheck` passes, all 997 tests across
+111 files pass, and `npm run build` succeeds with 279 modules. Vite reports the
+existing 5,265.79 kB application chunk above its 1,200 kB warning threshold.
+The inventory evidence producer was rerun against the local completed study
+exports and original PE inputs; it records 143 selected entries, 3,306
+instructions and 9,188 matched instruction bytes. No deployment or browser
+Give interaction was run for this checkpoint. The connected slice is
+unpublished and does not establish a complete campaign.
+
+## 62. Connect the bounded Info delivery callback
+
+Historical checkpoint: section 70 corrects the omitted common-tail Say logging,
+and section 71 separates delivery preflight from the end callback. The earlier
+description of a no-op refers only to quest status preservation.
+
+The native dialogue receipt now includes `gCQuest_PS::CheckDeliveryEntitiesStatus`
+at `Game.dll:0x20025bc6`, in addition to the already audited
+`gCInfo_PS::AreConditionsFulfilled`, `OnDelivery` and `OnEndInfo` bodies. Its
+updated audit has 52 methods, 10,871 instruction records and zero instruction
+byte mismatches against the installed PE files. The receipt is
+[`native-evidence.json`](../../assets/gothic3/dialogue/native-evidence.json);
+the producer is
+[`read_dialogue_native_evidence.py`](../../tools/gothic3/read_dialogue_native_evidence.py).
+Decompiler listings remain reconstructed references, not original source code.
+
+`AreConditionsFulfilled` requires condition type 8's quest to be Running. For
+that condition, `OnDelivery` supports quest numeric types 1 and 4: it compares
+the current Info NPC name with delivery targets, increments the first exact
+match by one, and calls `CheckDeliveryEntitiesStatus`. When all target counters
+meet their amounts, the quest becomes Success. The browser now models that
+counter update and completion for those two types, checks the Info's native
+`Npc` identity against the active Ardea owner, and preflights any success
+rewards before accepting the dialogue. Condition type 7 also runs through its
+source no-op `OnEndInfo` branch, allowing its supported commands to finish when
+its quest is already Running. Type 9 and other condition-8 quest types remain
+unsupported.
+
+This does not start `Ardea_Pocket`. Its captured fresh-world state is Open, its
+Jack dialogue requires the quest to be Running, and its native pickpocket
+handler is not connected. The handler's decompiled body does not directly call
+`RunQuest`; its `Dialog.PickedPocket` property write may still have surrounding
+engine effects that have not been traced. The counter callback therefore
+remains unreachable through a fresh-game route. Recover the action, property
+notifications, quest-start linkage, target inventory and callbacks before
+Jack's full reporting sequence can count as playable.
+
+Validation on 6 October 2026: `npm run typecheck` passes and `npm run build`
+succeeds with 279 modules in 25.66 seconds. It retains the
+existing 5,265.79 kB Tervain chunk warning above the 1,200 kB threshold.
+`git diff --check` passes. No tests, browser interaction, save/reload dialogue
+sequence or deployment was run for this checkpoint. The code remains
+unpublished and does not establish full campaign completion.
+
+## 63. Trace the native PickPocket command without assuming quest startup
+
+The byte-audited Script_Game receipt now includes `PickPocket` at
+`0x1004db60`, `GeneratePickpocketInventory` at `0x1004d8f0`, and the failure
+response at `0x10041af0`. Its total is recorded in
+[`native-evidence.json`](../../assets/gothic3/dialogue/native-evidence.json).
+The decompiler listing and function-table mappings are local study references;
+the receipt compares selected instruction bytes with the pinned installed
+Script_Game.dll.
+
+The decompiled PickPocket path reads the target's `LevelMax` and
+`PlayerMemory.Theft`. For target levels 30–44 it requires `Perk_PickPocket_2`;
+from level 45 upward it requires `Perk_PickPocket_3`. Its standard player path
+compares `GetRandomNumber(100)` with `Theft / 2 - targetLevel + 85`, capping the
+target level at 50. Success processes TreasureSet1 through TreasureSet5, sets
+the target's `Dialog.PickedPocket` property, and increments the enclave's crime
+count when the target belongs to one. The helper only generates an item for
+treasure distribution 7; the failure path asks the NPC to attack or flee
+according to native state and ends the Info manager.
+
+Neither the audited PickPocket body nor its loot helper directly calls
+`RunQuest`. The property setter notifies engine listeners, so the absence of a
+direct call does not prove there is no indirect quest-start path. Jack's Info
+data includes condition-7 event response and condition-8 delivery records,
+both of which require a Running quest, while the captured fresh-world quest is
+Open. The extracted Info catalog has explicit `Pickpocket` commands for
+PC_Hero and Ali, but none for Jack. The handler may still be called by
+interaction logic outside Info records; that caller remains untraced. The
+browser still exposes no pickpocket action; the property-listener chain, live
+random-call order, item transfer and quest transition need separate
+source-backed work before this becomes a playable Ardea route. Checkpoint 64
+added bounded TypeScript helpers for the perk/level/roll gate and distribution-7
+loot. The browser action was connected later in checkpoint 66; the native
+InfoManager command lifecycle, failure response, crime effect and quest-start
+listener are still unresolved.
+
+Validation on 6 October 2026: the evidence producer completed against the
+installed PE inputs with 59 methods, 11,721 instructions and zero instruction
+byte mismatches. No browser action or quest behavior changed in this
+checkpoint. No deployment was run; the changes remain unpublished.
+
+## 64. Port the bounded PickPocket gate and loot generator
+
+`src/gothic3/pickpocket.ts` implements the evidenced level/perk check and
+success comparison as a pure TypeScript plan. It requires PickPocket II for
+target levels 30–44 and PickPocket III from level 45 onward, caps the threshold
+difficulty at level 50, and compares the injected 0–99 roll inclusively with
+`trunc(Theft / 2) - difficulty + 85`. Unknown perk state stays unsupported.
+The plan does not draw random numbers or change a player or NPC.
+
+`native-treasure-sets.ts` now resolves distribution-7 stack amount, quality and
+item-template identity from hash-checked source records. Its loot helper
+selects a configured candidate and calculates its amount using the audited
+`GetRandomNumber` behavior: bounds below two return zero without consuming a
+draw; a generated zero amount becomes one. The source quality is preserved.
+This extends data recovery and a bounded behavior kernel, not the live theft
+flow.
+
+The PickPocket tests cover level/perk boundaries, the inclusive roll, the
+level-50 cap, distribution-7 candidate/amount/quality handling, small-bound
+random behavior and invalid input. Validation on 6 October 2026:
+`npm run typecheck` passes and
+`npx vitest run tests/gothic3-dialogue/native-pickpocket.test.ts` passes six
+tests. No PickPocket action, actor response, inventory transfer, enclave crime,
+property-notification or quest-start chain is connected at this checkpoint.
+The helpers do not make Jack's `Ardea_Pocket` dialogue reachable. No deployment was run; the
+changes remain unpublished and do not establish campaign completion.
+
+## 65. Persist the source-backed PickedPocket actor flag
+
+The visible-Ardea actor reader already decodes `gCDialog_PS.PickedPocket`.
+`NativeArdeaActorDialogState` now seeds that flag alongside the other serialized
+dialog state and can retain a bounded browser value for an exact actor ID. The
+quest-session save records positive PickedPocket IDs, validates them against
+the loaded source actors on restore, and preserves source defaults when an
+older save does not cover a newly added actor.
+
+This is persistence for the native property value, not its complete engine
+effect. The `SetPickedPocket` setter notifies property listeners; the browser
+state store does not dispatch that listener chain. At this checkpoint no player
+action calls this setter, and no inventory transfer, failure response, enclave
+crime increment or quest-start notification has been connected.
+`Ardea_Pocket` remains unreachable through this state-only change.
+
+Validation on 6 October 2026: `npm run typecheck` passes and the focused
+actor-dialogue and Hero save/restore suites pass 15 tests across two files.
+`npm run build` succeeds with 322 modules. The Gothic route bundle is
+896.47 kB; the existing Tervain bundle is 5,628.27 kB and triggers Vite's
+1,200 kB warning. `git diff --check` passes. No deployment was run; the change
+remains unpublished and does not establish a playable PickPocket route or
+campaign completion.
+
+## 66. Connect source-backed PickPocket loot to Hero inventory
+
+The Ardea character panel now offers a browser PickPocket action for actors
+with source dialog state. The action reads the Hero's current `PlayerMemory`
+Theft value and the target's source `LevelMax`, applies the source level/perk
+gate before drawing randomness, and uses the saved browser random stream for
+the bounded outcome roll. Unknown high-level perk state blocks the attempt
+before a roll. On success, the selected distribution-7 treasure candidates
+are resolved against their source templates and appended to the Hero's mutable
+inventory. Their exact stack identity, quality and amount survive save and
+restore. The target's `Dialog.PickedPocket` flag is also persisted by exact
+actor identity.
+
+This is an interactive browser adapter around the audited gate and loot data;
+it does not reproduce the native InfoManager command lifecycle or its process-
+global random sequence. Failure/caught responses and the enclave crime effect
+are absent. Although setting `Dialog.PickedPocket` is saved, its property
+listeners are not dispatched, and the native quest-start caller remains
+untraced. Therefore `Ardea_Pocket` stays Open and Jack's condition-7/8 report
+sequence remains unreachable in a fresh game. This feature advances one
+source-backed interaction; it does not make the Ardea campaign route or Gothic
+3 complete.
+
+Validation on 6 October 2026: `npm run typecheck` and `git diff --check` pass.
+`npx vitest run tests/gothic3-dialogue` passes 81 tests across 21 files.
+`npm run build` succeeds with 323 modules; the Gothic bundle is 905.22 kB and
+the existing Tervain bundle is 5,628.27 kB, which triggers Vite's 1,200 kB
+chunk warning. No deployment was run; the changes remain unpublished.
+
+## 67. Persist defeat for the starting Ardea Raiders
+
+`browser-melee.ts` now allows the audited Hero fist calculation for exactly
+the 15 placed `Orc_GameStartRaider_Warrior_01..05` and
+`Orc_GameStartRaider_Scout_01..10` identities. The Raider GUID/name mapping is
+pinned to the Ardea NPC `.lrentdat` path and SHA-256. Its target profile
+requires the source species, type and level fields, an empty serialized
+inventory, no status effects or attacker, a resolved non-robe armor template,
+and source-resolved treasure sets. The Hero's combat profile comes from the
+hash-checked initialized `PC_Hero` source seed; this avoids treating missing
+fields in the sparse live NPC reader as zero. Other people and altered source
+records remain unsupported.
+
+Resolved hits update the browser NPC combat state. At zero HP the Raider's
+rendered object is hidden, and save restore hides it again from persisted HP.
+The Raider remains a saved zero-HP actor; the browser does not run its native
+death animation or callback. The implementation does not add NPC activation,
+enemy AI or attacks, native hit eligibility, death events, XP, kill credit,
+loot or quest effects. It is a persistent damage/visibility slice, not a native
+combat encounter loop.
+
+Validation on 6 October 2026: `npm run typecheck` passes, and
+`npx vitest run tests/gothic3-dialogue/browser-melee.test.ts` passes. The test
+checks all 15 placed Raiders receive a resolved hit, then defeats one and
+verifies zero HP survives NPC combat save/restore. The full
+`npx vitest run tests/gothic3-dialogue` suite passes 82 tests across 22 files;
+`npm run build` succeeds with 323 modules. The Gothic bundle is 907.98 kB and
+the existing Tervain bundle is 5,628.27 kB, triggering Vite's 1,200 kB chunk
+warning. `git diff --check` passes. No deployment was run; the work remains
+local and unpublished.
+
+## 68. Dispatch bounded NPC kill-objective counters
+
+Historical checkpoint: section 70 supersedes this counter-only interpretation,
+its signed bounds and its assumption that Raider zero HP establishes a kill.
+
+The source-verified `gCQuest_PS::OnNPCKilled` behavior handles Open, Running
+and Lost quests, ignores `PC_Hero`, and increments counters for exact NPC-name
+matches. `NativeQuests.recordNpcKilled` now ports that counter update for
+numeric-type-2 kill objectives. It validates all matching amounts and
+signed-32-bit counters before applying changes, then publishes the changed
+quest states through the existing listener/save path. It leaves unrelated
+quest types and terminal statuses alone and retains exact case-sensitive names.
+
+When the bounded Hero fist hit reduces one of the 15 source-pinned starting
+Raiders to zero HP, the browser passes that source actor name to the callback.
+The updated quest counters are serialized in the existing quest-session save.
+This is a direct browser dispatch from the lethal hit; the native event source
+and cache, Kill/Defeat task acceptance, quest auto-completion behavior, defeat
+XP, full quest rewards and NPC AI remain unimplemented. In particular, this
+does not make `Ardea_Revolution` complete: its source objective is an Ardea
+enclave target, not a matching Raider-name kill objective.
+
+Validation on 6 October 2026: `npm run typecheck` passes, and
+`npx vitest run tests/gothic3-dialogue/npc-kill-quests.test.ts
+tests/gothic3-dialogue/browser-melee.test.ts` passes five tests across two
+files. The tests cover the real source `Jack_KillBandits` target and saved
+counter restore, Open/Running/Lost states, exact-name matching, Hero exclusion,
+unresolved targets and overflow; the browser combat test checks all 15 Raider
+hit profiles and zero-HP save/restore. `npm test` passes 1,705 tests across
+168 files on the current `main` base. `npm run build` succeeds with 324 modules.
+The Gothic bundle is 909.55 kB and the Tervain bundle is 5,638.85 kB, triggering
+Vite's 1,200 kB chunk warning. Typecheck and `git diff --check` pass. No
+deployment was run; the work remains local and unpublished.
+
+## 69. Start Jack's source-backed bandit quest
+
+Historical checkpoint: section 70 adds quest success and the return callback,
+and corrects the condition-5 Say-log behavior described here.
+
+Jack's Ardea Info chain first sets `Jack_NiceTower`, then the condition-5
+`BPANKRATZ31461` report records `Jack_BanditsThrere` without changing the Open
+quest. The following condition-6 `BPANKRATZ31462` entry runs
+`Jack_KillBandits`. The live dialogue lifecycle now accepts that condition-5
+no-op callback, and the existing condition-6 callback stores the quest start
+time. The report event and Running quest state survive the browser save.
+
+This connects the quest's start to the existing lethal-hit counter path, but
+does not claim the whole quest works: Kill/Defeat task acceptance, automatic
+quest success, defeat XP and the condition-10 return-reward lifecycle are still
+unconnected.
+
+Validation on 6 October 2026: `npm test` passes 1,707 tests across 168 files,
+including the source Info IDs, event gates, condition-5 state preservation,
+condition-6 transition, and save/restore. `npm run build` succeeds with 324
+modules; the Gothic bundle is 909.91 kB, and the existing Tervain bundle is
+5,638.85 kB with the 1,200 kB chunk warning. The build includes TypeScript
+checking, and `git diff --check` passes. No deployment was run; the work
+remains local and unpublished.
+
+## 70. Connect Jack's bandits and correct native quest callbacks
+
+The next slice follows `Jack_KillBandits` from its source Info records through
+its exact target actors and completion rewards. The preparation script now
+includes `Ardea_OutNovice_01`, `Ardea_OutNovice_02` and `Ardea_OutNovice_03`
+from the patch-winning source:
+
+```text
+Projects_compiled.p00 ::
+G3_World_01/SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}/
+SysDyn_{9A103CC2-4190-4DB3-9618-0419E5445AAD}.lrentdat
+SHA-256: 28f7273b3d54415b84445651a3dfa962c1ff158e9183deba81ba47e4d5d57938
+Entities: 22138, 22141, 22144
+```
+
+The actors retain their recorded world transforms, body/head slots and material
+switches. Four new converted model variants and one diffuse image extend the
+scene to 70 people, 134 models and 140 textures. The 409 output receipts resolve
+to the prepared bytes; existing model and texture bytes remain unchanged.
+The scene contains 202 world instances and 652,328 triangles across unique
+model assets, with a 132,962,888-byte model/texture payload.
+
+The native behavior study also corrected two earlier interpretations:
+
+- `Game.dll::OnNPCKilled` at body `0x203384f0` handles quest types 2/3/4.
+  It increments every exact-name matching counter, then invokes the delivery
+  completion checker. Counters wrap through all 32 bits; completion compares
+  counters and amounts as unsigned values. Open/Running completion can request
+  Success and its rewards. Lost quests retain Lost because the status setter
+  rejects that transition.
+- `Game.dll::OnEndInfo` at body `0x204383b0` appends common-tail Say pairs for
+  conditions 3/4/5/6/7/8/10/11/19. Conditions 5/7/8/10 preserve status but still
+  log. The browser supports the evidenced cases whose predicates and commands
+  are connected; condition 4's overtime predicate remains unavailable.
+
+[`quest-state.ts`](../../src/gothic3/quest-state.ts) now projects kill counters
+and pending completion effects before mutation. The browser preflights those
+effects, applies supported rewards once and persists the final quest state.
+This is a browser aggregate operation; native observer interleaving across
+multiple quest callbacks is not reproduced. The evidence producer and updated
+[`dialogue/native-evidence.json`](../../assets/gothic3/dialogue/native-evidence.json)
+audit 61 methods and 12,128 instructions with no native byte mismatches.
+
+The bandits' serialized Outlaw alignment resolves their directed attitude
+against the humanoid Hero to 4 in `Script_Game::GetOutlawAttitude` at
+`0x10018070`. That permits the bounded damage profile to resolve a lethal
+disposition. Raider disposition remains unknown; their zero-HP visuals still
+hide, but the browser does not send a kill callback for them. This preserves
+the distinction needed by the quest instead of deriving a native kill from HP
+alone. The combat evidence now audits 154 entries, 12,584 instructions and
+44,088 matching bytes.
+
+Three source-directed bandit callbacks can complete `Jack_KillBandits` and
+award its requested XP 100 through the audited GiveXP multiplier, yielding
+500 Hero XP. The Success state unlocks Jack's original condition-10
+`BPANKRATZ31463` return Info, whose connected commands transfer 50 gold and
+request XP 50, yielding another 250 XP. These are quest and dialogue rewards;
+native defeat XP has not been connected. The previously supported condition-5
+report and condition-6 start share the same quest, actor flags and save state.
+
+Local browser review on 6 October 2026 loaded the 70-person scene and inspected
+all three bandits with their exact source body/head pairs. The models have
+11,280, 14,294 and 11,232 triangles respectively; the first model's rotation
+control was observed running. This verifies asset presentation and startup. It does not
+establish a browser playthrough of all three kills and the return conversation.
+Native NPC activation, routine/task acceptance, AI, incoming attacks, death
+animation, defeat XP, loot and the campaign remain unfinished.
+
+## 71. Preserve browser action and save consistency
+
+Connecting quest callbacks exposed boundaries that also need to survive ordinary
+browser use. [`live-dialogue.ts`](../../src/gothic3/live-dialogue.ts) now checks
+the delivery phase before delivery and the end phase at `OnEndInfo`. A completed
+condition-8 delivery must not be projected a second time at dialogue finish;
+otherwise its newly successful quest rejects the callback and loses its Say log.
+Focused regressions cover completed delivery with one reward, incomplete
+delivery without a projected next reward, and mismatched callback identity.
+
+The source-backed Jack return scenario also exposed an inventory participant
+identity mismatch. Dialogue represents the Hero as `PC_Hero`, while native
+inventory transfers require his 20-byte entity GUID. The host resolves that
+GUID from the retained, hash-checked Hero source profile before transfer; the
+dialogue's symbolic participant remains available for its own predicates.
+This is exercised by the real 50-gold reward, including the donor's native
+`AssureItems` behavior when his initial stack contains less than the reward.
+Hero seed templates and NPC templates also retain different source receipt
+shapes. The inventory now compares their native GUID, exact path and SHA-256,
+archive identity when both receipts declare it, and intrinsic item properties.
+Equivalent receipts can merge the same gold or PickPocket item; conflicting
+identity or properties remain rejected.
+
+[`browser-pickpocket.ts`](../../src/gothic3/browser-pickpocket.ts) owns a shared
+per-actor in-flight guard across interaction panels. Reopening a panel while
+source assets load cannot initiate a duplicate theft. The health-potion action
+now consumes from the current mutable inventory, with a post-load amount check,
+so newly received potions are usable. Older consumed-item overlays migrate once;
+new saves preserve the actual remaining stacks. Consumption is limited to the
+audited browser-owned, unlinked stacks with no equipped/physical items or
+unconnected inventory observers.
+
+The interaction selector also excludes hidden and zero-HP actors and checks
+that state again before opening a conversation. The model inspector remains a
+source exhibit and can inspect those models separately from world interaction.
+
+Adding the three bandits changes the scene's saved actor identity. Restore now
+accepts the canonical previous 67-actor receipt only when every existing actor
+and source file hash matches the current 70-actor source roster. Exactly the
+three pinned bandits may be added; altered names, removed actors, unexpected
+additions, changed hashes or injected new-actor flags are rejected. Existing
+actors retain their saved dialogue flags and game state, and the new bandits
+receive their serialized source defaults. Saves with the current receipt restore
+all scene actor flags; receipt-less legacy saves retain the earlier migration.
+
+The source-backed automated Jack scenario executes the original
+`BPANKRATZ31460 → 31461 → 31462` dialogue chain through the browser host, then
+the three target callbacks and `BPANKRATZ31463`. It verifies 500 quest XP, the
+50-gold/250-XP return reward, all 12 quest Say pairs, Given-state replay
+rejection and restoration of both inventories, quest state and Hero progress.
+Additional cases exercise a real PickPocket candidate merging into an existing
+Hero stack and reject GUID/path/hash/archive/property conflicts. This is an
+automated host scenario; the complete encounter has not been played manually
+in the browser.
+
+Final combined validation on 6 October 2026, after integration with `main`
+`59854ed6`: `npm run typecheck` passes; `npm test` passes 1,760 tests across
+176 files; `npm run build` succeeds with 336 modules. The Gothic bundle is
+919.55 kB and the existing Tervain bundle is 5,701.33 kB, retaining the 1,200 kB
+chunk warning. All 206 checked relative documentation links resolve, and
+`git diff --check` passes. Local browser review also confirms a saved journal
+and world clock restore, with Hero HP 100/100. Publication uses the existing
+Pages workflow; these local checks do not establish original-game equivalence
+or a completed campaign.

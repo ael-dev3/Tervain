@@ -1,4 +1,4 @@
-/* ENTRY 1001a5b0 | FUN_1001a5b0 | STATUS decompiled | 12 ms */
+/* ENTRY 1001a5b0 | FUN_1001a5b0 | STATUS decompiled | 10 ms */
 
 int __thiscall
 FUN_1001a5b0(void *this,Template *param_1,ulong param_2,int param_3,ulong param_4,bool param_5)

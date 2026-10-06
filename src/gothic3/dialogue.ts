@@ -160,6 +160,12 @@ export function nativeInfoAvailability(info: NativeInfo, participants: DialogueP
     case 7: case 11:
       if (!quest || quest.status !== QuestStatus.Running) return unavailable('Condition requires a Running quest.');
       break;
+    case 8: {
+      if (!quest || quest.status !== QuestStatus.Running) return unavailable('Delivery requires a Running quest.');
+      const condition = facts.condition(info, roles);
+      if (condition.kind !== 'available') return condition;
+      break;
+    }
     case 10: case 12: case 13: case 20: case 21: case 22: {
       const wanted = info.conditionType === 10 ? QuestStatus.Success : info.conditionType === 12 ? QuestStatus.Failed
         : info.conditionType === 13 ? QuestStatus.Cancelled : info.conditionType === 22 ? QuestStatus.Won : QuestStatus.Lost;

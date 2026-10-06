@@ -44,6 +44,8 @@ export interface NativeInfo {
   id: string;
   sortId: number | null;
   owner: string;
+  /** Original Info Npc field used by gCInfo_PS::OnDelivery. */
+  npc?: string;
   parent: string;
   quest: string;
   conditionType: number | null;

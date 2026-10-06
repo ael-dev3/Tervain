@@ -9,7 +9,7 @@ import type { ScenePerson } from '../../src/gothic3/types';
 const guid = '0123456789abcdef0123456789abcdef01234567';
 const secondGuid = '1123456789abcdef0123456789abcdef01234567';
 const sourceActor = (talkedToPlayer = false, tradeEnabled = false, partyEnabled = false,
-  teachEnabled = false, actorGuid = guid, name = 'Diego'): SourceArdeaActor => ({ name, guid: actorGuid,
+  teachEnabled = false, actorGuid = guid, name = 'Diego', pickedPocket = false): SourceArdeaActor => ({ name, guid: actorGuid,
   propertySets: [
     { name: 'gCNPC_PS', properties: [] },
     { name: 'gCDialog_PS', properties: [
@@ -17,6 +17,7 @@ const sourceActor = (talkedToPlayer = false, tradeEnabled = false, partyEnabled 
       { name: 'TradeEnabled', status: 'decoded', value: tradeEnabled },
       { name: 'PartyEnabled', status: 'decoded', value: partyEnabled },
       { name: 'TeachEnabled', status: 'decoded', value: teachEnabled },
+      { name: 'PickedPocket', status: 'decoded', value: pickedPocket },
     ] },
   ],
 });
@@ -30,7 +31,7 @@ const actorRecord = (id = guid, name = 'Guard'): NativeEntityRecord => ({ key: '
   creator: null, flags: [], worldMatrix: [], propertySets: [
     { name: 'gCNPC_PS', version: 1, values: {} },
     { name: 'gCDialog_PS', version: 1, values: { TalkedToPlayer: false, TradeEnabled: true,
-      PartyEnabled: false, TeachEnabled: false } },
+      PartyEnabled: false, TeachEnabled: false, PickedPocket: false } },
   ] });
 const actorIndex: NativeEntityIndex = { key: 'guard-key', name: 'Guard', guid, creator: null, file: 3,
   entityIndex: 4, propertySets: ['gCNPC_PS', 'gCDialog_PS'], hasGameplay: true, position: [0, 0, 0],
@@ -54,6 +55,7 @@ describe('visible Ardea actor source resolution', () => {
         { name: 'TradeEnabled', status: 'decoded', value: true },
         { name: 'PartyEnabled', status: 'decoded', value: false },
         { name: 'TeachEnabled', status: 'decoded', value: false },
+        { name: 'PickedPocket', status: 'decoded', value: false },
       ] },
     ] }]);
     expect(result.sourceFiles).toEqual([{ archive: actorSource.archive, path: actorPath, sha256: actorSource.sha256 }]);
@@ -94,14 +96,14 @@ describe('native Ardea actor dialog state', () => {
     const state = new NativeArdeaActorDialogState([sourceActor()]);
     const entity = { id: guid, name: 'Diego' };
     expect(state.dialog(entity)).toEqual({ known: true, value: { hasNpc: true, hasDialog: true,
-      talkedToPlayer: false, tradeEnabled: false, partyEnabled: false, teachEnabled: false } });
+      talkedToPlayer: false, pickedPocket: false, tradeEnabled: false, partyEnabled: false, teachEnabled: false } });
     expect(state.endInfoManager(entity)).toBeUndefined();
     expect(state.dialog(entity)).toEqual({ known: true, value: { hasNpc: true, hasDialog: true,
-      talkedToPlayer: false, tradeEnabled: false, partyEnabled: false, teachEnabled: false } });
+      talkedToPlayer: false, pickedPocket: false, tradeEnabled: false, partyEnabled: false, teachEnabled: false } });
     expect(state.beginInfoManager(entity)).toEqual({ known: true, value: true });
     state.endInfoManager(entity);
     expect(state.dialog(entity)).toEqual({ known: true, value: { hasNpc: true, hasDialog: true,
-      talkedToPlayer: true, tradeEnabled: false, partyEnabled: false, teachEnabled: false } });
+      talkedToPlayer: true, pickedPocket: false, tradeEnabled: false, partyEnabled: false, teachEnabled: false } });
     expect(state.currentTalkedToPlayerIds()).toEqual([guid]);
   });
 
@@ -132,6 +134,30 @@ describe('native Ardea actor dialog state', () => {
     restored.restoreTradeEnabledIds([]);
     expect(restored.dialogFlag(entity, 'TradeEnabled')).toEqual({ known: true, value: false });
     expect(() => restored.restoreTradeEnabledIds(['f'.repeat(40)] )).toThrow(/invalid or duplicate/);
+  });
+
+  it('sets and saves Dialog.PickedPocket against the source actor identity', () => {
+    const entity = { id: guid, name: 'Diego' };
+    const state = new NativeArdeaActorDialogState([sourceActor()]);
+    expect(state.dialog(entity)).toMatchObject({ known: true, value: { pickedPocket: false } });
+    expect(state.setPickedPocket(entity, true)).toEqual({ known: true, value: true });
+    expect(state.dialog(entity)).toMatchObject({ known: true, value: { pickedPocket: true } });
+    const restored = new NativeArdeaActorDialogState([sourceActor()]);
+    restored.restorePickedPocketIds(state.currentPickedPocketIds());
+    expect(restored.dialog(entity)).toMatchObject({ known: true, value: { pickedPocket: true } });
+    restored.restorePickedPocketIds([]);
+    expect(restored.dialog(entity)).toMatchObject({ known: true, value: { pickedPocket: false } });
+    expect(() => restored.restorePickedPocketIds([guid, guid])).toThrow(/invalid or duplicate/);
+  });
+
+  it('keeps source PickedPocket defaults for actors outside a legacy roster', () => {
+    const sourcePicked = new NativeArdeaActorDialogState([sourceActor(false, false, false, false, guid, 'Diego', true),
+      sourceActor(false, false, false, false, secondGuid, 'Guard', false)]);
+    sourcePicked.restorePickedPocketIds([], new Set([guid]));
+    expect(sourcePicked.dialog({ id: guid, name: 'Diego' })).toMatchObject({ known: true, value: { pickedPocket: false } });
+    expect(sourcePicked.dialog({ id: secondGuid, name: 'Guard' })).toMatchObject({ known: true, value: { pickedPocket: false } });
+    sourcePicked.restorePickedPocketIds([], new Set());
+    expect(sourcePicked.dialog({ id: guid, name: 'Diego' })).toMatchObject({ known: true, value: { pickedPocket: true } });
   });
 
   it('executes and restores source-backed PartyEnabled and TeachEnabled flags', () => {

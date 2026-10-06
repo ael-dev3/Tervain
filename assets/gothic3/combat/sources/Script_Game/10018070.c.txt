@@ -1,0 +1,56 @@
+/* ENTRY 10018070 | FUN_10018070 | STATUS decompiled | 27 ms */
+
+undefined4 FUN_10018070(gCScriptProcessingUnit *param_1,Entity *param_2,Entity *param_3)
+
+{
+  eCEntity *peVar1;
+  gEPoliticalAlignment gVar2;
+  int iVar3;
+  Entity local_150 [52];
+  PropertyPoliticalAlignment local_11c [116];
+  Entity local_a8 [52];
+  PropertyPoliticalAlignment local_74 [116];
+  
+  Entity::Entity(local_a8);
+  if (param_2 == (Entity *)0x0) {
+    peVar1 = gCScriptProcessingUnit::GetSelfEntity(param_1);
+    Entity::AttachTo(local_a8,peVar1);
+  }
+  else {
+    Entity::operator=(local_a8,param_2);
+  }
+  Entity::Entity(local_150);
+  if (param_3 == (Entity *)0x0) {
+    peVar1 = gCScriptProcessingUnit::GetOtherEntity(param_1);
+    Entity::AttachTo(local_150,peVar1);
+  }
+  else {
+    Entity::operator=(local_150,param_3);
+  }
+  gVar2 = PSNpc::PropertyPoliticalAlignment::operator_enum_gEPoliticalAlignment(local_74);
+  if (gVar2 == 7) {
+    gVar2 = PSNpc::PropertyPoliticalAlignment::operator_enum_gEPoliticalAlignment(local_11c);
+    if (gVar2 != 7) {
+      iVar3 = thunk_FUN_1001b0c0(param_1,local_150,None_exref,0);
+      if (iVar3 != 0) goto LAB_10018124;
+    }
+  }
+  gVar2 = PSNpc::PropertyPoliticalAlignment::operator_enum_gEPoliticalAlignment(local_11c);
+  if (gVar2 == 7) {
+    gVar2 = PSNpc::PropertyPoliticalAlignment::operator_enum_gEPoliticalAlignment(local_74);
+    if (gVar2 != 7) {
+      iVar3 = thunk_FUN_1001b0c0(param_1,local_a8,None_exref,0);
+      if (iVar3 != 0) {
+LAB_10018124:
+        Entity::~Entity(local_150);
+        Entity::~Entity(local_a8);
+        return 4;
+      }
+    }
+  }
+  Entity::~Entity(local_150);
+  Entity::~Entity(local_a8);
+  return 0;
+}
+
+

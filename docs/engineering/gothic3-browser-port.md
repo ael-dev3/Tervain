@@ -7,11 +7,15 @@ Date: 6 October 2026. Status: exploration, a moving Hero presentation and native
 The owner asked to rebuild the installed Gothic 3 in TypeScript and host it as
 a second URL in Tervain. The repository is public and GitHub Pages is enabled.
 The [Gothic 3 / Ardea route](https://ael-dev3.github.io/Tervain/gothic3/) is
-live from `main` commit `72e2a3993437e4b108291f8cb19692d0d4e5f620`, deployed by
-workflow run [37387661546](https://github.com/ael-dev3/Tervain/actions/runs/37387661546).
-That published build is an incomplete exploration prototype. Newer local
-gameplay changes on `codex/gothic3-gameplay-initialization` have not been
-published. Tervain's separate browser build keeps its own entry, content,
+live. The deployed baseline preceding checkpoints 55–71 was `main` commit
+`59854ed6e4daca03d6d0d6265a97fa1099c0c724`, published by
+[workflow run 37502708509](https://github.com/ael-dev3/Tervain/actions/runs/37502708509).
+The [Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml)
+records subsequent publication receipts.
+It remains an incomplete exploration and gameplay prototype, not a finished
+game.
+
+Tervain's separate browser build keeps its own entry, content,
 version, renderer, save namespace and original artistic direction.
 This request authorizes the separate reconstruction; it does not redefine
 Gothic assets as original Tervain content or change earlier Tervain asset rules.
@@ -53,20 +57,30 @@ Gothic assets as original Tervain content or change earlier Tervain asset rules.
   verified `PlayerKnows` seed initializes an ordered browser game-event store.
   The Ardea interaction panel now preflights original dialogue records against
   the active scene, quest state, game events and InfoManager Given state. It
-  runs General no-delivery records when every command and completion callback
-  is supported; conditions 6, 11 and 21 now apply their bounded quest status
-  transitions, and conditions 3, 6, 11 and 19 retain source Say pairs.
+  runs General records when every command and completion callback is
+  supported; conditions 6, 11 and 21 apply their bounded quest status
+  transitions, condition 7 preserves quest status, and condition 8
+  counts NPC delivery for Running numeric-type-1/type-4 quests. Supported
+  conditions 3/5/6/7/8/10/11/19 retain source Say pairs; native condition 4
+  remains gated on its unresolved overtime predicate. The fresh `Ardea_Pocket` state is Open,
+  however, and its native pickpocket quest-start path is not connected, so this
+  callback does not make that theft-reporting sequence reachable in a new game.
   Unsupported conditions and effects stay locked with their reason shown.
-  The Hero's 121 hash-checked starting inventory stacks now answer Ardea
-  `CondItems` predicates, and an Inventory panel exposes source stack names,
-  amounts and Learned flags. This is an immutable startup snapshot; item use,
-  transfer, loot, equipment changes and inventory mutation remain unimplemented.
+  The Hero's 121 hash-checked starting inventory stacks answer Ardea
+  `CondItems` predicates, and an Inventory panel exposes current stack names,
+  amounts and Learned flags. The Hero inventory is mutable and saved. Positive
+  source `Give` commands for `It_Gold` can transfer between PC_Hero and the
+  active Ardea dialogue owner; the host checks loaded quest delivery targets
+  before treating the item-receive manager callback as a no-op. Other
+  transferred items, linked stacks, item-receive quest deliveries, general
+  loot, equipment changes and trade UI remain
+  unimplemented. The browser transfer receipt is a simple host message, not
+  the original localized Given/Taken GUI text.
   Jack's `BPANKRATZ31459` and Hamlar's `FILLER939` records now apply
   `SetTradeEnabled` to their source Dialog state, and browser saves preserve
   those flags. `SetPartyEnabled` and `SetTeachEnabled` now update and save the
   corresponding source Dialog fields as well. These flags do not implement
-  party following, trainer interactions, trade UI, inventory transfer or
-  pricing.
+  party following, trainer interactions, trade UI or pricing.
   Diego's `BPANKRATZ31454` response exercises `Say` and
   `SetGameEvent("Diego_WarIsLost")`. The original `GiveXP` handler now awards
   XP through retained Hero PlayerMemory; bounded quest success also writes
@@ -100,24 +114,92 @@ implemented.
 The source-backed dialogue kernel is enabled only for bounded records; most
 native dialogue conditions and effects remain unavailable. Mouse/key attacks
 play the recovered Hero fist phases and sample the right-hand bone against
-rendered character bounds at the hit window. Contact candidates do not change
-health or trigger NPC responses, so no combat encounter is playable. Only the
-audited first startup quest run is connected; remaining startup callbacks and
-entity mutations are pending.
+rendered character bounds at the hit window. A source-pinned Hero profile and
+the 15 exact starting Ardea Raider identities and Jack's three coastal bandits
+use that browser hit window and the audited damage formula to update NPC HP in
+browser saves. Zero-HP visuals hide immediately and remain hidden after restore.
+This does not implement native NPC activation/contact eligibility, AI, attacks
+or responses, Kill/Defeat task execution, death animation, defeat XP, loot or
+all quest reward services, so the campaign combat loop remains incomplete.
+Source-directed lethal bandit hits dispatch exact-name counters for matching
+numeric-type-2/3/4 objectives and their supported success rewards. Raider
+kill-versus-defeat disposition remains unknown and does not grant kill credit.
+This does not port the native event source/cache. Only the audited first startup
+quest run is connected; remaining startup callbacks and entity mutations are
+pending. See [checkpoint
+67](gothic3-rebuilding-process.md#67-persist-defeat-for-the-starting-ardea-raiders)
+and [checkpoint
+68](gothic3-rebuilding-process.md#68-dispatch-bounded-npc-kill-objective-counters).
+
+This checkpoint resolves native distribution-0 Plunder
+candidates, records the recovered stack-count/selection/amount draws, then
+passes those records to the TypeScript `NativeInventory.createItems` path.
+Source templates are resolved by exact GUID and checked source path/hash;
+inventory stacks and the browser random state are saved, and restore rebuilds
+the stack list against those source templates without rerolling. This is a
+bounded browser integration. Generation still
+runs at browser first contact with a separate seed and call sequence, not the
+native cache-in callback or process-wide random stream. It creates no physical
+ItemWorld objects; native entity activation, weapon/equipment cache-in, loot-
+driven player inventory mutation, AI, NPC responses, native death handling and
+defeat rewards remain incomplete.
+This checkpoint also adds a PickPocket browser action that reads
+the source Hero Theft and target LevelMax, applies the verified level/perk/roll
+gate, and on success adds exact distribution-7 source loot to the saved Hero
+inventory. The target's `Dialog.PickedPocket` state is saved. This action does
+not use the native InfoManager lifecycle; its failure/caught response, enclave
+crime effect and property-listener/quest-start path remain unresolved.
+`Ardea_Pocket` therefore stays Open in a fresh game. See [checkpoint
+66](gothic3-rebuilding-process.md#66-connect-source-backed-pickpocket-loot-to-hero-inventory).
+This checkpoint applies the bounded browser fist calculation to
+15 source-pinned starting Ardea Raiders and Jack's three source-placed coastal
+bandits, and stores their HP in browser saves.
+The contact detector and standing-target state remain browser-owned; defeated
+visuals hide on zero HP and after restoring the NPC combat save. Source-resolved
+lethal bandit hits dispatch exact-name counters for matching type-2/3/4
+objectives. Eligible completion applies supported quest rewards; the quest save
+retains the counters and terminal status. Jack's three targets can complete his
+quest for 500 XP and unlock its condition-10 return Info for 50 gold and 250 XP.
+Native event/cache and task acceptance, defeat XP and several reward services
+remain unconnected. See [checkpoint
+67](gothic3-rebuilding-process.md#67-persist-defeat-for-the-starting-ardea-raiders)
+and [checkpoint
+70](gothic3-rebuilding-process.md#70-connect-jacks-bandits-and-correct-native-quest-callbacks).
+This checkpoint also passes each resolved distribution-3 Weaponry
+recipe through `NativeInventory.assureItems`, retaining the native `0x100`
+quality bit and configured minimum stack amount. The Raider's source-bound axe
+appears in its browser inventory at quality 256, amount 1; a primary-slot-6
+`EquipStack` plan is saved only as a decision (`applied: false`). NPC save
+schema v2 retains this source-bounded inventory and migrates v1 Plunder-only
+saves. This does not attach the weapon to an actor or skeleton, create an
+ItemWorld instance, or apply equipment statistics. See [checkpoint
+57](gothic3-rebuilding-process.md#57-materialize-deterministic-weaponry-in-the-browser-npc-inventory).
+The native UseType 2 two-hand split into slots 6 and 5 remains unimplemented.
+The source bridge now also resolves the serialized slot17 body template's
+`gCItem_PS.Robe` flag, used by the native armor-perk branch, and keeps
+`gCScriptRoutine_PS` scheduling fields distinct from live combat animation
+state. Those facts gate the bounded browser-hosted damage profile; NPC attack
+responses and native damage/effect callbacks remain unavailable.
 Original SpeedTree vegetation has not yet been placed in this scene.
-NPC derivatives are static bind-pose previews. The moving Hero chooses one
-recovered idle, walk or run clip from browser-controller displacement; an
-Attack or PowerAttack input plays its three recovered fist phases. First-person
-arms and hit responses are absent. Hero
+Most NPC derivatives remain static bind-pose previews. In this checkpoint,
+Diego is loaded from his original skinned body and head XACT files, and
+the 11 audited Hero clips are mapped onto matching bones for an idle preview
+and model inspection. This does not reproduce Diego's native animation
+selection or schedule; see [checkpoint
+59](gothic3-rebuilding-process.md#59-convert-and-connect-diegos-source-skinned-actor).
+The moving Hero chooses one recovered idle, walk or run clip from
+browser-controller displacement; an Attack or PowerAttack input plays its
+three recovered fist phases. First-person arms and hit responses are absent. Hero
 clip playback uses verified raw native keys, signed-short packing, shortest-sign
 component interpolation, pose fallback and final normalization. Multi-layer
 blending, effects and repositioning remain separate work. The visual Hero is
 not yet constructed by the original entity/property-set readers. Missing attachments
 and unsupported world entity types are recorded by the preparation pipeline.
 
-The prepared snapshot contains 202 world instances, 67 NPC source records
-(including Diego, Milten, Gorn, Lester, Jack and Hamlar), 130 exported models
-and 139 textures. The model/texture payload is 130,869,971 bytes; 634,836
+The working snapshot contains 202 world instances, 70 NPC source records
+(including Diego, Milten, Gorn, Lester, Jack, Hamlar and the three bandits),
+134 exported models and 140 textures. The model/texture payload is
+132,962,888 bytes; 652,328
 triangles counts unique converted model assets, not every placed instance.
 There are no missing diffuse maps in the final preparation audit; 39
 multiple-diffuse shader graphs remain approximations. Six native landscape
@@ -183,11 +265,14 @@ The prepared derivatives and newly written renderer have separate provenance.
 
 Current save key: `gothic3:ardea:game:v2`. It holds browser exploration state,
 landscape selection, the 641 quest states, world-clock date, PlayerKnows game
-events, accepted dialogue `Given` flags and supported Hero XP. Restore checks the Hero
+events, accepted dialogue `Given` flags, supported Hero XP and the mutable Hero
+inventory snapshot. The NPC combat save holds initialized Ardea actor inventories.
+Restore checks the Hero
 PlayerMemory and InfoManager provider identities as well as the quest/clock
-hashes. New saves also record and check the starting-inventory evidence hash;
-the immutable starting inventory is reloaded from its verified source rather
-than copied into the save. Legacy key
+hashes and the starting-inventory evidence hash; saved inventories are
+rehydrated against source-resolved template definitions. Older saves without a
+Hero inventory snapshot replay the verified starting inventory and retain
+their saved consumable counts. Legacy key
 `gothic3:ardea:exploration:v1` still restores position and view, then starts a
 fresh quest session. Neither format imports original Gothic saves or changes
 Tervain saves.

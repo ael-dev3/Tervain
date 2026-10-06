@@ -1,0 +1,5 @@
+newmtl EMFX_Default
+
+newmtl G3_Animation_Body_RebBandit_01_A|
+map_Kd ../textures/G3_Human_RebBanditLow_Body_Diffuse_S2.jpg
+

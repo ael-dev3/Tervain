@@ -1,6 +1,7 @@
 import questReceiptText from '../../assets/gothic3/dialogue/initial-quests-output.json?raw';
 import { assetUrl } from './assets';
 import type { NativeQuest, NativeSource } from './catalog';
+import type { NativeCombatPerk, NativeCombatSkills, NativeKnowledge } from './combat';
 import { gameplayResources } from './native-data';
 import { NativeQuests, QuestStatus } from './quest-state';
 import { loadBrowserInfoState } from './info-state';
@@ -108,6 +109,7 @@ interface NativeStartingInventoryDocument {
   stacks: readonly { index: number; templateName: string; templateGuid20: string; amount: number;
     quality: number; quickSlot: number | null; hotKeyUnsigned: number; activationCount: number; intrinsicLearned: boolean;
     stackType: number; linkedSlot: number; externalObserverEffects: string;
+    templateSource: { path: string; sha256: string };
     learnedOperation: 'preserve' | 'setTrue'; startupOperation: { finalBoolean: boolean } }[];
 }
 interface NativeInventoryManifest {
@@ -136,6 +138,14 @@ const unsignedInteger = (value: unknown): value is number => typeof value === 'n
 const guid20 = (value: unknown): value is string => typeof value === 'string' && /^[a-f0-9]{40}$/.test(value);
 const hash = (value: unknown): value is string => typeof value === 'string' && /^[a-f0-9]{64}$/.test(value);
 
+function serializedEnumValue(value: unknown, enumName: string): number {
+  if (value === null || typeof value !== 'object' || !('enum' in value) || !('version' in value) || !('value' in value) ||
+      value.enum !== enumName || value.version !== 1 || !unsignedInteger(value.value)) {
+    throw new Error('Unresolved serialized Hero NPC enum ' + enumName);
+  }
+  return value.value;
+}
+
 function validatePlayer(player: InitializedPlayerSeed): void {
   if (player.schema !== 'gothic3-initialized-player-v1' || player.schemaVersion !== 1 ||
       player.player?.name !== 'PC_Hero' || !guid20(player.player.guid) || !hash(player.player.source?.sha256) ||
@@ -148,7 +158,12 @@ function validatePlayer(player: InitializedPlayerSeed): void {
   for (const key of ['XP', 'LPAttribs', 'LPPerks', 'Chapter'] as const) {
     if (!signedInteger(player.memory[key])) throw new Error('Unresolved source player-memory number: ' + key);
   }
-  if (!unsignedInteger(player.serialized.npc.Level)) throw new Error('Unresolved original player NPC Level');
+  if (!unsignedInteger(player.serialized.npc.Level) || !unsignedInteger(player.serialized.npc.LevelMax) ||
+      !unsignedInteger(player.serialized.npc.StatusEffects)) {
+    throw new Error('Unresolved original player NPC combat fields');
+  }
+  serializedEnumValue(player.serialized.npc.Species, 'gESpecies');
+  serializedEnumValue(player.serialized.npc.Type, 'gENPCType');
   const events = player.memory.PlayerKnows;
   if (!events || events.prefix !== 1 || events.elementType !== 'class bCString' ||
       !Array.isArray(events.items) || events.count !== events.items.length || events.items.some((event) => typeof event !== 'string')) {
@@ -184,16 +199,87 @@ function validatePlayer(player: InitializedPlayerSeed): void {
 }
 
 export interface OriginalPlayerProgressSeed {
+  /** Full validated source record used to build a mutable Hero inventory. */
+  readonly initializedPlayer: InitializedPlayerSeed;
   readonly source: { readonly path: string; readonly sha256: string };
   readonly inventorySource: { readonly path: string; readonly sha256: string };
   readonly inventory: readonly { readonly index: number; readonly templateName: string; readonly templateGuid20: string;
-    readonly amount: number; readonly quality: number; readonly quickSlot: number | null; readonly learned: boolean }[];
+    readonly amount: number; readonly quality: number; readonly quickSlot: number | null; readonly hotKeyUnsigned: number;
+    readonly learned: boolean; readonly activationCount: number;
+    readonly templateSource: { readonly path: string; readonly sha256: string } }[];
+  /** Only skills whose fresh-stack and startup operations prove inactivity are
+   * exposed as known. A present skill item alone does not imply activation. */
+  readonly combatSkills: NativeCombatSkills;
+  /** Source-decoded pre-start fields used to construct the Hero combat actor. */
+  readonly npcCombatProfile: {
+    readonly id: string;
+    readonly name: string;
+    readonly rawLevel: number;
+    readonly rawLevelMax: number;
+    readonly species: number;
+    readonly npcType: number;
+    readonly politicalAlignment: number;
+    readonly statusEffects: number;
+    readonly source: { readonly path: string; readonly sha256: string };
+  };
   readonly xp: number;
   readonly lpAttribs: number;
   readonly level: number;
   readonly learnPerkActive:
     | { readonly status: 'known'; readonly value: boolean; readonly source: string }
     | { readonly status: 'unknown'; readonly reason: string };
+}
+
+const COMBAT_SKILL_STACKS: readonly { readonly perk: NativeCombatPerk; readonly item: string; readonly index: number }[] = [
+  { perk: 'Perk_1H_2', item: 'It_Perk_1H_2', index: 94 },
+  { perk: 'Perk_1H_3', item: 'It_Perk_1H_3', index: 95 },
+  { perk: 'Perk_OrcSlayer', item: 'It_Perk_Orcslayer', index: 98 },
+  { perk: 'Perk_Shield_2', item: 'It_Perk_Shield_2', index: 106 },
+  { perk: 'Perk_LightArmor', item: 'It_Perk_LightArmor', index: 74 },
+  { perk: 'Perk_HeavyArmor', item: 'It_Perk_HeavyArmor', index: 92 },
+  { perk: 'Perk_Learn', item: 'It_Perk_Learn', index: 75 },
+];
+
+function sourceBackedInitialCombatSkills(
+  initialized: InitializedPlayerSeed,
+  starting: NativeStartingInventoryDocument,
+  inventory: OriginalPlayerProgressSeed['inventory'],
+  inventorySource: OriginalPlayerProgressSeed['inventorySource'],
+): NativeCombatSkills {
+  const skills: Partial<Record<NativeCombatPerk, NativeKnowledge<boolean>>> = {};
+  for (const profile of COMBAT_SKILL_STACKS) {
+    const seed = initialized.inventory.stacks[profile.index];
+    const stack = starting.stacks[profile.index];
+    const runtime = inventory[profile.index];
+    if (!seed || !stack || !runtime || seed.index !== profile.index || stack.index !== profile.index ||
+        runtime.index !== profile.index || seed.templateName !== profile.item || stack.templateName !== profile.item ||
+        runtime.templateName !== profile.item || seed.templateGuid20 !== stack.templateGuid20 ||
+        runtime.templateGuid20 !== stack.templateGuid20 || stack.activationCount !== 0 ||
+        seed.nativeNewStackDefaultLearned !== false || stack.intrinsicLearned !== false ||
+        stack.learnedOperation !== 'preserve' || stack.startupOperation.finalBoolean !== false || runtime.learned !== false) {
+      skills[profile.perk] = Object.freeze({ status: 'unknown',
+        reason: `The new-game ${profile.item} stack does not prove an inactive combat skill.` });
+      continue;
+    }
+    const source = stack.templateSource;
+    if (!source || typeof source.path !== 'string' || typeof source.sha256 !== 'string' ||
+        !/^[a-f0-9]{64}$/.test(source.sha256)) {
+      skills[profile.perk] = Object.freeze({ status: 'unknown', reason: `The ${profile.item} source receipt is unavailable.` });
+      continue;
+    }
+    const rawDefinition = initialized.templateDefinitions[stack.templateGuid20];
+    const definition = rawDefinition && typeof rawDefinition === 'object'
+      ? rawDefinition as { name?: unknown; source?: { path?: unknown; sha256?: unknown } } : null;
+    if (!definition || definition.name !== profile.item || definition.source?.path !== source.path ||
+        definition.source?.sha256 !== source.sha256) {
+      skills[profile.perk] = Object.freeze({ status: 'unknown',
+        reason: `The ${profile.item} source differs from its initialized template definition.` });
+      continue;
+    }
+    skills[profile.perk] = Object.freeze({ status: 'known', value: false,
+      source: `${inventorySource.path}@${inventorySource.sha256}#stacks[${profile.index}]:${source.path}@${source.sha256};fresh Learned=false;ActivationCount=0` });
+  }
+  return Object.freeze(skills);
 }
 
 /** Read only the hash-checked startup record needed to seed Hero progression.
@@ -249,7 +335,9 @@ export async function loadOriginalPlayerProgressSeed(): Promise<OriginalPlayerPr
       throw new Error('Original starting inventory facts differ from initialized player stack ' + index + '.');
     }
     return Object.freeze({ index, templateName: stack.templateName, templateGuid20: stack.templateGuid20,
-      amount: stack.amount, quality: stack.quality, quickSlot: stack.quickSlot, learned: stack.intrinsicLearned });
+      amount: stack.amount, quality: stack.quality, quickSlot: stack.quickSlot, learned: stack.intrinsicLearned,
+      hotKeyUnsigned: stack.hotKeyUnsigned, activationCount: stack.activationCount,
+      templateSource: Object.freeze({ path: stack.templateSource.path, sha256: stack.templateSource.sha256 }) });
   });
   if (inventory.length !== 121 || new Set(inventory.map((stack) => stack.templateName)).size !== inventory.length) {
     throw new Error('Original starting inventory does not have 121 uniquely named source stacks.');
@@ -257,9 +345,20 @@ export async function loadOriginalPlayerProgressSeed(): Promise<OriginalPlayerPr
   const learnPerkActive = Object.freeze({ status: 'known' as const,
     value: learnStack.intrinsicLearned || learnStack.activationCount > 0,
     source: 'inventory/starting-inventory.json#stacks[75]+Game:201ae890+Script_Game:100628c0' });
-  return Object.freeze({ source: Object.freeze({ path, sha256: receipt.sha256 }),
+  const combatSkills = sourceBackedInitialCombatSkills(player, startingInventory, inventory,
+    { path: 'inventory/' + inventoryManifest.startingInventory, sha256: startingReceipt.sha256 });
+  const serializedNpc = player.serialized.npc;
+  const npcCombatProfile = Object.freeze({ id: player.player.guid, name: player.player.name,
+    rawLevel: serializedNpc.Level as number, rawLevelMax: serializedNpc.LevelMax as number,
+    species: serializedEnumValue(serializedNpc.Species, 'gESpecies'),
+    npcType: serializedEnumValue(serializedNpc.Type, 'gENPCType'),
+    politicalAlignment: serializedEnumValue(serializedNpc.PoliticalAlignment, 'gEPoliticalAlignment'),
+    statusEffects: serializedNpc.StatusEffects as number,
+    source: Object.freeze({ path: player.player.source.path, sha256: player.player.source.sha256 }),
+  });
+  return Object.freeze({ initializedPlayer: player, source: Object.freeze({ path, sha256: receipt.sha256 }),
     inventorySource: Object.freeze({ path: 'inventory/' + inventoryManifest.startingInventory, sha256: startingReceipt.sha256 }),
-    inventory: Object.freeze(inventory), xp: player.memory.XP,
+    inventory: Object.freeze(inventory), combatSkills, npcCombatProfile, xp: player.memory.XP,
     lpAttribs: player.memory.LPAttribs, level: player.serialized.npc.Level as number, learnPerkActive: Object.freeze(learnPerkActive) });
 }
 
