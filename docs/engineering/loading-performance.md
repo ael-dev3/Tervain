@@ -82,7 +82,7 @@ Start press arrives (38.611 s in the baseline, 8.831 s in the candidate), so
 navigation-to-play totals are observations of this flow rather than a general
 speedup guarantee.
 
-Entry-view sampler preparation produced 76 visible status updates over 8.964 s.
+Entry-view sampler preparation produced 76 recorded status updates over 8.964 s.
 The final graphics count reached 173/173 only after the submitted first view
 was complete. Synchronous compilation/submission still produced a 15.866 s
 frame gap on this software renderer, and subsequent software-rendered gameplay
@@ -138,13 +138,15 @@ between checkpoints, so this work does not eliminate every long task.
 Preparing a world restores physical state and navigation before activation.
 The first camera view is updated with zero simulation time, entry-camera
 sampler uploads are prepared in bounded batches, shaders are compiled
-asynchronously, the real presentation is rendered, and a WebGL2 fence waits for its
-submitted graphics work. Hidden LODs and off-camera objects are excluded from
-sampler preparation; material factories can explicitly expose shader samplers
-without changing their pixels, filtering or ownership. Only then does the
-loading screen release gameplay input. First entry, failed entry and quality replacement keep
-simulation, wildlife sound and autosaving paused. Retry retains the chosen
-save; Back disposes a failed first view and restores the prior title state.
+asynchronously, the real presentation is rendered, and a WebGL2 fence waits
+for its submitted graphics work. Hidden LODs and frustum-culled off-camera
+drawables are excluded from sampler preparation; material factories can
+explicitly expose shader samplers without changing their pixels, filtering
+or ownership. Only then does the
+loading screen release gameplay input. First entry, failed entry and quality
+replacement keep simulation, wildlife sound and autosaving paused. Retry
+retains the chosen save; Back disposes a failed first view and restores the
+prior title state.
 
 The parchment loading chart is original artwork. Phase segments show measured
 work counts when available and remain indeterminate for work without a known
@@ -174,6 +176,9 @@ play time and both save envelopes stayed frozen during preparation. The restored
 character, equipment, injured animal and named residents remained intact through
 Low-to-High-to-Low graphics replacement, including a hidden-tab rebuild. Retry
 refetched the failed model once; recovery Tab navigation reached both buttons.
+Saving after a further Low rebuild retained the restored state and became the
+newest Continue target. Native walking moved the rebuilt hero with finite,
+grounded coordinates and no runtime errors.
 The injected HTTP 503 is an expected failure, separate from the error-free
 baseline and candidate performance samples.
 
