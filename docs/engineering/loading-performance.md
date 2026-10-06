@@ -184,7 +184,8 @@ baseline and candidate performance samples.
 
 A real module-worker check compared generated albedo and normal bytes at two
 small resolutions with the synchronous implementation. At High resolution it
-produced two 33,554,432-byte arrays in 5.676 s while 341 animation frames painted,
-with a 16.8 ms maximum frame gap in that isolated texture-generation check.
-This establishes worker output parity and responsiveness during that operation;
+produced two 33,554,432-byte arrays in 5.676 s while 341 animation-frame callbacks
+ran, with a 16.8 ms maximum callback gap in that isolated texture-generation check.
+These callback timings do not measure individual raster paints. This establishes
+worker output parity and main-thread responsiveness during that operation;
 the complete game still has the rendering and synchronous-work limits above.
