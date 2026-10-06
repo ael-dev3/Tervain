@@ -1,0 +1,2 @@
+1002a580 | 8bc1 | MOV EAX,ECX
+1002a582 | c3 | RET

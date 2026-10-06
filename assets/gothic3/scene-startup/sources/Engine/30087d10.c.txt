@@ -1,0 +1,54 @@
+/* ENTRY 30087d10 | eCInputDispatcher::eCInputDispatcher_Constructor_or_Destructor | STATUS decompiled | 18 ms */
+
+void __fastcall
+eCInputDispatcher::eCInputDispatcher_Constructor_or_Destructor(eCInputDispatcher *param_1)
+
+{
+  bCMemoryAdmin *pbVar1;
+  void **ppvVar2;
+  eCInputDispatcher_data *peVar3;
+  void *pvVar4;
+  
+  param_1->vftablePtr = &vftable;
+  Destroy(param_1);
+  ppvVar2 = &(param_1->eCInputDispatcher_data).offset_0xc;
+  if (ppvVar2 != (void **)0x0) {
+    pvVar4 = *ppvVar2;
+    if (pvVar4 != (void *)0x0) {
+      pbVar1 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar1,pvVar4);
+      *ppvVar2 = (void *)0x0;
+      (param_1->eCInputDispatcher_data).offset_0x10 = 0;
+      (param_1->eCInputDispatcher_data).offset_0x14 = 0;
+    }
+    pvVar4 = *ppvVar2;
+    if (pvVar4 != (void *)0x0) {
+      pbVar1 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar1,pvVar4);
+      *ppvVar2 = (void *)0x0;
+      (param_1->eCInputDispatcher_data).offset_0x10 = 0;
+      (param_1->eCInputDispatcher_data).offset_0x14 = 0;
+    }
+  }
+  peVar3 = &param_1->eCInputDispatcher_data;
+  if (peVar3 != (eCInputDispatcher_data *)0x0) {
+    pvVar4 = peVar3->offset_0x0;
+    if (pvVar4 != (void *)0x0) {
+      pbVar1 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar1,pvVar4);
+      peVar3->offset_0x0 = (void *)0x0;
+      (param_1->eCInputDispatcher_data).offset_0x4 = 0;
+      (param_1->eCInputDispatcher_data).offset_0x8 = 0;
+    }
+    pvVar4 = peVar3->offset_0x0;
+    if (pvVar4 != (void *)0x0) {
+      pbVar1 = bCMemoryAdmin::GetInstance();
+      bCMemoryAdmin::Free(pbVar1,pvVar4);
+      peVar3->offset_0x0 = (void *)0x0;
+      (param_1->eCInputDispatcher_data).offset_0x4 = 0;
+      (param_1->eCInputDispatcher_data).offset_0x8 = 0;
+    }
+  }
+  eCInputReceiver::~eCInputReceiver((eCInputReceiver *)param_1);
+  return;
+}

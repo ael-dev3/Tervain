@@ -40,6 +40,30 @@ function fixture(options: { initialize?: boolean } = {}) {
 }
 
 describe('physical selected SceneAdmin PropertyID table', () => {
+  it('constructs without a section and gates only the first operation that acquires it', () => {
+    const memory = new NativeMemoryAdmin(new NativeRuntimePlatform());
+    const heap = new NativeScenePropertyIdHeap({ memory });
+    fact(heap.initialize());
+    expect(heap.holder.readUnsigned(4)).toBe(43);
+    expect(fact(heap.register(null))).toBe(false);
+    expect(heap.register(entity('requires-section'))).toMatchObject({ known: false });
+    expect(heap.snapshot()).toMatchObject({ entered: false, phase: 'blocked' });
+    expect(heap.snapshot().boundary).toContain('section30af24f4');
+    expect(heap.snapshot().retainedNodes).toHaveLength(0);
+    expect(memory.snapshot().pools.find(pool => pool.stride === 224)!.count).toBe(1);
+  });
+
+  it('does not inspect a supplied section before the source constructor finishes', () => {
+    let reads = 0;
+    const memory = new NativeMemoryAdmin(new NativeRuntimePlatform());
+    const host = { memory, get section(): NativeSceneHeapSection { reads++; throw new Error('Section capability unavailable'); } };
+    const heap = new NativeScenePropertyIdHeap(host); fact(heap.initialize());
+    expect(reads).toBe(0); expect(heap.holder.readUnsigned(4)).toBe(43);
+    const result = heap.register(entity('first-section-use')); expect(result.known).toBe(false);
+    expect(reads).toBe(1); expect(heap.snapshot().entered).toBe(false);
+    expect(heap.register(entity('no-replay'))).toEqual(result); expect(reads).toBe(1);
+  });
+
   it('owns a 16B holder, requested204B backing, source43 buckets and51 capacity', () => {
     const f = fixture(), state = f.heap.snapshot(), allocation = state.backing!;
     expect(state).toMatchObject({ phase: 'ready', bucketCount: 43, capacity: 51, entryCount: 0, entered: false });

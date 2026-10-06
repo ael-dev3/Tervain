@@ -1,0 +1,11 @@
+/* ENTRY 1004a5a0 | bCObjectRefBase::bCObjectRefBase | STATUS decompiled | 6 ms */
+
+bCObjectRefBase * __thiscall bCObjectRefBase::bCObjectRefBase(bCObjectRefBase *this)
+
+{
+  bCObjectBase::bCObjectBase((bCObjectBase *)this);
+  (this->bCObjectRefBase_data).offset_0x0 = 0;
+  this->vftablePtr = &vftable;
+  (this->bCObjectRefBase_data).offset_0x4 = 1;
+  return this;
+}

@@ -1,0 +1,10 @@
+/* ENTRY 30103020 | eCInputReceiver::eCInputReceiver | STATUS decompiled | 6 ms */
+
+eCInputReceiver * __thiscall eCInputReceiver::eCInputReceiver(eCInputReceiver *this)
+
+{
+  bCObjectRefBase::bCObjectRefBase((bCObjectRefBase *)this);
+  this->vftablePtr = &vftable;
+  (this->eCInputReceiver_data).offset_0x8 = 1;
+  return this;
+}

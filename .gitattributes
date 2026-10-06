@@ -184,6 +184,8 @@ assets/gothic3/control-reading/sources/** -whitespace
 assets/gothic3/sensor-reading/sources/** -whitespace
 assets/gothic3/runtime-admin/sources/** -whitespace
 assets/gothic3/npc-heap/sources/** -whitespace
+assets/gothic3/scene-startup/** -text -eol whitespace=cr-at-eol,-blank-at-eof
+assets/gothic3/scene-startup/sources/** -whitespace
 public/gothic3/sensor-reading/sources/** -whitespace
 assets/gothic3/npc-reading/sources/** -whitespace
 assets/gothic3/inventory-reading/sources/** -whitespace

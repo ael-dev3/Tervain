@@ -1,0 +1,2 @@
+30797c90 | b9449cad30 | MOV ECX,0x30ad9c44
+30797c95 | ff25dcdbaf30 | JMP dword ptr [0x30afdbdc]

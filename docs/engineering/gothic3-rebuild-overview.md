@@ -282,6 +282,10 @@ They are not connected to the browser NPC reader. The isolated shared heap
 owners in [checkpoint 75](gothic3-rebuilding-process.md#75-alias-selected-npc-fields-to-the-shared-heap)
 still require full native startup and browser integration; their tests do not
 establish an activated NPC or campaign progress.
+The next isolated component, [checkpoint 76](gothic3-rebuilding-process.md#76-separate-physical-sceneadmin-construction-from-singleton-lookup),
+implements physical SceneAdmin construction separately from cached module
+lookup and class-name startup. Actual CRT, section, module and application
+services remain prerequisites before these owners can supply live NPCs.
 Subsequent build and deployment receipts are recorded in the
 [Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml).
 This is an incomplete reconstruction; hosting and a successful build do not

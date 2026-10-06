@@ -1,0 +1,35 @@
+/* ENTRY 30087c00 | FUN_30087c00 | STATUS decompiled | 14 ms */
+
+void __fastcall FUN_30087c00(bCObjectBase *param_1)
+
+{
+  bCObjectBase *pbVar1;
+  bCMemoryAdmin *pbVar2;
+  bCObjectBase bVar3;
+  
+  pbVar1 = param_1 + 7;
+  if ((pbVar1 != (bCObjectBase *)0x0) && (bVar3 = *pbVar1, bVar3 != (bCObjectBase)0x0)) {
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,(void *)bVar3);
+    *pbVar1 = (bCObjectBase)0x0;
+    param_1[8] = (bCObjectBase)0x0;
+    param_1[9] = (bCObjectBase)0x0;
+  }
+  pbVar1 = param_1 + 4;
+  if ((pbVar1 != (bCObjectBase *)0x0) && (bVar3 = *pbVar1, bVar3 != (bCObjectBase)0x0)) {
+    pbVar2 = bCMemoryAdmin::GetInstance();
+    bCMemoryAdmin::Free(pbVar2,(void *)bVar3);
+    *pbVar1 = (bCObjectBase)0x0;
+    param_1[5] = (bCObjectBase)0x0;
+    param_1[6] = (bCObjectBase)0x0;
+  }
+  (**(code **)((int)*param_1 + 0x7c))(0);
+  (**(code **)((int)*param_1 + 0x80))(0);
+  param_1[10] = (bCObjectBase)0x0;
+  param_1[0xb] = (bCObjectBase)0x0;
+  *(undefined1 *)(param_1 + 0xc) = 1;
+                    /* WARNING: Could not recover jumptable at 0x30087c75. Too many branches */
+                    /* WARNING: Treating indirect jump as call */
+  bCObjectRefBase::Destroy((bCObjectRefBase *)param_1);
+  return;
+}

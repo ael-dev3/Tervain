@@ -1,0 +1,10 @@
+30100fe0 | 56 | PUSH ESI
+30100fe1 | 8bf1 | MOV ESI,ECX
+30100fe3 | e8754af3ff | CALL 0x30035a5d
+30100fe8 | b001 | MOV AL,0x1
+30100fea | 884610 | MOV byte ptr [ESI + 0x10],AL
+30100fed | 884611 | MOV byte ptr [ESI + 0x11],AL
+30100ff0 | c7063c558230 | MOV dword ptr [ESI],0x3082553c
+30100ff6 | 8bc6 | MOV EAX,ESI
+30100ff8 | 5e | POP ESI
+30100ff9 | c3 | RET

@@ -1,0 +1,19 @@
+/* ENTRY 30087c80 | eCInputDispatcher::eCInputDispatcher | STATUS decompiled | 9 ms */
+
+eCInputDispatcher * __thiscall eCInputDispatcher::eCInputDispatcher(eCInputDispatcher *this)
+
+{
+  eCInputReceiver::eCInputReceiver((eCInputReceiver *)this);
+  this->vftablePtr = &vftable;
+  (this->eCInputDispatcher_data).offset_0x0 = (void *)0x0;
+  (this->eCInputDispatcher_data).offset_0x4 = 0;
+  (this->eCInputDispatcher_data).offset_0x8 = 0;
+  (this->eCInputDispatcher_data).offset_0xc = (void *)0x0;
+  (this->eCInputDispatcher_data).offset_0x10 = 0;
+  (this->eCInputDispatcher_data).offset_0x14 = 0;
+  (this->eCInputDispatcher_data).offset_0x18 = 0;
+  (this->eCInputDispatcher_data).offset_0x1c = 0;
+  (this->eCInputDispatcher_data).offset_0x20 = 1;
+  bCObjectRefBase::Create((bCObjectRefBase *)this);
+  return this;
+}

@@ -4830,3 +4830,133 @@ The source directory uses byte-preserving Git attributes. Build, tests and
 the browser regression establish this isolated checkpoint's implementation
 and compatibility; they do not establish complete native startup or a game
 that can be played through its endings.
+
+## 76. Separate physical SceneAdmin construction from singleton lookup
+
+Date: 6 October 2026. Scope: source-ordered SceneAdmin startup components on
+the same physical heap. These components remain isolated from the browser NPC
+reader. Native application initialization, reflection registration, module
+attachment and NPC activation are still required before an original encounter.
+
+The [Scene startup producer](../../tools/gothic3/prepare_scene_startup_source.py)
+adds a [manifest](../../assets/gothic3/scene-startup/manifest.json),
+[rules](../../assets/gothic3/scene-startup/runtime-rules.json),
+[evidence](../../assets/gothic3/scene-startup/native-evidence.json) and bounded
+source excerpts. It preserves the earlier runtime-admin and NPC-heap packages.
+The selected SceneAdmin allocations now admit source pools 24 and 384 through
+`nativeSceneStartupHeapExtension`; combining it with the NPC extension admits
+twelve pools on one MemoryAdmin, with one canonical cold global image and
+pointer-area prefix. Caller-created copies of either extension remain invalid.
+
+### Construction and lookup have different responsibilities
+
+[`NativeSceneAdminConstruction`](../../src/gothic3/native-scene-admin.ts)
+models the selected reflected creator's request of 348 bytes/tag `0xc4` in the
+384-byte pool. The base constructors and SceneAdmin vtable stores precede five
+map constructors, at offsets `+14`, `+24`, `+34`, `+44` and `+54`. Each map owns
+a separate real 204-byte allocation in the 224-byte pool, with capacity 51 and
+43 logical buckets. The registered map's holder aliases the SceneAdmin's
+actual `+14` bytes and reuses the physical PropertyID table operations.
+
+The subsequent EntityAdmin constructor owns its base, empty array headers and
+source Create fields. Default sphere/vector constructors write nothing; they
+preserve the allocator's existing bytes and masks. Its next call sets spin
+count 4000 on section `30af23d0`. This requires an actual initialized platform
+section. A cold zero-filled PE range cannot provide it. If absent, all five
+map allocations and preceding EntityAdmin stores remain applied, and a later
+call does not replay that prefix.
+
+With explicitly owned services, construction continues through the source
+global CString clear, box invalidation and ModuleAdmin vtable `+74`
+registration. The global CString must alias its original physical slot;
+passing a JavaScript string does not supply that lifetime. Constructor tests
+provide selected external services to exercise the later prefix. They do not
+establish the full application/module startup that supplies those services.
+
+[`NativeSceneAdminLookup`](../../src/gothic3/native-scene-startup.ts) implements
+`GetInstance30009a2a -> 3007bf20` separately. It requires application byte
+`30ad989c` to equal exactly 1; other values return NULL before changing the
+lookup guard. On its first initialized lookup it sets the guard, gets the
+class name, gets ModuleAdmin, finds a registered component and calls the RTTI
+dynamic cast. It caches the result, including NULL. It never constructs a
+SceneAdmin in response to a missing module. The application byte is initially
+the verified cold zero, not an assumed running-game state.
+
+### Class-name and CRT ownership
+
+`NativeSceneClassName` retains the two original guard bits, copied CString
+pointer slot, dynamic initializer and physical class-name CString. The source
+calls CRT `type_info::name` with the literal RTTI descriptor `30aa3050`; the
+copied class-name slot is a different field. The result then passes through
+SharedBase `UnMangle`, which selects the bytes after the first space, and
+constructs the `eCSceneAdmin` CString. Its 12 character bytes request 21 bytes
+from MemoryAdmin and use the 24-byte pool. Its source destructor is admitted
+to the platform shutdown queue.
+
+`NativeSceneTypeInfoName` owns the selected CRT wrapper's cache, trailing-space
+trim, lock 14, eight-byte list node, output copy, list links, scratch free and
+unlock. These CRT allocations remain distinct from SharedBase heap storage.
+The native `___unDName` helper is still an explicit prerequisite; the default
+route stops before inventing its output. Isolated tests supply an owned CRT
+buffer as an external helper result. They verify the wrapper and class-name
+handoff, not the complete native demangler or CRT list teardown.
+
+The saved decompilation incorrectly treats some CRT frees as nonreturning and
+omits the lock-release tail. The producer checks recovered missing instruction
+bytes directly against the original PE and retains those recovery records.
+The TypeScript call order follows the verified instructions, including unlock,
+rather than the incomplete C reconstruction.
+
+The selected registered map constructor also does not acquire its global
+section. Section ownership is checked at the first mutation that acquires it;
+construction and unlocked lookup do not fabricate a section or inspect an
+unused supplied callback. This corrects the earlier table host's premature
+construction gate while retaining its actual mutation requirement.
+
+### Source receipts and remaining integration
+
+The package audits 61 fresh methods and 2,041 unique instructions, reuses 22
+earlier source methods, and records ten recovered PE instructions, with zero
+byte mismatches. Its outputs can be regenerated without executing native code:
+
+```powershell
+python -B tools/gothic3/prepare_scene_startup_source.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+```
+
+| Output | Bytes | SHA-256 |
+| --- | ---: | --- |
+| Scene startup rules | 114,090 | `a226e0cf9479c4789a6966b7d9b6ef182858e24d0ebf1e97de6dba9340592670` |
+| Scene startup evidence | 342,561 | `aff45da8753c8f112f29702510c19bed02710f7106b1650e013ef5e7f3efcc2b` |
+
+The next integration requires the native demangler/CRT services, initialized
+EntityAdmin and registered-table sections, actual ModuleAdmin construction,
+input and module arrays, reflection/type registry and application initialization.
+The Navigation type getter and native indexed-string/name-map operations remain
+separate dependencies. The browser's current source-record read still stops
+at its earlier cursor 338 boundary, with no attached property sets or native
+processing graph. These new physical owners do not yet advance that reader
+or prove a campaign that can be played through its endings.
+
+### Validation
+
+Independent review compared constructor, table, CRT wrapper, class-name and
+shutdown behavior with the pinned PE receipts. Fixes preserve first-use section
+gating, native initializer read order, physical global CString ownership and
+mask aliasing, and immediate stops after unsupported reentry. Tests cover NULL
+and unknown allocation/callback outcomes, applied partial prefixes, cache-NULL
+semantics, source store widths, freed backing and class-name shutdown lifetime.
+
+Local validation passes `npm run typecheck` and 2,019 tests across 198 files
+in 157.39 seconds, including 50 added cases. The final production build
+succeeds with 364 modules in 29.82 seconds. Its Gothic entry and retained NPC
+chunks remain the same files as checkpoint 75: `gothic3-BKEJVbVp.js`,
+`browser-npc-entity-B8mWaH7u.js` and
+`browser-npc-entity-services-DdqR1NNb.js`. The new SceneAdmin modules have no
+application entry import. The existing Tervain entry and chunk warning remain.
+
+Regeneration leaves all 113 package files byte-identical (112 generated files
+plus the package README). All 153 referenced source excerpts were rehashed;
+the earlier source packages remain unchanged. Documentation file links and
+the staged diff are checked. These results establish the admitted component
+behavior and build compatibility, not native NPC activation or campaign
+completion.

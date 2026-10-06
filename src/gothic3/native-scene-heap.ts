@@ -64,9 +64,9 @@ function fact<T>(value: NativeValue<T>, operation: string): T {
   return value.value;
 }
 
-/** An actual initialized selected platform section for Engine30af24f4. This
- * capability is supplied before table construction; there is no success stub
- * or inferred full native module/global initialization in this table owner. */
+/** An actual initialized selected platform section for Engine30af24f4.
+ * The source constructor does not acquire it. Mutating operations require
+ * this capability; cold zero bytes never establish initialized ownership. */
 export interface NativeSceneHeapSection {
   readonly sourceAddress: '30af24f4';
   readonly identity: object;
@@ -75,7 +75,7 @@ export interface NativeSceneHeapSection {
 }
 export interface NativeSceneHeapHost {
   readonly memory: Pick<NativeMemoryAdmin, 'getInstance' | 'newObject' | 'realloc' | 'deleteObject'>;
-  readonly section: NativeSceneHeapSection;
+  readonly section?: NativeSceneHeapSection;
 }
 interface PropertyIdNode {
   readonly allocation: NativeMemoryAllocation;
@@ -96,14 +96,13 @@ export class NativeScenePropertyIdHeap {
   private reentrantAttempt = false;
   private readonly nodes = new Set<PropertyIdNode>();
   private readonly trace: string[] = [];
-  constructor(readonly host: NativeSceneHeapHost, holderBacking?: NativeMemoryBacking) {
+  constructor(readonly host: NativeSceneHeapHost, holderBacking?: NativeMemoryBacking | NativeHeapObjectViews) {
     admitSource();
-    if (host.section.sourceAddress !== '30af24f4' || !host.section.identity ||
-        typeof host.section.acquire !== 'function' || typeof host.section.release !== 'function') {
-      throw new Error('Actual selected scene critical-section capability required');
-    }
     const backing = holderBacking ?? { identity: {}, bytes: new Uint8Array(16), knownMask: new Uint8Array(16), freed: false };
-    this.holder = new NativeHeapObjectViews(backing, 0, 16);
+    if (backing instanceof NativeHeapObjectViews) {
+      if (backing.bytes.length !== 16) throw new Error('Actual sixteen-byte embedded registered-table holder required');
+      this.holder = backing;
+    } else this.holder = new NativeHeapObjectViews(backing, 0, 16);
   }
   private guard(): void {
     if (this.reentrantAttempt) throw new Error('A callback attempted unsupported reentrant registered-table mutation');
@@ -199,12 +198,17 @@ export class NativeScenePropertyIdHeap {
   private synchronized<T>(body: () => T): NativeValue<T> {
     return this.attempt(() => {
       this.table();
+      const section = this.host.section;
+      if (!section || section.sourceAddress !== '30af24f4' || !section.identity ||
+          typeof section.acquire !== 'function' || typeof section.release !== 'function') {
+        throw new Error('Actual initialized registered-table section30af24f4 is unowned');
+      }
       if (this.entered !== false) throw new Error('Entered or unestablished registered-table section is outside the selected source profile');
       this.entered = null;
-      this.call('scene.section.acquire', () => this.host.section.acquire(), () => { this.entered = true; });
+      this.call('scene.section.acquire', () => section.acquire(), () => { this.entered = true; });
       const value = body();
       this.entered = null;
-      this.call('scene.section.release', () => this.host.section.release(), () => { this.entered = false; });
+      this.call('scene.section.release', () => section.release(), () => { this.entered = false; });
       return value;
     });
   }

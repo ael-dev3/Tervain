@@ -1,0 +1,19 @@
+/* ENTRY 1003ffb0 | FUN_1003ffb0 | STATUS decompiled | 7 ms */
+
+void FUN_1003ffb0(int *param_1)
+
+{
+  int iVar1;
+  undefined4 *puVar2;
+  
+  for (puVar2 = DAT_102ffd74; puVar2 != (undefined4 *)0x0; puVar2 = (undefined4 *)*puVar2) {
+    *param_1 = *param_1 + puVar2[2];
+    param_1[1] = param_1[1] + 0x7f55;
+    param_1[2] = param_1[2] + 1;
+    param_1[3] = param_1[3] + puVar2[2] * 0x18;
+    iVar1 = puVar2[2];
+    param_1[5] = param_1[5] + 0xc0000;
+    param_1[4] = param_1[4] + (0x7f55 - iVar1) * 0x18;
+  }
+  return;
+}

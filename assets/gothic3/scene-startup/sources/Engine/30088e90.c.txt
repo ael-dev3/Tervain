@@ -1,0 +1,19 @@
+/* ENTRY 30088e90 | eCModuleAdmin::~eCModuleAdmin | STATUS decompiled | 9 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined * __thiscall eCModuleAdmin::~eCModuleAdmin(void)
+
+{
+  if ((_DAT_30ad9ecc & 1) == 0) {
+    _DAT_30ad9ecc = _DAT_30ad9ecc | 1;
+    eCInputDispatcher::eCInputDispatcher((eCInputDispatcher *)&DAT_30ad9e78);
+    _DAT_30ad9e78 = &vftable;
+    _DAT_30ad9eac = 0;
+    _DAT_30ad9eb0 = 0;
+    _DAT_30ad9eb4 = 0;
+    eCInputDispatcher::Create((eCInputDispatcher *)&DAT_30ad9e78);
+    _atexit((_func_4879 *)&LAB_30797fc0);
+  }
+  return &DAT_30ad9e78;
+}

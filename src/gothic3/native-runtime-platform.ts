@@ -2,6 +2,7 @@
  * byte storage, region ordering, CS capabilities and callback lifetimes. It
  * does not report observations of the host's Windows allocator, zSpy or files. */
 import rulesText from '../../assets/gothic3/runtime-admin/runtime-rules.json?raw';
+import sceneRulesText from '../../assets/gothic3/scene-startup/runtime-rules.json?raw';
 import type { NativeValue } from './dialogue';
 import { NativeMemoryAdmin } from './native-memory-admin';
 import type { NativeMemoryBacking, NativeMemoryPlatform, NativeMemoryRegion } from './native-memory-admin';
@@ -23,6 +24,8 @@ interface BackingEntry {
 }
 const source = JSON.parse(rulesText) as { schema: string; inputs: { SharedBase: string };
   shutdown: Record<string, { address: string; raw: string; sha256: string }> };
+const sceneSource = JSON.parse(sceneRulesText) as { schema: string; inputs: { Engine: string; SharedBase: string };
+  methods: Record<string, { module: string; entry: string; body: string; bodyInstructionBytesSha256: string }> };
 
 /** Scoped diagnostic services. Empty owned registries are a selected platform
  * profile, not an inferred absence of native host windows or disk files. */
@@ -140,8 +143,14 @@ export class NativeRuntimePlatform implements NativeMemoryPlatform {
   }
   registerShutdown(address: string, owner: object, execute: () => NativeValue<void>): NativeValue<number> {
     const admitted = source.shutdown[address];
-    if (this.shutdownPhase !== 'active' || !admitted || admitted.address !== address || !/^(?:[0-9a-f]{2})+$/.test(admitted.raw) ||
-        !/^[0-9a-f]{64}$/.test(admitted.sha256) || typeof execute !== 'function') {
+    const method = sceneSource.methods.sceneClassNameDestructor;
+    const admittedSceneName = address === '300184df' && sceneSource.schema === 'gothic3-scene-startup-rules-v1' &&
+      sceneSource.inputs.Engine === 'd49ef92c0fdfeda433f6d04d0edeb7751e41e4c7c7effc1265630717029dc7e3' &&
+      sceneSource.inputs.SharedBase === '5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214' &&
+      method?.module === 'Engine' && method.entry === address && method.body === '30797c90' &&
+      method.bodyInstructionBytesSha256 === 'b1a2e2bb4cbdd84ecc08a969c18b636ac5e27f20ba3f1a6cf054d183329b51bc';
+    const admittedShared = admitted?.address === address && /^(?:[0-9a-f]{2})+$/.test(admitted.raw) && /^[0-9a-f]{64}$/.test(admitted.sha256);
+    if (this.shutdownPhase !== 'active' || (!admittedShared && !admittedSceneName) || typeof execute !== 'function') {
       return unknown('Actual admitted active runtime shutdown registration required');
     }
     this.pending.push(Object.freeze({ address, owner, execute })); return known(0);

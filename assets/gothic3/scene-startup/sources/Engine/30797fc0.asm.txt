@@ -1,0 +1,2 @@
+30797fc0 | b9789ead30 | MOV ECX,0x30ad9e78
+30797fc5 | e9663b88ff | JMP 0x3001bb30
