@@ -111,7 +111,7 @@ def main():
                                              'native game execution or visual equivalence'],
         'publication': {'kind': 'source-only-checkpoint', 'branch': 'codex/gothic3-gameplay-initialization',
                         'liveDeploymentChanged': False,
-                        'reason': 'GitHub refused new PR build jobs before steps due account payment/spending limit; no reruns or release-check bypass.'},
+                        'reason': 'Historical PR checks did not execute workflow steps; this source checkpoint did not establish release or deployment acceptance.'},
         'files': records, 'publicBytes': sum(r['bytes'] for r in records if r['path'].startswith('public/')),
         'remaining': ['native inventory observers and physical equip effects', 'complete new-game session host',
                       'sector/navigation activation and registry', 'NPC AI/tasks/ROI/contact scheduling',

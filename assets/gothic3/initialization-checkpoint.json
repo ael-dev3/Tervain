@@ -50,7 +50,7 @@
     "kind": "source-only-checkpoint",
     "branch": "codex/gothic3-gameplay-initialization",
     "liveDeploymentChanged": false,
-    "reason": "GitHub refused new PR build jobs before steps due account payment/spending limit; no reruns or release-check bypass."
+    "reason": "Historical PR checks did not execute workflow steps; this source checkpoint did not establish release or deployment acceptance."
   },
   "files": [
     {
