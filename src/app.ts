@@ -14,6 +14,7 @@ import { EVIDENCE_IDS, type Allocation, type Command, type GameEvent, type ItemI
 import { worldView } from './game/worldView';
 import { Input } from './platform/input';
 import { FrameClock } from './platform/frameTiming';
+import { waitForGraphicsReady } from './platform/graphicsReady';
 import { codeLabel, loadSettings } from './platform/settings';
 import { BrowserStore, SaveStore, SLOT_IDS, type SlotId } from './platform/storage';
 import { ENEMY_SPAWNS, PLACES, SPAWN, SLUICE, RITE_ALTAR, type V2 } from './world/layout';
@@ -39,7 +40,8 @@ import { AssetLibrary } from './presentation/assets/library';
 import { ALL_NEEDS } from './presentation/assets/needs';
 import { personBuildOptions } from './presentation/characters';
 import { sheetsSettled } from './presentation/human/sheetPool';
-import { WorldScene } from './presentation/world';
+import type { WorldScene } from './presentation/world';
+import { LoadingScreen } from './presentation/ui/loadingScreen';
 import { MenuScene } from './presentation/menuScene';
 import { disposeSceneResources } from './presentation/disposeScene';
 import { GAME_VERSION } from './version';
@@ -73,6 +75,13 @@ export class App {
   private mainHeroInstalled = false;
   private treeTemplates: MeshyTreeTemplates | undefined;
   private npcAssets: MeshyNpcCatalog | null = null;
+  private menuAssets: MeshyNpcCatalog | null = null;
+  private menuLoad: Promise<void> | null = null;
+  private menuGraphicsReady = false;
+  private initialJourneyLoading = false;
+  private initialLoad: Promise<void> | null = null;
+  private loadingScreen!: LoadingScreen;
+  private loadingMenuOnly = false;
   npcs: NpcActor[] = [];
   enemies: EnemyActor[] = [];
   hud = new Hud();
@@ -153,7 +162,7 @@ export class App {
     this.buildShell();
     // The menu surfaces (dust, leather, bronze, parchment) also dress the loading screen, so make them first.
     installMenuMaterials();
-    this.loadingEl.textContent = S('menu.loading');
+    this.loadingScreen.start({ mode: 'initial', phase: 'prepare' });
 
     try {
       this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: false, powerPreference: 'high-performance' });
@@ -171,38 +180,6 @@ export class App {
     this.applyPixelRatio();
     window.addEventListener('resize', () => this.onResize());
     this.onResize();
-
-    // Let the loading text paint before the (synchronous) valley build.
-    await new Promise((r) => setTimeout(r, 30));
-    // The optional shared library opens only for declared needs; the hero, resident and natural GLBs load through their own catalogues.
-    if (ALL_NEEDS.length > 0) {
-      try {
-        this.library = await AssetLibrary.open();
-      } catch (e) {
-        console.warn('shared assets unavailable; using procedural art', e);
-      }
-    }
-    this.pauseForWorldBuild();
-    try {
-      await this.prepareMainHero();
-      await this.buildWorld();
-    } catch (error) {
-      // Keep this initialization pending: its listeners and RAF are installed once, after recovery.
-      await new Promise<void>((resolve) => {
-        const retry = async () => {
-          this.pauseForWorldBuild();
-          try {
-            await this.prepareMainHero();
-            await this.buildWorld();
-            resolve();
-          } catch (nextError) {
-            this.showWorldBuildFailure(nextError, retry);
-          }
-        };
-        this.showWorldBuildFailure(error, retry);
-      });
-    }
-    this.finishWorldBuild();
 
     this.audio.onCaption = (t) => this.settings.captions && this.hud.caption(t);
     this.audio.onMusicState = () => this.syncMusicUnlock();
@@ -241,13 +218,24 @@ export class App {
       if (this.mode === 'play' && this.overlay === 'none' && !this.bench.active) this.openPause();
     });
     this.enterTitle();
-    this.loadingEl.classList.add('off');
-    this.applyShotParams();
+    this.loadingScreen.finish(false);
     this.frameClock.setHidden(document.visibilityState === 'hidden');
     this.audio.setPageHidden(document.visibilityState === 'hidden');
     this.frameClock.tick(performance.now());
     requestAnimationFrame((t) => this.frame(t));
     (window as unknown as { tervain: App }).tervain = this;
+    // The menu needs one resident and one tree; the playable valley is requested by Start/Continue.
+    void this.prepareMenuAssets().catch(async (error) => {
+      console.warn('Menu backdrop unavailable', error);
+      // The original vigil remains available if its optional imported backdrop cannot be downloaded.
+      await this.prepareMenuGraphics();
+    }).catch((error) => console.warn('Menu graphics unavailable', error));
+    if (qp.has('shot')) {
+      this.quietStart = true;
+      this.startNew();
+      await this.initialLoad;
+      if (!this.worldBuildFailed) this.applyShotParams();
+    }
   }
 
   /**
@@ -307,7 +295,8 @@ export class App {
 
   private buildShell() {
     clear(this.uiRoot);
-    this.loadingEl = h('div', { class: 'loading', style: { zIndex: '6' } }, S('menu.loading'));
+    this.loadingScreen = new LoadingScreen();
+    this.loadingEl = this.loadingScreen.el;
     this.titleEl = h('div', { class: 'title' });
     this.debugPre = h('pre', { class: 'debug' });
     this.debugEl = h('div', { class: 'panel surface-paper', style: { position: 'absolute', right: '12px', top: '90px', width: 'min(420px, 92vw)', maxHeight: '80vh', overflow: 'auto', display: 'none', pointerEvents: 'auto', zIndex: '5' } });
@@ -342,7 +331,7 @@ export class App {
 
   private async prepareMainHero() {
     if (this.mainHeroInstalled) return;
-    this.loadingEl.textContent = 'Preparing the wanderer…';
+    this.loadingScreen?.update({ phase: 'prepare', detail: 'Preparing the wanderer…' });
     const asset = await loadMainHero();
     const rig = createHeroRig(asset);
     // The provisional procedural sheet must finish before its GPU targets are released.
@@ -383,9 +372,12 @@ export class App {
         enemies.push(enemy);
         stagedCast.add(enemy.rig.root);
       }
-      this.world = await WorldScene.create(this.game.state, structuredClone(this.settings), this.library, (p) => {
-        this.loadingEl.textContent = `${S('menu.loading')} ${p.loaded}/${p.total}`;
-      }, this.npcAssets!);
+      const { WorldScene } = await import('./presentation/world');
+      this.world = await WorldScene.create(this.game.state, structuredClone(this.settings), this.library, undefined, this.npcAssets!, {
+        onPhase: (p) => this.loadingScreen?.update(p.phase === 'finishing'
+          ? { phase: 'graphics', detail: p.label }
+          : { phase: p.phase, completed: p.completed, total: p.total, detail: p.label }),
+      });
       this.worldDisposed = false;
       if (this.rebuildPropPoses) this.world.physics.restore(this.rebuildPropPoses);
       this.world.scene.add(this.player.group);
@@ -414,17 +406,107 @@ export class App {
   /** No silent runtime fallback: an incomplete resident download uses the existing graphics recovery screen. */
   private async prepareNpcAssets() {
     if (this.npcAssets) return;
-    this.loadingEl.textContent = 'Preparing the ancient grove…';
-    this.treeTemplates ??= await loadMeshyTrees(['tree-0208']);
     const assets = await loadMeshyNpcCatalog((loaded, total) => {
-      this.loadingEl.textContent = `Preparing the residents… ${loaded}/${total}`;
+      this.loadingScreen?.update({ phase: 'residents', completed: loaded, total });
     });
-    const replacement = new MenuScene({ quality: this.settings.quality, treeTemplates: this.treeTemplates, wardenRig: assets.create('menu:warden') });
-    this.menuScene.dispose();
+    this.npcAssets = assets;
+  }
+
+  private prepareMenuAssets(): Promise<void> {
+    if (this.menuLoad) return this.menuLoad;
+    const request = this.loadMenuAssets();
+    this.menuLoad = request;
+    void request.finally(() => {
+      if (this.menuLoad === request) this.menuLoad = null;
+    }).catch(() => {});
+    return request;
+  }
+
+  private async loadMenuAssets() {
+    const [trees, assets] = await Promise.all([
+      loadMeshyTrees(['tree-0208']), loadMeshyNpcCatalog(undefined, ['menu:warden']),
+    ]);
+    this.treeTemplates = trees;
+    this.menuAssets = assets;
+    this.replaceMenuScene();
+    await this.prepareMenuGraphics();
+  }
+
+  private replaceMenuScene() {
+    const traffic = this.menuScene.trafficState;
+    const awakening = this.menuScene.awakeningState;
+    const grove = this.menuScene.grove;
+    const replacement = new MenuScene({ quality: this.settings.quality, treeTemplates: this.treeTemplates,
+      trafficSeed: traffic.seed, trafficTime: traffic.elapsed, awakening, grove,
+      wardenRig: (this.menuAssets ?? this.npcAssets)?.create('menu:warden') });
+    this.menuGraphicsReady = false;
+    if (!this.menuSceneDisposed) this.menuScene.dispose();
     this.menuScene = replacement;
     this.menuSceneDisposed = false;
     this.menuScene.resize(window.innerWidth, window.innerHeight);
-    this.npcAssets = assets;
+  }
+
+  private async prepareMenuGraphics() {
+    for (;;) {
+      const menu = this.menuScene;
+      menu.prepare(this.renderer);
+      await this.renderer.compileAsync?.(menu.scene, menu.camera);
+      // Imported assets or a new quality setting may replace the scene during compilation.
+      if (menu !== this.menuScene) continue;
+      this.menuGraphicsReady = true;
+      return;
+    }
+  }
+
+  /** Resource completion precedes activation: prepare the real first view while simulation and audio stay paused. */
+  private async prepareWorldGraphics(fromLoad?: { recovered: null | 'previous' | 'temporary' } | null) {
+    this.loadingScreen?.update({ phase: 'graphics', detail: 'Preparing the first view…' });
+    if (fromLoad !== undefined) this.placePlayerForEntry(fromLoad);
+    this.cam.follow(1, this.player.x, this.player.y, this.player.z, this.world.terrain, this.world.colliders, true, 0);
+    this.world.update(0, this.game.state, new THREE.Vector3(this.player.x, this.player.y, this.player.z),
+      this.settings, hourOfDay(this.game.state.clock), this.cam.camera, false);
+    await this.renderer.compileAsync?.(this.world.scene, this.cam.camera);
+    this.renderWorld();
+    // Shader completion precedes uploads and draws. Wait for the submitted view before enabling input.
+    const context = this.renderer.getContext?.();
+    await waitForGraphicsReady(context && 'fenceSync' in context ? context : undefined);
+  }
+
+  private requestInitialJourney(state: WorldState, fromLoad: { recovered: null | 'previous' | 'temporary' } | null, enter: () => void) {
+    const previous = this.game.state;
+    this.game.replaceState(state);
+    const run = async () => {
+      if (this.initialJourneyLoading) return;
+      this.pauseForWorldBuild(true);
+      this.initialJourneyLoading = true;
+      try {
+        if (ALL_NEEDS.length > 0) this.library = await AssetLibrary.open();
+        await this.prepareMainHero();
+        do {
+          this.reloadAgain = false;
+          await this.buildWorld();
+          await this.prepareWorldGraphics(fromLoad);
+        } while (this.reloadAgain);
+        if (!this.menuAssets) {
+          // A failed optional menu download can recover from the now-loaded world template caches.
+          void this.prepareMenuAssets().catch((error) => console.warn('Menu backdrop unavailable', error));
+        }
+        this.initialJourneyLoading = false;
+        this.finishWorldBuild();
+        enter();
+      } catch (error) {
+        this.initialJourneyLoading = false;
+        this.showWorldBuildFailure(error, () => { this.initialLoad = run(); return this.initialLoad; }, () => {
+          this.disposeWorld();
+          delete (this as Partial<App>).world;
+          this.worldBuildFailed = false;
+          this.game.replaceState(previous);
+          this.finishWorldBuild();
+          this.enterTitle();
+        });
+      }
+    };
+    this.initialLoad = run();
   }
 
   private disposeWorld() {
@@ -439,10 +521,10 @@ export class App {
   }
 
   private get worldPaused() {
-    return this.worldBuilding || this.worldBuildFailed || !!this.qualityReload;
+    return this.worldBuilding || this.worldBuildFailed || this.initialJourneyLoading || !!this.qualityReload;
   }
 
-  private pauseForWorldBuild() {
+  private pauseForWorldBuild(initial = false) {
     this.hunting.reset();
     this.audio?.setWildlifeActive(false);
     this.world?.animals?.setRunning(false);
@@ -451,7 +533,12 @@ export class App {
     this.audio.pauseWorld();
     this.worldBuildFailed = false;
     this.rebuildRetry = null;
-    this.loadingEl.textContent = S('menu.loading');
+    const menuOnly = !initial && !this.world;
+    if (this.loadingScreen && menuOnly !== this.loadingMenuOnly) {
+      this.loadingMenuOnly = menuOnly;
+      this.loadingScreen = new LoadingScreen(this.loadingEl, menuOnly ? ['prepare', 'graphics'] : undefined);
+    }
+    this.loadingScreen?.start({ mode: initial || !this.world ? 'initial' : 'rebuild', phase: 'prepare', tip: 'hunt' });
     this.loadingEl.classList.remove('off');
     this.loadingEl.setAttribute('role', 'status');
     this.loadingEl.removeAttribute('aria-label');
@@ -465,6 +552,7 @@ export class App {
 
   private finishWorldBuild() {
     if (this.worldBuildFailed) return;
+    this.loadingScreen?.finish(false);
     this.loadingEl.classList.add('off');
     this.loadingEl.removeAttribute('role');
     this.loadingEl.removeAttribute('aria-label');
@@ -474,16 +562,21 @@ export class App {
     this.hud.el.inert = this.panels.isOpen || this.mode !== 'play';
     this.input.uiOpen = this.panels.isOpen || this.mode !== 'play';
     this.input.reset();
+    this.frameClock?.reset();
     this.rebuildFocus?.focus();
     this.rebuildFocus = null;
   }
 
-  private showWorldBuildFailure(error: unknown, retry: () => void | Promise<void>) {
+  private showWorldBuildFailure(error: unknown, retry: () => void | Promise<void>, back?: () => void) {
     console.error('Graphics rebuild failed', error);
     this.worldBuildFailed = true;
     // A confirmation held during construction is not a fresh press on Retry.
     this.input.poll(0);
     this.input.reset();
+    if (this.loadingScreen) {
+      this.rebuildRetry = this.loadingScreen.fail({ retry, back });
+      return;
+    }
     this.loadingEl.classList.remove('off');
     this.loadingEl.setAttribute('role', 'alertdialog');
     this.loadingEl.setAttribute('aria-label', 'Graphics could not be rebuilt');
@@ -538,7 +631,7 @@ export class App {
     this.applyUiSettings();
     if (reload && this.renderer) {
       this.reloadAgain = true;
-      if (this.qualityReload) return;
+      if (this.qualityReload || this.initialJourneyLoading) return;
       this.pauseForWorldBuild();
       this.qualityReload = this.reloadQuality().finally(() => {
         this.qualityReload = null;
@@ -552,17 +645,13 @@ export class App {
       while (this.reloadAgain) {
         this.reloadAgain = false;
         if (this.menuSceneDisposed || this.menuScene.quality !== this.settings.quality) {
-          const traffic = this.menuScene.trafficState;
-          const awakening = this.menuScene.awakeningState;
-          const grove = this.menuScene.grove;
-          if (!this.menuSceneDisposed) {
-            this.menuSceneDisposed = true;
-            this.menuScene.dispose();
-          }
-          this.menuScene = new MenuScene({ quality: this.settings.quality, treeTemplates: this.treeTemplates, trafficSeed: traffic.seed, trafficTime: traffic.elapsed, awakening, grove,
-            wardenRig: this.npcAssets?.create('menu:warden') });
-          this.menuSceneDisposed = false;
-          this.menuScene.resize(window.innerWidth, window.innerHeight);
+          this.replaceMenuScene();
+        }
+        if (!this.world) {
+          this.applyQualityToRenderer();
+          this.loadingScreen?.update({ phase: 'graphics', detail: 'Preparing the menu…' });
+          await this.prepareMenuGraphics();
+          continue;
         }
         await this.buildWorld();
         // The player rig and action state survive graphics rebuilds; do not rewind to a stale pre-load transform.
@@ -571,6 +660,7 @@ export class App {
           this.player.setPosition(safe.x, safe.z, this.player.yaw, this.world.terrain, safe.y);
           this.cam.reset();
         }
+        await this.prepareWorldGraphics();
       }
     } catch (error) {
       this.showWorldBuildFailure(error, () => this.applySettings(true));
@@ -588,7 +678,7 @@ export class App {
     // Returning from pause to the title is a fresh launch even though both screens use the menu scene.
     this.menuVisitActive = false;
     this.speech.clear();
-    this.world.physics.release();
+    this.world?.physics.release();
     this.mode = 'title';
     this.hud.show(false);
     this.panels.closeAll();
@@ -661,6 +751,10 @@ export class App {
 
   startNew() {
     if (this.worldPaused) return;
+    if (!this.world) {
+      this.requestInitialJourney(createInitialState('slot-1'), null, () => this.startNew());
+      return;
+    }
     this.game.replaceState(createInitialState('slot-1'));
     this.beginPlay(null);
     if (!this.quietStart) {
@@ -692,9 +786,19 @@ export class App {
     // Quickload can begin while already playing, so uiOpen may not change at all.
     // Every load/new game discards the old world's held keys, toggles and queued actions.
     this.input.reset();
+    this.placePlayerForEntry(fromLoad);
+    this.clockAcc = 0;
+    this.hitStop = this.deathRemaining = 0;
+    this.bellClock = 3;
+    if (fromLoad?.recovered) this.hud.toast(S(`menu.recovered.${fromLoad.recovered}`));
+    if (this.settings.reducedMotion) this.hud.setVignette(0);
+    this.canvas.focus?.({ preventScroll: true });
+    this.wantLock();
+  }
+
+  private placePlayerForEntry(fromLoad: { recovered: null | 'previous' | 'temporary' } | null) {
     this.world.physics.reset();
     this.world.physics.restore(this.game.state.physicalObjects);
-    this.clockAcc = 0;
     this.syncWorldFromState(true);
     const p = this.game.state.player;
     const safe = this.safePosition(p.x, p.z, p.y);
@@ -710,15 +814,10 @@ export class App {
     }
     this.cam.yaw = start.yaw;
     this.cam.reset();
-    this.hitStop = this.deathRemaining = 0;
     this.player.group.visible = true;
     this.cam.pitch = 0.3;
     this.checkpoint = { ...start, y: this.player.y };
     this.game.setPlayerTransform(this.player.x, this.player.y, this.player.z, this.player.yaw);
-    this.bellClock = 3;
-    if (fromLoad?.recovered) this.hud.toast(S(`menu.recovered.${fromLoad.recovered}`));
-    if (this.settings.reducedMotion) this.hud.setVignette(0);
-    this.wantLock();
   }
 
   /** Player positions that are no longer standable (geometry changed between builds) fall back to a safe place. */
@@ -779,7 +878,10 @@ export class App {
     } else if (document.visibilityState !== 'hidden' && this.worldBuildFailed && !this.worldBuilding && !this.qualityReload) {
       // Recovery owns controller confirmation; no world or hidden menu action runs underneath it.
       this.input.poll(frame?.dt ?? 0);
-      if (this.input.padButtonPressed(0)) this.rebuildRetry?.click();
+      if (this.input.padButtonPressed(0)) {
+        if (this.loadingScreen) this.loadingScreen.confirm();
+        else this.rebuildRetry?.click();
+      }
     } else if (document.visibilityState !== 'hidden' && !this.worldPaused) {
       // Baseline a held controller after returning; its old press must not become an attack.
       this.input.poll(0);
@@ -794,7 +896,7 @@ export class App {
     this.hunting.syncInputMode();
     this.input.poll(dt);
     const state = this.game.state;
-    if (this.worldDirty) {
+    if (this.world && this.worldDirty) {
       this.world.syncStatic(state, false);
       this.worldDirty = false;
     }
@@ -950,6 +1052,7 @@ export class App {
   private render() {
     if (this.worldPaused) return;
     if (this.menuBackgroundActive) {
+      if (!this.menuGraphicsReady) return;
       this.menuScene.prepare(this.renderer);
       this.renderer.toneMappingExposure = 1.05 * this.settings.brightness;
       if (!this.worldLook) this.worldLook = this.grade.getLook();
@@ -957,6 +1060,10 @@ export class App {
       this.grade.render(this.menuScene.scene, this.menuScene.camera, this.settings.reducedMotion ? 0 : this.lastFrameDt);
       return;
     }
+    this.renderWorld();
+  }
+
+  private renderWorld() {
     this.renderer.toneMappingExposure = 1.22;
     if (this.worldLook) {
       this.grade.setLook(this.worldLook);
@@ -1048,7 +1155,7 @@ export class App {
   private onUiKey(e: KeyboardEvent) {
     if (e.defaultPrevented) return;
     if (this.worldPaused) {
-      if (this.worldBuildFailed && e.code === 'Tab') {
+      if (this.worldBuildFailed && !this.loadingScreen && e.code === 'Tab') {
         e.preventDefault();
         this.rebuildRetry?.focus();
       }
@@ -1082,7 +1189,8 @@ export class App {
 
   private onPadNavigate(dx: number, dy: number) {
     if (this.worldPaused) {
-      this.rebuildRetry?.focus();
+      if (this.worldBuildFailed && this.loadingScreen) this.loadingScreen.navigate(dx, dy);
+      else this.rebuildRetry?.focus();
       return;
     }
     const focused = document.activeElement as HTMLElement | null;
@@ -1656,6 +1764,13 @@ export class App {
       if (this.mode === 'title') this.panels.push(h('div', {}, h('h1', {}, S('menu.load')), h('p', {}, S('menu.loadfailed', { reason: r.message })), h('div', { class: 'row' }, h('button', { class: 'btn', 'data-nav': true, onClick: () => this.panels.back() }, S('menu.back')))), { narrow: true });
       return;
     }
+    if (!this.world) {
+      this.requestInitialJourney(r.state, { recovered: r.recovered }, () => {
+        this.beginPlay({ recovered: r.recovered });
+        this.hud.toast(S('menu.loaded'));
+      });
+      return;
+    }
     this.game.replaceState(r.state);
     this.beginPlay({ recovered: r.recovered });
     this.hud.toast(S('menu.loaded'));
@@ -1986,6 +2101,7 @@ export class App {
   }
 
   toggleDebug() {
+    if (!this.world || this.worldPaused) return;
     const on = this.debugEl.style.display === 'none';
     this.debugEl.style.display = on ? '' : 'none';
     if (on) this.buildDebug();
@@ -2028,7 +2144,7 @@ export class App {
   }
 
   private updateDebug(dt: number) {
-    if (this.debugEl.style.display === 'none') return;
+    if (!this.world || this.debugEl.style.display === 'none') return;
     this.debugTimer -= dt;
     if (this.debugTimer > 0) return;
     this.debugTimer = 0.4;

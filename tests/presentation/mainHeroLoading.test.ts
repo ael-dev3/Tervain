@@ -88,6 +88,26 @@ describe('main hero transport and loading-screen retry', () => {
     expect(vi.getTimerCount()).toBe(0);
   });
 
+  it('reports decoding completion to concurrent loading screens and cached rebuilds without duplicating the model', async () => {
+    let decode!: (asset: GLTF) => void;
+    loaderMock.parseAsync.mockImplementationOnce(() => new Promise(resolve => { decode = resolve; }));
+    fetchMock.mockResolvedValueOnce(new Response(glb()));
+    const firstProgress = vi.fn(), laterProgress = vi.fn();
+    const first = subject.loadMainHero(firstProgress);
+    await vi.waitFor(() => expect(loaderMock.parseAsync).toHaveBeenCalledOnce());
+    const later = subject.loadMainHero(laterProgress);
+    expect(later).toBe(first);
+    expect(firstProgress.mock.calls).toEqual([[0, 1]]);
+    expect(laterProgress.mock.calls).toEqual([[0, 1]]);
+    decode(parsedHero); await first;
+    expect(firstProgress.mock.calls).toEqual([[0, 1], [1, 1]]);
+    expect(laterProgress.mock.calls).toEqual([[0, 1], [1, 1]]);
+    const cachedProgress = vi.fn();
+    await subject.loadMainHero(cachedProgress);
+    expect(cachedProgress.mock.calls).toEqual([[1, 1]]);
+    expect(fetchMock).toHaveBeenCalledOnce(); expect(loaderMock.parseAsync).toHaveBeenCalledOnce();
+  });
+
   it.each([
     { name: 'HTTP failure', response: () => new Response('unavailable', { status: 503 }), message: /HTTP 503/ },
     { name: 'HTML fallback page', response: () => new Response('<html>Pages 404</html>', { headers: { 'content-type': 'text/html; charset=utf-8' } }), message: /page instead of model data/ },

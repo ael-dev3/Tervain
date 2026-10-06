@@ -43,7 +43,7 @@ describe('required animal model loading', () => {
     await expect(loadAnimalTemplates(progress, animals)).rejects.toThrow(/Call/);
     expect(dispose).toHaveBeenCalledTimes(1); expect(waiting).toHaveLength(2); waiting.forEach(resolve => resolve());
     await loadAnimalTemplates(undefined, animals.slice(1, 3));
-    expect(requested).toHaveLength(3); expect(progress).not.toHaveBeenCalled(); expect(parse).toHaveBeenCalledTimes(3);
+    expect(requested).toHaveLength(3); expect(progress.mock.calls).toEqual([[0, 4]]); expect(parse).toHaveBeenCalledTimes(3);
   });
 
   it('rejects undecoded embedded pixels, disposes them once, and permits the same required animal to retry', async () => {

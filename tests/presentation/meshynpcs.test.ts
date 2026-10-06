@@ -337,14 +337,18 @@ describe('Meshy resident transport, selective loading and retry', () => {
   it('loads only assigned models, shares concurrent requests and retains decoded CPU templates for rebuilds', async () => {
     const value = manifest(); value.assets.push({ ...entry, id: 'unused', file: 'unused.glb' });
     fetchMock.mockImplementation(async url => new Response(String(url).endsWith('manifest.json') ? JSON.stringify(value) : glb()));
-    const progress = vi.fn(), a = subject.loadMeshyNpcCatalog(progress), b = subject.loadMeshyNpcCatalog();
+    const progress = vi.fn(), sharedProgress = vi.fn(), a = subject.loadMeshyNpcCatalog(progress), b = subject.loadMeshyNpcCatalog(sharedProgress);
     expect(a).toBe(b);
     const catalog = await a;
     expect(fetchMock).toHaveBeenCalledTimes(2); expect(loader.parse).toHaveBeenCalledOnce();
     expect(loader.parse).toHaveBeenCalledWith(expect.any(ArrayBuffer), 'https://example.test/Tervain/models/npcs/');
     expect(progress.mock.calls).toEqual([[0, 1], [1, 1]]);
+    expect(sharedProgress.mock.calls).toEqual([[0, 1], [1, 1]]);
     expect(catalog.create('ambient:fisher').root).not.toBe(catalog.create('ambient:fisher').root);
     expect(subject.loadMeshyNpcCatalog()).toBe(a);
+    const cachedProgress = vi.fn();
+    expect(subject.loadMeshyNpcCatalog(cachedProgress)).toBe(a);
+    expect(cachedProgress.mock.calls).toEqual([[1, 1]]);
     expect(() => catalog.create('unknown')).toThrow(/has not been prepared/);
     expect(fetchMock.mock.calls.some(([url]) => String(url).endsWith('unused.glb'))).toBe(false);
   });
@@ -365,7 +369,7 @@ describe('Meshy resident transport, selective loading and retry', () => {
     expect(loader.parse).not.toHaveBeenCalled();
     const second = subject.loadMeshyNpcCatalog(); expect(second).not.toBe(first);
     await expect(second).resolves.toBeInstanceOf(subject.MeshyNpcCatalog);
-    expect(fetchMock).toHaveBeenCalledTimes(4); expect(loader.parse).toHaveBeenCalledOnce();
+    expect(fetchMock).toHaveBeenCalledTimes(3); expect(loader.parse).toHaveBeenCalledOnce();
   });
 
   it('fails a hash mismatch before parsing even when a download has the expected size', async () => {
@@ -373,6 +377,65 @@ describe('Meshy resident transport, selective loading and retry', () => {
     fetchMock.mockImplementation(async url => new Response(String(url).endsWith('manifest.json') ? JSON.stringify(value) : glb()));
     await expect(subject.loadMeshyNpcCatalog()).rejects.toThrow(/integrity check/);
     expect(loader.parse).not.toHaveBeenCalled();
+  });
+
+  it('loads only the menu warden until the world is requested and shares its in-flight model with the full catalog', async () => {
+    const value = manifest(); value.assets.push({ ...entry, id: 'warden', file: 'warden.glb' });
+    value.roles['menu:warden'] = 'warden';
+    let finishWarden!: (response: Response) => void;
+    fetchMock.mockImplementation(async url => {
+      if (String(url).endsWith('manifest.json')) return new Response(JSON.stringify(value));
+      if (String(url).endsWith('warden.glb')) return new Promise(resolve => { finishWarden = resolve; });
+      return new Response(glb());
+    });
+    const menuProgress = vi.fn(), menu = subject.loadMeshyNpcCatalog(menuProgress, ['menu:warden']);
+    await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(2));
+    expect(fetchMock.mock.calls.some(([url]) => String(url).endsWith(entry.file))).toBe(false);
+    const worldProgress = vi.fn(), world = subject.loadMeshyNpcCatalog(worldProgress);
+    await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(3));
+    expect(fetchMock.mock.calls.filter(([url]) => String(url).endsWith('warden.glb'))).toHaveLength(1);
+    finishWarden(new Response(glb()));
+    const [menuCatalog, worldCatalog] = await Promise.all([menu, world]);
+    expect(menuProgress.mock.calls).toEqual([[0, 1], [1, 1]]);
+    expect(worldProgress.mock.calls[0]).toEqual([0, 2]); expect(worldProgress.mock.calls.at(-1)).toEqual([2, 2]);
+    expect(menuCatalog.create('menu:warden').root.userData.meshyNpc.id).toBe('warden');
+    expect(() => menuCatalog.create('ambient:fisher')).toThrow(/not been prepared/);
+    expect(worldCatalog.create('ambient:fisher').root.userData.meshyNpc.id).toBe(entry.id);
+    expect(loader.parse).toHaveBeenCalledTimes(2);
+    expect(subject.loadMeshyNpcCatalog(undefined, ['menu:warden', 'menu:warden'])).toBe(menu);
+    await subject.loadMeshyNpcCatalog(); expect(fetchMock).toHaveBeenCalledTimes(3);
+  });
+
+  it('rejects empty or unknown role selections before fetching and keeps valid menu loading available', async () => {
+    await expect(subject.loadMeshyNpcCatalog(undefined, [])).rejects.toThrow(/requested resident roles/);
+    await expect(subject.loadMeshyNpcCatalog(undefined, ['unknown'])).rejects.toThrow(/requested resident roles/);
+    expect(fetchMock).not.toHaveBeenCalled();
+    const value = manifest();
+    fetchMock.mockImplementation(async url => new Response(String(url).endsWith('manifest.json') ? JSON.stringify(value) : glb()));
+    await expect(subject.loadMeshyNpcCatalog(undefined, ['menu:warden'])).resolves.toBeInstanceOf(subject.MeshyNpcCatalog);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it('releases failed menu/world selections together while retaining a successful sibling model for Retry', async () => {
+    const value = manifest(); value.assets.push({ ...entry, id: 'warden', file: 'warden.glb' });
+    value.roles['menu:warden'] = 'warden';
+    let failing = true;
+    fetchMock.mockImplementation(async url => {
+      if (String(url).endsWith('manifest.json')) return new Response(JSON.stringify(value));
+      if (String(url).endsWith('warden.glb') && failing) return new Response('', { status: 503 });
+      return new Response(glb());
+    });
+    const menu = subject.loadMeshyNpcCatalog(undefined, ['menu:warden']), world = subject.loadMeshyNpcCatalog();
+    await Promise.all([expect(menu).rejects.toThrow('HTTP 503'), expect(world).rejects.toThrow('HTTP 503')]);
+    await vi.waitFor(() => expect(loader.parse).toHaveBeenCalledOnce());
+    failing = false;
+    const menuRetry = subject.loadMeshyNpcCatalog(undefined, ['menu:warden']), worldRetry = subject.loadMeshyNpcCatalog();
+    expect(menuRetry).not.toBe(menu); expect(worldRetry).not.toBe(world);
+    await Promise.all([menuRetry, worldRetry]);
+    expect(fetchMock.mock.calls.filter(([url]) => String(url).endsWith('manifest.json'))).toHaveLength(1);
+    expect(fetchMock.mock.calls.filter(([url]) => String(url).endsWith(entry.file))).toHaveLength(1);
+    expect(fetchMock.mock.calls.filter(([url]) => String(url).endsWith('warden.glb'))).toHaveLength(2);
+    expect(loader.parse).toHaveBeenCalledTimes(2);
   });
 
   it('late parallel downloads cannot replace the recovery UI after a sibling model failed', async () => {

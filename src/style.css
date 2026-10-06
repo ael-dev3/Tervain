@@ -1352,6 +1352,73 @@ body.high-contrast.tv-materials .panel.surface-paper {
   display: none;
 }
 
+/* Original parchment chart, sepia sketches and bronze progress rail, following the interface material study. */
+.loading-page {
+  position: relative;
+  width: min(760px, calc(100vw - 52px));
+  max-height: calc(100dvh - 32px);
+  overflow: auto;
+  padding: 32px 42px 28px;
+  color: #48311e;
+  border: 1px solid #aa8753;
+  background: radial-gradient(ellipse at 45% 35%, #e0d0ad 0%, #d3bd92 62%, #b79c70 100%);
+  box-shadow: 0 14px 65px #000b, inset 0 0 40px #79532945;
+  font: 400 1rem/1.5 var(--menu-serif);
+  font-variant: normal;
+  letter-spacing: normal;
+  text-transform: none;
+  text-shadow: none;
+}
+
+.loading-page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--tv-grime-dark, none) 0 0 / 512px 512px repeat;
+  opacity: .3;
+  mix-blend-mode: multiply;
+}
+
+.loading-heading { position: relative; text-align: center; }
+.loading-kicker { margin: 0; font: italic .85rem/1.4 var(--menu-serif); letter-spacing: .025em; }
+.loading-title { margin: 4px 0 0; font: 500 clamp(2.3rem, 5vw, 3.6rem)/1.1 var(--menu-serif); color: #5e3320; letter-spacing: .09em; }
+.loading-chart { position: relative; margin: 14px -14px 8px; color: #765733; }
+.loading-chart svg { display: block; width: 100%; height: auto; }
+.loading-work { position: relative; border-top: 1px solid #84643b66; padding-top: 18px; }
+.loading-status-line { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; }
+.loading-status { margin: 0 0 9px; font-size: 1.05rem; }
+.loading-count { font-size: .85rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.loading-bar { display: flex; height: 13px; padding: 2px; gap: 3px; border: 1px solid #72502b; background: #302116; box-shadow: 0 1px 0 #fff5, inset 0 1px 3px #000b; }
+.loading-segment { display: block; position: relative; overflow: hidden; flex: 1; background: #5b432740; }
+.loading-fill { display: block; height: 100%; width: calc(var(--loading-fill, 0) * 100%); background: linear-gradient(#d1a655, #92703a); transition: width .16s linear; }
+.loading-segment.indeterminate .loading-fill { width: 100%; opacity: .6; background: linear-gradient(90deg, #9e7d3b00, #caa45d, #9e7d3b00); animation: loading-wait 1.8s ease-in-out infinite; }
+.loading-detail { margin: 8px 0 0; min-height: 1.3em; color: #6b4c2b; font-size: .82rem; }
+.loading-tip { position: relative; margin-top: 18px; padding-top: 14px; border-top: 1px solid #84643b66; font-size: .9rem; }
+.loading-tip p { margin: 5px 0 0; }
+.loading-tip .loading-tip-label { color: #754226; font-size: .79rem; letter-spacing: .08em; font-variant: small-caps; }
+.loading-error { position: relative; width: min(540px, calc(100vw - 48px)); max-height: calc(100dvh - 32px); overflow: auto; padding: 30px; border: 1px solid #a2824d; color: var(--menu-ink); background: #2c1713; font: 400 1rem/1.5 var(--menu-serif); font-variant: normal; letter-spacing: normal; text-transform: none; text-shadow: none; box-shadow: 0 10px 50px #0009; }
+.loading-error h1 { margin: 14px 0 12px; font-size: 1.65rem; font-weight: 500; color: var(--menu-ink-hot); }
+.loading-error-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.loading-error .btn { min-height: 42px; padding: 8px 18px; font: inherit; border-color: #a2824d; background: #17120e; color: var(--menu-ink); }
+.loading-error .btn.primary { background: #513425; color: #f1ddb5; }
+.loading-error .btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+.loading-error .btn:disabled { opacity: .65; }
+@keyframes loading-wait { 0%, 100% { opacity: .32; } 50% { opacity: .85; } }
+@media (prefers-reduced-motion: reduce) { .loading-fill { transition: none; animation: none !important; } }
+@media (max-width: 520px), (max-height: 560px) {
+  .loading-page { width: calc(100vw - 28px); padding: 20px 22px; }
+  .loading-chart { margin: 6px -8px; max-height: 24vh; overflow: hidden; }
+  .loading-tip { margin-top: 12px; padding-top: 9px; }
+}
+body.high-contrast .loading-page { color: #000; background: #fff; border: 2px solid #fff; }
+body.high-contrast .loading-page::before { display: none; }
+body.high-contrast .loading-chart { color: #000; }
+body.high-contrast .loading-title, body.high-contrast .loading-tip-label, body.high-contrast .loading-detail { color: #000; }
+body.high-contrast .loading-bar { border-color: #000; background: #fff; }
+body.high-contrast .loading-fill, body.high-contrast .loading-segment.indeterminate .loading-fill { background: #000; }
+body.high-contrast .loading-error { color: #fff; background: #000; border: 2px solid #fff; }
+
 .tooltip {
   color: var(--muted);
   font-size: 0.8rem;

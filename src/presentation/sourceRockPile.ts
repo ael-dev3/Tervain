@@ -7,6 +7,7 @@ import { assertNaturalModelBudget } from './naturalModelBudget';
 import { groundedNaturalGeometryY } from './treeGrounding';
 import { attachGroundedRockSurface } from './rockSurface';
 import { modelAssetUrl } from './assets/modelUrl';
+import { observeModelLoad, withModelLoadSlot, type ModelLoadProgress } from './assets/modelLoadQueue';
 
 export const ROCK_PILE_FILE = 'weathered-rock-pile-under-20k.glb';
 let pending: Promise<GLTF> | null = null;
@@ -32,25 +33,27 @@ function sourceMesh(template: GLTF): THREE.Mesh<THREE.BufferGeometry, THREE.Mesh
 }
 
 /** Required art shares a CPU template; failure reaches the existing loading Retry. */
-export function loadSourceRockPile(): Promise<GLTF> {
-  if (pending) return pending;
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 60_000);
-  pending = (async () => {
-    const url = rockPileUrl(), response = await fetch(url, { signal: controller.signal });
-    if (!response.ok) throw new Error(`Rock pile could not load (HTTP ${response.status}).`);
-    if (response.headers.get('content-type')?.includes('text/html')) throw new Error('Rock pile URL returned a page instead of model data.');
-    const bytes = await response.arrayBuffer();
-    if (bytes.byteLength < 12) throw new Error('Rock pile download is incomplete.');
-    const header = new DataView(bytes);
-    if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== bytes.byteLength) {
-      throw new Error('Rock pile download is not a complete GLB 2 file.');
-    }
-    const template = await new GLTFLoader().parseAsync(bytes, new URL('.', url).href);
-    sourceMesh(template);
-    return template;
-  })().catch(error => { pending = null; throw error; }).finally(() => clearTimeout(timeout));
-  return pending;
+export function loadSourceRockPile(progress?: ModelLoadProgress): Promise<GLTF> {
+  if (pending) return observeModelLoad(pending, progress);
+  pending = withModelLoadSlot(async () => {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 60_000);
+    try {
+      const url = rockPileUrl(), response = await fetch(url, { signal: controller.signal });
+      if (!response.ok) throw new Error(`Rock pile could not load (HTTP ${response.status}).`);
+      if (response.headers.get('content-type')?.includes('text/html')) throw new Error('Rock pile URL returned a page instead of model data.');
+      const bytes = await response.arrayBuffer();
+      if (bytes.byteLength < 12) throw new Error('Rock pile download is incomplete.');
+      const header = new DataView(bytes);
+      if (header.getUint32(0, true) !== 0x46546c67 || header.getUint32(4, true) !== 2 || header.getUint32(8, true) !== bytes.byteLength) {
+        throw new Error('Rock pile download is not a complete GLB 2 file.');
+      }
+      const template = await new GLTFLoader().parseAsync(bytes, new URL('.', url).href);
+      sourceMesh(template);
+      return template;
+    } finally { clearTimeout(timeout); }
+  }).catch(error => { pending = null; throw error; });
+  return observeModelLoad(pending, progress);
 }
 
 /** Small authored coastal accents. Every preset uses the same accepted placements. */
