@@ -1,0 +1,19 @@
+/* ENTRY 10049760 | FUN_10049760 | STATUS decompiled | 8 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined4 * FUN_10049760(void)
+
+{
+  if ((_DAT_10197d94 & 1) == 0) {
+    _DAT_10197d94 = _DAT_10197d94 | 1;
+    InitializeCriticalSection((LPCRITICAL_SECTION)&DAT_10197d70);
+    _DAT_10197d88 = 1;
+    DAT_10197d6c = 0;
+    bCMessageAdmin::Create((bCMessageAdmin *)&DAT_10197d6c);
+    bCSpyAdmin::GetInstance();
+    bCSpieAdmin::GetInstance();
+    _atexit((_func_4879 *)&LAB_100e27d0);
+  }
+  return &DAT_10197d6c;
+}

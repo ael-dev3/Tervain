@@ -1,0 +1,34 @@
+/* ENTRY 304cc660 | eCSceneAdmin::eCSceneAdmin | STATUS decompiled | 17 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+eCSceneAdmin * __thiscall eCSceneAdmin::eCSceneAdmin(eCSceneAdmin *this)
+
+{
+  undefined1 *this_00;
+  eCModuleAdmin *peVar1;
+  
+  eCEngineComponentBase::eCEngineComponentBase((eCEngineComponentBase *)this);
+  this->vftablePtr = &vftable;
+  thunk_FUN_304d13a0();
+  thunk_FUN_304502a0();
+  thunk_FUN_304d1220();
+  thunk_FUN_304d1480();
+  thunk_FUN_304d14e0();
+  eCEntityAdmin::eCEntityAdmin((eCEntityAdmin *)&(this->eCSceneAdmin_data).field_0x54);
+  this_00 = &(this->eCSceneAdmin_data).field_0x130;
+  (this->eCSceneAdmin_data).offset_0x124 = (void *)0x0;
+  (this->eCSceneAdmin_data).offset_0x128 = 0;
+  (this->eCSceneAdmin_data).offset_0x12c = 0;
+  bCBox::bCBox((bCBox *)this_00);
+  (this->eCSceneAdmin_data).offset_0x50 = 0;
+  _DAT_30adcd30 = 0;
+  _g_DefaultTriggerConfig = 1;
+  bCString::Clear((bCString *)&DAT_30adcd2c);
+  (this->eCSceneAdmin_data).offset_0x11c = 0;
+  (this->eCSceneAdmin_data).offset_0x120 = 0;
+  bCBox::Invalidate((bCBox *)this_00);
+  peVar1 = eCModuleAdmin::GetInstance();
+  (**(code **)(*(int *)peVar1 + 0x74))(this);
+  return this;
+}

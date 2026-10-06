@@ -1,0 +1,12 @@
+/* ENTRY 100495d0 | FUN_100495d0 | STATUS decompiled | 3 ms */
+
+void __fastcall FUN_100495d0(int *param_1)
+
+{
+  if (*param_1 != 0) {
+    thunk_FUN_10049f80(param_1);
+  }
+  *param_1 = 0;
+  param_1[7] = 1;
+  return;
+}

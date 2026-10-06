@@ -270,11 +270,12 @@ route when the reviewed changes reach `main`.
 
 The separate TypeScript route is live at
 [Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/). The deployed
-checkpoint 72 is `main` commit
-`a021b8ae66e6f66ef5a5a2de3b392fb48c6a0bac`, published by the successful
-[workflow run 37515257094](https://github.com/ael-dev3/Tervain/actions/runs/37515257094).
-The public route serves its `gothic3-D3iOheue.js` bundle. Checkpoint 73's
-implementation is described below; its publication requires a separate receipt.
+checkpoint 73 is `main` commit
+`0a439f819cfe51b20180765df8c58d278df4fa6b`, published by the successful
+[workflow run 37520227542](https://github.com/ael-dev3/Tervain/actions/runs/37520227542).
+The public route serves its `gothic3-siaPiAJn.js` bundle. The standalone runtime
+admins in checkpoint 74 are the next component under review; their source
+admission and local tests do not establish NPC integration or publication.
 Subsequent build and deployment receipts are recorded in the
 [Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml).
 This is an incomplete reconstruction; hosting and a successful build do not
@@ -343,13 +344,20 @@ post-event progress. The third kill's 500 quest XP therefore precedes its
 callback; its applied state is retained in saves. Native speech playback,
 ragdoll, plunder cleanup and the full NPC lifecycle remain incomplete. See
 [checkpoint 72](gothic3-rebuilding-process.md#72-schedule-the-bandit-death-state-and-preserve-its-applied-prefix).
-The next checkpoint constructs retained original owners for those three
+Checkpoint 73 constructs retained original owners for those three
 bandits and remaps their constructor GUIDs through the original Node read.
 The first Navigation factory stops at an unowned ErrorAdmin service, before
 serialized property reading or attachment. The Models inspector's collapsed
 developer details show that partial read and its current boundary. These
 owners do not yet supply native activation or replace browser combat state.
 See [checkpoint 73](gothic3-rebuilding-process.md#73-construct-retained-npc-owners-and-reach-the-first-property-factory).
+The next local runtime component owns the shared ErrorAdmin, MessageAdmin and
+MemoryAdmin chain under an explicit cold platform profile. Its isolated checks
+exercise real heap backing, callback records, history and shutdown. It is not
+connected to those NPC owners: their earlier entity, reflection and scene-map
+allocations must first use the same heap. See
+[checkpoint 74](gothic3-rebuilding-process.md#74-own-the-shared-runtime-admin-chain-before-connecting-it-to-npcs)
+for the source audit, reproduction command and remaining allocation gate.
 The current branch also resolves the native body-template `Robe` flag from
 inventory slot17 and labels routine `Action`/`AniState` fields separately from
 live combat animation state. A new reader maps the selected Hero motion into
@@ -401,7 +409,10 @@ Their native behavior is not connected:
 3. Apply the Weaponry stack through the live actor's entity/skeleton/stat
    equipment host, including the source-serialized body/head attachments.
 4. Construct and activate that NPC through property attachment, world context
-   and processing registration.
+   and processing registration. Route its earlier tagged allocations and
+   registered scene-map backing through the same MemoryAdmin before consuming
+   the new shared ErrorAdmin's panic result. Then supply the original
+   application/module/session path and attach properties in source order.
 5. Connect native contact eligibility, animation/action state and NPC responses,
    then finish the scheduled death prefix through enclave notification,
    destination and plunder cleanup, ragdoll and knockout handling. The bandit

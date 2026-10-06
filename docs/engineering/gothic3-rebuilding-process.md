@@ -4580,5 +4580,167 @@ graph context. It also checks wide/narrow Inspector scrolling, model rotation,
 wheel zoom, exploration and save/reload. The applied constructor/read prefix
 is separate from saved browser combat state. No captured browser warnings or
 errors are reported. These are bounded observations; native NPC activation
-and a full original encounter remain incomplete. Deployment requires its own
-successful main-branch receipt and public-route verification.
+and a full original encounter remain incomplete. This checkpoint was merged as
+`0a439f819cfe51b20180765df8c58d278df4fa6b` and published by successful main-branch
+[run 37520227542](https://github.com/ael-dev3/Tervain/actions/runs/37520227542).
+The public route was checked serving `gothic3-siaPiAJn.js`; the separate local
+browser exercises above establish its observed component behavior.
+
+## 74. Own the shared runtime admin chain before connecting it to NPCs
+
+The next component reconstructs the dependency at checkpoint 73's first
+property-creator cleanup. The original ErrorAdmin does more than read two
+flags: its first GetInstance sets a static guard, initializes a critical
+section, runs Create and registers a nonempty shutdown callback. Create begins
+with Destroy, which requests MessageAdmin even when all ErrorAdmin holder
+pointers are NULL. MessageAdmin initializes its own heap-backed callback
+array, asks ErrorAdmin again, and starts the Spy and Spie diagnostic admins.
+The recursive ErrorAdmin call returns the same in-progress pointer; this call
+does not read its panic flags. Treating the chain as a constant `false` skips
+those effects.
+
+This checkpoint adds separate source-owned modules:
+
+| Module | Retained state and supported behavior |
+| --- | --- |
+| [`native-memory-admin.ts`](../../src/gothic3/native-memory-admin.ts) | Shared singleton flags; heap critical section; admitted small-pool bitmaps, descriptors and counters; medium block splitting/coalescing; allocation, reallocation and free through actual retained region views. |
+| [`native-message-admin.ts`](../../src/gothic3/native-message-admin.ts) | Message/Spy/Spie cold guards and fields; actual callback holder/backing; source registration, growth and removal; disabled diagnostic callback prefixes; nonempty shutdown bodies. |
+| [`native-error-admin.ts`](../../src/gothic3/native-error-admin.ts) | The 44-byte ErrorAdmin and guard; actual CRT holders and 12,500-byte history allocation; exact byte-equals-1 panic checks; four ASCII formatter paths; the 50-entry, 250-byte history ring; callback removal and shutdown. |
+| [`native-runtime-platform.ts`](../../src/gothic3/native-runtime-platform.ts) | Explicit bounded CRT/VirtualAlloc storage, known-byte masks, pointer capabilities, selected region ordering, critical-section lifetimes, scoped diagnostic registries and retained reverse-order shutdown callbacks. |
+
+`createNativeRuntimeAdminOwner()` creates one shared MemoryAdmin, MessageAdmin
+and ErrorAdmin with those platform services. Both Error-first and Message-first
+cold startup are exercised. Internal pointer-only recursion uses the actual
+same owner. An external panic read during partial construction remains
+unknown. A blocked initialization retains its guard and applied prefix and
+does not replay it on a subsequent service call.
+
+ErrorAdmin history uses the actual MemoryAdmin allocation, not a second JS
+string queue. The three CRT holders retain their byte storage, masks and free
+state. Error messages format into an owned temporary CRT buffer, copy at most
+249 bytes to the original 250-byte scratch area, and push into the physical
+ring. A full ring pops its oldest entry into the other original scratch area
+before pushing. Native NUL termination and signed 32-bit line formatting are
+preserved for the selected ASCII profile. Other C-string encodings remain
+unowned. The scratch addresses, formatter literals and source methods are
+admitted from the original bytes.
+
+MessageAdmin's holder is a tagged 12-byte native allocation. Its first callback
+growth requests 108 bytes and uses the admitted 112-byte pool. Callback
+function addresses and priorities are written into the actual array records;
+the browser retains userdata capabilities without inventing x86 pointer
+values. Spy registers its callback even when its scoped window query returns
+NULL. Spie does not register its callback when the scoped `zSpie.txt` query
+returns NULL. The disabled callback prefixes return their source values;
+active CString/window/socket logging remains explicitly unported. The helper
+for invoking an actual registered callback is not the full native
+MessageAdmin.OnMessage dispatch routine.
+
+The selected platform is an owned execution profile. Virtual regions start
+with known zero bytes; CRT buffers start with unknown content masks until
+source writes establish values. Critical-section storage becomes opaque after
+initialization, while the platform retains its actual section capability,
+entry depth and lifetime. Diagnostic queries use scoped window and file
+registries. These services do not reconstruct or report the installed game's
+Win32 allocation addresses, native critical-section internals, process-wide
+threading or actual host diagnostic state.
+
+Shutdown registrations retain their real module owner and implemented
+callback before returning zero. Explicit disposal drains them in reverse
+order once. Error-first startup registers Memory, Spy, Spie, Message and Error
+callbacks, so disposal destroys Error's history/holders and removes its
+callback before destroying Message's array. The source Memory callback clears
+its owned NULL CString prefix and resets the source singleton bytes; it does
+not free all heap regions. Dump-enabled or non-NULL CString shutdown branches
+remain unsupported. A blocked shutdown retains the executed prefix and does
+not replay it. Native CRT callback encoding, locks, process termination and
+page-unload delivery are outside this selected platform.
+
+### Preserve a compatible allocation history
+
+These standalone admins are **not connected to the browser NPC reader yet**.
+The audit found that allocations before the ErrorAdmin request use the same
+original SharedBase heap:
+
+| Earlier source operation | Request and consequence |
+| --- | --- |
+| Entity factory | 448-byte tagged allocation before `gCEntity` construction. |
+| Navigation reflection wrapper | 16-byte tagged allocation before wrapper construction. |
+| Navigation native object | 688-byte tagged allocation, dispatched to the 768-byte pool. |
+| Selected SceneAdmin registered map constructor | Grow request 43 plus native growth slack 8 gives 51 DWORDs, so Realloc requests 204 bytes and dispatches to the 224-byte pool; 43 active buckets are initialized. |
+| New registered PropertyID | A 28-byte tagged map node is allocated. Node.Read unregisters/frees the constructor ID node and registers another node for the serialized source ID. |
+| Source name registration | The new name path allocates temporary and resident 36-byte pointer arrays and a tagged 20-byte name-map entry, then frees the temporary array. The name map has separate 204-byte bucket backing; native CString assignment and hashing need their own owners. |
+
+The existing retained entity factory and scene table preserve logical source
+state under selected successful-allocation hosts. They do not route all those
+preceding allocations and writes through the new MemoryAdmin. Attaching an
+independent cold allocator only when ErrorAdmin is reached would combine
+incompatible source startup states. The next gate is to make actual entity,
+wrapper, native property and selected scene-map backing share this heap and
+retain the original allocation/free order. The full SceneAdmin constructor
+and module getter need their own wider ownership audit; supplying the selected
+registered table does not establish that complete singleton startup.
+
+The browser therefore still stops at cursor 338 of 6,544 with zero attached
+property sets and null graph context. This checkpoint does not claim an NPC
+activation, additional gameplay, a completed death path or campaign progress.
+After allocation ownership, the application/module/session getter and later
+property readers, callbacks and activation still remain separate gates.
+
+### Reproduce the source admission
+
+The [producer](../../tools/gothic3/prepare_runtime_admin_source.py) reads the
+original SharedBase, Game and Engine DLLs and their saved study without
+executing native code:
+
+```powershell
+python tools/gothic3/prepare_runtime_admin_source.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+```
+
+The [manifest](../../assets/gothic3/runtime-admin/manifest.json),
+[runtime rules](../../assets/gothic3/runtime-admin/runtime-rules.json) and
+[native evidence](../../assets/gothic3/runtime-admin/native-evidence.json)
+pin original input SHA-256
+`5e5f241313f7db1093f68376a0972629eb1d9d2dc5f306aa920966de03a69214`.
+Bounded C/assembly excerpts, literal strings, cold storage ranges, heap
+dispatch entries and geometry operands are retained with output hashes. The
+ErrorAdmin callback is assembly-only in this study; its shutdown also lacks a
+C/catalog entry but has exact saved assembly. Admission of a method's bytes
+does not imply every branch is implemented. Earlier checkpoint receipts are
+unchanged.
+
+The final source admission contains 105 SharedBase method entries: 4,031
+instruction records and 3,990 unique physical instructions, with zero PE byte
+mismatches. The separate
+[prior-startup inventory](../../assets/gothic3/runtime-admin/prior-startup-allocations.json)
+checks 21 Game/Engine methods and 888 instructions, also with zero mismatches.
+It records the name/ID table allocation calls and unowned CString/map
+prerequisites; it does not claim to execute the complete SceneAdmin startup.
+The producer was reproduced byte-identically across 225 output files, and 223
+referenced source excerpts were rehashed.
+
+| Output | Bytes | SHA-256 |
+| --- | ---: | --- |
+| Runtime rules | 287,330 | `64f3cabc691a51639fc3d5b320e986bf8372ab50a61a6faa21bb9c58b70375a6` |
+| Native evidence | 769,607 | `ad427ca4d4437862d1bb60043612c4ff766d9258ae54576009a90bf1faebde9b` |
+| Prior startup inventory | 140,798 | `18e0ed94d3b09a2c73b346c5a4ac29bd99b139317ec43d4777be829bbc8d2ebe` |
+
+Focused validation passes 45 cases across the four new test files. It covers
+both singleton bootstrap orders, same-owner recursion, actual pool storage
+and masks, all eight admitted small buckets, medium allocation quirks,
+callback growth/removal, exact formatter/ring behavior, disabled diagnostics,
+retained partial states and reverse shutdown. Failed teardown latches the
+Error service as blocked after its applied frees. Its actual registered
+shutdown can remove its callback from a later-blocked Message startup without
+exposing that partial Message singleton as ready to other callers.
+
+Combined local validation on 6 October 2026: `npm run typecheck` passes;
+`npm test` passes 1,921 tests across 190 files in 146.27 seconds;
+`npm run build` succeeds with 362 modules in 53.39 seconds. The Gothic entry
+remains `gothic3-siaPiAJn.js`, 1,148.99 kB (258.69 kB gzip); these standalone
+modules have no application entry import. The existing Tervain entry remains
+5,701.33 kB and retains its 1,200 kB chunk warning. Documentation file links
+and the staged diff are checked. The new source excerpt directory follows the
+repository's byte-preserving Git attributes so its receipt hashes survive
+checkout. No additional gameplay or native encounter is claimed from these
+isolated admin checks.

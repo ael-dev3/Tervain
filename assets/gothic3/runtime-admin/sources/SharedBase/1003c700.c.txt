@@ -1,0 +1,27 @@
+/* ENTRY 1003c700 | FUN_1003c700 | STATUS decompiled | 9 ms */
+
+MemPointerArea ** FUN_1003c700(MemPointerArea *param_1)
+
+{
+  int iVar1;
+  uint uVar2;
+  uint uVar3;
+  int iVar4;
+  
+  iVar4 = 0;
+  uVar3 = MemHeap::s_uiPointerAreas;
+  while( true ) {
+    do {
+      uVar2 = uVar3;
+      if (uVar2 == 0) {
+        return (MemPointerArea **)0x0;
+      }
+      uVar3 = uVar2 >> 1;
+      iVar1 = uVar3 + iVar4;
+    } while (param_1 < (&MemHeap::s_arrPointerAreas)[iVar1 * 4]);
+    if (param_1 < (MemPointerArea *)(&DAT_10149a1c)[iVar1 * 4]) break;
+    iVar4 = iVar1 + 1;
+    uVar3 = uVar2 + (-1 - uVar3);
+  }
+  return &MemHeap::s_arrPointerAreas + (uVar3 + iVar4) * 4;
+}

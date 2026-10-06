@@ -1,0 +1,46 @@
+/* ENTRY 1004b800 | FUN_1004b800 | STATUS decompiled | 20 ms */
+
+void __fastcall FUN_1004b800(ulong param_1)
+
+{
+  ATOM AVar1;
+  ATOM AVar2;
+  bCMessageAdmin *pbVar3;
+  HWND pHVar4;
+  UINT Msg;
+  HANDLE pvVar5;
+  bEMessageCallbackPriority bVar6;
+  _func_bool_bEMessageTypes_char_ptr_char_ptr_ulong_char_ptr_int_int *p_Var7;
+  ulong uVar8;
+  
+  p_Var7 = (_func_bool_bEMessageTypes_char_ptr_char_ptr_ulong_char_ptr_int_int *)&LAB_10008c06;
+  *(undefined4 *)(param_1 + 0x1c) = 0;
+  *(undefined4 *)(param_1 + 0x18) = 0;
+  pbVar3 = bCMessageAdmin::GetInstance();
+  bCMessageAdmin::UnregisterCallback(pbVar3,p_Var7);
+  bVar6 = 1;
+  p_Var7 = (_func_bool_bEMessageTypes_char_ptr_char_ptr_ulong_char_ptr_int_int *)&LAB_10008c06;
+  *(undefined4 *)(param_1 + 0x1c) = 0;
+  *(undefined4 *)(param_1 + 0x18) = 0;
+  uVar8 = param_1;
+  pbVar3 = bCMessageAdmin::GetInstance();
+  bCMessageAdmin::RegisterCallback(pbVar3,p_Var7,bVar6,uVar8);
+  pHVar4 = FindWindowA((LPCSTR)0x0,"[zSpy]");
+  *(HWND *)(param_1 + 0x18) = pHVar4;
+  if (pHVar4 != (HWND)0x0) {
+    Msg = RegisterWindowMessageA("WM_LOGCOMMAND");
+    AVar1 = GlobalAddAtomA("START");
+    SendMessageA((HWND)0xffff,Msg,0,(uint)AVar1);
+    do {
+      AVar2 = GlobalDeleteAtom(AVar1);
+    } while (AVar2 != 0);
+    pvVar5 = CreateMutexA((LPSECURITY_ATTRIBUTES)0x0,0,(LPCSTR)0x0);
+    *(HANDLE *)(param_1 + 0x1c) = pvVar5;
+    AVar1 = GlobalAddAtomA("SHOW");
+    SendMessageA((HWND)0xffff,Msg,0,(uint)AVar1);
+    do {
+      AVar2 = GlobalDeleteAtom(AVar1);
+    } while (AVar2 != 0);
+  }
+  return;
+}

@@ -1,0 +1,15 @@
+/* ENTRY 100224f0 | FUN_100224f0 | STATUS decompiled | 6 ms */
+
+void __thiscall FUN_100224f0(int param_1,char *param_2)
+
+{
+  if ((*(int *)(param_1 + 0x20) != 0) && (param_2 != (char *)0x0)) {
+    if (*(char *)(*(int *)(param_1 + 0x20) + 0x10) == '\x01') {
+      thunk_FUN_10023050(&DAT_10144028);
+    }
+    _memset(&DAT_10143ef8,0,0xfa);
+    _strncpy(&DAT_10143ef8,param_2,0xf9);
+    thunk_FUN_100233e0(&DAT_10143ef8);
+  }
+  return;
+}

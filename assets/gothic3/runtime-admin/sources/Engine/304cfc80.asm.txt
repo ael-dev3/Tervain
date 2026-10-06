@@ -1,0 +1,14 @@
+304cfc80 | 56 | PUSH ESI
+304cfc81 | 8b742408 | MOV ESI,dword ptr [ESP + 0x8]
+304cfc85 | 8b0e | MOV ECX,dword ptr [ESI]
+304cfc87 | 85c9 | TEST ECX,ECX
+304cfc89 | 741d | JZ 0x304cfca8
+304cfc8b | ff15f8daaf30 | CALL dword ptr [0x30afdaf8]
+304cfc91 | 8b06 | MOV EAX,dword ptr [ESI]
+304cfc93 | 50 | PUSH EAX
+304cfc94 | ff15acdbaf30 | CALL dword ptr [0x30afdbac]
+304cfc9a | 8bc8 | MOV ECX,EAX
+304cfc9c | ff15b0dbaf30 | CALL dword ptr [0x30afdbb0]
+304cfca2 | c70600000000 | MOV dword ptr [ESI],0x0
+304cfca8 | 5e | POP ESI
+304cfca9 | c20400 | RET 0x4

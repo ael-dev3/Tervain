@@ -1,0 +1,121 @@
+/* ENTRY 1004b4d0 | FUN_1004b4d0 | STATUS decompiled | 89 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined4
+FUN_1004b4d0(undefined4 param_1,char *param_2,undefined4 param_3,undefined *param_4,
+            undefined4 param_5,undefined4 param_6,undefined4 param_7)
+
+{
+  bool bVar1;
+  int iVar2;
+  char *pcVar3;
+  bCMemoryAdmin *pbVar4;
+  void *pvVar5;
+  bCString *pbVar6;
+  int iVar7;
+  char *pcVar8;
+  bCString *local_14;
+  int local_10 [2];
+  undefined1 local_8 [4];
+  int local_4;
+  
+  if ((_DAT_101ab144 & 1) == 0) {
+    _DAT_101ab144 = _DAT_101ab144 | 1;
+    InitializeCriticalSection((LPCRITICAL_SECTION)&DAT_101ab11c);
+    DAT_101ab138 = (HANDLE)0x0;
+    DAT_101ab134 = (HWND)0x0;
+    bCSpyAdmin::Create((bCSpyAdmin *)&DAT_101ab11c);
+    _atexit((_func_4879 *)&LAB_100e2890);
+  }
+  pcVar3 = param_2;
+  if ((param_4 != (undefined *)0x0) && (param_4 == &DAT_101ab11c)) {
+    if ((param_2 != (char *)0x0) && ((DAT_101ab134 != (HWND)0x0 && (DAT_101ab138 != (HANDLE)0x0))))
+    {
+      bCString::bCString((bCString *)&local_14);
+      switch(param_1) {
+      case 1:
+      case 2:
+        pcVar8 = "Info: ";
+        break;
+      case 3:
+        pcVar8 = "Warn: ";
+        break;
+      case 4:
+        pcVar8 = "Fault: ";
+        break;
+      case 5:
+        pcVar8 = "Fatal: ";
+        break;
+      default:
+        pcVar8 = "?????: ";
+      }
+      bCString::operator=((bCString *)&local_14,pcVar8);
+      bCString::bCString((bCString *)local_10,pcVar3);
+      bCString::Replace((bCString *)local_10,"\r","\n");
+      bCString::Replace((bCString *)local_10,"\n\n","\n");
+      bCString::Replace((bCString *)local_10,"\t","    ");
+      bCString::bCString((bCString *)&param_4,"\n");
+      iVar2 = bCString::CountWords((bCString *)local_10,(bCString *)&param_4);
+      bCString::~bCString((bCString *)&param_4);
+      iVar7 = 0;
+      if (0 < iVar2) {
+        do {
+          bCString::bCString((bCString *)&param_4);
+          bCString::bCString((bCString *)&param_2,"\n");
+          bCString::GetWord((bCString *)local_10,iVar7,(bCString *)&param_2,(bCString *)&param_4,
+                            false,false);
+          if ((&stack0x00000000 != (undefined1 *)0xfffffff8) && (param_2 != (char *)0x0)) {
+            *(short *)(param_2 + -4) = *(short *)(param_2 + -4) + -1;
+            pcVar3 = param_2 + -8;
+            if (*(short *)(param_2 + -4) == 0) {
+              pbVar4 = bCMemoryAdmin::GetInstance();
+              bCMemoryAdmin::Free(pbVar4,pcVar3);
+            }
+          }
+          bVar1 = bCString::IsEmpty((bCString *)&param_4);
+          if (!bVar1) {
+            EnterCriticalSection((LPCRITICAL_SECTION)&DAT_101ab11c);
+            WaitForSingleObject(DAT_101ab138,0xffffffff);
+            if ((_DAT_101ab14c & 1) == 0) {
+              _DAT_101ab14c = _DAT_101ab14c | 1;
+              bCString::bCString((bCString *)&DAT_101ab148);
+              _atexit((_func_4879 *)&LAB_100e28d0);
+            }
+            bCString::Format(local_14,(char *)&DAT_101ab148);
+            bCString::GetText((bCString *)&DAT_101ab148);
+            local_4 = 0;
+            if (DAT_101ab148 != 0) {
+              local_4 = *(int *)(DAT_101ab148 + -8);
+            }
+            local_4 = local_4 + 1;
+            SendMessageA(DAT_101ab134,0x4a,0,(LPARAM)local_8);
+            ReleaseMutex(DAT_101ab138);
+            LeaveCriticalSection((LPCRITICAL_SECTION)&DAT_101ab11c);
+          }
+          bCString::~bCString((bCString *)&param_4);
+          iVar7 = iVar7 + 1;
+        } while (iVar7 < iVar2);
+      }
+      if ((&stack0x00000000 != (undefined1 *)0x10) && (local_10[0] != 0)) {
+        *(short *)(local_10[0] + -4) = *(short *)(local_10[0] + -4) + -1;
+        pvVar5 = (void *)(local_10[0] + -8);
+        if (*(short *)(local_10[0] + -4) == 0) {
+          pbVar4 = bCMemoryAdmin::GetInstance();
+          bCMemoryAdmin::Free(pbVar4,pvVar5);
+        }
+      }
+      if ((&stack0x00000000 != (undefined1 *)0x14) && (local_14 != (bCString *)0x0)) {
+        *(short *)(local_14 + -4) = *(short *)(local_14 + -4) + -1;
+        pbVar6 = local_14 + -8;
+        if (*(short *)(local_14 + -4) == 0) {
+          pbVar4 = bCMemoryAdmin::GetInstance();
+          bCMemoryAdmin::Free(pbVar4,pbVar6);
+        }
+      }
+      return 1;
+    }
+    return 0;
+  }
+  return 0;
+}

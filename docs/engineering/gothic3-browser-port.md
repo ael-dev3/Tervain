@@ -7,11 +7,12 @@ Date: 6 October 2026. Status: exploration, a moving Hero presentation and native
 The owner asked to rebuild the installed Gothic 3 in TypeScript and host it as
 a second URL in Tervain. The repository is public and GitHub Pages is enabled.
 The [Gothic 3 / Ardea route](https://ael-dev3.github.io/Tervain/gothic3/) is
-live. The verified deployed checkpoint 72 is `main` commit
-`a021b8ae66e6f66ef5a5a2de3b392fb48c6a0bac`, published by the successful
-[workflow run 37515257094](https://github.com/ael-dev3/Tervain/actions/runs/37515257094).
-The original NPC construction study in checkpoint 73 has its own publication
-gate; its implementation alone does not establish deployment.
+live. The verified deployed checkpoint 73 is `main` commit
+`0a439f819cfe51b20180765df8c58d278df4fa6b`, published by the successful
+[workflow run 37520227542](https://github.com/ael-dev3/Tervain/actions/runs/37520227542).
+The public route serves `gothic3-siaPiAJn.js`. The standalone admin modules in
+checkpoint 74 are a separate component under review; they are not connected to
+the retained browser NPC read.
 The [Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml)
 records subsequent publication receipts.
 It remains an incomplete exploration and gameplay prototype, not a finished

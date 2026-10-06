@@ -313,3 +313,34 @@ entity read stops at the Navigation default creator's unowned ErrorAdmin
 singleton, before serialized property reading or attachment. See
 [checkpoint 73](../../docs/engineering/gothic3-rebuilding-process.md#73-construct-retained-npc-owners-and-reach-the-first-property-factory)
 for the exact applied prefix and remaining prerequisites.
+
+## Shared runtime admin source and allocation evidence
+
+```powershell
+python tools/gothic3/prepare_runtime_admin_source.py --study "C:\path\to\Gothic3_Decompiled_Study_2026-10-04"
+```
+
+This standard-library producer reads the pinned SharedBase, Game and Engine
+PEs, function catalogs, saved assembly and available C reconstruction from the study's
+`00_Original_Runtime/` and `01_Decompiled_Code/`. It exports
+`assets/gothic3/runtime-admin/runtime-rules.json`, `native-evidence.json`,
+`manifest.json`, `prior-startup-allocations.json` and bounded
+`sources/SharedBase/`, `sources/Game/` and `sources/Engine/` excerpts. Every admitted
+instruction is compared with the original PE. Cold zero ranges, literal
+formatter strings, heap dispatch entries and pool geometry have byte receipts.
+An assembly-only body is recorded explicitly when no C/catalog entry exists;
+the ErrorAdmin shutdown has saved assembly even though its C entry is absent.
+
+The resulting rules supply the standalone TypeScript MemoryAdmin,
+Message/Spy/Spie and ErrorAdmin modules. The selected platform owns actual byte
+arrays, pointer capabilities, critical-section registrations and a reverse
+shutdown queue. Its empty diagnostic registries are a scoped platform profile,
+not a claim about the Windows host. Unsupported allocation and active logging
+branches remain explicit. Regeneration does not execute the native DLL or
+alter older receipts.
+
+The NPC reader still stops at its original ErrorAdmin boundary. Connecting
+these modules requires its preceding source allocations to use the same heap,
+including the SceneAdmin registered map's 204-byte bucket backing and 28-byte
+nodes. See
+[checkpoint 74](../../docs/engineering/gothic3-rebuilding-process.md#74-own-the-shared-runtime-admin-chain-before-connecting-it-to-npcs).

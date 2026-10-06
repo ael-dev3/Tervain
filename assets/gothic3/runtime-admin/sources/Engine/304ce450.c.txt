@@ -1,0 +1,25 @@
+/* ENTRY 304ce450 | FUN_304ce450 | STATUS decompiled | 8 ms */
+
+bCString * __thiscall FUN_304ce450(int *param_1,bCString *param_2,uint *param_3)
+
+{
+  bCString *pbVar1;
+  bool bVar2;
+  ulong uVar3;
+  uint uVar4;
+  
+  uVar4 = param_1[1];
+  uVar3 = g_GetHashValue<bCString>(param_2);
+  uVar4 = uVar3 % uVar4;
+  *param_3 = uVar4;
+  if (uVar4 < (uint)param_1[1]) {
+    for (pbVar1 = *(bCString **)(*param_1 + uVar4 * 4); pbVar1 != (bCString *)0x0;
+        pbVar1 = *(bCString **)(pbVar1 + 0x10)) {
+      bVar2 = bCString::operator==(param_2,pbVar1);
+      if (bVar2) {
+        return pbVar1;
+      }
+    }
+  }
+  return (bCString *)0x0;
+}

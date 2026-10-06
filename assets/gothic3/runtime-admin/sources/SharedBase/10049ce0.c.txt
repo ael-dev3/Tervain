@@ -1,0 +1,18 @@
+/* ENTRY 10049ce0 | FUN_10049ce0 | STATUS decompiled | 5 ms */
+
+void __thiscall FUN_10049ce0(int *param_1,uint param_2)
+
+{
+  void *_Dst;
+  int iVar1;
+  
+  if (param_2 < (uint)param_1[1]) {
+    iVar1 = (param_1[1] - param_2) + -1;
+    if (0 < iVar1) {
+      _Dst = (void *)(*param_1 + param_2 * 0xc);
+      _memmove(_Dst,(void *)((int)_Dst + 0xc),iVar1 * 0xc);
+    }
+    param_1[1] = param_1[1] + -1;
+  }
+  return;
+}

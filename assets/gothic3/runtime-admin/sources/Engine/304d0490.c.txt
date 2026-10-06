@@ -1,0 +1,44 @@
+/* ENTRY 304d0490 | FUN_304d0490 | STATUS decompiled | 14 ms */
+
+undefined4 __thiscall FUN_304d0490(int *param_1,bCPropertyID *param_2)
+
+{
+  bCPropertyID *pbVar1;
+  int iVar2;
+  bCPropertyID *this;
+  bool bVar3;
+  ulong uVar4;
+  uint uVar5;
+  
+  this = param_2;
+  uVar5 = param_1[1];
+  uVar4 = g_GetHashValue<bCPropertyID>(param_2);
+  uVar5 = uVar4 % uVar5;
+  if ((param_1[1] != 0) && (uVar5 < (uint)param_1[1])) {
+    pbVar1 = *(bCPropertyID **)(*param_1 + uVar5 * 4);
+    if (pbVar1 != (bCPropertyID *)0x0) {
+      param_2 = pbVar1;
+      bVar3 = bCPropertyID::operator==(this,pbVar1);
+      if (bVar3) {
+        *(undefined4 *)(*param_1 + uVar5 * 4) = *(undefined4 *)(pbVar1 + 0x18);
+        thunk_FUN_304cfc80(&param_2);
+        param_1[3] = param_1[3] + -1;
+        return 1;
+      }
+      iVar2 = *(int *)(pbVar1 + 0x18);
+      while (iVar2 != 0) {
+        bVar3 = bCPropertyID::operator==(this,*(bCPropertyID **)(pbVar1 + 0x18));
+        if (bVar3) {
+          param_2 = *(bCPropertyID **)(pbVar1 + 0x18);
+          *(undefined4 *)(pbVar1 + 0x18) = *(undefined4 *)((int)param_2 + 0x18);
+          thunk_FUN_304cfc80(&param_2);
+          param_1[3] = param_1[3] + -1;
+          return 1;
+        }
+        pbVar1 = *(bCPropertyID **)(pbVar1 + 0x18);
+        iVar2 = *(int *)(pbVar1 + 0x18);
+      }
+    }
+  }
+  return 0;
+}

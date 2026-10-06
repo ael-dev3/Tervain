@@ -1,0 +1,82 @@
+/* ENTRY 1004afe0 | FUN_1004afe0 | STATUS decompiled | 41 ms */
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+undefined4 FUN_1004afe0(undefined4 param_1,char *param_2)
+
+{
+  size_t _Size;
+  bCSpieAdmin *pbVar1;
+  void *pvVar2;
+  bCMemoryAdmin *pbVar3;
+  int iVar4;
+  undefined4 in_stack_0000001c;
+  char *pcVar5;
+  int local_8;
+  int local_4;
+  
+  if (DAT_10197dbc == '\0') {
+    return 1;
+  }
+  bCSpieAdmin::GetInstance();
+  if (param_2 != (char *)0x0) {
+    bCString::bCString((bCString *)&local_4);
+    switch(param_1) {
+    case 1:
+    case 2:
+      pcVar5 = "Info:  ";
+      break;
+    case 3:
+      pcVar5 = "Warn:  ";
+      break;
+    case 4:
+      pcVar5 = "Fault: ";
+      break;
+    case 5:
+      pcVar5 = "Fatal: ";
+      break;
+    default:
+      pcVar5 = "?????: ";
+    }
+    bCString::operator=((bCString *)&local_4,pcVar5);
+    bCString::bCString((bCString *)&local_8,param_2);
+    bCString::Replace((bCString *)&local_8,"\r","\n");
+    bCString::Replace((bCString *)&local_8,"\n\n","\n");
+    _DAT_10197dea = in_stack_0000001c;
+    DAT_10197de9 = (undefined1)param_1;
+    DAT_10197de8 = 2;
+    iVar4 = 0;
+    if (local_8 != 0) {
+      iVar4 = *(int *)(local_8 + -8);
+    }
+    _Size = iVar4 + 1;
+    pcVar5 = bCString::GetText((bCString *)&local_8);
+    _memcpy(&DAT_10197dee,pcVar5,_Size);
+    if (local_8 == 0) {
+      iVar4 = 0;
+    }
+    else {
+      iVar4 = *(int *)(local_8 + -8);
+    }
+    pbVar1 = bCSpieAdmin::GetInstance();
+    send(*(SOCKET *)(pbVar1 + 0x18),&DAT_10197de8,iVar4 + 7,0);
+    if ((&stack0x00000000 != (undefined1 *)0x8) && (local_8 != 0)) {
+      *(short *)(local_8 + -4) = *(short *)(local_8 + -4) + -1;
+      pvVar2 = (void *)(local_8 + -8);
+      if (*(short *)(local_8 + -4) == 0) {
+        pbVar3 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::Free(pbVar3,pvVar2);
+      }
+    }
+    if ((&stack0x00000000 != (undefined1 *)0x4) && (local_4 != 0)) {
+      *(short *)(local_4 + -4) = *(short *)(local_4 + -4) + -1;
+      pvVar2 = (void *)(local_4 + -8);
+      if (*(short *)(local_4 + -4) == 0) {
+        pbVar3 = bCMemoryAdmin::GetInstance();
+        bCMemoryAdmin::Free(pbVar3,pvVar2);
+      }
+    }
+    return 1;
+  }
+  return 0;
+}
