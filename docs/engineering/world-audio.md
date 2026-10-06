@@ -1,6 +1,6 @@
 # World sound: effects, ambience and in-world score
 
-Recorded 5 October 2026 for two owner requests. The first ([A50](../decisions.md)) asked for custom music, sound effects and ambience for every NPC, every item interaction and every part of the world, generated with the owner's ElevenLabs account within a 10,000-credit allowance. The second ([A51](../decisions.md)) asked for more music and effects crafted programmatically, "to give the game more soul". The world's sound therefore has two halves:
+Recorded 5 October 2026. The world's sound has two halves:
 
 - **Generated:** 99 ElevenLabs generations from original text prompts: foley, place beds, wildlife, and a first score.
 - **Crafted in code:** music composed and instruments synthesized in [tools/world-audio/compose/](../../tools/world-audio/compose/). It holds the Tervain theme and its arrangements, fight loops, stings and a motif for each region, three tunes heard from the inn, and world sounds tuned to the same key (the town bell, the shrine's wind chime, the spring's bubbles, crickets and a heartbeat).
@@ -141,6 +141,8 @@ The world sound is created on the first world frame after the audio context runs
 - **The score** streams each piece through a media element, so a piece is never decoded whole.
   - The danger and battle loops and the stings are decoded when first needed and released after 150 s unused.
   - A sting ducks a playing piece, loop or inn tune under itself.
+  - Stings share the four-voice music one-shot cap, are stopped on menu entry and disposal, and pending decodes cannot start a stale sting after hiding or leaving the world.
+  - Quiet intervals follow a streamed piece's actual end rather than its nominal duration. Buffering or a rejected play request does not consume unheard music; a new user gesture or focus return retries a blocked stream without replacing it.
   - A menu stops the in-world score, and a panel opened mid-fight keeps the fight's music.
   - Fights alternate their voice by encounter; the first fight of a session hears the composed music.
   - Two stings in three come in the composed voice.
@@ -198,16 +200,14 @@ The trims lowered steps by 3 dB, the rite by 3.5 dB and the surge by 1.2 dB afte
 
 ### Generated
 
-All 99 sources were generated on 5 October 2026 with the ElevenLabs Sound Effects API (`POST /v1/sound-generation`, model `eleven_text_to_sound_v2`, 44.1 kHz 128 kbit/s MP3) from prompts written for Tervain. They total 919 requested seconds, charged at 10 credits per second: about 9,190 of the owner's 10,000-credit allowance. A single test of the Eleven Music API was refused before generation (`402 paid_plan_required` on the free plan, no credits charged). The generated score was therefore made through the sound-effects model from musical prompts: eight pieces of about 30 s, danger and battle loops, and five stings.
+All 99 sources were generated on 5 October 2026 on the free plan with the ElevenLabs Sound Effects API (`POST /v1/sound-generation`, model `eleven_text_to_sound_v2`, 44.1 kHz 128 kbit/s MP3) from original prompts written for Tervain. They total 919 requested seconds. The generated score used the sound-effects model with musical prompts, not the Eleven Music API: eight pieces of about 30 s, danger and battle loops, and five stings.
 
 - The unchanged generations are archived in [assets/audio/source/world/](../../assets/audio/source/world/) (14.8 MB).
 - Each prompt, duration, prompt influence, loop flag, processing rule, source hash and derivative hash is recorded in [world-audio-assets.json](world-audio-assets.json).
 - The prompts and processing plan are in [tools/world-audio/plan.json](../../tools/world-audio/plan.json).
 - No prompt names or imitates another game, composer or work.
 
-**Terms.** ElevenLabs' published terms, as read for the free plan on 5 October 2026, allow royalty-free use of generated sound effects, including commercial use, provided ElevenLabs is credited (elevenlabs.io). The game's About text and the repository NOTICE carry the credit. This is a summary of the service's terms as read on that date, not legal advice or an independent rights review. If the account's plan or the terms change, check them again before a commercial release. The Eleven Music terms, which restrict some commercial uses on the free plan, do not apply because the Music API was not used.
-
-**Key handling.** The API key was used only from a local script outside the repository. It never appears in source, history, logs or this record. It was deleted locally after the work; rotating it is recommended.
+**Terms and commercial hold (reviewed 6 October 2026).** These free-plan generations are limited to noncommercial prototype use with required ElevenLabs attribution. The [official Sound Effects page](https://elevenlabs.io/sound-effects) requires a paid account for commercial use; the [official publication guidance](https://help.elevenlabs.io/hc/en-us/articles/13313564601361-Can-I-publish-the-content-I-generate-on-the-platform) confirms that free-plan content has no commercial license and a later subscription does not retroactively cover it. The previous claim that attribution alone granted commercial use was incorrect. **Commercial/Steam use of the generated sources and any derivative containing them is blocked until separately cleared or replaced.** Keep the ElevenLabs credit, verify the required publication attribution format, and retain these provenance records; no project software license overrides the service's terms. The About text, NOTICE and [built-site audio license page](../../public/world-audio-licenses.html) disclose this distinction.
 
 ### Crafted
 
@@ -216,6 +216,8 @@ The crafted half has no source recording: the code and its seeds are the source.
 - its title and render entry (`tools/world-audio/compose/index.mjs#<id>`);
 - a SHA-256 of the rendered samples;
 - the derivatives' hashes.
+
+These original compositions and synthesized renders are independent of ElevenLabs' generated content. They are not subject to the generated bank's free-plan restriction; this record does not grant an open-content license to Tervain's original audio. Mixed sprite files retain the restrictions of any generated takes they contain.
 
 `node tools/world-audio/compose/index.mjs <id> out.wav` renders any one item to a float WAV for listening outside the game.
 
@@ -258,7 +260,7 @@ Muxing is bit-exact, so two runs produce identical files.
 ## Checks
 
 - [worldAudio.test.ts](../../tests/presentation/worldAudio.test.ts) covers:
-  - every shipped file (both formats, headers), its source or render record, every hash and the credit total;
+  - every shipped file (both formats, headers), its source or render record, every hash and original requested duration;
   - sprite cuts, take picking and named takes;
   - foley coverage for every item, surface, world action and resident, and the bell's sequences;
   - place beds at the strand, deepwood, Rillford, the hamlet, mill, quarry, spring, the Cut, the lighthouse and inside the archive, by day and night;
@@ -271,6 +273,8 @@ Muxing is bit-exact, so two runs produce identical files.
     - residents, enemies and impacts;
     - crickets, the heartbeat, the inn's tune and the peal;
     - disposal and failure clean-up;
+    - capped owned stings, stale decodes on menu/hiding/disposal, and banks that cannot repopulate after disposal;
+    - actual streamed endings, buffering/rejected playback with gesture retry, and late stale play promises;
   - the facade's lazy creation and fallbacks.
 - [composer.test.ts](../../tests/presentation/composer.test.ts) checks the crafted half:
   - the tuning of plucked, bowed and blown notes;

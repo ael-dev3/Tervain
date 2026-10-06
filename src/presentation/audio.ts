@@ -190,6 +190,7 @@ export class AudioEngine {
     }
     // Calling play in the same gesture unlocks browser media playback too.
     this.syncMusic();
+    this.soundWorld?.resumeStreams();
   }
 
   /** Menus share one stream; scene/quality rebuilds never allocate another score. */

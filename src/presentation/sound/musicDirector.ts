@@ -31,6 +31,8 @@ export interface MusicContext {
   threat: Threat;
   /** Music is playing in the world itself (the inn's tune): the score keeps quiet rather than play over it. */
   diegetic?: boolean;
+  /** Runtime streams report their actual end; omitted by offline callers using manifest durations. */
+  pieceFinished?: boolean;
 }
 
 export type MusicAction =
@@ -206,10 +208,10 @@ export class MusicDirector {
         }
         break;
       case 'piece':
-        st.left -= dt;
+        if (ctx.pieceFinished === undefined) st.left -= dt;
         // A piece for another mood finishes naturally unless the new mood holds for a while (entering a shrine).
         st.offMood = mood === st.mood ? 0 : st.offMood + dt;
-        if (st.left <= 0) this.state = { s: 'wait', left: this.range(QUIET_AFTER_PIECE) };
+        if (ctx.pieceFinished ?? st.left <= 0) this.state = { s: 'wait', left: this.range(QUIET_AFTER_PIECE) };
         else if (st.offMood > MOOD_SETTLE && (mood === 'sacred' || st.mood === 'sacred')) {
           out.push({ t: 'stop', fadeOut: 4 });
           this.state = { s: 'wait', left: 4.5 };

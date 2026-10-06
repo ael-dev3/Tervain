@@ -203,6 +203,15 @@ export class SoundWorld {
   private readonly musicLoads = new Map<MusicId, Promise<AudioBuffer | null>>();
   private readonly beds = new Map<LoopId, Bed>();
   private readonly voices = new Set<Voice>();
+  /** Stings share the music one-shot cap and remain owned until ended or cancelled. */
+  private readonly stings = new Set<Voice>();
+  private stingEpoch = 0;
+  private worldActive = false;
+  private hidden = false;
+  private readonly pendingMedia = new Map<HTMLAudioElement, number>();
+  private streamRequest = 0;
+  private readonly retirements = new Map<ReturnType<typeof setTimeout>, () => void>();
+  private readonly retiringMedia = new Set<HTMLAudioElement>();
   private readonly picker: VariantPicker;
   private readonly random: () => number;
   private readonly emitters: EmitterScheduler;
@@ -327,8 +336,11 @@ export class SoundWorld {
         if (!res.ok) throw new Error(`${res.status}`);
         const data = await res.arrayBuffer();
         if (this.disposed) return null;
-        return await this.ctx.decodeAudioData(data);
+        const buffer = await this.ctx.decodeAudioData(data);
+        // decodeAudioData cannot be aborted: disposal may have happened during its await.
+        return this.disposed ? null : buffer;
       } catch {
+        if (this.disposed) return null;
         // As with the menu score, a browser that names Opus but cannot use it falls back to AAC.
         if (ext === 'ogg' && !this.disposed) {
           this.ext = 'm4a';
@@ -344,7 +356,7 @@ export class SoundWorld {
     let p = this.bankLoads.get(name);
     if (!p) {
       p = this.decode(WORLD_AUDIO.banks[name].file).then((buffer) => {
-        if (buffer) this.bankBuffers.set(name, buffer);
+        if (buffer && !this.disposed) this.bankBuffers.set(name, buffer);
         // A failed bank is tried again on a later request.
         else this.bankLoads.delete(name);
       });
@@ -465,6 +477,7 @@ export class SoundWorld {
   }
 
   private release(v: Voice) {
+    this.stings.delete(v);
     if (!this.voices.delete(v)) return;
     for (const n of v.nodes) quietly(() => n.disconnect());
   }
@@ -490,6 +503,9 @@ export class SoundWorld {
   /** Called every frame; `null` while a menu covers the world. */
   update(dt: number, frame: SoundFrame | null) {
     if (this.disposed) return;
+    // Invalidate pending decodes immediately, including menu frames below the 20 Hz cadence.
+    if (!frame && this.worldActive) this.cancelStings();
+    this.worldActive = !!frame;
     try {
       this.clock += dt;
       if (frame) {
@@ -850,7 +866,8 @@ export class SoundWorld {
       if (this.song?.media !== media || !media.src.endsWith('.ogg')) return;
       this.ext = 'm4a';
       media.src = this.url(file, 'm4a');
-      void media.play().catch(() => undefined);
+      this.pendingMedia.delete(media);
+      this.playStream(media);
     }, { once: true });
     const source = this.ctx.createMediaElementSource(media);
     const walls = this.ctx.createBiquadFilter();
@@ -865,14 +882,16 @@ export class SoundWorld {
     gain.gain.value = 0;
     source.connect(walls).connect(panner).connect(gain).connect(this.duck);
     this.song = { id, media, source, gain, nodes: [source, walls, panner, gain] };
-    void media.play().catch(() => undefined);
+    this.playStream(media);
   }
 
   private releaseSong(fade: number) {
     const s = this.song;
     this.song = null;
     if (!s) return;
+    this.retiringMedia.add(s.media);
     this.fadeOut(s.gain, fade, () => {
+      this.retiringMedia.delete(s.media);
       s.media.pause();
       s.media.removeAttribute('src');
       s.media.load();
@@ -889,6 +908,8 @@ export class SoundWorld {
       z: frame?.player.z ?? 0,
       night: (frame?.world.nightness ?? 0) > 0.55,
       diegetic: this.songLevel > 0.15,
+      // The actual media clock owns the end: buffering or autoplay rejection consumes no unheard piece.
+      pieceFinished: !!this.piece?.media.ended,
       // A panel opened mid-fight pauses the fight, not its music.
       threat: frame && frame.mode !== 'dead' ? frame.threat : 'none',
     });
@@ -901,7 +922,9 @@ export class SoundWorld {
 
   /** Discovery, quest, victory and death stings, from game events; a discovery names its place. */
   sting(kind: 'discover' | 'quest' | 'victory' | 'death', place?: PlaceId) {
-    if (this.disposed) return;
+    // Inventory panels still belong to the world; a title/pause menu or hidden page does not.
+    // Death stings are allowed while the world frame is present in its dead mode.
+    if (this.disposed || !this.worldActive || this.hidden || this.ctx.state === 'closed') return;
     this.applyMusic(this.director.sting(kind, place));
   }
 
@@ -923,14 +946,22 @@ export class SoundWorld {
     gain.gain.cancelScheduledValues(t);
     gain.gain.setValueAtTime(gain.gain.value, t);
     gain.gain.linearRampToValueAtTime(0, t + Math.max(0.05, seconds));
-    setTimeout(after, Math.max(50, seconds * 1000 + 80));
+    const finish = () => {
+      clearTimeout(timer);
+      this.retirements.delete(timer);
+      after();
+    };
+    const timer = setTimeout(finish, Math.max(50, seconds * 1000 + 80));
+    this.retirements.set(timer, finish);
   }
 
   private releasePiece(seconds: number) {
     const piece = this.piece;
     this.piece = null;
     if (!piece) return;
+    this.retiringMedia.add(piece.media);
     this.fadeOut(piece.gain, seconds, () => {
+      this.retiringMedia.delete(piece.media);
       piece.media.pause();
       piece.media.removeAttribute('src');
       piece.media.load();
@@ -968,7 +999,8 @@ export class SoundWorld {
       if (this.piece?.media !== media || !media.src.endsWith('.ogg')) return;
       this.ext = 'm4a';
       media.src = this.url(file, 'm4a');
-      void media.play().catch(() => undefined);
+      this.pendingMedia.delete(media);
+      this.playStream(media);
     }, { once: true });
     const gain = this.ctx.createGain();
     const source = this.ctx.createMediaElementSource(media);
@@ -977,7 +1009,36 @@ export class SoundWorld {
     gain.gain.setValueAtTime(0, t);
     gain.gain.linearRampToValueAtTime(0.85, t + fadeIn);
     this.piece = { media, source, gain };
-    void media.play().catch(() => undefined);
+    this.playStream(media);
+  }
+
+  private currentStream(media: HTMLAudioElement): boolean {
+    return this.piece?.media === media || this.song?.media === media;
+  }
+
+  private playStream(media: HTMLAudioElement) {
+    if (this.disposed || this.hidden || !this.worldActive || !this.currentStream(media) || this.pendingMedia.has(media)) return;
+    const request = ++this.streamRequest;
+    this.pendingMedia.set(media, request);
+    try {
+      void media.play().then(() => {
+        // A slow play promise may settle after a menu, replacement, hiding or disposal.
+        if (this.disposed || this.hidden || !this.worldActive || !this.currentStream(media)) media.pause();
+      }).catch(() => {
+        // A new gesture/focus can retry; never retry every frame or advance an unheard piece.
+      }).finally(() => {
+        if (this.pendingMedia.get(media) === request) this.pendingMedia.delete(media);
+      });
+    } catch {
+      if (this.pendingMedia.get(media) === request) this.pendingMedia.delete(media);
+    }
+  }
+
+  /** Called from an existing user gesture; retry blocked streams without replacing their clock or nodes. */
+  resumeStreams() {
+    for (const media of [this.piece?.media, this.song?.media]) {
+      if (media && media.paused && !media.ended) this.playStream(media);
+    }
   }
 
   private playLoop(id: MusicId, fadeIn: number) {
@@ -1001,33 +1062,64 @@ export class SoundWorld {
   }
 
   private playSting(id: MusicId) {
+    const epoch = this.stingEpoch;
     void this.loadMusic(id).then((buffer) => {
-      if (!buffer || this.disposed) return;
-      const source = this.ctx.createBufferSource();
-      source.buffer = buffer;
-      const gain = this.ctx.createGain();
-      gain.gain.value = 0.8;
-      source.connect(gain).connect(this.buses.music);
-      // Whatever else is playing steps back for the sting.
-      const t = this.ctx.currentTime;
-      this.duck.gain.cancelScheduledValues(t);
-      this.duck.gain.setTargetAtTime(0.35, t, 0.15);
-      this.duck.gain.setTargetAtTime(1, t + buffer.duration * 0.85, 0.6);
-      source.onended = () => {
-        quietly(() => source.disconnect());
-        quietly(() => gain.disconnect());
-      };
-      source.start();
+      if (!buffer || this.disposed || !this.worldActive || this.hidden || epoch !== this.stingEpoch || this.ctx.state === 'closed') return;
+      const nodes: AudioNode[] = [];
+      let voice: Voice | null = null;
+      try {
+        this.makeRoom('music');
+        const source = this.ctx.createBufferSource();
+        nodes.push(source);
+        source.buffer = buffer;
+        const gain = this.ctx.createGain();
+        nodes.push(gain);
+        gain.gain.value = 0.8;
+        source.connect(gain).connect(this.buses.music);
+        voice = { source, nodes, bus: 'music', started: this.ctx.currentTime };
+        this.voices.add(voice);
+        this.stings.add(voice);
+        const held = voice;
+        source.onended = () => this.release(held);
+        source.start();
+        // Whatever else is playing steps back for the sting.
+        const t = this.ctx.currentTime;
+        this.duck.gain.cancelScheduledValues(t);
+        this.duck.gain.setTargetAtTime(0.35, t, 0.15);
+        this.duck.gain.setTargetAtTime(1, t + buffer.duration * 0.85, 0.6);
+      } catch {
+        if (voice) {
+          quietly(() => voice!.source.stop());
+          this.release(voice);
+        } else for (const n of nodes) quietly(() => n.disconnect());
+      }
     });
+  }
+
+  private cancelStings() {
+    this.stingEpoch++;
+    for (const v of [...this.stings]) {
+      quietly(() => v.source.stop());
+      this.release(v);
+    }
+    const t = this.ctx.currentTime;
+    this.duck.gain.cancelScheduledValues(t);
+    this.duck.gain.setValueAtTime(1, t);
   }
 
   /** A hidden tab suspends the audio clock; a streamed piece must not run on silently under it. */
   setHidden(hidden: boolean) {
     if (this.disposed) return;
+    if (hidden && !this.hidden) this.stingEpoch++;
+    this.hidden = hidden;
+    if (hidden) for (const media of this.retiringMedia) media.pause();
     for (const media of [this.piece?.media, this.song?.media]) {
       if (!media) continue;
-      if (hidden) media.pause();
-      else if (!media.ended) void media.play().catch(() => undefined);
+      if (hidden) {
+        this.pendingMedia.delete(media);
+        media.pause();
+      }
+      else if (!media.ended) this.playStream(media);
     }
   }
 
@@ -1039,6 +1131,11 @@ export class SoundWorld {
   dispose() {
     if (this.disposed) return;
     this.disposed = true;
+    this.cancelStings();
+    // A fading stream/loop has left its current handle but still belongs to this world.
+    for (const finish of [...this.retirements.values()]) quietly(finish);
+    this.retirements.clear();
+    this.retiringMedia.clear();
     this.loopWanted = null;
     const piece = this.piece;
     this.piece = null;
@@ -1072,6 +1169,9 @@ export class SoundWorld {
     this.beds.clear();
     for (const n of this.owned) quietly(() => n.disconnect());
     this.bankBuffers.clear();
+    this.bankLoads.clear();
     this.musicBuffers.clear();
+    this.musicLoads.clear();
+    this.pendingMedia.clear();
   }
 }

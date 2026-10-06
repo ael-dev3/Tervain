@@ -96,10 +96,8 @@ describe('prepared world audio', () => {
     expect([...derived].map((p) => path.basename(p)).sort()).toEqual(fs.readdirSync(OUT).sort());
   });
 
-  it('stayed within the owner\'s 10,000-credit allowance and credits ElevenLabs in the game', () => {
-    // Sound generation is charged at 10 credits per second of requested audio.
-    const seconds = provenance.assets.reduce((sum, a) => sum + a.seconds, 0);
-    expect(seconds * 10).toBeLessThanOrEqual(10000);
+  it('retains source durations and credits ElevenLabs in the game', () => {
+    expect(provenance.assets.reduce((sum, a) => sum + a.seconds, 0)).toBe(919);
     expect(provenance.terms.attribution).toContain('ElevenLabs (elevenlabs.io)');
     expect(S('about.body')).toContain('ElevenLabs (elevenlabs.io)');
   });
@@ -628,6 +626,8 @@ class FakeMedia {
   src = '';
   preload = '';
   paused = true;
+  ended = false;
+  currentTime = 0;
   constructor() { FakeMedia.made.push(this); }
   canPlayType = vi.fn(() => 'probably');
   play = vi.fn(() => { this.paused = false; return Promise.resolve(); });
@@ -789,7 +789,149 @@ describe('world sound runtime', () => {
     vi.advanceTimersByTime(3000);
     expect(playing(ctx, 'music-battle_ford')).toHaveLength(0);
     world.dispose();
-    expect(ctx.sources.every((s) => !s.started || s.stopped || s.buffer?.file?.startsWith('music-sting'))).toBe(true);
+    expect(ctx.sources.every((s) => !s.started || s.stopped)).toBe(true);
+  });
+
+  it('caps music one-shots and stops every owned sting on menu entry and disposal', async () => {
+    const { ctx, world } = runtime();
+    await flush();
+    world.update(0.05, frame(PLACES.rillford));
+    for (let i = 0; i < 20; i++) world.sting('quest');
+    await flush();
+    const stings = () => ctx.sources.filter((s) => s.started && !s.stopped && s.buffer?.file?.startsWith('music-sting'));
+    expect(stings()).toHaveLength(4);
+    expect(ctx.sources.filter((s) => s.stopped && s.buffer?.file?.startsWith('music-sting'))).toHaveLength(16);
+    // A null menu frame must cancel even below the 20 Hz sound update cadence.
+    world.update(0.001, null);
+    expect(stings()).toHaveLength(0);
+    world.sting('quest');
+    await flush();
+    expect(stings()).toHaveLength(0);
+    world.update(0.05, frame(PLACES.rillford, { mode: 'dead' }));
+    world.sting('death');
+    await flush();
+    expect(stings()).toHaveLength(1);
+    world.dispose();
+    expect(ctx.sources.every((s) => !s.started || s.stopped)).toBe(true);
+  });
+
+  it('owns fading streams and loops through hidden-tab suspension and immediate disposal', async () => {
+    vi.useFakeTimers();
+    const { ctx, world } = runtime(1);
+    await flush();
+    for (let t = 0; t < 20; t += 0.05) world.update(0.05, frame(PLACES.rillford));
+    const media = FakeMedia.made.at(-1)!;
+    await flush();
+    world.update(0.05, frame(PLACES.rillford, { threat: 'combat' }));
+    await flush();
+    world.setHidden(true);
+    expect(media.paused).toBe(true);
+    world.setHidden(false);
+    // The retired piece must not restart on focus; then retire the fight loop too.
+    expect(media.play).toHaveBeenCalledOnce();
+    world.update(0.05, null);
+    world.dispose();
+    expect(media.src).toBe('');
+    expect(ctx.sources.every((s) => !s.started || s.stopped)).toBe(true);
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
+  it.each(['menu', 'hidden', 'dispose'] as const)('never starts a pending sting after %s, even after returning', async (transition) => {
+    const { ctx, world } = runtime();
+    await flush();
+    world.update(0.05, frame(PLACES.rillford));
+    const decode = ctx.decodeAudioData.getMockImplementation()!;
+    const pending: (() => Promise<void>)[] = [];
+    ctx.decodeAudioData.mockImplementation((data: { file: string }) => {
+      if (!data.file.includes('music-sting')) return decode(data);
+      return new Promise((resolve) => pending.push(async () => resolve(await decode(data))));
+    });
+    world.sting('quest');
+    await flush();
+    expect(pending).toHaveLength(1);
+    if (transition === 'menu') {
+      world.update(0.001, null);
+      world.update(0.05, frame(PLACES.rillford));
+    } else if (transition === 'hidden') {
+      world.setHidden(true);
+      world.setHidden(false);
+    } else world.dispose();
+    await Promise.all(pending.map((finish) => finish()));
+    await flush();
+    expect(ctx.sources.some((s) => s.started && s.buffer?.file?.startsWith('music-sting'))).toBe(false);
+  });
+
+  it('cannot repopulate decoded banks after disposal during an in-flight decode', async () => {
+    const { ctx, world } = runtime();
+    const decode = ctx.decodeAudioData.getMockImplementation()!;
+    const pending: (() => Promise<void>)[] = [];
+    ctx.decodeAudioData.mockImplementation((data: { file: string }) => new Promise((resolve) => {
+      pending.push(async () => resolve(await decode(data)));
+    }));
+    await flush();
+    expect(pending).toHaveLength(Object.keys(WORLD_AUDIO.banks).length);
+    world.dispose();
+    await Promise.all(pending.map((finish) => finish()));
+    await flush();
+    expect(world.banksReady).toBe(false);
+    const held = world as unknown as { bankBuffers: Map<string, unknown>; bankLoads: Map<string, unknown> };
+    expect(held.bankBuffers.size).toBe(0);
+    expect(held.bankLoads.size).toBe(0);
+  });
+
+  it('waits for the real stream end through buffering and gesture rejection, while threats can interrupt', async () => {
+    vi.useFakeTimers();
+    const { world } = runtime(1);
+    await flush();
+    for (let t = 0; t < 20; t += 0.05) world.update(0.05, frame(PLACES.rillford));
+    const media = FakeMedia.made.at(-1)!;
+    await flush();
+    media.paused = true;
+    media.play.mockRejectedValueOnce(new Error('NotAllowedError'));
+    world.resumeStreams();
+    await flush();
+    // The unheard stream exceeds its whole nominal duration without entering a quiet interval or being replaced.
+    const made = FakeMedia.made.length;
+    for (let t = 0; t < 100; t += 0.05) world.update(0.05, frame(PLACES.rillford));
+    expect(world.musicState.phase).toBe('piece');
+    expect(FakeMedia.made).toHaveLength(made);
+    expect(media.play).toHaveBeenCalledTimes(2);
+    world.resumeStreams();
+    await flush();
+    expect(media.paused).toBe(false);
+    expect(media.play).toHaveBeenCalledTimes(3);
+    media.currentTime = 2;
+    for (let t = 0; t < 100; t += 0.05) world.update(0.05, frame(PLACES.rillford));
+    expect(world.musicState.phase).toBe('piece');
+    media.ended = true;
+    world.update(0.05, frame(PLACES.rillford));
+    expect(world.musicState.phase).toBe('wait');
+    world.update(0.05, frame(PLACES.rillford, { threat: 'combat' }));
+    await flush();
+    expect(world.musicState.loop).toBe('battle_ford');
+    world.dispose();
+    vi.runAllTimers();
+  });
+
+  it('pauses a stale streaming play promise that resolves after menu entry', async () => {
+    vi.useFakeTimers();
+    const { world } = runtime(1);
+    await flush();
+    for (let t = 0; t < 20; t += 0.05) world.update(0.05, frame(PLACES.rillford));
+    const media = FakeMedia.made.at(-1)!;
+    await flush();
+    media.paused = true;
+    let finish!: () => void;
+    media.play.mockImplementationOnce(() => new Promise<void>((resolve) => {
+      finish = () => { media.paused = false; resolve(); };
+    }));
+    world.resumeStreams();
+    world.update(0.05, null);
+    finish();
+    await flush();
+    expect(media.paused).toBe(true);
+    world.dispose();
+    vi.runAllTimers();
   });
 
   it('hears residents at work and on foot, enemies winding up and falling, and crates landing', async () => {
