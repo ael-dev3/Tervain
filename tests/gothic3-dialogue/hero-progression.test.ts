@@ -88,4 +88,24 @@ describe('source-backed Hero level progression', () => {
     const restored = await NativeQuestRuntime.restore(save, await loadNativeHeroPlayerMemory());
     expect(restored.heroVitals()).toEqual({ hitPoints: 37, hitPointsMax: 100 });
   }, 30_000);
+
+  it('uses the hash-checked health-potion modifier and saves the consumed count', async () => {
+    vi.stubGlobal('location', { href: 'https://ael-dev3.github.io/Tervain/gothic3/index.html' });
+    vi.stubGlobal('fetch', readLocalAsset);
+
+    const player = await loadNativeHeroPlayerMemory();
+    const runtime = await NativeQuestRuntime.newGame(player);
+    expect(runtime.setHeroHitPoints(37)).toEqual({ known: true, value: 37 });
+    const used = await runtime.useHealthPotion();
+    expect(used).toEqual({ known: true, value: { hitPointsBefore: 37, hitPointsAfter: 87, amountRemaining: 9 } });
+    expect(runtime.heroItemStackAmount({ id: 'PC_Hero', name: 'PC_Hero' }, 'It_Potion_Health'))
+      .toEqual({ known: true, value: 9 });
+    const save = runtime.saveData();
+    expect(save.consumedItems).toEqual([{ templateGuid20: 'afb494ac7a569f40b12c6aebf0a0d2d600000000', amount: 1 }]);
+
+    const restored = await NativeQuestRuntime.restore(save, await loadNativeHeroPlayerMemory());
+    expect(restored.heroVitals()).toEqual({ hitPoints: 87, hitPointsMax: 100 });
+    expect(restored.heroItemStackAmount({ id: 'PC_Hero', name: 'PC_Hero' }, 'It_Potion_Health'))
+      .toEqual({ known: true, value: 9 });
+  }, 30_000);
 });

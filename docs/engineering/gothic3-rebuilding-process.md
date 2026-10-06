@@ -43,6 +43,9 @@ that record saves against the source hash, but it does not accept engine
 collision or apply damage. This is still an incomplete game reconstruction.
 The source-backed unarmed `Fist` damage carrier is now resolved from its exact
 original template path, but is not attached to a live Hero or NPC.
+The NPC combat bridge also resolves serialized inventory-slot template
+identities from the same source actor record; those references are not generated
+treasure or active equipment.
 Completing the original game in the browser remains the objective; the inspectors
 do not satisfy that objective.
 
@@ -59,7 +62,7 @@ limitations and source terms.
 This guide describes the source on `codex/gothic3-gameplay-initialization`.
 The successful deployment above predates the latest source checkpoints, which
 have not been deployed. The current Pages routes were verified over HTTP on
-6 October 2026. Sections 10–46 cover the newer runtime work.
+6 October 2026. Sections 10–52 cover the newer runtime work.
 
 Each checkpoint's reproduction commands describe its recorded source revision.
 To reproduce an older receipt, use a checkout at that commit and its producers.
@@ -91,7 +94,8 @@ flags and bounded Hero XP/level/LP progression now connect to browser sessions
 and saves. The Ardea scene also seeds three residents from unambiguous native
 `Start` routine points; it does not execute routines or activate native NPC
 entities. A collision candidate can resolve and save source-bound NPC point
-state, but the original entity and combat callbacks remain unconnected.
+state, including the template identities in its serialized inventory slots, but
+the original entity and combat callbacks remain unconnected.
 The captured Hero PlayerMemory and Attribute/Stat data also feed an on-demand
 character panel. These are bounded integrations: most dialogue, live NPC
 activation, combat, schedule changes, world interactions and campaign
@@ -3508,3 +3512,140 @@ Validation on 6 October 2026: `npm run typecheck` passes, the focused
 transforms 276 modules successfully. The production build retains the existing
 large Tervain chunk warning. `git diff --check` is clean. No browser encounter,
 full-suite run or remote deployment was performed.
+
+## 50. Apply the source-defined health-potion effect
+
+The inventory panel now exposes a Drink action for the Hero's source-seeded
+`It_Potion_Health` stack. Before changing state, it resolves the exact original
+template by name within its recorded template path, checks the GUID and
+SHA-256, then verifies `UseType=16`, an empty `ScriptUseFunc`, and one `HP`
+`ModAttrib` with operation 2 and value 50. The retained Hero PlayerMemory then
+dispatches the same `gCPlayerMemory_PS::ApplyMod` operation to its HP Stat, so
+the original `AddPercentageToVal` arithmetic and maximum cap run against the
+live browser property object. The browser save records the used stack count;
+dialogue item predicates and the inventory panel read the reduced amount.
+
+This closes the item effect and player-stat edge for one potion. It does not
+recreate the native `PS_QuickUse` task, sip animation, full ordered inventory
+observer registry, or generic item-use branches. The count is a browser-owned
+overlay on the verified initial stack, and the ordinary combat path still
+cannot injure an NPC or Hero. Thus potion state can be exercised through the
+runtime with a damaged Hero, but the full fight-and-heal loop is not yet
+playable.
+
+Validation on 6 October 2026: `npm run typecheck` passes; the focused Hero
+progression file passes all 3 tests, including a 37-to-87 HP use and
+save/restore of the remaining nine potions; the full suite passes (109 files,
+988 tests); `npm run build` succeeds after transforming 276 modules; and
+`git diff --check` is clean. The existing large Tervain bundle warning
+remains. No browser potion interaction or native `PS_QuickUse` execution was
+verified.
+
+## 51. Load dialog state for the visible Ardea actors
+
+The scene manifest contains 67 rendered Ardea people, while the original
+dialog-state seed covered only seven. New-game and restore now resolve every
+visible person through the exact archive and path in its scene source reference,
+then require one native entity-index row whose file index, entity index, name
+and GUID all match. The corresponding hash-checked entity record supplies the
+serialized `gCNPC_PS` and `gCDialog_PS` properties. The initial seven records
+are merged by GUID; repeated names remain separate actors.
+
+The session receipt stores the actor IDs and names together with the hashes of
+the three source files. Restores reject a changed scene-actor source identity.
+Older saves without that receipt still load: their saved enable flags apply to
+the original seven, while newly included actors keep the defaults read from
+their source. Dialogue resolves the current owner by its scene identity even
+when another resident has the same display name; other duplicate-name
+references remain unresolved instead of selecting an arbitrary person.
+
+This expands serialized NPC/Dialog facts for dialogue predicates and commands.
+It does not construct or activate native entities, run NPC routines or AI,
+enable combat, or add dialogue records. Those lifecycle and campaign links
+remain separate work.
+
+Validation on 6 October 2026: `npm run typecheck` passes; the focused
+`actor-dialogue-state.test.ts` suite passes all 10 tests, including exact source
+identity checks, duplicate display names and legacy-save flag defaults. The
+browser scene reports 67 characters ready and three source routine positions;
+entering Ardea loads the source quest journal with `Xardas_FindXardas` running,
+and browser diagnostics show no warnings or errors. The full suite passes (109
+files, 992 tests); `npm run build` passes after transforming 276 modules. The
+existing 5.27 MB Tervain bundle still exceeds the configured 1.2 MB chunk
+warning threshold; the Gothic 3 route bundle is 830 KB. `git diff --check` is
+clean. No remote deployment was performed.
+
+## 52. Resolve serialized NPC equipment-slot templates
+
+On first contact with a rendered Ardea person, the NPC combat bridge now reads
+the serialized `gCInventory_PS` slot tail from that person's exact,
+hash-checked entity record. It accepts the slot list only when its decoded count,
+indices and ordering agree, and every nonempty entry contains a decoded
+`gCInventorySlot` with present 20-byte `Template` and `Item` identities. Each
+template identity is then resolved through a unique native template-index row
+and a hash-checked template payload whose GUID must match. The record retains
+the slot index, template name/path/hash and separate item-instance GUID.
+
+For `Orc_GameStartRaider_Warrior_01`, slot 16 resolves to `Orc_Head_S12` at
+`NPC/__Master_Orcs/OrcBodyParts_Orc_Head_S12.tple` (SHA-256
+`d8973d2d3f4e8b19d73041be8443064abafd205a408387c973b7796d03fb502c`), and slot
+17 resolves to `Orc_Body_Warrior_Outlaw` at
+`NPC/__Master_Orcs/OrcBodyParts_Orc_Body_Warrior_Outlaw.tple` (SHA-256
+`0c8cc6735162e4a816cecbe39828e40d29314a11b13acde7c5d23f2de37ef522`). These
+are serialized slot references for head/body templates. They do not prove that
+treasure generation ran, that the items are attached to an active actor, or that
+either entry is a weapon or armor item. Their separate item-instance GUIDs are
+`79220ebbac147840a428aa71eb33512800000000` and
+`1ce894592b52a042b9975d84611a4c8800000000`, respectively.
+
+The first-contact notice now displays resolved slot names alongside the
+previously resolved deterministic weapon definition, while preserving the
+warning that contact is a browser bounds candidate and hit effects are not
+connected. Malformed or ambiguous slot data remains unresolved instead of
+silently selecting a template. This advances source inspection for cache-in;
+NPC construction, item creation, attachment, accepted collision and damage
+remain outstanding.
+
+Validation on 6 October 2026: `npm run typecheck` passes and the focused
+`npc-combat-runtime.test.ts` suite passes 3 tests, including the Raider's
+slot indices, template source hashes and separate item GUIDs. Subsequent
+worktree-wide revalidation also passes `npm run typecheck`, `npm test` (109
+files, 992 tests) and `npm run build` (276 modules). The build retains the
+existing 1,200 kB warning for Tervain's 5.27 MB bundle; the Gothic route bundle
+is 833 kB. A local browser session at `http://127.0.0.1:5177/gothic3/` loaded
+the 202-object Ardea scene with 67 characters and three source routine
+positions; entering it showed `Xardas_FindXardas`, Hero HP and the source clock.
+A fist input reported a miss, and talking at the spawn did not open dialogue.
+This confirms route entry only; no NPC contact, post-placement Diego response,
+combat effect or full playthrough was verified. No remote deployment was
+performed.
+
+## 53. Verify Diego's Start-point dialogue in the browser
+
+The local browser loaded the Ardea scene with 202 scene objects, 67 characters
+and three source routine positions. After following Diego's resolved native
+`Start` point, the Hero reached the `E · talk to Diego` prompt at approximately
+`(-36.9, 0.8, -9.2)` metres. The source dialogue panel offered two responses.
+`Hear Diego's news` completed as `BPANKRATZ31453`; `What happened here?`
+completed as `BPANKRATZ31454`, showing the Hero's question and Diego's source
+responses about the orc victory and enslavement of humans.
+
+The browser save action reported that position, world clock and quest journal
+were saved. After reloading the route and entering the restored session, the
+Hero returned to the same position with the Diego talk prompt. Opening his
+panel reported that no source dialogue was currently ready, consistent with
+the completed records no longer being offered. This is direct evidence for one
+post-placement source-dialogue path and browser save/restore; it does not prove
+all source Given flags, the whole Ardea dialogue set, native routine/AI
+execution, the `Find Xardas!` ending, or full-game completion.
+
+The interaction still uses the browser presentation actor and the selected
+source Start transform. Dialogue voice and camera behavior, resident movement,
+native entity context/cache-in/processing, combat, inventory generation and
+campaign progression remain separate unfinished systems.
+
+Validation on 6 October 2026: local browser review confirmed all 67 characters
+and three routine positions, the two completed Diego records, save and reload,
+and no ready repeat response after restore. `git diff --check` passes. This
+checkpoint changes documentation only; it does not claim a new build or test
+run.

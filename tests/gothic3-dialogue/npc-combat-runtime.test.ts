@@ -43,6 +43,18 @@ describe('Ardea NPC browser combat state source bridge', () => {
       sourceSha256: '46b70fff7a3844e8c16e6e71d69d8f7c57b5f1e8429d73e814b2ce9ffe9f2ac0',
       rawLevel: 10, rawLevelMax: 30, species: 5, npcType: 0, action: 24, aniState: 2,
       currentAttackerId: null, treasureSets: ['TS_Plunder_Orc_Warrior', 'TS_Weaponry_Orc_Halberd', '', '', ''],
+      serializedEquipmentSlots: { status: 'resolved', slots: [
+        { index: 16, templateGuid20: 'cabc7f17d0934e4887fa7b143b35064400000000',
+          templateName: 'Orc_Head_S12',
+          templateSourcePath: 'NPC/__Master_Orcs/OrcBodyParts_Orc_Head_S12.tple',
+          templateSourceSha256: 'd8973d2d3f4e8b19d73041be8443064abafd205a408387c973b7796d03fb502c',
+          itemGuid20: '79220ebbac147840a428aa71eb33512800000000' },
+        { index: 17, templateGuid20: '7655489e313e004ab73a2108b537461800000000',
+          templateName: 'Orc_Body_Warrior_Outlaw',
+          templateSourcePath: 'NPC/__Master_Orcs/OrcBodyParts_Orc_Body_Warrior_Outlaw.tple',
+          templateSourceSha256: '0c8cc6735162e4a816cecbe39828e40d29314a11b13acde7c5d23f2de37ef522',
+          itemGuid20: '1ce894592b52a042b9975d84611a4c8800000000' },
+      ] },
       initialization: 'browser-source-processing-range-state',
       hitPoints: 600, stamina: 300,
       processingRange: { hitPointsMax: 600, staminaMax: 300 } });

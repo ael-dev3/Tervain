@@ -28,6 +28,7 @@ class ArdeaDialogueFacts implements DialogueFacts {
   entity(name: string): NativeValue<{ id: string; name: string } | null> {
     if (name === '') return { known: true, value: null };
     if (name === PLAYER.name) return { known: true, value: PLAYER };
+    if (name === this.owner.name) return { known: true, value: { id: this.owner.id, name: this.owner.name } };
     const matches = this.people.filter((person) => person.name === name);
     if (matches.length > 1) return { known: false, reason: 'Native entity name is ambiguous in the active Ardea scene: ' + name };
     const person = matches[0];
@@ -56,6 +57,9 @@ class ArdeaDialogueFacts implements DialogueFacts {
     let targetIsNpc = false;
     if (targetName === PLAYER.name) {
       target = this.positions.player();
+      targetIsNpc = true;
+    } else if (targetName === this.owner.name) {
+      target = this.positions.person(this.owner);
       targetIsNpc = true;
     } else {
       const people = this.people.filter((person) => person.name === targetName);

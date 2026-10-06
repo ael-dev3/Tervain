@@ -14,18 +14,22 @@ import type { NativeGiveXpPlan, NativePlayerProgress } from './combat';
 import { loadOriginalPlayerProgressSeed } from './initial-state';
 import type { OriginalPlayerProgressSeed } from './initial-state';
 import { NativeGameEvents } from './game-events';
-import { NativeArdeaActorDialogState } from './actor-dialogue-state';
-import type { SourceArdeaActor } from './actor-dialogue-state';
+import { loadSceneActorDialogSources, NativeArdeaActorDialogState } from './actor-dialogue-state';
+import type { SceneActorDialogSources, SourceArdeaActor } from './actor-dialogue-state';
+import type { ScenePerson } from './types';
 import type { NativeValue } from './dialogue';
 import type { NativeHeroPlayerMemory } from './hero-property-runtime';
 import { loadBrowserInfoState } from './info-state';
 import type { InfoProviderId, NativeInfoState } from './info-state';
+import { NativeWorldData, sourceProperty } from './native-data';
 
 interface NativeQuestSessionSources {
   readonly initialQuestStates: string;
   readonly questDefinitions: string;
   readonly worldClock: string;
   readonly ardeaPeople?: string;
+  /** Source hashes and exact identities of the visible Ardea actors. */
+  readonly sceneActors?: string;
   readonly heroPlayerMemory?: string;
   readonly heroNpcProperties?: string;
   readonly infoProvider?: InfoProviderId;
@@ -73,6 +77,8 @@ export interface NativeQuestSessionSave {
   readonly heroQuestRewards?: NativeHeroQuestRewardState;
   /** Current Hero HP state, restored through the original PlayerMemory setters. */
   readonly heroVitals?: NativeHeroVitals;
+  /** Browser-owned consumable counts applied over the hash-checked source inventory. */
+  readonly consumedItems?: readonly { readonly templateGuid20: string; readonly amount: number }[];
 }
 
 export interface NativeHeroQuestRewardState {
@@ -89,9 +95,36 @@ interface QuestSourceBundle {
   definitions: NativeQuest[];
   initial: InitialQuestDocument;
   clock: NativeWorldClock;
-  ardeaActors: NativeArdeaActorDialogState;
+  ardeaActors: readonly SourceArdeaActor[];
   heroProgress: OriginalPlayerProgressSeed;
   sources: Omit<NativeQuestSessionSources, 'heroPlayerMemory'>;
+}
+
+interface LoadedActorDialogState {
+  readonly state: NativeArdeaActorDialogState;
+  readonly sceneActors: string | null;
+  readonly legacyActorIds: ReadonlySet<string>;
+}
+
+async function loadActorDialogState(source: QuestSourceBundle, people?: readonly ScenePerson[]): Promise<LoadedActorDialogState> {
+  const merged = new Map(source.ardeaActors.map((actor) => [actor.guid.toLowerCase(), actor]));
+  const legacyActorIds = new Set(merged.keys());
+  let sceneActors: SceneActorDialogSources | null = null;
+  if (people) {
+    sceneActors = await loadSceneActorDialogSources(people);
+    for (const actor of sceneActors.actors) {
+      const id = actor.guid.toLowerCase();
+      const prior = merged.get(id);
+      if (prior && prior.name !== actor.name) throw new Error('Scene actor name differs from the initial source record: ' + actor.name);
+      merged.set(id, actor);
+    }
+  }
+  const identity = sceneActors ? JSON.stringify({
+    files: sceneActors.sourceFiles,
+    actors: sceneActors.actors.map((actor) => [actor.guid.toLowerCase(), actor.name]).sort(([a], [b]) =>
+      String(a).localeCompare(String(b))),
+  }) : null;
+  return { state: new NativeArdeaActorDialogState([...merged.values()]), sceneActors: identity, legacyActorIds };
 }
 
 function sourceQuestReceipt(): InitialQuestReceipt {
@@ -118,6 +151,39 @@ function nonnegativeInt32(value: unknown): value is number {
 
 function signedInt32(value: unknown): value is number {
   return Number.isInteger(value) && (value as number) >= -0x80000000 && (value as number) <= 0x7fffffff;
+}
+
+function sourceRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+function readUniqueSourceProperty(entity: import('./native-data').NativeEntityRecord,
+  setName: string, property: string): unknown {
+  const result = sourceProperty(entity, setName, property);
+  if (result.kind !== 'found') throw new Error(result.kind === 'missing'
+    ? result.reason : `Source property ${setName}.${property} is ambiguous.`);
+  return result.value;
+}
+
+function nativeEnum(value: unknown, label: string): number {
+  const raw = sourceRecord(value) ? value.value : value;
+  if (!signedInt32(raw)) throw new Error(`Source ${label} is not a resolved native signed integer.`);
+  return raw;
+}
+
+function restoreConsumedItems(value: unknown, seed: OriginalPlayerProgressSeed): Map<string, number> {
+  if (value === undefined) return new Map();
+  if (!Array.isArray(value)) throw new Error('Browser save has invalid consumed-item state.');
+  const amounts = new Map<string, number>();
+  for (const entry of value) {
+    if (!sourceRecord(entry) || typeof entry.templateGuid20 !== 'string' ||
+        !/^[a-f0-9]{40}$/.test(entry.templateGuid20) || !nonnegativeInt32(entry.amount) || entry.amount < 1 ||
+        amounts.has(entry.templateGuid20)) throw new Error('Browser save has an invalid consumed-item entry.');
+    const stack = seed.inventory.find((candidate) => candidate.templateGuid20 === entry.templateGuid20);
+    if (!stack || entry.amount > stack.amount) throw new Error('Browser save consumes more items than the source starting stack.');
+    amounts.set(entry.templateGuid20, entry.amount);
+  }
+  return amounts;
 }
 
 function questRewardAttributeTags(definitions: readonly NativeQuest[]): string[] {
@@ -175,7 +241,7 @@ async function loadQuestSourceBundle(): Promise<QuestSourceBundle> {
       !initial.startup.unimplemented.length) {
     throw new Error('Original quest definitions, fresh-world seed and startup receipt do not agree.');
   }
-  return { definitions, initial, clock, ardeaActors: new NativeArdeaActorDialogState(ardeaPeople), heroProgress,
+  return { definitions, initial, clock, ardeaActors: Object.freeze(ardeaPeople), heroProgress,
     sources: { initialQuestStates: receipt.output.sha256, questDefinitions: questReceipt.sha256,
       worldClock: clockReceipt.sha256, ardeaPeople: ardeaPeopleReceipt.sha256, initializedPlayer: heroProgress.source.sha256,
       initialInventory: heroProgress.inventorySource.sha256 } };
@@ -210,12 +276,17 @@ export class NativeQuestRuntime {
   private readonly listeners = new Set<() => void>();
   private tickFailure: string | null = null;
   private heroAwardHistory: number[] = [];
+  private readonly consumedItems: Map<string, number>;
+  private readonly world: NativeWorldData;
 
   private constructor(readonly definitions: readonly NativeQuest[], readonly clock: NativeWorldClock,
     private readonly sources: NativeQuestSessionSources, initialGameEvents: readonly string[], infoState: NativeInfoState,
     actorDialogs: NativeArdeaActorDialogState, private readonly player: NativeHeroPlayerMemory,
-    private readonly heroProgressSeed: OriginalPlayerProgressSeed, awardHistory: readonly number[] = []) {
+    private readonly heroProgressSeed: OriginalPlayerProgressSeed, awardHistory: readonly number[] = [],
+    consumedItems: ReadonlyMap<string, number> = new Map(), world: NativeWorldData = new NativeWorldData()) {
     this.heroAwardHistory = [...awardHistory];
+    this.consumedItems = new Map(consumedItems);
+    this.world = world;
     this.quests = new NativeQuests(definitions, {
       clock: () => clock.questClock(),
       apply: (effects) => this.applyQuestEffects(effects),
@@ -227,8 +298,9 @@ export class NativeQuestRuntime {
   }
 
   /** Load verified source records and apply the one audited startup quest run. */
-  static async newGame(player: NativeHeroPlayerMemory): Promise<NativeQuestRuntime> {
+  static async newGame(player: NativeHeroPlayerMemory, scenePeople?: readonly ScenePerson[]): Promise<NativeQuestRuntime> {
     const [source, infoState] = await Promise.all([loadQuestSourceBundle(), loadBrowserInfoState()]);
+    const actorDialogs = await loadActorDialogState(source, scenePeople);
     const { definitions, initial, clock, heroProgress } = source;
     if (player.memory.getXP() !== heroProgress.xp || player.memory.getLPAttribs() !== heroProgress.lpAttribs ||
         player.npc.values.Level !== heroProgress.level) {
@@ -240,10 +312,11 @@ export class NativeQuestRuntime {
         clockState.adjustment.secondsPerDay !== 86400 || clockState.adjustment.daysPerYear !== 365 || !clockState.paused) {
       throw new Error('Original new-world clock seed is not the audited noon/factor-12 state.');
     }
-    const runtimeSources: NativeQuestSessionSources = { ...source.sources, heroPlayerMemory: player.source.sha256,
+    const runtimeSources: NativeQuestSessionSources = { ...source.sources,
+      ...(actorDialogs.sceneActors ? { sceneActors: actorDialogs.sceneActors } : {}), heroPlayerMemory: player.source.sha256,
       heroNpcProperties: player.npcSource.sha256, infoProvider: infoState.providerId };
     const runtime = new NativeQuestRuntime(definitions, clock, runtimeSources, player.gameEvents, infoState,
-      source.ardeaActors, player, heroProgress);
+      actorDialogs.state, player, heroProgress);
     seedQuestStates(runtime, initial.quests);
 
     const firstQuest = runtime.quests.run('Xardas_FindXardas');
@@ -259,10 +332,12 @@ export class NativeQuestRuntime {
   }
 
   /** Restore only a browser save tied to these exact source receipts. */
-  static async restore(raw: unknown, player: NativeHeroPlayerMemory): Promise<NativeQuestRuntime> {
+  static async restore(raw: unknown, player: NativeHeroPlayerMemory,
+    scenePeople?: readonly ScenePerson[]): Promise<NativeQuestRuntime> {
     if (!record(raw) || raw.schema !== 'gothic3-quest-session-save-v1' || !record(raw.sources) ||
         !record(raw.clock) || !record(raw.quests)) throw new Error('Unsupported Gothic 3 browser save.');
     const [source, infoState] = await Promise.all([loadQuestSourceBundle(), loadBrowserInfoState()]);
+    const actorDialogs = await loadActorDialogState(source, scenePeople);
     if (raw.sources.initialQuestStates !== source.sources.initialQuestStates ||
         raw.sources.questDefinitions !== source.sources.questDefinitions || raw.sources.worldClock !== source.sources.worldClock) {
       throw new Error('Browser save belongs to different Gothic 3 source data.');
@@ -278,6 +353,10 @@ export class NativeQuestRuntime {
     }
     if (raw.sources.ardeaPeople !== undefined && raw.sources.ardeaPeople !== source.sources.ardeaPeople) {
       throw new Error('Browser save belongs to different Ardea NPC source properties.');
+    }
+    if (raw.sources.sceneActors !== undefined &&
+        (typeof raw.sources.sceneActors !== 'string' || raw.sources.sceneActors !== actorDialogs.sceneActors)) {
+      throw new Error('Browser save belongs to different Ardea scene actor records.');
     }
     if (raw.sources.initializedPlayer !== undefined && raw.sources.initializedPlayer !== source.sources.initializedPlayer) {
       throw new Error('Browser save belongs to different initialized Hero progress data.');
@@ -381,14 +460,20 @@ export class NativeQuestRuntime {
         attributeBaseValues: Object.fromEntries(expectedTags.map((tag) => [tag, attributeBaseValues[tag] as number])),
       };
     }
-    const runtimeSources: NativeQuestSessionSources = { ...source.sources, heroPlayerMemory: player.source.sha256,
+    const runtimeSources: NativeQuestSessionSources = { ...source.sources,
+      ...(actorDialogs.sceneActors ? { sceneActors: actorDialogs.sceneActors } : {}), heroPlayerMemory: player.source.sha256,
       heroNpcProperties: player.npcSource.sha256, infoProvider: infoState.providerId };
+    const consumedItems = restoreConsumedItems(raw.consumedItems, heroProgress);
     const runtime = new NativeQuestRuntime(source.definitions, source.clock, runtimeSources, savedEvents, infoState,
-      source.ardeaActors, player, heroProgress, restoredAwardHistory);
+      actorDialogs.state, player, heroProgress, restoredAwardHistory, consumedItems);
     if (raw.talkedToArdeaActors !== undefined) runtime.actorDialogs.restoreTalkedToPlayerIds(raw.talkedToArdeaActors as string[]);
-    if (raw.tradeEnabledArdeaActors !== undefined) runtime.actorDialogs.restoreTradeEnabledIds(raw.tradeEnabledArdeaActors as string[]);
-    if (raw.partyEnabledArdeaActors !== undefined) runtime.actorDialogs.restoreEnabledDialogActorIds('PartyEnabled', raw.partyEnabledArdeaActors as string[]);
-    if (raw.teachEnabledArdeaActors !== undefined) runtime.actorDialogs.restoreEnabledDialogActorIds('TeachEnabled', raw.teachEnabledArdeaActors as string[]);
+    const legacyActorScope = actorDialogs.sceneActors ? actorDialogs.legacyActorIds : undefined;
+    if (raw.tradeEnabledArdeaActors !== undefined) runtime.actorDialogs.restoreEnabledDialogActorIds('TradeEnabled',
+      raw.tradeEnabledArdeaActors as string[], legacyActorScope);
+    if (raw.partyEnabledArdeaActors !== undefined) runtime.actorDialogs.restoreEnabledDialogActorIds('PartyEnabled',
+      raw.partyEnabledArdeaActors as string[], legacyActorScope);
+    if (raw.teachEnabledArdeaActors !== undefined) runtime.actorDialogs.restoreEnabledDialogActorIds('TeachEnabled',
+      raw.teachEnabledArdeaActors as string[], legacyActorScope);
     seedQuestStates(runtime, raw.quests as Record<string, QuestState>);
     const set = runtime.clock.set({ years: raw.clock.years, days: raw.clock.days, seconds: raw.clock.seconds });
     if (set.kind !== 'applied') throw new Error('Saved world time cannot be restored: ' + set.reason);
@@ -479,11 +564,59 @@ export class NativeQuestRuntime {
     if (!templateName) return { known: false, reason: 'Native conditional item template name is empty.' };
     const matching = this.heroProgressSeed.inventory.filter((stack) => stack.templateName === templateName);
     if (matching.length > 1) return { known: false, reason: 'Native starting inventory contains an ambiguous template name: ' + templateName };
-    return { known: true, value: matching[0]?.amount ?? null };
+    const stack = matching[0];
+    return { known: true, value: stack ? stack.amount - (this.consumedItems.get(stack.templateGuid20) ?? 0) : null };
   }
 
   heroInventoryStacks(): readonly OriginalPlayerProgressSeed['inventory'][number][] {
-    return this.heroProgressSeed.inventory.map((stack) => ({ ...stack }));
+    return this.heroProgressSeed.inventory.map((stack) => ({ ...stack,
+      amount: stack.amount - (this.consumedItems.get(stack.templateGuid20) ?? 0) }));
+  }
+
+  /** Browser item-use slice backed by the original potion template and
+   * PlayerMemory::ApplyMod. The native PS_QuickUse task, drink animation and
+   * inventory observer callbacks remain separate integration work. */
+  async useHealthPotion(): Promise<NativeValue<{ readonly hitPointsBefore: number; readonly hitPointsAfter: number;
+    readonly amountRemaining: number }>> {
+    const stacks = this.heroProgressSeed.inventory.filter((stack) => stack.templateName === 'It_Potion_Health');
+    if (stacks.length !== 1) return { known: false, reason: 'The hash-checked Hero seed does not resolve one health-potion stack.' };
+    const stack = stacks[0]!;
+    const remaining = stack.amount - (this.consumedItems.get(stack.templateGuid20) ?? 0);
+    if (remaining < 1) return { known: false, reason: 'No source-seeded health potions remain.' };
+    try {
+      const template = await this.world.templateByNameInSource('It_Potion_Health',
+        'Items/Items/Items_Story/Potions_Story_It_Potion_Health.tple');
+      if (template.kind !== 'found' || template.value.guid !== stack.templateGuid20 ||
+          template.value.source?.sha256 !== '07bcebba29ed8178d3e733aac0bbfeea61a050300798eb69f964dbf7cb3c1c58') {
+        return { known: false, reason: template.kind === 'found'
+          ? 'Health-potion template identity or source hash differs.'
+          : template.kind === 'missing' ? template.reason : 'Health-potion template name is ambiguous.' };
+      }
+      const entity = await this.world.template(template.value);
+      if (entity.kind !== 'found' || entity.value.guid !== stack.templateGuid20) {
+        return { known: false, reason: entity.kind === 'found' ? 'Health-potion payload identity differs.'
+          : entity.kind === 'missing' ? entity.reason : 'Health-potion template payload is ambiguous.' };
+      }
+      const useType = nativeEnum(readUniqueSourceProperty(entity.value, 'gCInteraction_PS', 'UseType'), 'UseType');
+      const tag = readUniqueSourceProperty(entity.value, 'gCItem_PS', 'ModAttrib1Tag');
+      const operation = nativeEnum(readUniqueSourceProperty(entity.value, 'gCItem_PS', 'ModAttrib1Op'), 'ModAttrib1Op');
+      const amount = nativeEnum(readUniqueSourceProperty(entity.value, 'gCItem_PS', 'ModAttrib1Value'), 'ModAttrib1Value');
+      const scriptUse = readUniqueSourceProperty(entity.value, 'gCInteraction_PS', 'ScriptUseFunc');
+      if (useType !== 16 || tag !== 'HP' || operation !== 2 || amount !== 50 || scriptUse !== '') {
+        return { known: false, reason: 'Health-potion use properties differ from the audited HP +50% source record.' };
+      }
+      const before = this.player.memory.getValue('HP');
+      const maximum = this.player.memory.getMaximum('HP');
+      const applied = this.player.memory.applyMod(tag, amount, operation);
+      if (!applied.supported) return { known: false, reason: applied.reason };
+      const after = this.player.memory.getValue('HP');
+      if (after < before || after > maximum) return { known: false, reason: 'Native ApplyMod produced an unexpected Hero HP value.' };
+      this.consumedItems.set(stack.templateGuid20, (this.consumedItems.get(stack.templateGuid20) ?? 0) + 1);
+      for (const listener of this.listeners) listener();
+      return { known: true, value: { hitPointsBefore: before, hitPointsAfter: after, amountRemaining: remaining - 1 } };
+    } catch (error) {
+      return { known: false, reason: error instanceof Error ? error.message : String(error) };
+    }
   }
 
   canAwardExperienceScripts(requestedAmounts: readonly number[]): NativeValue<true> {
@@ -594,7 +727,8 @@ export class NativeQuestRuntime {
       heroProgress: { xp: this.player.memory.getXP(), level: this.player.npc.values.Level as number,
         lpAttribs: this.player.memory.getLPAttribs(), awards: [...this.heroAwardHistory] },
       heroQuestRewards: this.heroQuestRewardState(),
-      heroVitals: readHeroVitals(this.player) };
+      heroVitals: readHeroVitals(this.player),
+      consumedItems: [...this.consumedItems.entries()].map(([templateGuid20, amount]) => ({ templateGuid20, amount })) };
   }
 
   private playerProgress(): NativePlayerProgress {

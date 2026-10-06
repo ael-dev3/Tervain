@@ -1,12 +1,15 @@
 import { describe, expect, it } from 'vitest';
-import { NativeArdeaActorDialogState } from '../../src/gothic3/actor-dialogue-state';
+import { loadSceneActorDialogSources, NativeArdeaActorDialogState } from '../../src/gothic3/actor-dialogue-state';
 import type { SourceArdeaActor } from '../../src/gothic3/actor-dialogue-state';
 import { NativeQuests, QuestStatus } from '../../src/gothic3/quest-state';
 import type { NativeQuest, NativeSource } from '../../src/gothic3/catalog';
+import type { NativeEntityIndex, NativeEntityRecord, NativeSourceFile } from '../../src/gothic3/native-data';
+import type { ScenePerson } from '../../src/gothic3/types';
 
 const guid = '0123456789abcdef0123456789abcdef01234567';
+const secondGuid = '1123456789abcdef0123456789abcdef01234567';
 const sourceActor = (talkedToPlayer = false, tradeEnabled = false, partyEnabled = false,
-  teachEnabled = false): SourceArdeaActor => ({ name: 'Diego', guid,
+  teachEnabled = false, actorGuid = guid, name = 'Diego'): SourceArdeaActor => ({ name, guid: actorGuid,
   propertySets: [
     { name: 'gCNPC_PS', properties: [] },
     { name: 'gCDialog_PS', properties: [
@@ -16,6 +19,74 @@ const sourceActor = (talkedToPlayer = false, tradeEnabled = false, partyEnabled 
       { name: 'TeachEnabled', status: 'decoded', value: teachEnabled },
     ] },
   ],
+});
+
+const actorPath = 'G3_World_01/Myrtana/Ardea_City/Ardea_NPC.lrentdat';
+const actorSource: NativeSource = { archive: 'G3_World_01.pak', path: actorPath, sha256: 'b'.repeat(64),
+  selection: 'test', layers: [] };
+const actorPerson: ScenePerson = { id: guid, name: 'Guard', position: [0, 0, 0],
+  source: actorSource.archive + ' :: ' + actorPath + ' # entity 4' };
+const actorRecord = (id = guid, name = 'Guard'): NativeEntityRecord => ({ key: 'guard-key', index: 4, name, guid: id,
+  creator: null, flags: [], worldMatrix: [], propertySets: [
+    { name: 'gCNPC_PS', version: 1, values: {} },
+    { name: 'gCDialog_PS', version: 1, values: { TalkedToPlayer: false, TradeEnabled: true,
+      PartyEnabled: false, TeachEnabled: false } },
+  ] });
+const actorIndex: NativeEntityIndex = { key: 'guard-key', name: 'Guard', guid, creator: null, file: 3,
+  entityIndex: 4, propertySets: ['gCNPC_PS', 'gCDialog_PS'], hasGameplay: true, position: [0, 0, 0],
+  dataChunk: 'guard.json' };
+const actorFile: NativeSourceFile = { index: 3, source: actorSource, entities: 1, gameplayEntities: 1 };
+
+function actorWorld(indexRow = actorIndex, record = actorRecord(), file = actorFile) {
+  return {
+    sourceByPath: async () => ({ kind: 'found' as const, value: file }),
+    entityIndex: async () => [indexRow],
+    entity: async () => ({ kind: 'found' as const, value: record }),
+  };
+}
+
+describe('visible Ardea actor source resolution', () => {
+  it('loads dialog flags only from the exact indexed source identity', async () => {
+    const result = await loadSceneActorDialogSources([actorPerson], actorWorld());
+    expect(result.actors).toMatchObject([{ name: 'Guard', guid, propertySets: [
+      { name: 'gCNPC_PS' }, { name: 'gCDialog_PS', properties: [
+        { name: 'TalkedToPlayer', status: 'decoded', value: false },
+        { name: 'TradeEnabled', status: 'decoded', value: true },
+        { name: 'PartyEnabled', status: 'decoded', value: false },
+        { name: 'TeachEnabled', status: 'decoded', value: false },
+      ] },
+    ] }]);
+    expect(result.sourceFiles).toEqual([{ archive: actorSource.archive, path: actorPath, sha256: actorSource.sha256 }]);
+  });
+
+  it('rejects a name match whose indexed entity number or archive differs', async () => {
+    await expect(loadSceneActorDialogSources([actorPerson], actorWorld({ ...actorIndex, entityIndex: 5 })))
+      .rejects.toThrow(/exact native entity-index row/);
+    await expect(loadSceneActorDialogSources([actorPerson], actorWorld({ ...actorIndex, name: 'Other' })))
+      .rejects.toThrow(/exact native entity-index row/);
+    await expect(loadSceneActorDialogSources([actorPerson], actorWorld({ ...actorIndex, guid: secondGuid })))
+      .rejects.toThrow(/exact native entity-index row/);
+    await expect(loadSceneActorDialogSources([actorPerson], actorWorld(actorIndex, actorRecord(secondGuid, 'Other'))))
+      .rejects.toThrow(/Loaded scene actor identity differs/);
+    await expect(loadSceneActorDialogSources([actorPerson], actorWorld(actorIndex, actorRecord(), {
+      ...actorFile, source: { ...actorSource, archive: 'other.pak' },
+    }))).rejects.toThrow(/archive\/path identity differs/);
+  });
+
+  it('allows repeated display names when their native identities differ', () => {
+    const state = new NativeArdeaActorDialogState([sourceActor(false, false, false, false, guid, 'Guard'),
+      sourceActor(false, true, false, false, secondGuid, 'Guard')]);
+    expect(state.dialog({ id: secondGuid, name: 'Guard' })).toMatchObject({
+      known: true, value: { tradeEnabled: true },
+    });
+  });
+
+  it('keeps source defaults for scene actors absent from a legacy save roster', () => {
+    const state = new NativeArdeaActorDialogState([sourceActor(), sourceActor(false, true, false, false, secondGuid, 'Guard')]);
+    state.restoreEnabledDialogActorIds('TradeEnabled', [guid], new Set([guid]));
+    expect(state.dialogFlag({ id: guid, name: 'Diego' }, 'TradeEnabled')).toEqual({ known: true, value: true });
+    expect(state.dialogFlag({ id: secondGuid, name: 'Guard' }, 'TradeEnabled')).toEqual({ known: true, value: true });
+  });
 });
 
 describe('native Ardea actor dialog state', () => {

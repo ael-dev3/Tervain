@@ -106,6 +106,21 @@ to close those world/entity lifecycle gaps and exercise the behavior in the
 browser. The same evidence-to-runtime-to-playable-review chain is required for
 each quest, NPC, interaction and campaign transition.
 
+The health potion is a second, smaller example of the same method. The runtime
+resolves the Hero's `It_Potion_Health` stack to its exact source template and
+checks its identity and modifier before use. The inventory action in
+[`main.ts`](../../src/gothic3/main.ts) calls
+[`useHealthPotion()`](../../src/gothic3/quest-runtime.ts), which applies the
+source-defined HP change through
+[`PlayerMemory::ApplyMod`](../../src/gothic3/player-properties.ts); the browser
+save retains the remaining stack count. A focused case verifies the HP change
+and save/restore in
+[`hero-progression.test.ts`](../../tests/gothic3-dialogue/hero-progression.test.ts).
+This connects the verified item effect to player state and saving, but does not
+recreate the native quick-use task or animation, and combat still cannot injure
+the Hero in ordinary play. The detailed evidence and limits are recorded in
+[checkpoint 50](gothic3-rebuilding-process.md#50-apply-the-source-defined-health-potion-effect).
+
 ## Where each stage lives
 
 | Stage | Repository location | Result |
@@ -138,8 +153,10 @@ manual browser conversation with Milten confirmed that the
 source record `BPANKRATZ31756` requires 12 `It_FiremageCup` items. Bounded
 `CondItems` checks now read the Hero's 121 hash-checked starting inventory
 stacks, so this requirement is known to be unmet at the captured starting
-state. That inventory is an immutable source snapshot; item use, transfer,
-equipment and other live inventory changes are not implemented. Source-backed
+state. The source inventory remains the baseline, with a browser-owned health
+potion action now applying its exact source modifier and saving its remaining
+count. Other item use, transfer, equipment and live inventory changes are not
+implemented. Source-backed
 `SetTradeEnabled` commands from Jack and Hamlar now update `Dialog.TradeEnabled`
 and persist through browser saves; the trade interface and item exchange remain
 unavailable. Source-backed
@@ -147,10 +164,18 @@ unavailable. Source-backed
 Dialog flags too, while follower behavior and training effects remain absent.
 At scene startup, three Ardea residents are now placed at their native `Start`
 routine points when all stored work/rest/sleep assignments agree. Diego's
-source point is within the original 5 m dialogue radius of `Ardea_4Friends`,
-but the response has not yet been retested in the browser after this placement
-change. The browser still does not execute the native scheduler, move residents
-between points or activate their native entity lifecycle.
+source point is within the original 5 m dialogue radius of `Ardea_4Friends`.
+After source placement, the browser opens Diego's panel and completes two
+responses; the saved session restores with no repeat response currently ready.
+The browser still does not execute the native scheduler, move residents between
+points or activate their native entity lifecycle.
+Actor-dialog state now covers all 67 visible Ardea characters. Each is resolved
+to its hash-checked source archive and path, exact entity index, name and GUID;
+the browser save records those source identities, and older saves preserve the
+new actors' source-default enable flags. Repeated display names remain distinct
+by GUID, with unresolved secondary name references kept ambiguous. This reads
+serialized NPC/Dialog flags only; it does not activate routines, AI or native
+entity lifecycle. See [checkpoint 51](gothic3-rebuilding-process.md#51-load-dialog-state-for-the-visible-ardea-actors).
 Source-backed
 `GiveXP` awards update retained Hero PlayerMemory;
 threshold crossings also update a source-constructed Hero NPC Level, grant LP,
@@ -165,7 +190,11 @@ these values. Enclave-fame rewards, arena updates and the Ardea_Revolution
 tutorial popup still block their quests.
 The play HUD displays Hero HP; the source-backed `SetHitPoints` path clamps it
 to the live native range and browser saves preserve it through the PlayerMemory
-setters. Attacks and healing are not connected to that state yet.
+setters. Inventory now has a working health-potion action: it verifies the
+exact source template, applies the native `HP` modifier through
+`gCPlayerMemory_PS::ApplyMod`, and saves the remaining count. The original
+`PS_QuickUse` task, drink animation and inventory observer callbacks are still
+outside the browser runtime, and attacks still do not damage live NPCs.
 These are integrated foundations, while most original dialogue
 progression, combat, NPC schedules and movement, inventory, faction
 consequences and endings still need to be rebuilt. A byte-audited combat kernel
@@ -194,13 +223,21 @@ hash-checked templates and resolves deterministic Weaponry recipes to item
 damage and equipment-slot plans. For the Ardea Raider, the recipe resolves to
 `It_Axe_OrcSword_01` with 125 Edge damage; random Plunder generation and native
 cache-in are still absent, so the item is not attached to an active actor. The
-next integration gate is to confirm Diego's proximity response after source
-placement, construct and activate a source-backed NPC through the native
-lifecycle, then connect accepted contact, damage, response, defeat, quest
-counters and save/load as one playable encounter. The current limits and controls are listed in the
+same source actor record now resolves serialized inventory references for
+`Orc_Head_S12` in slot 16 and `Orc_Body_Warrior_Outlaw` in slot 17 to their
+hash-checked templates. These are serialized head/body template references,
+not generated treasure or proof of active equipment. Diego's post-placement
+dialogue has now been verified in the browser. The next integration gate is to
+finish tracing random treasure generation and connect the resolved weaponry
+recipe through NPC cache-in, then construct and activate a source-backed NPC
+through the native lifecycle. After that, connect accepted contact, damage,
+response, defeat, quest counters and save/load as one playable encounter. The
+current limits and controls are listed in the
 [browser-port scope](gothic3-browser-port.md); native readers, conversion
 choices and dated implementation checkpoints are in the
-[detailed process record](gothic3-rebuilding-process.md).
+[detailed process record](gothic3-rebuilding-process.md), including
+[checkpoint 52](gothic3-rebuilding-process.md#52-resolve-serialized-npc-equipment-slot-templates)
+and [checkpoint 53](gothic3-rebuilding-process.md#53-verify-diegos-start-point-dialogue-in-the-browser).
 
 The requested second URL is now live at
 [Gothic 3 / Ardea](https://ael-dev3.github.io/Tervain/gothic3/). It serves the
@@ -221,18 +258,22 @@ Ardea Raider's `It_Axe_OrcSword_01` as a UseType 52, 125-damage Edge weapon
 whose native primary slot is 6. Plunder generation remains unimplemented, and
 this source recipe is not yet applied to a live entity. The unarmed `Fist`
 damage carrier resolves from its exact template path, but it is not attached to
-the Hero. The earlier dialogue review measured Diego 1073.9 adjusted units from
-`Ardea_4Friends` before routine placement was connected; the post-placement
-response has not been checked yet. The next milestone is to verify that source
-predicate in the browser, finish tracing random treasure generation, and
+the Hero. The Raider's serialized inventory record resolves head and body
+template references in slots 16 and 17, but these are not cache-in attachments.
+The post-placement browser check reached Diego at his resolved source `Start`
+point and opened his dialogue. Two source responses completed as
+`BPANKRATZ31453` and `BPANKRATZ31454`; after saving and reloading, his panel had
+no repeat response available. This verifies that bounded dialogue path and the
+saved-session behavior for this encounter. It does not run Diego's schedule or
+AI. The next milestone is to finish tracing random treasure generation and
 connect the resolved weaponry recipe through NPC cache-in so a resident's
 generated inventory, equipped weapon and armor come from the same live actor.
-Activate that resident through the
-full entity lifecycle: construct it, attach its properties, supply its world
-context, cache it in and register it for scene processing. Current browser
-actors remain presentation objects with a separate mutable state record; this
-bridge does not make them active engine entities. The routine-point integration
-seeds transforms only and does not bypass dialogue conditions.
+Activate that resident through the full entity lifecycle: construct it, attach
+its properties, supply its world context, cache it in and register it for scene
+processing. Current browser actors remain presentation objects with a separate
+mutable state record; this bridge does not make them active engine entities.
+The routine-point integration seeds transforms only and does not bypass
+dialogue conditions.
 
 Once that gate works, use the resident to complete a small encounter from start
 to finish: approach and interact, run the source-backed dialogue and quest

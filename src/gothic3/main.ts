@@ -330,7 +330,9 @@ function showInventory(): void {
   const stacks = questRuntime.heroInventoryStacks();
   paragraph(content, stacks.length + ' source-seeded stacks · original AssureItemsEx order.');
   paragraph(content, stacks.filter((stack) => stack.learned).length + ' stack records have the original Learned flag set.');
-  paragraph(content, 'This is the verified starting inventory snapshot. Item use, equipment changes, transfers, loot and inventory saves are not connected yet.');
+  paragraph(content, 'Health potions now apply their hash-checked source HP modifier and save their remaining count. Native use animation, equipment changes, transfers and loot are still being rebuilt.');
+  const vitals = questRuntime.heroVitals();
+  paragraph(content, 'Hero HP ' + vitals.hitPoints + ' / ' + vitals.hitPointsMax + ' · health potion restores 50% of maximum HP.');
   const list = document.createElement('ol');
   list.className = 'inventory-list';
   for (const stack of stacks) {
@@ -341,6 +343,28 @@ function showInventory(): void {
     amount.className = 'inventory-count';
     amount.textContent = '× ' + stack.amount + (stack.learned ? ' · learned' : '');
     row.append(name, amount);
+    if (stack.templateName === 'It_Potion_Health') {
+      const use = document.createElement('button');
+      use.type = 'button';
+      use.textContent = 'Drink';
+      use.disabled = stack.amount < 1 || vitals.hitPoints >= vitals.hitPointsMax;
+      use.title = use.disabled && vitals.hitPoints >= vitals.hitPointsMax
+        ? 'Health is already full.' : 'Restore 50% of maximum HP.';
+      use.onclick = () => {
+        use.disabled = true;
+        void questRuntime!.useHealthPotion().then((result) => {
+          if (!result.known) {
+            notify('Health potion unavailable: ' + result.reason);
+            showInventory();
+            return;
+          }
+          notify('Health potion used · HP ' + result.value.hitPointsBefore + ' → ' + result.value.hitPointsAfter +
+            ' · ' + result.value.amountRemaining + ' remaining. Press P to save.');
+          showInventory();
+        });
+      };
+      row.append(use);
+    }
     list.append(row);
   }
   content.append(list);
@@ -575,8 +599,12 @@ function initializeContactNpc(contact: HeroFistContactCandidate): void {
     const weaponSummary = sourceWeapon
       ? ` Source weapon definition: ${sourceWeapon.itemName} · ${sourceWeapon.carrier!.damageAmount} damage.`
       : '';
+    const slotSummary = actor.serializedEquipmentSlots.status === 'resolved'
+      ? ` Serialized inventory slots: ${actor.serializedEquipmentSlots.slots.map((slot) =>
+        `${slot.index} ${slot.templateName}`).join(', ') || 'none'}.`
+      : ` Serialized inventory slots unresolved: ${actor.serializedEquipmentSlots.reason}`;
     notify('Source actor resolved: ' + actor.name + ' · ' + actor.hitPoints + ' / ' + maximum +
-      ' HP.' + weaponSummary + ' Contact is still a browser bounds candidate; hit effects are not connected.');
+      ' HP.' + slotSummary + weaponSummary + ' Contact is still a browser bounds candidate; hit effects are not connected.');
   }).catch((error: unknown) => {
     notify('Fist contact: ' + contact.name + '. Source combat state failed: ' + String(error));
   });
@@ -918,9 +946,9 @@ async function enterWorld(): Promise<void> {
     const player = await loadHeroMemoryRuntime();
     const savedSession = savedNativeSession();
     if (savedSession.kind === 'saved') {
-      questRuntime = await NativeQuestRuntime.restore(savedSession.value, player);
+      questRuntime = await NativeQuestRuntime.restore(savedSession.value, player, manifest.people);
       restoredSession = true;
-    } else questRuntime = await NativeQuestRuntime.newGame(player);
+    } else questRuntime = await NativeQuestRuntime.newGame(player, manifest.people);
     questRuntimeError = null;
     npcCombatRuntime = new BrowserArdeaNpcCombatRuntime(manifest.people);
     const savedNpcCombat = savedNativeNpcCombatSession();

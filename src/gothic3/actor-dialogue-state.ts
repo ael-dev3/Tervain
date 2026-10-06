@@ -1,4 +1,8 @@
 import type { DialogueEntity, NativeValue } from './dialogue';
+import { NativeWorldData } from './native-data';
+import type { NativeEntityIndex, NativeEntityRecord, NativeSourceFile,
+  NativeWorldData as NativeWorldDataType, SourceLookup } from './native-data';
+import type { ScenePerson } from './types';
 
 export interface NativeActorDialogState {
   readonly hasNpc: boolean;
@@ -15,12 +19,90 @@ interface SourceProperty { name: string; status?: string; value?: unknown }
 interface SourcePropertySet { name: string; properties: SourceProperty[] }
 export interface SourceArdeaActor { name: string; guid: string; propertySets: SourcePropertySet[] }
 
+export interface SceneActorDialogSources {
+  readonly actors: readonly SourceArdeaActor[];
+  readonly sourceFiles: readonly { readonly archive: string; readonly path: string; readonly sha256: string }[];
+}
+
+type SceneActorWorld = Pick<NativeWorldDataType, 'sourceByPath' | 'entityIndex' | 'entity'>;
+
+function sourceLookup<T>(result: SourceLookup<T>, label: string): T {
+  if (result.kind !== 'found') throw new Error(result.kind === 'missing'
+    ? result.reason
+    : 'Native scene actor source is ambiguous: ' + label);
+  return result.value;
+}
+
+function sourceReference(person: ScenePerson): { archive: string; path: string; entityIndex: number } {
+  const match = /^(.+?) :: (.+) # entity (\d+)$/.exec(person.source);
+  if (!match || !match[1] || !match[2]) throw new Error('Scene actor source reference is malformed: ' + person.name);
+  const entityIndex = Number(match[3]);
+  if (!Number.isSafeInteger(entityIndex) || entityIndex < 0) throw new Error('Scene actor entity index is invalid: ' + person.name);
+  return { archive: match[1], path: match[2], entityIndex };
+}
+
+function actorSource(entity: NativeEntityRecord): SourceArdeaActor {
+  return {
+    name: entity.name,
+    guid: entity.guid ?? '',
+    propertySets: entity.propertySets.map((set) => ({ name: set.name, properties: [
+      ...Object.entries(set.values).map(([name, value]) => ({ name, status: 'decoded', value })),
+      ...(set.unknownProperties ?? []).map((property) => ({ name: property.name, status: property.status })),
+      ...(set.duplicateProperties ?? []).map((property) => ({ name: property.name, status: 'duplicate', value: property.value })),
+    ] })),
+  };
+}
+
+/** Resolve every rendered scene actor to the exact indexed native world record.
+ * This reads serialized NPC/Dialog properties only; it does not activate the
+ * original entity, context, routine, AI or PVS state. */
+export async function loadSceneActorDialogSources(people: readonly ScenePerson[],
+  world: SceneActorWorld = new NativeWorldData()): Promise<SceneActorDialogSources> {
+  const references = people.map((person) => ({ person, ref: sourceReference(person) }));
+  if (new Set(references.map(({ person }) => person.id.toLowerCase())).size !== references.length) {
+    throw new Error('Scene actor source list contains duplicate native identities.');
+  }
+  const paths = [...new Set(references.map(({ ref }) => ref.path))].sort();
+  const sources = new Map<string, NativeSourceFile>();
+  await Promise.all(paths.map(async (path) => {
+    const source = sourceLookup(await world.sourceByPath(path), path);
+    const expectedArchives = new Set(references.filter((entry) => entry.ref.path === path).map((entry) => entry.ref.archive));
+    if (expectedArchives.size !== 1 || source.source.archive !== [...expectedArchives][0]) {
+      throw new Error('Scene actor archive/path identity differs for ' + path);
+    }
+    sources.set(path, source);
+  }));
+  const indexes = new Map<string, readonly NativeEntityIndex[]>();
+  await Promise.all(paths.map(async (path) => indexes.set(path, await world.entityIndex(sources.get(path)!.index))));
+  const actors = await Promise.all(references.map(async ({ person, ref }) => {
+    const source = sources.get(ref.path)!;
+    const rows = indexes.get(ref.path)!.filter((row) => row.file === source.index && row.entityIndex === ref.entityIndex &&
+      row.name === person.name && row.guid?.toLowerCase() === person.id.toLowerCase());
+    if (rows.length !== 1) throw new Error(rows.length
+      ? 'Scene actor identity resolves to multiple native entity-index rows: ' + person.name
+      : 'Scene actor does not resolve to its exact native entity-index row: ' + person.name);
+    const entity = sourceLookup(await world.entity(rows[0]!), person.name);
+    if (entity.name !== person.name || entity.guid?.toLowerCase() !== person.id.toLowerCase()) {
+      throw new Error('Loaded scene actor identity differs from its rendered actor: ' + person.name);
+    }
+    return actorSource(entity);
+  }));
+  const sourceFiles = paths.map((path) => {
+    const source = sources.get(path)!.source;
+    return Object.freeze({ archive: source.archive, path: source.path, sha256: source.sha256 });
+  });
+  return Object.freeze({ actors: Object.freeze(actors), sourceFiles: Object.freeze(sourceFiles) });
+}
+
 interface ActorRow {
   readonly id: string;
   readonly name: string;
   readonly hasNpc: boolean;
   readonly hasDialog: boolean;
   readonly sourceTalkedToPlayer: boolean;
+  readonly sourceTradeEnabled: boolean;
+  readonly sourcePartyEnabled: boolean;
+  readonly sourceTeachEnabled: boolean;
   talkedToPlayer: boolean;
   tradeEnabled: boolean;
   partyEnabled: boolean;
@@ -62,8 +144,9 @@ export class NativeArdeaActorDialogState {
       const partyEnabled = hasDialog ? flag(dialogSets[0]!.properties, 'PartyEnabled') : false;
       const teachEnabled = hasDialog ? flag(dialogSets[0]!.properties, 'TeachEnabled') : false;
       const row: ActorRow = { id, name: entity.name, hasNpc: npcSets.length === 1, hasDialog,
-        sourceTalkedToPlayer, talkedToPlayer: sourceTalkedToPlayer, tradeEnabled, partyEnabled, teachEnabled };
-      if (this.rows.has(id) || [...this.rows.values()].some((existing) => existing.name === row.name)) {
+        sourceTalkedToPlayer, sourceTradeEnabled: tradeEnabled, sourcePartyEnabled: partyEnabled,
+        sourceTeachEnabled: teachEnabled, talkedToPlayer: sourceTalkedToPlayer, tradeEnabled, partyEnabled, teachEnabled };
+      if (this.rows.has(id)) {
         throw new Error('Duplicate native Ardea actor identity: ' + entity.name);
       }
       this.rows.set(id, row);
@@ -150,7 +233,8 @@ export class NativeArdeaActorDialogState {
     this.restoreEnabledDialogActorIds('TradeEnabled', ids);
   }
 
-  restoreEnabledDialogActorIds(field: NativeActorDialogFlag, ids: readonly string[]): void {
+  restoreEnabledDialogActorIds(field: NativeActorDialogFlag, ids: readonly string[],
+    sourceOnlyIds?: ReadonlySet<string>): void {
     const restored = new Set<string>();
     for (const value of ids) {
       const id = actorId(value);
@@ -159,6 +243,10 @@ export class NativeArdeaActorDialogState {
       restored.add(id);
     }
     const key = field === 'TradeEnabled' ? 'tradeEnabled' : field === 'PartyEnabled' ? 'partyEnabled' : 'teachEnabled';
-    for (const row of this.rows.values()) row[key] = row.hasDialog && restored.has(row.id);
+    const sourceKey = field === 'TradeEnabled' ? 'sourceTradeEnabled' : field === 'PartyEnabled' ? 'sourcePartyEnabled' : 'sourceTeachEnabled';
+    for (const row of this.rows.values()) {
+      row[key] = sourceOnlyIds && !sourceOnlyIds.has(row.id) ? row.hasDialog && row[sourceKey]
+        : row.hasDialog && restored.has(row.id);
+    }
   }
 }

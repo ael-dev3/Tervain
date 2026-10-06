@@ -478,8 +478,8 @@ export class ExplorerController {
     this.camera.updateMatrixWorld();
   }
 
-  private isFormTarget(target: EventTarget | null): boolean {
-    return target instanceof Element && !!target.closest('input, textarea, select, button, [contenteditable]:not([contenteditable="false"]), [role="textbox"]');
+  private isTextEntryTarget(target: EventTarget | null): boolean {
+    return target instanceof Element && !!target.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"]), [role="textbox"]');
   }
 
   private clearInput(): void {
@@ -501,7 +501,11 @@ export class ExplorerController {
       this.unlockPointer();
       return;
     }
-    if (!this.enabled || this.disposed || this.isFormTarget(event.target) || event.ctrlKey || event.metaKey || event.altKey) return;
+    if (!this.enabled || this.disposed || this.isTextEntryTarget(event.target) || event.ctrlKey || event.metaKey || event.altKey) return;
+    // Preserve native button activation and keyboard traversal while allowing
+    // gameplay shortcuts after a toolbar button has retained focus.
+    if (event.target instanceof Element && event.target.closest('button, a') &&
+        ['Enter', 'Space', 'Tab'].includes(event.code)) return;
     if (MOVEMENT_KEYS.has(event.code)) {
       this.keys.add(event.code);
       event.preventDefault();
@@ -611,6 +615,6 @@ export class ExplorerController {
   };
 
   private readonly onFocusIn = (event: FocusEvent): void => {
-    if (this.isFormTarget(event.target)) this.onBlur();
+    if (this.isTextEntryTarget(event.target)) this.onBlur();
   };
 }

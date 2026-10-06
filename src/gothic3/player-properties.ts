@@ -461,10 +461,12 @@ export class OriginalPlayerMemory {
   addMaximum(tag: string, value: number): OriginalPlayerPropertyResult<boolean> { const journal = new Journal(); return journal.finish(() => this.change(tag, 'add-maximum', int32(value, 'Maximum'), journal)); }
   addBaseValue(tag: string, value: number): OriginalPlayerPropertyResult<boolean> { const journal = new Journal(); return journal.finish(() => this.change(tag, 'add-base', int32(value, 'BaseValue'), journal)); }
   addModifier(tag: string, value: number): OriginalPlayerPropertyResult<boolean> { const journal = new Journal(); return journal.finish(() => this.change(tag, 'add-modifier', int32(value, 'Modifier'), journal)); }
-  applyMod(tag: string, operation: number, argument: number): OriginalPlayerPropertyResult<boolean> {
+  /** Exact gCPlayerMemory_PS::ApplyMod: dispatches to attribute ApplyPerm. */
+  applyMod(tag: string, argument: number, operation: number): OriginalPlayerPropertyResult<boolean> {
     const journal = new Journal(); return journal.finish(() => {
       int32(operation, 'Operation'); int32(argument, 'Argument');
-      return this.getAttribute(tag)?.temporary(operation, argument, false, journal) ?? false;
+      const attribute = this.getAttribute(tag);
+      return attribute ? attribute.permanent(operation, argument, journal) : false;
     });
   }
   unapplyMod(tag: string, operation: number, argument: number): OriginalPlayerPropertyResult<boolean> {

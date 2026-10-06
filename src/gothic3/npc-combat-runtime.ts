@@ -25,9 +25,23 @@ interface NativeNpcSourceFacts {
   readonly statePosition: number;
   readonly currentAttackerId: string | null;
   readonly treasureSets: readonly string[];
+  readonly serializedEquipmentSlots: NativeNpcSerializedEquipmentSlots;
   readonly navigationValid: true;
   readonly serializedPoints: NativeNpcSerializedPoints;
 }
+
+export type NativeNpcSerializedEquipmentSlots =
+  | { readonly status: 'resolved'; readonly slots: readonly {
+      readonly index: number; readonly templateGuid20: string; readonly templateName: string;
+      readonly templateSourcePath: string; readonly templateSourceSha256: string; readonly itemGuid20: string;
+    }[] }
+  | { readonly status: 'unknown'; readonly reason: string };
+
+type NativeNpcSerializedEquipmentSlotRefs =
+  | { readonly status: 'resolved'; readonly slots: readonly {
+      readonly index: number; readonly templateGuid20: string; readonly itemGuid20: string;
+    }[] }
+  | { readonly status: 'unknown'; readonly reason: string };
 
 export interface BrowserArdeaNpcCombatState {
   readonly personId: string;
@@ -46,6 +60,8 @@ export interface BrowserArdeaNpcCombatState {
   readonly currentAttackerId: string | null;
   /** Source NPC inventory configuration; entries are names, not generated stacks. */
   readonly treasureSets: readonly string[];
+  /** Serialized slot templates and item identities; these are not generated treasure or active attachments. */
+  readonly serializedEquipmentSlots: NativeNpcSerializedEquipmentSlots;
   /** Source-resolved weaponry plans; non-weapon treasure generation stays explicit. */
   readonly treasureSetResolutions: readonly ({ readonly status: 'unresolved'; readonly name: string; readonly reason: string } | NativeTreasureSetResolution)[];
   readonly navigationValid: true;
@@ -111,6 +127,74 @@ function sourceReference(person: ScenePerson): { path: string; entityIndex: numb
   return { path: match[1], entityIndex };
 }
 
+function slotProxy(properties: readonly unknown[], name: 'Template' | 'Item'): string {
+  const matching = properties.filter((entry) => isRecord(entry) && entry.name === name);
+  if (matching.length !== 1 || !isRecord(matching[0]) || matching[0].status !== 'decoded' ||
+      !isRecord(matching[0].value)) {
+    throw new Error(`Native inventory slot ${name} proxy is missing, undecoded or ambiguous.`);
+  }
+  const value = matching[0].value;
+  if (value.present !== true || typeof value.rawGuid20 !== 'string' || !/^[a-f0-9]{40}$/i.test(value.rawGuid20)) {
+    throw new Error(`Native inventory slot ${name} proxy is not one present 20-byte identity.`);
+  }
+  return value.rawGuid20.toLowerCase();
+}
+
+/** Read only the serialized inventory slot identities. Dynamic treasure sets,
+ * item construction and slot attachment remain separate cache-in operations. */
+function readSerializedEquipmentSlots(entity: NativeEntityRecord): NativeNpcSerializedEquipmentSlotRefs {
+  const sets = entity.propertySets.filter((set) => set.name === 'gCInventory_PS');
+  if (sets.length !== 1) return { status: 'unknown', reason: 'Native gCInventory_PS is missing or ambiguous.' };
+  const tail = sets[0]!.tail;
+  if (!tail || tail.status !== 'decoded' || !isRecord(tail.value) ||
+      !Number.isSafeInteger(tail.value.slotCount) || !Array.isArray(tail.value.slots) ||
+      tail.value.slotCount !== tail.value.slots.length || tail.value.slots.length > 256) {
+    return { status: 'unknown', reason: 'Native serialized inventory slot tail is not completely decoded.' };
+  }
+  try {
+    const slots = tail.value.slots.map((raw, index) => {
+      if (!isRecord(raw) || raw.index !== index || typeof raw.empty !== 'boolean') {
+        throw new Error('Native serialized inventory slot indices are incomplete or out of order.');
+      }
+      if (raw.empty) return null;
+      const record = raw.record;
+      if (!isRecord(record) || record.name !== 'gCInventorySlot' || !Array.isArray(record.properties)) {
+        throw new Error('Native nonempty inventory slot has no decoded gCInventorySlot record.');
+      }
+      return Object.freeze({ index, templateGuid20: slotProxy(record.properties, 'Template'),
+        itemGuid20: slotProxy(record.properties, 'Item') });
+    }).filter((slot): slot is NonNullable<typeof slot> => slot !== null);
+    return { status: 'resolved', slots: Object.freeze(slots) };
+  } catch (error) {
+    return { status: 'unknown', reason: error instanceof Error ? error.message : String(error) };
+  }
+}
+
+async function resolveSerializedEquipmentSlots(refs: NativeNpcSerializedEquipmentSlotRefs,
+  world: CombatWorldSource): Promise<NativeNpcSerializedEquipmentSlots> {
+  if (refs.status === 'unknown') return refs;
+  try {
+    const slots = await Promise.all(refs.slots.map(async (slot) => {
+      const header = indexedUnique(await world.templateByGuidWithSource(slot.templateGuid20),
+        'serialized inventory slot template ' + slot.templateGuid20);
+      const source = header.source;
+      if (header.guid?.toLowerCase() !== slot.templateGuid20 || !header.name || !source?.path ||
+          !/^[a-f0-9]{64}$/i.test(source.sha256)) {
+        throw new Error('Serialized inventory slot template source identity is incomplete.');
+      }
+      const template = indexedUnique(await world.template(header), header.name);
+      if (template.guid?.toLowerCase() !== slot.templateGuid20) {
+        throw new Error('Serialized inventory slot template payload identity differs from its index.');
+      }
+      return Object.freeze({ ...slot, templateName: header.name,
+        templateSourcePath: source.path, templateSourceSha256: source.sha256 });
+    }));
+    return { status: 'resolved', slots: Object.freeze(slots) };
+  } catch (error) {
+    return { status: 'unknown', reason: error instanceof Error ? error.message : String(error) };
+  }
+}
+
 function indexedUnique<T>(result: SourceLookup<T>, label: string): T {
   if (result.kind !== 'found') throw new Error(result.kind === 'missing'
     ? result.reason
@@ -141,6 +225,7 @@ async function loadNpcFacts(person: ScenePerson, world: CombatWorldSource): Prom
   const statePosition = sourceValue(entity, 'gCScriptRoutine_PS', 'StatePosition', int32);
   const treasureSets = Object.freeze([1, 2, 3, 4, 5].map((slot) =>
     sourceValue(entity, 'gCInventory_PS', 'TreasureSet' + slot, (value): value is string => typeof value === 'string')));
+  const serializedEquipmentSlots = await resolveSerializedEquipmentSlots(readSerializedEquipmentSlots(entity), world);
   const attacker = sourceProperty(entity, 'gCNPC_PS', 'CurrentAttackerEntity');
   if (attacker.kind !== 'found' || !isRecord(attacker.value) || typeof attacker.value.present !== 'boolean' ||
       (attacker.value.rawGuid20 !== null && (typeof attacker.value.rawGuid20 !== 'string' ||
@@ -162,7 +247,7 @@ async function loadNpcFacts(person: ScenePerson, world: CombatWorldSource): Prom
     sourceFileIndex: source.index, sourceSha256: source.source.sha256, level, levelMax, species, npcType,
     statusEffects, action, aniState, statePosition,
     currentAttackerId: typeof attacker.value.rawGuid20 === 'string' ? attacker.value.rawGuid20.toLowerCase() : null,
-    treasureSets,
+    treasureSets, serializedEquipmentSlots,
     navigationValid: true, serializedPoints: Object.freeze(serializedPoints) });
 }
 
@@ -225,6 +310,7 @@ export class BrowserArdeaNpcCombatRuntime {
       rawLevel: facts.level, rawLevelMax: facts.levelMax, species: facts.species, npcType: facts.npcType,
       statusEffects: facts.statusEffects, action: facts.action, aniState: facts.aniState,
       statePosition: facts.statePosition, currentAttackerId: facts.currentAttackerId, treasureSets: facts.treasureSets,
+      serializedEquipmentSlots: facts.serializedEquipmentSlots,
       treasureSetResolutions: Object.freeze(treasureSetResolutions),
       navigationValid: facts.navigationValid, damageReceiverValid: true,
       initialization: 'browser-source-processing-range-state', processingRange: initialized.value,
