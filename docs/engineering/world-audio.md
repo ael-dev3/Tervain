@@ -12,7 +12,7 @@ Recorded 5 October 2026 for two owner requests and extended on 6 October 2026 fo
 
 The world's sound therefore has three parts:
 
-- **Generated:** 110 ElevenLabs generations from original prompts, all made on the owner's paid plan:
+- **Generated:** 110 ElevenLabs generations from original prompts, all recorded as paid generations:
   - effects, place beds and wildlife;
   - a score from the Eleven Music API, with two sung songs;
   - three of the hero's sounds in his own voice.
@@ -179,7 +179,7 @@ The story's text-first dialogue ([dialogue.ts](../../src/content/dialogue.ts)) w
 ### How they were made
 
 - **Speech.** Every line was generated with Eleven v4 (`eleven_v4`, 44.1 kHz 192 kbit/s MP3) in its speaker's voice.
-- **Check.** Every take was transcribed with ElevenLabs Speech to Text (`scribe_v1`) and compared with the words as shown. A take whose words differed was retaken up to twice, and the closest was kept.
+- **Check.** Every take was transcribed with ElevenLabs Speech to Text (`scribe_v1`) and compared with the words as shown. The regeneration tool retries a take above 10% word error up to twice and keeps the closest transcript. Accepted takes can retain name spellings, homophones and delivery differences.
   - 392 of the 443 recordings transcribe word for word once numbers and punctuation are normalised. Over all 6,469 words the transcripts differ by 1.0 %.
   - Most remaining differences are spellings of names (Rillford as "Rilford", Darin as "Darren", Ila as "Isla", Rimeward as "Reamwood") or homophones (rite as "right", reed as "read", floury as "flowery").
   - Two are one-word slips: "has stopped" for "is stopped", and "costs" for "cost".
@@ -321,7 +321,7 @@ They total 1,955 requested seconds.
 - The prompts and processing plan are in [tools/world-audio/plan.json](../../tools/world-audio/plan.json).
 - No prompt names or imitates another game, composer, performer or work.
 
-**Terms.** The paid plan's terms, as read on 6 October 2026, include a commercial licence for generated output and do not require attribution. The credit to ElevenLabs is kept in the game's About text and the NOTICE anyway. This summarises the service's terms as read on that date; it is not legal advice or an independent rights review. Check them again before a commercial release.
+**Terms.** Current records identify paid-generation sources. General paid-output terms do not require attribution, but non-Beta conditions and service-specific restrictions remain. Eleven Music excludes Studio Games on self-serve plans; the detailed [integration rights limits](#combined-0012-lifecycle-and-rights-corrections) below control the commercial-release claim. The credit remains in About and NOTICE. No independent rights review or public content-reuse grant is asserted.
 
 **Key handling.** The API key stays outside the repository. It does not appear in source, history or this record. The generate tool reads it from the environment only.
 
@@ -385,7 +385,7 @@ Muxing is bit-exact, so two runs produce identical files.
   - voice-changed takes.
 - `--dry-run` lists the work and an estimate without spending anything. `--max-credits N` stops once the account's usage has grown by N.
 
-Every speech take is transcribed and retaken when its words come back wrong.
+Every speech take is transcribed; the regeneration tool retries takes above 10% word error with a bounded attempt limit.
 
 To add a line:
 
@@ -481,7 +481,7 @@ The tests check that every named line is voiced and banked.
   - The bowed strings and the flute are convincing models but still models.
   - The wordless choir is the least natural instrument; it is kept to soft doubling beneath the viols.
 - **Two voices in one score.**
-  - The generated pieces are short (about 30 s) and in various keys.
+  - The earlier generated pieces were short (about 30 s); paid replacement pieces have manifest-recorded durations and in various keys.
   - The composed ones are longer (67–84 s) and share D.
   - Pieces are never layered; quiet intervals separate them.
 - **No real occlusion.** Indoors is a muffle and a room reverb; a ridge does not block the quarry. Panning is equal-power stereo, not HRTF.

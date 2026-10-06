@@ -2,7 +2,7 @@
   "generator": {
     "service": "ElevenLabs Sound Effects API (POST /v1/sound-generation, mp3_44100_128) and Eleven Music API (POST /v1/music, mp3_44100_192)",
     "note": "Generated sources were replaced on 6 October 2026 during a paid subscription. Effects and beds retain their recorded original prompts; the score uses Eleven Music music_v2_5. Earlier free-plan outputs are historical and are not shipped by this manifest.",
-    "generationPlan": "paid (Creator), as recorded by the source preparation"
+    "generationPlan": "paid, as recorded by the source preparation"
   },
   "terms": {
     "summary": "Paid-generation provenance is recorded for these effects and music. ElevenLabs general paid-output terms apply to effects; Music model-specific terms additionally exclude Studio Games on self-serve plans and prohibit licensing output as a music library. This unmonetized single-platform prototype is not commercial/Steam clearance. A commercial release must verify the actual distribution, applicable plan and all source rights. No open-content redistribution grant is made.",
