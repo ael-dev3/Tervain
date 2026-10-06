@@ -314,6 +314,10 @@ supplies the selected Game CRT heap, locks, original module storage and ordinary
 DLL attach prefix with its own verified addresses. It preserves the unresolved
 command-line call and later C/C++ initializer dependencies. These components
 still need the Game class-name/type owners and integration with the live NPC.
+[Checkpoint 82](gothic3-rebuilding-process.md#82-rebuild-the-game-crt-onexit-table-within-its-original-capacity)
+now models the separate Game CRT's 128-byte encoded onexit table and its first
+32 registrations. Table growth and callback traversal remain unowned, and this
+component is not connected to live NPC construction.
 Subsequent build and deployment receipts are recorded in the
 [Pages workflow](https://github.com/ael-dev3/Tervain/actions/workflows/pages.yml).
 This is an incomplete reconstruction; hosting and a successful build do not
