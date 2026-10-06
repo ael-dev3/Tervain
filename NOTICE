@@ -27,7 +27,7 @@ This product includes material from the Warpkeep project (https://github.com/ael
    GLB files from Warpkeep at revision 786c0b2be6f2d2e7eb2de02ef3b6826c8907fc32, with their
    provenance in Warpkeep-Assets (https://github.com/ael-dev3/Warpkeep-Assets). They are used
    with the project owner's authorisation and are NOT offered under an open-content licence.
-   They are archived and are not built into the published 0.0.12 site.
+   They are archived and are not built into the published original-game site.
    See docs/engineering/asset-inventory.md and assets/warpkeep/manifest.json.
 
 3. Model-specific permissions. The 3D asset inventory and source records are
@@ -42,14 +42,19 @@ Warpkeep names, logos and the Hegemony identity are not licensed by this notice.
 
 The generated sound effects, ambience, score, songs and voices were generated with
 ElevenLabs (https://elevenlabs.io) from original descriptions, lyrics and lines.
-Current sources record paid-generation provenance and replace earlier free-plan
+Published world/voice sources record paid-generation provenance and replace earlier free-plan
 outputs. Effects and speech follow the applicable general service terms; Eleven
 Music additionally excludes Studio Games on self-serve plans and prohibits licensing
 output as a music library. This unmonetized prototype does not establish commercial
 or Steam clearance. No open-content license or sublicensing grant is made here.
 Original code-composed music and sounds have independent Tervain provenance.
 See docs/engineering/world-audio.md, world-audio-assets.json and voice-assets.json
-in that directory for source records and hashes, and public/world-audio-licenses.html
+in that directory for source records and hashes. Animal calls have their own
+animal-audio-assets.json record: Sound Effects v2, paid Creator generation on
+6 October 2026, with source/derivative fingerprints. The six imported hunting
+effects retain separate records in hunting-sounds.json; their generation-time
+subscription evidence is pending and commercial clearance is not established.
+See public/world-audio-licenses.html
 for the built-site disclosure. The project code license does not override asset terms.
 
 This product uses Three.js, including its unmodified Reflector addon, under the MIT

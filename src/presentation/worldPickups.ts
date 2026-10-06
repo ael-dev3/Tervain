@@ -14,9 +14,10 @@ const hiddenMatrix = new THREE.Matrix4().makeScale(0, 0, 0);
 // the actual grounded bounds, so the smaller item has no floating target or enlarged proxy.
 const HAND_SCALE: Record<WorldPickupItem, number> = {
   shore_apple: 0.34, bread: 0.65, healing_herb: 0.78, field_mushroom: 0.28, iron_scrap: 1,
+  hunting_bow: 1, skinning_knife: 1, arrow: 1,
 };
 
-/** Five original, closed-volume silhouettes. No sprite cards, floating labels, borrowed models or timer animations. */
+/** Original closed-volume silhouettes, including the three pieces of the hunter's kit. */
 export function pickupGeometry(item: WorldPickupItem): { geometry: THREE.BufferGeometry; material: MatKey } {
   const r = new Region(`loose-${item}`, new Ctx());
   const b = r.vc;
@@ -49,6 +50,40 @@ export function pickupGeometry(item: WorldPickupItem): { geometry: THREE.BufferG
     for (let i = 0; i < 5; i++) {
       const a = i * Math.PI * 2 / 5, rr = i % 2 ? 0.18 : 0.12;
       b.blob(0.035, 0.009, 0.027, Math.cos(a) * rr, 0.645 - rr * 0.27, Math.sin(a) * rr, 0xbdac83, { seg: 5, rings: 3, lump: 0, seed: i });
+    }
+  } else if (item === 'hunting_bow') {
+    // A hand-carved 1.3 m bow laid on its side: solid wooden limbs, a pale string and a wrapped grip.
+    const segments = 12;
+    for (let i = 0; i < segments; i++) {
+      const t0 = i / segments, t1 = (i + 1) / segments;
+      const x0 = Math.sin(t0 * Math.PI) * 0.25, x1 = Math.sin(t1 * Math.PI) * 0.25;
+      b.rod(x0, 0.039, (t0 - .5) * 1.28, x1, 0.039, (t1 - .5) * 1.28, .019, 6, 0x856345);
+    }
+    b.rod(0, .039, -.64, 0, .039, .64, .0055, 5, 0xdfd1ae);
+    for (let i = -3; i <= 3; i++) {
+      const z = i * .022, x = Math.cos(z / 1.28 * Math.PI) * .25;
+      b.rod(x, .039, z - .008, x, .039, z + .008, .026, 6, i % 2 ? 0x4d3e31 : 0xada084);
+    }
+  } else if (item === 'skinning_knife') {
+    b.rod(0, .042, -.19, 0, .042, -.035, .032, 8, 0x594332);
+    b.rod(0, .042, -.055, 0, .042, -.031, .037, 8, 0xa89c7c);
+    b.rod(0, .042, -.199, 0, .042, -.185, .034, 8, 0x9e987f);
+    b.ctx.push(0, .042, 0, 0, Math.PI / 2);
+    b.prism([[-.032, -.035], [.032, -.035], [.032, .16], [0, .26], [-.032, .16]], -.009, .009, 0xb7bbb5);
+    b.ctx.pop();
+  } else if (item === 'arrow') {
+    // Six physical arrows make a bundled silhouette; the inventory quantity remains the authored pickup quantity.
+    for (const y of [.028, .055]) for (const x of [-.035, 0, .035]) {
+      const shift = y > .04 ? .014 : 0;
+      b.rod(x, y, -.32 + shift, x, y, .27 + shift, .008, 6, 0xb5a076);
+      b.rod(x, y, .27 + shift, x, y, .34 + shift, .017, 4, 0x8f9795, { rEnd: 0 });
+      b.box(.025, .012, .065, x, y + .009, -.272 + shift, 0xbab1a0, { ry: .12 });
+      b.box(.018, .025, .065, x, y, -.272 + shift, 0x756a58, { ry: -.12 });
+    }
+    for (const z of [-.075, .09]) {
+      b.rod(-.055, .069, z, .055, .069, z, .013, 6, 0x746249);
+      b.rod(-.055, .012, z, -.055, .069, z, .011, 5, 0x746249);
+      b.rod(.055, .012, z, .055, .069, z, .011, 5, 0x746249);
     }
   } else {
     const iron = r.metal;
@@ -114,7 +149,7 @@ export function pickupPlacement(geometry: THREE.BufferGeometry, terrain: Pick<Te
   return matrix;
 }
 
-/** At most five draws across all 32 additions, while each persistent pickup retains its individual identity. */
+/** One draw per pickup item silhouette, while each persistent placement retains its individual identity. */
 export function buildWorldPickups(terrain: Pick<Terrain, 'heightAt' | 'normalAt'>, points: readonly PickupPoint[], mats: { get(key: MatKey): THREE.Material }) {
   const group = new THREE.Group(); group.name = 'loose-world-pickups';
   const objects: Record<string, THREE.Object3D> = {};

@@ -2,21 +2,44 @@ import { describe, expect, it, vi } from 'vitest';
 import { App } from '../../src/app';
 import { Game } from '../../src/game/game';
 import type { ItemId } from '../../src/game/types';
+import { HuntingController } from '../../src/presentation/huntingController';
+import { defaultSettings } from '../../src/platform/settings';
 
 /** Exercise the actual App routes and real command state, without constructing a browser or renderer. */
 function fixture() {
   const game = new Game();
   game.state.inventory = { coin: 6, rusted_sword: 1, bread: 2, poultice: 1 };
   game.state.player.health = 40;
+  const buttons = { attack: false, block: false };
   const app = Object.assign(Object.create(App.prototype) as object, {
-    game, mode: 'play', worldBuilding: false, worldBuildFailed: false, qualityReload: null,
-    panels: { isOpen: false }, player: { alive: true, syncEquipment: vi.fn(), readyWeapon: vi.fn() },
-    hud: { toast: vi.fn() }, audio: { uiConfirm: vi.fn(), pickup: vi.fn(), consume: vi.fn(), equip: vi.fn() },
-    input: { consumePad: vi.fn(), clearToggle: vi.fn() },
+    game, mode: 'play', settings: defaultSettings(), worldBuilding: false, worldBuildFailed: false, qualityReload: null,
+    panels: { isOpen: false }, player: {
+      alive: true, state: 'free', syncEquipment: vi.fn(), readyWeapon: vi.fn(),
+      channel: null as { kind: 'skinning'; cancelled?: () => void } | null,
+      bowEquipped: vi.fn(() => game.state.equippedWeapon === 'hunting_bow' && (game.state.inventory.hunting_bow ?? 0) > 0),
+      setBowAim: vi.fn(), cancelSkinning: vi.fn(),
+    },
+    hud: { toast: vi.fn() }, audio: {
+      uiConfirm: vi.fn(), pickup: vi.fn(), consume: vi.fn(), equip: vi.fn(), stopHuntingSounds: vi.fn(), huntingSound: vi.fn(),
+    },
+    cam: { setAiming: vi.fn(), yaw: 0, pitch: 0 }, world: { physics: { holding: null } },
+    input: {
+      consumePad: vi.fn(), clearToggle: vi.fn(), bowMode: false,
+      isDown: vi.fn((action: string) => action === 'attack' ? buttons.attack : action === 'block' ? buttons.block : false),
+      pressed: vi.fn((action: string) => action === 'attack' && buttons.attack),
+    },
   });
+  app.player.cancelSkinning.mockImplementation(() => {
+    const channel = app.player.channel;
+    if (!channel) return;
+    app.player.channel = null; app.player.state = 'free'; channel.cancelled?.();
+  });
+  const hunting = new HuntingController(app as unknown as ConstructorParameters<typeof HuntingController>[0],
+    () => app.mode === 'play' && app.player.alive && !app.panels.isOpen && !app.worldBuilding && !app.worldBuildFailed && !app.qualityReload);
+  Reflect.set(app, 'hunting', hunting); vi.spyOn(hunting, 'controls');
   game.subscribe((events) => Reflect.apply(Reflect.get(App.prototype, 'onGameEvents'), app, [events]));
   const call = (method: string, ...args: unknown[]) => Reflect.apply(Reflect.get(App.prototype, method), app, args);
-  return { app, game, call };
+  return { app, game, call, hunting, buttons };
 }
 
 describe('actual App hotbar and inventory routes', () => {
@@ -142,6 +165,45 @@ describe('actual App hotbar and inventory routes', () => {
     expect(app.audio.uiConfirm).toHaveBeenCalledTimes(2);
     // The blade is drawn, then put away; rejected requests make no sound.
     expect(app.audio.equip.mock.calls).toEqual([[true], [false]]);
+  });
+
+  it.each(['draw', 'release', 'skinning'] as const)('an actual equipment change cancels %s and leaves ammunition/harvest state intact', (action) => {
+    const { app, game, call, hunting, buttons } = fixture();
+    Object.assign(game.state.inventory, { hunting_bow: 1, arrow: 6, skinning_knife: 1 });
+    game.state.equippedWeapon = 'hunting_bow';
+    if (action !== 'skinning') {
+      buttons.attack = true; hunting.controls(.2, true); expect(hunting.isDrawing).toBe(true);
+      if (action === 'release') { buttons.attack = false; hunting.controls(0, true); expect(hunting.isDrawing).toBe(false); }
+    } else {
+      app.player.state = 'channel';
+      app.player.channel = { kind: 'skinning', cancelled: vi.fn(() => app.audio.stopHuntingSounds('skinning')) };
+    }
+    vi.mocked(hunting.controls).mockClear(); app.audio.stopHuntingSounds.mockClear();
+    const inventory = structuredClone(game.state.inventory);
+    call('equipWeapon', 'rusted_sword');
+    hunting.afterWorld(.2, true);
+    expect(hunting.controls).toHaveBeenCalledExactlyOnceWith(0, false);
+    expect(hunting.isDrawing).toBe(false);
+    expect(app.player.channel).toBeNull();
+    expect(app.cam.setAiming).toHaveBeenLastCalledWith(false);
+    expect(app.audio.stopHuntingSounds).toHaveBeenCalledWith(action === 'skinning' ? 'skinning' : 'bow_draw');
+    expect(game.state.inventory).toEqual(inventory);
+    expect(game.state.hunting).toEqual({});
+    expect(hunting.arrows.activeCount).toBe(0);
+  });
+
+  it('reselecting the held bow or rejecting another item preserves an unfinished draw', () => {
+    const { app, game, call, hunting, buttons } = fixture();
+    Object.assign(game.state.inventory, { hunting_bow: 1, arrow: 6 });
+    game.state.equippedWeapon = 'hunting_bow'; buttons.attack = true;
+    hunting.controls(.2, true); expect(hunting.isDrawing).toBe(true);
+    vi.mocked(hunting.controls).mockClear(); app.audio.stopHuntingSounds.mockClear();
+    call('equipWeapon', 'hunting_bow'); call('equipWeapon', 'bread');
+    expect(app.player.readyWeapon).toHaveBeenCalledOnce();
+    expect(hunting.controls).not.toHaveBeenCalled();
+    expect(hunting.isDrawing).toBe(true);
+    expect(app.audio.stopHuntingSounds).not.toHaveBeenCalled();
+    expect(game.state.inventory.arrow).toBe(6);
   });
   it('readies an already equipped weapon without repeating geometry sync or clearing a current guard', () => {
     const { app, call } = fixture();

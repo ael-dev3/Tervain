@@ -2,6 +2,7 @@ import type { NpcId, PlaceId } from '../../game/types';
 import { ANCHORS, bySpec, frontOf } from '../../world/layout';
 import type { Terrain } from '../../world/terrain';
 import { npcStyle } from '../npcStyle';
+import { ANIMAL_AUDIO, ANIMAL_CALL_COOLDOWN, ANIMAL_VOICE_LIMIT, type AnimalCall, type AnimalCallFile } from './animalAudio';
 import { type BankName, clipRef, VariantPicker } from './clips';
 import { type Cue, stepCue, workSound, type WorkSound } from './foley';
 import { type MusicAction, MusicDirector, type Threat } from './musicDirector';
@@ -101,6 +102,7 @@ interface Voice {
   bus: Bus;
   started: number;
   speaker?: string;
+  animal?: string;
 }
 
 interface Bed {
@@ -207,6 +209,12 @@ export class SoundWorld {
   private readonly musicLoads = new Map<MusicId, Promise<AudioBuffer | null>>();
   private readonly beds = new Map<LoopId, Bed>();
   private readonly voices = new Set<Voice>();
+  private readonly animalBuffers = new Map<AnimalCallFile, AudioBuffer>();
+  private readonly animalLoads = new Map<AnimalCallFile, Promise<void>>();
+  private readonly animalVoices = new Map<string, Voice>();
+  private readonly animalLastCall = new Map<string, number>();
+  private animalsPrepared = false;
+  private animalsAudible = true;
   /** Stings share the music one-shot cap and remain owned until ended or cancelled. */
   private readonly stings = new Set<Voice>();
   private stingEpoch = 0;
@@ -418,6 +426,25 @@ export class SoundWorld {
     return p;
   }
 
+  private loadAnimal(file: AnimalCallFile): Promise<void> {
+    if (this.disposed || this.hidden || !this.animalsAudible || this.animalBuffers.has(file)) return Promise.resolve();
+    let p = this.animalLoads.get(file);
+    if (!p) {
+      p = this.decode(file, ANIMAL_AUDIO.base).then((buffer) => {
+        this.animalLoads.delete(file);
+        if (buffer && !this.disposed) this.animalBuffers.set(file, buffer);
+      });
+      this.animalLoads.set(file, p);
+    }
+    return p;
+  }
+
+  private prepareAnimals() {
+    if (this.animalsPrepared || !this.animalsAudible || this.hidden) return;
+    this.animalsPrepared = true;
+    for (const animal of Object.values(ANIMAL_AUDIO.species)) for (const file of animal.files) void this.loadAnimal(file);
+  }
+
   /** Fetches all of a speaker's spoken lines at once. The game instead names the lines it may need (`speech`). */
   prepareVoice(speaker: string): Promise<void> {
     const banks = (Object.keys(VOICE_AUDIO.banks) as VoiceBank[]).filter((b) => VOICE_AUDIO.banks[b].speaker === speaker && VOICE_AUDIO.banks[b].set === 'spoken');
@@ -558,6 +585,88 @@ export class SoundWorld {
 
   /* ------------------------------------------------------------------ one-shots */
 
+  /** Play exactly once when a real animal's Call gesture begins, from that actor's current position. */
+  callAnimal(call: AnimalCall): boolean {
+    if (this.disposed || this.hidden || !this.worldActive || this.lastFrame?.mode !== 'play'
+      || !this.animalsAudible || this.ctx.state !== 'running') return false;
+    const profile = ANIMAL_AUDIO.species[call.species];
+    const at = call.position;
+    if (!profile || !Number.isFinite(at.x) || !Number.isFinite(at.y) || !Number.isFinite(at.z)) return false;
+    const l = this.lastFrame.listener;
+    const distance = Math.hypot(at.x - l.x, at.y - l.y, at.z - l.z);
+    if (distance > profile.maxDistance || this.animalVoices.has(call.id) || this.animalVoices.size >= ANIMAL_VOICE_LIMIT
+      || this.clock - (this.animalLastCall.get(call.id) ?? -Infinity) < ANIMAL_CALL_COOLDOWN) return false;
+    const file = profile.files[call.callVariant - 1];
+    if (!file) return false;
+    const buffer = this.animalBuffers.get(file);
+    if (!buffer) {
+      void this.loadAnimal(file);
+      this.stats.dropped++;
+      // Never replay after decoding: the visible gesture may already be over or the world paused.
+      return false;
+    }
+    const nodes: AudioNode[] = [];
+    let voice: Voice | null = null;
+    try {
+      this.makeRoom('ambience');
+      const source = this.ctx.createBufferSource();
+      nodes.push(source);
+      source.buffer = buffer;
+      source.playbackRate.value = 1 + (this.random() * 2 - 1) * 0.025;
+      const gain = this.ctx.createGain();
+      nodes.push(gain);
+      gain.gain.value = profile.gain;
+      source.connect(gain);
+      let tail: AudioNode = gain;
+      if (distance > 12) {
+        const air = this.ctx.createBiquadFilter();
+        nodes.push(air);
+        air.type = 'lowpass';
+        air.frequency.value = Math.max(1400, 18000 * Math.exp(-(distance - 12) / 40));
+        tail.connect(air);
+        tail = air;
+      }
+      const panner = this.ctx.createPanner();
+      nodes.push(panner);
+      panner.panningModel = 'equalpower';
+      panner.distanceModel = 'inverse';
+      panner.refDistance = profile.ref;
+      panner.rolloffFactor = 1;
+      panner.maxDistance = 10000;
+      placeAt(panner, at);
+      // The existing outdoor path also muffles calls heard from a roofed room.
+      tail.connect(panner).connect(this.outdoor.filter);
+      voice = { source, nodes, animal: call.id, bus: 'ambience', started: this.ctx.currentTime };
+      this.voices.add(voice);
+      this.animalVoices.set(call.id, voice);
+      const held = voice;
+      source.onended = () => this.release(held);
+      source.start(this.ctx.currentTime);
+      this.animalLastCall.set(call.id, this.clock);
+      this.stats.emitted++;
+      return true;
+    } catch {
+      if (voice) {
+        quietly(() => voice!.source.stop());
+        this.release(voice);
+      } else for (const node of nodes) quietly(() => node.disconnect());
+      return false;
+    }
+  }
+
+  /** Mute/menu changes retire calls, so an unheard tail cannot emerge when the mix is restored. */
+  setAnimalsAudible(audible: boolean) {
+    this.animalsAudible = audible;
+    if (!audible) this.cancelAnimals();
+  }
+
+  private cancelAnimals() {
+    for (const voice of [...this.animalVoices.values()]) {
+      quietly(() => voice.source.stop());
+      this.release(voice);
+    }
+  }
+
   /** Play a cue now (or after its delay). Returns false when it was not started. */
   play(cue: Cue, opt: PlayOptions = {}): boolean {
     if (this.disposed || this.ctx.state === 'closed') return false;
@@ -640,6 +749,7 @@ export class SoundWorld {
   private release(v: Voice) {
     this.stings.delete(v);
     if (!this.voices.delete(v)) return;
+    if (v.animal && this.animalVoices.get(v.animal) === v) this.animalVoices.delete(v.animal);
     if (v.speaker && this.speaking.get(v.speaker) === v) this.speaking.delete(v.speaker);
     for (const n of v.nodes) quietly(() => n.disconnect());
     if (v.speaker) this.duckForSpeech();
@@ -669,6 +779,7 @@ export class SoundWorld {
     // Invalidate pending decodes immediately, including menu frames below the 20 Hz cadence.
     if (!frame && this.worldActive) this.cancelStings();
     this.worldActive = !!frame;
+    if (!frame || frame.mode !== 'play') this.cancelAnimals();
     const speechActive = frame?.mode === 'play' && !this.hidden;
     if (!speechActive && (this.speechActive || this.voiceLoads.size > 0)) this.cancelSpeech();
     this.speechActive = speechActive;
@@ -676,6 +787,7 @@ export class SoundWorld {
       this.clock += dt;
       if (frame) {
         this.lastFrame = frame;
+        if (frame.mode === 'play') this.prepareAnimals();
         this.listenerAcc += dt;
         if (this.listenerAcc >= LISTENER_INTERVAL) {
           this.listenerAcc = 0;
@@ -1290,6 +1402,7 @@ export class SoundWorld {
     if (hidden) for (const media of this.retiringMedia) media.pause();
     if (hidden) {
       this.cancelSpeech();
+      this.cancelAnimals();
       this.speechActive = false;
     } else this.speechActive = this.worldActive && this.lastFrame?.mode === 'play';
     for (const media of [this.piece?.media, this.song?.media]) {
@@ -1358,5 +1471,8 @@ export class SoundWorld {
     this.voiceBuffers.clear();
     this.voiceLoads.clear();
     this.voiceUsed.clear();
+    this.animalBuffers.clear();
+    this.animalLoads.clear();
+    this.animalLastCall.clear();
   }
 }

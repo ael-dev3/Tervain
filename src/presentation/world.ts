@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { buildHunterSupplies } from './hunterSupplies';
 import { NPCS } from '../content/npcs';
 import { S } from '../content/strings';
 import { hasFact } from '../game/state';
@@ -41,6 +42,7 @@ import { loadMeshyTrees, type MeshyTreeTemplates } from './meshyTrees';
 import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { buildCoastalBackdrop } from './coastalBackdrop';
 import { createGroundContactField } from './groundContacts';
+import { buildAnimals, loadAnimalTemplates, type AnimalTemplates, type AnimalWildlife } from './animals';
 
 /** Everything static in Bellwether Vale, plus the presentation that follows durable state. */
 export class WorldScene {
@@ -60,6 +62,7 @@ export class WorldScene {
   private environment: EnvironmentHandle;
   private groundcover: ReturnType<typeof buildGroundcover>;
   readonly scenery: SceneryHandles;
+  readonly animals: AnimalWildlife;
   readonly terrainMesh: THREE.Group;
   private lanternLights: THREE.PointLight[] = [];
   private lanternPool = new LanternLightPool(3);
@@ -87,12 +90,14 @@ export class WorldScene {
     setSharedLibrary(library);
     await library.preload(ALL_NEEDS, onProgress);
     onProgress?.({ loaded: 0, total: 1, label: 'Source woodland and stone' });
-    const [pine, rockPile, treeTemplates] = await Promise.all([loadSolitaryPine(), loadSourceRockPile(), loadMeshyTrees(undefined, (loaded, total) => onProgress?.({ loaded, total, label: 'Preparing the woodland' }))]);
+    const [pine, rockPile, treeTemplates, animalTemplates] = await Promise.all([loadSolitaryPine(), loadSourceRockPile(),
+      loadMeshyTrees(undefined, (loaded, total) => onProgress?.({ loaded, total, label: 'Preparing the woodland' })),
+      loadAnimalTemplates((loaded, total) => onProgress?.({ loaded, total, label: 'Preparing the wildlife' }))]);
     onProgress?.({ loaded: 1, total: 1, label: 'Source woodland and stone' });
     // Ground textures are generated, not downloaded; yield between layers so the loading text keeps painting.
     await initializePhysics();
     const tex = await makeTerrainTextures(settings.quality === 'high' ? 1024 : settings.quality === 'medium' ? 768 : 256, () => new Promise((r) => setTimeout(r, 0)));
-    return new WorldScene(state, settings, library, tex, pine, rockPile, treeTemplates, npcAssets);
+    return new WorldScene(state, settings, library, tex, pine, rockPile, treeTemplates, animalTemplates, npcAssets);
   }
 
   /** Release GPU resources the scene graph does not own. */
@@ -107,7 +112,7 @@ export class WorldScene {
     this.scenery.dispose();
   }
 
-  private constructor(state: WorldState, settings: Settings, library: AssetLibrary, private terrainTex: TerrainTextures, pine: PineTemplates, rockPile: GLTF, treeTemplates: MeshyTreeTemplates, npcAssets?: MeshyNpcCatalog) {
+  private constructor(state: WorldState, settings: Settings, library: AssetLibrary, private terrainTex: TerrainTextures, pine: PineTemplates, rockPile: GLTF, treeTemplates: MeshyTreeTemplates, animalTemplates: AnimalTemplates, npcAssets?: MeshyNpcCatalog) {
     const t0 = performance.now();
     this.library = library;
     this.terrain = new Terrain();
@@ -143,6 +148,10 @@ export class WorldScene {
     this.environment = buildEnvironment(this.scene, settings.quality);
     this.scenery = buildScenery(this.terrain, this.colliders, settings.quality);
     this.scene.add(this.scenery.group);
+    this.scene.add(buildHunterSupplies(this.terrain, this.colliders));
+    this.animals = buildAnimals(ctx, animalTemplates);
+    this.modules.push({ name: 'land wildlife', module: this.animals });
+    this.scene.add(this.animals.group);
     // Register accepted source rocks and constructed thresholds before painting their ground contacts.
     // This field changes surface dressing only; support, obstacle identities and terrain planes are unchanged.
     const contacts = createGroundContactField(this.terrain, this.colliders.rockMeshes);
@@ -186,6 +195,7 @@ export class WorldScene {
 
   /** Apply durable state that is not animated: doors, pickups, brace, gate, boards. Instant when `snap`. */
   syncStatic(state: WorldState, snap = false) {
+    this.animals.syncHunting(state.hunting);
     this.view = worldView(state);
     const v = this.view;
     const sc = this.scenery;
@@ -292,7 +302,7 @@ export class WorldScene {
   }
 
   /** Move the whole scene forward: sky, water, foliage, animated props. */
-  update(dt: number, state: WorldState, focus: THREE.Vector3, settings: Settings, hour: number, camera: THREE.Camera) {
+  update(dt: number, state: WorldState, focus: THREE.Vector3, settings: Settings, hour: number, camera: THREE.Camera, wildlifeActive = true) {
     this.time += dt;
     this.view = worldView(state);
     const v = this.view;
@@ -315,7 +325,10 @@ export class WorldScene {
       this.sky.sun.shadow.updateMatrices(this.sky.sun);
       shadowFrustum = this.sky.sun.shadow.getFrustum();
     }
-    const frame: FrameContext = { time: this.time, camera, focus, nightness: night, sunDir: this.sky.state.sunDir, shadowFrustum, reducedMotion: reduced, hour, view: v, quality: settings.quality };
+    const frame: FrameContext = { time: this.time, camera, focus, nightness: night, sunDir: this.sky.state.sunDir, shadowFrustum, reducedMotion: reduced, hour, view: v, quality: settings.quality, wildlifeActive };
+    this.animals.setRunning(wildlifeActive);
+    this.animals.syncHunting(state.hunting);
+    this.animals.setReduceEffects(settings.reduceEffects);
     this.environment.update(dt, frame);
     for (const m of this.modules) m.module.update(dt, frame);
 

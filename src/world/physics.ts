@@ -56,6 +56,7 @@ export class RealmPhysics {
   private alive = true;
   private initial: PropPose[] = [];
   private queriesDirty = false;
+  private projectileQueryDirty = new Set<RAPIER.Collider>();
 
   constructor(terrain: Terrain, colliders: Colliders, specs: readonly PropSpec[] = PHYSICAL_PROPS, wood: readonly PhysicalWoodGeometry[] = []) {
     // Exact original triangle diagonal, including the seabed. Visual subdivision does not change these planes.
@@ -280,6 +281,41 @@ export class RealmPhysics {
     return this.props.some(prop => prop.collider.castRay(ray, distance - .01, true) >= 0);
   }
 
+  /** Exact finite 3D contacts for an arrow segment, including visible wood, terrain and loose cargo. */
+  traceProjectile(from: Vec3, to: Vec3): { point: Vec3; distance: number } | null {
+    if (!this.alive || ![from.x, from.y, from.z, to.x, to.y, to.z].every(Number.isFinite)) return null;
+    const delta = { x: to.x - from.x, y: to.y - from.y, z: to.z - from.z };
+    const length = Math.hypot(delta.x, delta.y, delta.z);
+    if (length < 1e-8) return null;
+    for (const fixed of this.fixed) if (fixed.collider.isEnabled() !== fixed.source.active) {
+      fixed.collider.setEnabled(fixed.source.active);
+      this.projectileQueryDirty.add(fixed.collider);
+    }
+    const direction = { x: delta.x / length, y: delta.y / length, z: delta.z / length };
+    const ray = new RAPIER.Ray(from, direction);
+    const actorHandles = new Set([...this.actors.values()].map(actor => actor.collider.handle));
+    // Wildlife capsules support movement. Arrow contacts come from the posed animal triangles.
+    const animalHandles = new Set([
+      ...[...this.actors.entries()].filter(([id]) => /^animal:\d+$/.test(id)).map(([, actor]) => actor.collider.handle),
+      ...this.fixed.filter(fixed => /^animal:\d+$/.test(fixed.source.id)).map(fixed => fixed.collider.handle),
+    ]);
+    const hit = this.world.castRay(ray, length, true, undefined, undefined, undefined, this.character,
+      collider => collider.isEnabled() && !this.propHandles.has(collider.handle) && !actorHandles.has(collider.handle) && !animalHandles.has(collider.handle));
+    let distance = hit?.timeOfImpact ?? Infinity;
+    // Direct casts see restored/moved cargo and freshly enabled doors before the broad phase's next step.
+    const direct = (collider: RAPIER.Collider) => {
+      if (!collider.isEnabled() || animalHandles.has(collider.handle)) return;
+      const value = collider.castRay(ray, length, true);
+      if (value >= 0 && value <= length) distance = Math.min(distance, value);
+    };
+    for (const prop of this.props) direct(prop.collider);
+    for (const actor of this.actors.values()) if (actor.active) direct(actor.collider);
+    for (const collider of this.projectileQueryDirty) direct(collider);
+    return Number.isFinite(distance) ? { distance, point: {
+      x: from.x + direction.x * distance, y: from.y + direction.y * distance, z: from.z + direction.z * distance,
+    } } : null;
+  }
+
   private poseOf(id: string, body: RAPIER.RigidBody): PropPose {
     return { id, position: { ...body.translation() }, rotation: { ...body.rotation() }, sleeping: body.isSleeping() };
   }
@@ -307,7 +343,10 @@ export class RealmPhysics {
   /** Fixed-step simulation, capped time accumulation and pose interpolation; paused time is never accrued. */
   step(dt: number, player: Vec3, yaw: number, pitch: number) {
     if (!Number.isFinite(dt) || dt <= 0 || !this.alive) return;
-    for (const f of this.fixed) if (f.collider.isEnabled() !== f.source.active) f.collider.setEnabled(f.source.active);
+    for (const f of this.fixed) if (f.collider.isEnabled() !== f.source.active) {
+      f.collider.setEnabled(f.source.active);
+      this.projectileQueryDirty.add(f.collider);
+    }
     this.accumulated = Math.min(.1, this.accumulated + Math.min(.05, dt));
     const count = Math.floor((this.accumulated + 1e-9) / STEP);
     this.character.setTranslation(capsulePosition(this.playerStart), false);
@@ -334,7 +373,7 @@ export class RealmPhysics {
             z: force(target.z - p.z, v.z) }, true);
         }
       }
-      this.world.step(); this.queriesDirty = false; this.steps++; this.accumulated -= STEP;
+      this.world.step(); this.queriesDirty = false; this.projectileQueryDirty.clear(); this.steps++; this.accumulated -= STEP;
     }
   }
 

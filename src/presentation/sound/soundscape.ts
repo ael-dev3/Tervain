@@ -14,7 +14,7 @@ import type { LoopId } from './worldAudioManifest';
  *   night, cliff wind, a gully's uneasy quiet, an archive's room tone) and point sources placed in the world (the brook
  *   at its nearest bank, the mill wheel, the quarry, the spring, reeds by the ford, a fire);
  * - emitters: single calls placed around the listener (gulls over the sea, songbirds and a woodpecker in the woods,
- *   crows over open ground and the ruin, an owl at night, frogs at the water, dogs and hens in the village, a horse
+ *   crows over open ground and the ruin, an owl at night, frogs at the water, hens in the village, a horse
  *   at the wagon, creaking wood), with rates that follow the hour; the shrine's wind chime and the spring's bubbles
  *   come in small bursts;
  * - crickets whose chirp follows the air temperature (Dolbear's law), and the inn's music on summer evenings.
@@ -230,11 +230,6 @@ const RULES: EmitterRule[] = [
       const at = Math.hypot(FORD.x - l.x, FORD.z - l.z) < Math.hypot(WETLAND.x - l.x, WETLAND.z - l.z) ? FORD : WETLAND;
       return { x: at.x + (r() - 0.5) * 16, y: 0.2, z: at.z + (r() - 0.5) * 16 };
     },
-  },
-  {
-    id: 'dog', clip: 'dog', every: [35, 90], gain: 0.4, pitch: 0.05,
-    density: (l, w) => villageCover(l.x, l.z) * (0.5 + 0.5 * (1 - dayness(w))),
-    place: (l, r) => nearestBuilding(l, r, 70) ?? around(l, r, 25, 60, 0, 1),
   },
   {
     id: 'chicken', clip: 'chicken', every: [20, 45], gain: 0.38, pitch: 0.06,

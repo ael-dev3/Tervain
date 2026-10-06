@@ -44,6 +44,8 @@ export interface FrameContext {
   hour: number;
   view: WorldView;
   quality: Quality;
+  /** Wildlife simulation and calls stop while menus, overlays or hit stop pause play. */
+  wildlifeActive?: boolean;
 }
 
 /** The common shape of a scene module. */

@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { BARKS, NPCS, type Activity, type NpcDef } from '../content/npcs';
 import { evalAll } from '../game/state';
 import type { EncounterId, NpcId, WorldState } from '../game/types';
-import type { Colliders } from '../world/colliders';
+import type { Collider, Colliders } from '../world/colliders';
 import { ANCHORS, MAINT_ROUTE, type EnemySpawn, type V2 } from '../world/layout';
 import type { NavGrid } from '../world/nav';
 import type { Terrain } from '../world/terrain';
@@ -32,6 +32,8 @@ export function resolveGoal(def: NpcDef, state: WorldState, hour: number): Goal 
 export interface ActorContext {
   terrain: Terrain;
   colliders: Colliders;
+  /** Peaceful moving bodies, including the seated waystation pet. */
+  wildlifeContacts?: readonly Collider[];
   nav: NavGrid;
   state: WorldState;
   hour: number;
@@ -171,6 +173,11 @@ export class NpcActor {
             const r = ctx.colliders.resolve(nx, nz, 0.35);
             nx = r.x;
             nz = r.z;
+            if (ctx.wildlifeContacts?.length) {
+              const swept = ctx.colliders.move(this.x, this.z, nx - this.x, nz - this.z, 0.35, undefined,
+                { minY: this.y + 0.02, maxY: this.y + this.rig.height }, ctx.wildlifeContacts);
+              nx = swept.x; nz = swept.z;
+            }
           }
           this.x = nx;
           this.z = nz;

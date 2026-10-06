@@ -1,0 +1,188 @@
+{
+  "version": 1,
+  "generator": {
+    "service": "ElevenLabs",
+    "model": "eleven_text_to_sound_v2",
+    "requestedSpeechModel": "eleven_v4",
+    "animalEndpointModelSupport": "Eleven v4 rejected by sound-generation endpoint; v3 sound-effect identifier rejected as unknown. Sound Effects v2 is supported.",
+    "generationPlan": "Creator paid subscription at generation time; service terms apply, not CC."
+  },
+  "assets": [
+    {
+      "id": "tiger-1",
+      "species": "tiger",
+      "variant": 1,
+      "prompt": "A single tiger gives a low resonant chuff followed by a short throaty growl. Isolated close animal vocalization for a medieval woodland game. No human voice, no speech, no music, no other animals, no artificial monster effects. Quiet background.",
+      "seconds": 3.5,
+      "model": "eleven_text_to_sound_v2",
+      "format": "mp3_44100_128",
+      "generated": "2026-10-06",
+      "sourceSha256": "731f53572d013d5c51125bf8d5d88c96efc488b8a8fe3c37cd90eb3cb6a72b22"
+    },
+    {
+      "id": "tiger-2",
+      "species": "tiger",
+      "variant": 2,
+      "prompt": "One natural tiger chuff greeting, two soft breathy prusten exhalations with a low rumble. Isolated close animal vocalization for a medieval woodland game. No human voice, no speech, no music, no other animals, no artificial monster effects. Quiet background.",
+      "seconds": 3.5,
+      "model": "eleven_text_to_sound_v2",
+      "format": "mp3_44100_128",
+      "generated": "2026-10-06",
+      "sourceSha256": "63972168cfddb812108432faf0e38ee92c8e233139cf397c18903c66c9876c53"
+    },
+    {
+      "id": "lion-1",
+      "species": "lion",
+      "variant": 1,
+      "prompt": "A single adult lion gives one full natural resonant roar with chest rumble and a fading breath. Isolated close animal vocalization for a medieval woodland game. No human voice, no speech, no music, no other animals, no artificial monster effects. Quiet background.",
+      "seconds": 4,
+      "model": "eleven_text_to_sound_v2",
+      "format": "mp3_44100_128",
+      "generated": "2026-10-06",
+      "sourceSha256": "92b833c61dc7c30808e7667dc6a4308afd22e61f36ca3e14255cf06e1fb383f7"
+    },
+    {
+      "id": "lion-2",
+      "species": "lion",
+      "variant": 2,
+      "prompt": "One adult lion gives a low conversational grunting rumble, relaxed and unaggressive. Isolated close animal vocalization for a medieval woodland game. No human voice, no speech, no music, no other animals, no artificial monster effects. Quiet background.",
+      "seconds": 3,
+      "model": "eleven_text_to_sound_v2",
+      "format": "mp3_44100_128",
+      "generated": "2026-10-06",
+      "sourceSha256": "6158b44c5f560b43313625d1e0daf752257cd8ee3857b5d064fd5f5c12a5d965"
+    },
+    {
+      "id": "bear-1",
+      "species": "bear",
+      "variant": 1,
+      "prompt": "One brown bear makes a natural low nasal huff and short guttural rumble. Isolated close animal vocalization for a medieval woodland game. No human voice, no speech, no music, no other animals, no artificial monster effects. Quiet background.",
+      "seconds": 3,
+      "model": "eleven_text_to_sound_v2",
+      "format": "mp3_44100_128",
+      "generated": "2026-10-06",
+      "sourceSha256": "a2d6de69449f6a507e813f79b0cdf003f5dc58f889b1f01ab74febb30f47ebfc"
+    },
+    {
+      "id": "bear-2",
+      "species": "bear",
+      "variant": 2,
+      "prompt": "A single brown bear snuffles and gives one throaty grunting breath, calm and close. Isolated close animal vocalization for a medieval woodland game. No human voice, no speech, no music, no other animals, no artificial monster effects. Quiet background.",
+      "seconds": 3,
+      "model": "eleven_text_to_sound_v2",
+      "format": "mp3_44100_128",
+      "generated": "2026-10-06",
+      "sourceSha256": "1f8b8290bb0c4c1addc32fb6792f7d712ce30c713d1bd15876a35ae913cd21d2"
+    },
+    {
+      "id": "wolf-1",
+      "species": "wolf",
+      "variant": 1,
+      "prompt": "One grey wolf gives a natural rising resonant howl with a soft onset and fading breath. Isolated close animal vocalization for a medieval woodland game. No human voice, no speech, no music, no other animals, no artificial monster effects. Quiet background.",
+      "seconds": 4,
+      "model": "eleven_text_to_sound_v2",
+      "format": "mp3_44100_128",
+      "generated": "2026-10-06",
+      "sourceSha256": "55a803f5295c15b8647d1631045d08351bf100d98d2fdb17754a19cfa43b0b66"
+    },
+    {
+      "id": "wolf-2",
+      "species": "wolf",
+      "variant": 2,
+      "prompt": "One grey wolf gives a short low woof followed by a soft nasal whine, natural animal voice. Isolated close animal vocalization for a medieval woodland game. No human voice, no speech, no music, no other animals, no artificial monster effects. Quiet background.",
+      "seconds": 4,
+      "model": "eleven_text_to_sound_v2",
+      "format": "mp3_44100_128",
+      "generated": "2026-10-06",
+      "sourceSha256": "fbb2038218e15c68a3ea164b438486113bfbb2d19e92e596eec10d50475f0616"
+    },
+    {
+      "id": "cat-1",
+      "species": "cat",
+      "variant": 1,
+      "prompt": "One domestic cat makes a soft natural questioning meow, short and friendly. Isolated close animal vocalization for a medieval woodland game. No human voice, no speech, no music, no other animals, no artificial monster effects. Quiet background.",
+      "seconds": 2.5,
+      "model": "eleven_text_to_sound_v2",
+      "format": "mp3_44100_128",
+      "generated": "2026-10-06",
+      "sourceSha256": "103de834bba4af264d82871263eb6e99dc561f70202244253c28c0ae65863c5f"
+    },
+    {
+      "id": "cat-2",
+      "species": "cat",
+      "variant": 2,
+      "prompt": "One domestic cat gives a light chirrup followed by a gentle contented purr. Isolated close animal vocalization for a medieval woodland game. No human voice, no speech, no music, no other animals, no artificial monster effects. Quiet background.",
+      "seconds": 3,
+      "model": "eleven_text_to_sound_v2",
+      "format": "mp3_44100_128",
+      "generated": "2026-10-06",
+      "sourceSha256": "b87278a5b1393bf377219239656de365bdd916e9febfe7f1e03b08cbefa689c3"
+    },
+    {
+      "id": "dog-1",
+      "species": "dog",
+      "variant": 1,
+      "prompt": "One medium village dog gives two short natural relaxed barks separated by silence. Isolated close animal vocalization for a medieval woodland game. No human voice, no speech, no music, no other animals, no artificial monster effects. Quiet background.",
+      "seconds": 2.5,
+      "model": "eleven_text_to_sound_v2",
+      "format": "mp3_44100_128",
+      "generated": "2026-10-06",
+      "sourceSha256": "f38cc8c178ba77642df816bda6f21b5e25ea1ef4b9f86aee57860d49e3656cfb"
+    },
+    {
+      "id": "dog-2",
+      "species": "dog",
+      "variant": 2,
+      "prompt": "One large village dog makes a quiet friendly whine followed by a soft woof. Isolated close animal vocalization for a medieval woodland game. No human voice, no speech, no music, no other animals, no artificial monster effects. Quiet background.",
+      "seconds": 3,
+      "model": "eleven_text_to_sound_v2",
+      "format": "mp3_44100_128",
+      "generated": "2026-10-06",
+      "sourceSha256": "286108000d93aff74ec9effc11dce4bb3b481b57cec2042cb40fa85eaa6e4d0f"
+    },
+    {
+      "id": "boar-1",
+      "species": "boar",
+      "variant": 1,
+      "prompt": "One wild boar gives two low nasal grunts with a short rooting snuffle. Isolated close animal vocalization for a medieval woodland game. No human voice, no speech, no music, no other animals, no artificial monster effects. Quiet background.",
+      "seconds": 3,
+      "model": "eleven_text_to_sound_v2",
+      "format": "mp3_44100_128",
+      "generated": "2026-10-06",
+      "sourceSha256": "cefa5486d600915fc0c041dd196d5b0817fbf6bfdaeb3ed841eab996e7f15af9"
+    },
+    {
+      "id": "boar-2",
+      "species": "boar",
+      "variant": 2,
+      "prompt": "One wild boar exhales a coarse snort followed by one deep natural grunt. Isolated close animal vocalization for a medieval woodland game. No human voice, no speech, no music, no other animals, no artificial monster effects. Quiet background.",
+      "seconds": 3,
+      "model": "eleven_text_to_sound_v2",
+      "format": "mp3_44100_128",
+      "generated": "2026-10-06",
+      "sourceSha256": "fb8720be93afd5c2a1349ce6ed2645a6ed626536c36999e041a210288b8f8b80"
+    },
+    {
+      "id": "deer-1",
+      "species": "deer",
+      "variant": 1,
+      "prompt": "One red deer stag gives a single natural hollow rutting bellow with a low vibrating chest tone. Isolated close animal vocalization for a medieval woodland game. No human voice, no speech, no music, no other animals, no artificial monster effects. Quiet background.",
+      "seconds": 3.5,
+      "model": "eleven_text_to_sound_v2",
+      "format": "mp3_44100_128",
+      "generated": "2026-10-06",
+      "sourceSha256": "b5c98d996f2953250a62691803640fc1a95ac78c47667baf4274d89b67f5082b"
+    },
+    {
+      "id": "deer-2",
+      "species": "deer",
+      "variant": 2,
+      "prompt": "One deer gives a brief nasal contact bleat and quiet breath, calm and natural. Isolated close animal vocalization for a medieval woodland game. No human voice, no speech, no music, no other animals, no artificial monster effects. Quiet background.",
+      "seconds": 3,
+      "model": "eleven_text_to_sound_v2",
+      "format": "mp3_44100_128",
+      "generated": "2026-10-06",
+      "sourceSha256": "3a7d09b092291c0b489cc2e40a514b5741ad67cc14df3362e5e33e154aa0fb33"
+    }
+  ]
+}

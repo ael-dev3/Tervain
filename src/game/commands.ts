@@ -2,6 +2,11 @@ import { INSPECT_POINTS } from '../content/inspect';
 import { hotbarEligible, isItemId, itemAction, ITEMS } from '../content/items';
 import { APPLY_DELAY_MIN, REPORT_DELAY_MIN, REWARD_COIN, RITE_CALM_MIN, TRAINING_COST } from './constants';
 import { validQuantity, validQuickSlot } from './inventory';
+import {
+  animalLoot, ARROW_QUIVER_CAPACITY, ARROW_RESTOCK_AMOUNT, HUNTER_SUPPLY_POSITION,
+  isAnimalId, isHuntableAnimalId, normalizeAnimalYaw, SKINNING_REACH, validAnimalHit,
+  type AnimalHit,
+} from './hunting';
 import { validMapMarker } from './map';
 import { evalAll, hasFact, itemCount, phaseIndex } from './state';
 import {
@@ -208,6 +213,26 @@ function deliverDueReports(s: WorldState, events: GameEvent[]) {
 
 /* ---------- Command execution ---------- */
 
+/** Presentation has already swept the moving arrow against animal hit zones and world blockers. */
+function applyAnimalHit(s: WorldState, hit: AnimalHit, events: GameEvent[]): boolean {
+  const prior = s.hunting[hit.id];
+  // An arrow arriving at a corpse after another shot never changes its pose or harvest state.
+  if (prior?.status === 'dead' || prior?.status === 'skinned') return false;
+  const bodyHits = hit.zone === 'body' ? Math.min(2, (prior?.bodyHits ?? 0) + 1) as 1 | 2 : prior?.bodyHits ?? 0;
+  const killed = hit.zone === 'head' || bodyHits === 2;
+  const position = { x: hit.position.x, y: hit.position.y, z: hit.position.z };
+  s.hunting[hit.id] = {
+    status: killed ? 'dead' : 'injured', bodyHits, headshot: hit.zone === 'head',
+    position, yaw: normalizeAnimalYaw(hit.yaw), atClock: s.clock,
+  };
+  events.push(
+    { t: 'animalHit', hit: { id: hit.id, zone: hit.zone, position: { ...position }, yaw: normalizeAnimalYaw(hit.yaw) }, killed },
+    { t: 'toast', key: hit.zone === 'head' ? 'hunting.headshot' : killed ? 'hunting.kill' : 'hunting.body_hit' },
+    { t: 'autosave', reason: killed ? 'animal_killed' : 'animal_injured' },
+  );
+  return killed;
+}
+
 /** Apply a command to a draft state. Callers clone first so failures leave state untouched. */
 export function execute(s: WorldState, cmd: Command): CommandResult {
   const events: GameEvent[] = [];
@@ -252,6 +277,68 @@ export function execute(s: WorldState, cmd: Command): CommandResult {
       s.locationChanges[key] = 'taken';
       s.inventory[cmd.item] = (s.inventory[cmd.item] ?? 0) + cmd.qty;
       events.push({ t: 'item', id: cmd.item, delta: cmd.qty });
+      return ok();
+    }
+
+    case 'fireBow': {
+      if (s.player.health <= 0) return fail('player_dead');
+      if (s.equippedWeapon !== 'hunting_bow' || itemCount(s, 'hunting_bow') < 1) return fail('need_bow');
+      if (itemCount(s, 'arrow') < 1) return fail('need_arrow');
+      if (cmd.hit !== undefined && !validAnimalHit(cmd.hit)) return fail('invalid_animal_hit');
+      // Ammo is committed once at release, even when the arrow misses or later hits a blocker.
+      s.inventory.arrow = itemCount(s, 'arrow') - 1;
+      events.push({ t: 'item', id: 'arrow', delta: -1 });
+      const killed = cmd.hit !== undefined ? applyAnimalHit(s, cmd.hit, events) : false;
+      events.push({ t: 'bowShot', hit: cmd.hit ?? null, killed });
+      return ok();
+    }
+
+    case 'hitAnimal': {
+      // A launched arrow can arrive after its owner has switched weapons. Ammo was spent on release.
+      if (!validAnimalHit(cmd.hit)) return fail('invalid_animal_hit');
+      applyAnimalHit(s, cmd.hit, events);
+      return ok();
+    }
+
+    case 'skinAnimal': {
+      if (!isAnimalId(cmd.id)) return fail('unknown_animal');
+      if (!isHuntableAnimalId(cmd.id)) return fail('peaceful_animal');
+      if (s.player.health <= 0) return fail('player_dead');
+      const record = s.hunting[cmd.id];
+      if (record?.status === 'skinned') return fail('already_skinned');
+      if (record?.status !== 'dead') return fail('animal_alive');
+      if (itemCount(s, 'skinning_knife') < 1) return fail('need_knife');
+      if (Math.hypot(s.player.x - record.position.x, s.player.z - record.position.z) > SKINNING_REACH
+        || Math.abs(s.player.y - record.position.y) > 2) return fail('too_far');
+      const items = animalLoot(cmd.id);
+      if (!validQuantity(itemCount(s, 'animal_hide') + items.animal_hide)
+        || !validQuantity(itemCount(s, 'raw_meat') + items.raw_meat)) return fail('invalid_quantity');
+      // Only the completed presentation action dispatches this command. Cancelling supplies no loot.
+      record.status = 'skinned';
+      s.inventory.animal_hide = itemCount(s, 'animal_hide') + items.animal_hide;
+      s.inventory.raw_meat = itemCount(s, 'raw_meat') + items.raw_meat;
+      events.push(
+        { t: 'item', id: 'animal_hide', delta: items.animal_hide },
+        { t: 'item', id: 'raw_meat', delta: items.raw_meat },
+        { t: 'animalSkinned', id: cmd.id, items },
+        { t: 'toast', key: 'hunting.skinned', params: { hide: items.animal_hide, meat: items.raw_meat } },
+        { t: 'autosave', reason: 'animal_skinned' },
+      );
+      return ok();
+    }
+
+    case 'restockArrows': {
+      if (s.player.health <= 0) return fail('player_dead');
+      if (Math.hypot(s.player.x - HUNTER_SUPPLY_POSITION.x, s.player.z - HUNTER_SUPPLY_POSITION.z) > HUNTER_SUPPLY_POSITION.r) return fail('too_far');
+      if (itemCount(s, 'animal_hide') < 1) return fail('need_hide');
+      if (itemCount(s, 'arrow') + ARROW_RESTOCK_AMOUNT > ARROW_QUIVER_CAPACITY) return fail('arrow_quiver_full');
+      s.inventory.animal_hide = itemCount(s, 'animal_hide') - 1;
+      s.inventory.arrow = itemCount(s, 'arrow') + ARROW_RESTOCK_AMOUNT;
+      events.push(
+        { t: 'item', id: 'animal_hide', delta: -1 }, { t: 'item', id: 'arrow', delta: ARROW_RESTOCK_AMOUNT },
+        { t: 'toast', key: 'hunting.restocked', params: { count: ARROW_RESTOCK_AMOUNT } },
+        { t: 'autosave', reason: 'arrows_restocked' },
+      );
       return ok();
     }
 
